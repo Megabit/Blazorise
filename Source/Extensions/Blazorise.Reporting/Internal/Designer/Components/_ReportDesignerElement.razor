@@ -15,7 +15,7 @@
      @ondblclick="DoubleClicked"
      @ondblclick:preventDefault="@CanStartInlineTextEdit"
      @ondblclick:stopPropagation="@CanStartInlineTextEdit"
-     @oncontextmenu="ContextMenu"
+     @oncontextmenu="NonRenderingContextMenu"
      @oncontextmenu:preventDefault="@CanReceiveDesignerInteraction"
      @oncontextmenu:stopPropagation="@CanReceiveDesignerInteraction"
      @onpointerdown="PointerDown"

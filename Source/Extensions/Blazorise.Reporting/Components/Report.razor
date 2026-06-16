@@ -126,8 +126,8 @@
                                                     DragPreviewHeight="@(dragPreview?.Height ?? 0)"
                                                     RailClicked="@((MouseEventArgs _) => SelectSection( capturedSectionIndex ))"
                                                     ToggleClicked="@((MouseEventArgs _) => ToggleSectionCollapsed( section ))"
-                                                    RailContextMenu="@((MouseEventArgs eventArgs) => OpenSectionContextMenu( capturedSectionIndex, eventArgs ))"
-                                                    BodyContextMenu="@((MouseEventArgs eventArgs) => OpenSectionBodyContextMenu( capturedSectionIndex, eventArgs ))"
+                                                    RailContextMenu="@((Func<MouseEventArgs, Task>)( eventArgs => OpenSectionContextMenuAsync( capturedSectionIndex, eventArgs ) ))"
+                                                    BodyContextMenu="@((Func<MouseEventArgs, Task>)( eventArgs => OpenSectionBodyContextMenuAsync( capturedSectionIndex, eventArgs ) ))"
                                                     BodyPointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSelectionBox( capturedSectionIndex, eventArgs ) ) : default)"
                                                     DragOver="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => PreviewDesignerDragAsync( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
                                                     Drop="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => DropDesignerItemAsync( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
@@ -154,7 +154,7 @@
                                                             TextEditingActive="@IsElementTextEditing()"
                                                             Clicked="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => HandleElementClick( capturedElementKey, eventArgs ) ) : default)"
                                                             DoubleClicked="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => BeginElementTextEdit( capturedElementKey ) ) : default)"
-                                                            ContextMenu="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenElementContextMenu( capturedElementKey, eventArgs ) ) : default)"
+                                                            ContextMenu="@(editable ? (Func<MouseEventArgs, Task>)( eventArgs => OpenElementContextMenuAsync( capturedElementKey, eventArgs ) ) : null)"
                                                             TextEditCommitted="@(editable ? EventCallback.Factory.Create<string>( this, text => CommitElementTextEditAsync( capturedElementKey, text ) ) : default)"
                                                             TextEditCancelled="@(editable ? EventCallback.Factory.Create( this, () => CancelElementTextEdit( capturedElementKey ) ) : default)"
                                                             PointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerDrag( capturedElementKey, eventArgs ) ) : default)"
@@ -209,91 +209,32 @@
                 </_ReportDesignerPanel>
             </Panel>
             <ContextMenu>
-                <_ReportDesignerContextMenu Visible="@(contextMenu?.Visible == true)"
-                                            X="@(contextMenu?.ClientX ?? 0)"
-                                            Y="@(contextMenu?.ClientY ?? 0)">
-                    @if ( IsSectionContextMenuVisible( definition ) )
-                    {
-                        var contextSection = GetContextMenuSection( definition );
-
-                        @if ( !contextSection.Suppressed )
-                        {
-                            @if ( CanContextPasteElement( definition ) )
-                            {
-                                <_ReportDesignerContextMenuButton Text="Paste" Clicked="@(( MouseEventArgs _ ) => PasteElementAsync())" />
-                            }
-
-                            @if ( CanContextSectionInsertSection( definition, contextMenu.SectionIndex ) )
-                            {
-                                <_ReportDesignerContextMenuButton Text="Insert band before" Clicked="@(( MouseEventArgs _ ) => InsertSectionAsync( insertAfter: false ))" />
-                                <_ReportDesignerContextMenuButton Text="Insert band after" Clicked="@(( MouseEventArgs _ ) => InsertSectionAsync( insertAfter: true ))" />
-                            }
-                            @if ( CanContextSectionInsertGroup( contextSection ) )
-                            {
-                                <_ReportDesignerContextMenuButton Text="Insert group..." Clicked="@(( MouseEventArgs _ ) => OpenSelectedDetailGroupDialogAsync())" />
-                            }
-                            <_ReportDesignerContextMenuButton Text="Suppress" Clicked="@(( MouseEventArgs _ ) => ToggleSelectedSectionSuppressionAsync())" />
-
-                            @if ( ReportDefinitionHelper.CanDeleteSection( contextSection ) )
-                            {
-                                <_ReportDesignerContextMenuButton Text="Delete band" Clicked="@(( MouseEventArgs _ ) => DeleteSelectedSectionAsync())" />
-                            }
-                        }
-                        else
-                        {
-                            <_ReportDesignerContextMenuButton Text="Don't suppress" Clicked="@(( MouseEventArgs _ ) => ToggleSelectedSectionSuppressionAsync())" />
-                        }
-                    }
-                    else if ( IsElementContextMenuVisible() )
-                    {
-                        <_ReportDesignerContextMenuButton Text="Cut" Clicked="@(( MouseEventArgs _ ) => CutSelectedElementAsync())" />
-                        <_ReportDesignerContextMenuButton Text="Copy" Clicked="@(( MouseEventArgs _ ) => CopySelectedElementAsync())" />
-                        <_ReportDesignerContextMenuButton Text="Paste" Clicked="@(( MouseEventArgs _ ) => PasteElementAsync())" />
-
-                        @if ( CanContextAlignOrSizeSelectedElements( definition ) )
-                        {
-                            <_ReportDesignerContextSubMenu Text="Align">
-                                <_ReportDesignerContextMenuButton Text="Tops" Clicked="@(( MouseEventArgs _ ) => AlignSelectedElementsAsync( ReportElementAlignment.Tops ))" />
-                                <_ReportDesignerContextMenuButton Text="Middles" Clicked="@(( MouseEventArgs _ ) => AlignSelectedElementsAsync( ReportElementAlignment.Middles ))" />
-                                <_ReportDesignerContextMenuButton Text="Bottoms" Clicked="@(( MouseEventArgs _ ) => AlignSelectedElementsAsync( ReportElementAlignment.Bottoms ))" />
-                                <_ReportDesignerContextMenuButton Text="Baseline" Clicked="@(( MouseEventArgs _ ) => AlignSelectedElementsAsync( ReportElementAlignment.Baseline ))" />
-                                <_ReportDesignerContextMenuButton Text="Lefts" Clicked="@(( MouseEventArgs _ ) => AlignSelectedElementsAsync( ReportElementAlignment.Lefts ))" />
-                                <_ReportDesignerContextMenuButton Text="Centers" Clicked="@(( MouseEventArgs _ ) => AlignSelectedElementsAsync( ReportElementAlignment.Centers ))" />
-                                <_ReportDesignerContextMenuButton Text="Rights" Clicked="@(( MouseEventArgs _ ) => AlignSelectedElementsAsync( ReportElementAlignment.Rights ))" />
-                                <_ReportDesignerContextMenuButton Text="To Grid" Clicked="@(( MouseEventArgs _ ) => AlignSelectedElementsAsync( ReportElementAlignment.ToGrid ))" />
-                            </_ReportDesignerContextSubMenu>
-                            <_ReportDesignerContextSubMenu Text="Sizes">
-                                <_ReportDesignerContextMenuButton Text="Same Width" Clicked="@(( MouseEventArgs _ ) => SizeSelectedElementsAsync( ReportElementSizeMode.SameWidth ))" />
-                                <_ReportDesignerContextMenuButton Text="Same Height" Clicked="@(( MouseEventArgs _ ) => SizeSelectedElementsAsync( ReportElementSizeMode.SameHeight ))" />
-                                <_ReportDesignerContextMenuButton Text="Same Size" Clicked="@(( MouseEventArgs _ ) => SizeSelectedElementsAsync( ReportElementSizeMode.SameSize ))" />
-                            </_ReportDesignerContextSubMenu>
-                        }
-
-                        @if ( CanContextElementInsertAggregate( definition ) )
-                        {
-                            <_ReportDesignerContextMenuButton Text="Insert aggregate" Clicked="@(( MouseEventArgs _ ) => OpenContextElementAggregateDialogAsync())" />
-                        }
-
-                        @if ( CanContextElementEditText( definition ) )
-                        {
-                            <_ReportDesignerContextMenuButton Text="Edit Text" Clicked="@(( MouseEventArgs _ ) => BeginContextElementTextEdit())" />
-                        }
-
-                        @if ( CanContextElementEditFormula( definition ) )
-                        {
-                            <_ReportDesignerContextMenuButton Text="Edit Formula" Clicked="@(( MouseEventArgs _ ) => OpenContextElementFormulaDialogAsync())" />
-                        }
-
-                        @if ( CanContextElementEditRunningTotal( definition ) )
-                        {
-                            <_ReportDesignerContextMenuButton Text="Edit Running Total" Clicked="@(( MouseEventArgs _ ) => OpenContextElementRunningTotalDialogAsync())" />
-                        }
-
-                        <_ReportDesignerContextMenuButton Text="Delete element" Clicked="@(( MouseEventArgs _ ) => DeleteSelectedElementAsync())" />
-                    }
-
-                    <_ReportDesignerContextMenuButton Text="Close" Clicked="@(( MouseEventArgs _ ) => CloseContextMenuAsync())" />
-                </_ReportDesignerContextMenu>
+                <_ReportDesignerContextMenuHost @ref="contextMenuHost"
+                                                CutElement="@((MouseEventArgs _) => CutSelectedElementAsync())"
+                                                CopyElement="@((MouseEventArgs _) => CopySelectedElementAsync())"
+                                                PasteElement="@((MouseEventArgs _) => PasteElementAsync())"
+                                                InsertSectionBefore="@((MouseEventArgs _) => InsertSectionAsync( insertAfter: false ))"
+                                                InsertSectionAfter="@((MouseEventArgs _) => InsertSectionAsync( insertAfter: true ))"
+                                                InsertGroup="@((MouseEventArgs _) => OpenSelectedDetailGroupDialogAsync())"
+                                                ToggleSectionSuppression="@((MouseEventArgs _) => ToggleSelectedSectionSuppressionAsync())"
+                                                DeleteSection="@((MouseEventArgs _) => DeleteSelectedSectionAsync())"
+                                                AlignTops="@((MouseEventArgs _) => AlignSelectedElementsAsync( ReportElementAlignment.Tops ))"
+                                                AlignMiddles="@((MouseEventArgs _) => AlignSelectedElementsAsync( ReportElementAlignment.Middles ))"
+                                                AlignBottoms="@((MouseEventArgs _) => AlignSelectedElementsAsync( ReportElementAlignment.Bottoms ))"
+                                                AlignBaseline="@((MouseEventArgs _) => AlignSelectedElementsAsync( ReportElementAlignment.Baseline ))"
+                                                AlignLefts="@((MouseEventArgs _) => AlignSelectedElementsAsync( ReportElementAlignment.Lefts ))"
+                                                AlignCenters="@((MouseEventArgs _) => AlignSelectedElementsAsync( ReportElementAlignment.Centers ))"
+                                                AlignRights="@((MouseEventArgs _) => AlignSelectedElementsAsync( ReportElementAlignment.Rights ))"
+                                                AlignToGrid="@((MouseEventArgs _) => AlignSelectedElementsAsync( ReportElementAlignment.ToGrid ))"
+                                                SizeSameWidth="@((MouseEventArgs _) => SizeSelectedElementsAsync( ReportElementSizeMode.SameWidth ))"
+                                                SizeSameHeight="@((MouseEventArgs _) => SizeSelectedElementsAsync( ReportElementSizeMode.SameHeight ))"
+                                                SizeSameSize="@((MouseEventArgs _) => SizeSelectedElementsAsync( ReportElementSizeMode.SameSize ))"
+                                                InsertAggregate="@((MouseEventArgs _) => OpenContextElementAggregateDialogAsync())"
+                                                EditText="@((MouseEventArgs _) => BeginContextElementTextEdit())"
+                                                EditFormula="@((MouseEventArgs _) => OpenContextElementFormulaDialogAsync())"
+                                                EditRunningTotal="@((MouseEventArgs _) => OpenContextElementRunningTotalDialogAsync())"
+                                                DeleteElement="@((MouseEventArgs _) => DeleteSelectedElementAsync())"
+                                                Close="@((MouseEventArgs _) => CloseContextMenuAsync())" />
             </ContextMenu>
         </_ReportDesignerLayout>
 

@@ -1,7 +1,6 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -41,6 +40,8 @@ public partial class _ReportDesignerElement
 
     private bool IsDesignerEditing => CanReceiveDesignerInteraction && !ElementSuppressed && Editing;
 
+    private Func<MouseEventArgs, Task> NonRenderingContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnContextMenuAsync );
+
     private bool ShowResizeHandles => CanReceiveDesignerInteraction && !ElementSuppressed && Selected && !Editing;
 
     private string Class => ClassNames;
@@ -50,31 +51,39 @@ public partial class _ReportDesignerElement
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
     {
-        var elementDefined = parameters.TryGetValue<ReportElementDefinition>( nameof( Element ), out _ );
-
-        if ( elementDefined
-             || ( parameters.TryGetValue<bool>( nameof( DesignMode ), out var paramDesignMode ) && paramDesignMode != DesignMode )
-             || ( parameters.TryGetValue<bool>( nameof( Editable ), out var paramEditable ) && paramEditable != Editable )
-             || ( parameters.TryGetValue<bool>( nameof( Selected ), out var paramSelected ) && paramSelected != Selected )
-             || ( parameters.TryGetValue<bool>( nameof( Editing ), out var paramEditing ) && paramEditing != Editing )
-             || ( parameters.TryGetValue<bool>( nameof( TextEditingActive ), out var paramTextEditingActive ) && paramTextEditingActive != TextEditingActive ) )
+        if ( parameters.TryGetValue<ReportElementDefinition>( nameof( Element ), out _ ) )
+        {
             DirtyClasses();
+            DirtyStyles();
+        }
 
-        bool definitionDefined = parameters.TryGetValue<ReportDefinition>( nameof( Definition ), out _ );
-        bool sectionDefined = parameters.TryGetValue<ReportSectionDefinition>( nameof( Section ), out _ );
-        bool dataDefined = parameters.TryGetValue<object>( nameof( Data ), out _ );
+        if ( ( parameters.TryGetValue<ReportDefinition>( nameof( Definition ), out ReportDefinition paramDefinition ) && paramDefinition != Definition )
+             || ( parameters.TryGetValue<ReportSectionDefinition>( nameof( Section ), out ReportSectionDefinition paramSection ) && paramSection != Section )
+             || ( parameters.TryGetValue<object>( nameof( Data ), out object paramData ) && paramData != Data )
+             || ( parameters.TryGetValue<object>( nameof( Item ), out object paramItem ) && paramItem != Item )
+             || ( parameters.TryGetValue<IReadOnlyDictionary<string, object>>( nameof( RunningTotals ), out IReadOnlyDictionary<string, object> paramRunningTotals ) && paramRunningTotals != RunningTotals ) )
+        {
+            DirtyStyles();
+        }
 
-        bool runningTotalsDefined = parameters.TryGetValue<IReadOnlyDictionary<string, object>>( nameof( RunningTotals ), out _ );
+        if ( ( parameters.TryGetValue<bool>( nameof( DesignMode ), out bool paramDesignMode ) && paramDesignMode != DesignMode )
+             || ( parameters.TryGetValue<bool>( nameof( Editable ), out bool paramEditable ) && paramEditable != Editable )
+             || ( parameters.TryGetValue<bool>( nameof( Selected ), out bool paramSelected ) && paramSelected != Selected )
+             || ( parameters.TryGetValue<bool>( nameof( Editing ), out bool paramEditing ) && paramEditing != Editing )
+             || ( parameters.TryGetValue<bool>( nameof( TextEditingActive ), out bool paramTextEditingActive ) && paramTextEditingActive != TextEditingActive ) )
+        {
+            DirtyClasses();
+        }
 
-        if ( elementDefined || definitionDefined || sectionDefined || dataDefined || runningTotalsDefined )
+        if ( parameters.TryGetValue<bool>( nameof( DesignMode ), out bool paramDesignModeForStyle ) && paramDesignModeForStyle != DesignMode )
             DirtyStyles();
 
-        if ( parameters.TryGetValue<bool>( nameof( Editing ), out var editing ) && editing && editing != Editing )
+        if ( parameters.TryGetValue<bool>( nameof( Editing ), out bool paramEditingForFocus ) && paramEditingForFocus && paramEditingForFocus != Editing )
         {
-            if ( !parameters.TryGetValue<ReportElementDefinition>( nameof( Element ), out var element ) )
-                element = Element;
+            if ( !parameters.TryGetValue<ReportElementDefinition>( nameof( Element ), out ReportElementDefinition editingElement ) )
+                editingElement = Element;
 
-            textEditValue = element?.Text;
+            textEditValue = editingElement?.Text;
             textEditCancelled = false;
             focusTextEdit = true;
         }
@@ -177,6 +186,11 @@ public partial class _ReportDesignerElement
     private void OnTextEditInput( ChangeEventArgs eventArgs )
     {
         textEditValue = eventArgs.Value?.ToString();
+    }
+
+    private Task OnContextMenuAsync( MouseEventArgs eventArgs )
+    {
+        return ContextMenu?.Invoke( eventArgs ) ?? Task.CompletedTask;
     }
 
     private async Task ProtectTextExpressionTokensAsync()
@@ -288,7 +302,7 @@ public partial class _ReportDesignerElement
     /// <summary>
     /// Raised when the element context menu is requested.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> ContextMenu { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> ContextMenu { get; set; }
 
     /// <summary>
     /// Raised when inline text editing commits a new value.

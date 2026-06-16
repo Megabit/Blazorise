@@ -1,0 +1,87 @@
+@namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
+@using Microsoft.AspNetCore.Components.Web
+
+<_ReportDesignerContextMenu Visible="@IsVisible"
+                            X="@(State?.ClientX ?? 0)"
+                            Y="@(State?.ClientY ?? 0)">
+    @if ( IsSectionMenu )
+    {
+        @if ( State.SectionSuppressed )
+        {
+            <_ReportDesignerContextMenuButton Text="Don't suppress" Clicked="@ToggleSectionSuppression" />
+        }
+        else
+        {
+            @if ( State.CanPasteElement )
+            {
+                <_ReportDesignerContextMenuButton Text="Paste" Clicked="@PasteElement" />
+            }
+
+            @if ( State.CanInsertSection )
+            {
+                <_ReportDesignerContextMenuButton Text="Insert band before" Clicked="@InsertSectionBefore" />
+                <_ReportDesignerContextMenuButton Text="Insert band after" Clicked="@InsertSectionAfter" />
+            }
+            @if ( State.CanInsertGroup )
+            {
+                <_ReportDesignerContextMenuButton Text="Insert group..." Clicked="@InsertGroup" />
+            }
+            <_ReportDesignerContextMenuButton Text="Suppress" Clicked="@ToggleSectionSuppression" />
+
+            @if ( State.CanDeleteSection )
+            {
+                <_ReportDesignerContextMenuButton Text="Delete band" Clicked="@DeleteSection" />
+            }
+        }
+    }
+    else if ( IsElementMenu )
+    {
+        <_ReportDesignerContextMenuButton Text="Cut" Clicked="@CutElement" />
+        <_ReportDesignerContextMenuButton Text="Copy" Clicked="@CopyElement" />
+        <_ReportDesignerContextMenuButton Text="Paste" Clicked="@PasteElement" />
+
+        @if ( State.CanAlignOrSizeSelectedElements )
+        {
+            <_ReportDesignerContextSubMenu Text="Align">
+                <_ReportDesignerContextMenuButton Text="Tops" Clicked="@AlignTops" />
+                <_ReportDesignerContextMenuButton Text="Middles" Clicked="@AlignMiddles" />
+                <_ReportDesignerContextMenuButton Text="Bottoms" Clicked="@AlignBottoms" />
+                <_ReportDesignerContextMenuButton Text="Baseline" Clicked="@AlignBaseline" />
+                <_ReportDesignerContextMenuButton Text="Lefts" Clicked="@AlignLefts" />
+                <_ReportDesignerContextMenuButton Text="Centers" Clicked="@AlignCenters" />
+                <_ReportDesignerContextMenuButton Text="Rights" Clicked="@AlignRights" />
+                <_ReportDesignerContextMenuButton Text="To Grid" Clicked="@AlignToGrid" />
+            </_ReportDesignerContextSubMenu>
+            <_ReportDesignerContextSubMenu Text="Sizes">
+                <_ReportDesignerContextMenuButton Text="Same Width" Clicked="@SizeSameWidth" />
+                <_ReportDesignerContextMenuButton Text="Same Height" Clicked="@SizeSameHeight" />
+                <_ReportDesignerContextMenuButton Text="Same Size" Clicked="@SizeSameSize" />
+            </_ReportDesignerContextSubMenu>
+        }
+
+        @if ( State.CanInsertAggregate )
+        {
+            <_ReportDesignerContextMenuButton Text="Insert aggregate" Clicked="@InsertAggregate" />
+        }
+
+        @if ( State.CanEditText )
+        {
+            <_ReportDesignerContextMenuButton Text="Edit Text" Clicked="@EditText" />
+        }
+
+        @if ( State.CanEditFormula )
+        {
+            <_ReportDesignerContextMenuButton Text="Edit Formula" Clicked="@EditFormula" />
+        }
+
+        @if ( State.CanEditRunningTotal )
+        {
+            <_ReportDesignerContextMenuButton Text="Edit Running Total" Clicked="@EditRunningTotal" />
+        }
+
+        <_ReportDesignerContextMenuButton Text="Delete element" Clicked="@DeleteElement" />
+    }
+
+    <_ReportDesignerContextMenuButton Text="Close" Clicked="@Close" />
+</_ReportDesignerContextMenu>

@@ -94,6 +94,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private ReportContextMenuState contextMenu;
 
+    private _ReportDesignerContextMenuHost contextMenuHost;
+
     private string editingElementKey;
 
     private bool suppressNextSectionClick;
@@ -293,32 +295,15 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }
     }
 
-    private Task CloseContextMenuAsync()
+    private async Task CloseContextMenuAsync()
     {
-        CloseContextMenu();
-
-        return Task.CompletedTask;
-    }
-
-    private ReportSectionDefinition GetContextMenuSection( ReportDefinition definition )
-    {
-        return IsSectionContextMenuVisible( definition )
-            ? definition.Sections[contextMenu.SectionIndex]
-            : null;
+        await CloseContextMenuAsyncCore();
     }
 
     private bool IsElementContextMenuVisible()
     {
         return contextMenu?.Visible == true
             && contextMenu.Target == ReportContextMenuTarget.Element;
-    }
-
-    private bool IsSectionContextMenuVisible( ReportDefinition definition )
-    {
-        return contextMenu?.Visible == true
-            && contextMenu.Target == ReportContextMenuTarget.Section
-            && contextMenu.SectionIndex >= 0
-            && contextMenu.SectionIndex < definition.Sections.Count;
     }
 
     private ReportSectionDefinition GetSelectedPropertiesSection( ReportDefinition definition )
@@ -375,18 +360,16 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return Task.CompletedTask;
     }
 
-    private Task OnReportTreeNodeContextMenu( ReportTreeNodeMouseEventArgs eventArgs )
+    private async Task OnReportTreeNodeContextMenu( ReportTreeNodeMouseEventArgs eventArgs )
     {
         if ( ReportDesignerTreeBuilder.TryResolveSectionTreeNode( eventArgs.Node, out var sectionIndex ) )
         {
-            OpenSectionContextMenu( sectionIndex, eventArgs.MouseEventArgs );
+            await OpenSectionContextMenuAsync( sectionIndex, eventArgs.MouseEventArgs );
         }
         else if ( ReportDesignerTreeBuilder.TryResolveElementTreeNode( eventArgs.Node, out var elementKey ) )
         {
-            OpenElementContextMenu( elementKey, eventArgs.MouseEventArgs );
+            await OpenElementContextMenuAsync( elementKey, eventArgs.MouseEventArgs );
         }
-
-        return Task.CompletedTask;
     }
 
     private Task OnFieldsTreeNodeDragStarted( ReportTreeNodeDragEventArgs eventArgs )
@@ -688,7 +671,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         {
             declarativeDefinition = BuildDeclarativeDefinition();
             SelectReport();
-            contextMenu = null;
+            CloseContextMenu();
             dragPreview = null;
             editingElementKey = null;
 
@@ -706,7 +689,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             {
                 clipboardElement = ReportContext.CloneElement( element );
                 clipboardSectionId = ReportDefinitionHelper.EnsureSectionId( definition.Sections[sectionIndex] );
-                contextMenu = null;
+                CloseContextMenu();
             }
 
             return Task.CompletedTask;
@@ -730,7 +713,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 clipboardSectionId = ReportDefinitionHelper.EnsureSectionId( definition.Sections[sectionIndex] );
                 definition.Sections[sectionIndex].Elements.RemoveAt( elementIndex );
                 SelectSection( sectionIndex );
-                contextMenu = null;
+                CloseContextMenu();
             }
 
             return Task.CompletedTask;
@@ -768,7 +751,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ReportLayoutGeometry.GrowSectionToFitElement( targetSection, element );
 
             SelectElement( ReportDefinitionHelper.EnsureElementId( element ) );
-            contextMenu = null;
+            CloseContextMenu();
 
             return Task.CompletedTask;
         } ) );
@@ -849,7 +832,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         selectionManager.ApplyState( definition, nextState.Selection );
 
-        contextMenu = null;
+        CloseContextMenu();
         dragPreview = null;
         editingElementKey = null;
         ClearDragState();
@@ -868,7 +851,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private void SelectReport()
     {
         selectionManager.SelectReport();
-        contextMenu = null;
+        CloseContextMenu();
         editingElementKey = null;
     }
 
@@ -920,25 +903,25 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private void SelectElement( string key, bool preserveSelection = false )
     {
         selectionManager.SelectElement( key, preserveSelection );
-        contextMenu = null;
+        CloseContextMenu();
     }
 
     private void ToggleElementSelection( string key )
     {
         selectionManager.ToggleElementSelection( key );
-        contextMenu = null;
+        CloseContextMenu();
     }
 
     private void SelectElements( IEnumerable<string> elementKeys, string primaryElementKey = null )
     {
         selectionManager.SelectElements( elementKeys, primaryElementKey );
-        contextMenu = null;
+        CloseContextMenu();
     }
 
     private void SelectSection( int index )
     {
         selectionManager.SelectSection( index );
-        contextMenu = null;
+        CloseContextMenu();
     }
 
     private void ToggleSectionCollapsed( ReportSectionDefinition section )
@@ -961,13 +944,19 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             && collapsedSectionIds.Contains( ReportDefinitionHelper.EnsureSectionId( section ) );
     }
 
-    private void OpenSectionContextMenu( int sectionIndex, MouseEventArgs eventArgs )
+    private async Task OpenSectionContextMenuAsync( int sectionIndex, MouseEventArgs eventArgs )
     {
+        bool selectionChanged = selectionManager.ReportSelected
+            || selectionManager.SelectedSectionIndex != sectionIndex
+            || !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey )
+            || selectionManager.SelectedElementKeys.Count > 0;
+
         selectionManager.ReportSelected = false;
         selectionManager.SelectedSectionIndex = sectionIndex;
         selectionManager.SelectedElementKey = null;
         selectionManager.SelectedElementKeys.Clear();
-        contextMenu = new()
+
+        ReportContextMenuState nextContextMenu = new()
         {
             Visible = true,
             Target = ReportContextMenuTarget.Section,
@@ -975,15 +964,24 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ClientX = eventArgs.ClientX,
             ClientY = eventArgs.ClientY,
         };
+
+        PopulateSectionContextMenuCapabilities( EffectiveDefinition, nextContextMenu );
+        await ShowContextMenuAsync( nextContextMenu, selectionChanged );
     }
 
-    private void OpenSectionBodyContextMenu( int sectionIndex, MouseEventArgs eventArgs )
+    private async Task OpenSectionBodyContextMenuAsync( int sectionIndex, MouseEventArgs eventArgs )
     {
+        bool selectionChanged = selectionManager.ReportSelected
+            || selectionManager.SelectedSectionIndex != sectionIndex
+            || !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey )
+            || selectionManager.SelectedElementKeys.Count > 0;
+
         selectionManager.ReportSelected = false;
         selectionManager.SelectedSectionIndex = sectionIndex;
         selectionManager.SelectedElementKey = null;
         selectionManager.SelectedElementKeys.Clear();
-        contextMenu = new()
+
+        ReportContextMenuState nextContextMenu = new()
         {
             Visible = true,
             Target = ReportContextMenuTarget.Section,
@@ -994,10 +992,17 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ClientX = eventArgs.ClientX,
             ClientY = eventArgs.ClientY,
         };
+
+        PopulateSectionContextMenuCapabilities( EffectiveDefinition, nextContextMenu );
+        await ShowContextMenuAsync( nextContextMenu, selectionChanged );
     }
 
-    private void OpenElementContextMenu( string elementKey, MouseEventArgs eventArgs )
+    private async Task OpenElementContextMenuAsync( string elementKey, MouseEventArgs eventArgs )
     {
+        bool selectionChanged = selectionManager.ReportSelected
+            || selectionManager.SelectedSectionIndex is not null
+            || !selectionManager.IsElementSelected( elementKey );
+
         selectionManager.ReportSelected = false;
         selectionManager.SelectedSectionIndex = null;
 
@@ -1006,53 +1011,78 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         selectionManager.SelectedElementKey = elementKey;
         selectionManager.SelectedElementKeys.Add( elementKey );
-        contextMenu = new()
+        ReportContextMenuState nextContextMenu = new()
         {
             Visible = true,
             Target = ReportContextMenuTarget.Element,
             ElementKey = elementKey,
+            SelectedElementCount = selectionManager.SelectedElementKeys.Count,
             ClientX = eventArgs.ClientX,
             ClientY = eventArgs.ClientY,
         };
+
+        PopulateElementContextMenuCapabilities( EffectiveDefinition, nextContextMenu );
+        await ShowContextMenuAsync( nextContextMenu, selectionChanged );
     }
 
-    private bool CanContextElementEditText( ReportDefinition definition )
+    private async Task ShowContextMenuAsync( ReportContextMenuState state, bool refreshDesignerSelection )
     {
-        return IsElementContextMenuVisible()
-            && ReportDefinitionHelper.TryFindElementLocation( definition, contextMenu.ElementKey, out _, out _, out var element )
-            && CanEditElementText( element );
+        contextMenu = state;
+
+        if ( contextMenuHost is not null )
+            await contextMenuHost.ShowAsync( state );
+
+        if ( refreshDesignerSelection )
+            await InvokeAsync( StateHasChanged );
     }
 
-    private bool CanContextElementEditFormula( ReportDefinition definition )
+    private void PopulateSectionContextMenuCapabilities( ReportDefinition definition, ReportContextMenuState state )
     {
-        return IsElementContextMenuVisible()
-            && TryGetContextElementFormulaFieldName( definition, out _ );
+        if ( definition is null
+            || state is null
+            || state.SectionIndex < 0
+            || state.SectionIndex >= definition.Sections.Count )
+        {
+            return;
+        }
+
+        ReportSectionDefinition section = definition.Sections[state.SectionIndex];
+
+        state.SectionSuppressed = section.Suppressed;
+        state.CanPasteElement = CanContextPasteElement( definition, state );
+        state.CanInsertSection = CanContextSectionInsertSection( definition, state.SectionIndex );
+        state.CanInsertGroup = CanContextSectionInsertGroup( section );
+        state.CanDeleteSection = ReportDefinitionHelper.CanDeleteSection( section );
     }
 
-    private bool CanContextElementEditRunningTotal( ReportDefinition definition )
+    private void PopulateElementContextMenuCapabilities( ReportDefinition definition, ReportContextMenuState state )
     {
-        return IsElementContextMenuVisible()
-            && TryGetContextElementRunningTotalName( definition, out _ );
+        if ( definition is null
+            || state is null
+            || !ReportDefinitionHelper.TryFindElementLocation( definition, state.ElementKey, out int sectionIndex, out _, out ReportElementDefinition element ) )
+        {
+            return;
+        }
+
+        state.CanEditText = CanEditElementText( element );
+        state.CanEditFormula = CanEditFormulaFieldElement( definition, element );
+        state.CanEditRunningTotal = CanEditRunningTotalElement( definition, element );
+        state.CanAlignOrSizeSelectedElements = state.SelectedElementCount >= MinimumBatchElementCount;
+        state.CanInsertAggregate = sectionIndex >= 0
+            && sectionIndex < definition.Sections.Count
+            && definition.Sections[sectionIndex].Type == ReportSectionType.Detail
+            && element.Type == ReportElementType.Field;
     }
 
-    private bool CanContextElementInsertAggregate( ReportDefinition definition )
+    private bool CanContextPasteElement( ReportDefinition definition, ReportContextMenuState state = null )
     {
-        return GetContextElementAggregateFieldOptions( definition ).Count > 0;
-    }
+        state ??= contextMenu;
 
-    private bool CanContextPasteElement( ReportDefinition definition )
-    {
         return clipboardElement is not null
-            && contextMenu?.Target == ReportContextMenuTarget.Section
-            && contextMenu.HasPastePosition
-            && contextMenu.SectionIndex >= 0
-            && contextMenu.SectionIndex < definition.Sections.Count;
-    }
-
-    private bool CanContextAlignOrSizeSelectedElements( ReportDefinition definition )
-    {
-        return IsElementContextMenuVisible()
-            && GetSelectedElementContexts( definition ).Count >= MinimumBatchElementCount;
+            && state?.Target == ReportContextMenuTarget.Section
+            && state.HasPastePosition
+            && state.SectionIndex >= 0
+            && state.SectionIndex < definition.Sections.Count;
     }
 
     private IReadOnlyList<ReportDesignerFieldOption> GetContextElementAggregateFieldOptions( ReportDefinition definition )
@@ -1094,6 +1124,20 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private static bool CanEditElementText( ReportElementDefinition element )
     {
         return element?.Type == ReportElementType.Text;
+    }
+
+    private static bool CanEditFormulaFieldElement( ReportDefinition definition, ReportElementDefinition element )
+    {
+        return element?.Type == ReportElementType.Field
+            && !string.IsNullOrWhiteSpace( element.Field )
+            && FindFormulaField( definition, ReportFormulaFieldResolver.NormalizeFieldName( element.Field ) ) is not null;
+    }
+
+    private static bool CanEditRunningTotalElement( ReportDefinition definition, ReportElementDefinition element )
+    {
+        return element?.Type == ReportElementType.Field
+            && !string.IsNullOrWhiteSpace( element.Field )
+            && FindRunningTotal( definition, ReportRunningTotalResolver.NormalizeFieldName( element.Field ) ) is not null;
     }
 
     private bool TryGetContextElementFormulaFieldName( ReportDefinition definition, out string formulaFieldName )
@@ -1158,7 +1202,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
 
         await OpenFormulaFieldDialogAsync( formulaFieldName );
-        contextMenu = null;
+        CloseContextMenu();
     }
 
     private async Task OpenContextElementRunningTotalDialogAsync()
@@ -1171,7 +1215,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( runningTotal is not null )
             await runningTotalDialogRef.ShowAsync( runningTotal );
 
-        contextMenu = null;
+        CloseContextMenu();
     }
 
     private void BeginSelectedElementTextEdit()
@@ -1191,7 +1235,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         SelectElement( elementKey );
         editingElementKey = elementKey;
-        contextMenu = null;
+        CloseContextMenu();
     }
 
     private void CancelElementTextEdit( string elementKey )
@@ -1237,7 +1281,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         var sourceSectionIndex = fieldOptions[0].SourceSectionIndex;
         var summaryLocations = GetAggregateSummaryLocations( EffectiveDefinition, sourceSectionIndex );
 
-        contextMenu = null;
+        CloseContextMenu();
 
         var selectedFieldName = ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var element )
             ? element.Field
@@ -1342,7 +1386,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 ? groupHeader.GroupBy
                 : fieldOptions[0].FieldName;
 
-        contextMenu = null;
+        CloseContextMenu();
 
         await groupDialogRef.ShowAsync( fieldOptions, selectedFieldName );
     }
@@ -1373,7 +1417,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             definition.Sections.Insert( detailSectionIndex + 2, groupFooter );
 
             SelectSection( detailSectionIndex );
-            contextMenu = null;
+            CloseContextMenu();
 
             return Task.CompletedTask;
         } ) );
@@ -2166,6 +2210,17 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private void CloseContextMenu()
     {
         contextMenu = null;
+
+        if ( contextMenuHost is not null )
+            _ = contextMenuHost.CloseAsync();
+    }
+
+    private async Task CloseContextMenuAsyncCore()
+    {
+        contextMenu = null;
+
+        if ( contextMenuHost is not null )
+            await contextMenuHost.CloseAsync();
     }
 
     private static ReportSectionDefinition CreateGroupHeaderSection( ReportDefinition definition, string groupBy )
@@ -2760,7 +2815,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             definition.Sections.Insert( insertIndex, section );
 
             SelectSection( insertIndex );
-            contextMenu = null;
+            CloseContextMenu();
 
             return Task.CompletedTask;
         } ) );
@@ -2814,7 +2869,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 SelectSection( Math.Min( selectionManager.SelectedSectionIndex.Value, definition.Sections.Count - 1 ) );
             }
 
-            contextMenu = null;
+            CloseContextMenu();
             ClearDragState();
 
             return Task.CompletedTask;
@@ -2847,7 +2902,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 }
             }
 
-            contextMenu = null;
+            CloseContextMenu();
 
             return Task.CompletedTask;
         } ) );
@@ -2880,7 +2935,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             if ( lastSectionIndex >= 0 )
                 SelectSection( lastSectionIndex );
 
-            contextMenu = null;
+            CloseContextMenu();
             editingElementKey = null;
 
             return Task.CompletedTask;

@@ -16,6 +16,28 @@ internal sealed class ReportContextMenuState
 
     internal string ElementKey { get; set; }
 
+    internal int SelectedElementCount { get; set; }
+
+    internal bool SectionSuppressed { get; set; }
+
+    internal bool CanPasteElement { get; set; }
+
+    internal bool CanInsertSection { get; set; }
+
+    internal bool CanInsertGroup { get; set; }
+
+    internal bool CanDeleteSection { get; set; }
+
+    internal bool CanAlignOrSizeSelectedElements { get; set; }
+
+    internal bool CanInsertAggregate { get; set; }
+
+    internal bool CanEditText { get; set; }
+
+    internal bool CanEditFormula { get; set; }
+
+    internal bool CanEditRunningTotal { get; set; }
+
     internal bool HasPastePosition { get; set; }
 
     internal double PasteX { get; set; }

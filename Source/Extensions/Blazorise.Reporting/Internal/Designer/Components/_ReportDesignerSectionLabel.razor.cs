@@ -16,7 +16,14 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerSectionLabel
 {
+    private Func<MouseEventArgs, Task> NonRenderingContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnContextMenuAsync );
+
     private string Label => $"{ReportDefinitionHelper.GetSectionTypeDisplayName( Section.Type )}: {ReportDefinitionHelper.GetSectionDisplayName( Section )}";
+
+    private Task OnContextMenuAsync( MouseEventArgs eventArgs )
+    {
+        return ContextMenu?.Invoke( eventArgs ) ?? Task.CompletedTask;
+    }
 
     /// <summary>
     /// Report section displayed in the designer label.
@@ -31,5 +38,5 @@ public partial class _ReportDesignerSectionLabel
     /// <summary>
     /// Raised when the label context menu is requested.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> ContextMenu { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> ContextMenu { get; set; }
 }

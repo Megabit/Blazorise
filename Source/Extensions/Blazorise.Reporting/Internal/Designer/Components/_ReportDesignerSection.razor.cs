@@ -1,12 +1,9 @@
 #region Using directives
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -24,6 +21,8 @@ public partial class _ReportDesignerSection
     private string BodyClass => bodyClassBuilder.Class;
 
     private string BodyStyle => bodyStyleBuilder.Styles;
+
+    private Func<MouseEventArgs, Task> NonRenderingBodyContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnBodyContextMenuAsync );
 
     private Func<DragEventArgs, Task> NonRenderingDragOver => EventUtil.AsNonRenderingEventHandler<DragEventArgs>( OnDragOverAsync );
 
@@ -45,27 +44,33 @@ public partial class _ReportDesignerSection
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
     {
-        var sectionDefined = parameters.TryGetValue<ReportSectionDefinition>( nameof( Section ), out _ );
-        var railVisibleChanged = parameters.TryGetValue<bool>( nameof( RailVisible ), out var paramRailVisible ) && paramRailVisible != RailVisible;
-
-        if ( sectionDefined || railVisibleChanged )
+        if ( parameters.TryGetValue<ReportSectionDefinition>( nameof( Section ), out _ ) )
+        {
             bodyClassBuilder.Dirty();
-
-        if ( parameters.TryGetValue<bool>( nameof( ExternalDragActive ), out var paramExternalDragActive ) && paramExternalDragActive != ExternalDragActive )
-            bodyClassBuilder.Dirty();
-
-        if ( railVisibleChanged
-             || ( parameters.TryGetValue<double>( nameof( BodyLeft ), out var paramBodyLeft ) && paramBodyLeft != BodyLeft )
-             || ( parameters.TryGetValue<double>( nameof( BodyWidth ), out var paramBodyWidth ) && paramBodyWidth != BodyWidth ) )
-            bodyStyleBuilder.Dirty();
-
-        if ( sectionDefined
-            || ( parameters.TryGetValue<bool>( nameof( Active ), out var paramActive ) && paramActive != Active )
-            || ( parameters.TryGetValue<bool>( nameof( Collapsed ), out var paramCollapsed ) && paramCollapsed != Collapsed ) )
             DirtyClasses();
+            DirtyStyles();
+        }
 
-        if ( sectionDefined
-             || ( parameters.TryGetValue<double>( nameof( Height ), out var paramHeight ) && paramHeight != Height ) )
+        if ( ( parameters.TryGetValue<bool>( nameof( RailVisible ), out bool paramRailVisible ) && paramRailVisible != RailVisible )
+             || ( parameters.TryGetValue<bool>( nameof( ExternalDragActive ), out bool paramExternalDragActive ) && paramExternalDragActive != ExternalDragActive ) )
+        {
+            bodyClassBuilder.Dirty();
+        }
+
+        if ( ( parameters.TryGetValue<bool>( nameof( RailVisible ), out bool paramRailVisibleForStyle ) && paramRailVisibleForStyle != RailVisible )
+             || ( parameters.TryGetValue<double>( nameof( BodyLeft ), out double paramBodyLeft ) && paramBodyLeft != BodyLeft )
+             || ( parameters.TryGetValue<double>( nameof( BodyWidth ), out double paramBodyWidth ) && paramBodyWidth != BodyWidth ) )
+        {
+            bodyStyleBuilder.Dirty();
+        }
+
+        if ( ( parameters.TryGetValue<bool>( nameof( Active ), out bool paramActive ) && paramActive != Active )
+             || ( parameters.TryGetValue<bool>( nameof( Collapsed ), out bool paramCollapsed ) && paramCollapsed != Collapsed ) )
+        {
+            DirtyClasses();
+        }
+
+        if ( parameters.TryGetValue<double>( nameof( Height ), out double paramHeight ) && paramHeight != Height )
             DirtyStyles();
 
         return base.SetParametersAsync( parameters );
@@ -128,6 +133,11 @@ public partial class _ReportDesignerSection
     private Task OnDropAsync( DragEventArgs eventArgs )
     {
         return Drop?.Invoke( bodyElement, eventArgs ) ?? Task.CompletedTask;
+    }
+
+    private Task OnBodyContextMenuAsync( MouseEventArgs eventArgs )
+    {
+        return BodyContextMenu?.Invoke( eventArgs ) ?? Task.CompletedTask;
     }
 
     /// <summary>
@@ -248,12 +258,12 @@ public partial class _ReportDesignerSection
     /// <summary>
     /// Raised when the section rail context menu is requested.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> RailContextMenu { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> RailContextMenu { get; set; }
 
     /// <summary>
     /// Raised when the section body context menu is requested.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> BodyContextMenu { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> BodyContextMenu { get; set; }
 
     /// <summary>
     /// Raised when marquee selection starts inside the section body.

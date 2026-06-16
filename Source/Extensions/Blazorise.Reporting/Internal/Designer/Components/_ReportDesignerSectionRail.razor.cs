@@ -1,12 +1,9 @@
 #region Using directives
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -20,6 +17,8 @@ public partial class _ReportDesignerSectionRail
 
     private string DisplayName => ReportDefinitionHelper.GetSectionDisplayName( Section );
 
+    private Func<MouseEventArgs, Task> NonRenderingContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnContextMenuAsync );
+
     private string Style => StyleNames;
 
     private string ToggleTitle => Section.Suppressed ? "Band is suppressed" : Collapsed ? "Expand band" : "Collapse band";
@@ -28,11 +27,13 @@ public partial class _ReportDesignerSectionRail
     public override Task SetParametersAsync( ParameterView parameters )
     {
         if ( parameters.TryGetValue<ReportSectionDefinition>( nameof( Section ), out _ )
-             || ( parameters.TryGetValue<bool>( nameof( Selected ), out var paramSelected ) && paramSelected != Selected )
-             || ( parameters.TryGetValue<bool>( nameof( Collapsed ), out var paramCollapsed ) && paramCollapsed != Collapsed ) )
+             || ( parameters.TryGetValue<bool>( nameof( Selected ), out bool paramSelected ) && paramSelected != Selected )
+             || ( parameters.TryGetValue<bool>( nameof( Collapsed ), out bool paramCollapsed ) && paramCollapsed != Collapsed ) )
+        {
             DirtyClasses();
+        }
 
-        if ( parameters.TryGetValue<double>( nameof( Height ), out var paramHeight ) && paramHeight != Height )
+        if ( parameters.TryGetValue<double>( nameof( Height ), out double paramHeight ) && paramHeight != Height )
             DirtyStyles();
 
         return base.SetParametersAsync( parameters );
@@ -52,6 +53,11 @@ public partial class _ReportDesignerSectionRail
     protected override void BuildStyles( StyleBuilder builder )
     {
         builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}" );
+    }
+
+    private Task OnContextMenuAsync( MouseEventArgs eventArgs )
+    {
+        return ContextMenu?.Invoke( eventArgs ) ?? Task.CompletedTask;
     }
 
     /// <summary>
@@ -92,7 +98,7 @@ public partial class _ReportDesignerSectionRail
     /// <summary>
     /// Raised when the section rail context menu is requested.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> ContextMenu { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> ContextMenu { get; set; }
 
     /// <summary>
     /// Raised when the section collapse toggle is clicked.
