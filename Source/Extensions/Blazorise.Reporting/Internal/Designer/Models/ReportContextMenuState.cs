@@ -24,6 +24,8 @@ internal sealed class ReportContextMenuState
 
     internal bool CanPasteElement { get; set; }
 
+    internal bool CanSelectAllSectionElements { get; set; }
+
     internal bool CanInsertSection { get; set; }
 
     internal bool CanInsertGroup { get; set; }
@@ -39,6 +41,16 @@ internal sealed class ReportContextMenuState
     internal bool CanEditFormula { get; set; }
 
     internal bool CanEditRunningTotal { get; set; }
+
+    internal bool ElementCanGrow { get; set; }
+
+    internal bool ElementSuppressed { get; set; }
+
+    internal bool SectionKeepTogether { get; set; }
+
+    internal bool SectionNewPageBefore { get; set; }
+
+    internal bool SectionNewPageAfter { get; set; }
 
     internal bool CanMergeCellRight { get; set; }
 

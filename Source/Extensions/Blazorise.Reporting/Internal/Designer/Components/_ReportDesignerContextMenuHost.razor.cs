@@ -89,6 +89,16 @@ public partial class _ReportDesignerContextMenuHost
     [Parameter] public EventCallback<MouseEventArgs> PasteElement { get; set; }
 
     /// <summary>
+    /// Raised when all elements in the selected section should be selected.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> SelectAllSectionElements { get; set; }
+
+    /// <summary>
+    /// Raised when the properties panel should be shown.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> ShowProperties { get; set; }
+
+    /// <summary>
     /// Raised when the selected section should insert a section before it.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> InsertSectionBefore { get; set; }
@@ -107,6 +117,21 @@ public partial class _ReportDesignerContextMenuHost
     /// Raised when section suppression should be toggled.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> ToggleSectionSuppression { get; set; }
+
+    /// <summary>
+    /// Raised when section keep-together should be toggled.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> ToggleSectionKeepTogether { get; set; }
+
+    /// <summary>
+    /// Raised when section new-page-before should be toggled.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> ToggleSectionNewPageBefore { get; set; }
+
+    /// <summary>
+    /// Raised when section new-page-after should be toggled.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> ToggleSectionNewPageAfter { get; set; }
 
     /// <summary>
     /// Raised when the selected section should be deleted.
@@ -192,6 +217,16 @@ public partial class _ReportDesignerContextMenuHost
     /// Raised when the selected element should be deleted.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> DeleteElement { get; set; }
+
+    /// <summary>
+    /// Raised when selected element can-grow should be toggled.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> ToggleElementCanGrow { get; set; }
+
+    /// <summary>
+    /// Raised when selected element suppression should be toggled.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> ToggleElementSuppression { get; set; }
 
     /// <summary>
     /// Raised when the selected table cell should merge with the cell to its right.

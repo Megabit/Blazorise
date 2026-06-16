@@ -1,0 +1,16 @@
+@namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
+@using Microsoft.AspNetCore.Components.Web
+
+<button type="button"
+        class="b-report-context-menu-check-button"
+        disabled="@Disabled"
+        @onclick="Clicked">
+    <span class="b-report-context-menu-check">
+        @if ( Checked )
+        {
+            <Icon Name="IconName.Check" />
+        }
+    </span>
+    <span>@Text</span>
+</button>

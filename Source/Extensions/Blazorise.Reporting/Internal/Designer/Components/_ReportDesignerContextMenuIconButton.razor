@@ -1,0 +1,11 @@
+@namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
+@using Microsoft.AspNetCore.Components.Web
+
+<button type="button"
+        class="b-report-context-menu-icon-button"
+        title="@Text"
+        disabled="@Disabled"
+        @onclick="Clicked">
+    <Icon Name="@Icon" />
+</button>

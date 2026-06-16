@@ -7,17 +7,19 @@
                             Y="@(State?.ClientY ?? 0)">
     @if ( IsSectionMenu )
     {
+        <div class="b-report-context-menu-toolbar">
+            <_ReportDesignerContextMenuIconButton Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Clicked="@PasteElement" />
+            <_ReportDesignerContextMenuIconButton Icon="IconName.CheckDouble" Text="Select all" Disabled="@(!State.CanSelectAllSectionElements)" Clicked="@SelectAllSectionElements" />
+            <_ReportDesignerContextMenuIconButton Icon="IconName.Delete" Text="Delete band" Disabled="@(!State.CanDeleteSection)" Clicked="@DeleteSection" />
+            <_ReportDesignerContextMenuIconButton Icon="IconName.List" Text="Properties" Clicked="@ShowProperties" />
+        </div>
+
         @if ( State.SectionSuppressed )
         {
-            <_ReportDesignerContextMenuButton Text="Don't suppress" Clicked="@ToggleSectionSuppression" />
+            <_ReportDesignerContextMenuCheckButton Text="Suppress" Checked Clicked="@ToggleSectionSuppression" />
         }
         else
         {
-            @if ( State.CanPasteElement )
-            {
-                <_ReportDesignerContextMenuButton Text="Paste" Clicked="@PasteElement" />
-            }
-
             @if ( State.CanInsertSection )
             {
                 <_ReportDesignerContextMenuButton Text="Insert band before" Clicked="@InsertSectionBefore" />
@@ -27,19 +29,21 @@
             {
                 <_ReportDesignerContextMenuButton Text="Insert group..." Clicked="@InsertGroup" />
             }
-            <_ReportDesignerContextMenuButton Text="Suppress" Clicked="@ToggleSectionSuppression" />
-
-            @if ( State.CanDeleteSection )
-            {
-                <_ReportDesignerContextMenuButton Text="Delete band" Clicked="@DeleteSection" />
-            }
+            <_ReportDesignerContextMenuCheckButton Text="Suppress" Checked="@State.SectionSuppressed" Clicked="@ToggleSectionSuppression" />
+            <_ReportDesignerContextMenuCheckButton Text="Keep together" Checked="@State.SectionKeepTogether" Clicked="@ToggleSectionKeepTogether" />
+            <_ReportDesignerContextMenuCheckButton Text="New page before" Checked="@State.SectionNewPageBefore" Clicked="@ToggleSectionNewPageBefore" />
+            <_ReportDesignerContextMenuCheckButton Text="New page after" Checked="@State.SectionNewPageAfter" Clicked="@ToggleSectionNewPageAfter" />
         }
     }
     else if ( IsElementMenu )
     {
-        <_ReportDesignerContextMenuButton Text="Cut" Clicked="@CutElement" />
-        <_ReportDesignerContextMenuButton Text="Copy" Clicked="@CopyElement" />
-        <_ReportDesignerContextMenuButton Text="Paste" Clicked="@PasteElement" />
+        <div class="b-report-context-menu-toolbar">
+            <_ReportDesignerContextMenuIconButton Icon="IconName.Cut" Text="Cut" Clicked="@CutElement" />
+            <_ReportDesignerContextMenuIconButton Icon="IconName.Copy" Text="Copy" Clicked="@CopyElement" />
+            <_ReportDesignerContextMenuIconButton Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Clicked="@PasteElement" />
+            <_ReportDesignerContextMenuIconButton Icon="IconName.Delete" Text="Delete element" Clicked="@DeleteElement" />
+            <_ReportDesignerContextMenuIconButton Icon="IconName.List" Text="Properties" Clicked="@ShowProperties" />
+        </div>
 
         @if ( State.CanAlignOrSizeSelectedElements )
         {
@@ -80,10 +84,16 @@
             <_ReportDesignerContextMenuButton Text="Edit Running Total" Clicked="@EditRunningTotal" />
         }
 
-        <_ReportDesignerContextMenuButton Text="Delete element" Clicked="@DeleteElement" />
+        <_ReportDesignerContextMenuCheckButton Text="Can grow" Checked="@State.ElementCanGrow" Clicked="@ToggleElementCanGrow" />
+        <_ReportDesignerContextMenuCheckButton Text="Suppress" Checked="@State.ElementSuppressed" Clicked="@ToggleElementSuppression" />
     }
     else if ( IsCellMenu )
     {
+        <div class="b-report-context-menu-toolbar">
+            <_ReportDesignerContextMenuIconButton Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Clicked="@PasteElement" />
+            <_ReportDesignerContextMenuIconButton Icon="IconName.List" Text="Properties" Clicked="@ShowProperties" />
+        </div>
+
         @if ( State.CanPasteElement )
         {
             <_ReportDesignerContextMenuButton Text="Paste" Clicked="@PasteElement" />

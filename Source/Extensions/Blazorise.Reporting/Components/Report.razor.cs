@@ -1152,9 +1152,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         state.SectionSuppressed = section.Suppressed;
         state.CanPasteElement = CanContextPasteElement( definition, state );
+        state.CanSelectAllSectionElements = section.Elements?.Count > 0;
         state.CanInsertSection = CanContextSectionInsertSection( definition, state.SectionIndex );
         state.CanInsertGroup = CanContextSectionInsertGroup( section );
         state.CanDeleteSection = ReportDefinitionHelper.CanDeleteSection( section );
+        state.SectionKeepTogether = section.KeepTogether?.Value == true;
+        state.SectionNewPageBefore = section.NewPageBefore?.Value == true;
+        state.SectionNewPageAfter = section.NewPageAfter?.Value == true;
     }
 
     private void PopulateElementContextMenuCapabilities( ReportDefinition definition, ReportContextMenuState state )
@@ -1169,6 +1173,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         state.CanEditText = CanEditElementText( element );
         state.CanEditFormula = CanEditFormulaFieldElement( definition, element );
         state.CanEditRunningTotal = CanEditRunningTotalElement( definition, element );
+        state.CanPasteElement = clipboardElement is not null;
+        state.ElementCanGrow = element.CanGrow?.Value == true;
+        state.ElementSuppressed = element.Suppress?.Value == true;
         state.CanAlignOrSizeSelectedElements = state.SelectedElementCount >= MinimumBatchElementCount;
         state.CanInsertAggregate = sectionIndex >= 0
             && sectionIndex < definition.Sections.Count
@@ -3121,6 +3128,71 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await UpdateSelectedSectionSuppressionAsync( !section.Suppressed );
     }
 
+    private Task ShowContextPropertiesAsync()
+    {
+        selectedDesignerPanelTab = ReportDesignerPanelTab.Properties;
+        CloseContextMenu();
+
+        return Task.CompletedTask;
+    }
+
+    private Task SelectAllContextSectionElementsAsync()
+    {
+        if ( contextMenu?.SectionIndex is not { } sectionIndex )
+            return Task.CompletedTask;
+
+        var definition = EffectiveDefinition;
+
+        if ( sectionIndex < 0 || sectionIndex >= definition.Sections.Count )
+            return Task.CompletedTask;
+
+        var elementKeys = definition.Sections[sectionIndex].Elements
+            .Select( ReportDefinitionHelper.EnsureElementId )
+            .Where( key => !string.IsNullOrWhiteSpace( key ) )
+            .ToList();
+
+        SelectElements( elementKeys );
+        selectedDesignerPanelTab = ReportDesignerPanelTab.Properties;
+
+        return Task.CompletedTask;
+    }
+
+    private async Task ToggleSelectedSectionKeepTogetherAsync()
+    {
+        var section = selectionManager.FindSelectedSection( EffectiveDefinition );
+
+        if ( section is null )
+            return;
+
+        bool value = section.KeepTogether?.Value != true;
+        await UpdateSelectedSectionAsync( currentSection => currentSection.KeepTogether = ReportValue.Create( value, currentSection.KeepTogether?.Formula ) );
+        CloseContextMenu();
+    }
+
+    private async Task ToggleSelectedSectionNewPageBeforeAsync()
+    {
+        var section = selectionManager.FindSelectedSection( EffectiveDefinition );
+
+        if ( section is null )
+            return;
+
+        bool value = section.NewPageBefore?.Value != true;
+        await UpdateSelectedSectionAsync( currentSection => currentSection.NewPageBefore = ReportValue.Create( value, currentSection.NewPageBefore?.Formula ) );
+        CloseContextMenu();
+    }
+
+    private async Task ToggleSelectedSectionNewPageAfterAsync()
+    {
+        var section = selectionManager.FindSelectedSection( EffectiveDefinition );
+
+        if ( section is null )
+            return;
+
+        bool value = section.NewPageAfter?.Value != true;
+        await UpdateSelectedSectionAsync( currentSection => currentSection.NewPageAfter = ReportValue.Create( value, currentSection.NewPageAfter?.Formula ) );
+        CloseContextMenu();
+    }
+
     private async Task UpdateSelectedSectionSuppressionAsync( bool suppressed )
     {
         await ExecuteDesignerCommandAsync( new( suppressed ? "Suppress" : "Don't suppress", () =>
@@ -3141,6 +3213,30 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
             return Task.CompletedTask;
         } ) );
+    }
+
+    private async Task ToggleSelectedElementCanGrowAsync()
+    {
+        var element = selectionManager.FindSelectedElement( EffectiveDefinition );
+
+        if ( element is null )
+            return;
+
+        bool value = element.CanGrow?.Value != true;
+        await UpdateSelectedElementAsync( currentElement => currentElement.CanGrow = ReportValue.Create( value, currentElement.CanGrow?.Formula ) );
+        CloseContextMenu();
+    }
+
+    private async Task ToggleSelectedElementSuppressionAsync()
+    {
+        var element = selectionManager.FindSelectedElement( EffectiveDefinition );
+
+        if ( element is null )
+            return;
+
+        bool value = element.Suppress?.Value != true;
+        await UpdateSelectedElementAsync( currentElement => currentElement.Suppress = ReportValue.Create( value, currentElement.Suppress?.Formula ) );
+        CloseContextMenu();
     }
 
     private async Task DeleteSelectedElementAsync()
