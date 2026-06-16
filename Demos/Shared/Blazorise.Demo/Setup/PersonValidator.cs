@@ -1,4 +1,4 @@
-﻿using Blazorise.Shared.Models;
+using Blazorise.Shared.Models;
 using FluentValidation;
 
 namespace Blazorise.Demo.Setup;
