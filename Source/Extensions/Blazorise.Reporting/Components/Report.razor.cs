@@ -295,11 +295,6 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }
     }
 
-    private async Task CloseContextMenuAsync()
-    {
-        await CloseContextMenuAsyncCore();
-    }
-
     private bool IsElementContextMenuVisible()
     {
         return contextMenu?.Visible == true
@@ -2215,7 +2210,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             _ = contextMenuHost.CloseAsync();
     }
 
-    private async Task CloseContextMenuAsyncCore()
+    private async Task CloseContextMenuAsync()
     {
         contextMenu = null;
 
@@ -3148,6 +3143,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( section is null || section.Suppressed )
             return;
+
+        CloseContextMenu();
 
         var x = ReportLayoutGeometry.Clamp( ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetX ), 0, EffectiveDefinition.Page.Width );
         var y = ReportLayoutGeometry.Clamp( GetSectionOffsetY( EffectiveDefinition, sectionIndex ) + ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetY ), 0, GetDesignerContentHeight( EffectiveDefinition ) );
