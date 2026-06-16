@@ -64,11 +64,19 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private const int DragPreviewFreeDropThrottleMilliseconds = 40;
 
+    private const int SelectionBoxFrameThrottleMilliseconds = 16;
+
     private const int MinimumBatchElementCount = 2;
 
     private const double PasteElementOffset = 16;
 
     private const int SuppressSelectionClickMilliseconds = 300;
+
+    private static readonly TimeSpan DragPreviewFrameThrottle = TimeSpan.FromMilliseconds( DragPreviewFrameThrottleMilliseconds );
+
+    private static readonly TimeSpan DragPreviewFreeDropThrottle = TimeSpan.FromMilliseconds( DragPreviewFreeDropThrottleMilliseconds );
+
+    private static readonly TimeSpan SelectionBoxFrameThrottle = TimeSpan.FromMilliseconds( SelectionBoxFrameThrottleMilliseconds );
 
     private readonly ReportContext context = new();
 
@@ -131,6 +139,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private ReportSectionPointerResizeState sectionPointerResize;
 
     private DateTime lastDragPreviewRenderTime;
+
+    private DateTime lastSelectionBoxRenderTime;
 
     private int designerSurfaceVersion;
 
@@ -2947,6 +2957,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         draggedElementKey = null;
         draggedElement = null;
         dragPreview = null;
+        lastDragPreviewRenderTime = DateTime.MinValue;
         editingElementKey = null;
         elementPointerDrag = null;
         elementPointerResize = null;
@@ -2963,6 +2974,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         draggedElementKey = null;
         draggedElement = null;
         dragPreview = null;
+        lastDragPreviewRenderTime = DateTime.MinValue;
         editingElementKey = null;
         selectionBox = null;
         elementPointerDrag = null;
@@ -2995,6 +3007,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         draggedElementType = null;
         draggedElementText = null;
         dragPreview = null;
+        lastDragPreviewRenderTime = DateTime.MinValue;
         elementPointerDrag = new()
         {
             ElementKey = elementKey,
@@ -3027,6 +3040,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         draggedElementType = null;
         draggedElementText = null;
         dragPreview = null;
+        lastDragPreviewRenderTime = DateTime.MinValue;
         elementPointerDrag = null;
         elementPointerResize = new()
         {
@@ -3160,6 +3174,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             StartClientY = eventArgs.ClientY,
             Additive = eventArgs.CtrlKey,
         };
+
+        lastSelectionBoxRenderTime = DateTime.MinValue;
     }
 
     private Task PreviewSelectionBoxAsync( PointerEventArgs eventArgs )
@@ -3167,7 +3183,15 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( selectionBox is null )
             return Task.CompletedTask;
 
+        double previousX = selectionBox.X;
+        double previousY = selectionBox.Y;
+        double previousWidth = selectionBox.Width;
+        double previousHeight = selectionBox.Height;
+
         UpdateSelectionBox( eventArgs );
+
+        if ( !CanRenderSelectionBoxPreview( previousX, previousY, previousWidth, previousHeight ) )
+            return Task.CompletedTask;
 
         return InvokeAsync( StateHasChanged );
     }
@@ -3188,6 +3212,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         var completedSelectionBox = selectionBox;
         selectionBox = null;
+        lastSelectionBoxRenderTime = DateTime.MinValue;
 
         if ( !completedSelectionBox.HasMoved )
             return InvokeAsync( StateHasChanged );
@@ -3222,6 +3247,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private Task CancelSelectionBoxAsync()
     {
         selectionBox = null;
+        lastSelectionBoxRenderTime = DateTime.MinValue;
 
         return InvokeAsync( StateHasChanged );
     }
@@ -3231,6 +3257,29 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return selectionBox is null
             ? Task.CompletedTask
             : CancelSelectionBoxAsync();
+    }
+
+    private bool CanRenderSelectionBoxPreview( double previousX, double previousY, double previousWidth, double previousHeight )
+    {
+        if ( selectionBox is null )
+            return false;
+
+        if ( Math.Abs( selectionBox.X - previousX ) < DragPreviewChangeTolerance
+            && Math.Abs( selectionBox.Y - previousY ) < DragPreviewChangeTolerance
+            && Math.Abs( selectionBox.Width - previousWidth ) < DragPreviewChangeTolerance
+            && Math.Abs( selectionBox.Height - previousHeight ) < DragPreviewChangeTolerance )
+        {
+            return false;
+        }
+
+        DateTime now = DateTime.UtcNow;
+
+        if ( now - lastSelectionBoxRenderTime < SelectionBoxFrameThrottle )
+            return false;
+
+        lastSelectionBoxRenderTime = now;
+
+        return true;
     }
 
     private void UpdateSelectionBox( PointerEventArgs eventArgs )
@@ -3268,7 +3317,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( !elementPointerDrag.SnapToGrid
             && dragPreview is not null
             && dragPreview.SectionIndex == preview.SectionIndex
-            && now - lastDragPreviewRenderTime < TimeSpan.FromMilliseconds( DragPreviewFrameThrottleMilliseconds ) )
+            && now - lastDragPreviewRenderTime < DragPreviewFrameThrottle )
         {
             return;
         }
@@ -3376,7 +3425,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( !elementPointerResize.SnapToGrid
             && dragPreview is not null
-            && now - lastDragPreviewRenderTime < TimeSpan.FromMilliseconds( DragPreviewFrameThrottleMilliseconds ) )
+            && now - lastDragPreviewRenderTime < DragPreviewFrameThrottle )
         {
             return;
         }
@@ -3618,7 +3667,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( !snapToGrid
             && dragPreview is not null
             && dragPreview.SectionIndex == preview.SectionIndex
-            && now - lastDragPreviewRenderTime < TimeSpan.FromMilliseconds( DragPreviewFreeDropThrottleMilliseconds ) )
+            && now - lastDragPreviewRenderTime < DragPreviewFreeDropThrottle )
         {
             return;
         }
@@ -3891,6 +3940,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         draggedElementKey = null;
         draggedElement = null;
         dragPreview = null;
+        lastDragPreviewRenderTime = DateTime.MinValue;
         elementPointerDrag = null;
         elementPointerResize = null;
     }
