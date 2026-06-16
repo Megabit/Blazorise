@@ -37,6 +37,7 @@
                     </ReportToolbarGroup>
                     <ReportToolbarGroup>
                         <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
+                        <ReportToolbarItem Command="ReportCommand.DownloadPdf" Caption="Download PDF" />
                     </ReportToolbarGroup>
                     <Div Margin="Margin.IsAuto.FromStart">
                         <ReportToolbarGroup>
@@ -292,7 +293,16 @@
                      Border="Border.Is1"
                      Background="Background.White"
                      TextAlignment="TextAlignment.Center">
-                    PDF preview is configured for this report. A PDF renderer can feed Blazorise.PdfViewer in the next implementation step.
+                    <Div Margin="Margin.Is3.FromBottom">
+                        PDF preview is available for download.
+                    </Div>
+                    @if ( context.ViewerOptions.AllowDownload )
+                    {
+                        <Button Color="Color.Primary" Clicked="@DownloadPdfAsync">
+                            <Icon Name="IconName.FileDownload" Margin="Margin.Is2.FromEnd" />
+                            Download PDF
+                        </Button>
+                    }
                 </Div>
             }
             else

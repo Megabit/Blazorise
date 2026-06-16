@@ -7,7 +7,7 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Base class for declarative report elements that render text and support font settings.
 /// </summary>
-public abstract class ReportTextElementBase : ReportElementBase
+public abstract class BaseReportTextElement : BaseReportElement
 {
     /// <inheritdoc />
     protected override ReportElementDefinition BuildDefinition()
@@ -36,9 +36,9 @@ public abstract class ReportTextElementBase : ReportElementBase
 
     private static string GetTextColorName( TextColor textColor )
     {
-        return textColor is null || textColor == Blazorise.TextColor.Default || string.IsNullOrWhiteSpace( textColor.RawName )
+        return textColor is null || textColor == Blazorise.TextColor.Default || string.IsNullOrWhiteSpace( textColor.Name )
             ? null
-            : textColor.RawName;
+            : textColor.Name;
     }
 
     /// <summary>

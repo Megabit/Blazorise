@@ -5,7 +5,7 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Base class for declarative report bands that register themselves with the current report.
 /// </summary>
-public abstract class ReportSectionBase : ComponentBase
+public abstract class BaseReportSection : ComponentBase
 {
     [CascadingParameter] internal ReportContext ReportContext { get; set; }
 

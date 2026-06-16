@@ -5,7 +5,7 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Declares an image element in a report band.
 /// </summary>
-public partial class ReportImage : ReportElementBase
+public partial class ReportImage : BaseReportElement
 {
     /// <inheritdoc />
     protected override ReportElementType ElementType => ReportElementType.Image;

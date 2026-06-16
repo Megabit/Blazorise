@@ -7,7 +7,7 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Base class for declarative report elements that register themselves with the current report band.
 /// </summary>
-public abstract class ReportElementBase : ComponentBase
+public abstract class BaseReportElement : ComponentBase
 {
     private readonly string definitionId = Guid.NewGuid().ToString( "N" );
 
@@ -86,9 +86,9 @@ public abstract class ReportElementBase : ComponentBase
 
     private static string GetBackgroundName( Background background )
     {
-        return background is null || background == Blazorise.Background.Default || string.IsNullOrWhiteSpace( background.RawName )
+        return background is null || background == Blazorise.Background.Default || string.IsNullOrWhiteSpace( background.Name )
             ? null
-            : background.RawName;
+            : background.Name;
     }
 
     /// <summary>

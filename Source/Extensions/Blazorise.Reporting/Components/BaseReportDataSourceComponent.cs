@@ -7,7 +7,7 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Provides a shared base for declarative report data source components.
 /// </summary>
-public abstract class ReportDataSourceComponentBase : ComponentBase
+public abstract class BaseReportDataSourceComponent : ComponentBase
 {
     #region Methods
 

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Pdf;
 using Blazorise.Reporting.Internal;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -567,6 +568,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ReportCommand.PreviewHtml => SetPreviewAsync( ReportPreviewFormat.Html ),
             ReportCommand.PreviewPdf => SetPreviewAsync( ReportPreviewFormat.Pdf ),
             ReportCommand.ConnectDataSource => OpenDataSourceConnectionDialogAsync(),
+            ReportCommand.DownloadPdf => DownloadPdfAsync(),
             ReportCommand.Cut => CutSelectedElementAsync(),
             ReportCommand.Copy => CopySelectedElementAsync(),
             ReportCommand.Paste => PasteElementAsync(),
@@ -594,6 +596,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ReportCommand.PreviewHtml => SupportsPreviewFormat( ReportPreviewFormat.Html ),
             ReportCommand.PreviewPdf => SupportsPreviewFormat( ReportPreviewFormat.Pdf ),
             ReportCommand.ConnectDataSource => CurrentMode == ReportStudioMode.Design && IsDesignerEnabled && DataSourceProviders.Count > 0,
+            ReportCommand.DownloadPdf => context.ViewerOptions.AllowDownload && SupportsPreviewFormat( ReportPreviewFormat.Pdf ) && PdfGenerator is not null,
             ReportCommand.Cut or ReportCommand.Copy => CurrentMode == ReportStudioMode.Design && selectionManager.FindSelectedElement( definition ) is not null,
             ReportCommand.Delete => CurrentMode == ReportStudioMode.Design && selectionManager.CanDeleteSelection( definition ),
             ReportCommand.Paste => CurrentMode == ReportStudioMode.Design && clipboardElement is not null && definition.Sections.Count > 0,
@@ -677,6 +680,36 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             if ( ModeChanged.HasDelegate )
                 await ModeChanged.InvokeAsync( currentMode );
         }, trackHistory: false, notifyDefinitionChanged: false ) );
+    }
+
+    private async Task DownloadPdfAsync()
+    {
+        if ( PdfGenerator is null )
+            return;
+
+        ReportDefinition definition = EffectiveDefinition;
+        await ResolveDataSourcesAsync( definition, true );
+
+        PdfDocumentDefinition pdfDocument = ReportPdfDocumentBuilder.Build( definition, Data );
+        PdfRenderResult result = await PdfGenerator.GenerateAsync( pdfDocument, new()
+        {
+            FileName = ResolvePdfFileName( definition ),
+        } );
+
+        EnsureReportingModule();
+        await reportingModule.DownloadFile( result.FileName, result.ContentType, result.Content );
+    }
+
+    private static string ResolvePdfFileName( ReportDefinition definition )
+    {
+        string name = string.IsNullOrWhiteSpace( definition?.Name ) ? "report" : definition.Name.Trim();
+
+        foreach ( char invalidCharacter in System.IO.Path.GetInvalidFileNameChars() )
+        {
+            name = name.Replace( invalidCharacter, '-' );
+        }
+
+        return name.EndsWith( ".pdf", StringComparison.OrdinalIgnoreCase ) ? name : $"{name}.pdf";
     }
 
     private async Task ResetDefinitionAsync()
@@ -4501,6 +4534,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     /// Blazorise options used to create the local Reporting module.
     /// </summary>
     [Inject] private BlazoriseOptions BlazoriseOptions { get; set; }
+
+    /// <summary>
+    /// PDF generator used by the report viewer download command.
+    /// </summary>
+    [Inject] private IPdfGenerator PdfGenerator { get; set; }
 
     /// <summary>
     /// Persisted report definition used by the designer and viewer.

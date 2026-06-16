@@ -8,14 +8,14 @@ namespace Blazorise.Reporting.Internal;
 /// <summary>
 /// Provides common infrastructure for Reporting internal Razor components.
 /// </summary>
-public abstract class ReportComponentBase : ComponentBase
+public abstract class BaseReportComponent : ComponentBase
 {
     #region Constructors
 
     /// <summary>
     /// Initializes a new reporting component base instance.
     /// </summary>
-    protected ReportComponentBase()
+    protected BaseReportComponent()
     {
         ClassBuilder = new( BuildClasses );
         StyleBuilder = new( BuildStyles );

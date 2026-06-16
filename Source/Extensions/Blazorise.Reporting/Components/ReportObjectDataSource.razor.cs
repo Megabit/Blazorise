@@ -7,7 +7,7 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Declares an object model data source available to report bands and fields.
 /// </summary>
-public partial class ReportObjectDataSource : ReportDataSourceComponentBase
+public partial class ReportObjectDataSource : BaseReportDataSourceComponent
 {
     #region Methods
 

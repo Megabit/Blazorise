@@ -42,6 +42,7 @@ public partial class ReportToolbarItem
             ReportCommand.PreviewHtml => IconName.FileAlt,
             ReportCommand.PreviewPdf => IconName.FilePdf,
             ReportCommand.ConnectDataSource => IconName.Database,
+            ReportCommand.DownloadPdf => IconName.FileDownload,
             ReportCommand.Cut => IconName.Cut,
             ReportCommand.Copy => IconName.Copy,
             ReportCommand.Paste => IconName.Paste,
