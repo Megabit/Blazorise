@@ -27,4 +27,6 @@ public class CodeEditorJSOptions
     public int? FontSize { get; set; }
     public string ConfigureEditorMethod { get; set; }
     public Dictionary<string, object> AdditionalOptions { get; set; }
+    public IReadOnlyList<CodeEditorLanguageDefinition> Languages { get; set; }
+    public CodeEditorCompletionProvider CompletionProvider { get; set; }
 }

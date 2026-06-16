@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -20,6 +21,8 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
 
     private DotNetObjectReference<CodeEditor> dotNetObjectRef;
 
+    private readonly List<CodeEditorCustomLanguage> customLanguages = new();
+
     private bool jsInitialized;
 
     private string minHeight = "300px";
@@ -36,6 +39,18 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
 
     private ComponentParameterInfo<string> paramConfigureEditorMethod;
 
+    private ComponentParameterInfo<CodeEditorLanguageDefinition> paramLanguageDefinition;
+
+    private ComponentParameterInfo<IReadOnlyList<CodeEditorLanguageDefinition>> paramLanguages;
+
+    private ComponentParameterInfo<CodeEditorCompletionProvider> paramCompletionProvider;
+
+    private ComponentParameterInfo<IReadOnlyList<CodeEditorCompletionItem>> paramCompletionItems;
+
+    private ComponentParameterInfo<IReadOnlyList<string>> paramCompletionTriggerCharacters;
+
+    private ComponentParameterInfo<string> paramConfigureCompletionProviderMethod;
+
     #endregion
 
     #region Methods
@@ -50,6 +65,12 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
         parameters.TryGetParameter( EditorOptions, newOptions => ReferenceEquals( newOptions, EditorOptions ), out paramEditorOptions );
         parameters.TryGetParameter( Diagnostics, newDiagnostics => ReferenceEquals( newDiagnostics, Diagnostics ), out paramDiagnostics );
         parameters.TryGetParameter( ConfigureEditorMethod, out paramConfigureEditorMethod );
+        parameters.TryGetParameter( LanguageDefinition, newLanguageDefinition => ReferenceEquals( newLanguageDefinition, LanguageDefinition ), out paramLanguageDefinition );
+        parameters.TryGetParameter( Languages, newLanguages => ReferenceEquals( newLanguages, Languages ), out paramLanguages );
+        parameters.TryGetParameter( CompletionProvider, newCompletionProvider => ReferenceEquals( newCompletionProvider, CompletionProvider ), out paramCompletionProvider );
+        parameters.TryGetParameter( CompletionItems, newCompletionItems => ReferenceEquals( newCompletionItems, CompletionItems ), out paramCompletionItems );
+        parameters.TryGetParameter( CompletionTriggerCharacters, newCompletionTriggerCharacters => ReferenceEquals( newCompletionTriggerCharacters, CompletionTriggerCharacters ), out paramCompletionTriggerCharacters );
+        parameters.TryGetParameter( ConfigureCompletionProviderMethod, out paramConfigureCompletionProviderMethod );
     }
 
     /// <inheritdoc/>
@@ -82,6 +103,21 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
         if ( paramDiagnostics.Changed )
         {
             ExecuteAfterRender( async () => await JSModule.SetDiagnostics( ElementRef, ElementId, Diagnostics ) );
+        }
+
+        if ( paramLanguageDefinition.Changed
+             || paramLanguages.Changed )
+        {
+            ExecuteAfterRender( async () => await JSModule.SetLanguages( ElementRef, ElementId, CreateLanguageDefinitions() ) );
+        }
+
+        if ( paramLanguage.Changed
+             || paramCompletionProvider.Changed
+             || paramCompletionItems.Changed
+             || paramCompletionTriggerCharacters.Changed
+             || paramConfigureCompletionProviderMethod.Changed )
+        {
+            ExecuteAfterRender( async () => await JSModule.SetCompletionProvider( ElementRef, ElementId, CreateCompletionProvider() ) );
         }
     }
 
@@ -209,6 +245,73 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     }
 
     /// <summary>
+    /// Sets custom language definitions.
+    /// </summary>
+    /// <param name="languages">Custom language definitions.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task SetLanguagesAsync( IReadOnlyList<CodeEditorLanguageDefinition> languages )
+    {
+        Languages = languages;
+
+        if ( jsInitialized )
+            await JSModule.SetLanguages( ElementRef, ElementId, CreateLanguageDefinitions( languages ) );
+    }
+
+    /// <summary>
+    /// Sets a custom language definition.
+    /// </summary>
+    /// <param name="languageDefinition">Custom language definition.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task SetLanguageDefinitionAsync( CodeEditorLanguageDefinition languageDefinition )
+    {
+        LanguageDefinition = languageDefinition;
+
+        if ( jsInitialized )
+            await JSModule.SetLanguages( ElementRef, ElementId, CreateLanguageDefinitions() );
+    }
+
+    /// <summary>
+    /// Sets the completion provider.
+    /// </summary>
+    /// <param name="completionProvider">Completion provider.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task SetCompletionProviderAsync( CodeEditorCompletionProvider completionProvider )
+    {
+        CompletionProvider = completionProvider;
+        CompletionItems = null;
+
+        if ( jsInitialized )
+            await JSModule.SetCompletionProvider( ElementRef, ElementId, CreateCompletionProvider( completionProvider ) );
+    }
+
+    /// <summary>
+    /// Sets the completion items.
+    /// </summary>
+    /// <param name="completionItems">Completion items.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task SetCompletionItemsAsync( IReadOnlyList<CodeEditorCompletionItem> completionItems )
+    {
+        CompletionProvider = null;
+        CompletionItems = completionItems;
+
+        if ( jsInitialized )
+            await JSModule.SetCompletionProvider( ElementRef, ElementId, CreateCompletionProvider() );
+    }
+
+    /// <summary>
+    /// Sets diagnostic markers.
+    /// </summary>
+    /// <param name="diagnostics">Diagnostic markers.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task SetDiagnosticsAsync( IReadOnlyList<CodeEditorDiagnostic> diagnostics )
+    {
+        Diagnostics = diagnostics;
+
+        if ( jsInitialized )
+            await JSModule.SetDiagnostics( ElementRef, ElementId, diagnostics );
+    }
+
+    /// <summary>
     /// Reveals the specified line.
     /// </summary>
     /// <param name="lineNumber">Line number.</param>
@@ -233,7 +336,10 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
         Language = language;
 
         if ( jsInitialized )
+        {
             await JSModule.SetLanguage( ElementRef, ElementId, language );
+            await JSModule.SetCompletionProvider( ElementRef, ElementId, CreateCompletionProvider() );
+        }
     }
 
     /// <summary>
@@ -376,6 +482,26 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
         return Task.FromResult( new ParseValue<string>( true, value ?? string.Empty, null ) );
     }
 
+    internal void NotifyLanguageInitialized( CodeEditorCustomLanguage customLanguage )
+    {
+        if ( !customLanguages.Contains( customLanguage ) )
+            customLanguages.Add( customLanguage );
+
+        NotifyLanguageChanged();
+    }
+
+    internal void NotifyLanguageRemoved( CodeEditorCustomLanguage customLanguage )
+    {
+        if ( customLanguages.Remove( customLanguage ) )
+            NotifyLanguageChanged();
+    }
+
+    internal void NotifyLanguageChanged()
+    {
+        if ( jsInitialized )
+            ExecuteAfterRender( async () => await JSModule.SetLanguages( ElementRef, ElementId, CreateLanguageDefinitions() ) );
+    }
+
     private CodeEditorJSOptions CreateJSOptions()
     {
         var editorOptions = EditorOptions ?? new CodeEditorOptions();
@@ -401,7 +527,56 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
             FontFamily = editorOptions.FontFamily,
             FontSize = editorOptions.FontSize,
             ConfigureEditorMethod = ConfigureEditorMethod,
-            AdditionalOptions = editorOptions.AdditionalOptions
+            AdditionalOptions = editorOptions.AdditionalOptions,
+            Languages = CreateLanguageDefinitions(),
+            CompletionProvider = CreateCompletionProvider()
+        };
+    }
+
+    private IReadOnlyList<CodeEditorLanguageDefinition> CreateLanguageDefinitions( IReadOnlyList<CodeEditorLanguageDefinition> languages = null )
+    {
+        List<CodeEditorLanguageDefinition> languageDefinitions = new();
+
+        if ( GlobalOptions.Languages is not null )
+            languageDefinitions.AddRange( GlobalOptions.Languages.Where( x => x is not null && !string.IsNullOrWhiteSpace( x.Id ) ) );
+
+        if ( languages is not null )
+            languageDefinitions.AddRange( languages.Where( x => x is not null && !string.IsNullOrWhiteSpace( x.Id ) ) );
+        else if ( Languages is not null )
+            languageDefinitions.AddRange( Languages.Where( x => x is not null && !string.IsNullOrWhiteSpace( x.Id ) ) );
+
+        if ( LanguageDefinition is not null && !string.IsNullOrWhiteSpace( LanguageDefinition.Id ) )
+            languageDefinitions.Add( LanguageDefinition );
+
+        languageDefinitions.AddRange( customLanguages.Select( x => x.ToDefinition() ).Where( x => x is not null && !string.IsNullOrWhiteSpace( x.Id ) ) );
+
+        return languageDefinitions;
+    }
+
+    private CodeEditorCompletionProvider CreateCompletionProvider( CodeEditorCompletionProvider completionProvider = null )
+    {
+        CodeEditorCompletionProvider provider = completionProvider ?? CompletionProvider;
+
+        if ( provider is not null )
+        {
+            return new CodeEditorCompletionProvider
+            {
+                Language = string.IsNullOrWhiteSpace( provider.Language ) ? Language : provider.Language,
+                TriggerCharacters = provider.TriggerCharacters,
+                Items = provider.Items,
+                ProviderMethod = provider.ProviderMethod
+            };
+        }
+
+        if ( CompletionItems is null && string.IsNullOrWhiteSpace( ConfigureCompletionProviderMethod ) )
+            return null;
+
+        return new CodeEditorCompletionProvider
+        {
+            Language = Language,
+            Items = CompletionItems,
+            TriggerCharacters = CompletionTriggerCharacters,
+            ProviderMethod = ConfigureCompletionProviderMethod
         };
     }
 
@@ -447,6 +622,36 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// Gets or sets diagnostic markers.
     /// </summary>
     [Parameter] public IReadOnlyList<CodeEditorDiagnostic> Diagnostics { get; set; }
+
+    /// <summary>
+    /// Gets or sets a custom language definition.
+    /// </summary>
+    [Parameter] public CodeEditorLanguageDefinition LanguageDefinition { get; set; }
+
+    /// <summary>
+    /// Gets or sets custom language definitions.
+    /// </summary>
+    [Parameter] public IReadOnlyList<CodeEditorLanguageDefinition> Languages { get; set; }
+
+    /// <summary>
+    /// Gets or sets the completion provider.
+    /// </summary>
+    [Parameter] public CodeEditorCompletionProvider CompletionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets completion items.
+    /// </summary>
+    [Parameter] public IReadOnlyList<CodeEditorCompletionItem> CompletionItems { get; set; }
+
+    /// <summary>
+    /// Gets or sets the characters that trigger completion.
+    /// </summary>
+    [Parameter] public IReadOnlyList<string> CompletionTriggerCharacters { get; set; }
+
+    /// <summary>
+    /// Gets or sets the custom JavaScript method used to provide completion items.
+    /// </summary>
+    [Parameter] public string ConfigureCompletionProviderMethod { get; set; }
 
     /// <summary>
     /// Gets or sets the minimum editor height.

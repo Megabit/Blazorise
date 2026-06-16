@@ -43,6 +43,12 @@ public class JSCodeEditorModule : BaseJSModule,
     public ValueTask SetDiagnostics( ElementReference elementRef, string elementId, IReadOnlyList<CodeEditorDiagnostic> diagnostics )
         => InvokeSafeVoidAsync( "setDiagnostics", elementRef, elementId, diagnostics );
 
+    public ValueTask SetLanguages( ElementReference elementRef, string elementId, IReadOnlyList<CodeEditorLanguageDefinition> languages )
+        => InvokeSafeVoidAsync( "setLanguages", elementRef, elementId, languages );
+
+    public ValueTask SetCompletionProvider( ElementReference elementRef, string elementId, CodeEditorCompletionProvider completionProvider )
+        => InvokeSafeVoidAsync( "setCompletionProvider", elementRef, elementId, completionProvider );
+
     public ValueTask SetValue( ElementReference elementRef, string elementId, string value )
         => InvokeSafeVoidAsync( "setValue", elementRef, elementId, value );
 
