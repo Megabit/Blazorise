@@ -36,6 +36,8 @@ public partial class _ReportTreeViewNode
             ReportTreeNodeKind.Operator => IconName.Code,
             ReportTreeNodeKind.Band => IconName.BorderAll,
             ReportTreeNodeKind.Table => IconName.Table,
+            ReportTreeNodeKind.TableRow => IconName.GripLines,
+            ReportTreeNodeKind.TableCell => IconName.Square,
             ReportTreeNodeKind.Image => IconName.Image,
             ReportTreeNodeKind.Line => IconName.GripLines,
             ReportTreeNodeKind.Rectangle => IconName.Square,

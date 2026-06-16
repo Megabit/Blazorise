@@ -30,9 +30,11 @@ public partial class _ReportDesignerElement
 
     private bool CanReceiveDesignerInteraction => DesignMode && Editable;
 
-    private bool CanStartDesignerPointerDrag => CanHandleDesignerPointerDown && !TextEditingActive;
+    private bool CanStartDesignerPointerDrag => CanHandleDesignerPointerDown && !TextEditingActive && !LayoutLocked;
 
     private bool CanStartInlineTextEdit => CanReceiveDesignerInteraction && !ElementSuppressed && CanEditText;
+
+    private bool ShouldStopPointerDownPropagation => CanHandleDesignerPointerDown && !AllowPointerDragThrough;
 
     private bool ElementSuppressed => Element?.Suppress?.Value == true;
 
@@ -42,7 +44,7 @@ public partial class _ReportDesignerElement
 
     private Func<MouseEventArgs, Task> NonRenderingContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnContextMenuAsync );
 
-    private bool ShowResizeHandles => CanReceiveDesignerInteraction && !ElementSuppressed && Selected && !Editing;
+    private bool ShowResizeHandles => CanReceiveDesignerInteraction && !ElementSuppressed && Selected && !Editing && !LayoutLocked;
 
     private string Class => ClassNames;
 
@@ -275,6 +277,16 @@ public partial class _ReportDesignerElement
     [Parameter] public bool Editable { get; set; }
 
     /// <summary>
+    /// Prevents designer drag and resize interactions while allowing selection and editing.
+    /// </summary>
+    [Parameter] public bool LayoutLocked { get; set; }
+
+    /// <summary>
+    /// Allows pointer drag starts to bubble to the parent element.
+    /// </summary>
+    [Parameter] public bool AllowPointerDragThrough { get; set; }
+
+    /// <summary>
     /// Indicates that the element is part of the current selection.
     /// </summary>
     [Parameter] public bool Selected { get; set; }
@@ -290,6 +302,16 @@ public partial class _ReportDesignerElement
     [Parameter] public bool TextEditingActive { get; set; }
 
     /// <summary>
+    /// Identifier of the child element currently edited inside this element.
+    /// </summary>
+    [Parameter] public string ChildEditingElementKey { get; set; }
+
+    /// <summary>
+    /// Identifier of the selected table cell.
+    /// </summary>
+    [Parameter] public string SelectedCellKey { get; set; }
+
+    /// <summary>
     /// Raised when the element is clicked on the designer surface.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
@@ -303,6 +325,46 @@ public partial class _ReportDesignerElement
     /// Raised when the element context menu is requested.
     /// </summary>
     [Parameter] public Func<MouseEventArgs, Task> ContextMenu { get; set; }
+
+    /// <summary>
+    /// Raised when a table cell inside this element is clicked.
+    /// </summary>
+    [Parameter] public Func<string, MouseEventArgs, Task> TableCellClicked { get; set; }
+
+    /// <summary>
+    /// Raised when a table cell context menu is requested.
+    /// </summary>
+    [Parameter] public Func<string, MouseEventArgs, Task> TableCellContextMenu { get; set; }
+
+    /// <summary>
+    /// Determines whether a child element inside this element is selected.
+    /// </summary>
+    [Parameter] public Func<string, bool> IsChildElementSelected { get; set; }
+
+    /// <summary>
+    /// Raised when a child element inside this element is clicked.
+    /// </summary>
+    [Parameter] public Func<string, MouseEventArgs, Task> ChildElementClicked { get; set; }
+
+    /// <summary>
+    /// Raised when a child element inside this element is double-clicked.
+    /// </summary>
+    [Parameter] public Func<string, MouseEventArgs, Task> ChildElementDoubleClicked { get; set; }
+
+    /// <summary>
+    /// Raised when a child element inside this element opens its context menu.
+    /// </summary>
+    [Parameter] public Func<string, MouseEventArgs, Task> ChildElementContextMenu { get; set; }
+
+    /// <summary>
+    /// Raised when inline text editing commits a child element value.
+    /// </summary>
+    [Parameter] public Func<string, string, Task> ChildElementTextEditCommitted { get; set; }
+
+    /// <summary>
+    /// Raised when inline text editing is cancelled for a child element.
+    /// </summary>
+    [Parameter] public Func<string, Task> ChildElementTextEditCancelled { get; set; }
 
     /// <summary>
     /// Raised when inline text editing commits a new value.

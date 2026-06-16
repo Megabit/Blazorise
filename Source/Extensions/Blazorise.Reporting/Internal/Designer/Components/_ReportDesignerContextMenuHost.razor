@@ -82,6 +82,28 @@
 
         <_ReportDesignerContextMenuButton Text="Delete element" Clicked="@DeleteElement" />
     }
+    else if ( IsCellMenu )
+    {
+        @if ( State.CanPasteElement )
+        {
+            <_ReportDesignerContextMenuButton Text="Paste" Clicked="@PasteElement" />
+        }
+
+        @if ( State.CanMergeCellRight )
+        {
+            <_ReportDesignerContextMenuButton Text="Merge right" Clicked="@MergeCellRight" />
+        }
+
+        @if ( State.CanMergeCellDown )
+        {
+            <_ReportDesignerContextMenuButton Text="Merge down" Clicked="@MergeCellDown" />
+        }
+
+        @if ( State.CanUnmergeCell )
+        {
+            <_ReportDesignerContextMenuButton Text="Unmerge" Clicked="@UnmergeCell" />
+        }
+    }
 
     <_ReportDesignerContextMenuButton Text="Close" Clicked="@Close" />
 </_ReportDesignerContextMenu>

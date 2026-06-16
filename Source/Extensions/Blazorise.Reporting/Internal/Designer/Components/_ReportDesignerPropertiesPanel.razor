@@ -196,6 +196,14 @@
                 </_ReportDesignerPropertyGroup>
             }
 
+            @if ( SelectedElement.Type == ReportElementType.Table )
+            {
+                <_ReportDesignerPropertyGroup Title="Table">
+                    <_ReportDesignerNumberProperty Label="Rows" Value="@GetSelectedTableRowCount()" Changed="@OnSelectedTableRowCountChanged" Step="@TableCountStep" />
+                    <_ReportDesignerNumberProperty Label="Columns" Value="@GetSelectedTableColumnCount()" Changed="@OnSelectedTableColumnCountChanged" Step="@TableCountStep" />
+                </_ReportDesignerPropertyGroup>
+            }
+
             <_ReportDesignerPropertyGroup Title="Position and size">
                 <_ReportDesignerNumberProperty Label="X" Value="@FromPoints( SelectedElement.X )" Changed="@OnSelectedElementXChanged" Step="@GetMeasurementStep()" />
                 <_ReportDesignerNumberProperty Label="Y" Value="@FromPoints( SelectedElement.Y )" Changed="@OnSelectedElementYChanged" Step="@GetMeasurementStep()" />
@@ -266,6 +274,21 @@
             </Div>
         </Div>
     }
+}
+
+@if ( SelectedCell is not null )
+{
+    <Div Margin="Margin.Is3.FromTop">
+        <h6>Table cell properties</h6>
+        <_ReportDesignerPropertyGroup Title="Position">
+            <_ReportDesignerTextProperty Label="Row" Value="@(( SelectedCell.RowIndex + 1 ).ToString())" ReadOnly />
+            <_ReportDesignerTextProperty Label="Column" Value="@(( SelectedCell.ColumnIndex + 1 ).ToString())" ReadOnly />
+        </_ReportDesignerPropertyGroup>
+        <_ReportDesignerPropertyGroup Title="Span">
+            <_ReportDesignerTextProperty Label="Row span" Value="@SelectedCell.RowSpan.ToString()" ReadOnly />
+            <_ReportDesignerTextProperty Label="Column span" Value="@SelectedCell.ColumnSpan.ToString()" ReadOnly />
+        </_ReportDesignerPropertyGroup>
+    </Div>
 }
 
 @if ( !HasSelection )

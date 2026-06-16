@@ -37,6 +37,11 @@ public partial class _ReportDesignerReportExplorer
     [Parameter] public string SelectedElementKey { get; set; }
 
     /// <summary>
+    /// Key of the selected table cell.
+    /// </summary>
+    [Parameter] public string SelectedCellKey { get; set; }
+
+    /// <summary>
     /// Determines whether an element key belongs to the current selection.
     /// </summary>
     [Parameter] public Func<string, bool> IsElementSelected { get; set; }

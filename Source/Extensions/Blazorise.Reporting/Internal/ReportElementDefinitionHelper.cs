@@ -95,7 +95,7 @@ internal static class ReportElementDefinitionHelper
 
     internal static bool SupportsTextFormatting( ReportElementType elementType )
     {
-        return elementType is ReportElementType.Text or ReportElementType.Field or ReportElementType.Table;
+        return elementType is ReportElementType.Text or ReportElementType.Field;
     }
 
     internal static ReportAppearanceDefinition EnsureAppearance( ReportElementDefinition element )

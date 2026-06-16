@@ -20,7 +20,7 @@
      @oncontextmenu:stopPropagation="@CanReceiveDesignerInteraction"
      @onpointerdown="PointerDown"
      @onpointerdown:preventDefault="@CanStartDesignerPointerDrag"
-     @onpointerdown:stopPropagation="@CanHandleDesignerPointerDown">
+     @onpointerdown:stopPropagation="@ShouldStopPointerDownPropagation">
     <div class="b-report-element-content">
         @if ( Editing && CanEditText )
         {
@@ -46,7 +46,25 @@
                     @GetFieldText()
                     break;
                 case ReportElementType.Table:
-                    <_ReportDesignerTable Element="Element" />
+                    <_ReportDesignerTable Data="@Data"
+                                          Definition="@Definition"
+                                          Section="@Section"
+                                          Item="@Item"
+                                          RunningTotals="@RunningTotals"
+                                          Element="@Element"
+                                          DesignMode="@DesignMode"
+                                          TableSelected="@Selected"
+                                          SelectedCellKey="@SelectedCellKey"
+                                          CellClicked="@TableCellClicked"
+                                          CellContextMenu="@TableCellContextMenu"
+                                          IsElementSelected="@IsChildElementSelected"
+                                          ElementClicked="@ChildElementClicked"
+                                          ElementDoubleClicked="@ChildElementDoubleClicked"
+                                          ElementContextMenu="@ChildElementContextMenu"
+                                          TextEditingActive="@TextEditingActive"
+                                          EditingElementKey="@ChildEditingElementKey"
+                                          ElementTextEditCommitted="@ChildElementTextEditCommitted"
+                                          ElementTextEditCancelled="@ChildElementTextEditCancelled" />
                     break;
                 case ReportElementType.Image:
                     <img src="@Element.Source" alt="@ImageAlternativeText" />

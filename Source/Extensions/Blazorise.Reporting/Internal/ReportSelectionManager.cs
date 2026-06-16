@@ -38,6 +38,17 @@ internal sealed class ReportSelectionManager
             };
         }
 
+        if ( !string.IsNullOrWhiteSpace( SelectedCellKey )
+            && ReportDefinitionHelper.TryFindTableCellLocation( definition, SelectedCellKey, out int cellSectionIndex, out _, out _, out ReportTableCellDefinition cell ) )
+        {
+            return new()
+            {
+                Type = ReportSelectionType.Cell,
+                SectionId = cellSectionIndex >= 0 ? definition.Sections[cellSectionIndex].Id : null,
+                CellId = cell.Id,
+            };
+        }
+
         if ( SelectedSectionIndex is not null
             && SelectedSectionIndex.Value >= 0
             && SelectedSectionIndex.Value < definition.Sections.Count )
@@ -78,18 +89,26 @@ internal sealed class ReportSelectionManager
                 ? selection.ElementIds
                 : string.IsNullOrWhiteSpace( selection.ElementId ) ? [] : [selection.ElementId];
 
-            foreach ( var section in definition.Sections )
+            foreach ( string elementId in elementIds )
             {
-                foreach ( var element in section.Elements.Where( element => elementIds.Contains( element.Id ) ) )
+                if ( ReportDefinitionHelper.TryFindElementLocation( definition, elementId, out ReportElementLocation location ) )
                 {
                     ReportSelected = false;
-                    SelectedElementKeys.Add( ReportDefinitionHelper.EnsureElementId( element ) );
+                    SelectedElementKeys.Add( ReportDefinitionHelper.EnsureElementId( location.Element ) );
                 }
             }
 
             SelectedElementKey = SelectedElementKeys.Contains( selection.ElementId )
                 ? selection.ElementId
                 : SelectedElementKeys.FirstOrDefault();
+
+            return;
+        }
+
+        if ( selection.Type == ReportSelectionType.Cell )
+        {
+            if ( ReportDefinitionHelper.TryFindTableCellLocation( definition, selection.CellId, out _, out _, out _, out ReportTableCellDefinition cell ) )
+                SelectCell( cell.Id );
         }
     }
 
@@ -98,6 +117,7 @@ internal sealed class ReportSelectionManager
         ReportSelected = true;
         SelectedSectionIndex = null;
         SelectedElementKey = null;
+        SelectedCellKey = null;
         SelectedElementKeys.Clear();
     }
 
@@ -106,6 +126,7 @@ internal sealed class ReportSelectionManager
         ReportSelected = false;
         SelectedSectionIndex = null;
         SelectedElementKey = key;
+        SelectedCellKey = null;
 
         if ( !preserveSelection )
             SelectedElementKeys.Clear();
@@ -121,6 +142,7 @@ internal sealed class ReportSelectionManager
 
         ReportSelected = false;
         SelectedSectionIndex = null;
+        SelectedCellKey = null;
 
         if ( SelectedElementKeys.Contains( key ) )
         {
@@ -155,6 +177,7 @@ internal sealed class ReportSelectionManager
             ? primaryElementKey
             : SelectedElementKeys.FirstOrDefault();
         SelectedSectionIndex = null;
+        SelectedCellKey = null;
         ReportSelected = SelectedElementKeys.Count == 0;
     }
 
@@ -163,6 +186,16 @@ internal sealed class ReportSelectionManager
         ReportSelected = false;
         SelectedSectionIndex = index;
         SelectedElementKey = null;
+        SelectedCellKey = null;
+        SelectedElementKeys.Clear();
+    }
+
+    internal void SelectCell( string key )
+    {
+        ReportSelected = false;
+        SelectedSectionIndex = null;
+        SelectedElementKey = null;
+        SelectedCellKey = key;
         SelectedElementKeys.Clear();
     }
 
@@ -173,6 +206,16 @@ internal sealed class ReportSelectionManager
 
         return ReportDefinitionHelper.TryFindElementLocation( definition, SelectedElementKey, out _, out _, out var element )
             ? element
+            : null;
+    }
+
+    internal ReportTableCellDefinition FindSelectedCell( ReportDefinition definition )
+    {
+        if ( string.IsNullOrWhiteSpace( SelectedCellKey ) )
+            return null;
+
+        return ReportDefinitionHelper.TryFindTableCellLocation( definition, SelectedCellKey, out _, out _, out _, out ReportTableCellDefinition cell )
+            ? cell
             : null;
     }
 
@@ -215,6 +258,9 @@ internal sealed class ReportSelectionManager
         if ( !string.IsNullOrWhiteSpace( SelectedElementKey ) )
             return !IsSelectedElementSuppressed( definition ) && FindSelectedElement( definition ) is not null;
 
+        if ( !string.IsNullOrWhiteSpace( SelectedCellKey ) )
+            return false;
+
         return CanDeleteSection( FindSelectedSection( definition ) );
     }
 
@@ -230,6 +276,12 @@ internal sealed class ReportSelectionManager
     {
         return !string.IsNullOrWhiteSpace( elementKey )
             && ( string.Equals( SelectedElementKey, elementKey, StringComparison.Ordinal ) || SelectedElementKeys.Contains( elementKey ) );
+    }
+
+    internal bool IsCellSelected( string cellKey )
+    {
+        return !string.IsNullOrWhiteSpace( cellKey )
+            && string.Equals( SelectedCellKey, cellKey, StringComparison.Ordinal );
     }
 
     private static bool CanDeleteSection( ReportSectionDefinition section )
@@ -251,6 +303,8 @@ internal sealed class ReportSelectionManager
     internal bool ReportSelected { get; set; } = true;
 
     internal string SelectedElementKey { get; set; }
+
+    internal string SelectedCellKey { get; set; }
 
     internal HashSet<string> SelectedElementKeys => selectedElementKeys;
 

@@ -16,6 +16,8 @@ internal sealed class ReportContextMenuState
 
     internal string ElementKey { get; set; }
 
+    internal string CellKey { get; set; }
+
     internal int SelectedElementCount { get; set; }
 
     internal bool SectionSuppressed { get; set; }
@@ -37,6 +39,12 @@ internal sealed class ReportContextMenuState
     internal bool CanEditFormula { get; set; }
 
     internal bool CanEditRunningTotal { get; set; }
+
+    internal bool CanMergeCellRight { get; set; }
+
+    internal bool CanMergeCellDown { get; set; }
+
+    internal bool CanUnmergeCell { get; set; }
 
     internal bool HasPastePosition { get; set; }
 

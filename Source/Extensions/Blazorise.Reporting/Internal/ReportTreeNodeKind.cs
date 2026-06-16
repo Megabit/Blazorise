@@ -46,6 +46,16 @@ public enum ReportTreeNodeKind
     Table,
 
     /// <summary>
+    /// Table row node.
+    /// </summary>
+    TableRow,
+
+    /// <summary>
+    /// Table cell node.
+    /// </summary>
+    TableCell,
+
+    /// <summary>
     /// Image element node.
     /// </summary>
     Image,

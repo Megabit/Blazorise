@@ -348,7 +348,9 @@ internal sealed class ReportContext
             Class = element.Class,
             Style = element.Style,
             Aggregate = CloneAggregate( element.Aggregate ),
-            Columns = element.Columns.Select( CloneColumn ).ToList(),
+            Columns = element.Columns?.Select( CloneColumn ).ToList() ?? [],
+            Rows = element.Rows?.Select( CloneRow ).ToList() ?? [],
+            Cells = element.Cells?.Select( CloneCell ).ToList() ?? [],
         };
     }
 
@@ -421,6 +423,9 @@ internal sealed class ReportContext
 
     private static ReportTableColumnDefinition CloneColumn( ReportTableColumnDefinition column )
     {
+        if ( column is null )
+            return null;
+
         return new()
         {
             Id = column.Id,
@@ -428,6 +433,34 @@ internal sealed class ReportContext
             Field = column.Field,
             Format = column.Format,
             Width = column.Width,
+        };
+    }
+
+    private static ReportTableRowDefinition CloneRow( ReportTableRowDefinition row )
+    {
+        if ( row is null )
+            return null;
+
+        return new()
+        {
+            Id = row.Id,
+            Height = row.Height,
+        };
+    }
+
+    private static ReportTableCellDefinition CloneCell( ReportTableCellDefinition cell )
+    {
+        if ( cell is null )
+            return null;
+
+        return new()
+        {
+            Id = cell.Id,
+            RowIndex = cell.RowIndex,
+            ColumnIndex = cell.ColumnIndex,
+            RowSpan = cell.RowSpan,
+            ColumnSpan = cell.ColumnSpan,
+            Elements = cell.Elements?.Select( CloneElement ).ToList() ?? [],
         };
     }
 
@@ -441,6 +474,7 @@ internal sealed class ReportContext
             Type = selection.Type,
             SectionId = selection.SectionId,
             ElementId = selection.ElementId,
+            CellId = selection.CellId,
             ElementIds = selection.ElementIds?.ToList() ?? [],
         };
     }

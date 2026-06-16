@@ -425,5 +425,10 @@ public enum ReportSelectionType
     /// <summary>
     /// A report element is selected.
     /// </summary>
-    Element
+    Element,
+
+    /// <summary>
+    /// A report table cell is selected.
+    /// </summary>
+    Cell
 }

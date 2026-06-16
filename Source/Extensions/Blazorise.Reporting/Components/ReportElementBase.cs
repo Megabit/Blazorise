@@ -13,6 +13,8 @@ public abstract class ReportElementBase : ComponentBase
 
     [CascadingParameter] internal ReportSectionContext SectionContext { get; set; }
 
+    [CascadingParameter] internal ReportTableCellContext TableCellContext { get; set; }
+
     /// <summary>
     /// Element kind represented by the derived component.
     /// </summary>
@@ -26,11 +28,15 @@ public abstract class ReportElementBase : ComponentBase
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
-        if ( SectionContext is null )
+        if ( SectionContext is null && TableCellContext is null )
             return;
 
         Definition = BuildDefinition();
-        SectionContext.Definition.Elements.Add( Definition );
+
+        if ( TableCellContext is not null )
+            TableCellContext.AddElement( Definition );
+        else
+            SectionContext.Definition.Elements.Add( Definition );
     }
 
     /// <summary>

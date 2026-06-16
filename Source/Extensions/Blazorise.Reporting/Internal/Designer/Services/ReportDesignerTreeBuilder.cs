@@ -34,6 +34,7 @@ internal static class ReportDesignerTreeBuilder
                     CreateToolboxNode( "toolbox:image", "Image", ReportElementType.Image, null ),
                     CreateToolboxNode( "toolbox:line", "Line", ReportElementType.Line, null ),
                     CreateToolboxNode( "toolbox:rectangle", "Rectangle", ReportElementType.Rectangle, null ),
+                    CreateToolboxNode( "toolbox:table", "Table", ReportElementType.Table, null ),
                 ],
             }
         ];
@@ -64,6 +65,7 @@ internal static class ReportDesignerTreeBuilder
         bool reportSelected,
         int? selectedSectionIndex,
         string selectedElementKey,
+        string selectedCellKey,
         Func<string, bool> isElementSelected )
     {
         return
@@ -83,20 +85,7 @@ internal static class ReportDesignerTreeBuilder
                     Kind = ReportTreeNodeKind.Band,
                     Selectable = true,
                     Selected = selectedSectionIndex == sectionIndex && string.IsNullOrWhiteSpace( selectedElementKey ),
-                    Children = section.Elements.Select( element =>
-                    {
-                        var elementKey = ReportDefinitionHelper.EnsureElementId( element );
-
-                        return new ReportTreeNode
-                        {
-                            Key = CreateElementTreeNodeKey( elementKey ),
-                            Text = element.Name ?? element.Text ?? element.Field ?? element.Type.ToString(),
-                            Detail = element.Type.ToString(),
-                            Kind = ReportDefinitionHelper.GetElementTreeNodeKind( element.Type ),
-                            Selectable = true,
-                            Selected = isElementSelected( elementKey ),
-                        };
-                    } ).ToList(),
+                    Children = section.Elements.Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected ) ).ToList(),
                 } ).ToList(),
             }
         ];
@@ -107,6 +96,12 @@ internal static class ReportDesignerTreeBuilder
 
     internal static string CreateElementTreeNodeKey( string elementKey )
         => $"report:element:{elementKey}";
+
+    internal static string CreateTableRowTreeNodeKey( string tableKey, int rowIndex )
+        => $"report:table-row:{tableKey}:{rowIndex.ToString( CultureInfo.InvariantCulture )}";
+
+    internal static string CreateTableCellTreeNodeKey( string cellKey )
+        => $"report:table-cell:{cellKey}";
 
     internal static bool TryResolveSectionTreeNode( ReportTreeNode node, out int sectionIndex )
     {
@@ -127,6 +122,93 @@ internal static class ReportDesignerTreeBuilder
         elementKey = node.Key["report:element:".Length..];
 
         return !string.IsNullOrWhiteSpace( elementKey );
+    }
+
+    internal static bool TryResolveTableCellTreeNode( ReportTreeNode node, out string cellKey )
+    {
+        cellKey = null;
+
+        if ( node?.Key is null || !node.Key.StartsWith( "report:table-cell:", StringComparison.Ordinal ) )
+            return false;
+
+        cellKey = node.Key["report:table-cell:".Length..];
+
+        return !string.IsNullOrWhiteSpace( cellKey );
+    }
+
+    private static ReportTreeNode BuildReportElementNode( ReportElementDefinition element, string selectedCellKey, Func<string, bool> isElementSelected )
+    {
+        var elementKey = ReportDefinitionHelper.EnsureElementId( element );
+
+        return new()
+        {
+            Key = CreateElementTreeNodeKey( elementKey ),
+            Text = element.Name ?? element.Text ?? element.Field ?? element.Type.ToString(),
+            Detail = element.Type.ToString(),
+            Kind = ReportDefinitionHelper.GetElementTreeNodeKind( element.Type ),
+            Selectable = true,
+            Selected = isElementSelected?.Invoke( elementKey ) == true,
+            Children = element.Type == ReportElementType.Table
+                ? BuildTableChildNodes( element, elementKey, selectedCellKey, isElementSelected )
+                : [],
+        };
+    }
+
+    private static List<ReportTreeNode> BuildTableChildNodes( ReportElementDefinition table, string tableKey, string selectedCellKey, Func<string, bool> isElementSelected )
+    {
+        List<ReportTreeNode> rows = [];
+        int rowCount = Math.Max(
+            table.Rows?.Count ?? 0,
+            table.Cells?.Count > 0 ? table.Cells.Max( cell => cell.RowIndex + Math.Max( 1, cell.RowSpan ) ) : 0 );
+
+        for ( int rowIndex = 0; rowIndex < rowCount; rowIndex++ )
+        {
+            rows.Add( new()
+            {
+                Key = CreateTableRowTreeNodeKey( tableKey, rowIndex ),
+                Text = $"Row {( rowIndex + 1 ).ToString( CultureInfo.InvariantCulture )}",
+                Detail = "Row",
+                Kind = ReportTreeNodeKind.TableRow,
+                Children = BuildTableCellNodes( table, rowIndex, selectedCellKey, isElementSelected ),
+            } );
+        }
+
+        return rows;
+    }
+
+    private static List<ReportTreeNode> BuildTableCellNodes( ReportElementDefinition table, int rowIndex, string selectedCellKey, Func<string, bool> isElementSelected )
+    {
+        return ( table.Cells ?? [] )
+            .Where( cell => cell.RowIndex == rowIndex )
+            .OrderBy( cell => cell.ColumnIndex )
+            .Select( cell =>
+            {
+                string cellKey = ReportDefinitionHelper.EnsureTableCellId( cell );
+
+                return new ReportTreeNode
+                {
+                    Key = CreateTableCellTreeNodeKey( cellKey ),
+                    Text = $"Cell {( cell.ColumnIndex + 1 ).ToString( CultureInfo.InvariantCulture )}",
+                    Detail = GetCellDetail( cell ),
+                    Kind = ReportTreeNodeKind.TableCell,
+                    Selectable = true,
+                    Selected = string.Equals( selectedCellKey, cellKey, StringComparison.Ordinal ),
+                    Children = ( cell.Elements ?? [] )
+                        .Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected ) )
+                        .ToList(),
+                };
+            } )
+            .ToList();
+    }
+
+    private static string GetCellDetail( ReportTableCellDefinition cell )
+    {
+        int rowSpan = Math.Max( 1, cell.RowSpan );
+        int columnSpan = Math.Max( 1, cell.ColumnSpan );
+
+        return rowSpan == 1 && columnSpan == 1
+            ? "Cell"
+            : $"Span {columnSpan.ToString( CultureInfo.InvariantCulture )}x{rowSpan.ToString( CultureInfo.InvariantCulture )}";
     }
 
     private static ReportTreeNode CreateToolboxNode( string key, string text, ReportElementType elementType, string elementText )

@@ -74,6 +74,11 @@ public sealed class ReportSelectionState
     public string ElementId { get; set; }
 
     /// <summary>
+    /// Selected table cell identifier when a table cell is selected.
+    /// </summary>
+    public string CellId { get; set; }
+
+    /// <summary>
     /// Selected element identifiers when multiple elements are selected.
     /// </summary>
     public List<string> ElementIds { get; set; } = [];

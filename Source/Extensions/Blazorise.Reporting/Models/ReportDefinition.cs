@@ -449,6 +449,16 @@ public sealed class ReportElementDefinition
     /// Column definitions used by table elements.
     /// </summary>
     public List<ReportTableColumnDefinition> Columns { get; set; } = [];
+
+    /// <summary>
+    /// Row definitions used by layout table elements.
+    /// </summary>
+    public List<ReportTableRowDefinition> Rows { get; set; } = [];
+
+    /// <summary>
+    /// Cell definitions used by layout table elements.
+    /// </summary>
+    public List<ReportTableCellDefinition> Cells { get; set; } = [];
 }
 
 /// <summary>
@@ -579,4 +589,56 @@ public sealed class ReportTableColumnDefinition
     /// Column width in points.
     /// </summary>
     public double Width { get; set; } = 90;
+}
+
+/// <summary>
+/// Describes a row inside a report layout table element.
+/// </summary>
+public sealed class ReportTableRowDefinition
+{
+    /// <summary>
+    /// Stable identifier used by persisted table state.
+    /// </summary>
+    public string Id { get; set; } = Guid.NewGuid().ToString( "N" );
+
+    /// <summary>
+    /// Row height in points.
+    /// </summary>
+    public double Height { get; set; } = 24;
+}
+
+/// <summary>
+/// Describes a cell inside a report layout table element.
+/// </summary>
+public sealed class ReportTableCellDefinition
+{
+    /// <summary>
+    /// Stable identifier used by persisted table state.
+    /// </summary>
+    public string Id { get; set; } = Guid.NewGuid().ToString( "N" );
+
+    /// <summary>
+    /// Zero-based row index occupied by the cell.
+    /// </summary>
+    public int RowIndex { get; set; }
+
+    /// <summary>
+    /// Zero-based column index occupied by the cell.
+    /// </summary>
+    public int ColumnIndex { get; set; }
+
+    /// <summary>
+    /// Number of rows spanned by the cell.
+    /// </summary>
+    public int RowSpan { get; set; } = 1;
+
+    /// <summary>
+    /// Number of columns spanned by the cell.
+    /// </summary>
+    public int ColumnSpan { get; set; } = 1;
+
+    /// <summary>
+    /// Elements placed inside the table cell.
+    /// </summary>
+    public List<ReportElementDefinition> Elements { get; set; } = [];
 }

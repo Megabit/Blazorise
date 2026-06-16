@@ -1,12 +1,5 @@
 #region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Reporting;
@@ -16,11 +9,40 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportTable
 {
+    #region Methods
+
     /// <inheritdoc />
     protected override ReportElementType ElementType => ReportElementType.Table;
 
+    /// <inheritdoc />
+    protected override ReportElementDefinition BuildDefinition()
+    {
+        ReportElementDefinition definition = base.BuildDefinition();
+
+        if ( ChildContent is null )
+            Internal.ReportDefinitionHelper.EnsureTableLayout( definition, RowCount, ColumnCount );
+
+        return definition;
+    }
+
+    #endregion
+
+    #region Properties
+
     /// <summary>
-    /// Columns declared inside the report table.
+    /// Number of rows created when no explicit table rows or cells are declared.
+    /// </summary>
+    [Parameter] public int RowCount { get; set; } = 2;
+
+    /// <summary>
+    /// Number of columns created when no explicit table columns or cells are declared.
+    /// </summary>
+    [Parameter] public int ColumnCount { get; set; } = 2;
+
+    /// <summary>
+    /// Rows, cells, and nested report elements declared inside the report table.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
 }

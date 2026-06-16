@@ -361,6 +361,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 SelectElement( elementKey );
             }
         }
+        else if ( ReportDesignerTreeBuilder.TryResolveTableCellTreeNode( node, out var cellKey ) )
+        {
+            SelectTableCell( cellKey );
+        }
 
         return Task.CompletedTask;
     }
@@ -374,6 +378,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         else if ( ReportDesignerTreeBuilder.TryResolveElementTreeNode( eventArgs.Node, out var elementKey ) )
         {
             await OpenElementContextMenuAsync( elementKey, eventArgs.MouseEventArgs );
+        }
+        else if ( ReportDesignerTreeBuilder.TryResolveTableCellTreeNode( eventArgs.Node, out var cellKey )
+            && ReportDefinitionHelper.TryFindTableCellLocation( EffectiveDefinition, cellKey, out var cellSectionIndex, out _, out _, out _ ) )
+        {
+            await OpenTableCellContextMenuAsync( cellSectionIndex, cellKey, eventArgs.MouseEventArgs );
         }
     }
 
@@ -712,11 +721,14 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         {
             var definition = EffectiveDefinition;
 
-            if ( ReportDefinitionHelper.TryFindElementLocation( definition, selectionManager.SelectedElementKey, out var sectionIndex, out var elementIndex, out var element ) )
+            if ( ReportDefinitionHelper.TryFindElementLocation( definition, selectionManager.SelectedElementKey, out ReportElementLocation location ) )
             {
+                var sectionIndex = location.SectionIndex;
+                var element = location.Element;
+
                 clipboardElement = ReportContext.CloneElement( element );
                 clipboardSectionId = ReportDefinitionHelper.EnsureSectionId( definition.Sections[sectionIndex] );
-                definition.Sections[sectionIndex].Elements.RemoveAt( elementIndex );
+                location.OwnerElements.RemoveAt( location.ElementIndex );
                 SelectSection( sectionIndex );
                 CloseContextMenu();
             }
@@ -736,6 +748,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             int targetSectionIndex = ResolvePasteSectionIndex( definition );
             ReportSectionDefinition targetSection = definition.Sections[targetSectionIndex];
             bool sameSection = clipboardSectionId == ReportDefinitionHelper.EnsureSectionId( targetSection );
+            bool pasteIntoCell = TryResolveContextPasteCell( definition, out ReportElementDefinition pasteTable, out ReportTableCellDefinition pasteCell );
 
             ReportElementDefinition element = ReportContext.CloneElement( clipboardElement );
             element.Id = ReportDefinitionHelper.CreateDefinitionId();
@@ -752,10 +765,19 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 element.Y = sameSection ? ApplyDesignerGrid( element.Y + PasteElementOffset, useSnapToGrid ) : 0;
             }
 
-            targetSection.Elements.Add( element );
-            ReportLayoutGeometry.GrowSectionToFitElement( targetSection, element );
+            if ( pasteIntoCell )
+            {
+                ReportDefinitionHelper.FitElementToTableCell( pasteTable, pasteCell, element );
+                pasteCell.Elements.Add( element );
+                SelectTableCell( pasteCell.Id );
+            }
+            else
+            {
+                targetSection.Elements.Add( element );
+                ReportLayoutGeometry.GrowSectionToFitElement( targetSection, element );
+                SelectElement( ReportDefinitionHelper.EnsureElementId( element ) );
+            }
 
-            SelectElement( ReportDefinitionHelper.EnsureElementId( element ) );
             CloseContextMenu();
 
             return Task.CompletedTask;
@@ -772,6 +794,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return contextMenu.SectionIndex;
         }
 
+        if ( contextMenu?.Target == ReportContextMenuTarget.Cell
+            && contextMenu.SectionIndex >= 0
+            && contextMenu.SectionIndex < definition.Sections.Count )
+        {
+            return contextMenu.SectionIndex;
+        }
+
         return selectionManager.ResolvePasteSectionIndex( definition );
     }
 
@@ -780,13 +809,22 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         x = 0;
         y = 0;
 
-        if ( contextMenu?.Target != ReportContextMenuTarget.Section || !contextMenu.HasPastePosition )
+        if ( contextMenu?.Target is not ( ReportContextMenuTarget.Section or ReportContextMenuTarget.Cell ) || !contextMenu.HasPastePosition )
             return false;
 
         x = contextMenu.PasteX;
         y = Math.Max( 0, contextMenu.PasteY );
 
         return true;
+    }
+
+    private bool TryResolveContextPasteCell( ReportDefinition definition, out ReportElementDefinition table, out ReportTableCellDefinition cell )
+    {
+        table = null;
+        cell = null;
+
+        return contextMenu?.Target == ReportContextMenuTarget.Cell
+            && ReportDefinitionHelper.TryFindTableCellLocation( definition, contextMenu.CellKey, out _, out _, out table, out cell );
     }
 
     private async Task UndoAsync()
@@ -880,6 +918,20 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         SelectElement( key, preserveSelection: selectionManager.IsElementSelected( key ) && selectionManager.SelectedElementKeys.Count > 1 );
     }
 
+    private Task HandleElementClickAsync( string key, MouseEventArgs eventArgs )
+    {
+        HandleElementClick( key, eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task HandleElementDoubleClickAsync( string key, MouseEventArgs eventArgs )
+    {
+        BeginElementTextEdit( key );
+
+        return Task.CompletedTask;
+    }
+
     private void HandleSectionClick( int sectionIndex )
     {
         if ( IsSuppressingSelectionClick() )
@@ -929,6 +981,22 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         CloseContextMenu();
     }
 
+    private Task HandleTableCellClickAsync( string cellKey, MouseEventArgs eventArgs )
+    {
+        if ( IsSuppressingSelectionClick() )
+            return Task.CompletedTask;
+
+        SelectTableCell( cellKey );
+
+        return Task.CompletedTask;
+    }
+
+    private void SelectTableCell( string cellKey )
+    {
+        selectionManager.SelectCell( cellKey );
+        CloseContextMenu();
+    }
+
     private void ToggleSectionCollapsed( ReportSectionDefinition section )
     {
         if ( !AllowBandCollapse || section is null )
@@ -954,11 +1022,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         bool selectionChanged = selectionManager.ReportSelected
             || selectionManager.SelectedSectionIndex != sectionIndex
             || !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey )
+            || !string.IsNullOrWhiteSpace( selectionManager.SelectedCellKey )
             || selectionManager.SelectedElementKeys.Count > 0;
 
         selectionManager.ReportSelected = false;
         selectionManager.SelectedSectionIndex = sectionIndex;
         selectionManager.SelectedElementKey = null;
+        selectionManager.SelectedCellKey = null;
         selectionManager.SelectedElementKeys.Clear();
 
         ReportContextMenuState nextContextMenu = new()
@@ -979,11 +1049,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         bool selectionChanged = selectionManager.ReportSelected
             || selectionManager.SelectedSectionIndex != sectionIndex
             || !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey )
+            || !string.IsNullOrWhiteSpace( selectionManager.SelectedCellKey )
             || selectionManager.SelectedElementKeys.Count > 0;
 
         selectionManager.ReportSelected = false;
         selectionManager.SelectedSectionIndex = sectionIndex;
         selectionManager.SelectedElementKey = null;
+        selectionManager.SelectedCellKey = null;
         selectionManager.SelectedElementKeys.Clear();
 
         ReportContextMenuState nextContextMenu = new()
@@ -1006,10 +1078,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     {
         bool selectionChanged = selectionManager.ReportSelected
             || selectionManager.SelectedSectionIndex is not null
+            || !string.IsNullOrWhiteSpace( selectionManager.SelectedCellKey )
             || !selectionManager.IsElementSelected( elementKey );
 
         selectionManager.ReportSelected = false;
         selectionManager.SelectedSectionIndex = null;
+        selectionManager.SelectedCellKey = null;
 
         if ( !selectionManager.IsElementSelected( elementKey ) )
             selectionManager.SelectedElementKeys.Clear();
@@ -1027,6 +1101,29 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         };
 
         PopulateElementContextMenuCapabilities( EffectiveDefinition, nextContextMenu );
+        await ShowContextMenuAsync( nextContextMenu, selectionChanged );
+    }
+
+    private async Task OpenTableCellContextMenuAsync( int sectionIndex, string cellKey, MouseEventArgs eventArgs )
+    {
+        bool selectionChanged = !string.Equals( selectionManager.SelectedCellKey, cellKey, StringComparison.Ordinal );
+
+        selectionManager.SelectCell( cellKey );
+
+        ReportContextMenuState nextContextMenu = new()
+        {
+            Visible = true,
+            Target = ReportContextMenuTarget.Cell,
+            SectionIndex = sectionIndex,
+            CellKey = cellKey,
+            HasPastePosition = true,
+            PasteX = ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetX ),
+            PasteY = ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetY ),
+            ClientX = eventArgs.ClientX,
+            ClientY = eventArgs.ClientY,
+        };
+
+        PopulateTableCellContextMenuCapabilities( EffectiveDefinition, nextContextMenu );
         await ShowContextMenuAsync( nextContextMenu, selectionChanged );
     }
 
@@ -1079,12 +1176,27 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             && element.Type == ReportElementType.Field;
     }
 
+    private void PopulateTableCellContextMenuCapabilities( ReportDefinition definition, ReportContextMenuState state )
+    {
+        if ( definition is null
+            || state is null
+            || !ReportDefinitionHelper.TryFindTableCellLocation( definition, state.CellKey, out _, out _, out ReportElementDefinition table, out ReportTableCellDefinition cell ) )
+        {
+            return;
+        }
+
+        state.CanPasteElement = clipboardElement is not null;
+        state.CanMergeCellRight = CanMergeTableCellRight( table, cell );
+        state.CanMergeCellDown = CanMergeTableCellDown( table, cell );
+        state.CanUnmergeCell = cell.RowSpan > 1 || cell.ColumnSpan > 1;
+    }
+
     private bool CanContextPasteElement( ReportDefinition definition, ReportContextMenuState state = null )
     {
         state ??= contextMenu;
 
         return clipboardElement is not null
-            && state?.Target == ReportContextMenuTarget.Section
+            && state?.Target is ReportContextMenuTarget.Section or ReportContextMenuTarget.Cell
             && state.HasPastePosition
             && state.SectionIndex >= 0
             && state.SectionIndex < definition.Sections.Count;
@@ -1249,6 +1361,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             editingElementKey = null;
     }
 
+    private Task CancelElementTextEditAsync( string elementKey )
+    {
+        CancelElementTextEdit( elementKey );
+
+        return Task.CompletedTask;
+    }
+
     private async Task CommitElementTextEditAsync( string elementKey, string text )
     {
         editingElementKey = null;
@@ -1293,6 +1412,111 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             : null;
 
         await aggregateDialogRef.ShowAsync( fieldOptions, selectedFieldName, summaryLocations );
+    }
+
+    private Task MergeSelectedTableCellRightAsync()
+    {
+        return MergeSelectedTableCellAsync( columnSpanDelta: 1, rowSpanDelta: 0 );
+    }
+
+    private Task MergeSelectedTableCellDownAsync()
+    {
+        return MergeSelectedTableCellAsync( columnSpanDelta: 0, rowSpanDelta: 1 );
+    }
+
+    private async Task MergeSelectedTableCellAsync( int columnSpanDelta, int rowSpanDelta )
+    {
+        string cellKey = contextMenu?.CellKey ?? selectionManager.SelectedCellKey;
+
+        if ( string.IsNullOrWhiteSpace( cellKey ) )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( "Merge table cell", () =>
+        {
+            if ( !ReportDefinitionHelper.TryFindTableCellLocation( EffectiveDefinition, cellKey, out _, out _, out ReportElementDefinition table, out ReportTableCellDefinition cell ) )
+                return Task.CompletedTask;
+
+            if ( columnSpanDelta > 0 && !CanMergeTableCellRight( table, cell ) )
+                return Task.CompletedTask;
+
+            if ( rowSpanDelta > 0 && !CanMergeTableCellDown( table, cell ) )
+                return Task.CompletedTask;
+
+            int oldRowSpan = Math.Max( 1, cell.RowSpan );
+            int oldColumnSpan = Math.Max( 1, cell.ColumnSpan );
+            int newRowSpan = oldRowSpan + rowSpanDelta;
+            int newColumnSpan = oldColumnSpan + columnSpanDelta;
+
+            List<ReportTableCellDefinition> coveredCells = table.Cells
+                .Where( item => item != cell
+                    && item.RowIndex >= cell.RowIndex
+                    && item.RowIndex < cell.RowIndex + newRowSpan
+                    && item.ColumnIndex >= cell.ColumnIndex
+                    && item.ColumnIndex < cell.ColumnIndex + newColumnSpan )
+                .ToList();
+
+            foreach ( ReportTableCellDefinition coveredCell in coveredCells )
+            {
+                if ( coveredCell.Elements?.Count > 0 )
+                    cell.Elements.AddRange( coveredCell.Elements );
+
+                table.Cells.Remove( coveredCell );
+            }
+
+            cell.RowSpan = newRowSpan;
+            cell.ColumnSpan = newColumnSpan;
+            ReportDefinitionHelper.FitElementsToTableCell( table, cell );
+
+            SelectTableCell( cell.Id );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task UnmergeSelectedTableCellAsync()
+    {
+        string cellKey = contextMenu?.CellKey ?? selectionManager.SelectedCellKey;
+
+        if ( string.IsNullOrWhiteSpace( cellKey ) )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( "Unmerge table cell", () =>
+        {
+            if ( !ReportDefinitionHelper.TryFindTableCellLocation( EffectiveDefinition, cellKey, out _, out _, out ReportElementDefinition table, out ReportTableCellDefinition cell ) )
+                return Task.CompletedTask;
+
+            int oldRowSpan = Math.Max( 1, cell.RowSpan );
+            int oldColumnSpan = Math.Max( 1, cell.ColumnSpan );
+
+            if ( oldRowSpan == 1 && oldColumnSpan == 1 )
+                return Task.CompletedTask;
+
+            cell.RowSpan = 1;
+            cell.ColumnSpan = 1;
+            ReportDefinitionHelper.FitElementsToTableCell( table, cell );
+
+            for ( int rowIndex = cell.RowIndex; rowIndex < cell.RowIndex + oldRowSpan; rowIndex++ )
+            {
+                for ( int columnIndex = cell.ColumnIndex; columnIndex < cell.ColumnIndex + oldColumnSpan; columnIndex++ )
+                {
+                    if ( rowIndex == cell.RowIndex && columnIndex == cell.ColumnIndex )
+                        continue;
+
+                    if ( table.Cells.Any( item => item.RowIndex == rowIndex && item.ColumnIndex == columnIndex ) )
+                        continue;
+
+                    table.Cells.Add( new()
+                    {
+                        RowIndex = rowIndex,
+                        ColumnIndex = columnIndex,
+                    } );
+                }
+            }
+
+            SelectTableCell( cell.Id );
+
+            return Task.CompletedTask;
+        } ) );
     }
 
     private async Task OnAggregateDialogConfirmedAsync( ReportAggregateDialogResult result )
@@ -2387,6 +2611,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 ReportDefinitionHelper.TryFindElementLocation( definition, ReportDefinitionHelper.EnsureElementId( element ), out var sectionIndex, out _, out _ );
                 var originalX = element.X;
                 var originalWidth = element.Width;
+                var originalHeight = element.Height;
                 bool useSnapToGrid = IsSnapToGridEnabled( element );
 
                 element.X = ApplyDesignerGrid( element.X + x, useSnapToGrid );
@@ -2394,6 +2619,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 element.Width = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, width == 0 ? element.Width : ApplyDesignerGrid( element.Width + width, useSnapToGrid ) );
                 element.Height = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, height == 0 ? element.Height : ApplyDesignerGrid( element.Height + height, useSnapToGrid ) );
 
+                ReportDefinitionHelper.ScaleTableLayout( element, originalWidth, originalHeight );
                 ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement( definition, sectionIndex, sectionIndex, element, originalX, originalWidth, element.X, element.Width );
             }
 
@@ -2544,8 +2770,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
                 double originalX = element.X;
                 double originalWidth = element.Width;
+                double originalHeight = element.Height;
 
                 ApplyElementSize( definition, anchor.Element, element, sizeMode );
+                ReportDefinitionHelper.ScaleTableLayout( element, originalWidth, originalHeight );
 
                 ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
                     definition,
@@ -2725,9 +2953,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 ReportDefinitionHelper.TryFindElementLocation( definition, ReportDefinitionHelper.EnsureElementId( element ), out var sectionIndex, out _, out _ );
                 var originalX = element.X;
                 var originalWidth = element.Width;
+                var originalHeight = element.Height;
 
                 update?.Invoke( element );
 
+                ReportDefinitionHelper.ScaleTableLayout( element, originalWidth, originalHeight );
                 ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement( definition, sectionIndex, sectionIndex, element, originalX, originalWidth, element.X, element.Width );
             }
 
@@ -2926,16 +3156,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         {
             var definition = EffectiveDefinition;
             var selectedIds = selectionManager.GetSelectedElementIds( definition ).ToHashSet( StringComparer.Ordinal );
-            var lastSectionIndex = -1;
-
-            for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
-            {
-                var section = definition.Sections[sectionIndex];
-                var removed = section.Elements.RemoveAll( element => selectedIds.Contains( element.Id ) );
-
-                if ( removed > 0 )
-                    lastSectionIndex = sectionIndex;
-            }
+            var lastSectionIndex = ReportDefinitionHelper.RemoveElementsByIds( definition, selectedIds );
 
             if ( lastSectionIndex >= 0 )
                 SelectSection( lastSectionIndex );
@@ -3473,6 +3694,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommandAsync( new( "Resize element", () =>
         {
             ReportDesignerInteractionService.ApplyElementPointerResize( EffectiveDefinition, pointerResize );
+
+            foreach ( ReportElementPointerItemState item in pointerResize.SelectedElements )
+            {
+                if ( ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, item.ElementKey, out _, out _, out ReportElementDefinition resizedElement ) )
+                    ReportDefinitionHelper.ScaleTableLayout( resizedElement, item.OriginalWidth, item.OriginalHeight );
+            }
+
             SelectElements( pointerResize.SelectedElements.Select( item => item.ElementKey ), pointerResize.ElementKey );
             dragPreview = null;
             ClearDragState();
@@ -3702,15 +3930,21 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             : snapToGrid;
         var x = ApplyDesignerGrid( offset.X, useSnapToGrid );
         var y = ApplyDesignerGrid( offset.Y, useSnapToGrid );
+        var tableDropTarget = TryFindTableCellAt( definition.Sections[targetSectionIndex], x, y, out ReportTableCellDropTarget cellDropTarget )
+            ? cellDropTarget
+            : null;
         var fieldDropTarget = draggedKind == ReportDesignerDragKind.Field
             ? FindTextElementAt( definition.Sections[targetSectionIndex], x, y )
             : null;
 
         var commandName = draggedKind switch
         {
+            ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( draggedFieldName ) && tableDropTarget is not null => "Add field to table cell",
             ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( draggedFieldName ) && fieldDropTarget is not null => "Insert field into text",
             ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( draggedFieldName ) => "Add field",
+            ReportDesignerDragKind.ToolboxElement when draggedElementType is not null && tableDropTarget is not null => "Add element to table cell",
             ReportDesignerDragKind.ToolboxElement when draggedElementType is not null => "Add element",
+            ReportDesignerDragKind.Element when tableDropTarget is not null && ReportDefinitionHelper.TryFindElementLocation( definition, draggedElementKey, out _, out _, out _ ) => "Move element to table cell",
             ReportDesignerDragKind.Element when ReportDefinitionHelper.TryFindElementLocation( definition, draggedElementKey, out _, out _, out _ ) => "Move element",
             _ => null,
         };
@@ -3722,19 +3956,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         {
             var definition = EffectiveDefinition;
             var targetSection = definition.Sections[targetSectionIndex];
+            TryFindTableCellAt( targetSection, x, y, out ReportTableCellDropTarget tableCellDropTarget );
 
             switch ( draggedKind )
             {
                 case ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( draggedFieldName ):
                     var fieldBinding = ReportDefinitionHelper.NormalizeFieldBindingForSection( definition, targetSection, draggedDataSourceName, draggedFieldName );
-                    var textDropTarget = FindTextElementAt( targetSection, x, y );
-
-                    if ( textDropTarget is not null )
-                    {
-                        ReportExpressionFormatter.AppendFieldExpressionToText( textDropTarget, fieldBinding.DataSourceName, fieldBinding.FieldName );
-                        SelectElement( ReportDefinitionHelper.EnsureElementId( textDropTarget ) );
-                        break;
-                    }
 
                     var fieldElement = new ReportElementDefinition
                     {
@@ -3742,35 +3969,76 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                         Type = ReportElementType.Field,
                         Field = fieldBinding.FieldName,
                         DataSource = fieldBinding.DataSourceName,
-                        X = x,
-                        Y = y,
+                        X = tableCellDropTarget?.X ?? x,
+                        Y = tableCellDropTarget?.Y ?? y,
                         Width = DefaultDroppedFieldWidth,
                         Height = DefaultDroppedFieldHeight,
                     };
-                    targetSection.Elements.Add( fieldElement );
 
-                    if ( !ReportSpecialFieldResolver.IsSpecialDataSource( fieldBinding.DataSourceName )
+                    if ( tableCellDropTarget is not null )
+                    {
+                        ReportDefinitionHelper.FitElementToTableCell( tableCellDropTarget.Table, tableCellDropTarget.Cell, fieldElement );
+                        tableCellDropTarget.Cell.Elements.Add( fieldElement );
+                        SelectTableCell( tableCellDropTarget.Cell.Id );
+                    }
+                    else
+                    {
+                        var textDropTarget = FindTextElementAt( targetSection, x, y );
+
+                        if ( textDropTarget is not null )
+                        {
+                            ReportExpressionFormatter.AppendFieldExpressionToText( textDropTarget, fieldBinding.DataSourceName, fieldBinding.FieldName );
+                            SelectElement( ReportDefinitionHelper.EnsureElementId( textDropTarget ) );
+                            break;
+                        }
+
+                        targetSection.Elements.Add( fieldElement );
+
+                        if ( !ReportSpecialFieldResolver.IsSpecialDataSource( fieldBinding.DataSourceName )
                         && !ReportFormulaFieldResolver.IsFormulaDataSource( fieldBinding.DataSourceName )
                         && !ReportRunningTotalResolver.IsRunningTotalDataSource( fieldBinding.DataSourceName ) )
-                        ReportDetailHeaderSynchronizer.AddPageHeaderForDetailField( definition, targetSectionIndex, targetSection, fieldBinding.FieldName, x, fieldElement.Width );
+                            ReportDetailHeaderSynchronizer.AddPageHeaderForDetailField( definition, targetSectionIndex, targetSection, fieldBinding.FieldName, x, fieldElement.Width );
 
-                    SelectElement( ReportDefinitionHelper.EnsureElementId( fieldElement ) );
+                        SelectElement( ReportDefinitionHelper.EnsureElementId( fieldElement ) );
+                    }
                     break;
                 case ReportDesignerDragKind.ToolboxElement when draggedElementType is not null:
-                    var toolboxElement = ReportDefinitionHelper.CreateElementFromToolbox( draggedElementType.Value, draggedElementText, x, y );
-                    targetSection.Elements.Add( toolboxElement );
-                    SelectElement( ReportDefinitionHelper.EnsureElementId( toolboxElement ) );
+                    var toolboxElement = ReportDefinitionHelper.CreateElementFromToolbox( draggedElementType.Value, draggedElementText, tableCellDropTarget?.X ?? x, tableCellDropTarget?.Y ?? y );
+
+                    if ( tableCellDropTarget is not null )
+                    {
+                        ReportDefinitionHelper.FitElementToTableCell( tableCellDropTarget.Table, tableCellDropTarget.Cell, toolboxElement );
+                        tableCellDropTarget.Cell.Elements.Add( toolboxElement );
+                        SelectTableCell( tableCellDropTarget.Cell.Id );
+                    }
+                    else
+                    {
+                        targetSection.Elements.Add( toolboxElement );
+                        SelectElement( ReportDefinitionHelper.EnsureElementId( toolboxElement ) );
+                    }
                     break;
-                case ReportDesignerDragKind.Element when ReportDefinitionHelper.TryFindElementLocation( definition, draggedElementKey, out var sourceSectionIndex, out var sourceElementIndex, out var element ):
+                case ReportDesignerDragKind.Element when ReportDefinitionHelper.TryFindElementLocation( definition, draggedElementKey, out ReportElementLocation location ):
+                    var sourceSectionIndex = location.SectionIndex;
+                    var element = location.Element;
                     var originalX = element.X;
                     var originalWidth = element.Width;
 
-                    definition.Sections[sourceSectionIndex].Elements.RemoveAt( sourceElementIndex );
-                    element.X = x;
-                    element.Y = y;
-                    targetSection.Elements.Add( element );
-                    ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement( definition, sourceSectionIndex, targetSectionIndex, element, originalX, originalWidth, element.X, element.Width );
-                    SelectElement( ReportDefinitionHelper.EnsureElementId( element ) );
+                    location.OwnerElements.RemoveAt( location.ElementIndex );
+                    element.X = tableCellDropTarget?.X ?? x;
+                    element.Y = tableCellDropTarget?.Y ?? y;
+
+                    if ( tableCellDropTarget is not null )
+                    {
+                        ReportDefinitionHelper.FitElementToTableCell( tableCellDropTarget.Table, tableCellDropTarget.Cell, element );
+                        tableCellDropTarget.Cell.Elements.Add( element );
+                        SelectTableCell( tableCellDropTarget.Cell.Id );
+                    }
+                    else
+                    {
+                        targetSection.Elements.Add( element );
+                        ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement( definition, sourceSectionIndex, targetSectionIndex, element, originalX, originalWidth, element.X, element.Width );
+                        SelectElement( ReportDefinitionHelper.EnsureElementId( element ) );
+                    }
                     break;
             }
 
@@ -3780,6 +4048,119 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
             return Task.CompletedTask;
         } ) );
+    }
+
+    private static bool TryFindTableCellAt( ReportSectionDefinition section, double x, double y, out ReportTableCellDropTarget target )
+    {
+        target = null;
+
+        if ( section?.Elements is null )
+            return false;
+
+        for ( int elementIndex = section.Elements.Count - 1; elementIndex >= 0; elementIndex-- )
+        {
+            ReportElementDefinition table = section.Elements[elementIndex];
+
+            if ( table.Type != ReportElementType.Table
+                || table.Suppress?.Value == true
+                || x < table.X
+                || x > table.X + table.Width
+                || y < table.Y
+                || y > table.Y + table.Height )
+            {
+                continue;
+            }
+
+            ReportDefinitionHelper.EnsureTableLayout(
+                table,
+                table.Rows?.Count > 0 ? table.Rows.Count : 2,
+                table.Columns?.Count > 0 ? table.Columns.Count : 2 );
+
+            double localX = x - table.X;
+            double localY = y - table.Y;
+
+            foreach ( ReportTableCellDefinition cell in table.Cells.OrderBy( cell => cell.RowIndex ).ThenBy( cell => cell.ColumnIndex ) )
+            {
+                double cellX = GetTableColumnOffset( table, cell.ColumnIndex );
+                double cellY = GetTableRowOffset( table, cell.RowIndex );
+                double cellWidth = ReportDefinitionHelper.GetTableCellWidth( table, cell );
+                double cellHeight = ReportDefinitionHelper.GetTableCellHeight( table, cell );
+
+                if ( localX >= cellX
+                    && localX <= cellX + cellWidth
+                    && localY >= cellY
+                    && localY <= cellY + cellHeight )
+                {
+                    target = new()
+                    {
+                        Table = table,
+                        Cell = cell,
+                        X = Math.Max( 0, localX - cellX ),
+                        Y = Math.Max( 0, localY - cellY ),
+                    };
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static bool CanMergeTableCellRight( ReportElementDefinition table, ReportTableCellDefinition cell )
+    {
+        if ( table?.Columns is null || cell is null )
+            return false;
+
+        int targetColumnIndex = cell.ColumnIndex + Math.Max( 1, cell.ColumnSpan );
+
+        if ( targetColumnIndex >= table.Columns.Count )
+            return false;
+
+        int rowSpan = Math.Max( 1, cell.RowSpan );
+
+        for ( int rowIndex = cell.RowIndex; rowIndex < cell.RowIndex + rowSpan; rowIndex++ )
+        {
+            ReportTableCellDefinition targetCell = table.Cells?.FirstOrDefault( item => item.RowIndex == rowIndex && item.ColumnIndex == targetColumnIndex );
+
+            if ( targetCell is null || targetCell.RowSpan != 1 || targetCell.ColumnSpan != 1 )
+                return false;
+        }
+
+        return true;
+    }
+
+    private static bool CanMergeTableCellDown( ReportElementDefinition table, ReportTableCellDefinition cell )
+    {
+        if ( table?.Rows is null || cell is null )
+            return false;
+
+        int targetRowIndex = cell.RowIndex + Math.Max( 1, cell.RowSpan );
+
+        if ( targetRowIndex >= table.Rows.Count )
+            return false;
+
+        int columnSpan = Math.Max( 1, cell.ColumnSpan );
+
+        for ( int columnIndex = cell.ColumnIndex; columnIndex < cell.ColumnIndex + columnSpan; columnIndex++ )
+        {
+            ReportTableCellDefinition targetCell = table.Cells?.FirstOrDefault( item => item.RowIndex == targetRowIndex && item.ColumnIndex == columnIndex );
+
+            if ( targetCell is null || targetCell.RowSpan != 1 || targetCell.ColumnSpan != 1 )
+                return false;
+        }
+
+        return true;
+    }
+
+    private static double GetTableColumnOffset( ReportElementDefinition table, int columnIndex )
+    {
+        return table.Columns.Take( Math.Max( 0, columnIndex ) ).Sum( column => Math.Max( 1, column.Width ) );
+    }
+
+    private static double GetTableRowOffset( ReportElementDefinition table, int rowIndex )
+    {
+        return table.Rows.Take( Math.Max( 0, rowIndex ) ).Sum( row => Math.Max( 1, row.Height ) );
     }
 
     private static ReportElementDefinition FindTextElementAt( ReportSectionDefinition section, double x, double y )
@@ -3968,6 +4349,17 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         internal ReportElementDefinition Element { get; set; }
     }
 
+    private sealed class ReportTableCellDropTarget
+    {
+        internal ReportElementDefinition Table { get; set; }
+
+        internal ReportTableCellDefinition Cell { get; set; }
+
+        internal double X { get; set; }
+
+        internal double Y { get; set; }
+    }
+
     #endregion
 
     #region Properties
@@ -3995,7 +4387,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private string SelectedDesignerPanelTabName => selectedDesignerPanelTab.ToString();
 
-    private string ToolbarStateKey => $"{CurrentMode}|{CurrentPreviewFormat}|{selectionManager.SelectedElementKey}|{selectionManager.SelectedElementKeys.Count}|{selectionManager.SelectedSectionIndex}|{clipboardElement?.Id}|{commandManager.CanUndo}|{commandManager.CanRedo}";
+    private string ToolbarStateKey => $"{CurrentMode}|{CurrentPreviewFormat}|{selectionManager.SelectedElementKey}|{selectionManager.SelectedCellKey}|{selectionManager.SelectedElementKeys.Count}|{selectionManager.SelectedSectionIndex}|{clipboardElement?.Id}|{commandManager.CanUndo}|{commandManager.CanRedo}";
 
     private string DataSourceName => "Default";
 

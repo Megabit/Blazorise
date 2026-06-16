@@ -63,12 +63,21 @@
                                     Width="315"
                                     Height="18"
                                     TextColor="TextColor.Secondary" />
-                        <ReportText Text="{CustomerSummary}"
-                                    X="322.5"
-                                    Y="61.5"
-                                    Width="135"
-                                    Height="18"
-                                    Bold />
+                        <ReportTable X="322.5"
+                                     Y="69"
+                                     Width="225"
+                                     Height="24">
+                            <ReportTableColumn Width="67.5" />
+                            <ReportTableColumn Width="157.5" />
+                            <ReportTableRow Height="24">
+                                <ReportTableCell>
+                                    <ReportText Text="Customer:" Bold />
+                                </ReportTableCell>
+                                <ReportTableCell>
+                                    <ReportText Text="{Customer.Name}" />
+                                </ReportTableCell>
+                            </ReportTableRow>
+                        </ReportTable>
                         <ReportRectangle X="457.5"
                                          Y="18"
                                          Width="90"

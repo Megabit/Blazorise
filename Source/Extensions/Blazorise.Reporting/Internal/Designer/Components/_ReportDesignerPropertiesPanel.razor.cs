@@ -20,6 +20,12 @@ public partial class _ReportDesignerPropertiesPanel
 
     private const double SelectedElementWidthResizeStep = 16;
 
+    private const int DefaultTableColumnCount = 2;
+
+    private const int DefaultTableRowCount = 2;
+
+    private static readonly decimal TableCountStep = 1m;
+
     private _ReportDesignerDataSourceDialog dataSourceDialogRef;
 
     private _ReportDesignerFormulaDialog formulaDialogRef;
@@ -95,7 +101,7 @@ public partial class _ReportDesignerPropertiesPanel
 
     #region Methods
 
-    private bool HasSelection => ReportSelected || SelectedSection is not null || SelectedElement is not null;
+    private bool HasSelection => ReportSelected || SelectedSection is not null || SelectedElement is not null || SelectedCell is not null;
 
     private ReportAppearanceDefinition EnsureSelectedSectionAppearance()
     {
@@ -223,6 +229,30 @@ public partial class _ReportDesignerPropertiesPanel
     private Task OnSelectedElementHeightChanged( double value )
     {
         return UpdateSelectedElement( element => element.Height = ToPoints( value ) );
+    }
+
+    private double GetSelectedTableRowCount()
+    {
+        return Math.Max( 1, SelectedElement?.Rows?.Count > 0 ? SelectedElement.Rows.Count : DefaultTableRowCount );
+    }
+
+    private double GetSelectedTableColumnCount()
+    {
+        return Math.Max( 1, SelectedElement?.Columns?.Count > 0 ? SelectedElement.Columns.Count : DefaultTableColumnCount );
+    }
+
+    private Task OnSelectedTableRowCountChanged( double value )
+    {
+        int rowCount = Math.Max( 1, Convert.ToInt32( Math.Round( value ) ) );
+
+        return UpdateSelectedElement( element => ReportDefinitionHelper.EnsureTableLayout( element, rowCount, Convert.ToInt32( GetSelectedTableColumnCount() ) ) );
+    }
+
+    private Task OnSelectedTableColumnCountChanged( double value )
+    {
+        int columnCount = Math.Max( 1, Convert.ToInt32( Math.Round( value ) ) );
+
+        return UpdateSelectedElement( element => ReportDefinitionHelper.EnsureTableLayout( element, Convert.ToInt32( GetSelectedTableRowCount() ), columnCount ) );
     }
 
     private string GetSelectedElementSnapToGridValue()
@@ -445,6 +475,11 @@ public partial class _ReportDesignerPropertiesPanel
     /// Selected element definition, when an element is selected.
     /// </summary>
     [Parameter] public ReportElementDefinition SelectedElement { get; set; }
+
+    /// <summary>
+    /// Selected table cell definition, when a layout table cell is selected.
+    /// </summary>
+    [Parameter] public ReportTableCellDefinition SelectedCell { get; set; }
 
     /// <summary>
     /// Indicates that the selected element belongs to a suppressed band.

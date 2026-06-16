@@ -1,20 +1,51 @@
 @namespace Blazorise.Reporting.Internal
 @inherits ReportComponentBase
+@using System
+@using System.Threading.Tasks
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
 
-<table>
-    @if ( Element?.Columns?.Count > 0 )
+<div class="b-report-table" style="@TableStyle">
+    @foreach ( ReportTableCellDefinition cell in GetCells() )
     {
-        <tr>
-            @foreach ( var column in Element.Columns )
-            {
-                <_ReportDesignerTableColumn Column="column" />
-            }
-        </tr>
+        <div class="@GetCellClass( cell )"
+             style="@GetCellStyle( cell )"
+             @onclick="@(( MouseEventArgs eventArgs ) => OnCellClickedAsync( cell, eventArgs ))"
+             @onclick:stopPropagation="@DesignMode"
+             @oncontextmenu="@(( MouseEventArgs eventArgs ) => OnCellContextMenuAsync( cell, eventArgs ))"
+             @oncontextmenu:preventDefault="@DesignMode"
+             @oncontextmenu:stopPropagation="@DesignMode">
+            <div class="b-report-table-cell-content">
+                @foreach ( ReportElementDefinition childElement in GetRenderableElements( cell ) )
+                {
+                    var childElementKey = ReportDefinitionHelper.EnsureElementId( childElement );
+                    var childElementClicked = EventCallback.Factory.Create<MouseEventArgs>( this, ( MouseEventArgs eventArgs ) => OnElementClickedAsync( childElementKey, eventArgs ) );
+                    var childElementDoubleClicked = EventCallback.Factory.Create<MouseEventArgs>( this, ( MouseEventArgs eventArgs ) => OnElementDoubleClickedAsync( childElementKey, eventArgs ) );
+                    var childElementContextMenu = (Func<MouseEventArgs, Task>)( eventArgs => OnElementContextMenuAsync( childElementKey, eventArgs ) );
+                    var childElementTextEditCommitted = EventCallback.Factory.Create<string>( this, text => OnElementTextEditCommittedAsync( childElementKey, text ) );
+                    var childElementTextEditCancelled = EventCallback.Factory.Create( this, () => OnElementTextEditCancelledAsync( childElementKey ) );
+
+                    <_ReportDesignerElement Data="@Data"
+                                            Definition="@Definition"
+                                            Section="@Section"
+                                            Item="@Item"
+                                            RunningTotals="@RunningTotals"
+                                            Element="@childElement"
+                                            ElementKey="@childElementKey"
+                                            DesignMode="@DesignMode"
+                                            Editable="@DesignMode"
+                                            LayoutLocked
+                                            AllowPointerDragThrough="@TableSelected"
+                                            Selected="@(IsElementSelected?.Invoke( childElementKey ) == true)"
+                                            Editing="@string.Equals( EditingElementKey, childElementKey, StringComparison.Ordinal )"
+                                            TextEditingActive="@TextEditingActive"
+                                            Clicked="@childElementClicked"
+                                            DoubleClicked="@childElementDoubleClicked"
+                                            ContextMenu="@childElementContextMenu"
+                                            TextEditCommitted="@childElementTextEditCommitted"
+                                            TextEditCancelled="@childElementTextEditCancelled" />
+                }
+            </div>
+        </div>
     }
-    else
-    {
-        <tr>
-            <td></td>
-        </tr>
-    }
-</table>
+</div>

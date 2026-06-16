@@ -66,6 +66,8 @@ public partial class _ReportDesignerContextMenuHost
 
     private bool IsElementMenu => State?.Target == ReportContextMenuTarget.Element;
 
+    private bool IsCellMenu => State?.Target == ReportContextMenuTarget.Cell;
+
     /// <summary>
     /// Current context menu state.
     /// </summary>
@@ -190,6 +192,21 @@ public partial class _ReportDesignerContextMenuHost
     /// Raised when the selected element should be deleted.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> DeleteElement { get; set; }
+
+    /// <summary>
+    /// Raised when the selected table cell should merge with the cell to its right.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> MergeCellRight { get; set; }
+
+    /// <summary>
+    /// Raised when the selected table cell should merge with the cell below it.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> MergeCellDown { get; set; }
+
+    /// <summary>
+    /// Raised when the selected table cell should be split back to a single cell.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> UnmergeCell { get; set; }
 
     /// <summary>
     /// Raised when the context menu should be closed.
