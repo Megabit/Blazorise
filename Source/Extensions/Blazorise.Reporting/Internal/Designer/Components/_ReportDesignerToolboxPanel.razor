@@ -4,10 +4,12 @@
 
 <Div Class="b-report-designer-tabs">
     <Button Color="@GetTabColor( ToolboxTab )"
+            Size="Size.Small"
             Clicked="@((MouseEventArgs _) => SelectTab( ToolboxTab ))">
         Toolbox
     </Button>
     <Button Color="@GetTabColor( FieldsExplorerTab )"
+            Size="Size.Small"
             Clicked="@((MouseEventArgs _) => SelectTab( FieldsExplorerTab ))">
         Fields Explorer
     </Button>
@@ -43,7 +45,7 @@
         <_ReportDesignerContextMenuButton Text="Delete" Clicked="@DeleteFormulaFieldClicked" />
     }
 
-    <_ReportDesignerContextMenuButton Text="Close" Clicked="@((MouseEventArgs _) => CloseFormulaFieldContextMenu())" />
+    <_ReportDesignerContextMenuButton Text="Close" Clicked="@(( MouseEventArgs _ ) => CloseFormulaFieldContextMenu())" />
 </_ReportDesignerContextMenu>
 
 <_ReportDesignerContextMenu Visible="@RunningTotalContextMenuVisible"
@@ -58,7 +60,7 @@
         <_ReportDesignerContextMenuButton Text="Delete" Clicked="@DeleteRunningTotalClicked" />
     }
 
-    <_ReportDesignerContextMenuButton Text="Close" Clicked="@((MouseEventArgs _) => CloseRunningTotalContextMenu())" />
+    <_ReportDesignerContextMenuButton Text="Close" Clicked="@(( MouseEventArgs _ ) => CloseRunningTotalContextMenu())" />
 </_ReportDesignerContextMenu>
 
 <_ReportDesignerContextMenu Visible="@DataSourceContextMenuVisible"
@@ -66,7 +68,7 @@
                             Y="@(dataSourceContextMenu?.ClientY ?? 0)">
     <_ReportDesignerContextMenuButton Text="Refresh" Clicked="@RefreshDataSourceClicked" />
     <_ReportDesignerContextMenuButton Text="Delete" Clicked="@DeleteDataSourceClicked" />
-    <_ReportDesignerContextMenuButton Text="Close" Clicked="@((MouseEventArgs _) => CloseDataSourceContextMenu())" />
+    <_ReportDesignerContextMenuButton Text="Close" Clicked="@(( MouseEventArgs _ ) => CloseDataSourceContextMenu())" />
 </_ReportDesignerContextMenu>
 
 <_ReportDesignerFormulaFieldNameDialog @ref="formulaFieldNameDialogRef"
