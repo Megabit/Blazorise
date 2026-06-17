@@ -286,6 +286,24 @@
                             </BarDropdown>
                         </BarItem>
                         <BarItem>
+                            <BarDropdown @bind-Visible="@sideBarReportingMenuVisible">
+                                <BarDropdownToggle To="docs/extensions/reporting" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                    <BarIcon IconName="IconName.FileAlt" />
+                                    <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                        <DocsNewFeatureBadge>Reporting</DocsNewFeatureBadge>
+                                    </Span>
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/extensions/reporting/getting-started">Getting Started</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/designer">Designer</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/layout">Layout</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/data-sources">Data Sources</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/expressions">Expressions</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/pdf-export">PDF Export</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
                             <BarDropdown @bind-Visible="@sideBarSvgChartMenuVisible">
                                 <BarDropdownToggle To="docs/extensions/svg-chart" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
                                     <BarIcon IconName="IconName.ChartLine" />
@@ -365,6 +383,11 @@
                                     <BarDropdownItem To="docs/extensions/markdown">Markdown</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/onetimeinput">OneTimeInput</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/passwordstrength">PasswordStrength</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/pdf">
+                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                            <DocsNewFeatureBadge>PDF</DocsNewFeatureBadge>
+                                        </Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/pdfviewer">PdfViewer</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/pivotgrid">
                                         <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">

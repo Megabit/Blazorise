@@ -1,0 +1,84 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Report Data="@invoice"
+        DesignerEnabled
+        PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf">
+    <ReportViewer PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"
+                  DefaultFormat="ReportPreviewFormat.Html" />
+    <ReportDataSources>
+        <ReportObjectDataSource Name="Invoice" Data="@invoice" />
+    </ReportDataSources>
+    <ReportHeader Name="Invoice header" Height="72">
+        <ReportText Text="Detail band repeats Invoice.Lines" X="30" Y="18" Width="300" Height="24" FontSize="18" Bold FontColor="@ReportColors.Blue" />
+        <ReportText Text="{Header.Number} - {Customer.Name}" X="30" Y="45" Width="360" Height="18" />
+    </ReportHeader>
+    <ReportPageHeader Name="Column headers" Height="32">
+        <ReportText Text="Sku" X="30" Y="8" Width="75" Height="18" Bold />
+        <ReportText Text="Description" X="120" Y="8" Width="210" Height="18" Bold />
+        <ReportText Text="Qty" X="345" Y="8" Width="60" Height="18" Bold TextAlignment="TextAlignment.End" />
+        <ReportText Text="Total" X="420" Y="8" Width="90" Height="18" Bold TextAlignment="TextAlignment.End" />
+    </ReportPageHeader>
+    <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
+        <ReportField Field="Sku" X="30" Y="6" Width="75" Height="18" />
+        <ReportField Field="Description" X="120" Y="6" Width="210" Height="18" />
+        <ReportField Field="Quantity" Format="N2" X="345" Y="6" Width="60" Height="18" />
+        <ReportField Field="Total" Format="C" X="420" Y="6" Width="90" Height="18" />
+    </ReportDetail>
+    <ReportFooter Name="Totals" Height="45">
+        <ReportLine X="30" Y="6" Width="480" Height="1" />
+        <ReportField Field="Header.Total" Format="C" X="420" Y="18" Width="90" Height="18" Bold FontColor="@ReportColors.Green" />
+    </ReportFooter>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = "INV-1001",
+            Total = 1240.50m,
+        },
+        Customer = new()
+        {
+            Name = "Northwind Traders",
+        },
+        Lines =
+        [
+            new() { Sku = "SRV-001", Description = "Implementation workshop", Quantity = 1, Total = 640.50m },
+            new() { Sku = "LIC-010", Description = "Reporting module license", Quantity = 2, Total = 500.00m },
+            new() { Sku = "SUP-003", Description = "Priority support", Quantity = 1, Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Sku { get; set; }
+
+        public string Description { get; set; }
+
+        public decimal Quantity { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}

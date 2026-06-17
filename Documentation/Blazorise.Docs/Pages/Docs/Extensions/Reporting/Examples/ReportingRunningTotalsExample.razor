@@ -1,0 +1,59 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Report Data="@invoice"
+        DesignerEnabled
+        PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf">
+    <ReportViewer PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"
+                  DefaultFormat="ReportPreviewFormat.Html" />
+    <ReportDataSources>
+        <ReportObjectDataSource Name="Invoice" Data="@invoice" />
+    </ReportDataSources>
+    <ReportRunningTotals>
+        <ReportRunningTotal Name="LineRunningTotal"
+                            DataSource="Invoice.Lines"
+                            Field="Total"
+                            Function="ReportAggregateFunction.Sum" />
+    </ReportRunningTotals>
+    <ReportHeader Name="Invoice header" Height="60">
+        <ReportText Text="Running totals" X="30" Y="18" Width="240" Height="24" FontSize="18" Bold FontColor="@ReportColors.Blue" />
+    </ReportHeader>
+    <ReportPageHeader Name="Column headers" Height="32">
+        <ReportText Text="Description" X="30" Y="8" Width="210" Height="18" Bold />
+        <ReportText Text="Total" X="300" Y="8" Width="90" Height="18" Bold TextAlignment="TextAlignment.End" />
+        <ReportText Text="Running total" X="420" Y="8" Width="90" Height="18" Bold TextAlignment="TextAlignment.End" />
+    </ReportPageHeader>
+    <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
+        <ReportField Field="Description" X="30" Y="6" Width="210" Height="18" />
+        <ReportField Field="Total" Format="C" X="300" Y="6" Width="90" Height="18" />
+        <ReportField Field="LineRunningTotal" Format="C" X="420" Y="6" Width="90" Height="18" Bold FontColor="@ReportColors.Green" />
+    </ReportDetail>
+    <ReportFooter Name="Totals" Height="45">
+        <ReportLine X="30" Y="6" Width="480" Height="1" />
+        <ReportText Text="Grand total" X="300" Y="18" Width="105" Height="18" Bold />
+        <ReportField Field="Lines.Total" AggregateFunction="ReportAggregateFunction.Sum" Format="C" X="420" Y="18" Width="90" Height="18" Bold FontColor="@ReportColors.Green" />
+    </ReportFooter>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Lines =
+        [
+            new() { Description = "Implementation workshop", Total = 640.50m },
+            new() { Description = "Reporting module license", Total = 500.00m },
+            new() { Description = "Priority support", Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}

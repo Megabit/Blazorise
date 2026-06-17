@@ -1,0 +1,55 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Report Data="@invoice"
+        @bind-Definition="@definition"
+        DesignerEnabled
+        PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf">
+    <ReportViewer PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"
+                  DefaultFormat="ReportPreviewFormat.Html" />
+    <ReportDataSources>
+        <ReportObjectDataSource Name="Invoice" Data="@invoice" />
+    </ReportDataSources>
+    <ReportHeader Name="Stateful report header" Height="72">
+        <ReportText Text="Editable report state" X="30" Y="18" Width="240" Height="24" FontSize="18" Bold FontColor="@ReportColors.Blue" />
+        <ReportText Text="Move elements in the designer, then keep the changed definition through two-way binding." X="30" Y="45" Width="420" Height="18" />
+    </ReportHeader>
+    <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
+        <ReportField Field="Description" X="30" Y="6" Width="270" Height="18" />
+        <ReportField Field="Total" Format="C" X="420" Y="6" Width="90" Height="18" />
+    </ReportDetail>
+</Report>
+
+@code {
+    private ReportDefinition definition;
+
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Lines =
+        [
+            new() { Description = "Implementation workshop", Total = 640.50m },
+            new() { Description = "Reporting module license", Total = 500.00m },
+        ],
+    };
+
+    private ReportDefinition SaveReport()
+    {
+        return definition;
+    }
+
+    private void LoadReport( ReportDefinition savedDefinition )
+    {
+        definition = savedDefinition;
+    }
+
+    private sealed class InvoiceReportModel
+    {
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}

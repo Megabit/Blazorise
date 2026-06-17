@@ -1,0 +1,54 @@
+@page "/docs/extensions/reporting"
+@page "/docs/extensions/reporting/getting-started"
+
+<Seo Canonical="/docs/extensions/reporting" Title="Blazorise Reporting" Description="Create banded reports with design mode, preview mode, data sources, expressions, running totals, and PDF export." />
+
+<DocsPageTitle Path="Extensions/Reporting" AddedVersion="New">
+    Blazorise Reporting
+</DocsPageTitle>
+
+<DocsPageLead>
+    Build banded reports that can start from a declarative template, then be edited in the report designer and previewed as HTML or PDF.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Install the <Code>Blazorise.Reporting</Code> package, register the reporting services, and include <Code>_content/Blazorise.Reporting/blazorise.reporting.css</Code> in your host page.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingImportsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Services">
+        Add Reporting after Blazorise services are registered.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingServiceRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Basic report
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Invoice report">
+        This example starts from a declarative report template. If design mode is enabled, the user can modify the generated report definition at runtime.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ReportingBasicInvoiceExample" Outlined FullWidth>
+        <ReportingBasicInvoiceExample />
+    </DocsPageSectionContent>
+</DocsPageSection>

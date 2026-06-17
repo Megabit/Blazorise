@@ -1,0 +1,29 @@
+@page "/docs/extensions/reporting/data-sources"
+
+<Seo Canonical="/docs/extensions/reporting/data-sources" Title="Blazorise Reporting data sources" Description="Bind Blazorise reports to object data sources, nested models, and detail collections." />
+
+<DocsPageTitle Path="Extensions/Reporting/Data Sources" AddedVersion="New">
+    Reporting data sources
+</DocsPageTitle>
+
+<DocsPageLead>
+    Reports can bind to an object model, expose nested fields in the field explorer, and repeat detail bands from enumerable data paths.
+</DocsPageLead>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Object data source">
+        Object data sources expose scalar properties, nested objects, and collections to the designer.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ReportingDataSourcesExample" Outlined FullWidth>
+        <ReportingDataSourcesExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Detail data source">
+        Assign the detail band data source to a collection path. Fields inside the detail band are then resolved against each collection item.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ReportingDetailDataSourceExample" Outlined FullWidth>
+        <ReportingDetailDataSourceExample />
+    </DocsPageSectionContent>
+</DocsPageSection>

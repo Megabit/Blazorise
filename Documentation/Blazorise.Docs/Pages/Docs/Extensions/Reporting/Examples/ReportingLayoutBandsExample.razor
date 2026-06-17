@@ -1,0 +1,105 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Report Data="@invoice"
+        DesignerEnabled
+        PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf">
+    <ReportViewer PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"
+                  DefaultFormat="ReportPreviewFormat.Html"
+                  AllowDownload
+                  AllowPrint />
+    <ReportDataSources>
+        <ReportObjectDataSource Name="Invoice" Data="@invoice" />
+    </ReportDataSources>
+    <ReportPage Size="ReportPageSize.A4"
+                Orientation="ReportOrientation.Portrait" />
+    <ReportHeader Name="Report header" Height="105">
+        <ReportText Text="Invoice {Header.Number}" X="30" Y="18" Width="180" Height="24" FontSize="20" Bold FontColor="@ReportColors.Blue" />
+        <ReportText Text="{Customer.Name}" X="30" Y="48" Width="240" Height="18" Bold />
+        <ReportText Text="{Customer.Address}" X="30" Y="70" Width="300" Height="18" FontColor="@ReportColors.Gray" />
+        <ReportRectangle X="405" Y="20" Width="120" Height="54" BorderColor="@ReportColors.Blue" />
+        <ReportText Text="REPORT HEADER" X="418" Y="39" Width="94" Height="18" Bold TextAlignment="TextAlignment.Center" FontColor="@ReportColors.Blue" />
+    </ReportHeader>
+    <ReportPageHeader Name="Page header" Height="35">
+        <ReportText Text="Sku" X="30" Y="9" Width="75" Height="18" Bold />
+        <ReportText Text="Description" X="120" Y="9" Width="210" Height="18" Bold />
+        <ReportText Text="Qty" X="345" Y="9" Width="60" Height="18" Bold TextAlignment="TextAlignment.End" />
+        <ReportText Text="Line total" X="420" Y="9" Width="90" Height="18" Bold TextAlignment="TextAlignment.End" />
+    </ReportPageHeader>
+    <ReportGroupHeader Name="Category group" Height="28" DataSource="Invoice.Lines" GroupBy="Category">
+        <ReportText Text="Category: {Category}" X="30" Y="6" Width="240" Height="18" Bold FontColor="@ReportColors.Green" />
+        <ReportLine X="30" Y="26" Width="480" Height="1" BorderColor="@ReportColors.Green" />
+    </ReportGroupHeader>
+    <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
+        <ReportField Field="Sku" X="30" Y="6" Width="75" Height="18" />
+        <ReportField Field="Description" X="120" Y="6" Width="210" Height="18" />
+        <ReportField Field="Quantity" Format="N2" X="345" Y="6" Width="60" Height="18" />
+        <ReportField Field="Total" Format="C" X="420" Y="6" Width="90" Height="18" />
+    </ReportDetail>
+    <ReportFooter Name="Report footer" Height="60">
+        <ReportLine X="30" Y="9" Width="480" Height="1" />
+        <ReportText Text="Report total" X="300" Y="24" Width="105" Height="18" Bold />
+        <ReportField Field="Header.Total" Format="C" X="420" Y="24" Width="90" Height="18" Bold FontColor="@ReportColors.Green" />
+    </ReportFooter>
+    <ReportPageFooter Name="Page footer" Height="30">
+        <ReportText Text="Generated {PrintDate} - page {PageNumber} of {TotalPages}" X="30" Y="7" Width="300" Height="18" FontColor="@ReportColors.Gray" />
+    </ReportPageFooter>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = "INV-2026-014",
+            Total = 2765.50m,
+        },
+        Customer = new()
+        {
+            Name = "Northwind Traders",
+            Address = "One Portals Way, Twin Points WA, 98156",
+        },
+        Lines =
+        [
+            new() { Category = "Services", Sku = "SRV-001", Description = "Implementation workshop", Quantity = 1, Total = 640.50m },
+            new() { Category = "Services", Sku = "SUP-003", Description = "Priority support", Quantity = 1, Total = 100.00m },
+            new() { Category = "Licenses", Sku = "LIC-010", Description = "Reporting module license", Quantity = 2, Total = 500.00m },
+            new() { Category = "Licenses", Sku = "LIC-020", Description = "PDF export add-on", Quantity = 5, Total = 1525.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+
+        public string Address { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Category { get; set; }
+
+        public string Sku { get; set; }
+
+        public string Description { get; set; }
+
+        public decimal Quantity { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}
