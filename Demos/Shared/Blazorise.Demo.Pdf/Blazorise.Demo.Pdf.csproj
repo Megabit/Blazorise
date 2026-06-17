@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <Import Project="..\..\..\Build\Blazorise.Demo.props" />
+
+  <PropertyGroup>
+    <RootNamespace>Blazorise.Demo</RootNamespace>
+    <OutputType>Library</OutputType>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Blazorise.Shared\Blazorise.Shared.csproj" />
+    <ProjectReference Include="..\..\..\Source\Blazorise\Blazorise.csproj" />
+    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Pdf\Blazorise.Pdf.csproj" />
+    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj" />
+  </ItemGroup>
+
+</Project>

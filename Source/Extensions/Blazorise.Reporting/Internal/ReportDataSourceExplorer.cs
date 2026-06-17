@@ -121,11 +121,8 @@ internal static class ReportDataSourceExplorer
             return true;
         }
 
-        if ( ReportRunningTotalResolver.IsRunningTotalDataSource( dataSourceName ) || ReportRunningTotalResolver.IsRunningTotalField( definition, fieldName ) )
-        {
-            dataType = typeof( object );
+        if ( TryResolveRunningTotalFieldType( definition, defaultData, dataSourceName, fieldName, out dataType ) )
             return true;
-        }
 
         List<string> normalizedFieldNames = NormalizeFieldPathCandidates( definition, dataSourceName, fieldName ).ToList();
         object dataSourceValue = ReportDataResolver.ResolveDataSourceValue( definition, defaultData, dataSourceName );
@@ -192,6 +189,39 @@ internal static class ReportDataSourceExplorer
                 yield break;
             }
         }
+    }
+
+    private static bool TryResolveRunningTotalFieldType( ReportDefinition definition, object defaultData, string dataSourceName, string fieldName, out Type dataType )
+    {
+        dataType = null;
+
+        if ( !ReportRunningTotalResolver.IsRunningTotalDataSource( dataSourceName ) && !ReportRunningTotalResolver.IsRunningTotalField( definition, fieldName ) )
+            return false;
+
+        ReportRunningTotalDefinition runningTotal = ReportRunningTotalResolver.FindRunningTotal( definition, fieldName );
+
+        if ( runningTotal is null )
+            return false;
+
+        dataType = runningTotal.Function switch
+        {
+            ReportAggregateFunction.Count => typeof( int ),
+            ReportAggregateFunction.Sum => typeof( decimal ),
+            ReportAggregateFunction.Average => typeof( decimal ),
+            ReportAggregateFunction.Minimum => ResolveRunningTotalSourceFieldType( definition, defaultData, runningTotal ),
+            ReportAggregateFunction.Maximum => ResolveRunningTotalSourceFieldType( definition, defaultData, runningTotal ),
+            _ => typeof( object ),
+        };
+
+        return dataType is not null;
+    }
+
+    private static Type ResolveRunningTotalSourceFieldType( ReportDefinition definition, object defaultData, ReportRunningTotalDefinition runningTotal )
+    {
+        return !string.IsNullOrWhiteSpace( runningTotal?.Field )
+            && TryResolveFieldType( definition, defaultData, runningTotal.DataSource, runningTotal.Field, out Type sourceDataType )
+            ? sourceDataType
+            : typeof( object );
     }
 
     private static IEnumerable<ReportDesignerFieldNode> ResolveDataSourceFields( object item, string parentPath, int depth, HashSet<Type> visitedTypes )

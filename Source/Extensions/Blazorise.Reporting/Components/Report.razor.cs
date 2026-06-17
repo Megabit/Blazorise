@@ -3076,12 +3076,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 NewPageAfter = ReportValue.Create( sourceSection.NewPageAfter?.Value ?? false, sourceSection.NewPageAfter?.Formula ),
                 Appearance = new()
                 {
-                    BackgroundColor = sourceSection.Appearance?.BackgroundColor,
+                    BackgroundColor = sourceSection.Appearance?.BackgroundColor ?? ReportColor.Default,
                     Opacity = sourceSection.Appearance?.Opacity,
                 },
                 Border = new()
                 {
-                    Color = sourceSection.Border?.Color,
+                    Color = sourceSection.Border?.Color ?? ReportColor.Default,
                     Width = sourceSection.Border?.Width,
                     Radius = sourceSection.Border?.Radius,
                 },

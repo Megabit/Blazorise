@@ -68,8 +68,7 @@ public abstract class BaseReportElement : ComponentBase
     {
         return new()
         {
-            BackgroundColor = BackgroundColor ?? Appearance?.BackgroundColor,
-            Background = GetBackgroundName( Background ) ?? Appearance?.Background,
+            BackgroundColor = BackgroundColor.IsDefault ? Appearance?.BackgroundColor ?? ReportColor.Default : BackgroundColor,
             Opacity = Opacity ?? Appearance?.Opacity,
         };
     }
@@ -78,17 +77,10 @@ public abstract class BaseReportElement : ComponentBase
     {
         return new()
         {
-            Color = BorderColor ?? Border?.Color,
+            Color = BorderColor.IsDefault ? Border?.Color ?? ReportColor.Default : BorderColor,
             Width = BorderWidth ?? Border?.Width,
             Radius = BorderRadius ?? Border?.Radius,
         };
-    }
-
-    private static string GetBackgroundName( Background background )
-    {
-        return background is null || background == Blazorise.Background.Default || string.IsNullOrWhiteSpace( background.Name )
-            ? null
-            : background.Name;
     }
 
     /// <summary>
@@ -144,12 +136,12 @@ public abstract class BaseReportElement : ComponentBase
     /// <summary>
     /// Background color applied to the element.
     /// </summary>
-    [Parameter] public string BackgroundColor { get; set; }
+    [Parameter] public ReportColor BackgroundColor { get; set; }
 
     /// <summary>
     /// Border color applied to the element.
     /// </summary>
-    [Parameter] public string BorderColor { get; set; }
+    [Parameter] public ReportColor BorderColor { get; set; }
 
     /// <summary>
     /// Border width applied around the element.
@@ -196,8 +188,4 @@ public abstract class BaseReportElement : ComponentBase
     /// </summary>
     [Parameter] public IFluentGap Gap { get; set; }
 
-    /// <summary>
-    /// Semantic Blazorise background color applied to the element fill.
-    /// </summary>
-    [Parameter] public Background Background { get; set; } = Background.Default;
 }

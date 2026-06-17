@@ -372,6 +372,11 @@ public enum ReportCommand
     ConnectDataSource,
 
     /// <summary>
+    /// Generates and downloads a PDF file from the current report.
+    /// </summary>
+    DownloadPdf,
+
+    /// <summary>
     /// Removes the selected element and places it on the report clipboard.
     /// </summary>
     Cut,

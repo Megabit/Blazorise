@@ -1,7 +1,8 @@
 #region Using directives
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -11,15 +12,64 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerColorProperty
 {
+    #region Members
+
+    private static readonly (string Value, string Text)[] DefaultNamedOptions =
+    [
+        ( string.Empty, "Default" ),
+        ( "Black", "Black" ),
+        ( "White", "White" ),
+        ( "Red", "Red" ),
+        ( "Green", "Green" ),
+        ( "Blue", "Blue" ),
+        ( "Yellow", "Yellow" ),
+        ( "Cyan", "Cyan" ),
+        ( "Magenta", "Magenta" ),
+        ( "Gray", "Gray" ),
+        ( "LightGray", "Light gray" ),
+        ( "DarkGray", "Dark gray" ),
+        ( "Navy", "Navy" ),
+        ( "Maroon", "Maroon" ),
+        ( "Olive", "Olive" ),
+        ( "Purple", "Purple" ),
+        ( "Teal", "Teal" ),
+        ( "Silver", "Silver" ),
+        ( "Orange", "Orange" ),
+        ( "Transparent", "Transparent" ),
+    ];
+
+    #endregion
+
+    #region Methods
+
     private Task Clear()
     {
-        return Changed.InvokeAsync( null );
+        return Changed.InvokeAsync( ReportColor.Default );
     }
 
-    private Task OnChanged( string value )
+    private Task OnNameChanged( string value )
     {
-        return Changed.InvokeAsync( string.IsNullOrWhiteSpace( value ) ? null : value );
+        return Changed.InvokeAsync( ReportColor.FromString( value ) );
     }
+
+    private Task OnCustomChanged( string value )
+    {
+        return Changed.InvokeAsync( ReportColor.FromString( value ) );
+    }
+
+    #endregion
+
+    #region Properties
+
+    private string SelectedName => Value.Kind == ReportColorKind.Named || Value.Kind == ReportColorKind.Transparent
+        ? Value.Name
+        : string.Empty;
+
+    private string CustomValue => Value.Kind == ReportColorKind.Rgb
+        ? FormattableString.Invariant( $"#{Value.Red:X2}{Value.Green:X2}{Value.Blue:X2}" )
+        : null;
+
+    private IReadOnlyList<(string Value, string Text)> ResolvedNamedOptions => NamedOptions ?? DefaultNamedOptions;
 
     /// <summary>
     /// Property label.
@@ -29,10 +79,17 @@ public partial class _ReportDesignerColorProperty
     /// <summary>
     /// Current color value.
     /// </summary>
-    [Parameter] public string Value { get; set; }
+    [Parameter] public ReportColor Value { get; set; }
+
+    /// <summary>
+    /// Named color options shown in the report designer.
+    /// </summary>
+    [Parameter] public IReadOnlyList<(string Value, string Text)> NamedOptions { get; set; }
 
     /// <summary>
     /// Raised when the color value changes.
     /// </summary>
-    [Parameter] public EventCallback<string> Changed { get; set; }
+    [Parameter] public EventCallback<ReportColor> Changed { get; set; }
+
+    #endregion
 }

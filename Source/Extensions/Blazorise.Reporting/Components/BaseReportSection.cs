@@ -141,12 +141,12 @@ public abstract class BaseReportSection : ComponentBase
     /// <summary>
     /// Background color applied to the band.
     /// </summary>
-    [Parameter] public string BackgroundColor { get; set; }
+    [Parameter] public ReportColor BackgroundColor { get; set; }
 
     /// <summary>
     /// Border color applied around the band.
     /// </summary>
-    [Parameter] public string BorderColor { get; set; }
+    [Parameter] public ReportColor BorderColor { get; set; }
 
     /// <summary>
     /// Border width applied around the band.

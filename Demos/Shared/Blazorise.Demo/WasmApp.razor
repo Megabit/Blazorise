@@ -53,6 +53,12 @@
         "Blazorise.Demo.Reporting.wasm",
     ];
 
+    private static readonly string[] pdfAssemblies =
+    [
+        "Blazorise.Demo.Pdf.wasm",
+        "Blazorise.PdfViewer.wasm",
+    ];
+
     private static readonly string[] componentAssemblies =
     [
         "Blazorise.Demo.Components.wasm",
@@ -181,6 +187,9 @@
 
         if ( string.Equals( path, "tests/reporting", StringComparison.OrdinalIgnoreCase ) )
             return reportingAssemblies;
+
+        if ( string.Equals( path, "tests/pdf", StringComparison.OrdinalIgnoreCase ) )
+            return pdfAssemblies;
 
         if ( IsInRouteGroup( path, componentRoutes ) )
             return componentAssemblies;

@@ -6,7 +6,15 @@
     <FieldBody ColumnSize="ColumnSize.Is8">
         <Addons Size="Size.Small">
             <Addon AddonType="AddonType.Body">
-                <ColorPicker Value="@Value" ValueChanged="@OnChanged" ShowInputField="false" Size="Size.Small" />
+                <Select TValue="string" Value="@SelectedName" ValueChanged="@OnNameChanged" Size="Size.Small">
+                    @foreach ( var option in ResolvedNamedOptions )
+                    {
+                        <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
+                    }
+                </Select>
+            </Addon>
+            <Addon AddonType="AddonType.Body">
+                <ColorPicker Value="@CustomValue" ValueChanged="@OnCustomChanged" ShowInputField="false" Size="Size.Small" />
             </Addon>
             <Addon AddonType="AddonType.End">
                 <Button Color="Color.Light" Clicked="@Clear" Size="Size.Small" aria-label="Clear color">

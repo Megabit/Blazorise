@@ -104,9 +104,11 @@ public partial class _ReportDesignerSection
     protected override void BuildStyles( StyleBuilder builder )
     {
         builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}" );
-        builder.Append( $"background-color:{Section.Appearance?.BackgroundColor}!important", !string.IsNullOrWhiteSpace( Section.Appearance?.BackgroundColor ) );
+        string backgroundColor = ReportElementDefinitionHelper.ToCssColor( Section.Appearance?.BackgroundColor ?? ReportColor.Default );
+        builder.Append( $"background-color:{backgroundColor}!important", backgroundColor is not null );
         builder.Append( $"opacity:{Section.Appearance?.Opacity}", Section.Appearance?.Opacity is not null );
-        builder.Append( $"border-color:{Section.Border?.Color}!important", !string.IsNullOrWhiteSpace( Section.Border?.Color ) );
+        string borderColor = ReportElementDefinitionHelper.ToCssColor( Section.Border?.Color ?? ReportColor.Default );
+        builder.Append( $"border-color:{borderColor}!important", borderColor is not null );
 
         if ( Section.Border?.Width is { } borderWidth )
         {

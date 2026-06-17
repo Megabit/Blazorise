@@ -9,7 +9,7 @@ namespace Blazorise.Reporting.DataSources.Csv;
 /// <summary>
 /// Declares a CSV data source available to report bands and fields.
 /// </summary>
-public partial class ReportCsvDataSource : ReportDataSourceComponentBase
+public partial class ReportCsvDataSource : BaseReportDataSourceComponent
 {
     #region Methods
 

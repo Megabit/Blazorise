@@ -488,14 +488,9 @@ public sealed class ReportFontDefinition
     public double? Size { get; set; }
 
     /// <summary>
-    /// Text color applied by the designer text editor.
+    /// Text color applied to text rendered by the element.
     /// </summary>
-    public string Color { get; set; }
-
-    /// <summary>
-    /// Semantic Blazorise text color name applied to text rendered by the element.
-    /// </summary>
-    public string TextColor { get; set; }
+    public ReportColor Color { get; set; }
 
     /// <summary>
     /// Enables bold text rendering.
@@ -524,14 +519,9 @@ public sealed class ReportFontDefinition
 public sealed class ReportAppearanceDefinition
 {
     /// <summary>
-    /// Background color applied by the designer appearance editor.
+    /// Background color applied to the element fill.
     /// </summary>
-    public string BackgroundColor { get; set; }
-
-    /// <summary>
-    /// Semantic Blazorise background color name applied to the element fill.
-    /// </summary>
-    public string Background { get; set; }
+    public ReportColor BackgroundColor { get; set; }
 
     /// <summary>
     /// Element opacity from 0 to 1.
@@ -547,7 +537,7 @@ public sealed class ReportBorderDefinition
     /// <summary>
     /// Border color applied by the designer appearance editor.
     /// </summary>
-    public string Color { get; set; }
+    public ReportColor Color { get; set; }
 
     /// <summary>
     /// Border width applied around the element.

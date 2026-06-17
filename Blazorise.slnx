@@ -21,6 +21,7 @@
     <Project Path="Demos/Shared/Blazorise.Demo.Components/Blazorise.Demo.Components.csproj" />
     <Project Path="Demos/Shared/Blazorise.Demo.DataGrid/Blazorise.Demo.DataGrid.csproj" />
     <Project Path="Demos/Shared/Blazorise.Demo.Extensions/Blazorise.Demo.Extensions.csproj" />
+    <Project Path="Demos/Shared/Blazorise.Demo.Pdf/Blazorise.Demo.Pdf.csproj" />
     <Project Path="Demos/Shared/Blazorise.Demo.Reporting/Blazorise.Demo.Reporting.csproj" />
     <Project Path="Demos/Shared/Blazorise.Demo/Blazorise.Demo.csproj" />
   </Folder>
@@ -79,6 +80,7 @@
     <Project Path="Source/Extensions/Blazorise.LottieAnimation/Blazorise.LottieAnimation.csproj" />
     <Project Path="Source/Extensions/Blazorise.Markdown/Blazorise.Markdown.csproj" />
     <Project Path="Source/Extensions/Blazorise.Maps/Blazorise.Maps.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Pdf/Blazorise.Pdf.csproj" />
     <Project Path="Source/Extensions/Blazorise.PdfViewer/Blazorise.PdfViewer.csproj" />
     <Project Path="Source/Extensions/Blazorise.PivotGrid/Blazorise.PivotGrid.csproj" />
     <Project Path="Source/Extensions/Blazorise.QRCode/Blazorise.QRCode.csproj" />

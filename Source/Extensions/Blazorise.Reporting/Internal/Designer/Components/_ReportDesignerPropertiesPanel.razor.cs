@@ -32,40 +32,6 @@ public partial class _ReportDesignerPropertiesPanel
 
     private Func<string, Task> formulaConfirmed;
 
-    private static readonly (string Value, string Text)[] TextColorOptions =
-    [
-        ( string.Empty, "Default" ),
-        ( "primary", "Primary" ),
-        ( "secondary", "Secondary" ),
-        ( "success", "Success" ),
-        ( "danger", "Danger" ),
-        ( "warning", "Warning" ),
-        ( "info", "Info" ),
-        ( "light", "Light" ),
-        ( "dark", "Dark" ),
-        ( "body", "Body" ),
-        ( "muted", "Muted" ),
-        ( "white", "White" ),
-        ( "black-50", "Black 50" ),
-        ( "white-50", "White 50" ),
-    ];
-
-    private static readonly (string Value, string Text)[] BackgroundOptions =
-    [
-        ( string.Empty, "Default" ),
-        ( "primary", "Primary" ),
-        ( "secondary", "Secondary" ),
-        ( "success", "Success" ),
-        ( "danger", "Danger" ),
-        ( "warning", "Warning" ),
-        ( "info", "Info" ),
-        ( "light", "Light" ),
-        ( "dark", "Dark" ),
-        ( "white", "White" ),
-        ( "transparent", "Transparent" ),
-        ( "body", "Body" ),
-    ];
-
     private static readonly (ReportPageSize Value, string Text)[] PageSizeOptions =
     [
         ( ReportPageSize.Custom, "Custom" ),
@@ -369,50 +335,6 @@ public partial class _ReportDesignerPropertiesPanel
     {
         if ( formulaConfirmed is not null )
             await formulaConfirmed.Invoke( formula );
-    }
-
-    private Task UpdateSelectedElementTextColor( string value )
-    {
-        return UpdateSelectedElement( element =>
-        {
-            var font = ReportElementDefinitionHelper.EnsureFont( element );
-
-            font.TextColor = string.IsNullOrWhiteSpace( value ) ? null : value;
-            font.Color = null;
-        } );
-    }
-
-    private Task UpdateSelectedElementFontColor( string value )
-    {
-        return UpdateSelectedElement( element =>
-        {
-            var font = ReportElementDefinitionHelper.EnsureFont( element );
-
-            font.Color = string.IsNullOrWhiteSpace( value ) ? null : value;
-            font.TextColor = null;
-        } );
-    }
-
-    private Task UpdateSelectedElementBackground( string value )
-    {
-        return UpdateSelectedElement( element =>
-        {
-            var appearance = ReportElementDefinitionHelper.EnsureAppearance( element );
-
-            appearance.Background = string.IsNullOrWhiteSpace( value ) ? null : value;
-            appearance.BackgroundColor = null;
-        } );
-    }
-
-    private Task UpdateSelectedElementBackgroundColor( string value )
-    {
-        return UpdateSelectedElement( element =>
-        {
-            var appearance = ReportElementDefinitionHelper.EnsureAppearance( element );
-
-            appearance.BackgroundColor = string.IsNullOrWhiteSpace( value ) ? null : value;
-            appearance.Background = null;
-        } );
     }
 
     private void OnSnapToGridChanged( bool value )

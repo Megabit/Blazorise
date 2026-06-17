@@ -23,8 +23,7 @@ public abstract class BaseReportTextElement : BaseReportElement
         {
             Family = FontFamily ?? Font?.Family,
             Size = FontSize ?? Font?.Size,
-            Color = FontColor ?? Font?.Color,
-            TextColor = GetTextColorName( TextColor ) ?? Font?.TextColor,
+            Color = FontColor.IsDefault ? Font?.Color ?? ReportColor.Default : FontColor,
             Bold = Bold || Font?.Bold == true,
             Italic = Italic || Font?.Italic == true,
             Underline = Underline || Font?.Underline == true,
@@ -32,13 +31,6 @@ public abstract class BaseReportTextElement : BaseReportElement
                 ? TextAlignment
                 : Font?.Alignment ?? Blazorise.TextAlignment.Default,
         };
-    }
-
-    private static string GetTextColorName( TextColor textColor )
-    {
-        return textColor is null || textColor == Blazorise.TextColor.Default || string.IsNullOrWhiteSpace( textColor.Name )
-            ? null
-            : textColor.Name;
     }
 
     /// <summary>
@@ -54,7 +46,7 @@ public abstract class BaseReportTextElement : BaseReportElement
     /// <summary>
     /// Text color applied to the element.
     /// </summary>
-    [Parameter] public string FontColor { get; set; }
+    [Parameter] public ReportColor FontColor { get; set; }
 
     /// <summary>
     /// Enables bold text rendering.
@@ -81,8 +73,4 @@ public abstract class BaseReportTextElement : BaseReportElement
     /// </summary>
     [Parameter] public ReportFontDefinition Font { get; set; }
 
-    /// <summary>
-    /// Semantic Blazorise text color applied to text rendered by the element.
-    /// </summary>
-    [Parameter] public TextColor TextColor { get; set; } = TextColor.Default;
 }

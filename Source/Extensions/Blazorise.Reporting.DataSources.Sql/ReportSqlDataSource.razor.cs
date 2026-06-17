@@ -9,7 +9,7 @@ namespace Blazorise.Reporting.DataSources.Sql;
 /// <summary>
 /// Declares a SQL data source available to report bands and fields.
 /// </summary>
-public partial class ReportSqlDataSource : ReportDataSourceComponentBase
+public partial class ReportSqlDataSource : BaseReportDataSourceComponent
 {
     #region Methods
 

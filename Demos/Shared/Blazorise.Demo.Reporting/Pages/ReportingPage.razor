@@ -29,6 +29,7 @@
                         </ReportToolbarGroup>
                         <ReportToolbarGroup>
                             <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
+                            <ReportToolbarItem Command="ReportCommand.DownloadPdf" Caption="Download PDF" />
                         </ReportToolbarGroup>
                         <Div Margin="Margin.IsAuto.FromStart">
                             <ReportToolbarGroup>
@@ -54,7 +55,7 @@
                                     Y="18"
                                     Width="210"
                                     Height="25.5"
-                                    TextColor="TextColor.Primary"
+                                    FontColor="@ReportColors.Blue"
                                     FontSize="21"
                                     Bold />
                         <ReportText Text="Declarative report with designer and viewer modes."
@@ -62,7 +63,7 @@
                                     Y="48"
                                     Width="315"
                                     Height="18"
-                                    TextColor="TextColor.Secondary" />
+                                    FontColor="@ReportColors.Gray" />
                         <ReportTable X="322.5"
                                      Y="69"
                                      Width="225"
@@ -82,13 +83,13 @@
                                          Y="18"
                                          Width="90"
                                          Height="48"
-                                         BorderColor="#0d6efd" />
+                                         BorderColor="@AccentColor" />
                         <ReportText Text="BLZ"
                                     X="480"
                                     Y="31.5"
                                     Width="54"
                                     Height="21"
-                                    TextColor="TextColor.Primary"
+                                    FontColor="@ReportColors.Blue"
                                     FontSize="18"
                                     Bold
                                     TextAlignment="TextAlignment.Center" />
@@ -104,8 +105,8 @@
                         <ReportField Field="Sku" X="30" Y="10.5" Width="67.5" Height="18" />
                         <ReportField Field="Description" X="112.5" Y="10.5" Width="165" Height="18" />
                         <ReportField Field="Quantity" Format="N2" X="292.5" Y="10.5" Width="82.5" Height="18" />
-                        <ReportField Field="Total" Format="C" X="405" Y="10.5" Width="90" Height="18" TextColor="TextColor.Success" />
-                        <ReportField Field="LineRunningTotal" Format="C" X="502.5" Y="10.5" Width="90" Height="18" TextColor="TextColor.Success" TextAlignment="TextAlignment.End" />
+                        <ReportField Field="Total" Format="C" X="405" Y="10.5" Width="90" Height="18" FontColor="@ReportColors.Green" />
+                        <ReportField Field="LineRunningTotal" Format="C" X="502.5" Y="10.5" Width="90" Height="18" FontColor="@ReportColors.Green" TextAlignment="TextAlignment.End" />
                     </ReportDetail>
                     <ReportFooter Name="Invoice report footer" Height="54">
                         <ReportLine X="30" Y="7.5" Width="517.5" Height="1" />
@@ -114,7 +115,7 @@
                                     Y="21"
                                     Width="135"
                                     Height="18"
-                                    TextColor="TextColor.Secondary" />
+                                    FontColor="@ReportColors.Gray" />
                         <ReportField Field="Header.Total"
                                      Format="C"
                                      X="405"
@@ -122,10 +123,10 @@
                                      Width="90"
                                      Height="18"
                                      Bold
-                                     TextColor="TextColor.Success" />
+                                     FontColor="@ReportColors.Green" />
                     </ReportFooter>
                     <ReportPageFooter Name="Invoice page footer" Height="30">
-                        <ReportText Text="Page footer band" X="30" Y="7.5" Width="135" Height="18" TextColor="TextColor.Secondary" />
+                        <ReportText Text="Page footer band" X="30" Y="7.5" Width="135" Height="18" FontColor="@ReportColors.Gray" />
                     </ReportPageFooter>
                 </Report>
             </CardBody>
@@ -134,6 +135,8 @@
 </Row>
 
 @code {
+    private static readonly ReportColor AccentColor = ReportColor.FromHex( "#0d6efd" );
+
     private ReportDefinition definition;
 
     private const string invoiceLinesCsv = "Sku,Description,Quantity,UnitPrice,Total\r\n"

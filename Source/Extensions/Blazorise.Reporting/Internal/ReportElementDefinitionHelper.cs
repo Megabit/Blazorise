@@ -22,9 +22,9 @@ internal static class ReportElementDefinitionHelper
 
     internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element, ReportDefinition definition, object defaultData, object item, ReportSectionDefinition section, bool designMode )
     {
-        var font = SupportsTextFormatting( element.Type ) ? element.Font : null;
-        var appearance = element.Appearance;
-        var border = element.Border;
+        ReportFontDefinition font = SupportsTextFormatting( element.Type ) ? element.Font : null;
+        ReportAppearanceDefinition appearance = element.Appearance;
+        ReportBorderDefinition border = element.Border;
 
         builder.Append( $"left:{ReportMeasurementConverter.ToCssPixelString( element.X )}" );
         builder.Append( $"top:{ReportMeasurementConverter.ToCssPixelString( element.Y )}" );
@@ -41,11 +41,15 @@ internal static class ReportElementDefinitionHelper
         if ( font?.Size is > 0 )
             builder.Append( $"font-size:{ReportMeasurementConverter.ToCssPixelString( font.Size.Value )}" );
 
-        if ( !string.IsNullOrWhiteSpace( font?.Color ) )
-            builder.Append( $"color:{font.Color}!important" );
+        string fontColor = ToCssColor( font?.Color ?? ReportColor.Default );
 
-        if ( !string.IsNullOrWhiteSpace( appearance?.BackgroundColor ) )
-            builder.Append( $"background-color:{appearance.BackgroundColor}!important" );
+        if ( fontColor is not null )
+            builder.Append( $"color:{fontColor}!important" );
+
+        string backgroundColor = ToCssColor( appearance?.BackgroundColor ?? ReportColor.Default );
+
+        if ( backgroundColor is not null )
+            builder.Append( $"background-color:{backgroundColor}!important" );
 
         builder.Append( "font-weight:700", font?.Bold == true );
         builder.Append( "font-style:italic", font?.Italic == true );
@@ -56,8 +60,10 @@ internal static class ReportElementDefinitionHelper
         if ( textAlignment is not null )
             builder.Append( $"text-align:{textAlignment}" );
 
-        if ( !string.IsNullOrWhiteSpace( border?.Color ) )
-            builder.Append( $"border-color:{border.Color}!important" );
+        string borderColor = ToCssColor( border?.Color ?? ReportColor.Default );
+
+        if ( borderColor is not null )
+            builder.Append( $"border-color:{borderColor}!important" );
 
         if ( border?.Width is >= 0 )
         {
@@ -128,11 +134,14 @@ internal static class ReportElementDefinitionHelper
             : element.Text ?? element.Name ?? element.Type.ToString();
     }
 
-    internal static string NormalizeColorValue( string value )
+    internal static string NormalizeColorValue( ReportColor value )
     {
-        return !string.IsNullOrWhiteSpace( value ) && value.StartsWith( "#", StringComparison.Ordinal ) && value.Length == 7
-            ? value
-            : "#000000";
+        return ToCssColor( value ) ?? "#000000";
+    }
+
+    internal static string ToCssColor( ReportColor color )
+    {
+        return color.ToCssString();
     }
 
     private static string ToCssTextAlignment( TextAlignment alignment )
@@ -147,7 +156,7 @@ internal static class ReportElementDefinitionHelper
         };
     }
 
-    private static TextAlignment ResolveTextAlignment( ReportElementDefinition element, ReportDefinition definition, object defaultData, ReportSectionDefinition section )
+    internal static TextAlignment ResolveTextAlignment( ReportElementDefinition element, ReportDefinition definition, object defaultData, ReportSectionDefinition section )
     {
         TextAlignment alignment = element.Font?.Alignment ?? TextAlignment.Default;
 

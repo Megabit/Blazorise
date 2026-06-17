@@ -387,7 +387,6 @@ internal sealed class ReportContext
             Family = font.Family,
             Size = font.Size,
             Color = font.Color,
-            TextColor = font.TextColor,
             Bold = font.Bold,
             Italic = font.Italic,
             Underline = font.Underline,
@@ -403,7 +402,6 @@ internal sealed class ReportContext
         return new()
         {
             BackgroundColor = appearance.BackgroundColor,
-            Background = appearance.Background,
             Opacity = appearance.Opacity,
         };
     }

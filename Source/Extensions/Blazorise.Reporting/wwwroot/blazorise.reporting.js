@@ -225,6 +225,20 @@ export function clearTextExpressionTokenProtection(element) {
     textTokenEditors.delete(element);
 }
 
+export function downloadFile(fileName, contentType, content) {
+    const blob = new Blob([content], { type: contentType || "application/octet-stream" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+
+    anchor.href = url;
+    anchor.download = fileName || "download";
+    anchor.style.display = "none";
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 0);
+}
+
 function clearSectionResize(resize) {
     removeSectionResizeListeners(document, resize);
     removeSectionResizeListeners(window, resize);

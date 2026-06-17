@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using Blazorise.Pdf;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 #endregion
@@ -24,6 +25,7 @@ public static class Config
         options?.Invoke( reportOptions );
 
         services.AddSingleton( reportOptions );
+        services.AddBlazorisePdf();
         services.TryAddScoped<IReportDataSourceProviderRegistry, ReportDataSourceProviderRegistry>();
         services.TryAddEnumerable( ServiceDescriptor.Scoped<IReportDataSourceProvider, ObjectReportDataSourceProvider>() );
 

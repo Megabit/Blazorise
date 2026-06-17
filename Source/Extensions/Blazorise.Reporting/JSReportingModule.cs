@@ -124,6 +124,18 @@ public class JSReportingModule : BaseJSModule
         await InvokeSafeVoidAsync( "clearTextExpressionTokenProtection", element );
     }
 
+    /// <summary>
+    /// Downloads generated file content in the browser.
+    /// </summary>
+    /// <param name="fileName">Suggested download file name.</param>
+    /// <param name="contentType">Generated file content type.</param>
+    /// <param name="content">Generated file bytes.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask DownloadFile( string fileName, string contentType, byte[] content )
+    {
+        await InvokeSafeVoidAsync( "downloadFile", fileName, contentType, content );
+    }
+
     #endregion
 
     #region Properties

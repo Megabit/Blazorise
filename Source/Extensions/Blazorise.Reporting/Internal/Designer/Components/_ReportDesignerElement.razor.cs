@@ -127,12 +127,6 @@ public partial class _ReportDesignerElement
         builder.Append( $"b-report-element-{Element.Type.ToString().ToLowerInvariant()}" );
         builder.Append( Element.Class );
 
-        if ( ReportElementDefinitionHelper.SupportsTextFormatting( Element.Type ) && !string.IsNullOrWhiteSpace( Element.Font?.TextColor ) )
-            builder.Append( ClassProvider.TextColor( new TextColor( Element.Font.TextColor ) ) );
-
-        if ( !string.IsNullOrWhiteSpace( Element.Appearance?.Background ) )
-            builder.Append( ClassProvider.BackgroundColor( new Background( Element.Appearance.Background ) ) );
-
         builder.Append( "b-report-element-design", DesignMode );
         builder.Append( "suppressed", DesignMode && ElementSuppressed );
         builder.Append( "can-grow", !DesignMode && Element.CanGrow?.Value == true );
@@ -222,8 +216,6 @@ public partial class _ReportDesignerElement
     {
         reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
     }
-
-    [Inject] private IClassProvider ClassProvider { get; set; }
 
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
