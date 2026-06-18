@@ -1004,6 +1004,363 @@ hr.divider.divider-text::before {
   top: unset;
 }
 
+.dock-layout {
+  display: block;
+  min-height: 0;
+  min-width: 0;
+  position: relative;
+}
+
+.dock-layout,
+.dock-layout * {
+  box-sizing: border-box;
+}
+
+.dock-panel {
+  --dock-panel-size: 16rem;
+  --dock-panel-min-size: 0;
+  --dock-panel-max-size: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  background: var(--bs-body-bg, #fff);
+  border-color: var(--bs-border-color, rgba(0, 0, 0, 0.125));
+  border-style: solid;
+  border-width: 0;
+  z-index: 1;
+}
+
+.dock-split {
+  display: grid;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+}
+
+.dock-split-horizontal {
+  grid-auto-flow: column;
+}
+
+.dock-split-vertical {
+  grid-auto-flow: row;
+}
+
+.dock-tabs-host {
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+}
+
+.dock-panel-inactive {
+  display: none;
+}
+
+.dock-panel-start {
+  width: var(--dock-panel-size);
+  min-width: var(--dock-panel-min-size);
+  max-width: var(--dock-panel-max-size);
+  border-right-width: 1px;
+}
+
+.dock-panel-end {
+  width: var(--dock-panel-size);
+  min-width: var(--dock-panel-min-size);
+  max-width: var(--dock-panel-max-size);
+  border-left-width: 1px;
+  justify-self: end;
+}
+
+.dock-panel-top {
+  height: var(--dock-panel-size);
+  min-height: var(--dock-panel-min-size);
+  max-height: var(--dock-panel-max-size);
+  border-bottom-width: 1px;
+}
+
+.dock-panel-bottom {
+  height: var(--dock-panel-size);
+  min-height: var(--dock-panel-min-size);
+  max-height: var(--dock-panel-max-size);
+  border-top-width: 1px;
+  align-self: end;
+}
+
+.dock-panel-collapsed {
+  --dock-panel-size: 2.5rem;
+}
+
+.dock-panel-autohide {
+  --dock-panel-size: 2rem;
+  align-items: stretch;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.dock-panel-collapsed .dock-panel-body,
+.dock-panel-collapsed .dock-panel-footer {
+  display: none;
+}
+
+.dock-panel-autohide-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 0.5rem 0.375rem;
+  border: 0;
+  background: var(--bs-tertiary-bg, rgba(0, 0, 0, 0.03));
+  color: var(--bs-body-color, #212529);
+  cursor: pointer;
+  font: inherit;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.dock-panel-autohide-tab:hover {
+  background: rgba(13, 110, 253, 0.12);
+}
+
+.dock-panel-autohide-tab-start,
+.dock-panel-autohide-tab-end {
+  flex: 0 0 auto;
+  writing-mode: vertical-rl;
+}
+
+.dock-panel-autohide-tab-start {
+  transform: rotate(180deg);
+}
+
+.dock-panel-autohide-tab-top,
+.dock-panel-autohide-tab-bottom {
+  flex: 0 0 auto;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+}
+
+.dock-panel-header,
+.dock-panel-footer {
+  flex: 0 0 auto;
+  padding: 0.5rem 0.75rem;
+  background: var(--bs-tertiary-bg, rgba(0, 0, 0, 0.03));
+}
+
+.dock-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: move;
+  overflow: hidden;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.dock-panel-header-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dock-panel-header-actions {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 0.125rem;
+}
+
+.dock-panel-header-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.125rem;
+  background: transparent;
+  color: var(--bs-body-color, #212529);
+  cursor: pointer;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.dock-panel-header-action:hover {
+  background: rgba(13, 110, 253, 0.12);
+}
+
+.dock-panel-tabs {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.125rem;
+  padding: 0 0.25rem 0.25rem;
+  background: var(--bs-tertiary-bg, rgba(0, 0, 0, 0.03));
+  border-top: 1px solid var(--bs-border-color, rgba(0, 0, 0, 0.125));
+}
+
+.dock-panel-tab {
+  border: 0;
+  border-radius: 0 0 0.25rem 0.25rem;
+  background: transparent;
+  color: var(--bs-body-color, #212529);
+  cursor: pointer;
+  font: inherit;
+  line-height: 1.25;
+  overflow: hidden;
+  padding: 0.375rem 0.625rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dock-panel-tab.active {
+  background: var(--bs-body-bg, #fff);
+  color: var(--bs-primary, #0d6efd);
+}
+
+.dock-panel-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 0.75rem;
+}
+
+.dock-content {
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow: auto;
+}
+
+.dock-splitter {
+  position: absolute;
+  background: transparent;
+}
+
+.dock-splitter-start,
+.dock-splitter-end {
+  top: 0;
+  bottom: 0;
+  width: 0.375rem;
+  cursor: col-resize;
+}
+
+.dock-splitter-start {
+  right: -0.1875rem;
+}
+
+.dock-splitter-end {
+  left: -0.1875rem;
+}
+
+.dock-splitter-top,
+.dock-splitter-bottom {
+  left: 0;
+  right: 0;
+  height: 0.375rem;
+  cursor: row-resize;
+}
+
+.dock-splitter-top {
+  bottom: -0.1875rem;
+}
+
+.dock-splitter-bottom {
+  top: -0.1875rem;
+}
+
+.dock-compass {
+  position: absolute;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(3, 1.75rem);
+  grid-template-rows: repeat(3, 1.75rem);
+  gap: 0.25rem;
+  width: 5.75rem;
+  height: 5.75rem;
+  padding: 0.25rem;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border: 1px solid var(--bs-border-color, rgba(0, 0, 0, 0.125));
+  border-radius: 0.25rem;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.12);
+}
+
+.dock-compass-zone {
+  border: 1px solid rgba(13, 110, 253, 0.55);
+  background: rgba(13, 110, 253, 0.08);
+}
+
+.dock-compass-zone.active,
+.dock-shell-guide.active {
+  border-color: var(--bs-primary, #0d6efd);
+  background: rgba(13, 110, 253, 0.2);
+}
+
+.dock-compass-zone-center {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.dock-compass-zone-start {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.dock-compass-zone-end {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.dock-compass-zone-top {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.dock-compass-zone-bottom {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.dock-shell-guide {
+  position: absolute;
+  z-index: 19;
+  pointer-events: none;
+  width: 2rem;
+  height: 2rem;
+  border: 1px dashed rgba(13, 110, 253, 0.55);
+  background: rgba(13, 110, 253, 0.06);
+}
+
+.dock-shell-guide-start {
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%);
+}
+
+.dock-shell-guide-end {
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+}
+
+.dock-shell-guide-top {
+  top: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.dock-shell-guide-bottom {
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .table-fixed-header .table thead tr th.dropdown-table-fixed-header-visible {
   z-index: 11;
 }

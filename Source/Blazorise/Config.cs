@@ -125,6 +125,7 @@ public static class Config
         { typeof( IJSInputMaskModule ), typeof( JSInputMaskModule ) },
         { typeof( IJSDragDropModule ), typeof( JSDragDropModule ) },
         { typeof( IJSDropdownModule ), typeof( JSDropdownModule ) },
+        { typeof( IJSDockLayoutModule ), typeof( JSDockLayoutModule ) },
     };
 
     /// <summary>

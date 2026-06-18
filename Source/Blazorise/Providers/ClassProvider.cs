@@ -689,6 +689,51 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region DockLayout
+
+    public virtual string DockLayout() => null;
+
+    public virtual string DockPanel( DockPanelPosition position, bool resizable, bool collapsed ) => null;
+
+    public virtual string DockPanelPosition( DockPanelPosition position )
+        => null;
+
+    public virtual string DockPanelResizable( bool resizable ) => null;
+
+    public virtual string DockPanelCollapsed( bool collapsed ) => null;
+
+    public virtual string DockPanelAutoHide( bool autoHide ) => null;
+
+    public virtual string DockPanelInactive() => null;
+
+    public virtual string DockPanelAutoHideTab( DockPanelPosition position ) => null;
+
+    public virtual string DockPanelHeader() => null;
+
+    public virtual string DockPanelBody() => null;
+
+    public virtual string DockPanelFooter() => null;
+
+    public virtual string DockContent() => null;
+
+    public virtual string DockSplitter( DockPanelPosition position )
+        => null;
+
+    public virtual string DockPanelTabs() => null;
+
+    public virtual string DockPanelTab( bool active ) => null;
+
+    public virtual string DockLayoutCompass()
+        => null;
+
+    public virtual string DockLayoutCompassZone( DockZone zone, bool active )
+        => null;
+
+    public virtual string DockLayoutShellGuide( DockZone zone, bool active )
+        => null;
+
+    #endregion
+
     #region Container
 
     public abstract string Container( Breakpoint breakpoint );

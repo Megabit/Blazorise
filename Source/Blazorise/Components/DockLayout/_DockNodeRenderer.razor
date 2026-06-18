@@ -1,0 +1,20 @@
+@namespace Blazorise
+@if ( Node?.Kind == DockNodeKind.Split )
+{
+    <div class="@SplitClass" style="@SplitStyle">
+        <_DockNodeRenderer Layout="@Layout" Node="@Node.First" />
+        <_DockNodeRenderer Layout="@Layout" Node="@Node.Second" />
+    </div>
+}
+else if ( Node?.Kind == DockNodeKind.Tabs )
+{
+    @Layout.RenderTabbedPanelGroup( Node )
+}
+else if ( Node?.Kind == DockNodeKind.Panel )
+{
+    @Layout.RenderPanel( Node.PanelName )
+}
+else if ( Node?.Kind == DockNodeKind.Content )
+{
+    @Layout.RenderContent()
+}

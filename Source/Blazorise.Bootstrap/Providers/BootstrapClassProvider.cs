@@ -1459,6 +1459,90 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
+    #region DockLayout
+
+    public override string DockLayout() => "dock-layout";
+
+    public override string DockPanel( DockPanelPosition position, bool resizable, bool collapsed ) => "dock-panel";
+
+    public override string DockPanelPosition( DockPanelPosition position )
+        => position switch
+        {
+            Blazorise.DockPanelPosition.Right => "dock-panel-right",
+            Blazorise.DockPanelPosition.Top => "dock-panel-top",
+            Blazorise.DockPanelPosition.Bottom => "dock-panel-bottom",
+            _ => "dock-panel-left",
+        };
+
+    public override string DockPanelResizable( bool resizable ) => resizable ? "dock-panel-resizable" : null;
+
+    public override string DockPanelCollapsed( bool collapsed ) => collapsed ? "dock-panel-collapsed" : null;
+
+    public override string DockPanelAutoHide( bool autoHide ) => autoHide ? "dock-panel-autohide" : null;
+
+    public override string DockPanelInactive() => "dock-panel-inactive";
+
+    public override string DockPanelAutoHideTab( DockPanelPosition position )
+        => position switch
+        {
+            Blazorise.DockPanelPosition.Right => "dock-panel-autohide-tab dock-panel-autohide-tab-right",
+            Blazorise.DockPanelPosition.Top => "dock-panel-autohide-tab dock-panel-autohide-tab-top",
+            Blazorise.DockPanelPosition.Bottom => "dock-panel-autohide-tab dock-panel-autohide-tab-bottom",
+            _ => "dock-panel-autohide-tab dock-panel-autohide-tab-left",
+        };
+
+    public override string DockPanelHeader() => "dock-panel-header";
+
+    public override string DockPanelBody() => "dock-panel-body";
+
+    public override string DockPanelFooter() => "dock-panel-footer";
+
+    public override string DockContent() => "dock-content";
+
+    public override string DockSplitter( DockPanelPosition position )
+        => position switch
+        {
+            Blazorise.DockPanelPosition.Right => "dock-splitter dock-splitter-right",
+            Blazorise.DockPanelPosition.Top => "dock-splitter dock-splitter-top",
+            Blazorise.DockPanelPosition.Bottom => "dock-splitter dock-splitter-bottom",
+            _ => "dock-splitter dock-splitter-left",
+        };
+
+    public override string DockPanelTabs() => "dock-panel-tabs";
+
+    public override string DockPanelTab( bool active ) => active ? "dock-panel-tab active" : "dock-panel-tab";
+
+    public override string DockLayoutCompass() => "dock-compass";
+
+    public override string DockLayoutCompassZone( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Center => "dock-compass-zone dock-compass-zone-center",
+            DockZone.Right => "dock-compass-zone dock-compass-zone-right",
+            DockZone.Top => "dock-compass-zone dock-compass-zone-top",
+            DockZone.Bottom => "dock-compass-zone dock-compass-zone-bottom",
+            _ => "dock-compass-zone dock-compass-zone-left",
+        };
+
+        return active ? $"{baseClass} active" : baseClass;
+    }
+
+    public override string DockLayoutShellGuide( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Right => "dock-shell-guide dock-shell-guide-right",
+            DockZone.Top => "dock-shell-guide dock-shell-guide-top",
+            DockZone.Bottom => "dock-shell-guide dock-shell-guide-bottom",
+            _ => "dock-shell-guide dock-shell-guide-left",
+        };
+
+        return active ? $"{baseClass} active" : baseClass;
+    }
+
+    #endregion
+
     #region Layout
 
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint )

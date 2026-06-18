@@ -693,6 +693,46 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region DockLayout
+
+    public string DockLayout() => null;
+
+    public string DockPanel( DockPanelPosition position, bool resizable, bool collapsed ) => null;
+
+    public string DockPanelPosition( DockPanelPosition position ) => null;
+
+    public string DockPanelResizable( bool resizable ) => null;
+
+    public string DockPanelCollapsed( bool collapsed ) => null;
+
+    public string DockPanelAutoHide( bool autoHide ) => null;
+
+    public string DockPanelInactive() => null;
+
+    public string DockPanelAutoHideTab( DockPanelPosition position ) => null;
+
+    public string DockPanelHeader() => null;
+
+    public string DockPanelBody() => null;
+
+    public string DockPanelFooter() => null;
+
+    public string DockContent() => null;
+
+    public string DockSplitter( DockPanelPosition position ) => null;
+
+    public string DockPanelTabs() => null;
+
+    public string DockPanelTab( bool active ) => null;
+
+    public string DockLayoutCompass() => null;
+
+    public string DockLayoutCompassZone( DockZone zone, bool active ) => null;
+
+    public string DockLayoutShellGuide( DockZone zone, bool active ) => null;
+
+    #endregion
+
     #region Container
 
     public string Container( Breakpoint breakpoint ) => null;

@@ -1,0 +1,31 @@
+@namespace Blazorise
+@inherits BaseComponent
+<CascadingValue Value="@this" IsFixed>
+    <section @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <CascadingValue Value="@RootCollector" IsFixed="false">
+            <div style="display:none">
+                @ChildContent
+            </div>
+        </CascadingValue>
+        @if ( CurrentState.Root is not null )
+        {
+            <_DockNodeRenderer Layout="@this" Node="@CurrentState.Root" />
+        }
+        @if ( DockGuidesVisible )
+        {
+            <div class="@GetDockCompassClass()" style="@GetDockCompassStyle()">
+                @foreach ( DockZone zone in DockZones )
+                {
+                    <div class="@GetDockCompassZoneClass( zone )"></div>
+                }
+            </div>
+            @foreach ( DockZone zone in DockZones )
+            {
+                if ( zone != DockZone.Center )
+                {
+                    <div class="@GetDockShellGuideClass( zone )"></div>
+                }
+            }
+        }
+    </section>
+</CascadingValue>
