@@ -61,6 +61,18 @@ public partial class DockLayout : BaseComponent
 
     #endregion
 
+    #region Constructors
+
+    /// <summary>
+    /// Default <see cref="DockLayout"/> constructor.
+    /// </summary>
+    public DockLayout()
+    {
+        DockCompassStyleBuilder = new( BuildDockCompassStyles );
+    }
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -69,6 +81,24 @@ public partial class DockLayout : BaseComponent
         builder.Append( ClassProvider.DockLayout() );
 
         base.BuildClasses( builder );
+    }
+
+    /// <summary>
+    /// Builds styles for the dock compass element.
+    /// </summary>
+    /// <param name="builder">Style builder used to append the styles.</param>
+    protected virtual void BuildDockCompassStyles( StyleBuilder builder )
+    {
+        builder.Append( $"left:{dockCompassX}px" );
+        builder.Append( $"top:{dockCompassY}px" );
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyStyles()
+    {
+        DockCompassStyleBuilder.Dirty();
+
+        base.DirtyStyles();
     }
 
     internal void RegisterPanel( DockPanel panel )
@@ -127,6 +157,20 @@ public partial class DockLayout : BaseComponent
     internal bool HasPanelTabs( DockPanelPosition position )
         => GetPanelStates( position ).Count > 1;
 
+    internal bool TryGetPanel( string panelName, out DockPanel panel )
+    {
+        if ( string.IsNullOrWhiteSpace( panelName ) )
+        {
+            panel = null;
+            return false;
+        }
+
+        return panels.TryGetValue( panelName, out panel );
+    }
+
+    internal DockPanelState GetPanelState( string panelName )
+        => FindPanelState( panelName );
+
     internal bool IsPanelActive( DockPanel panel )
     {
         DockPanelState panelState = EnsurePanelState( panel );
@@ -181,103 +225,6 @@ public partial class DockLayout : BaseComponent
 
         return IsPanelAutoHidden( activePanelName );
     }
-
-    internal RenderFragment RenderTabbedPanelGroup( DockNodeState node )
-        => builder =>
-        {
-            if ( node?.Kind != DockNodeKind.Tabs )
-                return;
-
-            if ( IsTabGroupAutoHidden( node ) )
-            {
-                builder.AddContent( 0, RenderAutoHideTabs( node ) );
-                return;
-            }
-
-            string activePanelName = GetActiveTabPanelName( node );
-
-            if ( string.IsNullOrWhiteSpace( activePanelName ) || !panels.TryGetValue( activePanelName, out DockPanel activePanel ) )
-                return;
-
-            DockPanelState activePanelState = FindPanelState( activePanelName );
-            int sequence = 0;
-
-            builder.OpenComponent<CascadingValue<DockPanel>>( sequence++ );
-            builder.AddAttribute( sequence++, "Value", activePanel );
-            builder.AddAttribute( sequence++, "IsFixed", false );
-            builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( childBuilder =>
-            {
-                int childSequence = 0;
-
-                childBuilder.OpenElement( childSequence++, "aside" );
-                childBuilder.AddAttribute( childSequence++, "class", GetRenderedTabsHostClass( activePanel, activePanelState ) );
-                childBuilder.AddAttribute( childSequence++, "style", GetRenderedPanelStyle( activePanel, activePanelState, node.Size ) );
-                childBuilder.AddAttribute( childSequence++, "data-dock-panel-name", activePanelName );
-                childBuilder.AddElementReferenceCapture( childSequence++, elementReference => activePanel.ElementRef = elementReference );
-                childBuilder.AddContent( childSequence++, activePanel.ChildContent );
-                childBuilder.OpenElement( childSequence++, "div" );
-                childBuilder.AddAttribute( childSequence++, "class", GetDockPanelTabsClass() );
-
-                foreach ( string panelName in node.Panels )
-                {
-                    childBuilder.OpenElement( childSequence++, "button" );
-                    childBuilder.AddAttribute( childSequence++, "type", "button" );
-                    childBuilder.AddAttribute( childSequence++, "class", GetDockTabClass( node, panelName ) );
-                    childBuilder.AddAttribute( childSequence++, "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginPanelTabDrag( panelName, eventArgs ) ) );
-                    childBuilder.AddAttribute( childSequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => ActivateTab( node, panelName ) ) );
-                    childBuilder.AddContent( childSequence++, GetPanelCaption( panelName ) );
-                    childBuilder.CloseElement();
-                }
-
-                childBuilder.CloseElement();
-
-                if ( activePanel.Resizable )
-                {
-                    childBuilder.OpenComponent<DockSplitter>( childSequence++ );
-                    childBuilder.AddAttribute( childSequence++, "Dock", activePanel.EffectivePosition );
-                    childBuilder.CloseComponent();
-                }
-
-                childBuilder.CloseElement();
-            } ) );
-            builder.CloseComponent();
-        };
-
-    internal RenderFragment RenderAutoHideTabs( DockNodeState node )
-        => builder =>
-        {
-            if ( node?.Kind != DockNodeKind.Tabs )
-                return;
-
-            string activePanelName = GetActiveTabPanelName( node );
-
-            if ( string.IsNullOrWhiteSpace( activePanelName ) || !panels.TryGetValue( activePanelName, out DockPanel activePanel ) )
-                return;
-
-            int sequence = 0;
-
-            builder.OpenElement( sequence++, "aside" );
-            builder.AddAttribute( sequence++, "class", GetRenderedPanelClass( activePanel, FindPanelState( activePanelName ) ) );
-            builder.AddAttribute( sequence++, "style", GetRenderedPanelStyle( activePanel, FindPanelState( activePanelName ) ) );
-            builder.AddAttribute( sequence++, "data-dock-panel-name", activePanelName );
-            builder.AddElementReferenceCapture( sequence++, elementReference => activePanel.ElementRef = elementReference );
-
-            foreach ( string panelName in node.Panels )
-            {
-                if ( !panels.TryGetValue( panelName, out DockPanel panel ) )
-                    continue;
-
-                builder.OpenElement( sequence++, "button" );
-                builder.AddAttribute( sequence++, "type", "button" );
-                builder.AddAttribute( sequence++, "class", GetRenderedPanelAutoHideTabClass( panel ) );
-                builder.AddAttribute( sequence++, "title", panel.ResolvedCaption );
-                builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => OpenPanelAutoHide( panel ) ) );
-                builder.AddContent( sequence++, panel.ResolvedCaption );
-                builder.CloseElement();
-            }
-
-            builder.CloseElement();
-        };
 
     internal string GetActiveTabPanelName( DockNodeState node )
     {
@@ -363,74 +310,6 @@ public partial class DockLayout : BaseComponent
 
         await NotifyStateChanged();
     }
-
-    internal RenderFragment RenderPanel( string panelName )
-        => builder =>
-        {
-            if ( string.IsNullOrWhiteSpace( panelName ) || !panels.TryGetValue( panelName, out DockPanel panel ) )
-                return;
-
-            DockPanelState panelState = FindPanelState( panelName );
-
-            if ( panelState?.Visible == false )
-                return;
-
-            int sequence = 0;
-
-            builder.OpenComponent<CascadingValue<DockPanel>>( sequence++ );
-            builder.AddAttribute( sequence++, "Value", panel );
-            builder.AddAttribute( sequence++, "IsFixed", false );
-            builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( childBuilder =>
-            {
-                int childSequence = 0;
-
-                childBuilder.OpenElement( childSequence++, "aside" );
-                childBuilder.AddAttribute( childSequence++, "class", GetRenderedPanelClass( panel, panelState ) );
-                childBuilder.AddAttribute( childSequence++, "style", GetRenderedPanelStyle( panel, panelState ) );
-                childBuilder.AddAttribute( childSequence++, "data-dock-panel-name", panel.ResolvedName );
-                childBuilder.AddElementReferenceCapture( childSequence++, elementReference => panel.ElementRef = elementReference );
-
-                if ( panelState?.AutoHide == true )
-                {
-                    childBuilder.OpenElement( childSequence++, "button" );
-                    childBuilder.AddAttribute( childSequence++, "type", "button" );
-                    childBuilder.AddAttribute( childSequence++, "class", GetRenderedPanelAutoHideTabClass( panel ) );
-                    childBuilder.AddAttribute( childSequence++, "title", panel.ResolvedCaption );
-                    childBuilder.AddAttribute( childSequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => OpenPanelAutoHide( panel ) ) );
-                    childBuilder.AddContent( childSequence++, panel.ResolvedCaption );
-                    childBuilder.CloseElement();
-                }
-                else
-                {
-                    childBuilder.AddContent( childSequence++, panel.ChildContent );
-
-                    if ( panel.Resizable )
-                    {
-                        childBuilder.OpenComponent<DockSplitter>( childSequence++ );
-                        childBuilder.AddAttribute( childSequence++, "Dock", panel.EffectivePosition );
-                        childBuilder.CloseComponent();
-                    }
-                }
-
-                childBuilder.CloseElement();
-            } ) );
-            builder.CloseComponent();
-        };
-
-    internal RenderFragment RenderContent()
-        => builder =>
-        {
-            if ( content is null )
-                return;
-
-            int sequence = 0;
-
-            builder.OpenElement( sequence++, "main" );
-            builder.AddAttribute( sequence++, "class", content.ClassNames );
-            builder.AddAttribute( sequence++, "style", content.StyleNames );
-            builder.AddContent( sequence++, content.ChildContent );
-            builder.CloseElement();
-        };
 
     internal async Task BeginPanelResize( DockPanel panel, PointerEventArgs eventArgs )
     {
@@ -525,6 +404,7 @@ public partial class DockLayout : BaseComponent
         dockCompassY = compassY;
         draggingPanelName = panelName;
 
+        DirtyStyles();
         StateHasChanged();
 
         return Task.CompletedTask;
@@ -651,7 +531,7 @@ public partial class DockLayout : BaseComponent
             CurrentState.ActivePanels[position] = panelState.Name;
     }
 
-    private DockPanelState FindPanelState( string panelName )
+    internal DockPanelState FindPanelState( string panelName )
         => CurrentState.Panels.FirstOrDefault( x => x.Name == panelName );
 
     private void SetPanelAutoHide( string panelName, bool autoHide )
@@ -1055,51 +935,6 @@ public partial class DockLayout : BaseComponent
             Ratio = ratio,
         };
 
-    private string GetRenderedPanelClass( DockPanel panel, DockPanelState panelState )
-    {
-        ClassBuilder builder = new( classBuilder =>
-        {
-            bool collapsed = panelState?.Collapsed == true || panelState?.AutoHide == true;
-
-            classBuilder.Append( ClassProvider.DockPanel( panel.EffectivePosition, panel.Resizable, collapsed ) );
-            classBuilder.Append( ClassProvider.DockPanelPosition( panel.EffectivePosition ) );
-            classBuilder.Append( ClassProvider.DockPanelResizable( panel.Resizable ) );
-            classBuilder.Append( ClassProvider.DockPanelCollapsed( collapsed ) );
-            classBuilder.Append( ClassProvider.DockPanelAutoHide( panelState?.AutoHide == true ) );
-        } );
-
-        return builder.Class;
-    }
-
-    private string GetRenderedTabsHostClass( DockPanel panel, DockPanelState panelState )
-    {
-        ClassBuilder builder = new( classBuilder =>
-        {
-            classBuilder.Append( GetRenderedPanelClass( panel, panelState ) );
-            classBuilder.Append( "dock-tabs-host" );
-        } );
-
-        return builder.Class;
-    }
-
-    private string GetRenderedPanelAutoHideTabClass( DockPanel panel )
-        => ClassProvider.DockPanelAutoHideTab( panel.EffectivePosition );
-
-    private string GetRenderedPanelStyle( DockPanel panel, DockPanelState panelState, string size = null )
-    {
-        string panelSize = size ?? panelState?.Size ?? panel.Size;
-        bool autoHide = panelState?.AutoHide == true;
-
-        StyleBuilder builder = new( styleBuilder =>
-        {
-            styleBuilder.Append( $"--dock-panel-size:{panelSize}", !autoHide && !string.IsNullOrWhiteSpace( panelSize ) );
-            styleBuilder.Append( $"--dock-panel-min-size:{panel.MinSize}", !autoHide && !string.IsNullOrWhiteSpace( panel.MinSize ) );
-            styleBuilder.Append( $"--dock-panel-max-size:{panel.MaxSize}", !autoHide && !string.IsNullOrWhiteSpace( panel.MaxSize ) );
-        } );
-
-        return builder.Styles;
-    }
-
     private int GetNextOrder( DockPanelPosition position )
     {
         int? order = CurrentState.Panels
@@ -1119,17 +954,6 @@ public partial class DockLayout : BaseComponent
             await StateChanged.InvokeAsync( CurrentState );
 
         StateHasChanged();
-    }
-
-    private string GetDockCompassStyle()
-    {
-        StyleBuilder builder = new( styleBuilder =>
-        {
-            styleBuilder.Append( $"left:{dockCompassX}px" );
-            styleBuilder.Append( $"top:{dockCompassY}px" );
-        } );
-
-        return builder.Styles;
     }
 
     internal string GetDockCompassClass()
@@ -1163,6 +987,33 @@ public partial class DockLayout : BaseComponent
 
     #region Properties
 
+    internal bool DockGuidesVisible => draggingPanelName is not null && activeDockZone is not null;
+
+    internal static IReadOnlyList<DockZone> DockZones => dockZones;
+
+    private DockLayoutState CurrentState => state ??= new();
+
+    internal DockNodeCollector RootCollector => rootCollector;
+
+    internal DockContent Content => content;
+
+    private DotNetObjectReference<DockLayout> DotNetObjectRef => dotNetObjectRef ??= DotNetObjectReference.Create( this );
+
+    /// <summary>
+    /// Gets or sets the dock compass style-builder.
+    /// </summary>
+    protected StyleBuilder DockCompassStyleBuilder { get; private set; }
+
+    /// <summary>
+    /// Gets the styles for dock compass container.
+    /// </summary>
+    protected string DockCompassStyleNames => DockCompassStyleBuilder.Styles;
+
+    /// <summary>
+    /// Gets the DockLayout JavaScript module.
+    /// </summary>
+    [Inject] protected IJSDockLayoutModule JSModule { get; set; }
+
     /// <summary>
     /// Specifies the panels and content to be rendered inside the dock layout.
     /// </summary>
@@ -1182,21 +1033,6 @@ public partial class DockLayout : BaseComponent
     /// Occurs after the docking state changes.
     /// </summary>
     [Parameter] public EventCallback<DockLayoutState> StateChanged { get; set; }
-
-    /// <summary>
-    /// Gets the DockLayout JavaScript module.
-    /// </summary>
-    [Inject] protected IJSDockLayoutModule JSModule { get; set; }
-
-    internal bool DockGuidesVisible => draggingPanelName is not null && activeDockZone is not null;
-
-    internal static IReadOnlyList<DockZone> DockZones => dockZones;
-
-    private DockLayoutState CurrentState => state ??= new();
-
-    internal DockNodeCollector RootCollector => rootCollector;
-
-    private DotNetObjectReference<DockLayout> DotNetObjectRef => dotNetObjectRef ??= DotNetObjectReference.Create( this );
 
     #endregion
 }

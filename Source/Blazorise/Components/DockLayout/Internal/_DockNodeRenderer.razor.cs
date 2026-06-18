@@ -11,6 +11,12 @@ public partial class _DockNodeRenderer : ComponentBase
 {
     #region Properties
 
+    private string SplitClass => Node?.Orientation == DockSplitOrientation.Vertical
+        ? "dock-split dock-split-vertical"
+        : "dock-split dock-split-horizontal";
+
+    private string SplitStyle => Layout?.GetDockSplitStyle( Node );
+
     /// <summary>
     /// Gets or sets the owner dock layout.
     /// </summary>
@@ -20,12 +26,6 @@ public partial class _DockNodeRenderer : ComponentBase
     /// Gets or sets the node to render.
     /// </summary>
     [Parameter] public DockNodeState Node { get; set; }
-
-    private string SplitClass => Node?.Orientation == DockSplitOrientation.Vertical
-        ? "dock-split dock-split-vertical"
-        : "dock-split dock-split-horizontal";
-
-    private string SplitStyle => Layout?.GetDockSplitStyle( Node );
 
     #endregion
 }

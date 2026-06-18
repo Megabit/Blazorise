@@ -1,0 +1,14 @@
+@namespace Blazorise
+@inherits BaseComponent
+@if ( Visible )
+{
+    <aside @ref="@ElementRef" class="@ClassNames" style="@StyleNames" data-dock-panel-name="@ActivePanelName">
+        @foreach ( string panelName in Node.Panels )
+        {
+            if ( Layout.TryGetPanel( panelName, out DockPanel panel ) )
+            {
+                <button type="button" class="@GetPanelAutoHideTabClass( panel )" title="@panel.ResolvedCaption" @onclick="@(() => OpenPanelAutoHide( panel ))">@panel.ResolvedCaption</button>
+            }
+        }
+    </aside>
+}

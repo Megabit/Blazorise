@@ -1,0 +1,25 @@
+@namespace Blazorise
+@inherits BaseComponent
+@if ( AutoHide )
+{
+    <_DockAutoHideTabsRenderer Layout="@Layout" Node="@Node" />
+}
+else if ( Visible )
+{
+    <CascadingValue Value="@ActivePanel" IsFixed="false">
+        <aside @ref="@ElementRef" class="@ClassNames" style="@StyleNames" data-dock-panel-name="@ActivePanelName">
+            @ActivePanel.ChildContent
+            <div class="@TabsClass">
+                @foreach ( string panelName in Node.Panels )
+                {
+                    <button type="button" class="@Layout.GetDockTabClass( Node, panelName )" @onpointerdown="@((PointerEventArgs eventArgs) => BeginPanelTabDrag( panelName, eventArgs ))" @onclick="@(() => ActivateTab( panelName ))">@Layout.GetPanelCaption( panelName )</button>
+                }
+            </div>
+
+            @if ( ActivePanel.Resizable )
+            {
+                <DockSplitter Dock="@ActivePanel.EffectivePosition" />
+            }
+        </aside>
+    </CascadingValue>
+}

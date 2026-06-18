@@ -40,6 +40,8 @@ public partial class DockSplitter : BaseComponent
 
     #region Properties
 
+    [CascadingParameter] internal DockPanel ParentDockPanel { get; set; }
+
     /// <summary>
     /// Defines the panel side that owns this splitter.
     /// </summary>
@@ -57,8 +59,6 @@ public partial class DockSplitter : BaseComponent
             DirtyClasses();
         }
     }
-
-    [CascadingParameter] internal DockPanel ParentDockPanel { get; set; }
 
     #endregion
 }

@@ -13,7 +13,7 @@
         }
         @if ( DockGuidesVisible )
         {
-            <div class="@GetDockCompassClass()" style="@GetDockCompassStyle()">
+            <div class="@GetDockCompassClass()" style="@DockCompassStyleNames">
                 @foreach ( DockZone zone in DockZones )
                 {
                     <div class="@GetDockCompassZoneClass( zone )"></div>

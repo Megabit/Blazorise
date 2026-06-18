@@ -8,13 +8,13 @@
 }
 else if ( Node?.Kind == DockNodeKind.Tabs )
 {
-    @Layout.RenderTabbedPanelGroup( Node )
+    <_DockTabsRenderer Layout="@Layout" Node="@Node" />
 }
 else if ( Node?.Kind == DockNodeKind.Panel )
 {
-    @Layout.RenderPanel( Node.PanelName )
+    <_DockPanelRenderer Layout="@Layout" PanelName="@Node.PanelName" />
 }
 else if ( Node?.Kind == DockNodeKind.Content )
 {
-    @Layout.RenderContent()
+    <_DockContentRenderer Layout="@Layout" />
 }

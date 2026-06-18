@@ -65,6 +65,14 @@ public partial class DockSplit : BaseComponent
 
     #region Properties
 
+    [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
+
+    [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
+
+    internal DockNodeCollector ChildCollector => childCollector;
+
+    internal DockNodeState Node => BuildNode();
+
     /// <summary>
     /// Defines the split orientation.
     /// </summary>
@@ -89,14 +97,6 @@ public partial class DockSplit : BaseComponent
     /// Specifies the split child content.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
-
-    [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
-
-    [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
-
-    internal DockNodeCollector ChildCollector => childCollector;
-
-    internal DockNodeState Node => BuildNode();
 
     #endregion
 }

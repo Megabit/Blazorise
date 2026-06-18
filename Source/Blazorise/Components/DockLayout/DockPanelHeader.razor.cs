@@ -50,11 +50,6 @@ public partial class DockPanelHeader : BaseComponent
 
     #region Properties
 
-    /// <summary>
-    /// Specifies the header content to be rendered inside this <see cref="DockPanelHeader"/>.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
-
     [CascadingParameter] internal DockPanel ParentDockPanel { get; set; }
 
     private bool AutoHideActionVisible => ParentDockPanel?.AutoHideable == true;
@@ -66,6 +61,11 @@ public partial class DockPanelHeader : BaseComponent
     private string AutoHideTitle => ParentDockPanel?.EffectiveAutoHide == true ? "Pin" : "Auto hide";
 
     private IconName AutoHideIconName => ParentDockPanel?.EffectiveAutoHide == true ? IconName.Expand : IconName.EyeSlash;
+
+    /// <summary>
+    /// Specifies the header content to be rendered inside this <see cref="DockPanelHeader"/>.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }

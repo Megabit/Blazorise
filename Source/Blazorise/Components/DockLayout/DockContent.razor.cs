@@ -39,11 +39,6 @@ public partial class DockContent : BaseComponent
 
     #region Properties
 
-    /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="DockContent"/>.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
-
     [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
 
     [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
@@ -52,6 +47,11 @@ public partial class DockContent : BaseComponent
     {
         Kind = DockNodeKind.Content,
     };
+
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="DockContent"/>.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }

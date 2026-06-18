@@ -90,6 +90,43 @@ public partial class DockPanel : BaseComponent, IDisposable
 
     #region Properties
 
+    [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
+
+    [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
+
+    internal string ResolvedName => !string.IsNullOrWhiteSpace( Name ) ? Name : ElementId;
+
+    internal string ResolvedCaption => !string.IsNullOrWhiteSpace( Caption ) ? Caption : ResolvedName;
+
+    internal DockPanelPosition EffectivePosition => ParentDockLayout?.GetPanelState( this )?.Position ?? Dock;
+
+    internal string EffectiveSize => ParentDockLayout?.GetPanelState( this )?.Size ?? Size;
+
+    internal bool EffectiveCollapsed => ParentDockLayout?.GetPanelState( this )?.Collapsed ?? Collapsed;
+
+    internal bool EffectiveAutoHide => ParentDockLayout?.GetPanelState( this )?.AutoHide ?? AutoHide;
+
+    internal bool EffectiveVisible => ParentDockLayout?.GetPanelState( this )?.Visible ?? Visible;
+
+    internal bool EffectiveActive => ParentDockLayout?.IsPanelActive( this ) != false;
+
+    internal bool ShowTabs => ParentDockLayout?.HasPanelTabs( EffectivePosition ) == true;
+
+    internal DockNodeState Node
+    {
+        get
+        {
+            node ??= new()
+            {
+                Kind = DockNodeKind.Panel,
+            };
+
+            node.PanelName = ResolvedName;
+
+            return node;
+        }
+    }
+
     /// <summary>
     /// Identifies the panel inside the parent <see cref="DockLayout"/>.
     /// </summary>
@@ -280,43 +317,6 @@ public partial class DockPanel : BaseComponent, IDisposable
     /// Specifies the content to be rendered inside this <see cref="DockPanel"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
-
-    [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
-
-    [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
-
-    internal string ResolvedName => !string.IsNullOrWhiteSpace( Name ) ? Name : ElementId;
-
-    internal string ResolvedCaption => !string.IsNullOrWhiteSpace( Caption ) ? Caption : ResolvedName;
-
-    internal DockPanelPosition EffectivePosition => ParentDockLayout?.GetPanelState( this )?.Position ?? Dock;
-
-    internal string EffectiveSize => ParentDockLayout?.GetPanelState( this )?.Size ?? Size;
-
-    internal bool EffectiveCollapsed => ParentDockLayout?.GetPanelState( this )?.Collapsed ?? Collapsed;
-
-    internal bool EffectiveAutoHide => ParentDockLayout?.GetPanelState( this )?.AutoHide ?? AutoHide;
-
-    internal bool EffectiveVisible => ParentDockLayout?.GetPanelState( this )?.Visible ?? Visible;
-
-    internal bool EffectiveActive => ParentDockLayout?.IsPanelActive( this ) != false;
-
-    internal bool ShowTabs => ParentDockLayout?.HasPanelTabs( EffectivePosition ) == true;
-
-    internal DockNodeState Node
-    {
-        get
-        {
-            node ??= new()
-            {
-                Kind = DockNodeKind.Panel,
-            };
-
-            node.PanelName = ResolvedName;
-
-            return node;
-        }
-    }
 
     #endregion
 }
