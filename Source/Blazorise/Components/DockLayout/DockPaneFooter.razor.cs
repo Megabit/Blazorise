@@ -6,16 +6,16 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise;
 
 /// <summary>
-/// Footer content for a <see cref="DockPanel"/>.
+/// Footer content for a <see cref="DockPane"/>.
 /// </summary>
-public partial class DockPanelFooter : BaseComponent
+public partial class DockPaneFooter : BaseComponent
 {
     #region Methods
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.DockPanelFooter() );
+        builder.Append( ClassProvider.DockPaneFooter() );
 
         base.BuildClasses( builder );
     }
@@ -25,7 +25,7 @@ public partial class DockPanelFooter : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Specifies the footer content to be rendered inside this <see cref="DockPanelFooter"/>.
+    /// Specifies the footer content to be rendered inside this <see cref="DockPaneFooter"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

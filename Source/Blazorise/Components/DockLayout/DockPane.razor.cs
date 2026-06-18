@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise;
 
 /// <summary>
-/// A docked panel that can be placed around the central <see cref="DockContent"/>.
+/// A docked pane that can be placed around the central document area.
 /// </summary>
-public partial class DockPanel : BaseComponent, IDisposable
+public partial class DockPane : BaseComponent, IDisposable
 {
     #region Members
 
@@ -17,7 +17,11 @@ public partial class DockPanel : BaseComponent, IDisposable
 
     private string caption;
 
-    private DockPanelPosition dock;
+    private DockPanePosition dock;
+
+    private DockRole dockRole = DockRole.Tool;
+
+    private bool showTab = true;
 
     private bool resizable;
 
@@ -48,12 +52,12 @@ public partial class DockPanel : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.DockPanel( EffectivePosition, Resizable, EffectiveCollapsed || EffectiveAutoHide ) );
-        builder.Append( ClassProvider.DockPanelPosition( EffectivePosition ) );
-        builder.Append( ClassProvider.DockPanelResizable( Resizable ) );
-        builder.Append( ClassProvider.DockPanelCollapsed( EffectiveCollapsed || EffectiveAutoHide ) );
-        builder.Append( ClassProvider.DockPanelAutoHide( EffectiveAutoHide ) );
-        builder.Append( ClassProvider.DockPanelInactive(), !EffectiveActive );
+        builder.Append( ClassProvider.DockPane( EffectivePosition, Resizable, EffectiveCollapsed || EffectiveAutoHide ) );
+        builder.Append( ClassProvider.DockPanePosition( EffectivePosition ) );
+        builder.Append( ClassProvider.DockPaneResizable( Resizable ) );
+        builder.Append( ClassProvider.DockPaneCollapsed( EffectiveCollapsed || EffectiveAutoHide ) );
+        builder.Append( ClassProvider.DockPaneAutoHide( EffectiveAutoHide ) );
+        builder.Append( ClassProvider.DockPaneInactive(), !EffectiveActive );
 
         base.BuildClasses( builder );
     }
@@ -61,9 +65,9 @@ public partial class DockPanel : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( $"--dock-panel-size:{EffectiveSize}", !EffectiveAutoHide && !string.IsNullOrWhiteSpace( EffectiveSize ) );
-        builder.Append( $"--dock-panel-min-size:{MinSize}", !EffectiveAutoHide && !string.IsNullOrWhiteSpace( MinSize ) );
-        builder.Append( $"--dock-panel-max-size:{MaxSize}", !EffectiveAutoHide && !string.IsNullOrWhiteSpace( MaxSize ) );
+        builder.Append( $"--dock-pane-size:{EffectiveSize}", !EffectiveAutoHide && !string.IsNullOrWhiteSpace( EffectiveSize ) );
+        builder.Append( $"--dock-pane-min-size:{MinSize}", !EffectiveAutoHide && !string.IsNullOrWhiteSpace( MinSize ) );
+        builder.Append( $"--dock-pane-max-size:{MaxSize}", !EffectiveAutoHide && !string.IsNullOrWhiteSpace( MaxSize ) );
 
         base.BuildStyles( builder );
     }
@@ -73,7 +77,7 @@ public partial class DockPanel : BaseComponent, IDisposable
     {
         base.OnParametersSet();
 
-        ParentDockLayout?.RegisterPanel( this );
+        ParentDockLayout?.RegisterPane( this );
         ParentCollector?.AddNode( Node );
     }
 
@@ -81,7 +85,7 @@ public partial class DockPanel : BaseComponent, IDisposable
     protected override void Dispose( bool disposing )
     {
         if ( disposing )
-            ParentDockLayout?.UnregisterPanel( this );
+            ParentDockLayout?.UnregisterPane( this );
 
         base.Dispose( disposing );
     }
@@ -98,19 +102,21 @@ public partial class DockPanel : BaseComponent, IDisposable
 
     internal string ResolvedCaption => !string.IsNullOrWhiteSpace( Caption ) ? Caption : ResolvedName;
 
-    internal DockPanelPosition EffectivePosition => ParentDockLayout?.GetPanelState( this )?.Position ?? Dock;
+    internal DockPanePosition EffectivePosition => ParentDockLayout?.GetPaneState( this )?.Position ?? Dock;
 
-    internal string EffectiveSize => ParentDockLayout?.GetPanelState( this )?.Size ?? Size;
+    internal string EffectiveSize => ParentDockLayout?.GetPaneState( this )?.Size ?? Size;
 
-    internal bool EffectiveCollapsed => ParentDockLayout?.GetPanelState( this )?.Collapsed ?? Collapsed;
+    internal bool EffectiveCollapsed => ParentDockLayout?.GetPaneState( this )?.Collapsed ?? Collapsed;
 
-    internal bool EffectiveAutoHide => ParentDockLayout?.GetPanelState( this )?.AutoHide ?? AutoHide;
+    internal bool EffectiveAutoHide => ParentDockLayout?.GetPaneState( this )?.AutoHide ?? AutoHide;
 
-    internal bool EffectiveVisible => ParentDockLayout?.GetPanelState( this )?.Visible ?? Visible;
+    internal bool EffectiveVisible => ParentDockLayout?.GetPaneState( this )?.Visible ?? Visible;
 
-    internal bool EffectiveActive => ParentDockLayout?.IsPanelActive( this ) != false;
+    internal bool EffectiveActive => ParentDockLayout?.IsPaneActive( this ) != false;
 
-    internal bool ShowTabs => ParentDockLayout?.HasPanelTabs( EffectivePosition ) == true;
+    internal bool ShowTabs => ParentDockLayout?.HasPaneTabs( EffectivePosition ) == true;
+
+    internal bool EffectiveShowTab => ShowTab;
 
     internal DockNodeState Node
     {
@@ -118,17 +124,17 @@ public partial class DockPanel : BaseComponent, IDisposable
         {
             node ??= new()
             {
-                Kind = DockNodeKind.Panel,
+                Kind = DockNodeKind.Pane,
             };
 
-            node.PanelName = ResolvedName;
+            node.PaneName = ResolvedName;
 
             return node;
         }
     }
 
     /// <summary>
-    /// Identifies the panel inside the parent <see cref="DockLayout"/>.
+    /// Identifies the pane inside the parent <see cref="DockLayout"/>.
     /// </summary>
     [Parameter]
     public string Name
@@ -148,10 +154,38 @@ public partial class DockPanel : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Defines where the panel is docked inside the layout.
+    /// Defines whether this pane behaves as a tool pane or as a document pane.
     /// </summary>
     [Parameter]
-    public DockPanelPosition Dock
+    public DockRole DockRole
+    {
+        get => dockRole;
+        set
+        {
+            if ( dockRole == value )
+                return;
+
+            dockRole = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Defines whether this pane should display a tab when it is hosted inside a tab group.
+    /// </summary>
+    [Parameter]
+    public bool ShowTab
+    {
+        get => showTab;
+        set => showTab = value;
+    }
+
+    /// <summary>
+    /// Defines where the pane is docked inside the layout.
+    /// </summary>
+    [Parameter]
+    public DockPanePosition Dock
     {
         get => dock;
         set
@@ -166,7 +200,7 @@ public partial class DockPanel : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Allows the panel to be moved to another dock position by dragging its header.
+    /// Allows the pane to be moved to another dock position by dragging its header.
     /// </summary>
     [Parameter]
     public bool Movable
@@ -176,7 +210,7 @@ public partial class DockPanel : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Shows a splitter marker that indicates the panel can participate in resize behavior.
+    /// Shows a splitter marker that indicates the pane can participate in resize behavior.
     /// </summary>
     [Parameter]
     public bool Resizable
@@ -194,7 +228,7 @@ public partial class DockPanel : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Shows or hides the panel in the dock layout.
+    /// Shows or hides the pane in the dock layout.
     /// </summary>
     [Parameter]
     public bool Visible
@@ -204,7 +238,7 @@ public partial class DockPanel : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Collapses the panel content while keeping the panel in the dock layout.
+    /// Collapses the pane content while keeping the pane in the dock layout.
     /// </summary>
     [Parameter]
     public bool Collapsed
@@ -222,7 +256,7 @@ public partial class DockPanel : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Auto-hides the panel content while keeping the panel available on its docked side.
+    /// Auto-hides the pane content while keeping the pane available on its docked side.
     /// </summary>
     [Parameter]
     public bool AutoHide
@@ -240,7 +274,7 @@ public partial class DockPanel : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Allows the panel header to show a pin action that toggles auto-hide behavior.
+    /// Allows the pane header to show a pin action that toggles auto-hide behavior.
     /// </summary>
     [Parameter]
     public bool AutoHideable
@@ -250,7 +284,7 @@ public partial class DockPanel : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Allows the panel header to show a close action that hides the panel.
+    /// Allows the pane header to show a close action that hides the pane.
     /// </summary>
     [Parameter]
     public bool Closable
@@ -260,7 +294,7 @@ public partial class DockPanel : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Defines the preferred panel size, such as <c>280px</c>, <c>18rem</c>, or <c>25%</c>.
+    /// Defines the preferred pane size, such as <c>280px</c>, <c>18rem</c>, or <c>25%</c>.
     /// </summary>
     [Parameter]
     public string Size
@@ -278,7 +312,7 @@ public partial class DockPanel : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Defines the minimum panel size when size constraints are applied.
+    /// Defines the minimum pane size when size constraints are applied.
     /// </summary>
     [Parameter]
     public string MinSize
@@ -296,7 +330,7 @@ public partial class DockPanel : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Defines the maximum panel size when size constraints are applied.
+    /// Defines the maximum pane size when size constraints are applied.
     /// </summary>
     [Parameter]
     public string MaxSize
@@ -314,7 +348,7 @@ public partial class DockPanel : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="DockPanel"/>.
+    /// Specifies the content to be rendered inside this <see cref="DockPane"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

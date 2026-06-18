@@ -692,48 +692,48 @@ public interface IClassProvider
 
     string DockLayout();
 
-    string DockPanel( DockPanelPosition position, bool resizable, bool collapsed );
+    string DockPane( DockPanePosition position, bool resizable, bool collapsed );
 
-    string DockPanelPosition( DockPanelPosition position );
+    string DockPanePosition( DockPanePosition position );
 
-    string DockPanelResizable( bool resizable );
+    string DockPaneResizable( bool resizable );
 
-    string DockPanelCollapsed( bool collapsed );
-
-    /// <summary>
-    /// Gets the class for an auto-hidden dock panel rail.
-    /// </summary>
-    string DockPanelAutoHide( bool autoHide );
+    string DockPaneCollapsed( bool collapsed );
 
     /// <summary>
-    /// Gets the class for an inactive tabbed dock panel.
+    /// Gets the class for an auto-hidden dock pane rail.
     /// </summary>
-    string DockPanelInactive();
+    string DockPaneAutoHide( bool autoHide );
 
     /// <summary>
-    /// Gets the class for an auto-hidden dock panel tab.
+    /// Gets the class for an inactive tabbed dock pane.
     /// </summary>
-    string DockPanelAutoHideTab( DockPanelPosition position );
+    string DockPaneInactive();
 
-    string DockPanelHeader();
+    /// <summary>
+    /// Gets the class for an auto-hidden dock pane tab.
+    /// </summary>
+    string DockPaneAutoHideTab( DockPanePosition position );
 
-    string DockPanelBody();
+    string DockPaneHeader();
 
-    string DockPanelFooter();
+    string DockPaneBody();
+
+    string DockPaneFooter();
 
     string DockContent();
 
-    string DockSplitter( DockPanelPosition position );
+    string DockSplitter( DockPanePosition position );
 
     /// <summary>
-    /// Gets the class for the dock panel tab container.
+    /// Gets the class for the dock pane tab container.
     /// </summary>
-    string DockPanelTabs();
+    string DockPaneTabs();
 
     /// <summary>
-    /// Gets the class for a dock panel tab.
+    /// Gets the class for a dock pane tab.
     /// </summary>
-    string DockPanelTab( bool active );
+    string DockPaneTab( bool active );
 
     /// <summary>
     /// Gets the class for the dock compass container.

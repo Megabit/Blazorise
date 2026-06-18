@@ -1,0 +1,22 @@
+@namespace Blazorise
+@inherits BaseComponent
+@if ( Visible )
+{
+    <CascadingValue Value="@Pane" IsFixed="false">
+        <aside @ref="@ElementRef" class="@ClassNames" style="@StyleNames" data-dock-pane-name="@Pane.ResolvedName">
+            @if ( AutoHide )
+            {
+                <button type="button" class="@AutoHideTabClass" title="@Pane.ResolvedCaption" @onclick="@OpenAutoHidePane">@Pane.ResolvedCaption</button>
+            }
+            else
+            {
+                @Pane.ChildContent
+
+                @if ( CanResize )
+                {
+                    <DockSplitter Dock="@Pane.EffectivePosition" />
+                }
+            }
+        </aside>
+    </CascadingValue>
+}

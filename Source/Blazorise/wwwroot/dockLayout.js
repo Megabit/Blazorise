@@ -1,36 +1,36 @@
 let operation = null;
 let animationFrame = null;
 
-export function beginResize(dotNetObjectRef, panel, panelName, position, clientX, clientY, minSize, maxSize) {
+export function beginResize(dotNetObjectRef, pane, paneName, position, clientX, clientY, minSize, maxSize) {
     cancel();
 
-    const rect = panel.getBoundingClientRect();
+    const rect = pane.getBoundingClientRect();
     const horizontal = position === "Left" || position === "Right";
 
     operation = {
         type: "resize",
         dotNetObjectRef,
-        panel,
-        panelName,
+        pane,
+        paneName,
         position,
         startX: clientX,
         startY: clientY,
         startSize: horizontal ? rect.width : rect.height,
-        minSize: parseSize(minSize, panel, horizontal),
-        maxSize: parseSize(maxSize, panel, horizontal)
+        minSize: parseSize(minSize, pane, horizontal),
+        maxSize: parseSize(maxSize, pane, horizontal)
     };
 
     addDocumentListeners(onResizeMove, onResizeEnd);
 }
 
-export function beginDrag(dotNetObjectRef, layout, panelName, clientX, clientY, dragGroup) {
+export function beginDrag(dotNetObjectRef, layout, paneName, clientX, clientY, dragGroup) {
     cancel();
 
     operation = {
         type: "drag",
         dotNetObjectRef,
         layout,
-        panelName,
+        paneName,
         dragGroup,
         startX: clientX,
         startY: clientY,
@@ -86,7 +86,7 @@ function onResizeMove(event) {
     const directionalDelta = operation.position === "Right" || operation.position === "Bottom" ? -pointerDelta : pointerDelta;
     const size = clamp(operation.startSize + directionalDelta, operation.minSize, operation.maxSize);
 
-    scheduleCallback(() => operation.dotNetObjectRef.invokeMethodAsync("NotifyDockPanelResized", operation.panelName, `${Math.round(size)}px`));
+    scheduleCallback(() => operation.dotNetObjectRef.invokeMethodAsync("NotifyDockPaneResized", operation.paneName, `${Math.round(size)}px`));
 }
 
 function onResizeEnd(event) {
@@ -99,7 +99,7 @@ function onResizeEnd(event) {
 
     cancel();
 
-    currentOperation.dotNetObjectRef.invokeMethodAsync("NotifyDockPanelResizeEnded", currentOperation.panelName);
+    currentOperation.dotNetObjectRef.invokeMethodAsync("NotifyDockPaneResizeEnded", currentOperation.paneName);
 }
 
 function onDragMove(event) {
@@ -116,14 +116,14 @@ function onDragMove(event) {
     event.preventDefault();
     operation.dragging = true;
 
-    const target = findDockTarget(operation.layout, operation.panelName, event.clientX, event.clientY);
+    const target = findDockTarget(operation.layout, operation.paneName, event.clientX, event.clientY);
 
     if (operation.targetName !== target.targetName || operation.zone !== target.zone || operation.compassX !== target.compassX || operation.compassY !== target.compassY) {
         operation.targetName = target.targetName;
         operation.zone = target.zone;
         operation.compassX = target.compassX;
         operation.compassY = target.compassY;
-        scheduleCallback(() => operation.dotNetObjectRef.invokeMethodAsync("NotifyDockPanelDrag", operation.panelName, target.targetName, target.zone, target.compassX, target.compassY));
+        scheduleCallback(() => operation.dotNetObjectRef.invokeMethodAsync("NotifyDockPaneDrag", operation.paneName, target.targetName, target.zone, target.compassX, target.compassY));
     }
 }
 
@@ -142,27 +142,27 @@ function onDragEnd(event) {
 
     event.preventDefault();
 
-    currentOperation.dotNetObjectRef.invokeMethodAsync("NotifyDockPanelDropped", currentOperation.panelName, currentOperation.targetName, currentOperation.zone);
+    currentOperation.dotNetObjectRef.invokeMethodAsync("NotifyDockPaneDropped", currentOperation.paneName, currentOperation.targetName, currentOperation.zone);
 }
 
-function findDockTarget(layout, panelName, clientX, clientY) {
+function findDockTarget(layout, paneName, clientX, clientY) {
     const layoutRect = layout.getBoundingClientRect();
 
     if (clientX < layoutRect.left || clientX > layoutRect.right || clientY < layoutRect.top || clientY > layoutRect.bottom) {
         return emptyDockTarget();
     }
 
-    const panel = findTargetPanel(layout, panelName, clientX, clientY);
+    const pane = findTargetPane(layout, paneName, clientX, clientY);
 
-    if (panel) {
-        const panelRect = panel.getBoundingClientRect();
-        const zone = findCompassZone(panelRect, clientX, clientY, true);
+    if (pane) {
+        const paneRect = pane.getBoundingClientRect();
+        const zone = findCompassZone(paneRect, clientX, clientY, true);
 
         return {
-            targetName: panel.getAttribute("data-dock-panel-name"),
+            targetName: pane.getAttribute("data-dock-pane-name"),
             zone,
-            compassX: Math.round(panelRect.left - layoutRect.left + panelRect.width / 2),
-            compassY: Math.round(panelRect.top - layoutRect.top + panelRect.height / 2)
+            compassX: Math.round(paneRect.left - layoutRect.left + paneRect.width / 2),
+            compassY: Math.round(paneRect.top - layoutRect.top + paneRect.height / 2)
         };
     }
 
@@ -176,20 +176,20 @@ function findDockTarget(layout, panelName, clientX, clientY) {
     };
 }
 
-function findTargetPanel(layout, panelName, clientX, clientY) {
+function findTargetPane(layout, paneName, clientX, clientY) {
     const element = document.elementFromPoint(clientX, clientY);
 
     if (!element || !layout.contains(element)) {
         return null;
     }
 
-    const panel = element.closest("[data-dock-panel-name]");
+    const pane = element.closest("[data-dock-pane-name]");
 
-    if (!panel || !layout.contains(panel) || panel.getAttribute("data-dock-panel-name") === panelName) {
+    if (!pane || !layout.contains(pane) || pane.getAttribute("data-dock-pane-name") === paneName) {
         return null;
     }
 
-    return panel;
+    return pane;
 }
 
 function findCompassZone(rect, clientX, clientY, centerEnabled) {

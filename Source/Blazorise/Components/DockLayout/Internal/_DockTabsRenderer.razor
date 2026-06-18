@@ -6,19 +6,32 @@
 }
 else if ( Visible )
 {
-    <CascadingValue Value="@ActivePanel" IsFixed="false">
-        <aside @ref="@ElementRef" class="@ClassNames" style="@StyleNames" data-dock-panel-name="@ActivePanelName">
-            @ActivePanel.ChildContent
-            <div class="@TabsClass">
-                @foreach ( string panelName in Node.Panels )
-                {
-                    <button type="button" class="@Layout.GetDockTabClass( Node, panelName )" @onpointerdown="@((PointerEventArgs eventArgs) => BeginPanelTabDrag( panelName, eventArgs ))" @onclick="@(() => ActivateTab( panelName ))">@Layout.GetPanelCaption( panelName )</button>
-                }
-            </div>
-
-            @if ( ActivePanel.Resizable )
+    <CascadingValue Value="@ActivePane" IsFixed="false">
+        <aside @ref="@ElementRef" class="@ClassNames" style="@StyleNames" data-dock-pane-name="@ActivePaneName">
+            @if ( TabsVisible && TabsOnTop )
             {
-                <DockSplitter Dock="@ActivePanel.EffectivePosition" />
+                <div class="@TabsClass">
+                    @foreach ( string paneName in Node.Panes )
+                    {
+                        <button type="button" class="@Layout.GetDockTabClass( Node, paneName )" @onpointerdown="@((PointerEventArgs eventArgs) => BeginPaneTabDrag( paneName, eventArgs ))" @onclick="@(() => ActivateTab( paneName ))">@Layout.GetPaneCaption( paneName )</button>
+                    }
+                </div>
+            }
+
+            @ActivePane.ChildContent
+            @if ( TabsVisible && !TabsOnTop )
+            {
+                <div class="@TabsClass">
+                    @foreach ( string paneName in Node.Panes )
+                    {
+                        <button type="button" class="@Layout.GetDockTabClass( Node, paneName )" @onpointerdown="@((PointerEventArgs eventArgs) => BeginPaneTabDrag( paneName, eventArgs ))" @onclick="@(() => ActivateTab( paneName ))">@Layout.GetPaneCaption( paneName )</button>
+                    }
+                </div>
+            }
+
+            @if ( CanResize )
+            {
+                <DockSplitter Dock="@ActivePane.EffectivePosition" />
             }
         </aside>
     </CascadingValue>

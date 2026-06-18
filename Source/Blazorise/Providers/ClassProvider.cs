@@ -693,35 +693,35 @@ public abstract class ClassProvider : IClassProvider
 
     public virtual string DockLayout() => null;
 
-    public virtual string DockPanel( DockPanelPosition position, bool resizable, bool collapsed ) => null;
+    public virtual string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => null;
 
-    public virtual string DockPanelPosition( DockPanelPosition position )
+    public virtual string DockPanePosition( DockPanePosition position )
         => null;
 
-    public virtual string DockPanelResizable( bool resizable ) => null;
+    public virtual string DockPaneResizable( bool resizable ) => null;
 
-    public virtual string DockPanelCollapsed( bool collapsed ) => null;
+    public virtual string DockPaneCollapsed( bool collapsed ) => null;
 
-    public virtual string DockPanelAutoHide( bool autoHide ) => null;
+    public virtual string DockPaneAutoHide( bool autoHide ) => null;
 
-    public virtual string DockPanelInactive() => null;
+    public virtual string DockPaneInactive() => null;
 
-    public virtual string DockPanelAutoHideTab( DockPanelPosition position ) => null;
+    public virtual string DockPaneAutoHideTab( DockPanePosition position ) => null;
 
-    public virtual string DockPanelHeader() => null;
+    public virtual string DockPaneHeader() => null;
 
-    public virtual string DockPanelBody() => null;
+    public virtual string DockPaneBody() => null;
 
-    public virtual string DockPanelFooter() => null;
+    public virtual string DockPaneFooter() => null;
 
     public virtual string DockContent() => null;
 
-    public virtual string DockSplitter( DockPanelPosition position )
+    public virtual string DockSplitter( DockPanePosition position )
         => null;
 
-    public virtual string DockPanelTabs() => null;
+    public virtual string DockPaneTabs() => null;
 
-    public virtual string DockPanelTab( bool active ) => null;
+    public virtual string DockPaneTab( bool active ) => null;
 
     public virtual string DockLayoutCompass()
         => null;

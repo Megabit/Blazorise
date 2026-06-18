@@ -6,9 +6,9 @@ namespace Blazorise;
 public enum DockNodeKind
 {
     /// <summary>
-    /// Represents a single dock panel.
+    /// Represents a single dock pane.
     /// </summary>
-    Panel,
+    Pane,
 
     /// <summary>
     /// Represents the central dock content.
@@ -21,7 +21,7 @@ public enum DockNodeKind
     Split,
 
     /// <summary>
-    /// Represents a tabbed panel group.
+    /// Represents a tabbed pane group.
     /// </summary>
     Tabs,
 }

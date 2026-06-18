@@ -2,12 +2,12 @@
 @inherits BaseComponent
 @if ( Visible )
 {
-    <aside @ref="@ElementRef" class="@ClassNames" style="@StyleNames" data-dock-panel-name="@ActivePanelName">
-        @foreach ( string panelName in Node.Panels )
+    <aside @ref="@ElementRef" class="@ClassNames" style="@StyleNames" data-dock-pane-name="@ActivePaneName">
+        @foreach ( string paneName in Node.Panes )
         {
-            if ( Layout.TryGetPanel( panelName, out DockPanel panel ) )
+            if ( Layout.TryGetPane( paneName, out DockPane pane ) )
             {
-                <button type="button" class="@GetPanelAutoHideTabClass( panel )" title="@panel.ResolvedCaption" @onclick="@(() => OpenPanelAutoHide( panel ))">@panel.ResolvedCaption</button>
+                <button type="button" class="@GetPaneAutoHideTabClass( pane )" title="@pane.ResolvedCaption" @onclick="@(() => OpenPaneAutoHide( pane ))">@pane.ResolvedCaption</button>
             }
         }
     </aside>

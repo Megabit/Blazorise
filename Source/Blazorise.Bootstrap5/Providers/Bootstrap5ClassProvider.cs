@@ -1471,54 +1471,55 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DockLayout() => "dock-layout";
 
-    public override string DockPanel( DockPanelPosition position, bool resizable, bool collapsed ) => "dock-panel";
+    public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "dock-pane";
 
-    public override string DockPanelPosition( DockPanelPosition position )
+    public override string DockPanePosition( DockPanePosition position )
         => position switch
         {
-            Blazorise.DockPanelPosition.Right => "dock-panel-end",
-            Blazorise.DockPanelPosition.Top => "dock-panel-top",
-            Blazorise.DockPanelPosition.Bottom => "dock-panel-bottom",
-            _ => "dock-panel-start",
+            Blazorise.DockPanePosition.Center => "dock-pane-center",
+            Blazorise.DockPanePosition.Right => "dock-pane-end",
+            Blazorise.DockPanePosition.Top => "dock-pane-top",
+            Blazorise.DockPanePosition.Bottom => "dock-pane-bottom",
+            _ => "dock-pane-start",
         };
 
-    public override string DockPanelResizable( bool resizable ) => resizable ? "dock-panel-resizable" : null;
+    public override string DockPaneResizable( bool resizable ) => resizable ? "dock-pane-resizable" : null;
 
-    public override string DockPanelCollapsed( bool collapsed ) => collapsed ? "dock-panel-collapsed" : null;
+    public override string DockPaneCollapsed( bool collapsed ) => collapsed ? "dock-pane-collapsed" : null;
 
-    public override string DockPanelAutoHide( bool autoHide ) => autoHide ? "dock-panel-autohide" : null;
+    public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "dock-pane-autohide" : null;
 
-    public override string DockPanelInactive() => "dock-panel-inactive";
+    public override string DockPaneInactive() => "dock-pane-inactive";
 
-    public override string DockPanelAutoHideTab( DockPanelPosition position )
+    public override string DockPaneAutoHideTab( DockPanePosition position )
         => position switch
         {
-            Blazorise.DockPanelPosition.Right => "dock-panel-autohide-tab dock-panel-autohide-tab-end",
-            Blazorise.DockPanelPosition.Top => "dock-panel-autohide-tab dock-panel-autohide-tab-top",
-            Blazorise.DockPanelPosition.Bottom => "dock-panel-autohide-tab dock-panel-autohide-tab-bottom",
-            _ => "dock-panel-autohide-tab dock-panel-autohide-tab-start",
+            Blazorise.DockPanePosition.Right => "dock-pane-autohide-tab dock-pane-autohide-tab-end",
+            Blazorise.DockPanePosition.Top => "dock-pane-autohide-tab dock-pane-autohide-tab-top",
+            Blazorise.DockPanePosition.Bottom => "dock-pane-autohide-tab dock-pane-autohide-tab-bottom",
+            _ => "dock-pane-autohide-tab dock-pane-autohide-tab-start",
         };
 
-    public override string DockPanelHeader() => "dock-panel-header";
+    public override string DockPaneHeader() => "dock-pane-header";
 
-    public override string DockPanelBody() => "dock-panel-body";
+    public override string DockPaneBody() => "dock-pane-body";
 
-    public override string DockPanelFooter() => "dock-panel-footer";
+    public override string DockPaneFooter() => "dock-pane-footer";
 
     public override string DockContent() => "dock-content";
 
-    public override string DockSplitter( DockPanelPosition position )
+    public override string DockSplitter( DockPanePosition position )
         => position switch
         {
-            Blazorise.DockPanelPosition.Right => "dock-splitter dock-splitter-end",
-            Blazorise.DockPanelPosition.Top => "dock-splitter dock-splitter-top",
-            Blazorise.DockPanelPosition.Bottom => "dock-splitter dock-splitter-bottom",
+            Blazorise.DockPanePosition.Right => "dock-splitter dock-splitter-end",
+            Blazorise.DockPanePosition.Top => "dock-splitter dock-splitter-top",
+            Blazorise.DockPanePosition.Bottom => "dock-splitter dock-splitter-bottom",
             _ => "dock-splitter dock-splitter-start",
         };
 
-    public override string DockPanelTabs() => "dock-panel-tabs";
+    public override string DockPaneTabs() => "dock-pane-tabs";
 
-    public override string DockPanelTab( bool active ) => active ? "dock-panel-tab active" : "dock-panel-tab";
+    public override string DockPaneTab( bool active ) => active ? "dock-pane-tab active" : "dock-pane-tab";
 
     public override string DockLayoutCompass() => "dock-compass";
 

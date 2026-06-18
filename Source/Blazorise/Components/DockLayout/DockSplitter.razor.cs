@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Components.Web;
 namespace Blazorise;
 
 /// <summary>
-/// Visual splitter used by resizable dock panels.
+/// Visual splitter used by resizable dock panes.
 /// </summary>
 public partial class DockSplitter : BaseComponent
 {
     #region Members
 
-    private DockPanelPosition dock;
+    private DockPanePosition dock;
 
     #endregion
 
@@ -30,23 +30,23 @@ public partial class DockSplitter : BaseComponent
 
     private Task BeginResize( PointerEventArgs eventArgs )
     {
-        if ( ParentDockPanel?.ParentDockLayout is null )
+        if ( ParentDockPane?.ParentDockLayout is null )
             return Task.CompletedTask;
 
-        return ParentDockPanel.ParentDockLayout.BeginPanelResize( ParentDockPanel, eventArgs );
+        return ParentDockPane.ParentDockLayout.BeginPaneResize( ParentDockPane, eventArgs );
     }
 
     #endregion
 
     #region Properties
 
-    [CascadingParameter] internal DockPanel ParentDockPanel { get; set; }
+    [CascadingParameter] internal DockPane ParentDockPane { get; set; }
 
     /// <summary>
-    /// Defines the panel side that owns this splitter.
+    /// Defines the pane side that owns this splitter.
     /// </summary>
     [Parameter]
-    public DockPanelPosition Dock
+    public DockPanePosition Dock
     {
         get => dock;
         set

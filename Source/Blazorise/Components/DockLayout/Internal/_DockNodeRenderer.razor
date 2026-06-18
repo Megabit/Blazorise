@@ -10,9 +10,9 @@ else if ( Node?.Kind == DockNodeKind.Tabs )
 {
     <_DockTabsRenderer Layout="@Layout" Node="@Node" />
 }
-else if ( Node?.Kind == DockNodeKind.Panel )
+else if ( Node?.Kind == DockNodeKind.Pane )
 {
-    <_DockPanelRenderer Layout="@Layout" PanelName="@Node.PanelName" />
+    <_DockPaneRenderer Layout="@Layout" PaneName="@Node.PaneName" />
 }
 else if ( Node?.Kind == DockNodeKind.Content )
 {

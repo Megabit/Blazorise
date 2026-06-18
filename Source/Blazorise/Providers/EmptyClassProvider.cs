@@ -697,33 +697,33 @@ class EmptyClassProvider : IClassProvider
 
     public string DockLayout() => null;
 
-    public string DockPanel( DockPanelPosition position, bool resizable, bool collapsed ) => null;
+    public string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => null;
 
-    public string DockPanelPosition( DockPanelPosition position ) => null;
+    public string DockPanePosition( DockPanePosition position ) => null;
 
-    public string DockPanelResizable( bool resizable ) => null;
+    public string DockPaneResizable( bool resizable ) => null;
 
-    public string DockPanelCollapsed( bool collapsed ) => null;
+    public string DockPaneCollapsed( bool collapsed ) => null;
 
-    public string DockPanelAutoHide( bool autoHide ) => null;
+    public string DockPaneAutoHide( bool autoHide ) => null;
 
-    public string DockPanelInactive() => null;
+    public string DockPaneInactive() => null;
 
-    public string DockPanelAutoHideTab( DockPanelPosition position ) => null;
+    public string DockPaneAutoHideTab( DockPanePosition position ) => null;
 
-    public string DockPanelHeader() => null;
+    public string DockPaneHeader() => null;
 
-    public string DockPanelBody() => null;
+    public string DockPaneBody() => null;
 
-    public string DockPanelFooter() => null;
+    public string DockPaneFooter() => null;
 
     public string DockContent() => null;
 
-    public string DockSplitter( DockPanelPosition position ) => null;
+    public string DockSplitter( DockPanePosition position ) => null;
 
-    public string DockPanelTabs() => null;
+    public string DockPaneTabs() => null;
 
-    public string DockPanelTab( bool active ) => null;
+    public string DockPaneTab( bool active ) => null;
 
     public string DockLayoutCompass() => null;
 

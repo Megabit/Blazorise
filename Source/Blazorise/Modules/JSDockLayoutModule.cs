@@ -29,12 +29,12 @@ public class JSDockLayoutModule : BaseJSModule, IJSDockLayoutModule
     #region Methods
 
     /// <inheritdoc/>
-    public ValueTask BeginResize( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference panelRef, string panelName, string position, double clientX, double clientY, string minSize, string maxSize )
-        => InvokeSafeVoidAsync( "beginResize", dotNetObjectRef, panelRef, panelName, position, clientX, clientY, minSize, maxSize );
+    public ValueTask BeginResize( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference paneRef, string paneName, string position, double clientX, double clientY, string minSize, string maxSize )
+        => InvokeSafeVoidAsync( "beginResize", dotNetObjectRef, paneRef, paneName, position, clientX, clientY, minSize, maxSize );
 
     /// <inheritdoc/>
-    public ValueTask BeginDrag( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference layoutRef, string panelName, double clientX, double clientY, bool dragGroup )
-        => InvokeSafeVoidAsync( "beginDrag", dotNetObjectRef, layoutRef, panelName, clientX, clientY, dragGroup );
+    public ValueTask BeginDrag( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference layoutRef, string paneName, double clientX, double clientY, bool dragGroup )
+        => InvokeSafeVoidAsync( "beginDrag", dotNetObjectRef, layoutRef, paneName, clientX, clientY, dragGroup );
 
     /// <inheritdoc/>
     public ValueTask Cancel()

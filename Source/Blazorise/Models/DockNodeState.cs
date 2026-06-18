@@ -13,9 +13,9 @@ public class DockNodeState
     public DockNodeKind Kind { get; set; }
 
     /// <summary>
-    /// Defines the panel name when <see cref="Kind"/> is <see cref="DockNodeKind.Panel"/>.
+    /// Defines the pane name when <see cref="Kind"/> is <see cref="DockNodeKind.Pane"/>.
     /// </summary>
-    public string PanelName { get; set; }
+    public string PaneName { get; set; }
 
     /// <summary>
     /// Defines the first child node when <see cref="Kind"/> is <see cref="DockNodeKind.Split"/>.
@@ -38,14 +38,14 @@ public class DockNodeState
     public double Ratio { get; set; } = 0.25;
 
     /// <summary>
-    /// Defines the panel names when <see cref="Kind"/> is <see cref="DockNodeKind.Tabs"/>.
+    /// Defines the pane names when <see cref="Kind"/> is <see cref="DockNodeKind.Tabs"/>.
     /// </summary>
-    public List<string> Panels { get; set; } = new();
+    public List<string> Panes { get; set; } = new();
 
     /// <summary>
-    /// Defines the active panel when <see cref="Kind"/> is <see cref="DockNodeKind.Tabs"/>.
+    /// Defines the active pane when <see cref="Kind"/> is <see cref="DockNodeKind.Tabs"/>.
     /// </summary>
-    public string ActivePanel { get; set; }
+    public string ActivePane { get; set; }
 
     /// <summary>
     /// Defines the size of the node when it represents a resizable dock group.

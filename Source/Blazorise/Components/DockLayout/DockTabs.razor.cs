@@ -12,7 +12,7 @@ public partial class DockTabs : BaseComponent
 {
     #region Members
 
-    private string activePanel;
+    private string activePane;
 
     private DockNodeCollector childCollector = new();
 
@@ -48,17 +48,17 @@ public partial class DockTabs : BaseComponent
             Kind = DockNodeKind.Tabs,
         };
 
-        node.Panels.Clear();
-        node.ActivePanel = ActivePanel;
+        node.Panes.Clear();
+        node.ActivePane = ActivePane;
 
         foreach ( DockNodeState childNode in childCollector.Nodes )
         {
-            if ( childNode.Kind == DockNodeKind.Panel && !string.IsNullOrWhiteSpace( childNode.PanelName ) )
-                node.Panels.Add( childNode.PanelName );
+            if ( childNode.Kind == DockNodeKind.Pane && !string.IsNullOrWhiteSpace( childNode.PaneName ) )
+                node.Panes.Add( childNode.PaneName );
         }
 
-        if ( string.IsNullOrWhiteSpace( node.ActivePanel ) && node.Panels.Count > 0 )
-            node.ActivePanel = node.Panels[0];
+        if ( string.IsNullOrWhiteSpace( node.ActivePane ) && node.Panes.Count > 0 )
+            node.ActivePane = node.Panes[0];
 
         return node;
     }
@@ -76,13 +76,13 @@ public partial class DockTabs : BaseComponent
     internal DockNodeState Node => BuildNode();
 
     /// <summary>
-    /// Defines the active panel name.
+    /// Defines the active pane name.
     /// </summary>
     [Parameter]
-    public string ActivePanel
+    public string ActivePane
     {
-        get => activePanel;
-        set => activePanel = value;
+        get => activePane;
+        set => activePane = value;
     }
 
     /// <summary>

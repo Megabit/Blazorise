@@ -1016,10 +1016,10 @@ hr.divider.divider-text::before {
   box-sizing: border-box;
 }
 
-.dock-panel {
-  --dock-panel-size: 16rem;
-  --dock-panel-min-size: 0;
-  --dock-panel-max-size: none;
+.dock-pane {
+  --dock-pane-size: 16rem;
+  --dock-pane-min-size: 0;
+  --dock-pane-max-size: none;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -1056,57 +1056,63 @@ hr.divider.divider-text::before {
   min-width: 0;
 }
 
-.dock-panel-inactive {
+.dock-pane-inactive {
   display: none;
 }
 
-.dock-panel-start {
-  width: var(--dock-panel-size);
-  min-width: var(--dock-panel-min-size);
-  max-width: var(--dock-panel-max-size);
+.dock-pane-center {
+  width: 100%;
+  height: 100%;
+  border-width: 0;
+}
+
+.dock-pane-start {
+  width: var(--dock-pane-size);
+  min-width: var(--dock-pane-min-size);
+  max-width: var(--dock-pane-max-size);
   border-right-width: 1px;
 }
 
-.dock-panel-end {
-  width: var(--dock-panel-size);
-  min-width: var(--dock-panel-min-size);
-  max-width: var(--dock-panel-max-size);
+.dock-pane-end {
+  width: var(--dock-pane-size);
+  min-width: var(--dock-pane-min-size);
+  max-width: var(--dock-pane-max-size);
   border-left-width: 1px;
   justify-self: end;
 }
 
-.dock-panel-top {
-  height: var(--dock-panel-size);
-  min-height: var(--dock-panel-min-size);
-  max-height: var(--dock-panel-max-size);
+.dock-pane-top {
+  height: var(--dock-pane-size);
+  min-height: var(--dock-pane-min-size);
+  max-height: var(--dock-pane-max-size);
   border-bottom-width: 1px;
 }
 
-.dock-panel-bottom {
-  height: var(--dock-panel-size);
-  min-height: var(--dock-panel-min-size);
-  max-height: var(--dock-panel-max-size);
+.dock-pane-bottom {
+  height: var(--dock-pane-size);
+  min-height: var(--dock-pane-min-size);
+  max-height: var(--dock-pane-max-size);
   border-top-width: 1px;
   align-self: end;
 }
 
-.dock-panel-collapsed {
-  --dock-panel-size: 2.5rem;
+.dock-pane-collapsed {
+  --dock-pane-size: 2.5rem;
 }
 
-.dock-panel-autohide {
-  --dock-panel-size: 2rem;
+.dock-pane-autohide {
+  --dock-pane-size: 2rem;
   align-items: stretch;
   justify-content: flex-end;
   overflow: hidden;
 }
 
-.dock-panel-collapsed .dock-panel-body,
-.dock-panel-collapsed .dock-panel-footer {
+.dock-pane-collapsed .dock-pane-body,
+.dock-pane-collapsed .dock-pane-footer {
   display: none;
 }
 
-.dock-panel-autohide-tab {
+.dock-pane-autohide-tab {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1122,35 +1128,35 @@ hr.divider.divider-text::before {
   white-space: nowrap;
 }
 
-.dock-panel-autohide-tab:hover {
+.dock-pane-autohide-tab:hover {
   background: rgba(13, 110, 253, 0.12);
 }
 
-.dock-panel-autohide-tab-start,
-.dock-panel-autohide-tab-end {
+.dock-pane-autohide-tab-start,
+.dock-pane-autohide-tab-end {
   flex: 0 0 auto;
   writing-mode: vertical-rl;
 }
 
-.dock-panel-autohide-tab-start {
+.dock-pane-autohide-tab-start {
   transform: rotate(180deg);
 }
 
-.dock-panel-autohide-tab-top,
-.dock-panel-autohide-tab-bottom {
+.dock-pane-autohide-tab-top,
+.dock-pane-autohide-tab-bottom {
   flex: 0 0 auto;
   padding-right: 0.75rem;
   padding-left: 0.75rem;
 }
 
-.dock-panel-header,
-.dock-panel-footer {
+.dock-pane-header,
+.dock-pane-footer {
   flex: 0 0 auto;
   padding: 0.5rem 0.75rem;
   background: var(--bs-tertiary-bg, rgba(0, 0, 0, 0.03));
 }
 
-.dock-panel-header {
+.dock-pane-header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1160,7 +1166,7 @@ hr.divider.divider-text::before {
   white-space: nowrap;
 }
 
-.dock-panel-header-content {
+.dock-pane-header-content {
   flex: 1 1 auto;
   min-width: 0;
   overflow: hidden;
@@ -1168,13 +1174,13 @@ hr.divider.divider-text::before {
   white-space: nowrap;
 }
 
-.dock-panel-header-actions {
+.dock-pane-header-actions {
   display: inline-flex;
   flex: 0 0 auto;
   gap: 0.125rem;
 }
 
-.dock-panel-header-action {
+.dock-pane-header-action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1190,11 +1196,11 @@ hr.divider.divider-text::before {
   line-height: 1;
 }
 
-.dock-panel-header-action:hover {
+.dock-pane-header-action:hover {
   background: rgba(13, 110, 253, 0.12);
 }
 
-.dock-panel-tabs {
+.dock-pane-tabs {
   display: flex;
   flex: 0 0 auto;
   gap: 0.125rem;
@@ -1203,7 +1209,7 @@ hr.divider.divider-text::before {
   border-top: 1px solid var(--bs-border-color, rgba(0, 0, 0, 0.125));
 }
 
-.dock-panel-tab {
+.dock-pane-tab {
   border: 0;
   border-radius: 0 0 0.25rem 0.25rem;
   background: transparent;
@@ -1217,12 +1223,24 @@ hr.divider.divider-text::before {
   white-space: nowrap;
 }
 
-.dock-panel-tab.active {
+.dock-pane-center > .dock-pane-tabs,
+.dock-pane-tabs-top {
+  padding: 0.25rem 0.25rem 0;
+  border-top: 0;
+  border-bottom: 1px solid var(--bs-border-color, rgba(0, 0, 0, 0.125));
+}
+
+.dock-pane-center > .dock-pane-tabs .dock-pane-tab,
+.dock-pane-tabs-top .dock-pane-tab {
+  border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.dock-pane-tab.active {
   background: var(--bs-body-bg, #fff);
   color: var(--bs-primary, #0d6efd);
 }
 
-.dock-panel-body {
+.dock-pane-body {
   flex: 1 1 auto;
   min-height: 0;
   overflow: auto;

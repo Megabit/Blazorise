@@ -1,21 +1,21 @@
 @namespace Blazorise
 @inherits BaseComponent
 <header @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onpointerdown="@BeginDrag" @attributes="@Attributes">
-    <span class="dock-panel-header-content">
+    <span class="dock-pane-header-content">
         @ChildContent
     </span>
     @if ( HeaderActionsVisible )
     {
-        <span class="dock-panel-header-actions" @onpointerdown:stopPropagation>
+        <span class="dock-pane-header-actions" @onpointerdown:stopPropagation>
             @if ( AutoHideActionVisible )
             {
-                <button type="button" class="dock-panel-header-action" title="@AutoHideTitle" @onclick="@ToggleAutoHide">
+                <button type="button" class="dock-pane-header-action" title="@AutoHideTitle" @onclick="@ToggleAutoHide">
                     <Icon Name="@AutoHideIconName" />
                 </button>
             }
             @if ( CloseActionVisible )
             {
-                <button type="button" class="dock-panel-header-action" title="Close" @onclick="@Close">
+                <button type="button" class="dock-pane-header-action" title="Close" @onclick="@Close">
                     <Icon Name="IconName.Times" />
                 </button>
             }

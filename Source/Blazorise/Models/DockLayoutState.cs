@@ -13,12 +13,12 @@ public class DockLayoutState
     public DockNodeState Root { get; set; }
 
     /// <summary>
-    /// Defines the persisted panel states.
+    /// Defines the persisted pane states.
     /// </summary>
-    public List<DockPanelState> Panels { get; set; } = new();
+    public List<DockPaneState> Panes { get; set; } = new();
 
     /// <summary>
-    /// Defines the active panel name for each dock position.
+    /// Defines the active pane name for each dock position.
     /// </summary>
-    public Dictionary<DockPanelPosition, string> ActivePanels { get; set; } = new();
+    public Dictionary<DockPanePosition, string> ActivePanes { get; set; } = new();
 }

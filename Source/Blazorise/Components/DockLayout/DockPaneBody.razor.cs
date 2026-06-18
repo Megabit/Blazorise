@@ -6,16 +6,16 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise;
 
 /// <summary>
-/// Main scrollable content for a <see cref="DockPanel"/>.
+/// Main scrollable content for a <see cref="DockPane"/>.
 /// </summary>
-public partial class DockPanelBody : BaseComponent
+public partial class DockPaneBody : BaseComponent
 {
     #region Methods
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.DockPanelBody() );
+        builder.Append( ClassProvider.DockPaneBody() );
 
         base.BuildClasses( builder );
     }
@@ -25,7 +25,7 @@ public partial class DockPanelBody : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Specifies the body content to be rendered inside this <see cref="DockPanelBody"/>.
+    /// Specifies the body content to be rendered inside this <see cref="DockPaneBody"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
