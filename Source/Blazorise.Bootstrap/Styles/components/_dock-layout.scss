@@ -33,6 +33,7 @@
     height: 100%;
     min-height: 0;
     min-width: 0;
+    position: relative;
     width: 100%;
 }
 
@@ -88,6 +89,38 @@
     max-height: var(--dock-pane-max-size);
     border-top-width: 1px;
     align-self: end;
+}
+
+.dock-split-horizontal > .dock-pane-top,
+.dock-split-horizontal > .dock-pane-bottom {
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    align-self: stretch;
+}
+
+.dock-split-horizontal > .dock-pane-left,
+.dock-split-horizontal > .dock-pane-right {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    justify-self: stretch;
+}
+
+.dock-split-vertical > .dock-pane-left,
+.dock-split-vertical > .dock-pane-right {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    justify-self: stretch;
+}
+
+.dock-split-vertical > .dock-pane-top,
+.dock-split-vertical > .dock-pane-bottom {
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    align-self: stretch;
 }
 
 .dock-pane-collapsed {
@@ -204,6 +237,9 @@
 }
 
 .dock-pane-tab {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
     border: 0;
     border-radius: 0 0 .25rem .25rem;
     background: transparent;
@@ -215,6 +251,39 @@
     padding: .375rem .625rem;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.dock-pane-tab-label {
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    overflow: hidden;
+    padding: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dock-pane-tab-close {
+    flex: 0 0 auto;
+    width: 1rem;
+    height: 1rem;
+    margin-left: .25rem;
+    border: 0;
+    border-radius: .125rem;
+    background: transparent;
+    color: rgba(33, 37, 41, .65);
+    cursor: pointer;
+    font: inherit;
+    line-height: 1;
+    padding: 0;
+}
+
+.dock-pane-tab-close:hover {
+    background: rgba(0, 123, 255, .12);
+    color: #212529;
 }
 
 
@@ -235,6 +304,31 @@
     color: #007bff;
 }
 
+.dock-drag-preview {
+    position: absolute;
+    z-index: 40;
+    min-width: 10rem;
+    max-width: 18rem;
+    padding: .375rem .625rem;
+    pointer-events: none;
+    border: 1px solid rgba(0, 123, 255, .65);
+    border-radius: .25rem;
+    background: rgba(255, 255, 255, .92);
+    box-shadow: 0 .375rem 1.25rem rgba(0, 0, 0, .16);
+    color: #212529;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dock-drop-preview {
+    position: absolute;
+    z-index: 30;
+    pointer-events: none;
+    border: 2px dashed rgba(0, 123, 255, .7);
+    background: rgba(0, 123, 255, .1);
+}
+
 .dock-pane-body {
     flex: 1 1 auto;
     min-height: 0;
@@ -252,6 +346,7 @@
 .dock-splitter {
     position: absolute;
     background: transparent;
+    z-index: 2;
 }
 
 .dock-splitter-left,

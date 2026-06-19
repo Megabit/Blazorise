@@ -19,6 +19,8 @@ public partial class _DockAutoHideTabsRenderer : BaseComponent
 
     private DockPaneState activePaneState;
 
+    private DockPanePosition groupPosition;
+
     #endregion
 
     #region Methods
@@ -33,6 +35,7 @@ public partial class _DockAutoHideTabsRenderer : BaseComponent
         {
             activePane = null;
             activePaneState = null;
+            groupPosition = DockPanePosition.Center;
             return;
         }
 
@@ -40,6 +43,7 @@ public partial class _DockAutoHideTabsRenderer : BaseComponent
             activePane = null;
 
         activePaneState = Layout?.GetPaneState( activePaneName );
+        groupPosition = Layout?.GetDockNodePosition( Node ) ?? activePane?.EffectivePosition ?? DockPanePosition.Center;
 
         DirtyClasses();
         DirtyStyles();
@@ -50,8 +54,8 @@ public partial class _DockAutoHideTabsRenderer : BaseComponent
     {
         if ( ActivePane is not null )
         {
-            builder.Append( ClassProvider.DockPane( ActivePane.EffectivePosition, ActivePane.Resizable, Collapsed ) );
-            builder.Append( ClassProvider.DockPanePosition( ActivePane.EffectivePosition ) );
+            builder.Append( ClassProvider.DockPane( GroupPosition, ActivePane.Resizable, Collapsed ) );
+            builder.Append( ClassProvider.DockPanePosition( GroupPosition ) );
             builder.Append( ClassProvider.DockPaneResizable( ActivePane.Resizable ) );
             builder.Append( ClassProvider.DockPaneCollapsed( Collapsed ) );
             builder.Append( ClassProvider.DockPaneAutoHide( AutoHide ) );
@@ -76,9 +80,6 @@ public partial class _DockAutoHideTabsRenderer : BaseComponent
     private Task OpenPaneAutoHide( DockPane pane )
         => Layout?.OpenPaneAutoHide( pane ) ?? Task.CompletedTask;
 
-    private string GetPaneAutoHideTabClass( DockPane pane )
-        => ClassProvider.DockPaneAutoHideTab( pane.EffectivePosition );
-
     #endregion
 
     #region Properties
@@ -94,6 +95,10 @@ public partial class _DockAutoHideTabsRenderer : BaseComponent
     private bool Collapsed => activePaneState?.Collapsed == true || AutoHide;
 
     private string PaneSize => activePaneState?.Size ?? ActivePane?.Size;
+
+    private string AutoHideTabClass => ClassProvider.DockPaneAutoHideTab( GroupPosition );
+
+    private DockPanePosition GroupPosition => groupPosition;
 
     private ElementReference ElementRef
     {

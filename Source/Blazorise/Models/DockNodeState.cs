@@ -8,6 +8,11 @@ namespace Blazorise;
 public class DockNodeState
 {
     /// <summary>
+    /// Identifies the node inside the dock layout tree.
+    /// </summary>
+    public string Id { get; set; }
+
+    /// <summary>
     /// Defines the node kind.
     /// </summary>
     public DockNodeKind Kind { get; set; }
@@ -36,6 +41,11 @@ public class DockNodeState
     /// Defines the first child ratio when <see cref="Kind"/> is <see cref="DockNodeKind.Split"/>.
     /// </summary>
     public double Ratio { get; set; } = 0.25;
+
+    /// <summary>
+    /// Defines whether split child tracks are calculated from <see cref="Ratio"/> instead of child dock sizes.
+    /// </summary>
+    public bool UseRatio { get; set; }
 
     /// <summary>
     /// Defines the pane names when <see cref="Kind"/> is <see cref="DockNodeKind.Tabs"/>.

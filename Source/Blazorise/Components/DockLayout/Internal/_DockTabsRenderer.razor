@@ -7,13 +7,19 @@
 else if ( Visible )
 {
     <CascadingValue Value="@ActivePane" IsFixed="false">
-        <aside @ref="@ElementRef" class="@ClassNames" style="@StyleNames" data-dock-pane-name="@ActivePaneName">
+        <aside @ref="@ElementRef" class="@ClassNames" style="@StyleNames" data-dock-node-id="@Node.Id" data-dock-pane-name="@ActivePaneName" data-dock-pane-caption="@ActivePane.ResolvedCaption">
             @if ( TabsVisible && TabsOnTop )
             {
                 <div class="@TabsClass">
                     @foreach ( string paneName in Node.Panes )
                     {
-                        <button type="button" class="@Layout.GetDockTabClass( Node, paneName )" @onpointerdown="@((PointerEventArgs eventArgs) => BeginPaneTabDrag( paneName, eventArgs ))" @onclick="@(() => ActivateTab( paneName ))">@Layout.GetPaneCaption( paneName )</button>
+                        <span class="@Layout.GetDockTabClass( Node, paneName )" data-dock-tab-name="@paneName">
+                            <button type="button" class="dock-pane-tab-label" @onpointerdown="@((PointerEventArgs eventArgs) => BeginPaneTabDrag( paneName, eventArgs ))" @onclick="@(() => ActivateTab( paneName ))">@Layout.GetPaneCaption( paneName )</button>
+                            @if ( IsPaneClosable( paneName ) )
+                            {
+                                <button type="button" class="dock-pane-tab-close" title="Close" @onclick="@(() => ClosePane( paneName ))" @onclick:stopPropagation @onpointerdown:stopPropagation>x</button>
+                            }
+                        </span>
                     }
                 </div>
             }
@@ -24,14 +30,20 @@ else if ( Visible )
                 <div class="@TabsClass">
                     @foreach ( string paneName in Node.Panes )
                     {
-                        <button type="button" class="@Layout.GetDockTabClass( Node, paneName )" @onpointerdown="@((PointerEventArgs eventArgs) => BeginPaneTabDrag( paneName, eventArgs ))" @onclick="@(() => ActivateTab( paneName ))">@Layout.GetPaneCaption( paneName )</button>
+                        <span class="@Layout.GetDockTabClass( Node, paneName )" data-dock-tab-name="@paneName">
+                            <button type="button" class="dock-pane-tab-label" @onpointerdown="@((PointerEventArgs eventArgs) => BeginPaneTabDrag( paneName, eventArgs ))" @onclick="@(() => ActivateTab( paneName ))">@Layout.GetPaneCaption( paneName )</button>
+                            @if ( IsPaneClosable( paneName ) )
+                            {
+                                <button type="button" class="dock-pane-tab-close" title="Close" @onclick="@(() => ClosePane( paneName ))" @onclick:stopPropagation @onpointerdown:stopPropagation>x</button>
+                            }
+                        </span>
                     }
                 </div>
             }
 
             @if ( CanResize )
             {
-                <DockSplitter Dock="@ActivePane.EffectivePosition" />
+                <DockSplitter Dock="@SplitterDock.Value" NodeId="@SplitNodeId" />
             }
         </aside>
     </CascadingValue>

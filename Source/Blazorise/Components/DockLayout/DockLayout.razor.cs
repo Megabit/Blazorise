@@ -42,6 +42,8 @@ public partial class DockLayout : BaseComponent
 
     private DotNetObjectReference<DockLayout> dotNetObjectRef;
 
+    private int nextNodeId;
+
     private static readonly DockZone[] dockZones =
     {
         DockZone.Center,
@@ -110,9 +112,7 @@ public partial class DockLayout : BaseComponent
 
         panes[paneName] = pane;
 
-        DockPaneState paneState = EnsurePaneState( pane );
-
-        EnsureActivePane( paneState.Position );
+        EnsurePaneState( pane );
     }
 
     internal void RegisterContent( DockContent dockContent )
@@ -139,16 +139,15 @@ public partial class DockLayout : BaseComponent
             return;
 
         panes.Remove( paneName );
-
-        foreach ( KeyValuePair<DockPanePosition, string> activePaneName in CurrentState.ActivePanes.ToArray() )
-        {
-            if ( activePaneName.Value == paneName )
-                CurrentState.ActivePanes.Remove( activePaneName.Key );
-        }
     }
 
     internal DockPaneState GetPaneState( DockPane pane )
         => EnsurePaneState( pane );
+
+    internal DockPanePosition GetPanePosition( DockPane pane )
+        => FindPanePosition( CurrentState.Root, pane.ResolvedName )
+            ?? FindPaneState( pane.ResolvedName )?.Position
+            ?? GetInitialPanePosition( pane );
 
     internal IReadOnlyList<DockPaneState> GetPaneStates( DockPanePosition position )
         => CurrentState.Panes
@@ -175,20 +174,9 @@ public partial class DockLayout : BaseComponent
 
     internal bool IsPaneActive( DockPane pane )
     {
-        DockPaneState paneState = EnsurePaneState( pane );
+        DockNodeState tabsNode = FindTabsNode( CurrentState.Root, pane.ResolvedName );
 
-        EnsureActivePane( paneState.Position );
-
-        return CurrentState.ActivePanes.TryGetValue( paneState.Position, out string activePaneName ) && activePaneName == paneState.Name;
-    }
-
-    internal string GetPaneTabClass( DockPaneState paneState )
-    {
-        EnsureActivePane( paneState.Position );
-
-        bool active = CurrentState.ActivePanes.TryGetValue( paneState.Position, out string activePaneName ) && activePaneName == paneState.Name;
-
-        return ClassProvider.DockPaneTab( active );
+        return tabsNode is null || GetActiveTabPaneName( tabsNode ) == pane.ResolvedName;
     }
 
     internal string GetPaneCaption( string paneName )
@@ -200,13 +188,51 @@ public partial class DockLayout : BaseComponent
     internal string GetDockPaneTabsClass()
         => ClassProvider.DockPaneTabs();
 
+    internal DockPanePosition? GetDockNodePosition( DockNodeState node )
+    {
+        if ( node is null )
+            return null;
+
+        if ( node.Kind == DockNodeKind.Pane )
+            return GetPanePosition( node.PaneName );
+
+        if ( node.Kind == DockNodeKind.Tabs )
+        {
+            foreach ( string paneName in node.Panes )
+            {
+                DockPanePosition? position = GetPanePosition( paneName );
+
+                if ( position == DockPanePosition.Center )
+                    return DockPanePosition.Center;
+            }
+
+            return GetPanePosition( GetActiveTabPaneName( node ) );
+        }
+
+        if ( node.Kind == DockNodeKind.Split )
+        {
+            DockPanePosition? firstPosition = GetDockNodePosition( node.First );
+            DockPanePosition? secondPosition = GetDockNodePosition( node.Second );
+
+            if ( firstPosition == DockPanePosition.Center || secondPosition == DockPanePosition.Center )
+                return DockPanePosition.Center;
+
+            if ( firstPosition is not null && firstPosition == secondPosition )
+                return firstPosition;
+
+            return null;
+        }
+
+        return null;
+    }
+
     internal string GetDockSplitStyle( DockNodeState node )
     {
         if ( node is null || node.Kind != DockNodeKind.Split )
             return null;
 
-        string firstFixedTrack = GetDockNodeTrackSize( node.First, node.Orientation );
-        string secondFixedTrack = GetDockNodeTrackSize( node.Second, node.Orientation );
+        string firstFixedTrack = node.UseRatio ? null : GetDockNodeTrackSize( node.First, node.Orientation );
+        string secondFixedTrack = node.UseRatio ? null : GetDockNodeTrackSize( node.Second, node.Orientation );
         string firstTrack = firstFixedTrack ?? ( secondFixedTrack is not null ? FlexibleFillTrack : GetFlexibleSplitTrack( node.Ratio ) );
         string secondTrack = secondFixedTrack ?? ( firstFixedTrack is not null ? FlexibleFillTrack : GetFlexibleSplitTrack( 1d - node.Ratio ) );
 
@@ -252,11 +278,11 @@ public partial class DockLayout : BaseComponent
 
     internal Task ActivatePane( string paneName )
     {
-        DockPaneState paneState = FindPaneState( paneName );
+        DockNodeState tabsNode = FindTabsNode( CurrentState.Root, paneName );
 
-        if ( paneState is not null )
+        if ( tabsNode is not null && tabsNode.Panes.Contains( paneName ) )
         {
-            CurrentState.ActivePanes[paneState.Position] = paneState.Name;
+            tabsNode.ActivePane = paneName;
             StateHasChanged();
         }
 
@@ -305,6 +331,17 @@ public partial class DockLayout : BaseComponent
 
     internal async Task ClosePane( DockPane pane )
     {
+        if ( pane is null )
+            return;
+
+        await ClosePane( pane.ResolvedName );
+    }
+
+    internal async Task ClosePane( string paneName )
+    {
+        if ( string.IsNullOrWhiteSpace( paneName ) || !panes.TryGetValue( paneName, out DockPane pane ) || !pane.Closable )
+            return;
+
         DockPaneState paneState = EnsurePaneState( pane );
 
         paneState.Visible = false;
@@ -313,20 +350,36 @@ public partial class DockLayout : BaseComponent
         await NotifyStateChanged();
     }
 
-    internal async Task BeginPaneResize( DockPane pane, PointerEventArgs eventArgs )
+    internal bool IsPaneClosable( string paneName )
+        => !string.IsNullOrWhiteSpace( paneName ) && panes.TryGetValue( paneName, out DockPane pane ) && pane.Closable;
+
+    internal async Task BeginPaneResize( DockPane pane, string nodeId, DockPanePosition dock, PointerEventArgs eventArgs )
     {
         if ( pane?.Resizable != true )
             return;
 
-        await JSModule.BeginResize(
-            DotNetObjectRef,
+        await BeginNodeResize(
             pane.ElementRef,
             pane.ResolvedName,
-            pane.EffectivePosition.ToString(),
-            eventArgs.ClientX,
-            eventArgs.ClientY,
+            nodeId,
+            dock,
+            eventArgs,
             pane.MinSize,
             pane.MaxSize );
+    }
+
+    internal async Task BeginNodeResize( ElementReference elementRef, string paneName, string nodeId, DockPanePosition dock, PointerEventArgs eventArgs, string minSize = null, string maxSize = null )
+    {
+        await JSModule.BeginResize(
+            DotNetObjectRef,
+            elementRef,
+            paneName,
+            nodeId,
+            dock.ToString(),
+            eventArgs.ClientX,
+            eventArgs.ClientY,
+            minSize,
+            maxSize );
     }
 
     internal Task BeginPaneTabDrag( string paneName, PointerEventArgs eventArgs )
@@ -359,22 +412,33 @@ public partial class DockLayout : BaseComponent
     /// Updates a dock pane size while a splitter resize operation is active.
     /// </summary>
     /// <param name="paneName">The resized pane name.</param>
-    /// <param name="size">The new pane size.</param>
+    /// <param name="nodeId">The resized split node id.</param>
+    /// <param name="ratio">The new split ratio.</param>
     /// <returns>A task that completes after the state is updated.</returns>
     [JSInvokable]
-    public async Task NotifyDockPaneResized( string paneName, string size )
+    public async Task NotifyDockPaneResized( string paneName, string nodeId, string ratio )
     {
-        DockPaneState paneState = FindPaneState( paneName );
+        DockNodeState resizedNode = FindNodeById( CurrentState.Root, nodeId );
 
-        if ( paneState is null )
-            return;
-
-        DockNodeState tabsNode = FindTabsNode( CurrentState.Root, paneName );
-
-        if ( tabsNode is not null )
-            tabsNode.Size = size;
+        if ( resizedNode?.Kind == DockNodeKind.Split && double.TryParse( ratio, NumberStyles.Float, CultureInfo.InvariantCulture, out double splitRatio ) )
+        {
+            resizedNode.Ratio = Math.Clamp( splitRatio, 0.02d, 0.98d );
+            resizedNode.UseRatio = true;
+        }
         else
-            paneState.Size = size;
+        {
+            DockPaneState paneState = FindPaneState( paneName );
+
+            if ( paneState is null )
+                return;
+
+            if ( resizedNode is not null )
+                resizedNode.Size = ratio;
+            else if ( FindTabsNode( CurrentState.Root, paneName ) is DockNodeState tabsNode )
+                tabsNode.Size = ratio;
+            else
+                paneState.Size = ratio;
+        }
 
         await NotifyStateChanged();
     }
@@ -393,12 +457,13 @@ public partial class DockLayout : BaseComponent
     /// </summary>
     /// <param name="paneName">The dragged pane name.</param>
     /// <param name="targetName">The pane currently under the pointer.</param>
+    /// <param name="targetNodeId">The dock node currently under the pointer.</param>
     /// <param name="zone">The currently hovered drop zone.</param>
     /// <param name="compassX">The horizontal compass location relative to the layout.</param>
     /// <param name="compassY">The vertical compass location relative to the layout.</param>
     /// <returns>A completed task.</returns>
     [JSInvokable]
-    public Task NotifyDockPaneDrag( string paneName, string targetName, string zone, double compassX, double compassY )
+    public Task NotifyDockPaneDrag( string paneName, string targetName, string targetNodeId, string zone, double compassX, double compassY )
     {
         activeDockZone = ToDockZone( zone );
         activeDockTargetName = targetName;
@@ -417,10 +482,11 @@ public partial class DockLayout : BaseComponent
     /// </summary>
     /// <param name="paneName">The dragged pane name.</param>
     /// <param name="targetName">The pane currently under the pointer.</param>
+    /// <param name="targetNodeId">The dock node currently under the pointer.</param>
     /// <param name="zone">The selected drop zone.</param>
     /// <returns>A task that completes after the state is updated.</returns>
     [JSInvokable]
-    public async Task NotifyDockPaneDropped( string paneName, string targetName, string zone )
+    public async Task NotifyDockPaneDropped( string paneName, string targetName, string targetNodeId, string zone )
     {
         DockZone? targetZone = ToDockZone( zone );
         DockPaneState paneState = FindPaneState( paneName );
@@ -439,10 +505,8 @@ public partial class DockLayout : BaseComponent
                 : new[] { paneName };
             DockPaneState targetState = FindPaneState( targetName );
             bool targetExists = !string.IsNullOrWhiteSpace( targetName ) && !movedPaneNames.Contains( targetName ) && ContainsPane( CurrentState.Root, targetName );
-            bool mergeWithTargetTabs = targetState is not null && targetState.Position != paneState.Position;
-            DockPanePosition? targetPosition = mergeWithTargetTabs
-                ? targetState?.Position
-                : ToDockPanePosition( targetZone.Value );
+            bool mergeWithTargetTabs = targetExists && targetZone.Value == DockZone.Center;
+            DockPanePosition? targetPosition = GetDropPanePosition( targetState, targetZone.Value, mergeWithTargetTabs );
 
             if ( targetPosition is not null )
             {
@@ -456,9 +520,9 @@ public partial class DockLayout : BaseComponent
             }
 
             if ( sourceTabsNode is not null && sourceTabsNode.Panes.Count > 1 )
-                MoveNodeToZone( sourceTabsNode, movedPaneNames, targetName, targetZone.Value, mergeWithTargetTabs, targetExists );
+                MoveNodeToZone( sourceTabsNode, movedPaneNames, targetName, targetNodeId, targetZone.Value, mergeWithTargetTabs, targetExists );
             else
-                MovePaneToZone( paneName, targetName, targetZone.Value, mergeWithTargetTabs );
+                MovePaneToZone( paneName, targetName, targetNodeId, targetZone.Value, mergeWithTargetTabs );
 
             await NotifyStateChanged();
         }
@@ -492,6 +556,7 @@ public partial class DockLayout : BaseComponent
         if ( CurrentState.Root is null && rootCollector.Nodes.Count > 0 )
         {
             CurrentState.Root = BuildInitialRoot();
+            NormalizeCurrentState();
             await NotifyStateChanged();
         }
     }
@@ -517,20 +582,6 @@ public partial class DockLayout : BaseComponent
         CurrentState.Panes.Add( paneState );
 
         return paneState;
-    }
-
-    private void EnsureActivePane( DockPanePosition position )
-    {
-        if ( CurrentState.ActivePanes.ContainsKey( position ) )
-            return;
-
-        DockPaneState paneState = CurrentState.Panes
-            .Where( x => x.Visible && x.Position == position )
-            .OrderBy( x => x.Order )
-            .FirstOrDefault();
-
-        if ( paneState is not null )
-            CurrentState.ActivePanes[position] = paneState.Name;
     }
 
     internal DockPaneState FindPaneState( string paneName )
@@ -560,9 +611,17 @@ public partial class DockLayout : BaseComponent
 
     private string GetDockNodeTrackSize( DockNodeState node, DockSplitOrientation orientation )
     {
+        if ( !string.IsNullOrWhiteSpace( node?.Size ) )
+            return node.Size;
+
+        DockPanePosition? position = GetDockNodePosition( node );
+
+        if ( position is null || !IsPanePositionCompatibleWithOrientation( position.Value, orientation ) )
+            return null;
+
         DockPane pane = GetDockNodePane( node );
 
-        if ( pane is null || !IsPanePositionCompatibleWithOrientation( pane.EffectivePosition, orientation ) )
+        if ( pane is null )
             return null;
 
         DockPaneState paneState = FindPaneState( pane.ResolvedName );
@@ -591,12 +650,55 @@ public partial class DockLayout : BaseComponent
         {
             DockNodeKind.Pane => node.PaneName,
             DockNodeKind.Tabs => GetActiveTabPaneName( node ),
+            DockNodeKind.Split => GetFirstDockNodePaneName( node ),
             _ => null,
         };
 
         return !string.IsNullOrWhiteSpace( paneName ) && panes.TryGetValue( paneName, out DockPane pane )
             ? pane
             : null;
+    }
+
+    private string GetFirstDockNodePaneName( DockNodeState node )
+    {
+        if ( node is null )
+            return null;
+
+        if ( node.Kind == DockNodeKind.Pane )
+            return node.PaneName;
+
+        if ( node.Kind == DockNodeKind.Tabs )
+            return GetActiveTabPaneName( node ) ?? node.Panes.FirstOrDefault();
+
+        if ( node.Kind == DockNodeKind.Split )
+            return GetFirstDockNodePaneName( node.First ) ?? GetFirstDockNodePaneName( node.Second );
+
+        return null;
+    }
+
+    private static DockNodeState FindNodeById( DockNodeState node, string nodeId )
+    {
+        if ( node is null || string.IsNullOrWhiteSpace( nodeId ) )
+            return null;
+
+        if ( node.Id == nodeId )
+            return node;
+
+        if ( node.Kind == DockNodeKind.Split )
+            return FindNodeById( node.First, nodeId ) ?? FindNodeById( node.Second, nodeId );
+
+        return null;
+    }
+
+    private DockPanePosition? GetPanePosition( string paneName )
+    {
+        if ( string.IsNullOrWhiteSpace( paneName ) )
+            return null;
+
+        if ( panes.TryGetValue( paneName, out DockPane pane ) )
+            return GetPanePosition( pane );
+
+        return FindPaneState( paneName )?.Position;
     }
 
     private static bool IsPanePositionCompatibleWithOrientation( DockPanePosition position, DockSplitOrientation orientation )
@@ -643,6 +745,21 @@ public partial class DockLayout : BaseComponent
         return root;
     }
 
+    private void EnsureNodeIds( DockNodeState node )
+    {
+        if ( node is null )
+            return;
+
+        if ( string.IsNullOrWhiteSpace( node.Id ) )
+            node.Id = $"dock-node-{++nextNodeId}";
+
+        if ( node.Kind == DockNodeKind.Split )
+        {
+            EnsureNodeIds( node.First );
+            EnsureNodeIds( node.Second );
+        }
+    }
+
     private DockNodeState BuildSimpleDockNode( DockPanePosition position )
     {
         List<string> paneNames = panes.Values
@@ -654,7 +771,7 @@ public partial class DockLayout : BaseComponent
         if ( paneNames.Count == 0 )
             return null;
 
-        if ( paneNames.Count == 1 )
+        if ( paneNames.Count == 1 && !ShouldKeepSinglePaneTabNode( paneNames[0] ) )
         {
             return new()
             {
@@ -672,7 +789,10 @@ public partial class DockLayout : BaseComponent
         };
     }
 
-    private void MoveNodeToZone( DockNodeState movingNode, IReadOnlyList<string> movingPaneNames, string targetName, DockZone zone, bool mergeWithTargetTabs, bool targetExists )
+    private bool ShouldKeepSinglePaneTabNode( string paneName )
+        => panes.TryGetValue( paneName, out DockPane pane ) && pane.DockRole == DockRole.Document && pane.EffectiveShowTab;
+
+    private void MoveNodeToZone( DockNodeState movingNode, IReadOnlyList<string> movingPaneNames, string targetName, string targetNodeId, DockZone zone, bool mergeWithTargetTabs, bool targetExists )
     {
         DockNodeState originalRoot = CurrentState.Root;
 
@@ -688,7 +808,7 @@ public partial class DockLayout : BaseComponent
 
         if ( targetExists )
         {
-            CurrentState.Root = SplitTargetPane( CurrentState.Root, targetName, movingNode, zone );
+            CurrentState.Root = SplitTargetNode( CurrentState.Root, targetName, targetNodeId, movingNode, zone );
             return;
         }
 
@@ -727,7 +847,7 @@ public partial class DockLayout : BaseComponent
         };
     }
 
-    private void MovePaneToZone( string paneName, string targetName, DockZone zone, bool mergeWithTargetTabs )
+    private void MovePaneToZone( string paneName, string targetName, string targetNodeId, DockZone zone, bool mergeWithTargetTabs )
     {
         DockNodeState originalRoot = CurrentState.Root;
         bool targetExists = !string.IsNullOrWhiteSpace( targetName ) && targetName != paneName && ContainsPane( CurrentState.Root, targetName );
@@ -748,7 +868,7 @@ public partial class DockLayout : BaseComponent
 
         if ( targetExists )
         {
-            CurrentState.Root = SplitTargetPane( CurrentState.Root, targetName, paneNode, zone );
+            CurrentState.Root = SplitTargetNode( CurrentState.Root, targetName, targetNodeId, paneNode, zone );
             return;
         }
 
@@ -798,6 +918,81 @@ public partial class DockLayout : BaseComponent
             _ => false,
         };
     }
+
+    private DockPanePosition? FindPanePosition( DockNodeState node, string paneName )
+        => FindPanePosition( node, paneName, DockPanePosition.Center );
+
+    private DockPanePosition? FindPanePosition( DockNodeState node, string paneName, DockPanePosition inheritedPosition )
+    {
+        if ( node is null || string.IsNullOrWhiteSpace( paneName ) )
+            return null;
+
+        return node.Kind switch
+        {
+            DockNodeKind.Pane => node.PaneName == paneName ? ResolvePanePosition( paneName, inheritedPosition ) : null,
+            DockNodeKind.Tabs => node.Panes.Contains( paneName ) ? ResolvePanePosition( paneName, inheritedPosition ) : null,
+            DockNodeKind.Split => FindPanePosition( node.First, paneName, GetFirstSplitPosition( node, inheritedPosition ) )
+                ?? FindPanePosition( node.Second, paneName, GetSecondSplitPosition( node, inheritedPosition ) ),
+            _ => null,
+        };
+    }
+
+    private DockPanePosition ResolvePanePosition( string paneName, DockPanePosition inheritedPosition )
+        => panes.TryGetValue( paneName, out DockPane pane ) && pane.DockRole == DockRole.Document
+            ? DockPanePosition.Center
+            : inheritedPosition;
+
+    private bool ShouldPreserveInheritedPosition( DockNodeState node, DockPanePosition inheritedPosition )
+        => inheritedPosition != DockPanePosition.Center && HasOnlyPanesInPosition( node, inheritedPosition );
+
+    private bool HasOnlyPanesInPosition( DockNodeState node, DockPanePosition position )
+    {
+        if ( node is null )
+            return false;
+
+        if ( node.Kind == DockNodeKind.Pane )
+            return IsPaneInPosition( node.PaneName, position );
+
+        if ( node.Kind == DockNodeKind.Tabs )
+            return node.Panes.Count > 0 && node.Panes.All( paneName => IsPaneInPosition( paneName, position ) );
+
+        if ( node.Kind == DockNodeKind.Split )
+            return HasOnlyPanesInPosition( node.First, position ) && HasOnlyPanesInPosition( node.Second, position );
+
+        return false;
+    }
+
+    private bool IsPaneInPosition( string paneName, DockPanePosition position )
+    {
+        if ( string.IsNullOrWhiteSpace( paneName ) )
+            return false;
+
+        if ( panes.TryGetValue( paneName, out DockPane pane ) && pane.DockRole == DockRole.Document )
+            return position == DockPanePosition.Center;
+
+        return FindPaneState( paneName )?.Position == position;
+    }
+
+    private static DockPanePosition? GetDropPanePosition( DockPaneState targetState, DockZone zone, bool mergeWithTargetTabs )
+    {
+        if ( mergeWithTargetTabs )
+            return targetState?.Position;
+
+        if ( targetState is not null && targetState.Position != DockPanePosition.Center )
+            return targetState.Position;
+
+        return ToDockPanePosition( zone );
+    }
+
+    private DockPanePosition GetFirstSplitPosition( DockNodeState node, DockPanePosition inheritedPosition )
+        => ShouldPreserveInheritedPosition( node, inheritedPosition )
+            ? inheritedPosition
+            : node.Orientation == DockSplitOrientation.Horizontal ? DockPanePosition.Left : DockPanePosition.Top;
+
+    private DockPanePosition GetSecondSplitPosition( DockNodeState node, DockPanePosition inheritedPosition )
+        => ShouldPreserveInheritedPosition( node, inheritedPosition )
+            ? inheritedPosition
+            : node.Orientation == DockSplitOrientation.Horizontal ? DockPanePosition.Right : DockPanePosition.Bottom;
 
     private DockNodeState AddPaneToTabs( DockNodeState node, string targetName, string paneName )
     {
@@ -931,10 +1126,13 @@ public partial class DockLayout : BaseComponent
         return node;
     }
 
-    private static DockNodeState SplitTargetPane( DockNodeState node, string targetName, DockNodeState paneNode, DockZone zone )
+    private DockNodeState SplitTargetNode( DockNodeState node, string targetName, string targetNodeId, DockNodeState paneNode, DockZone zone )
     {
         if ( node is null )
             return null;
+
+        if ( !string.IsNullOrWhiteSpace( targetNodeId ) && node.Id == targetNodeId )
+            return CreateTargetSplitNode( node, paneNode, zone );
 
         if ( node.Kind == DockNodeKind.Pane && node.PaneName == targetName )
             return CreateTargetSplitNode( node, paneNode, zone );
@@ -944,21 +1142,41 @@ public partial class DockLayout : BaseComponent
 
         if ( node.Kind == DockNodeKind.Split )
         {
-            node.First = SplitTargetPane( node.First, targetName, paneNode, zone );
-            node.Second = SplitTargetPane( node.Second, targetName, paneNode, zone );
+            node.First = SplitTargetNode( node.First, targetName, targetNodeId, paneNode, zone );
+            node.Second = SplitTargetNode( node.Second, targetName, targetNodeId, paneNode, zone );
         }
 
         return node;
     }
 
-    private static DockNodeState CreateTargetSplitNode( DockNodeState targetNode, DockNodeState paneNode, DockZone zone )
-        => zone switch
+    private DockNodeState CreateTargetSplitNode( DockNodeState targetNode, DockNodeState paneNode, DockZone zone )
+    {
+        string targetSize = GetDockNodeSize( targetNode );
+        DockNodeState splitNode = zone switch
         {
             DockZone.Left => CreateSplitNode( paneNode, targetNode, DockSplitOrientation.Horizontal, 0.32 ),
             DockZone.Right => CreateSplitNode( targetNode, paneNode, DockSplitOrientation.Horizontal, 0.68 ),
             DockZone.Top => CreateSplitNode( paneNode, targetNode, DockSplitOrientation.Vertical, 0.32 ),
             DockZone.Bottom => CreateSplitNode( targetNode, paneNode, DockSplitOrientation.Vertical, 0.68 ),
             _ => targetNode,
+        };
+
+        if ( splitNode?.Kind == DockNodeKind.Split )
+        {
+            splitNode.Size = targetSize;
+            splitNode.UseRatio = true;
+        }
+
+        return splitNode;
+    }
+
+    private string GetDockNodeSize( DockNodeState node )
+        => node?.Kind switch
+        {
+            DockNodeKind.Pane => GetDockPaneSize( node.PaneName ),
+            DockNodeKind.Tabs => node.Size ?? GetDockGroupSize( node.Panes ),
+            DockNodeKind.Split => node.Size,
+            _ => null,
         };
 
     private static DockNodeState RemovePaneNode( DockNodeState node, string paneName )
@@ -979,13 +1197,7 @@ public partial class DockLayout : BaseComponent
             if ( node.ActivePane == paneName )
                 node.ActivePane = node.Panes[0];
 
-            return node.Panes.Count == 1
-                ? new()
-                {
-                    Kind = DockNodeKind.Pane,
-                    PaneName = node.Panes[0],
-                }
-                : node;
+            return node;
         }
 
         if ( node.Kind == DockNodeKind.Split )
@@ -1018,18 +1230,10 @@ public partial class DockLayout : BaseComponent
             Ratio = ratio,
         };
 
-    private int GetNextOrder( DockPanePosition position )
-    {
-        int? order = CurrentState.Panes
-            .Where( x => x.Position == position )
-            .Select( x => (int?)x.Order )
-            .Max();
-
-        return order.GetValueOrDefault() + 1;
-    }
-
     private async Task NotifyStateChanged()
     {
+        NormalizeCurrentState();
+
         DirtyClasses();
         DirtyStyles();
 
@@ -1037,6 +1241,28 @@ public partial class DockLayout : BaseComponent
             await StateChanged.InvokeAsync( CurrentState );
 
         StateHasChanged();
+    }
+
+    private void NormalizeCurrentState()
+    {
+        if ( CurrentState.Root is not null )
+        {
+            EnsureNodeIds( CurrentState.Root );
+            CurrentState.Root = DockLayoutNormalizer.Normalize( CurrentState.Root, panes, CurrentState.Panes );
+            EnsureNodeIds( CurrentState.Root );
+            SyncPanePositionsFromTree();
+        }
+    }
+
+    private void SyncPanePositionsFromTree()
+    {
+        foreach ( DockPaneState paneState in CurrentState.Panes )
+        {
+            DockPanePosition? position = FindPanePosition( CurrentState.Root, paneState.Name );
+
+            if ( position is not null )
+                paneState.Position = position.Value;
+        }
     }
 
     internal string GetDockCompassClass()

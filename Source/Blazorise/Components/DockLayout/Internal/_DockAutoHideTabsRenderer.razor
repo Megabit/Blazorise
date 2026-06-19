@@ -7,7 +7,7 @@
         {
             if ( Layout.TryGetPane( paneName, out DockPane pane ) )
             {
-                <button type="button" class="@GetPaneAutoHideTabClass( pane )" title="@pane.ResolvedCaption" @onclick="@(() => OpenPaneAutoHide( pane ))">@pane.ResolvedCaption</button>
+                <button type="button" class="@AutoHideTabClass" title="@pane.ResolvedCaption" @onclick="@(() => OpenPaneAutoHide( pane ))">@pane.ResolvedCaption</button>
             }
         }
     </aside>

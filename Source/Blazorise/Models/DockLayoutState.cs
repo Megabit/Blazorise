@@ -17,8 +17,4 @@ public class DockLayoutState
     /// </summary>
     public List<DockPaneState> Panes { get; set; } = new();
 
-    /// <summary>
-    /// Defines the active pane name for each dock position.
-    /// </summary>
-    public Dictionary<DockPanePosition, string> ActivePanes { get; set; } = new();
 }

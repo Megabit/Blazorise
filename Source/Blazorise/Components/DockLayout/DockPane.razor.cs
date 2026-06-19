@@ -102,7 +102,7 @@ public partial class DockPane : BaseComponent, IDisposable
 
     internal string ResolvedCaption => !string.IsNullOrWhiteSpace( Caption ) ? Caption : ResolvedName;
 
-    internal DockPanePosition EffectivePosition => ParentDockLayout?.GetPaneState( this )?.Position ?? Dock;
+    internal DockPanePosition EffectivePosition => ParentDockLayout?.GetPanePosition( this ) ?? Dock;
 
     internal string EffectiveSize => ParentDockLayout?.GetPaneState( this )?.Size ?? Size;
 

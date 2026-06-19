@@ -20,6 +20,8 @@ public partial class _DockTabsRenderer : BaseComponent
 
     private DockPaneState activePaneState;
 
+    private DockPanePosition groupPosition;
+
     #endregion
 
     #region Methods
@@ -34,6 +36,7 @@ public partial class _DockTabsRenderer : BaseComponent
         {
             activePane = null;
             activePaneState = null;
+            groupPosition = DockPanePosition.Center;
             return;
         }
 
@@ -41,6 +44,7 @@ public partial class _DockTabsRenderer : BaseComponent
             activePane = null;
 
         activePaneState = Layout?.GetPaneState( activePaneName );
+        groupPosition = Layout?.GetDockNodePosition( Node ) ?? activePane?.EffectivePosition ?? DockPanePosition.Center;
 
         DirtyClasses();
         DirtyStyles();
@@ -51,8 +55,8 @@ public partial class _DockTabsRenderer : BaseComponent
     {
         if ( ActivePane is not null )
         {
-            builder.Append( ClassProvider.DockPane( ActivePane.EffectivePosition, CanResize, Collapsed ) );
-            builder.Append( ClassProvider.DockPanePosition( ActivePane.EffectivePosition ) );
+            builder.Append( ClassProvider.DockPane( GroupPosition, CanResize, Collapsed ) );
+            builder.Append( ClassProvider.DockPanePosition( GroupPosition ) );
             builder.Append( ClassProvider.DockPaneResizable( CanResize ) );
             builder.Append( ClassProvider.DockPaneCollapsed( Collapsed ) );
             builder.Append( ClassProvider.DockPaneAutoHide( AutoHide ) );
@@ -67,9 +71,9 @@ public partial class _DockTabsRenderer : BaseComponent
     {
         if ( ActivePane is not null )
         {
-            builder.Append( $"--dock-pane-size:{PaneSize}", !AutoHide && !string.IsNullOrWhiteSpace( PaneSize ) );
-            builder.Append( $"--dock-pane-min-size:{ActivePane.MinSize}", !AutoHide && !string.IsNullOrWhiteSpace( ActivePane.MinSize ) );
-            builder.Append( $"--dock-pane-max-size:{ActivePane.MaxSize}", !AutoHide && !string.IsNullOrWhiteSpace( ActivePane.MaxSize ) );
+            builder.Append( $"--dock-pane-size:{PaneSize}", !AutoHide && GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( PaneSize ) );
+            builder.Append( $"--dock-pane-min-size:{ActivePane.MinSize}", !AutoHide && GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( ActivePane.MinSize ) );
+            builder.Append( $"--dock-pane-max-size:{ActivePane.MaxSize}", !AutoHide && GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( ActivePane.MaxSize ) );
         }
 
         base.BuildStyles( builder );
@@ -80,6 +84,9 @@ public partial class _DockTabsRenderer : BaseComponent
 
     private Task ActivateTab( string paneName )
         => Layout?.ActivateTab( Node, paneName ) ?? Task.CompletedTask;
+
+    private Task ClosePane( string paneName )
+        => Layout?.ClosePane( paneName ) ?? Task.CompletedTask;
 
     #endregion
 
@@ -97,13 +104,18 @@ public partial class _DockTabsRenderer : BaseComponent
 
     private bool TabsVisible => Node?.Panes?.Count > 1 || ActivePane?.EffectiveShowTab == true;
 
-    private bool TabsOnTop => ActivePane?.DockRole == DockRole.Document || ActivePane?.EffectivePosition == DockPanePosition.Center;
+    private DockPanePosition GroupPosition => groupPosition;
+
+    private bool IsPaneClosable( string paneName )
+        => Layout?.IsPaneClosable( paneName ) == true;
+
+    private bool TabsOnTop => GroupPosition == DockPanePosition.Center;
 
     private bool Collapsed => activePaneState?.Collapsed == true || AutoHide;
 
     private string PaneSize => Node?.Size ?? activePaneState?.Size ?? ActivePane?.Size;
 
-    private bool CanResize => ActivePane?.Resizable == true && ActivePane.EffectivePosition != DockPanePosition.Center;
+    private bool CanResize => ActivePane?.Resizable == true && SplitterDock is not null;
 
     private ElementReference ElementRef
     {
@@ -124,6 +136,16 @@ public partial class _DockTabsRenderer : BaseComponent
     /// Gets or sets the tab node to render.
     /// </summary>
     [Parameter] public DockNodeState Node { get; set; }
+
+    /// <summary>
+    /// Gets or sets the local splitter side for the rendered tab group.
+    /// </summary>
+    [Parameter] public DockPanePosition? SplitterDock { get; set; }
+
+    /// <summary>
+    /// Gets or sets the split node that owns the rendered tab group splitter.
+    /// </summary>
+    [Parameter] public string SplitNodeId { get; set; }
 
     #endregion
 }

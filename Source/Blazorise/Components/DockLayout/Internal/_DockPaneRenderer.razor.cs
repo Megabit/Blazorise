@@ -17,6 +17,8 @@ public partial class _DockPaneRenderer : BaseComponent
 
     private DockPaneState paneState;
 
+    private DockPanePosition renderPosition;
+
     #endregion
 
     #region Methods
@@ -29,6 +31,9 @@ public partial class _DockPaneRenderer : BaseComponent
             pane = null;
 
         paneState = Layout?.GetPaneState( PaneName );
+        renderPosition = Pane is null
+            ? DockPanePosition.Center
+            : Layout?.GetPanePosition( Pane ) ?? Pane.EffectivePosition;
 
         DirtyClasses();
         DirtyStyles();
@@ -39,8 +44,8 @@ public partial class _DockPaneRenderer : BaseComponent
     {
         if ( Pane is not null )
         {
-            builder.Append( ClassProvider.DockPane( Pane.EffectivePosition, CanResize, Collapsed ) );
-            builder.Append( ClassProvider.DockPanePosition( Pane.EffectivePosition ) );
+            builder.Append( ClassProvider.DockPane( RenderPosition, CanResize, Collapsed ) );
+            builder.Append( ClassProvider.DockPanePosition( RenderPosition ) );
             builder.Append( ClassProvider.DockPaneResizable( CanResize ) );
             builder.Append( ClassProvider.DockPaneCollapsed( Collapsed ) );
             builder.Append( ClassProvider.DockPaneAutoHide( AutoHide ) );
@@ -79,9 +84,11 @@ public partial class _DockPaneRenderer : BaseComponent
 
     private string PaneSize => paneState?.Size ?? Pane?.Size;
 
-    private string AutoHideTabClass => ClassProvider.DockPaneAutoHideTab( Pane.EffectivePosition );
+    private string AutoHideTabClass => ClassProvider.DockPaneAutoHideTab( RenderPosition );
 
-    private bool CanResize => Pane?.Resizable == true && Pane.EffectivePosition != DockPanePosition.Center;
+    private bool CanResize => Pane?.Resizable == true && SplitterDock is not null;
+
+    private DockPanePosition RenderPosition => renderPosition;
 
     private ElementReference ElementRef
     {
@@ -102,6 +109,21 @@ public partial class _DockPaneRenderer : BaseComponent
     /// Gets or sets the pane name.
     /// </summary>
     [Parameter] public string PaneName { get; set; }
+
+    /// <summary>
+    /// Gets or sets the rendered dock node id.
+    /// </summary>
+    [Parameter] public string NodeId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the local splitter side for the rendered pane.
+    /// </summary>
+    [Parameter] public DockPanePosition? SplitterDock { get; set; }
+
+    /// <summary>
+    /// Gets or sets the split node that owns the rendered pane splitter.
+    /// </summary>
+    [Parameter] public string SplitNodeId { get; set; }
 
     #endregion
 }

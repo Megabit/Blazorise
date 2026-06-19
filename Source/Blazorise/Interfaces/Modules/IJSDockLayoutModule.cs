@@ -15,13 +15,14 @@ public interface IJSDockLayoutModule : IBaseJSModule
     /// <param name="dotNetObjectRef">The .NET object that receives resize callbacks.</param>
     /// <param name="paneRef">The dock pane element reference.</param>
     /// <param name="paneName">The pane name.</param>
+    /// <param name="nodeId">The split node id.</param>
     /// <param name="position">The pane position.</param>
     /// <param name="clientX">The starting pointer X coordinate.</param>
     /// <param name="clientY">The starting pointer Y coordinate.</param>
     /// <param name="minSize">The configured minimum size.</param>
     /// <param name="maxSize">The configured maximum size.</param>
     /// <returns>A task that completes when tracking has started.</returns>
-    ValueTask BeginResize( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference paneRef, string paneName, string position, double clientX, double clientY, string minSize, string maxSize );
+    ValueTask BeginResize( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference paneRef, string paneName, string nodeId, string position, double clientX, double clientY, string minSize, string maxSize );
 
     /// <summary>
     /// Starts document-level drag tracking for a dock pane.
