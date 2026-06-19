@@ -22,8 +22,9 @@
     min-width: 0;
     position: relative;
     overflow: hidden;
-    background: #fff;
-    border-color: rgba(0, 0, 0, .125);
+    background: var(--b-dock-pane-background, var(--b-theme-body-background-color, #{$body-bg}));
+    color: var(--b-dock-pane-color, var(--b-theme-body-text-color, #{$body-color}));
+    border-color: var(--b-dock-pane-border-color, #{$border-color});
     border-style: solid;
     border-width: 0;
     z-index: 1;
@@ -153,8 +154,8 @@
     min-height: 0;
     padding: .5rem .375rem;
     border: 0;
-    background: rgba(0, 0, 0, .03);
-    color: #212529;
+    background: var(--b-dock-pane-header-background, rgba($black, .03));
+    color: var(--b-dock-pane-color, var(--b-theme-body-text-color, #{$body-color}));
     cursor: pointer;
     font: inherit;
     line-height: 1.25;
@@ -162,7 +163,7 @@
 }
 
 .dock-pane-autohide-tab:hover {
-    background: rgba(0, 123, 255, .12);
+    background: var(--b-dock-hover-background, rgba(var(--b-theme-primary-r, #{red($primary)}), var(--b-theme-primary-g, #{green($primary)}), var(--b-theme-primary-b, #{blue($primary)}), .12));
 }
 
 .dock-pane-autohide-tab-left,
@@ -186,7 +187,11 @@
 .dock-pane-footer {
     flex: 0 0 auto;
     padding: .5rem .75rem;
-    background: rgba(0, 0, 0, .03);
+    background: var(--b-dock-pane-header-background, rgba($black, .03));
+}
+
+.dock-pane-footer {
+    background: var(--b-dock-pane-footer-background, var(--b-dock-pane-header-background, rgba($black, .03)));
 }
 
 .dock-pane-header {
@@ -223,14 +228,14 @@
     border: 0;
     border-radius: .125rem;
     background: transparent;
-    color: #212529;
+    color: var(--b-dock-pane-color, var(--b-theme-body-text-color, #{$body-color}));
     cursor: pointer;
     font-size: .75rem;
     line-height: 1;
 }
 
 .dock-pane-header-action:hover {
-    background: rgba(0, 123, 255, .12);
+    background: var(--b-dock-hover-background, rgba(var(--b-theme-primary-r, #{red($primary)}), var(--b-theme-primary-g, #{green($primary)}), var(--b-theme-primary-b, #{blue($primary)}), .12));
 }
 
 .dock-pane-tabs {
@@ -238,8 +243,8 @@
     flex: 0 0 auto;
     gap: .125rem;
     padding: 0 .25rem .25rem;
-    background: rgba(0, 0, 0, .03);
-    border-top: 1px solid rgba(0, 0, 0, .125);
+    background: var(--b-dock-tabs-background, rgba($black, .03));
+    border-top: 1px solid var(--b-dock-pane-border-color, #{$border-color});
 }
 
 .dock-pane-tab {
@@ -249,7 +254,7 @@
     border: 0;
     border-radius: 0 0 .25rem .25rem;
     background: transparent;
-    color: #212529;
+    color: var(--b-dock-pane-color, var(--b-theme-body-text-color, #{$body-color}));
     cursor: pointer;
     font: inherit;
     line-height: 1.25;
@@ -280,7 +285,7 @@
     border: 0;
     border-radius: .125rem;
     background: transparent;
-    color: rgba(33, 37, 41, .65);
+    color: var(--b-dock-tab-close-color, rgba($body-color, .65));
     cursor: pointer;
     font: inherit;
     line-height: 1;
@@ -288,8 +293,8 @@
 }
 
 .dock-pane-tab-close:hover {
-    background: rgba(0, 123, 255, .12);
-    color: #212529;
+    background: var(--b-dock-hover-background, rgba(var(--b-theme-primary-r, #{red($primary)}), var(--b-theme-primary-g, #{green($primary)}), var(--b-theme-primary-b, #{blue($primary)}), .12));
+    color: var(--b-dock-pane-color, var(--b-theme-body-text-color, #{$body-color}));
 }
 
 
@@ -297,7 +302,7 @@
 .dock-pane-tabs-top {
     padding: .25rem .25rem 0;
     border-top: 0;
-    border-bottom: 1px solid rgba(0, 0, 0, .125);
+    border-bottom: 1px solid var(--b-dock-pane-border-color, #{$border-color});
 }
 
 .dock-pane-center > .dock-pane-tabs .dock-pane-tab,
@@ -306,8 +311,8 @@
 }
 
 .dock-pane-tab.active {
-    background: #fff;
-    color: #007bff;
+    background: var(--b-dock-tab-active-background, var(--b-theme-body-background-color, #{$body-bg}));
+    color: var(--b-dock-tab-active-color, var(--b-theme-primary, #{$primary}));
 }
 
 .dock-drag-preview {
@@ -317,11 +322,11 @@
     max-width: 18rem;
     padding: .375rem .625rem;
     pointer-events: none;
-    border: 1px solid rgba(0, 123, 255, .65);
+    border: 1px solid var(--b-dock-drag-preview-border-color, rgba(var(--b-theme-primary-r, #{red($primary)}), var(--b-theme-primary-g, #{green($primary)}), var(--b-theme-primary-b, #{blue($primary)}), .65));
     border-radius: .25rem;
-    background: rgba(255, 255, 255, .92);
-    box-shadow: 0 .375rem 1.25rem rgba(0, 0, 0, .16);
-    color: #212529;
+    background: var(--b-dock-drag-preview-background, rgba($body-bg, .92));
+    box-shadow: 0 .375rem 1.25rem rgba($black, .16);
+    color: var(--b-dock-pane-color, var(--b-theme-body-text-color, #{$body-color}));
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -331,8 +336,8 @@
     position: absolute;
     z-index: 30;
     pointer-events: none;
-    border: 2px dashed rgba(0, 123, 255, .7);
-    background: rgba(0, 123, 255, .1);
+    border: 2px dashed var(--b-dock-drop-preview-border-color, rgba(var(--b-theme-primary-r, #{red($primary)}), var(--b-theme-primary-g, #{green($primary)}), var(--b-theme-primary-b, #{blue($primary)}), .7));
+    background: var(--b-dock-drop-preview-background, rgba(var(--b-theme-primary-r, #{red($primary)}), var(--b-theme-primary-g, #{green($primary)}), var(--b-theme-primary-b, #{blue($primary)}), .1));
 }
 
 .dock-pane-body {
@@ -404,9 +409,9 @@
     justify-content: center;
     width: 2rem;
     height: 2rem;
-    color: #cfd4da;
-    border: 1px solid #dee2e6;
-    background: rgba(255, 255, 255, .85);
+    color: var(--b-dock-compass-zone-color, #{$gray-400});
+    border: 1px solid var(--b-dock-compass-zone-border-color, #{$border-color});
+    background: var(--b-dock-compass-zone-background, rgba($body-bg, .85));
 }
 
 .dock-compass-zone-icon {
@@ -415,9 +420,9 @@
 }
 
 .dock-compass-zone.active {
-    color: #007bff;
-    border-color: #007bff;
-    background: rgba(0, 123, 255, .08);
+    color: var(--b-dock-compass-zone-active-color, var(--b-theme-primary, #{$primary}));
+    border-color: var(--b-dock-compass-zone-active-border-color, var(--b-theme-primary, #{$primary}));
+    background: var(--b-dock-compass-zone-active-background, rgba(var(--b-theme-primary-r, #{red($primary)}), var(--b-theme-primary-g, #{green($primary)}), var(--b-theme-primary-b, #{blue($primary)}), .08));
 }
 
 .dock-compass-zone-center {

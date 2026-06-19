@@ -78,6 +78,9 @@ public abstract class ThemeGenerator : IThemeGenerator
         if ( theme.DividerOptions is not null )
             GenerateDividerVariables( theme, theme.DividerOptions );
 
+        if ( theme.DockLayoutOptions is not null )
+            GenerateDockLayoutVariables( theme, theme.DockLayoutOptions );
+
         GenerateTooltipVariables( theme, theme.TooltipOptions );
 
         GenerateBreadcrumbVariables( theme, theme.BreadcrumbOptions );
@@ -649,6 +652,74 @@ public abstract class ThemeGenerator : IThemeGenerator
         {
             Variables[ThemeVariables.SpinKitSize] = spinKitOptions.Size;
         }
+    }
+
+    /// <summary>
+    /// Generates the DockLayout CSS variables.
+    /// </summary>
+    /// <param name="theme">Currently used theme options.</param>
+    /// <param name="dockLayoutOptions">DockLayout options.</param>
+    protected virtual void GenerateDockLayoutVariables( Theme theme, ThemeDockLayoutOptions dockLayoutOptions )
+    {
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.PaneBackground ) )
+            Variables[ThemeVariables.DockLayoutPaneBackground] = dockLayoutOptions.PaneBackground;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.PaneColor ) )
+            Variables[ThemeVariables.DockLayoutPaneColor] = dockLayoutOptions.PaneColor;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.PaneBorderColor ) )
+            Variables[ThemeVariables.DockLayoutPaneBorderColor] = dockLayoutOptions.PaneBorderColor;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.PaneHeaderBackground ) )
+            Variables[ThemeVariables.DockLayoutPaneHeaderBackground] = dockLayoutOptions.PaneHeaderBackground;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.PaneFooterBackground ) )
+            Variables[ThemeVariables.DockLayoutPaneFooterBackground] = dockLayoutOptions.PaneFooterBackground;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.HoverBackground ) )
+            Variables[ThemeVariables.DockLayoutHoverBackground] = dockLayoutOptions.HoverBackground;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.TabsBackground ) )
+            Variables[ThemeVariables.DockLayoutTabsBackground] = dockLayoutOptions.TabsBackground;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.TabActiveBackground ) )
+            Variables[ThemeVariables.DockLayoutTabActiveBackground] = dockLayoutOptions.TabActiveBackground;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.TabActiveColor ) )
+            Variables[ThemeVariables.DockLayoutTabActiveColor] = dockLayoutOptions.TabActiveColor;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.TabCloseColor ) )
+            Variables[ThemeVariables.DockLayoutTabCloseColor] = dockLayoutOptions.TabCloseColor;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.DragPreviewBackground ) )
+            Variables[ThemeVariables.DockLayoutDragPreviewBackground] = dockLayoutOptions.DragPreviewBackground;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.DragPreviewBorderColor ) )
+            Variables[ThemeVariables.DockLayoutDragPreviewBorderColor] = dockLayoutOptions.DragPreviewBorderColor;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.DropPreviewBackground ) )
+            Variables[ThemeVariables.DockLayoutDropPreviewBackground] = dockLayoutOptions.DropPreviewBackground;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.DropPreviewBorderColor ) )
+            Variables[ThemeVariables.DockLayoutDropPreviewBorderColor] = dockLayoutOptions.DropPreviewBorderColor;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.CompassZoneBackground ) )
+            Variables[ThemeVariables.DockLayoutCompassZoneBackground] = dockLayoutOptions.CompassZoneBackground;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.CompassZoneColor ) )
+            Variables[ThemeVariables.DockLayoutCompassZoneColor] = dockLayoutOptions.CompassZoneColor;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.CompassZoneBorderColor ) )
+            Variables[ThemeVariables.DockLayoutCompassZoneBorderColor] = dockLayoutOptions.CompassZoneBorderColor;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.CompassZoneActiveBackground ) )
+            Variables[ThemeVariables.DockLayoutCompassZoneActiveBackground] = dockLayoutOptions.CompassZoneActiveBackground;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.CompassZoneActiveColor ) )
+            Variables[ThemeVariables.DockLayoutCompassZoneActiveColor] = dockLayoutOptions.CompassZoneActiveColor;
+
+        if ( !string.IsNullOrEmpty( dockLayoutOptions.CompassZoneActiveBorderColor ) )
+            Variables[ThemeVariables.DockLayoutCompassZoneActiveBorderColor] = dockLayoutOptions.CompassZoneActiveBorderColor;
     }
 
     /// <summary>
