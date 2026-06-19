@@ -27,7 +27,7 @@
                         </DockPaneBody>
                     </DockPane>
 
-                    <DockPane Name="toolbar" Caption="Toolbar" DockRole="DockRole.Tool" Dock="DockPanePosition.Top" Size="4rem" Movable="false">
+                    <DockPane Name="toolbar" Caption="Toolbar" DockRole="DockRole.Tool" Dock="DockPanePosition.Top" Movable="false">
                         <DockPaneBody Padding="Padding.Is2">
                             <Div Flex="Flex.Row.AlignItems.Center" Gap="Gap.Is2">
                                 <Button Color="Color.Primary" Size="Size.Small">
@@ -112,74 +112,9 @@
                 </DockLayout>
             </CardBody>
         </Card>
-        <Card Margin="Margin.Is4.OnY">
-            <CardHeader>
-                <CardTitle>Advanced Dock Layout</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <CardText>
-                    Advanced layouts can define the initial split and tab tree explicitly.
-                </CardText>
-            </CardBody>
-            <CardBody>
-                <DockLayout @bind-State="@advancedDockState" Height="Height.Rem( 24 )" Border="Border.Is1.Rounded">
-                    <DockSplit Orientation="DockSplitOrientation.Horizontal" Ratio="0.2">
-                        <DockPane Name="advanced-explorer" Caption="Explorer" DockRole="DockRole.Tool">
-                            <DockPaneHeader>
-                                <Strong>Explorer</Strong>
-                            </DockPaneHeader>
-                            <DockPaneBody>
-                                <ListGroup Flush>
-                                    <ListGroupItem>Pages</ListGroupItem>
-                                    <ListGroupItem>Components</ListGroupItem>
-                                    <ListGroupItem>Assets</ListGroupItem>
-                                </ListGroup>
-                            </DockPaneBody>
-                        </DockPane>
-                        <DockSplit Orientation="DockSplitOrientation.Horizontal" Ratio="0.75">
-                            <DockPane Name="advanced-editor" Caption="Editor" DockRole="DockRole.Document" ShowTab="false">
-                                <DockPaneBody Padding="Padding.Is4" Background="Background.Light">
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle>Editor</CardTitle>
-                                        </CardHeader>
-                                        <CardBody>
-                                            Advanced mode starts from a tree instead of side buckets.
-                                        </CardBody>
-                                    </Card>
-                                </DockPaneBody>
-                            </DockPane>
-                            <DockTabs ActivePane="advanced-properties">
-                                <DockPane Name="advanced-properties" Caption="Properties" DockRole="DockRole.Tool">
-                                    <DockPaneHeader>
-                                        <Strong>Properties</Strong>
-                                    </DockPaneHeader>
-                                    <DockPaneBody>
-                                        <Field>
-                                            <FieldLabel>Title</FieldLabel>
-                                            <TextInput Value="Advanced editor" />
-                                        </Field>
-                                    </DockPaneBody>
-                                </DockPane>
-                                <DockPane Name="advanced-output" Caption="Output" DockRole="DockRole.Tool">
-                                    <DockPaneHeader>
-                                        <Strong>Output</Strong>
-                                    </DockPaneHeader>
-                                    <DockPaneBody>
-                                        Build output and diagnostics.
-                                    </DockPaneBody>
-                                </DockPane>
-                            </DockTabs>
-                        </DockSplit>
-                    </DockSplit>
-                </DockLayout>
-            </CardBody>
-        </Card>
     </Column>
 </Row>
 
 @code {
     private DockLayoutState dockState = new();
-
-    private DockLayoutState advancedDockState = new();
 }

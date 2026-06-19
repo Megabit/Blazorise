@@ -23,6 +23,8 @@ public partial class DockPane : BaseComponent, IDisposable
 
     private bool showTab = true;
 
+    private bool showTabCloseButton;
+
     private bool resizable;
 
     private bool movable = true;
@@ -118,6 +120,8 @@ public partial class DockPane : BaseComponent, IDisposable
 
     internal bool EffectiveShowTab => ShowTab;
 
+    internal bool EffectiveShowTabCloseButton => ShowTabCloseButton;
+
     internal DockNodeState Node
     {
         get
@@ -179,6 +183,16 @@ public partial class DockPane : BaseComponent, IDisposable
     {
         get => showTab;
         set => showTab = value;
+    }
+
+    /// <summary>
+    /// Defines whether a close button should be shown when this pane is rendered as a document tab.
+    /// </summary>
+    [Parameter]
+    public bool ShowTabCloseButton
+    {
+        get => showTabCloseButton;
+        set => showTabCloseButton = value;
     }
 
     /// <summary>

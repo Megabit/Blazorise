@@ -350,8 +350,12 @@ public partial class DockLayout : BaseComponent
         await NotifyStateChanged();
     }
 
-    internal bool IsPaneClosable( string paneName )
-        => !string.IsNullOrWhiteSpace( paneName ) && panes.TryGetValue( paneName, out DockPane pane ) && pane.Closable;
+    internal bool IsPaneTabCloseButtonVisible( string paneName, DockPanePosition position )
+        => position == DockPanePosition.Center
+            && !string.IsNullOrWhiteSpace( paneName )
+            && panes.TryGetValue( paneName, out DockPane pane )
+            && pane.Closable
+            && pane.EffectiveShowTabCloseButton;
 
     internal async Task BeginPaneResize( DockPane pane, string nodeId, DockPanePosition dock, PointerEventArgs eventArgs )
     {
@@ -638,8 +642,13 @@ public partial class DockLayout : BaseComponent
         if ( node.Kind == DockNodeKind.Tabs && !string.IsNullOrWhiteSpace( node.Size ) )
             return node.Size;
 
-        return paneState?.Size ?? pane.Size ?? DefaultPaneSize;
+        return paneState?.Size ?? pane.Size ?? GetDefaultDockPaneSize( position.Value );
     }
+
+    private static string GetDefaultDockPaneSize( DockPanePosition position )
+        => position == DockPanePosition.Top || position == DockPanePosition.Bottom
+            ? "auto"
+            : DefaultPaneSize;
 
     private DockPane GetDockNodePane( DockNodeState node )
     {

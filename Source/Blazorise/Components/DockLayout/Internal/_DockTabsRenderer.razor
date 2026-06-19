@@ -15,7 +15,7 @@ else if ( Visible )
                     {
                         <span class="@Layout.GetDockTabClass( Node, paneName )" data-dock-tab-name="@paneName">
                             <button type="button" class="dock-pane-tab-label" @onpointerdown="@((PointerEventArgs eventArgs) => BeginPaneTabDrag( paneName, eventArgs ))" @onclick="@(() => ActivateTab( paneName ))">@Layout.GetPaneCaption( paneName )</button>
-                            @if ( IsPaneClosable( paneName ) )
+                            @if ( IsPaneTabCloseButtonVisible( paneName ) )
                             {
                                 <button type="button" class="dock-pane-tab-close" title="Close" @onclick="@(() => ClosePane( paneName ))" @onclick:stopPropagation @onpointerdown:stopPropagation>x</button>
                             }
@@ -32,7 +32,7 @@ else if ( Visible )
                     {
                         <span class="@Layout.GetDockTabClass( Node, paneName )" data-dock-tab-name="@paneName">
                             <button type="button" class="dock-pane-tab-label" @onpointerdown="@((PointerEventArgs eventArgs) => BeginPaneTabDrag( paneName, eventArgs ))" @onclick="@(() => ActivateTab( paneName ))">@Layout.GetPaneCaption( paneName )</button>
-                            @if ( IsPaneClosable( paneName ) )
+                            @if ( IsPaneTabCloseButtonVisible( paneName ) )
                             {
                                 <button type="button" class="dock-pane-tab-close" title="Close" @onclick="@(() => ClosePane( paneName ))" @onclick:stopPropagation @onpointerdown:stopPropagation>x</button>
                             }

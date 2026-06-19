@@ -106,8 +106,8 @@ public partial class _DockTabsRenderer : BaseComponent
 
     private DockPanePosition GroupPosition => groupPosition;
 
-    private bool IsPaneClosable( string paneName )
-        => Layout?.IsPaneClosable( paneName ) == true;
+    private bool IsPaneTabCloseButtonVisible( string paneName )
+        => Layout?.IsPaneTabCloseButtonVisible( paneName, GroupPosition ) == true;
 
     private bool TabsOnTop => GroupPosition == DockPanePosition.Center;
 
