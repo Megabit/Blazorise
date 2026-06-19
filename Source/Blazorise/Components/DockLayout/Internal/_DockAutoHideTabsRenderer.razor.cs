@@ -59,6 +59,7 @@ public partial class _DockAutoHideTabsRenderer : BaseComponent
             builder.Append( ClassProvider.DockPaneResizable( ActivePane.Resizable ) );
             builder.Append( ClassProvider.DockPaneCollapsed( Collapsed ) );
             builder.Append( ClassProvider.DockPaneAutoHide( AutoHide ) );
+            builder.Append( ClassProvider.DockPaneBordered(), Bordered );
         }
 
         base.BuildClasses( builder );
@@ -97,6 +98,8 @@ public partial class _DockAutoHideTabsRenderer : BaseComponent
     private string PaneSize => activePaneState?.Size ?? ActivePane?.Size;
 
     private string AutoHideTabClass => ClassProvider.DockPaneAutoHideTab( GroupPosition );
+
+    private bool Bordered => Layout?.IsDockPaneBordered( GroupPosition ) == true;
 
     private DockPanePosition GroupPosition => groupPosition;
 

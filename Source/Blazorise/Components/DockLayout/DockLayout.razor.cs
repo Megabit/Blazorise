@@ -254,6 +254,9 @@ public partial class DockLayout : BaseComponent
         return IsPaneAutoHidden( activePaneName );
     }
 
+    internal bool IsDockPaneBordered( DockPanePosition position )
+        => PaneBordered && position != DockPanePosition.Center;
+
     internal string GetActiveTabPaneName( DockNodeState node )
     {
         if ( node is null || node.Kind != DockNodeKind.Tabs )
@@ -1337,6 +1340,11 @@ public partial class DockLayout : BaseComponent
     /// Specifies the panes and content to be rendered inside the dock layout.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Defines whether non-document panes should render a visible border.
+    /// </summary>
+    [Parameter] public bool PaneBordered { get; set; } = true;
 
     /// <summary>
     /// Defines the mutable state used for docking, resizing, active tabs, and pane visibility.

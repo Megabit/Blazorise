@@ -60,6 +60,7 @@ public partial class _DockTabsRenderer : BaseComponent
             builder.Append( ClassProvider.DockPaneResizable( CanResize ) );
             builder.Append( ClassProvider.DockPaneCollapsed( Collapsed ) );
             builder.Append( ClassProvider.DockPaneAutoHide( AutoHide ) );
+            builder.Append( ClassProvider.DockPaneBordered(), Bordered );
             builder.Append( "dock-tabs-host" );
         }
 
@@ -116,6 +117,8 @@ public partial class _DockTabsRenderer : BaseComponent
     private string PaneSize => Node?.Size ?? activePaneState?.Size ?? ActivePane?.Size;
 
     private bool CanResize => ActivePane?.Resizable == true && SplitterDock is not null;
+
+    private bool Bordered => Layout?.IsDockPaneBordered( GroupPosition ) == true;
 
     private ElementReference ElementRef
     {

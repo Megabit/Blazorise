@@ -711,6 +711,11 @@ public interface IClassProvider
     string DockPaneInactive();
 
     /// <summary>
+    /// Gets the class for a bordered dock pane.
+    /// </summary>
+    string DockPaneBordered();
+
+    /// <summary>
     /// Gets the class for an auto-hidden dock pane tab.
     /// </summary>
     string DockPaneAutoHideTab( DockPanePosition position );

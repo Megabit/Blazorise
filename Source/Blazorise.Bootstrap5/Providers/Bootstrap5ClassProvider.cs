@@ -1491,6 +1491,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DockPaneInactive() => "dock-pane-inactive";
 
+    public override string DockPaneBordered() => "dock-pane-bordered";
+
     public override string DockPaneAutoHideTab( DockPanePosition position )
         => position switch
         {

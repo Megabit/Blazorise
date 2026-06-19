@@ -49,6 +49,7 @@ public partial class _DockPaneRenderer : BaseComponent
             builder.Append( ClassProvider.DockPaneResizable( CanResize ) );
             builder.Append( ClassProvider.DockPaneCollapsed( Collapsed ) );
             builder.Append( ClassProvider.DockPaneAutoHide( AutoHide ) );
+            builder.Append( ClassProvider.DockPaneBordered(), Bordered );
         }
 
         base.BuildClasses( builder );
@@ -87,6 +88,8 @@ public partial class _DockPaneRenderer : BaseComponent
     private string AutoHideTabClass => ClassProvider.DockPaneAutoHideTab( RenderPosition );
 
     private bool CanResize => Pane?.Resizable == true && SplitterDock is not null;
+
+    private bool Bordered => Layout?.IsDockPaneBordered( RenderPosition ) == true;
 
     private DockPanePosition RenderPosition => renderPosition;
 
