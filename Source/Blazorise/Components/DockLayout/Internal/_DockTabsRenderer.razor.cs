@@ -32,6 +32,8 @@ public partial class _DockTabsRenderer : BaseComponent
 
     private DockPanePosition groupPosition;
 
+    private DockPaneTabsPlacement tabsPlacement;
+
     #endregion
 
     #region Methods
@@ -47,6 +49,7 @@ public partial class _DockTabsRenderer : BaseComponent
             activePane = null;
             activePaneState = null;
             groupPosition = DockPanePosition.Center;
+            tabsPlacement = DockPaneTabsPlacement.Top;
             return;
         }
 
@@ -55,6 +58,7 @@ public partial class _DockTabsRenderer : BaseComponent
 
         activePaneState = Layout?.GetPaneState( activePaneName );
         groupPosition = Layout?.GetDockNodePosition( Node ) ?? activePane?.EffectivePosition ?? DockPanePosition.Center;
+        tabsPlacement = Layout?.GetDockNodeTabsPlacement( Node, groupPosition ) ?? DockPaneTabsPlacement.Top;
 
         DirtyClasses();
         DirtyStyles();
@@ -82,6 +86,7 @@ public partial class _DockTabsRenderer : BaseComponent
     {
         builder.Append( ClassProvider.DockPaneTabs() );
         builder.Append( ClassProvider.DockPaneTabsPosition( GroupPosition ) );
+        builder.Append( ClassProvider.DockPaneTabsPlacement( TabsPlacement ) );
     }
 
     /// <inheritdoc/>
@@ -115,7 +120,9 @@ public partial class _DockTabsRenderer : BaseComponent
 
     private DockPanePosition GroupPosition => groupPosition;
 
-    private bool TabsOnTop => GroupPosition == DockPanePosition.Center;
+    private DockPaneTabsPlacement TabsPlacement => tabsPlacement;
+
+    private bool TabsOnTop => TabsPlacement == DockPaneTabsPlacement.Top;
 
     private bool Collapsed => activePaneState?.Collapsed == true || AutoHide;
 

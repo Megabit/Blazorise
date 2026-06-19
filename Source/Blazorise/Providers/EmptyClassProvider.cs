@@ -733,6 +733,8 @@ class EmptyClassProvider : IClassProvider
 
     public string DockPaneTabsPosition( DockPanePosition position ) => null;
 
+    public string DockPaneTabsPlacement( DockPaneTabsPlacement placement ) => null;
+
     public string DockPaneTabsHost() => null;
 
     public string DockPaneTab( bool active ) => null;

@@ -224,6 +224,22 @@ public partial class DockLayout : BaseComponent
         return null;
     }
 
+    internal DockPaneTabsPlacement GetDockNodeTabsPlacement( DockNodeState node, DockPanePosition position )
+    {
+        if ( node?.Panes is not null )
+        {
+            foreach ( string paneName in node.Panes )
+            {
+                if ( panes.TryGetValue( paneName, out DockPane pane ) && pane.EffectiveTabsPlacement != DockPaneTabsPlacement.Default )
+                    return pane.EffectiveTabsPlacement;
+            }
+        }
+
+        return position == DockPanePosition.Center
+            ? DockPaneTabsPlacement.Top
+            : DockPaneTabsPlacement.Bottom;
+    }
+
     internal string GetDockSplitStyle( DockNodeState node )
     {
         if ( node is null || node.Kind != DockNodeKind.Split )

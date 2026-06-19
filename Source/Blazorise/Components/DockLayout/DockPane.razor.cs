@@ -25,6 +25,8 @@ public partial class DockPane : BaseComponent, IDisposable
 
     private bool showTabCloseButton;
 
+    private DockPaneTabsPlacement tabsPlacement;
+
     private bool resizable;
 
     private bool movable = true;
@@ -122,6 +124,8 @@ public partial class DockPane : BaseComponent, IDisposable
 
     internal bool EffectiveShowTabCloseButton => ShowTabCloseButton;
 
+    internal DockPaneTabsPlacement EffectiveTabsPlacement => TabsPlacement;
+
     internal DockNodeState Node
     {
         get
@@ -193,6 +197,16 @@ public partial class DockPane : BaseComponent, IDisposable
     {
         get => showTabCloseButton;
         set => showTabCloseButton = value;
+    }
+
+    /// <summary>
+    /// Defines where tabs should be displayed when this pane is hosted inside a tab group.
+    /// </summary>
+    [Parameter]
+    public DockPaneTabsPlacement TabsPlacement
+    {
+        get => tabsPlacement;
+        set => tabsPlacement = value;
     }
 
     /// <summary>

@@ -731,6 +731,8 @@ public abstract class ClassProvider : IClassProvider
 
     public virtual string DockPaneTabsPosition( DockPanePosition position ) => null;
 
+    public virtual string DockPaneTabsPlacement( DockPaneTabsPlacement placement ) => null;
+
     public virtual string DockPaneTabsHost() => null;
 
     public virtual string DockPaneTab( bool active ) => null;
