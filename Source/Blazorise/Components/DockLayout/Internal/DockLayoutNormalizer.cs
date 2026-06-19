@@ -61,6 +61,11 @@ internal static class DockLayoutNormalizer
         if ( string.IsNullOrWhiteSpace( node.ActivePane ) || !node.Panes.Contains( node.ActivePane ) )
             node.ActivePane = node.Panes[0];
 
+        bool centerTabsNode = IsCenterTabsNode( node, panes, paneStates );
+
+        if ( centerTabsNode )
+            node.Size = null;
+
         if ( node.Panes.Count == 1 && !ShouldKeepSinglePaneTabNode( node.Panes[0], panes ) )
         {
             PreserveCollapsedTabSize( node.Panes[0], node.Size, paneStates );
@@ -73,7 +78,8 @@ internal static class DockLayoutNormalizer
             };
         }
 
-        node.Size ??= GetDockGroupSize( node.Panes, panes, paneStates );
+        if ( !centerTabsNode )
+            node.Size ??= GetDockGroupSize( node.Panes, panes, paneStates );
 
         return node;
     }
@@ -108,6 +114,22 @@ internal static class DockLayoutNormalizer
 
     private static bool ShouldKeepSinglePaneTabNode( string paneName, IReadOnlyDictionary<string, DockPane> panes )
         => panes.TryGetValue( paneName, out DockPane pane ) && pane.DockRole == DockRole.Document && pane.EffectiveShowTab;
+
+    private static bool IsCenterTabsNode( DockNodeState node, IReadOnlyDictionary<string, DockPane> panes, IReadOnlyList<DockPaneState> paneStates )
+        => node.Panes.Any( paneName => IsCenterPane( paneName, panes, paneStates ) );
+
+    private static bool IsCenterPane( string paneName, IReadOnlyDictionary<string, DockPane> panes, IReadOnlyList<DockPaneState> paneStates )
+    {
+        if ( string.IsNullOrWhiteSpace( paneName ) )
+            return false;
+
+        if ( panes.TryGetValue( paneName, out DockPane pane ) && pane.DockRole == DockRole.Document )
+            return true;
+
+        DockPaneState paneState = paneStates.FirstOrDefault( x => x.Name == paneName );
+
+        return paneState?.Position == DockPanePosition.Center;
+    }
 
     private static void PreserveCollapsedTabSize( string paneName, string size, IReadOnlyList<DockPaneState> paneStates )
     {

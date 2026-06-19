@@ -60,9 +60,9 @@ public partial class _DockPaneRenderer : BaseComponent
     {
         if ( Pane is not null )
         {
-            builder.Append( $"--dock-pane-size:{PaneSize}", !AutoHide && !string.IsNullOrWhiteSpace( PaneSize ) );
-            builder.Append( $"--dock-pane-min-size:{Pane.MinSize}", !AutoHide && !string.IsNullOrWhiteSpace( Pane.MinSize ) );
-            builder.Append( $"--dock-pane-max-size:{Pane.MaxSize}", !AutoHide && !string.IsNullOrWhiteSpace( Pane.MaxSize ) );
+            builder.Append( $"--dock-pane-size:{PaneSize}", !AutoHide && RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( PaneSize ) );
+            builder.Append( $"--dock-pane-min-size:{Pane.MinSize}", !AutoHide && RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( Pane.MinSize ) );
+            builder.Append( $"--dock-pane-max-size:{Pane.MaxSize}", !AutoHide && RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( Pane.MaxSize ) );
         }
 
         base.BuildStyles( builder );

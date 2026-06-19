@@ -623,13 +623,13 @@ public partial class DockLayout : BaseComponent
 
     private string GetDockNodeTrackSize( DockNodeState node, DockSplitOrientation orientation )
     {
-        if ( !string.IsNullOrWhiteSpace( node?.Size ) )
-            return node.Size;
-
         DockPanePosition? position = GetDockNodePosition( node );
 
         if ( position is null || !IsPanePositionCompatibleWithOrientation( position.Value, orientation ) )
             return null;
+
+        if ( !string.IsNullOrWhiteSpace( node?.Size ) )
+            return node.Size;
 
         DockPane pane = GetDockNodePane( node );
 
@@ -802,7 +802,7 @@ public partial class DockLayout : BaseComponent
             Kind = DockNodeKind.Tabs,
             Panes = paneNames,
             ActivePane = paneNames[0],
-            Size = GetDockGroupSize( paneNames ),
+            Size = position == DockPanePosition.Center ? null : GetDockGroupSize( paneNames ),
         };
     }
 
@@ -1018,23 +1018,26 @@ public partial class DockLayout : BaseComponent
 
         if ( node.Kind == DockNodeKind.Pane && node.PaneName == targetName )
         {
-            return new()
+            DockNodeState tabsNode = new()
             {
                 Kind = DockNodeKind.Tabs,
-                Panes = { targetName, paneName },
                 ActivePane = paneName,
-                Size = GetDockPaneSize( targetName ),
             };
+
+            tabsNode.Panes.Add( targetName );
+            tabsNode.Panes.Add( paneName );
+            SetDockTabsNodeSize( tabsNode );
+
+            return tabsNode;
         }
 
         if ( node.Kind == DockNodeKind.Tabs && node.Panes.Contains( targetName ) )
         {
-            node.Size ??= GetDockPaneSize( targetName );
-
             if ( !node.Panes.Contains( paneName ) )
                 node.Panes.Add( paneName );
 
             node.ActivePane = paneName;
+            SetDockTabsNodeSize( node );
 
             return node;
         }
@@ -1048,6 +1051,14 @@ public partial class DockLayout : BaseComponent
         return node;
     }
 
+    private void SetDockTabsNodeSize( DockNodeState node )
+    {
+        if ( IsCenterDockGroup( node.Panes ) )
+            node.Size = null;
+        else
+            node.Size ??= GetDockGroupSize( node.Panes );
+    }
+
     private string GetDockGroupSize( IEnumerable<string> paneNames )
     {
         foreach ( string paneName in paneNames )
@@ -1059,6 +1070,20 @@ public partial class DockLayout : BaseComponent
         }
 
         return DefaultPaneSize;
+    }
+
+    private bool IsCenterDockGroup( IEnumerable<string> paneNames )
+        => paneNames.Any( IsCenterDockPane );
+
+    private bool IsCenterDockPane( string paneName )
+    {
+        if ( string.IsNullOrWhiteSpace( paneName ) )
+            return false;
+
+        if ( panes.TryGetValue( paneName, out DockPane pane ) && pane.DockRole == DockRole.Document )
+            return true;
+
+        return FindPaneState( paneName )?.Position == DockPanePosition.Center;
     }
 
     private string GetDockPaneSize( string paneName )
