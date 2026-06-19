@@ -32,7 +32,7 @@ public partial class DockLayout : BaseComponent
 
     private DockZone? activeDockZone;
 
-    private string activeDockTargetName;
+    private string activeDockCompassZoneKey;
 
     private bool draggingPaneGroup;
 
@@ -44,13 +44,17 @@ public partial class DockLayout : BaseComponent
 
     private int nextNodeId;
 
-    private static readonly DockZone[] dockZones =
+    private static readonly DockCompassZoneInfo[] dockCompassZones =
     {
-        DockZone.Center,
-        DockZone.Left,
-        DockZone.Top,
-        DockZone.Right,
-        DockZone.Bottom,
+        new( DockZone.Top, "TopOuter", "dock-compass-zone-top-outer" ),
+        new( DockZone.Top, "TopInner", "dock-compass-zone-top-inner" ),
+        new( DockZone.Left, "LeftOuter", "dock-compass-zone-start-outer" ),
+        new( DockZone.Left, "LeftInner", "dock-compass-zone-start-inner" ),
+        new( DockZone.Center, "Center", "dock-compass-zone-center" ),
+        new( DockZone.Right, "RightInner", "dock-compass-zone-end-inner" ),
+        new( DockZone.Right, "RightOuter", "dock-compass-zone-end-outer" ),
+        new( DockZone.Bottom, "BottomInner", "dock-compass-zone-bottom-inner" ),
+        new( DockZone.Bottom, "BottomOuter", "dock-compass-zone-bottom-outer" ),
     };
 
     private const string DefaultPaneSize = "16rem";
@@ -466,14 +470,15 @@ public partial class DockLayout : BaseComponent
     /// <param name="targetName">The pane currently under the pointer.</param>
     /// <param name="targetNodeId">The dock node currently under the pointer.</param>
     /// <param name="zone">The currently hovered drop zone.</param>
+    /// <param name="compassZoneKey">The exact compass zone currently under the pointer.</param>
     /// <param name="compassX">The horizontal compass location relative to the layout.</param>
     /// <param name="compassY">The vertical compass location relative to the layout.</param>
     /// <returns>A completed task.</returns>
     [JSInvokable]
-    public Task NotifyDockPaneDrag( string paneName, string targetName, string targetNodeId, string zone, double compassX, double compassY )
+    public Task NotifyDockPaneDrag( string paneName, string targetName, string targetNodeId, string zone, string compassZoneKey, double compassX, double compassY )
     {
         activeDockZone = ToDockZone( zone );
-        activeDockTargetName = targetName;
+        activeDockCompassZoneKey = compassZoneKey;
         dockCompassX = compassX;
         dockCompassY = compassY;
         draggingPaneName = paneName;
@@ -501,7 +506,7 @@ public partial class DockLayout : BaseComponent
 
         draggingPaneName = null;
         activeDockZone = null;
-        activeDockTargetName = null;
+        activeDockCompassZoneKey = null;
         draggingPaneGroup = false;
 
         if ( paneState is not null && targetZone is not null )
@@ -1280,11 +1285,8 @@ public partial class DockLayout : BaseComponent
     internal string GetDockCompassClass()
         => ClassProvider.DockLayoutCompass();
 
-    internal string GetDockCompassZoneClass( DockZone zone )
-        => ClassProvider.DockLayoutCompassZone( zone, activeDockZone == zone );
-
-    internal string GetDockShellGuideClass( DockZone zone )
-        => ClassProvider.DockLayoutShellGuide( zone, activeDockTargetName is null && activeDockZone == zone );
+    internal string GetDockCompassZoneClass( DockCompassZoneInfo compassZone )
+        => $"{ClassProvider.DockLayoutCompassZone( compassZone.Zone, activeDockZone == compassZone.Zone && activeDockCompassZoneKey == compassZone.Key )} {compassZone.PlacementClass}";
 
     private static DockPanePosition? ToDockPanePosition( DockZone zone )
         => zone switch
@@ -1309,9 +1311,9 @@ public partial class DockLayout : BaseComponent
 
     #region Properties
 
-    internal bool DockGuidesVisible => draggingPaneName is not null && activeDockZone is not null;
+    internal bool DockGuidesVisible => draggingPaneName is not null && ( dockCompassX != 0d || dockCompassY != 0d );
 
-    internal static IReadOnlyList<DockZone> DockZones => dockZones;
+    private static IReadOnlyList<DockCompassZoneInfo> DockCompassZones => dockCompassZones;
 
     private DockLayoutState CurrentState => state ??= new();
 
@@ -1360,6 +1362,26 @@ public partial class DockLayout : BaseComponent
     /// Occurs after the docking state changes.
     /// </summary>
     [Parameter] public EventCallback<DockLayoutState> StateChanged { get; set; }
+
+    #endregion
+
+    #region Nested types
+
+    internal sealed class DockCompassZoneInfo
+    {
+        internal DockCompassZoneInfo( DockZone zone, string key, string placementClass )
+        {
+            Zone = zone;
+            Key = key;
+            PlacementClass = placementClass;
+        }
+
+        internal DockZone Zone { get; }
+
+        internal string Key { get; }
+
+        internal string PlacementClass { get; }
+    }
 
     #endregion
 }

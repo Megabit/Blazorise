@@ -14,18 +14,11 @@
         @if ( DockGuidesVisible )
         {
             <div class="@GetDockCompassClass()" style="@DockCompassStyleNames">
-                @foreach ( DockZone zone in DockZones )
+                @foreach ( DockCompassZoneInfo compassZone in DockCompassZones )
                 {
-                    <div class="@GetDockCompassZoneClass( zone )"></div>
+                    <div class="@GetDockCompassZoneClass( compassZone )"></div>
                 }
             </div>
-            @foreach ( DockZone zone in DockZones )
-            {
-                if ( zone != DockZone.Center )
-                {
-                    <div class="@GetDockShellGuideClass( zone )"></div>
-                }
-            }
         }
     </section>
 </CascadingValue>

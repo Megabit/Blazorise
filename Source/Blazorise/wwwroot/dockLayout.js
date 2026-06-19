@@ -61,6 +61,7 @@ export function beginDrag(dotNetObjectRef, layout, paneName, clientX, clientY, d
         targetName: null,
         targetNodeId: null,
         zone: null,
+        compassZoneKey: null,
         compassX: 0,
         compassY: 0,
         dragPreview: null,
@@ -196,13 +197,14 @@ function onDragMove(event) {
     const target = findDockTarget(operation.layout, operation.paneName, event.clientX, event.clientY);
     updateDropPreview(target);
 
-    if (operation.targetName !== target.targetName || operation.targetNodeId !== target.targetNodeId || operation.zone !== target.zone || operation.compassX !== target.compassX || operation.compassY !== target.compassY) {
+    if (operation.targetName !== target.targetName || operation.targetNodeId !== target.targetNodeId || operation.zone !== target.zone || operation.compassZoneKey !== target.compassZoneKey || operation.compassX !== target.compassX || operation.compassY !== target.compassY) {
         operation.targetName = target.targetName;
         operation.targetNodeId = target.targetNodeId;
         operation.zone = target.zone;
+        operation.compassZoneKey = target.compassZoneKey;
         operation.compassX = target.compassX;
         operation.compassY = target.compassY;
-        scheduleCallback(() => operation.dotNetObjectRef.invokeMethodAsync("NotifyDockPaneDrag", operation.paneName, target.targetName, target.targetNodeId, target.zone, target.compassX, target.compassY));
+        scheduleCallback(() => operation.dotNetObjectRef.invokeMethodAsync("NotifyDockPaneDrag", operation.paneName, target.targetName, target.targetNodeId, target.zone, target.compassZoneKey, target.compassX, target.compassY));
     }
 }
 
@@ -235,27 +237,30 @@ function findDockTarget(layout, paneName, clientX, clientY) {
 
     if (pane) {
         const paneRect = pane.getBoundingClientRect();
-        const zone = findCompassZone(paneRect, clientX, clientY, true);
-        const targetNode = findTargetNode(layout, pane, paneName, zone, clientX, clientY) || pane;
+        const compassDrop = findCompassDrop(paneRect, clientX, clientY, true);
+        const zone = compassDrop?.zone ?? null;
+        const targetNode = findTargetNode(layout, pane, compassDrop) || pane;
         const targetRect = targetNode.getBoundingClientRect();
-        const dropRect = getDropRect(layoutRect, targetRect, zone, targetNode !== pane);
+        const dropRect = getDropRect(layoutRect, targetRect, zone, compassDrop?.outer === true);
 
         return {
             targetName: pane.getAttribute("data-dock-pane-name"),
             targetNodeId: targetNode.getAttribute("data-dock-node-id"),
             zone,
+            compassZoneKey: compassDrop?.key ?? null,
             ...dropRect,
-            compassX: Math.round(targetRect.left - layoutRect.left + targetRect.width / 2),
-            compassY: Math.round(targetRect.top - layoutRect.top + targetRect.height / 2)
+            compassX: Math.round(paneRect.left - layoutRect.left + paneRect.width / 2),
+            compassY: Math.round(paneRect.top - layoutRect.top + paneRect.height / 2)
         };
     }
 
-    const zone = findCompassZone(layoutRect, clientX, clientY, false);
+    const compassDrop = findCompassDrop(layoutRect, clientX, clientY, false);
 
     return {
         targetName: null,
         targetNodeId: null,
-        zone,
+        zone: compassDrop?.zone ?? null,
+        compassZoneKey: compassDrop?.key ?? null,
         dropLeft: 0,
         dropTop: 0,
         dropWidth: layoutRect.width,
@@ -281,29 +286,22 @@ function findTargetPane(layout, paneName, clientX, clientY) {
     return pane;
 }
 
-function findTargetNode(layout, pane, paneName, zone, clientX, clientY) {
-    if (zone === "Center") {
+function findTargetNode(layout, pane, compassDrop) {
+    if (!compassDrop || compassDrop.zone === "Center") {
         return pane;
     }
 
-    const candidates = [];
+    if (!compassDrop.outer) {
+        return pane;
+    }
+
     let current = pane;
 
     while (current && current !== layout) {
-        if (current.hasAttribute("data-dock-node-id")) {
-            candidates.push(current);
-        }
-
         current = current.parentElement;
-    }
 
-    for (const candidate of candidates) {
-        if (candidate === pane) {
-            continue;
-        }
-
-        if (isNearNodeEdge(candidate.getBoundingClientRect(), zone, clientX, clientY)) {
-            return candidate;
+        if (current && current !== layout && current.hasAttribute("data-dock-node-id")) {
+            return current;
         }
     }
 
@@ -344,41 +342,62 @@ function getDropRect(layoutRect, targetRect, zone, deepTarget) {
     return result;
 }
 
-function isNearNodeEdge(rect, zone, clientX, clientY) {
-    const depthSize = Math.max(24, Math.min(56, Math.min(rect.width, rect.height) * 0.18));
-
-    switch (zone) {
-        case "Left":
-            return clientX - rect.left <= depthSize;
-        case "Right":
-            return rect.right - clientX <= depthSize;
-        case "Top":
-            return clientY - rect.top <= depthSize;
-        case "Bottom":
-            return rect.bottom - clientY <= depthSize;
-        default:
-            return false;
-    }
-}
-
-function findCompassZone(rect, clientX, clientY, centerEnabled) {
+function findCompassDrop(rect, clientX, clientY, centerEnabled) {
     if (clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom) {
         return null;
     }
 
-    const deltaX = clientX - (rect.left + rect.width / 2);
-    const deltaY = clientY - (rect.top + rect.height / 2);
-    const centerSize = 32;
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const x = clientX - centerX;
+    const y = clientY - centerY;
+    const outerStart = 52;
+    const outerEnd = 68;
+    const innerStart = 18;
+    const innerEnd = 50;
+    const centerSize = 16;
 
-    if (centerEnabled && Math.abs(deltaX) <= centerSize && Math.abs(deltaY) <= centerSize) {
-        return "Center";
+    if (centerEnabled && isBetween(x, -centerSize, centerSize) && isBetween(y, -centerSize, centerSize)) {
+        return { zone: "Center", key: "Center", outer: false };
     }
 
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        return deltaX < 0 ? "Left" : "Right";
+    if (isBetween(x, -centerSize, centerSize) && isBetween(y, -outerEnd, -outerStart)) {
+        return { zone: "Top", key: "TopOuter", outer: true };
     }
 
-    return deltaY < 0 ? "Top" : "Bottom";
+    if (isBetween(x, -centerSize, centerSize) && isBetween(y, -innerEnd, -innerStart)) {
+        return { zone: "Top", key: "TopInner", outer: false };
+    }
+
+    if (isBetween(x, -outerEnd, -outerStart) && isBetween(y, -centerSize, centerSize)) {
+        return { zone: "Left", key: "LeftOuter", outer: true };
+    }
+
+    if (isBetween(x, -innerEnd, -innerStart) && isBetween(y, -centerSize, centerSize)) {
+        return { zone: "Left", key: "LeftInner", outer: false };
+    }
+
+    if (isBetween(x, innerStart, innerEnd) && isBetween(y, -centerSize, centerSize)) {
+        return { zone: "Right", key: "RightInner", outer: false };
+    }
+
+    if (isBetween(x, outerStart, outerEnd) && isBetween(y, -centerSize, centerSize)) {
+        return { zone: "Right", key: "RightOuter", outer: true };
+    }
+
+    if (isBetween(x, -centerSize, centerSize) && isBetween(y, innerStart, innerEnd)) {
+        return { zone: "Bottom", key: "BottomInner", outer: false };
+    }
+
+    if (isBetween(x, -centerSize, centerSize) && isBetween(y, outerStart, outerEnd)) {
+        return { zone: "Bottom", key: "BottomOuter", outer: true };
+    }
+
+    return null;
+}
+
+function isBetween(value, min, max) {
+    return value >= min && value < max;
 }
 
 function emptyDockTarget() {
@@ -386,6 +405,7 @@ function emptyDockTarget() {
         targetName: null,
         targetNodeId: null,
         zone: null,
+        compassZoneKey: null,
         dropLeft: 0,
         dropTop: 0,
         dropWidth: 0,

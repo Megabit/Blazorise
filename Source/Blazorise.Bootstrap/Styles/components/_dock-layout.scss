@@ -390,87 +390,105 @@
 .dock-compass {
     position: absolute;
     z-index: 20;
-    display: grid;
-    grid-template-columns: repeat(3, 1.75rem);
-    grid-template-rows: repeat(3, 1.75rem);
-    gap: .25rem;
-    width: 5.75rem;
-    height: 5.75rem;
-    padding: .25rem;
+    --dock-compass-gap: .125rem;
+    width: calc(8rem + var(--dock-compass-gap) * 4);
+    height: calc(8rem + var(--dock-compass-gap) * 4);
     transform: translate(-50%, -50%);
     pointer-events: none;
-    border: 1px solid rgba(0, 0, 0, .125);
-    border-radius: .25rem;
-    background: rgba(255, 255, 255, .88);
-    box-shadow: 0 .25rem 1rem rgba(0, 0, 0, .12);
 }
 
 .dock-compass-zone {
-    border: 1px solid rgba(0, 123, 255, .55);
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    color: #cfd4da;
+    border: 1px solid #dee2e6;
+    background: rgba(255, 255, 255, .85);
+}
+
+.dock-compass-zone::before {
+    content: "";
+    width: .625rem;
+    height: .625rem;
+    border-color: currentColor;
+    border-style: solid;
+    border-width: 1px 1px 0 0;
+}
+
+.dock-compass-zone.active {
+    color: #007bff;
+    border-color: #007bff;
     background: rgba(0, 123, 255, .08);
 }
 
-.dock-compass-zone.active,
-.dock-shell-guide.active {
-    border-color: #007bff;
-    background: rgba(0, 123, 255, .2);
-}
-
 .dock-compass-zone-center {
-    grid-column: 2;
-    grid-row: 2;
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: calc(3rem + var(--dock-compass-gap) * 2);
 }
 
-.dock-compass-zone-left {
-    grid-column: 1;
-    grid-row: 2;
+.dock-compass-zone-center::before {
+    display: none;
 }
 
-.dock-compass-zone-right {
-    grid-column: 3;
-    grid-row: 2;
+.dock-compass-zone-left::before {
+    transform: rotate(225deg);
 }
 
-.dock-compass-zone-top {
-    grid-column: 2;
-    grid-row: 1;
+.dock-compass-zone-right::before {
+    transform: rotate(45deg);
 }
 
-.dock-compass-zone-bottom {
-    grid-column: 2;
-    grid-row: 3;
+.dock-compass-zone-top::before {
+    transform: rotate(-45deg);
 }
 
-.dock-shell-guide {
-    position: absolute;
-    z-index: 19;
-    pointer-events: none;
-    width: 2rem;
-    height: 2rem;
-    border: 1px dashed rgba(0, 123, 255, .55);
-    background: rgba(0, 123, 255, .06);
+.dock-compass-zone-bottom::before {
+    transform: rotate(135deg);
 }
 
-.dock-shell-guide-left {
-    top: 50%;
-    left: .75rem;
-    transform: translateY(-50%);
+.dock-compass-zone-start-outer {
+    left: 0;
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+    width: 1rem;
 }
 
-.dock-shell-guide-right {
-    top: 50%;
-    right: .75rem;
-    transform: translateY(-50%);
+.dock-compass-zone-start-inner {
+    left: calc(1rem + var(--dock-compass-gap));
+    top: calc(3rem + var(--dock-compass-gap) * 2);
 }
 
-.dock-shell-guide-top {
-    top: .75rem;
-    left: 50%;
-    transform: translateX(-50%);
+.dock-compass-zone-end-inner {
+    left: calc(5rem + var(--dock-compass-gap) * 3);
+    top: calc(3rem + var(--dock-compass-gap) * 2);
 }
 
-.dock-shell-guide-bottom {
-    bottom: .75rem;
-    left: 50%;
-    transform: translateX(-50%);
+.dock-compass-zone-end-outer {
+    left: calc(7rem + var(--dock-compass-gap) * 4);
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+    width: 1rem;
+}
+
+.dock-compass-zone-top-outer {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: 0;
+    height: 1rem;
+}
+
+.dock-compass-zone-top-inner {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: calc(1rem + var(--dock-compass-gap));
+}
+
+.dock-compass-zone-bottom-inner {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: calc(5rem + var(--dock-compass-gap) * 3);
+}
+
+.dock-compass-zone-bottom-outer {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: calc(7rem + var(--dock-compass-gap) * 4);
+    height: 1rem;
 }
