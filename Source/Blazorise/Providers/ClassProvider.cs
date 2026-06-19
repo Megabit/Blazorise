@@ -712,6 +712,12 @@ public abstract class ClassProvider : IClassProvider
 
     public virtual string DockPaneHeader() => null;
 
+    public virtual string DockPaneHeaderContent() => null;
+
+    public virtual string DockPaneHeaderActions() => null;
+
+    public virtual string DockPaneHeaderAction() => null;
+
     public virtual string DockPaneBody() => null;
 
     public virtual string DockPaneFooter() => null;
@@ -723,12 +729,32 @@ public abstract class ClassProvider : IClassProvider
 
     public virtual string DockPaneTabs() => null;
 
+    public virtual string DockPaneTabsPosition( DockPanePosition position ) => null;
+
+    public virtual string DockPaneTabsHost() => null;
+
     public virtual string DockPaneTab( bool active ) => null;
+
+    public virtual string DockPaneTabLabel() => null;
+
+    public virtual string DockPaneTabClose() => null;
 
     public virtual string DockLayoutCompass()
         => null;
 
     public virtual string DockLayoutCompassZone( DockZone zone, bool active )
+        => null;
+
+    public virtual string DockLayoutCompassZonePlacement( DockCompassZone zone )
+        => null;
+
+    public virtual string DockLayoutCompassZoneIcon()
+        => null;
+
+    public virtual string DockLayoutDragPreview()
+        => null;
+
+    public virtual string DockLayoutDropPreview()
         => null;
 
     public virtual string DockLayoutShellGuide( DockZone zone, bool active )

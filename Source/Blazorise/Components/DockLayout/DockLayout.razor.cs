@@ -46,15 +46,15 @@ public partial class DockLayout : BaseComponent
 
     private static readonly DockCompassZoneInfo[] dockCompassZones =
     {
-        new( DockZone.Top, "TopOuter", "dock-compass-zone-top-outer" ),
-        new( DockZone.Top, "TopInner", "dock-compass-zone-top-inner" ),
-        new( DockZone.Left, "LeftOuter", "dock-compass-zone-start-outer" ),
-        new( DockZone.Left, "LeftInner", "dock-compass-zone-start-inner" ),
-        new( DockZone.Center, "Center", "dock-compass-zone-center" ),
-        new( DockZone.Right, "RightInner", "dock-compass-zone-end-inner" ),
-        new( DockZone.Right, "RightOuter", "dock-compass-zone-end-outer" ),
-        new( DockZone.Bottom, "BottomInner", "dock-compass-zone-bottom-inner" ),
-        new( DockZone.Bottom, "BottomOuter", "dock-compass-zone-bottom-outer" ),
+        new( DockZone.Top, DockCompassZone.TopOuter, "TopOuter" ),
+        new( DockZone.Top, DockCompassZone.TopInner, "TopInner" ),
+        new( DockZone.Left, DockCompassZone.LeftOuter, "LeftOuter" ),
+        new( DockZone.Left, DockCompassZone.LeftInner, "LeftInner" ),
+        new( DockZone.Center, DockCompassZone.Center, "Center" ),
+        new( DockZone.Right, DockCompassZone.RightInner, "RightInner" ),
+        new( DockZone.Right, DockCompassZone.RightOuter, "RightOuter" ),
+        new( DockZone.Bottom, DockCompassZone.BottomInner, "BottomInner" ),
+        new( DockZone.Bottom, DockCompassZone.BottomOuter, "BottomOuter" ),
     };
 
     private const string DefaultPaneSize = "16rem";
@@ -185,12 +185,6 @@ public partial class DockLayout : BaseComponent
 
     internal string GetPaneCaption( string paneName )
         => panes.TryGetValue( paneName, out DockPane pane ) ? pane.ResolvedCaption : paneName;
-
-    internal string GetDockTabClass( DockNodeState node, string paneName )
-        => ClassProvider.DockPaneTab( GetActiveTabPaneName( node ) == paneName );
-
-    internal string GetDockPaneTabsClass()
-        => ClassProvider.DockPaneTabs();
 
     internal DockPanePosition? GetDockNodePosition( DockNodeState node )
     {
@@ -1307,12 +1301,6 @@ public partial class DockLayout : BaseComponent
         }
     }
 
-    internal string GetDockCompassClass()
-        => ClassProvider.DockLayoutCompass();
-
-    internal string GetDockCompassZoneClass( DockCompassZoneInfo compassZone )
-        => $"{ClassProvider.DockLayoutCompassZone( compassZone.Zone, activeDockZone == compassZone.Zone && activeDockCompassZoneKey == compassZone.Key )} {compassZone.PlacementClass}";
-
     private static DockPanePosition? ToDockPanePosition( DockZone zone )
         => zone switch
         {
@@ -1338,7 +1326,11 @@ public partial class DockLayout : BaseComponent
 
     internal bool DockGuidesVisible => draggingPaneName is not null && ( dockCompassX != 0d || dockCompassY != 0d );
 
-    private static IReadOnlyList<DockCompassZoneInfo> DockCompassZones => dockCompassZones;
+    internal static IReadOnlyList<DockCompassZoneInfo> DockCompassZones => dockCompassZones;
+
+    internal string ActiveDockCompassZoneKey => activeDockCompassZoneKey;
+
+    internal DockZone? ActiveDockZone => activeDockZone;
 
     private DockLayoutState CurrentState => state ??= new();
 
@@ -1357,6 +1349,16 @@ public partial class DockLayout : BaseComponent
     /// Gets the styles for dock compass container.
     /// </summary>
     protected string DockCompassStyleNames => DockCompassStyleBuilder.Styles;
+
+    /// <summary>
+    /// Gets the provider class for the dock drag preview.
+    /// </summary>
+    protected string DragPreviewClassName => ClassProvider.DockLayoutDragPreview();
+
+    /// <summary>
+    /// Gets the provider class for the dock drop preview.
+    /// </summary>
+    protected string DropPreviewClassName => ClassProvider.DockLayoutDropPreview();
 
     /// <summary>
     /// Gets the DockLayout JavaScript module.
@@ -1392,20 +1394,32 @@ public partial class DockLayout : BaseComponent
 
     #region Nested types
 
-    internal sealed class DockCompassZoneInfo
+    /// <summary>
+    /// Contains metadata for a dock compass zone.
+    /// </summary>
+    public sealed class DockCompassZoneInfo
     {
-        internal DockCompassZoneInfo( DockZone zone, string key, string placementClass )
+        internal DockCompassZoneInfo( DockZone zone, DockCompassZone compassZone, string key )
         {
             Zone = zone;
+            CompassZone = compassZone;
             Key = key;
-            PlacementClass = placementClass;
         }
 
-        internal DockZone Zone { get; }
+        /// <summary>
+        /// Gets the dock operation zone.
+        /// </summary>
+        public DockZone Zone { get; }
 
-        internal string Key { get; }
+        /// <summary>
+        /// Gets the exact visual compass zone.
+        /// </summary>
+        public DockCompassZone CompassZone { get; }
 
-        internal string PlacementClass { get; }
+        /// <summary>
+        /// Gets the key used to match the active compass zone.
+        /// </summary>
+        public string Key { get; }
     }
 
     #endregion

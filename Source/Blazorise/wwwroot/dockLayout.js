@@ -422,7 +422,7 @@ function ensureDragPreview(clientX, clientY) {
 
     const preview = document.createElement("div");
 
-    preview.className = "dock-drag-preview";
+    preview.className = operation.layout.getAttribute("data-dock-drag-preview-class") || "dock-drag-preview";
     preview.textContent = getPaneCaption(operation.layout, operation.paneName);
     operation.layout.appendChild(preview);
     operation.dragPreview = preview;
@@ -451,7 +451,7 @@ function updateDropPreview(target) {
     if (!operation.dropPreview) {
         const preview = document.createElement("div");
 
-        preview.className = "dock-drop-preview";
+        preview.className = operation.layout.getAttribute("data-dock-drop-preview-class") || "dock-drop-preview";
         operation.layout.appendChild(preview);
         operation.dropPreview = preview;
     }
@@ -479,7 +479,7 @@ function removeDropPreview() {
 }
 
 function getPaneCaption(layout, paneName) {
-    const tab = layout.querySelector(`[data-dock-tab-name="${cssEscape(paneName)}"] .dock-pane-tab-label`);
+    const tab = layout.querySelector(`[data-dock-tab-name="${cssEscape(paneName)}"] [data-dock-tab-label]`);
 
     if (tab) {
         return tab.textContent?.trim() || paneName;

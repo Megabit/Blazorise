@@ -715,6 +715,12 @@ class EmptyClassProvider : IClassProvider
 
     public string DockPaneHeader() => null;
 
+    public string DockPaneHeaderContent() => null;
+
+    public string DockPaneHeaderActions() => null;
+
+    public string DockPaneHeaderAction() => null;
+
     public string DockPaneBody() => null;
 
     public string DockPaneFooter() => null;
@@ -725,11 +731,27 @@ class EmptyClassProvider : IClassProvider
 
     public string DockPaneTabs() => null;
 
+    public string DockPaneTabsPosition( DockPanePosition position ) => null;
+
+    public string DockPaneTabsHost() => null;
+
     public string DockPaneTab( bool active ) => null;
+
+    public string DockPaneTabLabel() => null;
+
+    public string DockPaneTabClose() => null;
 
     public string DockLayoutCompass() => null;
 
     public string DockLayoutCompassZone( DockZone zone, bool active ) => null;
+
+    public string DockLayoutCompassZonePlacement( DockCompassZone zone ) => null;
+
+    public string DockLayoutCompassZoneIcon() => null;
+
+    public string DockLayoutDragPreview() => null;
+
+    public string DockLayoutDropPreview() => null;
 
     public string DockLayoutShellGuide( DockZone zone, bool active ) => null;
 

@@ -1504,6 +1504,12 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DockPaneHeader() => "dock-pane-header";
 
+    public override string DockPaneHeaderContent() => "dock-pane-header-content";
+
+    public override string DockPaneHeaderActions() => "dock-pane-header-actions";
+
+    public override string DockPaneHeaderAction() => "dock-pane-header-action";
+
     public override string DockPaneBody() => "dock-pane-body";
 
     public override string DockPaneFooter() => "dock-pane-footer";
@@ -1521,7 +1527,16 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DockPaneTabs() => "dock-pane-tabs";
 
+    public override string DockPaneTabsPosition( DockPanePosition position )
+        => position == Blazorise.DockPanePosition.Center ? "dock-pane-tabs-top" : null;
+
+    public override string DockPaneTabsHost() => "dock-tabs-host";
+
     public override string DockPaneTab( bool active ) => active ? "dock-pane-tab active" : "dock-pane-tab";
+
+    public override string DockPaneTabLabel() => "dock-pane-tab-label";
+
+    public override string DockPaneTabClose() => "dock-pane-tab-close";
 
     public override string DockLayoutCompass() => "dock-compass";
 
@@ -1538,6 +1553,26 @@ public class Bootstrap5ClassProvider : ClassProvider
 
         return active ? $"{baseClass} active" : baseClass;
     }
+
+    public override string DockLayoutCompassZonePlacement( DockCompassZone zone )
+        => zone switch
+        {
+            DockCompassZone.TopOuter => "dock-compass-zone-top-outer",
+            DockCompassZone.TopInner => "dock-compass-zone-top-inner",
+            DockCompassZone.LeftOuter => "dock-compass-zone-start-outer",
+            DockCompassZone.LeftInner => "dock-compass-zone-start-inner",
+            DockCompassZone.RightInner => "dock-compass-zone-end-inner",
+            DockCompassZone.RightOuter => "dock-compass-zone-end-outer",
+            DockCompassZone.BottomInner => "dock-compass-zone-bottom-inner",
+            DockCompassZone.BottomOuter => "dock-compass-zone-bottom-outer",
+            _ => "dock-compass-zone-center",
+        };
+
+    public override string DockLayoutCompassZoneIcon() => "dock-compass-zone-icon";
+
+    public override string DockLayoutDragPreview() => "dock-drag-preview";
+
+    public override string DockLayoutDropPreview() => "dock-drop-preview";
 
     public override string DockLayoutShellGuide( DockZone zone, bool active )
     {

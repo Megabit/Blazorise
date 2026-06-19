@@ -1,7 +1,13 @@
 @namespace Blazorise
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
-    <section @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <section @ref="@ElementRef"
+             id="@ElementId"
+             class="@ClassNames"
+             style="@StyleNames"
+             data-dock-drag-preview-class="@DragPreviewClassName"
+             data-dock-drop-preview-class="@DropPreviewClassName"
+             @attributes="@Attributes">
         <CascadingValue Value="@RootCollector" IsFixed="false">
             <div style="display:none">
                 @ChildContent
@@ -13,12 +19,7 @@
         }
         @if ( DockGuidesVisible )
         {
-            <div class="@GetDockCompassClass()" style="@DockCompassStyleNames">
-                @foreach ( DockCompassZoneInfo compassZone in DockCompassZones )
-                {
-                    <div class="@GetDockCompassZoneClass( compassZone )"></div>
-                }
-            </div>
+            <_DockCompassRenderer Layout="@this" Zones="@DockCompassZones" Style="@DockCompassStyleNames" />
         }
     </section>
 </CascadingValue>

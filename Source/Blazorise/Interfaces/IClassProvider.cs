@@ -700,27 +700,21 @@ public interface IClassProvider
 
     string DockPaneCollapsed( bool collapsed );
 
-    /// <summary>
-    /// Gets the class for an auto-hidden dock pane rail.
-    /// </summary>
     string DockPaneAutoHide( bool autoHide );
 
-    /// <summary>
-    /// Gets the class for an inactive tabbed dock pane.
-    /// </summary>
     string DockPaneInactive();
 
-    /// <summary>
-    /// Gets the class for a bordered dock pane.
-    /// </summary>
     string DockPaneBordered();
 
-    /// <summary>
-    /// Gets the class for an auto-hidden dock pane tab.
-    /// </summary>
     string DockPaneAutoHideTab( DockPanePosition position );
 
     string DockPaneHeader();
+
+    string DockPaneHeaderContent();
+
+    string DockPaneHeaderActions();
+
+    string DockPaneHeaderAction();
 
     string DockPaneBody();
 
@@ -730,29 +724,30 @@ public interface IClassProvider
 
     string DockSplitter( DockPanePosition position );
 
-    /// <summary>
-    /// Gets the class for the dock pane tab container.
-    /// </summary>
     string DockPaneTabs();
 
-    /// <summary>
-    /// Gets the class for a dock pane tab.
-    /// </summary>
+    string DockPaneTabsPosition( DockPanePosition position );
+
+    string DockPaneTabsHost();
+
     string DockPaneTab( bool active );
 
-    /// <summary>
-    /// Gets the class for the dock compass container.
-    /// </summary>
+    string DockPaneTabLabel();
+
+    string DockPaneTabClose();
+
     string DockLayoutCompass();
 
-    /// <summary>
-    /// Gets the class for a dock compass zone.
-    /// </summary>
     string DockLayoutCompassZone( DockZone zone, bool active );
 
-    /// <summary>
-    /// Gets the class for a dock shell guide.
-    /// </summary>
+    string DockLayoutCompassZonePlacement( DockCompassZone zone );
+
+    string DockLayoutCompassZoneIcon();
+
+    string DockLayoutDragPreview();
+
+    string DockLayoutDropPreview();
+
     string DockLayoutShellGuide( DockZone zone, bool active );
 
     #endregion

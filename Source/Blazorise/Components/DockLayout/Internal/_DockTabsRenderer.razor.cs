@@ -1,8 +1,6 @@
 #region Using directives
-using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise;
@@ -12,6 +10,18 @@ namespace Blazorise;
 /// </summary>
 public partial class _DockTabsRenderer : BaseComponent
 {
+    #region Constructors
+
+    /// <summary>
+    /// Default <see cref="_DockTabsRenderer"/> constructor.
+    /// </summary>
+    public _DockTabsRenderer()
+    {
+        TabsClassBuilder = new( BuildTabsClasses );
+    }
+
+    #endregion
+
     #region Members
 
     private string activePaneName;
@@ -48,6 +58,7 @@ public partial class _DockTabsRenderer : BaseComponent
 
         DirtyClasses();
         DirtyStyles();
+        TabsClassBuilder.Dirty();
     }
 
     /// <inheritdoc/>
@@ -61,10 +72,16 @@ public partial class _DockTabsRenderer : BaseComponent
             builder.Append( ClassProvider.DockPaneCollapsed( Collapsed ) );
             builder.Append( ClassProvider.DockPaneAutoHide( AutoHide ) );
             builder.Append( ClassProvider.DockPaneBordered(), Bordered );
-            builder.Append( "dock-tabs-host" );
+            builder.Append( ClassProvider.DockPaneTabsHost() );
         }
 
         base.BuildClasses( builder );
+    }
+
+    private void BuildTabsClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.DockPaneTabs() );
+        builder.Append( ClassProvider.DockPaneTabsPosition( GroupPosition ) );
     }
 
     /// <inheritdoc/>
@@ -80,15 +97,6 @@ public partial class _DockTabsRenderer : BaseComponent
         base.BuildStyles( builder );
     }
 
-    private Task BeginPaneTabDrag( string paneName, PointerEventArgs eventArgs )
-        => Layout?.BeginPaneTabDrag( paneName, eventArgs ) ?? Task.CompletedTask;
-
-    private Task ActivateTab( string paneName )
-        => Layout?.ActivateTab( Node, paneName ) ?? Task.CompletedTask;
-
-    private Task ClosePane( string paneName )
-        => Layout?.ClosePane( paneName ) ?? Task.CompletedTask;
-
     #endregion
 
     #region Properties
@@ -101,14 +109,11 @@ public partial class _DockTabsRenderer : BaseComponent
 
     private bool AutoHide => Layout?.IsTabGroupAutoHidden( Node ) == true;
 
-    private string TabsClass => TabsOnTop ? $"{Layout?.GetDockPaneTabsClass()} dock-pane-tabs-top" : Layout?.GetDockPaneTabsClass();
+    private string TabsClassNames => TabsClassBuilder.Class;
 
     private bool TabsVisible => Node?.Panes?.Count > 1 || ActivePane?.EffectiveShowTab == true;
 
     private DockPanePosition GroupPosition => groupPosition;
-
-    private bool IsPaneTabCloseButtonVisible( string paneName )
-        => Layout?.IsPaneTabCloseButtonVisible( paneName, GroupPosition ) == true;
 
     private bool TabsOnTop => GroupPosition == DockPanePosition.Center;
 
@@ -129,6 +134,8 @@ public partial class _DockTabsRenderer : BaseComponent
                 ActivePane.ElementRef = value;
         }
     }
+
+    protected ClassBuilder TabsClassBuilder { get; private set; }
 
     /// <summary>
     /// Gets or sets the owner dock layout.

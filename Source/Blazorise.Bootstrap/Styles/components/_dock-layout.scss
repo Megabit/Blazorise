@@ -409,13 +409,9 @@
     background: rgba(255, 255, 255, .85);
 }
 
-.dock-compass-zone::before {
-    content: "";
-    width: .625rem;
-    height: .625rem;
-    border-color: currentColor;
-    border-style: solid;
-    border-width: 1px 1px 0 0;
+.dock-compass-zone-icon {
+    font-size: .625rem;
+    line-height: 1;
 }
 
 .dock-compass-zone.active {
@@ -427,26 +423,6 @@
 .dock-compass-zone-center {
     left: calc(3rem + var(--dock-compass-gap) * 2);
     top: calc(3rem + var(--dock-compass-gap) * 2);
-}
-
-.dock-compass-zone-center::before {
-    display: none;
-}
-
-.dock-compass-zone-left::before {
-    transform: rotate(225deg);
-}
-
-.dock-compass-zone-right::before {
-    transform: rotate(45deg);
-}
-
-.dock-compass-zone-top::before {
-    transform: rotate(-45deg);
-}
-
-.dock-compass-zone-bottom::before {
-    transform: rotate(135deg);
 }
 
 .dock-compass-zone-start-outer {
