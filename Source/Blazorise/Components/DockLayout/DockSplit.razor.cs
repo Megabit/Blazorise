@@ -1,4 +1,5 @@
 #region Using directives
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -33,14 +34,14 @@ public partial class DockSplit : BaseComponent
     }
 
     /// <inheritdoc/>
-    protected override void OnAfterRender( bool firstRender )
+    protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        base.OnAfterRender( firstRender );
+        await base.OnAfterRenderAsync( firstRender );
 
         BuildNode();
 
-        if ( firstRender )
-            ParentDockLayout?.NotifyDefinitionChanged();
+        if ( firstRender && ParentDockLayout is not null )
+            await ParentDockLayout.NotifyDefinitionChanged();
     }
 
     private DockNodeState BuildNode()

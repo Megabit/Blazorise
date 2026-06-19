@@ -124,16 +124,14 @@ public partial class DockLayout : BaseComponent
         content = dockContent;
     }
 
-    internal void NotifyDefinitionChanged()
-    {
-        _ = InvokeAsync( async () =>
+    internal Task NotifyDefinitionChanged()
+        => InvokeAsync( async () =>
         {
             if ( CurrentState.Root is null && rootCollector.Nodes.Count > 0 )
                 CurrentState.Root = BuildInitialRoot();
 
             await NotifyStateChanged();
         } );
-    }
 
     internal void UnregisterPane( DockPane pane )
     {

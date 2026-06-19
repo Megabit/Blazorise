@@ -407,7 +407,7 @@ public partial class Markdown : BaseOnScreenKeyboardInputComponent<string, Markd
     /// <inheritdoc/>
     public Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success, FileInvalidReason fileInvalidReason )
     {
-        InvokeAsync( async () =>
+        return InvokeAsync( async () =>
         {
             if ( fileEntry.FileUploadEndedCallback is not null )
                 await fileEntry.FileUploadEndedCallback.Task;
@@ -423,8 +423,6 @@ public partial class Markdown : BaseOnScreenKeyboardInputComponent<string, Markd
 
             await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl ?? string.Empty );
         } );
-
-        return Task.CompletedTask;
     }
 
     /// <inheritdoc/>
