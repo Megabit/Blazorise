@@ -122,7 +122,7 @@ public partial class DockPane : BaseComponent, IDisposable
     [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
 
     /// <summary>
-    /// Identifies the pane inside the parent <see cref="DockLayout"/>.
+    /// Identifies the pane inside the parent <see cref="DockLayout"/> and acts as the stable key used by persisted <see cref="DockLayoutState"/> values.
     /// </summary>
     [Parameter] public string Name { get; set; }
 

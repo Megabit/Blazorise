@@ -104,6 +104,39 @@ public partial class DockLayout : BaseComponent
         base.DirtyStyles();
     }
 
+    /// <summary>
+    /// Returns the current mutable docking state.
+    /// </summary>
+    /// <returns>The current docking state instance.</returns>
+    public DockLayoutState GetState()
+    {
+        EnsureCurrentStateInitialized();
+        NormalizeCurrentState();
+
+        return CurrentState;
+    }
+
+    /// <summary>
+    /// Loads a docking state and applies it to the current layout.
+    /// </summary>
+    /// <param name="state">The docking state to load.</param>
+    /// <returns>A task that completes after the state has been applied.</returns>
+    public async Task LoadState( DockLayoutState state )
+    {
+        this.state = state ?? new();
+
+        EnsureCurrentStateInitialized();
+
+        await NotifyStateChanged();
+    }
+
+    /// <summary>
+    /// Resets the docking state to the declarative layout definition.
+    /// </summary>
+    /// <returns>A task that completes after the state has been reset.</returns>
+    public Task ResetState()
+        => LoadState( new DockLayoutState() );
+
     internal void RegisterPane( DockPane pane )
     {
         if ( registry.RegisterPane( pane ) )
@@ -118,8 +151,7 @@ public partial class DockLayout : BaseComponent
     internal Task NotifyDefinitionChanged()
         => InvokeAsync( async () =>
         {
-            if ( CurrentState.Root is null && registry.RootCollector.Nodes.Count > 0 )
-                CurrentState.Root = treeBuilder.BuildInitialRoot( CurrentState );
+            EnsureCurrentStateInitialized();
 
             await NotifyStateChanged();
         } );
@@ -478,7 +510,7 @@ public partial class DockLayout : BaseComponent
 
         if ( CurrentState.Root is null && registry.RootCollector.Nodes.Count > 0 )
         {
-            CurrentState.Root = treeBuilder.BuildInitialRoot( CurrentState );
+            EnsureCurrentStateInitialized();
             NormalizeCurrentState();
             await NotifyStateChanged();
         }
@@ -504,6 +536,15 @@ public partial class DockLayout : BaseComponent
     private void NormalizeCurrentState()
     {
         stateManager.Normalize( CurrentState, registry, treeQuery, ref nextNodeId );
+    }
+
+    private void EnsureCurrentStateInitialized()
+    {
+        foreach ( DockPane pane in registry.RegisteredPanes )
+            stateManager.EnsurePaneState( CurrentState, pane );
+
+        if ( CurrentState.Root is null && registry.RootCollector.Nodes.Count > 0 )
+            CurrentState.Root = treeBuilder.BuildInitialRoot( CurrentState );
     }
 
     #endregion
@@ -558,17 +599,12 @@ public partial class DockLayout : BaseComponent
     [Inject] protected IJSDockLayoutModule JSModule { get; set; }
 
     /// <summary>
-    /// Specifies the panes and content to be rendered inside the dock layout.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
-
-    /// <summary>
     /// Defines whether non-document panes should render a visible border.
     /// </summary>
     [Parameter] public bool PaneBordered { get; set; } = true;
 
     /// <summary>
-    /// Defines the mutable state used for docking, resizing, active tabs, and pane visibility.
+    /// Defines the mutable state used for docking, resizing, active tabs, and pane visibility. The same state can be saved with <see cref="GetState"/> and restored with <see cref="LoadState"/>.
     /// </summary>
     [Parameter]
     public DockLayoutState State
