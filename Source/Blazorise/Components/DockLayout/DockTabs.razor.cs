@@ -1,6 +1,7 @@
 #region Using directives
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Blazorise.Utilities;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -36,32 +37,37 @@ public partial class DockTabs : BaseComponent
     {
         await base.OnAfterRenderAsync( firstRender );
 
-        BuildNode();
+        bool nodeChanged = SynchronizeNode();
 
-        if ( firstRender && ParentDockLayout is not null )
+        if ( ( nodeChanged || firstRender ) && ParentDockLayout is not null )
             await ParentDockLayout.NotifyDefinitionChanged();
     }
 
-    private DockNodeState BuildNode()
+    private bool SynchronizeNode()
     {
-        node ??= new()
-        {
-            Kind = DockNodeKind.Tabs,
-        };
-
-        node.Panes.Clear();
-        node.ActivePane = ActivePane;
+        DockNodeState currentNode = Node;
+        List<string> paneNames = new();
 
         foreach ( DockNodeState childNode in childCollector.Nodes )
         {
             if ( childNode.Kind == DockNodeKind.Pane && !string.IsNullOrWhiteSpace( childNode.PaneName ) )
-                node.Panes.Add( childNode.PaneName );
+                paneNames.Add( childNode.PaneName );
         }
 
-        if ( string.IsNullOrWhiteSpace( node.ActivePane ) && node.Panes.Count > 0 )
-            node.ActivePane = node.Panes[0];
+        string activePane = ActivePane;
 
-        return node;
+        if ( string.IsNullOrWhiteSpace( activePane ) && paneNames.Count > 0 )
+            activePane = paneNames[0];
+
+        if ( currentNode.ActivePane == activePane && currentNode.Panes.AreEqual( paneNames ) )
+            return false;
+
+        currentNode.Panes.Clear();
+        currentNode.Panes.AddRange( paneNames );
+
+        currentNode.ActivePane = activePane;
+
+        return true;
     }
 
     #endregion
@@ -70,7 +76,10 @@ public partial class DockTabs : BaseComponent
 
     internal DockNodeCollector ChildCollector => childCollector;
 
-    internal DockNodeState Node => BuildNode();
+    internal DockNodeState Node => node ??= new()
+    {
+        Kind = DockNodeKind.Tabs,
+    };
 
     [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
 

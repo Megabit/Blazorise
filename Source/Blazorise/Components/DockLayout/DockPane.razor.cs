@@ -82,6 +82,7 @@ public partial class DockPane : BaseComponent, IDisposable
         base.OnParametersSet();
 
         ParentDockLayout?.RegisterPane( this );
+        Node.PaneName = ResolvedName;
         ParentCollector?.AddNode( Node );
     }
 
@@ -122,20 +123,10 @@ public partial class DockPane : BaseComponent, IDisposable
 
     internal DockPaneTabsPlacement EffectiveTabsPlacement => TabsPlacement;
 
-    internal DockNodeState Node
+    internal DockNodeState Node => node ??= new()
     {
-        get
-        {
-            node ??= new()
-            {
-                Kind = DockNodeKind.Pane,
-            };
-
-            node.PaneName = ResolvedName;
-
-            return node;
-        }
-    }
+        Kind = DockNodeKind.Pane,
+    };
 
     [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
 

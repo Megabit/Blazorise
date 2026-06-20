@@ -1,6 +1,5 @@
 #region Using directives
 using System.Threading.Tasks;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -38,28 +37,30 @@ public partial class DockSplit : BaseComponent
     {
         await base.OnAfterRenderAsync( firstRender );
 
-        BuildNode();
+        bool nodeChanged = SynchronizeNode();
 
-        if ( firstRender && ParentDockLayout is not null )
+        if ( ( nodeChanged || firstRender ) && ParentDockLayout is not null )
             await ParentDockLayout.NotifyDefinitionChanged();
     }
 
-    private DockNodeState BuildNode()
+    private bool SynchronizeNode()
     {
         DockNodeState first = childCollector.Nodes.Count > 0 ? childCollector.Nodes[0] : null;
         DockNodeState second = childCollector.Nodes.Count > 1 ? childCollector.Nodes[1] : null;
+        DockNodeState currentNode = Node;
 
-        node ??= new()
-        {
-            Kind = DockNodeKind.Split,
-        };
+        if ( currentNode.Orientation == Orientation
+            && currentNode.Ratio == Ratio
+            && currentNode.First == first
+            && currentNode.Second == second )
+            return false;
 
-        node.Orientation = Orientation;
-        node.Ratio = Ratio;
-        node.First = first;
-        node.Second = second;
+        currentNode.Orientation = Orientation;
+        currentNode.Ratio = Ratio;
+        currentNode.First = first;
+        currentNode.Second = second;
 
-        return node;
+        return true;
     }
 
     #endregion
@@ -68,7 +69,10 @@ public partial class DockSplit : BaseComponent
 
     internal DockNodeCollector ChildCollector => childCollector;
 
-    internal DockNodeState Node => BuildNode();
+    internal DockNodeState Node => node ??= new()
+    {
+        Kind = DockNodeKind.Split,
+    };
 
     [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
 
