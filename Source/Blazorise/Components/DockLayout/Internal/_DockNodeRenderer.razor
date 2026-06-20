@@ -2,7 +2,7 @@
 @inherits BaseComponent
 @if ( Node?.Kind == DockNodeKind.Split )
 {
-    <div class="@ClassNames" style="@SplitStyle" data-dock-node-id="@Node.Id">
+    <div class="@ClassNames" style="@SplitStyle" data-dock-node-id="@Node.Id" data-dock-split>
         <_DockNodeRenderer NodeId="@Node.First?.Id" RenderVersion="@RenderVersion" SplitterDock="@FirstSplitterDock" SplitNodeId="@Node.Id" />
         <_DockNodeRenderer NodeId="@Node.Second?.Id" RenderVersion="@RenderVersion" SplitterDock="@SecondSplitterDock" SplitNodeId="@Node.Id" />
         @if ( CanResize )

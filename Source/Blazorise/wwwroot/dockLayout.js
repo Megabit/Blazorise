@@ -39,7 +39,7 @@ export function beginResize(dotNetObjectRef, pane, paneName, nodeId, position, c
 }
 
 function getResizeElement(element) {
-    if (element?.classList?.contains("dock-splitter")) {
+    if (element?.hasAttribute("data-dock-splitter")) {
         return element.parentElement;
     }
 
@@ -134,14 +134,14 @@ function findResizeSplit(pane, nodeId) {
     let current = pane?.parentElement;
 
     while (current) {
-        if (current.classList?.contains("dock-split") && current.getAttribute("data-dock-node-id") === nodeId) {
+        if (current.hasAttribute("data-dock-split") && current.getAttribute("data-dock-node-id") === nodeId) {
             return current;
         }
 
         current = current.parentElement;
     }
 
-    return pane?.parentElement?.classList?.contains("dock-split") ? pane.parentElement : null;
+    return pane?.parentElement?.hasAttribute("data-dock-split") ? pane.parentElement : null;
 }
 
 function getResizeFirstSize(paneRect, splitRect, position, horizontal) {
