@@ -50,13 +50,13 @@ public partial class DockPaneHeader : BaseComponent
 
     #region Properties
 
-    [CascadingParameter] internal DockPane ParentDockPane { get; set; }
-
-    [CascadingParameter] internal DockLayoutContext Context { get; set; }
-
     private string ContentClassNames => ContentClassBuilder.Class;
 
     private ClassBuilder ContentClassBuilder { get; set; }
+
+    [CascadingParameter] internal DockPane ParentDockPane { get; set; }
+
+    [CascadingParameter] internal DockLayoutContext Context { get; set; }
 
     /// <summary>
     /// Specifies the header content to be rendered inside this <see cref="DockPaneHeader"/>.

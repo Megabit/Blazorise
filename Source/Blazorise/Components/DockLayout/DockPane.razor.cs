@@ -98,10 +98,6 @@ public partial class DockPane : BaseComponent, IDisposable
 
     #region Properties
 
-    [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
-
-    [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
-
     internal string ResolvedName => !string.IsNullOrWhiteSpace( Name ) ? Name : ElementId;
 
     internal string ResolvedCaption => !string.IsNullOrWhiteSpace( Caption ) ? Caption : ResolvedName;
@@ -140,6 +136,10 @@ public partial class DockPane : BaseComponent, IDisposable
             return node;
         }
     }
+
+    [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
+
+    [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
 
     /// <summary>
     /// Identifies the pane inside the parent <see cref="DockLayout"/>.

@@ -39,14 +39,14 @@ public partial class DockContent : BaseComponent
 
     #region Properties
 
-    [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
-
-    [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
-
     internal DockNodeState Node => node ??= new()
     {
         Kind = DockNodeKind.Content,
     };
+
+    [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
+
+    [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="DockContent"/>.
