@@ -37,6 +37,9 @@ internal sealed record DockLayoutContext
     internal DockPanePosition? GetDockNodePosition( DockNodeState node )
         => layout?.GetDockNodePosition( node );
 
+    internal bool CanResizeDockNode( DockNodeState node )
+        => layout?.CanResizeDockNode( node ) == true;
+
     internal DockPaneTabsPlacement GetDockNodeTabsPlacement( DockNodeState node, DockPanePosition position )
         => layout?.GetDockNodeTabsPlacement( node, position ) ?? DockPaneTabsPlacement.Top;
 

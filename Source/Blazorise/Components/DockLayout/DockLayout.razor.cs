@@ -194,6 +194,9 @@ public partial class DockLayout : BaseComponent
     internal DockPanePosition? GetDockNodePosition( DockNodeState node )
         => treeQuery.GetDockNodePosition( node );
 
+    internal bool CanResizeDockNode( DockNodeState node )
+        => treeQuery.CanResizeDockNode( node );
+
     internal DockPaneTabsPlacement GetDockNodeTabsPlacement( DockNodeState node, DockPanePosition position )
     {
         if ( node?.Panes is not null )
@@ -332,6 +335,11 @@ public partial class DockLayout : BaseComponent
 
     internal async Task BeginNodeResize( ElementReference elementRef, string paneName, string nodeId, DockPanePosition dock, PointerEventArgs eventArgs, string minSize = null, string maxSize = null )
     {
+        DockNodeState resizingNode = GetNode( paneName );
+
+        if ( resizingNode?.Kind == DockNodeKind.Split && !CanResizeDockNode( resizingNode ) )
+            return;
+
         await JSModule.BeginResize(
             DotNetObjectRef,
             elementRef,

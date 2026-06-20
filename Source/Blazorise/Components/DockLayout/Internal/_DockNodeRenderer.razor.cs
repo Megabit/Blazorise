@@ -49,7 +49,11 @@ public partial class _DockNodeRenderer : BaseComponent
         ? DockPanePosition.Bottom
         : DockPanePosition.Right;
 
-    private bool CanResize => Context is not null && Node?.Kind == DockNodeKind.Split && SplitterDock is not null && !string.IsNullOrWhiteSpace( SplitNodeId );
+    private bool CanResize => Context is not null
+        && Node?.Kind == DockNodeKind.Split
+        && SplitterDock is not null
+        && !string.IsNullOrWhiteSpace( SplitNodeId )
+        && Context.CanResizeDockNode( Node );
 
     [CascadingParameter] internal DockLayoutContext Context { get; set; }
 

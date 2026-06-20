@@ -86,6 +86,18 @@ internal sealed class DockLayoutTreeQuery
         return null;
     }
 
+    public bool CanResizeDockNode( DockNodeState node )
+    {
+        DockPanePosition? position = GetDockNodePosition( node );
+
+        if ( position is null || position == DockPanePosition.Center )
+            return false;
+
+        string paneName = GetFirstDockNodePaneName( node );
+
+        return registry.TryGetPane( paneName, out DockPane pane ) && pane.Resizable;
+    }
+
     public bool IsPaneActive( DockPane pane )
     {
         DockNodeState tabsNode = FindTabsNode( getState().Root, pane.ResolvedName );
