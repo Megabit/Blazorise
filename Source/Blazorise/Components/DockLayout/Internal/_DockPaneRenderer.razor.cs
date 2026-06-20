@@ -23,17 +23,18 @@ public partial class _DockPaneRenderer : BaseComponent
 
     #region Methods
 
+    /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
 
-        if ( Layout is null || !Layout.TryGetPane( PaneName, out pane ) )
+        if ( Context is null || !Context.TryGetPane( PaneName, out pane ) )
             pane = null;
 
-        paneState = Layout?.GetPaneState( PaneName );
+        paneState = Context?.GetPaneState( PaneName );
         renderPosition = Pane is null
             ? DockPanePosition.Center
-            : Layout?.GetPanePosition( Pane ) ?? Pane.EffectivePosition;
+            : Context?.GetPanePosition( Pane ) ?? Pane.EffectivePosition;
 
         DirtyClasses();
         DirtyStyles();
@@ -69,7 +70,7 @@ public partial class _DockPaneRenderer : BaseComponent
     }
 
     private Task OpenAutoHidePane()
-        => Layout?.OpenPaneAutoHide( Pane ) ?? Task.CompletedTask;
+        => Context?.OpenPaneAutoHide( Pane ) ?? Task.CompletedTask;
 
     #endregion
 
@@ -89,11 +90,11 @@ public partial class _DockPaneRenderer : BaseComponent
 
     private bool CanResize => Pane?.Resizable == true && SplitterDock is not null;
 
-    private bool Bordered => Layout?.IsDockPaneBordered( RenderPosition ) == true;
+    private bool Bordered => Context?.IsDockPaneBordered( RenderPosition ) == true;
 
     private DockPanePosition RenderPosition => renderPosition;
 
-    private ElementReference ElementRef
+    private ElementReference CapturedElementRef
     {
         get => default;
         set
@@ -103,10 +104,7 @@ public partial class _DockPaneRenderer : BaseComponent
         }
     }
 
-    /// <summary>
-    /// Gets or sets the owner dock layout.
-    /// </summary>
-    [Parameter] public DockLayout Layout { get; set; }
+    [CascadingParameter] internal DockLayoutContext Context { get; set; }
 
     /// <summary>
     /// Gets or sets the pane name.
@@ -117,6 +115,11 @@ public partial class _DockPaneRenderer : BaseComponent
     /// Gets or sets the rendered dock node id.
     /// </summary>
     [Parameter] public string NodeId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the layout render version.
+    /// </summary>
+    [Parameter] public int RenderVersion { get; set; }
 
     /// <summary>
     /// Gets or sets the local splitter side for the rendered pane.

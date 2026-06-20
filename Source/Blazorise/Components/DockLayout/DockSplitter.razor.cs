@@ -30,13 +30,12 @@ public partial class DockSplitter : BaseComponent
 
     private Task BeginResize( PointerEventArgs eventArgs )
     {
-        if ( Layout is not null )
-            return Layout.BeginNodeResize( ElementRef, PaneName, NodeId, Dock, eventArgs, MinSize, MaxSize );
+        if ( Context is not null && !string.IsNullOrWhiteSpace( PaneName ) )
+            return Context.BeginNodeResize( ElementRef, PaneName, NodeId, Dock, eventArgs, MinSize, MaxSize );
 
-        if ( ParentDockPane?.ParentDockLayout is null )
-            return Task.CompletedTask;
-
-        return ParentDockPane.ParentDockLayout.BeginPaneResize( ParentDockPane, NodeId, Dock, eventArgs );
+        return Context?.BeginPaneResize( ParentDockPane, NodeId, Dock, eventArgs )
+            ?? ParentDockPane?.ParentDockLayout?.BeginPaneResize( ParentDockPane, NodeId, Dock, eventArgs )
+            ?? Task.CompletedTask;
     }
 
     #endregion
@@ -45,10 +44,7 @@ public partial class DockSplitter : BaseComponent
 
     [CascadingParameter] internal DockPane ParentDockPane { get; set; }
 
-    /// <summary>
-    /// Defines the dock layout that owns the splitter.
-    /// </summary>
-    [Parameter] public DockLayout Layout { get; set; }
+    [CascadingParameter] internal DockLayoutContext Context { get; set; }
 
     /// <summary>
     /// Defines the pane or node name used by resize notifications.

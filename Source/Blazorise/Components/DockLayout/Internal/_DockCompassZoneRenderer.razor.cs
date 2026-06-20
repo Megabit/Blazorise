@@ -36,8 +36,8 @@ public partial class _DockCompassZoneRenderer : BaseComponent
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.DockLayoutCompassZone( Zone.Zone, Active ) );
-        builder.Append( ClassProvider.DockLayoutCompassZonePlacement( Zone.CompassZone ) );
+        builder.Append( ClassProvider.DockLayoutCompassZone( Zone, Active ) );
+        builder.Append( ClassProvider.DockLayoutCompassZonePlacement( CompassZone ) );
 
         base.BuildClasses( builder );
     }
@@ -51,10 +51,10 @@ public partial class _DockCompassZoneRenderer : BaseComponent
 
     #region Properties
 
-    private bool Active => Layout?.ActiveDockZone == Zone.Zone && Layout?.ActiveDockCompassZoneKey == Zone.Key;
+    private bool Active => Context?.ActiveDockZone == Zone && Context?.ActiveDockCompassZoneKey == ZoneKey;
 
     private IconName CompassIconName
-        => Zone.Zone switch
+        => Zone switch
         {
             DockZone.Left => IconName.ArrowLeft,
             DockZone.Right => IconName.ArrowRight,
@@ -65,17 +65,29 @@ public partial class _DockCompassZoneRenderer : BaseComponent
 
     private string IconClassNames => IconClassBuilder.Class;
 
-    protected ClassBuilder IconClassBuilder { get; private set; }
+    private ClassBuilder IconClassBuilder { get; set; }
+
+    [CascadingParameter] internal DockLayoutContext Context { get; set; }
 
     /// <summary>
-    /// Gets or sets the owner dock layout.
+    /// Gets or sets the dock zone to render.
     /// </summary>
-    [Parameter] public DockLayout Layout { get; set; }
+    [Parameter] public DockZone Zone { get; set; }
 
     /// <summary>
-    /// Gets or sets the compass zone to render.
+    /// Gets or sets the compass placement to render.
     /// </summary>
-    [Parameter] public DockLayout.DockCompassZoneInfo Zone { get; set; }
+    [Parameter] public DockCompassZone CompassZone { get; set; }
+
+    /// <summary>
+    /// Gets or sets the compass zone key.
+    /// </summary>
+    [Parameter] public string ZoneKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets the layout render version.
+    /// </summary>
+    [Parameter] public int RenderVersion { get; set; }
 
     #endregion
 }

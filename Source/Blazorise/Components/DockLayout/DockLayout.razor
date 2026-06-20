@@ -1,25 +1,27 @@
 @namespace Blazorise
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
-    <section @ref="@ElementRef"
-             id="@ElementId"
-             class="@ClassNames"
-             style="@StyleNames"
-             data-dock-drag-preview-class="@DragPreviewClassName"
-             data-dock-drop-preview-class="@DropPreviewClassName"
-             @attributes="@Attributes">
-        <CascadingValue Value="@RootCollector" IsFixed="false">
-            <div style="display:none">
-                @ChildContent
-            </div>
-        </CascadingValue>
-        @if ( CurrentState.Root is not null )
-        {
-            <_DockNodeRenderer Layout="@this" Node="@CurrentState.Root" />
-        }
-        @if ( DockGuidesVisible )
-        {
-            <_DockCompassRenderer Layout="@this" Zones="@DockCompassZones" Style="@DockCompassStyleNames" />
-        }
-    </section>
+    <CascadingValue Value="@Context" IsFixed>
+        <section @ref="@ElementRef"
+                 id="@ElementId"
+                 class="@ClassNames"
+                 style="@StyleNames"
+                 data-dock-drag-preview-class="@DragPreviewClassName"
+                 data-dock-drop-preview-class="@DropPreviewClassName"
+                 @attributes="@Attributes">
+            <CascadingValue Value="@RootCollector" IsFixed="false">
+                <div style="display:none">
+                    @ChildContent
+                </div>
+            </CascadingValue>
+            @if ( CurrentState.Root is not null )
+            {
+                <_DockNodeRenderer NodeId="@CurrentState.Root.Id" RenderVersion="@RenderVersion" />
+            }
+            @if ( DockGuidesVisible )
+            {
+                <_DockCompassRenderer RenderVersion="@DockGuidesVersion" Style="@DockCompassStyleNames" />
+            }
+        </section>
+    </CascadingValue>
 </CascadingValue>

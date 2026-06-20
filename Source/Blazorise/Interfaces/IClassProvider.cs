@@ -692,6 +692,10 @@ public interface IClassProvider
 
     string DockLayout();
 
+    string DockSplit();
+
+    string DockSplitOrientation( DockSplitOrientation orientation );
+
     string DockPane( DockPanePosition position, bool resizable, bool collapsed );
 
     string DockPanePosition( DockPanePosition position );

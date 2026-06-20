@@ -28,6 +28,8 @@ public partial class DockLayout : BaseComponent
 
     private DockContent content;
 
+    private DockLayoutContext context;
+
     private string draggingPaneName;
 
     private DockZone? activeDockZone;
@@ -43,6 +45,10 @@ public partial class DockLayout : BaseComponent
     private DotNetObjectReference<DockLayout> dotNetObjectRef;
 
     private int nextNodeId;
+
+    private int renderVersion;
+
+    private int dockGuidesVersion;
 
     private static readonly DockCompassZoneInfo[] dockCompassZones =
     {
@@ -174,6 +180,9 @@ public partial class DockLayout : BaseComponent
     internal DockPaneState GetPaneState( string paneName )
         => FindPaneState( paneName );
 
+    internal DockNodeState GetNode( string nodeId )
+        => string.IsNullOrWhiteSpace( nodeId ) ? null : FindNodeById( CurrentState.Root, nodeId );
+
     internal bool IsPaneActive( DockPane pane )
     {
         DockNodeState tabsNode = FindTabsNode( CurrentState.Root, pane.ResolvedName );
@@ -280,28 +289,27 @@ public partial class DockLayout : BaseComponent
         return node.Panes.Count > 0 ? node.Panes[0] : null;
     }
 
-    internal Task ActivateTab( DockNodeState node, string paneName )
+    internal async Task ActivateTab( DockNodeState node, string paneName )
     {
-        if ( node?.Kind == DockNodeKind.Tabs && node.Panes.Contains( paneName ) )
+        if ( node?.Kind == DockNodeKind.Tabs && node.Panes.Contains( paneName ) && node.ActivePane != paneName )
         {
             node.ActivePane = paneName;
-            StateHasChanged();
+            await NotifyStateChanged();
         }
-
-        return Task.CompletedTask;
     }
 
-    internal Task ActivatePane( string paneName )
+    internal Task ActivateTab( string nodeId, string paneName )
+        => ActivateTab( GetNode( nodeId ), paneName );
+
+    internal async Task ActivatePane( string paneName )
     {
         DockNodeState tabsNode = FindTabsNode( CurrentState.Root, paneName );
 
-        if ( tabsNode is not null && tabsNode.Panes.Contains( paneName ) )
+        if ( tabsNode is not null && tabsNode.Panes.Contains( paneName ) && tabsNode.ActivePane != paneName )
         {
             tabsNode.ActivePane = paneName;
-            StateHasChanged();
+            await NotifyStateChanged();
         }
-
-        return Task.CompletedTask;
     }
 
     internal async Task TogglePaneAutoHide( DockPane pane )
@@ -491,6 +499,7 @@ public partial class DockLayout : BaseComponent
         dockCompassY = compassY;
         draggingPaneName = paneName;
 
+        dockGuidesVersion++;
         DirtyStyles();
         StateHasChanged();
 
@@ -1284,6 +1293,7 @@ public partial class DockLayout : BaseComponent
     {
         NormalizeCurrentState();
 
+        renderVersion++;
         DirtyClasses();
         DirtyStyles();
 
@@ -1351,6 +1361,12 @@ public partial class DockLayout : BaseComponent
     internal DockNodeCollector RootCollector => rootCollector;
 
     internal DockContent Content => content;
+
+    internal DockLayoutContext Context => context ??= new( this );
+
+    internal int RenderVersion => renderVersion;
+
+    internal int DockGuidesVersion => dockGuidesVersion;
 
     private DotNetObjectReference<DockLayout> DotNetObjectRef => dotNetObjectRef ??= DotNetObjectReference.Create( this );
 

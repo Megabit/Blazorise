@@ -1,5 +1,4 @@
 #region Using directives
-using System.Collections.Generic;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -26,14 +25,9 @@ public partial class _DockCompassRenderer : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the owner dock layout.
+    /// Gets or sets the layout render version.
     /// </summary>
-    [Parameter] public DockLayout Layout { get; set; }
-
-    /// <summary>
-    /// Gets or sets the compass zones.
-    /// </summary>
-    [Parameter] public IReadOnlyList<DockLayout.DockCompassZoneInfo> Zones { get; set; }
+    [Parameter] public int RenderVersion { get; set; }
 
     #endregion
 }

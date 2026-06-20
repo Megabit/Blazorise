@@ -25,11 +25,12 @@ public partial class _DockAutoHideTabsRenderer : BaseComponent
 
     #region Methods
 
+    /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
 
-        activePaneName = Layout?.GetActiveTabPaneName( Node );
+        activePaneName = Context?.GetActiveTabPaneName( Node );
 
         if ( string.IsNullOrWhiteSpace( activePaneName ) )
         {
@@ -39,11 +40,11 @@ public partial class _DockAutoHideTabsRenderer : BaseComponent
             return;
         }
 
-        if ( Layout is null || !Layout.TryGetPane( activePaneName, out activePane ) )
+        if ( Context is null || !Context.TryGetPane( activePaneName, out activePane ) )
             activePane = null;
 
-        activePaneState = Layout?.GetPaneState( activePaneName );
-        groupPosition = Layout?.GetDockNodePosition( Node ) ?? activePane?.EffectivePosition ?? DockPanePosition.Center;
+        activePaneState = Context?.GetPaneState( activePaneName );
+        groupPosition = Context?.GetDockNodePosition( Node ) ?? activePane?.EffectivePosition ?? DockPanePosition.Center;
 
         DirtyClasses();
         DirtyStyles();
@@ -79,7 +80,16 @@ public partial class _DockAutoHideTabsRenderer : BaseComponent
     }
 
     private Task OpenPaneAutoHide( DockPane pane )
-        => Layout?.OpenPaneAutoHide( pane ) ?? Task.CompletedTask;
+        => Context?.OpenPaneAutoHide( pane ) ?? Task.CompletedTask;
+
+    private bool TryGetPane( string paneName, out DockPane pane )
+    {
+        if ( Context is not null )
+            return Context.TryGetPane( paneName, out pane );
+
+        pane = null;
+        return false;
+    }
 
     #endregion
 
@@ -99,11 +109,11 @@ public partial class _DockAutoHideTabsRenderer : BaseComponent
 
     private string AutoHideTabClass => ClassProvider.DockPaneAutoHideTab( GroupPosition );
 
-    private bool Bordered => Layout?.IsDockPaneBordered( GroupPosition ) == true;
+    private bool Bordered => Context?.IsDockPaneBordered( GroupPosition ) == true;
 
     private DockPanePosition GroupPosition => groupPosition;
 
-    private ElementReference ElementRef
+    private ElementReference CapturedElementRef
     {
         get => default;
         set
@@ -113,15 +123,19 @@ public partial class _DockAutoHideTabsRenderer : BaseComponent
         }
     }
 
-    /// <summary>
-    /// Gets or sets the owner dock layout.
-    /// </summary>
-    [Parameter] public DockLayout Layout { get; set; }
+    [CascadingParameter] internal DockLayoutContext Context { get; set; }
+
+    private DockNodeState Node => Context?.GetNode( NodeId );
 
     /// <summary>
-    /// Gets or sets the tab node to render.
+    /// Gets or sets the tab node id to render.
     /// </summary>
-    [Parameter] public DockNodeState Node { get; set; }
+    [Parameter] public string NodeId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the layout render version.
+    /// </summary>
+    [Parameter] public int RenderVersion { get; set; }
 
     #endregion
 }

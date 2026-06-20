@@ -55,6 +55,9 @@ public partial class PdfPage : ComponentBase
 
     #region Parameters
 
+    /// <summary>
+    /// Provides the PDF document that receives this page definition.
+    /// </summary>
     [CascadingParameter] protected PdfDocumentContext DocumentContext { get; set; }
 
     /// <summary>

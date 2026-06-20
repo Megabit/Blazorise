@@ -38,11 +38,12 @@ public partial class _DockTabsRenderer : BaseComponent
 
     #region Methods
 
+    /// <inheritdoc/>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
 
-        activePaneName = Layout?.GetActiveTabPaneName( Node );
+        activePaneName = Context?.GetActiveTabPaneName( Node );
 
         if ( string.IsNullOrWhiteSpace( activePaneName ) )
         {
@@ -53,12 +54,12 @@ public partial class _DockTabsRenderer : BaseComponent
             return;
         }
 
-        if ( Layout is null || !Layout.TryGetPane( activePaneName, out activePane ) )
+        if ( Context is null || !Context.TryGetPane( activePaneName, out activePane ) )
             activePane = null;
 
-        activePaneState = Layout?.GetPaneState( activePaneName );
-        groupPosition = Layout?.GetDockNodePosition( Node ) ?? activePane?.EffectivePosition ?? DockPanePosition.Center;
-        tabsPlacement = Layout?.GetDockNodeTabsPlacement( Node, groupPosition ) ?? DockPaneTabsPlacement.Top;
+        activePaneState = Context?.GetPaneState( activePaneName );
+        groupPosition = Context?.GetDockNodePosition( Node ) ?? activePane?.EffectivePosition ?? DockPanePosition.Center;
+        tabsPlacement = Context?.GetDockNodeTabsPlacement( Node, groupPosition ) ?? DockPaneTabsPlacement.Top;
 
         DirtyClasses();
         DirtyStyles();
@@ -112,7 +113,7 @@ public partial class _DockTabsRenderer : BaseComponent
 
     private bool Visible => Node is not null && ActivePane is not null && activePaneState?.Visible != false;
 
-    private bool AutoHide => Layout?.IsTabGroupAutoHidden( Node ) == true;
+    private bool AutoHide => Context?.IsTabGroupAutoHidden( Node ) == true;
 
     private string TabsClassNames => TabsClassBuilder.Class;
 
@@ -130,9 +131,9 @@ public partial class _DockTabsRenderer : BaseComponent
 
     private bool CanResize => ActivePane?.Resizable == true && SplitterDock is not null;
 
-    private bool Bordered => Layout?.IsDockPaneBordered( GroupPosition ) == true;
+    private bool Bordered => Context?.IsDockPaneBordered( GroupPosition ) == true;
 
-    private ElementReference ElementRef
+    private ElementReference CapturedElementRef
     {
         get => default;
         set
@@ -142,17 +143,21 @@ public partial class _DockTabsRenderer : BaseComponent
         }
     }
 
-    protected ClassBuilder TabsClassBuilder { get; private set; }
+    private ClassBuilder TabsClassBuilder { get; set; }
+
+    [CascadingParameter] internal DockLayoutContext Context { get; set; }
+
+    private DockNodeState Node => Context?.GetNode( NodeId );
 
     /// <summary>
-    /// Gets or sets the owner dock layout.
+    /// Gets or sets the tab node id to render.
     /// </summary>
-    [Parameter] public DockLayout Layout { get; set; }
+    [Parameter] public string NodeId { get; set; }
 
     /// <summary>
-    /// Gets or sets the tab node to render.
+    /// Gets or sets the layout render version.
     /// </summary>
-    [Parameter] public DockNodeState Node { get; set; }
+    [Parameter] public int RenderVersion { get; set; }
 
     /// <summary>
     /// Gets or sets the local splitter side for the rendered tab group.

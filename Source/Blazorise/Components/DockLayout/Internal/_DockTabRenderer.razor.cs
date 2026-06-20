@@ -56,46 +56,50 @@ public partial class _DockTabRenderer : BaseComponent
     }
 
     private Task BeginPaneTabDrag( PointerEventArgs eventArgs )
-        => Layout?.BeginPaneTabDrag( PaneName, eventArgs ) ?? Task.CompletedTask;
+        => Context?.BeginPaneTabDrag( PaneName, eventArgs ) ?? Task.CompletedTask;
 
     private Task ActivateTab()
-        => Layout?.ActivateTab( Node, PaneName ) ?? Task.CompletedTask;
+        => Context?.ActivateTab( NodeId, PaneName ) ?? Task.CompletedTask;
 
     private Task ClosePane()
-        => Layout?.ClosePane( PaneName ) ?? Task.CompletedTask;
+        => Context?.ClosePane( PaneName ) ?? Task.CompletedTask;
 
     #endregion
 
     #region Properties
 
-    private bool Active => Layout?.GetActiveTabPaneName( Node ) == PaneName;
+    private bool Active => Context?.GetActiveTabPaneName( Node ) == PaneName;
 
-    private string Caption => Layout?.GetPaneCaption( PaneName ) ?? PaneName;
+    private string Caption => Context?.GetPaneCaption( PaneName ) ?? PaneName;
 
     private string LabelClassNames => LabelClassBuilder.Class;
 
     private string CloseClassNames => CloseClassBuilder.Class;
 
-    private bool CloseButtonVisible => Layout?.IsPaneTabCloseButtonVisible( PaneName, GroupPosition ) == true;
+    private bool CloseButtonVisible => Context?.IsPaneTabCloseButtonVisible( PaneName, GroupPosition ) == true;
 
-    protected ClassBuilder LabelClassBuilder { get; private set; }
+    private ClassBuilder LabelClassBuilder { get; set; }
 
-    protected ClassBuilder CloseClassBuilder { get; private set; }
+    private ClassBuilder CloseClassBuilder { get; set; }
+
+    [CascadingParameter] internal DockLayoutContext Context { get; set; }
+
+    private DockNodeState Node => Context?.GetNode( NodeId );
 
     /// <summary>
-    /// Gets or sets the owner dock layout.
+    /// Gets or sets the tab node id that owns the pane.
     /// </summary>
-    [Parameter] public DockLayout Layout { get; set; }
-
-    /// <summary>
-    /// Gets or sets the tab node that owns the pane.
-    /// </summary>
-    [Parameter] public DockNodeState Node { get; set; }
+    [Parameter] public string NodeId { get; set; }
 
     /// <summary>
     /// Gets or sets the pane name.
     /// </summary>
     [Parameter] public string PaneName { get; set; }
+
+    /// <summary>
+    /// Gets or sets the layout render version.
+    /// </summary>
+    [Parameter] public int RenderVersion { get; set; }
 
     /// <summary>
     /// Gets or sets the rendered tab group position.

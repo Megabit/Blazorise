@@ -11,12 +11,9 @@ public partial class _DockContentRenderer : ComponentBase
 {
     #region Properties
 
-    private DockContent Content => Layout?.Content;
+    private DockContent Content => Context?.Content;
 
-    /// <summary>
-    /// Gets or sets the owner dock layout.
-    /// </summary>
-    [Parameter] public DockLayout Layout { get; set; }
+    [CascadingParameter] internal DockLayoutContext Context { get; set; }
 
     #endregion
 }

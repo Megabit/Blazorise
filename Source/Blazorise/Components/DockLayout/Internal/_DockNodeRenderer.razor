@@ -1,24 +1,25 @@
 @namespace Blazorise
+@inherits BaseComponent
 @if ( Node?.Kind == DockNodeKind.Split )
 {
-    <div class="@SplitClass" style="@SplitStyle" data-dock-node-id="@Node.Id">
-        <_DockNodeRenderer Layout="@Layout" Node="@Node.First" SplitterDock="@FirstSplitterDock" SplitNodeId="@Node.Id" />
-        <_DockNodeRenderer Layout="@Layout" Node="@Node.Second" SplitterDock="@SecondSplitterDock" SplitNodeId="@Node.Id" />
+    <div class="@ClassNames" style="@SplitStyle" data-dock-node-id="@Node.Id">
+        <_DockNodeRenderer NodeId="@Node.First?.Id" RenderVersion="@RenderVersion" SplitterDock="@FirstSplitterDock" SplitNodeId="@Node.Id" />
+        <_DockNodeRenderer NodeId="@Node.Second?.Id" RenderVersion="@RenderVersion" SplitterDock="@SecondSplitterDock" SplitNodeId="@Node.Id" />
         @if ( CanResize )
         {
-            <DockSplitter Layout="@Layout" PaneName="@Node.Id" Dock="@SplitterDock.Value" NodeId="@SplitNodeId" />
+            <DockSplitter PaneName="@Node.Id" Dock="@SplitterDock.Value" NodeId="@SplitNodeId" />
         }
     </div>
 }
 else if ( Node?.Kind == DockNodeKind.Tabs )
 {
-    <_DockTabsRenderer Layout="@Layout" Node="@Node" SplitterDock="@SplitterDock" SplitNodeId="@SplitNodeId" />
+    <_DockTabsRenderer NodeId="@Node.Id" RenderVersion="@RenderVersion" SplitterDock="@SplitterDock" SplitNodeId="@SplitNodeId" />
 }
 else if ( Node?.Kind == DockNodeKind.Pane )
 {
-    <_DockPaneRenderer Layout="@Layout" NodeId="@Node.Id" PaneName="@Node.PaneName" SplitterDock="@SplitterDock" SplitNodeId="@SplitNodeId" />
+    <_DockPaneRenderer NodeId="@Node.Id" PaneName="@Node.PaneName" RenderVersion="@RenderVersion" SplitterDock="@SplitterDock" SplitNodeId="@SplitNodeId" />
 }
 else if ( Node?.Kind == DockNodeKind.Content )
 {
-    <_DockContentRenderer Layout="@Layout" />
+    <_DockContentRenderer />
 }

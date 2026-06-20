@@ -48,6 +48,9 @@ public partial class PdfTableCell : ComponentBase
 
     #region Parameters
 
+    /// <summary>
+    /// Provides the PDF table row that receives this cell definition.
+    /// </summary>
     [CascadingParameter] protected PdfTableRowContext RowContext { get; set; }
 
     /// <summary>

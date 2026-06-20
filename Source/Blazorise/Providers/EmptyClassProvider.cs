@@ -697,6 +697,10 @@ class EmptyClassProvider : IClassProvider
 
     public string DockLayout() => null;
 
+    public string DockSplit() => null;
+
+    public string DockSplitOrientation( DockSplitOrientation orientation ) => null;
+
     public string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => null;
 
     public string DockPanePosition( DockPanePosition position ) => null;

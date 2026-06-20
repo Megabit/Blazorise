@@ -41,10 +41,9 @@ public partial class DockPaneHeader : BaseComponent
 
     private Task BeginDrag( PointerEventArgs eventArgs )
     {
-        if ( ParentDockPane?.ParentDockLayout is null )
-            return Task.CompletedTask;
-
-        return ParentDockPane.ParentDockLayout.BeginPaneDrag( ParentDockPane, eventArgs, true );
+        return Context?.BeginPaneDrag( ParentDockPane, eventArgs, true )
+            ?? ParentDockPane?.ParentDockLayout?.BeginPaneDrag( ParentDockPane, eventArgs, true )
+            ?? Task.CompletedTask;
     }
 
     #endregion
@@ -53,9 +52,11 @@ public partial class DockPaneHeader : BaseComponent
 
     [CascadingParameter] internal DockPane ParentDockPane { get; set; }
 
+    [CascadingParameter] internal DockLayoutContext Context { get; set; }
+
     private string ContentClassNames => ContentClassBuilder.Class;
 
-    protected ClassBuilder ContentClassBuilder { get; private set; }
+    private ClassBuilder ContentClassBuilder { get; set; }
 
     /// <summary>
     /// Specifies the header content to be rendered inside this <see cref="DockPaneHeader"/>.

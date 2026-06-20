@@ -87,8 +87,14 @@ public abstract class BasePdfElement : ComponentBase
 
     #region Parameters
 
+    /// <summary>
+    /// Provides the current PDF page that receives this element definition.
+    /// </summary>
     [CascadingParameter] protected PdfPageContext PageContext { get; set; }
 
+    /// <summary>
+    /// Provides the current PDF table cell that receives this element definition.
+    /// </summary>
     [CascadingParameter] protected PdfTableCellContext TableCellContext { get; set; }
 
     /// <summary>

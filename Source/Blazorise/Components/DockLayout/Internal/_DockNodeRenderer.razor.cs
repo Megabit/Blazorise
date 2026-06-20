@@ -1,4 +1,6 @@
 #region Using directives
+using System.Threading.Tasks;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -7,15 +9,37 @@ namespace Blazorise;
 /// <summary>
 /// Renders a node in a <see cref="DockLayout"/> tree.
 /// </summary>
-public partial class _DockNodeRenderer : ComponentBase
+public partial class _DockNodeRenderer : BaseComponent
 {
+    #region Methods
+
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( ( parameters.TryGetValue<string>( nameof( NodeId ), out var nodeId ) && NodeId != nodeId )
+             || ( parameters.TryGetValue<int>( nameof( RenderVersion ), out var renderVersion ) && RenderVersion != renderVersion ) )
+            DirtyClasses();
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        if ( Node?.Kind == DockNodeKind.Split )
+        {
+            builder.Append( ClassProvider.DockSplit() );
+            builder.Append( ClassProvider.DockSplitOrientation( Node.Orientation ) );
+        }
+
+        base.BuildClasses( builder );
+    }
+
+    #endregion
+
     #region Properties
 
-    private string SplitClass => Node?.Orientation == DockSplitOrientation.Vertical
-        ? "dock-split dock-split-vertical"
-        : "dock-split dock-split-horizontal";
-
-    private string SplitStyle => Layout?.GetDockSplitStyle( Node );
+    private string SplitStyle => Context?.GetDockSplitStyle( Node );
 
     private DockPanePosition FirstSplitterDock => Node?.Orientation == DockSplitOrientation.Vertical
         ? DockPanePosition.Top
@@ -25,17 +49,21 @@ public partial class _DockNodeRenderer : ComponentBase
         ? DockPanePosition.Bottom
         : DockPanePosition.Right;
 
-    private bool CanResize => Layout is not null && Node?.Kind == DockNodeKind.Split && SplitterDock is not null && !string.IsNullOrWhiteSpace( SplitNodeId );
+    private bool CanResize => Context is not null && Node?.Kind == DockNodeKind.Split && SplitterDock is not null && !string.IsNullOrWhiteSpace( SplitNodeId );
+
+    [CascadingParameter] internal DockLayoutContext Context { get; set; }
+
+    private DockNodeState Node => Context?.GetNode( NodeId );
 
     /// <summary>
-    /// Gets or sets the owner dock layout.
+    /// Gets or sets the rendered node id.
     /// </summary>
-    [Parameter] public DockLayout Layout { get; set; }
+    [Parameter] public string NodeId { get; set; }
 
     /// <summary>
-    /// Gets or sets the node to render.
+    /// Gets or sets the layout render version.
     /// </summary>
-    [Parameter] public DockNodeState Node { get; set; }
+    [Parameter] public int RenderVersion { get; set; }
 
     /// <summary>
     /// Gets or sets the local splitter side for the rendered node.

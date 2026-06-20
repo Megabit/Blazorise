@@ -40,18 +40,16 @@ public partial class _DockPaneHeaderActions : BaseComponent
 
     private Task ToggleAutoHide()
     {
-        if ( Pane?.ParentDockLayout is null )
-            return Task.CompletedTask;
-
-        return Pane.ParentDockLayout.TogglePaneAutoHide( Pane );
+        return Context?.TogglePaneAutoHide( Pane )
+            ?? Pane?.ParentDockLayout?.TogglePaneAutoHide( Pane )
+            ?? Task.CompletedTask;
     }
 
     private Task Close()
     {
-        if ( Pane?.ParentDockLayout is null )
-            return Task.CompletedTask;
-
-        return Pane.ParentDockLayout.ClosePane( Pane );
+        return Context?.ClosePane( Pane )
+            ?? Pane?.ParentDockLayout?.ClosePane( Pane )
+            ?? Task.CompletedTask;
     }
 
     #endregion
@@ -70,12 +68,11 @@ public partial class _DockPaneHeaderActions : BaseComponent
 
     private string ActionClassNames => ActionClassBuilder.Class;
 
-    protected ClassBuilder ActionClassBuilder { get; private set; }
+    private ClassBuilder ActionClassBuilder { get; set; }
 
-    /// <summary>
-    /// Gets or sets the dock pane that owns the header.
-    /// </summary>
-    [Parameter] public DockPane Pane { get; set; }
+    [CascadingParameter] internal DockPane Pane { get; set; }
+
+    [CascadingParameter] internal DockLayoutContext Context { get; set; }
 
     #endregion
 }
