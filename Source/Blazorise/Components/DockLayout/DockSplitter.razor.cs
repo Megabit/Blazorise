@@ -12,13 +12,16 @@ namespace Blazorise;
 /// </summary>
 public partial class DockSplitter : BaseComponent
 {
-    #region Members
-
-    private DockPanePosition dock;
-
-    #endregion
-
     #region Methods
+
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( parameters.TryGetValue<DockPanePosition>( nameof( Dock ), out DockPanePosition dock ) && Dock != dock )
+            DirtyClasses();
+
+        return base.SetParametersAsync( parameters );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -54,20 +57,7 @@ public partial class DockSplitter : BaseComponent
     /// <summary>
     /// Defines the pane side that owns this splitter.
     /// </summary>
-    [Parameter]
-    public DockPanePosition Dock
-    {
-        get => dock;
-        set
-        {
-            if ( dock == value )
-                return;
-
-            dock = value;
-
-            DirtyClasses();
-        }
-    }
+    [Parameter] public DockPanePosition Dock { get; set; }
 
     /// <summary>
     /// Defines the split node that owns this splitter.

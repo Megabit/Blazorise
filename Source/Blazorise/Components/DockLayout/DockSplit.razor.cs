@@ -12,10 +12,6 @@ public partial class DockSplit : BaseComponent
 {
     #region Members
 
-    private DockSplitOrientation orientation;
-
-    private double ratio = 0.5;
-
     private DockNodeCollector childCollector = new();
 
     private DockNodeState node;
@@ -81,22 +77,12 @@ public partial class DockSplit : BaseComponent
     /// <summary>
     /// Defines the split orientation.
     /// </summary>
-    [Parameter]
-    public DockSplitOrientation Orientation
-    {
-        get => orientation;
-        set => orientation = value;
-    }
+    [Parameter] public DockSplitOrientation Orientation { get; set; }
 
     /// <summary>
     /// Defines the first child ratio.
     /// </summary>
-    [Parameter]
-    public double Ratio
-    {
-        get => ratio;
-        set => ratio = value;
-    }
+    [Parameter] public double Ratio { get; set; } = 0.5;
 
     /// <summary>
     /// Specifies the split child content.

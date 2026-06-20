@@ -14,8 +14,6 @@ public partial class DockTabs : BaseComponent
 {
     #region Members
 
-    private string activePane;
-
     private DockNodeCollector childCollector = new();
 
     private DockNodeState node;
@@ -88,12 +86,7 @@ public partial class DockTabs : BaseComponent
     /// <summary>
     /// Defines the active pane name.
     /// </summary>
-    [Parameter]
-    public string ActivePane
-    {
-        get => activePane;
-        set => activePane = value;
-    }
+    [Parameter] public string ActivePane { get; set; }
 
     /// <summary>
     /// Specifies the tab child content.

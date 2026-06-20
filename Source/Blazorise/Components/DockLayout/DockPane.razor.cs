@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -12,40 +13,6 @@ namespace Blazorise;
 public partial class DockPane : BaseComponent, IDisposable
 {
     #region Members
-
-    private string name;
-
-    private string caption;
-
-    private DockPanePosition dock;
-
-    private DockRole dockRole = DockRole.Tool;
-
-    private bool showTab = true;
-
-    private bool showTabCloseButton;
-
-    private DockPaneTabsPlacement tabsPlacement;
-
-    private bool resizable;
-
-    private bool movable = true;
-
-    private bool collapsed;
-
-    private bool visible = true;
-
-    private bool autoHide;
-
-    private bool autoHideable = true;
-
-    private bool closable = true;
-
-    private string size;
-
-    private string minSize;
-
-    private string maxSize;
 
     private DockNodeState node;
 
@@ -74,6 +41,28 @@ public partial class DockPane : BaseComponent, IDisposable
         builder.Append( $"--dock-pane-max-size:{MaxSize}", !EffectiveAutoHide && !string.IsNullOrWhiteSpace( MaxSize ) );
 
         base.BuildStyles( builder );
+    }
+
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( ( parameters.TryGetValue<DockRole>( nameof( DockRole ), out DockRole dockRole ) && DockRole != dockRole )
+             || ( parameters.TryGetValue<DockPanePosition>( nameof( Dock ), out DockPanePosition dock ) && Dock != dock )
+             || ( parameters.TryGetValue<bool>( nameof( Resizable ), out bool resizable ) && Resizable != resizable )
+             || ( parameters.TryGetValue<bool>( nameof( Collapsed ), out bool collapsed ) && Collapsed != collapsed )
+             || ( parameters.TryGetValue<bool>( nameof( AutoHide ), out bool autoHide ) && AutoHide != autoHide ) )
+        {
+            DirtyClasses();
+        }
+
+        if ( ( parameters.TryGetValue<string>( nameof( Size ), out string size ) && Size != size )
+             || ( parameters.TryGetValue<string>( nameof( MinSize ), out string minSize ) && MinSize != minSize )
+             || ( parameters.TryGetValue<string>( nameof( MaxSize ), out string maxSize ) && MaxSize != maxSize ) )
+        {
+            DirtyStyles();
+        }
+
+        return base.SetParametersAsync( parameters );
     }
 
     /// <inheritdoc/>
@@ -135,236 +124,87 @@ public partial class DockPane : BaseComponent, IDisposable
     /// <summary>
     /// Identifies the pane inside the parent <see cref="DockLayout"/>.
     /// </summary>
-    [Parameter]
-    public string Name
-    {
-        get => name;
-        set => name = value;
-    }
+    [Parameter] public string Name { get; set; }
 
     /// <summary>
     /// Defines the caption used by tabbed dock groups.
     /// </summary>
-    [Parameter]
-    public string Caption
-    {
-        get => caption;
-        set => caption = value;
-    }
+    [Parameter] public string Caption { get; set; }
 
     /// <summary>
     /// Defines whether this pane behaves as a tool pane or as a document pane.
     /// </summary>
-    [Parameter]
-    public DockRole DockRole
-    {
-        get => dockRole;
-        set
-        {
-            if ( dockRole == value )
-                return;
-
-            dockRole = value;
-
-            DirtyClasses();
-        }
-    }
+    [Parameter] public DockRole DockRole { get; set; } = DockRole.Tool;
 
     /// <summary>
     /// Defines whether this pane should display a tab when it is hosted inside a tab group.
     /// </summary>
-    [Parameter]
-    public bool ShowTab
-    {
-        get => showTab;
-        set => showTab = value;
-    }
+    [Parameter] public bool ShowTab { get; set; } = true;
 
     /// <summary>
     /// Defines whether a close button should be shown when this pane is rendered as a document tab.
     /// </summary>
-    [Parameter]
-    public bool ShowTabCloseButton
-    {
-        get => showTabCloseButton;
-        set => showTabCloseButton = value;
-    }
+    [Parameter] public bool ShowTabCloseButton { get; set; }
 
     /// <summary>
     /// Defines where tabs should be displayed when this pane is hosted inside a tab group.
     /// </summary>
-    [Parameter]
-    public DockPaneTabsPlacement TabsPlacement
-    {
-        get => tabsPlacement;
-        set => tabsPlacement = value;
-    }
+    [Parameter] public DockPaneTabsPlacement TabsPlacement { get; set; }
 
     /// <summary>
     /// Defines where the pane is docked inside the layout.
     /// </summary>
-    [Parameter]
-    public DockPanePosition Dock
-    {
-        get => dock;
-        set
-        {
-            if ( dock == value )
-                return;
-
-            dock = value;
-
-            DirtyClasses();
-        }
-    }
+    [Parameter] public DockPanePosition Dock { get; set; }
 
     /// <summary>
     /// Allows the pane to be moved to another dock position by dragging its header.
     /// </summary>
-    [Parameter]
-    public bool Movable
-    {
-        get => movable;
-        set => movable = value;
-    }
+    [Parameter] public bool Movable { get; set; } = true;
 
     /// <summary>
     /// Shows a splitter marker that indicates the pane can participate in resize behavior.
     /// </summary>
-    [Parameter]
-    public bool Resizable
-    {
-        get => resizable;
-        set
-        {
-            if ( resizable == value )
-                return;
-
-            resizable = value;
-
-            DirtyClasses();
-        }
-    }
+    [Parameter] public bool Resizable { get; set; }
 
     /// <summary>
     /// Shows or hides the pane in the dock layout.
     /// </summary>
-    [Parameter]
-    public bool Visible
-    {
-        get => visible;
-        set => visible = value;
-    }
+    [Parameter] public bool Visible { get; set; } = true;
 
     /// <summary>
     /// Collapses the pane content while keeping the pane in the dock layout.
     /// </summary>
-    [Parameter]
-    public bool Collapsed
-    {
-        get => collapsed;
-        set
-        {
-            if ( collapsed == value )
-                return;
-
-            collapsed = value;
-
-            DirtyClasses();
-        }
-    }
+    [Parameter] public bool Collapsed { get; set; }
 
     /// <summary>
     /// Auto-hides the pane content while keeping the pane available on its docked side.
     /// </summary>
-    [Parameter]
-    public bool AutoHide
-    {
-        get => autoHide;
-        set
-        {
-            if ( autoHide == value )
-                return;
-
-            autoHide = value;
-
-            DirtyClasses();
-        }
-    }
+    [Parameter] public bool AutoHide { get; set; }
 
     /// <summary>
     /// Allows the pane header to show a pin action that toggles auto-hide behavior.
     /// </summary>
-    [Parameter]
-    public bool AutoHideable
-    {
-        get => autoHideable;
-        set => autoHideable = value;
-    }
+    [Parameter] public bool AutoHideable { get; set; } = true;
 
     /// <summary>
     /// Allows the pane header to show a close action that hides the pane.
     /// </summary>
-    [Parameter]
-    public bool Closable
-    {
-        get => closable;
-        set => closable = value;
-    }
+    [Parameter] public bool Closable { get; set; } = true;
 
     /// <summary>
     /// Defines the preferred pane size, such as <c>280px</c>, <c>18rem</c>, or <c>25%</c>.
     /// </summary>
-    [Parameter]
-    public string Size
-    {
-        get => size;
-        set
-        {
-            if ( size == value )
-                return;
-
-            size = value;
-
-            DirtyStyles();
-        }
-    }
+    [Parameter] public string Size { get; set; }
 
     /// <summary>
     /// Defines the minimum pane size when size constraints are applied.
     /// </summary>
-    [Parameter]
-    public string MinSize
-    {
-        get => minSize;
-        set
-        {
-            if ( minSize == value )
-                return;
-
-            minSize = value;
-
-            DirtyStyles();
-        }
-    }
+    [Parameter] public string MinSize { get; set; }
 
     /// <summary>
     /// Defines the maximum pane size when size constraints are applied.
     /// </summary>
-    [Parameter]
-    public string MaxSize
-    {
-        get => maxSize;
-        set
-        {
-            if ( maxSize == value )
-                return;
-
-            maxSize = value;
-
-            DirtyStyles();
-        }
-    }
+    [Parameter] public string MaxSize { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="DockPane"/>.

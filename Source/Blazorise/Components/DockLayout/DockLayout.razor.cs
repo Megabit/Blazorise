@@ -582,6 +582,11 @@ public partial class DockLayout : BaseComponent
     /// </summary>
     [Parameter] public EventCallback<DockLayoutState> StateChanged { get; set; }
 
+    /// <summary>
+    /// Specifies the panes and content to be rendered inside the dock layout.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
     #endregion
 
     #region Nested types
