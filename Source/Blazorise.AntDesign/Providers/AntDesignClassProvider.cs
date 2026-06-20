@@ -1851,6 +1851,133 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
+    #region DockLayout
+
+    public override string DockLayout() => "ant-dock-layout";
+
+    public override string DockSplit() => "ant-dock-split";
+
+    public override string DockSplitOrientation( DockSplitOrientation orientation )
+        => orientation == Blazorise.DockSplitOrientation.Vertical ? "ant-dock-split-vertical" : "ant-dock-split-horizontal";
+
+    public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "ant-dock-pane";
+
+    public override string DockPanePosition( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Center => "ant-dock-pane-center",
+            Blazorise.DockPanePosition.Right => "ant-dock-pane-right",
+            Blazorise.DockPanePosition.Top => "ant-dock-pane-top",
+            Blazorise.DockPanePosition.Bottom => "ant-dock-pane-bottom",
+            _ => "ant-dock-pane-left",
+        };
+
+    public override string DockPaneResizable( bool resizable ) => resizable ? "ant-dock-pane-resizable" : null;
+
+    public override string DockPaneCollapsed( bool collapsed ) => collapsed ? "ant-dock-pane-collapsed" : null;
+
+    public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "ant-dock-pane-autohide" : null;
+
+    public override string DockPaneInactive() => "ant-dock-pane-inactive";
+
+    public override string DockPaneBordered() => "ant-dock-pane-bordered";
+
+    public override string DockPaneAutoHideTab( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "ant-dock-pane-autohide-tab ant-dock-pane-autohide-tab-right",
+            Blazorise.DockPanePosition.Top => "ant-dock-pane-autohide-tab ant-dock-pane-autohide-tab-top",
+            Blazorise.DockPanePosition.Bottom => "ant-dock-pane-autohide-tab ant-dock-pane-autohide-tab-bottom",
+            _ => "ant-dock-pane-autohide-tab ant-dock-pane-autohide-tab-left",
+        };
+
+    public override string DockPaneHeader() => "ant-dock-pane-header";
+
+    public override string DockPaneHeaderContent() => "ant-dock-pane-header-content";
+
+    public override string DockPaneHeaderActions() => "ant-dock-pane-header-actions";
+
+    public override string DockPaneHeaderAction() => "ant-dock-pane-header-action";
+
+    public override string DockPaneBody() => "ant-dock-pane-body";
+
+    public override string DockPaneFooter() => "ant-dock-pane-footer";
+
+    public override string DockContent() => "ant-dock-content";
+
+    public override string DockSplitter( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "ant-dock-splitter ant-dock-splitter-right",
+            Blazorise.DockPanePosition.Top => "ant-dock-splitter ant-dock-splitter-top",
+            Blazorise.DockPanePosition.Bottom => "ant-dock-splitter ant-dock-splitter-bottom",
+            _ => "ant-dock-splitter ant-dock-splitter-left",
+        };
+
+    public override string DockPaneTabs() => "ant-dock-pane-tabs";
+
+    public override string DockPaneTabsPlacement( DockPaneTabsPlacement placement )
+        => placement == Blazorise.DockPaneTabsPlacement.Top ? "ant-dock-pane-tabs-top" : null;
+
+    public override string DockPaneTabsHost() => "ant-dock-tabs-host";
+
+    public override string DockPaneTab( bool active ) => active ? "ant-dock-pane-tab ant-dock-pane-tab-active" : "ant-dock-pane-tab";
+
+    public override string DockPaneTabLabel() => "ant-dock-pane-tab-label";
+
+    public override string DockPaneTabClose() => "ant-dock-pane-tab-close";
+
+    public override string DockLayoutCompass() => "ant-dock-compass";
+
+    public override string DockLayoutCompassZone( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Center => "ant-dock-compass-zone ant-dock-compass-zone-center",
+            DockZone.Right => "ant-dock-compass-zone ant-dock-compass-zone-right",
+            DockZone.Top => "ant-dock-compass-zone ant-dock-compass-zone-top",
+            DockZone.Bottom => "ant-dock-compass-zone ant-dock-compass-zone-bottom",
+            _ => "ant-dock-compass-zone ant-dock-compass-zone-left",
+        };
+
+        return active ? $"{baseClass} ant-dock-compass-zone-active" : baseClass;
+    }
+
+    public override string DockLayoutCompassZonePlacement( DockCompassZone zone )
+        => zone switch
+        {
+            DockCompassZone.TopOuter => "ant-dock-compass-zone-top-outer",
+            DockCompassZone.TopInner => "ant-dock-compass-zone-top-inner",
+            DockCompassZone.LeftOuter => "ant-dock-compass-zone-left-outer",
+            DockCompassZone.LeftInner => "ant-dock-compass-zone-left-inner",
+            DockCompassZone.RightInner => "ant-dock-compass-zone-right-inner",
+            DockCompassZone.RightOuter => "ant-dock-compass-zone-right-outer",
+            DockCompassZone.BottomInner => "ant-dock-compass-zone-bottom-inner",
+            DockCompassZone.BottomOuter => "ant-dock-compass-zone-bottom-outer",
+            _ => "ant-dock-compass-zone-center",
+        };
+
+    public override string DockLayoutCompassZoneIcon() => "ant-dock-compass-zone-icon";
+
+    public override string DockLayoutDragPreview() => "ant-dock-drag-preview";
+
+    public override string DockLayoutDropPreview() => "ant-dock-drop-preview";
+
+    public override string DockLayoutShellGuide( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Right => "ant-dock-shell-guide ant-dock-shell-guide-right",
+            DockZone.Top => "ant-dock-shell-guide ant-dock-shell-guide-top",
+            DockZone.Bottom => "ant-dock-shell-guide ant-dock-shell-guide-bottom",
+            _ => "ant-dock-shell-guide ant-dock-shell-guide-left",
+        };
+
+        return active ? $"{baseClass} ant-dock-shell-guide-active" : baseClass;
+    }
+
+    #endregion
+
     #region Enums
 
     public override string ToColumnWidth( ColumnWidth columnWidth )

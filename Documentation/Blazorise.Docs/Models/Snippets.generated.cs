@@ -1555,6 +1555,162 @@ namespace Blazorise.Docs.Models
     How they tinkle, tinkle, tinkle, In the icy air of night !
 </Paragraph>";
 
+        public const string BasicDockLayoutExample = @"<DockLayout Style=""height: 28rem;"" PaneBordered>
+    <DockPane Name=""toolbar"" Caption=""Toolbar"" Dock=""DockPanePosition.Top"" DockRole=""DockRole.Tool"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
+        <DockPaneBody>
+            Toolbar
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""explorer"" Caption=""Explorer"" Dock=""DockPanePosition.Left"" Size=""16rem"" MinSize=""10rem"" Resizable>
+        <DockPaneHeader>
+            <Strong>Explorer</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 1
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""designer"" Caption=""Designer"" Dock=""DockPanePosition.Center"" DockRole=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+        <DockPaneHeader>
+            <Strong>Designer</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 2
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""properties"" Caption=""Properties"" Dock=""DockPanePosition.Right"" Size=""18rem"" MinSize=""12rem"" Resizable>
+        <DockPaneHeader>
+            <Strong>Properties</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 3
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""output"" Caption=""Output"" Dock=""DockPanePosition.Bottom"" Size=""6rem"" MinSize=""4rem"" Resizable>
+        <DockPaneHeader>
+            <Strong>Output</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 4
+        </DockPaneBody>
+    </DockPane>
+</DockLayout>";
+
+        public const string DockLayoutStateExample = @"@using System.Text.Json
+
+<DockLayout @ref=""@dockLayout"" Style=""height: 24rem;"" PaneBordered>
+    <DockPane Name=""actions"" Caption=""Actions"" Dock=""DockPanePosition.Top"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
+        <DockPaneBody Padding=""Padding.Is2"">
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Button Color=""Color.Primary"" Size=""Size.Small"" Clicked=""@SaveState"">Save state</Button>
+                <Button Color=""Color.Light"" Size=""Size.Small"" Clicked=""@LoadState"" Disabled=""@(savedStateJson is null)"">Load state</Button>
+                <Button Color=""Color.Light"" Size=""Size.Small"" Clicked=""@ResetState"">Reset</Button>
+                <Text TextColor=""TextColor.Secondary"">@status</Text>
+            </Div>
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""source"" Caption=""Source"" Dock=""DockPanePosition.Left"" Size=""15rem"" MinSize=""10rem"" Resizable>
+        <DockPaneHeader>
+            <Strong>Source</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 1
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""preview"" Caption=""Preview"" Dock=""DockPanePosition.Center"" DockRole=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+        <DockPaneHeader>
+            <Strong>Preview</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 2
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""details"" Caption=""Details"" Dock=""DockPanePosition.Right"" Size=""17rem"" MinSize=""10rem"" Resizable>
+        <DockPaneHeader>
+            <Strong>Details</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 3
+        </DockPaneBody>
+    </DockPane>
+</DockLayout>
+
+@code {
+    private DockLayout dockLayout;
+
+    private string savedStateJson;
+
+    private string status = ""No saved state."";
+
+    private static JsonSerializerOptions StateSerializerOptions { get; } = new( JsonSerializerDefaults.Web );
+
+    private Task SaveState()
+    {
+        if ( dockLayout is not null )
+        {
+            savedStateJson = JsonSerializer.Serialize( dockLayout.GetState(), StateSerializerOptions );
+            status = ""State saved."";
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task LoadState()
+    {
+        if ( dockLayout is not null && savedStateJson is not null )
+        {
+            DockLayoutState savedState = JsonSerializer.Deserialize<DockLayoutState>( savedStateJson, StateSerializerOptions );
+
+            await dockLayout.LoadState( savedState );
+            status = ""State loaded."";
+        }
+    }
+
+    private async Task ResetState()
+    {
+        if ( dockLayout is not null )
+        {
+            await dockLayout.ResetState();
+            status = ""Layout reset."";
+        }
+    }
+}";
+
+        public const string DockLayoutTabbedPanesExample = @"<DockLayout Style=""height: 24rem;"" PaneBordered>
+    <DockPane Name=""document"" Caption=""Document"" Dock=""DockPanePosition.Center"" DockRole=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+        <DockPaneHeader>
+            <Strong>Document</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 1
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""properties"" Caption=""Properties"" Dock=""DockPanePosition.Right"" Size=""18rem"" TabsPlacement=""DockPaneTabsPlacement.Bottom"" Resizable>
+        <DockPaneHeader>
+            <Strong>Properties</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 2
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""report-explorer"" Caption=""Report Explorer"" Dock=""DockPanePosition.Right"" Size=""18rem"" TabsPlacement=""DockPaneTabsPlacement.Bottom"" Resizable>
+        <DockPaneHeader>
+            <Strong>Report Explorer</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 3
+        </DockPaneBody>
+    </DockPane>
+</DockLayout>";
+
         public const string BasicDragDropExample = @"<DropContainer TItem=""DropItem"" Items=""@items"" ItemsFilter=""@((item, dropZone) => item.Group == dropZone)"" ItemDropped=""@ItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
     <ChildContent>
         <DropZone TItem=""DropItem"" Name=""Basket"" Border=""Border.Rounded"" Background=""Background.Light"" Padding=""Padding.Is3"" Margin=""Margin.Is3"" Flex=""Flex.Grow.Is1"">

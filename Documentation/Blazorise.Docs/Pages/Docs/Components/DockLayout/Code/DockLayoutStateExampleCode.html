@@ -1,0 +1,87 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="atSign">&#64;</span>using System.Text.Json
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DockLayout</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>dockLayout</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">height: 24rem;</span><span class="quot">&quot;</span> <span class="htmlAttributeName">PaneBordered</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DockPane</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">actions</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Actions</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Dock</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">DockPanePosition</span><span class="enumValue">.Top</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Resizable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ShowTab</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlAttributeName">AutoHideable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Closable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DockPaneBody</span> <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Padding</span><span class="enumValue">.Is2</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.AlignItems.Center</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is2</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>SaveState</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Save state<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Light</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>LoadState</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Disabled</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(savedStateJson is null)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Load state<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Light</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ResetState</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Reset<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Text</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Secondary</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>status<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Text</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DockPaneBody</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DockPane</span><span class="htmlTagDelimiter">&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DockPane</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">source</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Source</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Dock</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">DockPanePosition</span><span class="enumValue">.Left</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">15rem</span><span class="quot">&quot;</span> <span class="htmlAttributeName">MinSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">10rem</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Resizable</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DockPaneHeader</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>Source<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DockPaneHeader</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DockPaneBody</span><span class="htmlTagDelimiter">&gt;</span>
+            Content 1
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DockPaneBody</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DockPane</span><span class="htmlTagDelimiter">&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DockPane</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">preview</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Preview</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Dock</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">DockPanePosition</span><span class="enumValue">.Center</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DockRole</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">DockRole</span><span class="enumValue">.Document</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ShowTab</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Closable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DockPaneHeader</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>Preview<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DockPaneHeader</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DockPaneBody</span><span class="htmlTagDelimiter">&gt;</span>
+            Content 2
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DockPaneBody</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DockPane</span><span class="htmlTagDelimiter">&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DockPane</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">details</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Details</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Dock</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">DockPanePosition</span><span class="enumValue">.Right</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">17rem</span><span class="quot">&quot;</span> <span class="htmlAttributeName">MinSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">10rem</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Resizable</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DockPaneHeader</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>Details<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DockPaneHeader</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DockPaneBody</span><span class="htmlTagDelimiter">&gt;</span>
+            Content 3
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DockPaneBody</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DockPane</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DockLayout</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> DockLayout dockLayout;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> savedStateJson;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> status = <span class="string">&quot;No saved state.&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">static</span> JsonSerializerOptions StateSerializerOptions { <span class="keyword">get</span>; } = <span class="keyword">new</span>( JsonSerializerDefaults.Web );
+
+    <span class="keyword">private</span> Task SaveState()
+    {
+        <span class="keyword">if</span> ( dockLayout <span class="keyword">is</span> not <span class="keyword">null</span> )
+        {
+            savedStateJson = JsonSerializer.Serialize( dockLayout.GetState(), StateSerializerOptions );
+            status = <span class="string">&quot;State saved.&quot;</span>;
+        }
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">async</span> Task LoadState()
+    {
+        <span class="keyword">if</span> ( dockLayout <span class="keyword">is</span> not <span class="keyword">null</span> &amp;&amp; savedStateJson <span class="keyword">is</span> not <span class="keyword">null</span> )
+        {
+            DockLayoutState savedState = JsonSerializer.Deserialize&lt;DockLayoutState&gt;( savedStateJson, StateSerializerOptions );
+
+            <span class="keyword">await</span> dockLayout.LoadState( savedState );
+            status = <span class="string">&quot;State loaded.&quot;</span>;
+        }
+    }
+
+    <span class="keyword">private</span> <span class="keyword">async</span> Task ResetState()
+    {
+        <span class="keyword">if</span> ( dockLayout <span class="keyword">is</span> not <span class="keyword">null</span> )
+        {
+            <span class="keyword">await</span> dockLayout.ResetState();
+            status = <span class="string">&quot;Layout reset.&quot;</span>;
+        }
+    }
+}
+</pre></div>
+</div>

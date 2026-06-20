@@ -1766,6 +1766,133 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
+    #region DockLayout
+
+    public override string DockLayout() => "dock-layout";
+
+    public override string DockSplit() => "dock-split";
+
+    public override string DockSplitOrientation( DockSplitOrientation orientation )
+        => orientation == Blazorise.DockSplitOrientation.Vertical ? "is-vertical" : "is-horizontal";
+
+    public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "dock-pane";
+
+    public override string DockPanePosition( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Center => "is-center",
+            Blazorise.DockPanePosition.Right => "is-right",
+            Blazorise.DockPanePosition.Top => "is-top",
+            Blazorise.DockPanePosition.Bottom => "is-bottom",
+            _ => "is-left",
+        };
+
+    public override string DockPaneResizable( bool resizable ) => resizable ? "is-resizable" : null;
+
+    public override string DockPaneCollapsed( bool collapsed ) => collapsed ? "is-collapsed" : null;
+
+    public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "is-auto-hide" : null;
+
+    public override string DockPaneInactive() => "is-hidden";
+
+    public override string DockPaneBordered() => "is-bordered";
+
+    public override string DockPaneAutoHideTab( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "dock-pane-auto-hide-tab is-right",
+            Blazorise.DockPanePosition.Top => "dock-pane-auto-hide-tab is-top",
+            Blazorise.DockPanePosition.Bottom => "dock-pane-auto-hide-tab is-bottom",
+            _ => "dock-pane-auto-hide-tab is-left",
+        };
+
+    public override string DockPaneHeader() => "dock-pane-header";
+
+    public override string DockPaneHeaderContent() => "dock-pane-header-content";
+
+    public override string DockPaneHeaderActions() => "dock-pane-header-actions";
+
+    public override string DockPaneHeaderAction() => "dock-pane-header-action";
+
+    public override string DockPaneBody() => "dock-pane-body";
+
+    public override string DockPaneFooter() => "dock-pane-footer";
+
+    public override string DockContent() => "dock-content";
+
+    public override string DockSplitter( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "dock-splitter is-right",
+            Blazorise.DockPanePosition.Top => "dock-splitter is-top",
+            Blazorise.DockPanePosition.Bottom => "dock-splitter is-bottom",
+            _ => "dock-splitter is-left",
+        };
+
+    public override string DockPaneTabs() => "dock-pane-tabs";
+
+    public override string DockPaneTabsPlacement( DockPaneTabsPlacement placement )
+        => placement == Blazorise.DockPaneTabsPlacement.Top ? "is-top" : null;
+
+    public override string DockPaneTabsHost() => "has-tabs";
+
+    public override string DockPaneTab( bool active ) => active ? "dock-pane-tab is-active" : "dock-pane-tab";
+
+    public override string DockPaneTabLabel() => "dock-pane-tab-label";
+
+    public override string DockPaneTabClose() => "dock-pane-tab-close";
+
+    public override string DockLayoutCompass() => "dock-compass";
+
+    public override string DockLayoutCompassZone( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Center => "dock-compass-zone is-center",
+            DockZone.Right => "dock-compass-zone is-right",
+            DockZone.Top => "dock-compass-zone is-top",
+            DockZone.Bottom => "dock-compass-zone is-bottom",
+            _ => "dock-compass-zone is-left",
+        };
+
+        return active ? $"{baseClass} is-active" : baseClass;
+    }
+
+    public override string DockLayoutCompassZonePlacement( DockCompassZone zone )
+        => zone switch
+        {
+            DockCompassZone.TopOuter => "is-top-outer",
+            DockCompassZone.TopInner => "is-top-inner",
+            DockCompassZone.LeftOuter => "is-left-outer",
+            DockCompassZone.LeftInner => "is-left-inner",
+            DockCompassZone.RightInner => "is-right-inner",
+            DockCompassZone.RightOuter => "is-right-outer",
+            DockCompassZone.BottomInner => "is-bottom-inner",
+            DockCompassZone.BottomOuter => "is-bottom-outer",
+            _ => "is-center",
+        };
+
+    public override string DockLayoutCompassZoneIcon() => "dock-compass-zone-icon";
+
+    public override string DockLayoutDragPreview() => "dock-drag-preview";
+
+    public override string DockLayoutDropPreview() => "dock-drop-preview";
+
+    public override string DockLayoutShellGuide( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Right => "dock-shell-guide is-right",
+            DockZone.Top => "dock-shell-guide is-top",
+            DockZone.Bottom => "dock-shell-guide is-bottom",
+            _ => "dock-shell-guide is-left",
+        };
+
+        return active ? $"{baseClass} is-active" : baseClass;
+    }
+
+    #endregion
+
     #region Enums
 
     public override string ToSize( Size size )

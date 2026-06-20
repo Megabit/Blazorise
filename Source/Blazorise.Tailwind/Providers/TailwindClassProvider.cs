@@ -2578,6 +2578,133 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region DockLayout
+
+    public override string DockLayout() => "tw-dock-layout";
+
+    public override string DockSplit() => "tw-dock-split";
+
+    public override string DockSplitOrientation( DockSplitOrientation orientation )
+        => orientation == Blazorise.DockSplitOrientation.Vertical ? "tw-dock-split-vertical" : "tw-dock-split-horizontal";
+
+    public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "tw-dock-pane";
+
+    public override string DockPanePosition( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Center => "tw-dock-pane-center",
+            Blazorise.DockPanePosition.Right => "tw-dock-pane-right",
+            Blazorise.DockPanePosition.Top => "tw-dock-pane-top",
+            Blazorise.DockPanePosition.Bottom => "tw-dock-pane-bottom",
+            _ => "tw-dock-pane-left",
+        };
+
+    public override string DockPaneResizable( bool resizable ) => resizable ? "tw-dock-pane-resizable" : null;
+
+    public override string DockPaneCollapsed( bool collapsed ) => collapsed ? "tw-dock-pane-collapsed" : null;
+
+    public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "tw-dock-pane-autohide" : null;
+
+    public override string DockPaneInactive() => "tw-dock-pane-inactive";
+
+    public override string DockPaneBordered() => "tw-dock-pane-bordered";
+
+    public override string DockPaneAutoHideTab( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "tw-dock-pane-autohide-tab tw-dock-pane-autohide-tab-right",
+            Blazorise.DockPanePosition.Top => "tw-dock-pane-autohide-tab tw-dock-pane-autohide-tab-top",
+            Blazorise.DockPanePosition.Bottom => "tw-dock-pane-autohide-tab tw-dock-pane-autohide-tab-bottom",
+            _ => "tw-dock-pane-autohide-tab tw-dock-pane-autohide-tab-left",
+        };
+
+    public override string DockPaneHeader() => "tw-dock-pane-header";
+
+    public override string DockPaneHeaderContent() => "tw-dock-pane-header-content";
+
+    public override string DockPaneHeaderActions() => "tw-dock-pane-header-actions";
+
+    public override string DockPaneHeaderAction() => "tw-dock-pane-header-action";
+
+    public override string DockPaneBody() => "tw-dock-pane-body";
+
+    public override string DockPaneFooter() => "tw-dock-pane-footer";
+
+    public override string DockContent() => "tw-dock-content";
+
+    public override string DockSplitter( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "tw-dock-splitter tw-dock-splitter-right",
+            Blazorise.DockPanePosition.Top => "tw-dock-splitter tw-dock-splitter-top",
+            Blazorise.DockPanePosition.Bottom => "tw-dock-splitter tw-dock-splitter-bottom",
+            _ => "tw-dock-splitter tw-dock-splitter-left",
+        };
+
+    public override string DockPaneTabs() => "tw-dock-pane-tabs";
+
+    public override string DockPaneTabsPlacement( DockPaneTabsPlacement placement )
+        => placement == Blazorise.DockPaneTabsPlacement.Top ? "tw-dock-pane-tabs-top" : null;
+
+    public override string DockPaneTabsHost() => "tw-dock-tabs-host";
+
+    public override string DockPaneTab( bool active ) => active ? "tw-dock-pane-tab tw-dock-pane-tab-active" : "tw-dock-pane-tab";
+
+    public override string DockPaneTabLabel() => "tw-dock-pane-tab-label";
+
+    public override string DockPaneTabClose() => "tw-dock-pane-tab-close";
+
+    public override string DockLayoutCompass() => "tw-dock-compass";
+
+    public override string DockLayoutCompassZone( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Center => "tw-dock-compass-zone tw-dock-compass-zone-center",
+            DockZone.Right => "tw-dock-compass-zone tw-dock-compass-zone-right",
+            DockZone.Top => "tw-dock-compass-zone tw-dock-compass-zone-top",
+            DockZone.Bottom => "tw-dock-compass-zone tw-dock-compass-zone-bottom",
+            _ => "tw-dock-compass-zone tw-dock-compass-zone-left",
+        };
+
+        return active ? $"{baseClass} tw-dock-compass-zone-active" : baseClass;
+    }
+
+    public override string DockLayoutCompassZonePlacement( DockCompassZone zone )
+        => zone switch
+        {
+            DockCompassZone.TopOuter => "tw-dock-compass-zone-top-outer",
+            DockCompassZone.TopInner => "tw-dock-compass-zone-top-inner",
+            DockCompassZone.LeftOuter => "tw-dock-compass-zone-left-outer",
+            DockCompassZone.LeftInner => "tw-dock-compass-zone-left-inner",
+            DockCompassZone.RightInner => "tw-dock-compass-zone-right-inner",
+            DockCompassZone.RightOuter => "tw-dock-compass-zone-right-outer",
+            DockCompassZone.BottomInner => "tw-dock-compass-zone-bottom-inner",
+            DockCompassZone.BottomOuter => "tw-dock-compass-zone-bottom-outer",
+            _ => "tw-dock-compass-zone-center",
+        };
+
+    public override string DockLayoutCompassZoneIcon() => "tw-dock-compass-zone-icon";
+
+    public override string DockLayoutDragPreview() => "tw-dock-drag-preview";
+
+    public override string DockLayoutDropPreview() => "tw-dock-drop-preview";
+
+    public override string DockLayoutShellGuide( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Right => "tw-dock-shell-guide tw-dock-shell-guide-right",
+            DockZone.Top => "tw-dock-shell-guide tw-dock-shell-guide-top",
+            DockZone.Bottom => "tw-dock-shell-guide tw-dock-shell-guide-bottom",
+            _ => "tw-dock-shell-guide tw-dock-shell-guide-left",
+        };
+
+        return active ? $"{baseClass} tw-dock-shell-guide-active" : baseClass;
+    }
+
+    #endregion
+
     #region Enums
 
     public override string ToColumnWidth( ColumnWidth columnWidth )

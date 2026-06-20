@@ -1,0 +1,476 @@
+.ant-dock-layout {
+    --dock-split-gap: .25rem;
+    display: block;
+    min-height: 0;
+    min-width: 0;
+    position: relative;
+}
+
+.ant-dock-layout,
+.ant-dock-layout * {
+    box-sizing: border-box;
+}
+
+.ant-dock-split {
+    display: grid;
+    gap: var(--dock-split-gap);
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+    position: relative;
+    width: 100%;
+}
+
+.ant-dock-split-horizontal {
+    grid-auto-flow: column;
+}
+
+.ant-dock-split-vertical {
+    grid-auto-flow: row;
+}
+
+.ant-dock-pane {
+    --dock-pane-size: 16rem;
+    --dock-pane-min-size: 0;
+    --dock-pane-max-size: none;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+    background: var(--b-dock-pane-background, var(--ant-color-bg-container, #ffffff));
+    color: var(--b-dock-pane-color, var(--ant-color-text, rgba(0, 0, 0, .88)));
+    border-color: var(--b-dock-pane-border-color, var(--ant-color-border, #d9d9d9));
+    border-style: solid;
+    border-width: 0;
+    z-index: 1;
+}
+
+.ant-dock-tabs-host {
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+}
+
+.ant-dock-pane-inactive {
+    display: none;
+}
+
+.ant-dock-pane-center {
+    width: 100%;
+    height: 100%;
+    border-width: 0;
+}
+
+.ant-dock-pane-bordered {
+    border-width: 1px;
+}
+
+.ant-dock-pane-left {
+    width: var(--dock-pane-size);
+    min-width: var(--dock-pane-min-size);
+    max-width: var(--dock-pane-max-size);
+    border-right-width: 1px;
+}
+
+.ant-dock-pane-right {
+    width: var(--dock-pane-size);
+    min-width: var(--dock-pane-min-size);
+    max-width: var(--dock-pane-max-size);
+    border-left-width: 1px;
+    justify-self: end;
+}
+
+.ant-dock-pane-top {
+    height: var(--dock-pane-size);
+    min-height: var(--dock-pane-min-size);
+    max-height: var(--dock-pane-max-size);
+    border-bottom-width: 1px;
+}
+
+.ant-dock-pane-bottom {
+    height: var(--dock-pane-size);
+    min-height: var(--dock-pane-min-size);
+    max-height: var(--dock-pane-max-size);
+    border-top-width: 1px;
+    align-self: end;
+}
+
+.ant-dock-split-horizontal > .ant-dock-pane-top,
+.ant-dock-split-horizontal > .ant-dock-pane-bottom {
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    align-self: stretch;
+}
+
+.ant-dock-split-horizontal > .ant-dock-pane-left,
+.ant-dock-split-horizontal > .ant-dock-pane-right,
+.ant-dock-split-vertical > .ant-dock-pane-left,
+.ant-dock-split-vertical > .ant-dock-pane-right {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    justify-self: stretch;
+}
+
+.ant-dock-split-vertical > .ant-dock-pane-top,
+.ant-dock-split-vertical > .ant-dock-pane-bottom {
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    align-self: stretch;
+}
+
+.ant-dock-pane-collapsed {
+    --dock-pane-size: 2.5rem;
+}
+
+.ant-dock-pane-autohide {
+    --dock-pane-size: 2rem;
+    align-items: stretch;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+
+.ant-dock-pane-collapsed .ant-dock-pane-body,
+.ant-dock-pane-collapsed .ant-dock-pane-footer {
+    display: none;
+}
+
+.ant-dock-pane-autohide-tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
+    padding: .5rem .375rem;
+    border: 0;
+    background: var(--b-dock-pane-header-background, var(--ant-color-fill-tertiary, #f5f5f5));
+    color: var(--b-dock-pane-color, var(--ant-color-text, rgba(0, 0, 0, .88)));
+    cursor: pointer;
+    font: inherit;
+    line-height: 1.25;
+    white-space: nowrap;
+}
+
+.ant-dock-pane-autohide-tab:hover {
+    background: var(--b-dock-hover-background, var(--ant-color-primary-bg, #e6f4ff));
+}
+
+.ant-dock-pane-autohide-tab-left,
+.ant-dock-pane-autohide-tab-right {
+    flex: 0 0 auto;
+    writing-mode: vertical-rl;
+}
+
+.ant-dock-pane-autohide-tab-left {
+    transform: rotate(180deg);
+}
+
+.ant-dock-pane-autohide-tab-top,
+.ant-dock-pane-autohide-tab-bottom {
+    flex: 0 0 auto;
+    padding-right: .75rem;
+    padding-left: .75rem;
+}
+
+.ant-dock-pane-header,
+.ant-dock-pane-footer {
+    flex: 0 0 auto;
+    padding: .5rem .75rem;
+    background: var(--b-dock-pane-header-background, var(--ant-color-fill-tertiary, #f5f5f5));
+}
+
+.ant-dock-pane-footer {
+    background: var(--b-dock-pane-footer-background, var(--b-dock-pane-header-background, var(--ant-color-fill-tertiary, #f5f5f5)));
+}
+
+.ant-dock-pane-header {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    cursor: move;
+    overflow: hidden;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.ant-dock-pane-header-content {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ant-dock-pane-header-actions {
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: .125rem;
+}
+
+.ant-dock-pane-header-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    padding: 0;
+    border: 0;
+    border-radius: var(--ant-border-radius-sm, 4px);
+    background: transparent;
+    color: var(--b-dock-pane-color, var(--ant-color-text-secondary, rgba(0, 0, 0, .65)));
+    cursor: pointer;
+    font-size: .75rem;
+    line-height: 1;
+}
+
+.ant-dock-pane-header-action:hover {
+    background: var(--b-dock-hover-background, var(--ant-color-primary-bg, #e6f4ff));
+    color: var(--b-dock-tab-active-color, var(--ant-color-primary, #1677ff));
+}
+
+.ant-dock-pane-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    padding: .75rem;
+}
+
+.ant-dock-content {
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+    overflow: auto;
+}
+
+.ant-dock-pane-tabs {
+    display: flex;
+    flex: 0 0 auto;
+    gap: .125rem;
+    padding: 0 .25rem .25rem;
+    background: var(--b-dock-tabs-background, var(--ant-color-fill-tertiary, #f5f5f5));
+    border-top: 1px solid var(--b-dock-pane-border-color, var(--ant-color-border, #d9d9d9));
+}
+
+.ant-dock-pane-tab {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    border: 0;
+    border-radius: 0 0 var(--ant-border-radius, 6px) var(--ant-border-radius, 6px);
+    background: transparent;
+    color: var(--b-dock-pane-color, var(--ant-color-text, rgba(0, 0, 0, .88)));
+    cursor: pointer;
+    font: inherit;
+    line-height: 1.25;
+    overflow: hidden;
+    padding: .375rem .625rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ant-dock-pane-tab-label {
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    overflow: hidden;
+    padding: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ant-dock-pane-tab-close {
+    flex: 0 0 auto;
+    width: 1rem;
+    height: 1rem;
+    margin-left: .25rem;
+    border: 0;
+    border-radius: var(--ant-border-radius-sm, 4px);
+    background: transparent;
+    color: var(--b-dock-tab-close-color, var(--ant-color-text-tertiary, rgba(0, 0, 0, .45)));
+    cursor: pointer;
+    font: inherit;
+    line-height: 1;
+    padding: 0;
+}
+
+.ant-dock-pane-tab-close:hover {
+    background: var(--b-dock-hover-background, var(--ant-color-primary-bg, #e6f4ff));
+    color: var(--b-dock-pane-color, var(--ant-color-text, rgba(0, 0, 0, .88)));
+}
+
+.ant-dock-pane-center > .ant-dock-pane-tabs,
+.ant-dock-pane-tabs-top {
+    padding: .25rem .25rem 0;
+    border-top: 0;
+    border-bottom: 1px solid var(--b-dock-pane-border-color, var(--ant-color-border, #d9d9d9));
+}
+
+.ant-dock-pane-center > .ant-dock-pane-tabs .ant-dock-pane-tab,
+.ant-dock-pane-tabs-top .ant-dock-pane-tab {
+    border-radius: var(--ant-border-radius, 6px) var(--ant-border-radius, 6px) 0 0;
+}
+
+.ant-dock-pane-tab-active {
+    background: var(--b-dock-tab-active-background, var(--ant-color-bg-container, #ffffff));
+    color: var(--b-dock-tab-active-color, var(--ant-color-primary, #1677ff));
+}
+
+.ant-dock-splitter {
+    position: absolute;
+    background: transparent;
+    z-index: 2;
+}
+
+.ant-dock-splitter-left,
+.ant-dock-splitter-right {
+    top: 0;
+    bottom: 0;
+    width: .375rem;
+    cursor: col-resize;
+}
+
+.ant-dock-splitter-left {
+    right: -.1875rem;
+}
+
+.ant-dock-splitter-right {
+    left: -.1875rem;
+}
+
+.ant-dock-splitter-top,
+.ant-dock-splitter-bottom {
+    left: 0;
+    right: 0;
+    height: .375rem;
+    cursor: row-resize;
+}
+
+.ant-dock-splitter-top {
+    bottom: -.1875rem;
+}
+
+.ant-dock-splitter-bottom {
+    top: -.1875rem;
+}
+
+.ant-dock-drag-preview {
+    position: absolute;
+    z-index: 40;
+    min-width: 10rem;
+    max-width: 18rem;
+    padding: .375rem .625rem;
+    pointer-events: none;
+    border: 1px solid var(--b-dock-drag-preview-border-color, var(--ant-color-primary, #1677ff));
+    border-radius: var(--ant-border-radius, 6px);
+    background: var(--b-dock-drag-preview-background, var(--ant-color-bg-elevated, #ffffff));
+    box-shadow: var(--ant-box-shadow-secondary, 0 6px 16px 0 rgba(0, 0, 0, .08));
+    color: var(--b-dock-pane-color, var(--ant-color-text, rgba(0, 0, 0, .88)));
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ant-dock-drop-preview,
+.ant-dock-shell-guide {
+    position: absolute;
+    z-index: 30;
+    pointer-events: none;
+    border: 2px dashed var(--b-dock-drop-preview-border-color, var(--ant-color-primary, #1677ff));
+    background: var(--b-dock-drop-preview-background, var(--ant-color-primary-bg, #e6f4ff));
+}
+
+.ant-dock-shell-guide-active {
+    background: var(--b-dock-drop-preview-background, var(--ant-color-primary-bg-hover, #bae0ff));
+}
+
+.ant-dock-compass {
+    position: absolute;
+    z-index: 20;
+    --dock-compass-gap: .25rem;
+    width: calc(8rem + var(--dock-compass-gap) * 4);
+    height: calc(8rem + var(--dock-compass-gap) * 4);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.ant-dock-compass-zone {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    color: var(--b-dock-compass-zone-color, var(--ant-color-text-tertiary, rgba(0, 0, 0, .45)));
+    border: 1px solid var(--b-dock-compass-zone-border-color, var(--ant-color-border, #d9d9d9));
+    border-radius: var(--ant-border-radius-sm, 4px);
+    background: var(--b-dock-compass-zone-background, var(--ant-color-bg-elevated, #ffffff));
+    box-shadow: var(--ant-box-shadow-tertiary, 0 1px 2px rgba(0, 0, 0, .03));
+}
+
+.ant-dock-compass-zone-icon {
+    font-size: .75rem;
+    line-height: 1;
+}
+
+.ant-dock-compass-zone-active {
+    color: var(--b-dock-compass-zone-active-color, var(--ant-color-primary, #1677ff));
+    border-color: var(--b-dock-compass-zone-active-border-color, var(--ant-color-primary, #1677ff));
+    background: var(--b-dock-compass-zone-active-background, var(--ant-color-primary-bg, #e6f4ff));
+}
+
+.ant-dock-compass-zone-center {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+}
+
+.ant-dock-compass-zone-left-outer {
+    left: 0;
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+    width: 1rem;
+}
+
+.ant-dock-compass-zone-left-inner {
+    left: calc(1rem + var(--dock-compass-gap));
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+}
+
+.ant-dock-compass-zone-right-inner {
+    left: calc(5rem + var(--dock-compass-gap) * 3);
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+}
+
+.ant-dock-compass-zone-right-outer {
+    left: calc(7rem + var(--dock-compass-gap) * 4);
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+    width: 1rem;
+}
+
+.ant-dock-compass-zone-top-outer {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: 0;
+    height: 1rem;
+}
+
+.ant-dock-compass-zone-top-inner {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: calc(1rem + var(--dock-compass-gap));
+}
+
+.ant-dock-compass-zone-bottom-inner {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: calc(5rem + var(--dock-compass-gap) * 3);
+}
+
+.ant-dock-compass-zone-bottom-outer {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: calc(7rem + var(--dock-compass-gap) * 4);
+    height: 1rem;
+}

@@ -1803,6 +1803,133 @@ public class MaterialClassProvider : ClassProvider
 
     #endregion
 
+    #region DockLayout
+
+    public override string DockLayout() => "mui-dock-layout";
+
+    public override string DockSplit() => "mui-dock-split";
+
+    public override string DockSplitOrientation( DockSplitOrientation orientation )
+        => orientation == Blazorise.DockSplitOrientation.Vertical ? "mui-dock-split-vertical" : "mui-dock-split-horizontal";
+
+    public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "mui-dock-pane";
+
+    public override string DockPanePosition( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Center => "mui-dock-pane-center",
+            Blazorise.DockPanePosition.Right => "mui-dock-pane-right",
+            Blazorise.DockPanePosition.Top => "mui-dock-pane-top",
+            Blazorise.DockPanePosition.Bottom => "mui-dock-pane-bottom",
+            _ => "mui-dock-pane-left",
+        };
+
+    public override string DockPaneResizable( bool resizable ) => resizable ? "mui-dock-pane-resizable" : null;
+
+    public override string DockPaneCollapsed( bool collapsed ) => collapsed ? "mui-dock-pane-collapsed" : null;
+
+    public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "mui-dock-pane-autohide" : null;
+
+    public override string DockPaneInactive() => "mui-dock-pane-inactive";
+
+    public override string DockPaneBordered() => "mui-dock-pane-bordered";
+
+    public override string DockPaneAutoHideTab( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "mui-dock-pane-autohide-tab mui-dock-pane-autohide-tab-right",
+            Blazorise.DockPanePosition.Top => "mui-dock-pane-autohide-tab mui-dock-pane-autohide-tab-top",
+            Blazorise.DockPanePosition.Bottom => "mui-dock-pane-autohide-tab mui-dock-pane-autohide-tab-bottom",
+            _ => "mui-dock-pane-autohide-tab mui-dock-pane-autohide-tab-left",
+        };
+
+    public override string DockPaneHeader() => "mui-dock-pane-header";
+
+    public override string DockPaneHeaderContent() => "mui-dock-pane-header-content";
+
+    public override string DockPaneHeaderActions() => "mui-dock-pane-header-actions";
+
+    public override string DockPaneHeaderAction() => "mui-dock-pane-header-action";
+
+    public override string DockPaneBody() => "mui-dock-pane-body";
+
+    public override string DockPaneFooter() => "mui-dock-pane-footer";
+
+    public override string DockContent() => "mui-dock-content";
+
+    public override string DockSplitter( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "mui-dock-splitter mui-dock-splitter-right",
+            Blazorise.DockPanePosition.Top => "mui-dock-splitter mui-dock-splitter-top",
+            Blazorise.DockPanePosition.Bottom => "mui-dock-splitter mui-dock-splitter-bottom",
+            _ => "mui-dock-splitter mui-dock-splitter-left",
+        };
+
+    public override string DockPaneTabs() => "mui-dock-pane-tabs";
+
+    public override string DockPaneTabsPlacement( DockPaneTabsPlacement placement )
+        => placement == Blazorise.DockPaneTabsPlacement.Top ? "mui-dock-pane-tabs-top" : null;
+
+    public override string DockPaneTabsHost() => "mui-dock-tabs-host";
+
+    public override string DockPaneTab( bool active ) => active ? "mui-dock-pane-tab mui-dock-pane-tab-active" : "mui-dock-pane-tab";
+
+    public override string DockPaneTabLabel() => "mui-dock-pane-tab-label";
+
+    public override string DockPaneTabClose() => "mui-dock-pane-tab-close";
+
+    public override string DockLayoutCompass() => "mui-dock-compass";
+
+    public override string DockLayoutCompassZone( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Center => "mui-dock-compass-zone mui-dock-compass-zone-center",
+            DockZone.Right => "mui-dock-compass-zone mui-dock-compass-zone-right",
+            DockZone.Top => "mui-dock-compass-zone mui-dock-compass-zone-top",
+            DockZone.Bottom => "mui-dock-compass-zone mui-dock-compass-zone-bottom",
+            _ => "mui-dock-compass-zone mui-dock-compass-zone-left",
+        };
+
+        return active ? $"{baseClass} mui-dock-compass-zone-active" : baseClass;
+    }
+
+    public override string DockLayoutCompassZonePlacement( DockCompassZone zone )
+        => zone switch
+        {
+            DockCompassZone.TopOuter => "mui-dock-compass-zone-top-outer",
+            DockCompassZone.TopInner => "mui-dock-compass-zone-top-inner",
+            DockCompassZone.LeftOuter => "mui-dock-compass-zone-left-outer",
+            DockCompassZone.LeftInner => "mui-dock-compass-zone-left-inner",
+            DockCompassZone.RightInner => "mui-dock-compass-zone-right-inner",
+            DockCompassZone.RightOuter => "mui-dock-compass-zone-right-outer",
+            DockCompassZone.BottomInner => "mui-dock-compass-zone-bottom-inner",
+            DockCompassZone.BottomOuter => "mui-dock-compass-zone-bottom-outer",
+            _ => "mui-dock-compass-zone-center",
+        };
+
+    public override string DockLayoutCompassZoneIcon() => "mui-dock-compass-zone-icon";
+
+    public override string DockLayoutDragPreview() => "mui-dock-drag-preview";
+
+    public override string DockLayoutDropPreview() => "mui-dock-drop-preview";
+
+    public override string DockLayoutShellGuide( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Right => "mui-dock-shell-guide mui-dock-shell-guide-right",
+            DockZone.Top => "mui-dock-shell-guide mui-dock-shell-guide-top",
+            DockZone.Bottom => "mui-dock-shell-guide mui-dock-shell-guide-bottom",
+            _ => "mui-dock-shell-guide mui-dock-shell-guide-left",
+        };
+
+        return active ? $"{baseClass} mui-dock-shell-guide-active" : baseClass;
+    }
+
+    #endregion
+
     #region Enums
 
     public override string ToColor( Color color )

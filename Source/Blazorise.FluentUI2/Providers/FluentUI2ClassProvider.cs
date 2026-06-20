@@ -1819,6 +1819,133 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
+    #region DockLayout
+
+    public override string DockLayout() => "fui-DockLayout";
+
+    public override string DockSplit() => "fui-DockSplit";
+
+    public override string DockSplitOrientation( DockSplitOrientation orientation )
+        => orientation == Blazorise.DockSplitOrientation.Vertical ? "fui-DockSplit--vertical" : "fui-DockSplit--horizontal";
+
+    public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "fui-DockPane";
+
+    public override string DockPanePosition( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Center => "fui-DockPane--center",
+            Blazorise.DockPanePosition.Right => "fui-DockPane--right",
+            Blazorise.DockPanePosition.Top => "fui-DockPane--top",
+            Blazorise.DockPanePosition.Bottom => "fui-DockPane--bottom",
+            _ => "fui-DockPane--left",
+        };
+
+    public override string DockPaneResizable( bool resizable ) => resizable ? "fui-DockPane--resizable" : null;
+
+    public override string DockPaneCollapsed( bool collapsed ) => collapsed ? "fui-DockPane--collapsed" : null;
+
+    public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "fui-DockPane--autoHide" : null;
+
+    public override string DockPaneInactive() => "fui-DockPane--inactive";
+
+    public override string DockPaneBordered() => "fui-DockPane--bordered";
+
+    public override string DockPaneAutoHideTab( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "fui-DockPaneAutoHideTab fui-DockPaneAutoHideTab--right",
+            Blazorise.DockPanePosition.Top => "fui-DockPaneAutoHideTab fui-DockPaneAutoHideTab--top",
+            Blazorise.DockPanePosition.Bottom => "fui-DockPaneAutoHideTab fui-DockPaneAutoHideTab--bottom",
+            _ => "fui-DockPaneAutoHideTab fui-DockPaneAutoHideTab--left",
+        };
+
+    public override string DockPaneHeader() => "fui-DockPaneHeader";
+
+    public override string DockPaneHeaderContent() => "fui-DockPaneHeader__content";
+
+    public override string DockPaneHeaderActions() => "fui-DockPaneHeader__actions";
+
+    public override string DockPaneHeaderAction() => "fui-DockPaneHeader__action";
+
+    public override string DockPaneBody() => "fui-DockPaneBody";
+
+    public override string DockPaneFooter() => "fui-DockPaneFooter";
+
+    public override string DockContent() => "fui-DockContent";
+
+    public override string DockSplitter( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "fui-DockSplitter fui-DockSplitter--right",
+            Blazorise.DockPanePosition.Top => "fui-DockSplitter fui-DockSplitter--top",
+            Blazorise.DockPanePosition.Bottom => "fui-DockSplitter fui-DockSplitter--bottom",
+            _ => "fui-DockSplitter fui-DockSplitter--left",
+        };
+
+    public override string DockPaneTabs() => "fui-DockPaneTabs";
+
+    public override string DockPaneTabsPlacement( DockPaneTabsPlacement placement )
+        => placement == Blazorise.DockPaneTabsPlacement.Top ? "fui-DockPaneTabs--top" : null;
+
+    public override string DockPaneTabsHost() => "fui-DockTabsHost";
+
+    public override string DockPaneTab( bool active ) => active ? "fui-DockPaneTab fui-DockPaneTab--active" : "fui-DockPaneTab";
+
+    public override string DockPaneTabLabel() => "fui-DockPaneTab__label";
+
+    public override string DockPaneTabClose() => "fui-DockPaneTab__close";
+
+    public override string DockLayoutCompass() => "fui-DockCompass";
+
+    public override string DockLayoutCompassZone( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Center => "fui-DockCompassZone fui-DockCompassZone--center",
+            DockZone.Right => "fui-DockCompassZone fui-DockCompassZone--right",
+            DockZone.Top => "fui-DockCompassZone fui-DockCompassZone--top",
+            DockZone.Bottom => "fui-DockCompassZone fui-DockCompassZone--bottom",
+            _ => "fui-DockCompassZone fui-DockCompassZone--left",
+        };
+
+        return active ? $"{baseClass} fui-DockCompassZone--active" : baseClass;
+    }
+
+    public override string DockLayoutCompassZonePlacement( DockCompassZone zone )
+        => zone switch
+        {
+            DockCompassZone.TopOuter => "fui-DockCompassZone--topOuter",
+            DockCompassZone.TopInner => "fui-DockCompassZone--topInner",
+            DockCompassZone.LeftOuter => "fui-DockCompassZone--leftOuter",
+            DockCompassZone.LeftInner => "fui-DockCompassZone--leftInner",
+            DockCompassZone.RightInner => "fui-DockCompassZone--rightInner",
+            DockCompassZone.RightOuter => "fui-DockCompassZone--rightOuter",
+            DockCompassZone.BottomInner => "fui-DockCompassZone--bottomInner",
+            DockCompassZone.BottomOuter => "fui-DockCompassZone--bottomOuter",
+            _ => "fui-DockCompassZone--center",
+        };
+
+    public override string DockLayoutCompassZoneIcon() => "fui-DockCompassZone__icon";
+
+    public override string DockLayoutDragPreview() => "fui-DockDragPreview";
+
+    public override string DockLayoutDropPreview() => "fui-DockDropPreview";
+
+    public override string DockLayoutShellGuide( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Right => "fui-DockShellGuide fui-DockShellGuide--right",
+            DockZone.Top => "fui-DockShellGuide fui-DockShellGuide--top",
+            DockZone.Bottom => "fui-DockShellGuide fui-DockShellGuide--bottom",
+            _ => "fui-DockShellGuide fui-DockShellGuide--left",
+        };
+
+        return active ? $"{baseClass} fui-DockShellGuide--active" : baseClass;
+    }
+
+    #endregion
+
     #region Enums
 
     public override string ToSize( Size size )

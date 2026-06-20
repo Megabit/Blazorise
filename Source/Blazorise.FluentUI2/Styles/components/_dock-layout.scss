@@ -1,0 +1,476 @@
+.fui-DockLayout {
+    --dock-split-gap: .25rem;
+    display: block;
+    min-height: 0;
+    min-width: 0;
+    position: relative;
+}
+
+.fui-DockLayout,
+.fui-DockLayout * {
+    box-sizing: border-box;
+}
+
+.fui-DockSplit {
+    display: grid;
+    gap: var(--dock-split-gap);
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+    position: relative;
+    width: 100%;
+}
+
+.fui-DockSplit--horizontal {
+    grid-auto-flow: column;
+}
+
+.fui-DockSplit--vertical {
+    grid-auto-flow: row;
+}
+
+.fui-DockPane {
+    --dock-pane-size: 16rem;
+    --dock-pane-min-size: 0;
+    --dock-pane-max-size: none;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+    background: var(--b-dock-pane-background, var(--colorNeutralBackground1, #ffffff));
+    color: var(--b-dock-pane-color, var(--colorNeutralForeground1, #242424));
+    border-color: var(--b-dock-pane-border-color, var(--colorNeutralStroke1, #d1d1d1));
+    border-style: solid;
+    border-width: 0;
+    z-index: 1;
+}
+
+.fui-DockTabsHost {
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+}
+
+.fui-DockPane--inactive {
+    display: none;
+}
+
+.fui-DockPane--center {
+    width: 100%;
+    height: 100%;
+    border-width: 0;
+}
+
+.fui-DockPane--bordered {
+    border-width: 1px;
+}
+
+.fui-DockPane--left {
+    width: var(--dock-pane-size);
+    min-width: var(--dock-pane-min-size);
+    max-width: var(--dock-pane-max-size);
+    border-right-width: 1px;
+}
+
+.fui-DockPane--right {
+    width: var(--dock-pane-size);
+    min-width: var(--dock-pane-min-size);
+    max-width: var(--dock-pane-max-size);
+    border-left-width: 1px;
+    justify-self: end;
+}
+
+.fui-DockPane--top {
+    height: var(--dock-pane-size);
+    min-height: var(--dock-pane-min-size);
+    max-height: var(--dock-pane-max-size);
+    border-bottom-width: 1px;
+}
+
+.fui-DockPane--bottom {
+    height: var(--dock-pane-size);
+    min-height: var(--dock-pane-min-size);
+    max-height: var(--dock-pane-max-size);
+    border-top-width: 1px;
+    align-self: end;
+}
+
+.fui-DockSplit--horizontal > .fui-DockPane--top,
+.fui-DockSplit--horizontal > .fui-DockPane--bottom {
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    align-self: stretch;
+}
+
+.fui-DockSplit--horizontal > .fui-DockPane--left,
+.fui-DockSplit--horizontal > .fui-DockPane--right,
+.fui-DockSplit--vertical > .fui-DockPane--left,
+.fui-DockSplit--vertical > .fui-DockPane--right {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    justify-self: stretch;
+}
+
+.fui-DockSplit--vertical > .fui-DockPane--top,
+.fui-DockSplit--vertical > .fui-DockPane--bottom {
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    align-self: stretch;
+}
+
+.fui-DockPane--collapsed {
+    --dock-pane-size: 2.5rem;
+}
+
+.fui-DockPane--autoHide {
+    --dock-pane-size: 2rem;
+    align-items: stretch;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+
+.fui-DockPane--collapsed .fui-DockPaneBody,
+.fui-DockPane--collapsed .fui-DockPaneFooter {
+    display: none;
+}
+
+.fui-DockPaneAutoHideTab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
+    padding: .5rem .375rem;
+    border: 0;
+    background: var(--b-dock-pane-header-background, var(--colorNeutralBackground2, #fafafa));
+    color: var(--b-dock-pane-color, var(--colorNeutralForeground1, #242424));
+    cursor: pointer;
+    font: inherit;
+    line-height: 1.25;
+    white-space: nowrap;
+}
+
+.fui-DockPaneAutoHideTab:hover {
+    background: var(--b-dock-hover-background, var(--colorBrandBackground2, #ebf3fc));
+}
+
+.fui-DockPaneAutoHideTab--left,
+.fui-DockPaneAutoHideTab--right {
+    flex: 0 0 auto;
+    writing-mode: vertical-rl;
+}
+
+.fui-DockPaneAutoHideTab--left {
+    transform: rotate(180deg);
+}
+
+.fui-DockPaneAutoHideTab--top,
+.fui-DockPaneAutoHideTab--bottom {
+    flex: 0 0 auto;
+    padding-right: .75rem;
+    padding-left: .75rem;
+}
+
+.fui-DockPaneHeader,
+.fui-DockPaneFooter {
+    flex: 0 0 auto;
+    padding: .5rem .75rem;
+    background: var(--b-dock-pane-header-background, var(--colorNeutralBackground2, #fafafa));
+}
+
+.fui-DockPaneFooter {
+    background: var(--b-dock-pane-footer-background, var(--b-dock-pane-header-background, var(--colorNeutralBackground2, #fafafa)));
+}
+
+.fui-DockPaneHeader {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    cursor: move;
+    overflow: hidden;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.fui-DockPaneHeader__content {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fui-DockPaneHeader__actions {
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: .125rem;
+}
+
+.fui-DockPaneHeader__action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    padding: 0;
+    border: 0;
+    border-radius: var(--borderRadiusSmall, 2px);
+    background: transparent;
+    color: var(--b-dock-pane-color, var(--colorNeutralForeground2, #424242));
+    cursor: pointer;
+    font-size: .75rem;
+    line-height: 1;
+}
+
+.fui-DockPaneHeader__action:hover {
+    background: var(--b-dock-hover-background, var(--colorBrandBackground2, #ebf3fc));
+    color: var(--b-dock-tab-active-color, var(--colorBrandForeground1, #115ea3));
+}
+
+.fui-DockPaneBody {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    padding: .75rem;
+}
+
+.fui-DockContent {
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+    overflow: auto;
+}
+
+.fui-DockPaneTabs {
+    display: flex;
+    flex: 0 0 auto;
+    gap: .125rem;
+    padding: 0 .25rem .25rem;
+    background: var(--b-dock-tabs-background, var(--colorNeutralBackground2, #fafafa));
+    border-top: 1px solid var(--b-dock-pane-border-color, var(--colorNeutralStroke1, #d1d1d1));
+}
+
+.fui-DockPaneTab {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    border: 0;
+    border-radius: 0 0 var(--borderRadiusMedium, 4px) var(--borderRadiusMedium, 4px);
+    background: transparent;
+    color: var(--b-dock-pane-color, var(--colorNeutralForeground1, #242424));
+    cursor: pointer;
+    font: inherit;
+    line-height: 1.25;
+    overflow: hidden;
+    padding: .375rem .625rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fui-DockPaneTab__label {
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    overflow: hidden;
+    padding: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fui-DockPaneTab__close {
+    flex: 0 0 auto;
+    width: 1rem;
+    height: 1rem;
+    margin-left: .25rem;
+    border: 0;
+    border-radius: var(--borderRadiusSmall, 2px);
+    background: transparent;
+    color: var(--b-dock-tab-close-color, var(--colorNeutralForeground3, #616161));
+    cursor: pointer;
+    font: inherit;
+    line-height: 1;
+    padding: 0;
+}
+
+.fui-DockPaneTab__close:hover {
+    background: var(--b-dock-hover-background, var(--colorBrandBackground2, #ebf3fc));
+    color: var(--b-dock-pane-color, var(--colorNeutralForeground1, #242424));
+}
+
+.fui-DockPane--center > .fui-DockPaneTabs,
+.fui-DockPaneTabs--top {
+    padding: .25rem .25rem 0;
+    border-top: 0;
+    border-bottom: 1px solid var(--b-dock-pane-border-color, var(--colorNeutralStroke1, #d1d1d1));
+}
+
+.fui-DockPane--center > .fui-DockPaneTabs .fui-DockPaneTab,
+.fui-DockPaneTabs--top .fui-DockPaneTab {
+    border-radius: var(--borderRadiusMedium, 4px) var(--borderRadiusMedium, 4px) 0 0;
+}
+
+.fui-DockPaneTab--active {
+    background: var(--b-dock-tab-active-background, var(--colorNeutralBackground1, #ffffff));
+    color: var(--b-dock-tab-active-color, var(--colorBrandForeground1, #115ea3));
+}
+
+.fui-DockSplitter {
+    position: absolute;
+    background: transparent;
+    z-index: 2;
+}
+
+.fui-DockSplitter--left,
+.fui-DockSplitter--right {
+    top: 0;
+    bottom: 0;
+    width: .375rem;
+    cursor: col-resize;
+}
+
+.fui-DockSplitter--left {
+    right: -.1875rem;
+}
+
+.fui-DockSplitter--right {
+    left: -.1875rem;
+}
+
+.fui-DockSplitter--top,
+.fui-DockSplitter--bottom {
+    left: 0;
+    right: 0;
+    height: .375rem;
+    cursor: row-resize;
+}
+
+.fui-DockSplitter--top {
+    bottom: -.1875rem;
+}
+
+.fui-DockSplitter--bottom {
+    top: -.1875rem;
+}
+
+.fui-DockDragPreview {
+    position: absolute;
+    z-index: 40;
+    min-width: 10rem;
+    max-width: 18rem;
+    padding: .375rem .625rem;
+    pointer-events: none;
+    border: 1px solid var(--b-dock-drag-preview-border-color, var(--colorBrandStroke1, #0f6cbd));
+    border-radius: var(--borderRadiusMedium, 4px);
+    background: var(--b-dock-drag-preview-background, var(--colorNeutralBackground1, #ffffff));
+    box-shadow: var(--shadow16, 0 8px 16px rgba(0, 0, 0, .14));
+    color: var(--b-dock-pane-color, var(--colorNeutralForeground1, #242424));
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fui-DockDropPreview,
+.fui-DockShellGuide {
+    position: absolute;
+    z-index: 30;
+    pointer-events: none;
+    border: 2px dashed var(--b-dock-drop-preview-border-color, var(--colorBrandStroke1, #0f6cbd));
+    background: var(--b-dock-drop-preview-background, var(--colorBrandBackground2, #ebf3fc));
+}
+
+.fui-DockShellGuide--active {
+    background: var(--b-dock-drop-preview-background, var(--colorBrandBackground2Hover, #cfe4fa));
+}
+
+.fui-DockCompass {
+    position: absolute;
+    z-index: 20;
+    --dock-compass-gap: .25rem;
+    width: calc(8rem + var(--dock-compass-gap) * 4);
+    height: calc(8rem + var(--dock-compass-gap) * 4);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.fui-DockCompassZone {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    color: var(--b-dock-compass-zone-color, var(--colorNeutralForeground3, #616161));
+    border: 1px solid var(--b-dock-compass-zone-border-color, var(--colorNeutralStroke1, #d1d1d1));
+    border-radius: var(--borderRadiusSmall, 2px);
+    background: var(--b-dock-compass-zone-background, var(--colorNeutralBackground1, #ffffff));
+    box-shadow: var(--shadow4, 0 2px 4px rgba(0, 0, 0, .14));
+}
+
+.fui-DockCompassZone__icon {
+    font-size: .75rem;
+    line-height: 1;
+}
+
+.fui-DockCompassZone--active {
+    color: var(--b-dock-compass-zone-active-color, var(--colorBrandForeground1, #115ea3));
+    border-color: var(--b-dock-compass-zone-active-border-color, var(--colorBrandStroke1, #0f6cbd));
+    background: var(--b-dock-compass-zone-active-background, var(--colorBrandBackground2, #ebf3fc));
+}
+
+.fui-DockCompassZone--center {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+}
+
+.fui-DockCompassZone--leftOuter {
+    left: 0;
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+    width: 1rem;
+}
+
+.fui-DockCompassZone--leftInner {
+    left: calc(1rem + var(--dock-compass-gap));
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+}
+
+.fui-DockCompassZone--rightInner {
+    left: calc(5rem + var(--dock-compass-gap) * 3);
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+}
+
+.fui-DockCompassZone--rightOuter {
+    left: calc(7rem + var(--dock-compass-gap) * 4);
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+    width: 1rem;
+}
+
+.fui-DockCompassZone--topOuter {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: 0;
+    height: 1rem;
+}
+
+.fui-DockCompassZone--topInner {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: calc(1rem + var(--dock-compass-gap));
+}
+
+.fui-DockCompassZone--bottomInner {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: calc(5rem + var(--dock-compass-gap) * 3);
+}
+
+.fui-DockCompassZone--bottomOuter {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: calc(7rem + var(--dock-compass-gap) * 4);
+    height: 1rem;
+}

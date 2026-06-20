@@ -3920,6 +3920,483 @@ body {
   text-overflow: ellipsis;
 }
 
+.mui-dock-layout {
+  --dock-split-gap: .25rem;
+  display: block;
+  min-height: 0;
+  min-width: 0;
+  position: relative;
+}
+
+.mui-dock-layout,
+.mui-dock-layout * {
+  box-sizing: border-box;
+}
+
+.mui-dock-split {
+  display: grid;
+  gap: var(--dock-split-gap);
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  position: relative;
+  width: 100%;
+}
+
+.mui-dock-split-horizontal {
+  grid-auto-flow: column;
+}
+
+.mui-dock-split-vertical {
+  grid-auto-flow: row;
+}
+
+.mui-dock-pane {
+  --dock-pane-size: 16rem;
+  --dock-pane-min-size: 0;
+  --dock-pane-max-size: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  background: var(--b-dock-pane-background, var(--mui-surface, #ffffff));
+  color: var(--b-dock-pane-color, var(--mui-on-surface, #1d1b20));
+  border-color: var(--b-dock-pane-border-color, var(--mui-outline-variant, #cac4d0));
+  border-style: solid;
+  border-width: 0;
+  z-index: 1;
+}
+
+.mui-dock-tabs-host {
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+}
+
+.mui-dock-pane-inactive {
+  display: none;
+}
+
+.mui-dock-pane-center {
+  width: 100%;
+  height: 100%;
+  border-width: 0;
+}
+
+.mui-dock-pane-bordered {
+  border-width: 1px;
+}
+
+.mui-dock-pane-left {
+  width: var(--dock-pane-size);
+  min-width: var(--dock-pane-min-size);
+  max-width: var(--dock-pane-max-size);
+  border-right-width: 1px;
+}
+
+.mui-dock-pane-right {
+  width: var(--dock-pane-size);
+  min-width: var(--dock-pane-min-size);
+  max-width: var(--dock-pane-max-size);
+  border-left-width: 1px;
+  justify-self: end;
+}
+
+.mui-dock-pane-top {
+  height: var(--dock-pane-size);
+  min-height: var(--dock-pane-min-size);
+  max-height: var(--dock-pane-max-size);
+  border-bottom-width: 1px;
+}
+
+.mui-dock-pane-bottom {
+  height: var(--dock-pane-size);
+  min-height: var(--dock-pane-min-size);
+  max-height: var(--dock-pane-max-size);
+  border-top-width: 1px;
+  align-self: end;
+}
+
+.mui-dock-split-horizontal > .mui-dock-pane-top,
+.mui-dock-split-horizontal > .mui-dock-pane-bottom {
+  height: 100%;
+  min-height: 0;
+  max-height: none;
+  align-self: stretch;
+}
+
+.mui-dock-split-horizontal > .mui-dock-pane-left,
+.mui-dock-split-horizontal > .mui-dock-pane-right,
+.mui-dock-split-vertical > .mui-dock-pane-left,
+.mui-dock-split-vertical > .mui-dock-pane-right {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  justify-self: stretch;
+}
+
+.mui-dock-split-vertical > .mui-dock-pane-top,
+.mui-dock-split-vertical > .mui-dock-pane-bottom {
+  height: 100%;
+  min-height: 0;
+  max-height: none;
+  align-self: stretch;
+}
+
+.mui-dock-pane-collapsed {
+  --dock-pane-size: 2.5rem;
+}
+
+.mui-dock-pane-autohide {
+  --dock-pane-size: 2rem;
+  align-items: stretch;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.mui-dock-pane-collapsed .mui-dock-pane-body,
+.mui-dock-pane-collapsed .mui-dock-pane-footer {
+  display: none;
+}
+
+.mui-dock-pane-autohide-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 0.5rem 0.375rem;
+  border: 0;
+  background: var(--b-dock-pane-header-background, var(--mui-surface-container, #f3edf7));
+  color: var(--b-dock-pane-color, var(--mui-on-surface, #1d1b20));
+  cursor: pointer;
+  font: inherit;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.mui-dock-pane-autohide-tab:hover {
+  background: var(--b-dock-hover-background, var(--mui-primary-container, #eaddff));
+}
+
+.mui-dock-pane-autohide-tab-left,
+.mui-dock-pane-autohide-tab-right {
+  flex: 0 0 auto;
+  writing-mode: vertical-rl;
+}
+
+.mui-dock-pane-autohide-tab-left {
+  transform: rotate(180deg);
+}
+
+.mui-dock-pane-autohide-tab-top,
+.mui-dock-pane-autohide-tab-bottom {
+  flex: 0 0 auto;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+}
+
+.mui-dock-pane-header,
+.mui-dock-pane-footer {
+  flex: 0 0 auto;
+  padding: 0.5rem 0.75rem;
+  background: var(--b-dock-pane-header-background, var(--mui-surface-container, #f3edf7));
+}
+
+.mui-dock-pane-footer {
+  background: var(--b-dock-pane-footer-background, var(--b-dock-pane-header-background, var(--mui-surface-container, #f3edf7)));
+}
+
+.mui-dock-pane-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: move;
+  overflow: hidden;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.mui-dock-pane-header-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mui-dock-pane-header-actions {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 0.125rem;
+}
+
+.mui-dock-pane-header-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--mui-shape-corner-small, 0.25rem);
+  background: transparent;
+  color: var(--b-dock-pane-color, var(--mui-on-surface-variant, #49454f));
+  cursor: pointer;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.mui-dock-pane-header-action:hover {
+  background: var(--b-dock-hover-background, var(--mui-primary-container, #eaddff));
+  color: var(--b-dock-tab-active-color, var(--mui-primary, #6750a4));
+}
+
+.mui-dock-pane-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 0.75rem;
+}
+
+.mui-dock-content {
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow: auto;
+}
+
+.mui-dock-pane-tabs {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.125rem;
+  padding: 0 0.25rem 0.25rem;
+  background: var(--b-dock-tabs-background, var(--mui-surface-container, #f3edf7));
+  border-top: 1px solid var(--b-dock-pane-border-color, var(--mui-outline-variant, #cac4d0));
+}
+
+.mui-dock-pane-tab {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  border: 0;
+  border-radius: 0 0 var(--mui-shape-corner-small, 0.25rem) var(--mui-shape-corner-small, 0.25rem);
+  background: transparent;
+  color: var(--b-dock-pane-color, var(--mui-on-surface, #1d1b20));
+  cursor: pointer;
+  font: inherit;
+  line-height: 1.25;
+  overflow: hidden;
+  padding: 0.375rem 0.625rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mui-dock-pane-tab-label {
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  overflow: hidden;
+  padding: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mui-dock-pane-tab-close {
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  margin-left: 0.25rem;
+  border: 0;
+  border-radius: var(--mui-shape-corner-small, 0.25rem);
+  background: transparent;
+  color: var(--b-dock-tab-close-color, var(--mui-on-surface-variant, #49454f));
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+  padding: 0;
+}
+
+.mui-dock-pane-tab-close:hover {
+  background: var(--b-dock-hover-background, var(--mui-primary-container, #eaddff));
+  color: var(--b-dock-pane-color, var(--mui-on-surface, #1d1b20));
+}
+
+.mui-dock-pane-center > .mui-dock-pane-tabs,
+.mui-dock-pane-tabs-top {
+  padding: 0.25rem 0.25rem 0;
+  border-top: 0;
+  border-bottom: 1px solid var(--b-dock-pane-border-color, var(--mui-outline-variant, #cac4d0));
+}
+
+.mui-dock-pane-center > .mui-dock-pane-tabs .mui-dock-pane-tab,
+.mui-dock-pane-tabs-top .mui-dock-pane-tab {
+  border-radius: var(--mui-shape-corner-small, 0.25rem) var(--mui-shape-corner-small, 0.25rem) 0 0;
+}
+
+.mui-dock-pane-tab-active {
+  background: var(--b-dock-tab-active-background, var(--mui-surface, #ffffff));
+  color: var(--b-dock-tab-active-color, var(--mui-primary, #6750a4));
+}
+
+.mui-dock-splitter {
+  position: absolute;
+  background: transparent;
+  z-index: 2;
+}
+
+.mui-dock-splitter-left,
+.mui-dock-splitter-right {
+  top: 0;
+  bottom: 0;
+  width: 0.375rem;
+  cursor: col-resize;
+}
+
+.mui-dock-splitter-left {
+  right: -0.1875rem;
+}
+
+.mui-dock-splitter-right {
+  left: -0.1875rem;
+}
+
+.mui-dock-splitter-top,
+.mui-dock-splitter-bottom {
+  left: 0;
+  right: 0;
+  height: 0.375rem;
+  cursor: row-resize;
+}
+
+.mui-dock-splitter-top {
+  bottom: -0.1875rem;
+}
+
+.mui-dock-splitter-bottom {
+  top: -0.1875rem;
+}
+
+.mui-dock-drag-preview {
+  position: absolute;
+  z-index: 40;
+  min-width: 10rem;
+  max-width: 18rem;
+  padding: 0.375rem 0.625rem;
+  pointer-events: none;
+  border: 1px solid var(--b-dock-drag-preview-border-color, var(--mui-primary, #6750a4));
+  border-radius: var(--mui-shape-corner-small, 0.25rem);
+  background: var(--b-dock-drag-preview-background, var(--mui-surface, #ffffff));
+  box-shadow: var(--mui-elevation-3, 0 0.375rem 1.25rem rgba(0, 0, 0, 0.16));
+  color: var(--b-dock-pane-color, var(--mui-on-surface, #1d1b20));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mui-dock-drop-preview,
+.mui-dock-shell-guide {
+  position: absolute;
+  z-index: 30;
+  pointer-events: none;
+  border: 2px dashed var(--b-dock-drop-preview-border-color, var(--mui-primary, #6750a4));
+  background: var(--b-dock-drop-preview-background, var(--mui-primary-container, #eaddff));
+}
+
+.mui-dock-shell-guide-active {
+  background: var(--b-dock-drop-preview-background, var(--mui-secondary-container, #e8def8));
+}
+
+.mui-dock-compass {
+  position: absolute;
+  z-index: 20;
+  --dock-compass-gap: .25rem;
+  width: calc(8rem + var(--dock-compass-gap) * 4);
+  height: calc(8rem + var(--dock-compass-gap) * 4);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.mui-dock-compass-zone {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  color: var(--b-dock-compass-zone-color, var(--mui-on-surface-variant, #49454f));
+  border: 1px solid var(--b-dock-compass-zone-border-color, var(--mui-outline-variant, #cac4d0));
+  border-radius: var(--mui-shape-corner-small, 0.25rem);
+  background: var(--b-dock-compass-zone-background, var(--mui-surface, #ffffff));
+  box-shadow: var(--mui-elevation-1, 0 0.125rem 0.25rem rgba(0, 0, 0, 0.08));
+}
+
+.mui-dock-compass-zone-icon {
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.mui-dock-compass-zone-active {
+  color: var(--b-dock-compass-zone-active-color, var(--mui-primary, #6750a4));
+  border-color: var(--b-dock-compass-zone-active-border-color, var(--mui-primary, #6750a4));
+  background: var(--b-dock-compass-zone-active-background, var(--mui-primary-container, #eaddff));
+}
+
+.mui-dock-compass-zone-center {
+  left: calc(3rem + var(--dock-compass-gap) * 2);
+  top: calc(3rem + var(--dock-compass-gap) * 2);
+}
+
+.mui-dock-compass-zone-left-outer {
+  left: 0;
+  top: calc(3rem + var(--dock-compass-gap) * 2);
+  width: 1rem;
+}
+
+.mui-dock-compass-zone-left-inner {
+  left: calc(1rem + var(--dock-compass-gap));
+  top: calc(3rem + var(--dock-compass-gap) * 2);
+}
+
+.mui-dock-compass-zone-right-inner {
+  left: calc(5rem + var(--dock-compass-gap) * 3);
+  top: calc(3rem + var(--dock-compass-gap) * 2);
+}
+
+.mui-dock-compass-zone-right-outer {
+  left: calc(7rem + var(--dock-compass-gap) * 4);
+  top: calc(3rem + var(--dock-compass-gap) * 2);
+  width: 1rem;
+}
+
+.mui-dock-compass-zone-top-outer {
+  left: calc(3rem + var(--dock-compass-gap) * 2);
+  top: 0;
+  height: 1rem;
+}
+
+.mui-dock-compass-zone-top-inner {
+  left: calc(3rem + var(--dock-compass-gap) * 2);
+  top: calc(1rem + var(--dock-compass-gap));
+}
+
+.mui-dock-compass-zone-bottom-inner {
+  left: calc(3rem + var(--dock-compass-gap) * 2);
+  top: calc(5rem + var(--dock-compass-gap) * 3);
+}
+
+.mui-dock-compass-zone-bottom-outer {
+  left: calc(3rem + var(--dock-compass-gap) * 2);
+  top: calc(7rem + var(--dock-compass-gap) * 4);
+  height: 1rem;
+}
+
 .mui-field {
   --mui-field-input-size: var(--mui-input-size, 2.5rem);
   position: relative;
