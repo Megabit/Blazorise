@@ -5,27 +5,55 @@
 
 <Div @ref="designerElement"
      Class="b-report-designer">
-    <Div Class="b-report-designer-toolbox-panel"
-         Padding="Padding.Is3"
-         Background="Background.White"
-         Border="Border.Is1">
-        @ToolboxPanel
-    </Div>
+    <DockLayout Class="b-report-designer-layout"
+                State="@dockLayoutState"
+                StateChanged="@OnDockLayoutStateChanged"
+                PaneBordered>
+        @if ( ShowToolbar && Toolbar is not null )
+        {
+            <DockSplit Orientation="DockSplitOrientation.Vertical" Ratio="0.08">
+                <DockPane Name="@ToolbarPaneName"
+                          Caption="Toolbar"
+                          DockRole="DockRole.Tool"
+                          Dock="DockPanePosition.Top"
+                          Movable="false"
+                          Resizable="false"
+                          ShowTab="false"
+                          AutoHideable="false"
+                          Closable="false">
+                    <DockPaneBody Class="b-report-designer-toolbar-pane"
+                                  Padding="Padding.Is3">
+                        @Toolbar
+                    </DockPaneBody>
+                </DockPane>
 
-    <Div Class="b-report-designer-surface"
-         Padding="Padding.Is3"
-         Background="Background.Light"
-         Border="Border.Is1"
-         Overflow="Overflow.Auto">
-        @Surface
-    </Div>
-
-    <Div Class="b-report-designer-panel"
-         Padding="Padding.Is3"
-         Background="Background.White"
-         Border="Border.Is1">
-        @Panel
-    </Div>
-
+                <_ReportDesignerWorkspaceDockTree ToolboxPaneName="@ToolboxPaneName"
+                                                 FieldsExplorerPaneName="@FieldsExplorerPaneName"
+                                                 SurfacePaneName="@SurfacePaneName"
+                                                 PropertiesPaneName="@PropertiesPaneName"
+                                                 ReportExplorerPaneName="@ReportExplorerPaneName"
+                                                 ActivePanelPaneName="@activePanelPaneName"
+                                                 ToolboxPanel="@ToolboxPanel"
+                                                 FieldsExplorerPanel="@FieldsExplorerPanel"
+                                                 Surface="@Surface"
+                                                 PropertiesPanel="@PropertiesPanel"
+                                                 ReportExplorerPanel="@ReportExplorerPanel" />
+            </DockSplit>
+        }
+        else
+        {
+            <_ReportDesignerWorkspaceDockTree ToolboxPaneName="@ToolboxPaneName"
+                                             FieldsExplorerPaneName="@FieldsExplorerPaneName"
+                                             SurfacePaneName="@SurfacePaneName"
+                                             PropertiesPaneName="@PropertiesPaneName"
+                                             ReportExplorerPaneName="@ReportExplorerPaneName"
+                                             ActivePanelPaneName="@activePanelPaneName"
+                                             ToolboxPanel="@ToolboxPanel"
+                                             FieldsExplorerPanel="@FieldsExplorerPanel"
+                                             Surface="@Surface"
+                                             PropertiesPanel="@PropertiesPanel"
+                                             ReportExplorerPanel="@ReportExplorerPanel" />
+        }
+    </DockLayout>
     @ContextMenu
 </Div>

@@ -14,7 +14,7 @@
 </CascadingValue>
 
 <Div Flex="Flex.Column" Gap="Gap.Is3">
-    @if ( ShowToolbar )
+    @if ( ShowToolbar && !( CurrentMode == ReportStudioMode.Design && IsDesignerEnabled ) )
     {
         <Div Class="b-report-toolbar" Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Padding="Padding.Is3" Border="Border.Is1" Background="Background.White">
             <CascadingValue @key="@ToolbarStateKey" Value="@toolbarContext" IsFixed="true">
@@ -57,26 +57,70 @@
     {
         var definition = EffectiveDefinition;
 
-        <_ReportDesignerLayout Shortcut="@HandleDesignerShortcutAsync">
+        <_ReportDesignerLayout Shortcut="@HandleDesignerShortcutAsync"
+                               ShowToolbar="@ShowToolbar"
+                               SelectedPanelTab="@SelectedDesignerPanelTabName"
+                               SelectedPanelTabChanged="@SelectDesignerPanelTab">
+            <Toolbar>
+                @if ( ShowToolbar )
+                {
+                    <CascadingValue @key="@ToolbarStateKey" Value="@toolbarContext" IsFixed="true">
+                        @if ( context.ToolbarContent is not null )
+                        {
+                            @context.ToolbarContent
+                        }
+                        else
+                        {
+                            <ReportToolbarGroup>
+                                <ReportToolbarItem Command="ReportCommand.Cut" Caption="Cut" />
+                                <ReportToolbarItem Command="ReportCommand.Copy" Caption="Copy" />
+                                <ReportToolbarItem Command="ReportCommand.Paste" Caption="Paste" />
+                                <ReportToolbarItem Command="ReportCommand.Delete" Caption="Delete" />
+                            </ReportToolbarGroup>
+                            <ReportToolbarGroup>
+                                <ReportToolbarItem Command="ReportCommand.Undo" Caption="Undo" />
+                                <ReportToolbarItem Command="ReportCommand.Redo" Caption="Redo" />
+                                <ReportToolbarItem Command="ReportCommand.Reset" Caption="Reset" />
+                            </ReportToolbarGroup>
+                            <ReportToolbarGroup>
+                                <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
+                                <ReportToolbarItem Command="ReportCommand.DownloadPdf" Caption="Download PDF" />
+                            </ReportToolbarGroup>
+                            <Div Margin="Margin.IsAuto.FromStart">
+                                <ReportToolbarGroup>
+                                    @if ( IsDesignerEnabled )
+                                    {
+                                        <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" ShowCaption />
+                                    }
+                                    <ReportToolbarItem Command="ReportCommand.Preview" Caption="Preview" ShowCaption />
+                                </ReportToolbarGroup>
+                            </Div>
+                        }
+                    </CascadingValue>
+                }
+            </Toolbar>
             <ToolboxPanel>
-                <_ReportDesignerToolboxPanel Definition="@definition"
-                                             Data="@Data"
-                                             DataSourceName="@DataSourceName"
-                                             ToolboxNodeDragStarted="@OnToolboxTreeNodeDragStarted"
-                                             FieldsNodeDragStarted="@OnFieldsTreeNodeDragStarted"
-                                             NodeDragEnded="@((ReportTreeNode _) => ClearDesignerDragAsync())"
-                                             FormulaFieldConfirmed="@OnFormulaFieldConfirmedAsync"
-                                             FormulaFieldRenamed="@OnFormulaFieldRenamedAsync"
-                                             FormulaFieldDeleted="@OnFormulaFieldDeletedAsync"
-                                             FormulaFieldInserted="@OnFormulaFieldInsertedAsync"
-                                             FieldInserted="@OnFieldInsertedAsync"
-                                             RunningTotalConfirmed="@OnRunningTotalConfirmedAsync"
-                                             RunningTotalRenamed="@OnRunningTotalRenamedAsync"
-                                             RunningTotalDeleted="@OnRunningTotalDeletedAsync"
-                                             RunningTotalInserted="@OnRunningTotalInsertedAsync"
-                                             DataSourceRefreshed="@OnDataSourceRefreshedAsync"
-                                             DataSourceDeleted="@OnDataSourceDeletedAsync" />
+                <_ReportDesignerToolboxPanel ToolboxNodeDragStarted="@OnToolboxTreeNodeDragStarted"
+                                             NodeDragEnded="@((ReportTreeNode _) => ClearDesignerDragAsync())" />
             </ToolboxPanel>
+            <FieldsExplorerPanel>
+                <_ReportDesignerFieldsExplorerPanel Definition="@definition"
+                                                    Data="@Data"
+                                                    DataSourceName="@DataSourceName"
+                                                    FieldsNodeDragStarted="@OnFieldsTreeNodeDragStarted"
+                                                    NodeDragEnded="@((ReportTreeNode _) => ClearDesignerDragAsync())"
+                                                    FormulaFieldConfirmed="@OnFormulaFieldConfirmedAsync"
+                                                    FormulaFieldRenamed="@OnFormulaFieldRenamedAsync"
+                                                    FormulaFieldDeleted="@OnFormulaFieldDeletedAsync"
+                                                    FormulaFieldInserted="@OnFormulaFieldInsertedAsync"
+                                                    FieldInserted="@OnFieldInsertedAsync"
+                                                    RunningTotalConfirmed="@OnRunningTotalConfirmedAsync"
+                                                    RunningTotalRenamed="@OnRunningTotalRenamedAsync"
+                                                    RunningTotalDeleted="@OnRunningTotalDeletedAsync"
+                                                    RunningTotalInserted="@OnRunningTotalInsertedAsync"
+                                                    DataSourceRefreshed="@OnDataSourceRefreshedAsync"
+                                                    DataSourceDeleted="@OnDataSourceDeletedAsync" />
+            </FieldsExplorerPanel>
             <Surface>
                 <_ReportDesignerPage PageKey="@($"{definition.Id}:{designerSurfaceVersion}")"
                                      Width="@GetReportPageWidth( definition )"
@@ -183,44 +227,39 @@
                     }
                 </_ReportDesignerPage>
             </Surface>
-            <Panel>
-                <_ReportDesignerPanel SelectedTab="@SelectedDesignerPanelTabName"
-                                      SelectedTabChanged="@SelectDesignerPanelTab">
-                    <Properties>
-                        <_ReportDesignerPropertiesPanel Definition="@definition"
-                                                        Data="@Data"
-                                                        ReportSelected="@selectionManager.ReportSelected"
-                                                        SelectedSection="@GetSelectedPropertiesSection( definition )"
-                                                        FormulaSection="@GetSelectedFormulaSection( definition )"
-                                                        SelectedElement="@selectionManager.FindSelectedElement( definition )"
-                                                        SelectedCell="@selectionManager.FindSelectedCell( definition )"
-                                                        SelectedElementSuppressed="@selectionManager.IsSelectedElementSuppressed( definition )"
-                                                        SnapToGrid="@snapToGrid"
-                                                        SnapToGridChanged="@OnSnapToGridChanged"
-                                                        UpdateReportPage="@UpdateReportPageAsync"
-                                                        UpdateSelectedSection="@UpdateSelectedSectionAsync"
-                                                        UpdateSelectedSectionSuppression="@UpdateSelectedSectionSuppressionAsync"
-                                                        GetMinimumSectionHeight="@GetMinimumSectionHeight"
-                                                        CanInsertSection="@CanSelectedSectionInsertSection( definition )"
-                                                        InsertSection="@InsertSectionAsync"
-                                                        CanInsertGroup="@CanSelectedSectionInsertGroup( definition )"
-                                                        InsertGroup="@OpenSelectedDetailGroupDialogAsync"
-                                                        DeleteSelectedSection="@DeleteSelectedSectionAsync"
-                                                        UpdateSelectedElement="@UpdateSelectedElementAsync"
-                                                        MoveSelectedElement="@MoveSelectedElementAsync" />
-                    </Properties>
-                    <Explorer>
-                        <_ReportDesignerReportExplorer Definition="@definition"
-                                                       ReportSelected="@selectionManager.ReportSelected"
-                                                       SelectedSectionIndex="@selectionManager.SelectedSectionIndex"
-                                                       SelectedElementKey="@selectionManager.SelectedElementKey"
-                                                       SelectedCellKey="@selectionManager.SelectedCellKey"
-                                                       IsElementSelected="@selectionManager.IsElementSelected"
-                                                       NodeClicked="@OnReportTreeNodeClicked"
-                                                       NodeContextMenu="@OnReportTreeNodeContextMenu" />
-                    </Explorer>
-                </_ReportDesignerPanel>
-            </Panel>
+            <PropertiesPanel>
+                <_ReportDesignerPropertiesPanel Definition="@definition"
+                                                Data="@Data"
+                                                ReportSelected="@selectionManager.ReportSelected"
+                                                SelectedSection="@GetSelectedPropertiesSection( definition )"
+                                                FormulaSection="@GetSelectedFormulaSection( definition )"
+                                                SelectedElement="@selectionManager.FindSelectedElement( definition )"
+                                                SelectedCell="@selectionManager.FindSelectedCell( definition )"
+                                                SelectedElementSuppressed="@selectionManager.IsSelectedElementSuppressed( definition )"
+                                                SnapToGrid="@snapToGrid"
+                                                SnapToGridChanged="@OnSnapToGridChanged"
+                                                UpdateReportPage="@UpdateReportPageAsync"
+                                                UpdateSelectedSection="@UpdateSelectedSectionAsync"
+                                                UpdateSelectedSectionSuppression="@UpdateSelectedSectionSuppressionAsync"
+                                                GetMinimumSectionHeight="@GetMinimumSectionHeight"
+                                                CanInsertSection="@CanSelectedSectionInsertSection( definition )"
+                                                InsertSection="@InsertSectionAsync"
+                                                CanInsertGroup="@CanSelectedSectionInsertGroup( definition )"
+                                                InsertGroup="@OpenSelectedDetailGroupDialogAsync"
+                                                DeleteSelectedSection="@DeleteSelectedSectionAsync"
+                                                UpdateSelectedElement="@UpdateSelectedElementAsync"
+                                                MoveSelectedElement="@MoveSelectedElementAsync" />
+            </PropertiesPanel>
+            <ReportExplorerPanel>
+                <_ReportDesignerReportExplorer Definition="@definition"
+                                               ReportSelected="@selectionManager.ReportSelected"
+                                               SelectedSectionIndex="@selectionManager.SelectedSectionIndex"
+                                               SelectedElementKey="@selectionManager.SelectedElementKey"
+                                               SelectedCellKey="@selectionManager.SelectedCellKey"
+                                               IsElementSelected="@selectionManager.IsElementSelected"
+                                               NodeClicked="@OnReportTreeNodeClicked"
+                                               NodeContextMenu="@OnReportTreeNodeContextMenu" />
+            </ReportExplorerPanel>
             <ContextMenu>
                 <_ReportDesignerContextMenuHost @ref="contextMenuHost"
                                                 CutElement="@((MouseEventArgs _) => CutSelectedElementAsync())"

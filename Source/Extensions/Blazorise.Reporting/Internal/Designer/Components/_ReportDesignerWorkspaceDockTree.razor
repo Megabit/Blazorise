@@ -1,0 +1,92 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<DockSplit Orientation="DockSplitOrientation.Horizontal" Ratio="0.24">
+    <DockSplit Orientation="DockSplitOrientation.Vertical" Ratio="0.34">
+        <DockPane Name="@ToolboxPaneName"
+                  Caption="Toolbox"
+                  DockRole="DockRole.Tool"
+                  Dock="DockPanePosition.Left"
+                  Size="18rem"
+                  MinSize="12rem"
+                  Resizable
+                  TabsPlacement="DockPaneTabsPlacement.Bottom">
+            <DockPaneHeader>
+                Toolbox
+            </DockPaneHeader>
+            <DockPaneBody Class="b-report-designer-toolbox-pane"
+                          Padding="Padding.Is3">
+                @ToolboxPanel
+            </DockPaneBody>
+        </DockPane>
+
+        <DockPane Name="@FieldsExplorerPaneName"
+                  Caption="Fields Explorer"
+                  DockRole="DockRole.Tool"
+                  Dock="DockPanePosition.Left"
+                  Size="18rem"
+                  MinSize="12rem"
+                  Resizable
+                  TabsPlacement="DockPaneTabsPlacement.Bottom">
+            <DockPaneHeader>
+                Fields Explorer
+            </DockPaneHeader>
+            <DockPaneBody Class="b-report-designer-fields-explorer-pane"
+                          Padding="Padding.Is3">
+                @FieldsExplorerPanel
+            </DockPaneBody>
+        </DockPane>
+    </DockSplit>
+
+    <DockSplit Orientation="DockSplitOrientation.Horizontal" Ratio="0.76">
+        <DockPane Name="@SurfacePaneName"
+                  Caption="Report Designer"
+                  DockRole="DockRole.Document"
+                  Dock="DockPanePosition.Center"
+                  ShowTab="false"
+                  Closable="false">
+            <DockPaneBody Class="b-report-designer-surface"
+                          Padding="Padding.Is3"
+                          Background="Background.Light"
+                          Overflow="Overflow.Auto">
+                @Surface
+            </DockPaneBody>
+        </DockPane>
+
+        <DockTabs ActivePane="@ActivePanelPaneName">
+            <DockPane Name="@PropertiesPaneName"
+                      Caption="Properties"
+                      DockRole="DockRole.Tool"
+                      Dock="DockPanePosition.Right"
+                      Size="20rem"
+                      MinSize="14rem"
+                      Resizable
+                      TabsPlacement="DockPaneTabsPlacement.Bottom">
+                <DockPaneHeader>
+                    Properties
+                </DockPaneHeader>
+                <DockPaneBody Class="b-report-designer-properties-pane"
+                              Padding="Padding.Is3">
+                    @PropertiesPanel
+                </DockPaneBody>
+            </DockPane>
+
+            <DockPane Name="@ReportExplorerPaneName"
+                      Caption="Report Explorer"
+                      DockRole="DockRole.Tool"
+                      Dock="DockPanePosition.Right"
+                      Size="20rem"
+                      MinSize="14rem"
+                      Resizable
+                      TabsPlacement="DockPaneTabsPlacement.Bottom">
+                <DockPaneHeader>
+                    Report Explorer
+                </DockPaneHeader>
+                <DockPaneBody Class="b-report-designer-report-explorer-pane"
+                              Padding="Padding.Is3">
+                    @ReportExplorerPanel
+                </DockPaneBody>
+            </DockPane>
+        </DockTabs>
+    </DockSplit>
+</DockSplit>

@@ -1,9 +1,7 @@
 #region Using directives
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -12,11 +10,29 @@ using Microsoft.JSInterop;
 namespace Blazorise.Reporting.Internal;
 
 /// <summary>
-/// Renders the three-panel report designer layout.
+/// Renders the dock-based report designer layout.
 /// </summary>
 public partial class _ReportDesignerLayout
 {
     #region Members
+
+    private const string PropertiesPaneName = "properties";
+
+    private const string ReportExplorerPaneName = "report-explorer";
+
+    private const string FieldsExplorerPaneName = "report-fields-explorer";
+
+    private const string SurfacePaneName = "report-designer";
+
+    private const string ToolbarPaneName = "report-toolbar";
+
+    private const string ToolboxPaneName = "report-toolbox";
+
+    private readonly DockLayoutState dockLayoutState = new();
+
+    private string activePanelPaneName = PropertiesPaneName;
+
+    private bool? dockLayoutToolbarVisible;
 
     private Div designerElement;
 
@@ -27,6 +43,18 @@ public partial class _ReportDesignerLayout
     #endregion
 
     #region Methods
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        activePanelPaneName = ResolvePanelPaneName( SelectedPanelTab );
+
+        EnsureDockLayoutState();
+
+        ActivateSelectedPanelTab();
+    }
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -68,9 +96,165 @@ public partial class _ReportDesignerLayout
     [JSInvokable]
     public Task OnDesignerShortcut( string shortcut )
     {
-        return Enum.TryParse<ReportDesignerShortcut>( shortcut, out var designerShortcut )
+        return Enum.TryParse( shortcut, out ReportDesignerShortcut designerShortcut )
             ? InvokeAsync( () => Shortcut.InvokeAsync( designerShortcut ) )
             : Task.CompletedTask;
+    }
+
+    private void ActivateSelectedPanelTab()
+    {
+        string paneName = ResolvePanelPaneName( SelectedPanelTab );
+
+        if ( string.IsNullOrWhiteSpace( paneName ) )
+            return;
+
+        DockNodeState tabsNode = FindTabsNode( dockLayoutState.Root, paneName );
+
+        if ( tabsNode is not null && !string.Equals( tabsNode.ActivePane, paneName, StringComparison.Ordinal ) )
+            tabsNode.ActivePane = paneName;
+    }
+
+    private async Task OnDockLayoutStateChanged( DockLayoutState state )
+    {
+        string selectedPanelTab = ResolveSelectedPanelTab( state );
+
+        if ( !string.IsNullOrWhiteSpace( selectedPanelTab ) )
+            activePanelPaneName = ResolvePanelPaneName( selectedPanelTab );
+
+        if ( !string.IsNullOrWhiteSpace( selectedPanelTab )
+             && !string.Equals( selectedPanelTab, SelectedPanelTab, StringComparison.Ordinal )
+             && SelectedPanelTabChanged.HasDelegate )
+        {
+            await SelectedPanelTabChanged.InvokeAsync( selectedPanelTab );
+        }
+    }
+
+    private string ResolveSelectedPanelTab( DockLayoutState state )
+    {
+        DockNodeState propertiesTabsNode = FindTabsNode( state?.Root, PropertiesPaneName );
+        DockNodeState explorerTabsNode = FindTabsNode( state?.Root, ReportExplorerPaneName );
+
+        if ( explorerTabsNode is not null && string.Equals( explorerTabsNode.ActivePane, ReportExplorerPaneName, StringComparison.Ordinal ) )
+            return nameof( ReportDesignerPanelTab.Explorer );
+
+        if ( propertiesTabsNode is not null && string.Equals( propertiesTabsNode.ActivePane, PropertiesPaneName, StringComparison.Ordinal ) )
+            return nameof( ReportDesignerPanelTab.Properties );
+
+        return null;
+    }
+
+    private static string ResolvePanelPaneName( string selectedPanelTab )
+    {
+        return string.Equals( selectedPanelTab, nameof( ReportDesignerPanelTab.Explorer ), StringComparison.Ordinal )
+            ? ReportExplorerPaneName
+            : PropertiesPaneName;
+    }
+
+    private static DockNodeState FindTabsNode( DockNodeState node, string paneName )
+    {
+        if ( node is null || string.IsNullOrWhiteSpace( paneName ) )
+            return null;
+
+        if ( node.Kind == DockNodeKind.Tabs && node.Panes.Contains( paneName ) )
+            return node;
+
+        return FindTabsNode( node.First, paneName ) ?? FindTabsNode( node.Second, paneName );
+    }
+
+    private void EnsureDockLayoutState()
+    {
+        bool toolbarVisible = ShowToolbar && Toolbar is not null;
+
+        if ( dockLayoutToolbarVisible == toolbarVisible
+             && DockTreeContainsPane( dockLayoutState.Root, ToolboxPaneName )
+             && DockTreeContainsPane( dockLayoutState.Root, FieldsExplorerPaneName )
+             && DockTreeContainsPane( dockLayoutState.Root, SurfacePaneName )
+             && DockTreeContainsPane( dockLayoutState.Root, PropertiesPaneName )
+             && DockTreeContainsPane( dockLayoutState.Root, ReportExplorerPaneName )
+             && ( !toolbarVisible || DockTreeContainsPane( dockLayoutState.Root, ToolbarPaneName ) ) )
+        {
+            return;
+        }
+
+        dockLayoutState.Root = toolbarVisible
+            ? CreateSplitNode(
+                "report-dock-root",
+                CreatePaneNode( "report-dock-toolbar", ToolbarPaneName ),
+                CreateWorkspaceNode(),
+                DockSplitOrientation.Vertical,
+                0.08d )
+            : CreateWorkspaceNode();
+
+        dockLayoutState.Panes.Clear();
+        dockLayoutToolbarVisible = toolbarVisible;
+    }
+
+    private DockNodeState CreateWorkspaceNode()
+    {
+        return CreateSplitNode(
+            "report-dock-workspace",
+            CreateSplitNode(
+                "report-dock-left-stack",
+                CreatePaneNode( "report-dock-toolbox", ToolboxPaneName ),
+                CreatePaneNode( "report-dock-fields-explorer", FieldsExplorerPaneName ),
+                DockSplitOrientation.Vertical,
+                0.34d ),
+            CreateSplitNode(
+                "report-dock-content",
+                CreatePaneNode( "report-dock-surface", SurfacePaneName ),
+                CreateTabsNode( "report-dock-right-tabs", activePanelPaneName, PropertiesPaneName, ReportExplorerPaneName ),
+                DockSplitOrientation.Horizontal,
+                0.76d ),
+            DockSplitOrientation.Horizontal,
+            0.24d );
+    }
+
+    private static DockNodeState CreatePaneNode( string id, string paneName )
+    {
+        return new()
+        {
+            Id = id,
+            Kind = DockNodeKind.Pane,
+            PaneName = paneName,
+        };
+    }
+
+    private static DockNodeState CreateSplitNode( string id, DockNodeState first, DockNodeState second, DockSplitOrientation orientation, double ratio )
+    {
+        return new()
+        {
+            Id = id,
+            Kind = DockNodeKind.Split,
+            First = first,
+            Second = second,
+            Orientation = orientation,
+            Ratio = ratio,
+        };
+    }
+
+    private static DockNodeState CreateTabsNode( string id, string activePaneName, params string[] paneNames )
+    {
+        return new()
+        {
+            Id = id,
+            Kind = DockNodeKind.Tabs,
+            Panes = paneNames.ToList(),
+            ActivePane = activePaneName,
+        };
+    }
+
+    private static bool DockTreeContainsPane( DockNodeState node, string paneName )
+    {
+        if ( node is null || string.IsNullOrWhiteSpace( paneName ) )
+            return false;
+
+        return node.Kind switch
+        {
+            DockNodeKind.Pane => string.Equals( node.PaneName, paneName, StringComparison.Ordinal ),
+            DockNodeKind.Tabs => node.Panes.Contains( paneName ),
+            DockNodeKind.Split => DockTreeContainsPane( node.First, paneName ) || DockTreeContainsPane( node.Second, paneName ),
+            _ => false,
+        };
     }
 
     private void EnsureReportingModule()
@@ -89,9 +273,24 @@ public partial class _ReportDesignerLayout
     [Inject] private BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
-    /// Content shown in the left designer toolbox and fields panel.
+    /// Content shown in the top designer toolbar pane.
+    /// </summary>
+    [Parameter] public RenderFragment Toolbar { get; set; }
+
+    /// <summary>
+    /// Defines whether the top designer toolbar pane is visible.
+    /// </summary>
+    [Parameter] public bool ShowToolbar { get; set; } = true;
+
+    /// <summary>
+    /// Content shown in the left designer toolbox dock pane.
     /// </summary>
     [Parameter] public RenderFragment ToolboxPanel { get; set; }
+
+    /// <summary>
+    /// Content shown in the left designer fields explorer dock pane.
+    /// </summary>
+    [Parameter] public RenderFragment FieldsExplorerPanel { get; set; }
 
     /// <summary>
     /// Content shown in the central designer surface.
@@ -99,9 +298,14 @@ public partial class _ReportDesignerLayout
     [Parameter] public RenderFragment Surface { get; set; }
 
     /// <summary>
-    /// Content shown in the right designer properties and explorer panel.
+    /// Content shown in the right designer properties dock pane.
     /// </summary>
-    [Parameter] public RenderFragment Panel { get; set; }
+    [Parameter] public RenderFragment PropertiesPanel { get; set; }
+
+    /// <summary>
+    /// Content shown in the right designer report explorer dock pane.
+    /// </summary>
+    [Parameter] public RenderFragment ReportExplorerPanel { get; set; }
 
     /// <summary>
     /// Floating context menu shown above the designer layout.
@@ -112,6 +316,16 @@ public partial class _ReportDesignerLayout
     /// Raised when a standard designer keyboard shortcut is pressed.
     /// </summary>
     [Parameter] public EventCallback<ReportDesignerShortcut> Shortcut { get; set; }
+
+    /// <summary>
+    /// Name of the selected right-side designer panel.
+    /// </summary>
+    [Parameter] public string SelectedPanelTab { get; set; }
+
+    /// <summary>
+    /// Raised when the selected right-side designer panel changes through dock tabs.
+    /// </summary>
+    [Parameter] public EventCallback<string> SelectedPanelTabChanged { get; set; }
 
     #endregion
 }
