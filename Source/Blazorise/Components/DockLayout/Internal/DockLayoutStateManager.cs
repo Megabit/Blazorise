@@ -97,25 +97,6 @@ internal sealed class DockLayoutStateManager
         return null;
     }
 
-    public IReadOnlyList<DockRailItemState> RemoveRailGroup( DockLayoutState state, DockRailItemState item )
-    {
-        if ( item is null )
-            return [];
-
-        IReadOnlyList<DockRailItemState> groupItems = string.IsNullOrWhiteSpace( item.SourceGroupId )
-            ? [item]
-            : state.Rails
-                .SelectMany( x => x.Items )
-                .Where( x => x.SourceGroupId == item.SourceGroupId )
-                .OrderBy( x => x.SourceIndex )
-                .ToArray();
-
-        foreach ( DockRailItemState groupItem in groupItems )
-            RemoveRailItem( state, groupItem.PaneName );
-
-        return groupItems;
-    }
-
     public void Normalize( DockLayoutState state, DockLayoutRegistry registry, DockLayoutTreeQuery query, ref int nextNodeId )
     {
         EnsureAutoHideRailItems( state, registry.Panes );

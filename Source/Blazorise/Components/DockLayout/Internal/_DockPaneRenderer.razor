@@ -4,18 +4,11 @@
 {
     <CascadingValue Value="@Pane" IsFixed="false">
         <aside @ref="@CapturedElementRef" class="@ClassNames" style="@StyleNames" data-dock-node-id="@NodeId" data-dock-pane-name="@Pane.ResolvedName" data-dock-pane-caption="@Pane.ResolvedCaption">
-            @if ( AutoHide )
-            {
-                <button type="button" class="@AutoHideTabClass" title="@Pane.ResolvedCaption" @onclick="@OpenAutoHidePane">@Pane.ResolvedCaption</button>
-            }
-            else
-            {
-                @Pane.ChildContent
+            @Pane.ChildContent
 
-                @if ( CanResize )
-                {
-                    <DockSplitter Dock="@SplitterDock.Value" NodeId="@SplitNodeId" />
-                }
+            @if ( CanResize )
+            {
+                <DockSplitter Dock="@SplitterDock.Value" NodeId="@SplitNodeId" />
             }
         </aside>
     </CascadingValue>

@@ -1,5 +1,4 @@
 #region Using directives
-using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -49,7 +48,6 @@ public partial class _DockPaneRenderer : BaseComponent
             builder.Append( ClassProvider.DockPanePosition( RenderPosition ) );
             builder.Append( ClassProvider.DockPaneResizable( CanResize ) );
             builder.Append( ClassProvider.DockPaneCollapsed( Collapsed ) );
-            builder.Append( ClassProvider.DockPaneAutoHide( AutoHide ) );
             builder.Append( ClassProvider.DockPaneBordered(), Bordered );
         }
 
@@ -61,16 +59,13 @@ public partial class _DockPaneRenderer : BaseComponent
     {
         if ( Pane is not null )
         {
-            builder.Append( $"--dock-pane-size:{PaneSize}", !AutoHide && RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( PaneSize ) );
-            builder.Append( $"--dock-pane-min-size:{Pane.MinSize}", !AutoHide && RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( Pane.MinSize ) );
-            builder.Append( $"--dock-pane-max-size:{Pane.MaxSize}", !AutoHide && RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( Pane.MaxSize ) );
+            builder.Append( $"--dock-pane-size:{PaneSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( PaneSize ) );
+            builder.Append( $"--dock-pane-min-size:{Pane.MinSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( Pane.MinSize ) );
+            builder.Append( $"--dock-pane-max-size:{Pane.MaxSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( Pane.MaxSize ) );
         }
 
         base.BuildStyles( builder );
     }
-
-    private Task OpenAutoHidePane()
-        => Context?.OpenPaneAutoHide( Pane ) ?? Task.CompletedTask;
 
     #endregion
 
@@ -78,15 +73,11 @@ public partial class _DockPaneRenderer : BaseComponent
 
     private DockPane Pane => pane;
 
-    private bool Visible => Pane is not null && paneState?.Visible != false;
+    private bool Visible => Pane is not null && paneState?.Visible != false && paneState?.AutoHide != true;
 
-    private bool AutoHide => paneState?.AutoHide == true;
-
-    private bool Collapsed => paneState?.Collapsed == true || AutoHide;
+    private bool Collapsed => paneState?.Collapsed == true;
 
     private string PaneSize => paneState?.Size ?? Pane?.Size;
-
-    private string AutoHideTabClass => ClassProvider.DockPaneAutoHideTab( RenderPosition );
 
     private bool CanResize => Pane?.Resizable == true && SplitterDock is not null;
 

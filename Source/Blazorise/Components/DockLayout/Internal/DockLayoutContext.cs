@@ -47,9 +47,6 @@ internal sealed record DockLayoutContext
     internal string GetDockSplitStyle( DockNodeState node )
         => layout?.GetDockSplitStyle( node );
 
-    internal bool IsTabGroupAutoHidden( DockNodeState node )
-        => layout?.IsTabGroupAutoHidden( node ) == true;
-
     internal bool IsDockPaneBordered( DockPanePosition position )
         => layout?.IsDockPaneBordered( position ) == true;
 

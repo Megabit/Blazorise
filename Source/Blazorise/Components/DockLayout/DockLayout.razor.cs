@@ -219,12 +219,6 @@ public partial class DockLayout : BaseComponent
     internal string GetDockSplitStyle( DockNodeState node )
         => sizer.GetDockSplitStyle( node );
 
-    internal bool IsPaneAutoHidden( string paneName )
-        => treeQuery.IsPaneAutoHidden( paneName );
-
-    internal bool IsTabGroupAutoHidden( DockNodeState node )
-        => treeQuery.IsTabGroupAutoHidden( node );
-
     internal bool IsDockPaneBordered( DockPanePosition position )
         => PaneBordered && position != DockPanePosition.Center;
 

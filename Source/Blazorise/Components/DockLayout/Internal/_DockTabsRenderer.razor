@@ -1,10 +1,6 @@
 @namespace Blazorise
 @inherits BaseComponent
-@if ( AutoHide )
-{
-    <_DockAutoHideTabsRenderer NodeId="@NodeId" RenderVersion="@RenderVersion" />
-}
-else if ( Visible )
+@if ( Visible )
 {
     <CascadingValue Value="@ActivePane" IsFixed="false">
         <aside @ref="@CapturedElementRef" class="@ClassNames" style="@StyleNames" data-dock-node-id="@Node.Id" data-dock-pane-name="@ActivePaneName" data-dock-pane-caption="@ActivePane.ResolvedCaption">

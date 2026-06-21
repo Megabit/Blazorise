@@ -75,7 +75,6 @@ public partial class _DockTabsRenderer : BaseComponent
             builder.Append( ClassProvider.DockPanePosition( GroupPosition ) );
             builder.Append( ClassProvider.DockPaneResizable( CanResize ) );
             builder.Append( ClassProvider.DockPaneCollapsed( Collapsed ) );
-            builder.Append( ClassProvider.DockPaneAutoHide( AutoHide ) );
             builder.Append( ClassProvider.DockPaneBordered(), Bordered );
             builder.Append( ClassProvider.DockPaneTabsHost() );
         }
@@ -95,9 +94,9 @@ public partial class _DockTabsRenderer : BaseComponent
     {
         if ( ActivePane is not null )
         {
-            builder.Append( $"--dock-pane-size:{PaneSize}", !AutoHide && GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( PaneSize ) );
-            builder.Append( $"--dock-pane-min-size:{ActivePane.MinSize}", !AutoHide && GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( ActivePane.MinSize ) );
-            builder.Append( $"--dock-pane-max-size:{ActivePane.MaxSize}", !AutoHide && GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( ActivePane.MaxSize ) );
+            builder.Append( $"--dock-pane-size:{PaneSize}", GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( PaneSize ) );
+            builder.Append( $"--dock-pane-min-size:{ActivePane.MinSize}", GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( ActivePane.MinSize ) );
+            builder.Append( $"--dock-pane-max-size:{ActivePane.MaxSize}", GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( ActivePane.MaxSize ) );
         }
 
         base.BuildStyles( builder );
@@ -111,9 +110,7 @@ public partial class _DockTabsRenderer : BaseComponent
 
     private DockPane ActivePane => activePane;
 
-    private bool Visible => Node is not null && ActivePane is not null && activePaneState?.Visible != false;
-
-    private bool AutoHide => Context?.IsTabGroupAutoHidden( Node ) == true;
+    private bool Visible => Node is not null && ActivePane is not null && activePaneState?.Visible != false && activePaneState?.AutoHide != true;
 
     private string TabsClassNames => TabsClassBuilder.Class;
 
@@ -125,7 +122,7 @@ public partial class _DockTabsRenderer : BaseComponent
 
     private bool TabsOnTop => TabsPlacement == DockPaneTabsPlacement.Top;
 
-    private bool Collapsed => activePaneState?.Collapsed == true || AutoHide;
+    private bool Collapsed => activePaneState?.Collapsed == true;
 
     private string PaneSize => Node?.Size ?? activePaneState?.Size ?? ActivePane?.Size;
 

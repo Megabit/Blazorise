@@ -105,17 +105,6 @@ internal sealed class DockLayoutTreeQuery
         return tabsNode is null || GetActiveTabPaneName( tabsNode ) == pane.ResolvedName;
     }
 
-    public bool IsPaneAutoHidden( string paneName )
-        => stateManager.FindPaneState( getState(), paneName )?.AutoHide == true;
-
-    public bool IsTabGroupAutoHidden( DockNodeState node )
-    {
-        if ( node?.Kind != DockNodeKind.Tabs )
-            return false;
-
-        return IsPaneAutoHidden( GetActiveTabPaneName( node ) );
-    }
-
     public string GetActiveTabPaneName( DockNodeState node )
     {
         if ( node is null || node.Kind != DockNodeKind.Tabs )
