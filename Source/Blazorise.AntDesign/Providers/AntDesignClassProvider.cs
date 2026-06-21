@@ -1882,6 +1882,15 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DockPaneBordered() => "ant-dock-pane-bordered";
 
+    public override string DockPaneAutoHideRail( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "ant-dock-auto-hide-rail ant-dock-auto-hide-rail-right",
+            Blazorise.DockPanePosition.Top => "ant-dock-auto-hide-rail ant-dock-auto-hide-rail-top",
+            Blazorise.DockPanePosition.Bottom => "ant-dock-auto-hide-rail ant-dock-auto-hide-rail-bottom",
+            _ => "ant-dock-auto-hide-rail ant-dock-auto-hide-rail-left",
+        };
+
     public override string DockPaneAutoHideTab( DockPanePosition position )
         => position switch
         {

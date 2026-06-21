@@ -1850,6 +1850,15 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DockPaneBordered() => "fui-DockPane--bordered";
 
+    public override string DockPaneAutoHideRail( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "fui-DockAutoHideRail fui-DockAutoHideRail--right",
+            Blazorise.DockPanePosition.Top => "fui-DockAutoHideRail fui-DockAutoHideRail--top",
+            Blazorise.DockPanePosition.Bottom => "fui-DockAutoHideRail fui-DockAutoHideRail--bottom",
+            _ => "fui-DockAutoHideRail fui-DockAutoHideRail--left",
+        };
+
     public override string DockPaneAutoHideTab( DockPanePosition position )
         => position switch
         {

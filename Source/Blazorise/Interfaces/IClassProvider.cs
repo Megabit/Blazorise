@@ -710,6 +710,8 @@ public interface IClassProvider
 
     string DockPaneBordered();
 
+    string DockPaneAutoHideRail( DockPanePosition position );
+
     string DockPaneAutoHideTab( DockPanePosition position );
 
     string DockPaneHeader();

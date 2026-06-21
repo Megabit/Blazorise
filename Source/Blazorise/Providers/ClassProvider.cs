@@ -713,6 +713,8 @@ public abstract class ClassProvider : IClassProvider
 
     public virtual string DockPaneBordered() => null;
 
+    public virtual string DockPaneAutoHideRail( DockPanePosition position ) => null;
+
     public virtual string DockPaneAutoHideTab( DockPanePosition position ) => null;
 
     public virtual string DockPaneHeader() => null;

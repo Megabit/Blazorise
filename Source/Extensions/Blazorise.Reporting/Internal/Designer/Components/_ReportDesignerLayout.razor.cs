@@ -166,12 +166,12 @@ public partial class _ReportDesignerLayout
         bool toolbarVisible = ShowToolbar && Toolbar is not null;
 
         if ( dockLayoutToolbarVisible == toolbarVisible
-             && DockTreeContainsPane( dockLayoutState.Root, ToolboxPaneName )
-             && DockTreeContainsPane( dockLayoutState.Root, FieldsExplorerPaneName )
-             && DockTreeContainsPane( dockLayoutState.Root, SurfacePaneName )
-             && DockTreeContainsPane( dockLayoutState.Root, PropertiesPaneName )
-             && DockTreeContainsPane( dockLayoutState.Root, ReportExplorerPaneName )
-             && ( !toolbarVisible || DockTreeContainsPane( dockLayoutState.Root, ToolbarPaneName ) ) )
+             && DockStateContainsPane( ToolboxPaneName )
+             && DockStateContainsPane( FieldsExplorerPaneName )
+             && DockStateContainsPane( SurfacePaneName )
+             && DockStateContainsPane( PropertiesPaneName )
+             && DockStateContainsPane( ReportExplorerPaneName )
+             && ( !toolbarVisible || DockStateContainsPane( ToolbarPaneName ) ) )
         {
             return;
         }
@@ -188,6 +188,11 @@ public partial class _ReportDesignerLayout
         dockLayoutState.Panes.Clear();
         dockLayoutToolbarVisible = toolbarVisible;
     }
+
+    private bool DockStateContainsPane( string paneName )
+        => DockTreeContainsPane( dockLayoutState.Root, paneName )
+            || DockRailContainsPane( dockLayoutState, paneName )
+            || DockAutoHideContainsPane( dockLayoutState, paneName );
 
     private DockNodeState CreateWorkspaceNode()
     {
@@ -256,6 +261,16 @@ public partial class _ReportDesignerLayout
             _ => false,
         };
     }
+
+    private static bool DockRailContainsPane( DockLayoutState state, string paneName )
+        => state?.Rails?.Any( rail =>
+            rail.Items.Any( item => string.Equals( item.PaneName, paneName, StringComparison.Ordinal ) ) ) == true;
+
+    private static bool DockAutoHideContainsPane( DockLayoutState state, string paneName )
+        => state?.Panes?.Any( paneState =>
+            string.Equals( paneState.Name, paneName, StringComparison.Ordinal )
+            && paneState.Visible
+            && paneState.AutoHide ) == true;
 
     private void EnsureReportingModule()
     {

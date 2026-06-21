@@ -2609,6 +2609,15 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DockPaneBordered() => "tw-dock-pane-bordered";
 
+    public override string DockPaneAutoHideRail( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "tw-dock-auto-hide-rail tw-dock-auto-hide-rail-right",
+            Blazorise.DockPanePosition.Top => "tw-dock-auto-hide-rail tw-dock-auto-hide-rail-top",
+            Blazorise.DockPanePosition.Bottom => "tw-dock-auto-hide-rail tw-dock-auto-hide-rail-bottom",
+            _ => "tw-dock-auto-hide-rail tw-dock-auto-hide-rail-left",
+        };
+
     public override string DockPaneAutoHideTab( DockPanePosition position )
         => position switch
         {

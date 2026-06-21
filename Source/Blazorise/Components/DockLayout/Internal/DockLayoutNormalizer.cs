@@ -109,7 +109,8 @@ internal static class DockLayoutNormalizer
 
         DockPaneState paneState = paneStates.FirstOrDefault( x => x.Name == paneName );
 
-        return paneState?.Visible ?? pane.Visible;
+        return ( paneState?.Visible ?? pane.Visible )
+            && paneState?.AutoHide != true;
     }
 
     private static bool ShouldKeepSinglePaneTabNode( string paneName, IReadOnlyDictionary<string, DockPane> panes )

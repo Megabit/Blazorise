@@ -715,6 +715,8 @@ class EmptyClassProvider : IClassProvider
 
     public string DockPaneBordered() => null;
 
+    public string DockPaneAutoHideRail( DockPanePosition position ) => null;
+
     public string DockPaneAutoHideTab( DockPanePosition position ) => null;
 
     public string DockPaneHeader() => null;

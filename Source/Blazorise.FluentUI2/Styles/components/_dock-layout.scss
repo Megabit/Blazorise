@@ -11,6 +11,22 @@
     box-sizing: border-box;
 }
 
+.fui-DockLayout:has(> .fui-DockAutoHideRail--left) {
+    padding-left: 2rem;
+}
+
+.fui-DockLayout:has(> .fui-DockAutoHideRail--right) {
+    padding-right: 2rem;
+}
+
+.fui-DockLayout:has(> .fui-DockAutoHideRail--top) {
+    padding-top: 2rem;
+}
+
+.fui-DockLayout:has(> .fui-DockAutoHideRail--bottom) {
+    padding-bottom: 2rem;
+}
+
 .fui-DockSplit {
     display: grid;
     gap: var(--dock-split-gap);
@@ -133,6 +149,55 @@
     align-items: stretch;
     justify-content: flex-end;
     overflow: hidden;
+}
+
+.fui-DockAutoHideRail {
+    position: absolute;
+    z-index: 4;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow: hidden;
+    background: var(--b-dock-pane-background, var(--colorNeutralBackground1, #ffffff));
+    border-color: var(--b-dock-pane-border-color, var(--colorNeutralStroke1, #d1d1d1));
+    border-style: solid;
+    border-width: 0;
+}
+
+.fui-DockAutoHideRail--left {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    flex-direction: column;
+    border-right-width: 1px;
+}
+
+.fui-DockAutoHideRail--right {
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    flex-direction: column;
+    border-left-width: 1px;
+}
+
+.fui-DockAutoHideRail--top {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2rem;
+    flex-direction: row;
+    border-bottom-width: 1px;
+}
+
+.fui-DockAutoHideRail--bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2rem;
+    flex-direction: row;
+    border-top-width: 1px;
 }
 
 .fui-DockPane--collapsed .fui-DockPaneBody,

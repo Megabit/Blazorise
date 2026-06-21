@@ -1,4 +1,5 @@
 #region Using directives
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -57,6 +58,9 @@ internal sealed record DockLayoutContext
 
     internal string GetPaneCaption( string paneName )
         => layout?.GetPaneCaption( paneName ) ?? paneName;
+
+    internal IReadOnlyList<DockRailItemState> GetRailItems( DockPanePosition position )
+        => layout?.GetRailItems( position ) ?? [];
 
     internal bool TryGetPane( string paneName, out DockPane pane )
     {

@@ -11,6 +11,22 @@
     box-sizing: border-box;
 }
 
+.dock-layout:has(> .dock-auto-hide-rail-start) {
+    padding-left: 2rem;
+}
+
+.dock-layout:has(> .dock-auto-hide-rail-end) {
+    padding-right: 2rem;
+}
+
+.dock-layout:has(> .dock-auto-hide-rail-top) {
+    padding-top: 2rem;
+}
+
+.dock-layout:has(> .dock-auto-hide-rail-bottom) {
+    padding-bottom: 2rem;
+}
+
 .dock-pane {
     --dock-pane-size: 16rem;
     --dock-pane-min-size: 0;
@@ -139,6 +155,55 @@
     align-items: stretch;
     justify-content: flex-end;
     overflow: hidden;
+}
+
+.dock-auto-hide-rail {
+    position: absolute;
+    z-index: 4;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow: hidden;
+    background: var(--b-dock-pane-background, var(--bs-body-bg, #fff));
+    border-color: var(--b-dock-pane-border-color, var(--bs-border-color, rgba(var(--bs-body-color-rgb, 33, 37, 41), .125)));
+    border-style: solid;
+    border-width: 0;
+}
+
+.dock-auto-hide-rail-start {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    flex-direction: column;
+    border-right-width: 1px;
+}
+
+.dock-auto-hide-rail-end {
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    flex-direction: column;
+    border-left-width: 1px;
+}
+
+.dock-auto-hide-rail-top {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2rem;
+    flex-direction: row;
+    border-bottom-width: 1px;
+}
+
+.dock-auto-hide-rail-bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2rem;
+    flex-direction: row;
+    border-top-width: 1px;
 }
 
 .dock-pane-collapsed .dock-pane-body,

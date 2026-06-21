@@ -11,6 +11,22 @@
     box-sizing: border-box;
 }
 
+.mui-dock-layout:has(> .mui-dock-auto-hide-rail-left) {
+    padding-left: 2rem;
+}
+
+.mui-dock-layout:has(> .mui-dock-auto-hide-rail-right) {
+    padding-right: 2rem;
+}
+
+.mui-dock-layout:has(> .mui-dock-auto-hide-rail-top) {
+    padding-top: 2rem;
+}
+
+.mui-dock-layout:has(> .mui-dock-auto-hide-rail-bottom) {
+    padding-bottom: 2rem;
+}
+
 .mui-dock-split {
     display: grid;
     gap: var(--dock-split-gap);
@@ -133,6 +149,55 @@
     align-items: stretch;
     justify-content: flex-end;
     overflow: hidden;
+}
+
+.mui-dock-auto-hide-rail {
+    position: absolute;
+    z-index: 4;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow: hidden;
+    background: var(--b-dock-pane-background, var(--mui-surface, #ffffff));
+    border-color: var(--b-dock-pane-border-color, var(--mui-outline-variant, #cac4d0));
+    border-style: solid;
+    border-width: 0;
+}
+
+.mui-dock-auto-hide-rail-left {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    flex-direction: column;
+    border-right-width: 1px;
+}
+
+.mui-dock-auto-hide-rail-right {
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    flex-direction: column;
+    border-left-width: 1px;
+}
+
+.mui-dock-auto-hide-rail-top {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2rem;
+    flex-direction: row;
+    border-bottom-width: 1px;
+}
+
+.mui-dock-auto-hide-rail-bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2rem;
+    flex-direction: row;
+    border-top-width: 1px;
 }
 
 .mui-dock-pane-collapsed .mui-dock-pane-body,

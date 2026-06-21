@@ -11,6 +11,22 @@
     box-sizing: border-box;
 }
 
+.dock-layout:has(> .dock-auto-hide-rail.is-left) {
+    padding-left: 2rem;
+}
+
+.dock-layout:has(> .dock-auto-hide-rail.is-right) {
+    padding-right: 2rem;
+}
+
+.dock-layout:has(> .dock-auto-hide-rail.is-top) {
+    padding-top: 2rem;
+}
+
+.dock-layout:has(> .dock-auto-hide-rail.is-bottom) {
+    padding-bottom: 2rem;
+}
+
 .dock-split {
     display: grid;
     gap: var(--dock-split-gap);
@@ -133,6 +149,55 @@
     align-items: stretch;
     justify-content: flex-end;
     overflow: hidden;
+}
+
+.dock-auto-hide-rail {
+    position: absolute;
+    z-index: 4;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow: hidden;
+    background: var(--b-dock-pane-background, #{$scheme-main});
+    border-color: var(--b-dock-pane-border-color, $border);
+    border-style: solid;
+    border-width: 0;
+}
+
+.dock-auto-hide-rail.is-left {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    flex-direction: column;
+    border-right-width: 1px;
+}
+
+.dock-auto-hide-rail.is-right {
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    flex-direction: column;
+    border-left-width: 1px;
+}
+
+.dock-auto-hide-rail.is-top {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2rem;
+    flex-direction: row;
+    border-bottom-width: 1px;
+}
+
+.dock-auto-hide-rail.is-bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2rem;
+    flex-direction: row;
+    border-top-width: 1px;
 }
 
 .dock-pane.is-collapsed .dock-pane-body,

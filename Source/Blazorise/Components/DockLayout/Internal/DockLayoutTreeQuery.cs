@@ -153,6 +153,9 @@ internal sealed class DockLayoutTreeQuery
             _ => null,
         };
 
+    public DockNodePlacement FindPanePlacement( string paneName )
+        => FindPanePlacement( getState().Root, paneName, null, false );
+
     public static DockNodeState FindNodeById( DockNodeState node, string nodeId )
     {
         if ( node is null || string.IsNullOrWhiteSpace( nodeId ) )
@@ -199,7 +202,7 @@ internal sealed class DockLayoutTreeQuery
 
     public string GetFirstPaneName( DockPanePosition position, IReadOnlyList<string> excludedPaneNames )
         => getState().Panes
-            .Where( x => x.Visible && x.Position == position && !excludedPaneNames.Contains( x.Name ) )
+            .Where( x => x.Visible && !x.AutoHide && x.Position == position && !excludedPaneNames.Contains( x.Name ) )
             .OrderBy( x => x.Order )
             .Select( x => x.Name )
             .FirstOrDefault();
@@ -244,6 +247,47 @@ internal sealed class DockLayoutTreeQuery
         => ShouldPreserveInheritedPosition( node, inheritedPosition )
             ? inheritedPosition
             : node.Orientation == DockSplitOrientation.Horizontal ? DockPanePosition.Right : DockPanePosition.Bottom;
+
+    private static DockNodePlacement FindPanePlacement( DockNodeState node, string paneName, DockNodeState parent, bool firstChild )
+    {
+        if ( node is null || string.IsNullOrWhiteSpace( paneName ) )
+            return null;
+
+        if ( node.Kind == DockNodeKind.Pane && node.PaneName == paneName )
+            return CreatePlacement( parent, firstChild );
+
+        if ( node.Kind == DockNodeKind.Tabs && node.Panes.Contains( paneName ) )
+            return CreatePlacement( parent, firstChild );
+
+        if ( node.Kind == DockNodeKind.Split )
+            return FindPanePlacement( node.First, paneName, node, true )
+                ?? FindPanePlacement( node.Second, paneName, node, false );
+
+        return null;
+    }
+
+    private static DockNodePlacement CreatePlacement( DockNodeState parent, bool firstChild )
+    {
+        if ( parent?.Kind != DockNodeKind.Split )
+            return null;
+
+        DockNodeState sibling = firstChild ? parent.Second : parent.First;
+
+        if ( sibling is null )
+            return null;
+
+        DockZone zone = parent.Orientation == DockSplitOrientation.Horizontal
+            ? firstChild ? DockZone.Left : DockZone.Right
+            : firstChild ? DockZone.Top : DockZone.Bottom;
+
+        return new( sibling, zone, parent );
+    }
+
+    #endregion
+
+    #region Nested types
+
+    public sealed record DockNodePlacement( DockNodeState Sibling, DockZone Zone, DockNodeState Parent );
 
     #endregion
 }

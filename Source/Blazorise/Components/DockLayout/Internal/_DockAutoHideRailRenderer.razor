@@ -1,0 +1,14 @@
+@namespace Blazorise
+@inherits BaseComponent
+@if ( Visible )
+{
+    <aside @ref="@ElementRef" class="@ClassNames" data-dock-auto-hide-rail="@RailPosition">
+        @foreach ( DockRailItemState item in Items )
+        {
+            if ( Context?.TryGetPane( item.PaneName, out DockPane pane ) == true )
+            {
+                <button type="button" class="@AutoHideTabClass" title="@pane.ResolvedCaption" @onclick="@(() => OpenPaneAutoHide( pane ))">@pane.ResolvedCaption</button>
+            }
+        }
+    </aside>
+}

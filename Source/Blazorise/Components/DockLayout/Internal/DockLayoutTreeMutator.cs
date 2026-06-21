@@ -124,6 +124,26 @@ internal sealed class DockLayoutTreeMutator
         state.Root = CreateOuterDockSplitNode( state.Root, paneNode, position.Value );
     }
 
+    public void AddNodeToPosition( DockLayoutState state, DockNodeState node, DockPanePosition position )
+    {
+        if ( node is null )
+            return;
+
+        state.Root = position == DockPanePosition.Center
+            ? AddNodeToCenter( state.Root, node )
+            : CreateOuterDockSplitNode( state.Root, node, position );
+    }
+
+    public bool AddNodeToTarget( DockLayoutState state, DockNodeState node, string targetName, string targetNodeId, DockZone zone, double? ratio = null, bool? useRatio = null )
+    {
+        if ( node is null || string.IsNullOrWhiteSpace( targetName ) || !DockLayoutTreeQuery.ContainsPane( state.Root, targetName ) )
+            return false;
+
+        state.Root = SplitTargetNode( state, state.Root, targetName, targetNodeId, node, zone, ratio, useRatio );
+
+        return true;
+    }
+
     public DockNodeState RemovePaneNode( DockNodeState node, string paneName )
     {
         if ( node is null )
@@ -274,30 +294,30 @@ internal sealed class DockLayoutTreeMutator
         return node;
     }
 
-    private DockNodeState SplitTargetNode( DockLayoutState state, DockNodeState node, string targetName, string targetNodeId, DockNodeState paneNode, DockZone zone )
+    private DockNodeState SplitTargetNode( DockLayoutState state, DockNodeState node, string targetName, string targetNodeId, DockNodeState paneNode, DockZone zone, double? ratio = null, bool? useRatio = null )
     {
         if ( node is null )
             return null;
 
         if ( !string.IsNullOrWhiteSpace( targetNodeId ) && node.Id == targetNodeId )
-            return CreateTargetSplitNode( state, node, paneNode, zone );
+            return CreateTargetSplitNode( state, node, paneNode, zone, ratio, useRatio );
 
         if ( node.Kind == DockNodeKind.Pane && node.PaneName == targetName )
-            return CreateTargetSplitNode( state, node, paneNode, zone );
+            return CreateTargetSplitNode( state, node, paneNode, zone, ratio, useRatio );
 
         if ( node.Kind == DockNodeKind.Tabs && node.Panes.Contains( targetName ) )
-            return CreateTargetSplitNode( state, node, paneNode, zone );
+            return CreateTargetSplitNode( state, node, paneNode, zone, ratio, useRatio );
 
         if ( node.Kind == DockNodeKind.Split )
         {
-            node.First = SplitTargetNode( state, node.First, targetName, targetNodeId, paneNode, zone );
-            node.Second = SplitTargetNode( state, node.Second, targetName, targetNodeId, paneNode, zone );
+            node.First = SplitTargetNode( state, node.First, targetName, targetNodeId, paneNode, zone, ratio, useRatio );
+            node.Second = SplitTargetNode( state, node.Second, targetName, targetNodeId, paneNode, zone, ratio, useRatio );
         }
 
         return node;
     }
 
-    private DockNodeState CreateTargetSplitNode( DockLayoutState state, DockNodeState targetNode, DockNodeState paneNode, DockZone zone )
+    private DockNodeState CreateTargetSplitNode( DockLayoutState state, DockNodeState targetNode, DockNodeState paneNode, DockZone zone, double? ratio = null, bool? useRatio = null )
     {
         string targetSize = sizer.GetDockNodeSize( state, targetNode );
         DockNodeState splitNode = zone switch
@@ -312,7 +332,8 @@ internal sealed class DockLayoutTreeMutator
         if ( splitNode?.Kind == DockNodeKind.Split )
         {
             splitNode.Size = targetSize;
-            splitNode.UseRatio = true;
+            splitNode.Ratio = ratio is null ? splitNode.Ratio : Math.Clamp( ratio.Value, 0.02d, 0.98d );
+            splitNode.UseRatio = useRatio ?? true;
         }
 
         return splitNode;

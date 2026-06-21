@@ -17,4 +17,8 @@ public class DockLayoutState
     /// </summary>
     public List<DockPaneState> Panes { get; set; } = new();
 
+    /// <summary>
+    /// Defines the auto-hide rails and their pane tabs.
+    /// </summary>
+    public List<DockRailState> Rails { get; set; } = new();
 }

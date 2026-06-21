@@ -75,7 +75,14 @@ internal sealed class DockLayoutTreeBuilder
     private DockNodeState BuildSimpleDockNode( DockLayoutState state, DockPanePosition position )
     {
         List<string> paneNames = registry.RegisteredPanes
-            .Where( x => stateManager.EnsurePaneState( state, x )?.Position == position )
+            .Where( x =>
+            {
+                DockPaneState paneState = stateManager.EnsurePaneState( state, x );
+
+                return paneState?.Position == position
+                    && paneState.Visible
+                    && !paneState.AutoHide;
+            } )
             .OrderBy( x => stateManager.FindPaneState( state, x.ResolvedName )?.Order ?? 0 )
             .Select( x => x.ResolvedName )
             .ToList();

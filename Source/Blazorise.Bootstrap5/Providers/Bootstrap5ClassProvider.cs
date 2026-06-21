@@ -1498,6 +1498,15 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DockPaneBordered() => "dock-pane-bordered";
 
+    public override string DockPaneAutoHideRail( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "dock-auto-hide-rail dock-auto-hide-rail-end",
+            Blazorise.DockPanePosition.Top => "dock-auto-hide-rail dock-auto-hide-rail-top",
+            Blazorise.DockPanePosition.Bottom => "dock-auto-hide-rail dock-auto-hide-rail-bottom",
+            _ => "dock-auto-hide-rail dock-auto-hide-rail-start",
+        };
+
     public override string DockPaneAutoHideTab( DockPanePosition position )
         => position switch
         {

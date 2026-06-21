@@ -100,7 +100,7 @@ internal sealed class DockLayoutSizer
         if ( position is null || !IsPanePositionCompatibleWithOrientation( position.Value, orientation ) )
             return null;
 
-        if ( !string.IsNullOrWhiteSpace( node?.Size ) )
+        if ( node?.Kind == DockNodeKind.Split && !string.IsNullOrWhiteSpace( node.Size ) )
             return node.Size;
 
         DockPane pane = GetDockNodePane( node );
@@ -119,7 +119,7 @@ internal sealed class DockLayoutSizer
         if ( paneState?.Collapsed == true )
             return CollapsedPaneSize;
 
-        if ( node.Kind == DockNodeKind.Tabs && !string.IsNullOrWhiteSpace( node.Size ) )
+        if ( !string.IsNullOrWhiteSpace( node.Size ) )
             return node.Size;
 
         return paneState?.Size ?? pane.Size ?? GetDefaultDockPaneSize( position.Value );

@@ -1834,6 +1834,15 @@ public class MaterialClassProvider : ClassProvider
 
     public override string DockPaneBordered() => "mui-dock-pane-bordered";
 
+    public override string DockPaneAutoHideRail( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "mui-dock-auto-hide-rail mui-dock-auto-hide-rail-right",
+            Blazorise.DockPanePosition.Top => "mui-dock-auto-hide-rail mui-dock-auto-hide-rail-top",
+            Blazorise.DockPanePosition.Bottom => "mui-dock-auto-hide-rail mui-dock-auto-hide-rail-bottom",
+            _ => "mui-dock-auto-hide-rail mui-dock-auto-hide-rail-left",
+        };
+
     public override string DockPaneAutoHideTab( DockPanePosition position )
         => position switch
         {
