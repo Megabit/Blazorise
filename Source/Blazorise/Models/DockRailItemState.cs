@@ -41,6 +41,31 @@ public class DockRailItemState
     public bool? SourceSplitUseRatio { get; set; }
 
     /// <summary>
+    /// Identifies the sibling pane that the original source group should dock next to when restored.
+    /// </summary>
+    public string SourceGroupTargetPaneName { get; set; }
+
+    /// <summary>
+    /// Identifies the sibling dock node that the original source group should dock next to when restored.
+    /// </summary>
+    public string SourceGroupTargetNodeId { get; set; }
+
+    /// <summary>
+    /// Defines the side of the source group sibling target where the pane should be restored.
+    /// </summary>
+    public DockZone? SourceGroupZone { get; set; }
+
+    /// <summary>
+    /// Defines the original source group split ratio before the pane was auto-hidden.
+    /// </summary>
+    public double? SourceGroupSplitRatio { get; set; }
+
+    /// <summary>
+    /// Defines whether the original source group split used ratio based sizing.
+    /// </summary>
+    public bool? SourceGroupSplitUseRatio { get; set; }
+
+    /// <summary>
     /// Identifies the sibling pane that the auto-hidden pane should dock next to when restored.
     /// </summary>
     public string SourceTargetPaneName { get; set; }

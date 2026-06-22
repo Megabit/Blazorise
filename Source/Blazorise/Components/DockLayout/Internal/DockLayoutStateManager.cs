@@ -55,6 +55,11 @@ internal sealed class DockLayoutStateManager
             ? null
             : state.Rails.SelectMany( x => x.Items ).FirstOrDefault( x => x.SourceTabPaneName == paneName );
 
+    public DockRailItemState FindRailItemBySourceTargetPaneName( DockLayoutState state, string paneName )
+        => string.IsNullOrWhiteSpace( paneName )
+            ? null
+            : state.Rails.SelectMany( x => x.Items ).FirstOrDefault( x => x.SourceTargetPaneName == paneName );
+
     public void SetPaneAutoHide( DockLayoutState state, string paneName, bool autoHide )
     {
         DockPaneState paneState = FindPaneState( state, paneName );
@@ -95,6 +100,15 @@ internal sealed class DockLayoutStateManager
         }
 
         return null;
+    }
+
+    public void UpdateRailGroupSourceTabPane( DockLayoutState state, string sourceGroupId, string sourceTabPaneName )
+    {
+        if ( string.IsNullOrWhiteSpace( sourceGroupId ) || string.IsNullOrWhiteSpace( sourceTabPaneName ) )
+            return;
+
+        foreach ( DockRailItemState item in state.Rails.SelectMany( x => x.Items ).Where( x => x.SourceGroupId == sourceGroupId ) )
+            item.SourceTabPaneName = sourceTabPaneName;
     }
 
     public void Normalize( DockLayoutState state, DockLayoutRegistry registry, DockLayoutTreeQuery query, ref int nextNodeId )

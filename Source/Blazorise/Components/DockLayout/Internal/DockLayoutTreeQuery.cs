@@ -145,6 +145,9 @@ internal sealed class DockLayoutTreeQuery
     public DockNodePlacement FindPanePlacement( string paneName )
         => FindPanePlacement( getState().Root, paneName, null, false );
 
+    public DockNodePlacement FindDockNodePlacement( DockNodeState dockNode )
+        => dockNode is null ? null : FindDockNodePlacement( getState().Root, dockNode, null, false );
+
     public static DockNodeState FindNodeById( DockNodeState node, string nodeId )
     {
         if ( node is null || string.IsNullOrWhiteSpace( nodeId ) )
@@ -251,6 +254,21 @@ internal sealed class DockLayoutTreeQuery
         if ( node.Kind == DockNodeKind.Split )
             return FindPanePlacement( node.First, paneName, node, true )
                 ?? FindPanePlacement( node.Second, paneName, node, false );
+
+        return null;
+    }
+
+    private static DockNodePlacement FindDockNodePlacement( DockNodeState node, DockNodeState dockNode, DockNodeState parent, bool firstChild )
+    {
+        if ( node is null || dockNode is null )
+            return null;
+
+        if ( ReferenceEquals( node, dockNode ) || !string.IsNullOrWhiteSpace( dockNode.Id ) && node.Id == dockNode.Id )
+            return CreatePlacement( parent, firstChild );
+
+        if ( node.Kind == DockNodeKind.Split )
+            return FindDockNodePlacement( node.First, dockNode, node, true )
+                ?? FindDockNodePlacement( node.Second, dockNode, node, false );
 
         return null;
     }

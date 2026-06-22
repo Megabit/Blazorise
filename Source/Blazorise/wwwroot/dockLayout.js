@@ -233,7 +233,7 @@ function findDockTarget(layout, paneName, clientX, clientY) {
         return emptyDockTarget();
     }
 
-    const pane = findTargetPane(layout, paneName, clientX, clientY);
+    const pane = findTargetPane(layout, paneName, clientX, clientY, operation.dragGroup);
 
     if (pane) {
         const paneRect = pane.getBoundingClientRect();
@@ -270,7 +270,7 @@ function findDockTarget(layout, paneName, clientX, clientY) {
     };
 }
 
-function findTargetPane(layout, paneName, clientX, clientY) {
+function findTargetPane(layout, paneName, clientX, clientY, dragGroup) {
     const element = document.elementFromPoint(clientX, clientY);
 
     if (!element || !layout.contains(element)) {
@@ -279,7 +279,11 @@ function findTargetPane(layout, paneName, clientX, clientY) {
 
     const pane = element.closest("[data-dock-pane-name]");
 
-    if (!pane || !layout.contains(pane) || pane.getAttribute("data-dock-pane-name") === paneName) {
+    if (!pane || !layout.contains(pane)) {
+        return null;
+    }
+
+    if (dragGroup && pane.getAttribute("data-dock-pane-name") === paneName) {
         return null;
     }
 

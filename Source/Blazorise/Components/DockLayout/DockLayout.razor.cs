@@ -263,21 +263,40 @@ public partial class DockLayout : BaseComponent
         }
 
         DockNodeState tabsNode = treeQuery.FindTabsNode( paneState.Name );
-        DockRailItemState relatedRailItem = tabsNode is null
+        DockRailItemState relatedTabRailItem = tabsNode is null
             ? stateManager.FindRailItemBySourceTabPaneName( CurrentState, paneState.Name )
             : null;
+        DockRailItemState relatedSplitRailItem = tabsNode is null && relatedTabRailItem is null
+            ? stateManager.FindRailItemBySourceTargetPaneName( CurrentState, paneState.Name )
+            : null;
+        DockRailItemState relatedRailItem = relatedTabRailItem ?? relatedSplitRailItem;
+        bool relatedToHiddenSplitTarget = relatedSplitRailItem is not null;
+        DockLayoutTreeQuery.DockNodePlacement sourcePlacement = treeQuery.FindPanePlacement( paneState.Name );
+        DockLayoutTreeQuery.DockNodePlacement sourceGroupPlacement = sourcePlacement?.Parent is null
+            ? null
+            : treeQuery.FindDockNodePlacement( sourcePlacement.Parent );
         DockPanePosition sourcePosition = tabsNode is null
             ? relatedRailItem?.SourcePosition ?? treeQuery.GetPanePosition( pane )
             : treeQuery.GetDockNodePosition( tabsNode ) ?? paneState.Position;
-        string sourceGroupId = tabsNode?.Id ?? relatedRailItem?.SourceGroupId ?? paneState.Name;
-        string sourceTabPaneName = tabsNode?.Panes.FirstOrDefault( x => x != paneState.Name ) ?? relatedRailItem?.PaneName;
+        string sourceGroupId = tabsNode?.Id ?? relatedRailItem?.SourceGroupId ?? sourcePlacement?.Parent?.Id ?? paneState.Name;
+        string sourceTabPaneName = tabsNode?.Panes.FirstOrDefault( x => x != paneState.Name ) ?? relatedTabRailItem?.PaneName;
         string sourceSize = tabsNode?.Size ?? relatedRailItem?.SourceSize ?? paneState.Size ?? pane.Size;
-        DockLayoutTreeQuery.DockNodePlacement sourcePlacement = treeQuery.FindPanePlacement( paneState.Name );
-        string sourceTargetPaneName = relatedRailItem?.SourceTargetPaneName ?? treeQuery.GetFirstDockNodePaneName( sourcePlacement?.Sibling );
-        string sourceTargetNodeId = relatedRailItem?.SourceTargetNodeId ?? sourcePlacement?.Sibling?.Id;
-        DockZone? sourceZone = relatedRailItem?.SourceZone ?? sourcePlacement?.Zone;
+        string sourceTargetPaneName = relatedToHiddenSplitTarget
+            ? relatedRailItem.PaneName
+            : relatedRailItem?.SourceTargetPaneName ?? treeQuery.GetFirstDockNodePaneName( sourcePlacement?.Sibling );
+        string sourceTargetNodeId = relatedToHiddenSplitTarget
+            ? null
+            : relatedRailItem?.SourceTargetNodeId ?? sourcePlacement?.Sibling?.Id;
+        DockZone? sourceZone = relatedToHiddenSplitTarget
+            ? InvertDockZone( relatedRailItem.SourceZone )
+            : relatedRailItem?.SourceZone ?? sourcePlacement?.Zone;
         double? sourceSplitRatio = relatedRailItem?.SourceSplitRatio ?? sourcePlacement?.Parent?.Ratio;
         bool? sourceSplitUseRatio = relatedRailItem?.SourceSplitUseRatio ?? sourcePlacement?.Parent?.UseRatio;
+        string sourceGroupTargetPaneName = relatedRailItem?.SourceGroupTargetPaneName ?? treeQuery.GetFirstDockNodePaneName( sourceGroupPlacement?.Sibling );
+        string sourceGroupTargetNodeId = relatedRailItem?.SourceGroupTargetNodeId ?? sourceGroupPlacement?.Sibling?.Id;
+        DockZone? sourceGroupZone = relatedRailItem?.SourceGroupZone ?? sourceGroupPlacement?.Zone;
+        double? sourceGroupSplitRatio = relatedRailItem?.SourceGroupSplitRatio ?? sourceGroupPlacement?.Parent?.Ratio;
+        bool? sourceGroupSplitUseRatio = relatedRailItem?.SourceGroupSplitUseRatio ?? sourceGroupPlacement?.Parent?.UseRatio;
         int sourceIndex = tabsNode?.Panes.IndexOf( paneState.Name ) ?? GetRelatedRailItemSourceIndex( relatedRailItem );
 
         paneState.AutoHide = true;
@@ -292,6 +311,11 @@ public partial class DockLayout : BaseComponent
             SourceSize = sourceSize,
             SourceSplitRatio = sourceSplitRatio,
             SourceSplitUseRatio = sourceSplitUseRatio,
+            SourceGroupTargetPaneName = sourceGroupTargetPaneName,
+            SourceGroupTargetNodeId = sourceGroupTargetNodeId,
+            SourceGroupZone = sourceGroupZone,
+            SourceGroupSplitRatio = sourceGroupSplitRatio,
+            SourceGroupSplitUseRatio = sourceGroupSplitUseRatio,
             SourceTargetPaneName = sourceTargetPaneName,
             SourceTargetNodeId = sourceTargetNodeId,
             SourceZone = sourceZone,
@@ -345,7 +369,23 @@ public partial class DockLayout : BaseComponent
                     railItem.SourceSplitUseRatio );
 
             if ( !restoredToTarget )
+            {
+                restoredToTarget = railItem.SourceGroupZone is not null
+                    && treeMutator.AddNodeToTarget(
+                        CurrentState,
+                        restoredNode,
+                        railItem.SourceGroupTargetPaneName,
+                        railItem.SourceGroupTargetNodeId,
+                        railItem.SourceGroupZone.Value,
+                        railItem.SourceGroupSplitRatio,
+                        railItem.SourceGroupSplitUseRatio );
+            }
+
+            if ( !restoredToTarget )
                 treeMutator.AddNodeToPosition( CurrentState, restoredNode, railItem.SourcePosition );
+
+            if ( !string.IsNullOrWhiteSpace( railItem.SourceTabPaneName ) )
+                stateManager.UpdateRailGroupSourceTabPane( CurrentState, railItem.SourceGroupId, paneState.Name );
 
             await NotifyStateChanged();
 
@@ -544,6 +584,8 @@ public partial class DockLayout : BaseComponent
             IReadOnlyList<string> movedPaneNames = sourceTabsNode?.Panes.Count > 1
                 ? sourceTabsNode.Panes.ToArray()
                 : new[] { paneName };
+            targetName = ResolveDropTargetName( paneName, targetName, targetNodeId, moveGroup );
+
             DockPaneState targetState = FindPaneState( targetName );
             bool targetExists = !string.IsNullOrWhiteSpace( targetName ) && !movedPaneNames.Contains( targetName ) && DockLayoutTreeQuery.ContainsPane( CurrentState.Root, targetName );
             bool mergeWithTargetTabs = targetExists && targetZone.Value == DockZone.Center;
@@ -612,15 +654,14 @@ public partial class DockLayout : BaseComponent
 
         DockNodeState sourceTabsNode = DockLayoutTreeQuery.FindNodeById( CurrentState.Root, railItem.SourceGroupId );
 
-        if ( sourceTabsNode?.Kind == DockNodeKind.Tabs )
+        if ( CanRestorePaneToSourceTabsNode( railItem, sourceTabsNode ) )
         {
             AddPaneToTabsNode( sourceTabsNode, paneName, railItem.SourceIndex );
             ApplyRestoredTabsNodeSize( sourceTabsNode, railItem.SourceSize );
             return true;
         }
 
-        if ( !string.IsNullOrWhiteSpace( railItem.SourceTabPaneName )
-             && DockLayoutTreeQuery.ContainsPane( CurrentState.Root, railItem.SourceTabPaneName ) )
+        if ( CanRestorePaneToSourceTabPane( railItem ) )
         {
             treeMutator.MovePaneToZone( CurrentState, paneName, railItem.SourceTabPaneName, null, DockZone.Center, true );
             sourceTabsNode = treeQuery.FindTabsNode( paneName );
@@ -636,6 +677,54 @@ public partial class DockLayout : BaseComponent
         }
 
         return false;
+    }
+
+    private bool CanRestorePaneToSourceTabsNode( DockRailItemState railItem, DockNodeState sourceTabsNode )
+        => sourceTabsNode?.Kind == DockNodeKind.Tabs
+            && treeQuery.GetDockNodePosition( sourceTabsNode ) == railItem.SourcePosition;
+
+    private bool CanRestorePaneToSourceTabPane( DockRailItemState railItem )
+    {
+        if ( string.IsNullOrWhiteSpace( railItem?.SourceTabPaneName )
+             || !DockLayoutTreeQuery.ContainsPane( CurrentState.Root, railItem.SourceTabPaneName ) )
+            return false;
+
+        if ( treeQuery.GetPanePosition( railItem.SourceTabPaneName ) != railItem.SourcePosition )
+            return false;
+
+        if ( railItem.SourceZone is null || string.IsNullOrWhiteSpace( railItem.SourceTargetPaneName ) && string.IsNullOrWhiteSpace( railItem.SourceTargetNodeId ) )
+            return true;
+
+        bool sourceTargetExists = !string.IsNullOrWhiteSpace( railItem.SourceTargetNodeId ) && DockLayoutTreeQuery.FindNodeById( CurrentState.Root, railItem.SourceTargetNodeId ) is not null
+            || !string.IsNullOrWhiteSpace( railItem.SourceTargetPaneName ) && DockLayoutTreeQuery.ContainsPane( CurrentState.Root, railItem.SourceTargetPaneName );
+
+        if ( !sourceTargetExists )
+            return true;
+
+        DockLayoutTreeQuery.DockNodePlacement sourcePlacement = treeQuery.FindPanePlacement( railItem.SourceTabPaneName );
+
+        if ( sourcePlacement?.Zone != railItem.SourceZone )
+            return false;
+
+        return !string.IsNullOrWhiteSpace( railItem.SourceTargetNodeId ) && sourcePlacement.Sibling?.Id == railItem.SourceTargetNodeId
+            || !string.IsNullOrWhiteSpace( railItem.SourceTargetPaneName ) && DockLayoutTreeQuery.ContainsPane( sourcePlacement.Sibling, railItem.SourceTargetPaneName );
+    }
+
+    private string ResolveDropTargetName( string paneName, string targetName, string targetNodeId, bool moveGroup )
+    {
+        if ( moveGroup || targetName != paneName )
+            return targetName;
+
+        DockNodeState targetNode = treeQuery.GetNode( targetNodeId );
+
+        if ( targetNode?.Kind == DockNodeKind.Tabs && targetNode.Panes.Count > 1 )
+            return targetNode.Panes.FirstOrDefault( x => x != paneName ) ?? targetName;
+
+        DockNodeState sourceTabsNode = treeQuery.FindTabsNode( paneName );
+
+        return sourceTabsNode?.Panes.Count > 1
+            ? sourceTabsNode.Panes.FirstOrDefault( x => x != paneName ) ?? targetName
+            : targetName;
     }
 
     private static void AddPaneToTabsNode( DockNodeState tabsNode, string paneName, int sourceIndex )
@@ -658,6 +747,16 @@ public partial class DockLayout : BaseComponent
 
         return relatedRailItem.SourceIndex == 0 ? 1 : 0;
     }
+
+    private static DockZone? InvertDockZone( DockZone? zone )
+        => zone switch
+        {
+            DockZone.Left => DockZone.Right,
+            DockZone.Right => DockZone.Left,
+            DockZone.Top => DockZone.Bottom,
+            DockZone.Bottom => DockZone.Top,
+            _ => zone,
+        };
 
     private static DockPanePosition GetRailPosition( DockPanePosition position )
         => position == DockPanePosition.Center ? DockPanePosition.Right : position;
