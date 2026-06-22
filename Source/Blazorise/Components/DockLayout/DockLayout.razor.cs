@@ -137,6 +137,55 @@ public partial class DockLayout : BaseComponent
     public Task ResetState()
         => LoadState( new DockLayoutState() );
 
+    /// <summary>
+    /// Indicates whether a pane is currently open.
+    /// </summary>
+    /// <param name="paneName">The name of the pane to query.</param>
+    /// <returns>True when the pane is open; otherwise false.</returns>
+    public bool IsPaneOpen( string paneName )
+    {
+        return TryGetPane( paneName, out DockPane pane )
+            && stateManager.EnsurePaneState( CurrentState, pane ).Visible;
+    }
+
+    /// <summary>
+    /// Opens a pane that was previously closed.
+    /// </summary>
+    /// <param name="paneName">The name of the pane to open.</param>
+    /// <returns>A task that completes after the pane has been opened.</returns>
+    public async Task OpenPane( string paneName )
+    {
+        if ( !TryGetPane( paneName, out DockPane pane ) )
+            return;
+
+        DockPaneState paneState = stateManager.EnsurePaneState( CurrentState, pane );
+
+        paneState.Visible = true;
+        paneState.AutoHide = false;
+
+        stateManager.RemoveRailItem( CurrentState, paneState.Name );
+        AddPaneToLayout( paneState );
+
+        await NotifyStateChanged();
+    }
+
+    /// <summary>
+    /// Toggles a pane between opened and closed states.
+    /// </summary>
+    /// <param name="paneName">The name of the pane to toggle.</param>
+    /// <returns>A task that completes after the pane visibility has been toggled.</returns>
+    public Task TogglePane( string paneName )
+    {
+        if ( !TryGetPane( paneName, out DockPane pane ) )
+            return Task.CompletedTask;
+
+        DockPaneState paneState = stateManager.EnsurePaneState( CurrentState, pane );
+
+        return paneState.Visible
+            ? ClosePane( paneName )
+            : OpenPane( paneName );
+    }
+
     internal void RegisterPane( DockPane pane )
     {
         if ( registry.RegisterPane( pane ) )
@@ -417,14 +466,22 @@ public partial class DockLayout : BaseComponent
         await ClosePane( pane.ResolvedName );
     }
 
-    internal async Task ClosePane( string paneName )
+    /// <summary>
+    /// Closes a pane and removes it from the visible layout.
+    /// </summary>
+    /// <param name="paneName">The name of the pane to close.</param>
+    /// <returns>A task that completes after the pane has been closed.</returns>
+    public async Task ClosePane( string paneName )
     {
-        if ( !TryGetPane( paneName, out DockPane pane ) || !pane.Closable )
+        if ( !TryGetPane( paneName, out DockPane pane ) )
             return;
 
         DockPaneState paneState = stateManager.EnsurePaneState( CurrentState, pane );
 
         paneState.Visible = false;
+        paneState.AutoHide = false;
+
+        stateManager.RemoveRailItem( CurrentState, paneState.Name );
         CurrentState.Root = treeMutator.RemovePaneNode( CurrentState.Root, paneState.Name );
 
         await NotifyStateChanged();
@@ -760,6 +817,21 @@ public partial class DockLayout : BaseComponent
 
     private static DockPanePosition GetRailPosition( DockPanePosition position )
         => position == DockPanePosition.Center ? DockPanePosition.Right : position;
+
+    private void AddPaneToLayout( DockPaneState paneState )
+    {
+        if ( paneState is null || DockLayoutTreeQuery.ContainsPane( CurrentState.Root, paneState.Name ) )
+            return;
+
+        DockNodeState paneNode = new()
+        {
+            Kind = DockNodeKind.Pane,
+            PaneName = paneState.Name,
+            Size = paneState.Size,
+        };
+
+        treeMutator.AddNodeToPosition( CurrentState, paneNode, paneState.Position );
+    }
 
     private async Task NotifyStateChanged()
     {
