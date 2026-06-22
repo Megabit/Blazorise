@@ -18,49 +18,19 @@
                             <Strong>Explorer</Strong>
                         </DockPaneHeader>
                         <DockPaneBody>
-                            <ListGroup Flush>
-                                <ListGroupItem>Documents</ListGroupItem>
-                                <ListGroupItem>Reports</ListGroupItem>
-                                <ListGroupItem>Templates</ListGroupItem>
-                                <ListGroupItem>Data Sources</ListGroupItem>
-                            </ListGroup>
+                            Content 1
                         </DockPaneBody>
                     </DockPane>
 
                     <DockPane Name="toolbar" Caption="Toolbar" DockRole="DockRole.Tool" Dock="DockPanePosition.Top" Movable="false">
                         <DockPaneBody Padding="Padding.Is2">
-                            <Div Flex="Flex.Row.AlignItems.Center" Gap="Gap.Is2">
-                                <Button Color="Color.Primary" Size="Size.Small">
-                                    <Icon Name="IconName.Save" />
-                                    Save
-                                </Button>
-                                <Button Color="Color.Light" Size="Size.Small">
-                                    <Icon Name="IconName.Sync" />
-                                    Refresh
-                                </Button>
-                                <Button Color="Color.Light" Size="Size.Small">
-                                    <Icon Name="IconName.Search" />
-                                    Find
-                                </Button>
-                            </Div>
+                            Content 2
                         </DockPaneBody>
                     </DockPane>
 
                     <DockPane Name="designer" Caption="Designer" DockRole="DockRole.Document" ShowTab="false">
                         <DockPaneBody Padding="Padding.Is4" Background="Background.Light">
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Design Surface</CardTitle>
-                                </CardHeader>
-                                <CardBody>
-                                    <Paragraph>
-                                        The center document pane can hide its tab, while tool panes can still be dropped into the center document group.
-                                    </Paragraph>
-                                    <Alert Color="Color.Info" Visible>
-                                        Drag pane headers to another edge of the layout. Drop a pane onto the center to create a document tab group.
-                                    </Alert>
-                                </CardBody>
-                            </Card>
+                            Content 3
                         </DockPaneBody>
                     </DockPane>
 
@@ -69,17 +39,7 @@
                             <Strong>Properties</Strong>
                         </DockPaneHeader>
                         <DockPaneBody>
-                            <Field>
-                                <FieldLabel>Name</FieldLabel>
-                                <TextInput Value="Invoice summary" />
-                            </Field>
-                            <Field>
-                                <FieldLabel>Mode</FieldLabel>
-                                <Select TValue="string" Value="@("Design")">
-                                    <SelectItem Value="@("Design")">Design</SelectItem>
-                                    <SelectItem Value="@("Preview")">Preview</SelectItem>
-                                </Select>
-                            </Field>
+                            Content 4
                         </DockPaneBody>
                         <DockPaneFooter>
                             <Button Color="Color.Primary" Size="Size.Small">Apply</Button>
@@ -91,13 +51,7 @@
                             <Strong>Report Explorer</Strong>
                         </DockPaneHeader>
                         <DockPaneBody>
-                            <ListGroup Flush>
-                                <ListGroupItem>Invoice report</ListGroupItem>
-                                <ListGroupItem>Report header</ListGroupItem>
-                                <ListGroupItem>Page header</ListGroupItem>
-                                <ListGroupItem>Detail</ListGroupItem>
-                                <ListGroupItem>Report footer</ListGroupItem>
-                            </ListGroup>
+                            Content 5
                         </DockPaneBody>
                     </DockPane>
 
@@ -106,7 +60,7 @@
                             <Strong>Output</Strong>
                         </DockPaneHeader>
                         <DockPaneBody>
-                            Ready. No errors or warnings.
+                            Content 6
                         </DockPaneBody>
                     </DockPane>
                 </DockLayout>
