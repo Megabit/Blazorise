@@ -62,9 +62,9 @@ public partial class _DockPaneHeaderActions : BaseComponent
 
     private bool Visible => AutoHideActionVisible || CloseActionVisible;
 
-    private string AutoHideTitle => Pane?.EffectiveAutoHide == true ? "Pin" : "Auto hide";
+    private string AutoHideTitle => Pane?.EffectiveAutoHide == true ? "Pin" : "Unpin";
 
-    private IconName AutoHideIconName => Pane?.EffectiveAutoHide == true ? IconName.Expand : IconName.EyeSlash;
+    private IconName AutoHideIconName => Pane?.EffectiveAutoHide == true ? IconName.Pin : IconName.Unpin;
 
     private string ActionClassNames => ActionClassBuilder.Class;
 
