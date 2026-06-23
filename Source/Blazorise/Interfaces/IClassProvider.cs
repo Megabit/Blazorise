@@ -714,6 +714,8 @@ public interface IClassProvider
 
     string DockPaneAutoHideTab( DockPanePosition position );
 
+    string DockPaneAutoHideFlyout( DockPanePosition position );
+
     string DockPaneHeader();
 
     string DockPaneHeaderContent();

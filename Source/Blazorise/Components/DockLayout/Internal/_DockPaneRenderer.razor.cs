@@ -33,7 +33,9 @@ public partial class _DockPaneRenderer : BaseComponent
         paneState = Context?.GetPaneState( PaneName );
         renderPosition = Pane is null
             ? DockPanePosition.Center
-            : Context?.GetPanePosition( Pane ) ?? Pane.EffectivePosition;
+            : Flyout
+                ? GetFlyoutPosition( paneState?.Position ?? Pane.EffectivePosition )
+                : Context?.GetPanePosition( Pane ) ?? Pane.EffectivePosition;
 
         DirtyClasses();
         DirtyStyles();
@@ -49,6 +51,7 @@ public partial class _DockPaneRenderer : BaseComponent
             builder.Append( ClassProvider.DockPaneResizable( CanResize ) );
             builder.Append( ClassProvider.DockPaneCollapsed( Collapsed ) );
             builder.Append( ClassProvider.DockPaneBordered(), Bordered );
+            builder.Append( ClassProvider.DockPaneAutoHideFlyout( RenderPosition ), Flyout );
         }
 
         base.BuildClasses( builder );
@@ -62,6 +65,8 @@ public partial class _DockPaneRenderer : BaseComponent
             builder.Append( $"--dock-pane-size:{PaneSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( PaneSize ) );
             builder.Append( $"--dock-pane-min-size:{Pane.MinSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( Pane.MinSize ) );
             builder.Append( $"--dock-pane-max-size:{Pane.MaxSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( Pane.MaxSize ) );
+            builder.Append( $"width:{PaneSize}", Flyout && IsHorizontalFlyout && !string.IsNullOrWhiteSpace( PaneSize ) );
+            builder.Append( $"height:{PaneSize}", Flyout && IsVerticalFlyout && !string.IsNullOrWhiteSpace( PaneSize ) );
         }
 
         base.BuildStyles( builder );
@@ -73,17 +78,26 @@ public partial class _DockPaneRenderer : BaseComponent
 
     private DockPane Pane => pane;
 
-    private bool Visible => Pane is not null && paneState?.Visible != false && paneState?.AutoHide != true;
+    private bool Visible => Pane is not null && paneState?.Visible != false && ( Flyout || paneState?.AutoHide != true );
 
     private bool Collapsed => paneState?.Collapsed == true;
 
     private string PaneSize => paneState?.Size ?? Pane?.Size;
 
-    private bool CanResize => Pane?.Resizable == true && SplitterDock is not null;
+    private bool CanResize => !Flyout && Pane?.Resizable == true && SplitterDock is not null;
 
     private bool Bordered => Context?.IsDockPaneBordered( RenderPosition ) == true;
 
     private DockPanePosition RenderPosition => renderPosition;
+
+    private string AutoHideFlyoutPosition => Flyout ? RenderPosition.ToString() : null;
+
+    private bool IsHorizontalFlyout => RenderPosition is DockPanePosition.Left or DockPanePosition.Right;
+
+    private bool IsVerticalFlyout => RenderPosition is DockPanePosition.Top or DockPanePosition.Bottom;
+
+    private static DockPanePosition GetFlyoutPosition( DockPanePosition position )
+        => position == DockPanePosition.Center ? DockPanePosition.Right : position;
 
     private ElementReference CapturedElementRef
     {
@@ -111,6 +125,11 @@ public partial class _DockPaneRenderer : BaseComponent
     /// Gets or sets the layout render version.
     /// </summary>
     [Parameter] public int RenderVersion { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the pane is rendered as a temporary auto-hide flyout.
+    /// </summary>
+    [Parameter] public bool Flyout { get; set; }
 
     /// <summary>
     /// Gets or sets the local splitter side for the rendered pane.

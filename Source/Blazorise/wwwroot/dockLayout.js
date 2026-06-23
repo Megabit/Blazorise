@@ -1,5 +1,6 @@
 let operation = null;
 let animationFrame = null;
+let autoHideOutside = null;
 
 export function beginResize(dotNetObjectRef, pane, paneName, nodeId, position, clientX, clientY, minSize, maxSize) {
     cancel();
@@ -87,19 +88,77 @@ export function cancel() {
     operation = null;
 }
 
+export function setAutoHideOutsideHandler(dotNetObjectRef, layout, enabled) {
+    clearAutoHideOutsideHandler();
+
+    if (!enabled || !layout) {
+        return;
+    }
+
+    const handler = (event) => {
+        if (!autoHideOutside || !autoHideOutside.layout || !autoHideOutside.layout.isConnected) {
+            clearAutoHideOutsideHandler();
+            return;
+        }
+
+        const target = event.target;
+
+        if (target instanceof Element) {
+            const flyout = target.closest("[data-dock-auto-hide-flyout]");
+            const rail = target.closest("[data-dock-auto-hide-rail]");
+
+            if ((flyout && autoHideOutside.layout.contains(flyout)) || (rail && autoHideOutside.layout.contains(rail))) {
+                return;
+            }
+        }
+
+        const currentAutoHideOutside = autoHideOutside;
+        clearAutoHideOutsideHandler();
+
+        window.setTimeout(() => {
+            if (currentAutoHideOutside?.dotNetObjectRef) {
+                currentAutoHideOutside.dotNetObjectRef.invokeMethodAsync("NotifyDockAutoHideOutsidePointerDown");
+            }
+        }, 0);
+    };
+
+    autoHideOutside = { dotNetObjectRef, layout, handler };
+    document.addEventListener("pointerdown", handler);
+}
+
+function clearAutoHideOutsideHandler() {
+    if (!autoHideOutside) {
+        return;
+    }
+
+    document.removeEventListener("pointerdown", autoHideOutside.handler);
+    autoHideOutside = null;
+}
+
 function addDocumentListeners(move, end) {
     operation.move = move;
     operation.end = end;
+    operation.cancelOnPointerDown = cancelStaleOperationOnPointerDown;
 
+    document.addEventListener("pointerdown", operation.cancelOnPointerDown, true);
     document.addEventListener("pointermove", move, true);
     document.addEventListener("pointerup", end, true);
     document.addEventListener("pointercancel", end, true);
 }
 
 function removeDocumentListeners() {
+    document.removeEventListener("pointerdown", operation.cancelOnPointerDown, true);
     document.removeEventListener("pointermove", operation.move, true);
     document.removeEventListener("pointerup", operation.end, true);
     document.removeEventListener("pointercancel", operation.end, true);
+}
+
+function cancelStaleOperationOnPointerDown() {
+    if (!operation) {
+        return;
+    }
+
+    cancel();
 }
 
 function onResizeMove(event) {

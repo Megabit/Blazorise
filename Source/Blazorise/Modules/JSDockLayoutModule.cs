@@ -40,6 +40,10 @@ public class JSDockLayoutModule : BaseJSModule, IJSDockLayoutModule
     public ValueTask Cancel()
         => InvokeSafeVoidAsync( "cancel" );
 
+    /// <inheritdoc/>
+    public ValueTask SetAutoHideOutsideHandler( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference layoutRef, bool enabled )
+        => InvokeSafeVoidAsync( "setAutoHideOutsideHandler", dotNetObjectRef, layoutRef, enabled );
+
     #endregion
 
     #region Properties

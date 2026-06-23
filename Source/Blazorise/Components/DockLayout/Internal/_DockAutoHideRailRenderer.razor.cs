@@ -39,8 +39,8 @@ public partial class _DockAutoHideRailRenderer : BaseComponent
         base.BuildClasses( builder );
     }
 
-    private Task OpenPaneAutoHide( DockPane pane )
-        => Context?.OpenPaneAutoHide( pane ) ?? Task.CompletedTask;
+    private Task ExpandPaneAutoHide( DockPane pane )
+        => Context?.ExpandPaneAutoHide( pane ) ?? Task.CompletedTask;
 
     #endregion
 

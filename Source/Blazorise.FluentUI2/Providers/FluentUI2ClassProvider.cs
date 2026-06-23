@@ -1868,6 +1868,15 @@ public class FluentUI2ClassProvider : ClassProvider
             _ => "fui-DockPaneAutoHideTab fui-DockPaneAutoHideTab--left",
         };
 
+    public override string DockPaneAutoHideFlyout( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "fui-DockAutoHideFlyout fui-DockAutoHideFlyout--right",
+            Blazorise.DockPanePosition.Top => "fui-DockAutoHideFlyout fui-DockAutoHideFlyout--top",
+            Blazorise.DockPanePosition.Bottom => "fui-DockAutoHideFlyout fui-DockAutoHideFlyout--bottom",
+            _ => "fui-DockAutoHideFlyout fui-DockAutoHideFlyout--left",
+        };
+
     public override string DockPaneHeader() => "fui-DockPaneHeader";
 
     public override string DockPaneHeaderContent() => "fui-DockPaneHeader__content";

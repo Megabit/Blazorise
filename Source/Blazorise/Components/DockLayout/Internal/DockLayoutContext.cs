@@ -89,8 +89,11 @@ internal sealed record DockLayoutContext
     internal Task TogglePaneAutoHide( DockPane pane )
         => layout?.TogglePaneAutoHide( pane ) ?? Task.CompletedTask;
 
-    internal Task OpenPaneAutoHide( DockPane pane )
-        => layout?.OpenPaneAutoHide( pane ) ?? Task.CompletedTask;
+    internal Task ExpandPaneAutoHide( DockPane pane )
+        => layout?.ExpandPaneAutoHide( pane ) ?? Task.CompletedTask;
+
+    internal Task PinPaneAutoHide( DockPane pane )
+        => layout?.PinPaneAutoHide( pane ) ?? Task.CompletedTask;
 
     internal Task ClosePane( DockPane pane )
         => layout?.ClosePane( pane ) ?? Task.CompletedTask;

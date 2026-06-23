@@ -1017,6 +1017,22 @@ hr.divider.divider-text::before {
   box-sizing: border-box;
 }
 
+.dock-layout:has(> .dock-auto-hide-rail-start) {
+  padding-left: 2rem;
+}
+
+.dock-layout:has(> .dock-auto-hide-rail-end) {
+  padding-right: 2rem;
+}
+
+.dock-layout:has(> .dock-auto-hide-rail-top) {
+  padding-top: 2rem;
+}
+
+.dock-layout:has(> .dock-auto-hide-rail-bottom) {
+  padding-bottom: 2rem;
+}
+
 .dock-pane {
   --dock-pane-size: 16rem;
   --dock-pane-min-size: 0;
@@ -1149,13 +1165,13 @@ hr.divider.divider-text::before {
 
 .dock-auto-hide-rail {
   position: absolute;
-  z-index: 4;
+  z-index: var(--b-dock-auto-hide-rail-zindex, 1301);
   display: flex;
   align-items: stretch;
   justify-content: flex-start;
   overflow: hidden;
-  background: var(--b-dock-pane-background, transparent);
-  border-color: var(--b-dock-pane-border-color, currentColor);
+  background: var(--b-dock-pane-background, var(--bs-body-bg, #fff));
+  border-color: var(--b-dock-pane-border-color, var(--bs-border-color, rgba(var(--bs-body-color-rgb, 33, 37, 41), 0.125)));
   border-style: solid;
   border-width: 0;
 }
@@ -1194,6 +1210,48 @@ hr.divider.divider-text::before {
   height: 2rem;
   flex-direction: row;
   border-top-width: 1px;
+}
+
+.dock-auto-hide-flyout {
+  position: absolute;
+  z-index: var(--b-dock-auto-hide-flyout-zindex, 1302);
+  box-shadow: var(--b-dock-pane-shadow, 0 0.5rem 1rem rgba(var(--bs-body-color-rgb, 33, 37, 41), 0.15));
+}
+
+.dock-auto-hide-flyout-start {
+  left: 2rem;
+  top: 0;
+  bottom: 0;
+  width: var(--dock-pane-size);
+  min-width: var(--dock-pane-min-size);
+  max-width: var(--dock-pane-max-size);
+}
+
+.dock-auto-hide-flyout-end {
+  right: 2rem;
+  top: 0;
+  bottom: 0;
+  width: var(--dock-pane-size);
+  min-width: var(--dock-pane-min-size);
+  max-width: var(--dock-pane-max-size);
+}
+
+.dock-auto-hide-flyout-top {
+  top: 2rem;
+  left: 0;
+  right: 0;
+  height: var(--dock-pane-size);
+  min-height: var(--dock-pane-min-size);
+  max-height: var(--dock-pane-max-size);
+}
+
+.dock-auto-hide-flyout-bottom {
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  height: var(--dock-pane-size);
+  min-height: var(--dock-pane-min-size);
+  max-height: var(--dock-pane-max-size);
 }
 
 .dock-pane-collapsed .dock-pane-body,

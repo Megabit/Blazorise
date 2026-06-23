@@ -1900,6 +1900,15 @@ public class AntDesignClassProvider : ClassProvider
             _ => "ant-dock-pane-autohide-tab ant-dock-pane-autohide-tab-left",
         };
 
+    public override string DockPaneAutoHideFlyout( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "ant-dock-auto-hide-flyout ant-dock-auto-hide-flyout-right",
+            Blazorise.DockPanePosition.Top => "ant-dock-auto-hide-flyout ant-dock-auto-hide-flyout-top",
+            Blazorise.DockPanePosition.Bottom => "ant-dock-auto-hide-flyout ant-dock-auto-hide-flyout-bottom",
+            _ => "ant-dock-auto-hide-flyout ant-dock-auto-hide-flyout-left",
+        };
+
     public override string DockPaneHeader() => "ant-dock-pane-header";
 
     public override string DockPaneHeaderContent() => "ant-dock-pane-header-content";

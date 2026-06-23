@@ -2627,6 +2627,15 @@ public class TailwindClassProvider : ClassProvider
             _ => "tw-dock-pane-autohide-tab tw-dock-pane-autohide-tab-left",
         };
 
+    public override string DockPaneAutoHideFlyout( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "tw-dock-auto-hide-flyout tw-dock-auto-hide-flyout-right",
+            Blazorise.DockPanePosition.Top => "tw-dock-auto-hide-flyout tw-dock-auto-hide-flyout-top",
+            Blazorise.DockPanePosition.Bottom => "tw-dock-auto-hide-flyout tw-dock-auto-hide-flyout-bottom",
+            _ => "tw-dock-auto-hide-flyout tw-dock-auto-hide-flyout-left",
+        };
+
     public override string DockPaneHeader() => "tw-dock-pane-header";
 
     public override string DockPaneHeaderContent() => "tw-dock-pane-header-content";

@@ -41,4 +41,13 @@ public interface IJSDockLayoutModule : IBaseJSModule
     /// </summary>
     /// <returns>A task that completes when the operation is cancelled.</returns>
     ValueTask Cancel();
+
+    /// <summary>
+    /// Enables or disables document-level outside pointer tracking for auto-hide flyouts.
+    /// </summary>
+    /// <param name="dotNetObjectRef">The .NET object that receives outside pointer callbacks.</param>
+    /// <param name="layoutRef">The dock layout element reference.</param>
+    /// <param name="enabled">True to enable outside pointer tracking; otherwise false.</param>
+    /// <returns>A task that completes when tracking has been updated.</returns>
+    ValueTask SetAutoHideOutsideHandler( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference layoutRef, bool enabled );
 }

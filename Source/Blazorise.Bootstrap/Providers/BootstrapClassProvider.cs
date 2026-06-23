@@ -1508,6 +1508,15 @@ public class BootstrapClassProvider : ClassProvider
             _ => "dock-pane-autohide-tab dock-pane-autohide-tab-left",
         };
 
+    public override string DockPaneAutoHideFlyout( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "dock-auto-hide-flyout dock-auto-hide-flyout-right",
+            Blazorise.DockPanePosition.Top => "dock-auto-hide-flyout dock-auto-hide-flyout-top",
+            Blazorise.DockPanePosition.Bottom => "dock-auto-hide-flyout dock-auto-hide-flyout-bottom",
+            _ => "dock-auto-hide-flyout dock-auto-hide-flyout-left",
+        };
+
     public override string DockPaneHeader() => "dock-pane-header";
 
     public override string DockPaneHeaderContent() => "dock-pane-header-content";

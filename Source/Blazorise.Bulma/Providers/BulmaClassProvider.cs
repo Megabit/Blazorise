@@ -1815,6 +1815,15 @@ public class BulmaClassProvider : ClassProvider
             _ => "dock-pane-auto-hide-tab is-left",
         };
 
+    public override string DockPaneAutoHideFlyout( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "dock-auto-hide-flyout is-right",
+            Blazorise.DockPanePosition.Top => "dock-auto-hide-flyout is-top",
+            Blazorise.DockPanePosition.Bottom => "dock-auto-hide-flyout is-bottom",
+            _ => "dock-auto-hide-flyout is-left",
+        };
+
     public override string DockPaneHeader() => "dock-pane-header";
 
     public override string DockPaneHeaderContent() => "dock-pane-header-content";

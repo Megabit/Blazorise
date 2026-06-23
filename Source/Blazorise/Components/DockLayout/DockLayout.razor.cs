@@ -40,6 +40,10 @@ public partial class DockLayout : BaseComponent
 
     private DotNetObjectReference<DockLayout> dotNetObjectRef;
 
+    private string activeAutoHidePaneName;
+
+    private bool autoHideOutsideHandlerEnabled;
+
     private int nextNodeId;
 
     private int renderVersion;
@@ -124,6 +128,7 @@ public partial class DockLayout : BaseComponent
     public async Task LoadState( DockLayoutState state )
     {
         this.state = state ?? new();
+        activeAutoHidePaneName = null;
 
         EnsureCurrentStateInitialized();
 
@@ -161,6 +166,8 @@ public partial class DockLayout : BaseComponent
         DockPaneState paneState = stateManager.EnsurePaneState( CurrentState, pane );
         DockPaneRestoreState restorePlacement = paneState.RestorePlacement;
         DockRailItemState railItem = stateManager.RemoveRailItem( CurrentState, paneState.Name );
+
+        ClearActiveAutoHidePane( paneState.Name );
 
         paneState.Visible = true;
         paneState.AutoHide = false;
@@ -313,7 +320,7 @@ public partial class DockLayout : BaseComponent
 
         if ( railItem is not null || paneState.AutoHide )
         {
-            await OpenPaneAutoHide( pane );
+            await PinPaneAutoHide( pane );
             return;
         }
 
@@ -324,12 +331,53 @@ public partial class DockLayout : BaseComponent
 
         stateManager.AddRailItem( CurrentState, GetRailPosition( restorePlacement.SourcePosition ), CreateRailItem( paneState.Name, restorePlacement ) );
 
+        ClearActiveAutoHidePane( paneState.Name );
+
         CurrentState.Root = treeMutator.RemovePaneNode( CurrentState.Root, paneState.Name );
 
         await NotifyStateChanged();
     }
 
-    internal async Task OpenPaneAutoHide( DockPane pane )
+    internal Task ExpandPaneAutoHide( DockPane pane )
+    {
+        if ( pane is null )
+            return Task.CompletedTask;
+
+        DockPaneState paneState = stateManager.EnsurePaneState( CurrentState, pane );
+        DockRailItemState railItem = stateManager.FindRailItem( CurrentState, paneState.Name );
+
+        if ( railItem is null || !paneState.Visible )
+            return Task.CompletedTask;
+
+        paneState.AutoHide = true;
+        paneState.Position = railItem.SourcePosition;
+        activeAutoHidePaneName = paneState.Name;
+
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    internal Task CollapsePaneAutoHide()
+    {
+        if ( activeAutoHidePaneName is null )
+            return Task.CompletedTask;
+
+        activeAutoHidePaneName = null;
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Collapses the active auto-hide flyout after an outside interaction.
+    /// </summary>
+    /// <returns>A task that completes after the flyout has been collapsed.</returns>
+    [JSInvokable]
+    public Task NotifyDockAutoHideOutsidePointerDown()
+        => CollapsePaneAutoHide();
+
+    internal async Task PinPaneAutoHide( DockPane pane )
     {
         if ( pane is null )
             return;
@@ -340,6 +388,7 @@ public partial class DockLayout : BaseComponent
         if ( railItem is not null )
         {
             stateManager.RemoveRailItem( CurrentState, railItem.PaneName );
+            ClearActiveAutoHidePane( railItem.PaneName );
 
             DockPaneRestoreState restorePlacement = CreateRestorePlacement( railItem );
 
@@ -367,6 +416,8 @@ public partial class DockLayout : BaseComponent
         {
             paneState.AutoHide = false;
         }
+
+        ClearActiveAutoHidePane( paneState.Name );
 
         await NotifyStateChanged();
     }
@@ -402,6 +453,7 @@ public partial class DockLayout : BaseComponent
         paneState.AutoHide = false;
 
         stateManager.RemoveRailItem( CurrentState, paneState.Name );
+        ClearActiveAutoHidePane( paneState.Name );
         CurrentState.Root = treeMutator.RemovePaneNode( CurrentState.Root, paneState.Name );
 
         await NotifyStateChanged();
@@ -595,14 +647,22 @@ public partial class DockLayout : BaseComponent
     {
         if ( disposing )
         {
+            if ( JSModule is not null )
+            {
+                if ( dotNetObjectRef is not null && autoHideOutsideHandlerEnabled )
+                {
+                    await JSModule.SetAutoHideOutsideHandler( dotNetObjectRef, ElementRef, false );
+                    autoHideOutsideHandlerEnabled = false;
+                }
+
+                await JSModule.Cancel();
+            }
+
             if ( dotNetObjectRef is not null )
             {
                 dotNetObjectRef.Dispose();
                 dotNetObjectRef = null;
             }
-
-            if ( JSModule is not null )
-                await JSModule.Cancel();
         }
 
         await base.DisposeAsync( disposing );
@@ -618,6 +678,30 @@ public partial class DockLayout : BaseComponent
             EnsureCurrentStateInitialized();
             NormalizeCurrentState();
             await NotifyStateChanged();
+        }
+
+        await UpdateAutoHideOutsideHandler();
+    }
+
+    private async Task UpdateAutoHideOutsideHandler()
+    {
+        if ( JSModule is null )
+            return;
+
+        bool enabled = ActiveAutoHidePane is not null;
+
+        if ( autoHideOutsideHandlerEnabled == enabled )
+            return;
+
+        autoHideOutsideHandlerEnabled = enabled;
+
+        if ( enabled )
+        {
+            await JSModule.SetAutoHideOutsideHandler( DotNetObjectRef, ElementRef, true );
+        }
+        else if ( dotNetObjectRef is not null )
+        {
+            await JSModule.SetAutoHideOutsideHandler( dotNetObjectRef, ElementRef, false );
         }
     }
 
@@ -919,6 +1003,12 @@ public partial class DockLayout : BaseComponent
     private static DockPanePosition GetRailPosition( DockPanePosition position )
         => position == DockPanePosition.Center ? DockPanePosition.Right : position;
 
+    private void ClearActiveAutoHidePane( string paneName )
+    {
+        if ( activeAutoHidePaneName == paneName )
+            activeAutoHidePaneName = null;
+    }
+
     private void AddPaneToLayout( DockPaneState paneState )
     {
         if ( paneState is null || DockLayoutTreeQuery.ContainsPane( CurrentState.Root, paneState.Name ) )
@@ -987,6 +1077,13 @@ public partial class DockLayout : BaseComponent
     internal int RenderVersion => renderVersion;
 
     internal int DockGuidesVersion => dragState.Version;
+
+    internal DockPane ActiveAutoHidePane
+        => activeAutoHidePaneName is not null
+            && stateManager.FindRailItem( CurrentState, activeAutoHidePaneName ) is not null
+            && TryGetPane( activeAutoHidePaneName, out DockPane pane )
+                ? pane
+                : null;
 
     private DotNetObjectReference<DockLayout> DotNetObjectRef => dotNetObjectRef ??= DotNetObjectReference.Create( this );
 

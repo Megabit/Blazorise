@@ -22,6 +22,10 @@
             <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Right" Items="@GetRailItems( DockPanePosition.Right )" RenderVersion="@RenderVersion" />
             <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Top" Items="@GetRailItems( DockPanePosition.Top )" RenderVersion="@RenderVersion" />
             <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Bottom" Items="@GetRailItems( DockPanePosition.Bottom )" RenderVersion="@RenderVersion" />
+            @if ( ActiveAutoHidePane is not null )
+            {
+                <_DockPaneRenderer PaneName="@ActiveAutoHidePane.ResolvedName" Flyout RenderVersion="@RenderVersion" />
+            }
             @if ( DockGuidesVisible )
             {
                 <_DockCompassRenderer RenderVersion="@DockGuidesVersion" Style="@DockCompassStyleNames" />

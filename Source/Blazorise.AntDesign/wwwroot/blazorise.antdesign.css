@@ -4148,7 +4148,7 @@ template {
 
 .ant-dock-auto-hide-rail {
   position: absolute;
-  z-index: 4;
+  z-index: var(--b-dock-auto-hide-rail-zindex, 1301);
   display: flex;
   align-items: stretch;
   justify-content: flex-start;
@@ -4193,6 +4193,48 @@ template {
   height: 2rem;
   flex-direction: row;
   border-top-width: 1px;
+}
+
+.ant-dock-auto-hide-flyout {
+  position: absolute;
+  z-index: var(--b-dock-auto-hide-flyout-zindex, 1302);
+  box-shadow: var(--b-dock-pane-shadow, 0 6px 16px rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05));
+}
+
+.ant-dock-auto-hide-flyout-left {
+  left: 2rem;
+  top: 0;
+  bottom: 0;
+  width: var(--dock-pane-size);
+  min-width: var(--dock-pane-min-size);
+  max-width: var(--dock-pane-max-size);
+}
+
+.ant-dock-auto-hide-flyout-right {
+  right: 2rem;
+  top: 0;
+  bottom: 0;
+  width: var(--dock-pane-size);
+  min-width: var(--dock-pane-min-size);
+  max-width: var(--dock-pane-max-size);
+}
+
+.ant-dock-auto-hide-flyout-top {
+  top: 2rem;
+  left: 0;
+  right: 0;
+  height: var(--dock-pane-size);
+  min-height: var(--dock-pane-min-size);
+  max-height: var(--dock-pane-max-size);
+}
+
+.ant-dock-auto-hide-flyout-bottom {
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  height: var(--dock-pane-size);
+  min-height: var(--dock-pane-min-size);
+  max-height: var(--dock-pane-max-size);
 }
 
 .ant-dock-pane-collapsed .ant-dock-pane-body,

@@ -1852,6 +1852,15 @@ public class MaterialClassProvider : ClassProvider
             _ => "mui-dock-pane-autohide-tab mui-dock-pane-autohide-tab-left",
         };
 
+    public override string DockPaneAutoHideFlyout( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "mui-dock-auto-hide-flyout mui-dock-auto-hide-flyout-right",
+            Blazorise.DockPanePosition.Top => "mui-dock-auto-hide-flyout mui-dock-auto-hide-flyout-top",
+            Blazorise.DockPanePosition.Bottom => "mui-dock-auto-hide-flyout mui-dock-auto-hide-flyout-bottom",
+            _ => "mui-dock-auto-hide-flyout mui-dock-auto-hide-flyout-left",
+        };
+
     public override string DockPaneHeader() => "mui-dock-pane-header";
 
     public override string DockPaneHeaderContent() => "mui-dock-pane-header-content";
