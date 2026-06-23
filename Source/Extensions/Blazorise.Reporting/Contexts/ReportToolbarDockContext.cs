@@ -6,28 +6,20 @@ namespace Blazorise.Reporting;
 
 internal sealed class ReportToolbarDockContext
 {
-    public ReportToolbarDockContext( IReadOnlyList<ReportToolbarDockPaneItem> panes, Func<string, bool> isPaneOpen, Func<string, bool, Task> setPaneOpen )
+    public ReportToolbarDockContext( IReadOnlyList<ReportToolbarDockPaneItem> panes, Func<string, Task> showPane )
     {
         Panes = panes;
-        this.isPaneOpen = isPaneOpen;
-        this.setPaneOpen = setPaneOpen;
+        this.showPane = showPane;
     }
 
     public IReadOnlyList<ReportToolbarDockPaneItem> Panes { get; }
 
-    public bool IsPaneOpen( string paneName )
+    public Task ShowPane( string paneName )
     {
-        return isPaneOpen?.Invoke( paneName ) == true;
+        return showPane?.Invoke( paneName ) ?? Task.CompletedTask;
     }
 
-    public Task SetPaneOpen( string paneName, bool open )
-    {
-        return setPaneOpen?.Invoke( paneName, open ) ?? Task.CompletedTask;
-    }
-
-    private readonly Func<string, bool> isPaneOpen;
-
-    private readonly Func<string, bool, Task> setPaneOpen;
+    private readonly Func<string, Task> showPane;
 }
 
 internal sealed class ReportToolbarDockPaneItem

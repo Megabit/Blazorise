@@ -183,6 +183,33 @@ public partial class DockLayout : BaseComponent
     }
 
     /// <summary>
+    /// Shows a pane by opening it, activating it, or expanding its auto-hide flyout.
+    /// </summary>
+    /// <param name="paneName">The name of the pane to show.</param>
+    /// <returns>A task that completes after the pane has been shown.</returns>
+    public async Task ShowPane( string paneName )
+    {
+        if ( !TryGetPane( paneName, out DockPane pane ) )
+            return;
+
+        DockPaneState paneState = stateManager.EnsurePaneState( CurrentState, pane );
+
+        if ( !paneState.Visible )
+        {
+            await OpenPane( paneName );
+            return;
+        }
+
+        if ( stateManager.FindRailItem( CurrentState, paneState.Name ) is not null || paneState.AutoHide )
+        {
+            await ExpandPaneAutoHide( pane );
+            return;
+        }
+
+        await ActivatePane( paneName );
+    }
+
+    /// <summary>
     /// Toggles a pane between opened and closed states.
     /// </summary>
     /// <param name="paneName">The name of the pane to toggle.</param>

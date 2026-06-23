@@ -20,9 +20,7 @@
         <DropdownMenu Class="b-report-designer-panes-menu">
             @foreach ( ReportToolbarDockPaneItem paneItem in DockContext.Panes )
             {
-                <DropdownItem ShowCheckbox
-                              Checked="@DockContext.IsPaneOpen( paneItem.PaneName )"
-                              CheckedChanged="@(( bool value ) => DockContext.SetPaneOpen( paneItem.PaneName, value ))">
+                <DropdownItem Clicked="@(_ => DockContext.ShowPane( paneItem.PaneName ))">
                     @paneItem.Caption
                 </DropdownItem>
             }

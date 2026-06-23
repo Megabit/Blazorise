@@ -208,18 +208,8 @@ public partial class _ReportDesignerLayout
             || DockRailContainsPane( dockLayoutState, paneName )
             || DockAutoHideContainsPane( dockLayoutState, paneName );
 
-    private bool IsDockPaneOpen( string paneName )
-        => dockLayout?.IsPaneOpen( paneName ) ?? DockStateContainsPane( paneName );
-
-    private Task SetDockPaneOpen( string paneName, bool open )
-    {
-        if ( dockLayout is null )
-            return Task.CompletedTask;
-
-        return open
-            ? dockLayout.OpenPane( paneName )
-            : dockLayout.ClosePane( paneName );
-    }
+    private Task ShowDockPane( string paneName )
+        => dockLayout?.ShowPane( paneName ) ?? Task.CompletedTask;
 
     private DockNodeState CreateWorkspaceNode()
     {
@@ -309,7 +299,7 @@ public partial class _ReportDesignerLayout
     #region Properties
 
     private ReportToolbarDockContext ToolbarDockContext
-        => toolbarDockContext ??= new( dockPaneOptions, IsDockPaneOpen, SetDockPaneOpen );
+        => toolbarDockContext ??= new( dockPaneOptions, ShowDockPane );
 
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
