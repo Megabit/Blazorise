@@ -202,12 +202,16 @@ public partial class DockLayout : BaseComponent
     internal void RegisterPane( DockPane pane )
     {
         if ( registry.RegisterPane( pane ) )
+        {
             stateManager.EnsurePaneState( CurrentState, pane );
+            renderVersion++;
+        }
     }
 
     internal void RegisterContent( DockContent dockContent )
     {
-        registry.RegisterContent( dockContent );
+        if ( registry.RegisterContent( dockContent ) )
+            renderVersion++;
     }
 
     internal Task NotifyDefinitionChanged()
@@ -487,12 +491,15 @@ public partial class DockLayout : BaseComponent
         if ( resizingNode?.Kind == DockNodeKind.Split && !CanResizeDockNode( resizingNode ) )
             return;
 
+        await DocumentObserver.EnsureInitializedAsync();
+
         await JSModule.BeginResize(
             DotNetObjectRef,
             elementRef,
             paneName,
             nodeId,
             dock.ToString(),
+            eventArgs.PointerId,
             eventArgs.ClientX,
             eventArgs.ClientY,
             minSize,
@@ -516,10 +523,13 @@ public partial class DockLayout : BaseComponent
 
         await ActivatePane( pane.ResolvedName );
 
+        await DocumentObserver.EnsureInitializedAsync();
+
         await JSModule.BeginDrag(
             DotNetObjectRef,
             ElementRef,
             pane.ResolvedName,
+            eventArgs.PointerId,
             eventArgs.ClientX,
             eventArgs.ClientY,
             dragGroup );
@@ -697,6 +707,7 @@ public partial class DockLayout : BaseComponent
 
         if ( enabled )
         {
+            await DocumentObserver.EnsureInitializedAsync();
             await JSModule.SetAutoHideOutsideHandler( DotNetObjectRef, ElementRef, true );
         }
         else if ( dotNetObjectRef is not null )
@@ -1111,6 +1122,11 @@ public partial class DockLayout : BaseComponent
     /// Gets the DockLayout JavaScript module.
     /// </summary>
     [Inject] protected IJSDockLayoutModule JSModule { get; set; }
+
+    /// <summary>
+    /// Gets the shared document observer.
+    /// </summary>
+    [Inject] protected IDocumentObserver DocumentObserver { get; set; }
 
     /// <summary>
     /// Defines whether non-document panes should render a visible border.

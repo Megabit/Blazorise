@@ -10,6 +10,10 @@ internal sealed class DockLayoutRegistry
 
     private readonly Dictionary<string, DockPane> panes = new();
 
+    private readonly Dictionary<string, int> paneDefinitionVersions = new();
+
+    private int contentDefinitionVersion;
+
     #endregion
 
     #region Methods
@@ -21,14 +25,28 @@ internal sealed class DockLayoutRegistry
         if ( string.IsNullOrWhiteSpace( paneName ) )
             return false;
 
-        panes[paneName] = pane;
+        bool changed = !panes.TryGetValue( paneName, out DockPane registeredPane )
+            || !ReferenceEquals( registeredPane, pane )
+            || !paneDefinitionVersions.TryGetValue( paneName, out int registeredDefinitionVersion )
+            || registeredDefinitionVersion != pane.DefinitionVersion;
 
-        return true;
+        panes[paneName] = pane;
+        paneDefinitionVersions[paneName] = pane.DefinitionVersion;
+
+        return changed;
     }
 
-    public void RegisterContent( DockContent content )
+    public bool RegisterContent( DockContent content )
     {
+        if ( content is null )
+            return false;
+
+        bool changed = !ReferenceEquals( Content, content ) || contentDefinitionVersion != content.DefinitionVersion;
+
         Content = content;
+        contentDefinitionVersion = content.DefinitionVersion;
+
+        return changed;
     }
 
     public void UnregisterPane( DockPane pane )
@@ -39,6 +57,7 @@ internal sealed class DockLayoutRegistry
             return;
 
         panes.Remove( paneName );
+        paneDefinitionVersions.Remove( paneName );
     }
 
     public bool TryGetPane( string paneName, out DockPane pane )

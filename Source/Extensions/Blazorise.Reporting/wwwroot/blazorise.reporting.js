@@ -1,9 +1,9 @@
 let sectionResize;
-const listenerOptions = { capture: true, passive: false };
 const designerKeyboardShortcuts = new WeakMap();
 let activeDesignerKeyboardShortcut;
 const treeDragImageSuppressors = new WeakMap();
 const textTokenEditors = new WeakMap();
+let nextSubscriptionId = 0;
 
 const designerControlShortcuts = {
     x: "Cut",
@@ -26,11 +26,19 @@ const designerPlainShortcuts = {
     ArrowDown: "MoveDown",
 };
 
-export function startSectionResize(dotNetReference, startClientY) {
+export function startSectionResize(dotNetReference, startClientY, pointerId) {
     stopSectionResize();
+
+    const observer = getDocumentObserver();
+
+    if (!observer) {
+        return;
+    }
 
     sectionResize = {
         dotNetReference,
+        ownerId: createDocumentObserverOwnerId("section-resize"),
+        pointerId,
         ended: false,
         lastClientY: startClientY ?? 0,
         move: event => {
@@ -57,8 +65,8 @@ export function startSectionResize(dotNetReference, startClientY) {
         cancel: event => cancelSectionResize(event),
     };
 
-    addSectionResizeListeners(document, sectionResize);
-    addSectionResizeListeners(window, sectionResize);
+    addSectionResizeListeners(sectionResize);
+    observer.capturePointer(sectionResize.ownerId, sectionResize.pointerId);
 }
 
 export function stopSectionResize() {
@@ -78,8 +86,15 @@ export function startDesignerKeyboardShortcuts(element, dotNetReference) {
 
     stopDesignerKeyboardShortcuts(element);
 
+    const observer = getDocumentObserver();
+
+    if (!observer) {
+        return;
+    }
+
     const shortcuts = {
         dotNetReference,
+        ownerId: createDocumentObserverOwnerId("keyboard"),
         pointerDown: event => {
             if (element.contains(event.target)) {
                 activeDesignerKeyboardShortcut = shortcuts;
@@ -110,10 +125,37 @@ export function startDesignerKeyboardShortcuts(element, dotNetReference) {
         },
     };
 
-    document.addEventListener("pointerdown", shortcuts.pointerDown, true);
-    document.addEventListener("mousedown", shortcuts.pointerDown, true);
-    document.addEventListener("focusin", shortcuts.focusIn, true);
-    document.addEventListener("keydown", shortcuts.keyDown, true);
+    shortcuts.subscriptions = [
+        createDocumentObserverSubscriptionId("keyboard-pointer"),
+        createDocumentObserverSubscriptionId("keyboard-focus"),
+        createDocumentObserverSubscriptionId("keyboard-key"),
+    ];
+
+    observer.subscribe({
+        id: shortcuts.subscriptions[0],
+        ownerId: shortcuts.ownerId,
+        eventNames: ["pointerdown", "mousedown"],
+        capture: true,
+        ignorePointerCapture: true,
+        handler: shortcuts.pointerDown,
+    });
+
+    observer.subscribe({
+        id: shortcuts.subscriptions[1],
+        ownerId: shortcuts.ownerId,
+        eventNames: ["focusin"],
+        capture: true,
+        handler: shortcuts.focusIn,
+    });
+
+    observer.subscribe({
+        id: shortcuts.subscriptions[2],
+        ownerId: shortcuts.ownerId,
+        eventNames: ["keydown"],
+        capture: true,
+        handler: shortcuts.keyDown,
+    });
+
     designerKeyboardShortcuts.set(element, shortcuts);
 }
 
@@ -128,10 +170,13 @@ export function stopDesignerKeyboardShortcuts(element) {
         return;
     }
 
-    document.removeEventListener("pointerdown", shortcuts.pointerDown, true);
-    document.removeEventListener("mousedown", shortcuts.pointerDown, true);
-    document.removeEventListener("focusin", shortcuts.focusIn, true);
-    document.removeEventListener("keydown", shortcuts.keyDown, true);
+    const observer = getDocumentObserver();
+
+    if (observer && shortcuts.subscriptions) {
+        for (const subscriptionId of shortcuts.subscriptions) {
+            observer.unsubscribe(subscriptionId);
+        }
+    }
 
     if (activeDesignerKeyboardShortcut === shortcuts) {
         activeDesignerKeyboardShortcut = null;
@@ -240,38 +285,83 @@ export function downloadFile(fileName, contentType, content) {
 }
 
 function clearSectionResize(resize) {
-    removeSectionResizeListeners(document, resize);
-    removeSectionResizeListeners(window, resize);
+    removeSectionResizeListeners(resize);
 
     if (sectionResize === resize) {
         sectionResize = null;
     }
 }
 
-function addSectionResizeListeners(target, resize) {
-    target.addEventListener("pointermove", resize.move, listenerOptions);
-    target.addEventListener("pointerup", resize.end, listenerOptions);
-    target.addEventListener("pointercancel", resize.cancel, listenerOptions);
-    target.addEventListener("mousemove", resize.move, listenerOptions);
-    target.addEventListener("mouseup", resize.end, listenerOptions);
-    target.addEventListener("touchmove", resize.move, listenerOptions);
-    target.addEventListener("touchend", resize.end, listenerOptions);
-    target.addEventListener("touchcancel", resize.cancel, listenerOptions);
-    target.addEventListener("dragend", resize.end, listenerOptions);
-    target.addEventListener("blur", resize.cancel, listenerOptions);
+function addSectionResizeListeners(resize) {
+    const observer = getDocumentObserver();
+
+    if (!observer) {
+        return;
+    }
+
+    resize.subscriptions = [
+        createDocumentObserverSubscriptionId("section-resize-move"),
+        createDocumentObserverSubscriptionId("section-resize-end"),
+        createDocumentObserverSubscriptionId("section-resize-cancel"),
+    ];
+
+    observer.subscribe({
+        id: resize.subscriptions[0],
+        ownerId: resize.ownerId,
+        eventNames: ["pointermove", "mousemove", "touchmove"],
+        capture: true,
+        preventDefault: true,
+        throttle: true,
+        handler: resize.move,
+    });
+
+    observer.subscribe({
+        id: resize.subscriptions[1],
+        ownerId: resize.ownerId,
+        eventNames: ["pointerup", "mouseup", "touchend", "dragend"],
+        capture: true,
+        preventDefault: true,
+        handler: resize.end,
+    });
+
+    observer.subscribe({
+        id: resize.subscriptions[2],
+        ownerId: resize.ownerId,
+        eventNames: ["pointercancel", "touchcancel", "blur"],
+        capture: true,
+        preventDefault: true,
+        handler: resize.cancel,
+    });
 }
 
-function removeSectionResizeListeners(target, resize) {
-    target.removeEventListener("pointermove", resize.move, true);
-    target.removeEventListener("pointerup", resize.end, true);
-    target.removeEventListener("pointercancel", resize.cancel, true);
-    target.removeEventListener("mousemove", resize.move, true);
-    target.removeEventListener("mouseup", resize.end, true);
-    target.removeEventListener("touchmove", resize.move, true);
-    target.removeEventListener("touchend", resize.end, true);
-    target.removeEventListener("touchcancel", resize.cancel, true);
-    target.removeEventListener("dragend", resize.end, true);
-    target.removeEventListener("blur", resize.cancel, true);
+function removeSectionResizeListeners(resize) {
+    const observer = getDocumentObserver();
+
+    if (!observer) {
+        return;
+    }
+
+    if (resize.subscriptions) {
+        for (const subscriptionId of resize.subscriptions) {
+            observer.unsubscribe(subscriptionId);
+        }
+    }
+
+    observer.releasePointer(resize.ownerId, resize.pointerId);
+}
+
+function getDocumentObserver() {
+    return globalThis.Blazorise?.documentObserver ?? null;
+}
+
+function createDocumentObserverOwnerId(scope) {
+    return createDocumentObserverSubscriptionId(`${scope}-owner`);
+}
+
+function createDocumentObserverSubscriptionId(scope) {
+    nextSubscriptionId++;
+
+    return `reporting-${scope}-${nextSubscriptionId}`;
 }
 
 async function completeSectionResize(resize, clientY) {

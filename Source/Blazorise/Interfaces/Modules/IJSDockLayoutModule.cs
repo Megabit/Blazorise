@@ -17,12 +17,13 @@ public interface IJSDockLayoutModule : IBaseJSModule
     /// <param name="paneName">The pane name.</param>
     /// <param name="nodeId">The split node id.</param>
     /// <param name="position">The pane position.</param>
+    /// <param name="pointerId">The starting pointer identifier.</param>
     /// <param name="clientX">The starting pointer X coordinate.</param>
     /// <param name="clientY">The starting pointer Y coordinate.</param>
     /// <param name="minSize">The configured minimum size.</param>
     /// <param name="maxSize">The configured maximum size.</param>
     /// <returns>A task that completes when tracking has started.</returns>
-    ValueTask BeginResize( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference paneRef, string paneName, string nodeId, string position, double clientX, double clientY, string minSize, string maxSize );
+    ValueTask BeginResize( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference paneRef, string paneName, string nodeId, string position, long pointerId, double clientX, double clientY, string minSize, string maxSize );
 
     /// <summary>
     /// Starts document-level drag tracking for a dock pane.
@@ -30,11 +31,12 @@ public interface IJSDockLayoutModule : IBaseJSModule
     /// <param name="dotNetObjectRef">The .NET object that receives drag callbacks.</param>
     /// <param name="layoutRef">The dock layout element reference.</param>
     /// <param name="paneName">The pane name.</param>
+    /// <param name="pointerId">The starting pointer identifier.</param>
     /// <param name="clientX">The starting pointer X coordinate.</param>
     /// <param name="clientY">The starting pointer Y coordinate.</param>
     /// <param name="dragGroup">Indicates whether the entire tab group should be dragged.</param>
     /// <returns>A task that completes when tracking has started.</returns>
-    ValueTask BeginDrag( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference layoutRef, string paneName, double clientX, double clientY, bool dragGroup );
+    ValueTask BeginDrag( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference layoutRef, string paneName, long pointerId, double clientX, double clientY, bool dragGroup );
 
     /// <summary>
     /// Cancels the current dock pointer operation.

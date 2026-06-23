@@ -16,6 +16,8 @@ public partial class DockPane : BaseComponent, IDisposable
 
     private DockNodeState node;
 
+    private int definitionVersion;
+
     #endregion
 
     #region Methods
@@ -46,6 +48,9 @@ public partial class DockPane : BaseComponent, IDisposable
     /// <inheritdoc/>
     public override Task SetParametersAsync( ParameterView parameters )
     {
+        if ( parameters.TryGetValue<RenderFragment>( nameof( ChildContent ), out _ ) )
+            definitionVersion++;
+
         if ( ( parameters.TryGetValue<DockRole>( nameof( DockRole ), out DockRole dockRole ) && DockRole != dockRole )
              || ( parameters.TryGetValue<DockPanePosition>( nameof( Dock ), out DockPanePosition dock ) && Dock != dock )
              || ( parameters.TryGetValue<bool>( nameof( Resizable ), out bool resizable ) && Resizable != resizable )
@@ -116,6 +121,8 @@ public partial class DockPane : BaseComponent, IDisposable
     {
         Kind = DockNodeKind.Pane,
     };
+
+    internal int DefinitionVersion => definitionVersion;
 
     [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
 

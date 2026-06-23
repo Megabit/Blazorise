@@ -3447,7 +3447,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         SelectSection( sectionIndex );
 
-        await StartDocumentSectionResizeAsync( eventArgs.ClientY );
+        await StartDocumentSectionResizeAsync( eventArgs.ClientY, eventArgs.PointerId );
         await InvokeAsync( StateHasChanged );
     }
 
@@ -3971,12 +3971,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return InvokeAsync( CancelSectionPointerResizeAsync );
     }
 
-    private async Task StartDocumentSectionResizeAsync( double startClientY )
+    private async Task StartDocumentSectionResizeAsync( double startClientY, long pointerId )
     {
         EnsureReportingModule();
         dotNetObjectReference ??= DotNetObjectReference.Create( this );
 
-        await reportingModule.StartSectionResize( dotNetObjectReference, startClientY );
+        await DocumentObserver.EnsureInitializedAsync();
+        await reportingModule.StartSectionResize( dotNetObjectReference, startClientY, pointerId );
     }
 
     private void EnsureReportingModule()
@@ -4534,6 +4535,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     /// Blazorise options used to create the local Reporting module.
     /// </summary>
     [Inject] private BlazoriseOptions BlazoriseOptions { get; set; }
+
+    /// <summary>
+    /// Shared document observer used by document-level Reporting interactions.
+    /// </summary>
+    [Inject] private IDocumentObserver DocumentObserver { get; set; }
 
     /// <summary>
     /// PDF generator used by the report viewer download command.

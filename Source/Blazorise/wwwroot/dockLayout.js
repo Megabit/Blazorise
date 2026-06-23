@@ -1,8 +1,9 @@
 let operation = null;
 let animationFrame = null;
 let autoHideOutside = null;
+let nextSubscriptionId = 0;
 
-export function beginResize(dotNetObjectRef, pane, paneName, nodeId, position, clientX, clientY, minSize, maxSize) {
+export function beginResize(dotNetObjectRef, pane, paneName, nodeId, position, pointerId, clientX, clientY, minSize, maxSize) {
     cancel();
 
     const resizeElement = getResizeElement(pane);
@@ -28,6 +29,8 @@ export function beginResize(dotNetObjectRef, pane, paneName, nodeId, position, c
         paneName,
         nodeId,
         position,
+        ownerId: createDocumentObserverOwnerId("resize"),
+        pointerId,
         startX: clientX,
         startY: clientY,
         startFirstSize: firstSize,
@@ -47,7 +50,7 @@ function getResizeElement(element) {
     return element;
 }
 
-export function beginDrag(dotNetObjectRef, layout, paneName, clientX, clientY, dragGroup) {
+export function beginDrag(dotNetObjectRef, layout, paneName, pointerId, clientX, clientY, dragGroup) {
     cancel();
 
     operation = {
@@ -55,6 +58,8 @@ export function beginDrag(dotNetObjectRef, layout, paneName, clientX, clientY, d
         dotNetObjectRef,
         layout,
         paneName,
+        ownerId: createDocumentObserverOwnerId("drag"),
+        pointerId,
         dragGroup,
         startX: clientX,
         startY: clientY,
@@ -122,8 +127,23 @@ export function setAutoHideOutsideHandler(dotNetObjectRef, layout, enabled) {
         }, 0);
     };
 
-    autoHideOutside = { dotNetObjectRef, layout, handler };
-    document.addEventListener("pointerdown", handler);
+    const observer = getDocumentObserver();
+    const subscriptionId = createDocumentObserverSubscriptionId("autohide");
+
+    if (!observer) {
+        return;
+    }
+
+    observer.subscribe({
+        id: subscriptionId,
+        ownerId: subscriptionId,
+        eventNames: ["pointerdown"],
+        capture: false,
+        ignorePointerCapture: true,
+        handler,
+    });
+
+    autoHideOutside = { dotNetObjectRef, layout, subscriptionId };
 }
 
 function clearAutoHideOutsideHandler() {
@@ -131,26 +151,81 @@ function clearAutoHideOutsideHandler() {
         return;
     }
 
-    document.removeEventListener("pointerdown", autoHideOutside.handler);
+    getDocumentObserver()?.unsubscribe(autoHideOutside.subscriptionId);
     autoHideOutside = null;
 }
 
+function getDocumentObserver() {
+    return globalThis.Blazorise?.documentObserver ?? null;
+}
+
+function createDocumentObserverOwnerId(scope) {
+    return createDocumentObserverSubscriptionId(`${scope}-owner`);
+}
+
+function createDocumentObserverSubscriptionId(scope) {
+    nextSubscriptionId++;
+
+    return `dock-layout-${scope}-${nextSubscriptionId}`;
+}
+
 function addDocumentListeners(move, end) {
+    const observer = getDocumentObserver();
+
+    if (!observer) {
+        return;
+    }
+
     operation.move = move;
     operation.end = end;
     operation.cancelOnPointerDown = cancelStaleOperationOnPointerDown;
+    operation.subscriptions = [
+        createDocumentObserverSubscriptionId("pointerdown"),
+        createDocumentObserverSubscriptionId("pointermove"),
+        createDocumentObserverSubscriptionId("pointerend"),
+    ];
 
-    document.addEventListener("pointerdown", operation.cancelOnPointerDown, true);
-    document.addEventListener("pointermove", move, true);
-    document.addEventListener("pointerup", end, true);
-    document.addEventListener("pointercancel", end, true);
+    observer.subscribe({
+        id: operation.subscriptions[0],
+        ownerId: operation.ownerId,
+        eventNames: ["pointerdown"],
+        capture: true,
+        ignorePointerCapture: true,
+        handler: operation.cancelOnPointerDown,
+    });
+
+    observer.subscribe({
+        id: operation.subscriptions[1],
+        ownerId: operation.ownerId,
+        eventNames: ["pointermove"],
+        capture: true,
+        preventDefault: true,
+        throttle: true,
+        handler: move,
+    });
+
+    observer.subscribe({
+        id: operation.subscriptions[2],
+        ownerId: operation.ownerId,
+        eventNames: ["pointerup", "pointercancel"],
+        capture: true,
+        preventDefault: true,
+        handler: end,
+    });
+
+    observer.capturePointer(operation.ownerId, operation.pointerId);
 }
 
 function removeDocumentListeners() {
-    document.removeEventListener("pointerdown", operation.cancelOnPointerDown, true);
-    document.removeEventListener("pointermove", operation.move, true);
-    document.removeEventListener("pointerup", operation.end, true);
-    document.removeEventListener("pointercancel", operation.end, true);
+    const observer = getDocumentObserver();
+
+    if (observer && operation.subscriptions) {
+        for (const subscriptionId of operation.subscriptions) {
+            observer.unsubscribe(subscriptionId);
+        }
+
+        observer.releasePointer(operation.ownerId, operation.pointerId);
+    }
 }
 
 function cancelStaleOperationOnPointerDown() {

@@ -29,12 +29,12 @@ public class JSDockLayoutModule : BaseJSModule, IJSDockLayoutModule
     #region Methods
 
     /// <inheritdoc/>
-    public ValueTask BeginResize( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference paneRef, string paneName, string nodeId, string position, double clientX, double clientY, string minSize, string maxSize )
-        => InvokeSafeVoidAsync( "beginResize", dotNetObjectRef, paneRef, paneName, nodeId, position, clientX, clientY, minSize, maxSize );
+    public ValueTask BeginResize( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference paneRef, string paneName, string nodeId, string position, long pointerId, double clientX, double clientY, string minSize, string maxSize )
+        => InvokeSafeVoidAsync( "beginResize", dotNetObjectRef, paneRef, paneName, nodeId, position, pointerId, clientX, clientY, minSize, maxSize );
 
     /// <inheritdoc/>
-    public ValueTask BeginDrag( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference layoutRef, string paneName, double clientX, double clientY, bool dragGroup )
-        => InvokeSafeVoidAsync( "beginDrag", dotNetObjectRef, layoutRef, paneName, clientX, clientY, dragGroup );
+    public ValueTask BeginDrag( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference layoutRef, string paneName, long pointerId, double clientX, double clientY, bool dragGroup )
+        => InvokeSafeVoidAsync( "beginDrag", dotNetObjectRef, layoutRef, paneName, pointerId, clientX, clientY, dragGroup );
 
     /// <inheritdoc/>
     public ValueTask Cancel()

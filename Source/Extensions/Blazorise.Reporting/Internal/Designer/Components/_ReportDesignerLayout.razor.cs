@@ -77,6 +77,7 @@ public partial class _ReportDesignerLayout
             EnsureReportingModule();
             dotNetObjectReference ??= DotNetObjectReference.Create( this );
 
+            await DocumentObserver.EnsureInitializedAsync();
             await reportingModule.StartDesignerKeyboardShortcuts( designerElement.ElementRef, dotNetObjectReference );
         }
     }
@@ -315,6 +316,8 @@ public partial class _ReportDesignerLayout
     [Inject] private IVersionProvider VersionProvider { get; set; }
 
     [Inject] private BlazoriseOptions BlazoriseOptions { get; set; }
+
+    [Inject] private IDocumentObserver DocumentObserver { get; set; }
 
     /// <summary>
     /// Content shown in the top designer toolbar pane.

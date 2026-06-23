@@ -34,10 +34,11 @@ public class JSReportingModule : BaseJSModule
     /// </summary>
     /// <param name="dotNetObjectReference">Report component reference that receives resize callbacks.</param>
     /// <param name="startClientY">Initial document pointer Y coordinate.</param>
+    /// <param name="pointerId">The starting pointer identifier.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public virtual async ValueTask StartSectionResize( DotNetObjectReference<Report> dotNetObjectReference, double startClientY )
+    public virtual async ValueTask StartSectionResize( DotNetObjectReference<Report> dotNetObjectReference, double startClientY, long pointerId )
     {
-        await InvokeSafeVoidAsync( "startSectionResize", dotNetObjectReference, startClientY );
+        await InvokeSafeVoidAsync( "startSectionResize", dotNetObjectReference, startClientY, pointerId );
     }
 
     /// <summary>

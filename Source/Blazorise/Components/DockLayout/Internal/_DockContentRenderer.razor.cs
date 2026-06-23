@@ -15,5 +15,10 @@ public partial class _DockContentRenderer : ComponentBase
 
     [CascadingParameter] internal DockLayoutContext Context { get; set; }
 
+    /// <summary>
+    /// Gets or sets the layout render version.
+    /// </summary>
+    [Parameter] public int RenderVersion { get; set; }
+
     #endregion
 }
