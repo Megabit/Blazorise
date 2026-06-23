@@ -2,7 +2,7 @@ namespace Blazorise.Icons.AntDesign;
 
 /// <summary>
 /// Generated file, do not change. See README.md.
-/// Strongly-typed list of Ant Design icon names. (@ant-design/icons v6.1.1)
+/// Strongly-typed list of Ant Design icon names. (@ant-design/icons v6.2.4)
 /// </summary>
 public static class AntDesignIcons
 {
