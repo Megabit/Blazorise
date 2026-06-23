@@ -5,7 +5,8 @@
 
 <Div @ref="designerElement"
      Class="b-report-designer">
-    <DockLayout Class="b-report-designer-layout"
+    <DockLayout @ref="dockLayout"
+                Class="b-report-designer-layout"
                 State="@dockLayoutState"
                 StateChanged="@OnDockLayoutStateChanged"
                 PaneBordered>
@@ -23,7 +24,9 @@
                           Closable="false">
                     <DockPaneBody Class="b-report-designer-toolbar-pane"
                                   Padding="Padding.Is3">
-                        @Toolbar
+                        <CascadingValue Value="@ToolbarDockContext" IsFixed="true">
+                            @Toolbar
+                        </CascadingValue>
                     </DockPaneBody>
                 </DockPane>
 

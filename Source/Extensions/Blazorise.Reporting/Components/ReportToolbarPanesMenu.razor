@@ -1,0 +1,31 @@
+@namespace Blazorise.Reporting
+
+@if ( DockContext is not null )
+{
+    <Dropdown Display="Display.InlineBlock">
+        <DropdownToggle Color="@Color"
+                        ToggleIconVisible="false"
+                        title="@Text"
+                        aria-label="@Text">
+            @if ( ShowCaption )
+            {
+                <Icon Name="@Icon" Margin="Margin.Is2.FromEnd" />
+                @Text
+            }
+            else
+            {
+                <Icon Name="@Icon" />
+            }
+        </DropdownToggle>
+        <DropdownMenu Class="b-report-designer-panes-menu">
+            @foreach ( ReportToolbarDockPaneItem paneItem in DockContext.Panes )
+            {
+                <DropdownItem ShowCheckbox
+                              Checked="@DockContext.IsPaneOpen( paneItem.PaneName )"
+                              CheckedChanged="@(( bool value ) => DockContext.SetPaneOpen( paneItem.PaneName, value ))">
+                    @paneItem.Caption
+                </DropdownItem>
+            }
+        </DropdownMenu>
+    </Dropdown>
+}

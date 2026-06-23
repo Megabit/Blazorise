@@ -36,6 +36,11 @@ public class DockPaneState
     public bool Visible { get; set; } = true;
 
     /// <summary>
+    /// Stores the source placement used when reopening the pane after it was closed.
+    /// </summary>
+    public DockPaneRestoreState RestorePlacement { get; set; }
+
+    /// <summary>
     /// Defines the order of the pane within its docked side.
     /// </summary>
     public int Order { get; set; }

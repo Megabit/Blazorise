@@ -16,6 +16,18 @@
     align-items: center;
     gap: .5rem;
     flex-wrap: wrap;
+    position: relative;
+    z-index: 20;
+    overflow: visible;
+}
+
+.b-report-designer-layout [data-dock-pane-name="report-toolbar"] {
+    z-index: 20;
+    overflow: visible;
+}
+
+.b-report-designer-panes-menu {
+    z-index: 1200;
 }
 
 .b-report-designer-toolbox-pane,

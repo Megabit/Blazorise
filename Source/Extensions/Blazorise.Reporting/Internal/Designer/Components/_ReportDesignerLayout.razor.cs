@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Reporting;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -28,11 +29,23 @@ public partial class _ReportDesignerLayout
 
     private const string ToolboxPaneName = "report-toolbox";
 
+    private static readonly ReportToolbarDockPaneItem[] dockPaneOptions =
+    [
+        new( ToolboxPaneName, "Toolbox" ),
+        new( FieldsExplorerPaneName, "Fields Explorer" ),
+        new( PropertiesPaneName, "Properties" ),
+        new( ReportExplorerPaneName, "Report Explorer" ),
+    ];
+
     private readonly DockLayoutState dockLayoutState = new();
 
     private string activePanelPaneName = PropertiesPaneName;
 
     private bool? dockLayoutToolbarVisible;
+
+    private DockLayout dockLayout;
+
+    private ReportToolbarDockContext toolbarDockContext;
 
     private Div designerElement;
 
@@ -194,6 +207,19 @@ public partial class _ReportDesignerLayout
             || DockRailContainsPane( dockLayoutState, paneName )
             || DockAutoHideContainsPane( dockLayoutState, paneName );
 
+    private bool IsDockPaneOpen( string paneName )
+        => dockLayout?.IsPaneOpen( paneName ) ?? DockStateContainsPane( paneName );
+
+    private Task SetDockPaneOpen( string paneName, bool open )
+    {
+        if ( dockLayout is null )
+            return Task.CompletedTask;
+
+        return open
+            ? dockLayout.OpenPane( paneName )
+            : dockLayout.ClosePane( paneName );
+    }
+
     private DockNodeState CreateWorkspaceNode()
     {
         return CreateSplitNode(
@@ -280,6 +306,9 @@ public partial class _ReportDesignerLayout
     #endregion
 
     #region Properties
+
+    private ReportToolbarDockContext ToolbarDockContext
+        => toolbarDockContext ??= new( dockPaneOptions, IsDockPaneOpen, SetDockPaneOpen );
 
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
