@@ -3666,6 +3666,21 @@ td:focus {
   border-color: var(--b-theme-danger, #dc3545);
 }
 
+body .b-report {
+  --b-report-zindex-designer: 0;
+  --b-report-zindex-section-label: 2;
+  --b-report-zindex-section-rail: 3;
+  --b-report-zindex-drag-preview: 4;
+  --b-report-zindex-selection: 4;
+  --b-report-zindex-resize-handle: 5;
+  --b-report-zindex-section-active: 6;
+  --b-report-zindex-section-resize-handle: 7;
+  --b-report-zindex-toolbar: 20;
+  --b-report-zindex-menu: 1000;
+  --b-report-zindex-context-menu: 1070;
+  --b-report-zindex-modal-layer: 1055;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

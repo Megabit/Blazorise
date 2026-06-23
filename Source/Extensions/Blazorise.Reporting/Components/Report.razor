@@ -13,7 +13,7 @@
     </Div>
 </CascadingValue>
 
-<Div Flex="Flex.Column" Gap="Gap.Is3">
+<Div Class="b-report" Flex="Flex.Column" Gap="Gap.Is3">
     @if ( ShowToolbar && !( CurrentMode == ReportStudioMode.Design && IsDesignerEnabled ) )
     {
         <Div Class="b-report-toolbar" Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Padding="Padding.Is3" Border="Border.Is1" Background="Background.White">
@@ -303,22 +303,24 @@
             </ContextMenu>
         </_ReportDesignerLayout>
 
-        <_ReportDesignerAggregateDialog @ref="aggregateDialogRef"
-                                        ResolveSupportedFunctions="@ResolveAggregateDialogSupportedFunctions"
-                                        Confirmed="@OnAggregateDialogConfirmedAsync" />
-        <_ReportDesignerRunningTotalDialog @ref="runningTotalDialogRef"
-                                           Definition="@definition"
-                                           Data="@Data"
-                                           Confirmed="@OnRunningTotalConfirmedAsync" />
-        <_ReportDesignerGroupDialog @ref="groupDialogRef"
-                                    Confirmed="@OnGroupDialogConfirmedAsync" />
-        <_ReportDesignerDataSourceConnectionDialog @ref="dataSourceConnectionDialogRef"
-                                                   Confirmed="@OnDataSourceConnectionConfirmedAsync" />
-        <_ReportDesignerFormulaDialog @ref="formulaDialogRef"
-                                      Definition="@definition"
-                                      Data="@Data"
-                                      Section="@GetSelectedFormulaSection( definition )"
-                                      Confirmed="@OnFormulaDialogConfirmedAsync" />
+        <Div Class="b-report-modal-layer">
+            <_ReportDesignerAggregateDialog @ref="aggregateDialogRef"
+                                            ResolveSupportedFunctions="@ResolveAggregateDialogSupportedFunctions"
+                                            Confirmed="@OnAggregateDialogConfirmedAsync" />
+            <_ReportDesignerRunningTotalDialog @ref="runningTotalDialogRef"
+                                               Definition="@definition"
+                                               Data="@Data"
+                                               Confirmed="@OnRunningTotalConfirmedAsync" />
+            <_ReportDesignerGroupDialog @ref="groupDialogRef"
+                                        Confirmed="@OnGroupDialogConfirmedAsync" />
+            <_ReportDesignerDataSourceConnectionDialog @ref="dataSourceConnectionDialogRef"
+                                                       Confirmed="@OnDataSourceConnectionConfirmedAsync" />
+            <_ReportDesignerFormulaDialog @ref="formulaDialogRef"
+                                          Definition="@definition"
+                                          Data="@Data"
+                                          Section="@GetSelectedFormulaSection( definition )"
+                                          Confirmed="@OnFormulaDialogConfirmedAsync" />
+        </Div>
     }
     else
     {

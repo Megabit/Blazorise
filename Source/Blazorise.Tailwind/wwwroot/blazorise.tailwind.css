@@ -9889,6 +9889,20 @@ td:focus {
 .b-richtextedit.border-red-500 > .b-richtextedit-editor.ql-container, .b-richtextedit.border-red-500 > .b-richtextedit-toolbar.ql-toolbar, .b-richtextedit.border-red-500 > .ql-toolbar.ql-bubble {
   border-color: var(--b-theme-danger, #ef4444);
 }
+body .b-report {
+  --b-report-zindex-designer: 0;
+  --b-report-zindex-section-label: 2;
+  --b-report-zindex-section-rail: 3;
+  --b-report-zindex-drag-preview: 4;
+  --b-report-zindex-selection: 4;
+  --b-report-zindex-resize-handle: 5;
+  --b-report-zindex-section-active: 6;
+  --b-report-zindex-section-resize-handle: 7;
+  --b-report-zindex-toolbar: 20;
+  --b-report-zindex-menu: 50;
+  --b-report-zindex-context-menu: 50;
+  --b-report-zindex-modal-layer: 60;
+}
 .no-gutters > .pl-2.pr-2, .no-gutters > [class*=column-] {
   padding-right: 0;
   padding-left: 0;
