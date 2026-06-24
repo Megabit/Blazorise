@@ -41,6 +41,7 @@
 
 .b-is-autocomplete .dropdown-menu {
     width: 100%;
+    z-index: $zindex-dropdown + 1;
     max-height: var(--autocomplete-menu-max-height, 200px);
     overflow-y: scroll;
 

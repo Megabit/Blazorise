@@ -1047,6 +1047,7 @@ hr.divider.divider-text::before {
 
 .b-is-autocomplete .dropdown-menu {
   width: 100%;
+  z-index: 1001;
   max-height: var(--autocomplete-menu-max-height, 200px);
   overflow-y: scroll;
 }
