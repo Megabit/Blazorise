@@ -13,6 +13,8 @@
     }
 
     .b-file-picker-file {
+        min-width: 0;
+
         span {
             display: block;
         }
@@ -21,21 +23,4 @@
             font-size: 0.75rem;
         }
     }
-    /*.dropdown {
-        .custom-file {
-            width: auto;
-
-            .custom-file-label {
-                border: 0;
-            }
-        }
-
-        .b-file-picker-files {
-            width: 100%;
-        }
-
-        .b-file-picker-file {
-            margin-right: 1.5rem;
-        }
-    }*/
 }
