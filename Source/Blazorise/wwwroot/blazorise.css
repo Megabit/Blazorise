@@ -65,23 +65,6 @@ hr.divider.divider-text::before {
 .b-file-picker {
   display: inline-block;
   width: 100%;
-  /*.dropdown {
-      .custom-file {
-          width: auto;
-
-          .custom-file-label {
-              border: 0;
-          }
-      }
-
-      .b-file-picker-files {
-          width: 100%;
-      }
-
-      .b-file-picker-file {
-          margin-right: 1.5rem;
-      }
-  }*/
 }
 .b-file-picker .b-text-drop {
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -93,7 +76,7 @@ hr.divider.divider-text::before {
   padding-bottom: 0.25rem;
 }
 .b-file-picker .b-file-picker-file {
-  min-width: 25rem;
+  min-width: 0;
 }
 .b-file-picker .b-file-picker-file span {
   display: block;
