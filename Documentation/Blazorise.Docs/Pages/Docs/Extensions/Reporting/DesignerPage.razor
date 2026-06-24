@@ -12,12 +12,17 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Designer and toolbar">
-        The toolbar is declarative and can be grouped. Built-in commands cover editing, history, data-source connection, PDF download, and mode switching.
+        The toolbar is declarative and can be grouped. Built-in commands cover designer panes, editing, history, data-source connection, PDF download, and mode switching.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="ReportingDesignerToolbarExample" Outlined FullWidth>
         <ReportingDesignerToolbarExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageParagraph>
+    The default designer toolbar includes a panes menu. When defining a custom toolbar, add <Code Tag>ReportToolbarPanesMenu</Code> if users should be able to open, focus, or show flyout panes from the toolbar.
+    Designer panes can also be pinned or unpinned from their headers.
+</DocsPageParagraph>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="State">

@@ -14838,6 +14838,9 @@ Install-Package Blazorise.Icons.Material";
                   DefaultFormat=""ReportPreviewFormat.Html"" />
     <ReportToolbar>
         <ReportToolbarGroup>
+            <ReportToolbarPanesMenu />
+        </ReportToolbarGroup>
+        <ReportToolbarGroup>
             <ReportToolbarItem Command=""ReportCommand.ConnectDataSource"" Caption=""Data sources"" ShowCaption />
             <ReportToolbarItem Command=""ReportCommand.Reset"" Caption=""Reset"" />
         </ReportToolbarGroup>
@@ -14933,6 +14936,9 @@ Install-Package Blazorise.Icons.Material";
                   AllowDownload
                   AllowPrint />
     <ReportToolbar>
+        <ReportToolbarGroup>
+            <ReportToolbarPanesMenu />
+        </ReportToolbarGroup>
         <ReportToolbarGroup>
             <ReportToolbarItem Command=""ReportCommand.Cut"" Caption=""Cut"" />
             <ReportToolbarItem Command=""ReportCommand.Copy"" Caption=""Copy"" />
@@ -15412,6 +15418,9 @@ Install-Package Blazorise.Icons.Material";
                   AllowDownload
                   AllowPrint />
     <ReportToolbar>
+        <ReportToolbarGroup>
+            <ReportToolbarPanesMenu />
+        </ReportToolbarGroup>
         <ReportToolbarGroup>
             <ReportToolbarItem Command=""ReportCommand.PreviewHtml"" Caption=""HTML Preview"" />
             <ReportToolbarItem Command=""ReportCommand.PreviewPdf"" Caption=""PDF Preview"" />
