@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise;
@@ -45,6 +46,9 @@ public partial class ContextMenuToolbarItem : BaseComponent
         if ( ParentContextMenu?.EffectiveCloseOnClick == true )
             await ParentContextMenu.Hide();
     }
+
+    private Task ButtonClicked( MouseEventArgs eventArgs )
+        => ClickHandler();
 
     #endregion
 
