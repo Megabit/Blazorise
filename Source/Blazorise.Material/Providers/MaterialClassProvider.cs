@@ -580,6 +580,50 @@ public class MaterialClassProvider : ClassProvider
         };
     }
 
+    public override string ContextMenu() => "mui-context-menu";
+
+    public override string ContextMenuToggle() => "mui-context-menu-toggle";
+
+    public override string ContextMenuBody() => $"{DropdownMenu()} mui-context-menu-menu";
+
+    public override string ContextMenuBodyVisible( bool visible ) => DropdownMenuVisible( visible );
+
+    public override string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => DropdownMenuPositionStrategy( dropdownPositionStrategy );
+
+    public override string ContextMenuItem() => $"{DropdownItem()} mui-context-menu-item";
+
+    public override string ContextMenuItemActive( bool active ) => DropdownItemActive( active );
+
+    public override string ContextMenuItemDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuItemContent() => "mui-context-menu-item-content";
+
+    public override string ContextMenuItemCheck() => "mui-context-menu-item-check";
+
+    public override string ContextMenuItemShortcut() => "mui-context-menu-item-shortcut";
+
+    public override string ContextMenuDivider() => $"{DropdownDivider()} mui-context-menu-divider";
+
+    public override string ContextMenuHeader() => $"{DropdownHeader()} mui-context-menu-header";
+
+    public override string ContextMenuGroup() => "mui-context-menu-group";
+
+    public override string ContextMenuToolbar() => "mui-context-menu-toolbar";
+
+    public override string ContextMenuToolbarItem() => "mui-context-menu-toolbar-item";
+
+    public override string ContextMenuToolbarItemActive( bool active ) => active ? "mui-context-menu-toolbar-item-active" : null;
+
+    public override string ContextMenuToolbarItemDisabled( bool disabled ) => disabled ? "mui-context-menu-toolbar-item-disabled" : null;
+
+    public override string ContextMenuSubmenu() => "mui-context-menu-submenu";
+
+    public override string ContextMenuSubmenuTrigger() => "mui-context-menu-submenu-trigger";
+
+    public override string ContextMenuSubmenuTriggerDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuSubmenuBody() => "mui-context-menu-submenu-menu";
+
     #endregion
 
     #region Tabs

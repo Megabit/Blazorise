@@ -503,6 +503,50 @@ class EmptyClassProvider : IClassProvider
 
     public string DropdownDirection( Direction direction ) => null;
 
+    public string ContextMenu() => null;
+
+    public string ContextMenuToggle() => null;
+
+    public string ContextMenuBody() => null;
+
+    public string ContextMenuBodyVisible( bool visible ) => null;
+
+    public string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => null;
+
+    public string ContextMenuItem() => null;
+
+    public string ContextMenuItemActive( bool active ) => null;
+
+    public string ContextMenuItemDisabled( bool disabled ) => null;
+
+    public string ContextMenuItemContent() => null;
+
+    public string ContextMenuItemCheck() => null;
+
+    public string ContextMenuItemShortcut() => null;
+
+    public string ContextMenuDivider() => null;
+
+    public string ContextMenuHeader() => null;
+
+    public string ContextMenuGroup() => null;
+
+    public string ContextMenuToolbar() => null;
+
+    public string ContextMenuToolbarItem() => null;
+
+    public string ContextMenuToolbarItemActive( bool active ) => null;
+
+    public string ContextMenuToolbarItemDisabled( bool disabled ) => null;
+
+    public string ContextMenuSubmenu() => null;
+
+    public string ContextMenuSubmenuTrigger() => null;
+
+    public string ContextMenuSubmenuTriggerDisabled( bool disabled ) => null;
+
+    public string ContextMenuSubmenuBody() => null;
+
     #endregion
 
     #region Tabs

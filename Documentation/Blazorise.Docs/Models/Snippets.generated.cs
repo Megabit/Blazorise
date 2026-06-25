@@ -1388,6 +1388,165 @@ namespace Blazorise.Docs.Models
     string colorValue = ""#ff00ff"";
 }";
 
+        public const string ContextMenuBasicExample = @"<Div id=""context-menu-basic-target""
+     Padding=""Padding.Is4""
+     Border=""Border.Is1.Rounded""
+     Background=""Background.Light"">
+    Right-click this area.
+</Div>
+
+<ContextMenu TargetId=""context-menu-basic-target"">
+    <ContextMenuBody MinWidth=""12rem"">
+        <ContextMenuHeader>Document</ContextMenuHeader>
+        <ContextMenuItem Icon=""IconName.Copy"" Value=""@(""Copy"")"" Clicked=""@SetSelectedAction"">Copy</ContextMenuItem>
+        <ContextMenuItem Icon=""IconName.Paste"" Value=""@(""Paste"")"" Clicked=""@SetSelectedAction"">Paste</ContextMenuItem>
+        <ContextMenuDivider />
+        <ContextMenuItem Icon=""IconName.Delete"" Value=""@(""Delete"")"" Clicked=""@SetSelectedAction"">Delete</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin=""Margin.Is2.FromTop"">
+    Last action: @selectedAction
+</Paragraph>
+
+@code {
+    private string selectedAction = ""None"";
+
+    private void SetSelectedAction( object value )
+    {
+        selectedAction = value?.ToString();
+    }
+}";
+
+        public const string ContextMenuCheckedExample = @"<Div id=""context-menu-checked-target""
+     Padding=""Padding.Is4""
+     Border=""Border.Is1.Rounded""
+     Background=""Background.Light"">
+    Right-click to change view options.
+</Div>
+
+<ContextMenu TargetId=""context-menu-checked-target"" CloseOnClick=""false"">
+    <ContextMenuBody MinWidth=""13rem"">
+        <ContextMenuHeader>View</ContextMenuHeader>
+        <ContextMenuItem ShowCheckbox @bind-Checked=""@showGrid"">Show grid</ContextMenuItem>
+        <ContextMenuItem ShowCheckbox @bind-Checked=""@snapToGrid"">Snap to grid</ContextMenuItem>
+        <ContextMenuDivider />
+        <ContextMenuGroup CheckMode=""ContextMenuCheckMode.Radio"" @bind-SelectedValue=""@density"">
+            <ContextMenuItem Value=""@(""Comfortable"")"">Comfortable</ContextMenuItem>
+            <ContextMenuItem Value=""@(""Compact"")"">Compact</ContextMenuItem>
+        </ContextMenuGroup>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin=""Margin.Is2.FromTop"">
+    Grid: @showGrid, Snap: @snapToGrid, Density: @density
+</Paragraph>
+
+@code {
+    private bool showGrid = true;
+
+    private bool snapToGrid = true;
+
+    private object density = ""Comfortable"";
+}";
+
+        public const string ContextMenuSubmenuExample = @"<Div id=""context-menu-submenu-target""
+     Padding=""Padding.Is4""
+     Border=""Border.Is1.Rounded""
+     Background=""Background.Light"">
+    Right-click to open commands with submenus.
+</Div>
+
+<ContextMenu TargetId=""context-menu-submenu-target"">
+    <ContextMenuBody MinWidth=""12rem"">
+        <ContextMenuItem Icon=""IconName.Edit"" Value=""@(""Rename"")"" Clicked=""@SetSelectedCommand"">Rename</ContextMenuItem>
+        <ContextMenuSubmenu Text=""Move to"" Icon=""IconName.Folder"">
+            <ContextMenuItem Value=""@(""Move to Inbox"")"" Clicked=""@SetSelectedCommand"">Inbox</ContextMenuItem>
+            <ContextMenuItem Value=""@(""Move to Archive"")"" Clicked=""@SetSelectedCommand"">Archive</ContextMenuItem>
+            <ContextMenuItem Value=""@(""Move to Trash"")"" Clicked=""@SetSelectedCommand"">Trash</ContextMenuItem>
+        </ContextMenuSubmenu>
+        <ContextMenuSubmenu Text=""Priority"" Icon=""IconName.Flag"">
+            <ContextMenuItem Value=""@(""High priority"")"" Clicked=""@SetSelectedCommand"">High</ContextMenuItem>
+            <ContextMenuItem Value=""@(""Normal priority"")"" Clicked=""@SetSelectedCommand"">Normal</ContextMenuItem>
+            <ContextMenuItem Value=""@(""Low priority"")"" Clicked=""@SetSelectedCommand"">Low</ContextMenuItem>
+        </ContextMenuSubmenu>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin=""Margin.Is2.FromTop"">
+    Selected command: @selectedCommand
+</Paragraph>
+
+@code {
+    private string selectedCommand = ""None"";
+
+    private void SetSelectedCommand( object value )
+    {
+        selectedCommand = value?.ToString();
+    }
+}";
+
+        public const string ContextMenuToggleExample = @"<ContextMenu>
+    <ContextMenuToggle>
+        <Button Color=""Color.Primary"">
+            Right-click this button
+        </Button>
+    </ContextMenuToggle>
+    <ContextMenuBody MinWidth=""12rem"">
+        <ContextMenuHeader>Button actions</ContextMenuHeader>
+        <ContextMenuItem Icon=""IconName.Edit"" Value=""@(""Rename"")"" Clicked=""@SetSelectedAction"">Rename</ContextMenuItem>
+        <ContextMenuItem Icon=""IconName.Copy"" Value=""@(""Duplicate"")"" Clicked=""@SetSelectedAction"">Duplicate</ContextMenuItem>
+        <ContextMenuDivider />
+        <ContextMenuItem Icon=""IconName.Delete"" Value=""@(""Delete"")"" Clicked=""@SetSelectedAction"">Delete</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin=""Margin.Is2.FromTop"">
+    Last action: @selectedAction
+</Paragraph>
+
+@code {
+    private string selectedAction = ""None"";
+
+    private void SetSelectedAction( object value )
+    {
+        selectedAction = value?.ToString();
+    }
+}";
+
+        public const string ContextMenuToolbarExample = @"<Div id=""context-menu-toolbar-target""
+     Padding=""Padding.Is4""
+     Border=""Border.Is1.Rounded""
+     Background=""Background.Light"">
+    Right-click to open compact commands.
+</Div>
+
+<ContextMenu TargetId=""context-menu-toolbar-target"">
+    <ContextMenuBody MinWidth=""12rem"">
+        <ContextMenuToolbar>
+            <ContextMenuToolbarItem Icon=""IconName.Cut"" Text=""Cut"" Value=""@(""Cut"")"" Clicked=""@SetSelectedAction"" />
+            <ContextMenuToolbarItem Icon=""IconName.Copy"" Text=""Copy"" Value=""@(""Copy"")"" Clicked=""@SetSelectedAction"" />
+            <ContextMenuToolbarItem Icon=""IconName.Paste"" Text=""Paste"" Value=""@(""Paste"")"" Clicked=""@SetSelectedAction"" />
+            <ContextMenuToolbarItem Icon=""IconName.Delete"" Text=""Delete"" Value=""@(""Delete"")"" Clicked=""@SetSelectedAction"" />
+        </ContextMenuToolbar>
+        <ContextMenuDivider />
+        <ContextMenuItem Icon=""IconName.List"" Value=""@(""Properties"")"" Clicked=""@SetSelectedAction"">Properties</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin=""Margin.Is2.FromTop"">
+    Last action: @selectedAction
+</Paragraph>
+
+@code {
+    private string selectedAction = ""None"";
+
+    private void SetSelectedAction( object value )
+    {
+        selectedAction = value?.ToString();
+    }
+}";
+
         public const string BasicDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Value=""@value"" />
 
 @code {

@@ -34,6 +34,12 @@ public partial class _ReportDesignerFieldsExplorerPanel
 
     private ReportDataSourceContextMenuState dataSourceContextMenu;
 
+    private ContextMenu formulaFieldContextMenuRef;
+
+    private ContextMenu runningTotalContextMenuRef;
+
+    private ContextMenu dataSourceContextMenuRef;
+
     private _ReportDesignerFormulaDialog formulaDialogRef;
 
     private _ReportDesignerFormulaFieldNameDialog formulaFieldNameDialogRef;
@@ -92,11 +98,14 @@ public partial class _ReportDesignerFieldsExplorerPanel
         }
     }
 
-    private Task FieldsNodeContextMenu( ReportTreeNodeMouseEventArgs eventArgs )
+    private async Task FieldsNodeContextMenu( ReportTreeNodeMouseEventArgs eventArgs )
     {
         if ( eventArgs?.Node?.Key == ReportDesignerTreeBuilder.FormulaFieldsNodeKey
             || eventArgs?.Node?.Kind == ReportTreeNodeKind.FormulaField )
         {
+            await CloseRunningTotalContextMenu();
+            await CloseDataSourceContextMenu();
+
             selectedFormulaFieldName = eventArgs.Node.Kind == ReportTreeNodeKind.FormulaField ? eventArgs.Node.Text : selectedFormulaFieldName;
             formulaFieldContextMenu = new()
             {
@@ -105,12 +114,18 @@ public partial class _ReportDesignerFieldsExplorerPanel
                 ClientX = eventArgs.MouseEventArgs.ClientX,
                 ClientY = eventArgs.MouseEventArgs.ClientY,
             };
-            runningTotalContextMenu = null;
-            dataSourceContextMenu = null;
+
+            await InvokeAsync( StateHasChanged );
+
+            if ( formulaFieldContextMenuRef is not null )
+                await formulaFieldContextMenuRef.Show( formulaFieldContextMenu.ClientX, formulaFieldContextMenu.ClientY );
         }
         else if ( eventArgs?.Node?.Key == ReportDesignerTreeBuilder.RunningTotalFieldsNodeKey
             || eventArgs?.Node?.Kind == ReportTreeNodeKind.RunningTotalField )
         {
+            await CloseFormulaFieldContextMenu();
+            await CloseDataSourceContextMenu();
+
             selectedRunningTotalName = eventArgs.Node.Kind == ReportTreeNodeKind.RunningTotalField ? eventArgs.Node.Text : selectedRunningTotalName;
             runningTotalContextMenu = new()
             {
@@ -119,11 +134,17 @@ public partial class _ReportDesignerFieldsExplorerPanel
                 ClientX = eventArgs.MouseEventArgs.ClientX,
                 ClientY = eventArgs.MouseEventArgs.ClientY,
             };
-            formulaFieldContextMenu = null;
-            dataSourceContextMenu = null;
+
+            await InvokeAsync( StateHasChanged );
+
+            if ( runningTotalContextMenuRef is not null )
+                await runningTotalContextMenuRef.Show( runningTotalContextMenu.ClientX, runningTotalContextMenu.ClientY );
         }
         else if ( eventArgs?.Node?.Value is ReportDataSourceTreeNodeValue dataSource )
         {
+            await CloseFormulaFieldContextMenu();
+            await CloseRunningTotalContextMenu();
+
             dataSourceContextMenu = new()
             {
                 Visible = true,
@@ -131,11 +152,12 @@ public partial class _ReportDesignerFieldsExplorerPanel
                 ClientX = eventArgs.MouseEventArgs.ClientX,
                 ClientY = eventArgs.MouseEventArgs.ClientY,
             };
-            formulaFieldContextMenu = null;
-            runningTotalContextMenu = null;
-        }
 
-        return Task.CompletedTask;
+            await InvokeAsync( StateHasChanged );
+
+            if ( dataSourceContextMenuRef is not null )
+                await dataSourceContextMenuRef.Show( dataSourceContextMenu.ClientX, dataSourceContextMenu.ClientY );
+        }
     }
 
     private async Task FormulaFieldNameConfirmed( string formulaFieldName )
@@ -322,25 +344,28 @@ public partial class _ReportDesignerFieldsExplorerPanel
             await DataSourceDeleted.InvokeAsync( dataSourceName );
     }
 
-    private Task CloseFormulaFieldContextMenu()
+    private async Task CloseFormulaFieldContextMenu()
     {
         formulaFieldContextMenu = null;
 
-        return Task.CompletedTask;
+        if ( formulaFieldContextMenuRef is not null )
+            await formulaFieldContextMenuRef.Hide();
     }
 
-    private Task CloseDataSourceContextMenu()
+    private async Task CloseDataSourceContextMenu()
     {
         dataSourceContextMenu = null;
 
-        return Task.CompletedTask;
+        if ( dataSourceContextMenuRef is not null )
+            await dataSourceContextMenuRef.Hide();
     }
 
-    private Task CloseRunningTotalContextMenu()
+    private async Task CloseRunningTotalContextMenu()
     {
         runningTotalContextMenu = null;
 
-        return Task.CompletedTask;
+        if ( runningTotalContextMenuRef is not null )
+            await runningTotalContextMenuRef.Hide();
     }
 
     private string CreateFormulaFieldName()
@@ -387,12 +412,6 @@ public partial class _ReportDesignerFieldsExplorerPanel
 
     private IReadOnlyList<ReportDesignerDataSourceNode> DataSources
         => ReportDataSourceExplorer.ResolveDataSourceDictionary( Definition, DataSourceName ).ToList();
-
-    private bool FormulaFieldContextMenuVisible => formulaFieldContextMenu?.Visible == true;
-
-    private bool RunningTotalContextMenuVisible => runningTotalContextMenu?.Visible == true;
-
-    private bool DataSourceContextMenuVisible => dataSourceContextMenu?.Visible == true;
 
     private bool IsFormulaFieldContextMenuTarget => !string.IsNullOrWhiteSpace( formulaFieldContextMenu?.FormulaFieldName );
 

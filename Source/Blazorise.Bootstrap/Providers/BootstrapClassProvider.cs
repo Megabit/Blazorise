@@ -557,6 +557,50 @@ public class BootstrapClassProvider : ClassProvider
         _ => null,
     };
 
+    public override string ContextMenu() => "dropdown context-menu";
+
+    public override string ContextMenuToggle() => "context-menu-toggle";
+
+    public override string ContextMenuBody() => $"{DropdownMenu()} context-menu-menu";
+
+    public override string ContextMenuBodyVisible( bool visible ) => DropdownMenuVisible( visible );
+
+    public override string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => DropdownMenuPositionStrategy( dropdownPositionStrategy );
+
+    public override string ContextMenuItem() => $"{DropdownItem()} context-menu-item";
+
+    public override string ContextMenuItemActive( bool active ) => DropdownItemActive( active );
+
+    public override string ContextMenuItemDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuItemContent() => "context-menu-item-content";
+
+    public override string ContextMenuItemCheck() => "context-menu-item-check";
+
+    public override string ContextMenuItemShortcut() => "context-menu-item-shortcut";
+
+    public override string ContextMenuDivider() => $"{DropdownDivider()} context-menu-divider";
+
+    public override string ContextMenuHeader() => $"{DropdownHeader()} context-menu-header";
+
+    public override string ContextMenuGroup() => "context-menu-group";
+
+    public override string ContextMenuToolbar() => "context-menu-toolbar";
+
+    public override string ContextMenuToolbarItem() => "context-menu-toolbar-item";
+
+    public override string ContextMenuToolbarItemActive( bool active ) => active ? "active" : null;
+
+    public override string ContextMenuToolbarItemDisabled( bool disabled ) => disabled ? "disabled" : null;
+
+    public override string ContextMenuSubmenu() => "context-menu-submenu";
+
+    public override string ContextMenuSubmenuTrigger() => "context-menu-submenu-trigger";
+
+    public override string ContextMenuSubmenuTriggerDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuSubmenuBody() => "context-menu-submenu-menu";
+
     #endregion
 
     #region Tabs

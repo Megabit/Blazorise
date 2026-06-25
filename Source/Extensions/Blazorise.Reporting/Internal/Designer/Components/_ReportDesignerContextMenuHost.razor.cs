@@ -13,7 +13,7 @@ public partial class _ReportDesignerContextMenuHost
 {
     #region Members
 
-    private bool shouldRender;
+    private ContextMenu contextMenuRef;
 
     #endregion
 
@@ -24,43 +24,36 @@ public partial class _ReportDesignerContextMenuHost
     /// </summary>
     /// <param name="state">Context menu state to render.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    internal Task ShowAsync( ReportContextMenuState state )
+    internal async Task ShowAsync( ReportContextMenuState state )
     {
         State = state;
-        shouldRender = true;
 
-        return InvokeAsync( StateHasChanged );
+        await InvokeAsync( StateHasChanged );
+
+        if ( contextMenuRef is not null )
+            await contextMenuRef.Show( state.ClientX, state.ClientY );
     }
 
     /// <summary>
     /// Hides the context menu.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    internal Task CloseAsync()
+    internal async Task CloseAsync()
     {
         State = null;
-        shouldRender = true;
 
-        return InvokeAsync( StateHasChanged );
+        if ( contextMenuRef is not null )
+            await contextMenuRef.Hide();
+
+        await InvokeAsync( StateHasChanged );
     }
 
-    /// <inheritdoc />
-    protected override bool ShouldRender()
-    {
-        if ( shouldRender )
-        {
-            shouldRender = false;
-            return true;
-        }
-
-        return false;
-    }
+    private static Task InvokeMenuCommand( EventCallback<MouseEventArgs> callback )
+        => callback.InvokeAsync( default );
 
     #endregion
 
     #region Properties
-
-    private bool IsVisible => State?.Visible == true;
 
     private bool IsSectionMenu => State?.Target == ReportContextMenuTarget.Section;
 

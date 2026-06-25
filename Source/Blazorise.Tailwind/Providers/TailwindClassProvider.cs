@@ -842,6 +842,50 @@ public class TailwindClassProvider : ClassProvider
         _ => null,
     };
 
+    public override string ContextMenu() => "tw-context-menu";
+
+    public override string ContextMenuToggle() => "tw-context-menu-toggle";
+
+    public override string ContextMenuBody() => $"{DropdownMenu()} tw-context-menu-menu";
+
+    public override string ContextMenuBodyVisible( bool visible ) => DropdownMenuVisible( visible );
+
+    public override string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => DropdownMenuPositionStrategy( dropdownPositionStrategy );
+
+    public override string ContextMenuItem() => $"{DropdownItem()} tw-context-menu-item";
+
+    public override string ContextMenuItemActive( bool active ) => DropdownItemActive( active );
+
+    public override string ContextMenuItemDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuItemContent() => "tw-context-menu-item-content";
+
+    public override string ContextMenuItemCheck() => "tw-context-menu-item-check";
+
+    public override string ContextMenuItemShortcut() => "tw-context-menu-item-shortcut";
+
+    public override string ContextMenuDivider() => $"{DropdownDivider()} tw-context-menu-divider";
+
+    public override string ContextMenuHeader() => $"{DropdownHeader()} tw-context-menu-header";
+
+    public override string ContextMenuGroup() => "tw-context-menu-group";
+
+    public override string ContextMenuToolbar() => "tw-context-menu-toolbar";
+
+    public override string ContextMenuToolbarItem() => "tw-context-menu-toolbar-item";
+
+    public override string ContextMenuToolbarItemActive( bool active ) => active ? "tw-context-menu-toolbar-item-active" : null;
+
+    public override string ContextMenuToolbarItemDisabled( bool disabled ) => disabled ? "tw-context-menu-toolbar-item-disabled" : null;
+
+    public override string ContextMenuSubmenu() => "tw-context-menu-submenu";
+
+    public override string ContextMenuSubmenuTrigger() => "tw-context-menu-submenu-trigger";
+
+    public override string ContextMenuSubmenuTriggerDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuSubmenuBody() => "tw-context-menu-submenu-menu";
+
     #endregion
 
     #region Tabs

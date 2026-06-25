@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-06-24T08:11:02.9157264Z",
+  "generatedUtc": "2026-06-25T05:40:37.1406573Z",
   "pages": [
     {
       "route": "/docs",
@@ -944,6 +944,96 @@
         {
           "kind": "type",
           "name": "ColorPicker"
+        }
+      ]
+    },
+    {
+      "route": "/docs/components/context-menu",
+      "title": "Blazorise ContextMenu component",
+      "description": "Learn to use the Blazorise ContextMenu component to show right-click menus with actions, checked items, and submenus.",
+      "pagePath": "Pages/Docs/Components/ContextMenu/ContextMenuPage.razor",
+      "examples": [
+        {
+          "code": "ContextMenuBasicExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/ContextMenu/Examples/ContextMenuBasicExample.razor",
+          "content": "<Div id=\"context-menu-basic-target\"\r\n     Padding=\"Padding.Is4\"\r\n     Border=\"Border.Is1.Rounded\"\r\n     Background=\"Background.Light\">\r\n    Right-click this area.\r\n</Div>\r\n\r\n<ContextMenu TargetId=\"context-menu-basic-target\">\r\n    <ContextMenuBody MinWidth=\"12rem\">\r\n        <ContextMenuHeader>Document</ContextMenuHeader>\r\n        <ContextMenuItem Icon=\"IconName.Copy\" Value=\"@(\"Copy\")\" Clicked=\"@SetSelectedAction\">Copy</ContextMenuItem>\r\n        <ContextMenuItem Icon=\"IconName.Paste\" Value=\"@(\"Paste\")\" Clicked=\"@SetSelectedAction\">Paste</ContextMenuItem>\r\n        <ContextMenuDivider />\r\n        <ContextMenuItem Icon=\"IconName.Delete\" Value=\"@(\"Delete\")\" Clicked=\"@SetSelectedAction\">Delete</ContextMenuItem>\r\n    </ContextMenuBody>\r\n</ContextMenu>\r\n\r\n<Paragraph Margin=\"Margin.Is2.FromTop\">\r\n    Last action: @selectedAction\r\n</Paragraph>\r\n\r\n@code {\r\n    private string selectedAction = \"None\";\r\n\r\n    private void SetSelectedAction( object value )\r\n    {\r\n        selectedAction = value?.ToString();\r\n    }\r\n}",
+          "title": "Basic context menu",
+          "description": "Attach a menu to any element id and provide menu items for the available actions."
+        },
+        {
+          "code": "ContextMenuToggleExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/ContextMenu/Examples/ContextMenuToggleExample.razor",
+          "content": "<ContextMenu>\r\n    <ContextMenuToggle>\r\n        <Button Color=\"Color.Primary\">\r\n            Right-click this button\r\n        </Button>\r\n    </ContextMenuToggle>\r\n    <ContextMenuBody MinWidth=\"12rem\">\r\n        <ContextMenuHeader>Button actions</ContextMenuHeader>\r\n        <ContextMenuItem Icon=\"IconName.Edit\" Value=\"@(\"Rename\")\" Clicked=\"@SetSelectedAction\">Rename</ContextMenuItem>\r\n        <ContextMenuItem Icon=\"IconName.Copy\" Value=\"@(\"Duplicate\")\" Clicked=\"@SetSelectedAction\">Duplicate</ContextMenuItem>\r\n        <ContextMenuDivider />\r\n        <ContextMenuItem Icon=\"IconName.Delete\" Value=\"@(\"Delete\")\" Clicked=\"@SetSelectedAction\">Delete</ContextMenuItem>\r\n    </ContextMenuBody>\r\n</ContextMenu>\r\n\r\n<Paragraph Margin=\"Margin.Is2.FromTop\">\r\n    Last action: @selectedAction\r\n</Paragraph>\r\n\r\n@code {\r\n    private string selectedAction = \"None\";\r\n\r\n    private void SetSelectedAction( object value )\r\n    {\r\n        selectedAction = value?.ToString();\r\n    }\r\n}",
+          "title": "Toggle content",
+          "description": "Use ContextMenuToggle when the menu target is declared inside the ContextMenu , without assigning an element id."
+        },
+        {
+          "code": "ContextMenuCheckedExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/ContextMenu/Examples/ContextMenuCheckedExample.razor",
+          "content": "<Div id=\"context-menu-checked-target\"\r\n     Padding=\"Padding.Is4\"\r\n     Border=\"Border.Is1.Rounded\"\r\n     Background=\"Background.Light\">\r\n    Right-click to change view options.\r\n</Div>\r\n\r\n<ContextMenu TargetId=\"context-menu-checked-target\" CloseOnClick=\"false\">\r\n    <ContextMenuBody MinWidth=\"13rem\">\r\n        <ContextMenuHeader>View</ContextMenuHeader>\r\n        <ContextMenuItem ShowCheckbox @bind-Checked=\"@showGrid\">Show grid</ContextMenuItem>\r\n        <ContextMenuItem ShowCheckbox @bind-Checked=\"@snapToGrid\">Snap to grid</ContextMenuItem>\r\n        <ContextMenuDivider />\r\n        <ContextMenuGroup CheckMode=\"ContextMenuCheckMode.Radio\" @bind-SelectedValue=\"@density\">\r\n            <ContextMenuItem Value=\"@(\"Comfortable\")\">Comfortable</ContextMenuItem>\r\n            <ContextMenuItem Value=\"@(\"Compact\")\">Compact</ContextMenuItem>\r\n        </ContextMenuGroup>\r\n    </ContextMenuBody>\r\n</ContextMenu>\r\n\r\n<Paragraph Margin=\"Margin.Is2.FromTop\">\r\n    Grid: @showGrid, Snap: @snapToGrid, Density: @density\r\n</Paragraph>\r\n\r\n@code {\r\n    private bool showGrid = true;\r\n\r\n    private bool snapToGrid = true;\r\n\r\n    private object density = \"Comfortable\";\r\n}",
+          "title": "Checked items",
+          "description": "Use ShowCheckbox for toggle items, or ContextMenuGroup with radio mode for mutually exclusive choices."
+        },
+        {
+          "code": "ContextMenuToolbarExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/ContextMenu/Examples/ContextMenuToolbarExample.razor",
+          "content": "<Div id=\"context-menu-toolbar-target\"\r\n     Padding=\"Padding.Is4\"\r\n     Border=\"Border.Is1.Rounded\"\r\n     Background=\"Background.Light\">\r\n    Right-click to open compact commands.\r\n</Div>\r\n\r\n<ContextMenu TargetId=\"context-menu-toolbar-target\">\r\n    <ContextMenuBody MinWidth=\"12rem\">\r\n        <ContextMenuToolbar>\r\n            <ContextMenuToolbarItem Icon=\"IconName.Cut\" Text=\"Cut\" Value=\"@(\"Cut\")\" Clicked=\"@SetSelectedAction\" />\r\n            <ContextMenuToolbarItem Icon=\"IconName.Copy\" Text=\"Copy\" Value=\"@(\"Copy\")\" Clicked=\"@SetSelectedAction\" />\r\n            <ContextMenuToolbarItem Icon=\"IconName.Paste\" Text=\"Paste\" Value=\"@(\"Paste\")\" Clicked=\"@SetSelectedAction\" />\r\n            <ContextMenuToolbarItem Icon=\"IconName.Delete\" Text=\"Delete\" Value=\"@(\"Delete\")\" Clicked=\"@SetSelectedAction\" />\r\n        </ContextMenuToolbar>\r\n        <ContextMenuDivider />\r\n        <ContextMenuItem Icon=\"IconName.List\" Value=\"@(\"Properties\")\" Clicked=\"@SetSelectedAction\">Properties</ContextMenuItem>\r\n    </ContextMenuBody>\r\n</ContextMenu>\r\n\r\n<Paragraph Margin=\"Margin.Is2.FromTop\">\r\n    Last action: @selectedAction\r\n</Paragraph>\r\n\r\n@code {\r\n    private string selectedAction = \"None\";\r\n\r\n    private void SetSelectedAction( object value )\r\n    {\r\n        selectedAction = value?.ToString();\r\n    }\r\n}",
+          "title": "Toolbar",
+          "description": "Use ContextMenuToolbar for compact icon commands that should be grouped on a single row."
+        },
+        {
+          "code": "ContextMenuSubmenuExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/ContextMenu/Examples/ContextMenuSubmenuExample.razor",
+          "content": "<Div id=\"context-menu-submenu-target\"\r\n     Padding=\"Padding.Is4\"\r\n     Border=\"Border.Is1.Rounded\"\r\n     Background=\"Background.Light\">\r\n    Right-click to open commands with submenus.\r\n</Div>\r\n\r\n<ContextMenu TargetId=\"context-menu-submenu-target\">\r\n    <ContextMenuBody MinWidth=\"12rem\">\r\n        <ContextMenuItem Icon=\"IconName.Edit\" Value=\"@(\"Rename\")\" Clicked=\"@SetSelectedCommand\">Rename</ContextMenuItem>\r\n        <ContextMenuSubmenu Text=\"Move to\" Icon=\"IconName.Folder\">\r\n            <ContextMenuItem Value=\"@(\"Move to Inbox\")\" Clicked=\"@SetSelectedCommand\">Inbox</ContextMenuItem>\r\n            <ContextMenuItem Value=\"@(\"Move to Archive\")\" Clicked=\"@SetSelectedCommand\">Archive</ContextMenuItem>\r\n            <ContextMenuItem Value=\"@(\"Move to Trash\")\" Clicked=\"@SetSelectedCommand\">Trash</ContextMenuItem>\r\n        </ContextMenuSubmenu>\r\n        <ContextMenuSubmenu Text=\"Priority\" Icon=\"IconName.Flag\">\r\n            <ContextMenuItem Value=\"@(\"High priority\")\" Clicked=\"@SetSelectedCommand\">High</ContextMenuItem>\r\n            <ContextMenuItem Value=\"@(\"Normal priority\")\" Clicked=\"@SetSelectedCommand\">Normal</ContextMenuItem>\r\n            <ContextMenuItem Value=\"@(\"Low priority\")\" Clicked=\"@SetSelectedCommand\">Low</ContextMenuItem>\r\n        </ContextMenuSubmenu>\r\n    </ContextMenuBody>\r\n</ContextMenu>\r\n\r\n<Paragraph Margin=\"Margin.Is2.FromTop\">\r\n    Selected command: @selectedCommand\r\n</Paragraph>\r\n\r\n@code {\r\n    private string selectedCommand = \"None\";\r\n\r\n    private void SetSelectedCommand( object value )\r\n    {\r\n        selectedCommand = value?.ToString();\r\n    }\r\n}",
+          "title": "Submenus",
+          "description": "Use ContextMenuSubmenu to group related commands inside a nested menu."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "ContextMenu"
+        },
+        {
+          "kind": "type",
+          "name": "ContextMenuToggle"
+        },
+        {
+          "kind": "type",
+          "name": "ContextMenuBody"
+        },
+        {
+          "kind": "type",
+          "name": "ContextMenuItem"
+        },
+        {
+          "kind": "type",
+          "name": "ContextMenuToolbar"
+        },
+        {
+          "kind": "type",
+          "name": "ContextMenuToolbarItem"
+        },
+        {
+          "kind": "type",
+          "name": "ContextMenuDivider"
+        },
+        {
+          "kind": "type",
+          "name": "ContextMenuHeader"
+        },
+        {
+          "kind": "type",
+          "name": "ContextMenuGroup"
+        },
+        {
+          "kind": "type",
+          "name": "ContextMenuSubmenu"
         }
       ]
     },

@@ -2,118 +2,117 @@
 @inherits BaseReportComponent
 @using Microsoft.AspNetCore.Components.Web
 
-<_ReportDesignerContextMenu Visible="@IsVisible"
-                            X="@(State?.ClientX ?? 0)"
-                            Y="@(State?.ClientY ?? 0)">
-    @if ( IsSectionMenu )
-    {
-        <div class="b-report-context-menu-toolbar">
-            <_ReportDesignerContextMenuIconButton Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Clicked="@PasteElement" />
-            <_ReportDesignerContextMenuIconButton Icon="IconName.CheckDouble" Text="Select all" Disabled="@(!State.CanSelectAllSectionElements)" Clicked="@SelectAllSectionElements" />
-            <_ReportDesignerContextMenuIconButton Icon="IconName.Delete" Text="Delete band" Disabled="@(!State.CanDeleteSection)" Clicked="@DeleteSection" />
-            <_ReportDesignerContextMenuIconButton Icon="IconName.List" Text="Properties" Clicked="@ShowProperties" />
-        </div>
+<ContextMenu @ref="contextMenuRef">
+    <ContextMenuBody MinWidth="13rem">
+        @if ( IsSectionMenu )
+        {
+            <ContextMenuToolbar>
+                <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Clicked="@(( object _ ) => InvokeMenuCommand( PasteElement ))" />
+                <ContextMenuToolbarItem Icon="IconName.CheckDouble" Text="Select all" Disabled="@(!State.CanSelectAllSectionElements)" Clicked="@(( object _ ) => InvokeMenuCommand( SelectAllSectionElements ))" />
+                <ContextMenuToolbarItem Icon="IconName.Delete" Text="Delete band" Disabled="@(!State.CanDeleteSection)" Clicked="@(( object _ ) => InvokeMenuCommand( DeleteSection ))" />
+                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" Clicked="@(( object _ ) => InvokeMenuCommand( ShowProperties ))" />
+            </ContextMenuToolbar>
+            <ContextMenuDivider />
 
-        @if ( State.SectionSuppressed )
-        {
-            <_ReportDesignerContextMenuCheckButton Text="Suppress" Checked Clicked="@ToggleSectionSuppression" />
-        }
-        else
-        {
-            @if ( State.CanInsertSection )
+            @if ( State.SectionSuppressed )
             {
-                <_ReportDesignerContextMenuButton Text="Insert band before" Clicked="@InsertSectionBefore" />
-                <_ReportDesignerContextMenuButton Text="Insert band after" Clicked="@InsertSectionAfter" />
+                <ContextMenuItem ShowCheckbox Checked Clicked="@(( object _ ) => InvokeMenuCommand( ToggleSectionSuppression ))">Suppress</ContextMenuItem>
             }
-            @if ( State.CanInsertGroup )
+            else
             {
-                <_ReportDesignerContextMenuButton Text="Insert group..." Clicked="@InsertGroup" />
+                @if ( State.CanInsertSection )
+                {
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( InsertSectionBefore ))">Insert band before</ContextMenuItem>
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( InsertSectionAfter ))">Insert band after</ContextMenuItem>
+                }
+                @if ( State.CanInsertGroup )
+                {
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( InsertGroup ))">Insert group...</ContextMenuItem>
+                }
+                <ContextMenuItem ShowCheckbox Checked="@State.SectionSuppressed" Clicked="@(( object _ ) => InvokeMenuCommand( ToggleSectionSuppression ))">Suppress</ContextMenuItem>
+                <ContextMenuItem ShowCheckbox Checked="@State.SectionKeepTogether" Clicked="@(( object _ ) => InvokeMenuCommand( ToggleSectionKeepTogether ))">Keep together</ContextMenuItem>
+                <ContextMenuItem ShowCheckbox Checked="@State.SectionNewPageBefore" Clicked="@(( object _ ) => InvokeMenuCommand( ToggleSectionNewPageBefore ))">New page before</ContextMenuItem>
+                <ContextMenuItem ShowCheckbox Checked="@State.SectionNewPageAfter" Clicked="@(( object _ ) => InvokeMenuCommand( ToggleSectionNewPageAfter ))">New page after</ContextMenuItem>
             }
-            <_ReportDesignerContextMenuCheckButton Text="Suppress" Checked="@State.SectionSuppressed" Clicked="@ToggleSectionSuppression" />
-            <_ReportDesignerContextMenuCheckButton Text="Keep together" Checked="@State.SectionKeepTogether" Clicked="@ToggleSectionKeepTogether" />
-            <_ReportDesignerContextMenuCheckButton Text="New page before" Checked="@State.SectionNewPageBefore" Clicked="@ToggleSectionNewPageBefore" />
-            <_ReportDesignerContextMenuCheckButton Text="New page after" Checked="@State.SectionNewPageAfter" Clicked="@ToggleSectionNewPageAfter" />
         }
-    }
-    else if ( IsElementMenu )
-    {
-        <div class="b-report-context-menu-toolbar">
-            <_ReportDesignerContextMenuIconButton Icon="IconName.Cut" Text="Cut" Clicked="@CutElement" />
-            <_ReportDesignerContextMenuIconButton Icon="IconName.Copy" Text="Copy" Clicked="@CopyElement" />
-            <_ReportDesignerContextMenuIconButton Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Clicked="@PasteElement" />
-            <_ReportDesignerContextMenuIconButton Icon="IconName.Delete" Text="Delete element" Clicked="@DeleteElement" />
-            <_ReportDesignerContextMenuIconButton Icon="IconName.List" Text="Properties" Clicked="@ShowProperties" />
-        </div>
-
-        @if ( State.CanAlignOrSizeSelectedElements )
+        else if ( IsElementMenu )
         {
-            <_ReportDesignerContextSubMenu Text="Align">
-                <_ReportDesignerContextMenuButton Text="Tops" Clicked="@AlignTops" />
-                <_ReportDesignerContextMenuButton Text="Middles" Clicked="@AlignMiddles" />
-                <_ReportDesignerContextMenuButton Text="Bottoms" Clicked="@AlignBottoms" />
-                <_ReportDesignerContextMenuButton Text="Baseline" Clicked="@AlignBaseline" />
-                <_ReportDesignerContextMenuButton Text="Lefts" Clicked="@AlignLefts" />
-                <_ReportDesignerContextMenuButton Text="Centers" Clicked="@AlignCenters" />
-                <_ReportDesignerContextMenuButton Text="Rights" Clicked="@AlignRights" />
-                <_ReportDesignerContextMenuButton Text="To Grid" Clicked="@AlignToGrid" />
-            </_ReportDesignerContextSubMenu>
-            <_ReportDesignerContextSubMenu Text="Sizes">
-                <_ReportDesignerContextMenuButton Text="Same Width" Clicked="@SizeSameWidth" />
-                <_ReportDesignerContextMenuButton Text="Same Height" Clicked="@SizeSameHeight" />
-                <_ReportDesignerContextMenuButton Text="Same Size" Clicked="@SizeSameSize" />
-            </_ReportDesignerContextSubMenu>
-        }
+            <ContextMenuToolbar>
+                <ContextMenuToolbarItem Icon="IconName.Cut" Text="Cut" Clicked="@(( object _ ) => InvokeMenuCommand( CutElement ))" />
+                <ContextMenuToolbarItem Icon="IconName.Copy" Text="Copy" Clicked="@(( object _ ) => InvokeMenuCommand( CopyElement ))" />
+                <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Clicked="@(( object _ ) => InvokeMenuCommand( PasteElement ))" />
+                <ContextMenuToolbarItem Icon="IconName.Delete" Text="Delete element" Clicked="@(( object _ ) => InvokeMenuCommand( DeleteElement ))" />
+                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" Clicked="@(( object _ ) => InvokeMenuCommand( ShowProperties ))" />
+            </ContextMenuToolbar>
+            <ContextMenuDivider />
 
-        @if ( State.CanInsertAggregate )
+            @if ( State.CanAlignOrSizeSelectedElements )
+            {
+                <ContextMenuSubmenu Text="Align">
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( AlignTops ))">Tops</ContextMenuItem>
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( AlignMiddles ))">Middles</ContextMenuItem>
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( AlignBottoms ))">Bottoms</ContextMenuItem>
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( AlignBaseline ))">Baseline</ContextMenuItem>
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( AlignLefts ))">Lefts</ContextMenuItem>
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( AlignCenters ))">Centers</ContextMenuItem>
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( AlignRights ))">Rights</ContextMenuItem>
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( AlignToGrid ))">To Grid</ContextMenuItem>
+                </ContextMenuSubmenu>
+                <ContextMenuSubmenu Text="Sizes">
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( SizeSameWidth ))">Same Width</ContextMenuItem>
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( SizeSameHeight ))">Same Height</ContextMenuItem>
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( SizeSameSize ))">Same Size</ContextMenuItem>
+                </ContextMenuSubmenu>
+            }
+
+            @if ( State.CanInsertAggregate )
+            {
+                <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( InsertAggregate ))">Insert aggregate</ContextMenuItem>
+            }
+
+            @if ( State.CanEditText )
+            {
+                <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( EditText ))">Edit Text</ContextMenuItem>
+            }
+
+            @if ( State.CanEditFormula )
+            {
+                <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( EditFormula ))">Edit Formula</ContextMenuItem>
+            }
+
+            @if ( State.CanEditRunningTotal )
+            {
+                <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( EditRunningTotal ))">Edit Running Total</ContextMenuItem>
+            }
+
+            <ContextMenuItem ShowCheckbox Checked="@State.ElementCanGrow" Clicked="@(( object _ ) => InvokeMenuCommand( ToggleElementCanGrow ))">Can grow</ContextMenuItem>
+            <ContextMenuItem ShowCheckbox Checked="@State.ElementSuppressed" Clicked="@(( object _ ) => InvokeMenuCommand( ToggleElementSuppression ))">Suppress</ContextMenuItem>
+        }
+        else if ( IsCellMenu )
         {
-            <_ReportDesignerContextMenuButton Text="Insert aggregate" Clicked="@InsertAggregate" />
+            <ContextMenuToolbar>
+                <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Clicked="@(( object _ ) => InvokeMenuCommand( PasteElement ))" />
+                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" Clicked="@(( object _ ) => InvokeMenuCommand( ShowProperties ))" />
+            </ContextMenuToolbar>
+            <ContextMenuDivider />
+
+            @if ( State.CanMergeCellRight )
+            {
+                <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( MergeCellRight ))">Merge right</ContextMenuItem>
+            }
+
+            @if ( State.CanMergeCellDown )
+            {
+                <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( MergeCellDown ))">Merge down</ContextMenuItem>
+            }
+
+            @if ( State.CanUnmergeCell )
+            {
+                <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( UnmergeCell ))">Unmerge</ContextMenuItem>
+            }
         }
 
-        @if ( State.CanEditText )
-        {
-            <_ReportDesignerContextMenuButton Text="Edit Text" Clicked="@EditText" />
-        }
-
-        @if ( State.CanEditFormula )
-        {
-            <_ReportDesignerContextMenuButton Text="Edit Formula" Clicked="@EditFormula" />
-        }
-
-        @if ( State.CanEditRunningTotal )
-        {
-            <_ReportDesignerContextMenuButton Text="Edit Running Total" Clicked="@EditRunningTotal" />
-        }
-
-        <_ReportDesignerContextMenuCheckButton Text="Can grow" Checked="@State.ElementCanGrow" Clicked="@ToggleElementCanGrow" />
-        <_ReportDesignerContextMenuCheckButton Text="Suppress" Checked="@State.ElementSuppressed" Clicked="@ToggleElementSuppression" />
-    }
-    else if ( IsCellMenu )
-    {
-        <div class="b-report-context-menu-toolbar">
-            <_ReportDesignerContextMenuIconButton Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Clicked="@PasteElement" />
-            <_ReportDesignerContextMenuIconButton Icon="IconName.List" Text="Properties" Clicked="@ShowProperties" />
-        </div>
-
-        @if ( State.CanPasteElement )
-        {
-            <_ReportDesignerContextMenuButton Text="Paste" Clicked="@PasteElement" />
-        }
-
-        @if ( State.CanMergeCellRight )
-        {
-            <_ReportDesignerContextMenuButton Text="Merge right" Clicked="@MergeCellRight" />
-        }
-
-        @if ( State.CanMergeCellDown )
-        {
-            <_ReportDesignerContextMenuButton Text="Merge down" Clicked="@MergeCellDown" />
-        }
-
-        @if ( State.CanUnmergeCell )
-        {
-            <_ReportDesignerContextMenuButton Text="Unmerge" Clicked="@UnmergeCell" />
-        }
-    }
-
-    <_ReportDesignerContextMenuButton Text="Close" Clicked="@Close" />
-</_ReportDesignerContextMenu>
+        <ContextMenuDivider />
+        <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( Close ))">Close</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>

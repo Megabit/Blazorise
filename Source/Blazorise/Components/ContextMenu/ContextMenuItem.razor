@@ -1,0 +1,27 @@
+@namespace Blazorise
+@inherits BaseComponent
+
+<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="@Role" aria-disabled="@AriaDisabled" aria-checked="@AriaChecked" tabindex="@ComputedTabIndex" @onmousedown:preventDefault @onmousedown="@EventCallback.Empty" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
+    <span class="@ContentClassNames">
+        @if ( Icon is not null )
+        {
+            <Icon Name="@Icon" />
+        }
+        @if ( EffectiveShowCheckbox )
+        {
+            <div class="@CheckClassNames" @onmousedown="@ClickHandler" @onmousedown:preventDefault @onmousedown:stopPropagation @onclick:preventDefault @onclick:stopPropagation>
+                <Check Cursor="Cursor.Pointer" TValue="bool" Value="@IsChecked" ValueChanged="@CheckedChangedHandler" ValueExpression="@checkedExpression" Disabled="@Disabled" ReadOnly>
+                    <span>@ChildContent</span>
+                </Check>
+            </div>
+        }
+        else
+        {
+            <span>@ChildContent</span>
+        }
+        @if ( Shortcut is not null )
+        {
+            <span class="@ShortcutClassNames">@Shortcut</span>
+        }
+    </span>
+</a>

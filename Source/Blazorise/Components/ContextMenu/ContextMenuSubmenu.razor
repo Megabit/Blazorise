@@ -1,0 +1,15 @@
+@namespace Blazorise
+@inherits BaseComponent
+
+<Dropdown ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Visible="@Visible" VisibleChanged="@OnVisibleChanged" Direction="Direction.End" Disabled="@Disabled" Submenu="true" Trigger="@EffectiveTrigger" HoverCloseDelay="@EffectiveHoverCloseDelay" @attributes="@Attributes">
+    <DropdownToggle Class="@TriggerClassNames" Disabled="@Disabled">
+        @if ( Icon is not null )
+        {
+            <Icon Name="@Icon" />
+        }
+        @Text
+    </DropdownToggle>
+    <DropdownMenu Class="@SubmenuClassNames">
+        @ChildContent
+    </DropdownMenu>
+</Dropdown>

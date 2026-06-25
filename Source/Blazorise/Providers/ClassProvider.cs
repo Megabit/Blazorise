@@ -501,6 +501,50 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string DropdownDirection( Direction direction );
 
+    public virtual string ContextMenu() => null;
+
+    public virtual string ContextMenuToggle() => null;
+
+    public virtual string ContextMenuBody() => null;
+
+    public virtual string ContextMenuBodyVisible( bool visible ) => null;
+
+    public virtual string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => null;
+
+    public virtual string ContextMenuItem() => null;
+
+    public virtual string ContextMenuItemActive( bool active ) => null;
+
+    public virtual string ContextMenuItemDisabled( bool disabled ) => null;
+
+    public virtual string ContextMenuItemContent() => null;
+
+    public virtual string ContextMenuItemCheck() => null;
+
+    public virtual string ContextMenuItemShortcut() => null;
+
+    public virtual string ContextMenuDivider() => null;
+
+    public virtual string ContextMenuHeader() => null;
+
+    public virtual string ContextMenuGroup() => null;
+
+    public virtual string ContextMenuToolbar() => null;
+
+    public virtual string ContextMenuToolbarItem() => null;
+
+    public virtual string ContextMenuToolbarItemActive( bool active ) => null;
+
+    public virtual string ContextMenuToolbarItemDisabled( bool disabled ) => null;
+
+    public virtual string ContextMenuSubmenu() => null;
+
+    public virtual string ContextMenuSubmenuTrigger() => null;
+
+    public virtual string ContextMenuSubmenuTriggerDisabled( bool disabled ) => null;
+
+    public virtual string ContextMenuSubmenuBody() => null;
+
     #endregion
 
     #region Tabs

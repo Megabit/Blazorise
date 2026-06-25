@@ -3792,6 +3792,139 @@ template {
   background: var(--ant-color-white);
 }
 
+.ant-context-menu {
+  --context-menu-zindex: var(--ant-dropdown-z-index-popup);
+  display: contents;
+}
+
+.ant-context-menu-toggle {
+  display: contents;
+}
+
+.ant-context-menu-menu,
+.ant-context-menu-submenu-menu {
+  min-width: var(--ant-menu-dropdown-width, 160px);
+  max-width: min(24rem, calc(100vw - 1rem));
+  max-height: calc(100vh - 1rem);
+  overflow-y: auto;
+  padding: var(--ant-dropdown-padding-block, 5px) 0;
+  background: var(--ant-color-bg-elevated);
+  border-radius: var(--ant-border-radius-lg, 8px);
+  box-shadow: var(--ant-box-shadow-secondary, 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05));
+}
+
+.ant-context-menu-menu {
+  position: fixed;
+  display: block;
+  z-index: var(--context-menu-zindex, 1080);
+}
+
+.ant-context-menu-item,
+.ant-context-menu-submenu-trigger {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 5px 12px;
+  color: var(--ant-color-text);
+  border-radius: var(--ant-border-radius-sm, 4px);
+  cursor: pointer;
+}
+
+.ant-context-menu-item-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.ant-context-menu-item-check {
+  display: inline-block;
+}
+
+.ant-context-menu-item-shortcut {
+  margin-left: auto;
+}
+
+.ant-context-menu-item:hover,
+.ant-context-menu-submenu-trigger:hover {
+  background: var(--ant-control-item-bg-hover);
+}
+
+.ant-context-menu-item.ant-dropdown-menu-item-disabled,
+.ant-context-menu-submenu-trigger.ant-dropdown-menu-item-disabled {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.ant-context-menu-divider {
+  height: 1px;
+  margin: 4px 0;
+  overflow: hidden;
+  background-color: var(--ant-color-split);
+}
+
+.ant-context-menu-header,
+.ant-context-menu-group {
+  padding: 5px 12px;
+  color: var(--ant-color-text-secondary);
+  cursor: default;
+}
+
+.ant-context-menu-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+}
+
+.ant-context-menu-toolbar-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 4px 8px;
+  color: var(--ant-color-text);
+  background: transparent;
+  border: 0;
+  border-radius: var(--ant-border-radius-sm, 4px);
+  cursor: pointer;
+}
+
+.ant-context-menu-toolbar-item:hover,
+.ant-context-menu-toolbar-item:focus {
+  background: var(--ant-control-item-bg-hover);
+}
+
+.ant-context-menu-toolbar-item-active {
+  color: var(--ant-color-primary);
+  background: var(--ant-control-item-bg-active);
+}
+
+.ant-context-menu-toolbar-item:disabled,
+.ant-context-menu-toolbar-item-disabled {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.ant-context-menu-submenu {
+  position: relative;
+}
+
+.ant-context-menu-submenu-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: default;
+}
+
+.ant-context-menu-submenu-menu {
+  z-index: calc(var(--context-menu-zindex, 1080) + 1);
+}
+
 .ant-divider {
   margin: var(--ant-margin-lg) 0;
   border: 0;

@@ -9,43 +9,46 @@
                  NodeDragStarted="@FieldsNodeDragStarted"
                  NodeDragEnded="@NodeDragEnded" />
 
-<_ReportDesignerContextMenu Visible="@FormulaFieldContextMenuVisible"
-                            X="@(formulaFieldContextMenu?.ClientX ?? 0)"
-                            Y="@(formulaFieldContextMenu?.ClientY ?? 0)">
-    <_ReportDesignerContextMenuButton Text="@NewFormulaFieldContextMenuText" Clicked="@NewFormulaFieldClicked" />
+<ContextMenu @ref="formulaFieldContextMenuRef">
+    <ContextMenuBody MinWidth="12rem">
+        <ContextMenuItem Clicked="@(( object _ ) => NewFormulaFieldClicked( default ))">@NewFormulaFieldContextMenuText</ContextMenuItem>
 
-    @if ( IsFormulaFieldContextMenuTarget )
-    {
-        <_ReportDesignerContextMenuButton Text="Edit" Clicked="@EditFormulaFieldClicked" />
-        <_ReportDesignerContextMenuButton Text="Rename" Clicked="@RenameFormulaFieldClicked" />
-        <_ReportDesignerContextMenuButton Text="Delete" Clicked="@DeleteFormulaFieldClicked" />
-    }
+        @if ( IsFormulaFieldContextMenuTarget )
+        {
+            <ContextMenuItem Clicked="@(( object _ ) => EditFormulaFieldClicked( default ))">Edit</ContextMenuItem>
+            <ContextMenuItem Clicked="@(( object _ ) => RenameFormulaFieldClicked( default ))">Rename</ContextMenuItem>
+            <ContextMenuItem Clicked="@(( object _ ) => DeleteFormulaFieldClicked( default ))">Delete</ContextMenuItem>
+        }
 
-    <_ReportDesignerContextMenuButton Text="Close" Clicked="@(( MouseEventArgs _ ) => CloseFormulaFieldContextMenu())" />
-</_ReportDesignerContextMenu>
+        <ContextMenuDivider />
+        <ContextMenuItem Clicked="@(( object _ ) => CloseFormulaFieldContextMenu())">Close</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>
 
-<_ReportDesignerContextMenu Visible="@RunningTotalContextMenuVisible"
-                            X="@(runningTotalContextMenu?.ClientX ?? 0)"
-                            Y="@(runningTotalContextMenu?.ClientY ?? 0)">
-    <_ReportDesignerContextMenuButton Text="@NewRunningTotalContextMenuText" Clicked="@NewRunningTotalClicked" />
+<ContextMenu @ref="runningTotalContextMenuRef">
+    <ContextMenuBody MinWidth="12rem">
+        <ContextMenuItem Clicked="@(( object _ ) => NewRunningTotalClicked( default ))">@NewRunningTotalContextMenuText</ContextMenuItem>
 
-    @if ( IsRunningTotalContextMenuTarget )
-    {
-        <_ReportDesignerContextMenuButton Text="Edit" Clicked="@EditRunningTotalClicked" />
-        <_ReportDesignerContextMenuButton Text="Rename" Clicked="@RenameRunningTotalClicked" />
-        <_ReportDesignerContextMenuButton Text="Delete" Clicked="@DeleteRunningTotalClicked" />
-    }
+        @if ( IsRunningTotalContextMenuTarget )
+        {
+            <ContextMenuItem Clicked="@(( object _ ) => EditRunningTotalClicked( default ))">Edit</ContextMenuItem>
+            <ContextMenuItem Clicked="@(( object _ ) => RenameRunningTotalClicked( default ))">Rename</ContextMenuItem>
+            <ContextMenuItem Clicked="@(( object _ ) => DeleteRunningTotalClicked( default ))">Delete</ContextMenuItem>
+        }
 
-    <_ReportDesignerContextMenuButton Text="Close" Clicked="@(( MouseEventArgs _ ) => CloseRunningTotalContextMenu())" />
-</_ReportDesignerContextMenu>
+        <ContextMenuDivider />
+        <ContextMenuItem Clicked="@(( object _ ) => CloseRunningTotalContextMenu())">Close</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>
 
-<_ReportDesignerContextMenu Visible="@DataSourceContextMenuVisible"
-                            X="@(dataSourceContextMenu?.ClientX ?? 0)"
-                            Y="@(dataSourceContextMenu?.ClientY ?? 0)">
-    <_ReportDesignerContextMenuButton Text="Refresh" Clicked="@RefreshDataSourceClicked" />
-    <_ReportDesignerContextMenuButton Text="Delete" Clicked="@DeleteDataSourceClicked" />
-    <_ReportDesignerContextMenuButton Text="Close" Clicked="@(( MouseEventArgs _ ) => CloseDataSourceContextMenu())" />
-</_ReportDesignerContextMenu>
+<ContextMenu @ref="dataSourceContextMenuRef">
+    <ContextMenuBody MinWidth="12rem">
+        <ContextMenuItem Clicked="@(( object _ ) => RefreshDataSourceClicked( default ))">Refresh</ContextMenuItem>
+        <ContextMenuItem Clicked="@(( object _ ) => DeleteDataSourceClicked( default ))">Delete</ContextMenuItem>
+        <ContextMenuDivider />
+        <ContextMenuItem Clicked="@(( object _ ) => CloseDataSourceContextMenu())">Close</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>
 
 <_ReportDesignerFormulaFieldNameDialog @ref="formulaFieldNameDialogRef"
                                        Confirmed="@FormulaFieldNameConfirmed" />

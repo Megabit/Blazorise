@@ -560,6 +560,50 @@ public class FluentUI2ClassProvider : ClassProvider
         _ => "fui-Menu-down",
     };
 
+    public override string ContextMenu() => "fui-ContextMenu";
+
+    public override string ContextMenuToggle() => "fui-ContextMenuToggle";
+
+    public override string ContextMenuBody() => $"{DropdownMenu()} fui-ContextMenuPopover";
+
+    public override string ContextMenuBodyVisible( bool visible ) => DropdownMenuVisible( visible );
+
+    public override string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => DropdownMenuPositionStrategy( dropdownPositionStrategy );
+
+    public override string ContextMenuItem() => $"{DropdownItem()} fui-ContextMenuItem";
+
+    public override string ContextMenuItemActive( bool active ) => DropdownItemActive( active );
+
+    public override string ContextMenuItemDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuItemContent() => "fui-ContextMenuItemContent";
+
+    public override string ContextMenuItemCheck() => "fui-ContextMenuItemCheck";
+
+    public override string ContextMenuItemShortcut() => "fui-ContextMenuItemShortcut";
+
+    public override string ContextMenuDivider() => $"{DropdownDivider()} fui-ContextMenuDivider";
+
+    public override string ContextMenuHeader() => $"{DropdownHeader()} fui-ContextMenuHeader";
+
+    public override string ContextMenuGroup() => "fui-ContextMenuGroup";
+
+    public override string ContextMenuToolbar() => "fui-ContextMenuToolbar";
+
+    public override string ContextMenuToolbarItem() => "fui-ContextMenuToolbarItem";
+
+    public override string ContextMenuToolbarItemActive( bool active ) => active ? "fui-ContextMenuToolbarItem-active" : null;
+
+    public override string ContextMenuToolbarItemDisabled( bool disabled ) => disabled ? "fui-ContextMenuToolbarItem-disabled" : null;
+
+    public override string ContextMenuSubmenu() => "fui-ContextMenuSubmenu";
+
+    public override string ContextMenuSubmenuTrigger() => "fui-ContextMenuSubmenuTrigger";
+
+    public override string ContextMenuSubmenuTriggerDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuSubmenuBody() => "fui-ContextMenuSubmenuPopover";
+
     #endregion
 
     #region Tabs

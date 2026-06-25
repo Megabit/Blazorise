@@ -500,6 +500,50 @@ public interface IClassProvider
 
     string DropdownDirection( Direction direction );
 
+    string ContextMenu();
+
+    string ContextMenuToggle();
+
+    string ContextMenuBody();
+
+    string ContextMenuBodyVisible( bool visible );
+
+    string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy );
+
+    string ContextMenuItem();
+
+    string ContextMenuItemActive( bool active );
+
+    string ContextMenuItemDisabled( bool disabled );
+
+    string ContextMenuItemContent();
+
+    string ContextMenuItemCheck();
+
+    string ContextMenuItemShortcut();
+
+    string ContextMenuDivider();
+
+    string ContextMenuHeader();
+
+    string ContextMenuGroup();
+
+    string ContextMenuToolbar();
+
+    string ContextMenuToolbarItem();
+
+    string ContextMenuToolbarItemActive( bool active );
+
+    string ContextMenuToolbarItemDisabled( bool disabled );
+
+    string ContextMenuSubmenu();
+
+    string ContextMenuSubmenuTrigger();
+
+    string ContextMenuSubmenuTriggerDisabled( bool disabled );
+
+    string ContextMenuSubmenuBody();
+
     #endregion
 
     #region Tabs

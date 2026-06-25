@@ -210,6 +210,106 @@ body:before {
   }
 }
 
+.tw-context-menu {
+  --context-menu-zindex: 50;
+  display: contents;
+}
+
+.tw-context-menu-toggle {
+  display: contents;
+}
+
+.tw-context-menu-menu,
+.tw-context-menu-submenu-menu {
+  min-width: 12rem;
+  max-width: min(24rem, 100vw - 1rem);
+  max-height: calc(100vh - 1rem);
+  overflow-y: auto;
+}
+
+.tw-context-menu-menu {
+  position: fixed;
+  display: block;
+  z-index: var(--context-menu-zindex, 1080);
+}
+
+.tw-context-menu-item {
+  cursor: pointer;
+}
+
+.tw-context-menu-item-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.tw-context-menu-item-check {
+  display: inline-block;
+}
+
+.tw-context-menu-item-shortcut {
+  margin-left: auto;
+}
+
+.tw-context-menu-header {
+  cursor: default;
+}
+
+.tw-context-menu-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+}
+
+.tw-context-menu-toolbar-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-width: 2rem;
+  min-height: 2rem;
+  padding: 0.25rem 0.5rem;
+  color: rgb(55, 65, 81);
+  background: transparent;
+  border: 0;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
+
+.tw-context-menu-toolbar-item:hover,
+.tw-context-menu-toolbar-item:focus {
+  background-color: rgb(243, 244, 246);
+}
+
+.tw-context-menu-toolbar-item-active {
+  color: rgb(37, 99, 235);
+  background-color: rgb(219, 234, 254);
+}
+
+.tw-context-menu-toolbar-item:disabled,
+.tw-context-menu-toolbar-item-disabled {
+  color: rgb(156, 163, 175);
+  cursor: default;
+  pointer-events: none;
+}
+
+.tw-context-menu-submenu {
+  position: relative;
+}
+
+.tw-context-menu-submenu-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: default;
+}
+
+.tw-context-menu-submenu-menu {
+  z-index: calc(var(--context-menu-zindex, 1080) + 1);
+}
+
 .b-dropdown.b-dropdown-group > .b-button:not(:last-child):not(.b-dropdown-toggle) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;

@@ -564,6 +564,50 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DropdownDirection( Direction direction ) => null;
 
+    public override string ContextMenu() => "ant-context-menu";
+
+    public override string ContextMenuToggle() => "ant-context-menu-toggle";
+
+    public override string ContextMenuBody() => $"{DropdownMenu()} ant-context-menu-menu";
+
+    public override string ContextMenuBodyVisible( bool visible ) => DropdownMenuVisible( visible );
+
+    public override string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => DropdownMenuPositionStrategy( dropdownPositionStrategy );
+
+    public override string ContextMenuItem() => $"{DropdownItem()} ant-context-menu-item";
+
+    public override string ContextMenuItemActive( bool active ) => DropdownItemActive( active );
+
+    public override string ContextMenuItemDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuItemContent() => "ant-context-menu-item-content";
+
+    public override string ContextMenuItemCheck() => "ant-context-menu-item-check";
+
+    public override string ContextMenuItemShortcut() => "ant-context-menu-item-shortcut";
+
+    public override string ContextMenuDivider() => $"{DropdownDivider()} ant-context-menu-divider";
+
+    public override string ContextMenuHeader() => $"{DropdownHeader()} ant-context-menu-header";
+
+    public override string ContextMenuGroup() => "ant-context-menu-group";
+
+    public override string ContextMenuToolbar() => "ant-context-menu-toolbar";
+
+    public override string ContextMenuToolbarItem() => "ant-context-menu-toolbar-item";
+
+    public override string ContextMenuToolbarItemActive( bool active ) => active ? "ant-context-menu-toolbar-item-active" : null;
+
+    public override string ContextMenuToolbarItemDisabled( bool disabled ) => disabled ? "ant-context-menu-toolbar-item-disabled" : null;
+
+    public override string ContextMenuSubmenu() => "ant-context-menu-submenu";
+
+    public override string ContextMenuSubmenuTrigger() => "ant-context-menu-submenu-trigger";
+
+    public override string ContextMenuSubmenuTriggerDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuSubmenuBody() => "ant-context-menu-submenu-menu";
+
     #endregion
 
     #region Tabs
