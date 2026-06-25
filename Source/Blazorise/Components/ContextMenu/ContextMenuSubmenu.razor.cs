@@ -40,7 +40,12 @@ public partial class ContextMenuSubmenu : BaseComponent
         base.DirtyClasses();
     }
 
-    protected Task OnVisibleChanged( bool visible )
+    /// <summary>
+    /// Handles submenu visibility changes from the underlying dropdown.
+    /// </summary>
+    /// <param name="visible">The new submenu visibility state.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private Task OnVisibleChanged( bool visible )
     {
         Visible = visible;
 
