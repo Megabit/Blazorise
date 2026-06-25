@@ -31,6 +31,8 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.PivotGrid\Blazorise.PivotGrid.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Scheduler\Blazorise.Scheduler.csproj" />
     <ProjectReference Include="..\..\Source\Helpers\Blazorise.Tests.bUnit\Blazorise.Tests.bUnit.csproj" />
+    <ProjectReference Include="..\..\Source\Blazorise.Bootstrap5\Blazorise.Bootstrap5.csproj" />
+    <ProjectReference Include="..\..\Source\Blazorise.FluentUI2\Blazorise.FluentUI2.csproj" />
     <ProjectReference Include="..\BasicTestApp.Server\BasicTestApp.Server.csproj" />
   </ItemGroup>
 
