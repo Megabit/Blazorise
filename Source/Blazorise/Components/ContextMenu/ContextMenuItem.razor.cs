@@ -1,6 +1,5 @@
 #region Using directives
 using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -22,8 +21,6 @@ public partial class ContextMenuItem : BaseComponent
     private bool disabled;
 
     private bool @checked;
-
-    protected Expression<Func<bool>> checkedExpression => () => IsChecked;
 
     #endregion
 

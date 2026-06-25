@@ -10,7 +10,7 @@
         @if ( EffectiveShowCheckbox )
         {
             <div class="@CheckClassNames" @onmousedown="@ClickHandler" @onmousedown:preventDefault @onmousedown:stopPropagation @onclick:preventDefault @onclick:stopPropagation>
-                <Check Cursor="Cursor.Pointer" TValue="bool" Value="@IsChecked" ValueChanged="@CheckedChangedHandler" ValueExpression="@checkedExpression" Disabled="@Disabled" ReadOnly>
+                <Check Cursor="Cursor.Pointer" TValue="bool" Value="@IsChecked" ValueChanged="@CheckedChangedHandler" Disabled="@Disabled" ReadOnly>
                     <span>@ChildContent</span>
                 </Check>
             </div>
