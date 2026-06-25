@@ -109,13 +109,13 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
         if ( toggle is null || toggle.ElementId.IsNullOrEmpty() )
             return;
 
-        toggleSelector = BuildElementIdSelector( toggle.ElementId );
+        toggleSelector = CssSelectorUtilities.BuildElementIdSelector( toggle.ElementId );
         subscriptionsDirty = true;
     }
 
     internal void NotifyToggleRemoved( ContextMenuToggle toggle )
     {
-        if ( toggleSelector == BuildElementIdSelector( toggle?.ElementId ) )
+        if ( toggleSelector == CssSelectorUtilities.BuildElementIdSelector( toggle?.ElementId ) )
         {
             toggleSelector = null;
             subscriptionsDirty = true;
@@ -185,17 +185,6 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
         if ( Visible && CloseOnEscape && string.Equals( eventArgs.Key, "Escape", StringComparison.Ordinal ) )
             await Hide();
     }
-
-    private static string BuildElementIdSelector( string elementId )
-    {
-        if ( string.IsNullOrWhiteSpace( elementId ) )
-            return null;
-
-        return $"[id=\"{EscapeCssStringValue( elementId )}\"]";
-    }
-
-    private static string EscapeCssStringValue( string value )
-        => value.Replace( "\\", "\\\\" ).Replace( "\"", "\\\"" );
 
     private async Task EnsureSubscriptions()
     {
@@ -305,7 +294,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
         => !string.IsNullOrWhiteSpace( TargetSelector )
             ? TargetSelector
             : !string.IsNullOrWhiteSpace( TargetId )
-                ? BuildElementIdSelector( TargetId )
+                ? CssSelectorUtilities.BuildElementIdSelector( TargetId )
                 : toggleSelector;
 
     /// <summary>
