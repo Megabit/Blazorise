@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -24,6 +25,8 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
 
     private string toggleSelector;
 
+    private string contextElementSelector;
+
     private string targetSelector;
 
     private string targetId;
@@ -44,6 +47,10 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
 
     private IAsyncDisposable keyDownSubscription;
 
+    private bool floatingPositionDirty;
+
+    private bool floatingPositionInitialized;
+
     #endregion
 
     #region Methods
@@ -62,6 +69,14 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
         if ( firstRender || subscriptionsDirty )
             await EnsureSubscriptions();
 
+        if ( Visible )
+            await EnsureFloatingPosition();
+        else if ( floatingPositionInitialized )
+        {
+            await JSModule.SafeDestroy( ElementRef, ElementId );
+            floatingPositionInitialized = false;
+        }
+
         await base.OnAfterRenderAsync( firstRender );
     }
 
@@ -69,7 +84,12 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     protected override async ValueTask DisposeAsync( bool disposing )
     {
         if ( disposing )
+        {
             await DisposeSubscriptions();
+
+            if ( Rendered )
+                await JSModule.SafeDestroy( ElementRef, ElementId );
+        }
 
         await base.DisposeAsync( disposing );
     }
@@ -143,6 +163,8 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     {
         this.clientX = clientX;
         this.clientY = clientY;
+        contextElementSelector = documentEventArgs?.ContextElementSelector ?? documentEventArgs?.MatchedSelector ?? ResolvedTargetSelector;
+        floatingPositionDirty = true;
 
         bool wasVisible = Visible;
 
@@ -233,6 +255,27 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
         } );
     }
 
+    private async Task EnsureFloatingPosition()
+    {
+        if ( !floatingPositionDirty && floatingPositionInitialized )
+            return;
+
+        string bodyElementId = BodyElementId;
+
+        if ( string.IsNullOrWhiteSpace( bodyElementId ) )
+            return;
+
+        await JSModule.Initialize( ElementRef, ElementId, bodyElementId, clientX, clientY, contextElementSelector, new()
+        {
+            Direction = Direction.Down.ToString( "g" ),
+            Strategy = "fixed",
+            OnlyWhenPositioned = true,
+        } );
+
+        floatingPositionDirty = false;
+        floatingPositionInitialized = true;
+    }
+
     private async ValueTask DisposeSubscriptions()
     {
         if ( contextMenuSubscription is not null )
@@ -252,23 +295,6 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
             await keyDownSubscription.DisposeAsync();
             keyDownSubscription = null;
         }
-    }
-
-    private void DirtyBodyStyles()
-    {
-        if ( bodies is null )
-            return;
-
-        foreach ( ContextMenuBody body in bodies )
-            body.DirtyStyles();
-    }
-
-    /// <inheritdoc/>
-    protected internal override void DirtyClasses()
-    {
-        DirtyBodyStyles();
-
-        base.DirtyClasses();
     }
 
     #endregion
@@ -297,10 +323,20 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
                 ? CssSelectorUtilities.BuildElementIdSelector( TargetId )
                 : toggleSelector;
 
+    private string BodyElementId
+        => bodies is not null && bodies.Count > 0
+            ? bodies[0].ElementId
+            : null;
+
     /// <summary>
     /// Gets the shared document observer.
     /// </summary>
     [Inject] protected IDocumentObserver DocumentObserver { get; set; }
+
+    /// <summary>
+    /// Gets the context menu JavaScript module.
+    /// </summary>
+    [Inject] protected IJSContextMenuModule JSModule { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="ContextMenu"/>.
@@ -320,6 +356,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
                 return;
 
             visible = value;
+            floatingPositionDirty = value;
             DirtyClasses();
         }
     }

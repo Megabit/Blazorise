@@ -29,6 +29,7 @@ function createDocumentObserver() {
     const pointerCaptures = new Map();
     const pendingAnimationFrameEvents = new Map();
     let dotNetReference = null;
+    let nextContextElementId = 0;
 
     return {
         initialize,
@@ -101,7 +102,9 @@ function createDocumentObserver() {
 
         for (const subscription of subscriptions.values()) {
             for (const eventName of subscription.eventNames) {
-                requiredKeys.add(createListenerKey(eventName, subscription.capture));
+                for (const targetName of getListenerTargetNames(eventName)) {
+                    requiredKeys.add(createListenerKey(eventName, subscription.capture, targetName));
+                }
             }
         }
 
@@ -117,9 +120,9 @@ function createDocumentObserver() {
                 continue;
             }
 
-            const [eventName, captureValue] = key.split(":");
+            const [eventName, captureValue, targetName] = key.split(":");
             const capture = captureValue === "1";
-            const target = eventName === "blur" ? window : document;
+            const target = getListenerTarget(targetName);
             const handler = event => dispatch(event, capture);
 
             target.addEventListener(eventName, handler, { capture, passive: false });
@@ -215,6 +218,7 @@ function createDocumentObserver() {
     function createDocumentEventArgs(subscription, event) {
         const target = event.target instanceof Element ? event.target : null;
         const matched = subscription.selector && target ? target.closest(subscription.selector) : null;
+        const contextElement = matched ?? target;
         const point = getEventPoint(event);
 
         return {
@@ -223,12 +227,15 @@ function createDocumentObserver() {
             pointerId: typeof event.pointerId === "number" ? event.pointerId : 0,
             clientX: point.clientX,
             clientY: point.clientY,
+            pageX: point.pageX,
+            pageY: point.pageY,
             key: event.key ?? null,
             ctrlKey: event.ctrlKey === true,
             shiftKey: event.shiftKey === true,
             altKey: event.altKey === true,
             metaKey: event.metaKey === true,
             matchedSelector: matched ? subscription.selector : null,
+            contextElementSelector: getElementSelector(contextElement),
             targetTagName: target?.tagName?.toLowerCase?.() ?? null,
             targetId: target?.id ?? null,
             targetClassName: typeof target?.className === "string" ? target.className : null,
@@ -240,6 +247,8 @@ function createDocumentObserver() {
             return {
                 clientX: event.clientX ?? 0,
                 clientY: event.clientY ?? 0,
+                pageX: event.pageX ?? ((event.clientX ?? 0) + window.scrollX),
+                pageY: event.pageY ?? ((event.clientY ?? 0) + window.scrollY),
             };
         }
 
@@ -248,11 +257,49 @@ function createDocumentObserver() {
         return {
             clientX: touch?.clientX ?? 0,
             clientY: touch?.clientY ?? 0,
+            pageX: touch?.pageX ?? ((touch?.clientX ?? 0) + window.scrollX),
+            pageY: touch?.pageY ?? ((touch?.clientY ?? 0) + window.scrollY),
         };
     }
 
-    function createListenerKey(eventName, capture) {
-        return `${eventName}:${capture ? "1" : "0"}`;
+    function getListenerTargetNames(eventName) {
+        if (eventName === "blur") {
+            return ["window"];
+        }
+
+        return ["document"];
+    }
+
+    function getListenerTarget(targetName) {
+        return targetName === "window" ? window : document;
+    }
+
+    function createListenerKey(eventName, capture, targetName) {
+        return `${eventName}:${capture ? "1" : "0"}:${targetName}`;
+    }
+
+    function getElementSelector(element) {
+        if (!(element instanceof Element)) {
+            return null;
+        }
+
+        if (element.id) {
+            return `[id="${escapeCssStringValue(element.id)}"]`;
+        }
+
+        const attributeName = "data-b-document-observer-context-id";
+        let contextId = element.getAttribute(attributeName);
+
+        if (!contextId) {
+            contextId = `b-document-observer-context-${++nextContextElementId}`;
+            element.setAttribute(attributeName, contextId);
+        }
+
+        return `[${attributeName}="${escapeCssStringValue(contextId)}"]`;
+    }
+
+    function escapeCssStringValue(value) {
+        return String(value).replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
     }
 }
 

@@ -42,9 +42,6 @@ public partial class ContextMenuBody : BaseComponent
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( $"left:{ParentContextMenu?.ClientX ?? 0}px" );
-        builder.Append( $"top:{ParentContextMenu?.ClientY ?? 0}px" );
-
         if ( MinWidth is not null )
             builder.Append( $"min-width:{MinWidth}" );
 
@@ -54,6 +51,9 @@ public partial class ContextMenuBody : BaseComponent
     #endregion
 
     #region Properties
+
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
 
     private bool IsVisible => Visible ?? ParentContextMenu?.Visible == true;
 

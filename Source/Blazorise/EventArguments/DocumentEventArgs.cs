@@ -31,6 +31,16 @@ public class DocumentEventArgs
     public double ClientY { get; set; }
 
     /// <summary>
+    /// Gets or sets the document page X coordinate.
+    /// </summary>
+    public double PageX { get; set; }
+
+    /// <summary>
+    /// Gets or sets the document page Y coordinate.
+    /// </summary>
+    public double PageY { get; set; }
+
+    /// <summary>
     /// Gets or sets the keyboard key value.
     /// </summary>
     public string Key { get; set; }
@@ -59,6 +69,11 @@ public class DocumentEventArgs
     /// Gets or sets the matched selector for the subscription.
     /// </summary>
     public string MatchedSelector { get; set; }
+
+    /// <summary>
+    /// Gets or sets a selector for the concrete element used as the event context.
+    /// </summary>
+    public string ContextElementSelector { get; set; }
 
     /// <summary>
     /// Gets or sets the target element tag name.
