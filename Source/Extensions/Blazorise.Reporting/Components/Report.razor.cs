@@ -3005,6 +3005,35 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         } ) );
     }
 
+    private async Task UpdateSelectedElementsAsync( string commandName, Action<ReportElementDefinition> update )
+    {
+        List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( EffectiveDefinition );
+
+        if ( selectedElements.Count == 0 )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( commandName, () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( definition );
+
+            if ( selectedElements.Count == 0 )
+                return Task.CompletedTask;
+
+            List<string> selectedElementKeys = selectedElements.Select( item => item.ElementKey ).ToList();
+            string primaryElementKey = selectedElements[0].ElementKey;
+
+            foreach ( ReportSelectedElementContext item in selectedElements )
+            {
+                update?.Invoke( item.Element );
+            }
+
+            SelectElements( selectedElementKeys, primaryElementKey );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
     private async Task UpdateSelectedSectionAsync( Action<ReportSectionDefinition> update )
     {
         var section = selectionManager.FindSelectedSection( EffectiveDefinition );
@@ -3256,7 +3285,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
 
         bool value = element.CanGrow?.Value != true;
-        await UpdateSelectedElementAsync( currentElement => currentElement.CanGrow = ReportValue.Create( value, currentElement.CanGrow?.Formula ) );
+        await UpdateSelectedElementsAsync( value ? "Enable can grow" : "Disable can grow", currentElement => currentElement.CanGrow = ReportValue.Create( value, currentElement.CanGrow?.Formula ) );
         CloseContextMenu();
     }
 
@@ -3268,7 +3297,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
 
         bool value = element.Suppress?.Value != true;
-        await UpdateSelectedElementAsync( currentElement => currentElement.Suppress = ReportValue.Create( value, currentElement.Suppress?.Formula ) );
+        await UpdateSelectedElementsAsync( value ? "Suppress elements" : "Don't suppress elements", currentElement => currentElement.Suppress = ReportValue.Create( value, currentElement.Suppress?.Formula ) );
         CloseContextMenu();
     }
 
