@@ -293,7 +293,10 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
     {
         SetShouldCloseForHierarchy( false );
 
-        return Task.CompletedTask;
+        if ( ParentBarItemState is not null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
+            return Task.CompletedTask;
+
+        return Show();
     }
 
     /// <summary>

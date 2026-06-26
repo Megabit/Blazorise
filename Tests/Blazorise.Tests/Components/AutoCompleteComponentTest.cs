@@ -520,6 +520,36 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     }
 
     [Fact]
+    public async Task Escape_WithMinSearchLength0AndSearchText_ShouldClearAndShowOptions()
+    {
+        var items = new List<string> { "1", "2" };
+
+        var comp = Render<Autocomplete<string, string>>( parameters => parameters
+            .Add( x => x.Data, items )
+            .Add( x => x.TextField, x => x )
+            .Add( x => x.ValueField, x => x )
+            .Add( x => x.FreeTyping, true )
+            .Add( x => x.MinSearchLength, 0 ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+
+        await autoComplete.FocusAsync( new() );
+        await autoComplete.InputAsync( "Test1" );
+        await autoComplete.BlurAsync( new() );
+        await autoComplete.FocusAsync( new() );
+        await autoComplete.KeyDownAsync( new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs
+        {
+            Key = "Escape"
+        } );
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Empty( comp.Find( ".b-is-autocomplete input" ).GetAttribute( "value" ) );
+            Assert.Equal( 2, comp.FindAll( ".b-is-autocomplete-suggestion" ).Count );
+        }, TestExtensions.WaitTime );
+    }
+
+    [Fact]
     public Task MinSearchLength_BiggerThen0_ShouldNotShowOptions_OnFocus()
     {
         return TestMinSearchLengthBiggerThen0DoesNotShowOptions<AutocompleteComponent>();
@@ -532,5 +562,40 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     public Task ProgramaticallySetSelectedValue_ShouldSet_SelectedText( string selectedValue, string expectedSelectedText )
     {
         return TestProgramaticallySetSelectedValue<AutocompleteComponent>( ( comp ) => comp.Instance.SelectedText, selectedValue, expectedSelectedText );
+    }
+
+    [Fact]
+    public void ProgramaticallySetSelectedValue_Null_ShouldClear_SelectedTextAndSearch()
+    {
+        var countries = new List<Country>
+        {
+            new( "Portugal", "PT", "Lisbon" ),
+            new( "Croatia", "HR", "Zagreb" )
+        };
+        string selectedValue = "PT";
+        string selectedText = null;
+
+        var comp = Render<Autocomplete<Country, string>>( parameters => parameters
+            .Add( x => x.Data, countries )
+            .Add( x => x.TextField, x => x.Name )
+            .Add( x => x.ValueField, x => x.Iso )
+            .Add( x => x.SelectedValue, selectedValue )
+            .Add( x => x.SelectedValueChanged, value => selectedValue = value )
+            .Add( x => x.SelectedText, selectedText )
+            .Add( x => x.SelectedTextChanged, text => selectedText = text ) );
+
+        comp.WaitForAssertion( () => Assert.Equal( "Portugal", comp.Find( ".b-is-autocomplete input" ).GetAttribute( "value" ) ), TestExtensions.WaitTime );
+        Assert.Equal( "Portugal", selectedText );
+
+        selectedValue = null;
+        comp.Render( parameters => parameters
+            .Add( x => x.SelectedValue, selectedValue )
+            .Add( x => x.SelectedText, selectedText ) );
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Null( selectedText );
+            Assert.Empty( comp.Find( ".b-is-autocomplete input" ).GetAttribute( "value" ) );
+        }, TestExtensions.WaitTime );
     }
 }

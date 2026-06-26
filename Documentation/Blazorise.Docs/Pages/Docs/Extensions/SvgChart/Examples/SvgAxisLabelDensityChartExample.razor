@@ -1,0 +1,65 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgLineChart TItem="DailyTraffic"
+              Items="@traffic"
+              Options="@options">
+    <SvgChartTitle Title='@("Daily traffic")' Subtitle='@("Axis labels skip and rotate as space changes")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled InteractionMode="SvgChartInteractionMode.Index" Width="220" />
+    <SvgChartTimeAxis TimeValue="@( item => (DateTime?)item.Day )"
+                      Unit="SvgChartTimeUnit.Day"
+                      Format="MMM d"
+                      LabelsOptions="@labelsOptions" />
+    <SvgChartValueAxis BeginAtZero TickCount="5" />
+
+    <SvgLineSeries Name="Visits" Value="@( item => item.Visits )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="3" />
+</SvgLineChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        Tooltip = new() { InteractionMode = SvgChartInteractionMode.Index, Width = 220 },
+    };
+
+    private readonly SvgChartAxisLabelsOptions labelsOptions = new()
+    {
+        AutoSkip = true,
+        MaxTicksLimit = 8,
+        AutoRotate = true,
+        MaxRotation = 45,
+    };
+
+    private readonly List<DailyTraffic> traffic =
+    [
+        new() { Day = new DateTime( 2026, 5, 1 ), Visits = 126 },
+        new() { Day = new DateTime( 2026, 5, 2 ), Visits = 138 },
+        new() { Day = new DateTime( 2026, 5, 3 ), Visits = 142 },
+        new() { Day = new DateTime( 2026, 5, 4 ), Visits = 151 },
+        new() { Day = new DateTime( 2026, 5, 5 ), Visits = 148 },
+        new() { Day = new DateTime( 2026, 5, 6 ), Visits = 164 },
+        new() { Day = new DateTime( 2026, 5, 7 ), Visits = 173 },
+        new() { Day = new DateTime( 2026, 5, 8 ), Visits = 169 },
+        new() { Day = new DateTime( 2026, 5, 9 ), Visits = 182 },
+        new() { Day = new DateTime( 2026, 5, 10 ), Visits = 194 },
+        new() { Day = new DateTime( 2026, 5, 11 ), Visits = 187 },
+        new() { Day = new DateTime( 2026, 5, 12 ), Visits = 202 },
+        new() { Day = new DateTime( 2026, 5, 13 ), Visits = 211 },
+        new() { Day = new DateTime( 2026, 5, 14 ), Visits = 219 },
+        new() { Day = new DateTime( 2026, 5, 15 ), Visits = 214 },
+        new() { Day = new DateTime( 2026, 5, 16 ), Visits = 228 },
+        new() { Day = new DateTime( 2026, 5, 17 ), Visits = 236 },
+        new() { Day = new DateTime( 2026, 5, 18 ), Visits = 241 },
+        new() { Day = new DateTime( 2026, 5, 19 ), Visits = 233 },
+        new() { Day = new DateTime( 2026, 5, 20 ), Visits = 249 },
+        new() { Day = new DateTime( 2026, 5, 21 ), Visits = 258 },
+    ];
+
+    private sealed class DailyTraffic
+    {
+        public DateTime Day { get; set; }
+
+        public double Visits { get; set; }
+    }
+}

@@ -7,6 +7,7 @@ using Blazorise.Bootstrap;
 using Blazorise.Scheduler;
 using Blazorise.Tests.bUnit;
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Xunit;
 #endregion
 
@@ -65,6 +66,30 @@ public class SchedulerComponentTest : BunitContext
         component.WaitForAssertion( () => Assert.Equal( initialRevision + 1, GetViewRefreshRevision( component.Instance ) ) );
     }
 
+    [Fact]
+    public void MonthViewShowWeekNumbersFalse_ShouldHideWeekNumberColumn()
+    {
+        DateOnly selectedDate = new( 2024, 1, 15 );
+        List<Appointment> data = new();
+
+        IRenderedComponent<Scheduler<Appointment>> component = Render<Scheduler<Appointment>>( parameters => parameters
+            .Add( x => x.Date, selectedDate )
+            .Add( x => x.Data, data )
+            .Add( x => x.SelectedView, SchedulerView.Month )
+            .Add( x => x.ShowToolbar, false )
+            .Add( x => x.ChildContent, CreateMonthViewContent( false ) ) );
+
+        component.Render( parameters => parameters
+            .Add( x => x.Date, selectedDate )
+            .Add( x => x.Data, data )
+            .Add( x => x.SelectedView, SchedulerView.Month )
+            .Add( x => x.ShowToolbar, false )
+            .Add( x => x.ChildContent, CreateMonthViewContent( false ) ) );
+
+        Assert.NotEmpty( component.FindAll( ".b-scheduler-month-view" ) );
+        Assert.Empty( component.FindAll( ".b-scheduler-weeknumbers-column" ) );
+    }
+
     private static int GetViewRefreshRevision( Scheduler<Appointment> scheduler )
     {
         FieldInfo fieldInfo = typeof( Scheduler<Appointment> ).GetField( "viewRefreshRevision", BindingFlags.Instance | BindingFlags.NonPublic )!;
@@ -72,6 +97,21 @@ public class SchedulerComponentTest : BunitContext
         Assert.NotNull( fieldInfo );
 
         return (int)fieldInfo.GetValue( scheduler );
+    }
+
+    private static RenderFragment CreateMonthViewContent( bool showWeekNumbers )
+    {
+        return builder =>
+        {
+            builder.OpenComponent<SchedulerViews<Appointment>>( 0 );
+            builder.AddAttribute( 1, nameof( SchedulerViews<Appointment>.ChildContent ), (RenderFragment)( childBuilder =>
+            {
+                childBuilder.OpenComponent<SchedulerMonthView<Appointment>>( 2 );
+                childBuilder.AddAttribute( 3, nameof( SchedulerMonthView<Appointment>.ShowWeekNumbers ), showWeekNumbers );
+                childBuilder.CloseComponent();
+            } ) );
+            builder.CloseComponent();
+        };
     }
 
     public class Appointment
