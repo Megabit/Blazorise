@@ -752,6 +752,7 @@ body:before {
   text-align: center;
   padding-left: 0px;
   padding-right: 0px;
+  gap: 0 !important;
   font-size: 0;
   border-radius: 0;
   border-bottom: 1px solid var(--b-bar-border-color, var(--bs-border-color, rgba(0, 0, 0, 0.175)));
@@ -772,8 +773,12 @@ body:before {
 .navbar[data-mode=vertical-popout][data-collapse=small] .navbar-collapse > .navbar-nav > .nav-item > .nav-link .pe-none,
 .navbar[data-mode=vertical-popout][data-collapse=small] .navbar-collapse > .navbar-nav > .nav-item > .dropdown > .nav-link .pe-none {
   width: 1.25rem;
+  min-width: 1.25rem;
   margin-right: 0 !important;
   font-size: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .navbar[data-mode=vertical-small] .navbar-collapse > .navbar-nav > .nav-item > .dropdown > .nav-link .d-flex,
 .navbar[data-mode=vertical-inline][data-collapse=small] .navbar-collapse > .navbar-nav > .nav-item > .dropdown > .nav-link .d-flex,
