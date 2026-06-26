@@ -70,6 +70,7 @@ public partial class Autocomplete<TItem, TValue>
     private bool selectedValuesParamChanged;
     private bool selectedTextsParamChanged;
     private bool dataParamChanged;
+    private bool showAllItemsOnFocus;
 
     private TValue selectedValueParam;
     private bool selectedValueParamDefined;
@@ -287,7 +288,7 @@ public partial class Autocomplete<TItem, TValue>
             }
         }
 
-        await SynchronizeSingle( selectedValueParamChanged, selectedTextParamChanged );
+        await SynchronizeSingle( selectedValueParamChanged, selectedTextParamChanged, dataParamChanged );
         await SynchronizeMultiple( selectedValuesParamChanged, selectedTextsParamChanged, dataParamChanged );
     }
 
@@ -310,7 +311,7 @@ public partial class Autocomplete<TItem, TValue>
             return new( Data.ToList(), TotalItems ?? default );
     }
 
-    private async Task SynchronizeSingle( bool selectedValueParamChanged, bool selectedTextParamChanged )
+    private async Task SynchronizeSingle( bool selectedValueParamChanged, bool selectedTextParamChanged, bool dataParamChanged )
     {
         if ( selectedTextParamChanged && !selectedValueParamChanged )
         {
@@ -349,12 +350,26 @@ public partial class Autocomplete<TItem, TValue>
             }
         }
 
-        if ( selectedValueParamChanged )
+        if ( selectedValueParamChanged || ( dataParamChanged && !IsMultiple && !SelectedValue.IsEqual( default ) ) )
         {
             var item = GetItemByValue( SelectedValue );
             if ( item is null )
             {
-                await ResetSelectedValue();
+                if ( selectedValueParamChanged )
+                {
+                    var previousSelectedText = SelectedText;
+
+                    await ResetSelectedText();
+                    DirtyFilter();
+
+                    if ( SelectedValue.IsEqual( default ) || Search.IsEqual( previousSelectedText ) )
+                    {
+                        await Task.WhenAll(
+                            ResetSelectedValue(),
+                            ResetCurrentSearch()
+                        );
+                    }
+                }
             }
             else
             {
@@ -466,6 +481,7 @@ public partial class Autocomplete<TItem, TValue>
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextChangedHandler( string text )
     {
+        showAllItemsOnFocus = false;
         DirtyFilter();
 
         //If input field is empty, clear current SelectedValue.
@@ -559,8 +575,28 @@ public partial class Autocomplete<TItem, TValue>
             return;
         }
 
-        if ( eventArgs.Code == "Escape" )
+        if ( IsEscapeKey( eventArgs ) )
         {
+            if ( MinSearchLength <= 0 && HasSingleSelectionOrSearch )
+            {
+                showAllItemsOnFocus = false;
+                DirtyFilter();
+
+                await Task.WhenAll(
+                    ResetCurrentSearch(),
+                    ResetSelected()
+                );
+
+                if ( ManualReadMode )
+                    await Reload();
+
+                await OpenDropdown();
+                await SearchTextChanged.InvokeAsync( string.Empty );
+                await Revalidate();
+                await SearchKeyDown.InvokeAsync( eventArgs );
+                return;
+            }
+
             await Close();
             await SearchKeyDown.InvokeAsync( eventArgs );
             return;
@@ -652,6 +688,14 @@ public partial class Autocomplete<TItem, TValue>
         }
 
         TextFocused = true;
+        showAllItemsOnFocus = !IsMultiple
+            && MinSearchLength <= 0
+            && !string.IsNullOrEmpty( SelectedText )
+            && Search.IsEqual( SelectedText );
+
+        if ( showAllItemsOnFocus )
+            DirtyFilter();
+
         if ( ManualReadMode || MinSearchLength <= 0 )
             await Reload();
 
@@ -709,6 +753,8 @@ public partial class Autocomplete<TItem, TValue>
 
             await OnBlurHandler( eventArgs );
             await SearchBlur.InvokeAsync( eventArgs );
+
+            showAllItemsOnFocus = false;
         }
     }
 
@@ -846,7 +892,7 @@ public partial class Autocomplete<TItem, TValue>
 
             if ( !cancellationTokenSource.Token.IsCancellationRequested && IsTextSearchable )
             {
-                await ReadData.InvokeAsync( new( Search, cancellationToken: cancellationTokenSource.Token ) );
+                await ReadData.InvokeAsync( new( FilterSearch, cancellationToken: cancellationTokenSource.Token ) );
                 await Task.Yield(); // rebind Data after ReadData
             }
         }
@@ -878,7 +924,7 @@ public partial class Autocomplete<TItem, TValue>
 
             if ( !cancellationToken.IsCancellationRequested )
             {
-                await ReadData.InvokeAsync( new( Search, startIdx, count, cancellationToken ) );
+                await ReadData.InvokeAsync( new( FilterSearch, startIdx, count, cancellationToken ) );
                 await Task.Yield(); // rebind Data after ReadData
             }
         }
@@ -966,6 +1012,12 @@ public partial class Autocomplete<TItem, TValue>
         ActiveItemIndex = -1;
         return Task.CompletedTask;
     }
+
+    private static bool IsEscapeKey( KeyboardEventArgs eventArgs )
+        => eventArgs?.Code == "Escape" || eventArgs?.Key == "Escape" || eventArgs?.Key == "Esc";
+
+    private bool HasSingleSelectionOrSearch
+        => !IsMultiple && ( FreeTyping || !string.IsNullOrEmpty( Search ) || !string.IsNullOrEmpty( SelectedText ) || !SelectedValue.IsEqual( default ) );
 
     private async Task AddMultipleValue( TValue value )
     {
@@ -1104,21 +1156,21 @@ public partial class Autocomplete<TItem, TValue>
             {
                 query = from q in query
                         where q != null
-                        where CustomFilter( q, Search )
+                        where CustomFilter( q, FilterSearch )
                         select q;
             }
             else if ( Filter == AutocompleteFilter.Contains )
             {
                 query = from q in query
                         let text = GetItemText( q )
-                        where text.IndexOf( Search, 0, StringComparison.OrdinalIgnoreCase ) >= 0
+                        where text.IndexOf( FilterSearch, 0, StringComparison.OrdinalIgnoreCase ) >= 0
                         select q;
             }
             else
             {
                 query = from q in query
                         let text = GetItemText( q )
-                        where text.StartsWith( Search, StringComparison.OrdinalIgnoreCase )
+                        where text.StartsWith( FilterSearch, StringComparison.OrdinalIgnoreCase )
                         select q;
             }
         }
@@ -1593,7 +1645,15 @@ public partial class Autocomplete<TItem, TValue>
     /// True if the text complies to the search requirements
     /// </summary>
     protected bool IsTextSearchable
-        => Search?.Length >= MinSearchLength;
+        => FilterSearch?.Length >= MinSearchLength;
+
+    /// <summary>
+    /// Gets the current text used for filtering and manual data reads.
+    /// </summary>
+    protected string FilterSearch
+        => showAllItemsOnFocus
+            ? string.Empty
+            : Search;
 
     /// <summary>
     /// True if the filtered data exists

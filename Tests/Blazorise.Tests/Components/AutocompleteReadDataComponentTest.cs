@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Bunit;
 using Xunit;
 #endregion
 
@@ -82,5 +83,29 @@ public class AutocompleteReadDataComponentTest : AutocompleteBaseComponentTest
     public Task MinSearchLength_BiggerThen0_ShouldNotShowOptions_OnFocus()
     {
         return TestMinSearchLengthBiggerThen0DoesNotShowOptions<AutocompleteReadDataComponent>();
+    }
+
+    [Fact]
+    public async Task MinSearchLength_0_WithCustomTextField_ShouldShowOptionsAfterSelection_OnFocus()
+    {
+        var comp = Render<AutocompleteCustomTextReadDataComponent>();
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+
+        await autoComplete.FocusAsync( new() );
+        await autoComplete.InputAsync( "Portugal" );
+
+        WaitAndClickfirstOption( comp, "PT - Portugal", true );
+
+        autoComplete = comp.Find( ".b-is-autocomplete input" );
+        await autoComplete.BlurAsync( new() );
+        await autoComplete.FocusAsync( new() );
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Equal( string.Empty, comp.Instance.LastReadDataSearchValue );
+            Assert.NotEmpty( comp.FindAll( ".b-is-autocomplete-suggestion" ) );
+            Assert.DoesNotContain( "Sorry...", comp.Markup );
+        }, TestExtensions.WaitTime );
     }
 }
