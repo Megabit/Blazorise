@@ -160,6 +160,7 @@ public static class ManualPageEntries
     new( "docs/extensions/reporting/data-sources", "Reporting Data Sources", "Bind reports to object data sources, nested models, and detail collections." ),
     new( "docs/extensions/reporting/expressions", "Reporting Expressions", "Use field tokens, formula fields, aggregates, and running totals in reports." ),
     new( "docs/extensions/reporting/pdf-export", "Reporting PDF Export", "Preview and download reports as PDF documents." ),
+    new( "docs/extensions/reporting/api", "Reporting API", "Explore the API reference for Blazorise Reporting components, report definitions, state, data sources, layout elements, and toolbar commands." ),
     new( "docs/extensions/richtextedit", "RichTextEdit", "The RichTextEdit component allows you to add and use a 'WYSIWYG' rich text editor." ),
     new( "docs/extensions/routertabs", "RouterTabs", "Learn to use and work with the Blazorise RouterTabs to render a tab for each navigation." ),
     new( "docs/extensions/gantt", "Gantt", "Plan and track project timelines with tree and timeline views, editing, templates, and hierarchical task support." ),

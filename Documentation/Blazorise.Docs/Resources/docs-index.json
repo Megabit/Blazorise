@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-06-26T12:35:51.8458881Z",
+  "generatedUtc": "2026-06-26T12:42:06.5869880Z",
   "pages": [
     {
       "route": "/docs",
@@ -7260,6 +7260,13 @@
           "description": "Use Razor markup to describe the report template. This example creates an invoice report with a page, bands, text, fields, and simple layout elements."
         }
       ]
+    },
+    {
+      "route": "/docs/extensions/reporting/api",
+      "title": "Blazorise Reporting API",
+      "description": "Explore the API reference for Blazorise Reporting components, report definitions, state, data sources, layout elements, and toolbar commands.",
+      "pagePath": "Pages/Docs/Extensions/Reporting/ReportingApiPage.razor",
+      "examples": []
     },
     {
       "route": "/docs/extensions/reporting/data-sources",
