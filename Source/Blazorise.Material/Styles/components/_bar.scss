@@ -810,6 +810,12 @@
         @include mui-bar-popout-menu;
     }
 
+    .mui-bar-dropdown > .mui-bar-dropdown-menu-container > .mui-bar-dropdown-menu,
+    .mui-bar-dropdown-menu > .mui-bar-dropdown > .mui-bar-dropdown-menu-container > .mui-bar-dropdown-menu {
+        max-block-size: none;
+        overflow: visible;
+    }
+
     .mui-bar-dropdown > .mui-bar-dropdown-menu-container > .mui-bar-dropdown-menu:is(.mui-bar-dropdown-menu-show, [data-visible=true]) {
         display: flex;
         opacity: 1;
@@ -831,6 +837,16 @@
 
     .mui-bar-dropdown-menu > .mui-bar-dropdown > .mui-bar-dropdown-menu-container > .mui-bar-dropdown-menu {
         @include mui-bar-popout-menu;
+    }
+
+    .mui-bar-dropdown-menu > .mui-bar-dropdown:hover > .mui-bar-dropdown-menu-container > .mui-bar-dropdown-menu,
+    .mui-bar-dropdown-menu > .mui-bar-dropdown:focus-within > .mui-bar-dropdown-menu-container > .mui-bar-dropdown-menu,
+    .mui-bar-dropdown-menu > .mui-bar-dropdown[data-visible=true] > .mui-bar-dropdown-menu-container > .mui-bar-dropdown-menu {
+        display: flex;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transition-delay: 0s;
     }
 
     .mui-bar-dropdown-menu > .mui-bar-dropdown > .mui-bar-dropdown-menu-container.mui-bar-dropdown-menu-right {
@@ -1081,15 +1097,5 @@
         inline-size: 100%;
         min-inline-size: 0;
         max-inline-size: none;
-    }
-
-    .mui-bar-vertical-small .mui-bar-dropdown-menu > .mui-bar-dropdown:focus-within > .mui-bar-dropdown-menu-container > .mui-bar-dropdown-menu,
-    .mui-bar-vertical-inline[data-collapse=small] .mui-bar-dropdown-menu > .mui-bar-dropdown:focus-within > .mui-bar-dropdown-menu-container > .mui-bar-dropdown-menu,
-    .mui-bar-vertical-popout[data-collapse=small] .mui-bar-dropdown-menu > .mui-bar-dropdown:focus-within > .mui-bar-dropdown-menu-container > .mui-bar-dropdown-menu {
-        display: flex;
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        transition-delay: 0s;
     }
 }
