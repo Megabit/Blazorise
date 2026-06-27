@@ -654,8 +654,9 @@
             position: relative !important;
 
             > .dropdown {
-                .dropdown-menu-container {
+                > .dropdown-menu-container {
                     left: var(--b-vertical-bar-popout-menu-width, 180px);
+                    margin: 0 5px;
 
                     &.dropdown-menu-end {
                         right: var(--b-vertical-bar-popout-menu-width, 180px);
@@ -795,8 +796,9 @@
             @include navbar-vertical-popout-menu;
 
             > .dropdown {
-                .dropdown-menu-container {
+                > .dropdown-menu-container {
                     left: var(--b-vertical-bar-popout-menu-width, 180px);
+                    margin: 0 5px;
 
                     &.dropdown-menu-end {
                         right: var(--b-vertical-bar-popout-menu-width, 180px);
