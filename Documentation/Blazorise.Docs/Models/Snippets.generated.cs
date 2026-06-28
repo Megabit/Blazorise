@@ -12346,6 +12346,88 @@ public class PersonValidator : AbstractValidator<Person>
     }
 }";
 
+        public const string GanttWeeklyYearViewExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       Date=""@selectedDate""
+       SelectedView=""GanttView.Year""
+       DurationField=""Duration""
+       FirstDayOfWeek=""DayOfWeek.Monday"">
+    <ChildContent>
+        <GanttColumns>
+            <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px( 240 )"" />
+            <GanttColumn Field=""Start"" Width=""Width.Px( 130 )"" />
+            <GanttColumn Field=""End"" Width=""Width.Px( 130 )"" Visible=""false"" />
+            <GanttColumn Field=""Duration"" Width=""Width.Px( 90 )"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
+        </GanttColumns>
+
+        <GanttToolbar />
+
+        <GanttViews>
+            <GanttYearView TimelineScale=""GanttYearViewTimelineScale.Week""
+                           TimelineCellWidth=""42""
+                           RowHeight=""44""
+                           FirstDayOfWeek=""DayOfWeek.Monday"" />
+        </GanttViews>
+    </ChildContent>
+
+    <TimelineHeaderCellTemplate>
+        <Span TextSize=""TextSize.Small"" TextWeight=""TextWeight.SemiBold"">
+            @context.Label
+        </Span>
+    </TimelineHeaderCellTemplate>
+</Gantt>
+
+<Paragraph TextColor=""TextColor.Muted"" Margin=""Margin.Is2.FromTop"">
+    View: @selectedViewText | Year view scale: Week
+</Paragraph>
+
+@code {
+    private DateOnly selectedDate = new( DateTime.Today.Year, 1, 1 );
+
+    private string selectedViewText = GanttView.Year.ToString();
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        DateTime yearStart = new( DateTime.Today.Year, 1, 1 );
+        DateTime planningStart = yearStart.AddDays( 91 );
+
+        List<TaskItem> result = new()
+        {
+            new() { Id = ""1"", Title = ""Release train"", Start = planningStart, End = planningStart.AddDays( 35 ) },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Discovery"", Start = planningStart, End = planningStart.AddDays( 7 ) },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Implementation"", Start = planningStart.AddDays( 7 ), End = planningStart.AddDays( 21 ) },
+            new() { Id = ""4"", ParentId = ""3"", Title = ""Backend services"", Start = planningStart.AddDays( 8 ), End = planningStart.AddDays( 16 ) },
+            new() { Id = ""5"", ParentId = ""3"", Title = ""Frontend polish"", Start = planningStart.AddDays( 14 ), End = planningStart.AddDays( 23 ) },
+            new() { Id = ""6"", ParentId = ""1"", Title = ""Validation"", Start = planningStart.AddDays( 21 ), End = planningStart.AddDays( 30 ) },
+            new() { Id = ""7"", ParentId = ""1"", Title = ""Rollout"", Start = planningStart.AddDays( 30 ), End = planningStart.AddDays( 35 ) },
+        };
+
+        foreach ( TaskItem item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}";
+
         public const string AntDesignIconsCSSExample = @"<link href=""_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.2.1.0"" rel=""stylesheet"" />";
 
         public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.2.1.0"">";

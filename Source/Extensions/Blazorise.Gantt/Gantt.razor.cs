@@ -1724,6 +1724,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             GanttView.Day => TimeSpan.FromHours( 1 ),
             GanttView.Week => TimeSpan.FromDays( 1 ),
             GanttView.Month => TimeSpan.FromDays( 3 ),
+            GanttView.Year when IsYearViewTimelineScaleWeek => TimeSpan.FromDays( 7 ),
             GanttView.Year => TimeSpan.FromDays( 30 ),
             _ => TimeSpan.FromDays( 1 ),
         };
@@ -2000,6 +2001,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     {
         if ( slotOffset == 0 )
             return value;
+
+        if ( IsYearViewTimelineScaleWeek )
+            return value.AddDays( slotOffset * 7 );
 
         return SelectedView switch
         {
@@ -3720,7 +3724,13 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         if ( SelectedView == GanttView.Year )
         {
-            var start = new DateOnly( currentDate.Year, 1, 1 ).ToDateTime( TimeOnly.MinValue );
+            if ( IsYearViewTimelineScaleWeek )
+            {
+                var weekStart = GetFirstWeekStartOfYear( currentDate.Year );
+                return new GanttViewRange( weekStart, GetFirstWeekStartOfYear( currentDate.Year + 1 ) );
+            }
+
+            var start = GetFirstDayOfYear( currentDate.Year );
             return new GanttViewRange( start, start.AddYears( 1 ) );
         }
 
@@ -3839,6 +3849,16 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     {
         if ( SelectedView == GanttView.Year )
         {
+            if ( IsYearViewTimelineScaleWeek )
+            {
+                var weekStart = GetStartOfWeek( value, EffectiveFirstDayOfWeek );
+
+                if ( endBoundary && value > weekStart )
+                    return weekStart.AddDays( 7 );
+
+                return weekStart;
+            }
+
             var monthStart = new DateTime( value.Year, value.Month, 1, 0, 0, 0, value.Kind );
 
             if ( endBoundary && value > monthStart )
@@ -3916,17 +3936,38 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             var current = viewStart;
             var index = 0;
 
-            while ( current < viewEnd )
+            if ( IsYearViewTimelineScaleWeek )
             {
-                var next = current.AddMonths( 1 );
-                slots.Add( new GanttTimeSlot(
-                    key: $"year-{index.ToString( CultureInfo.InvariantCulture )}",
-                    label: current.ToString( "MMM", CultureInfo.InvariantCulture ),
-                    start: current,
-                    end: next ) );
+                while ( current < viewEnd )
+                {
+                    var next = current.AddDays( 7 );
+                    var weekYear = GetWeekYear( current );
+                    var weekNumber = GetWeekNumber( current );
 
-                current = next;
-                index++;
+                    slots.Add( new GanttTimeSlot(
+                        key: $"year-week-{weekYear.ToString( CultureInfo.InvariantCulture )}-{weekNumber.ToString( CultureInfo.InvariantCulture )}",
+                        label: weekNumber.ToString( CultureInfo.InvariantCulture ),
+                        start: current,
+                        end: next ) );
+
+                    current = next;
+                    index++;
+                }
+            }
+            else
+            {
+                while ( current < viewEnd )
+                {
+                    var next = current.AddMonths( 1 );
+                    slots.Add( new GanttTimeSlot(
+                        key: $"year-{index.ToString( CultureInfo.InvariantCulture )}",
+                        label: current.ToString( "MMM", CultureInfo.InvariantCulture ),
+                        start: current,
+                        end: next ) );
+
+                    current = next;
+                    index++;
+                }
             }
 
             return slots;
@@ -4005,6 +4046,16 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         if ( SelectedView == GanttView.Year )
         {
+            if ( IsYearViewTimelineScaleWeek )
+            {
+                var weekYear = GetWeekYear( slot.Start );
+
+                return new GanttTimeHeaderGroup(
+                    key: weekYear.ToString( CultureInfo.InvariantCulture ),
+                    label: weekYear.ToString( CultureInfo.InvariantCulture ),
+                    slotCount: 0 );
+            }
+
             return new GanttTimeHeaderGroup(
                 key: slot.Start.ToString( "yyyy", CultureInfo.InvariantCulture ),
                 label: slot.Start.ToString( "yyyy", CultureInfo.InvariantCulture ),
@@ -4015,6 +4066,41 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             key: slot.Start.ToString( "yyyy-MM", CultureInfo.InvariantCulture ),
             label: slot.Start.ToString( "MMMM yyyy", CultureInfo.InvariantCulture ),
             slotCount: 0 );
+    }
+
+    private static DateTime GetFirstDayOfYear( int year )
+        => new( year, 1, 1 );
+
+    private DateTime GetFirstWeekStartOfYear( int year )
+        => GetStartOfWeek( new DateTime( year, 1, 4 ), EffectiveFirstDayOfWeek );
+
+    private static DateTime GetStartOfWeek( DateTime value, DayOfWeek firstDayOfWeek )
+    {
+        var dayStart = value.Date;
+        var diff = ( 7 + ( dayStart.DayOfWeek - firstDayOfWeek ) ) % 7;
+
+        return dayStart.AddDays( -diff );
+    }
+
+    private int GetWeekNumber( DateTime value )
+    {
+        var weekStart = GetStartOfWeek( value, EffectiveFirstDayOfWeek );
+        var weekYear = GetWeekYear( weekStart );
+
+        return (int)( ( weekStart - GetFirstWeekStartOfYear( weekYear ) ).TotalDays / 7d ) + 1;
+    }
+
+    private int GetWeekYear( DateTime value )
+    {
+        var date = value.Date;
+
+        if ( date >= GetFirstWeekStartOfYear( date.Year + 1 ) )
+            return date.Year + 1;
+
+        if ( date < GetFirstWeekStartOfYear( date.Year ) )
+            return date.Year - 1;
+
+        return date.Year;
     }
 
     private static double GetTreePaneWidth( IReadOnlyList<GanttRenderColumn> treeColumns )
@@ -4393,7 +4479,17 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         => SelectedView == GanttView.Week
            && ganttWeekView?.FirstDayOfWeek is DayOfWeek weekViewFirstDayOfWeek
             ? weekViewFirstDayOfWeek
+            : IsYearViewTimelineScaleWeek
+              && ganttYearView?.FirstDayOfWeek is DayOfWeek yearViewFirstDayOfWeek
+                ? yearViewFirstDayOfWeek
             : FirstDayOfWeek;
+
+    private GanttYearViewTimelineScale EffectiveYearViewTimelineScale
+        => ganttYearView?.TimelineScale ?? GanttYearViewTimelineScale.Month;
+
+    private bool IsYearViewTimelineScaleWeek
+        => SelectedView == GanttView.Year
+           && EffectiveYearViewTimelineScale == GanttYearViewTimelineScale.Week;
 
     private bool ShowToolbarAddTaskButton
         => IsCommandAllowed( GanttCommandType.New );

@@ -15,6 +15,7 @@
                            SelectedView="@SelectedView"
                            TimelineRangeStart="@(AutoExpandView ? GetCurrentViewRange().Start : (DateTime?)null)"
                            TimelineRangeEnd="@(AutoExpandView ? GetCurrentViewRange().End : (DateTime?)null)"
+                           YearViewTimelineScale="@EffectiveYearViewTimelineScale"
                            FirstDayOfWeek="@EffectiveFirstDayOfWeek"
                            NavigationEnabled="@(!AutoExpandView)"
                            SearchText="@searchText"
