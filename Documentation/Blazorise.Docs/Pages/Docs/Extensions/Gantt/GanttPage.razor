@@ -1,6 +1,7 @@
 @page "/docs/extensions/gantt"
+@page "/docs/extensions/gantt/getting-started"
 
-<Seo Canonical="/docs/extensions/gantt" Title="Blazorise Gantt component" Description="Learn how to use the Blazorise Gantt component to plan, track, and edit project timelines with flat or hierarchical task data." />
+<Seo Canonical="/docs/extensions/gantt/getting-started" Title="Blazorise Gantt component" Description="Learn how to use the Blazorise Gantt component to plan, track, and edit project timelines with flat or hierarchical task data." />
 
 <DocsPageTitle Path="Extensions/Gantt" AddedVersion="Added in v2.0">
     Blazorise Gantt component
@@ -12,6 +13,10 @@
 
 <DocsPageParagraph>
     The <Code>Gantt</Code> component is designed for project planning use cases where tasks have hierarchy, dates, duration, and progress. It supports declarative columns, built-in editing, keyboard and mouse interactions, and template-based customization.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Use the focused Gantt pages for <Anchor To="docs/extensions/gantt/data-binding">data binding</Anchor>, <Anchor To="docs/extensions/gantt/columns">columns and templates</Anchor>, <Anchor To="docs/extensions/gantt/editing">editing</Anchor>, <Anchor To="docs/extensions/gantt/views">views</Anchor>, and <Anchor To="docs/extensions/gantt/timeline">timeline features</Anchor>.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -37,92 +42,7 @@
 </DocsPageSection>
 
 <DocsPageSubtitle>
-    Fundamentals
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    Data Model
-</Heading>
-
-<DocsPageParagraph>
-    <Code>Gantt&lt;TItem&gt;</Code> binds to your own model type through field mapping parameters such as <Code>IdField</Code>, <Code>StartField</Code>, and <Code>EndField</Code>. You can keep your existing model names and map them without creating a dedicated DTO.
-</DocsPageParagraph>
-
-<Heading Size="HeadingSize.Is3">
-    Must-Have Fields
-</Heading>
-
-<DocsPageParagraph>
-    For most production scenarios, these are the fields you should map:
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    <UnorderedList>
-        <UnorderedListItem>
-            <Code>StartField</Code> and <Code>EndField</Code>: Required to render timeline bars. If either value is missing/unassigned, the item cannot be drawn on the timeline.
-        </UnorderedListItem>
-        <UnorderedListItem>
-            <Code>TitleField</Code>: Recommended for readable tree rows and task labels.
-        </UnorderedListItem>
-        <UnorderedListItem>
-            <Code>IdField</Code>: Strongly recommended for stable identity, selection/state behavior, and CRUD operations.
-        </UnorderedListItem>
-        <UnorderedListItem>
-            <Code>DurationField</Code> (optional): Used for duration column/editing. If not mapped, duration is calculated from <Code>StartField</Code> and <Code>EndField</Code>.
-        </UnorderedListItem>
-        <UnorderedListItem>
-            <Code>ProgressField</Code> (optional): Enables progress percentage in bars, columns, and the edit dialog slider.
-        </UnorderedListItem>
-    </UnorderedList>
-</DocsPageParagraph>
-
-<Heading Size="HeadingSize.Is3">
-    Flat vs Hierarchical Data
-</Heading>
-
-<DocsPageParagraph>
-    Gantt supports both data shapes:
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    <UnorderedList>
-        <UnorderedListItem>
-            <Strong>Flat data:</Strong> One collection with <Code>IdField</Code> and <Code>ParentIdField</Code>. This is usually best for API-driven data.
-        </UnorderedListItem>
-        <UnorderedListItem>
-            <Strong>Hierarchical data:</Strong> Nested child collections mapped through <Code>ItemsField</Code>.
-        </UnorderedListItem>
-        <UnorderedListItem>
-            If both <Code>ParentIdField</Code> and <Code>ItemsField</Code> exist, Gantt uses flat mode by default. Set <Code>HierarchicalData="true"</Code> to force hierarchical mode.
-        </UnorderedListItem>
-        <UnorderedListItem>
-            If <Code>ItemsField</Code> exists and <Code>ParentIdField</Code> does not, hierarchical mode is used automatically.
-        </UnorderedListItem>
-    </UnorderedList>
-</DocsPageParagraph>
-
-<Heading Size="HeadingSize.Is3">
-    Columns
-</Heading>
-
-<DocsPageParagraph>
-    Use <Code>GanttColumns</Code> and declarative column components to control field mapping, order, visibility, sorting, alignment, and templates. This keeps tree rendering explicit and easy to evolve as requirements grow.
-</DocsPageParagraph>
-
-<Heading Size="HeadingSize.Is3">
-    Editing and Commands
-</Heading>
-
-<DocsPageParagraph>
-    Set <Code>Editable</Code> to enable built-in create, add-child, edit, and delete flows. Use command switches and <Code>CommandAllowed</Code> for role-based or item-based command rules.
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    Set <Code>UseInternalEditing="false"</Code> when you want Gantt to keep its command affordances but let your page own the modal and persistence flow through <Code>NewItemClicked</Code>, <Code>AddChildItemClicked</Code>, <Code>EditItemClicked</Code>, and <Code>DeleteItemClicked</Code>.
-</DocsPageParagraph>
-
-<DocsPageSubtitle>
-    Examples
+    Basic Usage
 </DocsPageSubtitle>
 
 <DocsPageSection>
@@ -139,76 +59,4 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Hierarchical Data Binding">
-        Bind directly to nested task collections with <Code>ItemsField</Code> for tree-shaped data models.
-    </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="GanttHierarchicalDataExample" Outlined FullWidth>
-        <GanttHierarchicalDataExample />
-    </DocsPageSectionContent>
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Built-in Editing">
-        Enable <Code>Editable</Code> to use built-in create, add-child, update, and delete workflows. This example also demonstrates command-level control through <Code>CommandAllowed</Code>.
-    </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="GanttEditableExample" Outlined FullWidth>
-        <GanttEditableExample />
-    </DocsPageSectionContent>
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="External Editing">
-        By setting the <Code>UseInternalEditing=false</Code> Gantt raises command callbacks with the relevant item and context, but leaves the editing UI and persistence flow to your implementation. This is ideal for keeping Gantt as a pure view component while owning the user experience and data flow of your app.
-    </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="GanttExternalEditingExample" Outlined FullWidth>
-        <GanttExternalEditingExample />
-    </DocsPageSectionContent>
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Multiple Views">
-        Configure all timeline views in one Gantt instance, customize leading and trailing slots per view, and override week start day when needed.
-    </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="GanttMultipleViewsExample" Outlined FullWidth>
-        <GanttMultipleViewsExample />
-    </DocsPageSectionContent>
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Auto Expand View">
-        Enable <Code>AutoExpandView</Code> when the visible range should follow the loaded task dates instead of the bound <Code>Date</Code>. This sample keeps the anchor date intentionally outside the task range, so switching the toggle off shows the default date-based range again.
-    </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="GanttAutoExpandViewExample" Outlined FullWidth>
-        <GanttAutoExpandViewExample />
-    </DocsPageSectionContent>
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Year View with Weekly Columns">
-        Use <Code>TimelineScale="GanttYearViewTimelineScale.Week"</Code> on <Code>GanttYearView</Code> when planning is organized by weeks but users still need a full-year timeline.
-    </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="GanttWeeklyYearViewExample" Outlined FullWidth>
-        <GanttWeeklyYearViewExample />
-    </DocsPageSectionContent>
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Milestone Markers">
-        Use <Code>Milestones</Code> to render date markers for sprint boundaries, approvals, releases, or other timeline events that are independent from task rows.
-    </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="GanttMilestonesExample" Outlined FullWidth>
-        <GanttMilestonesExample />
-    </DocsPageSectionContent>
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Template Customization">
-        Customize multiple Gantt surfaces with templates, including header cells, tree cells, command cells, timeline headers, and task bars.
-    </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="GanttTemplatesExample" Outlined FullWidth>
-        <GanttTemplatesExample />
-    </DocsPageSectionContent>
-</DocsPageSection>
-
-<ComponentApiDocs ComponentTypes="[typeof(Gantt<>), typeof(GanttColumns<>), typeof(GanttColumn<>), typeof(GanttCommandColumn<>), typeof(GanttToolbar<>), typeof(GanttViews<>), typeof(GanttDayView<>), typeof(GanttWeekView<>), typeof(GanttMonthView<>), typeof(GanttYearView<>)]" />
+<GanttApi />
