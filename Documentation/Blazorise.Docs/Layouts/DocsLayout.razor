@@ -340,11 +340,22 @@
                                     <BarDropdownItem To="docs/extensions/cropper">Cropper</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/dropdownlist">DropdownList</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/fluent-validation">FluentValidation</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/gantt">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>Gantt</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
+                                    <BarDropdown>
+                                        <BarDropdownToggle To="docs/extensions/gantt" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                            <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                                <DocsNewFeatureBadge>Gantt</DocsNewFeatureBadge>
+                                            </Span>
+                                        </BarDropdownToggle>
+                                        <BarDropdownMenu>
+                                            <BarDropdownItem To="docs/extensions/gantt/getting-started">Getting Started</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/gantt/data-binding">Data Binding</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/gantt/columns">Columns</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/gantt/editing">Editing</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/gantt/views">Views</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/gantt/timeline">Timeline</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/gantt/api">API</BarDropdownItem>
+                                        </BarDropdownMenu>
+                                    </BarDropdown>
                                     <BarDropdown>
                                         <BarDropdownToggle To="docs/extensions/icons" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
                                             Icons

@@ -1,0 +1,35 @@
+@page "/docs/extensions/gantt/timeline"
+
+<Seo Canonical="/docs/extensions/gantt/timeline" Title="Blazorise Gantt Timeline" Description="Learn how to configure Blazorise Gantt timeline range, task rendering, and milestone markers." />
+
+<DocsPageTitle Path="Extensions/Gantt">
+    Blazorise Gantt: Timeline
+</DocsPageTitle>
+
+<DocsPageLead>
+    Control the visible date range and add timeline-level annotations.
+</DocsPageLead>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Auto Expand View">
+        Enable <Code>AutoExpandView</Code> when the visible range should follow the loaded task dates instead of the bound <Code>Date</Code>. This sample keeps the anchor date intentionally outside the task range, so switching the toggle off shows the default date-based range again.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="GanttAutoExpandViewExample" Outlined FullWidth>
+        <GanttAutoExpandViewExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Milestone Markers">
+        Use <Code>Milestones</Code> to render date markers for sprint boundaries, approvals, releases, or other timeline events that are independent from task rows.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="GanttMilestonesExample" Outlined FullWidth>
+        <GanttMilestonesExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/gantt/api" Name="<Gantt />" />
+    <DocsPageApiItem Url="docs/extensions/gantt/api" Name="GanttMilestone" />
+    <DocsPageApiItem Url="docs/extensions/gantt/api" Name="GanttMilestoneStyling" />
+</DocsPageApi>
