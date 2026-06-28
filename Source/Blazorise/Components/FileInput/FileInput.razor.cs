@@ -45,6 +45,14 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        // By default the file input is wrapped by a provider-specific element, so utility classes and styles
+        // (eg. Display, Margin) must target that wrapper instead of the inner input. We only apply the default
+        // when the user has not explicitly set the UtilityTarget so that an explicit value is always respected.
+        if ( !parameters.TryGetValue<UtilityTarget>( nameof( UtilityTarget ), out _ ) )
+        {
+            UtilityTarget = DefaultUtilityTarget;
+        }
+
         await base.SetParametersAsync( parameters );
 
         if ( ParentValidation is not null )
@@ -277,6 +285,13 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Gets the default <see cref="Blazorise.UtilityTarget"/> applied when the user has not set <see cref="BaseComponent.UtilityTarget"/>.
+    /// Providers that render a wrapper around the input override this to <see cref="UtilityTarget.Wrapper"/> so utility
+    /// classes and styles are applied to the wrapper element.
+    /// </summary>
+    protected virtual UtilityTarget DefaultUtilityTarget => UtilityTarget.Self;
 
     /// <summary>
     /// Number of processed bytes in current file.
