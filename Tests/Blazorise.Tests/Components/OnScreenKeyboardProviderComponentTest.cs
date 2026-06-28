@@ -286,9 +286,12 @@ public class OnScreenKeyboardProviderComponentTest : BunitContext
         var comp = Render<OnScreenKeyboardProvider>();
 
         await ShowKeyboard( keyboardService, OnScreenKeyboardLayout.Text );
+        comp.WaitForAssertion( () => JSInterop.VerifyInvoke( "scrollElementIntoViewForOnScreenKeyboard" ) );
+
         await keyboardService.Hide();
 
-        comp.WaitForAssertion( () => JSInterop.VerifyInvoke( "clearOnScreenKeyboardScrollAdjustment" ) );
+        comp.WaitForAssertion( () => Assert.DoesNotContain( "Enter", comp.Markup ) );
+        JSInterop.VerifyInvoke( "clearOnScreenKeyboardScrollAdjustment" );
     }
 
     [Fact]
