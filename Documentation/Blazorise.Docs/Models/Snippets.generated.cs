@@ -12178,6 +12178,120 @@ public class PersonValidator : AbstractValidator<Person>
 
         public const string GanttImportsExample = @"@using Blazorise.Gantt";
 
+        public const string GanttMilestonesExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       Milestones=""@milestones""
+       Date=""@selectedDate""
+       SelectedView=""GanttView.Week""
+       DurationField=""Duration""
+       IncludeMilestonesInAutoExpandView
+       MilestoneStyling=""@ApplyMilestoneStyling"">
+    <ChildContent>
+        <GanttColumns>
+            <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px( 230 )"" />
+            <GanttColumn Field=""Start"" Width=""Width.Px( 130 )"" />
+            <GanttColumn Field=""End"" Width=""Width.Px( 130 )"" Visible=""false"" />
+            <GanttColumn Field=""Duration"" Width=""Width.Px( 90 )"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
+        </GanttColumns>
+
+        <GanttToolbar />
+
+        <GanttViews>
+            <GanttWeekView TimelineCellWidth=""92"" RowHeight=""44"" />
+        </GanttViews>
+    </ChildContent>
+
+    <MilestoneTemplate>
+        <Badge Color=""@GetMilestoneBadgeColor( context.Milestone )"" Pill>
+            @context.Title
+        </Badge>
+    </MilestoneTemplate>
+</Gantt>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private List<GanttMilestone> milestones = CreateMilestones();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        DateTime baseDate = GetStartOfWeek( DateTime.Today, DayOfWeek.Monday );
+
+        List<TaskItem> result = new()
+        {
+            new() { Id = ""1"", Title = ""Milestone release"", Start = baseDate, End = baseDate.AddDays( 14 ) },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Planning"", Start = baseDate, End = baseDate.AddDays( 2 ) },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Design"", Start = baseDate.AddDays( 2 ), End = baseDate.AddDays( 6 ) },
+            new() { Id = ""4"", ParentId = ""1"", Title = ""Development"", Start = baseDate.AddDays( 5 ), End = baseDate.AddDays( 11 ) },
+            new() { Id = ""5"", ParentId = ""1"", Title = ""Validation"", Start = baseDate.AddDays( 10 ), End = baseDate.AddDays( 13 ) },
+            new() { Id = ""6"", ParentId = ""1"", Title = ""Rollout"", Start = baseDate.AddDays( 13 ), End = baseDate.AddDays( 14 ) },
+        };
+
+        foreach ( TaskItem item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    private static List<GanttMilestone> CreateMilestones()
+    {
+        DateTime baseDate = GetStartOfWeek( DateTime.Today, DayOfWeek.Monday );
+
+        return new()
+        {
+            new() { Date = baseDate.AddDays( 2 ), Title = ""Kickoff"" },
+            new() { Date = baseDate.AddDays( 6 ), Title = ""Design approved"" },
+            new() { Date = baseDate.AddDays( 11 ), Title = ""Beta"" },
+            new() { Date = baseDate.AddDays( 14 ), Title = ""Launch"", TextColor = TextColor.Danger, LineStyle = GanttMilestoneLineStyle.Solid },
+        };
+    }
+
+    private static void ApplyMilestoneStyling( GanttMilestone milestone, GanttMilestoneStyling styling )
+    {
+        if ( milestone.Title == ""Beta"" )
+        {
+            styling.TextColor = TextColor.Warning;
+            styling.LineStyle = GanttMilestoneLineStyle.Dotted;
+        }
+    }
+
+    private static Color GetMilestoneBadgeColor( GanttMilestone milestone )
+    {
+        return milestone.Title switch
+        {
+            ""Launch"" => Color.Danger,
+            ""Beta"" => Color.Warning,
+            _ => Color.Primary,
+        };
+    }
+
+    private static DateTime GetStartOfWeek( DateTime value, DayOfWeek firstDayOfWeek )
+    {
+        int diff = ( 7 + ( value.DayOfWeek - firstDayOfWeek ) ) % 7;
+
+        return value.Date.AddDays( -diff );
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}";
+
         public const string GanttMultipleViewsExample = @"<Gantt TItem=""TaskItem""
        Data=""@tasks""
        @bind-Date=""@selectedDate""
