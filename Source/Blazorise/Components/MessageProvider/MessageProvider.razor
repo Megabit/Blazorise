@@ -13,14 +13,14 @@
                     <CloseButton Clicked="@(() => OnCancelClicked( message ))" />
                 }
             </ModalHeader>
-            <ModalBody TextAlignment="TextAlignment.Center">
+            <ModalBody TextAlignment="@GetMessageAlignment( message )">
                 @if ( GetShowMessageIcon( message ) )
                 {
                     <Heading Size="HeadingSize.Is2" TextAlignment="TextAlignment.Center">
                         <Icon Name="@GetMessageIcon( message )" TextColor="@GetMessageIconColor( message )" />
                     </Heading>
                 }
-                <Text TextAlignment="TextAlignment.Center" Class="@GetMessageClass( message )">
+                <Text TextAlignment="@GetMessageAlignment( message )" Class="@GetMessageClass( message )">
                     @message.Message
                 </Text>
             </ModalBody>
