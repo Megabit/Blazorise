@@ -14,94 +14,163 @@
             <Validations @ref="@validationsRef" Mode="ValidationMode.Manual">
                 @if ( TitleAvailable )
                 {
+                    var titleColumn = Scheduler.GetEditableColumn( Scheduler.TitleField );
+
                     <Validation Validator="@OnValidateTitle">
                         <Field>
-                            <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.TitleLocalizer, LocalizationConstants.Title )</FieldLabel>
+                            <FieldLabel>@(titleColumn?.Caption ?? Localizer.Localize( Scheduler.Localizers?.TitleLocalizer, LocalizationConstants.Title ))</FieldLabel>
                             <FieldBody>
-                                <TextInput @bind-Value="@Title" Autofocus>
-                                    <Feedback>
-                                        <ValidationError />
-                                    </Feedback>
-                                </TextInput>
+                                @if ( titleColumn is null )
+                                {
+                                    <TextInput @bind-Value="@Title" Autofocus>
+                                        <Feedback>
+                                            <ValidationError />
+                                        </Feedback>
+                                    </TextInput>
+                                }
+                                else
+                                {
+                                    @titleColumn.RenderEdit( EditItem, Title, value => Title = value as string, Blazorise.Scheduler.SchedulerEditState.Edit )
+                                }
                             </FieldBody>
                         </Field>
                     </Validation>
                 }
                 @if ( StartAvailable )
                 {
-                    <Fields>
-                        <Validation Validator="@OnValidateStartDate">
-                            <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
-                                <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.StartLocalizer, LocalizationConstants.Start )</FieldLabel>
-                                <FieldBody>
-                                    <DatePicker TValue="DateOnly" Value="@StartDate" ValueChanged="@OnStartDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
-                                        <Feedback>
-                                            <ValidationError />
-                                        </Feedback>
-                                    </DatePicker>
-                                </FieldBody>
-                            </Field>
-                        </Validation>
-                        @if ( !AllDayAvailable || !AllDay )
-                        {
-                            <Validation Validator="@OnValidateStartTime">
+                    var startColumn = Scheduler.GetEditableColumn( Scheduler.StartField );
+
+                    if ( startColumn is null )
+                    {
+                        <Fields>
+                            <Validation Validator="@OnValidateStartDate">
                                 <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
-                                    <FieldLabel>&nbsp;</FieldLabel>
+                                    <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.StartLocalizer, LocalizationConstants.Start )</FieldLabel>
                                     <FieldBody>
-                                        <TimePicker TValue="TimeOnly" Value="@StartTime" ValueChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
+                                        <DatePicker TValue="DateOnly" Value="@StartDate" ValueChanged="@OnStartDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </DatePicker>
                                     </FieldBody>
                                 </Field>
                             </Validation>
-                        }
-                    </Fields>
+                            @if ( !AllDayAvailable || !AllDay )
+                            {
+                                <Validation Validator="@OnValidateStartTime">
+                                    <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
+                                        <FieldLabel>&nbsp;</FieldLabel>
+                                        <FieldBody>
+                                            <TimePicker TValue="TimeOnly" Value="@StartTime" ValueChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
+                                        </FieldBody>
+                                    </Field>
+                                </Validation>
+                            }
+                        </Fields>
+                    }
+                    else
+                    {
+                        <Field>
+                            <FieldLabel>@(startColumn.Caption ?? Localizer.Localize( Scheduler.Localizers?.StartLocalizer, LocalizationConstants.Start ))</FieldLabel>
+                            <FieldBody>
+                                @startColumn.RenderEdit( EditItem, Start, value => SetStart( (DateTime)value ), Blazorise.Scheduler.SchedulerEditState.Edit )
+                            </FieldBody>
+                        </Field>
+                    }
                 }
                 @if ( EndAvailable )
                 {
-                    <Fields>
-                        <Validation Validator="@OnValidateEndDate">
-                            <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
-                                <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.EndLocalizer, LocalizationConstants.End )</FieldLabel>
-                                <FieldBody>
-                                    <DatePicker @bind-Value="@EndDate" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
-                                        <Feedback>
-                                            <ValidationError />
-                                        </Feedback>
-                                    </DatePicker>
-                                </FieldBody>
-                            </Field>
-                        </Validation>
-                        @if ( !AllDayAvailable || !AllDay )
-                        {
-                            <Validation Validator="@OnValidateEndTime">
+                    var endColumn = Scheduler.GetEditableColumn( Scheduler.EndField );
+
+                    if ( endColumn is null )
+                    {
+                        <Fields>
+                            <Validation Validator="@OnValidateEndDate">
                                 <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
-                                    <FieldLabel>&nbsp;</FieldLabel>
+                                    <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.EndLocalizer, LocalizationConstants.End )</FieldLabel>
                                     <FieldBody>
-                                        <TimePicker @bind-Value="@EndTime" StaticPicker="false" TimeAs24hr />
+                                        <DatePicker @bind-Value="@EndDate" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </DatePicker>
                                     </FieldBody>
                                 </Field>
                             </Validation>
-                        }
-                    </Fields>
+                            @if ( !AllDayAvailable || !AllDay )
+                            {
+                                <Validation Validator="@OnValidateEndTime">
+                                    <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
+                                        <FieldLabel>&nbsp;</FieldLabel>
+                                        <FieldBody>
+                                            <TimePicker @bind-Value="@EndTime" StaticPicker="false" TimeAs24hr />
+                                        </FieldBody>
+                                    </Field>
+                                </Validation>
+                            }
+                        </Fields>
+                    }
+                    else
+                    {
+                        <Field>
+                            <FieldLabel>@(endColumn.Caption ?? Localizer.Localize( Scheduler.Localizers?.EndLocalizer, LocalizationConstants.End ))</FieldLabel>
+                            <FieldBody>
+                                @endColumn.RenderEdit( EditItem, End, value => SetEnd( (DateTime)value ), Blazorise.Scheduler.SchedulerEditState.Edit )
+                            </FieldBody>
+                        </Field>
+                    }
                 }
                 @if ( AllDayAvailable )
                 {
+                    var allDayColumn = Scheduler.GetEditableColumn( Scheduler.AllDayField );
+
                     <Field>
                         <FieldBody>
-                            <Check TValue="bool" @bind-Value="@AllDay">
-                                @Localizer.Localize( Scheduler.Localizers?.AllDayLocalizer, LocalizationConstants.AllDay )
-                            </Check>
+                            @if ( allDayColumn is null )
+                            {
+                                <Check TValue="bool" @bind-Value="@AllDay">
+                                    @Localizer.Localize( Scheduler.Localizers?.AllDayLocalizer, LocalizationConstants.AllDay )
+                                </Check>
+                            }
+                            else
+                            {
+                                @allDayColumn.RenderEdit( EditItem, AllDay, value => AllDay = (bool)value, Blazorise.Scheduler.SchedulerEditState.Edit )
+                            }
                         </FieldBody>
                     </Field>
                 }
 
                 @if ( DescriptionAvailable )
                 {
+                    var descriptionColumn = Scheduler.GetEditableColumn( Scheduler.DescriptionField );
+
                     <Field>
-                        <FieldLabel>@Localizer.Localize( Scheduler.Localizers?.DescriptionLocalizer, LocalizationConstants.Description )</FieldLabel>
+                        <FieldLabel>@(descriptionColumn?.Caption ?? Localizer.Localize( Scheduler.Localizers?.DescriptionLocalizer, LocalizationConstants.Description ))</FieldLabel>
                         <FieldBody>
-                            <MemoInput @bind-Value="@Description" Rows="4" />
+                            @if ( descriptionColumn is null )
+                            {
+                                <MemoInput @bind-Value="@Description" Rows="4" />
+                            }
+                            else
+                            {
+                                @descriptionColumn.RenderEdit( EditItem, Description, value => Description = value as string, Blazorise.Scheduler.SchedulerEditState.Edit )
+                            }
                         </FieldBody>
                     </Field>
+                }
+                @foreach ( var column in Scheduler.AdditionalEditableColumns )
+                {
+                    var editTemplate = column.RenderEdit( EditItem, Blazorise.Scheduler.SchedulerEditState.Edit );
+
+                    if ( editTemplate is not null )
+                    {
+                        <Field>
+                            <FieldLabel>@(column.Caption ?? column.Field)</FieldLabel>
+                            <FieldBody>
+                                @editTemplate
+                            </FieldBody>
+                        </Field>
+                    }
                 }
             </Validations>
             @if ( customValidationErrors.Any() )

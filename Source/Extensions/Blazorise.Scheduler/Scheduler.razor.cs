@@ -149,6 +149,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     private int viewRefreshRevision;
 
     /// <summary>
+    /// Holds additional item columns that can be rendered in the built-in item editor or display.
+    /// </summary>
+    private readonly List<BaseSchedulerColumn<TItem>> columns = new();
+
+    /// <summary>
     /// Represents a reference to the scheduler's container element in the DOM.
     /// </summary>
     private Div schedulerDivRef;
@@ -319,6 +324,55 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     internal void NotifySchedulerMonthView( SchedulerMonthView<TItem> schedulerMonthView )
     {
         this.schedulerMonthView = schedulerMonthView;
+    }
+
+    /// <summary>
+    /// Registers an additional scheduler column.
+    /// </summary>
+    /// <param name="column">The scheduler column to register.</param>
+    internal void AddColumn( BaseSchedulerColumn<TItem> column )
+    {
+        if ( column is null || columns.Contains( column ) )
+            return;
+
+        if ( string.IsNullOrWhiteSpace( column.Field ) )
+            throw new InvalidOperationException( "SchedulerColumn requires a field name." );
+
+        columns.Add( column );
+
+        _ = RefreshState();
+    }
+
+    /// <summary>
+    /// Removes a previously registered scheduler column.
+    /// </summary>
+    /// <param name="column">The scheduler column to remove.</param>
+    /// <returns><c>true</c> if the column was removed; otherwise, <c>false</c>.</returns>
+    internal bool RemoveColumn( BaseSchedulerColumn<TItem> column )
+    {
+        var removed = columns.Remove( column );
+
+        if ( removed )
+        {
+            _ = RefreshState();
+        }
+
+        return removed;
+    }
+
+    internal BaseSchedulerColumn<TItem> GetEditableColumn( string field )
+    {
+        return columns.FirstOrDefault( x => x.IsEditable && string.Equals( x.Field, field, StringComparison.Ordinal ) );
+    }
+
+    private bool IsVisibleNativeEditField( string field )
+    {
+        return string.Equals( field, StartField, StringComparison.Ordinal )
+            || string.Equals( field, EndField, StringComparison.Ordinal )
+            || string.Equals( field, TitleField, StringComparison.Ordinal )
+            || string.Equals( field, DescriptionField, StringComparison.Ordinal )
+            || string.Equals( field, AllDayField, StringComparison.Ordinal )
+            || string.Equals( field, RecurrenceRuleField, StringComparison.Ordinal );
     }
 
     /// <summary>
@@ -1335,6 +1389,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         propertyMapper.SetDeletedOccurrences( destination, propertyMapper.GetDeletedOccurrences( source ).DeepClone() );
         propertyMapper.SetOriginalStart( destination, propertyMapper.GetOriginalStart( source ) );
         propertyMapper.SetRecurrenceExceptions( destination, propertyMapper.GetRecurrenceExceptions( source ).DeepClone() );
+
+        CopyColumnValues( source, destination );
     }
 
     /// <summary>
@@ -1352,6 +1408,21 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         propertyMapper.SetAllDay( destination, propertyMapper.GetAllDay( source ) );
         propertyMapper.SetRecurrenceId( destination, propertyMapper.GetRecurrenceId( source ) );
         propertyMapper.SetOriginalStart( destination, propertyMapper.GetOriginalStart( source ) );
+
+        CopyColumnValues( source, destination );
+    }
+
+    /// <summary>
+    /// Copies additional scheduler column values from one item to another.
+    /// </summary>
+    /// <param name="source">The source item.</param>
+    /// <param name="destination">The destination item.</param>
+    private void CopyColumnValues( TItem source, TItem destination )
+    {
+        foreach ( var column in columns )
+        {
+            column.SetValue( destination, column.GetValue( source ) );
+        }
     }
 
     private TItem CreateOccurrence( TItem item, DateTime start, DateTime end )
@@ -2069,6 +2140,21 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Returns true if <see cref="Data"/> is safe to edit.
     /// </summary>
     protected bool CanEditData => Editable && UseInternalEditing && Data is ICollection<TItem>;
+
+    /// <summary>
+    /// Gets additional scheduler columns that are available for editing.
+    /// </summary>
+    internal IEnumerable<BaseSchedulerColumn<TItem>> EditableColumns => columns.Where( x => x.IsEditable );
+
+    /// <summary>
+    /// Gets additional scheduler columns that do not override native scheduler edit fields.
+    /// </summary>
+    internal IEnumerable<BaseSchedulerColumn<TItem>> AdditionalEditableColumns => columns.Where( x => x.IsEditable && !IsVisibleNativeEditField( x.Field ) );
+
+    /// <summary>
+    /// Gets additional scheduler columns that are available for display.
+    /// </summary>
+    internal IEnumerable<BaseSchedulerColumn<TItem>> DisplayableColumns => columns.Where( x => x.IsDisplayable );
 
     /// <summary>
     /// Indicates whether an item is currently being dragged.
