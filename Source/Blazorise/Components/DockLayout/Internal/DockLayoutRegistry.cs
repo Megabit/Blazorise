@@ -12,8 +12,6 @@ internal sealed class DockLayoutRegistry
 
     private readonly Dictionary<string, int> paneDefinitionVersions = new();
 
-    private int contentDefinitionVersion;
-
     #endregion
 
     #region Methods
@@ -41,10 +39,9 @@ internal sealed class DockLayoutRegistry
         if ( content is null )
             return false;
 
-        bool changed = !ReferenceEquals( Content, content ) || contentDefinitionVersion != content.DefinitionVersion;
+        bool changed = !ReferenceEquals( Content, content );
 
         Content = content;
-        contentDefinitionVersion = content.DefinitionVersion;
 
         return changed;
     }

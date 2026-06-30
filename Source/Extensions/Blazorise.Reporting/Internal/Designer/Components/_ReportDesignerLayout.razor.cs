@@ -350,6 +350,11 @@ public partial class _ReportDesignerLayout
     [Parameter] public RenderFragment ContextMenu { get; set; }
 
     /// <summary>
+    /// Value used to refresh dock pane content without rebuilding the dock layout definition.
+    /// </summary>
+    [Parameter] public object ContentVersion { get; set; }
+
+    /// <summary>
     /// Raised when a standard designer keyboard shortcut is pressed.
     /// </summary>
     [Parameter] public EventCallback<ReportDesignerShortcut> Shortcut { get; set; }

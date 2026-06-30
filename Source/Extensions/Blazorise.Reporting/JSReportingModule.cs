@@ -137,6 +137,78 @@ public class JSReportingModule : BaseJSModule
         await InvokeSafeVoidAsync( "downloadFile", fileName, contentType, content );
     }
 
+    /// <summary>
+    /// Updates the designer selection overlay without forcing a Blazor render.
+    /// </summary>
+    /// <param name="pageElement">Designer page element that owns the overlay.</param>
+    /// <param name="x">Left coordinate in CSS pixels.</param>
+    /// <param name="y">Top coordinate in CSS pixels.</param>
+    /// <param name="width">Overlay width in CSS pixels.</param>
+    /// <param name="height">Overlay height in CSS pixels.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask UpdateDesignerSelectionOverlay( ElementReference pageElement, double x, double y, double width, double height )
+    {
+        await InvokeSafeVoidAsync( "updateDesignerSelectionOverlay", pageElement, x, y, width, height );
+    }
+
+    /// <summary>
+    /// Updates the designer drag overlay without forcing a Blazor render.
+    /// </summary>
+    /// <param name="pageElement">Designer page element that owns the overlay.</param>
+    /// <param name="elementType">Report element type represented by the overlay.</param>
+    /// <param name="text">Preview text.</param>
+    /// <param name="x">Left coordinate in CSS pixels.</param>
+    /// <param name="y">Top coordinate in CSS pixels.</param>
+    /// <param name="width">Overlay width in CSS pixels.</param>
+    /// <param name="height">Overlay height in CSS pixels.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask UpdateDesignerDragOverlay( ElementReference pageElement, string elementType, string text, double x, double y, double width, double height )
+    {
+        await InvokeSafeVoidAsync( "updateDesignerDragOverlay", pageElement, elementType, text, x, y, width, height );
+    }
+
+    /// <summary>
+    /// Clears designer interaction overlays owned by the page.
+    /// </summary>
+    /// <param name="pageElement">Designer page element that owns the overlay.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask ClearDesignerInteractionOverlays( ElementReference pageElement )
+    {
+        await InvokeSafeVoidAsync( "clearDesignerInteractionOverlays", pageElement );
+    }
+
+    /// <summary>
+    /// Updates a designer section resize preview without forcing a Blazor render.
+    /// </summary>
+    /// <param name="pageElement">Designer page element that owns the section.</param>
+    /// <param name="sectionId">Section identifier.</param>
+    /// <param name="height">Section height in CSS pixels.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask UpdateDesignerSectionResizePreview( ElementReference pageElement, string sectionId, double height )
+    {
+        await InvokeSafeVoidAsync( "updateDesignerSectionResizePreview", pageElement, sectionId, height );
+    }
+
+    /// <summary>
+    /// Restores a pending designer section resize preview.
+    /// </summary>
+    /// <param name="pageElement">Designer page element that owns the section.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask ClearDesignerSectionResizePreview( ElementReference pageElement )
+    {
+        await InvokeSafeVoidAsync( "clearDesignerSectionResizePreview", pageElement );
+    }
+
+    /// <summary>
+    /// Keeps the pending designer section resize preview until the next Blazor render commits the model value.
+    /// </summary>
+    /// <param name="pageElement">Designer page element that owns the section.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask CommitDesignerSectionResizePreview( ElementReference pageElement )
+    {
+        await InvokeSafeVoidAsync( "commitDesignerSectionResizePreview", pageElement );
+    }
+
     #endregion
 
     #region Properties

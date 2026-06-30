@@ -14,9 +14,12 @@ namespace Blazorise.Reporting.Internal;
 public partial class _ReportDesignerSection
 {
     private readonly ClassBuilder bodyClassBuilder;
+
     private readonly StyleBuilder bodyStyleBuilder;
 
     private ElementReference bodyElement;
+
+    private int? sectionRenderKey;
 
     private string BodyClass => bodyClassBuilder.Class;
 
@@ -44,11 +47,19 @@ public partial class _ReportDesignerSection
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
     {
-        if ( parameters.TryGetValue<ReportSectionDefinition>( nameof( Section ), out _ ) )
+        HashCode sectionHash = new();
+
+        if ( parameters.TryAddHash<ReportSectionDefinition>( nameof( Section ), ref sectionHash, AddSectionRenderHash ) )
         {
-            bodyClassBuilder.Dirty();
-            DirtyClasses();
-            DirtyStyles();
+            int nextSectionRenderKey = sectionHash.ToHashCode();
+
+            if ( sectionRenderKey != nextSectionRenderKey )
+            {
+                sectionRenderKey = nextSectionRenderKey;
+                bodyClassBuilder.Dirty();
+                DirtyClasses();
+                DirtyStyles();
+            }
         }
 
         if ( ( parameters.TryGetValue<bool>( nameof( RailVisible ), out bool paramRailVisible ) && paramRailVisible != RailVisible )
@@ -140,6 +151,26 @@ public partial class _ReportDesignerSection
     private Task OnBodyContextMenuAsync( MouseEventArgs eventArgs )
     {
         return BodyContextMenu?.Invoke( eventArgs ) ?? Task.CompletedTask;
+    }
+
+    private static void AddSectionRenderHash( ReportSectionDefinition section, ref HashCode hash )
+    {
+        if ( section is null )
+            return;
+
+        hash.Add( section.Id );
+        hash.Add( section.Name );
+        hash.Add( section.Type );
+        hash.Add( section.Class );
+        hash.Add( section.Style );
+        hash.Add( section.Height );
+        hash.Add( section.Suppressed );
+        hash.Add( section.DataSource );
+        hash.Add( section.Appearance?.BackgroundColor ?? ReportColor.Default );
+        hash.Add( section.Appearance?.Opacity );
+        hash.Add( section.Border?.Color ?? ReportColor.Default );
+        hash.Add( section.Border?.Width );
+        hash.Add( section.Border?.Radius );
     }
 
     /// <summary>
@@ -243,11 +274,6 @@ public partial class _ReportDesignerSection
     [Parameter] public double DragPreviewHeight { get; set; }
 
     /// <summary>
-    /// Content rendered inside the section body.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
-
-    /// <summary>
     /// Raised when the section rail is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> RailClicked { get; set; }
@@ -306,4 +332,9 @@ public partial class _ReportDesignerSection
     /// Raised when band resizing starts from the section resize handle.
     /// </summary>
     [Parameter] public EventCallback<PointerEventArgs> ResizePointerDown { get; set; }
+
+    /// <summary>
+    /// Content rendered inside the section body.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
 }

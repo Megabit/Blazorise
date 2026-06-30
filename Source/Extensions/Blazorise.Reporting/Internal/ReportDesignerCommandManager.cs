@@ -31,21 +31,17 @@ internal sealed class ReportDesignerCommandManager
         if ( command is null )
             return ReportDesignerCommandResult.Empty;
 
-        var beforeState = command.TrackHistory ? captureState?.Invoke( currentDefinition ) : null;
+        ReportState beforeState = command.TrackHistory ? captureState?.Invoke( currentDefinition ) : null;
 
         if ( command.Execute is not null )
             await command.Execute.Invoke();
 
-        var definition = command.GetDefinition?.Invoke() ?? currentDefinition;
+        ReportDefinition definition = command.GetDefinition?.Invoke() ?? currentDefinition;
 
         if ( command.TrackHistory )
         {
-            var afterState = captureState?.Invoke( definition );
-            var action = new ReportStateHistoryAction( command.Name, beforeState, afterState );
-            historyService.Record( action );
-            afterState.CanUndo = historyService.CanUndo;
-            afterState.CanRedo = historyService.CanRedo;
-            designerState.State = ReportContext.CloneState( afterState );
+            ReportState afterState = captureState?.Invoke( definition );
+            RecordStateChange( command.Name, beforeState, afterState );
         }
         else
         {
@@ -56,7 +52,20 @@ internal sealed class ReportDesignerCommandManager
         {
             Definition = definition,
             NotifyDefinitionChanged = command.NotifyDefinitionChanged,
+            RefreshSurface = command.RefreshSurface,
         };
+    }
+
+    internal void RecordStateChange( string name, ReportState beforeState, ReportState afterState )
+    {
+        if ( beforeState is null || afterState is null )
+            return;
+
+        ReportStateHistoryAction action = new( name, beforeState, afterState );
+        historyService.Record( action );
+        afterState.CanUndo = historyService.CanUndo;
+        afterState.CanRedo = historyService.CanRedo;
+        designerState.State = ReportContext.CloneState( afterState );
     }
 
     internal ReportState Undo()
@@ -91,6 +100,8 @@ internal sealed class ReportDesignerCommandManager
     internal bool CanUndo => historyService.CanUndo;
 
     internal bool CanRedo => historyService.CanRedo;
+
+    internal ReportState State => designerState.State;
 
     #endregion
 }

@@ -16,6 +16,8 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerPage
 {
+    private ElementReference pageElement;
+
     private string Class => ClassNames;
 
     private Func<PointerEventArgs, Task> NonRenderingPointerMove => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerMoveAsync );
@@ -57,6 +59,11 @@ public partial class _ReportDesignerPage
     {
         return PointerMove?.Invoke( eventArgs ) ?? Task.CompletedTask;
     }
+
+    /// <summary>
+    /// Root page element reference used by JavaScript overlays.
+    /// </summary>
+    internal ElementReference Element => pageElement;
 
     /// <summary>
     /// Stable key used to preserve page identity across designer renders.

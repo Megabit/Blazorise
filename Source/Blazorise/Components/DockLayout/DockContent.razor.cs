@@ -1,5 +1,4 @@
 #region Using directives
-using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -15,8 +14,6 @@ public partial class DockContent : BaseComponent
 
     private DockNodeState node;
 
-    private int definitionVersion;
-
     #endregion
 
     #region Methods
@@ -27,15 +24,6 @@ public partial class DockContent : BaseComponent
         builder.Append( ClassProvider.DockContent() );
 
         base.BuildClasses( builder );
-    }
-
-    /// <inheritdoc/>
-    public override Task SetParametersAsync( ParameterView parameters )
-    {
-        if ( parameters.TryGetValue<RenderFragment>( nameof( ChildContent ), out _ ) )
-            definitionVersion++;
-
-        return base.SetParametersAsync( parameters );
     }
 
     /// <inheritdoc/>
@@ -55,8 +43,6 @@ public partial class DockContent : BaseComponent
     {
         Kind = DockNodeKind.Content,
     };
-
-    internal int DefinitionVersion => definitionVersion;
 
     [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
 

@@ -14,5 +14,7 @@ internal sealed class ReportDesignerCommandResult
 
     internal bool NotifyDefinitionChanged { get; set; }
 
+    internal bool RefreshSurface { get; set; }
+
     #endregion
 }

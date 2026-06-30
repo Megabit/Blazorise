@@ -16,7 +16,7 @@
             </CascadingValue>
             @if ( CurrentState.Root is not null )
             {
-                <_DockNodeRenderer NodeId="@CurrentState.Root.Id" RenderVersion="@RenderVersion" />
+                <_DockNodeRenderer NodeId="@CurrentState.Root.Id" RenderVersion="@RenderVersion" ContentRenderVersion="@ContentRenderVersion" />
             }
             <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Left" Items="@GetRailItems( DockPanePosition.Left )" RenderVersion="@RenderVersion" />
             <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Right" Items="@GetRailItems( DockPanePosition.Right )" RenderVersion="@RenderVersion" />
@@ -24,7 +24,7 @@
             <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Bottom" Items="@GetRailItems( DockPanePosition.Bottom )" RenderVersion="@RenderVersion" />
             @if ( ActiveAutoHidePane is not null )
             {
-                <_DockPaneRenderer PaneName="@ActiveAutoHidePane.ResolvedName" Flyout RenderVersion="@RenderVersion" />
+                <_DockPaneRenderer PaneName="@ActiveAutoHidePane.ResolvedName" Flyout RenderVersion="@RenderVersion" ContentRenderVersion="@ContentRenderVersion" />
             }
             @if ( DockGuidesVisible )
             {

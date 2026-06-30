@@ -20,5 +20,10 @@ public partial class _DockContentRenderer : ComponentBase
     /// </summary>
     [Parameter] public int RenderVersion { get; set; }
 
+    /// <summary>
+    /// Gets or sets the layout content render version.
+    /// </summary>
+    [Parameter] public int ContentRenderVersion { get; set; }
+
     #endregion
 }

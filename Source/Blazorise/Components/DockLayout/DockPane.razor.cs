@@ -48,8 +48,15 @@ public partial class DockPane : BaseComponent, IDisposable
     /// <inheritdoc/>
     public override Task SetParametersAsync( ParameterView parameters )
     {
-        if ( parameters.TryGetValue<RenderFragment>( nameof( ChildContent ), out _ ) )
+        if ( ( parameters.TryGetValue<string>( nameof( Name ), out string name ) && Name != name )
+             || ( parameters.TryGetValue<DockRole>( nameof( DockRole ), out DockRole structureDockRole ) && DockRole != structureDockRole )
+             || ( parameters.TryGetValue<DockPanePosition>( nameof( Dock ), out DockPanePosition structureDock ) && Dock != structureDock )
+             || ( parameters.TryGetValue<bool>( nameof( ShowTab ), out bool showTab ) && ShowTab != showTab )
+             || ( parameters.TryGetValue<bool>( nameof( ShowTabCloseButton ), out bool showTabCloseButton ) && ShowTabCloseButton != showTabCloseButton )
+             || ( parameters.TryGetValue<DockPaneTabsPlacement>( nameof( TabsPlacement ), out DockPaneTabsPlacement tabsPlacement ) && TabsPlacement != tabsPlacement ) )
+        {
             definitionVersion++;
+        }
 
         if ( ( parameters.TryGetValue<DockRole>( nameof( DockRole ), out DockRole dockRole ) && DockRole != dockRole )
              || ( parameters.TryGetValue<DockPanePosition>( nameof( Dock ), out DockPanePosition dock ) && Dock != dock )

@@ -6,6 +6,7 @@
 @using Microsoft.AspNetCore.Components.Web
 
 <div @key="@PageKey"
+     @ref="pageElement"
      class="@Class"
      style="@Style"
      @onpointermove="NonRenderingPointerMove"

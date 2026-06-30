@@ -3,6 +3,8 @@ const designerKeyboardShortcuts = new WeakMap();
 let activeDesignerKeyboardShortcut;
 const treeDragImageSuppressors = new WeakMap();
 const textTokenEditors = new WeakMap();
+const designerInteractionOverlays = new WeakMap();
+const designerSectionResizePreviews = new WeakMap();
 let nextSubscriptionId = 0;
 
 const designerControlShortcuts = {
@@ -282,6 +284,127 @@ export function downloadFile(fileName, contentType, content) {
     anchor.click();
     anchor.remove();
     setTimeout(() => URL.revokeObjectURL(url), 0);
+}
+
+export function updateDesignerSelectionOverlay(pageElement, x, y, width, height) {
+    const overlays = getDesignerInteractionOverlays(pageElement);
+
+    if (!overlays) {
+        return;
+    }
+
+    positionOverlay(overlays.selection, x, y, width, height);
+    overlays.selection.hidden = false;
+}
+
+export function updateDesignerDragOverlay(pageElement, elementType, text, x, y, width, height) {
+    const overlays = getDesignerInteractionOverlays(pageElement);
+
+    if (!overlays) {
+        return;
+    }
+
+    overlays.drag.className = `b-report-drag-preview b-report-element-${(elementType || "text").toLowerCase()}`;
+    overlays.drag.textContent = text || "";
+    positionOverlay(overlays.drag, x, y, width, height);
+    overlays.drag.hidden = false;
+}
+
+export function clearDesignerInteractionOverlays(pageElement) {
+    const overlays = designerInteractionOverlays.get(pageElement);
+
+    if (!overlays) {
+        return;
+    }
+
+    overlays.selection.hidden = true;
+    overlays.drag.hidden = true;
+}
+
+export function updateDesignerSectionResizePreview(pageElement, sectionId, height) {
+    if (!pageElement || !sectionId) {
+        return;
+    }
+
+    const section = findReportSection(pageElement, sectionId);
+
+    if (!section) {
+        return;
+    }
+
+    let preview = designerSectionResizePreviews.get(pageElement);
+
+    if (!preview || preview.section !== section) {
+        preview = {
+            section,
+            originalHeight: section.style.height || "",
+        };
+        designerSectionResizePreviews.set(pageElement, preview);
+    }
+
+    section.style.height = `${Math.max(0, height || 0)}px`;
+}
+
+export function clearDesignerSectionResizePreview(pageElement) {
+    const preview = designerSectionResizePreviews.get(pageElement);
+
+    if (!preview) {
+        return;
+    }
+
+    preview.section.style.height = preview.originalHeight;
+    designerSectionResizePreviews.delete(pageElement);
+}
+
+export function commitDesignerSectionResizePreview(pageElement) {
+    designerSectionResizePreviews.delete(pageElement);
+}
+
+function findReportSection(pageElement, sectionId) {
+    const sections = pageElement.querySelectorAll("[data-report-section-id]");
+
+    for (const section of sections) {
+        if (section.getAttribute("data-report-section-id") === sectionId) {
+            return section;
+        }
+    }
+
+    return null;
+}
+
+function getDesignerInteractionOverlays(pageElement) {
+    if (!pageElement || typeof pageElement.appendChild !== "function") {
+        return null;
+    }
+
+    let overlays = designerInteractionOverlays.get(pageElement);
+
+    if (overlays) {
+        return overlays;
+    }
+
+    const selection = document.createElement("div");
+    selection.className = "b-report-selection-box";
+    selection.hidden = true;
+
+    const drag = document.createElement("div");
+    drag.className = "b-report-drag-preview";
+    drag.hidden = true;
+
+    pageElement.appendChild(selection);
+    pageElement.appendChild(drag);
+
+    overlays = { selection, drag };
+    designerInteractionOverlays.set(pageElement, overlays);
+
+    return overlays;
+}
+
+function positionOverlay(element, x, y, width, height) {
+    element.style.left = `${Math.max(0, x || 0)}px`;
+    element.style.top = `${Math.max(0, y || 0)}px`;
+    element.style.width = `${Math.max(0, width || 0)}px`;
+    element.style.height = `${Math.max(0, height || 0)}px`;
 }
 
 function clearSectionResize(resize) {

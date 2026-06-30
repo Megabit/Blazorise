@@ -59,6 +59,7 @@
 
         <_ReportDesignerLayout Shortcut="@HandleDesignerShortcutAsync"
                                ShowToolbar="@ShowToolbar"
+                               ContentVersion="@DesignerDockContentVersion"
                                SelectedPanelTab="@SelectedDesignerPanelTabName"
                                SelectedPanelTabChanged="@SelectDesignerPanelTab">
             <Toolbar>
@@ -125,7 +126,8 @@
                                                     DataSourceDeleted="@OnDataSourceDeletedAsync" />
             </FieldsExplorerPanel>
             <Surface>
-                <_ReportDesignerPage PageKey="@($"{definition.Id}:{designerSurfaceVersion}")"
+                <_ReportDesignerPage @ref="designerPageRef"
+                                     PageKey="@($"{definition.Id}:{designerSurfaceVersion}")"
                                      Width="@GetReportPageWidth( definition )"
                                      WidthOffset="@GetReportPageWidthOffset()"
                                      MinHeight="@definition.Page.Height"
@@ -133,7 +135,7 @@
                                      PointerMove="@((Func<PointerEventArgs, Task>)PreviewPageSelectionBoxAsync)"
                                      PointerUp="@CompletePageSelectionBoxAsync"
                                      PointerCancel="@((PointerEventArgs _) => CancelPageSelectionBoxAsync())"
-                                     ShowSelectionBox="@(selectionBox is not null)"
+                                     ShowSelectionBox="false"
                                      SelectionBoxX="@(selectionBox?.X ?? 0)"
                                      SelectionBoxY="@(selectionBox?.Y ?? 0)"
                                      SelectionBoxWidth="@(selectionBox?.Width ?? 0)"
@@ -150,12 +152,12 @@
                             var editable = !section.Suppressed;
                             var railVisible = IsDesignerBandRailVisible();
                             var sectionHeight = GetSectionRenderHeight( capturedSectionIndex, section );
-                            var dragPreviewVisible = editable && dragPreview?.SectionIndex == capturedSectionIndex;
+                            var dragPreviewVisible = false;
 
                             <_ReportDesignerSection SectionKey="@section.Id"
                                                     Section="@section"
                                                     Height="@sectionHeight"
-                                                    BodyLeft="@DesignerBandRailWidth"
+                                                    BodyLeft="@GetReportPageWidthOffset()"
                                                     BodyWidth="@definition.Page.Width"
                                                     DesignMode
                                                     Active="@IsSectionSelected( capturedSectionIndex )"
@@ -198,6 +200,7 @@
                                                             DesignMode
                                                             Editable="@editable"
                                                             Selected="@selectionManager.IsElementSelected( capturedElementKey )"
+                                                            SelectionVersion="@designerSelectionVersion"
                                                             Editing="@IsElementTextEditing( capturedElementKey )"
                                                             TextEditingActive="@IsElementTextEditing()"
                                                             ChildEditingElementKey="@editingElementKey"

@@ -70,6 +70,11 @@ public partial class _DockNodeRenderer : BaseComponent
     [Parameter] public int RenderVersion { get; set; }
 
     /// <summary>
+    /// Gets or sets the layout content render version.
+    /// </summary>
+    [Parameter] public int ContentRenderVersion { get; set; }
+
+    /// <summary>
     /// Gets or sets the local splitter side for the rendered node.
     /// </summary>
     [Parameter] public DockPanePosition? SplitterDock { get; set; }

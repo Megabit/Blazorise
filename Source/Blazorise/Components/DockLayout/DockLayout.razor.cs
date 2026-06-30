@@ -48,6 +48,8 @@ public partial class DockLayout : BaseComponent
 
     private int renderVersion;
 
+    private int contentRenderVersion;
+
     private static readonly DockCompassZoneInfo[] dockCompassZones =
     {
         new( DockZone.Top, DockCompassZone.TopOuter, "TopOuter" ),
@@ -106,6 +108,26 @@ public partial class DockLayout : BaseComponent
         DockCompassStyleBuilder.Dirty();
 
         base.DirtyStyles();
+    }
+
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( parameters.TryGetValue<object>( nameof( ContentVersion ), out object contentVersion ) && !Equals( ContentVersion, contentVersion ) )
+            contentRenderVersion++;
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    /// <summary>
+    /// Forces rendered dock content to refresh without changing the docking state.
+    /// </summary>
+    /// <returns>A task that completes after the refresh has been scheduled.</returns>
+    public Task Refresh()
+    {
+        contentRenderVersion++;
+
+        return InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
@@ -1114,6 +1136,8 @@ public partial class DockLayout : BaseComponent
 
     internal int RenderVersion => renderVersion;
 
+    internal int ContentRenderVersion => contentRenderVersion;
+
     internal int DockGuidesVersion => dragState.Version;
 
     internal DockPane ActiveAutoHidePane
@@ -1174,6 +1198,11 @@ public partial class DockLayout : BaseComponent
     /// Occurs after the docking state changes.
     /// </summary>
     [Parameter] public EventCallback<DockLayoutState> StateChanged { get; set; }
+
+    /// <summary>
+    /// Optional value that forces rendered dock content to refresh when it changes.
+    /// </summary>
+    [Parameter] public object ContentVersion { get; set; }
 
     /// <summary>
     /// Specifies the panes and content to be rendered inside the dock layout.
