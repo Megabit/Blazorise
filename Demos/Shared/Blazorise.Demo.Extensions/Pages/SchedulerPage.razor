@@ -21,6 +21,13 @@
                         <SchedulerWorkWeekView StartTime="@(new TimeOnly( 7, 0 ))" EndTime="@(new TimeOnly( 17, 0 ))" WorkDayStart="@(new TimeOnly( 8, 0 ))" WorkDayEnd="@(new TimeOnly( 16, 0 ))" />
                         <SchedulerMonthView StartTime="@(new TimeOnly( 7, 0 ))" EndTime="@(new TimeOnly( 17, 0 ))" WorkDayStart="@(new TimeOnly( 8, 0 ))" WorkDayEnd="@(new TimeOnly( 16, 0 ))" />
                     </SchedulerViews>
+                    <SchedulerColumns>
+                        <SchedulerColumn TItem="SchedulerAppointment" Field="@nameof( SchedulerAppointment.Color )" Caption="Color" TValue="string">
+                            <EditTemplate Context="context">
+                                <ColorPicker @bind-Value="@context.Value" />
+                            </EditTemplate>
+                        </SchedulerColumn>
+                    </SchedulerColumns>
                 </Scheduler>
             </CardBody>
         </Card>
@@ -50,6 +57,7 @@
         var fakeAppointment = appointmentFaker.Generate();
         fakeAppointment.Start = start;
         fakeAppointment.End = end;
+        fakeAppointment.Color = "#0d6efd";
 
         Appointments.Add( fakeAppointment );
 
@@ -65,7 +73,13 @@
 
     private void OnItemStyling( SchedulerAppointment appointment, SchedulerItemStyling itemStyling )
     {
-        if ( appointment.Title.Contains( "ceo", StringComparison.OrdinalIgnoreCase ) )
+        if ( !string.IsNullOrEmpty( appointment.Color ) )
+        {
+            itemStyling.Background = Background.Default;
+            itemStyling.Style = $"background-color: {appointment.Color};";
+            itemStyling.TextColor = TextColor.White;
+        }
+        else if ( appointment.Title.Contains( "ceo", StringComparison.OrdinalIgnoreCase ) )
             itemStyling.Background = Background.Danger;
         else if ( appointment.Title.Contains( "client", StringComparison.OrdinalIgnoreCase ) )
             itemStyling.Background = Background.Success;
@@ -111,6 +125,8 @@
 
         public bool AllDay { get; set; }
 
+        public string Color { get; set; }
+
         public string RecurrenceRule { get; set; }
 
         public string RecurrenceId { get; set; }
@@ -124,17 +140,36 @@
 
     List<SchedulerAppointment> Appointments = new List<SchedulerAppointment>
     {
-        new SchedulerAppointment( "Meeting with the CEO", "Regarding the new margeting strategy", start, start.AddHours(1) ),
-        new SchedulerAppointment( "Some other meeting", "Regarding the new margeting strategy", start, start.AddHours(1) ),
+        new SchedulerAppointment( "Meeting with the CEO", "Regarding the new margeting strategy", start, start.AddHours(1) )
+        {
+            Color = "#dc3545"
+        },
+        new SchedulerAppointment( "Some other meeting", "Regarding the new margeting strategy", start, start.AddHours(1) )
+        {
+            Color = "#0d6efd"
+        },
         new SchedulerAppointment( "Lunch with the team", "Discussing the new project", start.AddDays(-10).AddHours(2), start.AddDays(-10).AddHours(3))
         {
+            Color = "#0dcaf0",
             RecurrenceRule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3"
             // RecurrenceRule = "FREQ=DAILY;INTERVAL=1;COUNT=10;"
             // RecurrenceRule = "FREQ=MONTHLY;INTERVAL=2;BYMONTHDAY=1;COUNT=2;"
         },
-        new SchedulerAppointment( "Meeting with the client", "Discussing the new project", start.AddHours(4), start.AddHours(5) ),
-        new SchedulerAppointment( "Test 1", "Test 1 desc", DateTime.Today.AddDays(-2), DateTime.Today.AddDays(-2), true ),
-        new SchedulerAppointment( "All day event with the team", "Team building", DateTime.Today.AddDays(-2), DateTime.Today, true),
-        new SchedulerAppointment( "Games with the team", "Having fun", DateTime.Today, DateTime.Today, true ),
+        new SchedulerAppointment( "Meeting with the client", "Discussing the new project", start.AddHours(4), start.AddHours(5) )
+        {
+            Color = "#198754"
+        },
+        new SchedulerAppointment( "Test 1", "Test 1 desc", DateTime.Today.AddDays(-2), DateTime.Today.AddDays(-2), true )
+        {
+            Color = "#6c757d"
+        },
+        new SchedulerAppointment( "All day event with the team", "Team building", DateTime.Today.AddDays(-2), DateTime.Today, true)
+        {
+            Color = "#6610f2"
+        },
+        new SchedulerAppointment( "Games with the team", "Having fun", DateTime.Today, DateTime.Today, true )
+        {
+            Color = "#fd7e14"
+        },
     };
 }

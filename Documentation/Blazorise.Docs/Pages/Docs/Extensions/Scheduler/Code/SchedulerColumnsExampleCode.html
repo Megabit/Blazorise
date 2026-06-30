@@ -1,0 +1,85 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Scheduler</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Appointment</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Date</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedDate</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Appointments</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedView</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedView</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">Editable</span>
+           <span class="htmlAttributeName">ItemStyling</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnItemStyling</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SchedulerToolbar</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SchedulerViews</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SchedulerWeekView</span> <span class="htmlAttributeName">StartTime</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>startTime</span><span class="quot">&quot;</span> <span class="htmlAttributeName">EndTime</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>endTime</span><span class="quot">&quot;</span> <span class="htmlAttributeName">WorkDayStart</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>workDayStart</span><span class="quot">&quot;</span> <span class="htmlAttributeName">WorkDayEnd</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>workDayEnd</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SchedulerViews</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SchedulerColumns</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SchedulerColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Appointment</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Appointment.Title )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Appointment title</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">EditTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">context</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>context.Value</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">EditTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SchedulerColumn</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SchedulerColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Appointment</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Appointment.Color )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Color</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">EditTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">context</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ColorPicker</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>context.Value</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">EditTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SchedulerColumn</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SchedulerColumns</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Scheduler</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    <span class="keyword">private</span> SchedulerView selectedView = SchedulerView.Week;
+    <span class="keyword">private</span> <span class="keyword">static</span> DateTime today10AM = DateTime.Today.AddHours( <span class="number">10</span> );
+    <span class="keyword">private</span> TimeOnly startTime = <span class="keyword">new</span> TimeOnly( <span class="number">7</span>, <span class="number">0</span> );
+    <span class="keyword">private</span> TimeOnly endTime = <span class="keyword">new</span> TimeOnly( <span class="number">17</span>, <span class="number">0</span> );
+    <span class="keyword">private</span> TimeOnly workDayStart = <span class="keyword">new</span> TimeOnly( <span class="number">8</span>, <span class="number">0</span> );
+    <span class="keyword">private</span> TimeOnly workDayEnd = <span class="keyword">new</span> TimeOnly( <span class="number">16</span>, <span class="number">0</span> );
+
+    <span class="keyword">private</span> <span class="keyword">void</span> OnItemStyling( Appointment appointment, SchedulerItemStyling itemStyling )
+    {
+        <span class="keyword">if</span> ( !<span class="keyword">string</span>.IsNullOrEmpty( appointment.Color ) )
+        {
+            itemStyling.Background = Background.Default;
+            itemStyling.Style = $<span class="string">&quot;background-color: {appointment.Color};&quot;</span>;
+            itemStyling.TextColor = TextColor.White;
+        }
+    }
+
+    <span class="keyword">public</span> <span class="keyword">class</span> Appointment
+    {
+        <span class="keyword">public</span> Appointment()
+        {
+        }
+
+        <span class="keyword">public</span> Appointment( <span class="keyword">string</span> title, <span class="keyword">string</span> description, DateTime start, DateTime end, <span class="keyword">string</span> color )
+        {
+            Id = Guid.NewGuid().ToString();
+            Title = title;
+            Description = description;
+            Start = start;
+            End = end;
+            Color = color;
+        }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Id { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Title { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Description { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> DateTime Start { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> DateTime End { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">bool</span> AllDay { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Color { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+
+    List&lt;Appointment&gt; Appointments = <span class="keyword">new</span> List&lt;Appointment&gt;
+    {
+        <span class="keyword">new</span> Appointment( <span class="string">&quot;Design review&quot;</span>, <span class="string">&quot;Reviewing the new dashboard&quot;</span>, today10AM, today10AM.AddHours( <span class="number">1</span> ), <span class="string">&quot;#0d6efd&quot;</span> ),
+        <span class="keyword">new</span> Appointment( <span class="string">&quot;Planning&quot;</span>, <span class="string">&quot;Sprint planning session&quot;</span>, today10AM.AddHours( <span class="number">2</span> ), today10AM.AddHours( <span class="number">3</span> ), <span class="string">&quot;#198754&quot;</span> ),
+        <span class="keyword">new</span> Appointment( <span class="string">&quot;Customer call&quot;</span>, <span class="string">&quot;Quarterly product feedback&quot;</span>, today10AM.AddDays( <span class="number">1</span> ).AddHours( <span class="number">1</span> ), today10AM.AddDays( <span class="number">1</span> ).AddHours( <span class="number">2</span> ), <span class="string">&quot;#dc3545&quot;</span> ),
+    };
+}
+</pre></div>
+</div>
