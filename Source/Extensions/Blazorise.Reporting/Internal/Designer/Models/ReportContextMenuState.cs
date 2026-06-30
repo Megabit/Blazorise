@@ -58,6 +58,24 @@ internal sealed class ReportContextMenuState
 
     internal bool CanUnmergeCell { get; set; }
 
+    internal bool CanShowTableCellMergeOperations => CanMergeCellRight || CanMergeCellDown || CanUnmergeCell;
+
+    internal bool CanInsertTableRowAbove { get; set; }
+
+    internal bool CanInsertTableRowBelow { get; set; }
+
+    internal bool CanInsertTableColumnLeft { get; set; }
+
+    internal bool CanInsertTableColumnRight { get; set; }
+
+    internal bool CanInsertTableCell { get; set; }
+
+    internal bool CanDeleteTableRow { get; set; }
+
+    internal bool CanDeleteTableColumn { get; set; }
+
+    internal bool CanDeleteTableCell { get; set; }
+
     internal bool HasPastePosition { get; set; }
 
     internal double PasteX { get; set; }

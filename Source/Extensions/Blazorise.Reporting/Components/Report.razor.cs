@@ -1295,6 +1295,14 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         state.CanMergeCellRight = CanMergeTableCellRight( table, cell );
         state.CanMergeCellDown = CanMergeTableCellDown( table, cell );
         state.CanUnmergeCell = cell.RowSpan > 1 || cell.ColumnSpan > 1;
+        state.CanInsertTableRowAbove = true;
+        state.CanInsertTableRowBelow = true;
+        state.CanInsertTableColumnLeft = true;
+        state.CanInsertTableColumnRight = true;
+        state.CanInsertTableCell = CanInsertTableCell( cell );
+        state.CanDeleteTableRow = CanDeleteTableRow( table );
+        state.CanDeleteTableColumn = CanDeleteTableColumn( table );
+        state.CanDeleteTableCell = CanDeleteTableCell( table, cell );
     }
 
     private bool CanContextPasteElement( ReportDefinition definition, ReportContextMenuState state = null )
@@ -1548,29 +1556,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             if ( rowSpanDelta > 0 && !CanMergeTableCellDown( table, cell ) )
                 return Task.CompletedTask;
 
-            int oldRowSpan = Math.Max( 1, cell.RowSpan );
-            int oldColumnSpan = Math.Max( 1, cell.ColumnSpan );
-            int newRowSpan = oldRowSpan + rowSpanDelta;
-            int newColumnSpan = oldColumnSpan + columnSpanDelta;
-
-            List<ReportTableCellDefinition> coveredCells = table.Cells
-                .Where( item => item != cell
-                    && item.RowIndex >= cell.RowIndex
-                    && item.RowIndex < cell.RowIndex + newRowSpan
-                    && item.ColumnIndex >= cell.ColumnIndex
-                    && item.ColumnIndex < cell.ColumnIndex + newColumnSpan )
-                .ToList();
-
-            foreach ( ReportTableCellDefinition coveredCell in coveredCells )
-            {
-                if ( coveredCell.Elements?.Count > 0 )
-                    cell.Elements.AddRange( coveredCell.Elements );
-
-                table.Cells.Remove( coveredCell );
-            }
-
-            cell.RowSpan = newRowSpan;
-            cell.ColumnSpan = newColumnSpan;
+            MergeTableCell( table, cell, columnSpanDelta, rowSpanDelta );
             ReportDefinitionHelper.FitElementsToTableCell( table, cell );
 
             SelectTableCell( cell.Id );
@@ -1620,6 +1606,105 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             }
 
             SelectTableCell( cell.Id );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private Task InsertSelectedTableRowAsync( bool insertBelow )
+    {
+        return UpdateSelectedTableCellAsync(
+            insertBelow ? "Insert table row below" : "Insert table row above",
+            ( table, cell ) =>
+            {
+                int rowIndex = insertBelow
+                    ? cell.RowIndex + Math.Max( 1, cell.RowSpan )
+                    : cell.RowIndex;
+
+                InsertTableRow( table, Math.Clamp( rowIndex, 0, table.Rows.Count ) );
+                SelectTableCellAt( table, Math.Min( rowIndex, table.Rows.Count - 1 ), cell.ColumnIndex );
+            } );
+    }
+
+    private Task InsertSelectedTableColumnAsync( bool insertRight )
+    {
+        return UpdateSelectedTableCellAsync(
+            insertRight ? "Insert table column right" : "Insert table column left",
+            ( table, cell ) =>
+            {
+                int columnIndex = insertRight
+                    ? cell.ColumnIndex + Math.Max( 1, cell.ColumnSpan )
+                    : cell.ColumnIndex;
+
+                InsertTableColumn( table, Math.Clamp( columnIndex, 0, table.Columns.Count ) );
+                SelectTableCellAt( table, cell.RowIndex, Math.Min( columnIndex, table.Columns.Count - 1 ) );
+            } );
+    }
+
+    private Task InsertSelectedTableCellAsync()
+    {
+        return UpdateSelectedTableCellAsync( "Insert table cell", ( table, cell ) =>
+        {
+            if ( !CanInsertTableCell( cell ) )
+                return;
+
+            SplitTableCell( table, cell );
+            SelectTableCell( cell.Id );
+        } );
+    }
+
+    private Task DeleteSelectedTableRowAsync()
+    {
+        return UpdateSelectedTableCellAsync( "Delete table row", ( table, cell ) =>
+        {
+            if ( !CanDeleteTableRow( table ) )
+                return;
+
+            int deletedRowIndex = cell.RowIndex;
+            DeleteTableRow( table, deletedRowIndex );
+            SelectTableCellAt( table, Math.Min( deletedRowIndex, table.Rows.Count - 1 ), Math.Min( cell.ColumnIndex, table.Columns.Count - 1 ) );
+        } );
+    }
+
+    private Task DeleteSelectedTableColumnAsync()
+    {
+        return UpdateSelectedTableCellAsync( "Delete table column", ( table, cell ) =>
+        {
+            if ( !CanDeleteTableColumn( table ) )
+                return;
+
+            int deletedColumnIndex = cell.ColumnIndex;
+            DeleteTableColumn( table, deletedColumnIndex );
+            SelectTableCellAt( table, Math.Min( cell.RowIndex, table.Rows.Count - 1 ), Math.Min( deletedColumnIndex, table.Columns.Count - 1 ) );
+        } );
+    }
+
+    private Task DeleteSelectedTableCellAsync()
+    {
+        return UpdateSelectedTableCellAsync( "Delete table cell", ( table, cell ) =>
+        {
+            if ( !DeleteTableCell( table, cell, out ReportTableCellDefinition selectedCell ) )
+                return;
+
+            SelectTableCell( selectedCell.Id );
+        } );
+    }
+
+    private async Task UpdateSelectedTableCellAsync( string commandName, Action<ReportElementDefinition, ReportTableCellDefinition> update )
+    {
+        string cellKey = contextMenu?.CellKey ?? selectionManager.SelectedCellKey;
+
+        if ( string.IsNullOrWhiteSpace( cellKey ) )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( commandName, () =>
+        {
+            if ( !ReportDefinitionHelper.TryFindTableCellLocation( EffectiveDefinition, cellKey, out _, out _, out ReportElementDefinition table, out ReportTableCellDefinition cell ) )
+                return Task.CompletedTask;
+
+            EnsureTableGrid( table );
+            update( table, cell );
+            NormalizeTableGrid( table );
 
             return Task.CompletedTask;
         } ) );
@@ -4485,6 +4570,322 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }
 
         return false;
+    }
+
+    private static bool CanInsertTableCell( ReportTableCellDefinition cell )
+    {
+        return cell is not null
+            && ( cell.RowSpan > 1 || cell.ColumnSpan > 1 );
+    }
+
+    private static bool CanDeleteTableRow( ReportElementDefinition table )
+    {
+        return table?.Rows?.Count > 1;
+    }
+
+    private static bool CanDeleteTableColumn( ReportElementDefinition table )
+    {
+        return table?.Columns?.Count > 1;
+    }
+
+    private static bool CanDeleteTableCell( ReportElementDefinition table, ReportTableCellDefinition cell )
+    {
+        if ( table is null || cell is null )
+            return false;
+
+        return FindTableCellLeftOf( table, cell ) is { } leftCell && CanMergeTableCellRight( table, leftCell )
+            || FindTableCellAbove( table, cell ) is { } aboveCell && CanMergeTableCellDown( table, aboveCell )
+            || CanMergeTableCellRight( table, cell )
+            || CanMergeTableCellDown( table, cell );
+    }
+
+    private static void InsertTableRow( ReportElementDefinition table, int rowIndex )
+    {
+        EnsureTableGrid( table );
+
+        double rowHeight = ResolveTableRowHeight( table, rowIndex );
+        table.Rows.Insert( rowIndex, new()
+        {
+            Height = rowHeight,
+        } );
+
+        foreach ( ReportTableCellDefinition cell in table.Cells )
+        {
+            if ( cell.RowIndex >= rowIndex )
+            {
+                cell.RowIndex++;
+            }
+            else if ( cell.RowIndex + Math.Max( 1, cell.RowSpan ) > rowIndex )
+            {
+                cell.RowSpan++;
+            }
+        }
+
+        table.Height += rowHeight;
+    }
+
+    private static void InsertTableColumn( ReportElementDefinition table, int columnIndex )
+    {
+        EnsureTableGrid( table );
+
+        double columnWidth = ResolveTableColumnWidth( table, columnIndex );
+        table.Columns.Insert( columnIndex, new()
+        {
+            Width = columnWidth,
+        } );
+
+        foreach ( ReportTableCellDefinition cell in table.Cells )
+        {
+            if ( cell.ColumnIndex >= columnIndex )
+            {
+                cell.ColumnIndex++;
+            }
+            else if ( cell.ColumnIndex + Math.Max( 1, cell.ColumnSpan ) > columnIndex )
+            {
+                cell.ColumnSpan++;
+            }
+        }
+
+        table.Width += columnWidth;
+    }
+
+    private static void SplitTableCell( ReportElementDefinition table, ReportTableCellDefinition cell )
+    {
+        int oldRowSpan = Math.Max( 1, cell.RowSpan );
+        int oldColumnSpan = Math.Max( 1, cell.ColumnSpan );
+
+        cell.RowSpan = 1;
+        cell.ColumnSpan = 1;
+
+        for ( int rowIndex = cell.RowIndex; rowIndex < cell.RowIndex + oldRowSpan; rowIndex++ )
+        {
+            for ( int columnIndex = cell.ColumnIndex; columnIndex < cell.ColumnIndex + oldColumnSpan; columnIndex++ )
+            {
+                if ( rowIndex == cell.RowIndex && columnIndex == cell.ColumnIndex )
+                    continue;
+
+                if ( table.Cells.Any( item => item.RowIndex == rowIndex && item.ColumnIndex == columnIndex ) )
+                    continue;
+
+                table.Cells.Add( new()
+                {
+                    RowIndex = rowIndex,
+                    ColumnIndex = columnIndex,
+                } );
+            }
+        }
+    }
+
+    private static void DeleteTableRow( ReportElementDefinition table, int rowIndex )
+    {
+        EnsureTableGrid( table );
+
+        double rowHeight = table.Rows[rowIndex].Height;
+        table.Rows.RemoveAt( rowIndex );
+
+        foreach ( ReportTableCellDefinition cell in table.Cells.ToList() )
+        {
+            if ( cell.RowIndex == rowIndex )
+            {
+                if ( cell.RowSpan > 1 )
+                    cell.RowSpan--;
+                else
+                    table.Cells.Remove( cell );
+            }
+            else if ( cell.RowIndex < rowIndex && cell.RowIndex + Math.Max( 1, cell.RowSpan ) > rowIndex )
+            {
+                cell.RowSpan--;
+            }
+            else if ( cell.RowIndex > rowIndex )
+            {
+                cell.RowIndex--;
+            }
+        }
+
+        table.Height = Math.Max( 1, table.Height - rowHeight );
+    }
+
+    private static void DeleteTableColumn( ReportElementDefinition table, int columnIndex )
+    {
+        EnsureTableGrid( table );
+
+        double columnWidth = table.Columns[columnIndex].Width;
+        table.Columns.RemoveAt( columnIndex );
+
+        foreach ( ReportTableCellDefinition cell in table.Cells.ToList() )
+        {
+            if ( cell.ColumnIndex == columnIndex )
+            {
+                if ( cell.ColumnSpan > 1 )
+                    cell.ColumnSpan--;
+                else
+                    table.Cells.Remove( cell );
+            }
+            else if ( cell.ColumnIndex < columnIndex && cell.ColumnIndex + Math.Max( 1, cell.ColumnSpan ) > columnIndex )
+            {
+                cell.ColumnSpan--;
+            }
+            else if ( cell.ColumnIndex > columnIndex )
+            {
+                cell.ColumnIndex--;
+            }
+        }
+
+        table.Width = Math.Max( 1, table.Width - columnWidth );
+    }
+
+    private static bool DeleteTableCell( ReportElementDefinition table, ReportTableCellDefinition cell, out ReportTableCellDefinition selectedCell )
+    {
+        selectedCell = null;
+
+        if ( table is null || cell is null )
+            return false;
+
+        if ( FindTableCellLeftOf( table, cell ) is { } leftCell && CanMergeTableCellRight( table, leftCell ) )
+        {
+            MergeTableCellRight( table, leftCell );
+            selectedCell = leftCell;
+            return true;
+        }
+
+        if ( FindTableCellAbove( table, cell ) is { } aboveCell && CanMergeTableCellDown( table, aboveCell ) )
+        {
+            MergeTableCellDown( table, aboveCell );
+            selectedCell = aboveCell;
+            return true;
+        }
+
+        if ( CanMergeTableCellRight( table, cell ) )
+        {
+            MergeTableCellRight( table, cell );
+            selectedCell = cell;
+            return true;
+        }
+
+        if ( CanMergeTableCellDown( table, cell ) )
+        {
+            MergeTableCellDown( table, cell );
+            selectedCell = cell;
+            return true;
+        }
+
+        return false;
+    }
+
+    private static void MergeTableCellRight( ReportElementDefinition table, ReportTableCellDefinition cell )
+    {
+        MergeTableCell( table, cell, columnSpanDelta: 1, rowSpanDelta: 0 );
+    }
+
+    private static void MergeTableCellDown( ReportElementDefinition table, ReportTableCellDefinition cell )
+    {
+        MergeTableCell( table, cell, columnSpanDelta: 0, rowSpanDelta: 1 );
+    }
+
+    private static void MergeTableCell( ReportElementDefinition table, ReportTableCellDefinition cell, int columnSpanDelta, int rowSpanDelta )
+    {
+        int oldRowSpan = Math.Max( 1, cell.RowSpan );
+        int oldColumnSpan = Math.Max( 1, cell.ColumnSpan );
+        int newRowSpan = oldRowSpan + rowSpanDelta;
+        int newColumnSpan = oldColumnSpan + columnSpanDelta;
+
+        List<ReportTableCellDefinition> coveredCells = table.Cells
+            .Where( item => item != cell
+                && item.RowIndex >= cell.RowIndex
+                && item.RowIndex < cell.RowIndex + newRowSpan
+                && item.ColumnIndex >= cell.ColumnIndex
+                && item.ColumnIndex < cell.ColumnIndex + newColumnSpan )
+            .ToList();
+
+        foreach ( ReportTableCellDefinition coveredCell in coveredCells )
+        {
+            if ( coveredCell.Elements?.Count > 0 )
+                cell.Elements.AddRange( coveredCell.Elements );
+
+            table.Cells.Remove( coveredCell );
+        }
+
+        cell.RowSpan = newRowSpan;
+        cell.ColumnSpan = newColumnSpan;
+    }
+
+    private static ReportTableCellDefinition FindTableCellLeftOf( ReportElementDefinition table, ReportTableCellDefinition cell )
+    {
+        if ( cell.ColumnIndex == 0 )
+            return null;
+
+        return table.Cells?.FirstOrDefault( item =>
+            item.RowIndex == cell.RowIndex
+            && item.ColumnIndex + Math.Max( 1, item.ColumnSpan ) == cell.ColumnIndex
+            && Math.Max( 1, item.RowSpan ) == Math.Max( 1, cell.RowSpan ) );
+    }
+
+    private static ReportTableCellDefinition FindTableCellAbove( ReportElementDefinition table, ReportTableCellDefinition cell )
+    {
+        if ( cell.RowIndex == 0 )
+            return null;
+
+        return table.Cells?.FirstOrDefault( item =>
+            item.ColumnIndex == cell.ColumnIndex
+            && item.RowIndex + Math.Max( 1, item.RowSpan ) == cell.RowIndex
+            && Math.Max( 1, item.ColumnSpan ) == Math.Max( 1, cell.ColumnSpan ) );
+    }
+
+    private void SelectTableCellAt( ReportElementDefinition table, int rowIndex, int columnIndex )
+    {
+        ReportTableCellDefinition cell = table.Cells
+            .Where( item => item.RowIndex <= rowIndex
+                && item.RowIndex + Math.Max( 1, item.RowSpan ) > rowIndex
+                && item.ColumnIndex <= columnIndex
+                && item.ColumnIndex + Math.Max( 1, item.ColumnSpan ) > columnIndex )
+            .OrderByDescending( item => item.RowSpan * item.ColumnSpan )
+            .FirstOrDefault();
+
+        if ( cell is not null )
+            SelectTableCell( cell.Id );
+    }
+
+    private static void NormalizeTableGrid( ReportElementDefinition table )
+    {
+        if ( table is null )
+            return;
+
+        ReportDefinitionHelper.EnsureTableLayout( table, table.Rows.Count, table.Columns.Count );
+
+        foreach ( ReportTableCellDefinition cell in table.Cells )
+        {
+            ReportDefinitionHelper.FitElementsToTableCell( table, cell );
+        }
+    }
+
+    private static void EnsureTableGrid( ReportElementDefinition table )
+    {
+        ReportDefinitionHelper.EnsureTableLayout(
+            table,
+            table.Rows?.Count > 0 ? table.Rows.Count : 1,
+            table.Columns?.Count > 0 ? table.Columns.Count : 1 );
+    }
+
+    private static double ResolveTableRowHeight( ReportElementDefinition table, int rowIndex )
+    {
+        if ( table?.Rows is null || table.Rows.Count == 0 )
+            return ReportDefinitionHelper.DefaultTableRowHeight;
+
+        if ( rowIndex > 0 && rowIndex - 1 < table.Rows.Count )
+            return table.Rows[rowIndex - 1].Height;
+
+        return table.Rows[Math.Min( rowIndex, table.Rows.Count - 1 )].Height;
+    }
+
+    private static double ResolveTableColumnWidth( ReportElementDefinition table, int columnIndex )
+    {
+        if ( table?.Columns is null || table.Columns.Count == 0 )
+            return ReportDefinitionHelper.DefaultTableColumnWidth;
+
+        if ( columnIndex > 0 && columnIndex - 1 < table.Columns.Count )
+            return table.Columns[columnIndex - 1].Width;
+
+        return table.Columns[Math.Min( columnIndex, table.Columns.Count - 1 )].Width;
     }
 
     private static bool CanMergeTableCellRight( ReportElementDefinition table, ReportTableCellDefinition cell )

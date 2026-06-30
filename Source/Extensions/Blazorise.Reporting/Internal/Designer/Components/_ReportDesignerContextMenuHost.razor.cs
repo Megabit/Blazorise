@@ -237,6 +237,46 @@ public partial class _ReportDesignerContextMenuHost
     [Parameter] public EventCallback<MouseEventArgs> UnmergeCell { get; set; }
 
     /// <summary>
+    /// Raised when a table row should be inserted above the selected cell.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> InsertTableRowAbove { get; set; }
+
+    /// <summary>
+    /// Raised when a table row should be inserted below the selected cell.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> InsertTableRowBelow { get; set; }
+
+    /// <summary>
+    /// Raised when a table column should be inserted to the left of the selected cell.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> InsertTableColumnLeft { get; set; }
+
+    /// <summary>
+    /// Raised when a table column should be inserted to the right of the selected cell.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> InsertTableColumnRight { get; set; }
+
+    /// <summary>
+    /// Raised when a table cell should be inserted relative to the selected cell.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> InsertTableCell { get; set; }
+
+    /// <summary>
+    /// Raised when the selected table row should be deleted.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> DeleteTableRow { get; set; }
+
+    /// <summary>
+    /// Raised when the selected table column should be deleted.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> DeleteTableColumn { get; set; }
+
+    /// <summary>
+    /// Raised when the selected table cell should be deleted.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> DeleteTableCell { get; set; }
+
+    /// <summary>
     /// Raised when the context menu should be closed.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Close { get; set; }

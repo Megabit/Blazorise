@@ -302,6 +302,14 @@
                                                 MergeCellRight="@((MouseEventArgs _) => MergeSelectedTableCellRightAsync())"
                                                 MergeCellDown="@((MouseEventArgs _) => MergeSelectedTableCellDownAsync())"
                                                 UnmergeCell="@((MouseEventArgs _) => UnmergeSelectedTableCellAsync())"
+                                                InsertTableRowAbove="@((MouseEventArgs _) => InsertSelectedTableRowAsync( insertBelow: false ))"
+                                                InsertTableRowBelow="@((MouseEventArgs _) => InsertSelectedTableRowAsync( insertBelow: true ))"
+                                                InsertTableColumnLeft="@((MouseEventArgs _) => InsertSelectedTableColumnAsync( insertRight: false ))"
+                                                InsertTableColumnRight="@((MouseEventArgs _) => InsertSelectedTableColumnAsync( insertRight: true ))"
+                                                InsertTableCell="@((MouseEventArgs _) => InsertSelectedTableCellAsync())"
+                                                DeleteTableRow="@((MouseEventArgs _) => DeleteSelectedTableRowAsync())"
+                                                DeleteTableColumn="@((MouseEventArgs _) => DeleteSelectedTableColumnAsync())"
+                                                DeleteTableCell="@((MouseEventArgs _) => DeleteSelectedTableCellAsync())"
                                                 Close="@((MouseEventArgs _) => CloseContextMenuAsync())" />
             </ContextMenu>
         </_ReportDesignerLayout>

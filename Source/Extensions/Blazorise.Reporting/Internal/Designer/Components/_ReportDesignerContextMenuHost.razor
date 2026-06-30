@@ -96,20 +96,38 @@
             </ContextMenuToolbar>
             <ContextMenuDivider />
 
-            @if ( State.CanMergeCellRight )
+            @if ( State.CanShowTableCellMergeOperations )
             {
-                <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( MergeCellRight ))">Merge right</ContextMenuItem>
+                @if ( State.CanMergeCellRight )
+                {
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( MergeCellRight ))">Merge right</ContextMenuItem>
+                }
+
+                @if ( State.CanMergeCellDown )
+                {
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( MergeCellDown ))">Merge down</ContextMenuItem>
+                }
+
+                @if ( State.CanUnmergeCell )
+                {
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( UnmergeCell ))">Unmerge</ContextMenuItem>
+                }
+
+                <ContextMenuDivider />
             }
 
-            @if ( State.CanMergeCellDown )
-            {
-                <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( MergeCellDown ))">Merge down</ContextMenuItem>
-            }
-
-            @if ( State.CanUnmergeCell )
-            {
-                <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( UnmergeCell ))">Unmerge</ContextMenuItem>
-            }
+            <ContextMenuSubmenu Text="Insert">
+                <ContextMenuItem Disabled="@(!State.CanInsertTableRowAbove)" Clicked="@(( object _ ) => InvokeMenuCommand( InsertTableRowAbove ))">Row Above</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableRowBelow)" Clicked="@(( object _ ) => InvokeMenuCommand( InsertTableRowBelow ))">Row Below</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableColumnLeft)" Clicked="@(( object _ ) => InvokeMenuCommand( InsertTableColumnLeft ))">Column to Left</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableColumnRight)" Clicked="@(( object _ ) => InvokeMenuCommand( InsertTableColumnRight ))">Column to Right</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableCell)" Clicked="@(( object _ ) => InvokeMenuCommand( InsertTableCell ))">Cell</ContextMenuItem>
+            </ContextMenuSubmenu>
+            <ContextMenuSubmenu Text="Delete">
+                <ContextMenuItem Disabled="@(!State.CanDeleteTableRow)" Clicked="@(( object _ ) => InvokeMenuCommand( DeleteTableRow ))">Row</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanDeleteTableColumn)" Clicked="@(( object _ ) => InvokeMenuCommand( DeleteTableColumn ))">Column</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanDeleteTableCell)" Clicked="@(( object _ ) => InvokeMenuCommand( DeleteTableCell ))">Cell</ContextMenuItem>
+            </ContextMenuSubmenu>
         }
 
         <ContextMenuDivider />
