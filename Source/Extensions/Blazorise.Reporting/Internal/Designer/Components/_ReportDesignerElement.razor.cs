@@ -21,8 +21,6 @@ public partial class _ReportDesignerElement
     private bool focusTextEdit;
     private bool textExpressionTokenProtectionActive;
     private JSReportingModule reportingModule;
-    private bool shouldRender = true;
-    private int? elementRenderKey;
 
     private string ImageAlternativeText => Element.Text ?? Element.Name;
 
@@ -55,21 +53,10 @@ public partial class _ReportDesignerElement
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
     {
-        bool renderRequired = false;
-
-        HashCode elementHash = new();
-
-        if ( parameters.TryAddHash<ReportElementDefinition>( nameof( Element ), ref elementHash, AddElementRenderHash ) )
+        if ( parameters.TryGetValue<ReportElementDefinition>( nameof( Element ), out _ ) )
         {
-            int nextElementRenderKey = elementHash.ToHashCode();
-
-            if ( elementRenderKey != nextElementRenderKey )
-            {
-                elementRenderKey = nextElementRenderKey;
-                DirtyClasses();
-                DirtyStyles();
-                renderRequired = true;
-            }
+            DirtyClasses();
+            DirtyStyles();
         }
 
         if ( ( parameters.TryGetValue<ReportDefinition>( nameof( Definition ), out ReportDefinition paramDefinition ) && paramDefinition != Definition )
@@ -79,7 +66,6 @@ public partial class _ReportDesignerElement
              || ( parameters.TryGetValue<IReadOnlyDictionary<string, object>>( nameof( RunningTotals ), out IReadOnlyDictionary<string, object> paramRunningTotals ) && paramRunningTotals != RunningTotals ) )
         {
             DirtyStyles();
-            renderRequired = true;
         }
 
         if ( ( parameters.TryGetValue<bool>( nameof( DesignMode ), out bool paramDesignMode ) && paramDesignMode != DesignMode )
@@ -92,7 +78,6 @@ public partial class _ReportDesignerElement
              || ( parameters.TryGetValue<int>( nameof( SelectionVersion ), out int paramSelectionVersion ) && paramSelectionVersion != SelectionVersion ) )
         {
             DirtyClasses();
-            renderRequired = true;
         }
 
         if ( ( parameters.TryGetValue<bool>( nameof( DesignMode ), out bool paramDesignModeForStyle ) && paramDesignModeForStyle != DesignMode )
@@ -101,7 +86,6 @@ public partial class _ReportDesignerElement
              || ( parameters.TryGetValue<string>( nameof( ChildEditingElementKey ), out string paramChildEditingElementKey ) && paramChildEditingElementKey != ChildEditingElementKey ) )
         {
             DirtyStyles();
-            renderRequired = true;
         }
 
         if ( parameters.TryGetValue<bool>( nameof( Editing ), out bool paramEditingForFocus ) && paramEditingForFocus && paramEditingForFocus != Editing )
@@ -112,18 +96,9 @@ public partial class _ReportDesignerElement
             textEditValue = editingElement?.Text;
             textEditCancelled = false;
             focusTextEdit = true;
-            renderRequired = true;
         }
 
-        shouldRender = renderRequired;
-
         return base.SetParametersAsync( parameters );
-    }
-
-    /// <inheritdoc />
-    protected override bool ShouldRender()
-    {
-        return shouldRender;
     }
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -248,47 +223,6 @@ public partial class _ReportDesignerElement
     private void EnsureReportingModule()
     {
         reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
-    }
-
-    private static void AddElementRenderHash( ReportElementDefinition element, ref HashCode hash )
-    {
-        if ( element is null )
-            return;
-
-        hash.Add( element.Id );
-        hash.Add( element.Name );
-        hash.Add( element.Type );
-        hash.Add( element.Class );
-        hash.Add( element.Style );
-        hash.Add( element.X );
-        hash.Add( element.Y );
-        hash.Add( element.Width );
-        hash.Add( element.Height );
-        hash.Add( element.Text );
-        hash.Add( element.Field );
-        hash.Add( element.Format );
-        hash.Add( element.Source );
-        hash.Add( element.DataSource );
-        hash.Add( element.CanGrow?.Value );
-        hash.Add( element.CanGrow?.Formula );
-        hash.Add( element.Suppress?.Value );
-        hash.Add( element.Suppress?.Formula );
-        hash.Add( element.SnapToGrid?.Value );
-        hash.Add( element.Font?.Family );
-        hash.Add( element.Font?.Size );
-        hash.Add( element.Font?.Bold );
-        hash.Add( element.Font?.Italic );
-        hash.Add( element.Font?.Underline );
-        hash.Add( element.Font?.Alignment );
-        hash.Add( element.Font?.Color ?? ReportColor.Default );
-        hash.Add( element.Appearance?.BackgroundColor ?? ReportColor.Default );
-        hash.Add( element.Appearance?.Opacity );
-        hash.Add( element.Border?.Color ?? ReportColor.Default );
-        hash.Add( element.Border?.Width );
-        hash.Add( element.Border?.Radius );
-        hash.Add( element.Columns?.Count );
-        hash.Add( element.Rows?.Count );
-        hash.Add( element.Cells?.Count );
     }
 
     [Inject] private IJSRuntime JSRuntime { get; set; }

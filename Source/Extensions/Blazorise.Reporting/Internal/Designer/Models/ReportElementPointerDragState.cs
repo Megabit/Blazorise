@@ -22,6 +22,10 @@ internal sealed class ReportElementPointerDragState
 
     internal double StartClientY { get; set; }
 
+    internal double PointerOffsetX { get; set; }
+
+    internal double PointerOffsetY { get; set; }
+
     internal double TargetX { get; set; }
 
     internal double TargetY { get; set; }

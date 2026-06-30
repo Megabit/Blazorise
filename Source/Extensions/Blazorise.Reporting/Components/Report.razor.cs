@@ -819,8 +819,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
             if ( pasteIntoCell )
             {
-                ReportDefinitionHelper.FitElementToTableCell( pasteTable, pasteCell, element );
-                pasteCell.Elements.Add( element );
+                ReplaceTableCellElement( pasteTable, pasteCell, element );
                 SelectTableCell( pasteCell.Id );
             }
             else
@@ -3469,6 +3468,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             OriginalY = element.Y,
             StartClientX = eventArgs.ClientX,
             StartClientY = eventArgs.ClientY,
+            PointerOffsetX = ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetX ),
+            PointerOffsetY = ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetY ),
             TargetX = element.X,
             TargetY = element.Y,
             SnapToGrid = IsSnapToGridEnabled( element ),
@@ -3825,18 +3826,79 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         await ClearDesignerInteractionOverlaysAsync();
 
-        await ExecuteDesignerCommandAsync( new( "Move element", () =>
+        bool moveToTableCell = TryFindElementPointerDragTableCellTarget( definition, pointerDrag, out _ );
+
+        await ExecuteDesignerCommandAsync( new( moveToTableCell ? "Move element to table cell" : "Move element", () =>
         {
             var definition = EffectiveDefinition;
 
-            ReportDesignerInteractionService.ApplyElementPointerDrag( definition, pointerDrag, sectionIndex => GetSectionOffsetY( definition, sectionIndex ) );
-            SelectElements( pointerDrag.SelectedElements.Select( item => item.ElementKey ), pointerDrag.ElementKey );
+            if ( !TryMoveElementPointerDragToTableCell( definition, pointerDrag ) )
+            {
+                ReportDesignerInteractionService.ApplyElementPointerDrag( definition, pointerDrag, sectionIndex => GetSectionOffsetY( definition, sectionIndex ) );
+                SelectElements( pointerDrag.SelectedElements.Select( item => item.ElementKey ), pointerDrag.ElementKey );
+            }
+
             SuppressNextSelectionClick();
             dragPreview = null;
             ClearDragState();
 
             return Task.CompletedTask;
         }, refreshSurface: false ) );
+    }
+
+    private bool TryMoveElementPointerDragToTableCell( ReportDefinition definition, ReportElementPointerDragState pointerDrag )
+    {
+        if ( !TryFindElementPointerDragTableCellTarget( definition, pointerDrag, out ReportTableCellDropTarget tableCellDropTarget )
+             || !ReportDefinitionHelper.TryFindElementLocation( definition, pointerDrag.ElementKey, out ReportElementLocation location ) )
+        {
+            return false;
+        }
+
+        ReportElementDefinition element = location.Element;
+
+        if ( ReferenceEquals( tableCellDropTarget.Table, element ) )
+            return false;
+
+        location.OwnerElements.RemoveAt( location.ElementIndex );
+        element.X = tableCellDropTarget.X;
+        element.Y = tableCellDropTarget.Y;
+        ReplaceTableCellElement( tableCellDropTarget.Table, tableCellDropTarget.Cell, element );
+        SelectTableCell( tableCellDropTarget.Cell.Id );
+
+        return true;
+    }
+
+    private bool TryFindElementPointerDragTableCellTarget( ReportDefinition definition, ReportElementPointerDragState pointerDrag, out ReportTableCellDropTarget target )
+    {
+        target = null;
+
+        if ( definition is null
+             || pointerDrag is null
+             || pointerDrag.SelectedElements.Count != 1
+             || pointerDrag.TargetSectionIndex < 0
+             || pointerDrag.TargetSectionIndex >= definition.Sections.Count )
+        {
+            return false;
+        }
+
+        double pointerX = pointerDrag.TargetX + pointerDrag.PointerOffsetX;
+        double pointerY = pointerDrag.TargetY + pointerDrag.PointerOffsetY;
+
+        if ( !TryFindTableCellAt( definition.Sections[pointerDrag.TargetSectionIndex], pointerX, pointerY, out target ) )
+            return false;
+
+        return !ReportDefinitionHelper.TryFindElementLocation( definition, pointerDrag.ElementKey, out ReportElementLocation location )
+            || !ReferenceEquals( target.Table, location.Element );
+    }
+
+    private static void ReplaceTableCellElement( ReportElementDefinition table, ReportTableCellDefinition cell, ReportElementDefinition element )
+    {
+        if ( cell is null || element is null )
+            return;
+
+        cell.Elements.Clear();
+        ReportDefinitionHelper.FitElementToTableCell( table, cell, element );
+        cell.Elements.Add( element );
     }
 
     private async Task CancelElementPointerDragAsync()
@@ -4298,8 +4360,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
                     if ( tableCellDropTarget is not null )
                     {
-                        ReportDefinitionHelper.FitElementToTableCell( tableCellDropTarget.Table, tableCellDropTarget.Cell, fieldElement );
-                        tableCellDropTarget.Cell.Elements.Add( fieldElement );
+                        ReplaceTableCellElement( tableCellDropTarget.Table, tableCellDropTarget.Cell, fieldElement );
                         SelectTableCell( tableCellDropTarget.Cell.Id );
                     }
                     else
@@ -4328,8 +4389,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
                     if ( tableCellDropTarget is not null )
                     {
-                        ReportDefinitionHelper.FitElementToTableCell( tableCellDropTarget.Table, tableCellDropTarget.Cell, toolboxElement );
-                        tableCellDropTarget.Cell.Elements.Add( toolboxElement );
+                        ReplaceTableCellElement( tableCellDropTarget.Table, tableCellDropTarget.Cell, toolboxElement );
                         SelectTableCell( tableCellDropTarget.Cell.Id );
                     }
                     else
@@ -4350,8 +4410,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
                     if ( tableCellDropTarget is not null )
                     {
-                        ReportDefinitionHelper.FitElementToTableCell( tableCellDropTarget.Table, tableCellDropTarget.Cell, element );
-                        tableCellDropTarget.Cell.Elements.Add( element );
+                        ReplaceTableCellElement( tableCellDropTarget.Table, tableCellDropTarget.Cell, element );
                         SelectTableCell( tableCellDropTarget.Cell.Id );
                     }
                     else
