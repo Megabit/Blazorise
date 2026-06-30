@@ -162,6 +162,16 @@ public partial class _DockTabsRenderer : BaseComponent
     [Parameter] public int ContentRenderVersion { get; set; }
 
     /// <summary>
+    /// Gets or sets the pane content update version.
+    /// </summary>
+    [Parameter] public int PaneContentUpdateVersion { get; set; }
+
+    /// <summary>
+    /// Gets or sets the active pane content render version.
+    /// </summary>
+    [Parameter] public int ActivePaneContentRenderVersion { get; set; }
+
+    /// <summary>
     /// Gets or sets the local splitter side for the rendered tab group.
     /// </summary>
     [Parameter] public DockPanePosition? SplitterDock { get; set; }

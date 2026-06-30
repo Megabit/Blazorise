@@ -88,11 +88,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private DateTime lastSelectionBoxRenderTime;
 
-    private int designerSurfaceVersion;
-
     private int designerSelectionVersion;
 
-    private int designerContentVersion;
+    private _ReportDesignerLayout designerLayoutRef;
 
     private _ReportDesignerPage designerPageRef;
 
@@ -655,12 +653,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( result.NotifyDefinitionChanged )
         {
-            designerContentVersion++;
-
-            if ( result.RefreshSurface )
-                designerSurfaceVersion++;
-
             InvalidateDesignerCaches();
+            RefreshDesignerSurface();
         }
 
         await InvokeAsync( StateHasChanged );
@@ -946,18 +940,22 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( notifyDefinitionChanged && DefinitionChanged.HasDelegate )
             await DefinitionChanged.InvokeAsync( definition );
 
-        if ( notifyDefinitionChanged )
-            designerSurfaceVersion++;
+        RefreshDesignerSurface();
 
         await InvokeAsync( StateHasChanged );
     }
 
     private void SelectReport()
     {
-        selectionManager.SelectReport();
-        designerSelectionVersion++;
+        bool selectionChanged = selectionManager.SelectReport();
         CloseContextMenu();
         editingElementKey = null;
+
+        if ( selectionChanged )
+        {
+            designerSelectionVersion++;
+            RefreshDesignerSurface();
+        }
     }
 
     private void HandleElementClick( string key, MouseEventArgs eventArgs )
@@ -1027,30 +1025,50 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private void SelectElement( string key, bool preserveSelection = false )
     {
-        selectionManager.SelectElement( key, preserveSelection );
-        designerSelectionVersion++;
+        bool selectionChanged = selectionManager.SelectElement( key, preserveSelection );
         CloseContextMenu();
+
+        if ( selectionChanged )
+        {
+            designerSelectionVersion++;
+            RefreshDesignerSurface();
+        }
     }
 
     private void ToggleElementSelection( string key )
     {
-        selectionManager.ToggleElementSelection( key );
-        designerSelectionVersion++;
+        bool selectionChanged = selectionManager.ToggleElementSelection( key );
         CloseContextMenu();
+
+        if ( selectionChanged )
+        {
+            designerSelectionVersion++;
+            RefreshDesignerSurface();
+        }
     }
 
     private void SelectElements( IEnumerable<string> elementKeys, string primaryElementKey = null )
     {
-        selectionManager.SelectElements( elementKeys, primaryElementKey );
-        designerSelectionVersion++;
+        bool selectionChanged = selectionManager.SelectElements( elementKeys, primaryElementKey );
         CloseContextMenu();
+
+        if ( selectionChanged )
+        {
+            designerSelectionVersion++;
+            RefreshDesignerSurface();
+        }
     }
 
     private void SelectSection( int index )
     {
-        selectionManager.SelectSection( index );
-        designerSelectionVersion++;
+        bool selectionChanged = selectionManager.SelectSection( index );
         CloseContextMenu();
+
+        if ( selectionChanged )
+        {
+            designerSelectionVersion++;
+            RefreshDesignerSurface();
+        }
     }
 
     private Task HandleTableCellClickAsync( string cellKey, MouseEventArgs eventArgs )
@@ -1065,9 +1083,14 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private void SelectTableCell( string cellKey )
     {
-        selectionManager.SelectCell( cellKey );
-        designerSelectionVersion++;
+        bool selectionChanged = selectionManager.SelectCell( cellKey );
         CloseContextMenu();
+
+        if ( selectionChanged )
+        {
+            designerSelectionVersion++;
+            RefreshDesignerSurface();
+        }
     }
 
     private void ToggleSectionCollapsed( ReportSectionDefinition section )
@@ -1084,6 +1107,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         collapsedSectionsVersion++;
         InvalidateDesignerLayoutCache();
+        RefreshDesignerSurface();
     }
 
     private bool IsSectionCollapsed( ReportSectionDefinition section )
@@ -4650,6 +4674,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         designerSectionRenderItemsCacheKey = default;
     }
 
+    private void RefreshDesignerSurface()
+    {
+        if ( designerLayoutRef is not null )
+            _ = designerLayoutRef.RefreshSurface();
+    }
+
     private void InvalidateDesignerLayoutCache()
     {
         designerLayoutCache = default;
@@ -4740,8 +4770,6 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private ReportPreviewFormat CurrentPreviewFormat => PreviewFormat ?? currentPreviewFormat;
 
     private string SelectedDesignerPanelTabName => selectedDesignerPanelTab.ToString();
-
-    private string DesignerDockContentVersion => $"{designerSurfaceVersion}:{designerSelectionVersion}:{designerContentVersion}";
 
     private string ToolbarStateKey => $"{CurrentMode}|{CurrentPreviewFormat}|{selectionManager.SelectedElementKey}|{selectionManager.SelectedCellKey}|{selectionManager.SelectedElementKeys.Count}|{selectionManager.SelectedSectionIndex}|{clipboardElement?.Id}|{commandManager.CanUndo}|{commandManager.CanRedo}";
 

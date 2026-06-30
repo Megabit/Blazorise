@@ -9,7 +9,6 @@
                 Class="b-report-designer-layout"
                 State="@dockLayoutState"
                 StateChanged="@OnDockLayoutStateChanged"
-                ContentVersion="@ContentVersion"
                 PaneBordered>
         @if ( ShowToolbar && Toolbar is not null )
         {
@@ -32,6 +31,7 @@
                 </DockPane>
 
                 <_ReportDesignerWorkspaceDockTree ToolboxPaneName="@ToolboxPaneName"
+                                                 @ref="@workspaceDockTree"
                                                  FieldsExplorerPaneName="@FieldsExplorerPaneName"
                                                  SurfacePaneName="@SurfacePaneName"
                                                  PropertiesPaneName="@PropertiesPaneName"
@@ -47,6 +47,7 @@
         else
         {
             <_ReportDesignerWorkspaceDockTree ToolboxPaneName="@ToolboxPaneName"
+                                             @ref="@workspaceDockTree"
                                              FieldsExplorerPaneName="@FieldsExplorerPaneName"
                                              SurfacePaneName="@SurfacePaneName"
                                              PropertiesPaneName="@PropertiesPaneName"

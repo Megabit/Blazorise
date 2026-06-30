@@ -3,8 +3,8 @@
 @if ( Node?.Kind == DockNodeKind.Split )
 {
     <div class="@ClassNames" style="@SplitStyle" data-dock-node-id="@Node.Id" data-dock-split>
-        <_DockNodeRenderer NodeId="@Node.First?.Id" RenderVersion="@RenderVersion" ContentRenderVersion="@ContentRenderVersion" SplitterDock="@FirstSplitterDock" SplitNodeId="@Node.Id" />
-        <_DockNodeRenderer NodeId="@Node.Second?.Id" RenderVersion="@RenderVersion" ContentRenderVersion="@ContentRenderVersion" SplitterDock="@SecondSplitterDock" SplitNodeId="@Node.Id" />
+        <_DockNodeRenderer NodeId="@Node.First?.Id" RenderVersion="@RenderVersion" ContentRenderVersion="@ContentRenderVersion" PaneContentUpdateVersion="@PaneContentUpdateVersion" SplitterDock="@FirstSplitterDock" SplitNodeId="@Node.Id" />
+        <_DockNodeRenderer NodeId="@Node.Second?.Id" RenderVersion="@RenderVersion" ContentRenderVersion="@ContentRenderVersion" PaneContentUpdateVersion="@PaneContentUpdateVersion" SplitterDock="@SecondSplitterDock" SplitNodeId="@Node.Id" />
         @if ( CanResize )
         {
             <DockSplitter PaneName="@Node.Id" Dock="@SplitterDock.Value" NodeId="@SplitNodeId" />
@@ -13,11 +13,11 @@
 }
 else if ( Node?.Kind == DockNodeKind.Tabs )
 {
-    <_DockTabsRenderer NodeId="@Node.Id" RenderVersion="@RenderVersion" ContentRenderVersion="@ContentRenderVersion" SplitterDock="@SplitterDock" SplitNodeId="@SplitNodeId" />
+    <_DockTabsRenderer NodeId="@Node.Id" RenderVersion="@RenderVersion" ContentRenderVersion="@ContentRenderVersion" PaneContentUpdateVersion="@PaneContentUpdateVersion" ActivePaneContentRenderVersion="@ActiveTabContentRenderVersion" SplitterDock="@SplitterDock" SplitNodeId="@SplitNodeId" />
 }
 else if ( Node?.Kind == DockNodeKind.Pane )
 {
-    <_DockPaneRenderer NodeId="@Node.Id" PaneName="@Node.PaneName" RenderVersion="@RenderVersion" ContentRenderVersion="@ContentRenderVersion" SplitterDock="@SplitterDock" SplitNodeId="@SplitNodeId" />
+    <_DockPaneRenderer NodeId="@Node.Id" PaneName="@Node.PaneName" RenderVersion="@RenderVersion" ContentRenderVersion="@ContentRenderVersion" PaneContentUpdateVersion="@PaneContentUpdateVersion" PaneContentRenderVersion="@PaneContentRenderVersion" SplitterDock="@SplitterDock" SplitNodeId="@SplitNodeId" />
 }
 else if ( Node?.Kind == DockNodeKind.Content )
 {

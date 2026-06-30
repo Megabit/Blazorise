@@ -50,6 +50,8 @@ public partial class DockLayout : BaseComponent
 
     private int contentRenderVersion;
 
+    private int paneContentUpdateVersion;
+
     private static readonly DockCompassZoneInfo[] dockCompassZones =
     {
         new( DockZone.Top, DockCompassZone.TopOuter, "TopOuter" ),
@@ -110,21 +112,14 @@ public partial class DockLayout : BaseComponent
         base.DirtyStyles();
     }
 
-    /// <inheritdoc/>
-    public override Task SetParametersAsync( ParameterView parameters )
-    {
-        if ( parameters.TryGetValue<object>( nameof( ContentVersion ), out object contentVersion ) && !Equals( ContentVersion, contentVersion ) )
-            contentRenderVersion++;
-
-        return base.SetParametersAsync( parameters );
-    }
-
     /// <summary>
     /// Forces rendered dock content to refresh without changing the docking state.
     /// </summary>
     /// <returns>A task that completes after the refresh has been scheduled.</returns>
     public Task Refresh()
     {
+        Console.WriteLine( "DockLayout Refresh" );
+
         contentRenderVersion++;
 
         return InvokeAsync( StateHasChanged );
@@ -250,10 +245,14 @@ public partial class DockLayout : BaseComponent
 
     internal void RegisterPane( DockPane pane )
     {
-        if ( registry.RegisterPane( pane ) )
+        if ( registry.RegisterPane( pane, out bool contentChanged ) )
         {
             stateManager.EnsurePaneState( CurrentState, pane );
             renderVersion++;
+        }
+        else if ( contentChanged )
+        {
+            paneContentUpdateVersion++;
         }
     }
 
@@ -261,6 +260,15 @@ public partial class DockLayout : BaseComponent
     {
         if ( registry.RegisterContent( dockContent ) )
             renderVersion++;
+    }
+
+    internal Task NotifyPaneContentChanged()
+    {
+        Console.WriteLine( "DockLayout NotifyPaneContentChanged" );
+
+        paneContentUpdateVersion++;
+
+        return InvokeAsync( StateHasChanged );
     }
 
     internal Task NotifyDefinitionChanged()
@@ -299,6 +307,9 @@ public partial class DockLayout : BaseComponent
 
     internal DockPaneState GetPaneState( string paneName )
         => FindPaneState( paneName );
+
+    internal int GetPaneContentRenderVersion( string paneName )
+        => TryGetPane( paneName, out DockPane pane ) ? pane.ContentRenderVersion : 0;
 
     internal DockNodeState GetNode( string nodeId )
         => treeQuery.GetNode( nodeId );
@@ -1138,6 +1149,8 @@ public partial class DockLayout : BaseComponent
 
     internal int ContentRenderVersion => contentRenderVersion;
 
+    internal int PaneContentUpdateVersion => paneContentUpdateVersion;
+
     internal int DockGuidesVersion => dragState.Version;
 
     internal DockPane ActiveAutoHidePane
@@ -1198,11 +1211,6 @@ public partial class DockLayout : BaseComponent
     /// Occurs after the docking state changes.
     /// </summary>
     [Parameter] public EventCallback<DockLayoutState> StateChanged { get; set; }
-
-    /// <summary>
-    /// Optional value that forces rendered dock content to refresh when it changes.
-    /// </summary>
-    [Parameter] public object ContentVersion { get; set; }
 
     /// <summary>
     /// Specifies the panes and content to be rendered inside the dock layout.

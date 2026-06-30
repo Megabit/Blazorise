@@ -1,4 +1,5 @@
 #region Using directives
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -9,6 +10,19 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerWorkspaceDockTree
 {
+    #region Members
+
+    private DockPane surfacePane;
+
+    #endregion
+
+    #region Methods
+
+    internal Task RefreshSurface()
+        => surfacePane?.Refresh() ?? Task.CompletedTask;
+
+    #endregion
+
     #region Properties
 
     /// <summary>

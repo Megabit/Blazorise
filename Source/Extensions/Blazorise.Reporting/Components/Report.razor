@@ -57,9 +57,9 @@
     {
         var definition = EffectiveDefinition;
 
-        <_ReportDesignerLayout Shortcut="@HandleDesignerShortcutAsync"
+        <_ReportDesignerLayout @ref="@designerLayoutRef"
+                               Shortcut="@HandleDesignerShortcutAsync"
                                ShowToolbar="@ShowToolbar"
-                               ContentVersion="@DesignerDockContentVersion"
                                SelectedPanelTab="@SelectedDesignerPanelTabName"
                                SelectedPanelTabChanged="@SelectDesignerPanelTab">
             <Toolbar>
@@ -127,7 +127,7 @@
             </FieldsExplorerPanel>
             <Surface>
                 <_ReportDesignerPage @ref="designerPageRef"
-                                     PageKey="@($"{definition.Id}:{designerSurfaceVersion}")"
+                                     PageKey="@definition.Id"
                                      Width="@GetReportPageWidth( definition )"
                                      WidthOffset="@GetReportPageWidthOffset()"
                                      MinHeight="@definition.Page.Height"

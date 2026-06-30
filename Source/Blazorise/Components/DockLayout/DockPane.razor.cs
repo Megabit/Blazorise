@@ -18,6 +18,8 @@ public partial class DockPane : BaseComponent, IDisposable
 
     private int definitionVersion;
 
+    private int contentRenderVersion;
+
     #endregion
 
     #region Methods
@@ -96,6 +98,21 @@ public partial class DockPane : BaseComponent, IDisposable
         base.Dispose( disposing );
     }
 
+    /// <summary>
+    /// Forces rendered pane content to refresh without changing the docking state.
+    /// </summary>
+    /// <returns>A task that completes after the refresh has been scheduled.</returns>
+    public Task Refresh()
+    {
+        Console.WriteLine( $"DockPane {Name} Refresh" );
+
+        contentRenderVersion++;
+
+        return ParentDockLayout is null
+            ? InvokeAsync( StateHasChanged )
+            : ParentDockLayout.NotifyPaneContentChanged();
+    }
+
     #endregion
 
     #region Properties
@@ -130,6 +147,8 @@ public partial class DockPane : BaseComponent, IDisposable
     };
 
     internal int DefinitionVersion => definitionVersion;
+
+    internal int ContentRenderVersion => contentRenderVersion;
 
     [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
 

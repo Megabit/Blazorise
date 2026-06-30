@@ -132,6 +132,16 @@ public partial class _DockPaneRenderer : BaseComponent
     [Parameter] public int ContentRenderVersion { get; set; }
 
     /// <summary>
+    /// Gets or sets the pane content update version.
+    /// </summary>
+    [Parameter] public int PaneContentUpdateVersion { get; set; }
+
+    /// <summary>
+    /// Gets or sets the rendered pane content render version.
+    /// </summary>
+    [Parameter] public int PaneContentRenderVersion { get; set; }
+
+    /// <summary>
     /// Gets or sets whether the pane is rendered as a temporary auto-hide flyout.
     /// </summary>
     [Parameter] public bool Flyout { get; set; }

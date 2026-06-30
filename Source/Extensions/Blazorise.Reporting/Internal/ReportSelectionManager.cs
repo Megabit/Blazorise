@@ -112,17 +112,31 @@ internal sealed class ReportSelectionManager
         }
     }
 
-    internal void SelectReport()
+    internal bool SelectReport()
     {
+        if ( ReportSelected
+             && SelectedSectionIndex is null
+             && string.IsNullOrWhiteSpace( SelectedElementKey )
+             && string.IsNullOrWhiteSpace( SelectedCellKey )
+             && SelectedElementKeys.Count == 0 )
+        {
+            return false;
+        }
+
         ReportSelected = true;
         SelectedSectionIndex = null;
         SelectedElementKey = null;
         SelectedCellKey = null;
         SelectedElementKeys.Clear();
+
+        return true;
     }
 
-    internal void SelectElement( string key, bool preserveSelection = false )
+    internal bool SelectElement( string key, bool preserveSelection = false )
     {
+        if ( IsElementSelectionCurrent( key, preserveSelection ) )
+            return false;
+
         ReportSelected = false;
         SelectedSectionIndex = null;
         SelectedElementKey = key;
@@ -133,12 +147,14 @@ internal sealed class ReportSelectionManager
 
         if ( !string.IsNullOrWhiteSpace( key ) )
             SelectedElementKeys.Add( key );
+
+        return true;
     }
 
-    internal void ToggleElementSelection( string key )
+    internal bool ToggleElementSelection( string key )
     {
         if ( string.IsNullOrWhiteSpace( key ) )
-            return;
+            return false;
 
         ReportSelected = false;
         SelectedSectionIndex = null;
@@ -162,41 +178,76 @@ internal sealed class ReportSelectionManager
             ReportSelected = true;
             SelectedElementKey = null;
         }
+
+        return true;
     }
 
-    internal void SelectElements( IEnumerable<string> elementKeys, string primaryElementKey = null )
+    internal bool SelectElements( IEnumerable<string> elementKeys, string primaryElementKey = null )
     {
+        List<string> nextElementKeys = elementKeys
+            .Where( key => !string.IsNullOrWhiteSpace( key ) )
+            .Distinct( StringComparer.Ordinal )
+            .ToList();
+        string nextPrimaryElementKey = !string.IsNullOrWhiteSpace( primaryElementKey ) && nextElementKeys.Contains( primaryElementKey )
+            ? primaryElementKey
+            : nextElementKeys.FirstOrDefault();
+
+        if ( IsElementSelectionCurrent( nextElementKeys, nextPrimaryElementKey ) )
+            return false;
+
         SelectedElementKeys.Clear();
 
-        foreach ( var elementKey in elementKeys.Where( key => !string.IsNullOrWhiteSpace( key ) ) )
+        foreach ( var elementKey in nextElementKeys )
         {
             SelectedElementKeys.Add( elementKey );
         }
 
-        SelectedElementKey = !string.IsNullOrWhiteSpace( primaryElementKey ) && SelectedElementKeys.Contains( primaryElementKey )
-            ? primaryElementKey
-            : SelectedElementKeys.FirstOrDefault();
+        SelectedElementKey = nextPrimaryElementKey;
         SelectedSectionIndex = null;
         SelectedCellKey = null;
         ReportSelected = SelectedElementKeys.Count == 0;
+
+        return true;
     }
 
-    internal void SelectSection( int index )
+    internal bool SelectSection( int index )
     {
+        if ( !ReportSelected
+             && SelectedSectionIndex == index
+             && string.IsNullOrWhiteSpace( SelectedElementKey )
+             && string.IsNullOrWhiteSpace( SelectedCellKey )
+             && SelectedElementKeys.Count == 0 )
+        {
+            return false;
+        }
+
         ReportSelected = false;
         SelectedSectionIndex = index;
         SelectedElementKey = null;
         SelectedCellKey = null;
         SelectedElementKeys.Clear();
+
+        return true;
     }
 
-    internal void SelectCell( string key )
+    internal bool SelectCell( string key )
     {
+        if ( !ReportSelected
+             && SelectedSectionIndex is null
+             && string.IsNullOrWhiteSpace( SelectedElementKey )
+             && string.Equals( SelectedCellKey, key, StringComparison.Ordinal )
+             && SelectedElementKeys.Count == 0 )
+        {
+            return false;
+        }
+
         ReportSelected = false;
         SelectedSectionIndex = null;
         SelectedElementKey = null;
         SelectedCellKey = key;
         SelectedElementKeys.Clear();
+
+        return true;
     }
 
     internal ReportElementDefinition FindSelectedElement( ReportDefinition definition )
@@ -282,6 +333,31 @@ internal sealed class ReportSelectionManager
     {
         return !string.IsNullOrWhiteSpace( cellKey )
             && string.Equals( SelectedCellKey, cellKey, StringComparison.Ordinal );
+    }
+
+    private bool IsElementSelectionCurrent( string key, bool preserveSelection )
+    {
+        if ( ReportSelected || SelectedSectionIndex is not null || !string.IsNullOrWhiteSpace( SelectedCellKey ) )
+            return false;
+
+        if ( !string.Equals( SelectedElementKey, key, StringComparison.Ordinal ) )
+            return false;
+
+        if ( string.IsNullOrWhiteSpace( key ) )
+            return SelectedElementKeys.Count == 0;
+
+        return preserveSelection
+            ? SelectedElementKeys.Contains( key )
+            : SelectedElementKeys.Count == 1 && SelectedElementKeys.Contains( key );
+    }
+
+    private bool IsElementSelectionCurrent( IReadOnlyList<string> elementKeys, string primaryElementKey )
+    {
+        return ReportSelected == ( elementKeys.Count == 0 )
+            && SelectedSectionIndex is null
+            && string.IsNullOrWhiteSpace( SelectedCellKey )
+            && string.Equals( SelectedElementKey, primaryElementKey, StringComparison.Ordinal )
+            && SelectedElementKeys.SetEquals( elementKeys );
     }
 
     private static bool CanDeleteSection( ReportSectionDefinition section )

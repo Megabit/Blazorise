@@ -45,6 +45,8 @@ public partial class _ReportDesignerLayout
 
     private DockLayout dockLayout;
 
+    private _ReportDesignerWorkspaceDockTree workspaceDockTree;
+
     private ReportToolbarDockContext toolbarDockContext;
 
     private Div designerElement;
@@ -211,6 +213,9 @@ public partial class _ReportDesignerLayout
     private Task ShowDockPane( string paneName )
         => dockLayout?.ShowPane( paneName ) ?? Task.CompletedTask;
 
+    internal Task RefreshSurface()
+        => workspaceDockTree?.RefreshSurface() ?? Task.CompletedTask;
+
     private DockNodeState CreateWorkspaceNode()
     {
         return CreateSplitNode(
@@ -348,11 +353,6 @@ public partial class _ReportDesignerLayout
     /// Floating context menu shown above the designer layout.
     /// </summary>
     [Parameter] public RenderFragment ContextMenu { get; set; }
-
-    /// <summary>
-    /// Value used to refresh dock pane content without rebuilding the dock layout definition.
-    /// </summary>
-    [Parameter] public object ContentVersion { get; set; }
 
     /// <summary>
     /// Raised when a standard designer keyboard shortcut is pressed.

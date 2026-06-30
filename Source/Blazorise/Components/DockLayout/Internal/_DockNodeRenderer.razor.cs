@@ -55,6 +55,12 @@ public partial class _DockNodeRenderer : BaseComponent
         && !string.IsNullOrWhiteSpace( SplitNodeId )
         && Context.CanResizeDockNode( Node );
 
+    private int PaneContentRenderVersion
+        => Context?.GetPaneContentRenderVersion( Node?.PaneName ) ?? 0;
+
+    private int ActiveTabContentRenderVersion
+        => Context?.GetPaneContentRenderVersion( Context?.GetActiveTabPaneName( Node ) ) ?? 0;
+
     [CascadingParameter] internal DockLayoutContext Context { get; set; }
 
     private DockNodeState Node => Context?.GetNode( NodeId );
@@ -73,6 +79,11 @@ public partial class _DockNodeRenderer : BaseComponent
     /// Gets or sets the layout content render version.
     /// </summary>
     [Parameter] public int ContentRenderVersion { get; set; }
+
+    /// <summary>
+    /// Gets or sets the pane content update version.
+    /// </summary>
+    [Parameter] public int PaneContentUpdateVersion { get; set; }
 
     /// <summary>
     /// Gets or sets the local splitter side for the rendered node.
