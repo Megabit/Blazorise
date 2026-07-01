@@ -151,6 +151,7 @@ public partial class _ReportDesignerTable
         {
             classBuilder.Append( "b-report-table-cell" );
             classBuilder.Append( "active", DesignMode && string.Equals( SelectedCellKey, cell.Id, StringComparison.Ordinal ) );
+            classBuilder.Append( "table-active", DesignMode && TableSelected );
         } );
 
         return builder.Class;
@@ -202,6 +203,20 @@ public partial class _ReportDesignerTable
     {
         return DesignMode
             ? ElementTextEditCancelled?.Invoke( elementKey ) ?? Task.CompletedTask
+            : Task.CompletedTask;
+    }
+
+    private Task OnColumnResizePointerDownAsync( ReportTableCellDefinition cell, PointerEventArgs eventArgs )
+    {
+        return DesignMode
+            ? ResizeStarted?.Invoke( ReportDefinitionHelper.EnsureElementId( Element ), cell.Id, ReportTableResizeKind.Column, cell.ColumnIndex + Math.Max( 1, cell.ColumnSpan ) - 1, eventArgs ) ?? Task.CompletedTask
+            : Task.CompletedTask;
+    }
+
+    private Task OnRowResizePointerDownAsync( ReportTableCellDefinition cell, PointerEventArgs eventArgs )
+    {
+        return DesignMode
+            ? ResizeStarted?.Invoke( ReportDefinitionHelper.EnsureElementId( Element ), cell.Id, ReportTableResizeKind.Row, cell.RowIndex + Math.Max( 1, cell.RowSpan ) - 1, eventArgs ) ?? Task.CompletedTask
             : Task.CompletedTask;
     }
 
@@ -314,6 +329,11 @@ public partial class _ReportDesignerTable
     /// Raised when inline text editing is cancelled for a nested table cell element.
     /// </summary>
     [Parameter] public Func<string, Task> ElementTextEditCancelled { get; set; }
+
+    /// <summary>
+    /// Raised when a table row or column resize starts.
+    /// </summary>
+    [Parameter] public Func<string, string, ReportTableResizeKind, int, PointerEventArgs, Task> ResizeStarted { get; set; }
 
     #endregion
 }

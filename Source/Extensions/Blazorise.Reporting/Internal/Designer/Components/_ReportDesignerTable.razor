@@ -46,6 +46,19 @@
                                             TextEditCancelled="@childElementTextEditCancelled" />
                 }
             </div>
+            @if ( DesignMode )
+            {
+                <span class="b-report-table-column-resize-handle"
+                      title="Resize column"
+                      @onpointerdown="@(( PointerEventArgs eventArgs ) => OnColumnResizePointerDownAsync( cell, eventArgs ))"
+                      @onpointerdown:preventDefault
+                      @onpointerdown:stopPropagation></span>
+                <span class="b-report-table-row-resize-handle"
+                      title="Resize row"
+                      @onpointerdown="@(( PointerEventArgs eventArgs ) => OnRowResizePointerDownAsync( cell, eventArgs ))"
+                      @onpointerdown:preventDefault
+                      @onpointerdown:stopPropagation></span>
+            }
         </div>
     }
 </div>

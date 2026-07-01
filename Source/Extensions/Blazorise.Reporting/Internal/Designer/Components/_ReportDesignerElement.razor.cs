@@ -372,6 +372,11 @@ public partial class _ReportDesignerElement
     [Parameter] public Func<string, Task> ChildElementTextEditCancelled { get; set; }
 
     /// <summary>
+    /// Raised when a table row or column resize starts.
+    /// </summary>
+    [Parameter] public Func<string, string, ReportTableResizeKind, int, PointerEventArgs, Task> TableResizeStarted { get; set; }
+
+    /// <summary>
     /// Raised when inline text editing commits a new value.
     /// </summary>
     [Parameter] public EventCallback<string> TextEditCommitted { get; set; }

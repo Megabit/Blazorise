@@ -657,6 +657,63 @@
     pointer-events: auto;
 }
 
+.b-report-table-column-resize-handle,
+.b-report-table-row-resize-handle {
+    position: absolute;
+    z-index: var(--b-report-zindex-resize-handle, 5);
+    pointer-events: auto;
+    touch-action: none;
+}
+
+.b-report-table-column-resize-handle::after,
+.b-report-table-row-resize-handle::after {
+    content: "";
+    position: absolute;
+    box-sizing: border-box;
+    width: .45rem;
+    height: .45rem;
+    border: 1px solid #0d6efd;
+    background: #ffffff;
+    opacity: 0;
+}
+
+.b-report-table-column-resize-handle {
+    top: 0;
+    right: -.2rem;
+    width: .4rem;
+    height: 100%;
+    cursor: ew-resize;
+}
+
+.b-report-table-row-resize-handle {
+    left: 0;
+    bottom: -.2rem;
+    width: 100%;
+    height: .4rem;
+    cursor: ns-resize;
+}
+
+.b-report-table-column-resize-handle::after {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.b-report-table-row-resize-handle::after {
+    left: 50%;
+    bottom: 50%;
+    transform: translate(-50%, 50%);
+}
+
+.b-report-table-cell.active > .b-report-table-column-resize-handle::after,
+.b-report-table-cell.active > .b-report-table-row-resize-handle::after,
+.b-report-table-cell.table-active:hover > .b-report-table-column-resize-handle::after,
+.b-report-table-cell.table-active:hover > .b-report-table-row-resize-handle::after,
+.b-report-table-cell:hover > .b-report-table-column-resize-handle::after,
+.b-report-table-cell:hover > .b-report-table-row-resize-handle::after {
+    opacity: 1;
+}
+
 .b-report-page-preview .b-report-table-cell {
     border-color: transparent;
 }

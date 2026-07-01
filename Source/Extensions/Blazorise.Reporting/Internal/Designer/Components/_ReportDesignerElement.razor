@@ -64,7 +64,8 @@
                                           TextEditingActive="@TextEditingActive"
                                           EditingElementKey="@ChildEditingElementKey"
                                           ElementTextEditCommitted="@ChildElementTextEditCommitted"
-                                          ElementTextEditCancelled="@ChildElementTextEditCancelled" />
+                                          ElementTextEditCancelled="@ChildElementTextEditCancelled"
+                                          ResizeStarted="@TableResizeStarted" />
                     break;
                 case ReportElementType.Image:
                     <img src="@Element.Source" alt="@ImageAlternativeText" />

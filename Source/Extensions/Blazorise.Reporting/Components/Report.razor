@@ -216,6 +216,7 @@
                                                             ChildElementContextMenu="@(editable ? (Func<string, MouseEventArgs, Task>)OpenElementContextMenuAsync : null)"
                                                             ChildElementTextEditCommitted="@(editable ? (Func<string, string, Task>)CommitElementTextEditAsync : null)"
                                                             ChildElementTextEditCancelled="@(editable ? (Func<string, Task>)CancelElementTextEditAsync : null)"
+                                                            TableResizeStarted="@(editable ? (Func<string, string, ReportTableResizeKind, int, PointerEventArgs, Task>)BeginTablePointerResizeAsync : null)"
                                                             TextEditCommitted="@(editable ? EventCallback.Factory.Create<string>( this, text => CommitElementTextEditAsync( capturedElementKey, text ) ) : default)"
                                                             TextEditCancelled="@(editable ? EventCallback.Factory.Create( this, () => CancelElementTextEdit( capturedElementKey ) ) : default)"
                                                             PointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerDrag( capturedElementKey, eventArgs ) ) : default)"

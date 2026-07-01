@@ -82,6 +82,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private ReportElementPointerResizeState elementPointerResize;
 
+    private ReportTablePointerResizeState tablePointerResize;
+
     private ReportSectionPointerResizeState sectionPointerResize;
 
     private DateTime lastDragPreviewRenderTime;
@@ -3497,6 +3499,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         editingElementKey = null;
         elementPointerDrag = null;
         elementPointerResize = null;
+        tablePointerResize = null;
         sectionPointerResize = null;
     }
 
@@ -3515,6 +3518,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         selectionBox = null;
         elementPointerDrag = null;
         elementPointerResize = null;
+        tablePointerResize = null;
     }
 
     private bool IsExternalDesignerDragActive()
@@ -3544,6 +3548,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         draggedElementText = null;
         dragPreview = null;
         lastDragPreviewRenderTime = DateTime.MinValue;
+        tablePointerResize = null;
         elementPointerDrag = new()
         {
             ElementKey = elementKey,
@@ -3580,6 +3585,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         dragPreview = null;
         lastDragPreviewRenderTime = DateTime.MinValue;
         elementPointerDrag = null;
+        tablePointerResize = null;
         elementPointerResize = new()
         {
             ElementKey = elementKey,
@@ -3601,6 +3607,68 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         };
 
         SelectElement( elementKey, preserveSelection: selectionManager.IsElementSelected( elementKey ) && selectionManager.SelectedElementKeys.Count > 1 );
+    }
+
+    private Task BeginTablePointerResizeAsync( string tableKey, string cellKey, ReportTableResizeKind kind, int index, PointerEventArgs eventArgs )
+    {
+        if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, tableKey, out int sectionIndex, out _, out ReportElementDefinition table )
+            || table.Type != ReportElementType.Table
+            || table.Suppress?.Value == true )
+        {
+            return Task.CompletedTask;
+        }
+
+        EnsureTableGrid( table );
+
+        if ( kind == ReportTableResizeKind.Column && ( index < 0 || index >= table.Columns.Count ) )
+            return Task.CompletedTask;
+
+        if ( kind == ReportTableResizeKind.Row && ( index < 0 || index >= table.Rows.Count ) )
+            return Task.CompletedTask;
+
+        bool resizesTable = kind == ReportTableResizeKind.Column
+            ? index >= table.Columns.Count - 1
+            : index >= table.Rows.Count - 1;
+        double adjacentOriginalSize = !resizesTable
+            ? kind == ReportTableResizeKind.Column
+                ? table.Columns[index + 1].Width
+                : table.Rows[index + 1].Height
+            : 0;
+
+        draggedKind = ReportDesignerDragKind.None;
+        draggedDataSourceName = null;
+        draggedFieldName = null;
+        draggedElementType = null;
+        draggedElementText = null;
+        draggedElementKey = tableKey;
+        draggedElement = table;
+        dragPreview = null;
+        lastDragPreviewRenderTime = DateTime.MinValue;
+        elementPointerDrag = null;
+        elementPointerResize = null;
+        sectionPointerResize = null;
+        tablePointerResize = new()
+        {
+            TableKey = tableKey,
+            CellKey = cellKey,
+            SectionIndex = sectionIndex,
+            Kind = kind,
+            Index = index,
+            OriginalSize = kind == ReportTableResizeKind.Column ? table.Columns[index].Width : table.Rows[index].Height,
+            AdjacentOriginalSize = adjacentOriginalSize,
+            TargetSize = kind == ReportTableResizeKind.Column ? table.Columns[index].Width : table.Rows[index].Height,
+            StartClientX = eventArgs.ClientX,
+            StartClientY = eventArgs.ClientY,
+            SnapToGrid = IsSnapToGridEnabled( table ),
+            ResizesTable = resizesTable,
+        };
+
+        if ( !string.IsNullOrWhiteSpace( cellKey ) )
+            SelectTableCell( cellKey );
+        else
+            SelectElement( tableKey );
+
+        return InvokeAsync( StateHasChanged );
     }
 
     private async Task BeginSectionPointerResizeAsync( int sectionIndex, PointerEventArgs eventArgs )
@@ -3625,6 +3693,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         dragPreview = null;
         elementPointerDrag = null;
         elementPointerResize = null;
+        tablePointerResize = null;
         sectionPointerResize = new()
         {
             SectionIndex = sectionIndex,
@@ -3647,6 +3716,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( sectionPointerResize is not null )
             return PreviewSectionPointerResizeAsync( eventArgs );
 
+        if ( tablePointerResize is not null )
+            return PreviewTablePointerResizeAsync( eventArgs );
+
         if ( elementPointerResize is not null )
             return PreviewElementPointerResizeAsync( eventArgs );
 
@@ -3660,6 +3732,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( sectionPointerResize is not null )
             return CompleteSectionPointerResizeAsync( eventArgs );
+
+        if ( tablePointerResize is not null )
+            return CompleteTablePointerResizeAsync( eventArgs );
 
         if ( elementPointerResize is not null )
             return CompleteElementPointerResizeAsync( eventArgs );
@@ -3675,6 +3750,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( sectionPointerResize is not null )
             return CancelSectionPointerResizeAsync();
 
+        if ( tablePointerResize is not null )
+            return CancelTablePointerResizeAsync();
+
         if ( elementPointerResize is not null )
             return CancelElementPointerResizeAsync();
 
@@ -3686,6 +3764,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( draggedKind != ReportDesignerDragKind.None
             || elementPointerDrag is not null
             || elementPointerResize is not null
+            || tablePointerResize is not null
             || sectionPointerResize is not null )
         {
             return;
@@ -3995,6 +4074,213 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ClearDesignerInteractionOverlaysAsync();
 
         await InvokeAsync( StateHasChanged );
+    }
+
+    private async Task PreviewTablePointerResizeAsync( PointerEventArgs eventArgs )
+    {
+        if ( tablePointerResize is null )
+            return;
+
+        ReportDesignerDragPreview preview = CreateTablePointerResizePreview( eventArgs );
+
+        if ( preview is null )
+            return;
+
+        bool samePreviewSize = dragPreview is not null
+            && Math.Abs( dragPreview.X - preview.X ) < DesignerConstants.DragPreviewChangeTolerance
+            && Math.Abs( dragPreview.Y - preview.Y ) < DesignerConstants.DragPreviewChangeTolerance
+            && Math.Abs( dragPreview.Width - preview.Width ) < DesignerConstants.DragPreviewChangeTolerance
+            && Math.Abs( dragPreview.Height - preview.Height ) < DesignerConstants.DragPreviewChangeTolerance;
+
+        if ( samePreviewSize )
+            return;
+
+        DateTime now = DateTime.UtcNow;
+
+        if ( !tablePointerResize.SnapToGrid
+            && dragPreview is not null
+            && now - lastDragPreviewRenderTime < DesignerConstants.DragPreviewFrameThrottle )
+        {
+            return;
+        }
+
+        tablePointerResize.TargetSize = ResolveTablePointerResizeTargetSize( eventArgs );
+        tablePointerResize.HasResized = true;
+        dragPreview = preview;
+        lastDragPreviewRenderTime = now;
+
+        await UpdateDesignerDragOverlayAsync( preview );
+    }
+
+    private async Task CompleteTablePointerResizeAsync( PointerEventArgs eventArgs )
+    {
+        if ( tablePointerResize is null )
+            return;
+
+        ReportTablePointerResizeState pointerResize = tablePointerResize;
+        pointerResize.TargetSize = ResolveTablePointerResizeTargetSize( eventArgs );
+
+        bool resized = pointerResize.HasResized
+            && Math.Abs( pointerResize.TargetSize - pointerResize.OriginalSize ) > .1;
+
+        if ( !resized
+            || !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, pointerResize.TableKey, out _, out _, out ReportElementDefinition table )
+            || table.Type != ReportElementType.Table )
+        {
+            ClearDragState();
+            await ClearDesignerInteractionOverlaysAsync();
+            await InvokeAsync( StateHasChanged );
+            return;
+        }
+
+        await ClearDesignerInteractionOverlaysAsync();
+
+        await ExecuteDesignerCommandAsync( new( pointerResize.Kind == ReportTableResizeKind.Column ? "Resize table column" : "Resize table row", () =>
+        {
+            if ( ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, pointerResize.TableKey, out _, out _, out ReportElementDefinition table )
+                && table.Type == ReportElementType.Table )
+            {
+                ApplyTablePointerResize( table, pointerResize );
+
+                if ( !string.IsNullOrWhiteSpace( pointerResize.CellKey ) )
+                    SelectTableCell( pointerResize.CellKey );
+                else
+                    SelectElement( pointerResize.TableKey );
+            }
+
+            dragPreview = null;
+            ClearDragState();
+
+            return Task.CompletedTask;
+        }, refreshSurface: false ) );
+    }
+
+    private async Task CancelTablePointerResizeAsync()
+    {
+        if ( tablePointerResize is null )
+            return;
+
+        ClearDragState();
+        await ClearDesignerInteractionOverlaysAsync();
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    private ReportDesignerDragPreview CreateTablePointerResizePreview( PointerEventArgs eventArgs )
+    {
+        if ( tablePointerResize is null
+            || !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, tablePointerResize.TableKey, out _, out _, out ReportElementDefinition table )
+            || table.Type != ReportElementType.Table )
+        {
+            return null;
+        }
+
+        EnsureTableGrid( table );
+
+        double targetSize = ResolveTablePointerResizeTargetSize( eventArgs );
+
+        if ( tablePointerResize.Kind == ReportTableResizeKind.Column )
+        {
+            double x = table.X + GetTableColumnOffset( table, tablePointerResize.Index ) + targetSize;
+
+            return new()
+            {
+                SectionIndex = tablePointerResize.SectionIndex,
+                ElementType = ReportElementType.Line,
+                X = x,
+                Y = table.Y,
+                Width = 1,
+                Height = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, table.Height ),
+            };
+        }
+        else
+        {
+            double y = table.Y + GetTableRowOffset( table, tablePointerResize.Index ) + targetSize;
+
+            return new()
+            {
+                SectionIndex = tablePointerResize.SectionIndex,
+                ElementType = ReportElementType.Line,
+                X = table.X,
+                Y = y,
+                Width = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, table.Width ),
+                Height = 1,
+            };
+        }
+    }
+
+    private double ResolveTablePointerResizeTargetSize( PointerEventArgs eventArgs )
+    {
+        if ( tablePointerResize is null )
+            return 0;
+
+        double delta = tablePointerResize.Kind == ReportTableResizeKind.Column
+            ? ReportMeasurementConverter.FromCssPixelValue( eventArgs.ClientX - tablePointerResize.StartClientX )
+            : ReportMeasurementConverter.FromCssPixelValue( eventArgs.ClientY - tablePointerResize.StartClientY );
+        double size = tablePointerResize.OriginalSize + delta;
+
+        if ( tablePointerResize.SnapToGrid )
+            size = ApplyDesignerGrid( size );
+
+        double minimumSize = ReportLayoutGeometry.DefaultMinimumElementSize;
+        double maximumSize = tablePointerResize.ResizesTable
+            ? double.MaxValue
+            : Math.Max( minimumSize, tablePointerResize.OriginalSize + tablePointerResize.AdjacentOriginalSize - minimumSize );
+
+        return Math.Clamp( size, minimumSize, maximumSize );
+    }
+
+    private static void ApplyTablePointerResize( ReportElementDefinition table, ReportTablePointerResizeState pointerResize )
+    {
+        if ( table is null || pointerResize is null )
+            return;
+
+        EnsureTableGrid( table );
+
+        if ( pointerResize.Kind == ReportTableResizeKind.Column )
+        {
+            if ( pointerResize.Index < 0 || pointerResize.Index >= table.Columns.Count )
+                return;
+
+            if ( pointerResize.ResizesTable )
+            {
+                double delta = pointerResize.TargetSize - table.Columns[pointerResize.Index].Width;
+                table.Columns[pointerResize.Index].Width = pointerResize.TargetSize;
+                table.Width = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, table.Width + delta );
+            }
+            else if ( pointerResize.Index + 1 < table.Columns.Count )
+            {
+                double totalWidth = table.Columns[pointerResize.Index].Width + table.Columns[pointerResize.Index + 1].Width;
+                double minimumWidth = ReportLayoutGeometry.DefaultMinimumElementSize;
+                double maximumWidth = Math.Max( minimumWidth, totalWidth - minimumWidth );
+                double width = Math.Clamp( pointerResize.TargetSize, minimumWidth, maximumWidth );
+                table.Columns[pointerResize.Index].Width = width;
+                table.Columns[pointerResize.Index + 1].Width = totalWidth - width;
+            }
+        }
+        else
+        {
+            if ( pointerResize.Index < 0 || pointerResize.Index >= table.Rows.Count )
+                return;
+
+            if ( pointerResize.ResizesTable )
+            {
+                double delta = pointerResize.TargetSize - table.Rows[pointerResize.Index].Height;
+                table.Rows[pointerResize.Index].Height = pointerResize.TargetSize;
+                table.Height = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, table.Height + delta );
+            }
+            else if ( pointerResize.Index + 1 < table.Rows.Count )
+            {
+                double totalHeight = table.Rows[pointerResize.Index].Height + table.Rows[pointerResize.Index + 1].Height;
+                double minimumHeight = ReportLayoutGeometry.DefaultMinimumElementSize;
+                double maximumHeight = Math.Max( minimumHeight, totalHeight - minimumHeight );
+                double height = Math.Clamp( pointerResize.TargetSize, minimumHeight, maximumHeight );
+                table.Rows[pointerResize.Index].Height = height;
+                table.Rows[pointerResize.Index + 1].Height = totalHeight - height;
+            }
+        }
+
+        NormalizeTableGrid( table );
     }
 
     private ReportDesignerDragPreview CreateElementPointerDragPreview( int targetSectionIndex, PointerEventArgs eventArgs )
@@ -5168,6 +5454,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         lastDragPreviewRenderTime = DateTime.MinValue;
         elementPointerDrag = null;
         elementPointerResize = null;
+        tablePointerResize = null;
     }
 
     private bool SupportsPreviewFormat( ReportPreviewFormat format )
