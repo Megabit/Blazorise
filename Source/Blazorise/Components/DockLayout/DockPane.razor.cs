@@ -104,8 +104,6 @@ public partial class DockPane : BaseComponent, IDisposable
     /// <returns>A task that completes after the refresh has been scheduled.</returns>
     public Task Refresh()
     {
-        Console.WriteLine( $"DockPane {Name} Refresh" );
-
         contentRenderVersion++;
 
         return ParentDockLayout is null

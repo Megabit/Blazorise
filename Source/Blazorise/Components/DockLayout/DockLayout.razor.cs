@@ -118,8 +118,6 @@ public partial class DockLayout : BaseComponent
     /// <returns>A task that completes after the refresh has been scheduled.</returns>
     public Task Refresh()
     {
-        Console.WriteLine( "DockLayout Refresh" );
-
         contentRenderVersion++;
 
         return InvokeAsync( StateHasChanged );
@@ -264,8 +262,6 @@ public partial class DockLayout : BaseComponent
 
     internal Task NotifyPaneContentChanged()
     {
-        Console.WriteLine( "DockLayout NotifyPaneContentChanged" );
-
         paneContentUpdateVersion++;
 
         return InvokeAsync( StateHasChanged );
