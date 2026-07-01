@@ -185,10 +185,10 @@ public partial class _ReportDesignerTable
             : Task.CompletedTask;
     }
 
-    private Task OnElementContextMenuAsync( string elementKey, MouseEventArgs eventArgs )
+    private Task OnElementContextMenuAsync( ReportTableCellDefinition cell, MouseEventArgs eventArgs )
     {
         return DesignMode
-            ? ElementContextMenu?.Invoke( elementKey, eventArgs ) ?? Task.CompletedTask
+            ? CellContextMenu?.Invoke( cell.Id, eventArgs ) ?? Task.CompletedTask
             : Task.CompletedTask;
     }
 
@@ -304,11 +304,6 @@ public partial class _ReportDesignerTable
     /// Raised when a nested table cell element is double-clicked.
     /// </summary>
     [Parameter] public Func<string, MouseEventArgs, Task> ElementDoubleClicked { get; set; }
-
-    /// <summary>
-    /// Raised when a nested table cell element opens its context menu.
-    /// </summary>
-    [Parameter] public Func<string, MouseEventArgs, Task> ElementContextMenu { get; set; }
 
     /// <summary>
     /// Indicates that a text element is currently edited directly on the designer surface.

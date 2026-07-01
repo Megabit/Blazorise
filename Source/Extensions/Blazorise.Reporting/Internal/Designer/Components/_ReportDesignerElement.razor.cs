@@ -357,11 +357,6 @@ public partial class _ReportDesignerElement
     [Parameter] public Func<string, MouseEventArgs, Task> ChildElementDoubleClicked { get; set; }
 
     /// <summary>
-    /// Raised when a child element inside this element opens its context menu.
-    /// </summary>
-    [Parameter] public Func<string, MouseEventArgs, Task> ChildElementContextMenu { get; set; }
-
-    /// <summary>
     /// Raised when inline text editing commits a child element value.
     /// </summary>
     [Parameter] public Func<string, string, Task> ChildElementTextEditCommitted { get; set; }

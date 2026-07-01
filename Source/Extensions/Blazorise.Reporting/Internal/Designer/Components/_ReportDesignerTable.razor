@@ -21,7 +21,7 @@
                     var childElementKey = ReportDefinitionHelper.EnsureElementId( childElement );
                     var childElementClicked = EventCallback.Factory.Create<MouseEventArgs>( this, ( MouseEventArgs eventArgs ) => OnElementClickedAsync( childElementKey, eventArgs ) );
                     var childElementDoubleClicked = EventCallback.Factory.Create<MouseEventArgs>( this, ( MouseEventArgs eventArgs ) => OnElementDoubleClickedAsync( childElementKey, eventArgs ) );
-                    var childElementContextMenu = (Func<MouseEventArgs, Task>)( eventArgs => OnElementContextMenuAsync( childElementKey, eventArgs ) );
+                    var childElementContextMenu = (Func<MouseEventArgs, Task>)( eventArgs => OnElementContextMenuAsync( cell, eventArgs ) );
                     var childElementTextEditCommitted = EventCallback.Factory.Create<string>( this, text => OnElementTextEditCommittedAsync( childElementKey, text ) );
                     var childElementTextEditCancelled = EventCallback.Factory.Create( this, () => OnElementTextEditCancelledAsync( childElementKey ) );
 

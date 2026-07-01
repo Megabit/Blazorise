@@ -213,7 +213,6 @@
                                                             IsChildElementSelected="@selectionManager.IsElementSelected"
                                                             ChildElementClicked="@(editable ? (Func<string, MouseEventArgs, Task>)HandleElementClickAsync : null)"
                                                             ChildElementDoubleClicked="@(editable ? (Func<string, MouseEventArgs, Task>)HandleElementDoubleClickAsync : null)"
-                                                            ChildElementContextMenu="@(editable ? (Func<string, MouseEventArgs, Task>)OpenElementContextMenuAsync : null)"
                                                             ChildElementTextEditCommitted="@(editable ? (Func<string, string, Task>)CommitElementTextEditAsync : null)"
                                                             ChildElementTextEditCancelled="@(editable ? (Func<string, Task>)CancelElementTextEditAsync : null)"
                                                             TableResizeStarted="@(editable ? (Func<string, string, ReportTableResizeKind, int, PointerEventArgs, Task>)BeginTablePointerResizeAsync : null)"
