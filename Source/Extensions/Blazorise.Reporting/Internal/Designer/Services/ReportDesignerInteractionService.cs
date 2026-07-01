@@ -117,21 +117,18 @@ internal static class ReportDesignerInteractionService
         var bottom = pointerResize.OriginalY + pointerResize.OriginalHeight;
         var resizingLeft = HasResizeHandle( pointerResize.Handle, ReportElementResizeHandle.West );
         var resizingTop = HasResizeHandle( pointerResize.Handle, ReportElementResizeHandle.North );
+        var resizingRight = HasResizeHandle( pointerResize.Handle, ReportElementResizeHandle.East );
+        var resizingBottom = HasResizeHandle( pointerResize.Handle, ReportElementResizeHandle.South );
 
         if ( resizingLeft )
-            left += deltaX;
-        else if ( HasResizeHandle( pointerResize.Handle, ReportElementResizeHandle.East ) )
-            right += deltaX;
+            left = applyGrid( left + deltaX );
+        else if ( resizingRight )
+            right = applyGrid( right + deltaX );
 
         if ( resizingTop )
-            top += deltaY;
-        else if ( HasResizeHandle( pointerResize.Handle, ReportElementResizeHandle.South ) )
-            bottom += deltaY;
-
-        left = applyGrid( left );
-        top = applyGrid( top );
-        right = applyGrid( right );
-        bottom = applyGrid( bottom );
+            top = applyGrid( top + deltaY );
+        else if ( resizingBottom )
+            bottom = applyGrid( bottom + deltaY );
 
         if ( right - left < ReportLayoutGeometry.DefaultMinimumElementSize )
         {
