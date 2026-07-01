@@ -473,8 +473,9 @@
                 @include b-bar-popout-menu;
 
                 > .b-bar-dropdown {
-                    .b-bar-dropdown-menu-container {
+                    > .b-bar-dropdown-menu-container {
                         left: var(--b-vertical-bar-popout-menu-width, 180px);
+                        margin: 0 5px;
 
                         &.b-bar-right {
                             right: var(--b-vertical-bar-popout-menu-width, 180px);
@@ -578,8 +579,9 @@
                 @include b-bar-popout-menu;
 
                 > .b-bar-dropdown {
-                    .b-bar-dropdown-menu-container {
+                    > .b-bar-dropdown-menu-container {
                         left: var(--b-vertical-bar-popout-menu-width, 180px);
+                        margin: 0 5px;
 
                         &.b-bar-right {
                             right: var(--b-vertical-bar-popout-menu-width, 180px);

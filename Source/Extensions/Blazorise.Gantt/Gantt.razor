@@ -15,6 +15,7 @@
                            SelectedView="@SelectedView"
                            TimelineRangeStart="@(AutoExpandView ? GetCurrentViewRange().Start : (DateTime?)null)"
                            TimelineRangeEnd="@(AutoExpandView ? GetCurrentViewRange().End : (DateTime?)null)"
+                           YearViewTimelineScale="@EffectiveYearViewTimelineScale"
                            FirstDayOfWeek="@EffectiveFirstDayOfWeek"
                            NavigationEnabled="@(!AutoExpandView)"
                            SearchText="@searchText"
@@ -58,6 +59,8 @@
             var totalHeaderHeight = hasGroupedTimeHeader ? headerRowHeight * 2d : headerRowHeight;
             var cellWidth = GetTimelineCellWidth();
             var timelineRowStyle = GetTimelineRowStyle( rowHeight, timeSlots.Count, cellWidth );
+            var timelineBodyHeight = visibleRows.Count * rowHeight;
+            var visibleMilestones = GetVisibleMilestones( viewRange.Start, viewRange.End, timeSlots.Count, cellWidth );
             var treeToggleWidth = GetTreeToggleWidth();
             var showHeaderNewButton = ShowHeaderNewButton;
             var wbsLookup = BuildWbsLookup( visibleRows );
@@ -231,6 +234,31 @@
                                 </Div>
                             }
                         </_GanttTimeHeader>
+
+                        @foreach ( var visibleMilestone in visibleMilestones )
+                        {
+                            <Div @key="@visibleMilestone.Milestone"
+                                 Class="@GetMilestoneClass( visibleMilestone.Styling.Class )"
+                                 Style="@GetMilestoneMarkerStyle( visibleMilestone.Left, totalHeaderHeight, timelineBodyHeight, visibleMilestone.Styling.Style )"
+                                 TextColor="@visibleMilestone.Styling.TextColor">
+                                <Div Style="@GetMilestoneLineStyle( visibleMilestone.Styling )"></Div>
+                                @if ( ShouldShowMilestoneLabel( visibleMilestone ) )
+                                {
+                                    <Div Style="@GetMilestoneLabelStyle( visibleMilestone.Styling.LabelPosition )"
+                                         TextSize="TextSizeSmall"
+                                         TextWeight="TextWeight.SemiBold">
+                                        @if ( MilestoneTemplate is not null )
+                                        {
+                                            @MilestoneTemplate( GetMilestoneContext( visibleMilestone.Milestone, viewRange.Start, viewRange.End ) )
+                                        }
+                                        else
+                                        {
+                                            @visibleMilestone.Milestone.Title
+                                        }
+                                    </Div>
+                                }
+                            </Div>
+                        }
 
                         @foreach ( var node in visibleRows )
                         {

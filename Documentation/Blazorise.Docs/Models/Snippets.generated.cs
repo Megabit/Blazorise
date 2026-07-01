@@ -12493,6 +12493,120 @@ public class PersonValidator : AbstractValidator<Person>
 
         public const string GanttImportsExample = @"@using Blazorise.Gantt";
 
+        public const string GanttMilestonesExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       Milestones=""@milestones""
+       Date=""@selectedDate""
+       SelectedView=""GanttView.Week""
+       DurationField=""Duration""
+       IncludeMilestonesInAutoExpandView
+       MilestoneStyling=""@ApplyMilestoneStyling"">
+    <ChildContent>
+        <GanttColumns>
+            <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px( 230 )"" />
+            <GanttColumn Field=""Start"" Width=""Width.Px( 130 )"" />
+            <GanttColumn Field=""End"" Width=""Width.Px( 130 )"" Visible=""false"" />
+            <GanttColumn Field=""Duration"" Width=""Width.Px( 90 )"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
+        </GanttColumns>
+
+        <GanttToolbar />
+
+        <GanttViews>
+            <GanttWeekView TimelineCellWidth=""92"" RowHeight=""44"" />
+        </GanttViews>
+    </ChildContent>
+
+    <MilestoneTemplate>
+        <Badge Color=""@GetMilestoneBadgeColor( context.Milestone )"" Pill>
+            @context.Title
+        </Badge>
+    </MilestoneTemplate>
+</Gantt>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private List<GanttMilestone> milestones = CreateMilestones();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        DateTime baseDate = GetStartOfWeek( DateTime.Today, DayOfWeek.Monday );
+
+        List<TaskItem> result = new()
+        {
+            new() { Id = ""1"", Title = ""Milestone release"", Start = baseDate, End = baseDate.AddDays( 14 ) },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Planning"", Start = baseDate, End = baseDate.AddDays( 2 ) },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Design"", Start = baseDate.AddDays( 2 ), End = baseDate.AddDays( 6 ) },
+            new() { Id = ""4"", ParentId = ""1"", Title = ""Development"", Start = baseDate.AddDays( 5 ), End = baseDate.AddDays( 11 ) },
+            new() { Id = ""5"", ParentId = ""1"", Title = ""Validation"", Start = baseDate.AddDays( 10 ), End = baseDate.AddDays( 13 ) },
+            new() { Id = ""6"", ParentId = ""1"", Title = ""Rollout"", Start = baseDate.AddDays( 13 ), End = baseDate.AddDays( 14 ) },
+        };
+
+        foreach ( TaskItem item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    private static List<GanttMilestone> CreateMilestones()
+    {
+        DateTime baseDate = GetStartOfWeek( DateTime.Today, DayOfWeek.Monday );
+
+        return new()
+        {
+            new() { Date = baseDate.AddDays( 2 ), Title = ""Kickoff"" },
+            new() { Date = baseDate.AddDays( 6 ), Title = ""Design approved"" },
+            new() { Date = baseDate.AddDays( 11 ), Title = ""Beta"" },
+            new() { Date = baseDate.AddDays( 14 ), Title = ""Launch"", TextColor = TextColor.Danger, LineStyle = GanttMilestoneLineStyle.Solid },
+        };
+    }
+
+    private static void ApplyMilestoneStyling( GanttMilestone milestone, GanttMilestoneStyling styling )
+    {
+        if ( milestone.Title == ""Beta"" )
+        {
+            styling.TextColor = TextColor.Warning;
+            styling.LineStyle = GanttMilestoneLineStyle.Dotted;
+        }
+    }
+
+    private static Color GetMilestoneBadgeColor( GanttMilestone milestone )
+    {
+        return milestone.Title switch
+        {
+            ""Launch"" => Color.Danger,
+            ""Beta"" => Color.Warning,
+            _ => Color.Primary,
+        };
+    }
+
+    private static DateTime GetStartOfWeek( DateTime value, DayOfWeek firstDayOfWeek )
+    {
+        int diff = ( 7 + ( value.DayOfWeek - firstDayOfWeek ) ) % 7;
+
+        return value.Date.AddDays( -diff );
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}";
+
         public const string GanttMultipleViewsExample = @"<Gantt TItem=""TaskItem""
        Data=""@tasks""
        @bind-Date=""@selectedDate""
@@ -12638,6 +12752,88 @@ public class PersonValidator : AbstractValidator<Person>
         };
 
         foreach ( var item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}";
+
+        public const string GanttWeeklyYearViewExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       Date=""@selectedDate""
+       SelectedView=""GanttView.Year""
+       DurationField=""Duration""
+       FirstDayOfWeek=""DayOfWeek.Monday"">
+    <ChildContent>
+        <GanttColumns>
+            <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px( 240 )"" />
+            <GanttColumn Field=""Start"" Width=""Width.Px( 130 )"" />
+            <GanttColumn Field=""End"" Width=""Width.Px( 130 )"" Visible=""false"" />
+            <GanttColumn Field=""Duration"" Width=""Width.Px( 90 )"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
+        </GanttColumns>
+
+        <GanttToolbar />
+
+        <GanttViews>
+            <GanttYearView TimelineScale=""GanttYearViewTimelineScale.Week""
+                           TimelineCellWidth=""42""
+                           RowHeight=""44""
+                           FirstDayOfWeek=""DayOfWeek.Monday"" />
+        </GanttViews>
+    </ChildContent>
+
+    <TimelineHeaderCellTemplate>
+        <Span TextSize=""TextSize.Small"" TextWeight=""TextWeight.SemiBold"">
+            @context.Label
+        </Span>
+    </TimelineHeaderCellTemplate>
+</Gantt>
+
+<Paragraph TextColor=""TextColor.Muted"" Margin=""Margin.Is2.FromTop"">
+    View: @selectedViewText | Year view scale: Week
+</Paragraph>
+
+@code {
+    private DateOnly selectedDate = new( DateTime.Today.Year, 1, 1 );
+
+    private string selectedViewText = GanttView.Year.ToString();
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        DateTime yearStart = new( DateTime.Today.Year, 1, 1 );
+        DateTime planningStart = yearStart.AddDays( 91 );
+
+        List<TaskItem> result = new()
+        {
+            new() { Id = ""1"", Title = ""Release train"", Start = planningStart, End = planningStart.AddDays( 35 ) },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Discovery"", Start = planningStart, End = planningStart.AddDays( 7 ) },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Implementation"", Start = planningStart.AddDays( 7 ), End = planningStart.AddDays( 21 ) },
+            new() { Id = ""4"", ParentId = ""3"", Title = ""Backend services"", Start = planningStart.AddDays( 8 ), End = planningStart.AddDays( 16 ) },
+            new() { Id = ""5"", ParentId = ""3"", Title = ""Frontend polish"", Start = planningStart.AddDays( 14 ), End = planningStart.AddDays( 23 ) },
+            new() { Id = ""6"", ParentId = ""1"", Title = ""Validation"", Start = planningStart.AddDays( 21 ), End = planningStart.AddDays( 30 ) },
+            new() { Id = ""7"", ParentId = ""1"", Title = ""Rollout"", Start = planningStart.AddDays( 30 ), End = planningStart.AddDays( 35 ) },
+        };
+
+        foreach ( TaskItem item in result )
         {
             item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
         }
@@ -16013,6 +16209,94 @@ builder.Services
         {
             RecurrenceRule = ""FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3""
         },
+    };
+}";
+
+        public const string SchedulerColumnsExample = @"<Scheduler TItem=""Appointment"" @bind-Date=""@selectedDate""
+           Data=""@Appointments""
+           @bind-SelectedView=""@selectedView""
+           Editable
+           ItemStyling=""@OnItemStyling"">
+    <SchedulerToolbar />
+    <SchedulerViews>
+        <SchedulerWeekView StartTime=""@startTime"" EndTime=""@endTime"" WorkDayStart=""@workDayStart"" WorkDayEnd=""@workDayEnd"" />
+    </SchedulerViews>
+    <SchedulerColumns>
+        <SchedulerColumn TItem=""Appointment"" Field=""@nameof( Appointment.Title )"" Caption=""Appointment title"" TValue=""string"">
+            <EditTemplate Context=""context"">
+                <TextInput @bind-Value=""@context.Value"" />
+            </EditTemplate>
+        </SchedulerColumn>
+        <SchedulerColumn TItem=""Appointment"" Field=""@nameof( Appointment.Color )"" Caption=""Color"" TValue=""string"" ColumnSize=""ColumnSize.IsHalf.OnDesktop"">
+            <EditTemplate Context=""context"">
+                <ColorPicker @bind-Value=""@context.Value"" />
+            </EditTemplate>
+        </SchedulerColumn>
+        <SchedulerColumn TItem=""Appointment"" Field=""@nameof( Appointment.Location )"" Caption=""Location"" TValue=""string"" ColumnSize=""ColumnSize.IsHalf.OnDesktop"">
+            <EditTemplate Context=""context"">
+                <TextInput @bind-Value=""@context.Value"" />
+            </EditTemplate>
+        </SchedulerColumn>
+    </SchedulerColumns>
+</Scheduler>
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    private SchedulerView selectedView = SchedulerView.Week;
+    private static DateTime today10AM = DateTime.Today.AddHours( 10 );
+    private TimeOnly startTime = new TimeOnly( 7, 0 );
+    private TimeOnly endTime = new TimeOnly( 17, 0 );
+    private TimeOnly workDayStart = new TimeOnly( 8, 0 );
+    private TimeOnly workDayEnd = new TimeOnly( 16, 0 );
+
+    private void OnItemStyling( Appointment appointment, SchedulerItemStyling itemStyling )
+    {
+        if ( !string.IsNullOrEmpty( appointment.Color ) )
+        {
+            itemStyling.Background = Background.Default;
+            itemStyling.Style = $""background-color: {appointment.Color};"";
+            itemStyling.TextColor = TextColor.White;
+        }
+    }
+
+    public class Appointment
+    {
+        public Appointment()
+        {
+        }
+
+        public Appointment( string title, string description, DateTime start, DateTime end, string color, string location )
+        {
+            Id = Guid.NewGuid().ToString();
+            Title = title;
+            Description = description;
+            Start = start;
+            End = end;
+            Color = color;
+            Location = location;
+        }
+
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public bool AllDay { get; set; }
+
+        public string Color { get; set; }
+
+        public string Location { get; set; }
+    }
+
+    List<Appointment> Appointments = new List<Appointment>
+    {
+        new Appointment( ""Design review"", ""Reviewing the new dashboard"", today10AM, today10AM.AddHours( 1 ), ""#0d6efd"", ""Conference room"" ),
+        new Appointment( ""Planning"", ""Sprint planning session"", today10AM.AddHours( 2 ), today10AM.AddHours( 3 ), ""#198754"", ""Main office"" ),
+        new Appointment( ""Customer call"", ""Quarterly product feedback"", today10AM.AddDays( 1 ).AddHours( 1 ), today10AM.AddDays( 1 ).AddHours( 2 ), ""#dc3545"", ""Remote"" ),
     };
 }";
 

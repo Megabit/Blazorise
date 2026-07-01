@@ -1724,6 +1724,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             GanttView.Day => TimeSpan.FromHours( 1 ),
             GanttView.Week => TimeSpan.FromDays( 1 ),
             GanttView.Month => TimeSpan.FromDays( 3 ),
+            GanttView.Year when IsYearViewTimelineScaleWeek => TimeSpan.FromDays( 7 ),
             GanttView.Year => TimeSpan.FromDays( 30 ),
             _ => TimeSpan.FromDays( 1 ),
         };
@@ -2000,6 +2001,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     {
         if ( slotOffset == 0 )
             return value;
+
+        if ( IsYearViewTimelineScaleWeek )
+            return value.AddDays( slotOffset * 7 );
 
         return SelectedView switch
         {
@@ -3704,6 +3708,112 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return itemStyling;
     }
 
+    private List<GanttVisibleMilestone> GetVisibleMilestones( DateTime viewStart, DateTime viewEnd, int slotsCount, double cellWidth )
+    {
+        var visibleMilestones = new List<GanttVisibleMilestone>();
+
+        if ( Milestones is null )
+            return visibleMilestones;
+
+        foreach ( var milestone in Milestones )
+        {
+            if ( milestone is null || !milestone.Visible || DateTimeUtils.IsUnassigned( milestone.Date ) )
+                continue;
+
+            if ( TryGetMilestoneLeft( milestone.Date, viewStart, viewEnd, slotsCount, cellWidth, out var left ) )
+                visibleMilestones.Add( new GanttVisibleMilestone( milestone, left, GetMilestoneStyling( milestone ) ) );
+        }
+
+        return visibleMilestones;
+    }
+
+    private bool TryGetMilestoneLeft( DateTime date, DateTime viewStart, DateTime viewEnd, int slotsCount, double cellWidth, out double left )
+    {
+        left = 0d;
+
+        if ( date < viewStart || date > viewEnd )
+            return false;
+
+        var totalMinutes = ( viewEnd - viewStart ).TotalMinutes;
+
+        if ( totalMinutes <= 0d )
+            return false;
+
+        var totalWidth = Math.Max( 1, slotsCount ) * cellWidth;
+
+        left = ( ( date - viewStart ).TotalMinutes / totalMinutes ) * totalWidth;
+        left = Math.Min( totalWidth, Math.Max( 0d, left ) );
+
+        return true;
+    }
+
+    private GanttMilestoneStyling GetMilestoneStyling( GanttMilestone milestone )
+    {
+        var milestoneStyling = new GanttMilestoneStyling
+        {
+            Class = milestone.Class,
+            Style = milestone.Style,
+            TextColor = milestone.TextColor,
+            LineStyle = milestone.LineStyle,
+            LineWidth = milestone.LineWidth,
+            LabelPosition = milestone.LabelPosition,
+        };
+
+        MilestoneStyling?.Invoke( milestone, milestoneStyling );
+
+        return milestoneStyling;
+    }
+
+    private string GetMilestoneClass( string customClass )
+    {
+        if ( string.IsNullOrWhiteSpace( customClass ) )
+            return "b-gantt-milestone";
+
+        return $"b-gantt-milestone {customClass}";
+    }
+
+    private string GetMilestoneMarkerStyle( double left, double headerHeight, double bodyHeight, string customStyle )
+    {
+        var leftText = left.ToString( "0.###", CultureInfo.InvariantCulture );
+        var topText = headerHeight.ToString( "0.###", CultureInfo.InvariantCulture );
+        var heightText = Math.Max( 0d, bodyHeight ).ToString( "0.###", CultureInfo.InvariantCulture );
+        var style = $"position: absolute; left: {leftText}px; top: {topText}px; height: {heightText}px; width: 0; z-index: 4; pointer-events: none; display: flex; justify-content: center; align-items: stretch; transform: translateX(-50%);";
+
+        if ( !string.IsNullOrWhiteSpace( customStyle ) )
+            style = $"{style} {customStyle}";
+
+        return style;
+    }
+
+    private string GetMilestoneLineStyle( GanttMilestoneStyling milestoneStyling )
+    {
+        var lineStyle = milestoneStyling.LineStyle switch
+        {
+            GanttMilestoneLineStyle.Solid => "solid",
+            GanttMilestoneLineStyle.Dotted => "dotted",
+            _ => "dashed",
+        };
+        var lineWidth = Math.Max( 1d, milestoneStyling.LineWidth ).ToString( "0.###", CultureInfo.InvariantCulture );
+
+        return $"height: 100%; border-left: {lineWidth}px {lineStyle} currentColor;";
+    }
+
+    private string GetMilestoneLabelStyle( GanttMilestoneLabelPosition labelPosition )
+    {
+        var style = "position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; max-width: 16rem; overflow: hidden; text-overflow: ellipsis; pointer-events: none; line-height: 1.2;";
+
+        return labelPosition == GanttMilestoneLabelPosition.Top
+            ? $"{style} top: 0.25rem;"
+            : $"{style} bottom: 0.25rem;";
+    }
+
+    private bool ShouldShowMilestoneLabel( GanttVisibleMilestone visibleMilestone )
+        => visibleMilestone.Styling.LabelPosition != GanttMilestoneLabelPosition.None
+           && ( MilestoneTemplate is not null || !string.IsNullOrWhiteSpace( visibleMilestone.Milestone.Title ) );
+
+    private GanttMilestoneContext GetMilestoneContext( GanttMilestone milestone, DateTime viewStart, DateTime viewEnd )
+        => new( milestone, SelectedView, viewStart, viewEnd );
+
     private GanttViewRange GetSelectedDateAnchorRange()
     {
         if ( SelectedView == GanttView.Week )
@@ -3720,7 +3830,13 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         if ( SelectedView == GanttView.Year )
         {
-            var start = new DateOnly( currentDate.Year, 1, 1 ).ToDateTime( TimeOnly.MinValue );
+            if ( IsYearViewTimelineScaleWeek )
+            {
+                var weekStart = GetFirstWeekStartOfYear( currentDate.Year );
+                return new GanttViewRange( weekStart, GetFirstWeekStartOfYear( currentDate.Year + 1 ) );
+            }
+
+            var start = GetFirstDayOfYear( currentDate.Year );
             return new GanttViewRange( start, start.AddYears( 1 ) );
         }
 
@@ -3788,34 +3904,59 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     {
         viewRange = default;
 
-        if ( !AutoExpandView || !propertyMapper.HasStart || !propertyMapper.HasEnd )
+        if ( !AutoExpandView )
+            return false;
+
+        var includeItems = propertyMapper.HasStart && propertyMapper.HasEnd;
+
+        if ( !includeItems && !IncludeMilestonesInAutoExpandView )
             return false;
 
         var hasRange = false;
         var minStart = DateTime.MaxValue;
         var maxEnd = DateTime.MinValue;
 
-        foreach ( var item in EnumerateAllDataItems() )
+        if ( includeItems )
         {
-            if ( item is null )
-                continue;
+            foreach ( var item in EnumerateAllDataItems() )
+            {
+                if ( item is null )
+                    continue;
 
-            var itemStart = GetItemStart( item );
-            var itemEnd = GetItemEnd( item );
+                var itemStart = GetItemStart( item );
+                var itemEnd = GetItemEnd( item );
 
-            if ( DateTimeUtils.IsUnassigned( itemStart ) )
-                continue;
+                if ( DateTimeUtils.IsUnassigned( itemStart ) )
+                    continue;
 
-            if ( DateTimeUtils.IsUnassigned( itemEnd ) || itemEnd <= itemStart )
-                itemEnd = GetMinimumTimelineRangeEnd( itemStart );
+                if ( DateTimeUtils.IsUnassigned( itemEnd ) || itemEnd <= itemStart )
+                    itemEnd = GetMinimumTimelineRangeEnd( itemStart );
 
-            hasRange = true;
+                hasRange = true;
 
-            if ( itemStart < minStart )
-                minStart = itemStart;
+                if ( itemStart < minStart )
+                    minStart = itemStart;
 
-            if ( itemEnd > maxEnd )
-                maxEnd = itemEnd;
+                if ( itemEnd > maxEnd )
+                    maxEnd = itemEnd;
+            }
+        }
+
+        if ( IncludeMilestonesInAutoExpandView && Milestones is not null )
+        {
+            foreach ( var milestone in Milestones )
+            {
+                if ( milestone is null || !milestone.Visible || DateTimeUtils.IsUnassigned( milestone.Date ) )
+                    continue;
+
+                hasRange = true;
+
+                if ( milestone.Date < minStart )
+                    minStart = milestone.Date;
+
+                if ( milestone.Date > maxEnd )
+                    maxEnd = milestone.Date;
+            }
         }
 
         if ( !hasRange )
@@ -3839,6 +3980,16 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     {
         if ( SelectedView == GanttView.Year )
         {
+            if ( IsYearViewTimelineScaleWeek )
+            {
+                var weekStart = GetStartOfWeek( value, EffectiveFirstDayOfWeek );
+
+                if ( endBoundary && value > weekStart )
+                    return weekStart.AddDays( 7 );
+
+                return weekStart;
+            }
+
             var monthStart = new DateTime( value.Year, value.Month, 1, 0, 0, 0, value.Kind );
 
             if ( endBoundary && value > monthStart )
@@ -3916,17 +4067,38 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             var current = viewStart;
             var index = 0;
 
-            while ( current < viewEnd )
+            if ( IsYearViewTimelineScaleWeek )
             {
-                var next = current.AddMonths( 1 );
-                slots.Add( new GanttTimeSlot(
-                    key: $"year-{index.ToString( CultureInfo.InvariantCulture )}",
-                    label: current.ToString( "MMM", CultureInfo.InvariantCulture ),
-                    start: current,
-                    end: next ) );
+                while ( current < viewEnd )
+                {
+                    var next = current.AddDays( 7 );
+                    var weekYear = GetWeekYear( current );
+                    var weekNumber = GetWeekNumber( current );
 
-                current = next;
-                index++;
+                    slots.Add( new GanttTimeSlot(
+                        key: $"year-week-{weekYear.ToString( CultureInfo.InvariantCulture )}-{weekNumber.ToString( CultureInfo.InvariantCulture )}",
+                        label: weekNumber.ToString( CultureInfo.InvariantCulture ),
+                        start: current,
+                        end: next ) );
+
+                    current = next;
+                    index++;
+                }
+            }
+            else
+            {
+                while ( current < viewEnd )
+                {
+                    var next = current.AddMonths( 1 );
+                    slots.Add( new GanttTimeSlot(
+                        key: $"year-{index.ToString( CultureInfo.InvariantCulture )}",
+                        label: current.ToString( "MMM", CultureInfo.InvariantCulture ),
+                        start: current,
+                        end: next ) );
+
+                    current = next;
+                    index++;
+                }
             }
 
             return slots;
@@ -4005,6 +4177,16 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         if ( SelectedView == GanttView.Year )
         {
+            if ( IsYearViewTimelineScaleWeek )
+            {
+                var weekYear = GetWeekYear( slot.Start );
+
+                return new GanttTimeHeaderGroup(
+                    key: weekYear.ToString( CultureInfo.InvariantCulture ),
+                    label: weekYear.ToString( CultureInfo.InvariantCulture ),
+                    slotCount: 0 );
+            }
+
             return new GanttTimeHeaderGroup(
                 key: slot.Start.ToString( "yyyy", CultureInfo.InvariantCulture ),
                 label: slot.Start.ToString( "yyyy", CultureInfo.InvariantCulture ),
@@ -4015,6 +4197,41 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             key: slot.Start.ToString( "yyyy-MM", CultureInfo.InvariantCulture ),
             label: slot.Start.ToString( "MMMM yyyy", CultureInfo.InvariantCulture ),
             slotCount: 0 );
+    }
+
+    private static DateTime GetFirstDayOfYear( int year )
+        => new( year, 1, 1 );
+
+    private DateTime GetFirstWeekStartOfYear( int year )
+        => GetStartOfWeek( new DateTime( year, 1, 4 ), EffectiveFirstDayOfWeek );
+
+    private static DateTime GetStartOfWeek( DateTime value, DayOfWeek firstDayOfWeek )
+    {
+        var dayStart = value.Date;
+        var diff = ( 7 + ( dayStart.DayOfWeek - firstDayOfWeek ) ) % 7;
+
+        return dayStart.AddDays( -diff );
+    }
+
+    private int GetWeekNumber( DateTime value )
+    {
+        var weekStart = GetStartOfWeek( value, EffectiveFirstDayOfWeek );
+        var weekYear = GetWeekYear( weekStart );
+
+        return (int)( ( weekStart - GetFirstWeekStartOfYear( weekYear ) ).TotalDays / 7d ) + 1;
+    }
+
+    private int GetWeekYear( DateTime value )
+    {
+        var date = value.Date;
+
+        if ( date >= GetFirstWeekStartOfYear( date.Year + 1 ) )
+            return date.Year + 1;
+
+        if ( date < GetFirstWeekStartOfYear( date.Year ) )
+            return date.Year - 1;
+
+        return date.Year;
     }
 
     private static double GetTreePaneWidth( IReadOnlyList<GanttRenderColumn> treeColumns )
@@ -4393,7 +4610,17 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         => SelectedView == GanttView.Week
            && ganttWeekView?.FirstDayOfWeek is DayOfWeek weekViewFirstDayOfWeek
             ? weekViewFirstDayOfWeek
+            : IsYearViewTimelineScaleWeek
+              && ganttYearView?.FirstDayOfWeek is DayOfWeek yearViewFirstDayOfWeek
+                ? yearViewFirstDayOfWeek
             : FirstDayOfWeek;
+
+    private GanttYearViewTimelineScale EffectiveYearViewTimelineScale
+        => ganttYearView?.TimelineScale ?? GanttYearViewTimelineScale.Month;
+
+    private bool IsYearViewTimelineScaleWeek
+        => SelectedView == GanttView.Year
+           && EffectiveYearViewTimelineScale == GanttYearViewTimelineScale.Week;
 
     private bool ShowToolbarAddTaskButton
         => IsCommandAllowed( GanttCommandType.New );
@@ -4533,6 +4760,11 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     [Parameter] public IEnumerable<TItem> Data { get; set; }
 
     /// <summary>
+    /// Specifies milestone markers displayed on the Gantt timeline.
+    /// </summary>
+    [Parameter] public IEnumerable<GanttMilestone> Milestones { get; set; }
+
+    /// <summary>
     /// Specifies the anchor date used by the selected view.
     /// </summary>
     [Parameter] public DateOnly Date { get; set; } = DateOnly.FromDateTime( DateTime.Today );
@@ -4556,6 +4788,11 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     /// Determines whether the active view range automatically expands to include all items.
     /// </summary>
     [Parameter] public bool AutoExpandView { get; set; }
+
+    /// <summary>
+    /// Determines whether <see cref="AutoExpandView"/> also includes milestone dates in the computed timeline range.
+    /// </summary>
+    [Parameter] public bool IncludeMilestonesInAutoExpandView { get; set; }
 
     /// <summary>
     /// Specifies the first day of the week used for date calculations.
@@ -4778,6 +5015,11 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     [Parameter] public Action<TItem, GanttItemStyling> ItemStyling { get; set; }
 
     /// <summary>
+    /// Defines styling applied to timeline milestones.
+    /// </summary>
+    [Parameter] public Action<GanttMilestone, GanttMilestoneStyling> MilestoneStyling { get; set; }
+
+    /// <summary>
     /// Defines template used to render command header content.
     /// </summary>
     [Parameter] public RenderFragment<GanttTreeCommandHeaderContext<TItem>> TreeCommandHeaderTemplate { get; set; }
@@ -4796,6 +5038,11 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     /// Defines template used to render timeline task content.
     /// </summary>
     [Parameter] public RenderFragment<GanttItemContext<TItem>> TaskItemTemplate { get; set; }
+
+    /// <summary>
+    /// Defines template used to render milestone labels.
+    /// </summary>
+    [Parameter] public RenderFragment<GanttMilestoneContext> MilestoneTemplate { get; set; }
 
     /// <summary>
     /// Specifies title column width in pixels.
@@ -5020,6 +5267,22 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         public bool StartsBeforeView { get; }
 
         public bool EndsAfterView { get; }
+    }
+
+    private readonly struct GanttVisibleMilestone
+    {
+        public GanttVisibleMilestone( GanttMilestone milestone, double left, GanttMilestoneStyling styling )
+        {
+            Milestone = milestone;
+            Left = left;
+            Styling = styling;
+        }
+
+        public GanttMilestone Milestone { get; }
+
+        public double Left { get; }
+
+        public GanttMilestoneStyling Styling { get; }
     }
 
     #endregion
