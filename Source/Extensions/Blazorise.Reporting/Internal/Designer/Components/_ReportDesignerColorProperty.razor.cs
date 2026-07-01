@@ -49,12 +49,23 @@ public partial class _ReportDesignerColorProperty
 
     private Task OnNameChanged( string value )
     {
-        return Changed.InvokeAsync( ReportColor.FromString( value ) );
+        ReportColor color = ReportColor.FromString( value );
+
+        return color.Equals( Value )
+            ? Task.CompletedTask
+            : Changed.InvokeAsync( color );
     }
 
     private Task OnCustomChanged( string value )
     {
-        return Changed.InvokeAsync( ReportColor.FromString( value ) );
+        if ( string.IsNullOrWhiteSpace( value ) )
+            return Task.CompletedTask;
+
+        ReportColor color = ReportColor.FromString( value );
+
+        return string.Equals( color.ToCssString(), Value.ToCssString(), StringComparison.OrdinalIgnoreCase )
+            ? Task.CompletedTask
+            : Changed.InvokeAsync( color );
     }
 
     #endregion
@@ -67,7 +78,9 @@ public partial class _ReportDesignerColorProperty
 
     private string CustomValue => Value.Kind == ReportColorKind.Rgb
         ? FormattableString.Invariant( $"#{Value.Red:X2}{Value.Green:X2}{Value.Blue:X2}" )
-        : null;
+        : Value.Kind == ReportColorKind.Named
+            ? Value.ToCssString()
+            : null;
 
     private IReadOnlyList<(string Value, string Text)> ResolvedNamedOptions => NamedOptions ?? DefaultNamedOptions;
 
