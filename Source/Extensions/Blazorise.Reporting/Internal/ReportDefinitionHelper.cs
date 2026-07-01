@@ -16,7 +16,7 @@ internal static class ReportDefinitionHelper
 
     private const double ToolboxImageElementHeight = 72;
 
-    private const double ToolboxLineElementHeight = 1;
+    private const double ToolboxLineElementHeight = 8;
 
     private const double ToolboxRectangleElementHeight = 48;
 

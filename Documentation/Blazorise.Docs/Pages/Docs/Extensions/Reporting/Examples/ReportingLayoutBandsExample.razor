@@ -27,7 +27,7 @@
     </ReportPageHeader>
     <ReportGroupHeader Name="Category group" Height="28" DataSource="Invoice.Lines" GroupBy="Category">
         <ReportText Text="Category: {Category}" X="30" Y="6" Width="240" Height="18" Bold FontColor="@ReportColors.Green" />
-        <ReportLine X="30" Y="26" Width="480" Height="1" BorderColor="@ReportColors.Green" />
+        <ReportLine X="30" Y="26" Width="480" Height="8" Thickness="1" BorderColor="@ReportColors.Green" />
     </ReportGroupHeader>
     <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
         <ReportField Field="Sku" X="30" Y="6" Width="75" Height="18" />
@@ -36,7 +36,7 @@
         <ReportField Field="Total" Format="C" X="420" Y="6" Width="90" Height="18" />
     </ReportDetail>
     <ReportFooter Name="Report footer" Height="60">
-        <ReportLine X="30" Y="9" Width="480" Height="1" />
+        <ReportLine X="30" Y="9" Width="480" Height="8" Thickness="1" />
         <ReportText Text="Report total" X="300" Y="24" Width="105" Height="18" Bold />
         <ReportField Field="Header.Total" Format="C" X="420" Y="24" Width="90" Height="18" Bold FontColor="@ReportColors.Green" />
     </ReportFooter>

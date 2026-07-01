@@ -622,8 +622,22 @@
     object-fit: contain;
 }
 
-.b-report-element-line {
-    border-top: 1px solid currentColor;
+.b-report-element-line:not(.b-report-element-design) {
+    border: 0;
+}
+
+.b-report-element-line > .b-report-element-content {
+    position: relative;
+}
+
+.b-report-element-line > .b-report-element-content::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    border-top: var(--b-report-line-thickness, 1px) solid var(--b-report-line-color, currentColor);
+    transform: translateY(-50%);
 }
 
 .b-report-element-rectangle {

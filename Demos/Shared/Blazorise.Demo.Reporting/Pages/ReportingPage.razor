@@ -53,11 +53,11 @@
                     </ReportRunningTotals>
                     <ReportPage Size="ReportPageSize.A4" Orientation="ReportOrientation.Portrait" />
                     <ReportHeader Name="Order report header" Height="282">
-                        <ReportLine X="-36" Y="12" Width="390" Height="72" BorderColor="@LightAccentColor" />
-                        <ReportLine X="-24" Y="18" Width="405" Height="78" BorderColor="@LightAccentColor" />
-                        <ReportLine X="-12" Y="24" Width="420" Height="84" BorderColor="@WaveAccentColor" />
-                        <ReportLine X="0" Y="30" Width="435" Height="90" BorderColor="@WaveAccentColor" />
-                        <ReportLine X="12" Y="36" Width="450" Height="96" BorderColor="@LightAccentColor" />
+                        <ReportLine X="-36" Y="12" Width="390" Height="8" Thickness="1" BorderColor="@LightAccentColor" />
+                        <ReportLine X="-24" Y="18" Width="405" Height="8" Thickness="1" BorderColor="@LightAccentColor" />
+                        <ReportLine X="-12" Y="24" Width="420" Height="8" Thickness="1" BorderColor="@WaveAccentColor" />
+                        <ReportLine X="0" Y="30" Width="435" Height="8" Thickness="1" BorderColor="@WaveAccentColor" />
+                        <ReportLine X="12" Y="36" Width="450" Height="8" Thickness="1" BorderColor="@LightAccentColor" />
                         <ReportText Text="Harbor Order" X="342" Y="42" Width="210" Height="36" FontColor="@AccentColor" FontSize="30" Bold TextAlignment="TextAlignment.End" />
                         <ReportText Text="North Harbor Logistics" X="42" Y="78" Width="210" Height="18" FontColor="@MutedColor" Bold />
                         <ReportText Text="42 Meridian Quay" X="42" Y="96" Width="210" Height="18" FontColor="@MutedColor" />
@@ -89,7 +89,7 @@
                         <ReportField Field="Quantity" Format="N0" X="294" Y="9" Width="66" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.Center" />
                         <ReportField Field="UnitPrice" Format="C0" X="360" Y="9" Width="96" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.Center" />
                         <ReportField Field="Total" Format="C0" X="456" Y="9" Width="96" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.Center" />
-                        <ReportLine X="42" Y="35" Width="510" Height="1" BorderColor="@RuleColor" />
+                        <ReportLine X="42" Y="35" Width="510" Height="8" Thickness="1" BorderColor="@RuleColor" />
                     </ReportDetail>
                     <ReportFooter Name="Order report footer" Height="126">
                         <ReportText Text="Please remit payment within 14 days. Include the purchase order number on the transfer. Delivery windows are confirmed after carrier pickup." X="58" Y="42" Width="306" Height="48" FontColor="@MutedColor" CanGrow="true" />

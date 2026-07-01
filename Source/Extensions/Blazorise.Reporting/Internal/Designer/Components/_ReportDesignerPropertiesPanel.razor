@@ -251,10 +251,18 @@
             var border = ReportElementDefinitionHelper.EnsureBorder( SelectedElement );
 
             <_ReportDesignerPropertyGroup Title="Appearance">
-                <_ReportDesignerColorProperty Label="Fill" Value="@appearance.BackgroundColor" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).BackgroundColor = value ))" />
-                <_ReportDesignerColorProperty Label="Border color" Value="@border.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
-                <_ReportDesignerNullableNumberProperty Label="Border width" Value="@border.Width" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
-                <_ReportDesignerNullableNumberProperty Label="Corner radius" Value="@border.Radius" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                @if ( IsSelectedElementLine )
+                {
+                    <_ReportDesignerColorProperty Label="Color" Value="@border.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
+                    <_ReportDesignerNullableNumberProperty Label="Thickness" Value="@GetSelectedLineThickness()" Changed="@OnSelectedLineThicknessChanged" />
+                }
+                else
+                {
+                    <_ReportDesignerColorProperty Label="Fill" Value="@appearance.BackgroundColor" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).BackgroundColor = value ))" />
+                    <_ReportDesignerColorProperty Label="Border color" Value="@border.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
+                    <_ReportDesignerNullableNumberProperty Label="Border width" Value="@border.Width" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                    <_ReportDesignerNullableNumberProperty Label="Corner radius" Value="@border.Radius" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                }
                 <_ReportDesignerNullableNumberProperty Label="Opacity" Value="@appearance.Opacity" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" />
             </_ReportDesignerPropertyGroup>
         }

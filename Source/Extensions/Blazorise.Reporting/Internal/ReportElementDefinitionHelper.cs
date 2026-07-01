@@ -30,7 +30,7 @@ internal static class ReportElementDefinitionHelper
         builder.Append( $"top:{ReportMeasurementConverter.ToCssPixelString( element.Y )}" );
         builder.Append( $"width:{ReportMeasurementConverter.ToCssPixelString( element.Width )}" );
 
-        if ( ReportValueResolver.ResolveCanGrow( element, section, definition, defaultData, item, designMode ) && !designMode )
+        if ( ReportValueResolver.ResolveCanGrow( element, section, definition, defaultData, item, designMode ) && !designMode && element.Type != ReportElementType.Line )
             builder.Append( $"min-height:{ReportMeasurementConverter.ToCssPixelString( element.Height )}" );
         else
             builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( element.Height )}" );
@@ -48,7 +48,7 @@ internal static class ReportElementDefinitionHelper
 
         string backgroundColor = ToCssColor( appearance?.BackgroundColor ?? ReportColor.Default );
 
-        if ( backgroundColor is not null )
+        if ( backgroundColor is not null && element.Type != ReportElementType.Line )
             builder.Append( $"background-color:{backgroundColor}!important" );
 
         builder.Append( "font-weight:700", font?.Bold == true );
@@ -65,19 +65,31 @@ internal static class ReportElementDefinitionHelper
         if ( verticalAlignment is not null )
             builder.Append( $"--b-report-element-content-justify:{verticalAlignment}" );
 
-        string borderColor = ToCssColor( border?.Color ?? ReportColor.Default );
-
-        if ( borderColor is not null )
-            builder.Append( $"border-color:{borderColor}!important" );
-
-        if ( border?.Width is >= 0 )
+        if ( element.Type == ReportElementType.Line )
         {
-            builder.Append( $"border-width:{ReportMeasurementConverter.ToCssPixelString( border.Width.Value )}" );
-            builder.Append( "border-style:solid" );
-        }
+            string lineColor = ToCssColor( border?.Color ?? ReportColor.Default );
 
-        if ( border?.Radius is >= 0 )
-            builder.Append( $"border-radius:{ReportMeasurementConverter.ToCssPixelString( border.Radius.Value )}" );
+            if ( lineColor is not null )
+                builder.Append( $"--b-report-line-color:{lineColor}" );
+
+            builder.Append( $"--b-report-line-thickness:{ReportMeasurementConverter.ToCssPixelString( ReportLayoutGeometry.GetLineThickness( element ) )}" );
+        }
+        else
+        {
+            string borderColor = ToCssColor( border?.Color ?? ReportColor.Default );
+
+            if ( borderColor is not null )
+                builder.Append( $"border-color:{borderColor}!important" );
+
+            if ( border?.Width is >= 0 )
+            {
+                builder.Append( $"border-width:{ReportMeasurementConverter.ToCssPixelString( border.Width.Value )}" );
+                builder.Append( "border-style:solid" );
+            }
+
+            if ( border?.Radius is >= 0 )
+                builder.Append( $"border-radius:{ReportMeasurementConverter.ToCssPixelString( border.Radius.Value )}" );
+        }
 
         if ( appearance?.Opacity is >= 0 and <= 1 )
             builder.Append( $"opacity:{appearance.Opacity.Value.ToString( CultureInfo.InvariantCulture )}" );

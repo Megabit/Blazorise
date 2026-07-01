@@ -172,7 +172,7 @@ internal static class ReportPdfDocumentBuilder
         {
             Type = type,
             X = sectionX + element.X,
-            Y = sectionY + element.Y,
+            Y = sectionY + element.Y + ( element.Type == ReportElementType.Line ? element.Height / 2 : 0 ),
             Width = element.Width,
             Height = element.Height,
         };
@@ -200,6 +200,9 @@ internal static class ReportPdfDocumentBuilder
 
     private static double ResolveBorderWidth( ReportElementDefinition element )
     {
+        if ( element.Type == ReportElementType.Line )
+            return ReportLayoutGeometry.GetLineThickness( element );
+
         if ( ShouldRequireExplicitBorder( element.Type ) && !HasDefinedBorder( element.Border ) )
             return 0;
 

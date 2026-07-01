@@ -77,6 +77,15 @@ public partial class _ReportDesignerPropertiesPanel
 
     private bool HasSelection => ReportSelected || SelectedSection is not null || SelectedElement is not null || SelectedCell is not null;
 
+    private bool IsSelectedElementLine => SelectedElement?.Type == ReportElementType.Line;
+
+    private double? GetSelectedLineThickness()
+    {
+        return SelectedElement?.Type == ReportElementType.Line
+            ? SelectedElement.Thickness ?? ReportLayoutGeometry.DefaultLineThickness
+            : null;
+    }
+
     private ReportAppearanceDefinition EnsureSelectedSectionAppearance()
     {
         return EnsureSectionAppearance( SelectedSection );
@@ -203,6 +212,11 @@ public partial class _ReportDesignerPropertiesPanel
     private Task OnSelectedElementHeightChanged( double value )
     {
         return UpdateSelectedElement( element => element.Height = ToPoints( value ) );
+    }
+
+    private Task OnSelectedLineThicknessChanged( double? value )
+    {
+        return UpdateSelectedElement( element => element.Thickness = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) );
     }
 
     private double GetSelectedTableRowCount()

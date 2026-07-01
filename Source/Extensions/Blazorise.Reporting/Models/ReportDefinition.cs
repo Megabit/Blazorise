@@ -376,6 +376,11 @@ public sealed class ReportElementDefinition
     public double Height { get; set; } = 18;
 
     /// <summary>
+    /// Line stroke thickness in points.
+    /// </summary>
+    public double? Thickness { get; set; }
+
+    /// <summary>
     /// Allows text content to expand the element vertically when rendered.
     /// </summary>
     public ReportValue<bool> CanGrow { get; set; } = false;

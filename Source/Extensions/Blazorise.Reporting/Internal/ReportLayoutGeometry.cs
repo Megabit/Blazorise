@@ -10,7 +10,7 @@ internal static class ReportLayoutGeometry
 
     internal const double DefaultMinimumElementSize = 8;
 
-    private const double LineMinimumElementHeight = 1;
+    internal const double DefaultLineThickness = 1;
 
     private const double SnapToGridSize = 8;
 
@@ -76,7 +76,20 @@ internal static class ReportLayoutGeometry
 
     internal static double GetMinimumElementHeight( ReportElementType? elementType )
     {
-        return elementType == ReportElementType.Line ? LineMinimumElementHeight : DefaultMinimumElementSize;
+        return DefaultMinimumElementSize;
+    }
+
+    internal static double GetLineThickness( ReportElementDefinition element )
+    {
+        return Math.Max( DefaultLineThickness, element?.Thickness ?? DefaultLineThickness );
+    }
+
+    internal static double GetElementRenderHeight( ReportElementDefinition element )
+    {
+        if ( element is null )
+            return DefaultMinimumElementSize;
+
+        return Math.Max( GetMinimumElementHeight( element ), element.Height );
     }
 
     internal static double GetMinimumSectionHeight( ReportSectionDefinition section )
@@ -89,7 +102,7 @@ internal static class ReportLayoutGeometry
         foreach ( var element in section.Elements )
         {
             if ( element is not null )
-                height = Math.Max( height, element.Y + Math.Max( GetMinimumElementHeight( element ), element.Height ) );
+                height = Math.Max( height, element.Y + GetElementRenderHeight( element ) );
         }
 
         return height;
@@ -111,7 +124,7 @@ internal static class ReportLayoutGeometry
         if ( section is null || element is null )
             return;
 
-        section.Height = Math.Max( section.Height, element.Y + Math.Max( GetMinimumElementHeight( element ), element.Height ) );
+        section.Height = Math.Max( section.Height, element.Y + GetElementRenderHeight( element ) );
     }
 
     internal static double SnapToGrid( double value )

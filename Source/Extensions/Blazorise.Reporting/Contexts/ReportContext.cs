@@ -334,6 +334,7 @@ internal sealed class ReportContext
             Y = element.Y,
             Width = element.Width,
             Height = element.Height,
+            Thickness = element.Thickness,
             CanGrow = CloneValue( element.CanGrow ),
             Suppress = CloneValue( element.Suppress ),
             SnapToGrid = CloneValue( element.SnapToGrid ),
