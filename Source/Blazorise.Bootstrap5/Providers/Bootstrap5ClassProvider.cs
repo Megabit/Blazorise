@@ -81,7 +81,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #region ColorInput
 
-    public override string ColorInput() => "form-control";
+    public override string ColorInput() => "form-control form-control-color";
 
     public override string ColorInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
@@ -113,7 +113,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #region ColorPicker
 
-    public override string ColorPicker() => "form-control b-input-color-picker";
+    public override string ColorPicker() => "form-control form-control-color b-input-color-picker";
 
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 

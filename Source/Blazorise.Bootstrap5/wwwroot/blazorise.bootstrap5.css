@@ -1683,11 +1683,54 @@ input[readonly=readonly][type=range]::-ms-thumb {
   }
 }
 
+input[type=color].form-control-color,
 .b-input-color-picker {
-  padding: 0.5rem 0.6rem;
+  width: 100%;
 }
-.b-input-color-picker > .b-input-color-picker-preview {
-  height: 0.55rem;
+
+.b-input-color-picker.form-control-color {
+  display: flex;
+  align-items: stretch;
+  padding: 0.375rem;
+}
+.b-input-color-picker.form-control-color > .b-input-color-picker-preview {
+  border-radius: var(--bs-border-radius);
+}
+.b-input-color-picker.form-control-color.form-control-sm {
+  padding: 0.25rem;
+}
+.b-input-color-picker.form-control-color.form-control-sm > .b-input-color-picker-preview {
+  border-radius: var(--bs-border-radius-sm);
+}
+.b-input-color-picker.form-control-color.form-control-lg {
+  padding: 0.5rem;
+}
+.b-input-color-picker.form-control-color.form-control-lg > .b-input-color-picker-preview {
+  border-radius: var(--bs-border-radius-lg);
+}
+.b-input-color-picker.form-control-color.form-control-xs {
+  padding: 0.15rem;
+}
+.b-input-color-picker.form-control-color.form-control-xs > .b-input-color-picker-preview {
+  border-radius: 0.15rem;
+}
+.b-input-color-picker.form-control-color.form-control-md {
+  padding: 0.47rem;
+}
+.b-input-color-picker.form-control-color.form-control-md > .b-input-color-picker-preview {
+  border-radius: 0.25rem;
+}
+.b-input-color-picker.form-control-color.form-control-xl {
+  padding: 0.5rem;
+}
+.b-input-color-picker.form-control-color.form-control-xl > .b-input-color-picker-preview {
+  border-radius: 1rem;
+}
+.b-input-color-picker.form-control-color > .b-input-color-picker-preview::before {
+  border-radius: inherit;
+}
+.b-input-color-picker.form-control-color > .b-input-color-picker-preview > .b-input-color-picker-curent-color {
+  border-radius: inherit;
 }
 
 .focus-trap {
