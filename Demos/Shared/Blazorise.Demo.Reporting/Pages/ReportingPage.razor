@@ -46,90 +46,60 @@
                         <ReportCsvDataSource Name="CsvInvoiceLines" Source="@invoiceLinesCsv" Encoding="utf-8" />
                     </ReportDataSources>
                     <ReportFormulaFields>
-                        <ReportFormulaField Name="CustomerSummary" Formula="'Customer: ' + {Customer.Name}" />
+                        <ReportFormulaField Name="BillToSummary" Formula="'Bill to: ' + {BillTo.Name}" />
                     </ReportFormulaFields>
                     <ReportRunningTotals>
-                        <ReportRunningTotal Name="LineRunningTotal" DataSource="Invoice.Lines" Field="Total" Function="ReportAggregateFunction.Sum" />
+                        <ReportRunningTotal Name="OrderRunningTotal" DataSource="Invoice.Lines" Field="Total" Function="ReportAggregateFunction.Sum" />
                     </ReportRunningTotals>
                     <ReportPage Size="ReportPageSize.A4" Orientation="ReportOrientation.Portrait" />
-                    <ReportHeader Name="Invoice report header" Height="97.5">
-                        <ReportText Text="Invoice summary"
-                                    X="30"
-                                    Y="18"
-                                    Width="210"
-                                    Height="25.5"
-                                    FontColor="@ReportColors.Blue"
-                                    FontSize="21"
-                                    Bold />
-                        <ReportText Text="Declarative report with designer and viewer modes."
-                                    X="31.5"
-                                    Y="48"
-                                    Width="315"
-                                    Height="18"
-                                    FontColor="@ReportColors.Gray" />
-                        <ReportTable X="322.5"
-                                     Y="69"
-                                     Width="225"
-                                     Height="24">
-                            <ReportTableColumn Width="67.5" />
-                            <ReportTableColumn Width="157.5" />
-                            <ReportTableRow Height="24">
-                                <ReportTableCell>
-                                    <ReportText Text="Customer:" Bold />
-                                </ReportTableCell>
-                                <ReportTableCell>
-                                    <ReportText Text="{Customer.Name}" />
-                                </ReportTableCell>
-                            </ReportTableRow>
-                        </ReportTable>
-                        <ReportRectangle X="457.5"
-                                         Y="18"
-                                         Width="90"
-                                         Height="48"
-                                         BorderColor="@AccentColor" />
-                        <ReportText Text="BLZ"
-                                    X="480"
-                                    Y="31.5"
-                                    Width="54"
-                                    Height="21"
-                                    FontColor="@ReportColors.Blue"
-                                    FontSize="18"
-                                    Bold
-                                    TextAlignment="TextAlignment.Center" />
+                    <ReportHeader Name="Order report header" Height="282">
+                        <ReportLine X="-36" Y="12" Width="390" Height="72" BorderColor="@LightAccentColor" />
+                        <ReportLine X="-24" Y="18" Width="405" Height="78" BorderColor="@LightAccentColor" />
+                        <ReportLine X="-12" Y="24" Width="420" Height="84" BorderColor="@WaveAccentColor" />
+                        <ReportLine X="0" Y="30" Width="435" Height="90" BorderColor="@WaveAccentColor" />
+                        <ReportLine X="12" Y="36" Width="450" Height="96" BorderColor="@LightAccentColor" />
+                        <ReportText Text="Harbor Order" X="342" Y="42" Width="210" Height="36" FontColor="@AccentColor" FontSize="30" Bold TextAlignment="TextAlignment.End" />
+                        <ReportText Text="North Harbor Logistics" X="42" Y="78" Width="210" Height="18" FontColor="@MutedColor" Bold />
+                        <ReportText Text="42 Meridian Quay" X="42" Y="96" Width="210" Height="18" FontColor="@MutedColor" />
+                        <ReportText Text="Port Haven, WA 98104" X="42" Y="112" Width="210" Height="18" FontColor="@MutedColor" />
+                        <ReportText Text="orders@northernharbor.example" X="42" Y="128" Width="210" Height="18" FontColor="@MutedColor" />
+                        <ReportText Text="Date:" X="342" Y="124" Width="36" Height="18" FontColor="@MutedColor" />
+                        <ReportField Field="Header.OrderDate" Format="d" X="378" Y="124" Width="84" Height="18" FontColor="@MutedColor" />
+                        <ReportText Text="PO#:" X="474" Y="124" Width="36" Height="18" FontColor="@MutedColor" />
+                        <ReportField Field="Header.PurchaseOrder" X="510" Y="124" Width="72" Height="18" FontColor="@MutedColor" />
+                        <ReportText Text="BILL TO" X="42" Y="162" Width="186" Height="36" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" FontSize="13" Bold />
+                        <ReportField Field="BillTo.Name" X="46" Y="216" Width="180" Height="18" FontColor="@MutedColor" />
+                        <ReportField Field="BillTo.Address" X="46" Y="232" Width="180" Height="18" FontColor="@MutedColor" />
+                        <ReportField Field="BillTo.Email" X="46" Y="248" Width="180" Height="18" FontColor="@MutedColor" />
+                        <ReportText Text="SHIP TO" X="330" Y="162" Width="186" Height="36" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" FontSize="13" Bold />
+                        <ReportField Field="ShipTo.Name" X="334" Y="216" Width="180" Height="18" FontColor="@MutedColor" />
+                        <ReportField Field="ShipTo.Address" X="334" Y="232" Width="180" Height="18" FontColor="@MutedColor" />
+                        <ReportField Field="ShipTo.Email" X="334" Y="248" Width="180" Height="18" FontColor="@MutedColor" />
                     </ReportHeader>
-                    <ReportPageHeader Name="Invoice page header" Height="31.5">
-                        <ReportText Text="Invoice" X="30" Y="7.5" Width="67.5" Height="18" Bold />
-                        <ReportText Text="Description" X="112.5" Y="7.5" Width="165" Height="18" Bold />
-                        <ReportText Text="Qty" X="292.5" Y="7.5" Width="82.5" Height="18" Bold />
-                        <ReportText Text="Line total" X="405" Y="7.5" Width="90" Height="18" Bold />
-                        <ReportText Text="Running total" X="502.5" Y="7.5" Width="90" Height="18" Bold TextAlignment="TextAlignment.End" />
+                    <ReportPageHeader Name="Order table header" Height="42">
+                        <ReportText Text="ITEM#" X="42" Y="6" Width="72" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" />
+                        <ReportText Text="DESCRIPTION" X="114" Y="6" Width="180" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" />
+                        <ReportText Text="QTY" X="294" Y="6" Width="66" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" />
+                        <ReportText Text="UNIT PRICE" X="360" Y="6" Width="96" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" />
+                        <ReportText Text="TOTAL" X="456" Y="6" Width="96" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" />
                     </ReportPageHeader>
-                    <ReportDetail Name="Invoice rows" Height="39" DataSource="Invoice.Lines">
-                        <ReportField Field="Sku" X="30" Y="10.5" Width="67.5" Height="18" />
-                        <ReportField Field="Description" X="112.5" Y="10.5" Width="165" Height="18" />
-                        <ReportField Field="Quantity" Format="N2" X="292.5" Y="10.5" Width="82.5" Height="18" />
-                        <ReportField Field="Total" Format="C" X="405" Y="10.5" Width="90" Height="18" FontColor="@ReportColors.Green" />
-                        <ReportField Field="LineRunningTotal" Format="C" X="502.5" Y="10.5" Width="90" Height="18" FontColor="@ReportColors.Green" TextAlignment="TextAlignment.End" />
+                    <ReportDetail Name="Order rows" Height="36" DataSource="Invoice.Lines">
+                        <ReportField Field="Sku" X="42" Y="9" Width="72" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.Center" />
+                        <ReportField Field="Description" X="114" Y="9" Width="180" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.Center" />
+                        <ReportField Field="Quantity" Format="N0" X="294" Y="9" Width="66" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.Center" />
+                        <ReportField Field="UnitPrice" Format="C0" X="360" Y="9" Width="96" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.Center" />
+                        <ReportField Field="Total" Format="C0" X="456" Y="9" Width="96" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.Center" />
+                        <ReportLine X="42" Y="35" Width="510" Height="1" BorderColor="@RuleColor" />
                     </ReportDetail>
-                    <ReportFooter Name="Invoice report footer" Height="54">
-                        <ReportLine X="30" Y="7.5" Width="517.5" Height="1" />
-                        <ReportText Text="Invoice total"
-                                    X="30"
-                                    Y="21"
-                                    Width="135"
-                                    Height="18"
-                                    FontColor="@ReportColors.Gray" />
-                        <ReportField Field="Header.Total"
-                                     Format="C"
-                                     X="405"
-                                     Y="21"
-                                     Width="90"
-                                     Height="18"
-                                     Bold
-                                     FontColor="@ReportColors.Green" />
+                    <ReportFooter Name="Order report footer" Height="126">
+                        <ReportText Text="Please remit payment within 14 days. Include the purchase order number on the transfer. Delivery windows are confirmed after carrier pickup." X="58" Y="42" Width="306" Height="48" FontColor="@MutedColor" CanGrow="true" />
+                        <ReportText Text="Total VAT:" X="372" Y="30" Width="78" Height="18" Bold TextAlignment="TextAlignment.End" />
+                        <ReportField Field="Header.Vat" Format="C0" X="468" Y="30" Width="72" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.End" />
+                        <ReportText Text="TOTAL" X="366" Y="72" Width="84" Height="36" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" FontSize="13" Bold TextAlignment="TextAlignment.Center" />
+                        <ReportField Field="Header.Total" Format="C0" X="450" Y="72" Width="102" Height="36" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" FontSize="13" Bold TextAlignment="TextAlignment.Center" />
                     </ReportFooter>
-                    <ReportPageFooter Name="Invoice page footer" Height="30">
-                        <ReportText Text="Page footer band" X="30" Y="7.5" Width="135" Height="18" FontColor="@ReportColors.Gray" />
+                    <ReportPageFooter Name="Order page footer" Height="24">
+                        <ReportText Text="North Harbor Logistics - sample order report" X="42" Y="3" Width="240" Height="18" FontColor="@MutedColor" />
                     </ReportPageFooter>
                 </Report>
             </CardBody>
@@ -138,34 +108,51 @@
 </Row>
 
 @code {
-    private static readonly ReportColor AccentColor = ReportColor.FromHex( "#0d6efd" );
+    private static readonly ReportColor AccentColor = ReportColor.FromHex( "#6b8cff" );
+
+    private static readonly ReportColor LightAccentColor = ReportColor.FromHex( "#8ed8ff" );
+
+    private static readonly ReportColor WaveAccentColor = ReportColor.FromHex( "#7b61ff" );
+
+    private static readonly ReportColor MutedColor = ReportColor.FromHex( "#7d8794" );
+
+    private static readonly ReportColor RuleColor = ReportColor.FromHex( "#d6dce5" );
 
     private ReportDefinition definition;
 
     private const string invoiceLinesCsv = "Sku,Description,Quantity,UnitPrice,Total\r\n"
-        + "CSV-001,CSV implementation workshop,1,640.50,640.50\r\n"
-        + "CSV-010,CSV reporting module license,2,250.00,500.00\r\n"
-        + "CSV-003,CSV priority support,1,100.00,100.00";
+        + "HB-104,CSV coastal inventory tags,18,30.00,540.00\r\n"
+        + "HB-118,CSV insulated cargo sleeves,22,50.00,1100.00\r\n"
+        + "HB-142,CSV route planning credits,31,25.00,775.00";
 
     private readonly InvoiceReportModel invoice = new()
     {
         Header = new()
         {
-            Number = "INV-1001",
-            IssuedAt = new DateTime( 2026, 6, 1 ),
-            Total = 1240.50m,
+            PurchaseOrder = "HB-78241",
+            OrderDate = new DateTime( 2026, 7, 1 ),
+            Vat = 403.50m,
+            Total = 4438.50m,
         },
-        Customer = new()
+        BillTo = new()
         {
-            Name = "Northwind Traders",
-            Address = "One Portals Way, Twin Points WA, 98156",
-            TaxNumber = "NW-45821",
+            Name = "Summit Market Co.",
+            Address = "18 Alpine Row, Denver CO 80202",
+            Email = "ap@summitmarket.example",
+        },
+        ShipTo = new()
+        {
+            Name = "Harbor Cold Storage",
+            Address = "7 Pier Lane, Tacoma WA 98402",
+            Email = "receiving@harborcold.example",
         },
         Lines =
         [
-            new() { Category = "Services", Sku = "SRV-001", Description = "Implementation workshop", Quantity = 1, UnitPrice = 640.50m, Total = 640.50m },
-            new() { Category = "Licenses", Sku = "LIC-010", Description = "Reporting module license", Quantity = 2, UnitPrice = 250.00m, Total = 500.00m },
-            new() { Category = "Services", Sku = "SUP-003", Description = "Priority support", Quantity = 1, UnitPrice = 100.00m, Total = 100.00m },
+            new() { Category = "Logistics", Sku = "HB-104", Description = "Coastal inventory tags", Quantity = 18, UnitPrice = 30.00m, Total = 540.00m },
+            new() { Category = "Packaging", Sku = "HB-118", Description = "Insulated cargo sleeves", Quantity = 22, UnitPrice = 50.00m, Total = 1100.00m },
+            new() { Category = "Services", Sku = "HB-142", Description = "Route planning credits", Quantity = 31, UnitPrice = 25.00m, Total = 775.00m },
+            new() { Category = "Handling", Sku = "HB-166", Description = "Dock transfer handling", Quantity = 12, UnitPrice = 30.00m, Total = 360.00m },
+            new() { Category = "Freight", Sku = "HB-205", Description = "Priority freight lane", Quantity = 9, UnitPrice = 140.00m, Total = 1260.00m },
         ],
     };
 
@@ -173,27 +160,31 @@
     {
         public InvoiceHeaderModel Header { get; set; }
 
-        public InvoiceCustomerModel Customer { get; set; }
+        public InvoiceContactModel BillTo { get; set; }
+
+        public InvoiceContactModel ShipTo { get; set; }
 
         public List<InvoiceLineModel> Lines { get; set; } = [];
     }
 
     private sealed class InvoiceHeaderModel
     {
-        public string Number { get; set; }
+        public string PurchaseOrder { get; set; }
 
-        public DateTime IssuedAt { get; set; }
+        public DateTime OrderDate { get; set; }
+
+        public decimal Vat { get; set; }
 
         public decimal Total { get; set; }
     }
 
-    private sealed class InvoiceCustomerModel
+    private sealed class InvoiceContactModel
     {
         public string Name { get; set; }
 
         public string Address { get; set; }
 
-        public string TaxNumber { get; set; }
+        public string Email { get; set; }
     }
 
     private sealed class InvoiceLineModel
