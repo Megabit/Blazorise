@@ -4137,10 +4137,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         await ExecuteDesignerCommandAsync( new( pointerResize.Kind == ReportTableResizeKind.Column ? "Resize table column" : "Resize table row", () =>
         {
-            if ( ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, pointerResize.TableKey, out _, out _, out ReportElementDefinition table )
+            if ( ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, pointerResize.TableKey, out int sectionIndex, out _, out ReportElementDefinition table )
                 && table.Type == ReportElementType.Table )
             {
                 ApplyTablePointerResize( table, pointerResize );
+                ReportLayoutGeometry.GrowSectionToFitElement( EffectiveDefinition.Sections[sectionIndex], table );
 
                 if ( !string.IsNullOrWhiteSpace( pointerResize.CellKey ) )
                     SelectTableCell( pointerResize.CellKey );
