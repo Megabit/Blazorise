@@ -158,19 +158,24 @@
                         </FieldBody>
                     </Field>
                 }
-                @foreach ( var column in Scheduler.AdditionalEditableColumns )
+                @if ( Scheduler.AdditionalEditableColumns.Any() )
                 {
-                    var editTemplate = column.RenderEdit( EditItem, Blazorise.Scheduler.SchedulerEditState.Edit );
+                    <Fields>
+                        @foreach ( var column in Scheduler.AdditionalEditableColumns )
+                        {
+                            var editTemplate = column.RenderEdit( EditItem, Blazorise.Scheduler.SchedulerEditState.Edit );
 
-                    if ( editTemplate is not null )
-                    {
-                        <Field>
-                            <FieldLabel>@(column.Caption ?? column.Field)</FieldLabel>
-                            <FieldBody>
-                                @editTemplate
-                            </FieldBody>
-                        </Field>
-                    }
+                            if ( editTemplate is not null )
+                            {
+                                <Field ColumnSize="@(column.ColumnSize ?? ColumnSizeIsFull)">
+                                    <FieldLabel>@(column.Caption ?? column.Field)</FieldLabel>
+                                    <FieldBody>
+                                        @editTemplate
+                                    </FieldBody>
+                                </Field>
+                            }
+                        }
+                    </Fields>
                 }
             </Validations>
             @if ( customValidationErrors.Any() )

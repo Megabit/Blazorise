@@ -15,9 +15,14 @@
                 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>context.Value</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
             <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">EditTemplate</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SchedulerColumn</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SchedulerColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Appointment</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Appointment.Color )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Color</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SchedulerColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Appointment</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Appointment.Color )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Color</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ColumnSize.IsHalf.OnDesktop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">EditTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">context</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
                 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ColorPicker</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>context.Value</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">EditTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SchedulerColumn</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SchedulerColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Appointment</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( Appointment.Location )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Location</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ColumnSize.IsHalf.OnDesktop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">EditTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">context</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>context.Value</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
             <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">EditTemplate</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SchedulerColumn</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SchedulerColumns</span><span class="htmlTagDelimiter">&gt;</span>
@@ -49,7 +54,7 @@
         {
         }
 
-        <span class="keyword">public</span> Appointment( <span class="keyword">string</span> title, <span class="keyword">string</span> description, DateTime start, DateTime end, <span class="keyword">string</span> color )
+        <span class="keyword">public</span> Appointment( <span class="keyword">string</span> title, <span class="keyword">string</span> description, DateTime start, DateTime end, <span class="keyword">string</span> color, <span class="keyword">string</span> location )
         {
             Id = Guid.NewGuid().ToString();
             Title = title;
@@ -57,6 +62,7 @@
             Start = start;
             End = end;
             Color = color;
+            Location = location;
         }
 
         <span class="keyword">public</span> <span class="keyword">string</span> Id { <span class="keyword">get</span>; <span class="keyword">set</span>; }
@@ -72,13 +78,15 @@
         <span class="keyword">public</span> <span class="keyword">bool</span> AllDay { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
         <span class="keyword">public</span> <span class="keyword">string</span> Color { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Location { <span class="keyword">get</span>; <span class="keyword">set</span>; }
     }
 
     List&lt;Appointment&gt; Appointments = <span class="keyword">new</span> List&lt;Appointment&gt;
     {
-        <span class="keyword">new</span> Appointment( <span class="string">&quot;Design review&quot;</span>, <span class="string">&quot;Reviewing the new dashboard&quot;</span>, today10AM, today10AM.AddHours( <span class="number">1</span> ), <span class="string">&quot;#0d6efd&quot;</span> ),
-        <span class="keyword">new</span> Appointment( <span class="string">&quot;Planning&quot;</span>, <span class="string">&quot;Sprint planning session&quot;</span>, today10AM.AddHours( <span class="number">2</span> ), today10AM.AddHours( <span class="number">3</span> ), <span class="string">&quot;#198754&quot;</span> ),
-        <span class="keyword">new</span> Appointment( <span class="string">&quot;Customer call&quot;</span>, <span class="string">&quot;Quarterly product feedback&quot;</span>, today10AM.AddDays( <span class="number">1</span> ).AddHours( <span class="number">1</span> ), today10AM.AddDays( <span class="number">1</span> ).AddHours( <span class="number">2</span> ), <span class="string">&quot;#dc3545&quot;</span> ),
+        <span class="keyword">new</span> Appointment( <span class="string">&quot;Design review&quot;</span>, <span class="string">&quot;Reviewing the new dashboard&quot;</span>, today10AM, today10AM.AddHours( <span class="number">1</span> ), <span class="string">&quot;#0d6efd&quot;</span>, <span class="string">&quot;Conference room&quot;</span> ),
+        <span class="keyword">new</span> Appointment( <span class="string">&quot;Planning&quot;</span>, <span class="string">&quot;Sprint planning session&quot;</span>, today10AM.AddHours( <span class="number">2</span> ), today10AM.AddHours( <span class="number">3</span> ), <span class="string">&quot;#198754&quot;</span>, <span class="string">&quot;Main office&quot;</span> ),
+        <span class="keyword">new</span> Appointment( <span class="string">&quot;Customer call&quot;</span>, <span class="string">&quot;Quarterly product feedback&quot;</span>, today10AM.AddDays( <span class="number">1</span> ).AddHours( <span class="number">1</span> ), today10AM.AddDays( <span class="number">1</span> ).AddHours( <span class="number">2</span> ), <span class="string">&quot;#dc3545&quot;</span>, <span class="string">&quot;Remote&quot;</span> ),
     };
 }
 </pre></div>

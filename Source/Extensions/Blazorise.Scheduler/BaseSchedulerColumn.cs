@@ -107,6 +107,11 @@ public abstract class BaseSchedulerColumn<TItem> : ComponentBase, IDisposable
     [Parameter] public string Caption { get; set; }
 
     /// <summary>
+    /// Gets or sets the column size when the column is shown in the scheduler item modal.
+    /// </summary>
+    [Parameter] public IFluentColumn ColumnSize { get; set; }
+
+    /// <summary>
     /// Gets or sets whether the column editor is shown in the scheduler item modal.
     /// </summary>
     [Parameter] public bool Editable { get; set; } = true;

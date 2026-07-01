@@ -22,9 +22,14 @@
                         <SchedulerMonthView StartTime="@(new TimeOnly( 7, 0 ))" EndTime="@(new TimeOnly( 17, 0 ))" WorkDayStart="@(new TimeOnly( 8, 0 ))" WorkDayEnd="@(new TimeOnly( 16, 0 ))" />
                     </SchedulerViews>
                     <SchedulerColumns>
-                        <SchedulerColumn TItem="SchedulerAppointment" Field="@nameof( SchedulerAppointment.Color )" Caption="Color" TValue="string">
+                        <SchedulerColumn TItem="SchedulerAppointment" Field="@nameof( SchedulerAppointment.Color )" Caption="Color" TValue="string" ColumnSize="ColumnSize.IsHalf.OnDesktop">
                             <EditTemplate Context="context">
                                 <ColorPicker @bind-Value="@context.Value" />
+                            </EditTemplate>
+                        </SchedulerColumn>
+                        <SchedulerColumn TItem="SchedulerAppointment" Field="@nameof( SchedulerAppointment.Location )" Caption="Location" TValue="string" ColumnSize="ColumnSize.IsHalf.OnDesktop">
+                            <EditTemplate Context="context">
+                                <TextInput @bind-Value="@context.Value" />
                             </EditTemplate>
                         </SchedulerColumn>
                     </SchedulerColumns>
@@ -58,6 +63,7 @@
         fakeAppointment.Start = start;
         fakeAppointment.End = end;
         fakeAppointment.Color = "#0d6efd";
+        fakeAppointment.Location = "Main office";
 
         Appointments.Add( fakeAppointment );
 
@@ -127,6 +133,8 @@
 
         public string Color { get; set; }
 
+        public string Location { get; set; }
+
         public string RecurrenceRule { get; set; }
 
         public string RecurrenceId { get; set; }
@@ -142,34 +150,41 @@
     {
         new SchedulerAppointment( "Meeting with the CEO", "Regarding the new margeting strategy", start, start.AddHours(1) )
         {
-            Color = "#dc3545"
+            Color = "#dc3545",
+            Location = "Conference room"
         },
         new SchedulerAppointment( "Some other meeting", "Regarding the new margeting strategy", start, start.AddHours(1) )
         {
-            Color = "#0d6efd"
+            Color = "#0d6efd",
+            Location = "Main office"
         },
         new SchedulerAppointment( "Lunch with the team", "Discussing the new project", start.AddDays(-10).AddHours(2), start.AddDays(-10).AddHours(3))
         {
             Color = "#0dcaf0",
+            Location = "Cafeteria",
             RecurrenceRule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3"
             // RecurrenceRule = "FREQ=DAILY;INTERVAL=1;COUNT=10;"
             // RecurrenceRule = "FREQ=MONTHLY;INTERVAL=2;BYMONTHDAY=1;COUNT=2;"
         },
         new SchedulerAppointment( "Meeting with the client", "Discussing the new project", start.AddHours(4), start.AddHours(5) )
         {
-            Color = "#198754"
+            Color = "#198754",
+            Location = "Client office"
         },
         new SchedulerAppointment( "Test 1", "Test 1 desc", DateTime.Today.AddDays(-2), DateTime.Today.AddDays(-2), true )
         {
-            Color = "#6c757d"
+            Color = "#6c757d",
+            Location = "Remote"
         },
         new SchedulerAppointment( "All day event with the team", "Team building", DateTime.Today.AddDays(-2), DateTime.Today, true)
         {
-            Color = "#6610f2"
+            Color = "#6610f2",
+            Location = "Offsite"
         },
         new SchedulerAppointment( "Games with the team", "Having fun", DateTime.Today, DateTime.Today, true )
         {
-            Color = "#fd7e14"
+            Color = "#fd7e14",
+            Location = "Game room"
         },
     };
 }

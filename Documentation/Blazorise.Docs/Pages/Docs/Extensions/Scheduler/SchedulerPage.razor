@@ -80,7 +80,7 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    A column whose <Code>Field</Code> maps to an additional model property, such as <Code>Color</Code>, is rendered after the native scheduler fields. Its value is copied together with the rest of the appointment when the modal is saved. A column whose <Code>Field</Code> maps to a native scheduler property, such as <Code>Title</Code>, replaces the native editor in the modal but still uses the scheduler's built-in state, validation, and save flow.
+    A column whose <Code>Field</Code> maps to an additional model property, such as <Code>Color</Code>, is rendered after the native scheduler fields. Its value is copied together with the rest of the appointment when the modal is saved. Additional fields are rendered in a <Code>Fields</Code> layout and can use <Code>ColumnSize</Code> to control their width. A column whose <Code>Field</Code> maps to a native scheduler property, such as <Code>Title</Code>, replaces the native editor in the modal but still uses the scheduler's built-in state, validation, and save flow.
 </DocsPageParagraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -172,7 +172,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Custom Appointment Fields">
-        Use <Code>SchedulerColumns</Code> to customize the Add/Edit Appointment modal. This example replaces the native <Code>Title</Code> editor and adds a custom <Code>Color</Code> field with a <Code>ColorPicker</Code>. The color is then applied through <Code>ItemStyling</Code>.
+        Use <Code>SchedulerColumns</Code> to customize the Add/Edit Appointment modal. This example replaces the native <Code>Title</Code> editor and adds custom <Code>Color</Code> and <Code>Location</Code> fields. The additional fields use <Code>ColumnSize</Code> to share a row on desktop, and the color is applied through <Code>ItemStyling</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="SchedulerColumnsExample" Outlined FullWidth>
         <SchedulerColumnsExample />

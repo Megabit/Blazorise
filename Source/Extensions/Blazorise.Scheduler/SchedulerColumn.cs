@@ -49,7 +49,7 @@ public class SchedulerColumn<TItem, TValue> : BaseSchedulerColumn<TItem>
     /// <inheritdoc/>
     internal override RenderFragment RenderEdit( TItem item, SchedulerEditState editState )
     {
-        if ( EditTemplate is null )
+        if ( EditTemplate is null || item is null )
             return null;
 
         var value = valueGetter.Value.Invoke( item );
