@@ -241,6 +241,11 @@ function onResizeMove(event) {
         return;
     }
 
+    if (isPrimaryPointerButtonReleased(event)) {
+        cancel();
+        return;
+    }
+
     event.preventDefault();
 
     const horizontal = operation.position === "Left" || operation.position === "Right";
@@ -313,6 +318,11 @@ function getResizeMaxFirstSize(totalSize, firstChild, minPaneSize, maxPaneSize) 
 
 function onDragMove(event) {
     if (!operation || operation.type !== "drag") {
+        return;
+    }
+
+    if (isPrimaryPointerButtonReleased(event)) {
+        cancel();
         return;
     }
 
@@ -659,6 +669,10 @@ function clamp(value, min, max) {
     }
 
     return result;
+}
+
+function isPrimaryPointerButtonReleased(event) {
+    return typeof event.buttons === "number" && event.buttons === 0;
 }
 
 function parseSize(value, context, horizontal) {
