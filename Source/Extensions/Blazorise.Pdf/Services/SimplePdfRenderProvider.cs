@@ -20,6 +20,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private const double AverageGlyphWidthRatio = 0.5;
 
+    private const double LineHeightRatio = 1.2;
+
     #endregion
 
     #region Methods
@@ -47,14 +49,14 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         List<int> pageObjectIds = [];
         int catalogId = ReserveObject( objects );
         int pagesId = ReserveObject( objects );
-        int fontId = AddObject( objects, "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>" );
+        PdfFontResources fontResources = AddFontResources( objects );
         List<PdfPageDefinition> pages = document.Pages.Count > 0 ? document.Pages : [CreateDefaultPage( document )];
 
         foreach ( PdfPageDefinition page in pages )
         {
             PdfPageContent pageContent = BuildPageContent( page );
             int contentId = AddObject( objects, CreateStreamObject( pageContent.Content ) );
-            int pageId = AddObject( objects, BuildPageObject( page, pagesId, fontId, contentId, pageContent ) );
+            int pageId = AddObject( objects, BuildPageObject( page, pagesId, fontResources, contentId, pageContent ) );
             pageObjectIds.Add( pageId );
         }
 
@@ -106,15 +108,26 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return $"<< /Type /Pages /Kids [ {kids} ] /Count {pageObjectIds.Count.ToString( CultureInfo.InvariantCulture )} >>";
     }
 
-    private static string BuildPageObject( PdfPageDefinition page, int pagesId, int fontId, int contentId, PdfPageContent pageContent )
+    private static PdfFontResources AddFontResources( List<PdfObject> objects )
     {
-        return FormattableString.Invariant( $"<< /Type /Page /Parent {pagesId} 0 R /MediaBox [ 0 0 {page.Width} {page.Height} ] /Resources {BuildPageResources( fontId, pageContent )} /Contents {contentId} 0 R >>" );
+        return new()
+        {
+            RegularId = AddObject( objects, "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>" ),
+            BoldId = AddObject( objects, "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>" ),
+            ItalicId = AddObject( objects, "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique >>" ),
+            BoldItalicId = AddObject( objects, "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-BoldOblique >>" ),
+        };
     }
 
-    private static string BuildPageResources( int fontId, PdfPageContent pageContent )
+    private static string BuildPageObject( PdfPageDefinition page, int pagesId, PdfFontResources fontResources, int contentId, PdfPageContent pageContent )
+    {
+        return FormattableString.Invariant( $"<< /Type /Page /Parent {pagesId} 0 R /MediaBox [ 0 0 {page.Width} {page.Height} ] /Resources {BuildPageResources( fontResources, pageContent )} /Contents {contentId} 0 R >>" );
+    }
+
+    private static string BuildPageResources( PdfFontResources fontResources, PdfPageContent pageContent )
     {
         StringBuilder builder = new();
-        builder.Append( FormattableString.Invariant( $"<< /Font << /F1 {fontId} 0 R >>" ) );
+        builder.Append( FormattableString.Invariant( $"<< /Font << /F1 {fontResources.RegularId} 0 R /F2 {fontResources.BoldId} 0 R /F3 {fontResources.ItalicId} 0 R /F4 {fontResources.BoldItalicId} 0 R >>" ) );
 
         if ( pageContent.AlphaStates.Count > 0 )
         {
@@ -188,17 +201,40 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         PdfFontDefinition font = element.Font ?? new();
         double fontSize = Math.Max( 1, font.Size );
-        double textX = ResolveTextX( element, x );
-        double textY = ResolveTextY( page, element, y, fontSize );
+        IReadOnlyList<string> lines = WrapText( element.Text, fontSize, element.Width );
+        double lineHeight = ResolveLineHeight( fontSize );
+        double textY = ResolveTextY( page, element, y, fontSize, lines.Count, lineHeight );
 
         AppendColor( context, font.Color, stroke: false );
-        context.Builder.AppendLine( FormattableString.Invariant( $"BT /F1 {fontSize} Tf {textX} {textY} Td ({EscapeText( element.Text )}) Tj ET" ) );
+
+        for ( int i = 0; i < lines.Count; i++ )
+        {
+            string line = lines[i];
+            double textX = ResolveTextX( element, x, line, fontSize );
+            double lineY = textY - ( i * lineHeight );
+
+            context.Builder.AppendLine( FormattableString.Invariant( $"BT /{ResolveFontResourceName( font )} {fontSize} Tf {textX} {lineY} Td ({EscapeText( line )}) Tj ET" ) );
+        }
     }
 
-    private static double ResolveTextX( PdfElementDefinition element, double x )
+    private static string ResolveFontResourceName( PdfFontDefinition font )
+    {
+        if ( font.Bold && font.Italic )
+            return "F4";
+
+        if ( font.Bold )
+            return "F2";
+
+        if ( font.Italic )
+            return "F3";
+
+        return "F1";
+    }
+
+    private static double ResolveTextX( PdfElementDefinition element, double x, string text, double fontSize )
     {
         PdfFontDefinition font = element.Font ?? new();
-        double textWidth = EstimateTextWidth( element.Text, Math.Max( 1, font.Size ) );
+        double textWidth = EstimateTextWidth( text, fontSize );
 
         if ( font.Alignment == PdfTextAlignment.Center )
             return x + Math.Max( 0, element.Width - textWidth ) / 2;
@@ -209,17 +245,30 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return x;
     }
 
-    private static double ResolveTextY( PdfPageDefinition page, PdfElementDefinition element, double y, double fontSize )
+    private static double ResolveTextY( PdfPageDefinition page, PdfElementDefinition element, double y, double fontSize, int lineCount, double lineHeight )
     {
         PdfFontDefinition font = element.Font ?? new();
+        double textBlockHeight = ResolveTextBlockHeight( fontSize, lineCount, lineHeight );
         double offsetY = font.VerticalAlignment switch
         {
-            PdfVerticalAlignment.Middle => Math.Max( 0, element.Height - fontSize ) / 2,
-            PdfVerticalAlignment.Bottom => Math.Max( 0, element.Height - fontSize ),
+            PdfVerticalAlignment.Middle => Math.Max( 0, element.Height - textBlockHeight ) / 2,
+            PdfVerticalAlignment.Bottom => Math.Max( 0, element.Height - textBlockHeight ),
             _ => 0,
         };
 
         return page.Height - y - offsetY - fontSize;
+    }
+
+    private static double ResolveLineHeight( double fontSize )
+    {
+        return Math.Max( fontSize, fontSize * LineHeightRatio );
+    }
+
+    private static double ResolveTextBlockHeight( double fontSize, int lineCount, double lineHeight )
+    {
+        return lineCount <= 0
+            ? 0
+            : fontSize + ( Math.Max( 0, lineCount - 1 ) * lineHeight );
     }
 
     private static double EstimateTextWidth( string text, double fontSize )
@@ -229,14 +278,109 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             : text.Length * fontSize * AverageGlyphWidthRatio;
     }
 
+    private static IReadOnlyList<string> WrapText( string text, double fontSize, double maxWidth )
+    {
+        if ( string.IsNullOrEmpty( text ) )
+            return [string.Empty];
+
+        if ( maxWidth <= 0 )
+            return [text];
+
+        List<string> lines = [];
+        string[] paragraphs = text.Replace( "\r\n", "\n", StringComparison.Ordinal ).Replace( '\r', '\n' ).Split( '\n' );
+
+        foreach ( string paragraph in paragraphs )
+        {
+            AppendWrappedParagraph( lines, paragraph, fontSize, maxWidth );
+        }
+
+        return lines;
+    }
+
+    private static void AppendWrappedParagraph( List<string> lines, string paragraph, double fontSize, double maxWidth )
+    {
+        if ( string.IsNullOrWhiteSpace( paragraph ) )
+        {
+            lines.Add( string.Empty );
+            return;
+        }
+
+        string currentLine = null;
+
+        foreach ( string word in paragraph.Split( ' ', StringSplitOptions.RemoveEmptyEntries ) )
+        {
+            if ( currentLine is null )
+            {
+                AppendWordToLines( lines, ref currentLine, word, fontSize, maxWidth );
+                continue;
+            }
+
+            string candidate = $"{currentLine} {word}";
+
+            if ( EstimateTextWidth( candidate, fontSize ) <= maxWidth )
+            {
+                currentLine = candidate;
+                continue;
+            }
+
+            lines.Add( currentLine );
+            currentLine = null;
+            AppendWordToLines( lines, ref currentLine, word, fontSize, maxWidth );
+        }
+
+        if ( currentLine is not null )
+            lines.Add( currentLine );
+    }
+
+    private static void AppendWordToLines( List<string> lines, ref string currentLine, string word, double fontSize, double maxWidth )
+    {
+        if ( EstimateTextWidth( word, fontSize ) <= maxWidth )
+        {
+            currentLine = word;
+            return;
+        }
+
+        foreach ( string segment in SplitWord( word, fontSize, maxWidth ) )
+        {
+            if ( currentLine is null )
+            {
+                currentLine = segment;
+                continue;
+            }
+
+            lines.Add( currentLine );
+            currentLine = segment;
+        }
+    }
+
+    private static IEnumerable<string> SplitWord( string word, double fontSize, double maxWidth )
+    {
+        StringBuilder segment = new();
+
+        foreach ( char character in word )
+        {
+            string candidate = $"{segment}{character}";
+
+            if ( segment.Length > 0 && EstimateTextWidth( candidate, fontSize ) > maxWidth )
+            {
+                yield return segment.ToString();
+                segment.Clear();
+            }
+
+            segment.Append( character );
+        }
+
+        if ( segment.Length > 0 )
+            yield return segment.ToString();
+    }
+
     private static void AppendLine( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
     {
         PdfBorderDefinition border = element.Border ?? new();
         double startY = page.Height - y;
-        double endY = page.Height - y - element.Height;
 
         AppendStroke( context, border );
-        context.Builder.AppendLine( FormattableString.Invariant( $"{x} {startY} m {x + element.Width} {endY} l S" ) );
+        context.Builder.AppendLine( FormattableString.Invariant( $"{x} {startY} m {x + element.Width} {startY} l S" ) );
     }
 
     private static void AppendRectangle( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
@@ -602,6 +746,17 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         internal double Alpha { get; set; }
 
         internal bool Stroke { get; set; }
+    }
+
+    private sealed class PdfFontResources
+    {
+        internal int RegularId { get; set; }
+
+        internal int BoldId { get; set; }
+
+        internal int ItalicId { get; set; }
+
+        internal int BoldItalicId { get; set; }
     }
 
     private readonly record struct PdfColor( double Red, double Green, double Blue, double Alpha );
