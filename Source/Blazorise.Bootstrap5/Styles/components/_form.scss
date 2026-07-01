@@ -66,6 +66,14 @@
     font-size: $custom-select-font-size-xl;
 }
 
+@mixin color-picker-size($padding, $border-radius) {
+    padding: $padding;
+
+    > .b-input-color-picker-preview {
+        border-radius: $border-radius;
+    }
+}
+
 .input-group {
     > .b-numeric:not(:last-child) > input,
     > div.flatpickr-wrapper:not(:last-child) > input {
@@ -423,11 +431,46 @@ input[readonly="readonly"][type=range] {
     }
 }
 
+input[type="color"].form-control-color,
 .b-input-color-picker {
-    padding: .5rem .6rem;
+    width: 100%;
+}
 
-    > .b-input-color-picker-preview {
-        height: .55rem;
+.b-input-color-picker {
+    &.form-control-color {
+        display: flex;
+        align-items: stretch;
+        @include color-picker-size($input-padding-y, $input-border-radius);
+
+        &.form-control-sm {
+            @include color-picker-size($input-padding-y-sm, $input-border-radius-sm);
+        }
+
+        &.form-control-lg {
+            @include color-picker-size($input-padding-y-lg, $input-border-radius-lg);
+        }
+
+        &.form-control-xs {
+            @include color-picker-size($input-padding-y-xs, $input-border-radius-xs);
+        }
+
+        &.form-control-md {
+            @include color-picker-size($input-padding-y-md, $input-border-radius-md);
+        }
+
+        &.form-control-xl {
+            @include color-picker-size($input-padding-y-xl, $input-border-radius-xl);
+        }
+
+        > .b-input-color-picker-preview {
+            &::before {
+                border-radius: inherit;
+            }
+
+            > .b-input-color-picker-curent-color {
+                border-radius: inherit;
+            }
+        }
     }
 }
 

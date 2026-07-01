@@ -3,7 +3,7 @@
     var itemStyling = GetItemStyling( Item );
     var allDayItemTemplate = Scheduler.AllDayItemTemplate;
 
-    <Span Class="@GetItemClass( itemStyling.Class )" Style="@GetItemStyle( itemStyling.Style )" Flex="FlexInlineFlexJustifyContentBetweenAlignItemsCenter" Margin="MarginIs1" Padding="PaddingIs1" Width="WidthIs100" Background="@itemStyling.Background" TextColor="@itemStyling.TextColor" TextSize="@itemStyling.TextSize" @onclick="@OnSlotClicked" draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, Item ))">
+    <Span Class="@GetItemClass( itemStyling.Class )" Style="@GetItemStyle( itemStyling.Style )" Flex="FlexInlineFlexJustifyContentBetweenAlignItemsCenter" Margin="MarginIs1" Padding="PaddingIs1" Width="WidthIs100" Background="@GetItemBackground( itemStyling )" TextColor="@itemStyling.TextColor" TextSize="@itemStyling.TextSize" @onclick="@OnSlotClicked" draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, Item ))">
         @if ( allDayItemTemplate is not null )
         {
             @allDayItemTemplate( new SchedulerAllDayItemContext<TItem>( Item, IsRecurring ) )
@@ -18,7 +18,18 @@
                     </Span>
                 </Tooltip>
             }
-            <Span>@(Scheduler.GetItemTitle( Item ))</Span>
+            <Span>
+                @(Scheduler.GetItemTitle( Item ))
+                @foreach ( var column in Scheduler.DisplayableColumns )
+                {
+                    var displayTemplate = column.RenderDisplay( Item, IsRecurring );
+
+                    if ( displayTemplate is not null )
+                    {
+                        @displayTemplate
+                    }
+                }
+            </Span>
             @if ( OverflowingOnEnd )
             {
                 <Tooltip Inline Text="@Scheduler.GetItemEndTime( Item ).ToShortDateString()">
