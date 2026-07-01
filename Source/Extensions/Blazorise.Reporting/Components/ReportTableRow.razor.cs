@@ -39,7 +39,7 @@ public partial class ReportTableRow : ComponentBase
 
     #region Properties
 
-    [CascadingParameter] internal ReportElementDefinition TableDefinition { get; set; }
+    [CascadingParameter] internal ReportTableElementDefinition TableDefinition { get; set; }
 
     /// <summary>
     /// Row height in points.

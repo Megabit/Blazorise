@@ -65,7 +65,7 @@ internal static class ReportElementDefinitionHelper
         if ( verticalAlignment is not null )
             builder.Append( $"--b-report-element-content-justify:{verticalAlignment}" );
 
-        if ( element.Type == ReportElementType.Line )
+        if ( element is ReportLineElementDefinition )
         {
             string lineColor = ToCssColor( border?.Color ?? ReportColor.Default );
 
@@ -131,14 +131,24 @@ internal static class ReportElementDefinitionHelper
         return element.Border ??= new();
     }
 
+    internal static string GetText( ReportElementDefinition element )
+    {
+        return element switch
+        {
+            ReportTextElementDefinition textElement => textElement.Text,
+            ReportImageElementDefinition imageElement => imageElement.Text,
+            _ => null,
+        };
+    }
+
     internal static string GetDisplayText( ReportElementDefinition element )
     {
         if ( element is null )
             return string.Empty;
 
-        return element.Type == ReportElementType.Field
+        return element is ReportFieldElementDefinition
             ? ReportExpressionFormatter.FormatFieldExpression( element )
-            : element.Text ?? element.Name ?? element.Type.ToString();
+            : GetText( element ) ?? element.Name ?? element.Type.ToString();
     }
 
     internal static string GetDisplayText( ReportDefinition definition, ReportElementDefinition element )
@@ -146,9 +156,9 @@ internal static class ReportElementDefinitionHelper
         if ( element is null )
             return string.Empty;
 
-        return element.Type == ReportElementType.Field
+        return element is ReportFieldElementDefinition
             ? ReportExpressionFormatter.FormatFieldExpression( definition, element )
-            : element.Text ?? element.Name ?? element.Type.ToString();
+            : GetText( element ) ?? element.Name ?? element.Type.ToString();
     }
 
     internal static string NormalizeColorValue( ReportColor value )
@@ -188,14 +198,14 @@ internal static class ReportElementDefinitionHelper
     {
         TextAlignment alignment = element.Font?.Alignment ?? TextAlignment.Default;
 
-        if ( alignment != TextAlignment.Default || element.Type != ReportElementType.Field )
+        if ( alignment != TextAlignment.Default || element is not ReportFieldElementDefinition fieldElement )
             return alignment;
 
-        string dataSourceName = !string.IsNullOrWhiteSpace( element.DataSource )
-            ? element.DataSource
+        string dataSourceName = !string.IsNullOrWhiteSpace( fieldElement.DataSource )
+            ? fieldElement.DataSource
             : section?.DataSource;
 
-        return ReportDataSourceExplorer.TryResolveFieldType( definition, defaultData, dataSourceName, element.Field, out Type dataType ) && IsNumericType( dataType )
+        return ReportDataSourceExplorer.TryResolveFieldType( definition, defaultData, dataSourceName, fieldElement.Field, out Type dataType ) && IsNumericType( dataType )
             ? TextAlignment.End
             : TextAlignment.Default;
     }

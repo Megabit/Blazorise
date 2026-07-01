@@ -74,17 +74,17 @@ internal static class ReportPdfDocumentBuilder
     {
         return element.Type switch
         {
-            ReportElementType.Text => CreateTextElement( definition, data, renderSection, element, sectionX, sectionY ),
-            ReportElementType.Field => CreateFieldElement( definition, data, renderSection, element, sectionX, sectionY ),
+            ReportElementType.Text when element is ReportTextElementDefinition textElement => CreateTextElement( definition, data, renderSection, textElement, sectionX, sectionY ),
+            ReportElementType.Field when element is ReportFieldElementDefinition fieldElement => CreateFieldElement( definition, data, renderSection, fieldElement, sectionX, sectionY ),
             ReportElementType.Line => CreateShapeElement( PdfElementType.Line, element, sectionX, sectionY ),
             ReportElementType.Rectangle => CreateShapeElement( PdfElementType.Rectangle, element, sectionX, sectionY ),
-            ReportElementType.Image => CreateImageElement( element, sectionX, sectionY ),
-            ReportElementType.Table => CreateTableElement( definition, data, renderSection, element, sectionX, sectionY ),
+            ReportElementType.Image when element is ReportImageElementDefinition imageElement => CreateImageElement( imageElement, sectionX, sectionY ),
+            ReportElementType.Table when element is ReportTableElementDefinition tableElement => CreateTableElement( definition, data, renderSection, tableElement, sectionX, sectionY ),
             _ => null,
         };
     }
 
-    private static PdfElementDefinition CreateTextElement( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportElementDefinition element, double sectionX, double sectionY )
+    private static PdfElementDefinition CreateTextElement( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportTextElementDefinition element, double sectionX, double sectionY )
     {
         PdfElementDefinition pdfElement = CreateBaseElement( PdfElementType.Text, element, sectionX, sectionY );
         pdfElement.Text = ReportTextTemplateResolver.ResolveText( definition, data, renderSection.Item, element, renderSection.RunningTotals );
@@ -93,7 +93,7 @@ internal static class ReportPdfDocumentBuilder
         return pdfElement;
     }
 
-    private static PdfElementDefinition CreateFieldElement( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportElementDefinition element, double sectionX, double sectionY )
+    private static PdfElementDefinition CreateFieldElement( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportFieldElementDefinition element, double sectionX, double sectionY )
     {
         PdfElementDefinition pdfElement = CreateBaseElement( PdfElementType.Text, element, sectionX, sectionY );
         object value = ReportExpressionResolver.ResolveFieldValue( definition, data, renderSection.Item, element, renderSection.RunningTotals );
@@ -111,7 +111,7 @@ internal static class ReportPdfDocumentBuilder
         return pdfElement;
     }
 
-    private static PdfElementDefinition CreateImageElement( ReportElementDefinition element, double sectionX, double sectionY )
+    private static PdfElementDefinition CreateImageElement( ReportImageElementDefinition element, double sectionX, double sectionY )
     {
         PdfElementDefinition pdfElement = CreateBaseElement( PdfElementType.Image, element, sectionX, sectionY );
         pdfElement.Source = element.Source;
@@ -120,7 +120,7 @@ internal static class ReportPdfDocumentBuilder
         return pdfElement;
     }
 
-    private static PdfElementDefinition CreateTableElement( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportElementDefinition element, double sectionX, double sectionY )
+    private static PdfElementDefinition CreateTableElement( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportTableElementDefinition element, double sectionX, double sectionY )
     {
         PdfElementDefinition pdfElement = CreateBaseElement( PdfElementType.Table, element, sectionX, sectionY );
         ApplyShapeFormatting( pdfElement, element );
@@ -141,7 +141,7 @@ internal static class ReportPdfDocumentBuilder
         return pdfElement;
     }
 
-    private static PdfTableCellDefinition CreateTableCell( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportElementDefinition table, ReportTableCellDefinition cell )
+    private static PdfTableCellDefinition CreateTableCell( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportTableElementDefinition table, ReportTableCellDefinition cell )
     {
         double width = table.Columns
             .Skip( cell.ColumnIndex )
@@ -172,7 +172,7 @@ internal static class ReportPdfDocumentBuilder
         {
             Type = type,
             X = sectionX + element.X,
-            Y = sectionY + element.Y + ( element.Type == ReportElementType.Line ? element.Height / 2 : 0 ),
+            Y = sectionY + element.Y + ( element is ReportLineElementDefinition ? element.Height / 2 : 0 ),
             Width = element.Width,
             Height = element.Height,
         };
@@ -200,7 +200,7 @@ internal static class ReportPdfDocumentBuilder
 
     private static double ResolveBorderWidth( ReportElementDefinition element )
     {
-        if ( element.Type == ReportElementType.Line )
+        if ( element is ReportLineElementDefinition )
             return ReportLayoutGeometry.GetLineThickness( element );
 
         if ( ShouldRequireExplicitBorder( element.Type ) && !HasDefinedBorder( element.Border ) )

@@ -81,7 +81,7 @@ internal static class ReportLayoutGeometry
 
     internal static double GetLineThickness( ReportElementDefinition element )
     {
-        return Math.Max( DefaultLineThickness, element?.Thickness ?? DefaultLineThickness );
+        return Math.Max( DefaultLineThickness, ( element as ReportLineElementDefinition )?.Thickness ?? DefaultLineThickness );
     }
 
     internal static double GetElementRenderHeight( ReportElementDefinition element )

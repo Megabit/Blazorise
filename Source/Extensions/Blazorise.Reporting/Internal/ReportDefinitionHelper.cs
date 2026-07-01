@@ -38,25 +38,23 @@ internal static class ReportDefinitionHelper
 
     internal static ReportElementDefinition CreateElementFromToolbox( ReportElementType elementType, string text, double x, double y )
     {
-        var definition = new ReportElementDefinition
-        {
-            Name = elementType.ToString(),
-            Type = elementType,
-            X = x,
-            Y = y,
-            Width = DefaultToolboxElementWidth,
-            Height = DefaultToolboxElementHeight,
-        };
+        ReportElementDefinition definition = ReportElementDefinitionFactory.Create( elementType );
+
+        definition.Name = elementType.ToString();
+        definition.X = x;
+        definition.Y = y;
+        definition.Width = DefaultToolboxElementWidth;
+        definition.Height = DefaultToolboxElementHeight;
 
         switch ( elementType )
         {
             case ReportElementType.Text:
                 definition.Name = text;
-                definition.Text = text;
+                ( (ReportTextElementDefinition)definition ).Text = text;
                 break;
             case ReportElementType.Image:
                 definition.Height = ToolboxImageElementHeight;
-                definition.Text = "Image";
+                ( (ReportImageElementDefinition)definition ).Text = "Image";
                 break;
             case ReportElementType.Line:
                 definition.Height = ToolboxLineElementHeight;
@@ -81,41 +79,41 @@ internal static class ReportDefinitionHelper
 
     internal static void EnsureTableLayout( ReportElementDefinition element, int rowCount, int columnCount )
     {
-        if ( element is null )
+        if ( element is not ReportTableElementDefinition table )
             return;
 
         rowCount = Math.Max( 1, rowCount );
         columnCount = Math.Max( 1, columnCount );
 
-        element.Columns ??= [];
-        element.Rows ??= [];
-        element.Cells ??= [];
+        table.Columns ??= [];
+        table.Rows ??= [];
+        table.Cells ??= [];
 
-        while ( element.Columns.Count < columnCount )
+        while ( table.Columns.Count < columnCount )
         {
-            element.Columns.Add( new()
+            table.Columns.Add( new()
             {
                 Width = DefaultTableColumnWidth,
             } );
         }
 
-        if ( element.Columns.Count > columnCount )
-            element.Columns.RemoveRange( columnCount, element.Columns.Count - columnCount );
+        if ( table.Columns.Count > columnCount )
+            table.Columns.RemoveRange( columnCount, table.Columns.Count - columnCount );
 
-        while ( element.Rows.Count < rowCount )
+        while ( table.Rows.Count < rowCount )
         {
-            element.Rows.Add( new()
+            table.Rows.Add( new()
             {
                 Height = DefaultTableRowHeight,
             } );
         }
 
-        if ( element.Rows.Count > rowCount )
-            element.Rows.RemoveRange( rowCount, element.Rows.Count - rowCount );
+        if ( table.Rows.Count > rowCount )
+            table.Rows.RemoveRange( rowCount, table.Rows.Count - rowCount );
 
-        element.Cells.RemoveAll( cell => cell.RowIndex >= rowCount || cell.ColumnIndex >= columnCount );
+        table.Cells.RemoveAll( cell => cell.RowIndex >= rowCount || cell.ColumnIndex >= columnCount );
 
-        foreach ( ReportTableCellDefinition cell in element.Cells )
+        foreach ( ReportTableCellDefinition cell in table.Cells )
         {
             cell.RowSpan = Math.Clamp( Math.Max( 1, cell.RowSpan ), 1, rowCount - cell.RowIndex );
             cell.ColumnSpan = Math.Clamp( Math.Max( 1, cell.ColumnSpan ), 1, columnCount - cell.ColumnIndex );
@@ -125,10 +123,10 @@ internal static class ReportDefinitionHelper
         {
             for ( int columnIndex = 0; columnIndex < columnCount; columnIndex++ )
             {
-                if ( element.Cells.Any( cell => CoversTablePosition( cell, rowIndex, columnIndex ) ) )
+                if ( table.Cells.Any( cell => CoversTablePosition( cell, rowIndex, columnIndex ) ) )
                     continue;
 
-                element.Cells.Add( new()
+                table.Cells.Add( new()
                 {
                     RowIndex = rowIndex,
                     ColumnIndex = columnIndex,
@@ -136,11 +134,11 @@ internal static class ReportDefinitionHelper
             }
         }
 
-        element.Width = Math.Max( element.Width, element.Columns.Sum( column => Math.Max( 1, column.Width ) ) );
-        element.Height = Math.Max( element.Height, element.Rows.Sum( row => Math.Max( 1, row.Height ) ) );
+        table.Width = Math.Max( table.Width, table.Columns.Sum( column => Math.Max( 1, column.Width ) ) );
+        table.Height = Math.Max( table.Height, table.Rows.Sum( row => Math.Max( 1, row.Height ) ) );
     }
 
-    internal static void FitElementToTableCell( ReportElementDefinition table, ReportTableCellDefinition cell, ReportElementDefinition element )
+    internal static void FitElementToTableCell( ReportTableElementDefinition table, ReportTableCellDefinition cell, ReportElementDefinition element )
     {
         if ( table is null || cell is null || element is null )
             return;
@@ -151,7 +149,7 @@ internal static class ReportDefinitionHelper
         element.Height = Math.Max( 1, GetTableCellHeight( table, cell ) );
     }
 
-    internal static void FitElementsToTableCell( ReportElementDefinition table, ReportTableCellDefinition cell )
+    internal static void FitElementsToTableCell( ReportTableElementDefinition table, ReportTableCellDefinition cell )
     {
         if ( cell?.Elements is null )
             return;
@@ -162,9 +160,9 @@ internal static class ReportDefinitionHelper
         }
     }
 
-    internal static void ScaleTableLayout( ReportElementDefinition table, double originalWidth, double originalHeight )
+    internal static void ScaleTableLayout( ReportTableElementDefinition table, double originalWidth, double originalHeight )
     {
-        if ( table?.Type != ReportElementType.Table )
+        if ( table is null )
             return;
 
         if ( table.Columns?.Count > 0 )
@@ -207,7 +205,7 @@ internal static class ReportDefinitionHelper
         return targetSize / originalSize;
     }
 
-    internal static double GetTableCellWidth( ReportElementDefinition table, ReportTableCellDefinition cell )
+    internal static double GetTableCellWidth( ReportTableElementDefinition table, ReportTableCellDefinition cell )
     {
         if ( table?.Columns is null || cell is null )
             return 0;
@@ -223,7 +221,7 @@ internal static class ReportDefinitionHelper
             .Sum( column => Math.Max( 1, column.Width ) );
     }
 
-    internal static double GetTableCellHeight( ReportElementDefinition table, ReportTableCellDefinition cell )
+    internal static double GetTableCellHeight( ReportTableElementDefinition table, ReportTableCellDefinition cell )
     {
         if ( table?.Rows is null || cell is null )
             return 0;
@@ -522,10 +520,10 @@ internal static class ReportDefinitionHelper
                 return true;
             }
 
-            if ( element.Type != ReportElementType.Table || element.Cells is null )
+            if ( element is not ReportTableElementDefinition table || table.Cells is null )
                 continue;
 
-            foreach ( ReportTableCellDefinition cell in element.Cells )
+            foreach ( ReportTableCellDefinition cell in table.Cells )
             {
                 if ( TryFindElementLocation( cell.Elements, key, sectionIndex, element, cell, out location ) )
                     return true;
@@ -553,10 +551,10 @@ internal static class ReportDefinitionHelper
                 continue;
             }
 
-            if ( element.Type != ReportElementType.Table || element.Cells is null )
+            if ( element is not ReportTableElementDefinition table || table.Cells is null )
                 continue;
 
-            foreach ( ReportTableCellDefinition cell in element.Cells )
+            foreach ( ReportTableCellDefinition cell in table.Cells )
             {
                 removed = RemoveElementsByIds( cell.Elements, elementIds ) || removed;
             }
@@ -570,7 +568,7 @@ internal static class ReportDefinitionHelper
         string cellKey,
         out int sectionIndex,
         out int tableIndex,
-        out ReportElementDefinition table,
+        out ReportTableElementDefinition table,
         out ReportTableCellDefinition cell )
     {
         sectionIndex = -1;
@@ -589,17 +587,17 @@ internal static class ReportDefinitionHelper
             {
                 ReportElementDefinition element = section.Elements[currentElementIndex];
 
-                if ( element.Type != ReportElementType.Table || element.Cells is null )
+                if ( element is not ReportTableElementDefinition tableElement || tableElement.Cells is null )
                     continue;
 
-                ReportTableCellDefinition foundCell = element.Cells.FirstOrDefault( item => item.Id == cellKey );
+                ReportTableCellDefinition foundCell = tableElement.Cells.FirstOrDefault( item => item.Id == cellKey );
 
                 if ( foundCell is null )
                     continue;
 
                 sectionIndex = currentSectionIndex;
                 tableIndex = currentElementIndex;
-                table = element;
+                table = tableElement;
                 cell = foundCell;
 
                 return true;
@@ -640,20 +638,23 @@ internal static class ReportDefinitionHelper
 
         element.Id = EnsureUniqueDefinitionId( element.Id, elementIds );
 
-        foreach ( ReportTableColumnDefinition column in element.Columns ?? Enumerable.Empty<ReportTableColumnDefinition>() )
+        if ( element is not ReportTableElementDefinition table )
+            return;
+
+        foreach ( ReportTableColumnDefinition column in table.Columns ?? Enumerable.Empty<ReportTableColumnDefinition>() )
         {
             column.Id = EnsureUniqueDefinitionId( column.Id, columnIds );
         }
 
-        foreach ( ReportTableRowDefinition row in element.Rows ?? Enumerable.Empty<ReportTableRowDefinition>() )
+        foreach ( ReportTableRowDefinition row in table.Rows ?? Enumerable.Empty<ReportTableRowDefinition>() )
         {
             row.Id = EnsureUniqueDefinitionId( row.Id, rowIds );
         }
 
-        foreach ( ReportTableCellDefinition cell in element.Cells ?? Enumerable.Empty<ReportTableCellDefinition>() )
+        foreach ( ReportTableCellDefinition cell in table.Cells ?? Enumerable.Empty<ReportTableCellDefinition>() )
         {
             cell.Id = EnsureUniqueDefinitionId( cell.Id, cellIds );
-            FitElementsToTableCell( element, cell );
+            FitElementsToTableCell( table, cell );
 
             foreach ( ReportElementDefinition childElement in cell.Elements ?? Enumerable.Empty<ReportElementDefinition>() )
             {

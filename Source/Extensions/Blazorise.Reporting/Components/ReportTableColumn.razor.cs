@@ -7,7 +7,7 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportTableColumn : ComponentBase
 {
-    [CascadingParameter] internal ReportElementDefinition TableDefinition { get; set; }
+    [CascadingParameter] internal ReportTableElementDefinition TableDefinition { get; set; }
 
     /// <inheritdoc />
     protected override void OnParametersSet()

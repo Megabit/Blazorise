@@ -22,9 +22,9 @@ public partial class _ReportDesignerElement
     private bool textExpressionTokenProtectionActive;
     private JSReportingModule reportingModule;
 
-    private string ImageAlternativeText => Element.Text ?? Element.Name;
+    private string ImageAlternativeText => ( Element as ReportImageElementDefinition )?.Text ?? Element?.Name;
 
-    private bool CanEditText => Element?.Type == ReportElementType.Text;
+    private bool CanEditText => Element is ReportTextElementDefinition;
 
     private bool CanHandleDesignerPointerDown => CanReceiveDesignerInteraction && !Editing;
 
@@ -93,7 +93,7 @@ public partial class _ReportDesignerElement
             if ( !parameters.TryGetValue<ReportElementDefinition>( nameof( Element ), out ReportElementDefinition editingElement ) )
                 editingElement = Element;
 
-            textEditValue = editingElement?.Text;
+            textEditValue = ( editingElement as ReportTextElementDefinition )?.Text;
             textEditCancelled = false;
             focusTextEdit = true;
         }
@@ -151,17 +151,23 @@ public partial class _ReportDesignerElement
 
     private string GetFieldText()
     {
-        if ( DesignMode )
-            return ReportExpressionFormatter.FormatFieldExpression( Definition, Element );
+        if ( Element is not ReportFieldElementDefinition fieldElement )
+            return string.Empty;
 
-        return ReportDataResolver.FormatValue( ReportExpressionResolver.ResolveFieldValue( Definition, Data, Item, Element, RunningTotals ), Element.Format );
+        if ( DesignMode )
+            return ReportExpressionFormatter.FormatFieldExpression( Definition, fieldElement );
+
+        return ReportDataResolver.FormatValue( ReportExpressionResolver.ResolveFieldValue( Definition, Data, Item, fieldElement, RunningTotals ), fieldElement.Format );
     }
 
     private string GetText()
     {
+        if ( Element is not ReportTextElementDefinition textElement )
+            return string.Empty;
+
         return DesignMode
-            ? Element.Text
-            : ReportTextTemplateResolver.ResolveText( Definition, Data, Item, Element, RunningTotals );
+            ? textElement.Text
+            : ReportTextTemplateResolver.ResolveText( Definition, Data, Item, textElement, RunningTotals );
     }
 
     private async Task CompleteTextEditAsync()

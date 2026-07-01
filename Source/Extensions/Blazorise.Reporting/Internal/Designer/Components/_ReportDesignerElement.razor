@@ -46,28 +46,34 @@
                     @GetFieldText()
                     break;
                 case ReportElementType.Table:
-                    <_ReportDesignerTable Data="@Data"
-                                          Definition="@Definition"
-                                          Section="@Section"
-                                          Item="@Item"
-                                          RunningTotals="@RunningTotals"
-                                          Element="@Element"
-                                          DesignMode="@DesignMode"
-                                          TableSelected="@Selected"
-                                          SelectedCellKey="@SelectedCellKey"
-                                          CellClicked="@TableCellClicked"
-                                          CellContextMenu="@TableCellContextMenu"
-                                          IsElementSelected="@IsChildElementSelected"
-                                          ElementClicked="@ChildElementClicked"
-                                          ElementDoubleClicked="@ChildElementDoubleClicked"
-                                          TextEditingActive="@TextEditingActive"
-                                          EditingElementKey="@ChildEditingElementKey"
-                                          ElementTextEditCommitted="@ChildElementTextEditCommitted"
-                                          ElementTextEditCancelled="@ChildElementTextEditCancelled"
-                                          ResizeStarted="@TableResizeStarted" />
+                    @if ( Element is ReportTableElementDefinition tableElement )
+                    {
+                        <_ReportDesignerTable Data="@Data"
+                                              Definition="@Definition"
+                                              Section="@Section"
+                                              Item="@Item"
+                                              RunningTotals="@RunningTotals"
+                                              Element="@tableElement"
+                                              DesignMode="@DesignMode"
+                                              TableSelected="@Selected"
+                                              SelectedCellKey="@SelectedCellKey"
+                                              CellClicked="@TableCellClicked"
+                                              CellContextMenu="@TableCellContextMenu"
+                                              IsElementSelected="@IsChildElementSelected"
+                                              ElementClicked="@ChildElementClicked"
+                                              ElementDoubleClicked="@ChildElementDoubleClicked"
+                                              TextEditingActive="@TextEditingActive"
+                                              EditingElementKey="@ChildEditingElementKey"
+                                              ElementTextEditCommitted="@ChildElementTextEditCommitted"
+                                              ElementTextEditCancelled="@ChildElementTextEditCancelled"
+                                              ResizeStarted="@TableResizeStarted" />
+                    }
                     break;
                 case ReportElementType.Image:
-                    <img src="@Element.Source" alt="@ImageAlternativeText" />
+                    @if ( Element is ReportImageElementDefinition imageElement )
+                    {
+                        <img src="@imageElement.Source" alt="@ImageAlternativeText" />
+                    }
                     break;
                 case ReportElementType.Line:
                 case ReportElementType.Rectangle:

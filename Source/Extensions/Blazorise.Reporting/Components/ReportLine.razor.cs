@@ -13,7 +13,7 @@ public partial class ReportLine : BaseReportElement
     /// <inheritdoc />
     protected override ReportElementDefinition BuildDefinition()
     {
-        ReportElementDefinition definition = base.BuildDefinition();
+        ReportLineElementDefinition definition = (ReportLineElementDefinition)base.BuildDefinition();
         definition.Thickness = Thickness;
 
         return definition;

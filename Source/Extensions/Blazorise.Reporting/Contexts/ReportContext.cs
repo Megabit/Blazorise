@@ -325,34 +325,51 @@ internal sealed class ReportContext
         if ( element is null )
             return null;
 
-        return new()
+        ReportElementDefinition clone = ReportElementDefinitionFactory.Create( element.Type );
+
+        clone.Id = element.Id;
+        clone.Name = element.Name;
+        clone.X = element.X;
+        clone.Y = element.Y;
+        clone.Width = element.Width;
+        clone.Height = element.Height;
+        clone.CanGrow = CloneValue( element.CanGrow );
+        clone.Suppress = CloneValue( element.Suppress );
+        clone.SnapToGrid = CloneValue( element.SnapToGrid );
+        clone.Font = CloneFont( element.Font );
+        clone.Appearance = CloneAppearance( element.Appearance );
+        clone.Border = CloneBorder( element.Border );
+        clone.Class = element.Class;
+        clone.Style = element.Style;
+
+        switch ( element )
         {
-            Id = element.Id,
-            Name = element.Name,
-            Type = element.Type,
-            X = element.X,
-            Y = element.Y,
-            Width = element.Width,
-            Height = element.Height,
-            Thickness = element.Thickness,
-            CanGrow = CloneValue( element.CanGrow ),
-            Suppress = CloneValue( element.Suppress ),
-            SnapToGrid = CloneValue( element.SnapToGrid ),
-            Text = element.Text,
-            Field = element.Field,
-            Format = element.Format,
-            Source = element.Source,
-            DataSource = element.DataSource,
-            Font = CloneFont( element.Font ),
-            Appearance = CloneAppearance( element.Appearance ),
-            Border = CloneBorder( element.Border ),
-            Class = element.Class,
-            Style = element.Style,
-            Aggregate = CloneAggregate( element.Aggregate ),
-            Columns = element.Columns?.Select( CloneColumn ).ToList() ?? [],
-            Rows = element.Rows?.Select( CloneRow ).ToList() ?? [],
-            Cells = element.Cells?.Select( CloneCell ).ToList() ?? [],
-        };
+            case ReportTextElementDefinition textElement when clone is ReportTextElementDefinition textClone:
+                textClone.Text = textElement.Text;
+                textClone.DataSource = textElement.DataSource;
+                break;
+            case ReportFieldElementDefinition fieldElement when clone is ReportFieldElementDefinition fieldClone:
+                fieldClone.Field = fieldElement.Field;
+                fieldClone.Format = fieldElement.Format;
+                fieldClone.DataSource = fieldElement.DataSource;
+                fieldClone.Aggregate = CloneAggregate( fieldElement.Aggregate );
+                break;
+            case ReportImageElementDefinition imageElement when clone is ReportImageElementDefinition imageClone:
+                imageClone.Source = imageElement.Source;
+                imageClone.Text = imageElement.Text;
+                break;
+            case ReportLineElementDefinition lineElement when clone is ReportLineElementDefinition lineClone:
+                lineClone.Thickness = lineElement.Thickness;
+                break;
+            case ReportTableElementDefinition tableElement when clone is ReportTableElementDefinition tableClone:
+                tableClone.DataSource = tableElement.DataSource;
+                tableClone.Columns = tableElement.Columns?.Select( CloneColumn ).ToList() ?? [];
+                tableClone.Rows = tableElement.Rows?.Select( CloneRow ).ToList() ?? [];
+                tableClone.Cells = tableElement.Cells?.Select( CloneCell ).ToList() ?? [];
+                break;
+        }
+
+        return clone;
     }
 
     private static ReportValue<T> CloneValue<T>( ReportValue<T> value )

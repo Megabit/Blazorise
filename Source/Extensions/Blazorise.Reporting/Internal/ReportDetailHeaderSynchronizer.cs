@@ -36,10 +36,9 @@ internal static class ReportDetailHeaderSynchronizer
         if ( HasPageHeaderElement( pageHeader, headerText, x ) )
             return;
 
-        pageHeader.Elements.Add( new()
+        pageHeader.Elements.Add( new ReportTextElementDefinition
         {
             Name = headerText,
-            Type = ReportElementType.Text,
             Text = headerText,
             X = x,
             Y = headerY,
@@ -65,8 +64,8 @@ internal static class ReportDetailHeaderSynchronizer
         IEnumerable<string> ignoredElementKeys = null )
     {
         if ( definition is null
-            || detailElement?.Type != ReportElementType.Field
-            || string.IsNullOrWhiteSpace( detailElement.Field )
+            || detailElement is not ReportFieldElementDefinition detailFieldElement
+            || string.IsNullOrWhiteSpace( detailFieldElement.Field )
             || ( Math.Abs( newX - originalX ) < HeaderElementMatchTolerance && Math.Abs( newWidth - originalWidth ) < HeaderElementMatchTolerance )
             || sourceSectionIndex < 0
             || sourceSectionIndex >= definition.Sections.Count
@@ -87,8 +86,8 @@ internal static class ReportDetailHeaderSynchronizer
             ? null
             : new( ignoredElementKeys.Where( key => !string.IsNullOrWhiteSpace( key ) ), StringComparer.Ordinal );
 
-        var headerElement = pageHeader.Elements.FirstOrDefault( element =>
-            element.Type == ReportElementType.Text
+        ReportElementDefinition headerElement = pageHeader.Elements.FirstOrDefault( element =>
+            element is ReportTextElementDefinition
             && Math.Abs( element.X - originalX ) < HeaderElementMatchTolerance
             && Math.Abs( element.Width - originalWidth ) < HeaderElementMatchTolerance
             && ( ignoredKeys is null || !ignoredKeys.Contains( element.Id ) ) );
@@ -116,8 +115,8 @@ internal static class ReportDetailHeaderSynchronizer
 
     private static double GetPageHeaderElementY( ReportSectionDefinition pageHeader )
     {
-        var firstElement = pageHeader.Elements
-            .Where( element => element.Type is ReportElementType.Text or ReportElementType.Field )
+        ReportElementDefinition firstElement = pageHeader.Elements
+            .Where( element => element is ReportTextElementDefinition or ReportFieldElementDefinition )
             .OrderBy( element => element.Y )
             .ThenBy( element => element.X )
             .FirstOrDefault();
@@ -128,8 +127,8 @@ internal static class ReportDetailHeaderSynchronizer
     private static bool HasPageHeaderElement( ReportSectionDefinition pageHeader, string headerText, double x )
     {
         return pageHeader.Elements.Any( element =>
-            element.Type == ReportElementType.Text
-            && string.Equals( element.Text, headerText, StringComparison.OrdinalIgnoreCase )
+            element is ReportTextElementDefinition textElement
+            && string.Equals( textElement.Text, headerText, StringComparison.OrdinalIgnoreCase )
             && Math.Abs( element.X - x ) < HeaderElementMatchTolerance );
     }
 

@@ -77,12 +77,12 @@ public partial class _ReportDesignerPropertiesPanel
 
     private bool HasSelection => ReportSelected || SelectedSection is not null || SelectedElement is not null || SelectedCell is not null;
 
-    private bool IsSelectedElementLine => SelectedElement?.Type == ReportElementType.Line;
+    private bool IsSelectedElementLine => SelectedElement is ReportLineElementDefinition;
 
     private double? GetSelectedLineThickness()
     {
-        return SelectedElement?.Type == ReportElementType.Line
-            ? SelectedElement.Thickness ?? ReportLayoutGeometry.DefaultLineThickness
+        return SelectedElement is ReportLineElementDefinition lineElement
+            ? lineElement.Thickness ?? ReportLayoutGeometry.DefaultLineThickness
             : null;
     }
 
@@ -216,17 +216,21 @@ public partial class _ReportDesignerPropertiesPanel
 
     private Task OnSelectedLineThicknessChanged( double? value )
     {
-        return UpdateSelectedElement( element => element.Thickness = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) );
+        return UpdateSelectedElement( element =>
+        {
+            if ( element is ReportLineElementDefinition lineElement )
+                lineElement.Thickness = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value );
+        } );
     }
 
     private double GetSelectedTableRowCount()
     {
-        return Math.Max( 1, SelectedElement?.Rows?.Count > 0 ? SelectedElement.Rows.Count : DefaultTableRowCount );
+        return Math.Max( 1, SelectedElement is ReportTableElementDefinition tableElement && tableElement.Rows?.Count > 0 ? tableElement.Rows.Count : DefaultTableRowCount );
     }
 
     private double GetSelectedTableColumnCount()
     {
-        return Math.Max( 1, SelectedElement?.Columns?.Count > 0 ? SelectedElement.Columns.Count : DefaultTableColumnCount );
+        return Math.Max( 1, SelectedElement is ReportTableElementDefinition tableElement && tableElement.Columns?.Count > 0 ? tableElement.Columns.Count : DefaultTableColumnCount );
     }
 
     private Task OnSelectedTableRowCountChanged( double value )

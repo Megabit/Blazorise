@@ -13,7 +13,7 @@ public partial class ReportField : BaseReportTextElement
     /// <inheritdoc />
     protected override ReportElementDefinition BuildDefinition()
     {
-        var definition = base.BuildDefinition();
+        ReportFieldElementDefinition definition = (ReportFieldElementDefinition)base.BuildDefinition();
         definition.Field = Field;
         definition.Format = Format;
         definition.Aggregate = AggregateFunction is null
@@ -22,6 +22,7 @@ public partial class ReportField : BaseReportTextElement
             {
                 Function = AggregateFunction.Value,
             };
+
         return definition;
     }
 

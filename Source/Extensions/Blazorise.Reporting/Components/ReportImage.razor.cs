@@ -13,9 +13,10 @@ public partial class ReportImage : BaseReportElement
     /// <inheritdoc />
     protected override ReportElementDefinition BuildDefinition()
     {
-        var definition = base.BuildDefinition();
+        ReportImageElementDefinition definition = (ReportImageElementDefinition)base.BuildDefinition();
         definition.Source = Source;
         definition.Text = Alt;
+
         return definition;
     }
 

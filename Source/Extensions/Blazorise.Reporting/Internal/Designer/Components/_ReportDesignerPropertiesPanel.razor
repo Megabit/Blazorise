@@ -170,33 +170,33 @@
                 <_ReportDesignerTextProperty Label="Name" Value="@SelectedElement.Name" Changed="@(value => UpdateSelectedElement( element => element.Name = value ))" />
             </_ReportDesignerPropertyGroup>
 
-            @if ( SelectedElement.Type is ReportElementType.Text or ReportElementType.Field or ReportElementType.Image )
+            @if ( SelectedElement is ReportTextElementDefinition or ReportFieldElementDefinition or ReportImageElementDefinition )
             {
-                var contentGroupTitle = SelectedElement.Type == ReportElementType.Field ? "Data" : "Content";
+                string contentGroupTitle = SelectedElement is ReportFieldElementDefinition ? "Data" : "Content";
 
                 <_ReportDesignerPropertyGroup Title="@contentGroupTitle">
-                    @switch ( SelectedElement.Type )
+                    @switch ( SelectedElement )
                     {
-                        case ReportElementType.Text:
-                            <_ReportDesignerTextProperty Label="Text" Value="@SelectedElement.Text" Changed="@(value => UpdateSelectedElement( element => element.Text = value ))" />
+                        case ReportTextElementDefinition textElement:
+                            <_ReportDesignerTextProperty Label="Text" Value="@textElement.Text" Changed="@(value => UpdateSelectedElement( element => ( (ReportTextElementDefinition)element ).Text = value ))" />
                             break;
-                        case ReportElementType.Field:
+                        case ReportFieldElementDefinition fieldElement:
                             <_ReportDesignerTextProperty Label="Expression" Value="@ReportExpressionFormatter.FormatFieldExpression( Definition, SelectedElement )" ReadOnly />
-                            @if ( SelectedElement.Aggregate is not null )
+                            @if ( fieldElement.Aggregate is not null )
                             {
-                                <_ReportDesignerTextProperty Label="Aggregate" Value="@ReportAggregateResolver.GetFunctionDisplayName( SelectedElement.Aggregate.Function )" ReadOnly />
+                                <_ReportDesignerTextProperty Label="Aggregate" Value="@ReportAggregateResolver.GetFunctionDisplayName( fieldElement.Aggregate.Function )" ReadOnly />
                             }
-                            <_ReportDesignerTextProperty Label="Format" Value="@SelectedElement.Format" Changed="@(value => UpdateSelectedElement( element => element.Format = value ))" />
+                            <_ReportDesignerTextProperty Label="Format" Value="@fieldElement.Format" Changed="@(value => UpdateSelectedElement( element => ( (ReportFieldElementDefinition)element ).Format = value ))" />
                             break;
-                        case ReportElementType.Image:
-                            <_ReportDesignerTextProperty Label="Source" Value="@SelectedElement.Source" Changed="@(value => UpdateSelectedElement( element => element.Source = value ))" />
-                            <_ReportDesignerTextProperty Label="Alt text" Value="@SelectedElement.Text" Changed="@(value => UpdateSelectedElement( element => element.Text = value ))" />
+                        case ReportImageElementDefinition imageElement:
+                            <_ReportDesignerTextProperty Label="Source" Value="@imageElement.Source" Changed="@(value => UpdateSelectedElement( element => ( (ReportImageElementDefinition)element ).Source = value ))" />
+                            <_ReportDesignerTextProperty Label="Alt text" Value="@imageElement.Text" Changed="@(value => UpdateSelectedElement( element => ( (ReportImageElementDefinition)element ).Text = value ))" />
                             break;
                     }
                 </_ReportDesignerPropertyGroup>
             }
 
-            @if ( SelectedElement.Type == ReportElementType.Table )
+            @if ( SelectedElement is ReportTableElementDefinition )
             {
                 <_ReportDesignerPropertyGroup Title="Table">
                     <_ReportDesignerNumberProperty Label="Rows" Value="@GetSelectedTableRowCount()" Changed="@OnSelectedTableRowCountChanged" Step="@TableCountStep" />

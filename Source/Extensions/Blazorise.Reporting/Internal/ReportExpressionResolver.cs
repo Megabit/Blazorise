@@ -36,23 +36,23 @@ internal static class ReportExpressionResolver
 
     internal static object ResolveFieldValue( ReportDefinition definition, object data, object item, ReportElementDefinition element, IReadOnlyDictionary<string, object> runningTotals = null )
     {
-        if ( element is null || string.IsNullOrWhiteSpace( element.Field ) )
+        if ( element is not ReportFieldElementDefinition fieldElement || string.IsNullOrWhiteSpace( fieldElement.Field ) )
             return null;
 
-        if ( element.Aggregate is not null )
+        if ( fieldElement.Aggregate is not null )
             return ReportAggregateResolver.ResolveAggregateValue( definition, data, item, element );
 
-        if ( ReportSpecialFieldResolver.TryResolve( element.DataSource, element.Field, definition, out var specialValue ) )
+        if ( ReportSpecialFieldResolver.TryResolve( fieldElement.DataSource, fieldElement.Field, definition, out var specialValue ) )
             return specialValue;
 
-        if ( ReportRunningTotalResolver.TryResolve( element.DataSource, element.Field, runningTotals, out var runningTotalValue ) )
+        if ( ReportRunningTotalResolver.TryResolve( fieldElement.DataSource, fieldElement.Field, runningTotals, out var runningTotalValue ) )
             return runningTotalValue;
 
-        var contextItem = string.IsNullOrWhiteSpace( element.DataSource )
+        var contextItem = string.IsNullOrWhiteSpace( fieldElement.DataSource )
             ? item
-            : ReportDataResolver.ResolveItems( definition, data, element.DataSource, item ).FirstOrDefault() ?? item;
+            : ReportDataResolver.ResolveItems( definition, data, fieldElement.DataSource, item ).FirstOrDefault() ?? item;
 
-        return ResolveValue( definition, data, contextItem, element.Field, null, runningTotals );
+        return ResolveValue( definition, data, contextItem, fieldElement.Field, null, runningTotals );
     }
 
     private static ReportSectionDefinition ResolveSection( ReportDefinition definition, string dataSource )

@@ -13,8 +13,9 @@ public partial class ReportText : BaseReportTextElement
     /// <inheritdoc />
     protected override ReportElementDefinition BuildDefinition()
     {
-        var definition = base.BuildDefinition();
+        ReportTextElementDefinition definition = (ReportTextElementDefinition)base.BuildDefinition();
         definition.Text = Text;
+
         return definition;
     }
 

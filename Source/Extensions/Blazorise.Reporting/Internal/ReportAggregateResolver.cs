@@ -15,13 +15,13 @@ internal static class ReportAggregateResolver
     internal static IReadOnlyList<ReportAggregateFunction> GetSupportedFunctions( ReportDefinition definition, object data, ReportSectionDefinition section, ReportElementDefinition element )
     {
         if ( section?.Type != ReportSectionType.Detail
-            || element?.Type != ReportElementType.Field
-            || string.IsNullOrWhiteSpace( element.Field ) )
+            || element is not ReportFieldElementDefinition fieldElement
+            || string.IsNullOrWhiteSpace( fieldElement.Field ) )
         {
             return [];
         }
 
-        var values = ResolveFieldValues( definition, data, section.DataSource ?? element.DataSource, element.Field, null )
+        var values = ResolveFieldValues( definition, data, section.DataSource ?? fieldElement.DataSource, fieldElement.Field, null )
             .Where( value => value is not null )
             .ToList();
 
@@ -49,10 +49,10 @@ internal static class ReportAggregateResolver
 
     internal static object ResolveAggregateValue( ReportDefinition definition, object data, object item, ReportElementDefinition element )
     {
-        if ( element?.Aggregate is null || string.IsNullOrWhiteSpace( element.Field ) )
+        if ( element is not ReportFieldElementDefinition fieldElement || fieldElement.Aggregate is null || string.IsNullOrWhiteSpace( fieldElement.Field ) )
             return null;
 
-        return ResolveAggregateValue( definition, data, item, element.Aggregate.Function, element.DataSource, element.Field );
+        return ResolveAggregateValue( definition, data, item, fieldElement.Aggregate.Function, fieldElement.DataSource, fieldElement.Field );
     }
 
     internal static object ResolveAggregateValue( ReportDefinition definition, object data, object item, ReportAggregateFunction function, string dataSource, string field )

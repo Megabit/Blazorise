@@ -143,18 +143,18 @@ internal static class ReportDesignerTreeBuilder
         return new()
         {
             Key = CreateElementTreeNodeKey( elementKey ),
-            Text = element.Name ?? element.Text ?? element.Field ?? element.Type.ToString(),
+            Text = element.Name ?? ReportElementDefinitionHelper.GetDisplayText( element ),
             Detail = element.Type.ToString(),
             Kind = ReportDefinitionHelper.GetElementTreeNodeKind( element.Type ),
             Selectable = true,
             Selected = isElementSelected?.Invoke( elementKey ) == true,
-            Children = element.Type == ReportElementType.Table
-                ? BuildTableChildNodes( element, elementKey, selectedCellKey, isElementSelected )
+            Children = element is ReportTableElementDefinition table
+                ? BuildTableChildNodes( table, elementKey, selectedCellKey, isElementSelected )
                 : [],
         };
     }
 
-    private static List<ReportTreeNode> BuildTableChildNodes( ReportElementDefinition table, string tableKey, string selectedCellKey, Func<string, bool> isElementSelected )
+    private static List<ReportTreeNode> BuildTableChildNodes( ReportTableElementDefinition table, string tableKey, string selectedCellKey, Func<string, bool> isElementSelected )
     {
         List<ReportTreeNode> rows = [];
         int rowCount = Math.Max(
@@ -176,7 +176,7 @@ internal static class ReportDesignerTreeBuilder
         return rows;
     }
 
-    private static List<ReportTreeNode> BuildTableCellNodes( ReportElementDefinition table, int rowIndex, string selectedCellKey, Func<string, bool> isElementSelected )
+    private static List<ReportTreeNode> BuildTableCellNodes( ReportTableElementDefinition table, int rowIndex, string selectedCellKey, Func<string, bool> isElementSelected )
     {
         return ( table.Cells ?? [] )
             .Where( cell => cell.RowIndex == rowIndex )

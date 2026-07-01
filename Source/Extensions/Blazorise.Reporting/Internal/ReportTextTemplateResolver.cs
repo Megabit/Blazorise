@@ -12,10 +12,10 @@ internal static class ReportTextTemplateResolver
 
     internal static string ResolveText( ReportDefinition definition, object data, object item, ReportElementDefinition element, IReadOnlyDictionary<string, object> runningTotals = null )
     {
-        if ( string.IsNullOrEmpty( element?.Text ) )
+        if ( element is not ReportTextElementDefinition textElement || string.IsNullOrEmpty( textElement.Text ) )
             return string.Empty;
 
-        return ResolveText( definition, data, item, element.Text, element.DataSource, runningTotals );
+        return ResolveText( definition, data, item, textElement.Text, textElement.DataSource, runningTotals );
     }
 
     internal static string ResolveText( ReportDefinition definition, object data, object item, string text, string dataSource = null, IReadOnlyDictionary<string, object> runningTotals = null )

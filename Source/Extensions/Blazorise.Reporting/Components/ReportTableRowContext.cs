@@ -4,7 +4,7 @@ using System;
 
 namespace Blazorise.Reporting;
 
-internal sealed class ReportTableRowContext( ReportElementDefinition tableDefinition, int rowIndex )
+internal sealed class ReportTableRowContext( ReportTableElementDefinition tableDefinition, int rowIndex )
 {
     #region Methods
 
@@ -69,7 +69,7 @@ internal sealed class ReportTableRowContext( ReportElementDefinition tableDefini
 
     #region Properties
 
-    internal ReportElementDefinition TableDefinition { get; } = tableDefinition;
+    internal ReportTableElementDefinition TableDefinition { get; } = tableDefinition;
 
     internal int RowIndex { get; } = rowIndex;
 

@@ -1,6 +1,6 @@
 namespace Blazorise.Reporting;
 
-internal sealed class ReportTableCellContext( ReportElementDefinition tableDefinition, ReportTableCellDefinition definition )
+internal sealed class ReportTableCellContext( ReportTableElementDefinition tableDefinition, ReportTableCellDefinition definition )
 {
     #region Methods
 
@@ -17,7 +17,7 @@ internal sealed class ReportTableCellContext( ReportElementDefinition tableDefin
 
     #region Properties
 
-    internal ReportElementDefinition TableDefinition { get; } = tableDefinition;
+    internal ReportTableElementDefinition TableDefinition { get; } = tableDefinition;
 
     internal ReportTableCellDefinition Definition { get; } = definition;
 

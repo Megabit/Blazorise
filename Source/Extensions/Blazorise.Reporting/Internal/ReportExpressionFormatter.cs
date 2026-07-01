@@ -11,22 +11,22 @@ internal static class ReportExpressionFormatter
 
     internal static string FormatFieldExpression( ReportElementDefinition element )
     {
-        if ( element is null || string.IsNullOrWhiteSpace( element.Field ) )
+        if ( element is not ReportFieldElementDefinition fieldElement || string.IsNullOrWhiteSpace( fieldElement.Field ) )
             return string.Empty;
 
-        var fieldExpression = FormatFieldExpression( element.DataSource, element.Field );
+        string fieldExpression = FormatFieldExpression( fieldElement.DataSource, fieldElement.Field );
 
-        return FormatAggregateExpression( element, fieldExpression );
+        return FormatAggregateExpression( fieldElement, fieldExpression );
     }
 
     internal static string FormatFieldExpression( ReportDefinition definition, ReportElementDefinition element )
     {
-        if ( element is null || string.IsNullOrWhiteSpace( element.Field ) )
+        if ( element is not ReportFieldElementDefinition fieldElement || string.IsNullOrWhiteSpace( fieldElement.Field ) )
             return string.Empty;
 
-        var fieldExpression = FormatFieldExpression( ResolveDisplayDataSourceName( definition, element.DataSource ), element.Field );
+        string fieldExpression = FormatFieldExpression( ResolveDisplayDataSourceName( definition, fieldElement.DataSource ), fieldElement.Field );
 
-        return FormatAggregateExpression( element, fieldExpression );
+        return FormatAggregateExpression( fieldElement, fieldExpression );
     }
 
     internal static string FormatFieldExpression( ReportDefinition definition, string dataSourceName, string fieldName )
@@ -70,7 +70,7 @@ internal static class ReportExpressionFormatter
 
     internal static void AppendFieldExpressionToText( ReportElementDefinition element, string dataSourceName, string fieldName )
     {
-        if ( element is null || element.Type != ReportElementType.Text )
+        if ( element is not ReportTextElementDefinition textElement )
             return;
 
         string expression = FormatFieldExpression( dataSourceName, fieldName );
@@ -78,14 +78,14 @@ internal static class ReportExpressionFormatter
         if ( string.IsNullOrWhiteSpace( expression ) )
             return;
 
-        element.Text = string.IsNullOrEmpty( element.Text )
+        textElement.Text = string.IsNullOrEmpty( textElement.Text )
             ? expression
-            : HasTrailingExpressionSeparator( element.Text )
-                ? $"{element.Text}{expression}"
-                : $"{element.Text} {expression}";
+            : HasTrailingExpressionSeparator( textElement.Text )
+                ? $"{textElement.Text}{expression}"
+                : $"{textElement.Text} {expression}";
     }
 
-    private static string FormatAggregateExpression( ReportElementDefinition element, string fieldExpression )
+    private static string FormatAggregateExpression( ReportFieldElementDefinition element, string fieldExpression )
     {
         return element.Aggregate is null
             ? fieldExpression

@@ -69,7 +69,7 @@ public partial class _ReportDesignerTable
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
     {
-        if ( parameters.TryGetValue<ReportElementDefinition>( nameof( Element ), out _ ) )
+        if ( parameters.TryGetValue<ReportTableElementDefinition>( nameof( Element ), out _ ) )
             tableStyleBuilder.Dirty();
 
         return base.SetParametersAsync( parameters );
@@ -263,7 +263,7 @@ public partial class _ReportDesignerTable
     /// <summary>
     /// Table element definition rendered in the designer or viewer.
     /// </summary>
-    [Parameter] public ReportElementDefinition Element { get; set; }
+    [Parameter] public ReportTableElementDefinition Element { get; set; }
 
     /// <summary>
     /// Indicates that the table is rendered on the designer surface.

@@ -12,8 +12,9 @@ public abstract class BaseReportTextElement : BaseReportElement
     /// <inheritdoc />
     protected override ReportElementDefinition BuildDefinition()
     {
-        var definition = base.BuildDefinition();
+        ReportElementDefinition definition = base.BuildDefinition();
         definition.Font = BuildFontDefinition();
+
         return definition;
     }
 

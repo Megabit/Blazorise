@@ -11,13 +11,15 @@ public partial class ReportTable
 {
     #region Methods
 
+    private ReportTableElementDefinition TableDefinition => Definition as ReportTableElementDefinition;
+
     /// <inheritdoc />
     protected override ReportElementType ElementType => ReportElementType.Table;
 
     /// <inheritdoc />
     protected override ReportElementDefinition BuildDefinition()
     {
-        ReportElementDefinition definition = base.BuildDefinition();
+        ReportTableElementDefinition definition = (ReportTableElementDefinition)base.BuildDefinition();
 
         if ( ChildContent is null )
             Internal.ReportDefinitionHelper.EnsureTableLayout( definition, RowCount, ColumnCount );

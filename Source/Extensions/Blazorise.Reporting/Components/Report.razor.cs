@@ -802,7 +802,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             int targetSectionIndex = ResolvePasteSectionIndex( definition );
             ReportSectionDefinition targetSection = definition.Sections[targetSectionIndex];
             bool sameSection = clipboardSectionId == ReportDefinitionHelper.EnsureSectionId( targetSection );
-            bool pasteIntoCell = TryResolveContextPasteCell( definition, out ReportElementDefinition pasteTable, out ReportTableCellDefinition pasteCell );
+            bool pasteIntoCell = TryResolveContextPasteCell( definition, out ReportTableElementDefinition pasteTable, out ReportTableCellDefinition pasteCell );
 
             ReportElementDefinition element = ReportContext.CloneElement( clipboardElement );
             element.Id = ReportDefinitionHelper.CreateDefinitionId();
@@ -871,7 +871,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return true;
     }
 
-    private bool TryResolveContextPasteCell( ReportDefinition definition, out ReportElementDefinition table, out ReportTableCellDefinition cell )
+    private bool TryResolveContextPasteCell( ReportDefinition definition, out ReportTableElementDefinition table, out ReportTableCellDefinition cell )
     {
         table = null;
         cell = null;
@@ -1281,14 +1281,14 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         state.CanInsertAggregate = sectionIndex >= 0
             && sectionIndex < definition.Sections.Count
             && definition.Sections[sectionIndex].Type == ReportSectionType.Detail
-            && element.Type == ReportElementType.Field;
+            && element is ReportFieldElementDefinition;
     }
 
     private void PopulateTableCellContextMenuCapabilities( ReportDefinition definition, ReportContextMenuState state )
     {
         if ( definition is null
             || state is null
-            || !ReportDefinitionHelper.TryFindTableCellLocation( definition, state.CellKey, out _, out _, out ReportElementDefinition table, out ReportTableCellDefinition cell ) )
+            || !ReportDefinitionHelper.TryFindTableCellLocation( definition, state.CellKey, out _, out _, out ReportTableElementDefinition table, out ReportTableCellDefinition cell ) )
         {
             return;
         }
@@ -1330,22 +1330,22 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         var section = definition.Sections[sectionIndex];
 
-        if ( section.Type != ReportSectionType.Detail || element?.Type != ReportElementType.Field )
+        if ( section.Type != ReportSectionType.Detail || element is not ReportFieldElementDefinition fieldElement )
             return [];
 
-        var dataSourceName = section.DataSource ?? element.DataSource;
+        var dataSourceName = section.DataSource ?? fieldElement.DataSource;
         var dataSourceValue = ReportDataResolver.ResolveDataSourceValue( definition, Data, dataSourceName );
         var fields = ReportDataSourceExplorer.ResolveDataSourceFields( dataSourceValue ).ToList();
         var fieldOptions = FlattenDesignerFieldOptions( sectionIndex, dataSourceName, fields ).ToList();
 
-        if ( fieldOptions.Count == 0 && !string.IsNullOrWhiteSpace( element.Field ) )
+        if ( fieldOptions.Count == 0 && !string.IsNullOrWhiteSpace( fieldElement.Field ) )
         {
             fieldOptions.Add( new()
             {
                 SourceSectionIndex = sectionIndex,
                 DataSourceName = dataSourceName,
-                FieldName = element.Field,
-                DisplayName = element.Field,
+                FieldName = fieldElement.Field,
+                DisplayName = fieldElement.Field,
             } );
         }
 
@@ -1356,21 +1356,21 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private static bool CanEditElementText( ReportElementDefinition element )
     {
-        return element?.Type == ReportElementType.Text;
+        return element is ReportTextElementDefinition;
     }
 
     private static bool CanEditFormulaFieldElement( ReportDefinition definition, ReportElementDefinition element )
     {
-        return element?.Type == ReportElementType.Field
-            && !string.IsNullOrWhiteSpace( element.Field )
-            && FindFormulaField( definition, ReportFormulaFieldResolver.NormalizeFieldName( element.Field ) ) is not null;
+        return element is ReportFieldElementDefinition fieldElement
+            && !string.IsNullOrWhiteSpace( fieldElement.Field )
+            && FindFormulaField( definition, ReportFormulaFieldResolver.NormalizeFieldName( fieldElement.Field ) ) is not null;
     }
 
     private static bool CanEditRunningTotalElement( ReportDefinition definition, ReportElementDefinition element )
     {
-        return element?.Type == ReportElementType.Field
-            && !string.IsNullOrWhiteSpace( element.Field )
-            && FindRunningTotal( definition, ReportRunningTotalResolver.NormalizeFieldName( element.Field ) ) is not null;
+        return element is ReportFieldElementDefinition fieldElement
+            && !string.IsNullOrWhiteSpace( fieldElement.Field )
+            && FindRunningTotal( definition, ReportRunningTotalResolver.NormalizeFieldName( fieldElement.Field ) ) is not null;
     }
 
     private bool TryGetContextElementFormulaFieldName( ReportDefinition definition, out string formulaFieldName )
@@ -1383,10 +1383,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return false;
         }
 
-        if ( element?.Type != ReportElementType.Field || string.IsNullOrWhiteSpace( element.Field ) )
+        if ( element is not ReportFieldElementDefinition fieldElement || string.IsNullOrWhiteSpace( fieldElement.Field ) )
             return false;
 
-        string normalizedFieldName = ReportFormulaFieldResolver.NormalizeFieldName( element.Field );
+        string normalizedFieldName = ReportFormulaFieldResolver.NormalizeFieldName( fieldElement.Field );
 
         if ( FindFormulaField( definition, normalizedFieldName ) is null )
         {
@@ -1408,10 +1408,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return false;
         }
 
-        if ( element?.Type != ReportElementType.Field || string.IsNullOrWhiteSpace( element.Field ) )
+        if ( element is not ReportFieldElementDefinition fieldElement || string.IsNullOrWhiteSpace( fieldElement.Field ) )
             return false;
 
-        string normalizedFieldName = ReportRunningTotalResolver.NormalizeFieldName( element.Field );
+        string normalizedFieldName = ReportRunningTotalResolver.NormalizeFieldName( fieldElement.Field );
 
         if ( FindRunningTotal( definition, normalizedFieldName ) is null )
         {
@@ -1490,7 +1490,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var currentElement )
             || !CanEditElementText( currentElement )
-            || string.Equals( currentElement.Text, text, StringComparison.Ordinal ) )
+            || currentElement is not ReportTextElementDefinition currentTextElement
+            || string.Equals( currentTextElement.Text, text, StringComparison.Ordinal ) )
         {
             return;
         }
@@ -1498,9 +1499,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommandAsync( new( "Edit text", () =>
         {
             if ( ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var element )
-                && CanEditElementText( element ) )
+                && element is ReportTextElementDefinition textElement )
             {
-                element.Text = text;
+                textElement.Text = text;
             }
 
             return Task.CompletedTask;
@@ -1524,7 +1525,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         CloseContextMenu();
 
         var selectedFieldName = ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var element )
-            ? element.Field
+            && element is ReportFieldElementDefinition fieldElement
+            ? fieldElement.Field
             : null;
 
         await aggregateDialogRef.ShowAsync( fieldOptions, selectedFieldName, summaryLocations );
@@ -1549,7 +1551,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         await ExecuteDesignerCommandAsync( new( "Merge table cell", () =>
         {
-            if ( !ReportDefinitionHelper.TryFindTableCellLocation( EffectiveDefinition, cellKey, out _, out _, out ReportElementDefinition table, out ReportTableCellDefinition cell ) )
+            if ( !ReportDefinitionHelper.TryFindTableCellLocation( EffectiveDefinition, cellKey, out _, out _, out ReportTableElementDefinition table, out ReportTableCellDefinition cell ) )
                 return Task.CompletedTask;
 
             if ( columnSpanDelta > 0 && !CanMergeTableCellRight( table, cell ) )
@@ -1576,7 +1578,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         await ExecuteDesignerCommandAsync( new( "Unmerge table cell", () =>
         {
-            if ( !ReportDefinitionHelper.TryFindTableCellLocation( EffectiveDefinition, cellKey, out _, out _, out ReportElementDefinition table, out ReportTableCellDefinition cell ) )
+            if ( !ReportDefinitionHelper.TryFindTableCellLocation( EffectiveDefinition, cellKey, out _, out _, out ReportTableElementDefinition table, out ReportTableCellDefinition cell ) )
                 return Task.CompletedTask;
 
             int oldRowSpan = Math.Max( 1, cell.RowSpan );
@@ -1692,7 +1694,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         } );
     }
 
-    private async Task UpdateSelectedTableCellAsync( string commandName, Action<ReportElementDefinition, ReportTableCellDefinition> update )
+    private async Task UpdateSelectedTableCellAsync( string commandName, Action<ReportTableElementDefinition, ReportTableCellDefinition> update )
     {
         string cellKey = contextMenu?.CellKey ?? selectionManager.SelectedCellKey;
 
@@ -1701,7 +1703,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         await ExecuteDesignerCommandAsync( new( commandName, () =>
         {
-            if ( !ReportDefinitionHelper.TryFindTableCellLocation( EffectiveDefinition, cellKey, out _, out _, out ReportElementDefinition table, out ReportTableCellDefinition cell ) )
+            if ( !ReportDefinitionHelper.TryFindTableCellLocation( EffectiveDefinition, cellKey, out _, out _, out ReportTableElementDefinition table, out ReportTableCellDefinition cell ) )
                 return Task.CompletedTask;
 
             EnsureTableGrid( table );
@@ -1726,10 +1728,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 return Task.CompletedTask;
 
             var sourceSection = definition.Sections[sourceSectionIndex];
-            var sourceElement = FindDetailFieldElement( sourceSection, result.FieldName ) ?? new ReportElementDefinition
+            var sourceElement = FindDetailFieldElement( sourceSection, result.FieldName ) ?? new ReportFieldElementDefinition
             {
                 Name = result.FieldName,
-                Type = ReportElementType.Field,
                 Field = result.FieldName,
                 DataSource = result.DataSourceName,
                 X = DesignerConstants.DefaultGroupHeaderElementX,
@@ -2025,10 +2026,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
             ReportSectionDefinition section = definition.Sections[sectionIndex];
             double y = GetNextFormulaFieldInsertionY( section );
-            ReportElementDefinition element = new()
+            ReportElementDefinition element = new ReportFieldElementDefinition
             {
                 Name = formulaFieldName,
-                Type = ReportElementType.Field,
                 DataSource = ReportFormulaFieldResolver.DataSourceName,
                 Field = formulaFieldName,
                 X = 0,
@@ -2061,10 +2061,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ReportSectionDefinition section = definition.Sections[sectionIndex];
             (string DataSourceName, string FieldName) fieldBinding = ReportDefinitionHelper.NormalizeFieldBindingForSection( definition, section, field.DataSourceName, field.FieldName );
             double y = GetNextFormulaFieldInsertionY( section );
-            ReportElementDefinition element = new()
+            ReportElementDefinition element = new ReportFieldElementDefinition
             {
                 Name = fieldBinding.FieldName,
-                Type = ReportElementType.Field,
                 Field = fieldBinding.FieldName,
                 DataSource = fieldBinding.DataSourceName,
                 X = 0,
@@ -2183,10 +2182,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
             ReportSectionDefinition section = definition.Sections[sectionIndex];
             double y = GetNextFormulaFieldInsertionY( section );
-            ReportElementDefinition element = new()
+            ReportElementDefinition element = new ReportFieldElementDefinition
             {
                 Name = runningTotalName,
-                Type = ReportElementType.Field,
                 DataSource = ReportRunningTotalResolver.DataSourceName,
                 Field = runningTotalName,
                 X = 0,
@@ -2308,15 +2306,17 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
             foreach ( ReportElementDefinition element in section.Elements ?? [] )
             {
-                if ( element.Type == ReportElementType.Field
-                    && !string.IsNullOrWhiteSpace( element.Field )
-                    && string.Equals( ReportFormulaFieldResolver.NormalizeFieldName( element.Field ), oldName, StringComparison.OrdinalIgnoreCase )
-                    && ( ReportFormulaFieldResolver.IsFormulaDataSource( element.DataSource ) || string.IsNullOrWhiteSpace( element.DataSource ) ) )
+                if ( element is ReportFieldElementDefinition fieldElement
+                    && !string.IsNullOrWhiteSpace( fieldElement.Field )
+                    && string.Equals( ReportFormulaFieldResolver.NormalizeFieldName( fieldElement.Field ), oldName, StringComparison.OrdinalIgnoreCase )
+                    && ( ReportFormulaFieldResolver.IsFormulaDataSource( fieldElement.DataSource ) || string.IsNullOrWhiteSpace( fieldElement.DataSource ) ) )
                 {
-                    element.Field = newName;
+                    fieldElement.Field = newName;
                 }
 
-                element.Text = ReplaceFormulaFieldExpressionToken( element.Text, oldName, newName );
+                if ( element is ReportTextElementDefinition textElement )
+                    textElement.Text = ReplaceFormulaFieldExpressionToken( textElement.Text, oldName, newName );
+
                 ReplaceFormulaFieldReference( element.CanGrow, oldName, newName );
                 ReplaceFormulaFieldReference( element.Suppress, oldName, newName );
                 ReplaceFormulaFieldReference( element.SnapToGrid, oldName, newName );
@@ -2348,15 +2348,17 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
             foreach ( ReportElementDefinition element in section.Elements ?? [] )
             {
-                if ( element.Type == ReportElementType.Field
-                    && !string.IsNullOrWhiteSpace( element.Field )
-                    && string.Equals( ReportRunningTotalResolver.NormalizeFieldName( element.Field ), oldName, StringComparison.OrdinalIgnoreCase )
-                    && ( ReportRunningTotalResolver.IsRunningTotalDataSource( element.DataSource ) || string.IsNullOrWhiteSpace( element.DataSource ) ) )
+                if ( element is ReportFieldElementDefinition fieldElement
+                    && !string.IsNullOrWhiteSpace( fieldElement.Field )
+                    && string.Equals( ReportRunningTotalResolver.NormalizeFieldName( fieldElement.Field ), oldName, StringComparison.OrdinalIgnoreCase )
+                    && ( ReportRunningTotalResolver.IsRunningTotalDataSource( fieldElement.DataSource ) || string.IsNullOrWhiteSpace( fieldElement.DataSource ) ) )
                 {
-                    element.Field = newName;
+                    fieldElement.Field = newName;
                 }
 
-                element.Text = ReplaceRunningTotalExpressionToken( element.Text, oldName, newName );
+                if ( element is ReportTextElementDefinition textElement )
+                    textElement.Text = ReplaceRunningTotalExpressionToken( textElement.Text, oldName, newName );
+
                 ReplaceRunningTotalReference( element.CanGrow, oldName, newName );
                 ReplaceRunningTotalReference( element.Suppress, oldName, newName );
                 ReplaceRunningTotalReference( element.SnapToGrid, oldName, newName );
@@ -2566,7 +2568,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             .OrderBy( field => field.DisplayName )
             .ToList();
 
-        foreach ( var fieldElement in section.Elements.Where( element => element.Type == ReportElementType.Field && !string.IsNullOrWhiteSpace( element.Field ) ) )
+        foreach ( var fieldElement in section.Elements.OfType<ReportFieldElementDefinition>().Where( element => !string.IsNullOrWhiteSpace( element.Field ) ) )
         {
             if ( fieldOptions.Any( field => string.Equals( field.FieldName, fieldElement.Field, StringComparison.OrdinalIgnoreCase ) ) )
                 continue;
@@ -2611,8 +2613,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private static ReportElementDefinition FindDetailFieldElement( ReportSectionDefinition section, string fieldName )
     {
         return section?.Elements?.FirstOrDefault( element =>
-            element.Type == ReportElementType.Field
-            && string.Equals( element.Field, fieldName, StringComparison.OrdinalIgnoreCase ) );
+            element is ReportFieldElementDefinition fieldElement
+            && string.Equals( fieldElement.Field, fieldName, StringComparison.OrdinalIgnoreCase ) );
     }
 
     private IReadOnlyList<ReportAggregateFunction> ResolveAggregateDialogSupportedFunctions( ReportDesignerFieldOption field )
@@ -2659,10 +2661,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             Suppressed = false,
             Elements =
             [
-                new()
+                new ReportTextElementDefinition
                 {
                     Name = groupName,
-                    Type = ReportElementType.Text,
                     Text = ReportExpressionFormatter.FormatFieldExpression( null, groupBy ),
                     X = DesignerConstants.DefaultGroupHeaderElementX,
                     Y = DesignerConstants.DefaultGroupHeaderElementY,
@@ -2691,10 +2692,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             Suppressed = false,
             Elements =
             [
-                new()
+                new ReportLineElementDefinition
                 {
                     Name = $"{groupName} separator",
-                    Type = ReportElementType.Line,
                     X = DesignerConstants.DefaultGroupFooterLineX,
                     Y = DesignerConstants.DefaultGroupFooterLineY,
                     Width = Math.Max( DesignerConstants.DefaultGroupFooterLineMinimumWidth, ( definition?.Page?.Width ?? DesignerConstants.DefaultPageWidthFallback ) - DesignerConstants.DefaultGroupFooterLinePagePadding ),
@@ -2719,16 +2719,18 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private static ReportElementDefinition CreateAggregateElement( ReportSectionDefinition sourceSection, ReportElementDefinition sourceElement, ReportAggregateFunction function, ReportSectionDefinition targetSection, bool groupScoped )
     {
-        var fieldName = sourceElement.Field;
+        if ( sourceElement is not ReportFieldElementDefinition sourceFieldElement )
+            return null;
+
+        var fieldName = sourceFieldElement.Field;
         var functionName = ReportAggregateResolver.GetFunctionDisplayName( function );
 
-        return new()
+        return new ReportFieldElementDefinition
         {
             Name = $"{functionName} of {fieldName}",
-            Type = ReportElementType.Field,
             Field = fieldName,
-            Format = sourceElement.Format,
-            DataSource = groupScoped ? null : string.IsNullOrWhiteSpace( sourceSection.DataSource ) ? sourceElement.DataSource : sourceSection.DataSource,
+            Format = sourceFieldElement.Format,
+            DataSource = groupScoped ? null : string.IsNullOrWhiteSpace( sourceSection.DataSource ) ? sourceFieldElement.DataSource : sourceSection.DataSource,
             X = sourceElement.X,
             Y = GetAggregateElementY( targetSection ),
             Width = sourceElement.Width,
@@ -2781,7 +2783,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( targetSection?.Elements is null || targetSection.Elements.Count == 0 )
             return DesignerConstants.PasteElementOffset;
 
-        var aggregateElements = targetSection.Elements.Where( element => element.Aggregate is not null ).ToList();
+        var aggregateElements = targetSection.Elements.OfType<ReportFieldElementDefinition>().Where( element => element.Aggregate is not null ).ToList();
 
         return aggregateElements.Count == 0
             ? Math.Max( DesignerConstants.PasteElementOffset, targetSection.Elements.Max( element => element.Y + element.Height ) + DesignerConstants.KeyboardMoveStep )
@@ -2813,7 +2815,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 element.Width = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, width == 0 ? element.Width : ApplyDesignerGrid( element.Width + width, useSnapToGrid ) );
                 element.Height = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, height == 0 ? element.Height : ApplyDesignerGrid( element.Height + height, useSnapToGrid ) );
 
-                ReportDefinitionHelper.ScaleTableLayout( element, originalWidth, originalHeight );
+                if ( element is ReportTableElementDefinition table )
+                    ReportDefinitionHelper.ScaleTableLayout( table, originalWidth, originalHeight );
                 ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement( definition, sectionIndex, sectionIndex, element, originalX, originalWidth, element.X, element.Width );
             }
 
@@ -2973,7 +2976,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 double originalHeight = element.Height;
 
                 ApplyElementSize( definition, anchor.Element, element, sizeMode );
-                ReportDefinitionHelper.ScaleTableLayout( element, originalWidth, originalHeight );
+                if ( element is ReportTableElementDefinition table )
+                    ReportDefinitionHelper.ScaleTableLayout( table, originalWidth, originalHeight );
 
                 ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
                     definition,
@@ -3157,7 +3161,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
                 update?.Invoke( element );
 
-                ReportDefinitionHelper.ScaleTableLayout( element, originalWidth, originalHeight );
+                if ( element is ReportTableElementDefinition table )
+                    ReportDefinitionHelper.ScaleTableLayout( table, originalWidth, originalHeight );
                 ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement( definition, sectionIndex, sectionIndex, element, originalX, originalWidth, element.X, element.Width );
             }
 
@@ -3612,8 +3617,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private Task BeginTablePointerResizeAsync( string tableKey, string cellKey, ReportTableResizeKind kind, int index, PointerEventArgs eventArgs )
     {
-        if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, tableKey, out int sectionIndex, out _, out ReportElementDefinition table )
-            || table.Type != ReportElementType.Table
+        if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, tableKey, out int sectionIndex, out _, out ReportElementDefinition element )
+            || element is not ReportTableElementDefinition table
             || table.Suppress?.Value == true )
         {
             return Task.CompletedTask;
@@ -4056,7 +4061,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             || !ReferenceEquals( target.Table, location.Element );
     }
 
-    private static void ReplaceTableCellElement( ReportElementDefinition table, ReportTableCellDefinition cell, ReportElementDefinition element )
+    private static void ReplaceTableCellElement( ReportTableElementDefinition table, ReportTableCellDefinition cell, ReportElementDefinition element )
     {
         if ( cell is null || element is null )
             return;
@@ -4125,8 +4130,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             && Math.Abs( pointerResize.TargetSize - pointerResize.OriginalSize ) > .1;
 
         if ( !resized
-            || !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, pointerResize.TableKey, out _, out _, out ReportElementDefinition table )
-            || table.Type != ReportElementType.Table )
+            || !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, pointerResize.TableKey, out _, out _, out ReportElementDefinition element )
+            || element is not ReportTableElementDefinition table )
         {
             ClearDragState();
             await ClearDesignerInteractionOverlaysAsync();
@@ -4138,8 +4143,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         await ExecuteDesignerCommandAsync( new( pointerResize.Kind == ReportTableResizeKind.Column ? "Resize table column" : "Resize table row", () =>
         {
-            if ( ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, pointerResize.TableKey, out int sectionIndex, out _, out ReportElementDefinition table )
-                && table.Type == ReportElementType.Table )
+            if ( ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, pointerResize.TableKey, out int sectionIndex, out _, out ReportElementDefinition element )
+                && element is ReportTableElementDefinition table )
             {
                 ApplyTablePointerResize( table, pointerResize );
                 ReportLayoutGeometry.GrowSectionToFitElement( EffectiveDefinition.Sections[sectionIndex], table );
@@ -4171,8 +4176,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private ReportDesignerDragPreview CreateTablePointerResizePreview( PointerEventArgs eventArgs )
     {
         if ( tablePointerResize is null
-            || !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, tablePointerResize.TableKey, out _, out _, out ReportElementDefinition table )
-            || table.Type != ReportElementType.Table )
+            || !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, tablePointerResize.TableKey, out _, out _, out ReportElementDefinition element )
+            || element is not ReportTableElementDefinition table )
         {
             return null;
         }
@@ -4232,7 +4237,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return Math.Clamp( size, minimumSize, maximumSize );
     }
 
-    private static void ApplyTablePointerResize( ReportElementDefinition table, ReportTablePointerResizeState pointerResize )
+    private static void ApplyTablePointerResize( ReportTableElementDefinition table, ReportTablePointerResizeState pointerResize )
     {
         if ( table is null || pointerResize is null )
             return;
@@ -4376,7 +4381,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             foreach ( ReportElementPointerItemState item in pointerResize.SelectedElements )
             {
                 if ( ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, item.ElementKey, out _, out _, out ReportElementDefinition resizedElement ) )
-                    ReportDefinitionHelper.ScaleTableLayout( resizedElement, item.OriginalWidth, item.OriginalHeight );
+                    if ( resizedElement is ReportTableElementDefinition resizedTable )
+                        ReportDefinitionHelper.ScaleTableLayout( resizedTable, item.OriginalWidth, item.OriginalHeight );
             }
 
             SelectElements( pointerResize.SelectedElements.Select( item => item.ElementKey ), pointerResize.ElementKey );
@@ -4719,10 +4725,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 case ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( draggedFieldName ):
                     var fieldBinding = ReportDefinitionHelper.NormalizeFieldBindingForSection( definition, targetSection, draggedDataSourceName, draggedFieldName );
 
-                    var fieldElement = new ReportElementDefinition
+                    var fieldElement = new ReportFieldElementDefinition
                     {
                         Name = fieldBinding.FieldName,
-                        Type = ReportElementType.Field,
                         Field = fieldBinding.FieldName,
                         DataSource = fieldBinding.DataSourceName,
                         X = tableCellDropTarget?.X ?? x,
@@ -4812,9 +4817,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         for ( int elementIndex = section.Elements.Count - 1; elementIndex >= 0; elementIndex-- )
         {
-            ReportElementDefinition table = section.Elements[elementIndex];
+            ReportElementDefinition element = section.Elements[elementIndex];
 
-            if ( table.Type != ReportElementType.Table
+            if ( element is not ReportTableElementDefinition table
                 || table.Suppress?.Value == true
                 || x < table.X
                 || x > table.X + table.Width
@@ -4866,17 +4871,17 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             && ( cell.RowSpan > 1 || cell.ColumnSpan > 1 );
     }
 
-    private static bool CanDeleteTableRow( ReportElementDefinition table )
+    private static bool CanDeleteTableRow( ReportTableElementDefinition table )
     {
         return table?.Rows?.Count > 1;
     }
 
-    private static bool CanDeleteTableColumn( ReportElementDefinition table )
+    private static bool CanDeleteTableColumn( ReportTableElementDefinition table )
     {
         return table?.Columns?.Count > 1;
     }
 
-    private static bool CanDeleteTableCell( ReportElementDefinition table, ReportTableCellDefinition cell )
+    private static bool CanDeleteTableCell( ReportTableElementDefinition table, ReportTableCellDefinition cell )
     {
         if ( table is null || cell is null )
             return false;
@@ -4887,7 +4892,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             || CanMergeTableCellDown( table, cell );
     }
 
-    private static void InsertTableRow( ReportElementDefinition table, int rowIndex )
+    private static void InsertTableRow( ReportTableElementDefinition table, int rowIndex )
     {
         EnsureTableGrid( table );
 
@@ -4912,7 +4917,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         table.Height += rowHeight;
     }
 
-    private static void InsertTableColumn( ReportElementDefinition table, int columnIndex )
+    private static void InsertTableColumn( ReportTableElementDefinition table, int columnIndex )
     {
         EnsureTableGrid( table );
 
@@ -4937,7 +4942,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         table.Width += columnWidth;
     }
 
-    private static void SplitTableCell( ReportElementDefinition table, ReportTableCellDefinition cell )
+    private static void SplitTableCell( ReportTableElementDefinition table, ReportTableCellDefinition cell )
     {
         int oldRowSpan = Math.Max( 1, cell.RowSpan );
         int oldColumnSpan = Math.Max( 1, cell.ColumnSpan );
@@ -4964,7 +4969,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }
     }
 
-    private static void DeleteTableRow( ReportElementDefinition table, int rowIndex )
+    private static void DeleteTableRow( ReportTableElementDefinition table, int rowIndex )
     {
         EnsureTableGrid( table );
 
@@ -4993,7 +4998,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         table.Height = Math.Max( 1, table.Height - rowHeight );
     }
 
-    private static void DeleteTableColumn( ReportElementDefinition table, int columnIndex )
+    private static void DeleteTableColumn( ReportTableElementDefinition table, int columnIndex )
     {
         EnsureTableGrid( table );
 
@@ -5022,7 +5027,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         table.Width = Math.Max( 1, table.Width - columnWidth );
     }
 
-    private static bool DeleteTableCell( ReportElementDefinition table, ReportTableCellDefinition cell, out ReportTableCellDefinition selectedCell )
+    private static bool DeleteTableCell( ReportTableElementDefinition table, ReportTableCellDefinition cell, out ReportTableCellDefinition selectedCell )
     {
         selectedCell = null;
 
@@ -5060,17 +5065,17 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return false;
     }
 
-    private static void MergeTableCellRight( ReportElementDefinition table, ReportTableCellDefinition cell )
+    private static void MergeTableCellRight( ReportTableElementDefinition table, ReportTableCellDefinition cell )
     {
         MergeTableCell( table, cell, columnSpanDelta: 1, rowSpanDelta: 0 );
     }
 
-    private static void MergeTableCellDown( ReportElementDefinition table, ReportTableCellDefinition cell )
+    private static void MergeTableCellDown( ReportTableElementDefinition table, ReportTableCellDefinition cell )
     {
         MergeTableCell( table, cell, columnSpanDelta: 0, rowSpanDelta: 1 );
     }
 
-    private static void MergeTableCell( ReportElementDefinition table, ReportTableCellDefinition cell, int columnSpanDelta, int rowSpanDelta )
+    private static void MergeTableCell( ReportTableElementDefinition table, ReportTableCellDefinition cell, int columnSpanDelta, int rowSpanDelta )
     {
         int oldRowSpan = Math.Max( 1, cell.RowSpan );
         int oldColumnSpan = Math.Max( 1, cell.ColumnSpan );
@@ -5097,7 +5102,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         cell.ColumnSpan = newColumnSpan;
     }
 
-    private static ReportTableCellDefinition FindTableCellLeftOf( ReportElementDefinition table, ReportTableCellDefinition cell )
+    private static ReportTableCellDefinition FindTableCellLeftOf( ReportTableElementDefinition table, ReportTableCellDefinition cell )
     {
         if ( cell.ColumnIndex == 0 )
             return null;
@@ -5108,7 +5113,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             && Math.Max( 1, item.RowSpan ) == Math.Max( 1, cell.RowSpan ) );
     }
 
-    private static ReportTableCellDefinition FindTableCellAbove( ReportElementDefinition table, ReportTableCellDefinition cell )
+    private static ReportTableCellDefinition FindTableCellAbove( ReportTableElementDefinition table, ReportTableCellDefinition cell )
     {
         if ( cell.RowIndex == 0 )
             return null;
@@ -5119,7 +5124,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             && Math.Max( 1, item.ColumnSpan ) == Math.Max( 1, cell.ColumnSpan ) );
     }
 
-    private void SelectTableCellAt( ReportElementDefinition table, int rowIndex, int columnIndex )
+    private void SelectTableCellAt( ReportTableElementDefinition table, int rowIndex, int columnIndex )
     {
         ReportTableCellDefinition cell = table.Cells
             .Where( item => item.RowIndex <= rowIndex
@@ -5133,7 +5138,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             SelectTableCell( cell.Id );
     }
 
-    private static void NormalizeTableGrid( ReportElementDefinition table )
+    private static void NormalizeTableGrid( ReportTableElementDefinition table )
     {
         if ( table is null )
             return;
@@ -5146,7 +5151,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }
     }
 
-    private static void EnsureTableGrid( ReportElementDefinition table )
+    private static void EnsureTableGrid( ReportTableElementDefinition table )
     {
         ReportDefinitionHelper.EnsureTableLayout(
             table,
@@ -5154,7 +5159,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             table.Columns?.Count > 0 ? table.Columns.Count : 1 );
     }
 
-    private static double ResolveTableRowHeight( ReportElementDefinition table, int rowIndex )
+    private static double ResolveTableRowHeight( ReportTableElementDefinition table, int rowIndex )
     {
         if ( table?.Rows is null || table.Rows.Count == 0 )
             return ReportDefinitionHelper.DefaultTableRowHeight;
@@ -5165,7 +5170,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return table.Rows[Math.Min( rowIndex, table.Rows.Count - 1 )].Height;
     }
 
-    private static double ResolveTableColumnWidth( ReportElementDefinition table, int columnIndex )
+    private static double ResolveTableColumnWidth( ReportTableElementDefinition table, int columnIndex )
     {
         if ( table?.Columns is null || table.Columns.Count == 0 )
             return ReportDefinitionHelper.DefaultTableColumnWidth;
@@ -5176,7 +5181,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return table.Columns[Math.Min( columnIndex, table.Columns.Count - 1 )].Width;
     }
 
-    private static bool CanMergeTableCellRight( ReportElementDefinition table, ReportTableCellDefinition cell )
+    private static bool CanMergeTableCellRight( ReportTableElementDefinition table, ReportTableCellDefinition cell )
     {
         if ( table?.Columns is null || cell is null )
             return false;
@@ -5199,7 +5204,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return true;
     }
 
-    private static bool CanMergeTableCellDown( ReportElementDefinition table, ReportTableCellDefinition cell )
+    private static bool CanMergeTableCellDown( ReportTableElementDefinition table, ReportTableCellDefinition cell )
     {
         if ( table?.Rows is null || cell is null )
             return false;
@@ -5222,12 +5227,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return true;
     }
 
-    private static double GetTableColumnOffset( ReportElementDefinition table, int columnIndex )
+    private static double GetTableColumnOffset( ReportTableElementDefinition table, int columnIndex )
     {
         return table.Columns.Take( Math.Max( 0, columnIndex ) ).Sum( column => Math.Max( 1, column.Width ) );
     }
 
-    private static double GetTableRowOffset( ReportElementDefinition table, int rowIndex )
+    private static double GetTableRowOffset( ReportTableElementDefinition table, int rowIndex )
     {
         return table.Rows.Take( Math.Max( 0, rowIndex ) ).Sum( row => Math.Max( 1, row.Height ) );
     }
@@ -5242,7 +5247,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             var element = section.Elements[i];
 
             if ( element.Suppress?.Value != true
-                && element.Type == ReportElementType.Text
+                && element is ReportTextElementDefinition
                 && x >= element.X
                 && x <= element.X + element.Width
                 && y >= element.Y
@@ -5484,7 +5489,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private sealed class ReportTableCellDropTarget
     {
-        internal ReportElementDefinition Table { get; set; }
+        internal ReportTableElementDefinition Table { get; set; }
 
         internal ReportTableCellDefinition Cell { get; set; }
 

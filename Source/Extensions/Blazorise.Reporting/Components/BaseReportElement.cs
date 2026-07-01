@@ -1,5 +1,6 @@
 using System;
 using Blazorise;
+using Blazorise.Reporting.Internal;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Reporting;
@@ -45,23 +46,23 @@ public abstract class BaseReportElement : ComponentBase
     /// <returns>A new element definition based on the component parameters.</returns>
     protected virtual ReportElementDefinition BuildDefinition()
     {
-        return new()
-        {
-            Id = definitionId,
-            Name = Name,
-            Type = ElementType,
-            X = X,
-            Y = Y,
-            Width = Width,
-            Height = Height,
-            CanGrow = CanGrow,
-            Suppress = Suppress,
-            SnapToGrid = SnapToGrid,
-            Appearance = BuildAppearanceDefinition(),
-            Border = BuildBorderDefinition(),
-            Class = Class,
-            Style = Style,
-        };
+        ReportElementDefinition definition = ReportElementDefinitionFactory.Create( ElementType );
+
+        definition.Id = definitionId;
+        definition.Name = Name;
+        definition.X = X;
+        definition.Y = Y;
+        definition.Width = Width;
+        definition.Height = Height;
+        definition.CanGrow = CanGrow;
+        definition.Suppress = Suppress;
+        definition.SnapToGrid = SnapToGrid;
+        definition.Appearance = BuildAppearanceDefinition();
+        definition.Border = BuildBorderDefinition();
+        definition.Class = Class;
+        definition.Style = Style;
+
+        return definition;
     }
 
     private ReportAppearanceDefinition BuildAppearanceDefinition()

@@ -336,9 +336,9 @@ public sealed class ReportSectionDefinition
 }
 
 /// <summary>
-/// Describes a single visual element placed on a report band.
+/// Describes shared state for a single visual element placed on a report band.
 /// </summary>
-public sealed class ReportElementDefinition
+public abstract class ReportElementDefinition
 {
     /// <summary>
     /// Stable identifier used by designer selection and persisted state.
@@ -353,7 +353,7 @@ public sealed class ReportElementDefinition
     /// <summary>
     /// Element kind rendered by the designer and preview.
     /// </summary>
-    public ReportElementType Type { get; set; }
+    public abstract ReportElementType Type { get; }
 
     /// <summary>
     /// Horizontal position within the containing band, in points.
@@ -376,11 +376,6 @@ public sealed class ReportElementDefinition
     public double Height { get; set; } = 18;
 
     /// <summary>
-    /// Line stroke thickness in points.
-    /// </summary>
-    public double? Thickness { get; set; }
-
-    /// <summary>
     /// Allows text content to expand the element vertically when rendered.
     /// </summary>
     public ReportValue<bool> CanGrow { get; set; } = false;
@@ -394,31 +389,6 @@ public sealed class ReportElementDefinition
     /// Overrides the report-level snap-to-grid behavior for this element. A null value inherits the report setting.
     /// </summary>
     public ReportValue<bool?> SnapToGrid { get; set; } = (bool?)null;
-
-    /// <summary>
-    /// Static text or alternate text associated with the element.
-    /// </summary>
-    public string Text { get; set; }
-
-    /// <summary>
-    /// Data field expression rendered by field elements.
-    /// </summary>
-    public string Field { get; set; }
-
-    /// <summary>
-    /// Format string applied to resolved field values.
-    /// </summary>
-    public string Format { get; set; }
-
-    /// <summary>
-    /// Image source used by image elements.
-    /// </summary>
-    public string Source { get; set; }
-
-    /// <summary>
-    /// Optional data source override for field and table content.
-    /// </summary>
-    public string DataSource { get; set; }
 
     /// <summary>
     /// Font settings applied to text rendered by the element.
@@ -445,25 +415,134 @@ public sealed class ReportElementDefinition
     /// </summary>
     public string Style { get; set; }
 
+}
+
+/// <summary>
+/// Describes a static text element placed on a report band.
+/// </summary>
+public sealed class ReportTextElementDefinition : ReportElementDefinition
+{
+    /// <inheritdoc />
+    public override ReportElementType Type => ReportElementType.Text;
+
+    /// <summary>
+    /// Static text rendered by the element.
+    /// </summary>
+    public string Text { get; set; }
+
+    /// <summary>
+    /// Optional data source used when resolving text expressions.
+    /// </summary>
+    public string DataSource { get; set; }
+}
+
+/// <summary>
+/// Describes a data-bound field element placed on a report band.
+/// </summary>
+public sealed class ReportFieldElementDefinition : ReportElementDefinition
+{
+    /// <inheritdoc />
+    public override ReportElementType Type => ReportElementType.Field;
+
+    /// <summary>
+    /// Data field expression rendered by the element.
+    /// </summary>
+    public string Field { get; set; }
+
+    /// <summary>
+    /// Format string applied to resolved field values.
+    /// </summary>
+    public string Format { get; set; }
+
+    /// <summary>
+    /// Optional data source override for field content.
+    /// </summary>
+    public string DataSource { get; set; }
+
     /// <summary>
     /// Aggregate function applied when the field is rendered as a summary value.
     /// </summary>
     public ReportAggregateDefinition Aggregate { get; set; }
+}
+
+/// <summary>
+/// Describes an image element placed on a report band.
+/// </summary>
+public sealed class ReportImageElementDefinition : ReportElementDefinition
+{
+    /// <inheritdoc />
+    public override ReportElementType Type => ReportElementType.Image;
 
     /// <summary>
-    /// Column definitions used by table elements.
+    /// Image source used by the element.
+    /// </summary>
+    public string Source { get; set; }
+
+    /// <summary>
+    /// Alternate text associated with the image.
+    /// </summary>
+    public string Text { get; set; }
+}
+
+/// <summary>
+/// Describes a line element placed on a report band.
+/// </summary>
+public sealed class ReportLineElementDefinition : ReportElementDefinition
+{
+    /// <inheritdoc />
+    public override ReportElementType Type => ReportElementType.Line;
+
+    /// <summary>
+    /// Line stroke thickness in points.
+    /// </summary>
+    public double? Thickness { get; set; }
+}
+
+/// <summary>
+/// Describes a rectangle element placed on a report band.
+/// </summary>
+public sealed class ReportRectangleElementDefinition : ReportElementDefinition
+{
+    /// <inheritdoc />
+    public override ReportElementType Type => ReportElementType.Rectangle;
+}
+
+/// <summary>
+/// Describes a table element placed on a report band.
+/// </summary>
+public sealed class ReportTableElementDefinition : ReportElementDefinition
+{
+    /// <inheritdoc />
+    public override ReportElementType Type => ReportElementType.Table;
+
+    /// <summary>
+    /// Optional data source override for table content.
+    /// </summary>
+    public string DataSource { get; set; }
+
+    /// <summary>
+    /// Column definitions used by the table.
     /// </summary>
     public List<ReportTableColumnDefinition> Columns { get; set; } = [];
 
     /// <summary>
-    /// Row definitions used by layout table elements.
+    /// Row definitions used by the table.
     /// </summary>
     public List<ReportTableRowDefinition> Rows { get; set; } = [];
 
     /// <summary>
-    /// Cell definitions used by layout table elements.
+    /// Cell definitions used by the table.
     /// </summary>
     public List<ReportTableCellDefinition> Cells { get; set; } = [];
+}
+
+/// <summary>
+/// Describes a page break element placed on a report band.
+/// </summary>
+public sealed class ReportPageBreakElementDefinition : ReportElementDefinition
+{
+    /// <inheritdoc />
+    public override ReportElementType Type => ReportElementType.PageBreak;
 }
 
 /// <summary>
