@@ -220,12 +220,23 @@
                     <_ReportDesignerNullableNumberProperty Label="Font size" Value="@font.Size" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Size = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
                     <_ReportDesignerColorProperty Label="Color" Value="@font.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Color = value ))" />
                     <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
-                        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Alignment</FieldLabel>
+                        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Hor. align</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is8">
                             <Select TValue="TextAlignment" Value="@font.Alignment" ValueChanged="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Alignment = value ))" Size="Size.Small">
                                 @foreach ( var option in Enum.GetValues<TextAlignment>() )
                                 {
                                     <SelectItem TValue="TextAlignment" Value="@option">@option.ToString()</SelectItem>
+                                }
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                    <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
+                        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Vert. align</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is8">
+                            <Select TValue="VerticalAlignment" Value="@font.VerticalAlignment" ValueChanged="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).VerticalAlignment = value ))" Size="Size.Small">
+                                @foreach ( var option in TextVerticalAlignmentOptions )
+                                {
+                                    <SelectItem TValue="VerticalAlignment" Value="@option.Value">@option.Text</SelectItem>
                                 }
                             </Select>
                         </FieldBody>

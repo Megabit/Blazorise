@@ -63,6 +63,14 @@ public partial class _ReportDesignerPropertiesPanel
         ( "false", "False" ),
     ];
 
+    private static readonly (VerticalAlignment Value, string Text)[] TextVerticalAlignmentOptions =
+    [
+        ( VerticalAlignment.Default, "Default" ),
+        ( VerticalAlignment.Top, "Top" ),
+        ( VerticalAlignment.Middle, "Middle" ),
+        ( VerticalAlignment.Bottom, "Bottom" ),
+    ];
+
     #endregion
 
     #region Methods

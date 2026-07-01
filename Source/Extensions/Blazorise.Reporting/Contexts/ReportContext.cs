@@ -391,6 +391,7 @@ internal sealed class ReportContext
             Italic = font.Italic,
             Underline = font.Underline,
             Alignment = font.Alignment,
+            VerticalAlignment = font.VerticalAlignment,
         };
     }
 

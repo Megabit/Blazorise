@@ -482,6 +482,13 @@
     height: 100%;
 }
 
+.b-report-element-text > .b-report-element-content,
+.b-report-element-field > .b-report-element-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: var(--b-report-element-content-justify, flex-start);
+}
+
 .b-report-element-design .b-report-element-content {
     overflow: hidden;
 }

@@ -367,6 +367,18 @@ public class PdfElementBuilder
     }
 
     /// <summary>
+    /// Sets the text vertical alignment.
+    /// </summary>
+    /// <param name="alignment">The text vertical alignment.</param>
+    /// <returns>The element builder.</returns>
+    public PdfElementBuilder TextVerticalAlignment( PdfVerticalAlignment alignment )
+    {
+        definition.Font.VerticalAlignment = alignment;
+
+        return this;
+    }
+
+    /// <summary>
     /// Enables or disables bold text.
     /// </summary>
     /// <param name="bold">A value indicating whether text is bold.</param>

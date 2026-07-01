@@ -511,6 +511,11 @@ public sealed class ReportFontDefinition
     /// Text alignment applied inside the element box.
     /// </summary>
     public TextAlignment Alignment { get; set; } = TextAlignment.Default;
+
+    /// <summary>
+    /// Vertical text alignment applied inside the element box.
+    /// </summary>
+    public Blazorise.VerticalAlignment VerticalAlignment { get; set; } = Blazorise.VerticalAlignment.Default;
 }
 
 /// <summary>

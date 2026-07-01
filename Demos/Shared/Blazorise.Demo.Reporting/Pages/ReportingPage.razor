@@ -67,21 +67,21 @@
                         <ReportField Field="Header.OrderDate" Format="d" X="378" Y="124" Width="84" Height="18" FontColor="@MutedColor" />
                         <ReportText Text="PO#:" X="474" Y="124" Width="36" Height="18" FontColor="@MutedColor" />
                         <ReportField Field="Header.PurchaseOrder" X="510" Y="124" Width="72" Height="18" FontColor="@MutedColor" />
-                        <ReportText Text="BILL TO" X="42" Y="162" Width="186" Height="36" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" FontSize="13" Bold />
+                        <ReportText Text="BILL TO" X="42" Y="162" Width="186" Height="36" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" FontSize="13" Bold VerticalAlignment="VerticalAlignment.Middle" />
                         <ReportField Field="BillTo.Name" X="46" Y="216" Width="180" Height="18" FontColor="@MutedColor" />
                         <ReportField Field="BillTo.Address" X="46" Y="232" Width="180" Height="18" FontColor="@MutedColor" />
                         <ReportField Field="BillTo.Email" X="46" Y="248" Width="180" Height="18" FontColor="@MutedColor" />
-                        <ReportText Text="SHIP TO" X="330" Y="162" Width="186" Height="36" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" FontSize="13" Bold />
+                        <ReportText Text="SHIP TO" X="330" Y="162" Width="186" Height="36" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" FontSize="13" Bold VerticalAlignment="VerticalAlignment.Middle" />
                         <ReportField Field="ShipTo.Name" X="334" Y="216" Width="180" Height="18" FontColor="@MutedColor" />
                         <ReportField Field="ShipTo.Address" X="334" Y="232" Width="180" Height="18" FontColor="@MutedColor" />
                         <ReportField Field="ShipTo.Email" X="334" Y="248" Width="180" Height="18" FontColor="@MutedColor" />
                     </ReportHeader>
                     <ReportPageHeader Name="Order table header" Height="42">
-                        <ReportText Text="ITEM#" X="42" Y="6" Width="72" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" />
-                        <ReportText Text="DESCRIPTION" X="114" Y="6" Width="180" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" />
-                        <ReportText Text="QTY" X="294" Y="6" Width="66" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" />
-                        <ReportText Text="UNIT PRICE" X="360" Y="6" Width="96" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" />
-                        <ReportText Text="TOTAL" X="456" Y="6" Width="96" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" />
+                        <ReportText Text="ITEM#" X="42" Y="6" Width="72" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" VerticalAlignment="VerticalAlignment.Middle" />
+                        <ReportText Text="DESCRIPTION" X="114" Y="6" Width="180" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" VerticalAlignment="VerticalAlignment.Middle" />
+                        <ReportText Text="QTY" X="294" Y="6" Width="66" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" VerticalAlignment="VerticalAlignment.Middle" />
+                        <ReportText Text="UNIT PRICE" X="360" Y="6" Width="96" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" VerticalAlignment="VerticalAlignment.Middle" />
+                        <ReportText Text="TOTAL" X="456" Y="6" Width="96" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" VerticalAlignment="VerticalAlignment.Middle" />
                     </ReportPageHeader>
                     <ReportDetail Name="Order rows" Height="36" DataSource="Invoice.Lines">
                         <ReportField Field="Sku" X="42" Y="9" Width="72" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.Center" />
@@ -95,8 +95,8 @@
                         <ReportText Text="Please remit payment within 14 days. Include the purchase order number on the transfer. Delivery windows are confirmed after carrier pickup." X="58" Y="42" Width="306" Height="48" FontColor="@MutedColor" CanGrow="true" />
                         <ReportText Text="Total VAT:" X="372" Y="30" Width="78" Height="18" Bold TextAlignment="TextAlignment.End" />
                         <ReportField Field="Header.Vat" Format="C0" X="468" Y="30" Width="72" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.End" />
-                        <ReportText Text="TOTAL" X="366" Y="72" Width="84" Height="36" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" FontSize="13" Bold TextAlignment="TextAlignment.Center" />
-                        <ReportField Field="Header.Total" Format="C0" X="450" Y="72" Width="102" Height="36" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" FontSize="13" Bold TextAlignment="TextAlignment.Center" />
+                        <ReportText Text="TOTAL" X="366" Y="72" Width="84" Height="36" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" FontSize="13" Bold TextAlignment="TextAlignment.Center" VerticalAlignment="VerticalAlignment.Middle" />
+                        <ReportField Field="Header.Total" Format="C0" X="450" Y="72" Width="102" Height="36" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" FontSize="13" Bold TextAlignment="TextAlignment.Center" VerticalAlignment="VerticalAlignment.Middle" />
                     </ReportFooter>
                     <ReportPageFooter Name="Order page footer" Height="24">
                         <ReportText Text="North Harbor Logistics - sample order report" X="42" Y="3" Width="240" Height="18" FontColor="@MutedColor" />

@@ -189,7 +189,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         PdfFontDefinition font = element.Font ?? new();
         double fontSize = Math.Max( 1, font.Size );
         double textX = ResolveTextX( element, x );
-        double textY = page.Height - y - fontSize;
+        double textY = ResolveTextY( page, element, y, fontSize );
 
         AppendColor( context, font.Color, stroke: false );
         context.Builder.AppendLine( FormattableString.Invariant( $"BT /F1 {fontSize} Tf {textX} {textY} Td ({EscapeText( element.Text )}) Tj ET" ) );
@@ -207,6 +207,19 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             return x + Math.Max( 0, element.Width - textWidth );
 
         return x;
+    }
+
+    private static double ResolveTextY( PdfPageDefinition page, PdfElementDefinition element, double y, double fontSize )
+    {
+        PdfFontDefinition font = element.Font ?? new();
+        double offsetY = font.VerticalAlignment switch
+        {
+            PdfVerticalAlignment.Middle => Math.Max( 0, element.Height - fontSize ) / 2,
+            PdfVerticalAlignment.Bottom => Math.Max( 0, element.Height - fontSize ),
+            _ => 0,
+        };
+
+        return page.Height - y - offsetY - fontSize;
     }
 
     private static double EstimateTextWidth( string text, double fontSize )

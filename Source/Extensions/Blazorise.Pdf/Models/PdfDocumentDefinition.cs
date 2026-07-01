@@ -177,6 +177,11 @@ public sealed class PdfFontDefinition
     public PdfTextAlignment Alignment { get; set; }
 
     /// <summary>
+    /// Text vertical alignment inside the element bounds.
+    /// </summary>
+    public PdfVerticalAlignment VerticalAlignment { get; set; }
+
+    /// <summary>
     /// Indicates that text should be rendered bold when supported by the renderer.
     /// </summary>
     public bool Bold { get; set; }

@@ -60,6 +60,11 @@ internal static class ReportElementDefinitionHelper
         if ( textAlignment is not null )
             builder.Append( $"text-align:{textAlignment}" );
 
+        string verticalAlignment = ToCssContentVerticalAlignment( ResolveVerticalAlignment( element ) );
+
+        if ( verticalAlignment is not null )
+            builder.Append( $"--b-report-element-content-justify:{verticalAlignment}" );
+
         string borderColor = ToCssColor( border?.Color ?? ReportColor.Default );
 
         if ( borderColor is not null )
@@ -156,6 +161,17 @@ internal static class ReportElementDefinitionHelper
         };
     }
 
+    private static string ToCssContentVerticalAlignment( VerticalAlignment alignment )
+    {
+        return alignment switch
+        {
+            VerticalAlignment.Top => "flex-start",
+            VerticalAlignment.Middle => "center",
+            VerticalAlignment.Bottom => "flex-end",
+            _ => null,
+        };
+    }
+
     internal static TextAlignment ResolveTextAlignment( ReportElementDefinition element, ReportDefinition definition, object defaultData, ReportSectionDefinition section )
     {
         TextAlignment alignment = element.Font?.Alignment ?? TextAlignment.Default;
@@ -170,6 +186,13 @@ internal static class ReportElementDefinitionHelper
         return ReportDataSourceExplorer.TryResolveFieldType( definition, defaultData, dataSourceName, element.Field, out Type dataType ) && IsNumericType( dataType )
             ? TextAlignment.End
             : TextAlignment.Default;
+    }
+
+    internal static VerticalAlignment ResolveVerticalAlignment( ReportElementDefinition element )
+    {
+        return SupportsTextFormatting( element.Type )
+            ? element.Font?.VerticalAlignment ?? VerticalAlignment.Default
+            : VerticalAlignment.Default;
     }
 
     private static bool IsNumericType( Type dataType )

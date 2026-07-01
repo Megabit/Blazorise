@@ -2737,6 +2737,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             {
                 Bold = true,
                 Alignment = sourceElement.Font?.Alignment ?? TextAlignment.Default,
+                VerticalAlignment = sourceElement.Font?.VerticalAlignment ?? VerticalAlignment.Default,
             },
             Aggregate = new()
             {

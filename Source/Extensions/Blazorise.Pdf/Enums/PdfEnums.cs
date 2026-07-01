@@ -114,3 +114,24 @@ public enum PdfTextAlignment
     /// </summary>
     End,
 }
+
+/// <summary>
+/// Defines PDF text vertical alignment.
+/// </summary>
+public enum PdfVerticalAlignment
+{
+    /// <summary>
+    /// Align text to the top of the element.
+    /// </summary>
+    Top,
+
+    /// <summary>
+    /// Center text vertically inside the element.
+    /// </summary>
+    Middle,
+
+    /// <summary>
+    /// Align text to the bottom of the element.
+    /// </summary>
+    Bottom,
+}

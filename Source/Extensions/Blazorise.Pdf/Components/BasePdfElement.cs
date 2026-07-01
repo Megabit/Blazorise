@@ -68,6 +68,7 @@ public abstract class BasePdfElement : ComponentBase
                 Size = FontSize,
                 Color = TextColor,
                 Alignment = TextAlignment,
+                VerticalAlignment = TextVerticalAlignment,
                 Bold = Bold,
                 Italic = Italic,
             },
@@ -151,6 +152,11 @@ public abstract class BasePdfElement : ComponentBase
     /// Text alignment inside the element bounds.
     /// </summary>
     [Parameter] public PdfTextAlignment TextAlignment { get; set; }
+
+    /// <summary>
+    /// Text vertical alignment inside the element bounds.
+    /// </summary>
+    [Parameter] public PdfVerticalAlignment TextVerticalAlignment { get; set; }
 
     /// <summary>
     /// Makes text bold.
