@@ -106,6 +106,17 @@ public class JSReportingModule : BaseJSModule
     }
 
     /// <summary>
+    /// Scrolls the selected report tree node into view.
+    /// </summary>
+    /// <param name="element">Tree root element that contains the node.</param>
+    /// <param name="nodeKey">Key of the node to scroll into view.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask ScrollTreeNodeIntoView( ElementReference element, string nodeKey )
+    {
+        await InvokeSafeVoidAsync( "scrollTreeNodeIntoView", element, nodeKey );
+    }
+
+    /// <summary>
     /// Enables atomic editing behavior for expression tokens inside a report text editor.
     /// </summary>
     /// <param name="element">Text editor element that contains report expression tokens.</param>

@@ -237,6 +237,21 @@ export function clearTreeNativeDragImage(element) {
     treeDragImageSuppressors.delete(element);
 }
 
+export function scrollTreeNodeIntoView(element, nodeKey) {
+    if (!element || !nodeKey || typeof element.querySelectorAll !== "function") {
+        return;
+    }
+
+    const rows = element.querySelectorAll("[data-report-tree-node-key]");
+
+    for (const row of rows) {
+        if (row.getAttribute("data-report-tree-node-key") === nodeKey) {
+            row.scrollIntoView({ block: "nearest", inline: "nearest" });
+            return;
+        }
+    }
+}
+
 export function protectTextExpressionTokens(element) {
     if (!element || typeof element.addEventListener !== "function") {
         return;

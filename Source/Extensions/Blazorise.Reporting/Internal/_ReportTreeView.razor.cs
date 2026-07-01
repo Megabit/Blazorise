@@ -24,6 +24,8 @@ public partial class _ReportTreeView
 
     private bool treeDragImageSuppressed;
 
+    private string lastScrolledSelectedNodeKey;
+
     #endregion
 
     #region Methods
@@ -63,6 +65,8 @@ public partial class _ReportTreeView
             await reportingModule.ClearTreeNativeDragImage( treeElement );
             treeDragImageSuppressed = false;
         }
+
+        await ScrollSelectedNodeIntoView();
     }
 
     /// <inheritdoc />
@@ -113,6 +117,41 @@ public partial class _ReportTreeView
         }
 
         return false;
+    }
+
+    private static string FindSelectedNodeKey( IEnumerable<ReportTreeNode> nodes )
+    {
+        if ( nodes is null )
+            return null;
+
+        foreach ( ReportTreeNode node in nodes )
+        {
+            if ( node.Selected )
+                return node.Key;
+
+            string childSelectedNodeKey = FindSelectedNodeKey( node.Children );
+
+            if ( childSelectedNodeKey is not null )
+                return childSelectedNodeKey;
+        }
+
+        return null;
+    }
+
+    private async Task ScrollSelectedNodeIntoView()
+    {
+        string selectedNodeKey = FindSelectedNodeKey( Nodes );
+
+        if ( string.Equals( selectedNodeKey, lastScrolledSelectedNodeKey, System.StringComparison.Ordinal ) )
+            return;
+
+        lastScrolledSelectedNodeKey = selectedNodeKey;
+
+        if ( string.IsNullOrWhiteSpace( selectedNodeKey ) )
+            return;
+
+        EnsureReportingModule();
+        await reportingModule.ScrollTreeNodeIntoView( treeElement, selectedNodeKey );
     }
 
     private void EnsureReportingModule()
