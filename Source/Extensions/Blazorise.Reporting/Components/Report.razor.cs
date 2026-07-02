@@ -1277,6 +1277,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         state.CanPasteElement = clipboardElement is not null;
         state.ElementCanGrow = element.CanGrow?.Value == true;
         state.ElementSuppressed = element.Suppress?.Value == true;
+        state.CanOrderSelectedElements = state.SelectedElementCount > 0;
         state.CanAlignOrSizeSelectedElements = state.SelectedElementCount >= DesignerConstants.MinimumBatchElementCount;
         state.CanInsertAggregate = sectionIndex >= 0
             && sectionIndex < definition.Sections.Count
@@ -3004,6 +3005,118 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }, refreshSurface: false ) );
     }
 
+    private async Task OrderSelectedElementsAsync( ReportElementOrderMode orderMode )
+    {
+        List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( EffectiveDefinition );
+
+        if ( selectedElements.Count == 0 )
+            return;
+
+        string commandName = GetOrderDisplayName( orderMode );
+
+        await ExecuteDesignerCommandAsync( new( commandName, () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( definition );
+
+            if ( selectedElements.Count == 0 )
+                return Task.CompletedTask;
+
+            foreach ( IGrouping<IList<ReportElementDefinition>, ReportSelectedElementContext> group in selectedElements.GroupBy( item => item.OwnerElements ) )
+            {
+                ReorderElements( group.Key, group.Select( item => item.Element ), orderMode );
+            }
+
+            SelectElements( selectedElements.Select( item => item.ElementKey ), selectedElements[0].ElementKey );
+
+            return Task.CompletedTask;
+        }, refreshSurface: false ) );
+    }
+
+    private static void ReorderElements( IList<ReportElementDefinition> ownerElements, IEnumerable<ReportElementDefinition> elements, ReportElementOrderMode orderMode )
+    {
+        if ( ownerElements is null || elements is null )
+            return;
+
+        HashSet<ReportElementDefinition> selectedElements = elements.ToHashSet();
+
+        if ( selectedElements.Count == 0 )
+            return;
+
+        switch ( orderMode )
+        {
+            case ReportElementOrderMode.BringToFront:
+                BringElementsToFront( ownerElements, selectedElements );
+                break;
+            case ReportElementOrderMode.SendToBack:
+                SendElementsToBack( ownerElements, selectedElements );
+                break;
+            case ReportElementOrderMode.MoveForward:
+                MoveElementsForward( ownerElements, selectedElements );
+                break;
+            case ReportElementOrderMode.MoveBackward:
+                MoveElementsBackward( ownerElements, selectedElements );
+                break;
+        }
+    }
+
+    private static void BringElementsToFront( IList<ReportElementDefinition> ownerElements, ISet<ReportElementDefinition> selectedElements )
+    {
+        List<ReportElementDefinition> movingElements = ownerElements.Where( selectedElements.Contains ).ToList();
+
+        if ( movingElements.Count == 0 )
+            return;
+
+        RemoveElements( ownerElements, selectedElements );
+
+        foreach ( ReportElementDefinition element in movingElements )
+        {
+            ownerElements.Add( element );
+        }
+    }
+
+    private static void SendElementsToBack( IList<ReportElementDefinition> ownerElements, ISet<ReportElementDefinition> selectedElements )
+    {
+        List<ReportElementDefinition> movingElements = ownerElements.Where( selectedElements.Contains ).ToList();
+
+        if ( movingElements.Count == 0 )
+            return;
+
+        RemoveElements( ownerElements, selectedElements );
+
+        for ( int index = 0; index < movingElements.Count; index++ )
+        {
+            ownerElements.Insert( index, movingElements[index] );
+        }
+    }
+
+    private static void MoveElementsForward( IList<ReportElementDefinition> ownerElements, ISet<ReportElementDefinition> selectedElements )
+    {
+        for ( int index = ownerElements.Count - 2; index >= 0; index-- )
+        {
+            if ( selectedElements.Contains( ownerElements[index] ) && !selectedElements.Contains( ownerElements[index + 1] ) )
+                ( ownerElements[index], ownerElements[index + 1] ) = ( ownerElements[index + 1], ownerElements[index] );
+        }
+    }
+
+    private static void MoveElementsBackward( IList<ReportElementDefinition> ownerElements, ISet<ReportElementDefinition> selectedElements )
+    {
+        for ( int index = 1; index < ownerElements.Count; index++ )
+        {
+            if ( selectedElements.Contains( ownerElements[index] ) && !selectedElements.Contains( ownerElements[index - 1] ) )
+                ( ownerElements[index - 1], ownerElements[index] ) = ( ownerElements[index], ownerElements[index - 1] );
+        }
+    }
+
+    private static void RemoveElements( IList<ReportElementDefinition> ownerElements, ISet<ReportElementDefinition> selectedElements )
+    {
+        for ( int index = ownerElements.Count - 1; index >= 0; index-- )
+        {
+            if ( selectedElements.Contains( ownerElements[index] ) )
+                ownerElements.RemoveAt( index );
+        }
+    }
+
     private void ApplyElementAlignment( ReportDefinition definition, ReportElementDefinition anchor, ReportElementDefinition element, ReportElementAlignment alignment )
     {
         switch ( alignment )
@@ -3071,13 +3184,14 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         foreach ( string elementKey in elementKeys.Distinct( StringComparer.Ordinal ) )
         {
-            if ( ReportDefinitionHelper.TryFindElementLocation( definition, elementKey, out int sectionIndex, out _, out ReportElementDefinition element ) )
+            if ( ReportDefinitionHelper.TryFindElementLocation( definition, elementKey, out ReportElementLocation location ) )
             {
                 selectedElements.Add( new()
                 {
                     ElementKey = elementKey,
-                    SectionIndex = sectionIndex,
-                    Element = element,
+                    SectionIndex = location.SectionIndex,
+                    Element = location.Element,
+                    OwnerElements = location.OwnerElements,
                 } );
             }
         }
@@ -3137,6 +3251,18 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ReportElementSizeMode.SameHeight => "same height",
             ReportElementSizeMode.SameSize => "same size",
             _ => sizeMode.ToString(),
+        };
+    }
+
+    private static string GetOrderDisplayName( ReportElementOrderMode orderMode )
+    {
+        return orderMode switch
+        {
+            ReportElementOrderMode.BringToFront => "Bring to Front",
+            ReportElementOrderMode.SendToBack => "Send to Back",
+            ReportElementOrderMode.MoveForward => "Move Forward",
+            ReportElementOrderMode.MoveBackward => "Move Backward",
+            _ => orderMode.ToString(),
         };
     }
 
@@ -5485,6 +5611,19 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         internal int SectionIndex { get; set; }
 
         internal ReportElementDefinition Element { get; set; }
+
+        internal IList<ReportElementDefinition> OwnerElements { get; set; }
+    }
+
+    private enum ReportElementOrderMode
+    {
+        BringToFront,
+
+        SendToBack,
+
+        MoveForward,
+
+        MoveBackward
     }
 
     private sealed class ReportTableCellDropTarget

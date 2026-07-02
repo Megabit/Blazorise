@@ -187,6 +187,26 @@ public partial class _ReportDesignerContextMenuHost
     [Parameter] public EventCallback<MouseEventArgs> SizeSameSize { get; set; }
 
     /// <summary>
+    /// Raised when selected elements should be brought to the front.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> BringToFront { get; set; }
+
+    /// <summary>
+    /// Raised when selected elements should be sent to the back.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> SendToBack { get; set; }
+
+    /// <summary>
+    /// Raised when selected elements should move one layer forward.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> MoveForward { get; set; }
+
+    /// <summary>
+    /// Raised when selected elements should move one layer backward.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> MoveBackward { get; set; }
+
+    /// <summary>
     /// Raised when an aggregate should be inserted.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> InsertAggregate { get; set; }

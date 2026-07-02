@@ -34,6 +34,8 @@ internal sealed class ReportContextMenuState
 
     internal bool CanAlignOrSizeSelectedElements { get; set; }
 
+    internal bool CanOrderSelectedElements { get; set; }
+
     internal bool CanInsertAggregate { get; set; }
 
     internal bool CanEditText { get; set; }

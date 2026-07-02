@@ -46,6 +46,16 @@
             </ContextMenuToolbar>
             <ContextMenuDivider />
 
+            @if ( State.CanOrderSelectedElements )
+            {
+                <ContextMenuSubmenu Text="Order">
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( BringToFront ))">Bring to Front</ContextMenuItem>
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( SendToBack ))">Send to Back</ContextMenuItem>
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( MoveForward ))">Move Forward</ContextMenuItem>
+                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( MoveBackward ))">Move Backward</ContextMenuItem>
+                </ContextMenuSubmenu>
+            }
+
             @if ( State.CanAlignOrSizeSelectedElements )
             {
                 <ContextMenuSubmenu Text="Align">
