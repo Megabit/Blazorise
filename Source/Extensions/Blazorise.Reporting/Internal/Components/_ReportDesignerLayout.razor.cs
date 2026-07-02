@@ -208,7 +208,8 @@ public partial class _ReportDesignerLayout
     private bool DockStateContainsPane( string paneName )
         => DockTreeContainsPane( dockLayoutState.Root, paneName )
             || DockRailContainsPane( dockLayoutState, paneName )
-            || DockAutoHideContainsPane( dockLayoutState, paneName );
+            || DockAutoHideContainsPane( dockLayoutState, paneName )
+            || DockPaneStateContainsPane( dockLayoutState, paneName );
 
     private Task ShowDockPane( string paneName )
         => dockLayout?.ShowPane( paneName ) ?? Task.CompletedTask;
@@ -293,6 +294,10 @@ public partial class _ReportDesignerLayout
             string.Equals( paneState.Name, paneName, StringComparison.Ordinal )
             && paneState.Visible
             && paneState.AutoHide ) == true;
+
+    private static bool DockPaneStateContainsPane( DockLayoutState state, string paneName )
+        => state?.Panes?.Any( paneState =>
+            string.Equals( paneState.Name, paneName, StringComparison.Ordinal ) ) == true;
 
     private void EnsureReportingModule()
     {
