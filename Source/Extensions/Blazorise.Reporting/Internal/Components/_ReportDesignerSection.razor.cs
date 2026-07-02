@@ -63,6 +63,7 @@ public partial class _ReportDesignerSection
         }
 
         if ( ( parameters.TryGetValue<bool>( nameof( RailVisible ), out bool paramRailVisible ) && paramRailVisible != RailVisible )
+             || ( parameters.TryGetValue<ReportBandMode>( nameof( BandMode ), out ReportBandMode paramBandMode ) && paramBandMode != BandMode )
              || ( parameters.TryGetValue<bool>( nameof( ExternalDragActive ), out bool paramExternalDragActive ) && paramExternalDragActive != ExternalDragActive ) )
         {
             bodyClassBuilder.Dirty();
@@ -76,7 +77,8 @@ public partial class _ReportDesignerSection
         }
 
         if ( ( parameters.TryGetValue<bool>( nameof( Active ), out bool paramActive ) && paramActive != Active )
-             || ( parameters.TryGetValue<bool>( nameof( Collapsed ), out bool paramCollapsed ) && paramCollapsed != Collapsed ) )
+             || ( parameters.TryGetValue<bool>( nameof( Collapsed ), out bool paramCollapsed ) && paramCollapsed != Collapsed )
+             || ( parameters.TryGetValue<ReportBandMode>( nameof( BandMode ), out ReportBandMode paramBandModeForClass ) && paramBandModeForClass != BandMode ) )
         {
             DirtyClasses();
         }
@@ -91,6 +93,7 @@ public partial class _ReportDesignerSection
     {
         builder.Append( "b-report-section-body" );
         builder.Append( "b-report-section-body-rail", RailVisible );
+        builder.Append( "b-report-section-body-classic", BandMode == ReportBandMode.Classic );
         builder.Append( "b-report-section-body-external-drag", ExternalDragActive );
         builder.Append( "disabled", Section.Suppressed );
     }
@@ -106,6 +109,7 @@ public partial class _ReportDesignerSection
     {
         builder.Append( "b-report-section" );
         builder.Append( Section.Class );
+        builder.Append( "b-report-section-classic", BandMode == ReportBandMode.Classic );
         builder.Append( "active", Active );
         builder.Append( "collapsed", Collapsed );
         builder.Append( "suppressed", Section.Suppressed );
@@ -217,6 +221,11 @@ public partial class _ReportDesignerSection
     /// Indicates that the section uses the left band rail.
     /// </summary>
     [Parameter] public bool RailVisible { get; set; }
+
+    /// <summary>
+    /// Band presentation mode used by the designer.
+    /// </summary>
+    [Parameter] public ReportBandMode BandMode { get; set; }
 
     /// <summary>
     /// Allows designer interactions inside the section body.

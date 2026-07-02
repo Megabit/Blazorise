@@ -305,6 +305,93 @@
     font-size: .75rem;
 }
 
+.b-report-section-band-header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: var(--b-report-zindex-section-band-header, 4);
+    display: flex;
+    align-items: center;
+    gap: .125rem;
+    height: var(--b-report-section-band-header-height, 20px);
+    padding: .125rem .25rem;
+    overflow: hidden;
+    border-top: 1px solid rgba(31, 41, 51, .16);
+    border-bottom: 1px solid rgba(31, 41, 51, .16);
+    background: #dfeaf4;
+    color: #1f2933;
+    cursor: pointer;
+    font-size: .6875rem;
+    line-height: 1.1;
+    white-space: nowrap;
+}
+
+.b-report-section-band-header.active {
+    box-shadow: inset 0 0 0 1px rgba(13, 110, 253, .45);
+}
+
+.b-report-section-band-header.suppressed {
+    background: #f1f3f5;
+    color: #6c757d;
+}
+
+.b-report-section-band-header-reportheader,
+.b-report-section-band-header-header {
+    background: #bde3ca;
+    border-color: #8ec7a0;
+}
+
+.b-report-section-band-header-pageheader {
+    background: #c9d9ed;
+    border-color: #9eb8d8;
+}
+
+.b-report-section-band-header-detail {
+    background: #8fbfec;
+    border-color: #5a9bd8;
+}
+
+.b-report-section-band-header-group,
+.b-report-section-band-header-groupheader,
+.b-report-section-band-header-groupfooter {
+    background: #f7d1ad;
+    border-color: #eda45d;
+}
+
+.b-report-section-band-header-pagefooter {
+    background: #bfe7dc;
+    border-color: #86cabb;
+}
+
+.b-report-section-band-header-reportfooter,
+.b-report-section-band-header-footer {
+    background: #c9d3df;
+    border-color: #9ba9b8;
+}
+
+.b-report-section-band-header-title,
+.b-report-section-band-header-source,
+.b-report-section-band-header-status {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.b-report-section-band-header-title {
+    flex: 0 1 auto;
+}
+
+.b-report-section-band-header-source {
+    flex: 0 1 auto;
+}
+
+.b-report-section-band-header-status {
+    margin-left: auto;
+    color: #dc3545;
+    font-weight: 600;
+}
+
 .b-report-section-rail {
     position: absolute;
     top: 0;
@@ -422,6 +509,10 @@
         linear-gradient(#edf0f2 1px, transparent 1px),
         linear-gradient(90deg, #edf0f2 1px, transparent 1px);
     background-size: 16px 16px;
+}
+
+.b-report-section-body-classic {
+    top: var(--b-report-section-band-header-height, 20px);
 }
 
 .b-report-section-body-rail {

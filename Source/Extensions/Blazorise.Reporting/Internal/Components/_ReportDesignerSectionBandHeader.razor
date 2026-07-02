@@ -1,0 +1,22 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using System.Threading.Tasks
+@using Blazorise.Utilities
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="@Class"
+     @onclick="Clicked"
+     @onclick:stopPropagation
+     @oncontextmenu="NonRenderingContextMenu"
+     @oncontextmenu:preventDefault
+     @oncontextmenu:stopPropagation>
+    <span class="b-report-section-band-header-title">@DisplayName</span>
+    @if ( ShowDataSource && !string.IsNullOrWhiteSpace( Section.DataSource ) )
+    {
+        <span class="b-report-section-band-header-source">; Data Source: @Section.DataSource</span>
+    }
+    @if ( Section.Suppressed )
+    {
+        <span class="b-report-section-band-header-status">Suppressed</span>
+    }
+</div>

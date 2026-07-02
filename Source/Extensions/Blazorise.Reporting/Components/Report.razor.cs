@@ -3334,7 +3334,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     /// <summary>
     /// Band presentation used by the designer.
     /// </summary>
-    [Parameter] public ReportBandMode BandMode { get; set; } = ReportBandMode.Rail;
+    [Parameter] public ReportBandMode BandMode { get; set; } = ReportBandMode.Classic;
 
     /// <summary>
     /// Enables collapsing and expanding bands in the designer rail.

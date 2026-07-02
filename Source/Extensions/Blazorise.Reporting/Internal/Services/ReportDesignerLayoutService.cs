@@ -43,11 +43,21 @@ internal sealed class ReportDesignerLayoutService
     internal double GetSectionHeight( int sectionIndex, ReportSectionDefinition section, ReportBandMode bandMode, ReportSectionPointerResizeState sectionPointerResize, Func<ReportSectionDefinition, bool> isSectionCollapsed )
     {
         if ( sectionPointerResize is not null && sectionPointerResize.SectionIndex == sectionIndex )
-            return sectionPointerResize.TargetHeight;
+            return GetSectionDesignerHeight( sectionPointerResize.TargetHeight, bandMode );
 
-        return bandMode == ReportBandMode.Rail && section is not null && !section.Suppressed && isSectionCollapsed( section )
-            ? ReportMeasurementConverter.FromCssPixelValue( ReportDesignerConstants.DesignerCollapsedBandHeight )
-            : section?.Height ?? 0;
+        if ( bandMode == ReportBandMode.Rail && section is not null && !section.Suppressed && isSectionCollapsed( section ) )
+        {
+            return ReportMeasurementConverter.FromCssPixelValue( ReportDesignerConstants.DesignerCollapsedBandHeight );
+        }
+
+        return GetSectionDesignerHeight( section?.Height ?? 0, bandMode );
+    }
+
+    private static double GetSectionDesignerHeight( double sectionHeight, ReportBandMode bandMode )
+    {
+        return bandMode == ReportBandMode.Classic
+            ? sectionHeight + ReportDesignerConstants.DesignerBandHeaderHeight
+            : sectionHeight;
     }
 
     internal void Invalidate()

@@ -8,6 +8,8 @@ internal static class ReportDesignerConstants
 {
     public const double DesignerBandRailWidth = 128;
 
+    public const double DesignerBandHeaderHeight = 20;
+
     public const double DesignerCollapsedBandHeight = 28;
 
     public const double KeyboardMoveStep = 8;

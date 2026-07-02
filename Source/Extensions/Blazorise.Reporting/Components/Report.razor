@@ -162,6 +162,7 @@
                                                     DesignMode
                                                     Active="@IsSectionSelected( capturedSectionIndex )"
                                                     Collapsed="@collapsed"
+                                                    BandMode="@BandMode"
                                                     RailVisible="@railVisible"
                                                     Editable="@editable"
                                                     ExternalDragActive="@IsExternalDesignerDragActive()"
@@ -382,7 +383,7 @@
 
                                     <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:header")"
                                                             Section="@section"
-                                                            Height="@GetDesignerSectionHeight( renderSection.SectionIndex, section )"
+                                                            Height="@section.Height"
                                                             BodyWidth="@GetReportPageContentWidth( definition )">
                                         @if ( renderSection.RenderElements )
                                         {
@@ -405,7 +406,7 @@
 
                                     <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:body")"
                                                             Section="@section"
-                                                            Height="@GetDesignerSectionHeight( renderSection.SectionIndex, section )"
+                                                            Height="@section.Height"
                                                             BodyWidth="@GetReportPageContentWidth( definition )">
                                         @if ( renderSection.RenderElements )
                                         {
@@ -432,7 +433,7 @@
 
                                         <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:footer")"
                                                                 Section="@section"
-                                                                Height="@GetDesignerSectionHeight( renderSection.SectionIndex, section )"
+                                                                Height="@section.Height"
                                                                 BodyWidth="@GetReportPageContentWidth( definition )">
                                             @if ( renderSection.RenderElements )
                                             {

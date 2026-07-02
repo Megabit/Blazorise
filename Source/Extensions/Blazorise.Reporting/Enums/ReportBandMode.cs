@@ -18,5 +18,10 @@ public enum ReportBandMode
     /// <summary>
     /// Shows a compact band presentation.
     /// </summary>
-    Compact
+    Compact,
+
+    /// <summary>
+    /// Shows horizontal band headers across the report page.
+    /// </summary>
+    Classic,
 }

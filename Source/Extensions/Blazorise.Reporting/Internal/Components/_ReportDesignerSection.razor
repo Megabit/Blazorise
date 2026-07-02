@@ -23,6 +23,14 @@
                                         ContextMenu="RailContextMenu"
                                         ToggleClicked="ToggleClicked" />
         }
+        else if ( BandMode == ReportBandMode.Classic )
+        {
+            <_ReportDesignerSectionBandHeader Section="Section"
+                                              Selected="Active"
+                                              ShowDataSource="ShowBandDataSource"
+                                              Clicked="RailClicked"
+                                              ContextMenu="RailContextMenu" />
+        }
         else
         {
             <_ReportDesignerSectionLabel Section="Section"
