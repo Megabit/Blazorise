@@ -754,8 +754,72 @@ export function coalesce(value, defaultValue) {
     return value === null || value === undefined ? defaultValue : value;
 }
 
+export function appendToDocumentHead(element) {
+    const head = document.head || document.getElementsByTagName("head")[0];
+
+    if (!head || !element) {
+        return null;
+    }
+
+    head.appendChild(element);
+
+    return element;
+}
+
 export function insertCSSIntoDocumentHead(url) {
-    document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<link rel=\"stylesheet\" href=\"${url}\" />`);
+    if (!url) {
+        return null;
+    }
+
+    const existingStylesheet = findStylesheet(url);
+
+    if (existingStylesheet) {
+        if (existingStylesheet.getAttribute("href") !== url) {
+            existingStylesheet.setAttribute("href", url);
+        }
+
+        return existingStylesheet;
+    }
+
+    const link = document.createElement("link");
+
+    link.rel = "stylesheet";
+    link.setAttribute("href", url);
+
+    return appendToDocumentHead(link);
+}
+
+function findStylesheet(url) {
+    const stylesheetUrl = createUrl(url);
+
+    return Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+        .find(link => isStylesheetMatch(link, url, stylesheetUrl));
+}
+
+function isStylesheetMatch(link, url, stylesheetUrl) {
+    if (!link) {
+        return false;
+    }
+
+    const href = link.getAttribute("href");
+
+    if (href === url || link.href === stylesheetUrl.href) {
+        return true;
+    }
+
+    const linkUrl = createUrl(link.href || href);
+
+    return linkUrl.origin === stylesheetUrl.origin
+        && linkUrl.pathname === stylesheetUrl.pathname;
+}
+
+function createUrl(url) {
+    try {
+        return new URL(url, document.baseURI);
+    }
+    catch {
+        return new URL("about:blank");
+    }
 }
 
 export function isSystemDarkMode() {
