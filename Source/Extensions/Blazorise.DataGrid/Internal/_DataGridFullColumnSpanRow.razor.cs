@@ -13,11 +13,22 @@ public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridCompon
     protected override bool ShouldRender()
         => RenderUpdates;
 
-    protected bool HasCommandColumn
-        => Columns.Any( x => x.ColumnType == DataGridColumnType.Command );
-
     protected int ColumnSpan
-        => Columns.Count - ( HasCommandColumn && !ParentDataGrid.Editable ? 1 : 0 );
+        => Columns.Count( IsColumnVisible );
+
+    private bool IsColumnVisible( DataGridColumn<TItem> column )
+    {
+        if ( !( column.IsDisplayable || column.Displaying ) )
+            return false;
+
+        if ( column.IsCommandColumn )
+            return ParentDataGrid.IsCommandVisible || ParentDataGrid.EditMode is DataGridEditMode.Inline or DataGridEditMode.Cell;
+
+        if ( column.IsMultiSelectColumn )
+            return ParentDataGrid.MultiSelect;
+
+        return true;
+    }
 
     /// <summary>
     /// Item associated with the data set.

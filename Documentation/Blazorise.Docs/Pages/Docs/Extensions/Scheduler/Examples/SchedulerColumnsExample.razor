@@ -1,0 +1,89 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Scheduler TItem="Appointment" @bind-Date="@selectedDate"
+           Data="@Appointments"
+           @bind-SelectedView="@selectedView"
+           Editable
+           ItemStyling="@OnItemStyling">
+    <SchedulerToolbar />
+    <SchedulerViews>
+        <SchedulerWeekView StartTime="@startTime" EndTime="@endTime" WorkDayStart="@workDayStart" WorkDayEnd="@workDayEnd" />
+    </SchedulerViews>
+    <SchedulerColumns>
+        <SchedulerColumn TItem="Appointment" Field="@nameof( Appointment.Title )" Caption="Appointment title" TValue="string">
+            <EditTemplate Context="context">
+                <TextInput @bind-Value="@context.Value" />
+            </EditTemplate>
+        </SchedulerColumn>
+        <SchedulerColumn TItem="Appointment" Field="@nameof( Appointment.Color )" Caption="Color" TValue="string" ColumnSize="ColumnSize.IsHalf.OnDesktop">
+            <EditTemplate Context="context">
+                <ColorPicker @bind-Value="@context.Value" />
+            </EditTemplate>
+        </SchedulerColumn>
+        <SchedulerColumn TItem="Appointment" Field="@nameof( Appointment.Location )" Caption="Location" TValue="string" ColumnSize="ColumnSize.IsHalf.OnDesktop">
+            <EditTemplate Context="context">
+                <TextInput @bind-Value="@context.Value" />
+            </EditTemplate>
+        </SchedulerColumn>
+    </SchedulerColumns>
+</Scheduler>
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    private SchedulerView selectedView = SchedulerView.Week;
+    private static DateTime today10AM = DateTime.Today.AddHours( 10 );
+    private TimeOnly startTime = new TimeOnly( 7, 0 );
+    private TimeOnly endTime = new TimeOnly( 17, 0 );
+    private TimeOnly workDayStart = new TimeOnly( 8, 0 );
+    private TimeOnly workDayEnd = new TimeOnly( 16, 0 );
+
+    private void OnItemStyling( Appointment appointment, SchedulerItemStyling itemStyling )
+    {
+        if ( !string.IsNullOrEmpty( appointment.Color ) )
+        {
+            itemStyling.Background = Background.Default;
+            itemStyling.Style = $"background-color: {appointment.Color};";
+            itemStyling.TextColor = TextColor.White;
+        }
+    }
+
+    public class Appointment
+    {
+        public Appointment()
+        {
+        }
+
+        public Appointment( string title, string description, DateTime start, DateTime end, string color, string location )
+        {
+            Id = Guid.NewGuid().ToString();
+            Title = title;
+            Description = description;
+            Start = start;
+            End = end;
+            Color = color;
+            Location = location;
+        }
+
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public bool AllDay { get; set; }
+
+        public string Color { get; set; }
+
+        public string Location { get; set; }
+    }
+
+    List<Appointment> Appointments = new List<Appointment>
+    {
+        new Appointment( "Design review", "Reviewing the new dashboard", today10AM, today10AM.AddHours( 1 ), "#0d6efd", "Conference room" ),
+        new Appointment( "Planning", "Sprint planning session", today10AM.AddHours( 2 ), today10AM.AddHours( 3 ), "#198754", "Main office" ),
+        new Appointment( "Customer call", "Quarterly product feedback", today10AM.AddDays( 1 ).AddHours( 1 ), today10AM.AddDays( 1 ).AddHours( 2 ), "#dc3545", "Remote" ),
+    };
+}

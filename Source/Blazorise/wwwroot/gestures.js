@@ -1,4 +1,4 @@
-import { getRequiredElement } from "./utilities.js?v=2.2.0.0";
+import { getRequiredElement } from "./utilities.js?v=2.2.1.0";
 
 const GestureDirection = {
     none: 0,
