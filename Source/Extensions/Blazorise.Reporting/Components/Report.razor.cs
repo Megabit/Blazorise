@@ -806,6 +806,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( IsSuppressingSelectionClick() )
             return;
 
+        if ( eventArgs.Detail >= 2 )
+        {
+            BeginElementTextEdit( key );
+            return;
+        }
+
         if ( string.Equals( designerState.SuppressNextElementClickKey, key, StringComparison.Ordinal ) )
         {
             designerState.SuppressNextElementClickKey = null;
@@ -1190,12 +1196,16 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         SelectElement( elementKey );
         designerState.EditingElementKey = elementKey;
         CloseContextMenu();
+        RefreshDesignerSurface();
     }
 
     private void CancelElementTextEdit( string elementKey )
     {
         if ( string.Equals( designerState.EditingElementKey, elementKey, StringComparison.Ordinal ) )
+        {
             designerState.EditingElementKey = null;
+            RefreshDesignerSurface();
+        }
     }
 
     private Task CancelElementTextEditAsync( string elementKey )
@@ -1208,6 +1218,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private async Task CommitElementTextEditAsync( string elementKey, string text )
     {
         designerState.EditingElementKey = null;
+        RefreshDesignerSurface();
 
         if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var currentElement )
             || !contextMenuService.CanEditElementText( currentElement )
