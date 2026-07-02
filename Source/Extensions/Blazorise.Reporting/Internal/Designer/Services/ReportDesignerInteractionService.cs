@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -9,6 +10,161 @@ namespace Blazorise.Reporting.Internal;
 internal static class ReportDesignerInteractionService
 {
     #region Methods
+
+    internal static void BeginFieldDrag( ReportDesignerInteractionState state, string dataSourceName, string fieldName )
+    {
+        if ( state is null )
+            return;
+
+        state.DraggedKind = ReportDesignerDragKind.Field;
+        state.DraggedDataSourceName = dataSourceName;
+        state.DraggedFieldName = fieldName;
+        state.DraggedElementType = null;
+        state.DraggedElementText = null;
+        state.DraggedElementKey = null;
+        state.DraggedElement = null;
+        state.DragPreview = null;
+        state.LastDragPreviewRenderTime = DateTime.MinValue;
+        state.EditingElementKey = null;
+        state.ElementPointerDrag = null;
+        state.ElementPointerResize = null;
+        state.TablePointerResize = null;
+        state.SectionPointerResize = null;
+    }
+
+    internal static void BeginToolboxElementDrag( ReportDesignerInteractionState state, ReportElementType elementType, string text )
+    {
+        if ( state is null )
+            return;
+
+        state.DraggedKind = ReportDesignerDragKind.ToolboxElement;
+        state.DraggedElementType = elementType;
+        state.DraggedElementText = text;
+        state.DraggedDataSourceName = null;
+        state.DraggedFieldName = null;
+        state.DraggedElementKey = null;
+        state.DraggedElement = null;
+        state.DragPreview = null;
+        state.LastDragPreviewRenderTime = DateTime.MinValue;
+        state.EditingElementKey = null;
+        state.SelectionBox = null;
+        state.ElementPointerDrag = null;
+        state.ElementPointerResize = null;
+        state.TablePointerResize = null;
+    }
+
+    internal static bool IsExternalDesignerDragActive( ReportDesignerInteractionState state )
+    {
+        return state?.DraggedKind is ReportDesignerDragKind.Field or ReportDesignerDragKind.ToolboxElement;
+    }
+
+    internal static bool TryBeginElementPointerDrag(
+        ReportDesignerInteractionState state,
+        string elementKey,
+        ReportElementDefinition element,
+        int sectionIndex,
+        PointerEventArgs eventArgs,
+        bool snapToGrid,
+        IReadOnlyList<ReportElementPointerItemState> selectedElements )
+    {
+        if ( state is null || element is null || eventArgs is null )
+            return false;
+
+        state.DraggedKind = ReportDesignerDragKind.Element;
+        state.DraggedElementKey = elementKey;
+        state.DraggedElement = element;
+        state.DraggedDataSourceName = null;
+        state.DraggedFieldName = null;
+        state.DraggedElementType = null;
+        state.DraggedElementText = null;
+        state.DragPreview = null;
+        state.LastDragPreviewRenderTime = DateTime.MinValue;
+        state.TablePointerResize = null;
+        state.ElementPointerDrag = new()
+        {
+            ElementKey = elementKey,
+            SourceSectionIndex = sectionIndex,
+            TargetSectionIndex = sectionIndex,
+            OriginalX = element.X,
+            OriginalY = element.Y,
+            StartClientX = eventArgs.ClientX,
+            StartClientY = eventArgs.ClientY,
+            PointerOffsetX = ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetX ),
+            PointerOffsetY = ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetY ),
+            TargetX = element.X,
+            TargetY = element.Y,
+            SnapToGrid = snapToGrid,
+            SelectedElements = selectedElements?.ToList() ?? [],
+        };
+
+        return true;
+    }
+
+    internal static bool TryBeginElementPointerResize(
+        ReportDesignerInteractionState state,
+        string elementKey,
+        ReportElementDefinition element,
+        int sectionIndex,
+        ReportElementResizeHandle handle,
+        PointerEventArgs eventArgs,
+        bool snapToGrid,
+        IReadOnlyList<ReportElementPointerItemState> selectedElements )
+    {
+        if ( state is null || element is null || eventArgs is null )
+            return false;
+
+        state.DraggedKind = ReportDesignerDragKind.Element;
+        state.DraggedElementKey = elementKey;
+        state.DraggedElement = element;
+        state.DraggedDataSourceName = null;
+        state.DraggedFieldName = null;
+        state.DraggedElementType = null;
+        state.DraggedElementText = null;
+        state.DragPreview = null;
+        state.LastDragPreviewRenderTime = DateTime.MinValue;
+        state.ElementPointerDrag = null;
+        state.TablePointerResize = null;
+        state.ElementPointerResize = new()
+        {
+            ElementKey = elementKey,
+            SourceSectionIndex = sectionIndex,
+            Handle = handle,
+            OriginalX = element.X,
+            OriginalY = element.Y,
+            OriginalWidth = element.Width,
+            OriginalHeight = element.Height,
+            StartClientX = eventArgs.ClientX,
+            StartClientY = eventArgs.ClientY,
+            TargetX = element.X,
+            TargetY = element.Y,
+            TargetWidth = element.Width,
+            TargetHeight = element.Height,
+            MinimumHeight = ReportLayoutGeometry.GetMinimumElementHeight( element ),
+            SnapToGrid = snapToGrid,
+            SelectedElements = selectedElements?.ToList() ?? [],
+        };
+
+        return true;
+    }
+
+    internal static void ClearDragState( ReportDesignerInteractionState state )
+    {
+        if ( state is null )
+            return;
+
+        state.DraggedKind = ReportDesignerDragKind.None;
+        state.DraggedDataSourceName = null;
+        state.DraggedFieldName = null;
+        state.DraggedElementType = null;
+        state.DraggedElementText = null;
+        state.DraggedElementKey = null;
+        state.DraggedElement = null;
+        state.DragPreview = null;
+        state.LastDragPreviewRenderTime = DateTime.MinValue;
+        state.ElementPointerDrag = null;
+        state.ElementPointerResize = null;
+        state.TablePointerResize = null;
+    }
 
     internal static ReportDesignerDragPreview CreateElementDragPreview(
         ReportDefinition definition,
@@ -226,6 +382,93 @@ internal static class ReportDesignerInteractionService
         preview.Y = Math.Max( 0, preview.Y );
 
         return preview;
+    }
+
+    internal static bool TryBeginSelectionBox( ReportDesignerInteractionState state, ReportDefinition definition, int sectionIndex, PointerEventArgs eventArgs, double sectionOffsetY, double contentHeight )
+    {
+        if ( state is null || definition?.Page is null || eventArgs is null )
+            return false;
+
+        if ( state.DraggedKind != ReportDesignerDragKind.None
+            || state.ElementPointerDrag is not null
+            || state.ElementPointerResize is not null
+            || state.TablePointerResize is not null
+            || state.SectionPointerResize is not null )
+        {
+            return false;
+        }
+
+        ReportSectionDefinition section = ReportLayoutGeometry.GetSection( definition, sectionIndex );
+
+        if ( section is null || section.Suppressed )
+            return false;
+
+        double x = ReportLayoutGeometry.Clamp( ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetX ), 0, definition.Page.Width );
+        double y = ReportLayoutGeometry.Clamp( sectionOffsetY + ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetY ), 0, contentHeight );
+
+        state.SelectionBox = new()
+        {
+            SectionIndex = sectionIndex,
+            StartX = x,
+            StartY = y,
+            CurrentX = x,
+            CurrentY = y,
+            StartClientX = eventArgs.ClientX,
+            StartClientY = eventArgs.ClientY,
+            Additive = eventArgs.CtrlKey,
+        };
+
+        state.LastSelectionBoxRenderTime = DateTime.MinValue;
+
+        return true;
+    }
+
+    internal static void UpdateSelectionBox( ReportDesignerInteractionState state, ReportDefinition definition, PointerEventArgs eventArgs, double contentHeight )
+    {
+        if ( state?.SelectionBox is null || definition?.Page is null || eventArgs is null )
+            return;
+
+        state.SelectionBox.CurrentX = ReportLayoutGeometry.Clamp( state.SelectionBox.StartX + ReportMeasurementConverter.FromCssPixelValue( eventArgs.ClientX - state.SelectionBox.StartClientX ), 0, definition.Page.Width );
+        state.SelectionBox.CurrentY = ReportLayoutGeometry.Clamp( state.SelectionBox.StartY + ReportMeasurementConverter.FromCssPixelValue( eventArgs.ClientY - state.SelectionBox.StartClientY ), 0, contentHeight );
+        state.SelectionBox.HasMoved = state.SelectionBox.HasMoved
+            || Math.Abs( ReportMeasurementConverter.ToCssPixelValue( state.SelectionBox.CurrentX - state.SelectionBox.StartX ) ) > 2
+            || Math.Abs( ReportMeasurementConverter.ToCssPixelValue( state.SelectionBox.CurrentY - state.SelectionBox.StartY ) ) > 2;
+    }
+
+    internal static bool CanRenderSelectionBoxPreview( ReportDesignerInteractionState state, double previousX, double previousY, double previousWidth, double previousHeight )
+    {
+        if ( state?.SelectionBox is null )
+            return false;
+
+        if ( Math.Abs( state.SelectionBox.X - previousX ) < ReportDesignerConstants.DragPreviewChangeTolerance
+            && Math.Abs( state.SelectionBox.Y - previousY ) < ReportDesignerConstants.DragPreviewChangeTolerance
+            && Math.Abs( state.SelectionBox.Width - previousWidth ) < ReportDesignerConstants.DragPreviewChangeTolerance
+            && Math.Abs( state.SelectionBox.Height - previousHeight ) < ReportDesignerConstants.DragPreviewChangeTolerance )
+        {
+            return false;
+        }
+
+        DateTime now = DateTime.UtcNow;
+
+        if ( now - state.LastSelectionBoxRenderTime < ReportDesignerConstants.SelectionBoxFrameThrottle )
+            return false;
+
+        state.LastSelectionBoxRenderTime = now;
+
+        return true;
+    }
+
+    internal static ReportDesignerSelectionBox CompleteSelectionBox( ReportDesignerInteractionState state )
+    {
+        if ( state is null )
+            return null;
+
+        ReportDesignerSelectionBox selectionBox = state.SelectionBox;
+
+        state.SelectionBox = null;
+        state.LastSelectionBoxRenderTime = DateTime.MinValue;
+
+        return selectionBox;
     }
 
     internal static IEnumerable<string> FindElementsInsideSelectionBox(
