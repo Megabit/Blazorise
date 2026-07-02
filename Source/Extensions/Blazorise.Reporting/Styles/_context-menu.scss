@@ -1,0 +1,98 @@
+.b-report-context-menu {
+    position: fixed;
+    z-index: var(--b-report-zindex-context-menu, 2000);
+    min-width: var(--b-report-context-menu-min-width);
+    padding: var(--b-report-context-menu-padding);
+    border: var(--b-report-section-border-width) solid var(--b-report-color-border);
+    border-radius: var(--b-report-context-menu-border-radius);
+    background: var(--b-report-color-surface);
+    box-shadow: 0 var(--b-report-context-menu-shadow-offset-y) var(--b-report-context-menu-shadow-blur) var(--b-report-color-menu-shadow);
+
+    button {
+        display: block;
+        width: 100%;
+        padding: var(--b-report-context-menu-item-padding);
+        border: 0;
+        background: transparent;
+        color: var(--b-report-color-text);
+        text-align: left;
+
+        &:disabled {
+            color: var(--b-report-color-text-disabled);
+            cursor: default;
+        }
+
+        &:hover {
+            background: var(--b-report-color-surface-subtle);
+        }
+
+        &:disabled:hover {
+            background: transparent;
+        }
+    }
+
+    &-toolbar {
+        display: flex;
+        gap: var(--b-report-context-menu-toolbar-gap);
+        padding: var(--b-report-context-menu-toolbar-padding);
+        margin-bottom: var(--b-report-context-menu-toolbar-margin-bottom);
+        border-bottom: var(--b-report-section-border-width) solid var(--b-report-color-border);
+    }
+
+    .b-report-context-menu-icon-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: var(--b-report-context-menu-icon-button-size);
+        height: var(--b-report-context-menu-icon-button-size);
+        padding: 0;
+        text-align: center;
+    }
+
+    .b-report-context-menu-check-button {
+        display: flex;
+        align-items: center;
+        gap: var(--b-report-context-menu-check-button-gap);
+    }
+
+    .b-report-context-menu-submenu-button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--b-report-context-menu-submenu-button-gap);
+    }
+
+    &-check {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: var(--b-report-context-menu-check-size);
+        height: var(--b-report-context-menu-check-size);
+        border-radius: var(--b-report-context-menu-check-border-radius);
+        background: var(--b-report-context-menu-check-background);
+    }
+
+    &-submenu {
+        position: relative;
+
+        &-content {
+            position: absolute;
+            top: var(--b-report-context-menu-submenu-top);
+            left: 100%;
+            display: none;
+            min-width: var(--b-report-context-submenu-min-width);
+            padding: var(--b-report-context-menu-padding);
+            border: var(--b-report-section-border-width) solid var(--b-report-color-border);
+            border-radius: var(--b-report-context-menu-border-radius);
+            background: var(--b-report-color-surface);
+            box-shadow: 0 var(--b-report-context-menu-shadow-offset-y) var(--b-report-context-menu-shadow-blur) var(--b-report-color-menu-shadow);
+        }
+
+        &:hover,
+        &:focus-within {
+            .b-report-context-menu-submenu-content {
+                display: block;
+            }
+        }
+    }
+}

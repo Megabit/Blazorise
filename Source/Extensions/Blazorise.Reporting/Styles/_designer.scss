@@ -1,0 +1,294 @@
+.b-report-page {
+    &-content,
+    &-footer-content {
+        position: absolute;
+        overflow: hidden;
+    }
+
+    &-footer-content {
+        top: auto;
+    }
+
+    &-design {
+        .b-report-section {
+            border-bottom-color: var(--b-report-color-border);
+
+            &.active {
+                box-shadow: inset 0 0 0 var(--b-report-section-active-border-width) var(--b-report-color-primary-ring-strong);
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    z-index: var(--b-report-zindex-section-active, 6);
+                    box-sizing: border-box;
+                    border: var(--b-report-section-active-border-width) solid var(--b-report-color-primary-border);
+                    pointer-events: none;
+                }
+            }
+        }
+    }
+}
+
+.b-report-section {
+    position: relative;
+    border-bottom: var(--b-report-section-border-width) solid transparent;
+
+    &.active {
+        .b-report-section-rail {
+            background: var(--b-report-section-rail-active-background);
+            color: var(--b-report-color-primary-text);
+        }
+    }
+
+    &.collapsed {
+        .b-report-section-rail {
+            align-items: center;
+        }
+    }
+
+    &.suppressed {
+        .b-report-section-rail {
+            background: var(--b-report-color-surface-disabled);
+            color: var(--b-report-color-text-subtle);
+        }
+    }
+
+    &-label {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: var(--b-report-zindex-section-label, 2);
+        padding: var(--b-report-section-label-padding);
+        background: var(--b-report-color-surface-subtle);
+        color: var(--b-report-color-text-muted);
+        cursor: pointer;
+        font-size: var(--b-report-section-label-font-size);
+    }
+
+    &-band-header {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: var(--b-report-zindex-section-band-header, 4);
+        display: flex;
+        align-items: center;
+        gap: var(--b-report-section-band-header-gap);
+        height: var(--b-report-section-band-header-height);
+        padding: var(--b-report-section-band-header-padding);
+        overflow: hidden;
+        border-top: var(--b-report-section-border-width) solid var(--b-report-section-band-header-border-color);
+        border-bottom: var(--b-report-section-border-width) solid var(--b-report-section-band-header-border-color);
+        background: var(--b-report-section-band-header-background);
+        color: var(--b-report-color-text);
+        cursor: pointer;
+        font-size: var(--b-report-section-band-header-font-size);
+        line-height: 1.1;
+        white-space: nowrap;
+
+        &.active {
+            box-shadow: inset 0 0 0 var(--b-report-section-active-border-width) var(--b-report-color-primary-ring);
+        }
+
+        &.suppressed {
+            background: var(--b-report-color-surface-disabled);
+            color: var(--b-report-color-text-subtle);
+        }
+
+        &-reportheader,
+        &-header {
+            background: var(--b-report-section-band-header-report-header-background);
+            border-color: var(--b-report-section-band-header-report-header-border-color);
+        }
+
+        &-pageheader {
+            background: var(--b-report-section-band-header-page-header-background);
+            border-color: var(--b-report-section-band-header-page-header-border-color);
+        }
+
+        &-detail {
+            background: var(--b-report-section-band-header-detail-background);
+            border-color: var(--b-report-section-band-header-detail-border-color);
+        }
+
+        &-group,
+        &-groupheader,
+        &-groupfooter {
+            background: var(--b-report-section-band-header-group-background);
+            border-color: var(--b-report-section-band-header-group-border-color);
+        }
+
+        &-pagefooter {
+            background: var(--b-report-section-band-header-page-footer-background);
+            border-color: var(--b-report-section-band-header-page-footer-border-color);
+        }
+
+        &-reportfooter,
+        &-footer {
+            background: var(--b-report-section-band-header-report-footer-background);
+            border-color: var(--b-report-section-band-header-report-footer-border-color);
+        }
+
+        &-title,
+        &-source,
+        &-status {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        &-title,
+        &-source {
+            flex: 0 1 auto;
+        }
+
+        &-status {
+            margin-left: auto;
+            color: var(--b-report-color-danger);
+            font-weight: 600;
+        }
+    }
+
+    &-rail {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: var(--b-report-zindex-section-rail, 3);
+        display: flex;
+        gap: var(--b-report-section-rail-gap);
+        align-items: flex-start;
+        width: var(--b-report-section-rail-width);
+        padding: var(--b-report-section-rail-padding);
+        overflow: hidden;
+        border-right: var(--b-report-section-border-width) solid var(--b-report-color-border-muted);
+        background: var(--b-report-section-rail-background);
+        color: var(--b-report-color-text);
+        cursor: pointer;
+
+        &-reportheader,
+        &-header {
+            border-left: var(--b-report-section-rail-border-width) solid var(--b-report-section-rail-report-header-border-color);
+        }
+
+        &-pageheader {
+            border-left: var(--b-report-section-rail-border-width) solid var(--b-report-section-rail-page-header-border-color);
+        }
+
+        &-detail {
+            border-left: var(--b-report-section-rail-border-width) solid var(--b-report-section-rail-detail-border-color);
+        }
+
+        &-group,
+        &-groupheader,
+        &-groupfooter {
+            border-left: var(--b-report-section-rail-border-width) solid var(--b-report-section-rail-group-border-color);
+        }
+
+        &-pagefooter {
+            border-left: var(--b-report-section-rail-border-width) solid var(--b-report-section-rail-page-footer-border-color);
+        }
+
+        &-reportfooter,
+        &-footer {
+            border-left: var(--b-report-section-rail-border-width) solid var(--b-report-section-rail-report-footer-border-color);
+        }
+
+        &-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--b-report-section-rail-toggle-size);
+            height: var(--b-report-section-rail-toggle-size);
+            flex: 0 0 auto;
+            padding: 0;
+            border: var(--b-report-section-border-width) solid var(--b-report-color-control-border);
+            border-radius: var(--b-report-section-rail-toggle-border-radius);
+            background: var(--b-report-color-surface);
+            color: var(--b-report-color-text);
+            font-size: var(--b-report-section-rail-toggle-font-size);
+            line-height: 1;
+
+            &:disabled {
+                opacity: .5;
+            }
+        }
+
+        &-text {
+            min-width: 0;
+        }
+
+        &-title,
+        &-source,
+        &-status {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        &-title {
+            font-size: var(--b-report-section-rail-title-font-size);
+            font-weight: 600;
+        }
+
+        &-source,
+        &-status {
+            color: var(--b-report-color-text-muted);
+            font-size: var(--b-report-section-rail-meta-font-size);
+        }
+
+        &-status {
+            color: var(--b-report-color-danger);
+            font-weight: 600;
+        }
+    }
+
+    &-body {
+        position: absolute;
+        inset: 0;
+        overflow: visible;
+        background-image: linear-gradient(var(--b-report-color-surface-subtle) var(--b-report-grid-line-width), transparent var(--b-report-grid-line-width)), linear-gradient(90deg, var(--b-report-color-surface-subtle) var(--b-report-grid-line-width), transparent var(--b-report-grid-line-width));
+        background-size: var(--b-report-section-grid-size);
+
+        &-classic {
+            top: var(--b-report-section-band-header-height);
+        }
+
+        &-rail {
+            right: 0;
+        }
+
+        &.disabled {
+            opacity: .58;
+        }
+
+        &-external-drag {
+            .b-report-element-design,
+            .b-report-section-resize-handle {
+                pointer-events: none;
+            }
+        }
+    }
+
+    &-resize-handle {
+        position: absolute;
+        right: 0;
+        bottom: var(--b-report-section-resize-handle-offset);
+        left: 0;
+        z-index: var(--b-report-zindex-section-resize-handle, 7);
+        height: var(--b-report-section-resize-handle-size);
+        cursor: ns-resize;
+        touch-action: none;
+
+        &::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            bottom: var(--b-report-section-resize-line-offset);
+            left: 0;
+            border-bottom: var(--b-report-section-border-width) solid var(--b-report-color-section-resize-line);
+        }
+    }
+}
