@@ -15129,7 +15129,7 @@ Install-Package Blazorise.Icons.Material";
         <ReportField Field=""Total"" Format=""C"" X=""405"" Y=""10.5"" Width=""90"" Height=""18"" />
     </ReportDetail>
     <ReportFooter Name=""Invoice report footer"" Height=""54"">
-        <ReportLine X=""30"" Y=""7.5"" Width=""465"" Height=""1"" />
+        <ReportLine X=""30"" Y=""7.5"" Width=""465"" Height=""8"" Thickness=""1"" />
         <ReportText Text=""Invoice total"" X=""30"" Y=""21"" Width=""135"" Height=""18"" />
         <ReportField Field=""Header.Total"" Format=""C"" X=""405"" Y=""21"" Width=""90"" Height=""18"" Bold />
     </ReportFooter>
@@ -15225,7 +15225,7 @@ Install-Package Blazorise.Icons.Material";
         <ReportField Field=""Total"" Format=""C"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
     </ReportDetail>
     <ReportFooter Name=""Totals"" Height=""45"">
-        <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""1"" />
+        <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""8"" Thickness=""1"" />
         <ReportText Text=""Invoice total"" X=""300"" Y=""18"" Width=""105"" Height=""18"" Bold />
         <ReportField Field=""Header.Total"" Format=""C"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
     </ReportFooter>
@@ -15405,7 +15405,7 @@ Install-Package Blazorise.Icons.Material";
         <ReportField Field=""Total"" Format=""C"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
     </ReportDetail>
     <ReportFooter Name=""Totals"" Height=""45"">
-        <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""1"" />
+        <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""8"" Thickness=""1"" />
         <ReportField Field=""Header.Total"" Format=""C"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
     </ReportFooter>
 </Report>
@@ -15555,7 +15555,7 @@ Install-Package Blazorise.Icons.Material";
     </ReportPageHeader>
     <ReportGroupHeader Name=""Category group"" Height=""28"" DataSource=""Invoice.Lines"" GroupBy=""Category"">
         <ReportText Text=""Category: {Category}"" X=""30"" Y=""6"" Width=""240"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
-        <ReportLine X=""30"" Y=""26"" Width=""480"" Height=""1"" BorderColor=""@ReportColors.Green"" />
+        <ReportLine X=""30"" Y=""26"" Width=""480"" Height=""8"" Thickness=""1"" BorderColor=""@ReportColors.Green"" />
     </ReportGroupHeader>
     <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
         <ReportField Field=""Sku"" X=""30"" Y=""6"" Width=""75"" Height=""18"" />
@@ -15564,7 +15564,7 @@ Install-Package Blazorise.Icons.Material";
         <ReportField Field=""Total"" Format=""C"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
     </ReportDetail>
     <ReportFooter Name=""Report footer"" Height=""60"">
-        <ReportLine X=""30"" Y=""9"" Width=""480"" Height=""1"" />
+        <ReportLine X=""30"" Y=""9"" Width=""480"" Height=""8"" Thickness=""1"" />
         <ReportText Text=""Report total"" X=""300"" Y=""24"" Width=""105"" Height=""18"" Bold />
         <ReportField Field=""Header.Total"" Format=""C"" X=""420"" Y=""24"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
     </ReportFooter>
@@ -15805,7 +15805,7 @@ Install-Package Blazorise.Icons.Material";
         <ReportField Field=""Total"" Format=""C"" X=""420"" Y=""6"" Width=""90"" Height=""18"" FontColor=""@ReportColors.Green"" />
     </ReportDetail>
     <ReportFooter Name=""Invoice footer"" Height=""45"">
-        <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""1"" />
+        <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""8"" Thickness=""1"" />
         <ReportText Text=""Invoice total"" X=""300"" Y=""18"" Width=""105"" Height=""18"" Bold />
         <ReportField Field=""Header.Total"" Format=""C"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
     </ReportFooter>
@@ -15860,6 +15860,8 @@ Install-Package Blazorise.Icons.Material";
     }
 }";
 
+        public const string ReportingResourcesExample = @"<link href=""_content/Blazorise.Reporting/blazorise.reporting.css?v=2.2.1.0"" rel=""stylesheet"" />";
+
         public const string ReportingRunningTotalsExample = @"<Report Data=""@invoice""
         DesignerEnabled
         PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
@@ -15888,7 +15890,7 @@ Install-Package Blazorise.Icons.Material";
         <ReportField Field=""LineRunningTotal"" Format=""C"" X=""420"" Y=""6"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
     </ReportDetail>
     <ReportFooter Name=""Totals"" Height=""45"">
-        <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""1"" />
+        <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""8"" Thickness=""1"" />
         <ReportText Text=""Grand total"" X=""300"" Y=""18"" Width=""105"" Height=""18"" Bold />
         <ReportField Field=""Lines.Total"" AggregateFunction=""ReportAggregateFunction.Sum"" Format=""C"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
     </ReportFooter>

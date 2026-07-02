@@ -16,7 +16,7 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    Install the <Code>Blazorise.Reporting</Code> package, register the reporting services, and include <Code>_content/Blazorise.Reporting/blazorise.reporting.css</Code> in your host page.
+    Install the <Code>Blazorise.Reporting</Code> package, register the reporting services, and include the reporting stylesheet in your host page.
 </DocsPageParagraph>
 
 <DocsPageSection>
@@ -31,6 +31,13 @@
         In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ReportingImportsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static files">
+        Add the reporting stylesheet inside the <Code Tag>head</Code> section of your host page.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingResourcesExample" />
 </DocsPageSection>
 
 <DocsPageSection>
