@@ -40,7 +40,8 @@ internal sealed class ReportDesignerRulerService
         ReportDesignerInteractionState state,
         IReadOnlyList<ReportSelectedElementContext> selectedElements,
         int? selectedSectionIndex,
-        Func<int, double> getSectionOffsetY )
+        Func<int, double> getSectionOffsetY,
+        double sectionBodyTopOffset = 0 )
     {
         if ( definition is null )
             return null;
@@ -48,7 +49,7 @@ internal sealed class ReportDesignerRulerService
         double marginLeft = GetMarginLeft( definition );
 
         if ( state?.DragPreview is not null )
-            return CreateDragPreviewMarker( state.DragPreview, marginLeft, getSectionOffsetY );
+            return CreateDragPreviewMarker( state.DragPreview, marginLeft, getSectionOffsetY, sectionBodyTopOffset );
 
         if ( state?.SelectionBox is not null )
         {
@@ -62,7 +63,7 @@ internal sealed class ReportDesignerRulerService
             };
         }
 
-        ReportDesignerRulerMarker marker = CreateSelectedElementsMarker( selectedElements, marginLeft, getSectionOffsetY );
+        ReportDesignerRulerMarker marker = CreateSelectedElementsMarker( selectedElements, marginLeft, getSectionOffsetY, sectionBodyTopOffset );
 
         if ( marker is not null )
             return marker;
@@ -70,19 +71,19 @@ internal sealed class ReportDesignerRulerService
         return CreateSelectedSectionMarker( definition, selectedSectionIndex, getSectionOffsetY );
     }
 
-    private static ReportDesignerRulerMarker CreateDragPreviewMarker( ReportDesignerDragPreview preview, double marginLeft, Func<int, double> getSectionOffsetY )
+    private static ReportDesignerRulerMarker CreateDragPreviewMarker( ReportDesignerDragPreview preview, double marginLeft, Func<int, double> getSectionOffsetY, double sectionBodyTopOffset )
     {
         return new()
         {
             X = marginLeft + preview.X,
-            Y = getSectionOffsetY( preview.SectionIndex ) + preview.Y,
+            Y = getSectionOffsetY( preview.SectionIndex ) + sectionBodyTopOffset + preview.Y,
             Width = preview.Width,
             Height = preview.Height,
             Active = true,
         };
     }
 
-    private static ReportDesignerRulerMarker CreateSelectedElementsMarker( IReadOnlyList<ReportSelectedElementContext> selectedElements, double marginLeft, Func<int, double> getSectionOffsetY )
+    private static ReportDesignerRulerMarker CreateSelectedElementsMarker( IReadOnlyList<ReportSelectedElementContext> selectedElements, double marginLeft, Func<int, double> getSectionOffsetY, double sectionBodyTopOffset )
     {
         if ( selectedElements is null || selectedElements.Count == 0 )
             return null;
@@ -100,7 +101,7 @@ internal sealed class ReportDesignerRulerService
                 continue;
 
             double elementLeft = marginLeft + element.X;
-            double elementTop = getSectionOffsetY( selectedElement.SectionIndex ) + element.Y;
+            double elementTop = getSectionOffsetY( selectedElement.SectionIndex ) + sectionBodyTopOffset + element.Y;
             double elementRight = elementLeft + element.Width;
             double elementBottom = elementTop + ReportLayoutGeometry.GetElementRenderHeight( element );
 

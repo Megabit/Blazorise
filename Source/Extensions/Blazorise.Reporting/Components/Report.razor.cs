@@ -442,6 +442,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return GetDesignerSectionBodyLeft( EffectiveDefinition );
     }
 
+    private double GetDesignerSectionBodyTopOffset()
+    {
+        return BandMode == ReportBandMode.Classic ? ReportMeasurementConverter.FromCssPixelValue( DesignerConstants.DesignerBandHeaderHeight ) : 0;
+    }
+
     private bool IsDesignerBandRailVisible()
     {
         return BandMode == ReportBandMode.Rail;
@@ -3036,7 +3041,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             preview.ElementType.ToString(),
             preview.Text,
             ReportMeasurementConverter.ToCssPixelValue( preview.X ) + GetSelectionBoxLeftOffset(),
-            ReportMeasurementConverter.ToCssPixelValue( GetSectionOffsetY( EffectiveDefinition, preview.SectionIndex ) + preview.Y ),
+            ReportMeasurementConverter.ToCssPixelValue( GetElementPageY( EffectiveDefinition, preview.SectionIndex, preview.Y ) ),
             ReportMeasurementConverter.ToCssPixelValue( preview.Width ),
             ReportMeasurementConverter.ToCssPixelValue( preview.Height ) );
     }
@@ -3268,7 +3273,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             designerState,
             GetSelectedElementContexts( definition ),
             selectionManager.SelectedSectionIndex,
-            sectionIndex => GetSectionOffsetY( definition, sectionIndex ) );
+            sectionIndex => GetSectionOffsetY( definition, sectionIndex ),
+            GetDesignerSectionBodyTopOffset() );
+    }
+
+    private double GetElementPageY( ReportDefinition definition, int sectionIndex, double elementY )
+    {
+        return GetSectionOffsetY( definition, sectionIndex ) + GetDesignerSectionBodyTopOffset() + elementY;
     }
 
     private double GetDesignerSectionHeight( int sectionIndex, ReportSectionDefinition section )

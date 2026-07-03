@@ -365,7 +365,7 @@ export function clearDesignerInteractionOverlays(pageElement) {
 
     overlays.selection.hidden = true;
     overlays.drag.hidden = true;
-    clearDesignerRulerMarker(pageElement);
+    deactivateDesignerRulerMarker(pageElement);
 }
 
 function updateDesignerRulerMarker(pageElement, x, y, width, height, active) {
@@ -438,7 +438,7 @@ function updateVerticalRulerMarker(ruler, y, height, active) {
     }
 }
 
-function clearDesignerRulerMarker(pageElement) {
+function deactivateDesignerRulerMarker(pageElement) {
     const root = pageElement?.closest?.(".b-report-designer-rulers");
 
     if (!root) {
@@ -448,7 +448,6 @@ function clearDesignerRulerMarker(pageElement) {
     const markers = root.querySelectorAll(".b-report-designer-ruler-marker, .b-report-designer-ruler-marker-range");
 
     for (const marker of markers) {
-        marker.hidden = true;
         marker.classList.remove("b-report-designer-ruler-marker-active", "b-report-designer-ruler-marker-range-active");
     }
 }
