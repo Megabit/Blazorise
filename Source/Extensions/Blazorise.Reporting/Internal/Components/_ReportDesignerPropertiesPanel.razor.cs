@@ -65,6 +65,14 @@ public partial class _ReportDesignerPropertiesPanel
         ( "false", "False" ),
     ];
 
+    private static readonly (ReportBandMode Value, string Text)[] BandModeOptions =
+    [
+        ( ReportBandMode.Rail, "Rail" ),
+        ( ReportBandMode.Separator, "Separator" ),
+        ( ReportBandMode.Compact, "Compact" ),
+        ( ReportBandMode.Classic, "Classic" ),
+    ];
+
     private static readonly (VerticalAlignment Value, string Text)[] TextVerticalAlignmentOptions =
     [
         ( VerticalAlignment.Default, "Default" ),
@@ -480,6 +488,16 @@ public partial class _ReportDesignerPropertiesPanel
     /// Raised when snap-to-grid is toggled.
     /// </summary>
     [Parameter] public Action<bool> SnapToGridChanged { get; set; }
+
+    /// <summary>
+    /// Band presentation used by the designer.
+    /// </summary>
+    [Parameter] public ReportBandMode BandMode { get; set; }
+
+    /// <summary>
+    /// Raised when the designer band presentation changes.
+    /// </summary>
+    [Parameter] public EventCallback<ReportBandMode> BandModeChanged { get; set; }
 
     /// <summary>
     /// Updates the report page definition.

@@ -3230,6 +3230,21 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         designerState.SnapToGrid = value;
     }
 
+    private async Task OnBandModeChanged( ReportBandMode value )
+    {
+        if ( BandMode == value )
+            return;
+
+        BandMode = value;
+        InvalidateDesignerLayoutCache();
+        RefreshDesignerSurface();
+
+        if ( BandModeChanged.HasDelegate )
+            await BandModeChanged.InvokeAsync( value );
+
+        await InvokeAsync( StateHasChanged );
+    }
+
     private void ClearDragState()
     {
         ReportDesignerInteractionService.ClearDragState( designerState );
@@ -3335,6 +3350,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     /// Band presentation used by the designer.
     /// </summary>
     [Parameter] public ReportBandMode BandMode { get; set; } = ReportBandMode.Classic;
+
+    /// <summary>
+    /// Raised when the designer band presentation changes.
+    /// </summary>
+    [Parameter] public EventCallback<ReportBandMode> BandModeChanged { get; set; }
 
     /// <summary>
     /// Enables collapsing and expanding bands in the designer rail.
