@@ -255,7 +255,19 @@
                                                 InsertGroup="@OpenSelectedDetailGroupDialogAsync"
                                                 DeleteSelectedSection="@DeleteSelectedSectionAsync"
                                                 UpdateSelectedElement="@UpdateSelectedElementAsync"
-                                                MoveSelectedElement="@MoveSelectedElementAsync" />
+                                                MoveSelectedElement="@MoveSelectedElementAsync"
+                                                UploadImage="@UploadImage"
+                                                ImageAccept="@ImageAccept"
+                                                ImageMaxSize="@ImageMaxSize"
+                                                MaxUploadImageChunkSize="@MaxUploadImageChunkSize"
+                                                ImageUploadSegmentFetchTimeout="@ImageUploadSegmentFetchTimeout"
+                                                DisableImageUploadProgressReport="@DisableImageUploadProgressReport"
+                                                ImageUploadChanged="@ImageUploadChanged"
+                                                ImageUploadStarted="@ImageUploadStarted"
+                                                ImageUploadEnded="@ImageUploadEnded"
+                                                ImageUploadWritten="@ImageUploadWritten"
+                                                ImageUploadProgressed="@ImageUploadProgressed"
+                                                ImageUpload="@ImageUpload" />
             </PropertiesPanel>
             <ReportExplorerPanel>
                 <_ReportDesignerReportExplorer Definition="@definition"

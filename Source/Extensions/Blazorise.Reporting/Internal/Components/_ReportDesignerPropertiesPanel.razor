@@ -5,6 +5,19 @@
 
 <_ReportDesignerDataSourceDialog @ref="dataSourceDialogRef" Definition="@Definition" Confirmed="@UpdateSelectedSectionDataSource" />
 <_ReportDesignerFormulaDialog @ref="formulaDialogRef" Definition="@Definition" Data="@Data" Section="@FormulaSection" Confirmed="@OnFormulaDialogConfirmedAsync" />
+<_ReportDesignerImageUploadDialog @ref="imageUploadDialogRef"
+                                  ImageAccept="@ImageAccept"
+                                  ImageMaxSize="@ImageMaxSize"
+                                  MaxUploadImageChunkSize="@MaxUploadImageChunkSize"
+                                  SegmentFetchTimeout="@ImageUploadSegmentFetchTimeout"
+                                  DisableImageUploadProgressReport="@DisableImageUploadProgressReport"
+                                  ImageUploadChanged="@ImageUploadChanged"
+                                  ImageUploadStarted="@ImageUploadStarted"
+                                  ImageUploadEnded="@ImageUploadEnded"
+                                  ImageUploadWritten="@ImageUploadWritten"
+                                  ImageUploadProgressed="@ImageUploadProgressed"
+                                  ImageUpload="@ImageUpload"
+                                  Confirmed="@OnImageUploadConfirmedAsync" />
 
 @if ( ReportSelected )
 {
@@ -189,7 +202,22 @@
                             <_ReportDesignerTextProperty Label="Format" Value="@fieldElement.Format" Changed="@(value => UpdateSelectedElement( element => ( (ReportFieldElementDefinition)element ).Format = value ))" />
                             break;
                         case ReportImageElementDefinition imageElement:
-                            <_ReportDesignerTextProperty Label="Source" Value="@imageElement.Source" Changed="@(value => UpdateSelectedElement( element => ( (ReportImageElementDefinition)element ).Source = value ))" />
+                            <_ReportDesignerImageSourceProperty Label="Source"
+                                                               Value="@imageElement.Source"
+                                                               Changed="@(value => UpdateSelectedElement( element => ( (ReportImageElementDefinition)element ).Source = value ))"
+                                                               UploadImage="@UploadImage"
+                                                               UploadClicked="@OpenImageUploadDialogAsync" />
+                            <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
+                                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Fit</FieldLabel>
+                                <FieldBody ColumnSize="ColumnSize.Is8">
+                                    <Select TValue="ReportImageFit" Value="@imageElement.Fit" ValueChanged="@(value => UpdateSelectedElement( element => ( (ReportImageElementDefinition)element ).Fit = value ))" Size="Size.Small">
+                                        @foreach ( var option in ImageFitOptions )
+                                        {
+                                            <SelectItem TValue="ReportImageFit" Value="@option.Value">@option.Text</SelectItem>
+                                        }
+                                    </Select>
+                                </FieldBody>
+                            </Field>
                             <_ReportDesignerTextProperty Label="Alt text" Value="@imageElement.Text" Changed="@(value => UpdateSelectedElement( element => ( (ReportImageElementDefinition)element ).Text = value ))" />
                             break;
                     }
@@ -261,6 +289,17 @@
                     <_ReportDesignerColorProperty Label="Fill" Value="@appearance.BackgroundColor" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).BackgroundColor = value ))" />
                     <_ReportDesignerColorProperty Label="Border color" Value="@border.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
                     <_ReportDesignerNullableNumberProperty Label="Border width" Value="@border.Width" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                    <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
+                        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Border style</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is8">
+                            <Select TValue="ReportBorderStyle" Value="@border.Style" ValueChanged="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Style = value ))" Size="Size.Small">
+                                @foreach ( var option in BorderStyleOptions )
+                                {
+                                    <SelectItem TValue="ReportBorderStyle" Value="@option.Value">@option.Text</SelectItem>
+                                }
+                            </Select>
+                        </FieldBody>
+                    </Field>
                     <_ReportDesignerNullableNumberProperty Label="Corner radius" Value="@border.Radius" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
                 }
                 <_ReportDesignerNullableNumberProperty Label="Opacity" Value="@appearance.Opacity" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" />

@@ -127,6 +127,11 @@ public sealed class PdfElementDefinition
     public string Source { get; set; }
 
     /// <summary>
+    /// Defines how the image fits inside the element bounds.
+    /// </summary>
+    public PdfImageFit ImageFit { get; set; } = PdfImageFit.Fill;
+
+    /// <summary>
     /// Font settings used by text-like elements.
     /// </summary>
     public PdfFontDefinition Font { get; set; } = new();
@@ -210,6 +215,11 @@ public sealed class PdfBorderDefinition
     /// Border width in points.
     /// </summary>
     public double Width { get; set; } = 1;
+
+    /// <summary>
+    /// Border line style.
+    /// </summary>
+    public PdfBorderStyle Style { get; set; }
 
     #endregion
 }

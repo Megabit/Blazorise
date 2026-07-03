@@ -80,6 +80,7 @@ public abstract class BaseReportElement : ComponentBase
         {
             Color = BorderColor.IsDefault ? Border?.Color ?? ReportColor.Default : BorderColor,
             Width = BorderWidth ?? Border?.Width,
+            Style = BorderStyle != ReportBorderStyle.Default ? BorderStyle : Border?.Style ?? ReportBorderStyle.Default,
             Radius = BorderRadius ?? Border?.Radius,
         };
     }
@@ -148,6 +149,11 @@ public abstract class BaseReportElement : ComponentBase
     /// Border width applied around the element.
     /// </summary>
     [Parameter] public double? BorderWidth { get; set; }
+
+    /// <summary>
+    /// Border style applied around the element.
+    /// </summary>
+    [Parameter] public ReportBorderStyle BorderStyle { get; set; }
 
     /// <summary>
     /// Border radius applied to the element corners.

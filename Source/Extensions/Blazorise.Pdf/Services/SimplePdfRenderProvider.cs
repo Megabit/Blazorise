@@ -54,7 +54,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         foreach ( PdfPageDefinition page in pages )
         {
-            PdfPageContent pageContent = BuildPageContent( page );
+            PdfPageContent pageContent = BuildPageContent( page, objects );
             int contentId = AddObject( objects, CreateStreamObject( pageContent.Content ) );
             int pageId = AddObject( objects, BuildPageObject( page, pagesId, fontResources, contentId, pageContent ) );
             pageObjectIds.Add( pageId );
@@ -91,6 +91,16 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         objects.Add( new()
         {
             Content = content,
+        } );
+
+        return objects.Count;
+    }
+
+    private static int AddObject( List<PdfObject> objects, byte[] content )
+    {
+        objects.Add( new()
+        {
+            ContentBytes = content,
         } );
 
         return objects.Count;
@@ -142,6 +152,18 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             builder.Append( " >>" );
         }
 
+        if ( pageContent.Images.Count > 0 )
+        {
+            builder.Append( " /XObject <<" );
+
+            foreach ( PdfImageResource image in pageContent.Images )
+            {
+                builder.Append( FormattableString.Invariant( $" /{image.Name} {image.ObjectId} 0 R" ) );
+            }
+
+            builder.Append( " >>" );
+        }
+
         builder.Append( " >>" );
 
         return builder.ToString();
@@ -154,9 +176,20 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return FormattableString.Invariant( $"<< /Length {length} >>\nstream\n{content}\nendstream" );
     }
 
-    private static PdfPageContent BuildPageContent( PdfPageDefinition page )
+    private static byte[] CreateStreamObject( string dictionary, byte[] content )
     {
-        PdfPageContentContext context = new();
+        using MemoryStream stream = new();
+
+        WriteAscii( stream, $"{dictionary}\nstream\n" );
+        stream.Write( content, 0, content.Length );
+        WriteAscii( stream, "\nendstream" );
+
+        return stream.ToArray();
+    }
+
+    private static PdfPageContent BuildPageContent( PdfPageDefinition page, List<PdfObject> objects )
+    {
+        PdfPageContentContext context = new( objects );
 
         foreach ( PdfElementDefinition element in page.Elements )
         {
@@ -167,6 +200,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         {
             Content = context.Builder.ToString(),
             AlphaStates = context.AlphaStates,
+            Images = context.Images,
         };
     }
 
@@ -188,6 +222,9 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
                 break;
             case PdfElementType.Rectangle:
                 AppendRectangle( context, page, element, x, y );
+                break;
+            case PdfElementType.Image:
+                AppendImage( context, page, element, x, y );
                 break;
             case PdfElementType.Table:
                 AppendTable( context, page, element, x, y );
@@ -385,21 +422,81 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private static void AppendRectangle( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
     {
-        PdfBorderDefinition border = element.Border ?? new();
-        double rectangleY = page.Height - y - element.Height;
-        bool hasFill = HasFill( element.Appearance?.BackgroundColor );
-        bool hasStroke = HasStroke( border );
+        AppendRectangleFill( context, page, element, x, y );
+        AppendRectangleStroke( context, page, element, x, y );
+    }
 
-        if ( !hasFill && !hasStroke )
+    private static void AppendImage( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
+    {
+        if ( element.Width <= 0 || element.Height <= 0 )
             return;
 
-        if ( hasFill )
-            AppendColor( context, element.Appearance.BackgroundColor, stroke: false );
+        AppendRectangleFill( context, page, element, x, y );
 
-        if ( hasStroke )
-            AppendStroke( context, border );
+        if ( !string.IsNullOrWhiteSpace( element.Source ) && TryCreateImageResource( context, element.Source, out PdfImageResource imageResource ) )
+        {
+            PdfImagePlacement placement = ResolveImagePlacement( element, imageResource.Width, imageResource.Height );
+            double elementY = page.Height - y - element.Height;
+            double imageX = x + placement.X;
+            double imageY = page.Height - y - placement.Y - placement.Height;
+            bool clipImage = placement.X < 0 || placement.Y < 0 || placement.X + placement.Width > element.Width || placement.Y + placement.Height > element.Height;
+            context.Builder.AppendLine( "q" );
 
-        context.Builder.AppendLine( FormattableString.Invariant( $"{x} {rectangleY} {element.Width} {element.Height} re {ResolveRectanglePaintOperator( hasFill, hasStroke )}" ) );
+            if ( clipImage )
+                context.Builder.AppendLine( FormattableString.Invariant( $"{x} {elementY} {element.Width} {element.Height} re W n" ) );
+
+            context.Builder.AppendLine( FormattableString.Invariant( $"{placement.Width} 0 0 {placement.Height} {imageX} {imageY} cm" ) );
+            context.Builder.AppendLine( FormattableString.Invariant( $"/{imageResource.Name} Do" ) );
+            context.Builder.AppendLine( "Q" );
+        }
+
+        AppendRectangleStroke( context, page, element, x, y );
+    }
+
+    private static PdfImagePlacement ResolveImagePlacement( PdfElementDefinition element, double imageWidth, double imageHeight )
+    {
+        double elementWidth = Math.Max( 0, element.Width );
+        double elementHeight = Math.Max( 0, element.Height );
+
+        if ( elementWidth <= 0 || elementHeight <= 0 || imageWidth <= 0 || imageHeight <= 0 )
+            return new( 0, 0, elementWidth, elementHeight );
+
+        return ResolveImageFit( element.ImageFit ) switch
+        {
+            PdfImageFit.Cover => CreateScaledImagePlacement( elementWidth, elementHeight, imageWidth, imageHeight, ( first, second ) => Math.Max( first, second ) ),
+            PdfImageFit.None => CreateCenteredImagePlacement( elementWidth, elementHeight, imageWidth, imageHeight ),
+            PdfImageFit.Scale => CreateScaleDownImagePlacement( elementWidth, elementHeight, imageWidth, imageHeight ),
+            PdfImageFit.Contain => CreateScaledImagePlacement( elementWidth, elementHeight, imageWidth, imageHeight, ( first, second ) => Math.Min( first, second ) ),
+            _ => new( 0, 0, elementWidth, elementHeight ),
+        };
+    }
+
+    private static PdfImageFit ResolveImageFit( PdfImageFit fit )
+    {
+        return fit == PdfImageFit.Default
+            ? PdfImageFit.Fill
+            : fit;
+    }
+
+    private static PdfImagePlacement CreateScaleDownImagePlacement( double elementWidth, double elementHeight, double imageWidth, double imageHeight )
+    {
+        return imageWidth <= elementWidth && imageHeight <= elementHeight
+            ? CreateCenteredImagePlacement( elementWidth, elementHeight, imageWidth, imageHeight )
+            : CreateScaledImagePlacement( elementWidth, elementHeight, imageWidth, imageHeight, ( first, second ) => Math.Min( first, second ) );
+    }
+
+    private static PdfImagePlacement CreateScaledImagePlacement( double elementWidth, double elementHeight, double imageWidth, double imageHeight, Func<double, double, double> scaleSelector )
+    {
+        double scale = scaleSelector( elementWidth / imageWidth, elementHeight / imageHeight );
+        double width = imageWidth * scale;
+        double height = imageHeight * scale;
+
+        return CreateCenteredImagePlacement( elementWidth, elementHeight, width, height );
+    }
+
+    private static PdfImagePlacement CreateCenteredImagePlacement( double elementWidth, double elementHeight, double width, double height )
+    {
+        return new( ( elementWidth - width ) / 2, ( elementHeight - height ) / 2, width, height );
     }
 
     private static void AppendTable( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
@@ -440,8 +537,51 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private static void AppendStroke( PdfPageContentContext context, PdfBorderDefinition border )
     {
+        double width = Math.Max( 0, border?.Width ?? 1 );
+
         AppendColor( context, border?.Color, stroke: true );
-        context.Builder.AppendLine( FormattableString.Invariant( $"{Math.Max( 0, border?.Width ?? 1 )} w" ) );
+        context.Builder.AppendLine( FormattableString.Invariant( $"{width} w" ) );
+        AppendStrokeStyle( context, border?.Style ?? PdfBorderStyle.Solid, width );
+    }
+
+    private static void AppendStrokeStyle( PdfPageContentContext context, PdfBorderStyle style, double width )
+    {
+        double safeWidth = Math.Max( 1, width );
+
+        switch ( style )
+        {
+            case PdfBorderStyle.Dashed:
+                context.Builder.AppendLine( FormattableString.Invariant( $"[{safeWidth * 3} {safeWidth * 2}] 0 d" ) );
+                break;
+            case PdfBorderStyle.Dotted:
+                context.Builder.AppendLine( FormattableString.Invariant( $"[{safeWidth} {safeWidth * 2}] 0 d" ) );
+                break;
+            default:
+                context.Builder.AppendLine( "[] 0 d" );
+                break;
+        }
+    }
+
+    private static void AppendRectangleFill( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
+    {
+        if ( !HasFill( element.Appearance?.BackgroundColor ) )
+            return;
+
+        double rectangleY = page.Height - y - element.Height;
+        AppendColor( context, element.Appearance.BackgroundColor, stroke: false );
+        context.Builder.AppendLine( FormattableString.Invariant( $"{x} {rectangleY} {element.Width} {element.Height} re f" ) );
+    }
+
+    private static void AppendRectangleStroke( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
+    {
+        PdfBorderDefinition border = element.Border ?? new();
+
+        if ( !HasStroke( border ) )
+            return;
+
+        double rectangleY = page.Height - y - element.Height;
+        AppendStroke( context, border );
+        context.Builder.AppendLine( FormattableString.Invariant( $"{x} {rectangleY} {element.Width} {element.Height} re S" ) );
     }
 
     private static bool HasStroke( PdfBorderDefinition border )
@@ -452,14 +592,6 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
     private static bool HasFill( string color )
     {
         return !string.IsNullOrWhiteSpace( color ) && !IsTransparentColor( color );
-    }
-
-    private static string ResolveRectanglePaintOperator( bool hasFill, bool hasStroke )
-    {
-        if ( hasFill && hasStroke )
-            return "B";
-
-        return hasFill ? "f" : "S";
     }
 
     private static void AppendColor( PdfPageContentContext context, string color, bool stroke )
@@ -626,6 +758,29 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return NormalizeColorName( color ) == "transparent";
     }
 
+    private static bool TryCreateImageResource( PdfPageContentContext context, string source, out PdfImageResource imageResource )
+    {
+        imageResource = null;
+
+        if ( !PdfImageDataReader.TryRead( source, out PdfImageData imageData ) )
+            return false;
+
+        string dictionary = FormattableString.Invariant( $"<< /Type /XObject /Subtype /Image /Width {imageData.Width} /Height {imageData.Height} /ColorSpace {imageData.ColorSpace} /BitsPerComponent {imageData.BitsPerComponent} /Filter {imageData.Filter} /Length {imageData.Data.Length} >>" );
+        int objectId = AddObject( context.Objects, CreateStreamObject( dictionary, imageData.Data ) );
+
+        imageResource = new()
+        {
+            Name = FormattableString.Invariant( $"Im{context.Images.Count + 1}" ),
+            ObjectId = objectId,
+            Width = imageData.Width,
+            Height = imageData.Height,
+        };
+
+        context.Images.Add( imageResource );
+
+        return true;
+    }
+
     private static string EscapeText( string text )
     {
         if ( string.IsNullOrEmpty( text ) )
@@ -651,40 +806,57 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
     private static byte[] WriteDocument( IReadOnlyList<PdfObject> objects )
     {
         using MemoryStream stream = new();
-        using StreamWriter writer = new( stream, Encoding.ASCII, 1024, leaveOpen: true );
         List<long> offsets = [];
 
-        writer.WriteLine( "%PDF-1.4" );
+        WriteAsciiLine( stream, "%PDF-1.4" );
 
         for ( int i = 0; i < objects.Count; i++ )
         {
-            writer.Flush();
             offsets.Add( stream.Position );
-            writer.WriteLine( FormattableString.Invariant( $"{( i + 1 )} 0 obj" ) );
-            writer.WriteLine( objects[i].Content );
-            writer.WriteLine( "endobj" );
+            WriteAsciiLine( stream, FormattableString.Invariant( $"{( i + 1 )} 0 obj" ) );
+
+            if ( objects[i].ContentBytes is not null )
+                stream.Write( objects[i].ContentBytes, 0, objects[i].ContentBytes.Length );
+            else
+                WriteAscii( stream, objects[i].Content );
+
+            WriteAsciiLine( stream, string.Empty );
+            WriteAsciiLine( stream, "endobj" );
         }
 
-        writer.Flush();
         long xrefOffset = stream.Position;
 
-        writer.WriteLine( "xref" );
-        writer.WriteLine( FormattableString.Invariant( $"0 {objects.Count + 1}" ) );
-        writer.WriteLine( "0000000000 65535 f " );
+        WriteAsciiLine( stream, "xref" );
+        WriteAsciiLine( stream, FormattableString.Invariant( $"0 {objects.Count + 1}" ) );
+        WriteAsciiLine( stream, "0000000000 65535 f " );
 
         foreach ( long offset in offsets )
         {
-            writer.WriteLine( FormattableString.Invariant( $"{offset:0000000000} 00000 n " ) );
+            WriteAsciiLine( stream, FormattableString.Invariant( $"{offset:0000000000} 00000 n " ) );
         }
 
-        writer.WriteLine( "trailer" );
-        writer.WriteLine( FormattableString.Invariant( $"<< /Size {objects.Count + 1} /Root 1 0 R >>" ) );
-        writer.WriteLine( "startxref" );
-        writer.WriteLine( xrefOffset.ToString( CultureInfo.InvariantCulture ) );
-        writer.Write( "%%EOF" );
-        writer.Flush();
+        WriteAsciiLine( stream, "trailer" );
+        WriteAsciiLine( stream, FormattableString.Invariant( $"<< /Size {objects.Count + 1} /Root 1 0 R >>" ) );
+        WriteAsciiLine( stream, "startxref" );
+        WriteAsciiLine( stream, xrefOffset.ToString( CultureInfo.InvariantCulture ) );
+        WriteAscii( stream, "%%EOF" );
 
         return stream.ToArray();
+    }
+
+    private static void WriteAsciiLine( Stream stream, string value )
+    {
+        WriteAscii( stream, value );
+        stream.WriteByte( (byte)'\n' );
+    }
+
+    private static void WriteAscii( Stream stream, string value )
+    {
+        if ( string.IsNullOrEmpty( value ) )
+            return;
+
+        byte[] bytes = Encoding.ASCII.GetBytes( value );
+        stream.Write( bytes, 0, bytes.Length );
     }
 
     #endregion
@@ -696,6 +868,15 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         #region Members
 
         private readonly Dictionary<string, string> alphaStateNames = [];
+
+        #endregion
+
+        #region Constructors
+
+        internal PdfPageContentContext( List<PdfObject> objects )
+        {
+            Objects = objects;
+        }
 
         #endregion
 
@@ -727,7 +908,11 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         internal StringBuilder Builder { get; } = new();
 
+        internal List<PdfObject> Objects { get; }
+
         internal List<PdfAlphaState> AlphaStates { get; } = [];
+
+        internal List<PdfImageResource> Images { get; } = [];
 
         #endregion
     }
@@ -737,6 +922,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         internal string Content { get; set; }
 
         internal List<PdfAlphaState> AlphaStates { get; set; } = [];
+
+        internal List<PdfImageResource> Images { get; set; } = [];
     }
 
     private sealed class PdfAlphaState
@@ -747,6 +934,19 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         internal bool Stroke { get; set; }
     }
+
+    private sealed class PdfImageResource
+    {
+        internal string Name { get; set; }
+
+        internal int ObjectId { get; set; }
+
+        internal int Width { get; set; }
+
+        internal int Height { get; set; }
+    }
+
+    private readonly record struct PdfImagePlacement( double X, double Y, double Width, double Height );
 
     private sealed class PdfFontResources
     {
@@ -764,6 +964,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
     private sealed class PdfObject
     {
         internal string Content { get; set; }
+
+        internal byte[] ContentBytes { get; set; }
     }
 
     #endregion

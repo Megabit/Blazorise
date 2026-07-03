@@ -30,6 +30,8 @@ public partial class _ReportDesignerPropertiesPanel
 
     private _ReportDesignerFormulaDialog formulaDialogRef;
 
+    private _ReportDesignerImageUploadDialog imageUploadDialogRef;
+
     private Func<string, Task> formulaConfirmed;
 
     private static readonly (ReportPageSize Value, string Text)[] PageSizeOptions =
@@ -69,6 +71,24 @@ public partial class _ReportDesignerPropertiesPanel
         ( VerticalAlignment.Top, "Top" ),
         ( VerticalAlignment.Middle, "Middle" ),
         ( VerticalAlignment.Bottom, "Bottom" ),
+    ];
+
+    private static readonly (ReportBorderStyle Value, string Text)[] BorderStyleOptions =
+    [
+        ( ReportBorderStyle.Default, "Default" ),
+        ( ReportBorderStyle.Solid, "Solid" ),
+        ( ReportBorderStyle.Dashed, "Dashed" ),
+        ( ReportBorderStyle.Dotted, "Dotted" ),
+    ];
+
+    private static readonly (ReportImageFit Value, string Text)[] ImageFitOptions =
+    [
+        ( ReportImageFit.Default, "Default" ),
+        ( ReportImageFit.Contain, "Contain" ),
+        ( ReportImageFit.Cover, "Cover" ),
+        ( ReportImageFit.Fill, "Fill" ),
+        ( ReportImageFit.None, "None" ),
+        ( ReportImageFit.Scale, "Scale down" ),
     ];
 
     #endregion
@@ -390,6 +410,23 @@ public partial class _ReportDesignerPropertiesPanel
         return UpdateSelectedSection( section => section.DataSource = string.IsNullOrWhiteSpace( value ) ? null : value );
     }
 
+    private Task OpenImageUploadDialogAsync()
+    {
+        return imageUploadDialogRef?.ShowAsync() ?? Task.CompletedTask;
+    }
+
+    private Task OnImageUploadConfirmedAsync( string source )
+    {
+        if ( string.IsNullOrWhiteSpace( source ) )
+            return Task.CompletedTask;
+
+        return UpdateSelectedElement( element =>
+        {
+            if ( element is ReportImageElementDefinition imageElement )
+                imageElement.Source = source;
+        } );
+    }
+
     #endregion
 
     #region Properties
@@ -498,6 +535,66 @@ public partial class _ReportDesignerPropertiesPanel
     /// Moves or resizes the selected element by a delta.
     /// </summary>
     [Parameter] public Func<double, double, double, double, Task> MoveSelectedElement { get; set; }
+
+    /// <summary>
+    /// Enables image upload from the Image element source property.
+    /// </summary>
+    [Parameter] public bool UploadImage { get; set; } = true;
+
+    /// <summary>
+    /// A comma-separated list of image MIME types accepted by the image upload dialog.
+    /// </summary>
+    [Parameter] public string ImageAccept { get; set; } = "image/png, image/jpeg, image/webp, image/svg+xml";
+
+    /// <summary>
+    /// Maximum image size in bytes.
+    /// </summary>
+    [Parameter] public long ImageMaxSize { get; set; } = 1024 * 1024 * 5;
+
+    /// <summary>
+    /// Specifies the max chunk size when uploading the image.
+    /// </summary>
+    [Parameter] public int MaxUploadImageChunkSize { get; set; } = 20 * 1024;
+
+    /// <summary>
+    /// Specifies the segment fetch timeout when uploading the image.
+    /// </summary>
+    [Parameter] public TimeSpan ImageUploadSegmentFetchTimeout { get; set; } = TimeSpan.FromMinutes( 1 );
+
+    /// <summary>
+    /// Disables image upload progress callbacks.
+    /// </summary>
+    [Parameter] public bool DisableImageUploadProgressReport { get; set; }
+
+    /// <summary>
+    /// Raised when the selected image changes.
+    /// </summary>
+    [Parameter] public EventCallback<FileChangedEventArgs> ImageUploadChanged { get; set; }
+
+    /// <summary>
+    /// Raised when reading an image starts.
+    /// </summary>
+    [Parameter] public EventCallback<FileStartedEventArgs> ImageUploadStarted { get; set; }
+
+    /// <summary>
+    /// Raised when reading an image ends.
+    /// </summary>
+    [Parameter] public EventCallback<FileEndedEventArgs> ImageUploadEnded { get; set; }
+
+    /// <summary>
+    /// Raised when an image chunk is read.
+    /// </summary>
+    [Parameter] public EventCallback<FileWrittenEventArgs> ImageUploadWritten { get; set; }
+
+    /// <summary>
+    /// Raised when image read progress changes.
+    /// </summary>
+    [Parameter] public EventCallback<FileProgressedEventArgs> ImageUploadProgressed { get; set; }
+
+    /// <summary>
+    /// Raised when the image upload action is confirmed.
+    /// </summary>
+    [Parameter] public EventCallback<FileUploadEventArgs> ImageUpload { get; set; }
 
     #endregion
 }

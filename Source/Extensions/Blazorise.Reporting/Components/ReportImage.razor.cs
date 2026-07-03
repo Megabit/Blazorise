@@ -15,6 +15,7 @@ public partial class ReportImage : BaseReportElement
     {
         ReportImageElementDefinition definition = (ReportImageElementDefinition)base.BuildDefinition();
         definition.Source = Source;
+        definition.Fit = Fit;
         definition.Text = Alt;
 
         return definition;
@@ -24,6 +25,11 @@ public partial class ReportImage : BaseReportElement
     /// Image source URL or data URI rendered by the element.
     /// </summary>
     [Parameter] public string Source { get; set; }
+
+    /// <summary>
+    /// Defines how the image fits inside the element bounds.
+    /// </summary>
+    [Parameter] public ReportImageFit Fit { get; set; }
 
     /// <summary>
     /// Alternate text associated with the image element.

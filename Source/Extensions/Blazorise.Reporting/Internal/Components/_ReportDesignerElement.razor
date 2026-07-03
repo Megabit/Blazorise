@@ -72,7 +72,7 @@
                 case ReportElementType.Image:
                     @if ( Element is ReportImageElementDefinition imageElement )
                     {
-                        <img src="@imageElement.Source" alt="@ImageAlternativeText" />
+                        <Image Source="@imageElement.Source" Text="@ImageAlternativeText" ObjectFit="@GetImageObjectFit( imageElement )" />
                     }
                     break;
                 case ReportElementType.Line:

@@ -356,6 +356,7 @@ internal sealed class ReportContext
                 break;
             case ReportImageElementDefinition imageElement when clone is ReportImageElementDefinition imageClone:
                 imageClone.Source = imageElement.Source;
+                imageClone.Fit = imageElement.Fit;
                 imageClone.Text = imageElement.Text;
                 break;
             case ReportLineElementDefinition lineElement when clone is ReportLineElementDefinition lineClone:
@@ -434,6 +435,7 @@ internal sealed class ReportContext
         {
             Color = border.Color,
             Width = border.Width,
+            Style = border.Style,
             Radius = border.Radius,
         };
     }

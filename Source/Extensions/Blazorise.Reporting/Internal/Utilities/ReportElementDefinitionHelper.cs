@@ -81,10 +81,10 @@ internal static class ReportElementDefinitionHelper
             if ( borderColor is not null )
                 builder.Append( $"border-color:{borderColor}!important" );
 
-            if ( border?.Width is >= 0 )
+            if ( border?.Width is >= 0 || border is not null && border.Style != ReportBorderStyle.Default )
             {
-                builder.Append( $"border-width:{ReportMeasurementConverter.ToCssPixelString( border.Width.Value )}" );
-                builder.Append( "border-style:solid" );
+                builder.Append( $"border-width:{ReportMeasurementConverter.ToCssPixelString( border?.Width ?? 1 )}" );
+                builder.Append( $"border-style:{ToCssBorderStyle( border.Style )}" );
             }
 
             if ( border?.Radius is >= 0 )
@@ -191,6 +191,16 @@ internal static class ReportElementDefinitionHelper
             VerticalAlignment.Middle => "center",
             VerticalAlignment.Bottom => "flex-end",
             _ => null,
+        };
+    }
+
+    private static string ToCssBorderStyle( ReportBorderStyle style )
+    {
+        return style switch
+        {
+            ReportBorderStyle.Dashed => "dashed",
+            ReportBorderStyle.Dotted => "dotted",
+            _ => "solid",
         };
     }
 

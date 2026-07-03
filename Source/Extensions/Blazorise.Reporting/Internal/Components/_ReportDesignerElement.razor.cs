@@ -170,6 +170,18 @@ public partial class _ReportDesignerElement
             : ReportTextTemplateResolver.ResolveText( Definition, Data, Item, textElement, RunningTotals );
     }
 
+    private static IFluentObjectFit GetImageObjectFit( ReportImageElementDefinition imageElement )
+    {
+        return ( imageElement?.Fit ?? ReportImageFit.Default ) switch
+        {
+            ReportImageFit.Cover => Blazorise.ObjectFit.Cover,
+            ReportImageFit.Fill => Blazorise.ObjectFit.Fill,
+            ReportImageFit.None => Blazorise.ObjectFit.None,
+            ReportImageFit.Scale => Blazorise.ObjectFit.Scale,
+            _ => Blazorise.ObjectFit.Contain,
+        };
+    }
+
     private async Task CompleteTextEditAsync()
     {
         if ( !Editing || textEditCancelled )

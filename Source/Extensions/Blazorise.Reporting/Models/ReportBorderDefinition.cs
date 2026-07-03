@@ -20,6 +20,11 @@ public sealed class ReportBorderDefinition
     public double? Width { get; set; }
 
     /// <summary>
+    /// Border style applied around the element.
+    /// </summary>
+    public ReportBorderStyle Style { get; set; }
+
+    /// <summary>
     /// Border radius applied to the element corners.
     /// </summary>
     public double? Radius { get; set; }

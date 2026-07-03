@@ -114,7 +114,9 @@ internal static class ReportPdfDocumentBuilder
     private static PdfElementDefinition CreateImageElement( ReportImageElementDefinition element, double sectionX, double sectionY )
     {
         PdfElementDefinition pdfElement = CreateBaseElement( PdfElementType.Image, element, sectionX, sectionY );
+        ApplyShapeFormatting( pdfElement, element );
         pdfElement.Source = element.Source;
+        pdfElement.ImageFit = ResolveImageFit( element.Fit );
         pdfElement.Text = element.Text ?? element.Name;
 
         return pdfElement;
@@ -195,6 +197,7 @@ internal static class ReportPdfDocumentBuilder
     {
         pdfElement.Border.Color = ResolveColor( element.Border?.Color ?? ReportColors.Black );
         pdfElement.Border.Width = ResolveBorderWidth( element );
+        pdfElement.Border.Style = ResolveBorderStyle( element.Border?.Style ?? ReportBorderStyle.Default );
         pdfElement.Appearance.BackgroundColor = ResolveColor( element.Appearance?.BackgroundColor ?? ReportColor.Default );
     }
 
@@ -211,12 +214,34 @@ internal static class ReportPdfDocumentBuilder
 
     private static bool ShouldRequireExplicitBorder( ReportElementType elementType )
     {
-        return elementType is ReportElementType.Text or ReportElementType.Field or ReportElementType.Table;
+        return elementType is ReportElementType.Text or ReportElementType.Field or ReportElementType.Image or ReportElementType.Table;
     }
 
     private static bool HasDefinedBorder( ReportBorderDefinition border )
     {
-        return border?.Width is not null || !( border?.Color ?? ReportColor.Default ).IsDefault;
+        return border?.Width is not null || !( border?.Color ?? ReportColor.Default ).IsDefault || border is not null && border.Style != ReportBorderStyle.Default;
+    }
+
+    private static PdfBorderStyle ResolveBorderStyle( ReportBorderStyle style )
+    {
+        return style switch
+        {
+            ReportBorderStyle.Dashed => PdfBorderStyle.Dashed,
+            ReportBorderStyle.Dotted => PdfBorderStyle.Dotted,
+            _ => PdfBorderStyle.Solid,
+        };
+    }
+
+    private static PdfImageFit ResolveImageFit( ReportImageFit fit )
+    {
+        return fit switch
+        {
+            ReportImageFit.Cover => PdfImageFit.Cover,
+            ReportImageFit.Fill => PdfImageFit.Fill,
+            ReportImageFit.None => PdfImageFit.None,
+            ReportImageFit.Scale => PdfImageFit.Scale,
+            _ => PdfImageFit.Contain,
+        };
     }
 
     private static bool ShouldRenderElement( ReportDefinition definition, object data, ReportSectionDefinition section, ReportElementDefinition element, object item )

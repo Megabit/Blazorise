@@ -18,6 +18,11 @@ public sealed class ReportImageElementDefinition : ReportElementDefinition
     public string Source { get; set; }
 
     /// <summary>
+    /// Defines how the image fits inside the element bounds.
+    /// </summary>
+    public ReportImageFit Fit { get; set; }
+
+    /// <summary>
     /// Alternate text associated with the image.
     /// </summary>
     public string Text { get; set; }
