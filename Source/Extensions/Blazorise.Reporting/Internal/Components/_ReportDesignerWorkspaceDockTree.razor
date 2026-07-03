@@ -15,6 +15,7 @@
                 Toolbox
             </DockPaneHeader>
             <DockPaneBody Class="b-report-designer-toolbox-pane"
+                          @ref="@toolboxPaneBody"
                           Padding="Padding.Is3">
                 @ToolboxPanel
             </DockPaneBody>
@@ -32,6 +33,7 @@
                 Fields Explorer
             </DockPaneHeader>
             <DockPaneBody Class="b-report-designer-fields-explorer-pane"
+                          @ref="@fieldsExplorerPaneBody"
                           Padding="Padding.Is3">
                 @FieldsExplorerPanel
             </DockPaneBody>
@@ -47,6 +49,7 @@
                   ShowTab="false"
                   Closable="false">
             <DockPaneBody Class="@SurfaceBodyClass"
+                          @ref="@surfacePaneBody"
                           Padding="@SurfaceBodyPadding"
                           Background="Background.Light"
                           Overflow="Overflow.Auto">
@@ -67,6 +70,7 @@
                     Properties
                 </DockPaneHeader>
                 <DockPaneBody Class="b-report-designer-properties-pane"
+                              @ref="@propertiesPaneBody"
                               Padding="Padding.Is3">
                     @PropertiesPanel
                 </DockPaneBody>
@@ -84,6 +88,7 @@
                     Report Explorer
                 </DockPaneHeader>
                 <DockPaneBody Class="b-report-designer-report-explorer-pane"
+                              @ref="@reportExplorerPaneBody"
                               Padding="Padding.Is3">
                     @ReportExplorerPanel
                 </DockPaneBody>

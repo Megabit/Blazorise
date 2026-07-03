@@ -14,12 +14,49 @@ public partial class _ReportDesignerWorkspaceDockTree
 
     private DockPane surfacePane;
 
+    private DockPaneBody fieldsExplorerPaneBody;
+
+    private DockPaneBody propertiesPaneBody;
+
+    private DockPaneBody reportExplorerPaneBody;
+
+    private DockPaneBody surfacePaneBody;
+
+    private DockPaneBody toolboxPaneBody;
+
     #endregion
 
     #region Methods
 
     internal Task RefreshSurface()
         => surfacePane?.Refresh() ?? Task.CompletedTask;
+
+    internal ElementReference? GetPaneBodyElement( string paneName )
+    {
+        DockPaneBody paneBody = ResolvePaneBody( paneName );
+
+        return paneBody?.ElementRef;
+    }
+
+    private DockPaneBody ResolvePaneBody( string paneName )
+    {
+        if ( string.Equals( paneName, ToolboxPaneName, System.StringComparison.Ordinal ) )
+            return toolboxPaneBody;
+
+        if ( string.Equals( paneName, FieldsExplorerPaneName, System.StringComparison.Ordinal ) )
+            return fieldsExplorerPaneBody;
+
+        if ( string.Equals( paneName, SurfacePaneName, System.StringComparison.Ordinal ) )
+            return surfacePaneBody;
+
+        if ( string.Equals( paneName, PropertiesPaneName, System.StringComparison.Ordinal ) )
+            return propertiesPaneBody;
+
+        if ( string.Equals( paneName, ReportExplorerPaneName, System.StringComparison.Ordinal ) )
+            return reportExplorerPaneBody;
+
+        return null;
+    }
 
     #endregion
 

@@ -65,6 +65,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private readonly ReportDesignerInteractionState designerState = new();
 
+    private readonly Dictionary<string, ( double Left, double Top )> designerPaneScrollPositions = new( StringComparer.Ordinal );
+
     private readonly HashSet<string> collapsedSectionIds = new( StringComparer.Ordinal );
 
     private readonly IReadOnlyList<IReportDataSourceProvider> fallbackDataSourceProviders = [new ObjectReportDataSourceProvider()];
@@ -78,6 +80,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private ReportPreviewFormat currentPreviewFormat;
 
     private ReportDesignerPanelTab selectedDesignerPanelTab = ReportDesignerPanelTab.Properties;
+
+    private int designerPaneScrollRestoreVersion;
 
     private _ReportDesignerContextMenuHost contextMenuHost;
 
@@ -634,10 +638,16 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task SetModeAsync( ReportStudioMode mode )
     {
+        if ( CurrentMode == ReportStudioMode.Design && mode != ReportStudioMode.Design )
+            await CaptureDesignerPaneScrollPositionsAsync();
+
         await ExecuteDesignerCommandAsync( new( $"Set {mode} mode", async () =>
         {
             currentMode = mode;
             designerState.EditingElementKey = null;
+
+            if ( mode == ReportStudioMode.Design )
+                designerPaneScrollRestoreVersion++;
 
             if ( ModeChanged.HasDelegate )
                 await ModeChanged.InvokeAsync( currentMode );
@@ -646,6 +656,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task SetPreviewAsync( ReportPreviewFormat format )
     {
+        if ( CurrentMode == ReportStudioMode.Design )
+            await CaptureDesignerPaneScrollPositionsAsync();
+
         await ExecuteDesignerCommandAsync( new( $"Set {format} preview", async () =>
         {
             currentPreviewFormat = format;
@@ -657,6 +670,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             if ( ModeChanged.HasDelegate )
                 await ModeChanged.InvokeAsync( currentMode );
         }, trackHistory: false, notifyDefinitionChanged: false ) );
+    }
+
+    private async Task CaptureDesignerPaneScrollPositionsAsync()
+    {
+        if ( designerLayoutRef is not null )
+            await designerLayoutRef.CapturePaneScrollPositions( designerPaneScrollPositions );
     }
 
     private async Task DownloadPdfAsync()

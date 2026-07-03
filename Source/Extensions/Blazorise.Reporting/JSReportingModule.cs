@@ -86,6 +86,28 @@ public class JSReportingModule : BaseJSModule
     }
 
     /// <summary>
+    /// Gets the current scroll position of an element.
+    /// </summary>
+    /// <param name="element">Element to inspect.</param>
+    /// <returns>A two-item array containing horizontal and vertical scroll offsets.</returns>
+    public virtual async ValueTask<double[]> GetScrollPosition( ElementReference element )
+    {
+        return await InvokeSafeAsync<double[]>( "getScrollPosition", element );
+    }
+
+    /// <summary>
+    /// Sets the scroll position of an element.
+    /// </summary>
+    /// <param name="element">Element to scroll.</param>
+    /// <param name="left">Horizontal scroll offset.</param>
+    /// <param name="top">Vertical scroll offset.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask SetScrollPosition( ElementReference element, double left, double top )
+    {
+        await InvokeSafeVoidAsync( "setScrollPosition", element, left, top );
+    }
+
+    /// <summary>
     /// Suppresses the native browser drag image for draggable report tree nodes.
     /// </summary>
     /// <param name="element">Tree root element that owns draggable nodes.</param>

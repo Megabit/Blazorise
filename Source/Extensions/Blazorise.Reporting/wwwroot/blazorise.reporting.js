@@ -200,6 +200,35 @@ export function getElementOffset(element, clientX, clientY) {
     ];
 }
 
+export function getScrollPosition(element) {
+    if (!element) {
+        return [0, 0];
+    }
+
+    return [
+        Math.max(0, element.scrollLeft ?? 0),
+        Math.max(0, element.scrollTop ?? 0),
+    ];
+}
+
+export function setScrollPosition(element, left, top) {
+    if (!element) {
+        return;
+    }
+
+    const apply = () => {
+        element.scrollLeft = Math.max(0, left ?? 0);
+        element.scrollTop = Math.max(0, top ?? 0);
+    };
+
+    if (typeof requestAnimationFrame === "function") {
+        requestAnimationFrame(() => requestAnimationFrame(apply));
+    }
+    else {
+        setTimeout(apply, 0);
+    }
+}
+
 export function suppressTreeNativeDragImage(element) {
     if (!element || typeof element.addEventListener !== "function") {
         return;

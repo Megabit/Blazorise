@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Reporting;
@@ -37,6 +38,15 @@ public partial class _ReportDesignerLayout
         new( ReportExplorerPaneName, "Report Explorer" ),
     ];
 
+    private static readonly string[] scrollablePaneNames =
+    [
+        ToolboxPaneName,
+        FieldsExplorerPaneName,
+        SurfacePaneName,
+        PropertiesPaneName,
+        ReportExplorerPaneName,
+    ];
+
     private readonly DockLayoutState dockLayoutState = new();
 
     private string activePanelPaneName = PropertiesPaneName;
@@ -54,6 +64,8 @@ public partial class _ReportDesignerLayout
     private DotNetObjectReference<_ReportDesignerLayout> dotNetObjectReference;
 
     private JSReportingModule reportingModule;
+
+    private int restoredPaneScrollVersion = -1;
 
     #endregion
 
@@ -81,6 +93,12 @@ public partial class _ReportDesignerLayout
 
             await DocumentObserver.EnsureInitializedAsync();
             await reportingModule.StartDesignerKeyboardShortcuts( designerElement.ElementRef, dotNetObjectReference );
+        }
+
+        if ( PaneScrollRestoreVersion != restoredPaneScrollVersion && PaneScrollPositions?.Count > 0 )
+        {
+            restoredPaneScrollVersion = PaneScrollRestoreVersion;
+            await RestorePaneScrollPositions( PaneScrollPositions );
         }
     }
 
@@ -216,6 +234,50 @@ public partial class _ReportDesignerLayout
 
     internal Task RefreshSurface()
         => workspaceDockTree?.RefreshSurface() ?? Task.CompletedTask;
+
+    internal async Task CapturePaneScrollPositions( Dictionary<string, ( double Left, double Top )> scrollPositions )
+    {
+        if ( scrollPositions is null || workspaceDockTree is null )
+            return;
+
+        EnsureReportingModule();
+
+        foreach ( string paneName in scrollablePaneNames )
+        {
+            ElementReference? element = workspaceDockTree.GetPaneBodyElement( paneName );
+
+            if ( element is null )
+                continue;
+
+            double[] position = await reportingModule.GetScrollPosition( element.Value );
+
+            if ( position is not { Length: >= 2 } )
+                continue;
+
+            scrollPositions[paneName] = ( position[0], position[1] );
+        }
+    }
+
+    internal async Task RestorePaneScrollPositions( IReadOnlyDictionary<string, ( double Left, double Top )> scrollPositions )
+    {
+        if ( scrollPositions is null || scrollPositions.Count == 0 || workspaceDockTree is null )
+            return;
+
+        EnsureReportingModule();
+
+        foreach ( string paneName in scrollablePaneNames )
+        {
+            if ( !scrollPositions.TryGetValue( paneName, out ( double Left, double Top ) position ) )
+                continue;
+
+            ElementReference? element = workspaceDockTree.GetPaneBodyElement( paneName );
+
+            if ( element is null )
+                continue;
+
+            await reportingModule.SetScrollPosition( element.Value, position.Left, position.Top );
+        }
+    }
 
     private DockNodeState CreateWorkspaceNode()
     {
@@ -363,6 +425,16 @@ public partial class _ReportDesignerLayout
     /// Floating context menu shown above the designer layout.
     /// </summary>
     [Parameter] public RenderFragment ContextMenu { get; set; }
+
+    /// <summary>
+    /// Saved scroll positions for designer dock panes.
+    /// </summary>
+    [Parameter] public IReadOnlyDictionary<string, ( double Left, double Top )> PaneScrollPositions { get; set; }
+
+    /// <summary>
+    /// Version used to request a one-time pane scroll restoration.
+    /// </summary>
+    [Parameter] public int PaneScrollRestoreVersion { get; set; }
 
     /// <summary>
     /// Raised when a standard designer keyboard shortcut is pressed.
