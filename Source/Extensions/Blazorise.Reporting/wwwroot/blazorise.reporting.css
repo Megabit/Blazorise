@@ -112,6 +112,8 @@
   --b-report-color-ruler-label: #52616f;
   --b-report-color-ruler-marker: rgba(13, 110, 253, .72);
   --b-report-color-ruler-marker-surface: rgba(13, 110, 253, .14);
+  --b-report-color-page-margin-surface: rgba(148, 163, 184, .13);
+  --b-report-color-page-margin-guide: rgba(100, 116, 139, .48);
   --b-report-color-element-border: #4f7ebd;
   --b-report-color-element-active-surface: rgba(79, 126, 189, .16);
   --b-report-color-table-cell-border: rgba(79, 126, 189, .45);
@@ -361,6 +363,21 @@
 }
 .b-report-page-footer-content {
   top: auto;
+}
+.b-report-page-design .b-report-page-margin,
+.b-report-page-design .b-report-page-printable-area {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.b-report-page-design .b-report-page-margin {
+  background: var(--b-report-color-page-margin-surface);
+}
+.b-report-page-design .b-report-page-printable-area {
+  border: var(--b-report-section-border-width) dashed var(--b-report-color-page-margin-guide);
+}
+.b-report-page-design .b-report-page-margin-spacer {
+  pointer-events: none;
 }
 .b-report-page-design .b-report-section {
   border-bottom-color: var(--b-report-color-border);

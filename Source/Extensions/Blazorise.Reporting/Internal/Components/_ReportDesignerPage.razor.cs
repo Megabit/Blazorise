@@ -20,7 +20,39 @@ public partial class _ReportDesignerPage
 
     private string Class => ClassNames;
 
+    private string MarginBottomStyle => BuildMarginStyle(
+        WidthOffset,
+        Height - MarginBottom,
+        Width,
+        MarginBottom );
+
+    private string MarginLeftStyle => BuildMarginStyle(
+        WidthOffset,
+        MarginTop,
+        MarginLeft,
+        GetPrintableHeight() );
+
+    private string MarginRightStyle => BuildMarginStyle(
+        WidthOffset + ReportMeasurementConverter.ToCssPixelValue( Width - MarginRight ),
+        MarginTop,
+        MarginRight,
+        GetPrintableHeight() );
+
+    private string MarginSpacerStyle => $"height:{ReportMeasurementConverter.ToCssPixelString( MarginTop )}";
+
+    private string MarginTopStyle => BuildMarginStyle(
+        WidthOffset,
+        0,
+        Width,
+        MarginTop );
+
     private Func<PointerEventArgs, Task> NonRenderingPointerMove => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerMoveAsync );
+
+    private string PrintableAreaStyle => BuildMarginStyle(
+        WidthOffset + ReportMeasurementConverter.ToCssPixelValue( MarginLeft ),
+        MarginTop,
+        GetPrintableWidth(),
+        GetPrintableHeight() );
 
     private string Style => StyleNames;
 
@@ -33,7 +65,11 @@ public partial class _ReportDesignerPage
         if ( ( parameters.TryGetValue<double>( nameof( Width ), out var paramWidth ) && paramWidth != Width )
              || ( parameters.TryGetValue<double>( nameof( WidthOffset ), out var paramWidthOffset ) && paramWidthOffset != WidthOffset )
              || ( parameters.TryGetValue<double>( nameof( MinHeight ), out var paramMinHeight ) && paramMinHeight != MinHeight )
-             || ( parameters.TryGetValue<double>( nameof( Height ), out var paramHeight ) && paramHeight != Height ) )
+             || ( parameters.TryGetValue<double>( nameof( Height ), out var paramHeight ) && paramHeight != Height )
+             || ( parameters.TryGetValue<double>( nameof( MarginLeft ), out var paramMarginLeft ) && paramMarginLeft != MarginLeft )
+             || ( parameters.TryGetValue<double>( nameof( MarginTop ), out var paramMarginTop ) && paramMarginTop != MarginTop )
+             || ( parameters.TryGetValue<double>( nameof( MarginRight ), out var paramMarginRight ) && paramMarginRight != MarginRight )
+             || ( parameters.TryGetValue<double>( nameof( MarginBottom ), out var paramMarginBottom ) && paramMarginBottom != MarginBottom ) )
             DirtyStyles();
 
         return base.SetParametersAsync( parameters );
@@ -52,12 +88,27 @@ public partial class _ReportDesignerPage
     {
         builder.Append( $"width:{ReportMeasurementConverter.FormatCssPixelValue( ReportMeasurementConverter.ToCssPixelValue( Width ) + WidthOffset )}" );
         builder.Append( $"min-height:{ReportMeasurementConverter.ToCssPixelString( MinHeight )}" );
-        builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}", Height > 0 );
+        builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}", !DesignMode && Height > 0 );
     }
 
     private Task OnPointerMoveAsync( PointerEventArgs eventArgs )
     {
         return PointerMove?.Invoke( eventArgs ) ?? Task.CompletedTask;
+    }
+
+    private static string BuildMarginStyle( double leftCssPixels, double top, double width, double height )
+    {
+        return $"left:{ReportMeasurementConverter.FormatCssPixelValue( leftCssPixels )}; top:{ReportMeasurementConverter.ToCssPixelString( Math.Max( 0, top ) )}; width:{ReportMeasurementConverter.ToCssPixelString( Math.Max( 0, width ) )}; height:{ReportMeasurementConverter.ToCssPixelString( Math.Max( 0, height ) )}";
+    }
+
+    private double GetPrintableHeight()
+    {
+        return Math.Max( 0, Height - MarginTop - MarginBottom );
+    }
+
+    private double GetPrintableWidth()
+    {
+        return Math.Max( 0, Width - MarginLeft - MarginRight );
     }
 
     /// <summary>
@@ -89,6 +140,26 @@ public partial class _ReportDesignerPage
     /// Exact page height in report layout units.
     /// </summary>
     [Parameter] public double Height { get; set; }
+
+    /// <summary>
+    /// Left page margin in report layout units.
+    /// </summary>
+    [Parameter] public double MarginLeft { get; set; }
+
+    /// <summary>
+    /// Top page margin in report layout units.
+    /// </summary>
+    [Parameter] public double MarginTop { get; set; }
+
+    /// <summary>
+    /// Right page margin in report layout units.
+    /// </summary>
+    [Parameter] public double MarginRight { get; set; }
+
+    /// <summary>
+    /// Bottom page margin in report layout units.
+    /// </summary>
+    [Parameter] public double MarginBottom { get; set; }
 
     /// <summary>
     /// Indicates that the page is rendered in designer mode.

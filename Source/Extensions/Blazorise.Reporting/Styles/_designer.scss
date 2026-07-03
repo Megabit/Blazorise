@@ -10,6 +10,25 @@
     }
 
     &-design {
+        .b-report-page-margin,
+        .b-report-page-printable-area {
+            position: absolute;
+            box-sizing: border-box;
+            pointer-events: none;
+        }
+
+        .b-report-page-margin {
+            background: var(--b-report-color-page-margin-surface);
+        }
+
+        .b-report-page-printable-area {
+            border: var(--b-report-section-border-width) dashed var(--b-report-color-page-margin-guide);
+        }
+
+        .b-report-page-margin-spacer {
+            pointer-events: none;
+        }
+
         .b-report-section {
             border-bottom-color: var(--b-report-color-border);
 

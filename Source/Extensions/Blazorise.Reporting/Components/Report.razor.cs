@@ -378,6 +378,41 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return renderService.GetPageContentWidth( definition );
     }
 
+    private double GetDesignerSectionBodyLeft( ReportDefinition definition )
+    {
+        return GetReportPageWidthOffset() + ReportMeasurementConverter.ToCssPixelValue( GetReportPageMarginLeft( definition ) );
+    }
+
+    private double GetReportPageHeight( ReportDefinition definition )
+    {
+        return definition?.Page?.Height ?? 0;
+    }
+
+    private static ReportPageMarginsDefinition GetReportPageMargins( ReportDefinition definition )
+    {
+        return definition?.Page?.Margins ?? new();
+    }
+
+    private static double GetReportPageMarginBottom( ReportDefinition definition )
+    {
+        return Math.Max( 0, GetReportPageMargins( definition ).Bottom );
+    }
+
+    private static double GetReportPageMarginLeft( ReportDefinition definition )
+    {
+        return Math.Max( 0, GetReportPageMargins( definition ).Left );
+    }
+
+    private static double GetReportPageMarginRight( ReportDefinition definition )
+    {
+        return Math.Max( 0, GetReportPageMargins( definition ).Right );
+    }
+
+    private static double GetReportPageMarginTop( ReportDefinition definition )
+    {
+        return Math.Max( 0, GetReportPageMargins( definition ).Top );
+    }
+
     private string GetPreviewPageContentStyle( ReportDefinition definition )
     {
         return renderService.GetPreviewPageContentStyle( definition );
@@ -400,7 +435,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private double GetSelectionBoxLeftOffset()
     {
-        return IsDesignerBandRailVisible() ? DesignerConstants.DesignerBandRailWidth : 0;
+        return GetDesignerSectionBodyLeft( EffectiveDefinition );
     }
 
     private bool IsDesignerBandRailVisible()
@@ -3192,12 +3227,14 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private double GetSectionOffsetY( ReportDefinition definition, int sectionIndex )
     {
-        return designerLayoutService.GetSectionOffsetY( definition, sectionIndex, BandMode, collapsedSectionsVersion, designerState.SectionPointerResize, IsSectionCollapsed );
+        return GetReportPageMarginTop( definition ) + designerLayoutService.GetSectionOffsetY( definition, sectionIndex, BandMode, collapsedSectionsVersion, designerState.SectionPointerResize, IsSectionCollapsed );
     }
 
     private double GetDesignerContentHeight( ReportDefinition definition )
     {
-        return designerLayoutService.GetContentHeight( definition, BandMode, collapsedSectionsVersion, designerState.SectionPointerResize, IsSectionCollapsed );
+        return GetReportPageMarginTop( definition )
+            + designerLayoutService.GetContentHeight( definition, BandMode, collapsedSectionsVersion, designerState.SectionPointerResize, IsSectionCollapsed )
+            + GetReportPageMarginBottom( definition );
     }
 
     private double GetDesignerRulerHeight( ReportDefinition definition )

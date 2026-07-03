@@ -14,6 +14,16 @@
      @onpointerup="PointerUp"
      @onpointerup:preventDefault="DesignMode"
      @onpointercancel="PointerCancel">
+    @if ( DesignMode )
+    {
+        <div class="b-report-page-margin b-report-page-margin-top" style="@MarginTopStyle"></div>
+        <div class="b-report-page-margin b-report-page-margin-right" style="@MarginRightStyle"></div>
+        <div class="b-report-page-margin b-report-page-margin-bottom" style="@MarginBottomStyle"></div>
+        <div class="b-report-page-margin b-report-page-margin-left" style="@MarginLeftStyle"></div>
+        <div class="b-report-page-printable-area" style="@PrintableAreaStyle"></div>
+        <div class="b-report-page-margin-spacer" style="@MarginSpacerStyle"></div>
+    }
+
     @ChildContent
 
     @if ( DesignMode && ShowSelectionBox )

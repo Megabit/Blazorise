@@ -100,8 +100,8 @@ public partial class _ReportDesignerSection
 
     private void BuildBodyStyles( StyleBuilder builder )
     {
-        builder.Append( $"left:{BodyLeft}px", RailVisible );
-        builder.Append( $"width:{ReportMeasurementConverter.ToCssPixelString( BodyWidth )}", RailVisible );
+        builder.Append( $"left:{ReportMeasurementConverter.FormatCssPixelValue( BodyLeft )}" );
+        builder.Append( $"width:{ReportMeasurementConverter.ToCssPixelString( BodyWidth )}", BodyWidth > 0 );
     }
 
     /// <inheritdoc />
@@ -193,7 +193,7 @@ public partial class _ReportDesignerSection
     [Parameter] public double Height { get; set; }
 
     /// <summary>
-    /// Left offset of the section body when the band rail is visible.
+    /// Left CSS pixel offset of the section body.
     /// </summary>
     [Parameter] public double BodyLeft { get; set; }
 
