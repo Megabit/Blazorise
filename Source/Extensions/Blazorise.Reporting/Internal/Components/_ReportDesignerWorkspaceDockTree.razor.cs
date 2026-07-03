@@ -25,6 +25,16 @@ public partial class _ReportDesignerWorkspaceDockTree
 
     #region Properties
 
+    private string SurfaceBodyClass
+        => ShowRulers
+            ? "b-report-designer-surface b-report-designer-surface-rulers"
+            : "b-report-designer-surface";
+
+    private IFluentSpacing SurfaceBodyPadding
+        => ShowRulers
+            ? Padding.Is0
+            : Padding.Is3;
+
     /// <summary>
     /// Name of the toolbox dock pane.
     /// </summary>
@@ -54,6 +64,11 @@ public partial class _ReportDesignerWorkspaceDockTree
     /// Name of the active right-side panel pane.
     /// </summary>
     [Parameter] public string ActivePanelPaneName { get; set; }
+
+    /// <summary>
+    /// Defines whether ruler chrome is visible around the designer surface.
+    /// </summary>
+    [Parameter] public bool ShowRulers { get; set; }
 
     /// <summary>
     /// Content shown in the toolbox dock pane.

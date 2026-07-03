@@ -1,0 +1,25 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+@if ( Visible )
+{
+    <div class="b-report-designer-rulers">
+        <div class="b-report-designer-ruler-corner"></div>
+        <_ReportDesignerHorizontalRuler Unit="@Unit"
+                                        Width="@PageWidth"
+                                        WidthOffset="@WidthOffset"
+                                        ShowFineTicks="@ShowFineTicks"
+                                        Marker="@Marker" />
+        <_ReportDesignerVerticalRuler Unit="@Unit"
+                                      Height="@PageHeight"
+                                      ShowFineTicks="@ShowFineTicks"
+                                      Marker="@Marker" />
+        <div class="b-report-designer-ruler-content">
+            @ChildContent
+        </div>
+    </div>
+}
+else
+{
+    @ChildContent
+}

@@ -18,6 +18,12 @@
     --b-report-designer-layout-height: min(72vh, 56rem);
     --b-report-designer-toolbar-gap: .5rem;
     --b-report-designer-section-padding: .5rem 0;
+    --b-report-designer-ruler-size: 1.5rem;
+    --b-report-designer-ruler-surface-offset: 1rem;
+    --b-report-designer-ruler-label-font-size: .625rem;
+    --b-report-designer-ruler-major-tick-size: .625rem;
+    --b-report-designer-ruler-minor-tick-size: .3125rem;
+    --b-report-designer-ruler-marker-size: 2px;
     --b-report-treeview-gap: .125rem;
     --b-report-treeview-row-gap: .25rem;
     --b-report-treeview-row-min-height: 1.75rem;
@@ -100,6 +106,12 @@
     --b-report-color-primary-surface: rgba(13, 110, 253, .16);
     --b-report-color-primary-surface-muted: rgba(13, 110, 253, .12);
     --b-report-color-section-resize-line: rgba(13, 110, 253, .42);
+    --b-report-color-ruler-background: #f8fafc;
+    --b-report-color-ruler-border: #cfd6dd;
+    --b-report-color-ruler-tick: #52616f;
+    --b-report-color-ruler-label: #52616f;
+    --b-report-color-ruler-marker: rgba(13, 110, 253, .72);
+    --b-report-color-ruler-marker-surface: rgba(13, 110, 253, .14);
     --b-report-color-element-border: #4f7ebd;
     --b-report-color-element-active-surface: rgba(79, 126, 189, .16);
     --b-report-color-table-cell-border: rgba(79, 126, 189, .45);

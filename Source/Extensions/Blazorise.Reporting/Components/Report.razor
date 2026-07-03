@@ -60,6 +60,7 @@
         <_ReportDesignerLayout @ref="@designerLayoutRef"
                                Shortcut="@HandleDesignerShortcutAsync"
                                ShowToolbar="@ShowToolbar"
+                               ShowRulers="@ShowRulers"
                                SelectedPanelTab="@SelectedDesignerPanelTabName"
                                SelectedPanelTabChanged="@SelectDesignerPanelTab">
             <Toolbar>
@@ -126,21 +127,28 @@
                                                     DataSourceDeleted="@OnDataSourceDeletedAsync" />
             </FieldsExplorerPanel>
             <Surface>
-                <_ReportDesignerPage @ref="designerPageRef"
-                                     PageKey="@definition.Id"
-                                     Width="@GetReportPageWidth( definition )"
-                                     WidthOffset="@GetReportPageWidthOffset()"
-                                     MinHeight="@definition.Page.Height"
-                                     DesignMode
-                                     PointerMove="@((Func<PointerEventArgs, Task>)PreviewPageSelectionBoxAsync)"
-                                     PointerUp="@CompletePageSelectionBoxAsync"
-                                     PointerCancel="@((PointerEventArgs _) => CancelPageSelectionBoxAsync())"
-                                     ShowSelectionBox="false"
-                                     SelectionBoxX="@(designerState.SelectionBox?.X ?? 0)"
-                                     SelectionBoxY="@(designerState.SelectionBox?.Y ?? 0)"
-                                     SelectionBoxWidth="@(designerState.SelectionBox?.Width ?? 0)"
-                                     SelectionBoxHeight="@(designerState.SelectionBox?.Height ?? 0)"
-                                     SelectionBoxLeftOffset="@GetSelectionBoxLeftOffset()">
+                <_ReportDesignerRulerLayout Visible="@ShowRulers"
+                                            Unit="@definition.Page.MeasurementUnit"
+                                            PageWidth="@GetReportPageWidth( definition )"
+                                            PageHeight="@GetDesignerRulerHeight( definition )"
+                                            WidthOffset="@GetReportPageWidthOffset()"
+                                            ShowFineTicks="@ShowFineRulerTicks"
+                                            Marker="@GetDesignerRulerMarker( definition )">
+                    <_ReportDesignerPage @ref="designerPageRef"
+                                         PageKey="@definition.Id"
+                                         Width="@GetReportPageWidth( definition )"
+                                         WidthOffset="@GetReportPageWidthOffset()"
+                                         MinHeight="@definition.Page.Height"
+                                         DesignMode
+                                         PointerMove="@((Func<PointerEventArgs, Task>)PreviewPageSelectionBoxAsync)"
+                                         PointerUp="@CompletePageSelectionBoxAsync"
+                                         PointerCancel="@((PointerEventArgs _) => CancelPageSelectionBoxAsync())"
+                                         ShowSelectionBox="false"
+                                         SelectionBoxX="@(designerState.SelectionBox?.X ?? 0)"
+                                         SelectionBoxY="@(designerState.SelectionBox?.Y ?? 0)"
+                                         SelectionBoxWidth="@(designerState.SelectionBox?.Width ?? 0)"
+                                         SelectionBoxHeight="@(designerState.SelectionBox?.Height ?? 0)"
+                                         SelectionBoxLeftOffset="@GetSelectionBoxLeftOffset()">
                     @for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
                     {
                         var capturedSectionIndex = sectionIndex;
@@ -232,7 +240,8 @@
                             </_ReportDesignerSection>
                         }
                     }
-                </_ReportDesignerPage>
+                    </_ReportDesignerPage>
+                </_ReportDesignerRulerLayout>
             </Surface>
             <PropertiesPanel>
                 <_ReportDesignerPropertiesPanel Definition="@definition"
@@ -245,6 +254,10 @@
                                                 SelectedElementSuppressed="@selectionManager.IsSelectedElementSuppressed( definition )"
                                                 SnapToGrid="@designerState.SnapToGrid"
                                                 SnapToGridChanged="@OnSnapToGridChanged"
+                                                ShowRulers="@ShowRulers"
+                                                ShowRulersChanged="@OnShowRulersChanged"
+                                                ShowFineRulerTicks="@ShowFineRulerTicks"
+                                                ShowFineRulerTicksChanged="@OnShowFineRulerTicksChanged"
                                                 BandMode="@BandMode"
                                                 BandModeChanged="@OnBandModeChanged"
                                                 UpdateReportPage="@UpdateReportPageAsync"

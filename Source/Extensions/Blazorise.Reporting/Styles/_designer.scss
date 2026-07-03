@@ -30,6 +30,135 @@
     }
 }
 
+.b-report-designer-rulers {
+    display: grid;
+    width: max-content;
+    grid-template-columns: var(--b-report-designer-ruler-size) max-content;
+    grid-template-rows: var(--b-report-designer-ruler-size) max-content;
+    align-items: start;
+
+    .b-report-designer-ruler-corner {
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: var(--b-report-zindex-ruler-corner, 12);
+        width: var(--b-report-designer-ruler-size);
+        height: var(--b-report-designer-ruler-size);
+        border-right: var(--b-report-section-border-width) solid var(--b-report-color-ruler-border);
+        border-bottom: var(--b-report-section-border-width) solid var(--b-report-color-ruler-border);
+        background: var(--b-report-color-ruler-background);
+    }
+
+    .b-report-designer-ruler {
+        position: sticky;
+        z-index: var(--b-report-zindex-ruler, 10);
+        overflow: hidden;
+        background: var(--b-report-color-ruler-background);
+        color: var(--b-report-color-ruler-label);
+        font-size: var(--b-report-designer-ruler-label-font-size);
+        line-height: 1;
+        user-select: none;
+
+        &-horizontal {
+            top: 0;
+            height: var(--b-report-designer-ruler-size);
+            border-bottom: var(--b-report-section-border-width) solid var(--b-report-color-ruler-border);
+
+            .b-report-designer-ruler-tick {
+                bottom: 0;
+                width: var(--b-report-section-border-width);
+                height: var(--b-report-designer-ruler-minor-tick-size);
+
+                &-major {
+                    height: var(--b-report-designer-ruler-major-tick-size);
+                }
+            }
+
+            .b-report-designer-ruler-label {
+                top: auto;
+                bottom: calc(var(--b-report-designer-ruler-major-tick-size) + .125rem);
+                transform: translateX(-50%);
+            }
+
+            .b-report-designer-ruler-marker {
+                top: 0;
+                bottom: 0;
+                width: var(--b-report-designer-ruler-marker-size);
+                transform: translateX(-50%);
+            }
+
+            .b-report-designer-ruler-marker-range {
+                top: 0;
+                bottom: 0;
+            }
+        }
+
+        &-vertical {
+            left: 0;
+            width: var(--b-report-designer-ruler-size);
+            border-right: var(--b-report-section-border-width) solid var(--b-report-color-ruler-border);
+
+            .b-report-designer-ruler-tick {
+                right: 0;
+                width: var(--b-report-designer-ruler-minor-tick-size);
+                height: var(--b-report-section-border-width);
+
+                &-major {
+                    width: var(--b-report-designer-ruler-major-tick-size);
+                }
+            }
+
+            .b-report-designer-ruler-label {
+                right: calc(var(--b-report-designer-ruler-major-tick-size) + .1875rem);
+                transform: translateY(-50%);
+            }
+
+            .b-report-designer-ruler-marker {
+                right: 0;
+                left: 0;
+                height: var(--b-report-designer-ruler-marker-size);
+                transform: translateY(-50%);
+            }
+
+            .b-report-designer-ruler-marker-range {
+                right: 0;
+                left: 0;
+            }
+        }
+
+        &-tick,
+        &-label,
+        &-marker,
+        &-marker-range {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        &-tick {
+            background: var(--b-report-color-ruler-tick);
+        }
+
+        &-label {
+            color: var(--b-report-color-ruler-label);
+        }
+
+        &-marker {
+            background: var(--b-report-color-ruler-marker);
+        }
+
+        &-marker-range {
+            background: var(--b-report-color-ruler-marker-surface);
+        }
+    }
+
+    .b-report-designer-ruler-content {
+        grid-column: 2;
+        grid-row: 2;
+        padding-top: var(--b-report-designer-ruler-surface-offset);
+        padding-left: var(--b-report-designer-ruler-surface-offset);
+    }
+}
+
 .b-report-section {
     position: relative;
     border-bottom: var(--b-report-section-border-width) solid transparent;

@@ -330,6 +330,11 @@ public partial class _ReportDesignerLayout
     [Parameter] public bool ShowToolbar { get; set; } = true;
 
     /// <summary>
+    /// Defines whether ruler chrome is visible around the designer surface.
+    /// </summary>
+    [Parameter] public bool ShowRulers { get; set; }
+
+    /// <summary>
     /// Content shown in the left designer toolbox dock pane.
     /// </summary>
     [Parameter] public RenderFragment ToolboxPanel { get; set; }

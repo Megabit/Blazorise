@@ -61,6 +61,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private readonly ReportStateService stateService = new();
 
+    private readonly ReportDesignerRulerService rulerService = new();
+
     private readonly ReportDesignerInteractionState designerState = new();
 
     private readonly HashSet<string> collapsedSectionIds = new( StringComparer.Ordinal );
@@ -3198,6 +3200,21 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return designerLayoutService.GetContentHeight( definition, BandMode, collapsedSectionsVersion, designerState.SectionPointerResize, IsSectionCollapsed );
     }
 
+    private double GetDesignerRulerHeight( ReportDefinition definition )
+    {
+        return Math.Max( definition?.Page?.Height ?? 0, GetDesignerContentHeight( definition ) );
+    }
+
+    private ReportDesignerRulerMarker GetDesignerRulerMarker( ReportDefinition definition )
+    {
+        return rulerService.CreateMarker(
+            definition,
+            designerState,
+            GetSelectedElementContexts( definition ),
+            selectionManager.SelectedSectionIndex,
+            sectionIndex => GetSectionOffsetY( definition, sectionIndex ) );
+    }
+
     private double GetDesignerSectionHeight( int sectionIndex, ReportSectionDefinition section )
     {
         return designerLayoutService.GetSectionHeight( sectionIndex, section, BandMode, designerState.SectionPointerResize, IsSectionCollapsed );
@@ -3228,6 +3245,32 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private void OnSnapToGridChanged( bool value )
     {
         designerState.SnapToGrid = value;
+    }
+
+    private async Task OnShowRulersChanged( bool value )
+    {
+        if ( ShowRulers == value )
+            return;
+
+        ShowRulers = value;
+
+        if ( ShowRulersChanged.HasDelegate )
+            await ShowRulersChanged.InvokeAsync( value );
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    private async Task OnShowFineRulerTicksChanged( bool value )
+    {
+        if ( ShowFineRulerTicks == value )
+            return;
+
+        ShowFineRulerTicks = value;
+
+        if ( ShowFineRulerTicksChanged.HasDelegate )
+            await ShowFineRulerTicksChanged.InvokeAsync( value );
+
+        await InvokeAsync( StateHasChanged );
     }
 
     private async Task OnBandModeChanged( ReportBandMode value )
@@ -3365,6 +3408,26 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     /// Shows data source names in band labels when available.
     /// </summary>
     [Parameter] public bool ShowBandDataSource { get; set; } = true;
+
+    /// <summary>
+    /// Shows measurement rulers around the report designer page.
+    /// </summary>
+    [Parameter] public bool ShowRulers { get; set; } = true;
+
+    /// <summary>
+    /// Raised when designer ruler visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowRulersChanged { get; set; }
+
+    /// <summary>
+    /// Shows fine-grained measurement ruler ticks.
+    /// </summary>
+    [Parameter] public bool ShowFineRulerTicks { get; set; }
+
+    /// <summary>
+    /// Raised when fine-grained ruler tick visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowFineRulerTicksChanged { get; set; }
 
     /// <summary>
     /// Enables image upload from Image element source properties.

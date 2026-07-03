@@ -25,6 +25,8 @@
         <h6>Report properties</h6>
         <_ReportDesignerPropertyGroup Title="Designer">
             <_ReportDesignerCheckboxProperty Label="Snap to grid" Value="@SnapToGrid" Changed="@OnSnapToGridChanged" />
+            <_ReportDesignerCheckboxProperty Label="Show rulers" Value="@ShowRulers" Changed="@ShowRulersChanged" />
+            <_ReportDesignerCheckboxProperty Label="Fine ruler ticks" Value="@ShowFineRulerTicks" Changed="@ShowFineRulerTicksChanged" />
             <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
                 <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Band mode</FieldLabel>
                 <FieldBody ColumnSize="ColumnSize.Is8">

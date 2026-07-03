@@ -500,6 +500,26 @@ public partial class _ReportDesignerPropertiesPanel
     [Parameter] public EventCallback<ReportBandMode> BandModeChanged { get; set; }
 
     /// <summary>
+    /// Indicates that rulers are visible around the report designer page.
+    /// </summary>
+    [Parameter] public bool ShowRulers { get; set; }
+
+    /// <summary>
+    /// Raised when designer ruler visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowRulersChanged { get; set; }
+
+    /// <summary>
+    /// Indicates that fine-grained ruler ticks are visible around the report designer page.
+    /// </summary>
+    [Parameter] public bool ShowFineRulerTicks { get; set; }
+
+    /// <summary>
+    /// Raised when fine-grained ruler tick visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowFineRulerTicksChanged { get; set; }
+
+    /// <summary>
     /// Updates the report page definition.
     /// </summary>
     [Parameter] public Func<Action<ReportPageDefinition>, Task> UpdateReportPage { get; set; }

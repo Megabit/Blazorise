@@ -310,6 +310,7 @@ export function updateDesignerSelectionOverlay(pageElement, x, y, width, height)
 
     positionOverlay(overlays.selection, x, y, width, height);
     overlays.selection.hidden = false;
+    updateDesignerRulerMarker(pageElement, x, y, width, height, true);
 }
 
 export function updateDesignerDragOverlay(pageElement, elementType, text, x, y, width, height) {
@@ -323,6 +324,7 @@ export function updateDesignerDragOverlay(pageElement, elementType, text, x, y, 
     overlays.drag.textContent = text || "";
     positionOverlay(overlays.drag, x, y, width, height);
     overlays.drag.hidden = false;
+    updateDesignerRulerMarker(pageElement, x, y, width, height, true);
 }
 
 export function clearDesignerInteractionOverlays(pageElement) {
@@ -334,6 +336,92 @@ export function clearDesignerInteractionOverlays(pageElement) {
 
     overlays.selection.hidden = true;
     overlays.drag.hidden = true;
+    clearDesignerRulerMarker(pageElement);
+}
+
+function updateDesignerRulerMarker(pageElement, x, y, width, height, active) {
+    const root = pageElement?.closest?.(".b-report-designer-rulers");
+
+    if (!root) {
+        return;
+    }
+
+    const horizontal = root.querySelector(".b-report-designer-ruler-horizontal");
+    const vertical = root.querySelector(".b-report-designer-ruler-vertical");
+
+    updateHorizontalRulerMarker(horizontal, x, width, active);
+    updateVerticalRulerMarker(vertical, y, height, active);
+}
+
+function updateHorizontalRulerMarker(ruler, x, width, active) {
+    if (!ruler) {
+        return;
+    }
+
+    const markers = ruler.querySelectorAll(".b-report-designer-ruler-marker");
+    const range = ruler.querySelector(".b-report-designer-ruler-marker-range");
+
+    if (range) {
+        range.style.left = `calc(var(--b-report-designer-ruler-surface-offset) + ${Math.max(0, x || 0)}px)`;
+        range.style.width = `${Math.max(0, width || 0)}px`;
+        range.hidden = false;
+        range.classList.toggle("b-report-designer-ruler-marker-range-active", !!active);
+    }
+
+    if (markers[0]) {
+        markers[0].style.left = `calc(var(--b-report-designer-ruler-surface-offset) + ${Math.max(0, x || 0)}px)`;
+        markers[0].hidden = false;
+        markers[0].classList.toggle("b-report-designer-ruler-marker-active", !!active);
+    }
+
+    if (markers[1]) {
+        markers[1].style.left = `calc(var(--b-report-designer-ruler-surface-offset) + ${Math.max(0, (x || 0) + (width || 0))}px)`;
+        markers[1].hidden = false;
+        markers[1].classList.toggle("b-report-designer-ruler-marker-active", !!active);
+    }
+}
+
+function updateVerticalRulerMarker(ruler, y, height, active) {
+    if (!ruler) {
+        return;
+    }
+
+    const markers = ruler.querySelectorAll(".b-report-designer-ruler-marker");
+    const range = ruler.querySelector(".b-report-designer-ruler-marker-range");
+
+    if (range) {
+        range.style.top = `calc(var(--b-report-designer-ruler-surface-offset) + ${Math.max(0, y || 0)}px)`;
+        range.style.height = `${Math.max(0, height || 0)}px`;
+        range.hidden = false;
+        range.classList.toggle("b-report-designer-ruler-marker-range-active", !!active);
+    }
+
+    if (markers[0]) {
+        markers[0].style.top = `calc(var(--b-report-designer-ruler-surface-offset) + ${Math.max(0, y || 0)}px)`;
+        markers[0].hidden = false;
+        markers[0].classList.toggle("b-report-designer-ruler-marker-active", !!active);
+    }
+
+    if (markers[1]) {
+        markers[1].style.top = `calc(var(--b-report-designer-ruler-surface-offset) + ${Math.max(0, (y || 0) + (height || 0))}px)`;
+        markers[1].hidden = false;
+        markers[1].classList.toggle("b-report-designer-ruler-marker-active", !!active);
+    }
+}
+
+function clearDesignerRulerMarker(pageElement) {
+    const root = pageElement?.closest?.(".b-report-designer-rulers");
+
+    if (!root) {
+        return;
+    }
+
+    const markers = root.querySelectorAll(".b-report-designer-ruler-marker, .b-report-designer-ruler-marker-range");
+
+    for (const marker of markers) {
+        marker.hidden = true;
+        marker.classList.remove("b-report-designer-ruler-marker-active", "b-report-designer-ruler-marker-range-active");
+    }
 }
 
 export function updateDesignerSectionResizePreview(pageElement, sectionId, height) {
