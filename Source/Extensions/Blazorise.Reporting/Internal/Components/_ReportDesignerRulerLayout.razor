@@ -4,7 +4,10 @@
 @if ( Visible )
 {
     <div class="b-report-designer-rulers">
-        <div class="b-report-designer-ruler-corner"></div>
+        <div class="b-report-designer-ruler-corner"
+             role="button"
+             title="Select report"
+             @onclick="@ReportSelected"></div>
         <_ReportDesignerHorizontalRuler Unit="@Unit"
                                         Width="@PageWidth"
                                         WidthOffset="@WidthOffset"

@@ -47,6 +47,11 @@ public partial class _ReportDesignerRulerLayout
     [Parameter] public ReportDesignerRulerMarker Marker { get; set; }
 
     /// <summary>
+    /// Raised when the report selector corner is clicked.
+    /// </summary>
+    [Parameter] public EventCallback ReportSelected { get; set; }
+
+    /// <summary>
     /// Designer page content.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }

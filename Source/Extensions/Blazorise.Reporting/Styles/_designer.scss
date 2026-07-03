@@ -47,6 +47,7 @@
         border-right: var(--b-report-section-border-width) solid var(--b-report-color-ruler-border);
         border-bottom: var(--b-report-section-border-width) solid var(--b-report-color-ruler-border);
         background: var(--b-report-color-ruler-background);
+        cursor: pointer;
     }
 
     .b-report-designer-ruler {
