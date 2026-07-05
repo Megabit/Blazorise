@@ -34,7 +34,7 @@ public partial class DockSplitter : BaseComponent
     private Task BeginResize( PointerEventArgs eventArgs )
     {
         if ( Context is not null && !string.IsNullOrWhiteSpace( PaneName ) )
-            return Context.BeginNodeResize( ElementRef, PaneName, NodeId, Dock, eventArgs, MinSize, MaxSize );
+            return Context.BeginNodeResize( ElementRef, PaneName, NodeId, Dock, eventArgs );
 
         return Context?.BeginPaneResize( ParentDockPane, NodeId, Dock, eventArgs )
             ?? ParentDockPane?.ParentDockLayout?.BeginPaneResize( ParentDockPane, NodeId, Dock, eventArgs )
@@ -63,16 +63,6 @@ public partial class DockSplitter : BaseComponent
     /// Defines the split node that owns this splitter.
     /// </summary>
     [Parameter] public string NodeId { get; set; }
-
-    /// <summary>
-    /// Defines the minimum size allowed for the resized element.
-    /// </summary>
-    [Parameter] public string MinSize { get; set; }
-
-    /// <summary>
-    /// Defines the maximum size allowed for the resized element.
-    /// </summary>
-    [Parameter] public string MaxSize { get; set; }
 
     #endregion
 }

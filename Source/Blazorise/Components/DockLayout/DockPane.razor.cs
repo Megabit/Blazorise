@@ -1,7 +1,6 @@
 #region Using directives
 using System;
 using System.Threading.Tasks;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -25,29 +24,6 @@ public partial class DockPane : BaseComponent, IDisposable
     #region Methods
 
     /// <inheritdoc/>
-    protected override void BuildClasses( ClassBuilder builder )
-    {
-        builder.Append( ClassProvider.DockPane( EffectivePosition, Resizable, EffectiveCollapsed || EffectiveAutoHide ) );
-        builder.Append( ClassProvider.DockPanePosition( EffectivePosition ) );
-        builder.Append( ClassProvider.DockPaneResizable( Resizable ) );
-        builder.Append( ClassProvider.DockPaneCollapsed( EffectiveCollapsed || EffectiveAutoHide ) );
-        builder.Append( ClassProvider.DockPaneAutoHide( EffectiveAutoHide ) );
-        builder.Append( ClassProvider.DockPaneInactive(), !EffectiveActive );
-
-        base.BuildClasses( builder );
-    }
-
-    /// <inheritdoc/>
-    protected override void BuildStyles( StyleBuilder builder )
-    {
-        builder.Append( $"--dock-pane-size:{EffectiveSize}", !EffectiveAutoHide && !string.IsNullOrWhiteSpace( EffectiveSize ) );
-        builder.Append( $"--dock-pane-min-size:{MinSize}", !EffectiveAutoHide && !string.IsNullOrWhiteSpace( MinSize ) );
-        builder.Append( $"--dock-pane-max-size:{MaxSize}", !EffectiveAutoHide && !string.IsNullOrWhiteSpace( MaxSize ) );
-
-        base.BuildStyles( builder );
-    }
-
-    /// <inheritdoc/>
     public override Task SetParametersAsync( ParameterView parameters )
     {
         if ( ( parameters.TryGetValue<string>( nameof( Name ), out string name ) && Name != name )
@@ -58,22 +34,6 @@ public partial class DockPane : BaseComponent, IDisposable
              || ( parameters.TryGetValue<DockPaneTabsPlacement>( nameof( TabsPlacement ), out DockPaneTabsPlacement tabsPlacement ) && TabsPlacement != tabsPlacement ) )
         {
             definitionVersion++;
-        }
-
-        if ( ( parameters.TryGetValue<DockRole>( nameof( DockRole ), out DockRole dockRole ) && DockRole != dockRole )
-             || ( parameters.TryGetValue<DockPanePosition>( nameof( Dock ), out DockPanePosition dock ) && Dock != dock )
-             || ( parameters.TryGetValue<bool>( nameof( Resizable ), out bool resizable ) && Resizable != resizable )
-             || ( parameters.TryGetValue<bool>( nameof( Collapsed ), out bool collapsed ) && Collapsed != collapsed )
-             || ( parameters.TryGetValue<bool>( nameof( AutoHide ), out bool autoHide ) && AutoHide != autoHide ) )
-        {
-            DirtyClasses();
-        }
-
-        if ( ( parameters.TryGetValue<string>( nameof( Size ), out string size ) && Size != size )
-             || ( parameters.TryGetValue<string>( nameof( MinSize ), out string minSize ) && MinSize != minSize )
-             || ( parameters.TryGetValue<string>( nameof( MaxSize ), out string maxSize ) && MaxSize != maxSize ) )
-        {
-            DirtyStyles();
         }
 
         return base.SetParametersAsync( parameters );
@@ -121,17 +81,7 @@ public partial class DockPane : BaseComponent, IDisposable
 
     internal DockPanePosition EffectivePosition => ParentDockLayout?.GetPanePosition( this ) ?? Dock;
 
-    internal string EffectiveSize => ParentDockLayout?.GetPaneState( this )?.Size ?? Size;
-
-    internal bool EffectiveCollapsed => ParentDockLayout?.GetPaneState( this )?.Collapsed ?? Collapsed;
-
     internal bool EffectiveAutoHide => ParentDockLayout?.GetPaneState( this )?.AutoHide ?? AutoHide;
-
-    internal bool EffectiveVisible => ParentDockLayout?.GetPaneState( this )?.Visible ?? Visible;
-
-    internal bool EffectiveActive => ParentDockLayout?.IsPaneActive( this ) != false;
-
-    internal bool ShowTabs => ParentDockLayout?.HasPaneTabs( EffectivePosition ) == true;
 
     internal bool EffectiveShowTab => ShowTab;
 
