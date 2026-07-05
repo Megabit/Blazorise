@@ -2464,6 +2464,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task BeginSectionPointerResizeAsync( int sectionIndex, PointerEventArgs eventArgs )
     {
+        if ( TryResolveElementResizeFromSectionResize( sectionIndex, eventArgs, out string elementKey, out ReportElementResizeHandle handle ) )
+        {
+            await BeginElementPointerResizeAsync( elementKey, handle, eventArgs );
+            return;
+        }
+
         var definition = EffectiveDefinition;
 
         if ( sectionIndex < 0 || sectionIndex >= definition.Sections.Count )
@@ -2497,6 +2503,74 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         await StartDocumentSectionResizeAsync( eventArgs.ClientY, eventArgs.PointerId );
         await InvokeAsync( StateHasChanged );
+    }
+
+    private bool TryResolveElementResizeFromSectionResize( int sectionIndex, PointerEventArgs eventArgs, out string elementKey, out ReportElementResizeHandle handle )
+    {
+        elementKey = null;
+        handle = default;
+
+        ReportDefinition definition = EffectiveDefinition;
+
+        if ( definition is null || sectionIndex < 0 || sectionIndex >= definition.Sections.Count )
+            return false;
+
+        ReportSectionDefinition section = definition.Sections[sectionIndex];
+        double pointerX = ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetX );
+        double handleTolerance = ReportMeasurementConverter.FromCssPixelValue( 8 );
+
+        foreach ( string selectedElementKey in GetSelectedElementKeysForResizeHitTest() )
+        {
+            if ( !ReportDefinitionHelper.TryFindElementLocation( definition, selectedElementKey, out int selectedSectionIndex, out _, out ReportElementDefinition element )
+                || selectedSectionIndex != sectionIndex
+                || element.Type == ReportElementType.Line )
+            {
+                continue;
+            }
+
+            double elementBottom = element.Y + ReportLayoutGeometry.GetElementRenderHeight( element );
+
+            if ( Math.Abs( elementBottom - section.Height ) > handleTolerance )
+                continue;
+
+            double elementLeft = element.X;
+            double elementRight = element.X + element.Width;
+
+            if ( pointerX < elementLeft - handleTolerance || pointerX > elementRight + handleTolerance )
+                continue;
+
+            if ( Math.Abs( pointerX - elementLeft ) <= handleTolerance )
+            {
+                elementKey = selectedElementKey;
+                handle = ReportElementResizeHandle.SouthWest;
+                return true;
+            }
+
+            if ( Math.Abs( pointerX - elementRight ) <= handleTolerance )
+            {
+                elementKey = selectedElementKey;
+                handle = ReportElementResizeHandle.SouthEast;
+                return true;
+            }
+
+            elementKey = selectedElementKey;
+            handle = ReportElementResizeHandle.South;
+            return true;
+        }
+
+        return false;
+    }
+
+    private IEnumerable<string> GetSelectedElementKeysForResizeHitTest()
+    {
+        if ( !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey ) )
+            yield return selectionManager.SelectedElementKey;
+
+        foreach ( string selectedElementKey in selectionManager.SelectedElementKeys )
+        {
+            if ( !string.Equals( selectedElementKey, selectionManager.SelectedElementKey, StringComparison.Ordinal ) )
+                yield return selectedElementKey;
+        }
     }
 
     private Task PreviewElementPointerInteractionAsync( int targetSectionIndex, PointerEventArgs eventArgs )
