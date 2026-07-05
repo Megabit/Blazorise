@@ -17,7 +17,6 @@ internal sealed class ReportSectionCommandService
         {
             Name = ReportDefinitionHelper.CreateUniqueSectionName( definition, $"{ReportDefinitionHelper.GetSectionTypeDisplayName( sourceSection.Type )} band" ),
             Type = sourceSection.Type,
-            Layout = sourceSection.Layout,
             Height = sourceSection.Height,
             DataSource = sourceSection.DataSource,
             GroupBy = sourceSection.GroupBy,

@@ -405,42 +405,7 @@ public partial class _ReportDesignerElement
     [Parameter] public EventCallback<PointerEventArgs> PointerDown { get; set; }
 
     /// <summary>
-    /// Raised when resizing starts from the north-west handle.
+    /// Raised when element resizing starts from one of the resize handles.
     /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> NorthWestResizeStarted { get; set; }
-
-    /// <summary>
-    /// Raised when resizing starts from the north handle.
-    /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> NorthResizeStarted { get; set; }
-
-    /// <summary>
-    /// Raised when resizing starts from the north-east handle.
-    /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> NorthEastResizeStarted { get; set; }
-
-    /// <summary>
-    /// Raised when resizing starts from the east handle.
-    /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> EastResizeStarted { get; set; }
-
-    /// <summary>
-    /// Raised when resizing starts from the south-east handle.
-    /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> SouthEastResizeStarted { get; set; }
-
-    /// <summary>
-    /// Raised when resizing starts from the south handle.
-    /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> SouthResizeStarted { get; set; }
-
-    /// <summary>
-    /// Raised when resizing starts from the south-west handle.
-    /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> SouthWestResizeStarted { get; set; }
-
-    /// <summary>
-    /// Raised when resizing starts from the west handle.
-    /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> WestResizeStarted { get; set; }
+    [Parameter] public EventCallback<ReportElementResizeHandleEventArgs> ResizeStarted { get; set; }
 }

@@ -25,11 +25,6 @@ public sealed class ReportSectionDefinition
     public ReportSectionType Type { get; set; }
 
     /// <summary>
-    /// Layout mode used for elements inside the band.
-    /// </summary>
-    public ReportLayout Layout { get; set; } = ReportLayout.Absolute;
-
-    /// <summary>
     /// Band height in points.
     /// </summary>
     public double Height { get; set; } = 60;

@@ -89,7 +89,7 @@ internal sealed class ReportAggregateService
                 break;
             }
 
-            if ( section.Type is ReportSectionType.Detail or ReportSectionType.ReportHeader or ReportSectionType.Header or ReportSectionType.PageHeader )
+            if ( section.Type is ReportSectionType.Detail or ReportSectionType.ReportHeader or ReportSectionType.PageHeader )
                 return false;
         }
 
@@ -109,7 +109,7 @@ internal sealed class ReportAggregateService
                 return true;
             }
 
-            if ( section.Type is ReportSectionType.Detail or ReportSectionType.ReportFooter or ReportSectionType.Footer or ReportSectionType.PageFooter or ReportSectionType.Group or ReportSectionType.GroupHeader )
+            if ( section.Type is ReportSectionType.Detail or ReportSectionType.ReportFooter or ReportSectionType.PageFooter or ReportSectionType.Group or ReportSectionType.GroupHeader )
                 return false;
         }
 
@@ -131,7 +131,7 @@ internal sealed class ReportAggregateService
             if ( section.Type == ReportSectionType.Detail )
                 return sectionIndex;
 
-            if ( section.Type is ReportSectionType.ReportFooter or ReportSectionType.Footer or ReportSectionType.PageFooter or ReportSectionType.GroupFooter )
+            if ( section.Type is ReportSectionType.ReportFooter or ReportSectionType.PageFooter or ReportSectionType.GroupFooter )
                 return -1;
 
             if ( ( section.Type is ReportSectionType.Group or ReportSectionType.GroupHeader )
@@ -166,7 +166,7 @@ internal sealed class ReportAggregateService
                 break;
             }
 
-            if ( section.Type is ReportSectionType.ReportFooter or ReportSectionType.Footer or ReportSectionType.PageFooter or ReportSectionType.Group or ReportSectionType.GroupHeader )
+            if ( section.Type is ReportSectionType.ReportFooter or ReportSectionType.PageFooter or ReportSectionType.Group or ReportSectionType.GroupHeader )
                 return false;
         }
 
@@ -342,7 +342,7 @@ internal sealed class ReportAggregateService
         {
             ReportSectionType sectionType = definition.Sections[sectionIndex].Type;
 
-            if ( sectionType is ReportSectionType.ReportFooter or ReportSectionType.Footer )
+            if ( sectionType is ReportSectionType.ReportFooter )
                 return sectionIndex;
 
             if ( sectionType == ReportSectionType.PageFooter )

@@ -329,12 +329,6 @@ internal sealed class ReportSelectionManager
             && ( string.Equals( SelectedElementKey, elementKey, StringComparison.Ordinal ) || SelectedElementKeys.Contains( elementKey ) );
     }
 
-    internal bool IsCellSelected( string cellKey )
-    {
-        return !string.IsNullOrWhiteSpace( cellKey )
-            && string.Equals( SelectedCellKey, cellKey, StringComparison.Ordinal );
-    }
-
     private bool IsElementSelectionCurrent( string key, bool preserveSelection )
     {
         if ( ReportSelected || SelectedSectionIndex is not null || !string.IsNullOrWhiteSpace( SelectedCellKey ) )

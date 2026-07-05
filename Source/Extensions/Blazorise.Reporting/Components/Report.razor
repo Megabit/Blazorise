@@ -162,7 +162,7 @@
                         var capturedSectionIndex = sectionIndex;
                         var section = definition.Sections[capturedSectionIndex];
 
-                        @foreach ( var sectionItem in ResolveSectionRenderItems( definition, section, designMode: true ).Select( ( item, index ) => new { Item = item, Index = index } ) )
+                        @foreach ( var sectionItem in ResolveSectionRenderItems( definition, section, designMode: true ) )
                         {
                             var collapsed = IsSectionCollapsedForRender( section );
                             var editable = !section.Suppressed;
@@ -211,7 +211,7 @@
                                     <_ReportDesignerElement Data="@Data"
                                                             Definition="@definition"
                                                             Section="@section"
-                                                            Item="@sectionItem.Item"
+                                                            Item="@sectionItem"
                                                             Element="@element"
                                                             ElementKey="@capturedElementKey"
                                                             DesignMode
@@ -236,14 +236,7 @@
                                                             TextEditCommitted="@(editable ? EventCallback.Factory.Create<string>( this, text => CommitElementTextEditAsync( capturedElementKey, text ) ) : default)"
                                                             TextEditCancelled="@(editable ? EventCallback.Factory.Create( this, () => CancelElementTextEdit( capturedElementKey ) ) : default)"
                                                             PointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerDrag( capturedElementKey, eventArgs ) ) : default)"
-                                                            NorthWestResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.NorthWest, eventArgs ))"
-                                                            NorthResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.North, eventArgs ))"
-                                                            NorthEastResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.NorthEast, eventArgs ))"
-                                                            EastResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.East, eventArgs ))"
-                                                            SouthEastResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.SouthEast, eventArgs ))"
-                                                            SouthResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.South, eventArgs ))"
-                                                            SouthWestResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.SouthWest, eventArgs ))"
-                                                            WestResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.West, eventArgs ))" />
+                                                            ResizeStarted="@((ReportElementResizeHandleEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, eventArgs.Handle, eventArgs.PointerEventArgs ))" />
                                 }
                             </_ReportDesignerSection>
                         }
@@ -422,8 +415,11 @@
                                                             BodyWidth="@GetReportPageContentWidth( definition )">
                                         @if ( renderSection.RenderElements )
                                         {
-                                            @foreach ( var element in section.Elements.Where( element => ShouldRenderElement( definition, section, element, renderSection.Item ) ) )
+                                            @foreach ( var element in section.Elements )
                                             {
+                                                if ( !ShouldRenderElement( definition, section, element, renderSection.Item ) )
+                                                    continue;
+
                                                 <_ReportDesignerElement Data="@Data"
                                                                         Definition="@definition"
                                                                         Section="@section"
@@ -445,8 +441,11 @@
                                                             BodyWidth="@GetReportPageContentWidth( definition )">
                                         @if ( renderSection.RenderElements )
                                         {
-                                            @foreach ( var element in section.Elements.Where( element => ShouldRenderElement( definition, section, element, renderSection.Item ) ) )
+                                            @foreach ( var element in section.Elements )
                                             {
+                                                if ( !ShouldRenderElement( definition, section, element, renderSection.Item ) )
+                                                    continue;
+
                                                 <_ReportDesignerElement Data="@Data"
                                                                         Definition="@definition"
                                                                         Section="@section"
@@ -472,8 +471,11 @@
                                                                 BodyWidth="@GetReportPageContentWidth( definition )">
                                             @if ( renderSection.RenderElements )
                                             {
-                                                @foreach ( var element in section.Elements.Where( element => ShouldRenderElement( definition, section, element, renderSection.Item ) ) )
+                                                @foreach ( var element in section.Elements )
                                                 {
+                                                    if ( !ShouldRenderElement( definition, section, element, renderSection.Item ) )
+                                                        continue;
+
                                                     <_ReportDesignerElement Data="@Data"
                                                                             Definition="@definition"
                                                                             Section="@section"

@@ -6,9 +6,9 @@ namespace Blazorise.Reporting;
 public enum ReportSectionType
 {
     /// <summary>
-    /// Legacy report header alias.
+    /// Band rendered once at the beginning of the report.
     /// </summary>
-    Header = 0,
+    ReportHeader = 0,
 
     /// <summary>
     /// Repeated band used for rows from a data source.
@@ -16,19 +16,14 @@ public enum ReportSectionType
     Detail = 1,
 
     /// <summary>
-    /// Legacy report footer alias.
+    /// Band rendered once at the end of the report.
     /// </summary>
-    Footer = 2,
+    ReportFooter = 2,
 
     /// <summary>
     /// Legacy grouping alias.
     /// </summary>
     Group = 3,
-
-    /// <summary>
-    /// Band rendered once at the beginning of the report.
-    /// </summary>
-    ReportHeader = Header,
 
     /// <summary>
     /// Band rendered at the top of each page.
@@ -48,10 +43,5 @@ public enum ReportSectionType
     /// <summary>
     /// Band rendered at the bottom of each page.
     /// </summary>
-    PageFooter = 7,
-
-    /// <summary>
-    /// Band rendered once at the end of the report.
-    /// </summary>
-    ReportFooter = Footer
+    PageFooter = 7
 }

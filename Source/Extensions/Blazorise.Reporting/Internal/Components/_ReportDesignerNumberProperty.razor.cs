@@ -1,12 +1,5 @@
 #region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -14,7 +7,8 @@ namespace Blazorise.Reporting.Internal;
 /// <summary>
 /// Renders a numeric editor inside the report designer properties panel.
 /// </summary>
-public partial class _ReportDesignerNumberProperty
+/// <typeparam name="TValue">Numeric value type edited by the property.</typeparam>
+public partial class _ReportDesignerNumberProperty<TValue>
 {
     /// <summary>
     /// Property label.
@@ -24,12 +18,12 @@ public partial class _ReportDesignerNumberProperty
     /// <summary>
     /// Current numeric value.
     /// </summary>
-    [Parameter] public double Value { get; set; }
+    [Parameter] public TValue Value { get; set; }
 
     /// <summary>
     /// Raised when the numeric value changes.
     /// </summary>
-    [Parameter] public EventCallback<double> Changed { get; set; }
+    [Parameter] public EventCallback<TValue> Changed { get; set; }
 
     /// <summary>
     /// Increment used by the numeric editor.

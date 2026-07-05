@@ -81,7 +81,6 @@ internal sealed class ReportContext
         }
 
         existing.Type = section.Type;
-        existing.Layout = section.Layout;
         existing.Height = section.Height;
         existing.DataSource = section.DataSource;
         existing.Class = section.Class;
@@ -299,7 +298,6 @@ internal sealed class ReportContext
             Id = section.Id,
             Name = section.Name,
             Type = section.Type,
-            Layout = section.Layout,
             Height = section.Height,
             DataSource = section.DataSource,
             GroupBy = section.GroupBy,

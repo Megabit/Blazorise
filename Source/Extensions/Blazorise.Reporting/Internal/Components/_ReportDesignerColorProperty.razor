@@ -7,7 +7,7 @@
         <Addons Size="Size.Small">
             <Addon AddonType="AddonType.Body">
                 <Select TValue="string" Value="@SelectedName" ValueChanged="@OnNameChanged" Size="Size.Small">
-                    @foreach ( var option in ResolvedNamedOptions )
+                    @foreach ( var option in DefaultNamedOptions )
                     {
                         <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
                     }

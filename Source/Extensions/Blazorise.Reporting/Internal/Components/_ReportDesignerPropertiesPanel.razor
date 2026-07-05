@@ -73,12 +73,12 @@
                     </Select>
                 </FieldBody>
             </Field>
-            <_ReportDesignerNumberProperty Label="Page width" Value="@FromPoints( Definition.Page.Width )" Changed="@OnPageWidthChanged" Step="@GetMeasurementStep()" />
-            <_ReportDesignerNumberProperty Label="Page height" Value="@FromPoints( Definition.Page.Height )" Changed="@OnPageHeightChanged" Step="@GetMeasurementStep()" />
-            <_ReportDesignerNumberProperty Label="Margin left" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Left )" Changed="@OnPageMarginLeftChanged" Step="@GetMeasurementStep()" />
-            <_ReportDesignerNumberProperty Label="Margin top" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Top )" Changed="@OnPageMarginTopChanged" Step="@GetMeasurementStep()" />
-            <_ReportDesignerNumberProperty Label="Margin right" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Right )" Changed="@OnPageMarginRightChanged" Step="@GetMeasurementStep()" />
-            <_ReportDesignerNumberProperty Label="Margin bottom" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Bottom )" Changed="@OnPageMarginBottomChanged" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Page width" Value="@FromPoints( Definition.Page.Width )" Changed="@OnPageWidthChanged" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Page height" Value="@FromPoints( Definition.Page.Height )" Changed="@OnPageHeightChanged" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Margin left" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Left )" Changed="@OnPageMarginLeftChanged" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Margin top" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Top )" Changed="@OnPageMarginTopChanged" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Margin right" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Right )" Changed="@OnPageMarginRightChanged" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Margin bottom" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Bottom )" Changed="@OnPageMarginBottomChanged" Step="@GetMeasurementStep()" />
         </_ReportDesignerPropertyGroup>
     </Div>
 }
@@ -113,7 +113,7 @@
                 }
             </_ReportDesignerPropertyGroup>
             <_ReportDesignerPropertyGroup Title="Layout">
-                <_ReportDesignerNumberProperty Label="Height" Value="@FromPoints( SelectedSection.Height )" Changed="@OnSelectedSectionHeightChanged" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double" Label="Height" Value="@FromPoints( SelectedSection.Height )" Changed="@OnSelectedSectionHeightChanged" Step="@GetMeasurementStep()" />
             </_ReportDesignerPropertyGroup>
             <_ReportDesignerPropertyGroup Title="Pagination">
                 <_ReportDesignerFormulaBooleanProperty Label="Keep together"
@@ -145,9 +145,9 @@
                 <_ReportDesignerPropertyGroup Title="Appearance">
                     <_ReportDesignerColorProperty Label="Fill color" Value="@sectionAppearance.BackgroundColor" Changed="@(value => UpdateSelectedSection( section => EnsureSectionAppearance( section ).BackgroundColor = value ))" />
                     <_ReportDesignerColorProperty Label="Border color" Value="@sectionBorder.Color" Changed="@(value => UpdateSelectedSection( section => EnsureSectionBorder( section ).Color = value ))" />
-                    <_ReportDesignerNullableNumberProperty Label="Border width" Value="@sectionBorder.Width" Changed="@(value => UpdateSelectedSection( section => EnsureSectionBorder( section ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
-                    <_ReportDesignerNullableNumberProperty Label="Corner radius" Value="@sectionBorder.Radius" Changed="@(value => UpdateSelectedSection( section => EnsureSectionBorder( section ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
-                    <_ReportDesignerNullableNumberProperty Label="Opacity" Value="@sectionAppearance.Opacity" Changed="@(value => UpdateSelectedSection( section => EnsureSectionAppearance( section ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Border width" Value="@sectionBorder.Width" Changed="@(value => UpdateSelectedSection( section => EnsureSectionBorder( section ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Corner radius" Value="@sectionBorder.Radius" Changed="@(value => UpdateSelectedSection( section => EnsureSectionBorder( section ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Opacity" Value="@sectionAppearance.Opacity" Changed="@(value => UpdateSelectedSection( section => EnsureSectionAppearance( section ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" />
                 </_ReportDesignerPropertyGroup>
             }
             <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is3.FromTop">
@@ -242,16 +242,16 @@
             @if ( SelectedElement is ReportTableElementDefinition )
             {
                 <_ReportDesignerPropertyGroup Title="Table">
-                    <_ReportDesignerNumberProperty Label="Rows" Value="@GetSelectedTableRowCount()" Changed="@OnSelectedTableRowCountChanged" Step="@TableCountStep" />
-                    <_ReportDesignerNumberProperty Label="Columns" Value="@GetSelectedTableColumnCount()" Changed="@OnSelectedTableColumnCountChanged" Step="@TableCountStep" />
+                    <_ReportDesignerNumberProperty TValue="double" Label="Rows" Value="@GetSelectedTableRowCount()" Changed="@OnSelectedTableRowCountChanged" Step="@TableCountStep" />
+                    <_ReportDesignerNumberProperty TValue="double" Label="Columns" Value="@GetSelectedTableColumnCount()" Changed="@OnSelectedTableColumnCountChanged" Step="@TableCountStep" />
                 </_ReportDesignerPropertyGroup>
             }
 
             <_ReportDesignerPropertyGroup Title="Position and size">
-                <_ReportDesignerNumberProperty Label="X" Value="@FromPoints( SelectedElement.X )" Changed="@OnSelectedElementXChanged" Step="@GetMeasurementStep()" />
-                <_ReportDesignerNumberProperty Label="Y" Value="@FromPoints( SelectedElement.Y )" Changed="@OnSelectedElementYChanged" Step="@GetMeasurementStep()" />
-                <_ReportDesignerNumberProperty Label="Width" Value="@FromPoints( SelectedElement.Width )" Changed="@OnSelectedElementWidthChanged" Step="@GetMeasurementStep()" />
-                <_ReportDesignerNumberProperty Label="Height" Value="@FromPoints( SelectedElement.Height )" Changed="@OnSelectedElementHeightChanged" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double" Label="X" Value="@FromPoints( SelectedElement.X )" Changed="@OnSelectedElementXChanged" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double" Label="Y" Value="@FromPoints( SelectedElement.Y )" Changed="@OnSelectedElementYChanged" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double" Label="Width" Value="@FromPoints( SelectedElement.Width )" Changed="@OnSelectedElementWidthChanged" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double" Label="Height" Value="@FromPoints( SelectedElement.Height )" Changed="@OnSelectedElementHeightChanged" Step="@GetMeasurementStep()" />
             </_ReportDesignerPropertyGroup>
 
             @if ( ReportElementDefinitionHelper.SupportsTextFormatting( SelectedElement.Type ) )
@@ -260,7 +260,7 @@
 
                 <_ReportDesignerPropertyGroup Title="Text">
                     <_ReportDesignerTextProperty Label="Font family" Value="@font.Family" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Family = value ))" />
-                    <_ReportDesignerNullableNumberProperty Label="Font size" Value="@font.Size" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Size = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Font size" Value="@font.Size" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Size = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
                     <_ReportDesignerColorProperty Label="Color" Value="@font.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Color = value ))" />
                     <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
                         <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Hor. align</FieldLabel>
@@ -297,13 +297,13 @@
                 @if ( IsSelectedElementLine )
                 {
                     <_ReportDesignerColorProperty Label="Color" Value="@border.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
-                    <_ReportDesignerNullableNumberProperty Label="Thickness" Value="@GetSelectedLineThickness()" Changed="@OnSelectedLineThicknessChanged" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Thickness" Value="@GetSelectedLineThickness()" Changed="@OnSelectedLineThicknessChanged" />
                 }
                 else
                 {
                     <_ReportDesignerColorProperty Label="Fill" Value="@appearance.BackgroundColor" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).BackgroundColor = value ))" />
                     <_ReportDesignerColorProperty Label="Border color" Value="@border.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
-                    <_ReportDesignerNullableNumberProperty Label="Border width" Value="@border.Width" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Border width" Value="@border.Width" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
                     <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
                         <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Border style</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is8">
@@ -315,9 +315,9 @@
                             </Select>
                         </FieldBody>
                     </Field>
-                    <_ReportDesignerNullableNumberProperty Label="Corner radius" Value="@border.Radius" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Corner radius" Value="@border.Radius" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
                 }
-                <_ReportDesignerNullableNumberProperty Label="Opacity" Value="@appearance.Opacity" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" />
+                <_ReportDesignerNumberProperty TValue="double?" Label="Opacity" Value="@appearance.Opacity" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" />
             </_ReportDesignerPropertyGroup>
         }
 

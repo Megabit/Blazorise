@@ -43,11 +43,6 @@
     &-surface {
         overflow: auto;
     }
-
-    &-section {
-        padding: var(--b-report-designer-section-padding);
-        border-bottom: var(--b-report-section-border-width) solid var(--b-report-color-surface-subtle);
-    }
 }
 
 .b-report-toolbar {

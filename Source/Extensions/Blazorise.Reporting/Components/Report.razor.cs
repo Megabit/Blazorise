@@ -161,7 +161,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        if ( firstRender && Definition is null && DefinitionMode != ReportDefinitionMode.UseDefinitionOnly )
+        if ( firstRender && Definition is null && CurrentDefinitionMode != ReportDefinitionMode.UseDefinitionOnly )
         {
             declarativeDefinition = BuildDeclarativeDefinition();
             InvalidateDesignerCaches();
@@ -1146,13 +1146,6 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( refreshDesignerSelection )
             await InvokeAsync( StateHasChanged );
-    }
-
-    private bool CanContextPasteElement( ReportDefinition definition, ReportContextMenuState state = null )
-    {
-        state ??= designerState.ContextMenu;
-
-        return contextMenuService.CanPasteElement( definition, state, clipboardElement is not null );
     }
 
     private IReadOnlyList<ReportDesignerFieldOption> GetContextElementAggregateFieldOptions( ReportDefinition definition )
@@ -3375,7 +3368,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     #region Properties
 
     private ReportDefinition EffectiveDefinition
-        => DefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative
+        => CurrentDefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative
             ? BuildDeclarativeDefinition()
             : Definition ?? declarativeDefinition ?? BuildDeclarativeDefinition();
 
@@ -3394,6 +3387,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private ReportStudioMode CurrentMode => Mode ?? currentMode;
 
     private ReportPreviewFormat CurrentPreviewFormat => PreviewFormat ?? currentPreviewFormat;
+
+    private ReportDefinitionMode CurrentDefinitionMode => DefinitionMode ?? GlobalOptions.DefinitionMode;
 
     private string SelectedDesignerPanelTabName => selectedDesignerPanelTab.ToString();
 
@@ -3557,9 +3552,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [Parameter] public EventCallback<FileUploadEventArgs> ImageUpload { get; set; }
 
     /// <summary>
-    /// Controls how declarative child content is used with persisted definitions.
+    /// Controls how declarative child content is used with persisted definitions. When not set, the value configured in <see cref="ReportOptions.DefinitionMode"/> is used.
     /// </summary>
-    [Parameter] public ReportDefinitionMode DefinitionMode { get; set; } = ReportDefinitionMode.SeedWhenEmpty;
+    [Parameter] public ReportDefinitionMode? DefinitionMode { get; set; }
 
     /// <summary>
     /// Externally controlled design or preview mode.

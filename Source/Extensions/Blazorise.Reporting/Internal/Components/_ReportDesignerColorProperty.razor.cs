@@ -1,6 +1,5 @@
 #region Using directives
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -82,8 +81,6 @@ public partial class _ReportDesignerColorProperty
             ? Value.ToCssString()
             : null;
 
-    private IReadOnlyList<(string Value, string Text)> ResolvedNamedOptions => NamedOptions ?? DefaultNamedOptions;
-
     /// <summary>
     /// Property label.
     /// </summary>
@@ -93,11 +90,6 @@ public partial class _ReportDesignerColorProperty
     /// Current color value.
     /// </summary>
     [Parameter] public ReportColor Value { get; set; }
-
-    /// <summary>
-    /// Named color options shown in the report designer.
-    /// </summary>
-    [Parameter] public IReadOnlyList<(string Value, string Text)> NamedOptions { get; set; }
 
     /// <summary>
     /// Raised when the color value changes.

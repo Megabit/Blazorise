@@ -102,11 +102,6 @@ internal static class ReportValueResolver
         } );
     }
 
-    internal static bool? ResolveSnapToGrid( ReportElementDefinition element )
-    {
-        return element?.SnapToGrid?.Value;
-    }
-
     private static bool TryConvert<T>( object value, out T convertedValue )
     {
         convertedValue = default;

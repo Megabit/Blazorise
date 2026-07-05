@@ -29,7 +29,6 @@ public abstract class BaseReportSection : ComponentBase
         {
             Name = Name,
             Type = SectionType,
-            Layout = Layout,
             Height = Height,
             DataSource = DataSource,
             GroupBy = GroupBy,
@@ -62,11 +61,6 @@ public abstract class BaseReportSection : ComponentBase
     /// Friendly band name shown in the designer.
     /// </summary>
     [Parameter] public string Name { get; set; }
-
-    /// <summary>
-    /// Layout mode used for elements inside the band.
-    /// </summary>
-    [Parameter] public ReportLayout Layout { get; set; } = ReportLayout.Absolute;
 
     /// <summary>
     /// Band height in points.

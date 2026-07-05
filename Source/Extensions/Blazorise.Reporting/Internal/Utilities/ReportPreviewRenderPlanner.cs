@@ -300,7 +300,7 @@ internal static class ReportPreviewRenderPlanner
 
     private static bool IsGroupBoundary( ReportSectionDefinition section )
     {
-        return section.Type is ReportSectionType.ReportFooter or ReportSectionType.Footer or ReportSectionType.PageFooter
+        return section.Type is ReportSectionType.ReportFooter or ReportSectionType.PageFooter
             || IsGroupHeader( section );
     }
 

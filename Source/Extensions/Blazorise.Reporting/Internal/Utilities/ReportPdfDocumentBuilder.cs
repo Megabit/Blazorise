@@ -117,7 +117,6 @@ internal static class ReportPdfDocumentBuilder
         ApplyShapeFormatting( pdfElement, element );
         pdfElement.Source = element.Source;
         pdfElement.ImageFit = ResolveImageFit( element.Fit );
-        pdfElement.Text = element.Text ?? element.Name;
 
         return pdfElement;
     }
@@ -153,8 +152,6 @@ internal static class ReportPdfDocumentBuilder
         PdfTableCellDefinition pdfCell = new()
         {
             Width = width > 0 ? width : 90,
-            ColumnSpan = cell.ColumnSpan,
-            RowSpan = cell.RowSpan,
         };
 
         foreach ( ReportElementDefinition child in cell.Elements.Where( element => ShouldRenderElement( definition, data, renderSection.Section, element, renderSection.Item ) ) )

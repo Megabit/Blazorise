@@ -315,14 +315,14 @@ internal static class ReportDefinitionHelper
     {
         return type switch
         {
-            ReportSectionType.Header => "Report Header",
+            ReportSectionType.ReportHeader => "Report Header",
             ReportSectionType.PageHeader => "Page Header",
             ReportSectionType.Detail => "Detail",
             ReportSectionType.Group => "Group Header",
             ReportSectionType.GroupHeader => "Group Header",
             ReportSectionType.GroupFooter => "Group Footer",
             ReportSectionType.PageFooter => "Page Footer",
-            ReportSectionType.Footer => "Report Footer",
+            ReportSectionType.ReportFooter => "Report Footer",
             _ => type.ToString(),
         };
     }

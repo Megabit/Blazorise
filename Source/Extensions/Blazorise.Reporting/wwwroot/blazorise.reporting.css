@@ -10,14 +10,14 @@
   --b-report-zindex-resize-handle: 5;
   --b-report-zindex-section-active: 6;
   --b-report-zindex-section-resize-handle: 7;
+  --b-report-zindex-ruler: 10;
+  --b-report-zindex-ruler-corner: 12;
   --b-report-zindex-toolbar: 20;
   --b-report-zindex-menu: 1200;
-  --b-report-zindex-context-menu: 2000;
   --b-report-zindex-modal-layer: 3000;
   --b-report-designer-min-height: 34rem;
   --b-report-designer-layout-height: min(72vh, 56rem);
   --b-report-designer-toolbar-gap: .5rem;
-  --b-report-designer-section-padding: .5rem 0;
   --b-report-designer-ruler-size: 1.5rem;
   --b-report-designer-ruler-surface-offset: 1rem;
   --b-report-designer-ruler-label-font-size: .625rem;
@@ -32,8 +32,6 @@
   --b-report-treeview-toggle-size: 1rem;
   --b-report-treeview-icon-column-width: 1.25rem;
   --b-report-treeview-detail-font-size: .8125rem;
-  --b-report-designer-option-gap: .375rem;
-  --b-report-designer-option-margin-bottom: .5rem;
   --b-report-page-preview-gap: 1.5rem;
   --b-report-page-shadow-offset-y: .25rem;
   --b-report-page-shadow-blur: 1rem;
@@ -66,22 +64,6 @@
   --b-report-line-default-thickness: 1px;
   --b-report-table-cell-resize-indicator-size: .45rem;
   --b-report-table-cell-resize-hit-size: .5rem;
-  --b-report-context-menu-min-width: 12.5rem;
-  --b-report-context-submenu-min-width: 11rem;
-  --b-report-context-menu-padding: .25rem;
-  --b-report-context-menu-border-radius: .25rem;
-  --b-report-context-menu-item-padding: .375rem .5rem;
-  --b-report-context-menu-toolbar-gap: .125rem;
-  --b-report-context-menu-toolbar-padding: .125rem .125rem .375rem;
-  --b-report-context-menu-toolbar-margin-bottom: .25rem;
-  --b-report-context-menu-icon-button-size: 1.875rem;
-  --b-report-context-menu-check-size: 1.25rem;
-  --b-report-context-menu-check-border-radius: .125rem;
-  --b-report-context-menu-check-button-gap: .5rem;
-  --b-report-context-menu-submenu-button-gap: .75rem;
-  --b-report-context-menu-submenu-top: -.25rem;
-  --b-report-context-menu-shadow-offset-y: .5rem;
-  --b-report-context-menu-shadow-blur: 1.5rem;
   --b-report-color-text: #1f2933;
   --b-report-color-text-muted: #52616f;
   --b-report-color-text-subtle: #6c757d;
@@ -99,7 +81,6 @@
   --b-report-color-white: #ffffff;
   --b-report-color-white-muted: rgba(255, 255, 255, .84);
   --b-report-color-shadow: rgba(31, 41, 51, .16);
-  --b-report-color-menu-shadow: rgba(31, 41, 51, .18);
   --b-report-color-primary-ring: rgba(13, 110, 253, .45);
   --b-report-color-primary-ring-strong: rgba(13, 110, 253, .55);
   --b-report-color-primary-border: rgba(13, 110, 253, .65);
@@ -151,7 +132,6 @@
   --b-report-section-rail-group-border-color: #fd7e14;
   --b-report-section-rail-page-footer-border-color: #20c997;
   --b-report-section-rail-report-footer-border-color: #6c757d;
-  --b-report-context-menu-check-background: #e5e7eb;
 }
 
 .b-report-designer {
@@ -189,10 +169,6 @@
 }
 .b-report-designer-surface {
   overflow: auto;
-}
-.b-report-designer-section {
-  padding: var(--b-report-designer-section-padding);
-  border-bottom: var(--b-report-section-border-width) solid var(--b-report-color-surface-subtle);
 }
 
 .b-report-toolbar {
@@ -316,14 +292,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.b-report-designer-option {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--b-report-designer-option-gap);
-  margin-bottom: var(--b-report-designer-option-margin-bottom);
-  color: var(--b-report-color-text-muted);
 }
 
 .b-report-page {
@@ -556,7 +524,7 @@
   background: var(--b-report-color-surface-disabled);
   color: var(--b-report-color-text-subtle);
 }
-.b-report-section-band-header-reportheader, .b-report-section-band-header-header {
+.b-report-section-band-header-reportheader {
   background: var(--b-report-section-band-header-report-header-background);
   border-color: var(--b-report-section-band-header-report-header-border-color);
 }
@@ -576,7 +544,7 @@
   background: var(--b-report-section-band-header-page-footer-background);
   border-color: var(--b-report-section-band-header-page-footer-border-color);
 }
-.b-report-section-band-header-reportfooter, .b-report-section-band-header-footer {
+.b-report-section-band-header-reportfooter {
   background: var(--b-report-section-band-header-report-footer-background);
   border-color: var(--b-report-section-band-header-report-footer-border-color);
 }
@@ -610,7 +578,7 @@
   color: var(--b-report-color-text);
   cursor: pointer;
 }
-.b-report-section-rail-reportheader, .b-report-section-rail-header {
+.b-report-section-rail-reportheader {
   border-left: var(--b-report-section-rail-border-width) solid var(--b-report-section-rail-report-header-border-color);
 }
 .b-report-section-rail-pageheader {
@@ -625,7 +593,7 @@
 .b-report-section-rail-pagefooter {
   border-left: var(--b-report-section-rail-border-width) solid var(--b-report-section-rail-page-footer-border-color);
 }
-.b-report-section-rail-reportfooter, .b-report-section-rail-footer {
+.b-report-section-rail-reportfooter {
   border-left: var(--b-report-section-rail-border-width) solid var(--b-report-section-rail-report-footer-border-color);
 }
 .b-report-section-rail-toggle {
@@ -948,90 +916,6 @@
 
 .b-report-page-preview .b-report-table-cell {
   border-color: transparent;
-}
-
-.b-report-context-menu {
-  position: fixed;
-  z-index: var(--b-report-zindex-context-menu, 2000);
-  min-width: var(--b-report-context-menu-min-width);
-  padding: var(--b-report-context-menu-padding);
-  border: var(--b-report-section-border-width) solid var(--b-report-color-border);
-  border-radius: var(--b-report-context-menu-border-radius);
-  background: var(--b-report-color-surface);
-  box-shadow: 0 var(--b-report-context-menu-shadow-offset-y) var(--b-report-context-menu-shadow-blur) var(--b-report-color-menu-shadow);
-}
-.b-report-context-menu button {
-  display: block;
-  width: 100%;
-  padding: var(--b-report-context-menu-item-padding);
-  border: 0;
-  background: transparent;
-  color: var(--b-report-color-text);
-  text-align: left;
-}
-.b-report-context-menu button:disabled {
-  color: var(--b-report-color-text-disabled);
-  cursor: default;
-}
-.b-report-context-menu button:hover {
-  background: var(--b-report-color-surface-subtle);
-}
-.b-report-context-menu button:disabled:hover {
-  background: transparent;
-}
-.b-report-context-menu-toolbar {
-  display: flex;
-  gap: var(--b-report-context-menu-toolbar-gap);
-  padding: var(--b-report-context-menu-toolbar-padding);
-  margin-bottom: var(--b-report-context-menu-toolbar-margin-bottom);
-  border-bottom: var(--b-report-section-border-width) solid var(--b-report-color-border);
-}
-.b-report-context-menu .b-report-context-menu-icon-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--b-report-context-menu-icon-button-size);
-  height: var(--b-report-context-menu-icon-button-size);
-  padding: 0;
-  text-align: center;
-}
-.b-report-context-menu .b-report-context-menu-check-button {
-  display: flex;
-  align-items: center;
-  gap: var(--b-report-context-menu-check-button-gap);
-}
-.b-report-context-menu .b-report-context-menu-submenu-button {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--b-report-context-menu-submenu-button-gap);
-}
-.b-report-context-menu-check {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--b-report-context-menu-check-size);
-  height: var(--b-report-context-menu-check-size);
-  border-radius: var(--b-report-context-menu-check-border-radius);
-  background: var(--b-report-context-menu-check-background);
-}
-.b-report-context-menu-submenu {
-  position: relative;
-}
-.b-report-context-menu-submenu-content {
-  position: absolute;
-  top: var(--b-report-context-menu-submenu-top);
-  left: 100%;
-  display: none;
-  min-width: var(--b-report-context-submenu-min-width);
-  padding: var(--b-report-context-menu-padding);
-  border: var(--b-report-section-border-width) solid var(--b-report-color-border);
-  border-radius: var(--b-report-context-menu-border-radius);
-  background: var(--b-report-color-surface);
-  box-shadow: 0 var(--b-report-context-menu-shadow-offset-y) var(--b-report-context-menu-shadow-blur) var(--b-report-color-menu-shadow);
-}
-.b-report-context-menu-submenu:hover .b-report-context-menu-submenu-content, .b-report-context-menu-submenu:focus-within .b-report-context-menu-submenu-content {
-  display: block;
 }
 
 @media print {

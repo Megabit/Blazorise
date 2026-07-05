@@ -245,8 +245,7 @@
             color: var(--b-report-color-text-subtle);
         }
 
-        &-reportheader,
-        &-header {
+        &-reportheader {
             background: var(--b-report-section-band-header-report-header-background);
             border-color: var(--b-report-section-band-header-report-header-border-color);
         }
@@ -273,8 +272,7 @@
             border-color: var(--b-report-section-band-header-page-footer-border-color);
         }
 
-        &-reportfooter,
-        &-footer {
+        &-reportfooter {
             background: var(--b-report-section-band-header-report-footer-background);
             border-color: var(--b-report-section-band-header-report-footer-border-color);
         }
@@ -316,8 +314,7 @@
         color: var(--b-report-color-text);
         cursor: pointer;
 
-        &-reportheader,
-        &-header {
+        &-reportheader {
             border-left: var(--b-report-section-rail-border-width) solid var(--b-report-section-rail-report-header-border-color);
         }
 
@@ -339,8 +336,7 @@
             border-left: var(--b-report-section-rail-border-width) solid var(--b-report-section-rail-page-footer-border-color);
         }
 
-        &-reportfooter,
-        &-footer {
+        &-reportfooter {
             border-left: var(--b-report-section-rail-border-width) solid var(--b-report-section-rail-report-footer-border-color);
         }
 

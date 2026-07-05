@@ -1,12 +1,7 @@
 #region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -25,43 +20,37 @@ public partial class _ReportDesignerElementResizeHandles
     private const string SouthWestKey = "sw";
     private const string WestKey = "w";
 
-    /// <summary>
-    /// Raised when resizing starts from the north-west handle.
-    /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> NorthWestPointerDown { get; set; }
+    private Task NorthWestPointerDown( PointerEventArgs eventArgs )
+        => OnPointerDown( ReportElementResizeHandle.NorthWest, eventArgs );
+
+    private Task NorthPointerDown( PointerEventArgs eventArgs )
+        => OnPointerDown( ReportElementResizeHandle.North, eventArgs );
+
+    private Task NorthEastPointerDown( PointerEventArgs eventArgs )
+        => OnPointerDown( ReportElementResizeHandle.NorthEast, eventArgs );
+
+    private Task EastPointerDown( PointerEventArgs eventArgs )
+        => OnPointerDown( ReportElementResizeHandle.East, eventArgs );
+
+    private Task SouthEastPointerDown( PointerEventArgs eventArgs )
+        => OnPointerDown( ReportElementResizeHandle.SouthEast, eventArgs );
+
+    private Task SouthPointerDown( PointerEventArgs eventArgs )
+        => OnPointerDown( ReportElementResizeHandle.South, eventArgs );
+
+    private Task SouthWestPointerDown( PointerEventArgs eventArgs )
+        => OnPointerDown( ReportElementResizeHandle.SouthWest, eventArgs );
+
+    private Task WestPointerDown( PointerEventArgs eventArgs )
+        => OnPointerDown( ReportElementResizeHandle.West, eventArgs );
+
+    private Task OnPointerDown( ReportElementResizeHandle handle, PointerEventArgs eventArgs )
+    {
+        return PointerDown.InvokeAsync( new( handle, eventArgs ) );
+    }
 
     /// <summary>
-    /// Raised when resizing starts from the north handle.
+    /// Raised when resizing starts on one of the element resize handles.
     /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> NorthPointerDown { get; set; }
-
-    /// <summary>
-    /// Raised when resizing starts from the north-east handle.
-    /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> NorthEastPointerDown { get; set; }
-
-    /// <summary>
-    /// Raised when resizing starts from the east handle.
-    /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> EastPointerDown { get; set; }
-
-    /// <summary>
-    /// Raised when resizing starts from the south-east handle.
-    /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> SouthEastPointerDown { get; set; }
-
-    /// <summary>
-    /// Raised when resizing starts from the south handle.
-    /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> SouthPointerDown { get; set; }
-
-    /// <summary>
-    /// Raised when resizing starts from the south-west handle.
-    /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> SouthWestPointerDown { get; set; }
-
-    /// <summary>
-    /// Raised when resizing starts from the west handle.
-    /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> WestPointerDown { get; set; }
+    [Parameter] public EventCallback<ReportElementResizeHandleEventArgs> PointerDown { get; set; }
 }

@@ -161,11 +161,6 @@ internal static class ReportElementDefinitionHelper
             : GetText( element ) ?? element.Name ?? element.Type.ToString();
     }
 
-    internal static string NormalizeColorValue( ReportColor value )
-    {
-        return ToCssColor( value ) ?? "#000000";
-    }
-
     internal static string ToCssColor( ReportColor color )
     {
         return color.ToCssString();
