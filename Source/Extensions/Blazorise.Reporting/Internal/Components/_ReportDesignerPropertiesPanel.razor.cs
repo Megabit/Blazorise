@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -395,6 +396,36 @@ public partial class _ReportDesignerPropertiesPanel
     {
         SnapToGridChanged?.Invoke( value );
     }
+
+    private Task OnInsertSectionBeforeClicked( MouseEventArgs eventArgs )
+        => InsertSection( false );
+
+    private Task OnInsertSectionAfterClicked( MouseEventArgs eventArgs )
+        => InsertSection( true );
+
+    private Task OnInsertGroupClicked( MouseEventArgs eventArgs )
+        => InsertGroup();
+
+    private Task OnDeleteSelectedSectionClicked( MouseEventArgs eventArgs )
+        => DeleteSelectedSection();
+
+    private Task OnMoveSelectedElementLeftClicked( MouseEventArgs eventArgs )
+        => MoveSelectedElement( -SelectedElementMoveStep, 0, 0, 0 );
+
+    private Task OnMoveSelectedElementUpClicked( MouseEventArgs eventArgs )
+        => MoveSelectedElement( 0, -SelectedElementMoveStep, 0, 0 );
+
+    private Task OnMoveSelectedElementDownClicked( MouseEventArgs eventArgs )
+        => MoveSelectedElement( 0, SelectedElementMoveStep, 0, 0 );
+
+    private Task OnMoveSelectedElementRightClicked( MouseEventArgs eventArgs )
+        => MoveSelectedElement( SelectedElementMoveStep, 0, 0, 0 );
+
+    private Task OnMakeSelectedElementWiderClicked( MouseEventArgs eventArgs )
+        => MoveSelectedElement( 0, 0, SelectedElementWidthResizeStep, 0 );
+
+    private Task OnMakeSelectedElementTallerClicked( MouseEventArgs eventArgs )
+        => MoveSelectedElement( 0, 0, 0, SelectedElementHeightResizeStep );
 
     private string GetSelectedSectionDataSourceDisplayName()
     {

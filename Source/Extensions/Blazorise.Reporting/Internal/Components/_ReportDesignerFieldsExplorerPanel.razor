@@ -11,42 +11,42 @@
 
 <ContextMenu @ref="formulaFieldContextMenuRef">
     <ContextMenuBody MinWidth="12rem">
-        <ContextMenuItem Clicked="@(( object _ ) => NewFormulaFieldClicked( default ))">@NewFormulaFieldContextMenuText</ContextMenuItem>
+        <ContextMenuItem Clicked="@OnNewFormulaFieldContextMenuClicked">@NewFormulaFieldContextMenuText</ContextMenuItem>
 
         @if ( IsFormulaFieldContextMenuTarget )
         {
-            <ContextMenuItem Clicked="@(( object _ ) => EditFormulaFieldClicked( default ))">Edit</ContextMenuItem>
-            <ContextMenuItem Clicked="@(( object _ ) => RenameFormulaFieldClicked( default ))">Rename</ContextMenuItem>
-            <ContextMenuItem Clicked="@(( object _ ) => DeleteFormulaFieldClicked( default ))">Delete</ContextMenuItem>
+            <ContextMenuItem Clicked="@OnEditFormulaFieldContextMenuClicked">Edit</ContextMenuItem>
+            <ContextMenuItem Clicked="@OnRenameFormulaFieldContextMenuClicked">Rename</ContextMenuItem>
+            <ContextMenuItem Clicked="@OnDeleteFormulaFieldContextMenuClicked">Delete</ContextMenuItem>
         }
 
         <ContextMenuDivider />
-        <ContextMenuItem Clicked="@(( object _ ) => CloseFormulaFieldContextMenu())">Close</ContextMenuItem>
+        <ContextMenuItem Clicked="@OnCloseFormulaFieldContextMenuClicked">Close</ContextMenuItem>
     </ContextMenuBody>
 </ContextMenu>
 
 <ContextMenu @ref="runningTotalContextMenuRef">
     <ContextMenuBody MinWidth="12rem">
-        <ContextMenuItem Clicked="@(( object _ ) => NewRunningTotalClicked( default ))">@NewRunningTotalContextMenuText</ContextMenuItem>
+        <ContextMenuItem Clicked="@OnNewRunningTotalContextMenuClicked">@NewRunningTotalContextMenuText</ContextMenuItem>
 
         @if ( IsRunningTotalContextMenuTarget )
         {
-            <ContextMenuItem Clicked="@(( object _ ) => EditRunningTotalClicked( default ))">Edit</ContextMenuItem>
-            <ContextMenuItem Clicked="@(( object _ ) => RenameRunningTotalClicked( default ))">Rename</ContextMenuItem>
-            <ContextMenuItem Clicked="@(( object _ ) => DeleteRunningTotalClicked( default ))">Delete</ContextMenuItem>
+            <ContextMenuItem Clicked="@OnEditRunningTotalContextMenuClicked">Edit</ContextMenuItem>
+            <ContextMenuItem Clicked="@OnRenameRunningTotalContextMenuClicked">Rename</ContextMenuItem>
+            <ContextMenuItem Clicked="@OnDeleteRunningTotalContextMenuClicked">Delete</ContextMenuItem>
         }
 
         <ContextMenuDivider />
-        <ContextMenuItem Clicked="@(( object _ ) => CloseRunningTotalContextMenu())">Close</ContextMenuItem>
+        <ContextMenuItem Clicked="@OnCloseRunningTotalContextMenuClicked">Close</ContextMenuItem>
     </ContextMenuBody>
 </ContextMenu>
 
 <ContextMenu @ref="dataSourceContextMenuRef">
     <ContextMenuBody MinWidth="12rem">
-        <ContextMenuItem Clicked="@(( object _ ) => RefreshDataSourceClicked( default ))">Refresh</ContextMenuItem>
-        <ContextMenuItem Clicked="@(( object _ ) => DeleteDataSourceClicked( default ))">Delete</ContextMenuItem>
+        <ContextMenuItem Clicked="@OnRefreshDataSourceContextMenuClicked">Refresh</ContextMenuItem>
+        <ContextMenuItem Clicked="@OnDeleteDataSourceContextMenuClicked">Delete</ContextMenuItem>
         <ContextMenuDivider />
-        <ContextMenuItem Clicked="@(( object _ ) => CloseDataSourceContextMenu())">Close</ContextMenuItem>
+        <ContextMenuItem Clicked="@OnCloseDataSourceContextMenuClicked">Close</ContextMenuItem>
     </ContextMenuBody>
 </ContextMenu>
 

@@ -7,102 +7,102 @@
         @if ( IsSectionMenu )
         {
             <ContextMenuToolbar>
-                <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Clicked="@(( object _ ) => InvokeMenuCommand( PasteElement ))" />
-                <ContextMenuToolbarItem Icon="IconName.CheckDouble" Text="Select all" Disabled="@(!State.CanSelectAllSectionElements)" Clicked="@(( object _ ) => InvokeMenuCommand( SelectAllSectionElements ))" />
-                <ContextMenuToolbarItem Icon="IconName.Delete" Text="Delete band" Disabled="@(!State.CanDeleteSection)" Clicked="@(( object _ ) => InvokeMenuCommand( DeleteSection ))" />
-                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" Clicked="@(( object _ ) => InvokeMenuCommand( ShowProperties ))" />
+                <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Clicked="@OnPasteElementClicked" />
+                <ContextMenuToolbarItem Icon="IconName.CheckDouble" Text="Select all" Disabled="@(!State.CanSelectAllSectionElements)" Clicked="@OnSelectAllSectionElementsClicked" />
+                <ContextMenuToolbarItem Icon="IconName.Delete" Text="Delete band" Disabled="@(!State.CanDeleteSection)" Clicked="@OnDeleteSectionClicked" />
+                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" Clicked="@OnShowPropertiesClicked" />
             </ContextMenuToolbar>
             <ContextMenuDivider />
 
             @if ( State.SectionSuppressed )
             {
-                <ContextMenuItem ShowCheckbox Checked Clicked="@(( object _ ) => InvokeMenuCommand( ToggleSectionSuppression ))">Suppress</ContextMenuItem>
+                <ContextMenuItem ShowCheckbox Checked Clicked="@OnToggleSectionSuppressionClicked">Suppress</ContextMenuItem>
             }
             else
             {
                 @if ( State.CanInsertSection )
                 {
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( InsertSectionBefore ))">Insert band before</ContextMenuItem>
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( InsertSectionAfter ))">Insert band after</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnInsertSectionBeforeClicked">Insert band before</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnInsertSectionAfterClicked">Insert band after</ContextMenuItem>
                 }
                 @if ( State.CanInsertGroup )
                 {
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( InsertGroup ))">Insert group...</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnInsertGroupClicked">Insert group...</ContextMenuItem>
                 }
-                <ContextMenuItem ShowCheckbox Checked="@State.SectionSuppressed" Clicked="@(( object _ ) => InvokeMenuCommand( ToggleSectionSuppression ))">Suppress</ContextMenuItem>
-                <ContextMenuItem ShowCheckbox Checked="@State.SectionKeepTogether" Clicked="@(( object _ ) => InvokeMenuCommand( ToggleSectionKeepTogether ))">Keep together</ContextMenuItem>
-                <ContextMenuItem ShowCheckbox Checked="@State.SectionNewPageBefore" Clicked="@(( object _ ) => InvokeMenuCommand( ToggleSectionNewPageBefore ))">New page before</ContextMenuItem>
-                <ContextMenuItem ShowCheckbox Checked="@State.SectionNewPageAfter" Clicked="@(( object _ ) => InvokeMenuCommand( ToggleSectionNewPageAfter ))">New page after</ContextMenuItem>
+                <ContextMenuItem ShowCheckbox Checked="@State.SectionSuppressed" Clicked="@OnToggleSectionSuppressionClicked">Suppress</ContextMenuItem>
+                <ContextMenuItem ShowCheckbox Checked="@State.SectionKeepTogether" Clicked="@OnToggleSectionKeepTogetherClicked">Keep together</ContextMenuItem>
+                <ContextMenuItem ShowCheckbox Checked="@State.SectionNewPageBefore" Clicked="@OnToggleSectionNewPageBeforeClicked">New page before</ContextMenuItem>
+                <ContextMenuItem ShowCheckbox Checked="@State.SectionNewPageAfter" Clicked="@OnToggleSectionNewPageAfterClicked">New page after</ContextMenuItem>
             }
         }
         else if ( IsElementMenu )
         {
             <ContextMenuToolbar>
-                <ContextMenuToolbarItem Icon="IconName.Cut" Text="Cut" Clicked="@(( object _ ) => InvokeMenuCommand( CutElement ))" />
-                <ContextMenuToolbarItem Icon="IconName.Copy" Text="Copy" Clicked="@(( object _ ) => InvokeMenuCommand( CopyElement ))" />
-                <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Clicked="@(( object _ ) => InvokeMenuCommand( PasteElement ))" />
-                <ContextMenuToolbarItem Icon="IconName.Delete" Text="Delete element" Clicked="@(( object _ ) => InvokeMenuCommand( DeleteElement ))" />
-                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" Clicked="@(( object _ ) => InvokeMenuCommand( ShowProperties ))" />
+                <ContextMenuToolbarItem Icon="IconName.Cut" Text="Cut" Clicked="@OnCutElementClicked" />
+                <ContextMenuToolbarItem Icon="IconName.Copy" Text="Copy" Clicked="@OnCopyElementClicked" />
+                <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Clicked="@OnPasteElementClicked" />
+                <ContextMenuToolbarItem Icon="IconName.Delete" Text="Delete element" Clicked="@OnDeleteElementClicked" />
+                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" Clicked="@OnShowPropertiesClicked" />
             </ContextMenuToolbar>
             <ContextMenuDivider />
 
             @if ( State.CanOrderSelectedElements )
             {
                 <ContextMenuSubmenu Text="Order">
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( BringToFront ))">Bring to Front</ContextMenuItem>
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( SendToBack ))">Send to Back</ContextMenuItem>
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( MoveForward ))">Move Forward</ContextMenuItem>
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( MoveBackward ))">Move Backward</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnBringToFrontClicked">Bring to Front</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnSendToBackClicked">Send to Back</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnMoveForwardClicked">Move Forward</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnMoveBackwardClicked">Move Backward</ContextMenuItem>
                 </ContextMenuSubmenu>
             }
 
             @if ( State.CanAlignOrSizeSelectedElements )
             {
                 <ContextMenuSubmenu Text="Align">
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( AlignTops ))">Tops</ContextMenuItem>
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( AlignMiddles ))">Middles</ContextMenuItem>
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( AlignBottoms ))">Bottoms</ContextMenuItem>
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( AlignBaseline ))">Baseline</ContextMenuItem>
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( AlignLefts ))">Lefts</ContextMenuItem>
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( AlignCenters ))">Centers</ContextMenuItem>
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( AlignRights ))">Rights</ContextMenuItem>
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( AlignToGrid ))">To Grid</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnAlignTopsClicked">Tops</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnAlignMiddlesClicked">Middles</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnAlignBottomsClicked">Bottoms</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnAlignBaselineClicked">Baseline</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnAlignLeftsClicked">Lefts</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnAlignCentersClicked">Centers</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnAlignRightsClicked">Rights</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnAlignToGridClicked">To Grid</ContextMenuItem>
                 </ContextMenuSubmenu>
                 <ContextMenuSubmenu Text="Sizes">
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( SizeSameWidth ))">Same Width</ContextMenuItem>
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( SizeSameHeight ))">Same Height</ContextMenuItem>
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( SizeSameSize ))">Same Size</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnSizeSameWidthClicked">Same Width</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnSizeSameHeightClicked">Same Height</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnSizeSameSizeClicked">Same Size</ContextMenuItem>
                 </ContextMenuSubmenu>
             }
 
             @if ( State.CanInsertAggregate )
             {
-                <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( InsertAggregate ))">Insert aggregate</ContextMenuItem>
+                <ContextMenuItem Clicked="@OnInsertAggregateClicked">Insert aggregate</ContextMenuItem>
             }
 
             @if ( State.CanEditText )
             {
-                <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( EditText ))">Edit Text</ContextMenuItem>
+                <ContextMenuItem Clicked="@OnEditTextClicked">Edit Text</ContextMenuItem>
             }
 
             @if ( State.CanEditFormula )
             {
-                <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( EditFormula ))">Edit Formula</ContextMenuItem>
+                <ContextMenuItem Clicked="@OnEditFormulaClicked">Edit Formula</ContextMenuItem>
             }
 
             @if ( State.CanEditRunningTotal )
             {
-                <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( EditRunningTotal ))">Edit Running Total</ContextMenuItem>
+                <ContextMenuItem Clicked="@OnEditRunningTotalClicked">Edit Running Total</ContextMenuItem>
             }
 
-            <ContextMenuItem ShowCheckbox Checked="@State.ElementCanGrow" Clicked="@(( object _ ) => InvokeMenuCommand( ToggleElementCanGrow ))">Can grow</ContextMenuItem>
-            <ContextMenuItem ShowCheckbox Checked="@State.ElementSuppressed" Clicked="@(( object _ ) => InvokeMenuCommand( ToggleElementSuppression ))">Suppress</ContextMenuItem>
+            <ContextMenuItem ShowCheckbox Checked="@State.ElementCanGrow" Clicked="@OnToggleElementCanGrowClicked">Can grow</ContextMenuItem>
+            <ContextMenuItem ShowCheckbox Checked="@State.ElementSuppressed" Clicked="@OnToggleElementSuppressionClicked">Suppress</ContextMenuItem>
         }
         else if ( IsCellMenu )
         {
             <ContextMenuToolbar>
-                <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Clicked="@(( object _ ) => InvokeMenuCommand( PasteElement ))" />
-                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" Clicked="@(( object _ ) => InvokeMenuCommand( ShowProperties ))" />
+                <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Clicked="@OnPasteElementClicked" />
+                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" Clicked="@OnShowPropertiesClicked" />
             </ContextMenuToolbar>
             <ContextMenuDivider />
 
@@ -110,37 +110,37 @@
             {
                 @if ( State.CanMergeCellRight )
                 {
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( MergeCellRight ))">Merge right</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnMergeCellRightClicked">Merge right</ContextMenuItem>
                 }
 
                 @if ( State.CanMergeCellDown )
                 {
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( MergeCellDown ))">Merge down</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnMergeCellDownClicked">Merge down</ContextMenuItem>
                 }
 
                 @if ( State.CanUnmergeCell )
                 {
-                    <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( UnmergeCell ))">Unmerge</ContextMenuItem>
+                    <ContextMenuItem Clicked="@OnUnmergeCellClicked">Unmerge</ContextMenuItem>
                 }
 
                 <ContextMenuDivider />
             }
 
             <ContextMenuSubmenu Text="Insert">
-                <ContextMenuItem Disabled="@(!State.CanInsertTableRowAbove)" Clicked="@(( object _ ) => InvokeMenuCommand( InsertTableRowAbove ))">Row Above</ContextMenuItem>
-                <ContextMenuItem Disabled="@(!State.CanInsertTableRowBelow)" Clicked="@(( object _ ) => InvokeMenuCommand( InsertTableRowBelow ))">Row Below</ContextMenuItem>
-                <ContextMenuItem Disabled="@(!State.CanInsertTableColumnLeft)" Clicked="@(( object _ ) => InvokeMenuCommand( InsertTableColumnLeft ))">Column to Left</ContextMenuItem>
-                <ContextMenuItem Disabled="@(!State.CanInsertTableColumnRight)" Clicked="@(( object _ ) => InvokeMenuCommand( InsertTableColumnRight ))">Column to Right</ContextMenuItem>
-                <ContextMenuItem Disabled="@(!State.CanInsertTableCell)" Clicked="@(( object _ ) => InvokeMenuCommand( InsertTableCell ))">Cell</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableRowAbove)" Clicked="@OnInsertTableRowAboveClicked">Row Above</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableRowBelow)" Clicked="@OnInsertTableRowBelowClicked">Row Below</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableColumnLeft)" Clicked="@OnInsertTableColumnLeftClicked">Column to Left</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableColumnRight)" Clicked="@OnInsertTableColumnRightClicked">Column to Right</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableCell)" Clicked="@OnInsertTableCellClicked">Cell</ContextMenuItem>
             </ContextMenuSubmenu>
             <ContextMenuSubmenu Text="Delete">
-                <ContextMenuItem Disabled="@(!State.CanDeleteTableRow)" Clicked="@(( object _ ) => InvokeMenuCommand( DeleteTableRow ))">Row</ContextMenuItem>
-                <ContextMenuItem Disabled="@(!State.CanDeleteTableColumn)" Clicked="@(( object _ ) => InvokeMenuCommand( DeleteTableColumn ))">Column</ContextMenuItem>
-                <ContextMenuItem Disabled="@(!State.CanDeleteTableCell)" Clicked="@(( object _ ) => InvokeMenuCommand( DeleteTableCell ))">Cell</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanDeleteTableRow)" Clicked="@OnDeleteTableRowClicked">Row</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanDeleteTableColumn)" Clicked="@OnDeleteTableColumnClicked">Column</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanDeleteTableCell)" Clicked="@OnDeleteTableCellClicked">Cell</ContextMenuItem>
             </ContextMenuSubmenu>
         }
 
         <ContextMenuDivider />
-        <ContextMenuItem Clicked="@(( object _ ) => InvokeMenuCommand( Close ))">Close</ContextMenuItem>
+        <ContextMenuItem Clicked="@OnCloseClicked">Close</ContextMenuItem>
     </ContextMenuBody>
 </ContextMenu>

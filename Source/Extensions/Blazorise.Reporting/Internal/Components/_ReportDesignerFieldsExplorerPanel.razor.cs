@@ -344,6 +344,45 @@ public partial class _ReportDesignerFieldsExplorerPanel
             await DataSourceDeleted.InvokeAsync( dataSourceName );
     }
 
+    private Task OnNewFormulaFieldContextMenuClicked( object value )
+        => NewFormulaFieldClicked( default );
+
+    private Task OnEditFormulaFieldContextMenuClicked( object value )
+        => EditFormulaFieldClicked( default );
+
+    private Task OnRenameFormulaFieldContextMenuClicked( object value )
+        => RenameFormulaFieldClicked( default );
+
+    private Task OnDeleteFormulaFieldContextMenuClicked( object value )
+        => DeleteFormulaFieldClicked( default );
+
+    private Task OnCloseFormulaFieldContextMenuClicked( object value )
+        => CloseFormulaFieldContextMenu();
+
+    private Task OnNewRunningTotalContextMenuClicked( object value )
+        => NewRunningTotalClicked( default );
+
+    private Task OnEditRunningTotalContextMenuClicked( object value )
+        => EditRunningTotalClicked( default );
+
+    private Task OnRenameRunningTotalContextMenuClicked( object value )
+        => RenameRunningTotalClicked( default );
+
+    private Task OnDeleteRunningTotalContextMenuClicked( object value )
+        => DeleteRunningTotalClicked( default );
+
+    private Task OnCloseRunningTotalContextMenuClicked( object value )
+        => CloseRunningTotalContextMenu();
+
+    private Task OnRefreshDataSourceContextMenuClicked( object value )
+        => RefreshDataSourceClicked( default );
+
+    private Task OnDeleteDataSourceContextMenuClicked( object value )
+        => DeleteDataSourceClicked( default );
+
+    private Task OnCloseDataSourceContextMenuClicked( object value )
+        => CloseDataSourceContextMenu();
+
     private async Task CloseFormulaFieldContextMenu()
     {
         formulaFieldContextMenu = null;

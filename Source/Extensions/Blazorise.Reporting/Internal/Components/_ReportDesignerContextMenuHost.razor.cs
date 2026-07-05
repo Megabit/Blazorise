@@ -51,6 +51,147 @@ public partial class _ReportDesignerContextMenuHost
     private static Task InvokeMenuCommand( EventCallback<MouseEventArgs> callback )
         => callback.InvokeAsync( default );
 
+    private Task OnPasteElementClicked( object value )
+        => InvokeMenuCommand( PasteElement );
+
+    private Task OnSelectAllSectionElementsClicked( object value )
+        => InvokeMenuCommand( SelectAllSectionElements );
+
+    private Task OnDeleteSectionClicked( object value )
+        => InvokeMenuCommand( DeleteSection );
+
+    private Task OnShowPropertiesClicked( object value )
+        => InvokeMenuCommand( ShowProperties );
+
+    private Task OnToggleSectionSuppressionClicked( object value )
+        => InvokeMenuCommand( ToggleSectionSuppression );
+
+    private Task OnInsertSectionBeforeClicked( object value )
+        => InvokeMenuCommand( InsertSectionBefore );
+
+    private Task OnInsertSectionAfterClicked( object value )
+        => InvokeMenuCommand( InsertSectionAfter );
+
+    private Task OnInsertGroupClicked( object value )
+        => InvokeMenuCommand( InsertGroup );
+
+    private Task OnToggleSectionKeepTogetherClicked( object value )
+        => InvokeMenuCommand( ToggleSectionKeepTogether );
+
+    private Task OnToggleSectionNewPageBeforeClicked( object value )
+        => InvokeMenuCommand( ToggleSectionNewPageBefore );
+
+    private Task OnToggleSectionNewPageAfterClicked( object value )
+        => InvokeMenuCommand( ToggleSectionNewPageAfter );
+
+    private Task OnCutElementClicked( object value )
+        => InvokeMenuCommand( CutElement );
+
+    private Task OnCopyElementClicked( object value )
+        => InvokeMenuCommand( CopyElement );
+
+    private Task OnDeleteElementClicked( object value )
+        => InvokeMenuCommand( DeleteElement );
+
+    private Task OnBringToFrontClicked( object value )
+        => InvokeMenuCommand( BringToFront );
+
+    private Task OnSendToBackClicked( object value )
+        => InvokeMenuCommand( SendToBack );
+
+    private Task OnMoveForwardClicked( object value )
+        => InvokeMenuCommand( MoveForward );
+
+    private Task OnMoveBackwardClicked( object value )
+        => InvokeMenuCommand( MoveBackward );
+
+    private Task OnAlignTopsClicked( object value )
+        => InvokeMenuCommand( AlignTops );
+
+    private Task OnAlignMiddlesClicked( object value )
+        => InvokeMenuCommand( AlignMiddles );
+
+    private Task OnAlignBottomsClicked( object value )
+        => InvokeMenuCommand( AlignBottoms );
+
+    private Task OnAlignBaselineClicked( object value )
+        => InvokeMenuCommand( AlignBaseline );
+
+    private Task OnAlignLeftsClicked( object value )
+        => InvokeMenuCommand( AlignLefts );
+
+    private Task OnAlignCentersClicked( object value )
+        => InvokeMenuCommand( AlignCenters );
+
+    private Task OnAlignRightsClicked( object value )
+        => InvokeMenuCommand( AlignRights );
+
+    private Task OnAlignToGridClicked( object value )
+        => InvokeMenuCommand( AlignToGrid );
+
+    private Task OnSizeSameWidthClicked( object value )
+        => InvokeMenuCommand( SizeSameWidth );
+
+    private Task OnSizeSameHeightClicked( object value )
+        => InvokeMenuCommand( SizeSameHeight );
+
+    private Task OnSizeSameSizeClicked( object value )
+        => InvokeMenuCommand( SizeSameSize );
+
+    private Task OnInsertAggregateClicked( object value )
+        => InvokeMenuCommand( InsertAggregate );
+
+    private Task OnEditTextClicked( object value )
+        => InvokeMenuCommand( EditText );
+
+    private Task OnEditFormulaClicked( object value )
+        => InvokeMenuCommand( EditFormula );
+
+    private Task OnEditRunningTotalClicked( object value )
+        => InvokeMenuCommand( EditRunningTotal );
+
+    private Task OnToggleElementCanGrowClicked( object value )
+        => InvokeMenuCommand( ToggleElementCanGrow );
+
+    private Task OnToggleElementSuppressionClicked( object value )
+        => InvokeMenuCommand( ToggleElementSuppression );
+
+    private Task OnMergeCellRightClicked( object value )
+        => InvokeMenuCommand( MergeCellRight );
+
+    private Task OnMergeCellDownClicked( object value )
+        => InvokeMenuCommand( MergeCellDown );
+
+    private Task OnUnmergeCellClicked( object value )
+        => InvokeMenuCommand( UnmergeCell );
+
+    private Task OnInsertTableRowAboveClicked( object value )
+        => InvokeMenuCommand( InsertTableRowAbove );
+
+    private Task OnInsertTableRowBelowClicked( object value )
+        => InvokeMenuCommand( InsertTableRowBelow );
+
+    private Task OnInsertTableColumnLeftClicked( object value )
+        => InvokeMenuCommand( InsertTableColumnLeft );
+
+    private Task OnInsertTableColumnRightClicked( object value )
+        => InvokeMenuCommand( InsertTableColumnRight );
+
+    private Task OnInsertTableCellClicked( object value )
+        => InvokeMenuCommand( InsertTableCell );
+
+    private Task OnDeleteTableRowClicked( object value )
+        => InvokeMenuCommand( DeleteTableRow );
+
+    private Task OnDeleteTableColumnClicked( object value )
+        => InvokeMenuCommand( DeleteTableColumn );
+
+    private Task OnDeleteTableCellClicked( object value )
+        => InvokeMenuCommand( DeleteTableCell );
+
+    private Task OnCloseClicked( object value )
+        => InvokeMenuCommand( Close );
+
     #endregion
 
     #region Properties

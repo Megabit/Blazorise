@@ -1770,6 +1770,166 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             await contextMenuHost.CloseAsync();
     }
 
+    private Task OnDesignerNodeDragEnded( ReportTreeNode node )
+    {
+        return ClearDesignerDragAsync();
+    }
+
+    private Task OnPageSelectionPointerCancel( PointerEventArgs eventArgs )
+    {
+        return CancelPageSelectionBoxAsync();
+    }
+
+    private Task OnElementPointerCancel( PointerEventArgs eventArgs )
+    {
+        return CancelElementPointerInteractionAsync();
+    }
+
+    private Task OnContextMenuCutElement( MouseEventArgs eventArgs )
+        => CutSelectedElementAsync();
+
+    private Task OnContextMenuCopyElement( MouseEventArgs eventArgs )
+        => CopySelectedElementAsync();
+
+    private Task OnContextMenuPasteElement( MouseEventArgs eventArgs )
+        => PasteElementAsync();
+
+    private Task OnContextMenuSelectAllSectionElements( MouseEventArgs eventArgs )
+        => SelectAllContextSectionElementsAsync();
+
+    private Task OnContextMenuShowProperties( MouseEventArgs eventArgs )
+        => ShowContextPropertiesAsync();
+
+    private Task OnContextMenuInsertSectionBefore( MouseEventArgs eventArgs )
+        => InsertSectionAsync( insertAfter: false );
+
+    private Task OnContextMenuInsertSectionAfter( MouseEventArgs eventArgs )
+        => InsertSectionAsync( insertAfter: true );
+
+    private Task OnContextMenuInsertGroup( MouseEventArgs eventArgs )
+        => OpenSelectedDetailGroupDialogAsync();
+
+    private Task OnContextMenuToggleSectionSuppression( MouseEventArgs eventArgs )
+        => ToggleSelectedSectionSuppressionAsync();
+
+    private Task OnContextMenuToggleSectionKeepTogether( MouseEventArgs eventArgs )
+        => ToggleSelectedSectionKeepTogetherAsync();
+
+    private Task OnContextMenuToggleSectionNewPageBefore( MouseEventArgs eventArgs )
+        => ToggleSelectedSectionNewPageBeforeAsync();
+
+    private Task OnContextMenuToggleSectionNewPageAfter( MouseEventArgs eventArgs )
+        => ToggleSelectedSectionNewPageAfterAsync();
+
+    private Task OnContextMenuDeleteSection( MouseEventArgs eventArgs )
+        => DeleteSelectedSectionAsync();
+
+    private Task OnContextMenuAlignTops( MouseEventArgs eventArgs )
+        => AlignSelectedElementsAsync( ReportElementAlignment.Tops );
+
+    private Task OnContextMenuAlignMiddles( MouseEventArgs eventArgs )
+        => AlignSelectedElementsAsync( ReportElementAlignment.Middles );
+
+    private Task OnContextMenuAlignBottoms( MouseEventArgs eventArgs )
+        => AlignSelectedElementsAsync( ReportElementAlignment.Bottoms );
+
+    private Task OnContextMenuAlignBaseline( MouseEventArgs eventArgs )
+        => AlignSelectedElementsAsync( ReportElementAlignment.Baseline );
+
+    private Task OnContextMenuAlignLefts( MouseEventArgs eventArgs )
+        => AlignSelectedElementsAsync( ReportElementAlignment.Lefts );
+
+    private Task OnContextMenuAlignCenters( MouseEventArgs eventArgs )
+        => AlignSelectedElementsAsync( ReportElementAlignment.Centers );
+
+    private Task OnContextMenuAlignRights( MouseEventArgs eventArgs )
+        => AlignSelectedElementsAsync( ReportElementAlignment.Rights );
+
+    private Task OnContextMenuAlignToGrid( MouseEventArgs eventArgs )
+        => AlignSelectedElementsAsync( ReportElementAlignment.ToGrid );
+
+    private Task OnContextMenuSizeSameWidth( MouseEventArgs eventArgs )
+        => SizeSelectedElementsAsync( ReportElementSizeMode.SameWidth );
+
+    private Task OnContextMenuSizeSameHeight( MouseEventArgs eventArgs )
+        => SizeSelectedElementsAsync( ReportElementSizeMode.SameHeight );
+
+    private Task OnContextMenuSizeSameSize( MouseEventArgs eventArgs )
+        => SizeSelectedElementsAsync( ReportElementSizeMode.SameSize );
+
+    private Task OnContextMenuBringToFront( MouseEventArgs eventArgs )
+        => OrderSelectedElementsAsync( ReportElementOrderMode.BringToFront );
+
+    private Task OnContextMenuSendToBack( MouseEventArgs eventArgs )
+        => OrderSelectedElementsAsync( ReportElementOrderMode.SendToBack );
+
+    private Task OnContextMenuMoveForward( MouseEventArgs eventArgs )
+        => OrderSelectedElementsAsync( ReportElementOrderMode.MoveForward );
+
+    private Task OnContextMenuMoveBackward( MouseEventArgs eventArgs )
+        => OrderSelectedElementsAsync( ReportElementOrderMode.MoveBackward );
+
+    private Task OnContextMenuInsertAggregate( MouseEventArgs eventArgs )
+        => OpenContextElementAggregateDialogAsync();
+
+    private Task OnContextMenuEditText( MouseEventArgs eventArgs )
+    {
+        BeginContextElementTextEdit();
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnContextMenuEditFormula( MouseEventArgs eventArgs )
+        => OpenContextElementFormulaDialogAsync();
+
+    private Task OnContextMenuEditRunningTotal( MouseEventArgs eventArgs )
+        => OpenContextElementRunningTotalDialogAsync();
+
+    private Task OnContextMenuDeleteElement( MouseEventArgs eventArgs )
+        => DeleteSelectedElementAsync();
+
+    private Task OnContextMenuToggleElementCanGrow( MouseEventArgs eventArgs )
+        => ToggleSelectedElementCanGrowAsync();
+
+    private Task OnContextMenuToggleElementSuppression( MouseEventArgs eventArgs )
+        => ToggleSelectedElementSuppressionAsync();
+
+    private Task OnContextMenuMergeCellRight( MouseEventArgs eventArgs )
+        => MergeSelectedTableCellRightAsync();
+
+    private Task OnContextMenuMergeCellDown( MouseEventArgs eventArgs )
+        => MergeSelectedTableCellDownAsync();
+
+    private Task OnContextMenuUnmergeCell( MouseEventArgs eventArgs )
+        => UnmergeSelectedTableCellAsync();
+
+    private Task OnContextMenuInsertTableRowAbove( MouseEventArgs eventArgs )
+        => InsertSelectedTableRowAsync( insertBelow: false );
+
+    private Task OnContextMenuInsertTableRowBelow( MouseEventArgs eventArgs )
+        => InsertSelectedTableRowAsync( insertBelow: true );
+
+    private Task OnContextMenuInsertTableColumnLeft( MouseEventArgs eventArgs )
+        => InsertSelectedTableColumnAsync( insertRight: false );
+
+    private Task OnContextMenuInsertTableColumnRight( MouseEventArgs eventArgs )
+        => InsertSelectedTableColumnAsync( insertRight: true );
+
+    private Task OnContextMenuInsertTableCell( MouseEventArgs eventArgs )
+        => InsertSelectedTableCellAsync();
+
+    private Task OnContextMenuDeleteTableRow( MouseEventArgs eventArgs )
+        => DeleteSelectedTableRowAsync();
+
+    private Task OnContextMenuDeleteTableColumn( MouseEventArgs eventArgs )
+        => DeleteSelectedTableColumnAsync();
+
+    private Task OnContextMenuDeleteTableCell( MouseEventArgs eventArgs )
+        => DeleteSelectedTableCellAsync();
+
+    private Task OnContextMenuClose( MouseEventArgs eventArgs )
+        => CloseContextMenuAsync();
+
     private async Task MoveSelectedElementAsync( double x, double y, double width, double height )
     {
         ReportElementDefinition element = selectionManager.FindSelectedElement( EffectiveDefinition );

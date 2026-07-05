@@ -153,16 +153,16 @@
             <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is3.FromTop">
                 @if ( CanInsertSection )
                 {
-                    <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => InsertSection( false ))" Size="Size.Small">Insert before</Button>
-                    <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => InsertSection( true ))" Size="Size.Small">Insert after</Button>
+                    <Button Color="Color.Light" Clicked="@OnInsertSectionBeforeClicked" Size="Size.Small">Insert before</Button>
+                    <Button Color="Color.Light" Clicked="@OnInsertSectionAfterClicked" Size="Size.Small">Insert after</Button>
                 }
                 @if ( CanInsertGroup )
                 {
-                    <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => InsertGroup())" Size="Size.Small">Insert group...</Button>
+                    <Button Color="Color.Light" Clicked="@OnInsertGroupClicked" Size="Size.Small">Insert group...</Button>
                 }
                 @if ( ReportDefinitionHelper.CanDeleteSection( SelectedSection ) )
                 {
-                    <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => DeleteSelectedSection())" Size="Size.Small">Delete band</Button>
+                    <Button Color="Color.Light" Clicked="@OnDeleteSelectedSectionClicked" Size="Size.Small">Delete band</Button>
                 }
             </Div>
         }
@@ -328,12 +328,12 @@
         <Div Margin="Margin.Is3.FromTop">
             <h6>Selected element</h6>
             <Div Flex="Flex.Wrap" Gap="Gap.Is2">
-                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( -SelectedElementMoveStep, 0, 0, 0 ))" Size="Size.Small">Left</Button>
-                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, -SelectedElementMoveStep, 0, 0 ))" Size="Size.Small">Up</Button>
-                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, SelectedElementMoveStep, 0, 0 ))" Size="Size.Small">Down</Button>
-                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( SelectedElementMoveStep, 0, 0, 0 ))" Size="Size.Small">Right</Button>
-                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, 0, SelectedElementWidthResizeStep, 0 ))" Size="Size.Small">Wider</Button>
-                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, 0, 0, SelectedElementHeightResizeStep ))" Size="Size.Small">Taller</Button>
+                <Button Color="Color.Light" Clicked="@OnMoveSelectedElementLeftClicked" Size="Size.Small">Left</Button>
+                <Button Color="Color.Light" Clicked="@OnMoveSelectedElementUpClicked" Size="Size.Small">Up</Button>
+                <Button Color="Color.Light" Clicked="@OnMoveSelectedElementDownClicked" Size="Size.Small">Down</Button>
+                <Button Color="Color.Light" Clicked="@OnMoveSelectedElementRightClicked" Size="Size.Small">Right</Button>
+                <Button Color="Color.Light" Clicked="@OnMakeSelectedElementWiderClicked" Size="Size.Small">Wider</Button>
+                <Button Color="Color.Light" Clicked="@OnMakeSelectedElementTallerClicked" Size="Size.Small">Taller</Button>
             </Div>
         </Div>
     }
