@@ -116,23 +116,16 @@ public partial class DockLayout : BaseComponent
         base.DirtyStyles();
     }
 
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-
-        // The state instance can be swapped or mutated externally through the State parameter,
-        // so cached query results cannot be trusted across parameter updates.
-        InvalidateStateCaches();
-    }
-
     /// <summary>
-    /// Forces rendered dock content to refresh without changing the docking state.
+    /// Forces rendered dock content to refresh without changing the docking state. Call this after
+    /// mutating the <see cref="State"/> instance directly, so that cached layout results are recomputed.
     /// </summary>
     /// <returns>A task that completes after the refresh has been scheduled.</returns>
     public Task Refresh()
     {
         contentRenderVersion++;
+
+        InvalidateStateCaches();
 
         return InvokeAsync( StateHasChanged );
     }
@@ -1218,12 +1211,22 @@ public partial class DockLayout : BaseComponent
 
     /// <summary>
     /// Defines the mutable state used for docking, resizing, active tabs, and pane visibility. The same state can be saved with <see cref="GetState"/> and restored with <see cref="LoadState"/>.
+    /// In-place changes to the assigned instance are not detected; apply them with <see cref="LoadState"/> or follow them with <see cref="Refresh"/>.
     /// </summary>
     [Parameter]
     public DockLayoutState State
     {
         get => state;
-        set => state = value;
+        set
+        {
+            if ( ReferenceEquals( state, value ) )
+                return;
+
+            state = value;
+
+            // Cached query results were computed from the previous state instance.
+            InvalidateStateCaches();
+        }
     }
 
     /// <summary>
