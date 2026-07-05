@@ -1184,10 +1184,6 @@ hr.divider.divider-text::before {
   min-width: 0;
 }
 
-.dock-pane-inactive {
-  display: none;
-}
-
 .dock-pane-center {
   width: 100%;
   height: 100%;
@@ -3830,7 +3826,6 @@ body .b-report {
   --b-report-zindex-section-resize-handle: 7;
   --b-report-zindex-toolbar: 20;
   --b-report-zindex-menu: 1000;
-  --b-report-zindex-context-menu: 1070;
   --b-report-zindex-modal-layer: 1055;
 }
 

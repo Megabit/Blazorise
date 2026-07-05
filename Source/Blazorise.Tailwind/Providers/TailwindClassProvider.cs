@@ -2649,8 +2649,6 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "tw-dock-pane-autohide" : null;
 
-    public override string DockPaneInactive() => "tw-dock-pane-inactive";
-
     public override string DockPaneBordered() => "tw-dock-pane-bordered";
 
     public override string DockPaneAutoHideRail( DockPanePosition position )

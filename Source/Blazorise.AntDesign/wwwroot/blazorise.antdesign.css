@@ -4198,10 +4198,6 @@ template {
   min-width: 0;
 }
 
-.ant-dock-pane-inactive {
-  display: none;
-}
-
 .ant-dock-pane-center {
   width: 100%;
   height: 100%;
@@ -9617,7 +9613,6 @@ body .b-report {
   --b-report-zindex-section-resize-handle: 7;
   --b-report-zindex-toolbar: 20;
   --b-report-zindex-menu: var(--ant-dropdown-z-index-popup);
-  --b-report-zindex-context-menu: var(--ant-dropdown-z-index-popup);
   --b-report-zindex-modal-layer: var(--ant-dropdown-z-index-popup);
 }
 

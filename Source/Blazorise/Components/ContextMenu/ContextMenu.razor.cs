@@ -304,10 +304,6 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
-    internal double ClientX => clientX;
-
-    internal double ClientY => clientY;
-
     internal bool EffectiveCloseOnClick => CloseOnClick;
 
     internal DropdownTrigger EffectiveSubmenuTrigger => SubmenuTrigger;

@@ -11,11 +11,6 @@ public class ContextMenuJSOptions
     public string Direction { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the context menu should be end-aligned.
-    /// </summary>
-    public bool EndAligned { get; set; }
-
-    /// <summary>
     /// Gets or sets the strategy used to position the context menu.
     /// </summary>
     public string Strategy { get; set; }

@@ -1874,8 +1874,6 @@ public class MaterialClassProvider : ClassProvider
 
     public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "mui-dock-pane-autohide" : null;
 
-    public override string DockPaneInactive() => "mui-dock-pane-inactive";
-
     public override string DockPaneBordered() => "mui-dock-pane-bordered";
 
     public override string DockPaneAutoHideRail( DockPanePosition position )

@@ -1890,8 +1890,6 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "fui-DockPane--autoHide" : null;
 
-    public override string DockPaneInactive() => "fui-DockPane--inactive";
-
     public override string DockPaneBordered() => "fui-DockPane--bordered";
 
     public override string DockPaneAutoHideRail( DockPanePosition position )

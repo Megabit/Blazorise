@@ -9,6 +9,5 @@ body .b-report {
     --b-report-zindex-section-resize-handle: 7;
     --b-report-zindex-toolbar: 20;
     --b-report-zindex-menu: #{$zindex-dropdown};
-    --b-report-zindex-context-menu: #{$zindex-popover};
     --b-report-zindex-modal-layer: #{$zindex-modal};
 }

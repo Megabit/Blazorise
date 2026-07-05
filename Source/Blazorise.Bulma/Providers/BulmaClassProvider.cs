@@ -1837,8 +1837,6 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "is-auto-hide" : null;
 
-    public override string DockPaneInactive() => "is-hidden";
-
     public override string DockPaneBordered() => "is-bordered";
 
     public override string DockPaneAutoHideRail( DockPanePosition position )

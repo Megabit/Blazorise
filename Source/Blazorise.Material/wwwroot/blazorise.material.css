@@ -4111,10 +4111,6 @@ body {
   min-width: 0;
 }
 
-.mui-dock-pane-inactive {
-  display: none;
-}
-
 .mui-dock-pane-center {
   width: 100%;
   height: 100%;
@@ -9943,7 +9939,6 @@ body .b-report {
   --b-report-zindex-section-resize-handle: 7;
   --b-report-zindex-toolbar: 20;
   --b-report-zindex-menu: var(--mui-zindex-dropdown);
-  --b-report-zindex-context-menu: var(--mui-zindex-popover);
   --b-report-zindex-modal-layer: var(--mui-zindex-modal);
 }
 

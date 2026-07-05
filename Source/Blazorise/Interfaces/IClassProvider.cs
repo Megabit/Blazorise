@@ -750,8 +750,6 @@ public interface IClassProvider
 
     string DockPaneAutoHide( bool autoHide );
 
-    string DockPaneInactive();
-
     string DockPaneBordered();
 
     string DockPaneAutoHideRail( DockPanePosition position );

@@ -1922,8 +1922,6 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "ant-dock-pane-autohide" : null;
 
-    public override string DockPaneInactive() => "ant-dock-pane-inactive";
-
     public override string DockPaneBordered() => "ant-dock-pane-bordered";
 
     public override string DockPaneAutoHideRail( DockPanePosition position )
