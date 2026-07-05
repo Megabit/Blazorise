@@ -82,6 +82,14 @@ public partial class _ReportDesignerPropertiesPanel
         ( VerticalAlignment.Bottom, "Bottom" ),
     ];
 
+    private static readonly (string Value, string Text)[] FontFamilyOptions =
+    [
+        ( string.Empty, "Default" ),
+        ( ReportFontFamilies.Helvetica, ReportFontFamilies.Helvetica ),
+        ( ReportFontFamilies.Times, ReportFontFamilies.Times ),
+        ( ReportFontFamilies.Courier, ReportFontFamilies.Courier ),
+    ];
+
     private static readonly (ReportBorderStyle Value, string Text)[] BorderStyleOptions =
     [
         ( ReportBorderStyle.Default, "Default" ),
@@ -236,6 +244,16 @@ public partial class _ReportDesignerPropertiesPanel
     private Task OnSelectedElementWidthChanged( double value )
     {
         return UpdateSelectedElement( element => element.Width = ToPoints( value ) );
+    }
+
+    private Task OnSelectedElementFontFamilyChanged( string value )
+    {
+        return UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Family = string.IsNullOrWhiteSpace( value ) ? null : value );
+    }
+
+    private static string GetFontFamilyValue( string family )
+    {
+        return ReportFontFamilies.Normalize( family ) ?? string.Empty;
     }
 
     private Task OnSelectedElementHeightChanged( double value )
