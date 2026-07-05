@@ -181,7 +181,7 @@ internal static class ReportPdfDocumentBuilder
     {
         ApplyShapeFormatting( pdfElement, element );
 
-        pdfElement.Font.Family = element.Font?.Family ?? "Helvetica";
+        pdfElement.Font.Family = element.Font?.Family ?? Fonts.Helvetica;
         pdfElement.Font.Size = element.Font?.Size ?? 12;
         pdfElement.Font.Color = ResolveColor( element.Font?.Color ?? ReportColors.Black );
         pdfElement.Font.Alignment = ResolveTextAlignment( ReportElementDefinitionHelper.ResolveTextAlignment( element, definition, data, section ) );

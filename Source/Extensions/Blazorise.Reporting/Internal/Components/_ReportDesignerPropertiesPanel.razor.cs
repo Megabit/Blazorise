@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -80,14 +81,6 @@ public partial class _ReportDesignerPropertiesPanel
         ( VerticalAlignment.Top, "Top" ),
         ( VerticalAlignment.Middle, "Middle" ),
         ( VerticalAlignment.Bottom, "Bottom" ),
-    ];
-
-    private static readonly (string Value, string Text)[] FontFamilyOptions =
-    [
-        ( string.Empty, "Default" ),
-        ( ReportFontFamilies.Helvetica, ReportFontFamilies.Helvetica ),
-        ( ReportFontFamilies.Times, ReportFontFamilies.Times ),
-        ( ReportFontFamilies.Courier, ReportFontFamilies.Courier ),
     ];
 
     private static readonly (ReportBorderStyle Value, string Text)[] BorderStyleOptions =
@@ -253,7 +246,12 @@ public partial class _ReportDesignerPropertiesPanel
 
     private static string GetFontFamilyValue( string family )
     {
-        return ReportFontFamilies.Normalize( family ) ?? string.Empty;
+        return string.IsNullOrWhiteSpace( family ) ? string.Empty : family;
+    }
+
+    private IReadOnlyList<FontFamily> GetVisibleFontFamilies()
+    {
+        return FontProvider?.GetFonts().Where( font => font.Visible ).ToList() ?? [];
     }
 
     private Task OnSelectedElementHeightChanged( double value )
@@ -487,6 +485,11 @@ public partial class _ReportDesignerPropertiesPanel
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the Blazorise font provider.
+    /// </summary>
+    [Inject] public IFontProvider FontProvider { get; set; }
 
     /// <summary>
     /// Report definition whose page settings are edited.

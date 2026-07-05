@@ -1,0 +1,14 @@
+byte[] interRegularBytes = await File.ReadAllBytesAsync( "wwwroot/fonts/Inter-Regular.ttf" );
+
+builder.Services
+    .AddBlazorise( options =>
+    {
+        options.Fonts.Add( new()
+        {
+            Name = "Inter",
+            DisplayName = "Inter",
+            CssFamily = "\"Inter\", sans-serif",
+            Regular = FontSource.FromBytes( interRegularBytes, FontFormat.TrueType ),
+        } );
+    } )
+    .AddBlazoriseReporting();

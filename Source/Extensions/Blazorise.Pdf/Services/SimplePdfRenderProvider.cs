@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Blazorise;
 #endregion
 
 namespace Blazorise.Pdf;
@@ -22,6 +23,21 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private const double LineHeightRatio = 1.2;
 
+    private readonly IFontProvider fontProvider;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new instance of the simple PDF render provider.
+    /// </summary>
+    /// <param name="fontProvider">Blazorise font provider.</param>
+    public SimplePdfRenderProvider( IFontProvider fontProvider = null )
+    {
+        this.fontProvider = fontProvider;
+    }
+
     #endregion
 
     #region Methods
@@ -34,7 +50,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         options ??= new();
 
-        byte[] content = GeneratePdf( document );
+        byte[] content = GeneratePdf( document, fontProvider );
 
         return Task.FromResult( new PdfRenderResult
         {
@@ -43,18 +59,18 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         } );
     }
 
-    private static byte[] GeneratePdf( PdfDocumentDefinition document )
+    private static byte[] GeneratePdf( PdfDocumentDefinition document, IFontProvider fontProvider )
     {
         List<PdfObject> objects = [];
         List<int> pageObjectIds = [];
         int catalogId = ReserveObject( objects );
         int pagesId = ReserveObject( objects );
         List<PdfPageDefinition> pages = document.Pages.Count > 0 ? document.Pages : [CreateDefaultPage( document )];
-        PdfFontResources fontResources = AddFontResources( objects, pages );
+        PdfFontResources fontResources = AddFontResources( objects, pages, fontProvider );
 
         foreach ( PdfPageDefinition page in pages )
         {
-            PdfPageContent pageContent = BuildPageContent( page, objects, fontResources );
+            PdfPageContent pageContent = BuildPageContent( page, objects, fontResources, fontProvider );
             int contentId = AddObject( objects, CreateStreamObject( pageContent.Content ) );
             int pageId = AddObject( objects, BuildPageObject( page, pagesId, fontResources, contentId, pageContent ) );
             pageObjectIds.Add( pageId );
@@ -118,22 +134,25 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return $"<< /Type /Pages /Kids [ {kids} ] /Count {pageObjectIds.Count.ToString( CultureInfo.InvariantCulture )} >>";
     }
 
-    private static PdfFontResources AddFontResources( List<PdfObject> objects, IReadOnlyList<PdfPageDefinition> pages )
+    private static PdfFontResources AddFontResources( List<PdfObject> objects, IReadOnlyList<PdfPageDefinition> pages, IFontProvider fontProvider )
     {
         PdfFontResources fontResources = new();
         bool unicodeRequired = RequiresUnicodeFont( pages );
         bool centralEuropeanFallbackRequired = RequiresType1CentralEuropeanFallback( pages );
 
-        foreach ( PdfStandardFontFamily family in CollectFontFamilies( pages ) )
+        foreach ( string family in CollectFontFamilies( pages, fontProvider ) )
         {
-            string[] baseFonts = GetBaseFontNames( family );
+            FontFamily customFont = ResolveCustomFontFamily( family, fontProvider );
+            string[] baseFonts = GetBaseFontNames( customFont is null ? family : Fonts.Helvetica );
             PdfFontResource[] resources = new PdfFontResource[baseFonts.Length];
 
             for ( int i = 0; i < baseFonts.Length; i++ )
             {
-                PdfEmbeddedFont embeddedFont = unicodeRequired
-                    ? TryCreateEmbeddedFontResource( objects, family, i, fontResources.All.Count + i + 1 )
-                    : null;
+                PdfEmbeddedFont embeddedFont = customFont is not null
+                    ? TryCreateEmbeddedFontResource( objects, customFont, i, fontResources.All.Count + i + 1 )
+                    : unicodeRequired
+                        ? TryCreateEmbeddedFontResource( objects, family, i, fontResources.All.Count + i + 1 )
+                        : null;
 
                 resources[i] = new()
                 {
@@ -149,31 +168,31 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return fontResources;
     }
 
-    private static IReadOnlyList<PdfStandardFontFamily> CollectFontFamilies( IReadOnlyList<PdfPageDefinition> pages )
+    private static IReadOnlyList<string> CollectFontFamilies( IReadOnlyList<PdfPageDefinition> pages, IFontProvider fontProvider )
     {
-        List<PdfStandardFontFamily> families = [PdfStandardFontFamily.Helvetica];
+        List<string> families = [Fonts.Helvetica];
 
         foreach ( PdfPageDefinition page in pages )
         {
             foreach ( PdfElementDefinition element in page.Elements )
             {
-                CollectFontFamilies( families, element );
+                CollectFontFamilies( families, element, fontProvider );
             }
         }
 
         return families;
     }
 
-    private static void CollectFontFamilies( List<PdfStandardFontFamily> families, PdfElementDefinition element )
+    private static void CollectFontFamilies( List<string> families, PdfElementDefinition element, IFontProvider fontProvider )
     {
         if ( element is null )
             return;
 
         if ( element.Type == PdfElementType.Text )
         {
-            PdfStandardFontFamily family = ResolveFontFamily( element.Font?.Family );
+            string family = ResolveFontFamilyKey( element.Font?.Family, fontProvider );
 
-            if ( !families.Contains( family ) )
+            if ( !families.Contains( family, StringComparer.OrdinalIgnoreCase ) )
                 families.Add( family );
         }
 
@@ -183,27 +202,63 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             {
                 foreach ( PdfElementDefinition child in cell.Elements ?? [] )
                 {
-                    CollectFontFamilies( families, child );
+                    CollectFontFamilies( families, child, fontProvider );
                 }
             }
         }
     }
 
-    private static PdfStandardFontFamily ResolveFontFamily( string family )
+    private static string ResolveFontFamilyKey( string family, IFontProvider fontProvider )
+    {
+        FontFamily registeredFont = ResolveCustomFontFamily( family, fontProvider );
+
+        if ( registeredFont is not null )
+            return registeredFont.Name;
+
+        return ResolveStandardFontFamilyName( family );
+    }
+
+    private static string ResolveStandardFontFamilyName( string family )
     {
         if ( string.IsNullOrWhiteSpace( family ) )
-            return PdfStandardFontFamily.Helvetica;
+            return Fonts.Helvetica;
 
         if ( ContainsFamilyName( family, "courier", "consolas", "mono" ) )
-            return PdfStandardFontFamily.Courier;
+            return Fonts.Courier;
 
         if ( ContainsFamilyName( family, "sans" ) )
-            return PdfStandardFontFamily.Helvetica;
+            return Fonts.Helvetica;
 
         if ( ContainsFamilyName( family, "times", "georgia", "garamond", "serif" ) )
-            return PdfStandardFontFamily.Times;
+            return Fonts.Times;
 
-        return PdfStandardFontFamily.Helvetica;
+        return Fonts.Helvetica;
+    }
+
+    private static FontFamily ResolveCustomFontFamily( string family, IFontProvider fontProvider )
+    {
+        FontFamily registeredFont = fontProvider?.Resolve( family );
+
+        return registeredFont is not null && HasFontSource( registeredFont ) && !IsStandardFontFamily( registeredFont.Name )
+            ? registeredFont
+            : null;
+    }
+
+    private static bool HasFontSource( FontFamily font )
+    {
+        return font?.Regular is not null || font?.Bold is not null || font?.Italic is not null || font?.BoldItalic is not null;
+    }
+
+    private static bool IsStandardFontFamily( string family )
+    {
+        return IsFontFamily( family, Fonts.Helvetica )
+               || IsFontFamily( family, Fonts.Times )
+               || IsFontFamily( family, Fonts.Courier );
+    }
+
+    private static bool IsFontFamily( string family, string expectedFamily )
+    {
+        return string.Equals( family, expectedFamily, StringComparison.OrdinalIgnoreCase );
     }
 
     private static bool ContainsFamilyName( string family, params string[] names )
@@ -217,14 +272,15 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return false;
     }
 
-    private static string[] GetBaseFontNames( PdfStandardFontFamily family )
+    private static string[] GetBaseFontNames( string family )
     {
-        return family switch
-        {
-            PdfStandardFontFamily.Times => ["Times-Roman", "Times-Bold", "Times-Italic", "Times-BoldItalic"],
-            PdfStandardFontFamily.Courier => ["Courier", "Courier-Bold", "Courier-Oblique", "Courier-BoldOblique"],
-            _ => ["Helvetica", "Helvetica-Bold", "Helvetica-Oblique", "Helvetica-BoldOblique"],
-        };
+        if ( IsFontFamily( family, Fonts.Times ) )
+            return ["Times-Roman", "Times-Bold", "Times-Italic", "Times-BoldItalic"];
+
+        if ( IsFontFamily( family, Fonts.Courier ) )
+            return ["Courier", "Courier-Bold", "Courier-Oblique", "Courier-BoldOblique"];
+
+        return ["Helvetica", "Helvetica-Bold", "Helvetica-Oblique", "Helvetica-BoldOblique"];
     }
 
     private static string BuildType1FontObject( string baseFontName, bool centralEuropeanFallbackRequired )
@@ -342,11 +398,24 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return character is '\u010D' or '\u010C' or '\u0107' or '\u0106' or '\u0111' or '\u0110';
     }
 
-    private static PdfEmbeddedFont TryCreateEmbeddedFontResource( List<PdfObject> objects, PdfStandardFontFamily family, int variantIndex, int resourceIndex )
+    private static PdfEmbeddedFont TryCreateEmbeddedFontResource( List<PdfObject> objects, string family, int variantIndex, int resourceIndex )
     {
         if ( !PdfEmbeddedFont.TryCreate( family, variantIndex, resourceIndex, out PdfEmbeddedFont embeddedFont ) )
             return null;
 
+        return AddEmbeddedFontResource( objects, embeddedFont );
+    }
+
+    private static PdfEmbeddedFont TryCreateEmbeddedFontResource( List<PdfObject> objects, FontFamily family, int variantIndex, int resourceIndex )
+    {
+        if ( !PdfEmbeddedFont.TryCreate( family, variantIndex, resourceIndex, out PdfEmbeddedFont embeddedFont ) )
+            return null;
+
+        return AddEmbeddedFontResource( objects, embeddedFont );
+    }
+
+    private static PdfEmbeddedFont AddEmbeddedFontResource( List<PdfObject> objects, PdfEmbeddedFont embeddedFont )
+    {
         int fontFileId = AddObject( objects, CreateStreamObject( FormattableString.Invariant( $"<< /Length {embeddedFont.FontBytes.Length} /Length1 {embeddedFont.FontBytes.Length} >>" ), embeddedFont.FontBytes ) );
         int fontDescriptorId = AddObject( objects, BuildEmbeddedFontDescriptorObject( embeddedFont, fontFileId ) );
         int toUnicodeId = AddObject( objects, CreateStreamObject( BuildToUnicodeMap( embeddedFont ) ) );
@@ -489,9 +558,9 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return stream.ToArray();
     }
 
-    private static PdfPageContent BuildPageContent( PdfPageDefinition page, List<PdfObject> objects, PdfFontResources fontResources )
+    private static PdfPageContent BuildPageContent( PdfPageDefinition page, List<PdfObject> objects, PdfFontResources fontResources, IFontProvider fontProvider )
     {
-        PdfPageContentContext context = new( objects, fontResources );
+        PdfPageContentContext context = new( objects, fontResources, fontProvider );
 
         foreach ( PdfElementDefinition element in page.Elements )
         {
@@ -552,7 +621,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             double textX = ResolveTextX( element, x, line, fontSize );
             double lineY = textY - ( i * lineHeight );
 
-            PdfFontResource fontResource = ResolveFontResource( context.FontResources, font );
+            PdfFontResource fontResource = ResolveFontResource( context.FontResources, context.FontProvider, font );
             string textOperand = fontResource.EmbeddedFont is null
                 ? $"({EscapeText( line )})"
                 : EncodeEmbeddedText( line, fontResource.EmbeddedFont );
@@ -561,9 +630,9 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         }
     }
 
-    private static PdfFontResource ResolveFontResource( PdfFontResources fontResources, PdfFontDefinition font )
+    private static PdfFontResource ResolveFontResource( PdfFontResources fontResources, IFontProvider fontProvider, PdfFontDefinition font )
     {
-        PdfFontResource[] variants = fontResources.GetFamily( ResolveFontFamily( font.Family ) );
+        PdfFontResource[] variants = fontResources.GetFamily( ResolveFontFamilyKey( font.Family, fontProvider ) );
 
         if ( font.Bold && font.Italic )
             return variants[3];
@@ -1275,10 +1344,11 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         #region Constructors
 
-        internal PdfPageContentContext( List<PdfObject> objects, PdfFontResources fontResources )
+        internal PdfPageContentContext( List<PdfObject> objects, PdfFontResources fontResources, IFontProvider fontProvider )
         {
             Objects = objects;
             FontResources = fontResources;
+            FontProvider = fontProvider;
         }
 
         #endregion
@@ -1314,6 +1384,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         internal List<PdfObject> Objects { get; }
 
         internal PdfFontResources FontResources { get; }
+
+        internal IFontProvider FontProvider { get; }
 
         internal List<PdfAlphaState> AlphaStates { get; } = [];
 
@@ -1353,15 +1425,6 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private readonly record struct PdfImagePlacement( double X, double Y, double Width, double Height );
 
-    private enum PdfStandardFontFamily
-    {
-        Helvetica,
-
-        Times,
-
-        Courier,
-    }
-
     private sealed class PdfEmbeddedFont
     {
         private readonly Dictionary<int, int> glyphsByCodePoint;
@@ -1382,7 +1445,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             ItalicAngle = italicAngle;
         }
 
-        internal static bool TryCreate( PdfStandardFontFamily family, int variantIndex, int resourceIndex, out PdfEmbeddedFont embeddedFont )
+        internal static bool TryCreate( string family, int variantIndex, int resourceIndex, out PdfEmbeddedFont embeddedFont )
         {
             embeddedFont = null;
 
@@ -1456,7 +1519,45 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
                 .ToList();
         }
 
-        private static bool TryReadTrueTypeFont( byte[] fontBytes, PdfStandardFontFamily family, int variantIndex, int resourceIndex, out PdfEmbeddedFont embeddedFont )
+        internal static bool TryCreate( FontFamily family, int variantIndex, int resourceIndex, out PdfEmbeddedFont embeddedFont )
+        {
+            embeddedFont = null;
+            bool bold = variantIndex is 1 or 3;
+            bool italic = variantIndex is 2 or 3;
+            FontSource source = family?.ResolveSource( bold, italic );
+
+            if ( !TryReadFontSource( source, out byte[] fontBytes ) )
+                return false;
+
+            return TryReadTrueTypeFont( fontBytes, family?.Name ?? Fonts.Helvetica, variantIndex, resourceIndex, out embeddedFont );
+        }
+
+        private static bool TryReadFontSource( FontSource source, out byte[] fontBytes )
+        {
+            fontBytes = null;
+
+            if ( source is null )
+                return false;
+
+            if ( source.Format is not FontFormat.TrueType and not FontFormat.OpenType )
+                return false;
+
+            if ( source.Data is { Length: > 0 } )
+            {
+                fontBytes = source.Data;
+                return true;
+            }
+
+            if ( !string.IsNullOrWhiteSpace( source.FileName ) && File.Exists( source.FileName ) )
+            {
+                fontBytes = File.ReadAllBytes( source.FileName );
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool TryReadTrueTypeFont( byte[] fontBytes, string family, int variantIndex, int resourceIndex, out PdfEmbeddedFont embeddedFont )
         {
             embeddedFont = null;
 
@@ -1492,10 +1593,10 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             bool italic = variantIndex is 2 or 3;
             int flags = 32;
 
-            if ( family == PdfStandardFontFamily.Courier )
+            if ( IsFontFamily( family, Fonts.Courier ) )
                 flags |= 1;
 
-            if ( family == PdfStandardFontFamily.Times )
+            if ( IsFontFamily( family, Fonts.Times ) )
                 flags |= 2;
 
             if ( italic )
@@ -1673,7 +1774,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             return glyphsByCodePoint.Count > 0;
         }
 
-        private static IEnumerable<string> GetFontCandidates( PdfStandardFontFamily family, int variantIndex )
+        private static IEnumerable<string> GetFontCandidates( string family, int variantIndex )
         {
             string windowsFonts = Environment.GetFolderPath( Environment.SpecialFolder.Fonts );
 
@@ -1696,35 +1797,40 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             }
         }
 
-        private static IEnumerable<string> GetWindowsFontFileNames( PdfStandardFontFamily family, int variantIndex )
+        private static IEnumerable<string> GetWindowsFontFileNames( string family, int variantIndex )
         {
-            return family switch
+            if ( IsFontFamily( family, Fonts.Times ) )
             {
-                PdfStandardFontFamily.Times => variantIndex switch
+                return variantIndex switch
                 {
                     1 => ["timesbd.ttf"],
                     2 => ["timesi.ttf"],
                     3 => ["timesbi.ttf"],
                     _ => ["times.ttf"],
-                },
-                PdfStandardFontFamily.Courier => variantIndex switch
+                };
+            }
+
+            if ( IsFontFamily( family, Fonts.Courier ) )
+            {
+                return variantIndex switch
                 {
                     1 => ["courbd.ttf"],
                     2 => ["couri.ttf"],
                     3 => ["courbi.ttf"],
                     _ => ["cour.ttf"],
-                },
-                _ => variantIndex switch
-                {
-                    1 => ["arialbd.ttf", "segoeuib.ttf"],
-                    2 => ["ariali.ttf", "segoeuii.ttf"],
-                    3 => ["arialbi.ttf", "segoeuiz.ttf"],
-                    _ => ["arial.ttf", "segoeui.ttf"],
-                },
+                };
+            }
+
+            return variantIndex switch
+            {
+                1 => ["arialbd.ttf", "segoeuib.ttf"],
+                2 => ["ariali.ttf", "segoeuii.ttf"],
+                3 => ["arialbi.ttf", "segoeuiz.ttf"],
+                _ => ["arial.ttf", "segoeui.ttf"],
             };
         }
 
-        private static IEnumerable<string> GetUnixFontPaths( PdfStandardFontFamily family, int variantIndex )
+        private static IEnumerable<string> GetUnixFontPaths( string family, int variantIndex )
         {
             string[] sans = variantIndex switch
             {
@@ -1748,15 +1854,16 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
                 _ => ["/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf", "/usr/share/fonts/truetype/liberation2/LiberationMono-Regular.ttf"],
             };
 
-            return family switch
-            {
-                PdfStandardFontFamily.Times => serif,
-                PdfStandardFontFamily.Courier => mono,
-                _ => sans,
-            };
+            if ( IsFontFamily( family, Fonts.Times ) )
+                return serif;
+
+            if ( IsFontFamily( family, Fonts.Courier ) )
+                return mono;
+
+            return sans;
         }
 
-        private static IEnumerable<string> GetMacFontPaths( PdfStandardFontFamily family, int variantIndex )
+        private static IEnumerable<string> GetMacFontPaths( string family, int variantIndex )
         {
             string[] sans = variantIndex switch
             {
@@ -1780,12 +1887,13 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
                 _ => ["/System/Library/Fonts/Supplemental/Courier New.ttf", "/Library/Fonts/Courier New.ttf"],
             };
 
-            return family switch
-            {
-                PdfStandardFontFamily.Times => serif,
-                PdfStandardFontFamily.Courier => mono,
-                _ => sans,
-            };
+            if ( IsFontFamily( family, Fonts.Times ) )
+                return serif;
+
+            if ( IsFontFamily( family, Fonts.Courier ) )
+                return mono;
+
+            return sans;
         }
 
         private static bool TryGetTable( Dictionary<string, TrueTypeTable> tables, string tag, out TrueTypeTable table )
@@ -1824,21 +1932,21 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private sealed class PdfFontResources
     {
-        private readonly Dictionary<PdfStandardFontFamily, PdfFontResource[]> families = [];
+        private readonly Dictionary<string, PdfFontResource[]> families = new( StringComparer.OrdinalIgnoreCase );
 
         internal List<PdfFontResource> All { get; } = [];
 
-        internal void Add( PdfStandardFontFamily family, PdfFontResource[] resources )
+        internal void Add( string family, PdfFontResource[] resources )
         {
             families[family] = resources;
             All.AddRange( resources );
         }
 
-        internal PdfFontResource[] GetFamily( PdfStandardFontFamily family )
+        internal PdfFontResource[] GetFamily( string family )
         {
             return families.TryGetValue( family, out PdfFontResource[] resources )
                 ? resources
-                : families[PdfStandardFontFamily.Helvetica];
+                : families[Fonts.Helvetica];
         }
     }
 

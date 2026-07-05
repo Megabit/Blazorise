@@ -19,6 +19,20 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Fonts">
+        Register fonts when PDF export must use the same font family as the designer and HTML preview.
+    </DocsPageSectionHeader>
+    <DocsPageParagraph>
+        Place font files under <Code>wwwroot/fonts</Code>, load the font bytes during application startup, and register the font family with Blazorise. Use the same family name from report elements through the <Code>FontFamily</Code> parameter or from the designer font selector.
+    </DocsPageParagraph>
+    <DocsPageSectionSource Code="ReportingFontRegistrationExample" CodeTitle="Program.cs" />
+    <DocsPageParagraph>
+        Browser rendering also needs a matching <Code>@@font-face</Code> rule. This keeps the designer, HTML preview, and PDF export aligned around the same family name.
+    </DocsPageParagraph>
+    <DocsPageSectionSource Code="ReportingFontFaceExample" CodeTitle="app.css" />
+</DocsPageSection>
+
 <DocsPageApi>
     <DocsPageApiItem Url="docs/extensions/reporting/api" Name="<Report />" />
 </DocsPageApi>

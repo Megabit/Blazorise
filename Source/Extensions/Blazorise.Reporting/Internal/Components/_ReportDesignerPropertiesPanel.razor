@@ -263,9 +263,10 @@
                         <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Font family</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is8">
                             <Select TValue="string" Value="@GetFontFamilyValue( font.Family )" ValueChanged="@OnSelectedElementFontFamilyChanged" Size="Size.Small">
-                                @foreach ( var option in FontFamilyOptions )
+                                <SelectItem TValue="string" Value="@string.Empty">Default</SelectItem>
+                                @foreach ( var fontFamily in GetVisibleFontFamilies() )
                                 {
-                                    <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
+                                    <SelectItem TValue="string" Value="@fontFamily.Name">@(fontFamily.DisplayName ?? fontFamily.Name)</SelectItem>
                                 }
                             </Select>
                         </FieldBody>

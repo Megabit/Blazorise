@@ -15463,6 +15463,29 @@ Install-Package Blazorise.Icons.Material";
     }
 }";
 
+        public const string ReportingFontFaceExample = @"@font-face {
+    font-family: ""Inter"";
+    src: url(""fonts/Inter-Regular.ttf"") format(""truetype"");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}";
+
+        public const string ReportingFontRegistrationExample = @"byte[] interRegularBytes = await File.ReadAllBytesAsync( ""wwwroot/fonts/Inter-Regular.ttf"" );
+
+builder.Services
+    .AddBlazorise( options =>
+    {
+        options.Fonts.Add( new()
+        {
+            Name = ""Inter"",
+            DisplayName = ""Inter"",
+            CssFamily = ""\""Inter\"", sans-serif"",
+            Regular = FontSource.FromBytes( interRegularBytes, FontFormat.TrueType ),
+        } );
+    } )
+    .AddBlazoriseReporting();";
+
         public const string ReportingFormulaFieldsExample = @"<Report Data=""@invoice""
         DesignerEnabled
         PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">

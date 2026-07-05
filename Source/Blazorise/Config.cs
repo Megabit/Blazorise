@@ -99,6 +99,7 @@ public static class Config
         { typeof( IDropdownCoordinator ), typeof( DropdownCoordinator ) },
         { typeof( IOffcanvasService ), typeof( OffcanvasService ) },
         { typeof( IOnScreenKeyboardService ), typeof( OnScreenKeyboardService ) },
+        { typeof( IFontProvider ), typeof( FontProvider ) },
     };
 
     /// <summary>
