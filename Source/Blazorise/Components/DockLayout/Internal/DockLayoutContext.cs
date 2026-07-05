@@ -86,17 +86,14 @@ internal sealed record DockLayoutContext
     internal Task BeginPaneResize( DockPane pane, string nodeId, DockPanePosition dock, PointerEventArgs eventArgs )
         => layout?.BeginPaneResize( pane, nodeId, dock, eventArgs ) ?? Task.CompletedTask;
 
-    internal Task BeginNodeResize( ElementReference elementRef, string paneName, string nodeId, DockPanePosition dock, PointerEventArgs eventArgs, string minSize = null, string maxSize = null )
-        => layout?.BeginNodeResize( elementRef, paneName, nodeId, dock, eventArgs, minSize, maxSize ) ?? Task.CompletedTask;
+    internal Task BeginNodeResize( ElementReference elementRef, string paneName, string nodeId, DockPanePosition dock, PointerEventArgs eventArgs )
+        => layout?.BeginNodeResize( elementRef, paneName, nodeId, dock, eventArgs ) ?? Task.CompletedTask;
 
     internal Task TogglePaneAutoHide( DockPane pane )
         => layout?.TogglePaneAutoHide( pane ) ?? Task.CompletedTask;
 
     internal Task ExpandPaneAutoHide( DockPane pane )
         => layout?.ExpandPaneAutoHide( pane ) ?? Task.CompletedTask;
-
-    internal Task PinPaneAutoHide( DockPane pane )
-        => layout?.PinPaneAutoHide( pane ) ?? Task.CompletedTask;
 
     internal Task ClosePane( DockPane pane )
         => layout?.ClosePane( pane ) ?? Task.CompletedTask;

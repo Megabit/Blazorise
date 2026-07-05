@@ -348,7 +348,7 @@ function onDragMove(event) {
         operation.compassZoneKey = target.compassZoneKey;
         operation.compassX = target.compassX;
         operation.compassY = target.compassY;
-        scheduleCallback(() => operation.dotNetObjectRef.invokeMethodAsync("NotifyDockPaneDrag", operation.paneName, target.targetName, target.targetNodeId, target.zone, target.compassZoneKey, target.compassX, target.compassY));
+        scheduleCallback(() => operation.dotNetObjectRef.invokeMethodAsync("NotifyDockPaneDrag", operation.paneName, target.zone, target.compassZoneKey, target.compassX, target.compassY));
     }
 }
 

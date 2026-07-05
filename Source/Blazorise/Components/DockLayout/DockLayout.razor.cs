@@ -36,6 +36,10 @@ public partial class DockLayout : BaseComponent
 
     private readonly DockLayoutTreeMutator treeMutator;
 
+    private readonly Dictionary<DockPanePosition, IReadOnlyList<DockRailItemState>> railItemsCache = new();
+
+    private int railItemsCacheVersion = -1;
+
     private DockLayoutState state;
 
     private DotNetObjectReference<DockLayout> dotNetObjectRef;
@@ -75,7 +79,7 @@ public partial class DockLayout : BaseComponent
     public DockLayout()
     {
         context = new( this );
-        treeQuery = new( registry, stateManager, () => CurrentState );
+        treeQuery = new( registry, stateManager, () => CurrentState, () => renderVersion );
         sizer = new( registry, stateManager, treeQuery, () => CurrentState );
         treeBuilder = new( registry, stateManager, treeQuery, sizer );
         treeMutator = new( treeQuery, sizer );
@@ -110,6 +114,16 @@ public partial class DockLayout : BaseComponent
         DockCompassStyleBuilder.Dirty();
 
         base.DirtyStyles();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        // The state instance can be swapped or mutated externally through the State parameter,
+        // so cached query results cannot be trusted across parameter updates.
+        InvalidateStateCaches();
     }
 
     /// <summary>
@@ -286,17 +300,22 @@ public partial class DockLayout : BaseComponent
     internal DockPanePosition GetPanePosition( DockPane pane )
         => treeQuery.GetPanePosition( pane );
 
-    internal IReadOnlyList<DockPaneState> GetPaneStates( DockPanePosition position )
-        => CurrentState.Panes
-            .Where( x => x.Visible && !x.AutoHide && x.Position == position )
-            .OrderBy( x => x.Order )
-            .ToArray();
-
     internal IReadOnlyList<DockRailItemState> GetRailItems( DockPanePosition position )
-        => stateManager.GetRailItems( CurrentState, registry.Panes, position );
+    {
+        if ( railItemsCacheVersion != renderVersion )
+        {
+            railItemsCache.Clear();
+            railItemsCacheVersion = renderVersion;
+        }
 
-    internal bool HasPaneTabs( DockPanePosition position )
-        => GetPaneStates( position ).Count > 1;
+        if ( !railItemsCache.TryGetValue( position, out IReadOnlyList<DockRailItemState> railItems ) )
+        {
+            railItems = stateManager.GetRailItems( CurrentState, registry.Panes, position );
+            railItemsCache[position] = railItems;
+        }
+
+        return railItems;
+    }
 
     internal bool TryGetPane( string paneName, out DockPane pane )
         => registry.TryGetPane( paneName, out pane );
@@ -309,9 +328,6 @@ public partial class DockLayout : BaseComponent
 
     internal DockNodeState GetNode( string nodeId )
         => treeQuery.GetNode( nodeId );
-
-    internal bool IsPaneActive( DockPane pane )
-        => treeQuery.IsPaneActive( pane );
 
     internal string GetPaneCaption( string paneName )
         => TryGetPane( paneName, out DockPane pane ) ? pane.ResolvedCaption : paneName;
@@ -639,15 +655,13 @@ public partial class DockLayout : BaseComponent
     /// Updates the currently highlighted dock drop zone while a pane is dragged.
     /// </summary>
     /// <param name="paneName">The dragged pane name.</param>
-    /// <param name="targetName">The pane currently under the pointer.</param>
-    /// <param name="targetNodeId">The dock node currently under the pointer.</param>
     /// <param name="zone">The currently hovered drop zone.</param>
     /// <param name="compassZoneKey">The exact compass zone currently under the pointer.</param>
     /// <param name="compassX">The horizontal compass location relative to the layout.</param>
     /// <param name="compassY">The vertical compass location relative to the layout.</param>
     /// <returns>A completed task.</returns>
     [JSInvokable]
-    public Task NotifyDockPaneDrag( string paneName, string targetName, string targetNodeId, string zone, string compassZoneKey, double compassX, double compassY )
+    public Task NotifyDockPaneDrag( string paneName, string zone, string compassZoneKey, double compassX, double compassY )
     {
         dragState.Update( paneName, DockLayoutTreeMutator.ToDockZone( zone ), compassZoneKey, compassX, compassY );
         DirtyStyles();
@@ -1110,6 +1124,15 @@ public partial class DockLayout : BaseComponent
     private void NormalizeCurrentState()
     {
         stateManager.Normalize( CurrentState, registry, treeQuery, ref nextNodeId );
+
+        InvalidateStateCaches();
+    }
+
+    private void InvalidateStateCaches()
+    {
+        railItemsCache.Clear();
+        railItemsCacheVersion = -1;
+        treeQuery.InvalidateCaches();
     }
 
     private void EnsureCurrentStateInitialized()
