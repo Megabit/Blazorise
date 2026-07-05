@@ -38,32 +38,6 @@ public enum PdfOrientation
 }
 
 /// <summary>
-/// Defines PDF measurement units used by public APIs.
-/// </summary>
-public enum PdfUnit
-{
-    /// <summary>
-    /// PDF points.
-    /// </summary>
-    Point,
-
-    /// <summary>
-    /// Inches.
-    /// </summary>
-    Inch,
-
-    /// <summary>
-    /// Millimeters.
-    /// </summary>
-    Millimeter,
-
-    /// <summary>
-    /// Centimeters.
-    /// </summary>
-    Centimeter,
-}
-
-/// <summary>
 /// Defines PDF element kinds.
 /// </summary>
 public enum PdfElementType

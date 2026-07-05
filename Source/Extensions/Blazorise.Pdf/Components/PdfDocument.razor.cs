@@ -34,7 +34,6 @@ public partial class PdfDocument : ComponentBase
         Definition = new()
         {
             Title = Title,
-            Unit = Unit,
             PageSize = PageSize,
             Orientation = Orientation,
             PageWidth = width,
@@ -52,11 +51,6 @@ public partial class PdfDocument : ComponentBase
     /// Document title stored in the document definition.
     /// </summary>
     [Parameter] public string Title { get; set; }
-
-    /// <summary>
-    /// Unit used by declarative numeric measurements.
-    /// </summary>
-    [Parameter] public PdfUnit Unit { get; set; } = PdfUnit.Point;
 
     /// <summary>
     /// Default page size used by pages that do not override it.

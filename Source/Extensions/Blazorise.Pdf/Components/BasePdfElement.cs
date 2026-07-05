@@ -134,7 +134,7 @@ public abstract class BasePdfElement : ComponentBase
     [Parameter] public string Source { get; set; }
 
     /// <summary>
-    /// Font family used by text-based elements.
+    /// Font family used by text-based elements. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).
     /// </summary>
     [Parameter] public string FontFamily { get; set; } = "Helvetica";
 

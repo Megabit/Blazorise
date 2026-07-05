@@ -33,8 +33,6 @@ public partial class PdfTableCell : ComponentBase
         PdfTableCellDefinition definition = new()
         {
             Width = Width,
-            ColumnSpan = ColumnSpan,
-            RowSpan = RowSpan,
         };
 
         RowContext.Cells.Add( definition );
@@ -57,16 +55,6 @@ public partial class PdfTableCell : ComponentBase
     /// Cell width.
     /// </summary>
     [Parameter] public double Width { get; set; } = 90;
-
-    /// <summary>
-    /// Number of columns occupied by this cell.
-    /// </summary>
-    [Parameter] public int ColumnSpan { get; set; } = 1;
-
-    /// <summary>
-    /// Number of rows occupied by this cell.
-    /// </summary>
-    [Parameter] public int RowSpan { get; set; } = 1;
 
     /// <summary>
     /// Elements declared inside the cell.

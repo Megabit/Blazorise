@@ -5,7 +5,7 @@ using System;
 namespace Blazorise.Pdf;
 
 /// <summary>
-/// Provides standard PDF page sizes and unit conversion helpers.
+/// Provides standard PDF page sizes and page dimension helpers.
 /// </summary>
 public static class PdfPageMetrics
 {
@@ -31,30 +31,9 @@ public static class PdfPageMetrics
     /// </summary>
     public const double LetterHeight = 792;
 
-    private const double PointsPerInch = 72;
-
-    private const double MillimetersPerInch = 25.4;
-
     #endregion
 
     #region Methods
-
-    /// <summary>
-    /// Converts a value from the supplied unit to points.
-    /// </summary>
-    /// <param name="value">The value to convert.</param>
-    /// <param name="unit">The measurement unit.</param>
-    /// <returns>The value converted to PDF points.</returns>
-    public static double ToPoints( double value, PdfUnit unit )
-    {
-        return unit switch
-        {
-            PdfUnit.Inch => value * PointsPerInch,
-            PdfUnit.Millimeter => value * PointsPerInch / MillimetersPerInch,
-            PdfUnit.Centimeter => value * PointsPerInch * 10 / MillimetersPerInch,
-            _ => value,
-        };
-    }
 
     /// <summary>
     /// Resolves page dimensions in points.

@@ -17,11 +17,6 @@ public sealed class PdfDocumentDefinition
     public string Title { get; set; }
 
     /// <summary>
-    /// Measurement unit preferred by editors and declarative components.
-    /// </summary>
-    public PdfUnit Unit { get; set; } = PdfUnit.Point;
-
-    /// <summary>
     /// Default page size used by pages that do not specify their own dimensions.
     /// </summary>
     public PdfPageSize PageSize { get; set; } = PdfPageSize.A4;
@@ -162,7 +157,7 @@ public sealed class PdfFontDefinition
     #region Properties
 
     /// <summary>
-    /// Font family name.
+    /// Font family name. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).
     /// </summary>
     public string Family { get; set; } = "Helvetica";
 
@@ -270,16 +265,6 @@ public sealed class PdfTableCellDefinition
     /// Cell width in points.
     /// </summary>
     public double Width { get; set; } = 90;
-
-    /// <summary>
-    /// Number of columns spanned by the cell.
-    /// </summary>
-    public int ColumnSpan { get; set; } = 1;
-
-    /// <summary>
-    /// Number of rows spanned by the cell.
-    /// </summary>
-    public int RowSpan { get; set; } = 1;
 
     /// <summary>
     /// Elements rendered inside the cell.

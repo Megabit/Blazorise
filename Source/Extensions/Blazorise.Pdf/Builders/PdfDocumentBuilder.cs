@@ -50,18 +50,6 @@ public sealed class PdfDocumentBuilder
     }
 
     /// <summary>
-    /// Sets the document unit.
-    /// </summary>
-    /// <param name="unit">The document unit.</param>
-    /// <returns>The PDF document builder.</returns>
-    public PdfDocumentBuilder Unit( PdfUnit unit )
-    {
-        definition.Unit = unit;
-
-        return this;
-    }
-
-    /// <summary>
     /// Sets the default document page.
     /// </summary>
     /// <param name="size">The page size.</param>
@@ -319,7 +307,7 @@ public class PdfElementBuilder
     }
 
     /// <summary>
-    /// Sets the font family.
+    /// Sets the font family. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).
     /// </summary>
     /// <param name="family">The font family.</param>
     /// <returns>The element builder.</returns>
@@ -524,16 +512,12 @@ public sealed class PdfTableRowBuilder
     /// </summary>
     /// <param name="width">The cell width.</param>
     /// <param name="configure">The cell configuration.</param>
-    /// <param name="columnSpan">The number of columns occupied by this cell.</param>
-    /// <param name="rowSpan">The number of rows occupied by this cell.</param>
     /// <returns>The row builder.</returns>
-    public PdfTableRowBuilder Cell( double width, Action<PdfTableCellBuilder> configure = null, int columnSpan = 1, int rowSpan = 1 )
+    public PdfTableRowBuilder Cell( double width, Action<PdfTableCellBuilder> configure = null )
     {
         PdfTableCellDefinition cell = new()
         {
             Width = width,
-            ColumnSpan = columnSpan,
-            RowSpan = rowSpan,
         };
 
         definition.Cells.Add( cell );
