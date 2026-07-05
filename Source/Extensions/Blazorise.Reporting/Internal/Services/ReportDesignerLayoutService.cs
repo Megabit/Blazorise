@@ -56,8 +56,13 @@ internal sealed class ReportDesignerLayoutService
     private static double GetSectionDesignerHeight( double sectionHeight, ReportBandMode bandMode )
     {
         return bandMode == ReportBandMode.Classic
-            ? sectionHeight + ReportDesignerConstants.DesignerBandHeaderHeight
+            ? sectionHeight + GetClassicBandHeaderHeight()
             : sectionHeight;
+    }
+
+    private static double GetClassicBandHeaderHeight()
+    {
+        return ReportMeasurementConverter.FromCssPixelValue( ReportDesignerConstants.DesignerBandHeaderHeight );
     }
 
     internal void Invalidate()

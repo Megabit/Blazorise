@@ -339,6 +339,9 @@ internal static class ReportDesignerInteractionService
             var targetX = item.OriginalX + deltaX;
             var targetY = item.OriginalY + deltaY;
 
+            if ( HasResizeHandle( pointerResize.Handle, ReportElementResizeHandle.South ) )
+                targetHeight = ClampResizeHeightToSectionBottom( section, targetY, targetHeight, minimumHeight );
+
             element.Width = Math.Min( targetWidth, Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, definition.Page.Width ) );
             element.Height = targetHeight;
             element.X = ReportLayoutGeometry.Clamp( targetX, 0, Math.Max( 0, definition.Page.Width - element.Width ) );
@@ -563,6 +566,20 @@ internal static class ReportDesignerInteractionService
 
     private static bool HasResizeHandle( ReportElementResizeHandle handle, ReportElementResizeHandle flag )
         => ( handle & flag ) == flag;
+
+    private static double ClampResizeHeightToSectionBottom( ReportSectionDefinition section, double targetY, double targetHeight, double minimumHeight )
+    {
+        if ( section is null )
+            return targetHeight;
+
+        double targetBottom = targetY + targetHeight;
+        double overflow = targetBottom - section.Height;
+
+        if ( overflow <= 0 || overflow > ReportLayoutGeometry.SnapToGridSize )
+            return targetHeight;
+
+        return Math.Max( minimumHeight, section.Height - targetY );
+    }
 
     #endregion
 }

@@ -2378,13 +2378,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         SelectElement( elementKey, preserveSelection: selectionManager.IsElementSelected( elementKey ) && selectionManager.SelectedElementKeys.Count > 1 );
     }
 
-    private Task BeginElementPointerResizeAsync( string elementKey, ReportElementResizeHandle handle, PointerEventArgs eventArgs )
+    private async Task BeginElementPointerResizeAsync( string elementKey, ReportElementResizeHandle handle, PointerEventArgs eventArgs )
     {
         if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out var sectionIndex, out _, out var element )
             || element.Suppress?.Value == true )
-            return Task.CompletedTask;
+            return;
 
-        ReportDesignerInteractionService.TryBeginElementPointerResize(
+        bool started = ReportDesignerInteractionService.TryBeginElementPointerResize(
             designerState,
             elementKey,
             element,
@@ -2396,7 +2396,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         SelectElement( elementKey, preserveSelection: selectionManager.IsElementSelected( elementKey ) && selectionManager.SelectedElementKeys.Count > 1 );
 
-        return Task.CompletedTask;
+        if ( started )
+            await StartDocumentElementResizeAsync( eventArgs.ClientX, eventArgs.ClientY, eventArgs.PointerId );
     }
 
     private Task BeginTablePointerResizeAsync( string tableKey, string cellKey, ReportTableResizeKind kind, int index, PointerEventArgs eventArgs )
@@ -2930,10 +2931,15 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task PreviewElementPointerResizeAsync( PointerEventArgs eventArgs )
     {
+        await PreviewElementPointerResizeAsync( eventArgs.ClientX, eventArgs.ClientY );
+    }
+
+    private async Task PreviewElementPointerResizeAsync( double clientX, double clientY )
+    {
         if ( designerState.ElementPointerResize is null || designerState.DraggedElement is null || designerState.DraggedKind != ReportDesignerDragKind.Element )
             return;
 
-        var preview = CreateElementPointerResizePreview( eventArgs );
+        var preview = CreateElementPointerResizePreview( clientX, clientY );
 
         if ( preview is null )
             return;
@@ -2969,11 +2975,16 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task CompleteElementPointerResizeAsync( PointerEventArgs eventArgs )
     {
+        await CompleteElementPointerResizeAsync( eventArgs.ClientX, eventArgs.ClientY );
+    }
+
+    private async Task CompleteElementPointerResizeAsync( double clientX, double clientY )
+    {
         if ( designerState.ElementPointerResize is null || designerState.DraggedKind != ReportDesignerDragKind.Element )
             return;
 
         var pointerResize = designerState.ElementPointerResize;
-        var preview = CreateElementPointerResizePreview( eventArgs ) ?? designerState.DragPreview;
+        var preview = CreateElementPointerResizePreview( clientX, clientY ) ?? designerState.DragPreview;
 
         if ( preview is not null )
         {
@@ -3155,6 +3166,37 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return InvokeAsync( CancelSectionPointerResizeAsync );
     }
 
+    /// <summary>
+    /// Previews a document-level element resize while the pointer is moving.
+    /// </summary>
+    /// <param name="clientX">Current document pointer X coordinate.</param>
+    /// <param name="clientY">Current document pointer Y coordinate.</param>
+    [JSInvokable]
+    public Task OnDocumentElementResizeMove( double clientX, double clientY )
+    {
+        return InvokeAsync( () => PreviewElementPointerResizeAsync( clientX, clientY ) );
+    }
+
+    /// <summary>
+    /// Completes a document-level element resize and commits the final element size.
+    /// </summary>
+    /// <param name="clientX">Final document pointer X coordinate.</param>
+    /// <param name="clientY">Final document pointer Y coordinate.</param>
+    [JSInvokable]
+    public Task OnDocumentElementResizeEnd( double clientX, double clientY )
+    {
+        return InvokeAsync( () => CompleteElementPointerResizeAsync( clientX, clientY ) );
+    }
+
+    /// <summary>
+    /// Cancels the active document-level element resize.
+    /// </summary>
+    [JSInvokable]
+    public Task OnDocumentElementResizeCancel()
+    {
+        return InvokeAsync( CancelElementPointerResizeAsync );
+    }
+
     private async Task StartDocumentSectionResizeAsync( double startClientY, long pointerId )
     {
         EnsureReportingModule();
@@ -3162,6 +3204,15 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         await DocumentObserver.EnsureInitializedAsync();
         await reportingModule.StartSectionResize( dotNetObjectReference, startClientY, pointerId );
+    }
+
+    private async Task StartDocumentElementResizeAsync( double startClientX, double startClientY, long pointerId )
+    {
+        EnsureReportingModule();
+        dotNetObjectReference ??= DotNetObjectReference.Create( this );
+
+        await DocumentObserver.EnsureInitializedAsync();
+        await reportingModule.StartElementResize( dotNetObjectReference, startClientX, startClientY, pointerId );
     }
 
     private void EnsureReportingModule()
@@ -3240,14 +3291,14 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await reportingModule.CommitDesignerSectionResizePreview( designerPageRef.Element );
     }
 
-    private ReportDesignerDragPreview CreateElementPointerResizePreview( PointerEventArgs eventArgs )
+    private ReportDesignerDragPreview CreateElementPointerResizePreview( double clientX, double clientY )
     {
         return ReportDesignerInteractionService.CreateElementResizePreview(
             EffectiveDefinition,
             designerState.ElementPointerResize,
             designerState.DraggedElement,
-            eventArgs.ClientX,
-            eventArgs.ClientY,
+            clientX,
+            clientY,
             value => ApplyDesignerGrid( value, designerState.ElementPointerResize?.SnapToGrid ?? designerState.SnapToGrid ) );
     }
 

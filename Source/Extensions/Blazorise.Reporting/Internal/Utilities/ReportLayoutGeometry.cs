@@ -12,7 +12,7 @@ internal static class ReportLayoutGeometry
 
     internal const double DefaultLineThickness = 1;
 
-    private const double SnapToGridSize = 8;
+    internal const double SnapToGridSize = 8;
 
     #endregion
 

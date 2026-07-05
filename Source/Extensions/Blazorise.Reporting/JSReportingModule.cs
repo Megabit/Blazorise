@@ -51,6 +51,28 @@ public class JSReportingModule : BaseJSModule
     }
 
     /// <summary>
+    /// Starts document-level element resizing for the active report designer.
+    /// </summary>
+    /// <param name="dotNetObjectReference">Report component reference that receives resize callbacks.</param>
+    /// <param name="startClientX">Initial document pointer X coordinate.</param>
+    /// <param name="startClientY">Initial document pointer Y coordinate.</param>
+    /// <param name="pointerId">The starting pointer identifier.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask StartElementResize( DotNetObjectReference<Report> dotNetObjectReference, double startClientX, double startClientY, long pointerId )
+    {
+        await InvokeSafeVoidAsync( "startElementResize", dotNetObjectReference, startClientX, startClientY, pointerId );
+    }
+
+    /// <summary>
+    /// Stops any active document-level element resize listeners.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask StopElementResize()
+    {
+        await InvokeSafeVoidAsync( "stopElementResize" );
+    }
+
+    /// <summary>
     /// Starts document-level designer keyboard shortcut handling for the active report designer.
     /// </summary>
     /// <typeparam name="TComponent">Component type that receives shortcut callbacks.</typeparam>

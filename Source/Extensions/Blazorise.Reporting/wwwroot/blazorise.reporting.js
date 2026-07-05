@@ -1,4 +1,5 @@
 let sectionResize;
+let elementResize;
 const designerKeyboardShortcuts = new WeakMap();
 let activeDesignerKeyboardShortcut;
 const treeDragImageSuppressors = new WeakMap();
@@ -79,6 +80,61 @@ export function stopSectionResize() {
     }
 
     clearSectionResize(resize);
+}
+
+export function startElementResize(dotNetReference, startClientX, startClientY, pointerId) {
+    stopElementResize();
+
+    const observer = getDocumentObserver();
+
+    if (!observer) {
+        return;
+    }
+
+    elementResize = {
+        dotNetReference,
+        ownerId: createDocumentObserverOwnerId("element-resize"),
+        pointerId,
+        ended: false,
+        lastClientX: startClientX ?? 0,
+        lastClientY: startClientY ?? 0,
+        move: event => {
+            const resize = elementResize;
+
+            if (!resize || resize.ended) {
+                return;
+            }
+
+            event.preventDefault();
+            resize.lastClientX = getClientX(event, resize.lastClientX);
+            resize.lastClientY = getClientY(event, resize.lastClientY);
+            resize.dotNetReference.invokeMethodAsync("OnDocumentElementResizeMove", resize.lastClientX, resize.lastClientY);
+        },
+        end: event => {
+            const resize = elementResize;
+
+            if (!resize || resize.ended) {
+                return;
+            }
+
+            event.preventDefault();
+            completeElementResize(resize, getClientX(event, resize.lastClientX), getClientY(event, resize.lastClientY));
+        },
+        cancel: event => cancelElementResize(event),
+    };
+
+    addElementResizeListeners(elementResize);
+    observer.capturePointer(elementResize.ownerId, elementResize.pointerId);
+}
+
+export function stopElementResize() {
+    const resize = elementResize;
+
+    if (!resize) {
+        return;
+    }
+
+    clearElementResize(resize);
 }
 
 export function startDesignerKeyboardShortcuts(element, dotNetReference) {
@@ -546,6 +602,14 @@ function clearSectionResize(resize) {
     }
 }
 
+function clearElementResize(resize) {
+    removeElementResizeListeners(resize);
+
+    if (elementResize === resize) {
+        elementResize = null;
+    }
+}
+
 function addSectionResizeListeners(resize) {
     const observer = getDocumentObserver();
 
@@ -604,6 +668,64 @@ function removeSectionResizeListeners(resize) {
     observer.releasePointer(resize.ownerId, resize.pointerId);
 }
 
+function addElementResizeListeners(resize) {
+    const observer = getDocumentObserver();
+
+    if (!observer) {
+        return;
+    }
+
+    resize.subscriptions = [
+        createDocumentObserverSubscriptionId("element-resize-move"),
+        createDocumentObserverSubscriptionId("element-resize-end"),
+        createDocumentObserverSubscriptionId("element-resize-cancel"),
+    ];
+
+    observer.subscribe({
+        id: resize.subscriptions[0],
+        ownerId: resize.ownerId,
+        eventNames: ["pointermove", "mousemove", "touchmove"],
+        capture: true,
+        preventDefault: true,
+        throttle: true,
+        handler: resize.move,
+    });
+
+    observer.subscribe({
+        id: resize.subscriptions[1],
+        ownerId: resize.ownerId,
+        eventNames: ["pointerup", "mouseup", "touchend", "dragend"],
+        capture: true,
+        preventDefault: true,
+        handler: resize.end,
+    });
+
+    observer.subscribe({
+        id: resize.subscriptions[2],
+        ownerId: resize.ownerId,
+        eventNames: ["pointercancel", "touchcancel", "blur"],
+        capture: true,
+        preventDefault: true,
+        handler: resize.cancel,
+    });
+}
+
+function removeElementResizeListeners(resize) {
+    const observer = getDocumentObserver();
+
+    if (!observer) {
+        return;
+    }
+
+    if (resize.subscriptions) {
+        for (const subscriptionId of resize.subscriptions) {
+            observer.unsubscribe(subscriptionId);
+        }
+    }
+
+    observer.releasePointer(resize.ownerId, resize.pointerId);
+}
+
 function getDocumentObserver() {
     return globalThis.Blazorise?.documentObserver ?? null;
 }
@@ -629,6 +751,17 @@ async function completeSectionResize(resize, clientY) {
     await resize.dotNetReference.invokeMethodAsync("OnDocumentSectionResizeEnd", clientY);
 }
 
+async function completeElementResize(resize, clientX, clientY) {
+    if (!resize || resize.ended) {
+        return;
+    }
+
+    resize.ended = true;
+    clearElementResize(resize);
+
+    await resize.dotNetReference.invokeMethodAsync("OnDocumentElementResizeEnd", clientX, clientY);
+}
+
 async function cancelSectionResize(event) {
     if (event) {
         event.preventDefault();
@@ -644,6 +777,35 @@ async function cancelSectionResize(event) {
     clearSectionResize(resize);
 
     await resize.dotNetReference.invokeMethodAsync("OnDocumentSectionResizeCancel");
+}
+
+async function cancelElementResize(event) {
+    if (event) {
+        event.preventDefault();
+    }
+
+    const resize = elementResize;
+
+    if (!resize || resize.ended) {
+        return;
+    }
+
+    resize.ended = true;
+    clearElementResize(resize);
+
+    await resize.dotNetReference.invokeMethodAsync("OnDocumentElementResizeCancel");
+}
+
+function getClientX(event, fallback) {
+    if (typeof event?.clientX === "number") {
+        return event.clientX;
+    }
+
+    const touch = event?.changedTouches?.[0] ?? event?.touches?.[0];
+
+    return typeof touch?.clientX === "number"
+        ? touch.clientX
+        : fallback;
 }
 
 function getClientY(event, fallback) {
