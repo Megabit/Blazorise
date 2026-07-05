@@ -407,5 +407,5 @@ public partial class _ReportDesignerElement
     /// <summary>
     /// Raised when element resizing starts from one of the resize handles.
     /// </summary>
-    [Parameter] public EventCallback<ReportElementResizeHandleEventArgs> ResizeStarted { get; set; }
+    [Parameter] public Func<int, PointerEventArgs, Task> ResizeStarted { get; set; }
 }

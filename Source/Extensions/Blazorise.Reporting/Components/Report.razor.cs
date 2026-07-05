@@ -2218,11 +2218,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         SelectElement( elementKey, preserveSelection: selectionManager.IsElementSelected( elementKey ) && selectionManager.SelectedElementKeys.Count > 1 );
     }
 
-    private void BeginElementPointerResize( string elementKey, ReportElementResizeHandle handle, PointerEventArgs eventArgs )
+    private Task BeginElementPointerResizeAsync( string elementKey, ReportElementResizeHandle handle, PointerEventArgs eventArgs )
     {
         if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out var sectionIndex, out _, out var element )
             || element.Suppress?.Value == true )
-            return;
+            return Task.CompletedTask;
 
         ReportDesignerInteractionService.TryBeginElementPointerResize(
             designerState,
@@ -2235,6 +2235,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             CaptureElementPointerItems( EffectiveDefinition, elementKey ).ToList() );
 
         SelectElement( elementKey, preserveSelection: selectionManager.IsElementSelected( elementKey ) && selectionManager.SelectedElementKeys.Count > 1 );
+
+        return Task.CompletedTask;
     }
 
     private Task BeginTablePointerResizeAsync( string tableKey, string cellKey, ReportTableResizeKind kind, int index, PointerEventArgs eventArgs )

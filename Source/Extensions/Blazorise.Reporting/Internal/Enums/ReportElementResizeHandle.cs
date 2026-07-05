@@ -8,7 +8,7 @@ namespace Blazorise.Reporting.Internal;
 /// Defines which element handle is used by a designer resize interaction.
 /// </summary>
 [Flags]
-public enum ReportElementResizeHandle
+internal enum ReportElementResizeHandle
 {
     /// <summary>
     /// The top edge is resized.

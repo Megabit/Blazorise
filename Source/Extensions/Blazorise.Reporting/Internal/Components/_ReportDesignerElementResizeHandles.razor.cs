@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -46,11 +47,11 @@ public partial class _ReportDesignerElementResizeHandles
 
     private Task OnPointerDown( ReportElementResizeHandle handle, PointerEventArgs eventArgs )
     {
-        return PointerDown.InvokeAsync( new( handle, eventArgs ) );
+        return PointerDown?.Invoke( (int)handle, eventArgs ) ?? Task.CompletedTask;
     }
 
     /// <summary>
     /// Raised when resizing starts on one of the element resize handles.
     /// </summary>
-    [Parameter] public EventCallback<ReportElementResizeHandleEventArgs> PointerDown { get; set; }
+    [Parameter] public Func<int, PointerEventArgs, Task> PointerDown { get; set; }
 }

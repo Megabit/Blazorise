@@ -236,7 +236,7 @@
                                                             TextEditCommitted="@(editable ? EventCallback.Factory.Create<string>( this, text => CommitElementTextEditAsync( capturedElementKey, text ) ) : default)"
                                                             TextEditCancelled="@(editable ? EventCallback.Factory.Create( this, () => CancelElementTextEdit( capturedElementKey ) ) : default)"
                                                             PointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerDrag( capturedElementKey, eventArgs ) ) : default)"
-                                                            ResizeStarted="@((ReportElementResizeHandleEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, eventArgs.Handle, eventArgs.PointerEventArgs ))" />
+                                                            ResizeStarted="@((int handle, PointerEventArgs eventArgs) => BeginElementPointerResizeAsync( capturedElementKey, (ReportElementResizeHandle)handle, eventArgs ))" />
                                 }
                             </_ReportDesignerSection>
                         }
