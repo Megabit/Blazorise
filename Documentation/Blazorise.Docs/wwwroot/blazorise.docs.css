@@ -490,6 +490,13 @@ body[data-bs-theme=dark] .home-customer-feedback-customer-cards:hover {
   color: var(--b-theme-primary);
 }
 
+.b-docs .navbar[data-mode^=vertical].navbar-light .navbar-collapse > .navbar-nav.nav-pills > .nav-item > .nav-link.active:hover,
+.b-docs .navbar[data-mode^=vertical].navbar-light .navbar-collapse > .navbar-nav.nav-pills > .nav-item > .dropdown[data-visible] > .nav-link.active:hover,
+.b-docs .navbar[data-mode^=vertical].navbar-light .dropdown[data-visible] > .dropdown-menu-container > .dropdown-menu .dropdown-item.active:hover {
+  color: var(--b-theme-primary) !important;
+  background: #ede3fb !important;
+}
+
 .b-is-autocomplete::-webkit-scrollbar-track {
   background: var(--bs-body-bg);
 }
@@ -516,6 +523,12 @@ body[data-bs-theme=dark] .b-docs-page .b-docs-example-position-utils > div {
 }
 body[data-bs-theme=dark] .b-docs-page .b-docs-example-position-utils > div > div {
   background-color: var(--bs-body-color);
+}
+body[data-bs-theme=dark] .b-docs .navbar[data-mode^=vertical].navbar-dark .navbar-collapse > .navbar-nav.nav-pills > .nav-item > .nav-link.active:hover,
+body[data-bs-theme=dark] .b-docs .navbar[data-mode^=vertical].navbar-dark .navbar-collapse > .navbar-nav.nav-pills > .nav-item > .dropdown[data-visible] > .nav-link.active:hover,
+body[data-bs-theme=dark] .b-docs .navbar[data-mode^=vertical].navbar-dark .dropdown[data-visible] > .dropdown-menu-container > .dropdown-menu .dropdown-item.active:hover {
+  color: var(--b-theme-primary) !important;
+  background: #38445a !important;
 }
 
 .blazorise-codeblock {
