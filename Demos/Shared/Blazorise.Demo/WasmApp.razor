@@ -51,6 +51,7 @@
     private static readonly string[] reportingAssemblies =
     [
         "Blazorise.Demo.Reporting.wasm",
+        "Blazorise.PdfViewer.wasm",
     ];
 
     private static readonly string[] componentAssemblies =
@@ -179,7 +180,8 @@
         if ( path.StartsWith( "tests/datagrid", StringComparison.OrdinalIgnoreCase ) )
             return dataGridAssemblies;
 
-        if ( string.Equals( path, "tests/reporting", StringComparison.OrdinalIgnoreCase ) )
+        if ( string.Equals( path, "tests/reporting", StringComparison.OrdinalIgnoreCase )
+             || string.Equals( path, "tests/pdf-generator", StringComparison.OrdinalIgnoreCase ) )
             return reportingAssemblies;
 
         if ( IsInRouteGroup( path, componentRoutes ) )
