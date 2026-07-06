@@ -91,6 +91,7 @@ internal static class ReportPdfDocumentBuilder
         PdfElementDefinition pdfElement = CreateBaseElement( PdfElementType.Text, element, sectionX, sectionY );
         pdfElement.Text = ReportTextTemplateResolver.ResolveText( definition, data, renderSection.Item, element, renderSection.RunningTotals );
         ApplyTextFormatting( pdfElement, definition, data, renderSection.Section, element );
+        pdfElement.Wrap = ReportValueResolver.ResolveCanGrow( element, renderSection.Section, definition, data, renderSection.Item, designMode: false );
 
         return pdfElement;
     }
@@ -101,6 +102,7 @@ internal static class ReportPdfDocumentBuilder
         object value = ReportExpressionResolver.ResolveFieldValue( definition, data, renderSection.Item, element, renderSection.RunningTotals );
         pdfElement.Text = ReportDataResolver.FormatValue( value, element.Format );
         ApplyTextFormatting( pdfElement, definition, data, renderSection.Section, element );
+        pdfElement.Wrap = ReportValueResolver.ResolveCanGrow( element, renderSection.Section, definition, data, renderSection.Item, designMode: false );
 
         return pdfElement;
     }

@@ -182,6 +182,11 @@ public sealed class PdfElementDefinition
     public string Text { get; set; }
 
     /// <summary>
+    /// Indicates that text should wrap inside the element bounds.
+    /// </summary>
+    public bool Wrap { get; set; } = true;
+
+    /// <summary>
     /// Image source used by image elements.
     /// </summary>
     public string Source { get; set; }

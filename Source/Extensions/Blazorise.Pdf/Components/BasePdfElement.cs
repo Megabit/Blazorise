@@ -61,6 +61,7 @@ public abstract class BasePdfElement : ComponentBase
             Width = Width,
             Height = Height,
             Text = Text,
+            Wrap = Wrap,
             Source = Source,
             Font = new()
             {
@@ -127,6 +128,11 @@ public abstract class BasePdfElement : ComponentBase
     /// Text rendered by text-based elements.
     /// </summary>
     [Parameter] public string Text { get; set; }
+
+    /// <summary>
+    /// Indicates that text should wrap inside the element bounds.
+    /// </summary>
+    [Parameter] public bool Wrap { get; set; } = true;
 
     /// <summary>
     /// Image source used by image elements.

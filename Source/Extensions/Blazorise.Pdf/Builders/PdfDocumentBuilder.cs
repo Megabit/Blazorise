@@ -335,6 +335,18 @@ public class PdfElementBuilder
     }
 
     /// <summary>
+    /// Enables or disables text wrapping inside the element bounds.
+    /// </summary>
+    /// <param name="wrap">A value indicating whether text should wrap.</param>
+    /// <returns>The element builder.</returns>
+    public PdfElementBuilder Wrap( bool wrap = true )
+    {
+        definition.Wrap = wrap;
+
+        return this;
+    }
+
+    /// <summary>
     /// Sets the image source.
     /// </summary>
     /// <param name="source">The image source.</param>

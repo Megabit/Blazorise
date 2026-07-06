@@ -549,11 +549,14 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         PdfFontDefinition font = element.Font ?? new();
         double fontSize = Math.Max( 1, font.Size );
         PdfFontResource fontResource = ResolveFontResource( context.FontResources, context.FontProvider, font );
-        IReadOnlyList<string> lines = WrapText( element.Text, fontResource, fontSize, element.Width );
+        IReadOnlyList<string> lines = element.Wrap
+            ? WrapText( element.Text, fontResource, fontSize, element.Width )
+            : SplitTextLines( element.Text );
         double lineHeight = ResolveLineHeight( fontSize );
         double textY = ResolveTextY( page, element, y, fontSize, lines.Count, lineHeight );
 
         AppendColor( context, font.Color, stroke: false );
+        AppendTextClipStart( context, page, element, x, y );
 
         for ( int i = 0; i < lines.Count; i++ )
         {
@@ -567,6 +570,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
             context.Builder.AppendLine( FormattableString.Invariant( $"BT /{fontResource.Name} {fontSize} Tf {textX} {lineY} Td {textOperand} Tj ET" ) );
         }
+
+        AppendTextClipEnd( context, element );
     }
 
     private static PdfFontResource ResolveFontResource( PdfFontResources fontResources, IFontProvider fontProvider, PdfFontDefinition font )
@@ -647,6 +652,32 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         }
 
         return lines;
+    }
+
+    private static IReadOnlyList<string> SplitTextLines( string text )
+    {
+        if ( string.IsNullOrEmpty( text ) )
+            return [string.Empty];
+
+        return text.Replace( "\r\n", "\n", StringComparison.Ordinal ).Replace( '\r', '\n' ).Split( '\n' );
+    }
+
+    private static void AppendTextClipStart( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
+    {
+        if ( element.Wrap || element.Width <= 0 || element.Height <= 0 )
+            return;
+
+        double rectangleY = page.Height - y - element.Height;
+        context.Builder.AppendLine( "q" );
+        context.Builder.AppendLine( FormattableString.Invariant( $"{x} {rectangleY} {element.Width} {element.Height} re W n" ) );
+    }
+
+    private static void AppendTextClipEnd( PdfPageContentContext context, PdfElementDefinition element )
+    {
+        if ( element.Wrap || element.Width <= 0 || element.Height <= 0 )
+            return;
+
+        context.Builder.AppendLine( "Q" );
     }
 
     private static void AppendWrappedParagraph( List<string> lines, string paragraph, PdfFontResource fontResource, double fontSize, double maxWidth )
