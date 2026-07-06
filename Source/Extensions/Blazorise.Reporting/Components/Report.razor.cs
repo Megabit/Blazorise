@@ -69,7 +69,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private readonly HashSet<string> collapsedSectionIds = new( StringComparer.Ordinal );
 
-    private readonly IReadOnlyList<IReportDataSourceProvider> fallbackDataSourceProviders = [new ObjectReportDataSourceProvider()];
+    private readonly IReadOnlyList<IReportDataSourceProvider> fallbackDataSourceProviders =
+    [
+        new ObjectReportDataSourceProvider(),
+        new DataSetReportDataSourceProvider(),
+    ];
 
     private DotNetObjectReference<Report> dotNetObjectReference;
 
@@ -244,7 +248,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
             try
             {
-                if ( loadData && dataSource.Data is null )
+                if ( loadData && ShouldLoadDataSource( provider, dataSource ) )
                 {
                     ReportDataSourceResult result = await provider.LoadDataAsync( dataSource, new()
                     {
@@ -264,6 +268,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             {
             }
         }
+    }
+
+    private static bool ShouldLoadDataSource( IReportDataSourceProvider provider, ReportDataSourceDefinition dataSource )
+    {
+        return dataSource?.Data is null
+            || string.Equals( provider?.Type, DataSetReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase );
     }
 
     private bool IsElementContextMenuVisible()

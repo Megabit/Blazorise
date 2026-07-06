@@ -18,7 +18,7 @@ internal sealed class ReportDataCommandService
         if ( definition.DataSources is null )
             definition.DataSources = [];
 
-        if ( string.Equals( dataSource.ProviderType, ObjectReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase )
+        if ( IsInMemoryProvider( dataSource.ProviderType )
             && dataSource.Data is null )
         {
             dataSource.Data = data;
@@ -59,7 +59,7 @@ internal sealed class ReportDataCommandService
         {
         }
 
-        if ( !string.Equals( dataSource.ProviderType, ObjectReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase ) )
+        if ( !IsInMemoryProvider( dataSource.ProviderType ) )
             dataSource.Data = null;
     }
 
@@ -279,6 +279,12 @@ internal sealed class ReportDataCommandService
     {
         section.Elements.Add( element );
         section.Height = Math.Max( section.Height, y + ReportDesignerConstants.DefaultDroppedFieldHeight );
+    }
+
+    private static bool IsInMemoryProvider( string providerType )
+    {
+        return string.Equals( providerType, ObjectReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase )
+            || string.Equals( providerType, DataSetReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase );
     }
 
     #endregion

@@ -125,11 +125,13 @@ internal static class ReportDataSourceExplorer
             return true;
 
         List<string> normalizedFieldNames = NormalizeFieldPathCandidates( definition, dataSourceName, fieldName ).ToList();
-        object dataSourceValue = ReportDataResolver.ResolveDataSourceValue( definition, defaultData, dataSourceName );
-        List<ReportDesignerFieldNode> fields = ResolveDataSourceFields( dataSourceValue ).ToList();
+        List<ReportDesignerFieldNode> fields = ResolveDataSourceSchemaContextFields( definition, dataSourceName ).ToList();
 
         if ( fields.Count == 0 )
-            fields = ResolveDataSourceSchemaContextFields( definition, dataSourceName ).ToList();
+        {
+            object dataSourceValue = ReportDataResolver.ResolveDataSourceValue( definition, defaultData, dataSourceName );
+            fields = ResolveDataSourceFields( dataSourceValue ).ToList();
+        }
 
         ReportDesignerFieldNode fieldNode = fields.FirstOrDefault( field =>
             normalizedFieldNames.Any( normalizedFieldName =>
@@ -266,7 +268,9 @@ internal static class ReportDataSourceExplorer
             .Where( x => x.CanRead && x.GetIndexParameters().Length == 0 )
             .OrderBy( x => x.Name ) )
         {
-            var value = ReportFunctionCompiler.GetValue( item, property.Name );
+            object value = IsSimpleFieldType( property.PropertyType )
+                ? null
+                : ReportFunctionCompiler.GetValue( item, property.Name );
 
             yield return CreateDesignerFieldNode( property.Name, parentPath, property.PropertyType, value, depth, visitedTypes );
         }
@@ -457,7 +461,8 @@ internal static class ReportDataSourceExplorer
             || type == typeof( DateTime )
             || type == typeof( DateTimeOffset )
             || type == typeof( TimeSpan )
-            || type == typeof( Guid );
+            || type == typeof( Guid )
+            || typeof( Type ).IsAssignableFrom( type );
     }
 
     private static object ResolveSampleItem( object data )

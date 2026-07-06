@@ -1,0 +1,9 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<Div Flex="Flex.Column" Gap="Gap.Is2">
+    <Paragraph TextColor="TextColor.Secondary" TextSize="TextSize.Small" Margin="Margin.Is0">
+        DataSet data sources use a DataSet or DataTable supplied by the report data object or by a declarative data source component.
+    </Paragraph>
+    <TextInput Value="@TableName" ValueChanged="@OnTableNameChanged" Placeholder="Optional table name" Size="Size.Small" />
+</Div>

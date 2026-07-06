@@ -28,6 +28,7 @@ public static class Config
         services.AddBlazorisePdf();
         services.TryAddScoped<IReportDataSourceProviderRegistry, ReportDataSourceProviderRegistry>();
         services.TryAddEnumerable( ServiceDescriptor.Scoped<IReportDataSourceProvider, ObjectReportDataSourceProvider>() );
+        services.TryAddEnumerable( ServiceDescriptor.Scoped<IReportDataSourceProvider, DataSetReportDataSourceProvider>() );
 
         return services;
     }

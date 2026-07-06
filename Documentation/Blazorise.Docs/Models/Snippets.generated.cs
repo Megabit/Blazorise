@@ -1715,7 +1715,7 @@ namespace Blazorise.Docs.Models
 </Paragraph>";
 
         public const string BasicDockLayoutExample = @"<DockLayout Style=""height: 28rem;"" PaneBordered>
-    <DockPane Name=""toolbar"" Caption=""Toolbar"" Dock=""DockPanePosition.Top"" DockRole=""DockRole.Tool"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
+    <DockPane Name=""toolbar"" Caption=""Toolbar"" Dock=""DockPanePosition.Top"" Role=""DockRole.Tool"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
         <DockPaneBody>
             Toolbar
         </DockPaneBody>
@@ -1730,7 +1730,7 @@ namespace Blazorise.Docs.Models
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name=""designer"" Caption=""Designer"" Dock=""DockPanePosition.Center"" DockRole=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+    <DockPane Name=""designer"" Caption=""Designer"" Dock=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
         <DockPaneHeader>
             <Strong>Designer</Strong>
         </DockPaneHeader>
@@ -1781,7 +1781,7 @@ namespace Blazorise.Docs.Models
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name=""preview"" Caption=""Preview"" Dock=""DockPanePosition.Center"" DockRole=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+    <DockPane Name=""preview"" Caption=""Preview"" Dock=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
         <DockPaneHeader>
             <Strong>Preview</Strong>
         </DockPaneHeader>
@@ -1842,7 +1842,7 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string DockLayoutTabbedPanesExample = @"<DockLayout Style=""height: 24rem;"" PaneBordered>
-    <DockPane Name=""document"" Caption=""Document"" Dock=""DockPanePosition.Center"" DockRole=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+    <DockPane Name=""document"" Caption=""Document"" Dock=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
         <DockPaneHeader>
             <Strong>Document</Strong>
         </DockPaneHeader>
@@ -15186,6 +15186,56 @@ Install-Package Blazorise.Icons.Material";
     }
 }";
 
+        public const string ReportingDataSetDataSourceExample = @"@using System.Data
+
+<Report DesignerEnabled
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultFormat=""ReportPreviewFormat.Html"" />
+    <ReportDataSources>
+        <ReportDataSetDataSource Name=""Orders"" DataSet=""@orderData"" TableName=""Orders"" />
+    </ReportDataSources>
+    <ReportHeader Name=""Orders header"" Height=""72"">
+        <ReportText Text=""DataSet data source"" X=""30"" Y=""18"" Width=""300"" Height=""24"" FontSize=""18"" Bold FontColor=""@ReportColors.Blue"" />
+        <ReportText Text=""The Orders table is selected from a DataSet."" X=""30"" Y=""45"" Width=""360"" Height=""18"" />
+    </ReportHeader>
+    <ReportPageHeader Name=""Column headers"" Height=""32"">
+        <ReportText Text=""Order"" X=""30"" Y=""8"" Width=""80"" Height=""18"" Bold />
+        <ReportText Text=""Customer"" X=""125"" Y=""8"" Width=""190"" Height=""18"" Bold />
+        <ReportText Text=""Date"" X=""330"" Y=""8"" Width=""80"" Height=""18"" Bold />
+        <ReportText Text=""Amount"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+    </ReportPageHeader>
+    <ReportDetail Name=""Orders"" Height=""30"" DataSource=""Orders"">
+        <ReportField Field=""OrderNumber"" X=""30"" Y=""6"" Width=""80"" Height=""18"" />
+        <ReportField Field=""Customer"" X=""125"" Y=""6"" Width=""190"" Height=""18"" />
+        <ReportField Field=""OrderDate"" Format=""d"" X=""330"" Y=""6"" Width=""80"" Height=""18"" />
+        <ReportField Field=""Amount"" Format=""C"" X=""420"" Y=""6"" Width=""90"" Height=""18"" TextAlignment=""TextAlignment.End"" />
+    </ReportDetail>
+</Report>
+
+@code {
+    private readonly DataSet orderData = CreateOrderData();
+
+    private static DataSet CreateOrderData()
+    {
+        DataSet dataSet = new( ""Sales"" );
+        DataTable orders = new( ""Orders"" );
+
+        orders.Columns.Add( ""OrderNumber"", typeof( string ) );
+        orders.Columns.Add( ""Customer"", typeof( string ) );
+        orders.Columns.Add( ""OrderDate"", typeof( DateTime ) );
+        orders.Columns.Add( ""Amount"", typeof( decimal ) );
+
+        orders.Rows.Add( ""SO-1001"", ""Northwind Traders"", new DateTime( 2026, 7, 1 ), 1240.50m );
+        orders.Rows.Add( ""SO-1002"", ""Contoso Retail"", new DateTime( 2026, 7, 3 ), 835.00m );
+        orders.Rows.Add( ""SO-1003"", ""Fabrikam Parts"", new DateTime( 2026, 7, 5 ), 2195.75m );
+
+        dataSet.Tables.Add( orders );
+
+        return dataSet;
+    }
+}";
+
         public const string ReportingDataSourcesExample = @"<Report Data=""@invoice""
         DesignerEnabled
         PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
@@ -15897,7 +15947,7 @@ builder.Services
         <ReportRunningTotal Name=""LineRunningTotal""
                             DataSource=""Invoice.Lines""
                             Field=""Total""
-                            Function=""ReportAggregateFunction.Sum"" />
+                            AggregateFunction=""ReportAggregateFunction.Sum"" />
     </ReportRunningTotals>
     <ReportHeader Name=""Invoice header"" Height=""60"">
         <ReportText Text=""Running totals"" X=""30"" Y=""18"" Width=""240"" Height=""24"" FontSize=""18"" Bold FontColor=""@ReportColors.Blue"" />

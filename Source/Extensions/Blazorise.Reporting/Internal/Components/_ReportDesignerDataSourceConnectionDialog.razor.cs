@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -62,14 +63,19 @@ public partial class _ReportDesignerDataSourceConnectionDialog
             return;
 
         ReportDataSourceDefinition existingDataSource = FindSelectedDataSource();
+        Dictionary<string, object> settings = editorContext?.Settings?.ToDictionary( setting => setting.Key, setting => setting.Value, StringComparer.OrdinalIgnoreCase ) ?? [];
+        bool connectionChanged = existingDataSource is null
+            || !string.Equals( existingDataSource.ProviderType, selectedProviderType, StringComparison.OrdinalIgnoreCase )
+            || !AreSettingsEqual( existingDataSource.Settings, settings );
+
         ReportDataSourceDefinition dataSource = new()
         {
             Id = existingDataSource?.Id ?? Guid.NewGuid().ToString( "N" ),
             Name = name?.Trim(),
             ProviderType = selectedProviderType,
             Data = existingDataSource?.Data,
-            Schema = existingDataSource?.Schema,
-            Settings = editorContext?.Settings?.ToDictionary( setting => setting.Key, setting => setting.Value, StringComparer.OrdinalIgnoreCase ) ?? [],
+            Schema = connectionChanged ? null : existingDataSource?.Schema,
+            Settings = settings,
         };
 
         await Confirmed.InvokeAsync( dataSource );
@@ -162,6 +168,29 @@ public partial class _ReportDesignerDataSourceConnectionDialog
         IReportDataSourceProvider provider = FindSelectedProvider();
 
         return provider is null ? "Settings" : $"{provider.DisplayName} settings";
+    }
+
+    private static bool AreSettingsEqual( IDictionary<string, object> first, IDictionary<string, object> second )
+    {
+        first ??= new Dictionary<string, object>();
+        second ??= new Dictionary<string, object>();
+
+        if ( first.Count != second.Count )
+            return false;
+
+        foreach ( KeyValuePair<string, object> setting in first )
+        {
+            if ( !second.TryGetValue( setting.Key, out object value ) )
+                return false;
+
+            if ( !string.Equals(
+                Convert.ToString( setting.Value, CultureInfo.InvariantCulture ),
+                Convert.ToString( value, CultureInfo.InvariantCulture ),
+                StringComparison.Ordinal ) )
+                return false;
+        }
+
+        return true;
     }
 
     #endregion
