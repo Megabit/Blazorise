@@ -27,7 +27,7 @@ public partial class DockPane : BaseComponent, IDisposable
     public override Task SetParametersAsync( ParameterView parameters )
     {
         if ( ( parameters.TryGetValue<string>( nameof( Name ), out string name ) && Name != name )
-             || ( parameters.TryGetValue<DockRole>( nameof( DockRole ), out DockRole structureDockRole ) && DockRole != structureDockRole )
+             || ( parameters.TryGetValue<DockRole>( nameof( Role ), out DockRole structureDockRole ) && Role != structureDockRole )
              || ( parameters.TryGetValue<DockPanePosition>( nameof( Dock ), out DockPanePosition structureDock ) && Dock != structureDock )
              || ( parameters.TryGetValue<bool>( nameof( ShowTab ), out bool showTab ) && ShowTab != showTab )
              || ( parameters.TryGetValue<bool>( nameof( ShowTabCloseButton ), out bool showTabCloseButton ) && ShowTabCloseButton != showTabCloseButton )
@@ -115,7 +115,7 @@ public partial class DockPane : BaseComponent, IDisposable
     /// <summary>
     /// Defines whether this pane behaves as a tool pane or as a document pane.
     /// </summary>
-    [Parameter] public DockRole DockRole { get; set; } = DockRole.Tool;
+    [Parameter] public DockRole Role { get; set; } = DockRole.Tool;
 
     /// <summary>
     /// Defines whether this pane should display a tab when it is hosted inside a tab group.

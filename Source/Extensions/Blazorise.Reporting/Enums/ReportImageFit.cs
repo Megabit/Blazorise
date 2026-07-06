@@ -33,5 +33,5 @@ public enum ReportImageFit
     /// <summary>
     /// Keeps the image at its natural size unless it is larger than the element, then scales it down to fit.
     /// </summary>
-    Scale,
+    ScaleDown,
 }

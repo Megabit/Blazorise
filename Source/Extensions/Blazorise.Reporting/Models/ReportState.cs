@@ -15,7 +15,7 @@ public sealed class ReportState
     /// <summary>
     /// Active design or preview surface.
     /// </summary>
-    public ReportStudioMode Mode { get; set; }
+    public ReportMode Mode { get; set; }
 
     /// <summary>
     /// Preview format selected by the viewer.

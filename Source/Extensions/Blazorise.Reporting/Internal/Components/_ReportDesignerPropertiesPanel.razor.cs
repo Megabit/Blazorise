@@ -98,7 +98,7 @@ public partial class _ReportDesignerPropertiesPanel
         ( ReportImageFit.Cover, "Cover" ),
         ( ReportImageFit.Fill, "Fill" ),
         ( ReportImageFit.None, "None" ),
-        ( ReportImageFit.Scale, "Scale down" ),
+        ( ReportImageFit.ScaleDown, "Scale down" ),
     ];
 
     #endregion

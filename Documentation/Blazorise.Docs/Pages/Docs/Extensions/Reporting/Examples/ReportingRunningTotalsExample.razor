@@ -12,7 +12,7 @@
         <ReportRunningTotal Name="LineRunningTotal"
                             DataSource="Invoice.Lines"
                             Field="Total"
-                            Function="ReportAggregateFunction.Sum" />
+                            AggregateFunction="ReportAggregateFunction.Sum" />
     </ReportRunningTotals>
     <ReportHeader Name="Invoice header" Height="60">
         <ReportText Text="Running totals" X="30" Y="18" Width="240" Height="24" FontSize="18" Bold FontColor="@ReportColors.Blue" />

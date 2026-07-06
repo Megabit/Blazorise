@@ -203,7 +203,7 @@ internal static class ReportDataSourceExplorer
         if ( runningTotal is null )
             return false;
 
-        dataType = runningTotal.Function switch
+        dataType = runningTotal.AggregateFunction switch
         {
             ReportAggregateFunction.Count => typeof( int ),
             ReportAggregateFunction.Sum => typeof( decimal ),

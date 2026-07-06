@@ -30,7 +30,7 @@ public partial class ReportSqlDataSource : BaseReportDataSourceComponent
         return new()
         {
             Name = Name,
-            Type = SqlReportDataSourceProvider.ProviderType,
+            ProviderType = SqlReportDataSourceProvider.ProviderType,
             Settings = settings,
             Schema = Schema,
         };

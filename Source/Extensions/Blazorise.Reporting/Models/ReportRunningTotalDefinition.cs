@@ -32,7 +32,7 @@ public sealed class ReportRunningTotalDefinition
     /// <summary>
     /// Summary operation used to update the running total value.
     /// </summary>
-    public ReportAggregateFunction Function { get; set; } = ReportAggregateFunction.Sum;
+    public ReportAggregateFunction AggregateFunction { get; set; } = ReportAggregateFunction.Sum;
 
     /// <summary>
     /// Determines whether every record or only formula-matching records are accumulated.

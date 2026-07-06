@@ -244,7 +244,7 @@ public partial class _ReportDesignerFieldsExplorerPanel
         await runningTotalDialogRef.ShowAsync( new()
         {
             Name = CreateRunningTotalName(),
-            Function = ReportAggregateFunction.Sum,
+            AggregateFunction = ReportAggregateFunction.Sum,
         } );
     }
 

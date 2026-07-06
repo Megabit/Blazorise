@@ -6,7 +6,7 @@ internal sealed class ReportStateService
 
     internal ReportState Capture(
         ReportDefinition definition,
-        ReportStudioMode mode,
+        ReportMode mode,
         ReportPreviewFormat previewFormat,
         bool snapToGrid,
         ReportSelectionManager selectionManager,

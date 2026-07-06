@@ -13,7 +13,7 @@
             </CardBody>
             <CardBody>
                 <DockLayout @bind-State="@dockState" Height="Height.Rem( 34 )" Border="Border.Is1.Rounded">
-                    <DockPane Name="explorer" Caption="Explorer" DockRole="DockRole.Tool" Dock="DockPanePosition.Left" Size="16rem" MinSize="2rem" Resizable>
+                    <DockPane Name="explorer" Caption="Explorer" Role="DockRole.Tool" Dock="DockPanePosition.Left" Size="16rem" MinSize="2rem" Resizable>
                         <DockPaneHeader>
                             <Strong>Explorer</Strong>
                         </DockPaneHeader>
@@ -22,19 +22,19 @@
                         </DockPaneBody>
                     </DockPane>
 
-                    <DockPane Name="toolbar" Caption="Toolbar" DockRole="DockRole.Tool" Dock="DockPanePosition.Top" Movable="false">
+                    <DockPane Name="toolbar" Caption="Toolbar" Role="DockRole.Tool" Dock="DockPanePosition.Top" Movable="false">
                         <DockPaneBody Padding="Padding.Is2">
                             Content 2
                         </DockPaneBody>
                     </DockPane>
 
-                    <DockPane Name="designer" Caption="Designer" DockRole="DockRole.Document" ShowTab="false">
+                    <DockPane Name="designer" Caption="Designer" Role="DockRole.Document" ShowTab="false">
                         <DockPaneBody Padding="Padding.Is4" Background="Background.Light">
                             Content 3
                         </DockPaneBody>
                     </DockPane>
 
-                    <DockPane Name="properties" Caption="Properties" DockRole="DockRole.Tool" Dock="DockPanePosition.Right" Size="18rem" MinSize="2rem" Resizable>
+                    <DockPane Name="properties" Caption="Properties" Role="DockRole.Tool" Dock="DockPanePosition.Right" Size="18rem" MinSize="2rem" Resizable>
                         <DockPaneHeader>
                             <Strong>Properties</Strong>
                         </DockPaneHeader>
@@ -46,7 +46,7 @@
                         </DockPaneFooter>
                     </DockPane>
 
-                    <DockPane Name="report-explorer" Caption="Report Explorer" DockRole="DockRole.Tool" Dock="DockPanePosition.Right" Size="18rem" MinSize="2rem" Resizable>
+                    <DockPane Name="report-explorer" Caption="Report Explorer" Role="DockRole.Tool" Dock="DockPanePosition.Right" Size="18rem" MinSize="2rem" Resizable>
                         <DockPaneHeader>
                             <Strong>Report Explorer</Strong>
                         </DockPaneHeader>
@@ -55,7 +55,7 @@
                         </DockPaneBody>
                     </DockPane>
 
-                    <DockPane Name="output" Caption="Output" DockRole="DockRole.Tool" Dock="DockPanePosition.Bottom" Size="6rem" Resizable>
+                    <DockPane Name="output" Caption="Output" Role="DockRole.Tool" Dock="DockPanePosition.Bottom" Size="6rem" Resizable>
                         <DockPaneHeader>
                             <Strong>Output</Strong>
                         </DockPaneHeader>

@@ -218,7 +218,7 @@ internal sealed class DockLayoutTreeQuery
     }
 
     public bool ShouldKeepSinglePaneTabNode( string paneName )
-        => registry.TryGetPane( paneName, out DockPane pane ) && pane.DockRole == DockRole.Document && pane.EffectiveShowTab;
+        => registry.TryGetPane( paneName, out DockPane pane ) && pane.Role == DockRole.Document && pane.EffectiveShowTab;
 
     public string GetFirstPaneName( DockPanePosition position, IReadOnlyList<string> excludedPaneNames )
         => getState().Panes
@@ -228,10 +228,10 @@ internal sealed class DockLayoutTreeQuery
             .FirstOrDefault();
 
     public static DockPanePosition GetInitialPanePosition( DockPane pane )
-        => pane.DockRole == DockRole.Document ? DockPanePosition.Center : pane.Dock;
+        => IsCenterPane( pane ) ? DockPanePosition.Center : pane.Dock;
 
     private DockPanePosition ResolvePanePosition( string paneName, DockPanePosition inheritedPosition )
-        => registry.TryGetPane( paneName, out DockPane pane ) && pane.DockRole == DockRole.Document
+        => registry.TryGetPane( paneName, out DockPane pane ) && IsCenterPane( pane )
             ? DockPanePosition.Center
             : inheritedPosition;
 
@@ -252,11 +252,14 @@ internal sealed class DockLayoutTreeQuery
         if ( string.IsNullOrWhiteSpace( paneName ) )
             return false;
 
-        if ( registry.TryGetPane( paneName, out DockPane pane ) && pane.DockRole == DockRole.Document )
+        if ( registry.TryGetPane( paneName, out DockPane pane ) && IsCenterPane( pane ) )
             return position == DockPanePosition.Center;
 
         return stateManager.FindPaneState( getState(), paneName )?.Position == position;
     }
+
+    private static bool IsCenterPane( DockPane pane )
+        => pane is not null && ( pane.Role == DockRole.Document || pane.Dock == DockPanePosition.Center );
 
     private DockPanePosition GetFirstSplitPosition( DockNodeState node, DockPanePosition inheritedPosition )
         => ShouldPreserveInheritedPosition( node, inheritedPosition )

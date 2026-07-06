@@ -114,7 +114,7 @@ internal static class DockLayoutNormalizer
     }
 
     private static bool ShouldKeepSinglePaneTabNode( string paneName, IReadOnlyDictionary<string, DockPane> panes )
-        => panes.TryGetValue( paneName, out DockPane pane ) && pane.DockRole == DockRole.Document && pane.EffectiveShowTab;
+        => panes.TryGetValue( paneName, out DockPane pane ) && pane.Role == DockRole.Document && pane.EffectiveShowTab;
 
     private static bool IsCenterTabsNode( DockNodeState node, IReadOnlyDictionary<string, DockPane> panes, IReadOnlyList<DockPaneState> paneStates )
         => node.Panes.Any( paneName => IsCenterPane( paneName, panes, paneStates ) );
@@ -124,13 +124,16 @@ internal static class DockLayoutNormalizer
         if ( string.IsNullOrWhiteSpace( paneName ) )
             return false;
 
-        if ( panes.TryGetValue( paneName, out DockPane pane ) && pane.DockRole == DockRole.Document )
+        if ( panes.TryGetValue( paneName, out DockPane pane ) && IsCenterPane( pane ) )
             return true;
 
         DockPaneState paneState = paneStates.FirstOrDefault( x => x.Name == paneName );
 
         return paneState?.Position == DockPanePosition.Center;
     }
+
+    private static bool IsCenterPane( DockPane pane )
+        => pane is not null && ( pane.Role == DockRole.Document || pane.Dock == DockPanePosition.Center );
 
     private static void PreserveCollapsedTabSize( string paneName, string size, IReadOnlyList<DockPaneState> paneStates )
     {

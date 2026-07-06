@@ -177,7 +177,7 @@ public partial class _ReportDesignerElement
             ReportImageFit.Cover => Blazorise.ObjectFit.Cover,
             ReportImageFit.Fill => Blazorise.ObjectFit.Fill,
             ReportImageFit.None => Blazorise.ObjectFit.None,
-            ReportImageFit.Scale => Blazorise.ObjectFit.Scale,
+            ReportImageFit.ScaleDown => Blazorise.ObjectFit.Scale,
             _ => Blazorise.ObjectFit.Contain,
         };
     }

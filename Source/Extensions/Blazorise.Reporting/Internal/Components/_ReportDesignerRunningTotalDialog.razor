@@ -28,9 +28,9 @@
             </Field>
 
             <Field Horizontal>
-                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Function</FieldLabel>
+                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Aggregate function</FieldLabel>
                 <FieldBody ColumnSize="ColumnSize.Is8">
-                    <Select TValue="ReportAggregateFunction" Value="@runningTotal.Function" ValueChanged="@OnFunctionChanged" Size="Size.Small">
+                    <Select TValue="ReportAggregateFunction" Value="@runningTotal.AggregateFunction" ValueChanged="@OnAggregateFunctionChanged" Size="Size.Small">
                         @foreach ( ReportAggregateFunction function in supportedFunctions )
                         {
                             <SelectItem TValue="ReportAggregateFunction" Value="@function">@ReportAggregateResolver.GetFunctionDisplayName( function )</SelectItem>

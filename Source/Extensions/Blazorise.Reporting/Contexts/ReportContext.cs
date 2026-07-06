@@ -197,7 +197,7 @@ internal sealed class ReportContext
         {
             Id = dataSource.Id,
             Name = dataSource.Name,
-            Type = dataSource.Type,
+            ProviderType = dataSource.ProviderType,
             Data = dataSource.Data,
             Settings = dataSource.Settings?.ToDictionary( item => item.Key, item => item.Value ) ?? [],
             Schema = CloneSchema( dataSource.Schema ),
@@ -255,7 +255,7 @@ internal sealed class ReportContext
             Name = runningTotal.Name,
             DataSource = runningTotal.DataSource,
             Field = runningTotal.Field,
-            Function = runningTotal.Function,
+            AggregateFunction = runningTotal.AggregateFunction,
             EvaluateMode = runningTotal.EvaluateMode,
             EvaluateFormula = runningTotal.EvaluateFormula,
             ResetMode = runningTotal.ResetMode,

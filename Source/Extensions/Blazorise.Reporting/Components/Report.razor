@@ -14,7 +14,7 @@
 </CascadingValue>
 
 <Div Class="b-report" Flex="Flex.Column" Gap="Gap.Is3">
-    @if ( ShowToolbar && !( CurrentMode == ReportStudioMode.Design && IsDesignerEnabled ) )
+    @if ( ShowToolbar && !( CurrentMode == ReportMode.Design && IsDesignerEnabled ) )
     {
         <Div Class="b-report-toolbar" Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Padding="Padding.Is3" Border="Border.Is1" Background="Background.White">
             <CascadingValue @key="@ToolbarStateKey" Value="@toolbarContext" IsFixed="true">
@@ -53,7 +53,7 @@
         </Div>
     }
 
-    @if ( CurrentMode == ReportStudioMode.Design && IsDesignerEnabled )
+    @if ( CurrentMode == ReportMode.Design && IsDesignerEnabled )
     {
         var definition = EffectiveDefinition;
 

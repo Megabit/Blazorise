@@ -5,7 +5,7 @@
     <DockSplit Orientation="DockSplitOrientation.Vertical" Ratio="0.34">
         <DockPane Name="@ToolboxPaneName"
                   Caption="Toolbox"
-                  DockRole="DockRole.Tool"
+                  Role="DockRole.Tool"
                   Dock="DockPanePosition.Left"
                   Size="18rem"
                   MinSize="12rem"
@@ -23,7 +23,7 @@
 
         <DockPane Name="@FieldsExplorerPaneName"
                   Caption="Fields Explorer"
-                  DockRole="DockRole.Tool"
+                  Role="DockRole.Tool"
                   Dock="DockPanePosition.Left"
                   Size="18rem"
                   MinSize="12rem"
@@ -44,7 +44,7 @@
         <DockPane Name="@SurfacePaneName"
                   @ref="@surfacePane"
                   Caption="Report Designer"
-                  DockRole="DockRole.Document"
+                  Role="DockRole.Document"
                   Dock="DockPanePosition.Center"
                   ShowTab="false"
                   Closable="false">
@@ -60,7 +60,7 @@
         <DockTabs ActivePane="@ActivePanelPaneName">
             <DockPane Name="@PropertiesPaneName"
                       Caption="Properties"
-                      DockRole="DockRole.Tool"
+                      Role="DockRole.Tool"
                       Dock="DockPanePosition.Right"
                       Size="20rem"
                       MinSize="14rem"
@@ -78,7 +78,7 @@
 
             <DockPane Name="@ReportExplorerPaneName"
                       Caption="Report Explorer"
-                      DockRole="DockRole.Tool"
+                      Role="DockRole.Tool"
                       Dock="DockPanePosition.Right"
                       Size="20rem"
                       MinSize="14rem"

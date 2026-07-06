@@ -85,7 +85,7 @@ internal sealed class ReportRunningTotalState
             if ( string.IsNullOrWhiteSpace( runningTotal?.Name ) )
                 continue;
 
-            accumulators[runningTotal.Name.Trim()] = new( runningTotal.Function );
+            accumulators[runningTotal.Name.Trim()] = new( runningTotal.AggregateFunction );
         }
     }
 
@@ -125,7 +125,7 @@ internal sealed class ReportRunningTotalState
                 : ReportExpressionResolver.ResolveValue( definition, data, renderSection.Item, runningTotal.Field, ResolveDataSource( runningTotal, renderSection.Section ) );
 
             if ( accumulators.TryGetValue( runningTotal.Name.Trim(), out RunningTotalAccumulator accumulator ) )
-                accumulator.Accumulate( runningTotal.Function, value );
+                accumulator.Accumulate( runningTotal.AggregateFunction, value );
         }
     }
 

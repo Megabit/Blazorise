@@ -18,7 +18,7 @@ internal sealed class ReportDataCommandService
         if ( definition.DataSources is null )
             definition.DataSources = [];
 
-        if ( string.Equals( dataSource.Type, ObjectReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase )
+        if ( string.Equals( dataSource.ProviderType, ObjectReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase )
             && dataSource.Data is null )
         {
             dataSource.Data = data;
@@ -46,7 +46,7 @@ internal sealed class ReportDataCommandService
         if ( dataSource is null )
             return;
 
-        IReportDataSourceProvider provider = providerRegistry?.FindProvider( dataSource.Type );
+        IReportDataSourceProvider provider = providerRegistry?.FindProvider( dataSource.ProviderType );
 
         if ( provider is null )
             return;
@@ -59,7 +59,7 @@ internal sealed class ReportDataCommandService
         {
         }
 
-        if ( !string.Equals( dataSource.Type, ObjectReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase ) )
+        if ( !string.Equals( dataSource.ProviderType, ObjectReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase ) )
             dataSource.Data = null;
     }
 
@@ -192,7 +192,7 @@ internal sealed class ReportDataCommandService
             existingRunningTotal.Name = runningTotal.Name;
             existingRunningTotal.DataSource = runningTotal.DataSource;
             existingRunningTotal.Field = runningTotal.Field;
-            existingRunningTotal.Function = runningTotal.Function;
+            existingRunningTotal.AggregateFunction = runningTotal.AggregateFunction;
             existingRunningTotal.EvaluateMode = runningTotal.EvaluateMode;
             existingRunningTotal.EvaluateFormula = runningTotal.EvaluateFormula;
             existingRunningTotal.ResetMode = runningTotal.ResetMode;

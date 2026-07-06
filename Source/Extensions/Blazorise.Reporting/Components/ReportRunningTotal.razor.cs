@@ -20,7 +20,7 @@ public partial class ReportRunningTotal : ComponentBase
             Name = Name,
             DataSource = DataSource,
             Field = Field,
-            Function = Function,
+            AggregateFunction = AggregateFunction,
             EvaluateMode = EvaluateMode,
             EvaluateFormula = EvaluateFormula,
             ResetMode = ResetMode,
@@ -57,7 +57,7 @@ public partial class ReportRunningTotal : ComponentBase
     /// <summary>
     /// Summary operation used to update the running total value.
     /// </summary>
-    [Parameter] public ReportAggregateFunction Function { get; set; } = ReportAggregateFunction.Sum;
+    [Parameter] public ReportAggregateFunction AggregateFunction { get; set; } = ReportAggregateFunction.Sum;
 
     /// <summary>
     /// Determines whether every record or only formula-matching records are accumulated.

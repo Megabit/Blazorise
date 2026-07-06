@@ -91,9 +91,9 @@ public partial class _ReportDesignerRunningTotalDialog
         return Task.CompletedTask;
     }
 
-    private Task OnFunctionChanged( ReportAggregateFunction value )
+    private Task OnAggregateFunctionChanged( ReportAggregateFunction value )
     {
-        runningTotal.Function = value;
+        runningTotal.AggregateFunction = value;
 
         return Task.CompletedTask;
     }
@@ -148,7 +148,7 @@ public partial class _ReportDesignerRunningTotalDialog
             Name = value.Name,
             DataSource = value.DataSource,
             Field = value.Field,
-            Function = value.Function,
+            AggregateFunction = value.AggregateFunction,
             EvaluateMode = value.EvaluateMode,
             EvaluateFormula = value.EvaluateFormula,
             ResetMode = value.ResetMode,
@@ -218,8 +218,8 @@ public partial class _ReportDesignerRunningTotalDialog
 
         supportedFunctions.AddRange( ReportAggregateResolver.GetSupportedFunctions( Definition, Data, field.DataSourceName, field.FieldName, field.DataType ) );
 
-        if ( !supportedFunctions.Contains( runningTotal.Function ) )
-            runningTotal.Function = supportedFunctions.Contains( ReportAggregateFunction.Sum ) ? ReportAggregateFunction.Sum : supportedFunctions.FirstOrDefault();
+        if ( !supportedFunctions.Contains( runningTotal.AggregateFunction ) )
+            runningTotal.AggregateFunction = supportedFunctions.Contains( ReportAggregateFunction.Sum ) ? ReportAggregateFunction.Sum : supportedFunctions.FirstOrDefault();
     }
 
     private string ResolveInitialFieldKey()

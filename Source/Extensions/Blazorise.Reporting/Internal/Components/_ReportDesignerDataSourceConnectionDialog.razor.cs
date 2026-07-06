@@ -66,7 +66,7 @@ public partial class _ReportDesignerDataSourceConnectionDialog
         {
             Id = existingDataSource?.Id ?? Guid.NewGuid().ToString( "N" ),
             Name = name?.Trim(),
-            Type = selectedProviderType,
+            ProviderType = selectedProviderType,
             Data = existingDataSource?.Data,
             Schema = existingDataSource?.Schema,
             Settings = editorContext?.Settings?.ToDictionary( setting => setting.Key, setting => setting.Value, StringComparer.OrdinalIgnoreCase ) ?? [],
@@ -90,7 +90,7 @@ public partial class _ReportDesignerDataSourceConnectionDialog
         }
         else
         {
-            selectedProviderType = dataSource.Type;
+            selectedProviderType = dataSource.ProviderType;
             name = dataSource.Name;
             editorContext = CreateEditorContext( selectedProviderType, dataSource.Settings );
         }
@@ -153,8 +153,8 @@ public partial class _ReportDesignerDataSourceConnectionDialog
             return null;
 
         return string.IsNullOrWhiteSpace( dataSource.Name )
-            ? dataSource.Type
-            : $"{dataSource.Name} ({dataSource.Type})";
+            ? dataSource.ProviderType
+            : $"{dataSource.Name} ({dataSource.ProviderType})";
     }
 
     private string GetProviderSettingsLabel()

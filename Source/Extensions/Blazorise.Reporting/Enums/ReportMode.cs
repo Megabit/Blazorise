@@ -1,9 +1,9 @@
 namespace Blazorise.Reporting;
 
 /// <summary>
-/// Defines the active report studio surface.
+/// Defines the active report surface.
 /// </summary>
-public enum ReportStudioMode
+public enum ReportMode
 {
     /// <summary>
     /// Shows the interactive designer surface.

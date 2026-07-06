@@ -236,7 +236,7 @@ internal static class ReportPdfDocumentBuilder
             ReportImageFit.Cover => PdfImageFit.Cover,
             ReportImageFit.Fill => PdfImageFit.Fill,
             ReportImageFit.None => PdfImageFit.None,
-            ReportImageFit.Scale => PdfImageFit.Scale,
+            ReportImageFit.ScaleDown => PdfImageFit.Scale,
             _ => PdfImageFit.Contain,
         };
     }

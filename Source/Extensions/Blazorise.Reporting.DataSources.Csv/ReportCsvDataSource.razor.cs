@@ -30,7 +30,7 @@ public partial class ReportCsvDataSource : BaseReportDataSourceComponent
         return new()
         {
             Name = Name,
-            Type = CsvReportDataSourceProvider.ProviderType,
+            ProviderType = CsvReportDataSourceProvider.ProviderType,
             Settings = settings,
             Schema = Schema,
         };

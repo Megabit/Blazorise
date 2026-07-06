@@ -143,11 +143,14 @@ internal sealed class DockLayoutSizer
 
     private bool IsCenterDockPane( DockLayoutState state, string paneName )
     {
-        if ( registry.TryGetPane( paneName, out DockPane pane ) && pane.DockRole == DockRole.Document )
+        if ( registry.TryGetPane( paneName, out DockPane pane ) && IsCenterPane( pane ) )
             return true;
 
         return stateManager.FindPaneState( state, paneName )?.Position == DockPanePosition.Center;
     }
+
+    private static bool IsCenterPane( DockPane pane )
+        => pane is not null && ( pane.Role == DockRole.Document || pane.Dock == DockPanePosition.Center );
 
     private static string GetDefaultDockPaneSize( DockPanePosition position )
         => position == DockPanePosition.Top || position == DockPanePosition.Bottom

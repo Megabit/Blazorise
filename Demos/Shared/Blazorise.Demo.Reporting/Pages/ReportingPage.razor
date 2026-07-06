@@ -49,7 +49,7 @@
                         <ReportFormulaField Name="BillToSummary" Formula="'Bill to: ' + {BillTo.Name}" />
                     </ReportFormulaFields>
                     <ReportRunningTotals>
-                        <ReportRunningTotal Name="OrderRunningTotal" DataSource="Invoice.Lines" Field="Total" Function="ReportAggregateFunction.Sum" />
+                        <ReportRunningTotal Name="OrderRunningTotal" DataSource="Invoice.Lines" Field="Total" AggregateFunction="ReportAggregateFunction.Sum" />
                     </ReportRunningTotals>
                     <ReportPage Size="ReportPageSize.A4" Orientation="ReportOrientation.Portrait" />
                     <ReportHeader Name="Order report header" Height="282">

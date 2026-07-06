@@ -75,7 +75,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private ReportDefinition declarativeDefinition;
 
-    private ReportStudioMode currentMode;
+    private ReportMode currentMode;
 
     private ReportPreviewFormat currentPreviewFormat;
 
@@ -141,7 +141,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         context.ViewerOptions.AllowPrint = GlobalOptions.AllowPrint;
         context.ViewerOptions.AllowDownload = GlobalOptions.AllowDownload;
 
-        currentMode = IsDesignerEnabled ? ReportStudioMode.Design : ReportStudioMode.Preview;
+        currentMode = IsDesignerEnabled ? ReportMode.Design : ReportMode.Preview;
         currentPreviewFormat = DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat;
     }
 
@@ -155,7 +155,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }
 
         if ( Definition is not null )
-            await ResolveDataSourcesAsync( Definition, CurrentMode == ReportStudioMode.Preview );
+            await ResolveDataSourcesAsync( Definition, CurrentMode == ReportMode.Preview );
     }
 
     /// <inheritdoc />
@@ -166,7 +166,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             declarativeDefinition = BuildDeclarativeDefinition();
             InvalidateDesignerCaches();
 
-            await ResolveDataSourcesAsync( declarativeDefinition, CurrentMode == ReportStudioMode.Preview );
+            await ResolveDataSourcesAsync( declarativeDefinition, CurrentMode == ReportMode.Preview );
 
             if ( DefinitionChanged.HasDelegate )
             {
@@ -207,7 +207,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             definition.DataSources.Add( new()
             {
                 Name = DataSourceName,
-                Type = ObjectReportDataSourceProvider.ProviderType,
+                ProviderType = ObjectReportDataSourceProvider.ProviderType,
                 Data = Data,
             } );
         }
@@ -237,7 +237,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             if ( dataSource is null )
                 continue;
 
-            IReportDataSourceProvider provider = registry.FindProvider( dataSource?.Type );
+            IReportDataSourceProvider provider = registry.FindProvider( dataSource?.ProviderType );
 
             if ( provider is null )
                 continue;
@@ -465,7 +465,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task HandleDesignerShortcutAsync( ReportDesignerShortcut shortcut )
     {
-        if ( CurrentMode != ReportStudioMode.Design || !IsDesignerEnabled || IsElementTextEditing() )
+        if ( CurrentMode != ReportMode.Design || !IsDesignerEnabled || IsElementTextEditing() )
             return;
 
         switch ( shortcut )
@@ -531,7 +531,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     {
         await ( command switch
         {
-            ReportCommand.Design => SetModeAsync( ReportStudioMode.Design ),
+            ReportCommand.Design => SetModeAsync( ReportMode.Design ),
             ReportCommand.Preview => SetPreviewAsync( SupportsPreviewFormat( currentPreviewFormat ) ? currentPreviewFormat : context.ViewerOptions.DefaultFormat ),
             ReportCommand.PreviewHtml => SetPreviewAsync( ReportPreviewFormat.Html ),
             ReportCommand.PreviewPdf => SetPreviewAsync( ReportPreviewFormat.Pdf ),
@@ -563,11 +563,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ReportCommand.Preview => SupportsPreviewFormat( currentPreviewFormat ) || SupportsPreviewFormat( context.ViewerOptions.DefaultFormat ),
             ReportCommand.PreviewHtml => SupportsPreviewFormat( ReportPreviewFormat.Html ),
             ReportCommand.PreviewPdf => SupportsPreviewFormat( ReportPreviewFormat.Pdf ),
-            ReportCommand.ConnectDataSource => CurrentMode == ReportStudioMode.Design && IsDesignerEnabled && DataSourceProviders.Count > 0,
+            ReportCommand.ConnectDataSource => CurrentMode == ReportMode.Design && IsDesignerEnabled && DataSourceProviders.Count > 0,
             ReportCommand.DownloadPdf => context.ViewerOptions.AllowDownload && SupportsPreviewFormat( ReportPreviewFormat.Pdf ) && PdfGenerator is not null,
-            ReportCommand.Cut or ReportCommand.Copy => CurrentMode == ReportStudioMode.Design && selectionManager.FindSelectedElement( definition ) is not null,
-            ReportCommand.Delete => CurrentMode == ReportStudioMode.Design && selectionManager.CanDeleteSelection( definition ),
-            ReportCommand.Paste => CurrentMode == ReportStudioMode.Design && clipboardElement is not null && definition.Sections.Count > 0,
+            ReportCommand.Cut or ReportCommand.Copy => CurrentMode == ReportMode.Design && selectionManager.FindSelectedElement( definition ) is not null,
+            ReportCommand.Delete => CurrentMode == ReportMode.Design && selectionManager.CanDeleteSelection( definition ),
+            ReportCommand.Paste => CurrentMode == ReportMode.Design && clipboardElement is not null && definition.Sections.Count > 0,
             ReportCommand.Undo => commandManager.CanUndo,
             ReportCommand.Redo => commandManager.CanRedo,
             _ => true,
@@ -583,10 +583,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     {
         return command switch
         {
-            ReportCommand.Design => CurrentMode == ReportStudioMode.Design,
-            ReportCommand.Preview => CurrentMode == ReportStudioMode.Preview,
-            ReportCommand.PreviewHtml => CurrentMode == ReportStudioMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Html,
-            ReportCommand.PreviewPdf => CurrentMode == ReportStudioMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf,
+            ReportCommand.Design => CurrentMode == ReportMode.Design,
+            ReportCommand.Preview => CurrentMode == ReportMode.Preview,
+            ReportCommand.PreviewHtml => CurrentMode == ReportMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Html,
+            ReportCommand.PreviewPdf => CurrentMode == ReportMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf,
             _ => false,
         };
     }
@@ -641,9 +641,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         } );
     }
 
-    private async Task SetModeAsync( ReportStudioMode mode )
+    private async Task SetModeAsync( ReportMode mode )
     {
-        if ( CurrentMode == ReportStudioMode.Design && mode != ReportStudioMode.Design )
+        if ( CurrentMode == ReportMode.Design && mode != ReportMode.Design )
             await CaptureDesignerPaneScrollPositionsAsync();
 
         await ExecuteDesignerCommandAsync( new( $"Set {mode} mode", async () =>
@@ -651,7 +651,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             currentMode = mode;
             designerState.EditingElementKey = null;
 
-            if ( mode == ReportStudioMode.Design )
+            if ( mode == ReportMode.Design )
                 designerPaneScrollRestoreVersion++;
 
             if ( ModeChanged.HasDelegate )
@@ -661,13 +661,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task SetPreviewAsync( ReportPreviewFormat format )
     {
-        if ( CurrentMode == ReportStudioMode.Design )
+        if ( CurrentMode == ReportMode.Design )
             await CaptureDesignerPaneScrollPositionsAsync();
 
         await ExecuteDesignerCommandAsync( new( $"Set {format} preview", async () =>
         {
             currentPreviewFormat = format;
-            currentMode = ReportStudioMode.Preview;
+            currentMode = ReportMode.Preview;
             designerState.EditingElementKey = null;
 
             await ResolveDataSourcesAsync( EffectiveDefinition, loadData: true );
@@ -3671,7 +3671,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ? DataSourceProviderRegistry.Providers
             : fallbackDataSourceProviders;
 
-    private ReportStudioMode CurrentMode => Mode ?? currentMode;
+    private ReportMode CurrentMode => Mode ?? currentMode;
 
     private ReportPreviewFormat CurrentPreviewFormat => PreviewFormat ?? currentPreviewFormat;
 
@@ -3846,12 +3846,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     /// <summary>
     /// Externally controlled design or preview mode.
     /// </summary>
-    [Parameter] public ReportStudioMode? Mode { get; set; }
+    [Parameter] public ReportMode? Mode { get; set; }
 
     /// <summary>
     /// Raised when design or preview mode changes.
     /// </summary>
-    [Parameter] public EventCallback<ReportStudioMode> ModeChanged { get; set; }
+    [Parameter] public EventCallback<ReportMode> ModeChanged { get; set; }
 
     /// <summary>
     /// Externally controlled preview format.

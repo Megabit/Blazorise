@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Components;
+
 namespace Blazorise.Pdf;
 
 /// <summary>
@@ -5,10 +7,29 @@ namespace Blazorise.Pdf;
 /// </summary>
 public class PdfImage : BasePdfElement
 {
+    #region Methods
+
+    /// <inheritdoc />
+    protected override PdfElementDefinition CreateDefinition()
+    {
+        PdfElementDefinition definition = base.CreateDefinition();
+
+        definition.ImageFit = Fit;
+
+        return definition;
+    }
+
+    #endregion
+
     #region Properties
 
     /// <inheritdoc />
     protected override PdfElementType ElementType => PdfElementType.Image;
+
+    /// <summary>
+    /// Defines how the image should fit inside the element bounds.
+    /// </summary>
+    [Parameter] public PdfImageFit Fit { get; set; } = PdfImageFit.Fill;
 
     #endregion
 }

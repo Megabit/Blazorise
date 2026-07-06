@@ -17,7 +17,7 @@ public partial class ReportObjectDataSource : BaseReportDataSourceComponent
         return new()
         {
             Name = Name,
-            Type = ObjectReportDataSourceProvider.ProviderType,
+            ProviderType = ObjectReportDataSourceProvider.ProviderType,
             Data = Data,
             Schema = Schema,
         };

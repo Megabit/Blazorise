@@ -18,7 +18,7 @@ public partial class ReportDataSource : BaseReportDataSourceComponent
         return new()
         {
             Name = Name,
-            Type = Type,
+            ProviderType = ProviderType,
             Data = Data,
             Settings = Settings,
             Schema = Schema,
@@ -37,7 +37,7 @@ public partial class ReportDataSource : BaseReportDataSourceComponent
     /// <summary>
     /// Data source provider type used to resolve schema and runtime data.
     /// </summary>
-    [Parameter] public string Type { get; set; } = ObjectReportDataSourceProvider.ProviderType;
+    [Parameter] public string ProviderType { get; set; } = ObjectReportDataSourceProvider.ProviderType;
 
     /// <summary>
     /// Object or enumerable exposed to the report designer and preview renderer, including nested objects and collections.
