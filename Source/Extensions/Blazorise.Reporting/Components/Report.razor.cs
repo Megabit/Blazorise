@@ -2047,23 +2047,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return elementLayoutService.GetSelectedElementContexts( definition, selectionManager.SelectedElementKeys, selectionManager.SelectedElementKey );
     }
 
-    private async Task UpdateSelectedElementAsync( Action<ReportElementDefinition> update )
-    {
-        ReportElementDefinition element = selectionManager.FindSelectedElement( EffectiveDefinition );
-
-        if ( element is null )
-            return;
-
-        await ExecuteDesignerCommandAsync( new( "Update element", () =>
-        {
-            ReportDefinition definition = EffectiveDefinition;
-            ReportElementDefinition element = selectionManager.FindSelectedElement( definition );
-
-            elementCommandService.UpdateElement( definition, element, update );
-
-            return Task.CompletedTask;
-        } ) );
-    }
+    private Task UpdateSelectedElementsFromPropertiesAsync( Action<ReportElementDefinition> update )
+        => UpdateSelectedElementsAsync( "Update elements", update );
 
     private async Task UpdateSelectedElementsAsync( string commandName, Action<ReportElementDefinition> update )
     {

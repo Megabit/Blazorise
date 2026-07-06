@@ -282,14 +282,22 @@ public partial class _ReportDesignerPropertiesPanel
     {
         int rowCount = Math.Max( 1, Convert.ToInt32( Math.Round( value ) ) );
 
-        return UpdateSelectedElement( element => ReportDefinitionHelper.EnsureTableLayout( element, rowCount, Convert.ToInt32( GetSelectedTableColumnCount() ) ) );
+        return UpdateSelectedElement( element =>
+        {
+            if ( element is ReportTableElementDefinition )
+                ReportDefinitionHelper.EnsureTableLayout( element, rowCount, Convert.ToInt32( GetSelectedTableColumnCount() ) );
+        } );
     }
 
     private Task OnSelectedTableColumnCountChanged( double value )
     {
         int columnCount = Math.Max( 1, Convert.ToInt32( Math.Round( value ) ) );
 
-        return UpdateSelectedElement( element => ReportDefinitionHelper.EnsureTableLayout( element, Convert.ToInt32( GetSelectedTableRowCount() ), columnCount ) );
+        return UpdateSelectedElement( element =>
+        {
+            if ( element is ReportTableElementDefinition )
+                ReportDefinitionHelper.EnsureTableLayout( element, Convert.ToInt32( GetSelectedTableRowCount() ), columnCount );
+        } );
     }
 
     private string GetSelectedElementSnapToGridValue()

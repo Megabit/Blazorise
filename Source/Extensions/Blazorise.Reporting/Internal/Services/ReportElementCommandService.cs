@@ -211,30 +211,6 @@ internal sealed class ReportElementCommandService
         };
     }
 
-    internal ReportElementCommandResult UpdateElement( ReportDefinition definition, ReportElementDefinition element, Action<ReportElementDefinition> update )
-    {
-        if ( definition is null || element is null )
-            return new();
-
-        ReportDefinitionHelper.TryFindElementLocation( definition, ReportDefinitionHelper.EnsureElementId( element ), out int sectionIndex, out _, out _ );
-        double originalX = element.X;
-        double originalWidth = element.Width;
-        double originalHeight = element.Height;
-
-        update?.Invoke( element );
-
-        if ( element is ReportTableElementDefinition table )
-            ReportDefinitionHelper.ScaleTableLayout( table, originalWidth, originalHeight );
-
-        ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement( definition, sectionIndex, sectionIndex, element, originalX, originalWidth, element.X, element.Width );
-
-        return new()
-        {
-            Changed = true,
-            PrimaryElementKey = ReportDefinitionHelper.EnsureElementId( element ),
-        };
-    }
-
     internal ReportElementCommandResult UpdateElements( ReportDefinition definition, List<ReportSelectedElementContext> selectedElements, Action<ReportElementDefinition> update )
     {
         if ( selectedElements is null || selectedElements.Count == 0 )
