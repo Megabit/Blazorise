@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise;
+using Blazorise.Pdf.Internal;
 #endregion
 
 namespace Blazorise.Pdf;
@@ -152,9 +153,9 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
                 resources[i] = new()
                 {
                     Name = FormattableString.Invariant( $"F{fontResources.All.Count + i + 1}" ),
-                    BaseFontName = baseFonts[i],
                     ObjectId = embeddedFont?.ObjectId ?? AddObject( objects, BuildType1FontObject( baseFonts[i], centralEuropeanFallbackRequired ) ),
                     EmbeddedFont = embeddedFont,
+                    Metrics = embeddedFont is not null ? embeddedFont.Metrics : new PdfStandardFontMetrics( baseFonts[i] ),
                 };
             }
 
@@ -369,7 +370,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private static string BuildEmbeddedCidFontObject( PdfEmbeddedFont embeddedFont, int fontDescriptorId )
     {
-        return FormattableString.Invariant( $"<< /Type /Font /Subtype /CIDFontType2 /BaseFont /{embeddedFont.FontName} /CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> /FontDescriptor {fontDescriptorId} 0 R /CIDToGIDMap /Identity /DW {PdfEmbeddedFont.DefaultGlyphWidth} /W {embeddedFont.BuildWidthArray()} >>" );
+        return FormattableString.Invariant( $"<< /Type /Font /Subtype /CIDFontType2 /BaseFont /{embeddedFont.FontName} /CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> /FontDescriptor {fontDescriptorId} 0 R /CIDToGIDMap /Identity /DW {PdfTrueTypeFontMetrics.DefaultGlyphWidth} /W {embeddedFont.BuildWidthArray()} >>" );
     }
 
     private static string BuildEmbeddedFontDescriptorObject( PdfEmbeddedFont embeddedFont, int fontFileId )
@@ -1355,123 +1356,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private readonly record struct PdfImagePlacement( double X, double Y, double Width, double Height );
 
-    private static class StandardFontMetrics
-    {
-        private const int FallbackWidth = 500;
-
-        private static readonly int[] HelveticaWidths =
-        [
-            278, 278, 355, 556, 556, 889, 667, 222, 333, 333, 389, 584, 278, 333, 278, 278,
-            556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 278, 278, 584, 584, 584, 556,
-            1015, 667, 667, 722, 722, 667, 611, 778, 722, 278, 500, 667, 556, 833, 722, 778,
-            667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 278, 278, 278, 469, 556,
-            222, 556, 556, 500, 556, 556, 278, 556, 556, 222, 222, 500, 222, 833, 556, 556,
-            556, 556, 333, 500, 278, 556, 500, 722, 500, 500, 500, 334, 260, 334, 584
-        ];
-
-        private static readonly int[] HelveticaBoldWidths =
-        [
-            278, 333, 474, 556, 556, 889, 722, 278, 333, 333, 389, 584, 278, 333, 278, 278,
-            556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 333, 333, 584, 584, 584, 611,
-            975, 722, 722, 722, 722, 667, 611, 778, 722, 278, 556, 722, 611, 833, 722, 778,
-            667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 333, 278, 333, 584, 556,
-            278, 556, 611, 556, 611, 556, 333, 611, 611, 278, 278, 556, 278, 889, 611, 611,
-            611, 611, 389, 556, 333, 611, 556, 778, 556, 556, 500, 389, 280, 389, 584
-        ];
-
-        private static readonly int[] TimesRomanWidths =
-        [
-            250, 333, 408, 500, 500, 833, 778, 180, 333, 333, 500, 564, 250, 333, 250, 278,
-            500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 278, 278, 564, 564, 564, 444,
-            921, 722, 667, 667, 722, 611, 556, 722, 722, 333, 389, 722, 611, 889, 722, 722,
-            556, 722, 667, 556, 611, 722, 722, 944, 722, 722, 611, 333, 278, 333, 469, 500,
-            333, 444, 500, 444, 500, 444, 333, 500, 500, 278, 278, 500, 278, 778, 500, 500,
-            500, 500, 333, 389, 278, 500, 500, 722, 500, 500, 444, 480, 200, 480, 541
-        ];
-
-        private static readonly int[] TimesBoldWidths =
-        [
-            250, 333, 555, 500, 500, 1000, 833, 278, 333, 333, 500, 570, 250, 333, 250, 278,
-            500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 333, 333, 570, 570, 570, 500,
-            930, 722, 667, 722, 722, 667, 611, 778, 778, 389, 500, 778, 667, 944, 722, 778,
-            611, 778, 722, 556, 667, 722, 722, 1000, 722, 722, 667, 333, 278, 333, 581, 500,
-            333, 500, 556, 444, 556, 444, 333, 500, 556, 278, 333, 556, 278, 833, 556, 500,
-            556, 556, 444, 389, 333, 556, 500, 722, 500, 500, 444, 394, 220, 394, 520
-        ];
-
-        private static readonly int[] TimesItalicWidths =
-        [
-            250, 333, 420, 500, 500, 833, 778, 214, 333, 333, 500, 675, 250, 333, 250, 278,
-            500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 333, 333, 675, 675, 675, 500,
-            920, 611, 611, 667, 722, 611, 611, 722, 722, 333, 444, 667, 556, 833, 667, 722,
-            611, 722, 611, 500, 556, 722, 611, 833, 611, 556, 556, 389, 278, 389, 422, 500,
-            333, 500, 500, 444, 500, 444, 278, 500, 500, 278, 278, 444, 278, 722, 500, 500,
-            500, 500, 389, 389, 278, 500, 444, 667, 444, 444, 389, 400, 275, 400, 541
-        ];
-
-        private static readonly int[] TimesBoldItalicWidths =
-        [
-            250, 389, 555, 500, 500, 833, 778, 278, 333, 333, 500, 570, 250, 333, 250, 278,
-            500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 333, 333, 570, 570, 570, 500,
-            832, 667, 667, 667, 722, 667, 667, 722, 778, 389, 500, 667, 611, 889, 722, 722,
-            611, 722, 667, 556, 611, 722, 667, 889, 667, 611, 611, 333, 278, 333, 570, 500,
-            333, 500, 500, 444, 500, 444, 333, 500, 556, 278, 278, 500, 278, 778, 556, 500,
-            500, 500, 389, 389, 278, 556, 444, 667, 500, 444, 389, 348, 220, 348, 570
-        ];
-
-        internal static double MeasureTextWidth( string baseFontName, string text, double fontSize )
-        {
-            if ( string.IsNullOrEmpty( text ) )
-                return 0;
-
-            double width = 0;
-
-            foreach ( char character in text )
-            {
-                if ( TryGetType1TextByte( character, out byte value ) )
-                    width += GetGlyphWidth( baseFontName, value );
-                else
-                    width += GetGlyphWidth( baseFontName, (byte)'?' );
-            }
-
-            return width * fontSize / 1000d;
-        }
-
-        private static int GetGlyphWidth( string baseFontName, byte value )
-        {
-            if ( IsCourierFont( baseFontName ) )
-                return 600;
-
-            int[] widths = ResolveWidths( baseFontName );
-
-            return value is >= 32 and <= 126
-                ? widths[value - 32]
-                : FallbackWidth;
-        }
-
-        private static int[] ResolveWidths( string baseFontName )
-        {
-            return baseFontName switch
-            {
-                "Helvetica-Bold" or "Helvetica-BoldOblique" => HelveticaBoldWidths,
-                "Times-Bold" => TimesBoldWidths,
-                "Times-Italic" => TimesItalicWidths,
-                "Times-BoldItalic" => TimesBoldItalicWidths,
-                "Times-Roman" => TimesRomanWidths,
-                _ => HelveticaWidths,
-            };
-        }
-
-        private static bool IsCourierFont( string baseFontName )
-        {
-            return baseFontName is "Courier" or "Courier-Bold" or "Courier-Oblique" or "Courier-BoldOblique";
-        }
-    }
-
     private sealed class PdfEmbeddedFont
     {
-        internal const int DefaultGlyphWidth = 500;
-
         private readonly Dictionary<int, int> glyphsByCodePoint;
         private readonly Dictionary<int, int> glyphWidths;
 
@@ -1481,6 +1367,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             FontBytes = fontBytes;
             this.glyphsByCodePoint = glyphsByCodePoint;
             this.glyphWidths = glyphWidths;
+            Metrics = new( glyphsByCodePoint, glyphWidths );
             MinX = minX;
             MinY = minY;
             MaxX = maxX;
@@ -1516,26 +1403,13 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         internal int ItalicAngle { get; }
 
+        internal PdfTrueTypeFontMetrics Metrics { get; }
+
         internal int GetGlyphId( int codePoint )
         {
             return glyphsByCodePoint.TryGetValue( codePoint, out int glyphId )
                 ? glyphId
                 : 0;
-        }
-
-        internal double MeasureTextWidth( string text, double fontSize )
-        {
-            if ( string.IsNullOrEmpty( text ) )
-                return 0;
-
-            double width = 0;
-
-            foreach ( int codePoint in EnumerateCodePoints( text ) )
-            {
-                width += GetGlyphWidth( GetGlyphId( codePoint ) );
-            }
-
-            return width * fontSize / 1000d;
         }
 
         internal string BuildWidthArray()
@@ -1548,7 +1422,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
             foreach ( KeyValuePair<int, int> pair in glyphWidths.OrderBy( x => x.Key ) )
             {
-                if ( pair.Value == DefaultGlyphWidth )
+                if ( pair.Value == PdfTrueTypeFontMetrics.DefaultGlyphWidth )
                     continue;
 
                 builder.Append( pair.Key.ToString( CultureInfo.InvariantCulture ) );
@@ -1580,13 +1454,6 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             return mappings
                 .OrderBy( x => x.Key )
                 .ToList();
-        }
-
-        private int GetGlyphWidth( int glyphId )
-        {
-            return glyphWidths.TryGetValue( glyphId, out int width )
-                ? width
-                : DefaultGlyphWidth;
         }
 
         internal static bool TryCreate( FontFamily family, int variantIndex, int resourceIndex, out PdfEmbeddedFont embeddedFont )
@@ -1722,7 +1589,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             if ( hmtx.Offset + ( readableMetricCount * 4 ) > hmtxEndOffset )
                 return false;
 
-            int lastAdvanceWidth = DefaultGlyphWidth;
+            int lastAdvanceWidth = PdfTrueTypeFontMetrics.DefaultGlyphWidth;
 
             for ( int glyphId = 0; glyphId < glyphCount; glyphId++ )
             {
@@ -1924,21 +1791,16 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
     {
         internal double MeasureTextWidth( string text, double fontSize )
         {
-            if ( string.IsNullOrEmpty( text ) )
-                return 0;
-
-            return EmbeddedFont is not null
-                ? EmbeddedFont.MeasureTextWidth( text, fontSize )
-                : StandardFontMetrics.MeasureTextWidth( BaseFontName, text, fontSize );
+            return Metrics?.MeasureTextWidth( text, fontSize ) ?? 0;
         }
 
         internal string Name { get; set; }
 
-        internal string BaseFontName { get; set; }
-
         internal int ObjectId { get; set; }
 
         internal PdfEmbeddedFont EmbeddedFont { get; set; }
+
+        internal IPdfFontMetrics Metrics { get; set; }
     }
 
     private sealed class PdfFontResources
