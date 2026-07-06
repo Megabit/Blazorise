@@ -13,8 +13,9 @@
             overflow: visible;
         }
 
-        .dock-pane:has(.modal) {
+        [data-dock-pane-name]:has(.b-report-modal-layer) {
             z-index: var(--b-report-zindex-modal-layer, 3000);
+            overflow: visible;
         }
     }
 

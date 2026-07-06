@@ -50,15 +50,17 @@
     </ContextMenuBody>
 </ContextMenu>
 
-<_ReportDesignerFormulaFieldNameDialog @ref="formulaFieldNameDialogRef"
-                                       Confirmed="@FormulaFieldNameConfirmed" />
-<_ReportDesignerFormulaFieldNameDialog @ref="runningTotalNameDialogRef"
-                                       Confirmed="@RunningTotalNameConfirmed" />
-<_ReportDesignerFormulaDialog @ref="formulaDialogRef"
-                              Definition="@Definition"
-                              Data="@Data"
-                              Confirmed="@FormulaFieldFormulaConfirmed" />
-<_ReportDesignerRunningTotalDialog @ref="runningTotalDialogRef"
-                                   Definition="@Definition"
-                                   Data="@Data"
-                                   Confirmed="@RunningTotalDialogConfirmed" />
+<Div Class="b-report-modal-layer">
+    <_ReportDesignerFormulaFieldNameDialog @ref="formulaFieldNameDialogRef"
+                                           Confirmed="@FormulaFieldNameConfirmed" />
+    <_ReportDesignerFormulaFieldNameDialog @ref="runningTotalNameDialogRef"
+                                           Confirmed="@RunningTotalNameConfirmed" />
+    <_ReportDesignerFormulaDialog @ref="formulaDialogRef"
+                                  Definition="@Definition"
+                                  Data="@Data"
+                                  Confirmed="@FormulaFieldFormulaConfirmed" />
+    <_ReportDesignerRunningTotalDialog @ref="runningTotalDialogRef"
+                                       Definition="@Definition"
+                                       Data="@Data"
+                                       Confirmed="@RunningTotalDialogConfirmed" />
+</Div>

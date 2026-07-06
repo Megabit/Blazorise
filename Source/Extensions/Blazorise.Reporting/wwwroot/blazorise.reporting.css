@@ -148,8 +148,9 @@
   z-index: var(--b-report-zindex-toolbar, 20);
   overflow: visible;
 }
-.b-report-designer-layout .dock-pane:has(.modal) {
+.b-report-designer-layout [data-dock-pane-name]:has(.b-report-modal-layer) {
   z-index: var(--b-report-zindex-modal-layer, 3000);
+  overflow: visible;
 }
 .b-report-designer-toolbar-pane {
   display: flex;

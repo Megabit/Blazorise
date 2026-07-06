@@ -3,21 +3,23 @@
 @using System
 @using Microsoft.AspNetCore.Components.Web
 
-<_ReportDesignerDataSourceDialog @ref="dataSourceDialogRef" Definition="@Definition" Confirmed="@UpdateSelectedSectionDataSource" />
-<_ReportDesignerFormulaDialog @ref="formulaDialogRef" Definition="@Definition" Data="@Data" Section="@FormulaSection" Confirmed="@OnFormulaDialogConfirmedAsync" />
-<_ReportDesignerImageUploadDialog @ref="imageUploadDialogRef"
-                                  ImageAccept="@ImageAccept"
-                                  ImageMaxSize="@ImageMaxSize"
-                                  MaxUploadImageChunkSize="@MaxUploadImageChunkSize"
-                                  SegmentFetchTimeout="@ImageUploadSegmentFetchTimeout"
-                                  DisableImageUploadProgressReport="@DisableImageUploadProgressReport"
-                                  ImageUploadChanged="@ImageUploadChanged"
-                                  ImageUploadStarted="@ImageUploadStarted"
-                                  ImageUploadEnded="@ImageUploadEnded"
-                                  ImageUploadWritten="@ImageUploadWritten"
-                                  ImageUploadProgressed="@ImageUploadProgressed"
-                                  ImageUpload="@ImageUpload"
-                                  Confirmed="@OnImageUploadConfirmedAsync" />
+<Div Class="b-report-modal-layer">
+    <_ReportDesignerDataSourceDialog @ref="dataSourceDialogRef" Definition="@Definition" Confirmed="@UpdateSelectedSectionDataSource" />
+    <_ReportDesignerFormulaDialog @ref="formulaDialogRef" Definition="@Definition" Data="@Data" Section="@FormulaSection" Confirmed="@OnFormulaDialogConfirmedAsync" />
+    <_ReportDesignerImageUploadDialog @ref="imageUploadDialogRef"
+                                      ImageAccept="@ImageAccept"
+                                      ImageMaxSize="@ImageMaxSize"
+                                      MaxUploadImageChunkSize="@MaxUploadImageChunkSize"
+                                      SegmentFetchTimeout="@ImageUploadSegmentFetchTimeout"
+                                      DisableImageUploadProgressReport="@DisableImageUploadProgressReport"
+                                      ImageUploadChanged="@ImageUploadChanged"
+                                      ImageUploadStarted="@ImageUploadStarted"
+                                      ImageUploadEnded="@ImageUploadEnded"
+                                      ImageUploadWritten="@ImageUploadWritten"
+                                      ImageUploadProgressed="@ImageUploadProgressed"
+                                      ImageUpload="@ImageUpload"
+                                      Confirmed="@OnImageUploadConfirmedAsync" />
+</Div>
 
 @if ( ReportSelected )
 {
