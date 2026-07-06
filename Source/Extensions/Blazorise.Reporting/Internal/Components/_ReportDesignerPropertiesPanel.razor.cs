@@ -251,7 +251,30 @@ public partial class _ReportDesignerPropertiesPanel
 
     private IReadOnlyList<FontFamily> GetVisibleFontFamilies()
     {
-        return FontProvider?.GetFonts().Where( font => font.Visible ).ToList() ?? [];
+        List<FontFamily> fonts = [];
+
+        foreach ( FontFamily font in Definition?.Fonts ?? [] )
+        {
+            AddVisibleFontFamily( fonts, font );
+        }
+
+        foreach ( FontFamily font in FontProvider?.GetFonts() ?? [] )
+        {
+            AddVisibleFontFamily( fonts, font );
+        }
+
+        return fonts;
+    }
+
+    private static void AddVisibleFontFamily( List<FontFamily> fonts, FontFamily font )
+    {
+        if ( font?.Visible != true || string.IsNullOrWhiteSpace( font.Name ) )
+            return;
+
+        if ( fonts.Any( existing => string.Equals( existing.Name, font.Name, StringComparison.OrdinalIgnoreCase ) ) )
+            return;
+
+        fonts.Add( font );
     }
 
     private Task OnSelectedElementHeightChanged( double value )

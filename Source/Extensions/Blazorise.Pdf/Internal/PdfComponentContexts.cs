@@ -1,5 +1,7 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
+using Blazorise;
 #endregion
 
 namespace Blazorise.Pdf;
@@ -16,6 +18,25 @@ public sealed class PdfDocumentContext
     public PdfDocumentContext( PdfDocumentDefinition definition )
     {
         Definition = definition;
+    }
+
+    /// <summary>
+    /// Registers a document-scoped font family.
+    /// </summary>
+    /// <param name="font">Font family.</param>
+    public void RegisterFont( FontFamily font )
+    {
+        if ( string.IsNullOrWhiteSpace( font?.Name ) )
+            return;
+
+        Definition.Fonts ??= [];
+
+        int existingIndex = Definition.Fonts.FindIndex( x => string.Equals( x.Name, font.Name, StringComparison.OrdinalIgnoreCase ) );
+
+        if ( existingIndex >= 0 )
+            Definition.Fonts[existingIndex] = font;
+        else
+            Definition.Fonts.Add( font );
     }
 
     /// <summary>

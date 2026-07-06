@@ -14,6 +14,8 @@ internal sealed class ReportContext
 
     private readonly List<RegisteredRunningTotalDefinition> runningTotals = [];
 
+    private readonly List<FontFamily> fonts = [];
+
     private readonly List<ReportSectionDefinition> sections = [];
 
     public ReportPageDefinition Page { get; private set; } = new();
@@ -67,6 +69,19 @@ internal sealed class ReportContext
             runningTotals.Add( registeredRunningTotal );
     }
 
+    public void RegisterFont( FontFamily font )
+    {
+        if ( string.IsNullOrWhiteSpace( font?.Name ) )
+            return;
+
+        int existingIndex = fonts.FindIndex( x => string.Equals( x.Name, font.Name, StringComparison.OrdinalIgnoreCase ) );
+
+        if ( existingIndex >= 0 )
+            fonts[existingIndex] = font;
+        else
+            fonts.Add( font );
+    }
+
     public ReportSectionDefinition RegisterSection( ReportSectionDefinition section )
     {
         if ( string.IsNullOrWhiteSpace( section.Name ) )
@@ -118,6 +133,7 @@ internal sealed class ReportContext
             Page = ClonePage( page ?? Page ?? new() ),
             DataSources = dataSources.Select( CloneDataSource ).ToList(),
             FormulaFields = formulaFields.Select( CloneFormulaField ).ToList(),
+            Fonts = fonts.Select( CloneFontFamily ).ToList(),
             Sections = sections.Select( CloneSection ).ToList(),
         };
 
@@ -139,6 +155,7 @@ internal sealed class ReportContext
             DataSources = definition.DataSources?.Select( CloneDataSource ).ToList() ?? [],
             FormulaFields = definition.FormulaFields?.Select( CloneFormulaField ).ToList() ?? [],
             RunningTotals = definition.RunningTotals?.Select( CloneRunningTotal ).ToList() ?? [],
+            Fonts = definition.Fonts?.Select( CloneFontFamily ).ToList() ?? [],
             Sections = definition.Sections?.Select( CloneSection ).ToList() ?? [],
         };
     }
@@ -409,6 +426,38 @@ internal sealed class ReportContext
             Underline = font.Underline,
             Alignment = font.Alignment,
             VerticalAlignment = font.VerticalAlignment,
+        };
+    }
+
+    private static FontFamily CloneFontFamily( FontFamily font )
+    {
+        if ( font is null )
+            return null;
+
+        return new()
+        {
+            Name = font.Name,
+            DisplayName = font.DisplayName,
+            CssFamily = font.CssFamily,
+            Regular = CloneFontSource( font.Regular ),
+            Bold = CloneFontSource( font.Bold ),
+            Italic = CloneFontSource( font.Italic ),
+            BoldItalic = CloneFontSource( font.BoldItalic ),
+            Visible = font.Visible,
+        };
+    }
+
+    private static FontSource CloneFontSource( FontSource source )
+    {
+        if ( source is null )
+            return null;
+
+        return new()
+        {
+            Url = source.Url,
+            Data = source.Data,
+            FileName = source.FileName,
+            Format = source.Format,
         };
     }
 

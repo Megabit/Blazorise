@@ -1,5 +1,7 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
+using Blazorise;
 #endregion
 
 namespace Blazorise.Pdf;
@@ -9,6 +11,64 @@ namespace Blazorise.Pdf;
 /// </summary>
 public sealed class PdfDocumentDefinition
 {
+    #region Methods
+
+    /// <summary>
+    /// Adds a document-scoped font family.
+    /// </summary>
+    /// <param name="font">Font family.</param>
+    /// <returns>The document definition.</returns>
+    public PdfDocumentDefinition AddFont( FontFamily font )
+    {
+        if ( string.IsNullOrWhiteSpace( font?.Name ) )
+            return this;
+
+        Fonts ??= [];
+
+        int existingIndex = Fonts.FindIndex( x => string.Equals( x.Name, font.Name, StringComparison.OrdinalIgnoreCase ) );
+
+        if ( existingIndex >= 0 )
+            Fonts[existingIndex] = font;
+        else
+            Fonts.Add( font );
+
+        return this;
+    }
+
+    /// <summary>
+    /// Adds a document-scoped font family.
+    /// </summary>
+    /// <param name="name">Font family name.</param>
+    /// <param name="regular">Regular font source.</param>
+    /// <returns>The document definition.</returns>
+    public PdfDocumentDefinition AddFont( string name, FontSource regular )
+    {
+        return AddFont( name, regular, null, null, null );
+    }
+
+    /// <summary>
+    /// Adds a document-scoped font family.
+    /// </summary>
+    /// <param name="name">Font family name.</param>
+    /// <param name="regular">Regular font source.</param>
+    /// <param name="bold">Bold font source.</param>
+    /// <param name="italic">Italic font source.</param>
+    /// <param name="boldItalic">Bold italic font source.</param>
+    /// <returns>The document definition.</returns>
+    public PdfDocumentDefinition AddFont( string name, FontSource regular, FontSource bold = null, FontSource italic = null, FontSource boldItalic = null )
+    {
+        return AddFont( new()
+        {
+            Name = name,
+            Regular = regular,
+            Bold = bold,
+            Italic = italic,
+            BoldItalic = boldItalic,
+        } );
+    }
+
+    #endregion
+
     #region Properties
 
     /// <summary>
@@ -40,6 +100,11 @@ public sealed class PdfDocumentDefinition
     /// Pages included in the document.
     /// </summary>
     public List<PdfPageDefinition> Pages { get; set; } = [];
+
+    /// <summary>
+    /// Document-scoped font families resolved before globally registered fonts.
+    /// </summary>
+    public List<FontFamily> Fonts { get; set; } = [];
 
     #endregion
 }

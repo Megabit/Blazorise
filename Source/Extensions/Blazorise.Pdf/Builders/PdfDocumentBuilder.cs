@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using Blazorise;
 #endregion
 
 namespace Blazorise.Pdf;
@@ -45,6 +46,45 @@ public sealed class PdfDocumentBuilder
     public PdfDocumentBuilder Title( string title )
     {
         definition.Title = title;
+
+        return this;
+    }
+
+    /// <summary>
+    /// Adds a document-scoped font family.
+    /// </summary>
+    /// <param name="font">Font family.</param>
+    /// <returns>The PDF document builder.</returns>
+    public PdfDocumentBuilder AddFont( FontFamily font )
+    {
+        definition.AddFont( font );
+
+        return this;
+    }
+
+    /// <summary>
+    /// Adds a document-scoped font family.
+    /// </summary>
+    /// <param name="name">Font family name.</param>
+    /// <param name="regular">Regular font source.</param>
+    /// <returns>The PDF document builder.</returns>
+    public PdfDocumentBuilder AddFont( string name, FontSource regular )
+    {
+        return AddFont( name, regular, null, null, null );
+    }
+
+    /// <summary>
+    /// Adds a document-scoped font family.
+    /// </summary>
+    /// <param name="name">Font family name.</param>
+    /// <param name="regular">Regular font source.</param>
+    /// <param name="bold">Bold font source.</param>
+    /// <param name="italic">Italic font source.</param>
+    /// <param name="boldItalic">Bold italic font source.</param>
+    /// <returns>The PDF document builder.</returns>
+    public PdfDocumentBuilder AddFont( string name, FontSource regular, FontSource bold = null, FontSource italic = null, FontSource boldItalic = null )
+    {
+        definition.AddFont( name, regular, bold, italic, boldItalic );
 
         return this;
     }

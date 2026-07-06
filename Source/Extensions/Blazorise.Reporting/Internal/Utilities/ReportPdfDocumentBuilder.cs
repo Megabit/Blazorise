@@ -1,6 +1,7 @@
 #region Using directives
 using System.Collections.Generic;
 using System.Linq;
+using Blazorise;
 using Blazorise.Pdf;
 #endregion
 
@@ -24,6 +25,7 @@ internal static class ReportPdfDocumentBuilder
             Orientation = ResolveOrientation( definition.Page.Orientation ),
             PageWidth = definition.Page.Width,
             PageHeight = definition.Page.Height,
+            Fonts = definition.Fonts?.Select( CloneFontFamily ).ToList() ?? [],
         };
 
         foreach ( ReportRenderPage renderPage in ReportPreviewRenderPlanner.BuildRenderPages( definition, data ) )
@@ -291,6 +293,38 @@ internal static class ReportPdfDocumentBuilder
     private static string ResolveColor( ReportColor color )
     {
         return color.ToCssString();
+    }
+
+    private static FontFamily CloneFontFamily( FontFamily font )
+    {
+        if ( font is null )
+            return null;
+
+        return new()
+        {
+            Name = font.Name,
+            DisplayName = font.DisplayName,
+            CssFamily = font.CssFamily,
+            Regular = CloneFontSource( font.Regular ),
+            Bold = CloneFontSource( font.Bold ),
+            Italic = CloneFontSource( font.Italic ),
+            BoldItalic = CloneFontSource( font.BoldItalic ),
+            Visible = font.Visible,
+        };
+    }
+
+    private static FontSource CloneFontSource( FontSource source )
+    {
+        if ( source is null )
+            return null;
+
+        return new()
+        {
+            Url = source.Url,
+            Data = source.Data,
+            FileName = source.FileName,
+            Format = source.Format,
+        };
     }
 
     #endregion

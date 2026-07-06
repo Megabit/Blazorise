@@ -65,11 +65,12 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         int catalogId = ReserveObject( objects );
         int pagesId = ReserveObject( objects );
         List<PdfPageDefinition> pages = document.Pages.Count > 0 ? document.Pages : [CreateDefaultPage( document )];
-        PdfFontResources fontResources = AddFontResources( objects, pages, fontProvider );
+        IFontProvider effectiveFontProvider = new PdfDocumentFontProvider( document.Fonts, fontProvider );
+        PdfFontResources fontResources = AddFontResources( objects, pages, effectiveFontProvider );
 
         foreach ( PdfPageDefinition page in pages )
         {
-            PdfPageContent pageContent = BuildPageContent( page, objects, fontResources, fontProvider );
+            PdfPageContent pageContent = BuildPageContent( page, objects, fontResources, effectiveFontProvider );
             int contentId = AddObject( objects, CreateStreamObject( pageContent.Content ) );
             int pageId = AddObject( objects, BuildPageObject( page, pagesId, fontResources, contentId, pageContent ) );
             pageObjectIds.Add( pageId );
