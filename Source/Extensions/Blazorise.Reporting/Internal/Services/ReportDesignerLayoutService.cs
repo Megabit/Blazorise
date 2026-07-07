@@ -45,7 +45,7 @@ internal sealed class ReportDesignerLayoutService
         if ( sectionPointerResize is not null && sectionPointerResize.SectionIndex == sectionIndex )
             return GetSectionDesignerHeight( sectionPointerResize.TargetHeight, bandMode );
 
-        if ( bandMode == ReportBandMode.Rail && section is not null && !section.Suppressed && isSectionCollapsed( section ) )
+        if ( bandMode == ReportBandMode.Rail && section is not null && !ReportValueResolver.ResolveStaticSuppress( section ) && isSectionCollapsed( section ) )
         {
             return ReportMeasurementConverter.FromCssPixelValue( ReportDesignerConstants.DesignerCollapsedBandHeight );
         }

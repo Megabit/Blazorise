@@ -318,7 +318,6 @@ internal static class ReportDefinitionHelper
             ReportSectionType.ReportHeader => "Report Header",
             ReportSectionType.PageHeader => "Page Header",
             ReportSectionType.Detail => "Detail",
-            ReportSectionType.Group => "Group Header",
             ReportSectionType.GroupHeader => "Group Header",
             ReportSectionType.GroupFooter => "Group Footer",
             ReportSectionType.PageFooter => "Page Footer",

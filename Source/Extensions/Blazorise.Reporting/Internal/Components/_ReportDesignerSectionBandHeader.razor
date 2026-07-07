@@ -15,7 +15,7 @@
     {
         <span class="b-report-section-band-header-source">; Data Source: @Section.DataSource</span>
     }
-    @if ( Section.Suppressed )
+    @if ( ReportValueResolver.ResolveStaticSuppress( Section ) )
     {
         <span class="b-report-section-band-header-status">Suppressed</span>
     }

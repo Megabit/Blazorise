@@ -25,7 +25,7 @@ public partial class ReportRunningTotal : ComponentBase
             EvaluateFormula = EvaluateFormula,
             ResetMode = ResetMode,
             ResetGroupId = ResetGroupId,
-        }, ResetGroup );
+        } );
     }
 
     #endregion
@@ -78,11 +78,6 @@ public partial class ReportRunningTotal : ComponentBase
     /// Stable group section identifier used when ResetMode is set to Group.
     /// </summary>
     [Parameter] public string ResetGroupId { get; set; }
-
-    /// <summary>
-    /// Group section name used when ResetMode is set to Group.
-    /// </summary>
-    [Parameter] public string ResetGroup { get; set; }
 
     #endregion
 }

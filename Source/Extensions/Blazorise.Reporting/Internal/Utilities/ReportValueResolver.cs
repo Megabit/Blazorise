@@ -42,6 +42,19 @@ internal static class ReportValueResolver
         } );
     }
 
+    internal static bool ResolveStaticSuppress( ReportSectionDefinition section )
+    {
+        return section?.Suppress?.Value ?? false;
+    }
+
+    internal static void SetStaticSuppress( ReportSectionDefinition section, bool value )
+    {
+        if ( section is null )
+            return;
+
+        section.Suppress = ReportValue.Create( value, section.Suppress?.Formula );
+    }
+
     internal static bool ResolveSuppress( ReportElementDefinition element, ReportSectionDefinition section, ReportDefinition definition, object data, object item )
     {
         return Resolve( element?.Suppress, new()

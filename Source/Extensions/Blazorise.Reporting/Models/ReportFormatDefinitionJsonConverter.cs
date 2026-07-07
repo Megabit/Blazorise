@@ -12,9 +12,12 @@ public sealed class ReportFormatDefinitionJsonConverter : JsonConverter<ReportFo
     /// <inheritdoc />
     public override ReportFormatDefinition Read( ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options )
     {
+        if ( reader.TokenType == JsonTokenType.Null )
+            return null;
+
         using JsonDocument document = JsonDocument.ParseValue( ref reader );
         JsonElement root = document.RootElement;
-        ReportFormatCategory category = ReadEnum( root, nameof( ReportFormatDefinition.Category ), ReportFormatCategory.Text, options );
+        ReportFormatCategory category = ReadRequiredEnum<ReportFormatCategory>( root, nameof( ReportFormatDefinition.Category ), options );
         ReportFormatDefinition format = category switch
         {
             ReportFormatCategory.Number => new ReportNumberFormatDefinition
@@ -55,7 +58,8 @@ public sealed class ReportFormatDefinitionJsonConverter : JsonConverter<ReportFo
             {
                 Format = ReadString( root, nameof( ReportCustomFormatDefinition.Format ), options ),
             },
-            _ => new ReportTextFormatDefinition(),
+            ReportFormatCategory.Text => new ReportTextFormatDefinition(),
+            _ => throw new JsonException( $"Unsupported report format category '{category}'." ),
         };
 
         format.CultureName = ReadString( root, nameof( ReportFormatDefinition.CultureName ), options );
@@ -66,10 +70,29 @@ public sealed class ReportFormatDefinitionJsonConverter : JsonConverter<ReportFo
     /// <inheritdoc />
     public override void Write( Utf8JsonWriter writer, ReportFormatDefinition value, JsonSerializerOptions options )
     {
-        writer.WriteStartObject();
-        writer.WriteString( GetPropertyName( nameof( ReportFormatDefinition.Category ), options ), value?.Category.ToString() ?? ReportFormatCategory.Text.ToString() );
+        if ( value is null )
+        {
+            writer.WriteNullValue();
+            return;
+        }
 
-        if ( !string.IsNullOrWhiteSpace( value?.CultureName ) )
+        if ( value is not ReportTextFormatDefinition
+            and not ReportNumberFormatDefinition
+            and not ReportCurrencyFormatDefinition
+            and not ReportPercentFormatDefinition
+            and not ReportDateFormatDefinition
+            and not ReportTimeFormatDefinition
+            and not ReportDateTimeFormatDefinition
+            and not ReportBooleanFormatDefinition
+            and not ReportCustomFormatDefinition )
+        {
+            throw new JsonException( $"Unsupported report format definition '{value.GetType().FullName}'." );
+        }
+
+        writer.WriteStartObject();
+        writer.WriteString( GetPropertyName( nameof( ReportFormatDefinition.Category ), options ), value.Category.ToString() );
+
+        if ( !string.IsNullOrWhiteSpace( value.CultureName ) )
             writer.WriteString( GetPropertyName( nameof( ReportFormatDefinition.CultureName ), options ), value.CultureName );
 
         switch ( value )
@@ -151,9 +174,13 @@ public sealed class ReportFormatDefinitionJsonConverter : JsonConverter<ReportFo
 
     private static string ReadString( JsonElement root, string propertyName, JsonSerializerOptions options )
     {
-        return TryGetProperty( root, propertyName, options, out JsonElement property ) && property.ValueKind == JsonValueKind.String
-            ? property.GetString()
-            : null;
+        if ( !TryGetProperty( root, propertyName, options, out JsonElement property ) || property.ValueKind == JsonValueKind.Null )
+            return null;
+
+        if ( property.ValueKind != JsonValueKind.String )
+            throw new JsonException( $"Report format property '{propertyName}' must be a string." );
+
+        return property.GetString();
     }
 
     private static int? ReadNullableInt32( JsonElement root, string propertyName, JsonSerializerOptions options )
@@ -161,7 +188,10 @@ public sealed class ReportFormatDefinitionJsonConverter : JsonConverter<ReportFo
         if ( !TryGetProperty( root, propertyName, options, out JsonElement property ) || property.ValueKind == JsonValueKind.Null )
             return null;
 
-        return property.TryGetInt32( out int value ) ? value : null;
+        if ( !property.TryGetInt32( out int value ) )
+            throw new JsonException( $"Report format property '{propertyName}' must be an integer." );
+
+        return value;
     }
 
     private static bool ReadBoolean( JsonElement root, string propertyName, bool defaultValue, JsonSerializerOptions options )
@@ -173,8 +203,17 @@ public sealed class ReportFormatDefinitionJsonConverter : JsonConverter<ReportFo
         {
             JsonValueKind.True => true,
             JsonValueKind.False => false,
-            _ => defaultValue,
+            _ => throw new JsonException( $"Report format property '{propertyName}' must be a boolean." ),
         };
+    }
+
+    private static TEnum ReadRequiredEnum<TEnum>( JsonElement root, string propertyName, JsonSerializerOptions options )
+        where TEnum : struct, Enum
+    {
+        if ( !TryGetProperty( root, propertyName, options, out JsonElement property ) )
+            throw new JsonException( $"Report format property '{propertyName}' is required." );
+
+        return ReadEnumProperty<TEnum>( property, propertyName );
     }
 
     private static TEnum ReadEnum<TEnum>( JsonElement root, string propertyName, TEnum defaultValue, JsonSerializerOptions options )
@@ -183,12 +222,15 @@ public sealed class ReportFormatDefinitionJsonConverter : JsonConverter<ReportFo
         if ( !TryGetProperty( root, propertyName, options, out JsonElement property ) )
             return defaultValue;
 
+        return ReadEnumProperty<TEnum>( property, propertyName );
+    }
+
+    private static TEnum ReadEnumProperty<TEnum>( JsonElement property, string propertyName )
+        where TEnum : struct, Enum
+    {
         if ( property.ValueKind == JsonValueKind.String && Enum.TryParse( property.GetString(), ignoreCase: true, out TEnum parsedStringValue ) )
             return parsedStringValue;
 
-        if ( property.ValueKind == JsonValueKind.Number && property.TryGetInt32( out int numericValue ) )
-            return Enum.IsDefined( typeof( TEnum ), numericValue ) ? (TEnum)Enum.ToObject( typeof( TEnum ), numericValue ) : defaultValue;
-
-        return defaultValue;
+        throw new JsonException( $"Report format property '{propertyName}' must be a valid {typeof( TEnum ).Name} string value." );
     }
 }

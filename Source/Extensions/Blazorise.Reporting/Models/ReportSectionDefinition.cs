@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Blazorise;
 
 namespace Blazorise.Reporting;
 
@@ -58,15 +57,6 @@ public sealed class ReportSectionDefinition
     /// Excludes the band from rendered output while keeping it visible in the designer.
     /// </summary>
     public ReportValue<bool> Suppress { get; set; } = false;
-
-    /// <summary>
-    /// Static suppress value used by designer interactions.
-    /// </summary>
-    public bool Suppressed
-    {
-        get => Suppress?.Value ?? false;
-        set => Suppress = ReportValue.Create( value, Suppress?.Formula );
-    }
 
     /// <summary>
     /// Keeps the band height reserved when the band is suppressed.

@@ -325,7 +325,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         else if ( ReportDesignerTreeBuilder.TryResolveElementTreeNode( node, out var elementKey ) )
         {
             if ( ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out var elementSectionIndex, out _, out _ )
-                && EffectiveDefinition.Sections[elementSectionIndex].Suppressed )
+                && ReportValueResolver.ResolveStaticSuppress( EffectiveDefinition.Sections[elementSectionIndex] ) )
             {
                 SelectSection( elementSectionIndex );
             }
@@ -466,7 +466,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private bool IsSectionCollapsedForRender( ReportSectionDefinition section )
     {
-        return IsDesignerBandRailVisible() && !section.Suppressed && IsSectionCollapsed( section );
+        return IsDesignerBandRailVisible() && !ReportValueResolver.ResolveStaticSuppress( section ) && IsSectionCollapsed( section );
     }
 
     private bool IsSectionSelected( int sectionIndex )
@@ -1500,7 +1500,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
             var detailSection = definition.Sections[detailSectionIndex];
 
-            if ( detailSection.Type != ReportSectionType.Detail || detailSection.Suppressed )
+            if ( detailSection.Type != ReportSectionType.Detail || ReportValueResolver.ResolveStaticSuppress( detailSection ) )
                 return Task.CompletedTask;
 
             var groupHeader = aggregateService.CreateGroupHeaderSection( definition, groupBy );
@@ -2189,7 +2189,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( section is null )
             return;
 
-        await UpdateSelectedSectionSuppression( !section.Suppressed );
+        await UpdateSelectedSectionSuppression( !ReportValueResolver.ResolveStaticSuppress( section ) );
     }
 
     private Task ShowContextProperties()
@@ -2469,7 +2469,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         var section = definition.Sections[sectionIndex];
 
-        if ( section.Suppressed )
+        if ( ReportValueResolver.ResolveStaticSuppress( section ) )
             return;
 
         designerState.DraggedKind = ReportDesignerDragKind.None;
@@ -3146,7 +3146,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             var definition = EffectiveDefinition;
             var canResize = pointerResize.SectionIndex >= 0
                 && pointerResize.SectionIndex < definition.Sections.Count
-                && !definition.Sections[pointerResize.SectionIndex].Suppressed;
+                && !ReportValueResolver.ResolveStaticSuppress( definition.Sections[pointerResize.SectionIndex] );
 
             if ( !resized || !canResize )
                 return;
@@ -3157,7 +3157,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
                 if ( pointerResize.SectionIndex >= 0
                     && pointerResize.SectionIndex < definition.Sections.Count
-                    && !definition.Sections[pointerResize.SectionIndex].Suppressed )
+                    && !ReportValueResolver.ResolveStaticSuppress( definition.Sections[pointerResize.SectionIndex] ) )
                 {
                     definition.Sections[pointerResize.SectionIndex].Height = pointerResize.TargetHeight;
                     SelectSection( pointerResize.SectionIndex );

@@ -295,7 +295,7 @@ internal static class ReportPreviewRenderPlanner
 
     private static bool IsGroupHeader( ReportSectionDefinition section )
     {
-        return section.Type is ReportSectionType.Group or ReportSectionType.GroupHeader;
+        return section.Type == ReportSectionType.GroupHeader;
     }
 
     private static bool IsGroupBoundary( ReportSectionDefinition section )

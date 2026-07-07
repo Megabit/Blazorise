@@ -91,7 +91,7 @@
         <h6>Band properties</h6>
         <_ReportDesignerPropertyGroup Title="Status">
             <_ReportDesignerFormulaBooleanProperty Label="Suppress"
-                                                   Value="@SelectedSection.Suppressed"
+                                                   Value="@ReportValueResolver.ResolveStaticSuppress( SelectedSection )"
                                                    Formula="@SelectedSection.Suppress?.Formula"
                                                    Changed="@UpdateSelectedSectionSuppression"
                                                    OpenFormula="@OpenSelectedSectionSuppressFormula" />
@@ -101,7 +101,7 @@
             }
         </_ReportDesignerPropertyGroup>
 
-        @if ( !SelectedSection.Suppressed )
+        @if ( !ReportValueResolver.ResolveStaticSuppress( SelectedSection ) )
         {
             <_ReportDesignerPropertyGroup Title="General">
                 <_ReportDesignerTextProperty Label="Name" Value="@SelectedSection.Name" Changed="@(value => UpdateSelectedSection( section => section.Name = value ))" />
@@ -109,7 +109,7 @@
                 {
                     <_ReportDesignerDataSourceProperty Label="Data source" Value="@SelectedSection.DataSource" DisplayText="@GetSelectedSectionDataSourceDisplayName()" Clicked="@OpenDataSourceDialog" />
                 }
-                @if ( SelectedSection.Type is ReportSectionType.Group or ReportSectionType.GroupHeader )
+                @if ( SelectedSection.Type == ReportSectionType.GroupHeader )
                 {
                     <_ReportDesignerTextProperty Label="Group by" Value="@SelectedSection.GroupBy" Changed="@(value => UpdateSelectedSection( section => section.GroupBy = value ))" />
                 }

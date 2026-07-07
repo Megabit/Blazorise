@@ -165,7 +165,7 @@
                                 @foreach ( var sectionItem in ResolveSectionRenderItems( definition, section, designMode: true ) )
                                 {
                                     var collapsed = IsSectionCollapsedForRender( section );
-                                    var editable = !section.Suppressed;
+                                    var editable = !ReportValueResolver.ResolveStaticSuppress( section );
                                     var railVisible = IsDesignerBandRailVisible();
                                     var sectionHeight = GetSectionRenderHeight( capturedSectionIndex, section );
                                     var dragPreviewVisible = false;

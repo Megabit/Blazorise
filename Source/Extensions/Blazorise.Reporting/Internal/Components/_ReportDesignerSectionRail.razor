@@ -14,10 +14,10 @@
     <button type="button"
             class="b-report-section-rail-toggle"
             title="@ToggleTitle"
-            disabled="@(!AllowCollapse || Section.Suppressed)"
+            disabled="@(!AllowCollapse || ReportValueResolver.ResolveStaticSuppress( Section ))"
             @onclick="OnToggleClicked"
             @onclick:stopPropagation>
-        @(Section.Suppressed ? "!" : Collapsed ? "+" : "-")
+        @(ReportValueResolver.ResolveStaticSuppress( Section ) ? "!" : Collapsed ? "+" : "-")
     </button>
     <div class="b-report-section-rail-text">
         <span class="b-report-section-rail-title">@DisplayName</span>
@@ -25,7 +25,7 @@
         {
             <span class="b-report-section-rail-source">@Section.DataSource</span>
         }
-        @if ( Section.Suppressed )
+        @if ( ReportValueResolver.ResolveStaticSuppress( Section ) )
         {
             <span class="b-report-section-rail-status">Suppressed</span>
         }

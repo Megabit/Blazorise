@@ -295,7 +295,7 @@ internal sealed class ReportSelectionManager
                 ReportDefinitionHelper.TryFindElementLocation( definition, elementKey, out int sectionIndex, out _, out _ )
                 && sectionIndex >= 0
                 && sectionIndex < definition.Sections.Count
-                && !definition.Sections[sectionIndex].Suppressed );
+                && !ReportValueResolver.ResolveStaticSuppress( definition.Sections[sectionIndex] ) );
 
         if ( !string.IsNullOrWhiteSpace( SelectedCellKey ) )
             return false;
@@ -309,7 +309,7 @@ internal sealed class ReportSelectionManager
             && ReportDefinitionHelper.TryFindElementLocation( definition, PrimaryElementKey, out int sectionIndex, out _, out _ )
             && sectionIndex >= 0
             && sectionIndex < definition.Sections.Count
-            && definition.Sections[sectionIndex].Suppressed;
+            && ReportValueResolver.ResolveStaticSuppress( definition.Sections[sectionIndex] );
     }
 
     internal ReportSectionDefinition FindSelectedSection( ReportDefinition definition )

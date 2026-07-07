@@ -1,5 +1,4 @@
 using System;
-using Blazorise;
 using Blazorise.Reporting.Internal;
 using Microsoft.AspNetCore.Components;
 
@@ -174,25 +173,5 @@ public abstract class BaseReportElement : ComponentBase
     /// Border settings applied around the element.
     /// </summary>
     [Parameter] public ReportBorderDefinition Border { get; set; }
-
-    /// <summary>
-    /// Blazorise margin utility accepted for declarative compatibility.
-    /// </summary>
-    [Parameter] public IFluentSpacing Margin { get; set; }
-
-    /// <summary>
-    /// Blazorise padding utility accepted for declarative compatibility.
-    /// </summary>
-    [Parameter] public IFluentSpacing Padding { get; set; }
-
-    /// <summary>
-    /// Blazorise flex utility accepted for declarative compatibility.
-    /// </summary>
-    [Parameter] public IFluentFlex Flex { get; set; }
-
-    /// <summary>
-    /// Blazorise gap utility accepted for declarative compatibility.
-    /// </summary>
-    [Parameter] public IFluentGap Gap { get; set; }
 
 }

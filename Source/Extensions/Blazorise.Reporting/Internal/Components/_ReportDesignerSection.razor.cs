@@ -89,7 +89,7 @@ public partial class _ReportDesignerSection
         builder.Append( "b-report-section-body-rail", RailVisible );
         builder.Append( "b-report-section-body-classic", BandMode == ReportBandMode.Classic );
         builder.Append( "b-report-section-body-external-drag", ExternalDragActive );
-        builder.Append( "disabled", Section.Suppressed );
+        builder.Append( "disabled", ReportValueResolver.ResolveStaticSuppress( Section ) );
     }
 
     private void BuildBodyStyles( StyleBuilder builder )
@@ -106,7 +106,7 @@ public partial class _ReportDesignerSection
         builder.Append( "b-report-section-classic", BandMode == ReportBandMode.Classic );
         builder.Append( "active", Active );
         builder.Append( "collapsed", Collapsed );
-        builder.Append( "suppressed", Section.Suppressed );
+        builder.Append( "suppressed", ReportValueResolver.ResolveStaticSuppress( Section ) );
     }
 
     /// <inheritdoc />
@@ -238,7 +238,7 @@ public partial class _ReportDesignerSection
         hash.Add( section.Class );
         hash.Add( section.Style );
         hash.Add( section.Height );
-        hash.Add( section.Suppressed );
+        hash.Add( ReportValueResolver.ResolveStaticSuppress( section ) );
         hash.Add( section.DataSource );
         hash.Add( section.Appearance?.BackgroundColor ?? ReportColor.Default );
         hash.Add( section.Appearance?.Opacity );

@@ -35,7 +35,7 @@ public abstract class BaseReportSection : ComponentBase
             Class = Class,
             Style = Style,
             Default = true,
-            Suppress = Suppress ?? Suppressed,
+            Suppress = Suppress ?? false,
             ReserveSpaceWhenSuppressed = ReserveSpaceWhenSuppressed,
             PrintOnFirstPage = PrintOnFirstPage,
             PrintOnLastPage = PrintOnLastPage,
@@ -91,11 +91,6 @@ public abstract class BaseReportSection : ComponentBase
     /// Excludes the band from rendered output while keeping it visible in the designer.
     /// </summary>
     [Parameter] public ReportValue<bool> Suppress { get; set; }
-
-    /// <summary>
-    /// Excludes the band from rendered output while keeping it visible in the designer.
-    /// </summary>
-    [Parameter] public bool Suppressed { get; set; }
 
     /// <summary>
     /// Keeps the band height reserved when the band is suppressed.

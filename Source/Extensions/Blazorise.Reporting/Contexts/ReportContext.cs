@@ -12,7 +12,7 @@ internal sealed class ReportContext
 
     private readonly List<ReportFormulaFieldDefinition> formulaFields = [];
 
-    private readonly List<RegisteredRunningTotalDefinition> runningTotals = [];
+    private readonly List<ReportRunningTotalDefinition> runningTotals = [];
 
     private readonly List<FontFamily> fonts = [];
 
@@ -50,23 +50,17 @@ internal sealed class ReportContext
             formulaFields.Add( formulaField );
     }
 
-    public void RegisterRunningTotal( ReportRunningTotalDefinition runningTotal, string resetGroup = null )
+    public void RegisterRunningTotal( ReportRunningTotalDefinition runningTotal )
     {
         if ( string.IsNullOrWhiteSpace( runningTotal?.Name ) )
             return;
 
-        var registeredRunningTotal = new RegisteredRunningTotalDefinition
-        {
-            Definition = runningTotal,
-            ResetGroup = resetGroup,
-        };
-
-        var existingIndex = runningTotals.FindIndex( x => string.Equals( x.Definition?.Name, runningTotal.Name, StringComparison.OrdinalIgnoreCase ) );
+        var existingIndex = runningTotals.FindIndex( x => string.Equals( x.Name, runningTotal.Name, StringComparison.OrdinalIgnoreCase ) );
 
         if ( existingIndex >= 0 )
-            runningTotals[existingIndex] = registeredRunningTotal;
+            runningTotals[existingIndex] = runningTotal;
         else
-            runningTotals.Add( registeredRunningTotal );
+            runningTotals.Add( runningTotal );
     }
 
     public void RegisterFont( FontFamily font )
@@ -137,7 +131,7 @@ internal sealed class ReportContext
             Sections = sections.Select( CloneSection ).ToList(),
         };
 
-        definition.RunningTotals = runningTotals.Select( runningTotal => CloneRunningTotal( runningTotal, definition.Sections ) ).ToList();
+        definition.RunningTotals = runningTotals.Select( CloneRunningTotal ).ToList();
 
         return CloneDefinition( definition );
     }
@@ -280,34 +274,6 @@ internal sealed class ReportContext
         };
     }
 
-    private static ReportRunningTotalDefinition CloneRunningTotal( RegisteredRunningTotalDefinition runningTotal, IReadOnlyList<ReportSectionDefinition> sections )
-    {
-        var definition = CloneRunningTotal( runningTotal?.Definition );
-
-        if ( definition is null )
-            return null;
-
-        definition.ResetGroupId = ResolveResetGroupId( definition, runningTotal.ResetGroup, sections );
-
-        return definition;
-    }
-
-    private static string ResolveResetGroupId( ReportRunningTotalDefinition runningTotal, string resetGroup, IReadOnlyList<ReportSectionDefinition> sections )
-    {
-        if ( runningTotal.ResetMode != ReportRunningTotalResetMode.Group )
-            return runningTotal.ResetGroupId;
-
-        if ( string.IsNullOrWhiteSpace( resetGroup ) || sections is null )
-            return runningTotal.ResetGroupId;
-
-        var section = sections.FirstOrDefault( section =>
-            string.Equals( section.Id, resetGroup, StringComparison.Ordinal )
-            || string.Equals( section.Name, resetGroup, StringComparison.OrdinalIgnoreCase )
-            || string.Equals( ReportDefinitionHelper.GetSectionDisplayName( section ), resetGroup, StringComparison.OrdinalIgnoreCase ) );
-
-        return section?.Id ?? runningTotal.ResetGroupId;
-    }
-
     private static ReportSectionDefinition CloneSection( ReportSectionDefinition section )
     {
         return new()
@@ -340,7 +306,7 @@ internal sealed class ReportContext
         if ( element is null )
             return null;
 
-        ReportElementDefinition clone = ReportElementDefinitionFactory.Create( element.Type );
+        ReportElementDefinition clone = Internal.ReportElementDefinitionFactory.Create( element.Type );
 
         clone.Id = element.Id;
         clone.Name = element.Name;
@@ -548,12 +514,6 @@ internal sealed class ReportContext
         };
     }
 
-    private sealed class RegisteredRunningTotalDefinition
-    {
-        internal ReportRunningTotalDefinition Definition { get; set; }
-
-        internal string ResetGroup { get; set; }
-    }
 }
 
 internal sealed class ReportViewerOptions

@@ -27,7 +27,7 @@ internal static class ReportDetailHeaderSynchronizer
 
         var pageHeader = FindPageHeaderForDetail( definition, detailSectionIndex );
 
-        if ( pageHeader is null || pageHeader.Suppressed )
+        if ( pageHeader is null || ReportValueResolver.ResolveStaticSuppress( pageHeader ) )
             return;
 
         var headerText = GetFieldHeaderText( fieldName );
@@ -79,7 +79,7 @@ internal static class ReportDetailHeaderSynchronizer
 
         var pageHeader = FindPageHeaderForDetail( definition, sourceSectionIndex );
 
-        if ( pageHeader is null || pageHeader.Suppressed )
+        if ( pageHeader is null || ReportValueResolver.ResolveStaticSuppress( pageHeader ) )
             return;
 
         HashSet<string> ignoredKeys = ignoredElementKeys is null

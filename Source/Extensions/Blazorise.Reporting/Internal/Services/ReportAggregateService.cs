@@ -43,28 +43,28 @@ internal sealed class ReportAggregateService
 
         ReportSectionDefinition section = definition.Sections[sectionIndex];
 
-        if ( section.Type is ReportSectionType.Group or ReportSectionType.GroupHeader )
+        if ( section.Type == ReportSectionType.GroupHeader )
         {
             int detailSectionIndex = ResolveDetailSectionIndexForGroupHeader( definition, sectionIndex );
 
-            return !section.Suppressed
+            return !ReportValueResolver.ResolveStaticSuppress( section )
                 && !string.IsNullOrWhiteSpace( section.GroupBy )
                 && TryFindGroupLocation( definition, detailSectionIndex, out _, out _ );
         }
 
         if ( section.Type == ReportSectionType.GroupFooter )
         {
-            return !section.Suppressed
+            return !ReportValueResolver.ResolveStaticSuppress( section )
                 && TryFindGroupHeaderForGroupFooter( definition, sectionIndex, out _ );
         }
 
-        return !section.Suppressed;
+        return !ReportValueResolver.ResolveStaticSuppress( section );
     }
 
     internal bool CanInsertGroup( ReportSectionDefinition section )
     {
         return section is not null
-            && !section.Suppressed
+            && !ReportValueResolver.ResolveStaticSuppress( section )
             && section.Type == ReportSectionType.Detail;
     }
 
@@ -77,10 +77,10 @@ internal sealed class ReportAggregateService
         {
             ReportSectionDefinition section = definition.Sections[sectionIndex];
 
-            if ( section.Suppressed )
+            if ( ReportValueResolver.ResolveStaticSuppress( section ) )
                 continue;
 
-            if ( section.Type is ReportSectionType.Group or ReportSectionType.GroupHeader )
+            if ( section.Type == ReportSectionType.GroupHeader )
             {
                 if ( string.IsNullOrWhiteSpace( section.GroupBy ) )
                     return false;
@@ -100,7 +100,7 @@ internal sealed class ReportAggregateService
         {
             ReportSectionDefinition section = definition.Sections[sectionIndex];
 
-            if ( section.Suppressed )
+            if ( ReportValueResolver.ResolveStaticSuppress( section ) )
                 continue;
 
             if ( section.Type == ReportSectionType.GroupFooter )
@@ -109,7 +109,7 @@ internal sealed class ReportAggregateService
                 return true;
             }
 
-            if ( section.Type is ReportSectionType.Detail or ReportSectionType.ReportFooter or ReportSectionType.PageFooter or ReportSectionType.Group or ReportSectionType.GroupHeader )
+            if ( section.Type is ReportSectionType.Detail or ReportSectionType.ReportFooter or ReportSectionType.PageFooter or ReportSectionType.GroupHeader )
                 return false;
         }
 
@@ -125,7 +125,7 @@ internal sealed class ReportAggregateService
         {
             ReportSectionDefinition section = definition.Sections[sectionIndex];
 
-            if ( section.Suppressed )
+            if ( ReportValueResolver.ResolveStaticSuppress( section ) )
                 continue;
 
             if ( section.Type == ReportSectionType.Detail )
@@ -134,7 +134,7 @@ internal sealed class ReportAggregateService
             if ( section.Type is ReportSectionType.ReportFooter or ReportSectionType.PageFooter or ReportSectionType.GroupFooter )
                 return -1;
 
-            if ( ( section.Type is ReportSectionType.Group or ReportSectionType.GroupHeader )
+            if ( section.Type == ReportSectionType.GroupHeader
                 && !string.Equals( section.GroupBy, definition.Sections[groupHeaderIndex].GroupBy, StringComparison.OrdinalIgnoreCase ) )
             {
                 return -1;
@@ -157,7 +157,7 @@ internal sealed class ReportAggregateService
         {
             ReportSectionDefinition section = definition.Sections[sectionIndex];
 
-            if ( section.Suppressed )
+            if ( ReportValueResolver.ResolveStaticSuppress( section ) )
                 continue;
 
             if ( section.Type == ReportSectionType.Detail )
@@ -166,7 +166,7 @@ internal sealed class ReportAggregateService
                 break;
             }
 
-            if ( section.Type is ReportSectionType.ReportFooter or ReportSectionType.PageFooter or ReportSectionType.Group or ReportSectionType.GroupHeader )
+            if ( section.Type is ReportSectionType.ReportFooter or ReportSectionType.PageFooter or ReportSectionType.GroupHeader )
                 return false;
         }
 
@@ -259,7 +259,7 @@ internal sealed class ReportAggregateService
             Height = ReportDesignerConstants.DefaultGroupSectionHeight,
             GroupBy = groupBy,
             Default = false,
-            Suppressed = false,
+            Suppress = false,
             Elements =
             [
                 new ReportTextElementDefinition
@@ -290,7 +290,7 @@ internal sealed class ReportAggregateService
             Height = ReportDesignerConstants.DefaultGroupSectionHeight,
             GroupBy = groupBy,
             Default = false,
-            Suppressed = false,
+            Suppress = false,
             Elements =
             [
                 new ReportLineElementDefinition

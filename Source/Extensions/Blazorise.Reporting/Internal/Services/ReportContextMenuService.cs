@@ -28,7 +28,7 @@ internal sealed class ReportContextMenuService
 
         ReportSectionDefinition section = definition.Sections[state.SectionIndex];
 
-        state.SectionSuppressed = section.Suppressed;
+        state.SectionSuppressed = ReportValueResolver.ResolveStaticSuppress( section );
         state.CanPasteElement = CanPasteElement( definition, state, hasClipboardElements );
         state.CanSelectAllSectionElements = section.Elements?.Count > 0;
         state.CanInsertSection = canInsertSection?.Invoke( definition, state.SectionIndex ) == true;

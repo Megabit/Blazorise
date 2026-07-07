@@ -35,7 +35,7 @@ public partial class _ReportDesignerSectionBandHeader
         builder.Append( "b-report-section-band-header" );
         builder.Append( $"b-report-section-band-header-{Section.Type.ToString().ToLowerInvariant()}" );
         builder.Append( "active", Selected );
-        builder.Append( "suppressed", Section.Suppressed );
+        builder.Append( "suppressed", ReportValueResolver.ResolveStaticSuppress( Section ) );
     }
 
     private Task OnContextMenu( MouseEventArgs eventArgs )

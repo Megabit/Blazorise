@@ -1,3 +1,5 @@
+using System;
+
 namespace Blazorise.Reporting;
 
 /// <summary>
@@ -149,10 +151,7 @@ public static class ReportFormats
             {
                 CultureName = textFormat.CultureName,
             },
-            _ => new ReportTextFormatDefinition
-            {
-                CultureName = format.CultureName,
-            },
+            _ => throw new NotSupportedException( $"Unsupported report format definition '{format.GetType().FullName}'." ),
         };
     }
 }

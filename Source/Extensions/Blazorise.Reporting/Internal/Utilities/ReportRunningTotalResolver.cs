@@ -131,7 +131,7 @@ internal sealed class ReportRunningTotalState
 
     private void ResetForSection( ReportSectionDefinition section )
     {
-        if ( section.Type is not ReportSectionType.Group and not ReportSectionType.GroupHeader )
+        if ( section.Type != ReportSectionType.GroupHeader )
             return;
 
         foreach ( ReportRunningTotalDefinition runningTotal in definition.RunningTotals )

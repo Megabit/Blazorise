@@ -200,7 +200,7 @@ public partial class _ReportDesignerRunningTotalDialog
             return;
 
         groupOptions.AddRange( Definition.Sections
-            .Where( section => section.Type is ReportSectionType.Group or ReportSectionType.GroupHeader )
+            .Where( section => section.Type == ReportSectionType.GroupHeader )
             .Select( section => new ReportRunningTotalGroupOption
             {
                 Id = section.Id,

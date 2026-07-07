@@ -21,7 +21,7 @@ internal sealed class ReportSectionCommandService
             DataSource = sourceSection.DataSource,
             GroupBy = sourceSection.GroupBy,
             Default = false,
-            Suppressed = false,
+            Suppress = false,
             ReserveSpaceWhenSuppressed = sourceSection.ReserveSpaceWhenSuppressed,
             PrintOnFirstPage = sourceSection.PrintOnFirstPage,
             PrintOnLastPage = sourceSection.PrintOnLastPage,
@@ -70,7 +70,7 @@ internal sealed class ReportSectionCommandService
         if ( section is null )
             return;
 
-        section.Suppressed = suppressed;
+        ReportValueResolver.SetStaticSuppress( section, suppressed );
 
         if ( suppressed )
             collapsedSectionIds?.Remove( ReportDefinitionHelper.EnsureSectionId( section ) );

@@ -403,7 +403,7 @@ internal static class ReportDesignerInteractionService
 
         ReportSectionDefinition section = ReportLayoutGeometry.GetSection( definition, sectionIndex );
 
-        if ( section is null || section.Suppressed )
+        if ( section is null || ReportValueResolver.ResolveStaticSuppress( section ) )
             return false;
 
         double x = ReportLayoutGeometry.Clamp( ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetX ), 0, definition.Page.Width );
@@ -487,7 +487,7 @@ internal static class ReportDesignerInteractionService
         {
             var section = definition.Sections[sectionIndex];
 
-            if ( section.Suppressed || isSectionCollapsed( section ) )
+            if ( ReportValueResolver.ResolveStaticSuppress( section ) || isSectionCollapsed( section ) )
                 continue;
 
             var sectionOffsetY = getSectionOffsetY( sectionIndex );

@@ -19,7 +19,7 @@ public partial class _ReportDesignerSectionRail
 
     private string Style => StyleNames;
 
-    private string ToggleTitle => Section.Suppressed ? "Band is suppressed" : Collapsed ? "Expand band" : "Collapse band";
+    private string ToggleTitle => ReportValueResolver.ResolveStaticSuppress( Section ) ? "Band is suppressed" : Collapsed ? "Expand band" : "Collapse band";
 
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
@@ -44,7 +44,7 @@ public partial class _ReportDesignerSectionRail
         builder.Append( $"b-report-section-rail-{Section.Type.ToString().ToLowerInvariant()}" );
         builder.Append( "active", Selected );
         builder.Append( "collapsed", Collapsed );
-        builder.Append( "suppressed", Section.Suppressed );
+        builder.Append( "suppressed", ReportValueResolver.ResolveStaticSuppress( Section ) );
     }
 
     /// <inheritdoc />

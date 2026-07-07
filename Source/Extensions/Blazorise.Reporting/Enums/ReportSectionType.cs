@@ -21,27 +21,22 @@ public enum ReportSectionType
     ReportFooter = 2,
 
     /// <summary>
-    /// Legacy grouping alias.
-    /// </summary>
-    Group = 3,
-
-    /// <summary>
     /// Band rendered at the top of each page.
     /// </summary>
-    PageHeader = 4,
+    PageHeader = 3,
 
     /// <summary>
     /// Band rendered before a grouped detail section.
     /// </summary>
-    GroupHeader = 5,
+    GroupHeader = 4,
 
     /// <summary>
     /// Band rendered after a grouped detail section.
     /// </summary>
-    GroupFooter = 6,
+    GroupFooter = 5,
 
     /// <summary>
     /// Band rendered at the bottom of each page.
     /// </summary>
-    PageFooter = 7
+    PageFooter = 6
 }
