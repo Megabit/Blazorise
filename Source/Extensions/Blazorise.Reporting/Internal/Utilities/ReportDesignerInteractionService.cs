@@ -494,9 +494,6 @@ internal static class ReportDesignerInteractionService
 
             foreach ( var element in section.Elements )
             {
-                if ( element.Suppress?.Value == true )
-                    continue;
-
                 if ( ReportLayoutGeometry.Intersects( selectionBox.X, selectionBox.Y, selectionBox.Width, selectionBox.Height, element.X, sectionOffsetY + element.Y, element.Width, element.Height ) )
                     yield return ReportDefinitionHelper.EnsureElementId( element );
             }
