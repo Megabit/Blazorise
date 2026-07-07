@@ -400,16 +400,20 @@
                     <Div Class="b-report-viewer-pages">
                         @foreach ( var renderPage in renderPages )
                         {
-                            <_ReportDesignerPage PageKey="@($"{definition.Id}:{renderPage.PageNumber}")"
+                            var renderPageKey = $"{definition.Id}:{renderPage.PageNumber}";
+                            var previewPageContentStyle = GetPreviewPageContentStyle( definition );
+
+                            <_ReportDesignerPage PageKey="@renderPageKey"
                                                  Width="@definition.Page.Width"
                                                  MinHeight="@definition.Page.Height"
                                                  Height="@definition.Page.Height">
-                                <Div Class="b-report-page-content" Style="@GetPreviewPageContentStyle( definition )">
+                                <Div Class="b-report-page-content" Style="@previewPageContentStyle">
                                     @foreach ( var renderSection in renderPage.HeaderSections )
                                     {
                                         var section = renderSection.Section;
+                                        var sectionKey = $"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:header";
 
-                                        <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:header")"
+                                        <_ReportDesignerSection SectionKey="@sectionKey"
                                                                 Section="@section"
                                                                 Height="@section.Height"
                                                                 BodyWidth="@GetReportPageContentWidth( definition )">
@@ -434,8 +438,9 @@
                                     @foreach ( var renderSection in renderPage.BodySections )
                                     {
                                         var section = renderSection.Section;
+                                        var sectionKey = $"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:body";
 
-                                        <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:body")"
+                                        <_ReportDesignerSection SectionKey="@sectionKey"
                                                                 Section="@section"
                                                                 Height="@section.Height"
                                                                 BodyWidth="@GetReportPageContentWidth( definition )">
@@ -460,12 +465,15 @@
                                 </Div>
                                 @if ( renderPage.FooterSections.Count > 0 )
                                 {
-                                    <Div Class="b-report-page-footer-content" Style="@GetPreviewPageFooterStyle( definition, renderPage )">
+                                    var previewPageFooterStyle = GetPreviewPageFooterStyle( definition, renderPage );
+
+                                    <Div Class="b-report-page-footer-content" Style="@previewPageFooterStyle">
                                         @foreach ( var renderSection in renderPage.FooterSections )
                                         {
                                             var section = renderSection.Section;
+                                            var sectionKey = $"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:footer";
 
-                                            <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:footer")"
+                                            <_ReportDesignerSection SectionKey="@sectionKey"
                                                                     Section="@section"
                                                                     Height="@section.Height"
                                                                     BodyWidth="@GetReportPageContentWidth( definition )">
