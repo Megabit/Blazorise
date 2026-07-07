@@ -17,7 +17,7 @@ public partial class _ReportDesignerSectionRail
 
     private string DisplayName => ReportDefinitionHelper.GetSectionDisplayName( Section );
 
-    private Func<MouseEventArgs, Task> NonRenderingContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnContextMenuAsync );
+    private Func<MouseEventArgs, Task> NonRenderingContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnContextMenu );
 
     private string Style => StyleNames;
 
@@ -55,7 +55,7 @@ public partial class _ReportDesignerSectionRail
         builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}" );
     }
 
-    private Task OnContextMenuAsync( MouseEventArgs eventArgs )
+    private Task OnContextMenu( MouseEventArgs eventArgs )
     {
         return ContextMenu?.Invoke( eventArgs ) ?? Task.CompletedTask;
     }

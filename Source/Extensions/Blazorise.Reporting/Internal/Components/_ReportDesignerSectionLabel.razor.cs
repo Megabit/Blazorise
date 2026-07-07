@@ -13,11 +13,11 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerSectionLabel
 {
-    private Func<MouseEventArgs, Task> NonRenderingContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnContextMenuAsync );
+    private Func<MouseEventArgs, Task> NonRenderingContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnContextMenu );
 
     private string Label => $"{ReportDefinitionHelper.GetSectionTypeDisplayName( Section.Type )}: {ReportDefinitionHelper.GetSectionDisplayName( Section )}";
 
-    private Task OnContextMenuAsync( MouseEventArgs eventArgs )
+    private Task OnContextMenu( MouseEventArgs eventArgs )
     {
         return ContextMenu?.Invoke( eventArgs ) ?? Task.CompletedTask;
     }

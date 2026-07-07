@@ -34,9 +34,9 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 
     #region Methods
 
-    internal async Task ShowAsync( ReportDefinition definition, IEnumerable<IReportDataSourceProvider> providerOptions )
+    internal async Task Show( ReportDefinition definition, IEnumerable<IReportDataSourceProvider> providerOptions )
     {
-        await ShowReportModalAsync<_ReportDesignerDataSourceConnectionDialog>( parameters =>
+        await ShowReportModal<_ReportDesignerDataSourceConnectionDialog>( parameters =>
         {
             parameters.Add( nameof( Definition ), definition );
             parameters.Add( nameof( ProviderOptions ), providerOptions );
@@ -44,12 +44,12 @@ public partial class _ReportDesignerDataSourceConnectionDialog
         } );
     }
 
-    private Task CloseAsync()
+    private Task Close()
     {
-        return CloseReportModalAsync();
+        return CloseReportModal();
     }
 
-    private async Task ConfirmAsync()
+    private async Task Confirm()
     {
         if ( !CanConfirm )
             return;
@@ -71,7 +71,7 @@ public partial class _ReportDesignerDataSourceConnectionDialog
         };
 
         await Confirmed.InvokeAsync( dataSource );
-        await CloseReportModalAsync();
+        await CloseReportModal();
     }
 
     private Task OnSelectedDataSourceChanged( string value )

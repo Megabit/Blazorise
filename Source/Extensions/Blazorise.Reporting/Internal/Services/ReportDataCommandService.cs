@@ -10,7 +10,7 @@ internal sealed class ReportDataCommandService
 {
     #region Methods
 
-    internal async Task ConnectDataSourceAsync( ReportDefinition definition, object data, ReportDataSourceDefinition dataSource, Func<ReportDefinition, bool, Task> resolveDataSources )
+    internal async Task ConnectDataSource( ReportDefinition definition, object data, ReportDataSourceDefinition dataSource, Func<ReportDefinition, bool, Task> resolveDataSources )
     {
         if ( definition is null || dataSource is null || string.IsNullOrWhiteSpace( dataSource.Name ) )
             return;
@@ -39,7 +39,7 @@ internal sealed class ReportDataCommandService
             await resolveDataSources( definition, false );
     }
 
-    internal async Task RefreshDataSourceAsync( ReportDefinition definition, IReportDataSourceProviderRegistry providerRegistry, string dataSourceName )
+    internal async Task RefreshDataSource( ReportDefinition definition, IReportDataSourceProviderRegistry providerRegistry, string dataSourceName )
     {
         ReportDataSourceDefinition dataSource = FindDataSource( definition, dataSourceName );
 

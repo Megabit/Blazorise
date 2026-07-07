@@ -2,7 +2,7 @@
 @inject IPdfGenerator PdfGenerator
 
 <Div Flex="Flex.Row" Gap="Gap.Is2" Margin="Margin.Is3.FromBottom">
-    <Button Color="Color.Primary" Clicked="@BuildAsync">Build PDF</Button>
+    <Button Color="Color.Primary" Clicked="@Build">Build PDF</Button>
 </Div>
 
 @if ( pdfSource is not null )
@@ -16,11 +16,11 @@
 @code {
     private string pdfSource;
 
-    private async Task BuildAsync()
+    private async Task Build()
     {
         PdfDocumentDefinition document = BuildInvoice();
 
-        PdfRenderResult result = await PdfGenerator.GenerateAsync( document, new()
+        PdfRenderResult result = await PdfGenerator.Generate( document, new()
         {
             FileName = "builder-invoice.pdf",
         } );

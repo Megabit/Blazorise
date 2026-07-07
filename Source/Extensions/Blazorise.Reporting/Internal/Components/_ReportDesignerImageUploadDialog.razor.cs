@@ -33,9 +33,9 @@ public partial class _ReportDesignerImageUploadDialog
 
     #region Methods
 
-    internal async Task ShowAsync()
+    internal async Task Show()
     {
-        await ShowReportModalAsync<_ReportDesignerImageUploadDialog>( parameters =>
+        await ShowReportModal<_ReportDesignerImageUploadDialog>( parameters =>
         {
             parameters.Add( nameof( ImageAccept ), ImageAccept );
             parameters.Add( nameof( ImageMaxSize ), ImageMaxSize );
@@ -52,9 +52,9 @@ public partial class _ReportDesignerImageUploadDialog
         } );
     }
 
-    private Task CloseAsync()
+    private Task Close()
     {
-        return CloseReportModalAsync();
+        return CloseReportModal();
     }
 
     private async Task OnChanged( FileChangedEventArgs eventArgs )
@@ -69,7 +69,7 @@ public partial class _ReportDesignerImageUploadDialog
         {
             try
             {
-                previewSource = await CreateDataUriAsync( selectedFile );
+                previewSource = await CreateDataUri( selectedFile );
             }
             catch ( Exception e )
             {
@@ -101,7 +101,7 @@ public partial class _ReportDesignerImageUploadDialog
         return ImageUploadProgressed.InvokeAsync( eventArgs );
     }
 
-    private async Task ConfirmAsync()
+    private async Task Confirm()
     {
         if ( selectedFile is null || busy )
             return;
@@ -129,7 +129,7 @@ public partial class _ReportDesignerImageUploadDialog
             {
                 try
                 {
-                    source = previewSource ?? await CreateDataUriAsync( selectedFile );
+                    source = previewSource ?? await CreateDataUri( selectedFile );
                 }
                 catch ( Exception e )
                 {
@@ -139,7 +139,7 @@ public partial class _ReportDesignerImageUploadDialog
             }
 
             await Confirmed.InvokeAsync( source );
-            await CloseReportModalAsync();
+            await CloseReportModal();
         }
         finally
         {
@@ -147,7 +147,7 @@ public partial class _ReportDesignerImageUploadDialog
         }
     }
 
-    private async Task<string> CreateDataUriAsync( IFileEntry file )
+    private async Task<string> CreateDataUri( IFileEntry file )
     {
         if ( file is null )
             return null;

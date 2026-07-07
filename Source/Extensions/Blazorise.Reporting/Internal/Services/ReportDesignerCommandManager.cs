@@ -23,7 +23,7 @@ internal sealed class ReportDesignerCommandManager
         historyService.Clear();
     }
 
-    internal async Task<ReportDesignerCommandResult> ExecuteAsync(
+    internal async Task<ReportDesignerCommandResult> Execute(
         ReportDesignerCommand command,
         ReportDefinition currentDefinition,
         Func<ReportDefinition, ReportState> captureState )

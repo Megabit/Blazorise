@@ -47,7 +47,7 @@ public sealed class CsvReportDataSourceProvider : IReportDataSourceProvider
     /// <inheritdoc />
     public async Task<ReportDataSourceSchema> GetSchemaAsync( ReportDataSourceDefinition definition, CancellationToken cancellationToken = default )
     {
-        CsvDataSourceTable table = await ReadTableAsync( definition, cancellationToken );
+        CsvDataSourceTable table = await ReadTable( definition, cancellationToken );
 
         return table.Schema;
     }
@@ -55,7 +55,7 @@ public sealed class CsvReportDataSourceProvider : IReportDataSourceProvider
     /// <inheritdoc />
     public async Task<ReportDataSourceResult> LoadDataAsync( ReportDataSourceDefinition definition, ReportDataSourceLoadContext context, CancellationToken cancellationToken = default )
     {
-        CsvDataSourceTable table = await ReadTableAsync( definition, cancellationToken );
+        CsvDataSourceTable table = await ReadTable( definition, cancellationToken );
 
         return new()
         {
@@ -64,9 +64,9 @@ public sealed class CsvReportDataSourceProvider : IReportDataSourceProvider
         };
     }
 
-    private static async Task<CsvDataSourceTable> ReadTableAsync( ReportDataSourceDefinition definition, CancellationToken cancellationToken )
+    private static async Task<CsvDataSourceTable> ReadTable( ReportDataSourceDefinition definition, CancellationToken cancellationToken )
     {
-        string source = await ReadSourceAsync( definition, cancellationToken );
+        string source = await ReadSource( definition, cancellationToken );
         char delimiter = ResolveDelimiter( definition );
         bool hasHeaderRow = ResolveBooleanSetting( definition, CsvReportDataSourceSettings.HasHeaderRow, true );
         List<List<string>> records = ParseRecords( source, delimiter );
@@ -91,7 +91,7 @@ public sealed class CsvReportDataSourceProvider : IReportDataSourceProvider
         } );
     }
 
-    private static async Task<string> ReadSourceAsync( ReportDataSourceDefinition definition, CancellationToken cancellationToken )
+    private static async Task<string> ReadSource( ReportDataSourceDefinition definition, CancellationToken cancellationToken )
     {
         string source = GetSetting( definition, CsvReportDataSourceSettings.Source )
             ?? GetSetting( definition, LegacyContentSetting )

@@ -39,7 +39,7 @@ public partial class _ReportDataSourceSettingsEditor
         } ) ?? [] );
     }
 
-    private Task AddSettingAsync()
+    private Task AddSetting()
     {
         settings.Add( new() );
         UpdateContextSettings();
@@ -47,7 +47,7 @@ public partial class _ReportDataSourceSettingsEditor
         return Task.CompletedTask;
     }
 
-    private Task RemoveSettingAsync( ReportDataSourceSettingItem setting )
+    private Task RemoveSetting( ReportDataSourceSettingItem setting )
     {
         settings.Remove( setting );
         UpdateContextSettings();

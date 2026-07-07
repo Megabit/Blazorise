@@ -3,7 +3,7 @@
 
 <ModalHeader>
     <ModalTitle>Running total</ModalTitle>
-    <CloseButton Clicked="@CloseAsync" />
+    <CloseButton Clicked="@Close" />
 </ModalHeader>
 <ModalBody>
     <Field Horizontal>
@@ -57,7 +57,7 @@
                         <TextInput Value="@runningTotal.EvaluateFormula" ValueChanged="@OnEvaluateFormulaChanged" Size="Size.Small" />
                     </Addon>
                     <Addon AddonType="AddonType.End">
-                        <Button Color="Color.Light" Clicked="@OpenEvaluateFormulaDialogAsync" Size="Size.Small">
+                        <Button Color="Color.Light" Clicked="@OpenEvaluateFormulaDialog" Size="Size.Small">
                             <Icon Name="IconName.Code" />
                         </Button>
                     </Addon>
@@ -92,6 +92,6 @@
     }
 </ModalBody>
 <ModalFooter>
-    <Button Color="Color.Primary" Clicked="@ConfirmAsync" Disabled="@(!CanConfirm)" Size="Size.Small">OK</Button>
-    <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
+    <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm)" Size="Size.Small">OK</Button>
+    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">Cancel</Button>
 </ModalFooter>

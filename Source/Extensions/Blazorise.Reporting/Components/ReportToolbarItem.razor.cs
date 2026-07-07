@@ -20,7 +20,7 @@ public partial class ReportToolbarItem
 
     private Task OnClicked()
     {
-        return ToolbarContext?.ExecuteAsync( Command ) ?? Task.CompletedTask;
+        return ToolbarContext?.Execute( Command ) ?? Task.CompletedTask;
     }
 
     private bool Disabled => ToolbarContext?.CanExecute( Command ) == false;

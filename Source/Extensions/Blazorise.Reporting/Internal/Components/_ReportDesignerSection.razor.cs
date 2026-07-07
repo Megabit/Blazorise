@@ -25,11 +25,11 @@ public partial class _ReportDesignerSection
 
     private string BodyStyle => bodyStyleBuilder.Styles;
 
-    private Func<MouseEventArgs, Task> NonRenderingBodyContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnBodyContextMenuAsync );
+    private Func<MouseEventArgs, Task> NonRenderingBodyContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnBodyContextMenu );
 
-    private Func<DragEventArgs, Task> NonRenderingDragOver => EventUtil.AsNonRenderingEventHandler<DragEventArgs>( OnDragOverAsync );
+    private Func<DragEventArgs, Task> NonRenderingDragOver => EventUtil.AsNonRenderingEventHandler<DragEventArgs>( OnDragOver );
 
-    private Func<PointerEventArgs, Task> NonRenderingPointerMove => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerMoveAsync );
+    private Func<PointerEventArgs, Task> NonRenderingPointerMove => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerMove );
 
     private string SectionClass => ClassNames;
 
@@ -137,22 +137,22 @@ public partial class _ReportDesignerSection
         builder.Append( Section.Style?.Trim().TrimEnd( ';' ) );
     }
 
-    private Task OnDragOverAsync( DragEventArgs eventArgs )
+    private Task OnDragOver( DragEventArgs eventArgs )
     {
         return DragOver?.Invoke( bodyElement, eventArgs ) ?? Task.CompletedTask;
     }
 
-    private Task OnPointerMoveAsync( PointerEventArgs eventArgs )
+    private Task OnPointerMove( PointerEventArgs eventArgs )
     {
         return PointerMove?.Invoke( eventArgs ) ?? Task.CompletedTask;
     }
 
-    private Task OnDropAsync( DragEventArgs eventArgs )
+    private Task OnDrop( DragEventArgs eventArgs )
     {
         return Drop?.Invoke( bodyElement, eventArgs ) ?? Task.CompletedTask;
     }
 
-    private Task OnBodyContextMenuAsync( MouseEventArgs eventArgs )
+    private Task OnBodyContextMenu( MouseEventArgs eventArgs )
     {
         return BodyContextMenu?.Invoke( eventArgs ) ?? Task.CompletedTask;
     }

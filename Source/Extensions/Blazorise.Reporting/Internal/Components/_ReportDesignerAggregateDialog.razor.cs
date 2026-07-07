@@ -31,9 +31,9 @@ public partial class _ReportDesignerAggregateDialog
 
     #region Methods
 
-    internal async Task ShowAsync( IEnumerable<ReportDesignerFieldOption> fieldOptions, string selectedFieldName, IEnumerable<ReportAggregateSummaryLocation> summaryLocationOptions )
+    internal async Task Show( IEnumerable<ReportDesignerFieldOption> fieldOptions, string selectedFieldName, IEnumerable<ReportAggregateSummaryLocation> summaryLocationOptions )
     {
-        await ShowReportModalAsync<_ReportDesignerAggregateDialog>( parameters =>
+        await ShowReportModal<_ReportDesignerAggregateDialog>( parameters =>
         {
             parameters.Add( nameof( FieldOptions ), fieldOptions );
             parameters.Add( nameof( SelectedFieldName ), selectedFieldName );
@@ -43,12 +43,12 @@ public partial class _ReportDesignerAggregateDialog
         } );
     }
 
-    private Task CloseAsync()
+    private Task Close()
     {
-        return CloseReportModalAsync();
+        return CloseReportModal();
     }
 
-    private async Task ConfirmAsync()
+    private async Task Confirm()
     {
         var selectedField = FindSelectedField();
 
@@ -64,7 +64,7 @@ public partial class _ReportDesignerAggregateDialog
             Function = selectedFunction,
         } );
 
-        await CloseReportModalAsync();
+        await CloseReportModal();
     }
 
     private static string CreateFieldKey( ReportDesignerFieldOption field )

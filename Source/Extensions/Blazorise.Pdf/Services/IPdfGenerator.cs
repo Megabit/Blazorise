@@ -19,7 +19,7 @@ public interface IPdfGenerator
     /// <param name="options">The generation options.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The generated PDF result.</returns>
-    Task<PdfRenderResult> GenerateAsync( PdfDocumentDefinition document, PdfGenerateOptions options = null, CancellationToken cancellationToken = default );
+    Task<PdfRenderResult> Generate( PdfDocumentDefinition document, PdfGenerateOptions options = null, CancellationToken cancellationToken = default );
 
     #endregion
 }
@@ -38,7 +38,7 @@ public interface IPdfRenderProvider
     /// <param name="options">The generation options.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The generated PDF result.</returns>
-    Task<PdfRenderResult> RenderAsync( PdfDocumentDefinition document, PdfGenerateOptions options, CancellationToken cancellationToken = default );
+    Task<PdfRenderResult> Render( PdfDocumentDefinition document, PdfGenerateOptions options, CancellationToken cancellationToken = default );
 
     #endregion
 }

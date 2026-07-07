@@ -3,7 +3,7 @@
 
 <ModalHeader>
     <ModalTitle>Select data source</ModalTitle>
-    <CloseButton Clicked="@CloseAsync" />
+    <CloseButton Clicked="@Close" />
 </ModalHeader>
 <ModalBody>
     <Field Horizontal>
@@ -20,6 +20,6 @@
     </Field>
 </ModalBody>
 <ModalFooter>
-    <Button Color="Color.Primary" Clicked="@ConfirmAsync" Size="Size.Small">OK</Button>
-    <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
+    <Button Color="Color.Primary" Clicked="@Confirm" Size="Size.Small">OK</Button>
+    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">Cancel</Button>
 </ModalFooter>

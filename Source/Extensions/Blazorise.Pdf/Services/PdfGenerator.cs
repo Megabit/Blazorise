@@ -33,14 +33,14 @@ public sealed class PdfGenerator : IPdfGenerator
     #region Methods
 
     /// <inheritdoc />
-    public Task<PdfRenderResult> GenerateAsync( PdfDocumentDefinition document, PdfGenerateOptions options = null, CancellationToken cancellationToken = default )
+    public Task<PdfRenderResult> Generate( PdfDocumentDefinition document, PdfGenerateOptions options = null, CancellationToken cancellationToken = default )
     {
         if ( document is null )
             throw new ArgumentNullException( nameof( document ) );
 
         options ??= new();
 
-        return renderProvider.RenderAsync( document, options, cancellationToken );
+        return renderProvider.Render( document, options, cancellationToken );
     }
 
     #endregion

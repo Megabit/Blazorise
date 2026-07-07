@@ -3,7 +3,7 @@
 
 <ModalHeader>
     <ModalTitle>@Title</ModalTitle>
-    <CloseButton Clicked="@CloseAsync" />
+    <CloseButton Clicked="@Close" />
 </ModalHeader>
 <ModalBody>
     <Grid Columns="GridColumns.Are3" Gap="GapIs2">
@@ -59,13 +59,13 @@
 <ModalFooter>
     <Div Display="DisplayFlex" Flex="FlexJustifyContentBetweenAlignItemsCenter" Width="WidthIs100">
         <Div Display="DisplayFlex" Gap="GapIs2">
-            <Button Color="Color.Info" Clicked="@CheckAsync" Size="Size.Small">Check</Button>
-            <Button Color="Color.Primary" Clicked="@SaveAsync" Size="Size.Small">Save</Button>
-            <Button Color="Color.Primary" Clicked="@SaveAndCloseAsync" Size="Size.Small">Save and close</Button>
+            <Button Color="Color.Info" Clicked="@Check" Size="Size.Small">Check</Button>
+            <Button Color="Color.Primary" Clicked="@Save" Size="Size.Small">Save</Button>
+            <Button Color="Color.Primary" Clicked="@SaveAndClose" Size="Size.Small">Save and close</Button>
         </Div>
         <Div Display="DisplayFlex" Gap="GapIs2">
-            <Button Color="Color.Light" Clicked="@ClearAsync" Size="Size.Small">Clear</Button>
-            <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
+            <Button Color="Color.Light" Clicked="@Clear" Size="Size.Small">Clear</Button>
+            <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">Cancel</Button>
         </Div>
     </Div>
 </ModalFooter>

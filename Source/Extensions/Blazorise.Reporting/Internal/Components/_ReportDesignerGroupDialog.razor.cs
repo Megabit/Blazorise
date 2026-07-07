@@ -23,9 +23,9 @@ public partial class _ReportDesignerGroupDialog
 
     #region Methods
 
-    internal async Task ShowAsync( IEnumerable<ReportDesignerFieldOption> fieldOptions, string selectedFieldName )
+    internal async Task Show( IEnumerable<ReportDesignerFieldOption> fieldOptions, string selectedFieldName )
     {
-        await ShowReportModalAsync<_ReportDesignerGroupDialog>( parameters =>
+        await ShowReportModal<_ReportDesignerGroupDialog>( parameters =>
         {
             parameters.Add( nameof( FieldOptions ), fieldOptions );
             parameters.Add( nameof( SelectedFieldName ), selectedFieldName );
@@ -33,12 +33,12 @@ public partial class _ReportDesignerGroupDialog
         } );
     }
 
-    private Task CloseAsync()
+    private Task Close()
     {
-        return CloseReportModalAsync();
+        return CloseReportModal();
     }
 
-    private async Task ConfirmAsync()
+    private async Task Confirm()
     {
         var selectedField = FindSelectedField();
 
@@ -46,7 +46,7 @@ public partial class _ReportDesignerGroupDialog
             return;
 
         await Confirmed.InvokeAsync( selectedField.FieldName );
-        await CloseReportModalAsync();
+        await CloseReportModal();
     }
 
     private static string CreateFieldKey( ReportDesignerFieldOption field )

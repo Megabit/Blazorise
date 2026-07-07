@@ -50,7 +50,7 @@ public sealed class SqlReportDataSourceProvider : IReportDataSourceProvider
     public async Task<ReportDataSourceSchema> GetSchemaAsync( ReportDataSourceDefinition definition, CancellationToken cancellationToken = default )
     {
         await using DbConnection connection = CreateConnection( definition );
-        await OpenConnectionAsync( connection, cancellationToken );
+        await OpenConnection( connection, cancellationToken );
         await using DbCommand command = CreateCommand( connection, definition );
         await using DbDataReader reader = await command.ExecuteReaderAsync( CommandBehavior.SchemaOnly, cancellationToken );
 
@@ -61,7 +61,7 @@ public sealed class SqlReportDataSourceProvider : IReportDataSourceProvider
     public async Task<ReportDataSourceResult> LoadDataAsync( ReportDataSourceDefinition definition, ReportDataSourceLoadContext context, CancellationToken cancellationToken = default )
     {
         await using DbConnection connection = CreateConnection( definition );
-        await OpenConnectionAsync( connection, cancellationToken );
+        await OpenConnection( connection, cancellationToken );
         await using DbCommand command = CreateCommand( connection, definition );
         await using DbDataReader reader = await command.ExecuteReaderAsync( cancellationToken );
 
@@ -120,7 +120,7 @@ public sealed class SqlReportDataSourceProvider : IReportDataSourceProvider
         return command;
     }
 
-    private static async Task OpenConnectionAsync( DbConnection connection, CancellationToken cancellationToken )
+    private static async Task OpenConnection( DbConnection connection, CancellationToken cancellationToken )
     {
         if ( connection.State != ConnectionState.Open )
             await connection.OpenAsync( cancellationToken );

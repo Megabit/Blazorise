@@ -58,7 +58,7 @@
             var definition = EffectiveDefinition;
 
             <_ReportDesignerLayout @ref="@designerLayoutRef"
-                                   Shortcut="@HandleDesignerShortcutAsync"
+                                   Shortcut="@HandleDesignerShortcut"
                                    ShowToolbar="@ShowToolbar"
                                    ShowRulers="@ShowRulers"
                                    PaneScrollPositions="@designerPaneScrollPositions"
@@ -116,17 +116,17 @@
                                                         DataSourceName="@DataSourceName"
                                                         FieldsNodeDragStarted="@OnFieldsTreeNodeDragStarted"
                                                         NodeDragEnded="@OnDesignerNodeDragEnded"
-                                                        FormulaFieldConfirmed="@OnFormulaFieldConfirmedAsync"
-                                                        FormulaFieldRenamed="@OnFormulaFieldRenamedAsync"
-                                                        FormulaFieldDeleted="@OnFormulaFieldDeletedAsync"
-                                                        FormulaFieldInserted="@OnFormulaFieldInsertedAsync"
-                                                        FieldInserted="@OnFieldInsertedAsync"
-                                                        RunningTotalConfirmed="@OnRunningTotalConfirmedAsync"
-                                                        RunningTotalRenamed="@OnRunningTotalRenamedAsync"
-                                                        RunningTotalDeleted="@OnRunningTotalDeletedAsync"
-                                                        RunningTotalInserted="@OnRunningTotalInsertedAsync"
-                                                        DataSourceRefreshed="@OnDataSourceRefreshedAsync"
-                                                        DataSourceDeleted="@OnDataSourceDeletedAsync" />
+                                                        FormulaFieldConfirmed="@OnFormulaFieldConfirmed"
+                                                        FormulaFieldRenamed="@OnFormulaFieldRenamed"
+                                                        FormulaFieldDeleted="@OnFormulaFieldDeleted"
+                                                        FormulaFieldInserted="@OnFormulaFieldInserted"
+                                                        FieldInserted="@OnFieldInserted"
+                                                        RunningTotalConfirmed="@OnRunningTotalConfirmed"
+                                                        RunningTotalRenamed="@OnRunningTotalRenamed"
+                                                        RunningTotalDeleted="@OnRunningTotalDeleted"
+                                                        RunningTotalInserted="@OnRunningTotalInserted"
+                                                        DataSourceRefreshed="@OnDataSourceRefreshed"
+                                                        DataSourceDeleted="@OnDataSourceDeleted" />
                 </FieldsExplorerPanel>
                 <Surface>
                     <_ReportDesignerRulerLayout Visible="@ShowRulers"
@@ -148,8 +148,8 @@
                                              MarginRight="@GetReportPageMarginRight( definition )"
                                              MarginBottom="@GetReportPageMarginBottom( definition )"
                                              DesignMode
-                                             PointerMove="@PreviewPageSelectionBoxAsync"
-                                             PointerUp="@CompletePageSelectionBoxAsync"
+                                             PointerMove="@PreviewPageSelectionBox"
+                                             PointerUp="@CompletePageSelectionBox"
                                              PointerCancel="@OnPageSelectionPointerCancel"
                                              ShowSelectionBox="false"
                                              SelectionBoxX="@(designerState.SelectionBox?.X ?? 0)"
@@ -193,16 +193,16 @@
                                                             DragPreviewHeight="@(designerState.DragPreview?.Height ?? 0)"
                                                             RailClicked="@((MouseEventArgs _) => SelectSection( capturedSectionIndex ))"
                                                             ToggleClicked="@((MouseEventArgs _) => ToggleSectionCollapsed( section ))"
-                                                            RailContextMenu="@((Func<MouseEventArgs, Task>)( eventArgs => OpenSectionContextMenuAsync( capturedSectionIndex, eventArgs ) ))"
-                                                            BodyContextMenu="@((Func<MouseEventArgs, Task>)( eventArgs => OpenSectionBodyContextMenuAsync( capturedSectionIndex, eventArgs ) ))"
+                                                            RailContextMenu="@((Func<MouseEventArgs, Task>)( eventArgs => OpenSectionContextMenu( capturedSectionIndex, eventArgs ) ))"
+                                                            BodyContextMenu="@((Func<MouseEventArgs, Task>)( eventArgs => OpenSectionBodyContextMenu( capturedSectionIndex, eventArgs ) ))"
                                                             BodyPointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSelectionBox( capturedSectionIndex, eventArgs ) ) : default)"
-                                                            DragOver="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => PreviewDesignerDragAsync( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
-                                                            Drop="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => DropDesignerItemAsync( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
-                                                            PointerMove="@(editable ? (Func<PointerEventArgs, Task>)( eventArgs => PreviewElementPointerInteractionAsync( capturedSectionIndex, eventArgs ) ) : null)"
-                                                            PointerUp="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteractionAsync( capturedSectionIndex, eventArgs ) ) : default)"
+                                                            DragOver="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => PreviewDesignerDrag( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
+                                                            Drop="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => DropDesignerItem( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
+                                                            PointerMove="@(editable ? (Func<PointerEventArgs, Task>)( eventArgs => PreviewElementPointerInteraction( capturedSectionIndex, eventArgs ) ) : null)"
+                                                            PointerUp="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteraction( capturedSectionIndex, eventArgs ) ) : default)"
                                                             PointerCancel="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, OnElementPointerCancel ) : default)"
                                                             BodyClicked="@((MouseEventArgs _) => HandleSectionClick( capturedSectionIndex ))"
-                                                            ResizePointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSectionPointerResizeAsync( capturedSectionIndex, eventArgs ) ) : default)">
+                                                            ResizePointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSectionPointerResize( capturedSectionIndex, eventArgs ) ) : default)">
                                         @foreach ( var element in section.Elements )
                                         {
                                             var elementKey = ReportDefinitionHelper.EnsureElementId( element );
@@ -224,19 +224,19 @@
                                                                     SelectedCellKey="@selectionManager.SelectedCellKey"
                                                                     Clicked="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => HandleElementClick( capturedElementKey, eventArgs ) ) : default)"
                                                                     DoubleClicked="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => BeginElementTextEdit( capturedElementKey ) ) : default)"
-                                                                    ContextMenu="@(editable ? (Func<MouseEventArgs, Task>)( eventArgs => OpenElementContextMenuAsync( capturedElementKey, eventArgs ) ) : null)"
-                                                                    TableCellClicked="@(editable ? (Func<string, MouseEventArgs, Task>)( ( cellKey, eventArgs ) => HandleTableCellClickAsync( cellKey, eventArgs ) ) : null)"
-                                                                    TableCellContextMenu="@(editable ? (Func<string, MouseEventArgs, Task>)( ( cellKey, eventArgs ) => OpenTableCellContextMenuAsync( capturedSectionIndex, cellKey, eventArgs ) ) : null)"
+                                                                    ContextMenu="@(editable ? (Func<MouseEventArgs, Task>)( eventArgs => OpenElementContextMenu( capturedElementKey, eventArgs ) ) : null)"
+                                                                    TableCellClicked="@(editable ? (Func<string, MouseEventArgs, Task>)( ( cellKey, eventArgs ) => HandleTableCellClick( cellKey, eventArgs ) ) : null)"
+                                                                    TableCellContextMenu="@(editable ? (Func<string, MouseEventArgs, Task>)( ( cellKey, eventArgs ) => OpenTableCellContextMenu( capturedSectionIndex, cellKey, eventArgs ) ) : null)"
                                                                     IsChildElementSelected="@selectionManager.IsElementSelected"
-                                                                    ChildElementClicked="@(editable ? (Func<string, MouseEventArgs, Task>)HandleElementClickAsync : null)"
-                                                                    ChildElementDoubleClicked="@(editable ? (Func<string, MouseEventArgs, Task>)HandleElementDoubleClickAsync : null)"
-                                                                    ChildElementTextEditCommitted="@(editable ? (Func<string, string, Task>)CommitElementTextEditAsync : null)"
-                                                                    ChildElementTextEditCancelled="@(editable ? (Func<string, Task>)CancelElementTextEditAsync : null)"
-                                                                    TableResizeStarted="@(editable ? (Func<string, string, ReportTableResizeKind, int, PointerEventArgs, Task>)BeginTablePointerResizeAsync : null)"
-                                                                    TextEditCommitted="@(editable ? EventCallback.Factory.Create<string>( this, text => CommitElementTextEditAsync( capturedElementKey, text ) ) : default)"
+                                                                    ChildElementClicked="@(editable ? (Func<string, MouseEventArgs, Task>)HandleElementClick : null)"
+                                                                    ChildElementDoubleClicked="@(editable ? (Func<string, MouseEventArgs, Task>)HandleElementDoubleClick : null)"
+                                                                    ChildElementTextEditCommitted="@(editable ? (Func<string, string, Task>)CommitElementTextEdit : null)"
+                                                                    ChildElementTextEditCancelled="@(editable ? (Func<string, Task>)CancelElementTextEdit : null)"
+                                                                    TableResizeStarted="@(editable ? (Func<string, string, ReportTableResizeKind, int, PointerEventArgs, Task>)BeginTablePointerResize : null)"
+                                                                    TextEditCommitted="@(editable ? EventCallback.Factory.Create<string>( this, text => CommitElementTextEdit( capturedElementKey, text ) ) : default)"
                                                                     TextEditCancelled="@(editable ? EventCallback.Factory.Create( this, () => CancelElementTextEdit( capturedElementKey ) ) : default)"
                                                                     PointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerDrag( capturedElementKey, eventArgs ) ) : default)"
-                                                                    ResizeStarted="@((int handle, PointerEventArgs eventArgs) => BeginElementPointerResizeAsync( capturedElementKey, (ReportElementResizeHandle)handle, eventArgs ))" />
+                                                                    ResizeStarted="@((int handle, PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, (ReportElementResizeHandle)handle, eventArgs ))" />
                                         }
                                     </_ReportDesignerSection>
                                 }
@@ -261,17 +261,17 @@
                                                     ShowFineRulerTicksChanged="@OnShowFineRulerTicksChanged"
                                                     BandMode="@BandMode"
                                                     BandModeChanged="@OnBandModeChanged"
-                                                    UpdateReportPage="@UpdateReportPageAsync"
-                                                    UpdateSelectedSection="@UpdateSelectedSectionAsync"
-                                                    UpdateSelectedSectionSuppression="@UpdateSelectedSectionSuppressionAsync"
+                                                    UpdateReportPage="@UpdateReportPage"
+                                                    UpdateSelectedSection="@UpdateSelectedSection"
+                                                    UpdateSelectedSectionSuppression="@UpdateSelectedSectionSuppression"
                                                     GetMinimumSectionHeight="@GetMinimumSectionHeight"
                                                     CanInsertSection="@CanSelectedSectionInsertSection( definition )"
-                                                    InsertSection="@InsertSectionAsync"
+                                                    InsertSection="@InsertSection"
                                                     CanInsertGroup="@CanSelectedSectionInsertGroup( definition )"
-                                                    InsertGroup="@OpenSelectedDetailGroupDialogAsync"
-                                                    DeleteSelectedSection="@DeleteSelectedSectionAsync"
-                                                    UpdateSelectedElement="@UpdateSelectedElementsFromPropertiesAsync"
-                                                    MoveSelectedElement="@MoveSelectedElementAsync"
+                                                    InsertGroup="@OpenSelectedDetailGroupDialog"
+                                                    DeleteSelectedSection="@DeleteSelectedSection"
+                                                    UpdateSelectedElement="@UpdateSelectedElementsFromProperties"
+                                                    MoveSelectedElement="@MoveSelectedElement"
                                                     UploadImage="@UploadImage"
                                                     ImageAccept="@ImageAccept"
                                                     ImageMaxSize="@ImageMaxSize"
@@ -350,20 +350,20 @@
             <Div Display="DisplayNone">
                 <_ReportDesignerAggregateDialog @ref="aggregateDialogRef"
                                                 ResolveSupportedFunctions="@ResolveAggregateDialogSupportedFunctions"
-                                                Confirmed="@OnAggregateDialogConfirmedAsync" />
+                                                Confirmed="@OnAggregateDialogConfirmed" />
                 <_ReportDesignerRunningTotalDialog @ref="runningTotalDialogRef"
                                                    Definition="@definition"
                                                    Data="@Data"
-                                                   Confirmed="@OnRunningTotalConfirmedAsync" />
+                                                   Confirmed="@OnRunningTotalConfirmed" />
                 <_ReportDesignerGroupDialog @ref="groupDialogRef"
-                                            Confirmed="@OnGroupDialogConfirmedAsync" />
+                                            Confirmed="@OnGroupDialogConfirmed" />
                 <_ReportDesignerDataSourceConnectionDialog @ref="dataSourceConnectionDialogRef"
-                                                           Confirmed="@OnDataSourceConnectionConfirmedAsync" />
+                                                           Confirmed="@OnDataSourceConnectionConfirmed" />
                 <_ReportDesignerFormulaDialog @ref="formulaDialogRef"
                                               Definition="@definition"
                                               Data="@Data"
                                               Section="@GetSelectedFormulaSection( definition )"
-                                              Confirmed="@OnFormulaDialogConfirmedAsync" />
+                                              Confirmed="@OnFormulaDialogConfirmed" />
             </Div>
         }
         else
@@ -386,7 +386,7 @@
                         </Div>
                         @if ( context.ViewerOptions.AllowDownload )
                         {
-                            <Button Color="Color.Primary" Clicked="@DownloadPdfAsync">
+                            <Button Color="Color.Primary" Clicked="@DownloadPdf">
                                 <Icon Name="IconName.FileDownload" Margin="MarginIs2FromEnd" />
                                 Download PDF
                             </Button>

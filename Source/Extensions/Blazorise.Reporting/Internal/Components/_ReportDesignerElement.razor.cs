@@ -42,7 +42,7 @@ public partial class _ReportDesignerElement
 
     private bool IsDesignerEditing => CanReceiveDesignerInteraction && !ElementSuppressed && Editing;
 
-    private Func<MouseEventArgs, Task> NonRenderingContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnContextMenuAsync );
+    private Func<MouseEventArgs, Task> NonRenderingContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnContextMenu );
 
     private bool ShowResizeHandles => CanReceiveDesignerInteraction && !ElementSuppressed && Selected && !Editing && !LayoutLocked;
 
@@ -107,14 +107,14 @@ public partial class _ReportDesignerElement
         {
             focusTextEdit = false;
             await textEditElement.FocusAsync();
-            await ProtectTextExpressionTokensAsync();
+            await ProtectTextExpressionTokens();
         }
     }
 
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
-        await ClearTextExpressionTokenProtectionAsync();
+        await ClearTextExpressionTokenProtection();
 
         if ( reportingModule is not null )
         {
@@ -182,27 +182,27 @@ public partial class _ReportDesignerElement
         };
     }
 
-    private async Task CompleteTextEditAsync()
+    private async Task CompleteTextEdit()
     {
         if ( !Editing || textEditCancelled )
             return;
 
-        await ClearTextExpressionTokenProtectionAsync();
+        await ClearTextExpressionTokenProtection();
         await TextEditCommitted.InvokeAsync( textEditValue );
     }
 
-    private async Task HandleTextEditKeyDownAsync( KeyboardEventArgs eventArgs )
+    private async Task HandleTextEditKeyDown( KeyboardEventArgs eventArgs )
     {
         if ( eventArgs.Key == "Escape" )
         {
             textEditCancelled = true;
-            await ClearTextExpressionTokenProtectionAsync();
+            await ClearTextExpressionTokenProtection();
             await TextEditCancelled.InvokeAsync();
             return;
         }
 
         if ( eventArgs.Key == "Enter" && eventArgs.CtrlKey )
-            await CompleteTextEditAsync();
+            await CompleteTextEdit();
     }
 
     private void OnTextEditInput( ChangeEventArgs eventArgs )
@@ -210,19 +210,19 @@ public partial class _ReportDesignerElement
         textEditValue = eventArgs.Value?.ToString();
     }
 
-    private Task OnContextMenuAsync( MouseEventArgs eventArgs )
+    private Task OnContextMenu( MouseEventArgs eventArgs )
     {
         return ContextMenu?.Invoke( eventArgs ) ?? Task.CompletedTask;
     }
 
-    private async Task ProtectTextExpressionTokensAsync()
+    private async Task ProtectTextExpressionTokens()
     {
         EnsureReportingModule();
         await reportingModule.ProtectTextExpressionTokens( textEditElement );
         textExpressionTokenProtectionActive = true;
     }
 
-    private async Task ClearTextExpressionTokenProtectionAsync()
+    private async Task ClearTextExpressionTokenProtection()
     {
         if ( !textExpressionTokenProtectionActive || reportingModule is null )
             return;

@@ -25,9 +25,9 @@ public partial class _ReportDesignerDataSourceDialog
 
     #region Methods
 
-    internal async Task ShowAsync( string dataSource )
+    internal async Task Show( string dataSource )
     {
-        await ShowReportModalAsync<_ReportDesignerDataSourceDialog>( parameters =>
+        await ShowReportModal<_ReportDesignerDataSourceDialog>( parameters =>
         {
             parameters.Add( nameof( Definition ), Definition );
             parameters.Add( nameof( InitialDataSource ), dataSource );
@@ -35,15 +35,15 @@ public partial class _ReportDesignerDataSourceDialog
         } );
     }
 
-    private Task CloseAsync()
+    private Task Close()
     {
-        return CloseReportModalAsync();
+        return CloseReportModal();
     }
 
-    private async Task ConfirmAsync()
+    private async Task Confirm()
     {
         await Confirmed.InvokeAsync( string.IsNullOrWhiteSpace( selectedDataSource ) ? null : selectedDataSource );
-        await CloseReportModalAsync();
+        await CloseReportModal();
     }
 
     private Task OnSelectedDataSourceChanged( string value )

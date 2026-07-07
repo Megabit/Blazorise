@@ -43,7 +43,7 @@ public partial class _ReportDesignerPage
         Width,
         MarginTop );
 
-    private Func<PointerEventArgs, Task> NonRenderingPointerMove => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerMoveAsync );
+    private Func<PointerEventArgs, Task> NonRenderingPointerMove => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerMove );
 
     private string PrintableAreaStyle => BuildMarginStyle(
         WidthOffset + ReportMeasurementConverter.ToCssPixelValue( MarginLeft ),
@@ -88,7 +88,7 @@ public partial class _ReportDesignerPage
         builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}", !DesignMode && Height > 0 );
     }
 
-    private Task OnPointerMoveAsync( PointerEventArgs eventArgs )
+    private Task OnPointerMove( PointerEventArgs eventArgs )
     {
         return PointerMove?.Invoke( eventArgs ) ?? Task.CompletedTask;
     }

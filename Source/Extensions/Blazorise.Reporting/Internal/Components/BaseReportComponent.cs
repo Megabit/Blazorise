@@ -62,7 +62,7 @@ public abstract class BaseReportComponent : ComponentBase
     /// <summary>
     /// Closes the report modal instance that owns this component.
     /// </summary>
-    protected Task CloseReportModalAsync()
+    protected Task CloseReportModal()
     {
         return ModalService?.Hide( ReportModalProviderName ) ?? Task.CompletedTask;
     }
@@ -70,7 +70,7 @@ public abstract class BaseReportComponent : ComponentBase
     /// <summary>
     /// Shows a report-owned modal component.
     /// </summary>
-    protected async Task<ModalInstance> ShowReportModalAsync<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters = null, ModalInstanceOptions options = null )
+    protected async Task<ModalInstance> ShowReportModal<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters = null, ModalInstanceOptions options = null )
         where TComponent : notnull, IComponent
     {
         options ??= CreateReportModalOptions();

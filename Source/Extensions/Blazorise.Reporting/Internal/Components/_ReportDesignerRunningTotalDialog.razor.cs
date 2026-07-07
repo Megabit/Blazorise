@@ -31,9 +31,9 @@ public partial class _ReportDesignerRunningTotalDialog
 
     #region Methods
 
-    internal async Task ShowAsync( ReportRunningTotalDefinition definition )
+    internal async Task Show( ReportRunningTotalDefinition definition )
     {
-        await ShowReportModalAsync<_ReportDesignerRunningTotalDialog>( parameters =>
+        await ShowReportModal<_ReportDesignerRunningTotalDialog>( parameters =>
         {
             parameters.Add( nameof( Definition ), Definition );
             parameters.Add( nameof( Data ), Data );
@@ -42,12 +42,12 @@ public partial class _ReportDesignerRunningTotalDialog
         } );
     }
 
-    private Task CloseAsync()
+    private Task Close()
     {
-        return CloseReportModalAsync();
+        return CloseReportModal();
     }
 
-    private async Task ConfirmAsync()
+    private async Task Confirm()
     {
         ApplySelectedField();
 
@@ -55,12 +55,12 @@ public partial class _ReportDesignerRunningTotalDialog
             return;
 
         await Confirmed.InvokeAsync( CloneRunningTotal( runningTotal ) );
-        await CloseReportModalAsync();
+        await CloseReportModal();
     }
 
-    private async Task OpenEvaluateFormulaDialogAsync()
+    private async Task OpenEvaluateFormulaDialog()
     {
-        await ShowReportModalAsync<_ReportDesignerFormulaDialog>( parameters =>
+        await ShowReportModal<_ReportDesignerFormulaDialog>( parameters =>
         {
             parameters.Add( nameof( _ReportDesignerFormulaDialog.Definition ), Definition );
             parameters.Add( nameof( _ReportDesignerFormulaDialog.Data ), Data );

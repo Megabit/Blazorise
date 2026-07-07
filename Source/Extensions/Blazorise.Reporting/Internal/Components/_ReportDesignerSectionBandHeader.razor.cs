@@ -17,7 +17,7 @@ public partial class _ReportDesignerSectionBandHeader
 
     private string DisplayName => ReportDefinitionHelper.GetSectionDisplayName( Section );
 
-    private Func<MouseEventArgs, Task> NonRenderingContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnContextMenuAsync );
+    private Func<MouseEventArgs, Task> NonRenderingContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnContextMenu );
 
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
@@ -40,7 +40,7 @@ public partial class _ReportDesignerSectionBandHeader
         builder.Append( "suppressed", Section.Suppressed );
     }
 
-    private Task OnContextMenuAsync( MouseEventArgs eventArgs )
+    private Task OnContextMenu( MouseEventArgs eventArgs )
     {
         return ContextMenu?.Invoke( eventArgs ) ?? Task.CompletedTask;
     }

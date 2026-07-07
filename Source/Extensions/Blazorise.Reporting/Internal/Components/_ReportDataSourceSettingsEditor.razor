@@ -12,13 +12,13 @@
         <Div @key="setting.Id" Flex="FlexRow" Gap="GapIs2">
             <TextInput Value="@setting.Key" ValueChanged="@(( string value ) => OnSettingKeyChanged( setting, value ))" Placeholder="Key" Size="Size.Small" />
             <TextInput Value="@setting.Value" ValueChanged="@(( string value ) => OnSettingValueChanged( setting, value ))" Placeholder="Value" Size="Size.Small" />
-            <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => RemoveSettingAsync( setting ))" Size="Size.Small" title="Remove setting" aria-label="Remove setting">
+            <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => RemoveSetting( setting ))" Size="Size.Small" title="Remove setting" aria-label="Remove setting">
                 <Icon Name="@IconName.Delete" />
             </Button>
         </Div>
     }
     <Div>
-        <Button Color="Color.Light" Clicked="@AddSettingAsync" Size="Size.Small">
+        <Button Color="Color.Light" Clicked="@AddSetting" Size="Size.Small">
             <Icon Name="@IconName.Add" Margin="MarginIs1FromEnd" />
             Add setting
         </Button>

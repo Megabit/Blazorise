@@ -3,7 +3,7 @@
 <span class="atSign">&#64;</span>inject IPdfGenerator PdfGenerator
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Flex</span><span class="enumValue">.Row</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is2</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>GenerateAsync</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Generate PDF<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Generate</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Generate PDF<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
 
 <span class="atSign">&#64;</span>if ( pdfSource is not null )
@@ -18,7 +18,7 @@
 <span class="atSign">&#64;</span>code {
     <span class="keyword">private</span> <span class="keyword">string</span> pdfSource;
 
-    <span class="keyword">private</span> <span class="keyword">async</span> Task GenerateAsync()
+    <span class="keyword">private</span> <span class="keyword">async</span> Task Generate()
     {
         PdfDocumentDefinition document = PdfDocumentBuilder.Create()
             .Title( <span class="string">&quot;Invoice&quot;</span> )
@@ -30,7 +30,7 @@
             } )
             .Build();
 
-        PdfRenderResult result = <span class="keyword">await</span> PdfGenerator.GenerateAsync( document, <span class="keyword">new</span>()
+        PdfRenderResult result = <span class="keyword">await</span> PdfGenerator.Generate( document, <span class="keyword">new</span>()
         {
             FileName = <span class="string">&quot;invoice.pdf&quot;</span>,
         } );

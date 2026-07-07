@@ -10,20 +10,20 @@
     {
         <div class="@GetCellClass( cell )"
              style="@GetCellStyle( cell )"
-             @onclick="@(( MouseEventArgs eventArgs ) => OnCellClickedAsync( cell, eventArgs ))"
+             @onclick="@(( MouseEventArgs eventArgs ) => OnCellClicked( cell, eventArgs ))"
              @onclick:stopPropagation="@DesignMode"
-             @oncontextmenu="@(( MouseEventArgs eventArgs ) => OnCellContextMenuAsync( cell, eventArgs ))"
+             @oncontextmenu="@(( MouseEventArgs eventArgs ) => OnCellContextMenu( cell, eventArgs ))"
              @oncontextmenu:preventDefault="@DesignMode"
              @oncontextmenu:stopPropagation="@DesignMode">
             <div class="b-report-table-cell-content">
                 @foreach ( ReportElementDefinition childElement in GetRenderableElements( cell ) )
                 {
                     var childElementKey = ReportDefinitionHelper.EnsureElementId( childElement );
-                    var childElementClicked = EventCallback.Factory.Create<MouseEventArgs>( this, ( MouseEventArgs eventArgs ) => OnElementClickedAsync( childElementKey, eventArgs ) );
-                    var childElementDoubleClicked = EventCallback.Factory.Create<MouseEventArgs>( this, ( MouseEventArgs eventArgs ) => OnElementDoubleClickedAsync( childElementKey, eventArgs ) );
-                    var childElementContextMenu = (Func<MouseEventArgs, Task>)( eventArgs => OnElementContextMenuAsync( cell, eventArgs ) );
-                    var childElementTextEditCommitted = EventCallback.Factory.Create<string>( this, text => OnElementTextEditCommittedAsync( childElementKey, text ) );
-                    var childElementTextEditCancelled = EventCallback.Factory.Create( this, () => OnElementTextEditCancelledAsync( childElementKey ) );
+                    var childElementClicked = EventCallback.Factory.Create<MouseEventArgs>( this, ( MouseEventArgs eventArgs ) => OnElementClicked( childElementKey, eventArgs ) );
+                    var childElementDoubleClicked = EventCallback.Factory.Create<MouseEventArgs>( this, ( MouseEventArgs eventArgs ) => OnElementDoubleClicked( childElementKey, eventArgs ) );
+                    var childElementContextMenu = (Func<MouseEventArgs, Task>)( eventArgs => OnElementContextMenu( cell, eventArgs ) );
+                    var childElementTextEditCommitted = EventCallback.Factory.Create<string>( this, text => OnElementTextEditCommitted( childElementKey, text ) );
+                    var childElementTextEditCancelled = EventCallback.Factory.Create( this, () => OnElementTextEditCancelled( childElementKey ) );
 
                     <_ReportDesignerElement Data="@Data"
                                             Definition="@Definition"
@@ -50,12 +50,12 @@
             {
                 <span class="b-report-table-column-resize-handle"
                       title="Resize column"
-                      @onpointerdown="@(( PointerEventArgs eventArgs ) => OnColumnResizePointerDownAsync( cell, eventArgs ))"
+                      @onpointerdown="@(( PointerEventArgs eventArgs ) => OnColumnResizePointerDown( cell, eventArgs ))"
                       @onpointerdown:preventDefault
                       @onpointerdown:stopPropagation></span>
                 <span class="b-report-table-row-resize-handle"
                       title="Resize row"
-                      @onpointerdown="@(( PointerEventArgs eventArgs ) => OnRowResizePointerDownAsync( cell, eventArgs ))"
+                      @onpointerdown="@(( PointerEventArgs eventArgs ) => OnRowResizePointerDown( cell, eventArgs ))"
                       @onpointerdown:preventDefault
                       @onpointerdown:stopPropagation></span>
             }

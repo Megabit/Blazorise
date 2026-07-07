@@ -4,7 +4,7 @@
 
 <Div Display="DisplayNone">
     <_ReportDesignerDataSourceDialog @ref="dataSourceDialogRef" Definition="@Definition" Confirmed="@UpdateSelectedSectionDataSource" />
-    <_ReportDesignerFormulaDialog @ref="formulaDialogRef" Definition="@Definition" Data="@Data" Section="@FormulaSection" Confirmed="@OnFormulaDialogConfirmedAsync" />
+    <_ReportDesignerFormulaDialog @ref="formulaDialogRef" Definition="@Definition" Data="@Data" Section="@FormulaSection" Confirmed="@OnFormulaDialogConfirmed" />
     <_ReportDesignerImageUploadDialog @ref="imageUploadDialogRef"
                                       ImageAccept="@ImageAccept"
                                       ImageMaxSize="@ImageMaxSize"
@@ -17,7 +17,7 @@
                                       ImageUploadWritten="@ImageUploadWritten"
                                       ImageUploadProgressed="@ImageUploadProgressed"
                                       ImageUpload="@ImageUpload"
-                                      Confirmed="@OnImageUploadConfirmedAsync" />
+                                      Confirmed="@OnImageUploadConfirmed" />
 </Div>
 
 @if ( ReportSelected )
@@ -93,7 +93,7 @@
                                                    Value="@SelectedSection.Suppressed"
                                                    Formula="@SelectedSection.Suppress?.Formula"
                                                    Changed="@UpdateSelectedSectionSuppression"
-                                                   OpenFormula="@OpenSelectedSectionSuppressFormulaAsync" />
+                                                   OpenFormula="@OpenSelectedSectionSuppressFormula" />
             @if ( SelectedSection.Type == ReportSectionType.PageFooter )
             {
                 <_ReportDesignerCheckboxProperty Label="Reserve space when suppressed" Value="@SelectedSection.ReserveSpaceWhenSuppressed" Changed="@(value => UpdateSelectedSection( section => section.ReserveSpaceWhenSuppressed = value ))" />
@@ -106,7 +106,7 @@
                 <_ReportDesignerTextProperty Label="Name" Value="@SelectedSection.Name" Changed="@(value => UpdateSelectedSection( section => section.Name = value ))" />
                 @if ( SelectedSection.Type == ReportSectionType.Detail )
                 {
-                    <_ReportDesignerDataSourceProperty Label="Data source" Value="@SelectedSection.DataSource" DisplayText="@GetSelectedSectionDataSourceDisplayName()" Clicked="@OpenDataSourceDialogAsync" />
+                    <_ReportDesignerDataSourceProperty Label="Data source" Value="@SelectedSection.DataSource" DisplayText="@GetSelectedSectionDataSourceDisplayName()" Clicked="@OpenDataSourceDialog" />
                 }
                 @if ( SelectedSection.Type is ReportSectionType.Group or ReportSectionType.GroupHeader )
                 {
@@ -120,18 +120,18 @@
                 <_ReportDesignerFormulaBooleanProperty Label="Keep together"
                                                        Value="@(SelectedSection.KeepTogether?.Value == true)"
                                                        Formula="@SelectedSection.KeepTogether?.Formula"
-                                                       Changed="@UpdateSelectedSectionKeepTogetherAsync"
-                                                       OpenFormula="@OpenSelectedSectionKeepTogetherFormulaAsync" />
+                                                       Changed="@UpdateSelectedSectionKeepTogether"
+                                                       OpenFormula="@OpenSelectedSectionKeepTogetherFormula" />
                 <_ReportDesignerFormulaBooleanProperty Label="New page before"
                                                        Value="@(SelectedSection.NewPageBefore?.Value == true)"
                                                        Formula="@SelectedSection.NewPageBefore?.Formula"
-                                                       Changed="@UpdateSelectedSectionNewPageBeforeAsync"
-                                                       OpenFormula="@OpenSelectedSectionNewPageBeforeFormulaAsync" />
+                                                       Changed="@UpdateSelectedSectionNewPageBefore"
+                                                       OpenFormula="@OpenSelectedSectionNewPageBeforeFormula" />
                 <_ReportDesignerFormulaBooleanProperty Label="New page after"
                                                        Value="@(SelectedSection.NewPageAfter?.Value == true)"
                                                        Formula="@SelectedSection.NewPageAfter?.Formula"
-                                                       Changed="@UpdateSelectedSectionNewPageAfterAsync"
-                                                       OpenFormula="@OpenSelectedSectionNewPageAfterFormulaAsync" />
+                                                       Changed="@UpdateSelectedSectionNewPageAfter"
+                                                       OpenFormula="@OpenSelectedSectionNewPageAfterFormula" />
             </_ReportDesignerPropertyGroup>
             @if ( SelectedSection.Type == ReportSectionType.PageFooter )
             {
@@ -178,19 +178,19 @@
             <_ReportDesignerFormulaBooleanProperty Label="Can grow"
                                                    Value="@(SelectedElement.CanGrow?.Value == true)"
                                                    Formula="@SelectedElement.CanGrow?.Formula"
-                                                   Changed="@UpdateSelectedElementCanGrowAsync"
-                                                   OpenFormula="@OpenSelectedElementCanGrowFormulaAsync" />
+                                                   Changed="@UpdateSelectedElementCanGrow"
+                                                   OpenFormula="@OpenSelectedElementCanGrowFormula" />
             <_ReportDesignerFormulaBooleanProperty Label="Suppress"
                                                    Value="@(SelectedElement.Suppress?.Value == true)"
                                                    Formula="@SelectedElement.Suppress?.Formula"
-                                                   Changed="@UpdateSelectedElementSuppressAsync"
-                                                   OpenFormula="@OpenSelectedElementSuppressFormulaAsync" />
+                                                   Changed="@UpdateSelectedElementSuppress"
+                                                   OpenFormula="@OpenSelectedElementSuppressFormula" />
             <_ReportDesignerFormulaSelectProperty Label="Snap to grid"
                                                   Value="@GetSelectedElementSnapToGridValue()"
                                                   Formula="@SelectedElement.SnapToGrid?.Formula"
                                                   Options="@ElementSnapToGridOptions"
                                                   Changed="@OnSelectedElementSnapToGridChanged"
-                                                  OpenFormula="@OpenSelectedElementSnapToGridFormulaAsync" />
+                                                  OpenFormula="@OpenSelectedElementSnapToGridFormula" />
         </_ReportDesignerPropertyGroup>
 
         @if ( SelectedElement.Suppress?.Value != true )
@@ -222,7 +222,7 @@
                                                                Value="@imageElement.Source"
                                                                Changed="@(value => UpdateSelectedElement( element => { if ( element is ReportImageElementDefinition currentImageElement ) currentImageElement.Source = value; } ))"
                                                                UploadImage="@UploadImage"
-                                                               UploadClicked="@OpenImageUploadDialogAsync" />
+                                                               UploadClicked="@OpenImageUploadDialog" />
                             <Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
                                 <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Fit</FieldLabel>
                                 <FieldBody ColumnSize="ColumnSizeIs8">

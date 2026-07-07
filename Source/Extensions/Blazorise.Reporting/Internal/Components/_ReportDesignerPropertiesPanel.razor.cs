@@ -345,95 +345,95 @@ public partial class _ReportDesignerPropertiesPanel
         return UpdateSelectedElement( element => element.SnapToGrid = ReportValue.Create( snapToGrid, element.SnapToGrid?.Formula ) );
     }
 
-    private Task UpdateSelectedElementCanGrowAsync( bool value )
+    private Task UpdateSelectedElementCanGrow( bool value )
     {
         return UpdateSelectedElement( element => element.CanGrow = ReportValue.Create( value, element.CanGrow?.Formula ) );
     }
 
-    private Task UpdateSelectedElementSuppressAsync( bool value )
+    private Task UpdateSelectedElementSuppress( bool value )
     {
         return UpdateSelectedElement( element => element.Suppress = ReportValue.Create( value, element.Suppress?.Formula ) );
     }
 
-    private Task UpdateSelectedSectionKeepTogetherAsync( bool value )
+    private Task UpdateSelectedSectionKeepTogether( bool value )
     {
         return UpdateSelectedSection( section => section.KeepTogether = ReportValue.Create( value, section.KeepTogether?.Formula ) );
     }
 
-    private Task UpdateSelectedSectionNewPageBeforeAsync( bool value )
+    private Task UpdateSelectedSectionNewPageBefore( bool value )
     {
         return UpdateSelectedSection( section => section.NewPageBefore = ReportValue.Create( value, section.NewPageBefore?.Formula ) );
     }
 
-    private Task UpdateSelectedSectionNewPageAfterAsync( bool value )
+    private Task UpdateSelectedSectionNewPageAfter( bool value )
     {
         return UpdateSelectedSection( section => section.NewPageAfter = ReportValue.Create( value, section.NewPageAfter?.Formula ) );
     }
 
-    private Task OpenSelectedSectionSuppressFormulaAsync()
+    private Task OpenSelectedSectionSuppressFormula()
     {
-        return OpenFormulaDialogAsync(
+        return OpenFormulaDialog(
             "Suppress",
             SelectedSection?.Suppress?.Formula,
             formula => UpdateSelectedSection( section => section.Suppress = ReportValue.Create( section.Suppress?.Value ?? false, formula ) ) );
     }
 
-    private Task OpenSelectedSectionKeepTogetherFormulaAsync()
+    private Task OpenSelectedSectionKeepTogetherFormula()
     {
-        return OpenFormulaDialogAsync(
+        return OpenFormulaDialog(
             "Keep together",
             SelectedSection?.KeepTogether?.Formula,
             formula => UpdateSelectedSection( section => section.KeepTogether = ReportValue.Create( section.KeepTogether?.Value ?? false, formula ) ) );
     }
 
-    private Task OpenSelectedSectionNewPageBeforeFormulaAsync()
+    private Task OpenSelectedSectionNewPageBeforeFormula()
     {
-        return OpenFormulaDialogAsync(
+        return OpenFormulaDialog(
             "New page before",
             SelectedSection?.NewPageBefore?.Formula,
             formula => UpdateSelectedSection( section => section.NewPageBefore = ReportValue.Create( section.NewPageBefore?.Value ?? false, formula ) ) );
     }
 
-    private Task OpenSelectedSectionNewPageAfterFormulaAsync()
+    private Task OpenSelectedSectionNewPageAfterFormula()
     {
-        return OpenFormulaDialogAsync(
+        return OpenFormulaDialog(
             "New page after",
             SelectedSection?.NewPageAfter?.Formula,
             formula => UpdateSelectedSection( section => section.NewPageAfter = ReportValue.Create( section.NewPageAfter?.Value ?? false, formula ) ) );
     }
 
-    private Task OpenSelectedElementCanGrowFormulaAsync()
+    private Task OpenSelectedElementCanGrowFormula()
     {
-        return OpenFormulaDialogAsync(
+        return OpenFormulaDialog(
             "Can grow",
             SelectedElement?.CanGrow?.Formula,
             formula => UpdateSelectedElement( element => element.CanGrow = ReportValue.Create( element.CanGrow?.Value ?? false, formula ) ) );
     }
 
-    private Task OpenSelectedElementSuppressFormulaAsync()
+    private Task OpenSelectedElementSuppressFormula()
     {
-        return OpenFormulaDialogAsync(
+        return OpenFormulaDialog(
             "Suppress",
             SelectedElement?.Suppress?.Formula,
             formula => UpdateSelectedElement( element => element.Suppress = ReportValue.Create( element.Suppress?.Value ?? false, formula ) ) );
     }
 
-    private Task OpenSelectedElementSnapToGridFormulaAsync()
+    private Task OpenSelectedElementSnapToGridFormula()
     {
-        return OpenFormulaDialogAsync(
+        return OpenFormulaDialog(
             "Snap to grid",
             SelectedElement?.SnapToGrid?.Formula,
             formula => UpdateSelectedElement( element => element.SnapToGrid = ReportValue.Create( element.SnapToGrid?.Value, formula ) ) );
     }
 
-    private Task OpenFormulaDialogAsync( string propertyName, string formula, Func<string, Task> confirmed )
+    private Task OpenFormulaDialog( string propertyName, string formula, Func<string, Task> confirmed )
     {
         formulaConfirmed = confirmed;
 
-        return formulaDialogRef?.ShowAsync( propertyName, formula ) ?? Task.CompletedTask;
+        return formulaDialogRef?.Show( propertyName, formula ) ?? Task.CompletedTask;
     }
 
-    private async Task OnFormulaDialogConfirmedAsync( string formula )
+    private async Task OnFormulaDialogConfirmed( string formula )
     {
         if ( formulaConfirmed is not null )
             await formulaConfirmed.Invoke( formula );
@@ -486,9 +486,9 @@ public partial class _ReportDesignerPropertiesPanel
         return dataSource?.DisplayName ?? SelectedSection.DataSource;
     }
 
-    private Task OpenDataSourceDialogAsync()
+    private Task OpenDataSourceDialog()
     {
-        return dataSourceDialogRef?.ShowAsync( SelectedSection?.DataSource ) ?? Task.CompletedTask;
+        return dataSourceDialogRef?.Show( SelectedSection?.DataSource ) ?? Task.CompletedTask;
     }
 
     private Task UpdateSelectedSectionDataSource( string value )
@@ -496,12 +496,12 @@ public partial class _ReportDesignerPropertiesPanel
         return UpdateSelectedSection( section => section.DataSource = string.IsNullOrWhiteSpace( value ) ? null : value );
     }
 
-    private Task OpenImageUploadDialogAsync()
+    private Task OpenImageUploadDialog()
     {
-        return imageUploadDialogRef?.ShowAsync() ?? Task.CompletedTask;
+        return imageUploadDialogRef?.Show() ?? Task.CompletedTask;
     }
 
-    private Task OnImageUploadConfirmedAsync( string source )
+    private Task OnImageUploadConfirmed( string source )
     {
         if ( string.IsNullOrWhiteSpace( source ) )
             return Task.CompletedTask;

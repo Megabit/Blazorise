@@ -178,7 +178,7 @@ public partial class _ReportDesignerFieldsExplorerPanel
         pendingFormulaFieldName = confirmedName;
         selectedFormulaFieldName = confirmedName;
 
-        await formulaDialogRef.ShowAsync( pendingFormulaFieldName, null );
+        await formulaDialogRef.Show( pendingFormulaFieldName, null );
     }
 
     private async Task FormulaFieldFormulaConfirmed( string formula )
@@ -217,7 +217,7 @@ public partial class _ReportDesignerFieldsExplorerPanel
         await RunningTotalConfirmed.InvokeAsync( runningTotal );
     }
 
-    private async Task OpenFormulaFieldEditorAsync( string formulaFieldName )
+    private async Task OpenFormulaFieldEditor( string formulaFieldName )
     {
         if ( string.IsNullOrWhiteSpace( formulaFieldName ) )
             return;
@@ -228,20 +228,20 @@ public partial class _ReportDesignerFieldsExplorerPanel
         pendingFormulaFieldName = formulaFieldName.Trim();
         selectedFormulaFieldName = pendingFormulaFieldName;
 
-        await formulaDialogRef.ShowAsync( pendingFormulaFieldName, formulaField?.Formula );
+        await formulaDialogRef.Show( pendingFormulaFieldName, formulaField?.Formula );
     }
 
     private async Task NewFormulaFieldClicked( MouseEventArgs eventArgs )
     {
         await CloseFormulaFieldContextMenu();
         formulaFieldNameDialogMode = ReportFormulaFieldNameDialogMode.Create;
-        await formulaFieldNameDialogRef.ShowAsync( CreateFormulaFieldName(), "New Formula Field" );
+        await formulaFieldNameDialogRef.Show( CreateFormulaFieldName(), "New Formula Field" );
     }
 
     private async Task NewRunningTotalClicked( MouseEventArgs eventArgs )
     {
         await CloseRunningTotalContextMenu();
-        await runningTotalDialogRef.ShowAsync( new()
+        await runningTotalDialogRef.Show( new()
         {
             Name = CreateRunningTotalName(),
             AggregateFunction = ReportAggregateFunction.Sum,
@@ -253,7 +253,7 @@ public partial class _ReportDesignerFieldsExplorerPanel
         string formulaFieldName = formulaFieldContextMenu?.FormulaFieldName;
 
         await CloseFormulaFieldContextMenu();
-        await OpenFormulaFieldEditorAsync( formulaFieldName );
+        await OpenFormulaFieldEditor( formulaFieldName );
     }
 
     private async Task RenameFormulaFieldClicked( MouseEventArgs eventArgs )
@@ -266,7 +266,7 @@ public partial class _ReportDesignerFieldsExplorerPanel
         await CloseFormulaFieldContextMenu();
         formulaFieldNameDialogMode = ReportFormulaFieldNameDialogMode.Rename;
         pendingFormulaFieldRenameSourceName = formulaFieldName;
-        await formulaFieldNameDialogRef.ShowAsync( formulaFieldName, "Rename Formula Field" );
+        await formulaFieldNameDialogRef.Show( formulaFieldName, "Rename Formula Field" );
     }
 
     private async Task DeleteFormulaFieldClicked( MouseEventArgs eventArgs )
@@ -293,7 +293,7 @@ public partial class _ReportDesignerFieldsExplorerPanel
         ReportRunningTotalDefinition runningTotal = FindRunningTotal( runningTotalName );
 
         if ( runningTotal is not null )
-            await runningTotalDialogRef.ShowAsync( runningTotal );
+            await runningTotalDialogRef.Show( runningTotal );
     }
 
     private async Task RenameRunningTotalClicked( MouseEventArgs eventArgs )
@@ -306,7 +306,7 @@ public partial class _ReportDesignerFieldsExplorerPanel
         await CloseRunningTotalContextMenu();
         runningTotalNameDialogMode = ReportRunningTotalNameDialogMode.Rename;
         pendingRunningTotalRenameSourceName = runningTotalName;
-        await runningTotalNameDialogRef.ShowAsync( runningTotalName, "Rename Running Total" );
+        await runningTotalNameDialogRef.Show( runningTotalName, "Rename Running Total" );
     }
 
     private async Task DeleteRunningTotalClicked( MouseEventArgs eventArgs )

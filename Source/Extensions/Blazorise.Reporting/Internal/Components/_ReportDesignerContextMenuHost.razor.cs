@@ -24,7 +24,7 @@ public partial class _ReportDesignerContextMenuHost
     /// </summary>
     /// <param name="state">Context menu state to render.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    internal async Task ShowAsync( ReportContextMenuState state )
+    internal async Task Show( ReportContextMenuState state )
     {
         State = state;
 
@@ -38,7 +38,7 @@ public partial class _ReportDesignerContextMenuHost
     /// Hides the context menu.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    internal async Task CloseAsync()
+    internal async Task CloseMenu()
     {
         State = null;
 

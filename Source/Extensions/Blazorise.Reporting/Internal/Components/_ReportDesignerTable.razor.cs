@@ -157,63 +157,63 @@ public partial class _ReportDesignerTable
         return builder.Class;
     }
 
-    private Task OnCellClickedAsync( ReportTableCellDefinition cell, MouseEventArgs eventArgs )
+    private Task OnCellClicked( ReportTableCellDefinition cell, MouseEventArgs eventArgs )
     {
         return DesignMode
             ? CellClicked?.Invoke( cell.Id, eventArgs ) ?? Task.CompletedTask
             : Task.CompletedTask;
     }
 
-    private Task OnCellContextMenuAsync( ReportTableCellDefinition cell, MouseEventArgs eventArgs )
+    private Task OnCellContextMenu( ReportTableCellDefinition cell, MouseEventArgs eventArgs )
     {
         return DesignMode
             ? CellContextMenu?.Invoke( cell.Id, eventArgs ) ?? Task.CompletedTask
             : Task.CompletedTask;
     }
 
-    private Task OnElementClickedAsync( string elementKey, MouseEventArgs eventArgs )
+    private Task OnElementClicked( string elementKey, MouseEventArgs eventArgs )
     {
         return DesignMode
             ? ElementClicked?.Invoke( elementKey, eventArgs ) ?? Task.CompletedTask
             : Task.CompletedTask;
     }
 
-    private Task OnElementDoubleClickedAsync( string elementKey, MouseEventArgs eventArgs )
+    private Task OnElementDoubleClicked( string elementKey, MouseEventArgs eventArgs )
     {
         return DesignMode
             ? ElementDoubleClicked?.Invoke( elementKey, eventArgs ) ?? Task.CompletedTask
             : Task.CompletedTask;
     }
 
-    private Task OnElementContextMenuAsync( ReportTableCellDefinition cell, MouseEventArgs eventArgs )
+    private Task OnElementContextMenu( ReportTableCellDefinition cell, MouseEventArgs eventArgs )
     {
         return DesignMode
             ? CellContextMenu?.Invoke( cell.Id, eventArgs ) ?? Task.CompletedTask
             : Task.CompletedTask;
     }
 
-    private Task OnElementTextEditCommittedAsync( string elementKey, string text )
+    private Task OnElementTextEditCommitted( string elementKey, string text )
     {
         return DesignMode
             ? ElementTextEditCommitted?.Invoke( elementKey, text ) ?? Task.CompletedTask
             : Task.CompletedTask;
     }
 
-    private Task OnElementTextEditCancelledAsync( string elementKey )
+    private Task OnElementTextEditCancelled( string elementKey )
     {
         return DesignMode
             ? ElementTextEditCancelled?.Invoke( elementKey ) ?? Task.CompletedTask
             : Task.CompletedTask;
     }
 
-    private Task OnColumnResizePointerDownAsync( ReportTableCellDefinition cell, PointerEventArgs eventArgs )
+    private Task OnColumnResizePointerDown( ReportTableCellDefinition cell, PointerEventArgs eventArgs )
     {
         return DesignMode
             ? ResizeStarted?.Invoke( ReportDefinitionHelper.EnsureElementId( Element ), cell.Id, ReportTableResizeKind.Column, cell.ColumnIndex + Math.Max( 1, cell.ColumnSpan ) - 1, eventArgs ) ?? Task.CompletedTask
             : Task.CompletedTask;
     }
 
-    private Task OnRowResizePointerDownAsync( ReportTableCellDefinition cell, PointerEventArgs eventArgs )
+    private Task OnRowResizePointerDown( ReportTableCellDefinition cell, PointerEventArgs eventArgs )
     {
         return DesignMode
             ? ResizeStarted?.Invoke( ReportDefinitionHelper.EnsureElementId( Element ), cell.Id, ReportTableResizeKind.Row, cell.RowIndex + Math.Max( 1, cell.RowSpan ) - 1, eventArgs ) ?? Task.CompletedTask

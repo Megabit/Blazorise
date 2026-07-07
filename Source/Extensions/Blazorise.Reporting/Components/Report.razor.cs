@@ -67,7 +67,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private readonly ReportDesignerInteractionState designerState = new();
 
-    private readonly Dictionary<string, ( double Left, double Top )> designerPaneScrollPositions = new( StringComparer.Ordinal );
+    private readonly Dictionary<string, (double Left, double Top)> designerPaneScrollPositions = new( StringComparer.Ordinal );
 
     private readonly HashSet<string> collapsedSectionIds = new( StringComparer.Ordinal );
 
@@ -95,7 +95,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private _ReportDesignerPage designerPageRef;
 
-    private ( ReportDefinition Definition, object Data ) observedParameters;
+    private (ReportDefinition Definition, object Data) observedParameters;
 
     private int collapsedSectionsVersion;
 
@@ -156,12 +156,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     {
         if ( !ReferenceEquals( observedParameters.Definition, Definition ) || !ReferenceEquals( observedParameters.Data, Data ) )
         {
-            observedParameters = ( Definition, Data );
+            observedParameters = (Definition, Data);
             InvalidateDesignerCaches();
         }
 
         if ( Definition is not null )
-            await ResolveDataSourcesAsync( Definition, CurrentMode == ReportMode.Preview );
+            await ResolveDataSources( Definition, CurrentMode == ReportMode.Preview );
     }
 
     /// <inheritdoc />
@@ -172,7 +172,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             declarativeDefinition = BuildDeclarativeDefinition();
             InvalidateDesignerCaches();
 
-            await ResolveDataSourcesAsync( declarativeDefinition, CurrentMode == ReportMode.Preview );
+            await ResolveDataSources( declarativeDefinition, CurrentMode == ReportMode.Preview );
 
             if ( DefinitionChanged.HasDelegate )
             {
@@ -228,7 +228,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return ReportPageDefinitionHelper.ResolvePage( page );
     }
 
-    private async Task ResolveDataSourcesAsync( ReportDefinition definition, bool loadData )
+    private async Task ResolveDataSources( ReportDefinition definition, bool loadData )
     {
         if ( definition?.DataSources is null )
             return;
@@ -346,16 +346,16 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     {
         if ( ReportDesignerTreeBuilder.TryResolveSectionTreeNode( eventArgs.Node, out var sectionIndex ) )
         {
-            await OpenSectionContextMenuAsync( sectionIndex, eventArgs.MouseEventArgs );
+            await OpenSectionContextMenu( sectionIndex, eventArgs.MouseEventArgs );
         }
         else if ( ReportDesignerTreeBuilder.TryResolveElementTreeNode( eventArgs.Node, out var elementKey ) )
         {
-            await OpenElementContextMenuAsync( elementKey, eventArgs.MouseEventArgs );
+            await OpenElementContextMenu( elementKey, eventArgs.MouseEventArgs );
         }
         else if ( ReportDesignerTreeBuilder.TryResolveTableCellTreeNode( eventArgs.Node, out var cellKey )
             && ReportDefinitionHelper.TryFindTableCellLocation( EffectiveDefinition, cellKey, out var cellSectionIndex, out _, out _, out _ ) )
         {
-            await OpenTableCellContextMenuAsync( cellSectionIndex, cellKey, eventArgs.MouseEventArgs );
+            await OpenTableCellContextMenu( cellSectionIndex, cellKey, eventArgs.MouseEventArgs );
         }
     }
 
@@ -475,7 +475,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             && string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey );
     }
 
-    private async Task HandleDesignerShortcutAsync( ReportDesignerShortcut shortcut )
+    private async Task HandleDesignerShortcut( ReportDesignerShortcut shortcut )
     {
         if ( CurrentMode != ReportMode.Design || !IsDesignerEnabled || IsElementTextEditing() )
             return;
@@ -483,28 +483,28 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         switch ( shortcut )
         {
             case ReportDesignerShortcut.Cut:
-                await ExecuteCommandIfAvailableAsync( ReportCommand.Cut );
+                await ExecuteCommandIfAvailable( ReportCommand.Cut );
                 break;
 
             case ReportDesignerShortcut.Copy:
-                await ExecuteCommandIfAvailableAsync( ReportCommand.Copy );
+                await ExecuteCommandIfAvailable( ReportCommand.Copy );
                 break;
 
             case ReportDesignerShortcut.Paste:
-                await ExecuteCommandIfAvailableAsync( ReportCommand.Paste );
+                await ExecuteCommandIfAvailable( ReportCommand.Paste );
                 break;
 
             case ReportDesignerShortcut.Undo:
-                await ExecuteCommandIfAvailableAsync( ReportCommand.Undo );
+                await ExecuteCommandIfAvailable( ReportCommand.Undo );
                 break;
 
             case ReportDesignerShortcut.Redo:
-                await ExecuteCommandIfAvailableAsync( ReportCommand.Redo );
+                await ExecuteCommandIfAvailable( ReportCommand.Redo );
                 break;
 
             case ReportDesignerShortcut.Delete:
                 if ( !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey ) )
-                    await DeleteSelectedElementAsync();
+                    await DeleteSelectedElement();
                 break;
 
             case ReportDesignerShortcut.EditText:
@@ -512,51 +512,51 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 break;
 
             case ReportDesignerShortcut.MoveLeft:
-                await MoveSelectedElementsAsync( -DesignerConstants.KeyboardMoveStep, 0 );
+                await MoveSelectedElements( -DesignerConstants.KeyboardMoveStep, 0 );
                 break;
 
             case ReportDesignerShortcut.MoveUp:
-                await MoveSelectedElementsAsync( 0, -DesignerConstants.KeyboardMoveStep );
+                await MoveSelectedElements( 0, -DesignerConstants.KeyboardMoveStep );
                 break;
 
             case ReportDesignerShortcut.MoveRight:
-                await MoveSelectedElementsAsync( DesignerConstants.KeyboardMoveStep, 0 );
+                await MoveSelectedElements( DesignerConstants.KeyboardMoveStep, 0 );
                 break;
 
             case ReportDesignerShortcut.MoveDown:
-                await MoveSelectedElementsAsync( 0, DesignerConstants.KeyboardMoveStep );
+                await MoveSelectedElements( 0, DesignerConstants.KeyboardMoveStep );
                 break;
         }
     }
 
-    private async Task ExecuteCommandIfAvailableAsync( ReportCommand command )
+    private async Task ExecuteCommandIfAvailable( ReportCommand command )
     {
         if ( CanExecuteCommand( command ) )
-            await ExecuteCommandAsync( command );
+            await ExecuteCommand( command );
     }
 
     /// <summary>
     /// Executes a report command against the current designer or viewer state.
     /// </summary>
     /// <param name="command">Command requested by a toolbar item or external caller.</param>
-    public async Task ExecuteCommandAsync( ReportCommand command )
+    public async Task ExecuteCommand( ReportCommand command )
     {
         await ( command switch
         {
-            ReportCommand.Design => SetModeAsync( ReportMode.Design ),
-            ReportCommand.Preview => SetPreviewAsync( SupportsPreviewFormat( currentPreviewFormat ) ? currentPreviewFormat : context.ViewerOptions.DefaultFormat ),
-            ReportCommand.PreviewHtml => SetPreviewAsync( ReportPreviewFormat.Html ),
-            ReportCommand.PreviewPdf => SetPreviewAsync( ReportPreviewFormat.Pdf ),
-            ReportCommand.ConnectDataSource => OpenDataSourceConnectionDialogAsync(),
-            ReportCommand.DownloadPdf => DownloadPdfAsync(),
-            ReportCommand.Cut => CutSelectedElementAsync(),
-            ReportCommand.Copy => CopySelectedElementAsync(),
-            ReportCommand.Paste => PasteElementAsync(),
-            ReportCommand.Delete => DeleteSelectionAsync(),
-            ReportCommand.Undo => UndoAsync(),
-            ReportCommand.Redo => RedoAsync(),
-            ReportCommand.Reset => ResetDefinitionAsync(),
-            _ => SetPreviewAsync( ReportPreviewFormat.Html ),
+            ReportCommand.Design => SetMode( ReportMode.Design ),
+            ReportCommand.Preview => SetPreview( SupportsPreviewFormat( currentPreviewFormat ) ? currentPreviewFormat : context.ViewerOptions.DefaultFormat ),
+            ReportCommand.PreviewHtml => SetPreview( ReportPreviewFormat.Html ),
+            ReportCommand.PreviewPdf => SetPreview( ReportPreviewFormat.Pdf ),
+            ReportCommand.ConnectDataSource => OpenDataSourceConnectionDialog(),
+            ReportCommand.DownloadPdf => DownloadPdf(),
+            ReportCommand.Cut => CutSelectedElement(),
+            ReportCommand.Copy => CopySelectedElement(),
+            ReportCommand.Paste => PasteElement(),
+            ReportCommand.Delete => DeleteSelection(),
+            ReportCommand.Undo => Undo(),
+            ReportCommand.Redo => Redo(),
+            ReportCommand.Reset => ResetDefinition(),
+            _ => SetPreview( ReportPreviewFormat.Html ),
         } );
     }
 
@@ -619,13 +619,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     public async Task LoadState( ReportState state )
     {
         commandManager.Clear();
-        await ApplyReportStateAsync( state, notifyDefinitionChanged: true );
+        await ApplyReportState( state, notifyDefinitionChanged: true );
         InvalidateDesignerCaches();
     }
 
-    private async Task ExecuteDesignerCommandAsync( ReportDesignerCommand command )
+    private async Task ExecuteDesignerCommand( ReportDesignerCommand command )
     {
-        var result = await commandManager.ExecuteAsync( command, EffectiveDefinition, CaptureReportState );
+        var result = await commandManager.Execute( command, EffectiveDefinition, CaptureReportState );
 
         if ( result.NotifyDefinitionChanged && result.RefreshSurface && DefinitionChanged.HasDelegate )
             await DefinitionChanged.InvokeAsync( result.Definition );
@@ -640,11 +640,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( result.NotifyDefinitionChanged && !result.RefreshSurface && DefinitionChanged.HasDelegate )
         {
-            _ = NotifyDefinitionChangedLaterAsync( result.Definition );
+            _ = NotifyDefinitionChangedLater( result.Definition );
         }
     }
 
-    private Task NotifyDefinitionChangedLaterAsync( ReportDefinition definition )
+    private Task NotifyDefinitionChangedLater( ReportDefinition definition )
     {
         return InvokeAsync( async () =>
         {
@@ -653,12 +653,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         } );
     }
 
-    private async Task SetModeAsync( ReportMode mode )
+    private async Task SetMode( ReportMode mode )
     {
         if ( CurrentMode == ReportMode.Design && mode != ReportMode.Design )
-            await CaptureDesignerPaneScrollPositionsAsync();
+            await CaptureDesignerPaneScrollPositions();
 
-        await ExecuteDesignerCommandAsync( new( $"Set {mode} mode", async () =>
+        await ExecuteDesignerCommand( new( $"Set {mode} mode", async () =>
         {
             currentMode = mode;
             designerState.EditingElementKey = null;
@@ -671,40 +671,40 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }, trackHistory: false, notifyDefinitionChanged: false ) );
     }
 
-    private async Task SetPreviewAsync( ReportPreviewFormat format )
+    private async Task SetPreview( ReportPreviewFormat format )
     {
         if ( CurrentMode == ReportMode.Design )
-            await CaptureDesignerPaneScrollPositionsAsync();
+            await CaptureDesignerPaneScrollPositions();
 
-        await ExecuteDesignerCommandAsync( new( $"Set {format} preview", async () =>
+        await ExecuteDesignerCommand( new( $"Set {format} preview", async () =>
         {
             currentPreviewFormat = format;
             currentMode = ReportMode.Preview;
             designerState.EditingElementKey = null;
 
-            await ResolveDataSourcesAsync( EffectiveDefinition, loadData: true );
+            await ResolveDataSources( EffectiveDefinition, loadData: true );
 
             if ( ModeChanged.HasDelegate )
                 await ModeChanged.InvokeAsync( currentMode );
         }, trackHistory: false, notifyDefinitionChanged: false ) );
     }
 
-    private async Task CaptureDesignerPaneScrollPositionsAsync()
+    private async Task CaptureDesignerPaneScrollPositions()
     {
         if ( designerLayoutRef is not null )
             await designerLayoutRef.CapturePaneScrollPositions( designerPaneScrollPositions );
     }
 
-    private async Task DownloadPdfAsync()
+    private async Task DownloadPdf()
     {
         if ( PdfGenerator is null )
             return;
 
         ReportDefinition definition = EffectiveDefinition;
-        await ResolveDataSourcesAsync( definition, true );
+        await ResolveDataSources( definition, true );
 
         PdfDocumentDefinition pdfDocument = previewExportService.BuildPdfDocument( definition, Data );
-        PdfRenderResult result = await PdfGenerator.GenerateAsync( pdfDocument, new()
+        PdfRenderResult result = await PdfGenerator.Generate( pdfDocument, new()
         {
             FileName = previewExportService.ResolvePdfFileName( definition ),
         } );
@@ -713,13 +713,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await reportingModule.DownloadFile( result.FileName, result.ContentType, result.Content );
     }
 
-    private async Task ResetDefinitionAsync()
+    private async Task ResetDefinition()
     {
-        await ExecuteDesignerCommandAsync( new( "Reset report", () =>
+        await ExecuteDesignerCommand( new( "Reset report", () =>
         {
             declarativeDefinition = BuildDeclarativeDefinition();
             SelectReport();
-            CloseContextMenu();
+            _ = CloseContextMenu();
             designerState.DragPreview = null;
             designerState.EditingElementKey = null;
 
@@ -727,9 +727,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }, () => declarativeDefinition ) );
     }
 
-    private Task CopySelectedElementAsync()
+    private Task CopySelectedElement()
     {
-        return ExecuteDesignerCommandAsync( new( "Copy element", () =>
+        return ExecuteDesignerCommand( new( "Copy element", () =>
         {
             ReportClipboardResult result = clipboardService.CopyElement( EffectiveDefinition, selectionManager.SelectedElementKey );
 
@@ -737,21 +737,21 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             {
                 clipboardElement = result.ClipboardElement;
                 clipboardSectionId = result.ClipboardSectionId;
-                CloseContextMenu();
+                _ = CloseContextMenu();
             }
 
             return Task.CompletedTask;
         }, trackHistory: false, notifyDefinitionChanged: false ) );
     }
 
-    private async Task CutSelectedElementAsync()
+    private async Task CutSelectedElement()
     {
         var definition = EffectiveDefinition;
 
         if ( !ReportDefinitionHelper.TryFindElementLocation( definition, selectionManager.SelectedElementKey, out _, out _, out _ ) )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Cut element", () =>
+        await ExecuteDesignerCommand( new( "Cut element", () =>
         {
             ReportClipboardResult result = clipboardService.CutElement( EffectiveDefinition, selectionManager.SelectedElementKey );
 
@@ -760,19 +760,19 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 clipboardElement = result.ClipboardElement;
                 clipboardSectionId = result.ClipboardSectionId;
                 SelectSection( result.SelectedSectionIndex.GetValueOrDefault() );
-                CloseContextMenu();
+                _ = CloseContextMenu();
             }
 
             return Task.CompletedTask;
         } ) );
     }
 
-    private async Task PasteElementAsync()
+    private async Task PasteElement()
     {
         if ( clipboardElement is null || ResolvePasteSectionIndex( EffectiveDefinition ) < 0 )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Paste element", () =>
+        await ExecuteDesignerCommand( new( "Paste element", () =>
         {
             ReportDefinition definition = EffectiveDefinition;
             int targetSectionIndex = ResolvePasteSectionIndex( definition );
@@ -792,7 +792,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             else if ( !string.IsNullOrWhiteSpace( result.SelectedElementKey ) )
                 SelectElement( result.SelectedElementKey );
 
-            CloseContextMenu();
+            _ = CloseContextMenu();
 
             return Task.CompletedTask;
         } ) );
@@ -803,20 +803,20 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return clipboardService.ResolvePasteSectionIndex( definition, designerState.ContextMenu, selectionManager.ResolvePasteSectionIndex );
     }
 
-    private async Task UndoAsync()
+    private async Task Undo()
     {
         var state = commandManager.Undo();
 
         if ( state is not null )
-            await ApplyReportStateAsync( state, notifyDefinitionChanged: true );
+            await ApplyReportState( state, notifyDefinitionChanged: true );
     }
 
-    private async Task RedoAsync()
+    private async Task Redo()
     {
         var state = commandManager.Redo();
 
         if ( state is not null )
-            await ApplyReportStateAsync( state, notifyDefinitionChanged: true );
+            await ApplyReportState( state, notifyDefinitionChanged: true );
     }
 
     private ReportState CaptureReportState( ReportDefinition definition )
@@ -833,7 +833,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             commandManager.CanRedo );
     }
 
-    private async Task ApplyReportStateAsync( ReportState state, bool notifyDefinitionChanged )
+    private async Task ApplyReportState( ReportState state, bool notifyDefinitionChanged )
     {
         ReportState nextState = stateService.Apply( state, designerState, selectionManager, BuildDeclarativeDefinition, out ReportDefinition definition, out ReportElementDefinition nextClipboardElement, out string nextClipboardSectionId );
 
@@ -844,7 +844,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         clipboardSectionId = nextClipboardSectionId;
         designerState.SelectionVersion++;
 
-        CloseContextMenu();
+        _ = CloseContextMenu();
         designerState.DragPreview = null;
         designerState.EditingElementKey = null;
         ClearDragState();
@@ -864,7 +864,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private void SelectReport()
     {
         bool selectionChanged = selectionManager.SelectReport();
-        CloseContextMenu();
+        _ = CloseContextMenu();
         designerState.EditingElementKey = null;
 
         if ( selectionChanged )
@@ -874,40 +874,35 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }
     }
 
-    private void HandleElementClick( string key, MouseEventArgs eventArgs )
+    private Task HandleElementClick( string key, MouseEventArgs eventArgs )
     {
         if ( IsSuppressingSelectionClick() )
-            return;
+            return Task.CompletedTask;
 
         if ( eventArgs.Detail >= 2 )
         {
             BeginElementTextEdit( key );
-            return;
+            return Task.CompletedTask;
         }
 
         if ( string.Equals( designerState.SuppressNextElementClickKey, key, StringComparison.Ordinal ) )
         {
             designerState.SuppressNextElementClickKey = null;
-            return;
+            return Task.CompletedTask;
         }
 
         if ( eventArgs.CtrlKey )
         {
             ToggleElementSelection( key );
-            return;
+            return Task.CompletedTask;
         }
 
         SelectElement( key, preserveSelection: selectionManager.IsElementSelected( key ) && selectionManager.SelectedElementKeys.Count > 1 );
-    }
-
-    private Task HandleElementClickAsync( string key, MouseEventArgs eventArgs )
-    {
-        HandleElementClick( key, eventArgs );
 
         return Task.CompletedTask;
     }
 
-    private Task HandleElementDoubleClickAsync( string key, MouseEventArgs eventArgs )
+    private Task HandleElementDoubleClick( string key, MouseEventArgs eventArgs )
     {
         BeginElementTextEdit( key );
 
@@ -948,7 +943,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private void SelectElement( string key, bool preserveSelection = false )
     {
         bool selectionChanged = selectionManager.SelectElement( key, preserveSelection );
-        CloseContextMenu();
+        _ = CloseContextMenu();
 
         if ( selectionChanged )
         {
@@ -960,7 +955,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private void ToggleElementSelection( string key )
     {
         bool selectionChanged = selectionManager.ToggleElementSelection( key );
-        CloseContextMenu();
+        _ = CloseContextMenu();
 
         if ( selectionChanged )
         {
@@ -972,7 +967,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private void SelectElements( IEnumerable<string> elementKeys, string primaryElementKey = null )
     {
         bool selectionChanged = selectionManager.SelectElements( elementKeys, primaryElementKey );
-        CloseContextMenu();
+        _ = CloseContextMenu();
 
         if ( selectionChanged )
         {
@@ -984,7 +979,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private void SelectSection( int index )
     {
         bool selectionChanged = selectionManager.SelectSection( index );
-        CloseContextMenu();
+        _ = CloseContextMenu();
 
         if ( selectionChanged )
         {
@@ -993,7 +988,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }
     }
 
-    private Task HandleTableCellClickAsync( string cellKey, MouseEventArgs eventArgs )
+    private Task HandleTableCellClick( string cellKey, MouseEventArgs eventArgs )
     {
         if ( IsSuppressingSelectionClick() )
             return Task.CompletedTask;
@@ -1006,7 +1001,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private void SelectTableCell( string cellKey )
     {
         bool selectionChanged = selectionManager.SelectCell( cellKey );
-        CloseContextMenu();
+        _ = CloseContextMenu();
 
         if ( selectionChanged )
         {
@@ -1039,7 +1034,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             && collapsedSectionIds.Contains( ReportDefinitionHelper.EnsureSectionId( section ) );
     }
 
-    private async Task OpenSectionContextMenuAsync( int sectionIndex, MouseEventArgs eventArgs )
+    private async Task OpenSectionContextMenu( int sectionIndex, MouseEventArgs eventArgs )
     {
         bool selectionChanged = selectionManager.ReportSelected
             || selectionManager.SelectedSectionIndex != sectionIndex
@@ -1063,10 +1058,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         };
 
         contextMenuService.PopulateSectionCapabilities( EffectiveDefinition, nextContextMenu, clipboardElement is not null, aggregateService.CanInsertSection, aggregateService.CanInsertGroup );
-        await ShowContextMenuAsync( nextContextMenu, selectionChanged );
+        await ShowContextMenu( nextContextMenu, selectionChanged );
     }
 
-    private async Task OpenSectionBodyContextMenuAsync( int sectionIndex, MouseEventArgs eventArgs )
+    private async Task OpenSectionBodyContextMenu( int sectionIndex, MouseEventArgs eventArgs )
     {
         bool selectionChanged = selectionManager.ReportSelected
             || selectionManager.SelectedSectionIndex != sectionIndex
@@ -1093,10 +1088,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         };
 
         contextMenuService.PopulateSectionCapabilities( EffectiveDefinition, nextContextMenu, clipboardElement is not null, aggregateService.CanInsertSection, aggregateService.CanInsertGroup );
-        await ShowContextMenuAsync( nextContextMenu, selectionChanged );
+        await ShowContextMenu( nextContextMenu, selectionChanged );
     }
 
-    private async Task OpenElementContextMenuAsync( string elementKey, MouseEventArgs eventArgs )
+    private async Task OpenElementContextMenu( string elementKey, MouseEventArgs eventArgs )
     {
         bool selectionChanged = selectionManager.ReportSelected
             || selectionManager.SelectedSectionIndex is not null
@@ -1123,10 +1118,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         };
 
         contextMenuService.PopulateElementCapabilities( EffectiveDefinition, nextContextMenu, clipboardElement is not null );
-        await ShowContextMenuAsync( nextContextMenu, selectionChanged );
+        await ShowContextMenu( nextContextMenu, selectionChanged );
     }
 
-    private async Task OpenTableCellContextMenuAsync( int sectionIndex, string cellKey, MouseEventArgs eventArgs )
+    private async Task OpenTableCellContextMenu( int sectionIndex, string cellKey, MouseEventArgs eventArgs )
     {
         bool selectionChanged = !string.Equals( selectionManager.SelectedCellKey, cellKey, StringComparison.Ordinal );
 
@@ -1146,15 +1141,15 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         };
 
         contextMenuService.PopulateTableCellCapabilities( EffectiveDefinition, nextContextMenu, clipboardElement is not null );
-        await ShowContextMenuAsync( nextContextMenu, selectionChanged );
+        await ShowContextMenu( nextContextMenu, selectionChanged );
     }
 
-    private async Task ShowContextMenuAsync( ReportContextMenuState state, bool refreshDesignerSelection )
+    private async Task ShowContextMenu( ReportContextMenuState state, bool refreshDesignerSelection )
     {
         designerState.ContextMenu = state;
 
         if ( contextMenuHost is not null )
-            await contextMenuHost.ShowAsync( state );
+            await contextMenuHost.Show( state );
 
         if ( refreshDesignerSelection )
             await InvokeAsync( StateHasChanged );
@@ -1222,16 +1217,16 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             BeginElementTextEdit( designerState.ContextMenu.ElementKey );
     }
 
-    private async Task OpenContextElementFormulaDialogAsync()
+    private async Task OpenContextElementFormulaDialog()
     {
         if ( !TryGetContextElementFormulaFieldName( EffectiveDefinition, out string formulaFieldName ) )
             return;
 
-        await OpenFormulaFieldDialogAsync( formulaFieldName );
-        CloseContextMenu();
+        await OpenFormulaFieldDialog( formulaFieldName );
+        _ = CloseContextMenu();
     }
 
-    private async Task OpenContextElementRunningTotalDialogAsync()
+    private async Task OpenContextElementRunningTotalDialog()
     {
         if ( !TryGetContextElementRunningTotalName( EffectiveDefinition, out string runningTotalName ) )
             return;
@@ -1239,9 +1234,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         ReportRunningTotalDefinition runningTotal = dataDefinitionService.FindRunningTotal( EffectiveDefinition, runningTotalName );
 
         if ( runningTotal is not null )
-            await runningTotalDialogRef.ShowAsync( runningTotal );
+            await runningTotalDialogRef.Show( runningTotal );
 
-        CloseContextMenu();
+        _ = CloseContextMenu();
     }
 
     private void BeginSelectedElementTextEdit()
@@ -1261,27 +1256,22 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         SelectElement( elementKey );
         designerState.EditingElementKey = elementKey;
-        CloseContextMenu();
+        _ = CloseContextMenu();
         RefreshDesignerSurface();
     }
 
-    private void CancelElementTextEdit( string elementKey )
+    private Task CancelElementTextEdit( string elementKey )
     {
         if ( string.Equals( designerState.EditingElementKey, elementKey, StringComparison.Ordinal ) )
         {
             designerState.EditingElementKey = null;
             RefreshDesignerSurface();
         }
-    }
-
-    private Task CancelElementTextEditAsync( string elementKey )
-    {
-        CancelElementTextEdit( elementKey );
 
         return Task.CompletedTask;
     }
 
-    private async Task CommitElementTextEditAsync( string elementKey, string text )
+    private async Task CommitElementTextEdit( string elementKey, string text )
     {
         designerState.EditingElementKey = null;
         RefreshDesignerSurface();
@@ -1294,7 +1284,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
         }
 
-        await ExecuteDesignerCommandAsync( new( "Edit text", () =>
+        await ExecuteDesignerCommand( new( "Edit text", () =>
         {
             if ( ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var element )
                 && element is ReportTextElementDefinition textElement )
@@ -1306,7 +1296,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         } ) );
     }
 
-    private async Task OpenContextElementAggregateDialogAsync()
+    private async Task OpenContextElementAggregateDialog()
     {
         if ( !IsElementContextMenuVisible() || aggregateDialogRef is null )
             return;
@@ -1320,90 +1310,90 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         var sourceSectionIndex = fieldOptions[0].SourceSectionIndex;
         var summaryLocations = aggregateService.GetSummaryLocations( EffectiveDefinition, sourceSectionIndex );
 
-        CloseContextMenu();
+        _ = CloseContextMenu();
 
         var selectedFieldName = ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var element )
             && element is ReportFieldElementDefinition fieldElement
             ? fieldElement.Field
             : null;
 
-        await aggregateDialogRef.ShowAsync( fieldOptions, selectedFieldName, summaryLocations );
+        await aggregateDialogRef.Show( fieldOptions, selectedFieldName, summaryLocations );
     }
 
-    private Task MergeSelectedTableCellRightAsync()
+    private Task MergeSelectedTableCellRight()
     {
-        return MergeSelectedTableCellAsync( columnSpanDelta: 1, rowSpanDelta: 0 );
+        return MergeSelectedTableCell( columnSpanDelta: 1, rowSpanDelta: 0 );
     }
 
-    private Task MergeSelectedTableCellDownAsync()
+    private Task MergeSelectedTableCellDown()
     {
-        return MergeSelectedTableCellAsync( columnSpanDelta: 0, rowSpanDelta: 1 );
+        return MergeSelectedTableCell( columnSpanDelta: 0, rowSpanDelta: 1 );
     }
 
-    private async Task MergeSelectedTableCellAsync( int columnSpanDelta, int rowSpanDelta )
+    private async Task MergeSelectedTableCell( int columnSpanDelta, int rowSpanDelta )
     {
-        await ExecuteSelectedTableCellCommandAsync(
+        await ExecuteSelectedTableCellCommand(
             "Merge table cell",
             cellKey => tableCommandService.MergeCell( EffectiveDefinition, cellKey, columnSpanDelta, rowSpanDelta ) );
     }
 
-    private async Task UnmergeSelectedTableCellAsync()
+    private async Task UnmergeSelectedTableCell()
     {
-        await ExecuteSelectedTableCellCommandAsync(
+        await ExecuteSelectedTableCellCommand(
             "Unmerge table cell",
             cellKey => tableCommandService.UnmergeCell( EffectiveDefinition, cellKey ) );
     }
 
-    private Task InsertSelectedTableRowAsync( bool insertBelow )
+    private Task InsertSelectedTableRow( bool insertBelow )
     {
-        return ExecuteSelectedTableCellCommandAsync(
+        return ExecuteSelectedTableCellCommand(
             insertBelow ? "Insert table row below" : "Insert table row above",
             cellKey => tableCommandService.InsertRow( EffectiveDefinition, cellKey, insertBelow ) );
     }
 
-    private Task InsertSelectedTableColumnAsync( bool insertRight )
+    private Task InsertSelectedTableColumn( bool insertRight )
     {
-        return ExecuteSelectedTableCellCommandAsync(
+        return ExecuteSelectedTableCellCommand(
             insertRight ? "Insert table column right" : "Insert table column left",
             cellKey => tableCommandService.InsertColumn( EffectiveDefinition, cellKey, insertRight ) );
     }
 
-    private Task InsertSelectedTableCellAsync()
+    private Task InsertSelectedTableCell()
     {
-        return ExecuteSelectedTableCellCommandAsync(
+        return ExecuteSelectedTableCellCommand(
             "Insert table cell",
             cellKey => tableCommandService.InsertCell( EffectiveDefinition, cellKey ) );
     }
 
-    private Task DeleteSelectedTableRowAsync()
+    private Task DeleteSelectedTableRow()
     {
-        return ExecuteSelectedTableCellCommandAsync(
+        return ExecuteSelectedTableCellCommand(
             "Delete table row",
             cellKey => tableCommandService.DeleteRow( EffectiveDefinition, cellKey ) );
     }
 
-    private Task DeleteSelectedTableColumnAsync()
+    private Task DeleteSelectedTableColumn()
     {
-        return ExecuteSelectedTableCellCommandAsync(
+        return ExecuteSelectedTableCellCommand(
             "Delete table column",
             cellKey => tableCommandService.DeleteColumn( EffectiveDefinition, cellKey ) );
     }
 
-    private Task DeleteSelectedTableCellAsync()
+    private Task DeleteSelectedTableCell()
     {
-        return ExecuteSelectedTableCellCommandAsync(
+        return ExecuteSelectedTableCellCommand(
             "Delete table cell",
             cellKey => tableCommandService.DeleteCell( EffectiveDefinition, cellKey ) );
     }
 
-    private async Task ExecuteSelectedTableCellCommandAsync( string commandName, Func<string, ReportTableCommandResult> execute )
+    private async Task ExecuteSelectedTableCellCommand( string commandName, Func<string, ReportTableCommandResult> execute )
     {
         string cellKey = designerState.ContextMenu?.CellKey ?? selectionManager.SelectedCellKey;
 
         if ( string.IsNullOrWhiteSpace( cellKey ) )
             return;
 
-        await ExecuteDesignerCommandAsync( new( commandName, () =>
+        await ExecuteDesignerCommand( new( commandName, () =>
         {
             ReportTableCommandResult result = execute( cellKey );
 
@@ -1414,12 +1404,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         } ) );
     }
 
-    private async Task OnAggregateDialogConfirmedAsync( ReportAggregateDialogResult result )
+    private async Task OnAggregateDialogConfirmed( ReportAggregateDialogResult result )
     {
         if ( result is null )
             return;
 
-        await ExecuteDesignerCommandAsync( new( $"Insert {ReportAggregateResolver.GetFunctionDisplayName( result.Function )}", () =>
+        await ExecuteDesignerCommand( new( $"Insert {ReportAggregateResolver.GetFunctionDisplayName( result.Function )}", () =>
         {
             var definition = EffectiveDefinition;
             var sourceSectionIndex = result.SourceSectionIndex;
@@ -1466,7 +1456,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             && aggregateService.CanInsertSection( definition, sectionIndex );
     }
 
-    private async Task OpenSelectedDetailGroupDialogAsync()
+    private async Task OpenSelectedDetailGroupDialog()
     {
         if ( groupDialogRef is null )
             return;
@@ -1482,19 +1472,19 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 ? groupHeader.GroupBy
                 : fieldOptions[0].FieldName;
 
-        CloseContextMenu();
+        _ = CloseContextMenu();
 
-        await groupDialogRef.ShowAsync( fieldOptions, selectedFieldName );
+        await groupDialogRef.Show( fieldOptions, selectedFieldName );
     }
 
-    private async Task OnGroupDialogConfirmedAsync( string groupBy )
+    private async Task OnGroupDialogConfirmed( string groupBy )
     {
         if ( string.IsNullOrWhiteSpace( groupBy ) || selectionManager.SelectedSectionIndex is null )
             return;
 
         var detailSectionIndex = selectionManager.SelectedSectionIndex.Value;
 
-        await ExecuteDesignerCommandAsync( new( "Insert group", () =>
+        await ExecuteDesignerCommand( new( "Insert group", () =>
         {
             var definition = EffectiveDefinition;
 
@@ -1513,67 +1503,67 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             definition.Sections.Insert( detailSectionIndex + 2, groupFooter );
 
             SelectSection( detailSectionIndex );
-            CloseContextMenu();
+            _ = CloseContextMenu();
 
             return Task.CompletedTask;
         } ) );
     }
 
-    private async Task OpenDataSourceConnectionDialogAsync()
+    private async Task OpenDataSourceConnectionDialog()
     {
         if ( dataSourceConnectionDialogRef is null )
             return;
 
-        await dataSourceConnectionDialogRef.ShowAsync( EffectiveDefinition, DataSourceProviders );
+        await dataSourceConnectionDialogRef.Show( EffectiveDefinition, DataSourceProviders );
     }
 
-    private async Task OnDataSourceConnectionConfirmedAsync( ReportDataSourceDefinition dataSource )
+    private async Task OnDataSourceConnectionConfirmed( ReportDataSourceDefinition dataSource )
     {
         if ( dataSource is null || string.IsNullOrWhiteSpace( dataSource.Name ) )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Connect data source", async () =>
+        await ExecuteDesignerCommand( new( "Connect data source", async () =>
         {
-            await dataCommandService.ConnectDataSourceAsync( EffectiveDefinition, Data, dataSource, ResolveDataSourcesAsync );
+            await dataCommandService.ConnectDataSource( EffectiveDefinition, Data, dataSource, ResolveDataSources );
         } ) );
     }
 
-    private async Task OnDataSourceRefreshedAsync( string dataSourceName )
+    private async Task OnDataSourceRefreshed( string dataSourceName )
     {
         if ( string.IsNullOrWhiteSpace( dataSourceName ) )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Refresh data source", async () =>
+        await ExecuteDesignerCommand( new( "Refresh data source", async () =>
         {
-            await dataCommandService.RefreshDataSourceAsync( EffectiveDefinition, DataSourceProviderRegistry, dataSourceName );
+            await dataCommandService.RefreshDataSource( EffectiveDefinition, DataSourceProviderRegistry, dataSourceName );
         } ) );
     }
 
-    private async Task OnDataSourceDeletedAsync( string dataSourceName )
+    private async Task OnDataSourceDeleted( string dataSourceName )
     {
         if ( string.IsNullOrWhiteSpace( dataSourceName ) )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Delete data source", () =>
+        await ExecuteDesignerCommand( new( "Delete data source", () =>
         {
             dataCommandService.DeleteDataSource( EffectiveDefinition, dataSourceName );
             return Task.CompletedTask;
         } ) );
     }
 
-    private async Task OnFormulaFieldConfirmedAsync( ReportFormulaFieldDefinition formulaField )
+    private async Task OnFormulaFieldConfirmed( ReportFormulaFieldDefinition formulaField )
     {
         if ( formulaField is null || string.IsNullOrWhiteSpace( formulaField.Name ) )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Save formula field", () =>
+        await ExecuteDesignerCommand( new( "Save formula field", () =>
         {
             dataCommandService.SaveFormulaField( EffectiveDefinition, formulaField );
             return Task.CompletedTask;
         } ) );
     }
 
-    private async Task OnFormulaFieldRenamedAsync( (string OldName, string NewName) formulaFieldRename )
+    private async Task OnFormulaFieldRenamed( (string OldName, string NewName) formulaFieldRename )
     {
         if ( string.IsNullOrWhiteSpace( formulaFieldRename.OldName ) || string.IsNullOrWhiteSpace( formulaFieldRename.NewName ) )
             return;
@@ -1584,19 +1574,19 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( string.Equals( oldName, newName, StringComparison.OrdinalIgnoreCase ) )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Rename formula field", () =>
+        await ExecuteDesignerCommand( new( "Rename formula field", () =>
         {
             dataCommandService.RenameFormulaField( EffectiveDefinition, oldName, newName );
             return Task.CompletedTask;
         } ) );
     }
 
-    private async Task OnFormulaFieldDeletedAsync( string formulaFieldName )
+    private async Task OnFormulaFieldDeleted( string formulaFieldName )
     {
         if ( string.IsNullOrWhiteSpace( formulaFieldName ) )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Delete formula field", () =>
+        await ExecuteDesignerCommand( new( "Delete formula field", () =>
         {
             dataCommandService.DeleteFormulaField( EffectiveDefinition, formulaFieldName );
 
@@ -1607,12 +1597,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         } ) );
     }
 
-    private async Task OnFormulaFieldInsertedAsync( string formulaFieldName )
+    private async Task OnFormulaFieldInserted( string formulaFieldName )
     {
         if ( string.IsNullOrWhiteSpace( formulaFieldName ) )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Add formula field", () =>
+        await ExecuteDesignerCommand( new( "Add formula field", () =>
         {
             ReportDefinition definition = EffectiveDefinition;
             int sectionIndex = GetDataElementInsertionSectionIndex( definition );
@@ -1630,12 +1620,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         } ) );
     }
 
-    private async Task OnFieldInsertedAsync( (string DataSourceName, string FieldName) field )
+    private async Task OnFieldInserted( (string DataSourceName, string FieldName) field )
     {
         if ( string.IsNullOrWhiteSpace( field.FieldName ) )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Add field", () =>
+        await ExecuteDesignerCommand( new( "Add field", () =>
         {
             ReportDefinition definition = EffectiveDefinition;
             int sectionIndex = GetDataElementInsertionSectionIndex( definition );
@@ -1653,19 +1643,19 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         } ) );
     }
 
-    private async Task OnRunningTotalConfirmedAsync( ReportRunningTotalDefinition runningTotal )
+    private async Task OnRunningTotalConfirmed( ReportRunningTotalDefinition runningTotal )
     {
         if ( runningTotal is null || string.IsNullOrWhiteSpace( runningTotal.Name ) )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Save running total", () =>
+        await ExecuteDesignerCommand( new( "Save running total", () =>
         {
             dataCommandService.SaveRunningTotal( EffectiveDefinition, runningTotal );
             return Task.CompletedTask;
         } ) );
     }
 
-    private async Task OnRunningTotalRenamedAsync( (string OldName, string NewName) runningTotalRename )
+    private async Task OnRunningTotalRenamed( (string OldName, string NewName) runningTotalRename )
     {
         if ( string.IsNullOrWhiteSpace( runningTotalRename.OldName ) || string.IsNullOrWhiteSpace( runningTotalRename.NewName ) )
             return;
@@ -1676,31 +1666,31 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( string.Equals( oldName, newName, StringComparison.OrdinalIgnoreCase ) )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Rename running total", () =>
+        await ExecuteDesignerCommand( new( "Rename running total", () =>
         {
             dataCommandService.RenameRunningTotal( EffectiveDefinition, oldName, newName );
             return Task.CompletedTask;
         } ) );
     }
 
-    private async Task OnRunningTotalDeletedAsync( string runningTotalName )
+    private async Task OnRunningTotalDeleted( string runningTotalName )
     {
         if ( string.IsNullOrWhiteSpace( runningTotalName ) )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Delete running total", () =>
+        await ExecuteDesignerCommand( new( "Delete running total", () =>
         {
             dataCommandService.DeleteRunningTotal( EffectiveDefinition, runningTotalName );
             return Task.CompletedTask;
         } ) );
     }
 
-    private async Task OnRunningTotalInsertedAsync( string runningTotalName )
+    private async Task OnRunningTotalInserted( string runningTotalName )
     {
         if ( string.IsNullOrWhiteSpace( runningTotalName ) )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Add running total", () =>
+        await ExecuteDesignerCommand( new( "Add running total", () =>
         {
             ReportDefinition definition = EffectiveDefinition;
             int sectionIndex = GetDataElementInsertionSectionIndex( definition );
@@ -1718,19 +1708,19 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         } ) );
     }
 
-    private async Task OnFormulaDialogConfirmedAsync( string formula )
+    private async Task OnFormulaDialogConfirmed( string formula )
     {
         if ( string.IsNullOrWhiteSpace( editingFormulaFieldName ) )
             return;
 
-        await OnFormulaFieldConfirmedAsync( new()
+        await OnFormulaFieldConfirmed( new()
         {
             Name = editingFormulaFieldName,
             Formula = formula,
         } );
     }
 
-    private async Task OpenFormulaFieldDialogAsync( string formulaFieldName )
+    private async Task OpenFormulaFieldDialog( string formulaFieldName )
     {
         if ( string.IsNullOrWhiteSpace( formulaFieldName ) )
             return;
@@ -1741,7 +1731,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
 
         editingFormulaFieldName = formulaField.Name;
-        await formulaDialogRef.ShowAsync( formulaField.Name, formulaField.Formula );
+        await formulaDialogRef.Show( formulaField.Name, formulaField.Formula );
     }
 
     private int GetDataElementInsertionSectionIndex( ReportDefinition definition )
@@ -1766,123 +1756,114 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             : string.Equals( designerState.EditingElementKey, elementKey, StringComparison.Ordinal );
     }
 
-    private void CloseContextMenu()
+    private Task CloseContextMenu()
     {
         designerState.ContextMenu = null;
 
-        if ( contextMenuHost is not null )
-            _ = contextMenuHost.CloseAsync();
-    }
-
-    private async Task CloseContextMenuAsync()
-    {
-        designerState.ContextMenu = null;
-
-        if ( contextMenuHost is not null )
-            await contextMenuHost.CloseAsync();
+        return contextMenuHost?.CloseMenu() ?? Task.CompletedTask;
     }
 
     private Task OnDesignerNodeDragEnded( ReportTreeNode node )
     {
-        return ClearDesignerDragAsync();
+        return ClearDesignerDrag();
     }
 
     private Task OnPageSelectionPointerCancel( PointerEventArgs eventArgs )
     {
-        return CancelPageSelectionBoxAsync();
+        return CancelPageSelectionBox();
     }
 
     private Task OnElementPointerCancel( PointerEventArgs eventArgs )
     {
-        return CancelElementPointerInteractionAsync();
+        return CancelElementPointerInteraction();
     }
 
     private Task OnContextMenuCutElement( MouseEventArgs eventArgs )
-        => CutSelectedElementAsync();
+        => CutSelectedElement();
 
     private Task OnContextMenuCopyElement( MouseEventArgs eventArgs )
-        => CopySelectedElementAsync();
+        => CopySelectedElement();
 
     private Task OnContextMenuPasteElement( MouseEventArgs eventArgs )
-        => PasteElementAsync();
+        => PasteElement();
 
     private Task OnContextMenuSelectAllSectionElements( MouseEventArgs eventArgs )
-        => SelectAllContextSectionElementsAsync();
+        => SelectAllContextSectionElements();
 
     private Task OnContextMenuShowProperties( MouseEventArgs eventArgs )
-        => ShowContextPropertiesAsync();
+        => ShowContextProperties();
 
     private Task OnContextMenuInsertSectionBefore( MouseEventArgs eventArgs )
-        => InsertSectionAsync( insertAfter: false );
+        => InsertSection( insertAfter: false );
 
     private Task OnContextMenuInsertSectionAfter( MouseEventArgs eventArgs )
-        => InsertSectionAsync( insertAfter: true );
+        => InsertSection( insertAfter: true );
 
     private Task OnContextMenuInsertGroup( MouseEventArgs eventArgs )
-        => OpenSelectedDetailGroupDialogAsync();
+        => OpenSelectedDetailGroupDialog();
 
     private Task OnContextMenuToggleSectionSuppression( MouseEventArgs eventArgs )
-        => ToggleSelectedSectionSuppressionAsync();
+        => ToggleSelectedSectionSuppression();
 
     private Task OnContextMenuToggleSectionKeepTogether( MouseEventArgs eventArgs )
-        => ToggleSelectedSectionKeepTogetherAsync();
+        => ToggleSelectedSectionKeepTogether();
 
     private Task OnContextMenuToggleSectionNewPageBefore( MouseEventArgs eventArgs )
-        => ToggleSelectedSectionNewPageBeforeAsync();
+        => ToggleSelectedSectionNewPageBefore();
 
     private Task OnContextMenuToggleSectionNewPageAfter( MouseEventArgs eventArgs )
-        => ToggleSelectedSectionNewPageAfterAsync();
+        => ToggleSelectedSectionNewPageAfter();
 
     private Task OnContextMenuDeleteSection( MouseEventArgs eventArgs )
-        => DeleteSelectedSectionAsync();
+        => DeleteSelectedSection();
 
     private Task OnContextMenuAlignTops( MouseEventArgs eventArgs )
-        => AlignSelectedElementsAsync( ReportElementAlignment.Tops );
+        => AlignSelectedElements( ReportElementAlignment.Tops );
 
     private Task OnContextMenuAlignMiddles( MouseEventArgs eventArgs )
-        => AlignSelectedElementsAsync( ReportElementAlignment.Middles );
+        => AlignSelectedElements( ReportElementAlignment.Middles );
 
     private Task OnContextMenuAlignBottoms( MouseEventArgs eventArgs )
-        => AlignSelectedElementsAsync( ReportElementAlignment.Bottoms );
+        => AlignSelectedElements( ReportElementAlignment.Bottoms );
 
     private Task OnContextMenuAlignBaseline( MouseEventArgs eventArgs )
-        => AlignSelectedElementsAsync( ReportElementAlignment.Baseline );
+        => AlignSelectedElements( ReportElementAlignment.Baseline );
 
     private Task OnContextMenuAlignLefts( MouseEventArgs eventArgs )
-        => AlignSelectedElementsAsync( ReportElementAlignment.Lefts );
+        => AlignSelectedElements( ReportElementAlignment.Lefts );
 
     private Task OnContextMenuAlignCenters( MouseEventArgs eventArgs )
-        => AlignSelectedElementsAsync( ReportElementAlignment.Centers );
+        => AlignSelectedElements( ReportElementAlignment.Centers );
 
     private Task OnContextMenuAlignRights( MouseEventArgs eventArgs )
-        => AlignSelectedElementsAsync( ReportElementAlignment.Rights );
+        => AlignSelectedElements( ReportElementAlignment.Rights );
 
     private Task OnContextMenuAlignToGrid( MouseEventArgs eventArgs )
-        => AlignSelectedElementsAsync( ReportElementAlignment.ToGrid );
+        => AlignSelectedElements( ReportElementAlignment.ToGrid );
 
     private Task OnContextMenuSizeSameWidth( MouseEventArgs eventArgs )
-        => SizeSelectedElementsAsync( ReportElementSizeMode.SameWidth );
+        => SizeSelectedElements( ReportElementSizeMode.SameWidth );
 
     private Task OnContextMenuSizeSameHeight( MouseEventArgs eventArgs )
-        => SizeSelectedElementsAsync( ReportElementSizeMode.SameHeight );
+        => SizeSelectedElements( ReportElementSizeMode.SameHeight );
 
     private Task OnContextMenuSizeSameSize( MouseEventArgs eventArgs )
-        => SizeSelectedElementsAsync( ReportElementSizeMode.SameSize );
+        => SizeSelectedElements( ReportElementSizeMode.SameSize );
 
     private Task OnContextMenuBringToFront( MouseEventArgs eventArgs )
-        => OrderSelectedElementsAsync( ReportElementOrderMode.BringToFront );
+        => OrderSelectedElements( ReportElementOrderMode.BringToFront );
 
     private Task OnContextMenuSendToBack( MouseEventArgs eventArgs )
-        => OrderSelectedElementsAsync( ReportElementOrderMode.SendToBack );
+        => OrderSelectedElements( ReportElementOrderMode.SendToBack );
 
     private Task OnContextMenuMoveForward( MouseEventArgs eventArgs )
-        => OrderSelectedElementsAsync( ReportElementOrderMode.MoveForward );
+        => OrderSelectedElements( ReportElementOrderMode.MoveForward );
 
     private Task OnContextMenuMoveBackward( MouseEventArgs eventArgs )
-        => OrderSelectedElementsAsync( ReportElementOrderMode.MoveBackward );
+        => OrderSelectedElements( ReportElementOrderMode.MoveBackward );
 
     private Task OnContextMenuInsertAggregate( MouseEventArgs eventArgs )
-        => OpenContextElementAggregateDialogAsync();
+        => OpenContextElementAggregateDialog();
 
     private Task OnContextMenuEditText( MouseEventArgs eventArgs )
     {
@@ -1892,64 +1873,64 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     }
 
     private Task OnContextMenuEditFormula( MouseEventArgs eventArgs )
-        => OpenContextElementFormulaDialogAsync();
+        => OpenContextElementFormulaDialog();
 
     private Task OnContextMenuEditRunningTotal( MouseEventArgs eventArgs )
-        => OpenContextElementRunningTotalDialogAsync();
+        => OpenContextElementRunningTotalDialog();
 
     private Task OnContextMenuDeleteElement( MouseEventArgs eventArgs )
-        => DeleteSelectedElementAsync();
+        => DeleteSelectedElement();
 
     private Task OnContextMenuToggleElementCanGrow( MouseEventArgs eventArgs )
-        => ToggleSelectedElementCanGrowAsync();
+        => ToggleSelectedElementCanGrow();
 
     private Task OnContextMenuToggleElementSuppression( MouseEventArgs eventArgs )
-        => ToggleSelectedElementSuppressionAsync();
+        => ToggleSelectedElementSuppression();
 
     private Task OnContextMenuMergeCellRight( MouseEventArgs eventArgs )
-        => MergeSelectedTableCellRightAsync();
+        => MergeSelectedTableCellRight();
 
     private Task OnContextMenuMergeCellDown( MouseEventArgs eventArgs )
-        => MergeSelectedTableCellDownAsync();
+        => MergeSelectedTableCellDown();
 
     private Task OnContextMenuUnmergeCell( MouseEventArgs eventArgs )
-        => UnmergeSelectedTableCellAsync();
+        => UnmergeSelectedTableCell();
 
     private Task OnContextMenuInsertTableRowAbove( MouseEventArgs eventArgs )
-        => InsertSelectedTableRowAsync( insertBelow: false );
+        => InsertSelectedTableRow( insertBelow: false );
 
     private Task OnContextMenuInsertTableRowBelow( MouseEventArgs eventArgs )
-        => InsertSelectedTableRowAsync( insertBelow: true );
+        => InsertSelectedTableRow( insertBelow: true );
 
     private Task OnContextMenuInsertTableColumnLeft( MouseEventArgs eventArgs )
-        => InsertSelectedTableColumnAsync( insertRight: false );
+        => InsertSelectedTableColumn( insertRight: false );
 
     private Task OnContextMenuInsertTableColumnRight( MouseEventArgs eventArgs )
-        => InsertSelectedTableColumnAsync( insertRight: true );
+        => InsertSelectedTableColumn( insertRight: true );
 
     private Task OnContextMenuInsertTableCell( MouseEventArgs eventArgs )
-        => InsertSelectedTableCellAsync();
+        => InsertSelectedTableCell();
 
     private Task OnContextMenuDeleteTableRow( MouseEventArgs eventArgs )
-        => DeleteSelectedTableRowAsync();
+        => DeleteSelectedTableRow();
 
     private Task OnContextMenuDeleteTableColumn( MouseEventArgs eventArgs )
-        => DeleteSelectedTableColumnAsync();
+        => DeleteSelectedTableColumn();
 
     private Task OnContextMenuDeleteTableCell( MouseEventArgs eventArgs )
-        => DeleteSelectedTableCellAsync();
+        => DeleteSelectedTableCell();
 
     private Task OnContextMenuClose( MouseEventArgs eventArgs )
-        => CloseContextMenuAsync();
+        => CloseContextMenu();
 
-    private async Task MoveSelectedElementAsync( double x, double y, double width, double height )
+    private async Task MoveSelectedElement( double x, double y, double width, double height )
     {
         ReportElementDefinition element = selectionManager.FindSelectedElement( EffectiveDefinition );
 
         if ( element is null )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Move element", () =>
+        await ExecuteDesignerCommand( new( "Move element", () =>
         {
             ReportDefinition definition = EffectiveDefinition;
             ReportElementDefinition element = selectionManager.FindSelectedElement( definition );
@@ -1960,7 +1941,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }, refreshSurface: false ) );
     }
 
-    private async Task MoveSelectedElementsAsync( double x, double y )
+    private async Task MoveSelectedElements( double x, double y )
     {
         ReportDefinition definition = EffectiveDefinition;
         ReportElementDefinition element = selectionManager.FindSelectedElement( definition );
@@ -1976,7 +1957,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         string commandName = selectedElements.Count == 1 ? "Move element" : "Move elements";
 
-        await ExecuteDesignerCommandAsync( new( commandName, () =>
+        await ExecuteDesignerCommand( new( commandName, () =>
         {
             ReportDefinition definition = EffectiveDefinition;
             ReportElementCommandResult result = elementCommandService.MoveElements( definition, selectedElements, ReportDefinitionHelper.EnsureElementId( element ), x, y, useSnapToGrid, ApplyDesignerGrid );
@@ -1988,7 +1969,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }, refreshSurface: false ) );
     }
 
-    private async Task AlignSelectedElementsAsync( ReportElementAlignment alignment )
+    private async Task AlignSelectedElements( ReportElementAlignment alignment )
     {
         List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( EffectiveDefinition );
 
@@ -1997,7 +1978,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         string commandName = $"Align {elementLayoutService.GetAlignmentDisplayName( alignment )}";
 
-        await ExecuteDesignerCommandAsync( new( commandName, () =>
+        await ExecuteDesignerCommand( new( commandName, () =>
         {
             ReportDefinition definition = EffectiveDefinition;
             List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( definition );
@@ -2010,7 +1991,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }, refreshSurface: false ) );
     }
 
-    private async Task SizeSelectedElementsAsync( ReportElementSizeMode sizeMode )
+    private async Task SizeSelectedElements( ReportElementSizeMode sizeMode )
     {
         List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( EffectiveDefinition );
 
@@ -2019,7 +2000,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         string commandName = $"Size {elementLayoutService.GetSizeDisplayName( sizeMode )}";
 
-        await ExecuteDesignerCommandAsync( new( commandName, () =>
+        await ExecuteDesignerCommand( new( commandName, () =>
         {
             ReportDefinition definition = EffectiveDefinition;
             List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( definition );
@@ -2032,7 +2013,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }, refreshSurface: false ) );
     }
 
-    private async Task OrderSelectedElementsAsync( ReportElementOrderMode orderMode )
+    private async Task OrderSelectedElements( ReportElementOrderMode orderMode )
     {
         List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( EffectiveDefinition );
 
@@ -2041,7 +2022,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         string commandName = elementLayoutService.GetOrderDisplayName( orderMode );
 
-        await ExecuteDesignerCommandAsync( new( commandName, () =>
+        await ExecuteDesignerCommand( new( commandName, () =>
         {
             ReportDefinition definition = EffectiveDefinition;
             List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( definition );
@@ -2059,17 +2040,17 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return elementLayoutService.GetSelectedElementContexts( definition, selectionManager.SelectedElementKeys, selectionManager.SelectedElementKey );
     }
 
-    private Task UpdateSelectedElementsFromPropertiesAsync( Action<ReportElementDefinition> update )
-        => UpdateSelectedElementsAsync( "Update elements", update );
+    private Task UpdateSelectedElementsFromProperties( Action<ReportElementDefinition> update )
+        => UpdateSelectedElements( "Update elements", update );
 
-    private async Task UpdateSelectedElementsAsync( string commandName, Action<ReportElementDefinition> update )
+    private async Task UpdateSelectedElements( string commandName, Action<ReportElementDefinition> update )
     {
         List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( EffectiveDefinition );
 
         if ( selectedElements.Count == 0 )
             return;
 
-        await ExecuteDesignerCommandAsync( new( commandName, () =>
+        await ExecuteDesignerCommand( new( commandName, () =>
         {
             ReportDefinition definition = EffectiveDefinition;
             List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( definition );
@@ -2082,14 +2063,14 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         } ) );
     }
 
-    private async Task UpdateSelectedSectionAsync( Action<ReportSectionDefinition> update )
+    private async Task UpdateSelectedSection( Action<ReportSectionDefinition> update )
     {
         var section = selectionManager.FindSelectedSection( EffectiveDefinition );
 
         if ( section is null )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Update band", () =>
+        await ExecuteDesignerCommand( new( "Update band", () =>
         {
             var section = selectionManager.FindSelectedSection( EffectiveDefinition );
 
@@ -2103,9 +2084,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         } ) );
     }
 
-    private async Task UpdateReportPageAsync( Action<ReportPageDefinition> update )
+    private async Task UpdateReportPage( Action<ReportPageDefinition> update )
     {
-        await ExecuteDesignerCommandAsync( new( "Update page", () =>
+        await ExecuteDesignerCommand( new( "Update page", () =>
         {
             var definition = EffectiveDefinition;
 
@@ -2116,7 +2097,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         } ) );
     }
 
-    private async Task InsertSectionAsync( bool insertAfter )
+    private async Task InsertSection( bool insertAfter )
     {
         var definition = EffectiveDefinition;
 
@@ -2124,7 +2105,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             || !aggregateService.CanInsertSection( definition, selectedSectionIndex ) )
             return;
 
-        await ExecuteDesignerCommandAsync( new( insertAfter ? "Insert band after" : "Insert band before", () =>
+        await ExecuteDesignerCommand( new( insertAfter ? "Insert band after" : "Insert band before", () =>
         {
             var definition = EffectiveDefinition;
             var sourceSection = selectionManager.FindSelectedSection( definition );
@@ -2139,21 +2120,21 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             definition.Sections.Insert( insertIndex, section );
 
             SelectSection( insertIndex );
-            CloseContextMenu();
+            _ = CloseContextMenu();
 
             return Task.CompletedTask;
         } ) );
     }
 
-    private Task DeleteSelectionAsync()
+    private Task DeleteSelection()
     {
         if ( !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey ) )
-            return DeleteSelectedElementAsync();
+            return DeleteSelectedElement();
 
-        return DeleteSelectedSectionAsync();
+        return DeleteSelectedSection();
     }
 
-    private async Task DeleteSelectedSectionAsync()
+    private async Task DeleteSelectedSection()
     {
         var definition = EffectiveDefinition;
 
@@ -2165,7 +2146,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
         }
 
-        await ExecuteDesignerCommandAsync( new( "Delete band", () =>
+        await ExecuteDesignerCommand( new( "Delete band", () =>
         {
             var definition = EffectiveDefinition;
 
@@ -2187,32 +2168,32 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 SelectSection( nextSectionIndex );
             }
 
-            CloseContextMenu();
+            _ = CloseContextMenu();
             ClearDragState();
 
             return Task.CompletedTask;
         } ) );
     }
 
-    private async Task ToggleSelectedSectionSuppressionAsync()
+    private async Task ToggleSelectedSectionSuppression()
     {
         var section = selectionManager.FindSelectedSection( EffectiveDefinition );
 
         if ( section is null )
             return;
 
-        await UpdateSelectedSectionSuppressionAsync( !section.Suppressed );
+        await UpdateSelectedSectionSuppression( !section.Suppressed );
     }
 
-    private Task ShowContextPropertiesAsync()
+    private Task ShowContextProperties()
     {
         selectedDesignerPanelTab = ReportDesignerPanelTab.Properties;
-        CloseContextMenu();
+        _ = CloseContextMenu();
 
         return Task.CompletedTask;
     }
 
-    private Task SelectAllContextSectionElementsAsync()
+    private Task SelectAllContextSectionElements()
     {
         if ( designerState.ContextMenu?.SectionIndex is not { } sectionIndex )
             return Task.CompletedTask;
@@ -2233,7 +2214,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return Task.CompletedTask;
     }
 
-    private async Task ToggleSelectedSectionKeepTogetherAsync()
+    private async Task ToggleSelectedSectionKeepTogether()
     {
         var section = selectionManager.FindSelectedSection( EffectiveDefinition );
 
@@ -2241,11 +2222,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
 
         bool value = section.KeepTogether?.Value != true;
-        await UpdateSelectedSectionAsync( currentSection => currentSection.KeepTogether = ReportValue.Create( value, currentSection.KeepTogether?.Formula ) );
-        CloseContextMenu();
+        await UpdateSelectedSection( currentSection => currentSection.KeepTogether = ReportValue.Create( value, currentSection.KeepTogether?.Formula ) );
+        _ = CloseContextMenu();
     }
 
-    private async Task ToggleSelectedSectionNewPageBeforeAsync()
+    private async Task ToggleSelectedSectionNewPageBefore()
     {
         var section = selectionManager.FindSelectedSection( EffectiveDefinition );
 
@@ -2253,11 +2234,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
 
         bool value = section.NewPageBefore?.Value != true;
-        await UpdateSelectedSectionAsync( currentSection => currentSection.NewPageBefore = ReportValue.Create( value, currentSection.NewPageBefore?.Formula ) );
-        CloseContextMenu();
+        await UpdateSelectedSection( currentSection => currentSection.NewPageBefore = ReportValue.Create( value, currentSection.NewPageBefore?.Formula ) );
+        _ = CloseContextMenu();
     }
 
-    private async Task ToggleSelectedSectionNewPageAfterAsync()
+    private async Task ToggleSelectedSectionNewPageAfter()
     {
         var section = selectionManager.FindSelectedSection( EffectiveDefinition );
 
@@ -2265,13 +2246,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
 
         bool value = section.NewPageAfter?.Value != true;
-        await UpdateSelectedSectionAsync( currentSection => currentSection.NewPageAfter = ReportValue.Create( value, currentSection.NewPageAfter?.Formula ) );
-        CloseContextMenu();
+        await UpdateSelectedSection( currentSection => currentSection.NewPageAfter = ReportValue.Create( value, currentSection.NewPageAfter?.Formula ) );
+        _ = CloseContextMenu();
     }
 
-    private async Task UpdateSelectedSectionSuppressionAsync( bool suppressed )
+    private async Task UpdateSelectedSectionSuppression( bool suppressed )
     {
-        await ExecuteDesignerCommandAsync( new( suppressed ? "Suppress" : "Don't suppress", () =>
+        await ExecuteDesignerCommand( new( suppressed ? "Suppress" : "Don't suppress", () =>
         {
             var section = selectionManager.FindSelectedSection( EffectiveDefinition );
 
@@ -2280,13 +2261,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 sectionCommandService.UpdateSectionSuppression( section, suppressed, collapsedSectionIds );
             }
 
-            CloseContextMenu();
+            _ = CloseContextMenu();
 
             return Task.CompletedTask;
         } ) );
     }
 
-    private async Task ToggleSelectedElementCanGrowAsync()
+    private async Task ToggleSelectedElementCanGrow()
     {
         var element = selectionManager.FindSelectedElement( EffectiveDefinition );
 
@@ -2294,11 +2275,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
 
         bool value = element.CanGrow?.Value != true;
-        await UpdateSelectedElementsAsync( value ? "Enable can grow" : "Disable can grow", currentElement => currentElement.CanGrow = ReportValue.Create( value, currentElement.CanGrow?.Formula ) );
-        CloseContextMenu();
+        await UpdateSelectedElements( value ? "Enable can grow" : "Disable can grow", currentElement => currentElement.CanGrow = ReportValue.Create( value, currentElement.CanGrow?.Formula ) );
+        _ = CloseContextMenu();
     }
 
-    private async Task ToggleSelectedElementSuppressionAsync()
+    private async Task ToggleSelectedElementSuppression()
     {
         var element = selectionManager.FindSelectedElement( EffectiveDefinition );
 
@@ -2306,11 +2287,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
 
         bool value = element.Suppress?.Value != true;
-        await UpdateSelectedElementsAsync( value ? "Suppress elements" : "Don't suppress elements", currentElement => currentElement.Suppress = ReportValue.Create( value, currentElement.Suppress?.Formula ) );
-        CloseContextMenu();
+        await UpdateSelectedElements( value ? "Suppress elements" : "Don't suppress elements", currentElement => currentElement.Suppress = ReportValue.Create( value, currentElement.Suppress?.Formula ) );
+        _ = CloseContextMenu();
     }
 
-    private async Task DeleteSelectedElementAsync()
+    private async Task DeleteSelectedElement()
     {
         ReportDefinition definition = EffectiveDefinition;
 
@@ -2319,7 +2300,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( selectedElements.Count == 0 )
             return;
 
-        await ExecuteDesignerCommandAsync( new( selectedElements.Count == 1 ? "Delete element" : "Delete elements", () =>
+        await ExecuteDesignerCommand( new( selectedElements.Count == 1 ? "Delete element" : "Delete elements", () =>
         {
             ReportDefinition definition = EffectiveDefinition;
             List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( definition );
@@ -2328,7 +2309,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             if ( result.SelectedSectionIndex is int selectedSectionIndex )
                 SelectSection( selectedSectionIndex );
 
-            CloseContextMenu();
+            _ = CloseContextMenu();
             designerState.EditingElementKey = null;
 
             return Task.CompletedTask;
@@ -2375,7 +2356,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         SelectElement( elementKey, preserveSelection: selectionManager.IsElementSelected( elementKey ) && selectionManager.SelectedElementKeys.Count > 1 );
     }
 
-    private async Task BeginElementPointerResizeAsync( string elementKey, ReportElementResizeHandle handle, PointerEventArgs eventArgs )
+    private async Task BeginElementPointerResize( string elementKey, ReportElementResizeHandle handle, PointerEventArgs eventArgs )
     {
         if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out var sectionIndex, out _, out var element )
             || element.Suppress?.Value == true )
@@ -2394,10 +2375,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         SelectElement( elementKey, preserveSelection: selectionManager.IsElementSelected( elementKey ) && selectionManager.SelectedElementKeys.Count > 1 );
 
         if ( started )
-            await StartDocumentElementResizeAsync( eventArgs.ClientX, eventArgs.ClientY, eventArgs.PointerId );
+            await StartDocumentElementResize( eventArgs.ClientX, eventArgs.ClientY, eventArgs.PointerId );
     }
 
-    private Task BeginTablePointerResizeAsync( string tableKey, string cellKey, ReportTableResizeKind kind, int index, PointerEventArgs eventArgs )
+    private Task BeginTablePointerResize( string tableKey, string cellKey, ReportTableResizeKind kind, int index, PointerEventArgs eventArgs )
     {
         if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, tableKey, out int sectionIndex, out _, out ReportElementDefinition element )
             || element is not ReportTableElementDefinition table
@@ -2459,11 +2440,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return InvokeAsync( StateHasChanged );
     }
 
-    private async Task BeginSectionPointerResizeAsync( int sectionIndex, PointerEventArgs eventArgs )
+    private async Task BeginSectionPointerResize( int sectionIndex, PointerEventArgs eventArgs )
     {
         if ( TryResolveElementResizeFromSectionResize( sectionIndex, eventArgs, out string elementKey, out ReportElementResizeHandle handle ) )
         {
-            await BeginElementPointerResizeAsync( elementKey, handle, eventArgs );
+            await BeginElementPointerResize( elementKey, handle, eventArgs );
             return;
         }
 
@@ -2498,7 +2479,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         SelectSection( sectionIndex );
 
-        await StartDocumentSectionResizeAsync( eventArgs.ClientY, eventArgs.PointerId );
+        await StartDocumentSectionResize( eventArgs.ClientY, eventArgs.PointerId );
         await InvokeAsync( StateHasChanged );
     }
 
@@ -2570,55 +2551,55 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }
     }
 
-    private Task PreviewElementPointerInteractionAsync( int targetSectionIndex, PointerEventArgs eventArgs )
+    private Task PreviewElementPointerInteraction( int targetSectionIndex, PointerEventArgs eventArgs )
     {
         if ( designerState.SelectionBox is not null )
-            return PreviewSelectionBoxAsync( eventArgs );
+            return PreviewSelectionBox( eventArgs );
 
         if ( designerState.SectionPointerResize is not null )
-            return PreviewSectionPointerResizeAsync( eventArgs );
+            return PreviewSectionPointerResize( eventArgs );
 
         if ( designerState.TablePointerResize is not null )
-            return PreviewTablePointerResizeAsync( eventArgs );
+            return PreviewTablePointerResize( eventArgs );
 
         if ( designerState.ElementPointerResize is not null )
-            return PreviewElementPointerResizeAsync( eventArgs );
+            return PreviewElementPointerResize( eventArgs );
 
-        return PreviewElementPointerDragAsync( targetSectionIndex, eventArgs );
+        return PreviewElementPointerDrag( targetSectionIndex, eventArgs );
     }
 
-    private Task CompleteElementPointerInteractionAsync( int targetSectionIndex, PointerEventArgs eventArgs )
+    private Task CompleteElementPointerInteraction( int targetSectionIndex, PointerEventArgs eventArgs )
     {
         if ( designerState.SelectionBox is not null )
-            return CompleteSelectionBoxAsync( eventArgs );
+            return CompleteSelectionBox( eventArgs );
 
         if ( designerState.SectionPointerResize is not null )
-            return CompleteSectionPointerResizeAsync( eventArgs );
+            return CompleteSectionPointerResize( eventArgs );
 
         if ( designerState.TablePointerResize is not null )
-            return CompleteTablePointerResizeAsync( eventArgs );
+            return CompleteTablePointerResize( eventArgs );
 
         if ( designerState.ElementPointerResize is not null )
-            return CompleteElementPointerResizeAsync( eventArgs );
+            return CompleteElementPointerResize( eventArgs );
 
-        return CompleteElementPointerDragAsync( targetSectionIndex, eventArgs );
+        return CompleteElementPointerDrag( targetSectionIndex, eventArgs );
     }
 
-    private Task CancelElementPointerInteractionAsync()
+    private Task CancelElementPointerInteraction()
     {
         if ( designerState.SelectionBox is not null )
-            return CancelSelectionBoxAsync();
+            return CancelSelectionBox();
 
         if ( designerState.SectionPointerResize is not null )
-            return CancelSectionPointerResizeAsync();
+            return CancelSectionPointerResize();
 
         if ( designerState.TablePointerResize is not null )
-            return CancelTablePointerResizeAsync();
+            return CancelTablePointerResize();
 
         if ( designerState.ElementPointerResize is not null )
-            return CancelElementPointerResizeAsync();
+            return CancelElementPointerResize();
 
-        return CancelElementPointerDragAsync();
+        return CancelElementPointerDrag();
     }
 
     private void BeginSelectionBox( int sectionIndex, PointerEventArgs eventArgs )
@@ -2633,11 +2614,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( selectionBoxStarted )
         {
-            CloseContextMenu();
+            _ = CloseContextMenu();
         }
     }
 
-    private async Task PreviewSelectionBoxAsync( PointerEventArgs eventArgs )
+    private async Task PreviewSelectionBox( PointerEventArgs eventArgs )
     {
         if ( designerState.SelectionBox is null )
             return;
@@ -2652,17 +2633,17 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( !ReportDesignerInteractionService.CanRenderSelectionBoxPreview( designerState, previousX, previousY, previousWidth, previousHeight ) )
             return;
 
-        await UpdateDesignerSelectionOverlayAsync();
+        await UpdateDesignerSelectionOverlay();
     }
 
-    private Task PreviewPageSelectionBoxAsync( PointerEventArgs eventArgs )
+    private Task PreviewPageSelectionBox( PointerEventArgs eventArgs )
     {
         return designerState.SelectionBox is null
             ? Task.CompletedTask
-            : PreviewSelectionBoxAsync( eventArgs );
+            : PreviewSelectionBox( eventArgs );
     }
 
-    private async Task CompleteSelectionBoxAsync( PointerEventArgs eventArgs )
+    private async Task CompleteSelectionBox( PointerEventArgs eventArgs )
     {
         if ( designerState.SelectionBox is null )
             return;
@@ -2670,7 +2651,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         ReportDesignerInteractionService.UpdateSelectionBox( designerState, EffectiveDefinition, eventArgs, GetDesignerContentHeight( EffectiveDefinition ) );
 
         ReportDesignerSelectionBox completedSelectionBox = ReportDesignerInteractionService.CompleteSelectionBox( designerState );
-        await ClearDesignerInteractionOverlaysAsync();
+        await ClearDesignerInteractionOverlays();
 
         if ( !completedSelectionBox.HasMoved )
         {
@@ -2697,29 +2678,29 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await InvokeAsync( StateHasChanged );
     }
 
-    private Task CompletePageSelectionBoxAsync( PointerEventArgs eventArgs )
+    private Task CompletePageSelectionBox( PointerEventArgs eventArgs )
     {
         return designerState.SelectionBox is null
             ? Task.CompletedTask
-            : CompleteSelectionBoxAsync( eventArgs );
+            : CompleteSelectionBox( eventArgs );
     }
 
-    private async Task CancelSelectionBoxAsync()
+    private async Task CancelSelectionBox()
     {
         ReportDesignerInteractionService.CompleteSelectionBox( designerState );
-        await ClearDesignerInteractionOverlaysAsync();
+        await ClearDesignerInteractionOverlays();
 
         await InvokeAsync( StateHasChanged );
     }
 
-    private Task CancelPageSelectionBoxAsync()
+    private Task CancelPageSelectionBox()
     {
         return designerState.SelectionBox is null
             ? Task.CompletedTask
-            : CancelSelectionBoxAsync();
+            : CancelSelectionBox();
     }
 
-    private async Task PreviewElementPointerDragAsync( int targetSectionIndex, PointerEventArgs eventArgs )
+    private async Task PreviewElementPointerDrag( int targetSectionIndex, PointerEventArgs eventArgs )
     {
         if ( designerState.ElementPointerDrag is null || designerState.DraggedKind != ReportDesignerDragKind.Element )
             return;
@@ -2754,10 +2735,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         designerState.DragPreview = preview;
         designerState.LastDragPreviewRenderTime = now;
 
-        await UpdateDesignerDragOverlayAsync( preview );
+        await UpdateDesignerDragOverlay( preview );
     }
 
-    private async Task CompleteElementPointerDragAsync( int targetSectionIndex, PointerEventArgs eventArgs )
+    private async Task CompleteElementPointerDrag( int targetSectionIndex, PointerEventArgs eventArgs )
     {
         if ( designerState.ElementPointerDrag is null || designerState.DraggedKind != ReportDesignerDragKind.Element )
             return;
@@ -2787,16 +2768,16 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( !moved || !canMove )
         {
             ClearDragState();
-            await ClearDesignerInteractionOverlaysAsync();
+            await ClearDesignerInteractionOverlays();
             await InvokeAsync( StateHasChanged );
             return;
         }
 
-        await ClearDesignerInteractionOverlaysAsync();
+        await ClearDesignerInteractionOverlays();
 
         bool moveToTableCell = TryFindElementPointerDragTableCellTarget( definition, pointerDrag, out _ );
 
-        await ExecuteDesignerCommandAsync( new( moveToTableCell ? "Move element to table cell" : "Move element", () =>
+        await ExecuteDesignerCommand( new( moveToTableCell ? "Move element to table cell" : "Move element", () =>
         {
             var definition = EffectiveDefinition;
 
@@ -2859,18 +2840,18 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             || !ReferenceEquals( target.Table, location.Element );
     }
 
-    private async Task CancelElementPointerDragAsync()
+    private async Task CancelElementPointerDrag()
     {
         if ( designerState.ElementPointerDrag is null )
             return;
 
         ClearDragState();
-        await ClearDesignerInteractionOverlaysAsync();
+        await ClearDesignerInteractionOverlays();
 
         await InvokeAsync( StateHasChanged );
     }
 
-    private async Task PreviewTablePointerResizeAsync( PointerEventArgs eventArgs )
+    private async Task PreviewTablePointerResize( PointerEventArgs eventArgs )
     {
         if ( designerState.TablePointerResize is null )
             return;
@@ -2903,10 +2884,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         designerState.DragPreview = preview;
         designerState.LastDragPreviewRenderTime = now;
 
-        await UpdateDesignerDragOverlayAsync( preview );
+        await UpdateDesignerDragOverlay( preview );
     }
 
-    private async Task CompleteTablePointerResizeAsync( PointerEventArgs eventArgs )
+    private async Task CompleteTablePointerResize( PointerEventArgs eventArgs )
     {
         if ( designerState.TablePointerResize is null )
             return;
@@ -2922,14 +2903,14 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             || element is not ReportTableElementDefinition table )
         {
             ClearDragState();
-            await ClearDesignerInteractionOverlaysAsync();
+            await ClearDesignerInteractionOverlays();
             await InvokeAsync( StateHasChanged );
             return;
         }
 
-        await ClearDesignerInteractionOverlaysAsync();
+        await ClearDesignerInteractionOverlays();
 
-        await ExecuteDesignerCommandAsync( new( pointerResize.Kind == ReportTableResizeKind.Column ? "Resize table column" : "Resize table row", () =>
+        await ExecuteDesignerCommand( new( pointerResize.Kind == ReportTableResizeKind.Column ? "Resize table column" : "Resize table row", () =>
         {
             if ( ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, pointerResize.TableKey, out int sectionIndex, out _, out ReportElementDefinition element )
                 && element is ReportTableElementDefinition table )
@@ -2950,13 +2931,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }, refreshSurface: false ) );
     }
 
-    private async Task CancelTablePointerResizeAsync()
+    private async Task CancelTablePointerResize()
     {
         if ( designerState.TablePointerResize is null )
             return;
 
         ClearDragState();
-        await ClearDesignerInteractionOverlaysAsync();
+        await ClearDesignerInteractionOverlays();
 
         await InvokeAsync( StateHasChanged );
     }
@@ -3000,12 +2981,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             value => ApplyDesignerGrid( value, designerState.ElementPointerDrag?.SnapToGrid ?? designerState.SnapToGrid ) );
     }
 
-    private async Task PreviewElementPointerResizeAsync( PointerEventArgs eventArgs )
+    private async Task PreviewElementPointerResize( PointerEventArgs eventArgs )
     {
-        await PreviewElementPointerResizeAsync( eventArgs.ClientX, eventArgs.ClientY );
+        await PreviewElementPointerResize( eventArgs.ClientX, eventArgs.ClientY );
     }
 
-    private async Task PreviewElementPointerResizeAsync( double clientX, double clientY )
+    private async Task PreviewElementPointerResize( double clientX, double clientY )
     {
         if ( designerState.ElementPointerResize is null || designerState.DraggedElement is null || designerState.DraggedKind != ReportDesignerDragKind.Element )
             return;
@@ -3041,15 +3022,15 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         designerState.DragPreview = preview;
         designerState.LastDragPreviewRenderTime = now;
 
-        await UpdateDesignerDragOverlayAsync( preview );
+        await UpdateDesignerDragOverlay( preview );
     }
 
-    private async Task CompleteElementPointerResizeAsync( PointerEventArgs eventArgs )
+    private async Task CompleteElementPointerResize( PointerEventArgs eventArgs )
     {
-        await CompleteElementPointerResizeAsync( eventArgs.ClientX, eventArgs.ClientY );
+        await CompleteElementPointerResize( eventArgs.ClientX, eventArgs.ClientY );
     }
 
-    private async Task CompleteElementPointerResizeAsync( double clientX, double clientY )
+    private async Task CompleteElementPointerResize( double clientX, double clientY )
     {
         if ( designerState.ElementPointerResize is null || designerState.DraggedKind != ReportDesignerDragKind.Element )
             return;
@@ -3074,14 +3055,14 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( !resized || !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, pointerResize.ElementKey, out _, out _, out _ ) )
         {
             ClearDragState();
-            await ClearDesignerInteractionOverlaysAsync();
+            await ClearDesignerInteractionOverlays();
             await InvokeAsync( StateHasChanged );
             return;
         }
 
-        await ClearDesignerInteractionOverlaysAsync();
+        await ClearDesignerInteractionOverlays();
 
-        await ExecuteDesignerCommandAsync( new( "Resize element", () =>
+        await ExecuteDesignerCommand( new( "Resize element", () =>
         {
             ReportDesignerInteractionService.ApplyElementPointerResize( EffectiveDefinition, pointerResize );
 
@@ -3101,23 +3082,23 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }, refreshSurface: false ) );
     }
 
-    private async Task CancelElementPointerResizeAsync()
+    private async Task CancelElementPointerResize()
     {
         if ( designerState.ElementPointerResize is null )
             return;
 
         ClearDragState();
-        await ClearDesignerInteractionOverlaysAsync();
+        await ClearDesignerInteractionOverlays();
 
         await InvokeAsync( StateHasChanged );
     }
 
-    private async Task PreviewSectionPointerResizeAsync( PointerEventArgs eventArgs )
+    private async Task PreviewSectionPointerResize( PointerEventArgs eventArgs )
     {
-        await PreviewSectionPointerResizeAsync( eventArgs.ClientY );
+        await PreviewSectionPointerResize( eventArgs.ClientY );
     }
 
-    private async Task PreviewSectionPointerResizeAsync( double clientY )
+    private async Task PreviewSectionPointerResize( double clientY )
     {
         if ( designerState.SectionPointerResize is null )
             return;
@@ -3129,15 +3110,15 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         designerState.SectionPointerResize.TargetHeight = height;
 
-        await UpdateDesignerSectionResizePreviewAsync( designerState.SectionPointerResize );
+        await UpdateDesignerSectionResizePreview( designerState.SectionPointerResize );
     }
 
-    private async Task CompleteSectionPointerResizeAsync( PointerEventArgs eventArgs )
+    private async Task CompleteSectionPointerResize( PointerEventArgs eventArgs )
     {
-        await CompleteSectionPointerResizeAsync( eventArgs.ClientY );
+        await CompleteSectionPointerResize( eventArgs.ClientY );
     }
 
-    private async Task CompleteSectionPointerResizeAsync( double clientY )
+    private async Task CompleteSectionPointerResize( double clientY )
     {
         if ( designerState.SectionPointerResize is null )
             return;
@@ -3158,7 +3139,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             if ( !resized || !canResize )
                 return;
 
-            await ExecuteDesignerCommandAsync( new( "Resize band", () =>
+            await ExecuteDesignerCommand( new( "Resize band", () =>
             {
                 var definition = EffectiveDefinition;
 
@@ -3175,18 +3156,18 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }
         finally
         {
-            await CommitDesignerSectionResizePreviewAsync();
+            await CommitDesignerSectionResizePreview();
             await InvokeAsync( StateHasChanged );
         }
     }
 
-    private async Task CancelSectionPointerResizeAsync()
+    private async Task CancelSectionPointerResize()
     {
         if ( designerState.SectionPointerResize is null )
             return;
 
         designerState.SectionPointerResize = null;
-        await ClearDesignerSectionResizePreviewAsync();
+        await ClearDesignerSectionResizePreview();
 
         await InvokeAsync( StateHasChanged );
     }
@@ -3215,7 +3196,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [JSInvokable]
     public Task OnDocumentSectionResizeMove( double clientY )
     {
-        return InvokeAsync( () => PreviewSectionPointerResizeAsync( clientY ) );
+        return InvokeAsync( () => PreviewSectionPointerResize( clientY ) );
     }
 
     /// <summary>
@@ -3225,7 +3206,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [JSInvokable]
     public Task OnDocumentSectionResizeEnd( double clientY )
     {
-        return InvokeAsync( () => CompleteSectionPointerResizeAsync( clientY ) );
+        return InvokeAsync( () => CompleteSectionPointerResize( clientY ) );
     }
 
     /// <summary>
@@ -3234,7 +3215,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [JSInvokable]
     public Task OnDocumentSectionResizeCancel()
     {
-        return InvokeAsync( CancelSectionPointerResizeAsync );
+        return InvokeAsync( CancelSectionPointerResize );
     }
 
     /// <summary>
@@ -3245,7 +3226,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [JSInvokable]
     public Task OnDocumentElementResizeMove( double clientX, double clientY )
     {
-        return InvokeAsync( () => PreviewElementPointerResizeAsync( clientX, clientY ) );
+        return InvokeAsync( () => PreviewElementPointerResize( clientX, clientY ) );
     }
 
     /// <summary>
@@ -3256,7 +3237,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [JSInvokable]
     public Task OnDocumentElementResizeEnd( double clientX, double clientY )
     {
-        return InvokeAsync( () => CompleteElementPointerResizeAsync( clientX, clientY ) );
+        return InvokeAsync( () => CompleteElementPointerResize( clientX, clientY ) );
     }
 
     /// <summary>
@@ -3265,10 +3246,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [JSInvokable]
     public Task OnDocumentElementResizeCancel()
     {
-        return InvokeAsync( CancelElementPointerResizeAsync );
+        return InvokeAsync( CancelElementPointerResize );
     }
 
-    private async Task StartDocumentSectionResizeAsync( double startClientY, long pointerId )
+    private async Task StartDocumentSectionResize( double startClientY, long pointerId )
     {
         EnsureReportingModule();
         dotNetObjectReference ??= DotNetObjectReference.Create( this );
@@ -3277,7 +3258,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await reportingModule.StartSectionResize( dotNetObjectReference, startClientY, pointerId );
     }
 
-    private async Task StartDocumentElementResizeAsync( double startClientX, double startClientY, long pointerId )
+    private async Task StartDocumentElementResize( double startClientX, double startClientY, long pointerId )
     {
         EnsureReportingModule();
         dotNetObjectReference ??= DotNetObjectReference.Create( this );
@@ -3291,7 +3272,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
     }
 
-    private async Task UpdateDesignerSelectionOverlayAsync()
+    private async Task UpdateDesignerSelectionOverlay()
     {
         if ( designerState.SelectionBox is null )
             return;
@@ -3306,7 +3287,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ReportMeasurementConverter.ToCssPixelValue( designerState.SelectionBox.Height ) );
     }
 
-    private async Task UpdateDesignerDragOverlayAsync( ReportDesignerDragPreview preview )
+    private async Task UpdateDesignerDragOverlay( ReportDesignerDragPreview preview )
     {
         if ( preview is null )
             return;
@@ -3323,7 +3304,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ReportMeasurementConverter.ToCssPixelValue( preview.Height ) );
     }
 
-    private async Task ClearDesignerInteractionOverlaysAsync()
+    private async Task ClearDesignerInteractionOverlays()
     {
         if ( reportingModule is null )
             return;
@@ -3331,7 +3312,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await reportingModule.ClearDesignerInteractionOverlays( designerPageRef.Element );
     }
 
-    private async Task UpdateDesignerSectionResizePreviewAsync( ReportSectionPointerResizeState pointerResize )
+    private async Task UpdateDesignerSectionResizePreview( ReportSectionPointerResizeState pointerResize )
     {
         if ( pointerResize is null || EffectiveDefinition is null || pointerResize.SectionIndex < 0 || pointerResize.SectionIndex >= EffectiveDefinition.Sections.Count )
             return;
@@ -3346,7 +3327,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ReportMeasurementConverter.ToCssPixelValue( pointerResize.TargetHeight ) );
     }
 
-    private async Task ClearDesignerSectionResizePreviewAsync()
+    private async Task ClearDesignerSectionResizePreview()
     {
         if ( reportingModule is null )
             return;
@@ -3354,7 +3335,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await reportingModule.ClearDesignerSectionResizePreview( designerPageRef.Element );
     }
 
-    private async Task CommitDesignerSectionResizePreviewAsync()
+    private async Task CommitDesignerSectionResizePreview()
     {
         if ( reportingModule is null )
             return;
@@ -3373,12 +3354,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             value => ApplyDesignerGrid( value, designerState.ElementPointerResize?.SnapToGrid ?? designerState.SnapToGrid ) );
     }
 
-    private async Task PreviewDesignerDragAsync( int targetSectionIndex, ElementReference sectionBodyElement, DragEventArgs eventArgs )
+    private async Task PreviewDesignerDrag( int targetSectionIndex, ElementReference sectionBodyElement, DragEventArgs eventArgs )
     {
         if ( designerState.DraggedKind == ReportDesignerDragKind.None )
             return;
 
-        var offset = await GetDesignerDragOffsetAsync( sectionBodyElement, eventArgs );
+        var offset = await GetDesignerDragOffset( sectionBodyElement, eventArgs );
         bool useSnapToGrid = designerState.DraggedKind == ReportDesignerDragKind.Element
             ? IsSnapToGridEnabled( designerState.DraggedElement )
             : designerState.SnapToGrid;
@@ -3410,10 +3391,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         designerState.DragPreview = preview;
         designerState.LastDragPreviewRenderTime = now;
 
-        await UpdateDesignerDragOverlayAsync( preview );
+        await UpdateDesignerDragOverlay( preview );
     }
 
-    private async Task<(double X, double Y)> GetDesignerDragOffsetAsync( ElementReference sectionBodyElement, DragEventArgs eventArgs )
+    private async Task<(double X, double Y)> GetDesignerDragOffset( ElementReference sectionBodyElement, DragEventArgs eventArgs )
     {
         EnsureReportingModule();
 
@@ -3424,14 +3405,14 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             : (Math.Max( 0, ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetX ) ), Math.Max( 0, ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetY ) ));
     }
 
-    private async Task DropDesignerItemAsync( int targetSectionIndex, ElementReference sectionBodyElement, DragEventArgs eventArgs )
+    private async Task DropDesignerItem( int targetSectionIndex, ElementReference sectionBodyElement, DragEventArgs eventArgs )
     {
         var definition = EffectiveDefinition;
 
         if ( targetSectionIndex < 0 || targetSectionIndex >= definition.Sections.Count )
             return;
 
-        var offset = await GetDesignerDragOffsetAsync( sectionBodyElement, eventArgs );
+        var offset = await GetDesignerDragOffset( sectionBodyElement, eventArgs );
         bool useSnapToGrid = designerState.DraggedKind == ReportDesignerDragKind.Element
             ? IsSnapToGridEnabled( designerState.DraggedElement )
             : designerState.SnapToGrid;
@@ -3449,9 +3430,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( commandName is null )
             return;
 
-        await ClearDesignerInteractionOverlaysAsync();
+        await ClearDesignerInteractionOverlays();
 
-        await ExecuteDesignerCommandAsync( new( commandName, () =>
+        await ExecuteDesignerCommand( new( commandName, () =>
         {
             var definition = EffectiveDefinition;
             var targetSection = definition.Sections[targetSectionIndex];
@@ -3476,12 +3457,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return dragDropService.CreateDragPreview( EffectiveDefinition, designerState, targetSectionIndex, x, y );
     }
 
-    private async Task ClearDesignerDragAsync()
+    private async Task ClearDesignerDrag()
     {
         var requiresRender = designerState.DraggedKind != ReportDesignerDragKind.None || designerState.DragPreview is not null;
 
         ClearDragState();
-        await ClearDesignerInteractionOverlaysAsync();
+        await ClearDesignerInteractionOverlays();
 
         if ( requiresRender )
             await InvokeAsync( StateHasChanged );

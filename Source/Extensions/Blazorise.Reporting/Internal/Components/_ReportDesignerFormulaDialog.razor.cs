@@ -80,9 +80,9 @@ public partial class _ReportDesignerFormulaDialog
 
     #region Methods
 
-    internal async Task ShowAsync( string propertyName, string value )
+    internal async Task Show( string propertyName, string value )
     {
-        await ShowReportModalAsync<_ReportDesignerFormulaDialog>( parameters =>
+        await ShowReportModal<_ReportDesignerFormulaDialog>( parameters =>
         {
             parameters.Add( nameof( Definition ), Definition );
             parameters.Add( nameof( Data ), Data );
@@ -93,7 +93,7 @@ public partial class _ReportDesignerFormulaDialog
         }, CreateReportModalOptions( ModalSize.Large ) );
     }
 
-    private Task ClearAsync()
+    private Task Clear()
     {
         formula = null;
         ClearValidation();
@@ -101,30 +101,30 @@ public partial class _ReportDesignerFormulaDialog
         return Task.CompletedTask;
     }
 
-    private Task CloseAsync()
+    private Task Close()
     {
-        return CloseReportModalAsync();
+        return CloseReportModal();
     }
 
-    private Task CheckAsync()
+    private Task Check()
     {
         ValidateFormula();
 
         return Task.CompletedTask;
     }
 
-    private async Task SaveAsync()
+    private async Task Save()
     {
-        await SaveFormulaAsync();
+        await SaveFormula();
     }
 
-    private async Task SaveAndCloseAsync()
+    private async Task SaveAndClose()
     {
-        if ( await SaveFormulaAsync() )
-            await CloseReportModalAsync();
+        if ( await SaveFormula() )
+            await CloseReportModal();
     }
 
-    private async Task<bool> SaveFormulaAsync()
+    private async Task<bool> SaveFormula()
     {
         if ( !ValidateFormula() )
             return false;

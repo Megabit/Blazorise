@@ -20,14 +20,14 @@ public partial class _ReportDesignerFormulaFieldNameDialog
 
     #region Methods
 
-    internal async Task ShowAsync( string value )
+    internal async Task Show( string value )
     {
-        await ShowAsync( value, null );
+        await Show( value, null );
     }
 
-    internal async Task ShowAsync( string value, string title )
+    internal async Task Show( string value, string title )
     {
-        await ShowReportModalAsync<_ReportDesignerFormulaFieldNameDialog>( parameters =>
+        await ShowReportModal<_ReportDesignerFormulaFieldNameDialog>( parameters =>
         {
             parameters.Add( nameof( InitialValue ), value );
             parameters.Add( nameof( InitialTitle ), title );
@@ -35,18 +35,18 @@ public partial class _ReportDesignerFormulaFieldNameDialog
         } );
     }
 
-    private Task CloseAsync()
+    private Task Close()
     {
-        return CloseReportModalAsync();
+        return CloseReportModal();
     }
 
-    private async Task ConfirmAsync()
+    private async Task Confirm()
     {
         if ( !CanConfirm )
             return;
 
         await Confirmed.InvokeAsync( name.Trim() );
-        await CloseReportModalAsync();
+        await CloseReportModal();
     }
 
     private Task NameChanged( string value )

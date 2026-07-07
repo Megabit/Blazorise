@@ -3,7 +3,7 @@
 
 <ModalHeader>
     <ModalTitle>Upload image</ModalTitle>
-    <CloseButton Clicked="@CloseAsync" />
+    <CloseButton Clicked="@Close" />
 </ModalHeader>
 <ModalBody>
     <Field>
@@ -48,6 +48,6 @@
     }
 </ModalBody>
 <ModalFooter>
-    <Button Color="Color.Primary" Clicked="@ConfirmAsync" Disabled="@(!CanConfirm)" Size="Size.Small">@ConfirmText</Button>
-    <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
+    <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm)" Size="Size.Small">@ConfirmText</Button>
+    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">Cancel</Button>
 </ModalFooter>

@@ -104,7 +104,7 @@
             </CardHeader>
             <CardBody>
                 <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Margin="Margin.Is3.FromBottom">
-                    <Button Color="Color.Primary" Clicked="@GeneratePdfAsync" Disabled="@generating">
+                    <Button Color="Color.Primary" Clicked="@GeneratePdf" Disabled="@generating">
                         <Icon Name="IconName.FileDownload" Margin="Margin.Is2.FromEnd" />
                         Generate PDF
                     </Button>
@@ -166,10 +166,10 @@
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( firstRender )
-            await GeneratePdfAsync();
+            await GeneratePdf();
     }
 
-    private async Task GeneratePdfAsync()
+    private async Task GeneratePdf()
     {
         if ( pdfDocument?.Definition is null )
             return;
@@ -179,7 +179,7 @@
 
         try
         {
-            PdfRenderResult result = await PdfGenerator.GenerateAsync( pdfDocument.Definition, new()
+            PdfRenderResult result = await PdfGenerator.Generate( pdfDocument.Definition, new()
             {
                 FileName = "blazorise-pdf-rendering-matrix.pdf",
             } );
