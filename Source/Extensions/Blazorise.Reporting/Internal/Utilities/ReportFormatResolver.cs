@@ -36,17 +36,41 @@ internal static class ReportFormatResolver
         if ( format is null || format.Category == ReportFormatCategory.Text )
             return "Text";
 
+        string category = GetDisplayCategoryText( format.Category );
+        string preview = GetPreviewText( format );
+
+        if ( string.IsNullOrWhiteSpace( preview ) )
+            return category;
+
+        return $"{category}: {preview}";
+    }
+
+    internal static string GetPreviewText( ReportFormatDefinition format )
+    {
+        return FormatValue( ResolvePreviewValue( format ), format );
+    }
+
+    private static string GetDisplayCategoryText( ReportFormatCategory category )
+    {
+        return category switch
+        {
+            ReportFormatCategory.DateTime => "Date and time",
+            _ => category.ToString(),
+        };
+    }
+
+    private static object ResolvePreviewValue( ReportFormatDefinition format )
+    {
         return format switch
         {
-            ReportNumberFormatDefinition numberFormat => $"Number ({BuildNumberFormat( numberFormat )})",
-            ReportCurrencyFormatDefinition currencyFormat => $"Currency ({BuildCurrencyFormat( currencyFormat )})",
-            ReportPercentFormatDefinition percentFormat => $"Percent ({BuildPercentFormat( percentFormat )})",
-            ReportDateFormatDefinition dateFormat => $"Date ({BuildDateFormat( dateFormat.DateFormat, dateOnly: true )})",
-            ReportTimeFormatDefinition timeFormat => $"Time ({BuildDateFormat( timeFormat.DateFormat, timeOnly: true )})",
-            ReportDateTimeFormatDefinition dateTimeFormat => $"Date and time ({BuildDateFormat( dateTimeFormat.DateFormat )})",
-            ReportBooleanFormatDefinition => "Boolean",
-            ReportCustomFormatDefinition customFormat => string.IsNullOrWhiteSpace( customFormat.Format ) ? "Custom" : $"Custom ({customFormat.Format})",
-            _ => format.Category.ToString(),
+            ReportNumberFormatDefinition => -1234.56m,
+            ReportCurrencyFormatDefinition => -1234.56m,
+            ReportPercentFormatDefinition => 0.1234m,
+            ReportDateFormatDefinition => new DateTime( 2026, 7, 1, 14, 30, 0 ),
+            ReportTimeFormatDefinition => new DateTime( 2026, 7, 1, 14, 30, 0 ),
+            ReportDateTimeFormatDefinition => new DateTime( 2026, 7, 1, 14, 30, 0 ),
+            ReportBooleanFormatDefinition => true,
+            _ => "Sample text",
         };
     }
 

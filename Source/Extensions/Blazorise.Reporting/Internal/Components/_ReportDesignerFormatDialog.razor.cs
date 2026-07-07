@@ -1,5 +1,4 @@
 #region Using directives
-using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -178,21 +177,6 @@ public partial class _ReportDesignerFormatDialog
         return nextFormat;
     }
 
-    private object ResolvePreviewValue()
-    {
-        return format.Category switch
-        {
-            ReportFormatCategory.Number => -1234.56m,
-            ReportFormatCategory.Currency => -1234.56m,
-            ReportFormatCategory.Percent => 0.1234m,
-            ReportFormatCategory.Date => new DateTime( 2026, 7, 1, 14, 30, 0 ),
-            ReportFormatCategory.Time => new DateTime( 2026, 7, 1, 14, 30, 0 ),
-            ReportFormatCategory.DateTime => new DateTime( 2026, 7, 1, 14, 30, 0 ),
-            ReportFormatCategory.Boolean => true,
-            _ => "Sample text",
-        };
-    }
-
     #endregion
 
     #region Properties
@@ -213,7 +197,7 @@ public partial class _ReportDesignerFormatDialog
 
     private ReportCustomFormatDefinition CustomFormat => format as ReportCustomFormatDefinition;
 
-    private string PreviewText => ReportFormatResolver.FormatValue( ResolvePreviewValue(), format );
+    private string PreviewText => ReportFormatResolver.GetPreviewText( format );
 
     [Parameter] public ReportFormatDefinition InitialFormat { get; set; }
 
