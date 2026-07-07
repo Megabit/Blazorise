@@ -135,7 +135,7 @@
                                                 PageHeight="@GetDesignerRulerHeight( definition )"
                                                 WidthOffset="@GetReportPageWidthOffset()"
                                                 ShowFineTicks="@ShowFineRulerTicks"
-                                                ReportSelected="@SelectReport"
+                                                ReportSelected="@OnReportSelected"
                                                 Marker="@GetDesignerRulerMarker( definition )">
                         <_ReportDesignerPage @ref="designerPageRef"
                                              PageKey="@definition.Id"
@@ -171,6 +171,7 @@
                                     var dragPreviewVisible = false;
 
                                     <_ReportDesignerSection SectionKey="@section.Id"
+                                                            SectionIndex="@capturedSectionIndex"
                                                             Section="@section"
                                                             Height="@sectionHeight"
                                                             BodyLeft="@GetDesignerSectionBodyLeft( definition )"
@@ -191,18 +192,18 @@
                                                             DragPreviewY="@(designerState.DragPreview?.Y ?? 0)"
                                                             DragPreviewWidth="@(designerState.DragPreview?.Width ?? 0)"
                                                             DragPreviewHeight="@(designerState.DragPreview?.Height ?? 0)"
-                                                            RailClicked="@((MouseEventArgs _) => SelectSection( capturedSectionIndex ))"
-                                                            ToggleClicked="@((MouseEventArgs _) => ToggleSectionCollapsed( section ))"
-                                                            RailContextMenu="@((Func<MouseEventArgs, Task>)( eventArgs => OpenSectionContextMenu( capturedSectionIndex, eventArgs ) ))"
-                                                            BodyContextMenu="@((Func<MouseEventArgs, Task>)( eventArgs => OpenSectionBodyContextMenu( capturedSectionIndex, eventArgs ) ))"
-                                                            BodyPointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSelectionBox( capturedSectionIndex, eventArgs ) ) : default)"
-                                                            DragOver="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => PreviewDesignerDrag( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
-                                                            Drop="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => DropDesignerItem( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
-                                                            PointerMove="@(editable ? (Func<PointerEventArgs, Task>)( eventArgs => PreviewElementPointerInteraction( capturedSectionIndex, eventArgs ) ) : null)"
-                                                            PointerUp="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteraction( capturedSectionIndex, eventArgs ) ) : default)"
-                                                            PointerCancel="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, OnElementPointerCancel ) : default)"
-                                                            BodyClicked="@((MouseEventArgs _) => HandleSectionClick( capturedSectionIndex ))"
-                                                            ResizePointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSectionPointerResize( capturedSectionIndex, eventArgs ) ) : default)">
+                                                            RailClicked="@SelectSection"
+                                                            ToggleClicked="@ToggleSectionCollapsed"
+                                                            RailContextMenu="@OpenSectionContextMenu"
+                                                            BodyContextMenu="@OpenSectionBodyContextMenu"
+                                                            BodyPointerDown="@(editable ? (Func<int, PointerEventArgs, Task>)BeginSelectionBox : null)"
+                                                            DragOver="@(editable ? (Func<int, ElementReference, DragEventArgs, Task>)PreviewDesignerDrag : null)"
+                                                            Drop="@(editable ? (Func<int, ElementReference, DragEventArgs, Task>)DropDesignerItem : null)"
+                                                            PointerMove="@(editable ? (Func<int, PointerEventArgs, Task>)PreviewElementPointerInteraction : null)"
+                                                            PointerUp="@(editable ? (Func<int, PointerEventArgs, Task>)CompleteElementPointerInteraction : null)"
+                                                            PointerCancel="@(editable ? (Func<PointerEventArgs, Task>)OnElementPointerCancel : null)"
+                                                            BodyClicked="@HandleSectionClick"
+                                                            ResizePointerDown="@(editable ? (Func<int, PointerEventArgs, Task>)BeginSectionPointerResize : null)">
                                         @foreach ( var element in section.Elements )
                                         {
                                             var elementKey = ReportDefinitionHelper.EnsureElementId( element );
@@ -211,6 +212,7 @@
                                             <_ReportDesignerElement Data="@Data"
                                                                     Definition="@definition"
                                                                     Section="@section"
+                                                                    SectionIndex="@capturedSectionIndex"
                                                                     Item="@sectionItem"
                                                                     Element="@element"
                                                                     ElementKey="@capturedElementKey"
@@ -222,21 +224,21 @@
                                                                     TextEditingActive="@IsElementTextEditing()"
                                                                     ChildEditingElementKey="@designerState.EditingElementKey"
                                                                     SelectedCellKey="@selectionManager.SelectedCellKey"
-                                                                    Clicked="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => HandleElementClick( capturedElementKey, eventArgs ) ) : default)"
-                                                                    DoubleClicked="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => BeginElementTextEdit( capturedElementKey ) ) : default)"
-                                                                    ContextMenu="@(editable ? (Func<MouseEventArgs, Task>)( eventArgs => OpenElementContextMenu( capturedElementKey, eventArgs ) ) : null)"
-                                                                    TableCellClicked="@(editable ? (Func<string, MouseEventArgs, Task>)( ( cellKey, eventArgs ) => HandleTableCellClick( cellKey, eventArgs ) ) : null)"
-                                                                    TableCellContextMenu="@(editable ? (Func<string, MouseEventArgs, Task>)( ( cellKey, eventArgs ) => OpenTableCellContextMenu( capturedSectionIndex, cellKey, eventArgs ) ) : null)"
+                                                                    Clicked="@(editable ? (Func<string, MouseEventArgs, Task>)HandleElementClick : null)"
+                                                                    DoubleClicked="@(editable ? (Func<string, MouseEventArgs, Task>)HandleElementDoubleClick : null)"
+                                                                    ContextMenu="@(editable ? (Func<string, MouseEventArgs, Task>)OpenElementContextMenu : null)"
+                                                                    TableCellClicked="@(editable ? (Func<string, MouseEventArgs, Task>)HandleTableCellClick : null)"
+                                                                    TableCellContextMenu="@(editable ? (Func<int, string, MouseEventArgs, Task>)OpenTableCellContextMenu : null)"
                                                                     IsChildElementSelected="@selectionManager.IsElementSelected"
                                                                     ChildElementClicked="@(editable ? (Func<string, MouseEventArgs, Task>)HandleElementClick : null)"
                                                                     ChildElementDoubleClicked="@(editable ? (Func<string, MouseEventArgs, Task>)HandleElementDoubleClick : null)"
                                                                     ChildElementTextEditCommitted="@(editable ? (Func<string, string, Task>)CommitElementTextEdit : null)"
                                                                     ChildElementTextEditCancelled="@(editable ? (Func<string, Task>)CancelElementTextEdit : null)"
                                                                     TableResizeStarted="@(editable ? (Func<string, string, ReportTableResizeKind, int, PointerEventArgs, Task>)BeginTablePointerResize : null)"
-                                                                    TextEditCommitted="@(editable ? EventCallback.Factory.Create<string>( this, text => CommitElementTextEdit( capturedElementKey, text ) ) : default)"
-                                                                    TextEditCancelled="@(editable ? EventCallback.Factory.Create( this, () => CancelElementTextEdit( capturedElementKey ) ) : default)"
-                                                                    PointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerDrag( capturedElementKey, eventArgs ) ) : default)"
-                                                                    ResizeStarted="@((int handle, PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, (ReportElementResizeHandle)handle, eventArgs ))" />
+                                                                    TextEditCommitted="@(editable ? (Func<string, string, Task>)CommitElementTextEdit : null)"
+                                                                    TextEditCancelled="@(editable ? (Func<string, Task>)CancelElementTextEdit : null)"
+                                                                    PointerDown="@(editable ? (Func<string, PointerEventArgs, Task>)BeginElementPointerDrag : null)"
+                                                                    ResizeStarted="@((Func<string, int, PointerEventArgs, Task>)BeginElementPointerResize)" />
                                         }
                                     </_ReportDesignerSection>
                                 }

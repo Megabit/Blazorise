@@ -6,16 +6,16 @@
 
 <div class="@Class"
      style="@Style"
-     @onclick="Clicked"
+     @onclick="OnClicked"
      @onclick:stopPropagation
-     @oncontextmenu="NonRenderingContextMenu"
+     @oncontextmenu="OnContextMenu"
      @oncontextmenu:preventDefault
      @oncontextmenu:stopPropagation>
     <button type="button"
             class="b-report-section-rail-toggle"
             title="@ToggleTitle"
             disabled="@(!AllowCollapse || Section.Suppressed)"
-            @onclick="ToggleClicked"
+            @onclick="OnToggleClicked"
             @onclick:stopPropagation>
         @(Section.Suppressed ? "!" : Collapsed ? "+" : "-")
     </button>

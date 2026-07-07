@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -14,7 +15,10 @@ public partial class _ReportDesignerDataSourceProperty
 
     private Task OnClicked()
     {
-        return Clicked.InvokeAsync();
+        if ( Clicked is not null )
+            return Clicked.Invoke();
+
+        return Task.CompletedTask;
     }
 
     #endregion
@@ -43,7 +47,7 @@ public partial class _ReportDesignerDataSourceProperty
     /// <summary>
     /// Raised when the picker button is clicked.
     /// </summary>
-    [Parameter] public EventCallback Clicked { get; set; }
+    [Parameter] public Func<Task> Clicked { get; set; }
 
     #endregion
 }

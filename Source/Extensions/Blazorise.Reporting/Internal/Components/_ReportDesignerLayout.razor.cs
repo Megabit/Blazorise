@@ -84,7 +84,7 @@ public partial class _ReportDesignerLayout
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        if ( firstRender && Shortcut.HasDelegate )
+        if ( firstRender && Shortcut is not null )
         {
             EnsureReportingModule();
             dotNetObjectReference ??= DotNetObjectReference.Create( this );
@@ -128,9 +128,10 @@ public partial class _ReportDesignerLayout
     [JSInvokable]
     public Task OnDesignerShortcut( string shortcut )
     {
-        return Enum.TryParse( shortcut, out ReportDesignerShortcut designerShortcut )
-            ? InvokeAsync( () => Shortcut.InvokeAsync( designerShortcut ) )
-            : Task.CompletedTask;
+        if ( !Enum.TryParse( shortcut, out ReportDesignerShortcut designerShortcut ) || Shortcut is null )
+            return Task.CompletedTask;
+
+        return InvokeAsync( () => Shortcut.Invoke( designerShortcut ) );
     }
 
     private void ActivateSelectedPanelTab()
@@ -437,7 +438,7 @@ public partial class _ReportDesignerLayout
     /// <summary>
     /// Raised when a standard designer keyboard shortcut is pressed.
     /// </summary>
-    [Parameter] public EventCallback<ReportDesignerShortcut> Shortcut { get; set; }
+    [Parameter] public Func<ReportDesignerShortcut, Task> Shortcut { get; set; }
 
     /// <summary>
     /// Name of the selected right-side designer panel.

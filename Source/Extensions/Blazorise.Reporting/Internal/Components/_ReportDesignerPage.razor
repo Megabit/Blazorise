@@ -9,11 +9,11 @@
      @ref="pageElement"
      class="@Class"
      style="@Style"
-     @onpointermove="NonRenderingPointerMove"
+     @onpointermove="OnPointerMove"
      @onpointermove:preventDefault="DesignMode"
-     @onpointerup="PointerUp"
+     @onpointerup="OnPointerUp"
      @onpointerup:preventDefault="DesignMode"
-     @onpointercancel="PointerCancel">
+     @onpointercancel="OnPointerCancel">
     @if ( DesignMode )
     {
         <div class="b-report-page-margin b-report-page-margin-top" style="@MarginTopStyle"></div>

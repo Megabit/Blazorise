@@ -42,8 +42,6 @@ public partial class _ReportDesignerElement
 
     private bool IsDesignerEditing => CanReceiveDesignerInteraction && !ElementSuppressed && Editing;
 
-    private Func<MouseEventArgs, Task> NonRenderingContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnContextMenu );
-
     private bool ShowResizeHandles => CanReceiveDesignerInteraction && !ElementSuppressed && Selected && !Editing && !LayoutLocked;
 
     private string Class => ClassNames;
@@ -188,7 +186,9 @@ public partial class _ReportDesignerElement
             return;
 
         await ClearTextExpressionTokenProtection();
-        await TextEditCommitted.InvokeAsync( textEditValue );
+
+        if ( TextEditCommitted is not null )
+            await TextEditCommitted.Invoke( ElementKey, textEditValue );
     }
 
     private async Task HandleTextEditKeyDown( KeyboardEventArgs eventArgs )
@@ -197,7 +197,10 @@ public partial class _ReportDesignerElement
         {
             textEditCancelled = true;
             await ClearTextExpressionTokenProtection();
-            await TextEditCancelled.InvokeAsync();
+
+            if ( TextEditCancelled is not null )
+                await TextEditCancelled.Invoke( ElementKey );
+
             return;
         }
 
@@ -212,7 +215,42 @@ public partial class _ReportDesignerElement
 
     private Task OnContextMenu( MouseEventArgs eventArgs )
     {
-        return ContextMenu?.Invoke( eventArgs ) ?? Task.CompletedTask;
+        if ( ContextMenu is not null )
+            return ContextMenu.Invoke( ContextMenuKey ?? ElementKey, eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnClicked( MouseEventArgs eventArgs )
+    {
+        if ( Clicked is not null )
+            return Clicked.Invoke( ElementKey, eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnDoubleClicked( MouseEventArgs eventArgs )
+    {
+        if ( DoubleClicked is not null )
+            return DoubleClicked.Invoke( ElementKey, eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnPointerDown( PointerEventArgs eventArgs )
+    {
+        if ( PointerDown is not null )
+            return PointerDown.Invoke( ElementKey, eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnResizeStarted( int handle, PointerEventArgs eventArgs )
+    {
+        if ( ResizeStarted is not null )
+            return ResizeStarted.Invoke( ElementKey, handle, eventArgs );
+
+        return Task.CompletedTask;
     }
 
     private async Task ProtectTextExpressionTokens()
@@ -285,6 +323,16 @@ public partial class _ReportDesignerElement
     [Parameter] public string ElementKey { get; set; }
 
     /// <summary>
+    /// Alternate key sent when the element context menu is requested.
+    /// </summary>
+    [Parameter] public string ContextMenuKey { get; set; }
+
+    /// <summary>
+    /// Section index rendered on the designer surface.
+    /// </summary>
+    [Parameter] public int SectionIndex { get; set; }
+
+    /// <summary>
     /// Indicates that the element is rendered on the designer surface.
     /// </summary>
     [Parameter] public bool DesignMode { get; set; }
@@ -337,17 +385,17 @@ public partial class _ReportDesignerElement
     /// <summary>
     /// Raised when the element is clicked on the designer surface.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+    [Parameter] public Func<string, MouseEventArgs, Task> Clicked { get; set; }
 
     /// <summary>
     /// Raised when the element is double-clicked on the designer surface.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> DoubleClicked { get; set; }
+    [Parameter] public Func<string, MouseEventArgs, Task> DoubleClicked { get; set; }
 
     /// <summary>
     /// Raised when the element context menu is requested.
     /// </summary>
-    [Parameter] public Func<MouseEventArgs, Task> ContextMenu { get; set; }
+    [Parameter] public Func<string, MouseEventArgs, Task> ContextMenu { get; set; }
 
     /// <summary>
     /// Raised when a table cell inside this element is clicked.
@@ -357,7 +405,7 @@ public partial class _ReportDesignerElement
     /// <summary>
     /// Raised when a table cell context menu is requested.
     /// </summary>
-    [Parameter] public Func<string, MouseEventArgs, Task> TableCellContextMenu { get; set; }
+    [Parameter] public Func<int, string, MouseEventArgs, Task> TableCellContextMenu { get; set; }
 
     /// <summary>
     /// Determines whether a child element inside this element is selected.
@@ -392,20 +440,20 @@ public partial class _ReportDesignerElement
     /// <summary>
     /// Raised when inline text editing commits a new value.
     /// </summary>
-    [Parameter] public EventCallback<string> TextEditCommitted { get; set; }
+    [Parameter] public Func<string, string, Task> TextEditCommitted { get; set; }
 
     /// <summary>
     /// Raised when inline text editing is cancelled.
     /// </summary>
-    [Parameter] public EventCallback TextEditCancelled { get; set; }
+    [Parameter] public Func<string, Task> TextEditCancelled { get; set; }
 
     /// <summary>
     /// Raised when pointer dragging starts on the element.
     /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> PointerDown { get; set; }
+    [Parameter] public Func<string, PointerEventArgs, Task> PointerDown { get; set; }
 
     /// <summary>
     /// Raised when element resizing starts from one of the resize handles.
     /// </summary>
-    [Parameter] public Func<int, PointerEventArgs, Task> ResizeStarted { get; set; }
+    [Parameter] public Func<string, int, PointerEventArgs, Task> ResizeStarted { get; set; }
 }

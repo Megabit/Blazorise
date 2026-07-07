@@ -16,7 +16,10 @@ internal sealed class ReportToolbarDockContext
 
     public Task ShowPane( string paneName )
     {
-        return showPane?.Invoke( paneName ) ?? Task.CompletedTask;
+        if ( showPane is not null )
+            return showPane.Invoke( paneName );
+
+        return Task.CompletedTask;
     }
 
     private readonly Func<string, Task> showPane;

@@ -1,0 +1,54 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using System
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="@CellClass"
+     style="@CellStyle"
+     @onclick="@OnCellClicked"
+     @onclick:stopPropagation="@DesignMode"
+     @oncontextmenu="@OnCellContextMenu"
+     @oncontextmenu:preventDefault="@DesignMode"
+     @oncontextmenu:stopPropagation="@DesignMode">
+    <div class="b-report-table-cell-content">
+        @foreach ( ReportElementDefinition childElement in GetRenderableElements() )
+        {
+            string childElementKey = ReportDefinitionHelper.EnsureElementId( childElement );
+
+            <_ReportDesignerElement Data="@Data"
+                                    Definition="@Definition"
+                                    Section="@Section"
+                                    SectionIndex="@SectionIndex"
+                                    Item="@Item"
+                                    RunningTotals="@RunningTotals"
+                                    Element="@childElement"
+                                    ElementKey="@childElementKey"
+                                    ContextMenuKey="@Cell.Id"
+                                    DesignMode="@DesignMode"
+                                    Editable="@DesignMode"
+                                    LayoutLocked
+                                    AllowPointerDragThrough="@TableSelected"
+                                    Selected="@(IsElementSelected?.Invoke( childElementKey ) == true)"
+                                    Editing="@string.Equals( EditingElementKey, childElementKey, StringComparison.Ordinal )"
+                                    TextEditingActive="@TextEditingActive"
+                                    Clicked="@OnElementClicked"
+                                    DoubleClicked="@OnElementDoubleClicked"
+                                    ContextMenu="@OnElementContextMenu"
+                                    TextEditCommitted="@OnElementTextEditCommitted"
+                                    TextEditCancelled="@OnElementTextEditCancelled" />
+        }
+    </div>
+    @if ( DesignMode )
+    {
+        <span class="b-report-table-column-resize-handle"
+              title="Resize column"
+              @onpointerdown="@OnColumnResizePointerDown"
+              @onpointerdown:preventDefault
+              @onpointerdown:stopPropagation></span>
+        <span class="b-report-table-row-resize-handle"
+              title="Resize row"
+              @onpointerdown="@OnRowResizePointerDown"
+              @onpointerdown:preventDefault
+              @onpointerdown:stopPropagation></span>
+    }
+</div>

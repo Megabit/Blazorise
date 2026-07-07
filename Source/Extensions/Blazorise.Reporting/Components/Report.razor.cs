@@ -923,6 +923,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         SelectSection( sectionIndex );
     }
 
+    private Task HandleSectionClick( int sectionIndex, MouseEventArgs eventArgs )
+    {
+        HandleSectionClick( sectionIndex );
+
+        return Task.CompletedTask;
+    }
+
     private bool IsSuppressingSelectionClick()
     {
         if ( DateTime.UtcNow > designerState.SuppressSelectionClickUntil )
@@ -988,6 +995,20 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }
     }
 
+    private Task OnReportSelected()
+    {
+        SelectReport();
+
+        return Task.CompletedTask;
+    }
+
+    private Task SelectSection( int index, MouseEventArgs eventArgs )
+    {
+        SelectSection( index );
+
+        return Task.CompletedTask;
+    }
+
     private Task HandleTableCellClick( string cellKey, MouseEventArgs eventArgs )
     {
         if ( IsSuppressingSelectionClick() )
@@ -1025,6 +1046,16 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         collapsedSectionsVersion++;
         InvalidateDesignerLayoutCache();
         RefreshDesignerSurface();
+    }
+
+    private Task ToggleSectionCollapsed( int sectionIndex, MouseEventArgs eventArgs )
+    {
+        ReportDefinition definition = EffectiveDefinition;
+
+        if ( sectionIndex >= 0 && sectionIndex < definition.Sections.Count )
+            ToggleSectionCollapsed( definition.Sections[sectionIndex] );
+
+        return Task.CompletedTask;
     }
 
     private bool IsSectionCollapsed( ReportSectionDefinition section )
@@ -2331,18 +2362,18 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return ReportDesignerInteractionService.IsExternalDesignerDragActive( designerState );
     }
 
-    private void BeginElementPointerDrag( string elementKey, PointerEventArgs eventArgs )
+    private Task BeginElementPointerDrag( string elementKey, PointerEventArgs eventArgs )
     {
         if ( eventArgs.CtrlKey )
         {
             ToggleElementSelection( elementKey );
             designerState.SuppressNextElementClickKey = elementKey;
-            return;
+            return Task.CompletedTask;
         }
 
         if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out var sectionIndex, out _, out var element )
             || element.Suppress?.Value == true )
-            return;
+            return Task.CompletedTask;
 
         ReportDesignerInteractionService.TryBeginElementPointerDrag(
             designerState,
@@ -2354,6 +2385,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             CaptureElementPointerItems( EffectiveDefinition, elementKey ).ToList() );
 
         SelectElement( elementKey, preserveSelection: selectionManager.IsElementSelected( elementKey ) && selectionManager.SelectedElementKeys.Count > 1 );
+
+        return Task.CompletedTask;
     }
 
     private async Task BeginElementPointerResize( string elementKey, ReportElementResizeHandle handle, PointerEventArgs eventArgs )
@@ -2376,6 +2409,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( started )
             await StartDocumentElementResize( eventArgs.ClientX, eventArgs.ClientY, eventArgs.PointerId );
+    }
+
+    private Task BeginElementPointerResize( string elementKey, int handle, PointerEventArgs eventArgs )
+    {
+        return BeginElementPointerResize( elementKey, (ReportElementResizeHandle)handle, eventArgs );
     }
 
     private Task BeginTablePointerResize( string tableKey, string cellKey, ReportTableResizeKind kind, int index, PointerEventArgs eventArgs )
@@ -2602,7 +2640,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return CancelElementPointerDrag();
     }
 
-    private void BeginSelectionBox( int sectionIndex, PointerEventArgs eventArgs )
+    private Task BeginSelectionBox( int sectionIndex, PointerEventArgs eventArgs )
     {
         bool selectionBoxStarted = ReportDesignerInteractionService.TryBeginSelectionBox(
             designerState,
@@ -2616,6 +2654,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         {
             _ = CloseContextMenu();
         }
+
+        return Task.CompletedTask;
     }
 
     private async Task PreviewSelectionBox( PointerEventArgs eventArgs )

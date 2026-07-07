@@ -62,6 +62,8 @@ public partial class _ReportDesignerTable
 
     private string TableStyle => tableStyleBuilder.Styles;
 
+    private string TableElementKey => ReportDefinitionHelper.EnsureElementId( Element );
+
     private IReadOnlyList<ReportTableColumnDefinition> Columns => Element?.Columns?.Count > 0 ? Element.Columns : DefaultColumns;
 
     private IReadOnlyList<ReportTableRowDefinition> Rows => Element?.Rows?.Count > 0 ? Element.Rows : DefaultRows;
@@ -157,80 +159,6 @@ public partial class _ReportDesignerTable
         return builder.Class;
     }
 
-    private Task OnCellClicked( ReportTableCellDefinition cell, MouseEventArgs eventArgs )
-    {
-        return DesignMode
-            ? CellClicked?.Invoke( cell.Id, eventArgs ) ?? Task.CompletedTask
-            : Task.CompletedTask;
-    }
-
-    private Task OnCellContextMenu( ReportTableCellDefinition cell, MouseEventArgs eventArgs )
-    {
-        return DesignMode
-            ? CellContextMenu?.Invoke( cell.Id, eventArgs ) ?? Task.CompletedTask
-            : Task.CompletedTask;
-    }
-
-    private Task OnElementClicked( string elementKey, MouseEventArgs eventArgs )
-    {
-        return DesignMode
-            ? ElementClicked?.Invoke( elementKey, eventArgs ) ?? Task.CompletedTask
-            : Task.CompletedTask;
-    }
-
-    private Task OnElementDoubleClicked( string elementKey, MouseEventArgs eventArgs )
-    {
-        return DesignMode
-            ? ElementDoubleClicked?.Invoke( elementKey, eventArgs ) ?? Task.CompletedTask
-            : Task.CompletedTask;
-    }
-
-    private Task OnElementContextMenu( ReportTableCellDefinition cell, MouseEventArgs eventArgs )
-    {
-        return DesignMode
-            ? CellContextMenu?.Invoke( cell.Id, eventArgs ) ?? Task.CompletedTask
-            : Task.CompletedTask;
-    }
-
-    private Task OnElementTextEditCommitted( string elementKey, string text )
-    {
-        return DesignMode
-            ? ElementTextEditCommitted?.Invoke( elementKey, text ) ?? Task.CompletedTask
-            : Task.CompletedTask;
-    }
-
-    private Task OnElementTextEditCancelled( string elementKey )
-    {
-        return DesignMode
-            ? ElementTextEditCancelled?.Invoke( elementKey ) ?? Task.CompletedTask
-            : Task.CompletedTask;
-    }
-
-    private Task OnColumnResizePointerDown( ReportTableCellDefinition cell, PointerEventArgs eventArgs )
-    {
-        return DesignMode
-            ? ResizeStarted?.Invoke( ReportDefinitionHelper.EnsureElementId( Element ), cell.Id, ReportTableResizeKind.Column, cell.ColumnIndex + Math.Max( 1, cell.ColumnSpan ) - 1, eventArgs ) ?? Task.CompletedTask
-            : Task.CompletedTask;
-    }
-
-    private Task OnRowResizePointerDown( ReportTableCellDefinition cell, PointerEventArgs eventArgs )
-    {
-        return DesignMode
-            ? ResizeStarted?.Invoke( ReportDefinitionHelper.EnsureElementId( Element ), cell.Id, ReportTableResizeKind.Row, cell.RowIndex + Math.Max( 1, cell.RowSpan ) - 1, eventArgs ) ?? Task.CompletedTask
-            : Task.CompletedTask;
-    }
-
-    private IEnumerable<ReportElementDefinition> GetRenderableElements( ReportTableCellDefinition cell )
-    {
-        if ( cell?.Elements is null )
-            return [];
-
-        if ( DesignMode )
-            return cell.Elements;
-
-        return cell.Elements.Where( element => !ReportValueResolver.ResolveSuppress( element, Section, Definition, Data, Item ) );
-    }
-
     #endregion
 
     #region Properties
@@ -249,6 +177,11 @@ public partial class _ReportDesignerTable
     /// Report band that owns the table.
     /// </summary>
     [Parameter] public ReportSectionDefinition Section { get; set; }
+
+    /// <summary>
+    /// Report section index rendered on the designer surface.
+    /// </summary>
+    [Parameter] public int SectionIndex { get; set; }
 
     /// <summary>
     /// Current band item used for repeated detail rendering.
@@ -288,7 +221,7 @@ public partial class _ReportDesignerTable
     /// <summary>
     /// Raised when a table cell context menu is requested.
     /// </summary>
-    [Parameter] public Func<string, MouseEventArgs, Task> CellContextMenu { get; set; }
+    [Parameter] public Func<int, string, MouseEventArgs, Task> CellContextMenu { get; set; }
 
     /// <summary>
     /// Determines whether a nested table cell element is selected.

@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -48,8 +49,13 @@ public partial class _ReportDesignerContextMenuHost
         await InvokeAsync( StateHasChanged );
     }
 
-    private static Task InvokeMenuCommand( EventCallback<MouseEventArgs> callback )
-        => callback.InvokeAsync( default );
+    private static Task InvokeMenuCommand( Func<MouseEventArgs, Task> callback )
+    {
+        if ( callback is not null )
+            return callback.Invoke( default );
+
+        return Task.CompletedTask;
+    }
 
     private Task OnPasteElementClicked( object value )
         => InvokeMenuCommand( PasteElement );
@@ -210,237 +216,237 @@ public partial class _ReportDesignerContextMenuHost
     /// <summary>
     /// Raised when the selected element should be cut.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> CutElement { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> CutElement { get; set; }
 
     /// <summary>
     /// Raised when the selected element should be copied.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> CopyElement { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> CopyElement { get; set; }
 
     /// <summary>
     /// Raised when a copied element should be pasted.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> PasteElement { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> PasteElement { get; set; }
 
     /// <summary>
     /// Raised when all elements in the selected section should be selected.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> SelectAllSectionElements { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> SelectAllSectionElements { get; set; }
 
     /// <summary>
     /// Raised when the properties panel should be shown.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> ShowProperties { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> ShowProperties { get; set; }
 
     /// <summary>
     /// Raised when the selected section should insert a section before it.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> InsertSectionBefore { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> InsertSectionBefore { get; set; }
 
     /// <summary>
     /// Raised when the selected section should insert a section after it.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> InsertSectionAfter { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> InsertSectionAfter { get; set; }
 
     /// <summary>
     /// Raised when a group should be inserted.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> InsertGroup { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> InsertGroup { get; set; }
 
     /// <summary>
     /// Raised when section suppression should be toggled.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> ToggleSectionSuppression { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> ToggleSectionSuppression { get; set; }
 
     /// <summary>
     /// Raised when section keep-together should be toggled.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> ToggleSectionKeepTogether { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> ToggleSectionKeepTogether { get; set; }
 
     /// <summary>
     /// Raised when section new-page-before should be toggled.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> ToggleSectionNewPageBefore { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> ToggleSectionNewPageBefore { get; set; }
 
     /// <summary>
     /// Raised when section new-page-after should be toggled.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> ToggleSectionNewPageAfter { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> ToggleSectionNewPageAfter { get; set; }
 
     /// <summary>
     /// Raised when the selected section should be deleted.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> DeleteSection { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> DeleteSection { get; set; }
 
     /// <summary>
     /// Raised when selected elements should be aligned to top.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> AlignTops { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> AlignTops { get; set; }
 
     /// <summary>
     /// Raised when selected elements should be vertically centered.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> AlignMiddles { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> AlignMiddles { get; set; }
 
     /// <summary>
     /// Raised when selected elements should be aligned to bottom.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> AlignBottoms { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> AlignBottoms { get; set; }
 
     /// <summary>
     /// Raised when selected elements should be baseline aligned.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> AlignBaseline { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> AlignBaseline { get; set; }
 
     /// <summary>
     /// Raised when selected elements should be aligned to left.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> AlignLefts { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> AlignLefts { get; set; }
 
     /// <summary>
     /// Raised when selected elements should be horizontally centered.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> AlignCenters { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> AlignCenters { get; set; }
 
     /// <summary>
     /// Raised when selected elements should be aligned to right.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> AlignRights { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> AlignRights { get; set; }
 
     /// <summary>
     /// Raised when selected elements should be aligned to the report grid.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> AlignToGrid { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> AlignToGrid { get; set; }
 
     /// <summary>
     /// Raised when selected elements should use the same width.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> SizeSameWidth { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> SizeSameWidth { get; set; }
 
     /// <summary>
     /// Raised when selected elements should use the same height.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> SizeSameHeight { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> SizeSameHeight { get; set; }
 
     /// <summary>
     /// Raised when selected elements should use the same size.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> SizeSameSize { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> SizeSameSize { get; set; }
 
     /// <summary>
     /// Raised when selected elements should be brought to the front.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> BringToFront { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> BringToFront { get; set; }
 
     /// <summary>
     /// Raised when selected elements should be sent to the back.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> SendToBack { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> SendToBack { get; set; }
 
     /// <summary>
     /// Raised when selected elements should move one layer forward.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> MoveForward { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> MoveForward { get; set; }
 
     /// <summary>
     /// Raised when selected elements should move one layer backward.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> MoveBackward { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> MoveBackward { get; set; }
 
     /// <summary>
     /// Raised when an aggregate should be inserted.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> InsertAggregate { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> InsertAggregate { get; set; }
 
     /// <summary>
     /// Raised when a text element should be edited inline.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> EditText { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> EditText { get; set; }
 
     /// <summary>
     /// Raised when a formula field should be edited.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> EditFormula { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> EditFormula { get; set; }
 
     /// <summary>
     /// Raised when a running total should be edited.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> EditRunningTotal { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> EditRunningTotal { get; set; }
 
     /// <summary>
     /// Raised when the selected element should be deleted.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> DeleteElement { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> DeleteElement { get; set; }
 
     /// <summary>
     /// Raised when selected element can-grow should be toggled.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> ToggleElementCanGrow { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> ToggleElementCanGrow { get; set; }
 
     /// <summary>
     /// Raised when selected element suppression should be toggled.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> ToggleElementSuppression { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> ToggleElementSuppression { get; set; }
 
     /// <summary>
     /// Raised when the selected table cell should merge with the cell to its right.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> MergeCellRight { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> MergeCellRight { get; set; }
 
     /// <summary>
     /// Raised when the selected table cell should merge with the cell below it.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> MergeCellDown { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> MergeCellDown { get; set; }
 
     /// <summary>
     /// Raised when the selected table cell should be split back to a single cell.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> UnmergeCell { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> UnmergeCell { get; set; }
 
     /// <summary>
     /// Raised when a table row should be inserted above the selected cell.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> InsertTableRowAbove { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> InsertTableRowAbove { get; set; }
 
     /// <summary>
     /// Raised when a table row should be inserted below the selected cell.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> InsertTableRowBelow { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> InsertTableRowBelow { get; set; }
 
     /// <summary>
     /// Raised when a table column should be inserted to the left of the selected cell.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> InsertTableColumnLeft { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> InsertTableColumnLeft { get; set; }
 
     /// <summary>
     /// Raised when a table column should be inserted to the right of the selected cell.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> InsertTableColumnRight { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> InsertTableColumnRight { get; set; }
 
     /// <summary>
     /// Raised when a table cell should be inserted relative to the selected cell.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> InsertTableCell { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> InsertTableCell { get; set; }
 
     /// <summary>
     /// Raised when the selected table row should be deleted.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> DeleteTableRow { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> DeleteTableRow { get; set; }
 
     /// <summary>
     /// Raised when the selected table column should be deleted.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> DeleteTableColumn { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> DeleteTableColumn { get; set; }
 
     /// <summary>
     /// Raised when the selected table cell should be deleted.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> DeleteTableCell { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> DeleteTableCell { get; set; }
 
     /// <summary>
     /// Raised when the context menu should be closed.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> Close { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> Close { get; set; }
 
     #endregion
 }

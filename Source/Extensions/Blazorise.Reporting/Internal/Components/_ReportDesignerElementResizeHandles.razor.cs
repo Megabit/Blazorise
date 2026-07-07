@@ -47,7 +47,10 @@ public partial class _ReportDesignerElementResizeHandles
 
     private Task OnPointerDown( ReportElementResizeHandle handle, PointerEventArgs eventArgs )
     {
-        return PointerDown?.Invoke( (int)handle, eventArgs ) ?? Task.CompletedTask;
+        if ( PointerDown is not null )
+            return PointerDown.Invoke( (int)handle, eventArgs );
+
+        return Task.CompletedTask;
     }
 
     /// <summary>

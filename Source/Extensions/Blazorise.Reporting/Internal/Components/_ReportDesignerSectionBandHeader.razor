@@ -5,9 +5,9 @@
 @using Microsoft.AspNetCore.Components.Web
 
 <div class="@Class"
-     @onclick="Clicked"
+     @onclick="OnClicked"
      @onclick:stopPropagation
-     @oncontextmenu="NonRenderingContextMenu"
+     @oncontextmenu="OnContextMenu"
      @oncontextmenu:preventDefault
      @oncontextmenu:stopPropagation>
     <span class="b-report-section-band-header-title">@DisplayName</span>

@@ -17,8 +17,6 @@ public partial class _ReportDesignerSectionBandHeader
 
     private string DisplayName => ReportDefinitionHelper.GetSectionDisplayName( Section );
 
-    private Func<MouseEventArgs, Task> NonRenderingContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnContextMenu );
-
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
     {
@@ -42,7 +40,18 @@ public partial class _ReportDesignerSectionBandHeader
 
     private Task OnContextMenu( MouseEventArgs eventArgs )
     {
-        return ContextMenu?.Invoke( eventArgs ) ?? Task.CompletedTask;
+        if ( ContextMenu is not null )
+            return ContextMenu.Invoke( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnClicked( MouseEventArgs eventArgs )
+    {
+        if ( Clicked is not null )
+            return Clicked.Invoke( eventArgs );
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -63,7 +72,7 @@ public partial class _ReportDesignerSectionBandHeader
     /// <summary>
     /// Raised when the section band header is clicked.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> Clicked { get; set; }
 
     /// <summary>
     /// Raised when the section band header context menu is requested.

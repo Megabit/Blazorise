@@ -10,15 +10,15 @@
 <div @key="@ElementKey"
      class="@Class"
      style="@Style"
-     @onclick="Clicked"
+     @onclick="OnClicked"
      @onclick:stopPropagation="@CanReceiveDesignerInteraction"
-     @ondblclick="DoubleClicked"
+     @ondblclick="OnDoubleClicked"
      @ondblclick:preventDefault="@CanStartInlineTextEdit"
      @ondblclick:stopPropagation="@CanStartInlineTextEdit"
-     @oncontextmenu="NonRenderingContextMenu"
+     @oncontextmenu="OnContextMenu"
      @oncontextmenu:preventDefault="@CanReceiveDesignerInteraction"
      @oncontextmenu:stopPropagation="@CanReceiveDesignerInteraction"
-     @onpointerdown="PointerDown"
+     @onpointerdown="OnPointerDown"
      @onpointerdown:preventDefault="@CanStartDesignerPointerDrag"
      @onpointerdown:stopPropagation="@ShouldStopPointerDownPropagation">
     <div class="b-report-element-content">
@@ -51,6 +51,7 @@
                         <_ReportDesignerTable Data="@Data"
                                               Definition="@Definition"
                                               Section="@Section"
+                                              SectionIndex="@SectionIndex"
                                               Item="@Item"
                                               RunningTotals="@RunningTotals"
                                               Element="@tableElement"
@@ -85,6 +86,6 @@
 
     @if ( ShowResizeHandles )
     {
-        <_ReportDesignerElementResizeHandles PointerDown="ResizeStarted" />
+        <_ReportDesignerElementResizeHandles PointerDown="OnResizeStarted" />
     }
 </div>

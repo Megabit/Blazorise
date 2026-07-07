@@ -17,8 +17,6 @@ public partial class _ReportDesignerSectionRail
 
     private string DisplayName => ReportDefinitionHelper.GetSectionDisplayName( Section );
 
-    private Func<MouseEventArgs, Task> NonRenderingContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnContextMenu );
-
     private string Style => StyleNames;
 
     private string ToggleTitle => Section.Suppressed ? "Band is suppressed" : Collapsed ? "Expand band" : "Collapse band";
@@ -57,7 +55,26 @@ public partial class _ReportDesignerSectionRail
 
     private Task OnContextMenu( MouseEventArgs eventArgs )
     {
-        return ContextMenu?.Invoke( eventArgs ) ?? Task.CompletedTask;
+        if ( ContextMenu is not null )
+            return ContextMenu.Invoke( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnClicked( MouseEventArgs eventArgs )
+    {
+        if ( Clicked is not null )
+            return Clicked.Invoke( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnToggleClicked( MouseEventArgs eventArgs )
+    {
+        if ( ToggleClicked is not null )
+            return ToggleClicked.Invoke( eventArgs );
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -93,7 +110,7 @@ public partial class _ReportDesignerSectionRail
     /// <summary>
     /// Raised when the section rail is clicked.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> Clicked { get; set; }
 
     /// <summary>
     /// Raised when the section rail context menu is requested.
@@ -103,5 +120,5 @@ public partial class _ReportDesignerSectionRail
     /// <summary>
     /// Raised when the section collapse toggle is clicked.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> ToggleClicked { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> ToggleClicked { get; set; }
 }

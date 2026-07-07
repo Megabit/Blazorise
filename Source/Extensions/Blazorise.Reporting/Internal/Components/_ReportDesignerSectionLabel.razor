@@ -2,9 +2,9 @@
 @inherits BaseReportComponent
 
 <div class="b-report-section-label"
-     @onclick="Clicked"
+     @onclick="OnClicked"
      @onclick:stopPropagation
-     @oncontextmenu="NonRenderingContextMenu"
+     @oncontextmenu="OnContextMenu"
      @oncontextmenu:preventDefault
      @oncontextmenu:stopPropagation>
     @Label

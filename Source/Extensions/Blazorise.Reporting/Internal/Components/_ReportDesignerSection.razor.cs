@@ -25,12 +25,6 @@ public partial class _ReportDesignerSection
 
     private string BodyStyle => bodyStyleBuilder.Styles;
 
-    private Func<MouseEventArgs, Task> NonRenderingBodyContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnBodyContextMenu );
-
-    private Func<DragEventArgs, Task> NonRenderingDragOver => EventUtil.AsNonRenderingEventHandler<DragEventArgs>( OnDragOver );
-
-    private Func<PointerEventArgs, Task> NonRenderingPointerMove => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerMove );
-
     private string SectionClass => ClassNames;
 
     private string SectionStyle => StyleNames;
@@ -139,22 +133,98 @@ public partial class _ReportDesignerSection
 
     private Task OnDragOver( DragEventArgs eventArgs )
     {
-        return DragOver?.Invoke( bodyElement, eventArgs ) ?? Task.CompletedTask;
+        if ( DragOver is not null )
+            return DragOver.Invoke( SectionIndex, bodyElement, eventArgs );
+
+        return Task.CompletedTask;
     }
 
     private Task OnPointerMove( PointerEventArgs eventArgs )
     {
-        return PointerMove?.Invoke( eventArgs ) ?? Task.CompletedTask;
+        if ( PointerMove is not null )
+            return PointerMove.Invoke( SectionIndex, eventArgs );
+
+        return Task.CompletedTask;
     }
 
     private Task OnDrop( DragEventArgs eventArgs )
     {
-        return Drop?.Invoke( bodyElement, eventArgs ) ?? Task.CompletedTask;
+        if ( Drop is not null )
+            return Drop.Invoke( SectionIndex, bodyElement, eventArgs );
+
+        return Task.CompletedTask;
     }
 
     private Task OnBodyContextMenu( MouseEventArgs eventArgs )
     {
-        return BodyContextMenu?.Invoke( eventArgs ) ?? Task.CompletedTask;
+        if ( BodyContextMenu is not null )
+            return BodyContextMenu.Invoke( SectionIndex, eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnBodyClicked( MouseEventArgs eventArgs )
+    {
+        if ( BodyClicked is not null )
+            return BodyClicked.Invoke( SectionIndex, eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnBodyPointerDown( PointerEventArgs eventArgs )
+    {
+        if ( BodyPointerDown is not null )
+            return BodyPointerDown.Invoke( SectionIndex, eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnPointerUp( PointerEventArgs eventArgs )
+    {
+        if ( PointerUp is not null )
+            return PointerUp.Invoke( SectionIndex, eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnPointerCancel( PointerEventArgs eventArgs )
+    {
+        if ( PointerCancel is not null )
+            return PointerCancel.Invoke( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnRailClicked( MouseEventArgs eventArgs )
+    {
+        if ( RailClicked is not null )
+            return RailClicked.Invoke( SectionIndex, eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnRailContextMenu( MouseEventArgs eventArgs )
+    {
+        if ( RailContextMenu is not null )
+            return RailContextMenu.Invoke( SectionIndex, eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnToggleClicked( MouseEventArgs eventArgs )
+    {
+        if ( ToggleClicked is not null )
+            return ToggleClicked.Invoke( SectionIndex, eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnResizePointerDown( PointerEventArgs eventArgs )
+    {
+        if ( ResizePointerDown is not null )
+            return ResizePointerDown.Invoke( SectionIndex, eventArgs );
+
+        return Task.CompletedTask;
     }
 
     private static void AddSectionRenderHash( ReportSectionDefinition section, ref HashCode hash )
@@ -186,6 +256,11 @@ public partial class _ReportDesignerSection
     /// Report section rendered on the report surface.
     /// </summary>
     [Parameter] public ReportSectionDefinition Section { get; set; }
+
+    /// <summary>
+    /// Report section index rendered on the designer surface.
+    /// </summary>
+    [Parameter] public int SectionIndex { get; set; }
 
     /// <summary>
     /// Section height in report layout units.
@@ -285,62 +360,62 @@ public partial class _ReportDesignerSection
     /// <summary>
     /// Raised when the section rail is clicked.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> RailClicked { get; set; }
+    [Parameter] public Func<int, MouseEventArgs, Task> RailClicked { get; set; }
 
     /// <summary>
     /// Raised when the band collapse toggle is clicked.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> ToggleClicked { get; set; }
+    [Parameter] public Func<int, MouseEventArgs, Task> ToggleClicked { get; set; }
 
     /// <summary>
     /// Raised when the section rail context menu is requested.
     /// </summary>
-    [Parameter] public Func<MouseEventArgs, Task> RailContextMenu { get; set; }
+    [Parameter] public Func<int, MouseEventArgs, Task> RailContextMenu { get; set; }
 
     /// <summary>
     /// Raised when the section body context menu is requested.
     /// </summary>
-    [Parameter] public Func<MouseEventArgs, Task> BodyContextMenu { get; set; }
+    [Parameter] public Func<int, MouseEventArgs, Task> BodyContextMenu { get; set; }
 
     /// <summary>
     /// Raised when marquee selection starts inside the section body.
     /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> BodyPointerDown { get; set; }
+    [Parameter] public Func<int, PointerEventArgs, Task> BodyPointerDown { get; set; }
 
     /// <summary>
     /// Raised while a toolbox or field item is dragged over the section body.
     /// </summary>
-    [Parameter] public Func<ElementReference, DragEventArgs, Task> DragOver { get; set; }
+    [Parameter] public Func<int, ElementReference, DragEventArgs, Task> DragOver { get; set; }
 
     /// <summary>
     /// Raised when a toolbox or field item is dropped onto the section body.
     /// </summary>
-    [Parameter] public Func<ElementReference, DragEventArgs, Task> Drop { get; set; }
+    [Parameter] public Func<int, ElementReference, DragEventArgs, Task> Drop { get; set; }
 
     /// <summary>
     /// Raised while pointer element interaction continues inside the section body.
     /// </summary>
-    [Parameter] public Func<PointerEventArgs, Task> PointerMove { get; set; }
+    [Parameter] public Func<int, PointerEventArgs, Task> PointerMove { get; set; }
 
     /// <summary>
     /// Raised when pointer element interaction completes inside the section body.
     /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> PointerUp { get; set; }
+    [Parameter] public Func<int, PointerEventArgs, Task> PointerUp { get; set; }
 
     /// <summary>
     /// Raised when pointer element interaction is cancelled inside the section body.
     /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> PointerCancel { get; set; }
+    [Parameter] public Func<PointerEventArgs, Task> PointerCancel { get; set; }
 
     /// <summary>
     /// Raised when the editable section body is clicked.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> BodyClicked { get; set; }
+    [Parameter] public Func<int, MouseEventArgs, Task> BodyClicked { get; set; }
 
     /// <summary>
     /// Raised when band resizing starts from the section resize handle.
     /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> ResizePointerDown { get; set; }
+    [Parameter] public Func<int, PointerEventArgs, Task> ResizePointerDown { get; set; }
 
     /// <summary>
     /// Content rendered inside the section body.

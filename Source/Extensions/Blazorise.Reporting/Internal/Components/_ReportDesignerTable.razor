@@ -8,57 +8,27 @@
 <div class="b-report-table" style="@TableStyle">
     @foreach ( ReportTableCellDefinition cell in GetCells() )
     {
-        <div class="@GetCellClass( cell )"
-             style="@GetCellStyle( cell )"
-             @onclick="@(( MouseEventArgs eventArgs ) => OnCellClicked( cell, eventArgs ))"
-             @onclick:stopPropagation="@DesignMode"
-             @oncontextmenu="@(( MouseEventArgs eventArgs ) => OnCellContextMenu( cell, eventArgs ))"
-             @oncontextmenu:preventDefault="@DesignMode"
-             @oncontextmenu:stopPropagation="@DesignMode">
-            <div class="b-report-table-cell-content">
-                @foreach ( ReportElementDefinition childElement in GetRenderableElements( cell ) )
-                {
-                    var childElementKey = ReportDefinitionHelper.EnsureElementId( childElement );
-                    var childElementClicked = EventCallback.Factory.Create<MouseEventArgs>( this, ( MouseEventArgs eventArgs ) => OnElementClicked( childElementKey, eventArgs ) );
-                    var childElementDoubleClicked = EventCallback.Factory.Create<MouseEventArgs>( this, ( MouseEventArgs eventArgs ) => OnElementDoubleClicked( childElementKey, eventArgs ) );
-                    var childElementContextMenu = (Func<MouseEventArgs, Task>)( eventArgs => OnElementContextMenu( cell, eventArgs ) );
-                    var childElementTextEditCommitted = EventCallback.Factory.Create<string>( this, text => OnElementTextEditCommitted( childElementKey, text ) );
-                    var childElementTextEditCancelled = EventCallback.Factory.Create( this, () => OnElementTextEditCancelled( childElementKey ) );
-
-                    <_ReportDesignerElement Data="@Data"
-                                            Definition="@Definition"
-                                            Section="@Section"
-                                            Item="@Item"
-                                            RunningTotals="@RunningTotals"
-                                            Element="@childElement"
-                                            ElementKey="@childElementKey"
-                                            DesignMode="@DesignMode"
-                                            Editable="@DesignMode"
-                                            LayoutLocked
-                                            AllowPointerDragThrough="@TableSelected"
-                                            Selected="@(IsElementSelected?.Invoke( childElementKey ) == true)"
-                                            Editing="@string.Equals( EditingElementKey, childElementKey, StringComparison.Ordinal )"
-                                            TextEditingActive="@TextEditingActive"
-                                            Clicked="@childElementClicked"
-                                            DoubleClicked="@childElementDoubleClicked"
-                                            ContextMenu="@childElementContextMenu"
-                                            TextEditCommitted="@childElementTextEditCommitted"
-                                            TextEditCancelled="@childElementTextEditCancelled" />
-                }
-            </div>
-            @if ( DesignMode )
-            {
-                <span class="b-report-table-column-resize-handle"
-                      title="Resize column"
-                      @onpointerdown="@(( PointerEventArgs eventArgs ) => OnColumnResizePointerDown( cell, eventArgs ))"
-                      @onpointerdown:preventDefault
-                      @onpointerdown:stopPropagation></span>
-                <span class="b-report-table-row-resize-handle"
-                      title="Resize row"
-                      @onpointerdown="@(( PointerEventArgs eventArgs ) => OnRowResizePointerDown( cell, eventArgs ))"
-                      @onpointerdown:preventDefault
-                      @onpointerdown:stopPropagation></span>
-            }
-        </div>
+        <_ReportDesignerTableCell Data="@Data"
+                                  Definition="@Definition"
+                                  Section="@Section"
+                                  SectionIndex="@SectionIndex"
+                                  Item="@Item"
+                                  RunningTotals="@RunningTotals"
+                                  TableElementKey="@TableElementKey"
+                                  Cell="@cell"
+                                  CellClass="@GetCellClass( cell )"
+                                  CellStyle="@GetCellStyle( cell )"
+                                  DesignMode="@DesignMode"
+                                  TableSelected="@TableSelected"
+                                  TextEditingActive="@TextEditingActive"
+                                  EditingElementKey="@EditingElementKey"
+                                  CellClicked="@CellClicked"
+                                  CellContextMenu="@CellContextMenu"
+                                  IsElementSelected="@IsElementSelected"
+                                  ElementClicked="@ElementClicked"
+                                  ElementDoubleClicked="@ElementDoubleClicked"
+                                  ElementTextEditCommitted="@ElementTextEditCommitted"
+                                  ElementTextEditCancelled="@ElementTextEditCancelled"
+                                  ResizeStarted="@ResizeStarted" />
     }
 </div>

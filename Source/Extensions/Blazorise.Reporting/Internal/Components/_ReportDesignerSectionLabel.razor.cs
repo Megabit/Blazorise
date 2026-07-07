@@ -1,7 +1,6 @@
 #region Using directives
 using System;
 using System.Threading.Tasks;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -13,13 +12,22 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerSectionLabel
 {
-    private Func<MouseEventArgs, Task> NonRenderingContextMenu => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnContextMenu );
-
     private string Label => $"{ReportDefinitionHelper.GetSectionTypeDisplayName( Section.Type )}: {ReportDefinitionHelper.GetSectionDisplayName( Section )}";
 
     private Task OnContextMenu( MouseEventArgs eventArgs )
     {
-        return ContextMenu?.Invoke( eventArgs ) ?? Task.CompletedTask;
+        if ( ContextMenu is not null )
+            return ContextMenu.Invoke( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnClicked( MouseEventArgs eventArgs )
+    {
+        if ( Clicked is not null )
+            return Clicked.Invoke( eventArgs );
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -30,7 +38,7 @@ public partial class _ReportDesignerSectionLabel
     /// <summary>
     /// Raised when the label is clicked.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+    [Parameter] public Func<MouseEventArgs, Task> Clicked { get; set; }
 
     /// <summary>
     /// Raised when the label context menu is requested.

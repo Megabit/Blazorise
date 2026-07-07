@@ -43,8 +43,6 @@ public partial class _ReportDesignerPage
         Width,
         MarginTop );
 
-    private Func<PointerEventArgs, Task> NonRenderingPointerMove => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerMove );
-
     private string PrintableAreaStyle => BuildMarginStyle(
         WidthOffset + ReportMeasurementConverter.ToCssPixelValue( MarginLeft ),
         MarginTop,
@@ -90,7 +88,26 @@ public partial class _ReportDesignerPage
 
     private Task OnPointerMove( PointerEventArgs eventArgs )
     {
-        return PointerMove?.Invoke( eventArgs ) ?? Task.CompletedTask;
+        if ( PointerMove is not null )
+            return PointerMove.Invoke( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnPointerUp( PointerEventArgs eventArgs )
+    {
+        if ( PointerUp is not null )
+            return PointerUp.Invoke( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnPointerCancel( PointerEventArgs eventArgs )
+    {
+        if ( PointerCancel is not null )
+            return PointerCancel.Invoke( eventArgs );
+
+        return Task.CompletedTask;
     }
 
     private static string BuildMarginStyle( double leftCssPixels, double top, double width, double height )
@@ -206,10 +223,10 @@ public partial class _ReportDesignerPage
     /// <summary>
     /// Raised when pointer selection completes on the designer page.
     /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> PointerUp { get; set; }
+    [Parameter] public Func<PointerEventArgs, Task> PointerUp { get; set; }
 
     /// <summary>
     /// Raised when pointer selection is cancelled on the designer page.
     /// </summary>
-    [Parameter] public EventCallback<PointerEventArgs> PointerCancel { get; set; }
+    [Parameter] public Func<PointerEventArgs, Task> PointerCancel { get; set; }
 }
