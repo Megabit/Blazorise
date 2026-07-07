@@ -106,17 +106,12 @@ internal static class ReportDataResolver
         return true;
     }
 
-    internal static string FormatValue( object value, string format )
+    internal static string FormatValue( object value, ReportFormatDefinition format )
     {
         if ( value is null )
             return string.Empty;
 
-        if ( string.IsNullOrWhiteSpace( format ) )
-            return Convert.ToString( value, CultureInfo.CurrentCulture );
-
-        return value is IFormattable formattable
-            ? formattable.ToString( format, CultureInfo.CurrentCulture )
-            : Convert.ToString( value, CultureInfo.CurrentCulture );
+        return ReportFormatResolver.FormatValue( value, format );
     }
 
     private static object ResolvePathSegment( object item, string segment )

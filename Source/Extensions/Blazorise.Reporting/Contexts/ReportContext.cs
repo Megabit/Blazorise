@@ -365,7 +365,7 @@ internal sealed class ReportContext
                 break;
             case ReportFieldElementDefinition fieldElement when clone is ReportFieldElementDefinition fieldClone:
                 fieldClone.Field = fieldElement.Field;
-                fieldClone.Format = fieldElement.Format;
+                fieldClone.Format = CloneFormat( fieldElement.Format );
                 fieldClone.DataSource = fieldElement.DataSource;
                 fieldClone.Aggregate = CloneAggregate( fieldElement.Aggregate );
                 break;
@@ -428,6 +428,9 @@ internal sealed class ReportContext
             VerticalAlignment = font.VerticalAlignment,
         };
     }
+
+    private static ReportFormatDefinition CloneFormat( ReportFormatDefinition format )
+        => ReportFormats.Clone( format );
 
     private static FontFamily CloneFontFamily( FontFamily font )
     {
@@ -497,7 +500,7 @@ internal sealed class ReportContext
             Id = column.Id,
             Title = column.Title,
             Field = column.Field,
-            Format = column.Format,
+            Format = CloneFormat( column.Format ),
             Width = column.Width,
         };
     }

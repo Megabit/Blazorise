@@ -17,12 +17,12 @@
     <ReportDetail Name="Invoice lines" Height="39" DataSource="Invoice.Lines">
         <ReportField Field="Sku" X="30" Y="10.5" Width="67.5" Height="18" />
         <ReportField Field="Description" X="112.5" Y="10.5" Width="165" Height="18" />
-        <ReportField Field="Total" Format="C" X="405" Y="10.5" Width="90" Height="18" />
+        <ReportField Field="Total" Format="@ReportFormats.Currency()" X="405" Y="10.5" Width="90" Height="18" />
     </ReportDetail>
     <ReportFooter Name="Invoice report footer" Height="54">
         <ReportLine X="30" Y="7.5" Width="465" Height="8" Thickness="1" />
         <ReportText Text="Invoice total" X="30" Y="21" Width="135" Height="18" />
-        <ReportField Field="Header.Total" Format="C" X="405" Y="21" Width="90" Height="18" Bold />
+        <ReportField Field="Header.Total" Format="@ReportFormats.Currency()" X="405" Y="21" Width="90" Height="18" Bold />
     </ReportFooter>
 </Report>
 

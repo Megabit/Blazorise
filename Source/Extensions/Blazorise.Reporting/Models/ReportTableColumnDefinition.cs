@@ -25,9 +25,9 @@ public sealed class ReportTableColumnDefinition
     public string Field { get; set; }
 
     /// <summary>
-    /// Format string applied to column values.
+    /// Format applied to column values.
     /// </summary>
-    public string Format { get; set; }
+    public ReportFormatDefinition Format { get; set; }
 
     /// <summary>
     /// Column width in points.

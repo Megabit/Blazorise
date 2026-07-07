@@ -36,7 +36,7 @@
                     <ReportText Text="Issued" Bold />
                 </ReportTableCell>
                 <ReportTableCell>
-                    <ReportField Field="Header.IssuedAt" Format="d" />
+                    <ReportField Field="Header.IssuedAt" Format="@ReportFormats.Date()" />
                 </ReportTableCell>
             </ReportTableRow>
             <ReportTableRow Height="24">
@@ -50,7 +50,7 @@
                     <ReportText Text="Total" Bold />
                 </ReportTableCell>
                 <ReportTableCell>
-                    <ReportField Field="Header.Total" Format="C" Bold FontColor="@ReportColors.Green" />
+                    <ReportField Field="Header.Total" Format="@ReportFormats.Currency()" Bold FontColor="@ReportColors.Green" />
                 </ReportTableCell>
             </ReportTableRow>
         </ReportTable>
@@ -64,8 +64,8 @@
     <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
         <ReportField Field="Sku" X="30" Y="6" Width="75" Height="18" />
         <ReportField Field="Description" X="120" Y="6" Width="210" Height="18" />
-        <ReportField Field="Quantity" Format="N2" X="345" Y="6" Width="60" Height="18" />
-        <ReportField Field="Total" Format="C" X="420" Y="6" Width="90" Height="18" />
+        <ReportField Field="Quantity" Format="@ReportFormats.Number( 2 )" X="345" Y="6" Width="60" Height="18" />
+        <ReportField Field="Total" Format="@ReportFormats.Currency()" X="420" Y="6" Width="90" Height="18" />
     </ReportDetail>
 </Report>
 

@@ -18,9 +18,9 @@ public sealed class ReportFieldElementDefinition : ReportElementDefinition
     public string Field { get; set; }
 
     /// <summary>
-    /// Format string applied to resolved field values.
+    /// Format applied to resolved field values.
     /// </summary>
-    public string Format { get; set; }
+    public ReportFormatDefinition Format { get; set; }
 
     /// <summary>
     /// Optional data source override for field content.

@@ -32,9 +32,9 @@ public partial class ReportField : BaseReportTextElement
     [Parameter] public string Field { get; set; }
 
     /// <summary>
-    /// Format string applied to the resolved field value.
+    /// Format applied to the resolved field value.
     /// </summary>
-    [Parameter] public string Format { get; set; }
+    [Parameter] public ReportFormatDefinition Format { get; set; }
 
     /// <summary>
     /// Aggregate function applied when this field is rendered as a summary.

@@ -32,13 +32,13 @@
     <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
         <ReportField Field="Sku" X="30" Y="6" Width="75" Height="18" />
         <ReportField Field="Description" X="120" Y="6" Width="210" Height="18" />
-        <ReportField Field="Quantity" Format="N2" X="345" Y="6" Width="60" Height="18" />
-        <ReportField Field="Total" Format="C" X="420" Y="6" Width="90" Height="18" />
+        <ReportField Field="Quantity" Format="@ReportFormats.Number( 2 )" X="345" Y="6" Width="60" Height="18" />
+        <ReportField Field="Total" Format="@ReportFormats.Currency()" X="420" Y="6" Width="90" Height="18" />
     </ReportDetail>
     <ReportFooter Name="Report footer" Height="60">
         <ReportLine X="30" Y="9" Width="480" Height="8" Thickness="1" />
         <ReportText Text="Report total" X="300" Y="24" Width="105" Height="18" Bold />
-        <ReportField Field="Header.Total" Format="C" X="420" Y="24" Width="90" Height="18" Bold FontColor="@ReportColors.Green" />
+        <ReportField Field="Header.Total" Format="@ReportFormats.Currency()" X="420" Y="24" Width="90" Height="18" Bold FontColor="@ReportColors.Green" />
     </ReportFooter>
     <ReportPageFooter Name="Page footer" Height="30">
         <ReportText Text="Generated {PrintDate} - page {PageNumber} of {TotalPages}" X="30" Y="7" Width="300" Height="18" FontColor="@ReportColors.Gray" />

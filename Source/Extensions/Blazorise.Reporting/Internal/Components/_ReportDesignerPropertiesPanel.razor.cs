@@ -32,6 +32,8 @@ public partial class _ReportDesignerPropertiesPanel
 
     private _ReportDesignerFormulaDialog formulaDialogRef;
 
+    private _ReportDesignerFormatDialog formatDialogRef;
+
     private _ReportDesignerImageUploadDialog imageUploadDialogRef;
 
     private Func<string, Task> formulaConfirmed;
@@ -499,6 +501,20 @@ public partial class _ReportDesignerPropertiesPanel
     private Task OpenImageUploadDialog()
     {
         return imageUploadDialogRef?.Show() ?? Task.CompletedTask;
+    }
+
+    private Task OpenFormatDialog( MouseEventArgs eventArgs )
+    {
+        return formatDialogRef?.Show( ( SelectedElement as ReportFieldElementDefinition )?.Format ) ?? Task.CompletedTask;
+    }
+
+    private Task OnFormatDialogConfirmed( ReportFormatDefinition format )
+    {
+        return UpdateSelectedElement( element =>
+        {
+            if ( element is ReportFieldElementDefinition fieldElement )
+                fieldElement.Format = ReportFormats.Clone( format );
+        } );
     }
 
     private Task OnImageUploadConfirmed( string source )

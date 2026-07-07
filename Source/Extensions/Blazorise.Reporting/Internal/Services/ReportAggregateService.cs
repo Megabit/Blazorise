@@ -317,7 +317,7 @@ internal sealed class ReportAggregateService
         {
             Name = $"{functionName} of {fieldName}",
             Field = fieldName,
-            Format = sourceFieldElement.Format,
+            Format = ReportFormats.Clone( sourceFieldElement.Format ),
             DataSource = groupScoped ? null : string.IsNullOrWhiteSpace( sourceSection.DataSource ) ? sourceFieldElement.DataSource : sourceSection.DataSource,
             X = sourceElement.X,
             Y = GetAggregateElementY( targetSection ),

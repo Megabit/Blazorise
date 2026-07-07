@@ -35,9 +35,9 @@ public partial class ReportTableColumn : ComponentBase
     [Parameter] public string Field { get; set; }
 
     /// <summary>
-    /// Format string applied to column values.
+    /// Format applied to column values.
     /// </summary>
-    [Parameter] public string Format { get; set; }
+    [Parameter] public ReportFormatDefinition Format { get; set; }
 
     /// <summary>
     /// Column width in points.

@@ -64,19 +64,24 @@ public abstract class BaseReportComponent : ComponentBase
     /// </summary>
     protected Task CloseReportModal()
     {
-        return ModalService?.Hide( ReportModalProviderName ) ?? Task.CompletedTask;
+        return ModalService?.Hide( ResolvedReportModalProviderName ) ?? Task.CompletedTask;
     }
 
     /// <summary>
     /// Shows a report-owned modal component.
     /// </summary>
     protected async Task<ModalInstance> ShowReportModal<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters = null, ModalInstanceOptions options = null )
-        where TComponent : notnull, IComponent
+        where TComponent : BaseReportComponent
     {
         options ??= CreateReportModalOptions();
-        options.ProviderName = ReportModalProviderName;
+        string providerName = ResolvedReportModalProviderName;
+        options.ProviderName = providerName;
 
-        return await ModalService.Show<TComponent>( string.Empty, parameters, options );
+        return await ModalService.Show<TComponent>( string.Empty, builder =>
+        {
+            builder.Add( component => component.ReportModalProviderName, providerName );
+            parameters?.Invoke( builder );
+        }, options );
     }
 
     /// <summary>
@@ -117,9 +122,19 @@ public abstract class BaseReportComponent : ComponentBase
     protected string StyleNames => StyleBuilder.Styles;
 
     /// <summary>
-    /// Report-owned Modal Provider name used by internal designer components.
+    /// Resolved report-owned modal provider name.
     /// </summary>
-    [CascadingParameter( Name = "ReportModalProviderName" )] internal string ReportModalProviderName { get; set; }
+    protected string ResolvedReportModalProviderName => ReportModalProviderName ?? CascadedReportModalProviderName;
+
+    /// <summary>
+    /// Report-owned Modal Provider name used by report modal components.
+    /// </summary>
+    [Parameter] public string ReportModalProviderName { get; set; }
+
+    /// <summary>
+    /// Cascaded report-owned Modal Provider name used by internal designer components.
+    /// </summary>
+    [CascadingParameter( Name = "ReportModalProviderName" )] internal string CascadedReportModalProviderName { get; set; }
 
     /// <summary>
     /// Service used to show report modal components.

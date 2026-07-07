@@ -21,8 +21,8 @@
     <ReportDetail Name="Orders" Height="30" DataSource="Orders">
         <ReportField Field="OrderNumber" X="30" Y="6" Width="80" Height="18" />
         <ReportField Field="Customer" X="125" Y="6" Width="190" Height="18" />
-        <ReportField Field="OrderDate" Format="d" X="330" Y="6" Width="80" Height="18" />
-        <ReportField Field="Amount" Format="C" X="420" Y="6" Width="90" Height="18" TextAlignment="TextAlignment.End" />
+        <ReportField Field="OrderDate" Format="@ReportFormats.Date()" X="330" Y="6" Width="80" Height="18" />
+        <ReportField Field="Amount" Format="@ReportFormats.Currency()" X="420" Y="6" Width="90" Height="18" TextAlignment="TextAlignment.End" />
     </ReportDetail>
 </Report>
 

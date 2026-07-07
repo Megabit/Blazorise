@@ -13867,7 +13867,7 @@ Install-Package Blazorise.Icons.Material";
         public const string PdfBuilderInvoiceExample = @"@inject IPdfGenerator PdfGenerator
 
 <Div Flex=""Flex.Row"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromBottom"">
-    <Button Color=""Color.Primary"" Clicked=""@BuildAsync"">Build PDF</Button>
+    <Button Color=""Color.Primary"" Clicked=""@Build"">Build PDF</Button>
 </Div>
 
 @if ( pdfSource is not null )
@@ -13881,11 +13881,11 @@ Install-Package Blazorise.Icons.Material";
 @code {
     private string pdfSource;
 
-    private async Task BuildAsync()
+    private async Task Build()
     {
         PdfDocumentDefinition document = BuildInvoice();
 
-        PdfRenderResult result = await PdfGenerator.GenerateAsync( document, new()
+        PdfRenderResult result = await PdfGenerator.Generate( document, new()
         {
             FileName = ""builder-invoice.pdf"",
         } );
@@ -13984,7 +13984,7 @@ Install-Package Blazorise.Icons.Material";
         {
             generated = true;
 
-            PdfRenderResult result = await PdfGenerator.GenerateAsync( document.Definition, new()
+            PdfRenderResult result = await PdfGenerator.Generate( document.Definition, new()
             {
                 FileName = ""declarative-invoice.pdf"",
             } );
@@ -14003,7 +14003,7 @@ Install-Package Blazorise.Icons.Material";
         public const string PdfGenerateFileExample = @"@inject IPdfGenerator PdfGenerator
 
 <Div Flex=""Flex.Row"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromBottom"">
-    <Button Color=""Color.Primary"" Clicked=""@GenerateAsync"">Generate PDF</Button>
+    <Button Color=""Color.Primary"" Clicked=""@Generate"">Generate PDF</Button>
 </Div>
 
 @if ( pdfSource is not null )
@@ -14017,7 +14017,7 @@ Install-Package Blazorise.Icons.Material";
 @code {
     private string pdfSource;
 
-    private async Task GenerateAsync()
+    private async Task Generate()
     {
         PdfDocumentDefinition document = PdfDocumentBuilder.Create()
             .Title( ""Invoice"" )
@@ -14029,7 +14029,7 @@ Install-Package Blazorise.Icons.Material";
             } )
             .Build();
 
-        PdfRenderResult result = await PdfGenerator.GenerateAsync( document, new()
+        PdfRenderResult result = await PdfGenerator.Generate( document, new()
         {
             FileName = ""invoice.pdf"",
         } );
@@ -15126,12 +15126,12 @@ Install-Package Blazorise.Icons.Material";
     <ReportDetail Name=""Invoice lines"" Height=""39"" DataSource=""Invoice.Lines"">
         <ReportField Field=""Sku"" X=""30"" Y=""10.5"" Width=""67.5"" Height=""18"" />
         <ReportField Field=""Description"" X=""112.5"" Y=""10.5"" Width=""165"" Height=""18"" />
-        <ReportField Field=""Total"" Format=""C"" X=""405"" Y=""10.5"" Width=""90"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""405"" Y=""10.5"" Width=""90"" Height=""18"" />
     </ReportDetail>
     <ReportFooter Name=""Invoice report footer"" Height=""54"">
         <ReportLine X=""30"" Y=""7.5"" Width=""465"" Height=""8"" Thickness=""1"" />
         <ReportText Text=""Invoice total"" X=""30"" Y=""21"" Width=""135"" Height=""18"" />
-        <ReportField Field=""Header.Total"" Format=""C"" X=""405"" Y=""21"" Width=""90"" Height=""18"" Bold />
+        <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" X=""405"" Y=""21"" Width=""90"" Height=""18"" Bold />
     </ReportFooter>
 </Report>
 
@@ -15208,8 +15208,8 @@ Install-Package Blazorise.Icons.Material";
     <ReportDetail Name=""Orders"" Height=""30"" DataSource=""Orders"">
         <ReportField Field=""OrderNumber"" X=""30"" Y=""6"" Width=""80"" Height=""18"" />
         <ReportField Field=""Customer"" X=""125"" Y=""6"" Width=""190"" Height=""18"" />
-        <ReportField Field=""OrderDate"" Format=""d"" X=""330"" Y=""6"" Width=""80"" Height=""18"" />
-        <ReportField Field=""Amount"" Format=""C"" X=""420"" Y=""6"" Width=""90"" Height=""18"" TextAlignment=""TextAlignment.End"" />
+        <ReportField Field=""OrderDate"" Format=""@ReportFormats.Date()"" X=""330"" Y=""6"" Width=""80"" Height=""18"" />
+        <ReportField Field=""Amount"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" TextAlignment=""TextAlignment.End"" />
     </ReportDetail>
 </Report>
 
@@ -15272,12 +15272,12 @@ Install-Package Blazorise.Icons.Material";
     <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
         <ReportField Field=""Sku"" X=""30"" Y=""6"" Width=""75"" Height=""18"" />
         <ReportField Field=""Description"" X=""120"" Y=""6"" Width=""210"" Height=""18"" />
-        <ReportField Field=""Total"" Format=""C"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
     </ReportDetail>
     <ReportFooter Name=""Totals"" Height=""45"">
         <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""8"" Thickness=""1"" />
         <ReportText Text=""Invoice total"" X=""300"" Y=""18"" Width=""105"" Height=""18"" Bold />
-        <ReportField Field=""Header.Total"" Format=""C"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+        <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
     </ReportFooter>
 </Report>
 
@@ -15379,7 +15379,7 @@ Install-Package Blazorise.Icons.Material";
     </ReportPageHeader>
     <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
         <ReportField Field=""Description"" X=""30"" Y=""6"" Width=""270"" Height=""18"" />
-        <ReportField Field=""Total"" Format=""C"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
     </ReportDetail>
 </Report>
 
@@ -15451,12 +15451,12 @@ Install-Package Blazorise.Icons.Material";
     <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
         <ReportField Field=""Sku"" X=""30"" Y=""6"" Width=""75"" Height=""18"" />
         <ReportField Field=""Description"" X=""120"" Y=""6"" Width=""210"" Height=""18"" />
-        <ReportField Field=""Quantity"" Format=""N2"" X=""345"" Y=""6"" Width=""60"" Height=""18"" />
-        <ReportField Field=""Total"" Format=""C"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+        <ReportField Field=""Quantity"" Format=""@ReportFormats.Number( 2 )"" X=""345"" Y=""6"" Width=""60"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
     </ReportDetail>
     <ReportFooter Name=""Totals"" Height=""45"">
         <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""8"" Thickness=""1"" />
-        <ReportField Field=""Header.Total"" Format=""C"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+        <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
     </ReportFooter>
 </Report>
 
@@ -15559,7 +15559,7 @@ builder.Services
     </ReportPageHeader>
     <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
         <ReportField Field=""Description"" X=""30"" Y=""6"" Width=""240"" Height=""18"" />
-        <ReportField Field=""Total"" Format=""C"" X=""300"" Y=""6"" Width=""90"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""300"" Y=""6"" Width=""90"" Height=""18"" />
         <ReportField Field=""LargeLine"" X=""420"" Y=""6"" Width=""90"" Height=""18"" Bold />
     </ReportDetail>
 </Report>
@@ -15633,13 +15633,13 @@ builder.Services
     <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
         <ReportField Field=""Sku"" X=""30"" Y=""6"" Width=""75"" Height=""18"" />
         <ReportField Field=""Description"" X=""120"" Y=""6"" Width=""210"" Height=""18"" />
-        <ReportField Field=""Quantity"" Format=""N2"" X=""345"" Y=""6"" Width=""60"" Height=""18"" />
-        <ReportField Field=""Total"" Format=""C"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+        <ReportField Field=""Quantity"" Format=""@ReportFormats.Number( 2 )"" X=""345"" Y=""6"" Width=""60"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
     </ReportDetail>
     <ReportFooter Name=""Report footer"" Height=""60"">
         <ReportLine X=""30"" Y=""9"" Width=""480"" Height=""8"" Thickness=""1"" />
         <ReportText Text=""Report total"" X=""300"" Y=""24"" Width=""105"" Height=""18"" Bold />
-        <ReportField Field=""Header.Total"" Format=""C"" X=""420"" Y=""24"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+        <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""24"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
     </ReportFooter>
     <ReportPageFooter Name=""Page footer"" Height=""30"">
         <ReportText Text=""Generated {PrintDate} - page {PageNumber} of {TotalPages}"" X=""30"" Y=""7"" Width=""300"" Height=""18"" FontColor=""@ReportColors.Gray"" />
@@ -15741,7 +15741,7 @@ builder.Services
                     <ReportText Text=""Issued"" Bold />
                 </ReportTableCell>
                 <ReportTableCell>
-                    <ReportField Field=""Header.IssuedAt"" Format=""d"" />
+                    <ReportField Field=""Header.IssuedAt"" Format=""@ReportFormats.Date()"" />
                 </ReportTableCell>
             </ReportTableRow>
             <ReportTableRow Height=""24"">
@@ -15755,7 +15755,7 @@ builder.Services
                     <ReportText Text=""Total"" Bold />
                 </ReportTableCell>
                 <ReportTableCell>
-                    <ReportField Field=""Header.Total"" Format=""C"" Bold FontColor=""@ReportColors.Green"" />
+                    <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" Bold FontColor=""@ReportColors.Green"" />
                 </ReportTableCell>
             </ReportTableRow>
         </ReportTable>
@@ -15769,8 +15769,8 @@ builder.Services
     <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
         <ReportField Field=""Sku"" X=""30"" Y=""6"" Width=""75"" Height=""18"" />
         <ReportField Field=""Description"" X=""120"" Y=""6"" Width=""210"" Height=""18"" />
-        <ReportField Field=""Quantity"" Format=""N2"" X=""345"" Y=""6"" Width=""60"" Height=""18"" />
-        <ReportField Field=""Total"" Format=""C"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+        <ReportField Field=""Quantity"" Format=""@ReportFormats.Number( 2 )"" X=""345"" Y=""6"" Width=""60"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
     </ReportDetail>
 </Report>
 
@@ -15875,12 +15875,12 @@ builder.Services
     </ReportPageHeader>
     <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
         <ReportField Field=""Description"" X=""30"" Y=""6"" Width=""270"" Height=""18"" />
-        <ReportField Field=""Total"" Format=""C"" X=""420"" Y=""6"" Width=""90"" Height=""18"" FontColor=""@ReportColors.Green"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" FontColor=""@ReportColors.Green"" />
     </ReportDetail>
     <ReportFooter Name=""Invoice footer"" Height=""45"">
         <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""8"" Thickness=""1"" />
         <ReportText Text=""Invoice total"" X=""300"" Y=""18"" Width=""105"" Height=""18"" Bold />
-        <ReportField Field=""Header.Total"" Format=""C"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+        <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
     </ReportFooter>
 </Report>
 
@@ -15959,13 +15959,13 @@ builder.Services
     </ReportPageHeader>
     <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
         <ReportField Field=""Description"" X=""30"" Y=""6"" Width=""210"" Height=""18"" />
-        <ReportField Field=""Total"" Format=""C"" X=""300"" Y=""6"" Width=""90"" Height=""18"" />
-        <ReportField Field=""LineRunningTotal"" Format=""C"" X=""420"" Y=""6"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""300"" Y=""6"" Width=""90"" Height=""18"" />
+        <ReportField Field=""LineRunningTotal"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
     </ReportDetail>
     <ReportFooter Name=""Totals"" Height=""45"">
         <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""8"" Thickness=""1"" />
         <ReportText Text=""Grand total"" X=""300"" Y=""18"" Width=""105"" Height=""18"" Bold />
-        <ReportField Field=""Lines.Total"" AggregateFunction=""ReportAggregateFunction.Sum"" Format=""C"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+        <ReportField Field=""Lines.Total"" AggregateFunction=""ReportAggregateFunction.Sum"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
     </ReportFooter>
 </Report>
 
@@ -16012,7 +16012,7 @@ builder.Services
     </ReportHeader>
     <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
         <ReportField Field=""Description"" X=""30"" Y=""6"" Width=""270"" Height=""18"" />
-        <ReportField Field=""Total"" Format=""C"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
     </ReportDetail>
 </Report>
 
