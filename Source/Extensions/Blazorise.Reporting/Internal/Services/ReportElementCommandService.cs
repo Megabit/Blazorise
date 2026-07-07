@@ -30,7 +30,8 @@ internal sealed class ReportElementCommandService
         if ( definition is null || element is null || element.Suppress?.Value == true )
             return new();
 
-        ReportDefinitionHelper.TryFindElementLocation( definition, ReportDefinitionHelper.EnsureElementId( element ), out int sectionIndex, out _, out _ );
+        string elementKey = ReportDefinitionHelper.EnsureElementId( element );
+        ReportDefinitionHelper.TryFindElementLocation( definition, elementKey, out int sectionIndex, out _, out _ );
         double originalX = element.X;
         double originalWidth = element.Width;
         double originalHeight = element.Height;
@@ -49,7 +50,8 @@ internal sealed class ReportElementCommandService
         return new()
         {
             Changed = true,
-            PrimaryElementKey = ReportDefinitionHelper.EnsureElementId( element ),
+            PrimaryElementKey = elementKey,
+            SelectedElementKeys = [elementKey],
         };
     }
 

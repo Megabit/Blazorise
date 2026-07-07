@@ -14,7 +14,7 @@ internal sealed class ReportContextMenuService
     internal void PopulateSectionCapabilities(
         ReportDefinition definition,
         ReportContextMenuState state,
-        bool hasClipboardElement,
+        bool hasClipboardElements,
         Func<ReportDefinition, int, bool> canInsertSection,
         Func<ReportSectionDefinition, bool> canInsertGroup )
     {
@@ -29,7 +29,7 @@ internal sealed class ReportContextMenuService
         ReportSectionDefinition section = definition.Sections[state.SectionIndex];
 
         state.SectionSuppressed = section.Suppressed;
-        state.CanPasteElement = CanPasteElement( definition, state, hasClipboardElement );
+        state.CanPasteElement = CanPasteElement( definition, state, hasClipboardElements );
         state.CanSelectAllSectionElements = section.Elements?.Count > 0;
         state.CanInsertSection = canInsertSection?.Invoke( definition, state.SectionIndex ) == true;
         state.CanInsertGroup = canInsertGroup?.Invoke( section ) == true;
@@ -39,7 +39,7 @@ internal sealed class ReportContextMenuService
         state.SectionNewPageAfter = section.NewPageAfter?.Value == true;
     }
 
-    internal void PopulateElementCapabilities( ReportDefinition definition, ReportContextMenuState state, bool hasClipboardElement )
+    internal void PopulateElementCapabilities( ReportDefinition definition, ReportContextMenuState state, bool hasClipboardElements )
     {
         if ( definition is null
             || state is null
@@ -51,7 +51,7 @@ internal sealed class ReportContextMenuService
         state.CanEditText = CanEditElementText( element );
         state.CanEditFormula = CanEditFormulaFieldElement( definition, element );
         state.CanEditRunningTotal = CanEditRunningTotalElement( definition, element );
-        state.CanPasteElement = hasClipboardElement;
+        state.CanPasteElement = hasClipboardElements;
         state.ElementCanGrow = element.CanGrow?.Value == true;
         state.ElementSuppressed = element.Suppress?.Value == true;
         state.CanOrderSelectedElements = state.SelectedElementCount > 0;
@@ -62,7 +62,7 @@ internal sealed class ReportContextMenuService
             && element is ReportFieldElementDefinition;
     }
 
-    internal void PopulateTableCellCapabilities( ReportDefinition definition, ReportContextMenuState state, bool hasClipboardElement )
+    internal void PopulateTableCellCapabilities( ReportDefinition definition, ReportContextMenuState state, bool hasClipboardElements )
     {
         if ( definition is null
             || state is null
@@ -71,7 +71,7 @@ internal sealed class ReportContextMenuService
             return;
         }
 
-        state.CanPasteElement = hasClipboardElement;
+        state.CanPasteElement = hasClipboardElements;
         state.CanMergeCellRight = tableEditor.CanMergeCellRight( table, cell );
         state.CanMergeCellDown = tableEditor.CanMergeCellDown( table, cell );
         state.CanUnmergeCell = cell.RowSpan > 1 || cell.ColumnSpan > 1;
@@ -85,9 +85,9 @@ internal sealed class ReportContextMenuService
         state.CanDeleteTableCell = tableEditor.CanDeleteCell( table, cell );
     }
 
-    internal bool CanPasteElement( ReportDefinition definition, ReportContextMenuState state, bool hasClipboardElement )
+    internal bool CanPasteElement( ReportDefinition definition, ReportContextMenuState state, bool hasClipboardElements )
     {
-        return hasClipboardElement
+        return hasClipboardElements
             && definition?.Sections is not null
             && state?.Target is ReportContextMenuTarget.Section or ReportContextMenuTarget.Cell
             && state.HasPastePosition

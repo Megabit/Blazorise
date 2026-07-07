@@ -18,7 +18,7 @@ public sealed class ReportSelectionState
     public string SectionId { get; set; }
 
     /// <summary>
-    /// Selected element identifier when an element is selected.
+    /// Primary selected element identifier when one or more elements are selected.
     /// </summary>
     public string ElementId { get; set; }
 
@@ -28,7 +28,7 @@ public sealed class ReportSelectionState
     public string CellId { get; set; }
 
     /// <summary>
-    /// Selected element identifiers when multiple elements are selected.
+    /// Selected element identifiers when one or more elements are selected.
     /// </summary>
     public List<string> ElementIds { get; set; } = [];
 }

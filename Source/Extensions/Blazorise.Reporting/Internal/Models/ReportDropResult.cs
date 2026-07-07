@@ -1,3 +1,7 @@
+#region Using directives
+using System.Collections.Generic;
+#endregion
+
 namespace Blazorise.Reporting.Internal;
 
 internal sealed class ReportDropResult
@@ -6,7 +10,9 @@ internal sealed class ReportDropResult
 
     public string CommandName { get; set; }
 
-    public string SelectedElementKey { get; set; }
+    public string PrimaryElementKey { get; set; }
+
+    public IReadOnlyList<string> SelectedElementKeys { get; set; } = [];
 
     public string SelectedCellKey { get; set; }
 

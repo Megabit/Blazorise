@@ -33,12 +33,12 @@ public sealed class ReportState
     public ReportSelectionState Selection { get; set; } = new();
 
     /// <summary>
-    /// Element stored by cut or copy commands.
+    /// Elements stored by cut or copy commands.
     /// </summary>
-    public ReportElementDefinition ClipboardElement { get; set; }
+    public List<ReportElementDefinition> ClipboardElements { get; set; } = [];
 
     /// <summary>
-    /// Band identifier that originally contained the clipboard element.
+    /// Band identifier that originally contained the clipboard elements.
     /// </summary>
     public string ClipboardSectionId { get; set; }
 

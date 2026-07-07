@@ -172,7 +172,7 @@ internal sealed class ReportContext
             PreviewFormat = state.PreviewFormat,
             SnapToGrid = state.SnapToGrid,
             Selection = CloneSelection( state.Selection ),
-            ClipboardElement = CloneElement( state.ClipboardElement ),
+            ClipboardElements = state.ClipboardElements?.Select( CloneElement ).ToList() ?? [],
             ClipboardSectionId = state.ClipboardSectionId,
             CanUndo = state.CanUndo,
             CanRedo = state.CanRedo,

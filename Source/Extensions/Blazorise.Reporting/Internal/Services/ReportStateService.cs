@@ -1,3 +1,8 @@
+#region Using directives
+using System.Collections.Generic;
+using System.Linq;
+#endregion
+
 namespace Blazorise.Reporting.Internal;
 
 internal sealed class ReportStateService
@@ -10,7 +15,7 @@ internal sealed class ReportStateService
         ReportPreviewFormat previewFormat,
         bool snapToGrid,
         ReportSelectionManager selectionManager,
-        ReportElementDefinition clipboardElement,
+        IReadOnlyList<ReportElementDefinition> clipboardElements,
         string clipboardSectionId,
         bool canUndo,
         bool canRedo )
@@ -24,7 +29,7 @@ internal sealed class ReportStateService
             PreviewFormat = previewFormat,
             SnapToGrid = snapToGrid,
             Selection = selectionManager.CaptureState( definition ),
-            ClipboardElement = ReportContext.CloneElement( clipboardElement ),
+            ClipboardElements = clipboardElements?.Select( ReportContext.CloneElement ).ToList() ?? [],
             ClipboardSectionId = clipboardSectionId,
             CanUndo = canUndo,
             CanRedo = canRedo,
@@ -37,13 +42,13 @@ internal sealed class ReportStateService
         ReportSelectionManager selectionManager,
         System.Func<ReportDefinition> buildDeclarativeDefinition,
         out ReportDefinition definition,
-        out ReportElementDefinition clipboardElement,
+        out List<ReportElementDefinition> clipboardElements,
         out string clipboardSectionId )
     {
         ReportState nextState = ReportContext.CloneState( state );
         definition = ReportDefinitionHelper.EnsureDefinitionIds( nextState.Definition ?? buildDeclarativeDefinition() );
         designerState.SnapToGrid = nextState.SnapToGrid;
-        clipboardElement = ReportContext.CloneElement( nextState.ClipboardElement );
+        clipboardElements = nextState.ClipboardElements?.Select( ReportContext.CloneElement ).ToList() ?? [];
         clipboardSectionId = nextState.ClipboardSectionId;
         selectionManager.ApplyState( definition, nextState.Selection );
 

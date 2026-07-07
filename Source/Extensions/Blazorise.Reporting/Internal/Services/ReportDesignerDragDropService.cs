@@ -125,10 +125,7 @@ internal sealed class ReportDesignerDragDropService
         {
             ReportExpressionFormatter.AppendFieldExpressionToText( textDropTarget, fieldBinding.DataSourceName, fieldBinding.FieldName );
 
-            return new()
-            {
-                SelectedElementKey = ReportDefinitionHelper.EnsureElementId( textDropTarget ),
-            };
+            return SelectElement( ReportDefinitionHelper.EnsureElementId( textDropTarget ) );
         }
 
         targetSection.Elements.Add( fieldElement );
@@ -138,10 +135,7 @@ internal sealed class ReportDesignerDragDropService
             && !ReportRunningTotalResolver.IsRunningTotalDataSource( fieldBinding.DataSourceName ) )
             ReportDetailHeaderSynchronizer.AddPageHeaderForDetailField( definition, targetSectionIndex, targetSection, fieldBinding.FieldName, x, fieldElement.Width );
 
-        return new()
-        {
-            SelectedElementKey = ReportDefinitionHelper.EnsureElementId( fieldElement ),
-        };
+        return SelectElement( ReportDefinitionHelper.EnsureElementId( fieldElement ) );
     }
 
     private static ReportDropResult DropToolboxElement(
@@ -166,10 +160,7 @@ internal sealed class ReportDesignerDragDropService
 
         targetSection.Elements.Add( toolboxElement );
 
-        return new()
-        {
-            SelectedElementKey = ReportDefinitionHelper.EnsureElementId( toolboxElement ),
-        };
+        return SelectElement( ReportDefinitionHelper.EnsureElementId( toolboxElement ) );
     }
 
     private static ReportDropResult DropElement(
@@ -204,9 +195,15 @@ internal sealed class ReportDesignerDragDropService
         targetSection.Elements.Add( element );
         ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement( definition, sourceSectionIndex, targetSectionIndex, element, originalX, originalWidth, element.X, element.Width );
 
+        return SelectElement( ReportDefinitionHelper.EnsureElementId( element ) );
+    }
+
+    private static ReportDropResult SelectElement( string elementKey )
+    {
         return new()
         {
-            SelectedElementKey = ReportDefinitionHelper.EnsureElementId( element ),
+            PrimaryElementKey = elementKey,
+            SelectedElementKeys = string.IsNullOrWhiteSpace( elementKey ) ? [] : [elementKey],
         };
     }
 

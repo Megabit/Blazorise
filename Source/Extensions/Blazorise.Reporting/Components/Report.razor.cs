@@ -99,7 +99,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private int collapsedSectionsVersion;
 
-    private ReportElementDefinition clipboardElement;
+    private List<ReportElementDefinition> clipboardElements = [];
 
     private string clipboardSectionId;
 
@@ -286,17 +286,17 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private ReportSectionDefinition GetSelectedPropertiesSection( ReportDefinition definition )
     {
-        return string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey )
+        return selectionManager.SelectedElementKeys.Count == 0
             ? selectionManager.FindSelectedSection( definition )
             : null;
     }
 
     private ReportSectionDefinition GetSelectedFormulaSection( ReportDefinition definition )
     {
-        if ( string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey ) )
+        if ( selectionManager.SelectedElementKeys.Count == 0 )
             return selectionManager.FindSelectedSection( definition );
 
-        return ReportDefinitionHelper.TryFindElementLocation( definition, selectionManager.SelectedElementKey, out var sectionIndex, out _, out _ )
+        return ReportDefinitionHelper.TryFindElementLocation( definition, selectionManager.PrimaryElementKey, out var sectionIndex, out _, out _ )
             ? definition.Sections[sectionIndex]
             : null;
     }
@@ -472,7 +472,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private bool IsSectionSelected( int sectionIndex )
     {
         return selectionManager.SelectedSectionIndex == sectionIndex
-            && string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey );
+            && selectionManager.SelectedElementKeys.Count == 0;
     }
 
     private async Task HandleDesignerShortcut( ReportDesignerShortcut shortcut )
@@ -503,7 +503,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 break;
 
             case ReportDesignerShortcut.Delete:
-                if ( !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey ) )
+                if ( selectionManager.SelectedElementKeys.Count > 0 )
                     await DeleteSelectedElement();
                 break;
 
@@ -577,9 +577,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ReportCommand.PreviewPdf => SupportsPreviewFormat( ReportPreviewFormat.Pdf ),
             ReportCommand.ConnectDataSource => CurrentMode == ReportMode.Design && IsDesignerEnabled && DataSourceProviders.Count > 0,
             ReportCommand.DownloadPdf => context.ViewerOptions.AllowDownload && SupportsPreviewFormat( ReportPreviewFormat.Pdf ) && PdfGenerator is not null,
-            ReportCommand.Cut or ReportCommand.Copy => CurrentMode == ReportMode.Design && selectionManager.FindSelectedElement( definition ) is not null,
+            ReportCommand.Cut or ReportCommand.Copy => CurrentMode == ReportMode.Design && GetSelectedElementContexts( definition ).Count > 0,
             ReportCommand.Delete => CurrentMode == ReportMode.Design && selectionManager.CanDeleteSelection( definition ),
-            ReportCommand.Paste => CurrentMode == ReportMode.Design && clipboardElement is not null && definition.Sections.Count > 0,
+            ReportCommand.Paste => CurrentMode == ReportMode.Design && HasClipboardElements && definition.Sections.Count > 0,
             ReportCommand.Undo => commandManager.CanUndo,
             ReportCommand.Redo => commandManager.CanRedo,
             _ => true,
@@ -729,13 +729,20 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private Task CopySelectedElement()
     {
-        return ExecuteDesignerCommand( new( "Copy element", () =>
-        {
-            ReportClipboardResult result = clipboardService.CopyElement( EffectiveDefinition, selectionManager.SelectedElementKey );
+        List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( EffectiveDefinition );
 
-            if ( result.ClipboardElement is not null )
+        if ( selectedElements.Count == 0 )
+            return Task.CompletedTask;
+
+        string commandName = selectedElements.Count == 1 ? "Copy element" : "Copy elements";
+
+        return ExecuteDesignerCommand( new( commandName, () =>
+        {
+            ReportClipboardResult result = clipboardService.CopyElements( EffectiveDefinition, GetSelectedElementContexts( EffectiveDefinition ) );
+
+            if ( result.ClipboardElements.Count > 0 )
             {
-                clipboardElement = result.ClipboardElement;
+                clipboardElements = result.ClipboardElements;
                 clipboardSectionId = result.ClipboardSectionId;
                 _ = CloseContextMenu();
             }
@@ -746,18 +753,20 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task CutSelectedElement()
     {
-        var definition = EffectiveDefinition;
+        List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( EffectiveDefinition );
 
-        if ( !ReportDefinitionHelper.TryFindElementLocation( definition, selectionManager.SelectedElementKey, out _, out _, out _ ) )
+        if ( selectedElements.Count == 0 )
             return;
 
-        await ExecuteDesignerCommand( new( "Cut element", () =>
+        string commandName = selectedElements.Count == 1 ? "Cut element" : "Cut elements";
+
+        await ExecuteDesignerCommand( new( commandName, () =>
         {
-            ReportClipboardResult result = clipboardService.CutElement( EffectiveDefinition, selectionManager.SelectedElementKey );
+            ReportClipboardResult result = clipboardService.CutElements( EffectiveDefinition, GetSelectedElementContexts( EffectiveDefinition ) );
 
             if ( result.Changed )
             {
-                clipboardElement = result.ClipboardElement;
+                clipboardElements = result.ClipboardElements;
                 clipboardSectionId = result.ClipboardSectionId;
                 SelectSection( result.SelectedSectionIndex.GetValueOrDefault() );
                 _ = CloseContextMenu();
@@ -769,16 +778,16 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task PasteElement()
     {
-        if ( clipboardElement is null || ResolvePasteSectionIndex( EffectiveDefinition ) < 0 )
+        if ( !HasClipboardElements || ResolvePasteSectionIndex( EffectiveDefinition ) < 0 )
             return;
 
         await ExecuteDesignerCommand( new( "Paste element", () =>
         {
             ReportDefinition definition = EffectiveDefinition;
             int targetSectionIndex = ResolvePasteSectionIndex( definition );
-            ReportClipboardResult result = clipboardService.PasteElement(
+            ReportClipboardResult result = clipboardService.PasteElements(
                 definition,
-                clipboardElement,
+                clipboardElements,
                 clipboardSectionId,
                 designerState.ContextMenu,
                 targetSectionIndex,
@@ -789,8 +798,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
             if ( !string.IsNullOrWhiteSpace( result.SelectedCellKey ) )
                 SelectTableCell( result.SelectedCellKey );
-            else if ( !string.IsNullOrWhiteSpace( result.SelectedElementKey ) )
-                SelectElement( result.SelectedElementKey );
+            else if ( result.SelectedElementKeys.Count > 0 )
+                SelectElements( result.SelectedElementKeys, result.PrimaryElementKey );
 
             _ = CloseContextMenu();
 
@@ -827,7 +836,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             CurrentPreviewFormat,
             designerState.SnapToGrid,
             selectionManager,
-            clipboardElement,
+            clipboardElements,
             clipboardSectionId,
             commandManager.CanUndo,
             commandManager.CanRedo );
@@ -835,12 +844,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task ApplyReportState( ReportState state, bool notifyDefinitionChanged )
     {
-        ReportState nextState = stateService.Apply( state, designerState, selectionManager, BuildDeclarativeDefinition, out ReportDefinition definition, out ReportElementDefinition nextClipboardElement, out string nextClipboardSectionId );
+        ReportState nextState = stateService.Apply( state, designerState, selectionManager, BuildDeclarativeDefinition, out ReportDefinition definition, out List<ReportElementDefinition> nextClipboardElements, out string nextClipboardSectionId );
 
         declarativeDefinition = definition;
         currentMode = nextState.Mode;
         currentPreviewFormat = nextState.PreviewFormat;
-        clipboardElement = nextClipboardElement;
+        clipboardElements = nextClipboardElements;
         clipboardSectionId = nextClipboardSectionId;
         designerState.SelectionVersion++;
 
@@ -1067,17 +1076,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task OpenSectionContextMenu( int sectionIndex, MouseEventArgs eventArgs )
     {
-        bool selectionChanged = selectionManager.ReportSelected
-            || selectionManager.SelectedSectionIndex != sectionIndex
-            || !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey )
-            || !string.IsNullOrWhiteSpace( selectionManager.SelectedCellKey )
-            || selectionManager.SelectedElementKeys.Count > 0;
-
-        selectionManager.ReportSelected = false;
-        selectionManager.SelectedSectionIndex = sectionIndex;
-        selectionManager.SelectedElementKey = null;
-        selectionManager.SelectedCellKey = null;
-        selectionManager.SelectedElementKeys.Clear();
+        bool selectionChanged = selectionManager.SelectSection( sectionIndex );
 
         ReportContextMenuState nextContextMenu = new()
         {
@@ -1088,23 +1087,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ClientY = eventArgs.ClientY,
         };
 
-        contextMenuService.PopulateSectionCapabilities( EffectiveDefinition, nextContextMenu, clipboardElement is not null, aggregateService.CanInsertSection, aggregateService.CanInsertGroup );
+        contextMenuService.PopulateSectionCapabilities( EffectiveDefinition, nextContextMenu, HasClipboardElements, aggregateService.CanInsertSection, aggregateService.CanInsertGroup );
         await ShowContextMenu( nextContextMenu, selectionChanged );
     }
 
     private async Task OpenSectionBodyContextMenu( int sectionIndex, MouseEventArgs eventArgs )
     {
-        bool selectionChanged = selectionManager.ReportSelected
-            || selectionManager.SelectedSectionIndex != sectionIndex
-            || !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey )
-            || !string.IsNullOrWhiteSpace( selectionManager.SelectedCellKey )
-            || selectionManager.SelectedElementKeys.Count > 0;
-
-        selectionManager.ReportSelected = false;
-        selectionManager.SelectedSectionIndex = sectionIndex;
-        selectionManager.SelectedElementKey = null;
-        selectionManager.SelectedCellKey = null;
-        selectionManager.SelectedElementKeys.Clear();
+        bool selectionChanged = selectionManager.SelectSection( sectionIndex );
 
         ReportContextMenuState nextContextMenu = new()
         {
@@ -1118,26 +1107,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ClientY = eventArgs.ClientY,
         };
 
-        contextMenuService.PopulateSectionCapabilities( EffectiveDefinition, nextContextMenu, clipboardElement is not null, aggregateService.CanInsertSection, aggregateService.CanInsertGroup );
+        contextMenuService.PopulateSectionCapabilities( EffectiveDefinition, nextContextMenu, HasClipboardElements, aggregateService.CanInsertSection, aggregateService.CanInsertGroup );
         await ShowContextMenu( nextContextMenu, selectionChanged );
     }
 
     private async Task OpenElementContextMenu( string elementKey, MouseEventArgs eventArgs )
     {
-        bool selectionChanged = selectionManager.ReportSelected
-            || selectionManager.SelectedSectionIndex is not null
-            || !string.IsNullOrWhiteSpace( selectionManager.SelectedCellKey )
-            || !selectionManager.IsElementSelected( elementKey );
-
-        selectionManager.ReportSelected = false;
-        selectionManager.SelectedSectionIndex = null;
-        selectionManager.SelectedCellKey = null;
-
-        if ( !selectionManager.IsElementSelected( elementKey ) )
-            selectionManager.SelectedElementKeys.Clear();
-
-        selectionManager.SelectedElementKey = elementKey;
-        selectionManager.SelectedElementKeys.Add( elementKey );
+        bool selectionChanged = selectionManager.SelectElement( elementKey, preserveSelection: selectionManager.IsElementSelected( elementKey ) );
         ReportContextMenuState nextContextMenu = new()
         {
             Visible = true,
@@ -1148,7 +1124,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ClientY = eventArgs.ClientY,
         };
 
-        contextMenuService.PopulateElementCapabilities( EffectiveDefinition, nextContextMenu, clipboardElement is not null );
+        contextMenuService.PopulateElementCapabilities( EffectiveDefinition, nextContextMenu, HasClipboardElements );
         await ShowContextMenu( nextContextMenu, selectionChanged );
     }
 
@@ -1171,7 +1147,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ClientY = eventArgs.ClientY,
         };
 
-        contextMenuService.PopulateTableCellCapabilities( EffectiveDefinition, nextContextMenu, clipboardElement is not null );
+        contextMenuService.PopulateTableCellCapabilities( EffectiveDefinition, nextContextMenu, HasClipboardElements );
         await ShowContextMenu( nextContextMenu, selectionChanged );
     }
 
@@ -1272,8 +1248,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private void BeginSelectedElementTextEdit()
     {
-        if ( !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey ) )
-            BeginElementTextEdit( selectionManager.SelectedElementKey );
+        if ( !string.IsNullOrWhiteSpace( selectionManager.PrimaryElementKey ) )
+            BeginElementTextEdit( selectionManager.PrimaryElementKey );
     }
 
     private void BeginElementTextEdit( string elementKey )
@@ -1767,7 +1743,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private int GetDataElementInsertionSectionIndex( ReportDefinition definition )
     {
-        return dataDefinitionService.GetInsertionSectionIndex( definition, selectionManager.SelectedSectionIndex, selectionManager.SelectedElementKey );
+        return dataDefinitionService.GetInsertionSectionIndex( definition, selectionManager.SelectedSectionIndex, selectionManager.PrimaryElementKey );
     }
 
     private double GetNextDataElementInsertionY( ReportSectionDefinition section )
@@ -2068,7 +2044,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private List<ReportSelectedElementContext> GetSelectedElementContexts( ReportDefinition definition )
     {
-        return elementLayoutService.GetSelectedElementContexts( definition, selectionManager.SelectedElementKeys, selectionManager.SelectedElementKey );
+        return elementLayoutService.GetSelectedElementContexts( definition, selectionManager.SelectedElementKeys, selectionManager.PrimaryElementKey );
     }
 
     private Task UpdateSelectedElementsFromProperties( Action<ReportElementDefinition> update )
@@ -2159,7 +2135,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private Task DeleteSelection()
     {
-        if ( !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey ) )
+        if ( selectionManager.SelectedElementKeys.Count > 0 )
             return DeleteSelectedElement();
 
         return DeleteSelectedSection();
@@ -2579,13 +2555,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private IEnumerable<string> GetSelectedElementKeysForResizeHitTest()
     {
-        if ( !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey ) )
-            yield return selectionManager.SelectedElementKey;
-
         foreach ( string selectedElementKey in selectionManager.SelectedElementKeys )
         {
-            if ( !string.Equals( selectedElementKey, selectionManager.SelectedElementKey, StringComparison.Ordinal ) )
-                yield return selectedElementKey;
+            yield return selectedElementKey;
         }
     }
 
@@ -3481,8 +3453,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
             if ( !string.IsNullOrWhiteSpace( result.SelectedCellKey ) )
                 SelectTableCell( result.SelectedCellKey );
-            else if ( !string.IsNullOrWhiteSpace( result.SelectedElementKey ) )
-                SelectElement( result.SelectedElementKey );
+            else if ( result.SelectedElementKeys.Count > 0 )
+                SelectElements( result.SelectedElementKeys, result.PrimaryElementKey );
 
             selectionManager.SelectedSectionIndex = null;
             designerState.DragPreview = null;
@@ -3695,9 +3667,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private ReportDefinitionMode CurrentDefinitionMode => DefinitionMode ?? GlobalOptions.DefinitionMode;
 
+    private bool HasClipboardElements => clipboardElements.Count > 0;
+
     private string SelectedDesignerPanelTabName => selectedDesignerPanelTab.ToString();
 
-    private string ToolbarStateKey => $"{CurrentMode}|{CurrentPreviewFormat}|{selectionManager.SelectedElementKey}|{selectionManager.SelectedCellKey}|{selectionManager.SelectedElementKeys.Count}|{selectionManager.SelectedSectionIndex}|{clipboardElement?.Id}|{commandManager.CanUndo}|{commandManager.CanRedo}";
+    private string ToolbarStateKey => $"{CurrentMode}|{CurrentPreviewFormat}|{selectionManager.PrimaryElementKey}|{selectionManager.SelectedCellKey}|{selectionManager.SelectedElementKeys.Count}|{selectionManager.SelectedSectionIndex}|{clipboardElements.Count}|{commandManager.CanUndo}|{commandManager.CanRedo}";
 
     private string DataSourceName => "Default";
 
