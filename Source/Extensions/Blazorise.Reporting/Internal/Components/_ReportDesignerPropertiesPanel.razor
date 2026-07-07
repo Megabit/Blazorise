@@ -347,21 +347,6 @@
         }
 
     </Div>
-
-    @if ( SelectedElement.Suppress?.Value != true )
-    {
-        <Div Margin="MarginIs3FromTop">
-            <h6>Selected element</h6>
-            <Div Flex="FlexIsWrap" Gap="GapIs2">
-                <Button Color="Color.Light" Clicked="@OnMoveSelectedElementLeftClicked" Size="Size.Small">Left</Button>
-                <Button Color="Color.Light" Clicked="@OnMoveSelectedElementUpClicked" Size="Size.Small">Up</Button>
-                <Button Color="Color.Light" Clicked="@OnMoveSelectedElementDownClicked" Size="Size.Small">Down</Button>
-                <Button Color="Color.Light" Clicked="@OnMoveSelectedElementRightClicked" Size="Size.Small">Right</Button>
-                <Button Color="Color.Light" Clicked="@OnMakeSelectedElementWiderClicked" Size="Size.Small">Wider</Button>
-                <Button Color="Color.Light" Clicked="@OnMakeSelectedElementTallerClicked" Size="Size.Small">Taller</Button>
-            </Div>
-        </Div>
-    }
 }
 
 @if ( SelectedCell is not null )

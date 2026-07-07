@@ -16,12 +16,6 @@ public partial class _ReportDesignerPropertiesPanel
 {
     #region Members
 
-    private const double SelectedElementMoveStep = 8;
-
-    private const double SelectedElementHeightResizeStep = 8;
-
-    private const double SelectedElementWidthResizeStep = 16;
-
     private const int DefaultTableColumnCount = 2;
 
     private const int DefaultTableRowCount = 2;
@@ -458,24 +452,6 @@ public partial class _ReportDesignerPropertiesPanel
     private Task OnDeleteSelectedSectionClicked( MouseEventArgs eventArgs )
         => DeleteSelectedSection();
 
-    private Task OnMoveSelectedElementLeftClicked( MouseEventArgs eventArgs )
-        => MoveSelectedElement( -SelectedElementMoveStep, 0, 0, 0 );
-
-    private Task OnMoveSelectedElementUpClicked( MouseEventArgs eventArgs )
-        => MoveSelectedElement( 0, -SelectedElementMoveStep, 0, 0 );
-
-    private Task OnMoveSelectedElementDownClicked( MouseEventArgs eventArgs )
-        => MoveSelectedElement( 0, SelectedElementMoveStep, 0, 0 );
-
-    private Task OnMoveSelectedElementRightClicked( MouseEventArgs eventArgs )
-        => MoveSelectedElement( SelectedElementMoveStep, 0, 0, 0 );
-
-    private Task OnMakeSelectedElementWiderClicked( MouseEventArgs eventArgs )
-        => MoveSelectedElement( 0, 0, SelectedElementWidthResizeStep, 0 );
-
-    private Task OnMakeSelectedElementTallerClicked( MouseEventArgs eventArgs )
-        => MoveSelectedElement( 0, 0, 0, SelectedElementHeightResizeStep );
-
     private string GetSelectedSectionDataSourceDisplayName()
     {
         if ( string.IsNullOrWhiteSpace( SelectedSection?.DataSource ) )
@@ -667,11 +643,6 @@ public partial class _ReportDesignerPropertiesPanel
     /// Updates the selected element definition.
     /// </summary>
     [Parameter] public Func<Action<ReportElementDefinition>, Task> UpdateSelectedElement { get; set; }
-
-    /// <summary>
-    /// Moves or resizes the selected element by a delta.
-    /// </summary>
-    [Parameter] public Func<double, double, double, double, Task> MoveSelectedElement { get; set; }
 
     /// <summary>
     /// Enables image upload from the Image element source property.

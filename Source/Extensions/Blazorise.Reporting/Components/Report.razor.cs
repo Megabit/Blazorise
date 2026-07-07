@@ -1930,24 +1930,6 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private Task OnContextMenuClose( MouseEventArgs eventArgs )
         => CloseContextMenu();
 
-    private async Task MoveSelectedElement( double x, double y, double width, double height )
-    {
-        ReportElementDefinition element = selectionManager.FindSelectedElement( EffectiveDefinition );
-
-        if ( element is null )
-            return;
-
-        await ExecuteDesignerCommand( new( "Move element", () =>
-        {
-            ReportDefinition definition = EffectiveDefinition;
-            ReportElementDefinition element = selectionManager.FindSelectedElement( definition );
-
-            elementCommandService.MoveElement( definition, element, x, y, width, height, IsSnapToGridEnabled, ApplyDesignerGrid );
-
-            return Task.CompletedTask;
-        }, refreshSurface: false ) );
-    }
-
     private async Task MoveSelectedElements( double x, double y )
     {
         ReportDefinition definition = EffectiveDefinition;
