@@ -16,9 +16,11 @@ public partial class _ReportDesignerTableCell
 {
     #region Methods
 
+    private bool CanReceiveDesignerInteraction => DesignMode && Editable;
+
     private Task OnCellClicked( MouseEventArgs eventArgs )
     {
-        if ( DesignMode && CellClicked is not null )
+        if ( CanReceiveDesignerInteraction && CellClicked is not null )
             return CellClicked.Invoke( Cell.Id, eventArgs );
 
         return Task.CompletedTask;
@@ -26,7 +28,7 @@ public partial class _ReportDesignerTableCell
 
     private Task OnCellContextMenu( MouseEventArgs eventArgs )
     {
-        if ( DesignMode && CellContextMenu is not null )
+        if ( CanReceiveDesignerInteraction && CellContextMenu is not null )
             return CellContextMenu.Invoke( SectionIndex, Cell.Id, eventArgs );
 
         return Task.CompletedTask;
@@ -34,7 +36,7 @@ public partial class _ReportDesignerTableCell
 
     private Task OnElementClicked( string elementKey, MouseEventArgs eventArgs )
     {
-        if ( DesignMode && ElementClicked is not null )
+        if ( CanReceiveDesignerInteraction && ElementClicked is not null )
             return ElementClicked.Invoke( elementKey, eventArgs );
 
         return Task.CompletedTask;
@@ -42,7 +44,7 @@ public partial class _ReportDesignerTableCell
 
     private Task OnElementDoubleClicked( string elementKey, MouseEventArgs eventArgs )
     {
-        if ( DesignMode && ElementDoubleClicked is not null )
+        if ( CanReceiveDesignerInteraction && ElementDoubleClicked is not null )
             return ElementDoubleClicked.Invoke( elementKey, eventArgs );
 
         return Task.CompletedTask;
@@ -50,7 +52,7 @@ public partial class _ReportDesignerTableCell
 
     private Task OnElementContextMenu( string cellKey, MouseEventArgs eventArgs )
     {
-        if ( DesignMode && CellContextMenu is not null )
+        if ( CanReceiveDesignerInteraction && CellContextMenu is not null )
             return CellContextMenu.Invoke( SectionIndex, cellKey, eventArgs );
 
         return Task.CompletedTask;
@@ -58,7 +60,7 @@ public partial class _ReportDesignerTableCell
 
     private Task OnElementTextEditCommitted( string elementKey, string text )
     {
-        if ( DesignMode && ElementTextEditCommitted is not null )
+        if ( CanReceiveDesignerInteraction && ElementTextEditCommitted is not null )
             return ElementTextEditCommitted.Invoke( elementKey, text );
 
         return Task.CompletedTask;
@@ -66,7 +68,7 @@ public partial class _ReportDesignerTableCell
 
     private Task OnElementTextEditCancelled( string elementKey )
     {
-        if ( DesignMode && ElementTextEditCancelled is not null )
+        if ( CanReceiveDesignerInteraction && ElementTextEditCancelled is not null )
             return ElementTextEditCancelled.Invoke( elementKey );
 
         return Task.CompletedTask;
@@ -74,7 +76,7 @@ public partial class _ReportDesignerTableCell
 
     private Task OnColumnResizePointerDown( PointerEventArgs eventArgs )
     {
-        if ( DesignMode && ResizeStarted is not null )
+        if ( CanReceiveDesignerInteraction && ResizeStarted is not null )
             return ResizeStarted.Invoke( TableElementKey, Cell.Id, ReportTableResizeKind.Column, Cell.ColumnIndex + Math.Max( 1, Cell.ColumnSpan ) - 1, eventArgs );
 
         return Task.CompletedTask;
@@ -82,7 +84,7 @@ public partial class _ReportDesignerTableCell
 
     private Task OnRowResizePointerDown( PointerEventArgs eventArgs )
     {
-        if ( DesignMode && ResizeStarted is not null )
+        if ( CanReceiveDesignerInteraction && ResizeStarted is not null )
             return ResizeStarted.Invoke( TableElementKey, Cell.Id, ReportTableResizeKind.Row, Cell.RowIndex + Math.Max( 1, Cell.RowSpan ) - 1, eventArgs );
 
         return Task.CompletedTask;
@@ -157,6 +159,11 @@ public partial class _ReportDesignerTableCell
     /// Indicates that the table is rendered on the designer surface.
     /// </summary>
     [Parameter] public bool DesignMode { get; set; }
+
+    /// <summary>
+    /// Allows the table cell to receive designer interactions.
+    /// </summary>
+    [Parameter] public bool Editable { get; set; }
 
     /// <summary>
     /// Indicates that the table element is part of the current selection.

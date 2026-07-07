@@ -6,10 +6,10 @@
 <div class="@CellClass"
      style="@CellStyle"
      @onclick="@OnCellClicked"
-     @onclick:stopPropagation="@DesignMode"
+     @onclick:stopPropagation="@CanReceiveDesignerInteraction"
      @oncontextmenu="@OnCellContextMenu"
-     @oncontextmenu:preventDefault="@DesignMode"
-     @oncontextmenu:stopPropagation="@DesignMode">
+     @oncontextmenu:preventDefault="@CanReceiveDesignerInteraction"
+     @oncontextmenu:stopPropagation="@CanReceiveDesignerInteraction">
     <div class="b-report-table-cell-content">
         @foreach ( ReportElementDefinition childElement in GetRenderableElements() )
         {
@@ -25,7 +25,7 @@
                                     ElementKey="@childElementKey"
                                     ContextMenuKey="@Cell.Id"
                                     DesignMode="@DesignMode"
-                                    Editable="@DesignMode"
+                                    Editable="@CanReceiveDesignerInteraction"
                                     LayoutLocked
                                     AllowPointerDragThrough="@TableSelected"
                                     Selected="@(IsElementSelected?.Invoke( childElementKey ) == true)"
@@ -38,7 +38,7 @@
                                     TextEditCancelled="@OnElementTextEditCancelled" />
         }
     </div>
-    @if ( DesignMode )
+    @if ( CanReceiveDesignerInteraction )
     {
         <span class="b-report-table-column-resize-handle"
               title="Resize column"

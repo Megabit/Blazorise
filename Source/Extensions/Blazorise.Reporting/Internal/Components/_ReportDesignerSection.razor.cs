@@ -133,7 +133,7 @@ public partial class _ReportDesignerSection
 
     private Task OnDragOver( DragEventArgs eventArgs )
     {
-        if ( DragOver is not null )
+        if ( Editable && DragOver is not null )
             return DragOver.Invoke( SectionIndex, bodyElement, eventArgs );
 
         return Task.CompletedTask;
@@ -141,7 +141,7 @@ public partial class _ReportDesignerSection
 
     private Task OnPointerMove( PointerEventArgs eventArgs )
     {
-        if ( PointerMove is not null )
+        if ( Editable && PointerMove is not null )
             return PointerMove.Invoke( SectionIndex, eventArgs );
 
         return Task.CompletedTask;
@@ -149,7 +149,7 @@ public partial class _ReportDesignerSection
 
     private Task OnDrop( DragEventArgs eventArgs )
     {
-        if ( Drop is not null )
+        if ( Editable && Drop is not null )
             return Drop.Invoke( SectionIndex, bodyElement, eventArgs );
 
         return Task.CompletedTask;
@@ -173,7 +173,7 @@ public partial class _ReportDesignerSection
 
     private Task OnBodyPointerDown( PointerEventArgs eventArgs )
     {
-        if ( BodyPointerDown is not null )
+        if ( Editable && BodyPointerDown is not null )
             return BodyPointerDown.Invoke( SectionIndex, eventArgs );
 
         return Task.CompletedTask;
@@ -181,7 +181,7 @@ public partial class _ReportDesignerSection
 
     private Task OnPointerUp( PointerEventArgs eventArgs )
     {
-        if ( PointerUp is not null )
+        if ( Editable && PointerUp is not null )
             return PointerUp.Invoke( SectionIndex, eventArgs );
 
         return Task.CompletedTask;
@@ -189,7 +189,7 @@ public partial class _ReportDesignerSection
 
     private Task OnPointerCancel( PointerEventArgs eventArgs )
     {
-        if ( PointerCancel is not null )
+        if ( Editable && PointerCancel is not null )
             return PointerCancel.Invoke( eventArgs );
 
         return Task.CompletedTask;
@@ -221,7 +221,7 @@ public partial class _ReportDesignerSection
 
     private Task OnResizePointerDown( PointerEventArgs eventArgs )
     {
-        if ( ResizePointerDown is not null )
+        if ( Editable && ResizePointerDown is not null )
             return ResizePointerDown.Invoke( SectionIndex, eventArgs );
 
         return Task.CompletedTask;

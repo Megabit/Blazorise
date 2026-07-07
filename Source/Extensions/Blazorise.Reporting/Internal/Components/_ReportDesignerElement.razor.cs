@@ -215,7 +215,7 @@ public partial class _ReportDesignerElement
 
     private Task OnContextMenu( MouseEventArgs eventArgs )
     {
-        if ( ContextMenu is not null )
+        if ( CanReceiveDesignerInteraction && ContextMenu is not null )
             return ContextMenu.Invoke( ContextMenuKey ?? ElementKey, eventArgs );
 
         return Task.CompletedTask;
@@ -223,7 +223,7 @@ public partial class _ReportDesignerElement
 
     private Task OnClicked( MouseEventArgs eventArgs )
     {
-        if ( Clicked is not null )
+        if ( CanReceiveDesignerInteraction && Clicked is not null )
             return Clicked.Invoke( ElementKey, eventArgs );
 
         return Task.CompletedTask;
@@ -231,7 +231,7 @@ public partial class _ReportDesignerElement
 
     private Task OnDoubleClicked( MouseEventArgs eventArgs )
     {
-        if ( DoubleClicked is not null )
+        if ( CanReceiveDesignerInteraction && DoubleClicked is not null )
             return DoubleClicked.Invoke( ElementKey, eventArgs );
 
         return Task.CompletedTask;
@@ -239,7 +239,7 @@ public partial class _ReportDesignerElement
 
     private Task OnPointerDown( PointerEventArgs eventArgs )
     {
-        if ( PointerDown is not null )
+        if ( CanHandleDesignerPointerDown && PointerDown is not null )
             return PointerDown.Invoke( ElementKey, eventArgs );
 
         return Task.CompletedTask;
@@ -247,7 +247,7 @@ public partial class _ReportDesignerElement
 
     private Task OnResizeStarted( int handle, PointerEventArgs eventArgs )
     {
-        if ( ResizeStarted is not null )
+        if ( ShowResizeHandles && ResizeStarted is not null )
             return ResizeStarted.Invoke( ElementKey, handle, eventArgs );
 
         return Task.CompletedTask;

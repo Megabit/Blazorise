@@ -204,6 +204,11 @@ public partial class _ReportDesignerTable
     [Parameter] public bool DesignMode { get; set; }
 
     /// <summary>
+    /// Allows the table to receive designer interactions.
+    /// </summary>
+    [Parameter] public bool Editable { get; set; }
+
+    /// <summary>
     /// Indicates that the table element is part of the current selection.
     /// </summary>
     [Parameter] public bool TableSelected { get; set; }
