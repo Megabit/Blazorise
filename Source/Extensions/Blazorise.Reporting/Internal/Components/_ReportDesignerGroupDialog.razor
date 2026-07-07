@@ -7,8 +7,8 @@
 </ModalHeader>
 <ModalBody>
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Group by</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Group by</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs8">
             <Select TValue="string" Value="@selectedFieldKey" ValueChanged="@OnSelectedFieldChanged" Size="Size.Small">
                 @foreach ( ReportDesignerFieldOption field in fields )
                 {

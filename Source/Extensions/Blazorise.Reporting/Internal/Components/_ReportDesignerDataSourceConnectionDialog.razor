@@ -7,8 +7,8 @@
 </ModalHeader>
 <ModalBody>
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Data source</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Data source</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs8">
             <Select TValue="string" Value="@selectedDataSourceId" ValueChanged="@OnSelectedDataSourceChanged" Size="Size.Small">
                 <SelectItem TValue="string" Value="@NewDataSourceValue">New data source</SelectItem>
                 @foreach ( ReportDataSourceDefinition dataSource in dataSources )
@@ -20,15 +20,15 @@
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Name</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Name</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs8">
             <TextInput Value="@name" ValueChanged="@OnNameChanged" Size="Size.Small" />
         </FieldBody>
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Provider</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Provider</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs8">
             <Select TValue="string" Value="@selectedProviderType" ValueChanged="@OnSelectedProviderChanged" Size="Size.Small">
                 @foreach ( IReportDataSourceProvider provider in providers )
                 {
@@ -39,7 +39,7 @@
     </Field>
 
     <Field>
-        <FieldLabel TextSize="TextSize.Small">@GetProviderSettingsLabel()</FieldLabel>
+        <FieldLabel TextSize="TextSizeSmall">@GetProviderSettingsLabel()</FieldLabel>
         <FieldBody>
             @if ( editorContext is not null )
             {

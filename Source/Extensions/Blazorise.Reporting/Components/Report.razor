@@ -1,23 +1,22 @@
 @namespace Blazorise.Reporting
 @inject System.IServiceProvider ServiceProvider
 @using System
-@using System.Linq
 @using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
 @using Blazorise.Reporting.Internal
 
 <CascadingValue Value="@context" IsFixed="true">
-    <Div Display="Display.None">
+    <Div Display="DisplayNone">
         @ChildContent
     </Div>
 </CascadingValue>
 
-<Div Class="b-report" Flex="Flex.Column" Gap="Gap.Is3">
+<Div Class="b-report" Flex="FlexColumn" Gap="GapIs3">
     <CascadingValue Value="@modalProviderName" Name="ReportModalProviderName" IsFixed="true">
         @if ( ShowToolbar && !( CurrentMode == ReportMode.Design && IsDesignerEnabled ) )
         {
-            <Div Class="b-report-toolbar" Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Padding="Padding.Is3" Border="Border.Is1" Background="Background.White">
+            <Div Class="b-report-toolbar" Flex="FlexAlignItemsCenter" Gap="GapIs2" Padding="PaddingIs3" Border="BorderIs1" Background="BackgroundWhite">
                 <CascadingValue @key="@ToolbarStateKey" Value="@toolbarContext" IsFixed="true">
                     @if ( context.ToolbarContent is not null )
                     {
@@ -40,7 +39,7 @@
                             <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
                             <ReportToolbarItem Command="ReportCommand.DownloadPdf" Caption="Download PDF" />
                         </ReportToolbarGroup>
-                        <Div Margin="Margin.IsAuto.FromStart">
+                        <Div Margin="MarginIsAutoFromStart">
                             <ReportToolbarGroup>
                                 @if ( IsDesignerEnabled )
                                 {
@@ -94,7 +93,7 @@
                                     <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
                                     <ReportToolbarItem Command="ReportCommand.DownloadPdf" Caption="Download PDF" />
                                 </ReportToolbarGroup>
-                                <Div Margin="Margin.IsAuto.FromStart">
+                                <Div Margin="MarginIsAutoFromStart">
                                     <ReportToolbarGroup>
                                         @if ( IsDesignerEnabled )
                                         {
@@ -348,7 +347,7 @@
                 </ContextMenu>
             </_ReportDesignerLayout>
 
-            <Div Display="Display.None">
+            <Div Display="DisplayNone">
                 <_ReportDesignerAggregateDialog @ref="aggregateDialogRef"
                                                 ResolveSupportedFunctions="@ResolveAggregateDialogSupportedFunctions"
                                                 Confirmed="@OnAggregateDialogConfirmedAsync" />
@@ -372,23 +371,23 @@
             var definition = EffectiveDefinition;
 
             <Div Class="b-report-viewer"
-                 Padding="Padding.Is3"
-                 Background="Background.Light"
-                 Border="Border.Is1"
-                 Overflow="Overflow.Auto">
+                 Padding="PaddingIs3"
+                 Background="BackgroundLight"
+                 Border="BorderIs1"
+                 Overflow="OverflowAuto">
                 @if ( CurrentPreviewFormat == ReportPreviewFormat.Pdf )
                 {
-                    <Div Padding="Padding.Is5"
-                         Border="Border.Is1"
-                         Background="Background.White"
-                         TextAlignment="TextAlignment.Center">
-                        <Div Margin="Margin.Is3.FromBottom">
+                    <Div Padding="PaddingIs5"
+                         Border="BorderIs1"
+                         Background="BackgroundWhite"
+                         TextAlignment="TextAlignmentCenter">
+                        <Div Margin="MarginIs3FromBottom">
                             PDF preview is available for download.
                         </Div>
                         @if ( context.ViewerOptions.AllowDownload )
                         {
                             <Button Color="Color.Primary" Clicked="@DownloadPdfAsync">
-                                <Icon Name="IconName.FileDownload" Margin="Margin.Is2.FromEnd" />
+                                <Icon Name="IconName.FileDownload" Margin="MarginIs2FromEnd" />
                                 Download PDF
                             </Button>
                         }

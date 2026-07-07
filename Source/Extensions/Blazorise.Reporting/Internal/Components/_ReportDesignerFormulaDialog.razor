@@ -6,29 +6,29 @@
     <CloseButton Clicked="@CloseAsync" />
 </ModalHeader>
 <ModalBody>
-    <Grid Columns="GridColumns.Are3" Gap="Gap.Is2">
+    <Grid Columns="GridColumns.Are3" Gap="GapIs2">
         <Div>
-            <Div TextSize="TextSize.Small" TextWeight="TextWeight.Bold" Margin="Margin.Is1.FromBottom">Fields</Div>
-            <Div Height="@FormulaPaneHeight" Overflow="Overflow.Auto">
+            <Div TextSize="TextSizeSmall" TextWeight="TextWeightBold" Margin="MarginIs1FromBottom">Fields</Div>
+            <Div Height="HeightPx180" Overflow="OverflowAuto">
                 <_ReportTreeView Nodes="@FieldNodes" NodeClicked="@OnFieldNodeClicked" CollapseByDefault />
             </Div>
         </Div>
         <Div>
-            <Div TextSize="TextSize.Small" TextWeight="TextWeight.Bold" Margin="Margin.Is1.FromBottom">Functions</Div>
-            <Div Height="@FormulaPaneHeight" Overflow="Overflow.Auto">
+            <Div TextSize="TextSizeSmall" TextWeight="TextWeightBold" Margin="MarginIs1FromBottom">Functions</Div>
+            <Div Height="HeightPx180" Overflow="OverflowAuto">
                 <_ReportTreeView Nodes="@FunctionNodes" NodeClicked="@OnFunctionNodeClicked" CollapseByDefault />
             </Div>
         </Div>
         <Div>
-            <Div TextSize="TextSize.Small" TextWeight="TextWeight.Bold" Margin="Margin.Is1.FromBottom">Operators</Div>
-            <Div Height="@FormulaPaneHeight" Overflow="Overflow.Auto">
+            <Div TextSize="TextSizeSmall" TextWeight="TextWeightBold" Margin="MarginIs1FromBottom">Operators</Div>
+            <Div Height="HeightPx180" Overflow="OverflowAuto">
                 <_ReportTreeView Nodes="@OperatorNodes" NodeClicked="@OnOperatorNodeClicked" CollapseByDefault />
             </Div>
         </Div>
     </Grid>
 
-    <Field Margin="Margin.Is3.FromTop">
-        <FieldLabel TextSize="TextSize.Small">Formula</FieldLabel>
+    <Field Margin="MarginIs3FromTop">
+        <FieldLabel TextSize="TextSizeSmall">Formula</FieldLabel>
         <FieldBody>
             <MemoInput Value="@formula" ValueChanged="@OnFormulaChanged" Immediate="true" Size="Size.Small" Rows="@FormulaEditorRows" />
         </FieldBody>
@@ -36,34 +36,34 @@
 
     @if ( HasValidationMessage )
     {
-        <Alert Color="@ValidationAlertColor" Visible Margin="Margin.Is2.FromTop">
+        <Alert Color="@ValidationAlertColor" Visible Margin="MarginIs2FromTop">
             <AlertDescription>@validationMessage</AlertDescription>
         </Alert>
     }
 
-    <Div Margin="Margin.Is2.FromTop">
+    <Div Margin="MarginIs2FromTop">
         <Table Narrow Striped>
             <TableBody>
                 <TableRow>
-                    <TableRowCell TextSize="TextSize.Small" TextWeight="TextWeight.Bold">Item</TableRowCell>
-                    <TableRowCell TextSize="TextSize.Small">@SelectedHelpItem</TableRowCell>
+                    <TableRowCell TextSize="TextSizeSmall" TextWeight="TextWeightBold">Item</TableRowCell>
+                    <TableRowCell TextSize="TextSizeSmall">@SelectedHelpItem</TableRowCell>
                 </TableRow>
                 <TableRow>
-                    <TableRowCell TextSize="TextSize.Small" TextWeight="TextWeight.Bold">Description</TableRowCell>
-                    <TableRowCell TextSize="TextSize.Small">@SelectedHelpDescription</TableRowCell>
+                    <TableRowCell TextSize="TextSizeSmall" TextWeight="TextWeightBold">Description</TableRowCell>
+                    <TableRowCell TextSize="TextSizeSmall">@SelectedHelpDescription</TableRowCell>
                 </TableRow>
             </TableBody>
         </Table>
     </Div>
 </ModalBody>
 <ModalFooter>
-    <Div Display="Display.Flex" Flex="Flex.JustifyContent.Between.AlignItems.Center" Width="Width.Is100">
-        <Div Display="Display.Flex" Gap="Gap.Is2">
+    <Div Display="DisplayFlex" Flex="FlexJustifyContentBetweenAlignItemsCenter" Width="WidthIs100">
+        <Div Display="DisplayFlex" Gap="GapIs2">
             <Button Color="Color.Info" Clicked="@CheckAsync" Size="Size.Small">Check</Button>
             <Button Color="Color.Primary" Clicked="@SaveAsync" Size="Size.Small">Save</Button>
             <Button Color="Color.Primary" Clicked="@SaveAndCloseAsync" Size="Size.Small">Save and close</Button>
         </Div>
-        <Div Display="Display.Flex" Gap="Gap.Is2">
+        <Div Display="DisplayFlex" Gap="GapIs2">
             <Button Color="Color.Light" Clicked="@ClearAsync" Size="Size.Small">Clear</Button>
             <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
         </Div>

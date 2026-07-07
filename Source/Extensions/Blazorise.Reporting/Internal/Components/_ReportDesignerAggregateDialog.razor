@@ -7,8 +7,8 @@
 </ModalHeader>
 <ModalBody>
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Field</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Field</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs8">
             <Select TValue="string" Value="@selectedFieldKey" ValueChanged="@OnSelectedFieldChanged" Size="Size.Small">
                 @foreach ( ReportDesignerFieldOption field in fields )
                 {
@@ -19,8 +19,8 @@
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Function</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Function</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs8">
             <Select TValue="ReportAggregateFunction" Value="@selectedFunction" ValueChanged="@OnSelectedFunctionChanged" Size="Size.Small">
                 @foreach ( ReportAggregateFunction function in supportedFunctions )
                 {
@@ -31,8 +31,8 @@
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Summary location</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Summary location</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs8">
             <Select TValue="int" Value="@selectedSummaryLocationIndex" ValueChanged="@OnSelectedSummaryLocationChanged" Disabled="@(summaryLocations.Count <= 1)" Size="Size.Small">
                 @foreach ( ReportAggregateSummaryLocation location in summaryLocations )
                 {

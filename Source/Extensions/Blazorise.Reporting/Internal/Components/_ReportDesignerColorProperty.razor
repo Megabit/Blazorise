@@ -1,9 +1,9 @@
 @namespace Blazorise.Reporting.Internal
 @inherits BaseReportComponent
 
-<Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
-    <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">@Label</FieldLabel>
-    <FieldBody ColumnSize="ColumnSize.Is8">
+<Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
+    <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">@Label</FieldLabel>
+    <FieldBody ColumnSize="ColumnSizeIs8">
         <Addons Size="Size.Small">
             <Addon AddonType="AddonType.Body">
                 <Select TValue="string" Value="@SelectedName" ValueChanged="@OnNameChanged" Size="Size.Small">

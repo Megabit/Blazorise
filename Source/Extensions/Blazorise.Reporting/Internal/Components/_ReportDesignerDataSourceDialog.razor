@@ -7,8 +7,8 @@
 </ModalHeader>
 <ModalBody>
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Data source</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Data source</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs8">
             <Select TValue="string" Value="@selectedDataSource" ValueChanged="@OnSelectedDataSourceChanged" Size="Size.Small">
                 <SelectItem TValue="string" Value="@NoDataSourceValue">None</SelectItem>
                 @foreach ( ReportDesignerDataSourceOption dataSource in dataSourceOptions )

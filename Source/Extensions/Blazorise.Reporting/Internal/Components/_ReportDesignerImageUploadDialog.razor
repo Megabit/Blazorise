@@ -23,11 +23,11 @@
 
     @if ( selectedFile is not null )
     {
-        <Div Margin="Margin.Is3.FromTop">
-            <Paragraph Margin="Margin.Is1.FromBottom">
+        <Div Margin="MarginIs3FromTop">
+            <Paragraph Margin="MarginIs1FromBottom">
                 <Strong>@selectedFile.Name</Strong>
             </Paragraph>
-            <Paragraph TextColor="TextColor.Secondary" TextSize="TextSize.Small">
+            <Paragraph TextColor="TextColorSecondary" TextSize="TextSizeSmall">
                 @FormatFileSize( selectedFile.Size )
             </Paragraph>
         </Div>
@@ -35,14 +35,14 @@
 
     @if ( !string.IsNullOrWhiteSpace( previewSource ) )
     {
-        <Div Margin="Margin.Is3.FromTop" Border="Border.Is1" Padding="Padding.Is2" Background="Background.Light">
+        <Div Margin="MarginIs3FromTop" Border="BorderIs1" Padding="PaddingIs2" Background="BackgroundLight">
             <Image Source="@previewSource" Text="@selectedFile?.Name" Fluid />
         </Div>
     }
 
     @if ( !string.IsNullOrWhiteSpace( errorMessage ) )
     {
-        <Alert Color="Color.Danger" Visible Margin="Margin.Is3.FromTop">
+        <Alert Color="Color.Danger" Visible Margin="MarginIs3FromTop">
             @errorMessage
         </Alert>
     }

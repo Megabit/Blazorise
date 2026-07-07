@@ -1,6 +1,7 @@
 #region Using directives
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using static Blazorise.Reporting.Internal.FluentConstants;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -69,8 +70,8 @@ public partial class _ReportDesignerWorkspaceDockTree
 
     private IFluentSpacing SurfaceBodyPadding
         => ShowRulers
-            ? Padding.Is0
-            : Padding.Is3;
+            ? PaddingIs0
+            : PaddingIs3;
 
     /// <summary>
     /// Name of the toolbox dock pane.

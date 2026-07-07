@@ -19,8 +19,6 @@ public partial class _ReportDesignerFormulaDialog
 
     private const int FormulaEditorRows = 8;
 
-    private const int FormulaPaneHeightInPixels = 180;
-
     private static readonly IReadOnlyList<ReportFormulaFunctionOption> Functions =
     [
         new( "Additional Functions", "IsNull", "IsNull({0})", "Returns true when a value is null." ),
@@ -63,8 +61,6 @@ public partial class _ReportDesignerFormulaDialog
         new( "Control Structures", "If Then Else", "if {0} then true else false", "Chooses between two values based on a condition." ),
         new( "Control Structures", "Conditional", " ? : ", "Chooses between two values based on a condition." ),
     ];
-
-    private static readonly IFluentSizing FormulaPaneHeight = Blazorise.Height.Px( FormulaPaneHeightInPixels );
 
     private string formula;
 

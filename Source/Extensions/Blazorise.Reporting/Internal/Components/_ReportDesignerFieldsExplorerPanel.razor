@@ -1,6 +1,5 @@
 @namespace Blazorise.Reporting.Internal
 @inherits BaseReportComponent
-@using Microsoft.AspNetCore.Components.Web
 
 <_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( DataSources, Definition?.FormulaFields, Definition?.RunningTotals, selectedFormulaFieldName, selectedRunningTotalName )"
                  NodeClicked="@FieldsNodeClicked"
@@ -50,7 +49,7 @@
     </ContextMenuBody>
 </ContextMenu>
 
-<Div Display="Display.None">
+<Div Display="DisplayNone">
     <_ReportDesignerFormulaFieldNameDialog @ref="formulaFieldNameDialogRef"
                                            Confirmed="@FormulaFieldNameConfirmed" />
     <_ReportDesignerFormulaFieldNameDialog @ref="runningTotalNameDialogRef"

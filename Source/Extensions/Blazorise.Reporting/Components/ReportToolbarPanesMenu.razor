@@ -2,14 +2,14 @@
 
 @if ( DockContext is not null )
 {
-    <Dropdown Display="Display.InlineBlock">
+    <Dropdown Display="DisplayInlineBlock">
         <DropdownToggle Color="@Color"
                         ToggleIconVisible="false"
                         title="@Text"
                         aria-label="@Text">
             @if ( ShowCaption )
             {
-                <Icon Name="@Icon" Margin="Margin.Is2.FromEnd" />
+                <Icon Name="@Icon" Margin="MarginIs2FromEnd" />
                 @Text
             }
             else
