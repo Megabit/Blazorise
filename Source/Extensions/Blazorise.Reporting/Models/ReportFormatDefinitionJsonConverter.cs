@@ -63,6 +63,7 @@ public sealed class ReportFormatDefinitionJsonConverter : JsonConverter<ReportFo
         };
 
         format.CultureName = ReadString( root, nameof( ReportFormatDefinition.CultureName ), options );
+        format.CustomFormat = ReadString( root, nameof( ReportFormatDefinition.CustomFormat ), options );
 
         return format;
     }
@@ -94,6 +95,9 @@ public sealed class ReportFormatDefinitionJsonConverter : JsonConverter<ReportFo
 
         if ( !string.IsNullOrWhiteSpace( value.CultureName ) )
             writer.WriteString( GetPropertyName( nameof( ReportFormatDefinition.CultureName ), options ), value.CultureName );
+
+        if ( !string.IsNullOrWhiteSpace( value.CustomFormat ) )
+            writer.WriteString( GetPropertyName( nameof( ReportFormatDefinition.CustomFormat ), options ), value.CustomFormat );
 
         switch ( value )
         {

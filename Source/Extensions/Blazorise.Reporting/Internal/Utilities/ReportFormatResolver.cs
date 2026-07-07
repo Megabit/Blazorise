@@ -17,6 +17,9 @@ internal static class ReportFormatResolver
         format ??= ReportFormats.Text();
         CultureInfo culture = ResolveCulture( format );
 
+        if ( SupportsCustomFormat( format ) && !string.IsNullOrWhiteSpace( format.CustomFormat ) )
+            return FormatFormattable( value, format.CustomFormat, culture );
+
         return format switch
         {
             ReportNumberFormatDefinition numberFormat => FormatFormattable( value, BuildNumberFormat( numberFormat ), culture ),
@@ -72,6 +75,16 @@ internal static class ReportFormatResolver
             ReportBooleanFormatDefinition => true,
             _ => "Sample text",
         };
+    }
+
+    private static bool SupportsCustomFormat( ReportFormatDefinition format )
+    {
+        return format is ReportNumberFormatDefinition
+            or ReportCurrencyFormatDefinition
+            or ReportPercentFormatDefinition
+            or ReportDateFormatDefinition
+            or ReportTimeFormatDefinition
+            or ReportDateTimeFormatDefinition;
     }
 
     private static string FormatCurrency( object value, ReportCurrencyFormatDefinition format, CultureInfo culture )

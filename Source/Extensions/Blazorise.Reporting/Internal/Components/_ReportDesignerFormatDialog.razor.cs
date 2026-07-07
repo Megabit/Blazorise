@@ -13,6 +13,7 @@ public partial class _ReportDesignerFormatDialog
     #region Members
 
     private ReportFormatDefinition format = ReportFormats.Text();
+    private bool useCustomFormat;
 
     private static readonly (ReportFormatCategory Value, string Text)[] CategoryOptions =
     [
@@ -60,6 +61,7 @@ public partial class _ReportDesignerFormatDialog
     protected override void OnParametersSet()
     {
         format = ReportFormats.Clone( InitialFormat ) ?? ReportFormats.Text();
+        useCustomFormat = SupportsCustomFormat( format ) && !string.IsNullOrWhiteSpace( format.CustomFormat );
     }
 
     private Task Close()
@@ -75,7 +77,13 @@ public partial class _ReportDesignerFormatDialog
 
     private Task OnCategoryChanged( ReportFormatCategory value )
     {
+        ReportFormatDefinition previousFormat = format;
+
         format = CreateFormat( value, format );
+        useCustomFormat = SupportsCustomFormat( format ) && SupportsCustomFormat( previousFormat ) && useCustomFormat;
+
+        if ( !useCustomFormat )
+            format.CustomFormat = null;
 
         return Task.CompletedTask;
     }
@@ -144,6 +152,23 @@ public partial class _ReportDesignerFormatDialog
         return Task.CompletedTask;
     }
 
+    private Task OnUseCustomFormatChanged( bool value )
+    {
+        useCustomFormat = value;
+
+        if ( !useCustomFormat )
+            format.CustomFormat = null;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnTypedCustomFormatChanged( string value )
+    {
+        format.CustomFormat = value;
+
+        return Task.CompletedTask;
+    }
+
     private Task OnCultureNameChanged( string value )
     {
         format.CultureName = value;
@@ -168,6 +193,9 @@ public partial class _ReportDesignerFormatDialog
 
         nextFormat.CultureName = currentFormat?.CultureName;
 
+        if ( SupportsCustomFormat( nextFormat ) && SupportsCustomFormat( currentFormat ) )
+            nextFormat.CustomFormat = currentFormat.CustomFormat;
+
         if ( currentFormat is ReportNumericFormatDefinition currentNumericFormat && nextFormat is ReportNumericFormatDefinition nextNumericFormat )
         {
             nextNumericFormat.DecimalPlaces = currentNumericFormat.DecimalPlaces;
@@ -175,6 +203,16 @@ public partial class _ReportDesignerFormatDialog
         }
 
         return nextFormat;
+    }
+
+    private static bool SupportsCustomFormat( ReportFormatDefinition value )
+    {
+        return value is ReportNumberFormatDefinition
+            or ReportCurrencyFormatDefinition
+            or ReportPercentFormatDefinition
+            or ReportDateFormatDefinition
+            or ReportTimeFormatDefinition
+            or ReportDateTimeFormatDefinition;
     }
 
     #endregion
@@ -198,6 +236,19 @@ public partial class _ReportDesignerFormatDialog
     private ReportCustomFormatDefinition CustomFormat => format as ReportCustomFormatDefinition;
 
     private string PreviewText => ReportFormatResolver.GetPreviewText( format );
+
+    private bool SupportsTypedCustomFormat => SupportsCustomFormat( format );
+
+    private string CustomFormatPlaceholder => format switch
+    {
+        ReportNumberFormatDefinition => "#,##0.00",
+        ReportCurrencyFormatDefinition => "$#,##0.00",
+        ReportPercentFormatDefinition => "0.##%",
+        ReportDateFormatDefinition => "dd.MM.yyyy",
+        ReportTimeFormatDefinition => "HH:mm",
+        ReportDateTimeFormatDefinition => "yyyy-MM-dd HH:mm",
+        _ => null,
+    };
 
     [Parameter] public ReportFormatDefinition InitialFormat { get; set; }
 

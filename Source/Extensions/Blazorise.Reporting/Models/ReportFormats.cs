@@ -16,9 +16,10 @@ public static class ReportFormats
     /// <summary>
     /// Creates a number format.
     /// </summary>
-    public static ReportFormatDefinition Number( int? decimalPlaces = null, bool useThousandsSeparator = true, ReportNegativeNumberFormat negativeNumberFormat = ReportNegativeNumberFormat.Default )
+    public static ReportFormatDefinition Number( int? decimalPlaces = null, bool useThousandsSeparator = true, ReportNegativeNumberFormat negativeNumberFormat = ReportNegativeNumberFormat.Default, string customFormat = null )
         => new ReportNumberFormatDefinition
         {
+            CustomFormat = customFormat,
             DecimalPlaces = decimalPlaces,
             UseThousandsSeparator = useThousandsSeparator,
             NegativeNumberFormat = negativeNumberFormat,
@@ -27,9 +28,10 @@ public static class ReportFormats
     /// <summary>
     /// Creates a currency format.
     /// </summary>
-    public static ReportFormatDefinition Currency( int? decimalPlaces = null, string currencySymbol = null, ReportNegativeNumberFormat negativeNumberFormat = ReportNegativeNumberFormat.Default )
+    public static ReportFormatDefinition Currency( int? decimalPlaces = null, string currencySymbol = null, ReportNegativeNumberFormat negativeNumberFormat = ReportNegativeNumberFormat.Default, string customFormat = null )
         => new ReportCurrencyFormatDefinition
         {
+            CustomFormat = customFormat,
             DecimalPlaces = decimalPlaces,
             CurrencySymbol = currencySymbol,
             NegativeNumberFormat = negativeNumberFormat,
@@ -38,9 +40,10 @@ public static class ReportFormats
     /// <summary>
     /// Creates a percent format.
     /// </summary>
-    public static ReportFormatDefinition Percent( int? decimalPlaces = null, ReportNegativeNumberFormat negativeNumberFormat = ReportNegativeNumberFormat.Default )
+    public static ReportFormatDefinition Percent( int? decimalPlaces = null, ReportNegativeNumberFormat negativeNumberFormat = ReportNegativeNumberFormat.Default, string customFormat = null )
         => new ReportPercentFormatDefinition
         {
+            CustomFormat = customFormat,
             DecimalPlaces = decimalPlaces,
             NegativeNumberFormat = negativeNumberFormat,
         };
@@ -48,27 +51,30 @@ public static class ReportFormats
     /// <summary>
     /// Creates a date format.
     /// </summary>
-    public static ReportFormatDefinition Date( ReportDateFormat dateFormat = ReportDateFormat.ShortDate )
+    public static ReportFormatDefinition Date( ReportDateFormat dateFormat = ReportDateFormat.ShortDate, string customFormat = null )
         => new ReportDateFormatDefinition
         {
+            CustomFormat = customFormat,
             DateFormat = dateFormat,
         };
 
     /// <summary>
     /// Creates a time format.
     /// </summary>
-    public static ReportFormatDefinition Time( ReportDateFormat dateFormat = ReportDateFormat.ShortTime )
+    public static ReportFormatDefinition Time( ReportDateFormat dateFormat = ReportDateFormat.ShortTime, string customFormat = null )
         => new ReportTimeFormatDefinition
         {
+            CustomFormat = customFormat,
             DateFormat = dateFormat,
         };
 
     /// <summary>
     /// Creates a date and time format.
     /// </summary>
-    public static ReportFormatDefinition DateTime( ReportDateFormat dateFormat = ReportDateFormat.ShortDateTime )
+    public static ReportFormatDefinition DateTime( ReportDateFormat dateFormat = ReportDateFormat.ShortDateTime, string customFormat = null )
         => new ReportDateTimeFormatDefinition
         {
+            CustomFormat = customFormat,
             DateFormat = dateFormat,
         };
 
@@ -104,6 +110,7 @@ public static class ReportFormats
             ReportNumberFormatDefinition numberFormat => new ReportNumberFormatDefinition
             {
                 CultureName = numberFormat.CultureName,
+                CustomFormat = numberFormat.CustomFormat,
                 DecimalPlaces = numberFormat.DecimalPlaces,
                 NegativeNumberFormat = numberFormat.NegativeNumberFormat,
                 UseThousandsSeparator = numberFormat.UseThousandsSeparator,
@@ -111,6 +118,7 @@ public static class ReportFormats
             ReportCurrencyFormatDefinition currencyFormat => new ReportCurrencyFormatDefinition
             {
                 CultureName = currencyFormat.CultureName,
+                CustomFormat = currencyFormat.CustomFormat,
                 DecimalPlaces = currencyFormat.DecimalPlaces,
                 NegativeNumberFormat = currencyFormat.NegativeNumberFormat,
                 CurrencySymbol = currencyFormat.CurrencySymbol,
@@ -118,38 +126,45 @@ public static class ReportFormats
             ReportPercentFormatDefinition percentFormat => new ReportPercentFormatDefinition
             {
                 CultureName = percentFormat.CultureName,
+                CustomFormat = percentFormat.CustomFormat,
                 DecimalPlaces = percentFormat.DecimalPlaces,
                 NegativeNumberFormat = percentFormat.NegativeNumberFormat,
             },
             ReportDateFormatDefinition dateFormat => new ReportDateFormatDefinition
             {
                 CultureName = dateFormat.CultureName,
+                CustomFormat = dateFormat.CustomFormat,
                 DateFormat = dateFormat.DateFormat,
             },
             ReportTimeFormatDefinition timeFormat => new ReportTimeFormatDefinition
             {
                 CultureName = timeFormat.CultureName,
+                CustomFormat = timeFormat.CustomFormat,
                 DateFormat = timeFormat.DateFormat,
             },
             ReportDateTimeFormatDefinition dateTimeFormat => new ReportDateTimeFormatDefinition
             {
                 CultureName = dateTimeFormat.CultureName,
+                CustomFormat = dateTimeFormat.CustomFormat,
                 DateFormat = dateTimeFormat.DateFormat,
             },
             ReportBooleanFormatDefinition booleanFormat => new ReportBooleanFormatDefinition
             {
                 CultureName = booleanFormat.CultureName,
+                CustomFormat = booleanFormat.CustomFormat,
                 TrueText = booleanFormat.TrueText,
                 FalseText = booleanFormat.FalseText,
             },
             ReportCustomFormatDefinition customFormat => new ReportCustomFormatDefinition
             {
                 CultureName = customFormat.CultureName,
+                CustomFormat = customFormat.CustomFormat,
                 Format = customFormat.Format,
             },
             ReportTextFormatDefinition textFormat => new ReportTextFormatDefinition
             {
                 CultureName = textFormat.CultureName,
+                CustomFormat = textFormat.CustomFormat,
             },
             _ => throw new NotSupportedException( $"Unsupported report format definition '{format.GetType().FullName}'." ),
         };

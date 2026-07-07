@@ -18,7 +18,27 @@
         </FieldBody>
     </Field>
 
-    @if ( IsNumericCategory )
+    @if ( SupportsTypedCustomFormat )
+    {
+        <Field Horizontal>
+            <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Format</FieldLabel>
+            <FieldBody ColumnSize="ColumnSizeIs8">
+                <Check TValue="bool" Value="@useCustomFormat" ValueChanged="@OnUseCustomFormatChanged">Use custom</Check>
+            </FieldBody>
+        </Field>
+
+        @if ( useCustomFormat )
+        {
+            <Field Horizontal>
+                <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Custom</FieldLabel>
+                <FieldBody ColumnSize="ColumnSizeIs8">
+                    <TextInput Value="@format.CustomFormat" ValueChanged="@OnTypedCustomFormatChanged" Placeholder="@CustomFormatPlaceholder" Size="Size.Small" />
+                </FieldBody>
+            </Field>
+        }
+    }
+
+    @if ( IsNumericCategory && !useCustomFormat )
     {
         <Field Horizontal>
             <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Decimal places</FieldLabel>
@@ -60,7 +80,7 @@
         </Field>
     }
 
-    @if ( TemporalFormat is not null )
+    @if ( TemporalFormat is not null && !useCustomFormat )
     {
         <Field Horizontal>
             <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Style</FieldLabel>

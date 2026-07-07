@@ -17,4 +17,9 @@ public abstract class ReportFormatDefinition
     /// Optional culture name used for formatting.
     /// </summary>
     public string CultureName { get; set; }
+
+    /// <summary>
+    /// Optional custom .NET format pattern used instead of the category presets.
+    /// </summary>
+    public string CustomFormat { get; set; }
 }
