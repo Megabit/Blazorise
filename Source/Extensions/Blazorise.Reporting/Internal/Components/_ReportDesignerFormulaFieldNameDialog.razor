@@ -1,23 +1,19 @@
 @namespace Blazorise.Reporting.Internal
 @inherits BaseReportComponent
 
-<Modal @ref="modalRef" Centered>
-    <ModalContent>
-        <ModalHeader>
-            <ModalTitle>@Title</ModalTitle>
-            <CloseButton Clicked="@CloseAsync" />
-        </ModalHeader>
-        <ModalBody>
-            <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
-                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd">Name</FieldLabel>
-                <FieldBody ColumnSize="ColumnSize.Is8">
-                    <TextInput Value="@name" ValueChanged="@NameChanged" Immediate="true" Size="Size.Small" />
-                </FieldBody>
-            </Field>
-        </ModalBody>
-        <ModalFooter>
-            <Button Color="Color.Primary" Clicked="@ConfirmAsync" Disabled="@(!CanConfirm)" Size="Size.Small">OK</Button>
-            <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
-        </ModalFooter>
-    </ModalContent>
-</Modal>
+<ModalHeader>
+    <ModalTitle>@Title</ModalTitle>
+    <CloseButton Clicked="@CloseAsync" />
+</ModalHeader>
+<ModalBody>
+    <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
+        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd">Name</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is8">
+            <TextInput Value="@name" ValueChanged="@NameChanged" Immediate="true" Size="Size.Small" />
+        </FieldBody>
+    </Field>
+</ModalBody>
+<ModalFooter>
+    <Button Color="Color.Primary" Clicked="@ConfirmAsync" Disabled="@(!CanConfirm)" Size="Size.Small">OK</Button>
+    <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
+</ModalFooter>

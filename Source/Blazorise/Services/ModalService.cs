@@ -13,12 +13,64 @@ namespace Blazorise;
 /// </summary>
 public class ModalService : IModalService
 {
+    #region Members
+
+    private readonly Dictionary<string, ModalProvider> modalProviders = new( StringComparer.Ordinal );
+
+    #endregion
+
+    #region Methods
+
     /// <inheritdoc/>
     public ModalProvider ModalProvider { get; private set; }
 
     /// <inheritdoc/>
     public void SetModalProvider( ModalProvider modalProvider )
-        => ModalProvider = modalProvider;
+        => RegisterModalProvider( null, modalProvider );
+
+    /// <inheritdoc/>
+    public void RegisterModalProvider( string providerName, ModalProvider modalProvider )
+    {
+        if ( modalProvider is null )
+            return;
+
+        string resolvedProviderName = NormalizeProviderName( providerName );
+
+        if ( resolvedProviderName.Length == 0 )
+        {
+            ModalProvider = modalProvider;
+            modalProviders[resolvedProviderName] = modalProvider;
+
+            return;
+        }
+
+        if ( modalProviders.TryGetValue( resolvedProviderName, out ModalProvider existingProvider )
+            && !ReferenceEquals( existingProvider, modalProvider ) )
+        {
+            throw new InvalidOperationException( $"A ModalProvider named '{resolvedProviderName}' is already registered." );
+        }
+
+        modalProviders[resolvedProviderName] = modalProvider;
+    }
+
+    /// <inheritdoc/>
+    public void UnregisterModalProvider( string providerName, ModalProvider modalProvider )
+    {
+        string resolvedProviderName = NormalizeProviderName( providerName );
+
+        if ( !modalProviders.TryGetValue( resolvedProviderName, out ModalProvider existingProvider )
+            || !ReferenceEquals( existingProvider, modalProvider ) )
+        {
+            return;
+        }
+
+        modalProviders.Remove( resolvedProviderName );
+
+        if ( resolvedProviderName.Length == 0 )
+        {
+            ModalProvider = null;
+        }
+    }
 
     /// <inheritdoc/>
     public Task<ModalInstance> Show<TComponent>() where TComponent : notnull, IComponent
@@ -77,32 +129,56 @@ public class ModalService : IModalService
     /// <inheritdoc/>
     public Task<ModalInstance> Show( string title, RenderFragment childContent, ModalInstanceOptions modalInstanceOptions = null )
     {
-        return ModalProvider.Show( title, childContent, modalInstanceOptions );
+        return ResolveModalProvider( modalInstanceOptions?.ProviderName ).Show( title, childContent, modalInstanceOptions );
     }
 
     /// <inheritdoc/>
     public Task Show( ModalInstance modalInstance )
-        => ModalProvider.Show( modalInstance );
+        => modalInstance?.ModalProvider?.Show( modalInstance ) ?? Task.CompletedTask;
 
     /// <inheritdoc/>
     public Task Hide()
-        => ModalProvider.Hide();
+        => Hide( (string)null );
+
+    /// <inheritdoc/>
+    public Task Hide( string providerName )
+        => ResolveModalProvider( providerName ).Hide();
 
     /// <inheritdoc/>
     public Task Hide( ModalInstance modalInstance )
-        => ModalProvider.Hide( modalInstance );
+        => modalInstance?.ModalProvider?.Hide( modalInstance ) ?? Task.CompletedTask;
 
     /// <inheritdoc/>
     public IEnumerable<ModalInstance> GetInstances()
-        => ModalProvider.GetInstances();
+        => ResolveModalProvider( null ).GetInstances();
 
     /// <inheritdoc/>
     public Task Reset()
-        => ModalProvider.Reset();
+        => ResolveModalProvider( null ).Reset();
 
     /// <inheritdoc/>
     public Task Remove( ModalInstance modalInstance )
-        => ModalProvider.Remove( modalInstance );
+        => modalInstance?.ModalProvider?.Remove( modalInstance ) ?? Task.CompletedTask;
+
+    private ModalProvider ResolveModalProvider( string providerName )
+    {
+        string resolvedProviderName = NormalizeProviderName( providerName );
+
+        if ( modalProviders.TryGetValue( resolvedProviderName, out ModalProvider modalProvider ) )
+            return modalProvider;
+
+        if ( resolvedProviderName.Length == 0 )
+            throw new InvalidOperationException( "A default ModalProvider is not registered. Add a ModalProvider component to the application layout." );
+
+        throw new InvalidOperationException( $"A ModalProvider named '{resolvedProviderName}' is not registered." );
+    }
+
+    private static string NormalizeProviderName( string providerName )
+    {
+        return string.IsNullOrWhiteSpace( providerName )
+            ? string.Empty
+            : providerName.Trim();
+    }
 
     private static RenderFragment BuildParameterfulContent( Type componentType, Dictionary<string, object> componentParameters )
     {
@@ -139,4 +215,6 @@ public class ModalService : IModalService
             __builder.CloseComponent();
         } );
     }
+
+    #endregion
 }

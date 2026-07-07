@@ -22,8 +22,6 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 
     private readonly List<ReportDataSourceDefinition> dataSources = [];
 
-    private Modal modalRef;
-
     private ReportDataSourceProviderEditorContext editorContext;
 
     private string selectedDataSourceId;
@@ -38,23 +36,17 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 
     internal async Task ShowAsync( ReportDefinition definition, IEnumerable<IReportDataSourceProvider> providerOptions )
     {
-        providers.Clear();
-        providers.AddRange( providerOptions ?? [] );
-
-        dataSources.Clear();
-        dataSources.AddRange( definition?.DataSources ?? [] );
-
-        selectedDataSourceId = NewDataSourceValue;
-        selectedProviderType = providers.FirstOrDefault()?.Type;
-        name = CreateUniqueDataSourceName();
-        editorContext = CreateEditorContext( selectedProviderType, null );
-
-        await modalRef.Show();
+        await ShowReportModalAsync<_ReportDesignerDataSourceConnectionDialog>( parameters =>
+        {
+            parameters.Add( nameof( Definition ), definition );
+            parameters.Add( nameof( ProviderOptions ), providerOptions );
+            parameters.Add( nameof( Confirmed ), Confirmed );
+        } );
     }
 
     private Task CloseAsync()
     {
-        return modalRef.Hide();
+        return CloseReportModalAsync();
     }
 
     private async Task ConfirmAsync()
@@ -79,7 +71,7 @@ public partial class _ReportDesignerDataSourceConnectionDialog
         };
 
         await Confirmed.InvokeAsync( dataSource );
-        await modalRef.Hide();
+        await CloseReportModalAsync();
     }
 
     private Task OnSelectedDataSourceChanged( string value )
@@ -197,6 +189,10 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 
     #region Properties
 
+    [Parameter] public ReportDefinition Definition { get; set; }
+
+    [Parameter] public IEnumerable<IReportDataSourceProvider> ProviderOptions { get; set; }
+
     private bool CanConfirm => providers.Count > 0
         && !string.IsNullOrWhiteSpace( selectedProviderType )
         && !string.IsNullOrWhiteSpace( name );
@@ -212,6 +208,24 @@ public partial class _ReportDesignerDataSourceConnectionDialog
     {
         [nameof( _ReportDataSourceSettingsEditor.Context )] = editorContext,
     };
+
+    #endregion
+
+    #region Overrides
+
+    protected override void OnInitialized()
+    {
+        providers.Clear();
+        providers.AddRange( ProviderOptions ?? [] );
+
+        dataSources.Clear();
+        dataSources.AddRange( Definition?.DataSources ?? [] );
+
+        selectedDataSourceId = NewDataSourceValue;
+        selectedProviderType = providers.FirstOrDefault()?.Type;
+        name = CreateUniqueDataSourceName();
+        editorContext = CreateEditorContext( selectedProviderType, null );
+    }
 
     #endregion
 }

@@ -1,57 +1,53 @@
 @namespace Blazorise.Reporting.Internal
 @inherits BaseReportComponent
 
-<Modal @ref="modalRef" Centered>
-    <ModalContent>
-        <ModalHeader>
-            <ModalTitle>Upload image</ModalTitle>
-            <CloseButton Clicked="@CloseAsync" />
-        </ModalHeader>
-        <ModalBody>
-            <Field>
-                <FileInput @ref="fileInputRef"
-                           Filter="@ImageAccept"
-                           MaxFileSize="@EffectiveImageMaxSize"
-                           MaxChunkSize="@EffectiveMaxUploadImageChunkSize"
-                           SegmentFetchTimeout="@SegmentFetchTimeout"
-                           Changed="@OnChanged"
-                           Started="@OnStarted"
-                           Ended="@OnEnded"
-                           Written="@OnWritten"
-                           Progressed="@OnProgressed"
-                           AutoReset="false"
-                           DisableProgressReport="@DisableImageUploadProgressReport" />
-            </Field>
+<ModalHeader>
+    <ModalTitle>Upload image</ModalTitle>
+    <CloseButton Clicked="@CloseAsync" />
+</ModalHeader>
+<ModalBody>
+    <Field>
+        <FileInput @ref="fileInputRef"
+                   Filter="@ImageAccept"
+                   MaxFileSize="@EffectiveImageMaxSize"
+                   MaxChunkSize="@EffectiveMaxUploadImageChunkSize"
+                   SegmentFetchTimeout="@SegmentFetchTimeout"
+                   Changed="@OnChanged"
+                   Started="@OnStarted"
+                   Ended="@OnEnded"
+                   Written="@OnWritten"
+                   Progressed="@OnProgressed"
+                   AutoReset="false"
+                   DisableProgressReport="@DisableImageUploadProgressReport" />
+    </Field>
 
-            @if ( selectedFile is not null )
-            {
-                <Div Margin="Margin.Is3.FromTop">
-                    <Paragraph Margin="Margin.Is1.FromBottom">
-                        <Strong>@selectedFile.Name</Strong>
-                    </Paragraph>
-                    <Paragraph TextColor="TextColor.Secondary" TextSize="TextSize.Small">
-                        @FormatFileSize( selectedFile.Size )
-                    </Paragraph>
-                </Div>
-            }
+    @if ( selectedFile is not null )
+    {
+        <Div Margin="Margin.Is3.FromTop">
+            <Paragraph Margin="Margin.Is1.FromBottom">
+                <Strong>@selectedFile.Name</Strong>
+            </Paragraph>
+            <Paragraph TextColor="TextColor.Secondary" TextSize="TextSize.Small">
+                @FormatFileSize( selectedFile.Size )
+            </Paragraph>
+        </Div>
+    }
 
-            @if ( !string.IsNullOrWhiteSpace( previewSource ) )
-            {
-                <Div Margin="Margin.Is3.FromTop" Border="Border.Is1" Padding="Padding.Is2" Background="Background.Light">
-                    <Image Source="@previewSource" Text="@selectedFile?.Name" Fluid />
-                </Div>
-            }
+    @if ( !string.IsNullOrWhiteSpace( previewSource ) )
+    {
+        <Div Margin="Margin.Is3.FromTop" Border="Border.Is1" Padding="Padding.Is2" Background="Background.Light">
+            <Image Source="@previewSource" Text="@selectedFile?.Name" Fluid />
+        </Div>
+    }
 
-            @if ( !string.IsNullOrWhiteSpace( errorMessage ) )
-            {
-                <Alert Color="Color.Danger" Visible Margin="Margin.Is3.FromTop">
-                    @errorMessage
-                </Alert>
-            }
-        </ModalBody>
-        <ModalFooter>
-            <Button Color="Color.Primary" Clicked="@ConfirmAsync" Disabled="@(!CanConfirm)" Size="Size.Small">@ConfirmText</Button>
-            <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
-        </ModalFooter>
-    </ModalContent>
-</Modal>
+    @if ( !string.IsNullOrWhiteSpace( errorMessage ) )
+    {
+        <Alert Color="Color.Danger" Visible Margin="Margin.Is3.FromTop">
+            @errorMessage
+        </Alert>
+    }
+</ModalBody>
+<ModalFooter>
+    <Button Color="Color.Primary" Clicked="@ConfirmAsync" Disabled="@(!CanConfirm)" Size="Size.Small">@ConfirmText</Button>
+    <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
+</ModalFooter>

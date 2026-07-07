@@ -21,8 +21,6 @@ public partial class _ReportDesignerAggregateDialog
 
     private readonly List<ReportAggregateSummaryLocation> summaryLocations = [];
 
-    private Modal modalRef;
-
     private string selectedFieldKey;
 
     private ReportAggregateFunction selectedFunction;
@@ -35,32 +33,19 @@ public partial class _ReportDesignerAggregateDialog
 
     internal async Task ShowAsync( IEnumerable<ReportDesignerFieldOption> fieldOptions, string selectedFieldName, IEnumerable<ReportAggregateSummaryLocation> summaryLocationOptions )
     {
-        fields.Clear();
-        fields.AddRange( fieldOptions ?? [] );
-
-        summaryLocations.Clear();
-        summaryLocations.AddRange( summaryLocationOptions ?? [] );
-
-        if ( summaryLocations.Count == 0 )
+        await ShowReportModalAsync<_ReportDesignerAggregateDialog>( parameters =>
         {
-            summaryLocations.Add( new()
-            {
-                TargetSectionIndex = -1,
-                Name = "Grand Total (Report Footer)",
-            } );
-        }
-
-        selectedFieldKey = ResolveInitialFieldKey( selectedFieldName );
-        selectedFunction = ReportAggregateFunction.Sum;
-        selectedSummaryLocationIndex = summaryLocations[0].TargetSectionIndex;
-        RefreshSupportedFunctions();
-
-        await modalRef.Show();
+            parameters.Add( nameof( FieldOptions ), fieldOptions );
+            parameters.Add( nameof( SelectedFieldName ), selectedFieldName );
+            parameters.Add( nameof( SummaryLocationOptions ), summaryLocationOptions );
+            parameters.Add( nameof( ResolveSupportedFunctions ), ResolveSupportedFunctions );
+            parameters.Add( nameof( Confirmed ), Confirmed );
+        } );
     }
 
     private Task CloseAsync()
     {
-        return modalRef.Hide();
+        return CloseReportModalAsync();
     }
 
     private async Task ConfirmAsync()
@@ -79,7 +64,7 @@ public partial class _ReportDesignerAggregateDialog
             Function = selectedFunction,
         } );
 
-        await modalRef.Hide();
+        await CloseReportModalAsync();
     }
 
     private static string CreateFieldKey( ReportDesignerFieldOption field )
@@ -141,6 +126,12 @@ public partial class _ReportDesignerAggregateDialog
 
     #region Properties
 
+    [Parameter] public IEnumerable<ReportDesignerFieldOption> FieldOptions { get; set; }
+
+    [Parameter] public string SelectedFieldName { get; set; }
+
+    [Parameter] public IEnumerable<ReportAggregateSummaryLocation> SummaryLocationOptions { get; set; }
+
     private bool CanConfirm => fields.Count > 0 && supportedFunctions.Count > 0 && FindSelectedField() is not null;
 
     /// <summary>
@@ -152,6 +143,33 @@ public partial class _ReportDesignerAggregateDialog
     /// Raised when the aggregate configuration is confirmed.
     /// </summary>
     [Parameter] public EventCallback<ReportAggregateDialogResult> Confirmed { get; set; }
+
+    #endregion
+
+    #region Overrides
+
+    protected override void OnInitialized()
+    {
+        fields.Clear();
+        fields.AddRange( FieldOptions ?? [] );
+
+        summaryLocations.Clear();
+        summaryLocations.AddRange( SummaryLocationOptions ?? [] );
+
+        if ( summaryLocations.Count == 0 )
+        {
+            summaryLocations.Add( new()
+            {
+                TargetSectionIndex = -1,
+                Name = "Grand Total (Report Footer)",
+            } );
+        }
+
+        selectedFieldKey = ResolveInitialFieldKey( SelectedFieldName );
+        selectedFunction = ReportAggregateFunction.Sum;
+        selectedSummaryLocationIndex = summaryLocations[0].TargetSectionIndex;
+        RefreshSupportedFunctions();
+    }
 
     #endregion
 }

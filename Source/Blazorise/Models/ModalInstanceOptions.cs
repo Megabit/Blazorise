@@ -26,6 +26,12 @@ public class ModalInstanceOptions
     /// </summary>
     public bool? Stateful { get; set; }
 
+    /// <summary>
+    /// Defines the Modal Provider name used to show the modal.
+    /// When null or empty, the default Modal Provider is used.
+    /// </summary>
+    public string ProviderName { get; set; }
+
     #region Modal
 
     /// <summary>

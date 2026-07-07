@@ -14,458 +14,429 @@
 </CascadingValue>
 
 <Div Class="b-report" Flex="Flex.Column" Gap="Gap.Is3">
-    @if ( ShowToolbar && !( CurrentMode == ReportMode.Design && IsDesignerEnabled ) )
-    {
-        <Div Class="b-report-toolbar" Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Padding="Padding.Is3" Border="Border.Is1" Background="Background.White">
-            <CascadingValue @key="@ToolbarStateKey" Value="@toolbarContext" IsFixed="true">
-                @if ( context.ToolbarContent is not null )
+    <CascadingValue Value="@modalProviderName" Name="ReportModalProviderName" IsFixed="true">
+        @if ( ShowToolbar && !( CurrentMode == ReportMode.Design && IsDesignerEnabled ) )
+        {
+            <Div Class="b-report-toolbar" Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Padding="Padding.Is3" Border="Border.Is1" Background="Background.White">
+                <CascadingValue @key="@ToolbarStateKey" Value="@toolbarContext" IsFixed="true">
+                    @if ( context.ToolbarContent is not null )
+                    {
+                        @context.ToolbarContent
+                    }
+                    else
+                    {
+                        <ReportToolbarGroup>
+                            <ReportToolbarItem Command="ReportCommand.Cut" Caption="Cut" />
+                            <ReportToolbarItem Command="ReportCommand.Copy" Caption="Copy" />
+                            <ReportToolbarItem Command="ReportCommand.Paste" Caption="Paste" />
+                            <ReportToolbarItem Command="ReportCommand.Delete" Caption="Delete" />
+                        </ReportToolbarGroup>
+                        <ReportToolbarGroup>
+                            <ReportToolbarItem Command="ReportCommand.Undo" Caption="Undo" />
+                            <ReportToolbarItem Command="ReportCommand.Redo" Caption="Redo" />
+                            <ReportToolbarItem Command="ReportCommand.Reset" Caption="Reset" />
+                        </ReportToolbarGroup>
+                        <ReportToolbarGroup>
+                            <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
+                            <ReportToolbarItem Command="ReportCommand.DownloadPdf" Caption="Download PDF" />
+                        </ReportToolbarGroup>
+                        <Div Margin="Margin.IsAuto.FromStart">
+                            <ReportToolbarGroup>
+                                @if ( IsDesignerEnabled )
+                                {
+                                    <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" ShowCaption />
+                                }
+                                <ReportToolbarItem Command="ReportCommand.Preview" Caption="Preview" ShowCaption />
+                            </ReportToolbarGroup>
+                        </Div>
+                    }
+                </CascadingValue>
+            </Div>
+        }
+
+        @if ( CurrentMode == ReportMode.Design && IsDesignerEnabled )
+        {
+            var definition = EffectiveDefinition;
+
+            <_ReportDesignerLayout @ref="@designerLayoutRef"
+                                   Shortcut="@HandleDesignerShortcutAsync"
+                                   ShowToolbar="@ShowToolbar"
+                                   ShowRulers="@ShowRulers"
+                                   PaneScrollPositions="@designerPaneScrollPositions"
+                                   PaneScrollRestoreVersion="@designerPaneScrollRestoreVersion"
+                                   SelectedPanelTab="@SelectedDesignerPanelTabName"
+                                   SelectedPanelTabChanged="@SelectDesignerPanelTab">
+                <Toolbar>
+                    @if ( ShowToolbar )
+                    {
+                        <CascadingValue @key="@ToolbarStateKey" Value="@toolbarContext" IsFixed="true">
+                            @if ( context.ToolbarContent is not null )
+                            {
+                                @context.ToolbarContent
+                            }
+                            else
+                            {
+                                <ReportToolbarGroup>
+                                    <ReportToolbarPanesMenu />
+                                </ReportToolbarGroup>
+                                <ReportToolbarGroup>
+                                    <ReportToolbarItem Command="ReportCommand.Cut" Caption="Cut" />
+                                    <ReportToolbarItem Command="ReportCommand.Copy" Caption="Copy" />
+                                    <ReportToolbarItem Command="ReportCommand.Paste" Caption="Paste" />
+                                    <ReportToolbarItem Command="ReportCommand.Delete" Caption="Delete" />
+                                </ReportToolbarGroup>
+                                <ReportToolbarGroup>
+                                    <ReportToolbarItem Command="ReportCommand.Undo" Caption="Undo" />
+                                    <ReportToolbarItem Command="ReportCommand.Redo" Caption="Redo" />
+                                    <ReportToolbarItem Command="ReportCommand.Reset" Caption="Reset" />
+                                </ReportToolbarGroup>
+                                <ReportToolbarGroup>
+                                    <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
+                                    <ReportToolbarItem Command="ReportCommand.DownloadPdf" Caption="Download PDF" />
+                                </ReportToolbarGroup>
+                                <Div Margin="Margin.IsAuto.FromStart">
+                                    <ReportToolbarGroup>
+                                        @if ( IsDesignerEnabled )
+                                        {
+                                            <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" ShowCaption />
+                                        }
+                                        <ReportToolbarItem Command="ReportCommand.Preview" Caption="Preview" ShowCaption />
+                                    </ReportToolbarGroup>
+                                </Div>
+                            }
+                        </CascadingValue>
+                    }
+                </Toolbar>
+                <ToolboxPanel>
+                    <_ReportDesignerToolboxPanel ToolboxNodeDragStarted="@OnToolboxTreeNodeDragStarted"
+                                                 NodeDragEnded="@OnDesignerNodeDragEnded" />
+                </ToolboxPanel>
+                <FieldsExplorerPanel>
+                    <_ReportDesignerFieldsExplorerPanel Definition="@definition"
+                                                        Data="@Data"
+                                                        DataSourceName="@DataSourceName"
+                                                        FieldsNodeDragStarted="@OnFieldsTreeNodeDragStarted"
+                                                        NodeDragEnded="@OnDesignerNodeDragEnded"
+                                                        FormulaFieldConfirmed="@OnFormulaFieldConfirmedAsync"
+                                                        FormulaFieldRenamed="@OnFormulaFieldRenamedAsync"
+                                                        FormulaFieldDeleted="@OnFormulaFieldDeletedAsync"
+                                                        FormulaFieldInserted="@OnFormulaFieldInsertedAsync"
+                                                        FieldInserted="@OnFieldInsertedAsync"
+                                                        RunningTotalConfirmed="@OnRunningTotalConfirmedAsync"
+                                                        RunningTotalRenamed="@OnRunningTotalRenamedAsync"
+                                                        RunningTotalDeleted="@OnRunningTotalDeletedAsync"
+                                                        RunningTotalInserted="@OnRunningTotalInsertedAsync"
+                                                        DataSourceRefreshed="@OnDataSourceRefreshedAsync"
+                                                        DataSourceDeleted="@OnDataSourceDeletedAsync" />
+                </FieldsExplorerPanel>
+                <Surface>
+                    <_ReportDesignerRulerLayout Visible="@ShowRulers"
+                                                Unit="@definition.Page.MeasurementUnit"
+                                                PageWidth="@GetReportPageWidth( definition )"
+                                                PageHeight="@GetDesignerRulerHeight( definition )"
+                                                WidthOffset="@GetReportPageWidthOffset()"
+                                                ShowFineTicks="@ShowFineRulerTicks"
+                                                ReportSelected="@SelectReport"
+                                                Marker="@GetDesignerRulerMarker( definition )">
+                        <_ReportDesignerPage @ref="designerPageRef"
+                                             PageKey="@definition.Id"
+                                             Width="@GetReportPageWidth( definition )"
+                                             WidthOffset="@GetReportPageWidthOffset()"
+                                             MinHeight="@GetDesignerRulerHeight( definition )"
+                                             Height="@GetReportPageHeight( definition )"
+                                             MarginLeft="@GetReportPageMarginLeft( definition )"
+                                             MarginTop="@GetReportPageMarginTop( definition )"
+                                             MarginRight="@GetReportPageMarginRight( definition )"
+                                             MarginBottom="@GetReportPageMarginBottom( definition )"
+                                             DesignMode
+                                             PointerMove="@PreviewPageSelectionBoxAsync"
+                                             PointerUp="@CompletePageSelectionBoxAsync"
+                                             PointerCancel="@OnPageSelectionPointerCancel"
+                                             ShowSelectionBox="false"
+                                             SelectionBoxX="@(designerState.SelectionBox?.X ?? 0)"
+                                             SelectionBoxY="@(designerState.SelectionBox?.Y ?? 0)"
+                                             SelectionBoxWidth="@(designerState.SelectionBox?.Width ?? 0)"
+                                             SelectionBoxHeight="@(designerState.SelectionBox?.Height ?? 0)"
+                                             SelectionBoxLeftOffset="@GetSelectionBoxLeftOffset()">
+                            @for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
+                            {
+                                var capturedSectionIndex = sectionIndex;
+                                var section = definition.Sections[capturedSectionIndex];
+
+                                @foreach ( var sectionItem in ResolveSectionRenderItems( definition, section, designMode: true ) )
+                                {
+                                    var collapsed = IsSectionCollapsedForRender( section );
+                                    var editable = !section.Suppressed;
+                                    var railVisible = IsDesignerBandRailVisible();
+                                    var sectionHeight = GetSectionRenderHeight( capturedSectionIndex, section );
+                                    var dragPreviewVisible = false;
+
+                                    <_ReportDesignerSection SectionKey="@section.Id"
+                                                            Section="@section"
+                                                            Height="@sectionHeight"
+                                                            BodyLeft="@GetDesignerSectionBodyLeft( definition )"
+                                                            BodyWidth="@GetReportPageContentWidth( definition )"
+                                                            DesignMode
+                                                            Active="@IsSectionSelected( capturedSectionIndex )"
+                                                            Collapsed="@collapsed"
+                                                            BandMode="@BandMode"
+                                                            RailVisible="@railVisible"
+                                                            Editable="@editable"
+                                                            ExternalDragActive="@IsExternalDesignerDragActive()"
+                                                            AllowBandCollapse="@AllowBandCollapse"
+                                                            ShowBandDataSource="@ShowBandDataSource"
+                                                            ShowDragPreview="@dragPreviewVisible"
+                                                            DragPreviewElementType="@(designerState.DragPreview?.ElementType ?? ReportElementType.Text)"
+                                                            DragPreviewText="@designerState.DragPreview?.Text"
+                                                            DragPreviewX="@(designerState.DragPreview?.X ?? 0)"
+                                                            DragPreviewY="@(designerState.DragPreview?.Y ?? 0)"
+                                                            DragPreviewWidth="@(designerState.DragPreview?.Width ?? 0)"
+                                                            DragPreviewHeight="@(designerState.DragPreview?.Height ?? 0)"
+                                                            RailClicked="@((MouseEventArgs _) => SelectSection( capturedSectionIndex ))"
+                                                            ToggleClicked="@((MouseEventArgs _) => ToggleSectionCollapsed( section ))"
+                                                            RailContextMenu="@((Func<MouseEventArgs, Task>)( eventArgs => OpenSectionContextMenuAsync( capturedSectionIndex, eventArgs ) ))"
+                                                            BodyContextMenu="@((Func<MouseEventArgs, Task>)( eventArgs => OpenSectionBodyContextMenuAsync( capturedSectionIndex, eventArgs ) ))"
+                                                            BodyPointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSelectionBox( capturedSectionIndex, eventArgs ) ) : default)"
+                                                            DragOver="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => PreviewDesignerDragAsync( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
+                                                            Drop="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => DropDesignerItemAsync( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
+                                                            PointerMove="@(editable ? (Func<PointerEventArgs, Task>)( eventArgs => PreviewElementPointerInteractionAsync( capturedSectionIndex, eventArgs ) ) : null)"
+                                                            PointerUp="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteractionAsync( capturedSectionIndex, eventArgs ) ) : default)"
+                                                            PointerCancel="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, OnElementPointerCancel ) : default)"
+                                                            BodyClicked="@((MouseEventArgs _) => HandleSectionClick( capturedSectionIndex ))"
+                                                            ResizePointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSectionPointerResizeAsync( capturedSectionIndex, eventArgs ) ) : default)">
+                                        @foreach ( var element in section.Elements )
+                                        {
+                                            var elementKey = ReportDefinitionHelper.EnsureElementId( element );
+                                            var capturedElementKey = elementKey;
+
+                                            <_ReportDesignerElement Data="@Data"
+                                                                    Definition="@definition"
+                                                                    Section="@section"
+                                                                    Item="@sectionItem"
+                                                                    Element="@element"
+                                                                    ElementKey="@capturedElementKey"
+                                                                    DesignMode
+                                                                    Editable="@editable"
+                                                                    Selected="@selectionManager.IsElementSelected( capturedElementKey )"
+                                                                    SelectionVersion="@designerState.SelectionVersion"
+                                                                    Editing="@IsElementTextEditing( capturedElementKey )"
+                                                                    TextEditingActive="@IsElementTextEditing()"
+                                                                    ChildEditingElementKey="@designerState.EditingElementKey"
+                                                                    SelectedCellKey="@selectionManager.SelectedCellKey"
+                                                                    Clicked="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => HandleElementClick( capturedElementKey, eventArgs ) ) : default)"
+                                                                    DoubleClicked="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => BeginElementTextEdit( capturedElementKey ) ) : default)"
+                                                                    ContextMenu="@(editable ? (Func<MouseEventArgs, Task>)( eventArgs => OpenElementContextMenuAsync( capturedElementKey, eventArgs ) ) : null)"
+                                                                    TableCellClicked="@(editable ? (Func<string, MouseEventArgs, Task>)( ( cellKey, eventArgs ) => HandleTableCellClickAsync( cellKey, eventArgs ) ) : null)"
+                                                                    TableCellContextMenu="@(editable ? (Func<string, MouseEventArgs, Task>)( ( cellKey, eventArgs ) => OpenTableCellContextMenuAsync( capturedSectionIndex, cellKey, eventArgs ) ) : null)"
+                                                                    IsChildElementSelected="@selectionManager.IsElementSelected"
+                                                                    ChildElementClicked="@(editable ? (Func<string, MouseEventArgs, Task>)HandleElementClickAsync : null)"
+                                                                    ChildElementDoubleClicked="@(editable ? (Func<string, MouseEventArgs, Task>)HandleElementDoubleClickAsync : null)"
+                                                                    ChildElementTextEditCommitted="@(editable ? (Func<string, string, Task>)CommitElementTextEditAsync : null)"
+                                                                    ChildElementTextEditCancelled="@(editable ? (Func<string, Task>)CancelElementTextEditAsync : null)"
+                                                                    TableResizeStarted="@(editable ? (Func<string, string, ReportTableResizeKind, int, PointerEventArgs, Task>)BeginTablePointerResizeAsync : null)"
+                                                                    TextEditCommitted="@(editable ? EventCallback.Factory.Create<string>( this, text => CommitElementTextEditAsync( capturedElementKey, text ) ) : default)"
+                                                                    TextEditCancelled="@(editable ? EventCallback.Factory.Create( this, () => CancelElementTextEdit( capturedElementKey ) ) : default)"
+                                                                    PointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerDrag( capturedElementKey, eventArgs ) ) : default)"
+                                                                    ResizeStarted="@((int handle, PointerEventArgs eventArgs) => BeginElementPointerResizeAsync( capturedElementKey, (ReportElementResizeHandle)handle, eventArgs ))" />
+                                        }
+                                    </_ReportDesignerSection>
+                                }
+                            }
+                        </_ReportDesignerPage>
+                    </_ReportDesignerRulerLayout>
+                </Surface>
+                <PropertiesPanel>
+                    <_ReportDesignerPropertiesPanel Definition="@definition"
+                                                    Data="@Data"
+                                                    ReportSelected="@selectionManager.ReportSelected"
+                                                    SelectedSection="@GetSelectedPropertiesSection( definition )"
+                                                    FormulaSection="@GetSelectedFormulaSection( definition )"
+                                                    SelectedElement="@selectionManager.FindSelectedElement( definition )"
+                                                    SelectedCell="@selectionManager.FindSelectedCell( definition )"
+                                                    SelectedElementSuppressed="@selectionManager.IsSelectedElementSuppressed( definition )"
+                                                    SnapToGrid="@designerState.SnapToGrid"
+                                                    SnapToGridChanged="@OnSnapToGridChanged"
+                                                    ShowRulers="@ShowRulers"
+                                                    ShowRulersChanged="@OnShowRulersChanged"
+                                                    ShowFineRulerTicks="@ShowFineRulerTicks"
+                                                    ShowFineRulerTicksChanged="@OnShowFineRulerTicksChanged"
+                                                    BandMode="@BandMode"
+                                                    BandModeChanged="@OnBandModeChanged"
+                                                    UpdateReportPage="@UpdateReportPageAsync"
+                                                    UpdateSelectedSection="@UpdateSelectedSectionAsync"
+                                                    UpdateSelectedSectionSuppression="@UpdateSelectedSectionSuppressionAsync"
+                                                    GetMinimumSectionHeight="@GetMinimumSectionHeight"
+                                                    CanInsertSection="@CanSelectedSectionInsertSection( definition )"
+                                                    InsertSection="@InsertSectionAsync"
+                                                    CanInsertGroup="@CanSelectedSectionInsertGroup( definition )"
+                                                    InsertGroup="@OpenSelectedDetailGroupDialogAsync"
+                                                    DeleteSelectedSection="@DeleteSelectedSectionAsync"
+                                                    UpdateSelectedElement="@UpdateSelectedElementsFromPropertiesAsync"
+                                                    MoveSelectedElement="@MoveSelectedElementAsync"
+                                                    UploadImage="@UploadImage"
+                                                    ImageAccept="@ImageAccept"
+                                                    ImageMaxSize="@ImageMaxSize"
+                                                    MaxUploadImageChunkSize="@MaxUploadImageChunkSize"
+                                                    ImageUploadSegmentFetchTimeout="@ImageUploadSegmentFetchTimeout"
+                                                    DisableImageUploadProgressReport="@DisableImageUploadProgressReport"
+                                                    ImageUploadChanged="@ImageUploadChanged"
+                                                    ImageUploadStarted="@ImageUploadStarted"
+                                                    ImageUploadEnded="@ImageUploadEnded"
+                                                    ImageUploadWritten="@ImageUploadWritten"
+                                                    ImageUploadProgressed="@ImageUploadProgressed"
+                                                    ImageUpload="@ImageUpload" />
+                </PropertiesPanel>
+                <ReportExplorerPanel>
+                    <_ReportDesignerReportExplorer Definition="@definition"
+                                                   ReportSelected="@selectionManager.ReportSelected"
+                                                   SelectedSectionIndex="@selectionManager.SelectedSectionIndex"
+                                                   SelectedElementKey="@selectionManager.SelectedElementKey"
+                                                   SelectedCellKey="@selectionManager.SelectedCellKey"
+                                                   IsElementSelected="@selectionManager.IsElementSelected"
+                                                   NodeClicked="@OnReportTreeNodeClicked"
+                                                   NodeContextMenu="@OnReportTreeNodeContextMenu" />
+                </ReportExplorerPanel>
+                <ContextMenu>
+                    <_ReportDesignerContextMenuHost @ref="contextMenuHost"
+                                                    CutElement="@OnContextMenuCutElement"
+                                                    CopyElement="@OnContextMenuCopyElement"
+                                                    PasteElement="@OnContextMenuPasteElement"
+                                                    SelectAllSectionElements="@OnContextMenuSelectAllSectionElements"
+                                                    ShowProperties="@OnContextMenuShowProperties"
+                                                    InsertSectionBefore="@OnContextMenuInsertSectionBefore"
+                                                    InsertSectionAfter="@OnContextMenuInsertSectionAfter"
+                                                    InsertGroup="@OnContextMenuInsertGroup"
+                                                    ToggleSectionSuppression="@OnContextMenuToggleSectionSuppression"
+                                                    ToggleSectionKeepTogether="@OnContextMenuToggleSectionKeepTogether"
+                                                    ToggleSectionNewPageBefore="@OnContextMenuToggleSectionNewPageBefore"
+                                                    ToggleSectionNewPageAfter="@OnContextMenuToggleSectionNewPageAfter"
+                                                    DeleteSection="@OnContextMenuDeleteSection"
+                                                    AlignTops="@OnContextMenuAlignTops"
+                                                    AlignMiddles="@OnContextMenuAlignMiddles"
+                                                    AlignBottoms="@OnContextMenuAlignBottoms"
+                                                    AlignBaseline="@OnContextMenuAlignBaseline"
+                                                    AlignLefts="@OnContextMenuAlignLefts"
+                                                    AlignCenters="@OnContextMenuAlignCenters"
+                                                    AlignRights="@OnContextMenuAlignRights"
+                                                    AlignToGrid="@OnContextMenuAlignToGrid"
+                                                    SizeSameWidth="@OnContextMenuSizeSameWidth"
+                                                    SizeSameHeight="@OnContextMenuSizeSameHeight"
+                                                    SizeSameSize="@OnContextMenuSizeSameSize"
+                                                    BringToFront="@OnContextMenuBringToFront"
+                                                    SendToBack="@OnContextMenuSendToBack"
+                                                    MoveForward="@OnContextMenuMoveForward"
+                                                    MoveBackward="@OnContextMenuMoveBackward"
+                                                    InsertAggregate="@OnContextMenuInsertAggregate"
+                                                    EditText="@OnContextMenuEditText"
+                                                    EditFormula="@OnContextMenuEditFormula"
+                                                    EditRunningTotal="@OnContextMenuEditRunningTotal"
+                                                    DeleteElement="@OnContextMenuDeleteElement"
+                                                    ToggleElementCanGrow="@OnContextMenuToggleElementCanGrow"
+                                                    ToggleElementSuppression="@OnContextMenuToggleElementSuppression"
+                                                    MergeCellRight="@OnContextMenuMergeCellRight"
+                                                    MergeCellDown="@OnContextMenuMergeCellDown"
+                                                    UnmergeCell="@OnContextMenuUnmergeCell"
+                                                    InsertTableRowAbove="@OnContextMenuInsertTableRowAbove"
+                                                    InsertTableRowBelow="@OnContextMenuInsertTableRowBelow"
+                                                    InsertTableColumnLeft="@OnContextMenuInsertTableColumnLeft"
+                                                    InsertTableColumnRight="@OnContextMenuInsertTableColumnRight"
+                                                    InsertTableCell="@OnContextMenuInsertTableCell"
+                                                    DeleteTableRow="@OnContextMenuDeleteTableRow"
+                                                    DeleteTableColumn="@OnContextMenuDeleteTableColumn"
+                                                    DeleteTableCell="@OnContextMenuDeleteTableCell"
+                                                    Close="@OnContextMenuClose" />
+                </ContextMenu>
+            </_ReportDesignerLayout>
+
+            <Div Display="Display.None">
+                <_ReportDesignerAggregateDialog @ref="aggregateDialogRef"
+                                                ResolveSupportedFunctions="@ResolveAggregateDialogSupportedFunctions"
+                                                Confirmed="@OnAggregateDialogConfirmedAsync" />
+                <_ReportDesignerRunningTotalDialog @ref="runningTotalDialogRef"
+                                                   Definition="@definition"
+                                                   Data="@Data"
+                                                   Confirmed="@OnRunningTotalConfirmedAsync" />
+                <_ReportDesignerGroupDialog @ref="groupDialogRef"
+                                            Confirmed="@OnGroupDialogConfirmedAsync" />
+                <_ReportDesignerDataSourceConnectionDialog @ref="dataSourceConnectionDialogRef"
+                                                           Confirmed="@OnDataSourceConnectionConfirmedAsync" />
+                <_ReportDesignerFormulaDialog @ref="formulaDialogRef"
+                                              Definition="@definition"
+                                              Data="@Data"
+                                              Section="@GetSelectedFormulaSection( definition )"
+                                              Confirmed="@OnFormulaDialogConfirmedAsync" />
+            </Div>
+        }
+        else
+        {
+            var definition = EffectiveDefinition;
+
+            <Div Class="b-report-viewer"
+                 Padding="Padding.Is3"
+                 Background="Background.Light"
+                 Border="Border.Is1"
+                 Overflow="Overflow.Auto">
+                @if ( CurrentPreviewFormat == ReportPreviewFormat.Pdf )
                 {
-                    @context.ToolbarContent
+                    <Div Padding="Padding.Is5"
+                         Border="Border.Is1"
+                         Background="Background.White"
+                         TextAlignment="TextAlignment.Center">
+                        <Div Margin="Margin.Is3.FromBottom">
+                            PDF preview is available for download.
+                        </Div>
+                        @if ( context.ViewerOptions.AllowDownload )
+                        {
+                            <Button Color="Color.Primary" Clicked="@DownloadPdfAsync">
+                                <Icon Name="IconName.FileDownload" Margin="Margin.Is2.FromEnd" />
+                                Download PDF
+                            </Button>
+                        }
+                    </Div>
                 }
                 else
                 {
-                    <ReportToolbarGroup>
-                        <ReportToolbarItem Command="ReportCommand.Cut" Caption="Cut" />
-                        <ReportToolbarItem Command="ReportCommand.Copy" Caption="Copy" />
-                        <ReportToolbarItem Command="ReportCommand.Paste" Caption="Paste" />
-                        <ReportToolbarItem Command="ReportCommand.Delete" Caption="Delete" />
-                    </ReportToolbarGroup>
-                    <ReportToolbarGroup>
-                        <ReportToolbarItem Command="ReportCommand.Undo" Caption="Undo" />
-                        <ReportToolbarItem Command="ReportCommand.Redo" Caption="Redo" />
-                        <ReportToolbarItem Command="ReportCommand.Reset" Caption="Reset" />
-                    </ReportToolbarGroup>
-                    <ReportToolbarGroup>
-                        <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
-                        <ReportToolbarItem Command="ReportCommand.DownloadPdf" Caption="Download PDF" />
-                    </ReportToolbarGroup>
-                    <Div Margin="Margin.IsAuto.FromStart">
-                        <ReportToolbarGroup>
-                            @if ( IsDesignerEnabled )
-                            {
-                                <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" ShowCaption />
-                            }
-                            <ReportToolbarItem Command="ReportCommand.Preview" Caption="Preview" ShowCaption />
-                        </ReportToolbarGroup>
-                    </Div>
-                }
-            </CascadingValue>
-        </Div>
-    }
+                    var renderPages = ReportPreviewRenderPlanner.BuildRenderPages( definition, Data );
 
-    @if ( CurrentMode == ReportMode.Design && IsDesignerEnabled )
-    {
-        var definition = EffectiveDefinition;
-
-        <_ReportDesignerLayout @ref="@designerLayoutRef"
-                               Shortcut="@HandleDesignerShortcutAsync"
-                               ShowToolbar="@ShowToolbar"
-                               ShowRulers="@ShowRulers"
-                               PaneScrollPositions="@designerPaneScrollPositions"
-                               PaneScrollRestoreVersion="@designerPaneScrollRestoreVersion"
-                               SelectedPanelTab="@SelectedDesignerPanelTabName"
-                               SelectedPanelTabChanged="@SelectDesignerPanelTab">
-            <Toolbar>
-                @if ( ShowToolbar )
-                {
-                    <CascadingValue @key="@ToolbarStateKey" Value="@toolbarContext" IsFixed="true">
-                        @if ( context.ToolbarContent is not null )
+                    <Div Class="b-report-viewer-pages">
+                        @foreach ( var renderPage in renderPages )
                         {
-                            @context.ToolbarContent
-                        }
-                        else
-                        {
-                            <ReportToolbarGroup>
-                                <ReportToolbarPanesMenu />
-                            </ReportToolbarGroup>
-                            <ReportToolbarGroup>
-                                <ReportToolbarItem Command="ReportCommand.Cut" Caption="Cut" />
-                                <ReportToolbarItem Command="ReportCommand.Copy" Caption="Copy" />
-                                <ReportToolbarItem Command="ReportCommand.Paste" Caption="Paste" />
-                                <ReportToolbarItem Command="ReportCommand.Delete" Caption="Delete" />
-                            </ReportToolbarGroup>
-                            <ReportToolbarGroup>
-                                <ReportToolbarItem Command="ReportCommand.Undo" Caption="Undo" />
-                                <ReportToolbarItem Command="ReportCommand.Redo" Caption="Redo" />
-                                <ReportToolbarItem Command="ReportCommand.Reset" Caption="Reset" />
-                            </ReportToolbarGroup>
-                            <ReportToolbarGroup>
-                                <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
-                                <ReportToolbarItem Command="ReportCommand.DownloadPdf" Caption="Download PDF" />
-                            </ReportToolbarGroup>
-                            <Div Margin="Margin.IsAuto.FromStart">
-                                <ReportToolbarGroup>
-                                    @if ( IsDesignerEnabled )
-                                    {
-                                        <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" ShowCaption />
-                                    }
-                                    <ReportToolbarItem Command="ReportCommand.Preview" Caption="Preview" ShowCaption />
-                                </ReportToolbarGroup>
-                            </Div>
-                        }
-                    </CascadingValue>
-                }
-            </Toolbar>
-            <ToolboxPanel>
-                <_ReportDesignerToolboxPanel ToolboxNodeDragStarted="@OnToolboxTreeNodeDragStarted"
-                                             NodeDragEnded="@OnDesignerNodeDragEnded" />
-            </ToolboxPanel>
-            <FieldsExplorerPanel>
-                <_ReportDesignerFieldsExplorerPanel Definition="@definition"
-                                                    Data="@Data"
-                                                    DataSourceName="@DataSourceName"
-                                                    FieldsNodeDragStarted="@OnFieldsTreeNodeDragStarted"
-                                                    NodeDragEnded="@OnDesignerNodeDragEnded"
-                                                    FormulaFieldConfirmed="@OnFormulaFieldConfirmedAsync"
-                                                    FormulaFieldRenamed="@OnFormulaFieldRenamedAsync"
-                                                    FormulaFieldDeleted="@OnFormulaFieldDeletedAsync"
-                                                    FormulaFieldInserted="@OnFormulaFieldInsertedAsync"
-                                                    FieldInserted="@OnFieldInsertedAsync"
-                                                    RunningTotalConfirmed="@OnRunningTotalConfirmedAsync"
-                                                    RunningTotalRenamed="@OnRunningTotalRenamedAsync"
-                                                    RunningTotalDeleted="@OnRunningTotalDeletedAsync"
-                                                    RunningTotalInserted="@OnRunningTotalInsertedAsync"
-                                                    DataSourceRefreshed="@OnDataSourceRefreshedAsync"
-                                                    DataSourceDeleted="@OnDataSourceDeletedAsync" />
-            </FieldsExplorerPanel>
-            <Surface>
-                <_ReportDesignerRulerLayout Visible="@ShowRulers"
-                                            Unit="@definition.Page.MeasurementUnit"
-                                            PageWidth="@GetReportPageWidth( definition )"
-                                            PageHeight="@GetDesignerRulerHeight( definition )"
-                                            WidthOffset="@GetReportPageWidthOffset()"
-                                            ShowFineTicks="@ShowFineRulerTicks"
-                                            ReportSelected="@SelectReport"
-                                            Marker="@GetDesignerRulerMarker( definition )">
-                    <_ReportDesignerPage @ref="designerPageRef"
-                                         PageKey="@definition.Id"
-                                         Width="@GetReportPageWidth( definition )"
-                                         WidthOffset="@GetReportPageWidthOffset()"
-                                         MinHeight="@GetDesignerRulerHeight( definition )"
-                                         Height="@GetReportPageHeight( definition )"
-                                         MarginLeft="@GetReportPageMarginLeft( definition )"
-                                         MarginTop="@GetReportPageMarginTop( definition )"
-                                         MarginRight="@GetReportPageMarginRight( definition )"
-                                         MarginBottom="@GetReportPageMarginBottom( definition )"
-                                         DesignMode
-                                         PointerMove="@PreviewPageSelectionBoxAsync"
-                                         PointerUp="@CompletePageSelectionBoxAsync"
-                                         PointerCancel="@OnPageSelectionPointerCancel"
-                                         ShowSelectionBox="false"
-                                         SelectionBoxX="@(designerState.SelectionBox?.X ?? 0)"
-                                         SelectionBoxY="@(designerState.SelectionBox?.Y ?? 0)"
-                                         SelectionBoxWidth="@(designerState.SelectionBox?.Width ?? 0)"
-                                         SelectionBoxHeight="@(designerState.SelectionBox?.Height ?? 0)"
-                                         SelectionBoxLeftOffset="@GetSelectionBoxLeftOffset()">
-                    @for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
-                    {
-                        var capturedSectionIndex = sectionIndex;
-                        var section = definition.Sections[capturedSectionIndex];
-
-                        @foreach ( var sectionItem in ResolveSectionRenderItems( definition, section, designMode: true ) )
-                        {
-                            var collapsed = IsSectionCollapsedForRender( section );
-                            var editable = !section.Suppressed;
-                            var railVisible = IsDesignerBandRailVisible();
-                            var sectionHeight = GetSectionRenderHeight( capturedSectionIndex, section );
-                            var dragPreviewVisible = false;
-
-                            <_ReportDesignerSection SectionKey="@section.Id"
-                                                    Section="@section"
-                                                    Height="@sectionHeight"
-                                                    BodyLeft="@GetDesignerSectionBodyLeft( definition )"
-                                                    BodyWidth="@GetReportPageContentWidth( definition )"
-                                                    DesignMode
-                                                    Active="@IsSectionSelected( capturedSectionIndex )"
-                                                    Collapsed="@collapsed"
-                                                    BandMode="@BandMode"
-                                                    RailVisible="@railVisible"
-                                                    Editable="@editable"
-                                                    ExternalDragActive="@IsExternalDesignerDragActive()"
-                                                    AllowBandCollapse="@AllowBandCollapse"
-                                                    ShowBandDataSource="@ShowBandDataSource"
-                                                    ShowDragPreview="@dragPreviewVisible"
-                                                    DragPreviewElementType="@(designerState.DragPreview?.ElementType ?? ReportElementType.Text)"
-                                                    DragPreviewText="@designerState.DragPreview?.Text"
-                                                    DragPreviewX="@(designerState.DragPreview?.X ?? 0)"
-                                                    DragPreviewY="@(designerState.DragPreview?.Y ?? 0)"
-                                                    DragPreviewWidth="@(designerState.DragPreview?.Width ?? 0)"
-                                                    DragPreviewHeight="@(designerState.DragPreview?.Height ?? 0)"
-                                                    RailClicked="@((MouseEventArgs _) => SelectSection( capturedSectionIndex ))"
-                                                    ToggleClicked="@((MouseEventArgs _) => ToggleSectionCollapsed( section ))"
-                                                    RailContextMenu="@((Func<MouseEventArgs, Task>)( eventArgs => OpenSectionContextMenuAsync( capturedSectionIndex, eventArgs ) ))"
-                                                    BodyContextMenu="@((Func<MouseEventArgs, Task>)( eventArgs => OpenSectionBodyContextMenuAsync( capturedSectionIndex, eventArgs ) ))"
-                                                    BodyPointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSelectionBox( capturedSectionIndex, eventArgs ) ) : default)"
-                                                    DragOver="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => PreviewDesignerDragAsync( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
-                                                    Drop="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => DropDesignerItemAsync( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
-                                                    PointerMove="@(editable ? (Func<PointerEventArgs, Task>)( eventArgs => PreviewElementPointerInteractionAsync( capturedSectionIndex, eventArgs ) ) : null)"
-                                                    PointerUp="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteractionAsync( capturedSectionIndex, eventArgs ) ) : default)"
-                                                    PointerCancel="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, OnElementPointerCancel ) : default)"
-                                                    BodyClicked="@((MouseEventArgs _) => HandleSectionClick( capturedSectionIndex ))"
-                                                    ResizePointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSectionPointerResizeAsync( capturedSectionIndex, eventArgs ) ) : default)">
-                                @foreach ( var element in section.Elements )
-                                {
-                                    var elementKey = ReportDefinitionHelper.EnsureElementId( element );
-                                    var capturedElementKey = elementKey;
-
-                                    <_ReportDesignerElement Data="@Data"
-                                                            Definition="@definition"
-                                                            Section="@section"
-                                                            Item="@sectionItem"
-                                                            Element="@element"
-                                                            ElementKey="@capturedElementKey"
-                                                            DesignMode
-                                                            Editable="@editable"
-                                                            Selected="@selectionManager.IsElementSelected( capturedElementKey )"
-                                                            SelectionVersion="@designerState.SelectionVersion"
-                                                            Editing="@IsElementTextEditing( capturedElementKey )"
-                                                            TextEditingActive="@IsElementTextEditing()"
-                                                            ChildEditingElementKey="@designerState.EditingElementKey"
-                                                            SelectedCellKey="@selectionManager.SelectedCellKey"
-                                                            Clicked="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => HandleElementClick( capturedElementKey, eventArgs ) ) : default)"
-                                                            DoubleClicked="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => BeginElementTextEdit( capturedElementKey ) ) : default)"
-                                                            ContextMenu="@(editable ? (Func<MouseEventArgs, Task>)( eventArgs => OpenElementContextMenuAsync( capturedElementKey, eventArgs ) ) : null)"
-                                                            TableCellClicked="@(editable ? (Func<string, MouseEventArgs, Task>)( ( cellKey, eventArgs ) => HandleTableCellClickAsync( cellKey, eventArgs ) ) : null)"
-                                                            TableCellContextMenu="@(editable ? (Func<string, MouseEventArgs, Task>)( ( cellKey, eventArgs ) => OpenTableCellContextMenuAsync( capturedSectionIndex, cellKey, eventArgs ) ) : null)"
-                                                            IsChildElementSelected="@selectionManager.IsElementSelected"
-                                                            ChildElementClicked="@(editable ? (Func<string, MouseEventArgs, Task>)HandleElementClickAsync : null)"
-                                                            ChildElementDoubleClicked="@(editable ? (Func<string, MouseEventArgs, Task>)HandleElementDoubleClickAsync : null)"
-                                                            ChildElementTextEditCommitted="@(editable ? (Func<string, string, Task>)CommitElementTextEditAsync : null)"
-                                                            ChildElementTextEditCancelled="@(editable ? (Func<string, Task>)CancelElementTextEditAsync : null)"
-                                                            TableResizeStarted="@(editable ? (Func<string, string, ReportTableResizeKind, int, PointerEventArgs, Task>)BeginTablePointerResizeAsync : null)"
-                                                            TextEditCommitted="@(editable ? EventCallback.Factory.Create<string>( this, text => CommitElementTextEditAsync( capturedElementKey, text ) ) : default)"
-                                                            TextEditCancelled="@(editable ? EventCallback.Factory.Create( this, () => CancelElementTextEdit( capturedElementKey ) ) : default)"
-                                                            PointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerDrag( capturedElementKey, eventArgs ) ) : default)"
-                                                            ResizeStarted="@((int handle, PointerEventArgs eventArgs) => BeginElementPointerResizeAsync( capturedElementKey, (ReportElementResizeHandle)handle, eventArgs ))" />
-                                }
-                            </_ReportDesignerSection>
-                        }
-                    }
-                    </_ReportDesignerPage>
-                </_ReportDesignerRulerLayout>
-            </Surface>
-            <PropertiesPanel>
-                <_ReportDesignerPropertiesPanel Definition="@definition"
-                                                Data="@Data"
-                                                ReportSelected="@selectionManager.ReportSelected"
-                                                SelectedSection="@GetSelectedPropertiesSection( definition )"
-                                                FormulaSection="@GetSelectedFormulaSection( definition )"
-                                                SelectedElement="@selectionManager.FindSelectedElement( definition )"
-                                                SelectedCell="@selectionManager.FindSelectedCell( definition )"
-                                                SelectedElementSuppressed="@selectionManager.IsSelectedElementSuppressed( definition )"
-                                                SnapToGrid="@designerState.SnapToGrid"
-                                                SnapToGridChanged="@OnSnapToGridChanged"
-                                                ShowRulers="@ShowRulers"
-                                                ShowRulersChanged="@OnShowRulersChanged"
-                                                ShowFineRulerTicks="@ShowFineRulerTicks"
-                                                ShowFineRulerTicksChanged="@OnShowFineRulerTicksChanged"
-                                                BandMode="@BandMode"
-                                                BandModeChanged="@OnBandModeChanged"
-                                                UpdateReportPage="@UpdateReportPageAsync"
-                                                UpdateSelectedSection="@UpdateSelectedSectionAsync"
-                                                UpdateSelectedSectionSuppression="@UpdateSelectedSectionSuppressionAsync"
-                                                GetMinimumSectionHeight="@GetMinimumSectionHeight"
-                                                CanInsertSection="@CanSelectedSectionInsertSection( definition )"
-                                                InsertSection="@InsertSectionAsync"
-                                                CanInsertGroup="@CanSelectedSectionInsertGroup( definition )"
-                                                InsertGroup="@OpenSelectedDetailGroupDialogAsync"
-                                                DeleteSelectedSection="@DeleteSelectedSectionAsync"
-                                                UpdateSelectedElement="@UpdateSelectedElementsFromPropertiesAsync"
-                                                MoveSelectedElement="@MoveSelectedElementAsync"
-                                                UploadImage="@UploadImage"
-                                                ImageAccept="@ImageAccept"
-                                                ImageMaxSize="@ImageMaxSize"
-                                                MaxUploadImageChunkSize="@MaxUploadImageChunkSize"
-                                                ImageUploadSegmentFetchTimeout="@ImageUploadSegmentFetchTimeout"
-                                                DisableImageUploadProgressReport="@DisableImageUploadProgressReport"
-                                                ImageUploadChanged="@ImageUploadChanged"
-                                                ImageUploadStarted="@ImageUploadStarted"
-                                                ImageUploadEnded="@ImageUploadEnded"
-                                                ImageUploadWritten="@ImageUploadWritten"
-                                                ImageUploadProgressed="@ImageUploadProgressed"
-                                                ImageUpload="@ImageUpload" />
-            </PropertiesPanel>
-            <ReportExplorerPanel>
-                <_ReportDesignerReportExplorer Definition="@definition"
-                                               ReportSelected="@selectionManager.ReportSelected"
-                                               SelectedSectionIndex="@selectionManager.SelectedSectionIndex"
-                                               SelectedElementKey="@selectionManager.SelectedElementKey"
-                                               SelectedCellKey="@selectionManager.SelectedCellKey"
-                                               IsElementSelected="@selectionManager.IsElementSelected"
-                                               NodeClicked="@OnReportTreeNodeClicked"
-                                               NodeContextMenu="@OnReportTreeNodeContextMenu" />
-            </ReportExplorerPanel>
-            <ContextMenu>
-                <_ReportDesignerContextMenuHost @ref="contextMenuHost"
-                                                CutElement="@OnContextMenuCutElement"
-                                                CopyElement="@OnContextMenuCopyElement"
-                                                PasteElement="@OnContextMenuPasteElement"
-                                                SelectAllSectionElements="@OnContextMenuSelectAllSectionElements"
-                                                ShowProperties="@OnContextMenuShowProperties"
-                                                InsertSectionBefore="@OnContextMenuInsertSectionBefore"
-                                                InsertSectionAfter="@OnContextMenuInsertSectionAfter"
-                                                InsertGroup="@OnContextMenuInsertGroup"
-                                                ToggleSectionSuppression="@OnContextMenuToggleSectionSuppression"
-                                                ToggleSectionKeepTogether="@OnContextMenuToggleSectionKeepTogether"
-                                                ToggleSectionNewPageBefore="@OnContextMenuToggleSectionNewPageBefore"
-                                                ToggleSectionNewPageAfter="@OnContextMenuToggleSectionNewPageAfter"
-                                                DeleteSection="@OnContextMenuDeleteSection"
-                                                AlignTops="@OnContextMenuAlignTops"
-                                                AlignMiddles="@OnContextMenuAlignMiddles"
-                                                AlignBottoms="@OnContextMenuAlignBottoms"
-                                                AlignBaseline="@OnContextMenuAlignBaseline"
-                                                AlignLefts="@OnContextMenuAlignLefts"
-                                                AlignCenters="@OnContextMenuAlignCenters"
-                                                AlignRights="@OnContextMenuAlignRights"
-                                                AlignToGrid="@OnContextMenuAlignToGrid"
-                                                SizeSameWidth="@OnContextMenuSizeSameWidth"
-                                                SizeSameHeight="@OnContextMenuSizeSameHeight"
-                                                SizeSameSize="@OnContextMenuSizeSameSize"
-                                                BringToFront="@OnContextMenuBringToFront"
-                                                SendToBack="@OnContextMenuSendToBack"
-                                                MoveForward="@OnContextMenuMoveForward"
-                                                MoveBackward="@OnContextMenuMoveBackward"
-                                                InsertAggregate="@OnContextMenuInsertAggregate"
-                                                EditText="@OnContextMenuEditText"
-                                                EditFormula="@OnContextMenuEditFormula"
-                                                EditRunningTotal="@OnContextMenuEditRunningTotal"
-                                                DeleteElement="@OnContextMenuDeleteElement"
-                                                ToggleElementCanGrow="@OnContextMenuToggleElementCanGrow"
-                                                ToggleElementSuppression="@OnContextMenuToggleElementSuppression"
-                                                MergeCellRight="@OnContextMenuMergeCellRight"
-                                                MergeCellDown="@OnContextMenuMergeCellDown"
-                                                UnmergeCell="@OnContextMenuUnmergeCell"
-                                                InsertTableRowAbove="@OnContextMenuInsertTableRowAbove"
-                                                InsertTableRowBelow="@OnContextMenuInsertTableRowBelow"
-                                                InsertTableColumnLeft="@OnContextMenuInsertTableColumnLeft"
-                                                InsertTableColumnRight="@OnContextMenuInsertTableColumnRight"
-                                                InsertTableCell="@OnContextMenuInsertTableCell"
-                                                DeleteTableRow="@OnContextMenuDeleteTableRow"
-                                                DeleteTableColumn="@OnContextMenuDeleteTableColumn"
-                                                DeleteTableCell="@OnContextMenuDeleteTableCell"
-                                                Close="@OnContextMenuClose" />
-            </ContextMenu>
-        </_ReportDesignerLayout>
-
-        <Div Class="b-report-modal-layer">
-            <_ReportDesignerAggregateDialog @ref="aggregateDialogRef"
-                                            ResolveSupportedFunctions="@ResolveAggregateDialogSupportedFunctions"
-                                            Confirmed="@OnAggregateDialogConfirmedAsync" />
-            <_ReportDesignerRunningTotalDialog @ref="runningTotalDialogRef"
-                                               Definition="@definition"
-                                               Data="@Data"
-                                               Confirmed="@OnRunningTotalConfirmedAsync" />
-            <_ReportDesignerGroupDialog @ref="groupDialogRef"
-                                        Confirmed="@OnGroupDialogConfirmedAsync" />
-            <_ReportDesignerDataSourceConnectionDialog @ref="dataSourceConnectionDialogRef"
-                                                       Confirmed="@OnDataSourceConnectionConfirmedAsync" />
-            <_ReportDesignerFormulaDialog @ref="formulaDialogRef"
-                                          Definition="@definition"
-                                          Data="@Data"
-                                          Section="@GetSelectedFormulaSection( definition )"
-                                          Confirmed="@OnFormulaDialogConfirmedAsync" />
-        </Div>
-    }
-    else
-    {
-        var definition = EffectiveDefinition;
-
-        <Div Class="b-report-viewer"
-             Padding="Padding.Is3"
-             Background="Background.Light"
-             Border="Border.Is1"
-             Overflow="Overflow.Auto">
-            @if ( CurrentPreviewFormat == ReportPreviewFormat.Pdf )
-            {
-                <Div Padding="Padding.Is5"
-                     Border="Border.Is1"
-                     Background="Background.White"
-                     TextAlignment="TextAlignment.Center">
-                    <Div Margin="Margin.Is3.FromBottom">
-                        PDF preview is available for download.
-                    </Div>
-                    @if ( context.ViewerOptions.AllowDownload )
-                    {
-                        <Button Color="Color.Primary" Clicked="@DownloadPdfAsync">
-                            <Icon Name="IconName.FileDownload" Margin="Margin.Is2.FromEnd" />
-                            Download PDF
-                        </Button>
-                    }
-                </Div>
-            }
-            else
-            {
-                var renderPages = ReportPreviewRenderPlanner.BuildRenderPages( definition, Data );
-
-                <Div Class="b-report-viewer-pages">
-                    @foreach ( var renderPage in renderPages )
-                    {
-                        <_ReportDesignerPage PageKey="@($"{definition.Id}:{renderPage.PageNumber}")"
-                                             Width="@definition.Page.Width"
-                                             MinHeight="@definition.Page.Height"
-                                             Height="@definition.Page.Height">
-                            <Div Class="b-report-page-content" Style="@GetPreviewPageContentStyle( definition )">
-                                @foreach ( var renderSection in renderPage.HeaderSections )
-                                {
-                                    var section = renderSection.Section;
-
-                                    <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:header")"
-                                                            Section="@section"
-                                                            Height="@section.Height"
-                                                            BodyWidth="@GetReportPageContentWidth( definition )">
-                                        @if ( renderSection.RenderElements )
-                                        {
-                                            @foreach ( var element in section.Elements )
-                                            {
-                                                if ( !ShouldRenderElement( definition, section, element, renderSection.Item ) )
-                                                    continue;
-
-                                                <_ReportDesignerElement Data="@Data"
-                                                                        Definition="@definition"
-                                                                        Section="@section"
-                                                                        Item="@renderSection.Item"
-                                                                        RunningTotals="@renderSection.RunningTotals"
-                                                                        Element="@element"
-                                                                        ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
-                                            }
-                                        }
-                                    </_ReportDesignerSection>
-                                }
-                                @foreach ( var renderSection in renderPage.BodySections )
-                                {
-                                    var section = renderSection.Section;
-
-                                    <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:body")"
-                                                            Section="@section"
-                                                            Height="@section.Height"
-                                                            BodyWidth="@GetReportPageContentWidth( definition )">
-                                        @if ( renderSection.RenderElements )
-                                        {
-                                            @foreach ( var element in section.Elements )
-                                            {
-                                                if ( !ShouldRenderElement( definition, section, element, renderSection.Item ) )
-                                                    continue;
-
-                                                <_ReportDesignerElement Data="@Data"
-                                                                        Definition="@definition"
-                                                                        Section="@section"
-                                                                        Item="@renderSection.Item"
-                                                                        RunningTotals="@renderSection.RunningTotals"
-                                                                        Element="@element"
-                                                                        ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
-                                            }
-                                        }
-                                    </_ReportDesignerSection>
-                                }
-                            </Div>
-                            @if ( renderPage.FooterSections.Count > 0 )
-                            {
-                                <Div Class="b-report-page-footer-content" Style="@GetPreviewPageFooterStyle( definition, renderPage )">
-                                    @foreach ( var renderSection in renderPage.FooterSections )
+                            <_ReportDesignerPage PageKey="@($"{definition.Id}:{renderPage.PageNumber}")"
+                                                 Width="@definition.Page.Width"
+                                                 MinHeight="@definition.Page.Height"
+                                                 Height="@definition.Page.Height">
+                                <Div Class="b-report-page-content" Style="@GetPreviewPageContentStyle( definition )">
+                                    @foreach ( var renderSection in renderPage.HeaderSections )
                                     {
                                         var section = renderSection.Section;
 
-                                        <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:footer")"
+                                        <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:header")"
+                                                                Section="@section"
+                                                                Height="@section.Height"
+                                                                BodyWidth="@GetReportPageContentWidth( definition )">
+                                            @if ( renderSection.RenderElements )
+                                            {
+                                                @foreach ( var element in section.Elements )
+                                                {
+                                                    if ( !ShouldRenderElement( definition, section, element, renderSection.Item ) )
+                                                        continue;
+
+                                                    <_ReportDesignerElement Data="@Data"
+                                                                            Definition="@definition"
+                                                                            Section="@section"
+                                                                            Item="@renderSection.Item"
+                                                                            RunningTotals="@renderSection.RunningTotals"
+                                                                            Element="@element"
+                                                                            ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
+                                                }
+                                            }
+                                        </_ReportDesignerSection>
+                                    }
+                                    @foreach ( var renderSection in renderPage.BodySections )
+                                    {
+                                        var section = renderSection.Section;
+
+                                        <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:body")"
                                                                 Section="@section"
                                                                 Height="@section.Height"
                                                                 BodyWidth="@GetReportPageContentWidth( definition )">
@@ -488,11 +459,44 @@
                                         </_ReportDesignerSection>
                                     }
                                 </Div>
-                            }
-                        </_ReportDesignerPage>
-                    }
-                </Div>
-            }
-        </Div>
-    }
+                                @if ( renderPage.FooterSections.Count > 0 )
+                                {
+                                    <Div Class="b-report-page-footer-content" Style="@GetPreviewPageFooterStyle( definition, renderPage )">
+                                        @foreach ( var renderSection in renderPage.FooterSections )
+                                        {
+                                            var section = renderSection.Section;
+
+                                            <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:footer")"
+                                                                    Section="@section"
+                                                                    Height="@section.Height"
+                                                                    BodyWidth="@GetReportPageContentWidth( definition )">
+                                                @if ( renderSection.RenderElements )
+                                                {
+                                                    @foreach ( var element in section.Elements )
+                                                    {
+                                                        if ( !ShouldRenderElement( definition, section, element, renderSection.Item ) )
+                                                            continue;
+
+                                                        <_ReportDesignerElement Data="@Data"
+                                                                                Definition="@definition"
+                                                                                Section="@section"
+                                                                                Item="@renderSection.Item"
+                                                                                RunningTotals="@renderSection.RunningTotals"
+                                                                                Element="@element"
+                                                                                ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
+                                                    }
+                                                }
+                                            </_ReportDesignerSection>
+                                        }
+                                    </Div>
+                                }
+                            </_ReportDesignerPage>
+                        }
+                    </Div>
+                }
+            </Div>
+        }
+    </CascadingValue>
+
+    <_ReportModalProvider ProviderName="@modalProviderName" />
 </Div>

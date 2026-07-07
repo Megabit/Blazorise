@@ -3,7 +3,7 @@
 @using System
 @using Microsoft.AspNetCore.Components.Web
 
-<Div Class="b-report-modal-layer">
+<Div Display="Display.None">
     <_ReportDesignerDataSourceDialog @ref="dataSourceDialogRef" Definition="@Definition" Confirmed="@UpdateSelectedSectionDataSource" />
     <_ReportDesignerFormulaDialog @ref="formulaDialogRef" Definition="@Definition" Data="@Data" Section="@FormulaSection" Confirmed="@OnFormulaDialogConfirmedAsync" />
     <_ReportDesignerImageUploadDialog @ref="imageUploadDialogRef"

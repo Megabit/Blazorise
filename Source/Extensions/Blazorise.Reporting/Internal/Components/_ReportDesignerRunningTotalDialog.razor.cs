@@ -23,10 +23,6 @@ public partial class _ReportDesignerRunningTotalDialog
 
     private readonly List<ReportRunningTotalGroupOption> groupOptions = [];
 
-    private Modal modalRef;
-
-    private _ReportDesignerFormulaDialog formulaDialogRef;
-
     private ReportRunningTotalDefinition runningTotal = new();
 
     private string selectedFieldKey;
@@ -37,21 +33,18 @@ public partial class _ReportDesignerRunningTotalDialog
 
     internal async Task ShowAsync( ReportRunningTotalDefinition definition )
     {
-        runningTotal = CloneRunningTotal( definition ?? new() );
-        RefreshFields();
-        RefreshGroupOptions();
-
-        selectedFieldKey = ResolveInitialFieldKey();
-        ApplySelectedField();
-        RefreshSupportedFunctions();
-        EnsureResetGroup();
-
-        await modalRef.Show();
+        await ShowReportModalAsync<_ReportDesignerRunningTotalDialog>( parameters =>
+        {
+            parameters.Add( nameof( Definition ), Definition );
+            parameters.Add( nameof( Data ), Data );
+            parameters.Add( nameof( InitialDefinition ), definition );
+            parameters.Add( nameof( Confirmed ), Confirmed );
+        } );
     }
 
     private Task CloseAsync()
     {
-        return modalRef.Hide();
+        return CloseReportModalAsync();
     }
 
     private async Task ConfirmAsync()
@@ -62,12 +55,20 @@ public partial class _ReportDesignerRunningTotalDialog
             return;
 
         await Confirmed.InvokeAsync( CloneRunningTotal( runningTotal ) );
-        await modalRef.Hide();
+        await CloseReportModalAsync();
     }
 
     private async Task OpenEvaluateFormulaDialogAsync()
     {
-        await formulaDialogRef.ShowAsync( "Evaluate formula", runningTotal.EvaluateFormula );
+        await ShowReportModalAsync<_ReportDesignerFormulaDialog>( parameters =>
+        {
+            parameters.Add( nameof( _ReportDesignerFormulaDialog.Definition ), Definition );
+            parameters.Add( nameof( _ReportDesignerFormulaDialog.Data ), Data );
+            parameters.Add( nameof( _ReportDesignerFormulaDialog.Section ), SelectedSection );
+            parameters.Add( nameof( _ReportDesignerFormulaDialog.InitialPropertyName ), "Evaluate formula" );
+            parameters.Add( nameof( _ReportDesignerFormulaDialog.InitialValue ), runningTotal.EvaluateFormula );
+            parameters.Add( nameof( _ReportDesignerFormulaDialog.Confirmed ), EventCallback.Factory.Create<string>( this, EvaluateFormulaConfirmed ) );
+        }, CreateReportModalOptions( ModalSize.Large ) );
     }
 
     private Task EvaluateFormulaConfirmed( string formula )
@@ -297,6 +298,8 @@ public partial class _ReportDesignerRunningTotalDialog
 
     #region Properties
 
+    [Parameter] public ReportRunningTotalDefinition InitialDefinition { get; set; }
+
     private bool CanConfirm => !string.IsNullOrWhiteSpace( runningTotal.Name )
         && FindSelectedField() is not null
         && supportedFunctions.Count > 0
@@ -319,6 +322,22 @@ public partial class _ReportDesignerRunningTotalDialog
     /// Raised when the running total configuration is confirmed.
     /// </summary>
     [Parameter] public EventCallback<ReportRunningTotalDefinition> Confirmed { get; set; }
+
+    #endregion
+
+    #region Overrides
+
+    protected override void OnInitialized()
+    {
+        runningTotal = CloneRunningTotal( InitialDefinition ?? new() );
+        RefreshFields();
+        RefreshGroupOptions();
+
+        selectedFieldKey = ResolveInitialFieldKey();
+        ApplySelectedField();
+        RefreshSupportedFunctions();
+        EnsureResetGroup();
+    }
 
     #endregion
 

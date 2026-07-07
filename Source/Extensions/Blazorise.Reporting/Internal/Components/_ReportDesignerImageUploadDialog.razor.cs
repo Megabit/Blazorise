@@ -19,8 +19,6 @@ public partial class _ReportDesignerImageUploadDialog
 
     private const int DefaultMaxUploadImageChunkSize = 20 * 1024;
 
-    private Modal modalRef;
-
     private FileInput fileInputRef;
 
     private IFileEntry selectedFile;
@@ -37,20 +35,26 @@ public partial class _ReportDesignerImageUploadDialog
 
     internal async Task ShowAsync()
     {
-        selectedFile = null;
-        previewSource = null;
-        errorMessage = null;
-        busy = false;
-
-        if ( fileInputRef is not null )
-            await fileInputRef.Reset();
-
-        await modalRef.Show();
+        await ShowReportModalAsync<_ReportDesignerImageUploadDialog>( parameters =>
+        {
+            parameters.Add( nameof( ImageAccept ), ImageAccept );
+            parameters.Add( nameof( ImageMaxSize ), ImageMaxSize );
+            parameters.Add( nameof( MaxUploadImageChunkSize ), MaxUploadImageChunkSize );
+            parameters.Add( nameof( SegmentFetchTimeout ), SegmentFetchTimeout );
+            parameters.Add( nameof( DisableImageUploadProgressReport ), DisableImageUploadProgressReport );
+            parameters.Add( nameof( ImageUploadChanged ), ImageUploadChanged );
+            parameters.Add( nameof( ImageUploadStarted ), ImageUploadStarted );
+            parameters.Add( nameof( ImageUploadEnded ), ImageUploadEnded );
+            parameters.Add( nameof( ImageUploadWritten ), ImageUploadWritten );
+            parameters.Add( nameof( ImageUploadProgressed ), ImageUploadProgressed );
+            parameters.Add( nameof( ImageUpload ), ImageUpload );
+            parameters.Add( nameof( Confirmed ), Confirmed );
+        } );
     }
 
     private Task CloseAsync()
     {
-        return modalRef.Hide();
+        return CloseReportModalAsync();
     }
 
     private async Task OnChanged( FileChangedEventArgs eventArgs )
@@ -135,7 +139,7 @@ public partial class _ReportDesignerImageUploadDialog
             }
 
             await Confirmed.InvokeAsync( source );
-            await modalRef.Hide();
+            await CloseReportModalAsync();
         }
         finally
         {
@@ -240,6 +244,18 @@ public partial class _ReportDesignerImageUploadDialog
     /// Raised when the image source is resolved.
     /// </summary>
     [Parameter] public EventCallback<string> Confirmed { get; set; }
+
+    #endregion
+
+    #region Overrides
+
+    protected override void OnInitialized()
+    {
+        selectedFile = null;
+        previewSource = null;
+        errorMessage = null;
+        busy = false;
+    }
 
     #endregion
 }

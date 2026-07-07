@@ -1,4 +1,6 @@
 #region Using directives
+using System;
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -57,6 +59,39 @@ public abstract class BaseReportComponent : ComponentBase
         StyleBuilder?.Dirty();
     }
 
+    /// <summary>
+    /// Closes the report modal instance that owns this component.
+    /// </summary>
+    protected Task CloseReportModalAsync()
+    {
+        return ModalService?.Hide( ReportModalProviderName ) ?? Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Shows a report-owned modal component.
+    /// </summary>
+    protected async Task<ModalInstance> ShowReportModalAsync<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters = null, ModalInstanceOptions options = null )
+        where TComponent : notnull, IComponent
+    {
+        options ??= CreateReportModalOptions();
+        options.ProviderName = ReportModalProviderName;
+
+        return await ModalService.Show<TComponent>( string.Empty, parameters, options );
+    }
+
+    /// <summary>
+    /// Creates default options for report-owned modal components.
+    /// </summary>
+    protected ModalInstanceOptions CreateReportModalOptions( ModalSize size = ModalSize.Default )
+    {
+        return new()
+        {
+            UseModalStructure = false,
+            Centered = true,
+            Size = size,
+        };
+    }
+
     #endregion
 
     #region Properties
@@ -80,6 +115,16 @@ public abstract class BaseReportComponent : ComponentBase
     /// Resolved component styles.
     /// </summary>
     protected string StyleNames => StyleBuilder.Styles;
+
+    /// <summary>
+    /// Report-owned Modal Provider name used by internal designer components.
+    /// </summary>
+    [CascadingParameter( Name = "ReportModalProviderName" )] internal string ReportModalProviderName { get; set; }
+
+    /// <summary>
+    /// Service used to show report modal components.
+    /// </summary>
+    [Inject] protected IModalService ModalService { get; set; }
 
     #endregion
 }

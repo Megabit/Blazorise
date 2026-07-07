@@ -66,8 +66,6 @@ public partial class _ReportDesignerFormulaDialog
 
     private static readonly IFluentSizing FormulaPaneHeight = Blazorise.Height.Px( FormulaPaneHeightInPixels );
 
-    private Modal modalRef;
-
     private string formula;
 
     private string selectedFieldExpression;
@@ -88,16 +86,15 @@ public partial class _ReportDesignerFormulaDialog
 
     internal async Task ShowAsync( string propertyName, string value )
     {
-        title = string.IsNullOrWhiteSpace( propertyName )
-            ? "Edit formula"
-            : $"Edit {propertyName} formula";
-        formula = value;
-        selectedFieldExpression = null;
-        selectedHelpItem = null;
-        selectedHelpDescription = null;
-        ClearValidation();
-
-        await modalRef.Show();
+        await ShowReportModalAsync<_ReportDesignerFormulaDialog>( parameters =>
+        {
+            parameters.Add( nameof( Definition ), Definition );
+            parameters.Add( nameof( Data ), Data );
+            parameters.Add( nameof( Section ), Section );
+            parameters.Add( nameof( InitialPropertyName ), propertyName );
+            parameters.Add( nameof( InitialValue ), value );
+            parameters.Add( nameof( Confirmed ), Confirmed );
+        }, CreateReportModalOptions( ModalSize.Large ) );
     }
 
     private Task ClearAsync()
@@ -110,7 +107,7 @@ public partial class _ReportDesignerFormulaDialog
 
     private Task CloseAsync()
     {
-        return modalRef.Hide();
+        return CloseReportModalAsync();
     }
 
     private Task CheckAsync()
@@ -128,7 +125,7 @@ public partial class _ReportDesignerFormulaDialog
     private async Task SaveAndCloseAsync()
     {
         if ( await SaveFormulaAsync() )
-            await modalRef.Hide();
+            await CloseReportModalAsync();
     }
 
     private async Task<bool> SaveFormulaAsync()
@@ -259,6 +256,10 @@ public partial class _ReportDesignerFormulaDialog
 
     #region Properties
 
+    [Parameter] public string InitialPropertyName { get; set; }
+
+    [Parameter] public string InitialValue { get; set; }
+
     private string Title => title ?? "Edit formula";
 
     private IReadOnlyList<ReportTreeNode> FieldNodes => BuildFieldNodes();
@@ -294,6 +295,22 @@ public partial class _ReportDesignerFormulaDialog
     /// Raised when the formula expression is confirmed.
     /// </summary>
     [Parameter] public EventCallback<string> Confirmed { get; set; }
+
+    #endregion
+
+    #region Overrides
+
+    protected override void OnInitialized()
+    {
+        title = string.IsNullOrWhiteSpace( InitialPropertyName )
+            ? "Edit formula"
+            : $"Edit {InitialPropertyName} formula";
+        formula = InitialValue;
+        selectedFieldExpression = null;
+        selectedHelpItem = null;
+        selectedHelpDescription = null;
+        ClearValidation();
+    }
 
     #endregion
 

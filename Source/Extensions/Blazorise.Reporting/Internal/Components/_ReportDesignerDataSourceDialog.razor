@@ -1,29 +1,25 @@
 @namespace Blazorise.Reporting.Internal
 @inherits BaseReportComponent
 
-<Modal @ref="modalRef" Centered>
-    <ModalContent>
-        <ModalHeader>
-            <ModalTitle>Select data source</ModalTitle>
-            <CloseButton Clicked="@CloseAsync" />
-        </ModalHeader>
-        <ModalBody>
-            <Field Horizontal>
-                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Data source</FieldLabel>
-                <FieldBody ColumnSize="ColumnSize.Is8">
-                    <Select TValue="string" Value="@selectedDataSource" ValueChanged="@OnSelectedDataSourceChanged" Size="Size.Small">
-                        <SelectItem TValue="string" Value="@NoDataSourceValue">None</SelectItem>
-                        @foreach ( ReportDesignerDataSourceOption dataSource in dataSourceOptions )
-                        {
-                            <SelectItem TValue="string" Value="@dataSource.Value">@dataSource.DisplayName</SelectItem>
-                        }
-                    </Select>
-                </FieldBody>
-            </Field>
-        </ModalBody>
-        <ModalFooter>
-            <Button Color="Color.Primary" Clicked="@ConfirmAsync" Size="Size.Small">OK</Button>
-            <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
-        </ModalFooter>
-    </ModalContent>
-</Modal>
+<ModalHeader>
+    <ModalTitle>Select data source</ModalTitle>
+    <CloseButton Clicked="@CloseAsync" />
+</ModalHeader>
+<ModalBody>
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Data source</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is8">
+            <Select TValue="string" Value="@selectedDataSource" ValueChanged="@OnSelectedDataSourceChanged" Size="Size.Small">
+                <SelectItem TValue="string" Value="@NoDataSourceValue">None</SelectItem>
+                @foreach ( ReportDesignerDataSourceOption dataSource in dataSourceOptions )
+                {
+                    <SelectItem TValue="string" Value="@dataSource.Value">@dataSource.DisplayName</SelectItem>
+                }
+            </Select>
+        </FieldBody>
+    </Field>
+</ModalBody>
+<ModalFooter>
+    <Button Color="Color.Primary" Clicked="@ConfirmAsync" Size="Size.Small">OK</Button>
+    <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
+</ModalFooter>

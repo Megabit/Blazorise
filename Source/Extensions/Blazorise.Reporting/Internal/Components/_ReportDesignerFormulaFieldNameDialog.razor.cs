@@ -12,8 +12,6 @@ public partial class _ReportDesignerFormulaFieldNameDialog
 {
     #region Members
 
-    private Modal modalRef;
-
     private string name;
 
     private string title;
@@ -29,15 +27,17 @@ public partial class _ReportDesignerFormulaFieldNameDialog
 
     internal async Task ShowAsync( string value, string title )
     {
-        name = value;
-        this.title = title;
-
-        await modalRef.Show();
+        await ShowReportModalAsync<_ReportDesignerFormulaFieldNameDialog>( parameters =>
+        {
+            parameters.Add( nameof( InitialValue ), value );
+            parameters.Add( nameof( InitialTitle ), title );
+            parameters.Add( nameof( Confirmed ), Confirmed );
+        } );
     }
 
     private Task CloseAsync()
     {
-        return modalRef.Hide();
+        return CloseReportModalAsync();
     }
 
     private async Task ConfirmAsync()
@@ -46,7 +46,7 @@ public partial class _ReportDesignerFormulaFieldNameDialog
             return;
 
         await Confirmed.InvokeAsync( name.Trim() );
-        await modalRef.Hide();
+        await CloseReportModalAsync();
     }
 
     private Task NameChanged( string value )
@@ -60,6 +60,10 @@ public partial class _ReportDesignerFormulaFieldNameDialog
 
     #region Properties
 
+    [Parameter] public string InitialValue { get; set; }
+
+    [Parameter] public string InitialTitle { get; set; }
+
     private bool CanConfirm => !string.IsNullOrWhiteSpace( name );
 
     private string Title => title ?? "New Formula Field";
@@ -68,6 +72,16 @@ public partial class _ReportDesignerFormulaFieldNameDialog
     /// Raised when a formula field name is confirmed.
     /// </summary>
     [Parameter] public EventCallback<string> Confirmed { get; set; }
+
+    #endregion
+
+    #region Overrides
+
+    protected override void OnInitialized()
+    {
+        name = InitialValue;
+        title = InitialTitle;
+    }
 
     #endregion
 }

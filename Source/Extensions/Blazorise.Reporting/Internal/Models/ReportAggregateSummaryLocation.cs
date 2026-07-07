@@ -1,12 +1,21 @@
 namespace Blazorise.Reporting.Internal;
 
-internal sealed class ReportAggregateSummaryLocation
+/// <summary>
+/// Represents an aggregate summary target shown by designer dialogs.
+/// </summary>
+public sealed class ReportAggregateSummaryLocation
 {
     #region Properties
 
-    internal int TargetSectionIndex { get; set; }
+    /// <summary>
+    /// Index of the section where the aggregate summary will be inserted.
+    /// </summary>
+    public int TargetSectionIndex { get; set; }
 
-    internal string Name { get; set; }
+    /// <summary>
+    /// Label shown for the summary target in designer dialogs.
+    /// </summary>
+    public string Name { get; set; }
 
     #endregion
 }

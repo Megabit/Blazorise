@@ -1,52 +1,48 @@
 @namespace Blazorise.Reporting.Internal
 @inherits BaseReportComponent
 
-<Modal @ref="modalRef" Centered>
-    <ModalContent>
-        <ModalHeader>
-            <ModalTitle>Insert aggregate</ModalTitle>
-            <CloseButton Clicked="@CloseAsync" />
-        </ModalHeader>
-        <ModalBody>
-            <Field Horizontal>
-                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Field</FieldLabel>
-                <FieldBody ColumnSize="ColumnSize.Is8">
-                    <Select TValue="string" Value="@selectedFieldKey" ValueChanged="@OnSelectedFieldChanged" Size="Size.Small">
-                        @foreach ( ReportDesignerFieldOption field in fields )
-                        {
-                            <SelectItem TValue="string" Value="@CreateFieldKey( field )">@field.DisplayName</SelectItem>
-                        }
-                    </Select>
-                </FieldBody>
-            </Field>
+<ModalHeader>
+    <ModalTitle>Insert aggregate</ModalTitle>
+    <CloseButton Clicked="@CloseAsync" />
+</ModalHeader>
+<ModalBody>
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Field</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is8">
+            <Select TValue="string" Value="@selectedFieldKey" ValueChanged="@OnSelectedFieldChanged" Size="Size.Small">
+                @foreach ( ReportDesignerFieldOption field in fields )
+                {
+                    <SelectItem TValue="string" Value="@CreateFieldKey( field )">@field.DisplayName</SelectItem>
+                }
+            </Select>
+        </FieldBody>
+    </Field>
 
-            <Field Horizontal>
-                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Function</FieldLabel>
-                <FieldBody ColumnSize="ColumnSize.Is8">
-                    <Select TValue="ReportAggregateFunction" Value="@selectedFunction" ValueChanged="@OnSelectedFunctionChanged" Size="Size.Small">
-                        @foreach ( ReportAggregateFunction function in supportedFunctions )
-                        {
-                            <SelectItem TValue="ReportAggregateFunction" Value="@function">@ReportAggregateResolver.GetFunctionDisplayName( function )</SelectItem>
-                        }
-                    </Select>
-                </FieldBody>
-            </Field>
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Function</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is8">
+            <Select TValue="ReportAggregateFunction" Value="@selectedFunction" ValueChanged="@OnSelectedFunctionChanged" Size="Size.Small">
+                @foreach ( ReportAggregateFunction function in supportedFunctions )
+                {
+                    <SelectItem TValue="ReportAggregateFunction" Value="@function">@ReportAggregateResolver.GetFunctionDisplayName( function )</SelectItem>
+                }
+            </Select>
+        </FieldBody>
+    </Field>
 
-            <Field Horizontal>
-                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Summary location</FieldLabel>
-                <FieldBody ColumnSize="ColumnSize.Is8">
-                    <Select TValue="int" Value="@selectedSummaryLocationIndex" ValueChanged="@OnSelectedSummaryLocationChanged" Disabled="@(summaryLocations.Count <= 1)" Size="Size.Small">
-                        @foreach ( ReportAggregateSummaryLocation location in summaryLocations )
-                        {
-                            <SelectItem TValue="int" Value="@location.TargetSectionIndex">@location.Name</SelectItem>
-                        }
-                    </Select>
-                </FieldBody>
-            </Field>
-        </ModalBody>
-        <ModalFooter>
-            <Button Color="Color.Primary" Clicked="@ConfirmAsync" Disabled="@(!CanConfirm)" Size="Size.Small">OK</Button>
-            <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
-        </ModalFooter>
-    </ModalContent>
-</Modal>
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Summary location</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is8">
+            <Select TValue="int" Value="@selectedSummaryLocationIndex" ValueChanged="@OnSelectedSummaryLocationChanged" Disabled="@(summaryLocations.Count <= 1)" Size="Size.Small">
+                @foreach ( ReportAggregateSummaryLocation location in summaryLocations )
+                {
+                    <SelectItem TValue="int" Value="@location.TargetSectionIndex">@location.Name</SelectItem>
+                }
+            </Select>
+        </FieldBody>
+    </Field>
+</ModalBody>
+<ModalFooter>
+    <Button Color="Color.Primary" Clicked="@ConfirmAsync" Disabled="@(!CanConfirm)" Size="Size.Small">OK</Button>
+    <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
+</ModalFooter>

@@ -31,6 +31,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private readonly ReportContextMenuService contextMenuService = new();
 
+    private readonly string modalProviderName = $"blazorise-report-{Guid.NewGuid():N}";
+
     private readonly ReportClipboardService clipboardService = new();
 
     private readonly ReportAggregateService aggregateService = new();

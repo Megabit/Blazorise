@@ -19,8 +19,6 @@ public partial class _ReportDesignerDataSourceDialog
 
     private readonly List<ReportDesignerDataSourceOption> dataSourceOptions = [];
 
-    private Modal modalRef;
-
     private string selectedDataSource;
 
     #endregion
@@ -29,23 +27,23 @@ public partial class _ReportDesignerDataSourceDialog
 
     internal async Task ShowAsync( string dataSource )
     {
-        dataSourceOptions.Clear();
-        dataSourceOptions.AddRange( ReportDataSourceExplorer.ResolveBindableDataSources( Definition ) );
-
-        selectedDataSource = ResolveInitialDataSource( dataSource );
-
-        await modalRef.Show();
+        await ShowReportModalAsync<_ReportDesignerDataSourceDialog>( parameters =>
+        {
+            parameters.Add( nameof( Definition ), Definition );
+            parameters.Add( nameof( InitialDataSource ), dataSource );
+            parameters.Add( nameof( Confirmed ), Confirmed );
+        } );
     }
 
     private Task CloseAsync()
     {
-        return modalRef.Hide();
+        return CloseReportModalAsync();
     }
 
     private async Task ConfirmAsync()
     {
         await Confirmed.InvokeAsync( string.IsNullOrWhiteSpace( selectedDataSource ) ? null : selectedDataSource );
-        await modalRef.Hide();
+        await CloseReportModalAsync();
     }
 
     private Task OnSelectedDataSourceChanged( string value )
@@ -71,6 +69,8 @@ public partial class _ReportDesignerDataSourceDialog
 
     #region Properties
 
+    [Parameter] public string InitialDataSource { get; set; }
+
     /// <summary>
     /// Report definition that provides the bindable data sources.
     /// </summary>
@@ -80,6 +80,18 @@ public partial class _ReportDesignerDataSourceDialog
     /// Raised when the data source selection is confirmed.
     /// </summary>
     [Parameter] public EventCallback<string> Confirmed { get; set; }
+
+    #endregion
+
+    #region Overrides
+
+    protected override void OnInitialized()
+    {
+        dataSourceOptions.Clear();
+        dataSourceOptions.AddRange( ReportDataSourceExplorer.ResolveBindableDataSources( Definition ) );
+
+        selectedDataSource = ResolveInitialDataSource( InitialDataSource );
+    }
 
     #endregion
 }

@@ -17,8 +17,6 @@ public partial class _ReportDesignerGroupDialog
 
     private readonly List<ReportDesignerFieldOption> fields = [];
 
-    private Modal modalRef;
-
     private string selectedFieldKey;
 
     #endregion
@@ -27,17 +25,17 @@ public partial class _ReportDesignerGroupDialog
 
     internal async Task ShowAsync( IEnumerable<ReportDesignerFieldOption> fieldOptions, string selectedFieldName )
     {
-        fields.Clear();
-        fields.AddRange( fieldOptions ?? [] );
-
-        selectedFieldKey = ResolveInitialFieldKey( selectedFieldName );
-
-        await modalRef.Show();
+        await ShowReportModalAsync<_ReportDesignerGroupDialog>( parameters =>
+        {
+            parameters.Add( nameof( FieldOptions ), fieldOptions );
+            parameters.Add( nameof( SelectedFieldName ), selectedFieldName );
+            parameters.Add( nameof( Confirmed ), Confirmed );
+        } );
     }
 
     private Task CloseAsync()
     {
-        return modalRef.Hide();
+        return CloseReportModalAsync();
     }
 
     private async Task ConfirmAsync()
@@ -48,7 +46,7 @@ public partial class _ReportDesignerGroupDialog
             return;
 
         await Confirmed.InvokeAsync( selectedField.FieldName );
-        await modalRef.Hide();
+        await CloseReportModalAsync();
     }
 
     private static string CreateFieldKey( ReportDesignerFieldOption field )
@@ -80,12 +78,28 @@ public partial class _ReportDesignerGroupDialog
 
     #region Properties
 
+    [Parameter] public IEnumerable<ReportDesignerFieldOption> FieldOptions { get; set; }
+
+    [Parameter] public string SelectedFieldName { get; set; }
+
     private bool CanConfirm => fields.Count > 0 && FindSelectedField() is not null;
 
     /// <summary>
     /// Raised when the group field selection is confirmed.
     /// </summary>
     [Parameter] public EventCallback<string> Confirmed { get; set; }
+
+    #endregion
+
+    #region Overrides
+
+    protected override void OnInitialized()
+    {
+        fields.Clear();
+        fields.AddRange( FieldOptions ?? [] );
+
+        selectedFieldKey = ResolveInitialFieldKey( SelectedFieldName );
+    }
 
     #endregion
 }
