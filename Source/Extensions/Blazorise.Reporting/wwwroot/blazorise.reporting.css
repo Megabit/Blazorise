@@ -737,6 +737,7 @@
   display: flex;
   flex-direction: column;
   justify-content: var(--b-report-element-content-justify, flex-start);
+  white-space: pre-wrap;
 }
 .b-report-element.can-grow {
   overflow: visible;
