@@ -27,7 +27,8 @@
   --b-report-treeview-gap: .125rem;
   --b-report-treeview-row-gap: .25rem;
   --b-report-treeview-row-min-height: 1.75rem;
-  --b-report-treeview-row-padding: .125rem .375rem .125rem calc(.25rem + (var(--b-report-treeview-level, 0) * 1rem));
+  --b-report-treeview-row-padding-left: .25rem;
+  --b-report-treeview-row-padding: .125rem .375rem .125rem var(--b-report-treeview-row-padding-left);
   --b-report-treeview-row-border-radius: .25rem;
   --b-report-treeview-toggle-size: 1rem;
   --b-report-treeview-icon-column-width: 1.25rem;

@@ -90,7 +90,7 @@ public partial class _ReportTreeViewNode
     /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( $"--b-report-treeview-level:{Level}" );
+        builder.Append( $"padding-left:calc(var(--b-report-treeview-row-padding-left, .25rem) + {Level}rem)" );
     }
 
     private async Task OnNodeClicked()
