@@ -238,10 +238,11 @@ public class JSReportingModule : BaseJSModule
     /// <param name="pageElement">Designer page element that owns the section.</param>
     /// <param name="sectionId">Section identifier.</param>
     /// <param name="height">Section height in CSS pixels.</param>
+    /// <param name="markerY">Vertical ruler marker top in CSS pixels.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public virtual async ValueTask UpdateDesignerSectionResizePreview( ElementReference pageElement, string sectionId, double height )
+    public virtual async ValueTask UpdateDesignerSectionResizePreview( ElementReference pageElement, string sectionId, double height, double markerY )
     {
-        await InvokeSafeVoidAsync( "updateDesignerSectionResizePreview", pageElement, sectionId, height );
+        await InvokeSafeVoidAsync( "updateDesignerSectionResizePreview", pageElement, sectionId, height, markerY );
     }
 
     /// <summary>

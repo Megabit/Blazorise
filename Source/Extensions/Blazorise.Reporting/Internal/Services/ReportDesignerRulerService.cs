@@ -41,6 +41,7 @@ internal sealed class ReportDesignerRulerService
         IReadOnlyList<ReportSelectedElementContext> selectedElements,
         int? selectedSectionIndex,
         Func<int, double> getSectionOffsetY,
+        Func<int, double> getSectionHeight,
         double sectionBodyTopOffset = 0 )
     {
         if ( definition is null )
@@ -68,7 +69,7 @@ internal sealed class ReportDesignerRulerService
         if ( marker is not null )
             return marker;
 
-        return CreateSelectedSectionMarker( definition, selectedSectionIndex, getSectionOffsetY );
+        return CreateSelectedSectionMarker( definition, selectedSectionIndex, getSectionOffsetY, getSectionHeight );
     }
 
     private static ReportDesignerRulerMarker CreateDragPreviewMarker( ReportDesignerDragPreview preview, double marginLeft, Func<int, double> getSectionOffsetY, double sectionBodyTopOffset )
@@ -122,7 +123,7 @@ internal sealed class ReportDesignerRulerService
             };
     }
 
-    private static ReportDesignerRulerMarker CreateSelectedSectionMarker( ReportDefinition definition, int? selectedSectionIndex, Func<int, double> getSectionOffsetY )
+    private static ReportDesignerRulerMarker CreateSelectedSectionMarker( ReportDefinition definition, int? selectedSectionIndex, Func<int, double> getSectionOffsetY, Func<int, double> getSectionHeight )
     {
         if ( selectedSectionIndex is not { } sectionIndex
             || sectionIndex < 0
@@ -131,14 +132,12 @@ internal sealed class ReportDesignerRulerService
             return null;
         }
 
-        ReportSectionDefinition section = definition.Sections[sectionIndex];
-
         return new()
         {
             X = GetMarginLeft( definition ),
             Y = getSectionOffsetY( sectionIndex ),
             Width = ReportPageDefinitionHelper.GetContentWidth( definition.Page ),
-            Height = section.Height,
+            Height = getSectionHeight( sectionIndex ),
         };
     }
 

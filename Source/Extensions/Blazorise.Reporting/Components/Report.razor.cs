@@ -3383,11 +3383,14 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         EnsureReportingModule();
 
         string sectionId = ReportDefinitionHelper.EnsureSectionId( EffectiveDefinition.Sections[pointerResize.SectionIndex] );
+        double sectionOffsetY = GetSectionOffsetY( EffectiveDefinition, pointerResize.SectionIndex );
+        double sectionHeight = GetDesignerSectionHeight( pointerResize.SectionIndex, EffectiveDefinition.Sections[pointerResize.SectionIndex] );
 
         await reportingModule.UpdateDesignerSectionResizePreview(
             designerPageRef.Element,
             sectionId,
-            ReportMeasurementConverter.ToCssPixelValue( pointerResize.TargetHeight ) );
+            ReportMeasurementConverter.ToCssPixelValue( sectionHeight ),
+            ReportMeasurementConverter.ToCssPixelValue( sectionOffsetY ) );
     }
 
     private async Task ClearDesignerSectionResizePreview()
@@ -3595,6 +3598,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             GetSelectedElementContexts( definition ),
             selectionManager.SelectedSectionIndex,
             sectionIndex => GetSectionOffsetY( definition, sectionIndex ),
+            sectionIndex => GetDesignerSectionHeight( sectionIndex, definition.Sections[sectionIndex] ),
             GetDesignerSectionBodyTopOffset() );
     }
 

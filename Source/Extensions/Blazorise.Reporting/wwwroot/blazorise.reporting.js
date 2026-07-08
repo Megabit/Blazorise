@@ -508,7 +508,7 @@ function deactivateDesignerRulerMarker(pageElement) {
     }
 }
 
-export function updateDesignerSectionResizePreview(pageElement, sectionId, height) {
+export function updateDesignerSectionResizePreview(pageElement, sectionId, height, markerY) {
     if (!pageElement || !sectionId) {
         return;
     }
@@ -530,6 +530,11 @@ export function updateDesignerSectionResizePreview(pageElement, sectionId, heigh
     }
 
     section.style.height = `${Math.max(0, height || 0)}px`;
+
+    const root = pageElement.closest?.(".b-report-designer-rulers");
+    const vertical = root?.querySelector?.(".b-report-designer-ruler-vertical");
+
+    updateVerticalRulerMarker(vertical, markerY, height, false);
 }
 
 export function clearDesignerSectionResizePreview(pageElement) {
