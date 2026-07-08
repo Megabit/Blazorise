@@ -45,8 +45,10 @@ public partial class _ReportDesignerFormulaFieldNameDialog
         if ( !CanConfirm )
             return;
 
-        await Confirmed.InvokeAsync( name.Trim() );
+        string confirmedName = name.Trim();
+
         await CloseReportModal();
+        await Confirmed.InvokeAsync( confirmedName );
     }
 
     private Task NameChanged( string value )
