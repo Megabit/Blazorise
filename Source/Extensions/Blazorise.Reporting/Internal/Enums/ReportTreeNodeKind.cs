@@ -76,6 +76,11 @@ public enum ReportTreeNodeKind
     PageBreak,
 
     /// <summary>
+    /// Subreport element node.
+    /// </summary>
+    Subreport,
+
+    /// <summary>
     /// Source fields folder node.
     /// </summary>
     SourceFields,

@@ -13,6 +13,7 @@ internal static class ReportElementDefinitionFactory
             ReportElementType.Rectangle => new ReportRectangleElementDefinition(),
             ReportElementType.Table => new ReportTableElementDefinition(),
             ReportElementType.PageBreak => new ReportPageBreakElementDefinition(),
+            ReportElementType.Subreport => new ReportSubreportElementDefinition(),
             _ => throw new System.ArgumentOutOfRangeException( nameof( elementType ), elementType, null ),
         };
     }

@@ -86,6 +86,7 @@ public partial class _ReportDesignerFormulaDialog
         {
             parameters.Add( nameof( Definition ), Definition );
             parameters.Add( nameof( Data ), Data );
+            parameters.Add( nameof( SourceDataSources ), SourceDataSources );
             parameters.Add( nameof( Section ), Section );
             parameters.Add( nameof( InitialPropertyName ), propertyName );
             parameters.Add( nameof( InitialValue ), value );
@@ -159,7 +160,7 @@ public partial class _ReportDesignerFormulaDialog
 
     private IReadOnlyList<ReportTreeNode> BuildFieldNodes()
     {
-        IEnumerable<ReportDesignerDataSourceNode> dataSources = ReportDataSourceExplorer.ResolveDataSourceDictionary( Definition, "Default" );
+        IEnumerable<ReportDesignerDataSourceNode> dataSources = SourceDataSources ?? ReportDataSourceExplorer.ResolveDataSourceDictionary( Definition, "Default" );
 
         return ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( dataSources, Definition?.FormulaFields, Definition?.RunningTotals )
             .Select( CloneFormulaNode )
@@ -281,6 +282,11 @@ public partial class _ReportDesignerFormulaDialog
     /// Report data used while validating formula expressions.
     /// </summary>
     [Parameter] public object Data { get; set; }
+
+    /// <summary>
+    /// Optional pre-resolved source fields used by scoped designers such as subreports.
+    /// </summary>
+    [Parameter] public IReadOnlyList<ReportDesignerDataSourceNode> SourceDataSources { get; set; }
 
     /// <summary>
     /// Report band used while validating formula expressions.

@@ -35,6 +35,7 @@ internal static class ReportDesignerTreeBuilder
                     CreateToolboxNode( "toolbox:line", "Line", ReportElementType.Line, null ),
                     CreateToolboxNode( "toolbox:rectangle", "Rectangle", ReportElementType.Rectangle, null ),
                     CreateToolboxNode( "toolbox:table", "Table", ReportElementType.Table, null ),
+                    CreateToolboxNode( "toolbox:subreport", "Subreport", ReportElementType.Subreport, null ),
                 ],
             }
         ];
@@ -250,17 +251,17 @@ internal static class ReportDesignerTreeBuilder
             Text = "Source Fields",
             Kind = ReportTreeNodeKind.SourceFields,
             Selectable = singleDataSource is not null,
-            Value = singleDataSource is not null ? new ReportDataSourceTreeNodeValue( singleDataSource.Name ) : null,
+            Value = singleDataSource is not null ? new ReportDataSourceTreeNodeValue( singleDataSource.BindingName ) : null,
             Children = dataSources.Count == 1
-                ? dataSources[0].Fields.Select( field => BuildFieldExplorerNode( dataSources[0].Name, field ) ).ToList()
+                ? dataSources[0].Fields.Select( field => BuildFieldExplorerNode( dataSources[0].BindingName, field ) ).ToList()
                 : dataSources.Select( dataSource => new ReportTreeNode
                 {
                     Key = $"fields:data-source:{dataSource.Name}",
                     Text = dataSource.Name,
                     Kind = ReportTreeNodeKind.DataSource,
                     Selectable = true,
-                    Value = new ReportDataSourceTreeNodeValue( dataSource.Name ),
-                    Children = dataSource.Fields.Select( field => BuildFieldExplorerNode( dataSource.Name, field ) ).ToList(),
+                    Value = new ReportDataSourceTreeNodeValue( dataSource.BindingName ),
+                    Children = dataSource.Fields.Select( field => BuildFieldExplorerNode( dataSource.BindingName, field ) ).ToList(),
                 } ).ToList(),
         };
     }

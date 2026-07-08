@@ -449,8 +449,8 @@ public partial class _ReportDesignerFieldsExplorerPanel
 
     #region Properties
 
-    private IReadOnlyList<ReportDesignerDataSourceNode> DataSources
-        => ReportDataSourceExplorer.ResolveDataSourceDictionary( Definition, DataSourceName ).ToList();
+    private IReadOnlyList<ReportDesignerDataSourceNode> ResolvedDataSources
+        => SourceDataSources ?? ReportDataSourceExplorer.ResolveDataSourceDictionary( Definition, DataSourceName ).ToList();
 
     private bool IsFormulaFieldContextMenuTarget => !string.IsNullOrWhiteSpace( formulaFieldContextMenu?.FormulaFieldName );
 
@@ -474,6 +474,11 @@ public partial class _ReportDesignerFieldsExplorerPanel
     /// Default report data source name shown in the field tree.
     /// </summary>
     [Parameter] public string DataSourceName { get; set; }
+
+    /// <summary>
+    /// Optional pre-resolved source fields used by scoped designers such as subreports.
+    /// </summary>
+    [Parameter] public IReadOnlyList<ReportDesignerDataSourceNode> SourceDataSources { get; set; }
 
     /// <summary>
     /// Raised when a field tree item starts dragging.

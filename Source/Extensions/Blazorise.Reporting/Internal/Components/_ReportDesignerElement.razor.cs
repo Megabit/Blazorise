@@ -168,6 +168,13 @@ public partial class _ReportDesignerElement
             : ReportTextTemplateResolver.ResolveText( Definition, Data, Item, textElement, RunningTotals );
     }
 
+    private string GetSubreportText()
+    {
+        return Element is ReportSubreportElementDefinition subreportElement
+            ? ReportSubreportResolver.GetDisplayName( subreportElement )
+            : "Subreport";
+    }
+
     private static IFluentObjectFit GetImageObjectFit( ReportImageElementDefinition imageElement )
     {
         return ( imageElement?.Fit ?? ReportImageFit.Default ) switch
@@ -381,6 +388,11 @@ public partial class _ReportDesignerElement
     /// Identifier of the selected table cell.
     /// </summary>
     [Parameter] public string SelectedCellKey { get; set; }
+
+    /// <summary>
+    /// Current nested subreport depth.
+    /// </summary>
+    [Parameter] public int SubreportDepth { get; set; }
 
     /// <summary>
     /// Raised when the element is clicked on the designer surface.

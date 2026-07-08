@@ -38,6 +38,7 @@ public partial class _ReportTreeViewNode
             ReportTreeNodeKind.Line => IconName.GripLines,
             ReportTreeNodeKind.Rectangle => IconName.Square,
             ReportTreeNodeKind.PageBreak => IconName.File,
+            ReportTreeNodeKind.Subreport => IconName.FileAlt,
             ReportTreeNodeKind.Folder => IconName.Folder,
             _ => IconName.TextHeight,
         };

@@ -3,7 +3,7 @@
 @using System
 
 <Div Display="DisplayNone">
-    <_ReportDesignerDataSourceDialog @ref="dataSourceDialogRef" Definition="@Definition" Confirmed="@UpdateSelectedSectionDataSource" />
+    <_ReportDesignerDataSourceDialog @ref="dataSourceDialogRef" Definition="@Definition" Confirmed="@OnDataSourceDialogConfirmed" />
     <_ReportDesignerFormulaDialog @ref="formulaDialogRef" Definition="@Definition" Data="@Data" Section="@FormulaSection" Confirmed="@OnFormulaDialogConfirmed" />
     <_ReportDesignerFormatDialog @ref="formatDialogRef" Confirmed="@OnFormatDialogConfirmed" />
     <_ReportDesignerImageUploadDialog @ref="imageUploadDialogRef"
@@ -197,7 +197,7 @@
         @if ( SelectedElement.Suppress?.Value != true )
         {
             <_ReportDesignerPropertyGroup Title="General">
-                <_ReportDesignerTextProperty Label="Name" Value="@SelectedElement.Name" Changed="@(value => UpdateSelectedElement( element => element.Name = value ))" />
+                <_ReportDesignerTextProperty Label="Name" Value="@SelectedElement.Name" Changed="@OnSelectedElementNameChanged" />
             </_ReportDesignerPropertyGroup>
 
             @if ( SelectedElement is ReportTextElementDefinition or ReportFieldElementDefinition or ReportImageElementDefinition )
@@ -258,6 +258,13 @@
                 <_ReportDesignerPropertyGroup Title="Table">
                     <_ReportDesignerNumberProperty TValue="double" Label="Rows" Value="@GetSelectedTableRowCount()" Changed="@OnSelectedTableRowCountChanged" Step="@TableCountStep" />
                     <_ReportDesignerNumberProperty TValue="double" Label="Columns" Value="@GetSelectedTableColumnCount()" Changed="@OnSelectedTableColumnCountChanged" Step="@TableCountStep" />
+                </_ReportDesignerPropertyGroup>
+            }
+
+            @if ( SelectedElement is ReportSubreportElementDefinition subreportElement )
+            {
+                <_ReportDesignerPropertyGroup Title="Subreport">
+                    <_ReportDesignerDataSourceProperty Label="Data source" Value="@subreportElement.DataSource" DisplayText="@GetSelectedSubreportDataSourceDisplayName( subreportElement )" Clicked="@OpenSelectedSubreportDataSourceDialog" />
                 </_ReportDesignerPropertyGroup>
             }
 

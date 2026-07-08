@@ -1,9 +1,6 @@
 @namespace Blazorise.Reporting
 @inject System.IServiceProvider ServiceProvider
-@using System
-@using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components
-@using Microsoft.AspNetCore.Components.Web
 @using Blazorise.Reporting.Internal
 
 <CascadingValue Value="@context" IsFixed="true">
@@ -55,7 +52,11 @@
 
         @if ( CurrentMode == ReportMode.Design && IsDesignerEnabled )
         {
+            var rootDefinition = RootDefinition;
             var definition = EffectiveDefinition;
+            var designerTabs = GetDesignerTabs( rootDefinition );
+            var fieldsExplorerData = GetFieldsExplorerData( rootDefinition );
+            var fieldsExplorerDataSources = GetFieldsExplorerDataSources( rootDefinition );
 
             <_ReportDesignerLayout @ref="@designerLayoutRef"
                                    Shortcut="@HandleDesignerShortcut"
@@ -112,8 +113,9 @@
                 </ToolboxPanel>
                 <FieldsExplorerPanel>
                     <_ReportDesignerFieldsExplorerPanel Definition="@definition"
-                                                        Data="@Data"
+                                                        Data="@fieldsExplorerData"
                                                         DataSourceName="@DataSourceName"
+                                                        SourceDataSources="@fieldsExplorerDataSources"
                                                         FieldsNodeDragStarted="@OnFieldsTreeNodeDragStarted"
                                                         NodeDragEnded="@OnDesignerNodeDragEnded"
                                                         FormulaFieldConfirmed="@OnFormulaFieldConfirmed"
@@ -245,6 +247,18 @@
                             }
                         </_ReportDesignerPage>
                     </_ReportDesignerRulerLayout>
+                    @if ( designerTabs.Count > 1 )
+                    {
+                        <Div Class="b-report-designer-tabs" Flex="FlexAlignItemsCenter" Gap="GapIs1" Padding="PaddingIs2" Border="BorderIs1OnTop">
+                            @foreach ( var tab in designerTabs )
+                            {
+                                <_ReportDesignerTabButton TabKey="@tab.Key"
+                                                          Text="@tab.Text"
+                                                          Active="@tab.Active"
+                                                          Selected="@SelectDesignerTab" />
+                            }
+                        </Div>
+                    }
                 </Surface>
                 <PropertiesPanel>
                     <_ReportDesignerPropertiesPanel Definition="@definition"
@@ -306,6 +320,7 @@
                                                     InsertSectionBefore="@OnContextMenuInsertSectionBefore"
                                                     InsertSectionAfter="@OnContextMenuInsertSectionAfter"
                                                     InsertGroup="@OnContextMenuInsertGroup"
+                                                    InsertSubreport="@OnContextMenuInsertSubreport"
                                                     ToggleSectionSuppression="@OnContextMenuToggleSectionSuppression"
                                                     ToggleSectionKeepTogether="@OnContextMenuToggleSectionKeepTogether"
                                                     ToggleSectionNewPageBefore="@OnContextMenuToggleSectionNewPageBefore"
@@ -369,7 +384,7 @@
         }
         else
         {
-            var definition = EffectiveDefinition;
+            var definition = RootDefinition;
 
             <Div Class="b-report-viewer"
                  Padding="PaddingIs3"

@@ -71,6 +71,22 @@
                                               ResizeStarted="@TableResizeStarted" />
                     }
                     break;
+                case ReportElementType.Subreport:
+                    @if ( DesignMode )
+                    {
+                        <Div Class="b-report-subreport-placeholder" TextSize="TextSizeSmall" TextColor="TextColorSecondary">
+                            @GetSubreportText()
+                        </Div>
+                    }
+                    else
+                    {
+                        <_ReportSubreportPreview Data="@Data"
+                                                 Definition="@Definition"
+                                                 Item="@Item"
+                                                 Element="@Element"
+                                                 RenderDepth="@SubreportDepth" />
+                    }
+                    break;
                 case ReportElementType.Image:
                     @if ( Element is ReportImageElementDefinition imageElement )
                     {

@@ -77,6 +77,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         new DataSetReportDataSourceProvider(),
     ];
 
+    private const string MainReportDesignerTabKey = "__main";
+
+    private const string DesignerSurfacePaneName = "report-designer";
+
     private DotNetObjectReference<Report> dotNetObjectReference;
 
     private ReportDefinition declarativeDefinition;
@@ -120,6 +124,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private _ReportDesignerFormulaDialog formulaDialogRef;
 
     private string editingFormulaFieldName;
+
+    private string activeSubreportElementKey;
 
     #endregion
 
@@ -183,7 +189,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }
 
         if ( firstRender && commandManager.State?.Definition is null )
-            commandManager.SetState( CaptureReportState( EffectiveDefinition ) );
+            commandManager.SetState( CaptureReportState( RootDefinition ) );
     }
 
     /// <inheritdoc />
@@ -609,7 +615,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     /// <returns>Serializable report designer state.</returns>
     public Task<ReportState> GetState()
     {
-        return Task.FromResult( CaptureReportState( EffectiveDefinition ) );
+        return Task.FromResult( CaptureReportState( RootDefinition ) );
     }
 
     /// <summary>
@@ -625,7 +631,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task ExecuteDesignerCommand( ReportDesignerCommand command )
     {
-        var result = await commandManager.Execute( command, EffectiveDefinition, CaptureReportState );
+        var result = await commandManager.Execute( command, RootDefinition, CaptureReportState );
 
         if ( result.NotifyDefinitionChanged && result.RefreshSurface && DefinitionChanged.HasDelegate )
             await DefinitionChanged.InvokeAsync( result.Definition );
@@ -682,7 +688,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             currentMode = ReportMode.Preview;
             designerState.EditingElementKey = null;
 
-            await ResolveDataSources( EffectiveDefinition, loadData: true );
+            await ResolveDataSources( RootDefinition, loadData: true );
 
             if ( ModeChanged.HasDelegate )
                 await ModeChanged.InvokeAsync( currentMode );
@@ -695,12 +701,18 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             await designerLayoutRef.CapturePaneScrollPositions( designerPaneScrollPositions );
     }
 
+    private void ResetDesignerSurfaceScrollPosition()
+    {
+        designerPaneScrollPositions[DesignerSurfacePaneName] = (0, 0);
+        designerPaneScrollRestoreVersion++;
+    }
+
     private async Task DownloadPdf()
     {
         if ( PdfGenerator is null )
             return;
 
-        ReportDefinition definition = EffectiveDefinition;
+        ReportDefinition definition = RootDefinition;
         await ResolveDataSources( definition, true );
 
         PdfDocumentDefinition pdfDocument = previewExportService.BuildPdfDocument( definition, Data );
@@ -718,6 +730,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommand( new( "Reset report", () =>
         {
             declarativeDefinition = BuildDeclarativeDefinition();
+            activeSubreportElementKey = null;
             SelectReport();
             _ = CloseContextMenu();
             designerState.DragPreview = null;
@@ -844,14 +857,19 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task ApplyReportState( ReportState state, bool notifyDefinitionChanged )
     {
+        string previousActiveSubreportElementKey = activeSubreportElementKey;
         ReportState nextState = stateService.Apply( state, designerState, selectionManager, BuildDeclarativeDefinition, out ReportDefinition definition, out List<ReportElementDefinition> nextClipboardElements, out string nextClipboardSectionId );
 
         declarativeDefinition = definition;
         currentMode = nextState.Mode;
         currentPreviewFormat = nextState.PreviewFormat;
+        activeSubreportElementKey = ResolveActiveSubreportElementKey( definition, previousActiveSubreportElementKey );
         clipboardElements = nextClipboardElements;
         clipboardSectionId = nextClipboardSectionId;
         designerState.SelectionVersion++;
+
+        if ( !string.Equals( previousActiveSubreportElementKey, activeSubreportElementKey, StringComparison.Ordinal ) )
+            ResetDesignerSurfaceScrollPosition();
 
         _ = CloseContextMenu();
         designerState.DragPreview = null;
@@ -890,6 +908,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( eventArgs.Detail >= 2 )
         {
+            if ( TryOpenSubreportDesigner( key ) )
+                return Task.CompletedTask;
+
             BeginElementTextEdit( key );
             return Task.CompletedTask;
         }
@@ -913,6 +934,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private Task HandleElementDoubleClick( string key, MouseEventArgs eventArgs )
     {
+        if ( TryOpenSubreportDesigner( key ) )
+            return Task.CompletedTask;
+
         BeginElementTextEdit( key );
 
         return Task.CompletedTask;
@@ -1088,6 +1112,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         };
 
         contextMenuService.PopulateSectionCapabilities( EffectiveDefinition, nextContextMenu, HasClipboardElements, aggregateService.CanInsertSection, aggregateService.CanInsertGroup );
+        nextContextMenu.CanInsertSubreport = string.IsNullOrWhiteSpace( activeSubreportElementKey ) && nextContextMenu.CanInsertSubreport;
         await ShowContextMenu( nextContextMenu, selectionChanged );
     }
 
@@ -1108,6 +1133,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         };
 
         contextMenuService.PopulateSectionCapabilities( EffectiveDefinition, nextContextMenu, HasClipboardElements, aggregateService.CanInsertSection, aggregateService.CanInsertGroup );
+        nextContextMenu.CanInsertSubreport = string.IsNullOrWhiteSpace( activeSubreportElementKey ) && nextContextMenu.CanInsertSubreport;
         await ShowContextMenu( nextContextMenu, selectionChanged );
     }
 
@@ -1809,6 +1835,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private Task OnContextMenuInsertGroup( MouseEventArgs eventArgs )
         => OpenSelectedDetailGroupDialog();
 
+    private Task OnContextMenuInsertSubreport( MouseEventArgs eventArgs )
+        => InsertSubreport();
+
     private Task OnContextMenuToggleSectionSuppression( MouseEventArgs eventArgs )
         => ToggleSelectedSectionSuppression();
 
@@ -2109,6 +2138,46 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             definition.Sections.Insert( insertIndex, section );
 
             SelectSection( insertIndex );
+            _ = CloseContextMenu();
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task InsertSubreport()
+    {
+        ReportDefinition activeDefinition = EffectiveDefinition;
+        ReportContextMenuState currentContextMenu = designerState.ContextMenu;
+        int currentSectionIndex = currentContextMenu?.SectionIndex ?? selectionManager.SelectedSectionIndex ?? -1;
+
+        if ( currentSectionIndex < 0 || currentSectionIndex >= activeDefinition.Sections.Count )
+            return;
+
+        await ExecuteDesignerCommand( new( "Insert subreport", () =>
+        {
+            ReportDefinition workingDefinition = EffectiveDefinition;
+            ReportDefinition rootDefinition = RootDefinition;
+            ReportContextMenuState commandContextMenu = designerState.ContextMenu;
+            int commandSectionIndex = commandContextMenu?.SectionIndex ?? selectionManager.SelectedSectionIndex ?? -1;
+
+            if ( commandSectionIndex < 0 || commandSectionIndex >= workingDefinition.Sections.Count )
+                return Task.CompletedTask;
+
+            string subreportName = ReportDefinitionHelper.CreateUniqueSubreportName( rootDefinition );
+            double x = commandContextMenu?.HasPastePosition == true
+                ? ApplyDesignerGrid( commandContextMenu.PasteX )
+                : ReportDesignerConstants.PasteElementOffset;
+            double y = commandContextMenu?.HasPastePosition == true
+                ? ApplyDesignerGrid( commandContextMenu.PasteY )
+                : ReportDesignerConstants.PasteElementOffset;
+
+            ReportSubreportElementDefinition subreport = (ReportSubreportElementDefinition)ReportDefinitionHelper.CreateElementFromToolbox( ReportElementType.Subreport, subreportName, x, y );
+            subreport.Name = subreportName;
+            subreport.Report = ReportDefinitionHelper.CreateDefaultSubreportDefinition( subreportName );
+
+            workingDefinition.Sections[commandSectionIndex].Elements.Add( subreport );
+
+            SelectElement( ReportDefinitionHelper.EnsureElementId( subreport ) );
             _ = CloseContextMenu();
 
             return Task.CompletedTask;
@@ -3622,14 +3691,155 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return !ReportValueResolver.ResolveSuppress( element, section, definition, Data, item );
     }
 
+    private ReportDefinition ResolveActiveDesignerDefinition( ReportDefinition rootDefinition )
+    {
+        if ( CurrentMode != ReportMode.Design || !TryGetActiveSubreportElement( rootDefinition, out ReportSubreportElementDefinition subreportElement ) )
+        {
+            return rootDefinition;
+        }
+
+        return ReportDefinitionHelper.EnsureSubreportDefinition( subreportElement ) ?? rootDefinition;
+    }
+
+    private object GetFieldsExplorerData( ReportDefinition rootDefinition )
+    {
+        return TryGetActiveSubreportElement( rootDefinition, out ReportSubreportElementDefinition subreportElement )
+            ? ReportSubreportResolver.ResolveData( rootDefinition, Data, null, subreportElement )
+            : Data;
+    }
+
+    private IReadOnlyList<ReportDesignerDataSourceNode> GetFieldsExplorerDataSources( ReportDefinition rootDefinition )
+    {
+        if ( !TryGetActiveSubreportElement( rootDefinition, out ReportSubreportElementDefinition subreportElement ) )
+            return null;
+
+        List<ReportDesignerFieldNode> fields = ReportDataSourceExplorer.ResolveDataSourceFields( rootDefinition, Data, subreportElement.DataSource ).ToList();
+
+        if ( fields.Count == 0 )
+            return [];
+
+        return
+        [
+            new()
+            {
+                Name = DataSourceName,
+                BindingName = null,
+                Fields = fields,
+            },
+        ];
+    }
+
+    private bool TryGetActiveSubreportElement( ReportDefinition rootDefinition, out ReportSubreportElementDefinition subreportElement )
+    {
+        subreportElement = null;
+
+        if ( string.IsNullOrWhiteSpace( activeSubreportElementKey )
+             || !ReportDefinitionHelper.TryFindElementLocation( rootDefinition, activeSubreportElementKey, out _, out _, out ReportElementDefinition element )
+             || element is not ReportSubreportElementDefinition activeSubreportElement )
+        {
+            return false;
+        }
+
+        subreportElement = activeSubreportElement;
+
+        return true;
+    }
+
+    private IReadOnlyList<ReportDesignerTabItem> GetDesignerTabs( ReportDefinition rootDefinition )
+    {
+        List<ReportDesignerTabItem> tabs =
+        [
+            new()
+            {
+                Key = MainReportDesignerTabKey,
+                Text = string.IsNullOrWhiteSpace( rootDefinition?.Name ) ? "Main Report" : rootDefinition.Name,
+                Active = string.IsNullOrWhiteSpace( activeSubreportElementKey ),
+            },
+        ];
+
+        foreach ( ReportSubreportElementDefinition subreport in ReportDefinitionHelper.EnumerateSubreportElements( rootDefinition ) )
+        {
+            string key = ReportDefinitionHelper.EnsureElementId( subreport );
+
+            tabs.Add( new()
+            {
+                Key = key,
+                Text = ReportSubreportResolver.GetDisplayName( subreport ),
+                Active = string.Equals( activeSubreportElementKey, key, StringComparison.Ordinal ),
+            } );
+        }
+
+        if ( tabs.All( tab => !tab.Active ) )
+        {
+            tabs[0].Active = true;
+        }
+
+        return tabs;
+    }
+
+    private Task SelectDesignerTab( string key )
+    {
+        string nextActiveSubreportElementKey = string.Equals( key, MainReportDesignerTabKey, StringComparison.Ordinal )
+            ? null
+            : key;
+
+        if ( string.Equals( activeSubreportElementKey, nextActiveSubreportElementKey, StringComparison.Ordinal ) )
+            return Task.CompletedTask;
+
+        activeSubreportElementKey = nextActiveSubreportElementKey;
+        ResetDesignerSurfaceScrollPosition();
+        SelectReport();
+        InvalidateDesignerCaches();
+        RefreshDesignerSurface();
+
+        return InvokeAsync( StateHasChanged );
+    }
+
+    private bool TryOpenSubreportDesigner( string elementKey )
+    {
+        if ( string.IsNullOrWhiteSpace( elementKey )
+             || !ReportDefinitionHelper.TryFindElementLocation( RootDefinition, elementKey, out _, out _, out ReportElementDefinition element )
+             || element is not ReportSubreportElementDefinition subreportElement )
+        {
+            return false;
+        }
+
+        bool activeSubreportChanged = !string.Equals( activeSubreportElementKey, elementKey, StringComparison.Ordinal );
+
+        ReportDefinitionHelper.EnsureSubreportDefinition( subreportElement );
+        activeSubreportElementKey = elementKey;
+
+        if ( activeSubreportChanged )
+            ResetDesignerSurfaceScrollPosition();
+
+        SelectReport();
+        InvalidateDesignerCaches();
+        RefreshDesignerSurface();
+        StateHasChanged();
+
+        return true;
+    }
+
+    private static string ResolveActiveSubreportElementKey( ReportDefinition definition, string elementKey )
+    {
+        return !string.IsNullOrWhiteSpace( elementKey )
+            && ReportDefinitionHelper.TryFindElementLocation( definition, elementKey, out _, out _, out ReportElementDefinition element )
+            && element is ReportSubreportElementDefinition
+                ? elementKey
+                : null;
+    }
+
     #endregion
 
     #region Properties
 
-    private ReportDefinition EffectiveDefinition
+    private ReportDefinition RootDefinition
         => CurrentDefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative
             ? BuildDeclarativeDefinition()
             : Definition ?? declarativeDefinition ?? BuildDeclarativeDefinition();
+
+    private ReportDefinition EffectiveDefinition
+        => ResolveActiveDesignerDefinition( RootDefinition );
 
     private bool IsDesignerEnabled => DesignerEnabled || GlobalOptions.DesignerEnabled;
 
@@ -3653,7 +3863,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private string SelectedDesignerPanelTabName => selectedDesignerPanelTab.ToString();
 
-    private string ToolbarStateKey => $"{CurrentMode}|{CurrentPreviewFormat}|{selectionManager.PrimaryElementKey}|{selectionManager.SelectedCellKey}|{selectionManager.SelectedElementKeys.Count}|{selectionManager.SelectedSectionIndex}|{clipboardElements.Count}|{commandManager.CanUndo}|{commandManager.CanRedo}";
+    private string ToolbarStateKey => $"{CurrentMode}|{CurrentPreviewFormat}|{activeSubreportElementKey}|{selectionManager.PrimaryElementKey}|{selectionManager.SelectedCellKey}|{selectionManager.SelectedElementKeys.Count}|{selectionManager.SelectedSectionIndex}|{clipboardElements.Count}|{commandManager.CanUndo}|{commandManager.CanRedo}";
 
     private string DataSourceName => "Default";
 
@@ -3848,4 +4058,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
+
+    private sealed class ReportDesignerTabItem
+    {
+        public string Key { get; set; }
+
+        public string Text { get; set; }
+
+        public bool Active { get; set; }
+    }
 }

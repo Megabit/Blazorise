@@ -44,6 +44,14 @@
     &-surface {
         overflow: auto;
     }
+
+    &-tabs {
+        position: sticky;
+        bottom: 0;
+        z-index: var(--b-report-zindex-toolbar, 20);
+        background: var(--b-report-color-surface);
+        overflow-x: auto;
+    }
 }
 
 .b-report-toolbar {

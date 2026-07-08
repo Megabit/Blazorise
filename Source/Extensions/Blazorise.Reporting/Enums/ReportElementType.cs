@@ -38,5 +38,10 @@ public enum ReportElementType
     /// <summary>
     /// Explicit page break marker.
     /// </summary>
-    PageBreak
+    PageBreak,
+
+    /// <summary>
+    /// Nested report rendered inside the current report.
+    /// </summary>
+    Subreport
 }

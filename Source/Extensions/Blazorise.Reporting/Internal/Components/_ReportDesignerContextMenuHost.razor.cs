@@ -81,6 +81,9 @@ public partial class _ReportDesignerContextMenuHost
     private Task OnInsertGroupClicked( object value )
         => InvokeMenuCommand( InsertGroup );
 
+    private Task OnInsertSubreportClicked( object value )
+        => InvokeMenuCommand( InsertSubreport );
+
     private Task OnToggleSectionKeepTogetherClicked( object value )
         => InvokeMenuCommand( ToggleSectionKeepTogether );
 
@@ -252,6 +255,11 @@ public partial class _ReportDesignerContextMenuHost
     /// Raised when a group should be inserted.
     /// </summary>
     [Parameter] public Func<MouseEventArgs, Task> InsertGroup { get; set; }
+
+    /// <summary>
+    /// Raised when a subreport should be inserted into the selected section.
+    /// </summary>
+    [Parameter] public Func<MouseEventArgs, Task> InsertSubreport { get; set; }
 
     /// <summary>
     /// Raised when section suppression should be toggled.

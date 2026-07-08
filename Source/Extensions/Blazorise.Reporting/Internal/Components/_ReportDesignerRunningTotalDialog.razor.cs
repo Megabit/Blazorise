@@ -37,6 +37,7 @@ public partial class _ReportDesignerRunningTotalDialog
         {
             parameters.Add( nameof( Definition ), Definition );
             parameters.Add( nameof( Data ), Data );
+            parameters.Add( nameof( SourceDataSources ), SourceDataSources );
             parameters.Add( nameof( InitialDefinition ), definition );
             parameters.Add( nameof( Confirmed ), Confirmed );
         } );
@@ -64,6 +65,7 @@ public partial class _ReportDesignerRunningTotalDialog
         {
             parameters.Add( nameof( _ReportDesignerFormulaDialog.Definition ), Definition );
             parameters.Add( nameof( _ReportDesignerFormulaDialog.Data ), Data );
+            parameters.Add( nameof( _ReportDesignerFormulaDialog.SourceDataSources ), SourceDataSources );
             parameters.Add( nameof( _ReportDesignerFormulaDialog.Section ), SelectedSection );
             parameters.Add( nameof( _ReportDesignerFormulaDialog.InitialPropertyName ), "Evaluate formula" );
             parameters.Add( nameof( _ReportDesignerFormulaDialog.InitialValue ), runningTotal.EvaluateFormula );
@@ -185,9 +187,9 @@ public partial class _ReportDesignerRunningTotalDialog
 
         int sectionIndex = 0;
 
-        foreach ( ReportDesignerDataSourceNode dataSource in ReportDataSourceExplorer.ResolveDataSourceDictionary( Definition, "Default" ) )
+        foreach ( ReportDesignerDataSourceNode dataSource in SourceDataSources ?? ReportDataSourceExplorer.ResolveDataSourceDictionary( Definition, "Default" ) )
         {
-            fields.AddRange( FlattenFieldOptions( Definition, sectionIndex, dataSource.Name, dataSource.Fields ) );
+            fields.AddRange( FlattenFieldOptions( Definition, sectionIndex, dataSource.BindingName, dataSource.Fields ) );
             sectionIndex++;
         }
     }
@@ -317,6 +319,11 @@ public partial class _ReportDesignerRunningTotalDialog
     /// Report data used to infer field types and validate formulas.
     /// </summary>
     [Parameter] public object Data { get; set; }
+
+    /// <summary>
+    /// Optional pre-resolved source fields used by scoped designers such as subreports.
+    /// </summary>
+    [Parameter] public IReadOnlyList<ReportDesignerDataSourceNode> SourceDataSources { get; set; }
 
     /// <summary>
     /// Raised when the running total configuration is confirmed.

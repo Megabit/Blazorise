@@ -28,6 +28,7 @@ internal static class ReportDataSourceExplorer
             yield return new()
             {
                 Name = string.IsNullOrWhiteSpace( dataSource.Name ) ? defaultDataSourceName : dataSource.Name,
+                BindingName = string.IsNullOrWhiteSpace( dataSource.Name ) ? defaultDataSourceName : dataSource.Name,
                 Fields = fields,
             };
         }
@@ -93,6 +94,28 @@ internal static class ReportDataSourceExplorer
             yield break;
 
         foreach ( var field in ResolveDataSourceFields( item, null, 0, [] ) )
+        {
+            yield return field;
+        }
+    }
+
+    internal static IEnumerable<ReportDesignerFieldNode> ResolveDataSourceFields( ReportDefinition definition, object defaultData, string dataSourceName )
+    {
+        List<ReportDesignerFieldNode> schemaFields = ResolveDataSourceSchemaContextFields( definition, dataSourceName ).ToList();
+
+        if ( schemaFields.Count > 0 )
+        {
+            foreach ( ReportDesignerFieldNode field in schemaFields )
+            {
+                yield return field;
+            }
+
+            yield break;
+        }
+
+        object dataSourceValue = ReportDataResolver.ResolveDataSourceValue( definition, defaultData, dataSourceName );
+
+        foreach ( ReportDesignerFieldNode field in ResolveDataSourceFields( dataSourceValue ) )
         {
             yield return field;
         }

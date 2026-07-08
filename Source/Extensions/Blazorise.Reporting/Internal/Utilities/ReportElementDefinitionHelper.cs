@@ -137,6 +137,7 @@ internal static class ReportElementDefinitionHelper
         {
             ReportTextElementDefinition textElement => textElement.Text,
             ReportImageElementDefinition imageElement => imageElement.Text,
+            ReportSubreportElementDefinition subreportElement => ReportSubreportResolver.GetDisplayName( subreportElement ),
             _ => null,
         };
     }

@@ -32,6 +32,10 @@ internal static class ReportDefinitionHelper
 
     private const double ToolboxTableElementHeight = 48;
 
+    private const double ToolboxSubreportElementWidth = 240;
+
+    private const double ToolboxSubreportElementHeight = 120;
+
     #endregion
 
     #region Methods
@@ -67,9 +71,122 @@ internal static class ReportDefinitionHelper
                 definition.Height = ToolboxTableElementHeight;
                 EnsureTableLayout( definition );
                 break;
+            case ReportElementType.Subreport:
+                definition.Width = ToolboxSubreportElementWidth;
+                definition.Height = ToolboxSubreportElementHeight;
+                definition.Name = string.IsNullOrWhiteSpace( text ) ? "Subreport" : text;
+                ( (ReportSubreportElementDefinition)definition ).Report = CreateDefaultSubreportDefinition( definition.Name );
+                break;
         }
 
         return definition;
+    }
+
+    internal static ReportDefinition CreateDefaultSubreportDefinition( string name )
+    {
+        return new()
+        {
+            Name = string.IsNullOrWhiteSpace( name ) ? "Subreport" : name,
+            Sections =
+            [
+                new()
+                {
+                    Name = "Report Header",
+                    Type = ReportSectionType.ReportHeader,
+                    Height = 60,
+                },
+                new()
+                {
+                    Name = "Detail",
+                    Type = ReportSectionType.Detail,
+                    Height = 120,
+                    Default = true,
+                },
+                new()
+                {
+                    Name = "Report Footer",
+                    Type = ReportSectionType.ReportFooter,
+                    Height = 60,
+                },
+            ],
+        };
+    }
+
+    internal static ReportDefinition EnsureSubreportDefinition( ReportSubreportElementDefinition element )
+    {
+        if ( element is null )
+            return null;
+
+        element.Report ??= CreateDefaultSubreportDefinition( ReportSubreportResolver.GetDisplayName( element ) );
+
+        if ( string.IsNullOrWhiteSpace( element.Report.Name ) )
+            element.Report.Name = ReportSubreportResolver.GetDisplayName( element );
+
+        return element.Report;
+    }
+
+    internal static IEnumerable<ReportSubreportElementDefinition> EnumerateSubreportElements( ReportDefinition definition )
+    {
+        if ( definition?.Sections is null )
+            yield break;
+
+        foreach ( ReportSectionDefinition section in definition.Sections )
+        {
+            foreach ( ReportElementDefinition element in section.Elements ?? [] )
+            {
+                foreach ( ReportSubreportElementDefinition subreport in EnumerateSubreportElements( element ) )
+                    yield return subreport;
+            }
+        }
+    }
+
+    private static IEnumerable<ReportSubreportElementDefinition> EnumerateSubreportElements( ReportElementDefinition element )
+    {
+        if ( element is ReportSubreportElementDefinition subreport )
+        {
+            yield return subreport;
+            yield break;
+        }
+
+        if ( element is ReportTableElementDefinition table )
+        {
+            foreach ( ReportTableCellDefinition cell in table.Cells ?? [] )
+            {
+                foreach ( ReportElementDefinition child in cell.Elements ?? [] )
+                {
+                    foreach ( ReportSubreportElementDefinition childSubreport in EnumerateSubreportElements( child ) )
+                        yield return childSubreport;
+                }
+            }
+        }
+    }
+
+    internal static string CreateUniqueSubreportName( ReportDefinition definition )
+    {
+        const string baseName = "Subreport";
+
+        if ( definition is null )
+            return baseName;
+
+        HashSet<string> names = EnumerateSubreportElements( definition )
+            .Select( ReportSubreportResolver.GetDisplayName )
+            .Where( name => !string.IsNullOrWhiteSpace( name ) )
+            .ToHashSet( StringComparer.OrdinalIgnoreCase );
+
+        if ( names.Add( baseName ) )
+            return baseName;
+
+        int index = 2;
+        string name;
+
+        do
+        {
+            name = $"{baseName} {index}";
+            index++;
+        }
+        while ( !names.Add( name ) );
+
+        return name;
     }
 
     internal static void EnsureTableLayout( ReportElementDefinition element )
@@ -336,6 +453,7 @@ internal static class ReportDefinitionHelper
             ReportElementType.Line => ReportTreeNodeKind.Line,
             ReportElementType.Rectangle => ReportTreeNodeKind.Rectangle,
             ReportElementType.PageBreak => ReportTreeNodeKind.PageBreak,
+            ReportElementType.Subreport => ReportTreeNodeKind.Subreport,
             _ => ReportTreeNodeKind.Text,
         };
     }

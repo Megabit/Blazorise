@@ -25,7 +25,7 @@ internal static class ReportPdfDocumentBuilder
             Orientation = ResolveOrientation( definition.Page.Orientation ),
             PageWidth = definition.Page.Width,
             PageHeight = definition.Page.Height,
-            Fonts = definition.Fonts?.Select( CloneFontFamily ).ToList() ?? [],
+            Fonts = CollectFonts( definition ).Select( CloneFontFamily ).ToList(),
         };
 
         foreach ( ReportRenderPage renderPage in ReportPreviewRenderPlanner.BuildRenderPages( definition, data ) )
@@ -61,10 +61,7 @@ internal static class ReportPdfDocumentBuilder
             {
                 foreach ( ReportElementDefinition element in renderSection.Section.Elements.Where( element => ShouldRenderElement( definition, data, renderSection.Section, element, renderSection.Item ) ) )
                 {
-                    PdfElementDefinition pdfElement = CreateElement( definition, data, renderSection, element, x, sectionY );
-
-                    if ( pdfElement is not null )
-                        page.Elements.Add( pdfElement );
+                    AppendElement( page.Elements, definition, data, renderSection, element, x, sectionY, 0 );
                 }
             }
 
@@ -72,7 +69,7 @@ internal static class ReportPdfDocumentBuilder
         }
     }
 
-    private static PdfElementDefinition CreateElement( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportElementDefinition element, double sectionX, double sectionY )
+    private static PdfElementDefinition CreateElement( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportElementDefinition element, double sectionX, double sectionY, int subreportDepth )
     {
         return element.Type switch
         {
@@ -81,9 +78,23 @@ internal static class ReportPdfDocumentBuilder
             ReportElementType.Line => CreateShapeElement( PdfElementType.Line, element, sectionX, sectionY ),
             ReportElementType.Rectangle => CreateShapeElement( PdfElementType.Rectangle, element, sectionX, sectionY ),
             ReportElementType.Image when element is ReportImageElementDefinition imageElement => CreateImageElement( imageElement, sectionX, sectionY ),
-            ReportElementType.Table when element is ReportTableElementDefinition tableElement => CreateTableElement( definition, data, renderSection, tableElement, sectionX, sectionY ),
+            ReportElementType.Table when element is ReportTableElementDefinition tableElement => CreateTableElement( definition, data, renderSection, tableElement, sectionX, sectionY, subreportDepth ),
             _ => null,
         };
+    }
+
+    private static void AppendElement( IList<PdfElementDefinition> elements, ReportDefinition definition, object data, ReportRenderSection renderSection, ReportElementDefinition element, double sectionX, double sectionY, int subreportDepth )
+    {
+        if ( element is ReportSubreportElementDefinition subreportElement )
+        {
+            AppendSubreportElements( elements, definition, data, renderSection, subreportElement, sectionX, sectionY, subreportDepth );
+            return;
+        }
+
+        PdfElementDefinition pdfElement = CreateElement( definition, data, renderSection, element, sectionX, sectionY, subreportDepth );
+
+        if ( pdfElement is not null )
+            elements.Add( pdfElement );
     }
 
     private static PdfElementDefinition CreateTextElement( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportTextElementDefinition element, double sectionX, double sectionY )
@@ -125,7 +136,7 @@ internal static class ReportPdfDocumentBuilder
         return pdfElement;
     }
 
-    private static PdfElementDefinition CreateTableElement( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportTableElementDefinition element, double sectionX, double sectionY )
+    private static PdfElementDefinition CreateTableElement( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportTableElementDefinition element, double sectionX, double sectionY, int subreportDepth )
     {
         PdfElementDefinition pdfElement = CreateBaseElement( PdfElementType.Table, element, sectionX, sectionY );
         ApplyShapeFormatting( pdfElement, element );
@@ -138,7 +149,7 @@ internal static class ReportPdfDocumentBuilder
                 Cells = element.Cells
                     .Where( cell => cell.RowIndex == element.Rows.IndexOf( row ) )
                     .OrderBy( cell => cell.ColumnIndex )
-                    .Select( cell => CreateTableCell( definition, data, renderSection, element, cell ) )
+                    .Select( cell => CreateTableCell( definition, data, renderSection, element, cell, subreportDepth ) )
                     .ToList(),
             } );
         }
@@ -146,7 +157,7 @@ internal static class ReportPdfDocumentBuilder
         return pdfElement;
     }
 
-    private static PdfTableCellDefinition CreateTableCell( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportTableElementDefinition table, ReportTableCellDefinition cell )
+    private static PdfTableCellDefinition CreateTableCell( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportTableElementDefinition table, ReportTableCellDefinition cell, int subreportDepth )
     {
         double width = table.Columns
             .Skip( cell.ColumnIndex )
@@ -160,13 +171,59 @@ internal static class ReportPdfDocumentBuilder
 
         foreach ( ReportElementDefinition child in cell.Elements.Where( element => ShouldRenderElement( definition, data, renderSection.Section, element, renderSection.Item ) ) )
         {
-            PdfElementDefinition pdfChild = CreateElement( definition, data, renderSection, child, 0, 0 );
-
-            if ( pdfChild is not null )
-                pdfCell.Elements.Add( pdfChild );
+            AppendElement( pdfCell.Elements, definition, data, renderSection, child, 0, 0, subreportDepth );
         }
 
         return pdfCell;
+    }
+
+    private static void AppendSubreportElements( IList<PdfElementDefinition> elements, ReportDefinition parentDefinition, object parentData, ReportRenderSection parentRenderSection, ReportSubreportElementDefinition element, double sectionX, double sectionY, int subreportDepth )
+    {
+        if ( subreportDepth >= ReportSubreportResolver.MaxRenderDepth )
+            return;
+
+        ReportDefinition subreportDefinition = ReportSubreportResolver.ResolveDefinition( element );
+
+        if ( subreportDefinition is null )
+            return;
+
+        object subreportData = ReportSubreportResolver.ResolveData( parentDefinition, parentData, parentRenderSection.Item, element );
+        ReportRenderPage renderPage = ReportPreviewRenderPlanner.BuildRenderPages( subreportDefinition, subreportData ).FirstOrDefault();
+
+        if ( renderPage is null )
+            return;
+
+        ReportPageDefinition subreportPage = ResolvePageCopy( subreportDefinition.Page );
+
+        double subreportX = sectionX + element.X;
+        double subreportY = sectionY + element.Y;
+        double contentX = subreportX + subreportPage.Margins.Left;
+        double contentY = subreportY + subreportPage.Margins.Top;
+
+        AppendRenderSections( elements, subreportDefinition, subreportData, renderPage.HeaderSections, contentX, contentY, subreportDepth + 1 );
+        AppendRenderSections( elements, subreportDefinition, subreportData, renderPage.BodySections, contentX, contentY + GetSectionsHeight( renderPage.HeaderSections ), subreportDepth + 1 );
+
+        double footerHeight = GetSectionsHeight( renderPage.FooterSections );
+        double footerY = subreportY + subreportPage.Height - subreportPage.Margins.Bottom - footerHeight;
+        AppendRenderSections( elements, subreportDefinition, subreportData, renderPage.FooterSections, contentX, footerY, subreportDepth + 1 );
+    }
+
+    private static void AppendRenderSections( IList<PdfElementDefinition> elements, ReportDefinition definition, object data, IReadOnlyList<ReportRenderSection> renderSections, double x, double y, int subreportDepth )
+    {
+        double sectionY = y;
+
+        foreach ( ReportRenderSection renderSection in renderSections ?? [] )
+        {
+            if ( renderSection.RenderElements )
+            {
+                foreach ( ReportElementDefinition element in renderSection.Section.Elements.Where( element => ShouldRenderElement( definition, data, renderSection.Section, element, renderSection.Item ) ) )
+                {
+                    AppendElement( elements, definition, data, renderSection, element, x, sectionY, subreportDepth );
+                }
+            }
+
+            sectionY += renderSection.Section.Height;
+        }
     }
 
     private static PdfElementDefinition CreateBaseElement( PdfElementType type, ReportElementDefinition element, double sectionX, double sectionY )
@@ -215,7 +272,7 @@ internal static class ReportPdfDocumentBuilder
 
     private static bool ShouldRequireExplicitBorder( ReportElementType elementType )
     {
-        return elementType is ReportElementType.Text or ReportElementType.Field or ReportElementType.Image or ReportElementType.Table;
+        return elementType is ReportElementType.Text or ReportElementType.Field or ReportElementType.Image or ReportElementType.Table or ReportElementType.Subreport;
     }
 
     private static bool HasDefinedBorder( ReportBorderDefinition border )
@@ -295,6 +352,84 @@ internal static class ReportPdfDocumentBuilder
     private static string ResolveColor( ReportColor color )
     {
         return color.ToCssString();
+    }
+
+    private static ReportPageDefinition ResolvePageCopy( ReportPageDefinition page )
+    {
+        return ReportPageDefinitionHelper.ResolvePage( new()
+        {
+            Size = page?.Size ?? ReportPageSize.A4,
+            Orientation = page?.Orientation ?? ReportOrientation.Portrait,
+            Width = page?.Width ?? 0,
+            Height = page?.Height ?? 0,
+            Margins = new()
+            {
+                Left = page?.Margins?.Left ?? 0,
+                Top = page?.Margins?.Top ?? 0,
+                Right = page?.Margins?.Right ?? 0,
+                Bottom = page?.Margins?.Bottom ?? 0,
+            },
+        } );
+    }
+
+    private static IReadOnlyList<FontFamily> CollectFonts( ReportDefinition definition )
+    {
+        var fonts = new List<FontFamily>();
+        var names = new HashSet<string>( System.StringComparer.OrdinalIgnoreCase );
+
+        CollectFonts( definition, fonts, names, 0 );
+
+        return fonts;
+    }
+
+    private static void CollectFonts( ReportDefinition definition, List<FontFamily> fonts, HashSet<string> names, int subreportDepth )
+    {
+        if ( definition is null || subreportDepth > ReportSubreportResolver.MaxRenderDepth )
+            return;
+
+        foreach ( FontFamily font in definition.Fonts ?? [] )
+        {
+            if ( !string.IsNullOrWhiteSpace( font?.Name ) && names.Add( font.Name ) )
+                fonts.Add( font );
+        }
+
+        foreach ( ReportSubreportElementDefinition subreport in EnumerateSubreports( definition ) )
+        {
+            CollectFonts( subreport.Report, fonts, names, subreportDepth + 1 );
+        }
+    }
+
+    private static IEnumerable<ReportSubreportElementDefinition> EnumerateSubreports( ReportDefinition definition )
+    {
+        foreach ( ReportSectionDefinition section in definition.Sections ?? [] )
+        {
+            foreach ( ReportElementDefinition element in section.Elements ?? [] )
+            {
+                foreach ( ReportSubreportElementDefinition subreport in EnumerateSubreports( element ) )
+                    yield return subreport;
+            }
+        }
+    }
+
+    private static IEnumerable<ReportSubreportElementDefinition> EnumerateSubreports( ReportElementDefinition element )
+    {
+        if ( element is ReportSubreportElementDefinition subreport )
+        {
+            yield return subreport;
+            yield break;
+        }
+
+        if ( element is ReportTableElementDefinition table )
+        {
+            foreach ( ReportTableCellDefinition cell in table.Cells ?? [] )
+            {
+                foreach ( ReportElementDefinition child in cell.Elements ?? [] )
+                {
+                    foreach ( ReportSubreportElementDefinition childSubreport in EnumerateSubreports( child ) )
+                        yield return childSubreport;
+                }
+            }
+        }
     }
 
     private static FontFamily CloneFontFamily( FontFamily font )

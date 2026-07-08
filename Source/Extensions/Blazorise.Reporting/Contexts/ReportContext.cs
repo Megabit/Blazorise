@@ -8,6 +8,8 @@ namespace Blazorise.Reporting;
 
 internal sealed class ReportContext
 {
+    private const int MaxSubreportCloneDepth = 4;
+
     private readonly List<ReportDataSourceDefinition> dataSources = [];
 
     private readonly List<ReportFormulaFieldDefinition> formulaFields = [];
@@ -128,7 +130,7 @@ internal sealed class ReportContext
             DataSources = dataSources.Select( CloneDataSource ).ToList(),
             FormulaFields = formulaFields.Select( CloneFormulaField ).ToList(),
             Fonts = fonts.Select( CloneFontFamily ).ToList(),
-            Sections = sections.Select( CloneSection ).ToList(),
+            Sections = sections.Select( section => CloneSection( section ) ).ToList(),
         };
 
         definition.RunningTotals = runningTotals.Select( CloneRunningTotal ).ToList();
@@ -137,8 +139,11 @@ internal sealed class ReportContext
     }
 
     internal static ReportDefinition CloneDefinition( ReportDefinition definition )
+        => CloneDefinition( definition, 0 );
+
+    private static ReportDefinition CloneDefinition( ReportDefinition definition, int subreportDepth )
     {
-        if ( definition is null )
+        if ( definition is null || subreportDepth > MaxSubreportCloneDepth )
             return null;
 
         return new()
@@ -150,7 +155,7 @@ internal sealed class ReportContext
             FormulaFields = definition.FormulaFields?.Select( CloneFormulaField ).ToList() ?? [],
             RunningTotals = definition.RunningTotals?.Select( CloneRunningTotal ).ToList() ?? [],
             Fonts = definition.Fonts?.Select( CloneFontFamily ).ToList() ?? [],
-            Sections = definition.Sections?.Select( CloneSection ).ToList() ?? [],
+            Sections = definition.Sections?.Select( section => CloneSection( section, subreportDepth ) ).ToList() ?? [],
         };
     }
 
@@ -166,7 +171,7 @@ internal sealed class ReportContext
             PreviewFormat = state.PreviewFormat,
             SnapToGrid = state.SnapToGrid,
             Selection = CloneSelection( state.Selection ),
-            ClipboardElements = state.ClipboardElements?.Select( CloneElement ).ToList() ?? [],
+            ClipboardElements = state.ClipboardElements?.Select( element => CloneElement( element ) ).ToList() ?? [],
             ClipboardSectionId = state.ClipboardSectionId,
             CanUndo = state.CanUndo,
             CanRedo = state.CanRedo,
@@ -275,6 +280,9 @@ internal sealed class ReportContext
     }
 
     private static ReportSectionDefinition CloneSection( ReportSectionDefinition section )
+        => CloneSection( section, 0 );
+
+    private static ReportSectionDefinition CloneSection( ReportSectionDefinition section, int subreportDepth )
     {
         return new()
         {
@@ -297,11 +305,14 @@ internal sealed class ReportContext
             NewPageAfter = CloneValue( section.NewPageAfter ),
             Appearance = CloneAppearance( section.Appearance ),
             Border = CloneBorder( section.Border ),
-            Elements = section.Elements.Select( CloneElement ).ToList(),
+            Elements = section.Elements.Select( element => CloneElement( element, subreportDepth ) ).ToList(),
         };
     }
 
     internal static ReportElementDefinition CloneElement( ReportElementDefinition element )
+        => CloneElement( element, 0 );
+
+    private static ReportElementDefinition CloneElement( ReportElementDefinition element, int subreportDepth )
     {
         if ( element is null )
             return null;
@@ -347,11 +358,27 @@ internal sealed class ReportContext
                 tableClone.DataSource = tableElement.DataSource;
                 tableClone.Columns = tableElement.Columns?.Select( CloneColumn ).ToList() ?? [];
                 tableClone.Rows = tableElement.Rows?.Select( CloneRow ).ToList() ?? [];
-                tableClone.Cells = tableElement.Cells?.Select( CloneCell ).ToList() ?? [];
+                tableClone.Cells = tableElement.Cells?.Select( cell => CloneCell( cell, subreportDepth ) ).ToList() ?? [];
+                break;
+            case ReportSubreportElementDefinition subreportElement when clone is ReportSubreportElementDefinition subreportClone:
+                subreportClone.Report = CloneDefinition( ResolveSubreportDefinition( subreportElement ), subreportDepth + 1 );
+                subreportClone.DataSource = subreportElement.DataSource;
                 break;
         }
 
         return clone;
+    }
+
+    private static ReportDefinition ResolveSubreportDefinition( ReportSubreportElementDefinition subreportElement )
+    {
+        ReportDefinition definition = subreportElement.DeclarativeContext is not null
+            ? subreportElement.DeclarativeContext.BuildDefinition()
+            : subreportElement.Report;
+
+        if ( definition is not null && string.IsNullOrWhiteSpace( definition.Name ) )
+            definition.Name = string.IsNullOrWhiteSpace( subreportElement.Name ) ? "Subreport" : subreportElement.Name;
+
+        return definition;
     }
 
     private static ReportValue<T> CloneValue<T>( ReportValue<T> value )
@@ -484,6 +511,9 @@ internal sealed class ReportContext
     }
 
     private static ReportTableCellDefinition CloneCell( ReportTableCellDefinition cell )
+        => CloneCell( cell, 0 );
+
+    private static ReportTableCellDefinition CloneCell( ReportTableCellDefinition cell, int subreportDepth )
     {
         if ( cell is null )
             return null;
@@ -495,7 +525,7 @@ internal sealed class ReportContext
             ColumnIndex = cell.ColumnIndex,
             RowSpan = cell.RowSpan,
             ColumnSpan = cell.ColumnSpan,
-            Elements = cell.Elements?.Select( CloneElement ).ToList() ?? [],
+            Elements = cell.Elements?.Select( element => CloneElement( element, subreportDepth ) ).ToList() ?? [],
         };
     }
 

@@ -33,6 +33,7 @@ internal sealed class ReportContextMenuService
         state.CanSelectAllSectionElements = section.Elements?.Count > 0;
         state.CanInsertSection = canInsertSection?.Invoke( definition, state.SectionIndex ) == true;
         state.CanInsertGroup = canInsertGroup?.Invoke( section ) == true;
+        state.CanInsertSubreport = !state.SectionSuppressed;
         state.CanDeleteSection = ReportDefinitionHelper.CanDeleteSection( section );
         state.SectionKeepTogether = section.KeepTogether?.Value == true;
         state.SectionNewPageBefore = section.NewPageBefore?.Value == true;

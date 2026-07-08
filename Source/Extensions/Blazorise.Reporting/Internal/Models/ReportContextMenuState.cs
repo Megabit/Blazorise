@@ -30,6 +30,8 @@ internal sealed class ReportContextMenuState
 
     internal bool CanInsertGroup { get; set; }
 
+    internal bool CanInsertSubreport { get; set; }
+
     internal bool CanDeleteSection { get; set; }
 
     internal bool CanAlignOrSizeSelectedElements { get; set; }

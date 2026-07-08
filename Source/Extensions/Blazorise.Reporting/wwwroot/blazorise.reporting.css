@@ -172,6 +172,13 @@
 .b-report-designer-surface {
   overflow: auto;
 }
+.b-report-designer-tabs {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--b-report-zindex-toolbar, 20);
+  background: var(--b-report-color-surface);
+  overflow-x: auto;
+}
 
 .b-report-toolbar {
   flex-wrap: wrap;
@@ -755,6 +762,23 @@
 }
 .b-report-element-rectangle {
   border: var(--b-report-element-border-width) solid currentColor;
+}
+.b-report-element-subreport .b-report-element-content {
+  overflow: hidden;
+}
+
+.b-report-subreport-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 1.5rem;
+  background: var(--b-report-color-surface-muted);
+}
+
+.b-report-subreport-page {
+  overflow: hidden;
 }
 
 .b-report-resize-handle {

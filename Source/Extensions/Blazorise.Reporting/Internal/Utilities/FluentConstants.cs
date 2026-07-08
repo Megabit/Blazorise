@@ -18,6 +18,7 @@ internal static class FluentConstants
     internal static readonly IFluentFlex FlexIsWrap = Flex.Wrap;
 
     // Gap
+    internal static readonly IFluentGap GapIs1 = Gap.Is1;
     internal static readonly IFluentGap GapIs2 = Gap.Is2;
     internal static readonly IFluentGap GapIs3 = Gap.Is3;
 
@@ -47,6 +48,7 @@ internal static class FluentConstants
 
     // Border
     internal static readonly IFluentBorder BorderIs1 = Border.Is1;
+    internal static readonly IFluentBorder BorderIs1OnTop = Border.Is1.OnTop;
 
     // Background
     internal static readonly Background BackgroundLight = Background.Light;

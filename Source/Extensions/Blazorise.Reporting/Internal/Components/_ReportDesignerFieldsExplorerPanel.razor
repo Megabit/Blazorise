@@ -1,7 +1,7 @@
 @namespace Blazorise.Reporting.Internal
 @inherits BaseReportComponent
 
-<_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( DataSources, Definition?.FormulaFields, Definition?.RunningTotals, selectedFormulaFieldName, selectedRunningTotalName )"
+<_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( ResolvedDataSources, Definition?.FormulaFields, Definition?.RunningTotals, selectedFormulaFieldName, selectedRunningTotalName )"
                  NodeClicked="@FieldsNodeClicked"
                  NodeDoubleClicked="@FieldsNodeDoubleClicked"
                  NodeContextMenu="@FieldsNodeContextMenu"
@@ -57,9 +57,11 @@
     <_ReportDesignerFormulaDialog @ref="formulaDialogRef"
                                   Definition="@Definition"
                                   Data="@Data"
+                                  SourceDataSources="@ResolvedDataSources"
                                   Confirmed="@FormulaFieldFormulaConfirmed" />
     <_ReportDesignerRunningTotalDialog @ref="runningTotalDialogRef"
                                        Definition="@Definition"
                                        Data="@Data"
+                                       SourceDataSources="@ResolvedDataSources"
                                        Confirmed="@RunningTotalDialogConfirmed" />
 </Div>

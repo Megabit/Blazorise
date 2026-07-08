@@ -32,6 +32,8 @@ public partial class _ReportDesignerPropertiesPanel
 
     private Func<string, Task> formulaConfirmed;
 
+    private Func<string, Task> dataSourceConfirmed;
+
     private static readonly (ReportPageSize Value, string Text)[] PageSizeOptions =
     [
         ( ReportPageSize.Custom, "Custom" ),
@@ -223,6 +225,17 @@ public partial class _ReportDesignerPropertiesPanel
     private Task OnSelectedElementXChanged( double value )
     {
         return UpdateSelectedElement( element => element.X = ToPoints( value ) );
+    }
+
+    private Task OnSelectedElementNameChanged( string value )
+    {
+        return UpdateSelectedElement( element =>
+        {
+            element.Name = value;
+
+            if ( element is ReportSubreportElementDefinition subreportElement && subreportElement.Report is not null )
+                subreportElement.Report.Name = value;
+        } );
     }
 
     private Task OnSelectedElementYChanged( double value )
@@ -466,12 +479,48 @@ public partial class _ReportDesignerPropertiesPanel
 
     private Task OpenDataSourceDialog()
     {
-        return dataSourceDialogRef?.Show( SelectedSection?.DataSource ) ?? Task.CompletedTask;
+        return OpenDataSourceDialog( SelectedSection?.DataSource, UpdateSelectedSectionDataSource );
+    }
+
+    private Task OpenDataSourceDialog( string dataSource, Func<string, Task> confirmed )
+    {
+        dataSourceConfirmed = confirmed;
+
+        return dataSourceDialogRef?.Show( dataSource ) ?? Task.CompletedTask;
+    }
+
+    private async Task OnDataSourceDialogConfirmed( string value )
+    {
+        if ( dataSourceConfirmed is not null )
+            await dataSourceConfirmed.Invoke( value );
     }
 
     private Task UpdateSelectedSectionDataSource( string value )
     {
         return UpdateSelectedSection( section => section.DataSource = string.IsNullOrWhiteSpace( value ) ? null : value );
+    }
+
+    private string GetSelectedSubreportDataSourceDisplayName( ReportSubreportElementDefinition subreportElement )
+    {
+        if ( string.IsNullOrWhiteSpace( subreportElement?.DataSource ) )
+            return null;
+
+        ReportDesignerDataSourceOption dataSource = ReportDataSourceExplorer.ResolveBindableDataSources( Definition ).FirstOrDefault( option =>
+            string.Equals( option.Value, subreportElement.DataSource, StringComparison.OrdinalIgnoreCase )
+            || string.Equals( option.DisplayName, subreportElement.DataSource, StringComparison.OrdinalIgnoreCase ) );
+
+        return dataSource?.DisplayName ?? subreportElement.DataSource;
+    }
+
+    private Task OpenSelectedSubreportDataSourceDialog()
+    {
+        return OpenDataSourceDialog(
+            ( SelectedElement as ReportSubreportElementDefinition )?.DataSource,
+            value => UpdateSelectedElement( element =>
+            {
+                if ( element is ReportSubreportElementDefinition subreportElement )
+                    subreportElement.DataSource = string.IsNullOrWhiteSpace( value ) ? null : value;
+            } ) );
     }
 
     private Task OpenImageUploadDialog()

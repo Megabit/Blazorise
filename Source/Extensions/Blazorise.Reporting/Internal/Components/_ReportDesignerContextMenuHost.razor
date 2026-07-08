@@ -29,6 +29,10 @@
                 {
                     <ContextMenuItem Clicked="@OnInsertGroupClicked">Insert group...</ContextMenuItem>
                 }
+                @if ( State.CanInsertSubreport )
+                {
+                    <ContextMenuItem Clicked="@OnInsertSubreportClicked">Insert subreport</ContextMenuItem>
+                }
                 <ContextMenuItem ShowCheckbox Checked="@State.SectionSuppressed" Clicked="@OnToggleSectionSuppressionClicked">Suppress</ContextMenuItem>
                 <ContextMenuItem ShowCheckbox Checked="@State.SectionKeepTogether" Clicked="@OnToggleSectionKeepTogetherClicked">Keep together</ContextMenuItem>
                 <ContextMenuItem ShowCheckbox Checked="@State.SectionNewPageBefore" Clicked="@OnToggleSectionNewPageBeforeClicked">New page before</ContextMenuItem>

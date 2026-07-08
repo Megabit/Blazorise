@@ -4,11 +4,21 @@ using System.Collections.Generic;
 
 namespace Blazorise.Reporting.Internal;
 
-internal sealed class ReportDesignerDataSourceNode
+public sealed class ReportDesignerDataSourceNode
 {
+    #region Constructors
+
+    internal ReportDesignerDataSourceNode()
+    {
+    }
+
+    #endregion
+
     #region Properties
 
     internal string Name { get; set; }
+
+    internal string BindingName { get; set; }
 
     internal List<ReportDesignerFieldNode> Fields { get; set; } = [];
 
