@@ -2,11 +2,13 @@ namespace Blazorise.Reporting.Internal;
 
 internal static class ReportSubreportResolver
 {
-    internal const int MaxRenderDepth = 4;
-
     internal static ReportDefinition ResolveDefinition( ReportSubreportElementDefinition element )
     {
-        return element?.Report;
+        ReportDefinition definition = element?.Report;
+
+        ReportDefinitionHelper.RemoveSubreportElements( definition );
+
+        return definition;
     }
 
     internal static object ResolveData( ReportDefinition parentDefinition, object parentData, object parentItem, ReportSubreportElementDefinition element )

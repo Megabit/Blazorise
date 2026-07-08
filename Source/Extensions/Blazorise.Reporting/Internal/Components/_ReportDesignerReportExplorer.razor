@@ -3,6 +3,6 @@
 @using System
 
 <h5>Report Explorer</h5>
-<_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildReportExplorerNodes( Definition, ReportSelected, SelectedSectionIndex, SelectedElementKey, SelectedCellKey, IsElementSelected )"
+<_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildReportExplorerNodes( Definition, ReportSelected, SelectedSectionIndex, SelectedElementKey, SelectedCellKey, IsElementSelected, AllowSubreport )"
                  NodeClicked="@NodeClicked"
                  NodeContextMenu="@NodeContextMenu" />

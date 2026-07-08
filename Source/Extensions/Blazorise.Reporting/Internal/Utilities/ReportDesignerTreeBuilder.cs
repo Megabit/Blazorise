@@ -19,8 +19,20 @@ internal static class ReportDesignerTreeBuilder
 
     #region Methods
 
-    internal static IReadOnlyList<ReportTreeNode> BuildToolboxNodes()
+    internal static IReadOnlyList<ReportTreeNode> BuildToolboxNodes( bool allowSubreport = true )
     {
+        List<ReportTreeNode> reportItems =
+        [
+            CreateToolboxNode( "toolbox:text", "Text", ReportElementType.Text, "Text" ),
+            CreateToolboxNode( "toolbox:image", "Image", ReportElementType.Image, null ),
+            CreateToolboxNode( "toolbox:line", "Line", ReportElementType.Line, null ),
+            CreateToolboxNode( "toolbox:rectangle", "Rectangle", ReportElementType.Rectangle, null ),
+            CreateToolboxNode( "toolbox:table", "Table", ReportElementType.Table, null ),
+        ];
+
+        if ( allowSubreport )
+            reportItems.Add( CreateToolboxNode( "toolbox:subreport", "Subreport", ReportElementType.Subreport, null ) );
+
         return
         [
             new()
@@ -28,15 +40,7 @@ internal static class ReportDesignerTreeBuilder
                 Key = "toolbox",
                 Text = "Report Items",
                 Kind = ReportTreeNodeKind.Folder,
-                Children =
-                [
-                    CreateToolboxNode( "toolbox:text", "Text", ReportElementType.Text, "Text" ),
-                    CreateToolboxNode( "toolbox:image", "Image", ReportElementType.Image, null ),
-                    CreateToolboxNode( "toolbox:line", "Line", ReportElementType.Line, null ),
-                    CreateToolboxNode( "toolbox:rectangle", "Rectangle", ReportElementType.Rectangle, null ),
-                    CreateToolboxNode( "toolbox:table", "Table", ReportElementType.Table, null ),
-                    CreateToolboxNode( "toolbox:subreport", "Subreport", ReportElementType.Subreport, null ),
-                ],
+                Children = reportItems,
             }
         ];
     }
@@ -67,7 +71,8 @@ internal static class ReportDesignerTreeBuilder
         int? selectedSectionIndex,
         string selectedElementKey,
         string selectedCellKey,
-        Func<string, bool> isElementSelected )
+        Func<string, bool> isElementSelected,
+        bool allowSubreport = true )
     {
         return
         [
@@ -86,7 +91,10 @@ internal static class ReportDesignerTreeBuilder
                     Kind = ReportTreeNodeKind.Band,
                     Selectable = true,
                     Selected = selectedSectionIndex == sectionIndex && string.IsNullOrWhiteSpace( selectedElementKey ),
-                    Children = section.Elements.Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected ) ).ToList(),
+                    Children = section.Elements
+                        .Where( element => allowSubreport || element.Type != ReportElementType.Subreport )
+                        .Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected, allowSubreport ) )
+                        .ToList(),
                 } ).ToList(),
             }
         ];
@@ -137,7 +145,7 @@ internal static class ReportDesignerTreeBuilder
         return !string.IsNullOrWhiteSpace( cellKey );
     }
 
-    private static ReportTreeNode BuildReportElementNode( ReportElementDefinition element, string selectedCellKey, Func<string, bool> isElementSelected )
+    private static ReportTreeNode BuildReportElementNode( ReportElementDefinition element, string selectedCellKey, Func<string, bool> isElementSelected, bool allowSubreport = true )
     {
         var elementKey = ReportDefinitionHelper.EnsureElementId( element );
 
@@ -150,12 +158,12 @@ internal static class ReportDesignerTreeBuilder
             Selectable = true,
             Selected = isElementSelected?.Invoke( elementKey ) == true,
             Children = element is ReportTableElementDefinition table
-                ? BuildTableChildNodes( table, elementKey, selectedCellKey, isElementSelected )
+                ? BuildTableChildNodes( table, elementKey, selectedCellKey, isElementSelected, allowSubreport )
                 : [],
         };
     }
 
-    private static List<ReportTreeNode> BuildTableChildNodes( ReportTableElementDefinition table, string tableKey, string selectedCellKey, Func<string, bool> isElementSelected )
+    private static List<ReportTreeNode> BuildTableChildNodes( ReportTableElementDefinition table, string tableKey, string selectedCellKey, Func<string, bool> isElementSelected, bool allowSubreport )
     {
         List<ReportTreeNode> rows = [];
         int rowCount = Math.Max(
@@ -170,14 +178,14 @@ internal static class ReportDesignerTreeBuilder
                 Text = $"Row {( rowIndex + 1 ).ToString( CultureInfo.InvariantCulture )}",
                 Detail = "Row",
                 Kind = ReportTreeNodeKind.TableRow,
-                Children = BuildTableCellNodes( table, rowIndex, selectedCellKey, isElementSelected ),
+                Children = BuildTableCellNodes( table, rowIndex, selectedCellKey, isElementSelected, allowSubreport ),
             } );
         }
 
         return rows;
     }
 
-    private static List<ReportTreeNode> BuildTableCellNodes( ReportTableElementDefinition table, int rowIndex, string selectedCellKey, Func<string, bool> isElementSelected )
+    private static List<ReportTreeNode> BuildTableCellNodes( ReportTableElementDefinition table, int rowIndex, string selectedCellKey, Func<string, bool> isElementSelected, bool allowSubreport )
     {
         return ( table.Cells ?? [] )
             .Where( cell => cell.RowIndex == rowIndex )
@@ -195,7 +203,8 @@ internal static class ReportDesignerTreeBuilder
                     Selectable = true,
                     Selected = string.Equals( selectedCellKey, cellKey, StringComparison.Ordinal ),
                     Children = ( cell.Elements ?? [] )
-                        .Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected ) )
+                        .Where( element => allowSubreport || element.Type != ReportElementType.Subreport )
+                        .Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected, allowSubreport ) )
                         .ToList(),
                 };
             } )

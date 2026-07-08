@@ -1112,7 +1112,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         };
 
         contextMenuService.PopulateSectionCapabilities( EffectiveDefinition, nextContextMenu, HasClipboardElements, aggregateService.CanInsertSection, aggregateService.CanInsertGroup );
-        nextContextMenu.CanInsertSubreport = string.IsNullOrWhiteSpace( activeSubreportElementKey ) && nextContextMenu.CanInsertSubreport;
+        nextContextMenu.CanInsertSubreport = CanInsertSubreportElement && nextContextMenu.CanInsertSubreport;
         await ShowContextMenu( nextContextMenu, selectionChanged );
     }
 
@@ -1133,7 +1133,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         };
 
         contextMenuService.PopulateSectionCapabilities( EffectiveDefinition, nextContextMenu, HasClipboardElements, aggregateService.CanInsertSection, aggregateService.CanInsertGroup );
-        nextContextMenu.CanInsertSubreport = string.IsNullOrWhiteSpace( activeSubreportElementKey ) && nextContextMenu.CanInsertSubreport;
+        nextContextMenu.CanInsertSubreport = CanInsertSubreportElement && nextContextMenu.CanInsertSubreport;
         await ShowContextMenu( nextContextMenu, selectionChanged );
     }
 
@@ -2146,6 +2146,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task InsertSubreport()
     {
+        if ( !CanInsertSubreportElement )
+            return;
+
         ReportDefinition activeDefinition = EffectiveDefinition;
         ReportContextMenuState currentContextMenu = designerState.ContextMenu;
         int currentSectionIndex = currentContextMenu?.SectionIndex ?? selectionManager.SelectedSectionIndex ?? -1;
@@ -2381,6 +2384,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private void BeginToolboxElementDrag( ReportElementType elementType, string text )
     {
+        if ( elementType == ReportElementType.Subreport && !CanInsertSubreportElement )
+            return;
+
         ReportDesignerInteractionService.BeginToolboxElementDrag( designerState, elementType, text );
     }
 
@@ -3864,6 +3870,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private ReportDefinitionMode CurrentDefinitionMode => DefinitionMode ?? GlobalOptions.DefinitionMode;
 
     private bool HasClipboardElements => clipboardElements.Count > 0;
+
+    private bool CanInsertSubreportElement => string.IsNullOrWhiteSpace( activeSubreportElementKey );
 
     private string SelectedDesignerPanelTabName => selectedDesignerPanelTab.ToString();
 

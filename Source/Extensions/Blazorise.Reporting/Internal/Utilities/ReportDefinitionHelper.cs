@@ -122,7 +122,43 @@ internal static class ReportDefinitionHelper
         if ( string.IsNullOrWhiteSpace( element.Report.Name ) )
             element.Report.Name = ReportSubreportResolver.GetDisplayName( element );
 
+        RemoveSubreportElements( element.Report );
+
         return element.Report;
+    }
+
+    internal static void RemoveSubreportElements( ReportDefinition definition )
+    {
+        if ( definition?.Sections is null )
+            return;
+
+        foreach ( ReportSectionDefinition section in definition.Sections )
+        {
+            RemoveSubreportElements( section.Elements );
+        }
+    }
+
+    private static void RemoveSubreportElements( List<ReportElementDefinition> elements )
+    {
+        if ( elements is null )
+            return;
+
+        for ( int i = elements.Count - 1; i >= 0; i-- )
+        {
+            if ( elements[i] is ReportSubreportElementDefinition )
+            {
+                elements.RemoveAt( i );
+                continue;
+            }
+
+            if ( elements[i] is ReportTableElementDefinition table )
+            {
+                foreach ( ReportTableCellDefinition cell in table.Cells ?? [] )
+                {
+                    RemoveSubreportElements( cell.Elements );
+                }
+            }
+        }
     }
 
     internal static IEnumerable<ReportSubreportElementDefinition> EnumerateSubreportElements( ReportDefinition definition )

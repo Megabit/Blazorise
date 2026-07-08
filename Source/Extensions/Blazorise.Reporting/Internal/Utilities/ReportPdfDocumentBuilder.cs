@@ -179,7 +179,7 @@ internal static class ReportPdfDocumentBuilder
 
     private static void AppendSubreportElements( IList<PdfElementDefinition> elements, ReportDefinition parentDefinition, object parentData, ReportRenderSection parentRenderSection, ReportSubreportElementDefinition element, double sectionX, double sectionY, int subreportDepth )
     {
-        if ( subreportDepth >= ReportSubreportResolver.MaxRenderDepth )
+        if ( subreportDepth > 0 )
             return;
 
         ReportDefinition subreportDefinition = ReportSubreportResolver.ResolveDefinition( element );
@@ -384,7 +384,7 @@ internal static class ReportPdfDocumentBuilder
 
     private static void CollectFonts( ReportDefinition definition, List<FontFamily> fonts, HashSet<string> names, int subreportDepth )
     {
-        if ( definition is null || subreportDepth > ReportSubreportResolver.MaxRenderDepth )
+        if ( definition is null )
             return;
 
         foreach ( FontFamily font in definition.Fonts ?? [] )
@@ -392,6 +392,9 @@ internal static class ReportPdfDocumentBuilder
             if ( !string.IsNullOrWhiteSpace( font?.Name ) && names.Add( font.Name ) )
                 fonts.Add( font );
         }
+
+        if ( subreportDepth > 0 )
+            return;
 
         foreach ( ReportSubreportElementDefinition subreport in EnumerateSubreports( definition ) )
         {

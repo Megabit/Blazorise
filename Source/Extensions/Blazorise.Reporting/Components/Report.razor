@@ -109,6 +109,7 @@
                 </Toolbar>
                 <ToolboxPanel>
                     <_ReportDesignerToolboxPanel ToolboxNodeDragStarted="@OnToolboxTreeNodeDragStarted"
+                                                 AllowSubreport="@CanInsertSubreportElement"
                                                  NodeDragEnded="@OnDesignerNodeDragEnded" />
                 </ToolboxPanel>
                 <FieldsExplorerPanel>
@@ -306,6 +307,7 @@
                                                    SelectedSectionIndex="@selectionManager.SelectedSectionIndex"
                                                    SelectedElementKey="@selectionManager.PrimaryElementKey"
                                                    SelectedCellKey="@selectionManager.SelectedCellKey"
+                                                   AllowSubreport="@CanInsertSubreportElement"
                                                    IsElementSelected="@selectionManager.IsElementSelected"
                                                    NodeClicked="@OnReportTreeNodeClicked"
                                                    NodeContextMenu="@OnReportTreeNodeContextMenu" />

@@ -12,6 +12,11 @@ public partial class _ReportDesignerToolboxPanel
     #region Properties
 
     /// <summary>
+    /// Indicates that subreport toolbox item is available.
+    /// </summary>
+    [Parameter] public bool AllowSubreport { get; set; } = true;
+
+    /// <summary>
     /// Raised when a toolbox item starts dragging.
     /// </summary>
     [Parameter] public EventCallback<ReportTreeNodeDragEventArgs> ToolboxNodeDragStarted { get; set; }

@@ -17,7 +17,7 @@ public partial class _ReportSubreportPreview
 
     private object SubreportData => ReportSubreportResolver.ResolveData( Definition, Data, Item, SubreportElement );
 
-    private bool CanRenderNestedReport => RenderDepth < ReportSubreportResolver.MaxRenderDepth && SubreportDefinition is not null;
+    private bool CanRenderNestedReport => SubreportDefinition is not null;
 
     private string PlaceholderText => ReportSubreportResolver.GetDisplayName( SubreportElement );
 
@@ -48,6 +48,9 @@ public partial class _ReportSubreportPreview
 
                     foreach ( ReportElementDefinition childElement in renderSection.Section.Elements )
                     {
+                        if ( childElement is ReportSubreportElementDefinition )
+                            continue;
+
                         if ( ReportValueResolver.ResolveSuppress( childElement, renderSection.Section, SubreportDefinition, SubreportData, renderSection.Item ) )
                             continue;
 
@@ -59,7 +62,6 @@ public partial class _ReportSubreportPreview
                         childBuilder.AddAttribute( childSequence++, nameof( _ReportDesignerElement.RunningTotals ), renderSection.RunningTotals );
                         childBuilder.AddAttribute( childSequence++, nameof( _ReportDesignerElement.Element ), childElement );
                         childBuilder.AddAttribute( childSequence++, nameof( _ReportDesignerElement.ElementKey ), ReportDefinitionHelper.EnsureElementId( childElement ) );
-                        childBuilder.AddAttribute( childSequence++, nameof( _ReportDesignerElement.SubreportDepth ), RenderDepth + 1 );
                         childBuilder.CloseComponent();
                     }
                 }
@@ -115,8 +117,4 @@ public partial class _ReportSubreportPreview
     /// </summary>
     [Parameter] public ReportElementDefinition Element { get; set; }
 
-    /// <summary>
-    /// Current nested subreport depth.
-    /// </summary>
-    [Parameter] public int RenderDepth { get; set; }
 }

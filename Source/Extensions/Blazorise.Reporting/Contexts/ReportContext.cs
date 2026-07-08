@@ -8,8 +8,6 @@ namespace Blazorise.Reporting;
 
 internal sealed class ReportContext
 {
-    private const int MaxSubreportCloneDepth = 4;
-
     private readonly List<ReportDataSourceDefinition> dataSources = [];
 
     private readonly List<ReportFormulaFieldDefinition> formulaFields = [];
@@ -143,7 +141,7 @@ internal sealed class ReportContext
 
     private static ReportDefinition CloneDefinition( ReportDefinition definition, int subreportDepth )
     {
-        if ( definition is null || subreportDepth > MaxSubreportCloneDepth )
+        if ( definition is null )
             return null;
 
         return new()
@@ -305,7 +303,7 @@ internal sealed class ReportContext
             NewPageAfter = CloneValue( section.NewPageAfter ),
             Appearance = CloneAppearance( section.Appearance ),
             Border = CloneBorder( section.Border ),
-            Elements = section.Elements.Select( element => CloneElement( element, subreportDepth ) ).ToList(),
+            Elements = section.Elements.Select( element => CloneElement( element, subreportDepth ) ).Where( element => element is not null ).ToList(),
         };
     }
 
@@ -315,6 +313,9 @@ internal sealed class ReportContext
     private static ReportElementDefinition CloneElement( ReportElementDefinition element, int subreportDepth )
     {
         if ( element is null )
+            return null;
+
+        if ( element is ReportSubreportElementDefinition && subreportDepth > 0 )
             return null;
 
         ReportElementDefinition clone = Internal.ReportElementDefinitionFactory.Create( element.Type );
@@ -525,7 +526,7 @@ internal sealed class ReportContext
             ColumnIndex = cell.ColumnIndex,
             RowSpan = cell.RowSpan,
             ColumnSpan = cell.ColumnSpan,
-            Elements = cell.Elements?.Select( element => CloneElement( element, subreportDepth ) ).ToList() ?? [],
+            Elements = cell.Elements?.Select( element => CloneElement( element, subreportDepth ) ).Where( element => element is not null ).ToList() ?? [],
         };
     }
 

@@ -41,6 +41,11 @@ public partial class _ReportDesignerReportExplorer
     [Parameter] public Func<string, bool> IsElementSelected { get; set; }
 
     /// <summary>
+    /// Indicates that subreport elements are shown in the explorer tree.
+    /// </summary>
+    [Parameter] public bool AllowSubreport { get; set; } = true;
+
+    /// <summary>
     /// Raised when an explorer node is clicked.
     /// </summary>
     [Parameter] public EventCallback<ReportTreeNode> NodeClicked { get; set; }
