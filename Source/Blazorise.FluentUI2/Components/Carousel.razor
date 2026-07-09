@@ -36,7 +36,7 @@
             <div aria-live="off" class="fui-Carousel__itemswrapper">
                 <div role="region" aria-roledescription="carousel" aria-label="Carousel container" class="@SlidesClassNames" style="@SlidesStyleNames">
                     @{
-                        var selectedSlide = carouselSlides.FirstOrDefault( x => x.Name == SelectedSlide );
+                        var selectedSlide = GetSelectedCarouselSlide();
 
                         <div role="tabpanel" aria-hidden="false" tabindex="0" class="@selectedSlide?.ClassNames" style="@selectedSlide?.StyleNames" @attributes="@selectedSlide?.Attributes">
                             @if ( selectedSlide is not null )
