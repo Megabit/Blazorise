@@ -12,6 +12,18 @@ namespace Blazorise.Charts.Svg;
 
 internal static class SvgChartLegendRenderer
 {
+    #region Members
+
+    private const double LegendItemMaxWidth = 140;
+
+    private const double LegendItemSwatchWidth = 12;
+
+    private const double LegendItemTextGap = 6;
+
+    private const double LegendFontSize = 12;
+
+    #endregion
+
     #region Methods
 
     public static void Render(
@@ -30,9 +42,10 @@ internal static class SvgChartLegendRenderer
         if ( legendItems.Count == 0 )
             return;
 
-        var itemWidth = Math.Min( 140, options.Width / Math.Max( legendItems.Count, 1 ) );
+        var itemWidth = Math.Min( LegendItemMaxWidth, options.Width / Math.Max( legendItems.Count, 1 ) );
         var totalWidth = itemWidth * legendItems.Count;
         var startX = Math.Max( 8, ( options.Width - totalWidth ) / 2 );
+        var fontSize = options.Font?.Size ?? LegendFontSize;
 
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-legend" );
@@ -40,7 +53,8 @@ internal static class SvgChartLegendRenderer
         for ( var i = 0; i < legendItems.Count; i++ )
         {
             var item = legendItems[i];
-            var x = startX + itemWidth * i;
+            var visibleItemWidth = ResolveVisibleItemWidth( item, itemWidth, fontSize );
+            var x = startX + itemWidth * i + Math.Max( 0, ( itemWidth - visibleItemWidth ) / 2 );
 
             builder.OpenElement( sequence++, "g" );
             builder.AddAttribute( sequence++, "class", "svg-chart-legend-item" );
@@ -51,17 +65,17 @@ internal static class SvgChartLegendRenderer
             builder.OpenElement( sequence++, "rect" );
             builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x ) );
             builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y - 9 ) );
-            builder.AddAttribute( sequence++, "width", "12" );
-            builder.AddAttribute( sequence++, "height", "12" );
+            builder.AddAttribute( sequence++, "width", SvgChartRenderHelpers.Format( LegendItemSwatchWidth ) );
+            builder.AddAttribute( sequence++, "height", SvgChartRenderHelpers.Format( LegendItemSwatchWidth ) );
             builder.AddAttribute( sequence++, "rx", "3" );
             builder.AddAttribute( sequence++, "fill", item.Color );
             builder.AddAttribute( sequence++, "opacity", item.Hidden ? "0.35" : "1" );
             builder.CloseElement();
 
             builder.OpenElement( sequence++, "text" );
-            builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x + 18 ) );
+            builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x + LegendItemSwatchWidth + LegendItemTextGap ) );
             builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 1 ) );
-            SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, options, fallbackSize: 12, opacity: item.Hidden ? 0.45 : 0.8 );
+            SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, options, fallbackSize: LegendFontSize, opacity: item.Hidden ? 0.45 : 0.8 );
             builder.AddContent( sequence++, item.Label );
             builder.CloseElement();
 
@@ -69,6 +83,13 @@ internal static class SvgChartLegendRenderer
         }
 
         builder.CloseElement();
+    }
+
+    private static double ResolveVisibleItemWidth( SvgChartLegendItem item, double itemWidth, double fontSize )
+    {
+        var textWidth = SvgChartRenderHelpers.EstimateTextWidth( item.Label, fontSize );
+
+        return Math.Min( itemWidth, LegendItemSwatchWidth + LegendItemTextGap + textWidth );
     }
 
     private static List<SvgChartLegendItem> ResolveItems( SvgChartRenderModel model, Func<string, Task> toggleSeries, Func<string, int, Task> toggleDataPoint, Func<string, int, bool> isDataPointHidden )

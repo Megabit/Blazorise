@@ -5496,7 +5496,7 @@ body.modal-open {
   background-color: var(--mui-surface-container-high);
   color: var(--mui-on-surface);
   box-shadow: var(--mui-elevate3);
-  overflow: hidden;
+  overflow: visible;
   opacity: 0;
   transform: translateY(1rem) scale(0.98);
   transition: transform var(--modal-animation-duration, var(--mui-duration-normal)) var(--mui-curve-decelerate-mid), opacity var(--modal-animation-duration, var(--mui-duration-normal)) var(--mui-curve-decelerate-mid);
@@ -9272,6 +9272,11 @@ body.modal-open {
   overflow: hidden;
   font-family: var(--mui-font-family);
   font-size: 0.875rem;
+}
+
+.flatpickr-calendar.open,
+.flatpickr-calendar.static.open {
+  z-index: var(--mui-zindex-popover);
 }
 
 .flatpickr-calendar:before,
