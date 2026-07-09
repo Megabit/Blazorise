@@ -99,7 +99,7 @@ body.modal-open {
     background-color: var(--mui-surface-container-high);
     color: var(--mui-on-surface);
     box-shadow: var(--mui-elevate3);
-    overflow: hidden;
+    overflow: visible;
     opacity: 0;
     transform: translateY(1rem) scale(0.98);
     transition: transform var(--modal-animation-duration, var(--mui-duration-normal)) var(--mui-curve-decelerate-mid), opacity var(--modal-animation-duration, var(--mui-duration-normal)) var(--mui-curve-decelerate-mid);
