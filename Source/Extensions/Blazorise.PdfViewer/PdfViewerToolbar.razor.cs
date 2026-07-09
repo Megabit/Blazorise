@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Infrastructure;
 using Blazorise.Localization;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -100,6 +101,14 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
         }
 
         base.Dispose( disposing );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( "z-index: 1;" );
+
+        base.BuildStyles( builder );
     }
 
     private Task OnPdfInitialized( PdfModel model )

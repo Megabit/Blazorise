@@ -78,6 +78,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
             var pageNumberChanged = parameters.TryGetValue<int>( nameof( PageNumber ), out var paramPageNumber ) && !PageNumber.IsEqual( paramPageNumber );
             var scaleChanged = parameters.TryGetValue<double>( nameof( Scale ), out var paramScale ) && !Scale.IsEqual( paramScale );
             var orientationChanged = parameters.TryGetValue<PdfOrientation>( nameof( Orientation ), out var paramOrientation ) && !Orientation.IsEqual( paramOrientation );
+            var modeChanged = parameters.TryGetValue<PdfViewerMode>( nameof( Mode ), out var paramMode ) && !Mode.IsEqual( paramMode );
 
             if ( !sourceChanged
                 && !string.IsNullOrWhiteSpace( pendingCanceledPasswordReloadSource )
@@ -101,7 +102,8 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
             if ( sourceChanged
                 || pageNumberChanged
                 || scaleChanged
-                || orientationChanged )
+                || orientationChanged
+                || modeChanged )
             {
                 ExecuteAfterRender( async () =>
                 {
@@ -109,6 +111,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
                     {
                         await JSModule.UpdateOptions( ElementRef, ElementId, new()
                         {
+                            Mode = new( modeChanged, paramMode ),
                             Source = new( sourceChanged, parameterResolvedSource ),
                             PageNumber = new( pageNumberChanged, paramPageNumber ),
                             Scale = new( scaleChanged, paramScale ),
@@ -144,6 +147,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
             {
                 await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new()
                 {
+                    Mode = Mode,
                     Source = ResolveSource( Source ),
                     PageNumber = PageNumber,
                     Scale = Scale,
@@ -819,6 +823,12 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     [Inject] protected ITextLocalizer<PdfViewer> Localizer { get; set; }
 
     /// <summary>
+    /// Specifies how PDF pages are displayed.
+    /// The default value is <see cref="PdfViewerMode.SinglePage"/>.
+    /// </summary>
+    [Parameter] public PdfViewerMode Mode { get; set; } = PdfViewerMode.SinglePage;
+
+    /// <summary>
     /// Specifies the source URL or base64 formated string of the PDF document to be loaded.
     /// </summary>
     [Parameter] public string Source { get; set; }
@@ -914,7 +924,6 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// </summary>
     [Parameter] public PdfOrientation Orientation { get; set; } = PdfOrientation.Portrait;
 
-    /// <summary>
     /// Defines the content to be rendered inside the component.
     /// </summary>
     /// <remarks>

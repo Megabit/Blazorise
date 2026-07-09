@@ -14061,6 +14061,11 @@ Install-Package Blazorise.Icons.Material";
 
         public const string PdfViewerBasicExample = @"<PdfViewer Source=""_content/Blazorise.Docs/assets/files/basic-text.pdf"" />";
 
+        public const string PdfViewerContinuousExample = @"<PdfViewerContainer Height=""Height.Rem( 35 )"">
+    <PdfViewerToolbar />
+    <PdfViewer Source=""_content/Blazorise.Docs/assets/files/compressed.tracemonkey-pldi-09.pdf"" Mode=""PdfViewerMode.Continuous"" />
+</PdfViewerContainer>";
+
         public const string PdfViewerNugetInstallExample = @"Install-Package Blazorise.PdfViewer";
 
         public const string PdfViewerPagingExample = @"<Button Color=""Color.Primary"" Clicked=""@OnPreviousPageClicked"">Prev</Button>
