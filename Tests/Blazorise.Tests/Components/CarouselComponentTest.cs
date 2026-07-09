@@ -11,6 +11,7 @@ public class CarouselComponentTest : BunitContext
     public CarouselComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseUtilities();
     }
 
     [Fact]
