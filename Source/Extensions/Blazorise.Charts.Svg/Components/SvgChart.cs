@@ -414,6 +414,8 @@ public class SvgChart<TItem> : SvgChartBase
             IsRadialChart( model ),
             model.Min,
             model.Max,
+            valueAxisId => ResolveValueAxis( model, valueAxisId ).Min,
+            valueAxisId => ResolveValueAxis( model, valueAxisId ).Max,
             GetCategorySlotCount( model ),
             model.CategoryScaleKind,
             this,

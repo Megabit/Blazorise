@@ -175,7 +175,8 @@ public class SvgChartDataLabels : SvgChartPluginBase
         var categoryWidth = GetCategoryWidth( context );
         var groupWidth = categoryWidth * 0.72;
         var barWidth = Math.Max( 1, groupWidth / visibleColumnSeries.Count );
-        var baseline = context.ProjectY( 0, series.ValueAxisId );
+        var baselineValue = Math.Clamp( 0, context.GetValueMin( series.ValueAxisId ), context.GetValueMax( series.ValueAxisId ) );
+        var baseline = context.ProjectY( baselineValue, series.ValueAxisId );
 
         for ( var pointIndex = 0; pointIndex < context.Labels.Count && pointIndex < series.Values.Count; pointIndex++ )
         {
@@ -207,7 +208,8 @@ public class SvgChartDataLabels : SvgChartPluginBase
         var categoryHeight = context.PlotArea.Height / context.Labels.Count;
         var groupHeight = categoryHeight * 0.72;
         var barHeight = Math.Max( 1, groupHeight / visibleBarSeries.Count );
-        var baseline = context.ProjectX( 0, series.ValueAxisId );
+        var baselineValue = Math.Clamp( 0, context.GetValueMin( series.ValueAxisId ), context.GetValueMax( series.ValueAxisId ) );
+        var baseline = context.ProjectX( baselineValue, series.ValueAxisId );
 
         for ( var pointIndex = 0; pointIndex < context.Labels.Count && pointIndex < series.Values.Count; pointIndex++ )
         {
