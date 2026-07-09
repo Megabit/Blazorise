@@ -25,7 +25,7 @@ public partial class CarouselSlide : BaseComponent<CarouselSlideClasses, Carouse
     private bool right;
     private bool prev;
     private bool next;
-    private readonly string selectionName = IdGenerator.Generate;
+    private readonly string selectionName = Guid.NewGuid().ToString( "N" );
 
     #endregion
 
