@@ -234,7 +234,7 @@ public class SvgChart<TItem> : SvgChartBase
         SvgChartTextRenderer.Render( builder, ref sequence, options, title, subtitle );
 
         if ( hasTopLegend )
-            SvgChartLegendRenderer.Render( builder, ref sequence, model, options, 48, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden );
+            SvgChartLegendRenderer.Render( builder, ref sequence, model, options, legend.Position, 48, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden );
 
         if ( IsBarChart( model ) )
             SvgChartAxesRenderer.RenderHorizontalGridAndAxes( builder, ref sequence, model, plot );
@@ -257,7 +257,7 @@ public class SvgChart<TItem> : SvgChartBase
             RenderCartesianSeries( builder, ref sequence, model, streamingAnimation, pluginContext, seriesRendererContext );
 
         if ( hasBottomLegend )
-            SvgChartLegendRenderer.Render( builder, ref sequence, model, options, options.Height - 30, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden );
+            SvgChartLegendRenderer.Render( builder, ref sequence, model, options, legend.Position, options.Height - 30, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden );
 
         RenderPlugins( builder, ref sequence, pluginContext, SvgChartRenderLayer.InteractionOverlay );
         RenderActiveTooltip( builder, ref sequence, model );

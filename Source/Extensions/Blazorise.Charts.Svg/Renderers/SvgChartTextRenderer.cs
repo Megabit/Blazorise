@@ -58,9 +58,9 @@ internal static class SvgChartTextRenderer
         var top = topPadding + GetTopTextHeight( title ) + GetTopTextHeight( subtitle );
 
         if ( hasTopLegend )
-            top += 28;
+            top += SvgChartLegendRenderer.ResolveReservedHeight( model, options, SvgChartLegendPosition.Top );
 
-        var bottom = options.Height - bottomPadding - ( hasBottomLegend ? 38 : 0 ) - GetBottomTextHeight( title ) - GetBottomTextHeight( subtitle );
+        var bottom = options.Height - bottomPadding - ( hasBottomLegend ? SvgChartLegendRenderer.ResolveReservedHeight( model, options, SvgChartLegendPosition.Bottom ) : 0 ) - GetBottomTextHeight( title ) - GetBottomTextHeight( subtitle );
         var left = startPadding + GetStartTextWidth( title ) + GetStartTextWidth( subtitle );
         var right = options.Width - endPadding - GetEndTextWidth( title ) - GetEndTextWidth( subtitle );
 
