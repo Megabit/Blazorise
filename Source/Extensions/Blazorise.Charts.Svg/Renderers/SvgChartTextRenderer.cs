@@ -31,6 +31,9 @@ internal static class SvgChartTextRenderer
         if ( componentOptions is not null )
             resolved = SvgChartOptionsMapper.CreateTextOptions( resolved, componentOptions );
 
+        if ( titleComponent is not null )
+            resolved.Visible = titleComponent.ResolveVisible( resolved.Visible ?? true );
+
         return resolved;
     }
 
@@ -42,6 +45,9 @@ internal static class SvgChartTextRenderer
 
         if ( componentOptions is not null )
             resolved = SvgChartOptionsMapper.CreateTextOptions( resolved, componentOptions );
+
+        if ( titleComponent is not null )
+            resolved.Visible = titleComponent.ResolveVisible( resolved.Visible ?? true );
 
         return resolved;
     }
@@ -58,9 +64,9 @@ internal static class SvgChartTextRenderer
         var top = topPadding + GetTopTextHeight( title ) + GetTopTextHeight( subtitle );
 
         if ( hasTopLegend )
-            top += 28;
+            top += SvgChartLegendRenderer.ResolveReservedHeight( model, options, SvgChartLegendPosition.Top );
 
-        var bottom = options.Height - bottomPadding - ( hasBottomLegend ? 38 : 0 ) - GetBottomTextHeight( title ) - GetBottomTextHeight( subtitle );
+        var bottom = options.Height - bottomPadding - ( hasBottomLegend ? SvgChartLegendRenderer.ResolveReservedHeight( model, options, SvgChartLegendPosition.Bottom ) : 0 ) - GetBottomTextHeight( title ) - GetBottomTextHeight( subtitle );
         var left = startPadding + GetStartTextWidth( title ) + GetStartTextWidth( subtitle );
         var right = options.Width - endPadding - GetEndTextWidth( title ) - GetEndTextWidth( subtitle );
 
@@ -110,7 +116,7 @@ internal static class SvgChartTextRenderer
         builder.AddAttribute( sequence++, "class", text.Position == SvgChartTextPosition.Top ? "svg-chart-title" : "svg-chart-subtitle" );
         builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x ) );
         builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y ) );
-        builder.AddAttribute( sequence++, "text-anchor", ResolveTextAnchor( text.Alignment ) );
+        builder.AddAttribute( sequence++, "text-anchor", ResolveTextAnchor( text.Alignment ?? SvgChartTextAlignment.Center ) );
         builder.AddAttribute( sequence++, "font-size", SvgChartRenderHelpers.Format( fontSize ) );
         builder.AddAttribute( sequence++, "fill", ResolveTextColor( options, text ) );
         SvgChartRenderHelpers.AddFontFamilyAttribute( builder, ref sequence, font.Family ?? options.Font?.Family );
@@ -292,7 +298,7 @@ internal static class SvgChartTextRenderer
         {
             SvgChartTextPosition.Start => start + padding.Start + fontSize,
             SvgChartTextPosition.End => options.Width - end - padding.End - fontSize,
-            _ => padding.Start + ResolveTextAlignmentOffset( options.Width - padding.Start - padding.End, text.Alignment )
+            _ => padding.Start + ResolveTextAlignmentOffset( options.Width - padding.Start - padding.End, text.Alignment ?? SvgChartTextAlignment.Center )
         };
     }
 
@@ -303,8 +309,8 @@ internal static class SvgChartTextRenderer
         return text.Position switch
         {
             SvgChartTextPosition.Bottom => options.Height - bottom - padding.Bottom,
-            SvgChartTextPosition.Start => options.Height - padding.Bottom - ResolveTextAlignmentOffset( options.Height - padding.Top - padding.Bottom, text.Alignment ),
-            SvgChartTextPosition.End => padding.Top + ResolveTextAlignmentOffset( options.Height - padding.Top - padding.Bottom, text.Alignment ),
+            SvgChartTextPosition.Start => options.Height - padding.Bottom - ResolveTextAlignmentOffset( options.Height - padding.Top - padding.Bottom, text.Alignment ?? SvgChartTextAlignment.Center ),
+            SvgChartTextPosition.End => padding.Top + ResolveTextAlignmentOffset( options.Height - padding.Top - padding.Bottom, text.Alignment ?? SvgChartTextAlignment.Center ),
             _ => top + padding.Top + fontSize
         };
     }

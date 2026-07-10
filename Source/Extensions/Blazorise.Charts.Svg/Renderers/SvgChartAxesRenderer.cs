@@ -41,7 +41,7 @@ internal static class SvgChartAxesRenderer
 
         var primaryLabels = primaryAxis.Labels ?? new();
 
-        if ( primaryLabels.Visible )
+        if ( primaryLabels.Visible != false )
         {
             for ( var i = 0; i < primaryAxis.Ticks.Count; i++ )
             {
@@ -88,7 +88,7 @@ internal static class SvgChartAxesRenderer
     {
         var labels = model.CategoryAxis.Labels ?? new();
 
-        if ( !labels.Visible )
+        if ( labels.Visible == false )
             return;
 
         var labelCount = Math.Max( model.Labels.Count, model.CategorySlotCount );
@@ -166,7 +166,7 @@ internal static class SvgChartAxesRenderer
                 builder.CloseElement();
             }
 
-            if ( valueLabels.Visible )
+            if ( valueLabels.Visible != false )
             {
                 builder.OpenElement( sequence++, "text" );
                 builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x ) );
@@ -189,7 +189,7 @@ internal static class SvgChartAxesRenderer
 
         var categoryLabels = model.CategoryAxis?.Labels ?? new();
 
-        if ( categoryLabels.Visible )
+        if ( categoryLabels.Visible != false )
         {
             var labelStep = ResolveVerticalAxisLabelStep( model, plot, categoryLabels, model.Labels.Count );
 
@@ -224,7 +224,7 @@ internal static class SvgChartAxesRenderer
 
         var labels = model.CategoryAxis.Labels ?? new();
         var labelCount = Math.Max( model.Labels.Count, model.CategorySlotCount );
-        var labelPlacement = labels.Visible
+        var labelPlacement = labels.Visible != false
             ? ResolveHorizontalAxisLabelPlacement( model, plot, labels, labelCount, index =>
             {
                 var labelIndex = index < model.CategoryLabelIndexes.Count ? model.CategoryLabelIndexes[index] : index;
@@ -302,7 +302,7 @@ internal static class SvgChartAxesRenderer
 
         builder.CloseElement();
 
-        if ( !labels.Visible )
+        if ( labels.Visible == false )
             return;
 
         builder.OpenElement( sequence++, "g" );
@@ -451,7 +451,7 @@ internal static class SvgChartAxesRenderer
             builder.AddAttribute( sequence++, "stroke-opacity", "0.22" );
             builder.CloseElement();
 
-            if ( labels.Visible )
+            if ( labels.Visible != false )
             {
                 for ( var i = 0; i < axis.Ticks.Count; i++ )
                 {
