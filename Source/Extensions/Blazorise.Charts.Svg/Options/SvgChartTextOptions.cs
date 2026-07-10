@@ -8,9 +8,9 @@ public class SvgChartTextOptions
     #region Properties
 
     /// <summary>
-    /// Defines whether the text is visible.
+    /// Defines whether the text is visible. When null, the value is inherited from the parent options.
     /// </summary>
-    public bool Visible { get; set; } = true;
+    public bool? Visible { get; set; }
 
     /// <summary>
     /// Defines the text content.
@@ -18,14 +18,14 @@ public class SvgChartTextOptions
     public string Text { get; set; }
 
     /// <summary>
-    /// Defines the text position.
+    /// Defines the text position. When null, the value is inherited from the parent options.
     /// </summary>
-    public SvgChartTextPosition Position { get; set; } = SvgChartTextPosition.Top;
+    public SvgChartTextPosition? Position { get; set; }
 
     /// <summary>
-    /// Defines the text alignment.
+    /// Defines the text alignment. When null, the value is inherited from the parent options.
     /// </summary>
-    public SvgChartTextAlignment Alignment { get; set; } = SvgChartTextAlignment.Center;
+    public SvgChartTextAlignment? Alignment { get; set; }
 
     /// <summary>
     /// Defines the text padding.

@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -14,6 +16,51 @@ namespace Blazorise.Charts.Svg;
 /// </summary>
 public class SvgChartDataLabels : SvgChartPluginBase
 {
+    #region Members
+
+    private ComponentParameterInfo<bool> paramVisible;
+
+    private ComponentParameterInfo<bool> paramInteractive;
+
+    private ComponentParameterInfo<SvgChartDataLabelPosition> paramPosition;
+
+    private ComponentParameterInfo<double> paramOffset;
+
+    private ComponentParameterInfo<double> paramOpacity;
+
+    private ComponentParameterInfo<SvgChartFontOptions> paramFont;
+
+    private ComponentParameterInfo<SvgChartSpacing> paramPadding;
+
+    private ComponentParameterInfo<Color> paramBackgroundColor;
+
+    private ComponentParameterInfo<SvgChartBorderOptions> paramBorder;
+
+    private ComponentParameterInfo<Func<SvgChartDataLabelContext, string>> paramFormatter;
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Visible, out paramVisible );
+        parameters.TryGetParameter( Interactive, out paramInteractive );
+        parameters.TryGetParameter( Position, out paramPosition );
+        parameters.TryGetParameter( Offset, out paramOffset );
+        parameters.TryGetParameter( Opacity, out paramOpacity );
+        parameters.TryGetParameter( Font, out paramFont );
+        parameters.TryGetParameter( Padding, out paramPadding );
+        parameters.TryGetParameter( BackgroundColor, out paramBackgroundColor );
+        parameters.TryGetParameter( Border, out paramBorder );
+        parameters.TryGetParameter( Formatter, out paramFormatter );
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    #endregion
+
     #region Properties
 
     /// <summary>
@@ -76,6 +123,10 @@ public class SvgChartDataLabels : SvgChartPluginBase
     /// </summary>
     [Parameter] public EventCallback<SvgChartPointEventArgs> Hovered { get; set; }
 
+    #endregion
+
+    #region Methods
+
     /// <inheritdoc/>
     public override void Render( SvgChartPluginRenderContext context, RenderTreeBuilder builder, ref int sequence )
     {
@@ -115,6 +166,30 @@ public class SvgChartDataLabels : SvgChartPluginBase
             BackgroundColor = options.BackgroundColor,
             Border = SvgChartAnnotationRenderHelpers.CreateBorderOptions( options.Border ),
             Formatter = options.Formatter
+        };
+    }
+
+    internal static SvgChartDataLabels Create( SvgChartDataLabelsOptions options, SvgChartDataLabels component )
+    {
+        if ( component is null )
+            return Create( options );
+
+        options ??= new();
+
+        return new()
+        {
+            Visible = component.paramVisible.GetValueOrDefault( options.Visible ),
+            Interactive = component.paramInteractive.GetValueOrDefault( options.Interactive ),
+            Position = component.paramPosition.GetValueOrDefault( options.Position ),
+            Offset = component.paramOffset.GetValueOrDefault( options.Offset ),
+            Opacity = component.paramOpacity.GetValueOrDefault( options.Opacity ),
+            Font = SvgChartAnnotationRenderHelpers.CreateFontOptions( component.paramFont.GetValueOrDefault( options.Font ) ),
+            Padding = CreateSpacing( component.paramPadding.GetValueOrDefault( options.Padding ) ),
+            BackgroundColor = component.paramBackgroundColor.GetValueOrDefault( options.BackgroundColor ),
+            Border = SvgChartAnnotationRenderHelpers.CreateBorderOptions( component.paramBorder.GetValueOrDefault( options.Border ) ),
+            Formatter = component.paramFormatter.GetValueOrDefault( options.Formatter ),
+            Clicked = component.Clicked,
+            Hovered = component.Hovered
         };
     }
 

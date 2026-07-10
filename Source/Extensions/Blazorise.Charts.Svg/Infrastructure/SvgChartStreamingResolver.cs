@@ -9,17 +9,7 @@ internal static class SvgChartStreamingResolver
         if ( streaming is null )
             return fallback ?? new() { Enabled = false };
 
-        return new()
-        {
-            Enabled = streaming.Enabled,
-            MaxDataPoints = streaming.MaxDataPoints,
-            VisibleDataPoints = streaming.VisibleDataPoints,
-            Duration = streaming.Duration,
-            IndexAxis = streaming.IndexAxis,
-            Reverse = streaming.Reverse,
-            Animation = streaming.Animation ?? fallback?.Animation ?? new(),
-            RefreshInterval = streaming.RefreshInterval
-        };
+        return streaming.ResolveOptions( fallback );
     }
 
     public static bool IsReversed( SvgChartStreamingOptions streaming )
