@@ -31,16 +31,14 @@ public partial class PdfDocument : ComponentBase
     {
         (double width, double height) = PdfPageMetrics.Resolve( PageSize, Orientation, PageWidth, PageHeight );
 
-        Definition = new()
-        {
-            Title = Title,
-            PageSize = PageSize,
-            Orientation = Orientation,
-            PageWidth = width,
-            PageHeight = height,
-        };
+        Definition ??= new();
+        Definition.Title = Title;
+        Definition.PageSize = PageSize;
+        Definition.Orientation = Orientation;
+        Definition.PageWidth = width;
+        Definition.PageHeight = height;
 
-        documentContext = new( Definition );
+        documentContext ??= new( Definition );
     }
 
     #endregion

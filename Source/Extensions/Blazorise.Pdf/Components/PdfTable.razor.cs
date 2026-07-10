@@ -22,7 +22,7 @@ public partial class PdfTable : BasePdfElement
     {
         base.OnParametersSet();
 
-        if ( Definition is not null )
+        if ( tableContext is null && Definition is not null )
             tableContext = new( Definition );
     }
 

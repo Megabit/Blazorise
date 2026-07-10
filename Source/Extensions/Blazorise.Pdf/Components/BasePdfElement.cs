@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,13 +9,11 @@ namespace Blazorise.Pdf;
 /// <summary>
 /// Base class for declarative PDF elements.
 /// </summary>
-public abstract class BasePdfElement : ComponentBase
+public abstract class BasePdfElement : ComponentBase, IDisposable
 {
     #region Members
 
-    private IList<PdfElementDefinition> previousElements;
-
-    private PdfElementDefinition previousDefinition;
+    private IList<PdfElementDefinition> elements;
 
     #endregion
 
@@ -32,19 +31,19 @@ public abstract class BasePdfElement : ComponentBase
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
-        IList<PdfElementDefinition> elements = TableCellContext?.Elements ?? PageContext?.Elements;
+        if ( Definition is null )
+        {
+            elements = TableCellContext?.Elements ?? PageContext?.Elements;
 
-        if ( elements is null )
+            if ( elements is null )
+                return;
+
+            Definition = CreateDefinition();
+            elements.Add( Definition );
             return;
+        }
 
-        if ( previousElements is not null && previousDefinition is not null )
-            previousElements.Remove( previousDefinition );
-
-        Definition = CreateDefinition();
-        elements.Add( Definition );
-
-        previousDefinition = Definition;
-        previousElements = elements;
+        UpdateDefinition( Definition );
     }
 
     /// <summary>
@@ -53,36 +52,58 @@ public abstract class BasePdfElement : ComponentBase
     /// <returns>The created element definition.</returns>
     protected virtual PdfElementDefinition CreateDefinition()
     {
-        return new()
-        {
-            Type = ElementType,
-            X = X,
-            Y = Y,
-            Width = Width,
-            Height = Height,
-            Text = Text,
-            Wrap = Wrap,
-            Source = Source,
-            Font = new()
-            {
-                Family = FontFamily,
-                Size = FontSize,
-                Color = TextColor,
-                Alignment = TextAlignment,
-                VerticalAlignment = VerticalAlignment,
-                Bold = Bold,
-                Italic = Italic,
-            },
-            Border = new()
-            {
-                Color = BorderColor,
-                Width = BorderWidth,
-            },
-            Appearance = new()
-            {
-                BackgroundColor = BackgroundColor,
-            },
-        };
+        PdfElementDefinition definition = new();
+        UpdateDefinition( definition );
+
+        return definition;
+    }
+
+    /// <summary>
+    /// Updates an existing element definition from the current parameters.
+    /// </summary>
+    /// <param name="definition">Element definition to update.</param>
+    protected virtual void UpdateDefinition( PdfElementDefinition definition )
+    {
+        definition.Type = ElementType;
+        definition.X = X;
+        definition.Y = Y;
+        definition.Width = Width;
+        definition.Height = Height;
+        definition.Text = Text;
+        definition.Wrap = Wrap;
+        definition.Source = Source;
+
+        definition.Font ??= new();
+        definition.Font.Family = FontFamily;
+        definition.Font.Size = FontSize;
+        definition.Font.Color = TextColor;
+        definition.Font.Alignment = TextAlignment;
+        definition.Font.VerticalAlignment = VerticalAlignment;
+        definition.Font.Bold = Bold;
+        definition.Font.Italic = Italic;
+
+        definition.Border ??= new();
+        definition.Border.Color = BorderColor;
+        definition.Border.Width = BorderWidth;
+
+        definition.Appearance ??= new();
+        definition.Appearance.BackgroundColor = BackgroundColor;
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        UnregisterDefinition();
+        GC.SuppressFinalize( this );
+    }
+
+    private void UnregisterDefinition()
+    {
+        if ( elements is not null && Definition is not null )
+            elements.Remove( Definition );
+
+        elements = null;
+        Definition = null;
     }
 
     #endregion

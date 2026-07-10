@@ -31,12 +31,33 @@ public sealed class PdfDocumentContext
 
         Definition.Fonts ??= [];
 
-        int existingIndex = Definition.Fonts.FindIndex( x => string.Equals( x.Name, font.Name, StringComparison.OrdinalIgnoreCase ) );
+        int registeredIndex = Definition.Fonts.FindIndex( x => ReferenceEquals( x, font ) );
+        int existingIndex = Definition.Fonts.FindIndex( x =>
+            !ReferenceEquals( x, font )
+            && string.Equals( x.Name, font.Name, StringComparison.OrdinalIgnoreCase ) );
 
-        if ( existingIndex >= 0 )
+        if ( registeredIndex >= 0 )
+        {
+            if ( existingIndex >= 0 && existingIndex != registeredIndex )
+            {
+                Definition.Fonts[existingIndex] = font;
+                Definition.Fonts.RemoveAt( registeredIndex );
+            }
+        }
+        else if ( existingIndex >= 0 )
             Definition.Fonts[existingIndex] = font;
         else
             Definition.Fonts.Add( font );
+    }
+
+    /// <summary>
+    /// Unregisters a document-scoped font family.
+    /// </summary>
+    /// <param name="font">Font family.</param>
+    public void UnregisterFont( FontFamily font )
+    {
+        if ( font is not null )
+            Definition.Fonts?.Remove( font );
     }
 
     /// <summary>

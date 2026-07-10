@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -7,15 +8,15 @@ namespace Blazorise.Pdf;
 /// <summary>
 /// Defines a PDF page inside a PDF document.
 /// </summary>
-public partial class PdfPage : ComponentBase
+public partial class PdfPage : ComponentBase, IDisposable
 {
     #region Members
 
     private PdfPageContext pageContext;
 
-    private PdfDocumentContext previousDocumentContext;
+    private PdfDocumentContext documentContext;
 
-    private PdfPageDefinition previousDefinition;
+    private PdfPageDefinition definition;
 
     #endregion
 
@@ -24,31 +25,43 @@ public partial class PdfPage : ComponentBase
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
-        if ( DocumentContext is null )
-            return;
+        if ( definition is null )
+        {
+            if ( DocumentContext is null )
+                return;
 
-        if ( previousDocumentContext is not null && previousDefinition is not null )
-            previousDocumentContext.Definition.Pages.Remove( previousDefinition );
+            documentContext = DocumentContext;
+            documentContext.Definition.Pages.Add( definition = new() );
+            pageContext = new( definition );
+        }
 
-        PdfPageSize resolvedSize = Size == PdfPageSize.Custom && Width <= 0 && Height <= 0 ? DocumentContext.Definition.PageSize : Size;
-        PdfOrientation resolvedOrientation = Orientation ?? DocumentContext.Definition.Orientation;
-        double resolvedCustomWidth = Width > 0 ? Width : DocumentContext.Definition.PageWidth;
-        double resolvedCustomHeight = Height > 0 ? Height : DocumentContext.Definition.PageHeight;
+        PdfPageSize resolvedSize = Size == PdfPageSize.Custom && Width <= 0 && Height <= 0 ? documentContext.Definition.PageSize : Size;
+        PdfOrientation resolvedOrientation = Orientation ?? documentContext.Definition.Orientation;
+        double resolvedCustomWidth = Width > 0 ? Width : documentContext.Definition.PageWidth;
+        double resolvedCustomHeight = Height > 0 ? Height : documentContext.Definition.PageHeight;
         (double width, double height) = PdfPageMetrics.Resolve( resolvedSize, resolvedOrientation, resolvedCustomWidth, resolvedCustomHeight );
 
-        PdfPageDefinition definition = new()
-        {
-            Size = resolvedSize,
-            Orientation = resolvedOrientation,
-            Width = width,
-            Height = height,
-        };
+        definition.Size = resolvedSize;
+        definition.Orientation = resolvedOrientation;
+        definition.Width = width;
+        definition.Height = height;
+    }
 
-        DocumentContext.Definition.Pages.Add( definition );
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        UnregisterDefinition();
+        GC.SuppressFinalize( this );
+    }
 
-        pageContext = new( definition );
-        previousDefinition = definition;
-        previousDocumentContext = DocumentContext;
+    private void UnregisterDefinition()
+    {
+        if ( documentContext is not null && definition is not null )
+            documentContext.Definition.Pages.Remove( definition );
+
+        documentContext = null;
+        definition = null;
+        pageContext = null;
     }
 
     #endregion

@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -7,15 +8,15 @@ namespace Blazorise.Pdf;
 /// <summary>
 /// Defines a table cell inside a PDF table row.
 /// </summary>
-public partial class PdfTableCell : ComponentBase
+public partial class PdfTableCell : ComponentBase, IDisposable
 {
     #region Members
 
     private PdfTableCellContext cellContext;
 
-    private PdfTableRowContext previousRowContext;
+    private PdfTableRowContext rowContext;
 
-    private PdfTableCellDefinition previousDefinition;
+    private PdfTableCellDefinition definition;
 
     #endregion
 
@@ -24,22 +25,34 @@ public partial class PdfTableCell : ComponentBase
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
-        if ( RowContext is null )
-            return;
-
-        if ( previousRowContext is not null && previousDefinition is not null )
-            previousRowContext.Cells.Remove( previousDefinition );
-
-        PdfTableCellDefinition definition = new()
+        if ( definition is null )
         {
-            Width = Width,
-        };
+            if ( RowContext is null )
+                return;
 
-        RowContext.Cells.Add( definition );
+            rowContext = RowContext;
+            rowContext.Cells.Add( definition = new() );
+            cellContext = new( definition );
+        }
 
-        cellContext = new( definition );
-        previousDefinition = definition;
-        previousRowContext = RowContext;
+        definition.Width = Width;
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        UnregisterDefinition();
+        GC.SuppressFinalize( this );
+    }
+
+    private void UnregisterDefinition()
+    {
+        if ( rowContext is not null && definition is not null )
+            rowContext.Cells.Remove( definition );
+
+        rowContext = null;
+        definition = null;
+        cellContext = null;
     }
 
     #endregion

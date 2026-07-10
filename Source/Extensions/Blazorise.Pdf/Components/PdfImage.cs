@@ -10,13 +10,11 @@ public class PdfImage : BasePdfElement
     #region Methods
 
     /// <inheritdoc />
-    protected override PdfElementDefinition CreateDefinition()
+    protected override void UpdateDefinition( PdfElementDefinition definition )
     {
-        PdfElementDefinition definition = base.CreateDefinition();
+        base.UpdateDefinition( definition );
 
         definition.ImageFit = Fit;
-
-        return definition;
     }
 
     #endregion

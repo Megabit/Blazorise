@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using Blazorise;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,32 +9,78 @@ namespace Blazorise.Pdf;
 /// <summary>
 /// Registers a document-scoped font family for declarative PDF documents.
 /// </summary>
-public class PdfFont : ComponentBase
+public class PdfFont : ComponentBase, IDisposable
 {
+    #region Members
+
+    private PdfDocumentContext documentContext;
+
+    private FontFamily definition;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
-        DocumentContext?.RegisterFont( CreateFontFamily() );
+        if ( definition is null )
+        {
+            if ( DocumentContext is null )
+                return;
+
+            documentContext = DocumentContext;
+            definition = new();
+        }
+
+        UpdateDefinition();
+
+        if ( string.IsNullOrWhiteSpace( definition.Name ) )
+        {
+            documentContext.UnregisterFont( definition );
+            return;
+        }
+
+        documentContext.RegisterFont( definition );
     }
 
-    private FontFamily CreateFontFamily()
+    private void UpdateDefinition()
     {
         if ( Font is not null )
-            return Font;
-
-        return new()
         {
-            Name = Name,
-            DisplayName = DisplayName,
-            CssFamily = CssFamily,
-            Regular = Regular,
-            Bold = Bold,
-            Italic = Italic,
-            BoldItalic = BoldItalic,
-            Visible = Visible,
-        };
+            definition.Name = Font.Name;
+            definition.DisplayName = Font.DisplayName;
+            definition.CssFamily = Font.CssFamily;
+            definition.Regular = Font.Regular;
+            definition.Bold = Font.Bold;
+            definition.Italic = Font.Italic;
+            definition.BoldItalic = Font.BoldItalic;
+            definition.Visible = Font.Visible;
+            return;
+        }
+
+        definition.Name = Name;
+        definition.DisplayName = DisplayName;
+        definition.CssFamily = CssFamily;
+        definition.Regular = Regular;
+        definition.Bold = Bold;
+        definition.Italic = Italic;
+        definition.BoldItalic = BoldItalic;
+        definition.Visible = Visible;
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        UnregisterDefinition();
+        GC.SuppressFinalize( this );
+    }
+
+    private void UnregisterDefinition()
+    {
+        documentContext?.UnregisterFont( definition );
+        documentContext = null;
+        definition = null;
     }
 
     #endregion
