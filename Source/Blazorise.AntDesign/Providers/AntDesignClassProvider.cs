@@ -1976,8 +1976,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DockPaneTabs() => "ant-dock-pane-tabs";
 
-    public override string DockPaneTabsPlacement( DockPaneTabsPlacement placement )
-        => placement == Blazorise.DockPaneTabsPlacement.Top ? "ant-dock-pane-tabs-top" : null;
+    public override string DockPaneTabPosition( DockPaneTabPosition position )
+        => position == Blazorise.DockPaneTabPosition.Top ? "ant-dock-pane-tabs-top" : null;
 
     public override string DockPaneTabsHost() => "ant-dock-tabs-host";
 

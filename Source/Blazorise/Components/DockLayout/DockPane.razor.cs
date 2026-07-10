@@ -28,10 +28,10 @@ public partial class DockPane : BaseComponent, IDisposable
     {
         if ( ( parameters.TryGetValue<string>( nameof( Name ), out string name ) && Name != name )
              || ( parameters.TryGetValue<DockRole>( nameof( Role ), out DockRole structureDockRole ) && Role != structureDockRole )
-             || ( parameters.TryGetValue<DockPanePosition>( nameof( Dock ), out DockPanePosition structureDock ) && Dock != structureDock )
+             || ( parameters.TryGetValue<DockPanePosition>( nameof( PanePosition ), out DockPanePosition structurePanePosition ) && PanePosition != structurePanePosition )
              || ( parameters.TryGetValue<bool>( nameof( ShowTab ), out bool showTab ) && ShowTab != showTab )
              || ( parameters.TryGetValue<bool>( nameof( ShowTabCloseButton ), out bool showTabCloseButton ) && ShowTabCloseButton != showTabCloseButton )
-             || ( parameters.TryGetValue<DockPaneTabsPlacement>( nameof( TabsPlacement ), out DockPaneTabsPlacement tabsPlacement ) && TabsPlacement != tabsPlacement ) )
+             || ( parameters.TryGetValue<DockPaneTabPosition>( nameof( TabPosition ), out DockPaneTabPosition tabPosition ) && TabPosition != tabPosition ) )
         {
             definitionVersion++;
         }
@@ -79,7 +79,7 @@ public partial class DockPane : BaseComponent, IDisposable
 
     internal string ResolvedCaption => !string.IsNullOrWhiteSpace( Caption ) ? Caption : ResolvedName;
 
-    internal DockPanePosition EffectivePosition => ParentDockLayout?.GetPanePosition( this ) ?? Dock;
+    internal DockPanePosition EffectivePosition => ParentDockLayout?.GetPanePosition( this ) ?? PanePosition;
 
     internal bool EffectiveAutoHide => ParentDockLayout?.GetPaneState( this )?.AutoHide ?? AutoHide;
 
@@ -87,7 +87,7 @@ public partial class DockPane : BaseComponent, IDisposable
 
     internal bool EffectiveShowTabCloseButton => ShowTabCloseButton;
 
-    internal DockPaneTabsPlacement EffectiveTabsPlacement => TabsPlacement;
+    internal DockPaneTabPosition EffectiveTabPosition => TabPosition;
 
     internal DockNodeState Node => node ??= new()
     {
@@ -130,12 +130,12 @@ public partial class DockPane : BaseComponent, IDisposable
     /// <summary>
     /// Defines where tabs should be displayed when this pane is hosted inside a tab group.
     /// </summary>
-    [Parameter] public DockPaneTabsPlacement TabsPlacement { get; set; }
+    [Parameter] public DockPaneTabPosition TabPosition { get; set; }
 
     /// <summary>
     /// Defines where the pane is docked inside the layout.
     /// </summary>
-    [Parameter] public DockPanePosition Dock { get; set; }
+    [Parameter] public DockPanePosition PanePosition { get; set; }
 
     /// <summary>
     /// Allows the pane to be moved to another dock position by dragging its header.

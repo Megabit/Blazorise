@@ -778,7 +778,7 @@ public interface IClassProvider
 
     string DockPaneTabsPosition( DockPanePosition position );
 
-    string DockPaneTabsPlacement( DockPaneTabsPlacement placement );
+    string DockPaneTabPosition( DockPaneTabPosition position );
 
     string DockPaneTabsHost();
 

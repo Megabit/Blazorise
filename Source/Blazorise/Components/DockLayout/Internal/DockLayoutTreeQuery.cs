@@ -228,7 +228,7 @@ internal sealed class DockLayoutTreeQuery
             .FirstOrDefault();
 
     public static DockPanePosition GetInitialPanePosition( DockPane pane )
-        => IsCenterPane( pane ) ? DockPanePosition.Center : pane.Dock;
+        => IsCenterPane( pane ) ? DockPanePosition.Center : pane.PanePosition;
 
     private DockPanePosition ResolvePanePosition( string paneName, DockPanePosition inheritedPosition )
         => registry.TryGetPane( paneName, out DockPane pane ) && IsCenterPane( pane )
@@ -259,7 +259,7 @@ internal sealed class DockLayoutTreeQuery
     }
 
     private static bool IsCenterPane( DockPane pane )
-        => pane is not null && ( pane.Role == DockRole.Document || pane.Dock == DockPanePosition.Center );
+        => pane is not null && ( pane.Role == DockRole.Document || pane.PanePosition == DockPanePosition.Center );
 
     private DockPanePosition GetFirstSplitPosition( DockNodeState node, DockPanePosition inheritedPosition )
         => ShouldPreserveInheritedPosition( node, inheritedPosition )

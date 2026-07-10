@@ -3,7 +3,7 @@ namespace Blazorise;
 /// <summary>
 /// Defines where tabs are displayed inside a dock pane group.
 /// </summary>
-public enum DockPaneTabsPlacement
+public enum DockPaneTabPosition
 {
     /// <summary>
     /// Uses the default dock layout behavior.

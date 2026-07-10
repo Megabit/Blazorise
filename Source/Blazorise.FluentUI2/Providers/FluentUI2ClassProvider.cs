@@ -1944,8 +1944,8 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DockPaneTabs() => "fui-DockPaneTabs";
 
-    public override string DockPaneTabsPlacement( DockPaneTabsPlacement placement )
-        => placement == Blazorise.DockPaneTabsPlacement.Top ? "fui-DockPaneTabs--top" : null;
+    public override string DockPaneTabPosition( DockPaneTabPosition position )
+        => position == Blazorise.DockPaneTabPosition.Top ? "fui-DockPaneTabs--top" : null;
 
     public override string DockPaneTabsHost() => "fui-DockTabsHost";
 

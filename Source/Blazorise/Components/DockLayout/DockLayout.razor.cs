@@ -331,20 +331,20 @@ public partial class DockLayout : BaseComponent
     internal bool CanResizeDockNode( DockNodeState node )
         => treeQuery.CanResizeDockNode( node );
 
-    internal DockPaneTabsPlacement GetDockNodeTabsPlacement( DockNodeState node, DockPanePosition position )
+    internal DockPaneTabPosition GetDockNodeTabPosition( DockNodeState node, DockPanePosition position )
     {
         if ( node?.Panes is not null )
         {
             foreach ( string paneName in node.Panes )
             {
-                if ( TryGetPane( paneName, out DockPane pane ) && pane.EffectiveTabsPlacement != DockPaneTabsPlacement.Default )
-                    return pane.EffectiveTabsPlacement;
+                if ( TryGetPane( paneName, out DockPane pane ) && pane.EffectiveTabPosition != DockPaneTabPosition.Default )
+                    return pane.EffectiveTabPosition;
             }
         }
 
         return position == DockPanePosition.Center
-            ? DockPaneTabsPlacement.Top
-            : DockPaneTabsPlacement.Bottom;
+            ? DockPaneTabPosition.Top
+            : DockPaneTabPosition.Bottom;
     }
 
     internal string GetDockSplitStyle( DockNodeState node )

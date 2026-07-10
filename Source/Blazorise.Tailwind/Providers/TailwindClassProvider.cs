@@ -2703,8 +2703,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DockPaneTabs() => "tw-dock-pane-tabs";
 
-    public override string DockPaneTabsPlacement( DockPaneTabsPlacement placement )
-        => placement == Blazorise.DockPaneTabsPlacement.Top ? "tw-dock-pane-tabs-top" : null;
+    public override string DockPaneTabPosition( DockPaneTabPosition position )
+        => position == Blazorise.DockPaneTabPosition.Top ? "tw-dock-pane-tabs-top" : null;
 
     public override string DockPaneTabsHost() => "tw-dock-tabs-host";
 

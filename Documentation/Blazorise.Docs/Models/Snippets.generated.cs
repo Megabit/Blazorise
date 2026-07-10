@@ -1715,13 +1715,13 @@ namespace Blazorise.Docs.Models
 </Paragraph>";
 
         public const string BasicDockLayoutExample = @"<DockLayout Style=""height: 28rem;"" PaneBordered>
-    <DockPane Name=""toolbar"" Caption=""Toolbar"" Dock=""DockPanePosition.Top"" Role=""DockRole.Tool"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
+    <DockPane Name=""toolbar"" Caption=""Toolbar"" PanePosition=""DockPanePosition.Top"" Role=""DockRole.Tool"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
         <DockPaneBody>
             Toolbar
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name=""explorer"" Caption=""Explorer"" Dock=""DockPanePosition.Left"" Size=""16rem"" MinSize=""10rem"" Resizable>
+    <DockPane Name=""explorer"" Caption=""Explorer"" PanePosition=""DockPanePosition.Left"" Size=""16rem"" MinSize=""10rem"" Resizable>
         <DockPaneHeader>
             <Strong>Explorer</Strong>
         </DockPaneHeader>
@@ -1730,7 +1730,7 @@ namespace Blazorise.Docs.Models
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name=""designer"" Caption=""Designer"" Dock=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+    <DockPane Name=""designer"" Caption=""Designer"" PanePosition=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
         <DockPaneHeader>
             <Strong>Designer</Strong>
         </DockPaneHeader>
@@ -1739,7 +1739,7 @@ namespace Blazorise.Docs.Models
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name=""properties"" Caption=""Properties"" Dock=""DockPanePosition.Right"" Size=""18rem"" MinSize=""12rem"" Resizable>
+    <DockPane Name=""properties"" Caption=""Properties"" PanePosition=""DockPanePosition.Right"" Size=""18rem"" MinSize=""12rem"" Resizable>
         <DockPaneHeader>
             <Strong>Properties</Strong>
         </DockPaneHeader>
@@ -1748,7 +1748,7 @@ namespace Blazorise.Docs.Models
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name=""output"" Caption=""Output"" Dock=""DockPanePosition.Bottom"" Size=""6rem"" MinSize=""4rem"" Resizable>
+    <DockPane Name=""output"" Caption=""Output"" PanePosition=""DockPanePosition.Bottom"" Size=""6rem"" MinSize=""4rem"" Resizable>
         <DockPaneHeader>
             <Strong>Output</Strong>
         </DockPaneHeader>
@@ -1761,7 +1761,7 @@ namespace Blazorise.Docs.Models
         public const string DockLayoutStateExample = @"@using System.Text.Json
 
 <DockLayout @ref=""@dockLayout"" Style=""height: 24rem;"" PaneBordered>
-    <DockPane Name=""actions"" Caption=""Actions"" Dock=""DockPanePosition.Top"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
+    <DockPane Name=""actions"" Caption=""Actions"" PanePosition=""DockPanePosition.Top"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
         <DockPaneBody Padding=""Padding.Is2"">
             <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
                 <Button Color=""Color.Primary"" Size=""Size.Small"" Clicked=""@SaveState"">Save state</Button>
@@ -1772,7 +1772,7 @@ namespace Blazorise.Docs.Models
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name=""source"" Caption=""Source"" Dock=""DockPanePosition.Left"" Size=""15rem"" MinSize=""10rem"" Resizable>
+    <DockPane Name=""source"" Caption=""Source"" PanePosition=""DockPanePosition.Left"" Size=""15rem"" MinSize=""10rem"" Resizable>
         <DockPaneHeader>
             <Strong>Source</Strong>
         </DockPaneHeader>
@@ -1781,7 +1781,7 @@ namespace Blazorise.Docs.Models
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name=""preview"" Caption=""Preview"" Dock=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+    <DockPane Name=""preview"" Caption=""Preview"" PanePosition=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
         <DockPaneHeader>
             <Strong>Preview</Strong>
         </DockPaneHeader>
@@ -1790,7 +1790,7 @@ namespace Blazorise.Docs.Models
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name=""details"" Caption=""Details"" Dock=""DockPanePosition.Right"" Size=""17rem"" MinSize=""10rem"" Resizable>
+    <DockPane Name=""details"" Caption=""Details"" PanePosition=""DockPanePosition.Right"" Size=""17rem"" MinSize=""10rem"" Resizable>
         <DockPaneHeader>
             <Strong>Details</Strong>
         </DockPaneHeader>
@@ -1842,7 +1842,7 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string DockLayoutTabbedPanesExample = @"<DockLayout Style=""height: 24rem;"" PaneBordered>
-    <DockPane Name=""document"" Caption=""Document"" Dock=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+    <DockPane Name=""document"" Caption=""Document"" PanePosition=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
         <DockPaneHeader>
             <Strong>Document</Strong>
         </DockPaneHeader>
@@ -1851,7 +1851,7 @@ namespace Blazorise.Docs.Models
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name=""properties"" Caption=""Properties"" Dock=""DockPanePosition.Right"" Size=""18rem"" TabsPlacement=""DockPaneTabsPlacement.Bottom"" Resizable>
+    <DockPane Name=""properties"" Caption=""Properties"" PanePosition=""DockPanePosition.Right"" Size=""18rem"" TabPosition=""DockPaneTabPosition.Bottom"" Resizable>
         <DockPaneHeader>
             <Strong>Properties</Strong>
         </DockPaneHeader>
@@ -1860,7 +1860,7 @@ namespace Blazorise.Docs.Models
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name=""report-explorer"" Caption=""Report Explorer"" Dock=""DockPanePosition.Right"" Size=""18rem"" TabsPlacement=""DockPaneTabsPlacement.Bottom"" Resizable>
+    <DockPane Name=""report-explorer"" Caption=""Report Explorer"" PanePosition=""DockPanePosition.Right"" Size=""18rem"" TabPosition=""DockPaneTabPosition.Bottom"" Resizable>
         <DockPaneHeader>
             <Strong>Report Explorer</Strong>
         </DockPaneHeader>

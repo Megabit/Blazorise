@@ -1587,8 +1587,8 @@ public class BootstrapClassProvider : ClassProvider
     public override string DockPaneTabsPosition( DockPanePosition position )
         => null;
 
-    public override string DockPaneTabsPlacement( DockPaneTabsPlacement placement )
-        => placement == Blazorise.DockPaneTabsPlacement.Top ? "dock-pane-tabs-top" : null;
+    public override string DockPaneTabPosition( DockPaneTabPosition position )
+        => position == Blazorise.DockPaneTabPosition.Top ? "dock-pane-tabs-top" : null;
 
     public override string DockPaneTabsHost() => "dock-tabs-host";
 

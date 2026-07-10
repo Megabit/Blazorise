@@ -2,7 +2,7 @@
 @using System.Text.Json
 
 <DockLayout @ref="@dockLayout" Style="height: 24rem;" PaneBordered>
-    <DockPane Name="actions" Caption="Actions" Dock="DockPanePosition.Top" Resizable="false" ShowTab="false" AutoHideable="false" Closable="false">
+    <DockPane Name="actions" Caption="Actions" PanePosition="DockPanePosition.Top" Resizable="false" ShowTab="false" AutoHideable="false" Closable="false">
         <DockPaneBody Padding="Padding.Is2">
             <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
                 <Button Color="Color.Primary" Size="Size.Small" Clicked="@SaveState">Save state</Button>
@@ -13,7 +13,7 @@
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name="source" Caption="Source" Dock="DockPanePosition.Left" Size="15rem" MinSize="10rem" Resizable>
+    <DockPane Name="source" Caption="Source" PanePosition="DockPanePosition.Left" Size="15rem" MinSize="10rem" Resizable>
         <DockPaneHeader>
             <Strong>Source</Strong>
         </DockPaneHeader>
@@ -22,7 +22,7 @@
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name="preview" Caption="Preview" Dock="DockPanePosition.Center" Role="DockRole.Document" ShowTab="false" Closable="false">
+    <DockPane Name="preview" Caption="Preview" PanePosition="DockPanePosition.Center" Role="DockRole.Document" ShowTab="false" Closable="false">
         <DockPaneHeader>
             <Strong>Preview</Strong>
         </DockPaneHeader>
@@ -31,7 +31,7 @@
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name="details" Caption="Details" Dock="DockPanePosition.Right" Size="17rem" MinSize="10rem" Resizable>
+    <DockPane Name="details" Caption="Details" PanePosition="DockPanePosition.Right" Size="17rem" MinSize="10rem" Resizable>
         <DockPaneHeader>
             <Strong>Details</Strong>
         </DockPaneHeader>

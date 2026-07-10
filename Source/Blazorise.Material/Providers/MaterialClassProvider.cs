@@ -1928,8 +1928,8 @@ public class MaterialClassProvider : ClassProvider
 
     public override string DockPaneTabs() => "mui-dock-pane-tabs";
 
-    public override string DockPaneTabsPlacement( DockPaneTabsPlacement placement )
-        => placement == Blazorise.DockPaneTabsPlacement.Top ? "mui-dock-pane-tabs-top" : null;
+    public override string DockPaneTabPosition( DockPaneTabPosition position )
+        => position == Blazorise.DockPaneTabPosition.Top ? "mui-dock-pane-tabs-top" : null;
 
     public override string DockPaneTabsHost() => "mui-dock-tabs-host";
 

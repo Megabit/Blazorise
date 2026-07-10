@@ -133,7 +133,7 @@ internal static class DockLayoutNormalizer
     }
 
     private static bool IsCenterPane( DockPane pane )
-        => pane is not null && ( pane.Role == DockRole.Document || pane.Dock == DockPanePosition.Center );
+        => pane is not null && ( pane.Role == DockRole.Document || pane.PanePosition == DockPanePosition.Center );
 
     private static void PreserveCollapsedTabSize( string paneName, string size, IReadOnlyList<DockPaneState> paneStates )
     {

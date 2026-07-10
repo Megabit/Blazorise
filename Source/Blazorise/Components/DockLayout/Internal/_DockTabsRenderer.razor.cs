@@ -32,7 +32,7 @@ public partial class _DockTabsRenderer : BaseComponent
 
     private DockPanePosition groupPosition;
 
-    private DockPaneTabsPlacement tabsPlacement;
+    private DockPaneTabPosition tabPosition;
 
     #endregion
 
@@ -50,7 +50,7 @@ public partial class _DockTabsRenderer : BaseComponent
             activePane = null;
             activePaneState = null;
             groupPosition = DockPanePosition.Center;
-            tabsPlacement = DockPaneTabsPlacement.Top;
+            tabPosition = DockPaneTabPosition.Top;
             return;
         }
 
@@ -59,7 +59,7 @@ public partial class _DockTabsRenderer : BaseComponent
 
         activePaneState = Context?.GetPaneState( activePaneName );
         groupPosition = Context?.GetDockNodePosition( Node ) ?? activePane?.EffectivePosition ?? DockPanePosition.Center;
-        tabsPlacement = Context?.GetDockNodeTabsPlacement( Node, groupPosition ) ?? DockPaneTabsPlacement.Top;
+        tabPosition = Context?.GetDockNodeTabPosition( Node, groupPosition ) ?? DockPaneTabPosition.Top;
 
         DirtyClasses();
         DirtyStyles();
@@ -86,7 +86,7 @@ public partial class _DockTabsRenderer : BaseComponent
     {
         builder.Append( ClassProvider.DockPaneTabs() );
         builder.Append( ClassProvider.DockPaneTabsPosition( GroupPosition ) );
-        builder.Append( ClassProvider.DockPaneTabsPlacement( TabsPlacement ) );
+        builder.Append( ClassProvider.DockPaneTabPosition( TabPosition ) );
     }
 
     /// <inheritdoc/>
@@ -118,9 +118,9 @@ public partial class _DockTabsRenderer : BaseComponent
 
     private DockPanePosition GroupPosition => groupPosition;
 
-    private DockPaneTabsPlacement TabsPlacement => tabsPlacement;
+    private DockPaneTabPosition TabPosition => tabPosition;
 
-    private bool TabsOnTop => TabsPlacement == DockPaneTabsPlacement.Top;
+    private bool TabsOnTop => TabPosition == DockPaneTabPosition.Top;
 
     private bool Collapsed => activePaneState?.Collapsed == true;
 

@@ -1891,8 +1891,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DockPaneTabs() => "dock-pane-tabs";
 
-    public override string DockPaneTabsPlacement( DockPaneTabsPlacement placement )
-        => placement == Blazorise.DockPaneTabsPlacement.Top ? "is-top" : null;
+    public override string DockPaneTabPosition( DockPaneTabPosition position )
+        => position == Blazorise.DockPaneTabPosition.Top ? "is-top" : null;
 
     public override string DockPaneTabsHost() => "has-tabs";
 
