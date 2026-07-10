@@ -67,7 +67,9 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( firstRender || subscriptionsDirty )
-            await EnsureSubscriptions();
+            await EnsureContextMenuSubscription();
+
+        await SynchronizeVisibilitySubscriptions();
 
         if ( Visible )
             await EnsureFloatingPosition();
@@ -114,6 +116,8 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
 
         visible = false;
         DirtyClasses();
+
+        await DisposeVisibilitySubscriptions();
 
         if ( VisibleChanged.HasDelegate )
             await VisibleChanged.InvokeAsync( false );
@@ -171,6 +175,8 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
         visible = true;
         DirtyClasses();
 
+        await SynchronizeVisibilitySubscriptions();
+
         if ( !wasVisible && VisibleChanged.HasDelegate )
             await VisibleChanged.InvokeAsync( true );
 
@@ -208,7 +214,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
             await Hide();
     }
 
-    private async Task EnsureSubscriptions()
+    private async Task EnsureContextMenuSubscription()
     {
         subscriptionsDirty = false;
 
@@ -237,22 +243,41 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
                 } );
             }
         }
+    }
 
-        outsidePointerSubscription ??= await DocumentObserver.Subscribe( new()
+    private async Task SynchronizeVisibilitySubscriptions()
+    {
+        if ( Visible && CloseOnOutsideClick )
         {
-            OwnerId = ElementId,
-            EventTypes = DocumentEventTypes.PointerDown,
-            ExcludeSelector = RootSelector,
-            Priority = -100,
-            Handler = HandleOutsidePointer,
-        } );
+            outsidePointerSubscription ??= await DocumentObserver.Subscribe( new()
+            {
+                OwnerId = ElementId,
+                EventTypes = DocumentEventTypes.PointerDown,
+                ExcludeSelector = RootSelector,
+                Priority = -100,
+                Handler = HandleOutsidePointer,
+            } );
+        }
+        else if ( outsidePointerSubscription is not null )
+        {
+            await outsidePointerSubscription.DisposeAsync();
+            outsidePointerSubscription = null;
+        }
 
-        keyDownSubscription ??= await DocumentObserver.Subscribe( new()
+        if ( Visible && CloseOnEscape )
         {
-            OwnerId = ElementId,
-            EventTypes = DocumentEventTypes.KeyDown,
-            Handler = HandleKeyDown,
-        } );
+            keyDownSubscription ??= await DocumentObserver.Subscribe( new()
+            {
+                OwnerId = ElementId,
+                EventTypes = DocumentEventTypes.KeyDown,
+                Handler = HandleKeyDown,
+            } );
+        }
+        else if ( keyDownSubscription is not null )
+        {
+            await keyDownSubscription.DisposeAsync();
+            keyDownSubscription = null;
+        }
     }
 
     private async Task EnsureFloatingPosition()
@@ -284,6 +309,11 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
             contextMenuSubscription = null;
         }
 
+        await DisposeVisibilitySubscriptions();
+    }
+
+    private async Task DisposeVisibilitySubscriptions()
+    {
         if ( outsidePointerSubscription is not null )
         {
             await outsidePointerSubscription.DisposeAsync();
