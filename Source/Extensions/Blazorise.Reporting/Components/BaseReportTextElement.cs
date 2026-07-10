@@ -1,4 +1,3 @@
-using System;
 using Blazorise;
 using Microsoft.AspNetCore.Components;
 
@@ -20,22 +19,16 @@ public abstract class BaseReportTextElement : BaseReportElement
 
     private ReportFontDefinition BuildFontDefinition()
     {
-        VerticalAlignment verticalAlignment = this.VerticalAlignment != VerticalAlignment.Default
-            ? this.VerticalAlignment
-            : Font?.VerticalAlignment ?? VerticalAlignment.Default;
-
         return new()
         {
-            Family = FontFamily ?? Font?.Family,
-            Size = FontSize ?? Font?.Size,
-            Color = FontColor.IsDefault ? Font?.Color ?? ReportColor.Default : FontColor,
-            Bold = Bold || Font?.Bold == true,
-            Italic = Italic || Font?.Italic == true,
-            Underline = Underline || Font?.Underline == true,
-            Alignment = TextAlignment != TextAlignment.Default
-                ? TextAlignment
-                : Font?.Alignment ?? TextAlignment.Default,
-            VerticalAlignment = verticalAlignment,
+            Family = FontFamily,
+            Size = FontSize,
+            Color = FontColor,
+            Bold = Bold,
+            Italic = Italic,
+            Underline = Underline,
+            Alignment = TextAlignment,
+            VerticalAlignment = VerticalAlignment,
         };
     }
 
@@ -78,10 +71,5 @@ public abstract class BaseReportTextElement : BaseReportElement
     /// Vertical text alignment applied inside the element box.
     /// </summary>
     [Parameter] public VerticalAlignment VerticalAlignment { get; set; } = VerticalAlignment.Default;
-
-    /// <summary>
-    /// Font settings applied to text rendered by the element.
-    /// </summary>
-    [Parameter] public ReportFontDefinition Font { get; set; }
 
 }
