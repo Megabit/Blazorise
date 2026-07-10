@@ -3,8 +3,8 @@
 
 <Report DesignerEnabled
         PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf">
-    <ReportViewer PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"
-                  DefaultFormat="ReportPreviewFormat.Html" />
+    <ReportViewer PreviewFormat="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"
+                  DefaultPreviewFormat="ReportPreviewFormat.Html" />
     <ReportDataSources>
         <ReportDataSetDataSource Name="Orders" DataSet="@orderData" TableName="Orders" />
     </ReportDataSources>

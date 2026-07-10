@@ -245,8 +245,8 @@ internal static class ReportPdfDocumentBuilder
         pdfElement.Font.Family = element.Font?.Family ?? Fonts.Helvetica;
         pdfElement.Font.Size = element.Font?.Size ?? 12;
         pdfElement.Font.Color = ResolveColor( element.Font?.Color ?? ReportColors.Black );
-        pdfElement.Font.Alignment = ResolveTextAlignment( ReportElementDefinitionHelper.ResolveTextAlignment( element, definition, data, section ) );
-        pdfElement.Font.VerticalAlignment = ResolveVerticalAlignment( ReportElementDefinitionHelper.ResolveVerticalAlignment( element ) );
+        pdfElement.Font.Alignment = ReportElementDefinitionHelper.ResolveTextAlignment( element, definition, data, section );
+        pdfElement.Font.VerticalAlignment = ReportElementDefinitionHelper.ResolveVerticalAlignment( element );
         pdfElement.Font.Bold = element.Font?.Bold == true;
         pdfElement.Font.Italic = element.Font?.Italic == true;
     }
@@ -327,26 +327,6 @@ internal static class ReportPdfDocumentBuilder
         return orientation == ReportOrientation.Landscape
             ? PdfOrientation.Landscape
             : PdfOrientation.Portrait;
-    }
-
-    private static PdfTextAlignment ResolveTextAlignment( TextAlignment alignment )
-    {
-        return alignment switch
-        {
-            TextAlignment.Center => PdfTextAlignment.Center,
-            TextAlignment.End => PdfTextAlignment.End,
-            _ => PdfTextAlignment.Start,
-        };
-    }
-
-    private static PdfVerticalAlignment ResolveVerticalAlignment( VerticalAlignment alignment )
-    {
-        return alignment switch
-        {
-            VerticalAlignment.Middle => PdfVerticalAlignment.Middle,
-            VerticalAlignment.Bottom => PdfVerticalAlignment.Bottom,
-            _ => PdfVerticalAlignment.Top,
-        };
     }
 
     private static string ResolveColor( ReportColor color )

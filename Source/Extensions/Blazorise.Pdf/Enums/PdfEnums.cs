@@ -69,48 +69,6 @@ public enum PdfElementType
 }
 
 /// <summary>
-/// Defines PDF text alignment.
-/// </summary>
-public enum PdfTextAlignment
-{
-    /// <summary>
-    /// Align text to the start of the element.
-    /// </summary>
-    Start,
-
-    /// <summary>
-    /// Center text inside the element.
-    /// </summary>
-    Center,
-
-    /// <summary>
-    /// Align text to the end of the element.
-    /// </summary>
-    End,
-}
-
-/// <summary>
-/// Defines PDF text vertical alignment.
-/// </summary>
-public enum PdfVerticalAlignment
-{
-    /// <summary>
-    /// Align text to the top of the element.
-    /// </summary>
-    Top,
-
-    /// <summary>
-    /// Center text vertically inside the element.
-    /// </summary>
-    Middle,
-
-    /// <summary>
-    /// Align text to the bottom of the element.
-    /// </summary>
-    Bottom,
-}
-
-/// <summary>
 /// Defines PDF border styles.
 /// </summary>
 public enum PdfBorderStyle

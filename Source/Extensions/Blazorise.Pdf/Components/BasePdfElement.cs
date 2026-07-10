@@ -69,7 +69,7 @@ public abstract class BasePdfElement : ComponentBase
                 Size = FontSize,
                 Color = TextColor,
                 Alignment = TextAlignment,
-                VerticalAlignment = TextVerticalAlignment,
+                VerticalAlignment = VerticalAlignment,
                 Bold = Bold,
                 Italic = Italic,
             },
@@ -157,12 +157,22 @@ public abstract class BasePdfElement : ComponentBase
     /// <summary>
     /// Text alignment inside the element bounds.
     /// </summary>
-    [Parameter] public PdfTextAlignment TextAlignment { get; set; }
+    /// <remarks>
+    /// <see cref="TextAlignment.Default"/> and <see cref="TextAlignment.Start"/> align to the start.
+    /// <see cref="TextAlignment.Justified"/> distributes words across wrapped non-final paragraph lines.
+    /// </remarks>
+    [Parameter] public TextAlignment TextAlignment { get; set; }
 
     /// <summary>
     /// Text vertical alignment inside the element bounds.
     /// </summary>
-    [Parameter] public PdfVerticalAlignment TextVerticalAlignment { get; set; }
+    /// <remarks>
+    /// <see cref="VerticalAlignment.Default"/>, <see cref="VerticalAlignment.Baseline"/>,
+    /// <see cref="VerticalAlignment.Top"/>, and <see cref="VerticalAlignment.TextTop"/> align to the top.
+    /// <see cref="VerticalAlignment.Middle"/> centers the text, while <see cref="VerticalAlignment.Bottom"/>
+    /// and <see cref="VerticalAlignment.TextBottom"/> align to the bottom.
+    /// </remarks>
+    [Parameter] public VerticalAlignment VerticalAlignment { get; set; }
 
     /// <summary>
     /// Makes text bold.

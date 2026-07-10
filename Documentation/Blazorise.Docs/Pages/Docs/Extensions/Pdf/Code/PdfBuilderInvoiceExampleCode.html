@@ -22,7 +22,7 @@
     {
         PdfDocumentDefinition document = BuildInvoice();
 
-        PdfRenderResult result = <span class="keyword">await</span> PdfGenerator.Generate( document, <span class="keyword">new</span>()
+        PdfGenerationResult result = <span class="keyword">await</span> PdfGenerator.Generate( document, <span class="keyword">new</span>()
         {
             FileName = <span class="string">&quot;builder-invoice.pdf&quot;</span>,
         } );
@@ -52,7 +52,7 @@
                 page.Text( <span class="string">&quot;BLZ&quot;</span>, <span class="number">444</span>, <span class="number">64</span>, <span class="number">48</span>, <span class="number">20</span> )
                     .FontSize( <span class="number">18</span> )
                     .Bold()
-                    .TextAlignment( PdfTextAlignment.Center )
+                    .TextAlignment( TextAlignment.Center )
                     .TextColor( <span class="string">&quot;#0d6efd&quot;</span> );
             } )
             .Build();

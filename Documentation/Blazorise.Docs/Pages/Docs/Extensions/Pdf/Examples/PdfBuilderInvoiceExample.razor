@@ -20,7 +20,7 @@
     {
         PdfDocumentDefinition document = BuildInvoice();
 
-        PdfRenderResult result = await PdfGenerator.Generate( document, new()
+        PdfGenerationResult result = await PdfGenerator.Generate( document, new()
         {
             FileName = "builder-invoice.pdf",
         } );
@@ -50,7 +50,7 @@
                 page.Text( "BLZ", 444, 64, 48, 20 )
                     .FontSize( 18 )
                     .Bold()
-                    .TextAlignment( PdfTextAlignment.Center )
+                    .TextAlignment( TextAlignment.Center )
                     .TextColor( "#0d6efd" );
             } )
             .Build();

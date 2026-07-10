@@ -716,7 +716,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ResolveDataSources( definition, true );
 
         PdfDocumentDefinition pdfDocument = previewExportService.BuildPdfDocument( definition, Data );
-        PdfRenderResult result = await PdfGenerator.Generate( pdfDocument, new()
+        PdfGenerationResult result = await PdfGenerator.Generate( pdfDocument, new()
         {
             FileName = previewExportService.ResolvePdfFileName( definition ),
         } );

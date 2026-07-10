@@ -47,5 +47,5 @@ public sealed class ReportFontDefinition
     /// <summary>
     /// Vertical text alignment applied inside the element box.
     /// </summary>
-    public Blazorise.VerticalAlignment VerticalAlignment { get; set; } = Blazorise.VerticalAlignment.Default;
+    public VerticalAlignment VerticalAlignment { get; set; } = VerticalAlignment.Default;
 }

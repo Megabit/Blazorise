@@ -15,8 +15,8 @@ public partial class ReportViewer : ComponentBase
         if ( ReportContext is null )
             return;
 
-        ReportContext.ViewerOptions.PreviewFormats = PreviewFormats;
-        ReportContext.ViewerOptions.DefaultFormat = DefaultFormat;
+        ReportContext.ViewerOptions.PreviewFormats = PreviewFormat;
+        ReportContext.ViewerOptions.DefaultFormat = DefaultPreviewFormat;
         ReportContext.ViewerOptions.AllowPrint = AllowPrint;
         ReportContext.ViewerOptions.AllowDownload = AllowDownload;
     }
@@ -24,12 +24,12 @@ public partial class ReportViewer : ComponentBase
     /// <summary>
     /// Preview formats offered by the report viewer.
     /// </summary>
-    [Parameter] public ReportPreviewFormat PreviewFormats { get; set; } = ReportPreviewFormat.Html;
+    [Parameter] public ReportPreviewFormat PreviewFormat { get; set; } = ReportPreviewFormat.Html;
 
     /// <summary>
     /// Preview format selected when preview mode is opened.
     /// </summary>
-    [Parameter] public ReportPreviewFormat DefaultFormat { get; set; } = ReportPreviewFormat.Html;
+    [Parameter] public ReportPreviewFormat DefaultPreviewFormat { get; set; } = ReportPreviewFormat.Html;
 
     /// <summary>
     /// Enables print commands in the viewer toolbar.

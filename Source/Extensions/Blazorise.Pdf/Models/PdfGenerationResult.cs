@@ -1,24 +1,9 @@
 namespace Blazorise.Pdf;
 
 /// <summary>
-/// Options used when generating a PDF document.
-/// </summary>
-public sealed class PdfGenerateOptions
-{
-    #region Properties
-
-    /// <summary>
-    /// Suggested output file name.
-    /// </summary>
-    public string FileName { get; set; } = "document.pdf";
-
-    #endregion
-}
-
-/// <summary>
 /// Represents a generated PDF result.
 /// </summary>
-public sealed class PdfRenderResult
+public sealed class PdfGenerationResult
 {
     #region Properties
 

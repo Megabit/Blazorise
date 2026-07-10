@@ -389,6 +389,7 @@ public partial class _ReportDesignerElement
     /// </summary>
     [Parameter] public string SelectedCellKey { get; set; }
 
+    /// <summary>
     /// Raised when the element is clicked on the designer surface.
     /// </summary>
     [Parameter] public Func<string, MouseEventArgs, Task> Clicked { get; set; }

@@ -20,9 +20,9 @@ public abstract class BaseReportTextElement : BaseReportElement
 
     private ReportFontDefinition BuildFontDefinition()
     {
-        Blazorise.VerticalAlignment verticalAlignment = this.VerticalAlignment != Blazorise.VerticalAlignment.Default
+        VerticalAlignment verticalAlignment = this.VerticalAlignment != VerticalAlignment.Default
             ? this.VerticalAlignment
-            : Font?.VerticalAlignment ?? Blazorise.VerticalAlignment.Default;
+            : Font?.VerticalAlignment ?? VerticalAlignment.Default;
 
         return new()
         {
@@ -32,9 +32,9 @@ public abstract class BaseReportTextElement : BaseReportElement
             Bold = Bold || Font?.Bold == true,
             Italic = Italic || Font?.Italic == true,
             Underline = Underline || Font?.Underline == true,
-            Alignment = TextAlignment != Blazorise.TextAlignment.Default
+            Alignment = TextAlignment != TextAlignment.Default
                 ? TextAlignment
-                : Font?.Alignment ?? Blazorise.TextAlignment.Default,
+                : Font?.Alignment ?? TextAlignment.Default,
             VerticalAlignment = verticalAlignment,
         };
     }
@@ -77,7 +77,7 @@ public abstract class BaseReportTextElement : BaseReportElement
     /// <summary>
     /// Vertical text alignment applied inside the element box.
     /// </summary>
-    [Parameter] public Blazorise.VerticalAlignment VerticalAlignment { get; set; } = Blazorise.VerticalAlignment.Default;
+    [Parameter] public VerticalAlignment VerticalAlignment { get; set; } = VerticalAlignment.Default;
 
     /// <summary>
     /// Font settings applied to text rendered by the element.

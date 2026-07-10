@@ -244,12 +244,22 @@ public sealed class PdfFontDefinition
     /// <summary>
     /// Text alignment inside the element bounds.
     /// </summary>
-    public PdfTextAlignment Alignment { get; set; }
+    /// <remarks>
+    /// <see cref="TextAlignment.Default"/> and <see cref="TextAlignment.Start"/> align to the start.
+    /// <see cref="TextAlignment.Justified"/> distributes words across wrapped non-final paragraph lines.
+    /// </remarks>
+    public TextAlignment Alignment { get; set; }
 
     /// <summary>
     /// Text vertical alignment inside the element bounds.
     /// </summary>
-    public PdfVerticalAlignment VerticalAlignment { get; set; }
+    /// <remarks>
+    /// <see cref="VerticalAlignment.Default"/>, <see cref="VerticalAlignment.Baseline"/>,
+    /// <see cref="VerticalAlignment.Top"/>, and <see cref="VerticalAlignment.TextTop"/> align to the top.
+    /// <see cref="VerticalAlignment.Middle"/> centers the text, while <see cref="VerticalAlignment.Bottom"/>
+    /// and <see cref="VerticalAlignment.TextBottom"/> align to the bottom.
+    /// </remarks>
+    public VerticalAlignment VerticalAlignment { get; set; }
 
     /// <summary>
     /// Indicates that text should be rendered bold when supported by the renderer.

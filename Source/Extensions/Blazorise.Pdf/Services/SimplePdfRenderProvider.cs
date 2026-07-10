@@ -42,7 +42,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
     #region Methods
 
     /// <inheritdoc />
-    public Task<PdfRenderResult> Render( PdfDocumentDefinition document, PdfGenerateOptions options, CancellationToken cancellationToken = default )
+    public Task<PdfGenerationResult> Render( PdfDocumentDefinition document, PdfGenerationOptions options, CancellationToken cancellationToken = default )
     {
         if ( document is null )
             throw new ArgumentNullException( nameof( document ) );
@@ -51,7 +51,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         byte[] content = GeneratePdf( document, fontProvider );
 
-        return Task.FromResult( new PdfRenderResult
+        return Task.FromResult( new PdfGenerationResult
         {
             Content = content,
             FileName = options.FileName,
@@ -549,7 +549,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         PdfFontDefinition font = element.Font ?? new();
         double fontSize = Math.Max( 1, font.Size );
         PdfFontResource fontResource = ResolveFontResource( context.FontResources, context.FontProvider, font );
-        IReadOnlyList<string> lines = element.Wrap
+        IReadOnlyList<PdfTextLine> lines = element.Wrap
             ? WrapText( element.Text, fontResource, fontSize, element.Width )
             : SplitTextLines( element.Text );
         double lineHeight = ResolveLineHeight( fontSize );
@@ -560,18 +560,60 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         for ( int i = 0; i < lines.Count; i++ )
         {
-            string line = lines[i];
-            double textX = ResolveTextX( element, x, line, fontResource, fontSize );
+            PdfTextLine line = lines[i];
             double lineY = textY - ( i * lineHeight );
 
-            string textOperand = fontResource.EmbeddedFont is null
-                ? $"({EscapeText( line )})"
-                : EncodeEmbeddedText( line, fontResource.EmbeddedFont );
-
-            context.Builder.AppendLine( FormattableString.Invariant( $"BT /{fontResource.Name} {fontSize} Tf {textX} {lineY} Td {textOperand} Tj ET" ) );
+            if ( !TryAppendJustifiedTextLine( context, element, line, x, lineY, fontResource, fontSize ) )
+            {
+                double textX = ResolveTextX( element, x, line.Text, fontResource, fontSize );
+                AppendTextRun( context, line.Text, textX, lineY, fontResource, fontSize );
+            }
         }
 
         AppendTextClipEnd( context, element );
+    }
+
+    private static bool TryAppendJustifiedTextLine( PdfPageContentContext context, PdfElementDefinition element, PdfTextLine line, double x, double y, PdfFontResource fontResource, double fontSize )
+    {
+        if ( element.Font?.Alignment != TextAlignment.Justified || !line.CanJustify || element.Width <= 0 )
+            return false;
+
+        string[] words = line.Text.Split( ' ', StringSplitOptions.RemoveEmptyEntries );
+
+        if ( words.Length <= 1 )
+            return false;
+
+        double[] wordWidths = new double[words.Length];
+        double wordsWidth = 0;
+
+        for ( int i = 0; i < words.Length; i++ )
+        {
+            wordWidths[i] = MeasureTextWidth( words[i], fontResource, fontSize );
+            wordsWidth += wordWidths[i];
+        }
+
+        if ( wordsWidth > element.Width )
+            return false;
+
+        double wordGap = ( element.Width - wordsWidth ) / ( words.Length - 1 );
+        double wordX = x;
+
+        for ( int i = 0; i < words.Length; i++ )
+        {
+            AppendTextRun( context, words[i], wordX, y, fontResource, fontSize );
+            wordX += wordWidths[i] + wordGap;
+        }
+
+        return true;
+    }
+
+    private static void AppendTextRun( PdfPageContentContext context, string text, double x, double y, PdfFontResource fontResource, double fontSize )
+    {
+        string textOperand = fontResource.EmbeddedFont is null
+            ? $"({EscapeText( text )})"
+            : EncodeEmbeddedText( text, fontResource.EmbeddedFont );
+
+        context.Builder.AppendLine( FormattableString.Invariant( $"BT /{fontResource.Name} {fontSize} Tf {x} {y} Td {textOperand} Tj ET" ) );
     }
 
     private static PdfFontResource ResolveFontResource( PdfFontResources fontResources, IFontProvider fontProvider, PdfFontDefinition font )
@@ -595,10 +637,10 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         PdfFontDefinition font = element.Font ?? new();
         double textWidth = MeasureTextWidth( text, fontResource, fontSize );
 
-        if ( font.Alignment == PdfTextAlignment.Center )
+        if ( font.Alignment == TextAlignment.Center )
             return x + Math.Max( 0, element.Width - textWidth ) / 2;
 
-        if ( font.Alignment == PdfTextAlignment.End )
+        if ( font.Alignment == TextAlignment.End )
             return x + Math.Max( 0, element.Width - textWidth );
 
         return x;
@@ -608,10 +650,12 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
     {
         PdfFontDefinition font = element.Font ?? new();
         double textBlockHeight = ResolveTextBlockHeight( fontSize, lineCount, lineHeight );
+        double availableHeight = Math.Max( 0, element.Height - textBlockHeight );
         double offsetY = font.VerticalAlignment switch
         {
-            PdfVerticalAlignment.Middle => Math.Max( 0, element.Height - textBlockHeight ) / 2,
-            PdfVerticalAlignment.Bottom => Math.Max( 0, element.Height - textBlockHeight ),
+            VerticalAlignment.Middle => availableHeight / 2,
+            VerticalAlignment.Bottom or VerticalAlignment.TextBottom => availableHeight,
+            VerticalAlignment.Default or VerticalAlignment.Baseline or VerticalAlignment.Top or VerticalAlignment.TextTop => 0,
             _ => 0,
         };
 
@@ -635,31 +679,41 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return fontResource?.MeasureTextWidth( text, fontSize ) ?? 0;
     }
 
-    private static IReadOnlyList<string> WrapText( string text, PdfFontResource fontResource, double fontSize, double maxWidth )
+    private static IReadOnlyList<PdfTextLine> WrapText( string text, PdfFontResource fontResource, double fontSize, double maxWidth )
     {
         if ( string.IsNullOrEmpty( text ) )
-            return [string.Empty];
+            return [new( string.Empty, false )];
 
         if ( maxWidth <= 0 )
-            return [text];
+            return [new( text, false )];
 
-        List<string> lines = [];
+        List<PdfTextLine> lines = [];
         string[] paragraphs = text.Replace( "\r\n", "\n", StringComparison.Ordinal ).Replace( '\r', '\n' ).Split( '\n' );
 
         foreach ( string paragraph in paragraphs )
         {
-            AppendWrappedParagraph( lines, paragraph, fontResource, fontSize, maxWidth );
+            List<string> paragraphLines = [];
+            AppendWrappedParagraph( paragraphLines, paragraph, fontResource, fontSize, maxWidth );
+
+            for ( int i = 0; i < paragraphLines.Count; i++ )
+            {
+                lines.Add( new( paragraphLines[i], i < paragraphLines.Count - 1 ) );
+            }
         }
 
         return lines;
     }
 
-    private static IReadOnlyList<string> SplitTextLines( string text )
+    private static IReadOnlyList<PdfTextLine> SplitTextLines( string text )
     {
         if ( string.IsNullOrEmpty( text ) )
-            return [string.Empty];
+            return [new( string.Empty, false )];
 
-        return text.Replace( "\r\n", "\n", StringComparison.Ordinal ).Replace( '\r', '\n' ).Split( '\n' );
+        return text.Replace( "\r\n", "\n", StringComparison.Ordinal )
+            .Replace( '\r', '\n' )
+            .Split( '\n' )
+            .Select( line => new PdfTextLine( line, false ) )
+            .ToArray();
     }
 
     private static void AppendTextClipStart( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
@@ -1816,6 +1870,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             return ( (uint)data[offset] << 24 ) | ( (uint)data[offset + 1] << 16 ) | ( (uint)data[offset + 2] << 8 ) | data[offset + 3];
         }
     }
+
+    private readonly record struct PdfTextLine( string Text, bool CanJustify );
 
     private readonly record struct TrueTypeTable( int Offset, int Length );
 

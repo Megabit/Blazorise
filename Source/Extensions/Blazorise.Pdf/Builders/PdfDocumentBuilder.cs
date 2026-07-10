@@ -399,7 +399,7 @@ public class PdfElementBuilder
     /// </summary>
     /// <param name="alignment">The text alignment.</param>
     /// <returns>The element builder.</returns>
-    public PdfElementBuilder TextAlignment( PdfTextAlignment alignment )
+    public PdfElementBuilder TextAlignment( TextAlignment alignment )
     {
         definition.Font.Alignment = alignment;
 
@@ -411,7 +411,7 @@ public class PdfElementBuilder
     /// </summary>
     /// <param name="alignment">The text vertical alignment.</param>
     /// <returns>The element builder.</returns>
-    public PdfElementBuilder TextVerticalAlignment( PdfVerticalAlignment alignment )
+    public PdfElementBuilder VerticalAlignment( VerticalAlignment alignment )
     {
         definition.Font.VerticalAlignment = alignment;
 

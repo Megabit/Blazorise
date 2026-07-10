@@ -28,7 +28,7 @@
             } )
             .Build();
 
-        PdfRenderResult result = await PdfGenerator.Generate( document, new()
+        PdfGenerationResult result = await PdfGenerator.Generate( document, new()
         {
             FileName = "invoice.pdf",
         } );
