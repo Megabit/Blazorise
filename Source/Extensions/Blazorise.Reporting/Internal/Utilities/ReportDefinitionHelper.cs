@@ -87,25 +87,25 @@ internal static class ReportDefinitionHelper
         return new()
         {
             Name = string.IsNullOrWhiteSpace( name ) ? "Subreport" : name,
-            Sections =
+            Bands =
             [
                 new()
                 {
                     Name = "Report Header",
-                    Type = ReportSectionType.ReportHeader,
+                    Type = ReportBandType.ReportHeader,
                     Height = 60,
                 },
                 new()
                 {
                     Name = "Detail",
-                    Type = ReportSectionType.Detail,
+                    Type = ReportBandType.Detail,
                     Height = 120,
                     Default = true,
                 },
                 new()
                 {
                     Name = "Report Footer",
-                    Type = ReportSectionType.ReportFooter,
+                    Type = ReportBandType.ReportFooter,
                     Height = 60,
                 },
             ],
@@ -129,10 +129,10 @@ internal static class ReportDefinitionHelper
 
     internal static void RemoveSubreportElements( ReportDefinition definition )
     {
-        if ( definition?.Sections is null )
+        if ( definition?.Bands is null )
             return;
 
-        foreach ( ReportSectionDefinition section in definition.Sections )
+        foreach ( ReportBandDefinition section in definition.Bands )
         {
             RemoveSubreportElements( section.Elements );
         }
@@ -163,10 +163,10 @@ internal static class ReportDefinitionHelper
 
     internal static IEnumerable<ReportSubreportElementDefinition> EnumerateSubreportElements( ReportDefinition definition )
     {
-        if ( definition?.Sections is null )
+        if ( definition?.Bands is null )
             yield break;
 
-        foreach ( ReportSectionDefinition section in definition.Sections )
+        foreach ( ReportBandDefinition section in definition.Bands )
         {
             foreach ( ReportElementDefinition element in section.Elements ?? [] )
             {
@@ -404,7 +404,7 @@ internal static class ReportDefinitionHelper
             && columnIndex < cell.ColumnIndex + columnSpan;
     }
 
-    internal static (string DataSourceName, string FieldName) NormalizeFieldBindingForSection( ReportDefinition definition, ReportSectionDefinition section, string dataSourceName, string fieldName )
+    internal static (string DataSourceName, string FieldName) NormalizeFieldBindingForSection( ReportDefinition definition, ReportBandDefinition section, string dataSourceName, string fieldName )
     {
         if ( string.IsNullOrWhiteSpace( fieldName ) )
             return (dataSourceName, fieldName);
@@ -450,7 +450,7 @@ internal static class ReportDefinitionHelper
         var name = baseName;
         var index = 2;
 
-        while ( definition.Sections.Any( section => string.Equals( section.Name, name, StringComparison.OrdinalIgnoreCase ) ) )
+        while ( definition.Bands.Any( section => string.Equals( section.Name, name, StringComparison.OrdinalIgnoreCase ) ) )
         {
             name = $"{baseName} {index}";
             index++;
@@ -459,22 +459,22 @@ internal static class ReportDefinitionHelper
         return name;
     }
 
-    internal static string GetSectionDisplayName( ReportSectionDefinition section )
+    internal static string GetSectionDisplayName( ReportBandDefinition section )
     {
         return string.IsNullOrWhiteSpace( section.Name ) ? GetSectionTypeDisplayName( section.Type ) : section.Name;
     }
 
-    internal static string GetSectionTypeDisplayName( ReportSectionType type )
+    internal static string GetSectionTypeDisplayName( ReportBandType type )
     {
         return type switch
         {
-            ReportSectionType.ReportHeader => "Report Header",
-            ReportSectionType.PageHeader => "Page Header",
-            ReportSectionType.Detail => "Detail",
-            ReportSectionType.GroupHeader => "Group Header",
-            ReportSectionType.GroupFooter => "Group Footer",
-            ReportSectionType.PageFooter => "Page Footer",
-            ReportSectionType.ReportFooter => "Report Footer",
+            ReportBandType.ReportHeader => "Report Header",
+            ReportBandType.PageHeader => "Page Header",
+            ReportBandType.Detail => "Detail",
+            ReportBandType.GroupHeader => "Group Header",
+            ReportBandType.GroupFooter => "Group Footer",
+            ReportBandType.PageFooter => "Page Footer",
+            ReportBandType.ReportFooter => "Report Footer",
             _ => type.ToString(),
         };
     }
@@ -506,7 +506,7 @@ internal static class ReportDefinitionHelper
             : $"{nullableType.Name}?";
     }
 
-    internal static bool CanDeleteSection( ReportSectionDefinition section )
+    internal static bool CanDeleteSection( ReportBandDefinition section )
     {
         return section is not null && !section.Default;
     }
@@ -543,7 +543,7 @@ internal static class ReportDefinitionHelper
             runningTotal.Id = EnsureUniqueDefinitionId( runningTotal.Id, runningTotalIds );
         }
 
-        foreach ( var section in definition.Sections )
+        foreach ( var section in definition.Bands )
         {
             section.Id = EnsureUniqueDefinitionId( section.Id, sectionIds );
 
@@ -567,7 +567,7 @@ internal static class ReportDefinitionHelper
         return element.Id;
     }
 
-    internal static string EnsureSectionId( ReportSectionDefinition section )
+    internal static string EnsureBandId( ReportBandDefinition section )
     {
         if ( section is null )
             return null;
@@ -612,9 +612,9 @@ internal static class ReportDefinitionHelper
         if ( definition is null || string.IsNullOrWhiteSpace( key ) )
             return false;
 
-        for ( int sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        for ( int sectionIndex = 0; sectionIndex < definition.Bands.Count; sectionIndex++ )
         {
-            ReportSectionDefinition section = definition.Sections[sectionIndex];
+            ReportBandDefinition section = definition.Bands[sectionIndex];
 
             if ( TryFindElementLocation( section.Elements, key, sectionIndex, null, null, out location ) )
                 return true;
@@ -630,9 +630,9 @@ internal static class ReportDefinitionHelper
 
         int lastSectionIndex = -1;
 
-        for ( int sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        for ( int sectionIndex = 0; sectionIndex < definition.Bands.Count; sectionIndex++ )
         {
-            ReportSectionDefinition section = definition.Sections[sectionIndex];
+            ReportBandDefinition section = definition.Bands[sectionIndex];
 
             if ( RemoveElementsByIds( section.Elements, elementIds ) )
                 lastSectionIndex = sectionIndex;
@@ -732,9 +732,9 @@ internal static class ReportDefinitionHelper
         if ( definition is null || string.IsNullOrWhiteSpace( cellKey ) )
             return false;
 
-        for ( int currentSectionIndex = 0; currentSectionIndex < definition.Sections.Count; currentSectionIndex++ )
+        for ( int currentSectionIndex = 0; currentSectionIndex < definition.Bands.Count; currentSectionIndex++ )
         {
-            ReportSectionDefinition section = definition.Sections[currentSectionIndex];
+            ReportBandDefinition section = definition.Bands[currentSectionIndex];
 
             for ( int currentElementIndex = 0; currentElementIndex < section.Elements.Count; currentElementIndex++ )
             {

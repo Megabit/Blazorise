@@ -24,7 +24,7 @@ public partial class _ReportDesignerSectionRail
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
     {
-        if ( parameters.TryGetValue<ReportSectionDefinition>( nameof( Section ), out _ )
+        if ( parameters.TryGetValue<ReportBandDefinition>( nameof( Section ), out _ )
              || ( parameters.TryGetValue<bool>( nameof( Selected ), out bool paramSelected ) && paramSelected != Selected )
              || ( parameters.TryGetValue<bool>( nameof( Collapsed ), out bool paramCollapsed ) && paramCollapsed != Collapsed ) )
         {
@@ -80,7 +80,7 @@ public partial class _ReportDesignerSectionRail
     /// <summary>
     /// Report section displayed in the rail.
     /// </summary>
-    [Parameter] public ReportSectionDefinition Section { get; set; }
+    [Parameter] public ReportBandDefinition Section { get; set; }
 
     /// <summary>
     /// Rail height in report layout units.

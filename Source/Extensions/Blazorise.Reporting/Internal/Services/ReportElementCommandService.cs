@@ -277,7 +277,7 @@ internal sealed class ReportElementCommandService
     {
         foreach ( int sectionIndex in sectionIndexes )
         {
-            ReportLayoutGeometry.GrowSectionToFitElements( definition.Sections[sectionIndex] );
+            ReportLayoutGeometry.GrowSectionToFitElements( definition.Bands[sectionIndex] );
         }
     }
 

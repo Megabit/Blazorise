@@ -32,7 +32,7 @@ internal sealed class ReportSelectionManager
             return new()
             {
                 Type = ReportSelectionType.Element,
-                SectionId = sectionIndex >= 0 ? definition.Sections[sectionIndex].Id : null,
+                BandId = sectionIndex >= 0 ? definition.Bands[sectionIndex].Id : null,
                 ElementId = primaryElementId,
                 ElementIds = elementIds,
             };
@@ -44,19 +44,19 @@ internal sealed class ReportSelectionManager
             return new()
             {
                 Type = ReportSelectionType.Cell,
-                SectionId = cellSectionIndex >= 0 ? definition.Sections[cellSectionIndex].Id : null,
+                BandId = cellSectionIndex >= 0 ? definition.Bands[cellSectionIndex].Id : null,
                 CellId = cell.Id,
             };
         }
 
         if ( SelectedSectionIndex is not null
             && SelectedSectionIndex.Value >= 0
-            && SelectedSectionIndex.Value < definition.Sections.Count )
+            && SelectedSectionIndex.Value < definition.Bands.Count )
         {
             return new()
             {
-                Type = ReportSelectionType.Section,
-                SectionId = definition.Sections[SelectedSectionIndex.Value].Id,
+                Type = ReportSelectionType.Band,
+                BandId = definition.Bands[SelectedSectionIndex.Value].Id,
             };
         }
 
@@ -73,9 +73,9 @@ internal sealed class ReportSelectionManager
         if ( selection is null )
             return;
 
-        if ( selection.Type == ReportSelectionType.Section )
+        if ( selection.Type == ReportSelectionType.Band )
         {
-            var sectionIndex = definition.Sections.FindIndex( section => string.Equals( section.Id, selection.SectionId, StringComparison.Ordinal ) );
+            var sectionIndex = definition.Bands.FindIndex( section => string.Equals( section.Id, selection.BandId, StringComparison.Ordinal ) );
 
             if ( sectionIndex >= 0 )
                 SelectSection( sectionIndex );
@@ -269,12 +269,12 @@ internal sealed class ReportSelectionManager
 
     internal int ResolvePasteSectionIndex( ReportDefinition definition )
     {
-        if ( definition.Sections.Count == 0 )
+        if ( definition.Bands.Count == 0 )
             return -1;
 
         if ( SelectedSectionIndex is not null
             && SelectedSectionIndex.Value >= 0
-            && SelectedSectionIndex.Value < definition.Sections.Count )
+            && SelectedSectionIndex.Value < definition.Bands.Count )
         {
             return SelectedSectionIndex.Value;
         }
@@ -294,8 +294,8 @@ internal sealed class ReportSelectionManager
             return selectedElementKeys.Any( elementKey =>
                 ReportDefinitionHelper.TryFindElementLocation( definition, elementKey, out int sectionIndex, out _, out _ )
                 && sectionIndex >= 0
-                && sectionIndex < definition.Sections.Count
-                && !ReportValueResolver.ResolveStaticSuppress( definition.Sections[sectionIndex] ) );
+                && sectionIndex < definition.Bands.Count
+                && !ReportValueResolver.ResolveStaticSuppress( definition.Bands[sectionIndex] ) );
 
         if ( !string.IsNullOrWhiteSpace( SelectedCellKey ) )
             return false;
@@ -308,16 +308,16 @@ internal sealed class ReportSelectionManager
         return !string.IsNullOrWhiteSpace( PrimaryElementKey )
             && ReportDefinitionHelper.TryFindElementLocation( definition, PrimaryElementKey, out int sectionIndex, out _, out _ )
             && sectionIndex >= 0
-            && sectionIndex < definition.Sections.Count
-            && ReportValueResolver.ResolveStaticSuppress( definition.Sections[sectionIndex] );
+            && sectionIndex < definition.Bands.Count
+            && ReportValueResolver.ResolveStaticSuppress( definition.Bands[sectionIndex] );
     }
 
-    internal ReportSectionDefinition FindSelectedSection( ReportDefinition definition )
+    internal ReportBandDefinition FindSelectedSection( ReportDefinition definition )
     {
-        if ( SelectedSectionIndex is null || SelectedSectionIndex < 0 || SelectedSectionIndex >= definition.Sections.Count )
+        if ( SelectedSectionIndex is null || SelectedSectionIndex < 0 || SelectedSectionIndex >= definition.Bands.Count )
             return null;
 
-        return definition.Sections[SelectedSectionIndex.Value];
+        return definition.Bands[SelectedSectionIndex.Value];
     }
 
     internal bool IsElementSelected( string elementKey )
@@ -350,7 +350,7 @@ internal sealed class ReportSelectionManager
             && selectedElementKeys.SequenceEqual( elementKeys );
     }
 
-    private static bool CanDeleteSection( ReportSectionDefinition section )
+    private static bool CanDeleteSection( ReportBandDefinition section )
     {
         return section is not null && !section.Default;
     }

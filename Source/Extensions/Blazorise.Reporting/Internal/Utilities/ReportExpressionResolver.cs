@@ -55,9 +55,9 @@ internal static class ReportExpressionResolver
         return ResolveValue( definition, data, contextItem, fieldElement.Field, null, runningTotals );
     }
 
-    private static ReportSectionDefinition ResolveSection( ReportDefinition definition, string dataSource )
+    private static ReportBandDefinition ResolveSection( ReportDefinition definition, string dataSource )
     {
-        return definition?.Sections?.FirstOrDefault( section =>
+        return definition?.Bands?.FirstOrDefault( section =>
             string.Equals( section?.DataSource, dataSource, StringComparison.OrdinalIgnoreCase ) );
     }
 

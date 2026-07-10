@@ -22,7 +22,7 @@ internal sealed class ReportDesignerLayoutService
 
     #region Methods
 
-    internal double GetSectionOffsetY( ReportDefinition definition, int sectionIndex, ReportBandMode bandMode, int collapsedSectionsVersion, ReportSectionPointerResizeState sectionPointerResize, Func<ReportSectionDefinition, bool> isSectionCollapsed )
+    internal double GetSectionOffsetY( ReportDefinition definition, int sectionIndex, ReportBandMode bandMode, int collapsedSectionsVersion, ReportSectionPointerResizeState sectionPointerResize, Func<ReportBandDefinition, bool> isSectionCollapsed )
     {
         EnsureCache( definition, bandMode, collapsedSectionsVersion, sectionPointerResize, isSectionCollapsed );
 
@@ -31,7 +31,7 @@ internal sealed class ReportDesignerLayoutService
             : ReportLayoutGeometry.GetSectionOffsetY( definition, sectionIndex, ( index, section ) => GetSectionHeight( index, section, bandMode, sectionPointerResize, isSectionCollapsed ) );
     }
 
-    internal double GetContentHeight( ReportDefinition definition, ReportBandMode bandMode, int collapsedSectionsVersion, ReportSectionPointerResizeState sectionPointerResize, Func<ReportSectionDefinition, bool> isSectionCollapsed )
+    internal double GetContentHeight( ReportDefinition definition, ReportBandMode bandMode, int collapsedSectionsVersion, ReportSectionPointerResizeState sectionPointerResize, Func<ReportBandDefinition, bool> isSectionCollapsed )
     {
         EnsureCache( definition, bandMode, collapsedSectionsVersion, sectionPointerResize, isSectionCollapsed );
 
@@ -40,7 +40,7 @@ internal sealed class ReportDesignerLayoutService
             : ReportLayoutGeometry.GetContentHeight( definition, ( index, section ) => GetSectionHeight( index, section, bandMode, sectionPointerResize, isSectionCollapsed ) );
     }
 
-    internal double GetSectionHeight( int sectionIndex, ReportSectionDefinition section, ReportBandMode bandMode, ReportSectionPointerResizeState sectionPointerResize, Func<ReportSectionDefinition, bool> isSectionCollapsed )
+    internal double GetSectionHeight( int sectionIndex, ReportBandDefinition section, ReportBandMode bandMode, ReportSectionPointerResizeState sectionPointerResize, Func<ReportBandDefinition, bool> isSectionCollapsed )
     {
         if ( sectionPointerResize is not null && sectionPointerResize.SectionIndex == sectionIndex )
             return GetSectionDesignerHeight( sectionPointerResize.TargetHeight, bandMode );
@@ -70,14 +70,14 @@ internal sealed class ReportDesignerLayoutService
         cache = default;
     }
 
-    private void EnsureCache( ReportDefinition definition, ReportBandMode bandMode, int collapsedSectionsVersion, ReportSectionPointerResizeState sectionPointerResize, Func<ReportSectionDefinition, bool> isSectionCollapsed )
+    private void EnsureCache( ReportDefinition definition, ReportBandMode bandMode, int collapsedSectionsVersion, ReportSectionPointerResizeState sectionPointerResize, Func<ReportBandDefinition, bool> isSectionCollapsed )
     {
         if ( definition is null )
             return;
 
         int resizeSectionIndex = sectionPointerResize?.SectionIndex ?? -1;
         double resizeHeight = sectionPointerResize?.TargetHeight ?? 0;
-        int sectionCount = definition.Sections.Count;
+        int sectionCount = definition.Bands.Count;
 
         if ( ReferenceEquals( cache.Definition, definition )
              && cache.SectionOffsets is not null
@@ -96,7 +96,7 @@ internal sealed class ReportDesignerLayoutService
         for ( int i = 0; i < sectionCount; i++ )
         {
             sectionOffsets[i] = offset;
-            offset += GetSectionHeight( i, definition.Sections[i], bandMode, sectionPointerResize, isSectionCollapsed );
+            offset += GetSectionHeight( i, definition.Bands[i], bandMode, sectionPointerResize, isSectionCollapsed );
         }
 
         cache = ( definition, bandMode, collapsedSectionsVersion, sectionCount, resizeSectionIndex, resizeHeight, sectionOffsets, offset );

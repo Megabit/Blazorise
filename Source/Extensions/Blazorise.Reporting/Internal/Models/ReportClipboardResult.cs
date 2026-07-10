@@ -12,7 +12,7 @@ internal sealed class ReportClipboardResult
 
     public List<ReportElementDefinition> ClipboardElements { get; set; } = [];
 
-    public string ClipboardSectionId { get; set; }
+    public string ClipboardBandId { get; set; }
 
     public int? SelectedSectionIndex { get; set; }
 

@@ -18,7 +18,7 @@ internal static class ReportDataReferenceUpdater
             formulaField.Formula = ReplaceFormulaFieldExpressionToken( formulaField.Formula, oldName, newName );
         }
 
-        foreach ( ReportSectionDefinition section in definition.Sections ?? [] )
+        foreach ( ReportBandDefinition section in definition.Bands ?? [] )
         {
             ReplaceFormulaFieldReference( section.Suppress, oldName, newName );
             ReplaceFormulaFieldReference( section.KeepTogether, oldName, newName );
@@ -60,7 +60,7 @@ internal static class ReportDataReferenceUpdater
             runningTotal.EvaluateFormula = ReplaceRunningTotalExpressionToken( runningTotal.EvaluateFormula, oldName, newName );
         }
 
-        foreach ( ReportSectionDefinition section in definition.Sections ?? [] )
+        foreach ( ReportBandDefinition section in definition.Bands ?? [] )
         {
             ReplaceRunningTotalReference( section.Suppress, oldName, newName );
             ReplaceRunningTotalReference( section.KeepTogether, oldName, newName );

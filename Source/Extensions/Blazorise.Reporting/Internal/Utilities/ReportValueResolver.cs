@@ -31,7 +31,7 @@ internal static class ReportValueResolver
         return value.Value;
     }
 
-    internal static bool ResolveSuppress( ReportSectionDefinition section, ReportDefinition definition, object data, object item )
+    internal static bool ResolveSuppress( ReportBandDefinition section, ReportDefinition definition, object data, object item )
     {
         return Resolve( section?.Suppress, new()
         {
@@ -42,12 +42,12 @@ internal static class ReportValueResolver
         } );
     }
 
-    internal static bool ResolveStaticSuppress( ReportSectionDefinition section )
+    internal static bool ResolveStaticSuppress( ReportBandDefinition section )
     {
         return section?.Suppress?.Value ?? false;
     }
 
-    internal static void SetStaticSuppress( ReportSectionDefinition section, bool value )
+    internal static void SetStaticSuppress( ReportBandDefinition section, bool value )
     {
         if ( section is null )
             return;
@@ -55,7 +55,7 @@ internal static class ReportValueResolver
         section.Suppress = ReportValue.Create( value, section.Suppress?.Formula );
     }
 
-    internal static bool ResolveSuppress( ReportElementDefinition element, ReportSectionDefinition section, ReportDefinition definition, object data, object item )
+    internal static bool ResolveSuppress( ReportElementDefinition element, ReportBandDefinition section, ReportDefinition definition, object data, object item )
     {
         return Resolve( element?.Suppress, new()
         {
@@ -67,7 +67,7 @@ internal static class ReportValueResolver
         } );
     }
 
-    internal static bool ResolveKeepTogether( ReportSectionDefinition section, ReportDefinition definition, object data, object item )
+    internal static bool ResolveKeepTogether( ReportBandDefinition section, ReportDefinition definition, object data, object item )
     {
         return Resolve( section?.KeepTogether, new()
         {
@@ -78,7 +78,7 @@ internal static class ReportValueResolver
         } );
     }
 
-    internal static bool ResolveNewPageBefore( ReportSectionDefinition section, ReportDefinition definition, object data, object item )
+    internal static bool ResolveNewPageBefore( ReportBandDefinition section, ReportDefinition definition, object data, object item )
     {
         return Resolve( section?.NewPageBefore, new()
         {
@@ -89,7 +89,7 @@ internal static class ReportValueResolver
         } );
     }
 
-    internal static bool ResolveNewPageAfter( ReportSectionDefinition section, ReportDefinition definition, object data, object item )
+    internal static bool ResolveNewPageAfter( ReportBandDefinition section, ReportDefinition definition, object data, object item )
     {
         return Resolve( section?.NewPageAfter, new()
         {
@@ -100,7 +100,7 @@ internal static class ReportValueResolver
         } );
     }
 
-    internal static bool ResolveCanGrow( ReportElementDefinition element, ReportSectionDefinition section, ReportDefinition definition, object data, object item, bool designMode )
+    internal static bool ResolveCanGrow( ReportElementDefinition element, ReportBandDefinition section, ReportDefinition definition, object data, object item, bool designMode )
     {
         if ( designMode )
             return element?.CanGrow?.Value ?? false;

@@ -95,7 +95,7 @@
                                                    Formula="@SelectedSection.Suppress?.Formula"
                                                    Changed="@UpdateSelectedSectionSuppression"
                                                    OpenFormula="@OpenSelectedSectionSuppressFormula" />
-            @if ( SelectedSection.Type == ReportSectionType.PageFooter )
+            @if ( SelectedSection.Type == ReportBandType.PageFooter )
             {
                 <_ReportDesignerCheckboxProperty Label="Reserve space when suppressed" Value="@SelectedSection.ReserveSpaceWhenSuppressed" Changed="@(value => UpdateSelectedSection( section => section.ReserveSpaceWhenSuppressed = value ))" />
             }
@@ -105,11 +105,11 @@
         {
             <_ReportDesignerPropertyGroup Title="General">
                 <_ReportDesignerTextProperty Label="Name" Value="@SelectedSection.Name" Changed="@(value => UpdateSelectedSection( section => section.Name = value ))" />
-                @if ( SelectedSection.Type == ReportSectionType.Detail )
+                @if ( SelectedSection.Type == ReportBandType.Detail )
                 {
                     <_ReportDesignerDataSourceProperty Label="Data source" Value="@SelectedSection.DataSource" DisplayText="@GetSelectedSectionDataSourceDisplayName()" Clicked="@OpenDataSourceDialog" />
                 }
-                @if ( SelectedSection.Type == ReportSectionType.GroupHeader )
+                @if ( SelectedSection.Type == ReportBandType.GroupHeader )
                 {
                     <_ReportDesignerTextProperty Label="Group by" Value="@SelectedSection.GroupBy" Changed="@(value => UpdateSelectedSection( section => section.GroupBy = value ))" />
                 }
@@ -134,7 +134,7 @@
                                                        Changed="@UpdateSelectedSectionNewPageAfter"
                                                        OpenFormula="@OpenSelectedSectionNewPageAfterFormula" />
             </_ReportDesignerPropertyGroup>
-            @if ( SelectedSection.Type == ReportSectionType.PageFooter )
+            @if ( SelectedSection.Type == ReportBandType.PageFooter )
             {
                 var sectionAppearance = EnsureSelectedSectionAppearance();
                 var sectionBorder = EnsureSelectedSectionBorder();

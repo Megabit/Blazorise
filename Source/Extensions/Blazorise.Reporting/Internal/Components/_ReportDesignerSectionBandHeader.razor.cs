@@ -20,7 +20,7 @@ public partial class _ReportDesignerSectionBandHeader
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
     {
-        if ( parameters.TryGetValue<ReportSectionDefinition>( nameof( Section ), out _ )
+        if ( parameters.TryGetValue<ReportBandDefinition>( nameof( Section ), out _ )
              || ( parameters.TryGetValue<bool>( nameof( Selected ), out bool paramSelected ) && paramSelected != Selected ) )
         {
             DirtyClasses();
@@ -57,7 +57,7 @@ public partial class _ReportDesignerSectionBandHeader
     /// <summary>
     /// Report section displayed in the band header.
     /// </summary>
-    [Parameter] public ReportSectionDefinition Section { get; set; }
+    [Parameter] public ReportBandDefinition Section { get; set; }
 
     /// <summary>
     /// Indicates that the section is currently selected.

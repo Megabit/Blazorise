@@ -58,7 +58,7 @@ public partial class _ReportDesignerElement
         }
 
         if ( ( parameters.TryGetValue<ReportDefinition>( nameof( Definition ), out ReportDefinition paramDefinition ) && paramDefinition != Definition )
-             || ( parameters.TryGetValue<ReportSectionDefinition>( nameof( Section ), out ReportSectionDefinition paramSection ) && paramSection != Section )
+             || ( parameters.TryGetValue<ReportBandDefinition>( nameof( Section ), out ReportBandDefinition paramSection ) && paramSection != Section )
              || ( parameters.TryGetValue<object>( nameof( Data ), out object paramData ) && paramData != Data )
              || ( parameters.TryGetValue<object>( nameof( Item ), out object paramItem ) && paramItem != Item )
              || ( parameters.TryGetValue<IReadOnlyDictionary<string, object>>( nameof( RunningTotals ), out IReadOnlyDictionary<string, object> paramRunningTotals ) && paramRunningTotals != RunningTotals ) )
@@ -307,7 +307,7 @@ public partial class _ReportDesignerElement
     /// <summary>
     /// Report band that owns the element.
     /// </summary>
-    [Parameter] public ReportSectionDefinition Section { get; set; }
+    [Parameter] public ReportBandDefinition Section { get; set; }
 
     /// <summary>
     /// Current band item used for repeated detail rendering.

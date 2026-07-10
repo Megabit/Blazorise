@@ -18,12 +18,12 @@ internal sealed class ReportRenderService
 
     #region Methods
 
-    internal IReadOnlyList<object> ResolveSectionRenderItems( ReportDefinition definition, ReportSectionDefinition section, object data, bool designMode )
+    internal IReadOnlyList<object> ResolveSectionRenderItems( ReportDefinition definition, ReportBandDefinition section, object data, bool designMode )
     {
         if ( designMode )
             return ResolveDesignerSectionRenderItems( definition, section, data );
 
-        var items = section.Type == ReportSectionType.Detail
+        var items = section.Type == ReportBandType.Detail
             ? ReportDataResolver.ResolveItems( definition, data, section.DataSource ).ToList()
             : new List<object> { ReportDataResolver.ResolveItems( definition, data, section.DataSource ).FirstOrDefault() };
 
@@ -62,7 +62,7 @@ internal sealed class ReportRenderService
         return styleBuilder.Styles;
     }
 
-    internal string GetPreviewPageFooterStyle( ReportDefinition definition, ReportRenderPage renderPage, System.Func<int, ReportSectionDefinition, double> getSectionHeight )
+    internal string GetPreviewPageFooterStyle( ReportDefinition definition, ReportRenderPage renderPage, System.Func<int, ReportBandDefinition, double> getSectionHeight )
     {
         definition.Page = ReportPageDefinitionHelper.ResolvePage( definition.Page );
 
@@ -84,7 +84,7 @@ internal sealed class ReportRenderService
         designerSectionRenderItemsCacheKey = default;
     }
 
-    private IReadOnlyList<object> ResolveDesignerSectionRenderItems( ReportDefinition definition, ReportSectionDefinition section, object data )
+    private IReadOnlyList<object> ResolveDesignerSectionRenderItems( ReportDefinition definition, ReportBandDefinition section, object data )
     {
         if ( definition is null || section is null )
             return [null];
@@ -95,7 +95,7 @@ internal sealed class ReportRenderService
             designerSectionRenderItemsCacheKey = ( definition, data );
         }
 
-        string sectionId = ReportDefinitionHelper.EnsureSectionId( section );
+        string sectionId = ReportDefinitionHelper.EnsureBandId( section );
 
         if ( designerSectionRenderItems.TryGetValue( sectionId, out IReadOnlyList<object> cachedItems ) )
             return cachedItems;

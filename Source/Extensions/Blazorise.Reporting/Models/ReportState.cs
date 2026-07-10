@@ -40,7 +40,7 @@ public sealed class ReportState
     /// <summary>
     /// Band identifier that originally contained the clipboard elements.
     /// </summary>
-    public string ClipboardSectionId { get; set; }
+    public string ClipboardBandId { get; set; }
 
     /// <summary>
     /// Indicates whether the command history can undo the latest operation.

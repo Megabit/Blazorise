@@ -16,5 +16,5 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportFooter
 {
-    protected override ReportSectionType SectionType => ReportSectionType.ReportFooter;
+    protected override ReportBandType SectionType => ReportBandType.ReportFooter;
 }

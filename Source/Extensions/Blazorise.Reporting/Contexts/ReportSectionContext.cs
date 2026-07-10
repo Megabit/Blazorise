@@ -2,10 +2,10 @@ namespace Blazorise.Reporting;
 
 internal sealed class ReportSectionContext
 {
-    public ReportSectionContext( ReportSectionDefinition definition )
+    public ReportSectionContext( ReportBandDefinition definition )
     {
         Definition = definition;
     }
 
-    public ReportSectionDefinition Definition { get; }
+    public ReportBandDefinition Definition { get; }
 }

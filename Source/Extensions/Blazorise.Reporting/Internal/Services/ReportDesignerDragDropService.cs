@@ -32,10 +32,10 @@ internal sealed class ReportDesignerDragDropService
         ReportTableCellDropTarget tableCellDropTarget,
         ReportTableEditor tableEditor )
     {
-        if ( definition is null || state is null || targetSectionIndex < 0 || targetSectionIndex >= definition.Sections.Count )
+        if ( definition is null || state is null || targetSectionIndex < 0 || targetSectionIndex >= definition.Bands.Count )
             return new();
 
-        ReportSectionDefinition targetSection = definition.Sections[targetSectionIndex];
+        ReportBandDefinition targetSection = definition.Bands[targetSectionIndex];
 
         return state.DraggedKind switch
         {
@@ -49,10 +49,10 @@ internal sealed class ReportDesignerDragDropService
         };
     }
 
-    internal ReportElementDefinition FindTextElementAt( ReportSectionDefinition section, double x, double y )
+    internal ReportElementDefinition FindTextElementAt( ReportBandDefinition section, double x, double y )
         => FindTextElementAtCore( section, x, y );
 
-    private static ReportElementDefinition FindTextElementAtCore( ReportSectionDefinition section, double x, double y )
+    private static ReportElementDefinition FindTextElementAtCore( ReportBandDefinition section, double x, double y )
     {
         if ( section is null )
             return null;
@@ -90,7 +90,7 @@ internal sealed class ReportDesignerDragDropService
         ReportDefinition definition,
         ReportDesignerInteractionState state,
         int targetSectionIndex,
-        ReportSectionDefinition targetSection,
+        ReportBandDefinition targetSection,
         double x,
         double y,
         ReportTableCellDropTarget tableCellDropTarget,
@@ -140,7 +140,7 @@ internal sealed class ReportDesignerDragDropService
 
     private static ReportDropResult DropToolboxElement(
         ReportDesignerInteractionState state,
-        ReportSectionDefinition targetSection,
+        ReportBandDefinition targetSection,
         double x,
         double y,
         ReportTableCellDropTarget tableCellDropTarget,
@@ -166,7 +166,7 @@ internal sealed class ReportDesignerDragDropService
     private static ReportDropResult DropElement(
         ReportDefinition definition,
         int targetSectionIndex,
-        ReportSectionDefinition targetSection,
+        ReportBandDefinition targetSection,
         double x,
         double y,
         ReportTableCellDropTarget tableCellDropTarget,
@@ -209,8 +209,8 @@ internal sealed class ReportDesignerDragDropService
 
     private static ReportDesignerDragPreview CreateFieldDragPreview( ReportDefinition definition, ReportDesignerInteractionState state, int targetSectionIndex, double x, double y )
     {
-        ReportSectionDefinition targetSection = targetSectionIndex >= 0 && targetSectionIndex < definition.Sections.Count
-            ? definition.Sections[targetSectionIndex]
+        ReportBandDefinition targetSection = targetSectionIndex >= 0 && targetSectionIndex < definition.Bands.Count
+            ? definition.Bands[targetSectionIndex]
             : null;
         (string DataSourceName, string FieldName) fieldBinding = ReportDefinitionHelper.NormalizeFieldBindingForSection( definition, targetSection, state.DraggedDataSourceName, state.DraggedFieldName );
 

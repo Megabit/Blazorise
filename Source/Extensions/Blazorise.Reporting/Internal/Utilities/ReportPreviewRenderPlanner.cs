@@ -18,7 +18,7 @@ internal static class ReportPreviewRenderPlanner
 
     internal static IReadOnlyList<ReportRenderSection> BuildRenderSections( ReportDefinition definition, object data )
     {
-        if ( definition?.Sections is null )
+        if ( definition?.Bands is null )
             return [];
 
         var renderSections = new List<ReportRenderSection>();
@@ -26,17 +26,17 @@ internal static class ReportPreviewRenderPlanner
         var runningTotals = ReportRunningTotalResolver.CreateState( definition, data );
         var instanceIndex = 0;
 
-        for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        for ( var sectionIndex = 0; sectionIndex < definition.Bands.Count; sectionIndex++ )
         {
             if ( consumedSectionIndexes.Contains( sectionIndex ) )
                 continue;
 
-            var section = definition.Sections[sectionIndex];
+            var section = definition.Bands[sectionIndex];
 
             if ( !ShouldRenderSectionBeforeItems( definition, data, section ) )
                 continue;
 
-            if ( section.Type == ReportSectionType.GroupFooter )
+            if ( section.Type == ReportBandType.GroupFooter )
                 continue;
 
             if ( IsGroupHeader( section ) && !string.IsNullOrWhiteSpace( section.GroupBy )
@@ -60,15 +60,15 @@ internal static class ReportPreviewRenderPlanner
 
     internal static IReadOnlyList<ReportRenderPage> BuildRenderPages( ReportDefinition definition, object data )
     {
-        if ( definition?.Sections is null )
+        if ( definition?.Bands is null )
             return [];
 
         definition.Page = ReportPageDefinitionHelper.ResolvePage( definition.Page );
 
-        var pageHeaderSections = BuildPageBandRenderSections( definition, data, ReportSectionType.PageHeader );
-        var pageFooterSections = BuildPageBandRenderSections( definition, data, ReportSectionType.PageFooter );
+        var pageHeaderSections = BuildPageBandRenderSections( definition, data, ReportBandType.PageHeader );
+        var pageFooterSections = BuildPageBandRenderSections( definition, data, ReportBandType.PageFooter );
         var allSections = BuildRenderSections( definition, data );
-        var bodySections = allSections.Where( renderSection => renderSection.Section.Type != ReportSectionType.PageFooter ).ToList();
+        var bodySections = allSections.Where( renderSection => renderSection.Section.Type != ReportBandType.PageFooter ).ToList();
         var pages = PaginateBodySections( definition, data, bodySections, pageHeaderSections, pageFooterSections );
         var totalPages = pages.Count;
 
@@ -91,13 +91,13 @@ internal static class ReportPreviewRenderPlanner
         return pages;
     }
 
-    private static List<ReportRenderSection> BuildPageBandRenderSections( ReportDefinition definition, object data, ReportSectionType sectionType )
+    private static List<ReportRenderSection> BuildPageBandRenderSections( ReportDefinition definition, object data, ReportBandType sectionType )
     {
         var renderSections = new List<ReportRenderSection>();
 
-        for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        for ( var sectionIndex = 0; sectionIndex < definition.Bands.Count; sectionIndex++ )
         {
-            var section = definition.Sections[sectionIndex];
+            var section = definition.Bands[sectionIndex];
 
             if ( section.Type != sectionType )
                 continue;
@@ -132,8 +132,8 @@ internal static class ReportPreviewRenderPlanner
         ReportRunningTotalState runningTotals,
         ref int instanceIndex )
     {
-        var detailSection = definition.Sections[detailSectionIndex];
-        var headerSection = definition.Sections[headerSectionIndexes[0]];
+        var detailSection = definition.Bands[detailSectionIndex];
+        var headerSection = definition.Bands[headerSectionIndexes[0]];
         var detailItems = ReportDataResolver.ResolveItems( definition, data, detailSection.DataSource ).ToList();
 
         if ( detailItems.Count == 0 )
@@ -146,7 +146,7 @@ internal static class ReportPreviewRenderPlanner
 
             foreach ( var headerSectionIndex in headerSectionIndexes )
             {
-                var section = definition.Sections[headerSectionIndex];
+                var section = definition.Bands[headerSectionIndex];
                 var suppressed = IsSectionSuppressed( definition, data, section, firstItem );
 
                 if ( suppressed && !section.ReserveSpaceWhenSuppressed )
@@ -167,7 +167,7 @@ internal static class ReportPreviewRenderPlanner
 
             foreach ( var footerSectionIndex in footerSectionIndexes )
             {
-                var section = definition.Sections[footerSectionIndex];
+                var section = definition.Bands[footerSectionIndex];
                 var suppressed = IsSectionSuppressed( definition, data, section, groupItems );
 
                 if ( suppressed && !section.ReserveSpaceWhenSuppressed )
@@ -190,7 +190,7 @@ internal static class ReportPreviewRenderPlanner
         }
     }
 
-    private static ReportRenderSection CreateRenderSection( int sectionIndex, int instanceIndex, ReportSectionDefinition section, object item, bool renderElements, ReportRunningTotalState runningTotals )
+    private static ReportRenderSection CreateRenderSection( int sectionIndex, int instanceIndex, ReportBandDefinition section, object item, bool renderElements, ReportRunningTotalState runningTotals )
     {
         var renderSection = new ReportRenderSection
         {
@@ -293,14 +293,14 @@ internal static class ReportPreviewRenderPlanner
         return Math.Max( 0, renderSection?.Section?.Height ?? 0 );
     }
 
-    private static bool IsGroupHeader( ReportSectionDefinition section )
+    private static bool IsGroupHeader( ReportBandDefinition section )
     {
-        return section.Type == ReportSectionType.GroupHeader;
+        return section.Type == ReportBandType.GroupHeader;
     }
 
-    private static bool IsGroupBoundary( ReportSectionDefinition section )
+    private static bool IsGroupBoundary( ReportBandDefinition section )
     {
-        return section.Type is ReportSectionType.ReportFooter or ReportSectionType.PageFooter
+        return section.Type is ReportBandType.ReportFooter or ReportBandType.PageFooter
             || IsGroupHeader( section );
     }
 
@@ -310,12 +310,12 @@ internal static class ReportPreviewRenderPlanner
             ?? string.Empty;
     }
 
-    private static bool ShouldRenderSection( ReportDefinition definition, object data, ReportSectionDefinition section, object item, int pageNumber, int totalPages )
+    private static bool ShouldRenderSection( ReportDefinition definition, object data, ReportBandDefinition section, object item, int pageNumber, int totalPages )
     {
         if ( IsSectionSuppressed( definition, data, section, item ) && !section.ReserveSpaceWhenSuppressed )
             return false;
 
-        if ( section.Type == ReportSectionType.PageFooter )
+        if ( section.Type == ReportBandType.PageFooter )
         {
             if ( pageNumber == 1 && !section.PrintOnFirstPage )
                 return false;
@@ -330,19 +330,19 @@ internal static class ReportPreviewRenderPlanner
         return true;
     }
 
-    private static bool ShouldRenderSectionBeforeItems( ReportDefinition definition, object data, ReportSectionDefinition section )
+    private static bool ShouldRenderSectionBeforeItems( ReportDefinition definition, object data, ReportBandDefinition section )
     {
         return section?.Suppress?.HasFormula == true
             || ShouldRenderSection( definition, data, section, null, 1, 1 );
     }
 
-    private static bool ShouldIncludeSectionInStructure( ReportDefinition definition, ReportSectionDefinition section )
+    private static bool ShouldIncludeSectionInStructure( ReportDefinition definition, ReportBandDefinition section )
     {
         return section?.Suppress?.HasFormula == true
             || ShouldRenderSection( definition, null, section, null, 1, 1 );
     }
 
-    private static bool IsSectionSuppressed( ReportDefinition definition, object data, ReportSectionDefinition section, object item )
+    private static bool IsSectionSuppressed( ReportDefinition definition, object data, ReportBandDefinition section, object item )
     {
         return ReportValueResolver.ResolveSuppress( section, definition, data, item );
     }
@@ -362,9 +362,9 @@ internal static class ReportPreviewRenderPlanner
         return ReportValueResolver.ResolveNewPageAfter( renderSection.Section, definition, data, renderSection.Item );
     }
 
-    private static IEnumerable<object> ResolveSectionItems( ReportDefinition definition, object data, ReportSectionDefinition section )
+    private static IEnumerable<object> ResolveSectionItems( ReportDefinition definition, object data, ReportBandDefinition section )
     {
-        var items = section.Type == ReportSectionType.Detail
+        var items = section.Type == ReportBandType.Detail
             ? ReportDataResolver.ResolveItems( definition, data, section.DataSource ).ToList()
             : new List<object> { ReportDataResolver.ResolveItems( definition, data, section.DataSource ).FirstOrDefault() };
 
@@ -383,11 +383,11 @@ internal static class ReportPreviewRenderPlanner
         detailSectionIndex = -1;
         footerSectionIndexes = footers;
 
-        var groupBy = definition.Sections[headerSectionIndex].GroupBy;
+        var groupBy = definition.Bands[headerSectionIndex].GroupBy;
 
-        for ( var sectionIndex = headerSectionIndex; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        for ( var sectionIndex = headerSectionIndex; sectionIndex < definition.Bands.Count; sectionIndex++ )
         {
-            var section = definition.Sections[sectionIndex];
+            var section = definition.Bands[sectionIndex];
 
             if ( !ShouldIncludeSectionInStructure( definition, section ) )
                 continue;
@@ -398,7 +398,7 @@ internal static class ReportPreviewRenderPlanner
                 continue;
             }
 
-            if ( section.Type == ReportSectionType.Detail )
+            if ( section.Type == ReportBandType.Detail )
             {
                 detailSectionIndex = sectionIndex;
                 break;
@@ -411,14 +411,14 @@ internal static class ReportPreviewRenderPlanner
         if ( detailSectionIndex < 0 )
             return false;
 
-        for ( var sectionIndex = detailSectionIndex + 1; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        for ( var sectionIndex = detailSectionIndex + 1; sectionIndex < definition.Bands.Count; sectionIndex++ )
         {
-            var section = definition.Sections[sectionIndex];
+            var section = definition.Bands[sectionIndex];
 
             if ( !ShouldIncludeSectionInStructure( definition, section ) )
                 continue;
 
-            if ( section.Type == ReportSectionType.GroupFooter )
+            if ( section.Type == ReportBandType.GroupFooter )
             {
                 footers.Add( sectionIndex );
                 continue;

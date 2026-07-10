@@ -33,7 +33,7 @@ public partial class _ReportDesignerSectionLabel
     /// <summary>
     /// Report section displayed in the designer label.
     /// </summary>
-    [Parameter] public ReportSectionDefinition Section { get; set; }
+    [Parameter] public ReportBandDefinition Section { get; set; }
 
     /// <summary>
     /// Raised when the label is clicked.

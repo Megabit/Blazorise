@@ -9,7 +9,7 @@ internal sealed class ReportTableEditor
 {
     #region Methods
 
-    internal bool TryFindCellAt( ReportSectionDefinition section, double x, double y, out ReportTableCellDropTarget target )
+    internal bool TryFindCellAt( ReportBandDefinition section, double x, double y, out ReportTableCellDropTarget target )
     {
         target = null;
 

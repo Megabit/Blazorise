@@ -16,17 +16,17 @@ internal sealed class ReportContextMenuService
         ReportContextMenuState state,
         bool hasClipboardElements,
         Func<ReportDefinition, int, bool> canInsertSection,
-        Func<ReportSectionDefinition, bool> canInsertGroup )
+        Func<ReportBandDefinition, bool> canInsertGroup )
     {
         if ( definition is null
             || state is null
             || state.SectionIndex < 0
-            || state.SectionIndex >= definition.Sections.Count )
+            || state.SectionIndex >= definition.Bands.Count )
         {
             return;
         }
 
-        ReportSectionDefinition section = definition.Sections[state.SectionIndex];
+        ReportBandDefinition section = definition.Bands[state.SectionIndex];
 
         state.SectionSuppressed = ReportValueResolver.ResolveStaticSuppress( section );
         state.CanPasteElement = CanPasteElement( definition, state, hasClipboardElements );
@@ -58,8 +58,8 @@ internal sealed class ReportContextMenuService
         state.CanOrderSelectedElements = state.SelectedElementCount > 0;
         state.CanAlignOrSizeSelectedElements = state.SelectedElementCount >= ReportDesignerConstants.MinimumBatchElementCount;
         state.CanInsertAggregate = sectionIndex >= 0
-            && sectionIndex < definition.Sections.Count
-            && definition.Sections[sectionIndex].Type == ReportSectionType.Detail
+            && sectionIndex < definition.Bands.Count
+            && definition.Bands[sectionIndex].Type == ReportBandType.Detail
             && element is ReportFieldElementDefinition;
     }
 
@@ -89,11 +89,11 @@ internal sealed class ReportContextMenuService
     internal bool CanPasteElement( ReportDefinition definition, ReportContextMenuState state, bool hasClipboardElements )
     {
         return hasClipboardElements
-            && definition?.Sections is not null
+            && definition?.Bands is not null
             && state?.Target is ReportContextMenuTarget.Section or ReportContextMenuTarget.Cell
             && state.HasPastePosition
             && state.SectionIndex >= 0
-            && state.SectionIndex < definition.Sections.Count;
+            && state.SectionIndex < definition.Bands.Count;
     }
 
     internal bool CanEditElementText( ReportElementDefinition element )

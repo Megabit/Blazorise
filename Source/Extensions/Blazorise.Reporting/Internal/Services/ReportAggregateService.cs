@@ -21,10 +21,10 @@ internal sealed class ReportAggregateService
             },
         };
 
-        if ( definition?.Sections is null || sourceSectionIndex < 0 || sourceSectionIndex >= definition.Sections.Count )
+        if ( definition?.Bands is null || sourceSectionIndex < 0 || sourceSectionIndex >= definition.Bands.Count )
             return locations;
 
-        if ( !TryFindGroupLocation( definition, sourceSectionIndex, out ReportSectionDefinition groupHeader, out int groupFooterIndex ) )
+        if ( !TryFindGroupLocation( definition, sourceSectionIndex, out ReportBandDefinition groupHeader, out int groupFooterIndex ) )
             return locations;
 
         locations.Add( new()
@@ -38,12 +38,12 @@ internal sealed class ReportAggregateService
 
     internal bool CanInsertSection( ReportDefinition definition, int sectionIndex )
     {
-        if ( definition?.Sections is null || sectionIndex < 0 || sectionIndex >= definition.Sections.Count )
+        if ( definition?.Bands is null || sectionIndex < 0 || sectionIndex >= definition.Bands.Count )
             return false;
 
-        ReportSectionDefinition section = definition.Sections[sectionIndex];
+        ReportBandDefinition section = definition.Bands[sectionIndex];
 
-        if ( section.Type == ReportSectionType.GroupHeader )
+        if ( section.Type == ReportBandType.GroupHeader )
         {
             int detailSectionIndex = ResolveDetailSectionIndexForGroupHeader( definition, sectionIndex );
 
@@ -52,7 +52,7 @@ internal sealed class ReportAggregateService
                 && TryFindGroupLocation( definition, detailSectionIndex, out _, out _ );
         }
 
-        if ( section.Type == ReportSectionType.GroupFooter )
+        if ( section.Type == ReportBandType.GroupFooter )
         {
             return !ReportValueResolver.ResolveStaticSuppress( section )
                 && TryFindGroupHeaderForGroupFooter( definition, sectionIndex, out _ );
@@ -61,26 +61,26 @@ internal sealed class ReportAggregateService
         return !ReportValueResolver.ResolveStaticSuppress( section );
     }
 
-    internal bool CanInsertGroup( ReportSectionDefinition section )
+    internal bool CanInsertGroup( ReportBandDefinition section )
     {
         return section is not null
             && !ReportValueResolver.ResolveStaticSuppress( section )
-            && section.Type == ReportSectionType.Detail;
+            && section.Type == ReportBandType.Detail;
     }
 
-    internal bool TryFindGroupLocation( ReportDefinition definition, int detailSectionIndex, out ReportSectionDefinition groupHeader, out int groupFooterIndex )
+    internal bool TryFindGroupLocation( ReportDefinition definition, int detailSectionIndex, out ReportBandDefinition groupHeader, out int groupFooterIndex )
     {
         groupHeader = null;
         groupFooterIndex = -1;
 
         for ( int sectionIndex = detailSectionIndex - 1; sectionIndex >= 0; sectionIndex-- )
         {
-            ReportSectionDefinition section = definition.Sections[sectionIndex];
+            ReportBandDefinition section = definition.Bands[sectionIndex];
 
             if ( ReportValueResolver.ResolveStaticSuppress( section ) )
                 continue;
 
-            if ( section.Type == ReportSectionType.GroupHeader )
+            if ( section.Type == ReportBandType.GroupHeader )
             {
                 if ( string.IsNullOrWhiteSpace( section.GroupBy ) )
                     return false;
@@ -89,27 +89,27 @@ internal sealed class ReportAggregateService
                 break;
             }
 
-            if ( section.Type is ReportSectionType.Detail or ReportSectionType.ReportHeader or ReportSectionType.PageHeader )
+            if ( section.Type is ReportBandType.Detail or ReportBandType.ReportHeader or ReportBandType.PageHeader )
                 return false;
         }
 
         if ( groupHeader is null )
             return false;
 
-        for ( int sectionIndex = detailSectionIndex + 1; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        for ( int sectionIndex = detailSectionIndex + 1; sectionIndex < definition.Bands.Count; sectionIndex++ )
         {
-            ReportSectionDefinition section = definition.Sections[sectionIndex];
+            ReportBandDefinition section = definition.Bands[sectionIndex];
 
             if ( ReportValueResolver.ResolveStaticSuppress( section ) )
                 continue;
 
-            if ( section.Type == ReportSectionType.GroupFooter )
+            if ( section.Type == ReportBandType.GroupFooter )
             {
                 groupFooterIndex = sectionIndex;
                 return true;
             }
 
-            if ( section.Type is ReportSectionType.Detail or ReportSectionType.ReportFooter or ReportSectionType.PageFooter or ReportSectionType.GroupHeader )
+            if ( section.Type is ReportBandType.Detail or ReportBandType.ReportFooter or ReportBandType.PageFooter or ReportBandType.GroupHeader )
                 return false;
         }
 
@@ -118,24 +118,24 @@ internal sealed class ReportAggregateService
 
     internal int ResolveDetailSectionIndexForGroupHeader( ReportDefinition definition, int groupHeaderIndex )
     {
-        if ( definition?.Sections is null || groupHeaderIndex < 0 || groupHeaderIndex >= definition.Sections.Count )
+        if ( definition?.Bands is null || groupHeaderIndex < 0 || groupHeaderIndex >= definition.Bands.Count )
             return -1;
 
-        for ( int sectionIndex = groupHeaderIndex + 1; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        for ( int sectionIndex = groupHeaderIndex + 1; sectionIndex < definition.Bands.Count; sectionIndex++ )
         {
-            ReportSectionDefinition section = definition.Sections[sectionIndex];
+            ReportBandDefinition section = definition.Bands[sectionIndex];
 
             if ( ReportValueResolver.ResolveStaticSuppress( section ) )
                 continue;
 
-            if ( section.Type == ReportSectionType.Detail )
+            if ( section.Type == ReportBandType.Detail )
                 return sectionIndex;
 
-            if ( section.Type is ReportSectionType.ReportFooter or ReportSectionType.PageFooter or ReportSectionType.GroupFooter )
+            if ( section.Type is ReportBandType.ReportFooter or ReportBandType.PageFooter or ReportBandType.GroupFooter )
                 return -1;
 
-            if ( section.Type == ReportSectionType.GroupHeader
-                && !string.Equals( section.GroupBy, definition.Sections[groupHeaderIndex].GroupBy, StringComparison.OrdinalIgnoreCase ) )
+            if ( section.Type == ReportBandType.GroupHeader
+                && !string.Equals( section.GroupBy, definition.Bands[groupHeaderIndex].GroupBy, StringComparison.OrdinalIgnoreCase ) )
             {
                 return -1;
             }
@@ -144,29 +144,29 @@ internal sealed class ReportAggregateService
         return -1;
     }
 
-    internal bool TryFindGroupHeaderForGroupFooter( ReportDefinition definition, int groupFooterIndex, out ReportSectionDefinition groupHeader )
+    internal bool TryFindGroupHeaderForGroupFooter( ReportDefinition definition, int groupFooterIndex, out ReportBandDefinition groupHeader )
     {
         groupHeader = null;
 
-        if ( definition?.Sections is null || groupFooterIndex < 0 || groupFooterIndex >= definition.Sections.Count )
+        if ( definition?.Bands is null || groupFooterIndex < 0 || groupFooterIndex >= definition.Bands.Count )
             return false;
 
         int detailSectionIndex = -1;
 
         for ( int sectionIndex = groupFooterIndex - 1; sectionIndex >= 0; sectionIndex-- )
         {
-            ReportSectionDefinition section = definition.Sections[sectionIndex];
+            ReportBandDefinition section = definition.Bands[sectionIndex];
 
             if ( ReportValueResolver.ResolveStaticSuppress( section ) )
                 continue;
 
-            if ( section.Type == ReportSectionType.Detail )
+            if ( section.Type == ReportBandType.Detail )
             {
                 detailSectionIndex = sectionIndex;
                 break;
             }
 
-            if ( section.Type is ReportSectionType.ReportFooter or ReportSectionType.PageFooter or ReportSectionType.GroupHeader )
+            if ( section.Type is ReportBandType.ReportFooter or ReportBandType.PageFooter or ReportBandType.GroupHeader )
                 return false;
         }
 
@@ -177,12 +177,12 @@ internal sealed class ReportAggregateService
 
     internal IReadOnlyList<ReportDesignerFieldOption> GetDetailGroupFieldOptions( ReportDefinition definition, object data, int? selectedSectionIndex )
     {
-        if ( definition?.Sections is null || selectedSectionIndex is not { } sectionIndex )
+        if ( definition?.Bands is null || selectedSectionIndex is not { } sectionIndex )
             return [];
 
-        ReportSectionDefinition section = definition.Sections[sectionIndex];
+        ReportBandDefinition section = definition.Bands[sectionIndex];
 
-        if ( section.Type != ReportSectionType.Detail )
+        if ( section.Type != ReportBandType.Detail )
             return [];
 
         string dataSourceName = section.DataSource;
@@ -234,7 +234,7 @@ internal sealed class ReportAggregateService
         }
     }
 
-    internal ReportElementDefinition FindDetailFieldElement( ReportSectionDefinition section, string fieldName )
+    internal ReportElementDefinition FindDetailFieldElement( ReportBandDefinition section, string fieldName )
     {
         return section?.Elements?.FirstOrDefault( element =>
             element is ReportFieldElementDefinition fieldElement
@@ -248,14 +248,14 @@ internal sealed class ReportAggregateService
             : ReportAggregateResolver.GetSupportedFunctions( definition, data, field.DataSourceName, field.FieldName, field.DataType );
     }
 
-    internal ReportSectionDefinition CreateGroupHeaderSection( ReportDefinition definition, string groupBy )
+    internal ReportBandDefinition CreateGroupHeaderSection( ReportDefinition definition, string groupBy )
     {
         string groupName = ResolveGroupName( groupBy );
 
         return new()
         {
             Name = ReportDefinitionHelper.CreateUniqueSectionName( definition, $"{groupName} group header" ),
-            Type = ReportSectionType.GroupHeader,
+            Type = ReportBandType.GroupHeader,
             Height = ReportDesignerConstants.DefaultGroupSectionHeight,
             GroupBy = groupBy,
             Default = false,
@@ -279,14 +279,14 @@ internal sealed class ReportAggregateService
         };
     }
 
-    internal ReportSectionDefinition CreateGroupFooterSection( ReportDefinition definition, string groupBy )
+    internal ReportBandDefinition CreateGroupFooterSection( ReportDefinition definition, string groupBy )
     {
         string groupName = ResolveGroupName( groupBy );
 
         return new()
         {
             Name = ReportDefinitionHelper.CreateUniqueSectionName( definition, $"{groupName} group footer" ),
-            Type = ReportSectionType.GroupFooter,
+            Type = ReportBandType.GroupFooter,
             Height = ReportDesignerConstants.DefaultGroupSectionHeight,
             GroupBy = groupBy,
             Default = false,
@@ -305,7 +305,7 @@ internal sealed class ReportAggregateService
         };
     }
 
-    internal ReportElementDefinition CreateAggregateElement( ReportSectionDefinition sourceSection, ReportElementDefinition sourceElement, ReportAggregateFunction function, ReportSectionDefinition targetSection, bool groupScoped )
+    internal ReportElementDefinition CreateAggregateElement( ReportBandDefinition sourceSection, ReportElementDefinition sourceElement, ReportAggregateFunction function, ReportBandDefinition targetSection, bool groupScoped )
     {
         if ( sourceElement is not ReportFieldElementDefinition sourceFieldElement )
             return null;
@@ -338,18 +338,18 @@ internal sealed class ReportAggregateService
 
     internal int EnsureTargetSection( ReportDefinition definition, int sourceSectionIndex )
     {
-        for ( int sectionIndex = sourceSectionIndex + 1; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        for ( int sectionIndex = sourceSectionIndex + 1; sectionIndex < definition.Bands.Count; sectionIndex++ )
         {
-            ReportSectionType sectionType = definition.Sections[sectionIndex].Type;
+            ReportBandType sectionType = definition.Bands[sectionIndex].Type;
 
-            if ( sectionType is ReportSectionType.ReportFooter )
+            if ( sectionType is ReportBandType.ReportFooter )
                 return sectionIndex;
 
-            if ( sectionType == ReportSectionType.PageFooter )
+            if ( sectionType == ReportBandType.PageFooter )
                 return InsertReportFooter( definition, sectionIndex );
         }
 
-        return InsertReportFooter( definition, definition.Sections.Count );
+        return InsertReportFooter( definition, definition.Bands.Count );
     }
 
     private static string ResolveGroupName( string groupBy )
@@ -367,19 +367,19 @@ internal sealed class ReportAggregateService
 
     private static int InsertReportFooter( ReportDefinition definition, int sectionIndex )
     {
-        var reportFooter = new ReportSectionDefinition
+        var reportFooter = new ReportBandDefinition
         {
             Name = "Aggregates",
-            Type = ReportSectionType.ReportFooter,
+            Type = ReportBandType.ReportFooter,
             Height = ReportDesignerConstants.AggregateReportFooterHeight,
         };
 
-        definition.Sections.Insert( sectionIndex, reportFooter );
+        definition.Bands.Insert( sectionIndex, reportFooter );
 
         return sectionIndex;
     }
 
-    private static double GetAggregateElementY( ReportSectionDefinition targetSection )
+    private static double GetAggregateElementY( ReportBandDefinition targetSection )
     {
         if ( targetSection?.Elements is null || targetSection.Elements.Count == 0 )
             return ReportDesignerConstants.PasteElementOffset;

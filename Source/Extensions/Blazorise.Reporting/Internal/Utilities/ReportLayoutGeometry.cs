@@ -31,39 +31,39 @@ internal static class ReportLayoutGeometry
         return Math.Min( Math.Max( value, minimum ), maximum );
     }
 
-    internal static ReportSectionDefinition GetSection( ReportDefinition definition, int sectionIndex )
+    internal static ReportBandDefinition GetSection( ReportDefinition definition, int sectionIndex )
     {
-        if ( definition is null || sectionIndex < 0 || sectionIndex >= definition.Sections.Count )
+        if ( definition is null || sectionIndex < 0 || sectionIndex >= definition.Bands.Count )
             return null;
 
-        return definition.Sections[sectionIndex];
+        return definition.Bands[sectionIndex];
     }
 
-    internal static double GetSectionOffsetY( ReportDefinition definition, int sectionIndex, Func<int, ReportSectionDefinition, double> getSectionHeight )
+    internal static double GetSectionOffsetY( ReportDefinition definition, int sectionIndex, Func<int, ReportBandDefinition, double> getSectionHeight )
     {
         if ( definition is null || sectionIndex <= 0 )
             return 0;
 
         var y = 0d;
 
-        for ( var i = 0; i < sectionIndex && i < definition.Sections.Count; i++ )
+        for ( var i = 0; i < sectionIndex && i < definition.Bands.Count; i++ )
         {
-            y += getSectionHeight( i, definition.Sections[i] );
+            y += getSectionHeight( i, definition.Bands[i] );
         }
 
         return y;
     }
 
-    internal static double GetContentHeight( ReportDefinition definition, Func<int, ReportSectionDefinition, double> getSectionHeight )
+    internal static double GetContentHeight( ReportDefinition definition, Func<int, ReportBandDefinition, double> getSectionHeight )
     {
         if ( definition is null )
             return 0;
 
         var height = 0d;
 
-        for ( var i = 0; i < definition.Sections.Count; i++ )
+        for ( var i = 0; i < definition.Bands.Count; i++ )
         {
-            height += getSectionHeight( i, definition.Sections[i] );
+            height += getSectionHeight( i, definition.Bands[i] );
         }
 
         return Math.Max( definition.Page?.Height ?? 0, height );
@@ -92,7 +92,7 @@ internal static class ReportLayoutGeometry
         return Math.Max( GetMinimumElementHeight( element ), element.Height );
     }
 
-    internal static double GetMinimumSectionHeight( ReportSectionDefinition section )
+    internal static double GetMinimumSectionHeight( ReportBandDefinition section )
     {
         if ( section is null )
             return DefaultMinimumElementSize;
@@ -108,7 +108,7 @@ internal static class ReportLayoutGeometry
         return height;
     }
 
-    internal static void GrowSectionToFitElements( ReportSectionDefinition section )
+    internal static void GrowSectionToFitElements( ReportBandDefinition section )
     {
         if ( section is null )
             return;
@@ -119,7 +119,7 @@ internal static class ReportLayoutGeometry
         }
     }
 
-    internal static void GrowSectionToFitElement( ReportSectionDefinition section, ReportElementDefinition element )
+    internal static void GrowSectionToFitElement( ReportBandDefinition section, ReportElementDefinition element )
     {
         if ( section is null || element is null )
             return;

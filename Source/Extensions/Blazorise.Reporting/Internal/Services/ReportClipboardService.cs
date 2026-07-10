@@ -26,7 +26,7 @@ internal sealed class ReportClipboardService
         return new()
         {
             ClipboardElements = clipboardElements,
-            ClipboardSectionId = ResolveClipboardSectionId( definition, selectedElements ),
+            ClipboardBandId = ResolveClipboardBandId( definition, selectedElements ),
         };
     }
 
@@ -57,7 +57,7 @@ internal sealed class ReportClipboardService
     internal ReportClipboardResult PasteElements(
         ReportDefinition definition,
         IReadOnlyList<ReportElementDefinition> clipboardElements,
-        string clipboardSectionId,
+        string clipboardBandId,
         ReportContextMenuState contextMenu,
         int targetSectionIndex,
         Func<ReportElementDefinition, bool> isSnapToGridEnabled,
@@ -65,11 +65,11 @@ internal sealed class ReportClipboardService
         ReportElementLayoutService layoutService,
         ReportTableEditor tableEditor )
     {
-        if ( definition is null || clipboardElements is null || clipboardElements.Count == 0 || targetSectionIndex < 0 || targetSectionIndex >= definition.Sections.Count )
+        if ( definition is null || clipboardElements is null || clipboardElements.Count == 0 || targetSectionIndex < 0 || targetSectionIndex >= definition.Bands.Count )
             return new();
 
-        ReportSectionDefinition targetSection = definition.Sections[targetSectionIndex];
-        bool sameSection = clipboardSectionId == ReportDefinitionHelper.EnsureSectionId( targetSection );
+        ReportBandDefinition targetSection = definition.Bands[targetSectionIndex];
+        bool sameSection = clipboardBandId == ReportDefinitionHelper.EnsureBandId( targetSection );
         bool pasteIntoCell = TryResolveContextPasteCell( definition, contextMenu, out ReportTableElementDefinition pasteTable, out ReportTableCellDefinition pasteCell );
         List<ReportElementDefinition> sourceElements = clipboardElements.Where( element => element is not null ).ToList();
 
@@ -149,7 +149,7 @@ internal sealed class ReportClipboardService
         return element;
     }
 
-    private static string ResolveClipboardSectionId( ReportDefinition definition, IReadOnlyList<ReportSelectedElementContext> selectedElements )
+    private static string ResolveClipboardBandId( ReportDefinition definition, IReadOnlyList<ReportSelectedElementContext> selectedElements )
     {
         List<int> sectionIndexes = selectedElements
             .Select( item => item.SectionIndex )
@@ -161,8 +161,8 @@ internal sealed class ReportClipboardService
 
         int sectionIndex = sectionIndexes[0];
 
-        return definition is not null && sectionIndex >= 0 && sectionIndex < definition.Sections.Count
-            ? ReportDefinitionHelper.EnsureSectionId( definition.Sections[sectionIndex] )
+        return definition is not null && sectionIndex >= 0 && sectionIndex < definition.Bands.Count
+            ? ReportDefinitionHelper.EnsureBandId( definition.Bands[sectionIndex] )
             : null;
     }
 
@@ -171,14 +171,14 @@ internal sealed class ReportClipboardService
         if ( contextMenu?.Target == ReportContextMenuTarget.Section
             && contextMenu.HasPastePosition
             && contextMenu.SectionIndex >= 0
-            && contextMenu.SectionIndex < definition.Sections.Count )
+            && contextMenu.SectionIndex < definition.Bands.Count )
         {
             return contextMenu.SectionIndex;
         }
 
         if ( contextMenu?.Target == ReportContextMenuTarget.Cell
             && contextMenu.SectionIndex >= 0
-            && contextMenu.SectionIndex < definition.Sections.Count )
+            && contextMenu.SectionIndex < definition.Bands.Count )
         {
             return contextMenu.SectionIndex;
         }

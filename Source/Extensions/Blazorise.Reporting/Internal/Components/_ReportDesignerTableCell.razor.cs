@@ -118,7 +118,7 @@ public partial class _ReportDesignerTableCell
     /// <summary>
     /// Report band that owns the table.
     /// </summary>
-    [Parameter] public ReportSectionDefinition Section { get; set; }
+    [Parameter] public ReportBandDefinition Section { get; set; }
 
     /// <summary>
     /// Report section index rendered on the designer surface.

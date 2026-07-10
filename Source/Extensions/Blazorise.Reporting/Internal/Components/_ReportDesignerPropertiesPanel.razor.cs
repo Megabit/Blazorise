@@ -124,12 +124,12 @@ public partial class _ReportDesignerPropertiesPanel
         return EnsureSectionBorder( SelectedSection );
     }
 
-    private static ReportAppearanceDefinition EnsureSectionAppearance( ReportSectionDefinition section )
+    private static ReportAppearanceDefinition EnsureSectionAppearance( ReportBandDefinition section )
     {
         return section.Appearance ??= new();
     }
 
-    private static ReportBorderDefinition EnsureSectionBorder( ReportSectionDefinition section )
+    private static ReportBorderDefinition EnsureSectionBorder( ReportBandDefinition section )
     {
         return section.Border ??= new();
     }
@@ -581,12 +581,12 @@ public partial class _ReportDesignerPropertiesPanel
     /// <summary>
     /// Selected band definition, when a band is selected.
     /// </summary>
-    [Parameter] public ReportSectionDefinition SelectedSection { get; set; }
+    [Parameter] public ReportBandDefinition SelectedSection { get; set; }
 
     /// <summary>
     /// Band context used when validating formula expressions.
     /// </summary>
-    [Parameter] public ReportSectionDefinition FormulaSection { get; set; }
+    [Parameter] public ReportBandDefinition FormulaSection { get; set; }
 
     /// <summary>
     /// Selected element definition, when an element is selected.
@@ -651,7 +651,7 @@ public partial class _ReportDesignerPropertiesPanel
     /// <summary>
     /// Updates the selected band definition.
     /// </summary>
-    [Parameter] public Func<Action<ReportSectionDefinition>, Task> UpdateSelectedSection { get; set; }
+    [Parameter] public Func<Action<ReportBandDefinition>, Task> UpdateSelectedSection { get; set; }
 
     /// <summary>
     /// Updates whether the selected band is suppressed.
@@ -661,7 +661,7 @@ public partial class _ReportDesignerPropertiesPanel
     /// <summary>
     /// Calculates the smallest height that can contain the band elements.
     /// </summary>
-    [Parameter] public Func<ReportSectionDefinition, double> GetMinimumSectionHeight { get; set; }
+    [Parameter] public Func<ReportBandDefinition, double> GetMinimumSectionHeight { get; set; }
 
     /// <summary>
     /// Indicates that a band can be inserted before or after the selected band.

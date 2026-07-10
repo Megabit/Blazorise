@@ -160,10 +160,10 @@
                                              SelectionBoxWidth="@(designerState.SelectionBox?.Width ?? 0)"
                                              SelectionBoxHeight="@(designerState.SelectionBox?.Height ?? 0)"
                                              SelectionBoxLeftOffset="@GetSelectionBoxLeftOffset()">
-                            @for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
+                            @for ( var sectionIndex = 0; sectionIndex < definition.Bands.Count; sectionIndex++ )
                             {
                                 var capturedSectionIndex = sectionIndex;
-                                var section = definition.Sections[capturedSectionIndex];
+                                var section = definition.Bands[capturedSectionIndex];
 
                                 @foreach ( var sectionItem in ResolveSectionRenderItems( definition, section, designMode: true ) )
                                 {

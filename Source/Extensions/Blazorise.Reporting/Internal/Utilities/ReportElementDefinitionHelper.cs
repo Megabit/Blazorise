@@ -15,12 +15,12 @@ internal static class ReportElementDefinitionHelper
         BuildStyle( builder, element, null, null, null, null, false );
     }
 
-    internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element, ReportDefinition definition, object defaultData, ReportSectionDefinition section )
+    internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element, ReportDefinition definition, object defaultData, ReportBandDefinition section )
     {
         BuildStyle( builder, element, definition, defaultData, null, section, false );
     }
 
-    internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element, ReportDefinition definition, object defaultData, object item, ReportSectionDefinition section, bool designMode )
+    internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element, ReportDefinition definition, object defaultData, object item, ReportBandDefinition section, bool designMode )
     {
         ReportFontDefinition font = SupportsTextFormatting( element.Type ) ? element.Font : null;
         ReportAppearanceDefinition appearance = element.Appearance;
@@ -200,7 +200,7 @@ internal static class ReportElementDefinitionHelper
         };
     }
 
-    internal static TextAlignment ResolveTextAlignment( ReportElementDefinition element, ReportDefinition definition, object defaultData, ReportSectionDefinition section )
+    internal static TextAlignment ResolveTextAlignment( ReportElementDefinition element, ReportDefinition definition, object defaultData, ReportBandDefinition section )
     {
         TextAlignment alignment = element.Font?.Alignment ?? TextAlignment.Default;
 

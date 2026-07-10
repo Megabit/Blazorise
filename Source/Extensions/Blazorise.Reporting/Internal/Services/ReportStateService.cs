@@ -16,7 +16,7 @@ internal sealed class ReportStateService
         bool snapToGrid,
         ReportSelectionManager selectionManager,
         IReadOnlyList<ReportElementDefinition> clipboardElements,
-        string clipboardSectionId,
+        string clipboardBandId,
         bool canUndo,
         bool canRedo )
     {
@@ -30,7 +30,7 @@ internal sealed class ReportStateService
             SnapToGrid = snapToGrid,
             Selection = selectionManager.CaptureState( definition ),
             ClipboardElements = clipboardElements?.Select( ReportContext.CloneElement ).ToList() ?? [],
-            ClipboardSectionId = clipboardSectionId,
+            ClipboardBandId = clipboardBandId,
             CanUndo = canUndo,
             CanRedo = canRedo,
         };
@@ -43,13 +43,13 @@ internal sealed class ReportStateService
         System.Func<ReportDefinition> buildDeclarativeDefinition,
         out ReportDefinition definition,
         out List<ReportElementDefinition> clipboardElements,
-        out string clipboardSectionId )
+        out string clipboardBandId )
     {
         ReportState nextState = ReportContext.CloneState( state );
         definition = ReportDefinitionHelper.EnsureDefinitionIds( nextState.Definition ?? buildDeclarativeDefinition() );
         designerState.SnapToGrid = nextState.SnapToGrid;
         clipboardElements = nextState.ClipboardElements?.Select( ReportContext.CloneElement ).ToList() ?? [];
-        clipboardSectionId = nextState.ClipboardSectionId;
+        clipboardBandId = nextState.ClipboardBandId;
         selectionManager.ApplyState( definition, nextState.Selection );
 
         return nextState;

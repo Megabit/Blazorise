@@ -108,7 +108,7 @@ internal sealed class ReportRunningTotalState
 
         ResetForSection( renderSection.Section );
 
-        if ( renderSection.Section.Type != ReportSectionType.Detail )
+        if ( renderSection.Section.Type != ReportBandType.Detail )
             return;
 
         foreach ( ReportRunningTotalDefinition runningTotal in definition.RunningTotals )
@@ -129,9 +129,9 @@ internal sealed class ReportRunningTotalState
         }
     }
 
-    private void ResetForSection( ReportSectionDefinition section )
+    private void ResetForSection( ReportBandDefinition section )
     {
-        if ( section.Type != ReportSectionType.GroupHeader )
+        if ( section.Type != ReportBandType.GroupHeader )
             return;
 
         foreach ( ReportRunningTotalDefinition runningTotal in definition.RunningTotals )
@@ -148,7 +148,7 @@ internal sealed class ReportRunningTotalState
         }
     }
 
-    private bool ShouldAccumulate( ReportRunningTotalDefinition runningTotal, ReportSectionDefinition section, object item )
+    private bool ShouldAccumulate( ReportRunningTotalDefinition runningTotal, ReportBandDefinition section, object item )
     {
         if ( !IsDataSourceMatch( runningTotal, section ) )
             return false;
@@ -170,7 +170,7 @@ internal sealed class ReportRunningTotalState
         return ConvertToBoolean( result );
     }
 
-    private static bool IsDataSourceMatch( ReportRunningTotalDefinition runningTotal, ReportSectionDefinition section )
+    private static bool IsDataSourceMatch( ReportRunningTotalDefinition runningTotal, ReportBandDefinition section )
     {
         if ( string.IsNullOrWhiteSpace( runningTotal.DataSource ) )
             return true;
@@ -181,7 +181,7 @@ internal sealed class ReportRunningTotalState
         return string.Equals( runningTotal.DataSource.Trim(), section.DataSource.Trim(), StringComparison.OrdinalIgnoreCase );
     }
 
-    private static string ResolveDataSource( ReportRunningTotalDefinition runningTotal, ReportSectionDefinition section )
+    private static string ResolveDataSource( ReportRunningTotalDefinition runningTotal, ReportBandDefinition section )
     {
         return string.IsNullOrWhiteSpace( runningTotal.DataSource )
             ? section.DataSource

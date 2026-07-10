@@ -15,7 +15,7 @@ public sealed class ReportSelectionState
     /// <summary>
     /// Selected band identifier when a band or band element is selected.
     /// </summary>
-    public string SectionId { get; set; }
+    public string BandId { get; set; }
 
     /// <summary>
     /// Primary selected element identifier when one or more elements are selected.

@@ -20,9 +20,9 @@ internal static class ReportDetailHeaderSynchronizer
 
     #region Methods
 
-    internal static void AddPageHeaderForDetailField( ReportDefinition definition, int detailSectionIndex, ReportSectionDefinition detailSection, string fieldName, double x, double width )
+    internal static void AddPageHeaderForDetailField( ReportDefinition definition, int detailSectionIndex, ReportBandDefinition detailSection, string fieldName, double x, double width )
     {
-        if ( detailSection?.Type != ReportSectionType.Detail || string.IsNullOrWhiteSpace( fieldName ) )
+        if ( detailSection?.Type != ReportBandType.Detail || string.IsNullOrWhiteSpace( fieldName ) )
             return;
 
         var pageHeader = FindPageHeaderForDetail( definition, detailSectionIndex );
@@ -68,11 +68,11 @@ internal static class ReportDetailHeaderSynchronizer
             || string.IsNullOrWhiteSpace( detailFieldElement.Field )
             || ( Math.Abs( newX - originalX ) < HeaderElementMatchTolerance && Math.Abs( newWidth - originalWidth ) < HeaderElementMatchTolerance )
             || sourceSectionIndex < 0
-            || sourceSectionIndex >= definition.Sections.Count
+            || sourceSectionIndex >= definition.Bands.Count
             || targetSectionIndex < 0
-            || targetSectionIndex >= definition.Sections.Count
-            || definition.Sections[sourceSectionIndex].Type != ReportSectionType.Detail
-            || definition.Sections[targetSectionIndex].Type != ReportSectionType.Detail )
+            || targetSectionIndex >= definition.Bands.Count
+            || definition.Bands[sourceSectionIndex].Type != ReportBandType.Detail
+            || definition.Bands[targetSectionIndex].Type != ReportBandType.Detail )
         {
             return;
         }
@@ -99,21 +99,21 @@ internal static class ReportDetailHeaderSynchronizer
         }
     }
 
-    private static ReportSectionDefinition FindPageHeaderForDetail( ReportDefinition definition, int detailSectionIndex )
+    private static ReportBandDefinition FindPageHeaderForDetail( ReportDefinition definition, int detailSectionIndex )
     {
         if ( definition is null )
             return null;
 
         for ( var i = detailSectionIndex - 1; i >= 0; i-- )
         {
-            if ( definition.Sections[i].Type == ReportSectionType.PageHeader )
-                return definition.Sections[i];
+            if ( definition.Bands[i].Type == ReportBandType.PageHeader )
+                return definition.Bands[i];
         }
 
-        return definition.Sections.FirstOrDefault( section => section.Type == ReportSectionType.PageHeader );
+        return definition.Bands.FirstOrDefault( section => section.Type == ReportBandType.PageHeader );
     }
 
-    private static double GetPageHeaderElementY( ReportSectionDefinition pageHeader )
+    private static double GetPageHeaderElementY( ReportBandDefinition pageHeader )
     {
         ReportElementDefinition firstElement = pageHeader.Elements
             .Where( element => element is ReportTextElementDefinition or ReportFieldElementDefinition )
@@ -124,7 +124,7 @@ internal static class ReportDetailHeaderSynchronizer
         return firstElement?.Y ?? DefaultHeaderElementY;
     }
 
-    private static bool HasPageHeaderElement( ReportSectionDefinition pageHeader, string headerText, double x )
+    private static bool HasPageHeaderElement( ReportBandDefinition pageHeader, string headerText, double x )
     {
         return pageHeader.Elements.Any( element =>
             element is ReportTextElementDefinition textElement

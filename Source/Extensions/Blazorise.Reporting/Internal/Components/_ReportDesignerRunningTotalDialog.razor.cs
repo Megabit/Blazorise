@@ -198,11 +198,11 @@ public partial class _ReportDesignerRunningTotalDialog
     {
         groupOptions.Clear();
 
-        if ( Definition?.Sections is null )
+        if ( Definition?.Bands is null )
             return;
 
-        groupOptions.AddRange( Definition.Sections
-            .Where( section => section.Type == ReportSectionType.GroupHeader )
+        groupOptions.AddRange( Definition.Bands
+            .Where( section => section.Type == ReportBandType.GroupHeader )
             .Select( section => new ReportRunningTotalGroupOption
             {
                 Id = section.Id,
@@ -307,7 +307,7 @@ public partial class _ReportDesignerRunningTotalDialog
         && supportedFunctions.Count > 0
         && ( runningTotal.ResetMode != ReportRunningTotalResetMode.Group || !string.IsNullOrWhiteSpace( runningTotal.ResetGroupId ) );
 
-    private ReportSectionDefinition SelectedSection => Definition?.Sections?.FirstOrDefault( section =>
+    private ReportBandDefinition SelectedSection => Definition?.Bands?.FirstOrDefault( section =>
         string.Equals( section.DataSource, runningTotal.DataSource, StringComparison.OrdinalIgnoreCase ) );
 
     /// <summary>

@@ -36,12 +36,12 @@ internal sealed class ReportDataDefinitionService
 
     internal int GetInsertionSectionIndex( ReportDefinition definition, int? selectedSectionIndex, string selectedElementKey )
     {
-        if ( definition?.Sections is null )
+        if ( definition?.Bands is null )
             return -1;
 
         if ( selectedSectionIndex is { } sectionIndex
             && sectionIndex >= 0
-            && sectionIndex < definition.Sections.Count )
+            && sectionIndex < definition.Bands.Count )
         {
             return sectionIndex;
         }
@@ -55,7 +55,7 @@ internal sealed class ReportDataDefinitionService
         return -1;
     }
 
-    internal double GetNextInsertionY( ReportSectionDefinition section, Func<double, double> applyGrid )
+    internal double GetNextInsertionY( ReportBandDefinition section, Func<double, double> applyGrid )
     {
         if ( section?.Elements is null || section.Elements.Count == 0 )
             return 0;

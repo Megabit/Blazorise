@@ -127,7 +127,7 @@ internal sealed class ReportDesignerRulerService
     {
         if ( selectedSectionIndex is not { } sectionIndex
             || sectionIndex < 0
-            || sectionIndex >= definition.Sections.Count )
+            || sectionIndex >= definition.Bands.Count )
         {
             return null;
         }

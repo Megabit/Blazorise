@@ -3,7 +3,7 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Defines the role of a report band.
 /// </summary>
-public enum ReportSectionType
+public enum ReportBandType
 {
     /// <summary>
     /// Band rendered once at the beginning of the report.

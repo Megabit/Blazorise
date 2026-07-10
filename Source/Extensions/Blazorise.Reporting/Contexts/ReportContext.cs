@@ -16,7 +16,7 @@ internal sealed class ReportContext
 
     private readonly List<FontFamily> fonts = [];
 
-    private readonly List<ReportSectionDefinition> sections = [];
+    private readonly List<ReportBandDefinition> sections = [];
 
     public ReportPageDefinition Page { get; private set; } = new();
 
@@ -76,7 +76,7 @@ internal sealed class ReportContext
             fonts.Add( font );
     }
 
-    public ReportSectionDefinition RegisterSection( ReportSectionDefinition section )
+    public ReportBandDefinition RegisterSection( ReportBandDefinition section )
     {
         if ( string.IsNullOrWhiteSpace( section.Name ) )
             section.Name = section.Type.ToString();
@@ -128,7 +128,7 @@ internal sealed class ReportContext
             DataSources = dataSources.Select( CloneDataSource ).ToList(),
             FormulaFields = formulaFields.Select( CloneFormulaField ).ToList(),
             Fonts = fonts.Select( CloneFontFamily ).ToList(),
-            Sections = sections.Select( section => CloneSection( section ) ).ToList(),
+            Bands = sections.Select( section => CloneSection( section ) ).ToList(),
         };
 
         definition.RunningTotals = runningTotals.Select( CloneRunningTotal ).ToList();
@@ -153,7 +153,7 @@ internal sealed class ReportContext
             FormulaFields = definition.FormulaFields?.Select( CloneFormulaField ).ToList() ?? [],
             RunningTotals = definition.RunningTotals?.Select( CloneRunningTotal ).ToList() ?? [],
             Fonts = definition.Fonts?.Select( CloneFontFamily ).ToList() ?? [],
-            Sections = definition.Sections?.Select( section => CloneSection( section, subreportDepth ) ).ToList() ?? [],
+            Bands = definition.Bands?.Select( section => CloneSection( section, subreportDepth ) ).ToList() ?? [],
         };
     }
 
@@ -170,7 +170,7 @@ internal sealed class ReportContext
             SnapToGrid = state.SnapToGrid,
             Selection = CloneSelection( state.Selection ),
             ClipboardElements = state.ClipboardElements?.Select( element => CloneElement( element ) ).ToList() ?? [],
-            ClipboardSectionId = state.ClipboardSectionId,
+            ClipboardBandId = state.ClipboardBandId,
             CanUndo = state.CanUndo,
             CanRedo = state.CanRedo,
         };
@@ -277,10 +277,10 @@ internal sealed class ReportContext
         };
     }
 
-    private static ReportSectionDefinition CloneSection( ReportSectionDefinition section )
+    private static ReportBandDefinition CloneSection( ReportBandDefinition section )
         => CloneSection( section, 0 );
 
-    private static ReportSectionDefinition CloneSection( ReportSectionDefinition section, int subreportDepth )
+    private static ReportBandDefinition CloneSection( ReportBandDefinition section, int subreportDepth )
     {
         return new()
         {
@@ -538,7 +538,7 @@ internal sealed class ReportContext
         return new()
         {
             Type = selection.Type,
-            SectionId = selection.SectionId,
+            BandId = selection.BandId,
             ElementId = selection.ElementId,
             CellId = selection.CellId,
             ElementIds = selection.ElementIds?.ToList() ?? [],

@@ -8,7 +8,7 @@ internal sealed class ReportSectionCommandService
 {
     #region Methods
 
-    internal ReportSectionDefinition CreateInsertedSection( ReportDefinition definition, ReportSectionDefinition sourceSection )
+    internal ReportBandDefinition CreateInsertedSection( ReportDefinition definition, ReportBandDefinition sourceSection )
     {
         if ( definition is null || sourceSection is null )
             return null;
@@ -43,29 +43,29 @@ internal sealed class ReportSectionCommandService
         };
     }
 
-    internal int DeleteSection( ReportDefinition definition, int sectionIndex, ISet<string> collapsedSectionIds )
+    internal int DeleteSection( ReportDefinition definition, int sectionIndex, ISet<string> collapsedBandIds )
     {
-        if ( definition?.Sections is null
+        if ( definition?.Bands is null
             || sectionIndex < 0
-            || sectionIndex >= definition.Sections.Count )
+            || sectionIndex >= definition.Bands.Count )
         {
             return -1;
         }
 
-        ReportSectionDefinition section = definition.Sections[sectionIndex];
+        ReportBandDefinition section = definition.Bands[sectionIndex];
 
         if ( !ReportDefinitionHelper.CanDeleteSection( section ) )
             return -1;
 
-        collapsedSectionIds?.Remove( ReportDefinitionHelper.EnsureSectionId( section ) );
-        definition.Sections.RemoveAt( sectionIndex );
+        collapsedBandIds?.Remove( ReportDefinitionHelper.EnsureBandId( section ) );
+        definition.Bands.RemoveAt( sectionIndex );
 
-        return definition.Sections.Count == 0
+        return definition.Bands.Count == 0
             ? -1
-            : System.Math.Min( sectionIndex, definition.Sections.Count - 1 );
+            : System.Math.Min( sectionIndex, definition.Bands.Count - 1 );
     }
 
-    internal void UpdateSectionSuppression( ReportSectionDefinition section, bool suppressed, ISet<string> collapsedSectionIds )
+    internal void UpdateSectionSuppression( ReportBandDefinition section, bool suppressed, ISet<string> collapsedBandIds )
     {
         if ( section is null )
             return;
@@ -73,7 +73,7 @@ internal sealed class ReportSectionCommandService
         ReportValueResolver.SetStaticSuppress( section, suppressed );
 
         if ( suppressed )
-            collapsedSectionIds?.Remove( ReportDefinitionHelper.EnsureSectionId( section ) );
+            collapsedBandIds?.Remove( ReportDefinitionHelper.EnsureBandId( section ) );
     }
 
     #endregion

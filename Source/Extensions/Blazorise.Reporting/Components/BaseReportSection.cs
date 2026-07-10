@@ -17,7 +17,7 @@ public abstract class BaseReportSection : ComponentBase
     /// <summary>
     /// Band kind represented by the derived component.
     /// </summary>
-    protected abstract ReportSectionType SectionType { get; }
+    protected abstract ReportBandType SectionType { get; }
 
     /// <inheritdoc />
     protected override void OnParametersSet()

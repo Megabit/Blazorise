@@ -14,7 +14,7 @@ internal sealed class ReportFormulaContext
 
     internal object Item { get; set; }
 
-    internal ReportSectionDefinition Section { get; set; }
+    internal ReportBandDefinition Section { get; set; }
 
     internal ReportElementDefinition Element { get; set; }
 

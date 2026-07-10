@@ -291,7 +291,7 @@ public partial class _ReportDesignerFormulaDialog
     /// <summary>
     /// Report band used while validating formula expressions.
     /// </summary>
-    [Parameter] public ReportSectionDefinition Section { get; set; }
+    [Parameter] public ReportBandDefinition Section { get; set; }
 
     /// <summary>
     /// Raised when the formula expression is confirmed.

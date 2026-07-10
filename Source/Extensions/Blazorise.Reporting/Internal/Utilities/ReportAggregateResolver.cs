@@ -12,9 +12,9 @@ internal static class ReportAggregateResolver
 {
     #region Methods
 
-    internal static IReadOnlyList<ReportAggregateFunction> GetSupportedFunctions( ReportDefinition definition, object data, ReportSectionDefinition section, ReportElementDefinition element )
+    internal static IReadOnlyList<ReportAggregateFunction> GetSupportedFunctions( ReportDefinition definition, object data, ReportBandDefinition section, ReportElementDefinition element )
     {
-        if ( section?.Type != ReportSectionType.Detail
+        if ( section?.Type != ReportBandType.Detail
             || element is not ReportFieldElementDefinition fieldElement
             || string.IsNullOrWhiteSpace( fieldElement.Field ) )
         {

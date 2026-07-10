@@ -13,7 +13,7 @@ public enum ReportSelectionType
     /// <summary>
     /// A report band is selected.
     /// </summary>
-    Section,
+    Band,
 
     /// <summary>
     /// A report element is selected.

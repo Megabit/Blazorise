@@ -238,7 +238,7 @@ internal static class ReportPdfDocumentBuilder
         };
     }
 
-    private static void ApplyTextFormatting( PdfElementDefinition pdfElement, ReportDefinition definition, object data, ReportSectionDefinition section, ReportElementDefinition element )
+    private static void ApplyTextFormatting( PdfElementDefinition pdfElement, ReportDefinition definition, object data, ReportBandDefinition section, ReportElementDefinition element )
     {
         ApplyShapeFormatting( pdfElement, element );
 
@@ -302,7 +302,7 @@ internal static class ReportPdfDocumentBuilder
         };
     }
 
-    private static bool ShouldRenderElement( ReportDefinition definition, object data, ReportSectionDefinition section, ReportElementDefinition element, object item )
+    private static bool ShouldRenderElement( ReportDefinition definition, object data, ReportBandDefinition section, ReportElementDefinition element, object item )
     {
         return !ReportValueResolver.ResolveSuppress( element, section, definition, data, item );
     }
@@ -404,7 +404,7 @@ internal static class ReportPdfDocumentBuilder
 
     private static IEnumerable<ReportSubreportElementDefinition> EnumerateSubreports( ReportDefinition definition )
     {
-        foreach ( ReportSectionDefinition section in definition.Sections ?? [] )
+        foreach ( ReportBandDefinition section in definition.Bands ?? [] )
         {
             foreach ( ReportElementDefinition element in section.Elements ?? [] )
             {

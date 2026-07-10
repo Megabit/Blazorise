@@ -25,7 +25,7 @@ internal static class ReportFormulaFieldResolver
         return FindFormulaField( definition, fieldName ) is not null;
     }
 
-    internal static bool TryResolve( string dataSourceName, string fieldName, ReportDefinition definition, object data, object item, ReportSectionDefinition section, out object value )
+    internal static bool TryResolve( string dataSourceName, string fieldName, ReportDefinition definition, object data, object item, ReportBandDefinition section, out object value )
     {
         value = null;
 

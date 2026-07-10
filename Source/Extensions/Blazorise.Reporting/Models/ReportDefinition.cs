@@ -96,7 +96,7 @@ public sealed class ReportDefinition
     /// <summary>
     /// Ordered report bands that make up the document body.
     /// </summary>
-    public List<ReportSectionDefinition> Sections { get; set; } = [];
+    public List<ReportBandDefinition> Bands { get; set; } = [];
 
     /// <summary>
     /// Report-scoped font families resolved before globally registered fonts.

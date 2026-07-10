@@ -12,7 +12,7 @@ internal sealed class ReportRenderSection
 
     internal int InstanceIndex { get; set; }
 
-    internal ReportSectionDefinition Section { get; set; }
+    internal ReportBandDefinition Section { get; set; }
 
     internal object Item { get; set; }
 

@@ -6,7 +6,7 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Describes a band in a band-based report layout.
 /// </summary>
-public sealed class ReportSectionDefinition
+public sealed class ReportBandDefinition
 {
     /// <summary>
     /// Stable identifier used by designer selection and persisted state.
@@ -21,7 +21,7 @@ public sealed class ReportSectionDefinition
     /// <summary>
     /// Band role in the report rendering pipeline.
     /// </summary>
-    public ReportSectionType Type { get; set; }
+    public ReportBandType Type { get; set; }
 
     /// <summary>
     /// Band height in points.

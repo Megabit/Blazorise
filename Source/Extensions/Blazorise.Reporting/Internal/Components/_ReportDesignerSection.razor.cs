@@ -43,7 +43,7 @@ public partial class _ReportDesignerSection
     {
         HashCode sectionHash = new();
 
-        if ( parameters.TryAddHash<ReportSectionDefinition>( nameof( Section ), ref sectionHash, AddSectionRenderHash ) )
+        if ( parameters.TryAddHash<ReportBandDefinition>( nameof( Section ), ref sectionHash, AddSectionRenderHash ) )
         {
             int nextSectionRenderKey = sectionHash.ToHashCode();
 
@@ -227,7 +227,7 @@ public partial class _ReportDesignerSection
         return Task.CompletedTask;
     }
 
-    private static void AddSectionRenderHash( ReportSectionDefinition section, ref HashCode hash )
+    private static void AddSectionRenderHash( ReportBandDefinition section, ref HashCode hash )
     {
         if ( section is null )
             return;
@@ -255,7 +255,7 @@ public partial class _ReportDesignerSection
     /// <summary>
     /// Report section rendered on the report surface.
     /// </summary>
-    [Parameter] public ReportSectionDefinition Section { get; set; }
+    [Parameter] public ReportBandDefinition Section { get; set; }
 
     /// <summary>
     /// Report section index rendered on the designer surface.

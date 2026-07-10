@@ -120,7 +120,7 @@ internal sealed class ReportDataCommandService
 
     internal ReportElementDefinition CreateFormulaFieldElement( ReportDefinition definition, int sectionIndex, string formulaFieldName, double y )
     {
-        if ( sectionIndex < 0 || sectionIndex >= definition.Sections.Count || FindFormulaField( definition, formulaFieldName ) is null )
+        if ( sectionIndex < 0 || sectionIndex >= definition.Bands.Count || FindFormulaField( definition, formulaFieldName ) is null )
             return null;
 
         ReportElementDefinition element = new ReportFieldElementDefinition
@@ -134,17 +134,17 @@ internal sealed class ReportDataCommandService
             Height = ReportDesignerConstants.DefaultDroppedFieldHeight,
         };
 
-        AddDataElement( definition.Sections[sectionIndex], element, y );
+        AddDataElement( definition.Bands[sectionIndex], element, y );
 
         return element;
     }
 
     internal ReportElementDefinition CreateFieldElement( ReportDefinition definition, int sectionIndex, string dataSourceName, string fieldName, double y )
     {
-        if ( sectionIndex < 0 || sectionIndex >= definition.Sections.Count )
+        if ( sectionIndex < 0 || sectionIndex >= definition.Bands.Count )
             return null;
 
-        ReportSectionDefinition section = definition.Sections[sectionIndex];
+        ReportBandDefinition section = definition.Bands[sectionIndex];
         (string DataSourceName, string FieldName) fieldBinding = ReportDefinitionHelper.NormalizeFieldBindingForSection( definition, section, dataSourceName, fieldName );
         ReportElementDefinition element = new ReportFieldElementDefinition
         {
@@ -227,7 +227,7 @@ internal sealed class ReportDataCommandService
 
     internal ReportElementDefinition CreateRunningTotalElement( ReportDefinition definition, int sectionIndex, string runningTotalName, double y )
     {
-        if ( sectionIndex < 0 || sectionIndex >= definition.Sections.Count || FindRunningTotal( definition, runningTotalName ) is null )
+        if ( sectionIndex < 0 || sectionIndex >= definition.Bands.Count || FindRunningTotal( definition, runningTotalName ) is null )
             return null;
 
         ReportElementDefinition element = new ReportFieldElementDefinition
@@ -245,7 +245,7 @@ internal sealed class ReportDataCommandService
             },
         };
 
-        AddDataElement( definition.Sections[sectionIndex], element, y );
+        AddDataElement( definition.Bands[sectionIndex], element, y );
 
         return element;
     }
@@ -275,7 +275,7 @@ internal sealed class ReportDataCommandService
             string.Equals( dataSource.Name, dataSourceName, StringComparison.OrdinalIgnoreCase ) );
     }
 
-    private static void AddDataElement( ReportSectionDefinition section, ReportElementDefinition element, double y )
+    private static void AddDataElement( ReportBandDefinition section, ReportElementDefinition element, double y )
     {
         section.Elements.Add( element );
         section.Height = Math.Max( section.Height, y + ReportDesignerConstants.DefaultDroppedFieldHeight );

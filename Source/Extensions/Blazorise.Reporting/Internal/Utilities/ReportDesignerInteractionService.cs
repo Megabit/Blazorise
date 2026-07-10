@@ -196,7 +196,7 @@ internal static class ReportDesignerInteractionService
         if ( definition is null || pointerDrag is null )
             return;
 
-        if ( pointerDrag.TargetSectionIndex < 0 || pointerDrag.TargetSectionIndex >= definition.Sections.Count )
+        if ( pointerDrag.TargetSectionIndex < 0 || pointerDrag.TargetSectionIndex >= definition.Bands.Count )
             return;
 
         var activeOriginalPageY = getSectionOffsetY( pointerDrag.SourceSectionIndex ) + pointerDrag.OriginalY;
@@ -217,10 +217,10 @@ internal static class ReportDesignerInteractionService
                 ? ResolveSectionIndex( definition, item.OriginalPageY + deltaPageY, getSectionOffsetY )
                 : item.OriginalSectionIndex;
 
-            if ( targetSectionIndex < 0 || targetSectionIndex >= definition.Sections.Count )
+            if ( targetSectionIndex < 0 || targetSectionIndex >= definition.Bands.Count )
                 targetSectionIndex = sourceSectionIndex;
 
-            var targetSection = definition.Sections[targetSectionIndex];
+            var targetSection = definition.Bands[targetSectionIndex];
             var targetLocalY = activeCrossedSections
                 ? item.OriginalPageY + deltaPageY - getSectionOffsetY( targetSectionIndex )
                 : item.OriginalY + deltaLocalY;
@@ -241,7 +241,7 @@ internal static class ReportDesignerInteractionService
 
             if ( sourceSectionIndex != targetSectionIndex )
             {
-                definition.Sections[sourceSectionIndex].Elements.RemoveAt( sourceElementIndex );
+                definition.Bands[sourceSectionIndex].Elements.RemoveAt( sourceElementIndex );
                 targetSection.Elements.Add( element );
             }
 
@@ -250,7 +250,7 @@ internal static class ReportDesignerInteractionService
 
         foreach ( var sectionIndex in affectedSectionIndexes )
         {
-            ReportLayoutGeometry.GrowSectionToFitElements( definition.Sections[sectionIndex] );
+            ReportLayoutGeometry.GrowSectionToFitElements( definition.Bands[sectionIndex] );
         }
     }
 
@@ -332,7 +332,7 @@ internal static class ReportDesignerInteractionService
             if ( !ReportDefinitionHelper.TryFindElementLocation( definition, item.ElementKey, out var sectionIndex, out _, out var element ) )
                 continue;
 
-            var section = definition.Sections[sectionIndex];
+            var section = definition.Bands[sectionIndex];
             var minimumHeight = ReportLayoutGeometry.GetMinimumElementHeight( element );
             var targetWidth = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, item.OriginalWidth + deltaWidth );
             var targetHeight = Math.Max( minimumHeight, item.OriginalHeight + deltaHeight );
@@ -401,7 +401,7 @@ internal static class ReportDesignerInteractionService
             return false;
         }
 
-        ReportSectionDefinition section = ReportLayoutGeometry.GetSection( definition, sectionIndex );
+        ReportBandDefinition section = ReportLayoutGeometry.GetSection( definition, sectionIndex );
 
         if ( section is null || ReportValueResolver.ResolveStaticSuppress( section ) )
             return false;
@@ -477,15 +477,15 @@ internal static class ReportDesignerInteractionService
     internal static IEnumerable<string> FindElementsInsideSelectionBox(
         ReportDefinition definition,
         ReportDesignerSelectionBox selectionBox,
-        Func<ReportSectionDefinition, bool> isSectionCollapsed,
+        Func<ReportBandDefinition, bool> isSectionCollapsed,
         Func<int, double> getSectionOffsetY )
     {
         if ( definition is null || selectionBox is null )
             yield break;
 
-        for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        for ( var sectionIndex = 0; sectionIndex < definition.Bands.Count; sectionIndex++ )
         {
-            var section = definition.Sections[sectionIndex];
+            var section = definition.Bands[sectionIndex];
 
             if ( ReportValueResolver.ResolveStaticSuppress( section ) || isSectionCollapsed( section ) )
                 continue;
@@ -542,15 +542,15 @@ internal static class ReportDesignerInteractionService
 
     private static int ResolveSectionIndex( ReportDefinition definition, double pageY, Func<int, double> getSectionOffsetY )
     {
-        if ( definition?.Sections is null || definition.Sections.Count == 0 )
+        if ( definition?.Bands is null || definition.Bands.Count == 0 )
             return -1;
 
-        for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        for ( var sectionIndex = 0; sectionIndex < definition.Bands.Count; sectionIndex++ )
         {
             var sectionTop = getSectionOffsetY( sectionIndex );
-            var nextSectionTop = sectionIndex + 1 < definition.Sections.Count
+            var nextSectionTop = sectionIndex + 1 < definition.Bands.Count
                 ? getSectionOffsetY( sectionIndex + 1 )
-                : sectionTop + Math.Max( 0, definition.Sections[sectionIndex].Height );
+                : sectionTop + Math.Max( 0, definition.Bands[sectionIndex].Height );
 
             if ( pageY >= sectionTop && pageY < nextSectionTop )
                 return sectionIndex;
@@ -558,13 +558,13 @@ internal static class ReportDesignerInteractionService
 
         return pageY < getSectionOffsetY( 0 )
             ? 0
-            : definition.Sections.Count - 1;
+            : definition.Bands.Count - 1;
     }
 
     private static bool HasResizeHandle( ReportElementResizeHandle handle, ReportElementResizeHandle flag )
         => ( handle & flag ) == flag;
 
-    private static double ClampResizeHeightToSectionBottom( ReportSectionDefinition section, double targetY, double targetHeight, double minimumHeight )
+    private static double ClampResizeHeightToSectionBottom( ReportBandDefinition section, double targetY, double targetHeight, double minimumHeight )
     {
         if ( section is null )
             return targetHeight;

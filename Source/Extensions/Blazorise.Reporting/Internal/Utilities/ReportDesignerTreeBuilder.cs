@@ -83,7 +83,7 @@ internal static class ReportDesignerTreeBuilder
                 Kind = ReportTreeNodeKind.Report,
                 Selectable = true,
                 Selected = reportSelected,
-                Children = definition.Sections.Select( ( section, sectionIndex ) => new ReportTreeNode
+                Children = definition.Bands.Select( ( section, sectionIndex ) => new ReportTreeNode
                 {
                     Key = CreateSectionTreeNodeKey( sectionIndex ),
                     Text = ReportDefinitionHelper.GetSectionDisplayName( section ),
