@@ -133,7 +133,7 @@ internal sealed class ReportContext
 
         definition.RunningTotals = runningTotals.Select( CloneRunningTotal ).ToList();
 
-        return CloneDefinition( definition );
+        return definition;
     }
 
     internal static ReportDefinition CloneDefinition( ReportDefinition definition )
