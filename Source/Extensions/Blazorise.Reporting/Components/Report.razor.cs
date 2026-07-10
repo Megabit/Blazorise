@@ -103,8 +103,6 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private _ReportDesignerPage designerPageRef;
 
-    private (ReportDefinition Definition, object Data) observedParameters;
-
     private int renderMutationVersion;
 
     private int collapsedSectionsVersion;
@@ -164,28 +162,28 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     }
 
     /// <inheritdoc />
-    protected override async Task OnParametersSetAsync()
-    {
-        if ( !ReferenceEquals( observedParameters.Definition, Definition ) || !ReferenceEquals( observedParameters.Data, Data ) )
-        {
-            observedParameters = (Definition, Data);
-            InvalidateDesignerCaches();
-        }
-
-        if ( Definition is not null )
-            await ResolveDataSources( Definition, CurrentMode == ReportMode.Preview );
-    }
-
-    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        if ( firstRender && Definition is null && CurrentDefinitionMode != ReportDefinitionMode.UseDefinitionOnly )
+        if ( !firstRender )
+            return;
+
+        bool declarativeDefinitionCreated = false;
+
+        if ( Definition is null && CurrentDefinitionMode != ReportDefinitionMode.UseDefinitionOnly )
         {
             declarativeDefinition = BuildDeclarativeDefinition();
+            declarativeDefinitionCreated = true;
+        }
+
+        ReportDefinition definition = Definition ?? declarativeDefinition;
+
+        if ( definition is not null )
+            await ResolveDataSources( definition, CurrentMode == ReportMode.Preview );
+        else
             InvalidateDesignerCaches();
 
-            await ResolveDataSources( declarativeDefinition, CurrentMode == ReportMode.Preview );
-
+        if ( declarativeDefinitionCreated )
+        {
             if ( DefinitionChanged.HasDelegate )
             {
                 await DefinitionChanged.InvokeAsync( declarativeDefinition );
@@ -194,7 +192,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             StateHasChanged();
         }
 
-        if ( firstRender && commandManager.State?.Definition is null )
+        if ( commandManager.State?.Definition is null )
             commandManager.SetState( CaptureReportState( RootDefinition ) );
     }
 
@@ -242,6 +240,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task ResolveDataSources( ReportDefinition definition, bool loadData )
     {
+        InvalidateDesignerCaches();
+
         if ( definition?.DataSources is null )
             return;
 
@@ -250,20 +250,15 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( registry is null )
             return;
 
-        bool dataSourcesChanged = false;
-
         foreach ( ReportDataSourceDefinition dataSource in definition.DataSources )
         {
             if ( dataSource is null )
                 continue;
 
-            IReportDataSourceProvider provider = registry.FindProvider( dataSource?.ProviderType );
+            IReportDataSourceProvider provider = registry.FindProvider( dataSource.ProviderType );
 
             if ( provider is null )
                 continue;
-
-            object previousData = dataSource.Data;
-            object previousSchema = dataSource.Schema;
 
             try
             {
@@ -283,13 +278,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             catch
             {
             }
-
-            if ( !ReferenceEquals( previousData, dataSource.Data ) || !ReferenceEquals( previousSchema, dataSource.Schema ) )
-                dataSourcesChanged = true;
         }
-
-        if ( dataSourcesChanged )
-            InvalidateDesignerCaches();
     }
 
     private static bool ShouldLoadDataSource( IReportDataSourceProvider provider, ReportDataSourceDefinition dataSource )
@@ -1583,6 +1572,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommand( new( "Refresh data source", async () =>
         {
             await dataCommandService.RefreshDataSource( EffectiveDefinition, DataSourceProviderRegistry, dataSourceName );
+            await ResolveDataSources( EffectiveDefinition, CurrentMode == ReportMode.Preview );
         } ) );
     }
 
