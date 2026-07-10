@@ -1,7 +1,7 @@
-.b-report-treeview {
+.b-report-tree-view {
     display: flex;
     flex-direction: column;
-    gap: var(--b-report-treeview-gap);
+    gap: var(--b-report-tree-view-gap);
 
     &-node {
         display: contents;
@@ -9,16 +9,16 @@
 
     &-row {
         display: grid;
-        grid-template-columns: var(--b-report-treeview-toggle-size) var(--b-report-treeview-icon-column-width) minmax(0, 1fr) auto;
-        gap: var(--b-report-treeview-row-gap);
+        grid-template-columns: var(--b-report-tree-view-toggle-size) var(--b-report-tree-view-icon-column-width) minmax(0, 1fr) auto;
+        gap: var(--b-report-tree-view-row-gap);
         align-items: center;
-        min-height: var(--b-report-treeview-row-min-height);
-        padding: var(--b-report-treeview-row-padding);
-        border-radius: var(--b-report-treeview-row-border-radius);
+        min-height: var(--b-report-tree-view-row-min-height);
+        padding: var(--b-report-tree-view-row-padding);
+        border-radius: var(--b-report-tree-view-row-border-radius);
         color: var(--b-report-color-text);
         user-select: none;
 
-        &.draggable > :not(.b-report-treeview-toggle) {
+        &.draggable > :not(.b-report-tree-view-toggle) {
             pointer-events: none;
         }
 
@@ -43,9 +43,9 @@
             background: var(--b-report-color-primary);
             color: var(--b-report-color-white);
 
-            .b-report-treeview-toggle,
-            .b-report-treeview-icon,
-            .b-report-treeview-detail {
+            .b-report-tree-view-toggle,
+            .b-report-tree-view-icon,
+            .b-report-tree-view-detail {
                 color: var(--b-report-color-white-muted);
             }
         }
@@ -57,8 +57,8 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: var(--b-report-treeview-toggle-size);
-        height: var(--b-report-treeview-toggle-size);
+        width: var(--b-report-tree-view-toggle-size);
+        height: var(--b-report-tree-view-toggle-size);
     }
 
     &-toggle {
@@ -76,60 +76,60 @@
     &-icon,
     &-detail {
         color: var(--b-report-color-text-muted);
-        font-size: var(--b-report-treeview-detail-font-size);
+        font-size: var(--b-report-tree-view-detail-font-size);
     }
 
     &-icon {
         &.kind-folder {
-            color: var(--b-report-treeview-folder-color);
+            color: var(--b-report-tree-view-folder-color);
         }
 
         &.kind-report {
-            color: var(--b-report-treeview-report-color);
+            color: var(--b-report-tree-view-report-color);
         }
 
         &.kind-datasource {
-            color: var(--b-report-treeview-datasource-color);
+            color: var(--b-report-tree-view-datasource-color);
         }
 
         &.kind-sourcefields {
-            color: var(--b-report-treeview-datasource-color);
+            color: var(--b-report-tree-view-datasource-color);
         }
 
         &.kind-specialfields {
-            color: var(--b-report-treeview-specialfields-color);
+            color: var(--b-report-tree-view-specialfields-color);
         }
 
         &.kind-field {
-            color: var(--b-report-treeview-field-color);
+            color: var(--b-report-tree-view-field-color);
         }
 
         &.kind-band {
-            color: var(--b-report-treeview-band-color);
+            color: var(--b-report-tree-view-band-color);
         }
 
         &.kind-text {
-            color: var(--b-report-treeview-text-color);
+            color: var(--b-report-tree-view-text-color);
         }
 
         &.kind-table {
-            color: var(--b-report-treeview-table-color);
+            color: var(--b-report-tree-view-table-color);
         }
 
         &.kind-image {
-            color: var(--b-report-treeview-image-color);
+            color: var(--b-report-tree-view-image-color);
         }
 
         &.kind-line {
-            color: var(--b-report-treeview-line-color);
+            color: var(--b-report-tree-view-line-color);
         }
 
         &.kind-rectangle {
-            color: var(--b-report-treeview-rectangle-color);
+            color: var(--b-report-tree-view-rectangle-color);
         }
 
         &.kind-pagebreak {
-            color: var(--b-report-treeview-pagebreak-color);
+            color: var(--b-report-tree-view-pagebreak-color);
         }
     }
 

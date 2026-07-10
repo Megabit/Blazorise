@@ -16,7 +16,7 @@
      @ondragend="OnNodeDragEnded">
     @if ( HasChildren )
     {
-        <button class="b-report-treeview-toggle"
+        <button class="b-report-tree-view-toggle"
                 type="button"
                 @onclick="ToggleClicked"
                 @onclick:stopPropagation>
@@ -25,17 +25,17 @@
     }
     else
     {
-        <span class="b-report-treeview-toggle-spacer"></span>
+        <span class="b-report-tree-view-toggle-spacer"></span>
     }
 
     <span class="@IconClass">
         <Icon Name="@NodeIconName" />
     </span>
 
-    <span class="b-report-treeview-text">@Node.Text</span>
+    <span class="b-report-tree-view-text">@Node.Text</span>
 
     @if ( !string.IsNullOrWhiteSpace( Node.Detail ) )
     {
-        <span class="b-report-treeview-detail">@Node.Detail</span>
+        <span class="b-report-tree-view-detail">@Node.Detail</span>
     }
 </div>

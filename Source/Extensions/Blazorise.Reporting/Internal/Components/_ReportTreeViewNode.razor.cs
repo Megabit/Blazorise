@@ -75,14 +75,14 @@ public partial class _ReportTreeViewNode
 
     private void BuildIconClasses( ClassBuilder builder )
     {
-        builder.Append( "b-report-treeview-icon" );
+        builder.Append( "b-report-tree-view-icon" );
         builder.Append( Node is null ? null : $"kind-{Node.Kind.ToString().ToLowerInvariant()}" );
     }
 
     /// <inheritdoc />
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( "b-report-treeview-row" );
+        builder.Append( "b-report-tree-view-row" );
         builder.Append( "selectable", Node.Selectable && NodeClicked.HasDelegate );
         builder.Append( "draggable", Node.Draggable );
         builder.Append( "active", Node.Selected );
@@ -91,7 +91,7 @@ public partial class _ReportTreeViewNode
     /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( $"padding-left:calc(var(--b-report-treeview-row-padding-left, .25rem) + {Level}rem)" );
+        builder.Append( $"padding-left:calc(var(--b-report-tree-view-row-padding-left, .25rem) + {Level}rem)" );
     }
 
     private async Task OnNodeClicked()

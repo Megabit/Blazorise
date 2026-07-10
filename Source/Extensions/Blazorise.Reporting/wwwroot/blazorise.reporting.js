@@ -295,7 +295,7 @@ export function suppressTreeNativeDragImage(element) {
     const suppressor = {
         dragImage: createTransparentDragImage(),
         dragStart: event => {
-            if (!event.target?.closest?.(".b-report-treeview-row.draggable") || !event.dataTransfer?.setDragImage) {
+            if (!event.target?.closest?.(".b-report-tree-view-row.draggable") || !event.dataTransfer?.setDragImage) {
                 return;
             }
 

@@ -24,15 +24,15 @@
   --b-report-designer-ruler-major-tick-size: .625rem;
   --b-report-designer-ruler-minor-tick-size: .3125rem;
   --b-report-designer-ruler-marker-size: 2px;
-  --b-report-treeview-gap: .125rem;
-  --b-report-treeview-row-gap: .25rem;
-  --b-report-treeview-row-min-height: 1.75rem;
-  --b-report-treeview-row-padding-left: .25rem;
-  --b-report-treeview-row-padding: .125rem .375rem .125rem var(--b-report-treeview-row-padding-left);
-  --b-report-treeview-row-border-radius: .25rem;
-  --b-report-treeview-toggle-size: 1rem;
-  --b-report-treeview-icon-column-width: 1.25rem;
-  --b-report-treeview-detail-font-size: .8125rem;
+  --b-report-tree-view-gap: .125rem;
+  --b-report-tree-view-row-gap: .25rem;
+  --b-report-tree-view-row-min-height: 1.75rem;
+  --b-report-tree-view-row-padding-left: .25rem;
+  --b-report-tree-view-row-padding: .125rem .375rem .125rem var(--b-report-tree-view-row-padding-left);
+  --b-report-tree-view-row-border-radius: .25rem;
+  --b-report-tree-view-toggle-size: 1rem;
+  --b-report-tree-view-icon-column-width: 1.25rem;
+  --b-report-tree-view-detail-font-size: .8125rem;
   --b-report-page-preview-gap: 1.5rem;
   --b-report-page-shadow-offset-y: .25rem;
   --b-report-page-shadow-blur: 1rem;
@@ -99,18 +99,18 @@
   --b-report-color-element-border: #4f7ebd;
   --b-report-color-element-active-surface: rgba(79, 126, 189, .16);
   --b-report-color-table-cell-border: rgba(79, 126, 189, .45);
-  --b-report-treeview-folder-color: #d99a18;
-  --b-report-treeview-report-color: #5f6b7a;
-  --b-report-treeview-datasource-color: #0f766e;
-  --b-report-treeview-specialfields-color: #9333ea;
-  --b-report-treeview-field-color: #2563eb;
-  --b-report-treeview-band-color: #7c3aed;
-  --b-report-treeview-text-color: #334155;
-  --b-report-treeview-table-color: #0891b2;
-  --b-report-treeview-image-color: #16a34a;
-  --b-report-treeview-line-color: #64748b;
-  --b-report-treeview-rectangle-color: #ea580c;
-  --b-report-treeview-pagebreak-color: #be123c;
+  --b-report-tree-view-folder-color: #d99a18;
+  --b-report-tree-view-report-color: #5f6b7a;
+  --b-report-tree-view-datasource-color: #0f766e;
+  --b-report-tree-view-specialfields-color: #9333ea;
+  --b-report-tree-view-field-color: #2563eb;
+  --b-report-tree-view-band-color: #7c3aed;
+  --b-report-tree-view-text-color: #334155;
+  --b-report-tree-view-table-color: #0891b2;
+  --b-report-tree-view-image-color: #16a34a;
+  --b-report-tree-view-line-color: #64748b;
+  --b-report-tree-view-rectangle-color: #ea580c;
+  --b-report-tree-view-pagebreak-color: #be123c;
   --b-report-section-band-header-background: #dfeaf4;
   --b-report-section-band-header-border-color: rgba(31, 41, 51, .16);
   --b-report-section-band-header-report-header-background: #bde3ca;
@@ -193,110 +193,110 @@
   overflow: auto;
 }
 
-.b-report-treeview {
+.b-report-tree-view {
   display: flex;
   flex-direction: column;
-  gap: var(--b-report-treeview-gap);
+  gap: var(--b-report-tree-view-gap);
 }
-.b-report-treeview-node {
+.b-report-tree-view-node {
   display: contents;
 }
-.b-report-treeview-row {
+.b-report-tree-view-row {
   display: grid;
-  grid-template-columns: var(--b-report-treeview-toggle-size) var(--b-report-treeview-icon-column-width) minmax(0, 1fr) auto;
-  gap: var(--b-report-treeview-row-gap);
+  grid-template-columns: var(--b-report-tree-view-toggle-size) var(--b-report-tree-view-icon-column-width) minmax(0, 1fr) auto;
+  gap: var(--b-report-tree-view-row-gap);
   align-items: center;
-  min-height: var(--b-report-treeview-row-min-height);
-  padding: var(--b-report-treeview-row-padding);
-  border-radius: var(--b-report-treeview-row-border-radius);
+  min-height: var(--b-report-tree-view-row-min-height);
+  padding: var(--b-report-tree-view-row-padding);
+  border-radius: var(--b-report-tree-view-row-border-radius);
   color: var(--b-report-color-text);
   user-select: none;
 }
-.b-report-treeview-row.draggable > :not(.b-report-treeview-toggle) {
+.b-report-tree-view-row.draggable > :not(.b-report-tree-view-toggle) {
   pointer-events: none;
 }
-.b-report-treeview-row.selectable, .b-report-treeview-row.draggable {
+.b-report-tree-view-row.selectable, .b-report-tree-view-row.draggable {
   cursor: pointer;
 }
-.b-report-treeview-row.draggable {
+.b-report-tree-view-row.draggable {
   cursor: grab;
 }
-.b-report-treeview-row.draggable:active {
+.b-report-tree-view-row.draggable:active {
   cursor: grabbing;
 }
-.b-report-treeview-row:hover {
+.b-report-tree-view-row:hover {
   background: var(--b-report-color-surface-muted);
 }
-.b-report-treeview-row.active {
+.b-report-tree-view-row.active {
   background: var(--b-report-color-primary);
   color: var(--b-report-color-white);
 }
-.b-report-treeview-row.active .b-report-treeview-toggle,
-.b-report-treeview-row.active .b-report-treeview-icon,
-.b-report-treeview-row.active .b-report-treeview-detail {
+.b-report-tree-view-row.active .b-report-tree-view-toggle,
+.b-report-tree-view-row.active .b-report-tree-view-icon,
+.b-report-tree-view-row.active .b-report-tree-view-detail {
   color: var(--b-report-color-white-muted);
 }
-.b-report-treeview-toggle, .b-report-treeview-toggle-spacer, .b-report-treeview-icon {
+.b-report-tree-view-toggle, .b-report-tree-view-toggle-spacer, .b-report-tree-view-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--b-report-treeview-toggle-size);
-  height: var(--b-report-treeview-toggle-size);
+  width: var(--b-report-tree-view-toggle-size);
+  height: var(--b-report-tree-view-toggle-size);
 }
-.b-report-treeview-toggle {
+.b-report-tree-view-toggle {
   padding: 0;
   border: 0;
   background: transparent;
   color: var(--b-report-color-text-muted);
   line-height: 1;
 }
-.b-report-treeview-toggle:hover {
+.b-report-tree-view-toggle:hover {
   color: var(--b-report-color-text);
 }
-.b-report-treeview-icon, .b-report-treeview-detail {
+.b-report-tree-view-icon, .b-report-tree-view-detail {
   color: var(--b-report-color-text-muted);
-  font-size: var(--b-report-treeview-detail-font-size);
+  font-size: var(--b-report-tree-view-detail-font-size);
 }
-.b-report-treeview-icon.kind-folder {
-  color: var(--b-report-treeview-folder-color);
+.b-report-tree-view-icon.kind-folder {
+  color: var(--b-report-tree-view-folder-color);
 }
-.b-report-treeview-icon.kind-report {
-  color: var(--b-report-treeview-report-color);
+.b-report-tree-view-icon.kind-report {
+  color: var(--b-report-tree-view-report-color);
 }
-.b-report-treeview-icon.kind-datasource {
-  color: var(--b-report-treeview-datasource-color);
+.b-report-tree-view-icon.kind-datasource {
+  color: var(--b-report-tree-view-datasource-color);
 }
-.b-report-treeview-icon.kind-sourcefields {
-  color: var(--b-report-treeview-datasource-color);
+.b-report-tree-view-icon.kind-sourcefields {
+  color: var(--b-report-tree-view-datasource-color);
 }
-.b-report-treeview-icon.kind-specialfields {
-  color: var(--b-report-treeview-specialfields-color);
+.b-report-tree-view-icon.kind-specialfields {
+  color: var(--b-report-tree-view-specialfields-color);
 }
-.b-report-treeview-icon.kind-field {
-  color: var(--b-report-treeview-field-color);
+.b-report-tree-view-icon.kind-field {
+  color: var(--b-report-tree-view-field-color);
 }
-.b-report-treeview-icon.kind-band {
-  color: var(--b-report-treeview-band-color);
+.b-report-tree-view-icon.kind-band {
+  color: var(--b-report-tree-view-band-color);
 }
-.b-report-treeview-icon.kind-text {
-  color: var(--b-report-treeview-text-color);
+.b-report-tree-view-icon.kind-text {
+  color: var(--b-report-tree-view-text-color);
 }
-.b-report-treeview-icon.kind-table {
-  color: var(--b-report-treeview-table-color);
+.b-report-tree-view-icon.kind-table {
+  color: var(--b-report-tree-view-table-color);
 }
-.b-report-treeview-icon.kind-image {
-  color: var(--b-report-treeview-image-color);
+.b-report-tree-view-icon.kind-image {
+  color: var(--b-report-tree-view-image-color);
 }
-.b-report-treeview-icon.kind-line {
-  color: var(--b-report-treeview-line-color);
+.b-report-tree-view-icon.kind-line {
+  color: var(--b-report-tree-view-line-color);
 }
-.b-report-treeview-icon.kind-rectangle {
-  color: var(--b-report-treeview-rectangle-color);
+.b-report-tree-view-icon.kind-rectangle {
+  color: var(--b-report-tree-view-rectangle-color);
 }
-.b-report-treeview-icon.kind-pagebreak {
-  color: var(--b-report-treeview-pagebreak-color);
+.b-report-tree-view-icon.kind-pagebreak {
+  color: var(--b-report-tree-view-pagebreak-color);
 }
-.b-report-treeview-text {
+.b-report-tree-view-text {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
