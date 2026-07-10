@@ -354,9 +354,10 @@ internal sealed class SvgChartModelBuilder<TItem>
 
     private HashSet<string> ResolveStackedValueAxisIds( List<SvgChartRenderSeries> series )
     {
+        var valueAxisOptions = ResolveOptions().YAxis ?? new();
         var axes = valueAxisComponents.Count == 0
-            ? new List<SvgChartAxisOptions> { CreateValueAxisOptions( ResolveOptions().YAxis ?? new() ) }
-            : valueAxisComponents.Select( CreateValueAxisOptions ).ToList();
+            ? new List<SvgChartAxisOptions> { CreateValueAxisOptions( valueAxisOptions ) }
+            : valueAxisComponents.Select( axis => axis.ResolveOptions( valueAxisOptions ) ).ToList();
 
         var defaultAxis = axes.Last();
 
@@ -758,9 +759,10 @@ internal sealed class SvgChartModelBuilder<TItem>
 
     private List<SvgChartRenderValueAxis> ResolveValueAxes( SvgChartOptions options, List<SvgChartRenderSeries> series, SvgChartZoomOptions zoom, SvgChartViewport viewport )
     {
+        var valueAxisOptions = options.YAxis ?? new();
         var axes = valueAxisComponents.Count == 0
-            ? new List<SvgChartAxisOptions> { CreateValueAxisOptions( options.YAxis ?? new() ) }
-            : valueAxisComponents.Select( CreateValueAxisOptions ).ToList();
+            ? new List<SvgChartAxisOptions> { CreateValueAxisOptions( valueAxisOptions ) }
+            : valueAxisComponents.Select( axis => axis.ResolveOptions( valueAxisOptions ) ).ToList();
         var referencedAxisIds = series.Select( x => x.ValueAxisId )
             .Where( x => !string.IsNullOrWhiteSpace( x ) )
             .Distinct( StringComparer.Ordinal )
@@ -822,20 +824,7 @@ internal sealed class SvgChartModelBuilder<TItem>
         var tooltipComponent = tooltipComponents.LastOrDefault();
         var tooltipOptions = options.Tooltip ?? new();
 
-        if ( tooltipComponent is null )
-            return tooltipOptions;
-
-        return new()
-        {
-            Enabled = tooltipComponent.Enabled,
-            InteractionMode = tooltipComponent.InteractionMode,
-            Formatter = tooltipComponent.Formatter ?? tooltipOptions.Formatter,
-            Template = tooltipComponent.Template ?? tooltipOptions.Template,
-            Width = tooltipComponent.Width,
-            Height = tooltipComponent.Height,
-            OffsetX = tooltipComponent.OffsetX,
-            OffsetY = tooltipComponent.OffsetY
-        };
+        return tooltipComponent?.ResolveOptions( tooltipOptions ) ?? tooltipOptions;
     }
 
     private SvgChartZoomOptions ResolveZoom( SvgChartOptions options )
@@ -846,16 +835,7 @@ internal sealed class SvgChartModelBuilder<TItem>
         if ( zoomComponent is null )
             return CreateZoomOptions( zoomOptions );
 
-        return new()
-        {
-            Enabled = zoomComponent.Enabled,
-            Mode = zoomComponent.Mode,
-            Wheel = zoomComponent.Wheel,
-            Pan = zoomComponent.Pan,
-            MinZoom = zoomComponent.MinZoom,
-            MaxZoom = zoomComponent.MaxZoom,
-            Viewport = zoomComponent.Viewport ?? zoomOptions.Viewport
-        };
+        return zoomComponent.ResolveOptions( zoomOptions );
     }
 
     private static SvgChartZoomOptions CreateZoomOptions( SvgChartZoomOptions options )

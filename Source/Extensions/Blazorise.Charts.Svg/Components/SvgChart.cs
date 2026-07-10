@@ -481,7 +481,9 @@ public class SvgChart<TItem> : SvgChartBase
         if ( options.DataLabels?.Visible == true && !pluginComponents.OfType<SvgChartDataLabels>().Any() )
             result.Add( SvgChartDataLabels.Create( options.DataLabels ) );
 
-        result.AddRange( pluginComponents );
+        result.AddRange( pluginComponents.Select( plugin => plugin is SvgChartDataLabels dataLabels
+            ? SvgChartDataLabels.Create( options.DataLabels, dataLabels )
+            : plugin ) );
 
         return result;
     }
@@ -699,9 +701,8 @@ public class SvgChart<TItem> : SvgChartBase
     private bool ShouldRunAnimations()
     {
         var animationComponent = pluginComponents.OfType<SvgChartAnimation>().LastOrDefault();
-        var animation = animationComponent is null
-            ? Animation ?? ResolveOptions().Animation
-            : CreateAnimationOptions( animationComponent );
+        var animationOptions = Animation ?? ResolveOptions().Animation ?? new();
+        var animation = CreateAnimationOptions( animationComponent?.ResolveOptions( animationOptions ) ?? animationOptions );
 
         return animation?.Enabled == true && IsAnyAnimationTargetEnabled( animation );
     }
@@ -710,9 +711,7 @@ public class SvgChart<TItem> : SvgChartBase
     {
         var animationComponent = pluginComponents.OfType<SvgChartAnimation>().LastOrDefault();
         var animationOptions = Animation ?? options.Animation ?? new();
-        var animation = animationComponent is null
-            ? CreateAnimationOptions( animationOptions )
-            : CreateAnimationOptions( animationComponent );
+        var animation = CreateAnimationOptions( animationComponent?.ResolveOptions( animationOptions ) ?? animationOptions );
 
         if ( streamingAnimationEnabled
              || !animation.Enabled
@@ -807,27 +806,6 @@ public class SvgChart<TItem> : SvgChartBase
             Stroke = CreateStrokeAnimationOptions( options.Stroke ),
             Transform = CreateTransformAnimationOptions( options.Transform ),
             Path = CreatePathAnimationOptions( options.Path )
-        };
-    }
-
-    private static SvgChartAnimationOptions CreateAnimationOptions( SvgChartAnimation component )
-    {
-        if ( component is null )
-            return new();
-
-        return new()
-        {
-            Enabled = component.Enabled,
-            Duration = component.Duration,
-            Delay = component.Delay,
-            Easing = component.Easing,
-            AnimateOnLoad = component.AnimateOnLoad,
-            AnimateOnUpdate = component.AnimateOnUpdate,
-            Geometry = CreateGeometryAnimationOptions( component.Geometry ),
-            Opacity = CreateOpacityAnimationOptions( component.Opacity ),
-            Stroke = CreateStrokeAnimationOptions( component.Stroke ),
-            Transform = CreateTransformAnimationOptions( component.Transform ),
-            Path = CreatePathAnimationOptions( component.Path )
         };
     }
 
@@ -934,15 +912,9 @@ public class SvgChart<TItem> : SvgChartBase
     private SvgChartLegendOptions ResolveLegend( SvgChartOptions options )
     {
         var legendComponent = legendComponents.LastOrDefault();
+        var legendOptions = options.Legend ?? new();
 
-        if ( legendComponent is null )
-            return options.Legend ?? new();
-
-        return new()
-        {
-            Visible = legendComponent.Visible,
-            Position = legendComponent.Position
-        };
+        return legendComponent?.ResolveOptions( legendOptions ) ?? legendOptions;
     }
 
     private SvgChartTooltipOptions ResolveTooltip( SvgChartOptions options )
@@ -950,20 +922,7 @@ public class SvgChart<TItem> : SvgChartBase
         var tooltipComponent = tooltipComponents.LastOrDefault();
         var tooltipOptions = options.Tooltip ?? new();
 
-        if ( tooltipComponent is null )
-            return tooltipOptions;
-
-        return new()
-        {
-            Enabled = tooltipComponent.Enabled,
-            InteractionMode = tooltipComponent.InteractionMode,
-            Formatter = tooltipComponent.Formatter ?? tooltipOptions.Formatter,
-            Template = tooltipComponent.Template ?? tooltipOptions.Template,
-            Width = tooltipComponent.Width,
-            Height = tooltipComponent.Height,
-            OffsetX = tooltipComponent.OffsetX,
-            OffsetY = tooltipComponent.OffsetY
-        };
+        return tooltipComponent?.ResolveOptions( tooltipOptions ) ?? tooltipOptions;
     }
 
     private SvgChartZoomOptions ResolveZoom( SvgChartOptions options )
@@ -974,16 +933,7 @@ public class SvgChart<TItem> : SvgChartBase
         if ( zoomComponent is null )
             return CreateZoomOptions( zoomOptions );
 
-        return new()
-        {
-            Enabled = zoomComponent.Enabled,
-            Mode = zoomComponent.Mode,
-            Wheel = zoomComponent.Wheel,
-            Pan = zoomComponent.Pan,
-            MinZoom = zoomComponent.MinZoom,
-            MaxZoom = zoomComponent.MaxZoom,
-            Viewport = zoomComponent.Viewport ?? zoomOptions.Viewport
-        };
+        return zoomComponent.ResolveOptions( zoomOptions );
     }
 
     private static SvgChartZoomOptions CreateZoomOptions( SvgChartZoomOptions options )
