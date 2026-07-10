@@ -320,6 +320,11 @@ public partial class _ReportDesignerElement
     [Parameter] public IReadOnlyDictionary<string, object> RunningTotals { get; set; }
 
     /// <summary>
+    /// Version that changes whenever report mutations invalidate preview rendering.
+    /// </summary>
+    [Parameter] public int RenderMutationVersion { get; set; }
+
+    /// <summary>
     /// Report element definition rendered on the surface.
     /// </summary>
     [Parameter] public ReportElementDefinition Element { get; set; }

@@ -105,6 +105,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private (ReportDefinition Definition, object Data) observedParameters;
 
+    private int renderMutationVersion;
+
     private int collapsedSectionsVersion;
 
     private List<ReportElementDefinition> clipboardElements = [];
@@ -248,6 +250,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( registry is null )
             return;
 
+        bool dataSourcesChanged = false;
+
         foreach ( ReportDataSourceDefinition dataSource in definition.DataSources )
         {
             if ( dataSource is null )
@@ -257,6 +261,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
             if ( provider is null )
                 continue;
+
+            object previousData = dataSource.Data;
+            object previousSchema = dataSource.Schema;
 
             try
             {
@@ -269,17 +276,20 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
                     dataSource.Data = result?.Data;
                     dataSource.Schema = result?.Schema ?? dataSource.Schema;
-
-                    continue;
                 }
-
-                if ( dataSource.Schema is null )
+                else if ( dataSource.Schema is null )
                     dataSource.Schema = await provider.GetSchemaAsync( dataSource );
             }
             catch
             {
             }
+
+            if ( !ReferenceEquals( previousData, dataSource.Data ) || !ReferenceEquals( previousSchema, dataSource.Schema ) )
+                dataSourcesChanged = true;
         }
+
+        if ( dataSourcesChanged )
+            InvalidateDesignerCaches();
     }
 
     private static bool ShouldLoadDataSource( IReportDataSourceProvider provider, ReportDataSourceDefinition dataSource )
@@ -3639,6 +3649,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private void InvalidateDesignerCaches()
     {
+        renderMutationVersion++;
         InvalidateDesignerLayoutCache();
         renderService.Invalidate();
     }

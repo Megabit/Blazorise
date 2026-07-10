@@ -11,6 +11,8 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportSubreportPreview
 {
+    private readonly ReportRenderService renderService = new();
+
     private ReportSubreportElementDefinition SubreportElement => Element as ReportSubreportElementDefinition;
 
     private ReportDefinition SubreportDefinition => ReportSubreportResolver.ResolveDefinition( SubreportElement );
@@ -23,7 +25,7 @@ public partial class _ReportSubreportPreview
 
     private IReadOnlyList<ReportRenderPage> RenderPages
         => CanRenderNestedReport
-            ? ReportPreviewRenderPlanner.BuildRenderPages( SubreportDefinition, SubreportData ).Take( 1 ).ToList()
+            ? renderService.ResolvePreviewRenderPages( SubreportDefinition, SubreportData, RenderMutationVersion ).Take( 1 ).ToList()
             : [];
 
     private RenderFragment RenderSubreportSection( ReportRenderSection renderSection )
@@ -60,6 +62,7 @@ public partial class _ReportSubreportPreview
                         childBuilder.AddAttribute( childSequence++, nameof( _ReportDesignerElement.Section ), renderSection.Section );
                         childBuilder.AddAttribute( childSequence++, nameof( _ReportDesignerElement.Item ), renderSection.Item );
                         childBuilder.AddAttribute( childSequence++, nameof( _ReportDesignerElement.RunningTotals ), renderSection.RunningTotals );
+                        childBuilder.AddAttribute( childSequence++, nameof( _ReportDesignerElement.RenderMutationVersion ), RenderMutationVersion );
                         childBuilder.AddAttribute( childSequence++, nameof( _ReportDesignerElement.Element ), childElement );
                         childBuilder.AddAttribute( childSequence++, nameof( _ReportDesignerElement.ElementKey ), ReportDefinitionHelper.EnsureElementId( childElement ) );
                         childBuilder.CloseComponent();
@@ -116,5 +119,10 @@ public partial class _ReportSubreportPreview
     /// Subreport element definition.
     /// </summary>
     [Parameter] public ReportElementDefinition Element { get; set; }
+
+    /// <summary>
+    /// Version that changes whenever report mutations invalidate preview rendering.
+    /// </summary>
+    [Parameter] public int RenderMutationVersion { get; set; }
 
 }

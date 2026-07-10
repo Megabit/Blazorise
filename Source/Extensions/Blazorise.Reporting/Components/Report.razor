@@ -414,7 +414,7 @@
                 }
                 else
                 {
-                    var renderPages = ReportPreviewRenderPlanner.BuildRenderPages( definition, Data );
+                    var renderPages = renderService.ResolvePreviewRenderPages( definition, Data, renderMutationVersion );
 
                     <Div Class="b-report-viewer-pages">
                         @foreach ( var renderPage in renderPages )
@@ -448,6 +448,7 @@
                                                                             Section="@section"
                                                                             Item="@renderSection.Item"
                                                                             RunningTotals="@renderSection.RunningTotals"
+                                                                            RenderMutationVersion="@renderMutationVersion"
                                                                             Element="@element"
                                                                             ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
                                                 }
@@ -475,6 +476,7 @@
                                                                             Section="@section"
                                                                             Item="@renderSection.Item"
                                                                             RunningTotals="@renderSection.RunningTotals"
+                                                                            RenderMutationVersion="@renderMutationVersion"
                                                                             Element="@element"
                                                                             ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
                                                 }
@@ -508,6 +510,7 @@
                                                                                 Section="@section"
                                                                                 Item="@renderSection.Item"
                                                                                 RunningTotals="@renderSection.RunningTotals"
+                                                                                RenderMutationVersion="@renderMutationVersion"
                                                                                 Element="@element"
                                                                                 ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
                                                     }

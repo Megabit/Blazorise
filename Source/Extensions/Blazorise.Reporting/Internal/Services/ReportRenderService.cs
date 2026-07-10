@@ -14,6 +14,10 @@ internal sealed class ReportRenderService
 
     private ( ReportDefinition Definition, object Data ) designerSectionRenderItemsCacheKey;
 
+    private IReadOnlyList<ReportRenderPage> previewRenderPages;
+
+    private ( ReportDefinition Definition, object Data, int MutationVersion ) previewRenderPagesCacheKey;
+
     #endregion
 
     #region Methods
@@ -31,6 +35,22 @@ internal sealed class ReportRenderService
             items.Add( null );
 
         return items;
+    }
+
+    internal IReadOnlyList<ReportRenderPage> ResolvePreviewRenderPages( ReportDefinition definition, object data, int mutationVersion )
+    {
+        if ( previewRenderPages is not null
+             && ReferenceEquals( previewRenderPagesCacheKey.Definition, definition )
+             && ReferenceEquals( previewRenderPagesCacheKey.Data, data )
+             && previewRenderPagesCacheKey.MutationVersion == mutationVersion )
+        {
+            return previewRenderPages;
+        }
+
+        previewRenderPages = ReportPreviewRenderPlanner.BuildRenderPages( definition, data );
+        previewRenderPagesCacheKey = (definition, data, mutationVersion);
+
+        return previewRenderPages;
     }
 
     internal double GetPageWidth( ReportDefinition definition )
@@ -82,6 +102,8 @@ internal sealed class ReportRenderService
     {
         designerSectionRenderItems.Clear();
         designerSectionRenderItemsCacheKey = default;
+        previewRenderPages = null;
+        previewRenderPagesCacheKey = default;
     }
 
     private IReadOnlyList<object> ResolveDesignerSectionRenderItems( ReportDefinition definition, ReportBandDefinition section, object data )
