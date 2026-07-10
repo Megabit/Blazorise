@@ -67,6 +67,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private readonly ReportDesignerInteractionState designerState = new();
 
+    private readonly DockLayoutState designerDockLayoutState = new();
+
     private readonly Dictionary<string, (double Left, double Top)> designerPaneScrollPositions = new( StringComparer.Ordinal );
 
     private readonly HashSet<string> collapsedBandIds = new( StringComparer.Ordinal );

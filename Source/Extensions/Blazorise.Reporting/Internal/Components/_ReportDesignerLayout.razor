@@ -7,7 +7,7 @@
      Class="b-report-designer">
     <DockLayout @ref="dockLayout"
                 Class="b-report-designer-layout"
-                State="@dockLayoutState"
+                State="@State"
                 StateChanged="@OnDockLayoutStateChanged"
                 PaneBordered>
         @if ( ShowToolbar && Toolbar is not null )

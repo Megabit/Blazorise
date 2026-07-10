@@ -45,8 +45,6 @@ public partial class _ReportDesignerLayout
         ReportExplorerPaneName,
     ];
 
-    private readonly DockLayoutState dockLayoutState = new();
-
     private string activePanelPaneName = PropertiesPaneName;
 
     private bool? dockLayoutToolbarVisible;
@@ -141,7 +139,7 @@ public partial class _ReportDesignerLayout
         if ( string.IsNullOrWhiteSpace( paneName ) )
             return;
 
-        DockNodeState tabsNode = FindTabsNode( dockLayoutState.Root, paneName );
+        DockNodeState tabsNode = FindTabsNode( State.Root, paneName );
 
         if ( tabsNode is not null && !string.Equals( tabsNode.ActivePane, paneName, StringComparison.Ordinal ) )
             tabsNode.ActivePane = paneName;
@@ -198,6 +196,9 @@ public partial class _ReportDesignerLayout
     {
         bool toolbarVisible = ShowToolbar && Toolbar is not null;
 
+        if ( dockLayoutToolbarVisible is null )
+            dockLayoutToolbarVisible = DockStateContainsPane( ToolbarPaneName );
+
         if ( dockLayoutToolbarVisible == toolbarVisible
              && DockStateContainsPane( ToolboxPaneName )
              && DockStateContainsPane( FieldsExplorerPaneName )
@@ -209,7 +210,7 @@ public partial class _ReportDesignerLayout
             return;
         }
 
-        dockLayoutState.Root = toolbarVisible
+        State.Root = toolbarVisible
             ? CreateSplitNode(
                 "report-dock-root",
                 CreatePaneNode( "report-dock-toolbar", ToolbarPaneName ),
@@ -218,15 +219,15 @@ public partial class _ReportDesignerLayout
                 0.08d )
             : CreateWorkspaceNode();
 
-        dockLayoutState.Panes.Clear();
+        State.Panes.Clear();
         dockLayoutToolbarVisible = toolbarVisible;
     }
 
     private bool DockStateContainsPane( string paneName )
-        => DockTreeContainsPane( dockLayoutState.Root, paneName )
-            || DockRailContainsPane( dockLayoutState, paneName )
-            || DockAutoHideContainsPane( dockLayoutState, paneName )
-            || DockPaneStateContainsPane( dockLayoutState, paneName );
+        => DockTreeContainsPane( State.Root, paneName )
+            || DockRailContainsPane( State, paneName )
+            || DockAutoHideContainsPane( State, paneName )
+            || DockPaneStateContainsPane( State, paneName );
 
     private Task ShowDockPane( string paneName )
         => dockLayout?.ShowPane( paneName ) ?? Task.CompletedTask;
@@ -379,6 +380,11 @@ public partial class _ReportDesignerLayout
     [Inject] private BlazoriseOptions BlazoriseOptions { get; set; }
 
     [Inject] private IDocumentObserver DocumentObserver { get; set; }
+
+    /// <summary>
+    /// Docking state preserved by the parent report across designer component lifetimes.
+    /// </summary>
+    [Parameter] public DockLayoutState State { get; set; } = new();
 
     /// <summary>
     /// Content shown in the top designer toolbar pane.
