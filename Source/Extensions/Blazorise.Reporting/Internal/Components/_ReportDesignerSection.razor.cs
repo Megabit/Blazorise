@@ -25,6 +25,8 @@ public partial class _ReportDesignerSection
 
     private string BodyStyle => bodyStyleBuilder.Styles;
 
+    private Func<DragEventArgs, Task> NonRenderingDragOver => EventUtil.AsNonRenderingEventHandler<DragEventArgs>( OnDragOver );
+
     private string SectionClass => ClassNames;
 
     private string SectionStyle => StyleNames;

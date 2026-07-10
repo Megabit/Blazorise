@@ -47,7 +47,7 @@
                  @ref="bodyElement"
                  style="@BodyStyle"
                  @onpointerdown="OnBodyPointerDown"
-                 @ondragover="OnDragOver"
+                 @ondragover="NonRenderingDragOver"
                  @ondragover:preventDefault="Editable"
                  @ondrop="OnDrop"
                  @ondrop:preventDefault="Editable"

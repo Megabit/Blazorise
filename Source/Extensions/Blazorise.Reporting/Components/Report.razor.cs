@@ -93,6 +93,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private int designerPaneScrollRestoreVersion;
 
+    private bool designerDropInProgress;
+
     private _ReportDesignerContextMenuHost contextMenuHost;
 
     private _ReportDesignerLayout designerLayoutRef;
@@ -1798,6 +1800,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private Task OnDesignerNodeDragEnded( ReportTreeNode node )
     {
+        if ( designerDropInProgress )
+            return Task.CompletedTask;
+
         return ClearDesignerDrag();
     }
 
@@ -3484,44 +3489,56 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( targetSectionIndex < 0 || targetSectionIndex >= definition.Bands.Count )
             return;
 
-        var offset = await GetDesignerDragOffset( sectionBodyElement, eventArgs );
-        bool useSnapToGrid = designerState.DraggedKind == ReportDesignerDragKind.Element
-            ? IsSnapToGridEnabled( designerState.DraggedElement )
-            : designerState.SnapToGrid;
-        var x = ApplyDesignerGrid( offset.X, useSnapToGrid );
-        var y = ApplyDesignerGrid( offset.Y, useSnapToGrid );
-        var tableDropTarget = tableEditor.TryFindCellAt( definition.Bands[targetSectionIndex], x, y, out ReportTableCellDropTarget cellDropTarget )
-            ? cellDropTarget
-            : null;
-        var fieldDropTarget = designerState.DraggedKind == ReportDesignerDragKind.Field
-            ? dragDropService.FindTextElementAt( definition.Bands[targetSectionIndex], x, y )
-            : null;
+        designerDropInProgress = true;
 
-        var commandName = dragDropService.ResolveCommandName( definition, designerState, tableDropTarget, fieldDropTarget );
-
-        if ( commandName is null )
-            return;
-
-        await ClearDesignerInteractionOverlays();
-
-        await ExecuteDesignerCommand( new( commandName, () =>
+        try
         {
-            var definition = EffectiveDefinition;
-            var targetSection = definition.Bands[targetSectionIndex];
-            tableEditor.TryFindCellAt( targetSection, x, y, out ReportTableCellDropTarget tableCellDropTarget );
-            ReportDropResult result = dragDropService.Drop( definition, designerState, targetSectionIndex, x, y, tableCellDropTarget, tableEditor );
+            var offset = await GetDesignerDragOffset( sectionBodyElement, eventArgs );
+            bool useSnapToGrid = designerState.DraggedKind == ReportDesignerDragKind.Element
+                ? IsSnapToGridEnabled( designerState.DraggedElement )
+                : designerState.SnapToGrid;
+            var x = ApplyDesignerGrid( offset.X, useSnapToGrid );
+            var y = ApplyDesignerGrid( offset.Y, useSnapToGrid );
+            var tableDropTarget = tableEditor.TryFindCellAt( definition.Bands[targetSectionIndex], x, y, out ReportTableCellDropTarget cellDropTarget )
+                ? cellDropTarget
+                : null;
+            var fieldDropTarget = designerState.DraggedKind == ReportDesignerDragKind.Field
+                ? dragDropService.FindTextElementAt( definition.Bands[targetSectionIndex], x, y )
+                : null;
 
-            if ( !string.IsNullOrWhiteSpace( result.SelectedCellKey ) )
-                SelectTableCell( result.SelectedCellKey );
-            else if ( result.SelectedElementKeys.Count > 0 )
-                SelectElements( result.SelectedElementKeys, result.PrimaryElementKey );
+            var commandName = dragDropService.ResolveCommandName( definition, designerState, tableDropTarget, fieldDropTarget );
 
-            selectionManager.SelectedSectionIndex = null;
-            designerState.DragPreview = null;
-            ClearDragState();
+            if ( commandName is null )
+                return;
 
-            return Task.CompletedTask;
-        } ) );
+            await ClearDesignerInteractionOverlays();
+
+            await ExecuteDesignerCommand( new( commandName, () =>
+            {
+                var definition = EffectiveDefinition;
+                var targetSection = definition.Bands[targetSectionIndex];
+                tableEditor.TryFindCellAt( targetSection, x, y, out ReportTableCellDropTarget tableCellDropTarget );
+                ReportDropResult result = dragDropService.Drop( definition, designerState, targetSectionIndex, x, y, tableCellDropTarget, tableEditor );
+
+                if ( !string.IsNullOrWhiteSpace( result.SelectedCellKey ) )
+                    SelectTableCell( result.SelectedCellKey );
+                else if ( result.SelectedElementKeys.Count > 0 )
+                    SelectElements( result.SelectedElementKeys, result.PrimaryElementKey );
+
+                selectionManager.SelectedSectionIndex = null;
+                designerState.DragPreview = null;
+                ClearDragState();
+
+                return Task.CompletedTask;
+            } ) );
+        }
+        finally
+        {
+            designerDropInProgress = false;
+
+            if ( designerState.DraggedKind != ReportDesignerDragKind.None || designerState.DragPreview is not null )
+                await ClearDesignerDrag();
+        }
     }
 
     private ReportDesignerDragPreview CreateDragPreview( int targetSectionIndex, double x, double y )
