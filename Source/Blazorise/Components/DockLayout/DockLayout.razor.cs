@@ -608,7 +608,7 @@ public partial class DockLayout : BaseComponent
     /// <param name="ratio">The new split ratio.</param>
     /// <returns>A task that completes after the state is updated.</returns>
     [JSInvokable]
-    public async Task NotifyDockPaneResized( string paneName, string nodeId, string ratio )
+    public Task NotifyDockPaneResized( string paneName, string nodeId, string ratio )
     {
         DockNodeState resizedNode = DockLayoutTreeQuery.FindNodeById( CurrentState.Root, nodeId );
 
@@ -622,7 +622,7 @@ public partial class DockLayout : BaseComponent
             DockPaneState paneState = FindPaneState( paneName );
 
             if ( paneState is null )
-                return;
+                return Task.CompletedTask;
 
             if ( resizedNode is not null )
                 resizedNode.Size = ratio;
@@ -632,7 +632,9 @@ public partial class DockLayout : BaseComponent
                 paneState.Size = ratio;
         }
 
-        await NotifyStateChanged();
+        RenderResizePreview();
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -710,6 +712,8 @@ public partial class DockLayout : BaseComponent
                 treeMutator.MovePaneToZone( CurrentState, paneName, targetName, targetNodeId, targetZone.Value, mergeWithTargetTabs );
 
             await NotifyStateChanged();
+
+            return;
         }
 
         StateHasChanged();
@@ -749,7 +753,6 @@ public partial class DockLayout : BaseComponent
         if ( CurrentState.Root is null && registry.RootCollector.Nodes.Count > 0 )
         {
             EnsureCurrentStateInitialized();
-            NormalizeCurrentState();
             await NotifyStateChanged();
         }
 
@@ -1099,6 +1102,13 @@ public partial class DockLayout : BaseComponent
     }
 
     private sealed record DockPaneRestoreReference( string PaneName, DockPaneRestoreState RestorePlacement );
+
+    private void RenderResizePreview()
+    {
+        renderVersion++;
+
+        StateHasChanged();
+    }
 
     private async Task NotifyStateChanged()
     {
