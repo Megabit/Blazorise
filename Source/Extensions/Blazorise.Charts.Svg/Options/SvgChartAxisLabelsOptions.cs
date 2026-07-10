@@ -8,9 +8,9 @@ public class SvgChartAxisLabelsOptions
     #region Properties
 
     /// <summary>
-    /// Defines whether labels are visible.
+    /// Defines whether labels are visible. When null, the value is inherited from the parent options.
     /// </summary>
-    public bool Visible { get; set; } = true;
+    public bool? Visible { get; set; }
 
     /// <summary>
     /// Defines the interval for visible labels.

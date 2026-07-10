@@ -1,6 +1,8 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,7 +14,36 @@ namespace Blazorise.Charts.Svg;
 /// <typeparam name="TItem">The chart item type.</typeparam>
 public class SvgChartCategoryAxis<TItem> : SvgChartComponentBase
 {
+    #region Members
+
+    private ComponentParameterInfo<string> paramId;
+
+    private ComponentParameterInfo<SvgChartAxisPosition> paramPosition;
+
+    private ComponentParameterInfo<string> paramTitle;
+
+    private ComponentParameterInfo<Func<SvgChartAxisTickContext, string>> paramTickFormatter;
+
+    private ComponentParameterInfo<SvgChartGridLinesOptions> paramGridLines;
+
+    private ComponentParameterInfo<SvgChartAxisLabelsOptions> paramLabelsOptions;
+
+    #endregion
+
     #region Methods
+
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Id, out paramId );
+        parameters.TryGetParameter( Position, out paramPosition );
+        parameters.TryGetParameter( Title, out paramTitle );
+        parameters.TryGetParameter( TickFormatter, out paramTickFormatter );
+        parameters.TryGetParameter( GridLines, out paramGridLines );
+        parameters.TryGetParameter( LabelsOptions, out paramLabelsOptions );
+
+        return base.SetParametersAsync( parameters );
+    }
 
     protected override void Register()
     {
@@ -23,6 +54,26 @@ public class SvgChartCategoryAxis<TItem> : SvgChartComponentBase
     protected override void Unregister()
     {
         RegisteredParent?.UnregisterCategoryAxis( this );
+    }
+
+    internal SvgChartAxisOptions ResolveOptions( SvgChartAxisOptions fallback )
+    {
+        fallback ??= new();
+
+        return new()
+        {
+            Id = paramId.GetValueOrDefault( fallback.Id ),
+            Position = paramPosition.GetValueOrDefault( fallback.Position ),
+            BeginAtZero = fallback.BeginAtZero,
+            Min = fallback.Min,
+            Max = fallback.Max,
+            TickCount = fallback.TickCount,
+            Stacked = fallback.Stacked,
+            TickFormatter = paramTickFormatter.GetValueOrDefault( fallback.TickFormatter ),
+            GridLines = SvgChartOptionsMapper.CreateGridLinesOptions( fallback.GridLines, paramGridLines ),
+            Labels = SvgChartOptionsMapper.CreateLabelsOptions( fallback.Labels, paramLabelsOptions ),
+            Title = paramTitle.GetValueOrDefault( fallback.Title )
+        };
     }
 
     #endregion

@@ -1597,7 +1597,7 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string Gap( GapSize gapSize, GapSide gapSide )
     {
         var side = gapSide != GapSide.None && gapSide != GapSide.All
-            ? $"-{ToGapSide( gapSide )}-"
+            ? $"-{ToGapSide( gapSide )}"
             : null;
 
         return $"fui-Gap{side}-{ToGapSize( gapSize )}";
