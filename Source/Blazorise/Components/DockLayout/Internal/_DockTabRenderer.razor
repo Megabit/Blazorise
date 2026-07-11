@@ -1,7 +1,7 @@
 @namespace Blazorise
 @inherits BaseComponent
-<span class="@ClassNames" data-dock-tab-name="@PaneName">
-    <button type="button" class="@LabelClassNames" data-dock-tab-label="true" @onpointerdown="@BeginPaneTabDrag" @onclick="@ActivateTab">@Caption</button>
+<span class="@ClassNames" data-dock-tab-name="@PaneName" @onpointerdown="@BeginPaneTabDrag" @onclick="@ActivateTab">
+    <button type="button" class="@LabelClassNames" data-dock-tab-label="true">@Caption</button>
     @if ( CloseButtonVisible )
     {
         <button type="button" class="@CloseClassNames" title="Close" @onclick="@ClosePane" @onclick:stopPropagation @onpointerdown:stopPropagation>
