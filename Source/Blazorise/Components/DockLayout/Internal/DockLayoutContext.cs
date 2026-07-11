@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -7,8 +8,14 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise;
 
-internal sealed record DockLayoutContext
+internal sealed class DockLayoutContext
 {
+    #region Events
+
+    internal event Action<DockLayoutChange> Changed;
+
+    #endregion
+
     #region Members
 
     private readonly DockLayout layout;
@@ -25,6 +32,9 @@ internal sealed record DockLayoutContext
     #endregion
 
     #region Methods
+
+    internal void NotifyChanged( DockLayoutChange change )
+        => Changed?.Invoke( change );
 
     internal DockNodeState GetNode( string nodeId )
         => layout?.GetNode( nodeId );
@@ -107,6 +117,10 @@ internal sealed record DockLayoutContext
     internal DockZone? ActiveDockZone => layout?.ActiveDockZone;
 
     internal string ActiveDockCompassZoneKey => layout?.ActiveDockCompassZoneKey;
+
+    internal double DockCompassX => layout?.DockCompassX ?? 0;
+
+    internal double DockCompassY => layout?.DockCompassY ?? 0;
 
     #endregion
 }

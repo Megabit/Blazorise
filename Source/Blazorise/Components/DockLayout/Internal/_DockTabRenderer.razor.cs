@@ -12,6 +12,12 @@ namespace Blazorise;
 /// </summary>
 public partial class _DockTabRenderer : BaseComponent
 {
+    #region Members
+
+    private bool active;
+
+    #endregion
+
     #region Constructors
 
     /// <summary>
@@ -26,16 +32,6 @@ public partial class _DockTabRenderer : BaseComponent
     #endregion
 
     #region Methods
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-
-        DirtyClasses();
-        LabelClassBuilder.Dirty();
-        CloseClassBuilder.Dirty();
-    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -68,8 +64,6 @@ public partial class _DockTabRenderer : BaseComponent
 
     #region Properties
 
-    private bool Active => Context?.GetActiveTabPaneName( Node ) == PaneName;
-
     private string Caption => Context?.GetPaneCaption( PaneName ) ?? PaneName;
 
     private string LabelClassNames => LabelClassBuilder.Class;
@@ -81,8 +75,6 @@ public partial class _DockTabRenderer : BaseComponent
     private ClassBuilder LabelClassBuilder { get; set; }
 
     private ClassBuilder CloseClassBuilder { get; set; }
-
-    private DockNodeState Node => Context?.GetNode( NodeId );
 
     [CascadingParameter] internal DockLayoutContext Context { get; set; }
 
@@ -100,6 +92,23 @@ public partial class _DockTabRenderer : BaseComponent
     /// Gets or sets the rendered tab group position.
     /// </summary>
     [Parameter] public DockPanePosition GroupPosition { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the tab is active.
+    /// </summary>
+    [Parameter]
+    public bool Active
+    {
+        get => active;
+        set
+        {
+            if ( active == value )
+                return;
+
+            active = value;
+            DirtyClasses();
+        }
+    }
 
     #endregion
 }

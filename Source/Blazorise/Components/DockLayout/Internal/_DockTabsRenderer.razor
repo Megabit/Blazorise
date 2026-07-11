@@ -1,5 +1,5 @@
 @namespace Blazorise
-@inherits BaseComponent
+@inherits _BaseDockRenderer
 @if ( Visible )
 {
     <CascadingValue Value="@ActivePane" IsFixed="false">
@@ -9,7 +9,7 @@
                 <div class="@TabsClassNames">
                     @foreach ( string paneName in Node.Panes )
                     {
-                        <_DockTabRenderer @key="@paneName" NodeId="@NodeId" PaneName="@paneName" GroupPosition="@GroupPosition" />
+                        <_DockTabRenderer @key="@paneName" NodeId="@NodeId" PaneName="@paneName" GroupPosition="@GroupPosition" Active="@( paneName == ActivePaneName )" />
                     }
                 </div>
             }
@@ -20,7 +20,7 @@
                 <div class="@TabsClassNames">
                     @foreach ( string paneName in Node.Panes )
                     {
-                        <_DockTabRenderer @key="@paneName" NodeId="@NodeId" PaneName="@paneName" GroupPosition="@GroupPosition" />
+                        <_DockTabRenderer @key="@paneName" NodeId="@NodeId" PaneName="@paneName" GroupPosition="@GroupPosition" Active="@( paneName == ActivePaneName )" />
                     }
                 </div>
             }

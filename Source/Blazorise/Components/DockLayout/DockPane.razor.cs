@@ -20,12 +20,12 @@ public partial class DockPane : BaseComponent, IDisposable
     #region Methods
 
     /// <inheritdoc/>
-    protected override void OnParametersSet()
+    protected override void OnInitialized()
     {
-        base.OnParametersSet();
+        base.OnInitialized();
 
-        ParentDockLayout?.RegisterPane( this );
         Node.PaneName = ResolvedName;
+        ParentDockLayout?.RegisterPane( this );
         ParentCollector?.AddNode( Node );
     }
 
@@ -45,7 +45,7 @@ public partial class DockPane : BaseComponent, IDisposable
     public Task Refresh()
         => ParentDockLayout is null
             ? InvokeAsync( StateHasChanged )
-            : ParentDockLayout.Refresh();
+            : ParentDockLayout.RefreshPane( ResolvedName );
 
     #endregion
 

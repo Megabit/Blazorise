@@ -13,15 +13,17 @@ namespace Blazorise;
 /// </summary>
 public partial class _DockAutoHideRailRenderer : BaseComponent
 {
+    #region Members
+
+    private IReadOnlyList<DockRailItemState> items = [];
+
+    private bool bordered;
+
+    private DockPanePosition railPosition;
+
+    #endregion
+
     #region Methods
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-
-        DirtyClasses();
-    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -48,8 +50,6 @@ public partial class _DockAutoHideRailRenderer : BaseComponent
 
     private bool Visible => Items.Any();
 
-    private bool Bordered => Context?.IsDockPaneBordered( RailPosition ) == true;
-
     private string AutoHideTabClass => ClassProvider.DockPaneAutoHideTab( RailPosition );
 
     [CascadingParameter] internal DockLayoutContext Context { get; set; }
@@ -57,12 +57,50 @@ public partial class _DockAutoHideRailRenderer : BaseComponent
     /// <summary>
     /// Gets or sets the auto-hidden rail items.
     /// </summary>
-    [Parameter] public IReadOnlyList<DockRailItemState> Items { get; set; } = [];
+    [Parameter]
+    public IReadOnlyList<DockRailItemState> Items
+    {
+        get => items;
+        set
+        {
+            items = value;
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Gets or sets the rail position.
     /// </summary>
-    [Parameter] public DockPanePosition RailPosition { get; set; }
+    [Parameter]
+    public DockPanePosition RailPosition
+    {
+        get => railPosition;
+        set
+        {
+            if ( railPosition == value )
+                return;
+
+            railPosition = value;
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets whether the rail is bordered.
+    /// </summary>
+    [Parameter]
+    public bool Bordered
+    {
+        get => bordered;
+        set
+        {
+            if ( bordered == value )
+                return;
+
+            bordered = value;
+            DirtyClasses();
+        }
+    }
 
     #endregion
 }

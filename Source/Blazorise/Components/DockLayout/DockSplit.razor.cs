@@ -21,9 +21,9 @@ public partial class DockSplit : BaseComponent
     #region Methods
 
     /// <inheritdoc/>
-    protected override void OnParametersSet()
+    protected override void OnInitialized()
     {
-        base.OnParametersSet();
+        base.OnInitialized();
 
         ParentCollector?.AddNode( Node );
     }
@@ -33,30 +33,25 @@ public partial class DockSplit : BaseComponent
     {
         await base.OnAfterRenderAsync( firstRender );
 
-        bool nodeChanged = SynchronizeNode();
+        if ( !firstRender )
+            return;
 
-        if ( ( nodeChanged || firstRender ) && ParentDockLayout is not null )
+        SynchronizeNode();
+
+        if ( ParentDockLayout is not null )
             await ParentDockLayout.NotifyDefinitionChanged();
     }
 
-    private bool SynchronizeNode()
+    private void SynchronizeNode()
     {
         DockNodeState first = childCollector.Nodes.Count > 0 ? childCollector.Nodes[0] : null;
         DockNodeState second = childCollector.Nodes.Count > 1 ? childCollector.Nodes[1] : null;
         DockNodeState currentNode = Node;
 
-        if ( currentNode.Orientation == Orientation
-            && currentNode.Ratio == Ratio
-            && currentNode.First == first
-            && currentNode.Second == second )
-            return false;
-
         currentNode.Orientation = Orientation;
         currentNode.Ratio = Ratio;
         currentNode.First = first;
         currentNode.Second = second;
-
-        return true;
     }
 
     #endregion

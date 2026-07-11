@@ -8,7 +8,7 @@ namespace Blazorise;
 /// <summary>
 /// Renders a tabbed dock pane group inside a dock layout tree.
 /// </summary>
-public partial class _DockTabsRenderer : BaseComponent
+public partial class _DockTabsRenderer : _BaseDockRenderer
 {
     #region Members
 
@@ -21,6 +21,8 @@ public partial class _DockTabsRenderer : BaseComponent
     private DockPanePosition groupPosition;
 
     private DockPaneTabPosition tabPosition;
+
+    private int version;
 
     #endregion
 
@@ -39,9 +41,15 @@ public partial class _DockTabsRenderer : BaseComponent
     #region Methods
 
     /// <inheritdoc/>
-    protected override void OnParametersSet()
+    protected override void OnInitialized()
     {
-        base.OnParametersSet();
+        base.OnInitialized();
+
+        RefreshState();
+    }
+
+    private void RefreshState()
+    {
 
         activePaneName = Context?.GetActiveTabPaneName( Node );
 
@@ -51,19 +59,29 @@ public partial class _DockTabsRenderer : BaseComponent
             activePaneState = null;
             groupPosition = DockPanePosition.Center;
             tabPosition = DockPaneTabPosition.Top;
-            return;
         }
 
-        if ( Context is null || !Context.TryGetPane( activePaneName, out activePane ) )
-            activePane = null;
+        else
+        {
+            if ( Context is null || !Context.TryGetPane( activePaneName, out activePane ) )
+                activePane = null;
 
-        activePaneState = Context?.GetPaneState( activePaneName );
-        groupPosition = Context?.GetDockNodePosition( Node ) ?? activePane?.EffectivePosition ?? DockPanePosition.Center;
-        tabPosition = Context?.GetDockNodeTabPosition( Node, groupPosition ) ?? DockPaneTabPosition.Top;
+            activePaneState = Context?.GetPaneState( activePaneName );
+            groupPosition = Context?.GetDockNodePosition( Node ) ?? activePane?.EffectivePosition ?? DockPanePosition.Center;
+            tabPosition = Context?.GetDockNodeTabPosition( Node, groupPosition ) ?? DockPaneTabPosition.Top;
+        }
+    }
 
+    /// <inheritdoc/>
+    private protected override bool IsAffected( DockLayoutChange change )
+        => change.Kind == DockLayoutChangeKind.Pane && Node?.Panes?.Contains( change.PaneName ) == true;
+
+    /// <inheritdoc/>
+    private protected override void OnDockLayoutChanged( DockLayoutChange change )
+    {
+        RefreshState();
         DirtyClasses();
         DirtyStyles();
-        TabsClassBuilder.Dirty();
     }
 
     /// <inheritdoc/>
@@ -87,6 +105,14 @@ public partial class _DockTabsRenderer : BaseComponent
         builder.Append( ClassProvider.DockPaneTabs() );
         builder.Append( ClassProvider.DockPaneTabsPosition( GroupPosition ) );
         builder.Append( ClassProvider.DockPaneTabPosition( TabPosition ) );
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        TabsClassBuilder?.Dirty();
+
+        base.DirtyClasses();
     }
 
     /// <inheritdoc/>
@@ -144,8 +170,6 @@ public partial class _DockTabsRenderer : BaseComponent
 
     private DockNodeState Node => Context?.GetNode( NodeId );
 
-    [CascadingParameter] internal DockLayoutContext Context { get; set; }
-
     /// <summary>
     /// Gets or sets the tab node id to render.
     /// </summary>
@@ -160,6 +184,25 @@ public partial class _DockTabsRenderer : BaseComponent
     /// Gets or sets the split node that owns the rendered tab group splitter.
     /// </summary>
     [Parameter] public string SplitNodeId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the node render version.
+    /// </summary>
+    [Parameter]
+    public int Version
+    {
+        get => version;
+        set
+        {
+            if ( version == value )
+                return;
+
+            version = value;
+            RefreshState();
+            DirtyClasses();
+            DirtyStyles();
+        }
+    }
 
     #endregion
 }

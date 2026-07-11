@@ -38,6 +38,8 @@ public partial class DockLayout : BaseComponent
 
     private DockLayoutState state;
 
+    private bool paneBordered = true;
+
     private DotNetObjectReference<DockLayout> dotNetObjectRef;
 
     private string activeAutoHidePaneName;
@@ -73,7 +75,6 @@ public partial class DockLayout : BaseComponent
         sizer = new( registry, stateManager, treeQuery, () => CurrentState );
         treeBuilder = new( registry, stateManager, treeQuery, sizer );
         treeMutator = new( treeQuery, sizer );
-        DockCompassStyleBuilder = new( BuildDockCompassStyles );
     }
 
     #endregion
@@ -89,30 +90,16 @@ public partial class DockLayout : BaseComponent
     }
 
     /// <summary>
-    /// Builds styles for the dock compass element.
-    /// </summary>
-    /// <param name="builder">Style builder used to append the styles.</param>
-    protected virtual void BuildDockCompassStyles( StyleBuilder builder )
-    {
-        builder.Append( $"left:{dragState.CompassX}px" );
-        builder.Append( $"top:{dragState.CompassY}px" );
-    }
-
-    /// <inheritdoc/>
-    protected internal override void DirtyStyles()
-    {
-        DockCompassStyleBuilder.Dirty();
-
-        base.DirtyStyles();
-    }
-
-    /// <summary>
     /// Forces rendered dock content to refresh without changing the docking state. Call this after
     /// mutating the <see cref="State"/> instance directly.
     /// </summary>
     /// <returns>A task that completes after the refresh has been scheduled.</returns>
     public Task Refresh()
-        => InvokeAsync( StateHasChanged );
+        => InvokeAsync( () =>
+        {
+            context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
+            StateHasChanged();
+        } );
 
     /// <summary>
     /// Returns the current mutable docking state.
@@ -239,9 +226,10 @@ public partial class DockLayout : BaseComponent
     }
 
     internal void RegisterContent( DockContent dockContent )
-    {
-        registry.RegisterContent( dockContent );
-    }
+        => registry.RegisterContent( dockContent );
+
+    internal Task RefreshPane( string paneName )
+        => InvokeAsync( () => context.NotifyChanged( new( DockLayoutChangeKind.Pane, PaneName: paneName ) ) );
 
     internal Task NotifyDefinitionChanged()
         => InvokeAsync( async () =>
@@ -313,7 +301,7 @@ public partial class DockLayout : BaseComponent
         if ( node?.Kind == DockNodeKind.Tabs && node.Panes.Contains( paneName ) && node.ActivePane != paneName )
         {
             node.ActivePane = paneName;
-            await NotifyStateChanged();
+            await NotifyStateChanged( new( DockLayoutChangeKind.Node, node.Id ) );
         }
     }
 
@@ -327,7 +315,7 @@ public partial class DockLayout : BaseComponent
         if ( tabsNode is not null && tabsNode.Panes.Contains( paneName ) && tabsNode.ActivePane != paneName )
         {
             tabsNode.ActivePane = paneName;
-            await NotifyStateChanged();
+            await NotifyStateChanged( new( DockLayoutChangeKind.Node, tabsNode.Id ) );
         }
     }
 
@@ -584,7 +572,15 @@ public partial class DockLayout : BaseComponent
                 paneState.Size = ratio;
         }
 
-        RenderResizePreview();
+        if ( string.IsNullOrWhiteSpace( nodeId ) )
+        {
+            context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
+            StateHasChanged();
+        }
+        else
+        {
+            context.NotifyChanged( new( DockLayoutChangeKind.Node, nodeId ) );
+        }
 
         return Task.CompletedTask;
     }
@@ -596,7 +592,7 @@ public partial class DockLayout : BaseComponent
     /// <returns>A task that completes after the state is updated.</returns>
     [JSInvokable]
     public Task NotifyDockPaneResizeEnded( string paneName )
-        => NotifyStateChanged();
+        => CommitStateChanged();
 
     /// <summary>
     /// Updates the currently highlighted dock drop zone while a pane is dragged.
@@ -610,9 +606,14 @@ public partial class DockLayout : BaseComponent
     [JSInvokable]
     public Task NotifyDockPaneDrag( string paneName, string zone, string compassZoneKey, double compassX, double compassY )
     {
+        bool guidesVisible = DockGuidesVisible;
+
         dragState.Update( paneName, DockLayoutTreeMutator.ToDockZone( zone ), compassZoneKey, compassX, compassY );
-        DirtyStyles();
-        StateHasChanged();
+
+        if ( guidesVisible != DockGuidesVisible )
+            StateHasChanged();
+        else if ( DockGuidesVisible )
+            context.NotifyChanged( new( DockLayoutChangeKind.Compass ) );
 
         return Task.CompletedTask;
     }
@@ -702,7 +703,7 @@ public partial class DockLayout : BaseComponent
     {
         await base.OnAfterRenderAsync( firstRender );
 
-        if ( CurrentState.Root is null && registry.RootCollector.Nodes.Count > 0 )
+        if ( firstRender && CurrentState.Root is null && registry.RootCollector.Nodes.Count > 0 )
         {
             EnsureCurrentStateInitialized();
             await NotifyStateChanged();
@@ -1055,21 +1056,26 @@ public partial class DockLayout : BaseComponent
 
     private sealed record DockPaneRestoreReference( string PaneName, DockPaneRestoreState RestorePlacement );
 
-    private void RenderResizePreview()
+    private async Task NotifyStateChanged()
     {
+        await CommitStateChanged();
+
+        context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
         StateHasChanged();
     }
 
-    private async Task NotifyStateChanged()
+    private async Task NotifyStateChanged( DockLayoutChange change )
+    {
+        await CommitStateChanged();
+
+        context.NotifyChanged( change );
+    }
+
+    private async Task CommitStateChanged()
     {
         NormalizeCurrentState();
 
-        DirtyClasses();
-        DirtyStyles();
-
         await StateChanged.InvokeAsync( CurrentState );
-
-        StateHasChanged();
     }
 
     private void NormalizeCurrentState()
@@ -1098,6 +1104,10 @@ public partial class DockLayout : BaseComponent
 
     internal DockZone? ActiveDockZone => dragState.Zone;
 
+    internal double DockCompassX => dragState.CompassX;
+
+    internal double DockCompassY => dragState.CompassY;
+
     private DockLayoutState CurrentState => state ??= new();
 
     internal DockNodeCollector RootCollector => registry.RootCollector;
@@ -1114,16 +1124,6 @@ public partial class DockLayout : BaseComponent
                 : null;
 
     private DotNetObjectReference<DockLayout> DotNetObjectRef => dotNetObjectRef ??= DotNetObjectReference.Create( this );
-
-    /// <summary>
-    /// Gets or sets the dock compass style-builder.
-    /// </summary>
-    protected StyleBuilder DockCompassStyleBuilder { get; private set; }
-
-    /// <summary>
-    /// Gets the styles for dock compass container.
-    /// </summary>
-    protected string DockCompassStyleNames => DockCompassStyleBuilder.Styles;
 
     /// <summary>
     /// Gets the provider class for the dock drag preview.
@@ -1148,7 +1148,19 @@ public partial class DockLayout : BaseComponent
     /// <summary>
     /// Defines whether non-document panes should render a visible border.
     /// </summary>
-    [Parameter] public bool PaneBordered { get; set; } = true;
+    [Parameter]
+    public bool PaneBordered
+    {
+        get => paneBordered;
+        set
+        {
+            if ( paneBordered == value )
+                return;
+
+            paneBordered = value;
+            context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
+        }
+    }
 
     /// <summary>
     /// Defines the mutable state used for docking, resizing, active tabs, and pane visibility. The same state can be saved with <see cref="GetState"/> and restored with <see cref="LoadState"/>.
@@ -1164,6 +1176,7 @@ public partial class DockLayout : BaseComponent
                 return;
 
             state = value;
+            context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
         }
     }
 

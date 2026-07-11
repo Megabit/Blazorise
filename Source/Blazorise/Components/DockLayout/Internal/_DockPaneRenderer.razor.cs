@@ -8,7 +8,7 @@ namespace Blazorise;
 /// <summary>
 /// Renders a single dock pane inside a dock layout tree.
 /// </summary>
-public partial class _DockPaneRenderer : BaseComponent
+public partial class _DockPaneRenderer : _BaseDockRenderer
 {
     #region Members
 
@@ -18,14 +18,22 @@ public partial class _DockPaneRenderer : BaseComponent
 
     private DockPanePosition renderPosition;
 
+    private int version;
+
     #endregion
 
     #region Methods
 
     /// <inheritdoc/>
-    protected override void OnParametersSet()
+    protected override void OnInitialized()
     {
-        base.OnParametersSet();
+        base.OnInitialized();
+
+        RefreshState();
+    }
+
+    private void RefreshState()
+    {
 
         if ( Context is null || !Context.TryGetPane( PaneName, out pane ) )
             pane = null;
@@ -36,7 +44,16 @@ public partial class _DockPaneRenderer : BaseComponent
             : Flyout
                 ? GetFlyoutPosition( paneState?.Position ?? Pane.EffectivePosition )
                 : Context?.GetPanePosition( Pane ) ?? Pane.EffectivePosition;
+    }
 
+    /// <inheritdoc/>
+    private protected override bool IsAffected( DockLayoutChange change )
+        => change.Kind == DockLayoutChangeKind.Pane && change.PaneName == PaneName;
+
+    /// <inheritdoc/>
+    private protected override void OnDockLayoutChanged( DockLayoutChange change )
+    {
+        RefreshState();
         DirtyClasses();
         DirtyStyles();
     }
@@ -109,8 +126,6 @@ public partial class _DockPaneRenderer : BaseComponent
         }
     }
 
-    [CascadingParameter] internal DockLayoutContext Context { get; set; }
-
     /// <summary>
     /// Gets or sets the pane name.
     /// </summary>
@@ -135,6 +150,25 @@ public partial class _DockPaneRenderer : BaseComponent
     /// Gets or sets the split node that owns the rendered pane splitter.
     /// </summary>
     [Parameter] public string SplitNodeId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the node render version.
+    /// </summary>
+    [Parameter]
+    public int Version
+    {
+        get => version;
+        set
+        {
+            if ( version == value )
+                return;
+
+            version = value;
+            RefreshState();
+            DirtyClasses();
+            DirtyStyles();
+        }
+    }
 
     #endregion
 }

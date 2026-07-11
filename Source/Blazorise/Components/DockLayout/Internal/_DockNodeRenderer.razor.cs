@@ -8,16 +8,28 @@ namespace Blazorise;
 /// <summary>
 /// Renders a node in a <see cref="DockLayout"/> tree.
 /// </summary>
-public partial class _DockNodeRenderer : BaseComponent
+public partial class _DockNodeRenderer : _BaseDockRenderer
 {
+    #region Members
+
+    private int version;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
+    private protected override bool IsAffected( DockLayoutChange change )
+        => change.Kind == DockLayoutChangeKind.Tree
+            || change.Kind == DockLayoutChangeKind.Node && change.NodeId == NodeId;
 
-        DirtyClasses();
+    /// <inheritdoc/>
+    private protected override void OnDockLayoutChanged( DockLayoutChange change )
+    {
+        version++;
+
+        if ( change.Kind == DockLayoutChangeKind.Tree )
+            DirtyClasses();
     }
 
     /// <inheritdoc/>
@@ -54,7 +66,7 @@ public partial class _DockNodeRenderer : BaseComponent
 
     private DockNodeState Node => Context?.GetNode( NodeId );
 
-    [CascadingParameter] internal DockLayoutContext Context { get; set; }
+    private int Version => version;
 
     /// <summary>
     /// Gets or sets the rendered node id.

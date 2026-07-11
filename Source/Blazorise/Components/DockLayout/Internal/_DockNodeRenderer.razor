@@ -1,5 +1,5 @@
 @namespace Blazorise
-@inherits BaseComponent
+@inherits _BaseDockRenderer
 @if ( Node?.Kind == DockNodeKind.Split )
 {
     <div class="@ClassNames" style="@SplitStyle" data-dock-node-id="@Node.Id" data-dock-split>
@@ -13,11 +13,11 @@
 }
 else if ( Node?.Kind == DockNodeKind.Tabs )
 {
-    <_DockTabsRenderer NodeId="@Node.Id" SplitterDock="@SplitterDock" SplitNodeId="@SplitNodeId" />
+    <_DockTabsRenderer NodeId="@Node.Id" SplitterDock="@SplitterDock" SplitNodeId="@SplitNodeId" Version="@Version" />
 }
 else if ( Node?.Kind == DockNodeKind.Pane )
 {
-    <_DockPaneRenderer NodeId="@Node.Id" PaneName="@Node.PaneName" SplitterDock="@SplitterDock" SplitNodeId="@SplitNodeId" />
+    <_DockPaneRenderer NodeId="@Node.Id" PaneName="@Node.PaneName" SplitterDock="@SplitterDock" SplitNodeId="@SplitNodeId" Version="@Version" />
 }
 else if ( Node?.Kind == DockNodeKind.Content )
 {

@@ -10,6 +10,12 @@ namespace Blazorise;
 /// </summary>
 public partial class _DockCompassZoneRenderer : BaseComponent
 {
+    #region Members
+
+    private bool active;
+
+    #endregion
+
     #region Constructors
 
     /// <summary>
@@ -23,15 +29,6 @@ public partial class _DockCompassZoneRenderer : BaseComponent
     #endregion
 
     #region Methods
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-
-        DirtyClasses();
-        IconClassBuilder.Dirty();
-    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -51,8 +48,6 @@ public partial class _DockCompassZoneRenderer : BaseComponent
 
     #region Properties
 
-    private bool Active => Context?.ActiveDockZone == Zone && Context?.ActiveDockCompassZoneKey == ZoneKey;
-
     private IconName CompassIconName
         => Zone switch
         {
@@ -67,8 +62,6 @@ public partial class _DockCompassZoneRenderer : BaseComponent
 
     private ClassBuilder IconClassBuilder { get; set; }
 
-    [CascadingParameter] internal DockLayoutContext Context { get; set; }
-
     /// <summary>
     /// Gets or sets the dock zone to render.
     /// </summary>
@@ -80,9 +73,21 @@ public partial class _DockCompassZoneRenderer : BaseComponent
     [Parameter] public DockCompassZone CompassZone { get; set; }
 
     /// <summary>
-    /// Gets or sets the compass zone key.
+    /// Gets or sets whether the compass zone is active.
     /// </summary>
-    [Parameter] public string ZoneKey { get; set; }
+    [Parameter]
+    public bool Active
+    {
+        get => active;
+        set
+        {
+            if ( active == value )
+                return;
+
+            active = value;
+            DirtyClasses();
+        }
+    }
 
     #endregion
 }

@@ -1,7 +1,6 @@
 #region Using directives
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -23,9 +22,9 @@ public partial class DockTabs : BaseComponent
     #region Methods
 
     /// <inheritdoc/>
-    protected override void OnParametersSet()
+    protected override void OnInitialized()
     {
-        base.OnParametersSet();
+        base.OnInitialized();
 
         ParentCollector?.AddNode( Node );
     }
@@ -35,13 +34,16 @@ public partial class DockTabs : BaseComponent
     {
         await base.OnAfterRenderAsync( firstRender );
 
-        bool nodeChanged = SynchronizeNode();
+        if ( !firstRender )
+            return;
 
-        if ( ( nodeChanged || firstRender ) && ParentDockLayout is not null )
+        SynchronizeNode();
+
+        if ( ParentDockLayout is not null )
             await ParentDockLayout.NotifyDefinitionChanged();
     }
 
-    private bool SynchronizeNode()
+    private void SynchronizeNode()
     {
         DockNodeState currentNode = Node;
         List<string> paneNames = new();
@@ -57,15 +59,9 @@ public partial class DockTabs : BaseComponent
         if ( string.IsNullOrWhiteSpace( activePane ) && paneNames.Count > 0 )
             activePane = paneNames[0];
 
-        if ( currentNode.ActivePane == activePane && currentNode.Panes.AreEqual( paneNames ) )
-            return false;
-
         currentNode.Panes.Clear();
         currentNode.Panes.AddRange( paneNames );
-
         currentNode.ActivePane = activePane;
-
-        return true;
     }
 
     #endregion

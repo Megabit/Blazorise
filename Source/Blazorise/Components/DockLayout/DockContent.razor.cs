@@ -27,9 +27,9 @@ public partial class DockContent : BaseComponent
     }
 
     /// <inheritdoc/>
-    protected override void OnParametersSet()
+    protected override void OnInitialized()
     {
-        base.OnParametersSet();
+        base.OnInitialized();
 
         ParentDockLayout?.RegisterContent( this );
         ParentCollector?.AddNode( Node );

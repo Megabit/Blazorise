@@ -1,8 +1,8 @@
 @namespace Blazorise
-@inherits BaseComponent
+@inherits _BaseDockRenderer
 <div class="@ClassNames" style="@StyleNames">
     @foreach ( DockLayout.DockCompassZoneInfo zone in DockLayout.DockCompassZones )
     {
-        <_DockCompassZoneRenderer @key="@zone.Key" Zone="@zone.Zone" CompassZone="@zone.CompassZone" ZoneKey="@zone.Key" />
+        <_DockCompassZoneRenderer @key="@zone.Key" Zone="@zone.Zone" CompassZone="@zone.CompassZone" Active="@IsActive( zone )" />
     }
 </div>
