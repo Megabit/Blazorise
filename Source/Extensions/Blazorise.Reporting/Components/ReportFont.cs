@@ -38,7 +38,7 @@ public class ReportFont : ComponentBase
 
     #endregion
 
-    #region Parameters
+    #region Properties
 
     /// <summary>
     /// Provides the current declarative report context.

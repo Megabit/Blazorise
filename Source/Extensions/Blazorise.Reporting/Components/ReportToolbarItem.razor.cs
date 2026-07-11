@@ -16,22 +16,12 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportToolbarItem
 {
-    [CascadingParameter] internal ReportToolbarContext ToolbarContext { get; set; }
+    #region Methods
 
     private Task OnClicked()
     {
         return ToolbarContext?.Execute( Command ) ?? Task.CompletedTask;
     }
-
-    private bool Disabled => ToolbarContext?.CanExecute( Command ) == false;
-
-    private bool Active => ToolbarContext?.IsActive( Command ) == true;
-
-    private Color ResolvedColor => Color ?? ( Active ? ActiveColor : InactiveColor );
-
-    private string Text => string.IsNullOrWhiteSpace( Caption ) ? Command.ToString() : Caption;
-
-    private IconName? ResolvedIcon => Icon ?? GetDefaultIcon( Command );
 
     private static IconName? GetDefaultIcon( ReportCommand command )
     {
@@ -53,6 +43,22 @@ public partial class ReportToolbarItem
             _ => null,
         };
     }
+
+    #endregion
+
+    #region Properties
+
+    private bool Disabled => ToolbarContext?.CanExecute( Command ) == false;
+
+    private bool Active => ToolbarContext?.IsActive( Command ) == true;
+
+    private Color ResolvedColor => Color ?? ( Active ? ActiveColor : InactiveColor );
+
+    private string Text => string.IsNullOrWhiteSpace( Caption ) ? Command.ToString() : Caption;
+
+    private IconName? ResolvedIcon => Icon ?? GetDefaultIcon( Command );
+
+    [CascadingParameter] internal ReportToolbarContext ToolbarContext { get; set; }
 
     /// <summary>
     /// Report command executed when the toolbar item is clicked.
@@ -88,4 +94,6 @@ public partial class ReportToolbarItem
     /// Button color used when the command is available but not active.
     /// </summary>
     [Parameter] public Color InactiveColor { get; set; } = Color.Light;
+
+    #endregion
 }

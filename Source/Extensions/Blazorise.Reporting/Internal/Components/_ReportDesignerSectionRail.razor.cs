@@ -13,13 +13,7 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerSectionRail
 {
-    private string Class => ClassNames;
-
-    private string DisplayName => ReportDefinitionHelper.GetSectionDisplayName( Section );
-
-    private string Style => StyleNames;
-
-    private string ToggleTitle => ReportValueResolver.ResolveStaticSuppress( Section ) ? "Band is suppressed" : Collapsed ? "Expand band" : "Collapse band";
+    #region Methods
 
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
@@ -77,6 +71,18 @@ public partial class _ReportDesignerSectionRail
         return Task.CompletedTask;
     }
 
+    #endregion
+
+    #region Properties
+
+    private string Class => ClassNames;
+
+    private string DisplayName => ReportDefinitionHelper.GetSectionDisplayName( Section );
+
+    private string Style => StyleNames;
+
+    private string ToggleTitle => ReportValueResolver.ResolveStaticSuppress( Section ) ? "Band is suppressed" : Collapsed ? "Expand band" : "Collapse band";
+
     /// <summary>
     /// Report section displayed in the rail.
     /// </summary>
@@ -121,4 +127,6 @@ public partial class _ReportDesignerSectionRail
     /// Raised when the section collapse toggle is clicked.
     /// </summary>
     [Parameter] public Func<MouseEventArgs, Task> ToggleClicked { get; set; }
+
+    #endregion
 }

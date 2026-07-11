@@ -1,4 +1,6 @@
+#region Using directives
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Reporting;
 
@@ -7,10 +9,13 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportSubreport
 {
+    #region Members
+
     private readonly ReportContext context = new();
 
-    /// <inheritdoc />
-    protected override ReportElementType ElementType => ReportElementType.Subreport;
+    #endregion
+
+    #region Methods
 
     /// <inheritdoc />
     protected override void OnAfterRender( bool firstRender )
@@ -52,6 +57,13 @@ public partial class ReportSubreport
         return definition;
     }
 
+    #endregion
+
+    #region Properties
+
+    /// <inheritdoc />
+    protected override ReportElementType ElementType => ReportElementType.Subreport;
+
     internal ReportContext Context => context;
 
     /// <summary>
@@ -68,4 +80,6 @@ public partial class ReportSubreport
     /// Declarative report bands placed inside the subreport.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
 }

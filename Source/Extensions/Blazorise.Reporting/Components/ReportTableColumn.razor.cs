@@ -1,4 +1,6 @@
+#region Using directives
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Reporting;
 
@@ -7,7 +9,7 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportTableColumn : ComponentBase
 {
-    [CascadingParameter] internal ReportTableElementDefinition TableDefinition { get; set; }
+    #region Methods
 
     /// <inheritdoc />
     protected override void OnParametersSet()
@@ -23,6 +25,12 @@ public partial class ReportTableColumn : ComponentBase
             Width = Width,
         } );
     }
+
+    #endregion
+
+    #region Properties
+
+    [CascadingParameter] internal ReportTableElementDefinition TableDefinition { get; set; }
 
     /// <summary>
     /// Header text displayed for the table column.
@@ -43,4 +51,6 @@ public partial class ReportTableColumn : ComponentBase
     /// Column width in points.
     /// </summary>
     [Parameter] public double Width { get; set; } = 90;
+
+    #endregion
 }

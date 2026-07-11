@@ -185,34 +185,6 @@ public partial class _ReportDesignerDataSourceConnectionDialog
         return true;
     }
 
-    #endregion
-
-    #region Properties
-
-    [Parameter] public ReportDefinition Definition { get; set; }
-
-    [Parameter] public IEnumerable<IReportDataSourceProvider> ProviderOptions { get; set; }
-
-    private bool CanConfirm => providers.Count > 0
-        && !string.IsNullOrWhiteSpace( selectedProviderType )
-        && !string.IsNullOrWhiteSpace( name );
-
-    /// <summary>
-    /// Raised when a data source connection is confirmed.
-    /// </summary>
-    [Parameter] public EventCallback<ReportDataSourceDefinition> Confirmed { get; set; }
-
-    private Type SelectedProviderEditorComponentType => FindSelectedProvider()?.EditorComponentType ?? typeof( _ReportDataSourceSettingsEditor );
-
-    private Dictionary<string, object> ProviderEditorParameters => new()
-    {
-        [nameof( _ReportDataSourceSettingsEditor.Context )] = editorContext,
-    };
-
-    #endregion
-
-    #region Overrides
-
     protected override void OnInitialized()
     {
         providers.Clear();
@@ -228,4 +200,29 @@ public partial class _ReportDesignerDataSourceConnectionDialog
     }
 
     #endregion
+
+    #region Properties
+
+    private bool CanConfirm => providers.Count > 0
+        && !string.IsNullOrWhiteSpace( selectedProviderType )
+        && !string.IsNullOrWhiteSpace( name );
+
+    private Type SelectedProviderEditorComponentType => FindSelectedProvider()?.EditorComponentType ?? typeof( _ReportDataSourceSettingsEditor );
+
+    private Dictionary<string, object> ProviderEditorParameters => new()
+    {
+        [nameof( _ReportDataSourceSettingsEditor.Context )] = editorContext,
+    };
+
+    [Parameter] public ReportDefinition Definition { get; set; }
+
+    [Parameter] public IEnumerable<IReportDataSourceProvider> ProviderOptions { get; set; }
+
+    /// <summary>
+    /// Raised when a data source connection is confirmed.
+    /// </summary>
+    [Parameter] public EventCallback<ReportDataSourceDefinition> Confirmed { get; set; }
+
+    #endregion
+
 }

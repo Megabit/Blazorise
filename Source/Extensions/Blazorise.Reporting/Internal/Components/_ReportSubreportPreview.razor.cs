@@ -11,22 +11,13 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportSubreportPreview
 {
+    #region Members
+
     private readonly ReportRenderService renderService = new();
 
-    private ReportSubreportElementDefinition SubreportElement => Element as ReportSubreportElementDefinition;
+    #endregion
 
-    private ReportDefinition SubreportDefinition => ReportSubreportResolver.ResolveDefinition( SubreportElement );
-
-    private object SubreportData => ReportSubreportResolver.ResolveData( Definition, Data, Item, SubreportElement );
-
-    private bool CanRenderNestedReport => SubreportDefinition is not null;
-
-    private string PlaceholderText => ReportSubreportResolver.GetDisplayName( SubreportElement );
-
-    private IReadOnlyList<ReportRenderPage> RenderPages
-        => CanRenderNestedReport
-            ? renderService.ResolvePreviewRenderPages( SubreportDefinition, SubreportData, RenderMutationVersion ).Take( 1 ).ToList()
-            : [];
+    #region Methods
 
     private RenderFragment RenderSubreportSection( ReportRenderSection renderSection )
     {
@@ -100,6 +91,25 @@ public partial class _ReportSubreportPreview
         } );
     }
 
+    #endregion
+
+    #region Properties
+
+    private ReportSubreportElementDefinition SubreportElement => Element as ReportSubreportElementDefinition;
+
+    private ReportDefinition SubreportDefinition => ReportSubreportResolver.ResolveDefinition( SubreportElement );
+
+    private object SubreportData => ReportSubreportResolver.ResolveData( Definition, Data, Item, SubreportElement );
+
+    private bool CanRenderNestedReport => SubreportDefinition is not null;
+
+    private string PlaceholderText => ReportSubreportResolver.GetDisplayName( SubreportElement );
+
+    private IReadOnlyList<ReportRenderPage> RenderPages
+        => CanRenderNestedReport
+            ? renderService.ResolvePreviewRenderPages( SubreportDefinition, SubreportData, RenderMutationVersion ).Take( 1 ).ToList()
+            : [];
+
     /// <summary>
     /// Root report data used when resolving the subreport data source.
     /// </summary>
@@ -125,4 +135,5 @@ public partial class _ReportSubreportPreview
     /// </summary>
     [Parameter] public int RenderMutationVersion { get; set; }
 
+    #endregion
 }

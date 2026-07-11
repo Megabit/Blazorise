@@ -127,9 +127,9 @@ public abstract class BaseReportComponent : ComponentBase
     protected string ResolvedReportModalProviderName => ReportModalProviderName ?? CascadedReportModalProviderName;
 
     /// <summary>
-    /// Report-owned Modal Provider name used by report modal components.
+    /// Service used to show report modal components.
     /// </summary>
-    [Parameter] public string ReportModalProviderName { get; set; }
+    [Inject] protected IModalService ModalService { get; set; }
 
     /// <summary>
     /// Cascaded report-owned Modal Provider name used by internal designer components.
@@ -137,9 +137,9 @@ public abstract class BaseReportComponent : ComponentBase
     [CascadingParameter( Name = "ReportModalProviderName" )] internal string CascadedReportModalProviderName { get; set; }
 
     /// <summary>
-    /// Service used to show report modal components.
+    /// Report-owned Modal Provider name used by report modal components.
     /// </summary>
-    [Inject] protected IModalService ModalService { get; set; }
+    [Parameter] public string ReportModalProviderName { get; set; }
 
     #endregion
 }

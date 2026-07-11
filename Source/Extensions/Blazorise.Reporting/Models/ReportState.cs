@@ -1,4 +1,6 @@
+#region Using directives
 using System.Collections.Generic;
+#endregion
 
 namespace Blazorise.Reporting;
 

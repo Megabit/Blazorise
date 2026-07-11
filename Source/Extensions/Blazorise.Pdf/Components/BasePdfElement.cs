@@ -17,15 +17,6 @@ public abstract class BasePdfElement : ComponentBase, IDisposable
 
     #endregion
 
-    #region Properties
-
-    /// <summary>
-    /// Gets the generated element definition.
-    /// </summary>
-    public PdfElementDefinition Definition { get; private set; }
-
-    #endregion
-
     #region Methods
 
     /// <inheritdoc />
@@ -108,7 +99,17 @@ public abstract class BasePdfElement : ComponentBase, IDisposable
 
     #endregion
 
-    #region Parameters
+    #region Properties
+
+    /// <summary>
+    /// Element type.
+    /// </summary>
+    protected abstract PdfElementType ElementType { get; }
+
+    /// <summary>
+    /// Gets the generated element definition.
+    /// </summary>
+    public PdfElementDefinition Definition { get; private set; }
 
     /// <summary>
     /// Provides the current PDF page that receives this element definition.
@@ -119,11 +120,6 @@ public abstract class BasePdfElement : ComponentBase, IDisposable
     /// Provides the current PDF table cell that receives this element definition.
     /// </summary>
     [CascadingParameter] protected PdfTableCellContext TableCellContext { get; set; }
-
-    /// <summary>
-    /// Element type.
-    /// </summary>
-    protected abstract PdfElementType ElementType { get; }
 
     /// <summary>
     /// Horizontal element position.

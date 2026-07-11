@@ -10,6 +10,8 @@ namespace Blazorise.Reporting.Internal;
 /// <typeparam name="TValue">Numeric value type edited by the property.</typeparam>
 public partial class _ReportDesignerNumberProperty<TValue>
 {
+    #region Properties
+
     /// <summary>
     /// Property label.
     /// </summary>
@@ -29,4 +31,6 @@ public partial class _ReportDesignerNumberProperty<TValue>
     /// Increment used by the numeric editor.
     /// </summary>
     [Parameter] public decimal? Step { get; set; } = 1m;
+
+    #endregion
 }

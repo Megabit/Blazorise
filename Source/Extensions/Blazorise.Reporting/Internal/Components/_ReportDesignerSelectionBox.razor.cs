@@ -11,9 +11,13 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerSelectionBox
 {
+    #region Members
+
     private const string Key = "selection-box";
 
-    private string Style => StyleNames;
+    #endregion
+
+    #region Methods
 
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
@@ -36,6 +40,12 @@ public partial class _ReportDesignerSelectionBox
         builder.Append( $"width:{ReportMeasurementConverter.ToCssPixelString( Width )}" );
         builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}" );
     }
+
+    #endregion
+
+    #region Properties
+
+    private string Style => StyleNames;
 
     /// <summary>
     /// Left selection coordinate.
@@ -61,4 +71,6 @@ public partial class _ReportDesignerSelectionBox
     /// Horizontal offset applied when the band rail is visible.
     /// </summary>
     [Parameter] public double LeftOffset { get; set; }
+
+    #endregion
 }

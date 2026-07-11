@@ -15,15 +15,6 @@ public partial class PdfDocument : ComponentBase
 
     #endregion
 
-    #region Properties
-
-    /// <summary>
-    /// Gets the generated document definition.
-    /// </summary>
-    public PdfDocumentDefinition Definition { get; private set; }
-
-    #endregion
-
     #region Methods
 
     /// <inheritdoc />
@@ -43,7 +34,12 @@ public partial class PdfDocument : ComponentBase
 
     #endregion
 
-    #region Parameters
+    #region Properties
+
+    /// <summary>
+    /// Gets the generated document definition.
+    /// </summary>
+    public PdfDocumentDefinition Definition { get; private set; }
 
     /// <summary>
     /// Document title stored in the document definition.

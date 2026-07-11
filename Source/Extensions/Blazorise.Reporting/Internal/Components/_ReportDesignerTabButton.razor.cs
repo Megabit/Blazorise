@@ -13,7 +13,7 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerTabButton
 {
-    private Color ButtonColor => Active ? Color.Primary : Color.Light;
+    #region Methods
 
     private Task OnClicked( MouseEventArgs eventArgs )
     {
@@ -22,6 +22,12 @@ public partial class _ReportDesignerTabButton
 
         return Task.CompletedTask;
     }
+
+    #endregion
+
+    #region Properties
+
+    private Color ButtonColor => Active ? Color.Primary : Color.Light;
 
     /// <summary>
     /// Stable tab key.
@@ -42,4 +48,6 @@ public partial class _ReportDesignerTabButton
     /// Raised when the tab is selected.
     /// </summary>
     [Parameter] public Func<string, Task> Selected { get; set; }
+
+    #endregion
 }

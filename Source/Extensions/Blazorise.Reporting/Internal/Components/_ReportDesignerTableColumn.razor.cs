@@ -11,7 +11,7 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerTableColumn
 {
-    private string Style => StyleNames;
+    #region Methods
 
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
@@ -28,8 +28,16 @@ public partial class _ReportDesignerTableColumn
         builder.Append( $"width:{ReportMeasurementConverter.ToCssPixelString( Column.Width )}" );
     }
 
+    #endregion
+
+    #region Properties
+
+    private string Style => StyleNames;
+
     /// <summary>
     /// Table column definition rendered by the table cell.
     /// </summary>
     [Parameter] public ReportTableColumnDefinition Column { get; set; }
+
+    #endregion
 }

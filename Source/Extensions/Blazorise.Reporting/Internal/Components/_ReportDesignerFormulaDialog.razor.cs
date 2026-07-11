@@ -249,13 +249,43 @@ public partial class _ReportDesignerFormulaDialog
         return Task.CompletedTask;
     }
 
+    protected override void OnInitialized()
+    {
+        title = string.IsNullOrWhiteSpace( InitialPropertyName )
+            ? "Edit formula"
+            : $"Edit {InitialPropertyName} formula";
+        formula = InitialValue;
+        selectedFieldExpression = null;
+        selectedHelpItem = null;
+        selectedHelpDescription = null;
+        ClearValidation();
+    }
+
+    private static IReadOnlyList<ReportTreeNode> BuildFormulaNodes( string prefix, ReportTreeNodeKind kind, IEnumerable<IReportFormulaTreeOption> options )
+    {
+        return options
+            .GroupBy( option => option.Category )
+            .Select( group => new ReportTreeNode
+            {
+                Key = $"{prefix}:category:{group.Key}",
+                Text = group.Key,
+                Kind = ReportTreeNodeKind.Folder,
+                Selectable = false,
+                Children = group.Select( option => new ReportTreeNode
+                {
+                    Key = $"{prefix}:item:{group.Key}:{option.Name}",
+                    Text = option.Name,
+                    Kind = kind,
+                    Selectable = true,
+                    Value = option,
+                } ).ToList(),
+            } )
+            .ToList();
+    }
+
     #endregion
 
     #region Properties
-
-    [Parameter] public string InitialPropertyName { get; set; }
-
-    [Parameter] public string InitialValue { get; set; }
 
     private string Title => title ?? "Edit formula";
 
@@ -272,6 +302,10 @@ public partial class _ReportDesignerFormulaDialog
     private bool HasValidationMessage => !string.IsNullOrWhiteSpace( validationMessage );
 
     private Color ValidationAlertColor => validationSucceeded ? Color.Success : Color.Danger;
+
+    [Parameter] public string InitialPropertyName { get; set; }
+
+    [Parameter] public string InitialValue { get; set; }
 
     /// <summary>
     /// Report definition used to discover fields.
@@ -300,45 +334,7 @@ public partial class _ReportDesignerFormulaDialog
 
     #endregion
 
-    #region Overrides
-
-    protected override void OnInitialized()
-    {
-        title = string.IsNullOrWhiteSpace( InitialPropertyName )
-            ? "Edit formula"
-            : $"Edit {InitialPropertyName} formula";
-        formula = InitialValue;
-        selectedFieldExpression = null;
-        selectedHelpItem = null;
-        selectedHelpDescription = null;
-        ClearValidation();
-    }
-
-    #endregion
-
-    #region Records
-
-    private static IReadOnlyList<ReportTreeNode> BuildFormulaNodes( string prefix, ReportTreeNodeKind kind, IEnumerable<IReportFormulaTreeOption> options )
-    {
-        return options
-            .GroupBy( option => option.Category )
-            .Select( group => new ReportTreeNode
-            {
-                Key = $"{prefix}:category:{group.Key}",
-                Text = group.Key,
-                Kind = ReportTreeNodeKind.Folder,
-                Selectable = false,
-                Children = group.Select( option => new ReportTreeNode
-                {
-                    Key = $"{prefix}:item:{group.Key}:{option.Name}",
-                    Text = option.Name,
-                    Kind = kind,
-                    Selectable = true,
-                    Value = option,
-                } ).ToList(),
-            } )
-            .ToList();
-    }
+    #region Nested types
 
     private interface IReportFormulaTreeOption
     {

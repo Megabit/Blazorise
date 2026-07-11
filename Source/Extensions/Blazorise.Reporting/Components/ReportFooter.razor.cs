@@ -16,5 +16,9 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportFooter
 {
+    #region Properties
+
     protected override ReportBandType SectionType => ReportBandType.ReportFooter;
+
+    #endregion
 }

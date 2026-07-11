@@ -173,6 +173,14 @@ public partial class _ReportDesignerImageUploadDialog
         return $"{kilobytes / 1024d:0.#} MB";
     }
 
+    protected override void OnInitialized()
+    {
+        selectedFile = null;
+        previewSource = null;
+        errorMessage = null;
+        busy = false;
+    }
+
     #endregion
 
     #region Properties
@@ -247,15 +255,4 @@ public partial class _ReportDesignerImageUploadDialog
 
     #endregion
 
-    #region Overrides
-
-    protected override void OnInitialized()
-    {
-        selectedFile = null;
-        previewSource = null;
-        errorMessage = null;
-        busy = false;
-    }
-
-    #endregion
 }

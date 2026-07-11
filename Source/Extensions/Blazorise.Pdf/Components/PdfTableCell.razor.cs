@@ -57,7 +57,7 @@ public partial class PdfTableCell : ComponentBase, IDisposable
 
     #endregion
 
-    #region Parameters
+    #region Properties
 
     /// <summary>
     /// Provides the PDF table row that receives this cell definition.

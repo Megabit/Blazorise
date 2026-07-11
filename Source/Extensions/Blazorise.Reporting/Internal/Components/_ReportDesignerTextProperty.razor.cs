@@ -9,6 +9,8 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerTextProperty
 {
+    #region Properties
+
     /// <summary>
     /// Property label.
     /// </summary>
@@ -28,4 +30,6 @@ public partial class _ReportDesignerTextProperty
     /// Raised when the text value changes.
     /// </summary>
     [Parameter] public EventCallback<string> Changed { get; set; }
+
+    #endregion
 }

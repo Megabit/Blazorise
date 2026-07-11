@@ -1,5 +1,7 @@
+#region Using directives
 using Blazorise.Reporting.Internal;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Reporting;
 
@@ -8,7 +10,7 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportPage : ComponentBase
 {
-    [CascadingParameter] internal ReportContext ReportContext { get; set; }
+    #region Methods
 
     /// <inheritdoc />
     protected override void OnParametersSet()
@@ -18,6 +20,28 @@ public partial class ReportPage : ComponentBase
             ReportContext.RegisterPage( Page );
         }
     }
+
+    #endregion
+
+    #region Properties
+
+    internal ReportPageDefinition Page => new()
+    {
+        Size = Size,
+        MeasurementUnit = MeasurementUnit,
+        Orientation = Orientation,
+        Width = ReportMeasurementConverter.ToPoints( Width, MeasurementUnit ),
+        Height = ReportMeasurementConverter.ToPoints( Height, MeasurementUnit ),
+        Margins = new()
+        {
+            Left = ReportMeasurementConverter.ToPoints( MarginLeft, MeasurementUnit ),
+            Top = ReportMeasurementConverter.ToPoints( MarginTop, MeasurementUnit ),
+            Right = ReportMeasurementConverter.ToPoints( MarginRight, MeasurementUnit ),
+            Bottom = ReportMeasurementConverter.ToPoints( MarginBottom, MeasurementUnit ),
+        },
+    };
+
+    [CascadingParameter] internal ReportContext ReportContext { get; set; }
 
     /// <summary>
     /// Named page size used when explicit dimensions are not supplied.
@@ -64,19 +88,5 @@ public partial class ReportPage : ComponentBase
     /// </summary>
     [Parameter] public double MarginBottom { get; set; }
 
-    internal ReportPageDefinition Page => new()
-    {
-        Size = Size,
-        MeasurementUnit = MeasurementUnit,
-        Orientation = Orientation,
-        Width = ReportMeasurementConverter.ToPoints( Width, MeasurementUnit ),
-        Height = ReportMeasurementConverter.ToPoints( Height, MeasurementUnit ),
-        Margins = new()
-        {
-            Left = ReportMeasurementConverter.ToPoints( MarginLeft, MeasurementUnit ),
-            Top = ReportMeasurementConverter.ToPoints( MarginTop, MeasurementUnit ),
-            Right = ReportMeasurementConverter.ToPoints( MarginRight, MeasurementUnit ),
-            Bottom = ReportMeasurementConverter.ToPoints( MarginBottom, MeasurementUnit ),
-        },
-    };
+    #endregion
 }

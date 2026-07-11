@@ -121,6 +121,16 @@ public partial class ContextMenuItem : BaseComponent
     private string ShortcutClassNames => ClassProvider.ContextMenuItemShortcut();
 
     /// <summary>
+    /// Provides the reference to the parent <see cref="ContextMenu"/> component.
+    /// </summary>
+    [CascadingParameter] protected ContextMenu ParentContextMenu { get; set; }
+
+    /// <summary>
+    /// Provides the reference to the parent <see cref="ContextMenuGroup"/> component.
+    /// </summary>
+    [CascadingParameter] protected ContextMenuGroup ParentGroup { get; set; }
+
+    /// <summary>
     /// Holds the item value.
     /// </summary>
     [Parameter] public object Value { get; set; }
@@ -198,16 +208,6 @@ public partial class ContextMenuItem : BaseComponent
     /// Specifies the content to be rendered inside this <see cref="ContextMenuItem"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
-
-    /// <summary>
-    /// Provides the reference to the parent <see cref="ContextMenu"/> component.
-    /// </summary>
-    [CascadingParameter] protected ContextMenu ParentContextMenu { get; set; }
-
-    /// <summary>
-    /// Provides the reference to the parent <see cref="ContextMenuGroup"/> component.
-    /// </summary>
-    [CascadingParameter] protected ContextMenuGroup ParentGroup { get; set; }
 
     #endregion
 }

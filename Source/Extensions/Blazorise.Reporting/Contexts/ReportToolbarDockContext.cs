@@ -1,6 +1,8 @@
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+#endregion
 
 namespace Blazorise.Reporting;
 

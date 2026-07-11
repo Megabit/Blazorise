@@ -58,6 +58,11 @@ public partial class ContextMenuBody : BaseComponent
     private bool IsVisible => Visible ?? ParentContextMenu?.Visible == true;
 
     /// <summary>
+    /// Provides the reference to the parent <see cref="ContextMenu"/> component.
+    /// </summary>
+    [CascadingParameter] protected ContextMenu ParentContextMenu { get; set; }
+
+    /// <summary>
     /// Specifies the content to be rendered inside this <see cref="ContextMenuBody"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
@@ -71,11 +76,6 @@ public partial class ContextMenuBody : BaseComponent
     /// Sets a minimum menu width.
     /// </summary>
     [Parameter] public string MinWidth { get; set; }
-
-    /// <summary>
-    /// Provides the reference to the parent <see cref="ContextMenu"/> component.
-    /// </summary>
-    [CascadingParameter] protected ContextMenu ParentContextMenu { get; set; }
 
     #endregion
 }

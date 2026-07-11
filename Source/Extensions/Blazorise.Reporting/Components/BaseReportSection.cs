@@ -1,4 +1,6 @@
+#region Using directives
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Reporting;
 
@@ -7,17 +9,7 @@ namespace Blazorise.Reporting;
 /// </summary>
 public abstract class BaseReportSection : ComponentBase
 {
-    [CascadingParameter] internal ReportContext ReportContext { get; set; }
-
-    /// <summary>
-    /// Section context provided to child report elements.
-    /// </summary>
-    internal ReportSectionContext SectionContext { get; private set; }
-
-    /// <summary>
-    /// Band kind represented by the derived component.
-    /// </summary>
-    protected abstract ReportBandType SectionType { get; }
+    #region Methods
 
     /// <inheritdoc />
     protected override void OnParametersSet()
@@ -56,6 +48,22 @@ public abstract class BaseReportSection : ComponentBase
 
         SectionContext = new( section );
     }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Section context provided to child report elements.
+    /// </summary>
+    internal ReportSectionContext SectionContext { get; private set; }
+
+    /// <summary>
+    /// Band kind represented by the derived component.
+    /// </summary>
+    protected abstract ReportBandType SectionType { get; }
+
+    [CascadingParameter] internal ReportContext ReportContext { get; set; }
 
     /// <summary>
     /// Friendly band name shown in the designer.
@@ -146,4 +154,6 @@ public abstract class BaseReportSection : ComponentBase
     /// Declarative elements placed inside the band.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
 }

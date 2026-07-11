@@ -1,4 +1,6 @@
+#region Using directives
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Reporting;
 
@@ -7,7 +9,7 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportViewer : ComponentBase
 {
-    [CascadingParameter] internal ReportContext ReportContext { get; set; }
+    #region Methods
 
     /// <inheritdoc />
     protected override void OnParametersSet()
@@ -20,6 +22,12 @@ public partial class ReportViewer : ComponentBase
         ReportContext.ViewerOptions.AllowPrint = AllowPrint;
         ReportContext.ViewerOptions.AllowDownload = AllowDownload;
     }
+
+    #endregion
+
+    #region Properties
+
+    [CascadingParameter] internal ReportContext ReportContext { get; set; }
 
     /// <summary>
     /// Preview formats offered by the report viewer.
@@ -40,4 +48,6 @@ public partial class ReportViewer : ComponentBase
     /// Enables download commands in the viewer toolbar.
     /// </summary>
     [Parameter] public bool AllowDownload { get; set; } = true;
+
+    #endregion
 }

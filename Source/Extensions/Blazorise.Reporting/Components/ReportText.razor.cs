@@ -1,4 +1,6 @@
+#region Using directives
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Reporting;
 
@@ -7,8 +9,7 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportText : BaseReportTextElement
 {
-    /// <inheritdoc />
-    protected override ReportElementType ElementType => ReportElementType.Text;
+    #region Methods
 
     /// <inheritdoc />
     protected override ReportElementDefinition BuildDefinition()
@@ -19,8 +20,17 @@ public partial class ReportText : BaseReportTextElement
         return definition;
     }
 
+    #endregion
+
+    #region Properties
+
+    /// <inheritdoc />
+    protected override ReportElementType ElementType => ReportElementType.Text;
+
     /// <summary>
     /// Text content rendered by the element.
     /// </summary>
     [Parameter] public string Text { get; set; }
+
+    #endregion
 }

@@ -1,4 +1,6 @@
+#region Using directives
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Reporting;
 
@@ -7,8 +9,7 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportImage : BaseReportElement
 {
-    /// <inheritdoc />
-    protected override ReportElementType ElementType => ReportElementType.Image;
+    #region Methods
 
     /// <inheritdoc />
     protected override ReportElementDefinition BuildDefinition()
@@ -20,6 +21,13 @@ public partial class ReportImage : BaseReportElement
 
         return definition;
     }
+
+    #endregion
+
+    #region Properties
+
+    /// <inheritdoc />
+    protected override ReportElementType ElementType => ReportElementType.Image;
 
     /// <summary>
     /// Image source URL or data URI rendered by the element.
@@ -35,4 +43,6 @@ public partial class ReportImage : BaseReportElement
     /// Alternate text associated with the image element.
     /// </summary>
     [Parameter] public string Alt { get; set; }
+
+    #endregion
 }

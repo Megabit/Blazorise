@@ -1,5 +1,7 @@
+#region Using directives
 using Blazorise;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Reporting;
 
@@ -8,6 +10,8 @@ namespace Blazorise.Reporting;
 /// </summary>
 public abstract class BaseReportTextElement : BaseReportElement
 {
+    #region Methods
+
     /// <inheritdoc />
     protected override ReportElementDefinition BuildDefinition()
     {
@@ -31,6 +35,10 @@ public abstract class BaseReportTextElement : BaseReportElement
             VerticalAlignment = VerticalAlignment,
         };
     }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Font family applied to text rendered by the element.
@@ -72,4 +80,5 @@ public abstract class BaseReportTextElement : BaseReportElement
     /// </summary>
     [Parameter] public VerticalAlignment VerticalAlignment { get; set; } = VerticalAlignment.Default;
 
+    #endregion
 }

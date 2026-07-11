@@ -1,4 +1,6 @@
+#region Using directives
 using Microsoft.AspNetCore.Components.Web;
+#endregion
 
 namespace Blazorise.Reporting.Internal;
 

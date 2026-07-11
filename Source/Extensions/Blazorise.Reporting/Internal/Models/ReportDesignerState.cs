@@ -1,4 +1,6 @@
+#region Using directives
 using Blazorise.Reporting;
+#endregion
 
 namespace Blazorise.Reporting.Internal;
 

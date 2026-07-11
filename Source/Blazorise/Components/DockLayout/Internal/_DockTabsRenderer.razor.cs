@@ -10,18 +10,6 @@ namespace Blazorise;
 /// </summary>
 public partial class _DockTabsRenderer : BaseComponent
 {
-    #region Constructors
-
-    /// <summary>
-    /// Default <see cref="_DockTabsRenderer"/> constructor.
-    /// </summary>
-    public _DockTabsRenderer()
-    {
-        TabsClassBuilder = new( BuildTabsClasses );
-    }
-
-    #endregion
-
     #region Members
 
     private string activePaneName;
@@ -33,6 +21,18 @@ public partial class _DockTabsRenderer : BaseComponent
     private DockPanePosition groupPosition;
 
     private DockPaneTabPosition tabPosition;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Default <see cref="_DockTabsRenderer"/> constructor.
+    /// </summary>
+    public _DockTabsRenderer()
+    {
+        TabsClassBuilder = new( BuildTabsClasses );
+    }
 
     #endregion
 
@@ -142,9 +142,9 @@ public partial class _DockTabsRenderer : BaseComponent
 
     private ClassBuilder TabsClassBuilder { get; set; }
 
-    [CascadingParameter] internal DockLayoutContext Context { get; set; }
-
     private DockNodeState Node => Context?.GetNode( NodeId );
+
+    [CascadingParameter] internal DockLayoutContext Context { get; set; }
 
     /// <summary>
     /// Gets or sets the tab node id to render.

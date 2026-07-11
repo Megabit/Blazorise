@@ -72,6 +72,9 @@ public partial class _DockPaneRenderer : BaseComponent
         base.BuildStyles( builder );
     }
 
+    private static DockPanePosition GetFlyoutPosition( DockPanePosition position )
+        => position == DockPanePosition.Center ? DockPanePosition.Right : position;
+
     #endregion
 
     #region Properties
@@ -95,9 +98,6 @@ public partial class _DockPaneRenderer : BaseComponent
     private bool IsHorizontalFlyout => RenderPosition is DockPanePosition.Left or DockPanePosition.Right;
 
     private bool IsVerticalFlyout => RenderPosition is DockPanePosition.Top or DockPanePosition.Bottom;
-
-    private static DockPanePosition GetFlyoutPosition( DockPanePosition position )
-        => position == DockPanePosition.Center ? DockPanePosition.Right : position;
 
     private ElementReference CapturedElementRef
     {

@@ -13,6 +13,8 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerSection
 {
+    #region Members
+
     private readonly ClassBuilder bodyClassBuilder;
 
     private readonly StyleBuilder bodyStyleBuilder;
@@ -21,15 +23,9 @@ public partial class _ReportDesignerSection
 
     private int? sectionRenderKey;
 
-    private string BodyClass => bodyClassBuilder.Class;
+    #endregion
 
-    private string BodyStyle => bodyStyleBuilder.Styles;
-
-    private Func<DragEventArgs, Task> NonRenderingDragOver => EventUtil.AsNonRenderingEventHandler<DragEventArgs>( OnDragOver );
-
-    private string SectionClass => ClassNames;
-
-    private string SectionStyle => StyleNames;
+    #region Constructors
 
     /// <summary>
     /// Initializes a new _ReportDesignerSection component instance.
@@ -39,6 +35,10 @@ public partial class _ReportDesignerSection
         bodyClassBuilder = new( BuildBodyClasses );
         bodyStyleBuilder = new( BuildBodyStyles );
     }
+
+    #endregion
+
+    #region Methods
 
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
@@ -249,6 +249,20 @@ public partial class _ReportDesignerSection
         hash.Add( section.Border?.Radius );
     }
 
+    #endregion
+
+    #region Properties
+
+    private string BodyClass => bodyClassBuilder.Class;
+
+    private string BodyStyle => bodyStyleBuilder.Styles;
+
+    private Func<DragEventArgs, Task> NonRenderingDragOver => EventUtil.AsNonRenderingEventHandler<DragEventArgs>( OnDragOver );
+
+    private string SectionClass => ClassNames;
+
+    private string SectionStyle => StyleNames;
+
     /// <summary>
     /// Stable key used to preserve band identity across designer renders.
     /// </summary>
@@ -423,4 +437,6 @@ public partial class _ReportDesignerSection
     /// Content rendered inside the section body.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
 }

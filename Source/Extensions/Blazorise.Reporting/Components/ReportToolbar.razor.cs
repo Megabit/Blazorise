@@ -1,4 +1,6 @@
+#region Using directives
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Reporting;
 
@@ -7,7 +9,7 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportToolbar : ComponentBase
 {
-    [CascadingParameter] internal ReportContext ReportContext { get; set; }
+    #region Methods
 
     /// <inheritdoc />
     protected override void OnParametersSet()
@@ -15,8 +17,16 @@ public partial class ReportToolbar : ComponentBase
         ReportContext?.RegisterToolbar( ChildContent );
     }
 
+    #endregion
+
+    #region Properties
+
+    [CascadingParameter] internal ReportContext ReportContext { get; set; }
+
     /// <summary>
     /// Toolbar items rendered by the report toolbar area.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
 }

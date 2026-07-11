@@ -15,6 +15,8 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerElement
 {
+    #region Members
+
     private ElementReference textEditElement;
     private string textEditValue;
     private bool textEditCancelled;
@@ -22,31 +24,9 @@ public partial class _ReportDesignerElement
     private bool textExpressionTokenProtectionActive;
     private JSReportingModule reportingModule;
 
-    private string ImageAlternativeText => ( Element as ReportImageElementDefinition )?.Text ?? Element?.Name;
+    #endregion
 
-    private bool CanEditText => Element is ReportTextElementDefinition;
-
-    private bool CanHandleDesignerPointerDown => CanReceiveDesignerInteraction && !Editing;
-
-    private bool CanReceiveDesignerInteraction => DesignMode && Editable;
-
-    private bool CanStartDesignerPointerDrag => CanHandleDesignerPointerDown && !TextEditingActive && !LayoutLocked;
-
-    private bool CanStartInlineTextEdit => CanReceiveDesignerInteraction && !ElementSuppressed && CanEditText;
-
-    private bool ShouldStopPointerDownPropagation => CanHandleDesignerPointerDown && !AllowPointerDragThrough;
-
-    private bool ElementSuppressed => Element?.Suppress?.Value == true;
-
-    private bool IsDesignerDisabled => DesignMode && ( !Editable || ElementSuppressed );
-
-    private bool IsDesignerEditing => CanReceiveDesignerInteraction && !ElementSuppressed && Editing;
-
-    private bool ShowResizeHandles => CanReceiveDesignerInteraction && !ElementSuppressed && Selected && !Editing && !LayoutLocked;
-
-    private string Class => ClassNames;
-
-    private string Style => StyleNames;
+    #region Methods
 
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
@@ -288,6 +268,36 @@ public partial class _ReportDesignerElement
         reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
     }
 
+    #endregion
+
+    #region Properties
+
+    private string ImageAlternativeText => ( Element as ReportImageElementDefinition )?.Text ?? Element?.Name;
+
+    private bool CanEditText => Element is ReportTextElementDefinition;
+
+    private bool CanHandleDesignerPointerDown => CanReceiveDesignerInteraction && !Editing;
+
+    private bool CanReceiveDesignerInteraction => DesignMode && Editable;
+
+    private bool CanStartDesignerPointerDrag => CanHandleDesignerPointerDown && !TextEditingActive && !LayoutLocked;
+
+    private bool CanStartInlineTextEdit => CanReceiveDesignerInteraction && !ElementSuppressed && CanEditText;
+
+    private bool ShouldStopPointerDownPropagation => CanHandleDesignerPointerDown && !AllowPointerDragThrough;
+
+    private bool ElementSuppressed => Element?.Suppress?.Value == true;
+
+    private bool IsDesignerDisabled => DesignMode && ( !Editable || ElementSuppressed );
+
+    private bool IsDesignerEditing => CanReceiveDesignerInteraction && !ElementSuppressed && Editing;
+
+    private bool ShowResizeHandles => CanReceiveDesignerInteraction && !ElementSuppressed && Selected && !Editing && !LayoutLocked;
+
+    private string Class => ClassNames;
+
+    private string Style => StyleNames;
+
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     [Inject] private IVersionProvider VersionProvider { get; set; }
@@ -468,4 +478,6 @@ public partial class _ReportDesignerElement
     /// Raised when element resizing starts from one of the resize handles.
     /// </summary>
     [Parameter] public Func<string, int, PointerEventArgs, Task> ResizeStarted { get; set; }
+
+    #endregion
 }

@@ -12,6 +12,8 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerElementResizeHandles
 {
+    #region Members
+
     private const string NorthWestKey = "nw";
     private const string NorthKey = "n";
     private const string NorthEastKey = "ne";
@@ -20,6 +22,10 @@ public partial class _ReportDesignerElementResizeHandles
     private const string SouthKey = "s";
     private const string SouthWestKey = "sw";
     private const string WestKey = "w";
+
+    #endregion
+
+    #region Methods
 
     private Task NorthWestPointerDown( PointerEventArgs eventArgs )
         => OnPointerDown( ReportElementResizeHandle.NorthWest, eventArgs );
@@ -53,8 +59,14 @@ public partial class _ReportDesignerElementResizeHandles
         return Task.CompletedTask;
     }
 
+    #endregion
+
+    #region Properties
+
     /// <summary>
     /// Raised when resizing starts on one of the element resize handles.
     /// </summary>
     [Parameter] public Func<int, PointerEventArgs, Task> PointerDown { get; set; }
+
+    #endregion
 }

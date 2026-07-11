@@ -1,4 +1,6 @@
+#region Using directives
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Reporting;
 
@@ -7,8 +9,7 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportField : BaseReportTextElement
 {
-    /// <inheritdoc />
-    protected override ReportElementType ElementType => ReportElementType.Field;
+    #region Methods
 
     /// <inheritdoc />
     protected override ReportElementDefinition BuildDefinition()
@@ -26,6 +27,13 @@ public partial class ReportField : BaseReportTextElement
         return definition;
     }
 
+    #endregion
+
+    #region Properties
+
+    /// <inheritdoc />
+    protected override ReportElementType ElementType => ReportElementType.Field;
+
     /// <summary>
     /// Field name or expression resolved against the current data item.
     /// </summary>
@@ -40,4 +48,6 @@ public partial class ReportField : BaseReportTextElement
     /// Aggregate function applied when this field is rendered as a summary.
     /// </summary>
     [Parameter] public ReportAggregateFunction? AggregateFunction { get; set; }
+
+    #endregion
 }

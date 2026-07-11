@@ -85,7 +85,7 @@ public class PdfFont : ComponentBase, IDisposable
 
     #endregion
 
-    #region Parameters
+    #region Properties
 
     /// <summary>
     /// Provides the current PDF document that receives this font registration.

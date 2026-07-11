@@ -13,9 +13,7 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerSectionBandHeader
 {
-    private string Class => ClassNames;
-
-    private string DisplayName => ReportDefinitionHelper.GetSectionDisplayName( Section );
+    #region Methods
 
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
@@ -54,6 +52,14 @@ public partial class _ReportDesignerSectionBandHeader
         return Task.CompletedTask;
     }
 
+    #endregion
+
+    #region Properties
+
+    private string Class => ClassNames;
+
+    private string DisplayName => ReportDefinitionHelper.GetSectionDisplayName( Section );
+
     /// <summary>
     /// Report section displayed in the band header.
     /// </summary>
@@ -78,4 +84,6 @@ public partial class _ReportDesignerSectionBandHeader
     /// Raised when the section band header context menu is requested.
     /// </summary>
     [Parameter] public Func<MouseEventArgs, Task> ContextMenu { get; set; }
+
+    #endregion
 }

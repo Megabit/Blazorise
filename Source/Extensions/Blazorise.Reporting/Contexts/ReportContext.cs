@@ -1,8 +1,10 @@
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Reporting.Internal;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Reporting;
 

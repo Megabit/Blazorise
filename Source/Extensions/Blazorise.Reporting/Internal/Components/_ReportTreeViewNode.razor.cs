@@ -12,40 +12,13 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportTreeViewNode
 {
+    #region Members
+
     private readonly ClassBuilder iconClassBuilder;
 
-    private string IconClass => iconClassBuilder.Class;
+    #endregion
 
-    private IconName NodeIconName
-        => Node?.Kind switch
-        {
-            ReportTreeNodeKind.Report => IconName.FileAlt,
-            ReportTreeNodeKind.SourceFields => IconName.Database,
-            ReportTreeNodeKind.FormulaFields => IconName.Magic,
-            ReportTreeNodeKind.FormulaField => IconName.Code,
-            ReportTreeNodeKind.RunningTotalFields => IconName.Code,
-            ReportTreeNodeKind.RunningTotalField => IconName.ChartLine,
-            ReportTreeNodeKind.SpecialFields => IconName.Magic,
-            ReportTreeNodeKind.DataSource => IconName.Server,
-            ReportTreeNodeKind.Field => IconName.Tag,
-            ReportTreeNodeKind.Function => IconName.Magic,
-            ReportTreeNodeKind.Operator => IconName.Code,
-            ReportTreeNodeKind.Band => IconName.BorderAll,
-            ReportTreeNodeKind.Table => IconName.Table,
-            ReportTreeNodeKind.TableRow => IconName.GripLines,
-            ReportTreeNodeKind.TableCell => IconName.Square,
-            ReportTreeNodeKind.Image => IconName.Image,
-            ReportTreeNodeKind.Line => IconName.GripLines,
-            ReportTreeNodeKind.Rectangle => IconName.Square,
-            ReportTreeNodeKind.PageBreak => IconName.File,
-            ReportTreeNodeKind.Subreport => IconName.FileAlt,
-            ReportTreeNodeKind.Folder => IconName.Folder,
-            _ => IconName.TextHeight,
-        };
-
-    private string RowClass => ClassNames;
-
-    private string RowStyle => StyleNames;
+    #region Constructors
 
     /// <summary>
     /// Initializes a new _ReportTreeViewNode component instance.
@@ -54,6 +27,10 @@ public partial class _ReportTreeViewNode
     {
         iconClassBuilder = new( BuildIconClasses );
     }
+
+    #endregion
+
+    #region Methods
 
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
@@ -124,6 +101,43 @@ public partial class _ReportTreeViewNode
             await NodeDragEnded.InvokeAsync( Node );
     }
 
+    #endregion
+
+    #region Properties
+
+    private string IconClass => iconClassBuilder.Class;
+
+    private IconName NodeIconName
+        => Node?.Kind switch
+        {
+            ReportTreeNodeKind.Report => IconName.FileAlt,
+            ReportTreeNodeKind.SourceFields => IconName.Database,
+            ReportTreeNodeKind.FormulaFields => IconName.Magic,
+            ReportTreeNodeKind.FormulaField => IconName.Code,
+            ReportTreeNodeKind.RunningTotalFields => IconName.Code,
+            ReportTreeNodeKind.RunningTotalField => IconName.ChartLine,
+            ReportTreeNodeKind.SpecialFields => IconName.Magic,
+            ReportTreeNodeKind.DataSource => IconName.Server,
+            ReportTreeNodeKind.Field => IconName.Tag,
+            ReportTreeNodeKind.Function => IconName.Magic,
+            ReportTreeNodeKind.Operator => IconName.Code,
+            ReportTreeNodeKind.Band => IconName.BorderAll,
+            ReportTreeNodeKind.Table => IconName.Table,
+            ReportTreeNodeKind.TableRow => IconName.GripLines,
+            ReportTreeNodeKind.TableCell => IconName.Square,
+            ReportTreeNodeKind.Image => IconName.Image,
+            ReportTreeNodeKind.Line => IconName.GripLines,
+            ReportTreeNodeKind.Rectangle => IconName.Square,
+            ReportTreeNodeKind.PageBreak => IconName.File,
+            ReportTreeNodeKind.Subreport => IconName.FileAlt,
+            ReportTreeNodeKind.Folder => IconName.Folder,
+            _ => IconName.TextHeight,
+        };
+
+    private string RowClass => ClassNames;
+
+    private string RowStyle => StyleNames;
+
     /// <summary>
     /// Tree node rendered by the row component.
     /// </summary>
@@ -173,4 +187,6 @@ public partial class _ReportTreeViewNode
     /// Raised when dragging ends for a draggable tree node.
     /// </summary>
     [Parameter] public EventCallback<ReportTreeNode> NodeDragEnded { get; set; }
+
+    #endregion
 }

@@ -11,11 +11,13 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerDragPreview
 {
+    #region Members
+
     private const string Key = "drag-preview";
 
-    private string Class => ClassNames;
+    #endregion
 
-    private string Style => StyleNames;
+    #region Methods
 
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
@@ -48,6 +50,14 @@ public partial class _ReportDesignerDragPreview
         builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}" );
     }
 
+    #endregion
+
+    #region Properties
+
+    private string Class => ClassNames;
+
+    private string Style => StyleNames;
+
     /// <summary>
     /// Type of report element represented by the preview.
     /// </summary>
@@ -77,4 +87,6 @@ public partial class _ReportDesignerDragPreview
     /// Preview height.
     /// </summary>
     [Parameter] public double Height { get; set; }
+
+    #endregion
 }

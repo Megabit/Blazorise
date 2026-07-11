@@ -33,10 +33,6 @@ public partial class PdfTable : BasePdfElement
     /// <inheritdoc />
     protected override PdfElementType ElementType => PdfElementType.Table;
 
-    #endregion
-
-    #region Parameters
-
     /// <summary>
     /// Rows declared inside the table.
     /// </summary>

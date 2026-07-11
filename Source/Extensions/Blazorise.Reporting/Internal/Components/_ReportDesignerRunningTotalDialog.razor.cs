@@ -296,11 +296,21 @@ public partial class _ReportDesignerRunningTotalDialog
             : node.Path;
     }
 
+    protected override void OnInitialized()
+    {
+        runningTotal = CloneRunningTotal( InitialDefinition ?? new() );
+        RefreshFields();
+        RefreshGroupOptions();
+
+        selectedFieldKey = ResolveInitialFieldKey();
+        ApplySelectedField();
+        RefreshSupportedFunctions();
+        EnsureResetGroup();
+    }
+
     #endregion
 
     #region Properties
-
-    [Parameter] public ReportRunningTotalDefinition InitialDefinition { get; set; }
 
     private bool CanConfirm => !string.IsNullOrWhiteSpace( runningTotal.Name )
         && FindSelectedField() is not null
@@ -309,6 +319,8 @@ public partial class _ReportDesignerRunningTotalDialog
 
     private ReportBandDefinition SelectedSection => Definition?.Bands?.FirstOrDefault( section =>
         string.Equals( section.DataSource, runningTotal.DataSource, StringComparison.OrdinalIgnoreCase ) );
+
+    [Parameter] public ReportRunningTotalDefinition InitialDefinition { get; set; }
 
     /// <summary>
     /// Report definition used to resolve fields and groups.
@@ -332,23 +344,7 @@ public partial class _ReportDesignerRunningTotalDialog
 
     #endregion
 
-    #region Overrides
-
-    protected override void OnInitialized()
-    {
-        runningTotal = CloneRunningTotal( InitialDefinition ?? new() );
-        RefreshFields();
-        RefreshGroupOptions();
-
-        selectedFieldKey = ResolveInitialFieldKey();
-        ApplySelectedField();
-        RefreshSupportedFunctions();
-        EnsureResetGroup();
-    }
-
-    #endregion
-
-    #region Classes
+    #region Nested types
 
     private sealed class ReportRunningTotalGroupOption
     {

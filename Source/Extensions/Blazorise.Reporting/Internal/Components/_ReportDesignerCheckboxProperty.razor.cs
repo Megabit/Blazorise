@@ -9,6 +9,8 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerCheckboxProperty
 {
+    #region Properties
+
     /// <summary>
     /// Property label.
     /// </summary>
@@ -23,4 +25,6 @@ public partial class _ReportDesignerCheckboxProperty
     /// Raised when the checkbox value changes.
     /// </summary>
     [Parameter] public EventCallback<bool> Changed { get; set; }
+
+    #endregion
 }

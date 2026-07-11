@@ -12,7 +12,7 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerSectionLabel
 {
-    private string Label => $"{ReportDefinitionHelper.GetSectionTypeDisplayName( Section.Type )}: {ReportDefinitionHelper.GetSectionDisplayName( Section )}";
+    #region Methods
 
     private Task OnContextMenu( MouseEventArgs eventArgs )
     {
@@ -30,6 +30,12 @@ public partial class _ReportDesignerSectionLabel
         return Task.CompletedTask;
     }
 
+    #endregion
+
+    #region Properties
+
+    private string Label => $"{ReportDefinitionHelper.GetSectionTypeDisplayName( Section.Type )}: {ReportDefinitionHelper.GetSectionDisplayName( Section )}";
+
     /// <summary>
     /// Report section displayed in the designer label.
     /// </summary>
@@ -44,4 +50,6 @@ public partial class _ReportDesignerSectionLabel
     /// Raised when the label context menu is requested.
     /// </summary>
     [Parameter] public Func<MouseEventArgs, Task> ContextMenu { get; set; }
+
+    #endregion
 }

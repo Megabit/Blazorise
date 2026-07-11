@@ -9,9 +9,11 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportToolbarPanesMenu
 {
-    [CascadingParameter] internal ReportToolbarDockContext DockContext { get; set; }
+    #region Properties
 
     private string Text => string.IsNullOrWhiteSpace( Caption ) ? "Panes" : Caption;
+
+    [CascadingParameter] internal ReportToolbarDockContext DockContext { get; set; }
 
     /// <summary>
     /// Text shown for the pane menu.
@@ -32,4 +34,6 @@ public partial class ReportToolbarPanesMenu
     /// Button color used for the pane menu.
     /// </summary>
     [Parameter] public Color Color { get; set; } = Color.Light;
+
+    #endregion
 }

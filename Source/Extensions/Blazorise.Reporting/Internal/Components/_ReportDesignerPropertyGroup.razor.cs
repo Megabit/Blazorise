@@ -9,6 +9,8 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerPropertyGroup
 {
+    #region Properties
+
     /// <summary>
     /// Group heading text.
     /// </summary>
@@ -18,4 +20,6 @@ public partial class _ReportDesignerPropertyGroup
     /// Property editor content.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
 }

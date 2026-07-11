@@ -1,5 +1,7 @@
+#region Using directives
 using Blazorise;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Reporting;
 
@@ -8,6 +10,8 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportToolbarGroup
 {
+    #region Properties
+
     /// <summary>
     /// Visual role used by the underlying button group.
     /// </summary>
@@ -22,4 +26,6 @@ public partial class ReportToolbarGroup
     /// Toolbar items rendered inside this group.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
 }

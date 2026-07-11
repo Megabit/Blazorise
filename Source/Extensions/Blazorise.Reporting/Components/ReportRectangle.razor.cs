@@ -5,6 +5,10 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportRectangle : BaseReportElement
 {
+    #region Properties
+
     /// <inheritdoc />
     protected override ReportElementType ElementType => ReportElementType.Rectangle;
+
+    #endregion
 }

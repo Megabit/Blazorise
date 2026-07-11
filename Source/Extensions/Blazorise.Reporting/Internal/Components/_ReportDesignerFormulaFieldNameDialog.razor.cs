@@ -58,17 +58,23 @@ public partial class _ReportDesignerFormulaFieldNameDialog
         return Task.CompletedTask;
     }
 
+    protected override void OnInitialized()
+    {
+        name = InitialValue;
+        title = InitialTitle;
+    }
+
     #endregion
 
     #region Properties
 
-    [Parameter] public string InitialValue { get; set; }
-
-    [Parameter] public string InitialTitle { get; set; }
-
     private bool CanConfirm => !string.IsNullOrWhiteSpace( name );
 
     private string Title => title ?? "New Formula Field";
+
+    [Parameter] public string InitialValue { get; set; }
+
+    [Parameter] public string InitialTitle { get; set; }
 
     /// <summary>
     /// Raised when a formula field name is confirmed.
@@ -77,13 +83,4 @@ public partial class _ReportDesignerFormulaFieldNameDialog
 
     #endregion
 
-    #region Overrides
-
-    protected override void OnInitialized()
-    {
-        name = InitialValue;
-        title = InitialTitle;
-    }
-
-    #endregion
 }

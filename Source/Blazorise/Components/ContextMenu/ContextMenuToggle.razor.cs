@@ -45,14 +45,14 @@ public partial class ContextMenuToggle : BaseComponent
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="ContextMenuToggle"/>.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
-
-    /// <summary>
     /// Provides the reference to the parent <see cref="ContextMenu"/> component.
     /// </summary>
     [CascadingParameter] protected ContextMenu ParentContextMenu { get; set; }
+
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="ContextMenuToggle"/>.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }

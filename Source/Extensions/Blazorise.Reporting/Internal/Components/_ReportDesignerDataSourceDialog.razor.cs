@@ -65,6 +65,14 @@ public partial class _ReportDesignerDataSourceDialog
         return resolvedDataSource?.Value ?? NoDataSourceValue;
     }
 
+    protected override void OnInitialized()
+    {
+        dataSourceOptions.Clear();
+        dataSourceOptions.AddRange( ReportDataSourceExplorer.ResolveBindableDataSources( Definition ) );
+
+        selectedDataSource = ResolveInitialDataSource( InitialDataSource );
+    }
+
     #endregion
 
     #region Properties
@@ -83,15 +91,4 @@ public partial class _ReportDesignerDataSourceDialog
 
     #endregion
 
-    #region Overrides
-
-    protected override void OnInitialized()
-    {
-        dataSourceOptions.Clear();
-        dataSourceOptions.AddRange( ReportDataSourceExplorer.ResolveBindableDataSources( Definition ) );
-
-        selectedDataSource = ResolveInitialDataSource( InitialDataSource );
-    }
-
-    #endregion
 }

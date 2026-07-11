@@ -61,9 +61,9 @@ public partial class _DockNodeRenderer : BaseComponent
     private int ActiveTabContentRenderVersion
         => Context?.GetPaneContentRenderVersion( Context?.GetActiveTabPaneName( Node ) ) ?? 0;
 
-    [CascadingParameter] internal DockLayoutContext Context { get; set; }
-
     private DockNodeState Node => Context?.GetNode( NodeId );
+
+    [CascadingParameter] internal DockLayoutContext Context { get; set; }
 
     /// <summary>
     /// Gets or sets the rendered node id.

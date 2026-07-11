@@ -66,7 +66,7 @@ public partial class PdfPage : ComponentBase, IDisposable
 
     #endregion
 
-    #region Parameters
+    #region Properties
 
     /// <summary>
     /// Provides the PDF document that receives this page definition.

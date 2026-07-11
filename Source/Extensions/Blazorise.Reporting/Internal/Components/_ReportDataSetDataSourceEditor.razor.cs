@@ -30,12 +30,12 @@ public partial class _ReportDataSetDataSourceEditor
 
     #region Properties
 
+    private string TableName { get; set; }
+
     /// <summary>
     /// Provider settings context edited by the DataSet data source editor.
     /// </summary>
     [Parameter] public ReportDataSourceProviderEditorContext Context { get; set; }
-
-    private string TableName { get; set; }
 
     #endregion
 }

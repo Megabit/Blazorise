@@ -82,9 +82,9 @@ public partial class _DockTabRenderer : BaseComponent
 
     private ClassBuilder CloseClassBuilder { get; set; }
 
-    [CascadingParameter] internal DockLayoutContext Context { get; set; }
-
     private DockNodeState Node => Context?.GetNode( NodeId );
+
+    [CascadingParameter] internal DockLayoutContext Context { get; set; }
 
     /// <summary>
     /// Gets or sets the tab node id that owns the pane.

@@ -122,32 +122,6 @@ public partial class _ReportDesignerAggregateDialog
         return selectedField is null ? null : CreateFieldKey( selectedField );
     }
 
-    #endregion
-
-    #region Properties
-
-    [Parameter] public IEnumerable<ReportDesignerFieldOption> FieldOptions { get; set; }
-
-    [Parameter] public string SelectedFieldName { get; set; }
-
-    [Parameter] public IEnumerable<ReportAggregateSummaryLocation> SummaryLocationOptions { get; set; }
-
-    private bool CanConfirm => fields.Count > 0 && supportedFunctions.Count > 0 && FindSelectedField() is not null;
-
-    /// <summary>
-    /// Resolves aggregate functions supported by the selected field option.
-    /// </summary>
-    [Parameter] public Func<ReportDesignerFieldOption, IReadOnlyList<ReportAggregateFunction>> ResolveSupportedFunctions { get; set; }
-
-    /// <summary>
-    /// Raised when the aggregate configuration is confirmed.
-    /// </summary>
-    [Parameter] public EventCallback<ReportAggregateDialogResult> Confirmed { get; set; }
-
-    #endregion
-
-    #region Overrides
-
     protected override void OnInitialized()
     {
         fields.Clear();
@@ -172,4 +146,27 @@ public partial class _ReportDesignerAggregateDialog
     }
 
     #endregion
+
+    #region Properties
+
+    private bool CanConfirm => fields.Count > 0 && supportedFunctions.Count > 0 && FindSelectedField() is not null;
+
+    [Parameter] public IEnumerable<ReportDesignerFieldOption> FieldOptions { get; set; }
+
+    [Parameter] public string SelectedFieldName { get; set; }
+
+    [Parameter] public IEnumerable<ReportAggregateSummaryLocation> SummaryLocationOptions { get; set; }
+
+    /// <summary>
+    /// Resolves aggregate functions supported by the selected field option.
+    /// </summary>
+    [Parameter] public Func<ReportDesignerFieldOption, IReadOnlyList<ReportAggregateFunction>> ResolveSupportedFunctions { get; set; }
+
+    /// <summary>
+    /// Raised when the aggregate configuration is confirmed.
+    /// </summary>
+    [Parameter] public EventCallback<ReportAggregateDialogResult> Confirmed { get; set; }
+
+    #endregion
+
 }

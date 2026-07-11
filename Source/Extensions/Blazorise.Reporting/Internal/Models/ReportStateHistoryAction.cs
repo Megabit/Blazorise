@@ -1,5 +1,7 @@
+#region Using directives
 using Blazorise.History;
 using Blazorise.Reporting;
+#endregion
 
 namespace Blazorise.Reporting.Internal;
 

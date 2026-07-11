@@ -74,25 +74,6 @@ public partial class _ReportDesignerGroupDialog
         return selectedField is null ? null : CreateFieldKey( selectedField );
     }
 
-    #endregion
-
-    #region Properties
-
-    [Parameter] public IEnumerable<ReportDesignerFieldOption> FieldOptions { get; set; }
-
-    [Parameter] public string SelectedFieldName { get; set; }
-
-    private bool CanConfirm => fields.Count > 0 && FindSelectedField() is not null;
-
-    /// <summary>
-    /// Raised when the group field selection is confirmed.
-    /// </summary>
-    [Parameter] public EventCallback<string> Confirmed { get; set; }
-
-    #endregion
-
-    #region Overrides
-
     protected override void OnInitialized()
     {
         fields.Clear();
@@ -102,4 +83,20 @@ public partial class _ReportDesignerGroupDialog
     }
 
     #endregion
+
+    #region Properties
+
+    private bool CanConfirm => fields.Count > 0 && FindSelectedField() is not null;
+
+    [Parameter] public IEnumerable<ReportDesignerFieldOption> FieldOptions { get; set; }
+
+    [Parameter] public string SelectedFieldName { get; set; }
+
+    /// <summary>
+    /// Raised when the group field selection is confirmed.
+    /// </summary>
+    [Parameter] public EventCallback<string> Confirmed { get; set; }
+
+    #endregion
+
 }

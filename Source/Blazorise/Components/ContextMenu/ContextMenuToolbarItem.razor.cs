@@ -55,6 +55,11 @@ public partial class ContextMenuToolbarItem : BaseComponent
     #region Properties
 
     /// <summary>
+    /// Provides the reference to the parent <see cref="ContextMenu"/> component.
+    /// </summary>
+    [CascadingParameter] protected ContextMenu ParentContextMenu { get; set; }
+
+    /// <summary>
     /// Holds the item value.
     /// </summary>
     [Parameter] public object Value { get; set; }
@@ -112,11 +117,6 @@ public partial class ContextMenuToolbarItem : BaseComponent
     /// Notifies when the toolbar item is clicked.
     /// </summary>
     [Parameter] public EventCallback<object> Clicked { get; set; }
-
-    /// <summary>
-    /// Provides the reference to the parent <see cref="ContextMenu"/> component.
-    /// </summary>
-    [CascadingParameter] protected ContextMenu ParentContextMenu { get; set; }
 
     #endregion
 }

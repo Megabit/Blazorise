@@ -1,4 +1,6 @@
+#region Using directives
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Reporting;
 
@@ -7,8 +9,7 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportLine : BaseReportElement
 {
-    /// <inheritdoc />
-    protected override ReportElementType ElementType => ReportElementType.Line;
+    #region Methods
 
     /// <inheritdoc />
     protected override ReportElementDefinition BuildDefinition()
@@ -19,8 +20,17 @@ public partial class ReportLine : BaseReportElement
         return definition;
     }
 
+    #endregion
+
+    #region Properties
+
+    /// <inheritdoc />
+    protected override ReportElementType ElementType => ReportElementType.Line;
+
     /// <summary>
     /// Line stroke thickness in points.
     /// </summary>
     [Parameter] public double? Thickness { get; set; }
+
+    #endregion
 }

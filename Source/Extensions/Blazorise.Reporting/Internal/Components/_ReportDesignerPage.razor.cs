@@ -13,43 +13,13 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerPage
 {
+    #region Members
+
     private ElementReference pageElement;
 
-    private string Class => ClassNames;
+    #endregion
 
-    private string MarginBottomStyle => BuildMarginStyle(
-        WidthOffset,
-        Height - MarginBottom,
-        Width,
-        MarginBottom );
-
-    private string MarginLeftStyle => BuildMarginStyle(
-        WidthOffset,
-        MarginTop,
-        MarginLeft,
-        GetPrintableHeight() );
-
-    private string MarginRightStyle => BuildMarginStyle(
-        WidthOffset + ReportMeasurementConverter.ToCssPixelValue( Width - MarginRight ),
-        MarginTop,
-        MarginRight,
-        GetPrintableHeight() );
-
-    private string MarginSpacerStyle => $"height:{ReportMeasurementConverter.ToCssPixelString( MarginTop )}";
-
-    private string MarginTopStyle => BuildMarginStyle(
-        WidthOffset,
-        0,
-        Width,
-        MarginTop );
-
-    private string PrintableAreaStyle => BuildMarginStyle(
-        WidthOffset + ReportMeasurementConverter.ToCssPixelValue( MarginLeft ),
-        MarginTop,
-        GetPrintableWidth(),
-        GetPrintableHeight() );
-
-    private string Style => StyleNames;
+    #region Methods
 
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
@@ -124,6 +94,46 @@ public partial class _ReportDesignerPage
     {
         return Math.Max( 0, Width - MarginLeft - MarginRight );
     }
+
+    #endregion
+
+    #region Properties
+
+    private string Class => ClassNames;
+
+    private string MarginBottomStyle => BuildMarginStyle(
+        WidthOffset,
+        Height - MarginBottom,
+        Width,
+        MarginBottom );
+
+    private string MarginLeftStyle => BuildMarginStyle(
+        WidthOffset,
+        MarginTop,
+        MarginLeft,
+        GetPrintableHeight() );
+
+    private string MarginRightStyle => BuildMarginStyle(
+        WidthOffset + ReportMeasurementConverter.ToCssPixelValue( Width - MarginRight ),
+        MarginTop,
+        MarginRight,
+        GetPrintableHeight() );
+
+    private string MarginSpacerStyle => $"height:{ReportMeasurementConverter.ToCssPixelString( MarginTop )}";
+
+    private string MarginTopStyle => BuildMarginStyle(
+        WidthOffset,
+        0,
+        Width,
+        MarginTop );
+
+    private string PrintableAreaStyle => BuildMarginStyle(
+        WidthOffset + ReportMeasurementConverter.ToCssPixelValue( MarginLeft ),
+        MarginTop,
+        GetPrintableWidth(),
+        GetPrintableHeight() );
+
+    private string Style => StyleNames;
 
     /// <summary>
     /// Root page element reference used by JavaScript overlays.
@@ -229,4 +239,6 @@ public partial class _ReportDesignerPage
     /// Raised when pointer selection is cancelled on the designer page.
     /// </summary>
     [Parameter] public Func<PointerEventArgs, Task> PointerCancel { get; set; }
+
+    #endregion
 }

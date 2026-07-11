@@ -1,6 +1,8 @@
+#region Using directives
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+#endregion
 
 namespace Blazorise.Reporting;
 

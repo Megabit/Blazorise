@@ -10,6 +10,8 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerReportExplorer
 {
+    #region Properties
+
     /// <summary>
     /// Report definition represented by the explorer tree.
     /// </summary>
@@ -54,4 +56,6 @@ public partial class _ReportDesignerReportExplorer
     /// Raised when an explorer node context menu is requested.
     /// </summary>
     [Parameter] public EventCallback<ReportTreeNodeMouseEventArgs> NodeContextMenu { get; set; }
+
+    #endregion
 }

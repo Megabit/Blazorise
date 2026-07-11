@@ -1,6 +1,8 @@
+#region Using directives
 using System;
 using System.ComponentModel;
 using System.Globalization;
+#endregion
 
 namespace Blazorise.Reporting;
 

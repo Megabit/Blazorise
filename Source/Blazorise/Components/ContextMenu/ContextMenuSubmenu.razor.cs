@@ -92,6 +92,11 @@ public partial class ContextMenuSubmenu : BaseComponent
     }
 
     /// <summary>
+    /// Provides the reference to the parent <see cref="ContextMenu"/> component.
+    /// </summary>
+    [CascadingParameter] protected ContextMenu ParentContextMenu { get; set; }
+
+    /// <summary>
     /// Specifies the submenu label.
     /// </summary>
     [Parameter] public string Text { get; set; }
@@ -120,11 +125,6 @@ public partial class ContextMenuSubmenu : BaseComponent
     /// Specifies the content to be rendered inside this <see cref="ContextMenuSubmenu"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
-
-    /// <summary>
-    /// Provides the reference to the parent <see cref="ContextMenu"/> component.
-    /// </summary>
-    [CascadingParameter] protected ContextMenu ParentContextMenu { get; set; }
 
     #endregion
 }

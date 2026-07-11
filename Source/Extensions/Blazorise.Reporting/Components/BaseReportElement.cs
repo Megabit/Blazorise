@@ -1,6 +1,8 @@
+#region Using directives
 using System;
 using Blazorise.Reporting.Internal;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Reporting;
 
@@ -9,21 +11,13 @@ namespace Blazorise.Reporting;
 /// </summary>
 public abstract class BaseReportElement : ComponentBase
 {
+    #region Members
+
     private readonly string definitionId = Guid.NewGuid().ToString( "N" );
 
-    [CascadingParameter] internal ReportSectionContext SectionContext { get; set; }
+    #endregion
 
-    [CascadingParameter] internal ReportTableCellContext TableCellContext { get; set; }
-
-    /// <summary>
-    /// Element kind represented by the derived component.
-    /// </summary>
-    protected abstract ReportElementType ElementType { get; }
-
-    /// <summary>
-    /// Element definition produced from the current component parameters.
-    /// </summary>
-    protected ReportElementDefinition Definition { get; private set; }
+    #region Methods
 
     /// <inheritdoc />
     protected override void OnParametersSet()
@@ -83,6 +77,24 @@ public abstract class BaseReportElement : ComponentBase
             Radius = BorderRadius ?? Border?.Radius,
         };
     }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Element kind represented by the derived component.
+    /// </summary>
+    protected abstract ReportElementType ElementType { get; }
+
+    /// <summary>
+    /// Element definition produced from the current component parameters.
+    /// </summary>
+    protected ReportElementDefinition Definition { get; private set; }
+
+    [CascadingParameter] internal ReportSectionContext SectionContext { get; set; }
+
+    [CascadingParameter] internal ReportTableCellContext TableCellContext { get; set; }
 
     /// <summary>
     /// Friendly element name shown in the designer.
@@ -174,4 +186,5 @@ public abstract class BaseReportElement : ComponentBase
     /// </summary>
     [Parameter] public ReportBorderDefinition Border { get; set; }
 
+    #endregion
 }
