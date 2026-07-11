@@ -102,7 +102,13 @@ internal static class ReportLayoutGeometry
         foreach ( var element in section.Elements )
         {
             if ( element is not null )
-                height = Math.Max( height, element.Y + GetElementRenderHeight( element ) );
+            {
+                double elementHeight = GetElementRenderHeight( element );
+                double elementBottom = element.Y + ( element is ReportLineElementDefinition
+                    ? ( elementHeight + GetLineThickness( element ) ) / 2
+                    : elementHeight );
+                height = Math.Max( height, elementBottom );
+            }
         }
 
         return height;
