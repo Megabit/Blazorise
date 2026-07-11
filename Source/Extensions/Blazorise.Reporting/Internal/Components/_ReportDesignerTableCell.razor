@@ -31,7 +31,7 @@
                                     Selected="@(IsElementSelected?.Invoke( childElementKey ) == true)"
                                     Editing="@string.Equals( EditingElementKey, childElementKey, StringComparison.Ordinal )"
                                     TextEditingActive="@TextEditingActive"
-                                    Clicked="@OnElementClicked"
+                                    Clicked="@ElementClicked"
                                     DoubleClicked="@OnElementDoubleClicked"
                                     ContextMenu="@OnElementContextMenu"
                                     TextEditCommitted="@OnElementTextEditCommitted"

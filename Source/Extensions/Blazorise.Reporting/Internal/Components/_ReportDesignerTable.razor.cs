@@ -221,7 +221,7 @@ public partial class _ReportDesignerTable
     /// <summary>
     /// Raised when a table cell is clicked.
     /// </summary>
-    [Parameter] public Func<string, MouseEventArgs, Task> CellClicked { get; set; }
+    [Parameter] public EventCallback<ReportDesignerSelectionMouseEventArgs> CellClicked { get; set; }
 
     /// <summary>
     /// Raised when a table cell context menu is requested.
@@ -236,7 +236,7 @@ public partial class _ReportDesignerTable
     /// <summary>
     /// Raised when a nested table cell element is clicked.
     /// </summary>
-    [Parameter] public Func<string, MouseEventArgs, Task> ElementClicked { get; set; }
+    [Parameter] public EventCallback<ReportDesignerSelectionMouseEventArgs> ElementClicked { get; set; }
 
     /// <summary>
     /// Raised when a nested table cell element is double-clicked.

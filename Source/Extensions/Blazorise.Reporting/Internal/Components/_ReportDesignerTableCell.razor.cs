@@ -20,8 +20,8 @@ public partial class _ReportDesignerTableCell
 
     private Task OnCellClicked( MouseEventArgs eventArgs )
     {
-        if ( CanReceiveDesignerInteraction && CellClicked is not null )
-            return CellClicked.Invoke( Cell.Id, eventArgs );
+        if ( CanReceiveDesignerInteraction )
+            return CellClicked.InvokeAsync( new( Cell.Id, eventArgs ) );
 
         return Task.CompletedTask;
     }
@@ -30,14 +30,6 @@ public partial class _ReportDesignerTableCell
     {
         if ( CanReceiveDesignerInteraction && CellContextMenu is not null )
             return CellContextMenu.Invoke( SectionIndex, Cell.Id, eventArgs );
-
-        return Task.CompletedTask;
-    }
-
-    private Task OnElementClicked( string elementKey, MouseEventArgs eventArgs )
-    {
-        if ( CanReceiveDesignerInteraction && ElementClicked is not null )
-            return ElementClicked.Invoke( elementKey, eventArgs );
 
         return Task.CompletedTask;
     }
@@ -173,7 +165,7 @@ public partial class _ReportDesignerTableCell
     /// <summary>
     /// Raised when a table cell is clicked.
     /// </summary>
-    [Parameter] public Func<string, MouseEventArgs, Task> CellClicked { get; set; }
+    [Parameter] public EventCallback<ReportDesignerSelectionMouseEventArgs> CellClicked { get; set; }
 
     /// <summary>
     /// Raised when a table cell context menu is requested.
@@ -188,7 +180,7 @@ public partial class _ReportDesignerTableCell
     /// <summary>
     /// Raised when a nested table cell element is clicked.
     /// </summary>
-    [Parameter] public Func<string, MouseEventArgs, Task> ElementClicked { get; set; }
+    [Parameter] public EventCallback<ReportDesignerSelectionMouseEventArgs> ElementClicked { get; set; }
 
     /// <summary>
     /// Raised when a nested table cell element is double-clicked.

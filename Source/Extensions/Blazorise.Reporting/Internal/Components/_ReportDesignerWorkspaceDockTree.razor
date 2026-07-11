@@ -59,6 +59,7 @@
 
         <DockTabs ActivePane="@ActivePanelPaneName">
             <DockPane Name="@PropertiesPaneName"
+                      @ref="@propertiesPane"
                       Caption="Properties"
                       Role="DockRole.Tool"
                       PanePosition="DockPanePosition.Right"
@@ -77,6 +78,7 @@
             </DockPane>
 
             <DockPane Name="@ReportExplorerPaneName"
+                      @ref="@reportExplorerPane"
                       Caption="Report Explorer"
                       Role="DockRole.Tool"
                       PanePosition="DockPanePosition.Right"

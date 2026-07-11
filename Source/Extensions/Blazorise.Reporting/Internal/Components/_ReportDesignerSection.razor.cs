@@ -160,12 +160,7 @@ public partial class _ReportDesignerSection
     }
 
     private Task OnBodyClicked( MouseEventArgs eventArgs )
-    {
-        if ( BodyClicked is not null )
-            return BodyClicked.Invoke( SectionIndex, eventArgs );
-
-        return Task.CompletedTask;
-    }
+        => BodyClicked.InvokeAsync( SectionIndex );
 
     private Task OnBodyPointerDown( PointerEventArgs eventArgs )
     {
@@ -192,12 +187,7 @@ public partial class _ReportDesignerSection
     }
 
     private Task OnRailClicked( MouseEventArgs eventArgs )
-    {
-        if ( RailClicked is not null )
-            return RailClicked.Invoke( SectionIndex, eventArgs );
-
-        return Task.CompletedTask;
-    }
+        => RailClicked.InvokeAsync( SectionIndex );
 
     private Task OnRailContextMenu( MouseEventArgs eventArgs )
     {
@@ -350,7 +340,7 @@ public partial class _ReportDesignerSection
     /// <summary>
     /// Raised when the section rail is clicked.
     /// </summary>
-    [Parameter] public Func<int, MouseEventArgs, Task> RailClicked { get; set; }
+    [Parameter] public EventCallback<int> RailClicked { get; set; }
 
     /// <summary>
     /// Raised when the band collapse toggle is clicked.
@@ -400,7 +390,7 @@ public partial class _ReportDesignerSection
     /// <summary>
     /// Raised when the editable section body is clicked.
     /// </summary>
-    [Parameter] public Func<int, MouseEventArgs, Task> BodyClicked { get; set; }
+    [Parameter] public EventCallback<int> BodyClicked { get; set; }
 
     /// <summary>
     /// Raised when band resizing starts from the section resize handle.

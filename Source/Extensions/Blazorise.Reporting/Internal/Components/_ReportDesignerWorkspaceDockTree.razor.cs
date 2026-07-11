@@ -15,6 +15,10 @@ public partial class _ReportDesignerWorkspaceDockTree
 
     private DockPane surfacePane;
 
+    private DockPane propertiesPane;
+
+    private DockPane reportExplorerPane;
+
     private DockPaneBody fieldsExplorerPaneBody;
 
     private DockPaneBody propertiesPaneBody;
@@ -25,12 +29,46 @@ public partial class _ReportDesignerWorkspaceDockTree
 
     private DockPaneBody toolboxPaneBody;
 
+    private int renderedSurfaceRefreshVersion;
+
+    private int renderedSelectionRefreshVersion;
+
     #endregion
 
     #region Methods
 
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        await base.OnAfterRenderAsync( firstRender );
+
+        if ( SelectionRefreshVersion != renderedSelectionRefreshVersion )
+        {
+            renderedSelectionRefreshVersion = SelectionRefreshVersion;
+            renderedSurfaceRefreshVersion = SurfaceRefreshVersion;
+            await RefreshSelection();
+        }
+        else if ( SurfaceRefreshVersion != renderedSurfaceRefreshVersion )
+        {
+            renderedSurfaceRefreshVersion = SurfaceRefreshVersion;
+            await RefreshSurface();
+        }
+    }
+
     internal Task RefreshSurface()
         => surfacePane?.Refresh() ?? Task.CompletedTask;
+
+    private async Task RefreshSelection()
+    {
+        await RefreshSurface();
+
+        DockPane activePanelPane = string.Equals( ActivePanelPaneName, ReportExplorerPaneName, System.StringComparison.Ordinal )
+            ? reportExplorerPane
+            : propertiesPane;
+
+        if ( activePanelPane is not null )
+            await activePanelPane.Refresh();
+    }
 
     internal ElementReference? GetPaneBodyElement( string paneName )
     {
@@ -107,6 +145,16 @@ public partial class _ReportDesignerWorkspaceDockTree
     /// Defines whether ruler chrome is visible around the designer surface.
     /// </summary>
     [Parameter] public bool ShowRulers { get; set; }
+
+    /// <summary>
+    /// Version used to request a designer surface refresh after pane content has rendered.
+    /// </summary>
+    [Parameter] public int SurfaceRefreshVersion { get; set; }
+
+    /// <summary>
+    /// Version used to request a designer selection refresh after pane content has rendered.
+    /// </summary>
+    [Parameter] public int SelectionRefreshVersion { get; set; }
 
     /// <summary>
     /// Content shown in the toolbox dock pane.

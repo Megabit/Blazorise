@@ -12,8 +12,6 @@ internal sealed class ReportDesignerInteractionState
 
     public string EditingElementKey { get; set; }
 
-    public bool SuppressNextSectionClick { get; set; }
-
     public string SuppressNextElementClickKey { get; set; }
 
     public DateTime SuppressSelectionClickUntil { get; set; }

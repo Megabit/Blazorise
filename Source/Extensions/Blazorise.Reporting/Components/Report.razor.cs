@@ -98,6 +98,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private int renderMutationVersion;
 
+    private int designerSurfaceRefreshVersion;
+
+    private int designerSelectionRefreshVersion;
+
     private List<ReportElementDefinition> clipboardElements = [];
 
     private string clipboardBandId;
@@ -174,14 +178,16 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             InvalidateDesignerCaches();
 
         if ( declarativeDefinitionCreated )
-        {
             await DefinitionChanged.InvokeAsync( declarativeDefinition );
 
-            StateHasChanged();
-        }
+        if ( definition is not null )
+            designerSurfaceRefreshVersion++;
 
         if ( commandManager.State?.Definition is null )
             commandManager.SetState( CaptureReportState( RootDefinition ) );
+
+        if ( definition is not null )
+            StateHasChanged();
     }
 
     /// <inheritdoc />
@@ -630,7 +636,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( command.NotifyDefinitionChanged )
         {
             InvalidateDesignerCaches();
-            RefreshDesignerSurface();
+            RefreshDesignerSelection();
         }
 
         await InvokeAsync( StateHasChanged );
@@ -877,7 +883,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( notifyDefinitionChanged )
             await DefinitionChanged.InvokeAsync( definition );
 
-        RefreshDesignerSurface();
+        RefreshDesignerSelection();
 
         await InvokeAsync( StateHasChanged );
     }
@@ -891,16 +897,19 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( selectionChanged )
         {
             designerState.SelectionVersion++;
-            RefreshDesignerSurface();
+            RefreshDesignerSelection();
         }
     }
 
-    private Task HandleElementClick( string key, MouseEventArgs eventArgs )
+    private Task HandleElementClick( ReportDesignerSelectionMouseEventArgs eventArgs )
     {
+        string key = eventArgs.Key;
+        MouseEventArgs mouseEventArgs = eventArgs.MouseEventArgs;
+
         if ( IsSuppressingSelectionClick() )
             return Task.CompletedTask;
 
-        if ( eventArgs.Detail >= 2 )
+        if ( mouseEventArgs.Detail >= 2 )
         {
             if ( TryOpenSubreportDesigner( key ) )
                 return Task.CompletedTask;
@@ -915,7 +924,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return Task.CompletedTask;
         }
 
-        if ( eventArgs.CtrlKey )
+        if ( mouseEventArgs.CtrlKey )
         {
             ToggleElementSelection( key );
             return Task.CompletedTask;
@@ -941,20 +950,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( IsSuppressingSelectionClick() )
             return;
 
-        if ( designerState.SuppressNextSectionClick )
-        {
-            designerState.SuppressNextSectionClick = false;
-            return;
-        }
-
         SelectSection( sectionIndex );
-    }
-
-    private Task HandleSectionClick( int sectionIndex, MouseEventArgs eventArgs )
-    {
-        HandleSectionClick( sectionIndex );
-
-        return Task.CompletedTask;
     }
 
     private bool IsSuppressingSelectionClick()
@@ -962,7 +958,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( DateTime.UtcNow > designerState.SuppressSelectionClickUntil )
             return false;
 
-        designerState.SuppressNextSectionClick = false;
+        designerState.SuppressSelectionClickUntil = default;
         designerState.SuppressNextElementClickKey = null;
 
         return true;
@@ -970,7 +966,6 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private void SuppressNextSelectionClick()
     {
-        designerState.SuppressNextSectionClick = true;
         designerState.SuppressSelectionClickUntil = DateTime.UtcNow.AddMilliseconds( DesignerConstants.SuppressSelectionClickMilliseconds );
     }
 
@@ -982,7 +977,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( selectionChanged )
         {
             designerState.SelectionVersion++;
-            RefreshDesignerSurface();
+            RefreshDesignerSelection();
         }
     }
 
@@ -994,7 +989,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( selectionChanged )
         {
             designerState.SelectionVersion++;
-            RefreshDesignerSurface();
+            RefreshDesignerSelection();
         }
     }
 
@@ -1006,7 +1001,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( selectionChanged )
         {
             designerState.SelectionVersion++;
-            RefreshDesignerSurface();
+            RefreshDesignerSelection();
         }
     }
 
@@ -1018,7 +1013,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( selectionChanged )
         {
             designerState.SelectionVersion++;
-            RefreshDesignerSurface();
+            RefreshDesignerSelection();
         }
     }
 
@@ -1029,19 +1024,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return Task.CompletedTask;
     }
 
-    private Task SelectSection( int index, MouseEventArgs eventArgs )
-    {
-        SelectSection( index );
-
-        return Task.CompletedTask;
-    }
-
-    private Task HandleTableCellClick( string cellKey, MouseEventArgs eventArgs )
+    private Task HandleTableCellClick( ReportDesignerSelectionMouseEventArgs eventArgs )
     {
         if ( IsSuppressingSelectionClick() )
             return Task.CompletedTask;
 
-        SelectTableCell( cellKey );
+        SelectTableCell( eventArgs.Key );
 
         return Task.CompletedTask;
     }
@@ -1054,7 +1042,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( selectionChanged )
         {
             designerState.SelectionVersion++;
-            RefreshDesignerSurface();
+            RefreshDesignerSelection();
         }
     }
 
@@ -3666,6 +3654,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             _ = designerLayoutRef.RefreshSurface();
     }
 
+    private void RefreshDesignerSelection()
+        => designerSelectionRefreshVersion++;
+
     private static double GetMinimumSectionHeight( ReportBandDefinition section )
     {
         return ReportLayoutGeometry.GetMinimumSectionHeight( section );
@@ -3837,7 +3828,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         ResetDesignerSurfaceScrollPosition();
         SelectReport();
         InvalidateDesignerCaches();
-        RefreshDesignerSurface();
+        RefreshDesignerSelection();
 
         return InvokeAsync( StateHasChanged );
     }
@@ -3861,7 +3852,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         SelectReport();
         InvalidateDesignerCaches();
-        RefreshDesignerSurface();
+        RefreshDesignerSelection();
         StateHasChanged();
 
         return true;

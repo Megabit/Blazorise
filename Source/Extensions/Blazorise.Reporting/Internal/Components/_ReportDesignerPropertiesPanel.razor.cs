@@ -448,10 +448,8 @@ public partial class _ReportDesignerPropertiesPanel
             await formulaConfirmed.Invoke( formula );
     }
 
-    private void OnSnapToGridChanged( bool value )
-    {
-        SnapToGridChanged?.Invoke( value );
-    }
+    private Task OnSnapToGridChanged( bool value )
+        => SnapToGridChanged.InvokeAsync( value );
 
     private Task OnInsertSectionBeforeClicked( MouseEventArgs eventArgs )
         => InsertSection( false );
@@ -611,7 +609,7 @@ public partial class _ReportDesignerPropertiesPanel
     /// <summary>
     /// Raised when snap-to-grid is toggled.
     /// </summary>
-    [Parameter] public Action<bool> SnapToGridChanged { get; set; }
+    [Parameter] public EventCallback<bool> SnapToGridChanged { get; set; }
 
     /// <summary>
     /// Band presentation used by the designer.

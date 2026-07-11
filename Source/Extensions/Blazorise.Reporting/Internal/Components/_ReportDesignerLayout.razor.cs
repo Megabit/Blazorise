@@ -447,6 +447,16 @@ public partial class _ReportDesignerLayout
     [Parameter] public int PaneScrollRestoreVersion { get; set; }
 
     /// <summary>
+    /// Version used to request a designer surface refresh after pane content has rendered.
+    /// </summary>
+    [Parameter] public int SurfaceRefreshVersion { get; set; }
+
+    /// <summary>
+    /// Version used to request a designer selection refresh after pane content has rendered.
+    /// </summary>
+    [Parameter] public int SelectionRefreshVersion { get; set; }
+
+    /// <summary>
     /// Raised when a standard designer keyboard shortcut is pressed.
     /// </summary>
     [Parameter] public Func<ReportDesignerShortcut, Task> Shortcut { get; set; }

@@ -219,8 +219,8 @@ public partial class _ReportDesignerElement
 
     private Task OnClicked( MouseEventArgs eventArgs )
     {
-        if ( CanReceiveDesignerInteraction && Clicked is not null )
-            return Clicked.Invoke( ElementKey, eventArgs );
+        if ( CanReceiveDesignerInteraction )
+            return Clicked.InvokeAsync( new( ElementKey, eventArgs ) );
 
         return Task.CompletedTask;
     }
@@ -412,7 +412,7 @@ public partial class _ReportDesignerElement
     /// <summary>
     /// Raised when the element is clicked on the designer surface.
     /// </summary>
-    [Parameter] public Func<string, MouseEventArgs, Task> Clicked { get; set; }
+    [Parameter] public EventCallback<ReportDesignerSelectionMouseEventArgs> Clicked { get; set; }
 
     /// <summary>
     /// Raised when the element is double-clicked on the designer surface.
@@ -427,7 +427,7 @@ public partial class _ReportDesignerElement
     /// <summary>
     /// Raised when a table cell inside this element is clicked.
     /// </summary>
-    [Parameter] public Func<string, MouseEventArgs, Task> TableCellClicked { get; set; }
+    [Parameter] public EventCallback<ReportDesignerSelectionMouseEventArgs> TableCellClicked { get; set; }
 
     /// <summary>
     /// Raised when a table cell context menu is requested.
@@ -442,7 +442,7 @@ public partial class _ReportDesignerElement
     /// <summary>
     /// Raised when a child element inside this element is clicked.
     /// </summary>
-    [Parameter] public Func<string, MouseEventArgs, Task> ChildElementClicked { get; set; }
+    [Parameter] public EventCallback<ReportDesignerSelectionMouseEventArgs> ChildElementClicked { get; set; }
 
     /// <summary>
     /// Raised when a child element inside this element is double-clicked.

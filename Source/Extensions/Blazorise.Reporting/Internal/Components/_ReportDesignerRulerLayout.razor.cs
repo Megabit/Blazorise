@@ -1,5 +1,4 @@
 #region Using directives
-using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -12,12 +11,7 @@ namespace Blazorise.Reporting.Internal;
 public partial class _ReportDesignerRulerLayout
 {
     private Task OnReportSelected()
-    {
-        if ( ReportSelected is not null )
-            return ReportSelected.Invoke();
-
-        return Task.CompletedTask;
-    }
+        => ReportSelected.InvokeAsync();
 
     #region Properties
 
@@ -59,7 +53,7 @@ public partial class _ReportDesignerRulerLayout
     /// <summary>
     /// Raised when the report selector corner is clicked.
     /// </summary>
-    [Parameter] public Func<Task> ReportSelected { get; set; }
+    [Parameter] public EventCallback ReportSelected { get; set; }
 
     /// <summary>
     /// Designer page content.
