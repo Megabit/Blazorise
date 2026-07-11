@@ -14,7 +14,7 @@ namespace Blazorise;
 /// <summary>
 /// Base class for all DOM based components.
 /// </summary>
-public abstract class BaseComponent : BaseAfterRenderComponent
+public abstract class BaseComponent : BaseStyledComponent
 {
     #region Members
 
@@ -27,10 +27,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     private StyleBuilder utilityStyleBuilder;
 
     private StyleBuilder wrapperUtilityStyleBuilder;
-
-    private string customClass;
-
-    private string customStyle;
 
     private Float @float = Float.Default;
 
@@ -91,8 +87,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// </summary>
     public BaseComponent()
     {
-        ClassBuilder = new( BuildClasses, BuildCustomClasses );
-        StyleBuilder = new( BuildStyles, BuildCustomStyles );
     }
 
     #endregion
@@ -164,8 +158,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     {
         if ( disposing )
         {
-            ClassBuilder = null;
-            StyleBuilder = null;
             utilityClassBuilder = null;
             utilityStyleBuilder = null;
             wrapperUtilityClassBuilder = null;
@@ -180,8 +172,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     {
         if ( disposing )
         {
-            ClassBuilder = null;
-            StyleBuilder = null;
             utilityClassBuilder = null;
             utilityStyleBuilder = null;
             wrapperUtilityClassBuilder = null;
@@ -195,10 +185,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// Builds a list of classnames for this component.
     /// </summary>
     /// <param name="builder">Class builder used to append the classnames.</param>
-    protected virtual void BuildClasses( ClassBuilder builder )
+    protected override void BuildClasses( ClassBuilder builder )
     {
-        if ( Class is not null )
-            builder.Append( Class );
+        base.BuildClasses( builder );
 
         builder.Append( UtilityClassBuilder.Class );
     }
@@ -342,10 +331,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// Builds a list of styles for this component.
     /// </summary>
     /// <param name="builder">Style builder used to append the styles.</param>
-    protected virtual void BuildStyles( StyleBuilder builder )
+    protected override void BuildStyles( StyleBuilder builder )
     {
-        if ( Style is not null )
-            builder.Append( Style );
+        base.BuildStyles( builder );
 
         builder.Append( UtilityStyleBuilder.Styles );
     }
@@ -384,38 +372,18 @@ public abstract class BaseComponent : BaseAfterRenderComponent
             builder.Append( Height.Style( StyleProvider ) );
     }
 
-    /// <summary>
-    /// Provides component-specific classes appended after the default classes.
-    /// </summary>
-    /// <param name="builder">Class builder used to append the classnames.</param>
-    protected virtual void BuildCustomClasses( ClassBuilder builder )
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
     {
-    }
-
-    /// <summary>
-    /// Provides component-specific styles appended after the default styles.
-    /// </summary>
-    /// <param name="builder">Style builder used to append the styles.</param>
-    protected virtual void BuildCustomStyles( StyleBuilder builder )
-    {
-    }
-
-    /// <summary>
-    /// Clears the class-names and mark them to be regenerated.
-    /// </summary>
-    internal protected virtual void DirtyClasses()
-    {
-        ClassBuilder?.Dirty();
+        base.DirtyClasses();
         utilityClassBuilder?.Dirty();
         wrapperUtilityClassBuilder?.Dirty();
     }
 
-    /// <summary>
-    /// Clears the styles-names and mark them to be regenerated.
-    /// </summary>
-    internal protected virtual void DirtyStyles()
+    /// <inheritdoc/>
+    protected internal override void DirtyStyles()
     {
-        StyleBuilder?.Dirty();
+        base.DirtyStyles();
         utilityStyleBuilder?.Dirty();
         wrapperUtilityStyleBuilder?.Dirty();
     }
@@ -486,11 +454,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     protected virtual bool ShouldAutoGenerateId => false;
 
     /// <summary>
-    /// Gets the class builder.
-    /// </summary>
-    protected ClassBuilder ClassBuilder { get; private set; }
-
-    /// <summary>
     /// Gets the utility class builder.
     /// </summary>
     protected ClassBuilder UtilityClassBuilder
@@ -513,16 +476,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
             return wrapperUtilityClassBuilder;
         }
     }
-
-    /// <summary>
-    /// Gets the built class-names based on all the rules set by the component parameters.
-    /// </summary>
-    public string ClassNames => ClassBuilder.Class;
-
-    /// <summary>
-    /// Gets the style mapper.
-    /// </summary>
-    protected StyleBuilder StyleBuilder { get; private set; }
 
     /// <summary>
     /// Gets the utility style builder.
@@ -549,11 +502,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Gets the built styles based on all the rules set by the component parameters.
-    /// </summary>
-    public string StyleNames => StyleBuilder.Styles;
-
-    /// <summary>
     /// Gets or set the javascript runner.
     /// </summary>
     [Inject] protected IIdGenerator IdGenerator { get; set; }
@@ -577,42 +525,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// Specifies the license checker for the user session.
     /// </summary>
     [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
-
-    /// <summary>
-    /// Custom CSS class name to apply to the component.
-    /// </summary>
-    [Parameter]
-    public string Class
-    {
-        get => customClass;
-        set
-        {
-            if ( customClass.IsEqual( value ) )
-                return;
-
-            customClass = value;
-
-            DirtyClasses();
-        }
-    }
-
-    /// <summary>
-    /// Custom inline styles to apply to the component.
-    /// </summary>
-    [Parameter]
-    public string Style
-    {
-        get => customStyle;
-        set
-        {
-            if ( customStyle.IsEqual( value ) )
-                return;
-
-            customStyle = value;
-
-            DirtyStyles();
-        }
-    }
 
     /// <summary>
     /// Specifies how an element should float within its containing block.
