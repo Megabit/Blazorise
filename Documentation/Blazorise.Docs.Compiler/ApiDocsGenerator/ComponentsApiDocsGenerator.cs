@@ -200,15 +200,13 @@ public class ComponentsApiDocsGenerator
 
     private IEnumerable<ComponentInfo> GetComponentsInfo( Compilation compilation, INamespaceSymbol namespaceToSearch )
     {
-        var baseComponentSymbol = compilation.GetTypeByMetadataName( "Blazorise.BaseComponent" );
-
         IEnumerable<INamedTypeSymbol> types = namespaceToSearch.GetTypeMembers()
             .OfType<INamedTypeSymbol>()
             .OrderBy( type => type.ToDisplayString(), StringComparer.Ordinal );
 
         foreach ( INamedTypeSymbol type in types )
         {
-            TypeQualification typeQualification = QualifiesForApiDocs( type, baseComponentSymbol );
+            TypeQualification typeQualification = QualifiesForApiDocs( type );
             if ( !typeQualification.QualifiesForApiDocs )
                 continue;
 
@@ -255,14 +253,12 @@ public class ComponentsApiDocsGenerator
     record TypeQualification( bool QualifiesForApiDocs, bool SkipParamCheck = false, IEnumerable<INamedTypeSymbol> NamedTypeSymbols = null, string Category = null, string Subcategory = null );
 
     /// <summary>
-    /// get the chain of inheritance to the BaseComponent or ComponentBase
-    /// Only return true if implements IComponent (that is the case for all BaseComponent and ComponentBase)
+    /// Gets the inheritance chain up to ComponentBase.
+    /// Only returns true for types that implement IComponent.
     /// </summary>
     /// <param name="type"></param>
-    /// <param name="baseType"></param>
     /// <returns></returns>
-    private TypeQualification QualifiesForApiDocs( INamedTypeSymbol type,
-        INamedTypeSymbol baseType )
+    private TypeQualification QualifiesForApiDocs( INamedTypeSymbol type )
     {
 
         var category = GetCategoryAndSubcategory( type );
@@ -285,11 +281,6 @@ public class ComponentsApiDocsGenerator
         while ( type != null )
         {
             type = type.BaseType;
-            if ( SymbolEqualityComparer.Default.Equals( type, baseType ) )
-            {
-                inheritsFromChain.Add( type );
-                return new( true, skipParamAndComponentCheck, inheritsFromChain, Category: category.category, Subcategory: category.subcategory );
-            }
 
             if ( type?.Name.Split( "." ).Last() == "ComponentBase" ) //for this to work, the inheritance (:ComponentBase) must be specified in .cs file.
                 return new( true, skipParamAndComponentCheck, inheritsFromChain, Category: category.category, Subcategory: category.subcategory );
@@ -504,7 +495,7 @@ public class ComponentsApiDocsGenerator
 
         foreach ( string typeName in inheritsFromChain )
         {
-            if ( IsBaseComponentType( typeName ) )
+            if ( IsFrameworkBaseComponentType( typeName ) )
                 continue;
 
             filtered.Add( typeName );
@@ -513,7 +504,7 @@ public class ComponentsApiDocsGenerator
         return filtered;
     }
 
-    private static bool IsBaseComponentType( string typeName )
+    private static bool IsFrameworkBaseComponentType( string typeName )
     {
         if ( string.IsNullOrWhiteSpace( typeName ) )
             return false;
@@ -524,7 +515,9 @@ public class ComponentsApiDocsGenerator
             normalized = normalized.Substring( "global::".Length );
 
         return normalized == "Blazorise.BaseComponent"
-            || normalized.StartsWith( "Blazorise.BaseComponent<", StringComparison.Ordinal );
+            || normalized.StartsWith( "Blazorise.BaseComponent<", StringComparison.Ordinal )
+            || normalized == "Blazorise.BaseStyledComponent"
+            || normalized == "Blazorise.BaseAfterRenderComponent";
     }
 
     private static DocsApiComponent BuildDocsApiComponent( ApiDocsForComponent component, Dictionary<string, ApiDocsForComponent> componentsByType )
