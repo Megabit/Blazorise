@@ -51,6 +51,8 @@ public partial class _ReportDesignerLayout
 
     private DockLayout dockLayout;
 
+    private DockPane toolbarPane;
+
     private _ReportDesignerWorkspaceDockTree workspaceDockTree;
 
     private ReportToolbarDockContext toolbarDockContext;
@@ -62,6 +64,8 @@ public partial class _ReportDesignerLayout
     private JSReportingModule reportingModule;
 
     private int restoredPaneScrollVersion = -1;
+
+    private int renderedToolbarRefreshVersion;
 
     #endregion
 
@@ -89,6 +93,14 @@ public partial class _ReportDesignerLayout
 
             await DocumentObserver.EnsureInitializedAsync();
             await reportingModule.StartDesignerKeyboardShortcuts( designerElement.ElementRef, dotNetObjectReference );
+        }
+
+        if ( ToolbarRefreshVersion != renderedToolbarRefreshVersion )
+        {
+            renderedToolbarRefreshVersion = ToolbarRefreshVersion;
+
+            if ( toolbarPane is not null )
+                await toolbarPane.Refresh();
         }
 
         if ( PaneScrollRestoreVersion != restoredPaneScrollVersion && PaneScrollPositions?.Count > 0 )
@@ -455,6 +467,11 @@ public partial class _ReportDesignerLayout
     /// Version used to request a designer selection refresh after pane content has rendered.
     /// </summary>
     [Parameter] public int SelectionRefreshVersion { get; set; }
+
+    /// <summary>
+    /// Version used to request a toolbar refresh after its pane content has rendered.
+    /// </summary>
+    [Parameter] public int ToolbarRefreshVersion { get; set; }
 
     /// <summary>
     /// Raised when a standard designer keyboard shortcut is pressed.

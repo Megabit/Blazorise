@@ -102,6 +102,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private int designerSelectionRefreshVersion;
 
+    private int designerToolbarRefreshVersion;
+
     private List<ReportElementDefinition> clipboardElements = [];
 
     private string clipboardBandId;
@@ -748,6 +750,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
             if ( result.ClipboardElements.Count > 0 )
             {
+                if ( !HasClipboardElements )
+                    RefreshDesignerToolbar();
+
                 clipboardElements = result.ClipboardElements;
                 clipboardBandId = result.ClipboardBandId;
                 _ = CloseContextMenu();
@@ -3655,7 +3660,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     }
 
     private void RefreshDesignerSelection()
-        => designerSelectionRefreshVersion++;
+    {
+        designerSelectionRefreshVersion++;
+        RefreshDesignerToolbar();
+    }
+
+    private void RefreshDesignerToolbar()
+        => designerToolbarRefreshVersion++;
 
     private static double GetMinimumSectionHeight( ReportBandDefinition section )
     {
