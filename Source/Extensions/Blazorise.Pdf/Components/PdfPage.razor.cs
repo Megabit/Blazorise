@@ -14,8 +14,6 @@ public partial class PdfPage : ComponentBase, IDisposable
 
     private PdfPageContext pageContext;
 
-    private PdfDocumentContext documentContext;
-
     private PdfPageDefinition definition;
 
     #endregion
@@ -30,15 +28,14 @@ public partial class PdfPage : ComponentBase, IDisposable
             if ( DocumentContext is null )
                 return;
 
-            documentContext = DocumentContext;
-            documentContext.Definition.Pages.Add( definition = new() );
+            DocumentContext.Definition.Pages.Add( definition = new() );
             pageContext = new( definition );
         }
 
-        PdfPageSize resolvedSize = Size == PdfPageSize.Custom && Width <= 0 && Height <= 0 ? documentContext.Definition.PageSize : Size;
-        PdfOrientation resolvedOrientation = Orientation ?? documentContext.Definition.Orientation;
-        double resolvedCustomWidth = Width > 0 ? Width : documentContext.Definition.PageWidth;
-        double resolvedCustomHeight = Height > 0 ? Height : documentContext.Definition.PageHeight;
+        PdfPageSize resolvedSize = Size == PdfPageSize.Custom && Width <= 0 && Height <= 0 ? DocumentContext.Definition.PageSize : Size;
+        PdfOrientation resolvedOrientation = Orientation ?? DocumentContext.Definition.Orientation;
+        double resolvedCustomWidth = Width > 0 ? Width : DocumentContext.Definition.PageWidth;
+        double resolvedCustomHeight = Height > 0 ? Height : DocumentContext.Definition.PageHeight;
         (double width, double height) = PdfPageMetrics.Resolve( resolvedSize, resolvedOrientation, resolvedCustomWidth, resolvedCustomHeight );
 
         definition.Size = resolvedSize;
@@ -50,18 +47,8 @@ public partial class PdfPage : ComponentBase, IDisposable
     /// <inheritdoc />
     public void Dispose()
     {
-        UnregisterDefinition();
-        GC.SuppressFinalize( this );
-    }
-
-    private void UnregisterDefinition()
-    {
-        if ( documentContext is not null && definition is not null )
-            documentContext.Definition.Pages.Remove( definition );
-
-        documentContext = null;
-        definition = null;
-        pageContext = null;
+        if ( DocumentContext is not null && definition is not null )
+            DocumentContext.Definition.Pages.Remove( definition );
     }
 
     #endregion

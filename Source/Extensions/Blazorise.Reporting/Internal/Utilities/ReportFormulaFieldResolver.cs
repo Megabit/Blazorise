@@ -51,7 +51,7 @@ internal static class ReportFormulaFieldResolver
         return true;
     }
 
-    private static ReportFormulaFieldDefinition FindFormulaField( ReportDefinition definition, string fieldName )
+    internal static ReportFormulaFieldDefinition FindFormulaField( ReportDefinition definition, string fieldName )
     {
         if ( definition?.FormulaFields is null || string.IsNullOrWhiteSpace( fieldName ) )
             return null;

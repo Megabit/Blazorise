@@ -1,5 +1,4 @@
 #region Using directives
-using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -14,13 +13,11 @@ public partial class _DockNodeRenderer : BaseComponent
     #region Methods
 
     /// <inheritdoc/>
-    public override Task SetParametersAsync( ParameterView parameters )
+    protected override void OnParametersSet()
     {
-        if ( ( parameters.TryGetValue<string>( nameof( NodeId ), out var nodeId ) && NodeId != nodeId )
-             || ( parameters.TryGetValue<int>( nameof( RenderVersion ), out var renderVersion ) && RenderVersion != renderVersion ) )
-            DirtyClasses();
+        base.OnParametersSet();
 
-        return base.SetParametersAsync( parameters );
+        DirtyClasses();
     }
 
     /// <inheritdoc/>
@@ -55,12 +52,6 @@ public partial class _DockNodeRenderer : BaseComponent
         && !string.IsNullOrWhiteSpace( SplitNodeId )
         && Context.CanResizeDockNode( Node );
 
-    private int PaneContentRenderVersion
-        => Context?.GetPaneContentRenderVersion( Node?.PaneName ) ?? 0;
-
-    private int ActiveTabContentRenderVersion
-        => Context?.GetPaneContentRenderVersion( Context?.GetActiveTabPaneName( Node ) ) ?? 0;
-
     private DockNodeState Node => Context?.GetNode( NodeId );
 
     [CascadingParameter] internal DockLayoutContext Context { get; set; }
@@ -69,21 +60,6 @@ public partial class _DockNodeRenderer : BaseComponent
     /// Gets or sets the rendered node id.
     /// </summary>
     [Parameter] public string NodeId { get; set; }
-
-    /// <summary>
-    /// Gets or sets the layout render version.
-    /// </summary>
-    [Parameter] public int RenderVersion { get; set; }
-
-    /// <summary>
-    /// Gets or sets the layout content render version.
-    /// </summary>
-    [Parameter] public int ContentRenderVersion { get; set; }
-
-    /// <summary>
-    /// Gets or sets the pane content update version.
-    /// </summary>
-    [Parameter] public int PaneContentUpdateVersion { get; set; }
 
     /// <summary>
     /// Gets or sets the local splitter side for the rendered node.

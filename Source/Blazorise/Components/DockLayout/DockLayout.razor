@@ -1,7 +1,7 @@
 @namespace Blazorise
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
-    <CascadingValue Value="@Context" IsFixed>
+    <CascadingValue Value="@Context">
         <section @ref="@ElementRef"
                  id="@ElementId"
                  class="@ClassNames"
@@ -16,19 +16,19 @@
             </CascadingValue>
             @if ( CurrentState.Root is not null )
             {
-                <_DockNodeRenderer NodeId="@CurrentState.Root.Id" RenderVersion="@RenderVersion" ContentRenderVersion="@ContentRenderVersion" PaneContentUpdateVersion="@PaneContentUpdateVersion" />
+                <_DockNodeRenderer NodeId="@CurrentState.Root.Id" />
             }
-            <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Left" Items="@GetRailItems( DockPanePosition.Left )" RenderVersion="@RenderVersion" />
-            <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Right" Items="@GetRailItems( DockPanePosition.Right )" RenderVersion="@RenderVersion" />
-            <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Top" Items="@GetRailItems( DockPanePosition.Top )" RenderVersion="@RenderVersion" />
-            <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Bottom" Items="@GetRailItems( DockPanePosition.Bottom )" RenderVersion="@RenderVersion" />
+            <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Left" Items="@GetRailItems( DockPanePosition.Left )" />
+            <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Right" Items="@GetRailItems( DockPanePosition.Right )" />
+            <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Top" Items="@GetRailItems( DockPanePosition.Top )" />
+            <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Bottom" Items="@GetRailItems( DockPanePosition.Bottom )" />
             @if ( ActiveAutoHidePane is not null )
             {
-                <_DockPaneRenderer PaneName="@ActiveAutoHidePane.ResolvedName" Flyout RenderVersion="@RenderVersion" ContentRenderVersion="@ContentRenderVersion" PaneContentUpdateVersion="@PaneContentUpdateVersion" PaneContentRenderVersion="@ActiveAutoHidePane.ContentRenderVersion" />
+                <_DockPaneRenderer PaneName="@ActiveAutoHidePane.ResolvedName" Flyout />
             }
             @if ( DockGuidesVisible )
             {
-                <_DockCompassRenderer RenderVersion="@DockGuidesVersion" Style="@DockCompassStyleNames" />
+                <_DockCompassRenderer Style="@DockCompassStyleNames" />
             }
         </section>
     </CascadingValue>

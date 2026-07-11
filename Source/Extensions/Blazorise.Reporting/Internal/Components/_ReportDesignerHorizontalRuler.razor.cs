@@ -36,12 +36,16 @@ public partial class _ReportDesignerHorizontalRuler
     {
         builder.Append( "b-report-designer-ruler" );
         builder.Append( "b-report-designer-ruler-horizontal" );
+
+        base.BuildClasses( builder );
     }
 
     /// <inheritdoc />
     protected override void BuildStyles( Blazorise.Utilities.StyleBuilder builder )
     {
         builder.Append( $"width:calc(var(--b-report-designer-ruler-surface-offset) + {ReportMeasurementConverter.ToCssPixelString( Width + WidthOffset )})" );
+
+        base.BuildStyles( builder );
     }
 
     private string GetTickClass( ReportDesignerRulerTick tick )

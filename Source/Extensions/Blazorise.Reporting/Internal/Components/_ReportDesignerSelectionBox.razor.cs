@@ -39,13 +39,13 @@ public partial class _ReportDesignerSelectionBox
         builder.Append( $"top:{ReportMeasurementConverter.ToCssPixelString( Y )}" );
         builder.Append( $"width:{ReportMeasurementConverter.ToCssPixelString( Width )}" );
         builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}" );
+
+        base.BuildStyles( builder );
     }
 
     #endregion
 
     #region Properties
-
-    private string Style => StyleNames;
 
     /// <summary>
     /// Left selection coordinate.

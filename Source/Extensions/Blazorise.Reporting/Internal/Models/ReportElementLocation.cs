@@ -20,7 +20,5 @@ internal sealed class ReportElementLocation
 
     internal ReportTableCellDefinition ParentCell { get; set; }
 
-    internal bool IsTableCellElement => ParentCell is not null;
-
     #endregion
 }

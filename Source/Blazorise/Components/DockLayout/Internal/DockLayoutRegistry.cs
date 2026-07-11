@@ -10,49 +10,26 @@ internal sealed class DockLayoutRegistry
 
     private readonly Dictionary<string, DockPane> panes = new();
 
-    private readonly Dictionary<string, int> paneDefinitionVersions = new();
-
-    private readonly Dictionary<string, int> paneContentRenderVersions = new();
-
     #endregion
 
     #region Methods
 
-    public bool RegisterPane( DockPane pane, out bool contentChanged )
+    public bool RegisterPane( DockPane pane )
     {
-        contentChanged = false;
-
         string paneName = pane?.ResolvedName;
 
         if ( string.IsNullOrWhiteSpace( paneName ) )
             return false;
 
-        bool definitionChanged = !panes.TryGetValue( paneName, out DockPane registeredPane )
-            || !ReferenceEquals( registeredPane, pane )
-            || !paneDefinitionVersions.TryGetValue( paneName, out int registeredDefinitionVersion )
-            || registeredDefinitionVersion != pane.DefinitionVersion;
-
-        contentChanged = !definitionChanged
-            && ( !paneContentRenderVersions.TryGetValue( paneName, out int registeredContentRenderVersion )
-                 || registeredContentRenderVersion != pane.ContentRenderVersion );
-
         panes[paneName] = pane;
-        paneDefinitionVersions[paneName] = pane.DefinitionVersion;
-        paneContentRenderVersions[paneName] = pane.ContentRenderVersion;
 
-        return definitionChanged;
+        return true;
     }
 
-    public bool RegisterContent( DockContent content )
+    public void RegisterContent( DockContent content )
     {
-        if ( content is null )
-            return false;
-
-        bool changed = !ReferenceEquals( Content, content );
-
-        Content = content;
-
-        return changed;
+        if ( content is not null )
+            Content = content;
     }
 
     public void UnregisterPane( DockPane pane )
@@ -63,8 +40,6 @@ internal sealed class DockLayoutRegistry
             return;
 
         panes.Remove( paneName );
-        paneDefinitionVersions.Remove( paneName );
-        paneContentRenderVersions.Remove( paneName );
     }
 
     public bool TryGetPane( string paneName, out DockPane pane )

@@ -15,29 +15,9 @@ public partial class DockPane : BaseComponent, IDisposable
 
     private DockNodeState node;
 
-    private int definitionVersion;
-
-    private int contentRenderVersion;
-
     #endregion
 
     #region Methods
-
-    /// <inheritdoc/>
-    public override Task SetParametersAsync( ParameterView parameters )
-    {
-        if ( ( parameters.TryGetValue<string>( nameof( Name ), out string name ) && Name != name )
-             || ( parameters.TryGetValue<DockRole>( nameof( Role ), out DockRole structureDockRole ) && Role != structureDockRole )
-             || ( parameters.TryGetValue<DockPanePosition>( nameof( PanePosition ), out DockPanePosition structurePanePosition ) && PanePosition != structurePanePosition )
-             || ( parameters.TryGetValue<bool>( nameof( ShowTab ), out bool showTab ) && ShowTab != showTab )
-             || ( parameters.TryGetValue<bool>( nameof( ShowTabCloseButton ), out bool showTabCloseButton ) && ShowTabCloseButton != showTabCloseButton )
-             || ( parameters.TryGetValue<DockPaneTabPosition>( nameof( TabPosition ), out DockPaneTabPosition tabPosition ) && TabPosition != tabPosition ) )
-        {
-            definitionVersion++;
-        }
-
-        return base.SetParametersAsync( parameters );
-    }
 
     /// <inheritdoc/>
     protected override void OnParametersSet()
@@ -63,13 +43,9 @@ public partial class DockPane : BaseComponent, IDisposable
     /// </summary>
     /// <returns>A task that completes after the refresh has been scheduled.</returns>
     public Task Refresh()
-    {
-        contentRenderVersion++;
-
-        return ParentDockLayout is null
+        => ParentDockLayout is null
             ? InvokeAsync( StateHasChanged )
-            : ParentDockLayout.NotifyPaneContentChanged();
-    }
+            : ParentDockLayout.Refresh();
 
     #endregion
 
@@ -93,10 +69,6 @@ public partial class DockPane : BaseComponent, IDisposable
     {
         Kind = DockNodeKind.Pane,
     };
-
-    internal int DefinitionVersion => definitionVersion;
-
-    internal int ContentRenderVersion => contentRenderVersion;
 
     [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
 

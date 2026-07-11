@@ -26,13 +26,13 @@ public partial class _ReportDesignerTableColumn
     protected override void BuildStyles( StyleBuilder builder )
     {
         builder.Append( $"width:{ReportMeasurementConverter.ToCssPixelString( Column.Width )}" );
+
+        base.BuildStyles( builder );
     }
 
     #endregion
 
     #region Properties
-
-    private string Style => StyleNames;
 
     /// <summary>
     /// Table column definition rendered by the table cell.

@@ -102,20 +102,16 @@ public class JSReportingModule : BaseJSModule
     /// <param name="clientX">Document client X coordinate.</param>
     /// <param name="clientY">Document client Y coordinate.</param>
     /// <returns>Element-local coordinates as a two-item array containing X and Y values.</returns>
-    public virtual async ValueTask<double[]> GetElementOffset( ElementReference element, double clientX, double clientY )
-    {
-        return await InvokeSafeAsync<double[]>( "getElementOffset", element, clientX, clientY );
-    }
+    public virtual ValueTask<double[]> GetElementOffset( ElementReference element, double clientX, double clientY )
+        => InvokeSafeAsync<double[]>( "getElementOffset", element, clientX, clientY );
 
     /// <summary>
     /// Gets the current scroll position of an element.
     /// </summary>
     /// <param name="element">Element to inspect.</param>
     /// <returns>A two-item array containing horizontal and vertical scroll offsets.</returns>
-    public virtual async ValueTask<double[]> GetScrollPosition( ElementReference element )
-    {
-        return await InvokeSafeAsync<double[]>( "getScrollPosition", element );
-    }
+    public virtual ValueTask<double[]> GetScrollPosition( ElementReference element )
+        => InvokeSafeAsync<double[]>( "getScrollPosition", element );
 
     /// <summary>
     /// Sets the scroll position of an element.

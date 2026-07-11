@@ -23,49 +23,31 @@ internal sealed class ReportDesignerCommandManager
         historyService.Clear();
     }
 
-    internal async Task<ReportDesignerCommandResult> Execute(
+    internal async Task<ReportDefinition> Execute(
         ReportDesignerCommand command,
         ReportDefinition currentDefinition,
         Func<ReportDefinition, ReportState> captureState )
     {
-        if ( command is null )
-            return ReportDesignerCommandResult.Empty;
+        ReportState beforeState = command.TrackHistory ? captureState( currentDefinition ) : null;
 
-        ReportState beforeState = command.TrackHistory ? captureState?.Invoke( currentDefinition ) : null;
-
-        if ( command.Execute is not null )
-            await command.Execute.Invoke();
+        await command.Execute();
 
         ReportDefinition definition = command.GetDefinition?.Invoke() ?? currentDefinition;
 
         if ( command.TrackHistory )
         {
-            ReportState afterState = captureState?.Invoke( definition );
-            RecordStateChange( command.Name, beforeState, afterState );
+            ReportState afterState = captureState( definition );
+            historyService.Record( new ReportStateHistoryAction( command.Name, beforeState, afterState ) );
+            afterState.CanUndo = historyService.CanUndo;
+            afterState.CanRedo = historyService.CanRedo;
+            designerState.State = ReportContext.CloneState( afterState );
         }
         else
         {
-            designerState.State = captureState?.Invoke( definition );
+            designerState.State = captureState( definition );
         }
 
-        return new()
-        {
-            Definition = definition,
-            NotifyDefinitionChanged = command.NotifyDefinitionChanged,
-            RefreshSurface = command.RefreshSurface,
-        };
-    }
-
-    internal void RecordStateChange( string name, ReportState beforeState, ReportState afterState )
-    {
-        if ( beforeState is null || afterState is null )
-            return;
-
-        ReportStateHistoryAction action = new( name, beforeState, afterState );
-        historyService.Record( action );
-        afterState.CanUndo = historyService.CanUndo;
-        afterState.CanRedo = historyService.CanRedo;
-        designerState.State = ReportContext.CloneState( afterState );
+        return definition;
     }
 
     internal ReportState Undo()

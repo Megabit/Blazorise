@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Pdf;
@@ -37,11 +38,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private readonly ReportAggregateService aggregateService = new();
 
-    private readonly ReportDataDefinitionService dataDefinitionService = new();
-
     private readonly ReportDataCommandService dataCommandService = new();
-
-    private readonly ReportDesignerLayoutService designerLayoutService = new();
 
     private readonly ReportDesignerDragDropService dragDropService = new();
 
@@ -57,11 +54,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private readonly ReportRenderService renderService = new();
 
-    private readonly ReportPreviewExportService previewExportService = new();
-
     private readonly ReportSectionCommandService sectionCommandService = new();
-
-    private readonly ReportStateService stateService = new();
 
     private readonly ReportDesignerRulerService rulerService = new();
 
@@ -104,8 +97,6 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private _ReportDesignerPage designerPageRef;
 
     private int renderMutationVersion;
-
-    private int collapsedSectionsVersion;
 
     private List<ReportElementDefinition> clipboardElements = [];
 
@@ -184,10 +175,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( declarativeDefinitionCreated )
         {
-            if ( DefinitionChanged.HasDelegate )
-            {
-                await DefinitionChanged.InvokeAsync( declarativeDefinition );
-            }
+            await DefinitionChanged.InvokeAsync( declarativeDefinition );
 
             StateHasChanged();
         }
@@ -634,12 +622,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task ExecuteDesignerCommand( ReportDesignerCommand command )
     {
-        var result = await commandManager.Execute( command, RootDefinition, CaptureReportState );
+        ReportDefinition definition = await commandManager.Execute( command, RootDefinition, CaptureReportState );
 
-        if ( result.NotifyDefinitionChanged && result.RefreshSurface && DefinitionChanged.HasDelegate )
-            await DefinitionChanged.InvokeAsync( result.Definition );
+        if ( command.NotifyDefinitionChanged && command.RefreshSurface )
+            await DefinitionChanged.InvokeAsync( definition );
 
-        if ( result.NotifyDefinitionChanged )
+        if ( command.NotifyDefinitionChanged )
         {
             InvalidateDesignerCaches();
             RefreshDesignerSurface();
@@ -647,10 +635,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         await InvokeAsync( StateHasChanged );
 
-        if ( result.NotifyDefinitionChanged && !result.RefreshSurface && DefinitionChanged.HasDelegate )
-        {
-            _ = NotifyDefinitionChangedLater( result.Definition );
-        }
+        if ( command.NotifyDefinitionChanged && !command.RefreshSurface )
+            _ = NotifyDefinitionChangedLater( definition );
     }
 
     private Task NotifyDefinitionChangedLater( ReportDefinition definition )
@@ -675,9 +661,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             if ( mode == ReportMode.Design )
                 designerPaneScrollRestoreVersion++;
 
-            if ( ModeChanged.HasDelegate )
-                await ModeChanged.InvokeAsync( currentMode );
-        }, trackHistory: false, notifyDefinitionChanged: false ) );
+            await ModeChanged.InvokeAsync( currentMode );
+        }, TrackHistory: false, NotifyDefinitionChanged: false ) );
     }
 
     private async Task SetPreview( ReportPreviewFormat format )
@@ -693,9 +678,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
             await ResolveDataSources( RootDefinition, loadData: true );
 
-            if ( ModeChanged.HasDelegate )
-                await ModeChanged.InvokeAsync( currentMode );
-        }, trackHistory: false, notifyDefinitionChanged: false ) );
+            await ModeChanged.InvokeAsync( currentMode );
+        }, TrackHistory: false, NotifyDefinitionChanged: false ) );
     }
 
     private async Task CaptureDesignerPaneScrollPositions()
@@ -718,10 +702,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         ReportDefinition definition = RootDefinition;
         await ResolveDataSources( definition, true );
 
-        PdfDocumentDefinition pdfDocument = previewExportService.BuildPdfDocument( definition, Data );
+        PdfDocumentDefinition pdfDocument = ReportPdfDocumentBuilder.Build( definition, Data );
         PdfGenerationResult result = await PdfGenerator.Generate( pdfDocument, new()
         {
-            FileName = previewExportService.ResolvePdfFileName( definition ),
+            FileName = ResolvePdfFileName( definition ),
         } );
 
         EnsureReportingModule();
@@ -764,7 +748,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             }
 
             return Task.CompletedTask;
-        }, trackHistory: false, notifyDefinitionChanged: false ) );
+        }, TrackHistory: false, NotifyDefinitionChanged: false ) );
     }
 
     private async Task CutSelectedElement()
@@ -846,29 +830,36 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private ReportState CaptureReportState( ReportDefinition definition )
     {
-        return stateService.Capture(
-            definition,
-            CurrentMode,
-            CurrentPreviewFormat,
-            designerState.SnapToGrid,
-            selectionManager,
-            clipboardElements,
-            clipboardBandId,
-            commandManager.CanUndo,
-            commandManager.CanRedo );
+        definition = ReportDefinitionHelper.EnsureDefinitionIds( definition );
+
+        return new()
+        {
+            Definition = ReportContext.CloneDefinition( definition ),
+            Mode = CurrentMode,
+            PreviewFormat = CurrentPreviewFormat,
+            SnapToGrid = designerState.SnapToGrid,
+            Selection = selectionManager.CaptureState( definition ),
+            ClipboardElements = clipboardElements?.Select( ReportContext.CloneElement ).ToList() ?? [],
+            ClipboardBandId = clipboardBandId,
+            CanUndo = commandManager.CanUndo,
+            CanRedo = commandManager.CanRedo,
+        };
     }
 
     private async Task ApplyReportState( ReportState state, bool notifyDefinitionChanged )
     {
         string previousActiveSubreportElementKey = activeSubreportElementKey;
-        ReportState nextState = stateService.Apply( state, designerState, selectionManager, BuildDeclarativeDefinition, out ReportDefinition definition, out List<ReportElementDefinition> nextClipboardElements, out string nextClipboardBandId );
+        ReportState nextState = ReportContext.CloneState( state );
+        ReportDefinition definition = ReportDefinitionHelper.EnsureDefinitionIds( nextState.Definition ?? BuildDeclarativeDefinition() );
 
         declarativeDefinition = definition;
         currentMode = nextState.Mode;
         currentPreviewFormat = nextState.PreviewFormat;
         activeSubreportElementKey = ResolveActiveSubreportElementKey( definition, previousActiveSubreportElementKey );
-        clipboardElements = nextClipboardElements;
-        clipboardBandId = nextClipboardBandId;
+        clipboardElements = nextState.ClipboardElements?.Select( ReportContext.CloneElement ).ToList() ?? [];
+        clipboardBandId = nextState.ClipboardBandId;
+        designerState.SnapToGrid = nextState.SnapToGrid;
+        selectionManager.ApplyState( definition, nextState.Selection );
         designerState.SelectionVersion++;
 
         if ( !string.Equals( previousActiveSubreportElementKey, activeSubreportElementKey, StringComparison.Ordinal ) )
@@ -883,7 +874,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         InvalidateDesignerCaches();
 
-        if ( notifyDefinitionChanged && DefinitionChanged.HasDelegate )
+        if ( notifyDefinitionChanged )
             await DefinitionChanged.InvokeAsync( definition );
 
         RefreshDesignerSurface();
@@ -1079,8 +1070,6 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         else
             collapsedBandIds.Add( sectionId );
 
-        collapsedSectionsVersion++;
-        InvalidateDesignerLayoutCache();
         RefreshDesignerSurface();
     }
 
@@ -1267,7 +1256,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( !TryGetContextElementRunningTotalName( EffectiveDefinition, out string runningTotalName ) )
             return;
 
-        ReportRunningTotalDefinition runningTotal = dataDefinitionService.FindRunningTotal( EffectiveDefinition, runningTotalName );
+        ReportRunningTotalDefinition runningTotal = ReportRunningTotalResolver.FindRunningTotal( EffectiveDefinition, runningTotalName );
 
         if ( runningTotal is not null )
             await runningTotalDialogRef.Show( runningTotal );
@@ -1762,7 +1751,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( string.IsNullOrWhiteSpace( formulaFieldName ) )
             return;
 
-        ReportFormulaFieldDefinition formulaField = dataDefinitionService.FindFormulaField( EffectiveDefinition, formulaFieldName );
+        ReportFormulaFieldDefinition formulaField = ReportFormulaFieldResolver.FindFormulaField( EffectiveDefinition, formulaFieldName );
 
         if ( formulaField is null )
             return;
@@ -1773,12 +1762,30 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private int GetDataElementInsertionSectionIndex( ReportDefinition definition )
     {
-        return dataDefinitionService.GetInsertionSectionIndex( definition, selectionManager.SelectedSectionIndex, selectionManager.PrimaryElementKey );
+        if ( definition?.Bands is null )
+            return -1;
+
+        if ( selectionManager.SelectedSectionIndex is { } sectionIndex
+             && sectionIndex >= 0
+             && sectionIndex < definition.Bands.Count )
+        {
+            return sectionIndex;
+        }
+
+        return !string.IsNullOrWhiteSpace( selectionManager.PrimaryElementKey )
+               && ReportDefinitionHelper.TryFindElementLocation( definition, selectionManager.PrimaryElementKey, out int elementSectionIndex, out _, out _ )
+            ? elementSectionIndex
+            : -1;
     }
 
     private double GetNextDataElementInsertionY( ReportBandDefinition section )
     {
-        return dataDefinitionService.GetNextInsertionY( section, ApplyDesignerGrid );
+        if ( section?.Elements is null || section.Elements.Count == 0 )
+            return 0;
+
+        double y = section.Elements.Max( element => element.Y + element.Height ) + ReportDesignerConstants.DefaultDroppedFieldHeight;
+
+        return ApplyDesignerGrid( y );
     }
 
     private IReadOnlyList<ReportAggregateFunction> ResolveAggregateDialogSupportedFunctions( ReportDesignerFieldOption field )
@@ -1991,7 +1998,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 SelectElements( result.SelectedElementKeys, result.PrimaryElementKey );
 
             return Task.CompletedTask;
-        }, refreshSurface: false ) );
+        }, RefreshSurface: false ) );
     }
 
     private async Task AlignSelectedElements( ReportElementAlignment alignment )
@@ -2013,7 +2020,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 SelectElements( result.SelectedElementKeys, result.PrimaryElementKey );
 
             return Task.CompletedTask;
-        }, refreshSurface: false ) );
+        }, RefreshSurface: false ) );
     }
 
     private async Task SizeSelectedElements( ReportElementSizeMode sizeMode )
@@ -2035,7 +2042,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 SelectElements( result.SelectedElementKeys, result.PrimaryElementKey );
 
             return Task.CompletedTask;
-        }, refreshSurface: false ) );
+        }, RefreshSurface: false ) );
     }
 
     private async Task OrderSelectedElements( ReportElementOrderMode orderMode )
@@ -2057,7 +2064,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 SelectElements( result.SelectedElementKeys, result.PrimaryElementKey );
 
             return Task.CompletedTask;
-        }, refreshSurface: false ) );
+        }, RefreshSurface: false ) );
     }
 
     private List<ReportSelectedElementContext> GetSelectedElementContexts( ReportDefinition definition )
@@ -2868,7 +2875,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ClearDragState();
 
             return Task.CompletedTask;
-        }, refreshSurface: false ) );
+        }, RefreshSurface: false ) );
     }
 
     private bool TryMoveElementPointerDragToTableCell( ReportDefinition definition, ReportElementPointerDragState pointerDrag )
@@ -3004,7 +3011,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ClearDragState();
 
             return Task.CompletedTask;
-        }, refreshSurface: false ) );
+        }, RefreshSurface: false ) );
     }
 
     private async Task CancelTablePointerResize()
@@ -3155,7 +3162,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ClearDragState();
 
             return Task.CompletedTask;
-        }, refreshSurface: false ) );
+        }, RefreshSurface: false ) );
     }
 
     private async Task CancelElementPointerResize()
@@ -3228,7 +3235,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 }
 
                 return Task.CompletedTask;
-            }, refreshSurface: false ) );
+            }, RefreshSurface: false ) );
         }
         finally
         {
@@ -3600,13 +3607,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private double GetSectionOffsetY( ReportDefinition definition, int sectionIndex )
     {
-        return GetReportPageMarginTop( definition ) + designerLayoutService.GetSectionOffsetY( definition, sectionIndex, BandMode, collapsedSectionsVersion, designerState.SectionPointerResize, IsSectionCollapsed );
+        return GetReportPageMarginTop( definition ) + ReportLayoutGeometry.GetSectionOffsetY( definition, sectionIndex, GetDesignerSectionHeight );
     }
 
     private double GetDesignerContentHeight( ReportDefinition definition )
     {
         return GetReportPageMarginTop( definition )
-            + designerLayoutService.GetContentHeight( definition, BandMode, collapsedSectionsVersion, designerState.SectionPointerResize, IsSectionCollapsed )
+            + ReportLayoutGeometry.GetContentHeight( definition, GetDesignerSectionHeight )
             + GetReportPageMarginBottom( definition );
     }
 
@@ -3634,13 +3641,22 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private double GetDesignerSectionHeight( int sectionIndex, ReportBandDefinition section )
     {
-        return designerLayoutService.GetSectionHeight( sectionIndex, section, BandMode, designerState.SectionPointerResize, IsSectionCollapsed );
+        if ( designerState.SectionPointerResize?.SectionIndex == sectionIndex )
+            return designerState.SectionPointerResize.TargetHeight + GetDesignerSectionBodyTopOffset();
+
+        if ( BandMode == ReportBandMode.Rail
+             && !ReportValueResolver.ResolveStaticSuppress( section )
+             && IsSectionCollapsed( section ) )
+        {
+            return ReportMeasurementConverter.FromCssPixelValue( ReportDesignerConstants.DesignerCollapsedBandHeight );
+        }
+
+        return ( section?.Height ?? 0 ) + GetDesignerSectionBodyTopOffset();
     }
 
     private void InvalidateDesignerCaches()
     {
         renderMutationVersion++;
-        InvalidateDesignerLayoutCache();
         renderService.Invalidate();
     }
 
@@ -3648,11 +3664,6 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     {
         if ( designerLayoutRef is not null )
             _ = designerLayoutRef.RefreshSurface();
-    }
-
-    private void InvalidateDesignerLayoutCache()
-    {
-        designerLayoutService.Invalidate();
     }
 
     private static double GetMinimumSectionHeight( ReportBandDefinition section )
@@ -3672,8 +3683,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         ShowRulers = value;
 
-        if ( ShowRulersChanged.HasDelegate )
-            await ShowRulersChanged.InvokeAsync( value );
+        await ShowRulersChanged.InvokeAsync( value );
 
         await InvokeAsync( StateHasChanged );
     }
@@ -3685,8 +3695,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         ShowFineRulerTicks = value;
 
-        if ( ShowFineRulerTicksChanged.HasDelegate )
-            await ShowFineRulerTicksChanged.InvokeAsync( value );
+        await ShowFineRulerTicksChanged.InvokeAsync( value );
 
         await InvokeAsync( StateHasChanged );
     }
@@ -3697,11 +3706,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
 
         BandMode = value;
-        InvalidateDesignerLayoutCache();
         RefreshDesignerSurface();
 
-        if ( BandModeChanged.HasDelegate )
-            await BandModeChanged.InvokeAsync( value );
+        await BandModeChanged.InvokeAsync( value );
 
         await InvokeAsync( StateHasChanged );
     }
@@ -3713,7 +3720,17 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private bool SupportsPreviewFormat( ReportPreviewFormat format )
     {
-        return previewExportService.SupportsPreviewFormat( PreviewFormats, context.ViewerOptions, format );
+        return ( PreviewFormats ?? context.ViewerOptions.PreviewFormats ).HasFlag( format );
+    }
+
+    private static string ResolvePdfFileName( ReportDefinition definition )
+    {
+        string name = string.IsNullOrWhiteSpace( definition?.Name ) ? "report" : definition.Name.Trim();
+
+        foreach ( char invalidCharacter in Path.GetInvalidFileNameChars() )
+            name = name.Replace( invalidCharacter, '-' );
+
+        return name.EndsWith( ".pdf", StringComparison.OrdinalIgnoreCase ) ? name : $"{name}.pdf";
     }
 
     private bool ShouldRenderElement( ReportDefinition definition, ReportBandDefinition section, ReportElementDefinition element, object item )

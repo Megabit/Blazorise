@@ -11,7 +11,6 @@ internal sealed class DockDragState
         CompassZoneKey = compassZoneKey;
         CompassX = compassX;
         CompassY = compassY;
-        Version++;
     }
 
     public void Clear()
@@ -37,8 +36,6 @@ internal sealed class DockDragState
     public double CompassX { get; private set; }
 
     public double CompassY { get; private set; }
-
-    public int Version { get; private set; }
 
     public bool Visible => PaneName is not null && ( CompassX != 0d || CompassY != 0d );
 

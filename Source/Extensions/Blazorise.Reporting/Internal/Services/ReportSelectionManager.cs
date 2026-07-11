@@ -355,11 +355,6 @@ internal sealed class ReportSelectionManager
         return section is not null && !section.Default;
     }
 
-    internal void ClearElementSelection()
-    {
-        selectedElementKeys.Clear();
-    }
-
     internal void AddSelectedElement( string elementKey )
     {
         if ( string.IsNullOrWhiteSpace( elementKey ) || selectedElementKeys.Contains( elementKey ) )

@@ -70,19 +70,24 @@ public partial class _ReportTreeView
     }
 
     /// <inheritdoc />
-    public async ValueTask DisposeAsync()
+    protected override async ValueTask DisposeAsync( bool disposing )
     {
-        try
+        if ( disposing )
         {
-            if ( reportingModule is not null )
+            try
             {
-                await reportingModule.ClearTreeNativeDragImage( treeElement );
-                await reportingModule.DisposeAsync();
+                if ( reportingModule is not null )
+                {
+                    await reportingModule.ClearTreeNativeDragImage( treeElement );
+                    await reportingModule.DisposeAsync();
+                }
+            }
+            catch ( JSDisconnectedException )
+            {
             }
         }
-        catch ( JSDisconnectedException )
-        {
-        }
+
+        await base.DisposeAsync( disposing );
     }
 
     internal static bool HasChildren( ReportTreeNode node )

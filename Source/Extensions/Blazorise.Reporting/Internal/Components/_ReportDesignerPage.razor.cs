@@ -46,6 +46,8 @@ public partial class _ReportDesignerPage
         builder.Append( "b-report-page" );
         builder.Append( "b-report-page-design", DesignMode );
         builder.Append( "b-report-page-preview", !DesignMode );
+
+        base.BuildClasses( builder );
     }
 
     /// <inheritdoc />
@@ -54,6 +56,8 @@ public partial class _ReportDesignerPage
         builder.Append( $"width:{ReportMeasurementConverter.FormatCssPixelValue( ReportMeasurementConverter.ToCssPixelValue( Width ) + WidthOffset )}" );
         builder.Append( $"min-height:{ReportMeasurementConverter.ToCssPixelString( MinHeight )}" );
         builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}", !DesignMode && Height > 0 );
+
+        base.BuildStyles( builder );
     }
 
     private Task OnPointerMove( PointerEventArgs eventArgs )
@@ -99,8 +103,6 @@ public partial class _ReportDesignerPage
 
     #region Properties
 
-    private string Class => ClassNames;
-
     private string MarginBottomStyle => BuildMarginStyle(
         WidthOffset,
         Height - MarginBottom,
@@ -132,8 +134,6 @@ public partial class _ReportDesignerPage
         MarginTop,
         GetPrintableWidth(),
         GetPrintableHeight() );
-
-    private string Style => StyleNames;
 
     /// <summary>
     /// Root page element reference used by JavaScript overlays.

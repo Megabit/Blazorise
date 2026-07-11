@@ -63,12 +63,16 @@ public partial class _ReportTreeViewNode
         builder.Append( "selectable", Node.Selectable && NodeClicked.HasDelegate );
         builder.Append( "draggable", Node.Draggable );
         builder.Append( "active", Node.Selected );
+
+        base.BuildClasses( builder );
     }
 
     /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
         builder.Append( $"padding-left:calc(var(--b-report-tree-view-row-padding-left, .25rem) + {Level}rem)" );
+
+        base.BuildStyles( builder );
     }
 
     private async Task OnNodeClicked()

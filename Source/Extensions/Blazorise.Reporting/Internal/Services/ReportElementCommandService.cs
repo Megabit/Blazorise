@@ -25,36 +25,6 @@ internal sealed class ReportElementCommandService
 
     #region Methods
 
-    internal ReportElementCommandResult MoveElement( ReportDefinition definition, ReportElementDefinition element, double x, double y, double width, double height, Func<ReportElementDefinition, bool> isSnapToGridEnabled, Func<double, bool, double> applyGrid )
-    {
-        if ( definition is null || element is null || element.Suppress?.Value == true )
-            return new();
-
-        string elementKey = ReportDefinitionHelper.EnsureElementId( element );
-        ReportDefinitionHelper.TryFindElementLocation( definition, elementKey, out int sectionIndex, out _, out _ );
-        double originalX = element.X;
-        double originalWidth = element.Width;
-        double originalHeight = element.Height;
-        bool useSnapToGrid = isSnapToGridEnabled( element );
-
-        element.X = applyGrid( element.X + x, useSnapToGrid );
-        element.Y = applyGrid( element.Y + y, useSnapToGrid );
-        element.Width = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, width == 0 ? element.Width : applyGrid( element.Width + width, useSnapToGrid ) );
-        element.Height = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, height == 0 ? element.Height : applyGrid( element.Height + height, useSnapToGrid ) );
-
-        if ( element is ReportTableElementDefinition table )
-            ReportDefinitionHelper.ScaleTableLayout( table, originalWidth, originalHeight );
-
-        ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement( definition, sectionIndex, sectionIndex, element, originalX, originalWidth, element.X, element.Width );
-
-        return new()
-        {
-            Changed = true,
-            PrimaryElementKey = elementKey,
-            SelectedElementKeys = [elementKey],
-        };
-    }
-
     internal ReportElementCommandResult MoveElements( ReportDefinition definition, IReadOnlyList<ReportElementPointerItemState> selectedElements, string primaryElementKey, double x, double y, bool useSnapToGrid, Func<double, bool, double> applyGrid )
     {
         if ( definition is null || selectedElements is null || selectedElements.Count == 0 )

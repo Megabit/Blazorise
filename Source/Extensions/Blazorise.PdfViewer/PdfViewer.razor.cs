@@ -924,6 +924,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// </summary>
     [Parameter] public PdfOrientation Orientation { get; set; } = PdfOrientation.Portrait;
 
+    /// <summary>
     /// Defines the content to be rendered inside the component.
     /// </summary>
     /// <remarks>

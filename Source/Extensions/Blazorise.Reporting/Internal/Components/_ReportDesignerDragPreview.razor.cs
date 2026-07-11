@@ -39,6 +39,8 @@ public partial class _ReportDesignerDragPreview
     {
         builder.Append( "b-report-drag-preview" );
         builder.Append( $"b-report-element-{ElementType.ToString().ToLowerInvariant()}" );
+
+        base.BuildClasses( builder );
     }
 
     /// <inheritdoc />
@@ -48,15 +50,13 @@ public partial class _ReportDesignerDragPreview
         builder.Append( $"top:{ReportMeasurementConverter.ToCssPixelString( Y )}" );
         builder.Append( $"width:{ReportMeasurementConverter.ToCssPixelString( Width )}" );
         builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}" );
+
+        base.BuildStyles( builder );
     }
 
     #endregion
 
     #region Properties
-
-    private string Class => ClassNames;
-
-    private string Style => StyleNames;
 
     /// <summary>
     /// Type of report element represented by the preview.

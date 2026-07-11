@@ -21,8 +21,6 @@ public partial class _ReportDesignerSection
 
     private ElementReference bodyElement;
 
-    private int? sectionRenderKey;
-
     #endregion
 
     #region Constructors
@@ -43,19 +41,11 @@ public partial class _ReportDesignerSection
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
     {
-        HashCode sectionHash = new();
-
-        if ( parameters.TryAddHash<ReportBandDefinition>( nameof( Section ), ref sectionHash, AddSectionRenderHash ) )
+        if ( parameters.TryGetValue<ReportBandDefinition>( nameof( Section ), out _ ) )
         {
-            int nextSectionRenderKey = sectionHash.ToHashCode();
-
-            if ( sectionRenderKey != nextSectionRenderKey )
-            {
-                sectionRenderKey = nextSectionRenderKey;
-                bodyClassBuilder.Dirty();
-                DirtyClasses();
-                DirtyStyles();
-            }
+            bodyClassBuilder.Dirty();
+            DirtyClasses();
+            DirtyStyles();
         }
 
         if ( ( parameters.TryGetValue<bool>( nameof( RailVisible ), out bool paramRailVisible ) && paramRailVisible != RailVisible )
@@ -109,6 +99,8 @@ public partial class _ReportDesignerSection
         builder.Append( "active", Active );
         builder.Append( "collapsed", Collapsed );
         builder.Append( "suppressed", ReportValueResolver.ResolveStaticSuppress( Section ) );
+
+        base.BuildClasses( builder );
     }
 
     /// <inheritdoc />
@@ -131,6 +123,8 @@ public partial class _ReportDesignerSection
             builder.Append( $"border-radius:{ReportMeasurementConverter.ToCssPixelString( borderRadius )}" );
 
         builder.Append( Section.Style?.Trim().TrimEnd( ';' ) );
+
+        base.BuildStyles( builder );
     }
 
     private Task OnDragOver( DragEventArgs eventArgs )
@@ -227,26 +221,6 @@ public partial class _ReportDesignerSection
             return ResizePointerDown.Invoke( SectionIndex, eventArgs );
 
         return Task.CompletedTask;
-    }
-
-    private static void AddSectionRenderHash( ReportBandDefinition section, ref HashCode hash )
-    {
-        if ( section is null )
-            return;
-
-        hash.Add( section.Id );
-        hash.Add( section.Name );
-        hash.Add( section.Type );
-        hash.Add( section.Class );
-        hash.Add( section.Style );
-        hash.Add( section.Height );
-        hash.Add( ReportValueResolver.ResolveStaticSuppress( section ) );
-        hash.Add( section.DataSource );
-        hash.Add( section.Appearance?.BackgroundColor ?? ReportColor.Default );
-        hash.Add( section.Appearance?.Opacity );
-        hash.Add( section.Border?.Color ?? ReportColor.Default );
-        hash.Add( section.Border?.Width );
-        hash.Add( section.Border?.Radius );
     }
 
     #endregion

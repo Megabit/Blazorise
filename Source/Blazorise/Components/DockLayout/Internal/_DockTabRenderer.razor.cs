@@ -97,11 +97,6 @@ public partial class _DockTabRenderer : BaseComponent
     [Parameter] public string PaneName { get; set; }
 
     /// <summary>
-    /// Gets or sets the layout render version.
-    /// </summary>
-    [Parameter] public int RenderVersion { get; set; }
-
-    /// <summary>
     /// Gets or sets the rendered tab group position.
     /// </summary>
     [Parameter] public DockPanePosition GroupPosition { get; set; }

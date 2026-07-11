@@ -64,10 +64,5 @@ public partial class _DockAutoHideRailRenderer : BaseComponent
     /// </summary>
     [Parameter] public DockPanePosition RailPosition { get; set; }
 
-    /// <summary>
-    /// Gets or sets the layout render version.
-    /// </summary>
-    [Parameter] public int RenderVersion { get; set; }
-
     #endregion
 }

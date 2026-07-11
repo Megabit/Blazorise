@@ -1,7 +1,6 @@
 #region Using directives
 using System;
 using System.Threading.Tasks;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -10,54 +9,9 @@ namespace Blazorise.Reporting.Internal;
 /// <summary>
 /// Provides common infrastructure for Reporting internal Razor components.
 /// </summary>
-public abstract class BaseReportComponent : ComponentBase
+public abstract class BaseReportComponent : BaseStyledComponent
 {
-    #region Constructors
-
-    /// <summary>
-    /// Initializes a new reporting component base instance.
-    /// </summary>
-    protected BaseReportComponent()
-    {
-        ClassBuilder = new( BuildClasses );
-        StyleBuilder = new( BuildStyles );
-    }
-
-    #endregion
-
     #region Methods
-
-    /// <summary>
-    /// Builds component CSS classes.
-    /// </summary>
-    /// <param name="builder">Class builder used to append component classes.</param>
-    protected virtual void BuildClasses( ClassBuilder builder )
-    {
-    }
-
-    /// <summary>
-    /// Builds component CSS styles.
-    /// </summary>
-    /// <param name="builder">Style builder used to append component styles.</param>
-    protected virtual void BuildStyles( StyleBuilder builder )
-    {
-    }
-
-    /// <summary>
-    /// Marks component classes as requiring regeneration.
-    /// </summary>
-    protected internal virtual void DirtyClasses()
-    {
-        ClassBuilder?.Dirty();
-    }
-
-    /// <summary>
-    /// Marks component styles as requiring regeneration.
-    /// </summary>
-    protected internal virtual void DirtyStyles()
-    {
-        StyleBuilder?.Dirty();
-    }
 
     /// <summary>
     /// Closes the report modal instance that owns this component.
@@ -70,14 +24,14 @@ public abstract class BaseReportComponent : ComponentBase
     /// <summary>
     /// Shows a report-owned modal component.
     /// </summary>
-    protected async Task<ModalInstance> ShowReportModal<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters = null, ModalInstanceOptions options = null )
+    protected Task<ModalInstance> ShowReportModal<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters = null, ModalInstanceOptions options = null )
         where TComponent : BaseReportComponent
     {
         options ??= CreateReportModalOptions();
         string providerName = ResolvedReportModalProviderName;
         options.ProviderName = providerName;
 
-        return await ModalService.Show<TComponent>( string.Empty, builder =>
+        return ModalService.Show<TComponent>( string.Empty, builder =>
         {
             builder.Add( component => component.ReportModalProviderName, providerName );
             parameters?.Invoke( builder );
@@ -100,26 +54,6 @@ public abstract class BaseReportComponent : ComponentBase
     #endregion
 
     #region Properties
-
-    /// <summary>
-    /// Builder used to construct and cache component classes.
-    /// </summary>
-    protected ClassBuilder ClassBuilder { get; }
-
-    /// <summary>
-    /// Builder used to construct and cache component styles.
-    /// </summary>
-    protected StyleBuilder StyleBuilder { get; }
-
-    /// <summary>
-    /// Resolved component class names.
-    /// </summary>
-    protected string ClassNames => ClassBuilder.Class;
-
-    /// <summary>
-    /// Resolved component styles.
-    /// </summary>
-    protected string StyleNames => StyleBuilder.Styles;
 
     /// <summary>
     /// Resolved report-owned modal provider name.

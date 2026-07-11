@@ -14,8 +14,6 @@ public partial class PdfTableRow : ComponentBase, IDisposable
 
     private PdfTableRowContext rowContext;
 
-    private PdfTableContext tableContext;
-
     private PdfTableRowDefinition definition;
 
     #endregion
@@ -30,8 +28,7 @@ public partial class PdfTableRow : ComponentBase, IDisposable
             if ( TableContext is null )
                 return;
 
-            tableContext = TableContext;
-            tableContext.Rows.Add( definition = new() );
+            TableContext.Rows.Add( definition = new() );
             rowContext = new( definition );
         }
 
@@ -41,18 +38,8 @@ public partial class PdfTableRow : ComponentBase, IDisposable
     /// <inheritdoc />
     public void Dispose()
     {
-        UnregisterDefinition();
-        GC.SuppressFinalize( this );
-    }
-
-    private void UnregisterDefinition()
-    {
-        if ( tableContext is not null && definition is not null )
-            tableContext.Rows.Remove( definition );
-
-        tableContext = null;
-        definition = null;
-        rowContext = null;
+        if ( TableContext is not null && definition is not null )
+            TableContext.Rows.Remove( definition );
     }
 
     #endregion

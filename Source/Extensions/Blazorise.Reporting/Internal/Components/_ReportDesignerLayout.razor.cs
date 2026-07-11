@@ -99,23 +99,28 @@ public partial class _ReportDesignerLayout
     }
 
     /// <inheritdoc />
-    public async ValueTask DisposeAsync()
+    protected override async ValueTask DisposeAsync( bool disposing )
     {
-        if ( reportingModule is not null )
+        if ( disposing )
         {
-            try
+            if ( reportingModule is not null )
             {
-                if ( designerElement is not null )
-                    await reportingModule.StopDesignerKeyboardShortcuts( designerElement.ElementRef );
+                try
+                {
+                    if ( designerElement is not null )
+                        await reportingModule.StopDesignerKeyboardShortcuts( designerElement.ElementRef );
 
-                await reportingModule.DisposeAsync();
+                    await reportingModule.DisposeAsync();
+                }
+                catch ( JSDisconnectedException )
+                {
+                }
             }
-            catch ( JSDisconnectedException )
-            {
-            }
+
+            dotNetObjectReference?.Dispose();
         }
 
-        dotNetObjectReference?.Dispose();
+        await base.DisposeAsync( disposing );
     }
 
     /// <summary>

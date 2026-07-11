@@ -50,9 +50,6 @@ internal sealed class ReportDesignerDragDropService
     }
 
     internal ReportElementDefinition FindTextElementAt( ReportBandDefinition section, double x, double y )
-        => FindTextElementAtCore( section, x, y );
-
-    private static ReportElementDefinition FindTextElementAtCore( ReportBandDefinition section, double x, double y )
     {
         if ( section is null )
             return null;
@@ -86,7 +83,7 @@ internal sealed class ReportDesignerDragDropService
         };
     }
 
-    private static ReportDropResult DropField(
+    private ReportDropResult DropField(
         ReportDefinition definition,
         ReportDesignerInteractionState state,
         int targetSectionIndex,
@@ -119,7 +116,7 @@ internal sealed class ReportDesignerDragDropService
             };
         }
 
-        ReportElementDefinition textDropTarget = FindTextElementAtCore( targetSection, x, y );
+        ReportElementDefinition textDropTarget = FindTextElementAt( targetSection, x, y );
 
         if ( textDropTarget is not null )
         {

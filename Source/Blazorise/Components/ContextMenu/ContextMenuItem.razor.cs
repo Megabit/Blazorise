@@ -94,8 +94,7 @@ public partial class ContextMenuItem : BaseComponent
 
         @checked = isChecked;
 
-        if ( CheckedChanged.HasDelegate )
-            await CheckedChanged.InvokeAsync( isChecked );
+        await CheckedChanged.InvokeAsync( isChecked );
     }
 
     #endregion

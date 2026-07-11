@@ -32,9 +32,6 @@ internal sealed record DockLayoutContext
     internal DockPaneState GetPaneState( string paneName )
         => layout?.GetPaneState( paneName );
 
-    internal int GetPaneContentRenderVersion( string paneName )
-        => layout?.GetPaneContentRenderVersion( paneName ) ?? 0;
-
     internal DockPanePosition GetPanePosition( DockPane pane )
         => layout?.GetPanePosition( pane ) ?? pane?.EffectivePosition ?? DockPanePosition.Center;
 

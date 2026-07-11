@@ -16,22 +16,15 @@ internal sealed class DockLayoutTreeQuery
 
     private readonly Func<DockLayoutState> getState;
 
-    private readonly Func<int> getStateVersion;
-
-    private readonly Dictionary<DockNodeState, DockPanePosition?> dockNodePositionCache = new();
-
-    private int dockNodePositionCacheVersion = -1;
-
     #endregion
 
     #region Constructors
 
-    public DockLayoutTreeQuery( DockLayoutRegistry registry, DockLayoutStateManager stateManager, Func<DockLayoutState> getState, Func<int> getStateVersion )
+    public DockLayoutTreeQuery( DockLayoutRegistry registry, DockLayoutStateManager stateManager, Func<DockLayoutState> getState )
     {
         this.registry = registry;
         this.stateManager = stateManager;
         this.getState = getState;
-        this.getStateVersion = getStateVersion;
     }
 
     #endregion
@@ -58,35 +51,7 @@ internal sealed class DockLayoutTreeQuery
     }
 
     public DockPanePosition? GetDockNodePosition( DockNodeState node )
-    {
-        if ( node is null )
-            return null;
-
-        // Resolving a node position walks the entire subtree, and it is requested multiple times
-        // per node during a single render pass, so the results are memoized until the layout state
-        // version changes or the caches are explicitly invalidated after a state mutation.
-        int stateVersion = getStateVersion();
-
-        if ( stateVersion != dockNodePositionCacheVersion )
-        {
-            dockNodePositionCache.Clear();
-            dockNodePositionCacheVersion = stateVersion;
-        }
-
-        if ( dockNodePositionCache.TryGetValue( node, out DockPanePosition? position ) )
-            return position;
-
-        position = ComputeDockNodePosition( node );
-        dockNodePositionCache[node] = position;
-
-        return position;
-    }
-
-    public void InvalidateCaches()
-    {
-        dockNodePositionCache.Clear();
-        dockNodePositionCacheVersion = -1;
-    }
+        => node is null ? null : ComputeDockNodePosition( node );
 
     private DockPanePosition? ComputeDockNodePosition( DockNodeState node )
     {

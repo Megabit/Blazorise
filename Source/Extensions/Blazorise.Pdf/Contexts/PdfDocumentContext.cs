@@ -31,22 +31,11 @@ public sealed class PdfDocumentContext
 
         Definition.Fonts ??= [];
 
-        int registeredIndex = Definition.Fonts.FindIndex( x => ReferenceEquals( x, font ) );
-        int existingIndex = Definition.Fonts.FindIndex( x =>
+        Definition.Fonts.RemoveAll( x =>
             !ReferenceEquals( x, font )
             && string.Equals( x.Name, font.Name, StringComparison.OrdinalIgnoreCase ) );
 
-        if ( registeredIndex >= 0 )
-        {
-            if ( existingIndex >= 0 && existingIndex != registeredIndex )
-            {
-                Definition.Fonts[existingIndex] = font;
-                Definition.Fonts.RemoveAt( registeredIndex );
-            }
-        }
-        else if ( existingIndex >= 0 )
-            Definition.Fonts[existingIndex] = font;
-        else
+        if ( !Definition.Fonts.Contains( font ) )
             Definition.Fonts.Add( font );
     }
 

@@ -39,12 +39,16 @@ public partial class _ReportDesignerSectionRail
         builder.Append( "active", Selected );
         builder.Append( "collapsed", Collapsed );
         builder.Append( "suppressed", ReportValueResolver.ResolveStaticSuppress( Section ) );
+
+        base.BuildClasses( builder );
     }
 
     /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
         builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}" );
+
+        base.BuildStyles( builder );
     }
 
     private Task OnContextMenu( MouseEventArgs eventArgs )
@@ -75,11 +79,7 @@ public partial class _ReportDesignerSectionRail
 
     #region Properties
 
-    private string Class => ClassNames;
-
     private string DisplayName => ReportDefinitionHelper.GetSectionDisplayName( Section );
-
-    private string Style => StyleNames;
 
     private string ToggleTitle => ReportValueResolver.ResolveStaticSuppress( Section ) ? "Band is suppressed" : Collapsed ? "Expand band" : "Collapse band";
 

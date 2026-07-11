@@ -13,8 +13,6 @@ public class PdfFont : ComponentBase, IDisposable
 {
     #region Members
 
-    private PdfDocumentContext documentContext;
-
     private FontFamily definition;
 
     #endregion
@@ -29,7 +27,6 @@ public class PdfFont : ComponentBase, IDisposable
             if ( DocumentContext is null )
                 return;
 
-            documentContext = DocumentContext;
             definition = new();
         }
 
@@ -37,50 +34,29 @@ public class PdfFont : ComponentBase, IDisposable
 
         if ( string.IsNullOrWhiteSpace( definition.Name ) )
         {
-            documentContext.UnregisterFont( definition );
+            DocumentContext.UnregisterFont( definition );
             return;
         }
 
-        documentContext.RegisterFont( definition );
+        DocumentContext.RegisterFont( definition );
     }
 
     private void UpdateDefinition()
     {
-        if ( Font is not null )
-        {
-            definition.Name = Font.Name;
-            definition.DisplayName = Font.DisplayName;
-            definition.CssFamily = Font.CssFamily;
-            definition.Regular = Font.Regular;
-            definition.Bold = Font.Bold;
-            definition.Italic = Font.Italic;
-            definition.BoldItalic = Font.BoldItalic;
-            definition.Visible = Font.Visible;
-            return;
-        }
-
-        definition.Name = Name;
-        definition.DisplayName = DisplayName;
-        definition.CssFamily = CssFamily;
-        definition.Regular = Regular;
-        definition.Bold = Bold;
-        definition.Italic = Italic;
-        definition.BoldItalic = BoldItalic;
-        definition.Visible = Visible;
+        definition.Name = Font is null ? Name : Font.Name;
+        definition.DisplayName = Font is null ? DisplayName : Font.DisplayName;
+        definition.CssFamily = Font is null ? CssFamily : Font.CssFamily;
+        definition.Regular = Font is null ? Regular : Font.Regular;
+        definition.Bold = Font is null ? Bold : Font.Bold;
+        definition.Italic = Font is null ? Italic : Font.Italic;
+        definition.BoldItalic = Font is null ? BoldItalic : Font.BoldItalic;
+        definition.Visible = Font is null ? Visible : Font.Visible;
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        UnregisterDefinition();
-        GC.SuppressFinalize( this );
-    }
-
-    private void UnregisterDefinition()
-    {
-        documentContext?.UnregisterFont( definition );
-        documentContext = null;
-        definition = null;
+        DocumentContext?.UnregisterFont( definition );
     }
 
     #endregion

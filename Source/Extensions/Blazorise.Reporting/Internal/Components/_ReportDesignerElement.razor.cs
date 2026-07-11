@@ -90,20 +90,25 @@ public partial class _ReportDesignerElement
     }
 
     /// <inheritdoc />
-    public async ValueTask DisposeAsync()
+    protected override async ValueTask DisposeAsync( bool disposing )
     {
-        await ClearTextExpressionTokenProtection();
-
-        if ( reportingModule is not null )
+        if ( disposing )
         {
-            try
+            await ClearTextExpressionTokenProtection();
+
+            if ( reportingModule is not null )
             {
-                await reportingModule.DisposeAsync();
-            }
-            catch ( JSDisconnectedException )
-            {
+                try
+                {
+                    await reportingModule.DisposeAsync();
+                }
+                catch ( JSDisconnectedException )
+                {
+                }
             }
         }
+
+        await base.DisposeAsync( disposing );
     }
 
     /// <inheritdoc />
@@ -119,12 +124,16 @@ public partial class _ReportDesignerElement
         builder.Append( "disabled", IsDesignerDisabled );
         builder.Append( "active", DesignMode && Selected );
         builder.Append( "editing", IsDesignerEditing );
+
+        base.BuildClasses( builder );
     }
 
     /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
         ReportElementDefinitionHelper.BuildStyle( builder, Element, Definition, Data, Item, Section, DesignMode );
+
+        base.BuildStyles( builder );
     }
 
     private string GetFieldText()
@@ -293,10 +302,6 @@ public partial class _ReportDesignerElement
     private bool IsDesignerEditing => CanReceiveDesignerInteraction && !ElementSuppressed && Editing;
 
     private bool ShowResizeHandles => CanReceiveDesignerInteraction && !ElementSuppressed && Selected && !Editing && !LayoutLocked;
-
-    private string Class => ClassNames;
-
-    private string Style => StyleNames;
 
     [Inject] private IJSRuntime JSRuntime { get; set; }
 

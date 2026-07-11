@@ -14,8 +14,6 @@ public partial class PdfTableCell : ComponentBase, IDisposable
 
     private PdfTableCellContext cellContext;
 
-    private PdfTableRowContext rowContext;
-
     private PdfTableCellDefinition definition;
 
     #endregion
@@ -30,8 +28,7 @@ public partial class PdfTableCell : ComponentBase, IDisposable
             if ( RowContext is null )
                 return;
 
-            rowContext = RowContext;
-            rowContext.Cells.Add( definition = new() );
+            RowContext.Cells.Add( definition = new() );
             cellContext = new( definition );
         }
 
@@ -41,18 +38,8 @@ public partial class PdfTableCell : ComponentBase, IDisposable
     /// <inheritdoc />
     public void Dispose()
     {
-        UnregisterDefinition();
-        GC.SuppressFinalize( this );
-    }
-
-    private void UnregisterDefinition()
-    {
-        if ( rowContext is not null && definition is not null )
-            rowContext.Cells.Remove( definition );
-
-        rowContext = null;
-        definition = null;
-        cellContext = null;
+        if ( RowContext is not null && definition is not null )
+            RowContext.Cells.Remove( definition );
     }
 
     #endregion

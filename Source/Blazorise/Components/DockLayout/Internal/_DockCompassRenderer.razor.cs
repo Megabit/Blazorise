@@ -1,6 +1,5 @@
 #region Using directives
 using Blazorise.Utilities;
-using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise;
@@ -22,12 +21,4 @@ public partial class _DockCompassRenderer : BaseComponent
 
     #endregion
 
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets the layout render version.
-    /// </summary>
-    [Parameter] public int RenderVersion { get; set; }
-
-    #endregion
 }

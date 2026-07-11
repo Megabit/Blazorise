@@ -1,6 +1,5 @@
 #region Using directives
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Modules;
@@ -27,19 +26,13 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
 
     private string contextElementSelector;
 
-    private string targetSelector;
-
-    private string targetId;
-
-    private bool preventDefault = true;
-
-    private bool stopPropagation = true;
-
     private string subscribedTargetSelector;
 
-    private List<ContextMenuBody> bodies;
+    private bool subscribedPreventDefault;
 
-    private bool subscriptionsDirty = true;
+    private bool subscribedStopPropagation;
+
+    private ContextMenuBody body;
 
     private IAsyncDisposable contextMenuSubscription;
 
@@ -66,9 +59,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        if ( firstRender || subscriptionsDirty )
-            await EnsureContextMenuSubscription();
-
+        await EnsureContextMenuSubscription();
         await SynchronizeVisibilitySubscriptions();
 
         if ( Visible )
@@ -119,11 +110,9 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
 
         await DisposeVisibilitySubscriptions();
 
-        if ( VisibleChanged.HasDelegate )
-            await VisibleChanged.InvokeAsync( false );
+        await VisibleChanged.InvokeAsync( false );
 
-        if ( Closed.HasDelegate )
-            await Closed.InvokeAsync( new ContextMenuEventArgs( clientX, clientY, null ) );
+        await Closed.InvokeAsync( new ContextMenuEventArgs( clientX, clientY, null ) );
 
         await InvokeAsync( StateHasChanged );
     }
@@ -134,7 +123,6 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
             return;
 
         toggleSelector = CssSelectorUtilities.BuildElementIdSelector( toggle.ElementId );
-        subscriptionsDirty = true;
     }
 
     internal void NotifyToggleRemoved( ContextMenuToggle toggle )
@@ -142,7 +130,6 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
         if ( toggleSelector == CssSelectorUtilities.BuildElementIdSelector( toggle?.ElementId ) )
         {
             toggleSelector = null;
-            subscriptionsDirty = true;
         }
     }
 
@@ -151,16 +138,13 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
         if ( body is null )
             return;
 
-        bodies ??= new();
-
-        if ( !bodies.Contains( body ) )
-            bodies.Add( body );
+        this.body = body;
     }
 
     internal void NotifyBodyRemoved( ContextMenuBody body )
     {
-        if ( body is not null && bodies is not null )
-            bodies.Remove( body );
+        if ( ReferenceEquals( this.body, body ) )
+            this.body = null;
     }
 
     private async Task Show( double clientX, double clientY, DocumentEventArgs documentEventArgs )
@@ -177,11 +161,10 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
 
         await SynchronizeVisibilitySubscriptions();
 
-        if ( !wasVisible && VisibleChanged.HasDelegate )
+        if ( !wasVisible )
             await VisibleChanged.InvokeAsync( true );
 
-        if ( Opened.HasDelegate )
-            await Opened.InvokeAsync( new ContextMenuEventArgs( clientX, clientY, documentEventArgs ) );
+        await Opened.InvokeAsync( new ContextMenuEventArgs( clientX, clientY, documentEventArgs ) );
 
         await InvokeAsync( StateHasChanged );
     }
@@ -193,8 +176,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
 
         var openingEventArgs = new ContextMenuOpeningEventArgs( eventArgs.ClientX, eventArgs.ClientY, eventArgs );
 
-        if ( Opening.HasDelegate )
-            await Opening.InvokeAsync( openingEventArgs );
+        await Opening.InvokeAsync( openingEventArgs );
 
         if ( openingEventArgs.Cancel )
             return;
@@ -216,33 +198,30 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
 
     private async Task EnsureContextMenuSubscription()
     {
-        subscriptionsDirty = false;
-
         string targetSelector = ResolvedTargetSelector;
 
-        if ( subscribedTargetSelector != targetSelector )
-        {
-            if ( contextMenuSubscription is not null )
-            {
-                await contextMenuSubscription.DisposeAsync();
-                contextMenuSubscription = null;
-            }
+        if ( subscribedTargetSelector == targetSelector
+             && subscribedPreventDefault == PreventDefault
+             && subscribedStopPropagation == StopPropagation )
+            return;
 
-            subscribedTargetSelector = targetSelector;
+        if ( contextMenuSubscription is not null )
+            await contextMenuSubscription.DisposeAsync();
 
-            if ( !string.IsNullOrWhiteSpace( targetSelector ) )
+        subscribedTargetSelector = targetSelector;
+        subscribedPreventDefault = PreventDefault;
+        subscribedStopPropagation = StopPropagation;
+        contextMenuSubscription = string.IsNullOrWhiteSpace( targetSelector )
+            ? null
+            : await DocumentObserver.Subscribe( new()
             {
-                contextMenuSubscription = await DocumentObserver.Subscribe( new()
-                {
-                    OwnerId = ElementId,
-                    EventTypes = DocumentEventTypes.ContextMenu,
-                    Selector = targetSelector,
-                    PreventDefault = PreventDefault,
-                    StopPropagation = StopPropagation,
-                    Handler = HandleContextMenu,
-                } );
-            }
-        }
+                OwnerId = ElementId,
+                EventTypes = DocumentEventTypes.ContextMenu,
+                Selector = targetSelector,
+                PreventDefault = PreventDefault,
+                StopPropagation = StopPropagation,
+                Handler = HandleContextMenu,
+            } );
     }
 
     private async Task SynchronizeVisibilitySubscriptions()
@@ -350,9 +329,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
                 : toggleSelector;
 
     private string BodyElementId
-        => bodies is not null && bodies.Count > 0
-            ? bodies[0].ElementId
-            : null;
+        => body?.ElementId;
 
     /// <summary>
     /// Gets the shared document observer.
@@ -395,72 +372,22 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Specifies a CSS selector that opens this context menu when a matching element is right-clicked.
     /// </summary>
-    [Parameter]
-    public string TargetSelector
-    {
-        get => targetSelector;
-        set
-        {
-            if ( targetSelector.IsEqual( value ) )
-                return;
-
-            targetSelector = value;
-            subscriptionsDirty = true;
-        }
-    }
+    [Parameter] public string TargetSelector { get; set; }
 
     /// <summary>
     /// Specifies an element id that opens this context menu when right-clicked.
     /// </summary>
-    [Parameter]
-    public string TargetId
-    {
-        get => targetId;
-        set
-        {
-            if ( targetId.IsEqual( value ) )
-                return;
-
-            targetId = value;
-            subscriptionsDirty = true;
-        }
-    }
+    [Parameter] public string TargetId { get; set; }
 
     /// <summary>
     /// Prevents the browser's default context menu for observed targets.
     /// </summary>
-    [Parameter]
-    public bool PreventDefault
-    {
-        get => preventDefault;
-        set
-        {
-            if ( preventDefault == value )
-                return;
-
-            preventDefault = value;
-            subscribedTargetSelector = null;
-            subscriptionsDirty = true;
-        }
-    }
+    [Parameter] public bool PreventDefault { get; set; } = true;
 
     /// <summary>
     /// Stops propagation for observed context menu events.
     /// </summary>
-    [Parameter]
-    public bool StopPropagation
-    {
-        get => stopPropagation;
-        set
-        {
-            if ( stopPropagation == value )
-                return;
-
-            stopPropagation = value;
-            subscribedTargetSelector = null;
-            subscriptionsDirty = true;
-        }
-    }
+    [Parameter] public bool StopPropagation { get; set; } = true;
 
     /// <summary>
     /// Closes the menu when clicking outside of it.

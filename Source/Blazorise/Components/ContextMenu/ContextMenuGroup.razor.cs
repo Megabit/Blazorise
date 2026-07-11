@@ -31,8 +31,7 @@ public partial class ContextMenuGroup : BaseComponent
 
         SelectedValue = value;
 
-        if ( SelectedValueChanged.HasDelegate )
-            await SelectedValueChanged.InvokeAsync( value );
+        await SelectedValueChanged.InvokeAsync( value );
     }
 
     #endregion

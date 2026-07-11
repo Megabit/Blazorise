@@ -36,10 +36,6 @@ public partial class DockLayout : BaseComponent
 
     private readonly DockLayoutTreeMutator treeMutator;
 
-    private readonly Dictionary<DockPanePosition, IReadOnlyList<DockRailItemState>> railItemsCache = new();
-
-    private int railItemsCacheVersion = -1;
-
     private DockLayoutState state;
 
     private DotNetObjectReference<DockLayout> dotNetObjectRef;
@@ -49,12 +45,6 @@ public partial class DockLayout : BaseComponent
     private bool autoHideOutsideHandlerEnabled;
 
     private int nextNodeId;
-
-    private int renderVersion;
-
-    private int contentRenderVersion;
-
-    private int paneContentUpdateVersion;
 
     private static readonly DockCompassZoneInfo[] dockCompassZones =
     {
@@ -79,7 +69,7 @@ public partial class DockLayout : BaseComponent
     public DockLayout()
     {
         context = new( this );
-        treeQuery = new( registry, stateManager, () => CurrentState, () => renderVersion );
+        treeQuery = new( registry, stateManager, () => CurrentState );
         sizer = new( registry, stateManager, treeQuery, () => CurrentState );
         treeBuilder = new( registry, stateManager, treeQuery, sizer );
         treeMutator = new( treeQuery, sizer );
@@ -118,17 +108,11 @@ public partial class DockLayout : BaseComponent
 
     /// <summary>
     /// Forces rendered dock content to refresh without changing the docking state. Call this after
-    /// mutating the <see cref="State"/> instance directly, so that cached layout results are recomputed.
+    /// mutating the <see cref="State"/> instance directly.
     /// </summary>
     /// <returns>A task that completes after the refresh has been scheduled.</returns>
     public Task Refresh()
-    {
-        contentRenderVersion++;
-
-        InvalidateStateCaches();
-
-        return InvokeAsync( StateHasChanged );
-    }
+        => InvokeAsync( StateHasChanged );
 
     /// <summary>
     /// Returns the current mutable docking state.
@@ -250,28 +234,13 @@ public partial class DockLayout : BaseComponent
 
     internal void RegisterPane( DockPane pane )
     {
-        if ( registry.RegisterPane( pane, out bool contentChanged ) )
-        {
+        if ( registry.RegisterPane( pane ) )
             stateManager.EnsurePaneState( CurrentState, pane );
-            renderVersion++;
-        }
-        else if ( contentChanged )
-        {
-            paneContentUpdateVersion++;
-        }
     }
 
     internal void RegisterContent( DockContent dockContent )
     {
-        if ( registry.RegisterContent( dockContent ) )
-            renderVersion++;
-    }
-
-    internal Task NotifyPaneContentChanged()
-    {
-        paneContentUpdateVersion++;
-
-        return InvokeAsync( StateHasChanged );
+        registry.RegisterContent( dockContent );
     }
 
     internal Task NotifyDefinitionChanged()
@@ -294,30 +263,13 @@ public partial class DockLayout : BaseComponent
         => treeQuery.GetPanePosition( pane );
 
     internal IReadOnlyList<DockRailItemState> GetRailItems( DockPanePosition position )
-    {
-        if ( railItemsCacheVersion != renderVersion )
-        {
-            railItemsCache.Clear();
-            railItemsCacheVersion = renderVersion;
-        }
-
-        if ( !railItemsCache.TryGetValue( position, out IReadOnlyList<DockRailItemState> railItems ) )
-        {
-            railItems = stateManager.GetRailItems( CurrentState, registry.Panes, position );
-            railItemsCache[position] = railItems;
-        }
-
-        return railItems;
-    }
+        => stateManager.GetRailItems( CurrentState, registry.Panes, position );
 
     internal bool TryGetPane( string paneName, out DockPane pane )
         => registry.TryGetPane( paneName, out pane );
 
     internal DockPaneState GetPaneState( string paneName )
         => FindPaneState( paneName );
-
-    internal int GetPaneContentRenderVersion( string paneName )
-        => TryGetPane( paneName, out DockPane pane ) ? pane.ContentRenderVersion : 0;
 
     internal DockNodeState GetNode( string nodeId )
         => treeQuery.GetNode( nodeId );
@@ -1105,8 +1057,6 @@ public partial class DockLayout : BaseComponent
 
     private void RenderResizePreview()
     {
-        renderVersion++;
-
         StateHasChanged();
     }
 
@@ -1114,12 +1064,10 @@ public partial class DockLayout : BaseComponent
     {
         NormalizeCurrentState();
 
-        renderVersion++;
         DirtyClasses();
         DirtyStyles();
 
-        if ( StateChanged.HasDelegate )
-            await StateChanged.InvokeAsync( CurrentState );
+        await StateChanged.InvokeAsync( CurrentState );
 
         StateHasChanged();
     }
@@ -1127,15 +1075,6 @@ public partial class DockLayout : BaseComponent
     private void NormalizeCurrentState()
     {
         stateManager.Normalize( CurrentState, registry, treeQuery, ref nextNodeId );
-
-        InvalidateStateCaches();
-    }
-
-    private void InvalidateStateCaches()
-    {
-        railItemsCache.Clear();
-        railItemsCacheVersion = -1;
-        treeQuery.InvalidateCaches();
     }
 
     private void EnsureCurrentStateInitialized()
@@ -1166,14 +1105,6 @@ public partial class DockLayout : BaseComponent
     internal DockContent Content => registry.Content;
 
     internal DockLayoutContext Context => context;
-
-    internal int RenderVersion => renderVersion;
-
-    internal int ContentRenderVersion => contentRenderVersion;
-
-    internal int PaneContentUpdateVersion => paneContentUpdateVersion;
-
-    internal int DockGuidesVersion => dragState.Version;
 
     internal DockPane ActiveAutoHidePane
         => activeAutoHidePaneName is not null
@@ -1233,9 +1164,6 @@ public partial class DockLayout : BaseComponent
                 return;
 
             state = value;
-
-            // Cached query results were computed from the previous state instance.
-            InvalidateStateCaches();
         }
     }
 

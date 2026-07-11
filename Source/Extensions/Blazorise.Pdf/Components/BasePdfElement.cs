@@ -11,12 +11,6 @@ namespace Blazorise.Pdf;
 /// </summary>
 public abstract class BasePdfElement : ComponentBase, IDisposable
 {
-    #region Members
-
-    private IList<PdfElementDefinition> elements;
-
-    #endregion
-
     #region Methods
 
     /// <inheritdoc />
@@ -24,29 +18,18 @@ public abstract class BasePdfElement : ComponentBase, IDisposable
     {
         if ( Definition is null )
         {
-            elements = TableCellContext?.Elements ?? PageContext?.Elements;
+            IList<PdfElementDefinition> elements = TableCellContext?.Elements ?? PageContext?.Elements;
 
             if ( elements is null )
                 return;
 
-            Definition = CreateDefinition();
+            Definition = new();
+            UpdateDefinition( Definition );
             elements.Add( Definition );
             return;
         }
 
         UpdateDefinition( Definition );
-    }
-
-    /// <summary>
-    /// Creates the element definition.
-    /// </summary>
-    /// <returns>The created element definition.</returns>
-    protected virtual PdfElementDefinition CreateDefinition()
-    {
-        PdfElementDefinition definition = new();
-        UpdateDefinition( definition );
-
-        return definition;
     }
 
     /// <summary>
@@ -84,17 +67,7 @@ public abstract class BasePdfElement : ComponentBase, IDisposable
     /// <inheritdoc />
     public void Dispose()
     {
-        UnregisterDefinition();
-        GC.SuppressFinalize( this );
-    }
-
-    private void UnregisterDefinition()
-    {
-        if ( elements is not null && Definition is not null )
-            elements.Remove( Definition );
-
-        elements = null;
-        Definition = null;
+        ( TableCellContext?.Elements ?? PageContext?.Elements )?.Remove( Definition );
     }
 
     #endregion

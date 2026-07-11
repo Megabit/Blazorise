@@ -95,9 +95,9 @@ internal sealed class ReportDataCommandService
 
     internal bool RenameFormulaField( ReportDefinition definition, string oldName, string newName )
     {
-        ReportFormulaFieldDefinition formulaField = FindFormulaField( definition, oldName );
+        ReportFormulaFieldDefinition formulaField = ReportFormulaFieldResolver.FindFormulaField( definition, oldName );
 
-        if ( formulaField is null || FindFormulaField( definition, newName ) is not null )
+        if ( formulaField is null || ReportFormulaFieldResolver.FindFormulaField( definition, newName ) is not null )
             return false;
 
         formulaField.Name = newName;
@@ -108,7 +108,7 @@ internal sealed class ReportDataCommandService
 
     internal bool DeleteFormulaField( ReportDefinition definition, string formulaFieldName )
     {
-        ReportFormulaFieldDefinition formulaField = FindFormulaField( definition, formulaFieldName );
+        ReportFormulaFieldDefinition formulaField = ReportFormulaFieldResolver.FindFormulaField( definition, formulaFieldName );
 
         if ( formulaField is null )
             return false;
@@ -120,7 +120,7 @@ internal sealed class ReportDataCommandService
 
     internal ReportElementDefinition CreateFormulaFieldElement( ReportDefinition definition, int sectionIndex, string formulaFieldName, double y )
     {
-        if ( sectionIndex < 0 || sectionIndex >= definition.Bands.Count || FindFormulaField( definition, formulaFieldName ) is null )
+        if ( sectionIndex < 0 || sectionIndex >= definition.Bands.Count || ReportFormulaFieldResolver.FindFormulaField( definition, formulaFieldName ) is null )
             return null;
 
         ReportElementDefinition element = new ReportFieldElementDefinition
@@ -202,9 +202,9 @@ internal sealed class ReportDataCommandService
 
     internal bool RenameRunningTotal( ReportDefinition definition, string oldName, string newName )
     {
-        ReportRunningTotalDefinition runningTotal = FindRunningTotal( definition, oldName );
+        ReportRunningTotalDefinition runningTotal = ReportRunningTotalResolver.FindRunningTotal( definition, oldName );
 
-        if ( runningTotal is null || FindRunningTotal( definition, newName ) is not null )
+        if ( runningTotal is null || ReportRunningTotalResolver.FindRunningTotal( definition, newName ) is not null )
             return false;
 
         runningTotal.Name = newName;
@@ -215,7 +215,7 @@ internal sealed class ReportDataCommandService
 
     internal bool DeleteRunningTotal( ReportDefinition definition, string runningTotalName )
     {
-        ReportRunningTotalDefinition runningTotal = FindRunningTotal( definition, runningTotalName );
+        ReportRunningTotalDefinition runningTotal = ReportRunningTotalResolver.FindRunningTotal( definition, runningTotalName );
 
         if ( runningTotal is null )
             return false;
@@ -227,7 +227,7 @@ internal sealed class ReportDataCommandService
 
     internal ReportElementDefinition CreateRunningTotalElement( ReportDefinition definition, int sectionIndex, string runningTotalName, double y )
     {
-        if ( sectionIndex < 0 || sectionIndex >= definition.Bands.Count || FindRunningTotal( definition, runningTotalName ) is null )
+        if ( sectionIndex < 0 || sectionIndex >= definition.Bands.Count || ReportRunningTotalResolver.FindRunningTotal( definition, runningTotalName ) is null )
             return null;
 
         ReportElementDefinition element = new ReportFieldElementDefinition
@@ -248,22 +248,6 @@ internal sealed class ReportDataCommandService
         AddDataElement( definition.Bands[sectionIndex], element, y );
 
         return element;
-    }
-
-    internal ReportFormulaFieldDefinition FindFormulaField( ReportDefinition definition, string formulaFieldName )
-    {
-        if ( definition?.FormulaFields is null || string.IsNullOrWhiteSpace( formulaFieldName ) )
-            return null;
-
-        string normalizedFormulaFieldName = ReportFormulaFieldResolver.NormalizeFieldName( formulaFieldName );
-
-        return definition.FormulaFields.FirstOrDefault( field =>
-            string.Equals( field.Name, normalizedFormulaFieldName, StringComparison.OrdinalIgnoreCase ) );
-    }
-
-    internal ReportRunningTotalDefinition FindRunningTotal( ReportDefinition definition, string runningTotalName )
-    {
-        return ReportRunningTotalResolver.FindRunningTotal( definition, runningTotalName );
     }
 
     internal ReportDataSourceDefinition FindDataSource( ReportDefinition definition, string dataSourceName )
