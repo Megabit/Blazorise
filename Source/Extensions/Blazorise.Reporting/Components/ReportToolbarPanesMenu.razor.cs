@@ -35,5 +35,10 @@ public partial class ReportToolbarPanesMenu
     /// </summary>
     [Parameter] public Color Color { get; set; } = Color.Light;
 
+    /// <summary>
+    /// Button size used for the pane menu.
+    /// </summary>
+    [Parameter] public Size Size { get; set; } = Size.Default;
+
     #endregion
 }
