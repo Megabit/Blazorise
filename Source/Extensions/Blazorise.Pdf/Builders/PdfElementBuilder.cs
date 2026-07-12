@@ -68,6 +68,18 @@ public class PdfElementBuilder
     }
 
     /// <summary>
+    /// Sets the orientation used by line elements.
+    /// </summary>
+    /// <param name="orientation">The line orientation.</param>
+    /// <returns>The element builder.</returns>
+    public PdfElementBuilder Orientation( Orientation orientation )
+    {
+        definition.Orientation = orientation;
+
+        return this;
+    }
+
+    /// <summary>
     /// Sets the font family. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).
     /// </summary>
     /// <param name="family">The font family.</param>

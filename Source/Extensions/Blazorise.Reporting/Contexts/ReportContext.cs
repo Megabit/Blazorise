@@ -356,6 +356,7 @@ internal sealed class ReportContext
                 break;
             case ReportLineElementDefinition lineElement when clone is ReportLineElementDefinition lineClone:
                 lineClone.Thickness = lineElement.Thickness;
+                lineClone.Orientation = lineElement.Orientation;
                 break;
             case ReportTableElementDefinition tableElement when clone is ReportTableElementDefinition tableClone:
                 tableClone.DataSource = tableElement.DataSource;

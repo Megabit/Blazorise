@@ -232,9 +232,10 @@ internal static class ReportPdfDocumentBuilder
         {
             Type = type,
             X = sectionX + element.X,
-            Y = sectionY + element.Y + ( element is ReportLineElementDefinition ? element.Height / 2 : 0 ),
+            Y = sectionY + element.Y,
             Width = element.Width,
             Height = element.Height,
+            Orientation = ( element as ReportLineElementDefinition )?.Orientation ?? Orientation.Horizontal,
         };
     }
 

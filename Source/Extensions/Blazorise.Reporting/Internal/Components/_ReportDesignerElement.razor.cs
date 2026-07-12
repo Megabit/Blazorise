@@ -116,6 +116,7 @@ public partial class _ReportDesignerElement
     {
         builder.Append( "b-report-element" );
         builder.Append( $"b-report-element-{Element.Type.ToString().ToLowerInvariant()}" );
+        builder.Append( "b-report-element-line-vertical", Element is ReportLineElementDefinition { Orientation: Orientation.Vertical } );
         builder.Append( Element.Class );
 
         builder.Append( "b-report-element-design", DesignMode );

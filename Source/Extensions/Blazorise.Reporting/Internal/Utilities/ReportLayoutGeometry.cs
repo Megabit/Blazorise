@@ -103,11 +103,7 @@ internal static class ReportLayoutGeometry
         {
             if ( element is not null )
             {
-                double elementHeight = GetElementRenderHeight( element );
-                double elementBottom = element.Y + ( element is ReportLineElementDefinition
-                    ? ( elementHeight + GetLineThickness( element ) ) / 2
-                    : elementHeight );
-                height = Math.Max( height, elementBottom );
+                height = Math.Max( height, GetElementBottom( element ) );
             }
         }
 
@@ -130,7 +126,16 @@ internal static class ReportLayoutGeometry
         if ( section is null || element is null )
             return;
 
-        section.Height = Math.Max( section.Height, element.Y + GetElementRenderHeight( element ) );
+        section.Height = Math.Max( section.Height, GetElementBottom( element ) );
+    }
+
+    private static double GetElementBottom( ReportElementDefinition element )
+    {
+        double height = GetElementRenderHeight( element );
+
+        return element.Y + ( element is ReportLineElementDefinition { Orientation: Orientation.Horizontal }
+            ? ( height + GetLineThickness( element ) ) / 2
+            : height );
     }
 
     internal static double SnapToGrid( double value )

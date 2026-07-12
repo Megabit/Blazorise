@@ -810,10 +810,20 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
     private static void AppendLine( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
     {
         PdfBorderDefinition border = element.Border ?? new();
-        double startY = page.Height - y;
 
         AppendStroke( context, border );
-        context.Builder.AppendLine( FormattableString.Invariant( $"{x} {startY} m {x + element.Width} {startY} l S" ) );
+
+        if ( element.Orientation == Orientation.Vertical )
+        {
+            double lineX = x + element.Width / 2;
+            double startY = page.Height - y;
+            context.Builder.AppendLine( FormattableString.Invariant( $"{lineX} {startY} m {lineX} {startY - element.Height} l S" ) );
+        }
+        else
+        {
+            double lineY = page.Height - y - element.Height / 2;
+            context.Builder.AppendLine( FormattableString.Invariant( $"{x} {lineY} m {x + element.Width} {lineY} l S" ) );
+        }
     }
 
     private static void AppendRectangle( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )

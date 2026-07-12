@@ -326,8 +326,19 @@
             var border = ReportElementDefinitionHelper.EnsureBorder( SelectedElement );
 
             <_ReportDesignerPropertyGroup Title="Appearance">
-                @if ( IsSelectedElementLine )
+                @if ( SelectedElement is ReportLineElementDefinition lineElement )
                 {
+                    <Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
+                        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Orientation</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSizeIs8">
+                            <Select TValue="Orientation" Value="@lineElement.Orientation" ValueChanged="@OnSelectedLineOrientationChanged" Size="Size.Small">
+                                @foreach ( var option in LineOrientationOptions )
+                                {
+                                    <SelectItem TValue="Orientation" Value="@option.Value">@option.Text</SelectItem>
+                                }
+                            </Select>
+                        </FieldBody>
+                    </Field>
                     <_ReportDesignerColorProperty Label="Color" Value="@border.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
                     <_ReportDesignerNumberProperty TValue="double?" Label="Thickness" Value="@GetSelectedLineThickness()" Changed="@OnSelectedLineThicknessChanged" />
                 }

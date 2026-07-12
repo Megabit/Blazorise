@@ -18,4 +18,9 @@ public sealed class ReportLineElementDefinition : ReportElementDefinition
     /// Line stroke thickness in points.
     /// </summary>
     public double? Thickness { get; set; }
+
+    /// <summary>
+    /// Line orientation within the element bounds.
+    /// </summary>
+    public Orientation Orientation { get; set; } = Orientation.Horizontal;
 }

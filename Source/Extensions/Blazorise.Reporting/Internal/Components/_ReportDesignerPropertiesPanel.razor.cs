@@ -50,6 +50,12 @@ public partial class _ReportDesignerPropertiesPanel
         ( ReportOrientation.Landscape, "Landscape" ),
     ];
 
+    private static readonly (Orientation Value, string Text)[] LineOrientationOptions =
+    [
+        ( Orientation.Horizontal, "Horizontal" ),
+        ( Orientation.Vertical, "Vertical" ),
+    ];
+
     private static readonly (ReportMeasurementUnit Value, string Text)[] PageMeasurementUnitOptions =
     [
         ( ReportMeasurementUnit.Centimeter, "Centimeters" ),
@@ -104,8 +110,6 @@ public partial class _ReportDesignerPropertiesPanel
     #region Methods
 
     private bool HasSelection => ReportSelected || SelectedSection is not null || SelectedElement is not null || SelectedCell is not null;
-
-    private bool IsSelectedElementLine => SelectedElement is ReportLineElementDefinition;
 
     private double? GetSelectedLineThickness()
     {
@@ -297,6 +301,18 @@ public partial class _ReportDesignerPropertiesPanel
         {
             if ( element is ReportLineElementDefinition lineElement )
                 lineElement.Thickness = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value );
+        } );
+    }
+
+    private Task OnSelectedLineOrientationChanged( Orientation value )
+    {
+        return UpdateSelectedElement( element =>
+        {
+            if ( element is not ReportLineElementDefinition lineElement || lineElement.Orientation == value )
+                return;
+
+            lineElement.Orientation = value;
+            ( lineElement.Width, lineElement.Height ) = ( lineElement.Height, lineElement.Width );
         } );
     }
 

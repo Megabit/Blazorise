@@ -66,10 +66,11 @@ public sealed class PdfPageBuilder
     /// <param name="y">The vertical position.</param>
     /// <param name="width">The line width.</param>
     /// <param name="height">The line height.</param>
+    /// <param name="orientation">The line orientation.</param>
     /// <returns>The element builder.</returns>
-    public PdfElementBuilder Line( double x, double y, double width, double height )
+    public PdfElementBuilder Line( double x, double y, double width, double height, Orientation orientation = Orientation.Horizontal )
     {
-        return AddElement( PdfElementType.Line, x, y, width, height );
+        return AddElement( PdfElementType.Line, x, y, width, height ).Orientation( orientation );
     }
 
     /// <summary>

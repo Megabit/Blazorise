@@ -93,6 +93,16 @@
                 transform: translateY(-50%);
             }
         }
+
+        &-vertical > .b-report-element-content::before {
+            top: 0;
+            right: auto;
+            bottom: 0;
+            left: 50%;
+            border-top: 0;
+            border-left: var(--b-report-line-thickness, var(--b-report-line-default-thickness)) solid var(--b-report-line-color, currentColor);
+            transform: translateX(-50%);
+        }
     }
 
     &-rectangle {

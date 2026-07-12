@@ -39,6 +39,11 @@ public sealed class PdfElementDefinition
     public double Height { get; set; }
 
     /// <summary>
+    /// Orientation used by line elements.
+    /// </summary>
+    public Orientation Orientation { get; set; } = Orientation.Horizontal;
+
+    /// <summary>
     /// Text content rendered by text-like elements.
     /// </summary>
     public string Text { get; set; }
