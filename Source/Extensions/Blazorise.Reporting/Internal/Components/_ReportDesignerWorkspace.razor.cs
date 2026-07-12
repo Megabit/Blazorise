@@ -49,6 +49,9 @@ public partial class _ReportDesignerWorkspace
     internal Task CloseContextMenu()
         => contextMenu?.CloseMenu() ?? Task.CompletedTask;
 
+    internal Task ShowPropertiesPane()
+        => designerLayout?.ShowPropertiesPane() ?? Task.CompletedTask;
+
     internal Task ShowAggregateDialog( IEnumerable<ReportDesignerFieldOption> fields, string selectedFieldName, IEnumerable<ReportAggregateSummaryLocation> summaryLocations )
         => dialogsHost?.ShowAggregate( fields, selectedFieldName, summaryLocations ) ?? Task.CompletedTask;
 

@@ -2169,12 +2169,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         await UpdateSelectedSectionSuppression( !ReportValueResolver.ResolveStaticSuppress( section ) );
     }
 
-    private Task ShowContextProperties()
+    private async Task ShowContextProperties()
     {
         selectedDesignerPanelTab = ReportDesignerPanelTab.Properties;
-        _ = CloseContextMenu();
-
-        return Task.CompletedTask;
+        await CloseContextMenu();
+        await ( workspaceRef?.ShowPropertiesPane() ?? Task.CompletedTask );
     }
 
     private Task SelectAllContextSectionElements()

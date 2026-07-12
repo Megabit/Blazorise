@@ -249,6 +249,9 @@ public partial class _ReportDesignerLayout
     private Task ShowDockPane( string paneName )
         => dockLayout?.ShowPane( paneName ) ?? Task.CompletedTask;
 
+    internal Task ShowPropertiesPane()
+        => ShowDockPane( PropertiesPaneName );
+
     internal Task RefreshSurface()
         => workspaceDockTree?.RefreshSurface() ?? Task.CompletedTask;
 
