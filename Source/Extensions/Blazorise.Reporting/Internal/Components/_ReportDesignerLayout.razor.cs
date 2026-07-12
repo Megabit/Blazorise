@@ -99,7 +99,7 @@ public partial class _ReportDesignerLayout
         {
             renderedToolbarRefreshVersion = ToolbarRefreshVersion;
 
-            if ( toolbarPane is not null )
+            if ( ShowToolbar && toolbarPane is not null )
                 await toolbarPane.Refresh();
         }
 

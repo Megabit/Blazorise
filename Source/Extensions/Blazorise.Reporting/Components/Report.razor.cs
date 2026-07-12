@@ -317,8 +317,6 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private Task OnReportTreeNodeClicked( ReportTreeNode node )
     {
-        selectedDesignerPanelTab = ReportDesignerPanelTab.Properties;
-
         if ( string.Equals( node?.Key, "report", StringComparison.Ordinal ) )
         {
             SelectReport();
