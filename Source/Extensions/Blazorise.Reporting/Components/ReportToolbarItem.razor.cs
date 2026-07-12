@@ -93,7 +93,7 @@ public partial class ReportToolbarItem
     /// <summary>
     /// Button color used when the command is available but not active.
     /// </summary>
-    [Parameter] public Color InactiveColor { get; set; } = Color.Light;
+    [Parameter] public Color InactiveColor { get; set; } = Color.Secondary;
 
     #endregion
 }
