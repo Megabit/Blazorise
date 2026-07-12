@@ -28,7 +28,7 @@
                          DesignMode
                          PointerMove="@PreviewPageSelectionBox"
                          PointerUp="@CompletePageSelectionBox"
-                         PointerCancel="@OnPageSelectionPointerCancel"
+                         PointerCancel="@CancelPageSelectionBox"
                          ShowSelectionBox="false"
                          SelectionBoxX="@(state.SelectionBox?.X ?? 0)"
                          SelectionBoxY="@(state.SelectionBox?.Y ?? 0)"
@@ -69,9 +69,9 @@
                                         BodyPointerDown="@BeginSelectionBox"
                                         DragOver="@PreviewDesignerDrag"
                                         Drop="@DropDesignerItem"
-                                        PointerMove="@PreviewElementPointerInteraction"
-                                        PointerUp="@CompleteElementPointerInteraction"
-                                        PointerCancel="@OnElementPointerCancel"
+                                        PointerMove="@PreviewPointerInteraction"
+                                        PointerUp="@CompletePointerInteraction"
+                                        PointerCancel="@CancelPointerInteraction"
                                         BodyClicked="@Designer.HandleSectionClick"
                                         ResizePointerDown="@BeginSectionPointerResize">
                     @foreach ( ReportElementDefinition element in section.Elements )

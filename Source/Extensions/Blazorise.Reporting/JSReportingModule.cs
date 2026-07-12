@@ -77,6 +77,31 @@ public class JSReportingModule : BaseJSModule
     }
 
     /// <summary>
+    /// Starts document-level element movement for the active report designer.
+    /// </summary>
+    /// <typeparam name="TComponent">Component type that receives movement callbacks.</typeparam>
+    /// <param name="pageElement">Designer page used to resolve the band beneath the pointer.</param>
+    /// <param name="dotNetObjectReference">Component reference that receives movement callbacks.</param>
+    /// <param name="startClientX">Initial document pointer X coordinate.</param>
+    /// <param name="startClientY">Initial document pointer Y coordinate.</param>
+    /// <param name="pointerId">The starting pointer identifier.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask StartElementDrag<TComponent>( ElementReference pageElement, DotNetObjectReference<TComponent> dotNetObjectReference, double startClientX, double startClientY, long pointerId )
+        where TComponent : class
+    {
+        await InvokeSafeVoidAsync( "startElementDrag", pageElement, dotNetObjectReference, startClientX, startClientY, pointerId );
+    }
+
+    /// <summary>
+    /// Stops any active document-level element movement listeners.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask StopElementDrag()
+    {
+        await InvokeSafeVoidAsync( "stopElementDrag" );
+    }
+
+    /// <summary>
     /// Starts document-level designer keyboard shortcut handling for the active report designer.
     /// </summary>
     /// <typeparam name="TComponent">Component type that receives shortcut callbacks.</typeparam>

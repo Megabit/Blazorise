@@ -1,5 +1,6 @@
 let sectionResize;
 let elementResize;
+let elementDrag;
 const designerKeyboardShortcuts = new WeakMap();
 let activeDesignerKeyboardShortcut;
 const treeDragImageSuppressors = new WeakMap();
@@ -135,6 +136,67 @@ export function stopElementResize() {
     }
 
     clearElementResize(resize);
+}
+
+export function startElementDrag(pageElement, dotNetReference, startClientX, startClientY, pointerId) {
+    stopElementDrag();
+
+    const observer = getDocumentObserver();
+
+    if (!observer) {
+        return;
+    }
+
+    elementDrag = {
+        pageElement,
+        dotNetReference,
+        ownerId: createDocumentObserverOwnerId("element-drag"),
+        pointerId,
+        ended: false,
+        lastClientX: startClientX ?? 0,
+        lastClientY: startClientY ?? 0,
+        lastSectionId: null,
+        move: event => {
+            const drag = elementDrag;
+
+            if (!drag || drag.ended) {
+                return;
+            }
+
+            event.preventDefault();
+            drag.lastClientX = getClientX(event, drag.lastClientX);
+            drag.lastClientY = getClientY(event, drag.lastClientY);
+            drag.lastSectionId = getReportSectionId(drag.pageElement, drag.lastClientX, drag.lastClientY) ?? drag.lastSectionId;
+            drag.dotNetReference.invokeMethodAsync("OnDocumentElementDragMove", drag.lastClientX, drag.lastClientY, drag.lastSectionId);
+        },
+        end: event => {
+            const drag = elementDrag;
+
+            if (!drag || drag.ended) {
+                return;
+            }
+
+            event.preventDefault();
+            drag.lastClientX = getClientX(event, drag.lastClientX);
+            drag.lastClientY = getClientY(event, drag.lastClientY);
+            drag.lastSectionId = getReportSectionId(drag.pageElement, drag.lastClientX, drag.lastClientY) ?? drag.lastSectionId;
+            completeElementDrag(drag);
+        },
+        cancel: event => cancelElementDrag(event),
+    };
+
+    addElementDragListeners(elementDrag);
+    observer.capturePointer(elementDrag.ownerId, elementDrag.pointerId);
+}
+
+export function stopElementDrag() {
+    const drag = elementDrag;
+
+    if (!drag) {
+        return;
+    }
+
+    clearElementDrag(drag);
 }
 
 export function startDesignerKeyboardShortcuts(element, dotNetReference) {
@@ -616,6 +678,14 @@ function clearElementResize(resize) {
     }
 }
 
+function clearElementDrag(drag) {
+    removeElementDragListeners(drag);
+
+    if (elementDrag === drag) {
+        elementDrag = null;
+    }
+}
+
 function addSectionResizeListeners(resize) {
     const observer = getDocumentObserver();
 
@@ -732,6 +802,67 @@ function removeElementResizeListeners(resize) {
     observer.releasePointer(resize.ownerId, resize.pointerId);
 }
 
+function addElementDragListeners(drag) {
+    const observer = getDocumentObserver();
+
+    if (!observer) {
+        return;
+    }
+
+    drag.subscriptions = [
+        createDocumentObserverSubscriptionId("element-drag-move"),
+        createDocumentObserverSubscriptionId("element-drag-end"),
+        createDocumentObserverSubscriptionId("element-drag-cancel"),
+    ];
+
+    observer.subscribe({
+        id: drag.subscriptions[0],
+        ownerId: drag.ownerId,
+        eventNames: ["pointermove", "mousemove", "touchmove"],
+        capture: true,
+        preventDefault: true,
+        stopPropagation: true,
+        throttle: true,
+        handler: drag.move,
+    });
+
+    observer.subscribe({
+        id: drag.subscriptions[1],
+        ownerId: drag.ownerId,
+        eventNames: ["pointerup", "mouseup", "touchend", "dragend"],
+        capture: true,
+        preventDefault: true,
+        stopPropagation: true,
+        handler: drag.end,
+    });
+
+    observer.subscribe({
+        id: drag.subscriptions[2],
+        ownerId: drag.ownerId,
+        eventNames: ["pointercancel", "touchcancel", "blur"],
+        capture: true,
+        preventDefault: true,
+        stopPropagation: true,
+        handler: drag.cancel,
+    });
+}
+
+function removeElementDragListeners(drag) {
+    const observer = getDocumentObserver();
+
+    if (!observer) {
+        return;
+    }
+
+    if (drag.subscriptions) {
+        for (const subscriptionId of drag.subscriptions) {
+            observer.unsubscribe(subscriptionId);
+        }
+    }
+
+    observer.releasePointer(drag.ownerId, drag.pointerId);
+}
+
 function getDocumentObserver() {
     return globalThis.Blazorise?.documentObserver ?? null;
 }
@@ -768,6 +899,17 @@ async function completeElementResize(resize, clientX, clientY) {
     await resize.dotNetReference.invokeMethodAsync("OnDocumentElementResizeEnd", clientX, clientY);
 }
 
+async function completeElementDrag(drag) {
+    if (!drag || drag.ended) {
+        return;
+    }
+
+    drag.ended = true;
+    clearElementDrag(drag);
+
+    await drag.dotNetReference.invokeMethodAsync("OnDocumentElementDragEnd", drag.lastClientX, drag.lastClientY, drag.lastSectionId);
+}
+
 async function cancelSectionResize(event) {
     if (event) {
         event.preventDefault();
@@ -800,6 +942,32 @@ async function cancelElementResize(event) {
     clearElementResize(resize);
 
     await resize.dotNetReference.invokeMethodAsync("OnDocumentElementResizeCancel");
+}
+
+async function cancelElementDrag(event) {
+    if (event) {
+        event.preventDefault();
+    }
+
+    const drag = elementDrag;
+
+    if (!drag || drag.ended) {
+        return;
+    }
+
+    drag.ended = true;
+    clearElementDrag(drag);
+
+    await drag.dotNetReference.invokeMethodAsync("OnDocumentElementDragCancel");
+}
+
+function getReportSectionId(pageElement, clientX, clientY) {
+    const target = document.elementFromPoint(clientX, clientY);
+    const section = target?.closest?.("[data-report-section-id]");
+
+    return section && pageElement?.contains(section)
+        ? section.dataset.reportSectionId
+        : null;
 }
 
 function getClientX(event, fallback) {

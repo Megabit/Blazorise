@@ -44,6 +44,7 @@ public partial class _ReportDesignerSurface
                 try
                 {
                     await reportingModule.StopSectionResize();
+                    await reportingModule.StopElementDrag();
                     await reportingModule.DisposeAsync();
                 }
                 catch ( JSDisconnectedException )
@@ -75,20 +76,20 @@ public partial class _ReportDesignerSurface
         return ReportDesignerInteractionService.IsExternalDesignerDragActive( designerState );
     }
 
-    internal Task BeginElementPointerDrag( string elementKey, PointerEventArgs eventArgs )
+    internal async Task BeginElementPointerDrag( string elementKey, PointerEventArgs eventArgs )
     {
         if ( eventArgs.CtrlKey )
         {
             ToggleElementSelection( elementKey );
             designerState.SuppressNextElementClickKey = elementKey;
-            return Task.CompletedTask;
+            return;
         }
 
         if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out var sectionIndex, out _, out var element )
             || element.Suppress?.Value == true )
-            return Task.CompletedTask;
+            return;
 
-        ReportDesignerInteractionService.TryBeginElementPointerDrag(
+        bool started = ReportDesignerInteractionService.TryBeginElementPointerDrag(
             designerState,
             elementKey,
             element,
@@ -99,7 +100,8 @@ public partial class _ReportDesignerSurface
 
         SelectElement( elementKey, preserveSelection: selectionManager.IsElementSelected( elementKey ) && selectionManager.SelectedElementKeys.Count > 1 );
 
-        return Task.CompletedTask;
+        if ( started )
+            await StartDocumentElementDrag( eventArgs.ClientX, eventArgs.ClientY, eventArgs.PointerId );
     }
 
     internal async Task BeginElementPointerResize( string elementKey, ReportElementResizeHandle handle, PointerEventArgs eventArgs )
@@ -298,7 +300,7 @@ public partial class _ReportDesignerSurface
         }
     }
 
-    internal Task PreviewElementPointerInteraction( int targetSectionIndex, PointerEventArgs eventArgs )
+    internal Task PreviewPointerInteraction( PointerEventArgs eventArgs )
     {
         if ( designerState.SelectionBox is not null )
             return PreviewSelectionBox( eventArgs );
@@ -312,10 +314,10 @@ public partial class _ReportDesignerSurface
         if ( designerState.ElementPointerResize is not null )
             return PreviewElementPointerResize( eventArgs );
 
-        return PreviewElementPointerDrag( targetSectionIndex, eventArgs );
+        return Task.CompletedTask;
     }
 
-    internal Task CompleteElementPointerInteraction( int targetSectionIndex, PointerEventArgs eventArgs )
+    internal Task CompletePointerInteraction( PointerEventArgs eventArgs )
     {
         if ( designerState.SelectionBox is not null )
             return CompleteSelectionBox( eventArgs );
@@ -329,10 +331,10 @@ public partial class _ReportDesignerSurface
         if ( designerState.ElementPointerResize is not null )
             return CompleteElementPointerResize( eventArgs );
 
-        return CompleteElementPointerDrag( targetSectionIndex, eventArgs );
+        return Task.CompletedTask;
     }
 
-    internal Task CancelElementPointerInteraction()
+    internal Task CancelPointerInteraction( PointerEventArgs eventArgs )
     {
         if ( designerState.SelectionBox is not null )
             return CancelSelectionBox();
@@ -346,11 +348,8 @@ public partial class _ReportDesignerSurface
         if ( designerState.ElementPointerResize is not null )
             return CancelElementPointerResize();
 
-        return CancelElementPointerDrag();
+        return Task.CompletedTask;
     }
-
-    private Task OnElementPointerCancel( PointerEventArgs eventArgs )
-        => CancelElementPointerInteraction();
 
     internal Task BeginSelectionBox( int sectionIndex, PointerEventArgs eventArgs )
     {
@@ -430,12 +429,10 @@ public partial class _ReportDesignerSurface
         await InvokeAsync( StateHasChanged );
     }
 
-    internal Task CompletePageSelectionBox( PointerEventArgs eventArgs )
-    {
-        return designerState.SelectionBox is null
+    private Task CompletePageSelectionBox( PointerEventArgs eventArgs )
+        => designerState.SelectionBox is null
             ? Task.CompletedTask
             : CompleteSelectionBox( eventArgs );
-    }
 
     private async Task CancelSelectionBox()
     {
@@ -445,22 +442,17 @@ public partial class _ReportDesignerSurface
         await InvokeAsync( StateHasChanged );
     }
 
-    internal Task CancelPageSelectionBox()
-    {
-        return designerState.SelectionBox is null
+    private Task CancelPageSelectionBox( PointerEventArgs eventArgs )
+        => designerState.SelectionBox is null
             ? Task.CompletedTask
             : CancelSelectionBox();
-    }
 
-    private Task OnPageSelectionPointerCancel( PointerEventArgs eventArgs )
-        => CancelPageSelectionBox();
-
-    private async Task PreviewElementPointerDrag( int targetSectionIndex, PointerEventArgs eventArgs )
+    private async Task PreviewElementPointerDrag( int targetSectionIndex, double clientX, double clientY )
     {
         if ( designerState.ElementPointerDrag is null || designerState.DraggedKind != ReportDesignerDragKind.Element )
             return;
 
-        var preview = CreateElementPointerDragPreview( targetSectionIndex, eventArgs );
+        var preview = CreateElementPointerDragPreview( targetSectionIndex, clientX, clientY );
 
         if ( preview is null )
             return;
@@ -493,13 +485,13 @@ public partial class _ReportDesignerSurface
         await UpdateDesignerDragOverlay( preview );
     }
 
-    private async Task CompleteElementPointerDrag( int targetSectionIndex, PointerEventArgs eventArgs )
+    private async Task CompleteElementPointerDrag( int targetSectionIndex, double clientX, double clientY )
     {
         if ( designerState.ElementPointerDrag is null || designerState.DraggedKind != ReportDesignerDragKind.Element )
             return;
 
         var pointerDrag = designerState.ElementPointerDrag;
-        var preview = CreateElementPointerDragPreview( targetSectionIndex, eventArgs ) ?? designerState.DragPreview;
+        var preview = CreateElementPointerDragPreview( targetSectionIndex, clientX, clientY ) ?? designerState.DragPreview;
 
         if ( preview is not null )
         {
@@ -723,15 +715,15 @@ public partial class _ReportDesignerSurface
         tableResizeService.ApplyResize( table, pointerResize, tableEditor );
     }
 
-    private ReportDesignerDragPreview CreateElementPointerDragPreview( int targetSectionIndex, PointerEventArgs eventArgs )
+    private ReportDesignerDragPreview CreateElementPointerDragPreview( int targetSectionIndex, double clientX, double clientY )
     {
         return ReportDesignerInteractionService.CreateElementDragPreview(
             EffectiveDefinition,
             designerState.ElementPointerDrag,
             designerState.DraggedElement,
             targetSectionIndex,
-            eventArgs.ClientX,
-            eventArgs.ClientY,
+            clientX,
+            clientY,
             sectionIndex => GetSectionOffsetY( EffectiveDefinition, sectionIndex ),
             value => ApplyDesignerGrid( value, designerState.ElementPointerDrag?.SnapToGrid ?? designerState.SnapToGrid ) );
     }
@@ -1004,6 +996,39 @@ public partial class _ReportDesignerSurface
         return InvokeAsync( CancelElementPointerResize );
     }
 
+    /// <summary>
+    /// Previews a document-level element move while the pointer is moving.
+    /// </summary>
+    /// <param name="clientX">Current document pointer X coordinate.</param>
+    /// <param name="clientY">Current document pointer Y coordinate.</param>
+    /// <param name="sectionId">Band identifier beneath the pointer, when available.</param>
+    [JSInvokable]
+    public Task OnDocumentElementDragMove( double clientX, double clientY, string sectionId )
+    {
+        return InvokeAsync( () => PreviewElementPointerDrag( ResolveElementPointerDragSectionIndex( sectionId ), clientX, clientY ) );
+    }
+
+    /// <summary>
+    /// Completes a document-level element move.
+    /// </summary>
+    /// <param name="clientX">Final document pointer X coordinate.</param>
+    /// <param name="clientY">Final document pointer Y coordinate.</param>
+    /// <param name="sectionId">Band identifier beneath the pointer, when available.</param>
+    [JSInvokable]
+    public Task OnDocumentElementDragEnd( double clientX, double clientY, string sectionId )
+    {
+        return InvokeAsync( () => CompleteElementPointerDrag( ResolveElementPointerDragSectionIndex( sectionId ), clientX, clientY ) );
+    }
+
+    /// <summary>
+    /// Cancels the active document-level element move.
+    /// </summary>
+    [JSInvokable]
+    public Task OnDocumentElementDragCancel()
+    {
+        return InvokeAsync( CancelElementPointerDrag );
+    }
+
     private async Task StartDocumentSectionResize( double startClientY, long pointerId )
     {
         EnsureReportingModule();
@@ -1020,6 +1045,29 @@ public partial class _ReportDesignerSurface
 
         await DocumentObserver.EnsureInitializedAsync();
         await reportingModule.StartElementResize( dotNetObjectReference, startClientX, startClientY, pointerId );
+    }
+
+    private async Task StartDocumentElementDrag( double startClientX, double startClientY, long pointerId )
+    {
+        EnsureReportingModule();
+        dotNetObjectReference ??= DotNetObjectReference.Create( this );
+
+        await DocumentObserver.EnsureInitializedAsync();
+        await reportingModule.StartElementDrag( designerPageRef.Element, dotNetObjectReference, startClientX, startClientY, pointerId );
+    }
+
+    private int ResolveElementPointerDragSectionIndex( string sectionId )
+    {
+        if ( !string.IsNullOrEmpty( sectionId ) )
+        {
+            for ( int sectionIndex = 0; sectionIndex < EffectiveDefinition.Bands.Count; sectionIndex++ )
+            {
+                if ( string.Equals( EffectiveDefinition.Bands[sectionIndex].Id, sectionId, StringComparison.Ordinal ) )
+                    return sectionIndex;
+            }
+        }
+
+        return designerState.ElementPointerDrag?.TargetSectionIndex ?? -1;
     }
 
     private void EnsureReportingModule()

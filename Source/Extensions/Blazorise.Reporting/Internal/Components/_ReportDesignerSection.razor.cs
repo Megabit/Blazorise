@@ -138,7 +138,7 @@ public partial class _ReportDesignerSection
     private Task OnPointerMove( PointerEventArgs eventArgs )
     {
         if ( Editable && PointerMove is not null )
-            return PointerMove.Invoke( SectionIndex, eventArgs );
+            return PointerMove.Invoke( eventArgs );
 
         return Task.CompletedTask;
     }
@@ -173,7 +173,7 @@ public partial class _ReportDesignerSection
     private Task OnPointerUp( PointerEventArgs eventArgs )
     {
         if ( Editable && PointerUp is not null )
-            return PointerUp.Invoke( SectionIndex, eventArgs );
+            return PointerUp.Invoke( eventArgs );
 
         return Task.CompletedTask;
     }
@@ -375,12 +375,12 @@ public partial class _ReportDesignerSection
     /// <summary>
     /// Raised while pointer element interaction continues inside the section body.
     /// </summary>
-    [Parameter] public Func<int, PointerEventArgs, Task> PointerMove { get; set; }
+    [Parameter] public Func<PointerEventArgs, Task> PointerMove { get; set; }
 
     /// <summary>
     /// Raised when pointer element interaction completes inside the section body.
     /// </summary>
-    [Parameter] public Func<int, PointerEventArgs, Task> PointerUp { get; set; }
+    [Parameter] public Func<PointerEventArgs, Task> PointerUp { get; set; }
 
     /// <summary>
     /// Raised when pointer element interaction is cancelled inside the section body.
