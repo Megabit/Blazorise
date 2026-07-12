@@ -24,7 +24,7 @@
             <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Bottom" Items="@GetRailItems( DockPanePosition.Bottom )" Bordered="@IsDockPaneBordered( DockPanePosition.Bottom )" />
             @if ( ActiveAutoHidePane is not null )
             {
-                <_DockPaneRenderer PaneName="@ActiveAutoHidePane.ResolvedName" Flyout />
+                <_DockPaneRenderer @key="@ActiveAutoHidePane.ResolvedName" PaneName="@ActiveAutoHidePane.ResolvedName" Flyout />
             }
             @if ( DockGuidesVisible )
             {
