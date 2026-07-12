@@ -3343,7 +3343,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await reportingModule.UpdateDesignerSelectionOverlay(
             designerPageRef.Element,
             ReportMeasurementConverter.ToCssPixelValue( designerState.SelectionBox.X ) + GetSelectionBoxLeftOffset(),
-            ReportMeasurementConverter.ToCssPixelValue( designerState.SelectionBox.Y ),
+            ReportMeasurementConverter.ToCssPixelValue( designerState.SelectionBox.Y + GetDesignerSectionBodyTopOffset() ),
             ReportMeasurementConverter.ToCssPixelValue( designerState.SelectionBox.Width ),
             ReportMeasurementConverter.ToCssPixelValue( designerState.SelectionBox.Height ) );
     }
