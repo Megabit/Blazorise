@@ -42,14 +42,11 @@ public partial class _ReportDesignerWorkspaceDockTree
     {
         await base.OnAfterRenderAsync( firstRender );
 
-        if ( RefreshState.Selection != renderedRefreshState.Selection )
-        {
-            await RefreshSelection();
-        }
-        else if ( RefreshState.Surface != renderedRefreshState.Surface )
-        {
+        if ( RefreshState.Surface != renderedRefreshState.Surface )
             await RefreshSurface();
-        }
+
+        if ( RefreshState.SelectedPanel != renderedRefreshState.SelectedPanel )
+            await RefreshSelectedPanel();
 
         if ( RefreshState.FieldsExplorer != renderedRefreshState.FieldsExplorer )
             await ( fieldsExplorerPane?.Refresh() ?? Task.CompletedTask );
@@ -60,10 +57,8 @@ public partial class _ReportDesignerWorkspaceDockTree
     internal Task RefreshSurface()
         => surfacePane?.Refresh() ?? Task.CompletedTask;
 
-    private async Task RefreshSelection()
+    private async Task RefreshSelectedPanel()
     {
-        await RefreshSurface();
-
         DockPane activePanelPane = string.Equals( ActivePanelPaneName, ReportExplorerPaneName, System.StringComparison.Ordinal )
             ? reportExplorerPane
             : propertiesPane;

@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.History;
 #endregion
@@ -21,6 +22,7 @@ internal sealed class ReportDesignerCommandManager
     internal void Clear()
     {
         historyService.Clear();
+        designerState.RefreshTargets = ReportDesignerRefreshTarget.None;
     }
 
     internal async Task<ReportDefinition> Execute(
@@ -37,7 +39,12 @@ internal sealed class ReportDesignerCommandManager
         if ( command.TrackHistory )
         {
             ReportState afterState = captureState( definition );
-            historyService.Record( new ReportStateHistoryAction( command.Name, beforeState, afterState ) );
+            ReportDesignerRefreshTarget refreshTargets = command.RefreshTargets;
+
+            if ( HasSelectionChanged( beforeState.Selection, afterState.Selection ) )
+                refreshTargets |= ReportDesignerRefreshTarget.ElementSelection;
+
+            historyService.Record( new ReportStateHistoryAction( command.Name, beforeState, afterState, refreshTargets ) );
             afterState.CanUndo = historyService.CanUndo;
             afterState.CanRedo = historyService.CanRedo;
             designerState.State = ReportContext.CloneState( afterState );
@@ -73,6 +80,16 @@ internal sealed class ReportDesignerCommandManager
     internal void SetState( ReportState state )
     {
         designerState.State = ReportContext.CloneState( state );
+        designerState.RefreshTargets = ReportDesignerRefreshTarget.None;
+    }
+
+    private static bool HasSelectionChanged( ReportSelectionState before, ReportSelectionState after )
+    {
+        return before?.Type != after?.Type
+            || !string.Equals( before?.BandId, after?.BandId, StringComparison.Ordinal )
+            || !string.Equals( before?.ElementId, after?.ElementId, StringComparison.Ordinal )
+            || !string.Equals( before?.CellId, after?.CellId, StringComparison.Ordinal )
+            || !( before?.ElementIds ?? [] ).SequenceEqual( after?.ElementIds ?? [] );
     }
 
     #endregion
@@ -84,6 +101,8 @@ internal sealed class ReportDesignerCommandManager
     internal bool CanRedo => historyService.CanRedo;
 
     internal ReportState State => designerState.State;
+
+    internal ReportDesignerRefreshTarget RefreshTargets => designerState.RefreshTargets;
 
     #endregion
 }

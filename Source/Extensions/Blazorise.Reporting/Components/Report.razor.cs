@@ -179,13 +179,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             await DefinitionChanged.InvokeAsync( declarativeDefinition );
 
         if ( definition is not null )
-        {
-            designerRefreshState = designerRefreshState with
-            {
-                Surface = designerRefreshState.Surface + 1,
-                FieldsExplorer = designerRefreshState.FieldsExplorer + 1,
-            };
-        }
+            RefreshDesigner( ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.FieldsExplorer );
 
         if ( commandManager.State?.Definition is null )
             commandManager.SetState( CaptureReportState( RootDefinition ) );
@@ -624,8 +618,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     public async Task LoadState( ReportState state )
     {
         commandManager.Clear();
-        await ApplyReportState( state, notifyDefinitionChanged: true );
-        InvalidateDesignerCaches();
+        await ApplyReportState( state, notifyDefinitionChanged: true, ReportDesignerRefreshTarget.All );
     }
 
     private async Task ExecuteDesignerCommand( ReportDesignerCommand command )
@@ -638,7 +631,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( command.NotifyDefinitionChanged )
         {
             InvalidateDesignerCaches();
-            RefreshDesignerSelection();
+            RefreshDesigner( command.RefreshTargets );
         }
 
         await InvokeAsync( StateHasChanged );
@@ -732,7 +725,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             designerState.EditingElementKey = null;
 
             return Task.CompletedTask;
-        }, () => declarativeDefinition ) );
+        }, () => declarativeDefinition, RefreshTargets: ReportDesignerRefreshTarget.All ) );
     }
 
     private Task CopySelectedElement()
@@ -828,7 +821,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         var state = commandManager.Undo();
 
         if ( state is not null )
-            await ApplyReportState( state, notifyDefinitionChanged: true );
+            await ApplyReportState( state, notifyDefinitionChanged: true, commandManager.RefreshTargets );
     }
 
     private async Task Redo()
@@ -836,7 +829,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         var state = commandManager.Redo();
 
         if ( state is not null )
-            await ApplyReportState( state, notifyDefinitionChanged: true );
+            await ApplyReportState( state, notifyDefinitionChanged: true, commandManager.RefreshTargets );
     }
 
     private ReportState CaptureReportState( ReportDefinition definition )
@@ -857,7 +850,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         };
     }
 
-    private async Task ApplyReportState( ReportState state, bool notifyDefinitionChanged )
+    private async Task ApplyReportState( ReportState state, bool notifyDefinitionChanged, ReportDesignerRefreshTarget refreshTargets )
     {
         string previousActiveSubreportElementKey = activeSubreportElementKey;
         ReportState nextState = ReportContext.CloneState( state );
@@ -886,8 +879,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( notifyDefinitionChanged )
             await DefinitionChanged.InvokeAsync( definition );
 
-        RefreshDesignerElementSelection();
-        RefreshDesignerFieldsExplorer();
+        RefreshDesigner( refreshTargets );
 
         await InvokeAsync( StateHasChanged );
     }
@@ -1536,8 +1528,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommand( new( "Connect data source", async () =>
         {
             await dataCommandService.ConnectDataSource( EffectiveDefinition, Data, dataSource, ResolveDataSources );
-            RefreshDesignerFieldsExplorer();
-        } ) );
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
     }
 
     private async Task OnDataSourceRefreshed( string dataSourceName )
@@ -1549,8 +1540,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         {
             await dataCommandService.RefreshDataSource( EffectiveDefinition, DataSourceProviderRegistry, dataSourceName );
             await ResolveDataSources( EffectiveDefinition, CurrentMode == ReportMode.Preview );
-            RefreshDesignerFieldsExplorer();
-        } ) );
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
     }
 
     private async Task OnDataSourceDeleted( string dataSourceName )
@@ -1561,9 +1551,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommand( new( "Delete data source", () =>
         {
             dataCommandService.DeleteDataSource( RootDefinition, dataSourceName );
-            RefreshDesignerFieldsExplorer();
             return Task.CompletedTask;
-        } ) );
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
     }
 
     private async Task OnFormulaFieldConfirmed( ReportFormulaFieldDefinition formulaField )
@@ -1574,9 +1563,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommand( new( "Save formula field", () =>
         {
             dataCommandService.SaveFormulaField( EffectiveDefinition, formulaField );
-            RefreshDesignerFieldsExplorer();
             return Task.CompletedTask;
-        } ) );
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
     }
 
     private async Task OnFormulaFieldRenamed( (string OldName, string NewName) formulaFieldRename )
@@ -1593,9 +1581,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommand( new( "Rename formula field", () =>
         {
             dataCommandService.RenameFormulaField( EffectiveDefinition, oldName, newName );
-            RefreshDesignerFieldsExplorer();
             return Task.CompletedTask;
-        } ) );
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
     }
 
     private async Task OnFormulaFieldDeleted( string formulaFieldName )
@@ -1610,9 +1597,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             if ( string.Equals( editingFormulaFieldName, formulaFieldName, StringComparison.OrdinalIgnoreCase ) )
                 editingFormulaFieldName = null;
 
-            RefreshDesignerFieldsExplorer();
             return Task.CompletedTask;
-        } ) );
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
     }
 
     private async Task OnFormulaFieldInserted( string formulaFieldName )
@@ -1669,9 +1655,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommand( new( "Save running total", () =>
         {
             dataCommandService.SaveRunningTotal( EffectiveDefinition, runningTotal );
-            RefreshDesignerFieldsExplorer();
             return Task.CompletedTask;
-        } ) );
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
     }
 
     private async Task OnRunningTotalRenamed( (string OldName, string NewName) runningTotalRename )
@@ -1688,9 +1673,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommand( new( "Rename running total", () =>
         {
             dataCommandService.RenameRunningTotal( EffectiveDefinition, oldName, newName );
-            RefreshDesignerFieldsExplorer();
             return Task.CompletedTask;
-        } ) );
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
     }
 
     private async Task OnRunningTotalDeleted( string runningTotalName )
@@ -1701,9 +1685,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommand( new( "Delete running total", () =>
         {
             dataCommandService.DeleteRunningTotal( EffectiveDefinition, runningTotalName );
-            RefreshDesignerFieldsExplorer();
             return Task.CompletedTask;
-        } ) );
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
     }
 
     private async Task OnRunningTotalInserted( string runningTotalName )
@@ -3662,29 +3645,25 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     }
 
     private void RefreshDesignerElementSelection()
-    {
-        designerRefreshState = designerRefreshState with
-        {
-            Selection = designerRefreshState.Selection + 1,
-            ElementSelection = designerRefreshState.ElementSelection + 1,
-            Toolbar = designerRefreshState.Toolbar + 1,
-        };
-    }
+        => RefreshDesigner( ReportDesignerRefreshTarget.Designer | ReportDesignerRefreshTarget.ElementSelection );
 
     private void RefreshDesignerSelection()
+        => RefreshDesigner( ReportDesignerRefreshTarget.Designer );
+
+    private void RefreshDesignerToolbar()
+        => RefreshDesigner( ReportDesignerRefreshTarget.Toolbar );
+
+    private void RefreshDesigner( ReportDesignerRefreshTarget targets )
     {
         designerRefreshState = designerRefreshState with
         {
-            Selection = designerRefreshState.Selection + 1,
-            Toolbar = designerRefreshState.Toolbar + 1,
+            Surface = designerRefreshState.Surface + ( ( targets & ReportDesignerRefreshTarget.Surface ) != 0 ? 1 : 0 ),
+            SelectedPanel = designerRefreshState.SelectedPanel + ( ( targets & ReportDesignerRefreshTarget.SelectedPanel ) != 0 ? 1 : 0 ),
+            ElementSelection = designerRefreshState.ElementSelection + ( ( targets & ReportDesignerRefreshTarget.ElementSelection ) != 0 ? 1 : 0 ),
+            FieldsExplorer = designerRefreshState.FieldsExplorer + ( ( targets & ReportDesignerRefreshTarget.FieldsExplorer ) != 0 ? 1 : 0 ),
+            Toolbar = designerRefreshState.Toolbar + ( ( targets & ReportDesignerRefreshTarget.Toolbar ) != 0 ? 1 : 0 ),
         };
     }
-
-    private void RefreshDesignerFieldsExplorer()
-        => designerRefreshState = designerRefreshState with { FieldsExplorer = designerRefreshState.FieldsExplorer + 1 };
-
-    private void RefreshDesignerToolbar()
-        => designerRefreshState = designerRefreshState with { Toolbar = designerRefreshState.Toolbar + 1 };
 
     private static double GetMinimumSectionHeight( ReportBandDefinition section )
     {

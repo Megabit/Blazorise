@@ -12,4 +12,5 @@ internal sealed record ReportDesignerCommand(
     Func<ReportDefinition> GetDefinition = null,
     bool TrackHistory = true,
     bool NotifyDefinitionChanged = true,
-    bool RefreshSurface = true );
+    bool RefreshSurface = true,
+    ReportDesignerRefreshTarget RefreshTargets = ReportDesignerRefreshTarget.Designer );
