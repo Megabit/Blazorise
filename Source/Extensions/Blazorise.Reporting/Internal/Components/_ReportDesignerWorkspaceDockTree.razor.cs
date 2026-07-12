@@ -19,6 +19,8 @@ public partial class _ReportDesignerWorkspaceDockTree
 
     private DockPane reportExplorerPane;
 
+    private DockPane fieldsExplorerPane;
+
     private DockPaneBody fieldsExplorerPaneBody;
 
     private DockPaneBody propertiesPaneBody;
@@ -29,9 +31,7 @@ public partial class _ReportDesignerWorkspaceDockTree
 
     private DockPaneBody toolboxPaneBody;
 
-    private int renderedSurfaceRefreshVersion;
-
-    private int renderedSelectionRefreshVersion;
+    private ReportDesignerRefreshState renderedRefreshState;
 
     #endregion
 
@@ -42,17 +42,19 @@ public partial class _ReportDesignerWorkspaceDockTree
     {
         await base.OnAfterRenderAsync( firstRender );
 
-        if ( SelectionRefreshVersion != renderedSelectionRefreshVersion )
+        if ( RefreshState.Selection != renderedRefreshState.Selection )
         {
-            renderedSelectionRefreshVersion = SelectionRefreshVersion;
-            renderedSurfaceRefreshVersion = SurfaceRefreshVersion;
             await RefreshSelection();
         }
-        else if ( SurfaceRefreshVersion != renderedSurfaceRefreshVersion )
+        else if ( RefreshState.Surface != renderedRefreshState.Surface )
         {
-            renderedSurfaceRefreshVersion = SurfaceRefreshVersion;
             await RefreshSurface();
         }
+
+        if ( RefreshState.FieldsExplorer != renderedRefreshState.FieldsExplorer )
+            await ( fieldsExplorerPane?.Refresh() ?? Task.CompletedTask );
+
+        renderedRefreshState = RefreshState;
     }
 
     internal Task RefreshSurface()
@@ -147,14 +149,9 @@ public partial class _ReportDesignerWorkspaceDockTree
     [Parameter] public bool ShowRulers { get; set; }
 
     /// <summary>
-    /// Version used to request a designer surface refresh after pane content has rendered.
+    /// Targeted pane refresh state applied after pane content has rendered.
     /// </summary>
-    [Parameter] public int SurfaceRefreshVersion { get; set; }
-
-    /// <summary>
-    /// Version used to request a designer selection refresh after pane content has rendered.
-    /// </summary>
-    [Parameter] public int SelectionRefreshVersion { get; set; }
+    [Parameter] public ReportDesignerRefreshState RefreshState { get; set; }
 
     /// <summary>
     /// Content shown in the toolbox dock pane.

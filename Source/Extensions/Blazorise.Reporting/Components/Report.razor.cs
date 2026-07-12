@@ -98,11 +98,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private int renderMutationVersion;
 
-    private int designerSurfaceRefreshVersion;
-
-    private int designerSelectionRefreshVersion;
-
-    private int designerToolbarRefreshVersion;
+    private ReportDesignerRefreshState designerRefreshState;
 
     private List<ReportElementDefinition> clipboardElements = [];
 
@@ -183,7 +179,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             await DefinitionChanged.InvokeAsync( declarativeDefinition );
 
         if ( definition is not null )
-            designerSurfaceRefreshVersion++;
+        {
+            designerRefreshState = designerRefreshState with
+            {
+                Surface = designerRefreshState.Surface + 1,
+                FieldsExplorer = designerRefreshState.FieldsExplorer + 1,
+            };
+        }
 
         if ( commandManager.State?.Definition is null )
             commandManager.SetState( CaptureReportState( RootDefinition ) );
@@ -869,8 +871,6 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         clipboardBandId = nextState.ClipboardBandId;
         designerState.SnapToGrid = nextState.SnapToGrid;
         selectionManager.ApplyState( definition, nextState.Selection );
-        designerState.SelectionVersion++;
-
         if ( !string.Equals( previousActiveSubreportElementKey, activeSubreportElementKey, StringComparison.Ordinal ) )
             ResetDesignerSurfaceScrollPosition();
 
@@ -886,7 +886,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( notifyDefinitionChanged )
             await DefinitionChanged.InvokeAsync( definition );
 
-        RefreshDesignerSelection();
+        RefreshDesignerElementSelection();
+        RefreshDesignerFieldsExplorer();
 
         await InvokeAsync( StateHasChanged );
     }
@@ -899,8 +900,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( selectionChanged )
         {
-            designerState.SelectionVersion++;
-            RefreshDesignerSelection();
+            RefreshDesignerElementSelection();
         }
     }
 
@@ -979,8 +979,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( selectionChanged )
         {
-            designerState.SelectionVersion++;
-            RefreshDesignerSelection();
+            RefreshDesignerElementSelection();
         }
     }
 
@@ -991,8 +990,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( selectionChanged )
         {
-            designerState.SelectionVersion++;
-            RefreshDesignerSelection();
+            RefreshDesignerElementSelection();
         }
     }
 
@@ -1003,8 +1001,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( selectionChanged )
         {
-            designerState.SelectionVersion++;
-            RefreshDesignerSelection();
+            RefreshDesignerElementSelection();
         }
     }
 
@@ -1015,8 +1012,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( selectionChanged )
         {
-            designerState.SelectionVersion++;
-            RefreshDesignerSelection();
+            RefreshDesignerElementSelection();
         }
     }
 
@@ -1044,8 +1040,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( selectionChanged )
         {
-            designerState.SelectionVersion++;
-            RefreshDesignerSelection();
+            RefreshDesignerElementSelection();
         }
     }
 
@@ -1541,6 +1536,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommand( new( "Connect data source", async () =>
         {
             await dataCommandService.ConnectDataSource( EffectiveDefinition, Data, dataSource, ResolveDataSources );
+            RefreshDesignerFieldsExplorer();
         } ) );
     }
 
@@ -1553,6 +1549,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         {
             await dataCommandService.RefreshDataSource( EffectiveDefinition, DataSourceProviderRegistry, dataSourceName );
             await ResolveDataSources( EffectiveDefinition, CurrentMode == ReportMode.Preview );
+            RefreshDesignerFieldsExplorer();
         } ) );
     }
 
@@ -1563,7 +1560,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         await ExecuteDesignerCommand( new( "Delete data source", () =>
         {
-            dataCommandService.DeleteDataSource( EffectiveDefinition, dataSourceName );
+            dataCommandService.DeleteDataSource( RootDefinition, dataSourceName );
+            RefreshDesignerFieldsExplorer();
             return Task.CompletedTask;
         } ) );
     }
@@ -1576,6 +1574,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommand( new( "Save formula field", () =>
         {
             dataCommandService.SaveFormulaField( EffectiveDefinition, formulaField );
+            RefreshDesignerFieldsExplorer();
             return Task.CompletedTask;
         } ) );
     }
@@ -1594,6 +1593,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommand( new( "Rename formula field", () =>
         {
             dataCommandService.RenameFormulaField( EffectiveDefinition, oldName, newName );
+            RefreshDesignerFieldsExplorer();
             return Task.CompletedTask;
         } ) );
     }
@@ -1610,6 +1610,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             if ( string.Equals( editingFormulaFieldName, formulaFieldName, StringComparison.OrdinalIgnoreCase ) )
                 editingFormulaFieldName = null;
 
+            RefreshDesignerFieldsExplorer();
             return Task.CompletedTask;
         } ) );
     }
@@ -1668,6 +1669,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommand( new( "Save running total", () =>
         {
             dataCommandService.SaveRunningTotal( EffectiveDefinition, runningTotal );
+            RefreshDesignerFieldsExplorer();
             return Task.CompletedTask;
         } ) );
     }
@@ -1686,6 +1688,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommand( new( "Rename running total", () =>
         {
             dataCommandService.RenameRunningTotal( EffectiveDefinition, oldName, newName );
+            RefreshDesignerFieldsExplorer();
             return Task.CompletedTask;
         } ) );
     }
@@ -1698,6 +1701,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         await ExecuteDesignerCommand( new( "Delete running total", () =>
         {
             dataCommandService.DeleteRunningTotal( EffectiveDefinition, runningTotalName );
+            RefreshDesignerFieldsExplorer();
             return Task.CompletedTask;
         } ) );
     }
@@ -3657,14 +3661,30 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             _ = designerLayoutRef.RefreshSurface();
     }
 
-    private void RefreshDesignerSelection()
+    private void RefreshDesignerElementSelection()
     {
-        designerSelectionRefreshVersion++;
-        RefreshDesignerToolbar();
+        designerRefreshState = designerRefreshState with
+        {
+            Selection = designerRefreshState.Selection + 1,
+            ElementSelection = designerRefreshState.ElementSelection + 1,
+            Toolbar = designerRefreshState.Toolbar + 1,
+        };
     }
 
+    private void RefreshDesignerSelection()
+    {
+        designerRefreshState = designerRefreshState with
+        {
+            Selection = designerRefreshState.Selection + 1,
+            Toolbar = designerRefreshState.Toolbar + 1,
+        };
+    }
+
+    private void RefreshDesignerFieldsExplorer()
+        => designerRefreshState = designerRefreshState with { FieldsExplorer = designerRefreshState.FieldsExplorer + 1 };
+
     private void RefreshDesignerToolbar()
-        => designerToolbarRefreshVersion++;
+        => designerRefreshState = designerRefreshState with { Toolbar = designerRefreshState.Toolbar + 1 };
 
     private static double GetMinimumSectionHeight( ReportBandDefinition section )
     {

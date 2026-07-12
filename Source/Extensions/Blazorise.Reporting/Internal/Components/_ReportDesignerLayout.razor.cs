@@ -65,7 +65,7 @@ public partial class _ReportDesignerLayout
 
     private int restoredPaneScrollVersion = -1;
 
-    private int renderedToolbarRefreshVersion;
+    private ReportDesignerRefreshState renderedRefreshState;
 
     #endregion
 
@@ -95,13 +95,13 @@ public partial class _ReportDesignerLayout
             await reportingModule.StartDesignerKeyboardShortcuts( designerElement.ElementRef, dotNetObjectReference );
         }
 
-        if ( ToolbarRefreshVersion != renderedToolbarRefreshVersion )
+        if ( RefreshState.Toolbar != renderedRefreshState.Toolbar )
         {
-            renderedToolbarRefreshVersion = ToolbarRefreshVersion;
-
             if ( ShowToolbar && toolbarPane is not null )
                 await toolbarPane.Refresh();
         }
+
+        renderedRefreshState = RefreshState;
 
         if ( PaneScrollRestoreVersion != restoredPaneScrollVersion && PaneScrollPositions?.Count > 0 )
         {
@@ -459,19 +459,9 @@ public partial class _ReportDesignerLayout
     [Parameter] public int PaneScrollRestoreVersion { get; set; }
 
     /// <summary>
-    /// Version used to request a designer surface refresh after pane content has rendered.
+    /// Targeted pane refresh state applied after pane content has rendered.
     /// </summary>
-    [Parameter] public int SurfaceRefreshVersion { get; set; }
-
-    /// <summary>
-    /// Version used to request a designer selection refresh after pane content has rendered.
-    /// </summary>
-    [Parameter] public int SelectionRefreshVersion { get; set; }
-
-    /// <summary>
-    /// Version used to request a toolbar refresh after its pane content has rendered.
-    /// </summary>
-    [Parameter] public int ToolbarRefreshVersion { get; set; }
+    [Parameter] public ReportDesignerRefreshState RefreshState { get; set; }
 
     /// <summary>
     /// Raised when a standard designer keyboard shortcut is pressed.

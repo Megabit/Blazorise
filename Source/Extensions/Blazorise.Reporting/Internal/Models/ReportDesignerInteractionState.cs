@@ -48,7 +48,5 @@ internal sealed class ReportDesignerInteractionState
 
     public DateTime LastSelectionBoxRenderTime { get; set; }
 
-    public int SelectionVersion { get; set; }
-
     #endregion
 }

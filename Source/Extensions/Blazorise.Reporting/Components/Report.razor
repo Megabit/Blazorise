@@ -65,9 +65,7 @@
                                    ShowRulers="@ShowRulers"
                                    PaneScrollPositions="@designerPaneScrollPositions"
                                    PaneScrollRestoreVersion="@designerPaneScrollRestoreVersion"
-                                   SurfaceRefreshVersion="@designerSurfaceRefreshVersion"
-                                   SelectionRefreshVersion="@designerSelectionRefreshVersion"
-                                   ToolbarRefreshVersion="@designerToolbarRefreshVersion"
+                                   RefreshState="@designerRefreshState"
                                    SelectedPanelTab="@SelectedDesignerPanelTabName"
                                    SelectedPanelTabChanged="@SelectDesignerPanelTab">
                 <Toolbar>
@@ -226,7 +224,7 @@
                                                                     DesignMode
                                                                     Editable="@editable"
                                                                     Selected="@selectionManager.IsElementSelected( capturedElementKey )"
-                                                                    SelectionVersion="@designerState.SelectionVersion"
+                                                                    SelectionVersion="@designerRefreshState.ElementSelection"
                                                                     Editing="@IsElementTextEditing( capturedElementKey )"
                                                                     TextEditingActive="@IsElementTextEditing()"
                                                                     ChildEditingElementKey="@designerState.EditingElementKey"
