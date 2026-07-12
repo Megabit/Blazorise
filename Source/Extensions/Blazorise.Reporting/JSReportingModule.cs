@@ -32,11 +32,13 @@ public class JSReportingModule : BaseJSModule
     /// <summary>
     /// Starts document-level band resizing for the active report designer.
     /// </summary>
-    /// <param name="dotNetObjectReference">Report component reference that receives resize callbacks.</param>
+    /// <typeparam name="TComponent">Component type that receives resize callbacks.</typeparam>
+    /// <param name="dotNetObjectReference">Component reference that receives resize callbacks.</param>
     /// <param name="startClientY">Initial document pointer Y coordinate.</param>
     /// <param name="pointerId">The starting pointer identifier.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public virtual async ValueTask StartSectionResize( DotNetObjectReference<Report> dotNetObjectReference, double startClientY, long pointerId )
+    public virtual async ValueTask StartSectionResize<TComponent>( DotNetObjectReference<TComponent> dotNetObjectReference, double startClientY, long pointerId )
+        where TComponent : class
     {
         await InvokeSafeVoidAsync( "startSectionResize", dotNetObjectReference, startClientY, pointerId );
     }
@@ -53,12 +55,14 @@ public class JSReportingModule : BaseJSModule
     /// <summary>
     /// Starts document-level element resizing for the active report designer.
     /// </summary>
-    /// <param name="dotNetObjectReference">Report component reference that receives resize callbacks.</param>
+    /// <typeparam name="TComponent">Component type that receives resize callbacks.</typeparam>
+    /// <param name="dotNetObjectReference">Component reference that receives resize callbacks.</param>
     /// <param name="startClientX">Initial document pointer X coordinate.</param>
     /// <param name="startClientY">Initial document pointer Y coordinate.</param>
     /// <param name="pointerId">The starting pointer identifier.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public virtual async ValueTask StartElementResize( DotNetObjectReference<Report> dotNetObjectReference, double startClientX, double startClientY, long pointerId )
+    public virtual async ValueTask StartElementResize<TComponent>( DotNetObjectReference<TComponent> dotNetObjectReference, double startClientX, double startClientY, long pointerId )
+        where TComponent : class
     {
         await InvokeSafeVoidAsync( "startElementResize", dotNetObjectReference, startClientX, startClientY, pointerId );
     }

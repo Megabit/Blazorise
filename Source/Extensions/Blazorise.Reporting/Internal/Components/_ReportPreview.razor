@@ -1,0 +1,69 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<Div Class="b-report-viewer"
+     Padding="PaddingIs3"
+     Background="BackgroundLight"
+     Border="BorderIs1"
+     Overflow="OverflowAuto">
+    @if ( Designer.ActivePreviewFormat == ReportPreviewFormat.Pdf )
+    {
+        <Div Padding="PaddingIs5"
+             Border="BorderIs1"
+             Background="BackgroundWhite"
+             TextAlignment="TextAlignmentCenter">
+            <Div Margin="MarginIs3FromBottom">
+                PDF preview is available for download.
+            </Div>
+            @if ( Designer.AllowPreviewDownload )
+            {
+                <Button Color="Color.Primary" Clicked="@Designer.DownloadPdf">
+                    <Icon Name="IconName.FileDownload" Margin="MarginIs2FromEnd" />
+                    Download PDF
+                </Button>
+            }
+        </Div>
+    }
+    else
+    {
+        ReportDefinition definition = Designer.PreviewDefinition;
+
+        <Div Class="b-report-viewer-pages">
+            @foreach ( ReportRenderPage renderPage in Designer.ResolvePreviewRenderPages( definition ) )
+            {
+                string renderPageKey = $"{definition.Id}:{renderPage.PageNumber}";
+
+                <_ReportDesignerPage PageKey="@renderPageKey"
+                                     Width="@definition.Page.Width"
+                                     MinHeight="@definition.Page.Height"
+                                     Height="@definition.Page.Height">
+                    <Div Class="b-report-page-content" Style="@Designer.GetPreviewPageContentStyle( definition )">
+                        <_ReportPreviewSections TSection="ReportRenderSection"
+                                                Designer="@Designer"
+                                                Definition="@definition"
+                                                Sections="@renderPage.HeaderSections"
+                                                PageNumber="@renderPage.PageNumber"
+                                                KeySuffix="header" />
+                        <_ReportPreviewSections TSection="ReportRenderSection"
+                                                Designer="@Designer"
+                                                Definition="@definition"
+                                                Sections="@renderPage.BodySections"
+                                                PageNumber="@renderPage.PageNumber"
+                                                KeySuffix="body" />
+                    </Div>
+                    @if ( renderPage.FooterSections.Count > 0 )
+                    {
+                        <Div Class="b-report-page-footer-content" Style="@Designer.GetPreviewPageFooterStyle( definition, renderPage )">
+                            <_ReportPreviewSections TSection="ReportRenderSection"
+                                                    Designer="@Designer"
+                                                    Definition="@definition"
+                                                    Sections="@renderPage.FooterSections"
+                                                    PageNumber="@renderPage.PageNumber"
+                                                    KeySuffix="footer" />
+                        </Div>
+                    }
+                </_ReportDesignerPage>
+            }
+        </Div>
+    }
+</Div>

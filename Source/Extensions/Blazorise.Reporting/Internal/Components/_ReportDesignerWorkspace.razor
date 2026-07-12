@@ -1,0 +1,125 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using System.Collections.Generic
+
+@{
+    ReportDefinition rootDefinition = Designer.DesignerRootDefinition;
+    ReportDefinition definition = Designer.ResolveActiveDesignerDefinition( rootDefinition );
+    IReadOnlyList<_ReportDesigner.ReportDesignerTabItem> designerTabs = Designer.GetDesignerTabs( rootDefinition );
+    object fieldsExplorerData = Designer.GetFieldsExplorerData( rootDefinition );
+    IReadOnlyList<ReportDesignerDataSourceNode> fieldsExplorerDataSources = Designer.GetFieldsExplorerDataSources( rootDefinition );
+}
+
+<_ReportDesignerLayout @ref="designerLayout"
+                       Shortcut="@Designer.HandleDesignerShortcut"
+                       State="@Designer.DesignerDockLayoutState"
+                       ShowToolbar="@Designer.ShowToolbar"
+                       ShowRulers="@Designer.ShowRulers"
+                       PaneScrollPositions="@Designer.DesignerPaneScrollPositions"
+                       PaneScrollRestoreVersion="@Designer.DesignerPaneScrollRestoreVersion"
+                       RefreshState="@Designer.RefreshState"
+                       SelectedPanelTab="@Designer.SelectedDesignerPanel"
+                       SelectedPanelTabChanged="@Designer.SelectDesignerPanelTab">
+    <Toolbar>
+        @if ( Designer.ShowToolbar )
+        {
+            <_ReportDesignerToolbarContent Designer="@Designer" ShowPanesMenu />
+        }
+    </Toolbar>
+    <ToolboxPanel>
+        <_ReportDesignerToolboxPanel ToolboxNodeDragStarted="@Designer.OnToolboxTreeNodeDragStarted"
+                                     AllowSubreport="@Designer.CanInsertSubreport"
+                                     NodeDragEnded="@Designer.OnDesignerNodeDragEnded" />
+    </ToolboxPanel>
+    <FieldsExplorerPanel>
+        <_ReportDesignerFieldsExplorerPanel Definition="@definition"
+                                            Data="@fieldsExplorerData"
+                                            DataSourceName="@Designer.DefaultDataSourceName"
+                                            SourceDataSources="@fieldsExplorerDataSources"
+                                            FieldsNodeDragStarted="@Designer.OnFieldsTreeNodeDragStarted"
+                                            NodeDragEnded="@Designer.OnDesignerNodeDragEnded"
+                                            FormulaFieldConfirmed="@Designer.OnFormulaFieldConfirmed"
+                                            FormulaFieldRenamed="@Designer.OnFormulaFieldRenamed"
+                                            FormulaFieldDeleted="@Designer.OnFormulaFieldDeleted"
+                                            FormulaFieldInserted="@Designer.OnFormulaFieldInserted"
+                                            FieldInserted="@Designer.OnFieldInserted"
+                                            RunningTotalConfirmed="@Designer.OnRunningTotalConfirmed"
+                                            RunningTotalRenamed="@Designer.OnRunningTotalRenamed"
+                                            RunningTotalDeleted="@Designer.OnRunningTotalDeleted"
+                                            RunningTotalInserted="@Designer.OnRunningTotalInserted"
+                                            DataSourceRefreshed="@Designer.OnDataSourceRefreshed"
+                                            DataSourceDeleted="@Designer.OnDataSourceDeleted" />
+    </FieldsExplorerPanel>
+    <Surface>
+        <_ReportDesignerSurface @ref="designerSurface" Designer="@Designer" Definition="@definition" />
+        @if ( designerTabs.Count > 1 )
+        {
+            <Div Class="b-report-designer-tabs" Flex="FlexAlignItemsCenter" Gap="GapIs1" Padding="PaddingIs2" Border="BorderIs1OnTop">
+                @foreach ( _ReportDesigner.ReportDesignerTabItem tab in designerTabs )
+                {
+                    <_ReportDesignerTabButton TabKey="@tab.Key"
+                                              Text="@tab.Text"
+                                              Active="@tab.Active"
+                                              Selected="@Designer.SelectDesignerTab" />
+                }
+            </Div>
+        }
+    </Surface>
+    <PropertiesPanel>
+        <_ReportDesignerPropertiesPanel Definition="@definition"
+                                        Data="@Designer.Data"
+                                        ReportSelected="@Designer.Selection.ReportSelected"
+                                        SelectedSection="@Designer.GetSelectedPropertiesSection( definition )"
+                                        FormulaSection="@Designer.GetSelectedFormulaSection( definition )"
+                                        SelectedElement="@Designer.Selection.FindSelectedElement( definition )"
+                                        SelectedCell="@Designer.Selection.FindSelectedCell( definition )"
+                                        SelectedElementSuppressed="@Designer.Selection.IsSelectedElementSuppressed( definition )"
+                                        SnapToGrid="@Designer.InteractionState.SnapToGrid"
+                                        SnapToGridChanged="@Designer.OnSnapToGridChanged"
+                                        ShowRulers="@Designer.ShowRulers"
+                                        ShowRulersChanged="@Designer.OnShowRulersChanged"
+                                        ShowFineRulerTicks="@Designer.ShowFineRulerTicks"
+                                        ShowFineRulerTicksChanged="@Designer.OnShowFineRulerTicksChanged"
+                                        BandMode="@Designer.BandMode"
+                                        BandModeChanged="@Designer.OnBandModeChanged"
+                                        UpdateReportPage="@Designer.UpdateReportPage"
+                                        UpdateSelectedSection="@Designer.UpdateSelectedSection"
+                                        UpdateSelectedSectionSuppression="@Designer.UpdateSelectedSectionSuppression"
+                                        GetMinimumSectionHeight="@_ReportDesigner.GetMinimumSectionHeight"
+                                        CanInsertSection="@Designer.CanSelectedSectionInsertSection( definition )"
+                                        InsertSection="@Designer.InsertSection"
+                                        CanInsertGroup="@Designer.CanSelectedSectionInsertGroup( definition )"
+                                        InsertGroup="@Designer.OpenSelectedDetailGroupDialog"
+                                        DeleteSelectedSection="@Designer.DeleteSelectedSection"
+                                        UpdateSelectedElement="@Designer.UpdateSelectedElementsFromProperties"
+                                        UploadImage="@Designer.UploadImage"
+                                        ImageAccept="@Designer.ImageAccept"
+                                        ImageMaxSize="@Designer.ImageMaxSize"
+                                        MaxUploadImageChunkSize="@Designer.MaxUploadImageChunkSize"
+                                        ImageUploadSegmentFetchTimeout="@Designer.ImageUploadSegmentFetchTimeout"
+                                        DisableImageUploadProgressReport="@Designer.DisableImageUploadProgressReport"
+                                        ImageUploadChanged="@Designer.ImageUploadChanged"
+                                        ImageUploadStarted="@Designer.ImageUploadStarted"
+                                        ImageUploadEnded="@Designer.ImageUploadEnded"
+                                        ImageUploadWritten="@Designer.ImageUploadWritten"
+                                        ImageUploadProgressed="@Designer.ImageUploadProgressed"
+                                        ImageUpload="@Designer.ImageUpload" />
+    </PropertiesPanel>
+    <ReportExplorerPanel>
+        <_ReportDesignerReportExplorer Definition="@definition"
+                                       ReportSelected="@Designer.Selection.ReportSelected"
+                                       SelectedSectionIndex="@Designer.Selection.SelectedSectionIndex"
+                                       SelectedElementKey="@Designer.Selection.PrimaryElementKey"
+                                       SelectedCellKey="@Designer.Selection.SelectedCellKey"
+                                       AllowSubreport="@Designer.CanInsertSubreport"
+                                       IsElementSelected="@Designer.Selection.IsElementSelected"
+                                       NodeClicked="@Designer.OnReportTreeNodeClicked"
+                                       NodeContextMenu="@Designer.OnReportTreeNodeContextMenu" />
+    </ReportExplorerPanel>
+    <ContextMenu>
+        <_ReportDesignerContextMenu @ref="contextMenu"
+                                    Command="@Designer.ExecuteContextMenuCommand" />
+    </ContextMenu>
+</_ReportDesignerLayout>
+
+<_ReportDesignerDialogsHost @ref="dialogsHost" Designer="@Designer" Definition="@definition" />

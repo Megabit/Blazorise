@@ -1,0 +1,150 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using Microsoft.AspNetCore.Components.Web
+
+<ContextMenu @ref="contextMenuRef">
+    <ContextMenuBody MinWidth="13rem">
+        @if ( IsSectionMenu )
+        {
+            <ContextMenuToolbar>
+                <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Value="@ReportDesignerContextMenuCommand.PasteElement" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.CheckDouble" Text="Select all" Disabled="@(!State.CanSelectAllSectionElements)" Value="@ReportDesignerContextMenuCommand.SelectAllSectionElements" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.Delete" Text="Delete band" Disabled="@(!State.CanDeleteSection)" Value="@ReportDesignerContextMenuCommand.DeleteSection" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" Value="@ReportDesignerContextMenuCommand.ShowProperties" Clicked="@OnCommandClicked" />
+            </ContextMenuToolbar>
+            <ContextMenuDivider />
+
+            @if ( State.SectionSuppressed )
+            {
+                <ContextMenuItem ShowCheckbox Checked Value="@ReportDesignerContextMenuCommand.ToggleSectionSuppression" Clicked="@OnCommandClicked">Suppress</ContextMenuItem>
+            }
+            else
+            {
+                @if ( State.CanInsertSection )
+                {
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertSectionBefore" Clicked="@OnCommandClicked">Insert band before</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertSectionAfter" Clicked="@OnCommandClicked">Insert band after</ContextMenuItem>
+                }
+                @if ( State.CanInsertGroup )
+                {
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertGroup" Clicked="@OnCommandClicked">Insert group...</ContextMenuItem>
+                }
+                @if ( State.CanInsertSubreport )
+                {
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertSubreport" Clicked="@OnCommandClicked">Insert subreport</ContextMenuItem>
+                }
+                <ContextMenuItem ShowCheckbox Checked="@State.SectionSuppressed" Value="@ReportDesignerContextMenuCommand.ToggleSectionSuppression" Clicked="@OnCommandClicked">Suppress</ContextMenuItem>
+                <ContextMenuItem ShowCheckbox Checked="@State.SectionKeepTogether" Value="@ReportDesignerContextMenuCommand.ToggleSectionKeepTogether" Clicked="@OnCommandClicked">Keep together</ContextMenuItem>
+                <ContextMenuItem ShowCheckbox Checked="@State.SectionNewPageBefore" Value="@ReportDesignerContextMenuCommand.ToggleSectionNewPageBefore" Clicked="@OnCommandClicked">New page before</ContextMenuItem>
+                <ContextMenuItem ShowCheckbox Checked="@State.SectionNewPageAfter" Value="@ReportDesignerContextMenuCommand.ToggleSectionNewPageAfter" Clicked="@OnCommandClicked">New page after</ContextMenuItem>
+            }
+        }
+        else if ( IsElementMenu )
+        {
+            <ContextMenuToolbar>
+                <ContextMenuToolbarItem Icon="IconName.Cut" Text="Cut" Value="@ReportDesignerContextMenuCommand.CutElement" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.Copy" Text="Copy" Value="@ReportDesignerContextMenuCommand.CopyElement" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Value="@ReportDesignerContextMenuCommand.PasteElement" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.Delete" Text="Delete element" Value="@ReportDesignerContextMenuCommand.DeleteElement" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" Value="@ReportDesignerContextMenuCommand.ShowProperties" Clicked="@OnCommandClicked" />
+            </ContextMenuToolbar>
+            <ContextMenuDivider />
+
+            @if ( State.CanOrderSelectedElements )
+            {
+                <ContextMenuSubmenu Text="Order">
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.BringToFront" Clicked="@OnCommandClicked">Bring to Front</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.SendToBack" Clicked="@OnCommandClicked">Send to Back</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.MoveForward" Clicked="@OnCommandClicked">Move Forward</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.MoveBackward" Clicked="@OnCommandClicked">Move Backward</ContextMenuItem>
+                </ContextMenuSubmenu>
+            }
+
+            @if ( State.CanAlignOrSizeSelectedElements )
+            {
+                <ContextMenuSubmenu Text="Align">
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.AlignTops" Clicked="@OnCommandClicked">Tops</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.AlignMiddles" Clicked="@OnCommandClicked">Middles</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.AlignBottoms" Clicked="@OnCommandClicked">Bottoms</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.AlignBaseline" Clicked="@OnCommandClicked">Baseline</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.AlignLefts" Clicked="@OnCommandClicked">Lefts</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.AlignCenters" Clicked="@OnCommandClicked">Centers</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.AlignRights" Clicked="@OnCommandClicked">Rights</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.AlignToGrid" Clicked="@OnCommandClicked">To Grid</ContextMenuItem>
+                </ContextMenuSubmenu>
+                <ContextMenuSubmenu Text="Sizes">
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.SizeSameWidth" Clicked="@OnCommandClicked">Same Width</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.SizeSameHeight" Clicked="@OnCommandClicked">Same Height</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.SizeSameSize" Clicked="@OnCommandClicked">Same Size</ContextMenuItem>
+                </ContextMenuSubmenu>
+            }
+
+            @if ( State.CanInsertAggregate )
+            {
+                <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertAggregate" Clicked="@OnCommandClicked">Insert aggregate</ContextMenuItem>
+            }
+
+            @if ( State.CanEditText )
+            {
+                <ContextMenuItem Value="@ReportDesignerContextMenuCommand.EditText" Clicked="@OnCommandClicked">Edit Text</ContextMenuItem>
+            }
+
+            @if ( State.CanEditFormula )
+            {
+                <ContextMenuItem Value="@ReportDesignerContextMenuCommand.EditFormula" Clicked="@OnCommandClicked">Edit Formula</ContextMenuItem>
+            }
+
+            @if ( State.CanEditRunningTotal )
+            {
+                <ContextMenuItem Value="@ReportDesignerContextMenuCommand.EditRunningTotal" Clicked="@OnCommandClicked">Edit Running Total</ContextMenuItem>
+            }
+
+            <ContextMenuItem ShowCheckbox Checked="@State.ElementCanGrow" Value="@ReportDesignerContextMenuCommand.ToggleElementCanGrow" Clicked="@OnCommandClicked">Can grow</ContextMenuItem>
+            <ContextMenuItem ShowCheckbox Checked="@State.ElementSuppressed" Value="@ReportDesignerContextMenuCommand.ToggleElementSuppression" Clicked="@OnCommandClicked">Suppress</ContextMenuItem>
+        }
+        else if ( IsCellMenu )
+        {
+            <ContextMenuToolbar>
+                <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Value="@ReportDesignerContextMenuCommand.PasteElement" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" Value="@ReportDesignerContextMenuCommand.ShowProperties" Clicked="@OnCommandClicked" />
+            </ContextMenuToolbar>
+            <ContextMenuDivider />
+
+            @if ( State.CanShowTableCellMergeOperations )
+            {
+                @if ( State.CanMergeCellRight )
+                {
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.MergeCellRight" Clicked="@OnCommandClicked">Merge right</ContextMenuItem>
+                }
+
+                @if ( State.CanMergeCellDown )
+                {
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.MergeCellDown" Clicked="@OnCommandClicked">Merge down</ContextMenuItem>
+                }
+
+                @if ( State.CanUnmergeCell )
+                {
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.UnmergeCell" Clicked="@OnCommandClicked">Unmerge</ContextMenuItem>
+                }
+
+                <ContextMenuDivider />
+            }
+
+            <ContextMenuSubmenu Text="Insert">
+                <ContextMenuItem Disabled="@(!State.CanInsertTableRowAbove)" Value="@ReportDesignerContextMenuCommand.InsertTableRowAbove" Clicked="@OnCommandClicked">Row Above</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableRowBelow)" Value="@ReportDesignerContextMenuCommand.InsertTableRowBelow" Clicked="@OnCommandClicked">Row Below</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableColumnLeft)" Value="@ReportDesignerContextMenuCommand.InsertTableColumnLeft" Clicked="@OnCommandClicked">Column to Left</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableColumnRight)" Value="@ReportDesignerContextMenuCommand.InsertTableColumnRight" Clicked="@OnCommandClicked">Column to Right</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableCell)" Value="@ReportDesignerContextMenuCommand.InsertTableCell" Clicked="@OnCommandClicked">Cell</ContextMenuItem>
+            </ContextMenuSubmenu>
+            <ContextMenuSubmenu Text="Delete">
+                <ContextMenuItem Disabled="@(!State.CanDeleteTableRow)" Value="@ReportDesignerContextMenuCommand.DeleteTableRow" Clicked="@OnCommandClicked">Row</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanDeleteTableColumn)" Value="@ReportDesignerContextMenuCommand.DeleteTableColumn" Clicked="@OnCommandClicked">Column</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanDeleteTableCell)" Value="@ReportDesignerContextMenuCommand.DeleteTableCell" Clicked="@OnCommandClicked">Cell</ContextMenuItem>
+            </ContextMenuSubmenu>
+        }
+
+        <ContextMenuDivider />
+        <ContextMenuItem Value="@ReportDesignerContextMenuCommand.Close" Clicked="@OnCommandClicked">Close</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>

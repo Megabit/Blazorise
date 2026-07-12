@@ -1,0 +1,33 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@typeparam TSection
+
+@foreach ( TSection item in Sections )
+{
+    ReportRenderSection renderSection = (ReportRenderSection)(object)item;
+    ReportBandDefinition section = renderSection.Section;
+    string sectionKey = $"{section.Id}:{PageNumber}:{renderSection.InstanceIndex}:{KeySuffix}";
+
+    <_ReportDesignerSection SectionKey="@sectionKey"
+                            Section="@section"
+                            Height="@section.Height"
+                            BodyWidth="@Designer.GetReportPageContentWidth( Definition )">
+        @if ( renderSection.RenderElements )
+        {
+            @foreach ( ReportElementDefinition element in section.Elements )
+            {
+                if ( !Designer.ShouldRenderElement( Definition, section, element, renderSection.Item ) )
+                    continue;
+
+                <_ReportDesignerElement Data="@Designer.Data"
+                                        Definition="@Definition"
+                                        Section="@section"
+                                        Item="@renderSection.Item"
+                                        RunningTotals="@renderSection.RunningTotals"
+                                        RenderMutationVersion="@Designer.RenderMutationVersion"
+                                        Element="@element"
+                                        ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
+            }
+        }
+    </_ReportDesignerSection>
+}

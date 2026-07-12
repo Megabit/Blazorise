@@ -1,0 +1,116 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+@{
+    ReportDefinition definition = Definition;
+    ReportDesignerInteractionState state = Designer.InteractionState;
+    ReportSelectionManager selection = Designer.Selection;
+}
+
+<_ReportDesignerRulerLayout Visible="@Designer.ShowRulers"
+                            Unit="@definition.Page.MeasurementUnit"
+                            PageWidth="@Designer.GetReportPageWidth( definition )"
+                            PageHeight="@Designer.GetDesignerRulerHeight( definition )"
+                            WidthOffset="@Designer.GetReportPageWidthOffset()"
+                            ShowFineTicks="@Designer.ShowFineRulerTicks"
+                            ReportSelected="@Designer.OnReportSelected"
+                            Marker="@Designer.GetDesignerRulerMarker( definition )">
+    <_ReportDesignerPage @ref="designerPageRef"
+                         PageKey="@definition.Id"
+                         Width="@Designer.GetReportPageWidth( definition )"
+                         WidthOffset="@Designer.GetReportPageWidthOffset()"
+                         MinHeight="@Designer.GetDesignerRulerHeight( definition )"
+                         Height="@Designer.GetReportPageHeight( definition )"
+                         MarginLeft="@_ReportDesigner.GetReportPageMarginLeft( definition )"
+                         MarginTop="@_ReportDesigner.GetReportPageMarginTop( definition )"
+                         MarginRight="@_ReportDesigner.GetReportPageMarginRight( definition )"
+                         MarginBottom="@_ReportDesigner.GetReportPageMarginBottom( definition )"
+                         DesignMode
+                         PointerMove="@PreviewPageSelectionBox"
+                         PointerUp="@CompletePageSelectionBox"
+                         PointerCancel="@OnPageSelectionPointerCancel"
+                         ShowSelectionBox="false"
+                         SelectionBoxX="@(state.SelectionBox?.X ?? 0)"
+                         SelectionBoxY="@(state.SelectionBox?.Y ?? 0)"
+                         SelectionBoxWidth="@(state.SelectionBox?.Width ?? 0)"
+                         SelectionBoxHeight="@(state.SelectionBox?.Height ?? 0)"
+                         SelectionBoxLeftOffset="@Designer.GetSelectionBoxLeftOffset()">
+        @for ( int sectionIndex = 0; sectionIndex < definition.Bands.Count; sectionIndex++ )
+        {
+            int capturedSectionIndex = sectionIndex;
+            ReportBandDefinition section = definition.Bands[capturedSectionIndex];
+
+            @foreach ( object sectionItem in Designer.ResolveSectionRenderItems( definition, section, designMode: true ) )
+            {
+                bool collapsed = Designer.IsSectionCollapsedForRender( section );
+                bool editable = !ReportValueResolver.ResolveStaticSuppress( section );
+                bool railVisible = Designer.IsDesignerBandRailVisible();
+                double sectionHeight = Designer.GetSectionRenderHeight( capturedSectionIndex, section );
+
+                <_ReportDesignerSection SectionKey="@section.Id"
+                                        SectionIndex="@capturedSectionIndex"
+                                        Section="@section"
+                                        Height="@sectionHeight"
+                                        BodyLeft="@Designer.GetDesignerSectionBodyLeft( definition )"
+                                        BodyWidth="@Designer.GetReportPageContentWidth( definition )"
+                                        DesignMode
+                                        Active="@Designer.IsSectionSelected( capturedSectionIndex )"
+                                        Collapsed="@collapsed"
+                                        BandMode="@Designer.BandMode"
+                                        RailVisible="@railVisible"
+                                        Editable="@editable"
+                                        ExternalDragActive="@IsExternalDesignerDragActive()"
+                                        AllowBandCollapse="@Designer.AllowBandCollapse"
+                                        ShowBandDataSource="@Designer.ShowBandDataSource"
+                                        RailClicked="@Designer.SelectSection"
+                                        ToggleClicked="@Designer.ToggleSectionCollapsed"
+                                        RailContextMenu="@Designer.OpenSectionContextMenu"
+                                        BodyContextMenu="@Designer.OpenSectionBodyContextMenu"
+                                        BodyPointerDown="@BeginSelectionBox"
+                                        DragOver="@PreviewDesignerDrag"
+                                        Drop="@DropDesignerItem"
+                                        PointerMove="@PreviewElementPointerInteraction"
+                                        PointerUp="@CompleteElementPointerInteraction"
+                                        PointerCancel="@OnElementPointerCancel"
+                                        BodyClicked="@Designer.HandleSectionClick"
+                                        ResizePointerDown="@BeginSectionPointerResize">
+                    @foreach ( ReportElementDefinition element in section.Elements )
+                    {
+                        string elementKey = ReportDefinitionHelper.EnsureElementId( element );
+
+                        <_ReportDesignerElement Data="@Designer.Data"
+                                                Definition="@definition"
+                                                Section="@section"
+                                                SectionIndex="@capturedSectionIndex"
+                                                Item="@sectionItem"
+                                                Element="@element"
+                                                ElementKey="@elementKey"
+                                                DesignMode
+                                                Editable="@editable"
+                                                Selected="@selection.IsElementSelected( elementKey )"
+                                                SelectionVersion="@Designer.RefreshState.ElementSelection"
+                                                Editing="@Designer.IsElementTextEditing( elementKey )"
+                                                TextEditingActive="@Designer.IsElementTextEditing()"
+                                                ChildEditingElementKey="@state.EditingElementKey"
+                                                SelectedCellKey="@selection.SelectedCellKey"
+                                                Clicked="@Designer.HandleElementClick"
+                                                DoubleClicked="@Designer.HandleElementDoubleClick"
+                                                ContextMenu="@Designer.OpenElementContextMenu"
+                                                TableCellClicked="@Designer.HandleTableCellClick"
+                                                TableCellContextMenu="@Designer.OpenTableCellContextMenu"
+                                                IsChildElementSelected="@selection.IsElementSelected"
+                                                ChildElementClicked="@Designer.HandleElementClick"
+                                                ChildElementDoubleClicked="@Designer.HandleElementDoubleClick"
+                                                ChildElementTextEditCommitted="@Designer.CommitElementTextEdit"
+                                                ChildElementTextEditCancelled="@Designer.CancelElementTextEdit"
+                                                TableResizeStarted="@BeginTablePointerResize"
+                                                TextEditCommitted="@Designer.CommitElementTextEdit"
+                                                TextEditCancelled="@Designer.CancelElementTextEdit"
+                                                PointerDown="@BeginElementPointerDrag"
+                                                ResizeStarted="@BeginElementPointerResize" />
+                    }
+                </_ReportDesignerSection>
+            }
+        }
+    </_ReportDesignerPage>
+</_ReportDesignerRulerLayout>
