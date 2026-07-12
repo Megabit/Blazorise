@@ -35,6 +35,15 @@ public partial class _ReportDesignerSurface
     #region Methods
 
     /// <inheritdoc />
+    protected override async Task OnFirstAfterRenderAsync()
+    {
+        await base.OnFirstAfterRenderAsync();
+
+        EnsureReportingModule();
+        await Task.WhenAll( DocumentObserver.EnsureInitializedAsync(), reportingModule.Module );
+    }
+
+    /// <inheritdoc />
     protected override async ValueTask DisposeAsync( bool disposing )
     {
         if ( disposing )
