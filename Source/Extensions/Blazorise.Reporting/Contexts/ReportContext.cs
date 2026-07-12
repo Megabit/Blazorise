@@ -26,6 +26,8 @@ internal sealed class ReportContext
 
     public RenderFragment ToolbarContent { get; private set; }
 
+    public RenderFragment<ReportToolbarItemContext> ToolbarButtonTemplate { get; private set; }
+
     public void RegisterDataSource( ReportDataSourceDefinition dataSource )
     {
         if ( string.IsNullOrWhiteSpace( dataSource.Name ) )
@@ -112,9 +114,10 @@ internal sealed class ReportContext
         return existing;
     }
 
-    public void RegisterToolbar( RenderFragment toolbarContent )
+    public void RegisterToolbar( RenderFragment toolbarContent, RenderFragment<ReportToolbarItemContext> buttonTemplate )
     {
         ToolbarContent = toolbarContent;
+        ToolbarButtonTemplate = buttonTemplate;
     }
 
     public void RegisterPage( ReportPageDefinition page )

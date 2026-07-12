@@ -14,7 +14,7 @@ public partial class ReportToolbar : ComponentBase
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
-        ReportContext?.RegisterToolbar( ChildContent );
+        ReportContext?.RegisterToolbar( ChildContent, ButtonTemplate );
     }
 
     #endregion
@@ -27,6 +27,11 @@ public partial class ReportToolbar : ComponentBase
     /// Toolbar items rendered by the report toolbar area.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Template used to render command buttons in the report toolbar.
+    /// </summary>
+    [Parameter] public RenderFragment<ReportToolbarItemContext> ButtonTemplate { get; set; }
 
     #endregion
 }

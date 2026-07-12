@@ -1,18 +1,25 @@
 @namespace Blazorise.Reporting
-<Button Color="@ResolvedColor" Outline Active="@Active" Disabled="@Disabled" Clicked="@OnClicked" title="@Text" aria-label="@Text">
-    @if ( ResolvedIcon is not null )
-    {
-        @if ( ShowCaption )
+@if ( ResolvedButtonTemplate is not null )
+{
+    @ResolvedButtonTemplate( CreateButtonTemplateContext() )
+}
+else
+{
+    <Button Color="@ResolvedColor" Outline Active="@Active" Disabled="@Disabled" Clicked="@OnClicked" title="@Text" aria-label="@Text">
+        @if ( ResolvedIcon is not null )
         {
-            <Icon Name="@ResolvedIcon.Value" Margin="MarginIs2FromEnd" />
+            @if ( ShowCaption )
+            {
+                <Icon Name="@ResolvedIcon.Value" Margin="MarginIs2FromEnd" />
+            }
+            else
+            {
+                <Icon Name="@ResolvedIcon.Value" />
+            }
         }
-        else
+        @if ( ShowCaption || ResolvedIcon is null )
         {
-            <Icon Name="@ResolvedIcon.Value" />
+            @Text
         }
-    }
-    @if ( ShowCaption || ResolvedIcon is null )
-    {
-        @Text
-    }
-</Button>
+    </Button>
+}

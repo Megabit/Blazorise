@@ -20,8 +20,13 @@ public partial class ReportToolbarItem
 
     private Task OnClicked()
     {
-        return ToolbarContext?.Execute( Command ) ?? Task.CompletedTask;
+        return CanExecute
+            ? ToolbarContext?.Execute( Command ) ?? Task.CompletedTask
+            : Task.CompletedTask;
     }
+
+    private ReportToolbarItemContext CreateButtonTemplateContext()
+        => new( Command, Text, ResolvedIcon, CanExecute, Active, EventCallback.Factory.Create( this, OnClicked ) );
 
     private static IconName? GetDefaultIcon( ReportCommand command )
     {
@@ -48,7 +53,9 @@ public partial class ReportToolbarItem
 
     #region Properties
 
-    private bool Disabled => ToolbarContext?.CanExecute( Command ) == false;
+    private bool CanExecute => ToolbarContext?.CanExecute( Command ) != false;
+
+    private bool Disabled => !CanExecute;
 
     private bool Active => ToolbarContext?.IsActive( Command ) == true;
 
@@ -58,7 +65,11 @@ public partial class ReportToolbarItem
 
     private IconName? ResolvedIcon => Icon ?? GetDefaultIcon( Command );
 
+    private RenderFragment<ReportToolbarItemContext> ResolvedButtonTemplate => ButtonTemplate ?? ToolbarButtonTemplate;
+
     [CascadingParameter] internal ReportToolbarContext ToolbarContext { get; set; }
+
+    [CascadingParameter( Name = "ReportToolbarButtonTemplate" )] internal RenderFragment<ReportToolbarItemContext> ToolbarButtonTemplate { get; set; }
 
     /// <summary>
     /// Report command executed when the toolbar item is clicked.
@@ -79,6 +90,11 @@ public partial class ReportToolbarItem
     /// Shows the toolbar item caption next to the icon.
     /// </summary>
     [Parameter] public bool ShowCaption { get; set; }
+
+    /// <summary>
+    /// Template used to render this toolbar command button.
+    /// </summary>
+    [Parameter] public RenderFragment<ReportToolbarItemContext> ButtonTemplate { get; set; }
 
     /// <summary>
     /// Explicit button color applied regardless of active state.

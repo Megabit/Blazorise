@@ -2678,6 +2678,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal RenderFragment ToolbarContent => context.ToolbarContent;
 
+    internal RenderFragment<ReportToolbarItemContext> ToolbarButtonTemplate => context.ToolbarButtonTemplate;
+
     internal bool DesignerAvailable => IsDesignerEnabled;
 
     internal IReadOnlyList<ReportRenderPage> ResolvePreviewRenderPages( ReportDefinition definition )
