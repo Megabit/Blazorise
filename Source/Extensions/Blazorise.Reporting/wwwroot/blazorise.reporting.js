@@ -319,6 +319,7 @@ export function clearTreeNativeDragImage(element) {
     }
 
     element.removeEventListener("dragstart", suppressor.dragStart, true);
+    suppressor.dragImage.remove();
     treeDragImageSuppressors.delete(element);
 }
 
@@ -829,6 +830,11 @@ function createTransparentDragImage() {
     const canvas = document.createElement("canvas");
     canvas.width = 1;
     canvas.height = 1;
+    canvas.style.position = "fixed";
+    canvas.style.inset = "0 auto auto 0";
+    canvas.style.pointerEvents = "none";
+    canvas.setAttribute("aria-hidden", "true");
+    document.body.appendChild(canvas);
 
     return canvas;
 }
