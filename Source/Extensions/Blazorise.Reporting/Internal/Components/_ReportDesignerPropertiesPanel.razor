@@ -24,7 +24,6 @@
 @if ( ReportSelected )
 {
     <Div Margin="MarginIs3FromBottom">
-        <h6>Report properties</h6>
         <_ReportDesignerPropertyGroup Title="Designer">
             <_ReportDesignerCheckboxProperty Label="Snap to grid" Value="@SnapToGrid" Changed="@OnSnapToGridChanged" />
             <_ReportDesignerCheckboxProperty Label="Show rulers" Value="@ShowRulers" Changed="@ShowRulersChanged" />
@@ -88,7 +87,6 @@
 @if ( SelectedSection is not null && SelectedElement is null )
 {
     <Div Margin="MarginIs3FromBottom">
-        <h6>Band properties</h6>
         <_ReportDesignerPropertyGroup Title="Status">
             <_ReportDesignerFormulaBooleanProperty Label="Suppress"
                                                    Value="@ReportValueResolver.ResolveStaticSuppress( SelectedSection )"
@@ -173,8 +171,7 @@
 
 @if ( SelectedElement is not null && !SelectedElementSuppressed )
 {
-    <Div Margin="MarginIs3FromTop">
-        <h6>Element properties</h6>
+    <Div>
         <_ReportDesignerPropertyGroup Title="Status">
             <_ReportDesignerFormulaBooleanProperty Label="Can grow"
                                                    Value="@(SelectedElement.CanGrow?.Value == true)"
@@ -369,8 +366,7 @@
 
 @if ( SelectedCell is not null )
 {
-    <Div Margin="MarginIs3FromTop">
-        <h6>Table cell properties</h6>
+    <Div>
         <_ReportDesignerPropertyGroup Title="Position">
             <_ReportDesignerTextProperty Label="Row" Value="@(( SelectedCell.RowIndex + 1 ).ToString())" ReadOnly />
             <_ReportDesignerTextProperty Label="Column" Value="@(( SelectedCell.ColumnIndex + 1 ).ToString())" ReadOnly />
