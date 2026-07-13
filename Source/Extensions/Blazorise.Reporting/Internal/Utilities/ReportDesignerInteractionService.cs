@@ -339,7 +339,7 @@ internal static class ReportDesignerInteractionService
         };
     }
 
-    internal static void ApplyElementPointerResize( ReportDefinition definition, ReportElementPointerResizeState pointerResize )
+    internal static void ApplyElementPointerResize( ReportDefinition definition, ReportElementPointerResizeState pointerResize, double gridSize )
     {
         if ( definition is null || pointerResize is null )
             return;
@@ -364,7 +364,7 @@ internal static class ReportDesignerInteractionService
             var targetY = item.OriginalY + deltaY;
 
             if ( location.ParentPanel is null && HasResizeHandle( pointerResize.Handle, ReportElementResizeHandle.South ) )
-                targetHeight = ClampResizeHeightToSectionBottom( section, targetY, targetHeight, minimumHeight );
+                targetHeight = ClampResizeHeightToSectionBottom( section, targetY, targetHeight, minimumHeight, gridSize );
 
             double containerWidth = location.ParentPanel?.Width ?? definition.Page.Width;
             double containerHeight = location.ParentPanel?.Height ?? double.MaxValue;
@@ -600,7 +600,7 @@ internal static class ReportDesignerInteractionService
     private static bool HasResizeHandle( ReportElementResizeHandle handle, ReportElementResizeHandle flag )
         => ( handle & flag ) == flag;
 
-    private static double ClampResizeHeightToSectionBottom( ReportBandDefinition section, double targetY, double targetHeight, double minimumHeight )
+    private static double ClampResizeHeightToSectionBottom( ReportBandDefinition section, double targetY, double targetHeight, double minimumHeight, double gridSize )
     {
         if ( section is null )
             return targetHeight;
@@ -608,7 +608,7 @@ internal static class ReportDesignerInteractionService
         double targetBottom = targetY + targetHeight;
         double overflow = targetBottom - section.Height;
 
-        if ( overflow <= 0 || overflow > ReportLayoutGeometry.SnapToGridSize )
+        if ( overflow <= 0 || gridSize <= 0 || overflow > gridSize )
             return targetHeight;
 
         return Math.Max( minimumHeight, section.Height - targetY );

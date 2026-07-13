@@ -491,19 +491,19 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                 break;
 
             case ReportDesignerShortcut.MoveLeft:
-                await MoveSelectedElements( -DesignerConstants.KeyboardMoveStep, 0 );
+                await MoveSelectedElements( -1, 0 );
                 break;
 
             case ReportDesignerShortcut.MoveUp:
-                await MoveSelectedElements( 0, -DesignerConstants.KeyboardMoveStep );
+                await MoveSelectedElements( 0, -1 );
                 break;
 
             case ReportDesignerShortcut.MoveRight:
-                await MoveSelectedElements( DesignerConstants.KeyboardMoveStep, 0 );
+                await MoveSelectedElements( 1, 0 );
                 break;
 
             case ReportDesignerShortcut.MoveDown:
-                await MoveSelectedElements( 0, DesignerConstants.KeyboardMoveStep );
+                await MoveSelectedElements( 0, 1 );
                 break;
         }
     }
@@ -844,6 +844,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             Mode = CurrentMode,
             PreviewFormat = CurrentPreviewFormat,
             SnapToGrid = designerState.SnapToGrid,
+            GridSize = designerState.GridSize,
             Selection = selectionManager.CaptureState( definition ),
             ClipboardElements = clipboardElements?.Select( ReportContext.CloneElement ).ToList() ?? [],
             ClipboardBandId = clipboardBandId,
@@ -865,6 +866,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         clipboardElements = nextState.ClipboardElements?.Select( ReportContext.CloneElement ).ToList() ?? [];
         clipboardBandId = nextState.ClipboardBandId;
         designerState.SnapToGrid = nextState.SnapToGrid;
+        designerState.GridSize = Math.Max( 1, nextState.GridSize );
         selectionManager.ApplyState( definition, nextState.Selection );
         if ( !string.Equals( previousActiveSubreportElementKey, activeSubreportElementKey, StringComparison.Ordinal ) )
             ResetDesignerSurfaceScrollPosition();
@@ -1922,6 +1924,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             return;
 
         bool useSnapToGrid = IsSnapToGridEnabled( element );
+        double moveStep = useSnapToGrid ? designerState.GridSize : DesignerConstants.KeyboardMoveStep;
         List<ReportElementPointerItemState> selectedElements = CaptureElementPointerItems( definition, ReportDefinitionHelper.EnsureElementId( element ) ).ToList();
 
         if ( selectedElements.Count == 0 )
@@ -1932,7 +1935,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         await ExecuteDesignerCommand( new( commandName, () =>
         {
             ReportDefinition definition = EffectiveDefinition;
-            ReportElementCommandResult result = elementCommandService.MoveElements( definition, selectedElements, ReportDefinitionHelper.EnsureElementId( element ), x, y, useSnapToGrid, ApplyDesignerGrid );
+            ReportElementCommandResult result = elementCommandService.MoveElements( definition, selectedElements, ReportDefinitionHelper.EnsureElementId( element ), x * moveStep, y * moveStep, useSnapToGrid, ApplyDesignerGrid );
 
             if ( result.SelectedElementKeys.Count > 0 )
                 SelectElements( result.SelectedElementKeys, result.PrimaryElementKey );
@@ -2337,7 +2340,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal double ApplyDesignerGrid( double value, bool useSnapToGrid )
     {
-        return useSnapToGrid ? ReportLayoutGeometry.SnapToGrid( value ) : Math.Max( 0, value );
+        return useSnapToGrid ? ReportLayoutGeometry.SnapToGrid( value, designerState.GridSize ) : Math.Max( 0, value );
     }
 
     internal bool IsSnapToGridEnabled( ReportElementDefinition element )
@@ -2458,6 +2461,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     internal void OnSnapToGridChanged( bool value )
     {
         designerState.SnapToGrid = value;
+    }
+
+    internal void OnGridSizeChanged( double value )
+    {
+        designerState.GridSize = Math.Max( 1, value );
+        RefreshDesignerSurface();
     }
 
     internal async Task OnShowRulersChanged( bool value )

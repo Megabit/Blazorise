@@ -12,7 +12,7 @@ internal static class ReportLayoutGeometry
 
     internal const double DefaultLineThickness = 1;
 
-    internal const double SnapToGridSize = 8;
+    internal const double DefaultGridSize = 8;
 
     #endregion
 
@@ -138,9 +138,11 @@ internal static class ReportLayoutGeometry
             : height );
     }
 
-    internal static double SnapToGrid( double value )
+    internal static double SnapToGrid( double value, double gridSize )
     {
-        return Math.Max( 0, Math.Round( value / SnapToGridSize ) * SnapToGridSize );
+        gridSize = Math.Max( 1, gridSize );
+
+        return Math.Max( 0, Math.Round( value / gridSize ) * gridSize );
     }
 
     #endregion

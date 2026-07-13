@@ -30,6 +30,11 @@ public sealed class ReportState
     public bool SnapToGrid { get; set; }
 
     /// <summary>
+    /// Grid size used by designer movement and resizing.
+    /// </summary>
+    public double GridSize { get; set; } = 8;
+
+    /// <summary>
     /// Current report, band, or element selection.
     /// </summary>
     public ReportSelectionState Selection { get; set; } = new();

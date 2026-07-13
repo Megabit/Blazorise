@@ -467,6 +467,9 @@ public partial class _ReportDesignerPropertiesPanel
     private Task OnSnapToGridChanged( bool value )
         => SnapToGridChanged.InvokeAsync( value );
 
+    private Task OnGridSizeChanged( double value )
+        => GridSizeChanged.InvokeAsync( Math.Max( 1, ToPoints( value ) ) );
+
     private Task OnInsertSectionBeforeClicked( MouseEventArgs eventArgs )
         => InsertSection( false );
 
@@ -626,6 +629,16 @@ public partial class _ReportDesignerPropertiesPanel
     /// Raised when snap-to-grid is toggled.
     /// </summary>
     [Parameter] public EventCallback<bool> SnapToGridChanged { get; set; }
+
+    /// <summary>
+    /// Grid size used by designer movement and resizing, in points.
+    /// </summary>
+    [Parameter] public double GridSize { get; set; }
+
+    /// <summary>
+    /// Raised when the designer grid size changes.
+    /// </summary>
+    [Parameter] public EventCallback<double> GridSizeChanged { get; set; }
 
     /// <summary>
     /// Band presentation used by the designer.

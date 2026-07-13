@@ -991,7 +991,7 @@ public partial class _ReportDesignerSurface
 
         await ExecuteDesignerCommand( new( "Resize element", () =>
         {
-            ReportDesignerInteractionService.ApplyElementPointerResize( EffectiveDefinition, pointerResize );
+            ReportDesignerInteractionService.ApplyElementPointerResize( EffectiveDefinition, pointerResize, pointerResize.SnapToGrid ? designerState.GridSize : 0 );
 
             foreach ( ReportElementPointerItemState item in pointerResize.SelectedElements )
             {

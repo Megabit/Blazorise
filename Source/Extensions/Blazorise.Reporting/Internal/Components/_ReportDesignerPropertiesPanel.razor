@@ -26,6 +26,7 @@
     <Div Margin="MarginIs3FromBottom">
         <_ReportDesignerPropertyGroup Title="Designer">
             <_ReportDesignerCheckboxProperty Label="Snap to grid" Value="@SnapToGrid" Changed="@OnSnapToGridChanged" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Grid size" Value="@FromPoints( GridSize )" Changed="@OnGridSizeChanged" Step="@GetMeasurementStep()" />
             <_ReportDesignerCheckboxProperty Label="Show rulers" Value="@ShowRulers" Changed="@ShowRulersChanged" />
             <_ReportDesignerCheckboxProperty Label="Fine ruler ticks" Value="@ShowFineRulerTicks" Changed="@ShowFineRulerTicksChanged" />
             <_ReportDesignerCheckboxProperty Label="Collision warnings" Value="@ShowCollisionWarnings" Changed="@ShowCollisionWarningsChanged" />

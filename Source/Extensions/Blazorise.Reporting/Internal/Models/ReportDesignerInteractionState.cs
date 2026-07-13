@@ -18,6 +18,8 @@ internal sealed class ReportDesignerInteractionState
 
     public bool SnapToGrid { get; set; } = true;
 
+    public double GridSize { get; set; } = ReportLayoutGeometry.DefaultGridSize;
+
     public ReportDesignerDragKind DraggedKind { get; set; }
 
     public string DraggedDataSourceName { get; set; }

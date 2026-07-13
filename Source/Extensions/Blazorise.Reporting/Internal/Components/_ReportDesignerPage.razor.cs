@@ -34,7 +34,8 @@ public partial class _ReportDesignerPage
              || ( parameters.TryGetValue<double>( nameof( MarginLeft ), out var paramMarginLeft ) && paramMarginLeft != MarginLeft )
              || ( parameters.TryGetValue<double>( nameof( MarginTop ), out var paramMarginTop ) && paramMarginTop != MarginTop )
              || ( parameters.TryGetValue<double>( nameof( MarginRight ), out var paramMarginRight ) && paramMarginRight != MarginRight )
-             || ( parameters.TryGetValue<double>( nameof( MarginBottom ), out var paramMarginBottom ) && paramMarginBottom != MarginBottom ) )
+             || ( parameters.TryGetValue<double>( nameof( MarginBottom ), out var paramMarginBottom ) && paramMarginBottom != MarginBottom )
+             || ( parameters.TryGetValue<double>( nameof( GridSize ), out var paramGridSize ) && paramGridSize != GridSize ) )
             DirtyStyles();
 
         return base.SetParametersAsync( parameters );
@@ -56,6 +57,7 @@ public partial class _ReportDesignerPage
         builder.Append( $"width:{ReportMeasurementConverter.FormatCssPixelValue( ReportMeasurementConverter.ToCssPixelValue( Width ) + WidthOffset )}" );
         builder.Append( $"min-height:{ReportMeasurementConverter.ToCssPixelString( MinHeight )}" );
         builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}", !DesignMode && Height > 0 );
+        builder.Append( $"--b-report-section-grid-size:{ReportMeasurementConverter.ToCssPixelString( GridSize )} {ReportMeasurementConverter.ToCssPixelString( GridSize )}", DesignMode );
 
         base.BuildStyles( builder );
     }
@@ -184,6 +186,11 @@ public partial class _ReportDesignerPage
     /// Bottom page margin in report layout units.
     /// </summary>
     [Parameter] public double MarginBottom { get; set; }
+
+    /// <summary>
+    /// Designer grid size in report layout units.
+    /// </summary>
+    [Parameter] public double GridSize { get; set; }
 
     /// <summary>
     /// Indicates that the page is rendered in designer mode.
