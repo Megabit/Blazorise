@@ -537,12 +537,19 @@ public partial class _ReportDesignerSurface
         await ClearDesignerInteractionOverlays();
 
         bool moveToTableCell = TryFindElementPointerDragTableCellTarget( definition, pointerDrag, out _ );
+        bool moveToPanel = !moveToTableCell && TryFindElementPointerDragPanelTarget( definition, pointerDrag, out _ );
 
-        await ExecuteDesignerCommand( new( moveToTableCell ? "Move element to table cell" : "Move element", () =>
+        string moveCommandName = pointerDrag.SelectedElements.Count == 1
+            ? "Move element"
+            : "Move elements";
+
+        await ExecuteDesignerCommand( new( moveToTableCell ? "Move element to table cell" : moveToPanel ? $"{moveCommandName} to panel" : moveCommandName, () =>
         {
             var definition = EffectiveDefinition;
 
-            if ( !TryMoveElementPointerDragToTableCell( definition, pointerDrag ) )
+            if ( !TryMoveElementPointerDragToTableCell( definition, pointerDrag )
+                && !TryMoveElementPointerDragToPanel( definition, pointerDrag )
+                && !TryMoveElementPointerDragFromPanel( definition, pointerDrag ) )
             {
                 ReportDesignerInteractionService.ApplyElementPointerDrag( definition, pointerDrag, sectionIndex => GetSectionOffsetY( definition, sectionIndex ) );
                 SelectElements( pointerDrag.SelectedElements.Select( item => item.ElementKey ), pointerDrag.ElementKey );
@@ -598,7 +605,156 @@ public partial class _ReportDesignerSurface
             return false;
 
         return !ReportDefinitionHelper.TryFindElementLocation( definition, pointerDrag.ElementKey, out ReportElementLocation location )
-            || !ReferenceEquals( target.Table, location.Element );
+            || !ReferenceEquals( target.Table, location.Element ) && !ReportDefinitionHelper.ContainsElement( location.Element, target.Table );
+    }
+
+    private bool TryMoveElementPointerDragToPanel( ReportDefinition definition, ReportElementPointerDragState pointerDrag )
+    {
+        if ( !TryFindElementPointerDragPanelTarget( definition, pointerDrag, out ReportPanelDropTarget panelDropTarget )
+             || !ReportDefinitionHelper.TryFindElementLocation( definition, ReportDefinitionHelper.EnsureElementId( panelDropTarget.Panel ), out ReportElementLocation panelLocation ) )
+        {
+            return false;
+        }
+
+        List<(ReportElementPointerItemState Item, ReportElementLocation Location)> selectedItems = GetTopLevelPointerDragItems( definition, pointerDrag );
+
+        if ( selectedItems.Count == 0 )
+            return false;
+
+        double panelX = panelLocation.OwnerOffsetX + panelDropTarget.Panel.X;
+        double panelY = panelLocation.OwnerOffsetY + panelDropTarget.Panel.Y;
+        double deltaX = pointerDrag.TargetX - pointerDrag.OriginalX;
+        double sourcePageY = GetSectionOffsetY( definition, pointerDrag.SourceSectionIndex ) + pointerDrag.OriginalY;
+        double targetPageY = GetSectionOffsetY( definition, pointerDrag.TargetSectionIndex ) + pointerDrag.TargetY;
+        double deltaPageY = targetPageY - sourcePageY;
+        double targetSectionOffsetY = GetSectionOffsetY( definition, pointerDrag.TargetSectionIndex );
+
+        List<(ReportElementDefinition Element, IList<ReportElementDefinition> OwnerElements, double X, double Y)> moves = selectedItems
+            .Select( selectedItem =>
+            {
+                ReportElementDefinition element = selectedItem.Location.Element;
+                double x = selectedItem.Item.OriginalSectionX + deltaX - panelX;
+                double y = selectedItem.Item.OriginalPageY + deltaPageY - targetSectionOffsetY - panelY;
+
+                return ( element, selectedItem.Location.OwnerElements, x, y );
+            } )
+            .ToList();
+
+        double minimumX = moves.Min( move => move.X );
+        double minimumY = moves.Min( move => move.Y );
+        double maximumX = moves.Max( move => move.X + move.Element.Width );
+        double maximumY = moves.Max( move => move.Y + move.Element.Height );
+        double offsetX = GetPanelGroupOffset( minimumX, maximumX, panelDropTarget.Panel.Width );
+        double offsetY = GetPanelGroupOffset( minimumY, maximumY, panelDropTarget.Panel.Height );
+
+        foreach ( (ReportElementDefinition element, IList<ReportElementDefinition> ownerElements, double x, double y) in moves )
+        {
+            if ( !ReferenceEquals( ownerElements, panelDropTarget.Panel.Elements ) )
+            {
+                ownerElements.Remove( element );
+                panelDropTarget.Panel.Elements.Add( element );
+            }
+
+            ReportDefinitionHelper.PlaceElementInPanel( panelDropTarget.Panel, element, x + offsetX, y + offsetY );
+        }
+
+        SelectElements( pointerDrag.SelectedElements.Select( item => item.ElementKey ), pointerDrag.ElementKey );
+
+        return true;
+    }
+
+    private bool TryFindElementPointerDragPanelTarget( ReportDefinition definition, ReportElementPointerDragState pointerDrag, out ReportPanelDropTarget target )
+    {
+        target = null;
+
+        if ( definition is null
+             || pointerDrag is null
+             || pointerDrag.SelectedElements.Count == 0
+             || pointerDrag.TargetSectionIndex < 0
+             || pointerDrag.TargetSectionIndex >= definition.Bands.Count
+             || !ReportDefinitionHelper.TryFindElementLocation( definition, pointerDrag.ElementKey, out ReportElementLocation location ) )
+        {
+            return false;
+        }
+
+        double pointerX = pointerDrag.TargetX + pointerDrag.PointerOffsetX;
+        double pointerY = pointerDrag.TargetY + pointerDrag.PointerOffsetY;
+
+        if ( !dragDropService.TryFindPanelAt( definition.Bands[pointerDrag.TargetSectionIndex], pointerX, pointerY, location.Element, out target ) )
+            return false;
+
+        foreach ( ReportElementPointerItemState selectedItem in pointerDrag.SelectedElements )
+        {
+            if ( !ReportDefinitionHelper.TryFindElementLocation( definition, selectedItem.ElementKey, out ReportElementLocation selectedLocation )
+                || ReferenceEquals( selectedLocation.Element, target.Panel )
+                || ReportDefinitionHelper.ContainsElement( selectedLocation.Element, target.Panel ) )
+            {
+                target = null;
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static List<(ReportElementPointerItemState Item, ReportElementLocation Location)> GetTopLevelPointerDragItems( ReportDefinition definition, ReportElementPointerDragState pointerDrag )
+    {
+        List<(ReportElementPointerItemState Item, ReportElementLocation Location)> selectedItems = [];
+
+        foreach ( ReportElementPointerItemState selectedItem in pointerDrag.SelectedElements )
+        {
+            if ( ReportDefinitionHelper.TryFindElementLocation( definition, selectedItem.ElementKey, out ReportElementLocation location ) )
+                selectedItems.Add( ( selectedItem, location ) );
+        }
+
+        return selectedItems
+            .Where( selectedItem => !selectedItems.Any( other =>
+                !ReferenceEquals( other.Location.Element, selectedItem.Location.Element )
+                && ReportDefinitionHelper.ContainsElement( other.Location.Element, selectedItem.Location.Element ) ) )
+            .ToList();
+    }
+
+    private static double GetPanelGroupOffset( double minimum, double maximum, double size )
+    {
+        if ( minimum < 0 )
+            return -minimum;
+
+        return maximum > size ? size - maximum : 0;
+    }
+
+    private bool TryMoveElementPointerDragFromPanel( ReportDefinition definition, ReportElementPointerDragState pointerDrag )
+    {
+        if ( pointerDrag.TargetSectionIndex < 0 || pointerDrag.TargetSectionIndex >= definition.Bands.Count )
+            return false;
+
+        List<(ReportElementPointerItemState Item, ReportElementLocation Location)> selectedItems = GetTopLevelPointerDragItems( definition, pointerDrag );
+
+        if ( selectedItems.Count == 0 || selectedItems.Any( selectedItem => selectedItem.Location.ParentPanel is null ) )
+            return false;
+
+        ReportBandDefinition targetSection = definition.Bands[pointerDrag.TargetSectionIndex];
+        double deltaX = pointerDrag.TargetX - pointerDrag.OriginalX;
+        double sourcePageY = GetSectionOffsetY( definition, pointerDrag.SourceSectionIndex ) + pointerDrag.OriginalY;
+        double targetPageY = GetSectionOffsetY( definition, pointerDrag.TargetSectionIndex ) + pointerDrag.TargetY;
+        double deltaPageY = targetPageY - sourcePageY;
+        double targetSectionOffsetY = GetSectionOffsetY( definition, pointerDrag.TargetSectionIndex );
+        double minimumX = selectedItems.Min( selectedItem => selectedItem.Item.OriginalSectionX + deltaX );
+        double maximumX = selectedItems.Max( selectedItem => selectedItem.Item.OriginalSectionX + deltaX + selectedItem.Location.Element.Width );
+        double offsetX = GetPanelGroupOffset( minimumX, maximumX, definition.Page.Width );
+
+        foreach ( (ReportElementPointerItemState item, ReportElementLocation location) in selectedItems )
+        {
+            ReportElementDefinition element = location.Element;
+            location.OwnerElements.Remove( element );
+            element.X = ReportLayoutGeometry.Clamp( item.OriginalSectionX + deltaX + offsetX, 0, Math.Max( 0, definition.Page.Width - element.Width ) );
+            element.Y = Math.Max( 0, item.OriginalPageY + deltaPageY - targetSectionOffsetY );
+            targetSection.Elements.Add( element );
+        }
+
+        ReportLayoutGeometry.GrowSectionToFitElements( targetSection );
+        SelectElements( pointerDrag.SelectedElements.Select( item => item.ElementKey ), pointerDrag.ElementKey );
+
+        return true;
     }
 
     private async Task CancelElementPointerDrag()
@@ -673,11 +829,15 @@ public partial class _ReportDesignerSurface
 
         await ExecuteDesignerCommand( new( pointerResize.Kind == ReportTableResizeKind.Column ? "Resize table column" : "Resize table row", () =>
         {
-            if ( ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, pointerResize.TableKey, out int sectionIndex, out _, out ReportElementDefinition element )
-                && element is ReportTableElementDefinition table )
+            if ( ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, pointerResize.TableKey, out ReportElementLocation location )
+                && location.Element is ReportTableElementDefinition table )
             {
                 ApplyTablePointerResize( table, pointerResize );
-                ReportLayoutGeometry.GrowSectionToFitElement( EffectiveDefinition.Bands[sectionIndex], table );
+
+                if ( location.ParentPanel is not null )
+                    ReportDefinitionHelper.PlaceElementInPanel( location.ParentPanel, table, table.X, table.Y );
+                else
+                    ReportLayoutGeometry.GrowSectionToFitElement( EffectiveDefinition.Bands[location.SectionIndex], table );
 
                 if ( !string.IsNullOrWhiteSpace( pointerResize.CellKey ) )
                     SelectTableCell( pointerResize.CellKey );
@@ -1251,11 +1411,15 @@ public partial class _ReportDesignerSurface
             var tableDropTarget = tableEditor.TryFindCellAt( definition.Bands[targetSectionIndex], x, y, out ReportTableCellDropTarget cellDropTarget )
                 ? cellDropTarget
                 : null;
+            ReportPanelDropTarget panelDropTarget = tableDropTarget is null
+                && dragDropService.TryFindPanelAt( definition.Bands[targetSectionIndex], x, y, designerState.DraggedElement, out ReportPanelDropTarget foundPanelDropTarget )
+                    ? foundPanelDropTarget
+                    : null;
             var fieldDropTarget = designerState.DraggedKind == ReportDesignerDragKind.Field
                 ? dragDropService.FindTextElementAt( definition.Bands[targetSectionIndex], x, y )
                 : null;
 
-            var commandName = dragDropService.ResolveCommandName( definition, designerState, tableDropTarget, fieldDropTarget );
+            var commandName = dragDropService.ResolveCommandName( definition, designerState, tableDropTarget, panelDropTarget, fieldDropTarget );
 
             if ( commandName is null )
                 return;
@@ -1267,7 +1431,11 @@ public partial class _ReportDesignerSurface
                 var definition = EffectiveDefinition;
                 var targetSection = definition.Bands[targetSectionIndex];
                 tableEditor.TryFindCellAt( targetSection, x, y, out ReportTableCellDropTarget tableCellDropTarget );
-                ReportDropResult result = dragDropService.Drop( definition, designerState, targetSectionIndex, x, y, tableCellDropTarget, tableEditor );
+                ReportPanelDropTarget panelDropTarget = tableCellDropTarget is null
+                    && dragDropService.TryFindPanelAt( targetSection, x, y, designerState.DraggedElement, out ReportPanelDropTarget foundPanelDropTarget )
+                        ? foundPanelDropTarget
+                        : null;
+                ReportDropResult result = dragDropService.Drop( definition, designerState, targetSectionIndex, x, y, tableCellDropTarget, panelDropTarget, tableEditor );
 
                 if ( !string.IsNullOrWhiteSpace( result.SelectedCellKey ) )
                     SelectTableCell( result.SelectedCellKey );

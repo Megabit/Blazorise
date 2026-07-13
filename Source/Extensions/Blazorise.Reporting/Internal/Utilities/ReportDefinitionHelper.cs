@@ -20,6 +20,10 @@ internal static class ReportDefinitionHelper
 
     private const double ToolboxRectangleElementHeight = 48;
 
+    private const double ToolboxPanelElementWidth = 180;
+
+    private const double ToolboxPanelElementHeight = 90;
+
     private const int DefaultTableColumnCount = 2;
 
     private const int DefaultTableRowCount = 2;
@@ -65,6 +69,10 @@ internal static class ReportDefinitionHelper
                 break;
             case ReportElementType.Rectangle:
                 definition.Height = ToolboxRectangleElementHeight;
+                break;
+            case ReportElementType.Panel:
+                definition.Width = ToolboxPanelElementWidth;
+                definition.Height = ToolboxPanelElementHeight;
                 break;
             case ReportElementType.Table:
                 definition.Width = ToolboxTableElementWidth;
@@ -138,7 +146,7 @@ internal static class ReportDefinitionHelper
         }
     }
 
-    private static void RemoveSubreportElements( List<ReportElementDefinition> elements )
+    private static void RemoveSubreportElements( IList<ReportElementDefinition> elements )
     {
         if ( elements is null )
             return;
@@ -151,12 +159,9 @@ internal static class ReportDefinitionHelper
                 continue;
             }
 
-            if ( elements[i] is ReportTableElementDefinition table )
+            foreach ( IList<ReportElementDefinition> childElements in GetChildElementCollections( elements[i] ) )
             {
-                foreach ( ReportTableCellDefinition cell in table.Cells ?? [] )
-                {
-                    RemoveSubreportElements( cell.Elements );
-                }
+                RemoveSubreportElements( childElements );
             }
         }
     }
@@ -166,35 +171,80 @@ internal static class ReportDefinitionHelper
         if ( definition?.Bands is null )
             yield break;
 
+        foreach ( ReportSubreportElementDefinition subreport in EnumerateElements( definition ).OfType<ReportSubreportElementDefinition>() )
+            yield return subreport;
+    }
+
+    internal static IEnumerable<ReportElementDefinition> EnumerateElements( ReportDefinition definition )
+    {
+        if ( definition?.Bands is null )
+            yield break;
+
         foreach ( ReportBandDefinition section in definition.Bands )
         {
-            foreach ( ReportElementDefinition element in section.Elements ?? [] )
+            foreach ( ReportElementDefinition element in EnumerateElements( section.Elements ) )
+                yield return element;
+        }
+    }
+
+    internal static IEnumerable<ReportElementDefinition> EnumerateElements( IEnumerable<ReportElementDefinition> elements )
+    {
+        foreach ( ReportElementDefinition element in elements ?? [] )
+        {
+            if ( element is null )
+                continue;
+
+            yield return element;
+
+            foreach ( IList<ReportElementDefinition> childElements in GetChildElementCollections( element ) )
             {
-                foreach ( ReportSubreportElementDefinition subreport in EnumerateSubreportElements( element ) )
-                    yield return subreport;
+                foreach ( ReportElementDefinition child in EnumerateElements( childElements ) )
+                    yield return child;
             }
         }
     }
 
-    private static IEnumerable<ReportSubreportElementDefinition> EnumerateSubreportElements( ReportElementDefinition element )
+    internal static IEnumerable<IList<ReportElementDefinition>> GetChildElementCollections( ReportElementDefinition element )
     {
-        if ( element is ReportSubreportElementDefinition subreport )
-        {
-            yield return subreport;
-            yield break;
-        }
+        if ( element is ReportPanelElementDefinition panel && panel.Elements is not null )
+            yield return panel.Elements;
 
         if ( element is ReportTableElementDefinition table )
         {
             foreach ( ReportTableCellDefinition cell in table.Cells ?? [] )
             {
-                foreach ( ReportElementDefinition child in cell.Elements ?? [] )
-                {
-                    foreach ( ReportSubreportElementDefinition childSubreport in EnumerateSubreportElements( child ) )
-                        yield return childSubreport;
-                }
+                if ( cell.Elements is not null )
+                    yield return cell.Elements;
             }
         }
+    }
+
+    internal static bool ContainsElement( ReportElementDefinition container, ReportElementDefinition element )
+    {
+        if ( container is null || element is null )
+            return false;
+
+        foreach ( IList<ReportElementDefinition> childElements in GetChildElementCollections( container ) )
+        {
+            foreach ( ReportElementDefinition child in childElements )
+            {
+                if ( ReferenceEquals( child, element ) || ContainsElement( child, element ) )
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    internal static void PlaceElementInPanel( ReportPanelElementDefinition panel, ReportElementDefinition element, double x, double y )
+    {
+        if ( panel is null || element is null )
+            return;
+
+        element.Width = Math.Min( element.Width, Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, panel.Width ) );
+        element.Height = Math.Min( element.Height, Math.Max( ReportLayoutGeometry.GetMinimumElementHeight( element ), panel.Height ) );
+        element.X = ReportLayoutGeometry.Clamp( x, 0, Math.Max( 0, panel.Width - element.Width ) );
+        element.Y = ReportLayoutGeometry.Clamp( y, 0, Math.Max( 0, panel.Height - element.Height ) );
     }
 
     internal static string CreateUniqueSubreportName( ReportDefinition definition )
@@ -490,6 +540,7 @@ internal static class ReportDefinitionHelper
             ReportElementType.Rectangle => ReportTreeNodeKind.Rectangle,
             ReportElementType.PageBreak => ReportTreeNodeKind.PageBreak,
             ReportElementType.Subreport => ReportTreeNodeKind.Subreport,
+            ReportElementType.Panel => ReportTreeNodeKind.Panel,
             _ => ReportTreeNodeKind.Text,
         };
     }
@@ -616,7 +667,7 @@ internal static class ReportDefinitionHelper
         {
             ReportBandDefinition section = definition.Bands[sectionIndex];
 
-            if ( TryFindElementLocation( section.Elements, key, sectionIndex, null, null, out location ) )
+            if ( TryFindElementLocation( section.Elements, key, sectionIndex, 0, 0, null, null, null, out location ) )
                 return true;
         }
 
@@ -645,6 +696,9 @@ internal static class ReportDefinitionHelper
         IList<ReportElementDefinition> elements,
         string key,
         int sectionIndex,
+        double ownerOffsetX,
+        double ownerOffsetY,
+        ReportPanelElementDefinition parentPanel,
         ReportElementDefinition parentTable,
         ReportTableCellDefinition parentCell,
         out ReportElementLocation location )
@@ -666,6 +720,9 @@ internal static class ReportDefinitionHelper
                     ElementIndex = elementIndex,
                     Element = element,
                     OwnerElements = elements,
+                    OwnerOffsetX = ownerOffsetX,
+                    OwnerOffsetY = ownerOffsetY,
+                    ParentPanel = parentPanel,
                     ParentTable = parentTable,
                     ParentCell = parentCell,
                 };
@@ -673,13 +730,22 @@ internal static class ReportDefinitionHelper
                 return true;
             }
 
-            if ( element is not ReportTableElementDefinition table || table.Cells is null )
-                continue;
-
-            foreach ( ReportTableCellDefinition cell in table.Cells )
+            if ( element is ReportPanelElementDefinition panel
+                && TryFindElementLocation( panel.Elements, key, sectionIndex, ownerOffsetX + panel.X, ownerOffsetY + panel.Y, panel, null, null, out location ) )
             {
-                if ( TryFindElementLocation( cell.Elements, key, sectionIndex, element, cell, out location ) )
-                    return true;
+                return true;
+            }
+
+            if ( element is ReportTableElementDefinition table )
+            {
+                foreach ( ReportTableCellDefinition cell in table.Cells ?? [] )
+                {
+                    double cellOffsetX = table.Columns?.Take( cell.ColumnIndex ).Sum( column => Math.Max( 1, column.Width ) ) ?? 0;
+                    double cellOffsetY = table.Rows?.Take( cell.RowIndex ).Sum( row => Math.Max( 1, row.Height ) ) ?? 0;
+
+                    if ( TryFindElementLocation( cell.Elements, key, sectionIndex, ownerOffsetX + table.X + cellOffsetX, ownerOffsetY + table.Y + cellOffsetY, null, element, cell, out location ) )
+                        return true;
+                }
             }
         }
 
@@ -704,12 +770,9 @@ internal static class ReportDefinitionHelper
                 continue;
             }
 
-            if ( element is not ReportTableElementDefinition table || table.Cells is null )
-                continue;
-
-            foreach ( ReportTableCellDefinition cell in table.Cells )
+            foreach ( IList<ReportElementDefinition> childElements in GetChildElementCollections( element ) )
             {
-                removed = RemoveElementsByIds( cell.Elements, elementIds ) || removed;
+                removed = RemoveElementsByIds( childElements, elementIds ) || removed;
             }
         }
 
@@ -736,20 +799,15 @@ internal static class ReportDefinitionHelper
         {
             ReportBandDefinition section = definition.Bands[currentSectionIndex];
 
-            for ( int currentElementIndex = 0; currentElementIndex < section.Elements.Count; currentElementIndex++ )
+            foreach ( ReportTableElementDefinition tableElement in EnumerateElements( section.Elements ).OfType<ReportTableElementDefinition>() )
             {
-                ReportElementDefinition element = section.Elements[currentElementIndex];
-
-                if ( element is not ReportTableElementDefinition tableElement || tableElement.Cells is null )
-                    continue;
-
-                ReportTableCellDefinition foundCell = tableElement.Cells.FirstOrDefault( item => item.Id == cellKey );
+                ReportTableCellDefinition foundCell = ( tableElement.Cells ?? [] ).FirstOrDefault( item => item.Id == cellKey );
 
                 if ( foundCell is null )
                     continue;
 
                 sectionIndex = currentSectionIndex;
-                tableIndex = currentElementIndex;
+                tableIndex = section.Elements.IndexOf( tableElement );
                 table = tableElement;
                 cell = foundCell;
 
@@ -791,6 +849,14 @@ internal static class ReportDefinitionHelper
 
         element.Id = EnsureUniqueDefinitionId( element.Id, elementIds );
 
+        if ( element is ReportPanelElementDefinition panel )
+        {
+            foreach ( ReportElementDefinition childElement in panel.Elements ?? [] )
+            {
+                EnsureElementIds( childElement, elementIds, columnIds, rowIds, cellIds );
+            }
+        }
+
         if ( element is not ReportTableElementDefinition table )
             return;
 
@@ -813,6 +879,32 @@ internal static class ReportDefinitionHelper
             {
                 EnsureElementIds( childElement, elementIds, columnIds, rowIds, cellIds );
             }
+        }
+    }
+
+    internal static void RegenerateElementIds( ReportElementDefinition element )
+    {
+        if ( element is null )
+            return;
+
+        element.Id = CreateDefinitionId();
+
+        if ( element is ReportTableElementDefinition table )
+        {
+            foreach ( ReportTableColumnDefinition column in table.Columns ?? [] )
+                column.Id = CreateDefinitionId();
+
+            foreach ( ReportTableRowDefinition row in table.Rows ?? [] )
+                row.Id = CreateDefinitionId();
+
+            foreach ( ReportTableCellDefinition cell in table.Cells ?? [] )
+                cell.Id = CreateDefinitionId();
+        }
+
+        foreach ( IList<ReportElementDefinition> childElements in GetChildElementCollections( element ) )
+        {
+            foreach ( ReportElementDefinition childElement in childElements )
+                RegenerateElementIds( childElement );
         }
     }
 

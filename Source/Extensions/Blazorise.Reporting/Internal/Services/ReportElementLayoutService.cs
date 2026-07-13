@@ -15,30 +15,32 @@ internal sealed class ReportElementLayoutService
         ReportElementDefinition anchor,
         ReportElementDefinition element,
         ReportElementAlignment alignment,
-        Func<double, bool, double> applyGrid )
+        Func<double, bool, double> applyGrid,
+        double offsetX = 0,
+        double offsetY = 0 )
     {
         switch ( alignment )
         {
             case ReportElementAlignment.Tops:
-                element.Y = Math.Max( 0, anchor.Y );
+                element.Y = Math.Max( 0, anchor.Y + offsetY );
                 break;
             case ReportElementAlignment.Middles:
-                element.Y = Math.Max( 0, anchor.Y + ( anchor.Height - element.Height ) / 2 );
+                element.Y = Math.Max( 0, anchor.Y + offsetY + ( anchor.Height - element.Height ) / 2 );
                 break;
             case ReportElementAlignment.Bottoms:
-                element.Y = Math.Max( 0, anchor.Y + anchor.Height - element.Height );
+                element.Y = Math.Max( 0, anchor.Y + offsetY + anchor.Height - element.Height );
                 break;
             case ReportElementAlignment.Baseline:
-                element.Y = Math.Max( 0, anchor.Y + GetBaselineOffset( anchor ) - GetBaselineOffset( element ) );
+                element.Y = Math.Max( 0, anchor.Y + offsetY + GetBaselineOffset( anchor ) - GetBaselineOffset( element ) );
                 break;
             case ReportElementAlignment.Lefts:
-                element.X = ClampX( definition, element, anchor.X );
+                element.X = ClampX( definition, element, anchor.X + offsetX );
                 break;
             case ReportElementAlignment.Centers:
-                element.X = ClampX( definition, element, anchor.X + ( anchor.Width - element.Width ) / 2 );
+                element.X = ClampX( definition, element, anchor.X + offsetX + ( anchor.Width - element.Width ) / 2 );
                 break;
             case ReportElementAlignment.Rights:
-                element.X = ClampX( definition, element, anchor.X + anchor.Width - element.Width );
+                element.X = ClampX( definition, element, anchor.X + offsetX + anchor.Width - element.Width );
                 break;
             case ReportElementAlignment.ToGrid:
                 element.Width = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, applyGrid( element.Width, true ) );
@@ -118,6 +120,9 @@ internal sealed class ReportElementLayoutService
                     SectionIndex = location.SectionIndex,
                     Element = location.Element,
                     OwnerElements = location.OwnerElements,
+                    OwnerOffsetX = location.OwnerOffsetX,
+                    OwnerOffsetY = location.OwnerOffsetY,
+                    ParentPanel = location.ParentPanel,
                 } );
             }
         }

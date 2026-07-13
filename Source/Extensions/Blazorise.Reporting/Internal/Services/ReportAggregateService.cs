@@ -192,7 +192,7 @@ internal sealed class ReportAggregateService
             .OrderBy( field => field.DisplayName )
             .ToList();
 
-        foreach ( ReportFieldElementDefinition fieldElement in ( section.Elements ?? [] ).OfType<ReportFieldElementDefinition>().Where( element => !string.IsNullOrWhiteSpace( element.Field ) ) )
+        foreach ( ReportFieldElementDefinition fieldElement in ReportDefinitionHelper.EnumerateElements( section.Elements ).OfType<ReportFieldElementDefinition>().Where( element => !string.IsNullOrWhiteSpace( element.Field ) ) )
         {
             if ( fieldOptions.Any( field => string.Equals( field.FieldName, fieldElement.Field, StringComparison.OrdinalIgnoreCase ) ) )
                 continue;

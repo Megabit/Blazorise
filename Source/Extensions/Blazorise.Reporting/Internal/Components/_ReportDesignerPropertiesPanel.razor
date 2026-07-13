@@ -173,11 +173,14 @@
 {
     <Div>
         <_ReportDesignerPropertyGroup Title="Status">
-            <_ReportDesignerFormulaBooleanProperty Label="Can grow"
-                                                   Value="@(SelectedElement.CanGrow?.Value == true)"
-                                                   Formula="@SelectedElement.CanGrow?.Formula"
-                                                   Changed="@UpdateSelectedElementCanGrow"
-                                                   OpenFormula="@OpenSelectedElementCanGrowFormula" />
+            @if ( SelectedElement is not ReportPanelElementDefinition )
+            {
+                <_ReportDesignerFormulaBooleanProperty Label="Can grow"
+                                                       Value="@(SelectedElement.CanGrow?.Value == true)"
+                                                       Formula="@SelectedElement.CanGrow?.Formula"
+                                                       Changed="@UpdateSelectedElementCanGrow"
+                                                       OpenFormula="@OpenSelectedElementCanGrowFormula" />
+            }
             <_ReportDesignerFormulaBooleanProperty Label="Suppress"
                                                    Value="@(SelectedElement.Suppress?.Value == true)"
                                                    Formula="@SelectedElement.Suppress?.Formula"

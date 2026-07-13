@@ -1,10 +1,10 @@
 namespace Blazorise.Reporting;
 
-internal sealed class ReportTableCellContext( ReportTableElementDefinition tableDefinition, ReportTableCellDefinition definition )
+internal sealed class ReportTableCellContext( ReportTableElementDefinition tableDefinition, ReportTableCellDefinition definition ) : IReportElementContainerContext
 {
     #region Methods
 
-    internal void AddElement( ReportElementDefinition element )
+    public void AddElement( ReportElementDefinition element )
     {
         if ( element is null )
             return;

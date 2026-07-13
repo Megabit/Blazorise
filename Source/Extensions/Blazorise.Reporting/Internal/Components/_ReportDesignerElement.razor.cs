@@ -121,7 +121,7 @@ public partial class _ReportDesignerElement
 
         builder.Append( "b-report-element-design", DesignMode );
         builder.Append( "suppressed", DesignMode && ElementSuppressed );
-        builder.Append( "can-grow", !DesignMode && Element.CanGrow?.Value == true );
+        builder.Append( "can-grow", !DesignMode && Element.Type != ReportElementType.Panel && Element.CanGrow?.Value == true );
         builder.Append( "disabled", IsDesignerDisabled );
         builder.Append( "active", DesignMode && Selected );
         builder.Append( "editing", IsDesignerEditing );

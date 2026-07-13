@@ -35,27 +35,37 @@ internal sealed class ReportElementCommandService
 
         foreach ( ReportElementPointerItemState item in selectedElements )
         {
-            if ( !ReportDefinitionHelper.TryFindElementLocation( definition, item.ElementKey, out int sectionIndex, out _, out ReportElementDefinition element ) )
+            if ( !ReportDefinitionHelper.TryFindElementLocation( definition, item.ElementKey, out ReportElementLocation location ) )
                 continue;
+
+            int sectionIndex = location.SectionIndex;
+            ReportElementDefinition element = location.Element;
 
             if ( element.Suppress?.Value == true )
                 continue;
 
-            element.X = ReportLayoutGeometry.Clamp( applyGrid( item.OriginalX + x, useSnapToGrid ), 0, Math.Max( 0, definition.Page.Width - element.Width ) );
-            element.Y = applyGrid( item.OriginalY + y, useSnapToGrid );
+            double containerWidth = location.ParentPanel?.Width ?? definition.Page.Width;
+            double containerHeight = location.ParentPanel?.Height ?? double.MaxValue;
 
-            ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
-                definition,
-                sectionIndex,
-                sectionIndex,
-                element,
-                item.OriginalX,
-                item.OriginalWidth,
-                element.X,
-                element.Width,
-                selectedElementKeys );
+            element.X = ReportLayoutGeometry.Clamp( applyGrid( item.OriginalX + x, useSnapToGrid ), 0, Math.Max( 0, containerWidth - element.Width ) );
+            element.Y = ReportLayoutGeometry.Clamp( applyGrid( item.OriginalY + y, useSnapToGrid ), 0, Math.Max( 0, containerHeight - element.Height ) );
 
-            affectedSectionIndexes.Add( sectionIndex );
+            if ( location.ParentPanel is null && location.ParentCell is null )
+            {
+                ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
+                    definition,
+                    sectionIndex,
+                    sectionIndex,
+                    element,
+                    item.OriginalX,
+                    item.OriginalWidth,
+                    element.X,
+                    element.Width,
+                    selectedElementKeys );
+            }
+
+            if ( location.ParentPanel is null )
+                affectedSectionIndexes.Add( sectionIndex );
         }
 
         GrowSections( definition, affectedSectionIndexes );
@@ -90,20 +100,31 @@ internal sealed class ReportElementCommandService
             double originalX = element.X;
             double originalWidth = element.Width;
 
-            layoutService.ApplyAlignment( definition, anchor.Element, element, alignment, applyGrid );
-
-            ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
+            layoutService.ApplyAlignment(
                 definition,
-                item.SectionIndex,
-                item.SectionIndex,
+                anchor.Element,
                 element,
-                originalX,
-                originalWidth,
-                element.X,
-                element.Width,
-                selectedElementKeys );
+                alignment,
+                applyGrid,
+                anchor.OwnerOffsetX - item.OwnerOffsetX,
+                anchor.OwnerOffsetY - item.OwnerOffsetY );
+            ReportDefinitionHelper.PlaceElementInPanel( item.ParentPanel, element, element.X, element.Y );
 
-            affectedSectionIndexes.Add( item.SectionIndex );
+            if ( item.ParentPanel is null )
+            {
+                ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
+                    definition,
+                    item.SectionIndex,
+                    item.SectionIndex,
+                    element,
+                    originalX,
+                    originalWidth,
+                    element.X,
+                    element.Width,
+                    selectedElementKeys );
+
+                affectedSectionIndexes.Add( item.SectionIndex );
+            }
         }
 
         GrowSections( definition, affectedSectionIndexes );
@@ -137,22 +158,26 @@ internal sealed class ReportElementCommandService
             double originalHeight = element.Height;
 
             layoutService.ApplySize( definition, anchor.Element, element, sizeMode );
+            ReportDefinitionHelper.PlaceElementInPanel( item.ParentPanel, element, element.X, element.Y );
 
             if ( element is ReportTableElementDefinition table )
                 ReportDefinitionHelper.ScaleTableLayout( table, originalWidth, originalHeight );
 
-            ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
-                definition,
-                item.SectionIndex,
-                item.SectionIndex,
-                element,
-                originalX,
-                originalWidth,
-                element.X,
-                element.Width,
-                selectedElementKeys );
+            if ( item.ParentPanel is null )
+            {
+                ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
+                    definition,
+                    item.SectionIndex,
+                    item.SectionIndex,
+                    element,
+                    originalX,
+                    originalWidth,
+                    element.X,
+                    element.Width,
+                    selectedElementKeys );
 
-            affectedSectionIndexes.Add( item.SectionIndex );
+                affectedSectionIndexes.Add( item.SectionIndex );
+            }
         }
 
         GrowSections( definition, affectedSectionIndexes );
@@ -203,12 +228,16 @@ internal sealed class ReportElementCommandService
             double originalHeight = element.Height;
 
             update?.Invoke( element );
+            ReportDefinitionHelper.PlaceElementInPanel( item.ParentPanel, element, element.X, element.Y );
 
             if ( element is ReportTableElementDefinition table )
                 ReportDefinitionHelper.ScaleTableLayout( table, originalWidth, originalHeight );
 
-            ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement( definition, item.SectionIndex, item.SectionIndex, element, originalX, originalWidth, element.X, element.Width, selectedElementKeys );
-            affectedSectionIndexes.Add( item.SectionIndex );
+            if ( item.ParentPanel is null )
+            {
+                ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement( definition, item.SectionIndex, item.SectionIndex, element, originalX, originalWidth, element.X, element.Width, selectedElementKeys );
+                affectedSectionIndexes.Add( item.SectionIndex );
+            }
         }
 
         GrowSections( definition, affectedSectionIndexes );

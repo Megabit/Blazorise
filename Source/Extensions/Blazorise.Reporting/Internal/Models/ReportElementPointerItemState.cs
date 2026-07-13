@@ -12,6 +12,10 @@ internal sealed class ReportElementPointerItemState
 
     internal double OriginalY { get; set; }
 
+    internal double OriginalSectionX { get; set; }
+
+    internal double OriginalSectionY { get; set; }
+
     internal double OriginalPageY { get; set; }
 
     internal double OriginalWidth { get; set; }

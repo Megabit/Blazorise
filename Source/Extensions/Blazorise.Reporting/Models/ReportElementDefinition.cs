@@ -7,7 +7,7 @@ using Blazorise;
 namespace Blazorise.Reporting;
 
 /// <summary>
-/// Describes shared state for a single visual element placed on a report band.
+/// Describes shared state for a single visual element placed in a report container.
 /// </summary>
 public abstract class ReportElementDefinition
 {
@@ -27,12 +27,12 @@ public abstract class ReportElementDefinition
     public abstract ReportElementType Type { get; }
 
     /// <summary>
-    /// Horizontal position within the containing band, in points.
+    /// Horizontal position within the containing band, panel, or table cell, in points.
     /// </summary>
     public double X { get; set; }
 
     /// <summary>
-    /// Vertical position within the containing band, in points.
+    /// Vertical position within the containing band, panel, or table cell, in points.
     /// </summary>
     public double Y { get; set; }
 

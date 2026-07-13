@@ -134,6 +134,7 @@ public partial class _ReportTreeViewNode
             ReportTreeNodeKind.Rectangle => IconName.Square,
             ReportTreeNodeKind.PageBreak => IconName.File,
             ReportTreeNodeKind.Subreport => IconName.FileAlt,
+            ReportTreeNodeKind.Panel => IconName.LayerGroup,
             ReportTreeNodeKind.Folder => IconName.Folder,
             _ => IconName.TextHeight,
         };

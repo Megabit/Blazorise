@@ -27,6 +27,7 @@ internal static class ReportDesignerTreeBuilder
             CreateToolboxNode( "toolbox:image", "Image", ReportElementType.Image, null ),
             CreateToolboxNode( "toolbox:line", "Line", ReportElementType.Line, null ),
             CreateToolboxNode( "toolbox:rectangle", "Rectangle", ReportElementType.Rectangle, null ),
+            CreateToolboxNode( "toolbox:panel", "Panel", ReportElementType.Panel, null ),
             CreateToolboxNode( "toolbox:table", "Table", ReportElementType.Table, null ),
         ];
 
@@ -163,9 +164,15 @@ internal static class ReportDesignerTreeBuilder
             Kind = ReportDefinitionHelper.GetElementTreeNodeKind( element.Type ),
             Selectable = true,
             Selected = isElementSelected?.Invoke( elementKey ) == true,
-            Children = element is ReportTableElementDefinition table
-                ? BuildTableChildNodes( table, elementKey, selectedCellKey, isElementSelected, allowSubreport )
-                : [],
+            Children = element switch
+            {
+                ReportTableElementDefinition table => BuildTableChildNodes( table, elementKey, selectedCellKey, isElementSelected, allowSubreport ),
+                ReportPanelElementDefinition panel => ( panel.Elements ?? [] )
+                    .Where( child => allowSubreport || child.Type != ReportElementType.Subreport )
+                    .Select( child => BuildReportElementNode( child, selectedCellKey, isElementSelected, allowSubreport ) )
+                    .ToList(),
+                _ => [],
+            },
         };
     }
 

@@ -13,4 +13,10 @@ internal sealed class ReportSelectedElementContext
     internal ReportElementDefinition Element { get; set; }
 
     internal IList<ReportElementDefinition> OwnerElements { get; set; }
+
+    internal double OwnerOffsetX { get; set; }
+
+    internal double OwnerOffsetY { get; set; }
+
+    internal ReportPanelElementDefinition ParentPanel { get; set; }
 }

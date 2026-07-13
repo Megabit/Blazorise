@@ -43,5 +43,10 @@ public enum ReportElementType
     /// <summary>
     /// Nested report rendered inside the current report.
     /// </summary>
-    Subreport
+    Subreport,
+
+    /// <summary>
+    /// Container that groups child report elements.
+    /// </summary>
+    Panel
 }

@@ -80,19 +80,21 @@ internal static class ReportDesignerInteractionService
         state.DragPreview = null;
         state.LastDragPreviewRenderTime = DateTime.MinValue;
         state.TablePointerResize = null;
+        ReportElementPointerItemState activeElement = selectedElements?.FirstOrDefault( item => item.ElementKey == elementKey );
+
         state.ElementPointerDrag = new()
         {
             ElementKey = elementKey,
             SourceSectionIndex = sectionIndex,
             TargetSectionIndex = sectionIndex,
-            OriginalX = element.X,
-            OriginalY = element.Y,
+            OriginalX = activeElement?.OriginalSectionX ?? element.X,
+            OriginalY = activeElement?.OriginalSectionY ?? element.Y,
             StartClientX = eventArgs.ClientX,
             StartClientY = eventArgs.ClientY,
             PointerOffsetX = ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetX ),
             PointerOffsetY = ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetY ),
-            TargetX = element.X,
-            TargetY = element.Y,
+            TargetX = activeElement?.OriginalSectionX ?? element.X,
+            TargetY = activeElement?.OriginalSectionY ?? element.Y,
             SnapToGrid = snapToGrid,
             SelectedElements = selectedElements?.ToList() ?? [],
         };
@@ -124,19 +126,21 @@ internal static class ReportDesignerInteractionService
         state.LastDragPreviewRenderTime = DateTime.MinValue;
         state.ElementPointerDrag = null;
         state.TablePointerResize = null;
+        ReportElementPointerItemState activeElement = selectedElements?.FirstOrDefault( item => item.ElementKey == elementKey );
+
         state.ElementPointerResize = new()
         {
             ElementKey = elementKey,
             SourceSectionIndex = sectionIndex,
             Handle = handle,
-            OriginalX = element.X,
-            OriginalY = element.Y,
+            OriginalX = activeElement?.OriginalSectionX ?? element.X,
+            OriginalY = activeElement?.OriginalSectionY ?? element.Y,
             OriginalWidth = element.Width,
             OriginalHeight = element.Height,
             StartClientX = eventArgs.ClientX,
             StartClientY = eventArgs.ClientY,
-            TargetX = element.X,
-            TargetY = element.Y,
+            TargetX = activeElement?.OriginalSectionX ?? element.X,
+            TargetY = activeElement?.OriginalSectionY ?? element.Y,
             TargetWidth = element.Width,
             TargetHeight = element.Height,
             MinimumHeight = ReportLayoutGeometry.GetMinimumElementHeight( element ),
@@ -210,8 +214,11 @@ internal static class ReportDesignerInteractionService
 
         foreach ( var item in pointerDrag.SelectedElements )
         {
-            if ( !ReportDefinitionHelper.TryFindElementLocation( definition, item.ElementKey, out var sourceSectionIndex, out var sourceElementIndex, out var element ) )
+            if ( !ReportDefinitionHelper.TryFindElementLocation( definition, item.ElementKey, out ReportElementLocation location ) )
                 continue;
+
+            int sourceSectionIndex = location.SectionIndex;
+            ReportElementDefinition element = location.Element;
 
             var targetSectionIndex = activeCrossedSections
                 ? ResolveSectionIndex( definition, item.OriginalPageY + deltaPageY, getSectionOffsetY )
@@ -223,29 +230,44 @@ internal static class ReportDesignerInteractionService
             var targetSection = definition.Bands[targetSectionIndex];
             var targetLocalY = activeCrossedSections
                 ? item.OriginalPageY + deltaPageY - getSectionOffsetY( targetSectionIndex )
-                : item.OriginalY + deltaLocalY;
+                : item.OriginalSectionY + deltaLocalY;
 
-            element.X = ReportLayoutGeometry.Clamp( item.OriginalX + deltaX, 0, Math.Max( 0, definition.Page.Width - element.Width ) );
-            element.Y = Math.Max( 0, targetLocalY );
-
-            ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
-                definition,
-                sourceSectionIndex,
-                targetSectionIndex,
-                element,
-                item.OriginalX,
-                item.OriginalWidth,
-                element.X,
-                element.Width,
-                selectedElementKeys );
+            double targetSectionX = item.OriginalSectionX + deltaX;
 
             if ( sourceSectionIndex != targetSectionIndex )
             {
-                definition.Bands[sourceSectionIndex].Elements.RemoveAt( sourceElementIndex );
+                location.OwnerElements.RemoveAt( location.ElementIndex );
                 targetSection.Elements.Add( element );
+                element.X = ReportLayoutGeometry.Clamp( targetSectionX, 0, Math.Max( 0, definition.Page.Width - element.Width ) );
+                element.Y = Math.Max( 0, targetLocalY );
+            }
+            else if ( location.ParentPanel is not null )
+            {
+                element.X = ReportLayoutGeometry.Clamp( targetSectionX - location.OwnerOffsetX, 0, Math.Max( 0, location.ParentPanel.Width - element.Width ) );
+                element.Y = ReportLayoutGeometry.Clamp( targetLocalY - location.OwnerOffsetY, 0, Math.Max( 0, location.ParentPanel.Height - element.Height ) );
+            }
+            else
+            {
+                element.X = ReportLayoutGeometry.Clamp( targetSectionX, 0, Math.Max( 0, definition.Page.Width - element.Width ) );
+                element.Y = Math.Max( 0, targetLocalY );
             }
 
-            affectedSectionIndexes.Add( targetSectionIndex );
+            if ( location.ParentPanel is null && location.ParentCell is null )
+            {
+                ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
+                    definition,
+                    sourceSectionIndex,
+                    targetSectionIndex,
+                    element,
+                    item.OriginalX,
+                    item.OriginalWidth,
+                    element.X,
+                    element.Width,
+                    selectedElementKeys );
+            }
+
+            if ( location.ParentPanel is null || sourceSectionIndex != targetSectionIndex )
+                affectedSectionIndexes.Add( targetSectionIndex );
         }
 
         foreach ( var sectionIndex in affectedSectionIndexes )
@@ -329,9 +351,11 @@ internal static class ReportDesignerInteractionService
 
         foreach ( var item in pointerResize.SelectedElements )
         {
-            if ( !ReportDefinitionHelper.TryFindElementLocation( definition, item.ElementKey, out var sectionIndex, out _, out var element ) )
+            if ( !ReportDefinitionHelper.TryFindElementLocation( definition, item.ElementKey, out ReportElementLocation location ) )
                 continue;
 
+            int sectionIndex = location.SectionIndex;
+            ReportElementDefinition element = location.Element;
             var section = definition.Bands[sectionIndex];
             var minimumHeight = ReportLayoutGeometry.GetMinimumElementHeight( element );
             var targetWidth = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, item.OriginalWidth + deltaWidth );
@@ -339,26 +363,33 @@ internal static class ReportDesignerInteractionService
             var targetX = item.OriginalX + deltaX;
             var targetY = item.OriginalY + deltaY;
 
-            if ( HasResizeHandle( pointerResize.Handle, ReportElementResizeHandle.South ) )
+            if ( location.ParentPanel is null && HasResizeHandle( pointerResize.Handle, ReportElementResizeHandle.South ) )
                 targetHeight = ClampResizeHeightToSectionBottom( section, targetY, targetHeight, minimumHeight );
 
-            element.Width = Math.Min( targetWidth, Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, definition.Page.Width ) );
-            element.Height = targetHeight;
-            element.X = ReportLayoutGeometry.Clamp( targetX, 0, Math.Max( 0, definition.Page.Width - element.Width ) );
-            element.Y = Math.Max( 0, targetY );
+            double containerWidth = location.ParentPanel?.Width ?? definition.Page.Width;
+            double containerHeight = location.ParentPanel?.Height ?? double.MaxValue;
 
-            ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
-                definition,
-                sectionIndex,
-                sectionIndex,
-                element,
-                item.OriginalX,
-                item.OriginalWidth,
-                element.X,
-                element.Width,
-                pointerResize.SelectedElements.Select( selectedItem => selectedItem.ElementKey ) );
+            element.Width = Math.Min( targetWidth, Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, containerWidth ) );
+            element.Height = Math.Min( targetHeight, Math.Max( minimumHeight, containerHeight ) );
+            element.X = ReportLayoutGeometry.Clamp( targetX, 0, Math.Max( 0, containerWidth - element.Width ) );
+            element.Y = ReportLayoutGeometry.Clamp( targetY, 0, Math.Max( 0, containerHeight - element.Height ) );
 
-            ReportLayoutGeometry.GrowSectionToFitElement( section, element );
+            if ( location.ParentPanel is null && location.ParentCell is null )
+            {
+                ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
+                    definition,
+                    sectionIndex,
+                    sectionIndex,
+                    element,
+                    item.OriginalX,
+                    item.OriginalWidth,
+                    element.X,
+                    element.Width,
+                    pointerResize.SelectedElements.Select( selectedItem => selectedItem.ElementKey ) );
+            }
+
+            if ( location.ParentPanel is null )
+                ReportLayoutGeometry.GrowSectionToFitElement( section, element );
         }
     }
 
@@ -507,8 +538,11 @@ internal static class ReportDesignerInteractionService
 
         foreach ( var elementKey in elementKeys )
         {
-            if ( !ReportDefinitionHelper.TryFindElementLocation( definition, elementKey, out var sectionIndex, out _, out var element ) )
+            if ( !ReportDefinitionHelper.TryFindElementLocation( definition, elementKey, out ReportElementLocation location ) )
                 continue;
+
+            int sectionIndex = location.SectionIndex;
+            ReportElementDefinition element = location.Element;
 
             if ( element.Suppress?.Value == true )
                 continue;
@@ -519,7 +553,9 @@ internal static class ReportDesignerInteractionService
                 OriginalSectionIndex = sectionIndex,
                 OriginalX = element.X,
                 OriginalY = element.Y,
-                OriginalPageY = getSectionOffsetY( sectionIndex ) + element.Y,
+                OriginalSectionX = location.OwnerOffsetX + element.X,
+                OriginalSectionY = location.OwnerOffsetY + element.Y,
+                OriginalPageY = getSectionOffsetY( sectionIndex ) + location.OwnerOffsetY + element.Y,
                 OriginalWidth = element.Width,
                 OriginalHeight = element.Height,
             };

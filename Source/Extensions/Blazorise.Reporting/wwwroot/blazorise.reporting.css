@@ -791,6 +791,17 @@
 .b-report-element-rectangle {
   border: var(--b-report-element-border-width) solid currentColor;
 }
+.b-report-element-panel > .b-report-element-content {
+  position: relative;
+}
+.b-report-element-panel .b-report-panel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.b-report-element-panel .b-report-panel > .b-report-element {
+  pointer-events: auto;
+}
 .b-report-element-subreport .b-report-element-content {
   overflow: hidden;
 }

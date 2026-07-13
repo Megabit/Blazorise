@@ -388,6 +388,9 @@ internal sealed class ReportContext
                 tableClone.Rows = tableElement.Rows?.Select( CloneRow ).ToList() ?? [];
                 tableClone.Cells = tableElement.Cells?.Select( cell => CloneCell( cell, subreportDepth ) ).ToList() ?? [];
                 break;
+            case ReportPanelElementDefinition panelElement when clone is ReportPanelElementDefinition panelClone:
+                panelClone.Elements = panelElement.Elements?.Select( element => CloneElement( element, subreportDepth ) ).Where( element => element is not null ).ToList() ?? [];
+                break;
             case ReportSubreportElementDefinition subreportElement when clone is ReportSubreportElementDefinition subreportClone:
                 subreportClone.Report = CloneDefinition( ResolveSubreportDefinition( subreportElement ), subreportDepth + 1 );
                 subreportClone.DataSource = subreportElement.DataSource;

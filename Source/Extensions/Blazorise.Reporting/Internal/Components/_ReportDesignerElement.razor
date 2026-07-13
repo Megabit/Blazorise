@@ -71,6 +71,37 @@
                                               ResizeStarted="@TableResizeStarted" />
                     }
                     break;
+                case ReportElementType.Panel:
+                    @if ( Element is ReportPanelElementDefinition panelElement )
+                    {
+                        <_ReportDesignerPanel Data="@Data"
+                                              Definition="@Definition"
+                                              Section="@Section"
+                                              SectionIndex="@SectionIndex"
+                                              Item="@Item"
+                                              RunningTotals="@RunningTotals"
+                                              RenderMutationVersion="@RenderMutationVersion"
+                                              Element="@panelElement"
+                                              DesignMode="@DesignMode"
+                                              Editable="@(Editable && !ElementSuppressed)"
+                                              LayoutLocked="@LayoutLocked"
+                                              SelectionVersion="@SelectionVersion"
+                                              TextEditingActive="@TextEditingActive"
+                                              EditingElementKey="@ChildEditingElementKey"
+                                              SelectedCellKey="@SelectedCellKey"
+                                              IsElementSelected="@IsChildElementSelected"
+                                              ElementClicked="@ChildElementClicked"
+                                              ElementDoubleClicked="@ChildElementDoubleClicked"
+                                              ElementContextMenu="@ContextMenu"
+                                              TableCellClicked="@TableCellClicked"
+                                              TableCellContextMenu="@TableCellContextMenu"
+                                              ElementTextEditCommitted="@ChildElementTextEditCommitted"
+                                              ElementTextEditCancelled="@ChildElementTextEditCancelled"
+                                              TableResizeStarted="@TableResizeStarted"
+                                              ElementPointerDown="@PointerDown"
+                                              ElementResizeStarted="@ResizeStarted" />
+                    }
+                    break;
                 case ReportElementType.Subreport:
                     @if ( DesignMode )
                     {

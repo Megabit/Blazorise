@@ -140,7 +140,7 @@ internal sealed class ReportClipboardService
         ReportElementLayoutService layoutService )
     {
         ReportElementDefinition element = ReportContext.CloneElement( sourceElement );
-        element.Id = ReportDefinitionHelper.CreateDefinitionId();
+        ReportDefinitionHelper.RegenerateElementIds( element );
         bool useSnapToGrid = isSnapToGridEnabled( element );
 
         element.X = layoutService.ClampX( definition, element, applyGrid( pasteBaseX + sourceElement.X - minimumX, useSnapToGrid ) );

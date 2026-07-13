@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.Reporting;
 
 /// <summary>
-/// Base class for declarative report elements that register themselves with the current report band.
+/// Base class for declarative report elements that register themselves with the current report container.
 /// </summary>
 public abstract class BaseReportElement : ComponentBase
 {
@@ -22,15 +22,11 @@ public abstract class BaseReportElement : ComponentBase
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
-        if ( SectionContext is null && TableCellContext is null )
+        if ( ContainerContext is null )
             return;
 
         Definition = BuildDefinition();
-
-        if ( TableCellContext is not null )
-            TableCellContext.AddElement( Definition );
-        else
-            SectionContext.Definition.Elements.Add( Definition );
+        ContainerContext.AddElement( Definition );
     }
 
     /// <summary>
@@ -92,9 +88,7 @@ public abstract class BaseReportElement : ComponentBase
     /// </summary>
     protected ReportElementDefinition Definition { get; private set; }
 
-    [CascadingParameter] internal ReportSectionContext SectionContext { get; set; }
-
-    [CascadingParameter] internal ReportTableCellContext TableCellContext { get; set; }
+    [CascadingParameter] internal IReportElementContainerContext ContainerContext { get; set; }
 
     /// <summary>
     /// Friendly element name shown in the designer.
@@ -102,12 +96,12 @@ public abstract class BaseReportElement : ComponentBase
     [Parameter] public string Name { get; set; }
 
     /// <summary>
-    /// Horizontal position within the containing band, in points.
+    /// Horizontal position within the containing report container, in points.
     /// </summary>
     [Parameter] public double X { get; set; }
 
     /// <summary>
-    /// Vertical position within the containing band, in points.
+    /// Vertical position within the containing report container, in points.
     /// </summary>
     [Parameter] public double Y { get; set; }
 

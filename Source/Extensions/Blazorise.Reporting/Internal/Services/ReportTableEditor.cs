@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Collections.Generic;
 using System.Linq;
 #endregion
 
@@ -13,27 +14,44 @@ internal sealed class ReportTableEditor
     {
         target = null;
 
-        if ( section?.Elements is null )
-            return false;
+        return section?.Elements is not null
+            && TryFindCellAt( section.Elements, x, y, 0, 0, out target );
+    }
 
-        for ( int elementIndex = section.Elements.Count - 1; elementIndex >= 0; elementIndex-- )
+    private bool TryFindCellAt( IList<ReportElementDefinition> elements, double x, double y, double offsetX, double offsetY, out ReportTableCellDropTarget target )
+    {
+        target = null;
+
+        for ( int elementIndex = elements.Count - 1; elementIndex >= 0; elementIndex-- )
         {
-            ReportElementDefinition element = section.Elements[elementIndex];
+            ReportElementDefinition element = elements[elementIndex];
+
+            if ( element is ReportPanelElementDefinition panel
+                && panel.Suppress?.Value != true
+                && x >= offsetX + panel.X
+                && x <= offsetX + panel.X + panel.Width
+                && y >= offsetY + panel.Y
+                && y <= offsetY + panel.Y + panel.Height
+                && panel.Elements is not null
+                && TryFindCellAt( panel.Elements, x, y, offsetX + panel.X, offsetY + panel.Y, out target ) )
+            {
+                return true;
+            }
 
             if ( element is not ReportTableElementDefinition table
                 || table.Suppress?.Value == true
-                || x < table.X
-                || x > table.X + table.Width
-                || y < table.Y
-                || y > table.Y + table.Height )
+                || x < offsetX + table.X
+                || x > offsetX + table.X + table.Width
+                || y < offsetY + table.Y
+                || y > offsetY + table.Y + table.Height )
             {
                 continue;
             }
 
             EnsureGrid( table );
 
-            double localX = x - table.X;
-            double localY = y - table.Y;
+            double localX = x - offsetX - table.X;
+            double localY = y - offsetY - table.Y;
 
             foreach ( ReportTableCellDefinition cell in table.Cells.OrderBy( cell => cell.RowIndex ).ThenBy( cell => cell.ColumnIndex ) )
             {

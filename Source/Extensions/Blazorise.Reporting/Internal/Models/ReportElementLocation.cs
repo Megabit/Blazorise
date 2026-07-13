@@ -16,6 +16,12 @@ internal sealed class ReportElementLocation
 
     internal IList<ReportElementDefinition> OwnerElements { get; set; }
 
+    internal double OwnerOffsetX { get; set; }
+
+    internal double OwnerOffsetY { get; set; }
+
+    internal ReportPanelElementDefinition ParentPanel { get; set; }
+
     internal ReportElementDefinition ParentTable { get; set; }
 
     internal ReportTableCellDefinition ParentCell { get; set; }

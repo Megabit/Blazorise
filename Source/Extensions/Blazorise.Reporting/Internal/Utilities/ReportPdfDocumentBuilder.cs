@@ -85,6 +85,12 @@ internal static class ReportPdfDocumentBuilder
 
     private static void AppendElement( IList<PdfElementDefinition> elements, ReportDefinition definition, object data, ReportRenderSection renderSection, ReportElementDefinition element, double sectionX, double sectionY, int subreportDepth )
     {
+        if ( element is ReportPanelElementDefinition panelElement )
+        {
+            AppendPanelElements( elements, definition, data, renderSection, panelElement, sectionX, sectionY, subreportDepth );
+            return;
+        }
+
         if ( element is ReportSubreportElementDefinition subreportElement )
         {
             AppendSubreportElements( elements, definition, data, renderSection, subreportElement, sectionX, sectionY, subreportDepth );
@@ -95,6 +101,21 @@ internal static class ReportPdfDocumentBuilder
 
         if ( pdfElement is not null )
             elements.Add( pdfElement );
+    }
+
+    private static void AppendPanelElements( IList<PdfElementDefinition> elements, ReportDefinition definition, object data, ReportRenderSection renderSection, ReportPanelElementDefinition panel, double sectionX, double sectionY, int subreportDepth )
+    {
+        PdfElementDefinition pdfPanel = CreateBaseElement( PdfElementType.Rectangle, panel, sectionX, sectionY );
+        ApplyShapeFormatting( pdfPanel, panel );
+        elements.Add( pdfPanel );
+
+        double panelX = sectionX + panel.X;
+        double panelY = sectionY + panel.Y;
+
+        foreach ( ReportElementDefinition child in ( panel.Elements ?? [] ).Where( element => ShouldRenderElement( definition, data, renderSection.Section, element, renderSection.Item ) ) )
+        {
+            AppendElement( elements, definition, data, renderSection, child, panelX, panelY, subreportDepth );
+        }
     }
 
     private static PdfElementDefinition CreateTextElement( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportTextElementDefinition element, double sectionX, double sectionY )
@@ -273,7 +294,7 @@ internal static class ReportPdfDocumentBuilder
 
     private static bool ShouldRequireExplicitBorder( ReportElementType elementType )
     {
-        return elementType is ReportElementType.Text or ReportElementType.Field or ReportElementType.Image or ReportElementType.Table or ReportElementType.Subreport;
+        return elementType is ReportElementType.Text or ReportElementType.Field or ReportElementType.Image or ReportElementType.Table or ReportElementType.Subreport or ReportElementType.Panel;
     }
 
     private static bool HasDefinedBorder( ReportBorderDefinition border )
@@ -385,35 +406,8 @@ internal static class ReportPdfDocumentBuilder
 
     private static IEnumerable<ReportSubreportElementDefinition> EnumerateSubreports( ReportDefinition definition )
     {
-        foreach ( ReportBandDefinition section in definition.Bands ?? [] )
-        {
-            foreach ( ReportElementDefinition element in section.Elements ?? [] )
-            {
-                foreach ( ReportSubreportElementDefinition subreport in EnumerateSubreports( element ) )
-                    yield return subreport;
-            }
-        }
-    }
-
-    private static IEnumerable<ReportSubreportElementDefinition> EnumerateSubreports( ReportElementDefinition element )
-    {
-        if ( element is ReportSubreportElementDefinition subreport )
-        {
+        foreach ( ReportSubreportElementDefinition subreport in ReportDefinitionHelper.EnumerateElements( definition ).OfType<ReportSubreportElementDefinition>() )
             yield return subreport;
-            yield break;
-        }
-
-        if ( element is ReportTableElementDefinition table )
-        {
-            foreach ( ReportTableCellDefinition cell in table.Cells ?? [] )
-            {
-                foreach ( ReportElementDefinition child in cell.Elements ?? [] )
-                {
-                    foreach ( ReportSubreportElementDefinition childSubreport in EnumerateSubreports( child ) )
-                        yield return childSubreport;
-                }
-            }
-        }
     }
 
     private static FontFamily CloneFontFamily( FontFamily font )

@@ -109,6 +109,22 @@
         border: var(--b-report-element-border-width) solid currentColor;
     }
 
+    &-panel {
+        > .b-report-element-content {
+            position: relative;
+        }
+
+        .b-report-panel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+
+            > .b-report-element {
+                pointer-events: auto;
+            }
+        }
+    }
+
     &-subreport {
         .b-report-element-content {
             overflow: hidden;

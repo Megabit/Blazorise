@@ -30,7 +30,10 @@ internal static class ReportElementDefinitionHelper
         builder.Append( $"top:{ReportMeasurementConverter.ToCssPixelString( element.Y )}" );
         builder.Append( $"width:{ReportMeasurementConverter.ToCssPixelString( element.Width )}" );
 
-        if ( ReportValueResolver.ResolveCanGrow( element, section, definition, defaultData, item, designMode ) && !designMode && element.Type != ReportElementType.Line )
+        if ( ReportValueResolver.ResolveCanGrow( element, section, definition, defaultData, item, designMode )
+            && !designMode
+            && element.Type != ReportElementType.Line
+            && element.Type != ReportElementType.Panel )
             builder.Append( $"min-height:{ReportMeasurementConverter.ToCssPixelString( element.Height )}" );
         else
             builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( element.Height )}" );

@@ -101,8 +101,8 @@ internal sealed class ReportDesignerRulerService
             if ( element is null )
                 continue;
 
-            double elementLeft = marginLeft + element.X;
-            double elementTop = getSectionOffsetY( selectedElement.SectionIndex ) + sectionBodyTopOffset + element.Y;
+            double elementLeft = marginLeft + selectedElement.OwnerOffsetX + element.X;
+            double elementTop = getSectionOffsetY( selectedElement.SectionIndex ) + sectionBodyTopOffset + selectedElement.OwnerOffsetY + element.Y;
             double elementRight = elementLeft + element.Width;
             double elementBottom = elementTop + ReportLayoutGeometry.GetElementRenderHeight( element );
 

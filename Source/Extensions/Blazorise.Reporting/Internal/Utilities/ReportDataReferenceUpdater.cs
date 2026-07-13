@@ -25,7 +25,7 @@ internal static class ReportDataReferenceUpdater
             ReplaceFormulaFieldReference( section.NewPageBefore, oldName, newName );
             ReplaceFormulaFieldReference( section.NewPageAfter, oldName, newName );
 
-            foreach ( ReportElementDefinition element in section.Elements ?? [] )
+            foreach ( ReportElementDefinition element in ReportDefinitionHelper.EnumerateElements( section.Elements ) )
             {
                 if ( element is ReportFieldElementDefinition fieldElement
                     && !string.IsNullOrWhiteSpace( fieldElement.Field )
@@ -67,7 +67,7 @@ internal static class ReportDataReferenceUpdater
             ReplaceRunningTotalReference( section.NewPageBefore, oldName, newName );
             ReplaceRunningTotalReference( section.NewPageAfter, oldName, newName );
 
-            foreach ( ReportElementDefinition element in section.Elements ?? [] )
+            foreach ( ReportElementDefinition element in ReportDefinitionHelper.EnumerateElements( section.Elements ) )
             {
                 if ( element is ReportFieldElementDefinition fieldElement
                     && !string.IsNullOrWhiteSpace( fieldElement.Field )

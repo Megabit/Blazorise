@@ -81,6 +81,11 @@ public enum ReportTreeNodeKind
     Subreport,
 
     /// <summary>
+    /// Panel element node.
+    /// </summary>
+    Panel,
+
+    /// <summary>
     /// Source fields folder node.
     /// </summary>
     SourceFields,
