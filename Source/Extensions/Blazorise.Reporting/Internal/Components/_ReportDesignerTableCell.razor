@@ -29,11 +29,13 @@
                                     LayoutLocked
                                     AllowPointerDragThrough="@TableSelected"
                                     Selected="@(IsElementSelected?.Invoke( childElementKey ) == true)"
+                                    Colliding="@(IsElementColliding?.Invoke( childElementKey ) == true)"
                                     Editing="@string.Equals( EditingElementKey, childElementKey, StringComparison.Ordinal )"
                                     TextEditingActive="@TextEditingActive"
                                     Clicked="@ElementClicked"
                                     DoubleClicked="@OnElementDoubleClicked"
                                     ContextMenu="@OnElementContextMenu"
+                                    IsChildElementColliding="@IsElementColliding"
                                     TextEditCommitted="@OnElementTextEditCommitted"
                                     TextEditCancelled="@OnElementTextEditCancelled" />
         }

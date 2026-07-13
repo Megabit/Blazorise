@@ -132,6 +132,11 @@
     }
 }
 
+.b-report-element-collision.b-report-element-design {
+    border-color: var(--b-report-color-danger) !important;
+    background: var(--b-report-color-danger-surface) !important;
+}
+
 .b-report-subreport-placeholder {
     display: flex;
     align-items: center;
@@ -220,6 +225,12 @@
     color: var(--b-report-color-primary-text);
     pointer-events: none;
     user-select: none;
+
+    &.b-report-element-collision {
+        border-color: var(--b-report-color-danger);
+        background: var(--b-report-color-danger-surface);
+        color: var(--b-report-color-danger);
+    }
 }
 
 .b-report-selection-box {

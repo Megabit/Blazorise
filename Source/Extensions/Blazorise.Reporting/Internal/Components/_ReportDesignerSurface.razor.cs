@@ -20,7 +20,13 @@ public partial class _ReportDesignerSurface
 
     private readonly ReportDesignerDragDropService dragDropService = new();
 
+    private readonly ReportElementCollisionService collisionService = new();
+
     private readonly ReportTableResizeService tableResizeService = new();
+
+    private HashSet<string> collidingElementKeys = [];
+
+    private int collisionMutationVersion = -1;
 
     private bool designerDropInProgress;
 
@@ -1284,7 +1290,90 @@ public partial class _ReportDesignerSurface
             ReportMeasurementConverter.ToCssPixelValue( preview.X ) + GetSelectionBoxLeftOffset(),
             ReportMeasurementConverter.ToCssPixelValue( GetElementPageY( EffectiveDefinition, preview.SectionIndex, preview.Y ) ),
             ReportMeasurementConverter.ToCssPixelValue( preview.Width ),
-            ReportMeasurementConverter.ToCssPixelValue( preview.Height ) );
+            ReportMeasurementConverter.ToCssPixelValue( preview.Height ),
+            IsDragPreviewColliding( preview ) );
+    }
+
+    private bool IsElementColliding( string elementKey )
+    {
+        if ( !Designer.ShowCollisionWarnings || string.IsNullOrWhiteSpace( elementKey ) )
+            return false;
+
+        if ( collisionMutationVersion != Designer.RenderMutationVersion )
+        {
+            collidingElementKeys = collisionService.FindCollidingElementKeys( EffectiveDefinition );
+            collisionMutationVersion = Designer.RenderMutationVersion;
+        }
+
+        return collidingElementKeys.Contains( elementKey );
+    }
+
+    private bool IsDragPreviewColliding( ReportDesignerDragPreview preview )
+    {
+        ReportDefinition definition = EffectiveDefinition;
+
+        if ( !Designer.ShowCollisionWarnings
+            || preview is null
+            || designerState.TablePointerResize is not null
+            || definition is null
+            || preview.SectionIndex < 0
+            || preview.SectionIndex >= definition.Bands.Count )
+        {
+            return false;
+        }
+
+        ReportBandDefinition section = definition.Bands[preview.SectionIndex];
+        IList<ReportElementDefinition> elements = section.Elements;
+        double x = preview.X;
+        double y = preview.Y;
+
+        if ( designerState.ElementPointerResize is not null
+            && ReportDefinitionHelper.TryFindElementLocation( definition, designerState.ElementPointerResize.ElementKey, out ReportElementLocation resizeLocation ) )
+        {
+            elements = resizeLocation.OwnerElements;
+            x -= resizeLocation.OwnerOffsetX;
+            y -= resizeLocation.OwnerOffsetY;
+        }
+        else if ( designerState.ElementPointerDrag is not null )
+        {
+            if ( TryFindElementPointerDragTableCellTarget( definition, designerState.ElementPointerDrag, out _ ) )
+                return false;
+
+            if ( TryFindElementPointerDragPanelTarget( definition, designerState.ElementPointerDrag, out ReportPanelDropTarget panelTarget )
+                && ReportDefinitionHelper.TryFindElementLocation( definition, ReportDefinitionHelper.EnsureElementId( panelTarget.Panel ), out ReportElementLocation panelLocation ) )
+            {
+                elements = panelTarget.Panel.Elements;
+                x -= panelLocation.OwnerOffsetX + panelTarget.Panel.X;
+                y -= panelLocation.OwnerOffsetY + panelTarget.Panel.Y;
+            }
+        }
+        else
+        {
+            if ( tableEditor.TryFindCellAt( section, x, y, out _ ) )
+                return false;
+
+            if ( dragDropService.TryFindPanelAt( section, x, y, designerState.DraggedElement, out ReportPanelDropTarget panelTarget ) )
+            {
+                elements = panelTarget.Panel.Elements;
+                x = panelTarget.X;
+                y = panelTarget.Y;
+            }
+            else if ( designerState.DraggedKind == ReportDesignerDragKind.Field
+                && dragDropService.FindTextElementAt( section, x, y ) is not null )
+            {
+                return false;
+            }
+        }
+
+        return collisionService.HasCollision(
+            elements,
+            designerState.DraggedElement,
+            preview,
+            x,
+            y,
+            designerState.ElementPointerDrag is not null || designerState.ElementPointerResize is not null
+                ? selectionManager.IsElementSelected
+                : null );
     }
 
     private async Task ClearDesignerInteractionOverlays()

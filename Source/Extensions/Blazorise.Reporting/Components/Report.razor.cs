@@ -103,6 +103,16 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [Parameter] public bool ShowBandDataSource { get; set; } = true;
 
     /// <summary>
+    /// Shows design-time warnings when sibling report elements overlap.
+    /// </summary>
+    [Parameter] public bool ShowCollisionWarnings { get; set; } = true;
+
+    /// <summary>
+    /// Raised when collision warning visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowCollisionWarningsChanged { get; set; }
+
+    /// <summary>
     /// Shows measurement rulers around the report designer page.
     /// </summary>
     [Parameter] public bool ShowRulers { get; set; } = true;

@@ -2484,6 +2484,19 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         await InvokeAsync( StateHasChanged );
     }
 
+    internal async Task OnShowCollisionWarningsChanged( bool value )
+    {
+        if ( ShowCollisionWarnings == value )
+            return;
+
+        ShowCollisionWarnings = value;
+        RefreshDesignerSurface();
+
+        await ShowCollisionWarningsChanged.InvokeAsync( value );
+
+        await InvokeAsync( StateHasChanged );
+    }
+
     internal async Task OnBandModeChanged( ReportBandMode value )
     {
         if ( BandMode == value )
@@ -2832,6 +2845,16 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// Shows data source names in band labels when available.
     /// </summary>
     [Parameter] public bool ShowBandDataSource { get; set; } = true;
+
+    /// <summary>
+    /// Shows design-time warnings when sibling report elements overlap.
+    /// </summary>
+    [Parameter] public bool ShowCollisionWarnings { get; set; } = true;
+
+    /// <summary>
+    /// Raised when collision warning visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowCollisionWarningsChanged { get; set; }
 
     /// <summary>
     /// Shows measurement rulers around the report designer page.

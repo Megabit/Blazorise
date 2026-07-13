@@ -16,8 +16,9 @@
         <ReportText Text="Invoice {Header.Number}" X="30" Y="18" Width="180" Height="24" FontSize="20" Bold FontColor="@ReportColors.Blue" />
         <ReportText Text="{Customer.Name}" X="30" Y="48" Width="240" Height="18" Bold />
         <ReportText Text="{Customer.Address}" X="30" Y="70" Width="300" Height="18" FontColor="@ReportColors.Gray" />
-        <ReportRectangle X="405" Y="20" Width="120" Height="54" BorderColor="@ReportColors.Blue" />
-        <ReportText Text="REPORT HEADER" X="418" Y="39" Width="94" Height="18" Bold TextAlignment="TextAlignment.Center" FontColor="@ReportColors.Blue" />
+        <ReportPanel X="405" Y="20" Width="120" Height="54" BorderColor="@ReportColors.Blue" BorderWidth="1" BorderStyle="ReportBorderStyle.Solid">
+            <ReportText Text="REPORT HEADER" X="13" Y="19" Width="94" Height="18" Bold TextAlignment="TextAlignment.Center" FontColor="@ReportColors.Blue" />
+        </ReportPanel>
     </ReportHeader>
     <ReportPageHeader Name="Page header" Height="35">
         <ReportText Text="Sku" X="30" Y="9" Width="75" Height="18" Bold />

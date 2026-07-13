@@ -658,6 +658,16 @@ public partial class _ReportDesignerPropertiesPanel
     [Parameter] public EventCallback<bool> ShowFineRulerTicksChanged { get; set; }
 
     /// <summary>
+    /// Indicates that overlapping report elements are highlighted in the designer.
+    /// </summary>
+    [Parameter] public bool ShowCollisionWarnings { get; set; }
+
+    /// <summary>
+    /// Raised when collision warning visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowCollisionWarningsChanged { get; set; }
+
+    /// <summary>
     /// Updates the report page definition.
     /// </summary>
     [Parameter] public Func<Action<ReportPageDefinition>, Task> UpdateReportPage { get; set; }

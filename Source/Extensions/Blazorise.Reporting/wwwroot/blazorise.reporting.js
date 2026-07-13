@@ -462,14 +462,14 @@ export function updateDesignerSelectionOverlay(pageElement, x, y, width, height)
     updateDesignerRulerMarker(pageElement, x, y, width, height, true);
 }
 
-export function updateDesignerDragOverlay(pageElement, elementType, text, x, y, width, height) {
+export function updateDesignerDragOverlay(pageElement, elementType, text, x, y, width, height, colliding) {
     const overlays = getDesignerInteractionOverlays(pageElement);
 
     if (!overlays) {
         return;
     }
 
-    overlays.drag.className = `b-report-drag-preview b-report-element-${(elementType || "text").toLowerCase()}`;
+    overlays.drag.className = `b-report-drag-preview b-report-element-${(elementType || "text").toLowerCase()}${colliding ? " b-report-element-collision" : ""}`;
     overlays.drag.textContent = text || "";
     positionOverlay(overlays.drag, x, y, width, height);
     overlays.drag.hidden = false;

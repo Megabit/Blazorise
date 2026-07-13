@@ -241,10 +241,11 @@ public class JSReportingModule : BaseJSModule
     /// <param name="y">Top coordinate in CSS pixels.</param>
     /// <param name="width">Overlay width in CSS pixels.</param>
     /// <param name="height">Overlay height in CSS pixels.</param>
+    /// <param name="colliding">Indicates that the preview overlaps another element.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public virtual async ValueTask UpdateDesignerDragOverlay( ElementReference pageElement, string elementType, string text, double x, double y, double width, double height )
+    public virtual async ValueTask UpdateDesignerDragOverlay( ElementReference pageElement, string elementType, string text, double x, double y, double width, double height, bool colliding )
     {
-        await InvokeSafeVoidAsync( "updateDesignerDragOverlay", pageElement, elementType, text, x, y, width, height );
+        await InvokeSafeVoidAsync( "updateDesignerDragOverlay", pageElement, elementType, text, x, y, width, height, colliding );
     }
 
     /// <summary>

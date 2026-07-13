@@ -124,6 +124,7 @@ public partial class _ReportDesignerElement
         builder.Append( "can-grow", !DesignMode && Element.Type != ReportElementType.Panel && Element.CanGrow?.Value == true );
         builder.Append( "disabled", IsDesignerDisabled );
         builder.Append( "active", DesignMode && Selected );
+        builder.Append( "b-report-element-collision", DesignMode && Colliding );
         builder.Append( "editing", IsDesignerEditing );
 
         base.BuildClasses( builder );
@@ -386,6 +387,11 @@ public partial class _ReportDesignerElement
     [Parameter] public bool Selected { get; set; }
 
     /// <summary>
+    /// Indicates that the element overlaps a sibling element.
+    /// </summary>
+    [Parameter] public bool Colliding { get; set; }
+
+    /// <summary>
     /// Version that changes when designer selection changes.
     /// </summary>
     [Parameter] public int SelectionVersion { get; set; }
@@ -439,6 +445,11 @@ public partial class _ReportDesignerElement
     /// Determines whether a child element inside this element is selected.
     /// </summary>
     [Parameter] public Func<string, bool> IsChildElementSelected { get; set; }
+
+    /// <summary>
+    /// Determines whether a child element inside this element overlaps a sibling element.
+    /// </summary>
+    [Parameter] public Func<string, bool> IsChildElementColliding { get; set; }
 
     /// <summary>
     /// Raised when a child element inside this element is clicked.

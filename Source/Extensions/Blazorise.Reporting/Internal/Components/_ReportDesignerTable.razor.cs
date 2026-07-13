@@ -234,6 +234,11 @@ public partial class _ReportDesignerTable
     [Parameter] public Func<string, bool> IsElementSelected { get; set; }
 
     /// <summary>
+    /// Determines whether a nested table cell element overlaps a sibling element.
+    /// </summary>
+    [Parameter] public Func<string, bool> IsElementColliding { get; set; }
+
+    /// <summary>
     /// Raised when a nested table cell element is clicked.
     /// </summary>
     [Parameter] public EventCallback<ReportDesignerSelectionMouseEventArgs> ElementClicked { get; set; }

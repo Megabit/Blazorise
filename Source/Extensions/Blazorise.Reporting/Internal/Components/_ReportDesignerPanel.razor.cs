@@ -63,6 +63,8 @@ public partial class _ReportDesignerPanel
 
     [Parameter] public Func<string, bool> IsElementSelected { get; set; }
 
+    [Parameter] public Func<string, bool> IsElementColliding { get; set; }
+
     [Parameter] public EventCallback<ReportDesignerSelectionMouseEventArgs> ElementClicked { get; set; }
 
     [Parameter] public Func<string, MouseEventArgs, Task> ElementDoubleClicked { get; set; }

@@ -88,6 +88,7 @@
                                                 DesignMode
                                                 Editable="@editable"
                                                 Selected="@selection.IsElementSelected( elementKey )"
+                                                Colliding="@IsElementColliding( elementKey )"
                                                 SelectionVersion="@Designer.RefreshState.ElementSelection"
                                                 Editing="@Designer.IsElementTextEditing( elementKey )"
                                                 TextEditingActive="@Designer.IsElementTextEditing()"
@@ -99,6 +100,7 @@
                                                 TableCellClicked="@Designer.HandleTableCellClick"
                                                 TableCellContextMenu="@Designer.OpenTableCellContextMenu"
                                                 IsChildElementSelected="@selection.IsElementSelected"
+                                                IsChildElementColliding="@IsElementColliding"
                                                 ChildElementClicked="@Designer.HandleElementClick"
                                                 ChildElementDoubleClicked="@Designer.HandleElementDoubleClick"
                                                 ChildElementTextEditCommitted="@Designer.CommitElementTextEdit"
