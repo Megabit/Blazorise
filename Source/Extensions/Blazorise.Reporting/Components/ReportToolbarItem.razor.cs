@@ -40,7 +40,7 @@ public partial class ReportToolbarItem
             ReportCommand.DownloadPdf => IconName.FileDownload,
             ReportCommand.Cut => IconName.Cut,
             ReportCommand.Copy => IconName.Copy,
-            ReportCommand.Duplicate => IconName.Copy,
+            ReportCommand.Duplicate => IconName.Duplicate,
             ReportCommand.Paste => IconName.Paste,
             ReportCommand.Delete => IconName.Delete,
             ReportCommand.Undo => IconName.Undo,

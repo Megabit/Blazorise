@@ -123,6 +123,7 @@ class LucideIconProvider : BaseIconProvider
         { IconName.DotCircle, "circle-dot" },
         { IconName.Download, "download" },
         { IconName.Dumbbell, "dumbbell" },
+        { IconName.Duplicate, "copy-plus" },
         { IconName.Edit, "square-pen" },
         { IconName.Eject, "upload" },
         { IconName.Ethernet, "ethernet-port" },

@@ -122,6 +122,7 @@ class FontAwesomeIconProvider : BaseIconProvider
         { IconName.DotCircle, FontAwesomeIcons.DotCircle },
         { IconName.Download, FontAwesomeIcons.Download },
         { IconName.Dumbbell, FontAwesomeIcons.Dumbbell },
+        { IconName.Duplicate, FontAwesomeIcons.Clone },
         { IconName.Edit, FontAwesomeIcons.Edit },
         { IconName.Eject, FontAwesomeIcons.Eject },
         { IconName.Ethernet, FontAwesomeIcons.Ethernet },

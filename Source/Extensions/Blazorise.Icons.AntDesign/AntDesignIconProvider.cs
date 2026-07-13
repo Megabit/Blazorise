@@ -94,6 +94,7 @@ class AntDesignIconProvider : BaseIconProvider
         { IconName.DollarSign, "dollar" },
         { IconName.DotCircle, "aim" },
         { IconName.Dumbbell, "trophy" },
+        { IconName.Duplicate, "copy" },
         { IconName.Edit, "edit" },
         { IconName.Eject, "upload" },
         { IconName.Ethernet, "cluster" },

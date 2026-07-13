@@ -122,6 +122,7 @@ class MaterialIconProvider : BaseIconProvider
         { IconName.DotCircle, MaterialIcons.RadioButtonChecked },
         { IconName.Download, MaterialIcons.GetApp },
         { IconName.Dumbbell, MaterialIcons.FitnessCenter },
+        { IconName.Duplicate, MaterialIcons.FileCopy },
         { IconName.Edit, MaterialIcons.Edit },
         { IconName.Eject, MaterialIcons.Eject },
         { IconName.Ethernet, MaterialIcons.SettingsEthernet },

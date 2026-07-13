@@ -135,6 +135,7 @@ class BootstrapIconProvider : BaseIconProvider
         { IconName.DollarSign, BootstrapIcons.CurrencyDollar },
         { IconName.DotCircle, BootstrapIcons.RecordCircle },
         { IconName.Download, BootstrapIcons.Download },
+        { IconName.Duplicate, BootstrapIcons.Files },
         { IconName.Edit, BootstrapIcons.PencilSquare },
         { IconName.Eject, BootstrapIcons.Eject },
         { IconName.Ethernet, BootstrapIcons.Ethernet },

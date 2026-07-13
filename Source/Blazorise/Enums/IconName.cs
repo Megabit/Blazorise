@@ -112,6 +112,7 @@ public enum IconName
     DotCircle,
     Download,
     Dumbbell,
+    Duplicate,
     Edit,
     Eject,
     Ethernet,

@@ -122,6 +122,7 @@ class FluentUIIconProvider : BaseIconProvider
         { IconName.DotCircle, FluentUIIcons.Record },
         { IconName.Download, FluentUIIcons.ArrowDownload },
         { IconName.Dumbbell, FluentUIIcons.Dumbbell },
+        { IconName.Duplicate, FluentUIIcons.DocumentCopy },
         { IconName.Edit, FluentUIIcons.Edit },
         { IconName.Eject, FluentUIIcons.PlugDisconnected },
         { IconName.Ethernet, FluentUIIcons.Wifi1 },
