@@ -46,6 +46,11 @@ public enum ReportCommand
     Copy,
 
     /// <summary>
+    /// Copies and inserts the selected element.
+    /// </summary>
+    Duplicate,
+
+    /// <summary>
     /// Inserts the report clipboard element.
     /// </summary>
     Paste,

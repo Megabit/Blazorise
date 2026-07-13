@@ -21,6 +21,11 @@ public enum ReportDesignerShortcut
     Delete,
 
     /// <summary>
+    /// Copies and inserts the selected element.
+    /// </summary>
+    Duplicate,
+
+    /// <summary>
     /// Starts inline editing for the selected text element.
     /// </summary>
     EditText,

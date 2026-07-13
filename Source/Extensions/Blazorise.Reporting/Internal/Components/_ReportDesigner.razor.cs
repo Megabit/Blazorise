@@ -465,6 +465,10 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                 await ExecuteCommandIfAvailable( ReportCommand.Copy );
                 break;
 
+            case ReportDesignerShortcut.Duplicate:
+                await ExecuteCommandIfAvailable( ReportCommand.Duplicate );
+                break;
+
             case ReportDesignerShortcut.Paste:
                 await ExecuteCommandIfAvailable( ReportCommand.Paste );
                 break;
@@ -526,6 +530,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             ReportCommand.DownloadPdf => DownloadPdf(),
             ReportCommand.Cut => CutSelectedElement(),
             ReportCommand.Copy => CopySelectedElement(),
+            ReportCommand.Duplicate => DuplicateSelectedElement(),
             ReportCommand.Paste => PasteElement(),
             ReportCommand.Delete => DeleteSelection(),
             ReportCommand.Undo => Undo(),
@@ -552,7 +557,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             ReportCommand.PreviewPdf => SupportsPreviewFormat( ReportPreviewFormat.Pdf ),
             ReportCommand.ConnectDataSource => CurrentMode == ReportMode.Design && IsDesignerEnabled && DataSourceProviders.Count > 0,
             ReportCommand.DownloadPdf => context.ViewerOptions.AllowDownload && SupportsPreviewFormat( ReportPreviewFormat.Pdf ) && PdfGenerator is not null,
-            ReportCommand.Cut or ReportCommand.Copy => CurrentMode == ReportMode.Design && GetSelectedElementContexts( definition ).Count > 0,
+            ReportCommand.Cut or ReportCommand.Copy or ReportCommand.Duplicate => CurrentMode == ReportMode.Design && GetSelectedElementContexts( definition ).Count > 0,
             ReportCommand.Delete => CurrentMode == ReportMode.Design && selectionManager.CanDeleteSelection( definition ),
             ReportCommand.Paste => CurrentMode == ReportMode.Design && HasClipboardElements && definition.Bands.Count > 0,
             ReportCommand.Undo => commandManager.CanUndo,
@@ -729,6 +734,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
             return Task.CompletedTask;
         }, TrackHistory: false, NotifyDefinitionChanged: false ) );
+    }
+
+    private async Task DuplicateSelectedElement()
+    {
+        await CopySelectedElement();
+        await PasteElement();
     }
 
     private async Task CutSelectedElement()

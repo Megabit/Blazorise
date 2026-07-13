@@ -12,6 +12,7 @@ let nextSubscriptionId = 0;
 const designerControlShortcuts = {
     x: "Cut",
     c: "Copy",
+    d: "Duplicate",
     v: "Paste",
     z: "Undo",
     y: "Redo",
