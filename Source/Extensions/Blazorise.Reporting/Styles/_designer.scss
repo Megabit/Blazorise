@@ -32,7 +32,7 @@
         .b-report-section {
             border-bottom-color: var(--b-report-color-border);
 
-            &.active {
+            &.b-report-section-active {
                 box-shadow: inset 0 0 0 var(--b-report-section-active-border-width) var(--b-report-color-primary-ring-strong);
 
                 &::after {
@@ -183,20 +183,20 @@
     position: relative;
     border-bottom: var(--b-report-section-border-width) solid transparent;
 
-    &.active {
+    &.b-report-section-active {
         .b-report-section-rail {
             background: var(--b-report-section-rail-active-background);
             color: var(--b-report-color-primary-text);
         }
     }
 
-    &.collapsed {
+    &.b-report-section-collapsed {
         .b-report-section-rail {
             align-items: center;
         }
     }
 
-    &.suppressed {
+    &.b-report-section-suppressed {
         .b-report-section-rail {
             background: var(--b-report-color-surface-disabled);
             color: var(--b-report-color-text-subtle);
@@ -236,11 +236,11 @@
         line-height: 1.1;
         white-space: nowrap;
 
-        &.active {
+        &.b-report-section-band-header-active {
             box-shadow: inset 0 0 0 var(--b-report-section-active-border-width) var(--b-report-color-primary-ring);
         }
 
-        &.suppressed {
+        &.b-report-section-band-header-suppressed {
             background: var(--b-report-color-surface-disabled);
             color: var(--b-report-color-text-subtle);
         }
@@ -405,11 +405,11 @@
             right: 0;
         }
 
-        &.disabled {
+        &.b-report-section-body-disabled {
             opacity: .58;
         }
 
-        &-external-drag {
+        &.b-report-section-body-external-drag {
             .b-report-element-design,
             .b-report-section-resize-handle {
                 pointer-events: none;

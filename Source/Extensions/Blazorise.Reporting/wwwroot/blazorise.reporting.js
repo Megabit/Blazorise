@@ -358,7 +358,7 @@ export function suppressTreeNativeDragImage(element) {
     const suppressor = {
         dragImage: createTransparentDragImage(),
         dragStart: event => {
-            if (!event.target?.closest?.(".b-report-tree-view-row.draggable") || !event.dataTransfer?.setDragImage) {
+            if (!event.target?.closest?.(".b-report-tree-view-row.b-report-tree-view-row-draggable") || !event.dataTransfer?.setDragImage) {
                 return;
             }
 
@@ -469,7 +469,7 @@ export function updateDesignerDragOverlay(pageElement, elementType, text, x, y, 
         return;
     }
 
-    overlays.drag.className = `b-report-drag-preview b-report-element-${(elementType || "text").toLowerCase()}${colliding ? " b-report-element-collision" : ""}`;
+    overlays.drag.className = `b-report-drag-preview b-report-element-${(elementType || "text").toLowerCase()}${colliding ? " b-report-drag-preview-colliding" : ""}`;
     overlays.drag.textContent = text || "";
     positionOverlay(overlays.drag, x, y, width, height);
     overlays.drag.hidden = false;

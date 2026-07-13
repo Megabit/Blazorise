@@ -36,9 +36,9 @@ public partial class _ReportDesignerSectionRail
     {
         builder.Append( "b-report-section-rail" );
         builder.Append( $"b-report-section-rail-{Section.Type.ToString().ToLowerInvariant()}" );
-        builder.Append( "active", Selected );
-        builder.Append( "collapsed", Collapsed );
-        builder.Append( "suppressed", ReportValueResolver.ResolveStaticSuppress( Section ) );
+        builder.Append( "b-report-section-rail-active", Selected );
+        builder.Append( "b-report-section-rail-collapsed", Collapsed );
+        builder.Append( "b-report-section-rail-suppressed", ReportValueResolver.ResolveStaticSuppress( Section ) );
 
         base.BuildClasses( builder );
     }

@@ -152,8 +152,8 @@ public partial class _ReportDesignerTable
         ClassBuilder builder = new( classBuilder =>
         {
             classBuilder.Append( "b-report-table-cell" );
-            classBuilder.Append( "active", DesignMode && string.Equals( SelectedCellKey, cell.Id, StringComparison.Ordinal ) );
-            classBuilder.Append( "table-active", DesignMode && TableSelected );
+            classBuilder.Append( "b-report-table-cell-active", DesignMode && string.Equals( SelectedCellKey, cell.Id, StringComparison.Ordinal ) );
+            classBuilder.Append( "b-report-table-cell-table-active", DesignMode && TableSelected );
         } );
 
         return builder.Class;

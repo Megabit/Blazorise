@@ -81,7 +81,7 @@ public partial class _ReportDesignerSection
         builder.Append( "b-report-section-body-rail", RailVisible );
         builder.Append( "b-report-section-body-classic", BandMode == ReportBandMode.Classic );
         builder.Append( "b-report-section-body-external-drag", ExternalDragActive );
-        builder.Append( "disabled", ReportValueResolver.ResolveStaticSuppress( Section ) );
+        builder.Append( "b-report-section-body-disabled", ReportValueResolver.ResolveStaticSuppress( Section ) );
     }
 
     private void BuildBodyStyles( StyleBuilder builder )
@@ -96,9 +96,9 @@ public partial class _ReportDesignerSection
         builder.Append( "b-report-section" );
         builder.Append( Section.Class );
         builder.Append( "b-report-section-classic", BandMode == ReportBandMode.Classic );
-        builder.Append( "active", Active );
-        builder.Append( "collapsed", Collapsed );
-        builder.Append( "suppressed", ReportValueResolver.ResolveStaticSuppress( Section ) );
+        builder.Append( "b-report-section-active", Active );
+        builder.Append( "b-report-section-collapsed", Collapsed );
+        builder.Append( "b-report-section-suppressed", ReportValueResolver.ResolveStaticSuppress( Section ) );
 
         base.BuildClasses( builder );
     }

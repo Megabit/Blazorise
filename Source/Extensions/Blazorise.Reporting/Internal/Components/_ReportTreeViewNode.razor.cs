@@ -53,16 +53,16 @@ public partial class _ReportTreeViewNode
     private void BuildIconClasses( ClassBuilder builder )
     {
         builder.Append( "b-report-tree-view-icon" );
-        builder.Append( Node is null ? null : $"kind-{Node.Kind.ToString().ToLowerInvariant()}" );
+        builder.Append( Node is null ? null : $"b-report-tree-view-icon-kind-{Node.Kind.ToString().ToLowerInvariant()}" );
     }
 
     /// <inheritdoc />
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "b-report-tree-view-row" );
-        builder.Append( "selectable", Node.Selectable && NodeClicked.HasDelegate );
-        builder.Append( "draggable", Node.Draggable );
-        builder.Append( "active", Node.Selected );
+        builder.Append( "b-report-tree-view-row-selectable", Node.Selectable && NodeClicked.HasDelegate );
+        builder.Append( "b-report-tree-view-row-draggable", Node.Draggable );
+        builder.Append( "b-report-tree-view-row-active", Node.Selected );
 
         base.BuildClasses( builder );
     }

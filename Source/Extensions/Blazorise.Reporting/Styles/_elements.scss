@@ -10,13 +10,13 @@
         user-select: none;
         -webkit-user-select: none;
 
-        &.active {
+        &.b-report-element-design-active {
             overflow: visible;
             border-style: solid;
             background: var(--b-report-color-element-active-surface);
         }
 
-        &.disabled {
+        &.b-report-element-design-disabled {
             cursor: default;
         }
 
@@ -66,7 +66,7 @@
         }
     }
 
-    &.can-grow {
+    &.b-report-element-can-grow {
         overflow: visible;
     }
 
@@ -132,7 +132,7 @@
     }
 }
 
-.b-report-element-collision.b-report-element-design {
+.b-report-element-design.b-report-element-design-colliding {
     border-color: var(--b-report-color-danger) !important;
     background: var(--b-report-color-danger-surface) !important;
 }
@@ -226,7 +226,7 @@
     pointer-events: none;
     user-select: none;
 
-    &.b-report-element-collision {
+    &.b-report-drag-preview-colliding {
         border-color: var(--b-report-color-danger);
         background: var(--b-report-color-danger-surface);
         color: var(--b-report-color-danger);

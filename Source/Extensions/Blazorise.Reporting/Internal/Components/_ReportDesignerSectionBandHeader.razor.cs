@@ -32,8 +32,8 @@ public partial class _ReportDesignerSectionBandHeader
     {
         builder.Append( "b-report-section-band-header" );
         builder.Append( $"b-report-section-band-header-{Section.Type.ToString().ToLowerInvariant()}" );
-        builder.Append( "active", Selected );
-        builder.Append( "suppressed", ReportValueResolver.ResolveStaticSuppress( Section ) );
+        builder.Append( "b-report-section-band-header-active", Selected );
+        builder.Append( "b-report-section-band-header-suppressed", ReportValueResolver.ResolveStaticSuppress( Section ) );
 
         base.BuildClasses( builder );
     }

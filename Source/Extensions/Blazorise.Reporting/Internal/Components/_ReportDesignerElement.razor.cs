@@ -120,12 +120,12 @@ public partial class _ReportDesignerElement
         builder.Append( Element.Class );
 
         builder.Append( "b-report-element-design", DesignMode );
-        builder.Append( "suppressed", DesignMode && ElementSuppressed );
-        builder.Append( "can-grow", !DesignMode && Element.Type != ReportElementType.Panel && Element.CanGrow?.Value == true );
-        builder.Append( "disabled", IsDesignerDisabled );
-        builder.Append( "active", DesignMode && Selected );
-        builder.Append( "b-report-element-collision", DesignMode && Colliding );
-        builder.Append( "editing", IsDesignerEditing );
+        builder.Append( "b-report-element-design-suppressed", DesignMode && ElementSuppressed );
+        builder.Append( "b-report-element-can-grow", !DesignMode && Element.Type != ReportElementType.Panel && Element.CanGrow?.Value == true );
+        builder.Append( "b-report-element-design-disabled", IsDesignerDisabled );
+        builder.Append( "b-report-element-design-active", DesignMode && Selected );
+        builder.Append( "b-report-element-design-colliding", DesignMode && Colliding );
+        builder.Append( "b-report-element-design-editing", IsDesignerEditing );
 
         base.BuildClasses( builder );
     }

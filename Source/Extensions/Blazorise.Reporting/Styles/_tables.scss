@@ -30,13 +30,13 @@
             }
         }
 
-        &.active {
+        &.b-report-table-cell-active {
             outline: var(--b-report-section-selection-outline-width) solid var(--b-report-color-primary);
             outline-offset: calc(-1 * var(--b-report-section-selection-outline-width));
         }
 
-        &.active,
-        &.table-active:hover,
+        &.b-report-table-cell-active,
+        &.b-report-table-cell-table-active:hover,
         &:hover {
             > .b-report-table-column-resize-handle::after,
             > .b-report-table-row-resize-handle::after {
