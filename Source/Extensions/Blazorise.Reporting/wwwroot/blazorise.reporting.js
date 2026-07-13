@@ -722,7 +722,7 @@ function addSectionResizeListeners(resize) {
     observer.subscribe({
         id: resize.subscriptions[2],
         ownerId: resize.ownerId,
-        eventNames: ["pointercancel", "touchcancel", "blur"],
+        eventNames: ["pointercancel", "touchcancel"],
         capture: true,
         preventDefault: true,
         handler: resize.cancel,
@@ -780,7 +780,7 @@ function addElementResizeListeners(resize) {
     observer.subscribe({
         id: resize.subscriptions[2],
         ownerId: resize.ownerId,
-        eventNames: ["pointercancel", "touchcancel", "blur"],
+        eventNames: ["pointercancel", "touchcancel"],
         capture: true,
         preventDefault: true,
         handler: resize.cancel,
@@ -840,7 +840,7 @@ function addElementDragListeners(drag) {
     observer.subscribe({
         id: drag.subscriptions[2],
         ownerId: drag.ownerId,
-        eventNames: ["pointercancel", "touchcancel", "blur"],
+        eventNames: ["pointercancel", "touchcancel"],
         capture: true,
         preventDefault: true,
         stopPropagation: true,

@@ -177,6 +177,14 @@
         padding-top: var(--b-report-designer-ruler-surface-offset);
         padding-left: var(--b-report-designer-ruler-surface-offset);
     }
+
+    &-hidden {
+        display: block;
+
+        .b-report-designer-ruler-content {
+            padding: 0;
+        }
+    }
 }
 
 .b-report-section {

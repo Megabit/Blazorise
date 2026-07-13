@@ -500,6 +500,12 @@
   padding-top: var(--b-report-designer-ruler-surface-offset);
   padding-left: var(--b-report-designer-ruler-surface-offset);
 }
+.b-report-designer-rulers-hidden {
+  display: block;
+}
+.b-report-designer-rulers-hidden .b-report-designer-ruler-content {
+  padding: 0;
+}
 
 .b-report-section {
   position: relative;

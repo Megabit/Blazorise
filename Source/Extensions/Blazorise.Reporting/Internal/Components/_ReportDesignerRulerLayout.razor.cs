@@ -15,6 +15,11 @@ public partial class _ReportDesignerRulerLayout
 
     #region Properties
 
+    private string RulerClass
+        => Visible
+            ? "b-report-designer-rulers"
+            : "b-report-designer-rulers b-report-designer-rulers-hidden";
+
     /// <summary>
     /// Indicates that ruler chrome should be rendered.
     /// </summary>

@@ -1,9 +1,10 @@
 @namespace Blazorise.Reporting.Internal
 @inherits BaseReportComponent
+@using static Blazorise.Reporting.Internal.FluentConstants
 
-@if ( Visible )
-{
-    <div class="b-report-designer-rulers">
+<Div Class="@RulerClass" Padding="@(Visible ? PaddingIs0 : PaddingIs3)">
+    @if ( Visible )
+    {
         <div class="b-report-designer-ruler-corner"
              role="button"
              title="Select report"
@@ -19,12 +20,8 @@
                                       GridSize="@GridSize"
                                       ShowFineTicks="@ShowFineTicks"
                                       Marker="@Marker" />
-        <div class="b-report-designer-ruler-content">
-            @ChildContent
-        </div>
+    }
+    <div class="b-report-designer-ruler-content">
+        @ChildContent
     </div>
-}
-else
-{
-    @ChildContent
-}
+</Div>

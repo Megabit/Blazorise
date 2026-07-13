@@ -2475,6 +2475,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             return;
 
         ShowRulers = value;
+        RefreshDesigner( ReportDesignerRefreshTarget.Surface );
 
         await ShowRulersChanged.InvokeAsync( value );
 
@@ -2487,6 +2488,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             return;
 
         ShowFineRulerTicks = value;
+        RefreshDesigner( ReportDesignerRefreshTarget.Surface );
 
         await ShowFineRulerTicksChanged.InvokeAsync( value );
 
