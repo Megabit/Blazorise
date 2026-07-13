@@ -41,6 +41,11 @@ public partial class _ReportDesignerRulerLayout
     [Parameter] public double WidthOffset { get; set; }
 
     /// <summary>
+    /// Minor grid interval used by ruler ticks.
+    /// </summary>
+    [Parameter] public double GridSize { get; set; }
+
+    /// <summary>
     /// Shows fine-grained ruler ticks.
     /// </summary>
     [Parameter] public bool ShowFineTicks { get; set; }

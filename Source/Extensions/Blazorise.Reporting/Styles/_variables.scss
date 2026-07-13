@@ -55,7 +55,8 @@
     --b-report-section-rail-meta-font-size: .6875rem;
     --b-report-section-rail-toggle-font-size: .875rem;
     --b-report-grid-line-width: 1px;
-    --b-report-section-grid-size: 16px 16px;
+    --b-report-section-grid-minor-size: 9.449px 9.449px;
+    --b-report-section-grid-major-size: 37.795px 37.795px;
     --b-report-section-resize-handle-size: .5rem;
     --b-report-section-resize-handle-offset: -.25rem;
     --b-report-section-resize-line-offset: .1875rem;
@@ -73,6 +74,8 @@
     --b-report-color-surface-muted: #f8fafc;
     --b-report-color-surface-subtle: #edf0f2;
     --b-report-color-surface-disabled: #f1f3f5;
+    --b-report-color-grid-minor: #edf0f2;
+    --b-report-color-grid-major: #d8dde2;
     --b-report-color-border: #d9dee3;
     --b-report-color-border-muted: #cfd6dd;
     --b-report-color-control-border: #aeb9c4;

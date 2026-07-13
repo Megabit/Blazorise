@@ -88,7 +88,7 @@ public partial class _ReportDesignerHorizontalRuler
 
     #region Properties
 
-    private IReadOnlyList<ReportDesignerRulerTick> Ticks => rulerService.BuildTicks( Unit, Width, ShowFineTicks );
+    private IReadOnlyList<ReportDesignerRulerTick> Ticks => rulerService.BuildTicks( Unit, Width, GridSize, ShowFineTicks );
 
     private bool HasMarker => Marker is not null;
 
@@ -106,6 +106,11 @@ public partial class _ReportDesignerHorizontalRuler
     /// Left offset reserved by designer chrome inside the page.
     /// </summary>
     [Parameter] public double WidthOffset { get; set; }
+
+    /// <summary>
+    /// Minor grid interval used by ruler ticks.
+    /// </summary>
+    [Parameter] public double GridSize { get; set; }
 
     /// <summary>
     /// Shows fine-grained ruler ticks.

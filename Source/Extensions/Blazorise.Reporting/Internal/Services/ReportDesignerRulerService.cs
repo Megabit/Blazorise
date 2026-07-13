@@ -10,19 +10,23 @@ internal sealed class ReportDesignerRulerService
 {
     #region Methods
 
-    internal IReadOnlyList<ReportDesignerRulerTick> BuildTicks( ReportMeasurementUnit unit, double length, bool showFineTicks )
+    internal IReadOnlyList<ReportDesignerRulerTick> BuildTicks( ReportMeasurementUnit unit, double length, double gridSize, bool showFineTicks )
     {
         if ( length <= 0 )
             return [];
 
-        (double minorStep, double majorStep) = GetTickSteps( unit, showFineTicks );
+        double minorStep = Math.Max( 1, gridSize );
+        double tickStep = showFineTicks
+            ? minorStep
+            : minorStep * ReportLayoutGeometry.GridMajorDivisions;
+
         List<ReportDesignerRulerTick> ticks = [];
-        int count = (int)Math.Floor( length / minorStep );
+        int count = (int)Math.Floor( length / tickStep );
 
         for ( int index = 0; index <= count; index++ )
         {
-            double position = index * minorStep;
-            bool major = IsMajorTick( position, majorStep );
+            double position = index * tickStep;
+            bool major = !showFineTicks || index % ReportLayoutGeometry.GridMajorDivisions == 0;
 
             ticks.Add( new()
             {
@@ -144,33 +148,6 @@ internal sealed class ReportDesignerRulerService
     private static double GetMarginLeft( ReportDefinition definition )
     {
         return Math.Max( 0, definition?.Page?.Margins?.Left ?? 0 );
-    }
-
-    private static (double MinorStep, double MajorStep) GetTickSteps( ReportMeasurementUnit unit, bool showFineTicks )
-    {
-        if ( showFineTicks )
-        {
-            return unit switch
-            {
-                ReportMeasurementUnit.Inch => (ReportMeasurementConverter.PointsPerInch / 8d, ReportMeasurementConverter.PointsPerInch),
-                ReportMeasurementUnit.Centimeter => (ReportMeasurementConverter.ToPoints( .1d, ReportMeasurementUnit.Centimeter ), ReportMeasurementConverter.ToPoints( 1d, ReportMeasurementUnit.Centimeter )),
-                ReportMeasurementUnit.Millimeter => (ReportMeasurementConverter.ToPoints( 1d, ReportMeasurementUnit.Millimeter ), ReportMeasurementConverter.ToPoints( 10d, ReportMeasurementUnit.Millimeter )),
-                _ => (10d, 100d),
-            };
-        }
-
-        return unit switch
-        {
-            ReportMeasurementUnit.Inch => (ReportMeasurementConverter.PointsPerInch / 4d, ReportMeasurementConverter.PointsPerInch),
-            ReportMeasurementUnit.Centimeter => (ReportMeasurementConverter.ToPoints( .5d, ReportMeasurementUnit.Centimeter ), ReportMeasurementConverter.ToPoints( 1d, ReportMeasurementUnit.Centimeter )),
-            ReportMeasurementUnit.Millimeter => (ReportMeasurementConverter.ToPoints( 5d, ReportMeasurementUnit.Millimeter ), ReportMeasurementConverter.ToPoints( 10d, ReportMeasurementUnit.Millimeter )),
-            _ => (50d, 100d),
-        };
-    }
-
-    private static bool IsMajorTick( double position, double majorStep )
-    {
-        return Math.Abs( position % majorStep ) < .01 || Math.Abs( position % majorStep - majorStep ) < .01;
     }
 
     private static string FormatLabel( ReportMeasurementUnit unit, double position )

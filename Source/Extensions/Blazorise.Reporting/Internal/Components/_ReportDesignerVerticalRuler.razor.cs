@@ -85,7 +85,7 @@ public partial class _ReportDesignerVerticalRuler
 
     #region Properties
 
-    private IReadOnlyList<ReportDesignerRulerTick> Ticks => rulerService.BuildTicks( Unit, Height, ShowFineTicks );
+    private IReadOnlyList<ReportDesignerRulerTick> Ticks => rulerService.BuildTicks( Unit, Height, GridSize, ShowFineTicks );
 
     private bool HasMarker => Marker is not null;
 
@@ -98,6 +98,11 @@ public partial class _ReportDesignerVerticalRuler
     /// Ruler height in report layout units.
     /// </summary>
     [Parameter] public double Height { get; set; }
+
+    /// <summary>
+    /// Minor grid interval used by ruler ticks.
+    /// </summary>
+    [Parameter] public double GridSize { get; set; }
 
     /// <summary>
     /// Shows fine-grained ruler ticks.

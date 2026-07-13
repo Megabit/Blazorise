@@ -54,10 +54,14 @@ public partial class _ReportDesignerPage
     /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
+        string minorGridSize = ReportMeasurementConverter.ToCssPixelString( GridSize );
+        string majorGridSize = ReportMeasurementConverter.ToCssPixelString( GridSize * ReportLayoutGeometry.GridMajorDivisions );
+
         builder.Append( $"width:{ReportMeasurementConverter.FormatCssPixelValue( ReportMeasurementConverter.ToCssPixelValue( Width ) + WidthOffset )}" );
         builder.Append( $"min-height:{ReportMeasurementConverter.ToCssPixelString( MinHeight )}" );
         builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}", !DesignMode && Height > 0 );
-        builder.Append( $"--b-report-section-grid-size:{ReportMeasurementConverter.ToCssPixelString( GridSize )} {ReportMeasurementConverter.ToCssPixelString( GridSize )}", DesignMode );
+        builder.Append( $"--b-report-section-grid-minor-size:{minorGridSize} {minorGridSize}", DesignMode );
+        builder.Append( $"--b-report-section-grid-major-size:{majorGridSize} {majorGridSize}", DesignMode );
 
         base.BuildStyles( builder );
     }

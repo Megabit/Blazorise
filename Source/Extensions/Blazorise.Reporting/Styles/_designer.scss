@@ -394,8 +394,16 @@
         position: absolute;
         inset: 0;
         overflow: visible;
-        background-image: linear-gradient(var(--b-report-color-surface-subtle) var(--b-report-grid-line-width), transparent var(--b-report-grid-line-width)), linear-gradient(90deg, var(--b-report-color-surface-subtle) var(--b-report-grid-line-width), transparent var(--b-report-grid-line-width));
-        background-size: var(--b-report-section-grid-size);
+        background-image:
+            linear-gradient(var(--b-report-color-grid-major) var(--b-report-grid-line-width), transparent var(--b-report-grid-line-width)),
+            linear-gradient(90deg, var(--b-report-color-grid-major) var(--b-report-grid-line-width), transparent var(--b-report-grid-line-width)),
+            linear-gradient(var(--b-report-color-grid-minor) var(--b-report-grid-line-width), transparent var(--b-report-grid-line-width)),
+            linear-gradient(90deg, var(--b-report-color-grid-minor) var(--b-report-grid-line-width), transparent var(--b-report-grid-line-width));
+        background-size:
+            var(--b-report-section-grid-major-size),
+            var(--b-report-section-grid-major-size),
+            var(--b-report-section-grid-minor-size),
+            var(--b-report-section-grid-minor-size);
 
         &-classic {
             top: var(--b-report-section-band-header-height);

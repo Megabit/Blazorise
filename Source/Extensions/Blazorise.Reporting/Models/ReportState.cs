@@ -1,5 +1,6 @@
 #region Using directives
 using System.Collections.Generic;
+using Blazorise.Reporting.Internal;
 #endregion
 
 namespace Blazorise.Reporting;
@@ -32,7 +33,7 @@ public sealed class ReportState
     /// <summary>
     /// Grid size used by designer movement and resizing.
     /// </summary>
-    public double GridSize { get; set; } = 8;
+    public double GridSize { get; set; } = ReportLayoutGeometry.DefaultGridSize;
 
     /// <summary>
     /// Current report, band, or element selection.

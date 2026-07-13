@@ -12,7 +12,9 @@ internal static class ReportLayoutGeometry
 
     internal const double DefaultLineThickness = 1;
 
-    internal const double DefaultGridSize = 8;
+    internal const int GridMajorDivisions = 4;
+
+    internal const double DefaultGridSize = ReportMeasurementConverter.PointsPerInch / 2.54d / GridMajorDivisions;
 
     #endregion
 
