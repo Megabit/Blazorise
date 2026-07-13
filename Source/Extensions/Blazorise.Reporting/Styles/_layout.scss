@@ -35,8 +35,25 @@
 
     &-toolbox-pane,
     &-fields-explorer-pane,
-    &-properties-pane,
+    &-properties-pane {
+        min-height: 0;
+        overflow: auto;
+    }
+
     &-report-explorer-pane {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    &-report-explorer-search {
+        flex: 0 0 auto;
+        background: var(--b-report-color-surface);
+    }
+
+    &-report-explorer-tree {
+        flex: 1 1 auto;
         min-height: 0;
         overflow: auto;
     }

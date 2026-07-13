@@ -165,7 +165,22 @@
 .b-report-designer-panes-menu {
   z-index: var(--b-report-zindex-menu, 1200);
 }
-.b-report-designer-toolbox-pane, .b-report-designer-fields-explorer-pane, .b-report-designer-properties-pane, .b-report-designer-report-explorer-pane {
+.b-report-designer-toolbox-pane, .b-report-designer-fields-explorer-pane, .b-report-designer-properties-pane {
+  min-height: 0;
+  overflow: auto;
+}
+.b-report-designer-report-explorer-pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+.b-report-designer-report-explorer-search {
+  flex: 0 0 auto;
+  background: var(--b-report-color-surface);
+}
+.b-report-designer-report-explorer-tree {
+  flex: 1 1 auto;
   min-height: 0;
   overflow: auto;
 }

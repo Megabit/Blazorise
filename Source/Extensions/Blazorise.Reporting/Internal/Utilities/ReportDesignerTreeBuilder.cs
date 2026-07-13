@@ -72,8 +72,11 @@ internal static class ReportDesignerTreeBuilder
         string selectedElementKey,
         string selectedCellKey,
         Func<string, bool> isElementSelected,
-        bool allowSubreport = true )
+        bool allowSubreport = true,
+        string searchText = null )
     {
+        searchText = searchText?.Trim();
+
         return
         [
             new()
@@ -94,8 +97,11 @@ internal static class ReportDesignerTreeBuilder
                     Children = section.Elements
                         .Where( element => allowSubreport || element.Type != ReportElementType.Subreport )
                         .Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected, allowSubreport ) )
+                        .Where( node => FilterReportElementNode( node, searchText ) )
                         .ToList(),
-                } ).ToList(),
+                } )
+                .Where( node => string.IsNullOrWhiteSpace( searchText ) || node.Children.Count > 0 )
+                .ToList(),
             }
         ];
     }
@@ -161,6 +167,25 @@ internal static class ReportDesignerTreeBuilder
                 ? BuildTableChildNodes( table, elementKey, selectedCellKey, isElementSelected, allowSubreport )
                 : [],
         };
+    }
+
+    private static bool FilterReportElementNode( ReportTreeNode node, string searchText )
+    {
+        if ( string.IsNullOrWhiteSpace( searchText ) )
+            return true;
+
+        if ( node.Key.StartsWith( "report:element:", StringComparison.Ordinal )
+            && ( node.Text?.Contains( searchText, StringComparison.OrdinalIgnoreCase ) == true
+                || node.Detail?.Contains( searchText, StringComparison.OrdinalIgnoreCase ) == true ) )
+        {
+            return true;
+        }
+
+        node.Children = node.Children
+            .Where( child => FilterReportElementNode( child, searchText ) )
+            .ToList();
+
+        return node.Children.Count > 0;
     }
 
     private static List<ReportTreeNode> BuildTableChildNodes( ReportTableElementDefinition table, string tableKey, string selectedCellKey, Func<string, bool> isElementSelected, bool allowSubreport )

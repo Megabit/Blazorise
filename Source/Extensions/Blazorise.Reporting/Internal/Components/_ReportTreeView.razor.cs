@@ -165,7 +165,7 @@ public partial class _ReportTreeView
     }
 
     internal bool IsExpanded( ReportTreeNode node )
-        => node?.Key is not null && !collapsedNodeKeys.Contains( node.Key );
+        => ExpandAll || node?.Key is not null && !collapsedNodeKeys.Contains( node.Key );
 
     internal void ToggleNode( ReportTreeNode node )
     {
@@ -204,6 +204,11 @@ public partial class _ReportTreeView
     /// Collapses nodes the first time they are rendered.
     /// </summary>
     [Parameter] public bool CollapseByDefault { get; set; }
+
+    /// <summary>
+    /// Expands all nodes without changing their stored collapsed state.
+    /// </summary>
+    [Parameter] public bool ExpandAll { get; set; }
 
     /// <summary>
     /// Raised when a selectable tree node is clicked.

@@ -10,6 +10,12 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerReportExplorer
 {
+    #region Members
+
+    private string searchText;
+
+    #endregion
+
     #region Properties
 
     /// <summary>

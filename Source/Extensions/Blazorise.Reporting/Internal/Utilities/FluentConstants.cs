@@ -36,6 +36,7 @@ internal static class FluentConstants
     internal static readonly IFluentSpacing PaddingIs1FromEnd = Padding.Is1.FromEnd;
     internal static readonly IFluentSpacing PaddingIs2 = Padding.Is2;
     internal static readonly IFluentSpacing PaddingIs3 = Padding.Is3;
+    internal static readonly IFluentSpacing PaddingIs3OnXIs3FromTop = Padding.Is3.OnX.Is3.FromTop;
     internal static readonly IFluentSpacing PaddingIs5 = Padding.Is5;
 
     // Sizing
