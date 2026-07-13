@@ -426,13 +426,13 @@ internal static class ReportDesignerInteractionService
         return true;
     }
 
-    internal static void UpdateSelectionBox( ReportDesignerInteractionState state, ReportDefinition definition, PointerEventArgs eventArgs, double contentHeight )
+    internal static void UpdateSelectionBox( ReportDesignerInteractionState state, ReportDefinition definition, double clientX, double clientY, double contentHeight )
     {
-        if ( state?.SelectionBox is null || definition?.Page is null || eventArgs is null )
+        if ( state?.SelectionBox is null || definition?.Page is null )
             return;
 
-        state.SelectionBox.CurrentX = ReportLayoutGeometry.Clamp( state.SelectionBox.StartX + ReportMeasurementConverter.FromCssPixelValue( eventArgs.ClientX - state.SelectionBox.StartClientX ), 0, definition.Page.Width );
-        state.SelectionBox.CurrentY = ReportLayoutGeometry.Clamp( state.SelectionBox.StartY + ReportMeasurementConverter.FromCssPixelValue( eventArgs.ClientY - state.SelectionBox.StartClientY ), 0, contentHeight );
+        state.SelectionBox.CurrentX = ReportLayoutGeometry.Clamp( state.SelectionBox.StartX + ReportMeasurementConverter.FromCssPixelValue( clientX - state.SelectionBox.StartClientX ), 0, definition.Page.Width );
+        state.SelectionBox.CurrentY = ReportLayoutGeometry.Clamp( state.SelectionBox.StartY + ReportMeasurementConverter.FromCssPixelValue( clientY - state.SelectionBox.StartClientY ), 0, contentHeight );
         state.SelectionBox.HasMoved = state.SelectionBox.HasMoved
             || Math.Abs( ReportMeasurementConverter.ToCssPixelValue( state.SelectionBox.CurrentX - state.SelectionBox.StartX ) ) > 2
             || Math.Abs( ReportMeasurementConverter.ToCssPixelValue( state.SelectionBox.CurrentY - state.SelectionBox.StartY ) ) > 2;

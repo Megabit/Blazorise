@@ -360,7 +360,7 @@ public partial class _ReportDesignerSurface
         return Task.CompletedTask;
     }
 
-    internal Task BeginSelectionBox( int sectionIndex, PointerEventArgs eventArgs )
+    internal async Task BeginSelectionBox( int sectionIndex, PointerEventArgs eventArgs )
     {
         bool selectionBoxStarted = ReportDesignerInteractionService.TryBeginSelectionBox(
             designerState,
@@ -373,12 +373,14 @@ public partial class _ReportDesignerSurface
         if ( selectionBoxStarted )
         {
             _ = CloseContextMenu();
+            await StartDocumentElementResize( eventArgs.ClientX, eventArgs.ClientY, eventArgs.PointerId );
         }
-
-        return Task.CompletedTask;
     }
 
-    private async Task PreviewSelectionBox( PointerEventArgs eventArgs )
+    private Task PreviewSelectionBox( PointerEventArgs eventArgs )
+        => PreviewSelectionBox( eventArgs.ClientX, eventArgs.ClientY );
+
+    private async Task PreviewSelectionBox( double clientX, double clientY )
     {
         if ( designerState.SelectionBox is null )
             return;
@@ -388,7 +390,7 @@ public partial class _ReportDesignerSurface
         double previousWidth = designerState.SelectionBox.Width;
         double previousHeight = designerState.SelectionBox.Height;
 
-        ReportDesignerInteractionService.UpdateSelectionBox( designerState, EffectiveDefinition, eventArgs, GetDesignerContentHeight( EffectiveDefinition ) );
+        ReportDesignerInteractionService.UpdateSelectionBox( designerState, EffectiveDefinition, clientX, clientY, GetDesignerContentHeight( EffectiveDefinition ) );
 
         if ( !ReportDesignerInteractionService.CanRenderSelectionBoxPreview( designerState, previousX, previousY, previousWidth, previousHeight ) )
             return;
@@ -403,12 +405,15 @@ public partial class _ReportDesignerSurface
             : PreviewSelectionBox( eventArgs );
     }
 
-    private async Task CompleteSelectionBox( PointerEventArgs eventArgs )
+    private Task CompleteSelectionBox( PointerEventArgs eventArgs )
+        => CompleteSelectionBox( eventArgs.ClientX, eventArgs.ClientY );
+
+    private async Task CompleteSelectionBox( double clientX, double clientY )
     {
         if ( designerState.SelectionBox is null )
             return;
 
-        ReportDesignerInteractionService.UpdateSelectionBox( designerState, EffectiveDefinition, eventArgs, GetDesignerContentHeight( EffectiveDefinition ) );
+        ReportDesignerInteractionService.UpdateSelectionBox( designerState, EffectiveDefinition, clientX, clientY, GetDesignerContentHeight( EffectiveDefinition ) );
 
         ReportDesignerSelectionBox completedSelectionBox = ReportDesignerInteractionService.CompleteSelectionBox( designerState );
         await ClearDesignerInteractionOverlays();
@@ -982,7 +987,9 @@ public partial class _ReportDesignerSurface
     [JSInvokable]
     public Task OnDocumentElementResizeMove( double clientX, double clientY )
     {
-        return InvokeAsync( () => PreviewElementPointerResize( clientX, clientY ) );
+        return InvokeAsync( () => designerState.SelectionBox is not null
+            ? PreviewSelectionBox( clientX, clientY )
+            : PreviewElementPointerResize( clientX, clientY ) );
     }
 
     /// <summary>
@@ -993,7 +1000,9 @@ public partial class _ReportDesignerSurface
     [JSInvokable]
     public Task OnDocumentElementResizeEnd( double clientX, double clientY )
     {
-        return InvokeAsync( () => CompleteElementPointerResize( clientX, clientY ) );
+        return InvokeAsync( () => designerState.SelectionBox is not null
+            ? CompleteSelectionBox( clientX, clientY )
+            : CompleteElementPointerResize( clientX, clientY ) );
     }
 
     /// <summary>
@@ -1002,7 +1011,9 @@ public partial class _ReportDesignerSurface
     [JSInvokable]
     public Task OnDocumentElementResizeCancel()
     {
-        return InvokeAsync( CancelElementPointerResize );
+        return InvokeAsync( designerState.SelectionBox is not null
+            ? CancelSelectionBox
+            : CancelElementPointerResize );
     }
 
     /// <summary>
