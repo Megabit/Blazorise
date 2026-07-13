@@ -44,6 +44,7 @@
             <ContextMenuToolbar>
                 <ContextMenuToolbarItem Icon="IconName.Cut" Text="Cut" Value="@ReportDesignerContextMenuCommand.CutElement" Clicked="@OnCommandClicked" />
                 <ContextMenuToolbarItem Icon="IconName.Copy" Text="Copy" Value="@ReportDesignerContextMenuCommand.CopyElement" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.Duplicate" Text="Duplicate" Value="@ReportDesignerContextMenuCommand.DuplicateElement" Clicked="@OnCommandClicked" />
                 <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Value="@ReportDesignerContextMenuCommand.PasteElement" Clicked="@OnCommandClicked" />
                 <ContextMenuToolbarItem Icon="IconName.Delete" Text="Delete element" Value="@ReportDesignerContextMenuCommand.DeleteElement" Clicked="@OnCommandClicked" />
                 <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" Value="@ReportDesignerContextMenuCommand.ShowProperties" Clicked="@OnCommandClicked" />

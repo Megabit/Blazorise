@@ -1795,6 +1795,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                 return CutSelectedElement();
             case ReportDesignerContextMenuCommand.CopyElement:
                 return CopySelectedElement();
+            case ReportDesignerContextMenuCommand.DuplicateElement:
+                return DuplicateSelectedElement();
             case ReportDesignerContextMenuCommand.PasteElement:
                 return PasteElement();
             case ReportDesignerContextMenuCommand.SelectAllSectionElements:
@@ -2631,6 +2633,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         return true;
     }
 
+    internal bool IsToolbarCommandVisible( ReportCommand command )
+        => context.HiddenToolbarCommands?.Contains( command ) != true;
+
     private static string ResolveActiveSubreportElementKey( ReportDefinition definition, string elementKey )
     {
         return !string.IsNullOrWhiteSpace( elementKey )
@@ -2689,6 +2694,18 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     internal RenderFragment ToolbarContent => context.ToolbarContent;
 
     internal RenderFragment<ReportToolbarItemContext> ToolbarButtonTemplate => context.ToolbarButtonTemplate;
+
+    internal bool ShowToolbarPanesMenu => context.ShowToolbarPanesMenu;
+
+    internal bool ShowToolbarEditButtons => context.ShowToolbarEditButtons;
+
+    internal bool ShowToolbarHistoryButtons => context.ShowToolbarHistoryButtons;
+
+    internal bool ShowToolbarDataSourceButtons => context.ShowToolbarDataSourceButtons;
+
+    internal bool ShowToolbarExportButtons => context.ShowToolbarExportButtons;
+
+    internal bool ShowToolbarModeButtons => context.ShowToolbarModeButtons;
 
     internal bool DesignerAvailable => IsDesignerEnabled;
 

@@ -28,6 +28,20 @@ internal sealed class ReportContext
 
     public RenderFragment<ReportToolbarItemContext> ToolbarButtonTemplate { get; private set; }
 
+    public IReadOnlyCollection<ReportCommand> HiddenToolbarCommands { get; private set; }
+
+    public bool ShowToolbarPanesMenu { get; private set; } = true;
+
+    public bool ShowToolbarEditButtons { get; private set; } = true;
+
+    public bool ShowToolbarHistoryButtons { get; private set; } = true;
+
+    public bool ShowToolbarDataSourceButtons { get; private set; } = true;
+
+    public bool ShowToolbarExportButtons { get; private set; } = true;
+
+    public bool ShowToolbarModeButtons { get; private set; } = true;
+
     public void RegisterDataSource( ReportDataSourceDefinition dataSource )
     {
         if ( string.IsNullOrWhiteSpace( dataSource.Name ) )
@@ -114,10 +128,17 @@ internal sealed class ReportContext
         return existing;
     }
 
-    public void RegisterToolbar( RenderFragment toolbarContent, RenderFragment<ReportToolbarItemContext> buttonTemplate )
+    public void RegisterToolbar( ReportToolbar toolbar )
     {
-        ToolbarContent = toolbarContent;
-        ToolbarButtonTemplate = buttonTemplate;
+        ToolbarContent = toolbar.ChildContent;
+        ToolbarButtonTemplate = toolbar.ButtonTemplate;
+        HiddenToolbarCommands = toolbar.HiddenCommands;
+        ShowToolbarPanesMenu = toolbar.ShowPanesMenu;
+        ShowToolbarEditButtons = toolbar.ShowEditButtons;
+        ShowToolbarHistoryButtons = toolbar.ShowHistoryButtons;
+        ShowToolbarDataSourceButtons = toolbar.ShowDataSourceButtons;
+        ShowToolbarExportButtons = toolbar.ShowExportButtons;
+        ShowToolbarModeButtons = toolbar.ShowModeButtons;
     }
 
     public void RegisterPage( ReportPageDefinition page )

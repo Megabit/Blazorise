@@ -4,6 +4,7 @@ internal enum ReportDesignerContextMenuCommand
 {
     CutElement,
     CopyElement,
+    DuplicateElement,
     PasteElement,
     SelectAllSectionElements,
     ShowProperties,

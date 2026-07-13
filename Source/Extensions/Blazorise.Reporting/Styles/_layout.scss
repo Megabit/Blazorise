@@ -62,6 +62,10 @@
         overflow: auto;
     }
 
+    &-toolbar-group:empty {
+        display: none;
+    }
+
     &-tabs {
         position: sticky;
         bottom: 0;

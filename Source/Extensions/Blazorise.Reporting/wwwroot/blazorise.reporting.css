@@ -187,6 +187,9 @@
 .b-report-designer-surface {
   overflow: auto;
 }
+.b-report-designer-toolbar-group:empty {
+  display: none;
+}
 .b-report-designer-tabs {
   position: sticky;
   bottom: 0;

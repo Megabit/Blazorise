@@ -93,6 +93,11 @@ public partial class ReportToolbarItem
     [Parameter] public bool ShowCaption { get; set; }
 
     /// <summary>
+    /// Controls whether the toolbar item is rendered.
+    /// </summary>
+    [Parameter] public bool Visible { get; set; } = true;
+
+    /// <summary>
     /// Template used to render this toolbar command button.
     /// </summary>
     [Parameter] public RenderFragment<ReportToolbarItemContext> ButtonTemplate { get; set; }
