@@ -696,6 +696,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private async Task ResetDefinition()
     {
+        if ( !await ConfirmDestructiveAction( "Are you sure you want to reset the report to its initial definition?", "Reset report", "Reset" ) )
+            return;
+
         await ExecuteDesignerCommand( new( "Reset report", () =>
         {
             declarativeDefinition = BuildDeclarativeDefinition();
@@ -707,6 +710,18 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
             return Task.CompletedTask;
         }, () => declarativeDefinition, RefreshTargets: ReportDesignerRefreshTarget.All ) );
+    }
+
+    private Task<bool> ConfirmDestructiveAction( string message, string title, string confirmButtonText )
+    {
+        return MessageService.Confirm( message, title, options =>
+        {
+            options.ShowCloseButton = false;
+            options.ShowMessageIcon = false;
+            options.CancelButtonText = "Cancel";
+            options.ConfirmButtonText = confirmButtonText;
+            options.ConfirmButtonColor = Color.Danger;
+        } );
     }
 
     private Task CopySelectedElement()
@@ -1539,6 +1554,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     internal async Task OnDataSourceDeleted( string dataSourceName )
     {
         if ( string.IsNullOrWhiteSpace( dataSourceName ) )
+            return;
+
+        if ( !await ConfirmDestructiveAction( "Are you sure you want to delete this data source?", "Delete data source", "Delete" ) )
             return;
 
         await ExecuteDesignerCommand( new( "Delete data source", () =>
@@ -2759,6 +2777,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// PDF generator used by the report viewer download command.
     /// </summary>
     [Inject] private IPdfGenerator PdfGenerator { get; set; }
+
+    /// <summary>
+    /// Message service used to confirm destructive report commands.
+    /// </summary>
+    [Inject] private IMessageService MessageService { get; set; }
 
     /// <summary>
     /// Persisted report definition used by the designer and viewer.
