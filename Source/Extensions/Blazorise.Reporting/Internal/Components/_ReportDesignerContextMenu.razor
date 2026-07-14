@@ -9,8 +9,8 @@
             <ContextMenuToolbar>
                 <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Value="@ReportDesignerContextMenuCommand.PasteElement" Clicked="@OnCommandClicked" />
                 <ContextMenuToolbarItem Icon="IconName.CheckDouble" Text="Select all" Disabled="@(!State.CanSelectAllSectionElements)" Value="@ReportDesignerContextMenuCommand.SelectAllSectionElements" Clicked="@OnCommandClicked" />
-                <ContextMenuToolbarItem Icon="IconName.Delete" Text="Delete band" Disabled="@(!State.CanDeleteSection)" Value="@ReportDesignerContextMenuCommand.DeleteSection" Clicked="@OnCommandClicked" />
-                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" Value="@ReportDesignerContextMenuCommand.ShowProperties" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.Delete" Text="Delete band" TextColor="TextColor.Danger" Disabled="@(!State.CanDeleteSection)" Value="@ReportDesignerContextMenuCommand.DeleteSection" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" TextColor="TextColor.Info" Value="@ReportDesignerContextMenuCommand.ShowProperties" Clicked="@OnCommandClicked" />
             </ContextMenuToolbar>
             <ContextMenuDivider />
 
@@ -46,8 +46,8 @@
                 <ContextMenuToolbarItem Icon="IconName.Copy" Text="Copy" Value="@ReportDesignerContextMenuCommand.CopyElement" Clicked="@OnCommandClicked" />
                 <ContextMenuToolbarItem Icon="IconName.Duplicate" Text="Duplicate" Value="@ReportDesignerContextMenuCommand.DuplicateElement" Clicked="@OnCommandClicked" />
                 <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Value="@ReportDesignerContextMenuCommand.PasteElement" Clicked="@OnCommandClicked" />
-                <ContextMenuToolbarItem Icon="IconName.Delete" Text="Delete element" Value="@ReportDesignerContextMenuCommand.DeleteElement" Clicked="@OnCommandClicked" />
-                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" Value="@ReportDesignerContextMenuCommand.ShowProperties" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.Delete" Text="Delete element" TextColor="TextColor.Danger" Value="@ReportDesignerContextMenuCommand.DeleteElement" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" TextColor="TextColor.Info" Value="@ReportDesignerContextMenuCommand.ShowProperties" Clicked="@OnCommandClicked" />
             </ContextMenuToolbar>
             <ContextMenuDivider />
 
@@ -107,7 +107,7 @@
         {
             <ContextMenuToolbar>
                 <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Value="@ReportDesignerContextMenuCommand.PasteElement" Clicked="@OnCommandClicked" />
-                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" Value="@ReportDesignerContextMenuCommand.ShowProperties" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.List" Text="Properties" TextColor="TextColor.Info" Value="@ReportDesignerContextMenuCommand.ShowProperties" Clicked="@OnCommandClicked" />
             </ContextMenuToolbar>
             <ContextMenuDivider />
 
