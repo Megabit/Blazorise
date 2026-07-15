@@ -58,17 +58,23 @@ internal static class SvgChartTextRenderer
 
         var padding = options.PlotAreaPadding;
         var topPadding = padding?.Top ?? 24d;
-        var endPadding = padding?.End ?? 18d;
+        var endPadding = ResolveEndPadding( padding?.End );
         var bottomPadding = ResolveBottomPadding( options, model, padding?.Bottom );
         var startPadding = ResolveStartPadding( options, model, padding?.Start );
+        var axisTitleSize = ResolveAxisTitleReservedSize( options );
+        var hasCartesianAxes = model is not null && !SvgChartGeometry.IsRadialChart( model );
+        var isBarChart = hasCartesianAxes && SvgChartGeometry.IsBarChart( model );
+        var hasStartAxisTitle = hasCartesianAxes && !string.IsNullOrWhiteSpace( isBarChart ? model.CategoryAxis?.Title : model.PrimaryValueAxis?.Title );
+        var hasBottomAxisTitle = hasCartesianAxes && !string.IsNullOrWhiteSpace( isBarChart ? model.PrimaryValueAxis?.Title : model.CategoryAxis?.Title );
+        var hasEndAxisTitle = hasCartesianAxes && !isBarChart && model.ValueAxes.Any( x => x != model.PrimaryValueAxis && x.Position == SvgChartAxisPosition.Right && !string.IsNullOrWhiteSpace( x.Title ) );
         var top = topPadding + GetTopTextHeight( title ) + GetTopTextHeight( subtitle );
 
         if ( hasTopLegend )
             top += SvgChartLegendRenderer.ResolveReservedHeight( model, options, SvgChartLegendPosition.Top );
 
-        var bottom = options.Height - bottomPadding - ( hasBottomLegend ? SvgChartLegendRenderer.ResolveReservedHeight( model, options, SvgChartLegendPosition.Bottom ) : 0 ) - GetBottomTextHeight( title ) - GetBottomTextHeight( subtitle );
-        var left = startPadding + GetStartTextWidth( title ) + GetStartTextWidth( subtitle );
-        var right = options.Width - endPadding - GetEndTextWidth( title ) - GetEndTextWidth( subtitle );
+        var bottom = options.Height - bottomPadding - ( hasBottomAxisTitle ? axisTitleSize : 0 ) - ( hasBottomLegend ? SvgChartLegendRenderer.ResolveReservedHeight( model, options, SvgChartLegendPosition.Bottom ) : 0 ) - GetBottomTextHeight( title ) - GetBottomTextHeight( subtitle );
+        var left = startPadding + ( hasStartAxisTitle ? axisTitleSize : 0 ) + GetStartTextWidth( title ) + GetStartTextWidth( subtitle );
+        var right = options.Width - endPadding - ( hasEndAxisTitle ? axisTitleSize : 0 ) - GetEndTextWidth( title ) - GetEndTextWidth( subtitle );
 
         return new()
         {
@@ -211,7 +217,7 @@ internal static class SvgChartTextRenderer
             : 0;
     }
 
-    private static double ResolveStartPadding( SvgChartOptions options, SvgChartRenderModel model, double? padding )
+    internal static double ResolveStartPadding( SvgChartOptions options, SvgChartRenderModel model, double? padding )
     {
         if ( padding.HasValue )
             return padding.Value;
@@ -230,7 +236,7 @@ internal static class SvgChartTextRenderer
         return Math.Max( fallback, Math.Min( maxLabelWidth + 14, options.Width * 0.45 ) );
     }
 
-    private static double ResolveBottomPadding( SvgChartOptions options, SvgChartRenderModel model, double? padding )
+    internal static double ResolveBottomPadding( SvgChartOptions options, SvgChartRenderModel model, double? padding )
     {
         if ( padding.HasValue )
             return padding.Value;
@@ -261,6 +267,16 @@ internal static class SvgChartTextRenderer
         var rotatedHeight = maxLabelWidth * Math.Sin( rotation ) + fontSize * Math.Cos( rotation );
 
         return Math.Max( fallback, Math.Min( labels.Offset + rotatedHeight + 8, options.Height * 0.35 ) );
+    }
+
+    internal static double ResolveEndPadding( double? padding )
+    {
+        return padding ?? 18d;
+    }
+
+    internal static double ResolveAxisTitleReservedSize( SvgChartOptions options )
+    {
+        return ( options?.Font?.Size ?? 11 ) + 8;
     }
 
     private static string FormatCategoryLabel( SvgChartRenderModel model, object value, int index )

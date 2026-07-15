@@ -795,6 +795,7 @@ internal sealed class SvgChartModelBuilder<TItem>
                 Position = axis.Position,
                 GridLines = axis.GridLines,
                 Labels = axis.Labels,
+                Title = axis.Title,
                 TickFormatter = axis.TickFormatter,
                 Stacked = axis.Stacked,
                 Min = scale.Min,
