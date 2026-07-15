@@ -15352,6 +15352,17 @@ Install-Package Blazorise.Icons.Material";
         <ReportToolbarGroup>
             <ReportToolbarItem Command=""ReportCommand.Cut"" Caption=""Cut"" />
             <ReportToolbarItem Command=""ReportCommand.Copy"" Caption=""Copy"" />
+            <ReportToolbarItem Command=""ReportCommand.Duplicate"" Caption=""Duplicate"">
+                <ButtonTemplate Context=""item"">
+                    <Button Color=""Color.Warning"" Outline Active=""@item.Active"" Disabled=""@(!item.CanExecute)"" Clicked=""@item.Execute"" title=""@item.Text"">
+                        @if ( item.Icon is not null )
+                        {
+                            <Icon Name=""@item.Icon.Value"" Margin=""Margin.Is2.FromEnd"" />
+                        }
+                        @item.Text
+                    </Button>
+                </ButtonTemplate>
+            </ReportToolbarItem>
             <ReportToolbarItem Command=""ReportCommand.Paste"" Caption=""Paste"" />
             <ReportToolbarItem Command=""ReportCommand.Delete"" Caption=""Delete"" />
         </ReportToolbarGroup>
@@ -15622,8 +15633,10 @@ builder.Services
         <ReportText Text=""Invoice {Header.Number}"" X=""30"" Y=""18"" Width=""180"" Height=""24"" FontSize=""20"" Bold FontColor=""@ReportColors.Blue"" />
         <ReportText Text=""{Customer.Name}"" X=""30"" Y=""48"" Width=""240"" Height=""18"" Bold />
         <ReportText Text=""{Customer.Address}"" X=""30"" Y=""70"" Width=""300"" Height=""18"" FontColor=""@ReportColors.Gray"" />
-        <ReportRectangle X=""405"" Y=""20"" Width=""120"" Height=""54"" BorderColor=""@ReportColors.Blue"" />
-        <ReportText Text=""REPORT HEADER"" X=""418"" Y=""39"" Width=""94"" Height=""18"" Bold TextAlignment=""TextAlignment.Center"" FontColor=""@ReportColors.Blue"" />
+        <ReportLine Orientation=""Orientation.Vertical"" X=""380"" Y=""20"" Width=""8"" Height=""54"" Thickness=""1"" BorderColor=""@ReportColors.Blue"" />
+        <ReportPanel X=""405"" Y=""20"" Width=""120"" Height=""54"" BorderColor=""@ReportColors.Blue"" BorderWidth=""1"" BorderStyle=""ReportBorderStyle.Solid"">
+            <ReportText Text=""REPORT HEADER"" X=""13"" Y=""19"" Width=""94"" Height=""18"" Bold TextAlignment=""TextAlignment.Center"" FontColor=""@ReportColors.Blue"" />
+        </ReportPanel>
     </ReportHeader>
     <ReportPageHeader Name=""Page header"" Height=""35"">
         <ReportText Text=""Sku"" X=""30"" Y=""9"" Width=""75"" Height=""18"" Bold />
@@ -16004,6 +16017,8 @@ builder.Services
 
         public const string ReportingStateExample = @"<Report Data=""@invoice""
         @bind-Definition=""@definition""
+        SaveRequested=""@SaveReport""
+        LoadRequested=""@LoadReport""
         DesignerEnabled
         PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
     <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
@@ -16012,8 +16027,8 @@ builder.Services
         <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
     </ReportDataSources>
     <ReportHeader Name=""Stateful report header"" Height=""72"">
-        <ReportText Text=""Editable report state"" X=""30"" Y=""18"" Width=""240"" Height=""24"" FontSize=""18"" Bold FontColor=""@ReportColors.Blue"" />
-        <ReportText Text=""Move elements in the designer, then keep the changed definition through two-way binding."" X=""30"" Y=""45"" Width=""420"" Height=""18"" />
+        <ReportText Text=""Persistent report definition"" X=""30"" Y=""18"" Width=""270"" Height=""24"" FontSize=""18"" Bold FontColor=""@ReportColors.Blue"" />
+        <ReportText Text=""Move elements, save the definition as JSON, and load it again from the toolbar."" X=""30"" Y=""45"" Width=""450"" Height=""18"" />
     </ReportHeader>
     <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
         <ReportField Field=""Description"" X=""30"" Y=""6"" Width=""270"" Height=""18"" />
@@ -16024,6 +16039,8 @@ builder.Services
 @code {
     private ReportDefinition definition;
 
+    private string reportJson;
+
     private readonly InvoiceReportModel invoice = new()
     {
         Lines =
@@ -16033,14 +16050,20 @@ builder.Services
         ],
     };
 
-    private ReportDefinition SaveReport()
+    private Task SaveReport( ReportDefinition definition )
     {
-        return definition;
+        reportJson = ReportJsonSerializer.Serialize( definition );
+
+        return Task.CompletedTask;
     }
 
-    private void LoadReport( ReportDefinition savedDefinition )
+    private Task<ReportDefinition> LoadReport()
     {
-        definition = savedDefinition;
+        ReportDefinition savedDefinition = string.IsNullOrWhiteSpace( reportJson )
+            ? null
+            : ReportJsonSerializer.Deserialize( reportJson );
+
+        return Task.FromResult( savedDefinition );
     }
 
     private sealed class InvoiceReportModel

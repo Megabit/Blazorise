@@ -2,6 +2,8 @@
 
 <Report Data="@invoice"
         @bind-Definition="@definition"
+        SaveRequested="@SaveReport"
+        LoadRequested="@LoadReport"
         DesignerEnabled
         PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf">
     <ReportViewer PreviewFormat="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"
@@ -10,8 +12,8 @@
         <ReportObjectDataSource Name="Invoice" Data="@invoice" />
     </ReportDataSources>
     <ReportHeader Name="Stateful report header" Height="72">
-        <ReportText Text="Editable report state" X="30" Y="18" Width="240" Height="24" FontSize="18" Bold FontColor="@ReportColors.Blue" />
-        <ReportText Text="Move elements in the designer, then keep the changed definition through two-way binding." X="30" Y="45" Width="420" Height="18" />
+        <ReportText Text="Persistent report definition" X="30" Y="18" Width="270" Height="24" FontSize="18" Bold FontColor="@ReportColors.Blue" />
+        <ReportText Text="Move elements, save the definition as JSON, and load it again from the toolbar." X="30" Y="45" Width="450" Height="18" />
     </ReportHeader>
     <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
         <ReportField Field="Description" X="30" Y="6" Width="270" Height="18" />
@@ -22,6 +24,8 @@
 @code {
     private ReportDefinition definition;
 
+    private string reportJson;
+
     private readonly InvoiceReportModel invoice = new()
     {
         Lines =
@@ -31,14 +35,20 @@
         ],
     };
 
-    private ReportDefinition SaveReport()
+    private Task SaveReport( ReportDefinition definition )
     {
-        return definition;
+        reportJson = ReportJsonSerializer.Serialize( definition );
+
+        return Task.CompletedTask;
     }
 
-    private void LoadReport( ReportDefinition savedDefinition )
+    private Task<ReportDefinition> LoadReport()
     {
-        definition = savedDefinition;
+        ReportDefinition savedDefinition = string.IsNullOrWhiteSpace( reportJson )
+            ? null
+            : ReportJsonSerializer.Deserialize( reportJson );
+
+        return Task.FromResult( savedDefinition );
     }
 
     private sealed class InvoiceReportModel

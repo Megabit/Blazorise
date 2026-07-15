@@ -15,7 +15,17 @@
         <ReportToolbarGroup>
             <ReportToolbarItem Command="ReportCommand.Cut" Caption="Cut" />
             <ReportToolbarItem Command="ReportCommand.Copy" Caption="Copy" />
-            <ReportToolbarItem Command="ReportCommand.Duplicate" Caption="Duplicate" />
+            <ReportToolbarItem Command="ReportCommand.Duplicate" Caption="Duplicate">
+                <ButtonTemplate Context="item">
+                    <Button Color="Color.Warning" Outline Active="@item.Active" Disabled="@(!item.CanExecute)" Clicked="@item.Execute" title="@item.Text">
+                        @if ( item.Icon is not null )
+                        {
+                            <Icon Name="@item.Icon.Value" Margin="Margin.Is2.FromEnd" />
+                        }
+                        @item.Text
+                    </Button>
+                </ButtonTemplate>
+            </ReportToolbarItem>
             <ReportToolbarItem Command="ReportCommand.Paste" Caption="Paste" />
             <ReportToolbarItem Command="ReportCommand.Delete" Caption="Delete" />
         </ReportToolbarGroup>

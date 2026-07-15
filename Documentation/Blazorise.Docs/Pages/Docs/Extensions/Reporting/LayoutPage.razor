@@ -1,6 +1,6 @@
 @page "/docs/extensions/reporting/layout"
 
-<Seo Canonical="/docs/extensions/reporting/layout" Title="Blazorise Reporting layout" Description="Define report pages, bands, fields, lines, rectangles, and layout tables in Blazorise Reporting." />
+<Seo Canonical="/docs/extensions/reporting/layout" Title="Blazorise Reporting layout" Description="Define report pages, bands, panels, fields, lines, rectangles, and layout tables in Blazorise Reporting." />
 
 <DocsPageTitle Path="Extensions/Reporting/Layout" AddedVersion="New">
     Reporting layout
@@ -12,12 +12,20 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Page and bands">
-        Use report header, page header, detail, report footer, and page footer bands to define where content appears.
+        Use report header, page header, detail, report footer, and page footer bands to define where content appears. A panel groups related elements so they can be positioned and moved as one container.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="ReportingLayoutBandsExample" Outlined FullWidth>
         <ReportingLayoutBandsExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Panels
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    A <Code Tag>ReportPanel</Code> is a positioned container for other report elements. Child coordinates are relative to the panel, and elements can be moved into or out of the panel in the designer.
+</DocsPageParagraph>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Layout table">
@@ -28,11 +36,14 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Lines">
-        Line elements use <Code>X</Code> and <Code>Y</Code> for placement, <Code>Width</Code> and <Code>Height</Code> for the selectable element box, and <Code>Thickness</Code> for the centered stroke width in points.
-    </DocsPageSectionHeader>
-</DocsPageSection>
+<DocsPageSubtitle>
+    Lines
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Line elements use <Code>X</Code> and <Code>Y</Code> for placement, <Code>Width</Code> and <Code>Height</Code> for the selectable element box, and <Code>Thickness</Code> for the centered stroke width in points.
+    Set <Code>Orientation</Code> to <Code>Orientation.Horizontal</Code> or <Code>Orientation.Vertical</Code> to control the direction of the line.
+</DocsPageParagraph>
 
 <DocsPageApi>
     <DocsPageApiItem Url="docs/extensions/reporting/api" Name="<Report />" />
