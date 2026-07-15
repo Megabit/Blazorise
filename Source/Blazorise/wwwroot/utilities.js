@@ -615,10 +615,16 @@ export function verifyRsa(publicKey, content, signature) {
     return false;
 }
 
-export function log(showBanner, message, args) {
+export function log(showBanner, showCompactBanner, message, args) {
+    if (typeof showCompactBanner !== "boolean") {
+        args = message;
+        message = showCompactBanner;
+        showCompactBanner = false;
+    }
+
     console.log(message, args);
 
-    if (!showBanner) {
+    if (!showBanner && !showCompactBanner) {
         return;
     }
 
@@ -627,6 +633,7 @@ export function log(showBanner, message, args) {
 
     const st = (window[GLOBAL] ||= {
         dismissed: false,
+        expanded: false,
         bodyObserver: null,
         attrObserver: null
     });
@@ -647,6 +654,8 @@ export function log(showBanner, message, args) {
     if (host && host.shadowRoot) {
         const msgEl = host.shadowRoot.querySelector(".msg");
         if (msgEl) msgEl.innerHTML = cleanMessage;
+        const wrapperEl = host.shadowRoot.querySelector(".wrapper");
+        if (wrapperEl) wrapperEl.classList.toggle("compact", showCompactBanner && !st.expanded);
         return;
     }
 
@@ -674,7 +683,17 @@ export function log(showBanner, message, args) {
   border-top-left-radius: 6px !important;
   border-top-right-radius: 6px !important;
 }
+.wrapper.compact {
+  left: auto !important;
+  right: 16px !important;
+  bottom: 16px !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.24) !important;
+}
 .msg { flex: 1 1 auto !important; }
+.compact .msg,
+.compact .dismiss { display: none !important; }
 .btn {
   appearance: none !important;
   border: 1px solid rgba(255,255,255,0.7) !important;
@@ -687,19 +706,47 @@ export function log(showBanner, message, args) {
   transition: background .2s ease-in-out, color .2s ease-in-out !important;
 }
 .btn:hover { background: rgba(255,255,255,0.2) !important; }
+.compact-trigger {
+  display: none !important;
+  appearance: none !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: #FFFFFF !important;
+  padding: .55rem .85rem !important;
+  border-radius: 999px !important;
+  font: 600 12px/1.2 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  transition: background .2s ease-in-out !important;
+}
+.compact .compact-trigger { display: block !important; }
+.compact-trigger:hover { background: rgba(255,255,255,0.2) !important; }
+.btn:focus-visible,
+.compact-trigger:focus-visible { outline: 2px solid #FFFFFF !important; outline-offset: 2px !important; }
     `.trim();
 
     shadow.appendChild(style);
 
     const wrapperElement = document.createElement("div");
     wrapperElement.className = "wrapper";
+    wrapperElement.classList.toggle("compact", showCompactBanner && !st.expanded);
+    wrapperElement.setAttribute("role", "region");
+    wrapperElement.setAttribute("aria-label", "Blazorise license information");
 
     const messageElement = document.createElement("span");
     messageElement.className = "msg";
+    messageElement.id = "blazorise-license-banner-message";
     messageElement.innerHTML = cleanMessage;
 
+    const compactButton = document.createElement("button");
+    compactButton.className = "compact-trigger";
+    compactButton.type = "button";
+    compactButton.textContent = "Community License";
+    compactButton.setAttribute("aria-controls", messageElement.id);
+    compactButton.setAttribute("aria-expanded", "false");
+
     const button = document.createElement("button");
-    button.className = "btn";
+    button.className = "btn dismiss";
     button.type = "button";
     button.textContent = "Dismiss";
     button.addEventListener("click", () => {
@@ -709,8 +756,16 @@ export function log(showBanner, message, args) {
         host.remove();
     });
 
+    compactButton.addEventListener("click", () => {
+        st.expanded = true;
+        wrapperElement.classList.remove("compact");
+        compactButton.setAttribute("aria-expanded", "true");
+        button.focus();
+    });
+
     wrapperElement.appendChild(messageElement);
     wrapperElement.appendChild(button);
+    wrapperElement.appendChild(compactButton);
     shadow.appendChild(wrapperElement);
     document.body.appendChild(host);
 
