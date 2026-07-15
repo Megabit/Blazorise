@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using Blazorise;
 #endregion
 
@@ -12,7 +13,7 @@ namespace Blazorise.Reporting;
 public sealed class ReportDataSourceDefinition
 {
     /// <summary>
-    /// Stable identifier used by persisted report state.
+    /// Stable identifier used by persisted report definitions.
     /// </summary>
     public string Id { get; set; } = Guid.NewGuid().ToString( "N" );
 
@@ -27,8 +28,9 @@ public sealed class ReportDataSourceDefinition
     public string ProviderType { get; set; } = ObjectReportDataSourceProvider.ProviderType;
 
     /// <summary>
-    /// Source object or enumerable used when resolving report fields and data source paths.
+    /// Runtime source object or enumerable used when resolving report fields and data source paths. This value is not persisted.
     /// </summary>
+    [JsonIgnore]
     public object Data { get; set; }
 
     /// <summary>

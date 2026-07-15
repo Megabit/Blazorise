@@ -32,6 +32,8 @@ internal sealed class ReportContext
 
     public bool ShowToolbarPanesMenu { get; private set; } = true;
 
+    public bool ShowToolbarPersistenceButtons { get; private set; } = true;
+
     public bool ShowToolbarEditButtons { get; private set; } = true;
 
     public bool ShowToolbarHistoryButtons { get; private set; } = true;
@@ -134,6 +136,7 @@ internal sealed class ReportContext
         ToolbarButtonTemplate = toolbar.ButtonTemplate;
         HiddenToolbarCommands = toolbar.HiddenCommands;
         ShowToolbarPanesMenu = toolbar.ShowPanesMenu;
+        ShowToolbarPersistenceButtons = toolbar.ShowPersistenceButtons;
         ShowToolbarEditButtons = toolbar.ShowEditButtons;
         ShowToolbarHistoryButtons = toolbar.ShowHistoryButtons;
         ShowToolbarDataSourceButtons = toolbar.ShowDataSourceButtons;
@@ -172,8 +175,10 @@ internal sealed class ReportContext
 
         return new()
         {
+            FormatVersion = definition.FormatVersion,
             Id = definition.Id,
             Name = definition.Name,
+            Designer = CloneDesigner( definition.Designer ),
             Page = ClonePage( definition.Page ?? new() ),
             DataSources = definition.DataSources?.Select( CloneDataSource ).ToList() ?? [],
             FormulaFields = definition.FormulaFields?.Select( CloneFormulaField ).ToList() ?? [],
@@ -193,13 +198,24 @@ internal sealed class ReportContext
             Definition = CloneDefinition( state.Definition ),
             Mode = state.Mode,
             PreviewFormat = state.PreviewFormat,
-            SnapToGrid = state.SnapToGrid,
-            GridSize = state.GridSize,
             Selection = CloneSelection( state.Selection ),
             ClipboardElements = state.ClipboardElements?.Select( element => CloneElement( element ) ).ToList() ?? [],
             ClipboardBandId = state.ClipboardBandId,
-            CanUndo = state.CanUndo,
-            CanRedo = state.CanRedo,
+        };
+    }
+
+    private static ReportDesignerDefinition CloneDesigner( ReportDesignerDefinition designer )
+    {
+        designer ??= new();
+
+        return new()
+        {
+            SnapToGrid = designer.SnapToGrid,
+            GridSize = designer.GridSize,
+            ShowRulers = designer.ShowRulers,
+            ShowFineRulerTicks = designer.ShowFineRulerTicks,
+            ShowCollisionWarnings = designer.ShowCollisionWarnings,
+            BandMode = designer.BandMode,
         };
     }
 

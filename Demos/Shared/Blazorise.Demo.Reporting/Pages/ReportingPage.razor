@@ -9,6 +9,8 @@
             <CardBody>
                 <Report Data="@invoice"
                         @bind-Definition="@definition"
+                        SaveRequested="@SaveReport"
+                        LoadRequested="@LoadReport"
                         DesignerEnabled
                         PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf">
                     <ReportViewer PreviewFormat="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"
@@ -27,6 +29,10 @@
                             <ReportToolbarItem Command="ReportCommand.Undo" Caption="Undo" />
                             <ReportToolbarItem Command="ReportCommand.Redo" Caption="Redo" />
                             <ReportToolbarItem Command="ReportCommand.Reset" Caption="Reset" />
+                        </ReportToolbarGroup>
+                        <ReportToolbarGroup>
+                            <ReportToolbarItem Command="ReportCommand.Save" Caption="Save" Color="Color.Primary" />
+                            <ReportToolbarItem Command="ReportCommand.Load" Caption="Load" Color="Color.Info" />
                         </ReportToolbarGroup>
                         <ReportToolbarGroup>
                             <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
@@ -109,6 +115,10 @@
 </Row>
 
 @code {
+    [Inject] private Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }
+
+    private const string ReportStorageKey = "__REPORT_DEFINITION__";
+
     private static readonly ReportColor AccentColor = ReportColor.FromHex( "#6b8cff" );
 
     private static readonly ReportColor LightAccentColor = ReportColor.FromHex( "#8ed8ff" );
@@ -156,6 +166,22 @@
             new() { Category = "Freight", Sku = "HB-205", Description = "Priority freight lane", Quantity = 9, UnitPrice = 140.00m, Total = 1260.00m },
         ],
     };
+
+    private async Task SaveReport( ReportDefinition reportDefinition )
+    {
+        string json = ReportJsonSerializer.Serialize( reportDefinition );
+
+        await LocalStorage.SetItemAsync( ReportStorageKey, json );
+    }
+
+    private async Task<ReportDefinition> LoadReport()
+    {
+        string json = await LocalStorage.GetItemAsync<string>( ReportStorageKey );
+
+        return string.IsNullOrWhiteSpace( json )
+            ? null
+            : ReportJsonSerializer.Deserialize( json );
+    }
 
     private sealed class InvoiceReportModel
     {

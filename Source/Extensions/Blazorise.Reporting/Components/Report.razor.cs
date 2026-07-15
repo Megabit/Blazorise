@@ -33,13 +33,25 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         => designer?.IsCommandActive( command ) ?? false;
 
     /// <summary>
-    /// Gets the current persisted report state.
+    /// Gets the current interactive report designer state.
     /// </summary>
     public Task<ReportState> GetState()
         => designer?.GetState() ?? Task.FromResult<ReportState>( null );
 
     /// <summary>
-    /// Loads a persisted report state.
+    /// Gets a copy of the current persistent report definition.
+    /// </summary>
+    public Task<ReportDefinition> GetDefinition()
+        => designer?.GetDefinition() ?? Task.FromResult( ReportContext.CloneDefinition( Definition ) );
+
+    /// <summary>
+    /// Loads a persistent report definition.
+    /// </summary>
+    public Task LoadDefinition( ReportDefinition definition )
+        => designer?.LoadDefinition( definition ) ?? Task.CompletedTask;
+
+    /// <summary>
+    /// Loads an interactive report designer state.
     /// </summary>
     public Task LoadState( ReportState state )
         => designer?.LoadState( state ) ?? Task.CompletedTask;
@@ -63,6 +75,16 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [Parameter] public EventCallback<ReportDefinition> DefinitionChanged { get; set; }
 
     /// <summary>
+    /// Handles requests to save the current report definition.
+    /// </summary>
+    [Parameter] public Func<ReportDefinition, Task> SaveRequested { get; set; }
+
+    /// <summary>
+    /// Handles requests to load a report definition.
+    /// </summary>
+    [Parameter] public Func<Task<ReportDefinition>> LoadRequested { get; set; }
+
+    /// <summary>
     /// Default data source object or enumerable used when no explicit <see cref="ReportDataSource"/> is declared.
     /// </summary>
     [Parameter] public object Data { get; set; }
@@ -83,7 +105,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [Parameter] public bool ShowToolbar { get; set; } = true;
 
     /// <summary>
-    /// Band presentation used by the designer.
+    /// Band presentation used when constructing a report from declarative content. Persisted definitions retain their configured value.
     /// </summary>
     [Parameter] public ReportBandMode BandMode { get; set; } = ReportBandMode.Classic;
 
@@ -103,7 +125,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [Parameter] public bool ShowBandDataSource { get; set; } = true;
 
     /// <summary>
-    /// Shows design-time warnings when sibling report elements overlap.
+    /// Defines collision warning visibility when constructing a report from declarative content. Persisted definitions retain their configured value.
     /// </summary>
     [Parameter] public bool ShowCollisionWarnings { get; set; } = true;
 
@@ -113,7 +135,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [Parameter] public EventCallback<bool> ShowCollisionWarningsChanged { get; set; }
 
     /// <summary>
-    /// Shows measurement rulers around the report designer page.
+    /// Defines ruler visibility when constructing a report from declarative content. Persisted definitions retain their configured value.
     /// </summary>
     [Parameter] public bool ShowRulers { get; set; } = true;
 
@@ -123,7 +145,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [Parameter] public EventCallback<bool> ShowRulersChanged { get; set; }
 
     /// <summary>
-    /// Shows fine-grained measurement ruler ticks.
+    /// Defines fine ruler tick visibility when constructing a report from declarative content. Persisted definitions retain their configured value.
     /// </summary>
     [Parameter] public bool ShowFineRulerTicks { get; set; }
 

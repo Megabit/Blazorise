@@ -1,15 +1,16 @@
 #region Using directives
 using System.Collections.Generic;
-using Blazorise.Reporting.Internal;
 #endregion
 
 namespace Blazorise.Reporting;
 
 /// <summary>
-/// Captures the full interactive state of a report designer instance.
+/// Captures a report definition together with transient designer state.
 /// </summary>
 public sealed class ReportState
 {
+    #region Properties
+
     /// <summary>
     /// Report definition currently edited or previewed.
     /// </summary>
@@ -26,16 +27,6 @@ public sealed class ReportState
     public ReportPreviewFormat PreviewFormat { get; set; }
 
     /// <summary>
-    /// Enables grid-aligned movement and resizing in the designer.
-    /// </summary>
-    public bool SnapToGrid { get; set; }
-
-    /// <summary>
-    /// Grid size used by designer movement and resizing.
-    /// </summary>
-    public double GridSize { get; set; } = ReportLayoutGeometry.DefaultGridSize;
-
-    /// <summary>
     /// Current report, band, or element selection.
     /// </summary>
     public ReportSelectionState Selection { get; set; } = new();
@@ -50,13 +41,5 @@ public sealed class ReportState
     /// </summary>
     public string ClipboardBandId { get; set; }
 
-    /// <summary>
-    /// Indicates whether the command history can undo the latest operation.
-    /// </summary>
-    public bool CanUndo { get; set; }
-
-    /// <summary>
-    /// Indicates whether the command history can redo the latest undone operation.
-    /// </summary>
-    public bool CanRedo { get; set; }
+    #endregion
 }

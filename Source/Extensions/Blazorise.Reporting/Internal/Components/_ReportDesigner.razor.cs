@@ -197,6 +197,13 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         }
 
         definition.Page = ResolvePage( definition.Page );
+        definition.Designer = new()
+        {
+            BandMode = BandMode,
+            ShowRulers = ShowRulers,
+            ShowFineRulerTicks = ShowFineRulerTicks,
+            ShowCollisionWarnings = ShowCollisionWarnings,
+        };
 
         return ReportDefinitionHelper.EnsureDefinitionIds( definition );
     }
@@ -431,12 +438,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal double GetDesignerSectionBodyTopOffset()
     {
-        return BandMode == ReportBandMode.Classic ? ReportMeasurementConverter.FromCssPixelValue( DesignerConstants.DesignerBandHeaderHeight ) : 0;
+        return CurrentBandMode == ReportBandMode.Classic ? ReportMeasurementConverter.FromCssPixelValue( DesignerConstants.DesignerBandHeaderHeight ) : 0;
     }
 
     internal bool IsDesignerBandRailVisible()
     {
-        return BandMode == ReportBandMode.Rail;
+        return CurrentBandMode == ReportBandMode.Rail;
     }
 
     internal bool IsSectionCollapsedForRender( ReportBandDefinition section )
@@ -526,6 +533,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             ReportCommand.Preview => SetPreview( SupportsPreviewFormat( currentPreviewFormat ) ? currentPreviewFormat : context.ViewerOptions.DefaultFormat ),
             ReportCommand.PreviewHtml => SetPreview( ReportPreviewFormat.Html ),
             ReportCommand.PreviewPdf => SetPreview( ReportPreviewFormat.Pdf ),
+            ReportCommand.Save => SaveDefinition(),
+            ReportCommand.Load => LoadRequestedDefinition(),
             ReportCommand.ConnectDataSource => OpenDataSourceConnectionDialog(),
             ReportCommand.DownloadPdf => DownloadPdf(),
             ReportCommand.Cut => CutSelectedElement(),
@@ -536,7 +545,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             ReportCommand.Undo => Undo(),
             ReportCommand.Redo => Redo(),
             ReportCommand.Reset => ResetDefinition(),
-            _ => SetPreview( ReportPreviewFormat.Html ),
+            _ => Task.CompletedTask,
         } );
     }
 
@@ -555,6 +564,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             ReportCommand.Preview => SupportsPreviewFormat( currentPreviewFormat ) || SupportsPreviewFormat( context.ViewerOptions.DefaultFormat ),
             ReportCommand.PreviewHtml => SupportsPreviewFormat( ReportPreviewFormat.Html ),
             ReportCommand.PreviewPdf => SupportsPreviewFormat( ReportPreviewFormat.Pdf ),
+            ReportCommand.Save => SaveRequested is not null,
+            ReportCommand.Load => LoadRequested is not null && CurrentDefinitionMode != ReportDefinitionMode.AlwaysUseDeclarative,
             ReportCommand.ConnectDataSource => CurrentMode == ReportMode.Design && IsDesignerEnabled && DataSourceProviders.Count > 0,
             ReportCommand.DownloadPdf => context.ViewerOptions.AllowDownload && SupportsPreviewFormat( ReportPreviewFormat.Pdf ) && PdfGenerator is not null,
             ReportCommand.Cut or ReportCommand.Copy or ReportCommand.Duplicate => CurrentMode == ReportMode.Design && GetSelectedElementContexts( definition ).Count > 0,
@@ -584,12 +595,42 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     }
 
     /// <summary>
-    /// Captures the current report definition, mode, selection, clipboard, and history availability.
+    /// Captures the current report definition, mode, selection, and clipboard.
     /// </summary>
-    /// <returns>Serializable report designer state.</returns>
+    /// <returns>Interactive report designer state.</returns>
     public Task<ReportState> GetState()
     {
         return Task.FromResult( CaptureReportState( RootDefinition ) );
+    }
+
+    /// <summary>
+    /// Gets a copy of the current persistent report definition.
+    /// </summary>
+    public Task<ReportDefinition> GetDefinition()
+    {
+        return Task.FromResult( ReportContext.CloneDefinition( RootDefinition ) );
+    }
+
+    /// <summary>
+    /// Loads a persistent report definition.
+    /// </summary>
+    /// <param name="definition">Definition to load.</param>
+    public async Task LoadDefinition( ReportDefinition definition )
+    {
+        if ( definition is null || CurrentDefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative )
+            return;
+
+        ReportDefinition loadedDefinition = ReportContext.CloneDefinition( definition );
+
+        await ResolveDataSources( loadedDefinition, CurrentMode == ReportMode.Preview );
+
+        commandManager.Clear();
+        await ApplyReportState( new()
+        {
+            Definition = loadedDefinition,
+            Mode = CurrentMode,
+            PreviewFormat = CurrentPreviewFormat,
+        }, notifyDefinitionChanged: true, ReportDesignerRefreshTarget.All );
     }
 
     /// <summary>
@@ -843,13 +884,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             Definition = ReportContext.CloneDefinition( definition ),
             Mode = CurrentMode,
             PreviewFormat = CurrentPreviewFormat,
-            SnapToGrid = designerState.SnapToGrid,
-            GridSize = designerState.GridSize,
             Selection = selectionManager.CaptureState( definition ),
             ClipboardElements = clipboardElements?.Select( ReportContext.CloneElement ).ToList() ?? [],
             ClipboardBandId = clipboardBandId,
-            CanUndo = commandManager.CanUndo,
-            CanRedo = commandManager.CanRedo,
         };
     }
 
@@ -865,8 +902,6 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         activeSubreportElementKey = ResolveActiveSubreportElementKey( definition, previousActiveSubreportElementKey );
         clipboardElements = nextState.ClipboardElements?.Select( ReportContext.CloneElement ).ToList() ?? [];
         clipboardBandId = nextState.ClipboardBandId;
-        designerState.SnapToGrid = nextState.SnapToGrid;
-        designerState.GridSize = Math.Max( 1, nextState.GridSize );
         selectionManager.ApplyState( definition, nextState.Selection );
         if ( !string.Equals( previousActiveSubreportElementKey, activeSubreportElementKey, StringComparison.Ordinal ) )
             ResetDesignerSurfaceScrollPosition();
@@ -1924,7 +1959,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             return;
 
         bool useSnapToGrid = IsSnapToGridEnabled( element );
-        double moveStep = useSnapToGrid ? designerState.GridSize : DesignerConstants.KeyboardMoveStep;
+        double moveStep = useSnapToGrid ? GridSize : DesignerConstants.KeyboardMoveStep;
         List<ReportElementPointerItemState> selectedElements = CaptureElementPointerItems( definition, ReportDefinitionHelper.EnsureElementId( element ) ).ToList();
 
         if ( selectedElements.Count == 0 )
@@ -2335,17 +2370,33 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal double ApplyDesignerGrid( double value )
     {
-        return ApplyDesignerGrid( value, designerState.SnapToGrid );
+        return ApplyDesignerGrid( value, SnapToGrid );
+    }
+
+    private Task SaveDefinition()
+    {
+        return SaveRequested?.Invoke( ReportContext.CloneDefinition( RootDefinition ) ) ?? Task.CompletedTask;
+    }
+
+    private async Task LoadRequestedDefinition()
+    {
+        if ( LoadRequested is null )
+            return;
+
+        ReportDefinition definition = await LoadRequested();
+
+        if ( definition is not null )
+            await LoadDefinition( definition );
     }
 
     internal double ApplyDesignerGrid( double value, bool useSnapToGrid )
     {
-        return useSnapToGrid ? ReportLayoutGeometry.SnapToGrid( value, designerState.GridSize ) : Math.Max( 0, value );
+        return useSnapToGrid ? ReportLayoutGeometry.SnapToGrid( value, GridSize ) : Math.Max( 0, value );
     }
 
     internal bool IsSnapToGridEnabled( ReportElementDefinition element )
     {
-        return element?.SnapToGrid?.Value ?? designerState.SnapToGrid;
+        return element?.SnapToGrid?.Value ?? SnapToGrid;
     }
 
     internal IEnumerable<string> FindElementsInsideSelectionBox( ReportDefinition definition, ReportDesignerSelectionBox selectionBox )
@@ -2411,7 +2462,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         if ( designerState.SectionPointerResize?.SectionIndex == sectionIndex )
             return designerState.SectionPointerResize.TargetHeight + GetDesignerSectionBodyTopOffset();
 
-        if ( BandMode == ReportBandMode.Rail
+        if ( CurrentBandMode == ReportBandMode.Rail
              && !ReportValueResolver.ResolveStaticSuppress( section )
              && IsSectionCollapsed( section ) )
         {
@@ -2458,67 +2509,68 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         return ReportLayoutGeometry.GetMinimumSectionHeight( section );
     }
 
-    internal void OnSnapToGridChanged( bool value )
-    {
-        designerState.SnapToGrid = value;
-    }
+    internal Task OnSnapToGridChanged( bool value )
+        => SnapToGrid == value
+            ? Task.CompletedTask
+            : UpdateDesignerDefinition( "Update snap to grid", designer => designer.SnapToGrid = value, ReportDesignerRefreshTarget.SelectedPanel );
 
-    internal void OnGridSizeChanged( double value )
+    internal Task OnGridSizeChanged( double value )
     {
-        designerState.GridSize = Math.Max( 1, value );
-        RefreshDesignerSurface();
+        double gridSize = Math.Max( 1, value );
+
+        return GridSize == gridSize
+            ? Task.CompletedTask
+            : UpdateDesignerDefinition( "Update grid size", designer => designer.GridSize = gridSize, ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.SelectedPanel );
     }
 
     internal async Task OnShowRulersChanged( bool value )
     {
-        if ( ShowRulers == value )
+        if ( CurrentShowRulers == value )
             return;
 
-        ShowRulers = value;
-        RefreshDesigner( ReportDesignerRefreshTarget.Surface );
+        await UpdateDesignerDefinition( "Update ruler visibility", designer => designer.ShowRulers = value, ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.SelectedPanel );
 
         await ShowRulersChanged.InvokeAsync( value );
-
-        await InvokeAsync( StateHasChanged );
     }
 
     internal async Task OnShowFineRulerTicksChanged( bool value )
     {
-        if ( ShowFineRulerTicks == value )
+        if ( CurrentShowFineRulerTicks == value )
             return;
 
-        ShowFineRulerTicks = value;
-        RefreshDesigner( ReportDesignerRefreshTarget.Surface );
+        await UpdateDesignerDefinition( "Update fine ruler ticks", designer => designer.ShowFineRulerTicks = value, ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.SelectedPanel );
 
         await ShowFineRulerTicksChanged.InvokeAsync( value );
-
-        await InvokeAsync( StateHasChanged );
     }
 
     internal async Task OnShowCollisionWarningsChanged( bool value )
     {
-        if ( ShowCollisionWarnings == value )
+        if ( CurrentShowCollisionWarnings == value )
             return;
 
-        ShowCollisionWarnings = value;
-        RefreshDesignerSurface();
+        await UpdateDesignerDefinition( "Update collision warnings", designer => designer.ShowCollisionWarnings = value, ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.SelectedPanel );
 
         await ShowCollisionWarningsChanged.InvokeAsync( value );
-
-        await InvokeAsync( StateHasChanged );
     }
 
     internal async Task OnBandModeChanged( ReportBandMode value )
     {
-        if ( BandMode == value )
+        if ( CurrentBandMode == value )
             return;
 
-        BandMode = value;
-        RefreshDesignerSurface();
+        await UpdateDesignerDefinition( "Update band mode", designer => designer.BandMode = value, ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.SelectedPanel );
 
         await BandModeChanged.InvokeAsync( value );
+    }
 
-        await InvokeAsync( StateHasChanged );
+    private Task UpdateDesignerDefinition( string commandName, Action<ReportDesignerDefinition> update, ReportDesignerRefreshTarget refreshTargets )
+    {
+        return ExecuteDesignerCommand( new( commandName, () =>
+        {
+            update( DesignerDefinition );
+
+            return Task.CompletedTask;
+        }, RefreshTargets: refreshTargets ) );
     }
 
     internal void ClearDragState()
@@ -2694,14 +2746,29 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     private ReportDefinition RootDefinition
         => CurrentDefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative
             ? BuildDeclarativeDefinition()
-            : Definition ?? declarativeDefinition ?? BuildDeclarativeDefinition();
+            : declarativeDefinition ?? Definition ?? BuildDeclarativeDefinition();
 
     private ReportDefinition EffectiveDefinition
         => ResolveActiveDesignerDefinition( RootDefinition );
 
+    private ReportDesignerDefinition DesignerDefinition
+        => RootDefinition.Designer ??= new();
+
     internal ReportDefinition DesignerRootDefinition => RootDefinition;
 
     internal ReportDesignerInteractionState InteractionState => designerState;
+
+    internal bool SnapToGrid => DesignerDefinition.SnapToGrid;
+
+    internal double GridSize => DesignerDefinition.GridSize;
+
+    internal bool CurrentShowRulers => DesignerDefinition.ShowRulers;
+
+    internal bool CurrentShowFineRulerTicks => DesignerDefinition.ShowFineRulerTicks;
+
+    internal bool CurrentShowCollisionWarnings => DesignerDefinition.ShowCollisionWarnings;
+
+    internal ReportBandMode CurrentBandMode => DesignerDefinition.BandMode;
 
     internal ReportSelectionManager Selection => selectionManager;
 
@@ -2738,6 +2805,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     internal RenderFragment<ReportToolbarItemContext> ToolbarButtonTemplate => context.ToolbarButtonTemplate;
 
     internal bool ShowToolbarPanesMenu => context.ShowToolbarPanesMenu;
+
+    internal bool ShowToolbarPersistenceButtons => context.ShowToolbarPersistenceButtons;
 
     internal bool ShowToolbarEditButtons => context.ShowToolbarEditButtons;
 
@@ -2818,6 +2887,16 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     [Parameter] public EventCallback<ReportDefinition> DefinitionChanged { get; set; }
 
     /// <summary>
+    /// Handles requests to save the current report definition.
+    /// </summary>
+    [Parameter] public Func<ReportDefinition, Task> SaveRequested { get; set; }
+
+    /// <summary>
+    /// Handles requests to load a report definition.
+    /// </summary>
+    [Parameter] public Func<Task<ReportDefinition>> LoadRequested { get; set; }
+
+    /// <summary>
     /// Default data source object or enumerable used when no explicit <see cref="ReportDataSource"/> is declared.
     /// </summary>
     [Parameter] public object Data { get; set; }
@@ -2838,7 +2917,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     [Parameter] public bool ShowToolbar { get; set; } = true;
 
     /// <summary>
-    /// Band presentation used by the designer.
+    /// Band presentation used when constructing a report from declarative content. Persisted definitions retain their configured value.
     /// </summary>
     [Parameter] public ReportBandMode BandMode { get; set; } = ReportBandMode.Classic;
 
@@ -2858,7 +2937,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     [Parameter] public bool ShowBandDataSource { get; set; } = true;
 
     /// <summary>
-    /// Shows design-time warnings when sibling report elements overlap.
+    /// Defines collision warning visibility when constructing a report from declarative content. Persisted definitions retain their configured value.
     /// </summary>
     [Parameter] public bool ShowCollisionWarnings { get; set; } = true;
 
@@ -2868,7 +2947,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     [Parameter] public EventCallback<bool> ShowCollisionWarningsChanged { get; set; }
 
     /// <summary>
-    /// Shows measurement rulers around the report designer page.
+    /// Defines ruler visibility when constructing a report from declarative content. Persisted definitions retain their configured value.
     /// </summary>
     [Parameter] public bool ShowRulers { get; set; } = true;
 
@@ -2878,7 +2957,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     [Parameter] public EventCallback<bool> ShowRulersChanged { get; set; }
 
     /// <summary>
-    /// Shows fine-grained measurement ruler ticks.
+    /// Defines fine ruler tick visibility when constructing a report from declarative content. Persisted definitions retain their configured value.
     /// </summary>
     [Parameter] public bool ShowFineRulerTicks { get; set; }
 

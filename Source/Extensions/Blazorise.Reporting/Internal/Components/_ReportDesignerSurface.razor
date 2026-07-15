@@ -7,13 +7,13 @@
     ReportSelectionManager selection = Designer.Selection;
 }
 
-<_ReportDesignerRulerLayout Visible="@Designer.ShowRulers"
+<_ReportDesignerRulerLayout Visible="@Designer.CurrentShowRulers"
                             Unit="@definition.Page.MeasurementUnit"
                             PageWidth="@Designer.GetReportPageWidth( definition )"
                             PageHeight="@Designer.GetDesignerRulerHeight( definition )"
                             WidthOffset="@Designer.GetReportPageWidthOffset()"
-                            GridSize="@state.GridSize"
-                            ShowFineTicks="@Designer.ShowFineRulerTicks"
+                            GridSize="@Designer.GridSize"
+                            ShowFineTicks="@Designer.CurrentShowFineRulerTicks"
                             ReportSelected="@Designer.OnReportSelected"
                             Marker="@Designer.GetDesignerRulerMarker( definition )">
     <_ReportDesignerPage @ref="designerPageRef"
@@ -26,7 +26,7 @@
                          MarginTop="@_ReportDesigner.GetReportPageMarginTop( definition )"
                          MarginRight="@_ReportDesigner.GetReportPageMarginRight( definition )"
                          MarginBottom="@_ReportDesigner.GetReportPageMarginBottom( definition )"
-                         GridSize="@state.GridSize"
+                         GridSize="@Designer.GridSize"
                          DesignMode
                          PointerMove="@PreviewPageSelectionBox"
                          PointerUp="@CompletePageSelectionBox"
@@ -58,7 +58,7 @@
                                         DesignMode
                                         Active="@Designer.IsSectionSelected( capturedSectionIndex )"
                                         Collapsed="@collapsed"
-                                        BandMode="@Designer.BandMode"
+                                        BandMode="@Designer.CurrentBandMode"
                                         RailVisible="@railVisible"
                                         Editable="@editable"
                                         ExternalDragActive="@IsExternalDesignerDragActive()"

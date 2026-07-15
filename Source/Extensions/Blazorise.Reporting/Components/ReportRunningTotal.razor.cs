@@ -35,7 +35,7 @@ public partial class ReportRunningTotal : ComponentBase
     [CascadingParameter] internal ReportContext ReportContext { get; set; }
 
     /// <summary>
-    /// Stable identifier used by persisted report state.
+    /// Stable identifier used by persisted report definitions.
     /// </summary>
     [Parameter] public string Id { get; set; } = System.Guid.NewGuid().ToString( "N" );
 

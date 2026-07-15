@@ -36,6 +36,8 @@ public partial class ReportToolbarItem
             ReportCommand.Preview => IconName.Eye,
             ReportCommand.PreviewHtml => IconName.FileAlt,
             ReportCommand.PreviewPdf => IconName.FilePdf,
+            ReportCommand.Save => IconName.Save,
+            ReportCommand.Load => IconName.FolderOpen,
             ReportCommand.ConnectDataSource => IconName.Database,
             ReportCommand.DownloadPdf => IconName.FileDownload,
             ReportCommand.Cut => IconName.Cut,

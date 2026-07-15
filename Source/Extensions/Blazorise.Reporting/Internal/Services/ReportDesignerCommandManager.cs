@@ -45,8 +45,6 @@ internal sealed class ReportDesignerCommandManager
                 refreshTargets |= ReportDesignerRefreshTarget.ElementSelection;
 
             historyService.Record( new ReportStateHistoryAction( command.Name, beforeState, afterState, refreshTargets ) );
-            afterState.CanUndo = historyService.CanUndo;
-            afterState.CanRedo = historyService.CanRedo;
             designerState.State = ReportContext.CloneState( afterState );
         }
         else

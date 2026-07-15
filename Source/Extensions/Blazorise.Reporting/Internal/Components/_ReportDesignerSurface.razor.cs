@@ -905,7 +905,7 @@ public partial class _ReportDesignerSurface
             clientX,
             clientY,
             sectionIndex => GetSectionOffsetY( EffectiveDefinition, sectionIndex ),
-            value => ApplyDesignerGrid( value, designerState.ElementPointerDrag?.SnapToGrid ?? designerState.SnapToGrid ) );
+            value => ApplyDesignerGrid( value, designerState.ElementPointerDrag?.SnapToGrid ?? Designer.SnapToGrid ) );
     }
 
     private async Task PreviewElementPointerResize( PointerEventArgs eventArgs )
@@ -991,7 +991,7 @@ public partial class _ReportDesignerSurface
 
         await ExecuteDesignerCommand( new( "Resize element", () =>
         {
-            ReportDesignerInteractionService.ApplyElementPointerResize( EffectiveDefinition, pointerResize, pointerResize.SnapToGrid ? designerState.GridSize : 0 );
+            ReportDesignerInteractionService.ApplyElementPointerResize( EffectiveDefinition, pointerResize, pointerResize.SnapToGrid ? Designer.GridSize : 0 );
 
             foreach ( ReportElementPointerItemState item in pointerResize.SelectedElements )
             {
@@ -1296,7 +1296,7 @@ public partial class _ReportDesignerSurface
 
     private bool IsElementColliding( string elementKey )
     {
-        if ( !Designer.ShowCollisionWarnings || string.IsNullOrWhiteSpace( elementKey ) )
+        if ( !Designer.CurrentShowCollisionWarnings || string.IsNullOrWhiteSpace( elementKey ) )
             return false;
 
         if ( collisionMutationVersion != Designer.RenderMutationVersion )
@@ -1312,7 +1312,7 @@ public partial class _ReportDesignerSurface
     {
         ReportDefinition definition = EffectiveDefinition;
 
-        if ( !Designer.ShowCollisionWarnings
+        if ( !Designer.CurrentShowCollisionWarnings
             || preview is null
             || designerState.TablePointerResize is not null
             || definition is null
@@ -1426,7 +1426,7 @@ public partial class _ReportDesignerSurface
             designerState.DraggedElement,
             clientX,
             clientY,
-            value => ApplyDesignerGrid( value, designerState.ElementPointerResize?.SnapToGrid ?? designerState.SnapToGrid ) );
+            value => ApplyDesignerGrid( value, designerState.ElementPointerResize?.SnapToGrid ?? Designer.SnapToGrid ) );
     }
 
     internal async Task PreviewDesignerDrag( int targetSectionIndex, ElementReference sectionBodyElement, DragEventArgs eventArgs )
@@ -1437,7 +1437,7 @@ public partial class _ReportDesignerSurface
         var offset = await GetDesignerDragOffset( sectionBodyElement, eventArgs );
         bool useSnapToGrid = designerState.DraggedKind == ReportDesignerDragKind.Element
             ? IsSnapToGridEnabled( designerState.DraggedElement )
-            : designerState.SnapToGrid;
+            : Designer.SnapToGrid;
         var preview = CreateDragPreview( targetSectionIndex, ApplyDesignerGrid( offset.X, useSnapToGrid ), ApplyDesignerGrid( offset.Y, useSnapToGrid ) );
 
         if ( preview is null )
@@ -1455,7 +1455,7 @@ public partial class _ReportDesignerSurface
 
         var now = DateTime.UtcNow;
 
-        if ( !designerState.SnapToGrid
+        if ( !Designer.SnapToGrid
             && designerState.DragPreview is not null
             && designerState.DragPreview.SectionIndex == preview.SectionIndex
             && now - designerState.LastDragPreviewRenderTime < DesignerConstants.DragPreviewFreeDropThrottle )
@@ -1494,7 +1494,7 @@ public partial class _ReportDesignerSurface
             var offset = await GetDesignerDragOffset( sectionBodyElement, eventArgs );
             bool useSnapToGrid = designerState.DraggedKind == ReportDesignerDragKind.Element
                 ? IsSnapToGridEnabled( designerState.DraggedElement )
-                : designerState.SnapToGrid;
+                : Designer.SnapToGrid;
             var x = ApplyDesignerGrid( offset.X, useSnapToGrid );
             var y = ApplyDesignerGrid( offset.Y, useSnapToGrid );
             var tableDropTarget = tableEditor.TryFindCellAt( definition.Bands[targetSectionIndex], x, y, out ReportTableCellDropTarget cellDropTarget )

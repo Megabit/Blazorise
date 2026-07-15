@@ -73,5 +73,15 @@ public enum ReportCommand
     /// <summary>
     /// Restores the report to its seed definition.
     /// </summary>
-    Reset
+    Reset,
+
+    /// <summary>
+    /// Requests that the current report definition be saved.
+    /// </summary>
+    Save,
+
+    /// <summary>
+    /// Requests and loads a report definition.
+    /// </summary>
+    Load
 }

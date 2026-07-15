@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using Blazorise;
 #endregion
 
@@ -9,6 +10,16 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Describes shared state for a single visual element placed in a report container.
 /// </summary>
+[JsonPolymorphic( TypeDiscriminatorPropertyName = "$type" )]
+[JsonDerivedType( typeof( ReportTextElementDefinition ), "text" )]
+[JsonDerivedType( typeof( ReportFieldElementDefinition ), "field" )]
+[JsonDerivedType( typeof( ReportTableElementDefinition ), "table" )]
+[JsonDerivedType( typeof( ReportImageElementDefinition ), "image" )]
+[JsonDerivedType( typeof( ReportLineElementDefinition ), "line" )]
+[JsonDerivedType( typeof( ReportRectangleElementDefinition ), "rectangle" )]
+[JsonDerivedType( typeof( ReportPageBreakElementDefinition ), "pageBreak" )]
+[JsonDerivedType( typeof( ReportSubreportElementDefinition ), "subreport" )]
+[JsonDerivedType( typeof( ReportPanelElementDefinition ), "panel" )]
 public abstract class ReportElementDefinition
 {
     /// <summary>
@@ -24,6 +35,7 @@ public abstract class ReportElementDefinition
     /// <summary>
     /// Element kind rendered by the designer and preview.
     /// </summary>
+    [JsonIgnore]
     public abstract ReportElementType Type { get; }
 
     /// <summary>

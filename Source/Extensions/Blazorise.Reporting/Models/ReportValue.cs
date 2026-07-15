@@ -1,3 +1,7 @@
+#region Using directives
+using System.Text.Json.Serialization;
+#endregion
+
 namespace Blazorise.Reporting;
 
 /// <summary>
@@ -6,6 +10,21 @@ namespace Blazorise.Reporting;
 /// <typeparam name="T">The property value type.</typeparam>
 public sealed class ReportValue<T>
 {
+    #region Methods
+
+    /// <summary>
+    /// Creates a report value from a static property value.
+    /// </summary>
+    /// <param name="value">Static property value.</param>
+    public static implicit operator ReportValue<T>( T value )
+    {
+        return new() { Value = value };
+    }
+
+    #endregion
+
+    #region Properties
+
     /// <summary>
     /// Static fallback value used when no formula is defined or formula evaluation fails.
     /// </summary>
@@ -19,16 +38,10 @@ public sealed class ReportValue<T>
     /// <summary>
     /// Indicates that the value has a formula expression.
     /// </summary>
+    [JsonIgnore]
     public bool HasFormula => !string.IsNullOrWhiteSpace( Formula );
 
-    /// <summary>
-    /// Creates a report value from a static property value.
-    /// </summary>
-    /// <param name="value">Static property value.</param>
-    public static implicit operator ReportValue<T>( T value )
-    {
-        return new() { Value = value };
-    }
+    #endregion
 }
 
 /// <summary>
@@ -36,6 +49,8 @@ public sealed class ReportValue<T>
 /// </summary>
 public static class ReportValue
 {
+    #region Methods
+
     /// <summary>
     /// Creates a report value with a static fallback value and optional formula.
     /// </summary>
@@ -67,4 +82,6 @@ public static class ReportValue
             Formula = formula,
         };
     }
+
+    #endregion
 }

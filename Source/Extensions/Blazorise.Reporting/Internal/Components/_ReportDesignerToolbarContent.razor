@@ -15,6 +15,13 @@
                     <ReportToolbarPanesMenu />
                 </ReportToolbarGroup>
             }
+            @if ( Designer.ShowToolbarPersistenceButtons && ( Designer.CanExecuteCommand( ReportCommand.Save ) || Designer.CanExecuteCommand( ReportCommand.Load ) ) )
+            {
+                <ReportToolbarGroup>
+                    <ReportToolbarItem Command="ReportCommand.Save" Caption="Save" Color="Color.Primary" Visible="@(Designer.CanExecuteCommand( ReportCommand.Save ) && Designer.IsToolbarCommandVisible( ReportCommand.Save ))" />
+                    <ReportToolbarItem Command="ReportCommand.Load" Caption="Load" Color="Color.Info" Visible="@(Designer.CanExecuteCommand( ReportCommand.Load ) && Designer.IsToolbarCommandVisible( ReportCommand.Load ))" />
+                </ReportToolbarGroup>
+            }
             <ReportToolbarGroup>
                 <ReportToolbarItem Command="ReportCommand.Cut" Caption="Cut" Visible="@(Designer.ShowToolbarEditButtons && Designer.IsToolbarCommandVisible( ReportCommand.Cut ))" />
                 <ReportToolbarItem Command="ReportCommand.Copy" Caption="Copy" Visible="@(Designer.ShowToolbarEditButtons && Designer.IsToolbarCommandVisible( ReportCommand.Copy ))" />

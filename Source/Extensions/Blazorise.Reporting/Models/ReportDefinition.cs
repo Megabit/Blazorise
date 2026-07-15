@@ -11,6 +11,8 @@ namespace Blazorise.Reporting;
 /// </summary>
 public sealed class ReportDefinition
 {
+    #region Methods
+
     /// <summary>
     /// Adds a report-scoped font family.
     /// </summary>
@@ -65,8 +67,17 @@ public sealed class ReportDefinition
         } );
     }
 
+    #endregion
+
+    #region Properties
+
     /// <summary>
-    /// Stable identifier used by the designer and persisted report state.
+    /// Current serialized report format version.
+    /// </summary>
+    public int FormatVersion { get; set; } = ReportJsonSerializer.CurrentVersion;
+
+    /// <summary>
+    /// Stable identifier used by the designer and persisted report definition.
     /// </summary>
     public string Id { get; set; } = Guid.NewGuid().ToString( "N" );
 
@@ -74,6 +85,11 @@ public sealed class ReportDefinition
     /// Friendly report name shown in designer surfaces.
     /// </summary>
     public string Name { get; set; }
+
+    /// <summary>
+    /// Persistent settings used by the report designer.
+    /// </summary>
+    public ReportDesignerDefinition Designer { get; set; } = new();
 
     /// <summary>
     /// Page setup used by preview and export renderers.
@@ -104,4 +120,6 @@ public sealed class ReportDefinition
     /// Report-scoped font families resolved before globally registered fonts.
     /// </summary>
     public List<FontFamily> Fonts { get; set; } = [];
+
+    #endregion
 }

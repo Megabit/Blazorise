@@ -12,7 +12,7 @@ namespace Blazorise.Reporting;
 public sealed class ReportRunningTotalDefinition
 {
     /// <summary>
-    /// Stable identifier used by persisted report state.
+    /// Stable identifier used by persisted report definitions.
     /// </summary>
     public string Id { get; set; } = Guid.NewGuid().ToString( "N" );
 

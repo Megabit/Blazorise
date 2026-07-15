@@ -45,6 +45,11 @@ public partial class ReportToolbar : ComponentBase
     [Parameter] public bool ShowPanesMenu { get; set; } = true;
 
     /// <summary>
+    /// Shows the save and load buttons in the default report toolbar.
+    /// </summary>
+    [Parameter] public bool ShowPersistenceButtons { get; set; } = true;
+
+    /// <summary>
     /// Shows the edit command buttons in the default report toolbar.
     /// </summary>
     [Parameter] public bool ShowEditButtons { get; set; } = true;
