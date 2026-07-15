@@ -118,6 +118,7 @@ internal sealed class SvgChartModelBuilder<TItem>
             CategoryScale = categoryScale,
             CategoryAxis = categoryAxisOptions,
             CategoryTickFormatter = ResolveCategoryTickFormatter( categoryAxis, categoryAxisOptions ),
+            CategoryValueFormatter = ResolveCategoryValueFormatter( categoryAxis ),
             Series = series,
             Min = primaryValueAxis.Min,
             Max = primaryValueAxis.Max,
@@ -432,33 +433,46 @@ internal sealed class SvgChartModelBuilder<TItem>
             return categoryAxis.TickFormatter;
 
         if ( categoryAxis is SvgChartTimeAxis<TItem> timeAxis )
-        {
-            var culture = ResolveTimeCulture( timeAxis.Culture );
-
-            return context =>
-            {
-                if ( timeAxis.Scale == SvgChartTimeScale.Continuous && context.Value is double doubleValue )
-                    return DateTimeOffset.FromUnixTimeMilliseconds( Convert.ToInt64( doubleValue ) ).ToString( ResolveTimeFormat( timeAxis ), culture );
-
-                if ( context.Value is DateTime dateTime )
-                    return dateTime.ToString( ResolveTimeFormat( timeAxis ), culture );
-
-                if ( context.Value is DateTimeOffset dateTimeOffset )
-                    return dateTimeOffset.ToString( ResolveTimeFormat( timeAxis ), culture );
-
-                return context.Value?.ToString();
-            };
-        }
+            return ResolveTimeValueFormatter( timeAxis );
 
         return categoryAxisOptions.TickFormatter;
     }
 
+    private static Func<SvgChartAxisTickContext, string> ResolveCategoryValueFormatter( SvgChartCategoryAxis<TItem> categoryAxis )
+    {
+        return categoryAxis is SvgChartTimeAxis<TItem> timeAxis
+            ? ResolveTimeValueFormatter( timeAxis )
+            : null;
+    }
+
+    private static Func<SvgChartAxisTickContext, string> ResolveTimeValueFormatter( SvgChartTimeAxis<TItem> timeAxis )
+    {
+        var culture = ResolveTimeCulture( timeAxis.Culture );
+        var timeZone = ResolveTimeZone( timeAxis.TimeZone );
+
+        return context =>
+        {
+            if ( timeAxis.Scale == SvgChartTimeScale.Continuous && context.Value is double doubleValue )
+                return FormatTimeValue( DateTimeOffset.FromUnixTimeMilliseconds( Convert.ToInt64( doubleValue ) ), timeAxis, culture, timeZone );
+
+            if ( context.Value is DateTime dateTime )
+                return FormatTimeValue( ResolveDateTimeOffset( dateTime, timeZone ), timeAxis, culture, timeZone );
+
+            if ( context.Value is DateTimeOffset dateTimeOffset )
+                return FormatTimeValue( dateTimeOffset, timeAxis, culture, timeZone );
+
+            return context.Value?.ToString();
+        };
+    }
+
     private static List<double?> ResolveTimeAxisValues( SvgChartCategoryAxis<TItem> categoryAxis, List<object> labels )
     {
-        if ( categoryAxis is not SvgChartTimeAxis<TItem> { Scale: SvgChartTimeScale.Continuous } || labels.Count == 0 )
+        if ( categoryAxis is not SvgChartTimeAxis<TItem> { Scale: SvgChartTimeScale.Continuous } timeAxis || labels.Count == 0 )
             return null;
 
-        return labels.Select( ToUnixMilliseconds ).ToList();
+        var timeZone = ResolveTimeZone( timeAxis.TimeZone );
+
+        return labels.Select( value => ToUnixMilliseconds( value, timeZone ) ).ToList();
     }
 
     private static SvgChartScale ResolveContinuousCategoryScale( SvgChartCategoryAxis<TItem> categoryAxis, SvgChartAxisOptions categoryAxisOptions, List<object> labels, List<SvgChartRenderSeries> series, SvgChartZoomOptions zoom, SvgChartViewport viewport )
@@ -471,9 +485,10 @@ internal sealed class SvgChartModelBuilder<TItem>
         if ( visibleSeries.Count == 0 || visibleSeries.Any( x => x.Type is not ( SvgChartType.Line or SvgChartType.Area or SvgChartType.Scatter or SvgChartType.Bubble ) ) )
             return null;
 
+        var timeZone = ResolveTimeZone( timeAxis.TimeZone );
         var values = visibleSeries
             .SelectMany( x => x.XValues )
-            .Concat( labels.Select( ToUnixMilliseconds ) )
+            .Concat( labels.Select( value => ToUnixMilliseconds( value, timeZone ) ) )
             .Where( x => x.HasValue )
             .Select( x => x.Value )
             .ToList();
@@ -521,22 +536,33 @@ internal sealed class SvgChartModelBuilder<TItem>
         }
     }
 
+    private static TimeZoneInfo ResolveTimeZone( TimeZoneInfo timeZone )
+    {
+        return timeZone ?? TimeZoneInfo.Local;
+    }
+
+    private static string FormatTimeValue( DateTimeOffset value, SvgChartTimeAxis<TItem> axis, System.Globalization.CultureInfo culture, TimeZoneInfo timeZone )
+    {
+        return TimeZoneInfo.ConvertTime( value, timeZone ).ToString( ResolveTimeFormat( axis ), culture );
+    }
+
     private static SvgChartScale BuildTimeScale( double min, double max, int tickCount, SvgChartTimeAxis<TItem> timeAxis )
     {
-        var minDate = DateTimeOffset.FromUnixTimeMilliseconds( Convert.ToInt64( min ) );
-        var maxDate = DateTimeOffset.FromUnixTimeMilliseconds( Convert.ToInt64( max ) );
+        var timeZone = ResolveTimeZone( timeAxis.TimeZone );
+        var minDate = TimeZoneInfo.ConvertTime( DateTimeOffset.FromUnixTimeMilliseconds( Convert.ToInt64( min ) ), timeZone );
+        var maxDate = TimeZoneInfo.ConvertTime( DateTimeOffset.FromUnixTimeMilliseconds( Convert.ToInt64( max ) ), timeZone );
         var unit = ResolveTimeUnit( timeAxis, maxDate - minDate );
         var step = ResolveTimeStep( unit, maxDate - minDate, tickCount );
         var current = FloorTime( minDate, unit, step );
         var ticks = new List<double>();
 
         while ( current < minDate )
-            current = AddTimeUnit( current, unit, step );
+            current = AddTimeUnit( current, unit, step, timeZone );
 
         for ( var i = 0; current <= maxDate && i < tickCount * 4; i++ )
         {
             ticks.Add( current.ToUnixTimeMilliseconds() );
-            current = AddTimeUnit( current, unit, step );
+            current = AddTimeUnit( current, unit, step, timeZone );
         }
 
         if ( ticks.Count == 0 || ticks[0] > min )
@@ -622,7 +648,7 @@ internal sealed class SvgChartModelBuilder<TItem>
         };
     }
 
-    private static DateTimeOffset AddTimeUnit( DateTimeOffset value, SvgChartTimeUnit unit, int step )
+    private static DateTimeOffset AddTimeUnit( DateTimeOffset value, SvgChartTimeUnit unit, int step, TimeZoneInfo timeZone )
     {
         return unit switch
         {
@@ -630,20 +656,30 @@ internal sealed class SvgChartModelBuilder<TItem>
             SvgChartTimeUnit.Second => value.AddSeconds( step ),
             SvgChartTimeUnit.Minute => value.AddMinutes( step ),
             SvgChartTimeUnit.Hour => value.AddHours( step ),
-            SvgChartTimeUnit.Day => value.AddDays( step ),
-            SvgChartTimeUnit.Month => value.AddMonths( step ),
-            SvgChartTimeUnit.Year => value.AddYears( step ),
+            SvgChartTimeUnit.Day => ResolveDateTimeOffset( value.DateTime.AddDays( step ), timeZone ),
+            SvgChartTimeUnit.Month => ResolveDateTimeOffset( value.DateTime.AddMonths( step ), timeZone ),
+            SvgChartTimeUnit.Year => ResolveDateTimeOffset( value.DateTime.AddYears( step ), timeZone ),
             _ => value.AddMinutes( step )
         };
     }
 
-    private static double? ToUnixMilliseconds( object value )
+    private static double? ToUnixMilliseconds( object value, TimeZoneInfo timeZone )
     {
         return value switch
         {
-            DateTime dateTime => new DateTimeOffset( dateTime ).ToUnixTimeMilliseconds(),
+            DateTime dateTime => ResolveDateTimeOffset( dateTime, timeZone ).ToUnixTimeMilliseconds(),
             DateTimeOffset dateTimeOffset => dateTimeOffset.ToUnixTimeMilliseconds(),
             _ => null
+        };
+    }
+
+    private static DateTimeOffset ResolveDateTimeOffset( DateTime value, TimeZoneInfo timeZone )
+    {
+        return value.Kind switch
+        {
+            DateTimeKind.Utc => new DateTimeOffset( value ),
+            DateTimeKind.Local => new DateTimeOffset( value ),
+            _ => new DateTimeOffset( value, timeZone.GetUtcOffset( value ) )
         };
     }
 
