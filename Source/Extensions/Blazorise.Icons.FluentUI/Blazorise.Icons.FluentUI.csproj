@@ -10,4 +10,8 @@
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="FLUENTUI-SYSTEM-ICONS-LICENSE.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
 </Project>
