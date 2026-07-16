@@ -1,5 +1,6 @@
 @namespace Blazorise.Reporting.Internal
 @inherits BaseReportComponent
+@using Blazorise.PdfViewer
 
 <Div Class="b-report-viewer"
      Padding="PaddingIs3"
@@ -8,21 +9,25 @@
      Overflow="OverflowAuto">
     @if ( Designer.ActivePreviewFormat == ReportPreviewFormat.Pdf )
     {
-        <Div Padding="PaddingIs5"
-             Border="BorderIs1"
-             Background="BackgroundWhite"
-             TextAlignment="TextAlignmentCenter">
-            <Div Margin="MarginIs3FromBottom">
-                PDF preview is available for download.
+        if ( Designer.PdfPreviewSource is not null )
+        {
+            <PdfViewerContainer Class="b-report-viewer-pdf">
+                <PdfViewerToolbar ShowPrinting="@Designer.AllowPreviewPrint"
+                                  ShowDownloading="@Designer.AllowPreviewDownload" />
+                <PdfViewer Source="@Designer.PdfPreviewSource"
+                           Mode="PdfViewerMode.Continuous"
+                           DownloadFileName="@Designer.PdfPreviewFileName" />
+            </PdfViewerContainer>
+        }
+        else
+        {
+            <Div Padding="PaddingIs5"
+                 Border="BorderIs1"
+                 Background="BackgroundWhite"
+                 TextAlignment="TextAlignmentCenter">
+                Generating PDF preview...
             </Div>
-            @if ( Designer.AllowPreviewDownload )
-            {
-                <Button Color="Color.Primary" Clicked="@Designer.DownloadPdf">
-                    <Icon Name="IconName.FileDownload" Margin="MarginIs2FromEnd" />
-                    Download PDF
-                </Button>
-            }
-        </Div>
+        }
     }
     else
     {

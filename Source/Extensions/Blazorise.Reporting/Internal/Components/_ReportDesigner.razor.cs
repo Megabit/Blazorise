@@ -98,6 +98,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private JSReportingModule reportingModule;
 
+    private PdfGenerationResult pdfPreviewResult;
+
+    private string pdfPreviewSource;
+
+    private int pdfPreviewMutationVersion = -1;
+
     private string editingFormulaFieldName;
 
     private string activeSubreportElementKey;
@@ -149,7 +155,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         ReportDefinition definition = Definition ?? declarativeDefinition;
 
         if ( definition is not null )
+        {
             await ResolveDataSources( definition, CurrentMode == ReportMode.Preview );
+            if ( CurrentMode == ReportMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf )
+                await ResolvePdfPreview();
+        }
         else
             InvalidateDesignerCaches();
 
@@ -701,6 +711,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
             await ResolveDataSources( RootDefinition, loadData: true );
 
+            if ( format == ReportPreviewFormat.Pdf )
+                await ResolvePdfPreview();
+
             await ModeChanged.InvokeAsync( currentMode );
         }, TrackHistory: false, NotifyDefinitionChanged: false ) );
     }
@@ -722,17 +735,43 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         if ( PdfGenerator is null )
             return;
 
-        ReportDefinition definition = RootDefinition;
-        await ResolveDataSources( definition, true );
+        PdfGenerationResult result = CurrentPdfPreviewResult;
 
+        if ( result is null )
+        {
+            await ResolveDataSources( RootDefinition, true );
+            result = await ResolvePdfPreview();
+        }
+
+        if ( result is null )
+            return;
+
+        reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
+        await reportingModule.DownloadFile( result.FileName, result.ContentType, result.Content );
+    }
+
+    private async Task<PdfGenerationResult> ResolvePdfPreview()
+    {
+        PdfGenerationResult result = CurrentPdfPreviewResult;
+
+        if ( result is not null || PdfGenerator is null )
+            return result;
+
+        ReportDefinition definition = RootDefinition;
         PdfDocumentDefinition pdfDocument = ReportPdfDocumentBuilder.Build( definition, Data );
-        PdfGenerationResult result = await PdfGenerator.Generate( pdfDocument, new()
+
+        result = await PdfGenerator.Generate( pdfDocument, new()
         {
             FileName = ResolvePdfFileName( definition ),
         } );
 
-        reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
-        await reportingModule.DownloadFile( result.FileName, result.ContentType, result.Content );
+        pdfPreviewResult = result;
+        pdfPreviewSource = result.Content is { Length: > 0 }
+            ? $"data:{result.ContentType};base64,{Convert.ToBase64String( result.Content )}"
+            : null;
+        pdfPreviewMutationVersion = renderMutationVersion;
+
+        return result;
     }
 
     private async Task ResetDefinition()
@@ -914,6 +953,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         commandManager.SetState( CaptureReportState( definition ) );
 
         InvalidateDesignerCaches();
+
+        if ( CurrentMode == ReportMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf )
+            await ResolvePdfPreview();
 
         if ( notifyDefinitionChanged )
             await DefinitionChanged.InvokeAsync( definition );
@@ -2792,6 +2834,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal ReportPreviewFormat ActivePreviewFormat => CurrentPreviewFormat;
 
+    internal string PdfPreviewSource => pdfPreviewMutationVersion == renderMutationVersion ? pdfPreviewSource : null;
+
+    internal string PdfPreviewFileName => ResolvePdfFileName( RootDefinition );
+
+    internal bool AllowPreviewPrint => context.ViewerOptions.AllowPrint;
+
     internal bool AllowPreviewDownload => context.ViewerOptions.AllowDownload;
 
     internal int RenderMutationVersion => renderMutationVersion;
@@ -2842,6 +2890,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     private ReportDefinitionMode CurrentDefinitionMode => DefinitionMode ?? GlobalOptions.DefinitionMode;
 
     private bool HasClipboardElements => clipboardElements.Count > 0;
+
+    private PdfGenerationResult CurrentPdfPreviewResult => pdfPreviewMutationVersion == renderMutationVersion ? pdfPreviewResult : null;
 
     private bool CanInsertSubreportElement => string.IsNullOrWhiteSpace( activeSubreportElementKey );
 
