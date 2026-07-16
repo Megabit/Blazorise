@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using Blazorise.Docs.Compiler.ExampleSources;
 
 namespace Blazorise.Docs.Compiler;
 
@@ -72,7 +70,14 @@ public class CodeSnippets
     private static string EscapeComponentSource( string path )
     {
         var source = File.ReadAllText( path, Encoding.UTF8 );
-        source = Regex.Replace( source, "@(namespace|layout|page) .+?\r?\n", string.Empty );
+        source = PrepareSourceForCopy( path, source );
+        source = ExampleSourceComposerHelpers.RemoveDocsDirectives( source );
         return source.Replace( "\"", "\"\"" ).Trim().ToCrLfLineEndings();
     }
+
+    internal static string PrepareSourceForDisplay( string path, string source )
+        => ExampleSourceComposerPipeline.PrepareForDisplay( path, source );
+
+    internal static string PrepareSourceForCopy( string path, string source )
+        => ExampleSourceComposerPipeline.PrepareForCopy( path, source );
 }

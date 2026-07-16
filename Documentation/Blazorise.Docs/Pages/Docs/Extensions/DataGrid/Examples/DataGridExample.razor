@@ -1,5 +1,8 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
+@* copy-paste-ready *@
+@using System.Collections.Generic
+
 <DataGrid TItem="Employee"
           Data="@employeeList"
           @bind-SelectedRow="@selectedEmployee"
@@ -17,14 +20,25 @@
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
-    private List<Employee> employeeList;
+    private readonly List<Employee> employeeList =
+    [
+        new() { Id = 1, FirstName = "John", LastName = "Doe", Email = "john.doe@example.com", Salary = 80000m },
+        new() { Id = 2, FirstName = "Jane", LastName = "Doe", Email = "jane.doe@example.com", Salary = 75000m },
+        new() { Id = 3, FirstName = "David", LastName = "Smith", Email = "david.smith@example.com", Salary = 100000m }
+    ];
+
     private Employee selectedEmployee;
 
-    protected override async Task OnInitializedAsync()
+    private sealed class Employee
     {
-        employeeList = await EmployeeData.GetDataAsync();
-        await base.OnInitializedAsync();
+        public int Id { get; set; }
+
+        public string FirstName { get; set; } = string.Empty;
+
+        public string LastName { get; set; } = string.Empty;
+
+        public string Email { get; set; } = string.Empty;
+
+        public decimal Salary { get; set; }
     }
 }

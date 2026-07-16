@@ -97,7 +97,51 @@ public class AutocompleteCheckboxComponentTest : AutocompleteMultipleBaseCompone
         await autoComplete.InputAsync( "A" );
         await autoComplete.KeyDownAsync( Key.Enter );
 
-        comp.WaitForAssertion( () => Assert.Equal( new[] { "Portugal", "Croatia" }, comp.Instance.SelectedTexts ), TestExtensions.WaitTime );
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Equal( new[] { "PT", "HR" }, comp.Instance.SelectedValues );
+            Assert.Equal( new[] { "Portugal", "Croatia" }, comp.Instance.SelectedTexts );
+        }, TestExtensions.WaitTime );
         Assert.Equal( 0, selectedValuesChanged );
+    }
+
+    [Fact]
+    public async Task Enter_AfterKeyboardNavigation_ShouldToggle_ActiveSuggestion()
+    {
+        var selectedValuesChanged = 0;
+
+        var comp = Render<AutocompleteCheckboxComponent>( parameters =>
+        {
+            parameters.Add( x => x.SelectedValues, new List<string> { "PT", "HR" } );
+            parameters.Add( x => x.SelectedValuesChanged, ( List<string> values ) => selectedValuesChanged++ );
+        } );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+
+        await autoComplete.FocusAsync( new() );
+        await autoComplete.InputAsync( "China" );
+        await autoComplete.KeyDownAsync( Key.Down );
+        await autoComplete.KeyDownAsync( Key.Enter );
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Equal( new[] { "PT", "HR", "CN" }, comp.Instance.SelectedValues );
+            Assert.Equal( new[] { "Portugal", "Croatia", "China" }, comp.Instance.SelectedTexts );
+            Assert.Equal( 1, selectedValuesChanged );
+        }, TestExtensions.WaitTime );
+
+        autoComplete = comp.Find( ".b-is-autocomplete input" );
+
+        await autoComplete.FocusAsync( new() );
+        await autoComplete.InputAsync( "China" );
+        await autoComplete.KeyDownAsync( Key.Down );
+        await autoComplete.KeyDownAsync( Key.Enter );
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Equal( new[] { "PT", "HR" }, comp.Instance.SelectedValues );
+            Assert.Equal( new[] { "Portugal", "Croatia" }, comp.Instance.SelectedTexts );
+            Assert.Equal( 2, selectedValuesChanged );
+        }, TestExtensions.WaitTime );
     }
 }

@@ -80,6 +80,8 @@ internal static class SvgChartAxesRenderer
             RenderCategoryAxisLabels( builder, ref sequence, model, plot, streamingAnimation, categoryAxisLabelsClipPathId );
 
         RenderRightValueAxes( builder, ref sequence, model, plot, primaryAxis );
+        RenderVerticalAxisTitle( builder, ref sequence, model, plot, primaryAxis.Title, false, "svg-chart-value-axis-title" );
+        RenderHorizontalAxisTitle( builder, ref sequence, model, plot, model.CategoryAxis?.Title, "svg-chart-category-axis-title" );
 
         builder.CloseElement();
     }
@@ -211,6 +213,9 @@ internal static class SvgChartAxesRenderer
                 builder.CloseElement();
             }
         }
+
+        RenderHorizontalAxisTitle( builder, ref sequence, model, plot, model.PrimaryValueAxis.Title, "svg-chart-value-axis-title" );
+        RenderVerticalAxisTitle( builder, ref sequence, model, plot, model.CategoryAxis?.Title, false, "svg-chart-category-axis-title" );
 
         builder.CloseElement();
     }
@@ -468,8 +473,57 @@ internal static class SvgChartAxesRenderer
                 }
             }
 
+            RenderVerticalAxisTitle( builder, ref sequence, model, plot, axis.Title, true, "svg-chart-value-axis-title" );
+
             builder.CloseElement();
         }
+    }
+
+    private static void RenderHorizontalAxisTitle( RenderTreeBuilder builder, ref int sequence, SvgChartRenderModel model, SvgChartPlotArea plot, string title, string className )
+    {
+        if ( string.IsNullOrWhiteSpace( title ) )
+            return;
+
+        var options = model.Options ?? new();
+        var fontSize = options.Font?.Size ?? 11;
+        var bottomPadding = SvgChartTextRenderer.ResolveBottomPadding( options, model, options.PlotAreaPadding?.Bottom );
+        var x = plot.Left + plot.Width / 2;
+        var y = plot.Bottom + bottomPadding + fontSize;
+
+        builder.OpenElement( sequence++, "text" );
+        builder.AddAttribute( sequence++, "class", $"svg-chart-axis-title {className}" );
+        builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x ) );
+        builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y ) );
+        builder.AddAttribute( sequence++, "text-anchor", "middle" );
+        SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, options, opacity: 0.84 );
+        builder.AddAttribute( sequence++, "font-weight", "600" );
+        builder.AddContent( sequence++, title );
+        builder.CloseElement();
+    }
+
+    private static void RenderVerticalAxisTitle( RenderTreeBuilder builder, ref int sequence, SvgChartRenderModel model, SvgChartPlotArea plot, string title, bool right, string className )
+    {
+        if ( string.IsNullOrWhiteSpace( title ) )
+            return;
+
+        var options = model.Options ?? new();
+        var axisTitleSize = SvgChartTextRenderer.ResolveAxisTitleReservedSize( options );
+        var x = right
+            ? plot.Right + SvgChartTextRenderer.ResolveEndPadding( options.PlotAreaPadding?.End ) + axisTitleSize / 2
+            : plot.Left - SvgChartTextRenderer.ResolveStartPadding( options, model, options.PlotAreaPadding?.Start ) - axisTitleSize / 2;
+        var y = plot.Top + plot.Height / 2;
+        var rotation = right ? 90 : -90;
+
+        builder.OpenElement( sequence++, "text" );
+        builder.AddAttribute( sequence++, "class", $"svg-chart-axis-title {className}" );
+        builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x ) );
+        builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y ) );
+        builder.AddAttribute( sequence++, "text-anchor", "middle" );
+        builder.AddAttribute( sequence++, "transform", $"rotate({rotation} {SvgChartRenderHelpers.Format( x )} {SvgChartRenderHelpers.Format( y )})" );
+        SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, options, opacity: 0.84 );
+        builder.AddAttribute( sequence++, "font-weight", "600" );
+        builder.AddContent( sequence++, title );
+        builder.CloseElement();
     }
 
     private static void AddGridLineAttributes( RenderTreeBuilder builder, ref int sequence, SvgChartGridLinesOptions gridLines )

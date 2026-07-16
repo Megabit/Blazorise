@@ -45,7 +45,8 @@
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
     [Inject] Blazored.LocalStorage.ILocalStorageService LocalStorage { <span class="keyword">get</span>; <span class="keyword">set</span>; }
-    [Inject] EmployeeData EmployeeData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> EmployeeData EmployeeData = <span class="keyword">new</span>();
 
     <span class="keyword">private</span> <span class="keyword">const</span> <span class="keyword">string</span> STORAGE_KEY = <span class="string">&quot;__DATAGRID_STATE__&quot;</span>;
     <span class="keyword">private</span> DataGrid&lt;Employee&gt; dataGridRef;
@@ -71,7 +72,7 @@
     {
         <span class="keyword">await</span> LocalStorage.RemoveItemAsync( STORAGE_KEY );
 
-        <span class="keyword">var</span> state = <span class="keyword">new</span> DataGridState&lt;Employee&gt;()
+        DataGridState&lt;Employee&gt; state = <span class="keyword">new</span>()
         {
             Page = <span class="number">1</span>,
             PageSize = <span class="number">10</span>,
@@ -82,7 +83,7 @@
 
     <span class="keyword">private</span> <span class="keyword">async</span> Task LoadState()
     {
-        <span class="keyword">var</span> stateFromLocalStorage = <span class="keyword">await</span> LocalStorage.GetItemAsync&lt;DataGridState&lt;Employee&gt;&gt;( STORAGE_KEY );
+        DataGridState&lt;Employee&gt; stateFromLocalStorage = <span class="keyword">await</span> LocalStorage.GetItemAsync&lt;DataGridState&lt;Employee&gt;&gt;( STORAGE_KEY );
 
         <span class="keyword">if</span> ( stateFromLocalStorage <span class="keyword">is</span> not <span class="keyword">null</span> )
         {
@@ -102,7 +103,7 @@
 
     <span class="keyword">private</span> <span class="keyword">async</span> Task SaveState()
     {
-        <span class="keyword">var</span> state = <span class="keyword">await</span> dataGridRef.GetState();
+        DataGridState&lt;Employee&gt; state = <span class="keyword">await</span> dataGridRef.GetState();
         <span class="keyword">await</span> LocalStorage.SetItemAsync( STORAGE_KEY, state );
     }
 }

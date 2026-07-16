@@ -175,7 +175,7 @@ public class SvgChart<TItem> : SvgChartBase
         var currentAnimationPointBounds = new Dictionary<string, SvgChartPointBounds>();
         var currentAnimationPathValues = new Dictionary<string, string>();
         var pluginContext = CreatePluginRenderContext( model, plot );
-        var seriesRendererContext = new SvgChartSeriesRendererContext( pluginContext, chartAnimation, previousAnimationPointBounds, currentAnimationPointBounds, previousAnimationPathValues, currentAnimationPathValues );
+        var seriesRendererContext = new SvgChartSeriesRendererContext( pluginContext, chartAnimation, previousAnimationPointBounds, currentAnimationPointBounds, previousAnimationPathValues, currentAnimationPathValues, ( value, index ) => FormatCategory( model, value, index ) );
         var zoom = model.Zoom;
 
         runStreamingAnimationAfterRender = streamingAnimation.Enabled;
@@ -633,7 +633,7 @@ public class SvgChart<TItem> : SvgChartBase
         {
             builder.OpenElement( sequence++, "div" );
             builder.AddAttribute( sequence++, "style", "font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" );
-            builder.AddContent( sequence++, context.Items.Count > 1 ? context.Category : context.SeriesName );
+            builder.AddContent( sequence++, context.Items.Count > 1 ? FormatCategory( model, context.Category, context.PointIndex ) : context.SeriesName );
             builder.CloseElement();
 
             if ( tooltip.Formatter is not null || context.Items.Count <= 1 )
@@ -1062,7 +1062,7 @@ public class SvgChart<TItem> : SvgChartBase
             Items = items,
             Bounds = point.Bounds,
             Color = color,
-            Text = GetPointLabel( point ),
+            Text = GetPointLabel( point, model ),
             X = x,
             Y = y,
             Width = width,
@@ -1168,9 +1168,20 @@ public class SvgChart<TItem> : SvgChartBase
         };
     }
 
-    private static string GetPointLabel( SvgChartPointEventArgs point )
+    private static string GetPointLabel( SvgChartPointEventArgs point, SvgChartRenderModel model )
     {
-        return $"{point.Category}, {point.Value}. {point.SeriesName}.";
+        return $"{FormatCategory( model, point.Category, point.PointIndex )}, {point.Value}. {point.SeriesName}.";
+    }
+
+    private static string FormatCategory( SvgChartRenderModel model, object value, int index )
+    {
+        return model.CategoryValueFormatter?.Invoke( new()
+        {
+            Value = value,
+            Index = index,
+            CategoryAxis = true,
+            AxisId = model.CategoryAxis?.Id
+        } ) ?? SvgChartRenderHelpers.FormatDataLabelValue( value );
     }
 
     private static string ResolvePointColor( SvgChartRenderSeries series, int pointIndex )
