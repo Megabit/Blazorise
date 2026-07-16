@@ -54,7 +54,14 @@ async Task GenerateFluentUIIcons()
         .ToList();
 
     WriteFluentUIIcons( icons );
-    WriteFluentUIIconSvg( icons, packageVersion );
+    WriteFluentUIIconSprite(
+        icons.Where( x => x.IconName.EndsWith( "_regular", StringComparison.Ordinal ) ),
+        "wwwroot/fluentui-icons-regular.svg",
+        packageVersion );
+    WriteFluentUIIconSprite(
+        icons.Where( x => x.IconName.EndsWith( "_filled", StringComparison.Ordinal ) ),
+        "wwwroot/fluentui-icons-filled.svg",
+        packageVersion );
 
     Console.WriteLine( $"Exported {icons.Count} Fluent UI icons." );
 }
@@ -148,41 +155,28 @@ void WriteFluentUIIcons( IReadOnlyList<IconEntry> icons )
     File.WriteAllText( "FluentUIIcons.cs", NormalizeLineEndings( builder.ToString() ) );
 }
 
-void WriteFluentUIIconSvg( IReadOnlyList<IconEntry> icons, string packageVersion )
+void WriteFluentUIIconSprite( IEnumerable<IconEntry> icons, string fileName, string packageVersion )
 {
-    StringBuilder builder = new();
-
-    builder.AppendLine( "#region Using directives" );
-    builder.AppendLine( "using System.Collections.Generic;" );
-    builder.AppendLine( "#endregion" );
-    builder.AppendLine();
-    builder.AppendLine( "namespace Blazorise.Icons.FluentUI;" );
-    builder.AppendLine();
-    builder.AppendLine( "/// <summary>" );
-    builder.AppendLine( "/// Generated file, do not change. See README.md." );
-    builder.AppendLine( $"/// Inline SVG lookup for Fluent UI icons. (microsoft/fluentui-system-icons {packageVersion})" );
-    builder.AppendLine( "/// </summary>" );
-    builder.AppendLine( "static class FluentUIIconSvg" );
-    builder.AppendLine( "{" );
-    builder.AppendLine( "    private static readonly Dictionary<string, string> icons = new()" );
-    builder.AppendLine( "    {" );
+    XNamespace svgNamespace = "http://www.w3.org/2000/svg";
+    XElement sprite = new( svgNamespace + "svg" );
 
     foreach ( IconEntry icon in icons )
     {
-        builder.AppendLine( $"        {{ FluentUIIcons.{icon.ConstantName}, \"{EscapeString( icon.Svg )}\" }}," );
+        XDocument document = XDocument.Parse( icon.Svg );
+        XElement symbol = new(
+            svgNamespace + "symbol",
+            new XAttribute( "id", icon.IconName ),
+            new XAttribute( "viewBox", document.Root.Attribute( "viewBox" ).Value ),
+            document.Root.Nodes() );
+
+        sprite.Add( symbol );
     }
 
-    builder.AppendLine( "    };" );
-    builder.AppendLine();
-    builder.AppendLine( "    public static string Get( string iconName )" );
-    builder.AppendLine( "    {" );
-    builder.AppendLine( "        return iconName is not null && icons.TryGetValue( iconName, out string svg )" );
-    builder.AppendLine( "            ? svg" );
-    builder.AppendLine( "            : null;" );
-    builder.AppendLine( "    }" );
-    builder.Append( "}" );
+    string content = $"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+        + $"<!-- Generated from microsoft/fluentui-system-icons {packageVersion}. -->"
+        + sprite.ToString( SaveOptions.DisableFormatting );
 
-    File.WriteAllText( "FluentUIIconSvg.cs", NormalizeLineEndings( builder.ToString() ) );
+    File.WriteAllText( fileName, content );
 }
 
 string SanitizeSvg( string svg )
@@ -225,13 +219,6 @@ string GetDisplayName( string iconName )
 string ToPascal( string value )
 {
     return CultureInfo.InvariantCulture.TextInfo.ToTitleCase( value.Replace( "_", " " ) ).Replace( " ", "" );
-}
-
-string EscapeString( string value )
-{
-    return value
-        .Replace( "\\", "\\\\" )
-        .Replace( "\"", "\\\"" );
 }
 
 string NormalizeLineEndings( string value )

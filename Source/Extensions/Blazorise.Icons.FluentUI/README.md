@@ -1,6 +1,6 @@
 ﻿## Build Process
 
-The Fluent UI icon list is generated from the embedded CSS font catalog. The inline SVG table uses the corresponding 20px regular and filled assets downloaded from Microsoft's official `microsoft/fluentui-system-icons` GitHub repository. Keeping the CSS catalog as the source of supported names ensures that the font and SVG modes expose the same icons.
+The Fluent UI icon list is generated from the embedded CSS font catalog. The regular and filled SVG sprites use the corresponding 20px assets downloaded from Microsoft's official `microsoft/fluentui-system-icons` GitHub repository. Keeping the CSS catalog as the source of supported names ensures that the font and SVG modes expose the same icons.
 
 There are two ways to build the icons by running the `GetIcons.csx` script:
 
@@ -29,10 +29,10 @@ dotnet script GetIcons.csx
 
 ---
 
-- Check `FluentUIIcons.cs` and `FluentUIIconSvg.cs` for changes.
+- Check `FluentUIIcons.cs`, `wwwroot/fluentui-icons-regular.svg`, and `wwwroot/fluentui-icons-filled.svg` for changes.
 
 ## Update Process
 
 - Run `GetIcons.csx`.
 - Update the font version in the generated `FluentUIIcons.cs` header when the embedded CSS font assets change.
-- Check the SVG generated file header if the upstream package metadata changes.
+- Check the SVG sprite headers if the upstream package metadata changes.

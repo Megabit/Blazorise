@@ -1,12 +1,17 @@
 ﻿@inherits Blazorise.Icon
 @inject FluentUIIconOptions FluentUIIconOptions
 @inject FluentUIIconProvider FluentUIIconProvider
-@using Microsoft.AspNetCore.Components
-
 @if ( FluentUIIconOptions.UseSvgIcons )
 {
+    string svgReference = FluentUIIconProvider.GetSvgReference( Name, GetIconStyle() );
+
     <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" @onmouseover="@OnMouseOverHandler" @onmouseout="@OnMouseOutHandler" @attributes="@Attributes">
-        @((MarkupString)FluentUIIconProvider.GetSvg( Name, GetIconStyle() ))
+        @if ( svgReference is not null )
+        {
+            <svg width="1em" height="1em" fill="currentColor" focusable="false" aria-hidden="true">
+                <use href="@svgReference" width="100%" height="100%"></use>
+            </svg>
+        }
     </span>
 }
 else

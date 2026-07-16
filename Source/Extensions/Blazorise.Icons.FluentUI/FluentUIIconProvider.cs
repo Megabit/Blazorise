@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Providers;
@@ -9,6 +10,8 @@ namespace Blazorise.Icons.FluentUI;
 class FluentUIIconProvider : BaseIconProvider
 {
     #region Members
+
+    private const string SvgSpritePath = "_content/Blazorise.Icons.FluentUI/fluentui-icons";
 
     private readonly FluentUIIconOptions options;
 
@@ -439,7 +442,7 @@ class FluentUIIconProvider : BaseIconProvider
         return "icon-ic";
     }
 
-    public string GetSvg( object name, IconStyle iconStyle )
+    public string GetSvgReference( object name, IconStyle iconStyle )
     {
         string iconName = name switch
         {
@@ -448,7 +451,14 @@ class FluentUIIconProvider : BaseIconProvider
             _ => null,
         };
 
-        return FluentUIIconSvg.Get( iconName ) ?? string.Empty;
+        if ( iconName is null )
+            return null;
+
+        string spriteStyle = iconName.EndsWith( "_filled", StringComparison.Ordinal )
+            ? "filled"
+            : "regular";
+
+        return $"{SvgSpritePath}-{spriteStyle}.svg#{iconName}";
     }
 
     protected override bool ContainsStyleName( string iconName )
