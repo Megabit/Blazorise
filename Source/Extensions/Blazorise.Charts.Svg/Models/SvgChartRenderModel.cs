@@ -35,6 +35,8 @@ internal sealed class SvgChartRenderModel
 
     public Func<SvgChartAxisTickContext, string> CategoryTickFormatter { get; init; }
 
+    public Func<SvgChartAxisTickContext, string> CategoryValueFormatter { get; init; }
+
     public List<SvgChartRenderSeries> Series { get; init; } = [];
 
     public double Min { get; init; }
