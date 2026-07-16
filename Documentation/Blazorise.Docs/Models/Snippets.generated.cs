@@ -12352,6 +12352,15 @@ public class PersonValidator : AbstractValidator<Person>
 
         public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.2.1.0"" rel=""stylesheet"" />";
 
+        public const string FluentSvgIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/blazorise.icons.fluentui.css"" rel=""stylesheet"" />";
+
+        public const string FluentSvgIconsRegistrationExample = @"using Blazorise.Icons.FluentUI;
+
+builder.Services
+    .AddBlazorise()
+    .AddBootstrapProviders()
+    .AddFluentUIIcons( options => options.UseSvgIcons = true );";
+
         public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.2.1.0"" rel=""stylesheet"">";
 
         public const string IconBasicExample = @"<Icon Name=""IconName.Mail"" />";
@@ -17984,6 +17993,21 @@ builder.Services
     .AddFluentUIIcons();";
 
         public const string FluentUI2GuideSourceFiles1Example = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.2.1.0"" rel=""stylesheet"" />
+
+<link href=""_content/Blazorise/blazorise.css?v=2.2.1.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/reboot.css?v=2.2.1.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.2.1.0"" rel=""stylesheet"" />";
+
+        public const string FluentUI2GuideSvgRegistrationExample = @"using Blazorise;
+using Blazorise.FluentUI2;
+using Blazorise.Icons.FluentUI;
+
+builder.Services
+    .AddBlazorise()
+    .AddFluentUI2Providers()
+    .AddFluentUIIcons( options => options.UseSvgIcons = true );";
+
+        public const string FluentUI2GuideSvgSourceFilesExample = @"<link href=""_content/Blazorise.Icons.FluentUI/blazorise.icons.fluentui.css"" rel=""stylesheet"" />
 
 <link href=""_content/Blazorise/blazorise.css?v=2.2.1.0"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.FluentUI2/reboot.css?v=2.2.1.0"" rel=""stylesheet"" />

@@ -1,2 +1,15 @@
 ﻿@inherits Blazorise.Icon
-<i @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-hidden="true" @onclick="@OnClickHandler" @onmouseover="@OnMouseOverHandler" @onmouseout="@OnMouseOutHandler" @attributes="@Attributes"></i>
+@inject FluentUIIconOptions FluentUIIconOptions
+@inject FluentUIIconProvider FluentUIIconProvider
+@using Microsoft.AspNetCore.Components
+
+@if ( FluentUIIconOptions.UseSvgIcons )
+{
+    <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" @onmouseover="@OnMouseOverHandler" @onmouseout="@OnMouseOutHandler" @attributes="@Attributes">
+        @((MarkupString)FluentUIIconProvider.GetSvg( Name, GetIconStyle() ))
+    </span>
+}
+else
+{
+    <i @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-hidden="true" @onclick="@OnClickHandler" @onmouseover="@OnMouseOverHandler" @onmouseout="@OnMouseOutHandler" @attributes="@Attributes"></i>
+}

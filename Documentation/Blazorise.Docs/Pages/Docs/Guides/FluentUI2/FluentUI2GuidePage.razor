@@ -1,4 +1,4 @@
-﻿@page "/docs/usage/fluent2"
+@page "/docs/usage/fluent2"
 
 <Seo Canonical="/docs/usage/fluent2" Title="Blazorise Fluent 2 Usage" Description="Learn all the steps on how to quickly install and setup Blazorise for Fluent 2 design system and Fluent icons." />
 
@@ -81,6 +81,13 @@
     <DocsPageSectionSource Code="FluentUI2GuideSourceFiles1Example" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Optional: SVG icons">
+        Fluent icons use the CSS font by default. To render inline SVG icons instead, replace the Fluent font stylesheet shown above with the SVG stylesheet. Keep the remaining Fluent 2 stylesheets unchanged.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="FluentUI2GuideSvgSourceFilesExample" />
+</DocsPageSection>
+
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
         <Strong>Important:</Strong> Remove any Bootstrap JS and CSS references that come by default with the Blazor project template to avoid conflicts.
@@ -107,6 +114,13 @@
         Configure your <Strong>Program.cs</Strong> to register Blazorise services, including the Fluent 2 providers and icons:
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="FluentUI2GuideRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Optional: SVG icon registration">
+        When using the SVG icon stylesheet, also enable SVG rendering in the Fluent UI icon provider options.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="FluentUI2GuideSvgRegistrationExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>

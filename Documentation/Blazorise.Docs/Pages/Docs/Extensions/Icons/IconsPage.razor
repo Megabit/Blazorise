@@ -1,4 +1,4 @@
-﻿@page "/docs/extensions/icons"
+@page "/docs/extensions/icons"
 
 <Seo Canonical="/docs/extensions/icons" Title="Blazorise Icons component" Description="Learn how to use Blazorise icon components and icon providers to represent actions, states, navigation, and commands with Font Awesome and other supported icon sets." />
 
@@ -53,9 +53,23 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Fluent Icons CSS">
-        Note: If you use Fluent icons, define <Code>FluentSystemIcons-Resizable.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file. This file is required for some custom icon styles to work.
+        Fluent icons use the CSS font by default. For this mode, define <Code>FluentSystemIcons-Resizable.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="FluentIconsCSSExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Fluent SVG Icons CSS">
+        As an alternative to the CSS font, Fluent icons can render as inline SVG at a default size of 20px. Replace <Code>FluentSystemIcons-Resizable.css</Code> with the SVG icon stylesheet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="FluentSvgIconsCSSExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Fluent SVG Icons Registration">
+        Enable SVG rendering when registering the Fluent UI icon provider. Existing <Code>Icon</Code> component usage remains the same.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="FluentSvgIconsRegistrationExample" />
 </DocsPageSection>
 
 <DocsPageSection>

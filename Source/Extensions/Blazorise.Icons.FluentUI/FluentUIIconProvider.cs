@@ -10,6 +10,8 @@ class FluentUIIconProvider : BaseIconProvider
 {
     #region Members
 
+    private readonly FluentUIIconOptions options;
+
     private static Dictionary<IconName, string> names = new()
     {
         { IconName.Add, FluentUIIcons.Add },
@@ -372,31 +374,49 @@ class FluentUIIconProvider : BaseIconProvider
 
     #endregion
 
+    #region Constructors
+
+    public FluentUIIconProvider( FluentUIIconOptions options )
+    {
+        this.options = options;
+    }
+
+    #endregion
+
     #region Methods
+
+    public override string Icon( object name, IconStyle style )
+    {
+        return options.UseSvgIcons
+            ? "fluentui-icon"
+            : base.Icon( name, style );
+    }
 
     public override string IconSize( IconSize iconSize )
     {
+        string prefix = options.UseSvgIcons ? "fluentui-icon" : "icon-ic";
+
         return iconSize switch
         {
-            Blazorise.IconSize.ExtraSmall => "icon-ic-xs",
-            Blazorise.IconSize.Small => "icon-ic-sm",
-            Blazorise.IconSize.Large => "icon-ic-lg",
-            Blazorise.IconSize.x2 => "icon-ic-2x",
-            Blazorise.IconSize.x3 => "icon-ic-3x",
-            Blazorise.IconSize.x4 => "icon-ic-4x",
-            Blazorise.IconSize.x5 => "icon-ic-5x",
-            Blazorise.IconSize.x6 => "icon-ic-6x",
-            Blazorise.IconSize.x7 => "icon-ic-7x",
-            Blazorise.IconSize.x8 => "icon-ic-8x",
-            Blazorise.IconSize.x9 => "icon-ic-9x",
-            Blazorise.IconSize.x10 => "icon-ic-10x",
+            Blazorise.IconSize.ExtraSmall => $"{prefix}-xs",
+            Blazorise.IconSize.Small => $"{prefix}-sm",
+            Blazorise.IconSize.Large => $"{prefix}-lg",
+            Blazorise.IconSize.x2 => $"{prefix}-2x",
+            Blazorise.IconSize.x3 => $"{prefix}-3x",
+            Blazorise.IconSize.x4 => $"{prefix}-4x",
+            Blazorise.IconSize.x5 => $"{prefix}-5x",
+            Blazorise.IconSize.x6 => $"{prefix}-6x",
+            Blazorise.IconSize.x7 => $"{prefix}-7x",
+            Blazorise.IconSize.x8 => $"{prefix}-8x",
+            Blazorise.IconSize.x9 => $"{prefix}-9x",
+            Blazorise.IconSize.x10 => $"{prefix}-10x",
             _ => null,
         };
     }
 
     public override string GetIconName( IconName iconName, IconStyle iconStyle )
     {
-        if ( names.TryGetValue( iconName, out var name ) )
+        if ( names.TryGetValue( iconName, out string name ) )
         {
             if ( iconStyle == IconStyle.Solid )
             {
@@ -419,9 +439,40 @@ class FluentUIIconProvider : BaseIconProvider
         return null;
     }
 
+    public string GetSvg( object name, IconStyle iconStyle )
+    {
+        string iconName = name switch
+        {
+            IconName predefinedName => GetIconName( predefinedName, iconStyle ),
+            string customName => NormalizeIconName( customName ),
+            _ => null,
+        };
+
+        return FluentUIIconSvg.Get( iconName ) ?? string.Empty;
+    }
+
     protected override bool ContainsStyleName( string iconName )
     {
         return iconName.Split( ' ' ).Any( x => styles.Values.Contains( x ) || new string[] { "icon-ic-brand" }.Contains( x ) );
+    }
+
+    private static string NormalizeIconName( string name )
+    {
+        if ( string.IsNullOrWhiteSpace( name ) )
+            return null;
+
+        string[] tokens = name.Split( ' ' );
+        string iconName = tokens.FirstOrDefault( x => x.StartsWith( "icon-ic_fluent_" ) );
+
+        if ( iconName is not null )
+            return iconName;
+
+        if ( name.StartsWith( "ic_fluent_" ) )
+            return $"icon-{name}";
+
+        return name.StartsWith( "icon-" )
+            ? name
+            : $"icon-ic_fluent_{name}";
     }
 
     #endregion
