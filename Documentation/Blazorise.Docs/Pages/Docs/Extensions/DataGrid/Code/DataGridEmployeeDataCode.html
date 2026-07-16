@@ -1,13 +1,10 @@
 <div class="blazorise-codeblock">
 <div class="csharp"><pre>
+<span class="keyword">using</span> System;
 <span class="keyword">using</span> System.Collections.Generic;
-<span class="keyword">using</span> System.IO;
 <span class="keyword">using</span> System.Linq;
-<span class="keyword">using</span> System.Reflection;
-<span class="keyword">using</span> System.Text.Json;
 <span class="keyword">using</span> System.Threading.Tasks;
 <span class="keyword">using</span> Blazorise.Shared.Models;
-<span class="keyword">using</span> Microsoft.Extensions.Caching.Memory;
 
 <span class="keyword">namespace</span> Blazorise.Shared.Data;
 
@@ -19,50 +16,48 @@
 
 <span class="keyword">public</span> <span class="keyword">class</span> EmployeeData
 {
-    <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache cache;
-    <span class="keyword">private</span> <span class="keyword">readonly</span> <span class="keyword">string</span> employeesCacheKey = <span class="string">&quot;cache_employees&quot;</span>;
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> <span class="keyword">string</span>[] FirstNames = [<span class="string">&quot;Samuel&quot;</span>, <span class="string">&quot;Irvin&quot;</span>, <span class="string">&quot;Cora&quot;</span>, <span class="string">&quot;Jessie&quot;</span>, <span class="string">&quot;Maryann&quot;</span>, <span class="string">&quot;Kara&quot;</span>];
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> <span class="keyword">string</span>[] LastNames = [<span class="string">&quot;Collier&quot;</span>, <span class="string">&quot;Ziemann&quot;</span>, <span class="string">&quot;Conn&quot;</span>, <span class="string">&quot;Wilkinson&quot;</span>, <span class="string">&quot;Hilpert&quot;</span>, <span class="string">&quot;Brekke&quot;</span>];
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> <span class="keyword">string</span>[] Cities = [<span class="string">&quot;London&quot;</span>, <span class="string">&quot;Paris&quot;</span>, <span class="string">&quot;New York&quot;</span>, <span class="string">&quot;Berlin&quot;</span>, <span class="string">&quot;Lisbon&quot;</span>, <span class="string">&quot;Zagreb&quot;</span>];
 
-    <span class="keyword">public</span> EmployeeData( IMemoryCache memoryCache )
-    {
-        cache = memoryCache;
-    }
+    <span class="keyword">public</span> <span class="keyword">static</span> IEnumerable&lt;Gender&gt; Genders =
+    [
+        <span class="keyword">new</span>() { Code = <span class="keyword">null</span>, Description = <span class="keyword">string</span>.Empty },
+        <span class="keyword">new</span>() { Code = <span class="string">&quot;M&quot;</span>, Description = <span class="string">&quot;Male&quot;</span> },
+        <span class="keyword">new</span>() { Code = <span class="string">&quot;F&quot;</span>, Description = <span class="string">&quot;Female&quot;</span> },
+        <span class="keyword">new</span>() { Code = <span class="string">&quot;D&quot;</span>, Description = <span class="string">&quot;Diverse&quot;</span> }
+    ];
 
-    <span class="keyword">public</span> <span class="keyword">static</span> IEnumerable&lt;Gender&gt; Genders = <span class="keyword">new</span> List&lt;Gender&gt;()
-    {
-        <span class="keyword">new</span>()
-        {
-            Code = <span class="keyword">null</span>,
-            Description = <span class="keyword">string</span>.Empty
-        },
-        <span class="keyword">new</span>()
-        {
-            Code = <span class="string">&quot;M&quot;</span>,
-            Description = <span class="string">&quot;Male&quot;</span>
-        },
-        <span class="keyword">new</span>()
-        {
-            Code = <span class="string">&quot;F&quot;</span>,
-            Description = <span class="string">&quot;Female&quot;</span>
-        },
-        <span class="keyword">new</span>()
-        {
-            Code = <span class="string">&quot;D&quot;</span>,
-            Description = <span class="string">&quot;Diverse&quot;</span>
-        }
-    };
+    <span class="keyword">public</span> Task&lt;List&lt;Employee&gt;&gt; GetDataAsync()
+        =&gt; Task.FromResult( Enumerable.Range( <span class="number">1</span>, <span class="number">500</span> )
+            .Select( index =&gt;
+            {
+                <span class="keyword">string</span> firstName = FirstNames[( index - <span class="number">1</span> ) % FirstNames.Length];
+                <span class="keyword">string</span> lastName = LastNames[( index - <span class="number">1</span> ) % LastNames.Length];
 
-    <span class="keyword">public</span> <span class="keyword">async</span> Task&lt;List&lt;Employee&gt;&gt; GetDataAsync()
-        =&gt; ( <span class="keyword">await</span> cache.GetOrCreateAsync( employeesCacheKey, LoadData ) )
-            .Select( x =&gt; <span class="keyword">new</span> Employee( x ) )
-            .ToList();
-
-    <span class="keyword">private</span> Task&lt;List&lt;Employee&gt;&gt; LoadData( ICacheEntry cacheEntry )
-    {
-        Assembly assembly = <span class="keyword">typeof</span>( EmployeeData ).Assembly;
-        <span class="keyword">using</span> Stream stream = assembly.GetManifestResourceStream( <span class="string">&quot;Blazorise.Shared.Resources.EmployeeData.json&quot;</span> );
-
-        <span class="keyword">return</span> Task.FromResult( JsonSerializer.Deserialize&lt;List&lt;Employee&gt;&gt;( <span class="keyword">new</span> StreamReader( stream ).ReadToEnd() ) );
-    }
+                <span class="keyword">return</span> <span class="keyword">new</span> Employee
+                {
+                    Id = index,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Email = $<span class="string">&quot;{firstName}.{lastName}{index}<span class="atSign">&#64;</span>example.com&quot;</span>,
+                    City = Cities[( index - <span class="number">1</span> ) % Cities.Length],
+                    Zip = $<span class="string">&quot;{10000 + index}&quot;</span>,
+                    DateOfBirth = <span class="keyword">new</span> DateTime( <span class="number">1950</span> + index % <span class="number">50</span>, <span class="number">1</span> + index % <span class="number">12</span>, <span class="number">1</span> + index % <span class="number">28</span> ),
+                    Childrens = index % <span class="number">6</span>,
+                    Gender = index % <span class="number">3</span> == <span class="number">0</span> ? <span class="string">&quot;D&quot;</span> : index % <span class="number">2</span> == <span class="number">0</span> ? <span class="string">&quot;F&quot;</span> : <span class="string">&quot;M&quot;</span>,
+                    Salary = 50000m + index * 137m % 50000m,
+                    IsActive = index % <span class="number">2</span> == <span class="number">0</span>,
+                    Salaries = Enumerable.Range( <span class="number">1</span>, index % <span class="number">4</span> )
+                        .Select( month =&gt; <span class="keyword">new</span> Salary
+                        {
+                            Date = <span class="keyword">new</span> DateTime( <span class="number">2025</span>, month, <span class="number">1</span> ),
+                            Total = 1000m + index * month * 11m
+                        } )
+                        .ToList()
+                };
+            } )
+            .ToList() );
 }
 </pre></div>
 </div>

@@ -31,7 +31,7 @@
 }
 
 @code {
-    [Inject] public EmployeeData EmployeeData { get; set; }
+    [Inject] EmployeeData EmployeeData { get; set; }
 
     private DataGrid<SelfReferenceEmployee> dataGridRef;
     private SelfReferenceEmployee lastUpdatedEmployee;
