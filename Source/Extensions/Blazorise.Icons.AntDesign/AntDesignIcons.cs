@@ -2,7 +2,7 @@ namespace Blazorise.Icons.AntDesign;
 
 /// <summary>
 /// Generated file, do not change. See README.md.
-/// Strongly-typed list of Ant Design icon names. (@ant-design/icons v6.2.4)
+/// Strongly-typed list of Ant Design icon names. (@ant-design/icons v6.3.2)
 /// </summary>
 public static class AntDesignIcons
 {
@@ -31,6 +31,7 @@ public static class AntDesignIcons
     public const string AndroidOutlined = "anticon-android-outlined";
     public const string AntCloudOutlined = "anticon-ant-cloud-outlined";
     public const string AntDesignOutlined = "anticon-ant-design-outlined";
+    public const string AnthropicFilled = "anticon-anthropic-filled";
     public const string ApartmentOutlined = "anticon-apartment-outlined";
     public const string ApiFilled = "anticon-api-filled";
     public const string ApiOutlined = "anticon-api-outlined";
@@ -136,6 +137,7 @@ public static class AntDesignIcons
     public const string CiCircleTwotone = "anticon-ci-circle-twotone";
     public const string CiOutlined = "anticon-ci-outlined";
     public const string CiTwotone = "anticon-ci-twotone";
+    public const string ClaudeFilled = "anticon-claude-filled";
     public const string ClearOutlined = "anticon-clear-outlined";
     public const string ClockCircleFilled = "anticon-clock-circle-filled";
     public const string ClockCircleOutlined = "anticon-clock-circle-outlined";
@@ -207,6 +209,7 @@ public static class AntDesignIcons
     public const string DatabaseFilled = "anticon-database-filled";
     public const string DatabaseOutlined = "anticon-database-outlined";
     public const string DatabaseTwotone = "anticon-database-twotone";
+    public const string DeepSeekFilled = "anticon-deep-seek-filled";
     public const string DeleteColumnOutlined = "anticon-delete-column-outlined";
     public const string DeleteFilled = "anticon-delete-filled";
     public const string DeleteOutlined = "anticon-delete-outlined";
@@ -257,6 +260,7 @@ public static class AntDesignIcons
     public const string EditFilled = "anticon-edit-filled";
     public const string EditOutlined = "anticon-edit-outlined";
     public const string EditTwotone = "anticon-edit-twotone";
+    public const string ElevenLabsFilled = "anticon-eleven-labs-filled";
     public const string EllipsisOutlined = "anticon-ellipsis-outlined";
     public const string EnterOutlined = "anticon-enter-outlined";
     public const string EnvironmentFilled = "anticon-environment-filled";
@@ -379,6 +383,7 @@ public static class AntDesignIcons
     public const string FunnelPlotOutlined = "anticon-funnel-plot-outlined";
     public const string FunnelPlotTwotone = "anticon-funnel-plot-twotone";
     public const string GatewayOutlined = "anticon-gateway-outlined";
+    public const string GeminiFilled = "anticon-gemini-filled";
     public const string GifOutlined = "anticon-gif-outlined";
     public const string GiftFilled = "anticon-gift-filled";
     public const string GiftOutlined = "anticon-gift-outlined";
@@ -421,6 +426,7 @@ public static class AntDesignIcons
     public const string Html5Filled = "anticon-html5-filled";
     public const string Html5Outlined = "anticon-html5-outlined";
     public const string Html5Twotone = "anticon-html5-twotone";
+    public const string HuggingFaceFilled = "anticon-hugging-face-filled";
     public const string IdcardFilled = "anticon-idcard-filled";
     public const string IdcardOutlined = "anticon-idcard-outlined";
     public const string IdcardTwotone = "anticon-idcard-twotone";
@@ -485,6 +491,7 @@ public static class AntDesignIcons
     public const string MailOutlined = "anticon-mail-outlined";
     public const string MailTwotone = "anticon-mail-twotone";
     public const string ManOutlined = "anticon-man-outlined";
+    public const string MastodonFilled = "anticon-mastodon-filled";
     public const string MedicineBoxFilled = "anticon-medicine-box-filled";
     public const string MedicineBoxOutlined = "anticon-medicine-box-outlined";
     public const string MedicineBoxTwotone = "anticon-medicine-box-twotone";
@@ -504,6 +511,7 @@ public static class AntDesignIcons
     public const string MessageFilled = "anticon-message-filled";
     public const string MessageOutlined = "anticon-message-outlined";
     public const string MessageTwotone = "anticon-message-twotone";
+    public const string MetaFilled = "anticon-meta-filled";
     public const string MinusCircleFilled = "anticon-minus-circle-filled";
     public const string MinusCircleOutlined = "anticon-minus-circle-outlined";
     public const string MinusCircleTwotone = "anticon-minus-circle-twotone";
@@ -511,6 +519,7 @@ public static class AntDesignIcons
     public const string MinusSquareFilled = "anticon-minus-square-filled";
     public const string MinusSquareOutlined = "anticon-minus-square-outlined";
     public const string MinusSquareTwotone = "anticon-minus-square-twotone";
+    public const string MistralFilled = "anticon-mistral-filled";
     public const string MobileFilled = "anticon-mobile-filled";
     public const string MobileOutlined = "anticon-mobile-outlined";
     public const string MobileTwotone = "anticon-mobile-twotone";
@@ -523,6 +532,7 @@ public static class AntDesignIcons
     public const string MoreOutlined = "anticon-more-outlined";
     public const string MutedFilled = "anticon-muted-filled";
     public const string MutedOutlined = "anticon-muted-outlined";
+    public const string NetflixFilled = "anticon-netflix-filled";
     public const string NodeCollapseOutlined = "anticon-node-collapse-outlined";
     public const string NodeExpandOutlined = "anticon-node-expand-outlined";
     public const string NodeIndexOutlined = "anticon-node-index-outlined";
@@ -530,6 +540,7 @@ public static class AntDesignIcons
     public const string NotificationOutlined = "anticon-notification-outlined";
     public const string NotificationTwotone = "anticon-notification-twotone";
     public const string NumberOutlined = "anticon-number-outlined";
+    public const string OllamaFilled = "anticon-ollama-filled";
     public const string OneToOneOutlined = "anticon-one-to-one-outlined";
     public const string OpenAIFilled = "anticon-open-a-i-filled";
     public const string OpenAIOutlined = "anticon-open-a-i-outlined";
@@ -543,6 +554,7 @@ public static class AntDesignIcons
     public const string PayCircleFilled = "anticon-pay-circle-filled";
     public const string PayCircleOutlined = "anticon-pay-circle-outlined";
     public const string PercentageOutlined = "anticon-percentage-outlined";
+    public const string PerplexityFilled = "anticon-perplexity-filled";
     public const string PhoneFilled = "anticon-phone-filled";
     public const string PhoneOutlined = "anticon-phone-outlined";
     public const string PhoneTwotone = "anticon-phone-twotone";
@@ -602,6 +614,7 @@ public static class AntDesignIcons
     public const string QuestionCircleOutlined = "anticon-question-circle-outlined";
     public const string QuestionCircleTwotone = "anticon-question-circle-twotone";
     public const string QuestionOutlined = "anticon-question-outlined";
+    public const string QwenFilled = "anticon-qwen-filled";
     public const string RadarChartOutlined = "anticon-radar-chart-outlined";
     public const string RadiusBottomleftOutlined = "anticon-radius-bottomleft-outlined";
     public const string RadiusBottomrightOutlined = "anticon-radius-bottomright-outlined";
@@ -621,6 +634,7 @@ public static class AntDesignIcons
     public const string RedEnvelopeTwotone = "anticon-red-envelope-twotone";
     public const string RedoOutlined = "anticon-redo-outlined";
     public const string ReloadOutlined = "anticon-reload-outlined";
+    public const string ReplicateFilled = "anticon-replicate-filled";
     public const string RestFilled = "anticon-rest-filled";
     public const string RestOutlined = "anticon-rest-outlined";
     public const string RestTwotone = "anticon-rest-twotone";
@@ -696,6 +710,7 @@ public static class AntDesignIcons
     public const string SmileFilled = "anticon-smile-filled";
     public const string SmileOutlined = "anticon-smile-outlined";
     public const string SmileTwotone = "anticon-smile-twotone";
+    public const string SnapchatFilled = "anticon-snapchat-filled";
     public const string SnippetsFilled = "anticon-snippets-filled";
     public const string SnippetsOutlined = "anticon-snippets-outlined";
     public const string SnippetsTwotone = "anticon-snippets-twotone";
@@ -745,6 +760,8 @@ public static class AntDesignIcons
     public const string TaobaoOutlined = "anticon-taobao-outlined";
     public const string TaobaoSquareFilled = "anticon-taobao-square-filled";
     public const string TeamOutlined = "anticon-team-outlined";
+    public const string TelegramFilled = "anticon-telegram-filled";
+    public const string ThreadsFilled = "anticon-threads-filled";
     public const string ThunderboltFilled = "anticon-thunderbolt-filled";
     public const string ThunderboltOutlined = "anticon-thunderbolt-outlined";
     public const string ThunderboltTwotone = "anticon-thunderbolt-twotone";

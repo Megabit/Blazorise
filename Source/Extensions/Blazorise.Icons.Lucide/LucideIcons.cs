@@ -386,6 +386,7 @@ public static class LucideIcons
     public const string CircleDotDashed = "lucide-circle-dot-dashed";
     public const string CircleEllipsis = "lucide-circle-ellipsis";
     public const string CircleEqual = "lucide-circle-equal";
+    public const string CircleEuro = "lucide-circle-euro";
     public const string CircleFadingArrowUp = "lucide-circle-fading-arrow-up";
     public const string CircleFadingPlus = "lucide-circle-fading-plus";
     public const string CircleGauge = "lucide-circle-gauge";
@@ -1141,6 +1142,7 @@ public static class LucideIcons
     public const string PanelTopClose = "lucide-panel-top-close";
     public const string PanelTopDashed = "lucide-panel-top-dashed";
     public const string PanelTopOpen = "lucide-panel-top-open";
+    public const string PaperBag = "lucide-paper-bag";
     public const string Paperclip = "lucide-paperclip";
     public const string Parasol = "lucide-parasol";
     public const string Parentheses = "lucide-parentheses";
@@ -1161,6 +1163,7 @@ public static class LucideIcons
     public const string PenTool = "lucide-pen-tool";
     public const string Percent = "lucide-percent";
     public const string PersonStanding = "lucide-person-standing";
+    public const string Phi = "lucide-phi";
     public const string PhilippinePeso = "lucide-philippine-peso";
     public const string Phone = "lucide-phone";
     public const string PhoneCall = "lucide-phone-call";
@@ -1330,6 +1333,7 @@ public static class LucideIcons
     public const string ServerCog = "lucide-server-cog";
     public const string ServerCrash = "lucide-server-crash";
     public const string ServerOff = "lucide-server-off";
+    public const string ServerPlus = "lucide-server-plus";
     public const string Settings = "lucide-settings";
     public const string Settings2 = "lucide-settings-2";
     public const string Shapes = "lucide-shapes";
