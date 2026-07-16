@@ -17,7 +17,10 @@ i[class^="icon-"]:before, i[class*=" icon-"]:before {
 }
 
 .icon-ic {
-    font-size: 1em;
+    display: inline-block;
+    font-size: 20px;
+    line-height: 0;
+    vertical-align: -0.125em;
 }
 
 .icon-ic-xs {

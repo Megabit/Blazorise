@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-16T14:20:01.0585249Z",
+  "generatedUtc": "2026-07-16T17:21:13.3185991Z",
   "pages": [
     {
       "route": "/docs",
@@ -6009,7 +6009,23 @@
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FluentIconsCSSExample.snippet",
           "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.2.1.0\" rel=\"stylesheet\" />",
           "title": "Fluent Icons CSS",
-          "description": "Note: If you use Fluent icons, define FluentSystemIcons-Resizable.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
+          "description": "Fluent icons use the CSS font by default and render at a default size of 20px. For this mode, define FluentSystemIcons-Resizable.css in your index.html or _Layout.cshtml / _Host.cshtml file."
+        },
+        {
+          "code": "FluentSvgIconsCSSExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FluentSvgIconsCSSExample.snippet",
+          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/blazorise.icons.fluentui.css\" rel=\"stylesheet\" />",
+          "title": "Fluent SVG Icons CSS",
+          "description": "As an alternative to the CSS font, Fluent icons can render as inline SVG, also at a default size of 20px. Replace FluentSystemIcons-Resizable.css with the SVG icon stylesheet."
+        },
+        {
+          "code": "FluentSvgIconsRegistrationExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FluentSvgIconsRegistrationExample.snippet",
+          "content": "using Blazorise.Icons.FluentUI;\r\n\r\nbuilder.Services\r\n    .AddBlazorise()\r\n    .AddBootstrapProviders()\r\n    .AddFluentUIIcons( options => options.UseSvgIcons = true );",
+          "title": "Fluent SVG Icons Registration",
+          "description": "Enable SVG rendering when registering the Fluent UI icon provider. Existing Icon component usage remains the same."
         },
         {
           "code": "FontAwesomeCSSExample",
@@ -10221,6 +10237,14 @@
           "description": "Add these lines inside the head section:"
         },
         {
+          "code": "FluentUI2GuideSvgSourceFilesExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Guides/FluentUI2/Examples/FluentUI2GuideSvgSourceFilesExample.snippet",
+          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/blazorise.icons.fluentui.css\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.2.1.0\" rel=\"stylesheet\" />",
+          "title": "Optional: SVG icons",
+          "description": "Fluent icons use the CSS font by default. To render inline SVG icons instead, replace the Fluent font stylesheet shown above with the SVG stylesheet. Keep the remaining Fluent 2 stylesheets unchanged."
+        },
+        {
           "code": "FluentUI2GuideUsingExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/FluentUI2/Examples/FluentUI2GuideUsingExample.snippet",
@@ -10233,6 +10257,14 @@
           "sourcePath": "Pages/Docs/Guides/FluentUI2/Examples/FluentUI2GuideRegistrationExample.snippet",
           "content": "using Blazorise;\r\nusing Blazorise.FluentUI2;\r\nusing Blazorise.Icons.FluentUI;\r\n\r\nbuilder.Services\r\n    .AddBlazorise()\r\n    .AddFluentUI2Providers()\r\n    .AddFluentUIIcons();",
           "description": "Configure your Program.cs to register Blazorise services, including the Fluent 2 providers and icons:"
+        },
+        {
+          "code": "FluentUI2GuideSvgRegistrationExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Guides/FluentUI2/Examples/FluentUI2GuideSvgRegistrationExample.snippet",
+          "content": "using Blazorise;\r\nusing Blazorise.FluentUI2;\r\nusing Blazorise.Icons.FluentUI;\r\n\r\nbuilder.Services\r\n    .AddBlazorise()\r\n    .AddFluentUI2Providers()\r\n    .AddFluentUIIcons( options => options.UseSvgIcons = true );",
+          "title": "Optional: SVG icon registration",
+          "description": "When using the SVG icon stylesheet, also enable SVG rendering in the Fluent UI icon provider options."
         },
         {
           "code": "FluentUI2GuideDarkThemeExample",
