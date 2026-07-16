@@ -21,7 +21,7 @@
 </DataGrid>
 
 @code {
-    [Inject] public EmployeeData EmployeeData { get; set; }
+    [Inject] EmployeeData EmployeeData { get; set; }
     private DataGrid<Employee> dataGridRef;
     private List<Employee> employeeListSource;
     private List<Employee> employeeList;
