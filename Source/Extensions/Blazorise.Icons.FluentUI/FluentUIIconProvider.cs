@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Providers;
@@ -436,7 +436,7 @@ class FluentUIIconProvider : BaseIconProvider
 
     public override string GetStyleName( IconStyle iconStyle )
     {
-        return null;
+        return "icon-ic";
     }
 
     public string GetSvg( object name, IconStyle iconStyle )
@@ -453,7 +453,7 @@ class FluentUIIconProvider : BaseIconProvider
 
     protected override bool ContainsStyleName( string iconName )
     {
-        return iconName.Split( ' ' ).Any( x => styles.Values.Contains( x ) || new string[] { "icon-ic-brand" }.Contains( x ) );
+        return iconName.Split( ' ' ).Any( x => x == "icon-ic" || styles.Values.Contains( x ) || new string[] { "icon-ic-brand" }.Contains( x ) );
     }
 
     private static string NormalizeIconName( string name )
