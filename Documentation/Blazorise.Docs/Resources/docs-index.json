@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-16T15:18:05.5376505Z",
+  "generatedUtc": "2026-07-16T17:18:25.1667758Z",
   "pages": [
     {
       "route": "/docs",
@@ -5989,7 +5989,7 @@
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FluentIconsCSSExample.snippet",
           "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.2.1.0\" rel=\"stylesheet\" />",
           "title": "Fluent Icons CSS",
-          "description": "Fluent icons use the CSS font by default. For this mode, define FluentSystemIcons-Resizable.css in your index.html or _Layout.cshtml / _Host.cshtml file."
+          "description": "Fluent icons use the CSS font by default and render at a default size of 20px. For this mode, define FluentSystemIcons-Resizable.css in your index.html or _Layout.cshtml / _Host.cshtml file."
         },
         {
           "code": "FluentSvgIconsCSSExample",
@@ -5997,7 +5997,7 @@
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FluentSvgIconsCSSExample.snippet",
           "content": "<link href=\"_content/Blazorise.Icons.FluentUI/blazorise.icons.fluentui.css\" rel=\"stylesheet\" />",
           "title": "Fluent SVG Icons CSS",
-          "description": "As an alternative to the CSS font, Fluent icons can render as inline SVG at a default size of 20px. Replace FluentSystemIcons-Resizable.css with the SVG icon stylesheet."
+          "description": "As an alternative to the CSS font, Fluent icons can render as inline SVG, also at a default size of 20px. Replace FluentSystemIcons-Resizable.css with the SVG icon stylesheet."
         },
         {
           "code": "FluentSvgIconsRegistrationExample",
