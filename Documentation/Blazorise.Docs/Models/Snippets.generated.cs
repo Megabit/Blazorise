@@ -6233,7 +6233,11 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     }
 }";
 
-        public const string AutocompleteDataAnnotationValidationExample = @"@using System.ComponentModel.DataAnnotations
+        public const string AutocompleteDataAnnotationValidationExample = @"@using System
+@using System.Collections.Generic
+@using System.Linq
+@using System.Threading.Tasks
+@using System.ComponentModel.DataAnnotations
 
 <Validations Mode=""ValidationMode.Auto"" Model=""@model"">
     <Validation>
@@ -6276,8 +6280,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Validations>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
 
     public IEnumerable<Country> Countries;
 
@@ -6297,9 +6300,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
         [MinLength( 1, ErrorMessage = ""Please select at least one country."" )]
         public List<string> CountryIsos { get; set; } = new List<string>();
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
+        public const string AutocompleteExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
@@ -6323,8 +6366,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -6335,9 +6377,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
     public string selectedSearchValue { get; set; }
     public string selectedAutoCompleteText { get; set; }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteHighlightExample = @"<Autocomplete TItem=""Country""
+        public const string AutocompleteHighlightExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
@@ -6348,8 +6430,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Autocomplete>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -6357,9 +6438,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
         Countries = await CountryData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteItemContentExample = @"<Autocomplete TItem=""Country""
+        public const string AutocompleteItemContentExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
@@ -6390,8 +6511,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -6401,9 +6521,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     }
     string selectedSearchValue { get; set; }
     string selectedAutoCompleteText { get; set; }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteMultipleExample = @"<Autocomplete TItem=""Country""
+        public const string AutocompleteMultipleExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
@@ -6425,8 +6585,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -6438,9 +6597,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
     List<string> multipleSelectionData;
     List<string> multipleSelectionTexts;
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteMultipleValidationExample = @"<Validations @ref=""validations"" Mode=""ValidationMode.Manual"">
+        public const string AutocompleteMultipleValidationExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Validations @ref=""validations"" Mode=""ValidationMode.Manual"">
     <Validation Validator=""@ValidateSelection"">
         <Field>
             <FieldLabel>Countries</FieldLabel>
@@ -6464,8 +6663,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Validations>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
 
     public IEnumerable<Country> Countries;
 
@@ -6492,9 +6690,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     {
         await validations.ValidateAll();
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteReadDataExample = @"<Autocomplete TItem=""Country""
+        public const string AutocompleteReadDataExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@ReadDataCountries""
               ReadData=""@OnHandleReadData""
@@ -6517,8 +6755,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
     public IEnumerable<Country> ReadDataCountries;
 
@@ -6544,9 +6781,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
             }
         }
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteSuggestMultipleCheckboxExample = @"<Autocomplete TItem=""Country""
+        public const string AutocompleteSuggestMultipleCheckboxExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
@@ -6568,8 +6845,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -6581,9 +6857,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
     List<string> multipleSelectionData;
     List<string> multipleSelectionTexts;
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteValidationExample = @"<Validations @ref=""validations"" Mode=""ValidationMode.Manual"">
+        public const string AutocompleteValidationExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Validations @ref=""validations"" Mode=""ValidationMode.Manual"">
     <Validation Validator=""@ValidationRule.IsNotEmpty"">
         <Field>
             <FieldLabel>Country</FieldLabel>
@@ -6606,8 +6922,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Validations>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
 
     public IEnumerable<Country> Countries;
 
@@ -6625,9 +6940,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     {
         await validations.ValidateAll();
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteVirtualizeAndReadDataExample = @"<Autocomplete TItem=""Country""
+        public const string AutocompleteVirtualizeAndReadDataExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@ReadDataCountries""
               TotalItems=""totalCountries""
@@ -6640,8 +6995,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
 </Autocomplete>
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
 
     public IEnumerable<Country> Countries;
     IEnumerable<Country> ReadDataCountries;
@@ -6667,9 +7021,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         return Task.CompletedTask;
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteVirtualizeExample = @"<Autocomplete TItem=""Country""
+        public const string AutocompleteVirtualizeExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
@@ -6680,8 +7074,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
 </Autocomplete>
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -6691,11 +7084,43 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     }
 
     public string selectedSearchValue { get; set; }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string Country = @"namespace Blazorise.Shared.Models;
-
-public class Country
+        public const string Country = @"public class Country
 {
     public Country( string name, string iso, string capital )
     {
@@ -6712,39 +7137,23 @@ public class Country
 }";
 
         public const string CountryData = @"using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Blazorise.Shared.Models;
-using Microsoft.Extensions.Caching.Memory;
-
-namespace Blazorise.Shared.Data;
 
 public class CountryData
 {
-    private readonly IMemoryCache cache;
-    private readonly string cacheKey = ""cache_countries"";
-
-    /// <summary>
-    /// Simplified code to get and cache data in memory.
-    /// </summary>
-    public CountryData( IMemoryCache memoryCache )
-    {
-        cache = memoryCache;
-    }
-
     public Task<IEnumerable<Country>> GetDataAsync()
-        => cache.GetOrCreateAsync( cacheKey, LoadData );
-
-    private Task<IEnumerable<Country>> LoadData( ICacheEntry cacheEntry )
-    {
-        Assembly assembly = typeof( EmployeeData ).Assembly;
-        using Stream stream = assembly.GetManifestResourceStream( ""Blazorise.Shared.Resources.CountryData.json"" );
-
-        return Task.FromResult( JsonSerializer.Deserialize<List<Country>>( new StreamReader( stream ).ReadToEnd() ).AsEnumerable() );
-    }
+        => Task.FromResult<IEnumerable<Country>>( new Country[]
+        {
+            new( ""Croatia"", ""HR"", ""Zagreb"" ),
+            new( ""France"", ""FR"", ""Paris"" ),
+            new( ""Germany"", ""DE"", ""Berlin"" ),
+            new( ""Italy"", ""IT"", ""Rome"" ),
+            new( ""Japan"", ""JP"", ""Tokyo"" ),
+            new( ""Portugal"", ""PT"", ""Lisbon"" ),
+            new( ""Spain"", ""ES"", ""Madrid"" ),
+            new( ""United Kingdom"", ""GB"", ""London"" ),
+            new( ""United States"", ""US"", ""Washington, D.C."" )
+        } );
 }";
 
         public const string BarcodeStylingExample = @"<Barcode Value=""BLAZORISE""
@@ -22099,7 +22508,13 @@ public class Salary
     }
 }";
 
-        public const string DropdownListCheckboxExample = @"<DropdownList TItem=""Country"" TValue=""IReadOnlyList<string>""
+        public const string DropdownListCheckboxExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DropdownList TItem=""Country"" TValue=""IReadOnlyList<string>""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
               ValueField=""@(( item ) => item.Iso)""
@@ -22122,8 +22537,7 @@ public class Salary
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -22133,9 +22547,49 @@ public class Salary
     }
 
     private IReadOnlyList<string> selectedDropValues { get; set; } = new[] { ""AM"", ""AF"" };
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string DropdownListExample = @"<DropdownList TItem=""Country"" TValue=""string""
+        public const string DropdownListExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DropdownList TItem=""Country"" TValue=""string""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
               ValueField=""@(( item ) => item.Iso)""
@@ -22155,8 +22609,7 @@ public class Salary
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -22166,9 +22619,49 @@ public class Salary
     }
 
     string selectedDropValue { get; set; } = ""CN"";
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string DropdownListSearchExample = @"<DropdownList TItem=""Country"" TValue=""string""
+        public const string DropdownListSearchExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DropdownList TItem=""Country"" TValue=""string""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
               ValueField=""@(( item ) => item.Iso)""
@@ -22189,8 +22682,7 @@ public class Salary
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -22200,9 +22692,44 @@ public class Salary
     }
 
     string selectedDropValue { get; set; } = ""CN"";
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string BasicFluentValidationExample = @"@using Blazorise.FluentValidation
+        public const string BasicFluentValidationExample = @"@using FluentValidation
+@using Blazorise.FluentValidation
 
 <Validations @ref=""@fluentValidations"" Mode=""ValidationMode.Manual"" Model=""@person"" HandlerType=""typeof(FluentValidationHandler)"">
     <Validation>
@@ -22251,6 +22778,33 @@ public class Salary
             // the person is validated and we can proceed with the saving process
         }
     }
+
+
+    public class Person
+    {
+        public string FirstName { get; set; }
+    
+        public string LastName { get; set; }
+    
+        public int Age { get; set; }
+    }
+    
+    public class PersonValidator : AbstractValidator<Person>
+    {
+        public PersonValidator()
+        {
+            RuleFor( vm => vm.FirstName )
+                .NotEmpty()
+                .MaximumLength( 30 );
+    
+            RuleFor( vm => vm.LastName )
+                .NotEmpty()
+                .MaximumLength( 30 );
+    
+            RuleFor( vm => vm.Age )
+                .GreaterThanOrEqualTo( 18 );
+        }
+    }
 }";
 
         public const string FluentValidationAbstractValidatorExample = @"public class PersonValidator : AbstractValidator<Person>
@@ -22288,10 +22842,17 @@ builder.Services
 
 services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
-        public const string PersonValidator = @"using Blazorise.Shared.Models;
-using FluentValidation;
+        public const string Person = @"public class Person
+{
+    public string FirstName { get; set; }
 
-namespace Blazorise.Docs.Pages.Docs.Extensions.FluentValidation.Validators;
+    public string LastName { get; set; }
+
+    public int Age { get; set; }
+}";
+
+        public const string PersonValidator = @"using FluentValidation;
+
 
 public class PersonValidator : AbstractValidator<Person>
 {
@@ -23097,7 +23658,13 @@ Install-Package Blazorise.Icons.Material";
 	.AddBootstrapProviders()
 +   .AddFontAwesomeIcons();";
 
-        public const string BasicListViewExample = @"<ListView TItem=""Country""
+        public const string BasicListViewExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<ListView TItem=""Country""
           Data=""Countries""
           TextField=""(item) => item.Name""
           ValueField=""(item) => item.Iso""
@@ -23106,8 +23673,7 @@ Install-Package Blazorise.Icons.Material";
 </ListView>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -23115,9 +23681,49 @@ Install-Package Blazorise.Icons.Material";
         Countries = await CountryData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string ListViewItemTemplateExample = @"<ListView TItem=""Country""
+        public const string ListViewItemTemplateExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<ListView TItem=""Country""
           Data=""Countries""
           TextField=""(item) => item.Name""
           ValueField=""(item) => item.Iso""
@@ -23133,8 +23739,7 @@ Install-Package Blazorise.Icons.Material";
 </ListView>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -23142,9 +23747,49 @@ Install-Package Blazorise.Icons.Material";
         Countries = await CountryData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string ListViewSelectableExample = @"<ListView TItem=""Country""
+        public const string ListViewSelectableExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<ListView TItem=""Country""
           Data=""Countries""
           TextField=""(item) => item.Name""
           ValueField=""(item) => item.Iso""
@@ -23160,8 +23805,7 @@ Install-Package Blazorise.Icons.Material";
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     private Country selectedListViewItem;
@@ -23171,9 +23815,47 @@ Install-Package Blazorise.Icons.Material";
         Countries = await CountryData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string ListViewStylingIndividualItemsExample = @"@using System.Linq
+        public const string ListViewStylingIndividualItemsExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Threading.Tasks
+@using System.Linq
 
 <ListView TItem=""Country""
           Data=""Countries""
@@ -23197,8 +23879,7 @@ Install-Package Blazorise.Icons.Material";
 
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public List<Country> Countries;
 
     private Country selectedListViewItem;
@@ -23207,6 +23888,40 @@ Install-Package Blazorise.Icons.Material";
     {
         Countries = (await CountryData.GetDataAsync()).ToList();
         await base.OnInitializedAsync();
+    }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
     }
 }";
 
@@ -30137,7 +30852,10 @@ builder.Services
     }
 }";
 
-        public const string ModalProviderCustomStructureExample = @"<Field Horizontal>
+        public const string ModalProviderCustomStructureExample = @"@using System
+@using System.Threading.Tasks
+
+<Field Horizontal>
     <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">User Name</FieldLabel>
     <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
         <TextInput @bind-Value=""userName""></TextInput>
@@ -30152,11 +30870,33 @@ builder.Services
 
     public Task ShowCustomStructure()
     {
-        return ModalService.Show<CustomStructureModalExample>( parameters => parameters.Add( x => x.UserName, userName ), new ModalInstanceOptions() { UseModalStructure = false } );
+        return ModalService.Show( string.Empty, CustomStructureModalExample, new ModalInstanceOptions() { UseModalStructure = false } );
     }
+
+
+    private RenderFragment CustomStructureModalExample => @<text>
+        <ModalHeader>
+            <ModalTitle>My Custom Structure</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody MaxHeight=""70"">
+            Welcome @userName!
+        </ModalBody>
+        <ModalFooter>
+            <Button Color=""Color.Success"" Clicked=""Confirm"">Cheers!</Button>
+        </ModalFooter>
+    </text>;
+    
+    private async Task Confirm()
+        {
+            await ModalService.Hide();
+        }
 }";
 
-        public const string ModalProviderFormularyExample = @"<Paragraph>
+        public const string ModalProviderFormularyExample = @"@using System
+@using System.Threading.Tasks
+
+<Paragraph>
     @formularyMessage
 </Paragraph>
 <Button Color=""Color.Primary"" Clicked=""ShowFormulary"">Show</Button>
@@ -30169,12 +30909,7 @@ builder.Services
     public Task ShowFormulary()
     {
         formularyMessage = string.Empty;
-        return ModalService.Show<FormularyModalExample>( x =>
-        {
-            x.Add( x => x.OnValidate, FormularyValidate );
-            x.Add( x => x.OnSuccess, FormularySuccess );
-        },
-        new ModalInstanceOptions()
+        return ModalService.Show( string.Empty, FormularyModalExample, new ModalInstanceOptions()
             {
                 UseModalStructure = false
             } );
@@ -30188,9 +30923,71 @@ builder.Services
         formularyMessage = $""Employee : {employee.FirstName} saved successfully!"";
         return InvokeAsync( StateHasChanged );
     }
+
+
+    private RenderFragment FormularyModalExample => @<text>
+        <ModalHeader>
+            <ModalTitle>
+                Please fill in the formulary
+            </ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">First Name</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
+                    <TextInput @bind-Value=""model.FirstName""></TextInput>
+                </FieldBody>
+            </Field>
+        
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">Email</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
+                    <TextInput @bind-Value=""model.Email""></TextInput>
+                </FieldBody>
+            </Field>
+        
+            @if ( !isValid )
+            {
+                <Paragraph>
+                    <Label>Invalid Submission!</Label>
+                </Paragraph>
+            }
+        </ModalBody>
+        <ModalFooter>
+            <Button Color=""Color.Success "" Clicked=""Confirm"">Confirm</Button>
+            <Button Color=""Color.Secondary"" Clicked=""ModalService.Hide"">Close</Button>
+        </ModalFooter>
+    </text>;
+    
+    private Employee model = new();
+        private bool isValid = true;
+    
+        private async Task Confirm()
+        {
+            isValid = await FormularyValidate( model );
+    
+            if ( !isValid )
+            {
+                return;
+            }
+    
+            await FormularySuccess( model );
+            await ModalService.Hide();
+        }
+    
+    public class Employee
+    {
+        public string FirstName { get; set; }
+    
+        public string Email { get; set; }
+    }
 }";
 
-        public const string ModalProviderInstantiationExample = @"<Button Color=""Color.Primary"" Clicked=""ShowCounter"">Show Counter</Button>
+        public const string ModalProviderInstantiationExample = @"@using System
+@using System.Threading.Tasks
+
+<Button Color=""Color.Primary"" Clicked=""ShowCounter"">Show Counter</Button>
 
 @code {
     [Inject] public IModalService ModalService { get; set; }
@@ -30199,8 +30996,25 @@ builder.Services
     {
         Random random = new();
         var newValue = random.NextInt64( 100 );
-        return ModalService.Show<CounterExample>( ""My Custom Content!"", x => x.Add( x => x.Value, newValue ) );
+        Value = newValue;
+        return ModalService.Show( ""My Custom Content!"", CounterExample );
     }
+
+
+    private RenderFragment CounterExample => @<text>
+        <Heading>Counter</Heading>
+        
+        <Paragraph>@Value</Paragraph>
+        
+        <Button Color=""Color.Primary"" Clicked=""Increment"">Increment</Button>
+    </text>;
+    
+    private long Value { get; set; }
+    
+        private void Increment()
+        {
+            Value++;
+        }
 }";
 
         public const string ModalProviderOptionsExample = @"<Router AppAssembly=""typeof(App).Assembly"">
@@ -30210,20 +31024,39 @@ builder.Services
 
 <ModalProvider UseModalStructure Animated Size=""ModalSize.Fullscreen"" />";
 
-        public const string ModalProviderStatefulExample = @"<Button Color=""Color.Primary"" Clicked=""ShowStateful"">Show Stateful</Button>
+        public const string ModalProviderStatefulExample = @"@using System
+@using System.Threading.Tasks
+
+<Button Color=""Color.Primary"" Clicked=""ShowStateful"">Show Stateful</Button>
 
 @code {
     [Inject] public IModalService ModalService { get; set; }
 
     public Task ShowStateful()
     {
-        return ModalService.Show<CounterExample>( ""My Stateful content"", new ModalInstanceOptions()
+        return ModalService.Show( ""My Stateful content"", CounterExample, new ModalInstanceOptions()
         {
             Stateful = true,
             ElementId = ""Stateful"",
             RenderMode = ModalRenderMode.LazyLoad
         } );
     }
+
+
+    private RenderFragment CounterExample => @<text>
+        <Heading>Counter</Heading>
+        
+        <Paragraph>@Value</Paragraph>
+        
+        <Button Color=""Color.Primary"" Clicked=""Increment"">Increment</Button>
+    </text>;
+    
+    private long Value { get; set; }
+    
+        private void Increment()
+        {
+            Value++;
+        }
 }";
 
         public const string ModalProviderUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
@@ -30379,7 +31212,10 @@ builder.Services
     }
 }";
 
-        public const string OffcanvasProviderCustomStructureExample = @"<Field Horizontal>
+        public const string OffcanvasProviderCustomStructureExample = @"@using System
+@using System.Threading.Tasks
+
+<Field Horizontal>
     <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">User Name</FieldLabel>
     <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
         <TextInput @bind-Value=""userName""></TextInput>
@@ -30394,13 +31230,33 @@ builder.Services
 
     public Task ShowCustomStructure()
     {
-        return OffcanvasService.Show<CustomStructureOffcanvasExample>(
-            parameters => parameters.Add( x => x.UserName, userName ),
-            new OffcanvasInstanceOptions() { UseOffcanvasStructure = false } );
+        return OffcanvasService.Show( string.Empty, CustomStructureOffcanvasExample, new OffcanvasInstanceOptions() { UseOffcanvasStructure = false } );
     }
+
+
+    private RenderFragment CustomStructureOffcanvasExample => @<text>
+        <OffcanvasHeader>
+            <Heading Size=""HeadingSize.Is5"">My Custom Structure</Heading>
+            <CloseButton />
+        </OffcanvasHeader>
+        <OffcanvasBody>
+            Welcome @userName!
+        </OffcanvasBody>
+        <OffcanvasFooter>
+            <Button Color=""Color.Success"" Clicked=""Confirm"">Cheers!</Button>
+        </OffcanvasFooter>
+    </text>;
+    
+    private Task Confirm()
+        {
+            return OffcanvasService.Hide();
+        }
 }";
 
-        public const string OffcanvasProviderFormularyExample = @"<Paragraph>
+        public const string OffcanvasProviderFormularyExample = @"@using System
+@using System.Threading.Tasks
+
+<Paragraph>
     @formularyMessage
 </Paragraph>
 <Button Color=""Color.Primary"" Clicked=""ShowFormulary"">Show</Button>
@@ -30413,12 +31269,7 @@ builder.Services
     public Task ShowFormulary()
     {
         formularyMessage = string.Empty;
-        return OffcanvasService.Show<FormularyOffcanvasExample>( x =>
-        {
-            x.Add( x => x.OnValidate, FormularyValidate );
-            x.Add( x => x.OnSuccess, FormularySuccess );
-        },
-        new OffcanvasInstanceOptions()
+        return OffcanvasService.Show( string.Empty, FormularyOffcanvasExample, new OffcanvasInstanceOptions()
             {
                 UseOffcanvasStructure = false
             } );
@@ -30432,9 +31283,69 @@ builder.Services
         formularyMessage = $""Employee : {employee.FirstName} saved successfully!"";
         return InvokeAsync( StateHasChanged );
     }
+
+
+    private RenderFragment FormularyOffcanvasExample => @<text>
+        <OffcanvasHeader>
+            <Heading Size=""HeadingSize.Is5"">Please fill in the formulary</Heading>
+            <CloseButton />
+        </OffcanvasHeader>
+        <OffcanvasBody>
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">First Name</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
+                    <TextInput @bind-Value=""model.FirstName""></TextInput>
+                </FieldBody>
+            </Field>
+        
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">Email</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
+                    <TextInput @bind-Value=""model.Email""></TextInput>
+                </FieldBody>
+            </Field>
+        
+            @if ( !isValid )
+            {
+                <Paragraph>
+                    <Label>Invalid Submission!</Label>
+                </Paragraph>
+            }
+        </OffcanvasBody>
+        <OffcanvasFooter>
+            <Button Color=""Color.Success"" Clicked=""Confirm"">Confirm</Button>
+            <Button Color=""Color.Secondary"" Clicked=""OffcanvasService.Hide"">Close</Button>
+        </OffcanvasFooter>
+    </text>;
+    
+    private Employee model = new();
+        private bool isValid = true;
+    
+        private async Task Confirm()
+        {
+            isValid = await FormularyValidate( model );
+    
+            if ( !isValid )
+            {
+                return;
+            }
+    
+            await FormularySuccess( model );
+            await OffcanvasService.Hide();
+        }
+    
+    public class Employee
+    {
+        public string FirstName { get; set; }
+    
+        public string Email { get; set; }
+    }
 }";
 
-        public const string OffcanvasProviderInstantiationExample = @"<Button Color=""Color.Primary"" Clicked=""ShowCounter"">Show Counter</Button>
+        public const string OffcanvasProviderInstantiationExample = @"@using System
+@using System.Threading.Tasks
+
+<Button Color=""Color.Primary"" Clicked=""ShowCounter"">Show Counter</Button>
 
 @code {
     [Inject] public IOffcanvasService OffcanvasService { get; set; }
@@ -30443,8 +31354,25 @@ builder.Services
     {
         Random random = new();
         var newValue = random.NextInt64( 100 );
-        return OffcanvasService.Show<CounterExample>( ""My Custom Content!"", x => x.Add( x => x.Value, newValue ) );
+        Value = newValue;
+        return OffcanvasService.Show( ""My Custom Content!"", CounterExample );
     }
+
+
+    private RenderFragment CounterExample => @<text>
+        <Heading>Counter</Heading>
+        
+        <Paragraph>@Value</Paragraph>
+        
+        <Button Color=""Color.Primary"" Clicked=""Increment"">Increment</Button>
+    </text>;
+    
+    private long Value { get; set; }
+    
+        private void Increment()
+        {
+            Value++;
+        }
 }";
 
         public const string OffcanvasProviderOptionsExample = @"<Router AppAssembly=""typeof(App).Assembly"">
@@ -30488,20 +31416,39 @@ builder.Services
     }
 }";
 
-        public const string OffcanvasProviderStatefulExample = @"<Button Color=""Color.Primary"" Clicked=""ShowStateful"">Show Stateful</Button>
+        public const string OffcanvasProviderStatefulExample = @"@using System
+@using System.Threading.Tasks
+
+<Button Color=""Color.Primary"" Clicked=""ShowStateful"">Show Stateful</Button>
 
 @code {
     [Inject] public IOffcanvasService OffcanvasService { get; set; }
 
     public Task ShowStateful()
     {
-        return OffcanvasService.Show<CounterExample>( ""My Stateful content"", new OffcanvasInstanceOptions()
+        return OffcanvasService.Show( ""My Stateful content"", CounterExample, new OffcanvasInstanceOptions()
         {
             Stateful = true,
             ElementId = ""StatefulOffcanvas"",
             Placement = Placement.Start
         } );
     }
+
+
+    private RenderFragment CounterExample => @<text>
+        <Heading>Counter</Heading>
+        
+        <Paragraph>@Value</Paragraph>
+        
+        <Button Color=""Color.Primary"" Clicked=""Increment"">Increment</Button>
+    </text>;
+    
+    private long Value { get; set; }
+    
+        private void Increment()
+        {
+            Value++;
+        }
 }";
 
         public const string OffcanvasProviderUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
@@ -30511,19 +31458,41 @@ builder.Services
 
 <OffcanvasProvider />";
 
-        public const string OffcanvasServiceOptionsExample = @"<Button Color=""Color.Primary"" Clicked=""InstantiateOffcanvas"">Override Options Example</Button>
+        public const string OffcanvasServiceOptionsExample = @"@using System
+@using System.Threading.Tasks
+
+<Button Color=""Color.Primary"" Clicked=""InstantiateOffcanvas"">Override Options Example</Button>
 @code {
     [Inject] public IOffcanvasService OffcanvasService { get; set; }
 
     public Task InstantiateOffcanvas()
     {
-        return OffcanvasService.Show<CustomStructureOffcanvasExample>( ""Override Options Example"", new OffcanvasInstanceOptions()
+        return OffcanvasService.Show( ""Override Options Example"", CustomStructureOffcanvasExample, new OffcanvasInstanceOptions()
         {
             Animated = false,
             UseOffcanvasStructure = false,
             Placement = Placement.Top
         } );
     }
+
+
+    private RenderFragment CustomStructureOffcanvasExample => @<text>
+        <OffcanvasHeader>
+            <Heading Size=""HeadingSize.Is5"">My Custom Structure</Heading>
+            <CloseButton />
+        </OffcanvasHeader>
+        <OffcanvasBody>
+            Welcome @userName!
+        </OffcanvasBody>
+        <OffcanvasFooter>
+            <Button Color=""Color.Success"" Clicked=""Confirm"">Cheers!</Button>
+        </OffcanvasFooter>
+    </text>;
+    
+    private Task Confirm()
+        {
+            return OffcanvasService.Hide();
+        }
 }";
 
         public const string BasicPageProgressServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@SetPageProgress25"">25 %</Button>
