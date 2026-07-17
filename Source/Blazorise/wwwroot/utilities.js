@@ -634,9 +634,16 @@ export function log(showBanner, showCompactBanner, message, args) {
     const st = (window[GLOBAL] ||= {
         dismissed: false,
         expanded: false,
+        compactAvailable: false,
         bodyObserver: null,
         attrObserver: null
     });
+
+    st.compactAvailable = showCompactBanner;
+
+    if (st.compactAvailable) {
+        st.dismissed = false;
+    }
 
     if (st.dismissed) {
         return;
@@ -656,6 +663,10 @@ export function log(showBanner, showCompactBanner, message, args) {
         if (msgEl) msgEl.innerHTML = cleanMessage;
         const wrapperEl = host.shadowRoot.querySelector(".wrapper");
         if (wrapperEl) wrapperEl.classList.toggle("compact", showCompactBanner && !st.expanded);
+        const compactButtonEl = host.shadowRoot.querySelector(".compact-trigger");
+        if (compactButtonEl) compactButtonEl.setAttribute("aria-expanded", st.expanded ? "true" : "false");
+        const dismissButtonEl = host.shadowRoot.querySelector(".dismiss");
+        if (dismissButtonEl) dismissButtonEl.textContent = st.compactAvailable ? "Close" : "Dismiss";
         return;
     }
 
@@ -688,9 +699,12 @@ export function log(showBanner, showCompactBanner, message, args) {
   right: 16px !important;
   bottom: 16px !important;
   padding: 0 !important;
+  background: rgba(108,99,255,0.72) !important;
   border-radius: 999px !important;
   box-shadow: 0 4px 14px rgba(0,0,0,0.24) !important;
+  transition: background .2s ease-in-out !important;
 }
+.wrapper.compact:hover { background: #6C63FF !important; }
 .msg { flex: 1 1 auto !important; }
 .compact .msg,
 .compact .dismiss { display: none !important; }
@@ -748,8 +762,16 @@ export function log(showBanner, showCompactBanner, message, args) {
     const button = document.createElement("button");
     button.className = "btn dismiss";
     button.type = "button";
-    button.textContent = "Dismiss";
+    button.textContent = st.compactAvailable ? "Close" : "Dismiss";
     button.addEventListener("click", () => {
+        if (st.compactAvailable) {
+            st.expanded = false;
+            wrapperElement.classList.add("compact");
+            compactButton.setAttribute("aria-expanded", "false");
+            compactButton.focus();
+            return;
+        }
+
         st.dismissed = true;
         if (st.bodyObserver) try { st.bodyObserver.disconnect(); } catch { }
         if (st.attrObserver) try { st.attrObserver.disconnect(); } catch { }
