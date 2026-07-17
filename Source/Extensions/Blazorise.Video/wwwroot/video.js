@@ -1,8 +1,8 @@
-import { VidstackPlayer, PlyrLayout } from "./vendors/vidstack.js?v=2.2.1.0";
+import { VidstackPlayer, PlyrLayout } from "./vendors/vidstack.js?v=2.2.2.0";
 
-import { getRequiredElement, isString, firstNonNull, registerDisconnectCleanup, unregisterDisconnectCleanup, insertCSSIntoDocumentHead } from "../Blazorise/utilities.js?v=2.2.1.0";
+import { getRequiredElement, isString, firstNonNull, registerDisconnectCleanup, unregisterDisconnectCleanup, insertCSSIntoDocumentHead } from "../Blazorise/utilities.js?v=2.2.2.0";
 
-insertCSSIntoDocumentHead("_content/Blazorise.Video/vendors/vidstack.css?v=2.2.1.0");
+insertCSSIntoDocumentHead("_content/Blazorise.Video/vendors/vidstack.css?v=2.2.2.0");
 
 const _instances = [];
 
@@ -70,10 +70,10 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         const provider = event.detail;
 
         if (provider?.type === 'hls') {
-            provider.library = '_content/Blazorise.Video/vendors/hls.js?v=2.2.1.0';
+            provider.library = '_content/Blazorise.Video/vendors/hls.js?v=2.2.2.0';
         }
         else if (provider?.type === 'dash') {
-            provider.library = '_content/Blazorise.Video/vendors/dash.js?v=2.2.1.0';
+            provider.library = '_content/Blazorise.Video/vendors/dash.js?v=2.2.2.0';
         }
     });
 

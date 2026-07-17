@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-16T20:19:54.4583008Z",
+  "generatedUtc": "2026-07-17T08:05:26.4939439Z",
   "pages": [
     {
       "route": "/docs",
@@ -34,7 +34,7 @@
           "code": "AnalyzerPackageReferenceExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AnalyzerPackageReferenceExample.snippet",
-          "content": "<PackageReference Include=\"Blazorise.Analyzers\" Version=\"2.2.1\" PrivateAssets=\"all\" />",
+          "content": "<PackageReference Include=\"Blazorise.Analyzers\" Version=\"2.2.2\" PrivateAssets=\"all\" />",
           "title": "Project file reference",
           "description": "If you prefer editing the project file directly, add the package reference in the target .csproj ."
         },
@@ -948,96 +948,6 @@
       ]
     },
     {
-      "route": "/docs/components/context-menu",
-      "title": "Blazorise ContextMenu component",
-      "description": "Learn to use the Blazorise ContextMenu component to show right-click menus with actions, checked items, and submenus.",
-      "pagePath": "Pages/Docs/Components/ContextMenu/ContextMenuPage.razor",
-      "examples": [
-        {
-          "code": "ContextMenuBasicExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/ContextMenu/Examples/ContextMenuBasicExample.razor",
-          "content": "<Div id=\"context-menu-basic-target\"\r\n     Padding=\"Padding.Is4\"\r\n     Border=\"Border.Is1.Rounded\"\r\n     Background=\"Background.Light\">\r\n    Right-click this area.\r\n</Div>\r\n\r\n<ContextMenu TargetId=\"context-menu-basic-target\">\r\n    <ContextMenuBody MinWidth=\"12rem\">\r\n        <ContextMenuHeader>Document</ContextMenuHeader>\r\n        <ContextMenuItem Icon=\"IconName.Copy\" Value=\"@(\"Copy\")\" Clicked=\"@SetSelectedAction\">Copy</ContextMenuItem>\r\n        <ContextMenuItem Icon=\"IconName.Paste\" Value=\"@(\"Paste\")\" Clicked=\"@SetSelectedAction\">Paste</ContextMenuItem>\r\n        <ContextMenuDivider />\r\n        <ContextMenuItem Icon=\"IconName.Delete\" Value=\"@(\"Delete\")\" Clicked=\"@SetSelectedAction\">Delete</ContextMenuItem>\r\n    </ContextMenuBody>\r\n</ContextMenu>\r\n\r\n<Paragraph Margin=\"Margin.Is2.FromTop\">\r\n    Last action: @selectedAction\r\n</Paragraph>\r\n\r\n@code {\r\n    private string selectedAction = \"None\";\r\n\r\n    private void SetSelectedAction( object value )\r\n    {\r\n        selectedAction = value?.ToString();\r\n    }\r\n}",
-          "title": "Basic context menu",
-          "description": "Attach a menu to any element id and provide menu items for the available actions."
-        },
-        {
-          "code": "ContextMenuToggleExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/ContextMenu/Examples/ContextMenuToggleExample.razor",
-          "content": "<ContextMenu>\r\n    <ContextMenuToggle>\r\n        <Button Color=\"Color.Primary\">\r\n            Right-click this button\r\n        </Button>\r\n    </ContextMenuToggle>\r\n    <ContextMenuBody MinWidth=\"12rem\">\r\n        <ContextMenuHeader>Button actions</ContextMenuHeader>\r\n        <ContextMenuItem Icon=\"IconName.Edit\" Value=\"@(\"Rename\")\" Clicked=\"@SetSelectedAction\">Rename</ContextMenuItem>\r\n        <ContextMenuItem Icon=\"IconName.Copy\" Value=\"@(\"Duplicate\")\" Clicked=\"@SetSelectedAction\">Duplicate</ContextMenuItem>\r\n        <ContextMenuDivider />\r\n        <ContextMenuItem Icon=\"IconName.Delete\" Value=\"@(\"Delete\")\" Clicked=\"@SetSelectedAction\">Delete</ContextMenuItem>\r\n    </ContextMenuBody>\r\n</ContextMenu>\r\n\r\n<Paragraph Margin=\"Margin.Is2.FromTop\">\r\n    Last action: @selectedAction\r\n</Paragraph>\r\n\r\n@code {\r\n    private string selectedAction = \"None\";\r\n\r\n    private void SetSelectedAction( object value )\r\n    {\r\n        selectedAction = value?.ToString();\r\n    }\r\n}",
-          "title": "Toggle content",
-          "description": "Use ContextMenuToggle when the menu target is declared inside the ContextMenu , without assigning an element id."
-        },
-        {
-          "code": "ContextMenuCheckedExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/ContextMenu/Examples/ContextMenuCheckedExample.razor",
-          "content": "<Div id=\"context-menu-checked-target\"\r\n     Padding=\"Padding.Is4\"\r\n     Border=\"Border.Is1.Rounded\"\r\n     Background=\"Background.Light\">\r\n    Right-click to change view options.\r\n</Div>\r\n\r\n<ContextMenu TargetId=\"context-menu-checked-target\" CloseOnClick=\"false\">\r\n    <ContextMenuBody MinWidth=\"13rem\">\r\n        <ContextMenuHeader>View</ContextMenuHeader>\r\n        <ContextMenuItem ShowCheckbox @bind-Checked=\"@showGrid\">Show grid</ContextMenuItem>\r\n        <ContextMenuItem ShowCheckbox @bind-Checked=\"@snapToGrid\">Snap to grid</ContextMenuItem>\r\n        <ContextMenuDivider />\r\n        <ContextMenuGroup CheckMode=\"ContextMenuCheckMode.Radio\" @bind-SelectedValue=\"@density\">\r\n            <ContextMenuItem Value=\"@(\"Comfortable\")\">Comfortable</ContextMenuItem>\r\n            <ContextMenuItem Value=\"@(\"Compact\")\">Compact</ContextMenuItem>\r\n        </ContextMenuGroup>\r\n    </ContextMenuBody>\r\n</ContextMenu>\r\n\r\n<Paragraph Margin=\"Margin.Is2.FromTop\">\r\n    Grid: @showGrid, Snap: @snapToGrid, Density: @density\r\n</Paragraph>\r\n\r\n@code {\r\n    private bool showGrid = true;\r\n\r\n    private bool snapToGrid = true;\r\n\r\n    private object density = \"Comfortable\";\r\n}",
-          "title": "Checked items",
-          "description": "Use ShowCheckbox for toggle items, or ContextMenuGroup with radio mode for mutually exclusive choices."
-        },
-        {
-          "code": "ContextMenuToolbarExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/ContextMenu/Examples/ContextMenuToolbarExample.razor",
-          "content": "<Div id=\"context-menu-toolbar-target\"\r\n     Padding=\"Padding.Is4\"\r\n     Border=\"Border.Is1.Rounded\"\r\n     Background=\"Background.Light\">\r\n    Right-click to open compact commands.\r\n</Div>\r\n\r\n<ContextMenu TargetId=\"context-menu-toolbar-target\">\r\n    <ContextMenuBody MinWidth=\"12rem\">\r\n        <ContextMenuToolbar>\r\n            <ContextMenuToolbarItem Icon=\"IconName.Cut\" Text=\"Cut\" Value=\"@(\"Cut\")\" Clicked=\"@SetSelectedAction\" />\r\n            <ContextMenuToolbarItem Icon=\"IconName.Copy\" Text=\"Copy\" Value=\"@(\"Copy\")\" Clicked=\"@SetSelectedAction\" />\r\n            <ContextMenuToolbarItem Icon=\"IconName.Paste\" Text=\"Paste\" Value=\"@(\"Paste\")\" Clicked=\"@SetSelectedAction\" />\r\n            <ContextMenuToolbarItem Icon=\"IconName.Delete\" Text=\"Delete\" Value=\"@(\"Delete\")\" Clicked=\"@SetSelectedAction\" />\r\n        </ContextMenuToolbar>\r\n        <ContextMenuDivider />\r\n        <ContextMenuItem Icon=\"IconName.List\" Value=\"@(\"Properties\")\" Clicked=\"@SetSelectedAction\">Properties</ContextMenuItem>\r\n    </ContextMenuBody>\r\n</ContextMenu>\r\n\r\n<Paragraph Margin=\"Margin.Is2.FromTop\">\r\n    Last action: @selectedAction\r\n</Paragraph>\r\n\r\n@code {\r\n    private string selectedAction = \"None\";\r\n\r\n    private void SetSelectedAction( object value )\r\n    {\r\n        selectedAction = value?.ToString();\r\n    }\r\n}",
-          "title": "Toolbar",
-          "description": "Use ContextMenuToolbar for compact icon commands that should be grouped on a single row."
-        },
-        {
-          "code": "ContextMenuSubmenuExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/ContextMenu/Examples/ContextMenuSubmenuExample.razor",
-          "content": "<Div id=\"context-menu-submenu-target\"\r\n     Padding=\"Padding.Is4\"\r\n     Border=\"Border.Is1.Rounded\"\r\n     Background=\"Background.Light\">\r\n    Right-click to open commands with submenus.\r\n</Div>\r\n\r\n<ContextMenu TargetId=\"context-menu-submenu-target\">\r\n    <ContextMenuBody MinWidth=\"12rem\">\r\n        <ContextMenuItem Icon=\"IconName.Edit\" Value=\"@(\"Rename\")\" Clicked=\"@SetSelectedCommand\">Rename</ContextMenuItem>\r\n        <ContextMenuSubmenu Text=\"Move to\" Icon=\"IconName.Folder\">\r\n            <ContextMenuItem Value=\"@(\"Move to Inbox\")\" Clicked=\"@SetSelectedCommand\">Inbox</ContextMenuItem>\r\n            <ContextMenuItem Value=\"@(\"Move to Archive\")\" Clicked=\"@SetSelectedCommand\">Archive</ContextMenuItem>\r\n            <ContextMenuItem Value=\"@(\"Move to Trash\")\" Clicked=\"@SetSelectedCommand\">Trash</ContextMenuItem>\r\n        </ContextMenuSubmenu>\r\n        <ContextMenuSubmenu Text=\"Priority\" Icon=\"IconName.Flag\">\r\n            <ContextMenuItem Value=\"@(\"High priority\")\" Clicked=\"@SetSelectedCommand\">High</ContextMenuItem>\r\n            <ContextMenuItem Value=\"@(\"Normal priority\")\" Clicked=\"@SetSelectedCommand\">Normal</ContextMenuItem>\r\n            <ContextMenuItem Value=\"@(\"Low priority\")\" Clicked=\"@SetSelectedCommand\">Low</ContextMenuItem>\r\n        </ContextMenuSubmenu>\r\n    </ContextMenuBody>\r\n</ContextMenu>\r\n\r\n<Paragraph Margin=\"Margin.Is2.FromTop\">\r\n    Selected command: @selectedCommand\r\n</Paragraph>\r\n\r\n@code {\r\n    private string selectedCommand = \"None\";\r\n\r\n    private void SetSelectedCommand( object value )\r\n    {\r\n        selectedCommand = value?.ToString();\r\n    }\r\n}",
-          "title": "Submenus",
-          "description": "Use ContextMenuSubmenu to group related commands inside a nested menu."
-        }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "ContextMenu"
-        },
-        {
-          "kind": "type",
-          "name": "ContextMenuToggle"
-        },
-        {
-          "kind": "type",
-          "name": "ContextMenuBody"
-        },
-        {
-          "kind": "type",
-          "name": "ContextMenuItem"
-        },
-        {
-          "kind": "type",
-          "name": "ContextMenuToolbar"
-        },
-        {
-          "kind": "type",
-          "name": "ContextMenuToolbarItem"
-        },
-        {
-          "kind": "type",
-          "name": "ContextMenuDivider"
-        },
-        {
-          "kind": "type",
-          "name": "ContextMenuHeader"
-        },
-        {
-          "kind": "type",
-          "name": "ContextMenuGroup"
-        },
-        {
-          "kind": "type",
-          "name": "ContextMenuSubmenu"
-        }
-      ]
-    },
-    {
       "route": "/docs/components/date-edit",
       "title": "Blazorise DateInput component",
       "description": "Learn to use and work with the Blazorise DateInput component, which is a native date selection component that lets users select a date.",
@@ -1310,72 +1220,6 @@
         {
           "kind": "type",
           "name": "Divider"
-        }
-      ]
-    },
-    {
-      "route": "/docs/components/dock-layout",
-      "title": "Blazorise DockLayout component",
-      "description": "Learn to use the Blazorise DockLayout component to build docked workspaces with panes, tabs, splitters, auto-hide, and persisted layout state.",
-      "pagePath": "Pages/Docs/Components/DockLayout/DockLayoutPage.razor",
-      "examples": [
-        {
-          "code": "BasicDockLayoutExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/DockLayout/Examples/BasicDockLayoutExample.razor",
-          "content": "<DockLayout Style=\"height: 28rem;\" PaneBordered>\r\n    <DockPane Name=\"toolbar\" Caption=\"Toolbar\" PanePosition=\"DockPanePosition.Top\" Role=\"DockRole.Tool\" Resizable=\"false\" ShowTab=\"false\" AutoHideable=\"false\" Closable=\"false\">\r\n        <DockPaneBody>\r\n            Toolbar\r\n        </DockPaneBody>\r\n    </DockPane>\r\n\r\n    <DockPane Name=\"explorer\" Caption=\"Explorer\" PanePosition=\"DockPanePosition.Left\" Size=\"16rem\" MinSize=\"10rem\" Resizable>\r\n        <DockPaneHeader>\r\n            <Strong>Explorer</Strong>\r\n        </DockPaneHeader>\r\n        <DockPaneBody>\r\n            Content 1\r\n        </DockPaneBody>\r\n    </DockPane>\r\n\r\n    <DockPane Name=\"designer\" Caption=\"Designer\" PanePosition=\"DockPanePosition.Center\" Role=\"DockRole.Document\" ShowTab=\"false\" Closable=\"false\">\r\n        <DockPaneHeader>\r\n            <Strong>Designer</Strong>\r\n        </DockPaneHeader>\r\n        <DockPaneBody>\r\n            Content 2\r\n        </DockPaneBody>\r\n    </DockPane>\r\n\r\n    <DockPane Name=\"properties\" Caption=\"Properties\" PanePosition=\"DockPanePosition.Right\" Size=\"18rem\" MinSize=\"12rem\" Resizable>\r\n        <DockPaneHeader>\r\n            <Strong>Properties</Strong>\r\n        </DockPaneHeader>\r\n        <DockPaneBody>\r\n            Content 3\r\n        </DockPaneBody>\r\n    </DockPane>\r\n\r\n    <DockPane Name=\"output\" Caption=\"Output\" PanePosition=\"DockPanePosition.Bottom\" Size=\"6rem\" MinSize=\"4rem\" Resizable>\r\n        <DockPaneHeader>\r\n            <Strong>Output</Strong>\r\n        </DockPaneHeader>\r\n        <DockPaneBody>\r\n            Content 4\r\n        </DockPaneBody>\r\n    </DockPane>\r\n</DockLayout>",
-          "title": "Basic workspace",
-          "description": "A typical workspace uses a top toolbar, left explorer, center document pane, right properties pane, and bottom output pane."
-        },
-        {
-          "code": "DockLayoutTabbedPanesExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/DockLayout/Examples/DockLayoutTabbedPanesExample.razor",
-          "content": "<DockLayout Style=\"height: 24rem;\" PaneBordered>\r\n    <DockPane Name=\"document\" Caption=\"Document\" PanePosition=\"DockPanePosition.Center\" Role=\"DockRole.Document\" ShowTab=\"false\" Closable=\"false\">\r\n        <DockPaneHeader>\r\n            <Strong>Document</Strong>\r\n        </DockPaneHeader>\r\n        <DockPaneBody>\r\n            Content 1\r\n        </DockPaneBody>\r\n    </DockPane>\r\n\r\n    <DockPane Name=\"properties\" Caption=\"Properties\" PanePosition=\"DockPanePosition.Right\" Size=\"18rem\" TabPosition=\"DockPaneTabPosition.Bottom\" Resizable>\r\n        <DockPaneHeader>\r\n            <Strong>Properties</Strong>\r\n        </DockPaneHeader>\r\n        <DockPaneBody>\r\n            Content 2\r\n        </DockPaneBody>\r\n    </DockPane>\r\n\r\n    <DockPane Name=\"report-explorer\" Caption=\"Report Explorer\" PanePosition=\"DockPanePosition.Right\" Size=\"18rem\" TabPosition=\"DockPaneTabPosition.Bottom\" Resizable>\r\n        <DockPaneHeader>\r\n            <Strong>Report Explorer</Strong>\r\n        </DockPaneHeader>\r\n        <DockPaneBody>\r\n            Content 3\r\n        </DockPaneBody>\r\n    </DockPane>\r\n</DockLayout>",
-          "title": "Tabbed panes",
-          "description": "Panes that share the same tab group can render as tabs. Tool panes usually place tabs at the bottom, while document panes usually place tabs at the top."
-        },
-        {
-          "code": "DockLayoutStateExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/DockLayout/Examples/DockLayoutStateExample.razor",
-          "content": "@using System.Text.Json\r\n\r\n<DockLayout @ref=\"@dockLayout\" Style=\"height: 24rem;\" PaneBordered>\r\n    <DockPane Name=\"actions\" Caption=\"Actions\" PanePosition=\"DockPanePosition.Top\" Resizable=\"false\" ShowTab=\"false\" AutoHideable=\"false\" Closable=\"false\">\r\n        <DockPaneBody Padding=\"Padding.Is2\">\r\n            <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\">\r\n                <Button Color=\"Color.Primary\" Size=\"Size.Small\" Clicked=\"@SaveState\">Save state</Button>\r\n                <Button Color=\"Color.Light\" Size=\"Size.Small\" Clicked=\"@LoadState\" Disabled=\"@(savedStateJson is null)\">Load state</Button>\r\n                <Button Color=\"Color.Light\" Size=\"Size.Small\" Clicked=\"@ResetState\">Reset</Button>\r\n                <Text TextColor=\"TextColor.Secondary\">@status</Text>\r\n            </Div>\r\n        </DockPaneBody>\r\n    </DockPane>\r\n\r\n    <DockPane Name=\"source\" Caption=\"Source\" PanePosition=\"DockPanePosition.Left\" Size=\"15rem\" MinSize=\"10rem\" Resizable>\r\n        <DockPaneHeader>\r\n            <Strong>Source</Strong>\r\n        </DockPaneHeader>\r\n        <DockPaneBody>\r\n            Content 1\r\n        </DockPaneBody>\r\n    </DockPane>\r\n\r\n    <DockPane Name=\"preview\" Caption=\"Preview\" PanePosition=\"DockPanePosition.Center\" Role=\"DockRole.Document\" ShowTab=\"false\" Closable=\"false\">\r\n        <DockPaneHeader>\r\n            <Strong>Preview</Strong>\r\n        </DockPaneHeader>\r\n        <DockPaneBody>\r\n            Content 2\r\n        </DockPaneBody>\r\n    </DockPane>\r\n\r\n    <DockPane Name=\"details\" Caption=\"Details\" PanePosition=\"DockPanePosition.Right\" Size=\"17rem\" MinSize=\"10rem\" Resizable>\r\n        <DockPaneHeader>\r\n            <Strong>Details</Strong>\r\n        </DockPaneHeader>\r\n        <DockPaneBody>\r\n            Content 3\r\n        </DockPaneBody>\r\n    </DockPane>\r\n</DockLayout>\r\n\r\n@code {\r\n    private DockLayout dockLayout;\r\n\r\n    private string savedStateJson;\r\n\r\n    private string status = \"No saved state.\";\r\n\r\n    private static JsonSerializerOptions StateSerializerOptions { get; } = new( JsonSerializerDefaults.Web );\r\n\r\n    private Task SaveState()\r\n    {\r\n        if ( dockLayout is not null )\r\n        {\r\n            savedStateJson = JsonSerializer.Serialize( dockLayout.GetState(), StateSerializerOptions );\r\n            status = \"State saved.\";\r\n        }\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private async Task LoadState()\r\n    {\r\n        if ( dockLayout is not null && savedStateJson is not null )\r\n        {\r\n            DockLayoutState savedState = JsonSerializer.Deserialize<DockLayoutState>( savedStateJson, StateSerializerOptions );\r\n\r\n            await dockLayout.LoadState( savedState );\r\n            status = \"State loaded.\";\r\n        }\r\n    }\r\n\r\n    private async Task ResetState()\r\n    {\r\n        if ( dockLayout is not null )\r\n        {\r\n            await dockLayout.ResetState();\r\n            status = \"Layout reset.\";\r\n        }\r\n    }\r\n}",
-          "title": "State",
-          "description": "Use GetState , LoadState , or @@bind-State to persist the layout after users move, resize, hide, or activate panes."
-        }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "DockLayout"
-        },
-        {
-          "kind": "type",
-          "name": "DockPane"
-        },
-        {
-          "kind": "type",
-          "name": "DockPaneHeader"
-        },
-        {
-          "kind": "type",
-          "name": "DockPaneBody"
-        },
-        {
-          "kind": "type",
-          "name": "DockPaneFooter"
-        },
-        {
-          "kind": "type",
-          "name": "DockContent"
-        },
-        {
-          "kind": "type",
-          "name": "DockSplit"
-        },
-        {
-          "kind": "type",
-          "name": "DockTabs"
         }
       ]
     },
@@ -6208,7 +6052,7 @@
           "code": "AntDesignIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/AntDesignIconsCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.2.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.2.2.0\" rel=\"stylesheet\" />",
           "title": "AntDesign Icons CSS",
           "description": "Note: If you use AntDesign icons, define blazorise.icons.antdesign.css in your index.html or _Layout.cshtml / _Host.cshtml file."
         },
@@ -6216,7 +6060,7 @@
           "code": "BootstrapIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/BootstrapIconsCSSExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.2.1.0\">",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.2.2.0\">",
           "title": "Bootstrap Icons CSS",
           "description": "Note: If you use Bootstrap icons, define bootstrap-icons.min.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
         },
@@ -6224,7 +6068,7 @@
           "code": "FluentIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FluentIconsCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.2.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.2.2.0\" rel=\"stylesheet\" />",
           "title": "Fluent Icons CSS",
           "description": "Fluent icons use the CSS font by default and render at a default size of 20px. For this mode, define FluentSystemIcons-Resizable.css in your index.html or _Layout.cshtml / _Host.cshtml file."
         },
@@ -6248,7 +6092,7 @@
           "code": "FontAwesomeCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FontAwesomeCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.2.1.0\" rel=\"stylesheet\">",
+          "content": "<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.2.2.0\" rel=\"stylesheet\">",
           "title": "Font Awesome Icons CSS",
           "description": "Include CSS link into your index.html or _Layout.cshtml / _Host.cshtml file, depending if you're using a Blazor WebAssembly or Blazor Server side project."
         },
@@ -6256,7 +6100,7 @@
           "code": "MaterialCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/MaterialCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.2.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.2.2.0\" rel=\"stylesheet\" />",
           "title": "Material Icons CSS",
           "description": "Note: If you use Material icons, define blazorise.icons.material.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
         },
@@ -6264,7 +6108,7 @@
           "code": "LucideIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/LucideIconsCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.2.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.2.2.0\" rel=\"stylesheet\" />",
           "title": "Lucide Icons CSS",
           "description": "Note: If you use Lucide icons, define blazorise.icons.lucide.css in your index.html or _Layout.cshtml / _Host.cshtml file."
         },
@@ -6868,118 +6712,6 @@
       ]
     },
     {
-      "route": "/docs/extensions/pdf",
-      "title": "Blazorise PDF",
-      "description": "Build PDF documents declaratively with Razor components or imperatively with the Blazorise PDF builder API.",
-      "pagePath": "Pages/Docs/Extensions/Pdf/PdfPage.razor",
-      "examples": [
-        {
-          "code": "PdfNugetInstallExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Pdf",
-          "title": "NuGet",
-          "description": "Install extension from NuGet."
-        },
-        {
-          "code": "PdfImportsExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfImportsExample.snippet",
-          "content": "@using Blazorise.Pdf",
-          "title": "Imports",
-          "description": "In your main _Imports.razor add:"
-        },
-        {
-          "code": "PdfServiceRegistrationExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfServiceRegistrationExample.snippet",
-          "content": "builder.Services\r\n    .AddBlazorise()\r\n    .AddBlazorisePdf();",
-          "title": "Services",
-          "description": "Register the PDF generator once with your Blazorise services."
-        },
-        {
-          "code": "PdfDeclarativeInvoiceExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfDeclarativeInvoiceExample.razor",
-          "content": "@inject IPdfGenerator PdfGenerator\r\n\r\n<PdfDocument @ref=\"document\" Title=\"Invoice\" PageSize=\"PdfPageSize.A4\">\r\n    <PdfPage>\r\n        <PdfText Text=\"Invoice summary\" X=\"48\" Y=\"48\" Width=\"260\" Height=\"32\" FontSize=\"22\" Bold TextColor=\"#0d6efd\" />\r\n        <PdfText Text=\"Generated by Blazorise.Pdf declarative components.\" X=\"48\" Y=\"82\" Width=\"360\" Height=\"18\" FontSize=\"11\" />\r\n        <PdfRectangle X=\"420\" Y=\"48\" Width=\"96\" Height=\"48\" BorderColor=\"#0d6efd\" BackgroundColor=\"#eef5ff\" />\r\n        <PdfText Text=\"BLZ\" X=\"444\" Y=\"64\" Width=\"48\" Height=\"20\" FontSize=\"18\" Bold TextAlignment=\"TextAlignment.Center\" TextColor=\"#0d6efd\" />\r\n        <PdfLine X=\"48\" Y=\"122\" Width=\"468\" Height=\"0\" BorderColor=\"#222222\" />\r\n        <PdfTable X=\"48\" Y=\"152\" Width=\"468\" Height=\"96\">\r\n            <PdfTableRow Height=\"24\">\r\n                <PdfTableCell Width=\"120\">\r\n                    <PdfText Text=\"Number\" Bold />\r\n                </PdfTableCell>\r\n                <PdfTableCell Width=\"228\">\r\n                    <PdfText Text=\"Description\" Bold />\r\n                </PdfTableCell>\r\n                <PdfTableCell Width=\"120\">\r\n                    <PdfText Text=\"Total\" Bold TextAlignment=\"TextAlignment.End\" />\r\n                </PdfTableCell>\r\n            </PdfTableRow>\r\n            <PdfTableRow Height=\"24\">\r\n                <PdfTableCell Width=\"120\">\r\n                    <PdfText Text=\"INV-1001\" />\r\n                </PdfTableCell>\r\n                <PdfTableCell Width=\"228\">\r\n                    <PdfText Text=\"Northwind Traders\" />\r\n                </PdfTableCell>\r\n                <PdfTableCell Width=\"120\">\r\n                    <PdfText Text=\"$1,240.50\" TextAlignment=\"TextAlignment.End\" />\r\n                </PdfTableCell>\r\n            </PdfTableRow>\r\n        </PdfTable>\r\n    </PdfPage>\r\n</PdfDocument>\r\n\r\n@if ( pdfSource is not null )\r\n{\r\n    <PdfViewerContainer Height=\"Height.Rem(35)\">\r\n        <PdfViewerToolbar />\r\n        <PdfViewer Source=\"@pdfSource\" />\r\n    </PdfViewerContainer>\r\n}\r\n\r\n@code {\r\n    private PdfDocument document;\r\n\r\n    private string pdfSource;\r\n\r\n    private bool generated;\r\n\r\n    protected override async Task OnAfterRenderAsync( bool firstRender )\r\n    {\r\n        if ( !generated && document?.Definition is not null )\r\n        {\r\n            generated = true;\r\n\r\n            PdfGenerationResult result = await PdfGenerator.Generate( document.Definition, new()\r\n            {\r\n                FileName = \"declarative-invoice.pdf\",\r\n            } );\r\n\r\n            pdfSource = BuildPdfSource( result.Content );\r\n            await InvokeAsync( StateHasChanged );\r\n        }\r\n    }\r\n\r\n    private static string BuildPdfSource( byte[] content )\r\n        => content is null || content.Length == 0\r\n            ? null\r\n            : $\"data:application/pdf;base64,{Convert.ToBase64String( content )}\";\r\n}",
-          "title": "Declarative document",
-          "description": "Use Razor components when a document template should be authored close to the UI layer."
-        },
-        {
-          "code": "PdfBuilderInvoiceExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfBuilderInvoiceExample.razor",
-          "content": "@inject IPdfGenerator PdfGenerator\r\n\r\n<Div Flex=\"Flex.Row\" Gap=\"Gap.Is2\" Margin=\"Margin.Is3.FromBottom\">\r\n    <Button Color=\"Color.Primary\" Clicked=\"@Build\">Build PDF</Button>\r\n</Div>\r\n\r\n@if ( pdfSource is not null )\r\n{\r\n    <PdfViewerContainer Height=\"Height.Rem(35)\">\r\n        <PdfViewerToolbar />\r\n        <PdfViewer Source=\"@pdfSource\" />\r\n    </PdfViewerContainer>\r\n}\r\n\r\n@code {\r\n    private string pdfSource;\r\n\r\n    private async Task Build()\r\n    {\r\n        PdfDocumentDefinition document = BuildInvoice();\r\n\r\n        PdfGenerationResult result = await PdfGenerator.Generate( document, new()\r\n        {\r\n            FileName = \"builder-invoice.pdf\",\r\n        } );\r\n\r\n        pdfSource = BuildPdfSource( result.Content );\r\n    }\r\n\r\n    private static PdfDocumentDefinition BuildInvoice()\r\n    {\r\n        return PdfDocumentBuilder.Create()\r\n            .Title( \"Invoice\" )\r\n            .PageSetup( PdfPageSize.A4 )\r\n            .Page( page =>\r\n            {\r\n                page.Text( \"Invoice summary\", 48, 48, 260, 32 )\r\n                    .FontSize( 22 )\r\n                    .Bold()\r\n                    .TextColor( \"#0d6efd\" );\r\n\r\n                page.Text( \"Generated with PdfDocumentBuilder.\", 48, 82, 320, 18 )\r\n                    .FontSize( 11 );\r\n\r\n                page.Rectangle( 420, 48, 96, 48 )\r\n                    .BorderColor( \"#0d6efd\" )\r\n                    .BackgroundColor( \"#eef5ff\" );\r\n\r\n                page.Text( \"BLZ\", 444, 64, 48, 20 )\r\n                    .FontSize( 18 )\r\n                    .Bold()\r\n                    .TextAlignment( TextAlignment.Center )\r\n                    .TextColor( \"#0d6efd\" );\r\n            } )\r\n            .Build();\r\n    }\r\n\r\n    private static string BuildPdfSource( byte[] content )\r\n        => content is null || content.Length == 0\r\n            ? null\r\n            : $\"data:application/pdf;base64,{Convert.ToBase64String( content )}\";\r\n}",
-          "title": "Imperative builder",
-          "description": "Use the builder API when a document is produced from an engine, service, or another component such as Reporting."
-        },
-        {
-          "code": "PdfGenerateFileExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfGenerateFileExample.razor",
-          "content": "@inject IPdfGenerator PdfGenerator\r\n\r\n<Div Flex=\"Flex.Row\" Gap=\"Gap.Is2\" Margin=\"Margin.Is3.FromBottom\">\r\n    <Button Color=\"Color.Primary\" Clicked=\"@Generate\">Generate PDF</Button>\r\n</Div>\r\n\r\n@if ( pdfSource is not null )\r\n{\r\n    <PdfViewerContainer Height=\"Height.Rem(35)\">\r\n        <PdfViewerToolbar />\r\n        <PdfViewer Source=\"@pdfSource\" />\r\n    </PdfViewerContainer>\r\n}\r\n\r\n@code {\r\n    private string pdfSource;\r\n\r\n    private async Task Generate()\r\n    {\r\n        PdfDocumentDefinition document = PdfDocumentBuilder.Create()\r\n            .Title( \"Invoice\" )\r\n            .Page( page =>\r\n            {\r\n                page.Text( \"Invoice summary\", 48, 48, 260, 32 )\r\n                    .FontSize( 22 )\r\n                    .Bold();\r\n            } )\r\n            .Build();\r\n\r\n        PdfGenerationResult result = await PdfGenerator.Generate( document, new()\r\n        {\r\n            FileName = \"invoice.pdf\",\r\n        } );\r\n\r\n        pdfSource = BuildPdfSource( result.Content );\r\n    }\r\n\r\n    private static string BuildPdfSource( byte[] content )\r\n        => content is null || content.Length == 0\r\n            ? null\r\n            : $\"data:application/pdf;base64,{Convert.ToBase64String( content )}\";\r\n}",
-          "title": "Generate a file",
-          "description": "Inject IPdfGenerator and generate a PDF byte result from a document definition."
-        }
-      ]
-    },
-    {
-      "route": "/docs/extensions/pdf/getting-started",
-      "title": "Blazorise PDF",
-      "description": "Build PDF documents declaratively with Razor components or imperatively with the Blazorise PDF builder API.",
-      "pagePath": "Pages/Docs/Extensions/Pdf/PdfPage.razor",
-      "examples": [
-        {
-          "code": "PdfNugetInstallExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Pdf",
-          "title": "NuGet",
-          "description": "Install extension from NuGet."
-        },
-        {
-          "code": "PdfImportsExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfImportsExample.snippet",
-          "content": "@using Blazorise.Pdf",
-          "title": "Imports",
-          "description": "In your main _Imports.razor add:"
-        },
-        {
-          "code": "PdfServiceRegistrationExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfServiceRegistrationExample.snippet",
-          "content": "builder.Services\r\n    .AddBlazorise()\r\n    .AddBlazorisePdf();",
-          "title": "Services",
-          "description": "Register the PDF generator once with your Blazorise services."
-        },
-        {
-          "code": "PdfDeclarativeInvoiceExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfDeclarativeInvoiceExample.razor",
-          "content": "@inject IPdfGenerator PdfGenerator\r\n\r\n<PdfDocument @ref=\"document\" Title=\"Invoice\" PageSize=\"PdfPageSize.A4\">\r\n    <PdfPage>\r\n        <PdfText Text=\"Invoice summary\" X=\"48\" Y=\"48\" Width=\"260\" Height=\"32\" FontSize=\"22\" Bold TextColor=\"#0d6efd\" />\r\n        <PdfText Text=\"Generated by Blazorise.Pdf declarative components.\" X=\"48\" Y=\"82\" Width=\"360\" Height=\"18\" FontSize=\"11\" />\r\n        <PdfRectangle X=\"420\" Y=\"48\" Width=\"96\" Height=\"48\" BorderColor=\"#0d6efd\" BackgroundColor=\"#eef5ff\" />\r\n        <PdfText Text=\"BLZ\" X=\"444\" Y=\"64\" Width=\"48\" Height=\"20\" FontSize=\"18\" Bold TextAlignment=\"TextAlignment.Center\" TextColor=\"#0d6efd\" />\r\n        <PdfLine X=\"48\" Y=\"122\" Width=\"468\" Height=\"0\" BorderColor=\"#222222\" />\r\n        <PdfTable X=\"48\" Y=\"152\" Width=\"468\" Height=\"96\">\r\n            <PdfTableRow Height=\"24\">\r\n                <PdfTableCell Width=\"120\">\r\n                    <PdfText Text=\"Number\" Bold />\r\n                </PdfTableCell>\r\n                <PdfTableCell Width=\"228\">\r\n                    <PdfText Text=\"Description\" Bold />\r\n                </PdfTableCell>\r\n                <PdfTableCell Width=\"120\">\r\n                    <PdfText Text=\"Total\" Bold TextAlignment=\"TextAlignment.End\" />\r\n                </PdfTableCell>\r\n            </PdfTableRow>\r\n            <PdfTableRow Height=\"24\">\r\n                <PdfTableCell Width=\"120\">\r\n                    <PdfText Text=\"INV-1001\" />\r\n                </PdfTableCell>\r\n                <PdfTableCell Width=\"228\">\r\n                    <PdfText Text=\"Northwind Traders\" />\r\n                </PdfTableCell>\r\n                <PdfTableCell Width=\"120\">\r\n                    <PdfText Text=\"$1,240.50\" TextAlignment=\"TextAlignment.End\" />\r\n                </PdfTableCell>\r\n            </PdfTableRow>\r\n        </PdfTable>\r\n    </PdfPage>\r\n</PdfDocument>\r\n\r\n@if ( pdfSource is not null )\r\n{\r\n    <PdfViewerContainer Height=\"Height.Rem(35)\">\r\n        <PdfViewerToolbar />\r\n        <PdfViewer Source=\"@pdfSource\" />\r\n    </PdfViewerContainer>\r\n}\r\n\r\n@code {\r\n    private PdfDocument document;\r\n\r\n    private string pdfSource;\r\n\r\n    private bool generated;\r\n\r\n    protected override async Task OnAfterRenderAsync( bool firstRender )\r\n    {\r\n        if ( !generated && document?.Definition is not null )\r\n        {\r\n            generated = true;\r\n\r\n            PdfGenerationResult result = await PdfGenerator.Generate( document.Definition, new()\r\n            {\r\n                FileName = \"declarative-invoice.pdf\",\r\n            } );\r\n\r\n            pdfSource = BuildPdfSource( result.Content );\r\n            await InvokeAsync( StateHasChanged );\r\n        }\r\n    }\r\n\r\n    private static string BuildPdfSource( byte[] content )\r\n        => content is null || content.Length == 0\r\n            ? null\r\n            : $\"data:application/pdf;base64,{Convert.ToBase64String( content )}\";\r\n}",
-          "title": "Declarative document",
-          "description": "Use Razor components when a document template should be authored close to the UI layer."
-        },
-        {
-          "code": "PdfBuilderInvoiceExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfBuilderInvoiceExample.razor",
-          "content": "@inject IPdfGenerator PdfGenerator\r\n\r\n<Div Flex=\"Flex.Row\" Gap=\"Gap.Is2\" Margin=\"Margin.Is3.FromBottom\">\r\n    <Button Color=\"Color.Primary\" Clicked=\"@Build\">Build PDF</Button>\r\n</Div>\r\n\r\n@if ( pdfSource is not null )\r\n{\r\n    <PdfViewerContainer Height=\"Height.Rem(35)\">\r\n        <PdfViewerToolbar />\r\n        <PdfViewer Source=\"@pdfSource\" />\r\n    </PdfViewerContainer>\r\n}\r\n\r\n@code {\r\n    private string pdfSource;\r\n\r\n    private async Task Build()\r\n    {\r\n        PdfDocumentDefinition document = BuildInvoice();\r\n\r\n        PdfGenerationResult result = await PdfGenerator.Generate( document, new()\r\n        {\r\n            FileName = \"builder-invoice.pdf\",\r\n        } );\r\n\r\n        pdfSource = BuildPdfSource( result.Content );\r\n    }\r\n\r\n    private static PdfDocumentDefinition BuildInvoice()\r\n    {\r\n        return PdfDocumentBuilder.Create()\r\n            .Title( \"Invoice\" )\r\n            .PageSetup( PdfPageSize.A4 )\r\n            .Page( page =>\r\n            {\r\n                page.Text( \"Invoice summary\", 48, 48, 260, 32 )\r\n                    .FontSize( 22 )\r\n                    .Bold()\r\n                    .TextColor( \"#0d6efd\" );\r\n\r\n                page.Text( \"Generated with PdfDocumentBuilder.\", 48, 82, 320, 18 )\r\n                    .FontSize( 11 );\r\n\r\n                page.Rectangle( 420, 48, 96, 48 )\r\n                    .BorderColor( \"#0d6efd\" )\r\n                    .BackgroundColor( \"#eef5ff\" );\r\n\r\n                page.Text( \"BLZ\", 444, 64, 48, 20 )\r\n                    .FontSize( 18 )\r\n                    .Bold()\r\n                    .TextAlignment( TextAlignment.Center )\r\n                    .TextColor( \"#0d6efd\" );\r\n            } )\r\n            .Build();\r\n    }\r\n\r\n    private static string BuildPdfSource( byte[] content )\r\n        => content is null || content.Length == 0\r\n            ? null\r\n            : $\"data:application/pdf;base64,{Convert.ToBase64String( content )}\";\r\n}",
-          "title": "Imperative builder",
-          "description": "Use the builder API when a document is produced from an engine, service, or another component such as Reporting."
-        },
-        {
-          "code": "PdfGenerateFileExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfGenerateFileExample.razor",
-          "content": "@inject IPdfGenerator PdfGenerator\r\n\r\n<Div Flex=\"Flex.Row\" Gap=\"Gap.Is2\" Margin=\"Margin.Is3.FromBottom\">\r\n    <Button Color=\"Color.Primary\" Clicked=\"@Generate\">Generate PDF</Button>\r\n</Div>\r\n\r\n@if ( pdfSource is not null )\r\n{\r\n    <PdfViewerContainer Height=\"Height.Rem(35)\">\r\n        <PdfViewerToolbar />\r\n        <PdfViewer Source=\"@pdfSource\" />\r\n    </PdfViewerContainer>\r\n}\r\n\r\n@code {\r\n    private string pdfSource;\r\n\r\n    private async Task Generate()\r\n    {\r\n        PdfDocumentDefinition document = PdfDocumentBuilder.Create()\r\n            .Title( \"Invoice\" )\r\n            .Page( page =>\r\n            {\r\n                page.Text( \"Invoice summary\", 48, 48, 260, 32 )\r\n                    .FontSize( 22 )\r\n                    .Bold();\r\n            } )\r\n            .Build();\r\n\r\n        PdfGenerationResult result = await PdfGenerator.Generate( document, new()\r\n        {\r\n            FileName = \"invoice.pdf\",\r\n        } );\r\n\r\n        pdfSource = BuildPdfSource( result.Content );\r\n    }\r\n\r\n    private static string BuildPdfSource( byte[] content )\r\n        => content is null || content.Length == 0\r\n            ? null\r\n            : $\"data:application/pdf;base64,{Convert.ToBase64String( content )}\";\r\n}",
-          "title": "Generate a file",
-          "description": "Inject IPdfGenerator and generate a PDF byte result from a document definition."
-        }
-      ]
-    },
-    {
       "route": "/docs/extensions/pdfviewer",
       "title": "Blazorise PdfViewer component",
       "description": "Learn how to use the Blazorise PdfViewer component to display and navigate PDF documents with paging, zooming, toolbar controls, and responsive viewer layouts.",
@@ -7323,245 +7055,6 @@
         {
           "kind": "type",
           "name": "QRCode"
-        }
-      ]
-    },
-    {
-      "route": "/docs/extensions/reporting",
-      "title": "Blazorise Reporting",
-      "description": "Create banded reports with design mode, preview mode, data sources, expressions, running totals, and PDF export.",
-      "pagePath": "Pages/Docs/Extensions/Reporting/GettingStartedPage.razor",
-      "examples": [
-        {
-          "code": "ReportingNugetInstallExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Reporting",
-          "title": "NuGet",
-          "description": "Install extension from NuGet."
-        },
-        {
-          "code": "ReportingImportsExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingImportsExample.snippet",
-          "content": "@using Blazorise.Reporting",
-          "title": "Imports",
-          "description": "In your main _Imports.razor add:"
-        },
-        {
-          "code": "ReportingResourcesExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingResourcesExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Reporting/blazorise.reporting.css?v=2.2.1.0\" rel=\"stylesheet\" />",
-          "title": "Static files",
-          "description": "Add the reporting stylesheet inside the head section of your host page."
-        },
-        {
-          "code": "ReportingServiceRegistrationExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingServiceRegistrationExample.snippet",
-          "content": "builder.Services\r\n    .AddBlazorise()\r\n    .AddBlazoriseReporting();",
-          "title": "Services",
-          "description": "Add Reporting after Blazorise services are registered."
-        },
-        {
-          "code": "ReportingBasicInvoiceExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingBasicInvoiceExample.razor",
-          "content": "<Report Data=\"@invoice\" DesignerEnabled PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportPage Size=\"ReportPageSize.A4\" Orientation=\"ReportOrientation.Portrait\" />\r\n    <ReportHeader Name=\"Invoice report header\" Height=\"97.5\">\r\n        <ReportText Text=\"Invoice summary\" X=\"30\" Y=\"18\" Width=\"210\" Height=\"25.5\" FontSize=\"21\" Bold />\r\n        <ReportText Text=\"Customer: {Customer.Name}\" X=\"300\" Y=\"54\" Width=\"180\" Height=\"21\" Bold />\r\n    </ReportHeader>\r\n    <ReportPageHeader Name=\"Invoice page header\" Height=\"31.5\">\r\n        <ReportText Text=\"Invoice\" X=\"30\" Y=\"7.5\" Width=\"67.5\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Description\" X=\"112.5\" Y=\"7.5\" Width=\"165\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Line total\" X=\"405\" Y=\"7.5\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n    </ReportPageHeader>\r\n    <ReportDetail Name=\"Invoice lines\" Height=\"39\" DataSource=\"Invoice.Lines\">\r\n        <ReportField Field=\"Sku\" X=\"30\" Y=\"10.5\" Width=\"67.5\" Height=\"18\" />\r\n        <ReportField Field=\"Description\" X=\"112.5\" Y=\"10.5\" Width=\"165\" Height=\"18\" />\r\n        <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"405\" Y=\"10.5\" Width=\"90\" Height=\"18\" />\r\n    </ReportDetail>\r\n    <ReportFooter Name=\"Invoice report footer\" Height=\"54\">\r\n        <ReportLine X=\"30\" Y=\"7.5\" Width=\"465\" Height=\"8\" Thickness=\"1\" />\r\n        <ReportText Text=\"Invoice total\" X=\"30\" Y=\"21\" Width=\"135\" Height=\"18\" />\r\n        <ReportField Field=\"Header.Total\" Format=\"@ReportFormats.Currency()\" X=\"405\" Y=\"21\" Width=\"90\" Height=\"18\" Bold />\r\n    </ReportFooter>\r\n</Report>\r\n\r\n@code {\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Header = new()\r\n        {\r\n            Number = \"INV-1001\",\r\n            Total = 1240.50m,\r\n        },\r\n        Customer = new()\r\n        {\r\n            Name = \"Northwind Traders\",\r\n        },\r\n        Lines =\r\n        [\r\n            new() { Sku = \"SRV-001\", Description = \"Implementation workshop\", Total = 640.50m },\r\n            new() { Sku = \"LIC-010\", Description = \"Reporting module license\", Total = 500.00m },\r\n            new() { Sku = \"SUP-003\", Description = \"Priority support\", Total = 100.00m },\r\n        ],\r\n    };\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public InvoiceHeaderModel Header { get; set; }\r\n\r\n        public InvoiceCustomerModel Customer { get; set; }\r\n\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceHeaderModel\r\n    {\r\n        public string Number { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceCustomerModel\r\n    {\r\n        public string Name { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Sku { get; set; }\r\n\r\n        public string Description { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "Start declaratively",
-          "description": "Use Razor markup to describe the report template. This example creates an invoice report with a page, bands, text, fields, and simple layout elements."
-        }
-      ]
-    },
-    {
-      "route": "/docs/extensions/reporting/api",
-      "title": "Blazorise Reporting API",
-      "description": "Explore the API reference for Blazorise Reporting components, report definitions, state, data sources, layout elements, and toolbar commands.",
-      "pagePath": "Pages/Docs/Extensions/Reporting/ReportingApiPage.razor",
-      "examples": []
-    },
-    {
-      "route": "/docs/extensions/reporting/data-sources",
-      "title": "Blazorise Reporting data sources",
-      "description": "Bind Blazorise reports to object data sources, nested models, and detail collections.",
-      "pagePath": "Pages/Docs/Extensions/Reporting/DataSourcesPage.razor",
-      "examples": [
-        {
-          "code": "ReportingDataSourcesExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingDataSourcesExample.razor",
-          "content": "<Report Data=\"@invoice\"\r\n        DesignerEnabled\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportViewer PreviewFormat=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\"\r\n                  DefaultPreviewFormat=\"ReportPreviewFormat.Html\" />\r\n    <ReportToolbar>\r\n        <ReportToolbarGroup>\r\n            <ReportToolbarPanesMenu />\r\n        </ReportToolbarGroup>\r\n        <ReportToolbarGroup>\r\n            <ReportToolbarItem Command=\"ReportCommand.ConnectDataSource\" Caption=\"Data sources\" ShowCaption />\r\n            <ReportToolbarItem Command=\"ReportCommand.Reset\" Caption=\"Reset\" />\r\n        </ReportToolbarGroup>\r\n        <Div Margin=\"Margin.IsAuto.FromStart\">\r\n            <ReportToolbarGroup>\r\n                <ReportToolbarItem Command=\"ReportCommand.Design\" Caption=\"Design\" ShowCaption />\r\n                <ReportToolbarItem Command=\"ReportCommand.Preview\" Caption=\"Preview\" ShowCaption />\r\n            </ReportToolbarGroup>\r\n        </Div>\r\n    </ReportToolbar>\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportHeader Name=\"Invoice header\" Height=\"84\">\r\n        <ReportText Text=\"Object data source\" X=\"30\" Y=\"18\" Width=\"240\" Height=\"24\" FontSize=\"20\" Bold FontColor=\"@ReportColors.Blue\" />\r\n        <ReportText Text=\"Customer: {Customer.Name}\" X=\"30\" Y=\"48\" Width=\"240\" Height=\"18\" />\r\n        <ReportText Text=\"Invoice: {Header.Number}\" X=\"315\" Y=\"48\" Width=\"180\" Height=\"18\" TextAlignment=\"TextAlignment.End\" />\r\n    </ReportHeader>\r\n    <ReportPageHeader Name=\"Line headers\" Height=\"32\">\r\n        <ReportText Text=\"Sku\" X=\"30\" Y=\"8\" Width=\"75\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Description\" X=\"120\" Y=\"8\" Width=\"210\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Total\" X=\"420\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n    </ReportPageHeader>\r\n    <ReportDetail Name=\"Invoice lines\" Height=\"30\" DataSource=\"Invoice.Lines\">\r\n        <ReportField Field=\"Sku\" X=\"30\" Y=\"6\" Width=\"75\" Height=\"18\" />\r\n        <ReportField Field=\"Description\" X=\"120\" Y=\"6\" Width=\"210\" Height=\"18\" />\r\n        <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"6\" Width=\"90\" Height=\"18\" />\r\n    </ReportDetail>\r\n    <ReportFooter Name=\"Totals\" Height=\"45\">\r\n        <ReportLine X=\"30\" Y=\"6\" Width=\"480\" Height=\"8\" Thickness=\"1\" />\r\n        <ReportText Text=\"Invoice total\" X=\"300\" Y=\"18\" Width=\"105\" Height=\"18\" Bold />\r\n        <ReportField Field=\"Header.Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"18\" Width=\"90\" Height=\"18\" Bold FontColor=\"@ReportColors.Green\" />\r\n    </ReportFooter>\r\n</Report>\r\n\r\n@code {\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Header = new()\r\n        {\r\n            Number = \"INV-1001\",\r\n            Total = 1240.50m,\r\n        },\r\n        Customer = new()\r\n        {\r\n            Name = \"Northwind Traders\",\r\n        },\r\n        Lines =\r\n        [\r\n            new() { Sku = \"SRV-001\", Description = \"Implementation workshop\", Total = 640.50m },\r\n            new() { Sku = \"LIC-010\", Description = \"Reporting module license\", Total = 500.00m },\r\n            new() { Sku = \"SUP-003\", Description = \"Priority support\", Total = 100.00m },\r\n        ],\r\n    };\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public InvoiceHeaderModel Header { get; set; }\r\n\r\n        public InvoiceCustomerModel Customer { get; set; }\r\n\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceHeaderModel\r\n    {\r\n        public string Number { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceCustomerModel\r\n    {\r\n        public string Name { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Sku { get; set; }\r\n\r\n        public string Description { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "Object data source",
-          "description": "Object data sources expose scalar properties, nested objects, and collections to the designer."
-        },
-        {
-          "code": "ReportingDataSetDataSourceExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingDataSetDataSourceExample.razor",
-          "content": "@using System.Data\r\n\r\n<Report DesignerEnabled\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportViewer PreviewFormat=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\"\r\n                  DefaultPreviewFormat=\"ReportPreviewFormat.Html\" />\r\n    <ReportDataSources>\r\n        <ReportDataSetDataSource Name=\"Orders\" DataSet=\"@orderData\" TableName=\"Orders\" />\r\n    </ReportDataSources>\r\n    <ReportHeader Name=\"Orders header\" Height=\"72\">\r\n        <ReportText Text=\"DataSet data source\" X=\"30\" Y=\"18\" Width=\"300\" Height=\"24\" FontSize=\"18\" Bold FontColor=\"@ReportColors.Blue\" />\r\n        <ReportText Text=\"The Orders table is selected from a DataSet.\" X=\"30\" Y=\"45\" Width=\"360\" Height=\"18\" />\r\n    </ReportHeader>\r\n    <ReportPageHeader Name=\"Column headers\" Height=\"32\">\r\n        <ReportText Text=\"Order\" X=\"30\" Y=\"8\" Width=\"80\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Customer\" X=\"125\" Y=\"8\" Width=\"190\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Date\" X=\"330\" Y=\"8\" Width=\"80\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Amount\" X=\"420\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n    </ReportPageHeader>\r\n    <ReportDetail Name=\"Orders\" Height=\"30\" DataSource=\"Orders\">\r\n        <ReportField Field=\"OrderNumber\" X=\"30\" Y=\"6\" Width=\"80\" Height=\"18\" />\r\n        <ReportField Field=\"Customer\" X=\"125\" Y=\"6\" Width=\"190\" Height=\"18\" />\r\n        <ReportField Field=\"OrderDate\" Format=\"@ReportFormats.Date()\" X=\"330\" Y=\"6\" Width=\"80\" Height=\"18\" />\r\n        <ReportField Field=\"Amount\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"6\" Width=\"90\" Height=\"18\" TextAlignment=\"TextAlignment.End\" />\r\n    </ReportDetail>\r\n</Report>\r\n\r\n@code {\r\n    private readonly DataSet orderData = CreateOrderData();\r\n\r\n    private static DataSet CreateOrderData()\r\n    {\r\n        DataSet dataSet = new( \"Sales\" );\r\n        DataTable orders = new( \"Orders\" );\r\n\r\n        orders.Columns.Add( \"OrderNumber\", typeof( string ) );\r\n        orders.Columns.Add( \"Customer\", typeof( string ) );\r\n        orders.Columns.Add( \"OrderDate\", typeof( DateTime ) );\r\n        orders.Columns.Add( \"Amount\", typeof( decimal ) );\r\n\r\n        orders.Rows.Add( \"SO-1001\", \"Northwind Traders\", new DateTime( 2026, 7, 1 ), 1240.50m );\r\n        orders.Rows.Add( \"SO-1002\", \"Contoso Retail\", new DateTime( 2026, 7, 3 ), 835.00m );\r\n        orders.Rows.Add( \"SO-1003\", \"Fabrikam Parts\", new DateTime( 2026, 7, 5 ), 2195.75m );\r\n\r\n        dataSet.Tables.Add( orders );\r\n\r\n        return dataSet;\r\n    }\r\n}",
-          "title": "DataSet data source",
-          "description": "Use ReportDataSetDataSource to bind reports to enterprise data sources that expose DataSet or DataTable objects. Set TableName to bind one table directly, or omit it to expose tables as nested data sources."
-        },
-        {
-          "code": "ReportingDetailDataSourceExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingDetailDataSourceExample.razor",
-          "content": "<Report Data=\"@invoice\"\r\n        DesignerEnabled\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportViewer PreviewFormat=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\"\r\n                  DefaultPreviewFormat=\"ReportPreviewFormat.Html\" />\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportHeader Name=\"Invoice header\" Height=\"72\">\r\n        <ReportText Text=\"Detail band repeats Invoice.Lines\" X=\"30\" Y=\"18\" Width=\"300\" Height=\"24\" FontSize=\"18\" Bold FontColor=\"@ReportColors.Blue\" />\r\n        <ReportText Text=\"{Header.Number} - {Customer.Name}\" X=\"30\" Y=\"45\" Width=\"360\" Height=\"18\" />\r\n    </ReportHeader>\r\n    <ReportPageHeader Name=\"Column headers\" Height=\"32\">\r\n        <ReportText Text=\"Sku\" X=\"30\" Y=\"8\" Width=\"75\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Description\" X=\"120\" Y=\"8\" Width=\"210\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Qty\" X=\"345\" Y=\"8\" Width=\"60\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n        <ReportText Text=\"Total\" X=\"420\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n    </ReportPageHeader>\r\n    <ReportDetail Name=\"Invoice lines\" Height=\"30\" DataSource=\"Invoice.Lines\">\r\n        <ReportField Field=\"Sku\" X=\"30\" Y=\"6\" Width=\"75\" Height=\"18\" />\r\n        <ReportField Field=\"Description\" X=\"120\" Y=\"6\" Width=\"210\" Height=\"18\" />\r\n        <ReportField Field=\"Quantity\" Format=\"@ReportFormats.Number( 2 )\" X=\"345\" Y=\"6\" Width=\"60\" Height=\"18\" />\r\n        <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"6\" Width=\"90\" Height=\"18\" />\r\n    </ReportDetail>\r\n    <ReportFooter Name=\"Totals\" Height=\"45\">\r\n        <ReportLine X=\"30\" Y=\"6\" Width=\"480\" Height=\"8\" Thickness=\"1\" />\r\n        <ReportField Field=\"Header.Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"18\" Width=\"90\" Height=\"18\" Bold FontColor=\"@ReportColors.Green\" />\r\n    </ReportFooter>\r\n</Report>\r\n\r\n@code {\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Header = new()\r\n        {\r\n            Number = \"INV-1001\",\r\n            Total = 1240.50m,\r\n        },\r\n        Customer = new()\r\n        {\r\n            Name = \"Northwind Traders\",\r\n        },\r\n        Lines =\r\n        [\r\n            new() { Sku = \"SRV-001\", Description = \"Implementation workshop\", Quantity = 1, Total = 640.50m },\r\n            new() { Sku = \"LIC-010\", Description = \"Reporting module license\", Quantity = 2, Total = 500.00m },\r\n            new() { Sku = \"SUP-003\", Description = \"Priority support\", Quantity = 1, Total = 100.00m },\r\n        ],\r\n    };\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public InvoiceHeaderModel Header { get; set; }\r\n\r\n        public InvoiceCustomerModel Customer { get; set; }\r\n\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceHeaderModel\r\n    {\r\n        public string Number { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceCustomerModel\r\n    {\r\n        public string Name { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Sku { get; set; }\r\n\r\n        public string Description { get; set; }\r\n\r\n        public decimal Quantity { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "Detail data source",
-          "description": "Assign the detail band data source to a collection path. Fields inside the detail band are then resolved against each collection item."
-        }
-      ]
-    },
-    {
-      "route": "/docs/extensions/reporting/designer",
-      "title": "Blazorise Reporting designer",
-      "description": "Configure the Blazorise Reporting designer, toolbar, definition persistence, and interactive state.",
-      "pagePath": "Pages/Docs/Extensions/Reporting/DesignerPage.razor",
-      "examples": [
-        {
-          "code": "ReportingDesignerToolbarExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingDesignerToolbarExample.razor",
-          "content": "<Report Data=\"@invoice\"\r\n        @bind-Definition=\"@definition\"\r\n        DesignerEnabled\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportViewer PreviewFormat=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\"\r\n                  DefaultPreviewFormat=\"ReportPreviewFormat.Html\"\r\n                  AllowDownload\r\n                  AllowPrint />\r\n    <ReportToolbar>\r\n        <ReportToolbarGroup>\r\n            <ReportToolbarPanesMenu />\r\n        </ReportToolbarGroup>\r\n        <ReportToolbarGroup>\r\n            <ReportToolbarItem Command=\"ReportCommand.Cut\" Caption=\"Cut\" />\r\n            <ReportToolbarItem Command=\"ReportCommand.Copy\" Caption=\"Copy\" />\r\n            <ReportToolbarItem Command=\"ReportCommand.Duplicate\" Caption=\"Duplicate\">\r\n                <ButtonTemplate Context=\"item\">\r\n                    <Button Color=\"Color.Warning\" Outline Active=\"@item.Active\" Disabled=\"@(!item.CanExecute)\" Clicked=\"@item.Execute\" title=\"@item.Text\">\r\n                        @if ( item.Icon is not null )\r\n                        {\r\n                            <Icon Name=\"@item.Icon.Value\" Margin=\"Margin.Is2.FromEnd\" />\r\n                        }\r\n                        @item.Text\r\n                    </Button>\r\n                </ButtonTemplate>\r\n            </ReportToolbarItem>\r\n            <ReportToolbarItem Command=\"ReportCommand.Paste\" Caption=\"Paste\" />\r\n            <ReportToolbarItem Command=\"ReportCommand.Delete\" Caption=\"Delete\" />\r\n        </ReportToolbarGroup>\r\n        <ReportToolbarGroup>\r\n            <ReportToolbarItem Command=\"ReportCommand.Undo\" Caption=\"Undo\" />\r\n            <ReportToolbarItem Command=\"ReportCommand.Redo\" Caption=\"Redo\" />\r\n            <ReportToolbarItem Command=\"ReportCommand.Reset\" Caption=\"Reset\" />\r\n        </ReportToolbarGroup>\r\n        <ReportToolbarGroup>\r\n            <ReportToolbarItem Command=\"ReportCommand.ConnectDataSource\" Caption=\"Data sources\" />\r\n            <ReportToolbarItem Command=\"ReportCommand.DownloadPdf\" Caption=\"Download PDF\" />\r\n        </ReportToolbarGroup>\r\n        <Div Margin=\"Margin.IsAuto.FromStart\">\r\n            <ReportToolbarGroup>\r\n                <ReportToolbarItem Command=\"ReportCommand.Design\" Caption=\"Design\" ShowCaption />\r\n                <ReportToolbarItem Command=\"ReportCommand.Preview\" Caption=\"Preview\" ShowCaption />\r\n            </ReportToolbarGroup>\r\n        </Div>\r\n    </ReportToolbar>\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportHeader Name=\"Toolbar sample header\" Height=\"72\">\r\n        <ReportText Text=\"Designer toolbar\" X=\"30\" Y=\"18\" Width=\"240\" Height=\"24\" FontSize=\"18\" Bold FontColor=\"@ReportColors.Blue\" />\r\n        <ReportText Text=\"{Header.Number} - {Customer.Name}\" X=\"30\" Y=\"45\" Width=\"360\" Height=\"18\" />\r\n    </ReportHeader>\r\n    <ReportPageHeader Name=\"Column headers\" Height=\"32\">\r\n        <ReportText Text=\"Description\" X=\"30\" Y=\"8\" Width=\"270\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Total\" X=\"420\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n    </ReportPageHeader>\r\n    <ReportDetail Name=\"Invoice lines\" Height=\"30\" DataSource=\"Invoice.Lines\">\r\n        <ReportField Field=\"Description\" X=\"30\" Y=\"6\" Width=\"270\" Height=\"18\" />\r\n        <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"6\" Width=\"90\" Height=\"18\" />\r\n    </ReportDetail>\r\n</Report>\r\n\r\n@code {\r\n    private ReportDefinition definition;\r\n\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Header = new()\r\n        {\r\n            Number = \"INV-1001\",\r\n        },\r\n        Customer = new()\r\n        {\r\n            Name = \"Northwind Traders\",\r\n        },\r\n        Lines =\r\n        [\r\n            new() { Description = \"Implementation workshop\", Total = 640.50m },\r\n            new() { Description = \"Reporting module license\", Total = 500.00m },\r\n        ],\r\n    };\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public InvoiceHeaderModel Header { get; set; }\r\n\r\n        public InvoiceCustomerModel Customer { get; set; }\r\n\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceHeaderModel\r\n    {\r\n        public string Number { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceCustomerModel\r\n    {\r\n        public string Name { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Description { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "Designer and toolbar",
-          "description": "The toolbar is declarative and can be grouped. Built-in commands cover persistence, designer panes, editing, history, data-source connection, PDF download, and mode switching."
-        },
-        {
-          "code": "ReportingStateExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingStateExample.razor",
-          "content": "<Report Data=\"@invoice\"\r\n        @bind-Definition=\"@definition\"\r\n        SaveRequested=\"@SaveReport\"\r\n        LoadRequested=\"@LoadReport\"\r\n        DesignerEnabled\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportViewer PreviewFormat=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\"\r\n                  DefaultPreviewFormat=\"ReportPreviewFormat.Html\" />\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportHeader Name=\"Stateful report header\" Height=\"72\">\r\n        <ReportText Text=\"Persistent report definition\" X=\"30\" Y=\"18\" Width=\"270\" Height=\"24\" FontSize=\"18\" Bold FontColor=\"@ReportColors.Blue\" />\r\n        <ReportText Text=\"Move elements, save the definition as JSON, and load it again from the toolbar.\" X=\"30\" Y=\"45\" Width=\"450\" Height=\"18\" />\r\n    </ReportHeader>\r\n    <ReportDetail Name=\"Invoice lines\" Height=\"30\" DataSource=\"Invoice.Lines\">\r\n        <ReportField Field=\"Description\" X=\"30\" Y=\"6\" Width=\"270\" Height=\"18\" />\r\n        <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"6\" Width=\"90\" Height=\"18\" />\r\n    </ReportDetail>\r\n</Report>\r\n\r\n@code {\r\n    private ReportDefinition definition;\r\n\r\n    private string reportJson;\r\n\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Lines =\r\n        [\r\n            new() { Description = \"Implementation workshop\", Total = 640.50m },\r\n            new() { Description = \"Reporting module license\", Total = 500.00m },\r\n        ],\r\n    };\r\n\r\n    private Task SaveReport( ReportDefinition definition )\r\n    {\r\n        reportJson = ReportJsonSerializer.Serialize( definition );\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task<ReportDefinition> LoadReport()\r\n    {\r\n        ReportDefinition savedDefinition = string.IsNullOrWhiteSpace( reportJson )\r\n            ? null\r\n            : ReportJsonSerializer.Deserialize( reportJson );\r\n\r\n        return Task.FromResult( savedDefinition );\r\n    }\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Description { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "Definition persistence",
-          "description": "Handle save and load requests to persist the report definition as JSON in browser storage, a database, or an application service."
-        }
-      ]
-    },
-    {
-      "route": "/docs/extensions/reporting/expressions",
-      "title": "Blazorise Reporting expressions",
-      "description": "Use field tokens, formulas, aggregates, and running totals in Blazorise Reporting.",
-      "pagePath": "Pages/Docs/Extensions/Reporting/ExpressionsPage.razor",
-      "examples": [
-        {
-          "code": "ReportingFormulaFieldsExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingFormulaFieldsExample.razor",
-          "content": "<Report Data=\"@invoice\"\r\n        DesignerEnabled\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportViewer PreviewFormat=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\"\r\n                  DefaultPreviewFormat=\"ReportPreviewFormat.Html\" />\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportFormulaFields>\r\n        <ReportFormulaField Name=\"CustomerSummary\" Formula=\"'Customer: ' + {Customer.Name}\" />\r\n        <ReportFormulaField Name=\"LargeLine\" Formula=\"if {Lines.Total} > 500 then 'Large' else 'Standard'\" />\r\n    </ReportFormulaFields>\r\n    <ReportHeader Name=\"Invoice header\" Height=\"72\">\r\n        <ReportText Text=\"Formula fields\" X=\"30\" Y=\"18\" Width=\"240\" Height=\"24\" FontSize=\"18\" Bold FontColor=\"@ReportColors.Blue\" />\r\n        <ReportField Field=\"CustomerSummary\" X=\"30\" Y=\"45\" Width=\"300\" Height=\"18\" />\r\n    </ReportHeader>\r\n    <ReportPageHeader Name=\"Column headers\" Height=\"32\">\r\n        <ReportText Text=\"Description\" X=\"30\" Y=\"8\" Width=\"240\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Total\" X=\"300\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n        <ReportText Text=\"Formula result\" X=\"420\" Y=\"8\" Width=\"90\" Height=\"18\" Bold />\r\n    </ReportPageHeader>\r\n    <ReportDetail Name=\"Invoice lines\" Height=\"30\" DataSource=\"Invoice.Lines\">\r\n        <ReportField Field=\"Description\" X=\"30\" Y=\"6\" Width=\"240\" Height=\"18\" />\r\n        <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"300\" Y=\"6\" Width=\"90\" Height=\"18\" />\r\n        <ReportField Field=\"LargeLine\" X=\"420\" Y=\"6\" Width=\"90\" Height=\"18\" Bold />\r\n    </ReportDetail>\r\n</Report>\r\n\r\n@code {\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Customer = new()\r\n        {\r\n            Name = \"Northwind Traders\",\r\n        },\r\n        Lines =\r\n        [\r\n            new() { Description = \"Implementation workshop\", Total = 640.50m },\r\n            new() { Description = \"Reporting module license\", Total = 500.00m },\r\n            new() { Description = \"Priority support\", Total = 100.00m },\r\n        ],\r\n    };\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public InvoiceCustomerModel Customer { get; set; }\r\n\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceCustomerModel\r\n    {\r\n        public string Name { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Description { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "Formula fields",
-          "description": "Formula fields create reusable calculated values that appear in the field explorer and can be dropped onto the report."
-        },
-        {
-          "code": "ReportingRunningTotalsExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingRunningTotalsExample.razor",
-          "content": "<Report Data=\"@invoice\"\r\n        DesignerEnabled\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportViewer PreviewFormat=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\"\r\n                  DefaultPreviewFormat=\"ReportPreviewFormat.Html\" />\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportRunningTotals>\r\n        <ReportRunningTotal Name=\"LineRunningTotal\"\r\n                            DataSource=\"Invoice.Lines\"\r\n                            Field=\"Total\"\r\n                            AggregateFunction=\"ReportAggregateFunction.Sum\" />\r\n    </ReportRunningTotals>\r\n    <ReportHeader Name=\"Invoice header\" Height=\"60\">\r\n        <ReportText Text=\"Running totals\" X=\"30\" Y=\"18\" Width=\"240\" Height=\"24\" FontSize=\"18\" Bold FontColor=\"@ReportColors.Blue\" />\r\n    </ReportHeader>\r\n    <ReportPageHeader Name=\"Column headers\" Height=\"32\">\r\n        <ReportText Text=\"Description\" X=\"30\" Y=\"8\" Width=\"210\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Total\" X=\"300\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n        <ReportText Text=\"Running total\" X=\"420\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n    </ReportPageHeader>\r\n    <ReportDetail Name=\"Invoice lines\" Height=\"30\" DataSource=\"Invoice.Lines\">\r\n        <ReportField Field=\"Description\" X=\"30\" Y=\"6\" Width=\"210\" Height=\"18\" />\r\n        <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"300\" Y=\"6\" Width=\"90\" Height=\"18\" />\r\n        <ReportField Field=\"LineRunningTotal\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"6\" Width=\"90\" Height=\"18\" Bold FontColor=\"@ReportColors.Green\" />\r\n    </ReportDetail>\r\n    <ReportFooter Name=\"Totals\" Height=\"45\">\r\n        <ReportLine X=\"30\" Y=\"6\" Width=\"480\" Height=\"8\" Thickness=\"1\" />\r\n        <ReportText Text=\"Grand total\" X=\"300\" Y=\"18\" Width=\"105\" Height=\"18\" Bold />\r\n        <ReportField Field=\"Lines.Total\" AggregateFunction=\"ReportAggregateFunction.Sum\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"18\" Width=\"90\" Height=\"18\" Bold FontColor=\"@ReportColors.Green\" />\r\n    </ReportFooter>\r\n</Report>\r\n\r\n@code {\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Lines =\r\n        [\r\n            new() { Description = \"Implementation workshop\", Total = 640.50m },\r\n            new() { Description = \"Reporting module license\", Total = 500.00m },\r\n            new() { Description = \"Priority support\", Total = 100.00m },\r\n        ],\r\n    };\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Description { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "Aggregates and running totals",
-          "description": "Aggregates summarize a field at render time. Running totals accumulate values as detail rows are rendered."
-        }
-      ]
-    },
-    {
-      "route": "/docs/extensions/reporting/getting-started",
-      "title": "Blazorise Reporting",
-      "description": "Create banded reports with design mode, preview mode, data sources, expressions, running totals, and PDF export.",
-      "pagePath": "Pages/Docs/Extensions/Reporting/GettingStartedPage.razor",
-      "examples": [
-        {
-          "code": "ReportingNugetInstallExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Reporting",
-          "title": "NuGet",
-          "description": "Install extension from NuGet."
-        },
-        {
-          "code": "ReportingImportsExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingImportsExample.snippet",
-          "content": "@using Blazorise.Reporting",
-          "title": "Imports",
-          "description": "In your main _Imports.razor add:"
-        },
-        {
-          "code": "ReportingResourcesExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingResourcesExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Reporting/blazorise.reporting.css?v=2.2.1.0\" rel=\"stylesheet\" />",
-          "title": "Static files",
-          "description": "Add the reporting stylesheet inside the head section of your host page."
-        },
-        {
-          "code": "ReportingServiceRegistrationExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingServiceRegistrationExample.snippet",
-          "content": "builder.Services\r\n    .AddBlazorise()\r\n    .AddBlazoriseReporting();",
-          "title": "Services",
-          "description": "Add Reporting after Blazorise services are registered."
-        },
-        {
-          "code": "ReportingBasicInvoiceExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingBasicInvoiceExample.razor",
-          "content": "<Report Data=\"@invoice\" DesignerEnabled PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportPage Size=\"ReportPageSize.A4\" Orientation=\"ReportOrientation.Portrait\" />\r\n    <ReportHeader Name=\"Invoice report header\" Height=\"97.5\">\r\n        <ReportText Text=\"Invoice summary\" X=\"30\" Y=\"18\" Width=\"210\" Height=\"25.5\" FontSize=\"21\" Bold />\r\n        <ReportText Text=\"Customer: {Customer.Name}\" X=\"300\" Y=\"54\" Width=\"180\" Height=\"21\" Bold />\r\n    </ReportHeader>\r\n    <ReportPageHeader Name=\"Invoice page header\" Height=\"31.5\">\r\n        <ReportText Text=\"Invoice\" X=\"30\" Y=\"7.5\" Width=\"67.5\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Description\" X=\"112.5\" Y=\"7.5\" Width=\"165\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Line total\" X=\"405\" Y=\"7.5\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n    </ReportPageHeader>\r\n    <ReportDetail Name=\"Invoice lines\" Height=\"39\" DataSource=\"Invoice.Lines\">\r\n        <ReportField Field=\"Sku\" X=\"30\" Y=\"10.5\" Width=\"67.5\" Height=\"18\" />\r\n        <ReportField Field=\"Description\" X=\"112.5\" Y=\"10.5\" Width=\"165\" Height=\"18\" />\r\n        <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"405\" Y=\"10.5\" Width=\"90\" Height=\"18\" />\r\n    </ReportDetail>\r\n    <ReportFooter Name=\"Invoice report footer\" Height=\"54\">\r\n        <ReportLine X=\"30\" Y=\"7.5\" Width=\"465\" Height=\"8\" Thickness=\"1\" />\r\n        <ReportText Text=\"Invoice total\" X=\"30\" Y=\"21\" Width=\"135\" Height=\"18\" />\r\n        <ReportField Field=\"Header.Total\" Format=\"@ReportFormats.Currency()\" X=\"405\" Y=\"21\" Width=\"90\" Height=\"18\" Bold />\r\n    </ReportFooter>\r\n</Report>\r\n\r\n@code {\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Header = new()\r\n        {\r\n            Number = \"INV-1001\",\r\n            Total = 1240.50m,\r\n        },\r\n        Customer = new()\r\n        {\r\n            Name = \"Northwind Traders\",\r\n        },\r\n        Lines =\r\n        [\r\n            new() { Sku = \"SRV-001\", Description = \"Implementation workshop\", Total = 640.50m },\r\n            new() { Sku = \"LIC-010\", Description = \"Reporting module license\", Total = 500.00m },\r\n            new() { Sku = \"SUP-003\", Description = \"Priority support\", Total = 100.00m },\r\n        ],\r\n    };\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public InvoiceHeaderModel Header { get; set; }\r\n\r\n        public InvoiceCustomerModel Customer { get; set; }\r\n\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceHeaderModel\r\n    {\r\n        public string Number { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceCustomerModel\r\n    {\r\n        public string Name { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Sku { get; set; }\r\n\r\n        public string Description { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "Start declaratively",
-          "description": "Use Razor markup to describe the report template. This example creates an invoice report with a page, bands, text, fields, and simple layout elements."
-        }
-      ]
-    },
-    {
-      "route": "/docs/extensions/reporting/layout",
-      "title": "Blazorise Reporting layout",
-      "description": "Define report pages, bands, panels, fields, lines, rectangles, and layout tables in Blazorise Reporting.",
-      "pagePath": "Pages/Docs/Extensions/Reporting/LayoutPage.razor",
-      "examples": [
-        {
-          "code": "ReportingLayoutBandsExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingLayoutBandsExample.razor",
-          "content": "<Report Data=\"@invoice\"\r\n        DesignerEnabled\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportViewer PreviewFormat=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\"\r\n                  DefaultPreviewFormat=\"ReportPreviewFormat.Html\"\r\n                  AllowDownload\r\n                  AllowPrint />\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportPage Size=\"ReportPageSize.A4\"\r\n                Orientation=\"ReportOrientation.Portrait\" />\r\n    <ReportHeader Name=\"Report header\" Height=\"105\">\r\n        <ReportText Text=\"Invoice {Header.Number}\" X=\"30\" Y=\"18\" Width=\"180\" Height=\"24\" FontSize=\"20\" Bold FontColor=\"@ReportColors.Blue\" />\r\n        <ReportText Text=\"{Customer.Name}\" X=\"30\" Y=\"48\" Width=\"240\" Height=\"18\" Bold />\r\n        <ReportText Text=\"{Customer.Address}\" X=\"30\" Y=\"70\" Width=\"300\" Height=\"18\" FontColor=\"@ReportColors.Gray\" />\r\n        <ReportLine Orientation=\"Orientation.Vertical\" X=\"380\" Y=\"20\" Width=\"8\" Height=\"54\" Thickness=\"1\" BorderColor=\"@ReportColors.Blue\" />\r\n        <ReportPanel X=\"405\" Y=\"20\" Width=\"120\" Height=\"54\" BorderColor=\"@ReportColors.Blue\" BorderWidth=\"1\" BorderStyle=\"ReportBorderStyle.Solid\">\r\n            <ReportText Text=\"REPORT HEADER\" X=\"13\" Y=\"19\" Width=\"94\" Height=\"18\" Bold TextAlignment=\"TextAlignment.Center\" FontColor=\"@ReportColors.Blue\" />\r\n        </ReportPanel>\r\n    </ReportHeader>\r\n    <ReportPageHeader Name=\"Page header\" Height=\"35\">\r\n        <ReportText Text=\"Sku\" X=\"30\" Y=\"9\" Width=\"75\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Description\" X=\"120\" Y=\"9\" Width=\"210\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Qty\" X=\"345\" Y=\"9\" Width=\"60\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n        <ReportText Text=\"Line total\" X=\"420\" Y=\"9\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n    </ReportPageHeader>\r\n    <ReportGroupHeader Name=\"Category group\" Height=\"28\" DataSource=\"Invoice.Lines\" GroupBy=\"Category\">\r\n        <ReportText Text=\"Category: {Category}\" X=\"30\" Y=\"6\" Width=\"240\" Height=\"18\" Bold FontColor=\"@ReportColors.Green\" />\r\n        <ReportLine X=\"30\" Y=\"26\" Width=\"480\" Height=\"8\" Thickness=\"1\" BorderColor=\"@ReportColors.Green\" />\r\n    </ReportGroupHeader>\r\n    <ReportDetail Name=\"Invoice lines\" Height=\"30\" DataSource=\"Invoice.Lines\">\r\n        <ReportField Field=\"Sku\" X=\"30\" Y=\"6\" Width=\"75\" Height=\"18\" />\r\n        <ReportField Field=\"Description\" X=\"120\" Y=\"6\" Width=\"210\" Height=\"18\" />\r\n        <ReportField Field=\"Quantity\" Format=\"@ReportFormats.Number( 2 )\" X=\"345\" Y=\"6\" Width=\"60\" Height=\"18\" />\r\n        <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"6\" Width=\"90\" Height=\"18\" />\r\n    </ReportDetail>\r\n    <ReportFooter Name=\"Report footer\" Height=\"60\">\r\n        <ReportLine X=\"30\" Y=\"9\" Width=\"480\" Height=\"8\" Thickness=\"1\" />\r\n        <ReportText Text=\"Report total\" X=\"300\" Y=\"24\" Width=\"105\" Height=\"18\" Bold />\r\n        <ReportField Field=\"Header.Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"24\" Width=\"90\" Height=\"18\" Bold FontColor=\"@ReportColors.Green\" />\r\n    </ReportFooter>\r\n    <ReportPageFooter Name=\"Page footer\" Height=\"30\">\r\n        <ReportText Text=\"Generated {PrintDate} - page {PageNumber} of {TotalPages}\" X=\"30\" Y=\"7\" Width=\"300\" Height=\"18\" FontColor=\"@ReportColors.Gray\" />\r\n    </ReportPageFooter>\r\n</Report>\r\n\r\n@code {\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Header = new()\r\n        {\r\n            Number = \"INV-2026-014\",\r\n            Total = 2765.50m,\r\n        },\r\n        Customer = new()\r\n        {\r\n            Name = \"Northwind Traders\",\r\n            Address = \"One Portals Way, Twin Points WA, 98156\",\r\n        },\r\n        Lines =\r\n        [\r\n            new() { Category = \"Services\", Sku = \"SRV-001\", Description = \"Implementation workshop\", Quantity = 1, Total = 640.50m },\r\n            new() { Category = \"Services\", Sku = \"SUP-003\", Description = \"Priority support\", Quantity = 1, Total = 100.00m },\r\n            new() { Category = \"Licenses\", Sku = \"LIC-010\", Description = \"Reporting module license\", Quantity = 2, Total = 500.00m },\r\n            new() { Category = \"Licenses\", Sku = \"LIC-020\", Description = \"PDF export add-on\", Quantity = 5, Total = 1525.00m },\r\n        ],\r\n    };\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public InvoiceHeaderModel Header { get; set; }\r\n\r\n        public InvoiceCustomerModel Customer { get; set; }\r\n\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceHeaderModel\r\n    {\r\n        public string Number { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceCustomerModel\r\n    {\r\n        public string Name { get; set; }\r\n\r\n        public string Address { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Category { get; set; }\r\n\r\n        public string Sku { get; set; }\r\n\r\n        public string Description { get; set; }\r\n\r\n        public decimal Quantity { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "Page and bands",
-          "description": "Use report header, page header, detail, report footer, and page footer bands to define where content appears. A panel groups related elements so they can be positioned and moved as one container."
-        },
-        {
-          "code": "ReportingLayoutTableExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingLayoutTableExample.razor",
-          "content": "<Report Data=\"@invoice\"\r\n        DesignerEnabled\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportViewer PreviewFormat=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\"\r\n                  DefaultPreviewFormat=\"ReportPreviewFormat.Html\" />\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportHeader Name=\"Invoice header\" Height=\"150\">\r\n        <ReportText Text=\"Layout table invoice\" X=\"30\" Y=\"18\" Width=\"240\" Height=\"24\" FontSize=\"20\" Bold FontColor=\"@ReportColors.Blue\" />\r\n        <ReportTable X=\"30\" Y=\"55\" Width=\"495\" Height=\"72\">\r\n            <ReportTableRow Height=\"24\">\r\n                <ReportTableCell>\r\n                    <ReportText Text=\"Customer\" Bold />\r\n                </ReportTableCell>\r\n                <ReportTableCell ColumnSpan=\"2\">\r\n                    <ReportText Text=\"{Customer.Name}\" />\r\n                </ReportTableCell>\r\n                <ReportTableCell>\r\n                    <ReportText Text=\"Invoice\" Bold />\r\n                </ReportTableCell>\r\n                <ReportTableCell>\r\n                    <ReportText Text=\"{Header.Number}\" />\r\n                </ReportTableCell>\r\n            </ReportTableRow>\r\n            <ReportTableRow Height=\"24\">\r\n                <ReportTableCell>\r\n                    <ReportText Text=\"Address\" Bold />\r\n                </ReportTableCell>\r\n                <ReportTableCell ColumnSpan=\"2\">\r\n                    <ReportText Text=\"{Customer.Address}\" />\r\n                </ReportTableCell>\r\n                <ReportTableCell>\r\n                    <ReportText Text=\"Issued\" Bold />\r\n                </ReportTableCell>\r\n                <ReportTableCell>\r\n                    <ReportField Field=\"Header.IssuedAt\" Format=\"@ReportFormats.Date()\" />\r\n                </ReportTableCell>\r\n            </ReportTableRow>\r\n            <ReportTableRow Height=\"24\">\r\n                <ReportTableCell>\r\n                    <ReportText Text=\"Tax number\" Bold />\r\n                </ReportTableCell>\r\n                <ReportTableCell ColumnSpan=\"2\">\r\n                    <ReportText Text=\"{Customer.TaxNumber}\" />\r\n                </ReportTableCell>\r\n                <ReportTableCell>\r\n                    <ReportText Text=\"Total\" Bold />\r\n                </ReportTableCell>\r\n                <ReportTableCell>\r\n                    <ReportField Field=\"Header.Total\" Format=\"@ReportFormats.Currency()\" Bold FontColor=\"@ReportColors.Green\" />\r\n                </ReportTableCell>\r\n            </ReportTableRow>\r\n        </ReportTable>\r\n    </ReportHeader>\r\n    <ReportPageHeader Name=\"Line headers\" Height=\"32\">\r\n        <ReportText Text=\"Sku\" X=\"30\" Y=\"8\" Width=\"75\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Description\" X=\"120\" Y=\"8\" Width=\"210\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Qty\" X=\"345\" Y=\"8\" Width=\"60\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n        <ReportText Text=\"Total\" X=\"420\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n    </ReportPageHeader>\r\n    <ReportDetail Name=\"Invoice lines\" Height=\"30\" DataSource=\"Invoice.Lines\">\r\n        <ReportField Field=\"Sku\" X=\"30\" Y=\"6\" Width=\"75\" Height=\"18\" />\r\n        <ReportField Field=\"Description\" X=\"120\" Y=\"6\" Width=\"210\" Height=\"18\" />\r\n        <ReportField Field=\"Quantity\" Format=\"@ReportFormats.Number( 2 )\" X=\"345\" Y=\"6\" Width=\"60\" Height=\"18\" />\r\n        <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"6\" Width=\"90\" Height=\"18\" />\r\n    </ReportDetail>\r\n</Report>\r\n\r\n@code {\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Header = new()\r\n        {\r\n            Number = \"INV-2026-021\",\r\n            IssuedAt = new DateTime( 2026, 6, 17 ),\r\n            Total = 1240.50m,\r\n        },\r\n        Customer = new()\r\n        {\r\n            Name = \"Northwind Traders\",\r\n            Address = \"One Portals Way, Twin Points WA, 98156\",\r\n            TaxNumber = \"NW-45821\",\r\n        },\r\n        Lines =\r\n        [\r\n            new() { Sku = \"SRV-001\", Description = \"Implementation workshop\", Quantity = 1, Total = 640.50m },\r\n            new() { Sku = \"LIC-010\", Description = \"Reporting module license\", Quantity = 2, Total = 500.00m },\r\n            new() { Sku = \"SUP-003\", Description = \"Priority support\", Quantity = 1, Total = 100.00m },\r\n        ],\r\n    };\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public InvoiceHeaderModel Header { get; set; }\r\n\r\n        public InvoiceCustomerModel Customer { get; set; }\r\n\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceHeaderModel\r\n    {\r\n        public string Number { get; set; }\r\n\r\n        public DateTime IssuedAt { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceCustomerModel\r\n    {\r\n        public string Name { get; set; }\r\n\r\n        public string Address { get; set; }\r\n\r\n        public string TaxNumber { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Sku { get; set; }\r\n\r\n        public string Description { get; set; }\r\n\r\n        public decimal Quantity { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "Layout table",
-          "description": "Tables are layout containers for aligning other report elements. They do not repeat data by themselves."
-        }
-      ]
-    },
-    {
-      "route": "/docs/extensions/reporting/pdf-export",
-      "title": "Blazorise Reporting PDF export",
-      "description": "Preview and export Blazorise reports as PDF documents.",
-      "pagePath": "Pages/Docs/Extensions/Reporting/PdfExportPage.razor",
-      "examples": [
-        {
-          "code": "ReportingPdfExportExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingPdfExportExample.razor",
-          "content": "<Report Data=\"@invoice\"\r\n        DesignerEnabled\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportViewer PreviewFormat=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\"\r\n                  DefaultPreviewFormat=\"ReportPreviewFormat.Pdf\"\r\n                  AllowDownload\r\n                  AllowPrint />\r\n    <ReportToolbar>\r\n        <ReportToolbarGroup>\r\n            <ReportToolbarPanesMenu />\r\n        </ReportToolbarGroup>\r\n        <ReportToolbarGroup>\r\n            <ReportToolbarItem Command=\"ReportCommand.PreviewHtml\" Caption=\"HTML Preview\" />\r\n            <ReportToolbarItem Command=\"ReportCommand.PreviewPdf\" Caption=\"PDF Preview\" />\r\n            <ReportToolbarItem Command=\"ReportCommand.DownloadPdf\" Caption=\"Download PDF\" />\r\n        </ReportToolbarGroup>\r\n        <Div Margin=\"Margin.IsAuto.FromStart\">\r\n            <ReportToolbarGroup>\r\n                <ReportToolbarItem Command=\"ReportCommand.Design\" Caption=\"Design\" ShowCaption />\r\n                <ReportToolbarItem Command=\"ReportCommand.Preview\" Caption=\"Preview\" ShowCaption />\r\n            </ReportToolbarGroup>\r\n        </Div>\r\n    </ReportToolbar>\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportHeader Name=\"PDF export header\" Height=\"84\">\r\n        <ReportText Text=\"PDF export invoice\" X=\"30\" Y=\"18\" Width=\"240\" Height=\"24\" FontSize=\"20\" Bold FontColor=\"@ReportColors.Blue\" />\r\n        <ReportText Text=\"{Customer.Name}\" X=\"30\" Y=\"48\" Width=\"240\" Height=\"18\" />\r\n        <ReportText Text=\"{Header.Number}\" X=\"405\" Y=\"48\" Width=\"105\" Height=\"18\" TextAlignment=\"TextAlignment.End\" />\r\n    </ReportHeader>\r\n    <ReportPageHeader Name=\"Column headers\" Height=\"32\">\r\n        <ReportText Text=\"Description\" X=\"30\" Y=\"8\" Width=\"270\" Height=\"18\" Bold />\r\n        <ReportText Text=\"Total\" X=\"420\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n    </ReportPageHeader>\r\n    <ReportDetail Name=\"Invoice lines\" Height=\"30\" DataSource=\"Invoice.Lines\">\r\n        <ReportField Field=\"Description\" X=\"30\" Y=\"6\" Width=\"270\" Height=\"18\" />\r\n        <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"6\" Width=\"90\" Height=\"18\" FontColor=\"@ReportColors.Green\" />\r\n    </ReportDetail>\r\n    <ReportFooter Name=\"Invoice footer\" Height=\"45\">\r\n        <ReportLine X=\"30\" Y=\"6\" Width=\"480\" Height=\"8\" Thickness=\"1\" />\r\n        <ReportText Text=\"Invoice total\" X=\"300\" Y=\"18\" Width=\"105\" Height=\"18\" Bold />\r\n        <ReportField Field=\"Header.Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"18\" Width=\"90\" Height=\"18\" Bold FontColor=\"@ReportColors.Green\" />\r\n    </ReportFooter>\r\n</Report>\r\n\r\n@code {\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Header = new()\r\n        {\r\n            Number = \"INV-1001\",\r\n            Total = 1240.50m,\r\n        },\r\n        Customer = new()\r\n        {\r\n            Name = \"Northwind Traders\",\r\n        },\r\n        Lines =\r\n        [\r\n            new() { Description = \"Implementation workshop\", Total = 640.50m },\r\n            new() { Description = \"Reporting module license\", Total = 500.00m },\r\n            new() { Description = \"Priority support\", Total = 100.00m },\r\n        ],\r\n    };\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public InvoiceHeaderModel Header { get; set; }\r\n\r\n        public InvoiceCustomerModel Customer { get; set; }\r\n\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceHeaderModel\r\n    {\r\n        public string Number { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceCustomerModel\r\n    {\r\n        public string Name { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Description { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "PDF preview and download",
-          "description": "Enable PDF as a preview format and include the download command in the toolbar when users should export the current report state."
-        },
-        {
-          "code": "ReportingFontRegistrationExample",
-          "kind": "csharp",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingFontRegistrationExample.csharp",
-          "content": "byte[] interRegularBytes = await File.ReadAllBytesAsync( \"wwwroot/fonts/Inter-Regular.ttf\" );\r\n\r\nbuilder.Services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.Fonts.Add( new()\r\n        {\r\n            Name = \"Inter\",\r\n            DisplayName = \"Inter\",\r\n            CssFamily = \"\\\"Inter\\\", sans-serif\",\r\n            Regular = FontSource.FromBytes( interRegularBytes, FontFormat.TrueType ),\r\n        } );\r\n    } )\r\n    .AddBlazoriseReporting();",
-          "title": "Fonts",
-          "description": "Register fonts when PDF export must use the same font family as the designer and HTML preview."
-        },
-        {
-          "code": "ReportingFontFaceExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingFontFaceExample.snippet",
-          "content": "@font-face {\r\n    font-family: \"Inter\";\r\n    src: url(\"fonts/Inter-Regular.ttf\") format(\"truetype\");\r\n    font-weight: 400;\r\n    font-style: normal;\r\n    font-display: swap;\r\n}",
-          "title": "Fonts",
-          "description": "Register fonts when PDF export must use the same font family as the designer and HTML preview."
         }
       ]
     },
@@ -9760,49 +9253,49 @@
           "code": "CommonScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CommonScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise/breakpoint.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/button.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/closable.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/colorPicker.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/datePicker.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dragDrop.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dropdown.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/fileInput.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/filePicker.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/floatingUi.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/inputMask.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/io.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/memoInput.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/modal.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/numericPicker.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/observer.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/rangeSlider.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/table.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/textInput.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/theme.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/timePicker.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/tooltip.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/utilities.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise/breakpoint.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/button.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/closable.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/colorPicker.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/datePicker.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dragDrop.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dropdown.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/fileInput.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/filePicker.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/floatingUi.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/inputMask.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/io.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/memoInput.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/modal.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/numericPicker.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/observer.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/rangeSlider.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/table.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/textInput.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/theme.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/timePicker.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/tooltip.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/utilities.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "AntDesignScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AntDesignScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.AntDesign/bar.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/modal.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/segmented.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/tooltip.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/wave.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.AntDesign/bar.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/modal.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/segmented.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/tooltip.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/wave.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "BootstrapScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/BootstrapScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bootstrap/modal.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap/tooltip.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bootstrap/modal.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap/tooltip.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "Bootstrap5ScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/Bootstrap5ScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bootstrap5/modal.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap5/tooltip.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bootstrap5/modal.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap5/tooltip.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "BulmaScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/BulmaScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bulma/modal.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bulma/tooltip.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bulma/modal.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bulma/tooltip.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "FluentUI2ScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/FluentUI2ScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.FluentUI2/modal.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.FluentUI2/tooltip.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.FluentUI2/modal.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.FluentUI2/tooltip.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "TailwindScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/TailwindScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Tailwind/modal.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Tailwind/tooltip.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Tailwind/modal.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Tailwind/tooltip.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "MaterialScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/MaterialScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.2.1.0\"></script>\r\n<script src=\"_content/Blazorise.Material/modal.js?v=2.2.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Material/tooltip.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.2.2.0\"></script>\r\n<script src=\"_content/Blazorise.Material/modal.js?v=2.2.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Material/tooltip.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "AnimateScriptsExample",
@@ -9814,97 +9307,97 @@
           "code": "CaptchaReCaptchaScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CaptchaReCaptchaScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Captcha.ReCaptcha/blazorise.recaptcha.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Captcha.ReCaptcha/blazorise.recaptcha.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts/charts.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts/charts.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsAnnotationScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsAnnotationScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Annotation/chart.annotation.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Annotation/chart.annotation.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsDataLabelsScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsDataLabelsScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.DataLabels/chart.datalabels.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.DataLabels/chart.datalabels.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsStreamingScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsStreamingScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsTrendlineScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsTrendlineScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsZoomScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsZoomScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Zoom/chart.zoom.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Zoom/chart.zoom.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "CropperScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CropperScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Cropper/blazorise.cropper.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Cropper/blazorise.cropper.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "DatagridScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/DatagridScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.DataGrid/datagrid.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.DataGrid/datagrid.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "GanttScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/GanttScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Gantt/gantt.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Gantt/gantt.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "LottieAnimationScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/LottieAnimationScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.LottieAnimation/lottie-animation.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.LottieAnimation/lottie-animation.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "MarkdownScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/MarkdownScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Markdown/markdown.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Markdown/markdown.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "PdfViewerScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/PdfViewerScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.PdfViewer/pdfviewer.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.PdfViewer/pdfviewer.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "QRCodeScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/QRCodeScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.QRCode/blazorise.qrcode.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.QRCode/blazorise.qrcode.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "RichTextEditScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/RichTextEditScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.RichTextEdit/richtextedit.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.RichTextEdit/richtextedit.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "SchedulerScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/SchedulerScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Scheduler/scheduler.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Scheduler/scheduler.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "SignaturePadScriptsExample",
@@ -9916,13 +9409,13 @@
           "code": "SplitterScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/SplitterScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Splitter/blazorise.splitter.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Splitter/blazorise.splitter.js?v=2.2.2.0\" type=\"module\"></script>"
         },
         {
           "code": "VideoScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/VideoScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Video/video.js?v=2.2.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Video/video.js?v=2.2.2.0\" type=\"module\"></script>"
         }
       ]
     },
@@ -10416,7 +9909,7 @@
           "code": "Bootstrap5GuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap5/Examples/Bootstrap5GuideSourceFilesExample.snippet",
-          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.2.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.2.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -10645,7 +10138,7 @@
           "code": "AntDesignGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/AntDesign/Examples/AntDesignGuideSourceFilesExample.snippet",
-          "content": "<link href=\"_content/Blazorise.AntDesign/antd.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.2.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.AntDesign/antd.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.2.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -10688,7 +10181,7 @@
           "code": "BootstrapGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap/Examples/BootstrapGuideSourceFilesExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css\" integrity=\"sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.2.1.0\" rel=\"stylesheet\" />",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css\" integrity=\"sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.2.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -10731,7 +10224,7 @@
           "code": "Bootstrap5GuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap5/Examples/Bootstrap5GuideSourceFilesExample.snippet",
-          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.2.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.2.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -10774,7 +10267,7 @@
           "code": "BulmaGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bulma/Examples/BulmaGuideSourceFilesExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css\" />\r\n<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bulma/blazorise.bulma.css?v=2.2.1.0\" rel=\"stylesheet\" />",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css\" />\r\n<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bulma/blazorise.bulma.css?v=2.2.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -10817,14 +10310,14 @@
           "code": "FluentUI2GuideSourceFiles1Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/FluentUI2/Examples/FluentUI2GuideSourceFiles1Example.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.2.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.2.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
           "code": "FluentUI2GuideSvgSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/FluentUI2/Examples/FluentUI2GuideSvgSourceFilesExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/blazorise.icons.fluentui.css\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.2.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/blazorise.icons.fluentui.css\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.2.2.0\" rel=\"stylesheet\" />",
           "title": "Optional: SVG icons",
           "description": "Fluent icons use the CSS font by default. To render inline SVG icons instead, replace the Fluent font stylesheet shown above with the SVG stylesheet. Keep the remaining Fluent 2 stylesheets unchanged."
         },
@@ -10906,7 +10399,7 @@
           "code": "MaterialGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideSourceFilesExample.snippet",
-          "content": "<!-- In <head> -->\r\n<!-- Required when using Blazorise.Icons.Material -->\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Before </body> (before the Blazor framework script) -->\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.2.1.0\"></script>",
+          "content": "<!-- In <head> -->\r\n<!-- Required when using Blazorise.Icons.Material -->\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Before </body> (before the Blazor framework script) -->\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.2.2.0\"></script>",
           "description": "Add the styles inside the head section, and place blazorise.material.js near the end of body before the Blazor script:"
         },
         {
@@ -10956,7 +10449,7 @@
           "code": "TailwindGuideSourceFiles3Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Tailwind/Examples/TailwindGuideSourceFiles3Example.snippet",
-          "content": "<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap\" rel=\"stylesheet\">\r\n<link href=\"https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.2.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap\" rel=\"stylesheet\">\r\n<link href=\"https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.2.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
