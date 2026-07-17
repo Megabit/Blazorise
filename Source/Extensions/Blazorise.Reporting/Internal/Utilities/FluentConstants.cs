@@ -64,4 +64,5 @@ internal static class FluentConstants
     internal static readonly TextOverflow TextOverflowTruncate = TextOverflow.Truncate;
     internal static readonly IFluentTextSize TextSizeSmall = TextSize.Small;
     internal static readonly TextWeight TextWeightBold = TextWeight.Bold;
+    internal static readonly TextWeight TextWeightSemiBold = TextWeight.SemiBold;
 }

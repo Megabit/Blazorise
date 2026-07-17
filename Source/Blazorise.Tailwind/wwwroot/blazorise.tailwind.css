@@ -9988,12 +9988,6 @@ body .b-report {
   flex-direction: column;
   gap: 0.25rem;
 }
-.b-report-designer-property-group > .b-heading-6 {
-  margin: 0 0 0.25rem;
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.5rem;
-}
 .b-report-designer-color-property .b-addon-body:first-child > select {
   flex: 1 1 0;
   width: auto;
