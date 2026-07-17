@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using Blazorise;
 #endregion
 
@@ -120,6 +121,8 @@ public sealed class ReportDefinition
     /// Report-scoped font families resolved before globally registered fonts.
     /// </summary>
     public List<FontFamily> Fonts { get; set; } = [];
+
+    [JsonIgnore] internal int? RowsLimit { get; set; }
 
     #endregion
 }

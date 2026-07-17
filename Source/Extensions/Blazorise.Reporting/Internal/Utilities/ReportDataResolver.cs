@@ -18,15 +18,21 @@ internal static class ReportDataResolver
 
         if ( source is IEnumerable enumerable and not string )
         {
+            int rowIndex = 0;
+
             foreach ( var item in enumerable )
             {
+                if ( definition?.RowsLimit is int rowsLimit && rowIndex >= rowsLimit )
+                    yield break;
+
                 yield return item;
+                rowIndex++;
             }
 
             yield break;
         }
 
-        if ( source is not null )
+        if ( source is not null && definition?.RowsLimit != 0 )
             yield return source;
     }
 

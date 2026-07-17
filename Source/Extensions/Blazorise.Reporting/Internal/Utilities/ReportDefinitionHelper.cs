@@ -175,6 +175,20 @@ internal static class ReportDefinitionHelper
             yield return subreport;
     }
 
+    internal static void ApplyRowsLimit( ReportDefinition definition, int? rowsLimit )
+    {
+        if ( definition is null )
+            return;
+
+        definition.RowsLimit = rowsLimit;
+
+        foreach ( ReportSubreportElementDefinition subreport in EnumerateSubreportElements( definition ) )
+        {
+            if ( subreport.Report is not null )
+                subreport.Report.RowsLimit = rowsLimit;
+        }
+    }
+
     internal static IEnumerable<ReportElementDefinition> EnumerateElements( ReportDefinition definition )
     {
         if ( definition?.Bands is null )

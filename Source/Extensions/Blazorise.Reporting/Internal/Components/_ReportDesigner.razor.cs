@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Licensing;
 using Blazorise.Pdf;
 using Blazorise.Reporting.Internal;
 using Microsoft.AspNetCore.Components;
@@ -226,6 +227,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     private async Task ResolveDataSources( ReportDefinition definition, bool loadData )
     {
         InvalidateDesignerCaches();
+
+        ReportDefinitionHelper.ApplyRowsLimit( definition, BlazoriseLicenseLimitsHelper.GetReportingRowsLimit( LicenseChecker ) );
 
         if ( definition?.DataSources is null )
             return;
@@ -934,6 +937,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         string previousActiveSubreportElementKey = activeSubreportElementKey;
         ReportState nextState = ReportContext.CloneState( state );
         ReportDefinition definition = ReportDefinitionHelper.EnsureDefinitionIds( nextState.Definition ?? BuildDeclarativeDefinition() );
+
+        ReportDefinitionHelper.ApplyRowsLimit( definition, BlazoriseLicenseLimitsHelper.GetReportingRowsLimit( LicenseChecker ) );
 
         declarativeDefinition = definition;
         currentMode = nextState.Mode;
@@ -2211,6 +2216,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             ReportSubreportElementDefinition subreport = (ReportSubreportElementDefinition)ReportDefinitionHelper.CreateElementFromToolbox( ReportElementType.Subreport, subreportName, x, y );
             subreport.Name = subreportName;
             subreport.Report = ReportDefinitionHelper.CreateDefaultSubreportDefinition( subreportName );
+            subreport.Report.RowsLimit = rootDefinition.RowsLimit;
 
             workingDefinition.Bands[commandSectionIndex].Elements.Add( subreport );
 
@@ -2925,6 +2931,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// Message service used to confirm destructive report commands.
     /// </summary>
     [Inject] private IMessageService MessageService { get; set; }
+
+    /// <summary>
+    /// License checker used to resolve the maximum number of report rows.
+    /// </summary>
+    [Inject] private BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
     /// Persisted report definition used by the designer and viewer.

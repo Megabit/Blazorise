@@ -55,9 +55,16 @@ public sealed class BlazoriseLicenseProvider
     /// </summary>
     public const int DEFAULT_UNLICENSED_LIMIT_GANTT_MAX_ROWS = 100;
 
+    /// <summary>
+    /// The default maximum number of rows rendered in a report for unlicensed users.
+    /// </summary>
+    public const int DEFAULT_UNLICENSED_LIMIT_REPORTING_MAX_ROWS = 10;
+
     private const string PIVOTGRID_MAX_ROWS_LICENSE_PROPERTY = "PIVOTGRID_MAX_ROWS";
 
     private const string GANTT_MAX_ROWS_LICENSE_PROPERTY = "GANTT_MAX_ROWS";
+
+    private const string REPORTING_MAX_ROWS_LICENSE_PROPERTY = "REPORTING_MAX_ROWS";
 
     private const string TRANSFERVIEW_MAX_ROWS_LICENSE_PROPERTY = "TRANSFERVIEW_MAX_ROWS";
 
@@ -90,6 +97,8 @@ public sealed class BlazoriseLicenseProvider
     private int? limitsPivotGridMaxRows;
 
     private int? limitsGanttMaxRows;
+
+    private int? limitsReportingMaxRows;
 
     private int? limitsTransferListMaxRows;
 
@@ -431,6 +440,33 @@ public sealed class BlazoriseLicenseProvider
         }
 
         return limitsGanttMaxRows;
+    }
+
+    internal int? GetReportingRowsLimit()
+    {
+        if ( limitsReportingMaxRows.HasValue )
+            return limitsReportingMaxRows;
+
+        if ( Result == BlazoriseLicenseResult.Initializing )
+            return null;
+
+        if ( License is not null )
+        {
+            if ( License.Properties.TryGetValue( REPORTING_MAX_ROWS_LICENSE_PROPERTY, out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
+            {
+                limitsReportingMaxRows = rowsLimit;
+            }
+        }
+        else if ( Result == BlazoriseLicenseResult.Community )
+        {
+            limitsReportingMaxRows = 100;
+        }
+        else if ( Result == BlazoriseLicenseResult.Unlicensed )
+        {
+            limitsReportingMaxRows = DEFAULT_UNLICENSED_LIMIT_REPORTING_MAX_ROWS;
+        }
+
+        return limitsReportingMaxRows;
     }
 
     internal int? GetTransferListRowsLimit()
