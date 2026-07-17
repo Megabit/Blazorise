@@ -11,3 +11,20 @@ body .b-report {
     --b-report-zindex-menu: 11;
     --b-report-zindex-modal-layer: 40;
 }
+
+.b-report-designer-properties-pane {
+    .field.is-horizontal {
+        margin-bottom: .25rem !important;
+    }
+}
+
+.b-report-designer-color-property {
+    .field.has-addons > .control:has(> .b-input-color-picker) {
+        flex: none;
+    }
+
+    .b-input-color-picker {
+        width: var(--bulma-control-height);
+        padding: .35rem;
+    }
+}
