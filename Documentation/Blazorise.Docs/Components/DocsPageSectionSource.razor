@@ -50,7 +50,7 @@
                     <Icon Name="IconName.Code" />
                 </Button>
             </Tooltip>
-            <Tooltip Text="Copy code" Inline>
+            <Tooltip Text="@(CopyFullExample ? "Copy full example" : "Copy code")" Inline>
                 <Button Color="Color.Default" Size="Size.Small" TextColor="TextColor.Secondary" Margin="@SourceActionEndMargin" Clicked="@OnCopyCode">
                     <Icon Name="IconName.Copy" />
                 </Button>

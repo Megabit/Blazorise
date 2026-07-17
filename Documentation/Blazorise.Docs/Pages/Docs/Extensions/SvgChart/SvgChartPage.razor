@@ -165,6 +165,15 @@
     <DocsPageSectionHeader Title="Continuous time axis">
         Use continuous time scaling when sample spacing should match the actual timestamp distance.
     </DocsPageSectionHeader>
+    <DocsPageParagraph>
+        Continuous time axes use UTC milliseconds internally and display values in the <Code>TimeZone</Code> configured on <Code>SvgChartTimeAxis</Code>. The default is <Code>TimeZoneInfo.Local</Code>.
+    </DocsPageParagraph>
+    <DocsPageParagraph>
+        A <Code>DateTime</Code> with <Code>Kind</Code> set to <Code>Utc</Code> or <Code>Local</Code> represents an instant and is converted to the configured time zone. A <Code>DateTime</Code> with <Code>Kind</Code> set to <Code>Unspecified</Code> is interpreted as a wall-clock value in the configured time zone. Axis labels and default tooltips use the same conversion and format.
+    </DocsPageParagraph>
+    <DocsPageParagraph>
+        In Blazor Server, <Code>TimeZoneInfo.Local</Code> is the server time zone and may differ from the browser user's time zone. Pass the user's <Code>TimeZoneInfo</Code> to <Code>TimeZone</Code> when user-local display is required. Blazorise does not infer the browser time zone automatically.
+    </DocsPageParagraph>
     <DocsPageSectionContent Code="SvgTimeAxisChartExample" Outlined FullWidth>
         <SvgTimeAxisChartExample />
     </DocsPageSectionContent>

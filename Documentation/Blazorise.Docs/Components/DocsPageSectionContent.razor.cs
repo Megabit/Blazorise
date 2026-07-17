@@ -79,6 +79,8 @@ public partial class DocsPageSectionContent
 
     [Parameter] public IReadOnlyList<DocsCodeSource> AdditionalCodes { get; set; }
 
+    [Parameter] public bool CopyFullExample { get; set; }
+
     [Parameter] public bool ShowCode { get; set; } = true;
 
     /// <summary>
