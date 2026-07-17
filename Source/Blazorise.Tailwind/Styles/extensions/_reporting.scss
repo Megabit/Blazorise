@@ -11,3 +11,66 @@ body .b-report {
     --b-report-zindex-menu: 50;
     --b-report-zindex-modal-layer: 60;
 }
+
+.b-report-toolbar-group .b-button {
+    height: 2.375rem;
+    padding-block: 0;
+}
+
+.b-report-designer-property-group {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+
+    > .b-heading-6 {
+        margin: 0 0 .25rem;
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.5rem;
+    }
+}
+
+.b-report-designer-color-property {
+    .b-addon-body:first-child > select {
+        flex: 1 1 0;
+        width: auto;
+        min-width: 0;
+    }
+
+    .b-addon-body:nth-child(2) > .relative {
+        box-sizing: border-box;
+        flex: 0 0 2.125rem;
+        width: 2.125rem;
+        min-width: 2.125rem;
+        height: 2.125rem;
+
+        > .absolute {
+            inset: 0;
+            padding: 0;
+            justify-content: center;
+
+            > span {
+                padding: 0;
+            }
+        }
+
+        > input {
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            color: transparent;
+        }
+    }
+
+    .b-addon-end {
+        flex: 0 0 2.125rem;
+        width: 2.125rem;
+
+        > .b-button {
+            width: 2.125rem;
+            padding-inline: 0;
+            justify-content: center;
+        }
+    }
+}
