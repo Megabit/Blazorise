@@ -11,3 +11,24 @@ body .b-report {
     --b-report-zindex-menu: var(--zIndexDropdown);
     --b-report-zindex-modal-layer: var(--zIndexModal);
 }
+
+.b-report-designer-properties-pane {
+    .fui-Field.fui-FieldHorizontal {
+        margin-bottom: var(--spacingVerticalXS) !important;
+    }
+}
+
+.b-report-designer-color-property {
+    .fui-Input__colorValue {
+        display: none;
+    }
+
+    .fui-Input__content:has(> .fui-ColorPicker) {
+        flex: none;
+    }
+
+    .fui-ColorPicker {
+        flex: none;
+        min-width: auto;
+    }
+}

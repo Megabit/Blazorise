@@ -1152,6 +1152,7 @@ html[data-theme=dark] .surface {
   color: var(--colorNeutralForeground2BrandHover);
 }
 .fui-Input .fui-Input__content {
+  align-self: stretch;
   flex-wrap: nowrap;
   position: relative;
   box-sizing: border-box;
@@ -1159,6 +1160,10 @@ html[data-theme=dark] .surface {
   display: flex;
   font-family: var(--fontFamilyBase);
   flex-grow: 1;
+}
+.fui-Input .fui-Input__content .fui-Select__select {
+  align-self: stretch;
+  height: auto;
 }
 .fui-Input .fui-Input__content .fui-Select__select,
 .fui-Input .fui-Input__content .fui-Select__select:focus {
@@ -22488,4 +22493,19 @@ body .b-report {
   --b-report-zindex-toolbar: 20;
   --b-report-zindex-menu: var(--zIndexDropdown);
   --b-report-zindex-modal-layer: var(--zIndexModal);
+}
+
+.b-report-designer-properties-pane .fui-Field.fui-FieldHorizontal {
+  margin-bottom: var(--spacingVerticalXS) !important;
+}
+
+.b-report-designer-color-property .fui-Input__colorValue {
+  display: none;
+}
+.b-report-designer-color-property .fui-Input__content:has(> .fui-ColorPicker) {
+  flex: none;
+}
+.b-report-designer-color-property .fui-ColorPicker {
+  flex: none;
+  min-width: auto;
 }
