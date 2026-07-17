@@ -25,7 +25,9 @@ public partial class _ReportDesignerDataSourceProperty
 
     #region Properties
 
-    private string DisplayValue => string.IsNullOrWhiteSpace( DisplayText )
+    private string DisplayValue => Mixed
+        ? null
+        : string.IsNullOrWhiteSpace( DisplayText )
         ? string.IsNullOrWhiteSpace( Value ) ? "None" : Value
         : DisplayText;
 
@@ -38,6 +40,11 @@ public partial class _ReportDesignerDataSourceProperty
     /// Selected data source name.
     /// </summary>
     [Parameter] public string Value { get; set; }
+
+    /// <summary>
+    /// Indicates that selected elements have different values.
+    /// </summary>
+    [Parameter] public bool Mixed { get; set; }
 
     /// <summary>
     /// Friendly text shown for the selected data source.

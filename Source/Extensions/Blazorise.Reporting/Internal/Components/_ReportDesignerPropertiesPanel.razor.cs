@@ -20,6 +20,8 @@ public partial class _ReportDesignerPropertiesPanel
 
     private const int DefaultTableRowCount = 2;
 
+    private const string MixedSelectValue = "__b_report_mixed__";
+
     private static readonly decimal TableCountStep = 1m;
 
     private _ReportDesignerDataSourceDialog dataSourceDialogRef;
@@ -87,6 +89,15 @@ public partial class _ReportDesignerPropertiesPanel
         ( VerticalAlignment.Bottom, "Bottom" ),
     ];
 
+    private static readonly (TextAlignment Value, string Text)[] TextAlignmentOptions =
+    [
+        ( TextAlignment.Default, "Default" ),
+        ( TextAlignment.Start, "Start" ),
+        ( TextAlignment.End, "End" ),
+        ( TextAlignment.Center, "Center" ),
+        ( TextAlignment.Justified, "Justified" ),
+    ];
+
     private static readonly (ReportBorderStyle Value, string Text)[] BorderStyleOptions =
     [
         ( ReportBorderStyle.Default, "Default" ),
@@ -111,9 +122,71 @@ public partial class _ReportDesignerPropertiesPanel
 
     private bool HasSelection => ReportSelected || SelectedSection is not null || SelectedElement is not null || SelectedCell is not null;
 
-    private double? GetSelectedLineThickness()
+    private bool MultipleElementsSelected => SelectedElements?.Count > 1;
+
+    private bool AllSelectedElementsSupportCanGrow => AllSelectedElementsMatch( static element => element is not ReportPanelElementDefinition );
+
+    private bool AllSelectedElementsSupportTextFormatting => AllSelectedElementsMatch( static element => ReportElementDefinitionHelper.SupportsTextFormatting( element.Type ) );
+
+    private bool AllSelectedElementsSuppressed => AllSelectedElementsMatch( static element => element.Suppress?.Value == true );
+
+    private bool AnySelectedElementIsLine => SelectedElements?.Any( static element => element is ReportLineElementDefinition ) == true;
+
+    private bool AllSelectedElementsAre<TElement>()
+        where TElement : ReportElementDefinition
+        => AllSelectedElementsMatch( static element => element is TElement );
+
+    private bool AllSelectedElementsMatch( Func<ReportElementDefinition, bool> predicate )
     {
-        return SelectedElement is ReportLineElementDefinition lineElement
+        if ( SelectedElements is not { Count: > 0 } )
+            return false;
+
+        foreach ( ReportElementDefinition element in SelectedElements )
+        {
+            if ( !predicate( element ) )
+                return false;
+        }
+
+        return true;
+    }
+
+    private TValue GetSharedSelectedElementValue<TValue>( Func<ReportElementDefinition, TValue> valueSelector )
+    {
+        ( TValue value, bool mixed ) = GetSelectedElementValue( valueSelector );
+
+        return mixed ? default : value;
+    }
+
+    private bool IsSelectedElementValueMixed<TValue>( Func<ReportElementDefinition, TValue> valueSelector )
+        => GetSelectedElementValue( valueSelector ).Mixed;
+
+    private (TValue Value, bool Mixed) GetSelectedElementValue<TValue>( Func<ReportElementDefinition, TValue> valueSelector )
+    {
+        if ( SelectedElements is not { Count: > 0 } )
+            return default;
+
+        TValue value = valueSelector( SelectedElements[0] );
+        EqualityComparer<TValue> comparer = EqualityComparer<TValue>.Default;
+
+        for ( int i = 1; i < SelectedElements.Count; i++ )
+        {
+            if ( !comparer.Equals( value, valueSelector( SelectedElements[i] ) ) )
+                return ( value, true );
+        }
+
+        return ( value, false );
+    }
+
+    private double? GetSharedMeasurementValue( Func<ReportElementDefinition, double> valueSelector )
+    {
+        ( double value, bool mixed ) = GetSelectedElementValue( valueSelector );
+
+        return mixed ? null : FromPoints( value );
+    }
+
+    private static double? GetLineThickness( ReportElementDefinition element )
+    {
+        return element is ReportLineElementDefinition lineElement
             ? lineElement.Thickness ?? ReportLayoutGeometry.DefaultLineThickness
             : null;
     }
@@ -226,9 +299,11 @@ public partial class _ReportDesignerPropertiesPanel
         return UpdateSelectedSection( section => section.Height = Math.Max( GetMinimumSectionHeight?.Invoke( section ) ?? ReportLayoutGeometry.DefaultMinimumElementSize, ToPoints( value ) ) );
     }
 
-    private Task OnSelectedElementXChanged( double value )
+    private Task OnSelectedElementXChanged( double? value )
     {
-        return UpdateSelectedElement( element => element.X = ToPoints( value ) );
+        return value.HasValue
+            ? UpdateSelectedElement( element => element.X = ToPoints( value.Value ) )
+            : Task.CompletedTask;
     }
 
     private Task OnSelectedElementNameChanged( string value )
@@ -242,18 +317,25 @@ public partial class _ReportDesignerPropertiesPanel
         } );
     }
 
-    private Task OnSelectedElementYChanged( double value )
+    private Task OnSelectedElementYChanged( double? value )
     {
-        return UpdateSelectedElement( element => element.Y = ToPoints( value ) );
+        return value.HasValue
+            ? UpdateSelectedElement( element => element.Y = ToPoints( value.Value ) )
+            : Task.CompletedTask;
     }
 
-    private Task OnSelectedElementWidthChanged( double value )
+    private Task OnSelectedElementWidthChanged( double? value )
     {
-        return UpdateSelectedElement( element => element.Width = ToPoints( value ) );
+        return value.HasValue
+            ? UpdateSelectedElement( element => element.Width = ToPoints( value.Value ) )
+            : Task.CompletedTask;
     }
 
     private Task OnSelectedElementFontFamilyChanged( string value )
     {
+        if ( value == MixedSelectValue )
+            return Task.CompletedTask;
+
         return UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Family = string.IsNullOrWhiteSpace( value ) ? null : value );
     }
 
@@ -290,9 +372,11 @@ public partial class _ReportDesignerPropertiesPanel
         fonts.Add( font );
     }
 
-    private Task OnSelectedElementHeightChanged( double value )
+    private Task OnSelectedElementHeightChanged( double? value )
     {
-        return UpdateSelectedElement( element => element.Height = ToPoints( value ) );
+        return value.HasValue
+            ? UpdateSelectedElement( element => element.Height = ToPoints( value.Value ) )
+            : Task.CompletedTask;
     }
 
     private Task OnSelectedLineThicknessChanged( double? value )
@@ -316,35 +400,41 @@ public partial class _ReportDesignerPropertiesPanel
         } );
     }
 
-    private double GetSelectedTableRowCount()
+    private static double GetTableRowCount( ReportElementDefinition element )
     {
-        return Math.Max( 1, SelectedElement is ReportTableElementDefinition tableElement && tableElement.Rows?.Count > 0 ? tableElement.Rows.Count : DefaultTableRowCount );
+        return Math.Max( 1, element is ReportTableElementDefinition tableElement && tableElement.Rows?.Count > 0 ? tableElement.Rows.Count : DefaultTableRowCount );
     }
 
-    private double GetSelectedTableColumnCount()
+    private static double GetTableColumnCount( ReportElementDefinition element )
     {
-        return Math.Max( 1, SelectedElement is ReportTableElementDefinition tableElement && tableElement.Columns?.Count > 0 ? tableElement.Columns.Count : DefaultTableColumnCount );
+        return Math.Max( 1, element is ReportTableElementDefinition tableElement && tableElement.Columns?.Count > 0 ? tableElement.Columns.Count : DefaultTableColumnCount );
     }
 
-    private Task OnSelectedTableRowCountChanged( double value )
+    private Task OnSelectedTableRowCountChanged( double? value )
     {
-        int rowCount = Math.Max( 1, Convert.ToInt32( Math.Round( value ) ) );
+        if ( !value.HasValue )
+            return Task.CompletedTask;
+
+        int rowCount = Math.Max( 1, Convert.ToInt32( Math.Round( value.Value ) ) );
 
         return UpdateSelectedElement( element =>
         {
-            if ( element is ReportTableElementDefinition )
-                ReportDefinitionHelper.EnsureTableLayout( element, rowCount, Convert.ToInt32( GetSelectedTableColumnCount() ) );
+            if ( element is ReportTableElementDefinition tableElement )
+                ReportDefinitionHelper.EnsureTableLayout( element, rowCount, Math.Max( 1, tableElement.Columns?.Count ?? DefaultTableColumnCount ) );
         } );
     }
 
-    private Task OnSelectedTableColumnCountChanged( double value )
+    private Task OnSelectedTableColumnCountChanged( double? value )
     {
-        int columnCount = Math.Max( 1, Convert.ToInt32( Math.Round( value ) ) );
+        if ( !value.HasValue )
+            return Task.CompletedTask;
+
+        int columnCount = Math.Max( 1, Convert.ToInt32( Math.Round( value.Value ) ) );
 
         return UpdateSelectedElement( element =>
         {
-            if ( element is ReportTableElementDefinition )
-                ReportDefinitionHelper.EnsureTableLayout( element, Convert.ToInt32( GetSelectedTableRowCount() ), columnCount );
+            if ( element is ReportTableElementDefinition tableElement )
+                ReportDefinitionHelper.EnsureTableLayout( element, Math.Max( 1, tableElement.Rows?.Count ?? DefaultTableRowCount ), columnCount );
         } );
     }
 
@@ -431,7 +521,7 @@ public partial class _ReportDesignerPropertiesPanel
     {
         return OpenFormulaDialog(
             "Can grow",
-            SelectedElement?.CanGrow?.Formula,
+            GetSharedSelectedElementValue( element => element.CanGrow?.Formula ),
             formula => UpdateSelectedElement( element => element.CanGrow = ReportValue.Create( element.CanGrow?.Value ?? false, formula ) ) );
     }
 
@@ -439,7 +529,7 @@ public partial class _ReportDesignerPropertiesPanel
     {
         return OpenFormulaDialog(
             "Suppress",
-            SelectedElement?.Suppress?.Formula,
+            GetSharedSelectedElementValue( element => element.Suppress?.Formula ),
             formula => UpdateSelectedElement( element => element.Suppress = ReportValue.Create( element.Suppress?.Value ?? false, formula ) ) );
     }
 
@@ -447,7 +537,7 @@ public partial class _ReportDesignerPropertiesPanel
     {
         return OpenFormulaDialog(
             "Snap to grid",
-            SelectedElement?.SnapToGrid?.Formula,
+            GetSharedSelectedElementValue( element => element.SnapToGrid?.Formula ),
             formula => UpdateSelectedElement( element => element.SnapToGrid = ReportValue.Create( element.SnapToGrid?.Value, formula ) ) );
     }
 
@@ -532,7 +622,7 @@ public partial class _ReportDesignerPropertiesPanel
     private Task OpenSelectedSubreportDataSourceDialog()
     {
         return OpenDataSourceDialog(
-            ( SelectedElement as ReportSubreportElementDefinition )?.DataSource,
+            GetSharedSelectedElementValue( element => ( element as ReportSubreportElementDefinition )?.DataSource ),
             value => UpdateSelectedElement( element =>
             {
                 if ( element is ReportSubreportElementDefinition subreportElement )
@@ -547,7 +637,9 @@ public partial class _ReportDesignerPropertiesPanel
 
     private Task OpenFormatDialog( MouseEventArgs eventArgs )
     {
-        return formatDialogRef?.Show( ( SelectedElement as ReportFieldElementDefinition )?.Format ) ?? Task.CompletedTask;
+        bool mixed = IsSelectedElementValueMixed( element => ReportFormatResolver.GetDisplayText( ( element as ReportFieldElementDefinition )?.Format ) );
+
+        return formatDialogRef?.Show( mixed ? null : ( SelectedElement as ReportFieldElementDefinition )?.Format ) ?? Task.CompletedTask;
     }
 
     private Task OnFormatDialogConfirmed( ReportFormatDefinition format )
@@ -574,6 +666,8 @@ public partial class _ReportDesignerPropertiesPanel
     #endregion
 
     #region Properties
+
+    private ReportElementDefinition SelectedElement => SelectedElements is { Count: > 0 } ? SelectedElements[0] : null;
 
     /// <summary>
     /// Gets or sets the Blazorise font provider.
@@ -606,9 +700,9 @@ public partial class _ReportDesignerPropertiesPanel
     [Parameter] public ReportBandDefinition FormulaSection { get; set; }
 
     /// <summary>
-    /// Selected element definition, when an element is selected.
+    /// Selected element definitions, with the primary element first.
     /// </summary>
-    [Parameter] public ReportElementDefinition SelectedElement { get; set; }
+    [Parameter] public IReadOnlyList<ReportElementDefinition> SelectedElements { get; set; }
 
     /// <summary>
     /// Selected table cell definition, when a layout table cell is selected.
@@ -726,7 +820,7 @@ public partial class _ReportDesignerPropertiesPanel
     [Parameter] public Func<Task> DeleteSelectedSection { get; set; }
 
     /// <summary>
-    /// Updates the selected element definition.
+    /// Updates the selected element definitions.
     /// </summary>
     [Parameter] public Func<Action<ReportElementDefinition>, Task> UpdateSelectedElement { get; set; }
 

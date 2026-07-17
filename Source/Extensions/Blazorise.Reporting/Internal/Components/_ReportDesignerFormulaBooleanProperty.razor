@@ -6,9 +6,13 @@
     <FieldBody ColumnSize="ColumnSizeIs8">
         <Addons Size="Size.Small">
             <Addon AddonType="AddonType.Body">
-                <Select TValue="bool" Value="@Value" ValueChanged="@Changed" Size="Size.Small">
-                    <SelectItem TValue="bool" Value="@true">True</SelectItem>
-                    <SelectItem TValue="bool" Value="@false">False</SelectItem>
+                <Select TValue="bool?" Value="@DisplayValue" ValueChanged="@OnValueChanged" Size="Size.Small">
+                    @if ( Mixed )
+                    {
+                        <SelectItem TValue="bool?" Value="@((bool?)null)" Hidden></SelectItem>
+                    }
+                    <SelectItem TValue="bool?" Value="@true">True</SelectItem>
+                    <SelectItem TValue="bool?" Value="@false">False</SelectItem>
                 </Select>
             </Addon>
             <Addon AddonType="AddonType.End">

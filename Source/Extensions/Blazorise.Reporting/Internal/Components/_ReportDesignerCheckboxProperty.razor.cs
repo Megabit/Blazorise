@@ -1,4 +1,5 @@
 #region Using directives
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -9,7 +10,16 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerCheckboxProperty
 {
+    #region Methods
+
+    private Task OnValueChanged( bool? value )
+        => value.HasValue ? Changed.InvokeAsync( value.Value ) : Task.CompletedTask;
+
+    #endregion
+
     #region Properties
+
+    private bool? DisplayValue => Mixed ? null : Value;
 
     /// <summary>
     /// Property label.
@@ -20,6 +30,11 @@ public partial class _ReportDesignerCheckboxProperty
     /// Current boolean value.
     /// </summary>
     [Parameter] public bool Value { get; set; }
+
+    /// <summary>
+    /// Indicates that selected elements have different values.
+    /// </summary>
+    [Parameter] public bool Mixed { get; set; }
 
     /// <summary>
     /// Raised when the checkbox value changes.

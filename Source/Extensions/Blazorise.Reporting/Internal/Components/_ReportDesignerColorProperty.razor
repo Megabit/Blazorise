@@ -7,6 +7,10 @@
         <Addons Size="Size.Small">
             <Addon AddonType="AddonType.Body">
                 <Select TValue="string" Value="@SelectedName" ValueChanged="@OnNameChanged" Size="Size.Small">
+                    @if ( Mixed )
+                    {
+                        <SelectItem TValue="string" Value="@MixedValue" Hidden></SelectItem>
+                    }
                     @foreach ( var option in DefaultNamedOptions )
                     {
                         <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>

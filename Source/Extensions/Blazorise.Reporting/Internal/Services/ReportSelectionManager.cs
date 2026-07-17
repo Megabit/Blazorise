@@ -248,6 +248,22 @@ internal sealed class ReportSelectionManager
             : null;
     }
 
+    internal IReadOnlyList<ReportElementDefinition> FindSelectedElements( ReportDefinition definition )
+    {
+        if ( selectedElementKeys.Count == 0 )
+            return Array.Empty<ReportElementDefinition>();
+
+        List<ReportElementDefinition> elements = new( selectedElementKeys.Count );
+
+        foreach ( string elementKey in selectedElementKeys )
+        {
+            if ( ReportDefinitionHelper.TryFindElementLocation( definition, elementKey, out _, out _, out ReportElementDefinition element ) )
+                elements.Add( element );
+        }
+
+        return elements;
+    }
+
     internal ReportTableCellDefinition FindSelectedCell( ReportDefinition definition )
     {
         if ( string.IsNullOrWhiteSpace( SelectedCellKey ) )

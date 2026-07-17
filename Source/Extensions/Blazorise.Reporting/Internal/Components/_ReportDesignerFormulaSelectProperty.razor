@@ -6,7 +6,11 @@
     <FieldBody ColumnSize="ColumnSizeIs8">
         <Addons Size="Size.Small">
             <Addon AddonType="AddonType.Body">
-                <Select TValue="string" Value="@Value" ValueChanged="@Changed" Size="Size.Small">
+                <Select TValue="string" Value="@DisplayValue" ValueChanged="@OnValueChanged" Size="Size.Small">
+                    @if ( Mixed )
+                    {
+                        <SelectItem TValue="string" Value="@MixedValue" Hidden></SelectItem>
+                    }
                     @foreach ( var option in ResolvedOptions )
                     {
                         <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>

@@ -11,6 +11,8 @@ public partial class _ReportDesignerTextProperty
 {
     #region Properties
 
+    private string DisplayValue => Mixed ? null : Value;
+
     /// <summary>
     /// Property label.
     /// </summary>
@@ -20,6 +22,11 @@ public partial class _ReportDesignerTextProperty
     /// Current text value.
     /// </summary>
     [Parameter] public string Value { get; set; }
+
+    /// <summary>
+    /// Indicates that selected elements have different values.
+    /// </summary>
+    [Parameter] public bool Mixed { get; set; }
 
     /// <summary>
     /// Prevents editing the value.

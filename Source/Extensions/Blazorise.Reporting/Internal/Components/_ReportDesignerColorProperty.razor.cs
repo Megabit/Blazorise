@@ -13,6 +13,8 @@ public partial class _ReportDesignerColorProperty
 {
     #region Members
 
+    private const string MixedValue = "__b_report_mixed__";
+
     private static readonly (string Value, string Text)[] DefaultNamedOptions =
     [
         ( string.Empty, "Default" ),
@@ -48,9 +50,12 @@ public partial class _ReportDesignerColorProperty
 
     private Task OnNameChanged( string value )
     {
+        if ( value == MixedValue )
+            return Task.CompletedTask;
+
         ReportColor color = ReportColor.FromString( value );
 
-        return color.Equals( Value )
+        return !Mixed && color.Equals( Value )
             ? Task.CompletedTask
             : Changed.InvokeAsync( color );
     }
@@ -62,7 +67,7 @@ public partial class _ReportDesignerColorProperty
 
         ReportColor color = ReportColor.FromString( value );
 
-        return string.Equals( color.ToCssString(), Value.ToCssString(), StringComparison.OrdinalIgnoreCase )
+        return !Mixed && string.Equals( color.ToCssString(), Value.ToCssString(), StringComparison.OrdinalIgnoreCase )
             ? Task.CompletedTask
             : Changed.InvokeAsync( color );
     }
@@ -71,11 +76,15 @@ public partial class _ReportDesignerColorProperty
 
     #region Properties
 
-    private string SelectedName => Value.Kind == ReportColorKind.Named || Value.Kind == ReportColorKind.Transparent
+    private string SelectedName => Mixed
+        ? MixedValue
+        : Value.Kind == ReportColorKind.Named || Value.Kind == ReportColorKind.Transparent
         ? Value.Name
         : string.Empty;
 
-    private string CustomValue => Value.Kind == ReportColorKind.Rgb
+    private string CustomValue => Mixed
+        ? null
+        : Value.Kind == ReportColorKind.Rgb
         ? FormattableString.Invariant( $"#{Value.Red:X2}{Value.Green:X2}{Value.Blue:X2}" )
         : Value.Kind == ReportColorKind.Named
             ? Value.ToCssString()
@@ -90,6 +99,11 @@ public partial class _ReportDesignerColorProperty
     /// Current color value.
     /// </summary>
     [Parameter] public ReportColor Value { get; set; }
+
+    /// <summary>
+    /// Indicates that selected elements have different values.
+    /// </summary>
+    [Parameter] public bool Mixed { get; set; }
 
     /// <summary>
     /// Raised when the color value changes.

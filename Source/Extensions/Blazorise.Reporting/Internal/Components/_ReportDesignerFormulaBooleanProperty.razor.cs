@@ -1,4 +1,5 @@
 #region Using directives
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -9,7 +10,16 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerFormulaBooleanProperty
 {
+    #region Methods
+
+    private Task OnValueChanged( bool? value )
+        => value.HasValue ? Changed.InvokeAsync( value.Value ) : Task.CompletedTask;
+
+    #endregion
+
     #region Properties
+
+    private bool? DisplayValue => Mixed ? null : Value;
 
     private Color FormulaButtonColor => string.IsNullOrWhiteSpace( Formula ) ? Color.Light : Color.Primary;
 
@@ -22,6 +32,11 @@ public partial class _ReportDesignerFormulaBooleanProperty
     /// Current fallback value.
     /// </summary>
     [Parameter] public bool Value { get; set; }
+
+    /// <summary>
+    /// Indicates that selected elements have different fallback values.
+    /// </summary>
+    [Parameter] public bool Mixed { get; set; }
 
     /// <summary>
     /// Current formula expression.

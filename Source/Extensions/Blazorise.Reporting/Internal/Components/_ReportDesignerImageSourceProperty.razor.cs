@@ -22,6 +22,8 @@ public partial class _ReportDesignerImageSourceProperty
 
     #region Properties
 
+    private string DisplayValue => Mixed ? null : Value;
+
     private bool UploadVisible => UploadImage && UploadClicked.HasDelegate;
 
     /// <summary>
@@ -33,6 +35,11 @@ public partial class _ReportDesignerImageSourceProperty
     /// Current text value.
     /// </summary>
     [Parameter] public string Value { get; set; }
+
+    /// <summary>
+    /// Indicates that selected elements have different values.
+    /// </summary>
+    [Parameter] public bool Mixed { get; set; }
 
     /// <summary>
     /// Prevents editing the value.

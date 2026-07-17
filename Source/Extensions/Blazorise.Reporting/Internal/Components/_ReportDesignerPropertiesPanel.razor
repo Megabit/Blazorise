@@ -175,34 +175,42 @@
 {
     <Div>
         <_ReportDesignerPropertyGroup Title="Status">
-            @if ( SelectedElement is not ReportPanelElementDefinition )
+            @if ( AllSelectedElementsSupportCanGrow )
             {
                 <_ReportDesignerFormulaBooleanProperty Label="Can grow"
                                                        Value="@(SelectedElement.CanGrow?.Value == true)"
-                                                       Formula="@SelectedElement.CanGrow?.Formula"
+                                                       Mixed="@IsSelectedElementValueMixed( element => element.CanGrow?.Value == true )"
+                                                       Formula="@GetSharedSelectedElementValue( element => element.CanGrow?.Formula )"
                                                        Changed="@UpdateSelectedElementCanGrow"
                                                        OpenFormula="@OpenSelectedElementCanGrowFormula" />
             }
             <_ReportDesignerFormulaBooleanProperty Label="Suppress"
                                                    Value="@(SelectedElement.Suppress?.Value == true)"
-                                                   Formula="@SelectedElement.Suppress?.Formula"
+                                                   Mixed="@IsSelectedElementValueMixed( element => element.Suppress?.Value == true )"
+                                                   Formula="@GetSharedSelectedElementValue( element => element.Suppress?.Formula )"
                                                    Changed="@UpdateSelectedElementSuppress"
                                                    OpenFormula="@OpenSelectedElementSuppressFormula" />
             <_ReportDesignerFormulaSelectProperty Label="Snap to grid"
                                                   Value="@GetSelectedElementSnapToGridValue()"
-                                                  Formula="@SelectedElement.SnapToGrid?.Formula"
+                                                  Mixed="@IsSelectedElementValueMixed( element => element.SnapToGrid?.Value )"
+                                                  Formula="@GetSharedSelectedElementValue( element => element.SnapToGrid?.Formula )"
                                                   Options="@ElementSnapToGridOptions"
                                                   Changed="@OnSelectedElementSnapToGridChanged"
                                                   OpenFormula="@OpenSelectedElementSnapToGridFormula" />
         </_ReportDesignerPropertyGroup>
 
-        @if ( SelectedElement.Suppress?.Value != true )
+        @if ( !AllSelectedElementsSuppressed )
         {
-            <_ReportDesignerPropertyGroup Title="General">
-                <_ReportDesignerTextProperty Label="Name" Value="@SelectedElement.Name" Changed="@OnSelectedElementNameChanged" />
-            </_ReportDesignerPropertyGroup>
+            @if ( !MultipleElementsSelected )
+            {
+                <_ReportDesignerPropertyGroup Title="General">
+                    <_ReportDesignerTextProperty Label="Name" Value="@SelectedElement.Name" Changed="@OnSelectedElementNameChanged" />
+                </_ReportDesignerPropertyGroup>
+            }
 
-            @if ( SelectedElement is ReportTextElementDefinition or ReportFieldElementDefinition or ReportImageElementDefinition )
+            @if ( AllSelectedElementsAre<ReportTextElementDefinition>()
+                || AllSelectedElementsAre<ReportFieldElementDefinition>()
+                || AllSelectedElementsAre<ReportImageElementDefinition>() )
             {
                 string contentGroupTitle = SelectedElement is ReportFieldElementDefinition ? "Data" : "Content";
 
@@ -210,20 +218,26 @@
                     @switch ( SelectedElement )
                     {
                         case ReportTextElementDefinition textElement:
-                            <_ReportDesignerTextProperty Label="Text" Value="@textElement.Text" Changed="@(value => UpdateSelectedElement( element => { if ( element is ReportTextElementDefinition currentTextElement ) currentTextElement.Text = value; } ))" />
+                            <_ReportDesignerTextProperty Label="Text"
+                                                         Value="@textElement.Text"
+                                                         Mixed="@IsSelectedElementValueMixed( element => ((ReportTextElementDefinition)element).Text )"
+                                                         Changed="@(value => UpdateSelectedElement( element => { if ( element is ReportTextElementDefinition currentTextElement ) currentTextElement.Text = value; } ))" />
                             break;
                         case ReportFieldElementDefinition fieldElement:
-                            <_ReportDesignerTextProperty Label="Expression" Value="@ReportExpressionFormatter.FormatFieldExpression( Definition, SelectedElement )" ReadOnly />
-                            @if ( fieldElement.Aggregate is not null )
+                            @if ( !MultipleElementsSelected )
                             {
-                                <_ReportDesignerTextProperty Label="Aggregate" Value="@ReportAggregateResolver.GetFunctionDisplayName( fieldElement.Aggregate.Function )" ReadOnly />
+                                <_ReportDesignerTextProperty Label="Expression" Value="@ReportExpressionFormatter.FormatFieldExpression( Definition, SelectedElement )" ReadOnly />
+                                @if ( fieldElement.Aggregate is not null )
+                                {
+                                    <_ReportDesignerTextProperty Label="Aggregate" Value="@ReportAggregateResolver.GetFunctionDisplayName( fieldElement.Aggregate.Function )" ReadOnly />
+                                }
                             }
                             <Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
                                 <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Format</FieldLabel>
                                 <FieldBody ColumnSize="ColumnSizeIs8">
                                     <Addons Size="Size.Small">
                                         <Addon AddonType="AddonType.Body">
-                                            <TextInput Value="@ReportFormatResolver.GetDisplayText( fieldElement.Format )" ReadOnly />
+                                            <TextInput Value="@GetSharedSelectedElementValue( element => ReportFormatResolver.GetDisplayText( ((ReportFieldElementDefinition)element).Format ) )" ReadOnly />
                                         </Addon>
                                         <Addon AddonType="AddonType.End">
                                             <Button Color="Color.Light" Clicked="@OpenFormatDialog" Size="Size.Small">Edit</Button>
@@ -235,57 +249,65 @@
                         case ReportImageElementDefinition imageElement:
                             <_ReportDesignerImageSourceProperty Label="Source"
                                                                Value="@imageElement.Source"
+                                                               Mixed="@IsSelectedElementValueMixed( element => ((ReportImageElementDefinition)element).Source )"
                                                                Changed="@(value => UpdateSelectedElement( element => { if ( element is ReportImageElementDefinition currentImageElement ) currentImageElement.Source = value; } ))"
                                                                UploadImage="@UploadImage"
                                                                UploadClicked="@OpenImageUploadDialog" />
-                            <Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
-                                <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Fit</FieldLabel>
-                                <FieldBody ColumnSize="ColumnSizeIs8">
-                                    <Select TValue="ReportImageFit" Value="@imageElement.Fit" ValueChanged="@(value => UpdateSelectedElement( element => { if ( element is ReportImageElementDefinition currentImageElement ) currentImageElement.Fit = value; } ))" Size="Size.Small">
-                                        @foreach ( var option in ImageFitOptions )
-                                        {
-                                            <SelectItem TValue="ReportImageFit" Value="@option.Value">@option.Text</SelectItem>
-                                        }
-                                    </Select>
-                                </FieldBody>
-                            </Field>
-                            <_ReportDesignerTextProperty Label="Alt text" Value="@imageElement.Text" Changed="@(value => UpdateSelectedElement( element => { if ( element is ReportImageElementDefinition currentImageElement ) currentImageElement.Text = value; } ))" />
+                            <_ReportDesignerSelectProperty TValue="ReportImageFit"
+                                                           Label="Fit"
+                                                           Value="@imageElement.Fit"
+                                                           Mixed="@IsSelectedElementValueMixed( element => ((ReportImageElementDefinition)element).Fit )"
+                                                           Options="@ImageFitOptions"
+                                                           Changed="@(value => UpdateSelectedElement( element => { if ( element is ReportImageElementDefinition currentImageElement ) currentImageElement.Fit = value; } ))" />
+                            <_ReportDesignerTextProperty Label="Alt text"
+                                                         Value="@imageElement.Text"
+                                                         Mixed="@IsSelectedElementValueMixed( element => ((ReportImageElementDefinition)element).Text )"
+                                                         Changed="@(value => UpdateSelectedElement( element => { if ( element is ReportImageElementDefinition currentImageElement ) currentImageElement.Text = value; } ))" />
                             break;
                     }
                 </_ReportDesignerPropertyGroup>
             }
 
-            @if ( SelectedElement is ReportTableElementDefinition )
+            @if ( AllSelectedElementsAre<ReportTableElementDefinition>() )
             {
                 <_ReportDesignerPropertyGroup Title="Table">
-                    <_ReportDesignerNumberProperty TValue="double" Label="Rows" Value="@GetSelectedTableRowCount()" Changed="@OnSelectedTableRowCountChanged" Step="@TableCountStep" />
-                    <_ReportDesignerNumberProperty TValue="double" Label="Columns" Value="@GetSelectedTableColumnCount()" Changed="@OnSelectedTableColumnCountChanged" Step="@TableCountStep" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Rows" Value="@GetSharedSelectedElementValue( element => (double?)GetTableRowCount( element ) )" Changed="@OnSelectedTableRowCountChanged" Step="@TableCountStep" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Columns" Value="@GetSharedSelectedElementValue( element => (double?)GetTableColumnCount( element ) )" Changed="@OnSelectedTableColumnCountChanged" Step="@TableCountStep" />
                 </_ReportDesignerPropertyGroup>
             }
 
-            @if ( SelectedElement is ReportSubreportElementDefinition subreportElement )
+            @if ( AllSelectedElementsAre<ReportSubreportElementDefinition>() && SelectedElement is ReportSubreportElementDefinition subreportElement )
             {
                 <_ReportDesignerPropertyGroup Title="Subreport">
-                    <_ReportDesignerDataSourceProperty Label="Data source" Value="@subreportElement.DataSource" DisplayText="@GetSelectedSubreportDataSourceDisplayName( subreportElement )" Clicked="@OpenSelectedSubreportDataSourceDialog" />
+                    <_ReportDesignerDataSourceProperty Label="Data source"
+                                                       Value="@subreportElement.DataSource"
+                                                       DisplayText="@GetSelectedSubreportDataSourceDisplayName( subreportElement )"
+                                                       Mixed="@IsSelectedElementValueMixed( element => ((ReportSubreportElementDefinition)element).DataSource )"
+                                                       Clicked="@OpenSelectedSubreportDataSourceDialog" />
                 </_ReportDesignerPropertyGroup>
             }
 
             <_ReportDesignerPropertyGroup Title="Position and size">
-                <_ReportDesignerNumberProperty TValue="double" Label="X" Value="@FromPoints( SelectedElement.X )" Changed="@OnSelectedElementXChanged" Step="@GetMeasurementStep()" />
-                <_ReportDesignerNumberProperty TValue="double" Label="Y" Value="@FromPoints( SelectedElement.Y )" Changed="@OnSelectedElementYChanged" Step="@GetMeasurementStep()" />
-                <_ReportDesignerNumberProperty TValue="double" Label="Width" Value="@FromPoints( SelectedElement.Width )" Changed="@OnSelectedElementWidthChanged" Step="@GetMeasurementStep()" />
-                <_ReportDesignerNumberProperty TValue="double" Label="Height" Value="@FromPoints( SelectedElement.Height )" Changed="@OnSelectedElementHeightChanged" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double?" Label="X" Value="@GetSharedMeasurementValue( element => element.X )" Changed="@OnSelectedElementXChanged" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double?" Label="Y" Value="@GetSharedMeasurementValue( element => element.Y )" Changed="@OnSelectedElementYChanged" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double?" Label="Width" Value="@GetSharedMeasurementValue( element => element.Width )" Changed="@OnSelectedElementWidthChanged" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double?" Label="Height" Value="@GetSharedMeasurementValue( element => element.Height )" Changed="@OnSelectedElementHeightChanged" Step="@GetMeasurementStep()" />
             </_ReportDesignerPropertyGroup>
 
-            @if ( ReportElementDefinitionHelper.SupportsTextFormatting( SelectedElement.Type ) )
+            @if ( AllSelectedElementsSupportTextFormatting )
             {
                 var font = ReportElementDefinitionHelper.EnsureFont( SelectedElement );
+                bool fontFamilyMixed = IsSelectedElementValueMixed( element => GetFontFamilyValue( element.Font?.Family ) );
 
                 <_ReportDesignerPropertyGroup Title="Text">
                     <Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
                         <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Font family</FieldLabel>
                         <FieldBody ColumnSize="ColumnSizeIs8">
-                            <Select TValue="string" Value="@GetFontFamilyValue( font.Family )" ValueChanged="@OnSelectedElementFontFamilyChanged" Size="Size.Small">
+                            <Select TValue="string" Value="@(fontFamilyMixed ? MixedSelectValue : GetFontFamilyValue( font.Family ))" ValueChanged="@OnSelectedElementFontFamilyChanged" Size="Size.Small">
+                                @if ( fontFamilyMixed )
+                                {
+                                    <SelectItem TValue="string" Value="@MixedSelectValue" Hidden></SelectItem>
+                                }
                                 <SelectItem TValue="string" Value="@string.Empty">Default</SelectItem>
                                 @foreach ( var fontFamily in GetVisibleFontFamilies() )
                                 {
@@ -294,33 +316,26 @@
                             </Select>
                         </FieldBody>
                     </Field>
-                    <_ReportDesignerNumberProperty TValue="double?" Label="Font size" Value="@font.Size" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Size = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
-                    <_ReportDesignerColorProperty Label="Color" Value="@font.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Color = value ))" />
-                    <Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
-                        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Hor. align</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSizeIs8">
-                            <Select TValue="TextAlignment" Value="@font.Alignment" ValueChanged="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Alignment = value ))" Size="Size.Small">
-                                @foreach ( var option in Enum.GetValues<TextAlignment>() )
-                                {
-                                    <SelectItem TValue="TextAlignment" Value="@option">@option.ToString()</SelectItem>
-                                }
-                            </Select>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
-                        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Vert. align</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSizeIs8">
-                            <Select TValue="VerticalAlignment" Value="@font.VerticalAlignment" ValueChanged="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).VerticalAlignment = value ))" Size="Size.Small">
-                                @foreach ( var option in TextVerticalAlignmentOptions )
-                                {
-                                    <SelectItem TValue="VerticalAlignment" Value="@option.Value">@option.Text</SelectItem>
-                                }
-                            </Select>
-                        </FieldBody>
-                    </Field>
-                    <_ReportDesignerCheckboxProperty Label="Bold" Value="@font.Bold" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Bold = value ))" />
-                    <_ReportDesignerCheckboxProperty Label="Italic" Value="@font.Italic" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Italic = value ))" />
-                    <_ReportDesignerCheckboxProperty Label="Underline" Value="@font.Underline" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Underline = value ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Font size" Value="@GetSharedSelectedElementValue( element => element.Font?.Size )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Size = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                    <_ReportDesignerColorProperty Label="Color"
+                                                  Value="@font.Color"
+                                                  Mixed="@IsSelectedElementValueMixed( element => element.Font?.Color ?? ReportColor.Default )"
+                                                  Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Color = value ))" />
+                    <_ReportDesignerSelectProperty TValue="TextAlignment"
+                                                   Label="Hor. align"
+                                                   Value="@font.Alignment"
+                                                   Mixed="@IsSelectedElementValueMixed( element => element.Font?.Alignment ?? TextAlignment.Default )"
+                                                   Options="@TextAlignmentOptions"
+                                                   Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Alignment = value ))" />
+                    <_ReportDesignerSelectProperty TValue="VerticalAlignment"
+                                                   Label="Vert. align"
+                                                   Value="@font.VerticalAlignment"
+                                                   Mixed="@IsSelectedElementValueMixed( element => element.Font?.VerticalAlignment ?? VerticalAlignment.Default )"
+                                                   Options="@TextVerticalAlignmentOptions"
+                                                   Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).VerticalAlignment = value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Bold" Value="@font.Bold" Mixed="@IsSelectedElementValueMixed( element => element.Font?.Bold == true )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Bold = value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Italic" Value="@font.Italic" Mixed="@IsSelectedElementValueMixed( element => element.Font?.Italic == true )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Italic = value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Underline" Value="@font.Underline" Mixed="@IsSelectedElementValueMixed( element => element.Font?.Underline == true )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Underline = value ))" />
                 </_ReportDesignerPropertyGroup>
             }
 
@@ -328,41 +343,47 @@
             var border = ReportElementDefinitionHelper.EnsureBorder( SelectedElement );
 
             <_ReportDesignerPropertyGroup Title="Appearance">
-                @if ( SelectedElement is ReportLineElementDefinition lineElement )
+                @if ( AllSelectedElementsAre<ReportLineElementDefinition>() && SelectedElement is ReportLineElementDefinition lineElement )
                 {
-                    <Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
-                        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Orientation</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSizeIs8">
-                            <Select TValue="Orientation" Value="@lineElement.Orientation" ValueChanged="@OnSelectedLineOrientationChanged" Size="Size.Small">
-                                @foreach ( var option in LineOrientationOptions )
-                                {
-                                    <SelectItem TValue="Orientation" Value="@option.Value">@option.Text</SelectItem>
-                                }
-                            </Select>
-                        </FieldBody>
-                    </Field>
-                    <_ReportDesignerColorProperty Label="Color" Value="@border.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
-                    <_ReportDesignerNumberProperty TValue="double?" Label="Thickness" Value="@GetSelectedLineThickness()" Changed="@OnSelectedLineThicknessChanged" />
+                    <_ReportDesignerSelectProperty TValue="Orientation"
+                                                   Label="Orientation"
+                                                   Value="@lineElement.Orientation"
+                                                   Mixed="@IsSelectedElementValueMixed( element => ((ReportLineElementDefinition)element).Orientation )"
+                                                   Options="@LineOrientationOptions"
+                                                   Changed="@OnSelectedLineOrientationChanged" />
+                    <_ReportDesignerColorProperty Label="Color"
+                                                  Value="@border.Color"
+                                                  Mixed="@IsSelectedElementValueMixed( element => element.Border?.Color ?? ReportColor.Default )"
+                                                  Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Thickness" Value="@GetSharedSelectedElementValue( GetLineThickness )" Changed="@OnSelectedLineThicknessChanged" />
+                }
+                else if ( !AnySelectedElementIsLine )
+                {
+                    <_ReportDesignerColorProperty Label="Fill"
+                                                  Value="@appearance.BackgroundColor"
+                                                  Mixed="@IsSelectedElementValueMixed( element => element.Appearance?.BackgroundColor ?? ReportColor.Default )"
+                                                  Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).BackgroundColor = value ))" />
+                    <_ReportDesignerColorProperty Label="Border color"
+                                                  Value="@border.Color"
+                                                  Mixed="@IsSelectedElementValueMixed( element => element.Border?.Color ?? ReportColor.Default )"
+                                                  Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Border width" Value="@GetSharedSelectedElementValue( element => element.Border?.Width )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                    <_ReportDesignerSelectProperty TValue="ReportBorderStyle"
+                                                   Label="Border style"
+                                                   Value="@border.Style"
+                                                   Mixed="@IsSelectedElementValueMixed( element => element.Border?.Style ?? ReportBorderStyle.Default )"
+                                                   Options="@BorderStyleOptions"
+                                                   Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Style = value ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Corner radius" Value="@GetSharedSelectedElementValue( element => element.Border?.Radius )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
                 }
                 else
                 {
-                    <_ReportDesignerColorProperty Label="Fill" Value="@appearance.BackgroundColor" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).BackgroundColor = value ))" />
-                    <_ReportDesignerColorProperty Label="Border color" Value="@border.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
-                    <_ReportDesignerNumberProperty TValue="double?" Label="Border width" Value="@border.Width" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
-                    <Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
-                        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Border style</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSizeIs8">
-                            <Select TValue="ReportBorderStyle" Value="@border.Style" ValueChanged="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Style = value ))" Size="Size.Small">
-                                @foreach ( var option in BorderStyleOptions )
-                                {
-                                    <SelectItem TValue="ReportBorderStyle" Value="@option.Value">@option.Text</SelectItem>
-                                }
-                            </Select>
-                        </FieldBody>
-                    </Field>
-                    <_ReportDesignerNumberProperty TValue="double?" Label="Corner radius" Value="@border.Radius" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                    <_ReportDesignerColorProperty Label="Border color"
+                                                  Value="@border.Color"
+                                                  Mixed="@IsSelectedElementValueMixed( element => element.Border?.Color ?? ReportColor.Default )"
+                                                  Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
                 }
-                <_ReportDesignerNumberProperty TValue="double?" Label="Opacity" Value="@appearance.Opacity" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" />
+                <_ReportDesignerNumberProperty TValue="double?" Label="Opacity" Value="@GetSharedSelectedElementValue( element => element.Appearance?.Opacity )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" />
             </_ReportDesignerPropertyGroup>
         }
 
