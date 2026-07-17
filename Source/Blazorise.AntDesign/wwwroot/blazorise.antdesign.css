@@ -5697,6 +5697,106 @@ template {
 .b-input-color-picker.ant-color-picker-trigger.ant-color-picker-trigger-disabled .b-ant-color-input-native {
   cursor: not-allowed;
 }
+.b-ant-color-input.ant-input-xs,
+.b-input-color-picker.ant-color-picker-trigger.ant-input-xs {
+  height: var(--ant-control-height-xs);
+  min-height: var(--ant-control-height-xs);
+  font-size: 10px;
+}
+.b-ant-color-input.ant-input-xs .ant-color-picker-color-block,
+.b-input-color-picker.ant-color-picker-trigger.ant-input-xs .ant-color-picker-color-block {
+  width: calc(var(--ant-control-height-xs) - var(--ant-padding-xs));
+  height: calc(var(--ant-control-height-xs) - var(--ant-padding-xs));
+}
+.b-ant-color-input.ant-input-xs .ant-color-picker-trigger-text,
+.b-input-color-picker.ant-color-picker-trigger.ant-input-xs .ant-color-picker-trigger-text {
+  font-size: 10px;
+}
+.b-ant-color-input.ant-input-xs.b-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]),
+.b-input-color-picker.ant-color-picker-trigger.ant-input-xs.b-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]) {
+  width: var(--ant-control-height-xs);
+  min-width: var(--ant-control-height-xs);
+}
+.b-ant-color-input.ant-input-sm,
+.b-input-color-picker.ant-color-picker-trigger.ant-input-sm {
+  height: var(--ant-control-height-sm);
+  min-height: var(--ant-control-height-sm);
+  font-size: var(--ant-font-size-sm);
+}
+.b-ant-color-input.ant-input-sm .ant-color-picker-color-block,
+.b-input-color-picker.ant-color-picker-trigger.ant-input-sm .ant-color-picker-color-block {
+  width: calc(var(--ant-control-height-sm) - var(--ant-padding-xs));
+  height: calc(var(--ant-control-height-sm) - var(--ant-padding-xs));
+}
+.b-ant-color-input.ant-input-sm .ant-color-picker-trigger-text,
+.b-input-color-picker.ant-color-picker-trigger.ant-input-sm .ant-color-picker-trigger-text {
+  font-size: var(--ant-font-size-sm);
+}
+.b-ant-color-input.ant-input-sm.b-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]),
+.b-input-color-picker.ant-color-picker-trigger.ant-input-sm.b-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]) {
+  width: var(--ant-control-height-sm);
+  min-width: var(--ant-control-height-sm);
+}
+.b-ant-color-input.ant-input-md,
+.b-input-color-picker.ant-color-picker-trigger.ant-input-md {
+  height: calc(var(--ant-control-height) + var(--ant-size-unit));
+  min-height: calc(var(--ant-control-height) + var(--ant-size-unit));
+  font-size: var(--ant-font-size);
+}
+.b-ant-color-input.ant-input-md .ant-color-picker-color-block,
+.b-input-color-picker.ant-color-picker-trigger.ant-input-md .ant-color-picker-color-block {
+  width: calc(calc(var(--ant-control-height) + var(--ant-size-unit)) - var(--ant-padding-xs));
+  height: calc(calc(var(--ant-control-height) + var(--ant-size-unit)) - var(--ant-padding-xs));
+}
+.b-ant-color-input.ant-input-md .ant-color-picker-trigger-text,
+.b-input-color-picker.ant-color-picker-trigger.ant-input-md .ant-color-picker-trigger-text {
+  font-size: var(--ant-font-size);
+}
+.b-ant-color-input.ant-input-md.b-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]),
+.b-input-color-picker.ant-color-picker-trigger.ant-input-md.b-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]) {
+  width: calc(var(--ant-control-height) + var(--ant-size-unit));
+  min-width: calc(var(--ant-control-height) + var(--ant-size-unit));
+}
+.b-ant-color-input.ant-input-lg,
+.b-input-color-picker.ant-color-picker-trigger.ant-input-lg {
+  height: var(--ant-control-height-lg);
+  min-height: var(--ant-control-height-lg);
+  font-size: var(--ant-font-size-lg);
+}
+.b-ant-color-input.ant-input-lg .ant-color-picker-color-block,
+.b-input-color-picker.ant-color-picker-trigger.ant-input-lg .ant-color-picker-color-block {
+  width: calc(var(--ant-control-height-lg) - var(--ant-padding-xs));
+  height: calc(var(--ant-control-height-lg) - var(--ant-padding-xs));
+}
+.b-ant-color-input.ant-input-lg .ant-color-picker-trigger-text,
+.b-input-color-picker.ant-color-picker-trigger.ant-input-lg .ant-color-picker-trigger-text {
+  font-size: var(--ant-font-size-lg);
+}
+.b-ant-color-input.ant-input-lg.b-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]),
+.b-input-color-picker.ant-color-picker-trigger.ant-input-lg.b-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]) {
+  width: var(--ant-control-height-lg);
+  min-width: var(--ant-control-height-lg);
+}
+.b-ant-color-input.ant-input-xl,
+.b-input-color-picker.ant-color-picker-trigger.ant-input-xl {
+  height: calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2);
+  min-height: calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2);
+  font-size: var(--ant-font-size-xl);
+}
+.b-ant-color-input.ant-input-xl .ant-color-picker-color-block,
+.b-input-color-picker.ant-color-picker-trigger.ant-input-xl .ant-color-picker-color-block {
+  width: calc(calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2) - var(--ant-padding-xs));
+  height: calc(calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2) - var(--ant-padding-xs));
+}
+.b-ant-color-input.ant-input-xl .ant-color-picker-trigger-text,
+.b-input-color-picker.ant-color-picker-trigger.ant-input-xl .ant-color-picker-trigger-text {
+  font-size: var(--ant-font-size-xl);
+}
+.b-ant-color-input.ant-input-xl.b-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]),
+.b-input-color-picker.ant-color-picker-trigger.ant-input-xl.b-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]) {
+  width: calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2);
+  min-width: calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2);
+}
 
 .b-ant-numeric-picker.ant-input-number {
   width: 100%;
@@ -5831,7 +5931,8 @@ template {
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-group-addon + .ant-input,
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-group-addon + textarea.ant-input,
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-group-addon + .ant-picker,
-.b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-group-addon + .ant-input-number {
+.b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-group-addon + .ant-input-number,
+.b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-group-addon + .b-input-color-picker.ant-color-picker-trigger {
   border-inline-start: 0;
 }
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-group-addon + .b-ant-select-root .ant-select-selector {
@@ -5852,7 +5953,9 @@ template {
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-number + .ant-input,
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-number + textarea.ant-input,
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-number + .ant-picker,
-.b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-number + .ant-input-number {
+.b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-number + .ant-input-number,
+.b-ant-addons > .ant-input-wrapper.ant-input-group > :is(.ant-input, textarea.ant-input, .ant-picker, .ant-input-number, .b-ant-select-root, .b-input-color-picker.ant-color-picker-trigger) + .b-input-color-picker.ant-color-picker-trigger,
+.b-ant-addons > .ant-input-wrapper.ant-input-group > .b-input-color-picker.ant-color-picker-trigger + :is(.ant-input, textarea.ant-input, .ant-picker, .ant-input-number, .b-input-color-picker.ant-color-picker-trigger) {
   border-inline-start: 0;
 }
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input + .b-ant-select-root .ant-select-selector,
@@ -5863,14 +5966,16 @@ template {
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .b-ant-select-root + textarea.ant-input,
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .b-ant-select-root + .ant-picker,
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .b-ant-select-root + .ant-input-number,
-.b-ant-addons > .ant-input-wrapper.ant-input-group > .b-ant-select-root + .b-ant-select-root .ant-select-selector {
+.b-ant-addons > .ant-input-wrapper.ant-input-group > .b-ant-select-root + .b-ant-select-root .ant-select-selector,
+.b-ant-addons > .ant-input-wrapper.ant-input-group > .b-input-color-picker.ant-color-picker-trigger + .b-ant-select-root .ant-select-selector {
   border-inline-start: 0;
 }
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input + .ant-input-group-addon,
 .b-ant-addons > .ant-input-wrapper.ant-input-group > textarea.ant-input + .ant-input-group-addon,
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .b-ant-select-root + .ant-input-group-addon,
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-picker + .ant-input-group-addon,
-.b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-number + .ant-input-group-addon {
+.b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-number + .ant-input-group-addon,
+.b-ant-addons > .ant-input-wrapper.ant-input-group > .b-input-color-picker.ant-color-picker-trigger + .ant-input-group-addon {
   border-inline-start: 0;
 }
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input:not(:first-child):focus,
@@ -5878,7 +5983,8 @@ template {
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-picker:not(:first-child).ant-picker-focused,
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-picker:not(:first-child):focus-within,
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-number:not(:first-child).ant-input-number-focused,
-.b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-number:not(:first-child):focus-within {
+.b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-number:not(:first-child):focus-within,
+.b-ant-addons > .ant-input-wrapper.ant-input-group > .b-input-color-picker.ant-color-picker-trigger:not(:first-child):focus-within {
   z-index: 2;
 }
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .b-ant-select-root:not(:first-child) > .ant-select.ant-select-focused {
@@ -5912,14 +6018,16 @@ template {
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input:not(:first-child),
 .b-ant-addons > .ant-input-wrapper.ant-input-group > textarea.ant-input:not(:first-child),
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-picker:not(:first-child),
-.b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-number:not(:first-child) {
+.b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-number:not(:first-child),
+.b-ant-addons > .ant-input-wrapper.ant-input-group > .b-input-color-picker.ant-color-picker-trigger:not(:first-child) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input:not(:last-child),
 .b-ant-addons > .ant-input-wrapper.ant-input-group > textarea.ant-input:not(:last-child),
 .b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-picker:not(:last-child),
-.b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-number:not(:last-child) {
+.b-ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-number:not(:last-child),
+.b-ant-addons > .ant-input-wrapper.ant-input-group > .b-input-color-picker.ant-color-picker-trigger:not(:last-child) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -9614,6 +9722,15 @@ body .b-report {
   --b-report-zindex-toolbar: 20;
   --b-report-zindex-menu: var(--ant-dropdown-z-index-popup);
   --b-report-zindex-modal-layer: var(--ant-dropdown-z-index-popup);
+}
+
+.b-report-designer-color-property .ant-color-picker-trigger-text {
+  display: none;
+}
+.b-report-designer-color-property .b-ant-addons > .ant-input-wrapper.ant-input-group > .b-input-color-picker.ant-color-picker-trigger {
+  flex: none;
+  width: auto;
+  min-width: auto;
 }
 
 @keyframes fadeIn {

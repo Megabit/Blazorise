@@ -11,3 +11,15 @@ body .b-report {
     --b-report-zindex-menu: var(--ant-dropdown-z-index-popup);
     --b-report-zindex-modal-layer: var(--ant-dropdown-z-index-popup);
 }
+
+.b-report-designer-color-property {
+    .ant-color-picker-trigger-text {
+        display: none;
+    }
+
+    .b-ant-addons > .ant-input-wrapper.ant-input-group > .b-input-color-picker.ant-color-picker-trigger {
+        flex: none;
+        width: auto;
+        min-width: auto;
+    }
+}
