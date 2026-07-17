@@ -603,4 +603,6 @@ internal sealed class ReportViewerOptions
     public bool AllowPrint { get; set; } = true;
 
     public bool AllowDownload { get; set; } = true;
+
+    public RenderFragment<ReportPdfPreviewContext> PdfPreviewTemplate { get; set; }
 }

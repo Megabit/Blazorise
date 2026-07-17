@@ -6,7 +6,17 @@
     <ReportViewer PreviewFormat="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"
                   DefaultPreviewFormat="ReportPreviewFormat.Pdf"
                   AllowDownload
-                  AllowPrint />
+                  AllowPrint>
+        <PdfPreviewTemplate Context="preview">
+            <PdfViewerContainer Height="Height.Rem( 48 )">
+                <PdfViewerToolbar ShowPrinting="@preview.AllowPrint"
+                                  ShowDownloading="@preview.AllowDownload" />
+                <PdfViewer Source="@preview.DataUrl"
+                           Mode="PdfViewerMode.Continuous"
+                           DownloadFileName="@preview.FileName" />
+            </PdfViewerContainer>
+        </PdfPreviewTemplate>
+    </ReportViewer>
     <ReportToolbar>
         <ReportToolbarGroup>
             <ReportToolbarPanesMenu />

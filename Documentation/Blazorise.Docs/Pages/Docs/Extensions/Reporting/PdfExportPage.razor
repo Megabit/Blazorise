@@ -7,13 +7,16 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Reporting uses the Blazorise PDF engine internally for PDF preview and download.
+    Reporting uses the Blazorise PDF engine internally for generation and lets applications choose how PDF previews are rendered.
 </DocsPageLead>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="PDF preview and download">
-        Enable PDF as a preview format and include the download command in the toolbar when users should export the current report state.
+        Enable PDF as a preview format and provide a <Code>PdfPreviewTemplate</Code> to render the generated document with Blazorise PdfViewer or another PDF viewer.
     </DocsPageSectionHeader>
+    <DocsPageParagraph>
+        Reporting does not depend on a specific viewer. The example uses the optional <Anchor To="docs/extensions/pdfviewer">Blazorise PdfViewer</Anchor> package and receives the PDF content, data URL, file name, permissions, and download callback through <Code>ReportPdfPreviewContext</Code>.
+    </DocsPageParagraph>
     <DocsPageSectionContent Code="ReportingPdfExportExample" Outlined FullWidth>
         <ReportingPdfExportExample />
     </DocsPageSectionContent>

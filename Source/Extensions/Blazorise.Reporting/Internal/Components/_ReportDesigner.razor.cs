@@ -101,7 +101,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private PdfGenerationResult pdfPreviewResult;
 
-    private string pdfPreviewSource;
+    private ReportPdfPreviewContext pdfPreviewContext;
 
     private int pdfPreviewMutationVersion = -1;
 
@@ -769,9 +769,13 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         } );
 
         pdfPreviewResult = result;
-        pdfPreviewSource = result.Content is { Length: > 0 }
-            ? $"data:{result.ContentType};base64,{Convert.ToBase64String( result.Content )}"
-            : null;
+        pdfPreviewContext = new(
+            result.Content,
+            result.ContentType,
+            result.FileName,
+            context.ViewerOptions.AllowPrint,
+            context.ViewerOptions.AllowDownload,
+            EventCallback.Factory.Create( this, DownloadPdf ) );
         pdfPreviewMutationVersion = renderMutationVersion;
 
         return result;
@@ -2840,13 +2844,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal ReportPreviewFormat ActivePreviewFormat => CurrentPreviewFormat;
 
-    internal string PdfPreviewSource => pdfPreviewMutationVersion == renderMutationVersion ? pdfPreviewSource : null;
+    internal ReportPdfPreviewContext PdfPreviewContext => pdfPreviewMutationVersion == renderMutationVersion ? pdfPreviewContext : null;
 
-    internal string PdfPreviewFileName => ResolvePdfFileName( RootDefinition );
-
-    internal bool AllowPreviewPrint => context.ViewerOptions.AllowPrint;
-
-    internal bool AllowPreviewDownload => context.ViewerOptions.AllowDownload;
+    internal RenderFragment<ReportPdfPreviewContext> PdfPreviewTemplate => context.ViewerOptions.PdfPreviewTemplate;
 
     internal int RenderMutationVersion => renderMutationVersion;
 

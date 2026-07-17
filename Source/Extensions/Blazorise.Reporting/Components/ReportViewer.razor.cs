@@ -21,6 +21,7 @@ public partial class ReportViewer : ComponentBase
         ReportContext.ViewerOptions.DefaultFormat = DefaultPreviewFormat;
         ReportContext.ViewerOptions.AllowPrint = AllowPrint;
         ReportContext.ViewerOptions.AllowDownload = AllowDownload;
+        ReportContext.ViewerOptions.PdfPreviewTemplate = PdfPreviewTemplate;
     }
 
     #endregion
@@ -48,6 +49,11 @@ public partial class ReportViewer : ComponentBase
     /// Enables download commands in the viewer toolbar.
     /// </summary>
     [Parameter] public bool AllowDownload { get; set; } = true;
+
+    /// <summary>
+    /// Template used to render generated PDF previews.
+    /// </summary>
+    [Parameter] public RenderFragment<ReportPdfPreviewContext> PdfPreviewTemplate { get; set; }
 
     #endregion
 }
