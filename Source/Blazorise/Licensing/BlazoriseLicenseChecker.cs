@@ -51,7 +51,14 @@ public sealed class BlazoriseLicenseChecker
     {
         return !( BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Licensed
             || BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Community
+            || BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.CommunityExpired
             || BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Trial );
+    }
+
+    internal bool ShowCompactBanner()
+    {
+        return BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Community
+            || BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.CommunityExpired;
     }
 
     internal string GetPrintMessage()
