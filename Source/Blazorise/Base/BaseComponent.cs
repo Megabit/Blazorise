@@ -152,7 +152,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         {
             if ( LicenseChecker.ShouldPrint() )
             {
-                await JSUtilitiesModule.Log( LicenseChecker.ShowBanner(), $"%c{LicenseChecker.GetPrintMessage()}", "color: #3B82F6; padding: 0;" );
+                await JSUtilitiesModule.Log( LicenseChecker.ShowBanner(), LicenseChecker.ShowCompactBanner(), $"%c{LicenseChecker.GetPrintMessage()}", "color: #3B82F6; padding: 0;" );
             }
         }
 
