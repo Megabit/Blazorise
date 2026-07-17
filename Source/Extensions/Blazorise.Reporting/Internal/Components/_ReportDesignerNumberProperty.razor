@@ -2,7 +2,7 @@
 @inherits BaseReportComponent
 @typeparam TValue
 
-<Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
+<Field Class="b-report-designer-number-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
     <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">@Label</FieldLabel>
     <FieldBody ColumnSize="ColumnSizeIs8">
         <NumericInput TValue="TValue" Value="@Value" ValueChanged="@Changed" Immediate="true" Step="@Step" Size="Size.Small" />

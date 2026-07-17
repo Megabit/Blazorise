@@ -30,7 +30,7 @@
             <_ReportDesignerCheckboxProperty Label="Show rulers" Value="@ShowRulers" Changed="@ShowRulersChanged" />
             <_ReportDesignerCheckboxProperty Label="Fine ruler ticks" Value="@ShowFineRulerTicks" Changed="@ShowFineRulerTicksChanged" />
             <_ReportDesignerCheckboxProperty Label="Collision warnings" Value="@ShowCollisionWarnings" Changed="@ShowCollisionWarningsChanged" />
-            <Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
+            <Field Class="b-report-designer-band-mode-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
                 <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Band mode</FieldLabel>
                 <FieldBody ColumnSize="ColumnSizeIs8">
                     <Select TValue="ReportBandMode" Value="@BandMode" ValueChanged="@BandModeChanged" Size="Size.Small">
@@ -43,7 +43,7 @@
             </Field>
         </_ReportDesignerPropertyGroup>
         <_ReportDesignerPropertyGroup Title="Page">
-            <Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
+            <Field Class="b-report-designer-page-unit-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
                 <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Unit</FieldLabel>
                 <FieldBody ColumnSize="ColumnSizeIs8">
                     <Select TValue="ReportMeasurementUnit" Value="@GetPageMeasurementUnit()" ValueChanged="@OnPageMeasurementUnitChanged" Size="Size.Small">
@@ -54,7 +54,7 @@
                     </Select>
                 </FieldBody>
             </Field>
-            <Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
+            <Field Class="b-report-designer-page-size-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
                 <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Paper size</FieldLabel>
                 <FieldBody ColumnSize="ColumnSizeIs8">
                     <Select TValue="ReportPageSize" Value="@Definition.Page.Size" ValueChanged="@OnPageSizeChanged" Size="Size.Small">
@@ -65,7 +65,7 @@
                     </Select>
                 </FieldBody>
             </Field>
-            <Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
+            <Field Class="b-report-designer-page-orientation-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
                 <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Orientation</FieldLabel>
                 <FieldBody ColumnSize="ColumnSizeIs8">
                     <Select TValue="ReportOrientation" Value="@Definition.Page.Orientation" ValueChanged="@OnPageOrientationChanged" Size="Size.Small">
@@ -232,7 +232,7 @@
                                     <_ReportDesignerTextProperty Label="Aggregate" Value="@ReportAggregateResolver.GetFunctionDisplayName( fieldElement.Aggregate.Function )" ReadOnly />
                                 }
                             }
-                            <Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
+                            <Field Class="b-report-designer-format-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
                                 <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Format</FieldLabel>
                                 <FieldBody ColumnSize="ColumnSizeIs8">
                                     <Addons Size="Size.Small">
@@ -300,7 +300,7 @@
                 bool fontFamilyMixed = IsSelectedElementValueMixed( element => GetFontFamilyValue( element.Font?.Family ) );
 
                 <_ReportDesignerPropertyGroup Title="Text">
-                    <Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
+                    <Field Class="b-report-designer-font-family-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
                         <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Font family</FieldLabel>
                         <FieldBody ColumnSize="ColumnSizeIs8">
                             <Select TValue="string" Value="@(fontFamilyMixed ? MixedSelectValue : GetFontFamilyValue( font.Family ))" ValueChanged="@OnSelectedElementFontFamilyChanged" Size="Size.Small">

@@ -1,7 +1,7 @@
 @namespace Blazorise.Reporting.Internal
 @inherits BaseReportComponent
 
-<Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
+<Field Class="b-report-designer-checkbox-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
     <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">@Label</FieldLabel>
     <FieldBody ColumnSize="ColumnSizeIs8">
         <Select TValue="bool?" Value="@DisplayValue" ValueChanged="@OnValueChanged" Size="Size.Small">
