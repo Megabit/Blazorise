@@ -143,6 +143,13 @@ public partial class Button : BaseComponent, IAsyncDisposable
     {
         if ( !Disabled )
         {
+            if ( ActiveChanged.HasDelegate )
+            {
+                Active = !Active;
+
+                await ActiveChanged.InvokeAsync( Active );
+            }
+
             await Clicked.InvokeAsync( eventArgs );
 
             // Don't need to check CanExecute again is already part of Disabled check
@@ -448,6 +455,11 @@ public partial class Button : BaseComponent, IAsyncDisposable
             DirtyClasses();
         }
     }
+
+    /// <summary>
+    /// Notifies when the active state changes. When assigned, clicking the button toggles its active state.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ActiveChanged { get; set; }
 
     /// <summary>
     /// Makes the button to span the full width of a parent.
