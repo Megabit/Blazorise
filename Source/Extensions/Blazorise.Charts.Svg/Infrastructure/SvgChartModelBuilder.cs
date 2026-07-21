@@ -231,6 +231,8 @@ internal sealed class SvgChartModelBuilder<TItem>
                 : items.Select( child.XValue ).ToList();
             var yValues = child.YValue is null ? values.ToList() : items.Select( child.YValue ).ToList();
             var radiusValues = child.RadiusValue is null ? [] : items.Select( child.RadiusValue ).ToList();
+            SvgChartLineOutlineOptions lineOutline = ( child as SvgLineSeries<TItem> )?.Outline;
+            string renderColor = SvgChartRenderHelpers.ResolveColor( child.Color, series.Count );
 
             series.Add( new()
             {
@@ -241,7 +243,7 @@ internal sealed class SvgChartModelBuilder<TItem>
                 YValues = yValues,
                 RadiusValues = radiusValues,
                 Color = child.Color,
-                RenderColor = SvgChartRenderHelpers.ResolveColor( child.Color, series.Count ),
+                RenderColor = renderColor,
                 PointColors = ResolvePointColors( child.Colors, child.PointColor is null ? null : items.Select( child.PointColor ).ToList(), labelCount, child.Color, series.Count, IsRadialChart( child.ChartType ) ),
                 Hidden = child.Hidden || hiddenSeries.Contains( name ),
                 Order = child.Order,
@@ -267,6 +269,13 @@ internal sealed class SvgChartModelBuilder<TItem>
                     SvgAreaSeries<TItem> areaSeries => areaSeries.StrokeWidth,
                     _ => 2
                 },
+                OutlineColor = lineOutline is null
+                    ? null
+                    : SvgChartRenderHelpers.IsDefaultColor( lineOutline.Color )
+                        ? renderColor
+                        : SvgChartRenderHelpers.ResolveColor( lineOutline.Color, series.Count ),
+                OutlineStrokeWidth = lineOutline?.StrokeWidth ?? 0,
+                OutlineOpacity = lineOutline?.Opacity ?? 0,
                 FillOpacity = child switch
                 {
                     SvgAreaSeries<TItem> areaSeries => areaSeries.FillOpacity,
