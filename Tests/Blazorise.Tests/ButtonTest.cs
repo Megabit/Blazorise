@@ -125,6 +125,64 @@ public class ButtonTest
     }
 
     [Fact]
+    public async Task ClickWithActiveChangedTogglesActiveState()
+    {
+        // setup
+        var button = new MockButton();
+        bool active = false;
+        button.ActiveChanged = callbackFactory.Create<bool>( this, value => active = value );
+
+        // test
+        await button.Click();
+
+        // validate
+        Assert.True( button.Active );
+        Assert.True( active );
+
+        // test
+        await button.Click();
+
+        // validate
+        Assert.False( button.Active );
+        Assert.False( active );
+    }
+
+    [Fact]
+    public async Task ClickWithoutActiveChangedDoesNotToggleActiveState()
+    {
+        // setup
+        var button = new MockButton
+        {
+            Active = true,
+        };
+
+        // test
+        await button.Click();
+
+        // validate
+        Assert.True( button.Active );
+    }
+
+    [Fact]
+    public async Task ClickWhenDisabledDoesNotToggleActiveState()
+    {
+        // setup
+        var button = new MockButton
+        {
+            Disabled = true,
+        };
+        bool activeChanged = false;
+        button.ActiveChanged = callbackFactory.Create<bool>( this, _ => activeChanged = true );
+
+        // test
+        await button.Click();
+
+        // validate
+        Assert.False( button.Active );
+        Assert.False( activeChanged );
+    }
+
+    [Fact]
     public async Task ClickWithCommand()
     {
         // setup

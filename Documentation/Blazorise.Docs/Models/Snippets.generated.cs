@@ -831,7 +831,13 @@ namespace Blazorise.Docs.Models
 </BreakpointObserver>";
 
         public const string ActiveButtonExample = @"<Button Color=""Color.Primary"" Active>Primary</Button>
-<Button Color=""Color.Secondary"" Active>Secondary</Button>";
+<Button Color=""Color.Secondary"" Active>Secondary</Button>
+<Button Color=""Color.Info"" @bind-Active=""@isActive"">Toggle me</Button>
+<Span Margin=""Margin.Is2.FromStart"">Active: @(isActive ? ""yes"" : ""no"")</Span>
+
+@code {
+    private bool isActive;
+}";
 
         public const string BlockButtonExample = @"<Button Color=""Color.Primary"" Block>Blocked primary</Button>
 <Button Color=""Color.Secondary"" Block>Blocked secondary</Button>";

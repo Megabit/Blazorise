@@ -90,11 +90,15 @@
                 <CardTitle>Active</CardTitle>
             </CardHeader>
             <CardBody>
-                <CardText>Add the <code>Active</code> attribute to buttons.</CardText>
+                <CardText>Add the <code>Active</code> attribute to buttons, or bind it to create a toggle button.</CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Primary" Active>Primary</Button>
-                <Button Color="Color.Link" Active>Link</Button>
+                <Div Flex="Flex.Wrap.AlignItems.Center" Gap="Gap.Is2">
+                    <Button Color="Color.Primary" Active>Primary</Button>
+                    <Button Color="Color.Link" Active>Link</Button>
+                    <Button Color="Color.Secondary" @bind-Active="@isToggleActive">Toggle me</Button>
+                    <Span>Active: @(isToggleActive ? "yes" : "no")</Span>
+                </Div>
             </CardBody>
         </Card>
     </Column>
@@ -253,6 +257,8 @@
 </Row>
 @code {
     private bool isLoading;
+
+    private bool isToggleActive;
 
     private async Task ShowLoading()
     {

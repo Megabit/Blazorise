@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-17T10:47:25.5375423Z",
+  "generatedUtc": "2026-07-21T06:48:31.7429085Z",
   "pages": [
     {
       "route": "/docs",
@@ -508,8 +508,9 @@
           "code": "ActiveButtonExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Buttons/Examples/ActiveButtonExample.razor",
-          "content": "<Button Color=\"Color.Primary\" Active>Primary</Button>\r\n<Button Color=\"Color.Secondary\" Active>Secondary</Button>",
-          "title": "Active"
+          "content": "<Button Color=\"Color.Primary\" Active>Primary</Button>\r\n<Button Color=\"Color.Secondary\" Active>Secondary</Button>\r\n<Button Color=\"Color.Info\" @bind-Active=\"@isActive\">Toggle me</Button>\r\n<Span Margin=\"Margin.Is2.FromStart\">Active: @(isActive ? \"yes\" : \"no\")</Span>\r\n\r\n@code {\r\n    private bool isActive;\r\n}",
+          "title": "Active",
+          "description": "Use the Active attribute to display a button in its active state. Bind Active to a value to make the button toggle that value when clicked."
         },
         {
           "code": "DisabledButtonExample",
