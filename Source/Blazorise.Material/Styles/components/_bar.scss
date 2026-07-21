@@ -613,9 +613,9 @@
     align-self: flex-start;
     position: sticky;
     inset-block-start: 0;
-    inline-size: var(--mui-bar-drawer-width);
-    min-inline-size: var(--mui-bar-drawer-width);
-    max-inline-size: var(--mui-bar-drawer-width);
+    inline-size: var(--b-vertical-bar-width, var(--mui-bar-drawer-width));
+    min-inline-size: var(--b-vertical-bar-width, var(--mui-bar-drawer-width));
+    max-inline-size: var(--b-vertical-bar-width, var(--mui-bar-drawer-width));
     block-size: 100%;
     min-block-size: 100%;
     background-color: var(--mui-bar-bg);
@@ -754,7 +754,7 @@
 
     .mui-bar-toggler-popout:not(.mui-bar-mobile-toggle) {
         position: fixed;
-        inset-inline-start: var(--mui-bar-drawer-width);
+        inset-inline-start: var(--b-vertical-bar-width, var(--mui-bar-drawer-width));
         inset-block-start: 1rem;
         block-size: 3rem;
         inline-size: 0.875rem;

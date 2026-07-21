@@ -250,6 +250,22 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
+    #region ResizeHandle
+
+    public override string ResizeHandle() => "ant-resize-handle";
+
+    public override string ResizeHandleOrientation( Orientation orientation ) => $"ant-resize-handle-{orientation.ToString().ToLowerInvariant()}";
+
+    public override string ResizeHandlePlacement( Placement placement ) => $"ant-resize-handle-{placement.ToString().ToLowerInvariant()}";
+
+    public override string ResizeHandleDisabled( bool disabled ) => disabled ? "ant-resize-handle-disabled" : null;
+
+    public override string ResizeHandleResizing( bool resizing ) => resizing ? "ant-resize-handle-resizing" : null;
+
+    public override string ResizeHandleTargetResizing( bool resizing ) => resizing ? "ant-resize-handle-target-resizing" : null;
+
+    #endregion
+
     #region Rating
 
     public override string Rating() => "ant-rate";

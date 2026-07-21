@@ -237,6 +237,22 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region ResizeHandle
+
+    public string ResizeHandle() => null;
+
+    public string ResizeHandleOrientation( Orientation orientation ) => null;
+
+    public string ResizeHandlePlacement( Placement placement ) => null;
+
+    public string ResizeHandleDisabled( bool disabled ) => null;
+
+    public string ResizeHandleResizing( bool resizing ) => null;
+
+    public string ResizeHandleTargetResizing( bool resizing ) => null;
+
+    #endregion
+
     #region Rating
 
     public string Rating() => null;

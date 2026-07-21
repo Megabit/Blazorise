@@ -264,6 +264,22 @@ public class MaterialClassProvider : ClassProvider
 
     #endregion
 
+    #region ResizeHandle
+
+    public override string ResizeHandle() => "mui-resize-handle";
+
+    public override string ResizeHandleOrientation( Orientation orientation ) => $"mui-resize-handle-{orientation.ToString().ToLowerInvariant()}";
+
+    public override string ResizeHandlePlacement( Placement placement ) => $"mui-resize-handle-{placement.ToString().ToLowerInvariant()}";
+
+    public override string ResizeHandleDisabled( bool disabled ) => disabled ? "mui-resize-handle-disabled" : null;
+
+    public override string ResizeHandleResizing( bool resizing ) => resizing ? "mui-resize-handle-resizing" : null;
+
+    public override string ResizeHandleTargetResizing( bool resizing ) => resizing ? "mui-resize-handle-target-resizing" : null;
+
+    #endregion
+
     #region Rating
 
     public override string Rating() => "mui-rating";

@@ -316,6 +316,32 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region ResizeHandle
+
+    public override string ResizeHandle() => "tw-resize-handle absolute z-10 border-0 bg-transparent p-0 outline-none select-none touch-none";
+
+    public override string ResizeHandleOrientation( Orientation orientation )
+        => orientation == Orientation.Vertical
+            ? "tw-resize-handle-vertical top-0 bottom-0 w-2 cursor-col-resize"
+            : "tw-resize-handle-horizontal left-0 right-0 h-2 cursor-row-resize";
+
+    public override string ResizeHandlePlacement( Placement placement ) => placement switch
+    {
+        Placement.Top => "tw-resize-handle-top top-0",
+        Placement.Bottom => "tw-resize-handle-bottom bottom-0",
+        Placement.Start => "tw-resize-handle-start start-0",
+        Placement.End => "tw-resize-handle-end end-0",
+        _ => null,
+    };
+
+    public override string ResizeHandleDisabled( bool disabled ) => disabled ? "tw-resize-handle-disabled pointer-events-none opacity-50" : null;
+
+    public override string ResizeHandleResizing( bool resizing ) => resizing ? "tw-resize-handle-resizing" : null;
+
+    public override string ResizeHandleTargetResizing( bool resizing ) => resizing ? "tw-resize-handle-target-resizing !transition-none" : null;
+
+    #endregion
+
     private static string BuildTailwindSliderInputClasses( bool rangeSlider )
     {
         if ( !rangeSlider )

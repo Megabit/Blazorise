@@ -234,6 +234,22 @@ public interface IClassProvider
 
     #endregion
 
+    #region ResizeHandle
+
+    string ResizeHandle();
+
+    string ResizeHandleOrientation( Orientation orientation );
+
+    string ResizeHandlePlacement( Placement placement );
+
+    string ResizeHandleDisabled( bool disabled );
+
+    string ResizeHandleResizing( bool resizing );
+
+    string ResizeHandleTargetResizing( bool resizing );
+
+    #endregion
+
     #region Rating
 
     string Rating();

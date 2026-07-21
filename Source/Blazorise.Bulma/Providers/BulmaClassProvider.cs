@@ -238,6 +238,22 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
+    #region ResizeHandle
+
+    public override string ResizeHandle() => "resize-handle";
+
+    public override string ResizeHandleOrientation( Orientation orientation ) => $"is-{orientation.ToString().ToLowerInvariant()}";
+
+    public override string ResizeHandlePlacement( Placement placement ) => $"is-{placement.ToString().ToLowerInvariant()}";
+
+    public override string ResizeHandleDisabled( bool disabled ) => disabled ? "is-disabled" : null;
+
+    public override string ResizeHandleResizing( bool resizing ) => resizing ? "is-resizing" : null;
+
+    public override string ResizeHandleTargetResizing( bool resizing ) => resizing ? "is-resize-target-resizing" : null;
+
+    #endregion
+
     #region Rating
 
     public override string Rating() => "rating";

@@ -249,6 +249,22 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
+    #region ResizeHandle
+
+    public override string ResizeHandle() => "fui-ResizeHandle";
+
+    public override string ResizeHandleOrientation( Orientation orientation ) => $"fui-ResizeHandle-{orientation.ToString().ToLowerInvariant()}";
+
+    public override string ResizeHandlePlacement( Placement placement ) => $"fui-ResizeHandle-{placement.ToString().ToLowerInvariant()}";
+
+    public override string ResizeHandleDisabled( bool disabled ) => disabled ? "fui-ResizeHandle-disabled" : null;
+
+    public override string ResizeHandleResizing( bool resizing ) => resizing ? "fui-ResizeHandle-resizing" : null;
+
+    public override string ResizeHandleTargetResizing( bool resizing ) => resizing ? "fui-ResizeHandle-target-resizing" : null;
+
+    #endregion
+
     #region Rating
 
     public override string Rating() => "fui-Rating";

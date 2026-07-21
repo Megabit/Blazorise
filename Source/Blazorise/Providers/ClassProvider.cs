@@ -235,6 +235,22 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region ResizeHandle
+
+    public abstract string ResizeHandle();
+
+    public abstract string ResizeHandleOrientation( Orientation orientation );
+
+    public abstract string ResizeHandlePlacement( Placement placement );
+
+    public abstract string ResizeHandleDisabled( bool disabled );
+
+    public abstract string ResizeHandleResizing( bool resizing );
+
+    public abstract string ResizeHandleTargetResizing( bool resizing );
+
+    #endregion
+
     #region Rating
 
     public abstract string Rating();

@@ -1,0 +1,89 @@
+.fui-ResizeHandle {
+    --b-resize-handle-hit-area: .5rem;
+    --b-resize-handle-focus-size: 2px;
+    --b-resize-handle-focus-color: var(--colorBrandStroke1, var(--b-theme-primary, #0f6cbd));
+    position: absolute;
+    z-index: 10;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    user-select: none;
+    touch-action: none;
+    outline: none;
+
+    &::before {
+        content: "";
+        position: absolute;
+        background-color: transparent;
+        pointer-events: none;
+    }
+
+    &-vertical {
+        top: 0;
+        bottom: 0;
+        width: var(--b-resize-handle-hit-area);
+        cursor: col-resize;
+
+        &::before {
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: var(--b-resize-handle-focus-size);
+            transform: translateX(-50%);
+        }
+    }
+
+    &-horizontal {
+        right: 0;
+        left: 0;
+        height: var(--b-resize-handle-hit-area);
+        cursor: row-resize;
+
+        &::before {
+            top: 50%;
+            right: 0;
+            left: 0;
+            height: var(--b-resize-handle-focus-size);
+            transform: translateY(-50%);
+        }
+    }
+
+    &-top {
+        top: 0;
+    }
+
+    &-bottom {
+        bottom: 0;
+    }
+
+    &-start {
+        inset-inline-start: 0;
+    }
+
+    &-end {
+        inset-inline-end: 0;
+    }
+
+    &:focus-visible::before {
+        background-color: var(--b-resize-handle-focus-color);
+    }
+
+    &-resizing:focus-visible::before {
+        background-color: transparent;
+    }
+
+    &-disabled {
+        pointer-events: none;
+        opacity: .5;
+    }
+
+    &-target-resizing {
+        transition: none !important;
+    }
+}
+
+@media (pointer: coarse) {
+    .fui-ResizeHandle {
+        --b-resize-handle-hit-area: 1rem;
+    }
+}
