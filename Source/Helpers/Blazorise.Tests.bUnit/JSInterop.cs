@@ -254,11 +254,25 @@ public static class JSInterop
 
     public static BunitJSInterop AddBlazoriseResizeHandle( this BunitJSInterop jsInterop )
     {
+        AddBlazoriseDocumentObserver( jsInterop );
+
         var module = jsInterop.SetupModule( new JSResizeHandleModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
+    public static BunitJSInterop AddBlazoriseDocumentObserver( this BunitJSInterop jsInterop )
+    {
+        var module = jsInterop.SetupModule( new JSDocumentObserverModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "addSubscription", _ => true ).SetVoidResult();
+        module.SetupVoid( "removeSubscription", _ => true ).SetVoidResult();
+        module.SetupVoid( "capturePointer", _ => true ).SetVoidResult();
+        module.SetupVoid( "releasePointer", _ => true ).SetVoidResult();
 
         return jsInterop;
     }

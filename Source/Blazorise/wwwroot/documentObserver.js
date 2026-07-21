@@ -30,6 +30,7 @@ function createDocumentObserver() {
     const pendingAnimationFrameEvents = new Map();
     let dotNetReference = null;
     let nextContextElementId = 0;
+    let nextScopeId = 0;
 
     return {
         initialize,
@@ -37,6 +38,7 @@ function createDocumentObserver() {
         unsubscribe,
         capturePointer,
         releasePointer,
+        createScope,
     };
 
     function initialize(reference) {
@@ -55,12 +57,26 @@ function createDocumentObserver() {
         return subscription.id;
     }
 
-    function unsubscribe(subscriptionId) {
-        if (!subscriptionId || !subscriptions.delete(subscriptionId)) {
-            return;
+    function unsubscribe(subscriptionId, updateDocumentListeners = true) {
+        if (!subscriptionId) {
+            return false;
         }
 
-        updateListeners();
+        const removed = subscriptions.delete(subscriptionId);
+        const pending = pendingAnimationFrameEvents.get(subscriptionId);
+
+        if (pending) {
+            cancelAnimationFrame(pending.animationFrame);
+            pendingAnimationFrameEvents.delete(subscriptionId);
+        }
+
+        if (!removed)
+            return false;
+
+        if (updateDocumentListeners)
+            updateListeners();
+
+        return true;
     }
 
     function capturePointer(ownerId, pointerId) {
@@ -81,6 +97,64 @@ function createDocumentObserver() {
         if (!ownerId || pointerCaptures.get(pointerKey) === ownerId) {
             pointerCaptures.delete(pointerKey);
         }
+    }
+
+    function createScope(name) {
+        const ownerId = `document-observer-${name || "scope"}-${++nextScopeId}`;
+        const subscriptionIds = new Set();
+        const pointerIds = new Set();
+        let nextSubscriptionId = 0;
+        let disposed = false;
+
+        return {
+            subscribe: subscription => {
+                if (disposed)
+                    return null;
+
+                const id = `${ownerId}-${++nextSubscriptionId}`;
+                const subscriptionId = subscribe({
+                    ...subscription,
+                    id,
+                    ownerId,
+                });
+
+                if (subscriptionId)
+                    subscriptionIds.add(subscriptionId);
+
+                return subscriptionId;
+            },
+            capturePointer: pointerId => {
+                if (disposed)
+                    return;
+
+                capturePointer(ownerId, pointerId);
+
+                if (pointerId != null) {
+                    pointerIds.add(pointerId);
+                }
+            },
+            dispose: () => {
+                if (disposed)
+                    return;
+
+                disposed = true;
+                let subscriptionsRemoved = false;
+
+                for (const subscriptionId of subscriptionIds) {
+                    subscriptionsRemoved = unsubscribe(subscriptionId, false) || subscriptionsRemoved;
+                }
+
+                for (const pointerId of pointerIds) {
+                    releasePointer(ownerId, pointerId);
+                }
+
+                subscriptionIds.clear();
+                pointerIds.clear();
+
+                if (subscriptionsRemoved)
+                    updateListeners();
+            },
+        };
     }
 
     function normalizeSubscription(subscription) {
@@ -132,9 +206,12 @@ function createDocumentObserver() {
 
     function dispatch(event, capture) {
         const candidates = getCandidates(event, capture);
+        const pointerOwnerId = event.pointerId == null
+            ? null
+            : pointerCaptures.get(String(event.pointerId));
 
         for (const subscription of candidates) {
-            if (!matchesPointerCapture(subscription, event) || !matchesTarget(subscription, event)) {
+            if (!matchesPointerCapture(subscription, event, pointerOwnerId) || !matchesTarget(subscription, event)) {
                 continue;
             }
 
@@ -161,14 +238,12 @@ function createDocumentObserver() {
             .sort((a, b) => b.priority - a.priority);
     }
 
-    function matchesPointerCapture(subscription, event) {
+    function matchesPointerCapture(subscription, event, pointerOwnerId) {
         if (subscription.ignorePointerCapture || event.pointerId == null || event.type === "pointerdown") {
             return true;
         }
 
-        const ownerId = pointerCaptures.get(String(event.pointerId));
-
-        return !ownerId || ownerId === subscription.ownerId;
+        return !pointerOwnerId || pointerOwnerId === subscription.ownerId;
     }
 
     function matchesTarget(subscription, event) {
@@ -194,10 +269,10 @@ function createDocumentObserver() {
             return;
         }
 
-        const pending = { event };
+        const pending = { event, animationFrame: null };
         pendingAnimationFrameEvents.set(key, pending);
 
-        requestAnimationFrame(() => {
+        pending.animationFrame = requestAnimationFrame(() => {
             pendingAnimationFrameEvents.delete(key);
             invokeSubscription(subscription, pending.event);
         });

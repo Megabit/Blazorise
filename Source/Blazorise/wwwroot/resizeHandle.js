@@ -13,39 +13,28 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
     const instance = {
         dotNetObjectRef: dotNetObjectRef,
         element: element,
-        elementId: elementId,
         target: null,
         options: normalizeOptions(options),
         active: false,
+        documentObserverScope: null,
         pointerId: null,
         pointerType: "",
         startCoordinate: 0,
         startSize: 0,
         currentSize: 0,
-        latestCoordinate: 0,
-        animationFrame: null,
         lastResizeNotification: 0,
         resizeObserver: null,
         originalBodyCursor: "",
         originalBodyUserSelect: "",
         hadFocusBeforePointerDown: false,
         onPointerDown: null,
-        onPointerMove: null,
-        onPointerUp: null,
-        onPointerCancel: null,
         onKeyDown: null
     };
 
     instance.onPointerDown = (event) => pointerDownHandler(instance, event);
-    instance.onPointerMove = (event) => pointerMoveHandler(instance, event);
-    instance.onPointerUp = (event) => finishPointerResize(instance, event, false);
-    instance.onPointerCancel = (event) => finishPointerResize(instance, event, true);
     instance.onKeyDown = (event) => keyDownHandler(instance, event);
 
     element.addEventListener("pointerdown", instance.onPointerDown);
-    element.addEventListener("pointermove", instance.onPointerMove);
-    element.addEventListener("pointerup", instance.onPointerUp);
-    element.addEventListener("pointercancel", instance.onPointerCancel);
     element.addEventListener("keydown", instance.onKeyDown);
 
     instances.set(elementId, instance);
@@ -92,15 +81,9 @@ export function destroy(element, elementId) {
     if (instance.active)
         cancelResize(instance, false);
 
-    if (instance.animationFrame !== null)
-        cancelAnimationFrame(instance.animationFrame);
-
     instance.resizeObserver?.disconnect();
 
     instance.element?.removeEventListener("pointerdown", instance.onPointerDown);
-    instance.element?.removeEventListener("pointermove", instance.onPointerMove);
-    instance.element?.removeEventListener("pointerup", instance.onPointerUp);
-    instance.element?.removeEventListener("pointercancel", instance.onPointerCancel);
     instance.element?.removeEventListener("keydown", instance.onKeyDown);
 
     instance.dotNetObjectRef = null;
@@ -120,13 +103,17 @@ function pointerDownHandler(instance, event) {
     if (event.pointerType === "mouse" && event.button !== 0)
         return;
 
+    const documentObserverScope = globalThis.Blazorise?.documentObserver?.createScope("resize-handle") ?? null;
+
+    if (!documentObserverScope)
+        return;
+
     event.preventDefault();
 
     instance.active = true;
     instance.pointerId = event.pointerId;
     instance.pointerType = event.pointerType || "";
     instance.startCoordinate = getPointerCoordinate(instance, event);
-    instance.latestCoordinate = instance.startCoordinate;
     instance.startSize = measureTarget(instance);
     instance.currentSize = instance.startSize;
     instance.lastResizeNotification = 0;
@@ -142,6 +129,7 @@ function pointerDownHandler(instance, event) {
         }
     }
 
+    addDocumentListeners(instance, documentObserverScope);
     beginResizeState(instance);
 
     if (instance.options.notifyResizeStarted)
@@ -152,48 +140,24 @@ function pointerMoveHandler(instance, event) {
     if (!instance.active || event.pointerId !== instance.pointerId)
         return;
 
-    event.preventDefault();
-    instance.latestCoordinate = getPointerCoordinate(instance, event);
-
-    if (instance.animationFrame !== null)
-        return;
-
-    instance.animationFrame = requestAnimationFrame((timestamp) => {
-        instance.animationFrame = null;
-        applyPointerSize(instance);
-        notifyResizing(instance, timestamp);
-    });
+    applyPointerSize(instance, event);
+    notifyResizing(instance, performance.now());
 }
 
 function finishPointerResize(instance, event, canceled) {
     if (!instance.active || event.pointerId !== instance.pointerId)
         return;
 
-    event.preventDefault();
-
-    if (instance.animationFrame !== null) {
-        cancelAnimationFrame(instance.animationFrame);
-        instance.animationFrame = null;
-    }
-
     if (canceled) {
         applySize(instance, instance.startSize);
     }
     else {
-        instance.latestCoordinate = getPointerCoordinate(instance, event);
-        applyPointerSize(instance);
+        applyPointerSize(instance, event);
     }
 
     const eventArgs = createEventArgs(instance, canceled);
 
-    releasePointerCapture(instance);
-    endResizeState(instance);
-    restorePointerFocus(instance);
-
-    if (instance.options.notifyResizeEnded)
-        notify(instance, "OnResizeEnded", eventArgs);
-
-    resetInteraction(instance);
+    completeResize(instance, eventArgs, instance.options.notifyResizeEnded);
 }
 
 function keyDownHandler(instance, event) {
@@ -243,8 +207,8 @@ function keyDownHandler(instance, event) {
     resetInteraction(instance);
 }
 
-function applyPointerSize(instance) {
-    const physicalDelta = instance.latestCoordinate - instance.startCoordinate;
+function applyPointerSize(instance, event) {
+    const physicalDelta = getPointerCoordinate(instance, event) - instance.startCoordinate;
     const nextSize = instance.startSize + physicalDelta * getResizeSign(instance);
 
     applySize(instance, nextSize);
@@ -346,23 +310,51 @@ function cancelResize(instance, notifyEnded) {
     if (!instance.active)
         return;
 
-    if (instance.animationFrame !== null) {
-        cancelAnimationFrame(instance.animationFrame);
-        instance.animationFrame = null;
-    }
-
     applySize(instance, instance.startSize);
 
     const eventArgs = createEventArgs(instance, true);
 
+    completeResize(instance, eventArgs, notifyEnded && instance.options.notifyResizeEnded);
+}
+
+function completeResize(instance, eventArgs, notifyEnded) {
     releasePointerCapture(instance);
+    removeDocumentListeners(instance);
     endResizeState(instance);
     restorePointerFocus(instance);
 
-    if (notifyEnded && instance.options.notifyResizeEnded)
+    if (notifyEnded)
         notify(instance, "OnResizeEnded", eventArgs);
 
     resetInteraction(instance);
+}
+
+function addDocumentListeners(instance, documentObserverScope) {
+    instance.documentObserverScope = documentObserverScope;
+
+    documentObserverScope.subscribe({
+        eventNames: ["pointermove"],
+        capture: true,
+        preventDefault: true,
+        throttle: true,
+        handler: (event) => pointerMoveHandler(instance, event)
+    });
+
+    documentObserverScope.subscribe({
+        eventNames: ["pointerup", "pointercancel", "blur"],
+        capture: true,
+        preventDefault: true,
+        handler: (event) => event.type === "blur"
+            ? cancelResize(instance, true)
+            : finishPointerResize(instance, event, event.type === "pointercancel")
+    });
+
+    documentObserverScope.capturePointer(instance.pointerId);
+}
+
+function removeDocumentListeners(instance) {
+    instance.documentObserverScope?.dispose();
+    instance.documentObserverScope = null;
 }
 
 function releasePointerCapture(instance) {
@@ -386,7 +378,6 @@ function resetInteraction(instance) {
     instance.pointerId = null;
     instance.pointerType = "";
     instance.startCoordinate = 0;
-    instance.latestCoordinate = 0;
     instance.lastResizeNotification = 0;
     instance.hadFocusBeforePointerDown = false;
 }

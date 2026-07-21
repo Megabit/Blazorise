@@ -1,7 +1,6 @@
 let operation = null;
 let animationFrame = null;
 let autoHideOutside = null;
-let nextSubscriptionId = 0;
 
 export function beginResize(dotNetObjectRef, pane, paneName, nodeId, position, pointerId, clientX, clientY, minSize, maxSize) {
     cancel();
@@ -29,7 +28,6 @@ export function beginResize(dotNetObjectRef, pane, paneName, nodeId, position, p
         paneName,
         nodeId,
         position,
-        ownerId: createDocumentObserverOwnerId("resize"),
         pointerId,
         startX: clientX,
         startY: clientY,
@@ -58,7 +56,6 @@ export function beginDrag(dotNetObjectRef, layout, paneName, pointerId, clientX,
         dotNetObjectRef,
         layout,
         paneName,
-        ownerId: createDocumentObserverOwnerId("drag"),
         pointerId,
         dragGroup,
         startX: clientX,
@@ -127,23 +124,20 @@ export function setAutoHideOutsideHandler(dotNetObjectRef, layout, enabled) {
         }, 0);
     };
 
-    const observer = getDocumentObserver();
-    const subscriptionId = createDocumentObserverSubscriptionId("autohide");
+    const documentObserverScope = createDocumentObserverScope("autohide");
 
-    if (!observer) {
+    if (!documentObserverScope) {
         return;
     }
 
-    observer.subscribe({
-        id: subscriptionId,
-        ownerId: subscriptionId,
+    documentObserverScope.subscribe({
         eventNames: ["pointerdown"],
         capture: false,
         ignorePointerCapture: true,
         handler,
     });
 
-    autoHideOutside = { dotNetObjectRef, layout, subscriptionId };
+    autoHideOutside = { dotNetObjectRef, layout, documentObserverScope };
 }
 
 function clearAutoHideOutsideHandler() {
@@ -151,52 +145,34 @@ function clearAutoHideOutsideHandler() {
         return;
     }
 
-    getDocumentObserver()?.unsubscribe(autoHideOutside.subscriptionId);
+    autoHideOutside.documentObserverScope.dispose();
     autoHideOutside = null;
 }
 
-function getDocumentObserver() {
-    return globalThis.Blazorise?.documentObserver ?? null;
-}
-
-function createDocumentObserverOwnerId(scope) {
-    return createDocumentObserverSubscriptionId(`${scope}-owner`);
-}
-
-function createDocumentObserverSubscriptionId(scope) {
-    nextSubscriptionId++;
-
-    return `dock-layout-${scope}-${nextSubscriptionId}`;
+function createDocumentObserverScope(scope) {
+    return globalThis.Blazorise?.documentObserver?.createScope(`dock-layout-${scope}`) ?? null;
 }
 
 function addDocumentListeners(move, end) {
-    const observer = getDocumentObserver();
+    const documentObserverScope = createDocumentObserverScope(operation.type);
 
-    if (!observer) {
+    if (!documentObserverScope) {
         return;
     }
 
     operation.move = move;
     operation.end = end;
     operation.cancelOnPointerDown = cancelStaleOperationOnPointerDown;
-    operation.subscriptions = [
-        createDocumentObserverSubscriptionId("pointerdown"),
-        createDocumentObserverSubscriptionId("pointermove"),
-        createDocumentObserverSubscriptionId("pointerend"),
-    ];
+    operation.documentObserverScope = documentObserverScope;
 
-    observer.subscribe({
-        id: operation.subscriptions[0],
-        ownerId: operation.ownerId,
+    documentObserverScope.subscribe({
         eventNames: ["pointerdown"],
         capture: true,
         ignorePointerCapture: true,
         handler: operation.cancelOnPointerDown,
     });
 
-    observer.subscribe({
-        id: operation.subscriptions[1],
-        ownerId: operation.ownerId,
+    documentObserverScope.subscribe({
         eventNames: ["pointermove"],
         capture: true,
         preventDefault: true,
@@ -204,28 +180,18 @@ function addDocumentListeners(move, end) {
         handler: move,
     });
 
-    observer.subscribe({
-        id: operation.subscriptions[2],
-        ownerId: operation.ownerId,
+    documentObserverScope.subscribe({
         eventNames: ["pointerup", "pointercancel"],
         capture: true,
         preventDefault: true,
         handler: end,
     });
 
-    observer.capturePointer(operation.ownerId, operation.pointerId);
+    documentObserverScope.capturePointer(operation.pointerId);
 }
 
 function removeDocumentListeners() {
-    const observer = getDocumentObserver();
-
-    if (observer && operation.subscriptions) {
-        for (const subscriptionId of operation.subscriptions) {
-            observer.unsubscribe(subscriptionId);
-        }
-
-        observer.releasePointer(operation.ownerId, operation.pointerId);
-    }
+    operation.documentObserverScope?.dispose();
 }
 
 function cancelStaleOperationOnPointerDown() {

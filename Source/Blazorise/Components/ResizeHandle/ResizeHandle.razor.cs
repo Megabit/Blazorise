@@ -69,6 +69,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     {
         dotNetObjectRef = CreateDotNetObjectRef( this );
 
+        await DocumentObserver.EnsureInitializedAsync();
         await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, CreateOptions() );
 
         await base.OnFirstAfterRenderAsync();
@@ -231,6 +232,11 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     /// </summary>
     protected int ResolvedTabIndex
         => Disabled ? -1 : TabIndex;
+
+    /// <summary>
+    /// Gets the shared document observer.
+    /// </summary>
+    [Inject] protected IDocumentObserver DocumentObserver { get; set; }
 
     /// <summary>
     /// Specifies the JavaScript module used by the component.
