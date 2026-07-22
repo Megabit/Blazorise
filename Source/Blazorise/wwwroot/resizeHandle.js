@@ -319,11 +319,10 @@ function completeResize(instance, eventArgs, notifyEnded) {
     releasePointerCapture(instance);
     removeDocumentListeners(instance);
     endResizeState(instance);
+    resetInteraction(instance);
 
     if (notifyEnded)
         notify(instance, "OnResizeEnded", eventArgs);
-
-    resetInteraction(instance);
 }
 
 function addDocumentListeners(instance, documentObserverScope) {
