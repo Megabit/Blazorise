@@ -80,6 +80,9 @@ public partial class FileInput
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override UtilityTarget DefaultUtilityTarget => UtilityTarget.Wrapper;
+
     protected ClassBuilder InputClassBuilder { get; private set; }
 
     protected ClassBuilder AddonClassBuilder { get; private set; }

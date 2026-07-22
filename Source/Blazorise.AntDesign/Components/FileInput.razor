@@ -1,4 +1,5 @@
 @inherits Blazorise.FileInput
+<div class="ant-upload-wrapper @WrapperUtilityClassBuilder.Class" style="@WrapperUtilityStyleBuilder.Styles">
 <div class="ant-upload ant-upload-select ant-upload-select-text">
     <span tabindex="0" class="ant-upload" role="button">
         <input @ref="@ElementRef" id="@ElementId" type="file" class="@ClassNames" style="@InputStyleNames" disabled="@IsDisabled" readonly="@ReadOnly" multiple="@Multiple" webkitdirectory="@Directory" tabindex="@TabIndex" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ExplicitAriaLabelledBy" placeholder="@Placeholder" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" accept="@Filter" @attributes="@Attributes" />
@@ -50,7 +51,11 @@
     </div>
 }
 @Feedback
+</div>
 @code {
+    /// <inheritdoc/>
+    protected override UtilityTarget DefaultUtilityTarget => UtilityTarget.Wrapper;
+
     string InputStyleNames
         => $"{StyleNames} display: none;";
 
