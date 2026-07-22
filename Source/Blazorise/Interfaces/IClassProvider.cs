@@ -242,7 +242,7 @@ public interface IClassProvider
 
     string ResizeHandlePlacement( Placement placement );
 
-    string ResizeHandleGrip( bool showGrip );
+    string ResizeHandleGutter( bool showGutter );
 
     string ResizeHandleDisabled( bool disabled );
 

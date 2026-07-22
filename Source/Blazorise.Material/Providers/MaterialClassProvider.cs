@@ -272,7 +272,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string ResizeHandlePlacement( Placement placement ) => $"mui-resize-handle-{placement.ToString().ToLowerInvariant()}";
 
-    public override string ResizeHandleGrip( bool showGrip ) => showGrip ? "mui-resize-handle-grip" : null;
+    public override string ResizeHandleGutter( bool showGutter ) => showGutter ? "mui-resize-handle-gutter" : null;
 
     public override string ResizeHandleDisabled( bool disabled ) => disabled ? "mui-resize-handle-disabled" : null;
 

@@ -24,7 +24,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
 
     private Placement? placement;
 
-    private bool showGrip;
+    private bool showGutter;
 
     private bool disabled;
 
@@ -83,7 +83,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
         builder.Append( ClassProvider.ResizeHandle() );
         builder.Append( ClassProvider.ResizeHandleOrientation( Orientation ) );
         builder.Append( ClassProvider.ResizeHandlePlacement( ResolvedPlacement ) );
-        builder.Append( ClassProvider.ResizeHandleGrip( ShowGrip ) );
+        builder.Append( ClassProvider.ResizeHandleGutter( ShowGutter ) );
         builder.Append( ClassProvider.ResizeHandleDisabled( Disabled ) );
 
         base.BuildClasses( builder );
@@ -105,7 +105,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Handles the start of a resize interaction.
+    /// Receives notification that a pointer or keyboard resize has started.
     /// </summary>
     /// <param name="eventArgs">Information about the resize operation.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -114,7 +114,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
         => ResizeStarted.InvokeAsync( eventArgs );
 
     /// <summary>
-    /// Handles a throttled resize interaction update.
+    /// Forwards a throttled size update from the active interaction.
     /// </summary>
     /// <param name="eventArgs">Information about the resize operation.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -123,7 +123,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
         => Resizing.InvokeAsync( eventArgs );
 
     /// <summary>
-    /// Handles the end of a resize interaction.
+    /// Commits the final size and reports completion of the interaction.
     /// </summary>
     /// <param name="eventArgs">Information about the resize operation.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -167,7 +167,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets the resolved placement of the handle.
+    /// Chooses a placement that is valid for the current orientation.
     /// </summary>
     protected Placement ResolvedPlacement
     {
@@ -193,7 +193,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets the CSS property changed while resizing.
+    /// Resolves the configured CSS property, falling back to width or height for the active axis.
     /// </summary>
     protected string ResolvedResizeProperty
         => !string.IsNullOrWhiteSpace( ResizeProperty )
@@ -201,58 +201,58 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
             : Orientation == Blazorise.Orientation.Vertical ? "width" : "height";
 
     /// <summary>
-    /// Gets the ARIA orientation value.
+    /// Maps the component orientation to its ARIA representation.
     /// </summary>
     protected string AriaOrientation
         => Orientation == Blazorise.Orientation.Vertical ? "vertical" : "horizontal";
 
     /// <summary>
-    /// Gets the ARIA minimum value.
+    /// Formats the minimum size for the rendered separator semantics.
     /// </summary>
     protected string AriaValueMin
         => FormatAriaValue( MinSize );
 
     /// <summary>
-    /// Gets the ARIA maximum value.
+    /// Formats the optional maximum size for assistive technologies.
     /// </summary>
     protected string AriaValueMax
         => FormatAriaValue( MaxSize );
 
     /// <summary>
-    /// Gets the initial ARIA current value. JavaScript keeps it synchronized while resizing.
+    /// Supplies the initial accessible size; JavaScript keeps the value synchronized during resizing.
     /// </summary>
     protected string AriaValueNow
         => FormatAriaValue( Size );
 
     /// <summary>
-    /// Gets the ARIA disabled value.
+    /// Converts the disabled state to the lowercase ARIA boolean format.
     /// </summary>
     protected string AriaDisabled
         => Disabled.ToString().ToLowerInvariant();
 
     /// <summary>
-    /// Gets the effective tab index.
+    /// Removes disabled handles from the tab order and otherwise uses <see cref="TabIndex"/>.
     /// </summary>
     protected int ResolvedTabIndex
         => Disabled ? -1 : TabIndex;
 
     /// <summary>
-    /// Gets the shared document observer.
+    /// Provides the shared document-event infrastructure used by the JavaScript interaction.
     /// </summary>
     [Inject] protected IDocumentObserver DocumentObserver { get; set; }
 
     /// <summary>
-    /// Specifies the JavaScript module used by the component.
+    /// Performs pointer, keyboard, focus, and target-sizing operations in the browser.
     /// </summary>
     [Inject] public IJSResizeHandleModule JSModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the ID of the element to resize. When omitted, the handle's parent element is resized.
+    /// Identifies the element that receives size updates. When omitted, the handle resizes its parent.
     /// </summary>
     [Parameter] public string TargetElementId { get; set; }
 
     /// <summary>
-    /// Gets or sets the orientation of the visible separator. A vertical handle changes width and a horizontal handle changes height.
+    /// Controls the resize axis. Vertical handles change width, while horizontal handles change height.
     /// </summary>
     [Parameter]
     public Orientation Orientation
@@ -270,7 +270,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets or sets the edge on which the handle is positioned. Defaults to end for vertical handles and bottom for horizontal handles.
+    /// Positions the handle on the target edge. Vertical handles default to end and horizontal handles default to bottom.
     /// </summary>
     [Parameter]
     public Placement? Placement
@@ -288,12 +288,12 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets or sets the CSS property changed while resizing. CSS custom properties are supported.
+    /// Names the CSS property updated during resizing, including custom properties such as <c>--panel-width</c>.
     /// </summary>
     [Parameter] public string ResizeProperty { get; set; }
 
     /// <summary>
-    /// Gets or sets the size in pixels. When omitted, the initial size is measured from the target element.
+    /// Supplies the controlled size in pixels. Without a value, the browser measures the target's initial size.
     /// </summary>
     [Parameter] public double? Size { get; set; }
 
@@ -303,45 +303,45 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback<double> SizeChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the minimum size in pixels.
+    /// Prevents the target from shrinking below this pixel value.
     /// </summary>
     [Parameter] public double MinSize { get; set; }
 
     /// <summary>
-    /// Gets or sets the maximum size in pixels. When omitted, no maximum is applied.
+    /// Limits the target's size in pixels; a null value leaves the upper bound unrestricted.
     /// </summary>
     [Parameter] public double? MaxSize { get; set; }
 
     /// <summary>
-    /// Gets or sets the number of pixels applied by an arrow-key press.
+    /// Determines how many pixels each applicable arrow-key press adds or removes.
     /// </summary>
     [Parameter] public double KeyboardStep { get; set; } = 10;
 
     /// <summary>
-    /// Gets or sets the minimum interval in milliseconds between <see cref="Resizing"/> callbacks.
+    /// Throttles <see cref="Resizing"/> notifications to at least this many milliseconds apart.
     /// </summary>
     [Parameter] public int ResizeEventInterval { get; set; } = 100;
 
     /// <summary>
-    /// Gets or sets whether a provider-styled separator surface and grip are shown.
+    /// Displays the provider-styled gutter, borders, and grip when enabled. The resize area is transparent by default.
     /// </summary>
     [Parameter]
-    public bool ShowGrip
+    public bool ShowGutter
     {
-        get => showGrip;
+        get => showGutter;
         set
         {
-            if ( showGrip == value )
+            if ( showGutter == value )
                 return;
 
-            showGrip = value;
+            showGutter = value;
 
             DirtyClasses();
         }
     }
 
     /// <summary>
-    /// Gets or sets whether resizing is disabled.
+    /// Prevents both pointer and keyboard resizing when enabled.
     /// </summary>
     [Parameter]
     public bool Disabled
@@ -359,27 +359,27 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets or sets the accessible label for the separator.
+    /// Describes the separator's purpose to assistive technologies.
     /// </summary>
     [Parameter] public string AriaLabel { get; set; } = "Resize";
 
     /// <summary>
-    /// Gets or sets the tab index used when the handle is enabled.
+    /// Controls the handle's position in the keyboard tab order while it is enabled.
     /// </summary>
     [Parameter] public int TabIndex { get; set; }
 
     /// <summary>
-    /// Occurs when a resize interaction starts.
+    /// Fires once when pointer or keyboard resizing begins.
     /// </summary>
     [Parameter] public EventCallback<ResizeHandleEventArgs> ResizeStarted { get; set; }
 
     /// <summary>
-    /// Occurs while resizing. Notifications are throttled by <see cref="ResizeEventInterval"/>.
+    /// Reports intermediate sizes at the cadence configured by <see cref="ResizeEventInterval"/>.
     /// </summary>
     [Parameter] public EventCallback<ResizeHandleEventArgs> Resizing { get; set; }
 
     /// <summary>
-    /// Occurs when a resize interaction ends or is canceled.
+    /// Signals that resizing has finished, including canceled pointer interactions.
     /// </summary>
     [Parameter] public EventCallback<ResizeHandleEventArgs> ResizeEnded { get; set; }
 

@@ -8231,8 +8231,8 @@ body.modal-open {
 
 .mui-resize-handle {
   --b-resize-handle-hit-area: .5rem;
-  --b-resize-handle-grip-background: var(--mui-surface-container, #f3edf7);
-  --b-resize-handle-grip-border: var(--mui-outline-variant, #cac4d0);
+  --b-resize-handle-gutter-background: var(--mui-surface-container, #f3edf7);
+  --b-resize-handle-gutter-border: var(--mui-outline-variant, #cac4d0);
   --b-resize-handle-grip-color: var(--mui-on-surface-variant, #49454f);
   position: absolute;
   z-index: 10;
@@ -8267,26 +8267,26 @@ body.modal-open {
 .mui-resize-handle-end {
   inset-inline-end: 0;
 }
-.mui-resize-handle-grip::before, .mui-resize-handle-grip::after {
+.mui-resize-handle-gutter::before, .mui-resize-handle-gutter::after {
   content: "";
   position: absolute;
   pointer-events: none;
 }
-.mui-resize-handle-grip::before {
+.mui-resize-handle-gutter::before {
   inset: 0;
   box-sizing: border-box;
-  background: var(--b-resize-handle-grip-background);
+  background: var(--b-resize-handle-gutter-background);
 }
-.mui-resize-handle-grip::after {
+.mui-resize-handle-gutter::after {
   top: 50%;
   left: 50%;
   border-radius: 9999px;
   background: var(--b-resize-handle-grip-color);
   transform: translate(-50%, -50%);
 }
-.mui-resize-handle-grip:hover, .mui-resize-handle-grip:focus-visible, .mui-resize-handle-grip.mui-resize-handle-resizing {
-  --b-resize-handle-grip-background: var(--mui-primary-container, #eaddff);
-  --b-resize-handle-grip-border: var(--mui-primary, var(--b-theme-primary, #6750a4));
+.mui-resize-handle-gutter:hover, .mui-resize-handle-gutter:focus-visible, .mui-resize-handle-gutter.mui-resize-handle-resizing {
+  --b-resize-handle-gutter-background: var(--mui-primary-container, #eaddff);
+  --b-resize-handle-gutter-border: var(--mui-primary, var(--b-theme-primary, #6750a4));
   --b-resize-handle-grip-color: var(--mui-on-primary-container, #21005d);
 }
 .mui-resize-handle-disabled {
@@ -8297,18 +8297,18 @@ body.modal-open {
   transition: none !important;
 }
 
-.mui-resize-handle-grip.mui-resize-handle-vertical::before {
-  border-inline: 1px solid var(--b-resize-handle-grip-border);
+.mui-resize-handle-gutter.mui-resize-handle-vertical::before {
+  border-inline: 1px solid var(--b-resize-handle-gutter-border);
 }
-.mui-resize-handle-grip.mui-resize-handle-vertical::after {
+.mui-resize-handle-gutter.mui-resize-handle-vertical::after {
   width: 4px;
   height: 2rem;
 }
 
-.mui-resize-handle-grip.mui-resize-handle-horizontal::before {
-  border-block: 1px solid var(--b-resize-handle-grip-border);
+.mui-resize-handle-gutter.mui-resize-handle-horizontal::before {
+  border-block: 1px solid var(--b-resize-handle-gutter-border);
 }
-.mui-resize-handle-grip.mui-resize-handle-horizontal::after {
+.mui-resize-handle-gutter.mui-resize-handle-horizontal::after {
   width: 2rem;
   height: 4px;
 }

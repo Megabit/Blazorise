@@ -245,7 +245,7 @@ class EmptyClassProvider : IClassProvider
 
     public string ResizeHandlePlacement( Placement placement ) => null;
 
-    public string ResizeHandleGrip( bool showGrip ) => null;
+    public string ResizeHandleGutter( bool showGutter ) => null;
 
     public string ResizeHandleDisabled( bool disabled ) => null;
 

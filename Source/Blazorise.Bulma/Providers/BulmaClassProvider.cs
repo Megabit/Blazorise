@@ -246,7 +246,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ResizeHandlePlacement( Placement placement ) => $"is-{placement.ToString().ToLowerInvariant()}";
 
-    public override string ResizeHandleGrip( bool showGrip ) => showGrip ? "has-grip" : null;
+    public override string ResizeHandleGutter( bool showGutter ) => showGutter ? "has-gutter" : null;
 
     public override string ResizeHandleDisabled( bool disabled ) => disabled ? "is-disabled" : null;
 

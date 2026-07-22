@@ -1,7 +1,7 @@
 .mui-resize-handle {
     --b-resize-handle-hit-area: .5rem;
-    --b-resize-handle-grip-background: var(--mui-surface-container, #f3edf7);
-    --b-resize-handle-grip-border: var(--mui-outline-variant, #cac4d0);
+    --b-resize-handle-gutter-background: var(--mui-surface-container, #f3edf7);
+    --b-resize-handle-gutter-border: var(--mui-outline-variant, #cac4d0);
     --b-resize-handle-grip-color: var(--mui-on-surface-variant, #49454f);
     position: absolute;
     z-index: 10;
@@ -42,7 +42,7 @@
         inset-inline-end: 0;
     }
 
-    &-grip {
+    &-gutter {
         &::before,
         &::after {
             content: "";
@@ -53,7 +53,7 @@
         &::before {
             inset: 0;
             box-sizing: border-box;
-            background: var(--b-resize-handle-grip-background);
+            background: var(--b-resize-handle-gutter-background);
         }
 
         &::after {
@@ -67,8 +67,8 @@
         &:hover,
         &:focus-visible,
         &.mui-resize-handle-resizing {
-            --b-resize-handle-grip-background: var(--mui-primary-container, #eaddff);
-            --b-resize-handle-grip-border: var(--mui-primary, var(--b-theme-primary, #6750a4));
+            --b-resize-handle-gutter-background: var(--mui-primary-container, #eaddff);
+            --b-resize-handle-gutter-border: var(--mui-primary, var(--b-theme-primary, #6750a4));
             --b-resize-handle-grip-color: var(--mui-on-primary-container, #21005d);
         }
     }
@@ -83,9 +83,9 @@
     }
 }
 
-.mui-resize-handle-grip.mui-resize-handle-vertical {
+.mui-resize-handle-gutter.mui-resize-handle-vertical {
     &::before {
-        border-inline: 1px solid var(--b-resize-handle-grip-border);
+        border-inline: 1px solid var(--b-resize-handle-gutter-border);
     }
 
     &::after {
@@ -94,9 +94,9 @@
     }
 }
 
-.mui-resize-handle-grip.mui-resize-handle-horizontal {
+.mui-resize-handle-gutter.mui-resize-handle-horizontal {
     &::before {
-        border-block: 1px solid var(--b-resize-handle-grip-border);
+        border-block: 1px solid var(--b-resize-handle-gutter-border);
     }
 
     &::after {

@@ -1179,8 +1179,8 @@ body:before {
 
 .tw-resize-handle {
   --b-resize-handle-hit-area: .5rem;
-  --b-resize-handle-grip-background: rgb(249 250 251);
-  --b-resize-handle-grip-border: rgb(209 213 219);
+  --b-resize-handle-gutter-background: rgb(249 250 251);
+  --b-resize-handle-gutter-border: rgb(209 213 219);
   --b-resize-handle-grip-color: rgb(107 114 128);
 }
 .tw-resize-handle-vertical {
@@ -1189,17 +1189,17 @@ body:before {
 .tw-resize-handle-horizontal {
   height: var(--b-resize-handle-hit-area);
 }
-.tw-resize-handle-grip::before, .tw-resize-handle-grip::after {
+.tw-resize-handle-gutter::before, .tw-resize-handle-gutter::after {
   content: "";
   position: absolute;
   pointer-events: none;
 }
-.tw-resize-handle-grip::before {
+.tw-resize-handle-gutter::before {
   inset: 0;
   box-sizing: border-box;
-  background: var(--b-resize-handle-grip-background);
+  background: var(--b-resize-handle-gutter-background);
 }
-.tw-resize-handle-grip::after {
+.tw-resize-handle-gutter::after {
   top: 50%;
   left: 50%;
   width: 3px;
@@ -1208,23 +1208,23 @@ body:before {
   background: var(--b-resize-handle-grip-color);
   transform: translate(-50%, -50%);
 }
-.tw-resize-handle-grip:hover, .tw-resize-handle-grip:focus-visible, .tw-resize-handle-grip.tw-resize-handle-resizing {
-  --b-resize-handle-grip-background: rgb(239 246 255);
-  --b-resize-handle-grip-border: var(--b-theme-primary, rgb(37 99 235));
+.tw-resize-handle-gutter:hover, .tw-resize-handle-gutter:focus-visible, .tw-resize-handle-gutter.tw-resize-handle-resizing {
+  --b-resize-handle-gutter-background: rgb(239 246 255);
+  --b-resize-handle-gutter-border: var(--b-theme-primary, rgb(37 99 235));
   --b-resize-handle-grip-color: var(--b-theme-primary, rgb(37 99 235));
 }
 
-.tw-resize-handle-grip.tw-resize-handle-vertical::before {
-  border-inline: 1px solid var(--b-resize-handle-grip-border);
+.tw-resize-handle-gutter.tw-resize-handle-vertical::before {
+  border-inline: 1px solid var(--b-resize-handle-gutter-border);
 }
-.tw-resize-handle-grip.tw-resize-handle-vertical::after {
+.tw-resize-handle-gutter.tw-resize-handle-vertical::after {
   box-shadow: 0 -5px 0 var(--b-resize-handle-grip-color), 0 5px 0 var(--b-resize-handle-grip-color);
 }
 
-.tw-resize-handle-grip.tw-resize-handle-horizontal::before {
-  border-block: 1px solid var(--b-resize-handle-grip-border);
+.tw-resize-handle-gutter.tw-resize-handle-horizontal::before {
+  border-block: 1px solid var(--b-resize-handle-gutter-border);
 }
-.tw-resize-handle-grip.tw-resize-handle-horizontal::after {
+.tw-resize-handle-gutter.tw-resize-handle-horizontal::after {
   box-shadow: -5px 0 0 var(--b-resize-handle-grip-color), 5px 0 0 var(--b-resize-handle-grip-color);
 }
 

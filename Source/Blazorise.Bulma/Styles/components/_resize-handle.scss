@@ -1,7 +1,7 @@
 .resize-handle {
     --b-resize-handle-hit-area: .5rem;
-    --b-resize-handle-grip-background: #{$grey-lightest};
-    --b-resize-handle-grip-border: #{$grey-lighter};
+    --b-resize-handle-gutter-background: #{$grey-lightest};
+    --b-resize-handle-gutter-border: #{$grey-lighter};
     --b-resize-handle-grip-color: #{$grey};
     position: absolute;
     z-index: 10;
@@ -42,7 +42,7 @@
         inset-inline-end: 0;
     }
 
-    &.has-grip {
+    &.has-gutter {
         &::before,
         &::after {
             content: "";
@@ -53,7 +53,7 @@
         &::before {
             inset: 0;
             box-sizing: border-box;
-            background: var(--b-resize-handle-grip-background);
+            background: var(--b-resize-handle-gutter-background);
         }
 
         &::after {
@@ -67,8 +67,8 @@
         &:hover,
         &:focus-visible,
         &.is-resizing {
-            --b-resize-handle-grip-background: #{rgba($primary, .12)};
-            --b-resize-handle-grip-border: var(--b-theme-primary, #{$primary});
+            --b-resize-handle-gutter-background: #{rgba($primary, .12)};
+            --b-resize-handle-gutter-border: var(--b-theme-primary, #{$primary});
             --b-resize-handle-grip-color: var(--b-theme-primary, #{$primary});
         }
     }
@@ -79,9 +79,9 @@
     }
 }
 
-.resize-handle.has-grip.is-vertical {
+.resize-handle.has-gutter.is-vertical {
     &::before {
-        border-inline: 1px solid var(--b-resize-handle-grip-border);
+        border-inline: 1px solid var(--b-resize-handle-gutter-border);
     }
 
     &::after {
@@ -90,9 +90,9 @@
     }
 }
 
-.resize-handle.has-grip.is-horizontal {
+.resize-handle.has-gutter.is-horizontal {
     &::before {
-        border-block: 1px solid var(--b-resize-handle-grip-border);
+        border-block: 1px solid var(--b-resize-handle-gutter-border);
     }
 
     &::after {

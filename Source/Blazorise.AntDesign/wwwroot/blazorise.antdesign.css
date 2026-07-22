@@ -8129,8 +8129,8 @@ a.ant-typography-disabled[aria-disabled=true] {
 
 .ant-resize-handle {
   --b-resize-handle-hit-area: .5rem;
-  --b-resize-handle-grip-background: var(--ant-color-fill-tertiary, #f5f5f5);
-  --b-resize-handle-grip-border: var(--ant-color-border, #d9d9d9);
+  --b-resize-handle-gutter-background: var(--ant-color-fill-tertiary, #f5f5f5);
+  --b-resize-handle-gutter-border: var(--ant-color-border, #d9d9d9);
   --b-resize-handle-grip-color: var(--ant-color-text-quaternary, rgba(0, 0, 0, .25));
   position: absolute;
   z-index: 10;
@@ -8165,17 +8165,17 @@ a.ant-typography-disabled[aria-disabled=true] {
 .ant-resize-handle-end {
   inset-inline-end: calc(0px - var(--b-resize-handle-hit-area));
 }
-.ant-resize-handle-grip::before, .ant-resize-handle-grip::after {
+.ant-resize-handle-gutter::before, .ant-resize-handle-gutter::after {
   content: "";
   position: absolute;
   pointer-events: none;
 }
-.ant-resize-handle-grip::before {
+.ant-resize-handle-gutter::before {
   inset: 0;
   box-sizing: border-box;
-  background: var(--b-resize-handle-grip-background);
+  background: var(--b-resize-handle-gutter-background);
 }
-.ant-resize-handle-grip::after {
+.ant-resize-handle-gutter::after {
   top: 50%;
   left: 50%;
   width: 2px;
@@ -8184,9 +8184,9 @@ a.ant-typography-disabled[aria-disabled=true] {
   background: var(--b-resize-handle-grip-color);
   transform: translate(-50%, -50%);
 }
-.ant-resize-handle-grip:hover, .ant-resize-handle-grip:focus-visible, .ant-resize-handle-grip.ant-resize-handle-resizing {
-  --b-resize-handle-grip-background: var(--ant-color-primary-bg, #e6f4ff);
-  --b-resize-handle-grip-border: var(--ant-color-primary, var(--b-theme-primary, #1677ff));
+.ant-resize-handle-gutter:hover, .ant-resize-handle-gutter:focus-visible, .ant-resize-handle-gutter.ant-resize-handle-resizing {
+  --b-resize-handle-gutter-background: var(--ant-color-primary-bg, #e6f4ff);
+  --b-resize-handle-gutter-border: var(--ant-color-primary, var(--b-theme-primary, #1677ff));
   --b-resize-handle-grip-color: var(--ant-color-primary, var(--b-theme-primary, #1677ff));
 }
 .ant-resize-handle-disabled {
@@ -8197,17 +8197,17 @@ a.ant-typography-disabled[aria-disabled=true] {
   transition: none !important;
 }
 
-.ant-resize-handle-grip.ant-resize-handle-vertical::before {
-  border-inline: 1px solid var(--b-resize-handle-grip-border);
+.ant-resize-handle-gutter.ant-resize-handle-vertical::before {
+  border-inline: 1px solid var(--b-resize-handle-gutter-border);
 }
-.ant-resize-handle-grip.ant-resize-handle-vertical::after {
+.ant-resize-handle-gutter.ant-resize-handle-vertical::after {
   box-shadow: 0 -4px 0 var(--b-resize-handle-grip-color), 0 4px 0 var(--b-resize-handle-grip-color);
 }
 
-.ant-resize-handle-grip.ant-resize-handle-horizontal::before {
-  border-block: 1px solid var(--b-resize-handle-grip-border);
+.ant-resize-handle-gutter.ant-resize-handle-horizontal::before {
+  border-block: 1px solid var(--b-resize-handle-gutter-border);
 }
-.ant-resize-handle-grip.ant-resize-handle-horizontal::after {
+.ant-resize-handle-gutter.ant-resize-handle-horizontal::after {
   box-shadow: -4px 0 0 var(--b-resize-handle-grip-color), 4px 0 0 var(--b-resize-handle-grip-color);
 }
 
