@@ -629,6 +629,13 @@ body[data-bs-theme=dark] .b-docs .navbar[data-mode^=vertical].navbar-dark .dropd
   color: var(--b-codeblock-powershell-operator-color);
 }
 
+.b-docs-page-section-source-code {
+  background-color: var(--b-codeblock-background-color);
+}
+.b-docs-page-section-source-code > .blazorise-codeblock {
+  overflow: visible;
+}
+
 code {
   color: var(--b-code-color);
   padding: 0.25em 0.375em;
