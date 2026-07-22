@@ -197,10 +197,12 @@ internal sealed class DockLayoutTreeMutator
 
         if ( node.Kind == DockNodeKind.Pane && node.PaneName == targetName )
         {
+            string targetSize = sizer.GetResolvedDockNodeSize( state, node );
             DockNodeState tabsNode = new()
             {
                 Kind = DockNodeKind.Tabs,
                 ActivePane = paneName,
+                Size = targetSize,
             };
 
             tabsNode.Panes.Add( targetName );
@@ -212,10 +214,13 @@ internal sealed class DockLayoutTreeMutator
 
         if ( node.Kind == DockNodeKind.Tabs && node.Panes.Contains( targetName ) )
         {
+            string targetSize = sizer.GetResolvedDockNodeSize( state, node );
+
             if ( !node.Panes.Contains( paneName ) )
                 node.Panes.Add( paneName );
 
             node.ActivePane = paneName;
+            node.Size ??= targetSize;
             SetDockTabsNodeSize( state, node );
 
             return node;

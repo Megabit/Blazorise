@@ -83,6 +83,20 @@ internal sealed class DockLayoutSizer
             _ => null,
         };
 
+    public string GetResolvedDockNodeSize( DockLayoutState state, DockNodeState node )
+    {
+        string size = GetDockNodeSize( state, node );
+
+        if ( !string.IsNullOrWhiteSpace( size ) )
+            return size;
+
+        DockPanePosition? position = query.GetDockNodePosition( node );
+
+        return position is null or DockPanePosition.Center
+            ? null
+            : GetDefaultDockPaneSize( position.Value );
+    }
+
     public string GetDockPaneSize( DockLayoutState state, string paneName )
     {
         if ( !registry.TryGetPane( paneName, out DockPane pane ) )
