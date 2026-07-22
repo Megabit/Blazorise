@@ -36,13 +36,13 @@
                               Items="@Sales"
                               Options="@lineOptions"
                               Hovered="@OnPointHovered">
-                    <SvgChartTitle Title='@("Monthly trend")' Subtitle='@("Line series with SVG markers")' />
+                    <SvgChartTitle Title='@("Monthly trend")' Subtitle='@("Tokyo highlighted with a line outline")' />
                     <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
                     <SvgChartTooltip Enabled />
                     <SvgChartCategoryAxis Value="@( x => x.Month )" />
                     <SvgChartValueAxis BeginAtZero TickCount="6" />
 
-                    <SvgLineSeries Name="Tokyo" Value="@( x => x.Tokyo )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="4" />
+                    <SvgLineSeries Name="Tokyo" Value="@( x => x.Tokyo )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="4" Outline="@tokyoLineOutline" />
                     <SvgLineSeries Name="New York" Value="@( x => x.NewYork )" Color="Color.Info" StrokeWidth="3" MarkerRadius="4" />
                     <SvgLineSeries Name="London" Value="@( x => x.London )" Color="Color.Success" StrokeWidth="3" MarkerRadius="4" />
                 </SvgLineChart>

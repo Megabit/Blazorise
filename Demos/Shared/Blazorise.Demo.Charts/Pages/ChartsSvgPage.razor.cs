@@ -64,6 +64,13 @@ public partial class ChartsSvgPage
         Legend = new() { Position = SvgChartLegendPosition.Bottom },
     };
 
+    private readonly SvgChartLineOutlineOptions tokyoLineOutline = new()
+    {
+        Color = Color.Warning,
+        StrokeWidth = 9,
+        Opacity = 0.35,
+    };
+
     private SvgChartOptions barOptions = new()
     {
         Height = 380,
