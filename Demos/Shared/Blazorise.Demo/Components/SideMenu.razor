@@ -1,6 +1,7 @@
 <Bar Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet"
      Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small" MenuToggleBehavior=BarMenuToggleBehavior.AllowSingleMenu
-     Style="@SidebarStyle">
+     Style="@SidebarStyle"
+     @bind-Visible="barExpanded">
     <BarToggler />
     <BarBrand>
         <BarItem>
@@ -438,9 +439,11 @@
                   MinSize="180"
                   MaxSize="480"
                   @bind-Size="sidebarWidth"
+                  Disabled="@(!barExpanded)"
                   AriaLabel="Resize navigation sidebar" />
 </Bar>
 @code {
+    private bool barExpanded = true;
     private double sidebarWidth = 230;
     private string SidebarStyle
          => FormattableString.Invariant(
