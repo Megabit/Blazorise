@@ -1177,6 +1177,53 @@ body:before {
   cursor: not-allowed;
 }
 
+.tw-resize-handle {
+  --b-resize-handle-hit-area: .5rem;
+  --b-resize-handle-focus-size: 2px;
+  --b-resize-handle-focus-color: var(--b-theme-primary, #2563eb);
+}
+.tw-resize-handle::before {
+  content: "";
+  position: absolute;
+  background-color: transparent;
+  pointer-events: none;
+}
+.tw-resize-handle-vertical {
+  width: var(--b-resize-handle-hit-area);
+}
+.tw-resize-handle-vertical::before {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: var(--b-resize-handle-focus-size);
+  transform: translateX(-50%);
+}
+.tw-resize-handle-horizontal {
+  height: var(--b-resize-handle-hit-area);
+}
+.tw-resize-handle-horizontal::before {
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: var(--b-resize-handle-focus-size);
+  transform: translateY(-50%);
+}
+.tw-resize-handle:focus-visible::before {
+  background-color: var(--b-resize-handle-focus-color);
+}
+.tw-resize-handle-resizing:focus-visible::before {
+  background-color: transparent;
+}
+
+.tw-resize-handle-target-resizing {
+  transition: none !important;
+}
+
+@media (pointer: coarse) {
+  .tw-resize-handle {
+    --b-resize-handle-hit-area: 1rem;
+  }
+}
 .b-skeleton .b-skeleton-item {
   position: relative;
 }

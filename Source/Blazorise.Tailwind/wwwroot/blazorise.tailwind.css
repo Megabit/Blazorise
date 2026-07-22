@@ -383,6 +383,9 @@
   .start-0 {
     inset-inline-start: calc(var(--spacing) * 0);
   }
+  .end-0 {
+    inset-inline-end: calc(var(--spacing) * 0);
+  }
   .top-0 {
     top: calc(var(--spacing) * 0);
   }
@@ -1243,6 +1246,9 @@
   .animate-spin {
     animation: var(--animate-spin);
   }
+  .cursor-col-resize {
+    cursor: col-resize;
+  }
   .cursor-none {
     cursor: none;
   }
@@ -1251,6 +1257,12 @@
   }
   .cursor-pointer {
     cursor: pointer;
+  }
+  .cursor-row-resize {
+    cursor: row-resize;
+  }
+  .touch-none {
+    touch-action: none;
   }
   .list-none {
     list-style-type: none;
@@ -2221,6 +2233,9 @@
   .\!p-5 {
     padding: calc(var(--spacing) * 5) !important;
   }
+  .p-0 {
+    padding: calc(var(--spacing) * 0);
+  }
   .p-0\.5 {
     padding: calc(var(--spacing) * 0.5);
   }
@@ -2910,6 +2925,9 @@
   .accent-warning-500 {
     accent-color: var(--color-warning-500);
   }
+  .opacity-50 {
+    opacity: 50%;
+  }
   .opacity-60 {
     opacity: 60%;
   }
@@ -3005,6 +3023,9 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
+  .\!transition-none {
+    transition-property: none !important;
+  }
   .duration-700 {
     --tw-duration: 700ms;
     transition-duration: 700ms;
@@ -3012,6 +3033,14 @@
   .ease-in-out {
     --tw-ease: var(--ease-in-out);
     transition-timing-function: var(--ease-in-out);
+  }
+  .outline-none {
+    --tw-outline-style: none;
+    outline-style: none;
+  }
+  .select-none {
+    -webkit-user-select: none;
+    user-select: none;
   }
   .group-hover\:bg-white\/50 {
     &:is(:where(.group):hover *) {
@@ -9713,6 +9742,51 @@ body:before {
 }
 .tw-range-slider[aria-disabled=true] > .tw-range-slider-input::-moz-range-thumb {
   cursor: not-allowed;
+}
+.tw-resize-handle {
+  --b-resize-handle-hit-area: .5rem;
+  --b-resize-handle-focus-size: 2px;
+  --b-resize-handle-focus-color: var(--b-theme-primary, #2563eb);
+}
+.tw-resize-handle::before {
+  content: "";
+  position: absolute;
+  background-color: transparent;
+  pointer-events: none;
+}
+.tw-resize-handle-vertical {
+  width: var(--b-resize-handle-hit-area);
+}
+.tw-resize-handle-vertical::before {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: var(--b-resize-handle-focus-size);
+  transform: translateX(-50%);
+}
+.tw-resize-handle-horizontal {
+  height: var(--b-resize-handle-hit-area);
+}
+.tw-resize-handle-horizontal::before {
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: var(--b-resize-handle-focus-size);
+  transform: translateY(-50%);
+}
+.tw-resize-handle:focus-visible::before {
+  background-color: var(--b-resize-handle-focus-color);
+}
+.tw-resize-handle-resizing:focus-visible::before {
+  background-color: transparent;
+}
+.tw-resize-handle-target-resizing {
+  transition: none !important;
+}
+@media (pointer: coarse) {
+  .tw-resize-handle {
+    --b-resize-handle-hit-area: 1rem;
+  }
 }
 .b-skeleton .b-skeleton-item {
   position: relative;

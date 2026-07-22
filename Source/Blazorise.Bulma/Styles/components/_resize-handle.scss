@@ -48,10 +48,21 @@
         }
     }
 
-    &.is-top { top: 0; }
-    &.is-bottom { bottom: 0; }
-    &.is-start { inset-inline-start: 0; }
-    &.is-end { inset-inline-end: 0; }
+    &.is-top {
+        top: 0;
+    }
+
+    &.is-bottom {
+        bottom: 0;
+    }
+
+    &.is-start {
+        inset-inline-start: 0;
+    }
+
+    &.is-end {
+        inset-inline-end: 0;
+    }
 
     &:focus-visible::before {
         background-color: var(--b-resize-handle-focus-color);

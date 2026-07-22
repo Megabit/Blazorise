@@ -2947,6 +2947,83 @@ input.is-danger + label + .help.is-none + .help.is-success + .help.is-danger {
   cursor: not-allowed;
 }
 
+.resize-handle {
+  --b-resize-handle-hit-area: .5rem;
+  --b-resize-handle-focus-size: 2px;
+  --b-resize-handle-focus-color: var(--b-theme-primary, #00d1b2);
+  position: absolute;
+  z-index: 10;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  user-select: none;
+  touch-action: none;
+  outline: none;
+}
+.resize-handle::before {
+  content: "";
+  position: absolute;
+  background-color: transparent;
+  pointer-events: none;
+}
+.resize-handle.is-vertical {
+  top: 0;
+  bottom: 0;
+  width: var(--b-resize-handle-hit-area);
+  cursor: col-resize;
+}
+.resize-handle.is-vertical::before {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: var(--b-resize-handle-focus-size);
+  transform: translateX(-50%);
+}
+.resize-handle.is-horizontal {
+  right: 0;
+  left: 0;
+  height: var(--b-resize-handle-hit-area);
+  cursor: row-resize;
+}
+.resize-handle.is-horizontal::before {
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: var(--b-resize-handle-focus-size);
+  transform: translateY(-50%);
+}
+.resize-handle.is-top {
+  top: 0;
+}
+.resize-handle.is-bottom {
+  bottom: 0;
+}
+.resize-handle.is-start {
+  inset-inline-start: 0;
+}
+.resize-handle.is-end {
+  inset-inline-end: 0;
+}
+.resize-handle:focus-visible::before {
+  background-color: var(--b-resize-handle-focus-color);
+}
+.resize-handle.is-resizing:focus-visible::before {
+  background-color: transparent;
+}
+.resize-handle.is-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.is-resize-target-resizing {
+  transition: none !important;
+}
+
+@media (pointer: coarse) {
+  .resize-handle {
+    --b-resize-handle-hit-area: 1rem;
+  }
+}
 .hero.is-primary {
   background-color: hsl(171, 100%, 41%);
   color: hsl(221, 14%, 100%);

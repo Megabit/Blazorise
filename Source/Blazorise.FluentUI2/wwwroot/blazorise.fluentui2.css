@@ -9811,6 +9811,82 @@ input::file-selector-button {
   color: var(--colorNeutralForeground3);
 }
 
+.fui-ResizeHandle {
+  --b-resize-handle-hit-area: .5rem;
+  --b-resize-handle-focus-size: 2px;
+  --b-resize-handle-focus-color: var(--colorBrandStroke1, var(--b-theme-primary, #0f6cbd));
+  position: absolute;
+  z-index: 10;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  user-select: none;
+  touch-action: none;
+  outline: none;
+}
+.fui-ResizeHandle::before {
+  content: "";
+  position: absolute;
+  background-color: transparent;
+  pointer-events: none;
+}
+.fui-ResizeHandle-vertical {
+  top: 0;
+  bottom: 0;
+  width: var(--b-resize-handle-hit-area);
+  cursor: col-resize;
+}
+.fui-ResizeHandle-vertical::before {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: var(--b-resize-handle-focus-size);
+  transform: translateX(-50%);
+}
+.fui-ResizeHandle-horizontal {
+  right: 0;
+  left: 0;
+  height: var(--b-resize-handle-hit-area);
+  cursor: row-resize;
+}
+.fui-ResizeHandle-horizontal::before {
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: var(--b-resize-handle-focus-size);
+  transform: translateY(-50%);
+}
+.fui-ResizeHandle-top {
+  top: 0;
+}
+.fui-ResizeHandle-bottom {
+  bottom: 0;
+}
+.fui-ResizeHandle-start {
+  inset-inline-start: 0;
+}
+.fui-ResizeHandle-end {
+  inset-inline-end: 0;
+}
+.fui-ResizeHandle:focus-visible::before {
+  background-color: var(--b-resize-handle-focus-color);
+}
+.fui-ResizeHandle-resizing:focus-visible::before {
+  background-color: transparent;
+}
+.fui-ResizeHandle-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.fui-ResizeHandle-target-resizing {
+  transition: none !important;
+}
+
+@media (pointer: coarse) {
+  .fui-ResizeHandle {
+    --b-resize-handle-hit-area: 1rem;
+  }
+}
 .fui-Select {
   flex-wrap: nowrap;
   position: relative;
