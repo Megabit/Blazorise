@@ -1,0 +1,77 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Layout Sider
+        Height="Height.Px( 360 )"
+        Border="Border.Is1.Rounded"
+        Overflow="Overflow.Hidden">
+    <LayoutSider>
+        <LayoutSiderContent>
+            <Bar Mode="BarMode.VerticalInline"
+                 CollapseMode="BarCollapseMode.Small"
+                 @bind-Visible="barExpanded"
+                 Style="@BarStyle"
+                 Background="Background.Light"
+                 ThemeContrast="ThemeContrast.Light">
+                <BarToggler />
+                <BarBrand>
+                    <BarItem>
+                        <BarLink To="#resize-handle-dashboard">
+                            <BarIcon IconName="IconName.Dashboard" />
+                            Workspace
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarMenu>
+                    <BarStart>
+                        <BarItem>
+                            <BarLink To="#resize-handle-projects">
+                                <BarIcon IconName="IconName.FolderOpen" />
+                                Projects
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To="#resize-handle-reports">
+                                <BarIcon IconName="IconName.ChartLine" />
+                                Reports
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To="#resize-handle-settings">
+                                <BarIcon IconName="IconName.Settings" />
+                                Settings
+                            </BarLink>
+                        </BarItem>
+                    </BarStart>
+                </BarMenu>
+
+                <ResizeHandle Orientation="Orientation.Vertical"
+                              Placement="Placement.End"
+                              ResizeProperty="--b-vertical-bar-width"
+                              MinSize="180"
+                              MaxSize="360"
+                              @bind-Size="barWidth"
+                              Disabled="@(!barExpanded)"
+                              AriaLabel="Resize navigation sidebar" />
+            </Bar>
+        </LayoutSiderContent>
+    </LayoutSider>
+
+    <Layout>
+        <LayoutContent Padding="Padding.Is4">
+            <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">Resizable navigation</Heading>
+            <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop.Is0.FromBottom">
+                Resize the expanded Bar, then use its toggler to enter small mode. The handle is disabled while collapsed.
+            </Paragraph>
+        </LayoutContent>
+    </Layout>
+</Layout>
+
+@code {
+    private bool barExpanded = true;
+
+    private double barWidth = 230;
+
+    private string BarStyle
+        => FormattableString.Invariant(
+            $"--b-vertical-bar-width: {barWidth}px" );
+}

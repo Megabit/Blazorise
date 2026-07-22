@@ -4405,6 +4405,209 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string ResizeHandleBarExample = @"<Layout Sider
+        Height=""Height.Px( 360 )""
+        Border=""Border.Is1.Rounded""
+        Overflow=""Overflow.Hidden"">
+    <LayoutSider>
+        <LayoutSiderContent>
+            <Bar Mode=""BarMode.VerticalInline""
+                 CollapseMode=""BarCollapseMode.Small""
+                 @bind-Visible=""barExpanded""
+                 Style=""@BarStyle""
+                 Background=""Background.Light""
+                 ThemeContrast=""ThemeContrast.Light"">
+                <BarToggler />
+                <BarBrand>
+                    <BarItem>
+                        <BarLink To=""#resize-handle-dashboard"">
+                            <BarIcon IconName=""IconName.Dashboard"" />
+                            Workspace
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarMenu>
+                    <BarStart>
+                        <BarItem>
+                            <BarLink To=""#resize-handle-projects"">
+                                <BarIcon IconName=""IconName.FolderOpen"" />
+                                Projects
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To=""#resize-handle-reports"">
+                                <BarIcon IconName=""IconName.ChartLine"" />
+                                Reports
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To=""#resize-handle-settings"">
+                                <BarIcon IconName=""IconName.Settings"" />
+                                Settings
+                            </BarLink>
+                        </BarItem>
+                    </BarStart>
+                </BarMenu>
+
+                <ResizeHandle Orientation=""Orientation.Vertical""
+                              Placement=""Placement.End""
+                              ResizeProperty=""--b-vertical-bar-width""
+                              MinSize=""180""
+                              MaxSize=""360""
+                              @bind-Size=""barWidth""
+                              Disabled=""@(!barExpanded)""
+                              AriaLabel=""Resize navigation sidebar"" />
+            </Bar>
+        </LayoutSiderContent>
+    </LayoutSider>
+
+    <Layout>
+        <LayoutContent Padding=""Padding.Is4"">
+            <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Resizable navigation</Heading>
+            <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+                Resize the expanded Bar, then use its toggler to enter small mode. The handle is disabled while collapsed.
+            </Paragraph>
+        </LayoutContent>
+    </Layout>
+</Layout>
+
+@code {
+    private bool barExpanded = true;
+
+    private double barWidth = 230;
+
+    private string BarStyle
+        => FormattableString.Invariant(
+            $""--b-vertical-bar-width: {barWidth}px"" );
+}";
+
+        public const string ResizeHandleHeightExample = @"<Div Flex=""Flex.Column""
+     Height=""Height.Px( 360 )""
+     Border=""Border.Is1.Rounded""
+     Overflow=""Overflow.Hidden"">
+    <Div Position=""Position.Relative""
+         Flex=""Flex.Shrink.Is0""
+         Height=""@Height.Px( previewHeight )""
+         Background=""Background.Light""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Preview</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            Resize this area vertically.
+        </Paragraph>
+
+        <ResizeHandle Orientation=""Orientation.Horizontal""
+                      Placement=""Placement.Bottom""
+                      MinSize=""100""
+                      MaxSize=""260""
+                      @bind-Size=""previewHeight""
+                      AriaLabel=""Resize preview height"" />
+    </Div>
+
+    <Div Flex=""Flex.Grow.Is1""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is6"" Margin=""Margin.Is0.FromBottom"">Output</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            The remaining space stays available to the lower region.
+        </Paragraph>
+    </Div>
+</Div>
+
+@code {
+    private double previewHeight = 180;
+}";
+
+        public const string ResizeHandlePanelExample = @"<Div Flex=""Flex.Row""
+     Height=""Height.Px( 260 )""
+     Border=""Border.Is1.Rounded""
+     Overflow=""Overflow.Hidden"">
+    <Div Position=""Position.Relative""
+         Flex=""Flex.Shrink.Is0""
+         Width=""@Width.Px( panelWidth )""
+        Background=""Background.Light""
+         Padding=""Padding.Is4"">
+        <Div Flex=""Flex.Column"" Gap=""Gap.Is3"">
+            <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0"">Explorer</Heading>
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Icon Name=""IconName.FolderOpen"" />
+                <Span>Components</Span>
+            </Div>
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Icon Name=""IconName.File"" />
+                <Span>App.razor</Span>
+            </Div>
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Icon Name=""IconName.File"" />
+                <Span>Program.cs</Span>
+            </Div>
+        </Div>
+
+        <ResizeHandle Orientation=""Orientation.Vertical""
+                      Placement=""Placement.End""
+                      MinSize=""160""
+                      MaxSize=""360""
+                      KeyboardStep=""10""
+                      @bind-Size=""panelWidth""
+                      AriaLabel=""Resize explorer panel"" />
+    </Div>
+
+    <Div Flex=""Flex.Grow.Is1""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Editor</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            Drag the boundary between the explorer and editor, or focus it and use the arrow keys.
+        </Paragraph>
+    </Div>
+</Div>
+
+@code {
+    private double panelWidth = 220;
+}";
+
+        public const string ResizeHandleTargetExample = @"<Div Flex=""Flex.Row""
+     Height=""Height.Px( 280 )""
+     Border=""Border.Is1.Rounded""
+     Overflow=""Overflow.Hidden"">
+    <Div Flex=""Flex.Grow.Is1""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Canvas</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            The handle is positioned at this boundary but targets the inspector by ID.
+        </Paragraph>
+    </Div>
+
+    <Div Position=""Position.Relative""
+         Flex=""Flex.Shrink.Is0""
+         Width=""Width.Px( 0 )"">
+        <ResizeHandle TargetElementId=""resize-handle-inspector""
+                      Orientation=""Orientation.Vertical""
+                      Placement=""Placement.Start""
+                      ResizeProperty=""--docs-inspector-width""
+                      MinSize=""180""
+                      MaxSize=""360""
+                      @bind-Size=""inspectorWidth""
+                      AriaLabel=""Resize inspector panel"" />
+    </Div>
+
+    <Div ElementId=""resize-handle-inspector""
+         Flex=""Flex.Shrink.Is0""
+         Style=""@InspectorStyle""
+         Background=""Background.Light""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0"">Inspector</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is3.FromTop.Is0.FromBottom"">
+            Its width is read from the custom property applied by the handle.
+        </Paragraph>
+    </Div>
+</Div>
+
+@code {
+    private double inspectorWidth = 240;
+
+    private string InspectorStyle
+        => FormattableString.Invariant(
+            $""--docs-inspector-width: {inspectorWidth}px; width: var(--docs-inspector-width);"" );
+}";
+
         public const string BasicSelectExample = @"<Select TValue=""int"">
     <SelectItem Value=""1"">One</SelectItem>
     <SelectItem Value=""2"">Two</SelectItem>

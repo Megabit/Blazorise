@@ -1,0 +1,48 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Flex="Flex.Row"
+     Height="Height.Px( 260 )"
+     Border="Border.Is1.Rounded"
+     Overflow="Overflow.Hidden">
+    <Div Position="Position.Relative"
+         Flex="Flex.Shrink.Is0"
+         Width="@Width.Px( panelWidth )"
+        Background="Background.Light"
+         Padding="Padding.Is4">
+        <Div Flex="Flex.Column" Gap="Gap.Is3">
+            <Heading Size="HeadingSize.Is5" Margin="Margin.Is0">Explorer</Heading>
+            <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                <Icon Name="IconName.FolderOpen" />
+                <Span>Components</Span>
+            </Div>
+            <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                <Icon Name="IconName.File" />
+                <Span>App.razor</Span>
+            </Div>
+            <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                <Icon Name="IconName.File" />
+                <Span>Program.cs</Span>
+            </Div>
+        </Div>
+
+        <ResizeHandle Orientation="Orientation.Vertical"
+                      Placement="Placement.End"
+                      MinSize="160"
+                      MaxSize="360"
+                      KeyboardStep="10"
+                      @bind-Size="panelWidth"
+                      AriaLabel="Resize explorer panel" />
+    </Div>
+
+    <Div Flex="Flex.Grow.Is1"
+         Padding="Padding.Is4">
+        <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">Editor</Heading>
+        <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop.Is0.FromBottom">
+            Drag the boundary between the explorer and editor, or focus it and use the arrow keys.
+        </Paragraph>
+    </Div>
+</Div>
+
+@code {
+    private double panelWidth = 220;
+}
