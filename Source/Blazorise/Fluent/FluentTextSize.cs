@@ -360,4 +360,53 @@ public static class TextSize
     /// Matches the element text size with the h6 text size.
     /// </summary>
     public static IFluentTextSizeOnBreakpoint Heading6 => new FluentTextSize().Heading6;
+
+    /// <summary>
+    /// Defines the text size in pixels.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentTextSize"/> reference.</returns>
+    public static IFluentTextSize Px( double size ) => size.Px();
+
+    /// <summary>
+    /// Defines the text size relative to the font-size of the root element.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentTextSize"/> reference.</returns>
+    public static IFluentTextSize Rem( double size ) => size.Rem();
+
+    /// <summary>
+    /// Defines the text size relative to the font-size of the element.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentTextSize"/> reference.</returns>
+    public static IFluentTextSize Em( double size ) => size.Em();
+
+    /// <summary>
+    /// Defines the text size relative to the advance measure of the glyph "0" in the element's font.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentTextSize"/> reference.</returns>
+    public static IFluentTextSize Ch( double size ) => size.Ch();
+
+    /// <summary>
+    /// Defines the text size relative to the viewport's width.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentTextSize"/> reference.</returns>
+    public static IFluentTextSize Vw( double size ) => size.Vw();
+
+    /// <summary>
+    /// Defines the text size relative to the viewport's height.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentTextSize"/> reference.</returns>
+    public static IFluentTextSize Vh( double size ) => size.Vh();
+
+    /// <summary>
+    /// Defines the text size as a percentage of the parent element's font size.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentTextSize"/> reference.</returns>
+    public static IFluentTextSize Percent( double size ) => size.Percent();
 }
