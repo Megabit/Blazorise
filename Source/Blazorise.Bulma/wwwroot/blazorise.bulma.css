@@ -3002,7 +3002,7 @@ input.is-danger + label + .help.is-none + .help.is-success + .help.is-danger {
   background: var(--b-resize-handle-grip-color);
   transform: translate(-50%, -50%);
 }
-.resize-handle.has-gutter:hover, .resize-handle.has-gutter:focus-visible, .resize-handle.has-gutter.is-resizing {
+.resize-handle.has-gutter:hover, .resize-handle.has-gutter.is-focused, .resize-handle.has-gutter.is-resizing {
   --b-resize-handle-gutter-background: rgba(0, 209.1, 177.735, 0.12);
   --b-resize-handle-gutter-border: var(--b-theme-primary, hsl(171, 100%, 41%));
   --b-resize-handle-grip-color: var(--b-theme-primary, hsl(171, 100%, 41%));

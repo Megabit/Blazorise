@@ -56,6 +56,11 @@ public class ResizeHandleJSOptions
     public bool Disabled { get; set; }
 
     /// <summary>
+    /// Defines the provider-resolved class names used for keyboard-visible focus.
+    /// </summary>
+    public string FocusedClassNames { get; set; }
+
+    /// <summary>
     /// Gets or sets the provider-resolved class names applied to the handle while resizing.
     /// </summary>
     public string ResizingClassNames { get; set; }

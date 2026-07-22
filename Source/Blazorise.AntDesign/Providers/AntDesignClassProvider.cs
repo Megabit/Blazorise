@@ -262,6 +262,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ResizeHandleDisabled( bool disabled ) => disabled ? "ant-resize-handle-disabled" : null;
 
+    public override string ResizeHandleFocused( bool focused ) => focused ? "ant-resize-handle-focused" : null;
+
     public override string ResizeHandleResizing( bool resizing ) => resizing ? "ant-resize-handle-resizing" : null;
 
     public override string ResizeHandleTargetResizing( bool resizing ) => resizing ? "ant-resize-handle-target-resizing" : null;

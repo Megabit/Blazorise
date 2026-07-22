@@ -65,7 +65,7 @@
         }
 
         &:hover,
-        &:focus-visible,
+        &.is-focused,
         &.is-resizing {
             --b-resize-handle-gutter-background: #{rgba($primary, .12)};
             --b-resize-handle-gutter-border: var(--b-theme-primary, #{$primary});

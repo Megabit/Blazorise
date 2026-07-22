@@ -67,7 +67,7 @@
         }
 
         &:hover,
-        &:focus-visible,
+        &.ant-resize-handle-focused,
         &.ant-resize-handle-resizing {
             --b-resize-handle-gutter-background: var(--ant-color-primary-bg, #e6f4ff);
             --b-resize-handle-gutter-border: var(--ant-color-primary, var(--b-theme-primary, #1677ff));

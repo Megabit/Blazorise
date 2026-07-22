@@ -247,6 +247,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ResizeHandleDisabled( bool disabled );
 
+    public abstract string ResizeHandleFocused( bool focused );
+
     public abstract string ResizeHandleResizing( bool resizing );
 
     public abstract string ResizeHandleTargetResizing( bool resizing );

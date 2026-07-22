@@ -16,6 +16,7 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         target: null,
         options: normalizeOptions(options),
         active: false,
+        focusVisible: false,
         documentObserverScope: null,
         pointerId: null,
         pointerType: "",
@@ -27,14 +28,20 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         originalBodyCursor: "",
         originalBodyUserSelect: "",
         onPointerDown: null,
-        onKeyDown: null
+        onKeyDown: null,
+        onFocus: null,
+        onBlur: null
     };
 
     instance.onPointerDown = (event) => pointerDownHandler(instance, event);
     instance.onKeyDown = (event) => keyDownHandler(instance, event);
+    instance.onFocus = () => focusHandler(instance);
+    instance.onBlur = () => setFocusVisibleState(instance, false);
 
     element.addEventListener("pointerdown", instance.onPointerDown);
     element.addEventListener("keydown", instance.onKeyDown);
+    element.addEventListener("focus", instance.onFocus);
+    element.addEventListener("blur", instance.onBlur);
 
     instances.set(elementId, instance);
     resolveTarget(instance);
@@ -50,12 +57,20 @@ export function updateOptions(element, elementId, options) {
     const previousOptions = instance.options;
     const previousTargetElementId = previousOptions.targetElementId;
 
+    if (instance.focusVisible)
+        toggleClassNames(instance.element, previousOptions.focusedClassNames, false);
+
     if (instance.active) {
         toggleClassNames(instance.element, previousOptions.resizingClassNames, false);
         toggleClassNames(instance.target, previousOptions.targetResizingClassNames, false);
     }
 
     instance.options = normalizeOptions(options);
+
+    if (instance.options.disabled)
+        instance.focusVisible = false;
+    else if (instance.focusVisible)
+        toggleClassNames(instance.element, instance.options.focusedClassNames, true);
 
     if (previousTargetElementId !== instance.options.targetElementId)
         resolveTarget(instance);
@@ -82,8 +97,12 @@ export function destroy(element, elementId) {
 
     instance.resizeObserver?.disconnect();
 
+    setFocusVisibleState(instance, false);
+
     instance.element?.removeEventListener("pointerdown", instance.onPointerDown);
     instance.element?.removeEventListener("keydown", instance.onKeyDown);
+    instance.element?.removeEventListener("focus", instance.onFocus);
+    instance.element?.removeEventListener("blur", instance.onBlur);
 
     instance.dotNetObjectRef = null;
     instance.element = null;
@@ -117,6 +136,7 @@ function pointerDownHandler(instance, event) {
     instance.currentSize = instance.startSize;
     instance.lastResizeNotification = 0;
 
+    setFocusVisibleState(instance, false);
     instance.element.focus({ preventScroll: true });
 
     if (instance.element.setPointerCapture) {
@@ -187,6 +207,7 @@ function keyDownHandler(instance, event) {
 
     event.preventDefault();
 
+    setFocusVisibleState(instance, true);
     instance.pointerType = "keyboard";
     instance.startSize = currentSize;
     instance.currentSize = currentSize;
@@ -319,10 +340,26 @@ function completeResize(instance, eventArgs, notifyEnded) {
     releasePointerCapture(instance);
     removeDocumentListeners(instance);
     endResizeState(instance);
+    setFocusVisibleState(instance, false);
     resetInteraction(instance);
 
     if (notifyEnded)
         notify(instance, "OnResizeEnded", eventArgs);
+}
+
+function focusHandler(instance) {
+    if (instance.pointerType)
+        return;
+
+    setFocusVisibleState(instance, instance.element?.matches(":focus-visible") === true);
+}
+
+function setFocusVisibleState(instance, focusVisible) {
+    if (instance.focusVisible === focusVisible)
+        return;
+
+    instance.focusVisible = focusVisible;
+    toggleClassNames(instance.element, instance.options.focusedClassNames, focusVisible);
 }
 
 function addDocumentListeners(instance, documentObserverScope) {
@@ -448,6 +485,7 @@ function normalizeOptions(options) {
         keyboardStep: Math.max(numberOrDefault(options.keyboardStep, 10), 0.0001),
         resizeEventInterval: Math.max(numberOrDefault(options.resizeEventInterval, 100), 0),
         disabled: options.disabled === true,
+        focusedClassNames: options.focusedClassNames || "",
         resizingClassNames: options.resizingClassNames || "",
         targetResizingClassNames: options.targetResizingClassNames || "",
         notifyResizeStarted: options.notifyResizeStarted === true,

@@ -149,6 +149,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
             KeyboardStep = KeyboardStep,
             ResizeEventInterval = ResizeEventInterval,
             Disabled = Disabled,
+            FocusedClassNames = ClassProvider.ResizeHandleFocused( true ),
             ResizingClassNames = ClassProvider.ResizeHandleResizing( true ),
             TargetResizingClassNames = ClassProvider.ResizeHandleTargetResizing( true ),
             NotifyResizeStarted = ResizeStarted.HasDelegate,

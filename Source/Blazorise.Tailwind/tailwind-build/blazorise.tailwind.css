@@ -1208,7 +1208,7 @@ body:before {
   background: var(--b-resize-handle-grip-color);
   transform: translate(-50%, -50%);
 }
-.tw-resize-handle-gutter:hover, .tw-resize-handle-gutter:focus-visible, .tw-resize-handle-gutter.tw-resize-handle-resizing {
+.tw-resize-handle-gutter:hover, .tw-resize-handle-gutter.tw-resize-handle-focused, .tw-resize-handle-gutter.tw-resize-handle-resizing {
   --b-resize-handle-gutter-background: rgb(239 246 255);
   --b-resize-handle-gutter-border: var(--b-theme-primary, rgb(37 99 235));
   --b-resize-handle-grip-color: var(--b-theme-primary, rgb(37 99 235));

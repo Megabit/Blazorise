@@ -249,6 +249,8 @@ class EmptyClassProvider : IClassProvider
 
     public string ResizeHandleDisabled( bool disabled ) => null;
 
+    public string ResizeHandleFocused( bool focused ) => null;
+
     public string ResizeHandleResizing( bool resizing ) => null;
 
     public string ResizeHandleTargetResizing( bool resizing ) => null;

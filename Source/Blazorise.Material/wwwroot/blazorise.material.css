@@ -8284,7 +8284,7 @@ body.modal-open {
   background: var(--b-resize-handle-grip-color);
   transform: translate(-50%, -50%);
 }
-.mui-resize-handle-gutter:hover, .mui-resize-handle-gutter:focus-visible, .mui-resize-handle-gutter.mui-resize-handle-resizing {
+.mui-resize-handle-gutter:hover, .mui-resize-handle-gutter.mui-resize-handle-focused, .mui-resize-handle-gutter.mui-resize-handle-resizing {
   --b-resize-handle-gutter-background: var(--mui-primary-container, #eaddff);
   --b-resize-handle-gutter-border: var(--mui-primary, var(--b-theme-primary, #6750a4));
   --b-resize-handle-grip-color: var(--mui-on-primary-container, #21005d);

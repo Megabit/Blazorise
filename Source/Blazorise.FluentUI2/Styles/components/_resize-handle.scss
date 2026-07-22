@@ -65,7 +65,7 @@
         }
 
         &:hover,
-        &:focus-visible,
+        &.fui-ResizeHandle-focused,
         &.fui-ResizeHandle-resizing {
             --b-resize-handle-gutter-background: var(--colorBrandBackground2, #ebf3fc);
             --b-resize-handle-gutter-border: var(--colorBrandStroke1, var(--b-theme-primary, #0f6cbd));

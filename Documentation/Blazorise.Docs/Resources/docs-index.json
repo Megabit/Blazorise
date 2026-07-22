@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-22T10:52:35.2159985Z",
+  "generatedUtc": "2026-07-22T13:12:50.1003478Z",
   "pages": [
     {
       "route": "/docs",
@@ -3071,9 +3071,9 @@
           "code": "ResizeHandleHeightExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/ResizeHandles/Examples/ResizeHandleHeightExample.razor",
-          "content": "<Div Flex=\"Flex.Column\"\r\n     Height=\"Height.Px( 360 )\"\r\n     Border=\"Border.Is1.Rounded\"\r\n     Overflow=\"Overflow.Hidden\">\r\n    <Div Position=\"Position.Relative\"\r\n         Flex=\"Flex.Shrink.Is0\"\r\n         Height=\"@Height.Px( previewHeight )\"\r\n         Background=\"Background.Light\"\r\n         Padding=\"Padding.Is4\">\r\n        <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0.FromBottom\">Preview</Heading>\r\n        <Paragraph TextColor=\"TextColor.Secondary\" Margin=\"Margin.Is2.FromTop.Is0.FromBottom\">\r\n            Resize this area vertically.\r\n        </Paragraph>\r\n\r\n        <ResizeHandle Orientation=\"Orientation.Horizontal\"\r\n                      Placement=\"Placement.Bottom\"\r\n                      ShowGrip\r\n                      MinSize=\"100\"\r\n                      MaxSize=\"260\"\r\n                      @bind-Size=\"previewHeight\"\r\n                      AriaLabel=\"Resize preview height\" />\r\n    </Div>\r\n\r\n    <Div Flex=\"Flex.Grow.Is1\"\r\n         Padding=\"Padding.Is4\">\r\n        <Heading Size=\"HeadingSize.Is6\" Margin=\"Margin.Is0.FromBottom\">Output</Heading>\r\n        <Paragraph TextColor=\"TextColor.Secondary\" Margin=\"Margin.Is2.FromTop.Is0.FromBottom\">\r\n            The remaining space stays available to the lower region.\r\n        </Paragraph>\r\n    </Div>\r\n</Div>\r\n\r\n@code {\r\n    private double previewHeight = 180;\r\n}",
-          "title": "Provider-styled grip",
-          "description": "Enable ShowGrip to opt into a visible separator. This example also uses a horizontal handle, where dragging downward increases the panel height."
+          "content": "<Div Flex=\"Flex.Column\"\r\n     Height=\"Height.Px( 360 )\"\r\n     Border=\"Border.Is1.Rounded\"\r\n     Overflow=\"Overflow.Hidden\">\r\n    <Div Position=\"Position.Relative\"\r\n         Flex=\"Flex.Shrink.Is0\"\r\n         Height=\"@Height.Px( previewHeight )\"\r\n         Background=\"Background.Light\"\r\n         Padding=\"Padding.Is4\">\r\n        <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0.FromBottom\">Preview</Heading>\r\n        <Paragraph TextColor=\"TextColor.Secondary\" Margin=\"Margin.Is2.FromTop.Is0.FromBottom\">\r\n            Resize this area vertically.\r\n        </Paragraph>\r\n\r\n        <ResizeHandle Orientation=\"Orientation.Horizontal\"\r\n                      Placement=\"Placement.Bottom\"\r\n                      ShowGutter\r\n                      MinSize=\"100\"\r\n                      MaxSize=\"260\"\r\n                      @bind-Size=\"previewHeight\"\r\n                      AriaLabel=\"Resize preview height\" />\r\n    </Div>\r\n\r\n    <Div Flex=\"Flex.Grow.Is1\"\r\n         Padding=\"Padding.Is4\">\r\n        <Heading Size=\"HeadingSize.Is6\" Margin=\"Margin.Is0.FromBottom\">Output</Heading>\r\n        <Paragraph TextColor=\"TextColor.Secondary\" Margin=\"Margin.Is2.FromTop.Is0.FromBottom\">\r\n            The remaining space stays available to the lower region.\r\n        </Paragraph>\r\n    </Div>\r\n</Div>\r\n\r\n@code {\r\n    private double previewHeight = 180;\r\n}",
+          "title": "Provider-styled gutter",
+          "description": "Enable ShowGutter to opt into a visible separator. This example also uses a horizontal handle, where dragging downward increases the panel height."
         },
         {
           "code": "ResizeHandleTargetExample",

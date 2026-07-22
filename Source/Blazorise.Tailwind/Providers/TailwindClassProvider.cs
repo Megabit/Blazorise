@@ -338,6 +338,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ResizeHandleDisabled( bool disabled ) => disabled ? "tw-resize-handle-disabled pointer-events-none opacity-50" : null;
 
+    public override string ResizeHandleFocused( bool focused ) => focused ? "tw-resize-handle-focused" : null;
+
     public override string ResizeHandleResizing( bool resizing ) => resizing ? "tw-resize-handle-resizing" : null;
 
     public override string ResizeHandleTargetResizing( bool resizing ) => resizing ? "tw-resize-handle-target-resizing !transition-none" : null;

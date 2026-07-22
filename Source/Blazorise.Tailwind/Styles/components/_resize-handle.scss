@@ -37,7 +37,7 @@
         }
 
         &:hover,
-        &:focus-visible,
+        &.tw-resize-handle-focused,
         &.tw-resize-handle-resizing {
             --b-resize-handle-gutter-background: rgb(239 246 255);
             --b-resize-handle-gutter-border: var(--b-theme-primary, rgb(37 99 235));

@@ -4497,7 +4497,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         <ResizeHandle Orientation=""Orientation.Horizontal""
                       Placement=""Placement.Bottom""
-                      ShowGrip
+                      ShowGutter
                       MinSize=""100""
                       MaxSize=""260""
                       @bind-Size=""previewHeight""

@@ -67,7 +67,7 @@
         }
 
         &:hover,
-        &:focus-visible,
+        &.resize-handle-focused,
         &.resize-handle-resizing {
             --b-resize-handle-gutter-background: rgba(0, 123, 255, .12);
             --b-resize-handle-gutter-border: var(--b-theme-primary, #007bff);

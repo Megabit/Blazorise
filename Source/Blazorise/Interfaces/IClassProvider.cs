@@ -246,6 +246,8 @@ public interface IClassProvider
 
     string ResizeHandleDisabled( bool disabled );
 
+    string ResizeHandleFocused( bool focused );
+
     string ResizeHandleResizing( bool resizing );
 
     string ResizeHandleTargetResizing( bool resizing );

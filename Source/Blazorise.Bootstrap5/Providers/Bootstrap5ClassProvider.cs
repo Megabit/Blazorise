@@ -261,6 +261,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ResizeHandleDisabled( bool disabled ) => disabled ? "resize-handle-disabled" : null;
 
+    public override string ResizeHandleFocused( bool focused ) => focused ? "resize-handle-focused" : null;
+
     public override string ResizeHandleResizing( bool resizing ) => resizing ? "resize-handle-resizing" : null;
 
     public override string ResizeHandleTargetResizing( bool resizing ) => resizing ? "resize-handle-target-resizing" : null;

@@ -1864,7 +1864,7 @@ input[readonly=readonly][type=range]::-ms-thumb {
   background: var(--b-resize-handle-grip-color);
   transform: translate(-50%, -50%);
 }
-.resize-handle-gutter:hover, .resize-handle-gutter:focus-visible, .resize-handle-gutter.resize-handle-resizing {
+.resize-handle-gutter:hover, .resize-handle-gutter.resize-handle-focused, .resize-handle-gutter.resize-handle-resizing {
   --b-resize-handle-gutter-background: rgba(0, 123, 255, .12);
   --b-resize-handle-gutter-border: var(--b-theme-primary, #007bff);
   --b-resize-handle-grip-color: var(--b-theme-primary, #007bff);

@@ -9866,7 +9866,7 @@ input::file-selector-button {
   background: var(--b-resize-handle-grip-color);
   transform: translate(-50%, -50%);
 }
-.fui-ResizeHandle-gutter:hover, .fui-ResizeHandle-gutter:focus-visible, .fui-ResizeHandle-gutter.fui-ResizeHandle-resizing {
+.fui-ResizeHandle-gutter:hover, .fui-ResizeHandle-gutter.fui-ResizeHandle-focused, .fui-ResizeHandle-gutter.fui-ResizeHandle-resizing {
   --b-resize-handle-gutter-background: var(--colorBrandBackground2, #ebf3fc);
   --b-resize-handle-gutter-border: var(--colorBrandStroke1, var(--b-theme-primary, #0f6cbd));
   --b-resize-handle-grip-color: var(--colorBrandForeground1, #115ea3);

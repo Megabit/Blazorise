@@ -8184,7 +8184,7 @@ a.ant-typography-disabled[aria-disabled=true] {
   background: var(--b-resize-handle-grip-color);
   transform: translate(-50%, -50%);
 }
-.ant-resize-handle-gutter:hover, .ant-resize-handle-gutter:focus-visible, .ant-resize-handle-gutter.ant-resize-handle-resizing {
+.ant-resize-handle-gutter:hover, .ant-resize-handle-gutter.ant-resize-handle-focused, .ant-resize-handle-gutter.ant-resize-handle-resizing {
   --b-resize-handle-gutter-background: var(--ant-color-primary-bg, #e6f4ff);
   --b-resize-handle-gutter-border: var(--ant-color-primary, var(--b-theme-primary, #1677ff));
   --b-resize-handle-grip-color: var(--ant-color-primary, var(--b-theme-primary, #1677ff));

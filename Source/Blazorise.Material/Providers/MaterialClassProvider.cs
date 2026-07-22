@@ -276,6 +276,8 @@ public class MaterialClassProvider : ClassProvider
 
     public override string ResizeHandleDisabled( bool disabled ) => disabled ? "mui-resize-handle-disabled" : null;
 
+    public override string ResizeHandleFocused( bool focused ) => focused ? "mui-resize-handle-focused" : null;
+
     public override string ResizeHandleResizing( bool resizing ) => resizing ? "mui-resize-handle-resizing" : null;
 
     public override string ResizeHandleTargetResizing( bool resizing ) => resizing ? "mui-resize-handle-target-resizing" : null;

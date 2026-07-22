@@ -261,6 +261,8 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ResizeHandleDisabled( bool disabled ) => disabled ? "fui-ResizeHandle-disabled" : null;
 
+    public override string ResizeHandleFocused( bool focused ) => focused ? "fui-ResizeHandle-focused" : null;
+
     public override string ResizeHandleResizing( bool resizing ) => resizing ? "fui-ResizeHandle-resizing" : null;
 
     public override string ResizeHandleTargetResizing( bool resizing ) => resizing ? "fui-ResizeHandle-target-resizing" : null;
