@@ -258,6 +258,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ResizeHandlePlacement( Placement placement ) => $"resize-handle-{placement.ToString().ToLowerInvariant()}";
 
+    public override string ResizeHandleGrip( bool showGrip ) => showGrip ? "resize-handle-grip" : null;
+
     public override string ResizeHandleDisabled( bool disabled ) => disabled ? "resize-handle-disabled" : null;
 
     public override string ResizeHandleResizing( bool resizing ) => resizing ? "resize-handle-resizing" : null;

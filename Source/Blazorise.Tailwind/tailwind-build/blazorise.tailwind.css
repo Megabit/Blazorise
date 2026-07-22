@@ -1179,40 +1179,53 @@ body:before {
 
 .tw-resize-handle {
   --b-resize-handle-hit-area: .5rem;
-  --b-resize-handle-focus-size: 2px;
-  --b-resize-handle-focus-color: var(--b-theme-primary, #2563eb);
-}
-.tw-resize-handle::before {
-  content: "";
-  position: absolute;
-  background-color: transparent;
-  pointer-events: none;
+  --b-resize-handle-grip-background: rgb(249 250 251);
+  --b-resize-handle-grip-border: rgb(209 213 219);
+  --b-resize-handle-grip-color: rgb(107 114 128);
 }
 .tw-resize-handle-vertical {
   width: var(--b-resize-handle-hit-area);
 }
-.tw-resize-handle-vertical::before {
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: var(--b-resize-handle-focus-size);
-  transform: translateX(-50%);
-}
 .tw-resize-handle-horizontal {
   height: var(--b-resize-handle-hit-area);
 }
-.tw-resize-handle-horizontal::before {
+.tw-resize-handle-grip::before, .tw-resize-handle-grip::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+.tw-resize-handle-grip::before {
+  inset: 0;
+  box-sizing: border-box;
+  background: var(--b-resize-handle-grip-background);
+}
+.tw-resize-handle-grip::after {
   top: 50%;
-  right: 0;
-  left: 0;
-  height: var(--b-resize-handle-focus-size);
-  transform: translateY(-50%);
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--b-resize-handle-grip-color);
+  transform: translate(-50%, -50%);
 }
-.tw-resize-handle:focus-visible::before {
-  background-color: var(--b-resize-handle-focus-color);
+.tw-resize-handle-grip:hover, .tw-resize-handle-grip:focus-visible, .tw-resize-handle-grip.tw-resize-handle-resizing {
+  --b-resize-handle-grip-background: rgb(239 246 255);
+  --b-resize-handle-grip-border: var(--b-theme-primary, rgb(37 99 235));
+  --b-resize-handle-grip-color: var(--b-theme-primary, rgb(37 99 235));
 }
-.tw-resize-handle-resizing:focus-visible::before {
-  background-color: transparent;
+
+.tw-resize-handle-grip.tw-resize-handle-vertical::before {
+  border-inline: 1px solid var(--b-resize-handle-grip-border);
+}
+.tw-resize-handle-grip.tw-resize-handle-vertical::after {
+  box-shadow: 0 -5px 0 var(--b-resize-handle-grip-color), 0 5px 0 var(--b-resize-handle-grip-color);
+}
+
+.tw-resize-handle-grip.tw-resize-handle-horizontal::before {
+  border-block: 1px solid var(--b-resize-handle-grip-border);
+}
+.tw-resize-handle-grip.tw-resize-handle-horizontal::after {
+  box-shadow: -5px 0 0 var(--b-resize-handle-grip-color), 5px 0 0 var(--b-resize-handle-grip-color);
 }
 
 .tw-resize-handle-target-resizing {

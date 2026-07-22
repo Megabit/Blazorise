@@ -1809,8 +1809,9 @@ input[readonly=readonly][type=range]::-ms-thumb {
 
 .resize-handle {
   --b-resize-handle-hit-area: .5rem;
-  --b-resize-handle-focus-size: 2px;
-  --b-resize-handle-focus-color: var(--b-theme-primary, #007bff);
+  --b-resize-handle-grip-background: #f8f9fa;
+  --b-resize-handle-grip-border: #dee2e6;
+  --b-resize-handle-grip-color: #6c757d;
   position: absolute;
   z-index: 10;
   padding: 0;
@@ -1820,37 +1821,17 @@ input[readonly=readonly][type=range]::-ms-thumb {
   touch-action: none;
   outline: none;
 }
-.resize-handle::before {
-  content: "";
-  position: absolute;
-  background-color: transparent;
-  pointer-events: none;
-}
 .resize-handle-vertical {
   top: 0;
   bottom: 0;
   width: var(--b-resize-handle-hit-area);
   cursor: col-resize;
 }
-.resize-handle-vertical::before {
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: var(--b-resize-handle-focus-size);
-  transform: translateX(-50%);
-}
 .resize-handle-horizontal {
   right: 0;
   left: 0;
   height: var(--b-resize-handle-hit-area);
   cursor: row-resize;
-}
-.resize-handle-horizontal::before {
-  top: 50%;
-  right: 0;
-  left: 0;
-  height: var(--b-resize-handle-focus-size);
-  transform: translateY(-50%);
 }
 .resize-handle-top {
   top: 0;
@@ -1864,11 +1845,29 @@ input[readonly=readonly][type=range]::-ms-thumb {
 .resize-handle-end {
   inset-inline-end: 0;
 }
-.resize-handle:focus-visible::before {
-  background-color: var(--b-resize-handle-focus-color);
+.resize-handle-grip::before, .resize-handle-grip::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
 }
-.resize-handle-resizing:focus-visible::before {
-  background-color: transparent;
+.resize-handle-grip::before {
+  inset: 0;
+  box-sizing: border-box;
+  background: var(--b-resize-handle-grip-background);
+}
+.resize-handle-grip::after {
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--b-resize-handle-grip-color);
+  transform: translate(-50%, -50%);
+}
+.resize-handle-grip:hover, .resize-handle-grip:focus-visible, .resize-handle-grip.resize-handle-resizing {
+  --b-resize-handle-grip-background: rgba(0, 123, 255, .12);
+  --b-resize-handle-grip-border: var(--b-theme-primary, #007bff);
+  --b-resize-handle-grip-color: var(--b-theme-primary, #007bff);
 }
 .resize-handle-disabled {
   pointer-events: none;
@@ -1876,6 +1875,20 @@ input[readonly=readonly][type=range]::-ms-thumb {
 }
 .resize-handle-target-resizing {
   transition: none !important;
+}
+
+.resize-handle-grip.resize-handle-vertical::before {
+  border-inline: 1px solid var(--b-resize-handle-grip-border);
+}
+.resize-handle-grip.resize-handle-vertical::after {
+  box-shadow: 0 -5px 0 var(--b-resize-handle-grip-color), 0 5px 0 var(--b-resize-handle-grip-color);
+}
+
+.resize-handle-grip.resize-handle-horizontal::before {
+  border-block: 1px solid var(--b-resize-handle-grip-border);
+}
+.resize-handle-grip.resize-handle-horizontal::after {
+  box-shadow: -5px 0 0 var(--b-resize-handle-grip-color), 5px 0 0 var(--b-resize-handle-grip-color);
 }
 
 @media (pointer: coarse) {

@@ -1,7 +1,8 @@
 .resize-handle {
     --b-resize-handle-hit-area: .5rem;
-    --b-resize-handle-focus-size: 2px;
-    --b-resize-handle-focus-color: var(--b-theme-primary, #00d1b2);
+    --b-resize-handle-grip-background: #{$grey-lightest};
+    --b-resize-handle-grip-border: #{$grey-lighter};
+    --b-resize-handle-grip-color: #{$grey};
     position: absolute;
     z-index: 10;
     padding: 0;
@@ -11,26 +12,11 @@
     touch-action: none;
     outline: none;
 
-    &::before {
-        content: "";
-        position: absolute;
-        background-color: transparent;
-        pointer-events: none;
-    }
-
     &.is-vertical {
         top: 0;
         bottom: 0;
         width: var(--b-resize-handle-hit-area);
         cursor: col-resize;
-
-        &::before {
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            width: var(--b-resize-handle-focus-size);
-            transform: translateX(-50%);
-        }
     }
 
     &.is-horizontal {
@@ -38,14 +24,6 @@
         left: 0;
         height: var(--b-resize-handle-hit-area);
         cursor: row-resize;
-
-        &::before {
-            top: 50%;
-            right: 0;
-            left: 0;
-            height: var(--b-resize-handle-focus-size);
-            transform: translateY(-50%);
-        }
     }
 
     &.is-top {
@@ -64,17 +42,62 @@
         inset-inline-end: 0;
     }
 
-    &:focus-visible::before {
-        background-color: var(--b-resize-handle-focus-color);
-    }
+    &.has-grip {
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            pointer-events: none;
+        }
 
-    &.is-resizing:focus-visible::before {
-        background-color: transparent;
+        &::before {
+            inset: 0;
+            box-sizing: border-box;
+            background: var(--b-resize-handle-grip-background);
+        }
+
+        &::after {
+            top: 50%;
+            left: 50%;
+            border-radius: 9999px;
+            background: var(--b-resize-handle-grip-color);
+            transform: translate(-50%, -50%);
+        }
+
+        &:hover,
+        &:focus-visible,
+        &.is-resizing {
+            --b-resize-handle-grip-background: #{rgba($primary, .12)};
+            --b-resize-handle-grip-border: var(--b-theme-primary, #{$primary});
+            --b-resize-handle-grip-color: var(--b-theme-primary, #{$primary});
+        }
     }
 
     &.is-disabled {
         pointer-events: none;
         opacity: .5;
+    }
+}
+
+.resize-handle.has-grip.is-vertical {
+    &::before {
+        border-inline: 1px solid var(--b-resize-handle-grip-border);
+    }
+
+    &::after {
+        width: 4px;
+        height: 1.75rem;
+    }
+}
+
+.resize-handle.has-grip.is-horizontal {
+    &::before {
+        border-block: 1px solid var(--b-resize-handle-grip-border);
+    }
+
+    &::after {
+        width: 1.75rem;
+        height: 4px;
     }
 }
 

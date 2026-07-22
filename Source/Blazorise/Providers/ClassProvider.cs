@@ -243,6 +243,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ResizeHandlePlacement( Placement placement );
 
+    public abstract string ResizeHandleGrip( bool showGrip );
+
     public abstract string ResizeHandleDisabled( bool disabled );
 
     public abstract string ResizeHandleResizing( bool resizing );

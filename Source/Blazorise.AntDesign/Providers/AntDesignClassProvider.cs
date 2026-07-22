@@ -258,6 +258,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ResizeHandlePlacement( Placement placement ) => $"ant-resize-handle-{placement.ToString().ToLowerInvariant()}";
 
+    public override string ResizeHandleGrip( bool showGrip ) => showGrip ? "ant-resize-handle-grip" : null;
+
     public override string ResizeHandleDisabled( bool disabled ) => disabled ? "ant-resize-handle-disabled" : null;
 
     public override string ResizeHandleResizing( bool resizing ) => resizing ? "ant-resize-handle-resizing" : null;

@@ -24,6 +24,8 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
 
     private Placement? placement;
 
+    private bool showGrip;
+
     private bool disabled;
 
     #endregion
@@ -81,6 +83,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
         builder.Append( ClassProvider.ResizeHandle() );
         builder.Append( ClassProvider.ResizeHandleOrientation( Orientation ) );
         builder.Append( ClassProvider.ResizeHandlePlacement( ResolvedPlacement ) );
+        builder.Append( ClassProvider.ResizeHandleGrip( ShowGrip ) );
         builder.Append( ClassProvider.ResizeHandleDisabled( Disabled ) );
 
         base.BuildClasses( builder );
@@ -318,6 +321,24 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     /// Gets or sets the minimum interval in milliseconds between <see cref="Resizing"/> callbacks.
     /// </summary>
     [Parameter] public int ResizeEventInterval { get; set; } = 100;
+
+    /// <summary>
+    /// Gets or sets whether a provider-styled separator surface and grip are shown.
+    /// </summary>
+    [Parameter]
+    public bool ShowGrip
+    {
+        get => showGrip;
+        set
+        {
+            if ( showGrip == value )
+                return;
+
+            showGrip = value;
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Gets or sets whether resizing is disabled.

@@ -334,6 +334,8 @@ public class TailwindClassProvider : ClassProvider
         _ => null,
     };
 
+    public override string ResizeHandleGrip( bool showGrip ) => showGrip ? "tw-resize-handle-grip" : null;
+
     public override string ResizeHandleDisabled( bool disabled ) => disabled ? "tw-resize-handle-disabled pointer-events-none opacity-50" : null;
 
     public override string ResizeHandleResizing( bool resizing ) => resizing ? "tw-resize-handle-resizing" : null;

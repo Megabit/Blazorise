@@ -61,6 +61,19 @@ public class ResizeHandleComponentTest : BunitContext
     }
 
     [Fact]
+    public void GripIsOptIn()
+    {
+        IRenderedComponent<ResizeHandle> component = Render<ResizeHandle>();
+
+        Assert.DoesNotContain( "resize-handle-grip", component.Find( ".resize-handle" ).ClassList );
+
+        component.SetParametersAndRender( parameters => parameters
+            .Add( x => x.ShowGrip, true ) );
+
+        Assert.Contains( "resize-handle-grip", component.Find( ".resize-handle" ).ClassList );
+    }
+
+    [Fact]
     public async Task ResizeEndCommitsSizeUnlessCanceled()
     {
         double committedSize = 0;

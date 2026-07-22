@@ -26,7 +26,6 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         resizeObserver: null,
         originalBodyCursor: "",
         originalBodyUserSelect: "",
-        hadFocusBeforePointerDown: false,
         onPointerDown: null,
         onKeyDown: null
     };
@@ -117,7 +116,6 @@ function pointerDownHandler(instance, event) {
     instance.startSize = measureTarget(instance);
     instance.currentSize = instance.startSize;
     instance.lastResizeNotification = 0;
-    instance.hadFocusBeforePointerDown = document.activeElement === instance.element;
 
     instance.element.focus({ preventScroll: true });
 
@@ -321,7 +319,6 @@ function completeResize(instance, eventArgs, notifyEnded) {
     releasePointerCapture(instance);
     removeDocumentListeners(instance);
     endResizeState(instance);
-    restorePointerFocus(instance);
 
     if (notifyEnded)
         notify(instance, "OnResizeEnded", eventArgs);
@@ -368,18 +365,12 @@ function releasePointerCapture(instance) {
     }
 }
 
-function restorePointerFocus(instance) {
-    if (!instance.hadFocusBeforePointerDown && document.activeElement === instance.element)
-        instance.element.blur();
-}
-
 function resetInteraction(instance) {
     instance.active = false;
     instance.pointerId = null;
     instance.pointerType = "";
     instance.startCoordinate = 0;
     instance.lastResizeNotification = 0;
-    instance.hadFocusBeforePointerDown = false;
 }
 
 function notifyResizing(instance, timestamp) {

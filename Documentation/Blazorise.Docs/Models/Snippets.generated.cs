@@ -4497,6 +4497,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         <ResizeHandle Orientation=""Orientation.Horizontal""
                       Placement=""Placement.Bottom""
+                      ShowGrip
                       MinSize=""100""
                       MaxSize=""260""
                       @bind-Size=""previewHeight""
@@ -4554,7 +4555,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
          Padding=""Padding.Is4"">
         <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Editor</Heading>
         <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
-            Drag the boundary between the explorer and editor, or focus it and use the arrow keys.
+            Drag the boundary between the explorer and editor. Click it or reach it with Tab, then use the arrow keys.
         </Paragraph>
     </Div>
 </Div>

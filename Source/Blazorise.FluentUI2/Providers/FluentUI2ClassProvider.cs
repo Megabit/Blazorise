@@ -257,6 +257,8 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ResizeHandlePlacement( Placement placement ) => $"fui-ResizeHandle-{placement.ToString().ToLowerInvariant()}";
 
+    public override string ResizeHandleGrip( bool showGrip ) => showGrip ? "fui-ResizeHandle-grip" : null;
+
     public override string ResizeHandleDisabled( bool disabled ) => disabled ? "fui-ResizeHandle-disabled" : null;
 
     public override string ResizeHandleResizing( bool resizing ) => resizing ? "fui-ResizeHandle-resizing" : null;

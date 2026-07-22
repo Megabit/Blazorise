@@ -8231,8 +8231,9 @@ body.modal-open {
 
 .mui-resize-handle {
   --b-resize-handle-hit-area: .5rem;
-  --b-resize-handle-focus-size: 2px;
-  --b-resize-handle-focus-color: var(--mui-primary, var(--b-theme-primary, #6200ee));
+  --b-resize-handle-grip-background: var(--mui-surface-container, #f3edf7);
+  --b-resize-handle-grip-border: var(--mui-outline-variant, #cac4d0);
+  --b-resize-handle-grip-color: var(--mui-on-surface-variant, #49454f);
   position: absolute;
   z-index: 10;
   padding: 0;
@@ -8242,37 +8243,17 @@ body.modal-open {
   touch-action: none;
   outline: none;
 }
-.mui-resize-handle::before {
-  content: "";
-  position: absolute;
-  background-color: transparent;
-  pointer-events: none;
-}
 .mui-resize-handle-vertical {
   top: 0;
   bottom: 0;
   width: var(--b-resize-handle-hit-area);
   cursor: col-resize;
 }
-.mui-resize-handle-vertical::before {
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: var(--b-resize-handle-focus-size);
-  transform: translateX(-50%);
-}
 .mui-resize-handle-horizontal {
   right: 0;
   left: 0;
   height: var(--b-resize-handle-hit-area);
   cursor: row-resize;
-}
-.mui-resize-handle-horizontal::before {
-  top: 50%;
-  right: 0;
-  left: 0;
-  height: var(--b-resize-handle-focus-size);
-  transform: translateY(-50%);
 }
 .mui-resize-handle-top {
   top: 0;
@@ -8286,11 +8267,27 @@ body.modal-open {
 .mui-resize-handle-end {
   inset-inline-end: 0;
 }
-.mui-resize-handle:focus-visible::before {
-  background-color: var(--b-resize-handle-focus-color);
+.mui-resize-handle-grip::before, .mui-resize-handle-grip::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
 }
-.mui-resize-handle-resizing:focus-visible::before {
-  background-color: transparent;
+.mui-resize-handle-grip::before {
+  inset: 0;
+  box-sizing: border-box;
+  background: var(--b-resize-handle-grip-background);
+}
+.mui-resize-handle-grip::after {
+  top: 50%;
+  left: 50%;
+  border-radius: 9999px;
+  background: var(--b-resize-handle-grip-color);
+  transform: translate(-50%, -50%);
+}
+.mui-resize-handle-grip:hover, .mui-resize-handle-grip:focus-visible, .mui-resize-handle-grip.mui-resize-handle-resizing {
+  --b-resize-handle-grip-background: var(--mui-primary-container, #eaddff);
+  --b-resize-handle-grip-border: var(--mui-primary, var(--b-theme-primary, #6750a4));
+  --b-resize-handle-grip-color: var(--mui-on-primary-container, #21005d);
 }
 .mui-resize-handle-disabled {
   pointer-events: none;
@@ -8298,6 +8295,22 @@ body.modal-open {
 }
 .mui-resize-handle-target-resizing {
   transition: none !important;
+}
+
+.mui-resize-handle-grip.mui-resize-handle-vertical::before {
+  border-inline: 1px solid var(--b-resize-handle-grip-border);
+}
+.mui-resize-handle-grip.mui-resize-handle-vertical::after {
+  width: 4px;
+  height: 2rem;
+}
+
+.mui-resize-handle-grip.mui-resize-handle-horizontal::before {
+  border-block: 1px solid var(--b-resize-handle-grip-border);
+}
+.mui-resize-handle-grip.mui-resize-handle-horizontal::after {
+  width: 2rem;
+  height: 4px;
 }
 
 @media (pointer: coarse) {
