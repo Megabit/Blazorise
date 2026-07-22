@@ -9,9 +9,12 @@ public class SizingTest
 {
     IClassProvider classProvider;
 
+    IStyleProvider styleProvider;
+
     public SizingTest()
     {
         classProvider = new BootstrapClassProvider();
+        styleProvider = new BootstrapStyleProvider();
     }
 
     [Theory]
@@ -77,5 +80,97 @@ public class SizingTest
         var classname = sizing.Class( classProvider );
 
         Assert.Equal( "min-vw-100", classname );
+    }
+
+    [Theory]
+    [InlineData( SizingType.Width, "width: 8rem" )]
+    [InlineData( SizingType.Height, "height: 8rem" )]
+    public void RemShorthand_UsesContextualSizingType( SizingType sizingType, string expected )
+    {
+        FluentCssValue sizing = 8.Rem();
+
+        string propertyName = sizingType == SizingType.Width
+            ? "width"
+            : "height";
+
+        string style = sizing.Style( propertyName, true );
+
+        Assert.Equal( expected, style );
+    }
+
+    [Theory]
+    [InlineData( SizingType.Width, "width: 50%" )]
+    [InlineData( SizingType.Height, "height: 50%" )]
+    public void PercentShorthand_UsesContextualSizingType( SizingType sizingType, string expected )
+    {
+        FluentCssValue sizing = 50.Percent();
+
+        string propertyName = sizingType == SizingType.Width
+            ? "width"
+            : "height";
+
+        string style = sizing.Style( propertyName, true );
+
+        Assert.Equal( expected, style );
+    }
+
+    [Theory]
+    [InlineData( SizingType.Width, "100% - 2rem", "width: calc(100% - 2rem)" )]
+    [InlineData( SizingType.Height, "calc(100vh - 4rem)", "height: calc(100vh - 4rem)" )]
+    public void Calc_BuildsSizingStyle( SizingType sizingType, string expression, string expected )
+    {
+        IFluentSizing sizing = sizingType == SizingType.Width
+            ? Width.Calc( expression )
+            : Height.Calc( expression );
+
+        string style = sizing.Style( styleProvider );
+
+        Assert.Equal( expected, style );
+    }
+
+    [Fact]
+    public void RemShorthand_CanBeUsedByCompatibleUtilities()
+    {
+        IFluentSizing sizing = 3.Rem();
+        IFluentGap gap = 3.Rem();
+        IFluentTextSize textSize = 2.Rem();
+
+        Assert.Equal( "width: 3rem", ( (FluentCssValue)sizing ).Style( "width", true ) );
+        Assert.Equal( "gap: 3rem", ( (FluentCssValue)gap ).Style( "gap" ) );
+        Assert.Equal( "font-size: 2rem", ( (FluentCssValue)textSize ).Style( "font-size" ) );
+    }
+
+    [Fact]
+    public void RemShorthand_PreservesSizingMinMax()
+    {
+        FluentCssValue sizing = 8.Rem();
+
+        sizing.Min( 4 ).Max( 12 );
+
+        Assert.Equal( "width: 8rem; min-width: 4rem; max-width: 12rem", sizing.Style( "width", true ) );
+    }
+
+    [Fact]
+    public void ExplicitUtilityBuilders_CreateCssValues()
+    {
+        IFluentGap gap = Gap.Rem( 5 );
+        IFluentTextSize textSize = TextSize.Rem( 2 );
+
+        Assert.Equal( "gap: 5rem", ( (FluentCssValue)gap ).Style( "gap" ) );
+        Assert.Equal( "font-size: 2rem", ( (FluentCssValue)textSize ).Style( "font-size" ) );
+    }
+
+    [Theory]
+    [InlineData( SizingType.Width, "width: 8rem; min-width: 4rem; max-width: 12rem" )]
+    [InlineData( SizingType.Height, "height: 8rem; min-height: 4rem; max-height: 12rem" )]
+    public void ExplicitSizingBuilders_PreserveMinMax( SizingType sizingType, string expected )
+    {
+        IFluentSizingStyle sizing = sizingType == SizingType.Width
+            ? Width.Rem( 8 )
+            : Height.Rem( 8 );
+
+        sizing.Min( 4 ).Max( 12 );
+
+        Assert.Equal( expected, sizing.Style( styleProvider ) );
     }
 }

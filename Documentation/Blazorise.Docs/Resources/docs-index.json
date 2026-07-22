@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-22T07:41:37.7532037Z",
+  "generatedUtc": "2026-07-22T08:07:49.2406388Z",
   "pages": [
     {
       "route": "/docs",
@@ -9596,7 +9596,7 @@
     {
       "route": "/docs/helpers/utilities/sizing",
       "title": "Blazorise Sizing Utilities - Width and Height Builders",
-      "description": "Define width and height with Blazorise sizing utilities. Use predefined sizes, responsive breakpoints, viewport units, CSS variables, and min/max constraints with a fluent API.",
+      "description": "Define width and height with Blazorise sizing utilities. Use predefined sizes, numeric shorthands, responsive breakpoints, CSS values, and min/max constraints with a fluent API.",
       "pagePath": "Pages/Docs/Helpers/Utilities/Sizing/SizingPage.razor",
       "examples": [
         {
@@ -9614,6 +9614,14 @@
           "content": "<Div Width=\"Width.Px().Max( 520 )\" Background=\"Background.Light\" Border=\"Border.Is1.Secondary.Subtle\" Padding=\"Padding.Is3\">\r\n    <Div Width=\"Width.Px( 260 ).Min( 180 ).Max( 360 )\"\r\n         Height=\"Height.Rem(6).Min(4).Max(8)\"\r\n         Padding=\"Padding.Is2\"\r\n         Margin=\"Margin.Is2.FromBottom\"\r\n         Background=\"Background.Secondary.Subtle\"\r\n         Border=\"Border.Is1.Secondary\"\r\n         TextColor=\"TextColor.Secondary.Emphasis\">\r\n        Width.Px(260).Min(180).Max(360)\r\n        <br />\r\n        Height.Rem(6).Min(4).Max(8)\r\n    </Div>\r\n    <Div Width=\"Width.Vw( 35 ).Min( 25 ).Max( 55 )\"\r\n         Height=\"Height.Vh(20).Min(12).Max(30)\"\r\n         Padding=\"Padding.Is2\"\r\n         Background=\"Background.Warning.Subtle\"\r\n         Border=\"Border.Is1.Warning\"\r\n         TextColor=\"TextColor.Warning.Emphasis\">\r\n        Width.Vw(35).Min(25).Max(55)\r\n        <br />\r\n        Height.Vh(20).Min(12).Max(30)\r\n    </Div>\r\n</Div>",
           "title": "Style-based sizes",
           "description": "For explicit values, use unit helpers like Px , Rem , Em , and Ch . Width also supports Vw , while height supports Vh . Chain Min and Max to define min/max sizing with the same unit. This is ideal when you need precise control for cards, sidebars, or media containers."
+        },
+        {
+          "code": "FluentSizingNumericShorthandExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Helpers/Utilities/Sizing/Examples/FluentSizingNumericShorthandExample.razor",
+          "content": "<Div Width=\"Width.Px().Max( 520 )\" Flex=\"Flex.Column\" Gap=\"1.Rem()\">\r\n    <Div Width=\"8.Rem()\"\r\n         Height=\"4.Rem()\"\r\n         TextSize=\"1.25.Rem()\"\r\n         Padding=\"Padding.Is2\"\r\n         Background=\"Background.Primary.Subtle\"\r\n         Border=\"Border.Is1.Primary\"\r\n         TextColor=\"TextColor.Primary.Emphasis\">\r\n        Width=\"8.Rem()\", Height=\"4.Rem()\", and TextSize=\"1.25.Rem()\"\r\n    </Div>\r\n    <Div Width=\"50.Percent()\"\r\n         Padding=\"Padding.Is2\"\r\n         Background=\"Background.Success.Subtle\"\r\n         Border=\"Border.Is1.Success\"\r\n         TextColor=\"TextColor.Success.Emphasis\">\r\n        Width=\"50.Percent()\"\r\n    </Div>\r\n    <Div Width=\"20.Rem().Min( 12 ).Max( 30 )\"\r\n         Padding=\"Padding.Is2\"\r\n         Background=\"Background.Warning.Subtle\"\r\n         Border=\"Border.Is1.Warning\"\r\n         TextColor=\"TextColor.Warning.Emphasis\">\r\n        Width=\"20.Rem().Min( 12 ).Max( 30 )\"\r\n    </Div>\r\n    <Div Width=\"@(Width.Calc( \"100% - 2rem\" ))\"\r\n         Padding=\"Padding.Is2\"\r\n         Background=\"Background.Secondary.Subtle\"\r\n         Border=\"Border.Is1.Secondary\"\r\n         TextColor=\"TextColor.Secondary.Emphasis\">\r\n        Width=\"Width.Calc( \"100% - 2rem\" )\"\r\n    </Div>\r\n</Div>",
+          "title": "Numeric shorthands",
+          "description": "Call Px , Rem , Em , Ch , Vw , Vh , or Percent directly on a numeric value. The component parameter determines whether the value is used for width, height, gap, or text size, so the same concise syntax works with each utility. Width and height values can chain Min and Max . For CSS expressions, use Width.Calc or Height.Calc . The explicit forms, including Width.Rem( 8 ) , Gap.Rem( 1 ) , and TextSize.Rem( 1.25 ) , remain available."
         },
         {
           "code": "FluentSizingVariableExample",

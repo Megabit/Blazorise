@@ -32303,6 +32303,39 @@ builder.Services
     </Badge>
 </Button>";
 
+        public const string FluentSizingNumericShorthandExample = @"<Div Width=""Width.Px().Max( 520 )"" Flex=""Flex.Column"" Gap=""1.Rem()"">
+    <Div Width=""8.Rem()""
+         Height=""4.Rem()""
+         TextSize=""1.25.Rem()""
+         Padding=""Padding.Is2""
+         Background=""Background.Primary.Subtle""
+         Border=""Border.Is1.Primary""
+         TextColor=""TextColor.Primary.Emphasis"">
+        Width=""8.Rem()"", Height=""4.Rem()"", and TextSize=""1.25.Rem()""
+    </Div>
+    <Div Width=""50.Percent()""
+         Padding=""Padding.Is2""
+         Background=""Background.Success.Subtle""
+         Border=""Border.Is1.Success""
+         TextColor=""TextColor.Success.Emphasis"">
+        Width=""50.Percent()""
+    </Div>
+    <Div Width=""20.Rem().Min( 12 ).Max( 30 )""
+         Padding=""Padding.Is2""
+         Background=""Background.Warning.Subtle""
+         Border=""Border.Is1.Warning""
+         TextColor=""TextColor.Warning.Emphasis"">
+        Width=""20.Rem().Min( 12 ).Max( 30 )""
+    </Div>
+    <Div Width=""@(Width.Calc( ""100% - 2rem"" ))""
+         Padding=""Padding.Is2""
+         Background=""Background.Secondary.Subtle""
+         Border=""Border.Is1.Secondary""
+         TextColor=""TextColor.Secondary.Emphasis"">
+        Width=""Width.Calc( ""100% - 2rem"" )""
+    </Div>
+</Div>";
+
         public const string FluentSizingPredefinedExample = @"<Div Width=""Width.Px().Max( 520 )"" Background=""Background.Light"" Border=""Border.Is1.Secondary.Subtle"" Padding=""Padding.Is3"">
     <Div Width=""Width.Is25""
          Padding=""Padding.Is2""

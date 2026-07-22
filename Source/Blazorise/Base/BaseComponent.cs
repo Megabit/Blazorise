@@ -366,10 +366,36 @@ public abstract class BaseComponent : BaseStyledComponent
         UtilityTarget currentTarget = target;
 
         if ( ShouldApplyUtility( Width, currentTarget ) )
-            builder.Append( Width.Style( StyleProvider ) );
+            builder.Append( GetSizingStyles( Width, SizingType.Width ) );
 
         if ( ShouldApplyUtility( Height, currentTarget ) )
-            builder.Append( Height.Style( StyleProvider ) );
+            builder.Append( GetSizingStyles( Height, SizingType.Height ) );
+
+        if ( ShouldApplyUtility( Gap, currentTarget ) && Gap is FluentCssValue gapValue )
+            builder.Append( gapValue.Style( "gap" ) );
+
+        if ( ShouldApplyUtility( TextSize, currentTarget ) && TextSize is FluentCssValue textSizeValue )
+            builder.Append( textSizeValue.Style( "font-size" ) );
+    }
+
+    /// <summary>
+    /// Gets the sizing styles using the component parameter as context when supported.
+    /// </summary>
+    /// <param name="sizing">Fluent sizing rules.</param>
+    /// <param name="sizingType">Sizing type represented by the component parameter.</param>
+    /// <returns>Built sizing styles.</returns>
+    private string GetSizingStyles( IFluentSizing sizing, SizingType sizingType )
+    {
+        if ( sizing is FluentCssValue cssValue )
+        {
+            string propertyName = sizingType == SizingType.Width
+                ? "width"
+                : "height";
+
+            return cssValue.Style( propertyName, true );
+        }
+
+        return sizing.Style( StyleProvider );
     }
 
     /// <inheritdoc/>
@@ -669,6 +695,7 @@ public abstract class BaseComponent : BaseStyledComponent
             gap = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 
@@ -903,6 +930,7 @@ public abstract class BaseComponent : BaseStyledComponent
             textSize = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 
