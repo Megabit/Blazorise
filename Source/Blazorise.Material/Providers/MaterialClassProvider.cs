@@ -264,6 +264,26 @@ public class MaterialClassProvider : ClassProvider
 
     #endregion
 
+    #region Resizer
+
+    public override string Resizer() => "mui-resizer";
+
+    public override string ResizerOrientation( Orientation orientation ) => $"mui-resizer-{orientation.ToString().ToLowerInvariant()}";
+
+    public override string ResizerPlacement( Placement placement ) => $"mui-resizer-{placement.ToString().ToLowerInvariant()}";
+
+    public override string ResizerGutter( bool showGutter ) => showGutter ? "mui-resizer-gutter" : null;
+
+    public override string ResizerDisabled( bool disabled ) => disabled ? "mui-resizer-disabled" : null;
+
+    public override string ResizerFocused( bool focused ) => focused ? "mui-resizer-focused" : null;
+
+    public override string ResizerResizing( bool resizing ) => resizing ? "mui-resizer-resizing" : null;
+
+    public override string ResizerTargetResizing( bool resizing ) => resizing ? "mui-resizer-target-resizing" : null;
+
+    #endregion
+
     #region Rating
 
     public override string Rating() => "mui-rating";
@@ -1916,15 +1936,6 @@ public class MaterialClassProvider : ClassProvider
     public override string DockPaneFooter() => "mui-dock-pane-footer";
 
     public override string DockContent() => "mui-dock-content";
-
-    public override string DockSplitter( DockPanePosition position )
-        => position switch
-        {
-            Blazorise.DockPanePosition.Right => "mui-dock-splitter mui-dock-splitter-right",
-            Blazorise.DockPanePosition.Top => "mui-dock-splitter mui-dock-splitter-top",
-            Blazorise.DockPanePosition.Bottom => "mui-dock-splitter mui-dock-splitter-bottom",
-            _ => "mui-dock-splitter mui-dock-splitter-left",
-        };
 
     public override string DockPaneTabs() => "mui-dock-pane-tabs";
 

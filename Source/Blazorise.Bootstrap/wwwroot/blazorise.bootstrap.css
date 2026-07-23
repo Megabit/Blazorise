@@ -766,44 +766,6 @@ body:before {
   overflow: auto;
 }
 
-.dock-splitter {
-  position: absolute;
-  background: transparent;
-  z-index: 2;
-}
-
-.dock-splitter-left,
-.dock-splitter-right {
-  top: 0;
-  bottom: 0;
-  width: 0.375rem;
-  cursor: col-resize;
-}
-
-.dock-splitter-left {
-  right: -0.1875rem;
-}
-
-.dock-splitter-right {
-  left: -0.1875rem;
-}
-
-.dock-splitter-top,
-.dock-splitter-bottom {
-  left: 0;
-  right: 0;
-  height: 0.375rem;
-  cursor: row-resize;
-}
-
-.dock-splitter-top {
-  bottom: -0.1875rem;
-}
-
-.dock-splitter-bottom {
-  top: -0.1875rem;
-}
-
 .dock-compass {
   position: absolute;
   z-index: 20;
@@ -1813,6 +1775,95 @@ input[readonly=readonly][type=range]::-ms-thumb {
   cursor: default;
 }
 
+.resizer {
+  --bs-resizer-hit-area: .5rem;
+  --bs-resizer-gutter-background: #f8f9fa;
+  --bs-resizer-gutter-border: #dee2e6;
+  --bs-resizer-grip-color: #6c757d;
+  position: absolute;
+  z-index: 10;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  user-select: none;
+  touch-action: none;
+  outline: none;
+}
+.resizer-vertical {
+  top: 0;
+  bottom: 0;
+  width: var(--bs-resizer-hit-area);
+  cursor: col-resize;
+}
+.resizer-horizontal {
+  right: 0;
+  left: 0;
+  height: var(--bs-resizer-hit-area);
+  cursor: row-resize;
+}
+.resizer-top {
+  top: 0;
+}
+.resizer-bottom {
+  bottom: 0;
+}
+.resizer-start {
+  inset-inline-start: 0;
+}
+.resizer-end {
+  inset-inline-end: 0;
+}
+.resizer-gutter::before, .resizer-gutter::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+.resizer-gutter::before {
+  inset: 0;
+  box-sizing: border-box;
+  background: var(--bs-resizer-gutter-background);
+}
+.resizer-gutter::after {
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--bs-resizer-grip-color);
+  transform: translate(-50%, -50%);
+}
+.resizer-gutter:hover, .resizer-gutter.resizer-focused, .resizer-gutter.resizer-resizing {
+  --bs-resizer-gutter-background: rgba(0, 123, 255, .12);
+  --bs-resizer-gutter-border: #007bff;
+  --bs-resizer-grip-color: #007bff;
+}
+.resizer-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.resizer-target-resizing {
+  transition: none !important;
+}
+
+.resizer-gutter.resizer-vertical::before {
+  border-inline: 1px solid var(--bs-resizer-gutter-border);
+}
+.resizer-gutter.resizer-vertical::after {
+  box-shadow: 0 -5px 0 var(--bs-resizer-grip-color), 0 5px 0 var(--bs-resizer-grip-color);
+}
+
+.resizer-gutter.resizer-horizontal::before {
+  border-block: 1px solid var(--bs-resizer-gutter-border);
+}
+.resizer-gutter.resizer-horizontal::after {
+  box-shadow: -5px 0 0 var(--bs-resizer-grip-color), 5px 0 0 var(--bs-resizer-grip-color);
+}
+
+@media (pointer: coarse) {
+  .resizer {
+    --bs-resizer-hit-area: 1rem;
+  }
+}
 .jumbotron.jumbotron-primary {
   background-color: #007bff;
   color: #fff;

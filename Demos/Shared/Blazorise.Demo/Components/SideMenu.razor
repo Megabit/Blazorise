@@ -1,5 +1,7 @@
 <Bar Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet"
-     Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small" MenuToggleBehavior=BarMenuToggleBehavior.AllowSingleMenu>
+     Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small" MenuToggleBehavior=BarMenuToggleBehavior.AllowSingleMenu
+     Style="@SidebarStyle"
+     @bind-Visible="barExpanded">
     <BarToggler />
     <BarBrand>
         <BarItem>
@@ -431,8 +433,23 @@
             </BarItem>
         </BarEnd>
     </BarMenu>
+    <Resizer Orientation="Orientation.Vertical"
+             Placement="Placement.End"
+             ResizeProperty="--b-vertical-bar-width"
+             Min="180"
+             Max="480"
+             @bind-Value="sidebarWidth"
+             Disabled="@(!barExpanded)"
+             ShowGutter
+             AriaLabel="Resize navigation sidebar" />
 </Bar>
 @code {
+    private bool barExpanded = true;
+    private double sidebarWidth = 230;
+    private string SidebarStyle
+         => FormattableString.Invariant(
+             $"--b-vertical-bar-width: {sidebarWidth}px" );
+
     private bool uiElementsVisible = true;
     private bool utilitiesVisible = false;
     private bool extensionsVisible = false;

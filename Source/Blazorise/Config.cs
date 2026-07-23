@@ -116,6 +116,7 @@ public static class Config
         { typeof( IJSGesturesModule ), typeof( JSGesturesModule ) },
         { typeof( IJSTextInputModule ), typeof( JSTextInputModule ) },
         { typeof( IJSRangeSliderModule ), typeof( JSRangeSliderModule ) },
+        { typeof( IJSResizerModule ), typeof( JSResizerModule ) },
         { typeof( IJSMemoInputModule ), typeof( JSMemoInputModule ) },
         { typeof( IJSNumericPickerModule ), typeof( JSNumericPickerModule ) },
         { typeof( IJSDatePickerModule ), typeof( JSDatePickerModule ) },

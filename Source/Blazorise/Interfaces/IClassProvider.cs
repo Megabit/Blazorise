@@ -234,6 +234,26 @@ public interface IClassProvider
 
     #endregion
 
+    #region Resizer
+
+    string Resizer();
+
+    string ResizerOrientation( Orientation orientation );
+
+    string ResizerPlacement( Placement placement );
+
+    string ResizerGutter( bool showGutter );
+
+    string ResizerDisabled( bool disabled );
+
+    string ResizerFocused( bool focused );
+
+    string ResizerResizing( bool resizing );
+
+    string ResizerTargetResizing( bool resizing );
+
+    #endregion
+
     #region Rating
 
     string Rating();
@@ -771,8 +791,6 @@ public interface IClassProvider
     string DockPaneFooter();
 
     string DockContent();
-
-    string DockSplitter( DockPanePosition position );
 
     string DockPaneTabs();
 

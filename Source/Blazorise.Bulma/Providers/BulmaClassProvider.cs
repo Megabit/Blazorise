@@ -238,6 +238,26 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
+    #region Resizer
+
+    public override string Resizer() => "resizer";
+
+    public override string ResizerOrientation( Orientation orientation ) => $"is-{orientation.ToString().ToLowerInvariant()}";
+
+    public override string ResizerPlacement( Placement placement ) => $"is-{placement.ToString().ToLowerInvariant()}";
+
+    public override string ResizerGutter( bool showGutter ) => showGutter ? "has-gutter" : null;
+
+    public override string ResizerDisabled( bool disabled ) => disabled ? "is-disabled" : null;
+
+    public override string ResizerFocused( bool focused ) => focused ? "is-focused" : null;
+
+    public override string ResizerResizing( bool resizing ) => resizing ? "is-resizing" : null;
+
+    public override string ResizerTargetResizing( bool resizing ) => resizing ? "is-resize-target-resizing" : null;
+
+    #endregion
+
     #region Rating
 
     public override string Rating() => "rating";
@@ -1879,15 +1899,6 @@ public class BulmaClassProvider : ClassProvider
     public override string DockPaneFooter() => "dock-pane-footer";
 
     public override string DockContent() => "dock-content";
-
-    public override string DockSplitter( DockPanePosition position )
-        => position switch
-        {
-            Blazorise.DockPanePosition.Right => "dock-splitter is-right",
-            Blazorise.DockPanePosition.Top => "dock-splitter is-top",
-            Blazorise.DockPanePosition.Bottom => "dock-splitter is-bottom",
-            _ => "dock-splitter is-left",
-        };
 
     public override string DockPaneTabs() => "dock-pane-tabs";
 

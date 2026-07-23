@@ -1,54 +1,6 @@
 let operation = null;
 let animationFrame = null;
 let autoHideOutside = null;
-let nextSubscriptionId = 0;
-
-export function beginResize(dotNetObjectRef, pane, paneName, nodeId, position, pointerId, clientX, clientY, minSize, maxSize) {
-    cancel();
-
-    const resizeElement = getResizeElement(pane);
-    const split = findResizeSplit(resizeElement, nodeId);
-    const rect = resizeElement.getBoundingClientRect();
-    const horizontal = position === "Left" || position === "Right";
-    const splitRect = split?.getBoundingClientRect();
-    const totalSize = horizontal ? splitRect?.width ?? rect.width : splitRect?.height ?? rect.height;
-    const firstSize = getResizeFirstSize(rect, splitRect, position, horizontal);
-    const firstChild = position === "Left" || position === "Top";
-    const minPaneSize = parseSize(minSize, resizeElement, horizontal);
-    const maxPaneSize = parseSize(maxSize, resizeElement, horizontal);
-
-    if (!Number.isFinite(totalSize) || totalSize <= 0) {
-        return;
-    }
-
-    operation = {
-        type: "resize",
-        dotNetObjectRef,
-        pane: resizeElement,
-        split,
-        paneName,
-        nodeId,
-        position,
-        ownerId: createDocumentObserverOwnerId("resize"),
-        pointerId,
-        startX: clientX,
-        startY: clientY,
-        startFirstSize: firstSize,
-        totalSize,
-        minFirstSize: getResizeMinFirstSize(totalSize, firstChild, minPaneSize, maxPaneSize),
-        maxFirstSize: getResizeMaxFirstSize(totalSize, firstChild, minPaneSize, maxPaneSize)
-    };
-
-    addDocumentListeners(onResizeMove, onResizeEnd);
-}
-
-function getResizeElement(element) {
-    if (element?.hasAttribute("data-dock-splitter")) {
-        return element.parentElement;
-    }
-
-    return element;
-}
 
 export function beginDrag(dotNetObjectRef, layout, paneName, pointerId, clientX, clientY, dragGroup) {
     cancel();
@@ -58,7 +10,6 @@ export function beginDrag(dotNetObjectRef, layout, paneName, pointerId, clientX,
         dotNetObjectRef,
         layout,
         paneName,
-        ownerId: createDocumentObserverOwnerId("drag"),
         pointerId,
         dragGroup,
         startX: clientX,
@@ -127,23 +78,20 @@ export function setAutoHideOutsideHandler(dotNetObjectRef, layout, enabled) {
         }, 0);
     };
 
-    const observer = getDocumentObserver();
-    const subscriptionId = createDocumentObserverSubscriptionId("autohide");
+    const documentObserverScope = createDocumentObserverScope("autohide");
 
-    if (!observer) {
+    if (!documentObserverScope) {
         return;
     }
 
-    observer.subscribe({
-        id: subscriptionId,
-        ownerId: subscriptionId,
+    documentObserverScope.subscribe({
         eventNames: ["pointerdown"],
         capture: false,
         ignorePointerCapture: true,
         handler,
     });
 
-    autoHideOutside = { dotNetObjectRef, layout, subscriptionId };
+    autoHideOutside = { dotNetObjectRef, layout, documentObserverScope };
 }
 
 function clearAutoHideOutsideHandler() {
@@ -151,52 +99,34 @@ function clearAutoHideOutsideHandler() {
         return;
     }
 
-    getDocumentObserver()?.unsubscribe(autoHideOutside.subscriptionId);
+    autoHideOutside.documentObserverScope.dispose();
     autoHideOutside = null;
 }
 
-function getDocumentObserver() {
-    return globalThis.Blazorise?.documentObserver ?? null;
-}
-
-function createDocumentObserverOwnerId(scope) {
-    return createDocumentObserverSubscriptionId(`${scope}-owner`);
-}
-
-function createDocumentObserverSubscriptionId(scope) {
-    nextSubscriptionId++;
-
-    return `dock-layout-${scope}-${nextSubscriptionId}`;
+function createDocumentObserverScope(scope) {
+    return globalThis.Blazorise?.documentObserver?.createScope(`dock-layout-${scope}`) ?? null;
 }
 
 function addDocumentListeners(move, end) {
-    const observer = getDocumentObserver();
+    const documentObserverScope = createDocumentObserverScope(operation.type);
 
-    if (!observer) {
+    if (!documentObserverScope) {
         return;
     }
 
     operation.move = move;
     operation.end = end;
     operation.cancelOnPointerDown = cancelStaleOperationOnPointerDown;
-    operation.subscriptions = [
-        createDocumentObserverSubscriptionId("pointerdown"),
-        createDocumentObserverSubscriptionId("pointermove"),
-        createDocumentObserverSubscriptionId("pointerend"),
-    ];
+    operation.documentObserverScope = documentObserverScope;
 
-    observer.subscribe({
-        id: operation.subscriptions[0],
-        ownerId: operation.ownerId,
+    documentObserverScope.subscribe({
         eventNames: ["pointerdown"],
         capture: true,
         ignorePointerCapture: true,
         handler: operation.cancelOnPointerDown,
     });
 
-    observer.subscribe({
-        id: operation.subscriptions[1],
-        ownerId: operation.ownerId,
+    documentObserverScope.subscribe({
         eventNames: ["pointermove"],
         capture: true,
         preventDefault: true,
@@ -204,28 +134,18 @@ function addDocumentListeners(move, end) {
         handler: move,
     });
 
-    observer.subscribe({
-        id: operation.subscriptions[2],
-        ownerId: operation.ownerId,
+    documentObserverScope.subscribe({
         eventNames: ["pointerup", "pointercancel"],
         capture: true,
         preventDefault: true,
         handler: end,
     });
 
-    observer.capturePointer(operation.ownerId, operation.pointerId);
+    documentObserverScope.capturePointer(operation.pointerId);
 }
 
 function removeDocumentListeners() {
-    const observer = getDocumentObserver();
-
-    if (observer && operation.subscriptions) {
-        for (const subscriptionId of operation.subscriptions) {
-            observer.unsubscribe(subscriptionId);
-        }
-
-        observer.releasePointer(operation.ownerId, operation.pointerId);
-    }
+    operation.documentObserverScope?.dispose();
 }
 
 function cancelStaleOperationOnPointerDown() {
@@ -234,86 +154,6 @@ function cancelStaleOperationOnPointerDown() {
     }
 
     cancel();
-}
-
-function onResizeMove(event) {
-    if (!operation || operation.type !== "resize") {
-        return;
-    }
-
-    if (isPrimaryPointerButtonReleased(event)) {
-        cancel();
-        return;
-    }
-
-    event.preventDefault();
-
-    const horizontal = operation.position === "Left" || operation.position === "Right";
-    const pointerDelta = horizontal ? event.clientX - operation.startX : event.clientY - operation.startY;
-    const size = clamp(operation.startFirstSize + pointerDelta, operation.minFirstSize, operation.maxFirstSize);
-    const ratio = clamp(size / operation.totalSize, 0.02, 0.98);
-
-    scheduleCallback(() => operation.dotNetObjectRef.invokeMethodAsync("NotifyDockPaneResized", operation.paneName, operation.nodeId, ratio.toString()));
-}
-
-function onResizeEnd(event) {
-    if (!operation || operation.type !== "resize") {
-        return;
-    }
-
-    event.preventDefault();
-    const currentOperation = operation;
-
-    cancel();
-
-    currentOperation.dotNetObjectRef.invokeMethodAsync("NotifyDockPaneResizeEnded", currentOperation.paneName);
-}
-
-function findResizeSplit(pane, nodeId) {
-    let current = pane?.parentElement;
-
-    while (current) {
-        if (current.hasAttribute("data-dock-split") && current.getAttribute("data-dock-node-id") === nodeId) {
-            return current;
-        }
-
-        current = current.parentElement;
-    }
-
-    return pane?.parentElement?.hasAttribute("data-dock-split") ? pane.parentElement : null;
-}
-
-function getResizeFirstSize(paneRect, splitRect, position, horizontal) {
-    if (!splitRect) {
-        return horizontal ? paneRect.width : paneRect.height;
-    }
-
-    switch (position) {
-        case "Left":
-            return paneRect.right - splitRect.left;
-        case "Right":
-            return paneRect.left - splitRect.left;
-        case "Top":
-            return paneRect.bottom - splitRect.top;
-        case "Bottom":
-            return paneRect.top - splitRect.top;
-        default:
-            return 0;
-    }
-}
-
-function getResizeMinFirstSize(totalSize, firstChild, minPaneSize, maxPaneSize) {
-    const defaultMinSize = Math.min(32, Math.max(0, totalSize / 2));
-    const minSize = firstChild ? minPaneSize : totalSize - maxPaneSize;
-
-    return clamp(Number.isNaN(minSize) ? defaultMinSize : Math.max(defaultMinSize, minSize), 0, totalSize);
-}
-
-function getResizeMaxFirstSize(totalSize, firstChild, minPaneSize, maxPaneSize) {
-    const defaultMaxSize = Math.max(0, totalSize - Math.min(32, Math.max(0, totalSize / 2)));
-    const maxSize = firstChild ? maxPaneSize : totalSize - minPaneSize;
-
-    return clamp(Number.isNaN(maxSize) ? defaultMaxSize : Math.min(defaultMaxSize, maxSize), 0, totalSize);
 }
 
 function onDragMove(event) {
@@ -657,55 +497,6 @@ function scheduleCallback(callback) {
     });
 }
 
-function clamp(value, min, max) {
-    let result = value;
-
-    if (!Number.isNaN(min)) {
-        result = Math.max(result, min);
-    }
-
-    if (!Number.isNaN(max)) {
-        result = Math.min(result, max);
-    }
-
-    return result;
-}
-
 function isPrimaryPointerButtonReleased(event) {
     return typeof event.buttons === "number" && event.buttons === 0;
-}
-
-function parseSize(value, context, horizontal) {
-    if (!value || value === "none") {
-        return Number.NaN;
-    }
-
-    if (value.endsWith("px")) {
-        const parsed = Number.parseFloat(value);
-
-        return Number.isNaN(parsed) ? Number.NaN : parsed;
-    }
-
-    const probe = document.createElement("div");
-
-    probe.style.position = "absolute";
-    probe.style.visibility = "hidden";
-    probe.style.pointerEvents = "none";
-
-    if (horizontal) {
-        probe.style.width = value;
-        probe.style.height = "0";
-    } else {
-        probe.style.width = "0";
-        probe.style.height = value;
-    }
-
-    context.parentElement.appendChild(probe);
-
-    const rect = probe.getBoundingClientRect();
-    const result = horizontal ? rect.width : rect.height;
-
-    probe.remove();
-
-    return result || Number.NaN;
 }

@@ -237,6 +237,26 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region Resizer
+
+    public string Resizer() => null;
+
+    public string ResizerOrientation( Orientation orientation ) => null;
+
+    public string ResizerPlacement( Placement placement ) => null;
+
+    public string ResizerGutter( bool showGutter ) => null;
+
+    public string ResizerDisabled( bool disabled ) => null;
+
+    public string ResizerFocused( bool focused ) => null;
+
+    public string ResizerResizing( bool resizing ) => null;
+
+    public string ResizerTargetResizing( bool resizing ) => null;
+
+    #endregion
+
     #region Rating
 
     public string Rating() => null;
@@ -776,8 +796,6 @@ class EmptyClassProvider : IClassProvider
     public string DockPaneFooter() => null;
 
     public string DockContent() => null;
-
-    public string DockSplitter( DockPanePosition position ) => null;
 
     public string DockPaneTabs() => null;
 

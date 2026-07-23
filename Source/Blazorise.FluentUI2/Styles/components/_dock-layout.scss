@@ -426,43 +426,6 @@
     color: var(--b-dock-tab-active-color, var(--colorBrandForeground1, #115ea3));
 }
 
-.fui-DockSplitter {
-    position: absolute;
-    background: transparent;
-    z-index: 2;
-}
-
-.fui-DockSplitter--left,
-.fui-DockSplitter--right {
-    top: 0;
-    bottom: 0;
-    width: .375rem;
-    cursor: col-resize;
-}
-
-.fui-DockSplitter--left {
-    right: -.1875rem;
-}
-
-.fui-DockSplitter--right {
-    left: -.1875rem;
-}
-
-.fui-DockSplitter--top,
-.fui-DockSplitter--bottom {
-    left: 0;
-    right: 0;
-    height: .375rem;
-    cursor: row-resize;
-}
-
-.fui-DockSplitter--top {
-    bottom: -.1875rem;
-}
-
-.fui-DockSplitter--bottom {
-    top: -.1875rem;
-}
 
 .fui-DockDragPreview {
     position: absolute;

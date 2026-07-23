@@ -1,7 +1,6 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Modules;
@@ -39,6 +38,8 @@ public partial class DockLayout : BaseComponent
     private DockLayoutState state;
 
     private bool paneBordered = true;
+
+    private double splitterThickness = 6;
 
     private DotNetObjectReference<DockLayout> dotNetObjectRef;
 
@@ -271,6 +272,109 @@ public partial class DockLayout : BaseComponent
     internal bool CanResizeDockNode( DockNodeState node )
         => treeQuery.CanResizeDockNode( node );
 
+    internal bool CanResizeDockSplit( string nodeId )
+    {
+        DockNodeState node = GetNode( nodeId );
+
+        return node?.Kind == DockNodeKind.Split
+            && ( CanResizeDockNode( node.First ) || CanResizeDockNode( node.Second ) );
+    }
+
+    internal string GetDockNodeElementId( string nodeId )
+        => string.IsNullOrWhiteSpace( nodeId ) ? null : $"{ElementId}-{nodeId}";
+
+    internal ResizerTargets GetDockResizeTargets( string nodeId )
+    {
+        DockNodeState node = GetNode( nodeId );
+
+        if ( node?.Kind != DockNodeKind.Split || node.First is null || node.Second is null )
+            return null;
+
+        string resizeElementId = GetDockNodeElementId( node.Id );
+
+        return new()
+        {
+            Start = CreateDockResizeTarget( node.First, node.Orientation, resizeElementId, "--dock-split-start-size" ),
+            End = CreateDockResizeTarget( node.Second, node.Orientation, resizeElementId, "--dock-split-end-size" ),
+        };
+    }
+
+    private ResizerTarget CreateDockResizeTarget( DockNodeState node, DockSplitOrientation resizeOrientation, string resizeElementId, string resizeProperty )
+    {
+        DockPane pane = GetDockResizePane( node );
+
+        return new()
+        {
+            ElementId = GetDockNodeElementId( node.Id ),
+            ResizeElementId = resizeElementId,
+            ResizeProperty = resizeProperty,
+            MinSize = sizer.GetDockNodeMinimumSize( node, resizeOrientation ),
+            MaxSize = pane?.MaxSize,
+        };
+    }
+
+    private DockPane GetDockResizePane( DockNodeState node )
+    {
+        string paneName = node?.Kind switch
+        {
+            DockNodeKind.Pane => node.PaneName,
+            DockNodeKind.Tabs => GetActiveTabPaneName( node ),
+            _ => null,
+        };
+
+        return TryGetPane( paneName, out DockPane pane ) ? pane : null;
+    }
+
+    internal async Task ResizeDockSplit( string nodeId, ResizerEventArgs eventArgs )
+    {
+        if ( eventArgs?.Canceled == true || eventArgs?.EndSize is null )
+            return;
+
+        DockNodeState node = GetNode( nodeId );
+        double totalSize = eventArgs.StartSize + eventArgs.EndSize.Value;
+
+        if ( node?.Kind != DockNodeKind.Split || totalSize <= 0 )
+            return;
+
+        bool startResizable = CanResizeDockNode( node.First );
+        bool endResizable = CanResizeDockNode( node.Second );
+
+        if ( startResizable != endResizable )
+        {
+            node.UseRatio = false;
+
+            if ( startResizable )
+                SetDockNodeSize( node.First, eventArgs.StartSize );
+            else
+                SetDockNodeSize( node.Second, eventArgs.EndSize.Value );
+        }
+        else
+        {
+            node.Ratio = Math.Clamp( eventArgs.StartSize / totalSize, 0.02d, 0.98d );
+            node.UseRatio = true;
+        }
+
+        await NotifyStateChanged( new( DockLayoutChangeKind.Node, node.Id ) );
+    }
+
+    private void SetDockNodeSize( DockNodeState node, double size )
+    {
+        if ( node is null )
+            return;
+
+        string value = FormattableString.Invariant( $"{size:0.####}px" );
+
+        node.Size = value;
+
+        if ( node.Kind == DockNodeKind.Pane )
+        {
+            DockPaneState paneState = FindPaneState( node.PaneName );
+
+            if ( paneState is not null )
+                paneState.Size = value;
+        }
+    }
+
     internal DockPaneTabPosition GetDockNodeTabPosition( DockNodeState node, DockPanePosition position )
     {
         if ( node?.Panes is not null )
@@ -474,43 +578,6 @@ public partial class DockLayout : BaseComponent
             && pane.Closable
             && pane.EffectiveShowTabCloseButton;
 
-    internal async Task BeginPaneResize( DockPane pane, string nodeId, DockPanePosition dock, PointerEventArgs eventArgs )
-    {
-        if ( pane?.Resizable != true )
-            return;
-
-        await BeginNodeResize(
-            pane.ElementRef,
-            pane.ResolvedName,
-            nodeId,
-            dock,
-            eventArgs,
-            pane.MinSize,
-            pane.MaxSize );
-    }
-
-    internal async Task BeginNodeResize( ElementReference elementRef, string paneName, string nodeId, DockPanePosition dock, PointerEventArgs eventArgs, string minSize = null, string maxSize = null )
-    {
-        DockNodeState resizingNode = GetNode( paneName );
-
-        if ( resizingNode?.Kind == DockNodeKind.Split && !CanResizeDockNode( resizingNode ) )
-            return;
-
-        await DocumentObserver.EnsureInitializedAsync();
-
-        await JSModule.BeginResize(
-            DotNetObjectRef,
-            elementRef,
-            paneName,
-            nodeId,
-            dock.ToString(),
-            eventArgs.PointerId,
-            eventArgs.ClientX,
-            eventArgs.ClientY,
-            minSize,
-            maxSize );
-    }
-
     internal Task BeginPaneTabDrag( string paneName, PointerEventArgs eventArgs )
     {
         if ( !TryGetPane( paneName, out DockPane pane ) )
@@ -539,60 +606,6 @@ public partial class DockLayout : BaseComponent
             eventArgs.ClientY,
             dragGroup );
     }
-
-    /// <summary>
-    /// Updates a dock pane size while a splitter resize operation is active.
-    /// </summary>
-    /// <param name="paneName">The resized pane name.</param>
-    /// <param name="nodeId">The resized split node id.</param>
-    /// <param name="ratio">The new split ratio.</param>
-    /// <returns>A task that completes after the state is updated.</returns>
-    [JSInvokable]
-    public Task NotifyDockPaneResized( string paneName, string nodeId, string ratio )
-    {
-        DockNodeState resizedNode = DockLayoutTreeQuery.FindNodeById( CurrentState.Root, nodeId );
-
-        if ( resizedNode?.Kind == DockNodeKind.Split && double.TryParse( ratio, NumberStyles.Float, CultureInfo.InvariantCulture, out double splitRatio ) )
-        {
-            resizedNode.Ratio = Math.Clamp( splitRatio, 0.02d, 0.98d );
-            resizedNode.UseRatio = true;
-        }
-        else
-        {
-            DockPaneState paneState = FindPaneState( paneName );
-
-            if ( paneState is null )
-                return Task.CompletedTask;
-
-            if ( resizedNode is not null )
-                resizedNode.Size = ratio;
-            else if ( treeQuery.FindTabsNode( paneName ) is DockNodeState tabsNode )
-                tabsNode.Size = ratio;
-            else
-                paneState.Size = ratio;
-        }
-
-        if ( string.IsNullOrWhiteSpace( nodeId ) )
-        {
-            context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
-            StateHasChanged();
-        }
-        else
-        {
-            context.NotifyChanged( new( DockLayoutChangeKind.Node, nodeId ) );
-        }
-
-        return Task.CompletedTask;
-    }
-
-    /// <summary>
-    /// Completes a dock pane splitter resize operation.
-    /// </summary>
-    /// <param name="paneName">The resized pane name.</param>
-    /// <returns>A task that completes after the state is updated.</returns>
-    [JSInvokable]
-    public Task NotifyDockPaneResizeEnded( string paneName )
-        => CommitStateChanged();
 
     /// <summary>
     /// Updates the currently highlighted dock drop zone while a pane is dragged.
@@ -1096,6 +1109,9 @@ public partial class DockLayout : BaseComponent
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
     internal bool DockGuidesVisible => dragState.Visible;
 
     internal static IReadOnlyList<DockCompassZoneInfo> DockCompassZones => dockCompassZones;
@@ -1158,6 +1174,23 @@ public partial class DockLayout : BaseComponent
                 return;
 
             paneBordered = value;
+            context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
+        }
+    }
+
+    /// <summary>
+    /// Defines the thickness, in pixels, of the splitters between dock panes.
+    /// </summary>
+    [Parameter]
+    public double SplitterThickness
+    {
+        get => splitterThickness;
+        set
+        {
+            if ( splitterThickness == value )
+                return;
+
+            splitterThickness = value;
             context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
         }
     }

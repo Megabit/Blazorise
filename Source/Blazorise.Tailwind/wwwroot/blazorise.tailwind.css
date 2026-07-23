@@ -383,6 +383,9 @@
   .start-0 {
     inset-inline-start: calc(var(--spacing) * 0);
   }
+  .end-0 {
+    inset-inline-end: calc(var(--spacing) * 0);
+  }
   .top-0 {
     top: calc(var(--spacing) * 0);
   }
@@ -1243,6 +1246,9 @@
   .animate-spin {
     animation: var(--animate-spin);
   }
+  .cursor-col-resize {
+    cursor: col-resize;
+  }
   .cursor-none {
     cursor: none;
   }
@@ -1251,6 +1257,12 @@
   }
   .cursor-pointer {
     cursor: pointer;
+  }
+  .cursor-row-resize {
+    cursor: row-resize;
+  }
+  .touch-none {
+    touch-action: none;
   }
   .list-none {
     list-style-type: none;
@@ -2221,6 +2233,9 @@
   .\!p-5 {
     padding: calc(var(--spacing) * 5) !important;
   }
+  .p-0 {
+    padding: calc(var(--spacing) * 0);
+  }
   .p-0\.5 {
     padding: calc(var(--spacing) * 0.5);
   }
@@ -2910,6 +2925,9 @@
   .accent-warning-500 {
     accent-color: var(--color-warning-500);
   }
+  .opacity-50 {
+    opacity: 50%;
+  }
   .opacity-60 {
     opacity: 60%;
   }
@@ -3005,6 +3023,9 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
+  .\!transition-none {
+    transition-property: none !important;
+  }
   .duration-700 {
     --tw-duration: 700ms;
     transition-duration: 700ms;
@@ -3012,6 +3033,14 @@
   .ease-in-out {
     --tw-ease: var(--ease-in-out);
     transition-timing-function: var(--ease-in-out);
+  }
+  .outline-none {
+    --tw-outline-style: none;
+    outline-style: none;
+  }
+  .select-none {
+    -webkit-user-select: none;
+    user-select: none;
   }
   .group-hover\:bg-white\/50 {
     &:is(:where(.group):hover *) {
@@ -9460,35 +9489,6 @@ body:before {
   background: var(--b-dock-tab-active-background, rgb(255, 255, 255));
   color: var(--b-dock-tab-active-color, rgb(37, 99, 235));
 }
-.tw-dock-splitter {
-  position: absolute;
-  background: transparent;
-  z-index: 2;
-}
-.tw-dock-splitter-left, .tw-dock-splitter-right {
-  top: 0;
-  bottom: 0;
-  width: 0.375rem;
-  cursor: col-resize;
-}
-.tw-dock-splitter-left {
-  right: -0.1875rem;
-}
-.tw-dock-splitter-right {
-  left: -0.1875rem;
-}
-.tw-dock-splitter-top, .tw-dock-splitter-bottom {
-  left: 0;
-  right: 0;
-  height: 0.375rem;
-  cursor: row-resize;
-}
-.tw-dock-splitter-top {
-  bottom: -0.1875rem;
-}
-.tw-dock-splitter-bottom {
-  top: -0.1875rem;
-}
 .tw-dock-drag-preview {
   position: absolute;
   z-index: 40;
@@ -9713,6 +9713,62 @@ body:before {
 }
 .tw-range-slider[aria-disabled=true] > .tw-range-slider-input::-moz-range-thumb {
   cursor: not-allowed;
+}
+.tw-resizer {
+  --tw-resizer-hit-area: .5rem;
+  --tw-resizer-gutter-background: rgb(249 250 251);
+  --tw-resizer-gutter-border: rgb(209 213 219);
+  --tw-resizer-grip-color: rgb(107 114 128);
+}
+.tw-resizer-vertical {
+  width: var(--tw-resizer-hit-area);
+}
+.tw-resizer-horizontal {
+  height: var(--tw-resizer-hit-area);
+}
+.tw-resizer-gutter::before, .tw-resizer-gutter::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+.tw-resizer-gutter::before {
+  inset: 0;
+  box-sizing: border-box;
+  background: var(--tw-resizer-gutter-background);
+}
+.tw-resizer-gutter::after {
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--tw-resizer-grip-color);
+  transform: translate(-50%, -50%);
+}
+.tw-resizer-gutter:hover, .tw-resizer-gutter.tw-resizer-focused, .tw-resizer-gutter.tw-resizer-resizing {
+  --tw-resizer-gutter-background: rgb(239 246 255);
+  --tw-resizer-gutter-border: rgb(37 99 235);
+  --tw-resizer-grip-color: rgb(37 99 235);
+}
+.tw-resizer-gutter.tw-resizer-vertical::before {
+  border-inline: 1px solid var(--tw-resizer-gutter-border);
+}
+.tw-resizer-gutter.tw-resizer-vertical::after {
+  box-shadow: 0 -5px 0 var(--tw-resizer-grip-color), 0 5px 0 var(--tw-resizer-grip-color);
+}
+.tw-resizer-gutter.tw-resizer-horizontal::before {
+  border-block: 1px solid var(--tw-resizer-gutter-border);
+}
+.tw-resizer-gutter.tw-resizer-horizontal::after {
+  box-shadow: -5px 0 0 var(--tw-resizer-grip-color), 5px 0 0 var(--tw-resizer-grip-color);
+}
+.tw-resizer-target-resizing {
+  transition: none !important;
+}
+@media (pointer: coarse) {
+  .tw-resizer {
+    --tw-resizer-hit-area: 1rem;
+  }
 }
 .b-skeleton .b-skeleton-item {
   position: relative;

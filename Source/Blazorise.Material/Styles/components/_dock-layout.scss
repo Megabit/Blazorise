@@ -426,43 +426,6 @@
     color: var(--b-dock-tab-active-color, var(--mui-primary, #6750a4));
 }
 
-.mui-dock-splitter {
-    position: absolute;
-    background: transparent;
-    z-index: 2;
-}
-
-.mui-dock-splitter-left,
-.mui-dock-splitter-right {
-    top: 0;
-    bottom: 0;
-    width: .375rem;
-    cursor: col-resize;
-}
-
-.mui-dock-splitter-left {
-    right: -.1875rem;
-}
-
-.mui-dock-splitter-right {
-    left: -.1875rem;
-}
-
-.mui-dock-splitter-top,
-.mui-dock-splitter-bottom {
-    left: 0;
-    right: 0;
-    height: .375rem;
-    cursor: row-resize;
-}
-
-.mui-dock-splitter-top {
-    bottom: -.1875rem;
-}
-
-.mui-dock-splitter-bottom {
-    top: -.1875rem;
-}
 
 .mui-dock-drag-preview {
     position: absolute;

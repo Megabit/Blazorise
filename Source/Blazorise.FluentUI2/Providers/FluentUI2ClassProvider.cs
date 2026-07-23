@@ -249,6 +249,26 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
+    #region Resizer
+
+    public override string Resizer() => "fui-Resizer";
+
+    public override string ResizerOrientation( Orientation orientation ) => $"fui-Resizer-{orientation.ToString().ToLowerInvariant()}";
+
+    public override string ResizerPlacement( Placement placement ) => $"fui-Resizer-{placement.ToString().ToLowerInvariant()}";
+
+    public override string ResizerGutter( bool showGutter ) => showGutter ? "fui-Resizer-gutter" : null;
+
+    public override string ResizerDisabled( bool disabled ) => disabled ? "fui-Resizer-disabled" : null;
+
+    public override string ResizerFocused( bool focused ) => focused ? "fui-Resizer-focused" : null;
+
+    public override string ResizerResizing( bool resizing ) => resizing ? "fui-Resizer-resizing" : null;
+
+    public override string ResizerTargetResizing( bool resizing ) => resizing ? "fui-Resizer-target-resizing" : null;
+
+    #endregion
+
     #region Rating
 
     public override string Rating() => "fui-Rating";
@@ -1932,15 +1952,6 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string DockPaneFooter() => "fui-DockPaneFooter";
 
     public override string DockContent() => "fui-DockContent";
-
-    public override string DockSplitter( DockPanePosition position )
-        => position switch
-        {
-            Blazorise.DockPanePosition.Right => "fui-DockSplitter fui-DockSplitter--right",
-            Blazorise.DockPanePosition.Top => "fui-DockSplitter fui-DockSplitter--top",
-            Blazorise.DockPanePosition.Bottom => "fui-DockSplitter fui-DockSplitter--bottom",
-            _ => "fui-DockSplitter fui-DockSplitter--left",
-        };
 
     public override string DockPaneTabs() => "fui-DockPaneTabs";
 

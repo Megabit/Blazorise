@@ -21,7 +21,8 @@ public partial class _DockNodeRenderer : _BaseDockRenderer
     /// <inheritdoc/>
     private protected override bool IsAffected( DockLayoutChange change )
         => change.Kind == DockLayoutChangeKind.Tree
-            || change.Kind == DockLayoutChangeKind.Node && change.NodeId == NodeId;
+            || change.Kind == DockLayoutChangeKind.Node
+                && DockLayoutTreeQuery.FindNodeById( Node, change.NodeId ) is not null;
 
     /// <inheritdoc/>
     private protected override void OnDockLayoutChanged( DockLayoutChange change )
@@ -50,19 +51,14 @@ public partial class _DockNodeRenderer : _BaseDockRenderer
 
     private string SplitStyle => Context?.GetDockSplitStyle( Node );
 
-    private DockPanePosition FirstSplitterDock => Node?.Orientation == DockSplitOrientation.Vertical
-        ? DockPanePosition.Top
-        : DockPanePosition.Left;
+    private bool CanResizeSplit => Context?.CanResizeDockSplit( Node?.Id ) == true;
 
-    private DockPanePosition SecondSplitterDock => Node?.Orientation == DockSplitOrientation.Vertical
-        ? DockPanePosition.Bottom
-        : DockPanePosition.Right;
+    private bool FirstTrackResizable => Context?.CanResizeDockNode( Node?.First ) == true;
 
-    private bool CanResize => Context is not null
-        && Node?.Kind == DockNodeKind.Split
-        && SplitterDock is not null
-        && !string.IsNullOrWhiteSpace( SplitNodeId )
-        && Context.CanResizeDockNode( Node );
+    private bool SecondTrackResizable => Context?.CanResizeDockNode( Node?.Second ) == true;
+
+    private ( string SplitId, string StartId, string EndId ) SplitterKey
+        => ( Node?.Id, Node?.First?.Id, Node?.Second?.Id );
 
     private DockNodeState Node => Context?.GetNode( NodeId );
 
@@ -74,14 +70,9 @@ public partial class _DockNodeRenderer : _BaseDockRenderer
     [Parameter] public string NodeId { get; set; }
 
     /// <summary>
-    /// Gets or sets the local splitter side for the rendered node.
+    /// Indicates whether the rendered leaf belongs to a resizable split track.
     /// </summary>
-    [Parameter] public DockPanePosition? SplitterDock { get; set; }
-
-    /// <summary>
-    /// Gets or sets the split node that owns the rendered node splitter.
-    /// </summary>
-    [Parameter] public string SplitNodeId { get; set; }
+    [Parameter] public bool Resizable { get; set; }
 
     #endregion
 }

@@ -3,13 +3,8 @@
 @if ( Visible )
 {
     <CascadingValue Value="@Pane" IsFixed="false">
-        <aside @ref="@CapturedElementRef" class="@ClassNames" style="@StyleNames" data-dock-node-id="@NodeId" data-dock-pane-name="@Pane.ResolvedName" data-dock-pane-caption="@Pane.ResolvedCaption" data-dock-auto-hide-flyout="@AutoHideFlyoutPosition">
+        <aside id="@Context.GetDockNodeElementId( NodeId )" class="@ClassNames" style="@StyleNames" data-dock-node-id="@NodeId" data-dock-pane-name="@Pane.ResolvedName" data-dock-pane-caption="@Pane.ResolvedCaption" data-dock-auto-hide-flyout="@AutoHideFlyoutPosition">
             @Pane.ChildContent
-
-            @if ( CanResize )
-            {
-                <DockSplitter Dock="@SplitterDock.Value" NodeId="@SplitNodeId" />
-            }
         </aside>
     </CascadingValue>
 }

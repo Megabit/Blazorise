@@ -250,6 +250,26 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
+    #region Resizer
+
+    public override string Resizer() => "ant-resizer";
+
+    public override string ResizerOrientation( Orientation orientation ) => $"ant-resizer-{orientation.ToString().ToLowerInvariant()}";
+
+    public override string ResizerPlacement( Placement placement ) => $"ant-resizer-{placement.ToString().ToLowerInvariant()}";
+
+    public override string ResizerGutter( bool showGutter ) => showGutter ? "ant-resizer-gutter" : null;
+
+    public override string ResizerDisabled( bool disabled ) => disabled ? "ant-resizer-disabled" : null;
+
+    public override string ResizerFocused( bool focused ) => focused ? "ant-resizer-focused" : null;
+
+    public override string ResizerResizing( bool resizing ) => resizing ? "ant-resizer-resizing" : null;
+
+    public override string ResizerTargetResizing( bool resizing ) => resizing ? "ant-resizer-target-resizing" : null;
+
+    #endregion
+
     #region Rating
 
     public override string Rating() => "ant-rate";
@@ -1964,15 +1984,6 @@ public class AntDesignClassProvider : ClassProvider
     public override string DockPaneFooter() => "ant-dock-pane-footer";
 
     public override string DockContent() => "ant-dock-content";
-
-    public override string DockSplitter( DockPanePosition position )
-        => position switch
-        {
-            Blazorise.DockPanePosition.Right => "ant-dock-splitter ant-dock-splitter-right",
-            Blazorise.DockPanePosition.Top => "ant-dock-splitter ant-dock-splitter-top",
-            Blazorise.DockPanePosition.Bottom => "ant-dock-splitter ant-dock-splitter-bottom",
-            _ => "ant-dock-splitter ant-dock-splitter-left",
-        };
 
     public override string DockPaneTabs() => "ant-dock-pane-tabs";
 

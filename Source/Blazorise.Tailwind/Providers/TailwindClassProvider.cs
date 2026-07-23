@@ -316,6 +316,36 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region Resizer
+
+    public override string Resizer() => "tw-resizer absolute z-10 border-0 bg-transparent p-0 outline-none select-none touch-none";
+
+    public override string ResizerOrientation( Orientation orientation )
+        => orientation == Orientation.Vertical
+            ? "tw-resizer-vertical top-0 bottom-0 w-2 cursor-col-resize"
+            : "tw-resizer-horizontal left-0 right-0 h-2 cursor-row-resize";
+
+    public override string ResizerPlacement( Placement placement ) => placement switch
+    {
+        Placement.Top => "tw-resizer-top top-0",
+        Placement.Bottom => "tw-resizer-bottom bottom-0",
+        Placement.Start => "tw-resizer-start start-0",
+        Placement.End => "tw-resizer-end end-0",
+        _ => null,
+    };
+
+    public override string ResizerGutter( bool showGutter ) => showGutter ? "tw-resizer-gutter" : null;
+
+    public override string ResizerDisabled( bool disabled ) => disabled ? "tw-resizer-disabled pointer-events-none opacity-50" : null;
+
+    public override string ResizerFocused( bool focused ) => focused ? "tw-resizer-focused" : null;
+
+    public override string ResizerResizing( bool resizing ) => resizing ? "tw-resizer-resizing" : null;
+
+    public override string ResizerTargetResizing( bool resizing ) => resizing ? "tw-resizer-target-resizing !transition-none" : null;
+
+    #endregion
+
     private static string BuildTailwindSliderInputClasses( bool rangeSlider )
     {
         if ( !rangeSlider )
@@ -2691,15 +2721,6 @@ public class TailwindClassProvider : ClassProvider
     public override string DockPaneFooter() => "tw-dock-pane-footer";
 
     public override string DockContent() => "tw-dock-content";
-
-    public override string DockSplitter( DockPanePosition position )
-        => position switch
-        {
-            Blazorise.DockPanePosition.Right => "tw-dock-splitter tw-dock-splitter-right",
-            Blazorise.DockPanePosition.Top => "tw-dock-splitter tw-dock-splitter-top",
-            Blazorise.DockPanePosition.Bottom => "tw-dock-splitter tw-dock-splitter-bottom",
-            _ => "tw-dock-splitter tw-dock-splitter-left",
-        };
 
     public override string DockPaneTabs() => "tw-dock-pane-tabs";
 

@@ -426,43 +426,6 @@
     color: var(--b-dock-tab-active-color, rgb(37 99 235));
 }
 
-.tw-dock-splitter {
-    position: absolute;
-    background: transparent;
-    z-index: 2;
-}
-
-.tw-dock-splitter-left,
-.tw-dock-splitter-right {
-    top: 0;
-    bottom: 0;
-    width: .375rem;
-    cursor: col-resize;
-}
-
-.tw-dock-splitter-left {
-    right: -.1875rem;
-}
-
-.tw-dock-splitter-right {
-    left: -.1875rem;
-}
-
-.tw-dock-splitter-top,
-.tw-dock-splitter-bottom {
-    left: 0;
-    right: 0;
-    height: .375rem;
-    cursor: row-resize;
-}
-
-.tw-dock-splitter-top {
-    bottom: -.1875rem;
-}
-
-.tw-dock-splitter-bottom {
-    top: -.1875rem;
-}
 
 .tw-dock-drag-preview {
     position: absolute;

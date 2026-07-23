@@ -3,7 +3,7 @@
 @if ( Visible )
 {
     <CascadingValue Value="@ActivePane" IsFixed="false">
-        <aside @ref="@CapturedElementRef" class="@ClassNames" style="@StyleNames" data-dock-node-id="@Node.Id" data-dock-pane-name="@ActivePaneName" data-dock-pane-caption="@ActivePane.ResolvedCaption">
+        <aside id="@Context.GetDockNodeElementId( Node.Id )" class="@ClassNames" style="@StyleNames" data-dock-node-id="@Node.Id" data-dock-pane-name="@ActivePaneName" data-dock-pane-caption="@ActivePane.ResolvedCaption">
             @if ( TabsVisible && TabsOnTop )
             {
                 <div class="@TabsClassNames">
@@ -25,10 +25,6 @@
                 </div>
             }
 
-            @if ( CanResize )
-            {
-                <DockSplitter Dock="@SplitterDock.Value" NodeId="@SplitNodeId" />
-            }
         </aside>
     </CascadingValue>
 }

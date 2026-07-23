@@ -2119,9 +2119,9 @@ body {
   align-self: flex-start;
   position: sticky;
   inset-block-start: 0;
-  inline-size: var(--mui-bar-drawer-width);
-  min-inline-size: var(--mui-bar-drawer-width);
-  max-inline-size: var(--mui-bar-drawer-width);
+  inline-size: var(--b-vertical-bar-width, var(--mui-bar-drawer-width));
+  min-inline-size: var(--b-vertical-bar-width, var(--mui-bar-drawer-width));
+  max-inline-size: var(--b-vertical-bar-width, var(--mui-bar-drawer-width));
   block-size: 100%;
   min-block-size: 100%;
   background-color: var(--mui-bar-bg);
@@ -2294,7 +2294,7 @@ body {
 .mui-bar-vertical-popout .mui-bar-toggler-popout:not(.mui-bar-mobile-toggle),
 .mui-bar-vertical-small .mui-bar-toggler-popout:not(.mui-bar-mobile-toggle) {
   position: fixed;
-  inset-inline-start: var(--mui-bar-drawer-width);
+  inset-inline-start: var(--b-vertical-bar-width, var(--mui-bar-drawer-width));
   inset-block-start: 1rem;
   block-size: 3rem;
   inline-size: 0.875rem;
@@ -4465,44 +4465,6 @@ body {
 .mui-dock-pane-tab-active {
   background: var(--b-dock-tab-active-background, var(--mui-surface, #ffffff));
   color: var(--b-dock-tab-active-color, var(--mui-primary, #6750a4));
-}
-
-.mui-dock-splitter {
-  position: absolute;
-  background: transparent;
-  z-index: 2;
-}
-
-.mui-dock-splitter-left,
-.mui-dock-splitter-right {
-  top: 0;
-  bottom: 0;
-  width: 0.375rem;
-  cursor: col-resize;
-}
-
-.mui-dock-splitter-left {
-  right: -0.1875rem;
-}
-
-.mui-dock-splitter-right {
-  left: -0.1875rem;
-}
-
-.mui-dock-splitter-top,
-.mui-dock-splitter-bottom {
-  left: 0;
-  right: 0;
-  height: 0.375rem;
-  cursor: row-resize;
-}
-
-.mui-dock-splitter-top {
-  bottom: -0.1875rem;
-}
-
-.mui-dock-splitter-bottom {
-  top: -0.1875rem;
 }
 
 .mui-dock-drag-preview {
@@ -8229,6 +8191,95 @@ body.modal-open {
   opacity: 0;
 }
 
+.mui-resizer {
+  --mui-resizer-hit-area: .5rem;
+  --mui-resizer-gutter-background: var(--mui-surface-container, #f3edf7);
+  --mui-resizer-gutter-border: var(--mui-outline-variant, #cac4d0);
+  --mui-resizer-grip-color: var(--mui-on-surface-variant, #49454f);
+  position: absolute;
+  z-index: 10;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  user-select: none;
+  touch-action: none;
+  outline: none;
+}
+.mui-resizer-vertical {
+  top: 0;
+  bottom: 0;
+  width: var(--mui-resizer-hit-area);
+  cursor: col-resize;
+}
+.mui-resizer-horizontal {
+  right: 0;
+  left: 0;
+  height: var(--mui-resizer-hit-area);
+  cursor: row-resize;
+}
+.mui-resizer-top {
+  top: 0;
+}
+.mui-resizer-bottom {
+  bottom: 0;
+}
+.mui-resizer-start {
+  inset-inline-start: 0;
+}
+.mui-resizer-end {
+  inset-inline-end: 0;
+}
+.mui-resizer-gutter::before, .mui-resizer-gutter::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+.mui-resizer-gutter::before {
+  inset: 0;
+  box-sizing: border-box;
+  background: var(--mui-resizer-gutter-background);
+}
+.mui-resizer-gutter::after {
+  top: 50%;
+  left: 50%;
+  border-radius: 9999px;
+  background: var(--mui-resizer-grip-color);
+  transform: translate(-50%, -50%);
+}
+.mui-resizer-gutter:hover, .mui-resizer-gutter.mui-resizer-focused, .mui-resizer-gutter.mui-resizer-resizing {
+  --mui-resizer-gutter-background: var(--mui-primary-container, #eaddff);
+  --mui-resizer-gutter-border: var(--mui-primary, #6750a4);
+  --mui-resizer-grip-color: var(--mui-on-primary-container, #21005d);
+}
+.mui-resizer-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.mui-resizer-target-resizing {
+  transition: none !important;
+}
+
+.mui-resizer-gutter.mui-resizer-vertical::before {
+  border-inline: 1px solid var(--mui-resizer-gutter-border);
+}
+.mui-resizer-gutter.mui-resizer-vertical::after {
+  width: 4px;
+  height: 2rem;
+}
+
+.mui-resizer-gutter.mui-resizer-horizontal::before {
+  border-block: 1px solid var(--mui-resizer-gutter-border);
+}
+.mui-resizer-gutter.mui-resizer-horizontal::after {
+  width: 2rem;
+  height: 4px;
+}
+
+@media (pointer: coarse) {
+  .mui-resizer {
+    --mui-resizer-hit-area: 1rem;
+  }
+}
 .mui-steps {
   --mui-step-marker-size: 2rem;
   --mui-step-marker-border-size: 0.125rem;

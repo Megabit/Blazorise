@@ -197,10 +197,12 @@ internal sealed class DockLayoutTreeMutator
 
         if ( node.Kind == DockNodeKind.Pane && node.PaneName == targetName )
         {
+            string targetSize = sizer.GetResolvedDockNodeSize( state, node );
             DockNodeState tabsNode = new()
             {
                 Kind = DockNodeKind.Tabs,
                 ActivePane = paneName,
+                Size = targetSize,
             };
 
             tabsNode.Panes.Add( targetName );
@@ -212,10 +214,13 @@ internal sealed class DockLayoutTreeMutator
 
         if ( node.Kind == DockNodeKind.Tabs && node.Panes.Contains( targetName ) )
         {
+            string targetSize = sizer.GetResolvedDockNodeSize( state, node );
+
             if ( !node.Panes.Contains( paneName ) )
                 node.Panes.Add( paneName );
 
             node.ActivePane = paneName;
+            node.Size ??= targetSize;
             SetDockTabsNodeSize( state, node );
 
             return node;
@@ -333,11 +338,23 @@ internal sealed class DockLayoutTreeMutator
         {
             splitNode.Size = targetSize;
             splitNode.Ratio = ratio is null ? splitNode.Ratio : Math.Clamp( ratio.Value, 0.02d, 0.98d );
-            splitNode.UseRatio = useRatio ?? true;
+            splitNode.UseRatio = useRatio ?? ShouldUseRatio( splitNode );
         }
 
         return splitNode;
     }
+
+    private bool ShouldUseRatio( DockNodeState splitNode )
+    {
+        bool firstIsCenter = IsCenterNode( splitNode.First );
+        bool secondIsCenter = IsCenterNode( splitNode.Second );
+
+        return firstIsCenter == secondIsCenter;
+    }
+
+    private bool IsCenterNode( DockNodeState node )
+        => node?.Kind == DockNodeKind.Content
+            || query.GetDockNodePosition( node ) == DockPanePosition.Center;
 
     private static DockNodeState CreateOuterDockSplitNode( DockNodeState root, DockNodeState dockNode, DockPanePosition position )
         => position switch

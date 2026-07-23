@@ -250,6 +250,26 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
+    #region Resizer
+
+    public override string Resizer() => "resizer";
+
+    public override string ResizerOrientation( Orientation orientation ) => $"resizer-{orientation.ToString().ToLowerInvariant()}";
+
+    public override string ResizerPlacement( Placement placement ) => $"resizer-{placement.ToString().ToLowerInvariant()}";
+
+    public override string ResizerGutter( bool showGutter ) => showGutter ? "resizer-gutter" : null;
+
+    public override string ResizerDisabled( bool disabled ) => disabled ? "resizer-disabled" : null;
+
+    public override string ResizerFocused( bool focused ) => focused ? "resizer-focused" : null;
+
+    public override string ResizerResizing( bool resizing ) => resizing ? "resizer-resizing" : null;
+
+    public override string ResizerTargetResizing( bool resizing ) => resizing ? "resizer-target-resizing" : null;
+
+    #endregion
+
     #region Rating
 
     public override string Rating() => "rating";
@@ -1572,15 +1592,6 @@ public class BootstrapClassProvider : ClassProvider
     public override string DockPaneFooter() => "dock-pane-footer";
 
     public override string DockContent() => "dock-content";
-
-    public override string DockSplitter( DockPanePosition position )
-        => position switch
-        {
-            Blazorise.DockPanePosition.Right => "dock-splitter dock-splitter-right",
-            Blazorise.DockPanePosition.Top => "dock-splitter dock-splitter-top",
-            Blazorise.DockPanePosition.Bottom => "dock-splitter dock-splitter-bottom",
-            _ => "dock-splitter dock-splitter-left",
-        };
 
     public override string DockPaneTabs() => "dock-pane-tabs";
 

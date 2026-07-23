@@ -235,6 +235,26 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region Resizer
+
+    public abstract string Resizer();
+
+    public abstract string ResizerOrientation( Orientation orientation );
+
+    public abstract string ResizerPlacement( Placement placement );
+
+    public abstract string ResizerGutter( bool showGutter );
+
+    public abstract string ResizerDisabled( bool disabled );
+
+    public abstract string ResizerFocused( bool focused );
+
+    public abstract string ResizerResizing( bool resizing );
+
+    public abstract string ResizerTargetResizing( bool resizing );
+
+    #endregion
+
     #region Rating
 
     public abstract string Rating();
@@ -774,9 +794,6 @@ public abstract class ClassProvider : IClassProvider
     public virtual string DockPaneFooter() => null;
 
     public virtual string DockContent() => null;
-
-    public virtual string DockSplitter( DockPanePosition position )
-        => null;
 
     public virtual string DockPaneTabs() => null;
 

@@ -227,6 +227,7 @@ public class ComponentsApiDocsGenerator
                     !m.IsImplicitlyDeclared &&
                     m.MethodKind == MethodKind.Ordinary &&
                     m.OverriddenMethod == null &&
+                    !IsJsInvokable( m ) &&
                     !skipMethods.Contains( m.Name )
                     )
                 .OrderBy( m => m.ToDisplayString( SymbolDisplayFormat.CSharpErrorMessageFormat ), StringComparer.Ordinal );
@@ -248,6 +249,32 @@ public class ComponentsApiDocsGenerator
              """"
             );
         }
+    }
+
+    private static bool IsJsInvokable( IMethodSymbol method )
+    {
+        if ( method.GetAttributes().Any( attribute => IsJsInvokableAttributeName( attribute.AttributeClass?.Name ) ) )
+            return true;
+
+        return method.DeclaringSyntaxReferences
+            .Select( syntaxReference => syntaxReference.GetSyntax() )
+            .OfType<Microsoft.CodeAnalysis.CSharp.Syntax.MethodDeclarationSyntax>()
+            .SelectMany( methodDeclaration => methodDeclaration.AttributeLists )
+            .SelectMany( attributeList => attributeList.Attributes )
+            .Any( attribute => IsJsInvokableAttributeName( attribute.Name.ToString() ) );
+    }
+
+    private static bool IsJsInvokableAttributeName( string attributeName )
+    {
+        if ( string.IsNullOrWhiteSpace( attributeName ) )
+            return false;
+
+        int namespaceSeparator = attributeName.LastIndexOf( '.' );
+
+        if ( namespaceSeparator >= 0 )
+            attributeName = attributeName[( namespaceSeparator + 1 )..];
+
+        return attributeName is "JSInvokable" or "JSInvokableAttribute";
     }
 
     record TypeQualification( bool QualifiesForApiDocs, bool SkipParamCheck = false, IEnumerable<INamedTypeSymbol> NamedTypeSymbols = null, string Category = null, string Subcategory = null );
