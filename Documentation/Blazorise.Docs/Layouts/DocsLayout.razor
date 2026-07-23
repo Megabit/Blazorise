@@ -99,18 +99,15 @@
                                     <BarDropdownItem To="docs/components/breadcrumb">Breadcrumb</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/button">Button</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/card">Card</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/carousel">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsUpdatedFeatureBadge>Carousel</DocsUpdatedFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/check">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsUpdatedFeatureBadge>Check</DocsUpdatedFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/carousel">Carousel</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/check">Check</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/close-button">Close Button</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/collapse">Collapse</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/context-menu">
+                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                            <DocsNewFeatureBadge>Context Menu</DocsNewFeatureBadge>
+                                        </Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/color-input">Color Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/color-picker">Color Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/date-input">Date Input</BarDropdownItem>
@@ -132,16 +129,17 @@
                                     <BarDropdownItem To="docs/components/image">Image</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/jumbotron">Jumbotron</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/layout">Layout</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/dock-layout">
+                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                            <DocsNewFeatureBadge>DockLayout</DocsNewFeatureBadge>
+                                        </Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/link">Link</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/list-group">List Group</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/input-mask">Input Mask</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/memo-input">Memo Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/modal">Modal</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/offcanvas">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsUpdatedFeatureBadge>Offcanvas</DocsUpdatedFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/offcanvas">Offcanvas</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/on-screen-keyboard">
                                         <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
                                             <DocsNewFeatureBadge>On-screen Keyboard</DocsNewFeatureBadge>
@@ -155,6 +153,11 @@
                                     <BarDropdownItem To="docs/components/range-slider">Range Slider</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/rating">Rating</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/repeater">Repeater</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/resizer">
+                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                            <DocsNewFeatureBadge>Resizer</DocsNewFeatureBadge>
+                                        </Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/select">Select</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/skeleton">Skeleton</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/slider">Slider</BarDropdownItem>
@@ -286,6 +289,25 @@
                             </BarDropdown>
                         </BarItem>
                         <BarItem>
+                            <BarDropdown @bind-Visible="@sideBarReportingMenuVisible">
+                                <BarDropdownToggle To="docs/extensions/reporting" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                    <BarIcon IconName="IconName.FileAlt" />
+                                    <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                        <DocsNewFeatureBadge>Reporting</DocsNewFeatureBadge>
+                                    </Span>
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/extensions/reporting/getting-started">Getting Started</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/designer">Designer</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/layout">Layout</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/data-sources">Data Sources</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/expressions">Expressions</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/pdf-export">PDF Export</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/api">API</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
                             <BarDropdown @bind-Visible="@sideBarSvgChartMenuVisible">
                                 <BarDropdownToggle To="docs/extensions/svg-chart" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
                                     <BarIcon IconName="IconName.ChartLine" />
@@ -376,11 +398,12 @@
                                     <BarDropdownItem To="docs/extensions/markdown">Markdown</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/onetimeinput">OneTimeInput</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/passwordstrength">PasswordStrength</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/pdfviewer">
+                                    <BarDropdownItem To="docs/extensions/pdf">
                                         <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsUpdatedFeatureBadge>PdfViewer</DocsUpdatedFeatureBadge>
+                                            <DocsNewFeatureBadge>PDF</DocsNewFeatureBadge>
                                         </Span>
                                     </BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/pdfviewer">PdfViewer</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/pivotgrid">
                                         <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
                                             <DocsNewFeatureBadge>PivotGrid</DocsNewFeatureBadge>

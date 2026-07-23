@@ -1,0 +1,10 @@
+@namespace Blazorise
+@inherits _BaseDockRenderer
+@if ( Visible )
+{
+    <CascadingValue Value="@Pane" IsFixed="false">
+        <aside id="@Context.GetDockNodeElementId( NodeId )" class="@ClassNames" style="@StyleNames" data-dock-node-id="@NodeId" data-dock-pane-name="@Pane.ResolvedName" data-dock-pane-caption="@Pane.ResolvedCaption" data-dock-auto-hide-flyout="@AutoHideFlyoutPosition">
+            @Pane.ChildContent
+        </aside>
+    </CascadingValue>
+}

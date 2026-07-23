@@ -20,9 +20,92 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     #region Methods
 
+    protected override void GenerateBodyVariables( Theme theme )
+    {
+        base.GenerateBodyVariables( theme );
+
+        SetBootstrapColorVariable( "white", Var( ThemeVariables.White ) );
+        SetBootstrapColorVariable( "black", Var( ThemeVariables.Black ) );
+        SetBootstrapVariable( "border-radius", Var( ThemeVariables.BorderRadius ) );
+        SetBootstrapVariable( "border-radius-lg", Var( ThemeVariables.BorderRadiusLarge ) );
+        SetBootstrapVariable( "border-radius-sm", Var( ThemeVariables.BorderRadiusSmall ) );
+        SetBootstrapVariable( "body-font-family", Var( ThemeVariables.BodyFontFamily ) );
+        SetBootstrapVariable( "body-font-size", Var( ThemeVariables.BodyFontSize ) );
+        SetBootstrapVariable( "body-font-weight", Var( ThemeVariables.BodyFontWeight ) );
+        SetBootstrapColorVariable( "body-bg", Var( ThemeVariables.BodyBackgroundColor ) );
+        SetBootstrapColorVariable( "body-color", Var( ThemeVariables.BodyTextColor ) );
+        SetBootstrapColorVariable( "emphasis-color", Var( ThemeVariables.BodyTextColor ) );
+    }
+
     protected override void GenerateColorVariables( Theme theme, string variant, string value )
     {
-        base.GenerateColorVariables( theme, variant, NormalizeBootstrapColorOption( variant, value ) );
+        var normalizedValue = NormalizeBootstrapColorOption( variant, value );
+
+        base.GenerateColorVariables( theme, variant, normalizedValue );
+
+        if ( variant == "link" )
+            SetBootstrapColorVariable( "link-color", normalizedValue );
+        else
+            SetBootstrapColorVariable( variant, normalizedValue );
+    }
+
+    protected override void GenerateBackgroundVariables( Theme theme, string variant, string inColor )
+    {
+        base.GenerateBackgroundVariables( theme, variant, inColor );
+
+        var backgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
+        var backgroundSubtleColor = Var( ThemeVariables.BackgroundSubtleColor( variant ) );
+
+        if ( variant == "body" )
+        {
+            SetBootstrapColorVariable( "body-bg", backgroundColor );
+        }
+        else if ( variant == "muted" )
+        {
+            SetBootstrapColorVariable( "secondary-bg", backgroundColor );
+        }
+        else
+        {
+            if ( variant == "light" )
+                SetBootstrapColorVariable( "tertiary-bg", backgroundColor );
+
+            SetBootstrapColorVariable( $"{variant}-bg-subtle", backgroundSubtleColor );
+        }
+    }
+
+    protected override void GenerateBorderVariables( Theme theme, string variant, string inColor )
+    {
+        base.GenerateBorderVariables( theme, variant, inColor );
+
+        var borderColor = Var( ThemeVariables.BorderColor( variant ) );
+        var borderSubtleColor = Var( ThemeVariables.BorderSubtleColor( variant ) );
+
+        if ( variant == "muted" )
+            SetBootstrapColorVariable( "border-color", borderColor );
+        else if ( variant != "body" )
+            SetBootstrapColorVariable( $"{variant}-border-subtle", borderSubtleColor );
+    }
+
+    protected override void GenerateTextColorVariables( Theme theme, string variant, string inColor )
+    {
+        base.GenerateTextColorVariables( theme, variant, inColor );
+
+        var textColor = Var( ThemeVariables.TextColor( variant ) );
+        var textEmphasisColor = Var( ThemeVariables.TextEmphasisColor( variant ) );
+
+        if ( variant == "body" )
+        {
+            SetBootstrapColorVariable( "body-color", textColor );
+            SetBootstrapColorVariable( "emphasis-color", textEmphasisColor );
+        }
+        else if ( variant == "muted" )
+        {
+            SetBootstrapColorVariable( "secondary-color", textColor );
+        }
+        else if ( IsThemeVariant( variant ) )
+        {
+            SetBootstrapColorVariable( $"{variant}-text-emphasis", textEmphasisColor );
+        }
     }
 
     protected override void GenerateColorStyles( StringBuilder sb, Theme theme, string variant, string color )
@@ -1341,6 +1424,53 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
         };
 
         return string.Equals( value?.Trim(), defaultValue, StringComparison.OrdinalIgnoreCase );
+    }
+
+    private static bool IsThemeVariant( string variant )
+    {
+        return variant is "primary"
+            or "secondary"
+            or "success"
+            or "info"
+            or "warning"
+            or "danger"
+            or "light"
+            or "dark";
+    }
+
+    private void SetBootstrapVariable( string name, string value )
+    {
+        if ( string.IsNullOrWhiteSpace( name ) || string.IsNullOrWhiteSpace( value ) )
+            return;
+
+        Variables[$"--bs-{name}"] = value;
+    }
+
+    private void SetBootstrapColorVariable( string name, string value )
+    {
+        if ( string.IsNullOrWhiteSpace( name ) || string.IsNullOrWhiteSpace( value ) )
+            return;
+
+        var color = ParseColor( value );
+
+        if ( color.IsEmpty )
+        {
+            SetBootstrapVariable( name, value );
+
+            return;
+        }
+
+        SetBootstrapVariable( name, ToHex( color ) );
+        SetBootstrapVariable( $"{name}-rgb", ToRgbChannels( color ) );
+    }
+
+    private static string ToRgbChannels( System.Drawing.Color color )
+    {
+        return string.Join(
+            ", ",
+            color.R.ToString( CultureInfo.InvariantCulture ),
+            color.G.ToString( CultureInfo.InvariantCulture ),
+            color.B.ToString( CultureInfo.InvariantCulture ) );
     }
 
     /// <summary>

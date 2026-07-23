@@ -1,6 +1,6 @@
 @page "/docs/helpers/utilities/sizing"
 
-<Seo Canonical="/docs/helpers/utilities/sizing" Title="Blazorise Sizing Utilities - Width and Height Builders" Description="Define width and height with Blazorise sizing utilities. Use predefined sizes, responsive breakpoints, viewport units, CSS variables, and min/max constraints with a fluent API." />
+<Seo Canonical="/docs/helpers/utilities/sizing" Title="Blazorise Sizing Utilities - Width and Height Builders" Description="Define width and height with Blazorise sizing utilities. Use predefined sizes, numeric shorthands, responsive breakpoints, CSS values, and min/max constraints with a fluent API." />
 
 <DocsPageTitle Path="Helpers/Utilities/Sizing">
     Blazorise Sizing Utilities
@@ -12,6 +12,7 @@
 
 <DocsPageParagraph>
     Sizing utilities give you one consistent API for width and height across providers, making it easy to keep layouts responsive without switching between CSS and component parameters.
+    Style-based values can use explicit builders such as <Code>Width.Rem( 8 )</Code> or numeric shorthands such as <Code>8.Rem()</Code>.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -52,6 +53,20 @@
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="FluentSizingStyleBasedExample" Outlined FullWidth>
         <FluentSizingStyleBasedExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Numeric shorthands">
+        <Paragraph>
+            Call <Code>Px</Code>, <Code>Rem</Code>, <Code>Em</Code>, <Code>Ch</Code>, <Code>Vw</Code>, <Code>Vh</Code>, or <Code>Percent</Code> directly on a numeric value.
+            The component parameter determines whether the value is used for width, height, gap, or text size, so the same concise syntax works with each utility.
+            Width and height values can chain <Code>Min</Code> and <Code>Max</Code>. For CSS expressions, use <Code>Width.Calc</Code> or <Code>Height.Calc</Code>.
+            The explicit forms, including <Code>Width.Rem( 8 )</Code>, <Code>Gap.Rem( 1 )</Code>, and <Code>TextSize.Rem( 1.25 )</Code>, remain available.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="FluentSizingNumericShorthandExample" Outlined FullWidth>
+        <FluentSizingNumericShorthandExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 

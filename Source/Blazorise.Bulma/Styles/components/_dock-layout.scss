@@ -1,0 +1,546 @@
+.dock-layout {
+    --dock-split-gap: .25rem;
+    display: block;
+    min-height: 0;
+    min-width: 0;
+    position: relative;
+}
+
+.dock-layout,
+.dock-layout * {
+    box-sizing: border-box;
+}
+
+.dock-layout:has(> .dock-auto-hide-rail.is-left) {
+    padding-left: 2rem;
+}
+
+.dock-layout:has(> .dock-auto-hide-rail.is-right) {
+    padding-right: 2rem;
+}
+
+.dock-layout:has(> .dock-auto-hide-rail.is-top) {
+    padding-top: 2rem;
+}
+
+.dock-layout:has(> .dock-auto-hide-rail.is-bottom) {
+    padding-bottom: 2rem;
+}
+
+.dock-split {
+    display: grid;
+    gap: var(--dock-split-gap);
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+    position: relative;
+    width: 100%;
+}
+
+.dock-split.is-horizontal {
+    grid-auto-flow: column;
+}
+
+.dock-split.is-vertical {
+    grid-auto-flow: row;
+}
+
+.dock-pane {
+    --dock-pane-size: 16rem;
+    --dock-pane-min-size: 0;
+    --dock-pane-max-size: none;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+    background: var(--b-dock-pane-background, $scheme-main);
+    color: var(--b-dock-pane-color, $text);
+    border-color: var(--b-dock-pane-border-color, $border);
+    border-style: solid;
+    border-width: 0;
+    z-index: 1;
+}
+
+.dock-pane.has-tabs {
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+}
+
+.dock-pane.is-hidden {
+    display: none;
+}
+
+.dock-pane.is-center {
+    width: 100%;
+    height: 100%;
+    border-width: 0;
+}
+
+.dock-pane.is-bordered {
+    border-width: 1px;
+}
+
+.dock-pane.is-left {
+    width: var(--dock-pane-size);
+    min-width: var(--dock-pane-min-size);
+    max-width: var(--dock-pane-max-size);
+    border-right-width: 1px;
+}
+
+.dock-pane.is-right {
+    width: var(--dock-pane-size);
+    min-width: var(--dock-pane-min-size);
+    max-width: var(--dock-pane-max-size);
+    border-left-width: 1px;
+    justify-self: end;
+}
+
+.dock-pane.is-top {
+    height: var(--dock-pane-size);
+    min-height: var(--dock-pane-min-size);
+    max-height: var(--dock-pane-max-size);
+    border-bottom-width: 1px;
+}
+
+.dock-pane.is-bottom {
+    height: var(--dock-pane-size);
+    min-height: var(--dock-pane-min-size);
+    max-height: var(--dock-pane-max-size);
+    border-top-width: 1px;
+    align-self: end;
+}
+
+.dock-split.is-horizontal > .dock-pane.is-top,
+.dock-split.is-horizontal > .dock-pane.is-bottom {
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    align-self: stretch;
+}
+
+.dock-split.is-horizontal > .dock-pane.is-left,
+.dock-split.is-horizontal > .dock-pane.is-right,
+.dock-split.is-vertical > .dock-pane.is-left,
+.dock-split.is-vertical > .dock-pane.is-right {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    justify-self: stretch;
+}
+
+.dock-split.is-vertical > .dock-pane.is-top,
+.dock-split.is-vertical > .dock-pane.is-bottom {
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    align-self: stretch;
+}
+
+.dock-pane.is-collapsed {
+    --dock-pane-size: 2.5rem;
+}
+
+.dock-pane.is-auto-hide {
+    --dock-pane-size: 2rem;
+    align-items: stretch;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+
+.dock-auto-hide-rail {
+    position: absolute;
+    z-index: var(--b-dock-auto-hide-rail-zindex, 1301);
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow: hidden;
+    background: var(--b-dock-pane-background, #{$scheme-main});
+    border-color: var(--b-dock-pane-border-color, $border);
+    border-style: solid;
+    border-width: 0;
+}
+
+.dock-auto-hide-rail.is-left {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    flex-direction: column;
+    border-right-width: 1px;
+}
+
+.dock-auto-hide-rail.is-right {
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    flex-direction: column;
+    border-left-width: 1px;
+}
+
+.dock-auto-hide-rail.is-top {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2rem;
+    flex-direction: row;
+    border-bottom-width: 1px;
+}
+
+.dock-auto-hide-rail.is-bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2rem;
+    flex-direction: row;
+    border-top-width: 1px;
+}
+
+.dock-auto-hide-flyout {
+    position: absolute;
+    z-index: var(--b-dock-auto-hide-flyout-zindex, 1302);
+    box-shadow: var(--b-dock-pane-shadow, 0 .5em 1em -.125em rgba($black, .1), 0 0 0 1px rgba($black, .02));
+}
+
+.dock-auto-hide-flyout.is-left {
+    left: 2rem;
+    top: 0;
+    bottom: 0;
+    width: var(--dock-pane-size);
+    min-width: var(--dock-pane-min-size);
+    max-width: var(--dock-pane-max-size);
+}
+
+.dock-auto-hide-flyout.is-right {
+    right: 2rem;
+    top: 0;
+    bottom: 0;
+    width: var(--dock-pane-size);
+    min-width: var(--dock-pane-min-size);
+    max-width: var(--dock-pane-max-size);
+}
+
+.dock-auto-hide-flyout.is-top {
+    top: 2rem;
+    left: 0;
+    right: 0;
+    height: var(--dock-pane-size);
+    min-height: var(--dock-pane-min-size);
+    max-height: var(--dock-pane-max-size);
+}
+
+.dock-auto-hide-flyout.is-bottom {
+    bottom: 2rem;
+    left: 0;
+    right: 0;
+    height: var(--dock-pane-size);
+    min-height: var(--dock-pane-min-size);
+    max-height: var(--dock-pane-max-size);
+}
+
+.dock-pane.is-collapsed .dock-pane-body,
+.dock-pane.is-collapsed .dock-pane-footer {
+    display: none;
+}
+
+.dock-pane-auto-hide-tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
+    padding: .5rem .375rem;
+    border: 0;
+    background: var(--b-dock-pane-header-background, $background);
+    color: var(--b-dock-pane-color, $text);
+    cursor: pointer;
+    font: inherit;
+    line-height: 1.25;
+    white-space: nowrap;
+}
+
+.dock-pane-auto-hide-tab:hover {
+    background: var(--b-dock-hover-background, rgba($primary, .12));
+}
+
+.dock-pane-auto-hide-tab.is-left,
+.dock-pane-auto-hide-tab.is-right {
+    flex: 0 0 auto;
+    writing-mode: vertical-rl;
+}
+
+.dock-pane-auto-hide-tab.is-left {
+    transform: rotate(180deg);
+}
+
+.dock-pane-auto-hide-tab.is-top,
+.dock-pane-auto-hide-tab.is-bottom {
+    flex: 0 0 auto;
+    padding-right: .75rem;
+    padding-left: .75rem;
+}
+
+.dock-pane-header,
+.dock-pane-footer {
+    flex: 0 0 auto;
+    padding: .5rem .75rem;
+    background: var(--b-dock-pane-header-background, $background);
+}
+
+.dock-pane-footer {
+    background: var(--b-dock-pane-footer-background, var(--b-dock-pane-header-background, $background));
+}
+
+.dock-pane-header {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    cursor: move;
+    overflow: hidden;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.dock-pane-header-content {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dock-pane-header-actions {
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: .125rem;
+}
+
+.dock-pane-header-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    padding: 0;
+    border: 0;
+    border-radius: $radius-small;
+    background: transparent;
+    color: var(--b-dock-pane-color, $text);
+    cursor: pointer;
+    font-size: .75rem;
+    line-height: 1;
+}
+
+.dock-pane-header-action:hover {
+    background: var(--b-dock-hover-background, rgba($primary, .12));
+    color: var(--b-dock-tab-active-color, $primary);
+}
+
+.dock-pane-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    padding: .75rem;
+}
+
+.dock-content {
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+    overflow: auto;
+}
+
+.dock-pane-tabs {
+    display: flex;
+    flex: 0 0 auto;
+    gap: .125rem;
+    padding: 0 .25rem .25rem;
+    background: var(--b-dock-tabs-background, $background);
+    border-top: 1px solid var(--b-dock-pane-border-color, $border);
+}
+
+.dock-pane-tab {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    border: 0;
+    border-radius: 0 0 $radius $radius;
+    background: transparent;
+    color: var(--b-dock-pane-color, $text);
+    cursor: pointer;
+    font: inherit;
+    line-height: 1.25;
+    overflow: hidden;
+    padding: .375rem .625rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dock-pane-tab-label {
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    overflow: hidden;
+    padding: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dock-pane-tab-close {
+    flex: 0 0 auto;
+    width: 1rem;
+    height: 1rem;
+    margin-left: .25rem;
+    border: 0;
+    border-radius: $radius-small;
+    background: transparent;
+    color: var(--b-dock-tab-close-color, $text-weak);
+    cursor: pointer;
+    font: inherit;
+    line-height: 1;
+    padding: 0;
+}
+
+.dock-pane-tab-close:hover {
+    background: var(--b-dock-hover-background, rgba($primary, .12));
+    color: var(--b-dock-pane-color, $text);
+}
+
+.dock-pane.is-center > .dock-pane-tabs,
+.dock-pane-tabs.is-top {
+    padding: .25rem .25rem 0;
+    border-top: 0;
+    border-bottom: 1px solid var(--b-dock-pane-border-color, $border);
+}
+
+.dock-pane.is-center > .dock-pane-tabs .dock-pane-tab,
+.dock-pane-tabs.is-top .dock-pane-tab {
+    border-radius: $radius $radius 0 0;
+}
+
+.dock-pane-tab.is-active {
+    background: var(--b-dock-tab-active-background, $scheme-main);
+    color: var(--b-dock-tab-active-color, $primary);
+}
+
+
+.dock-drag-preview {
+    position: absolute;
+    z-index: 40;
+    min-width: 10rem;
+    max-width: 18rem;
+    padding: .375rem .625rem;
+    pointer-events: none;
+    border: 1px solid var(--b-dock-drag-preview-border-color, $primary);
+    border-radius: $radius;
+    background: var(--b-dock-drag-preview-background, $scheme-main);
+    box-shadow: $box-shadow;
+    color: var(--b-dock-pane-color, $text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dock-drop-preview,
+.dock-shell-guide {
+    position: absolute;
+    z-index: 30;
+    pointer-events: none;
+    border: 2px dashed var(--b-dock-drop-preview-border-color, $primary);
+    background: var(--b-dock-drop-preview-background, rgba($primary, .12));
+}
+
+.dock-shell-guide.is-active {
+    background: var(--b-dock-drop-preview-background, rgba($primary, .18));
+}
+
+.dock-compass {
+    position: absolute;
+    z-index: 20;
+    --dock-compass-gap: .25rem;
+    width: calc(8rem + var(--dock-compass-gap) * 4);
+    height: calc(8rem + var(--dock-compass-gap) * 4);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.dock-compass-zone {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    color: var(--b-dock-compass-zone-color, $grey-light);
+    border: 1px solid var(--b-dock-compass-zone-border-color, $border);
+    border-radius: $radius-small;
+    background: var(--b-dock-compass-zone-background, $scheme-main);
+    box-shadow: 0 .125rem .25rem rgba($black, .08);
+}
+
+.dock-compass-zone-icon {
+    font-size: .75rem;
+    line-height: 1;
+}
+
+.dock-compass-zone.is-active {
+    color: var(--b-dock-compass-zone-active-color, $primary);
+    border-color: var(--b-dock-compass-zone-active-border-color, $primary);
+    background: var(--b-dock-compass-zone-active-background, rgba($primary, .12));
+}
+
+.dock-compass-zone.is-center {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+}
+
+.dock-compass-zone.is-left-outer {
+    left: 0;
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+    width: 1rem;
+}
+
+.dock-compass-zone.is-left-inner {
+    left: calc(1rem + var(--dock-compass-gap));
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+}
+
+.dock-compass-zone.is-right-inner {
+    left: calc(5rem + var(--dock-compass-gap) * 3);
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+}
+
+.dock-compass-zone.is-right-outer {
+    left: calc(7rem + var(--dock-compass-gap) * 4);
+    top: calc(3rem + var(--dock-compass-gap) * 2);
+    width: 1rem;
+}
+
+.dock-compass-zone.is-top-outer {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: 0;
+    height: 1rem;
+}
+
+.dock-compass-zone.is-top-inner {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: calc(1rem + var(--dock-compass-gap));
+}
+
+.dock-compass-zone.is-bottom-inner {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: calc(5rem + var(--dock-compass-gap) * 3);
+}
+
+.dock-compass-zone.is-bottom-outer {
+    left: calc(3rem + var(--dock-compass-gap) * 2);
+    top: calc(7rem + var(--dock-compass-gap) * 4);
+    height: 1rem;
+}

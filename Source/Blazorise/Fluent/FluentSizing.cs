@@ -464,6 +464,19 @@ public class FluentSizing :
         return $"var({trimmedVariable})";
     }
 
+    private static string GetCalcValue( string expression )
+    {
+        if ( string.IsNullOrWhiteSpace( expression ) )
+            return null;
+
+        string trimmedExpression = expression.Trim();
+
+        if ( trimmedExpression.StartsWith( "calc(", System.StringComparison.OrdinalIgnoreCase ) )
+            return trimmedExpression;
+
+        return $"calc({trimmedExpression})";
+    }
+
     /// <summary>
     /// Starts the new sizing rule.
     /// </summary>
@@ -532,6 +545,30 @@ public class FluentSizing :
     public IFluentSizingStyle WithVariable( string variable )
     {
         var value = GetCssVariableValue( variable );
+
+        if ( string.IsNullOrEmpty( value ) )
+            return this;
+
+        styleRule = new()
+        {
+            Value = value,
+        };
+
+        minStyleRule = null;
+        maxStyleRule = null;
+        DirtyStyles();
+
+        return this;
+    }
+
+    /// <summary>
+    /// Starts the new sizing rule for styles with a CSS calculation.
+    /// </summary>
+    /// <param name="expression">CSS calculation expression.</param>
+    /// <returns>Next rule reference.</returns>
+    public IFluentSizingStyle WithCalc( string expression )
+    {
+        string value = GetCalcValue( expression );
 
         if ( string.IsNullOrEmpty( value ) )
             return this;
@@ -772,6 +809,19 @@ public static class Width
     public static IFluentSizingStyle Px() => new FluentSizing( SizingType.Width ).WithUnit( "px" );
 
     /// <summary>
+    /// Defines the element width as a percentage of its containing block.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Percent( double size ) => new FluentSizing( SizingType.Width ).WithSize( "%", size );
+
+    /// <summary>
+    /// Defines the element width as a percentage of its containing block.
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Percent() => new FluentSizing( SizingType.Width ).WithUnit( "%" );
+
+    /// <summary>
     /// Defines the element size, relative to font-size of the root element.
     /// </summary>
     /// <param name="size">Size value.</param>
@@ -829,6 +879,13 @@ public static class Width
     /// <param name="variable">CSS variable name.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
     public static IFluentSizingStyle Var( string variable ) => new FluentSizing( SizingType.Width ).WithVariable( variable );
+
+    /// <summary>
+    /// Defines the element width with a CSS calculation.
+    /// </summary>
+    /// <param name="expression">CSS calculation expression.</param>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Calc( string expression ) => new FluentSizing( SizingType.Width ).WithCalc( expression );
 
     /// <summary>
     /// Defines the maximum allowed element width. Shorthand for "Width.Is100.Max".
@@ -893,6 +950,19 @@ public static class Height
     public static IFluentSizingStyle Px() => new FluentSizing( SizingType.Height ).WithUnit( "px" );
 
     /// <summary>
+    /// Defines the element height as a percentage of its containing block.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Percent( double size ) => new FluentSizing( SizingType.Height ).WithSize( "%", size );
+
+    /// <summary>
+    /// Defines the element height as a percentage of its containing block.
+    /// </summary>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Percent() => new FluentSizing( SizingType.Height ).WithUnit( "%" );
+
+    /// <summary>
     /// Defines the element size, relative to font-size of the root element.
     /// </summary>
     /// <param name="size">Size value.</param>
@@ -950,6 +1020,13 @@ public static class Height
     /// <param name="variable">CSS variable name.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
     public static IFluentSizingStyle Var( string variable ) => new FluentSizing( SizingType.Height ).WithVariable( variable );
+
+    /// <summary>
+    /// Defines the element height with a CSS calculation.
+    /// </summary>
+    /// <param name="expression">CSS calculation expression.</param>
+    /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
+    public static IFluentSizingStyle Calc( string expression ) => new FluentSizing( SizingType.Height ).WithCalc( expression );
 
     /// <summary>
     /// Defines the maximum allowed element height. Shorthand for "Height.Is100.Max".

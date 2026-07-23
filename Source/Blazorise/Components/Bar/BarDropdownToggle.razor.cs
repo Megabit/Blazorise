@@ -67,7 +67,7 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
         if ( !IsRouteMatchTriggerEnabled )
             return;
 
-        _ = InvokeAsync( async () => await HandleRouteMatchTriggerAsync( active ) );
+        _ = InvokeAsync( () => HandleRouteMatchTriggerAsync( active ) );
     }
 
     /// <inheritdoc/>

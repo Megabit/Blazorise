@@ -1,0 +1,34 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div id="context-menu-toolbar-target"
+     Padding="Padding.Is4"
+     Border="Border.Is1.Rounded"
+     Background="Background.Light">
+    Right-click to open compact commands.
+</Div>
+
+<ContextMenu TargetId="context-menu-toolbar-target">
+    <ContextMenuBody MinWidth="12rem">
+        <ContextMenuToolbar>
+            <ContextMenuToolbarItem Icon="IconName.Cut" Text="Cut" Value="@("Cut")" Clicked="@SetSelectedAction" />
+            <ContextMenuToolbarItem Icon="IconName.Copy" Text="Copy" Value="@("Copy")" Clicked="@SetSelectedAction" />
+            <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Value="@("Paste")" Clicked="@SetSelectedAction" />
+            <ContextMenuToolbarItem Icon="IconName.Delete" Text="Delete" Value="@("Delete")" Clicked="@SetSelectedAction" />
+        </ContextMenuToolbar>
+        <ContextMenuDivider />
+        <ContextMenuItem Icon="IconName.List" Value="@("Properties")" Clicked="@SetSelectedAction">Properties</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin="Margin.Is2.FromTop">
+    Last action: @selectedAction
+</Paragraph>
+
+@code {
+    private string selectedAction = "None";
+
+    private void SetSelectedAction( object value )
+    {
+        selectedAction = value?.ToString();
+    }
+}

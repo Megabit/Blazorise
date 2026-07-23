@@ -1,0 +1,150 @@
+.fui-ContextMenu {
+    --context-menu-zindex: var(--zIndexPopover);
+    display: contents;
+}
+
+.fui-ContextMenuToggle {
+    display: contents;
+}
+
+.fui-ContextMenuPopover,
+.fui-ContextMenuSubmenuPopover {
+    padding: 4px;
+    box-shadow: var(--shadow16);
+    min-width: 138px;
+    max-width: min(24rem, calc(100vw - 1rem));
+    max-height: calc(100vh - 1rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid var(--colorTransparentStroke);
+    box-sizing: border-box;
+    border-radius: var(--borderRadiusMedium);
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+    background-color: var(--colorNeutralBackground1);
+    color: var(--colorNeutralForeground1);
+}
+
+.fui-ContextMenuPopover {
+    position: fixed;
+    display: block;
+    z-index: var(--context-menu-zindex, 1080);
+}
+
+.fui-ContextMenuItem,
+.fui-ContextMenuSubmenuTrigger {
+    border-radius: var(--borderRadiusMedium);
+    position: relative;
+    color: var(--colorNeutralForeground2);
+    background-color: var(--colorNeutralBackground1);
+    padding: var(--spacingVerticalSNudge);
+    box-sizing: border-box;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    font-size: var(--fontSizeBase300);
+    cursor: pointer;
+    gap: 4px;
+    user-select: none;
+}
+
+.fui-ContextMenuItemContent {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    width: 100%;
+}
+
+.fui-ContextMenuItemCheck {
+    display: inline-block;
+}
+
+.fui-ContextMenuItemShortcut {
+    margin-left: auto;
+}
+
+.fui-ContextMenuItem:not([aria-disabled="true"]):hover,
+.fui-ContextMenuSubmenuTrigger:not([aria-disabled="true"]):hover {
+    background-color: var(--colorNeutralBackground1Hover);
+    color: var(--colorNeutralForeground2Hover);
+}
+
+.fui-ContextMenuItem[aria-disabled="true"],
+.fui-ContextMenuSubmenuTrigger[aria-disabled="true"] {
+    color: var(--colorNeutralForegroundDisabled);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.fui-ContextMenuDivider {
+    margin: 0 calc(var(--spacingHorizontalXS) * -1) var(--spacingVerticalXS);
+    padding-bottom: var(--spacingHorizontalXS);
+    display: block;
+    border-bottom: var(--strokeWidthThin) solid var(--colorNeutralStroke2);
+}
+
+.fui-ContextMenuHeader,
+.fui-ContextMenuGroup {
+    padding: var(--spacingHorizontalS) var(--spacingHorizontalSNudge);
+    color: var(--colorNeutralForeground3);
+    display: block;
+    font-weight: var(--fontWeightSemibold);
+    font-size: var(--fontSizeBase200);
+    border-radius: var(--borderRadiusMedium);
+    line-height: var(--lineHeightBase200);
+    cursor: default;
+}
+
+.fui-ContextMenuToolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--spacingHorizontalXXS);
+    padding: var(--spacingHorizontalXS);
+}
+
+.fui-ContextMenuToolbarItem {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacingHorizontalXS);
+    min-width: 32px;
+    min-height: 32px;
+    padding: var(--spacingVerticalSNudge) var(--spacingHorizontalSNudge);
+    color: var(--colorNeutralForeground2);
+    background-color: var(--colorNeutralBackground1);
+    border: 0;
+    border-radius: var(--borderRadiusMedium);
+    cursor: pointer;
+}
+
+.fui-ContextMenuToolbarItem:hover,
+.fui-ContextMenuToolbarItem:focus {
+    background-color: var(--colorNeutralBackground1Hover);
+    color: var(--colorNeutralForeground2Hover);
+}
+
+.fui-ContextMenuToolbarItem-active {
+    background-color: var(--colorNeutralBackground1Selected);
+    color: var(--colorNeutralForeground2Selected);
+}
+
+.fui-ContextMenuToolbarItem:disabled,
+.fui-ContextMenuToolbarItem-disabled {
+    color: var(--colorNeutralForegroundDisabled);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.fui-ContextMenuSubmenu {
+    position: relative;
+}
+
+.fui-ContextMenuSubmenuTrigger {
+    cursor: default;
+}
+
+.fui-ContextMenuSubmenuPopover {
+    z-index: calc(var(--context-menu-zindex, 1080) + 1);
+}

@@ -1,0 +1,21 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<Field Class="b-report-designer-image-source-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
+    <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">@Label</FieldLabel>
+    <FieldBody ColumnSize="ColumnSizeIs8">
+        <Addons Size="Size.Small">
+            <Addon AddonType="AddonType.Body">
+                <TextInput Value="@DisplayValue" ReadOnly="@ReadOnly" ValueChanged="@Changed" Immediate="@Changed.HasDelegate" Size="Size.Small" />
+            </Addon>
+            @if ( UploadVisible )
+            {
+                <Addon AddonType="AddonType.End">
+                    <Button Color="Color.Light" Clicked="@OpenUpload" Disabled="@ReadOnly" Size="Size.Small" title="Upload image" aria-label="Upload image">
+                        <Icon Name="IconName.Image" />
+                    </Button>
+                </Addon>
+            }
+        </Addons>
+    </FieldBody>
+</Field>

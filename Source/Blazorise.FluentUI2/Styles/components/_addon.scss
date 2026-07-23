@@ -32,6 +32,7 @@
     }
 
     .fui-Input__content {
+        align-self: stretch;
         flex-wrap: nowrap;
         position: relative;
         box-sizing: border-box;
@@ -39,6 +40,11 @@
         display: flex;
         font-family: var(--fontFamilyBase);
         flex-grow: 1;
+
+        .fui-Select__select {
+            align-self: stretch;
+            height: auto;
+        }
 
         .fui-Select__select,
         .fui-Select__select:focus {

@@ -1,0 +1,63 @@
+@namespace Blazorise.Docs.Docs.Examples
+@inject IPdfGenerator PdfGenerator
+
+<Div Flex="Flex.Row" Gap="Gap.Is2" Margin="Margin.Is3.FromBottom">
+    <Button Color="Color.Primary" Clicked="@Build">Build PDF</Button>
+</Div>
+
+@if ( pdfSource is not null )
+{
+    <PdfViewerContainer Height="Height.Rem(35)">
+        <PdfViewerToolbar />
+        <PdfViewer Source="@pdfSource" />
+    </PdfViewerContainer>
+}
+
+@code {
+    private string pdfSource;
+
+    private async Task Build()
+    {
+        PdfDocumentDefinition document = BuildInvoice();
+
+        PdfGenerationResult result = await PdfGenerator.Generate( document, new()
+        {
+            FileName = "builder-invoice.pdf",
+        } );
+
+        pdfSource = BuildPdfSource( result.Content );
+    }
+
+    private static PdfDocumentDefinition BuildInvoice()
+    {
+        return PdfDocumentBuilder.Create()
+            .Title( "Invoice" )
+            .PageSetup( PdfPageSize.A4 )
+            .Page( page =>
+            {
+                page.Text( "Invoice summary", 48, 48, 260, 32 )
+                    .FontSize( 22 )
+                    .Bold()
+                    .TextColor( "#0d6efd" );
+
+                page.Text( "Generated with PdfDocumentBuilder.", 48, 82, 320, 18 )
+                    .FontSize( 11 );
+
+                page.Rectangle( 420, 48, 96, 48 )
+                    .BorderColor( "#0d6efd" )
+                    .BackgroundColor( "#eef5ff" );
+
+                page.Text( "BLZ", 444, 64, 48, 20 )
+                    .FontSize( 18 )
+                    .Bold()
+                    .TextAlignment( TextAlignment.Center )
+                    .TextColor( "#0d6efd" );
+            } )
+            .Build();
+    }
+
+    private static string BuildPdfSource( byte[] content )
+        => content is null || content.Length == 0
+            ? null
+            : $"data:application/pdf;base64,{Convert.ToBase64String( content )}";
+}

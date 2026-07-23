@@ -1,0 +1,32 @@
+@namespace Blazorise.Reporting.Internal
+@inject System.IServiceProvider ServiceProvider
+@using Microsoft.AspNetCore.Components
+@using Blazorise.Reporting.Internal
+
+<CascadingValue Value="@context" IsFixed="true">
+    <Div Display="DisplayNone">
+        @ChildContent
+    </Div>
+</CascadingValue>
+
+<Div Class="b-report" Flex="FlexColumn" Gap="GapIs3">
+    <CascadingValue Value="@modalProviderName" Name="ReportModalProviderName" IsFixed="true">
+        @if ( ShowToolbar && !( CurrentMode == ReportMode.Design && IsDesignerEnabled ) )
+        {
+            <Div Class="b-report-toolbar" Flex="FlexAlignItemsCenter" Gap="GapIs2" Padding="PaddingIs3" Border="BorderIs1" Background="BackgroundWhite">
+                <_ReportDesignerToolbarContent Designer="@this" />
+            </Div>
+        }
+
+        @if ( CurrentMode == ReportMode.Design && IsDesignerEnabled )
+        {
+            <_ReportDesignerWorkspace @ref="workspaceRef" Designer="@this" />
+        }
+        else
+        {
+            <_ReportPreview Designer="@this" />
+        }
+    </CascadingValue>
+
+    <_ReportModalProvider ProviderName="@modalProviderName" />
+</Div>

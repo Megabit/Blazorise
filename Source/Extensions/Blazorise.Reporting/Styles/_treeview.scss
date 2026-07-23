@@ -1,0 +1,142 @@
+.b-report-tree-view {
+    display: flex;
+    flex-direction: column;
+    gap: var(--b-report-tree-view-gap);
+
+    &-node {
+        display: contents;
+    }
+
+    &-row {
+        display: grid;
+        grid-template-columns: var(--b-report-tree-view-toggle-size) var(--b-report-tree-view-icon-column-width) minmax(0, 1fr) auto;
+        gap: var(--b-report-tree-view-row-gap);
+        align-items: center;
+        min-height: var(--b-report-tree-view-row-min-height);
+        padding: var(--b-report-tree-view-row-padding);
+        border-radius: var(--b-report-tree-view-row-border-radius);
+        color: var(--b-report-color-text);
+        user-select: none;
+
+        &.b-report-tree-view-row-draggable > :not(.b-report-tree-view-toggle) {
+            pointer-events: none;
+        }
+
+        &.b-report-tree-view-row-selectable,
+        &.b-report-tree-view-row-draggable {
+            cursor: pointer;
+        }
+
+        &.b-report-tree-view-row-draggable {
+            cursor: grab;
+        }
+
+        &.b-report-tree-view-row-draggable:active {
+            cursor: grabbing;
+        }
+
+        &:hover {
+            background: var(--b-report-color-surface-muted);
+        }
+
+        &.b-report-tree-view-row-active {
+            background: var(--b-report-color-primary);
+            color: var(--b-report-color-white);
+
+            .b-report-tree-view-toggle,
+            .b-report-tree-view-icon,
+            .b-report-tree-view-detail {
+                color: var(--b-report-color-white-muted);
+            }
+        }
+    }
+
+    &-toggle,
+    &-toggle-spacer,
+    &-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: var(--b-report-tree-view-toggle-size);
+        height: var(--b-report-tree-view-toggle-size);
+    }
+
+    &-toggle {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: var(--b-report-color-text-muted);
+        line-height: 1;
+
+        &:hover {
+            color: var(--b-report-color-text);
+        }
+    }
+
+    &-icon,
+    &-detail {
+        color: var(--b-report-color-text-muted);
+        font-size: var(--b-report-tree-view-detail-font-size);
+    }
+
+    &-icon {
+        &.b-report-tree-view-icon-kind-folder {
+            color: var(--b-report-tree-view-folder-color);
+        }
+
+        &.b-report-tree-view-icon-kind-report {
+            color: var(--b-report-tree-view-report-color);
+        }
+
+        &.b-report-tree-view-icon-kind-datasource {
+            color: var(--b-report-tree-view-datasource-color);
+        }
+
+        &.b-report-tree-view-icon-kind-sourcefields {
+            color: var(--b-report-tree-view-datasource-color);
+        }
+
+        &.b-report-tree-view-icon-kind-specialfields {
+            color: var(--b-report-tree-view-specialfields-color);
+        }
+
+        &.b-report-tree-view-icon-kind-field {
+            color: var(--b-report-tree-view-field-color);
+        }
+
+        &.b-report-tree-view-icon-kind-band {
+            color: var(--b-report-tree-view-band-color);
+        }
+
+        &.b-report-tree-view-icon-kind-text {
+            color: var(--b-report-tree-view-text-color);
+        }
+
+        &.b-report-tree-view-icon-kind-table {
+            color: var(--b-report-tree-view-table-color);
+        }
+
+        &.b-report-tree-view-icon-kind-image {
+            color: var(--b-report-tree-view-image-color);
+        }
+
+        &.b-report-tree-view-icon-kind-line {
+            color: var(--b-report-tree-view-line-color);
+        }
+
+        &.b-report-tree-view-icon-kind-rectangle {
+            color: var(--b-report-tree-view-rectangle-color);
+        }
+
+        &.b-report-tree-view-icon-kind-pagebreak {
+            color: var(--b-report-tree-view-pagebreak-color);
+        }
+    }
+
+    &-text {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}

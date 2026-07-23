@@ -1,0 +1,96 @@
+@page "/docs/components/resizer"
+
+<Seo Canonical="/docs/components/resizer" Title="Blazorise Resizer component" Description="Learn how to use the Blazorise Resizer component to resize panels, sidebars, and other elements with pointer or keyboard input." />
+
+<DocsPageTitle Path="Components/Resizer" AddedVersion="Added in v2.2">
+    Blazorise Resizer component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Add an accessible resizer to an existing panel, sidebar, or other resizable element.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The <Code Tag>Resizer</Code> component is a lightweight separator that resizes an element without creating or managing a pane layout.
+    Place it inside the element you want to resize, or use <Code>TargetId</Code> when the resized element is elsewhere in the document.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    A vertical resizer changes width and defaults to the end edge. A horizontal resizer changes height and defaults to the bottom edge.
+    Set <Code>Placement</Code> when the resizer belongs on the opposite edge.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The resize hit area is visually transparent by default, including while focused or dragging, so it does not change the attached element's appearance.
+    Enable <Code>ShowGutter</Code> to render the current provider's separator surface, borders, and grip.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Resizable side panel">
+        Place the resizer inside a relatively positioned element to resize its width. Use <Code>@@bind-Value</Code> when the application also needs the committed value.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ResizerPanelExample" Outlined FullWidth>
+        <ResizerPanelExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Provider-styled gutter">
+        Enable <Code>ShowGutter</Code> to opt into a visible separator. This example also uses a horizontal resizer, where dragging downward increases the panel height.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ResizerHeightExample" Outlined FullWidth>
+        <ResizerHeightExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="External target and CSS variable">
+        Set <Code>TargetId</Code> to resize another element. <Code>ResizeProperty</Code> can be a CSS custom property, which is useful when one value controls an element's width and related styles.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ResizerTargetExample" Outlined FullWidth>
+        <ResizerTargetExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Multiple resize targets">
+        Use <Code>Targets</Code> to coordinate elements on both sides of the resizer. Resizing changes the start and end targets together while preserving their combined size.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ResizerMultipleTargetsExample" Outlined FullWidth>
+        <ResizerMultipleTargetsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Resizable vertical Bar">
+        A vertical <Code>Bar</Code> can expose its width through a CSS variable. Bind its <Code>Visible</Code> state and disable the resizer while the Bar is collapsed into small mode.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ResizerBarExample" Outlined FullWidth>
+        <ResizerBarExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Positioning
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The resizer is absolutely positioned, so its containing element should establish a positioning context, usually with <Code>position: relative</Code>.
+    Make sure an ancestor does not clip the resizer when it is placed outside the resized edge.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Keyboard and accessibility
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The component renders an ARIA separator and supports arrow-key resizing. Click the resizer area or reach it with the Tab key, then use the arrow keys to resize.
+    Use <Code>KeyboardStep</Code> to control the keyboard increment and provide an <Code>AriaLabel</Code> that describes the resized region.
+    <Code>Min</Code> and <Code>Max</Code> apply to both pointer and keyboard interaction.
+</DocsPageParagraph>
+
+<ComponentApiDocs ComponentTypes="[typeof( Resizer )]" />

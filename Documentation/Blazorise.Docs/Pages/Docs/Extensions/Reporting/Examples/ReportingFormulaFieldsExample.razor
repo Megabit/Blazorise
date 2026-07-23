@@ -1,0 +1,64 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Report Data="@invoice"
+        DesignerEnabled
+        PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf">
+    <ReportViewer PreviewFormat="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"
+                  DefaultPreviewFormat="ReportPreviewFormat.Html" />
+    <ReportDataSources>
+        <ReportObjectDataSource Name="Invoice" Data="@invoice" />
+    </ReportDataSources>
+    <ReportFormulaFields>
+        <ReportFormulaField Name="CustomerSummary" Formula="'Customer: ' + {Customer.Name}" />
+        <ReportFormulaField Name="LargeLine" Formula="if {Lines.Total} > 500 then 'Large' else 'Standard'" />
+    </ReportFormulaFields>
+    <ReportHeader Name="Invoice header" Height="72">
+        <ReportText Text="Formula fields" X="30" Y="18" Width="240" Height="24" FontSize="18" Bold FontColor="@ReportColors.Blue" />
+        <ReportField Field="CustomerSummary" X="30" Y="45" Width="300" Height="18" />
+    </ReportHeader>
+    <ReportPageHeader Name="Column headers" Height="32">
+        <ReportText Text="Description" X="30" Y="8" Width="240" Height="18" Bold />
+        <ReportText Text="Total" X="300" Y="8" Width="90" Height="18" Bold TextAlignment="TextAlignment.End" />
+        <ReportText Text="Formula result" X="420" Y="8" Width="90" Height="18" Bold />
+    </ReportPageHeader>
+    <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
+        <ReportField Field="Description" X="30" Y="6" Width="240" Height="18" />
+        <ReportField Field="Total" Format="@ReportFormats.Currency()" X="300" Y="6" Width="90" Height="18" />
+        <ReportField Field="LargeLine" X="420" Y="6" Width="90" Height="18" Bold />
+    </ReportDetail>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Customer = new()
+        {
+            Name = "Northwind Traders",
+        },
+        Lines =
+        [
+            new() { Description = "Implementation workshop", Total = 640.50m },
+            new() { Description = "Reporting module license", Total = 500.00m },
+            new() { Description = "Priority support", Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}

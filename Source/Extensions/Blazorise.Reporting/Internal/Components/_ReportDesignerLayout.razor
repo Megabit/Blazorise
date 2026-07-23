@@ -1,0 +1,69 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@implements IAsyncDisposable
+@using System
+
+<Div @ref="designerElement"
+     Class="b-report-designer">
+    <DockLayout @ref="dockLayout"
+                Class="b-report-designer-layout"
+                State="@State"
+                StateChanged="@OnDockLayoutStateChanged"
+                PaneBordered>
+        @if ( ShowToolbar && Toolbar is not null )
+        {
+            <DockSplit Orientation="DockSplitOrientation.Vertical" Ratio="0.08">
+                <DockPane @ref="toolbarPane"
+                          Name="@ToolbarPaneName"
+                          Caption="Toolbar"
+                          Role="DockRole.Tool"
+                          PanePosition="DockPanePosition.Top"
+                          Movable="false"
+                          Resizable="false"
+                          ShowTab="false"
+                          AutoHideable="false"
+                          Closable="false">
+                    <DockPaneBody Class="b-report-designer-toolbar-pane"
+                                  Padding="PaddingIs3">
+                        <CascadingValue Value="@ToolbarDockContext" IsFixed="true">
+                            @Toolbar
+                        </CascadingValue>
+                    </DockPaneBody>
+                </DockPane>
+
+                <_ReportDesignerWorkspaceDockTree ToolboxPaneName="@ToolboxPaneName"
+                                                 @ref="@workspaceDockTree"
+                                                 FieldsExplorerPaneName="@FieldsExplorerPaneName"
+                                                 SurfacePaneName="@SurfacePaneName"
+                                                 PropertiesPaneName="@PropertiesPaneName"
+                                                 ReportExplorerPaneName="@ReportExplorerPaneName"
+                                                 ActivePanelPaneName="@activePanelPaneName"
+                                                 State="@State"
+                                                 RefreshState="@RefreshState"
+                                                 ToolboxPanel="@ToolboxPanel"
+                                                 FieldsExplorerPanel="@FieldsExplorerPanel"
+                                                 Surface="@Surface"
+                                                 PropertiesPanel="@PropertiesPanel"
+                                                 ReportExplorerPanel="@ReportExplorerPanel" />
+            </DockSplit>
+        }
+        else
+        {
+            <_ReportDesignerWorkspaceDockTree ToolboxPaneName="@ToolboxPaneName"
+                                             @ref="@workspaceDockTree"
+                                             FieldsExplorerPaneName="@FieldsExplorerPaneName"
+                                             SurfacePaneName="@SurfacePaneName"
+                                             PropertiesPaneName="@PropertiesPaneName"
+                                             ReportExplorerPaneName="@ReportExplorerPaneName"
+                                             ActivePanelPaneName="@activePanelPaneName"
+                                             State="@State"
+                                             RefreshState="@RefreshState"
+                                             ToolboxPanel="@ToolboxPanel"
+                                             FieldsExplorerPanel="@FieldsExplorerPanel"
+                                             Surface="@Surface"
+                                             PropertiesPanel="@PropertiesPanel"
+                                             ReportExplorerPanel="@ReportExplorerPanel" />
+        }
+    </DockLayout>
+    @ContextMenu
+</Div>

@@ -1,0 +1,141 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using System.Threading.Tasks
+@using Blazorise.Utilities
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+
+<div @key="@ElementKey"
+     class="@ClassNames"
+     style="@StyleNames"
+     @onclick="OnClicked"
+     @onclick:stopPropagation="@CanReceiveDesignerInteraction"
+     @ondblclick="OnDoubleClicked"
+     @ondblclick:preventDefault="@CanStartInlineTextEdit"
+     @ondblclick:stopPropagation="@CanStartInlineTextEdit"
+     @oncontextmenu="OnContextMenu"
+     @oncontextmenu:preventDefault="@CanReceiveDesignerInteraction"
+     @oncontextmenu:stopPropagation="@CanReceiveDesignerInteraction"
+     @onpointerdown="OnPointerDown"
+     @onpointerdown:preventDefault="@CanStartDesignerPointerDrag"
+     @onpointerdown:stopPropagation="@ShouldStopPointerDownPropagation">
+    <div class="b-report-element-content">
+        @if ( Editing && CanEditText )
+        {
+            <textarea @ref="textEditElement"
+                      class="b-report-element-text-editor"
+                      value="@textEditValue"
+                      @oninput="OnTextEditInput"
+                      @onblur="CompleteTextEdit"
+                      @onkeydown="HandleTextEditKeyDown"
+                      @onkeydown:stopPropagation="true"
+                      @onclick:stopPropagation="true"
+                      @ondblclick:stopPropagation="true"
+                      @onpointerdown:stopPropagation="true"></textarea>
+        }
+        else
+        {
+            @switch ( Element.Type )
+            {
+                case ReportElementType.Text:
+                    @GetText()
+                    break;
+                case ReportElementType.Field:
+                    @GetFieldText()
+                    break;
+                case ReportElementType.Table:
+                    @if ( Element is ReportTableElementDefinition tableElement )
+                    {
+                        <_ReportDesignerTable Data="@Data"
+                                              Definition="@Definition"
+                                              Section="@Section"
+                                              SectionIndex="@SectionIndex"
+                                              Item="@Item"
+                                              RunningTotals="@RunningTotals"
+                                              Element="@tableElement"
+                                              DesignMode="@DesignMode"
+                                              Editable="@Editable"
+                                              TableSelected="@Selected"
+                                              SelectedCellKey="@SelectedCellKey"
+                                              CellClicked="@TableCellClicked"
+                                              CellContextMenu="@TableCellContextMenu"
+                                              IsElementSelected="@IsChildElementSelected"
+                                              IsElementColliding="@IsChildElementColliding"
+                                              ElementClicked="@ChildElementClicked"
+                                              ElementDoubleClicked="@ChildElementDoubleClicked"
+                                              TextEditingActive="@TextEditingActive"
+                                              EditingElementKey="@ChildEditingElementKey"
+                                              ElementTextEditCommitted="@ChildElementTextEditCommitted"
+                                              ElementTextEditCancelled="@ChildElementTextEditCancelled"
+                                              ResizeStarted="@TableResizeStarted" />
+                    }
+                    break;
+                case ReportElementType.Panel:
+                    @if ( Element is ReportPanelElementDefinition panelElement )
+                    {
+                        <_ReportDesignerPanel Data="@Data"
+                                              Definition="@Definition"
+                                              Section="@Section"
+                                              SectionIndex="@SectionIndex"
+                                              Item="@Item"
+                                              RunningTotals="@RunningTotals"
+                                              RenderMutationVersion="@RenderMutationVersion"
+                                              Element="@panelElement"
+                                              DesignMode="@DesignMode"
+                                              Editable="@(Editable && !ElementSuppressed)"
+                                              LayoutLocked="@LayoutLocked"
+                                              SelectionVersion="@SelectionVersion"
+                                              TextEditingActive="@TextEditingActive"
+                                              EditingElementKey="@ChildEditingElementKey"
+                                              SelectedCellKey="@SelectedCellKey"
+                                              IsElementSelected="@IsChildElementSelected"
+                                              IsElementColliding="@IsChildElementColliding"
+                                              ElementClicked="@ChildElementClicked"
+                                              ElementDoubleClicked="@ChildElementDoubleClicked"
+                                              ElementContextMenu="@ContextMenu"
+                                              TableCellClicked="@TableCellClicked"
+                                              TableCellContextMenu="@TableCellContextMenu"
+                                              ElementTextEditCommitted="@ChildElementTextEditCommitted"
+                                              ElementTextEditCancelled="@ChildElementTextEditCancelled"
+                                              TableResizeStarted="@TableResizeStarted"
+                                              ElementPointerDown="@PointerDown"
+                                              ElementResizeStarted="@ResizeStarted" />
+                    }
+                    break;
+                case ReportElementType.Subreport:
+                    @if ( DesignMode )
+                    {
+                        <Div Class="b-report-subreport-placeholder" TextSize="TextSizeSmall" TextColor="TextColorSecondary">
+                            @GetSubreportText()
+                        </Div>
+                    }
+                    else
+                    {
+                        <_ReportSubreportPreview Data="@Data"
+                                                 Definition="@Definition"
+                                                 Item="@Item"
+                                                 RenderMutationVersion="@RenderMutationVersion"
+                                                 Element="@Element" />
+                    }
+                    break;
+                case ReportElementType.Image:
+                    @if ( Element is ReportImageElementDefinition imageElement )
+                    {
+                        <Image Source="@imageElement.Source" Text="@ImageAlternativeText" ObjectFit="@GetImageObjectFit( imageElement )" />
+                    }
+                    break;
+                case ReportElementType.Line:
+                case ReportElementType.Rectangle:
+                case ReportElementType.PageBreak:
+                    break;
+            }
+        }
+    </div>
+
+    @if ( ShowResizeHandles )
+    {
+        <_ReportDesignerElementResizeHandles PointerDown="OnResizeStarted" />
+    }
+</div>

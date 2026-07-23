@@ -1,0 +1,11 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<div class="b-report-section-label"
+     @onclick="OnClicked"
+     @onclick:stopPropagation
+     @oncontextmenu="OnContextMenu"
+     @oncontextmenu:preventDefault
+     @oncontextmenu:stopPropagation>
+    @Label
+</div>

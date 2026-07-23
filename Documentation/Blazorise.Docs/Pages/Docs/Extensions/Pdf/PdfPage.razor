@@ -1,0 +1,72 @@
+@page "/docs/extensions/pdf"
+@page "/docs/extensions/pdf/getting-started"
+
+<Seo Canonical="/docs/extensions/pdf" Title="Blazorise PDF" Description="Build PDF documents declaratively with Razor components or imperatively with the Blazorise PDF builder API." />
+
+<DocsPageTitle Path="Extensions/PDF" AddedVersion="New">
+    Blazorise PDF
+</DocsPageTitle>
+
+<DocsPageLead>
+    Build PDF document definitions from Razor components or from C# builder code, then generate a PDF file through the PDF generator service.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Install the <Code>Blazorise.Pdf</Code> package and register the PDF generator services in your application startup.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PdfNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PdfImportsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Services">
+        Register the PDF generator once with your Blazorise services.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PdfServiceRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Declarative document">
+        Use Razor components when a document template should be authored close to the UI layer.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PdfDeclarativeInvoiceExample" Outlined>
+        <PdfDeclarativeInvoiceExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imperative builder">
+        Use the builder API when a document is produced from an engine, service, or another component such as Reporting.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PdfBuilderInvoiceExample" Outlined>
+        <PdfBuilderInvoiceExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Generate a file">
+        Inject <Code>IPdfGenerator</Code> and generate a PDF byte result from a document definition.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PdfGenerateFileExample" Outlined>
+        <PdfGenerateFileExample />
+    </DocsPageSectionContent>
+</DocsPageSection>

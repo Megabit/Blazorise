@@ -42,11 +42,15 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Cropper\Blazorise.Cropper.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.SignaturePad\Blazorise.SignaturePad.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Pdf\Blazorise.Pdf.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Scheduler\Blazorise.Scheduler.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Gantt\Blazorise.Gantt.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Maps\Blazorise.Maps.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.PivotGrid\Blazorise.PivotGrid.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Reporting\Blazorise.Reporting.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Reporting.DataSources.Csv\Blazorise.Reporting.DataSources.Csv.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Reporting.DataSources.Sql\Blazorise.Reporting.DataSources.Sql.csproj" />
     <PackageReference Include="MailKit" />
     <PackageReference Include="MimeKit" />
     <PackageReference Include="Blazored.LocalStorage" />

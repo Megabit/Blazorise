@@ -1,3 +1,25 @@
+@mixin color-picker-size($name, $font-size, $height) {
+    &.ant-input-#{$name} {
+        height: $height;
+        min-height: $height;
+        font-size: $font-size;
+
+        .ant-color-picker-color-block {
+            width: calc(#{$height} - var(--ant-padding-xs));
+            height: calc(#{$height} - var(--ant-padding-xs));
+        }
+
+        .ant-color-picker-trigger-text {
+            font-size: $font-size;
+        }
+
+        &.b-input-color-picker:is(:not([data-color]), [data-color=''], [data-color='null']) {
+            width: $height;
+            min-width: $height;
+        }
+    }
+}
+
 .b-ant-color-input,
 .b-input-color-picker.ant-color-picker-trigger {
     box-sizing: border-box;
@@ -120,4 +142,10 @@
     &.ant-color-picker-trigger-disabled .b-ant-color-input-native {
         cursor: not-allowed;
     }
+
+    @include color-picker-size('xs', 10px, var(--ant-control-height-xs));
+    @include color-picker-size('sm', var(--ant-font-size-sm), var(--ant-control-height-sm));
+    @include color-picker-size('md', var(--ant-font-size), calc(var(--ant-control-height) + var(--ant-size-unit)));
+    @include color-picker-size('lg', var(--ant-font-size-lg), var(--ant-control-height-lg));
+    @include color-picker-size('xl', var(--ant-font-size-xl), calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2));
 }

@@ -316,6 +316,36 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region Resizer
+
+    public override string Resizer() => "tw-resizer absolute z-10 border-0 bg-transparent p-0 outline-none select-none touch-none";
+
+    public override string ResizerOrientation( Orientation orientation )
+        => orientation == Orientation.Vertical
+            ? "tw-resizer-vertical top-0 bottom-0 w-2 cursor-col-resize"
+            : "tw-resizer-horizontal left-0 right-0 h-2 cursor-row-resize";
+
+    public override string ResizerPlacement( Placement placement ) => placement switch
+    {
+        Placement.Top => "tw-resizer-top top-0",
+        Placement.Bottom => "tw-resizer-bottom bottom-0",
+        Placement.Start => "tw-resizer-start start-0",
+        Placement.End => "tw-resizer-end end-0",
+        _ => null,
+    };
+
+    public override string ResizerGutter( bool showGutter ) => showGutter ? "tw-resizer-gutter" : null;
+
+    public override string ResizerDisabled( bool disabled ) => disabled ? "tw-resizer-disabled pointer-events-none opacity-50" : null;
+
+    public override string ResizerFocused( bool focused ) => focused ? "tw-resizer-focused" : null;
+
+    public override string ResizerResizing( bool resizing ) => resizing ? "tw-resizer-resizing" : null;
+
+    public override string ResizerTargetResizing( bool resizing ) => resizing ? "tw-resizer-target-resizing !transition-none" : null;
+
+    #endregion
+
     private static string BuildTailwindSliderInputClasses( bool rangeSlider )
     {
         if ( !rangeSlider )
@@ -841,6 +871,50 @@ public class TailwindClassProvider : ClassProvider
         Direction.Start => "dropleft",
         _ => null,
     };
+
+    public override string ContextMenu() => "tw-context-menu";
+
+    public override string ContextMenuToggle() => "tw-context-menu-toggle";
+
+    public override string ContextMenuBody() => $"{DropdownMenu()} tw-context-menu-menu";
+
+    public override string ContextMenuBodyVisible( bool visible ) => DropdownMenuVisible( visible );
+
+    public override string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => DropdownMenuPositionStrategy( dropdownPositionStrategy );
+
+    public override string ContextMenuItem() => $"{DropdownItem()} tw-context-menu-item";
+
+    public override string ContextMenuItemActive( bool active ) => DropdownItemActive( active );
+
+    public override string ContextMenuItemDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuItemContent() => "tw-context-menu-item-content";
+
+    public override string ContextMenuItemCheck() => "tw-context-menu-item-check";
+
+    public override string ContextMenuItemShortcut() => "tw-context-menu-item-shortcut";
+
+    public override string ContextMenuDivider() => $"{DropdownDivider()} tw-context-menu-divider";
+
+    public override string ContextMenuHeader() => $"{DropdownHeader()} tw-context-menu-header";
+
+    public override string ContextMenuGroup() => "tw-context-menu-group";
+
+    public override string ContextMenuToolbar() => "tw-context-menu-toolbar";
+
+    public override string ContextMenuToolbarItem() => "tw-context-menu-toolbar-item";
+
+    public override string ContextMenuToolbarItemActive( bool active ) => active ? "tw-context-menu-toolbar-item-active" : null;
+
+    public override string ContextMenuToolbarItemDisabled( bool disabled ) => disabled ? "tw-context-menu-toolbar-item-disabled" : null;
+
+    public override string ContextMenuSubmenu() => "tw-context-menu-submenu";
+
+    public override string ContextMenuSubmenuTrigger() => "tw-context-menu-submenu-trigger";
+
+    public override string ContextMenuSubmenuTriggerDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuSubmenuBody() => "tw-context-menu-submenu-menu";
 
     #endregion
 
@@ -2575,6 +2649,140 @@ public class TailwindClassProvider : ClassProvider
     public override string DescriptionListTerm() => null;
 
     public override string DescriptionListDefinition() => null;
+
+    #endregion
+
+    #region DockLayout
+
+    public override string DockLayout() => "tw-dock-layout";
+
+    public override string DockSplit() => "tw-dock-split";
+
+    public override string DockSplitOrientation( DockSplitOrientation orientation )
+        => orientation == Blazorise.DockSplitOrientation.Vertical ? "tw-dock-split-vertical" : "tw-dock-split-horizontal";
+
+    public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "tw-dock-pane";
+
+    public override string DockPanePosition( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Center => "tw-dock-pane-center",
+            Blazorise.DockPanePosition.Right => "tw-dock-pane-right",
+            Blazorise.DockPanePosition.Top => "tw-dock-pane-top",
+            Blazorise.DockPanePosition.Bottom => "tw-dock-pane-bottom",
+            _ => "tw-dock-pane-left",
+        };
+
+    public override string DockPaneResizable( bool resizable ) => resizable ? "tw-dock-pane-resizable" : null;
+
+    public override string DockPaneCollapsed( bool collapsed ) => collapsed ? "tw-dock-pane-collapsed" : null;
+
+    public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "tw-dock-pane-autohide" : null;
+
+    public override string DockPaneBordered() => "tw-dock-pane-bordered";
+
+    public override string DockPaneAutoHideRail( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "tw-dock-auto-hide-rail tw-dock-auto-hide-rail-right",
+            Blazorise.DockPanePosition.Top => "tw-dock-auto-hide-rail tw-dock-auto-hide-rail-top",
+            Blazorise.DockPanePosition.Bottom => "tw-dock-auto-hide-rail tw-dock-auto-hide-rail-bottom",
+            _ => "tw-dock-auto-hide-rail tw-dock-auto-hide-rail-left",
+        };
+
+    public override string DockPaneAutoHideTab( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "tw-dock-pane-autohide-tab tw-dock-pane-autohide-tab-right",
+            Blazorise.DockPanePosition.Top => "tw-dock-pane-autohide-tab tw-dock-pane-autohide-tab-top",
+            Blazorise.DockPanePosition.Bottom => "tw-dock-pane-autohide-tab tw-dock-pane-autohide-tab-bottom",
+            _ => "tw-dock-pane-autohide-tab tw-dock-pane-autohide-tab-left",
+        };
+
+    public override string DockPaneAutoHideFlyout( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "tw-dock-auto-hide-flyout tw-dock-auto-hide-flyout-right",
+            Blazorise.DockPanePosition.Top => "tw-dock-auto-hide-flyout tw-dock-auto-hide-flyout-top",
+            Blazorise.DockPanePosition.Bottom => "tw-dock-auto-hide-flyout tw-dock-auto-hide-flyout-bottom",
+            _ => "tw-dock-auto-hide-flyout tw-dock-auto-hide-flyout-left",
+        };
+
+    public override string DockPaneHeader() => "tw-dock-pane-header";
+
+    public override string DockPaneHeaderContent() => "tw-dock-pane-header-content";
+
+    public override string DockPaneHeaderActions() => "tw-dock-pane-header-actions";
+
+    public override string DockPaneHeaderAction() => "tw-dock-pane-header-action";
+
+    public override string DockPaneBody() => "tw-dock-pane-body";
+
+    public override string DockPaneFooter() => "tw-dock-pane-footer";
+
+    public override string DockContent() => "tw-dock-content";
+
+    public override string DockPaneTabs() => "tw-dock-pane-tabs";
+
+    public override string DockPaneTabPosition( DockPaneTabPosition position )
+        => position == Blazorise.DockPaneTabPosition.Top ? "tw-dock-pane-tabs-top" : null;
+
+    public override string DockPaneTabsHost() => "tw-dock-tabs-host";
+
+    public override string DockPaneTab( bool active ) => active ? "tw-dock-pane-tab tw-dock-pane-tab-active" : "tw-dock-pane-tab";
+
+    public override string DockPaneTabLabel() => "tw-dock-pane-tab-label";
+
+    public override string DockPaneTabClose() => "tw-dock-pane-tab-close";
+
+    public override string DockLayoutCompass() => "tw-dock-compass";
+
+    public override string DockLayoutCompassZone( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Center => "tw-dock-compass-zone tw-dock-compass-zone-center",
+            DockZone.Right => "tw-dock-compass-zone tw-dock-compass-zone-right",
+            DockZone.Top => "tw-dock-compass-zone tw-dock-compass-zone-top",
+            DockZone.Bottom => "tw-dock-compass-zone tw-dock-compass-zone-bottom",
+            _ => "tw-dock-compass-zone tw-dock-compass-zone-left",
+        };
+
+        return active ? $"{baseClass} tw-dock-compass-zone-active" : baseClass;
+    }
+
+    public override string DockLayoutCompassZonePlacement( DockCompassZone zone )
+        => zone switch
+        {
+            DockCompassZone.TopOuter => "tw-dock-compass-zone-top-outer",
+            DockCompassZone.TopInner => "tw-dock-compass-zone-top-inner",
+            DockCompassZone.LeftOuter => "tw-dock-compass-zone-left-outer",
+            DockCompassZone.LeftInner => "tw-dock-compass-zone-left-inner",
+            DockCompassZone.RightInner => "tw-dock-compass-zone-right-inner",
+            DockCompassZone.RightOuter => "tw-dock-compass-zone-right-outer",
+            DockCompassZone.BottomInner => "tw-dock-compass-zone-bottom-inner",
+            DockCompassZone.BottomOuter => "tw-dock-compass-zone-bottom-outer",
+            _ => "tw-dock-compass-zone-center",
+        };
+
+    public override string DockLayoutCompassZoneIcon() => "tw-dock-compass-zone-icon";
+
+    public override string DockLayoutDragPreview() => "tw-dock-drag-preview";
+
+    public override string DockLayoutDropPreview() => "tw-dock-drop-preview";
+
+    public override string DockLayoutShellGuide( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Right => "tw-dock-shell-guide tw-dock-shell-guide-right",
+            DockZone.Top => "tw-dock-shell-guide tw-dock-shell-guide-top",
+            DockZone.Bottom => "tw-dock-shell-guide tw-dock-shell-guide-bottom",
+            _ => "tw-dock-shell-guide tw-dock-shell-guide-left",
+        };
+
+        return active ? $"{baseClass} tw-dock-shell-guide-active" : baseClass;
+    }
 
     #endregion
 

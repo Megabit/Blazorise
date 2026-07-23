@@ -1,0 +1,418 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using System
+
+<Div Display="DisplayNone">
+    <_ReportDesignerDataSourceDialog @ref="dataSourceDialogRef" Definition="@Definition" Confirmed="@OnDataSourceDialogConfirmed" />
+    <_ReportDesignerFormulaDialog @ref="formulaDialogRef" Definition="@Definition" Data="@Data" Section="@FormulaSection" Confirmed="@OnFormulaDialogConfirmed" />
+    <_ReportDesignerFormatDialog @ref="formatDialogRef" Confirmed="@OnFormatDialogConfirmed" />
+    <_ReportDesignerImageUploadDialog @ref="imageUploadDialogRef"
+                                      ImageAccept="@ImageAccept"
+                                      ImageMaxSize="@ImageMaxSize"
+                                      MaxUploadImageChunkSize="@MaxUploadImageChunkSize"
+                                      SegmentFetchTimeout="@ImageUploadSegmentFetchTimeout"
+                                      DisableImageUploadProgressReport="@DisableImageUploadProgressReport"
+                                      ImageUploadChanged="@ImageUploadChanged"
+                                      ImageUploadStarted="@ImageUploadStarted"
+                                      ImageUploadEnded="@ImageUploadEnded"
+                                      ImageUploadWritten="@ImageUploadWritten"
+                                      ImageUploadProgressed="@ImageUploadProgressed"
+                                      ImageUpload="@ImageUpload"
+                                      Confirmed="@OnImageUploadConfirmed" />
+</Div>
+
+@if ( ReportSelected )
+{
+    <Div Margin="MarginIs3FromBottom">
+        <_ReportDesignerPropertyGroup Title="Designer">
+            <_ReportDesignerTextProperty Label="Type" Value="Report" ReadOnly />
+            <_ReportDesignerCheckboxProperty Label="Snap to grid" Value="@SnapToGrid" Changed="@OnSnapToGridChanged" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Grid size" Value="@FromPoints( GridSize )" Changed="@OnGridSizeChanged" Min="@FromPoints( 1 )" Max="@FromPoints( Math.Min( Definition.Page.Width, Definition.Page.Height ) )" Step="@GetMeasurementStep()" />
+            <_ReportDesignerCheckboxProperty Label="Show rulers" Value="@ShowRulers" Changed="@ShowRulersChanged" />
+            <_ReportDesignerCheckboxProperty Label="Fine ruler ticks" Value="@ShowFineRulerTicks" Changed="@ShowFineRulerTicksChanged" />
+            <_ReportDesignerCheckboxProperty Label="Cursor guides" Value="@ShowCursorGuides" Changed="@ShowCursorGuidesChanged" />
+            <_ReportDesignerCheckboxProperty Label="Collision warnings" Value="@ShowCollisionWarnings" Changed="@ShowCollisionWarningsChanged" />
+            <Field Class="b-report-designer-band-mode-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
+                <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Band mode</FieldLabel>
+                <FieldBody ColumnSize="ColumnSizeIs8">
+                    <Select TValue="ReportBandMode" Value="@BandMode" ValueChanged="@BandModeChanged" Size="Size.Small">
+                        @foreach ( var option in BandModeOptions )
+                        {
+                            <SelectItem TValue="ReportBandMode" Value="@option.Value">@option.Text</SelectItem>
+                        }
+                    </Select>
+                </FieldBody>
+            </Field>
+        </_ReportDesignerPropertyGroup>
+        <_ReportDesignerPropertyGroup Title="Page">
+            <Field Class="b-report-designer-page-unit-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
+                <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Unit</FieldLabel>
+                <FieldBody ColumnSize="ColumnSizeIs8">
+                    <Select TValue="ReportMeasurementUnit" Value="@GetPageMeasurementUnit()" ValueChanged="@OnPageMeasurementUnitChanged" Size="Size.Small">
+                        @foreach ( var option in PageMeasurementUnitOptions )
+                        {
+                            <SelectItem TValue="ReportMeasurementUnit" Value="@option.Value">@option.Text</SelectItem>
+                        }
+                    </Select>
+                </FieldBody>
+            </Field>
+            <Field Class="b-report-designer-page-size-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
+                <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Paper size</FieldLabel>
+                <FieldBody ColumnSize="ColumnSizeIs8">
+                    <Select TValue="ReportPageSize" Value="@Definition.Page.Size" ValueChanged="@OnPageSizeChanged" Size="Size.Small">
+                        @foreach ( var option in PageSizeOptions )
+                        {
+                            <SelectItem TValue="ReportPageSize" Value="@option.Value">@option.Text</SelectItem>
+                        }
+                    </Select>
+                </FieldBody>
+            </Field>
+            <Field Class="b-report-designer-page-orientation-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
+                <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Orientation</FieldLabel>
+                <FieldBody ColumnSize="ColumnSizeIs8">
+                    <Select TValue="ReportOrientation" Value="@Definition.Page.Orientation" ValueChanged="@OnPageOrientationChanged" Size="Size.Small">
+                        @foreach ( var option in PageOrientationOptions )
+                        {
+                            <SelectItem TValue="ReportOrientation" Value="@option.Value">@option.Text</SelectItem>
+                        }
+                    </Select>
+                </FieldBody>
+            </Field>
+            <_ReportDesignerNumberProperty TValue="double" Label="Page width" Value="@FromPoints( Definition.Page.Width )" Changed="@OnPageWidthChanged" Min="@FromPoints( 1 )" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Page height" Value="@FromPoints( Definition.Page.Height )" Changed="@OnPageHeightChanged" Min="@FromPoints( 1 )" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Margin left" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Left )" Changed="@OnPageMarginLeftChanged" Max="@FromPoints( Definition.Page.Width )" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Margin top" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Top )" Changed="@OnPageMarginTopChanged" Max="@FromPoints( Definition.Page.Height )" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Margin right" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Right )" Changed="@OnPageMarginRightChanged" Max="@FromPoints( Definition.Page.Width )" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Margin bottom" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Bottom )" Changed="@OnPageMarginBottomChanged" Max="@FromPoints( Definition.Page.Height )" Step="@GetMeasurementStep()" />
+        </_ReportDesignerPropertyGroup>
+    </Div>
+}
+
+@if ( SelectedSection is not null && SelectedElement is null )
+{
+    <Div Margin="MarginIs3FromBottom">
+        <_ReportDesignerPropertyGroup Title="Status">
+            <_ReportDesignerFormulaBooleanProperty Label="Suppress"
+                                                   Value="@ReportValueResolver.ResolveStaticSuppress( SelectedSection )"
+                                                   Formula="@SelectedSection.Suppress?.Formula"
+                                                   Changed="@UpdateSelectedSectionSuppression"
+                                                   OpenFormula="@OpenSelectedSectionSuppressFormula" />
+            @if ( SelectedSection.Type == ReportBandType.PageFooter )
+            {
+                <_ReportDesignerCheckboxProperty Label="Reserve space when suppressed" Value="@SelectedSection.ReserveSpaceWhenSuppressed" Changed="@(value => UpdateSelectedSection( section => section.ReserveSpaceWhenSuppressed = value ))" />
+            }
+        </_ReportDesignerPropertyGroup>
+
+        <_ReportDesignerPropertyGroup Title="General">
+            <_ReportDesignerTextProperty Label="Type" Value="@ReportDefinitionHelper.GetSectionTypeDisplayName( SelectedSection.Type )" ReadOnly />
+            @if ( !ReportValueResolver.ResolveStaticSuppress( SelectedSection ) )
+            {
+                <_ReportDesignerTextProperty Label="Name" Value="@SelectedSection.Name" Changed="@(value => UpdateSelectedSection( section => section.Name = value ))" />
+                @if ( SelectedSection.Type == ReportBandType.Detail )
+                {
+                    <_ReportDesignerDataSourceProperty Label="Data source" Value="@SelectedSection.DataSource" DisplayText="@GetSelectedSectionDataSourceDisplayName()" Clicked="@OpenDataSourceDialog" />
+                }
+                @if ( SelectedSection.Type == ReportBandType.GroupHeader )
+                {
+                    <_ReportDesignerTextProperty Label="Group by" Value="@SelectedSection.GroupBy" Changed="@(value => UpdateSelectedSection( section => section.GroupBy = value ))" />
+                }
+            }
+        </_ReportDesignerPropertyGroup>
+
+        @if ( !ReportValueResolver.ResolveStaticSuppress( SelectedSection ) )
+        {
+            <_ReportDesignerPropertyGroup Title="Layout">
+                <_ReportDesignerNumberProperty TValue="double" Label="Height" Value="@FromPoints( SelectedSection.Height )" Changed="@OnSelectedSectionHeightChanged" Min="@FromPoints( ReportLayoutGeometry.DefaultMinimumElementSize )" Max="@FromPoints( ReportPageDefinitionHelper.GetContentHeight( Definition.Page ) )" Step="@GetMeasurementStep()" />
+            </_ReportDesignerPropertyGroup>
+            <_ReportDesignerPropertyGroup Title="Pagination">
+                <_ReportDesignerFormulaBooleanProperty Label="Keep together"
+                                                       Value="@(SelectedSection.KeepTogether?.Value == true)"
+                                                       Formula="@SelectedSection.KeepTogether?.Formula"
+                                                       Changed="@UpdateSelectedSectionKeepTogether"
+                                                       OpenFormula="@OpenSelectedSectionKeepTogetherFormula" />
+                <_ReportDesignerFormulaBooleanProperty Label="New page before"
+                                                       Value="@(SelectedSection.NewPageBefore?.Value == true)"
+                                                       Formula="@SelectedSection.NewPageBefore?.Formula"
+                                                       Changed="@UpdateSelectedSectionNewPageBefore"
+                                                       OpenFormula="@OpenSelectedSectionNewPageBeforeFormula" />
+                <_ReportDesignerFormulaBooleanProperty Label="New page after"
+                                                       Value="@(SelectedSection.NewPageAfter?.Value == true)"
+                                                       Formula="@SelectedSection.NewPageAfter?.Formula"
+                                                       Changed="@UpdateSelectedSectionNewPageAfter"
+                                                       OpenFormula="@OpenSelectedSectionNewPageAfterFormula" />
+            </_ReportDesignerPropertyGroup>
+            @if ( SelectedSection.Type == ReportBandType.PageFooter )
+            {
+                var sectionAppearance = EnsureSelectedSectionAppearance();
+                var sectionBorder = EnsureSelectedSectionBorder();
+
+                <_ReportDesignerPropertyGroup Title="Page footer">
+                    <_ReportDesignerCheckboxProperty Label="Print on first page" Value="@SelectedSection.PrintOnFirstPage" Changed="@(value => UpdateSelectedSection( section => section.PrintOnFirstPage = value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Print on last page" Value="@SelectedSection.PrintOnLastPage" Changed="@(value => UpdateSelectedSection( section => section.PrintOnLastPage = value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Repeat on every page" Value="@SelectedSection.RepeatOnEveryPage" Changed="@(value => UpdateSelectedSection( section => section.RepeatOnEveryPage = value ))" />
+                </_ReportDesignerPropertyGroup>
+                <_ReportDesignerPropertyGroup Title="Appearance">
+                    <_ReportDesignerColorProperty Label="Fill color" Value="@sectionAppearance.BackgroundColor" Changed="@(value => UpdateSelectedSection( section => EnsureSectionAppearance( section ).BackgroundColor = value ))" />
+                    <_ReportDesignerColorProperty Label="Border color" Value="@sectionBorder.Color" Changed="@(value => UpdateSelectedSection( section => EnsureSectionBorder( section ).Color = value ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Border width" Value="@sectionBorder.Width" Changed="@(value => UpdateSelectedSection( section => EnsureSectionBorder( section ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" Max="@Definition.Page.Width" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Corner radius" Value="@sectionBorder.Radius" Changed="@(value => UpdateSelectedSection( section => EnsureSectionBorder( section ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" Max="@Definition.Page.Width" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Opacity" Value="@sectionAppearance.Opacity" Changed="@(value => UpdateSelectedSection( section => EnsureSectionAppearance( section ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" Max="1" />
+                </_ReportDesignerPropertyGroup>
+            }
+            <Div Flex="FlexIsWrap" Gap="GapIs2" Margin="MarginIs3FromTop">
+                @if ( CanInsertSection )
+                {
+                    <Button Color="Color.Light" Clicked="@OnInsertSectionBeforeClicked" Size="Size.Small">Insert before</Button>
+                    <Button Color="Color.Light" Clicked="@OnInsertSectionAfterClicked" Size="Size.Small">Insert after</Button>
+                }
+                @if ( CanInsertGroup )
+                {
+                    <Button Color="Color.Light" Clicked="@OnInsertGroupClicked" Size="Size.Small">Insert group...</Button>
+                }
+                @if ( ReportDefinitionHelper.CanDeleteSection( SelectedSection ) )
+                {
+                    <Button Color="Color.Light" Clicked="@OnDeleteSelectedSectionClicked" Size="Size.Small">Delete band</Button>
+                }
+            </Div>
+        }
+    </Div>
+}
+
+@if ( SelectedElement is not null && !SelectedElementSuppressed )
+{
+    <Div>
+        <_ReportDesignerPropertyGroup Title="Status">
+            @if ( AllSelectedElementsSupportCanGrow )
+            {
+                <_ReportDesignerFormulaBooleanProperty Label="Can grow"
+                                                       Value="@(SelectedElement.CanGrow?.Value == true)"
+                                                       Mixed="@IsSelectedElementValueMixed( element => element.CanGrow?.Value == true )"
+                                                       Formula="@GetSharedSelectedElementValue( element => element.CanGrow?.Formula )"
+                                                       Changed="@UpdateSelectedElementCanGrow"
+                                                       OpenFormula="@OpenSelectedElementCanGrowFormula" />
+            }
+            <_ReportDesignerFormulaBooleanProperty Label="Suppress"
+                                                   Value="@(SelectedElement.Suppress?.Value == true)"
+                                                   Mixed="@IsSelectedElementValueMixed( element => element.Suppress?.Value == true )"
+                                                   Formula="@GetSharedSelectedElementValue( element => element.Suppress?.Formula )"
+                                                   Changed="@UpdateSelectedElementSuppress"
+                                                   OpenFormula="@OpenSelectedElementSuppressFormula" />
+            <_ReportDesignerFormulaSelectProperty Label="Snap to grid"
+                                                  Value="@GetSelectedElementSnapToGridValue()"
+                                                  Mixed="@IsSelectedElementValueMixed( element => element.SnapToGrid?.Value )"
+                                                  Formula="@GetSharedSelectedElementValue( element => element.SnapToGrid?.Formula )"
+                                                  Options="@ElementSnapToGridOptions"
+                                                  Changed="@OnSelectedElementSnapToGridChanged"
+                                                  OpenFormula="@OpenSelectedElementSnapToGridFormula" />
+        </_ReportDesignerPropertyGroup>
+
+        <_ReportDesignerPropertyGroup Title="General">
+            <_ReportDesignerTextProperty Label="Type" Value="@GetSelectedElementTypeDisplayName()" ReadOnly />
+            @if ( !MultipleElementsSelected && !AllSelectedElementsSuppressed )
+            {
+                <_ReportDesignerTextProperty Label="Name" Value="@SelectedElement.Name" Changed="@OnSelectedElementNameChanged" />
+            }
+        </_ReportDesignerPropertyGroup>
+
+        @if ( !AllSelectedElementsSuppressed )
+        {
+            @if ( AllSelectedElementsAre<ReportTextElementDefinition>()
+                || AllSelectedElementsAre<ReportFieldElementDefinition>()
+                || AllSelectedElementsAre<ReportImageElementDefinition>() )
+            {
+                string contentGroupTitle = SelectedElement is ReportFieldElementDefinition ? "Data" : "Content";
+
+                <_ReportDesignerPropertyGroup Title="@contentGroupTitle">
+                    @switch ( SelectedElement )
+                    {
+                        case ReportTextElementDefinition textElement:
+                            <_ReportDesignerTextProperty Label="Text"
+                                                         Value="@textElement.Text"
+                                                         Mixed="@IsSelectedElementValueMixed( element => ((ReportTextElementDefinition)element).Text )"
+                                                         Changed="@(value => UpdateSelectedElement( element => { if ( element is ReportTextElementDefinition currentTextElement ) currentTextElement.Text = value; } ))" />
+                            break;
+                        case ReportFieldElementDefinition fieldElement:
+                            @if ( !MultipleElementsSelected )
+                            {
+                                <_ReportDesignerTextProperty Label="Expression" Value="@ReportExpressionFormatter.FormatFieldExpression( Definition, SelectedElement )" ReadOnly />
+                                @if ( fieldElement.Aggregate is not null )
+                                {
+                                    <_ReportDesignerTextProperty Label="Aggregate" Value="@ReportAggregateResolver.GetFunctionDisplayName( fieldElement.Aggregate.Function )" ReadOnly />
+                                }
+                            }
+                            <Field Class="b-report-designer-format-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
+                                <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Format</FieldLabel>
+                                <FieldBody ColumnSize="ColumnSizeIs8">
+                                    <Addons Size="Size.Small">
+                                        <Addon AddonType="AddonType.Body">
+                                            <TextInput Value="@GetSharedSelectedElementValue( element => ReportFormatResolver.GetDisplayText( ((ReportFieldElementDefinition)element).Format ) )" ReadOnly />
+                                        </Addon>
+                                        <Addon AddonType="AddonType.End">
+                                            <Button Color="Color.Light" Clicked="@OpenFormatDialog" Size="Size.Small">Edit</Button>
+                                        </Addon>
+                                    </Addons>
+                                </FieldBody>
+                            </Field>
+                            break;
+                        case ReportImageElementDefinition imageElement:
+                            <_ReportDesignerImageSourceProperty Label="Source"
+                                                               Value="@imageElement.Source"
+                                                               Mixed="@IsSelectedElementValueMixed( element => ((ReportImageElementDefinition)element).Source )"
+                                                               Changed="@(value => UpdateSelectedElement( element => { if ( element is ReportImageElementDefinition currentImageElement ) currentImageElement.Source = value; } ))"
+                                                               UploadImage="@UploadImage"
+                                                               UploadClicked="@OpenImageUploadDialog" />
+                            <_ReportDesignerSelectProperty TValue="ReportImageFit"
+                                                           Label="Fit"
+                                                           Value="@imageElement.Fit"
+                                                           Mixed="@IsSelectedElementValueMixed( element => ((ReportImageElementDefinition)element).Fit )"
+                                                           Options="@ImageFitOptions"
+                                                           Changed="@(value => UpdateSelectedElement( element => { if ( element is ReportImageElementDefinition currentImageElement ) currentImageElement.Fit = value; } ))" />
+                            <_ReportDesignerTextProperty Label="Alt text"
+                                                         Value="@imageElement.Text"
+                                                         Mixed="@IsSelectedElementValueMixed( element => ((ReportImageElementDefinition)element).Text )"
+                                                         Changed="@(value => UpdateSelectedElement( element => { if ( element is ReportImageElementDefinition currentImageElement ) currentImageElement.Text = value; } ))" />
+                            break;
+                    }
+                </_ReportDesignerPropertyGroup>
+            }
+
+            @if ( AllSelectedElementsAre<ReportTableElementDefinition>() )
+            {
+                <_ReportDesignerPropertyGroup Title="Table">
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Rows" Value="@GetSharedSelectedElementValue( element => (double?)GetTableRowCount( element ) )" Changed="@OnSelectedTableRowCountChanged" Min="1" Step="@TableCountStep" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Columns" Value="@GetSharedSelectedElementValue( element => (double?)GetTableColumnCount( element ) )" Changed="@OnSelectedTableColumnCountChanged" Min="1" Step="@TableCountStep" />
+                </_ReportDesignerPropertyGroup>
+            }
+
+            @if ( AllSelectedElementsAre<ReportSubreportElementDefinition>() && SelectedElement is ReportSubreportElementDefinition subreportElement )
+            {
+                <_ReportDesignerPropertyGroup Title="Subreport">
+                    <_ReportDesignerDataSourceProperty Label="Data source"
+                                                       Value="@subreportElement.DataSource"
+                                                       DisplayText="@GetSelectedSubreportDataSourceDisplayName( subreportElement )"
+                                                       Mixed="@IsSelectedElementValueMixed( element => ((ReportSubreportElementDefinition)element).DataSource )"
+                                                       Clicked="@OpenSelectedSubreportDataSourceDialog" />
+                </_ReportDesignerPropertyGroup>
+            }
+
+            <_ReportDesignerPropertyGroup Title="Position and size">
+                <_ReportDesignerNumberProperty TValue="double?" Label="X" Value="@GetSharedMeasurementValue( element => element.X )" Changed="@OnSelectedElementXChanged" Max="@FromPoints( Definition.Page.Width )" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double?" Label="Y" Value="@GetSharedMeasurementValue( element => element.Y )" Changed="@OnSelectedElementYChanged" Max="@FromPoints( FormulaSection?.Height ?? Definition.Page.Height )" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double?" Label="Width" Value="@GetSharedMeasurementValue( element => element.Width )" Changed="@OnSelectedElementWidthChanged" Min="@FromPoints( ReportLayoutGeometry.DefaultMinimumElementSize )" Max="@FromPoints( Definition.Page.Width )" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double?" Label="Height" Value="@GetSharedMeasurementValue( element => element.Height )" Changed="@OnSelectedElementHeightChanged" Min="@FromPoints( ReportLayoutGeometry.GetMinimumElementHeight( SelectedElement ) )" Max="@FromPoints( FormulaSection?.Height ?? Definition.Page.Height )" Step="@GetMeasurementStep()" />
+            </_ReportDesignerPropertyGroup>
+
+            @if ( AllSelectedElementsSupportTextFormatting )
+            {
+                var font = ReportElementDefinitionHelper.EnsureFont( SelectedElement );
+                bool fontFamilyMixed = IsSelectedElementValueMixed( element => GetFontFamilyValue( element.Font?.Family ) );
+
+                <_ReportDesignerPropertyGroup Title="Text">
+                    <Field Class="b-report-designer-font-family-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
+                        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Font family</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSizeIs8">
+                            <Select TValue="string" Value="@(fontFamilyMixed ? MixedSelectValue : GetFontFamilyValue( font.Family ))" ValueChanged="@OnSelectedElementFontFamilyChanged" Size="Size.Small">
+                                @if ( fontFamilyMixed )
+                                {
+                                    <SelectItem TValue="string" Value="@MixedSelectValue" Hidden></SelectItem>
+                                }
+                                <SelectItem TValue="string" Value="@string.Empty">Default</SelectItem>
+                                @foreach ( var fontFamily in GetVisibleFontFamilies() )
+                                {
+                                    <SelectItem TValue="string" Value="@fontFamily.Name">@(fontFamily.DisplayName ?? fontFamily.Name)</SelectItem>
+                                }
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Font size" Value="@GetSharedSelectedElementValue( element => element.Font?.Size )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Size = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" Min="1" Max="@Definition.Page.Height" />
+                    <_ReportDesignerColorProperty Label="Color"
+                                                  Value="@font.Color"
+                                                  Mixed="@IsSelectedElementValueMixed( element => element.Font?.Color ?? ReportColor.Default )"
+                                                  Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Color = value ))" />
+                    <_ReportDesignerSelectProperty TValue="TextAlignment"
+                                                   Label="Hor. align"
+                                                   Value="@font.Alignment"
+                                                   Mixed="@IsSelectedElementValueMixed( element => element.Font?.Alignment ?? TextAlignment.Default )"
+                                                   Options="@TextAlignmentOptions"
+                                                   Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Alignment = value ))" />
+                    <_ReportDesignerSelectProperty TValue="VerticalAlignment"
+                                                   Label="Vert. align"
+                                                   Value="@font.VerticalAlignment"
+                                                   Mixed="@IsSelectedElementValueMixed( element => element.Font?.VerticalAlignment ?? VerticalAlignment.Default )"
+                                                   Options="@TextVerticalAlignmentOptions"
+                                                   Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).VerticalAlignment = value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Bold" Value="@font.Bold" Mixed="@IsSelectedElementValueMixed( element => element.Font?.Bold == true )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Bold = value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Italic" Value="@font.Italic" Mixed="@IsSelectedElementValueMixed( element => element.Font?.Italic == true )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Italic = value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Underline" Value="@font.Underline" Mixed="@IsSelectedElementValueMixed( element => element.Font?.Underline == true )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Underline = value ))" />
+                </_ReportDesignerPropertyGroup>
+            }
+
+            var appearance = ReportElementDefinitionHelper.EnsureAppearance( SelectedElement );
+            var border = ReportElementDefinitionHelper.EnsureBorder( SelectedElement );
+
+            <_ReportDesignerPropertyGroup Title="Appearance">
+                @if ( AllSelectedElementsAre<ReportLineElementDefinition>() && SelectedElement is ReportLineElementDefinition lineElement )
+                {
+                    <_ReportDesignerSelectProperty TValue="Orientation"
+                                                   Label="Orientation"
+                                                   Value="@lineElement.Orientation"
+                                                   Mixed="@IsSelectedElementValueMixed( element => ((ReportLineElementDefinition)element).Orientation )"
+                                                   Options="@LineOrientationOptions"
+                                                   Changed="@OnSelectedLineOrientationChanged" />
+                    <_ReportDesignerColorProperty Label="Color"
+                                                  Value="@border.Color"
+                                                  Mixed="@IsSelectedElementValueMixed( element => element.Border?.Color ?? ReportColor.Default )"
+                                                  Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Thickness" Value="@GetSharedSelectedElementValue( GetLineThickness )" Changed="@OnSelectedLineThicknessChanged" Min="@ReportLayoutGeometry.DefaultLineThickness" Max="@Math.Min( Definition.Page.Width, Definition.Page.Height )" />
+                }
+                else if ( !AnySelectedElementIsLine )
+                {
+                    <_ReportDesignerColorProperty Label="Fill"
+                                                  Value="@appearance.BackgroundColor"
+                                                  Mixed="@IsSelectedElementValueMixed( element => element.Appearance?.BackgroundColor ?? ReportColor.Default )"
+                                                  Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).BackgroundColor = value ))" />
+                    <_ReportDesignerColorProperty Label="Border color"
+                                                  Value="@border.Color"
+                                                  Mixed="@IsSelectedElementValueMixed( element => element.Border?.Color ?? ReportColor.Default )"
+                                                  Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Border width" Value="@GetSharedSelectedElementValue( element => element.Border?.Width )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" Max="@Definition.Page.Width" />
+                    <_ReportDesignerSelectProperty TValue="ReportBorderStyle"
+                                                   Label="Border style"
+                                                   Value="@border.Style"
+                                                   Mixed="@IsSelectedElementValueMixed( element => element.Border?.Style ?? ReportBorderStyle.Default )"
+                                                   Options="@BorderStyleOptions"
+                                                   Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Style = value ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Corner radius" Value="@GetSharedSelectedElementValue( element => element.Border?.Radius )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" Max="@Definition.Page.Width" />
+                }
+                else
+                {
+                    <_ReportDesignerColorProperty Label="Border color"
+                                                  Value="@border.Color"
+                                                  Mixed="@IsSelectedElementValueMixed( element => element.Border?.Color ?? ReportColor.Default )"
+                                                  Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
+                }
+                <_ReportDesignerNumberProperty TValue="double?" Label="Opacity" Value="@GetSharedSelectedElementValue( element => element.Appearance?.Opacity )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" Max="1" />
+            </_ReportDesignerPropertyGroup>
+        }
+
+    </Div>
+}
+
+@if ( SelectedCell is not null )
+{
+    <Div>
+        <_ReportDesignerPropertyGroup Title="Position">
+            <_ReportDesignerTextProperty Label="Row" Value="@(( SelectedCell.RowIndex + 1 ).ToString())" ReadOnly />
+            <_ReportDesignerTextProperty Label="Column" Value="@(( SelectedCell.ColumnIndex + 1 ).ToString())" ReadOnly />
+        </_ReportDesignerPropertyGroup>
+        <_ReportDesignerPropertyGroup Title="Span">
+            <_ReportDesignerTextProperty Label="Row span" Value="@SelectedCell.RowSpan.ToString()" ReadOnly />
+            <_ReportDesignerTextProperty Label="Column span" Value="@SelectedCell.ColumnSpan.ToString()" ReadOnly />
+        </_ReportDesignerPropertyGroup>
+    </Div>
+}
+
+@if ( !HasSelection )
+{
+    <Paragraph TextColor="TextColorSecondary">Select a band or report element to edit its properties.</Paragraph>
+}

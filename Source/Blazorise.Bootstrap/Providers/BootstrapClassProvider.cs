@@ -250,6 +250,26 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
+    #region Resizer
+
+    public override string Resizer() => "resizer";
+
+    public override string ResizerOrientation( Orientation orientation ) => $"resizer-{orientation.ToString().ToLowerInvariant()}";
+
+    public override string ResizerPlacement( Placement placement ) => $"resizer-{placement.ToString().ToLowerInvariant()}";
+
+    public override string ResizerGutter( bool showGutter ) => showGutter ? "resizer-gutter" : null;
+
+    public override string ResizerDisabled( bool disabled ) => disabled ? "resizer-disabled" : null;
+
+    public override string ResizerFocused( bool focused ) => focused ? "resizer-focused" : null;
+
+    public override string ResizerResizing( bool resizing ) => resizing ? "resizer-resizing" : null;
+
+    public override string ResizerTargetResizing( bool resizing ) => resizing ? "resizer-target-resizing" : null;
+
+    #endregion
+
     #region Rating
 
     public override string Rating() => "rating";
@@ -556,6 +576,50 @@ public class BootstrapClassProvider : ClassProvider
         Direction.Start => "dropleft",
         _ => null,
     };
+
+    public override string ContextMenu() => "dropdown context-menu";
+
+    public override string ContextMenuToggle() => "context-menu-toggle";
+
+    public override string ContextMenuBody() => $"{DropdownMenu()} context-menu-menu";
+
+    public override string ContextMenuBodyVisible( bool visible ) => DropdownMenuVisible( visible );
+
+    public override string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => DropdownMenuPositionStrategy( dropdownPositionStrategy );
+
+    public override string ContextMenuItem() => $"{DropdownItem()} context-menu-item";
+
+    public override string ContextMenuItemActive( bool active ) => DropdownItemActive( active );
+
+    public override string ContextMenuItemDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuItemContent() => "context-menu-item-content";
+
+    public override string ContextMenuItemCheck() => "context-menu-item-check";
+
+    public override string ContextMenuItemShortcut() => "context-menu-item-shortcut";
+
+    public override string ContextMenuDivider() => $"{DropdownDivider()} context-menu-divider";
+
+    public override string ContextMenuHeader() => $"{DropdownHeader()} context-menu-header";
+
+    public override string ContextMenuGroup() => "context-menu-group";
+
+    public override string ContextMenuToolbar() => "context-menu-toolbar";
+
+    public override string ContextMenuToolbarItem() => "context-menu-toolbar-item";
+
+    public override string ContextMenuToolbarItemActive( bool active ) => active ? "active" : null;
+
+    public override string ContextMenuToolbarItemDisabled( bool disabled ) => disabled ? "disabled" : null;
+
+    public override string ContextMenuSubmenu() => "context-menu-submenu";
+
+    public override string ContextMenuSubmenuTrigger() => "context-menu-submenu-trigger";
+
+    public override string ContextMenuSubmenuTriggerDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuSubmenuBody() => "context-menu-submenu-menu";
 
     #endregion
 
@@ -1456,6 +1520,143 @@ public class BootstrapClassProvider : ClassProvider
     public override string Disabled() => "disabled";
 
     public override string Collapsed() => "collapsed";
+
+    #endregion
+
+    #region DockLayout
+
+    public override string DockLayout() => "dock-layout";
+
+    public override string DockSplit() => "dock-split";
+
+    public override string DockSplitOrientation( DockSplitOrientation orientation )
+        => orientation == Blazorise.DockSplitOrientation.Vertical ? "dock-split-vertical" : "dock-split-horizontal";
+
+    public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "dock-pane";
+
+    public override string DockPanePosition( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Center => "dock-pane-center",
+            Blazorise.DockPanePosition.Right => "dock-pane-right",
+            Blazorise.DockPanePosition.Top => "dock-pane-top",
+            Blazorise.DockPanePosition.Bottom => "dock-pane-bottom",
+            _ => "dock-pane-left",
+        };
+
+    public override string DockPaneResizable( bool resizable ) => resizable ? "dock-pane-resizable" : null;
+
+    public override string DockPaneCollapsed( bool collapsed ) => collapsed ? "dock-pane-collapsed" : null;
+
+    public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "dock-pane-autohide" : null;
+
+    public override string DockPaneBordered() => "dock-pane-bordered";
+
+    public override string DockPaneAutoHideRail( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "dock-auto-hide-rail dock-auto-hide-rail-right",
+            Blazorise.DockPanePosition.Top => "dock-auto-hide-rail dock-auto-hide-rail-top",
+            Blazorise.DockPanePosition.Bottom => "dock-auto-hide-rail dock-auto-hide-rail-bottom",
+            _ => "dock-auto-hide-rail dock-auto-hide-rail-left",
+        };
+
+    public override string DockPaneAutoHideTab( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "dock-pane-autohide-tab dock-pane-autohide-tab-right",
+            Blazorise.DockPanePosition.Top => "dock-pane-autohide-tab dock-pane-autohide-tab-top",
+            Blazorise.DockPanePosition.Bottom => "dock-pane-autohide-tab dock-pane-autohide-tab-bottom",
+            _ => "dock-pane-autohide-tab dock-pane-autohide-tab-left",
+        };
+
+    public override string DockPaneAutoHideFlyout( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "dock-auto-hide-flyout dock-auto-hide-flyout-right",
+            Blazorise.DockPanePosition.Top => "dock-auto-hide-flyout dock-auto-hide-flyout-top",
+            Blazorise.DockPanePosition.Bottom => "dock-auto-hide-flyout dock-auto-hide-flyout-bottom",
+            _ => "dock-auto-hide-flyout dock-auto-hide-flyout-left",
+        };
+
+    public override string DockPaneHeader() => "dock-pane-header";
+
+    public override string DockPaneHeaderContent() => "dock-pane-header-content";
+
+    public override string DockPaneHeaderActions() => "dock-pane-header-actions";
+
+    public override string DockPaneHeaderAction() => "dock-pane-header-action";
+
+    public override string DockPaneBody() => "dock-pane-body";
+
+    public override string DockPaneFooter() => "dock-pane-footer";
+
+    public override string DockContent() => "dock-content";
+
+    public override string DockPaneTabs() => "dock-pane-tabs";
+
+    public override string DockPaneTabsPosition( DockPanePosition position )
+        => null;
+
+    public override string DockPaneTabPosition( DockPaneTabPosition position )
+        => position == Blazorise.DockPaneTabPosition.Top ? "dock-pane-tabs-top" : null;
+
+    public override string DockPaneTabsHost() => "dock-tabs-host";
+
+    public override string DockPaneTab( bool active ) => active ? "dock-pane-tab active" : "dock-pane-tab";
+
+    public override string DockPaneTabLabel() => "dock-pane-tab-label";
+
+    public override string DockPaneTabClose() => "dock-pane-tab-close";
+
+    public override string DockLayoutCompass() => "dock-compass";
+
+    public override string DockLayoutCompassZone( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Center => "dock-compass-zone dock-compass-zone-center",
+            DockZone.Right => "dock-compass-zone dock-compass-zone-right",
+            DockZone.Top => "dock-compass-zone dock-compass-zone-top",
+            DockZone.Bottom => "dock-compass-zone dock-compass-zone-bottom",
+            _ => "dock-compass-zone dock-compass-zone-left",
+        };
+
+        return active ? $"{baseClass} active" : baseClass;
+    }
+
+    public override string DockLayoutCompassZonePlacement( DockCompassZone zone )
+        => zone switch
+        {
+            DockCompassZone.TopOuter => "dock-compass-zone-top-outer",
+            DockCompassZone.TopInner => "dock-compass-zone-top-inner",
+            DockCompassZone.LeftOuter => "dock-compass-zone-start-outer",
+            DockCompassZone.LeftInner => "dock-compass-zone-start-inner",
+            DockCompassZone.RightInner => "dock-compass-zone-end-inner",
+            DockCompassZone.RightOuter => "dock-compass-zone-end-outer",
+            DockCompassZone.BottomInner => "dock-compass-zone-bottom-inner",
+            DockCompassZone.BottomOuter => "dock-compass-zone-bottom-outer",
+            _ => "dock-compass-zone-center",
+        };
+
+    public override string DockLayoutCompassZoneIcon() => "dock-compass-zone-icon";
+
+    public override string DockLayoutDragPreview() => "dock-drag-preview";
+
+    public override string DockLayoutDropPreview() => "dock-drop-preview";
+
+    public override string DockLayoutShellGuide( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Right => "dock-shell-guide dock-shell-guide-right",
+            DockZone.Top => "dock-shell-guide dock-shell-guide-top",
+            DockZone.Bottom => "dock-shell-guide dock-shell-guide-bottom",
+            _ => "dock-shell-guide dock-shell-guide-left",
+        };
+
+        return active ? $"{baseClass} active" : baseClass;
+    }
 
     #endregion
 

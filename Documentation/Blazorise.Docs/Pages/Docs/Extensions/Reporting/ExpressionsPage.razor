@@ -1,0 +1,33 @@
+@page "/docs/extensions/reporting/expressions"
+
+<Seo Canonical="/docs/extensions/reporting/expressions" Title="Blazorise Reporting expressions" Description="Use field tokens, formulas, aggregates, and running totals in Blazorise Reporting." />
+
+<DocsPageTitle Path="Extensions/Reporting/Expressions" AddedVersion="New">
+    Reporting expressions
+</DocsPageTitle>
+
+<DocsPageLead>
+    Expressions use field tokens such as <Code>{Customer.Name}</Code>. They can be used by text templates, formula fields, aggregates, running totals, and formula-enabled properties.
+</DocsPageLead>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Formula fields">
+        Formula fields create reusable calculated values that appear in the field explorer and can be dropped onto the report.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ReportingFormulaFieldsExample" Outlined FullWidth>
+        <ReportingFormulaFieldsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Aggregates and running totals">
+        Aggregates summarize a field at render time. Running totals accumulate values as detail rows are rendered.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ReportingRunningTotalsExample" Outlined FullWidth>
+        <ReportingRunningTotalsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/reporting/api" Name="<Report />" />
+</DocsPageApi>

@@ -1,0 +1,9 @@
+@namespace Blazorise.Pdf
+@inherits BasePdfElement
+
+@if ( tableContext is not null )
+{
+    <CascadingValue Value="@tableContext" IsFixed="false">
+        @ChildContent
+    </CascadingValue>
+}

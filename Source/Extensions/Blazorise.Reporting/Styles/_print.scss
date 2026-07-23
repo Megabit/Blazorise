@@ -1,0 +1,22 @@
+@media print {
+    .b-report-toolbar,
+    .b-report-designer-layout {
+        display: none !important;
+    }
+
+    .b-report-viewer {
+        padding: 0 !important;
+        overflow: visible !important;
+        border: 0 !important;
+        background: var(--b-report-color-surface) !important;
+
+        &-pages {
+            display: block;
+        }
+    }
+
+    .b-report-page {
+        margin: 0 auto !important;
+        box-shadow: none !important;
+    }
+}

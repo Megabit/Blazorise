@@ -1,4 +1,4 @@
-﻿window.blazoriseDemo = {
+window.blazoriseDemo = {
     configureQuillJs: (options) => {
         var link = Quill.import("formats/link");
 

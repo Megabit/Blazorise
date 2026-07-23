@@ -92,12 +92,14 @@ public static class Config
         { typeof( INotificationService ), typeof( NotificationService ) },
         { typeof( IPageProgressService ), typeof( PageProgressService ) },
         { typeof( IBreakpointService ), typeof( BreakpointService ) },
+        { typeof( IDocumentObserver ), typeof( DocumentObserver ) },
         { typeof( IGestureService ), typeof( GestureService ) },
         { typeof( IModalService ), typeof( ModalService ) },
         { typeof( IToastService ), typeof( ToastService ) },
         { typeof( IDropdownCoordinator ), typeof( DropdownCoordinator ) },
         { typeof( IOffcanvasService ), typeof( OffcanvasService ) },
         { typeof( IOnScreenKeyboardService ), typeof( OnScreenKeyboardService ) },
+        { typeof( IFontProvider ), typeof( FontProvider ) },
     };
 
     /// <summary>
@@ -110,9 +112,11 @@ public static class Config
         { typeof( IJSButtonModule ), typeof( JSButtonModule ) },
         { typeof( IJSClosableModule ), typeof( JSClosableModule ) },
         { typeof( IJSBreakpointModule ), typeof( JSBreakpointModule ) },
+        { typeof( IJSDocumentObserverModule ), typeof( JSDocumentObserverModule ) },
         { typeof( IJSGesturesModule ), typeof( JSGesturesModule ) },
         { typeof( IJSTextInputModule ), typeof( JSTextInputModule ) },
         { typeof( IJSRangeSliderModule ), typeof( JSRangeSliderModule ) },
+        { typeof( IJSResizerModule ), typeof( JSResizerModule ) },
         { typeof( IJSMemoInputModule ), typeof( JSMemoInputModule ) },
         { typeof( IJSNumericPickerModule ), typeof( JSNumericPickerModule ) },
         { typeof( IJSDatePickerModule ), typeof( JSDatePickerModule ) },
@@ -125,6 +129,8 @@ public static class Config
         { typeof( IJSInputMaskModule ), typeof( JSInputMaskModule ) },
         { typeof( IJSDragDropModule ), typeof( JSDragDropModule ) },
         { typeof( IJSDropdownModule ), typeof( JSDropdownModule ) },
+        { typeof( IJSContextMenuModule ), typeof( JSContextMenuModule ) },
+        { typeof( IJSDockLayoutModule ), typeof( JSDockLayoutModule ) },
     };
 
     /// <summary>

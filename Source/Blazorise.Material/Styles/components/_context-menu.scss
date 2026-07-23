@@ -1,0 +1,98 @@
+.mui-context-menu {
+    --context-menu-zindex: var(--mui-zindex-popover);
+    display: contents;
+}
+
+.mui-context-menu-toggle {
+    display: contents;
+}
+
+.mui-context-menu-menu,
+.mui-context-menu-submenu-menu {
+    min-inline-size: 12rem;
+    max-inline-size: min(24rem, calc(100vw - 1rem));
+    max-block-size: calc(100vh - 1rem);
+}
+
+.mui-context-menu-menu {
+    position: fixed;
+    display: block;
+    z-index: var(--context-menu-zindex, 1080);
+}
+
+.mui-context-menu-item {
+    cursor: pointer;
+}
+
+.mui-context-menu-item-content {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    width: 100%;
+}
+
+.mui-context-menu-item-check {
+    display: inline-block;
+}
+
+.mui-context-menu-item-shortcut {
+    margin-left: auto;
+}
+
+.mui-context-menu-header {
+    cursor: default;
+}
+
+.mui-context-menu-toolbar {
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+    padding: .25rem;
+}
+
+.mui-context-menu-toolbar-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .375rem;
+    min-inline-size: 2rem;
+    min-block-size: 2rem;
+    padding: .25rem .5rem;
+    color: var(--mui-palette-text-primary);
+    background: transparent;
+    border: 0;
+    border-radius: var(--mui-shape-border-radius);
+    cursor: pointer;
+}
+
+.mui-context-menu-toolbar-item:hover,
+.mui-context-menu-toolbar-item:focus {
+    background-color: var(--mui-palette-action-hover);
+}
+
+.mui-context-menu-toolbar-item-active {
+    color: var(--mui-palette-primary-main);
+    background-color: var(--mui-palette-action-selected);
+}
+
+.mui-context-menu-toolbar-item:disabled,
+.mui-context-menu-toolbar-item-disabled {
+    color: var(--mui-palette-text-disabled);
+    cursor: default;
+    pointer-events: none;
+}
+
+.mui-context-menu-submenu {
+    position: relative;
+}
+
+.mui-context-menu-submenu-trigger {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    cursor: default;
+}
+
+.mui-context-menu-submenu-menu {
+    z-index: calc(var(--context-menu-zindex, 1080) + 1);
+}

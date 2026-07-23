@@ -250,6 +250,26 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
+    #region Resizer
+
+    public override string Resizer() => "ant-resizer";
+
+    public override string ResizerOrientation( Orientation orientation ) => $"ant-resizer-{orientation.ToString().ToLowerInvariant()}";
+
+    public override string ResizerPlacement( Placement placement ) => $"ant-resizer-{placement.ToString().ToLowerInvariant()}";
+
+    public override string ResizerGutter( bool showGutter ) => showGutter ? "ant-resizer-gutter" : null;
+
+    public override string ResizerDisabled( bool disabled ) => disabled ? "ant-resizer-disabled" : null;
+
+    public override string ResizerFocused( bool focused ) => focused ? "ant-resizer-focused" : null;
+
+    public override string ResizerResizing( bool resizing ) => resizing ? "ant-resizer-resizing" : null;
+
+    public override string ResizerTargetResizing( bool resizing ) => resizing ? "ant-resizer-target-resizing" : null;
+
+    #endregion
+
     #region Rating
 
     public override string Rating() => "ant-rate";
@@ -563,6 +583,50 @@ public class AntDesignClassProvider : ClassProvider
     public override string DropdownToggleIcon( bool visible ) => null;
 
     public override string DropdownDirection( Direction direction ) => null;
+
+    public override string ContextMenu() => "ant-context-menu";
+
+    public override string ContextMenuToggle() => "ant-context-menu-toggle";
+
+    public override string ContextMenuBody() => $"{DropdownMenu()} ant-context-menu-menu";
+
+    public override string ContextMenuBodyVisible( bool visible ) => DropdownMenuVisible( visible );
+
+    public override string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => DropdownMenuPositionStrategy( dropdownPositionStrategy );
+
+    public override string ContextMenuItem() => $"{DropdownItem()} ant-context-menu-item";
+
+    public override string ContextMenuItemActive( bool active ) => DropdownItemActive( active );
+
+    public override string ContextMenuItemDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuItemContent() => "ant-context-menu-item-content";
+
+    public override string ContextMenuItemCheck() => "ant-context-menu-item-check";
+
+    public override string ContextMenuItemShortcut() => "ant-context-menu-item-shortcut";
+
+    public override string ContextMenuDivider() => $"{DropdownDivider()} ant-context-menu-divider";
+
+    public override string ContextMenuHeader() => $"{DropdownHeader()} ant-context-menu-header";
+
+    public override string ContextMenuGroup() => "ant-context-menu-group";
+
+    public override string ContextMenuToolbar() => "ant-context-menu-toolbar";
+
+    public override string ContextMenuToolbarItem() => "ant-context-menu-toolbar-item";
+
+    public override string ContextMenuToolbarItemActive( bool active ) => active ? "ant-context-menu-toolbar-item-active" : null;
+
+    public override string ContextMenuToolbarItemDisabled( bool disabled ) => disabled ? "ant-context-menu-toolbar-item-disabled" : null;
+
+    public override string ContextMenuSubmenu() => "ant-context-menu-submenu";
+
+    public override string ContextMenuSubmenuTrigger() => "ant-context-menu-submenu-trigger";
+
+    public override string ContextMenuSubmenuTriggerDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuSubmenuBody() => "ant-context-menu-submenu-menu";
 
     #endregion
 
@@ -1848,6 +1912,140 @@ public class AntDesignClassProvider : ClassProvider
     public override string DescriptionListTerm() => null;
 
     public override string DescriptionListDefinition() => null;
+
+    #endregion
+
+    #region DockLayout
+
+    public override string DockLayout() => "ant-dock-layout";
+
+    public override string DockSplit() => "ant-dock-split";
+
+    public override string DockSplitOrientation( DockSplitOrientation orientation )
+        => orientation == Blazorise.DockSplitOrientation.Vertical ? "ant-dock-split-vertical" : "ant-dock-split-horizontal";
+
+    public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "ant-dock-pane";
+
+    public override string DockPanePosition( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Center => "ant-dock-pane-center",
+            Blazorise.DockPanePosition.Right => "ant-dock-pane-right",
+            Blazorise.DockPanePosition.Top => "ant-dock-pane-top",
+            Blazorise.DockPanePosition.Bottom => "ant-dock-pane-bottom",
+            _ => "ant-dock-pane-left",
+        };
+
+    public override string DockPaneResizable( bool resizable ) => resizable ? "ant-dock-pane-resizable" : null;
+
+    public override string DockPaneCollapsed( bool collapsed ) => collapsed ? "ant-dock-pane-collapsed" : null;
+
+    public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "ant-dock-pane-autohide" : null;
+
+    public override string DockPaneBordered() => "ant-dock-pane-bordered";
+
+    public override string DockPaneAutoHideRail( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "ant-dock-auto-hide-rail ant-dock-auto-hide-rail-right",
+            Blazorise.DockPanePosition.Top => "ant-dock-auto-hide-rail ant-dock-auto-hide-rail-top",
+            Blazorise.DockPanePosition.Bottom => "ant-dock-auto-hide-rail ant-dock-auto-hide-rail-bottom",
+            _ => "ant-dock-auto-hide-rail ant-dock-auto-hide-rail-left",
+        };
+
+    public override string DockPaneAutoHideTab( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "ant-dock-pane-autohide-tab ant-dock-pane-autohide-tab-right",
+            Blazorise.DockPanePosition.Top => "ant-dock-pane-autohide-tab ant-dock-pane-autohide-tab-top",
+            Blazorise.DockPanePosition.Bottom => "ant-dock-pane-autohide-tab ant-dock-pane-autohide-tab-bottom",
+            _ => "ant-dock-pane-autohide-tab ant-dock-pane-autohide-tab-left",
+        };
+
+    public override string DockPaneAutoHideFlyout( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "ant-dock-auto-hide-flyout ant-dock-auto-hide-flyout-right",
+            Blazorise.DockPanePosition.Top => "ant-dock-auto-hide-flyout ant-dock-auto-hide-flyout-top",
+            Blazorise.DockPanePosition.Bottom => "ant-dock-auto-hide-flyout ant-dock-auto-hide-flyout-bottom",
+            _ => "ant-dock-auto-hide-flyout ant-dock-auto-hide-flyout-left",
+        };
+
+    public override string DockPaneHeader() => "ant-dock-pane-header";
+
+    public override string DockPaneHeaderContent() => "ant-dock-pane-header-content";
+
+    public override string DockPaneHeaderActions() => "ant-dock-pane-header-actions";
+
+    public override string DockPaneHeaderAction() => "ant-dock-pane-header-action";
+
+    public override string DockPaneBody() => "ant-dock-pane-body";
+
+    public override string DockPaneFooter() => "ant-dock-pane-footer";
+
+    public override string DockContent() => "ant-dock-content";
+
+    public override string DockPaneTabs() => "ant-dock-pane-tabs";
+
+    public override string DockPaneTabPosition( DockPaneTabPosition position )
+        => position == Blazorise.DockPaneTabPosition.Top ? "ant-dock-pane-tabs-top" : null;
+
+    public override string DockPaneTabsHost() => "ant-dock-tabs-host";
+
+    public override string DockPaneTab( bool active ) => active ? "ant-dock-pane-tab ant-dock-pane-tab-active" : "ant-dock-pane-tab";
+
+    public override string DockPaneTabLabel() => "ant-dock-pane-tab-label";
+
+    public override string DockPaneTabClose() => "ant-dock-pane-tab-close";
+
+    public override string DockLayoutCompass() => "ant-dock-compass";
+
+    public override string DockLayoutCompassZone( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Center => "ant-dock-compass-zone ant-dock-compass-zone-center",
+            DockZone.Right => "ant-dock-compass-zone ant-dock-compass-zone-right",
+            DockZone.Top => "ant-dock-compass-zone ant-dock-compass-zone-top",
+            DockZone.Bottom => "ant-dock-compass-zone ant-dock-compass-zone-bottom",
+            _ => "ant-dock-compass-zone ant-dock-compass-zone-left",
+        };
+
+        return active ? $"{baseClass} ant-dock-compass-zone-active" : baseClass;
+    }
+
+    public override string DockLayoutCompassZonePlacement( DockCompassZone zone )
+        => zone switch
+        {
+            DockCompassZone.TopOuter => "ant-dock-compass-zone-top-outer",
+            DockCompassZone.TopInner => "ant-dock-compass-zone-top-inner",
+            DockCompassZone.LeftOuter => "ant-dock-compass-zone-left-outer",
+            DockCompassZone.LeftInner => "ant-dock-compass-zone-left-inner",
+            DockCompassZone.RightInner => "ant-dock-compass-zone-right-inner",
+            DockCompassZone.RightOuter => "ant-dock-compass-zone-right-outer",
+            DockCompassZone.BottomInner => "ant-dock-compass-zone-bottom-inner",
+            DockCompassZone.BottomOuter => "ant-dock-compass-zone-bottom-outer",
+            _ => "ant-dock-compass-zone-center",
+        };
+
+    public override string DockLayoutCompassZoneIcon() => "ant-dock-compass-zone-icon";
+
+    public override string DockLayoutDragPreview() => "ant-dock-drag-preview";
+
+    public override string DockLayoutDropPreview() => "ant-dock-drop-preview";
+
+    public override string DockLayoutShellGuide( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Right => "ant-dock-shell-guide ant-dock-shell-guide-right",
+            DockZone.Top => "ant-dock-shell-guide ant-dock-shell-guide-top",
+            DockZone.Bottom => "ant-dock-shell-guide ant-dock-shell-guide-bottom",
+            _ => "ant-dock-shell-guide ant-dock-shell-guide-left",
+        };
+
+        return active ? $"{baseClass} ant-dock-shell-guide-active" : baseClass;
+    }
 
     #endregion
 

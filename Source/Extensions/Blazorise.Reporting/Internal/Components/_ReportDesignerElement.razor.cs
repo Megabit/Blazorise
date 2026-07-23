@@ -1,0 +1,500 @@
+#region Using directives
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Blazorise.Utilities;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
+#endregion
+
+namespace Blazorise.Reporting.Internal;
+
+/// <summary>
+/// Renders a report element on the designer or viewer surface.
+/// </summary>
+public partial class _ReportDesignerElement
+{
+    #region Members
+
+    private ElementReference textEditElement;
+    private string textEditValue;
+    private bool textEditCancelled;
+    private bool focusTextEdit;
+    private bool textExpressionTokenProtectionActive;
+    private JSReportingModule reportingModule;
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc />
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( parameters.TryGetValue<ReportElementDefinition>( nameof( Element ), out _ ) )
+        {
+            DirtyClasses();
+            DirtyStyles();
+        }
+
+        if ( ( parameters.TryGetValue<ReportDefinition>( nameof( Definition ), out ReportDefinition paramDefinition ) && paramDefinition != Definition )
+             || ( parameters.TryGetValue<ReportBandDefinition>( nameof( Section ), out ReportBandDefinition paramSection ) && paramSection != Section )
+             || ( parameters.TryGetValue<object>( nameof( Data ), out object paramData ) && paramData != Data )
+             || ( parameters.TryGetValue<object>( nameof( Item ), out object paramItem ) && paramItem != Item )
+             || ( parameters.TryGetValue<IReadOnlyDictionary<string, object>>( nameof( RunningTotals ), out IReadOnlyDictionary<string, object> paramRunningTotals ) && paramRunningTotals != RunningTotals ) )
+        {
+            DirtyStyles();
+        }
+
+        if ( ( parameters.TryGetValue<bool>( nameof( DesignMode ), out bool paramDesignMode ) && paramDesignMode != DesignMode )
+             || ( parameters.TryGetValue<bool>( nameof( Editable ), out bool paramEditable ) && paramEditable != Editable )
+             || ( parameters.TryGetValue<bool>( nameof( LayoutLocked ), out bool paramLayoutLocked ) && paramLayoutLocked != LayoutLocked )
+             || ( parameters.TryGetValue<bool>( nameof( AllowPointerDragThrough ), out bool paramAllowPointerDragThrough ) && paramAllowPointerDragThrough != AllowPointerDragThrough )
+             || ( parameters.TryGetValue<bool>( nameof( Selected ), out bool paramSelected ) && paramSelected != Selected )
+             || ( parameters.TryGetValue<bool>( nameof( Editing ), out bool paramEditing ) && paramEditing != Editing )
+             || ( parameters.TryGetValue<bool>( nameof( TextEditingActive ), out bool paramTextEditingActive ) && paramTextEditingActive != TextEditingActive )
+             || ( parameters.TryGetValue<int>( nameof( SelectionVersion ), out int paramSelectionVersion ) && paramSelectionVersion != SelectionVersion ) )
+        {
+            DirtyClasses();
+        }
+
+        if ( ( parameters.TryGetValue<bool>( nameof( DesignMode ), out bool paramDesignModeForStyle ) && paramDesignModeForStyle != DesignMode )
+             || ( parameters.TryGetValue<string>( nameof( ElementKey ), out string paramElementKey ) && paramElementKey != ElementKey )
+             || ( parameters.TryGetValue<string>( nameof( SelectedCellKey ), out string paramSelectedCellKey ) && paramSelectedCellKey != SelectedCellKey )
+             || ( parameters.TryGetValue<string>( nameof( ChildEditingElementKey ), out string paramChildEditingElementKey ) && paramChildEditingElementKey != ChildEditingElementKey ) )
+        {
+            DirtyStyles();
+        }
+
+        if ( parameters.TryGetValue<bool>( nameof( Editing ), out bool paramEditingForFocus ) && paramEditingForFocus && paramEditingForFocus != Editing )
+        {
+            if ( !parameters.TryGetValue<ReportElementDefinition>( nameof( Element ), out ReportElementDefinition editingElement ) )
+                editingElement = Element;
+
+            textEditValue = ( editingElement as ReportTextElementDefinition )?.Text;
+            textEditCancelled = false;
+            focusTextEdit = true;
+        }
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( focusTextEdit )
+        {
+            focusTextEdit = false;
+            await textEditElement.FocusAsync();
+            await ProtectTextExpressionTokens();
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+        {
+            await ClearTextExpressionTokenProtection();
+
+            if ( reportingModule is not null )
+            {
+                try
+                {
+                    await reportingModule.DisposeAsync();
+                }
+                catch ( JSDisconnectedException )
+                {
+                }
+            }
+        }
+
+        await base.DisposeAsync( disposing );
+    }
+
+    /// <inheritdoc />
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-report-element" );
+        builder.Append( $"b-report-element-{Element.Type.ToString().ToLowerInvariant()}" );
+        builder.Append( "b-report-element-line-vertical", Element is ReportLineElementDefinition { Orientation: Orientation.Vertical } );
+        builder.Append( Element.Class );
+
+        builder.Append( "b-report-element-design", DesignMode );
+        builder.Append( "b-report-element-design-suppressed", DesignMode && ElementSuppressed );
+        builder.Append( "b-report-element-can-grow", !DesignMode && Element.Type != ReportElementType.Panel && Element.CanGrow?.Value == true );
+        builder.Append( "b-report-element-design-disabled", IsDesignerDisabled );
+        builder.Append( "b-report-element-design-active", DesignMode && Selected );
+        builder.Append( "b-report-element-design-colliding", DesignMode && Colliding );
+        builder.Append( "b-report-element-design-editing", IsDesignerEditing );
+
+        base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc />
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        ReportElementDefinitionHelper.BuildStyle( builder, Element, Definition, Data, Item, Section, DesignMode );
+
+        base.BuildStyles( builder );
+    }
+
+    private string GetFieldText()
+    {
+        if ( Element is not ReportFieldElementDefinition fieldElement )
+            return string.Empty;
+
+        if ( DesignMode )
+            return ReportExpressionFormatter.FormatFieldExpression( Definition, fieldElement );
+
+        return ReportDataResolver.FormatValue( ReportExpressionResolver.ResolveFieldValue( Definition, Data, Item, fieldElement, RunningTotals ), fieldElement.Format );
+    }
+
+    private string GetText()
+    {
+        if ( Element is not ReportTextElementDefinition textElement )
+            return string.Empty;
+
+        return DesignMode
+            ? textElement.Text
+            : ReportTextTemplateResolver.ResolveText( Definition, Data, Item, textElement, RunningTotals );
+    }
+
+    private string GetSubreportText()
+    {
+        return Element is ReportSubreportElementDefinition subreportElement
+            ? ReportSubreportResolver.GetDisplayName( subreportElement )
+            : "Subreport";
+    }
+
+    private static IFluentObjectFit GetImageObjectFit( ReportImageElementDefinition imageElement )
+    {
+        return ( imageElement?.Fit ?? ReportImageFit.Default ) switch
+        {
+            ReportImageFit.Cover => Blazorise.ObjectFit.Cover,
+            ReportImageFit.Fill => Blazorise.ObjectFit.Fill,
+            ReportImageFit.None => Blazorise.ObjectFit.None,
+            ReportImageFit.ScaleDown => Blazorise.ObjectFit.Scale,
+            _ => Blazorise.ObjectFit.Contain,
+        };
+    }
+
+    private async Task CompleteTextEdit()
+    {
+        if ( !Editing || textEditCancelled )
+            return;
+
+        await ClearTextExpressionTokenProtection();
+
+        if ( TextEditCommitted is not null )
+            await TextEditCommitted.Invoke( ElementKey, textEditValue );
+    }
+
+    private async Task HandleTextEditKeyDown( KeyboardEventArgs eventArgs )
+    {
+        if ( eventArgs.Key == "Escape" )
+        {
+            textEditCancelled = true;
+            await ClearTextExpressionTokenProtection();
+
+            if ( TextEditCancelled is not null )
+                await TextEditCancelled.Invoke( ElementKey );
+
+            return;
+        }
+
+        if ( eventArgs.Key == "Enter" && eventArgs.CtrlKey )
+            await CompleteTextEdit();
+    }
+
+    private void OnTextEditInput( ChangeEventArgs eventArgs )
+    {
+        textEditValue = eventArgs.Value?.ToString();
+    }
+
+    private Task OnContextMenu( MouseEventArgs eventArgs )
+    {
+        if ( CanReceiveDesignerInteraction && ContextMenu is not null )
+            return ContextMenu.Invoke( ContextMenuKey ?? ElementKey, eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnClicked( MouseEventArgs eventArgs )
+    {
+        if ( CanReceiveDesignerInteraction )
+            return Clicked.InvokeAsync( new( ElementKey, eventArgs ) );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnDoubleClicked( MouseEventArgs eventArgs )
+    {
+        if ( CanReceiveDesignerInteraction && DoubleClicked is not null )
+            return DoubleClicked.Invoke( ElementKey, eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnPointerDown( PointerEventArgs eventArgs )
+    {
+        if ( CanHandleDesignerPointerDown && PointerDown is not null )
+            return PointerDown.Invoke( ElementKey, eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnResizeStarted( int handle, PointerEventArgs eventArgs )
+    {
+        if ( ShowResizeHandles && ResizeStarted is not null )
+            return ResizeStarted.Invoke( ElementKey, handle, eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private async Task ProtectTextExpressionTokens()
+    {
+        EnsureReportingModule();
+        await reportingModule.ProtectTextExpressionTokens( textEditElement );
+        textExpressionTokenProtectionActive = true;
+    }
+
+    private async Task ClearTextExpressionTokenProtection()
+    {
+        if ( !textExpressionTokenProtectionActive || reportingModule is null )
+            return;
+
+        try
+        {
+            await reportingModule.ClearTextExpressionTokenProtection( textEditElement );
+        }
+        catch ( JSDisconnectedException )
+        {
+        }
+
+        textExpressionTokenProtectionActive = false;
+    }
+
+    private void EnsureReportingModule()
+    {
+        reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
+    }
+
+    #endregion
+
+    #region Properties
+
+    private string ImageAlternativeText => ( Element as ReportImageElementDefinition )?.Text ?? Element?.Name;
+
+    private bool CanEditText => Element is ReportTextElementDefinition;
+
+    private bool CanHandleDesignerPointerDown => CanReceiveDesignerInteraction && !Editing;
+
+    private bool CanReceiveDesignerInteraction => DesignMode && Editable;
+
+    private bool CanStartDesignerPointerDrag => CanHandleDesignerPointerDown && !TextEditingActive && !LayoutLocked;
+
+    private bool CanStartInlineTextEdit => CanReceiveDesignerInteraction && !ElementSuppressed && CanEditText;
+
+    private bool ShouldStopPointerDownPropagation => CanHandleDesignerPointerDown && !AllowPointerDragThrough;
+
+    private bool ElementSuppressed => Element?.Suppress?.Value == true;
+
+    private bool IsDesignerDisabled => DesignMode && ( !Editable || ElementSuppressed );
+
+    private bool IsDesignerEditing => CanReceiveDesignerInteraction && !ElementSuppressed && Editing;
+
+    private bool ShowResizeHandles => CanReceiveDesignerInteraction && !ElementSuppressed && Selected && !Editing && !LayoutLocked;
+
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    [Inject] private BlazoriseOptions BlazoriseOptions { get; set; }
+
+    /// <summary>
+    /// Root report data used when resolving field values.
+    /// </summary>
+    [Parameter] public object Data { get; set; }
+
+    /// <summary>
+    /// Report definition that owns the element.
+    /// </summary>
+    [Parameter] public ReportDefinition Definition { get; set; }
+
+    /// <summary>
+    /// Report band that owns the element.
+    /// </summary>
+    [Parameter] public ReportBandDefinition Section { get; set; }
+
+    /// <summary>
+    /// Current band item used for repeated detail rendering.
+    /// </summary>
+    [Parameter] public object Item { get; set; }
+
+    /// <summary>
+    /// Running total values available at the current render position.
+    /// </summary>
+    [Parameter] public IReadOnlyDictionary<string, object> RunningTotals { get; set; }
+
+    /// <summary>
+    /// Version that changes whenever report mutations invalidate preview rendering.
+    /// </summary>
+    [Parameter] public int RenderMutationVersion { get; set; }
+
+    /// <summary>
+    /// Report element definition rendered on the surface.
+    /// </summary>
+    [Parameter] public ReportElementDefinition Element { get; set; }
+
+    /// <summary>
+    /// Stable element key used by the designer selection system.
+    /// </summary>
+    [Parameter] public string ElementKey { get; set; }
+
+    /// <summary>
+    /// Alternate key sent when the element context menu is requested.
+    /// </summary>
+    [Parameter] public string ContextMenuKey { get; set; }
+
+    /// <summary>
+    /// Section index rendered on the designer surface.
+    /// </summary>
+    [Parameter] public int SectionIndex { get; set; }
+
+    /// <summary>
+    /// Indicates that the element is rendered on the designer surface.
+    /// </summary>
+    [Parameter] public bool DesignMode { get; set; }
+
+    /// <summary>
+    /// Allows the element to receive designer interactions.
+    /// </summary>
+    [Parameter] public bool Editable { get; set; }
+
+    /// <summary>
+    /// Prevents designer drag and resize interactions while allowing selection and editing.
+    /// </summary>
+    [Parameter] public bool LayoutLocked { get; set; }
+
+    /// <summary>
+    /// Allows pointer drag starts to bubble to the parent element.
+    /// </summary>
+    [Parameter] public bool AllowPointerDragThrough { get; set; }
+
+    /// <summary>
+    /// Indicates that the element is part of the current selection.
+    /// </summary>
+    [Parameter] public bool Selected { get; set; }
+
+    /// <summary>
+    /// Indicates that the element overlaps a sibling element.
+    /// </summary>
+    [Parameter] public bool Colliding { get; set; }
+
+    /// <summary>
+    /// Version that changes when designer selection changes.
+    /// </summary>
+    [Parameter] public int SelectionVersion { get; set; }
+
+    /// <summary>
+    /// Indicates that the text element is currently edited directly on the designer surface.
+    /// </summary>
+    [Parameter] public bool Editing { get; set; }
+
+    /// <summary>
+    /// Indicates that a text element is currently edited directly on the designer surface.
+    /// </summary>
+    [Parameter] public bool TextEditingActive { get; set; }
+
+    /// <summary>
+    /// Identifier of the child element currently edited inside this element.
+    /// </summary>
+    [Parameter] public string ChildEditingElementKey { get; set; }
+
+    /// <summary>
+    /// Identifier of the selected table cell.
+    /// </summary>
+    [Parameter] public string SelectedCellKey { get; set; }
+
+    /// <summary>
+    /// Raised when the element is clicked on the designer surface.
+    /// </summary>
+    [Parameter] public EventCallback<ReportDesignerSelectionMouseEventArgs> Clicked { get; set; }
+
+    /// <summary>
+    /// Raised when the element is double-clicked on the designer surface.
+    /// </summary>
+    [Parameter] public Func<string, MouseEventArgs, Task> DoubleClicked { get; set; }
+
+    /// <summary>
+    /// Raised when the element context menu is requested.
+    /// </summary>
+    [Parameter] public Func<string, MouseEventArgs, Task> ContextMenu { get; set; }
+
+    /// <summary>
+    /// Raised when a table cell inside this element is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<ReportDesignerSelectionMouseEventArgs> TableCellClicked { get; set; }
+
+    /// <summary>
+    /// Raised when a table cell context menu is requested.
+    /// </summary>
+    [Parameter] public Func<int, string, MouseEventArgs, Task> TableCellContextMenu { get; set; }
+
+    /// <summary>
+    /// Determines whether a child element inside this element is selected.
+    /// </summary>
+    [Parameter] public Func<string, bool> IsChildElementSelected { get; set; }
+
+    /// <summary>
+    /// Determines whether a child element inside this element overlaps a sibling element.
+    /// </summary>
+    [Parameter] public Func<string, bool> IsChildElementColliding { get; set; }
+
+    /// <summary>
+    /// Raised when a child element inside this element is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<ReportDesignerSelectionMouseEventArgs> ChildElementClicked { get; set; }
+
+    /// <summary>
+    /// Raised when a child element inside this element is double-clicked.
+    /// </summary>
+    [Parameter] public Func<string, MouseEventArgs, Task> ChildElementDoubleClicked { get; set; }
+
+    /// <summary>
+    /// Raised when inline text editing commits a child element value.
+    /// </summary>
+    [Parameter] public Func<string, string, Task> ChildElementTextEditCommitted { get; set; }
+
+    /// <summary>
+    /// Raised when inline text editing is cancelled for a child element.
+    /// </summary>
+    [Parameter] public Func<string, Task> ChildElementTextEditCancelled { get; set; }
+
+    /// <summary>
+    /// Raised when a table row or column resize starts.
+    /// </summary>
+    [Parameter] public Func<string, string, ReportTableResizeKind, int, PointerEventArgs, Task> TableResizeStarted { get; set; }
+
+    /// <summary>
+    /// Raised when inline text editing commits a new value.
+    /// </summary>
+    [Parameter] public Func<string, string, Task> TextEditCommitted { get; set; }
+
+    /// <summary>
+    /// Raised when inline text editing is cancelled.
+    /// </summary>
+    [Parameter] public Func<string, Task> TextEditCancelled { get; set; }
+
+    /// <summary>
+    /// Raised when pointer dragging starts on the element.
+    /// </summary>
+    [Parameter] public Func<string, PointerEventArgs, Task> PointerDown { get; set; }
+
+    /// <summary>
+    /// Raised when element resizing starts from one of the resize handles.
+    /// </summary>
+    [Parameter] public Func<string, int, PointerEventArgs, Task> ResizeStarted { get; set; }
+
+    #endregion
+}

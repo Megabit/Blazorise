@@ -25,9 +25,20 @@ public partial class ModalProvider : BaseComponent
     /// <inheritdoc/>
     protected override Task OnInitializedAsync()
     {
-        ModalService.SetModalProvider( this );
+        ModalService.RegisterModalProvider( ProviderName, this );
 
         return base.OnInitializedAsync();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ModalService?.UnregisterModalProvider( ProviderName, this );
+        }
+
+        base.Dispose( disposing );
     }
 
     internal Task<ModalInstance> Show( string title, RenderFragment childContent, ModalInstanceOptions modalInstanceOptions )
@@ -151,6 +162,11 @@ public partial class ModalProvider : BaseComponent
     /// Global Option.
     /// </summary>
     [Parameter] public bool UseModalStructure { get; set; } = true;
+
+    /// <summary>
+    /// Defines the provider name used by <see cref="IModalService"/>. When null or empty, this provider is used as the default provider.
+    /// </summary>
+    [Parameter] public string ProviderName { get; set; }
 
     /// <summary>
     /// Keeps the ModalInstance in memory after it has been closed.

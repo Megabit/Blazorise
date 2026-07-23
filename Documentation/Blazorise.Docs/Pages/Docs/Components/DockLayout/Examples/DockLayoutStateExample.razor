@@ -1,0 +1,83 @@
+@namespace Blazorise.Docs.Docs.Examples
+@using System.Text.Json
+
+<DockLayout @ref="@dockLayout" Style="height: 24rem;" PaneBordered>
+    <DockPane Name="actions" Caption="Actions" PanePosition="DockPanePosition.Top" Resizable="false" ShowTab="false" AutoHideable="false" Closable="false">
+        <DockPaneBody Padding="Padding.Is2">
+            <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                <Button Color="Color.Primary" Size="Size.Small" Clicked="@SaveState">Save state</Button>
+                <Button Color="Color.Light" Size="Size.Small" Clicked="@LoadState" Disabled="@(savedStateJson is null)">Load state</Button>
+                <Button Color="Color.Light" Size="Size.Small" Clicked="@ResetState">Reset</Button>
+                <Text TextColor="TextColor.Secondary">@status</Text>
+            </Div>
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name="source" Caption="Source" PanePosition="DockPanePosition.Left" Size="15rem" MinSize="10rem" Resizable>
+        <DockPaneHeader>
+            <Strong>Source</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 1
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name="preview" Caption="Preview" PanePosition="DockPanePosition.Center" Role="DockRole.Document" ShowTab="false" Closable="false">
+        <DockPaneHeader>
+            <Strong>Preview</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 2
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name="details" Caption="Details" PanePosition="DockPanePosition.Right" Size="17rem" MinSize="10rem" Resizable>
+        <DockPaneHeader>
+            <Strong>Details</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 3
+        </DockPaneBody>
+    </DockPane>
+</DockLayout>
+
+@code {
+    private DockLayout dockLayout;
+
+    private string savedStateJson;
+
+    private string status = "No saved state.";
+
+    private static JsonSerializerOptions StateSerializerOptions { get; } = new( JsonSerializerDefaults.Web );
+
+    private Task SaveState()
+    {
+        if ( dockLayout is not null )
+        {
+            savedStateJson = JsonSerializer.Serialize( dockLayout.GetState(), StateSerializerOptions );
+            status = "State saved.";
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task LoadState()
+    {
+        if ( dockLayout is not null && savedStateJson is not null )
+        {
+            DockLayoutState savedState = JsonSerializer.Deserialize<DockLayoutState>( savedStateJson, StateSerializerOptions );
+
+            await dockLayout.LoadState( savedState );
+            status = "State loaded.";
+        }
+    }
+
+    private async Task ResetState()
+    {
+        if ( dockLayout is not null )
+        {
+            await dockLayout.ResetState();
+            status = "Layout reset.";
+        }
+    }
+}

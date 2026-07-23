@@ -1,0 +1,244 @@
+.b-report-element {
+    position: absolute;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    &-design {
+        border: var(--b-report-element-border-width) dashed var(--b-report-color-element-border);
+        cursor: move;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+
+        &.b-report-element-design-active {
+            overflow: visible;
+            border-style: solid;
+            background: var(--b-report-color-element-active-surface);
+        }
+
+        &.b-report-element-design-disabled {
+            cursor: default;
+        }
+
+        * {
+            pointer-events: none;
+        }
+
+        .b-report-element-content {
+            overflow: hidden;
+        }
+
+        .b-report-table-cell,
+        .b-report-resize-handle {
+            pointer-events: auto;
+        }
+
+        .b-report-element-text-editor {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            color: inherit;
+            font: inherit;
+            line-height: inherit;
+            text-align: inherit;
+            background: transparent;
+            border: 0;
+            outline: 0;
+            resize: none;
+            pointer-events: auto;
+        }
+    }
+
+    &-content {
+        width: 100%;
+        height: 100%;
+    }
+
+    &-text,
+    &-field {
+        > .b-report-element-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: var(--b-report-element-content-justify, flex-start);
+            white-space: pre-wrap;
+        }
+    }
+
+    &.b-report-element-can-grow {
+        overflow: visible;
+    }
+
+    &-image img {
+        width: 100%;
+        height: 100%;
+    }
+
+    &-line {
+        &:not(.b-report-element-design) {
+            border: 0;
+        }
+
+        > .b-report-element-content {
+            position: relative;
+
+            &::before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                right: 0;
+                left: 0;
+                border-top: var(--b-report-line-thickness, var(--b-report-line-default-thickness)) solid var(--b-report-line-color, currentColor);
+                transform: translateY(-50%);
+            }
+        }
+
+        &-vertical > .b-report-element-content::before {
+            top: 0;
+            right: auto;
+            bottom: 0;
+            left: 50%;
+            border-top: 0;
+            border-left: var(--b-report-line-thickness, var(--b-report-line-default-thickness)) solid var(--b-report-line-color, currentColor);
+            transform: translateX(-50%);
+        }
+    }
+
+    &-rectangle {
+        border: var(--b-report-element-border-width) solid currentColor;
+    }
+
+    &-panel {
+        > .b-report-element-content {
+            position: relative;
+        }
+
+        .b-report-panel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+
+            > .b-report-element {
+                pointer-events: auto;
+            }
+        }
+    }
+
+    &-subreport {
+        .b-report-element-content {
+            overflow: hidden;
+        }
+    }
+}
+
+.b-report-element-design.b-report-element-design-colliding {
+    border-color: var(--b-report-color-danger) !important;
+    background: var(--b-report-color-danger-surface) !important;
+}
+
+.b-report-subreport-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 1.5rem;
+    background: var(--b-report-color-surface-muted);
+}
+
+.b-report-subreport-page {
+    overflow: hidden;
+}
+
+.b-report-resize-handle {
+    position: absolute;
+    z-index: var(--b-report-zindex-resize-handle, 5);
+    width: var(--b-report-resize-handle-size);
+    height: var(--b-report-resize-handle-size);
+    box-sizing: border-box;
+    border: var(--b-report-element-border-width) solid var(--b-report-color-white);
+    background: var(--b-report-color-primary);
+    box-shadow: 0 0 0 var(--b-report-section-active-border-width) var(--b-report-color-primary-ring);
+    touch-action: none;
+
+    &-nw {
+        top: var(--b-report-resize-handle-offset);
+        left: var(--b-report-resize-handle-offset);
+        cursor: nwse-resize;
+    }
+
+    &-n {
+        top: var(--b-report-resize-handle-offset);
+        left: 50%;
+        transform: translateX(-50%);
+        cursor: ns-resize;
+    }
+
+    &-ne {
+        top: var(--b-report-resize-handle-offset);
+        right: var(--b-report-resize-handle-offset);
+        cursor: nesw-resize;
+    }
+
+    &-e {
+        top: 50%;
+        right: var(--b-report-resize-handle-offset);
+        transform: translateY(-50%);
+        cursor: ew-resize;
+    }
+
+    &-se {
+        right: var(--b-report-resize-handle-offset);
+        bottom: var(--b-report-resize-handle-offset);
+        cursor: nwse-resize;
+    }
+
+    &-s {
+        bottom: var(--b-report-resize-handle-offset);
+        left: 50%;
+        transform: translateX(-50%);
+        cursor: ns-resize;
+    }
+
+    &-sw {
+        bottom: var(--b-report-resize-handle-offset);
+        left: var(--b-report-resize-handle-offset);
+        cursor: nesw-resize;
+    }
+
+    &-w {
+        top: 50%;
+        left: var(--b-report-resize-handle-offset);
+        transform: translateY(-50%);
+        cursor: ew-resize;
+    }
+}
+
+.b-report-drag-preview {
+    position: absolute;
+    z-index: var(--b-report-zindex-drag-preview, 4);
+    box-sizing: border-box;
+    overflow: hidden;
+    border: var(--b-report-element-border-width) solid var(--b-report-color-primary);
+    background: var(--b-report-color-primary-surface);
+    color: var(--b-report-color-primary-text);
+    pointer-events: none;
+    user-select: none;
+
+    &.b-report-drag-preview-colliding {
+        border-color: var(--b-report-color-danger);
+        background: var(--b-report-color-danger-surface);
+        color: var(--b-report-color-danger);
+    }
+}
+
+.b-report-selection-box {
+    position: absolute;
+    z-index: var(--b-report-zindex-selection, 4);
+    box-sizing: border-box;
+    border: var(--b-report-element-border-width) solid var(--b-report-color-primary);
+    background: var(--b-report-color-primary-surface-muted);
+    pointer-events: none;
+    user-select: none;
+}

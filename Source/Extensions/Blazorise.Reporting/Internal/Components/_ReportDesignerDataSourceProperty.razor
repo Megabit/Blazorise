@@ -1,0 +1,18 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<Field Class="b-report-designer-data-source-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
+    <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">@Label</FieldLabel>
+    <FieldBody ColumnSize="ColumnSizeIs8">
+        <Addons Size="Size.Small">
+            <Addon AddonType="AddonType.Body">
+                <TextInput Value="@DisplayValue" ReadOnly Size="Size.Small" />
+            </Addon>
+            <Addon AddonType="AddonType.End">
+                <Button Color="Color.Light" Clicked="@OnClicked" Size="Size.Small" aria-label="Select data source">
+                    <Icon Name="IconName.Search" />
+                </Button>
+            </Addon>
+        </Addons>
+    </FieldBody>
+</Field>

@@ -234,6 +234,26 @@ public interface IClassProvider
 
     #endregion
 
+    #region Resizer
+
+    string Resizer();
+
+    string ResizerOrientation( Orientation orientation );
+
+    string ResizerPlacement( Placement placement );
+
+    string ResizerGutter( bool showGutter );
+
+    string ResizerDisabled( bool disabled );
+
+    string ResizerFocused( bool focused );
+
+    string ResizerResizing( bool resizing );
+
+    string ResizerTargetResizing( bool resizing );
+
+    #endregion
+
     #region Rating
 
     string Rating();
@@ -500,6 +520,50 @@ public interface IClassProvider
 
     string DropdownDirection( Direction direction );
 
+    string ContextMenu();
+
+    string ContextMenuToggle();
+
+    string ContextMenuBody();
+
+    string ContextMenuBodyVisible( bool visible );
+
+    string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy );
+
+    string ContextMenuItem();
+
+    string ContextMenuItemActive( bool active );
+
+    string ContextMenuItemDisabled( bool disabled );
+
+    string ContextMenuItemContent();
+
+    string ContextMenuItemCheck();
+
+    string ContextMenuItemShortcut();
+
+    string ContextMenuDivider();
+
+    string ContextMenuHeader();
+
+    string ContextMenuGroup();
+
+    string ContextMenuToolbar();
+
+    string ContextMenuToolbarItem();
+
+    string ContextMenuToolbarItemActive( bool active );
+
+    string ContextMenuToolbarItemDisabled( bool disabled );
+
+    string ContextMenuSubmenu();
+
+    string ContextMenuSubmenuTrigger();
+
+    string ContextMenuSubmenuTriggerDisabled( bool disabled );
+
+    string ContextMenuSubmenuBody();
+
     #endregion
 
     #region Tabs
@@ -685,6 +749,76 @@ public interface IClassProvider
     string LayoutLoading();
 
     string LayoutRoot( bool root );
+
+    #endregion
+
+    #region DockLayout
+
+    string DockLayout();
+
+    string DockSplit();
+
+    string DockSplitOrientation( DockSplitOrientation orientation );
+
+    string DockPane( DockPanePosition position, bool resizable, bool collapsed );
+
+    string DockPanePosition( DockPanePosition position );
+
+    string DockPaneResizable( bool resizable );
+
+    string DockPaneCollapsed( bool collapsed );
+
+    string DockPaneAutoHide( bool autoHide );
+
+    string DockPaneBordered();
+
+    string DockPaneAutoHideRail( DockPanePosition position );
+
+    string DockPaneAutoHideTab( DockPanePosition position );
+
+    string DockPaneAutoHideFlyout( DockPanePosition position );
+
+    string DockPaneHeader();
+
+    string DockPaneHeaderContent();
+
+    string DockPaneHeaderActions();
+
+    string DockPaneHeaderAction();
+
+    string DockPaneBody();
+
+    string DockPaneFooter();
+
+    string DockContent();
+
+    string DockPaneTabs();
+
+    string DockPaneTabsPosition( DockPanePosition position );
+
+    string DockPaneTabPosition( DockPaneTabPosition position );
+
+    string DockPaneTabsHost();
+
+    string DockPaneTab( bool active );
+
+    string DockPaneTabLabel();
+
+    string DockPaneTabClose();
+
+    string DockLayoutCompass();
+
+    string DockLayoutCompassZone( DockZone zone, bool active );
+
+    string DockLayoutCompassZonePlacement( DockCompassZone zone );
+
+    string DockLayoutCompassZoneIcon();
+
+    string DockLayoutDragPreview();
+
+    string DockLayoutDropPreview();
+
+    string DockLayoutShellGuide( DockZone zone, bool active );
 
     #endregion
 

@@ -1,0 +1,85 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using System
+@using System.Threading.Tasks
+@using Blazorise.Utilities
+@using Microsoft.AspNetCore.Components.Web
+
+<section @key="@SectionKey"
+         class="@SectionClass"
+         style="@SectionStyle"
+         data-report-section-id="@Section?.Id">
+    @if ( DesignMode )
+    {
+        if ( RailVisible )
+        {
+            <_ReportDesignerSectionRail Section="Section"
+                                        Height="Height"
+                                        Selected="Active"
+                                        Collapsed="Collapsed"
+                                        AllowCollapse="AllowBandCollapse"
+                                        ShowDataSource="ShowBandDataSource"
+                                        Clicked="OnRailClicked"
+                                        ContextMenu="OnRailContextMenu"
+                                        ToggleClicked="OnToggleClicked" />
+        }
+        else if ( BandMode == ReportBandMode.Classic )
+        {
+            <_ReportDesignerSectionBandHeader Section="Section"
+                                              Selected="Active"
+                                              ShowDataSource="ShowBandDataSource"
+                                              Clicked="OnRailClicked"
+                                              ContextMenu="OnRailContextMenu" />
+        }
+        else if ( BandMode == ReportBandMode.Compact )
+        {
+            <_ReportDesignerSectionLabel Section="Section"
+                                         Clicked="OnRailClicked"
+                                         ContextMenu="OnRailContextMenu" />
+        }
+    }
+
+    @if ( !Collapsed )
+    {
+        if ( DesignMode )
+        {
+            <div class="@BodyClass"
+                 @ref="bodyElement"
+                 style="@BodyStyle"
+                 @onpointerdown="OnBodyPointerDown"
+                 @ondragover="NonRenderingDragOver"
+                 @ondragover:preventDefault="Editable"
+                 @ondrop="OnDrop"
+                 @ondrop:preventDefault="Editable"
+                 @onpointermove="OnPointerMove"
+                 @onpointermove:preventDefault="Editable"
+                 @onpointerup="OnPointerUp"
+                 @onpointerup:preventDefault="Editable"
+                 @onpointercancel="OnPointerCancel"
+                 @onclick="OnBodyClicked"
+                 @oncontextmenu="OnBodyContextMenu"
+                 @oncontextmenu:preventDefault>
+                @ChildContent
+
+                @if ( Editable && ShowDragPreview )
+                {
+                    <_ReportDesignerDragPreview ElementType="DragPreviewElementType"
+                                                Text="DragPreviewText"
+                                                X="DragPreviewX"
+                                                Y="DragPreviewY"
+                                                Width="DragPreviewWidth"
+                                                Height="DragPreviewHeight" />
+                }
+
+                @if ( Editable )
+                {
+                    <_ReportDesignerSectionResizeHandle PointerDown="OnResizePointerDown" />
+                }
+            </div>
+        }
+        else
+        {
+            @ChildContent
+        }
+    }
+</section>

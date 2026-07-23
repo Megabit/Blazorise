@@ -1,0 +1,25 @@
+@namespace Blazorise
+@inherits _BaseDockRenderer
+@if ( Node?.Kind == DockNodeKind.Split )
+{
+    <div id="@Context.GetDockNodeElementId( Node.Id )" class="@ClassNames" style="@SplitStyle" data-dock-node-id="@Node.Id" data-dock-split>
+        <_DockNodeRenderer @key="Node.First?.Id" NodeId="@Node.First?.Id" Resizable="@FirstTrackResizable" />
+        <_DockNodeRenderer @key="Node.Second?.Id" NodeId="@Node.Second?.Id" Resizable="@SecondTrackResizable" />
+        @if ( CanResizeSplit )
+        {
+            <_DockSplitter @key="SplitterKey" SplitOrientation="@Node.Orientation" NodeId="@Node.Id" Version="@Version" />
+        }
+    </div>
+}
+else if ( Node?.Kind == DockNodeKind.Tabs )
+{
+    <_DockTabsRenderer NodeId="@Node.Id" Resizable="@Resizable" Version="@Version" />
+}
+else if ( Node?.Kind == DockNodeKind.Pane )
+{
+    <_DockPaneRenderer NodeId="@Node.Id" PaneName="@Node.PaneName" Resizable="@Resizable" Version="@Version" />
+}
+else if ( Node?.Kind == DockNodeKind.Content )
+{
+    <_DockContentRenderer NodeId="@Node.Id" />
+}

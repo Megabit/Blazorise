@@ -237,6 +237,26 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region Resizer
+
+    public string Resizer() => null;
+
+    public string ResizerOrientation( Orientation orientation ) => null;
+
+    public string ResizerPlacement( Placement placement ) => null;
+
+    public string ResizerGutter( bool showGutter ) => null;
+
+    public string ResizerDisabled( bool disabled ) => null;
+
+    public string ResizerFocused( bool focused ) => null;
+
+    public string ResizerResizing( bool resizing ) => null;
+
+    public string ResizerTargetResizing( bool resizing ) => null;
+
+    #endregion
+
     #region Rating
 
     public string Rating() => null;
@@ -503,6 +523,50 @@ class EmptyClassProvider : IClassProvider
 
     public string DropdownDirection( Direction direction ) => null;
 
+    public string ContextMenu() => null;
+
+    public string ContextMenuToggle() => null;
+
+    public string ContextMenuBody() => null;
+
+    public string ContextMenuBodyVisible( bool visible ) => null;
+
+    public string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => null;
+
+    public string ContextMenuItem() => null;
+
+    public string ContextMenuItemActive( bool active ) => null;
+
+    public string ContextMenuItemDisabled( bool disabled ) => null;
+
+    public string ContextMenuItemContent() => null;
+
+    public string ContextMenuItemCheck() => null;
+
+    public string ContextMenuItemShortcut() => null;
+
+    public string ContextMenuDivider() => null;
+
+    public string ContextMenuHeader() => null;
+
+    public string ContextMenuGroup() => null;
+
+    public string ContextMenuToolbar() => null;
+
+    public string ContextMenuToolbarItem() => null;
+
+    public string ContextMenuToolbarItemActive( bool active ) => null;
+
+    public string ContextMenuToolbarItemDisabled( bool disabled ) => null;
+
+    public string ContextMenuSubmenu() => null;
+
+    public string ContextMenuSubmenuTrigger() => null;
+
+    public string ContextMenuSubmenuTriggerDisabled( bool disabled ) => null;
+
+    public string ContextMenuSubmenuBody() => null;
+
     #endregion
 
     #region Tabs
@@ -690,6 +754,76 @@ class EmptyClassProvider : IClassProvider
     public string LayoutLoading() => null;
 
     public string LayoutRoot( bool root ) => null;
+
+    #endregion
+
+    #region DockLayout
+
+    public string DockLayout() => null;
+
+    public string DockSplit() => null;
+
+    public string DockSplitOrientation( DockSplitOrientation orientation ) => null;
+
+    public string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => null;
+
+    public string DockPanePosition( DockPanePosition position ) => null;
+
+    public string DockPaneResizable( bool resizable ) => null;
+
+    public string DockPaneCollapsed( bool collapsed ) => null;
+
+    public string DockPaneAutoHide( bool autoHide ) => null;
+
+    public string DockPaneBordered() => null;
+
+    public string DockPaneAutoHideRail( DockPanePosition position ) => null;
+
+    public string DockPaneAutoHideTab( DockPanePosition position ) => null;
+
+    public string DockPaneAutoHideFlyout( DockPanePosition position ) => null;
+
+    public string DockPaneHeader() => null;
+
+    public string DockPaneHeaderContent() => null;
+
+    public string DockPaneHeaderActions() => null;
+
+    public string DockPaneHeaderAction() => null;
+
+    public string DockPaneBody() => null;
+
+    public string DockPaneFooter() => null;
+
+    public string DockContent() => null;
+
+    public string DockPaneTabs() => null;
+
+    public string DockPaneTabsPosition( DockPanePosition position ) => null;
+
+    public string DockPaneTabPosition( DockPaneTabPosition position ) => null;
+
+    public string DockPaneTabsHost() => null;
+
+    public string DockPaneTab( bool active ) => null;
+
+    public string DockPaneTabLabel() => null;
+
+    public string DockPaneTabClose() => null;
+
+    public string DockLayoutCompass() => null;
+
+    public string DockLayoutCompassZone( DockZone zone, bool active ) => null;
+
+    public string DockLayoutCompassZonePlacement( DockCompassZone zone ) => null;
+
+    public string DockLayoutCompassZoneIcon() => null;
+
+    public string DockLayoutDragPreview() => null;
+
+    public string DockLayoutDropPreview() => null;
+
+    public string DockLayoutShellGuide( DockZone zone, bool active ) => null;
 
     #endregion
 

@@ -1,0 +1,53 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<ModalHeader>
+    <ModalTitle>Upload image</ModalTitle>
+    <CloseButton Clicked="@Close" />
+</ModalHeader>
+<ModalBody>
+    <Field>
+        <FileInput @ref="fileInputRef"
+                   Filter="@ImageAccept"
+                   MaxFileSize="@EffectiveImageMaxSize"
+                   MaxChunkSize="@EffectiveMaxUploadImageChunkSize"
+                   SegmentFetchTimeout="@SegmentFetchTimeout"
+                   Changed="@OnChanged"
+                   Started="@OnStarted"
+                   Ended="@OnEnded"
+                   Written="@OnWritten"
+                   Progressed="@OnProgressed"
+                   AutoReset="false"
+                   DisableProgressReport="@DisableImageUploadProgressReport" />
+    </Field>
+
+    @if ( selectedFile is not null )
+    {
+        <Div Margin="MarginIs3FromTop">
+            <Paragraph Margin="MarginIs1FromBottom">
+                <Strong>@selectedFile.Name</Strong>
+            </Paragraph>
+            <Paragraph TextColor="TextColorSecondary" TextSize="TextSizeSmall">
+                @FormatFileSize( selectedFile.Size )
+            </Paragraph>
+        </Div>
+    }
+
+    @if ( !string.IsNullOrWhiteSpace( previewSource ) )
+    {
+        <Div Margin="MarginIs3FromTop" Border="BorderIs1" Padding="PaddingIs2" Background="BackgroundLight">
+            <Image Source="@previewSource" Text="@selectedFile?.Name" Fluid />
+        </Div>
+    }
+
+    @if ( !string.IsNullOrWhiteSpace( errorMessage ) )
+    {
+        <Alert Color="Color.Danger" Visible Margin="MarginIs3FromTop">
+            @errorMessage
+        </Alert>
+    }
+</ModalBody>
+<ModalFooter>
+    <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm)" Size="Size.Small">@ConfirmText</Button>
+    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">Cancel</Button>
+</ModalFooter>

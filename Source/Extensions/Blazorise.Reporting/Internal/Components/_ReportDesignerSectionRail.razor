@@ -1,0 +1,33 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using System.Threading.Tasks
+@using Blazorise.Utilities
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="@ClassNames"
+     style="@StyleNames"
+     @onclick="OnClicked"
+     @onclick:stopPropagation
+     @oncontextmenu="OnContextMenu"
+     @oncontextmenu:preventDefault
+     @oncontextmenu:stopPropagation>
+    <button type="button"
+            class="b-report-section-rail-toggle"
+            title="@ToggleTitle"
+            disabled="@(!AllowCollapse || ReportValueResolver.ResolveStaticSuppress( Section ))"
+            @onclick="OnToggleClicked"
+            @onclick:stopPropagation>
+        @(ReportValueResolver.ResolveStaticSuppress( Section ) ? "!" : Collapsed ? "+" : "-")
+    </button>
+    <div class="b-report-section-rail-text">
+        <span class="b-report-section-rail-title">@DisplayName</span>
+        @if ( ShowDataSource && !string.IsNullOrWhiteSpace( Section.DataSource ) )
+        {
+            <span class="b-report-section-rail-source">@Section.DataSource</span>
+        }
+        @if ( ReportValueResolver.ResolveStaticSuppress( Section ) )
+        {
+            <span class="b-report-section-rail-status">Suppressed</span>
+        }
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="blazorise-codeblock">
+<div class="csharp"><pre>
+<span class="keyword">byte</span>[] interRegularBytes = <span class="keyword">await</span> File.ReadAllBytesAsync( <span class="string">&quot;wwwroot/fonts/Inter-Regular.ttf&quot;</span> );
+
+builder.Services
+    .AddBlazorise( options =&gt;
+    {
+        options.Fonts.Add( <span class="keyword">new</span>()
+        {
+            Name = <span class="string">&quot;Inter&quot;</span>,
+            DisplayName = <span class="string">&quot;Inter&quot;</span>,
+            CssFamily = <span class="string">&quot;\&quot;Inter\&quot;, sans-serif&quot;</span>,
+            Regular = FontSource.FromBytes( interRegularBytes, FontFormat.TrueType ),
+        } );
+    } )
+    .AddBlazoriseReporting();
+</pre></div>
+</div>

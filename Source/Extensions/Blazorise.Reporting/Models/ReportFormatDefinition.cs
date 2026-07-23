@@ -1,0 +1,27 @@
+#region Using directives
+using System.Text.Json.Serialization;
+#endregion
+
+namespace Blazorise.Reporting;
+
+/// <summary>
+/// Defines the base contract for user-friendly report value formats.
+/// </summary>
+[JsonConverter( typeof( ReportFormatDefinitionJsonConverter ) )]
+public abstract class ReportFormatDefinition
+{
+    /// <summary>
+    /// Formatting category used for the value.
+    /// </summary>
+    public abstract ReportFormatCategory Category { get; }
+
+    /// <summary>
+    /// Optional culture name used for formatting.
+    /// </summary>
+    public string CultureName { get; set; }
+
+    /// <summary>
+    /// Optional custom .NET format pattern used instead of the category presets.
+    /// </summary>
+    public string CustomFormat { get; set; }
+}

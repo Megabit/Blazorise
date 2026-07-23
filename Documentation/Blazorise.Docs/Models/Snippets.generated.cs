@@ -1394,6 +1394,165 @@ namespace Blazorise.Docs.Models
     string colorValue = ""#ff00ff"";
 }";
 
+        public const string ContextMenuBasicExample = @"<Div id=""context-menu-basic-target""
+     Padding=""Padding.Is4""
+     Border=""Border.Is1.Rounded""
+     Background=""Background.Light"">
+    Right-click this area.
+</Div>
+
+<ContextMenu TargetId=""context-menu-basic-target"">
+    <ContextMenuBody MinWidth=""12rem"">
+        <ContextMenuHeader>Document</ContextMenuHeader>
+        <ContextMenuItem Icon=""IconName.Copy"" Value=""@(""Copy"")"" Clicked=""@SetSelectedAction"">Copy</ContextMenuItem>
+        <ContextMenuItem Icon=""IconName.Paste"" Value=""@(""Paste"")"" Clicked=""@SetSelectedAction"">Paste</ContextMenuItem>
+        <ContextMenuDivider />
+        <ContextMenuItem Icon=""IconName.Delete"" Value=""@(""Delete"")"" Clicked=""@SetSelectedAction"">Delete</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin=""Margin.Is2.FromTop"">
+    Last action: @selectedAction
+</Paragraph>
+
+@code {
+    private string selectedAction = ""None"";
+
+    private void SetSelectedAction( object value )
+    {
+        selectedAction = value?.ToString();
+    }
+}";
+
+        public const string ContextMenuCheckedExample = @"<Div id=""context-menu-checked-target""
+     Padding=""Padding.Is4""
+     Border=""Border.Is1.Rounded""
+     Background=""Background.Light"">
+    Right-click to change view options.
+</Div>
+
+<ContextMenu TargetId=""context-menu-checked-target"" CloseOnClick=""false"">
+    <ContextMenuBody MinWidth=""13rem"">
+        <ContextMenuHeader>View</ContextMenuHeader>
+        <ContextMenuItem ShowCheckbox @bind-Checked=""@showGrid"">Show grid</ContextMenuItem>
+        <ContextMenuItem ShowCheckbox @bind-Checked=""@snapToGrid"">Snap to grid</ContextMenuItem>
+        <ContextMenuDivider />
+        <ContextMenuGroup CheckMode=""ContextMenuCheckMode.Radio"" @bind-SelectedValue=""@density"">
+            <ContextMenuItem Value=""@(""Comfortable"")"">Comfortable</ContextMenuItem>
+            <ContextMenuItem Value=""@(""Compact"")"">Compact</ContextMenuItem>
+        </ContextMenuGroup>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin=""Margin.Is2.FromTop"">
+    Grid: @showGrid, Snap: @snapToGrid, Density: @density
+</Paragraph>
+
+@code {
+    private bool showGrid = true;
+
+    private bool snapToGrid = true;
+
+    private object density = ""Comfortable"";
+}";
+
+        public const string ContextMenuSubmenuExample = @"<Div id=""context-menu-submenu-target""
+     Padding=""Padding.Is4""
+     Border=""Border.Is1.Rounded""
+     Background=""Background.Light"">
+    Right-click to open commands with submenus.
+</Div>
+
+<ContextMenu TargetId=""context-menu-submenu-target"">
+    <ContextMenuBody MinWidth=""12rem"">
+        <ContextMenuItem Icon=""IconName.Edit"" Value=""@(""Rename"")"" Clicked=""@SetSelectedCommand"">Rename</ContextMenuItem>
+        <ContextMenuSubmenu Text=""Move to"" Icon=""IconName.Folder"">
+            <ContextMenuItem Value=""@(""Move to Inbox"")"" Clicked=""@SetSelectedCommand"">Inbox</ContextMenuItem>
+            <ContextMenuItem Value=""@(""Move to Archive"")"" Clicked=""@SetSelectedCommand"">Archive</ContextMenuItem>
+            <ContextMenuItem Value=""@(""Move to Trash"")"" Clicked=""@SetSelectedCommand"">Trash</ContextMenuItem>
+        </ContextMenuSubmenu>
+        <ContextMenuSubmenu Text=""Priority"" Icon=""IconName.Flag"">
+            <ContextMenuItem Value=""@(""High priority"")"" Clicked=""@SetSelectedCommand"">High</ContextMenuItem>
+            <ContextMenuItem Value=""@(""Normal priority"")"" Clicked=""@SetSelectedCommand"">Normal</ContextMenuItem>
+            <ContextMenuItem Value=""@(""Low priority"")"" Clicked=""@SetSelectedCommand"">Low</ContextMenuItem>
+        </ContextMenuSubmenu>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin=""Margin.Is2.FromTop"">
+    Selected command: @selectedCommand
+</Paragraph>
+
+@code {
+    private string selectedCommand = ""None"";
+
+    private void SetSelectedCommand( object value )
+    {
+        selectedCommand = value?.ToString();
+    }
+}";
+
+        public const string ContextMenuToggleExample = @"<ContextMenu>
+    <ContextMenuToggle>
+        <Button Color=""Color.Primary"">
+            Right-click this button
+        </Button>
+    </ContextMenuToggle>
+    <ContextMenuBody MinWidth=""12rem"">
+        <ContextMenuHeader>Button actions</ContextMenuHeader>
+        <ContextMenuItem Icon=""IconName.Edit"" Value=""@(""Rename"")"" Clicked=""@SetSelectedAction"">Rename</ContextMenuItem>
+        <ContextMenuItem Icon=""IconName.Copy"" Value=""@(""Duplicate"")"" Clicked=""@SetSelectedAction"">Duplicate</ContextMenuItem>
+        <ContextMenuDivider />
+        <ContextMenuItem Icon=""IconName.Delete"" Value=""@(""Delete"")"" Clicked=""@SetSelectedAction"">Delete</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin=""Margin.Is2.FromTop"">
+    Last action: @selectedAction
+</Paragraph>
+
+@code {
+    private string selectedAction = ""None"";
+
+    private void SetSelectedAction( object value )
+    {
+        selectedAction = value?.ToString();
+    }
+}";
+
+        public const string ContextMenuToolbarExample = @"<Div id=""context-menu-toolbar-target""
+     Padding=""Padding.Is4""
+     Border=""Border.Is1.Rounded""
+     Background=""Background.Light"">
+    Right-click to open compact commands.
+</Div>
+
+<ContextMenu TargetId=""context-menu-toolbar-target"">
+    <ContextMenuBody MinWidth=""12rem"">
+        <ContextMenuToolbar>
+            <ContextMenuToolbarItem Icon=""IconName.Cut"" Text=""Cut"" Value=""@(""Cut"")"" Clicked=""@SetSelectedAction"" />
+            <ContextMenuToolbarItem Icon=""IconName.Copy"" Text=""Copy"" Value=""@(""Copy"")"" Clicked=""@SetSelectedAction"" />
+            <ContextMenuToolbarItem Icon=""IconName.Paste"" Text=""Paste"" Value=""@(""Paste"")"" Clicked=""@SetSelectedAction"" />
+            <ContextMenuToolbarItem Icon=""IconName.Delete"" Text=""Delete"" Value=""@(""Delete"")"" Clicked=""@SetSelectedAction"" />
+        </ContextMenuToolbar>
+        <ContextMenuDivider />
+        <ContextMenuItem Icon=""IconName.List"" Value=""@(""Properties"")"" Clicked=""@SetSelectedAction"">Properties</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin=""Margin.Is2.FromTop"">
+    Last action: @selectedAction
+</Paragraph>
+
+@code {
+    private string selectedAction = ""None"";
+
+    private void SetSelectedAction( object value )
+    {
+        selectedAction = value?.ToString();
+    }
+}";
+
         public const string BasicDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Value=""@value"" />
 
 @code {
@@ -1560,6 +1719,162 @@ namespace Blazorise.Docs.Models
 <Paragraph>
     How they tinkle, tinkle, tinkle, In the icy air of night !
 </Paragraph>";
+
+        public const string BasicDockLayoutExample = @"<DockLayout Style=""height: 28rem;"" PaneBordered>
+    <DockPane Name=""toolbar"" Caption=""Toolbar"" PanePosition=""DockPanePosition.Top"" Role=""DockRole.Tool"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
+        <DockPaneBody>
+            Toolbar
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""explorer"" Caption=""Explorer"" PanePosition=""DockPanePosition.Left"" Size=""16rem"" MinSize=""10rem"" Resizable>
+        <DockPaneHeader>
+            <Strong>Explorer</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 1
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""designer"" Caption=""Designer"" PanePosition=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+        <DockPaneHeader>
+            <Strong>Designer</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 2
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""properties"" Caption=""Properties"" PanePosition=""DockPanePosition.Right"" Size=""18rem"" MinSize=""12rem"" Resizable>
+        <DockPaneHeader>
+            <Strong>Properties</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 3
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""output"" Caption=""Output"" PanePosition=""DockPanePosition.Bottom"" Size=""6rem"" MinSize=""4rem"" Resizable>
+        <DockPaneHeader>
+            <Strong>Output</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 4
+        </DockPaneBody>
+    </DockPane>
+</DockLayout>";
+
+        public const string DockLayoutStateExample = @"@using System.Text.Json
+
+<DockLayout @ref=""@dockLayout"" Style=""height: 24rem;"" PaneBordered>
+    <DockPane Name=""actions"" Caption=""Actions"" PanePosition=""DockPanePosition.Top"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
+        <DockPaneBody Padding=""Padding.Is2"">
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Button Color=""Color.Primary"" Size=""Size.Small"" Clicked=""@SaveState"">Save state</Button>
+                <Button Color=""Color.Light"" Size=""Size.Small"" Clicked=""@LoadState"" Disabled=""@(savedStateJson is null)"">Load state</Button>
+                <Button Color=""Color.Light"" Size=""Size.Small"" Clicked=""@ResetState"">Reset</Button>
+                <Text TextColor=""TextColor.Secondary"">@status</Text>
+            </Div>
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""source"" Caption=""Source"" PanePosition=""DockPanePosition.Left"" Size=""15rem"" MinSize=""10rem"" Resizable>
+        <DockPaneHeader>
+            <Strong>Source</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 1
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""preview"" Caption=""Preview"" PanePosition=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+        <DockPaneHeader>
+            <Strong>Preview</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 2
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""details"" Caption=""Details"" PanePosition=""DockPanePosition.Right"" Size=""17rem"" MinSize=""10rem"" Resizable>
+        <DockPaneHeader>
+            <Strong>Details</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 3
+        </DockPaneBody>
+    </DockPane>
+</DockLayout>
+
+@code {
+    private DockLayout dockLayout;
+
+    private string savedStateJson;
+
+    private string status = ""No saved state."";
+
+    private static JsonSerializerOptions StateSerializerOptions { get; } = new( JsonSerializerDefaults.Web );
+
+    private Task SaveState()
+    {
+        if ( dockLayout is not null )
+        {
+            savedStateJson = JsonSerializer.Serialize( dockLayout.GetState(), StateSerializerOptions );
+            status = ""State saved."";
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task LoadState()
+    {
+        if ( dockLayout is not null && savedStateJson is not null )
+        {
+            DockLayoutState savedState = JsonSerializer.Deserialize<DockLayoutState>( savedStateJson, StateSerializerOptions );
+
+            await dockLayout.LoadState( savedState );
+            status = ""State loaded."";
+        }
+    }
+
+    private async Task ResetState()
+    {
+        if ( dockLayout is not null )
+        {
+            await dockLayout.ResetState();
+            status = ""Layout reset."";
+        }
+    }
+}";
+
+        public const string DockLayoutTabbedPanesExample = @"<DockLayout Style=""height: 24rem;"" PaneBordered>
+    <DockPane Name=""document"" Caption=""Document"" PanePosition=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+        <DockPaneHeader>
+            <Strong>Document</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 1
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""properties"" Caption=""Properties"" PanePosition=""DockPanePosition.Right"" Size=""18rem"" TabPosition=""DockPaneTabPosition.Bottom"" Resizable>
+        <DockPaneHeader>
+            <Strong>Properties</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 2
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""report-explorer"" Caption=""Report Explorer"" PanePosition=""DockPanePosition.Right"" Size=""18rem"" TabPosition=""DockPaneTabPosition.Bottom"" Resizable>
+        <DockPaneHeader>
+            <Strong>Report Explorer</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 3
+        </DockPaneBody>
+    </DockPane>
+</DockLayout>";
 
         public const string BasicDragDropExample = @"<DropContainer TItem=""DropItem"" Items=""@items"" ItemsFilter=""@((item, dropZone) => item.Group == dropZone)"" ItemDropped=""@ItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
     <ChildContent>
@@ -4088,6 +4403,257 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         return $""color: #{color}"";
     }
+}";
+
+        public const string ResizerBarExample = @"<Layout Sider
+        Height=""Height.Px( 360 )""
+        Border=""Border.Is1.Rounded""
+        Overflow=""Overflow.Hidden"">
+    <LayoutSider>
+        <LayoutSiderContent>
+            <Bar Mode=""BarMode.VerticalInline""
+                 CollapseMode=""BarCollapseMode.Small""
+                 @bind-Visible=""barExpanded""
+                 Style=""@BarStyle""
+                 Background=""Background.Light""
+                 ThemeContrast=""ThemeContrast.Light"">
+                <BarToggler />
+                <BarMenu>
+                    <BarStart>
+                        <BarItem>
+                            <BarLink To=""#resizer-projects"">
+                                <BarIcon IconName=""IconName.FolderOpen"" />
+                                Projects
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To=""#resizer-reports"">
+                                <BarIcon IconName=""IconName.ChartLine"" />
+                                Reports
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To=""#resizer-settings"">
+                                <BarIcon IconName=""IconName.Settings"" />
+                                Settings
+                            </BarLink>
+                        </BarItem>
+                    </BarStart>
+                </BarMenu>
+
+                <Resizer Orientation=""Orientation.Vertical""
+                         Placement=""Placement.End""
+                         ResizeProperty=""--b-vertical-bar-width""
+                         Min=""180""
+                         Max=""360""
+                         @bind-Value=""barWidth""
+                         Disabled=""@(!barExpanded)""
+                         AriaLabel=""Resize navigation sidebar"" />
+            </Bar>
+        </LayoutSiderContent>
+    </LayoutSider>
+
+    <Layout>
+        <LayoutContent Padding=""Padding.Is4"">
+            <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Resizable navigation</Heading>
+            <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+                Resize the expanded Bar, then use its toggler to enter small mode. The resizer is disabled while collapsed.
+            </Paragraph>
+        </LayoutContent>
+    </Layout>
+</Layout>
+
+@code {
+    private bool barExpanded = true;
+
+    private double barWidth = 230;
+
+    private string BarStyle
+        => FormattableString.Invariant(
+            $""--b-vertical-bar-width: {barWidth}px"" );
+}";
+
+        public const string ResizerHeightExample = @"<Div Flex=""Flex.Column""
+     Height=""Height.Px( 360 )""
+     Border=""Border.Is1.Rounded""
+     Overflow=""Overflow.Hidden"">
+    <Div Position=""Position.Relative""
+         Flex=""Flex.Shrink.Is0""
+         Height=""@Height.Px( previewHeight )""
+         Background=""Background.Light""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Preview</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            Resize this area vertically.
+        </Paragraph>
+
+        <Resizer Orientation=""Orientation.Horizontal""
+                 Placement=""Placement.Bottom""
+                 ShowGutter
+                 Min=""100""
+                 Max=""260""
+                 @bind-Value=""previewHeight""
+                 AriaLabel=""Resize preview height"" />
+    </Div>
+
+    <Div Flex=""Flex.Grow.Is1""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is6"" Margin=""Margin.Is0.FromBottom"">Output</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            The remaining space stays available to the lower region.
+        </Paragraph>
+    </Div>
+</Div>
+
+@code {
+    private double previewHeight = 180;
+}";
+
+        public const string ResizerMultipleTargetsExample = @"<Div Flex=""Flex.Row""
+     Height=""Height.Px( 260 )""
+     Border=""Border.Is1.Rounded""
+     Overflow=""Overflow.Hidden"">
+    <Div ElementId=""resizer-start-panel""
+         Flex=""Flex.Shrink.Is0""
+         Style=""width: 50%;""
+         Background=""Background.Light""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Navigation</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            This is the logical start target.
+        </Paragraph>
+    </Div>
+
+    <Div Position=""Position.Relative""
+         Flex=""Flex.Shrink.Is0""
+         Width=""Width.Px( 0 )"">
+        <Resizer Targets=""@resizeTargets""
+                 Orientation=""Orientation.Vertical""
+                 Placement=""Placement.Start""
+                 ShowGutter
+                 KeyboardStep=""10""
+                 AriaLabel=""Resize navigation and workspace panels"" />
+    </Div>
+
+    <Div ElementId=""resizer-end-panel""
+         Flex=""Flex.Shrink.Is0""
+         Style=""width: 50%;""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Workspace</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            This is the logical end target. Its width decreases as the navigation panel grows.
+        </Paragraph>
+    </Div>
+</Div>
+
+@code {
+    private readonly ResizerTargets resizeTargets = new()
+    {
+        Start = new()
+        {
+            ElementId = ""resizer-start-panel"",
+            ResizeProperty = ""width"",
+            MinSize = ""120px"",
+        },
+        End = new()
+        {
+            ElementId = ""resizer-end-panel"",
+            ResizeProperty = ""width"",
+            MinSize = ""160px"",
+        },
+    };
+}";
+
+        public const string ResizerPanelExample = @"<Div Flex=""Flex.Row""
+     Height=""Height.Px( 260 )""
+     Border=""Border.Is1.Rounded""
+     Overflow=""Overflow.Hidden"">
+    <Div Position=""Position.Relative""
+         Flex=""Flex.Shrink.Is0""
+         Width=""@Width.Px( panelWidth )""
+        Background=""Background.Light""
+         Padding=""Padding.Is4"">
+        <Div Flex=""Flex.Column"" Gap=""Gap.Is3"">
+            <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0"">Explorer</Heading>
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Icon Name=""IconName.FolderOpen"" />
+                <Span>Components</Span>
+            </Div>
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Icon Name=""IconName.File"" />
+                <Span>App.razor</Span>
+            </Div>
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Icon Name=""IconName.File"" />
+                <Span>Program.cs</Span>
+            </Div>
+        </Div>
+
+        <Resizer Orientation=""Orientation.Vertical""
+                 Placement=""Placement.End""
+                 Min=""160""
+                 Max=""360""
+                 KeyboardStep=""10""
+                 @bind-Value=""panelWidth""
+                 AriaLabel=""Resize explorer panel"" />
+    </Div>
+
+    <Div Flex=""Flex.Grow.Is1""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Editor</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            Drag the boundary between the explorer and editor. Click it or reach it with Tab, then use the arrow keys.
+        </Paragraph>
+    </Div>
+</Div>
+
+@code {
+    private double panelWidth = 220;
+}";
+
+        public const string ResizerTargetExample = @"<Div Flex=""Flex.Row""
+     Height=""Height.Px( 280 )""
+     Border=""Border.Is1.Rounded""
+     Overflow=""Overflow.Hidden"">
+    <Div Flex=""Flex.Grow.Is1""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Canvas</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            The resizer is positioned at this boundary but targets the inspector by ID.
+        </Paragraph>
+    </Div>
+
+    <Div Position=""Position.Relative""
+         Flex=""Flex.Shrink.Is0""
+         Width=""Width.Px( 0 )"">
+        <Resizer TargetId=""resizer-inspector""
+                 Orientation=""Orientation.Vertical""
+                 Placement=""Placement.Start""
+                 ResizeProperty=""--docs-inspector-width""
+                 Min=""180""
+                 Max=""360""
+                 @bind-Value=""inspectorWidth""
+                 AriaLabel=""Resize inspector panel"" />
+    </Div>
+
+    <Div ElementId=""resizer-inspector""
+         Flex=""Flex.Shrink.Is0""
+         Style=""@InspectorStyle""
+         Background=""Background.Light""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0"">Inspector</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is3.FromTop.Is0.FromBottom"">
+            Its width is read from the custom property applied by the resizer.
+        </Paragraph>
+    </Div>
+</Div>
+
+@code {
+    private double inspectorWidth = 240;
+
+    private string InspectorStyle
+        => FormattableString.Invariant(
+            $""--docs-inspector-width: {inspectorWidth}px; width: var(--docs-inspector-width);"" );
 }";
 
         public const string BasicSelectExample = @"<Select TValue=""int"">
@@ -24951,6 +25517,193 @@ Install-Package Blazorise.Icons.Material";
     }
 }";
 
+        public const string PdfBuilderInvoiceExample = @"@inject IPdfGenerator PdfGenerator
+
+<Div Flex=""Flex.Row"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromBottom"">
+    <Button Color=""Color.Primary"" Clicked=""@Build"">Build PDF</Button>
+</Div>
+
+@if ( pdfSource is not null )
+{
+    <PdfViewerContainer Height=""Height.Rem(35)"">
+        <PdfViewerToolbar />
+        <PdfViewer Source=""@pdfSource"" />
+    </PdfViewerContainer>
+}
+
+@code {
+    private string pdfSource;
+
+    private async Task Build()
+    {
+        PdfDocumentDefinition document = BuildInvoice();
+
+        PdfGenerationResult result = await PdfGenerator.Generate( document, new()
+        {
+            FileName = ""builder-invoice.pdf"",
+        } );
+
+        pdfSource = BuildPdfSource( result.Content );
+    }
+
+    private static PdfDocumentDefinition BuildInvoice()
+    {
+        return PdfDocumentBuilder.Create()
+            .Title( ""Invoice"" )
+            .PageSetup( PdfPageSize.A4 )
+            .Page( page =>
+            {
+                page.Text( ""Invoice summary"", 48, 48, 260, 32 )
+                    .FontSize( 22 )
+                    .Bold()
+                    .TextColor( ""#0d6efd"" );
+
+                page.Text( ""Generated with PdfDocumentBuilder."", 48, 82, 320, 18 )
+                    .FontSize( 11 );
+
+                page.Rectangle( 420, 48, 96, 48 )
+                    .BorderColor( ""#0d6efd"" )
+                    .BackgroundColor( ""#eef5ff"" );
+
+                page.Text( ""BLZ"", 444, 64, 48, 20 )
+                    .FontSize( 18 )
+                    .Bold()
+                    .TextAlignment( TextAlignment.Center )
+                    .TextColor( ""#0d6efd"" );
+            } )
+            .Build();
+    }
+
+    private static string BuildPdfSource( byte[] content )
+        => content is null || content.Length == 0
+            ? null
+            : $""data:application/pdf;base64,{Convert.ToBase64String( content )}"";
+}";
+
+        public const string PdfDeclarativeInvoiceExample = @"@inject IPdfGenerator PdfGenerator
+
+<PdfDocument @ref=""document"" Title=""Invoice"" PageSize=""PdfPageSize.A4"">
+    <PdfPage>
+        <PdfText Text=""Invoice summary"" X=""48"" Y=""48"" Width=""260"" Height=""32"" FontSize=""22"" Bold TextColor=""#0d6efd"" />
+        <PdfText Text=""Generated by Blazorise.Pdf declarative components."" X=""48"" Y=""82"" Width=""360"" Height=""18"" FontSize=""11"" />
+        <PdfRectangle X=""420"" Y=""48"" Width=""96"" Height=""48"" BorderColor=""#0d6efd"" BackgroundColor=""#eef5ff"" />
+        <PdfText Text=""BLZ"" X=""444"" Y=""64"" Width=""48"" Height=""20"" FontSize=""18"" Bold TextAlignment=""TextAlignment.Center"" TextColor=""#0d6efd"" />
+        <PdfLine X=""48"" Y=""122"" Width=""468"" Height=""0"" BorderColor=""#222222"" />
+        <PdfTable X=""48"" Y=""152"" Width=""468"" Height=""96"">
+            <PdfTableRow Height=""24"">
+                <PdfTableCell Width=""120"">
+                    <PdfText Text=""Number"" Bold />
+                </PdfTableCell>
+                <PdfTableCell Width=""228"">
+                    <PdfText Text=""Description"" Bold />
+                </PdfTableCell>
+                <PdfTableCell Width=""120"">
+                    <PdfText Text=""Total"" Bold TextAlignment=""TextAlignment.End"" />
+                </PdfTableCell>
+            </PdfTableRow>
+            <PdfTableRow Height=""24"">
+                <PdfTableCell Width=""120"">
+                    <PdfText Text=""INV-1001"" />
+                </PdfTableCell>
+                <PdfTableCell Width=""228"">
+                    <PdfText Text=""Northwind Traders"" />
+                </PdfTableCell>
+                <PdfTableCell Width=""120"">
+                    <PdfText Text=""$1,240.50"" TextAlignment=""TextAlignment.End"" />
+                </PdfTableCell>
+            </PdfTableRow>
+        </PdfTable>
+    </PdfPage>
+</PdfDocument>
+
+@if ( pdfSource is not null )
+{
+    <PdfViewerContainer Height=""Height.Rem(35)"">
+        <PdfViewerToolbar />
+        <PdfViewer Source=""@pdfSource"" />
+    </PdfViewerContainer>
+}
+
+@code {
+    private PdfDocument document;
+
+    private string pdfSource;
+
+    private bool generated;
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( !generated && document?.Definition is not null )
+        {
+            generated = true;
+
+            PdfGenerationResult result = await PdfGenerator.Generate( document.Definition, new()
+            {
+                FileName = ""declarative-invoice.pdf"",
+            } );
+
+            pdfSource = BuildPdfSource( result.Content );
+            await InvokeAsync( StateHasChanged );
+        }
+    }
+
+    private static string BuildPdfSource( byte[] content )
+        => content is null || content.Length == 0
+            ? null
+            : $""data:application/pdf;base64,{Convert.ToBase64String( content )}"";
+}";
+
+        public const string PdfGenerateFileExample = @"@inject IPdfGenerator PdfGenerator
+
+<Div Flex=""Flex.Row"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromBottom"">
+    <Button Color=""Color.Primary"" Clicked=""@Generate"">Generate PDF</Button>
+</Div>
+
+@if ( pdfSource is not null )
+{
+    <PdfViewerContainer Height=""Height.Rem(35)"">
+        <PdfViewerToolbar />
+        <PdfViewer Source=""@pdfSource"" />
+    </PdfViewerContainer>
+}
+
+@code {
+    private string pdfSource;
+
+    private async Task Generate()
+    {
+        PdfDocumentDefinition document = PdfDocumentBuilder.Create()
+            .Title( ""Invoice"" )
+            .Page( page =>
+            {
+                page.Text( ""Invoice summary"", 48, 48, 260, 32 )
+                    .FontSize( 22 )
+                    .Bold();
+            } )
+            .Build();
+
+        PdfGenerationResult result = await PdfGenerator.Generate( document, new()
+        {
+            FileName = ""invoice.pdf"",
+        } );
+
+        pdfSource = BuildPdfSource( result.Content );
+    }
+
+    private static string BuildPdfSource( byte[] content )
+        => content is null || content.Length == 0
+            ? null
+            : $""data:application/pdf;base64,{Convert.ToBase64String( content )}"";
+}";
+
+        public const string PdfImportsExample = @"@using Blazorise.Pdf";
+
+        public const string PdfNugetInstallExample = @"Install-Package Blazorise.Pdf";
+
+        public const string PdfServiceRegistrationExample = @"builder.Services
+    .AddBlazorise()
+    .AddBlazorisePdf();";
+
         public const string ImportPdfViewerExample = @"@using Blazorise.PdfViewer";
 
         public const string PdfViewerBase64Example = @"<PdfViewer Source=""@($""data:application/pdf;base64,{base64String}"")"" />
@@ -26013,6 +26766,981 @@ Install-Package Blazorise.Icons.Material";
         </Span>
     </Div>
 </Div>";
+
+        public const string ReportingBasicInvoiceExample = @"<Report Data=""@invoice"" DesignerEnabled PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportPage Size=""ReportPageSize.A4"" Orientation=""ReportOrientation.Portrait"" />
+    <ReportHeader Name=""Invoice report header"" Height=""97.5"">
+        <ReportText Text=""Invoice summary"" X=""30"" Y=""18"" Width=""210"" Height=""25.5"" FontSize=""21"" Bold />
+        <ReportText Text=""Customer: {Customer.Name}"" X=""300"" Y=""54"" Width=""180"" Height=""21"" Bold />
+    </ReportHeader>
+    <ReportPageHeader Name=""Invoice page header"" Height=""31.5"">
+        <ReportText Text=""Invoice"" X=""30"" Y=""7.5"" Width=""67.5"" Height=""18"" Bold />
+        <ReportText Text=""Description"" X=""112.5"" Y=""7.5"" Width=""165"" Height=""18"" Bold />
+        <ReportText Text=""Line total"" X=""405"" Y=""7.5"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+    </ReportPageHeader>
+    <ReportDetail Name=""Invoice lines"" Height=""39"" DataSource=""Invoice.Lines"">
+        <ReportField Field=""Sku"" X=""30"" Y=""10.5"" Width=""67.5"" Height=""18"" />
+        <ReportField Field=""Description"" X=""112.5"" Y=""10.5"" Width=""165"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""405"" Y=""10.5"" Width=""90"" Height=""18"" />
+    </ReportDetail>
+    <ReportFooter Name=""Invoice report footer"" Height=""54"">
+        <ReportLine X=""30"" Y=""7.5"" Width=""465"" Height=""8"" Thickness=""1"" />
+        <ReportText Text=""Invoice total"" X=""30"" Y=""21"" Width=""135"" Height=""18"" />
+        <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" X=""405"" Y=""21"" Width=""90"" Height=""18"" Bold />
+    </ReportFooter>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = ""INV-1001"",
+            Total = 1240.50m,
+        },
+        Customer = new()
+        {
+            Name = ""Northwind Traders"",
+        },
+        Lines =
+        [
+            new() { Sku = ""SRV-001"", Description = ""Implementation workshop"", Total = 640.50m },
+            new() { Sku = ""LIC-010"", Description = ""Reporting module license"", Total = 500.00m },
+            new() { Sku = ""SUP-003"", Description = ""Priority support"", Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Sku { get; set; }
+
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingDataSetDataSourceExample = @"@using System.Data
+
+<Report DesignerEnabled
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
+    <ReportDataSources>
+        <ReportDataSetDataSource Name=""Orders"" DataSet=""@orderData"" TableName=""Orders"" />
+    </ReportDataSources>
+    <ReportHeader Name=""Orders header"" Height=""72"">
+        <ReportText Text=""DataSet data source"" X=""30"" Y=""18"" Width=""300"" Height=""24"" FontSize=""18"" Bold FontColor=""@ReportColors.Blue"" />
+        <ReportText Text=""The Orders table is selected from a DataSet."" X=""30"" Y=""45"" Width=""360"" Height=""18"" />
+    </ReportHeader>
+    <ReportPageHeader Name=""Column headers"" Height=""32"">
+        <ReportText Text=""Order"" X=""30"" Y=""8"" Width=""80"" Height=""18"" Bold />
+        <ReportText Text=""Customer"" X=""125"" Y=""8"" Width=""190"" Height=""18"" Bold />
+        <ReportText Text=""Date"" X=""330"" Y=""8"" Width=""80"" Height=""18"" Bold />
+        <ReportText Text=""Amount"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+    </ReportPageHeader>
+    <ReportDetail Name=""Orders"" Height=""30"" DataSource=""Orders"">
+        <ReportField Field=""OrderNumber"" X=""30"" Y=""6"" Width=""80"" Height=""18"" />
+        <ReportField Field=""Customer"" X=""125"" Y=""6"" Width=""190"" Height=""18"" />
+        <ReportField Field=""OrderDate"" Format=""@ReportFormats.Date()"" X=""330"" Y=""6"" Width=""80"" Height=""18"" />
+        <ReportField Field=""Amount"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" TextAlignment=""TextAlignment.End"" />
+    </ReportDetail>
+</Report>
+
+@code {
+    private readonly DataSet orderData = CreateOrderData();
+
+    private static DataSet CreateOrderData()
+    {
+        DataSet dataSet = new( ""Sales"" );
+        DataTable orders = new( ""Orders"" );
+
+        orders.Columns.Add( ""OrderNumber"", typeof( string ) );
+        orders.Columns.Add( ""Customer"", typeof( string ) );
+        orders.Columns.Add( ""OrderDate"", typeof( DateTime ) );
+        orders.Columns.Add( ""Amount"", typeof( decimal ) );
+
+        orders.Rows.Add( ""SO-1001"", ""Northwind Traders"", new DateTime( 2026, 7, 1 ), 1240.50m );
+        orders.Rows.Add( ""SO-1002"", ""Contoso Retail"", new DateTime( 2026, 7, 3 ), 835.00m );
+        orders.Rows.Add( ""SO-1003"", ""Fabrikam Parts"", new DateTime( 2026, 7, 5 ), 2195.75m );
+
+        dataSet.Tables.Add( orders );
+
+        return dataSet;
+    }
+}";
+
+        public const string ReportingDataSourcesExample = @"<Report Data=""@invoice""
+        DesignerEnabled
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
+    <ReportToolbar>
+        <ReportToolbarGroup>
+            <ReportToolbarPanesMenu />
+        </ReportToolbarGroup>
+        <ReportToolbarGroup>
+            <ReportToolbarItem Command=""ReportCommand.ConnectDataSource"" Caption=""Data sources"" ShowCaption />
+            <ReportToolbarItem Command=""ReportCommand.Reset"" Caption=""Reset"" />
+        </ReportToolbarGroup>
+        <Div Margin=""Margin.IsAuto.FromStart"">
+            <ReportToolbarGroup>
+                <ReportToolbarItem Command=""ReportCommand.Design"" Caption=""Design"" ShowCaption />
+                <ReportToolbarItem Command=""ReportCommand.Preview"" Caption=""Preview"" ShowCaption />
+            </ReportToolbarGroup>
+        </Div>
+    </ReportToolbar>
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportHeader Name=""Invoice header"" Height=""84"">
+        <ReportText Text=""Object data source"" X=""30"" Y=""18"" Width=""240"" Height=""24"" FontSize=""20"" Bold FontColor=""@ReportColors.Blue"" />
+        <ReportText Text=""Customer: {Customer.Name}"" X=""30"" Y=""48"" Width=""240"" Height=""18"" />
+        <ReportText Text=""Invoice: {Header.Number}"" X=""315"" Y=""48"" Width=""180"" Height=""18"" TextAlignment=""TextAlignment.End"" />
+    </ReportHeader>
+    <ReportPageHeader Name=""Line headers"" Height=""32"">
+        <ReportText Text=""Sku"" X=""30"" Y=""8"" Width=""75"" Height=""18"" Bold />
+        <ReportText Text=""Description"" X=""120"" Y=""8"" Width=""210"" Height=""18"" Bold />
+        <ReportText Text=""Total"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+    </ReportPageHeader>
+    <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+        <ReportField Field=""Sku"" X=""30"" Y=""6"" Width=""75"" Height=""18"" />
+        <ReportField Field=""Description"" X=""120"" Y=""6"" Width=""210"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+    </ReportDetail>
+    <ReportFooter Name=""Totals"" Height=""45"">
+        <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""8"" Thickness=""1"" />
+        <ReportText Text=""Invoice total"" X=""300"" Y=""18"" Width=""105"" Height=""18"" Bold />
+        <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+    </ReportFooter>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = ""INV-1001"",
+            Total = 1240.50m,
+        },
+        Customer = new()
+        {
+            Name = ""Northwind Traders"",
+        },
+        Lines =
+        [
+            new() { Sku = ""SRV-001"", Description = ""Implementation workshop"", Total = 640.50m },
+            new() { Sku = ""LIC-010"", Description = ""Reporting module license"", Total = 500.00m },
+            new() { Sku = ""SUP-003"", Description = ""Priority support"", Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Sku { get; set; }
+
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingDesignerToolbarExample = @"<Report Data=""@invoice""
+        @bind-Definition=""@definition""
+        DesignerEnabled
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html""
+                  AllowDownload
+                  AllowPrint />
+    <ReportToolbar>
+        <ReportToolbarGroup>
+            <ReportToolbarPanesMenu />
+        </ReportToolbarGroup>
+        <ReportToolbarGroup>
+            <ReportToolbarItem Command=""ReportCommand.Cut"" Caption=""Cut"" />
+            <ReportToolbarItem Command=""ReportCommand.Copy"" Caption=""Copy"" />
+            <ReportToolbarItem Command=""ReportCommand.Duplicate"" Caption=""Duplicate"">
+                <ButtonTemplate Context=""item"">
+                    <Button Color=""Color.Warning"" Outline Active=""@item.Active"" Disabled=""@(!item.CanExecute)"" Clicked=""@item.Execute"" title=""@item.Text"">
+                        @if ( item.Icon is not null )
+                        {
+                            <Icon Name=""@item.Icon.Value"" Margin=""Margin.Is2.FromEnd"" />
+                        }
+                        @item.Text
+                    </Button>
+                </ButtonTemplate>
+            </ReportToolbarItem>
+            <ReportToolbarItem Command=""ReportCommand.Paste"" Caption=""Paste"" />
+            <ReportToolbarItem Command=""ReportCommand.Delete"" Caption=""Delete"" />
+        </ReportToolbarGroup>
+        <ReportToolbarGroup>
+            <ReportToolbarItem Command=""ReportCommand.Undo"" Caption=""Undo"" />
+            <ReportToolbarItem Command=""ReportCommand.Redo"" Caption=""Redo"" />
+            <ReportToolbarItem Command=""ReportCommand.Reset"" Caption=""Reset"" />
+        </ReportToolbarGroup>
+        <ReportToolbarGroup>
+            <ReportToolbarItem Command=""ReportCommand.ConnectDataSource"" Caption=""Data sources"" />
+            <ReportToolbarItem Command=""ReportCommand.DownloadPdf"" Caption=""Download PDF"" />
+        </ReportToolbarGroup>
+        <Div Margin=""Margin.IsAuto.FromStart"">
+            <ReportToolbarGroup>
+                <ReportToolbarItem Command=""ReportCommand.Design"" Caption=""Design"" ShowCaption />
+                <ReportToolbarItem Command=""ReportCommand.Preview"" Caption=""Preview"" ShowCaption />
+            </ReportToolbarGroup>
+        </Div>
+    </ReportToolbar>
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportHeader Name=""Toolbar sample header"" Height=""72"">
+        <ReportText Text=""Designer toolbar"" X=""30"" Y=""18"" Width=""240"" Height=""24"" FontSize=""18"" Bold FontColor=""@ReportColors.Blue"" />
+        <ReportText Text=""{Header.Number} - {Customer.Name}"" X=""30"" Y=""45"" Width=""360"" Height=""18"" />
+    </ReportHeader>
+    <ReportPageHeader Name=""Column headers"" Height=""32"">
+        <ReportText Text=""Description"" X=""30"" Y=""8"" Width=""270"" Height=""18"" Bold />
+        <ReportText Text=""Total"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+    </ReportPageHeader>
+    <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+        <ReportField Field=""Description"" X=""30"" Y=""6"" Width=""270"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+    </ReportDetail>
+</Report>
+
+@code {
+    private ReportDefinition definition;
+
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = ""INV-1001"",
+        },
+        Customer = new()
+        {
+            Name = ""Northwind Traders"",
+        },
+        Lines =
+        [
+            new() { Description = ""Implementation workshop"", Total = 640.50m },
+            new() { Description = ""Reporting module license"", Total = 500.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingDetailDataSourceExample = @"<Report Data=""@invoice""
+        DesignerEnabled
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportHeader Name=""Invoice header"" Height=""72"">
+        <ReportText Text=""Detail band repeats Invoice.Lines"" X=""30"" Y=""18"" Width=""300"" Height=""24"" FontSize=""18"" Bold FontColor=""@ReportColors.Blue"" />
+        <ReportText Text=""{Header.Number} - {Customer.Name}"" X=""30"" Y=""45"" Width=""360"" Height=""18"" />
+    </ReportHeader>
+    <ReportPageHeader Name=""Column headers"" Height=""32"">
+        <ReportText Text=""Sku"" X=""30"" Y=""8"" Width=""75"" Height=""18"" Bold />
+        <ReportText Text=""Description"" X=""120"" Y=""8"" Width=""210"" Height=""18"" Bold />
+        <ReportText Text=""Qty"" X=""345"" Y=""8"" Width=""60"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+        <ReportText Text=""Total"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+    </ReportPageHeader>
+    <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+        <ReportField Field=""Sku"" X=""30"" Y=""6"" Width=""75"" Height=""18"" />
+        <ReportField Field=""Description"" X=""120"" Y=""6"" Width=""210"" Height=""18"" />
+        <ReportField Field=""Quantity"" Format=""@ReportFormats.Number( 2 )"" X=""345"" Y=""6"" Width=""60"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+    </ReportDetail>
+    <ReportFooter Name=""Totals"" Height=""45"">
+        <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""8"" Thickness=""1"" />
+        <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+    </ReportFooter>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = ""INV-1001"",
+            Total = 1240.50m,
+        },
+        Customer = new()
+        {
+            Name = ""Northwind Traders"",
+        },
+        Lines =
+        [
+            new() { Sku = ""SRV-001"", Description = ""Implementation workshop"", Quantity = 1, Total = 640.50m },
+            new() { Sku = ""LIC-010"", Description = ""Reporting module license"", Quantity = 2, Total = 500.00m },
+            new() { Sku = ""SUP-003"", Description = ""Priority support"", Quantity = 1, Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Sku { get; set; }
+
+        public string Description { get; set; }
+
+        public decimal Quantity { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingFontFaceExample = @"@font-face {
+    font-family: ""Inter"";
+    src: url(""fonts/Inter-Regular.ttf"") format(""truetype"");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}";
+
+        public const string ReportingFontRegistrationExample = @"byte[] interRegularBytes = await File.ReadAllBytesAsync( ""wwwroot/fonts/Inter-Regular.ttf"" );
+
+builder.Services
+    .AddBlazorise( options =>
+    {
+        options.Fonts.Add( new()
+        {
+            Name = ""Inter"",
+            DisplayName = ""Inter"",
+            CssFamily = ""\""Inter\"", sans-serif"",
+            Regular = FontSource.FromBytes( interRegularBytes, FontFormat.TrueType ),
+        } );
+    } )
+    .AddBlazoriseReporting();";
+
+        public const string ReportingFormulaFieldsExample = @"<Report Data=""@invoice""
+        DesignerEnabled
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportFormulaFields>
+        <ReportFormulaField Name=""CustomerSummary"" Formula=""'Customer: ' + {Customer.Name}"" />
+        <ReportFormulaField Name=""LargeLine"" Formula=""if {Lines.Total} > 500 then 'Large' else 'Standard'"" />
+    </ReportFormulaFields>
+    <ReportHeader Name=""Invoice header"" Height=""72"">
+        <ReportText Text=""Formula fields"" X=""30"" Y=""18"" Width=""240"" Height=""24"" FontSize=""18"" Bold FontColor=""@ReportColors.Blue"" />
+        <ReportField Field=""CustomerSummary"" X=""30"" Y=""45"" Width=""300"" Height=""18"" />
+    </ReportHeader>
+    <ReportPageHeader Name=""Column headers"" Height=""32"">
+        <ReportText Text=""Description"" X=""30"" Y=""8"" Width=""240"" Height=""18"" Bold />
+        <ReportText Text=""Total"" X=""300"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+        <ReportText Text=""Formula result"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold />
+    </ReportPageHeader>
+    <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+        <ReportField Field=""Description"" X=""30"" Y=""6"" Width=""240"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""300"" Y=""6"" Width=""90"" Height=""18"" />
+        <ReportField Field=""LargeLine"" X=""420"" Y=""6"" Width=""90"" Height=""18"" Bold />
+    </ReportDetail>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Customer = new()
+        {
+            Name = ""Northwind Traders"",
+        },
+        Lines =
+        [
+            new() { Description = ""Implementation workshop"", Total = 640.50m },
+            new() { Description = ""Reporting module license"", Total = 500.00m },
+            new() { Description = ""Priority support"", Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingImportsExample = @"@using Blazorise.Reporting";
+
+        public const string ReportingLayoutBandsExample = @"<Report Data=""@invoice""
+        DesignerEnabled
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html""
+                  AllowDownload
+                  AllowPrint />
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportPage Size=""ReportPageSize.A4""
+                Orientation=""ReportOrientation.Portrait"" />
+    <ReportHeader Name=""Report header"" Height=""105"">
+        <ReportText Text=""Invoice {Header.Number}"" X=""30"" Y=""18"" Width=""180"" Height=""24"" FontSize=""20"" Bold FontColor=""@ReportColors.Blue"" />
+        <ReportText Text=""{Customer.Name}"" X=""30"" Y=""48"" Width=""240"" Height=""18"" Bold />
+        <ReportText Text=""{Customer.Address}"" X=""30"" Y=""70"" Width=""300"" Height=""18"" FontColor=""@ReportColors.Gray"" />
+        <ReportLine Orientation=""Orientation.Vertical"" X=""380"" Y=""20"" Width=""8"" Height=""54"" Thickness=""1"" BorderColor=""@ReportColors.Blue"" />
+        <ReportPanel X=""405"" Y=""20"" Width=""120"" Height=""54"" BorderColor=""@ReportColors.Blue"" BorderWidth=""1"" BorderStyle=""ReportBorderStyle.Solid"">
+            <ReportText Text=""REPORT HEADER"" X=""13"" Y=""19"" Width=""94"" Height=""18"" Bold TextAlignment=""TextAlignment.Center"" FontColor=""@ReportColors.Blue"" />
+        </ReportPanel>
+    </ReportHeader>
+    <ReportPageHeader Name=""Page header"" Height=""35"">
+        <ReportText Text=""Sku"" X=""30"" Y=""9"" Width=""75"" Height=""18"" Bold />
+        <ReportText Text=""Description"" X=""120"" Y=""9"" Width=""210"" Height=""18"" Bold />
+        <ReportText Text=""Qty"" X=""345"" Y=""9"" Width=""60"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+        <ReportText Text=""Line total"" X=""420"" Y=""9"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+    </ReportPageHeader>
+    <ReportGroupHeader Name=""Category group"" Height=""28"" DataSource=""Invoice.Lines"" GroupBy=""Category"">
+        <ReportText Text=""Category: {Category}"" X=""30"" Y=""6"" Width=""240"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+        <ReportLine X=""30"" Y=""26"" Width=""480"" Height=""8"" Thickness=""1"" BorderColor=""@ReportColors.Green"" />
+    </ReportGroupHeader>
+    <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+        <ReportField Field=""Sku"" X=""30"" Y=""6"" Width=""75"" Height=""18"" />
+        <ReportField Field=""Description"" X=""120"" Y=""6"" Width=""210"" Height=""18"" />
+        <ReportField Field=""Quantity"" Format=""@ReportFormats.Number( 2 )"" X=""345"" Y=""6"" Width=""60"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+    </ReportDetail>
+    <ReportFooter Name=""Report footer"" Height=""60"">
+        <ReportLine X=""30"" Y=""9"" Width=""480"" Height=""8"" Thickness=""1"" />
+        <ReportText Text=""Report total"" X=""300"" Y=""24"" Width=""105"" Height=""18"" Bold />
+        <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""24"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+    </ReportFooter>
+    <ReportPageFooter Name=""Page footer"" Height=""30"">
+        <ReportText Text=""Generated {PrintDate} - page {PageNumber} of {TotalPages}"" X=""30"" Y=""7"" Width=""300"" Height=""18"" FontColor=""@ReportColors.Gray"" />
+    </ReportPageFooter>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = ""INV-2026-014"",
+            Total = 2765.50m,
+        },
+        Customer = new()
+        {
+            Name = ""Northwind Traders"",
+            Address = ""One Portals Way, Twin Points WA, 98156"",
+        },
+        Lines =
+        [
+            new() { Category = ""Services"", Sku = ""SRV-001"", Description = ""Implementation workshop"", Quantity = 1, Total = 640.50m },
+            new() { Category = ""Services"", Sku = ""SUP-003"", Description = ""Priority support"", Quantity = 1, Total = 100.00m },
+            new() { Category = ""Licenses"", Sku = ""LIC-010"", Description = ""Reporting module license"", Quantity = 2, Total = 500.00m },
+            new() { Category = ""Licenses"", Sku = ""LIC-020"", Description = ""PDF export add-on"", Quantity = 5, Total = 1525.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+
+        public string Address { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Category { get; set; }
+
+        public string Sku { get; set; }
+
+        public string Description { get; set; }
+
+        public decimal Quantity { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingLayoutTableExample = @"<Report Data=""@invoice""
+        DesignerEnabled
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportHeader Name=""Invoice header"" Height=""150"">
+        <ReportText Text=""Layout table invoice"" X=""30"" Y=""18"" Width=""240"" Height=""24"" FontSize=""20"" Bold FontColor=""@ReportColors.Blue"" />
+        <ReportTable X=""30"" Y=""55"" Width=""495"" Height=""72"">
+            <ReportTableRow Height=""24"">
+                <ReportTableCell>
+                    <ReportText Text=""Customer"" Bold />
+                </ReportTableCell>
+                <ReportTableCell ColumnSpan=""2"">
+                    <ReportText Text=""{Customer.Name}"" />
+                </ReportTableCell>
+                <ReportTableCell>
+                    <ReportText Text=""Invoice"" Bold />
+                </ReportTableCell>
+                <ReportTableCell>
+                    <ReportText Text=""{Header.Number}"" />
+                </ReportTableCell>
+            </ReportTableRow>
+            <ReportTableRow Height=""24"">
+                <ReportTableCell>
+                    <ReportText Text=""Address"" Bold />
+                </ReportTableCell>
+                <ReportTableCell ColumnSpan=""2"">
+                    <ReportText Text=""{Customer.Address}"" />
+                </ReportTableCell>
+                <ReportTableCell>
+                    <ReportText Text=""Issued"" Bold />
+                </ReportTableCell>
+                <ReportTableCell>
+                    <ReportField Field=""Header.IssuedAt"" Format=""@ReportFormats.Date()"" />
+                </ReportTableCell>
+            </ReportTableRow>
+            <ReportTableRow Height=""24"">
+                <ReportTableCell>
+                    <ReportText Text=""Tax number"" Bold />
+                </ReportTableCell>
+                <ReportTableCell ColumnSpan=""2"">
+                    <ReportText Text=""{Customer.TaxNumber}"" />
+                </ReportTableCell>
+                <ReportTableCell>
+                    <ReportText Text=""Total"" Bold />
+                </ReportTableCell>
+                <ReportTableCell>
+                    <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" Bold FontColor=""@ReportColors.Green"" />
+                </ReportTableCell>
+            </ReportTableRow>
+        </ReportTable>
+    </ReportHeader>
+    <ReportPageHeader Name=""Line headers"" Height=""32"">
+        <ReportText Text=""Sku"" X=""30"" Y=""8"" Width=""75"" Height=""18"" Bold />
+        <ReportText Text=""Description"" X=""120"" Y=""8"" Width=""210"" Height=""18"" Bold />
+        <ReportText Text=""Qty"" X=""345"" Y=""8"" Width=""60"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+        <ReportText Text=""Total"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+    </ReportPageHeader>
+    <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+        <ReportField Field=""Sku"" X=""30"" Y=""6"" Width=""75"" Height=""18"" />
+        <ReportField Field=""Description"" X=""120"" Y=""6"" Width=""210"" Height=""18"" />
+        <ReportField Field=""Quantity"" Format=""@ReportFormats.Number( 2 )"" X=""345"" Y=""6"" Width=""60"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+    </ReportDetail>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = ""INV-2026-021"",
+            IssuedAt = new DateTime( 2026, 6, 17 ),
+            Total = 1240.50m,
+        },
+        Customer = new()
+        {
+            Name = ""Northwind Traders"",
+            Address = ""One Portals Way, Twin Points WA, 98156"",
+            TaxNumber = ""NW-45821"",
+        },
+        Lines =
+        [
+            new() { Sku = ""SRV-001"", Description = ""Implementation workshop"", Quantity = 1, Total = 640.50m },
+            new() { Sku = ""LIC-010"", Description = ""Reporting module license"", Quantity = 2, Total = 500.00m },
+            new() { Sku = ""SUP-003"", Description = ""Priority support"", Quantity = 1, Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+
+        public DateTime IssuedAt { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+
+        public string Address { get; set; }
+
+        public string TaxNumber { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Sku { get; set; }
+
+        public string Description { get; set; }
+
+        public decimal Quantity { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingNugetInstallExample = @"Install-Package Blazorise.Reporting";
+
+        public const string ReportingPdfExportExample = @"<Report Data=""@invoice""
+        DesignerEnabled
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Pdf""
+                  AllowDownload
+                  AllowPrint>
+        <PdfPreviewTemplate Context=""preview"">
+            <PdfViewerContainer Height=""Height.Rem( 48 )"">
+                <PdfViewerToolbar ShowPrinting=""@preview.AllowPrint""
+                                  ShowDownloading=""@preview.AllowDownload"" />
+                <PdfViewer Source=""@preview.DataUrl""
+                           Mode=""PdfViewerMode.Continuous""
+                           DownloadFileName=""@preview.FileName"" />
+            </PdfViewerContainer>
+        </PdfPreviewTemplate>
+    </ReportViewer>
+    <ReportToolbar>
+        <ReportToolbarGroup>
+            <ReportToolbarPanesMenu />
+        </ReportToolbarGroup>
+        <ReportToolbarGroup>
+            <ReportToolbarItem Command=""ReportCommand.PreviewHtml"" Caption=""HTML Preview"" />
+            <ReportToolbarItem Command=""ReportCommand.PreviewPdf"" Caption=""PDF Preview"" />
+            <ReportToolbarItem Command=""ReportCommand.DownloadPdf"" Caption=""Download PDF"" />
+        </ReportToolbarGroup>
+        <Div Margin=""Margin.IsAuto.FromStart"">
+            <ReportToolbarGroup>
+                <ReportToolbarItem Command=""ReportCommand.Design"" Caption=""Design"" ShowCaption />
+                <ReportToolbarItem Command=""ReportCommand.Preview"" Caption=""Preview"" ShowCaption />
+            </ReportToolbarGroup>
+        </Div>
+    </ReportToolbar>
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportHeader Name=""PDF export header"" Height=""84"">
+        <ReportText Text=""PDF export invoice"" X=""30"" Y=""18"" Width=""240"" Height=""24"" FontSize=""20"" Bold FontColor=""@ReportColors.Blue"" />
+        <ReportText Text=""{Customer.Name}"" X=""30"" Y=""48"" Width=""240"" Height=""18"" />
+        <ReportText Text=""{Header.Number}"" X=""405"" Y=""48"" Width=""105"" Height=""18"" TextAlignment=""TextAlignment.End"" />
+    </ReportHeader>
+    <ReportPageHeader Name=""Column headers"" Height=""32"">
+        <ReportText Text=""Description"" X=""30"" Y=""8"" Width=""270"" Height=""18"" Bold />
+        <ReportText Text=""Total"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+    </ReportPageHeader>
+    <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+        <ReportField Field=""Description"" X=""30"" Y=""6"" Width=""270"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" FontColor=""@ReportColors.Green"" />
+    </ReportDetail>
+    <ReportFooter Name=""Invoice footer"" Height=""45"">
+        <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""8"" Thickness=""1"" />
+        <ReportText Text=""Invoice total"" X=""300"" Y=""18"" Width=""105"" Height=""18"" Bold />
+        <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+    </ReportFooter>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = ""INV-1001"",
+            Total = 1240.50m,
+        },
+        Customer = new()
+        {
+            Name = ""Northwind Traders"",
+        },
+        Lines =
+        [
+            new() { Description = ""Implementation workshop"", Total = 640.50m },
+            new() { Description = ""Reporting module license"", Total = 500.00m },
+            new() { Description = ""Priority support"", Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingResourcesExample = @"<link href=""_content/Blazorise.Reporting/blazorise.reporting.css?v=2.2.2.0"" rel=""stylesheet"" />";
+
+        public const string ReportingRunningTotalsExample = @"<Report Data=""@invoice""
+        DesignerEnabled
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportRunningTotals>
+        <ReportRunningTotal Name=""LineRunningTotal""
+                            DataSource=""Invoice.Lines""
+                            Field=""Total""
+                            AggregateFunction=""ReportAggregateFunction.Sum"" />
+    </ReportRunningTotals>
+    <ReportHeader Name=""Invoice header"" Height=""60"">
+        <ReportText Text=""Running totals"" X=""30"" Y=""18"" Width=""240"" Height=""24"" FontSize=""18"" Bold FontColor=""@ReportColors.Blue"" />
+    </ReportHeader>
+    <ReportPageHeader Name=""Column headers"" Height=""32"">
+        <ReportText Text=""Description"" X=""30"" Y=""8"" Width=""210"" Height=""18"" Bold />
+        <ReportText Text=""Total"" X=""300"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+        <ReportText Text=""Running total"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+    </ReportPageHeader>
+    <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+        <ReportField Field=""Description"" X=""30"" Y=""6"" Width=""210"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""300"" Y=""6"" Width=""90"" Height=""18"" />
+        <ReportField Field=""LineRunningTotal"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+    </ReportDetail>
+    <ReportFooter Name=""Totals"" Height=""45"">
+        <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""8"" Thickness=""1"" />
+        <ReportText Text=""Grand total"" X=""300"" Y=""18"" Width=""105"" Height=""18"" Bold />
+        <ReportField Field=""Lines.Total"" AggregateFunction=""ReportAggregateFunction.Sum"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+    </ReportFooter>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Lines =
+        [
+            new() { Description = ""Implementation workshop"", Total = 640.50m },
+            new() { Description = ""Reporting module license"", Total = 500.00m },
+            new() { Description = ""Priority support"", Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingServiceRegistrationExample = @"builder.Services
+    .AddBlazorise()
+    .AddBlazoriseReporting();";
+
+        public const string ReportingStateExample = @"<Report Data=""@invoice""
+        @bind-Definition=""@definition""
+        SaveRequested=""@SaveReport""
+        LoadRequested=""@LoadReport""
+        DesignerEnabled
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportHeader Name=""Stateful report header"" Height=""72"">
+        <ReportText Text=""Persistent report definition"" X=""30"" Y=""18"" Width=""270"" Height=""24"" FontSize=""18"" Bold FontColor=""@ReportColors.Blue"" />
+        <ReportText Text=""Move elements, save the definition as JSON, and load it again from the toolbar."" X=""30"" Y=""45"" Width=""450"" Height=""18"" />
+    </ReportHeader>
+    <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+        <ReportField Field=""Description"" X=""30"" Y=""6"" Width=""270"" Height=""18"" />
+        <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+    </ReportDetail>
+</Report>
+
+@code {
+    private ReportDefinition definition;
+
+    private string reportJson;
+
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Lines =
+        [
+            new() { Description = ""Implementation workshop"", Total = 640.50m },
+            new() { Description = ""Reporting module license"", Total = 500.00m },
+        ],
+    };
+
+    private Task SaveReport( ReportDefinition definition )
+    {
+        reportJson = ReportJsonSerializer.Serialize( definition );
+
+        return Task.CompletedTask;
+    }
+
+    private Task<ReportDefinition> LoadReport()
+    {
+        ReportDefinition savedDefinition = string.IsNullOrWhiteSpace( reportJson )
+            ? null
+            : ReportJsonSerializer.Deserialize( reportJson );
+
+        return Task.FromResult( savedDefinition );
+    }
+
+    private sealed class InvoiceReportModel
+    {
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
 
         public const string RichTextEditConfigurationExample = @"<RichTextEdit ConfigureQuillJsMethod=""myComponent.configureQuillJs"" />
 
@@ -30825,6 +32553,39 @@ builder.Services
         3
     </Badge>
 </Button>";
+
+        public const string FluentSizingNumericShorthandExample = @"<Div Width=""Width.Px().Max( 520 )"" Flex=""Flex.Column"" Gap=""1.Rem()"">
+    <Div Width=""8.Rem()""
+         Height=""4.Rem()""
+         TextSize=""1.25.Rem()""
+         Padding=""Padding.Is2""
+         Background=""Background.Primary.Subtle""
+         Border=""Border.Is1.Primary""
+         TextColor=""TextColor.Primary.Emphasis"">
+        Width=""8.Rem()"", Height=""4.Rem()"", and TextSize=""1.25.Rem()""
+    </Div>
+    <Div Width=""50.Percent()""
+         Padding=""Padding.Is2""
+         Background=""Background.Success.Subtle""
+         Border=""Border.Is1.Success""
+         TextColor=""TextColor.Success.Emphasis"">
+        Width=""50.Percent()""
+    </Div>
+    <Div Width=""20.Rem().Min( 12 ).Max( 30 )""
+         Padding=""Padding.Is2""
+         Background=""Background.Warning.Subtle""
+         Border=""Border.Is1.Warning""
+         TextColor=""TextColor.Warning.Emphasis"">
+        Width=""20.Rem().Min( 12 ).Max( 30 )""
+    </Div>
+    <Div Width=""@(Width.Calc( ""100% - 2rem"" ))""
+         Padding=""Padding.Is2""
+         Background=""Background.Secondary.Subtle""
+         Border=""Border.Is1.Secondary""
+         TextColor=""TextColor.Secondary.Emphasis"">
+        Width=""Width.Calc( ""100% - 2rem"" )""
+    </Div>
+</Div>";
 
         public const string FluentSizingPredefinedExample = @"<Div Width=""Width.Px().Max( 520 )"" Background=""Background.Light"" Border=""Border.Is1.Secondary.Subtle"" Padding=""Padding.Is3"">
     <Div Width=""Width.Is25""

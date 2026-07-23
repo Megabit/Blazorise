@@ -1,0 +1,21 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<Field Class="b-report-designer-report-explorer-search"
+       Margin="MarginIs0"
+       Padding="PaddingIs3OnXIs3FromTop">
+    <TextInput @bind-Value="@searchText"
+               Role="TextRole.Search"
+               Placeholder="Search..."
+               Size="Size.Small"
+               Immediate="true"
+               Debounce="true" />
+</Field>
+
+<Div Class="b-report-designer-report-explorer-tree"
+     Padding="PaddingIs3">
+    <_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildReportExplorerNodes( Definition, ReportSelected, SelectedSectionIndex, SelectedElementKey, SelectedCellKey, IsElementSelected, AllowSubreport, searchText )"
+                     ExpandAll="@(!string.IsNullOrWhiteSpace( searchText ))"
+                     NodeClicked="@NodeClicked"
+                     NodeContextMenu="@NodeContextMenu" />
+</Div>

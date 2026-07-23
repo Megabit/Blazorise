@@ -1,0 +1,30 @@
+@namespace Blazorise
+@inherits _BaseDockRenderer
+@if ( Visible )
+{
+    <CascadingValue Value="@ActivePane" IsFixed="false">
+        <aside id="@Context.GetDockNodeElementId( Node.Id )" class="@ClassNames" style="@StyleNames" data-dock-node-id="@Node.Id" data-dock-pane-name="@ActivePaneName" data-dock-pane-caption="@ActivePane.ResolvedCaption">
+            @if ( TabsVisible && TabsOnTop )
+            {
+                <div class="@TabsClassNames">
+                    @foreach ( string paneName in Node.Panes )
+                    {
+                        <_DockTabRenderer @key="@paneName" NodeId="@NodeId" PaneName="@paneName" GroupPosition="@GroupPosition" Active="@( paneName == ActivePaneName )" />
+                    }
+                </div>
+            }
+
+            @ActivePane.ChildContent
+            @if ( TabsVisible && !TabsOnTop )
+            {
+                <div class="@TabsClassNames">
+                    @foreach ( string paneName in Node.Panes )
+                    {
+                        <_DockTabRenderer @key="@paneName" NodeId="@NodeId" PaneName="@paneName" GroupPosition="@GroupPosition" Active="@( paneName == ActivePaneName )" />
+                    }
+                </div>
+            }
+
+        </aside>
+    </CascadingValue>
+}

@@ -1,8 +1,8 @@
 import { VidstackPlayer, PlyrLayout } from "./vendors/vidstack.js?v=2.2.2.0";
 
-import { getRequiredElement, isString, firstNonNull, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.2.2.0";
+import { getRequiredElement, isString, firstNonNull, registerDisconnectCleanup, unregisterDisconnectCleanup, insertCSSIntoDocumentHead } from "../Blazorise/utilities.js?v=2.2.2.0";
 
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Video/vendors/vidstack.css\" />");
+insertCSSIntoDocumentHead("_content/Blazorise.Video/vendors/vidstack.css?v=2.2.2.0");
 
 const _instances = [];
 

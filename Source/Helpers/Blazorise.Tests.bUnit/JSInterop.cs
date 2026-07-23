@@ -252,6 +252,32 @@ public static class JSInterop
         return jsInterop;
     }
 
+    public static BunitJSInterop AddBlazoriseResizer( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseUtilities( jsInterop );
+        AddBlazoriseDocumentObserver( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSResizerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "import", _ => true ).SetVoidResult();
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
+    public static BunitJSInterop AddBlazoriseDocumentObserver( this BunitJSInterop jsInterop )
+    {
+        var module = jsInterop.SetupModule( new JSDocumentObserverModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "addSubscription", _ => true ).SetVoidResult();
+        module.SetupVoid( "removeSubscription", _ => true ).SetVoidResult();
+        module.SetupVoid( "capturePointer", _ => true ).SetVoidResult();
+        module.SetupVoid( "releasePointer", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
     public static BunitJSInterop AddBlazoriseModal( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );

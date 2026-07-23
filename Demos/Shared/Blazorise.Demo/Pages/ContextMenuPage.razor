@@ -1,0 +1,175 @@
+@page "/tests/context-menu"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Context Menu</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Right-click or use the buttons to test target-bound, toggle-bound, checked, radio, submenu, disabled, and programmatic context menu behavior. All commands are for display purposes only.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is6">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Target</CardTitle>
+                            </CardHeader>
+                            <CardBody>
+                                <Div ElementId="@TargetElementId" Padding="Padding.Is4" Border="Border.Is1.Rounded" Background="Background.Light">
+                                    <Strong>Right-click this panel</Strong>
+                                    <Paragraph Margin="Margin.Is2.FromTop">
+                                        Last command: @lastCommand
+                                    </Paragraph>
+                                </Div>
+                            </CardBody>
+                        </Card>
+
+                        <ContextMenu TargetId="@TargetElementId" Opened="@OnContextMenuOpened" Closed="@OnContextMenuClosed">
+                            <ContextMenuBody MinWidth="16rem">
+                                <ContextMenuHeader>Document</ContextMenuHeader>
+                                <ContextMenuItem Icon="@IconName.Edit" Shortcut="F2" Clicked="@(() => SetLastCommand( "Rename" ))">Rename</ContextMenuItem>
+                                <ContextMenuItem Icon="@IconName.Copy" Shortcut="Ctrl+C" Clicked="@(() => SetLastCommand( "Copy" ))">Copy</ContextMenuItem>
+                                <ContextMenuItem Icon="@IconName.Cut" Shortcut="Ctrl+X" Clicked="@(() => SetLastCommand( "Cut" ))">Cut</ContextMenuItem>
+                                <ContextMenuItem Icon="@IconName.Paste" Shortcut="Ctrl+V" Disabled>Paste</ContextMenuItem>
+                                <ContextMenuDivider />
+                                <ContextMenuItem ShowCheckbox Checked="@showGrid" CheckedChanged="@OnShowGridChanged">Show grid</ContextMenuItem>
+                                <ContextMenuItem ShowCheckbox Checked="@snapToGrid" CheckedChanged="@OnSnapToGridChanged">Snap to grid</ContextMenuItem>
+                                <ContextMenuDivider />
+                                <ContextMenuGroup CheckMode="ContextMenuCheckMode.Radio" SelectedValue="@selectedMode" SelectedValueChanged="@OnModeChanged">
+                                    <ContextMenuHeader>Mode</ContextMenuHeader>
+                                    <ContextMenuItem Value="@SelectMode">Select</ContextMenuItem>
+                                    <ContextMenuItem Value="@PanMode">Pan</ContextMenuItem>
+                                    <ContextMenuItem Value="@AnnotateMode">Annotate</ContextMenuItem>
+                                </ContextMenuGroup>
+                                <ContextMenuDivider />
+                                <ContextMenuSubmenu Text="More" Icon="@IconName.Wrench">
+                                    <ContextMenuItem Icon="@IconName.Save" Clicked="@(() => SetLastCommand( "Save preset" ))">Save preset</ContextMenuItem>
+                                    <ContextMenuItem Icon="@IconName.Delete" Clicked="@(() => SetLastCommand( "Delete preset" ))">Delete preset</ContextMenuItem>
+                                </ContextMenuSubmenu>
+                            </ContextMenuBody>
+                        </ContextMenu>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is6">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Toggle And API</CardTitle>
+                            </CardHeader>
+                            <CardBody>
+                                <Paragraph>
+                                    The first menu is attached by wrapping a toggle element. The second is opened from C# at a fixed viewport coordinate.
+                                </Paragraph>
+
+                                <Div Flex="Flex.Row.Wrap" Gap="Gap.Is2">
+                                    <ContextMenu @ref="@toggleContextMenu">
+                                        <ContextMenuToggle>
+                                            <Button Color="Color.Primary" Clicked="@ShowToggleContextMenu">Click or right-click toggle</Button>
+                                        </ContextMenuToggle>
+                                        <ContextMenuBody MinWidth="14rem">
+                                            <ContextMenuItem Icon="@IconName.Edit" Active Clicked="@(() => SetLastCommand( "Toggle edit" ))">Edit</ContextMenuItem>
+                                            <ContextMenuItem Icon="@IconName.Copy" Clicked="@(() => SetLastCommand( "Toggle copy" ))">Copy</ContextMenuItem>
+                                            <ContextMenuDivider />
+                                            <ContextMenuItem Disabled>Disabled item</ContextMenuItem>
+                                        </ContextMenuBody>
+                                    </ContextMenu>
+
+                                    <Button Color="Color.Light" Clicked="@ShowProgrammaticMenu">
+                                        Open from API
+                                    </Button>
+                                </Div>
+                            </CardBody>
+                        </Card>
+
+                        <ContextMenu @ref="@programmaticContextMenu">
+                            <ContextMenuBody MinWidth="14rem">
+                                <ContextMenuHeader>Programmatic</ContextMenuHeader>
+                                <ContextMenuItem Icon="@IconName.Save" Clicked="@(() => SetLastCommand( "Programmatic save" ))">Save</ContextMenuItem>
+                                <ContextMenuItem Icon="@IconName.Sync" Clicked="@(() => SetLastCommand( "Programmatic refresh" ))">Refresh</ContextMenuItem>
+                            </ContextMenuBody>
+                        </ContextMenu>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private const string TargetElementId = "context-menu-demo-target";
+
+    private const string SelectMode = "Select";
+
+    private const string PanMode = "Pan";
+
+    private const string AnnotateMode = "Annotate";
+
+    private ContextMenu programmaticContextMenu;
+
+    private ContextMenu toggleContextMenu;
+
+    private string lastCommand = "None";
+
+    private string selectedMode = SelectMode;
+
+    private bool showGrid = true;
+
+    private bool snapToGrid = true;
+
+    private Task OnContextMenuOpened( ContextMenuEventArgs eventArgs )
+    {
+        lastCommand = "Menu opened";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnContextMenuClosed( ContextMenuEventArgs eventArgs )
+    {
+        lastCommand = "Menu closed";
+
+        return Task.CompletedTask;
+    }
+
+    private Task SetLastCommand( string command )
+    {
+        lastCommand = command;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnShowGridChanged( bool value )
+    {
+        showGrid = value;
+        lastCommand = $"Show grid: {value}";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnSnapToGridChanged( bool value )
+    {
+        snapToGrid = value;
+        lastCommand = $"Snap to grid: {value}";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnModeChanged( object value )
+    {
+        selectedMode = value?.ToString();
+        lastCommand = $"Mode: {selectedMode}";
+
+        return Task.CompletedTask;
+    }
+
+    private Task ShowProgrammaticMenu()
+    {
+        return programmaticContextMenu?.Show( 480, 260 ) ?? Task.CompletedTask;
+    }
+
+    private Task ShowToggleContextMenu( Microsoft.AspNetCore.Components.Web.MouseEventArgs eventArgs )
+    {
+        return toggleContextMenu?.Show( eventArgs.ClientX, eventArgs.ClientY ) ?? Task.CompletedTask;
+    }
+}

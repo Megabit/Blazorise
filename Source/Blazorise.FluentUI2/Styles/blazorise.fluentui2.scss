@@ -16,8 +16,10 @@
 @import "components/check";
 @import "components/color-picker";
 @import "components/container";
+@import "components/context-menu";
 @import "components/divider";
 @import "components/dropdown";
+@import "components/dock-layout";
 @import "components/field";
 @import "components/figure";
 @import "components/form";
@@ -35,6 +37,7 @@
 @import "components/progress";
 @import "components/radio";
 @import "components/rating";
+@import "components/resizer";
 @import "components/select";
 @import "components/skeleton";
 @import "components/slider";
@@ -74,3 +77,4 @@
 @import "extensions/password-strength";
 @import "extensions/markdown";
 @import "extensions/richtextedit";
+@import "extensions/reporting";

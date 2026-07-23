@@ -10,6 +10,7 @@ public static class LucideIcons
     public const string AArrowUp = "lucide-a-arrow-up";
     public const string Accessibility = "lucide-accessibility";
     public const string Activity = "lucide-activity";
+    public const string Ad = "lucide-ad";
     public const string Airplay = "lucide-airplay";
     public const string AirVent = "lucide-air-vent";
     public const string ALargeSmall = "lucide-a-large-small";
@@ -103,6 +104,7 @@ public static class LucideIcons
     public const string ArrowUpWideNarrow = "lucide-arrow-up-wide-narrow";
     public const string ArrowUpZA = "lucide-arrow-up-z-a";
     public const string Asterisk = "lucide-asterisk";
+    public const string Astroid = "lucide-astroid";
     public const string Atom = "lucide-atom";
     public const string AtSign = "lucide-at-sign";
     public const string AudioLines = "lucide-audio-lines";
@@ -138,6 +140,7 @@ public static class LucideIcons
     public const string Banknote = "lucide-banknote";
     public const string BanknoteArrowDown = "lucide-banknote-arrow-down";
     public const string BanknoteArrowUp = "lucide-banknote-arrow-up";
+    public const string BanknoteCheck = "lucide-banknote-check";
     public const string BanknoteX = "lucide-banknote-x";
     public const string Barcode = "lucide-barcode";
     public const string Barrel = "lucide-barrel";
@@ -161,6 +164,7 @@ public static class LucideIcons
     public const string Beer = "lucide-beer";
     public const string BeerOff = "lucide-beer-off";
     public const string Bell = "lucide-bell";
+    public const string BellCheck = "lucide-bell-check";
     public const string BellDot = "lucide-bell-dot";
     public const string BellElectric = "lucide-bell-electric";
     public const string BellMinus = "lucide-bell-minus";
@@ -180,6 +184,7 @@ public static class LucideIcons
     public const string Birdhouse = "lucide-birdhouse";
     public const string Bitcoin = "lucide-bitcoin";
     public const string Blend = "lucide-blend";
+    public const string Blender = "lucide-blender";
     public const string Blinds = "lucide-blinds";
     public const string Blocks = "lucide-blocks";
     public const string Bluetooth = "lucide-bluetooth";
@@ -190,6 +195,7 @@ public static class LucideIcons
     public const string Bolt = "lucide-bolt";
     public const string Bomb = "lucide-bomb";
     public const string Bone = "lucide-bone";
+    public const string BoneFracture = "lucide-bone-fracture";
     public const string Book = "lucide-book";
     public const string BookA = "lucide-book-a";
     public const string BookAlert = "lucide-book-alert";
@@ -243,6 +249,7 @@ public static class LucideIcons
     public const string BriefcaseConveyorBelt = "lucide-briefcase-conveyor-belt";
     public const string BriefcaseMedical = "lucide-briefcase-medical";
     public const string BringToFront = "lucide-bring-to-front";
+    public const string Broccoli = "lucide-broccoli";
     public const string Brush = "lucide-brush";
     public const string BrushCleaning = "lucide-brush-cleaning";
     public const string Bubbles = "lucide-bubbles";
@@ -379,6 +386,7 @@ public static class LucideIcons
     public const string CircleDotDashed = "lucide-circle-dot-dashed";
     public const string CircleEllipsis = "lucide-circle-ellipsis";
     public const string CircleEqual = "lucide-circle-equal";
+    public const string CircleEuro = "lucide-circle-euro";
     public const string CircleFadingArrowUp = "lucide-circle-fading-arrow-up";
     public const string CircleFadingPlus = "lucide-circle-fading-plus";
     public const string CircleGauge = "lucide-circle-gauge";
@@ -432,6 +440,8 @@ public static class LucideIcons
     public const string Clock9 = "lucide-clock-9";
     public const string ClockAlert = "lucide-clock-alert";
     public const string ClockArrowDown = "lucide-clock-arrow-down";
+    public const string ClockArrowLeft = "lucide-clock-arrow-left";
+    public const string ClockArrowRight = "lucide-clock-arrow-right";
     public const string ClockArrowUp = "lucide-clock-arrow-up";
     public const string ClockCheck = "lucide-clock-check";
     public const string ClockFading = "lucide-clock-fading";
@@ -513,8 +523,14 @@ public static class LucideIcons
     public const string Cylinder = "lucide-cylinder";
     public const string Dam = "lucide-dam";
     public const string Database = "lucide-database";
+    public const string DatabaseArrowDown = "lucide-database-arrow-down";
+    public const string DatabaseArrowUp = "lucide-database-arrow-up";
     public const string DatabaseBackup = "lucide-database-backup";
+    public const string DatabaseCheck = "lucide-database-check";
+    public const string DatabaseMinus = "lucide-database-minus";
+    public const string DatabasePlus = "lucide-database-plus";
     public const string DatabaseSearch = "lucide-database-search";
+    public const string DatabaseX = "lucide-database-x";
     public const string DatabaseZap = "lucide-database-zap";
     public const string DecimalsArrowLeft = "lucide-decimals-arrow-left";
     public const string DecimalsArrowRight = "lucide-decimals-arrow-right";
@@ -581,6 +597,7 @@ public static class LucideIcons
     public const string ExternalLink = "lucide-external-link";
     public const string Eye = "lucide-eye";
     public const string EyeClosed = "lucide-eye-closed";
+    public const string EyeDashed = "lucide-eye-dashed";
     public const string EyeOff = "lucide-eye-off";
     public const string Factory = "lucide-factory";
     public const string Fan = "lucide-fan";
@@ -670,6 +687,7 @@ public static class LucideIcons
     public const string Focus = "lucide-focus";
     public const string Folder = "lucide-folder";
     public const string FolderArchive = "lucide-folder-archive";
+    public const string FolderBookmark = "lucide-folder-bookmark";
     public const string FolderCheck = "lucide-folder-check";
     public const string FolderClock = "lucide-folder-clock";
     public const string FolderClosed = "lucide-folder-closed";
@@ -746,6 +764,7 @@ public static class LucideIcons
     public const string Glasses = "lucide-glasses";
     public const string GlassWater = "lucide-glass-water";
     public const string Globe = "lucide-globe";
+    public const string GlobeCheck = "lucide-globe-check";
     public const string GlobeLock = "lucide-globe-lock";
     public const string GlobeOff = "lucide-globe-off";
     public const string GlobeX = "lucide-globe-x";
@@ -803,6 +822,7 @@ public static class LucideIcons
     public const string HeartOff = "lucide-heart-off";
     public const string HeartPlus = "lucide-heart-plus";
     public const string HeartPulse = "lucide-heart-pulse";
+    public const string HeartX = "lucide-heart-x";
     public const string Heater = "lucide-heater";
     public const string Helicopter = "lucide-helicopter";
     public const string Hexagon = "lucide-hexagon";
@@ -867,6 +887,7 @@ public static class LucideIcons
     public const string Laugh = "lucide-laugh";
     public const string Layers = "lucide-layers";
     public const string Layers2 = "lucide-layers-2";
+    public const string LayersMinus = "lucide-layers-minus";
     public const string LayersPlus = "lucide-layers-plus";
     public const string LayoutDashboard = "lucide-layout-dashboard";
     public const string LayoutGrid = "lucide-layout-grid";
@@ -907,6 +928,8 @@ public static class LucideIcons
     public const string ListOrdered = "lucide-list-ordered";
     public const string ListPlus = "lucide-list-plus";
     public const string ListRestart = "lucide-list-restart";
+    public const string ListSortAscending = "lucide-list-sort-ascending";
+    public const string ListSortDescending = "lucide-list-sort-descending";
     public const string ListStart = "lucide-list-start";
     public const string ListTodo = "lucide-list-todo";
     public const string ListTree = "lucide-list-tree";
@@ -1119,7 +1142,9 @@ public static class LucideIcons
     public const string PanelTopClose = "lucide-panel-top-close";
     public const string PanelTopDashed = "lucide-panel-top-dashed";
     public const string PanelTopOpen = "lucide-panel-top-open";
+    public const string PaperBag = "lucide-paper-bag";
     public const string Paperclip = "lucide-paperclip";
+    public const string Parasol = "lucide-parasol";
     public const string Parentheses = "lucide-parentheses";
     public const string ParkingMeter = "lucide-parking-meter";
     public const string PartyPopper = "lucide-party-popper";
@@ -1131,12 +1156,14 @@ public static class LucideIcons
     public const string PencilLine = "lucide-pencil-line";
     public const string PencilOff = "lucide-pencil-off";
     public const string PencilRuler = "lucide-pencil-ruler";
+    public const string PencilSparkles = "lucide-pencil-sparkles";
     public const string PenLine = "lucide-pen-line";
     public const string PenOff = "lucide-pen-off";
     public const string Pentagon = "lucide-pentagon";
     public const string PenTool = "lucide-pen-tool";
     public const string Percent = "lucide-percent";
     public const string PersonStanding = "lucide-person-standing";
+    public const string Phi = "lucide-phi";
     public const string PhilippinePeso = "lucide-philippine-peso";
     public const string Phone = "lucide-phone";
     public const string PhoneCall = "lucide-phone-call";
@@ -1164,12 +1191,14 @@ public static class LucideIcons
     public const string PlaneLanding = "lucide-plane-landing";
     public const string PlaneTakeoff = "lucide-plane-takeoff";
     public const string Play = "lucide-play";
+    public const string PlayOff = "lucide-play-off";
     public const string Plug = "lucide-plug";
     public const string Plug2 = "lucide-plug-2";
     public const string PlugZap = "lucide-plug-zap";
     public const string Plus = "lucide-plus";
     public const string PocketKnife = "lucide-pocket-knife";
     public const string Podcast = "lucide-podcast";
+    public const string Podium = "lucide-podium";
     public const string Pointer = "lucide-pointer";
     public const string PointerOff = "lucide-pointer-off";
     public const string Popcorn = "lucide-popcorn";
@@ -1228,6 +1257,7 @@ public static class LucideIcons
     public const string Repeat = "lucide-repeat";
     public const string Repeat1 = "lucide-repeat-1";
     public const string Repeat2 = "lucide-repeat-2";
+    public const string RepeatOff = "lucide-repeat-off";
     public const string Replace = "lucide-replace";
     public const string ReplaceAll = "lucide-replace-all";
     public const string Reply = "lucide-reply";
@@ -1263,7 +1293,10 @@ public static class LucideIcons
     public const string SaudiRiyal = "lucide-saudi-riyal";
     public const string Save = "lucide-save";
     public const string SaveAll = "lucide-save-all";
+    public const string SaveCheck = "lucide-save-check";
     public const string SaveOff = "lucide-save-off";
+    public const string SavePen = "lucide-save-pen";
+    public const string SavePlus = "lucide-save-plus";
     public const string Scale = "lucide-scale";
     public const string Scale3D = "lucide-scale-3d";
     public const string Scaling = "lucide-scaling";
@@ -1300,6 +1333,7 @@ public static class LucideIcons
     public const string ServerCog = "lucide-server-cog";
     public const string ServerCrash = "lucide-server-crash";
     public const string ServerOff = "lucide-server-off";
+    public const string ServerPlus = "lucide-server-plus";
     public const string Settings = "lucide-settings";
     public const string Settings2 = "lucide-settings-2";
     public const string Shapes = "lucide-shapes";
@@ -1458,19 +1492,30 @@ public static class LucideIcons
     public const string Squirrel = "lucide-squirrel";
     public const string Stamp = "lucide-stamp";
     public const string Star = "lucide-star";
+    public const string StarCheck = "lucide-star-check";
     public const string StarHalf = "lucide-star-half";
+    public const string StarMinus = "lucide-star-minus";
     public const string StarOff = "lucide-star-off";
+    public const string StarPlus = "lucide-star-plus";
+    public const string StarX = "lucide-star-x";
     public const string StepBack = "lucide-step-back";
     public const string StepForward = "lucide-step-forward";
     public const string Stethoscope = "lucide-stethoscope";
     public const string Sticker = "lucide-sticker";
     public const string StickyNote = "lucide-sticky-note";
+    public const string StickyNoteCheck = "lucide-sticky-note-check";
+    public const string StickyNoteMinus = "lucide-sticky-note-minus";
+    public const string StickyNoteOff = "lucide-sticky-note-off";
+    public const string StickyNotePlus = "lucide-sticky-note-plus";
+    public const string StickyNotes = "lucide-sticky-notes";
+    public const string StickyNoteX = "lucide-sticky-note-x";
     public const string Stone = "lucide-stone";
     public const string Store = "lucide-store";
     public const string StretchHorizontal = "lucide-stretch-horizontal";
     public const string StretchVertical = "lucide-stretch-vertical";
     public const string Strikethrough = "lucide-strikethrough";
     public const string Subscript = "lucide-subscript";
+    public const string Summary = "lucide-summary";
     public const string Sun = "lucide-sun";
     public const string SunDim = "lucide-sun-dim";
     public const string SunMedium = "lucide-sun-medium";
@@ -1497,7 +1542,9 @@ public static class LucideIcons
     public const string Tablets = "lucide-tablets";
     public const string TabletSmartphone = "lucide-tablet-smartphone";
     public const string Tag = "lucide-tag";
+    public const string TagPlus = "lucide-tag-plus";
     public const string Tags = "lucide-tags";
+    public const string TagX = "lucide-tag-x";
     public const string Tally1 = "lucide-tally-1";
     public const string Tally2 = "lucide-tally-2";
     public const string Tally3 = "lucide-tally-3";
@@ -1537,6 +1584,7 @@ public static class LucideIcons
     public const string TicketSlash = "lucide-ticket-slash";
     public const string TicketsPlane = "lucide-tickets-plane";
     public const string TicketX = "lucide-ticket-x";
+    public const string Timeline = "lucide-timeline";
     public const string Timer = "lucide-timer";
     public const string TimerOff = "lucide-timer-off";
     public const string TimerReset = "lucide-timer-reset";
@@ -1607,6 +1655,7 @@ public static class LucideIcons
     public const string UserPen = "lucide-user-pen";
     public const string UserPlus = "lucide-user-plus";
     public const string UserRound = "lucide-user-round";
+    public const string UserRoundArrowLeft = "lucide-user-round-arrow-left";
     public const string UserRoundCheck = "lucide-user-round-check";
     public const string UserRoundCog = "lucide-user-round-cog";
     public const string UserRoundKey = "lucide-user-round-key";
@@ -1654,12 +1703,14 @@ public static class LucideIcons
     public const string Warehouse = "lucide-warehouse";
     public const string WashingMachine = "lucide-washing-machine";
     public const string Watch = "lucide-watch";
-    public const string Waves = "lucide-waves";
     public const string WavesArrowDown = "lucide-waves-arrow-down";
     public const string WavesArrowUp = "lucide-waves-arrow-up";
+    public const string WavesHorizontal = "lucide-waves-horizontal";
     public const string WavesLadder = "lucide-waves-ladder";
+    public const string WavesVertical = "lucide-waves-vertical";
     public const string Waypoints = "lucide-waypoints";
     public const string Webcam = "lucide-webcam";
+    public const string WebcamOff = "lucide-webcam-off";
     public const string Webhook = "lucide-webhook";
     public const string WebhookOff = "lucide-webhook-off";
     public const string Weight = "lucide-weight";
@@ -1682,6 +1733,7 @@ public static class LucideIcons
     public const string Workflow = "lucide-workflow";
     public const string Worm = "lucide-worm";
     public const string Wrench = "lucide-wrench";
+    public const string WrenchOff = "lucide-wrench-off";
     public const string X = "lucide-x";
     public const string XLineTop = "lucide-x-line-top";
     public const string Zap = "lucide-zap";

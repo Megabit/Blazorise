@@ -1,0 +1,19 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<ModalHeader>
+    <ModalTitle>@Title</ModalTitle>
+    <CloseButton Clicked="@Close" />
+</ModalHeader>
+<ModalBody>
+    <Field Horizontal Margin="MarginIs0FromBottomIs0OnX">
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd">Name</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs8">
+            <TextInput Value="@name" ValueChanged="@NameChanged" Immediate="true" Size="Size.Small" />
+        </FieldBody>
+    </Field>
+</ModalBody>
+<ModalFooter>
+    <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm)" Size="Size.Small">OK</Button>
+    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">Cancel</Button>
+</ModalFooter>

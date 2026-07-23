@@ -1,0 +1,65 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Report Data="@invoice"
+        @bind-Definition="@definition"
+        SaveRequested="@SaveReport"
+        LoadRequested="@LoadReport"
+        DesignerEnabled
+        PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf">
+    <ReportViewer PreviewFormat="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"
+                  DefaultPreviewFormat="ReportPreviewFormat.Html" />
+    <ReportDataSources>
+        <ReportObjectDataSource Name="Invoice" Data="@invoice" />
+    </ReportDataSources>
+    <ReportHeader Name="Stateful report header" Height="72">
+        <ReportText Text="Persistent report definition" X="30" Y="18" Width="270" Height="24" FontSize="18" Bold FontColor="@ReportColors.Blue" />
+        <ReportText Text="Move elements, save the definition as JSON, and load it again from the toolbar." X="30" Y="45" Width="450" Height="18" />
+    </ReportHeader>
+    <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
+        <ReportField Field="Description" X="30" Y="6" Width="270" Height="18" />
+        <ReportField Field="Total" Format="@ReportFormats.Currency()" X="420" Y="6" Width="90" Height="18" />
+    </ReportDetail>
+</Report>
+
+@code {
+    private ReportDefinition definition;
+
+    private string reportJson;
+
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Lines =
+        [
+            new() { Description = "Implementation workshop", Total = 640.50m },
+            new() { Description = "Reporting module license", Total = 500.00m },
+        ],
+    };
+
+    private Task SaveReport( ReportDefinition definition )
+    {
+        reportJson = ReportJsonSerializer.Serialize( definition );
+
+        return Task.CompletedTask;
+    }
+
+    private Task<ReportDefinition> LoadReport()
+    {
+        ReportDefinition savedDefinition = string.IsNullOrWhiteSpace( reportJson )
+            ? null
+            : ReportJsonSerializer.Deserialize( reportJson );
+
+        return Task.FromResult( savedDefinition );
+    }
+
+    private sealed class InvoiceReportModel
+    {
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}

@@ -1,0 +1,73 @@
+@page "/docs/extensions/reporting/designer"
+
+<Seo Canonical="/docs/extensions/reporting/designer" Title="Blazorise Reporting designer" Description="Configure the Blazorise Reporting designer, toolbar, definition persistence, and interactive state." />
+
+<DocsPageTitle Path="Extensions/Reporting/Designer" AddedVersion="New">
+    Reporting designer
+</DocsPageTitle>
+
+<DocsPageLead>
+    Enable design mode when users should edit the report template, move elements, edit properties, and switch between design and preview.
+</DocsPageLead>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Designer and toolbar">
+        The toolbar is declarative and can be grouped. Built-in commands cover persistence, designer panes, editing, history, data-source connection, PDF download, and mode switching.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ReportingDesignerToolbarExample" Outlined FullWidth>
+        <ReportingDesignerToolbarExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageParagraph>
+    The default designer toolbar includes a panes menu. When defining a custom toolbar, add <Code Tag>ReportToolbarPanesMenu</Code> if users should be able to open, focus, or show flyout panes from the toolbar.
+    Designer panes can also be pinned or unpinned from their headers.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Leave <Code Tag>ReportToolbar</Code> without child content to use the default toolbar. Its command groups can be controlled with <Code>ShowPersistenceButtons</Code>,
+    <Code>ShowEditButtons</Code>, <Code>ShowHistoryButtons</Code>, <Code>ShowDataSourceButtons</Code>, <Code>ShowExportButtons</Code>, and <Code>ShowModeButtons</Code>.
+    Use <Code>HiddenCommands</Code> when only individual commands should be removed.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The <Code>ButtonTemplate</Code> template receives a <Code Tag>ReportToolbarItemContext</Code> containing the command, text, icon, active and enabled states, and the <Code>Execute</Code> method.
+    It can be defined for the entire toolbar or for one <Code Tag>ReportToolbarItem</Code>. The Duplicate command is also available from the element context menu and with <Code>Ctrl+D</Code>.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Definition persistence">
+        Handle save and load requests to persist the report definition as JSON in browser storage, a database, or an application service.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ReportingStateExample" Outlined FullWidth>
+        <ReportingStateExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageParagraph>
+    <Code Tag>ReportDefinition</Code> is the persistent report model. It contains pages, bands, elements, data-source metadata, formulas, running totals, and designer settings such as grid size, rulers, band mode, and collision warnings.
+    Runtime data objects are intentionally excluded from JSON and must be supplied again through <Code>Data</Code> or declarative data-source components after loading.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The example keeps the serialized JSON in memory for brevity. Store the same string in browser storage, a database, or an application service to preserve it across sessions.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Use <Code>GetDefinition</Code> and <Code>LoadDefinition</Code> when persistence is initiated outside the toolbar. <Code Tag>ReportState</Code> additionally captures transient interaction state such as the current mode,
+    preview format, selection, and clipboard. It can be captured with <Code>GetState</Code> and restored with <Code>LoadState</Code>, but it is not required for long-term report storage.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Designer settings
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Designer settings are stored in <Code Tag>ReportDesignerDefinition</Code> and can also be changed from the report properties pane.
+    <Code>SnapToGrid</Code> and <Code>GridSize</Code> control grid-aligned movement and resizing. <Code>ShowRulers</Code> and <Code>ShowFineRulerTicks</Code> control measurement rulers,
+    while <Code>ShowCollisionWarnings</Code> highlights overlapping sibling elements. These settings are saved with the report definition.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/reporting/api" Name="<Report />" />
+</DocsPageApi>

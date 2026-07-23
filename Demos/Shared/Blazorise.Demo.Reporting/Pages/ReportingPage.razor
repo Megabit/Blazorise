@@ -1,0 +1,293 @@
+@page "/tests/reporting"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Reporting</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Report Data="@invoice"
+                        Definition="@definition"
+                        DefinitionChanged="@OnDefinitionChanged"
+                        SaveRequested="@SaveReport"
+                        LoadRequested="@LoadReport"
+                        DesignerEnabled
+                        PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf">
+                    <ReportViewer PreviewFormat="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"
+                                  DefaultPreviewFormat="ReportPreviewFormat.Html"
+                                  AllowDownload
+                                  AllowPrint>
+                        <PdfPreviewTemplate Context="preview">
+                            <PdfViewerContainer Height="Height.Rem( 48 )">
+                                <PdfViewerToolbar ShowPrinting="@preview.AllowPrint"
+                                                  ShowDownloading="@preview.AllowDownload" />
+                                <PdfViewer Source="@preview.DataUrl"
+                                           Mode="PdfViewerMode.Continuous"
+                                           DownloadFileName="@preview.FileName" />
+                            </PdfViewerContainer>
+                        </PdfPreviewTemplate>
+                    </ReportViewer>
+                    <ReportToolbar>
+                        <ReportToolbarGroup>
+                            <ReportToolbarItem Command="ReportCommand.Cut" Caption="Cut" />
+                            <ReportToolbarItem Command="ReportCommand.Copy" Caption="Copy" />
+                            <ReportToolbarItem Command="ReportCommand.Duplicate" Caption="Duplicate" />
+                            <ReportToolbarItem Command="ReportCommand.Paste" Caption="Paste" />
+                            <ReportToolbarItem Command="ReportCommand.Delete" Caption="Delete" />
+                        </ReportToolbarGroup>
+                        <ReportToolbarGroup>
+                            <ReportToolbarItem Command="ReportCommand.Undo" Caption="Undo" />
+                            <ReportToolbarItem Command="ReportCommand.Redo" Caption="Redo" />
+                            <ReportToolbarItem Command="ReportCommand.Reset" Caption="Reset" />
+                        </ReportToolbarGroup>
+                        <ReportToolbarGroup>
+                            <ReportToolbarItem Command="ReportCommand.Save" Caption="Save" Color="Color.Primary" />
+                            <ReportToolbarItem Command="ReportCommand.Load" Caption="Load" Color="Color.Info" />
+                        </ReportToolbarGroup>
+                        <ReportToolbarGroup>
+                            <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
+                            <ReportToolbarItem Command="ReportCommand.DownloadPdf" Caption="Download PDF" />
+                        </ReportToolbarGroup>
+                        <ReportToolbarGroup>
+                            <ReportToolbarPanesMenu />
+                        </ReportToolbarGroup>
+                        <Div Margin="Margin.IsAuto.FromStart">
+                            <ReportToolbarGroup>
+                                <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" ShowCaption />
+                                <ReportToolbarItem Command="ReportCommand.Preview" Caption="Preview" ShowCaption />
+                            </ReportToolbarGroup>
+                        </Div>
+                    </ReportToolbar>
+                    <ReportDataSources>
+                        <ReportObjectDataSource Name="Invoice" Data="@invoice" />
+                        <ReportCsvDataSource Name="CsvInvoiceLines" Source="@invoiceLinesCsv" Encoding="utf-8" />
+                    </ReportDataSources>
+                    <ReportFormulaFields>
+                        <ReportFormulaField Name="BillToSummary" Formula="'Bill to: ' + {BillTo.Name}" />
+                    </ReportFormulaFields>
+                    <ReportRunningTotals>
+                        <ReportRunningTotal Name="OrderRunningTotal" DataSource="Invoice.Lines" Field="Total" AggregateFunction="ReportAggregateFunction.Sum" />
+                    </ReportRunningTotals>
+                    <ReportPage Size="ReportPageSize.A4" Orientation="ReportOrientation.Portrait" />
+                    <ReportHeader Name="Order report header" Height="282">
+                        <ReportLine X="-36" Y="12" Width="390" Height="8" Thickness="1" BorderColor="@LightAccentColor" />
+                        <ReportLine X="-24" Y="18" Width="405" Height="8" Thickness="1" BorderColor="@LightAccentColor" />
+                        <ReportLine X="-12" Y="24" Width="420" Height="8" Thickness="1" BorderColor="@WaveAccentColor" />
+                        <ReportLine X="0" Y="30" Width="435" Height="8" Thickness="1" BorderColor="@WaveAccentColor" />
+                        <ReportLine X="12" Y="36" Width="450" Height="8" Thickness="1" BorderColor="@LightAccentColor" />
+                        <ReportText Text="Harbor Order" X="342" Y="42" Width="210" Height="36" FontColor="@AccentColor" FontSize="30" Bold TextAlignment="TextAlignment.End" />
+                        <ReportText Text="North Harbor Logistics" X="42" Y="78" Width="210" Height="18" FontColor="@MutedColor" Bold />
+                        <ReportText Text="42 Meridian Quay" X="42" Y="96" Width="210" Height="18" FontColor="@MutedColor" />
+                        <ReportText Text="Port Haven, WA 98104" X="42" Y="114" Width="210" Height="18" FontColor="@MutedColor" />
+                        <ReportText Text="orders@northernharbor.example" X="42" Y="132" Width="210" Height="18" FontColor="@MutedColor" />
+                        <ReportText Text="Date:" X="342" Y="124" Width="36" Height="18" FontColor="@MutedColor" />
+                        <ReportField Field="Header.OrderDate" Format="@ReportFormats.Date()" X="378" Y="124" Width="84" Height="18" FontColor="@MutedColor" />
+                        <ReportText Text="PO#:" X="474" Y="124" Width="36" Height="18" FontColor="@MutedColor" />
+                        <ReportField Field="Header.PurchaseOrder" X="510" Y="124" Width="72" Height="18" FontColor="@MutedColor" />
+                        <ReportText Text="BILL TO" X="42" Y="162" Width="186" Height="36" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" FontSize="13" Bold VerticalAlignment="VerticalAlignment.Middle" />
+                        <ReportField Field="BillTo.Name" X="46" Y="216" Width="180" Height="18" FontColor="@MutedColor" />
+                        <ReportField Field="BillTo.Address" X="46" Y="234" Width="180" Height="18" FontColor="@MutedColor" />
+                        <ReportField Field="BillTo.Email" X="46" Y="252" Width="180" Height="18" FontColor="@MutedColor" />
+                        <ReportText Text="SHIP TO" X="330" Y="162" Width="186" Height="36" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" FontSize="13" Bold VerticalAlignment="VerticalAlignment.Middle" />
+                        <ReportField Field="ShipTo.Name" X="334" Y="216" Width="180" Height="18" FontColor="@MutedColor" />
+                        <ReportField Field="ShipTo.Address" X="334" Y="234" Width="180" Height="18" FontColor="@MutedColor" />
+                        <ReportField Field="ShipTo.Email" X="334" Y="252" Width="180" Height="18" FontColor="@MutedColor" />
+                    </ReportHeader>
+                    <ReportPageHeader Name="Order table header" Height="42">
+                        <ReportText Text="ITEM#" X="42" Y="6" Width="72" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" VerticalAlignment="VerticalAlignment.Middle" />
+                        <ReportText Text="DESCRIPTION" X="114" Y="6" Width="180" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" VerticalAlignment="VerticalAlignment.Middle" />
+                        <ReportText Text="QTY" X="294" Y="6" Width="66" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" VerticalAlignment="VerticalAlignment.Middle" />
+                        <ReportText Text="UNIT PRICE" X="360" Y="6" Width="96" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" VerticalAlignment="VerticalAlignment.Middle" />
+                        <ReportText Text="TOTAL" X="456" Y="6" Width="96" Height="30" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" Bold TextAlignment="TextAlignment.Center" VerticalAlignment="VerticalAlignment.Middle" />
+                    </ReportPageHeader>
+                    <ReportDetail Name="Order rows" Height="36" DataSource="Invoice.Lines">
+                        <ReportField Field="Sku" X="42" Y="9" Width="72" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.Center" />
+                        <ReportField Field="Description" X="114" Y="9" Width="180" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.Center" />
+                        <ReportField Field="Quantity" Format="@ReportFormats.Number( 0 )" X="294" Y="9" Width="66" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.Center" />
+                        <ReportField Field="UnitPrice" Format="@ReportFormats.Currency( 0 )" X="360" Y="9" Width="96" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.Center" />
+                        <ReportField Field="Total" Format="@ReportFormats.Currency( 0 )" X="456" Y="9" Width="96" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.Center" />
+                        <ReportLine X="42" Y="35" Width="510" Height="8" Thickness="1" BorderColor="@RuleColor" />
+                    </ReportDetail>
+                    <ReportFooter Name="Order report footer" Height="126">
+                        <ReportText Text="Please remit payment within 14 days. Include the purchase order number on the transfer. Delivery windows are confirmed after carrier pickup." X="58" Y="42" Width="306" Height="48" FontColor="@MutedColor" CanGrow="true" />
+                        <ReportText Text="Total VAT:" X="372" Y="30" Width="78" Height="18" Bold TextAlignment="TextAlignment.End" />
+                        <ReportField Field="Header.Vat" Format="@ReportFormats.Currency( 0 )" X="468" Y="30" Width="72" Height="18" FontColor="@MutedColor" TextAlignment="TextAlignment.End" />
+                        <ReportText Text="TOTAL" X="366" Y="72" Width="84" Height="36" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" FontSize="13" Bold TextAlignment="TextAlignment.Center" VerticalAlignment="VerticalAlignment.Middle" />
+                        <ReportField Field="Header.Total" Format="@ReportFormats.Currency( 0 )" X="450" Y="72" Width="102" Height="36" BackgroundColor="@AccentColor" FontColor="@ReportColors.White" FontSize="13" Bold TextAlignment="TextAlignment.Center" VerticalAlignment="VerticalAlignment.Middle" />
+                    </ReportFooter>
+                    <ReportPageFooter Name="Order page footer" Height="24">
+                        <ReportText Text="North Harbor Logistics - sample order report" X="42" Y="3" Width="240" Height="18" FontColor="@MutedColor" />
+                    </ReportPageFooter>
+                </Report>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    [Inject] private Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }
+
+    [Inject] private IMessageService MessageService { get; set; }
+
+    [Inject] private INotificationService NotificationService { get; set; }
+
+    private const string ReportStorageKey = "__REPORT_DEFINITION__";
+
+    private static readonly ReportColor AccentColor = ReportColor.FromHex( "#6b8cff" );
+
+    private static readonly ReportColor LightAccentColor = ReportColor.FromHex( "#8ed8ff" );
+
+    private static readonly ReportColor WaveAccentColor = ReportColor.FromHex( "#7b61ff" );
+
+    private static readonly ReportColor MutedColor = ReportColor.FromHex( "#7d8794" );
+
+    private static readonly ReportColor RuleColor = ReportColor.FromHex( "#d6dce5" );
+
+    private ReportDefinition definition;
+
+    private string cleanDefinitionJson;
+
+    private bool loadingReport;
+
+    private const string invoiceLinesCsv = "Sku,Description,Quantity,UnitPrice,Total\r\n"
+        + "HB-104,CSV coastal inventory tags,18,30.00,540.00\r\n"
+        + "HB-118,CSV insulated cargo sleeves,22,50.00,1100.00\r\n"
+        + "HB-142,CSV route planning credits,31,25.00,775.00";
+
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            PurchaseOrder = "HB-78241",
+            OrderDate = new DateTime( 2026, 7, 1 ),
+            Vat = 403.50m,
+            Total = 4438.50m,
+        },
+        BillTo = new()
+        {
+            Name = "Summit Market Co.",
+            Address = "18 Alpine Row, Denver CO 80202",
+            Email = "ap@summitmarket.example",
+        },
+        ShipTo = new()
+        {
+            Name = "Harbor Cold Storage",
+            Address = "7 Pier Lane, Tacoma WA 98402",
+            Email = "receiving@harborcold.example",
+        },
+        Lines =
+        [
+            new() { Category = "Logistics", Sku = "HB-104", Description = "Coastal inventory tags", Quantity = 18, UnitPrice = 30.00m, Total = 540.00m },
+            new() { Category = "Packaging", Sku = "HB-118", Description = "Insulated cargo sleeves", Quantity = 22, UnitPrice = 50.00m, Total = 1100.00m },
+            new() { Category = "Services", Sku = "HB-142", Description = "Route planning credits", Quantity = 31, UnitPrice = 25.00m, Total = 775.00m },
+            new() { Category = "Handling", Sku = "HB-166", Description = "Dock transfer handling", Quantity = 12, UnitPrice = 30.00m, Total = 360.00m },
+            new() { Category = "Freight", Sku = "HB-205", Description = "Priority freight lane", Quantity = 9, UnitPrice = 140.00m, Total = 1260.00m },
+        ],
+    };
+
+    private async Task SaveReport( ReportDefinition reportDefinition )
+    {
+        string json = ReportJsonSerializer.Serialize( reportDefinition );
+
+        await LocalStorage.SetItemAsync( ReportStorageKey, json );
+        cleanDefinitionJson = json;
+        await NotificationService.Success( "The report definition was saved.", "Report saved" );
+    }
+
+    private async Task<ReportDefinition> LoadReport()
+    {
+        string json = await LocalStorage.GetItemAsync<string>( ReportStorageKey );
+
+        if ( string.IsNullOrWhiteSpace( json ) )
+        {
+            await NotificationService.Warning( "Save the report before attempting to load it.", "No saved report" );
+
+            return null;
+        }
+
+        if ( HasUnsavedChanges()
+            && !await MessageService.Confirm( "Loading the saved report will discard your unsaved changes.", "Load report", options =>
+            {
+                options.ShowCloseButton = false;
+                options.ShowMessageIcon = false;
+                options.CancelButtonText = "Cancel";
+                options.ConfirmButtonText = "Load";
+                options.ConfirmButtonColor = Color.Danger;
+            } ) )
+            return null;
+
+        ReportDefinition reportDefinition = ReportJsonSerializer.Deserialize( json );
+        loadingReport = true;
+
+        await NotificationService.Success( "The saved report definition was loaded.", "Report loaded" );
+
+        return reportDefinition;
+    }
+
+    private Task OnDefinitionChanged( ReportDefinition reportDefinition )
+    {
+        definition = reportDefinition;
+
+        if ( cleanDefinitionJson is null || loadingReport )
+        {
+            cleanDefinitionJson = ReportJsonSerializer.Serialize( reportDefinition );
+            loadingReport = false;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private bool HasUnsavedChanges()
+    {
+        return definition is not null
+            && cleanDefinitionJson is not null
+            && !string.Equals( ReportJsonSerializer.Serialize( definition ), cleanDefinitionJson, StringComparison.Ordinal );
+    }
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceContactModel BillTo { get; set; }
+
+        public InvoiceContactModel ShipTo { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string PurchaseOrder { get; set; }
+
+        public DateTime OrderDate { get; set; }
+
+        public decimal Vat { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceContactModel
+    {
+        public string Name { get; set; }
+
+        public string Address { get; set; }
+
+        public string Email { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Category { get; set; }
+
+        public string Sku { get; set; }
+
+        public string Description { get; set; }
+
+        public decimal Quantity { get; set; }
+
+        public decimal UnitPrice { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}

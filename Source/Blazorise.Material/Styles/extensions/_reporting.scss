@@ -1,0 +1,61 @@
+body .b-report {
+    --b-report-zindex-designer: 0;
+    --b-report-zindex-section-label: 2;
+    --b-report-zindex-section-rail: 3;
+    --b-report-zindex-drag-preview: 4;
+    --b-report-zindex-selection: 4;
+    --b-report-zindex-resize-handle: 5;
+    --b-report-zindex-section-active: 6;
+    --b-report-zindex-section-resize-handle: 7;
+    --b-report-zindex-toolbar: 20;
+    --b-report-zindex-menu: var(--mui-zindex-dropdown);
+    --b-report-zindex-modal-layer: var(--mui-zindex-modal);
+    --b-report-tree-view-row-gap: .375rem;
+}
+
+.b-report-designer-layout {
+    .mui-dock-pane-header-action > :is(.material-icons, .material-icons-outlined, .material-icons-sharp, .material-icons-two-tone) {
+        font-size: .875rem;
+    }
+}
+
+.b-report-tree-view {
+    &-toggle,
+    &-icon {
+        > :is(.material-icons, .material-icons-outlined, .material-icons-sharp, .material-icons-two-tone) {
+            font-size: 1rem;
+        }
+    }
+}
+
+.b-report-designer-properties-pane {
+    .mui-field.mui-field-horizontal {
+        margin-bottom: .25rem !important;
+    }
+}
+
+.b-report-designer-color-property {
+    .mui-addon-body:has(> .mui-color-picker) {
+        flex: none;
+    }
+
+    .mui-addon-body > .mui-color-picker {
+        box-sizing: border-box;
+        flex: 0 0 var(--mui-input-size);
+        inline-size: var(--mui-input-size);
+        min-inline-size: var(--mui-input-size);
+        justify-content: center;
+        gap: 0;
+        padding-inline: 0;
+
+        &::after {
+            display: none;
+        }
+    }
+
+    .mui-addon-end > .mui-button {
+        --mui-btn-padding: 0;
+        inline-size: var(--mui-input-size);
+        min-inline-size: var(--mui-input-size);
+    }
+}

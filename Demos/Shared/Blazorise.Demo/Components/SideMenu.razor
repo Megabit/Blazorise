@@ -1,5 +1,7 @@
 <Bar Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet"
-     Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small" MenuToggleBehavior=BarMenuToggleBehavior.AllowSingleMenu>
+     Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small" MenuToggleBehavior=BarMenuToggleBehavior.AllowSingleMenu
+     Style="@SidebarStyle"
+     @bind-Visible="barExpanded">
     <BarToggler />
     <BarBrand>
         <BarItem>
@@ -34,6 +36,8 @@
                         <BarDropdownItem To="tests/dividers">Dividers</BarDropdownItem>
                         <BarDropdownItem To="tests/dragdrop">Drag & Drop</BarDropdownItem>
                         <BarDropdownItem To="tests/dropdowns">Dropdowns</BarDropdownItem>
+                        <BarDropdownItem To="tests/context-menu">Context Menu</BarDropdownItem>
+                        <BarDropdownItem To="tests/dock-layout">Dock Layout</BarDropdownItem>
                         <BarDropdownItem To="tests/figures">Figures</BarDropdownItem>
                         <BarDropdownItem To="tests/file-picker">File Picker</BarDropdownItem>
                         <BarDropdownItem To="tests/gestures">Gestures</BarDropdownItem>
@@ -343,10 +347,12 @@
                         <BarDropdownItem To="tests/markdown">Markdown</BarDropdownItem>
                         <BarDropdownItem To="tests/onetimeinput">One Time Input</BarDropdownItem>
                         <BarDropdownItem To="tests/passwordstrength">Password Strength</BarDropdownItem>
+                        <BarDropdownItem To="tests/pdf-generator">PDF Generator</BarDropdownItem>
                         <BarDropdownItem To="tests/pdfviewer">Pdf Viewer</BarDropdownItem>
                         <BarDropdownItem To="tests/pivotgrid">PivotGrid</BarDropdownItem>
                         <BarDropdownItem To="tests/qrcode">QR Code</BarDropdownItem>
                         <BarDropdownItem To="tests/repeater">Repeater</BarDropdownItem>
+                        <BarDropdownItem To="tests/reporting">Reporting</BarDropdownItem>
                         <BarDropdownItem To="tests/richtextedit">RichTextEdit</BarDropdownItem>
                         <BarDropdownItem To="tests/routertabs">Router Tabs</BarDropdownItem>
                         <BarDropdownItem To="tests/scheduler">Scheduler</BarDropdownItem>
@@ -427,8 +433,23 @@
             </BarItem>
         </BarEnd>
     </BarMenu>
+    <Resizer Orientation="Orientation.Vertical"
+             Placement="Placement.End"
+             ResizeProperty="--b-vertical-bar-width"
+             Min="180"
+             Max="480"
+             @bind-Value="sidebarWidth"
+             Disabled="@(!barExpanded)"
+             ShowGutter
+             AriaLabel="Resize navigation sidebar" />
 </Bar>
 @code {
+    private bool barExpanded = true;
+    private double sidebarWidth = 230;
+    private string SidebarStyle
+         => FormattableString.Invariant(
+             $"--b-vertical-bar-width: {sidebarWidth}px" );
+
     private bool uiElementsVisible = true;
     private bool utilitiesVisible = false;
     private bool extensionsVisible = false;

@@ -23,8 +23,10 @@
 @import "components/card";
 @import "components/carousel";
 @import "components/container";
+@import "components/context-menu";
 @import "components/dropdown";
 @import "components/divider";
+@import "components/dock-layout";
 @import "components/field";
 @import "components/figure";
 @import "components/image";
@@ -43,6 +45,7 @@
 @import "components/skeleton";
 @import "components/slider";
 @import "components/range-slider";
+@import "components/resizer";
 @import "components/steps";
 @import "components/table";
 @import "components/tabs";
@@ -57,6 +60,7 @@
 @import "extensions/richtextedit";
 @import "extensions/scheduler";
 @import "extensions/snackbar";
+@import "extensions/reporting";
 
 @import "vendors/flatpickr";
 @import "vendors/colorpicker";

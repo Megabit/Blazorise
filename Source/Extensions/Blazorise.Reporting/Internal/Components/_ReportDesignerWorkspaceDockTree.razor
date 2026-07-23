@@ -1,0 +1,101 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<DockSplit Orientation="DockSplitOrientation.Horizontal" Ratio="0.24">
+    <DockSplit Orientation="DockSplitOrientation.Vertical" Ratio="0.34">
+        <DockPane Name="@ToolboxPaneName"
+                  Caption="Toolbox"
+                  Role="DockRole.Tool"
+                  PanePosition="DockPanePosition.Left"
+                  Size="18rem"
+                  MinSize="12rem"
+                  Resizable
+                  TabPosition="DockPaneTabPosition.Bottom">
+            <DockPaneHeader>
+                Toolbox
+            </DockPaneHeader>
+            <DockPaneBody Class="b-report-designer-toolbox-pane"
+                          @ref="@toolboxPaneBody"
+                          Padding="PaddingIs3">
+                @ToolboxPanel
+            </DockPaneBody>
+        </DockPane>
+
+        <DockPane Name="@FieldsExplorerPaneName"
+                  @ref="@fieldsExplorerPane"
+                  Caption="Fields Explorer"
+                  Role="DockRole.Tool"
+                  PanePosition="DockPanePosition.Left"
+                  Size="18rem"
+                  MinSize="12rem"
+                  Resizable
+                  TabPosition="DockPaneTabPosition.Bottom">
+            <DockPaneHeader>
+                Fields Explorer
+            </DockPaneHeader>
+            <DockPaneBody Class="b-report-designer-fields-explorer-pane"
+                          @ref="@fieldsExplorerPaneBody"
+                          Padding="PaddingIs3">
+                @FieldsExplorerPanel
+            </DockPaneBody>
+        </DockPane>
+    </DockSplit>
+
+    <DockSplit Orientation="DockSplitOrientation.Horizontal" Ratio="0.76">
+        <DockPane Name="@SurfacePaneName"
+                  @ref="@surfacePane"
+                  Caption="Report Designer"
+                  Role="DockRole.Document"
+                  PanePosition="DockPanePosition.Center"
+                  ShowTab="false"
+                  Closable="false">
+            <DockPaneBody Class="b-report-designer-surface"
+                          @ref="@surfacePaneBody"
+                          Padding="PaddingIs0"
+                          Background="BackgroundLight"
+                          Overflow="OverflowAuto">
+                @Surface
+            </DockPaneBody>
+        </DockPane>
+
+        <DockTabs ActivePane="@ActivePanelPaneName">
+            <DockPane Name="@PropertiesPaneName"
+                      @ref="@propertiesPane"
+                      Caption="Properties"
+                      Role="DockRole.Tool"
+                      PanePosition="DockPanePosition.Right"
+                      Size="20rem"
+                      MinSize="14rem"
+                      Resizable
+                      TabPosition="DockPaneTabPosition.Bottom">
+                <DockPaneHeader>
+                    Properties
+                </DockPaneHeader>
+                <DockPaneBody Class="b-report-designer-properties-pane"
+                              @ref="@propertiesPaneBody"
+                              Padding="PaddingIs3">
+                    @PropertiesPanel
+                </DockPaneBody>
+            </DockPane>
+
+            <DockPane Name="@ReportExplorerPaneName"
+                      @ref="@reportExplorerPane"
+                      Caption="Report Explorer"
+                      Role="DockRole.Tool"
+                      PanePosition="DockPanePosition.Right"
+                      Size="20rem"
+                      MinSize="14rem"
+                      Resizable
+                      TabPosition="DockPaneTabPosition.Bottom">
+                <DockPaneHeader>
+                    Report Explorer
+                </DockPaneHeader>
+                <DockPaneBody Class="b-report-designer-report-explorer-pane"
+                              @ref="@reportExplorerPaneBody"
+                              Padding="PaddingIs0">
+                    @ReportExplorerPanel
+                </DockPaneBody>
+            </DockPane>
+        </DockTabs>
+    </DockSplit>
+</DockSplit>

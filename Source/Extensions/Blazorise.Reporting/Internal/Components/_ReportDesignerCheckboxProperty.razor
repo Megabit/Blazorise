@@ -1,0 +1,16 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<Field Class="b-report-designer-checkbox-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
+    <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">@Label</FieldLabel>
+    <FieldBody ColumnSize="ColumnSizeIs8">
+        <Select TValue="bool?" Value="@DisplayValue" ValueChanged="@OnValueChanged" Size="Size.Small">
+            @if ( Mixed )
+            {
+                <SelectItem TValue="bool?" Value="@((bool?)null)" Hidden></SelectItem>
+            }
+            <SelectItem TValue="bool?" Value="@true">True</SelectItem>
+            <SelectItem TValue="bool?" Value="@false">False</SelectItem>
+        </Select>
+    </FieldBody>
+</Field>

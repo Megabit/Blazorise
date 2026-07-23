@@ -1,0 +1,36 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using System
+@using System.Threading.Tasks
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="b-report-table" style="@TableStyle">
+    @foreach ( ReportTableCellDefinition cell in GetCells() )
+    {
+        <_ReportDesignerTableCell Data="@Data"
+                                  Definition="@Definition"
+                                  Section="@Section"
+                                  SectionIndex="@SectionIndex"
+                                  Item="@Item"
+                                  RunningTotals="@RunningTotals"
+                                  TableElementKey="@TableElementKey"
+                                  Cell="@cell"
+                                  CellClass="@GetCellClass( cell )"
+                                  CellStyle="@GetCellStyle( cell )"
+                                  DesignMode="@DesignMode"
+                                  Editable="@Editable"
+                                  TableSelected="@TableSelected"
+                                  TextEditingActive="@TextEditingActive"
+                                  EditingElementKey="@EditingElementKey"
+                                  CellClicked="@CellClicked"
+                                  CellContextMenu="@CellContextMenu"
+                                  IsElementSelected="@IsElementSelected"
+                                  IsElementColliding="@IsElementColliding"
+                                  ElementClicked="@ElementClicked"
+                                  ElementDoubleClicked="@ElementDoubleClicked"
+                                  ElementTextEditCommitted="@ElementTextEditCommitted"
+                                  ElementTextEditCancelled="@ElementTextEditCancelled"
+                                  ResizeStarted="@ResizeStarted" />
+    }
+</div>

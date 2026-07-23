@@ -1,0 +1,8 @@
+@namespace Blazorise
+@inherits BaseComponent
+<header @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onpointerdown="@BeginDrag" @attributes="@Attributes">
+    <span class="@ContentClassNames">
+        @ChildContent
+    </span>
+    <_DockPaneHeaderActions />
+</header>

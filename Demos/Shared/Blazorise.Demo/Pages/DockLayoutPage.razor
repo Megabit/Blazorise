@@ -1,0 +1,74 @@
+@page "/tests/dock-layout"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Dock Layout</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Dock panes can be resized, moved by dragging their headers, and grouped as tabs when multiple panes share the same dock position.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <DockLayout @bind-State="@dockState" Height="Height.Rem( 34 )" Border="Border.Is1.Rounded">
+                    <DockPane Name="explorer" Caption="Explorer" Role="DockRole.Tool" PanePosition="DockPanePosition.Left" Size="16rem" MinSize="2rem" Resizable>
+                        <DockPaneHeader>
+                            <Strong>Explorer</Strong>
+                        </DockPaneHeader>
+                        <DockPaneBody>
+                            Content 1
+                        </DockPaneBody>
+                    </DockPane>
+
+                    <DockPane Name="toolbar" Caption="Toolbar" Role="DockRole.Tool" PanePosition="DockPanePosition.Top" Movable="false">
+                        <DockPaneBody Padding="Padding.Is2">
+                            Content 2
+                        </DockPaneBody>
+                    </DockPane>
+
+                    <DockPane Name="designer" Caption="Designer" Role="DockRole.Document" ShowTab="false">
+                        <DockPaneBody Padding="Padding.Is4" Background="Background.Light">
+                            Content 3
+                        </DockPaneBody>
+                    </DockPane>
+
+                    <DockPane Name="properties" Caption="Properties" Role="DockRole.Tool" PanePosition="DockPanePosition.Right" Size="18rem" MinSize="2rem" Resizable>
+                        <DockPaneHeader>
+                            <Strong>Properties</Strong>
+                        </DockPaneHeader>
+                        <DockPaneBody>
+                            Content 4
+                        </DockPaneBody>
+                        <DockPaneFooter>
+                            <Button Color="Color.Primary" Size="Size.Small">Apply</Button>
+                        </DockPaneFooter>
+                    </DockPane>
+
+                    <DockPane Name="report-explorer" Caption="Report Explorer" Role="DockRole.Tool" PanePosition="DockPanePosition.Right" Size="18rem" MinSize="2rem" Resizable>
+                        <DockPaneHeader>
+                            <Strong>Report Explorer</Strong>
+                        </DockPaneHeader>
+                        <DockPaneBody>
+                            Content 5
+                        </DockPaneBody>
+                    </DockPane>
+
+                    <DockPane Name="output" Caption="Output" Role="DockRole.Tool" PanePosition="DockPanePosition.Bottom" Size="6rem" Resizable>
+                        <DockPaneHeader>
+                            <Strong>Output</Strong>
+                        </DockPaneHeader>
+                        <DockPaneBody>
+                            Content 6
+                        </DockPaneBody>
+                    </DockPane>
+                </DockLayout>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private DockLayoutState dockState = new();
+}

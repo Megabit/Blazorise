@@ -1,0 +1,275 @@
+@page "/tests/pdf-generator"
+@using System
+@using System.Collections.Generic
+@using System.Threading.Tasks
+@inject IFontProvider FontProvider
+@inject IPdfGenerator PdfGenerator
+
+<Div Display="Display.None">
+    <PdfDocument @ref="@pdfDocument" Title="Blazorise PDF Rendering Matrix" PageSize="PdfPageSize.A4" Orientation="Blazorise.Pdf.PdfOrientation.Portrait">
+        <PdfPage Size="PdfPageSize.A4" Orientation="Blazorise.Pdf.PdfOrientation.Portrait">
+            <PdfRectangle X="34" Y="30" Width="527" Height="54" BorderColor="@InkColor" BorderWidth="1" BackgroundColor="@HeaderFillColor" />
+            <PdfText Text="Blazorise PDF rendering matrix" X="48" Y="42" Width="336" Height="24" FontFamily="@OpenSansFamily" FontSize="18" Bold TextColor="@InkColor" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="right aligned / bold / italic / custom font / unicode" X="348" Y="48" Width="198" Height="18" FontFamily="@OpenSansFamily" FontSize="9" TextAlignment="TextAlignment.End" TextColor="@MutedColor" BorderWidth="@ElementBorderWidth" />
+            <PdfLine X="48" Y="96" Width="498" Height="0" BorderColor="@RuleColor" BorderWidth="1" />
+
+            <PdfText Text="Standard fonts" X="48" Y="112" Width="150" Height="18" FontFamily="@OpenSansFamily" FontSize="12" Bold TextColor="@AccentColor" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="Helvetica regular 12" X="48" Y="138" Width="174" Height="18" FontFamily="Helvetica" FontSize="12" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="Helvetica bold 12" X="246" Y="138" Width="132" Height="18" FontFamily="Helvetica" FontSize="12" Bold BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="Helvetica italic 12" X="402" Y="138" Width="144" Height="18" FontFamily="Helvetica" FontSize="12" Italic TextAlignment="TextAlignment.End" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="Times regular 14" X="48" Y="164" Width="174" Height="20" FontFamily="Times" FontSize="14" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="Times bold italic 14" X="246" Y="164" Width="150" Height="20" FontFamily="Times" FontSize="14" Bold Italic BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="Courier right 12.5" X="402" Y="164" Width="144" Height="20" FontFamily="Courier" FontSize="12.5" TextAlignment="TextAlignment.End" BorderWidth="@ElementBorderWidth" />
+
+            <PdfText Text="Alignment columns" X="48" Y="204" Width="180" Height="18" FontFamily="@OpenSansFamily" FontSize="12" Bold TextColor="@AccentColor" BorderWidth="@ElementBorderWidth" />
+            <PdfRectangle X="48" Y="230" Width="498" Height="96" BorderColor="@RuleColor" BorderWidth="1" BackgroundColor="#fbfcfe" />
+            <PdfRectangle X="214" Y="230" Width="1" Height="96" BorderColor="@RuleColor" BorderWidth="0" BackgroundColor="@RuleColor" />
+            <PdfRectangle X="380" Y="230" Width="1" Height="96" BorderColor="@RuleColor" BorderWidth="0" BackgroundColor="@RuleColor" />
+            <PdfText Text="Start" X="58" Y="240" Width="146" Height="18" FontFamily="@OpenSansFamily" FontSize="10" Bold BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="Center" X="224" Y="240" Width="146" Height="18" FontFamily="@OpenSansFamily" FontSize="10" Bold TextAlignment="TextAlignment.Center" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="End" X="390" Y="240" Width="146" Height="18" FontFamily="@OpenSansFamily" FontSize="10" Bold TextAlignment="TextAlignment.End" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="Small text 9" X="58" Y="268" Width="146" Height="18" FontFamily="Helvetica" FontSize="9" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="Small text 9" X="224" Y="268" Width="146" Height="18" FontFamily="Helvetica" FontSize="9" TextAlignment="TextAlignment.Center" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="Small text 9" X="390" Y="268" Width="146" Height="18" FontFamily="Helvetica" FontSize="9" TextAlignment="TextAlignment.End" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="999,999.99" X="58" Y="296" Width="146" Height="18" FontFamily="Times" FontSize="13" Bold BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="999,999.99" X="224" Y="296" Width="146" Height="18" FontFamily="Times" FontSize="13" Bold TextAlignment="TextAlignment.Center" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="999,999.99" X="390" Y="296" Width="146" Height="18" FontFamily="Times" FontSize="13" Bold TextAlignment="TextAlignment.End" BorderWidth="@ElementBorderWidth" />
+
+            <PdfText Text="Custom/global font and unicode" X="48" Y="356" Width="240" Height="18" FontFamily="@OpenSansFamily" FontSize="12" Bold TextColor="@AccentColor" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="@LatinExtendedSample" X="48" Y="382" Width="498" Height="18" FontFamily="@OpenSansFamily" FontSize="10" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="Open Sans Demo bold, 15 pt, aligned end: 1234567890" X="48" Y="408" Width="498" Height="22" FontFamily="@OpenSansFamily" FontSize="15" Bold TextAlignment="TextAlignment.End" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="@UnicodeCoverageSample" X="48" Y="438" Width="498" Height="20" FontFamily="@previewFontFamily" FontSize="11" TextAlignment="TextAlignment.Center" BorderWidth="@ElementBorderWidth" />
+
+            <PdfText Text="Wrapping and vertical alignment" X="48" Y="478" Width="240" Height="18" FontFamily="@OpenSansFamily" FontSize="12" Bold TextColor="@AccentColor" BorderWidth="@ElementBorderWidth" />
+            <PdfRectangle X="48" Y="504" Width="235" Height="74" BorderColor="@RuleColor" BorderWidth="1" BackgroundColor="#ffffff" />
+            <PdfText Text="@LongParagraph" X="58" Y="512" Width="215" Height="56" FontFamily="Helvetica" FontSize="9.5" TextColor="@MutedColor" TextAlignment="TextAlignment.Justified" BorderWidth="@ElementBorderWidth" />
+            <PdfRectangle X="311" Y="504" Width="235" Height="74" BorderColor="@RuleColor" BorderWidth="1" BackgroundColor="#ffffff" />
+            <PdfText Text="Middle aligned text" X="321" Y="504" Width="215" Height="74" FontFamily="Times" FontSize="13" Bold TextAlignment="TextAlignment.Center" VerticalAlignment="VerticalAlignment.Middle" BorderWidth="@ElementBorderWidth" />
+
+            <PdfText Text="Table and nested elements" X="48" Y="612" Width="240" Height="18" FontFamily="@OpenSansFamily" FontSize="12" Bold TextColor="@AccentColor" BorderWidth="@ElementBorderWidth" />
+            <PdfTable X="48" Y="638" Width="498" Height="120" BorderColor="@RuleColor" BorderWidth="1">
+                <PdfTableRow Height="28">
+                    <PdfTableCell Width="168">
+                        <PdfText Text="Item" X="0" Y="0" Width="168" Height="28" FontFamily="@OpenSansFamily" FontSize="10" Bold BackgroundColor="@HeaderFillColor" VerticalAlignment="VerticalAlignment.Middle" BorderWidth="@ElementBorderWidth" />
+                    </PdfTableCell>
+                    <PdfTableCell Width="110">
+                        <PdfText Text="Qty" X="0" Y="0" Width="110" Height="28" FontFamily="@OpenSansFamily" FontSize="10" Bold BackgroundColor="@HeaderFillColor" TextAlignment="TextAlignment.End" VerticalAlignment="VerticalAlignment.Middle" BorderWidth="@ElementBorderWidth" />
+                    </PdfTableCell>
+                    <PdfTableCell Width="110">
+                        <PdfText Text="Unit" X="0" Y="0" Width="110" Height="28" FontFamily="@OpenSansFamily" FontSize="10" Bold BackgroundColor="@HeaderFillColor" TextAlignment="TextAlignment.End" VerticalAlignment="VerticalAlignment.Middle" BorderWidth="@ElementBorderWidth" />
+                    </PdfTableCell>
+                    <PdfTableCell Width="110">
+                        <PdfText Text="Total" X="0" Y="0" Width="110" Height="28" FontFamily="@OpenSansFamily" FontSize="10" Bold BackgroundColor="@HeaderFillColor" TextAlignment="TextAlignment.End" VerticalAlignment="VerticalAlignment.Middle" BorderWidth="@ElementBorderWidth" />
+                    </PdfTableCell>
+                </PdfTableRow>
+                <PdfTableRow Height="30">
+                    <PdfTableCell Width="168">
+                        <PdfText Text="Long item label" X="0" Y="6" Width="168" Height="18" FontFamily="Helvetica" FontSize="10" BorderWidth="@ElementBorderWidth" />
+                    </PdfTableCell>
+                    <PdfTableCell Width="110">
+                        <PdfText Text="1,248" X="0" Y="6" Width="110" Height="18" FontFamily="Courier" FontSize="10" TextAlignment="TextAlignment.End" BorderWidth="@ElementBorderWidth" />
+                    </PdfTableCell>
+                    <PdfTableCell Width="110">
+                        <PdfText Text="$12.50" X="0" Y="6" Width="110" Height="18" FontFamily="Courier" FontSize="10" TextAlignment="TextAlignment.End" BorderWidth="@ElementBorderWidth" />
+                    </PdfTableCell>
+                    <PdfTableCell Width="110">
+                        <PdfText Text="$15,600.00" X="0" Y="6" Width="110" Height="18" FontFamily="Courier" FontSize="10" Bold TextAlignment="TextAlignment.End" BorderWidth="@ElementBorderWidth" />
+                    </PdfTableCell>
+                </PdfTableRow>
+                <PdfTableRow Height="30">
+                    <PdfTableCell Width="168">
+                        <PdfText Text="Italic service fee" X="0" Y="6" Width="168" Height="18" FontFamily="Times" FontSize="10" Italic BorderWidth="@ElementBorderWidth" />
+                    </PdfTableCell>
+                    <PdfTableCell Width="110">
+                        <PdfText Text="32" X="0" Y="6" Width="110" Height="18" FontFamily="Times" FontSize="10" TextAlignment="TextAlignment.End" BorderWidth="@ElementBorderWidth" />
+                    </PdfTableCell>
+                    <PdfTableCell Width="110">
+                        <PdfText Text="$180.00" X="0" Y="6" Width="110" Height="18" FontFamily="Times" FontSize="10" TextAlignment="TextAlignment.End" BorderWidth="@ElementBorderWidth" />
+                    </PdfTableCell>
+                    <PdfTableCell Width="110">
+                        <PdfText Text="$5,760.00" X="0" Y="6" Width="110" Height="18" FontFamily="Times" FontSize="10" Bold Italic TextAlignment="TextAlignment.End" BorderWidth="@ElementBorderWidth" />
+                    </PdfTableCell>
+                </PdfTableRow>
+            </PdfTable>
+
+            <PdfLine X="48" Y="780" Width="498" Height="0" BorderColor="@RuleColor" BorderWidth="1" />
+            <PdfText Text="Page 1 of 2" X="48" Y="792" Width="498" Height="18" FontFamily="@OpenSansFamily" FontSize="9" TextAlignment="TextAlignment.End" TextColor="@MutedColor" BorderWidth="@ElementBorderWidth" />
+        </PdfPage>
+
+        <PdfPage Size="PdfPageSize.A4" Orientation="Blazorise.Pdf.PdfOrientation.Portrait">
+            <PdfRectangle X="34" Y="30" Width="527" Height="54" BorderColor="@InkColor" BorderWidth="1" BackgroundColor="@HeaderFillColor" />
+            <PdfText Text="Blazorise multi-page PDF" X="48" Y="42" Width="336" Height="24" FontFamily="@OpenSansFamily" FontSize="18" Bold TextColor="@InkColor" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="page navigation demonstration" X="348" Y="48" Width="198" Height="18" FontFamily="@OpenSansFamily" FontSize="9" TextAlignment="TextAlignment.End" TextColor="@MutedColor" BorderWidth="@ElementBorderWidth" />
+            <PdfLine X="48" Y="96" Width="498" Height="0" BorderColor="@RuleColor" BorderWidth="1" />
+
+            <PdfText Text="Paging demonstration" X="48" Y="124" Width="240" Height="18" FontFamily="@OpenSansFamily" FontSize="12" Bold TextColor="@AccentColor" BorderWidth="@ElementBorderWidth" />
+            <PdfRectangle X="48" Y="150" Width="498" Height="150" BorderColor="@RuleColor" BorderWidth="1" BackgroundColor="#fbfcfe" />
+            <PdfText Text="This is page 2" X="64" Y="172" Width="466" Height="28" FontFamily="@OpenSansFamily" FontSize="16" Bold TextColor="@InkColor" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="Use the PDF viewer toolbar to move between pages and verify the current page and total page count." X="64" Y="214" Width="466" Height="54" FontFamily="@OpenSansFamily" FontSize="11" TextColor="@MutedColor" BorderWidth="@ElementBorderWidth" />
+
+            <PdfLine X="48" Y="780" Width="498" Height="0" BorderColor="@RuleColor" BorderWidth="1" />
+            <PdfText Text="Page 2 of 2" X="48" Y="792" Width="498" Height="18" FontFamily="@OpenSansFamily" FontSize="9" TextAlignment="TextAlignment.End" TextColor="@MutedColor" BorderWidth="@ElementBorderWidth" />
+        </PdfPage>
+    </PdfDocument>
+</Div>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                    <Icon Name="IconName.FilePdf" TextColor="TextColor.Primary" />
+                    <CardTitle Margin="Margin.Is0">PDF Generator</CardTitle>
+                </Div>
+            </CardHeader>
+            <CardBody>
+                <Div Flex="Flex.Wrap.AlignItems.Center" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom">
+                    <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                        <Span TextSize="TextSize.Small">Unicode sample font</Span>
+                        <Select TValue="string" Value="@previewFontFamily" ValueChanged="@OnPreviewFontChanged" Size="Size.Small">
+                            @foreach ( FontFamily font in previewFonts )
+                            {
+                                <SelectItem TValue="string" Value="@font.Name">@(string.IsNullOrWhiteSpace( font.DisplayName ) ? font.Name : font.DisplayName)</SelectItem>
+                            }
+                        </Select>
+                    </Div>
+                    <Switch TValue="bool" Value="@showElementBorders" ValueChanged="@OnShowElementBordersChanged">
+                        Show element borders
+                    </Switch>
+                </Div>
+
+                @if ( errorMessage is not null )
+                {
+                    <Alert Color="Color.Danger" Visible>
+                        @errorMessage
+                    </Alert>
+                }
+
+                @if ( pdfSource is not null )
+                {
+                    <PdfViewerContainer Height="Height.Rem( 48 )">
+                        <PdfViewerToolbar />
+                        <PdfViewer Source="@pdfSource" UseModalDownloadFileNamePrompt />
+                    </PdfViewerContainer>
+                }
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private const string OpenSansFamily = "Open Sans Demo";
+
+    private const string InkColor = "#243044";
+
+    private const string AccentColor = "#215fb8";
+
+    private const string MutedColor = "#667085";
+
+    private const string RuleColor = "#cfd7e6";
+
+    private const string HeaderFillColor = "#eef4ff";
+
+    private const string LatinExtendedSample = "Open Sans Demo regular, 10 pt: \u010D\u0107\u017E\u0161\u0111 \u010C\u0106\u017D\u0160\u0110 \u20AC \u03A9 \u00F1 \u00FC";
+
+    private const string UnicodeCoverageSample = "Unicode coverage: Cyrillic \u0416\u0436, Greek \u039A\u03B1\u03BB\u03B7\u03BC\u03AD\u03C1\u03B1";
+
+    private const string LongParagraph = "This deliberately long text wraps inside a fixed rectangle. It mixes words with different widths, punctuation, and numbers like 12345.67 so the PDF renderer must measure each line before placing it.";
+
+    private readonly List<FontFamily> previewFonts = [];
+
+    private PdfDocument pdfDocument;
+
+    private string pdfSource;
+
+    private string errorMessage;
+
+    private string previewFontFamily = OpenSansFamily;
+
+    private bool showElementBorders;
+
+    private bool regeneratePdf;
+
+    private double ElementBorderWidth => showElementBorders ? 1 : 0;
+
+    protected override void OnInitialized()
+    {
+        foreach ( FontFamily font in FontProvider.GetFonts() )
+        {
+            if ( font?.Visible == true && HasEmbeddableFontSource( font.Regular ) )
+            {
+                AddPreviewFont( font );
+            }
+        }
+
+        foreach ( FontFamily font in Fonts.BuiltIn )
+        {
+            AddPreviewFont( font );
+        }
+
+        if ( !previewFonts.Exists( font => string.Equals( font.Name, previewFontFamily, StringComparison.OrdinalIgnoreCase ) ) )
+            previewFontFamily = Fonts.Helvetica;
+    }
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender || regeneratePdf )
+        {
+            regeneratePdf = false;
+            await GeneratePdf();
+        }
+    }
+
+    private void OnShowElementBordersChanged( bool value )
+    {
+        showElementBorders = value;
+        regeneratePdf = true;
+    }
+
+    private void OnPreviewFontChanged( string value )
+    {
+        previewFontFamily = value;
+        regeneratePdf = true;
+    }
+
+    private void AddPreviewFont( FontFamily font )
+    {
+        if ( font is not null
+            && !string.IsNullOrWhiteSpace( font.Name )
+            && !previewFonts.Exists( existing => string.Equals( existing.Name, font.Name, StringComparison.OrdinalIgnoreCase ) ) )
+        {
+            previewFonts.Add( font );
+        }
+    }
+
+    private static bool HasEmbeddableFontSource( FontSource source )
+    {
+        return source?.Data is { Length: > 0 }
+            || !string.IsNullOrWhiteSpace( source?.FileName );
+    }
+
+    private async Task GeneratePdf()
+    {
+        if ( pdfDocument?.Definition is null )
+            return;
+
+        errorMessage = null;
+
+        try
+        {
+            PdfGenerationResult result = await PdfGenerator.Generate( pdfDocument.Definition, new()
+            {
+                FileName = "blazorise-pdf-rendering-matrix.pdf",
+            } );
+
+            pdfSource = $"data:application/pdf;base64,{Convert.ToBase64String( result.Content )}";
+        }
+        catch ( Exception exception )
+        {
+            errorMessage = exception.Message;
+        }
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+}

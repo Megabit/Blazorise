@@ -1,0 +1,89 @@
+.b-report-designer {
+    min-height: var(--b-report-designer-min-height);
+    position: relative;
+    isolation: isolate;
+    z-index: var(--b-report-zindex-designer, 0);
+
+    &-layout {
+        height: var(--b-report-designer-layout-height);
+        min-height: var(--b-report-designer-min-height);
+
+        [data-dock-pane-name="report-toolbar"] {
+            z-index: var(--b-report-zindex-toolbar, 20);
+            overflow: visible;
+        }
+
+        [data-dock-pane-name]:has(.b-report-modal-layer) {
+            z-index: var(--b-report-zindex-modal-layer, 3000);
+            overflow: visible;
+        }
+    }
+
+    &-toolbar-pane {
+        display: flex;
+        align-items: center;
+        gap: var(--b-report-designer-toolbar-gap);
+        flex-wrap: wrap;
+        position: relative;
+        z-index: var(--b-report-zindex-toolbar, 20);
+        overflow: visible;
+    }
+
+    &-panes-menu {
+        z-index: var(--b-report-zindex-menu, 1200);
+    }
+
+    &-toolbox-pane,
+    &-fields-explorer-pane,
+    &-properties-pane {
+        min-height: 0;
+        overflow: auto;
+    }
+
+    &-report-explorer-pane {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    &-report-explorer-search {
+        flex: 0 0 auto;
+        background: var(--b-report-color-surface);
+    }
+
+    &-report-explorer-tree {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow: auto;
+    }
+
+    &-surface {
+        overflow: auto;
+    }
+
+    &-toolbar-group:empty {
+        display: none;
+    }
+
+    &-tabs {
+        position: sticky;
+        bottom: 0;
+        z-index: var(--b-report-zindex-toolbar, 20);
+        background: var(--b-report-color-surface);
+        overflow-x: auto;
+    }
+}
+
+.b-report-toolbar {
+    flex-wrap: wrap;
+}
+
+.b-report-modal-layer {
+    position: relative;
+    z-index: var(--b-report-zindex-modal-layer, 3000);
+}
+
+.b-report-viewer {
+    overflow: auto;
+}

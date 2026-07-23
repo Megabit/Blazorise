@@ -1,0 +1,41 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using System.Threading.Tasks
+@using Blazorise.Utilities
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="@RowClass"
+     style="@RowStyle"
+     data-report-tree-node-key="@Node.Key"
+     draggable="@( Node.Draggable ? "true" : null )"
+     @onclick="OnNodeClicked"
+     @ondblclick="OnNodeDoubleClicked"
+     @oncontextmenu="OnNodeContextMenu"
+     @oncontextmenu:preventDefault="@( NodeContextMenu.HasDelegate && Node.Selectable )"
+     @ondragstart="OnNodeDragStarted"
+     @ondragend="OnNodeDragEnded">
+    @if ( HasChildren )
+    {
+        <button class="b-report-tree-view-toggle"
+                type="button"
+                @onclick="ToggleClicked"
+                @onclick:stopPropagation>
+            <Icon Name="@( Expanded ? IconName.MinusSquare : IconName.PlusSquare )" />
+        </button>
+    }
+    else
+    {
+        <span class="b-report-tree-view-toggle-spacer"></span>
+    }
+
+    <span class="@IconClass">
+        <Icon Name="@NodeIconName" />
+    </span>
+
+    <span class="b-report-tree-view-text">@Node.Text</span>
+
+    @if ( !string.IsNullOrWhiteSpace( Node.Detail ) )
+    {
+        <span class="b-report-tree-view-detail">@Node.Detail</span>
+    }
+</div>

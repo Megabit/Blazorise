@@ -1,0 +1,110 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Report Data="@invoice"
+        @bind-Definition="@definition"
+        DesignerEnabled
+        PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf">
+    <ReportViewer PreviewFormat="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"
+                  DefaultPreviewFormat="ReportPreviewFormat.Html"
+                  AllowDownload
+                  AllowPrint />
+    <ReportToolbar>
+        <ReportToolbarGroup>
+            <ReportToolbarPanesMenu />
+        </ReportToolbarGroup>
+        <ReportToolbarGroup>
+            <ReportToolbarItem Command="ReportCommand.Cut" Caption="Cut" />
+            <ReportToolbarItem Command="ReportCommand.Copy" Caption="Copy" />
+            <ReportToolbarItem Command="ReportCommand.Duplicate" Caption="Duplicate">
+                <ButtonTemplate Context="item">
+                    <Button Color="Color.Warning" Outline Active="@item.Active" Disabled="@(!item.CanExecute)" Clicked="@item.Execute" title="@item.Text">
+                        @if ( item.Icon is not null )
+                        {
+                            <Icon Name="@item.Icon.Value" Margin="Margin.Is2.FromEnd" />
+                        }
+                        @item.Text
+                    </Button>
+                </ButtonTemplate>
+            </ReportToolbarItem>
+            <ReportToolbarItem Command="ReportCommand.Paste" Caption="Paste" />
+            <ReportToolbarItem Command="ReportCommand.Delete" Caption="Delete" />
+        </ReportToolbarGroup>
+        <ReportToolbarGroup>
+            <ReportToolbarItem Command="ReportCommand.Undo" Caption="Undo" />
+            <ReportToolbarItem Command="ReportCommand.Redo" Caption="Redo" />
+            <ReportToolbarItem Command="ReportCommand.Reset" Caption="Reset" />
+        </ReportToolbarGroup>
+        <ReportToolbarGroup>
+            <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
+            <ReportToolbarItem Command="ReportCommand.DownloadPdf" Caption="Download PDF" />
+        </ReportToolbarGroup>
+        <Div Margin="Margin.IsAuto.FromStart">
+            <ReportToolbarGroup>
+                <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" ShowCaption />
+                <ReportToolbarItem Command="ReportCommand.Preview" Caption="Preview" ShowCaption />
+            </ReportToolbarGroup>
+        </Div>
+    </ReportToolbar>
+    <ReportDataSources>
+        <ReportObjectDataSource Name="Invoice" Data="@invoice" />
+    </ReportDataSources>
+    <ReportHeader Name="Toolbar sample header" Height="72">
+        <ReportText Text="Designer toolbar" X="30" Y="18" Width="240" Height="24" FontSize="18" Bold FontColor="@ReportColors.Blue" />
+        <ReportText Text="{Header.Number} - {Customer.Name}" X="30" Y="45" Width="360" Height="18" />
+    </ReportHeader>
+    <ReportPageHeader Name="Column headers" Height="32">
+        <ReportText Text="Description" X="30" Y="8" Width="270" Height="18" Bold />
+        <ReportText Text="Total" X="420" Y="8" Width="90" Height="18" Bold TextAlignment="TextAlignment.End" />
+    </ReportPageHeader>
+    <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
+        <ReportField Field="Description" X="30" Y="6" Width="270" Height="18" />
+        <ReportField Field="Total" Format="@ReportFormats.Currency()" X="420" Y="6" Width="90" Height="18" />
+    </ReportDetail>
+</Report>
+
+@code {
+    private ReportDefinition definition;
+
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = "INV-1001",
+        },
+        Customer = new()
+        {
+            Name = "Northwind Traders",
+        },
+        Lines =
+        [
+            new() { Description = "Implementation workshop", Total = 640.50m },
+            new() { Description = "Reporting module license", Total = 500.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}
