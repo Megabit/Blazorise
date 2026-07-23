@@ -127,6 +127,8 @@
 @code {
     [Inject] private Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }
 
+    [Inject] private INotificationService NotificationService { get; set; }
+
     private const string ReportStorageKey = "__REPORT_DEFINITION__";
 
     private static readonly ReportColor AccentColor = ReportColor.FromHex( "#6b8cff" );
@@ -182,15 +184,25 @@
         string json = ReportJsonSerializer.Serialize( reportDefinition );
 
         await LocalStorage.SetItemAsync( ReportStorageKey, json );
+        await NotificationService.Success( "The report definition was saved.", "Report saved" );
     }
 
     private async Task<ReportDefinition> LoadReport()
     {
         string json = await LocalStorage.GetItemAsync<string>( ReportStorageKey );
 
-        return string.IsNullOrWhiteSpace( json )
-            ? null
-            : ReportJsonSerializer.Deserialize( json );
+        if ( string.IsNullOrWhiteSpace( json ) )
+        {
+            await NotificationService.Warning( "Save the report before attempting to load it.", "No saved report" );
+
+            return null;
+        }
+
+        ReportDefinition reportDefinition = ReportJsonSerializer.Deserialize( json );
+
+        await NotificationService.Success( "The saved report definition was loaded.", "Report loaded" );
+
+        return reportDefinition;
     }
 
     private sealed class InvoiceReportModel
