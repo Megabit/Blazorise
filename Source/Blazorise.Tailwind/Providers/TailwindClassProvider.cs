@@ -2722,15 +2722,6 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DockContent() => "tw-dock-content";
 
-    public override string DockSplitter( DockPanePosition position )
-        => position switch
-        {
-            Blazorise.DockPanePosition.Right => "tw-dock-splitter tw-dock-splitter-right",
-            Blazorise.DockPanePosition.Top => "tw-dock-splitter tw-dock-splitter-top",
-            Blazorise.DockPanePosition.Bottom => "tw-dock-splitter tw-dock-splitter-bottom",
-            _ => "tw-dock-splitter tw-dock-splitter-left",
-        };
-
     public override string DockPaneTabs() => "tw-dock-pane-tabs";
 
     public override string DockPaneTabPosition( DockPaneTabPosition position )

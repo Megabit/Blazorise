@@ -47,9 +47,9 @@
                 <ResizeHandle Orientation="Orientation.Vertical"
                               Placement="Placement.End"
                               ResizeProperty="--b-vertical-bar-width"
-                              MinSize="180"
-                              MaxSize="360"
-                              @bind-Size="barWidth"
+                              Min="180"
+                              Max="360"
+                              @bind-Value="barWidth"
                               Disabled="@(!barExpanded)"
                               AriaLabel="Resize navigation sidebar" />
             </Bar>

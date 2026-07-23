@@ -4452,9 +4452,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
                 <ResizeHandle Orientation=""Orientation.Vertical""
                               Placement=""Placement.End""
                               ResizeProperty=""--b-vertical-bar-width""
-                              MinSize=""180""
-                              MaxSize=""360""
-                              @bind-Size=""barWidth""
+                              Min=""180""
+                              Max=""360""
+                              @bind-Value=""barWidth""
                               Disabled=""@(!barExpanded)""
                               AriaLabel=""Resize navigation sidebar"" />
             </Bar>
@@ -4498,9 +4498,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <ResizeHandle Orientation=""Orientation.Horizontal""
                       Placement=""Placement.Bottom""
                       ShowGutter
-                      MinSize=""100""
-                      MaxSize=""260""
-                      @bind-Size=""previewHeight""
+                      Min=""100""
+                      Max=""260""
+                      @bind-Value=""previewHeight""
                       AriaLabel=""Resize preview height"" />
     </Div>
 
@@ -4544,10 +4544,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         <ResizeHandle Orientation=""Orientation.Vertical""
                       Placement=""Placement.End""
-                      MinSize=""160""
-                      MaxSize=""360""
+                      Min=""160""
+                      Max=""360""
                       KeyboardStep=""10""
-                      @bind-Size=""panelWidth""
+                      @bind-Value=""panelWidth""
                       AriaLabel=""Resize explorer panel"" />
     </Div>
 
@@ -4583,9 +4583,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
                       Orientation=""Orientation.Vertical""
                       Placement=""Placement.Start""
                       ResizeProperty=""--docs-inspector-width""
-                      MinSize=""180""
-                      MaxSize=""360""
-                      @bind-Size=""inspectorWidth""
+                      Min=""180""
+                      Max=""360""
+                      @bind-Value=""inspectorWidth""
                       AriaLabel=""Resize inspector panel"" />
     </Div>
 

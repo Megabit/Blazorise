@@ -792,8 +792,6 @@ public interface IClassProvider
 
     string DockContent();
 
-    string DockSplitter( DockPanePosition position );
-
     string DockPaneTabs();
 
     string DockPaneTabsPosition( DockPanePosition position );

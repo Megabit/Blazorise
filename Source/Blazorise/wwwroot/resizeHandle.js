@@ -14,6 +14,10 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         dotNetObjectRef: dotNetObjectRef,
         element: element,
         target: null,
+        startTarget: null,
+        endTarget: null,
+        startResizeElement: null,
+        endResizeElement: null,
         options: normalizeOptions(options),
         active: false,
         focusVisible: false,
@@ -23,6 +27,10 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         startCoordinate: 0,
         startSize: 0,
         currentSize: 0,
+        startEndSize: null,
+        currentEndSize: null,
+        startOriginalPropertyValue: null,
+        endOriginalPropertyValue: null,
         lastResizeNotification: 0,
         resizeObserver: null,
         originalBodyCursor: "",
@@ -44,7 +52,7 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
     element.addEventListener("blur", instance.onBlur);
 
     instances.set(elementId, instance);
-    resolveTarget(instance);
+    resolveTargets(instance);
     synchronizeSize(instance, true);
 }
 
@@ -55,14 +63,14 @@ export function updateOptions(element, elementId, options) {
         return;
 
     const previousOptions = instance.options;
-    const previousTargetElementId = previousOptions.targetElementId;
+    const previousTargetSignature = getTargetSignature(previousOptions);
 
     if (instance.focusVisible)
         toggleClassNames(instance.element, previousOptions.focusedClassNames, false);
 
     if (instance.active) {
         toggleClassNames(instance.element, previousOptions.resizingClassNames, false);
-        toggleClassNames(instance.target, previousOptions.targetResizingClassNames, false);
+        toggleTargetClassNames(instance, previousOptions.targetResizingClassNames, false);
     }
 
     instance.options = normalizeOptions(options);
@@ -72,12 +80,12 @@ export function updateOptions(element, elementId, options) {
     else if (instance.focusVisible)
         toggleClassNames(instance.element, instance.options.focusedClassNames, true);
 
-    if (previousTargetElementId !== instance.options.targetElementId)
-        resolveTarget(instance);
+    if (previousTargetSignature !== getTargetSignature(instance.options))
+        resolveTargets(instance);
 
     if (instance.active) {
         toggleClassNames(instance.element, instance.options.resizingClassNames, true);
-        toggleClassNames(instance.target, instance.options.targetResizingClassNames, true);
+        toggleTargetClassNames(instance, instance.options.targetResizingClassNames, true);
     }
 
     if (instance.options.disabled && instance.active)
@@ -107,18 +115,27 @@ export function destroy(element, elementId) {
     instance.dotNetObjectRef = null;
     instance.element = null;
     instance.target = null;
+    instance.startTarget = null;
+    instance.endTarget = null;
+    instance.startResizeElement = null;
+    instance.endResizeElement = null;
 
     instances.delete(elementId);
 }
 
 function pointerDownHandler(instance, event) {
-    if (instance.options.disabled || !instance.target || !instance.dotNetObjectRef)
+    if (instance.options.disabled || !instance.dotNetObjectRef)
         return;
 
     if (event.isPrimary === false)
         return;
 
     if (event.pointerType === "mouse" && event.button !== 0)
+        return;
+
+    resolveTargets(instance);
+
+    if (!hasResolvedTargets(instance))
         return;
 
     const documentObserverScope = globalThis.Blazorise?.documentObserver?.createScope("resize-handle") ?? null;
@@ -132,8 +149,7 @@ function pointerDownHandler(instance, event) {
     instance.pointerId = event.pointerId;
     instance.pointerType = event.pointerType || "";
     instance.startCoordinate = getPointerCoordinate(instance, event);
-    instance.startSize = measureTarget(instance);
-    instance.currentSize = instance.startSize;
+    captureInteractionSizes(instance);
     instance.lastResizeNotification = 0;
 
     setFocusVisibleState(instance, false);
@@ -167,7 +183,7 @@ function finishPointerResize(instance, event, canceled) {
         return;
 
     if (canceled) {
-        applySize(instance, instance.startSize);
+        restoreInteractionSizes(instance);
     }
     else {
         applyPointerSize(instance, event);
@@ -185,21 +201,29 @@ function keyDownHandler(instance, event) {
         return;
     }
 
-    if (instance.options.disabled || !instance.target || instance.active)
+    if (instance.options.disabled || instance.active)
+        return;
+
+    resolveTargets(instance);
+
+    if (!hasResolvedTargets(instance))
         return;
 
     let nextSize = null;
-    const currentSize = measureTarget(instance);
+    captureInteractionSizes(instance);
+
+    const currentSize = instance.currentSize;
     const physicalDelta = getKeyboardPhysicalDelta(instance, event.key);
+    const sizeRange = getSizeRange(instance);
 
     if (physicalDelta !== null) {
         nextSize = currentSize + physicalDelta * getResizeSign(instance);
     }
     else if (event.key === "Home") {
-        nextSize = instance.options.minSize;
+        nextSize = sizeRange.minimum;
     }
-    else if (event.key === "End" && instance.options.maxSize !== null) {
-        nextSize = instance.options.maxSize;
+    else if (event.key === "End" && Number.isFinite(sizeRange.maximum)) {
+        nextSize = sizeRange.maximum;
     }
 
     if (nextSize === null)
@@ -209,8 +233,6 @@ function keyDownHandler(instance, event) {
 
     setFocusVisibleState(instance, true);
     instance.pointerType = "keyboard";
-    instance.startSize = currentSize;
-    instance.currentSize = currentSize;
 
     if (instance.options.notifyResizeStarted)
         notify(instance, "OnResizeStarted", createEventArgs(instance, false));
@@ -233,23 +255,73 @@ function applyPointerSize(instance, event) {
     applySize(instance, nextSize);
 }
 
+function captureInteractionSizes(instance) {
+    if (hasCoordinatedTargets(instance)) {
+        instance.startSize = measureElement(instance.startTarget, instance.options.vertical);
+        instance.currentSize = instance.startSize;
+        instance.startEndSize = measureElement(instance.endTarget, instance.options.vertical);
+        instance.currentEndSize = instance.startEndSize;
+        instance.startOriginalPropertyValue = instance.startResizeElement.style.getPropertyValue(instance.options.targets.start.resizeProperty);
+        instance.endOriginalPropertyValue = instance.endResizeElement.style.getPropertyValue(instance.options.targets.end.resizeProperty);
+    }
+    else {
+        instance.startSize = measureTarget(instance);
+        instance.currentSize = instance.startSize;
+        instance.startEndSize = null;
+        instance.currentEndSize = null;
+        instance.startOriginalPropertyValue = null;
+        instance.endOriginalPropertyValue = null;
+    }
+}
+
+function restoreInteractionSizes(instance) {
+    if (hasCoordinatedTargets(instance)) {
+        restoreStyleProperty(instance.startResizeElement, instance.options.targets.start.resizeProperty, instance.startOriginalPropertyValue);
+        restoreStyleProperty(instance.endResizeElement, instance.options.targets.end.resizeProperty, instance.endOriginalPropertyValue);
+        instance.currentSize = instance.startSize;
+        instance.currentEndSize = instance.startEndSize;
+        updateAriaValue(instance);
+    }
+    else {
+        applySize(instance, instance.startSize);
+    }
+}
+
 function applySize(instance, size) {
-    if (!instance.target)
+    if (!hasResolvedTargets(instance))
         return;
 
     const clampedSize = clampSize(instance, size);
 
-    instance.target.style.setProperty(instance.options.resizeProperty, `${clampedSize}px`);
+    if (hasCoordinatedTargets(instance)) {
+        const totalSize = instance.startSize + instance.startEndSize;
+        const endSize = totalSize - clampedSize;
+
+        instance.startResizeElement.style.setProperty(instance.options.targets.start.resizeProperty, `${clampedSize}px`);
+        instance.endResizeElement.style.setProperty(instance.options.targets.end.resizeProperty, `${endSize}px`);
+        instance.currentEndSize = endSize;
+    }
+    else {
+        instance.target.style.setProperty(instance.options.resizeProperty, `${clampedSize}px`);
+    }
+
     instance.currentSize = clampedSize;
 
     updateAriaValue(instance);
 }
 
 function synchronizeSize(instance, applyControlledSize) {
-    if (!instance.target)
+    if (!hasResolvedTargets(instance))
         return;
 
-    if (applyControlledSize && instance.options.size !== null)
+    if (hasCoordinatedTargets(instance)) {
+        instance.startSize = measureElement(instance.startTarget, instance.options.vertical);
+        instance.currentSize = instance.startSize;
+        instance.startEndSize = measureElement(instance.endTarget, instance.options.vertical);
+        instance.currentEndSize = instance.startEndSize;
+        updateAriaValue(instance);
+    }
+    else if (applyControlledSize && instance.options.size !== null)
         applySize(instance, instance.options.size);
     else {
         instance.currentSize = measureTarget(instance);
@@ -261,17 +333,108 @@ function measureTarget(instance) {
     if (!instance.target)
         return 0;
 
-    const bounds = instance.target.getBoundingClientRect();
-    const measuredSize = instance.options.vertical ? bounds.width : bounds.height;
+    const measuredSize = measureElement(instance.target, instance.options.vertical);
 
     return clampSize(instance, measuredSize);
 }
 
 function clampSize(instance, size) {
-    const finiteSize = Number.isFinite(size) ? size : instance.options.minSize;
-    const maximum = instance.options.maxSize === null ? Number.POSITIVE_INFINITY : instance.options.maxSize;
+    const range = getSizeRange(instance);
+    const finiteSize = Number.isFinite(size) ? size : range.minimum;
 
-    return Math.min(Math.max(finiteSize, instance.options.minSize), maximum);
+    return Math.min(Math.max(finiteSize, range.minimum), range.maximum);
+}
+
+function getSizeRange(instance) {
+    if (!hasCoordinatedTargets(instance)) {
+        return {
+            minimum: instance.options.minSize,
+            maximum: instance.options.maxSize === null ? Number.POSITIVE_INFINITY : instance.options.maxSize
+        };
+    }
+
+    const totalSize = instance.startSize + instance.startEndSize;
+    const startMinimum = parseTargetSize(instance.options.targets.start.minSize, instance.startTarget, instance.options.vertical, 0);
+    const startMaximum = parseTargetSize(instance.options.targets.start.maxSize, instance.startTarget, instance.options.vertical, Number.POSITIVE_INFINITY);
+    const endMinimum = parseTargetSize(instance.options.targets.end.minSize, instance.endTarget, instance.options.vertical, 0);
+    const endMaximum = parseTargetSize(instance.options.targets.end.maxSize, instance.endTarget, instance.options.vertical, Number.POSITIVE_INFINITY);
+    const minimum = Math.min(Math.max(startMinimum, Number.isFinite(endMaximum) ? totalSize - endMaximum : 0), totalSize);
+    const maximum = Math.max(Math.min(startMaximum, totalSize - endMinimum), minimum);
+
+    return { minimum, maximum };
+}
+
+function measureElement(element, vertical) {
+    if (!element)
+        return 0;
+
+    const bounds = element.getBoundingClientRect();
+
+    return vertical ? bounds.width : bounds.height;
+}
+
+function parseTargetSize(value, context, vertical, fallback) {
+    value = resolveTargetSizeValue(value, context);
+
+    if (!value || value.toLowerCase() === "none")
+        return fallback;
+
+    if (value.endsWith("px")) {
+        const parsed = Number.parseFloat(value);
+
+        return Number.isNaN(parsed) ? fallback : parsed;
+    }
+
+    const probe = document.createElement("div");
+
+    probe.style.position = "absolute";
+    probe.style.visibility = "hidden";
+    probe.style.pointerEvents = "none";
+
+    if (vertical) {
+        probe.style.width = value;
+        probe.style.height = "0";
+    }
+    else {
+        probe.style.width = "0";
+        probe.style.height = value;
+    }
+
+    const resolvedProperty = vertical ? probe.style.width : probe.style.height;
+
+    if (!resolvedProperty)
+        return fallback;
+
+    (context?.parentElement || document.body).appendChild(probe);
+
+    const result = measureElement(probe, vertical);
+
+    probe.remove();
+
+    return Number.isFinite(result) ? result : fallback;
+}
+
+function resolveTargetSizeValue(value, context) {
+    const variable = value?.match(/^var\(\s*(--[^,\s)]+)\s*(?:,\s*(.+))?\)$/);
+
+    if (!variable)
+        return value;
+
+    const resolvedValue = context
+        ? getComputedStyle(context).getPropertyValue(variable[1]).trim()
+        : "";
+
+    return resolvedValue || variable[2]?.trim() || "";
+}
+
+function restoreStyleProperty(element, property, value) {
+    if (!element || !property)
+        return;
+
+    if (value)
+        element.style.setProperty(property, value);
+    else
+        element.style.removeProperty(property);
 }
 
 function getPointerCoordinate(instance, event) {
@@ -281,10 +444,12 @@ function getPointerCoordinate(instance, event) {
 function getResizeSign(instance) {
     let axisDirection = 1;
 
-    if (instance.options.vertical && instance.target && getComputedStyle(instance.target).direction === "rtl")
+    const directionTarget = hasCoordinatedTargets(instance) ? instance.startTarget : instance.target;
+
+    if (instance.options.vertical && directionTarget && getComputedStyle(directionTarget).direction === "rtl")
         axisDirection = -1;
 
-    return instance.options.resizeFromStart ? -axisDirection : axisDirection;
+    return hasCoordinatedTargets(instance) || !instance.options.resizeFromStart ? axisDirection : -axisDirection;
 }
 
 function getKeyboardPhysicalDelta(instance, key) {
@@ -308,7 +473,7 @@ function getKeyboardPhysicalDelta(instance, key) {
 
 function beginResizeState(instance) {
     toggleClassNames(instance.element, instance.options.resizingClassNames, true);
-    toggleClassNames(instance.target, instance.options.targetResizingClassNames, true);
+    toggleTargetClassNames(instance, instance.options.targetResizingClassNames, true);
 
     instance.originalBodyCursor = document.body.style.cursor || "";
     instance.originalBodyUserSelect = document.body.style.userSelect || "";
@@ -319,7 +484,7 @@ function beginResizeState(instance) {
 
 function endResizeState(instance) {
     toggleClassNames(instance.element, instance.options.resizingClassNames, false);
-    toggleClassNames(instance.target, instance.options.targetResizingClassNames, false);
+    toggleTargetClassNames(instance, instance.options.targetResizingClassNames, false);
 
     document.body.style.cursor = instance.originalBodyCursor;
     document.body.style.userSelect = instance.originalBodyUserSelect;
@@ -329,7 +494,7 @@ function cancelResize(instance, notifyEnded) {
     if (!instance.active)
         return;
 
-    applySize(instance, instance.startSize);
+    restoreInteractionSizes(instance);
 
     const eventArgs = createEventArgs(instance, true);
 
@@ -406,6 +571,8 @@ function resetInteraction(instance) {
     instance.pointerId = null;
     instance.pointerType = "";
     instance.startCoordinate = 0;
+    instance.startOriginalPropertyValue = null;
+    instance.endOriginalPropertyValue = null;
     instance.lastResizeNotification = 0;
 }
 
@@ -426,6 +593,10 @@ function notify(instance, method, eventArgs) {
 
 function createEventArgs(instance, canceled) {
     return {
+        startSize: instance.currentSize,
+        previousStartSize: instance.startSize,
+        endSize: instance.currentEndSize,
+        previousEndSize: instance.startEndSize,
         size: instance.currentSize,
         previousSize: instance.startSize,
         delta: instance.currentSize - instance.startSize,
@@ -434,15 +605,38 @@ function createEventArgs(instance, canceled) {
     };
 }
 
-function resolveTarget(instance) {
+function toggleTargetClassNames(instance, classNames, active) {
+    if (hasCoordinatedTargets(instance)) {
+        toggleClassNames(instance.startTarget, classNames, active);
+        toggleClassNames(instance.endTarget, classNames, active);
+    }
+    else {
+        toggleClassNames(instance.target, classNames, active);
+    }
+}
+
+function resolveTargets(instance) {
     instance.resizeObserver?.disconnect();
     instance.resizeObserver = null;
+
+    instance.startTarget = instance.options.targets?.start?.elementId
+        ? document.getElementById(instance.options.targets.start.elementId)
+        : null;
+    instance.endTarget = instance.options.targets?.end?.elementId
+        ? document.getElementById(instance.options.targets.end.elementId)
+        : null;
+    instance.startResizeElement = instance.options.targets?.start?.resizeElementId
+        ? document.getElementById(instance.options.targets.start.resizeElementId)
+        : instance.startTarget;
+    instance.endResizeElement = instance.options.targets?.end?.resizeElementId
+        ? document.getElementById(instance.options.targets.end.resizeElementId)
+        : instance.endTarget;
 
     instance.target = instance.options.targetElementId
         ? document.getElementById(instance.options.targetElementId)
         : instance.element?.parentElement;
 
-    if (!instance.target || typeof ResizeObserver === "undefined")
+    if (!hasResolvedTargets(instance) || typeof ResizeObserver === "undefined")
         return;
 
     instance.resizeObserver = new ResizeObserver(() => {
@@ -450,11 +644,47 @@ function resolveTarget(instance) {
             synchronizeSize(instance, false);
     });
 
-    instance.resizeObserver.observe(instance.target);
+    if (hasCoordinatedTargets(instance)) {
+        instance.resizeObserver.observe(instance.startTarget);
+
+        if (instance.endTarget !== instance.startTarget)
+            instance.resizeObserver.observe(instance.endTarget);
+    }
+    else {
+        instance.resizeObserver.observe(instance.target);
+    }
 }
 
 function updateAriaValue(instance) {
-    instance.element?.setAttribute("aria-valuenow", formatNumber(instance.currentSize));
+    if (!instance.element)
+        return;
+
+    const range = getSizeRange(instance);
+
+    instance.element.setAttribute("aria-valuemin", formatNumber(range.minimum));
+    instance.element.setAttribute("aria-valuenow", formatNumber(instance.currentSize));
+
+    if (Number.isFinite(range.maximum))
+        instance.element.setAttribute("aria-valuemax", formatNumber(range.maximum));
+    else
+        instance.element.removeAttribute("aria-valuemax");
+}
+
+function hasResolvedTargets(instance) {
+    return instance.options.targets
+        ? hasCoordinatedTargets(instance)
+        : !!instance.target;
+}
+
+function hasCoordinatedTargets(instance) {
+    return !!instance.startTarget
+        && !!instance.endTarget
+        && !!instance.startResizeElement
+        && !!instance.endResizeElement;
+}
+
+function getTargetSignature(options) {
+    return JSON.stringify({ targetElementId: options.targetElementId, targets: options.targets });
 }
 
 function toggleClassNames(element, classNames, active) {
@@ -470,16 +700,17 @@ function toggleClassNames(element, classNames, active) {
 function normalizeOptions(options) {
     options = options || {};
 
-    const minimum = Math.max(numberOrDefault(options.minSize, 0), 0);
-    const maximumValue = nullableNumber(options.maxSize);
+    const minimum = Math.max(numberOrDefault(options.min, 0), 0);
+    const maximumValue = nullableNumber(options.max);
     const maximum = maximumValue === null ? null : Math.max(maximumValue, minimum);
 
     return {
+        targets: normalizeTargets(options.targets, options.vertical === true),
         targetElementId: options.targetElementId || null,
         vertical: options.vertical === true,
         resizeFromStart: options.resizeFromStart === true,
         resizeProperty: options.resizeProperty || (options.vertical === true ? "width" : "height"),
-        size: nullableNumber(options.size),
+        size: nullableNumber(options.value),
         minSize: minimum,
         maxSize: maximum,
         keyboardStep: Math.max(numberOrDefault(options.keyboardStep, 10), 0.0001),
@@ -491,6 +722,28 @@ function normalizeOptions(options) {
         notifyResizeStarted: options.notifyResizeStarted === true,
         notifyResizing: options.notifyResizing === true,
         notifyResizeEnded: options.notifyResizeEnded === true
+    };
+}
+
+function normalizeTargets(targets, vertical) {
+    if (!targets?.start || !targets?.end)
+        return null;
+
+    const defaultProperty = vertical ? "width" : "height";
+
+    return {
+        start: normalizeTarget(targets.start, defaultProperty),
+        end: normalizeTarget(targets.end, defaultProperty)
+    };
+}
+
+function normalizeTarget(target, defaultProperty) {
+    return {
+        elementId: target.elementId || null,
+        resizeElementId: target.resizeElementId || null,
+        resizeProperty: target.resizeProperty || defaultProperty,
+        minSize: target.minSize || null,
+        maxSize: target.maxSize || null
     };
 }
 

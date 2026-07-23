@@ -1,8 +1,8 @@
 .resize-handle {
-    --b-resize-handle-hit-area: .5rem;
-    --b-resize-handle-gutter-background: #{$grey-lightest};
-    --b-resize-handle-gutter-border: #{$grey-lighter};
-    --b-resize-handle-grip-color: #{$grey};
+    --bulma-resize-handle-hit-area: .5rem;
+    --bulma-resize-handle-gutter-background: #{$grey-lightest};
+    --bulma-resize-handle-gutter-border: #{$grey-lighter};
+    --bulma-resize-handle-grip-color: #{$grey};
     position: absolute;
     z-index: 10;
     padding: 0;
@@ -15,14 +15,14 @@
     &.is-vertical {
         top: 0;
         bottom: 0;
-        width: var(--b-resize-handle-hit-area);
+        width: var(--bulma-resize-handle-hit-area);
         cursor: col-resize;
     }
 
     &.is-horizontal {
         right: 0;
         left: 0;
-        height: var(--b-resize-handle-hit-area);
+        height: var(--bulma-resize-handle-hit-area);
         cursor: row-resize;
     }
 
@@ -53,23 +53,23 @@
         &::before {
             inset: 0;
             box-sizing: border-box;
-            background: var(--b-resize-handle-gutter-background);
+            background: var(--bulma-resize-handle-gutter-background);
         }
 
         &::after {
             top: 50%;
             left: 50%;
             border-radius: 9999px;
-            background: var(--b-resize-handle-grip-color);
+            background: var(--bulma-resize-handle-grip-color);
             transform: translate(-50%, -50%);
         }
 
         &:hover,
         &.is-focused,
         &.is-resizing {
-            --b-resize-handle-gutter-background: #{rgba($primary, .12)};
-            --b-resize-handle-gutter-border: var(--b-theme-primary, #{$primary});
-            --b-resize-handle-grip-color: var(--b-theme-primary, #{$primary});
+            --bulma-resize-handle-gutter-background: #{rgba($primary, .12)};
+            --bulma-resize-handle-gutter-border: #{$primary};
+            --bulma-resize-handle-grip-color: #{$primary};
         }
     }
 
@@ -81,7 +81,7 @@
 
 .resize-handle.has-gutter.is-vertical {
     &::before {
-        border-inline: 1px solid var(--b-resize-handle-gutter-border);
+        border-inline: 1px solid var(--bulma-resize-handle-gutter-border);
     }
 
     &::after {
@@ -92,7 +92,7 @@
 
 .resize-handle.has-gutter.is-horizontal {
     &::before {
-        border-block: 1px solid var(--b-resize-handle-gutter-border);
+        border-block: 1px solid var(--bulma-resize-handle-gutter-border);
     }
 
     &::after {
@@ -107,6 +107,6 @@
 
 @media (pointer: coarse) {
     .resize-handle {
-        --b-resize-handle-hit-area: 1rem;
+        --bulma-resize-handle-hit-area: 1rem;
     }
 }

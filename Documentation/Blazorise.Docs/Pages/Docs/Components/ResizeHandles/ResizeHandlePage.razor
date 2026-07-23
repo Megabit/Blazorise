@@ -31,7 +31,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Resizable side panel">
-        Place the handle inside a relatively positioned element to resize its width. Use <Code>@@bind-Size</Code> when the application also needs the committed size.
+        Place the handle inside a relatively positioned element to resize its width. Use <Code>@@bind-Value</Code> when the application also needs the committed value.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="ResizeHandlePanelExample" Outlined FullWidth>
         <ResizeHandlePanelExample />
@@ -81,7 +81,7 @@
 <DocsPageParagraph>
     The component renders an ARIA separator and supports arrow-key resizing. Click the handle area or reach it with the Tab key, then use the arrow keys to resize.
     Use <Code>KeyboardStep</Code> to control the keyboard increment and provide an <Code>AriaLabel</Code> that describes the resized region.
-    <Code>MinSize</Code> and <Code>MaxSize</Code> apply to both pointer and keyboard interaction.
+    <Code>Min</Code> and <Code>Max</Code> apply to both pointer and keyboard interaction.
 </DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof( ResizeHandle )]" />

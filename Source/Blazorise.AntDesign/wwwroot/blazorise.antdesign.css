@@ -4556,44 +4556,6 @@ template {
   color: var(--b-dock-tab-active-color, var(--ant-color-primary, #1677ff));
 }
 
-.ant-dock-splitter {
-  position: absolute;
-  background: transparent;
-  z-index: 2;
-}
-
-.ant-dock-splitter-left,
-.ant-dock-splitter-right {
-  top: 0;
-  bottom: 0;
-  width: 0.375rem;
-  cursor: col-resize;
-}
-
-.ant-dock-splitter-left {
-  right: -0.1875rem;
-}
-
-.ant-dock-splitter-right {
-  left: -0.1875rem;
-}
-
-.ant-dock-splitter-top,
-.ant-dock-splitter-bottom {
-  left: 0;
-  right: 0;
-  height: 0.375rem;
-  cursor: row-resize;
-}
-
-.ant-dock-splitter-top {
-  bottom: -0.1875rem;
-}
-
-.ant-dock-splitter-bottom {
-  top: -0.1875rem;
-}
-
 .ant-dock-drag-preview {
   position: absolute;
   z-index: 40;
@@ -8128,10 +8090,10 @@ a.ant-typography-disabled[aria-disabled=true] {
 }
 
 .ant-resize-handle {
-  --b-resize-handle-hit-area: .5rem;
-  --b-resize-handle-gutter-background: var(--ant-color-fill-tertiary, #f5f5f5);
-  --b-resize-handle-gutter-border: var(--ant-color-border, #d9d9d9);
-  --b-resize-handle-grip-color: var(--ant-color-text-quaternary, rgba(0, 0, 0, .25));
+  --ant-resize-handle-hit-area: .5rem;
+  --ant-resize-handle-gutter-background: var(--ant-color-fill-tertiary, #f5f5f5);
+  --ant-resize-handle-gutter-border: var(--ant-color-border, #d9d9d9);
+  --ant-resize-handle-grip-color: var(--ant-color-text-quaternary, rgba(0, 0, 0, .25));
   position: absolute;
   z-index: 10;
   padding: 0;
@@ -8144,26 +8106,26 @@ a.ant-typography-disabled[aria-disabled=true] {
 .ant-resize-handle-vertical {
   top: 0;
   bottom: 0;
-  width: var(--b-resize-handle-hit-area);
+  width: var(--ant-resize-handle-hit-area);
   cursor: col-resize;
 }
 .ant-resize-handle-horizontal {
   right: 0;
   left: 0;
-  height: var(--b-resize-handle-hit-area);
+  height: var(--ant-resize-handle-hit-area);
   cursor: row-resize;
 }
 .ant-resize-handle-top {
-  top: calc(0px - var(--b-resize-handle-hit-area));
+  top: calc(0px - var(--ant-resize-handle-hit-area));
 }
 .ant-resize-handle-bottom {
-  bottom: calc(0px - var(--b-resize-handle-hit-area));
+  bottom: calc(0px - var(--ant-resize-handle-hit-area));
 }
 .ant-resize-handle-start {
-  inset-inline-start: calc(0px - var(--b-resize-handle-hit-area));
+  inset-inline-start: calc(0px - var(--ant-resize-handle-hit-area));
 }
 .ant-resize-handle-end {
-  inset-inline-end: calc(0px - var(--b-resize-handle-hit-area));
+  inset-inline-end: calc(0px - var(--ant-resize-handle-hit-area));
 }
 .ant-resize-handle-gutter::before, .ant-resize-handle-gutter::after {
   content: "";
@@ -8173,7 +8135,7 @@ a.ant-typography-disabled[aria-disabled=true] {
 .ant-resize-handle-gutter::before {
   inset: 0;
   box-sizing: border-box;
-  background: var(--b-resize-handle-gutter-background);
+  background: var(--ant-resize-handle-gutter-background);
 }
 .ant-resize-handle-gutter::after {
   top: 50%;
@@ -8181,13 +8143,13 @@ a.ant-typography-disabled[aria-disabled=true] {
   width: 2px;
   height: 2px;
   border-radius: 1px;
-  background: var(--b-resize-handle-grip-color);
+  background: var(--ant-resize-handle-grip-color);
   transform: translate(-50%, -50%);
 }
 .ant-resize-handle-gutter:hover, .ant-resize-handle-gutter.ant-resize-handle-focused, .ant-resize-handle-gutter.ant-resize-handle-resizing {
-  --b-resize-handle-gutter-background: var(--ant-color-primary-bg, #e6f4ff);
-  --b-resize-handle-gutter-border: var(--ant-color-primary, var(--b-theme-primary, #1677ff));
-  --b-resize-handle-grip-color: var(--ant-color-primary, var(--b-theme-primary, #1677ff));
+  --ant-resize-handle-gutter-background: var(--ant-color-primary-bg, #e6f4ff);
+  --ant-resize-handle-gutter-border: var(--ant-color-primary, #1677ff);
+  --ant-resize-handle-grip-color: var(--ant-color-primary, #1677ff);
 }
 .ant-resize-handle-disabled {
   pointer-events: none;
@@ -8198,22 +8160,22 @@ a.ant-typography-disabled[aria-disabled=true] {
 }
 
 .ant-resize-handle-gutter.ant-resize-handle-vertical::before {
-  border-inline: 1px solid var(--b-resize-handle-gutter-border);
+  border-inline: 1px solid var(--ant-resize-handle-gutter-border);
 }
 .ant-resize-handle-gutter.ant-resize-handle-vertical::after {
-  box-shadow: 0 -4px 0 var(--b-resize-handle-grip-color), 0 4px 0 var(--b-resize-handle-grip-color);
+  box-shadow: 0 -4px 0 var(--ant-resize-handle-grip-color), 0 4px 0 var(--ant-resize-handle-grip-color);
 }
 
 .ant-resize-handle-gutter.ant-resize-handle-horizontal::before {
-  border-block: 1px solid var(--b-resize-handle-gutter-border);
+  border-block: 1px solid var(--ant-resize-handle-gutter-border);
 }
 .ant-resize-handle-gutter.ant-resize-handle-horizontal::after {
-  box-shadow: -4px 0 0 var(--b-resize-handle-grip-color), 4px 0 0 var(--b-resize-handle-grip-color);
+  box-shadow: -4px 0 0 var(--ant-resize-handle-grip-color), 4px 0 0 var(--ant-resize-handle-grip-color);
 }
 
 @media (pointer: coarse) {
   .ant-resize-handle {
-    --b-resize-handle-hit-area: 1rem;
+    --ant-resize-handle-hit-area: 1rem;
   }
 }
 .ant-skeleton {

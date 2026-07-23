@@ -4467,44 +4467,6 @@ body {
   color: var(--b-dock-tab-active-color, var(--mui-primary, #6750a4));
 }
 
-.mui-dock-splitter {
-  position: absolute;
-  background: transparent;
-  z-index: 2;
-}
-
-.mui-dock-splitter-left,
-.mui-dock-splitter-right {
-  top: 0;
-  bottom: 0;
-  width: 0.375rem;
-  cursor: col-resize;
-}
-
-.mui-dock-splitter-left {
-  right: -0.1875rem;
-}
-
-.mui-dock-splitter-right {
-  left: -0.1875rem;
-}
-
-.mui-dock-splitter-top,
-.mui-dock-splitter-bottom {
-  left: 0;
-  right: 0;
-  height: 0.375rem;
-  cursor: row-resize;
-}
-
-.mui-dock-splitter-top {
-  bottom: -0.1875rem;
-}
-
-.mui-dock-splitter-bottom {
-  top: -0.1875rem;
-}
-
 .mui-dock-drag-preview {
   position: absolute;
   z-index: 40;
@@ -8230,10 +8192,10 @@ body.modal-open {
 }
 
 .mui-resize-handle {
-  --b-resize-handle-hit-area: .5rem;
-  --b-resize-handle-gutter-background: var(--mui-surface-container, #f3edf7);
-  --b-resize-handle-gutter-border: var(--mui-outline-variant, #cac4d0);
-  --b-resize-handle-grip-color: var(--mui-on-surface-variant, #49454f);
+  --mui-resize-handle-hit-area: .5rem;
+  --mui-resize-handle-gutter-background: var(--mui-surface-container, #f3edf7);
+  --mui-resize-handle-gutter-border: var(--mui-outline-variant, #cac4d0);
+  --mui-resize-handle-grip-color: var(--mui-on-surface-variant, #49454f);
   position: absolute;
   z-index: 10;
   padding: 0;
@@ -8246,13 +8208,13 @@ body.modal-open {
 .mui-resize-handle-vertical {
   top: 0;
   bottom: 0;
-  width: var(--b-resize-handle-hit-area);
+  width: var(--mui-resize-handle-hit-area);
   cursor: col-resize;
 }
 .mui-resize-handle-horizontal {
   right: 0;
   left: 0;
-  height: var(--b-resize-handle-hit-area);
+  height: var(--mui-resize-handle-hit-area);
   cursor: row-resize;
 }
 .mui-resize-handle-top {
@@ -8275,19 +8237,19 @@ body.modal-open {
 .mui-resize-handle-gutter::before {
   inset: 0;
   box-sizing: border-box;
-  background: var(--b-resize-handle-gutter-background);
+  background: var(--mui-resize-handle-gutter-background);
 }
 .mui-resize-handle-gutter::after {
   top: 50%;
   left: 50%;
   border-radius: 9999px;
-  background: var(--b-resize-handle-grip-color);
+  background: var(--mui-resize-handle-grip-color);
   transform: translate(-50%, -50%);
 }
 .mui-resize-handle-gutter:hover, .mui-resize-handle-gutter.mui-resize-handle-focused, .mui-resize-handle-gutter.mui-resize-handle-resizing {
-  --b-resize-handle-gutter-background: var(--mui-primary-container, #eaddff);
-  --b-resize-handle-gutter-border: var(--mui-primary, var(--b-theme-primary, #6750a4));
-  --b-resize-handle-grip-color: var(--mui-on-primary-container, #21005d);
+  --mui-resize-handle-gutter-background: var(--mui-primary-container, #eaddff);
+  --mui-resize-handle-gutter-border: var(--mui-primary, #6750a4);
+  --mui-resize-handle-grip-color: var(--mui-on-primary-container, #21005d);
 }
 .mui-resize-handle-disabled {
   pointer-events: none;
@@ -8298,7 +8260,7 @@ body.modal-open {
 }
 
 .mui-resize-handle-gutter.mui-resize-handle-vertical::before {
-  border-inline: 1px solid var(--b-resize-handle-gutter-border);
+  border-inline: 1px solid var(--mui-resize-handle-gutter-border);
 }
 .mui-resize-handle-gutter.mui-resize-handle-vertical::after {
   width: 4px;
@@ -8306,7 +8268,7 @@ body.modal-open {
 }
 
 .mui-resize-handle-gutter.mui-resize-handle-horizontal::before {
-  border-block: 1px solid var(--b-resize-handle-gutter-border);
+  border-block: 1px solid var(--mui-resize-handle-gutter-border);
 }
 .mui-resize-handle-gutter.mui-resize-handle-horizontal::after {
   width: 2rem;
@@ -8315,7 +8277,7 @@ body.modal-open {
 
 @media (pointer: coarse) {
   .mui-resize-handle {
-    --b-resize-handle-hit-area: 1rem;
+    --mui-resize-handle-hit-area: 1rem;
   }
 }
 .mui-steps {

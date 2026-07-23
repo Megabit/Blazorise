@@ -2,24 +2,24 @@
 @inherits _BaseDockRenderer
 @if ( Node?.Kind == DockNodeKind.Split )
 {
-    <div class="@ClassNames" style="@SplitStyle" data-dock-node-id="@Node.Id" data-dock-split>
-        <_DockNodeRenderer NodeId="@Node.First?.Id" SplitterDock="@FirstSplitterDock" SplitNodeId="@Node.Id" />
-        <_DockNodeRenderer NodeId="@Node.Second?.Id" SplitterDock="@SecondSplitterDock" SplitNodeId="@Node.Id" />
-        @if ( CanResize )
+    <div id="@Context.GetDockNodeElementId( Node.Id )" class="@ClassNames" style="@SplitStyle" data-dock-node-id="@Node.Id" data-dock-split>
+        <_DockNodeRenderer @key="Node.First?.Id" NodeId="@Node.First?.Id" Resizable="@FirstTrackResizable" />
+        <_DockNodeRenderer @key="Node.Second?.Id" NodeId="@Node.Second?.Id" Resizable="@SecondTrackResizable" />
+        @if ( CanResizeSplit )
         {
-            <DockSplitter PaneName="@Node.Id" Dock="@SplitterDock.Value" NodeId="@SplitNodeId" />
+            <_DockSplitter @key="SplitterKey" SplitOrientation="@Node.Orientation" NodeId="@Node.Id" Version="@Version" />
         }
     </div>
 }
 else if ( Node?.Kind == DockNodeKind.Tabs )
 {
-    <_DockTabsRenderer NodeId="@Node.Id" SplitterDock="@SplitterDock" SplitNodeId="@SplitNodeId" Version="@Version" />
+    <_DockTabsRenderer NodeId="@Node.Id" Resizable="@Resizable" Version="@Version" />
 }
 else if ( Node?.Kind == DockNodeKind.Pane )
 {
-    <_DockPaneRenderer NodeId="@Node.Id" PaneName="@Node.PaneName" SplitterDock="@SplitterDock" SplitNodeId="@SplitNodeId" Version="@Version" />
+    <_DockPaneRenderer NodeId="@Node.Id" PaneName="@Node.PaneName" Resizable="@Resizable" Version="@Version" />
 }
 else if ( Node?.Kind == DockNodeKind.Content )
 {
-    <_DockContentRenderer />
+    <_DockContentRenderer NodeId="@Node.Id" />
 }

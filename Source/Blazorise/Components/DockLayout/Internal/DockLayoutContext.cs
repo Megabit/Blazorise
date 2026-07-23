@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
@@ -51,6 +50,18 @@ internal sealed class DockLayoutContext
     internal bool CanResizeDockNode( DockNodeState node )
         => layout?.CanResizeDockNode( node ) == true;
 
+    internal bool CanResizeDockSplit( string nodeId )
+        => layout?.CanResizeDockSplit( nodeId ) == true;
+
+    internal string GetDockNodeElementId( string nodeId )
+        => layout?.GetDockNodeElementId( nodeId );
+
+    internal ResizeHandleTargets GetDockResizeTargets( string nodeId )
+        => layout?.GetDockResizeTargets( nodeId );
+
+    internal Task ResizeDockSplit( string nodeId, ResizeHandleEventArgs eventArgs )
+        => layout?.ResizeDockSplit( nodeId, eventArgs ) ?? Task.CompletedTask;
+
     internal DockPaneTabPosition GetDockNodeTabPosition( DockNodeState node, DockPanePosition position )
         => layout?.GetDockNodeTabPosition( node, position ) ?? DockPaneTabPosition.Top;
 
@@ -89,12 +100,6 @@ internal sealed class DockLayoutContext
 
     internal Task BeginPaneDrag( DockPane pane, PointerEventArgs eventArgs, bool dragGroup )
         => layout?.BeginPaneDrag( pane, eventArgs, dragGroup ) ?? Task.CompletedTask;
-
-    internal Task BeginPaneResize( DockPane pane, string nodeId, DockPanePosition dock, PointerEventArgs eventArgs )
-        => layout?.BeginPaneResize( pane, nodeId, dock, eventArgs ) ?? Task.CompletedTask;
-
-    internal Task BeginNodeResize( ElementReference elementRef, string paneName, string nodeId, DockPanePosition dock, PointerEventArgs eventArgs )
-        => layout?.BeginNodeResize( elementRef, paneName, nodeId, dock, eventArgs ) ?? Task.CompletedTask;
 
     internal Task TogglePaneAutoHide( DockPane pane )
         => layout?.TogglePaneAutoHide( pane ) ?? Task.CompletedTask;

@@ -1953,15 +1953,6 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DockContent() => "fui-DockContent";
 
-    public override string DockSplitter( DockPanePosition position )
-        => position switch
-        {
-            Blazorise.DockPanePosition.Right => "fui-DockSplitter fui-DockSplitter--right",
-            Blazorise.DockPanePosition.Top => "fui-DockSplitter fui-DockSplitter--top",
-            Blazorise.DockPanePosition.Bottom => "fui-DockSplitter fui-DockSplitter--bottom",
-            _ => "fui-DockSplitter fui-DockSplitter--left",
-        };
-
     public override string DockPaneTabs() => "fui-DockPaneTabs";
 
     public override string DockPaneTabPosition( DockPaneTabPosition position )

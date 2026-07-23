@@ -17,6 +17,10 @@ internal sealed class DockLayoutSizer
 
     private const string CollapsedPaneSize = "2.5rem";
 
+    private const string DefaultMinimumPaneSize = "2rem";
+
+    private const string SplitGapSize = "var(--dock-split-gap, 0px)";
+
     private const string FlexibleFillTrack = "minmax(0,1fr)";
 
     private readonly DockLayoutRegistry registry;
@@ -54,8 +58,8 @@ internal sealed class DockLayoutSizer
         string secondTrack = secondFixedTrack ?? ( firstFixedTrack is not null ? FlexibleFillTrack : GetFlexibleSplitTrack( 1d - node.Ratio ) );
 
         return node.Orientation == DockSplitOrientation.Vertical
-            ? $"grid-template-rows:{firstTrack} {secondTrack};"
-            : $"grid-template-columns:{firstTrack} {secondTrack};";
+            ? $"--dock-split-start-size:{firstTrack};--dock-split-end-size:{secondTrack};grid-template-rows:var(--dock-split-start-size) var(--dock-split-end-size);"
+            : $"--dock-split-start-size:{firstTrack};--dock-split-end-size:{secondTrack};grid-template-columns:var(--dock-split-start-size) var(--dock-split-end-size);";
     }
 
     public string GetDockGroupSize( DockLayoutState state, IEnumerable<string> paneNames )
@@ -69,6 +73,19 @@ internal sealed class DockLayoutSizer
         }
 
         return DefaultPaneSize;
+    }
+
+    public string GetDockNodeMinimumSize( DockNodeState node, DockSplitOrientation resizeOrientation )
+    {
+        if ( node?.Kind != DockNodeKind.Split )
+            return GetDockPaneMinimumSize( node );
+
+        string firstMinimum = GetDockChildMinimumSize( node, node.First, resizeOrientation );
+        string secondMinimum = GetDockChildMinimumSize( node, node.Second, resizeOrientation );
+
+        return node.Orientation == resizeOrientation
+            ? $"calc({firstMinimum} + {secondMinimum} + {SplitGapSize})"
+            : $"max({firstMinimum}, {secondMinimum})";
     }
 
     public bool IsCenterDockGroup( DockLayoutState state, IEnumerable<string> paneNames )
@@ -137,6 +154,28 @@ internal sealed class DockLayoutSizer
             return node.Size;
 
         return paneState?.Size ?? pane.Size ?? GetDefaultDockPaneSize( position.Value );
+    }
+
+    private string GetDockChildMinimumSize( DockNodeState parent, DockNodeState child, DockSplitOrientation resizeOrientation )
+    {
+        if ( parent?.UseRatio == false && parent.Orientation == resizeOrientation )
+        {
+            string fixedTrackSize = GetDockNodeTrackSize( child, resizeOrientation );
+
+            if ( !string.IsNullOrWhiteSpace( fixedTrackSize ) && !string.Equals( fixedTrackSize, "auto", StringComparison.OrdinalIgnoreCase ) )
+                return fixedTrackSize;
+        }
+
+        return GetDockNodeMinimumSize( child, resizeOrientation );
+    }
+
+    private string GetDockPaneMinimumSize( DockNodeState node )
+    {
+        DockPane pane = GetDockNodePane( node );
+
+        return string.IsNullOrWhiteSpace( pane?.MinSize )
+            ? DefaultMinimumPaneSize
+            : pane.MinSize;
     }
 
     private DockPane GetDockNodePane( DockNodeState node )

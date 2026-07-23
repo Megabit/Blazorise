@@ -34,9 +34,9 @@ public class ResizeHandleComponentTest : BunitContext
     {
         IRenderedComponent<ResizeHandle> component = Render<ResizeHandle>( parameters => parameters
             .Add( x => x.Orientation, Orientation.Vertical )
-            .Add( x => x.Size, 280 )
-            .Add( x => x.MinSize, 180 )
-            .Add( x => x.MaxSize, 480 )
+            .Add( x => x.Value, 280 )
+            .Add( x => x.Min, 180 )
+            .Add( x => x.Max, 480 )
             .Add( x => x.AriaLabel, "Resize navigation" ) );
         IElement handle = component.Find( ".resize-handle" );
 
@@ -74,19 +74,19 @@ public class ResizeHandleComponentTest : BunitContext
     }
 
     [Fact]
-    public async Task ResizeEndCommitsSizeUnlessCanceled()
+    public async Task ResizeEndCommitsValueUnlessCanceled()
     {
-        double committedSize = 0;
+        double committedValue = 0;
         int endedCount = 0;
 
         IRenderedComponent<ResizeHandle> component = Render<ResizeHandle>( parameters => parameters
-            .Add( x => x.SizeChanged, ( double value ) => committedSize = value )
+            .Add( x => x.ValueChanged, ( double value ) => committedValue = value )
             .Add( x => x.ResizeEnded, ( ResizeHandleEventArgs _ ) => endedCount++ ) );
 
         await component.Instance.OnResizeEnded( new ResizeHandleEventArgs { Size = 320 } );
         await component.Instance.OnResizeEnded( new ResizeHandleEventArgs { Size = 240, Canceled = true } );
 
-        Assert.Equal( 320d, committedSize );
+        Assert.Equal( 320d, committedValue );
         Assert.Equal( 2, endedCount );
     }
 }

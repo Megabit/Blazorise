@@ -1937,15 +1937,6 @@ public class MaterialClassProvider : ClassProvider
 
     public override string DockContent() => "mui-dock-content";
 
-    public override string DockSplitter( DockPanePosition position )
-        => position switch
-        {
-            Blazorise.DockPanePosition.Right => "mui-dock-splitter mui-dock-splitter-right",
-            Blazorise.DockPanePosition.Top => "mui-dock-splitter mui-dock-splitter-top",
-            Blazorise.DockPanePosition.Bottom => "mui-dock-splitter mui-dock-splitter-bottom",
-            _ => "mui-dock-splitter mui-dock-splitter-left",
-        };
-
     public override string DockPaneTabs() => "mui-dock-pane-tabs";
 
     public override string DockPaneTabPosition( DockPaneTabPosition position )

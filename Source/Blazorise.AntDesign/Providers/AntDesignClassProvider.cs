@@ -1985,15 +1985,6 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DockContent() => "ant-dock-content";
 
-    public override string DockSplitter( DockPanePosition position )
-        => position switch
-        {
-            Blazorise.DockPanePosition.Right => "ant-dock-splitter ant-dock-splitter-right",
-            Blazorise.DockPanePosition.Top => "ant-dock-splitter ant-dock-splitter-top",
-            Blazorise.DockPanePosition.Bottom => "ant-dock-splitter ant-dock-splitter-bottom",
-            _ => "ant-dock-splitter ant-dock-splitter-left",
-        };
-
     public override string DockPaneTabs() => "ant-dock-pane-tabs";
 
     public override string DockPaneTabPosition( DockPaneTabPosition position )

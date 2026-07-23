@@ -67,4 +67,67 @@ public class DockLayoutSizingTest
 
         Assert.Equal( "auto", state.Panes[1].Size );
     }
+
+    [Fact]
+    public void RedockingSizedPaneBesideCenterPreservesFixedTrack()
+    {
+        DockPane explorer = new()
+        {
+            Name = "explorer",
+            PanePosition = DockPanePosition.Left,
+            Size = "16rem",
+        };
+        DockPane designer = new()
+        {
+            Name = "designer",
+            Role = DockRole.Document,
+        };
+        DockPane properties = new()
+        {
+            Name = "properties",
+            PanePosition = DockPanePosition.Right,
+            Size = "18rem",
+        };
+        DockLayoutRegistry registry = new();
+
+        registry.RegisterPane( explorer );
+        registry.RegisterPane( designer );
+        registry.RegisterPane( properties );
+
+        DockLayoutState state = new()
+        {
+            Panes =
+            [
+                new() { Name = "explorer", Position = DockPanePosition.Left, Size = "16rem" },
+                new() { Name = "designer", Position = DockPanePosition.Center },
+                new() { Name = "properties", Position = DockPanePosition.Right, Size = "18rem" },
+            ],
+        };
+        DockLayoutStateManager stateManager = new();
+        DockLayoutTreeQuery query = new( registry, stateManager, () => state );
+        DockLayoutSizer sizer = new( registry, stateManager, query, () => state );
+        DockLayoutTreeMutator mutator = new( query, sizer );
+        DockNodeState explorerNode = new() { Kind = DockNodeKind.Pane, PaneName = "explorer" };
+        DockNodeState designerNode = new() { Kind = DockNodeKind.Pane, PaneName = "designer" };
+        DockNodeState propertiesNode = new() { Kind = DockNodeKind.Pane, PaneName = "properties" };
+        DockNodeState centerSplit = DockLayoutTreeBuilder.CreateSplitNode( explorerNode, designerNode, DockSplitOrientation.Horizontal, 0.18 );
+
+        state.Root = DockLayoutTreeBuilder.CreateSplitNode( centerSplit, propertiesNode, DockSplitOrientation.Horizontal, 0.78 );
+        state.Panes[0].Position = DockPanePosition.Right;
+
+        mutator.MovePaneToZone( state, "explorer", "properties", null, DockZone.Center, true );
+
+        int nextNodeId = 0;
+        stateManager.Normalize( state, registry, query, ref nextNodeId );
+        state.Panes[0].Position = DockPanePosition.Left;
+
+        mutator.MovePaneToZone( state, "explorer", "designer", null, DockZone.Left, false );
+
+        DockNodeState redockedSplit = state.Root.First;
+        string splitStyle = sizer.GetDockSplitStyle( redockedSplit );
+
+        Assert.False( redockedSplit.UseRatio );
+        Assert.Contains( "--dock-split-start-size:16rem", splitStyle );
+        Assert.Contains( "--dock-split-end-size:minmax(0,1fr)", splitStyle );
+    }
 }

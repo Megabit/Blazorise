@@ -6,6 +6,11 @@ namespace Blazorise.Modules;
 public class ResizeHandleJSOptions
 {
     /// <summary>
+    /// Supplies logical start and end targets for coordinated resizing.
+    /// </summary>
+    public ResizeHandleTargets Targets { get; set; }
+
+    /// <summary>
     /// Gets or sets the target element ID. When omitted, the handle's parent element is used.
     /// </summary>
     public string TargetElementId { get; set; }
@@ -26,19 +31,19 @@ public class ResizeHandleJSOptions
     public string ResizeProperty { get; set; }
 
     /// <summary>
-    /// Gets or sets the controlled size in pixels.
+    /// Supplies the controlled resize value in pixels.
     /// </summary>
-    public double? Size { get; set; }
+    public double? Value { get; set; }
 
     /// <summary>
-    /// Gets or sets the minimum size in pixels.
+    /// Defines the minimum resize value in pixels.
     /// </summary>
-    public double MinSize { get; set; }
+    public double Min { get; set; }
 
     /// <summary>
-    /// Gets or sets the maximum size in pixels.
+    /// Defines the maximum resize value in pixels.
     /// </summary>
-    public double? MaxSize { get; set; }
+    public double? Max { get; set; }
 
     /// <summary>
     /// Gets or sets the keyboard resize step in pixels.

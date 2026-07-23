@@ -104,7 +104,7 @@ public partial class _DockPaneRenderer : _BaseDockRenderer
 
     private string PaneSize => paneState?.Size ?? Pane?.Size;
 
-    private bool CanResize => !Flyout && Pane?.Resizable == true && SplitterDock is not null;
+    private bool CanResize => !Flyout && Resizable;
 
     private bool Bordered => Context?.IsDockPaneBordered( RenderPosition ) == true;
 
@@ -115,16 +115,6 @@ public partial class _DockPaneRenderer : _BaseDockRenderer
     private bool IsHorizontalFlyout => RenderPosition is DockPanePosition.Left or DockPanePosition.Right;
 
     private bool IsVerticalFlyout => RenderPosition is DockPanePosition.Top or DockPanePosition.Bottom;
-
-    private ElementReference CapturedElementRef
-    {
-        get => default;
-        set
-        {
-            if ( Pane is not null )
-                Pane.ElementRef = value;
-        }
-    }
 
     /// <summary>
     /// Gets or sets the pane name.
@@ -142,14 +132,9 @@ public partial class _DockPaneRenderer : _BaseDockRenderer
     [Parameter] public bool Flyout { get; set; }
 
     /// <summary>
-    /// Gets or sets the local splitter side for the rendered pane.
+    /// Indicates whether the rendered pane belongs to a resizable split track.
     /// </summary>
-    [Parameter] public DockPanePosition? SplitterDock { get; set; }
-
-    /// <summary>
-    /// Gets or sets the split node that owns the rendered pane splitter.
-    /// </summary>
-    [Parameter] public string SplitNodeId { get; set; }
+    [Parameter] public bool Resizable { get; set; }
 
     /// <summary>
     /// Gets or sets the node render version.

@@ -1593,15 +1593,6 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string DockContent() => "dock-content";
 
-    public override string DockSplitter( DockPanePosition position )
-        => position switch
-        {
-            Blazorise.DockPanePosition.Right => "dock-splitter dock-splitter-right",
-            Blazorise.DockPanePosition.Top => "dock-splitter dock-splitter-top",
-            Blazorise.DockPanePosition.Bottom => "dock-splitter dock-splitter-bottom",
-            _ => "dock-splitter dock-splitter-left",
-        };
-
     public override string DockPaneTabs() => "dock-pane-tabs";
 
     public override string DockPaneTabsPosition( DockPanePosition position )

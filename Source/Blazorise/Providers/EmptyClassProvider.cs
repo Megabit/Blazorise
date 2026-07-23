@@ -797,8 +797,6 @@ class EmptyClassProvider : IClassProvider
 
     public string DockContent() => null;
 
-    public string DockSplitter( DockPanePosition position ) => null;
-
     public string DockPaneTabs() => null;
 
     public string DockPaneTabsPosition( DockPanePosition position ) => null;

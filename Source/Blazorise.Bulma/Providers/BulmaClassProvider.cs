@@ -1900,15 +1900,6 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DockContent() => "dock-content";
 
-    public override string DockSplitter( DockPanePosition position )
-        => position switch
-        {
-            Blazorise.DockPanePosition.Right => "dock-splitter is-right",
-            Blazorise.DockPanePosition.Top => "dock-splitter is-top",
-            Blazorise.DockPanePosition.Bottom => "dock-splitter is-bottom",
-            _ => "dock-splitter is-left",
-        };
-
     public override string DockPaneTabs() => "dock-pane-tabs";
 
     public override string DockPaneTabPosition( DockPaneTabPosition position )

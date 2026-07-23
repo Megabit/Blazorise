@@ -426,43 +426,6 @@
     color: var(--b-dock-tab-active-color, var(--ant-color-primary, #1677ff));
 }
 
-.ant-dock-splitter {
-    position: absolute;
-    background: transparent;
-    z-index: 2;
-}
-
-.ant-dock-splitter-left,
-.ant-dock-splitter-right {
-    top: 0;
-    bottom: 0;
-    width: .375rem;
-    cursor: col-resize;
-}
-
-.ant-dock-splitter-left {
-    right: -.1875rem;
-}
-
-.ant-dock-splitter-right {
-    left: -.1875rem;
-}
-
-.ant-dock-splitter-top,
-.ant-dock-splitter-bottom {
-    left: 0;
-    right: 0;
-    height: .375rem;
-    cursor: row-resize;
-}
-
-.ant-dock-splitter-top {
-    bottom: -.1875rem;
-}
-
-.ant-dock-splitter-bottom {
-    top: -.1875rem;
-}
 
 .ant-dock-drag-preview {
     position: absolute;

@@ -1,8 +1,8 @@
 .fui-ResizeHandle {
-    --b-resize-handle-hit-area: .5rem;
-    --b-resize-handle-gutter-background: var(--colorNeutralBackground2, #fafafa);
-    --b-resize-handle-gutter-border: var(--colorNeutralStroke1, #d1d1d1);
-    --b-resize-handle-grip-color: var(--colorNeutralForeground3, #616161);
+    --fui-resize-handle-hit-area: .5rem;
+    --fui-resize-handle-gutter-background: var(--colorNeutralBackground2, #fafafa);
+    --fui-resize-handle-gutter-border: var(--colorNeutralStroke1, #d1d1d1);
+    --fui-resize-handle-grip-color: var(--colorNeutralForeground3, #616161);
     position: absolute;
     z-index: 10;
     padding: 0;
@@ -15,14 +15,14 @@
     &-vertical {
         top: 0;
         bottom: 0;
-        width: var(--b-resize-handle-hit-area);
+        width: var(--fui-resize-handle-hit-area);
         cursor: col-resize;
     }
 
     &-horizontal {
         right: 0;
         left: 0;
-        height: var(--b-resize-handle-hit-area);
+        height: var(--fui-resize-handle-hit-area);
         cursor: row-resize;
     }
 
@@ -53,23 +53,23 @@
         &::before {
             inset: 0;
             box-sizing: border-box;
-            background: var(--b-resize-handle-gutter-background);
+            background: var(--fui-resize-handle-gutter-background);
         }
 
         &::after {
             top: 50%;
             left: 50%;
             border-radius: 9999px;
-            background: var(--b-resize-handle-grip-color);
+            background: var(--fui-resize-handle-grip-color);
             transform: translate(-50%, -50%);
         }
 
         &:hover,
         &.fui-ResizeHandle-focused,
         &.fui-ResizeHandle-resizing {
-            --b-resize-handle-gutter-background: var(--colorBrandBackground2, #ebf3fc);
-            --b-resize-handle-gutter-border: var(--colorBrandStroke1, var(--b-theme-primary, #0f6cbd));
-            --b-resize-handle-grip-color: var(--colorBrandForeground1, #115ea3);
+            --fui-resize-handle-gutter-background: var(--colorBrandBackground2, #ebf3fc);
+            --fui-resize-handle-gutter-border: var(--colorBrandStroke1, #0f6cbd);
+            --fui-resize-handle-grip-color: var(--colorBrandForeground1, #115ea3);
         }
     }
 
@@ -85,7 +85,7 @@
 
 .fui-ResizeHandle-gutter.fui-ResizeHandle-vertical {
     &::before {
-        border-inline: 1px solid var(--b-resize-handle-gutter-border);
+        border-inline: 1px solid var(--fui-resize-handle-gutter-border);
     }
 
     &::after {
@@ -96,7 +96,7 @@
 
 .fui-ResizeHandle-gutter.fui-ResizeHandle-horizontal {
     &::before {
-        border-block: 1px solid var(--b-resize-handle-gutter-border);
+        border-block: 1px solid var(--fui-resize-handle-gutter-border);
     }
 
     &::after {
@@ -107,6 +107,6 @@
 
 @media (pointer: coarse) {
     .fui-ResizeHandle {
-        --b-resize-handle-hit-area: 1rem;
+        --fui-resize-handle-hit-area: 1rem;
     }
 }

@@ -2314,44 +2314,6 @@ body:before {
   color: var(--b-dock-tab-active-color, hsl(171, 100%, 41%));
 }
 
-.dock-splitter {
-  position: absolute;
-  background: transparent;
-  z-index: 2;
-}
-
-.dock-splitter.is-left,
-.dock-splitter.is-right {
-  top: 0;
-  bottom: 0;
-  width: 0.375rem;
-  cursor: col-resize;
-}
-
-.dock-splitter.is-left {
-  right: -0.1875rem;
-}
-
-.dock-splitter.is-right {
-  left: -0.1875rem;
-}
-
-.dock-splitter.is-top,
-.dock-splitter.is-bottom {
-  left: 0;
-  right: 0;
-  height: 0.375rem;
-  cursor: row-resize;
-}
-
-.dock-splitter.is-top {
-  bottom: -0.1875rem;
-}
-
-.dock-splitter.is-bottom {
-  top: -0.1875rem;
-}
-
 .dock-drag-preview {
   position: absolute;
   z-index: 40;
@@ -2948,10 +2910,10 @@ input.is-danger + label + .help.is-none + .help.is-success + .help.is-danger {
 }
 
 .resize-handle {
-  --b-resize-handle-hit-area: .5rem;
-  --b-resize-handle-gutter-background: hsl(221, 14%, 93%);
-  --b-resize-handle-gutter-border: hsl(221, 14%, 86%);
-  --b-resize-handle-grip-color: hsl(221, 14%, 48%);
+  --bulma-resize-handle-hit-area: .5rem;
+  --bulma-resize-handle-gutter-background: hsl(221, 14%, 93%);
+  --bulma-resize-handle-gutter-border: hsl(221, 14%, 86%);
+  --bulma-resize-handle-grip-color: hsl(221, 14%, 48%);
   position: absolute;
   z-index: 10;
   padding: 0;
@@ -2964,13 +2926,13 @@ input.is-danger + label + .help.is-none + .help.is-success + .help.is-danger {
 .resize-handle.is-vertical {
   top: 0;
   bottom: 0;
-  width: var(--b-resize-handle-hit-area);
+  width: var(--bulma-resize-handle-hit-area);
   cursor: col-resize;
 }
 .resize-handle.is-horizontal {
   right: 0;
   left: 0;
-  height: var(--b-resize-handle-hit-area);
+  height: var(--bulma-resize-handle-hit-area);
   cursor: row-resize;
 }
 .resize-handle.is-top {
@@ -2993,19 +2955,19 @@ input.is-danger + label + .help.is-none + .help.is-success + .help.is-danger {
 .resize-handle.has-gutter::before {
   inset: 0;
   box-sizing: border-box;
-  background: var(--b-resize-handle-gutter-background);
+  background: var(--bulma-resize-handle-gutter-background);
 }
 .resize-handle.has-gutter::after {
   top: 50%;
   left: 50%;
   border-radius: 9999px;
-  background: var(--b-resize-handle-grip-color);
+  background: var(--bulma-resize-handle-grip-color);
   transform: translate(-50%, -50%);
 }
 .resize-handle.has-gutter:hover, .resize-handle.has-gutter.is-focused, .resize-handle.has-gutter.is-resizing {
-  --b-resize-handle-gutter-background: rgba(0, 209.1, 177.735, 0.12);
-  --b-resize-handle-gutter-border: var(--b-theme-primary, hsl(171, 100%, 41%));
-  --b-resize-handle-grip-color: var(--b-theme-primary, hsl(171, 100%, 41%));
+  --bulma-resize-handle-gutter-background: rgba(0, 209.1, 177.735, 0.12);
+  --bulma-resize-handle-gutter-border: hsl(171, 100%, 41%);
+  --bulma-resize-handle-grip-color: hsl(171, 100%, 41%);
 }
 .resize-handle.is-disabled {
   pointer-events: none;
@@ -3013,7 +2975,7 @@ input.is-danger + label + .help.is-none + .help.is-success + .help.is-danger {
 }
 
 .resize-handle.has-gutter.is-vertical::before {
-  border-inline: 1px solid var(--b-resize-handle-gutter-border);
+  border-inline: 1px solid var(--bulma-resize-handle-gutter-border);
 }
 .resize-handle.has-gutter.is-vertical::after {
   width: 4px;
@@ -3021,7 +2983,7 @@ input.is-danger + label + .help.is-none + .help.is-success + .help.is-danger {
 }
 
 .resize-handle.has-gutter.is-horizontal::before {
-  border-block: 1px solid var(--b-resize-handle-gutter-border);
+  border-block: 1px solid var(--bulma-resize-handle-gutter-border);
 }
 .resize-handle.has-gutter.is-horizontal::after {
   width: 1.75rem;
@@ -3034,7 +2996,7 @@ input.is-danger + label + .help.is-none + .help.is-success + .help.is-danger {
 
 @media (pointer: coarse) {
   .resize-handle {
-    --b-resize-handle-hit-area: 1rem;
+    --bulma-resize-handle-hit-area: 1rem;
   }
 }
 .hero.is-primary {

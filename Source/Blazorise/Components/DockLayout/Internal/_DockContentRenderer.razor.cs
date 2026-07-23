@@ -15,5 +15,10 @@ public partial class _DockContentRenderer : ComponentBase
 
     [CascadingParameter] internal DockLayoutContext Context { get; set; }
 
+    /// <summary>
+    /// Identifies the rendered content node.
+    /// </summary>
+    [Parameter] public string NodeId { get; set; }
+
     #endregion
 }

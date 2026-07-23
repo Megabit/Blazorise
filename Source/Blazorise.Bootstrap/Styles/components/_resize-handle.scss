@@ -1,8 +1,8 @@
 .resize-handle {
-    --b-resize-handle-hit-area: .5rem;
-    --b-resize-handle-gutter-background: #f8f9fa;
-    --b-resize-handle-gutter-border: #dee2e6;
-    --b-resize-handle-grip-color: #6c757d;
+    --bs-resize-handle-hit-area: .5rem;
+    --bs-resize-handle-gutter-background: #f8f9fa;
+    --bs-resize-handle-gutter-border: #dee2e6;
+    --bs-resize-handle-grip-color: #6c757d;
     position: absolute;
     z-index: 10;
     padding: 0;
@@ -15,14 +15,14 @@
     &-vertical {
         top: 0;
         bottom: 0;
-        width: var(--b-resize-handle-hit-area);
+        width: var(--bs-resize-handle-hit-area);
         cursor: col-resize;
     }
 
     &-horizontal {
         right: 0;
         left: 0;
-        height: var(--b-resize-handle-hit-area);
+        height: var(--bs-resize-handle-hit-area);
         cursor: row-resize;
     }
 
@@ -53,7 +53,7 @@
         &::before {
             inset: 0;
             box-sizing: border-box;
-            background: var(--b-resize-handle-gutter-background);
+            background: var(--bs-resize-handle-gutter-background);
         }
 
         &::after {
@@ -62,16 +62,16 @@
             width: 3px;
             height: 3px;
             border-radius: 50%;
-            background: var(--b-resize-handle-grip-color);
+            background: var(--bs-resize-handle-grip-color);
             transform: translate(-50%, -50%);
         }
 
         &:hover,
         &.resize-handle-focused,
         &.resize-handle-resizing {
-            --b-resize-handle-gutter-background: rgba(0, 123, 255, .12);
-            --b-resize-handle-gutter-border: var(--b-theme-primary, #007bff);
-            --b-resize-handle-grip-color: var(--b-theme-primary, #007bff);
+            --bs-resize-handle-gutter-background: rgba(0, 123, 255, .12);
+            --bs-resize-handle-gutter-border: #007bff;
+            --bs-resize-handle-grip-color: #007bff;
         }
     }
 
@@ -87,26 +87,26 @@
 
 .resize-handle-gutter.resize-handle-vertical {
     &::before {
-        border-inline: 1px solid var(--b-resize-handle-gutter-border);
+        border-inline: 1px solid var(--bs-resize-handle-gutter-border);
     }
 
     &::after {
-        box-shadow: 0 -5px 0 var(--b-resize-handle-grip-color), 0 5px 0 var(--b-resize-handle-grip-color);
+        box-shadow: 0 -5px 0 var(--bs-resize-handle-grip-color), 0 5px 0 var(--bs-resize-handle-grip-color);
     }
 }
 
 .resize-handle-gutter.resize-handle-horizontal {
     &::before {
-        border-block: 1px solid var(--b-resize-handle-gutter-border);
+        border-block: 1px solid var(--bs-resize-handle-gutter-border);
     }
 
     &::after {
-        box-shadow: -5px 0 0 var(--b-resize-handle-grip-color), 5px 0 0 var(--b-resize-handle-grip-color);
+        box-shadow: -5px 0 0 var(--bs-resize-handle-grip-color), 5px 0 0 var(--bs-resize-handle-grip-color);
     }
 }
 
 @media (pointer: coarse) {
     .resize-handle {
-        --b-resize-handle-hit-area: 1rem;
+        --bs-resize-handle-hit-area: 1rem;
     }
 }

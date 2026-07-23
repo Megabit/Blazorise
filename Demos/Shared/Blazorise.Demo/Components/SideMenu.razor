@@ -436,9 +436,9 @@
     <ResizeHandle Orientation="Orientation.Vertical"
                   Placement="Placement.End"
                   ResizeProperty="--b-vertical-bar-width"
-                  MinSize="180"
-                  MaxSize="480"
-                  @bind-Size="sidebarWidth"
+                  Min="180"
+                  Max="480"
+                  @bind-Value="sidebarWidth"
                   Disabled="@(!barExpanded)"
                   ShowGutter
                   AriaLabel="Resize navigation sidebar" />

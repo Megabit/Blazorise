@@ -795,9 +795,6 @@ public abstract class ClassProvider : IClassProvider
 
     public virtual string DockContent() => null;
 
-    public virtual string DockSplitter( DockPanePosition position )
-        => null;
-
     public virtual string DockPaneTabs() => null;
 
     public virtual string DockPaneTabsPosition( DockPanePosition position ) => null;

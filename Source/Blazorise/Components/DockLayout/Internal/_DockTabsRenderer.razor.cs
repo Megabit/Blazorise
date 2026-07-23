@@ -152,19 +152,9 @@ public partial class _DockTabsRenderer : _BaseDockRenderer
 
     private string PaneSize => Node?.Size ?? activePaneState?.Size ?? ActivePane?.Size;
 
-    private bool CanResize => ActivePane?.Resizable == true && SplitterDock is not null;
+    private bool CanResize => Resizable;
 
     private bool Bordered => Context?.IsDockPaneBordered( GroupPosition ) == true;
-
-    private ElementReference CapturedElementRef
-    {
-        get => default;
-        set
-        {
-            if ( ActivePane is not null )
-                ActivePane.ElementRef = value;
-        }
-    }
 
     private ClassBuilder TabsClassBuilder { get; set; }
 
@@ -176,14 +166,9 @@ public partial class _DockTabsRenderer : _BaseDockRenderer
     [Parameter] public string NodeId { get; set; }
 
     /// <summary>
-    /// Gets or sets the local splitter side for the rendered tab group.
+    /// Indicates whether the rendered tab group belongs to a resizable split track.
     /// </summary>
-    [Parameter] public DockPanePosition? SplitterDock { get; set; }
-
-    /// <summary>
-    /// Gets or sets the split node that owns the rendered tab group splitter.
-    /// </summary>
-    [Parameter] public string SplitNodeId { get; set; }
+    [Parameter] public bool Resizable { get; set; }
 
     /// <summary>
     /// Gets or sets the node render version.

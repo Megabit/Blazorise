@@ -26,6 +26,10 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
 
     private bool showGutter;
 
+    private double? thickness;
+
+    private double offset;
+
     private bool disabled;
 
     #endregion
@@ -38,27 +42,28 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
         parameters.TryGetParameter( ResizeStarted, out ComponentParameterInfo<EventCallback<ResizeHandleEventArgs>> paramResizeStarted );
         parameters.TryGetParameter( Resizing, out ComponentParameterInfo<EventCallback<ResizeHandleEventArgs>> paramResizing );
         parameters.TryGetParameter( ResizeEnded, out ComponentParameterInfo<EventCallback<ResizeHandleEventArgs>> paramResizeEnded );
-        parameters.TryGetParameter( SizeChanged, out ComponentParameterInfo<EventCallback<double>> paramSizeChanged );
+        parameters.TryGetParameter( ValueChanged, out ComponentParameterInfo<EventCallback<double>> paramValueChanged );
 
         EventCallback<ResizeHandleEventArgs> nextResizeStarted = paramResizeStarted.GetValueOrDefault( ResizeStarted );
         EventCallback<ResizeHandleEventArgs> nextResizing = paramResizing.GetValueOrDefault( Resizing );
         EventCallback<ResizeHandleEventArgs> nextResizeEnded = paramResizeEnded.GetValueOrDefault( ResizeEnded );
-        EventCallback<double> nextSizeChanged = paramSizeChanged.GetValueOrDefault( SizeChanged );
+        EventCallback<double> nextValueChanged = paramValueChanged.GetValueOrDefault( ValueChanged );
 
         bool updateOptions = Rendered
-            && ( parameters.IsParameterChanged( TargetElementId )
+            && ( parameters.IsParameterChanged( Targets )
+                || parameters.IsParameterChanged( TargetElementId )
                 || parameters.IsParameterChanged( Orientation )
                 || parameters.IsParameterChanged( Placement )
                 || parameters.IsParameterChanged( ResizeProperty )
-                || parameters.IsParameterChanged( Size )
-                || parameters.IsParameterChanged( MinSize )
-                || parameters.IsParameterChanged( MaxSize )
+                || parameters.IsParameterChanged( Value )
+                || parameters.IsParameterChanged( Min )
+                || parameters.IsParameterChanged( Max )
                 || parameters.IsParameterChanged( KeyboardStep )
                 || parameters.IsParameterChanged( ResizeEventInterval )
                 || parameters.IsParameterChanged( Disabled )
                 || nextResizeStarted.HasDelegate != ResizeStarted.HasDelegate
                 || nextResizing.HasDelegate != Resizing.HasDelegate
-                || ( nextResizeEnded.HasDelegate || nextSizeChanged.HasDelegate ) != ( ResizeEnded.HasDelegate || SizeChanged.HasDelegate ) );
+                || ( nextResizeEnded.HasDelegate || nextValueChanged.HasDelegate ) != ( ResizeEnded.HasDelegate || ValueChanged.HasDelegate ) );
 
         await base.SetParametersAsync( parameters );
 
@@ -87,6 +92,30 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
         builder.Append( ClassProvider.ResizeHandleDisabled( Disabled ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        if ( Thickness is not null )
+        {
+            string thicknessValue = Thickness.Value.ToString( "0.####", CultureInfo.InvariantCulture );
+
+            builder.Append( $"width:{thicknessValue}px", Orientation == Blazorise.Orientation.Vertical );
+            builder.Append( $"height:{thicknessValue}px", Orientation == Blazorise.Orientation.Horizontal );
+        }
+
+        if ( Offset != 0 )
+        {
+            string offsetValue = ( -Offset ).ToString( "0.####", CultureInfo.InvariantCulture );
+
+            builder.Append( $"top:{offsetValue}px", ResolvedPlacement == Blazorise.Placement.Top );
+            builder.Append( $"bottom:{offsetValue}px", ResolvedPlacement == Blazorise.Placement.Bottom );
+            builder.Append( $"inset-inline-start:{offsetValue}px", ResolvedPlacement == Blazorise.Placement.Start );
+            builder.Append( $"inset-inline-end:{offsetValue}px", ResolvedPlacement == Blazorise.Placement.End );
+        }
+
+        base.BuildStyles( builder );
     }
 
     /// <inheritdoc/>
@@ -123,7 +152,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
         => Resizing.InvokeAsync( eventArgs );
 
     /// <summary>
-    /// Commits the final size and reports completion of the interaction.
+    /// Commits the final value and reports completion of the interaction.
     /// </summary>
     /// <param name="eventArgs">Information about the resize operation.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -131,7 +160,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     public virtual async Task OnResizeEnded( ResizeHandleEventArgs eventArgs )
     {
         if ( !eventArgs.Canceled )
-            await SizeChanged.InvokeAsync( eventArgs.Size );
+            await ValueChanged.InvokeAsync( eventArgs.Size );
 
         await ResizeEnded.InvokeAsync( eventArgs );
     }
@@ -139,13 +168,14 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     private ResizeHandleJSOptions CreateOptions()
         => new()
         {
+            Targets = Targets,
             TargetElementId = TargetElementId,
             Vertical = Orientation == Blazorise.Orientation.Vertical,
             ResizeFromStart = ResolvedPlacement is Blazorise.Placement.Start or Blazorise.Placement.Top,
             ResizeProperty = ResolvedResizeProperty,
-            Size = Size,
-            MinSize = MinSize,
-            MaxSize = MaxSize,
+            Value = Value,
+            Min = Min,
+            Max = Max,
             KeyboardStep = KeyboardStep,
             ResizeEventInterval = ResizeEventInterval,
             Disabled = Disabled,
@@ -154,7 +184,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
             TargetResizingClassNames = ClassProvider.ResizeHandleTargetResizing( true ),
             NotifyResizeStarted = ResizeStarted.HasDelegate,
             NotifyResizing = Resizing.HasDelegate,
-            NotifyResizeEnded = ResizeEnded.HasDelegate || SizeChanged.HasDelegate,
+            NotifyResizeEnded = ResizeEnded.HasDelegate || ValueChanged.HasDelegate,
         };
 
     private static string FormatAriaValue( double? value )
@@ -211,19 +241,19 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     /// Formats the minimum size for the rendered separator semantics.
     /// </summary>
     protected string AriaValueMin
-        => FormatAriaValue( MinSize );
+        => FormatAriaValue( Min );
 
     /// <summary>
     /// Formats the optional maximum size for assistive technologies.
     /// </summary>
     protected string AriaValueMax
-        => FormatAriaValue( MaxSize );
+        => FormatAriaValue( Max );
 
     /// <summary>
     /// Supplies the initial accessible size; JavaScript keeps the value synchronized during resizing.
     /// </summary>
     protected string AriaValueNow
-        => FormatAriaValue( Size );
+        => FormatAriaValue( Value );
 
     /// <summary>
     /// Converts the disabled state to the lowercase ARIA boolean format.
@@ -248,6 +278,11 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     [Inject] public IJSResizeHandleModule JSModule { get; set; }
 
     /// <summary>
+    /// Coordinates logical start and end targets while preserving their combined size. Use <see cref="TargetElementId"/> for one-target resizing.
+    /// </summary>
+    [Parameter] public ResizeHandleTargets Targets { get; set; }
+
+    /// <summary>
     /// Identifies the element that receives size updates. When omitted, the handle resizes its parent.
     /// </summary>
     [Parameter] public string TargetElementId { get; set; }
@@ -267,6 +302,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
             orientation = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 
@@ -285,6 +321,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
             placement = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 
@@ -294,24 +331,24 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     [Parameter] public string ResizeProperty { get; set; }
 
     /// <summary>
-    /// Supplies the controlled size in pixels. Without a value, the browser measures the target's initial size.
+    /// Supplies the controlled resize value in pixels. Without a value, the browser measures the target's initial size.
     /// </summary>
-    [Parameter] public double? Size { get; set; }
+    [Parameter] public double? Value { get; set; }
 
     /// <summary>
-    /// Occurs when a resize interaction commits a new size.
+    /// Occurs when a resize interaction commits a new value.
     /// </summary>
-    [Parameter] public EventCallback<double> SizeChanged { get; set; }
+    [Parameter] public EventCallback<double> ValueChanged { get; set; }
 
     /// <summary>
-    /// Prevents the target from shrinking below this pixel value.
+    /// Prevents the resize value from falling below this pixel value.
     /// </summary>
-    [Parameter] public double MinSize { get; set; }
+    [Parameter] public double Min { get; set; }
 
     /// <summary>
-    /// Limits the target's size in pixels; a null value leaves the upper bound unrestricted.
+    /// Limits the resize value in pixels; a null value leaves the upper bound unrestricted.
     /// </summary>
-    [Parameter] public double? MaxSize { get; set; }
+    [Parameter] public double? Max { get; set; }
 
     /// <summary>
     /// Determines how many pixels each applicable arrow-key press adds or removes.
@@ -338,6 +375,42 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
             showGutter = value;
 
             DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Moves the handle outward from its configured edge by the specified number of pixels. Negative values move it inward.
+    /// </summary>
+    [Parameter]
+    public double Offset
+    {
+        get => offset;
+        set
+        {
+            if ( offset == value )
+                return;
+
+            offset = value;
+
+            DirtyStyles();
+        }
+    }
+
+    /// <summary>
+    /// Overrides the handle thickness in pixels. Vertical handles use it as width and horizontal handles as height.
+    /// </summary>
+    [Parameter]
+    public double? Thickness
+    {
+        get => thickness;
+        set
+        {
+            if ( thickness == value )
+                return;
+
+            thickness = value;
+
+            DirtyStyles();
         }
     }
 
