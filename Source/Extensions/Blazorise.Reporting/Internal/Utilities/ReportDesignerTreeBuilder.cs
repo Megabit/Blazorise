@@ -159,7 +159,7 @@ internal static class ReportDesignerTreeBuilder
         {
             Key = CreateElementTreeNodeKey( elementKey ),
             Text = element.Name ?? ReportElementDefinitionHelper.GetDisplayText( element ),
-            Detail = element.Type.ToString(),
+            Detail = ReportDefinitionHelper.GetElementTypeDisplayName( element.Type ),
             Kind = ReportDefinitionHelper.GetElementTreeNodeKind( element.Type ),
             Selectable = true,
             Selected = isElementSelected?.Invoke( elementKey ) == true,

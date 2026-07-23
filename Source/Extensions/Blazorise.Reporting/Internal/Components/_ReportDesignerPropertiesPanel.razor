@@ -25,6 +25,7 @@
 {
     <Div Margin="MarginIs3FromBottom">
         <_ReportDesignerPropertyGroup Title="Designer">
+            <_ReportDesignerTextProperty Label="Type" Value="Report" ReadOnly />
             <_ReportDesignerCheckboxProperty Label="Snap to grid" Value="@SnapToGrid" Changed="@OnSnapToGridChanged" />
             <_ReportDesignerNumberProperty TValue="double" Label="Grid size" Value="@FromPoints( GridSize )" Changed="@OnGridSizeChanged" Min="@FromPoints( 1 )" Max="@FromPoints( Math.Min( Definition.Page.Width, Definition.Page.Height ) )" Step="@GetMeasurementStep()" />
             <_ReportDesignerCheckboxProperty Label="Show rulers" Value="@ShowRulers" Changed="@ShowRulersChanged" />
@@ -102,9 +103,10 @@
             }
         </_ReportDesignerPropertyGroup>
 
-        @if ( !ReportValueResolver.ResolveStaticSuppress( SelectedSection ) )
-        {
-            <_ReportDesignerPropertyGroup Title="General">
+        <_ReportDesignerPropertyGroup Title="General">
+            <_ReportDesignerTextProperty Label="Type" Value="@ReportDefinitionHelper.GetSectionTypeDisplayName( SelectedSection.Type )" ReadOnly />
+            @if ( !ReportValueResolver.ResolveStaticSuppress( SelectedSection ) )
+            {
                 <_ReportDesignerTextProperty Label="Name" Value="@SelectedSection.Name" Changed="@(value => UpdateSelectedSection( section => section.Name = value ))" />
                 @if ( SelectedSection.Type == ReportBandType.Detail )
                 {
@@ -114,7 +116,11 @@
                 {
                     <_ReportDesignerTextProperty Label="Group by" Value="@SelectedSection.GroupBy" Changed="@(value => UpdateSelectedSection( section => section.GroupBy = value ))" />
                 }
-            </_ReportDesignerPropertyGroup>
+            }
+        </_ReportDesignerPropertyGroup>
+
+        @if ( !ReportValueResolver.ResolveStaticSuppress( SelectedSection ) )
+        {
             <_ReportDesignerPropertyGroup Title="Layout">
                 <_ReportDesignerNumberProperty TValue="double" Label="Height" Value="@FromPoints( SelectedSection.Height )" Changed="@OnSelectedSectionHeightChanged" Min="@FromPoints( ReportLayoutGeometry.DefaultMinimumElementSize )" Max="@FromPoints( ReportPageDefinitionHelper.GetContentHeight( Definition.Page ) )" Step="@GetMeasurementStep()" />
             </_ReportDesignerPropertyGroup>
@@ -200,15 +206,16 @@
                                                   OpenFormula="@OpenSelectedElementSnapToGridFormula" />
         </_ReportDesignerPropertyGroup>
 
+        <_ReportDesignerPropertyGroup Title="General">
+            <_ReportDesignerTextProperty Label="Type" Value="@GetSelectedElementTypeDisplayName()" ReadOnly />
+            @if ( !MultipleElementsSelected && !AllSelectedElementsSuppressed )
+            {
+                <_ReportDesignerTextProperty Label="Name" Value="@SelectedElement.Name" Changed="@OnSelectedElementNameChanged" />
+            }
+        </_ReportDesignerPropertyGroup>
+
         @if ( !AllSelectedElementsSuppressed )
         {
-            @if ( !MultipleElementsSelected )
-            {
-                <_ReportDesignerPropertyGroup Title="General">
-                    <_ReportDesignerTextProperty Label="Name" Value="@SelectedElement.Name" Changed="@OnSelectedElementNameChanged" />
-                </_ReportDesignerPropertyGroup>
-            }
-
             @if ( AllSelectedElementsAre<ReportTextElementDefinition>()
                 || AllSelectedElementsAre<ReportFieldElementDefinition>()
                 || AllSelectedElementsAre<ReportImageElementDefinition>() )

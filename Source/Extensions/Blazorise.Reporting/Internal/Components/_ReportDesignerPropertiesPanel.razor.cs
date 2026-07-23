@@ -132,6 +132,18 @@ public partial class _ReportDesignerPropertiesPanel
 
     private bool AnySelectedElementIsLine => SelectedElements?.Any( static element => element is ReportLineElementDefinition ) == true;
 
+    private string GetSelectedElementTypeDisplayName()
+    {
+        if ( SelectedCell is not null )
+            return "Table Cell";
+
+        ReportElementType type = SelectedElement.Type;
+
+        return AllSelectedElementsMatch( element => element.Type == type )
+            ? ReportDefinitionHelper.GetElementTypeDisplayName( type )
+            : "Multiple types";
+    }
+
     private bool AllSelectedElementsAre<TElement>()
         where TElement : ReportElementDefinition
         => AllSelectedElementsMatch( static element => element is TElement );

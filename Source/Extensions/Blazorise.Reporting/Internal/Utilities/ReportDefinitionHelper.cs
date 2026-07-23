@@ -543,6 +543,15 @@ internal static class ReportDefinitionHelper
         };
     }
 
+    internal static string GetElementTypeDisplayName( ReportElementType type )
+    {
+        return type switch
+        {
+            ReportElementType.PageBreak => "Page Break",
+            _ => type.ToString(),
+        };
+    }
+
     internal static ReportTreeNodeKind GetElementTreeNodeKind( ReportElementType type )
     {
         return type switch
