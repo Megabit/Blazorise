@@ -147,6 +147,22 @@ internal static class ReportDataSourceExplorer
         if ( TryResolveRunningTotalFieldType( definition, defaultData, dataSourceName, fieldName, out dataType ) )
             return true;
 
+        string normalizedFieldName = fieldName.Trim();
+        ReportDataSourceDefinition qualifiedDataSource = definition?.DataSources?
+            .Where( dataSource => !string.IsNullOrWhiteSpace( dataSource?.Name )
+                && normalizedFieldName.StartsWith( $"{dataSource.Name.Trim()}.", StringComparison.OrdinalIgnoreCase ) )
+            .OrderByDescending( dataSource => dataSource.Name.Length )
+            .FirstOrDefault();
+
+        if ( qualifiedDataSource is not null
+            && !string.Equals( qualifiedDataSource.Name, dataSourceName, StringComparison.OrdinalIgnoreCase ) )
+        {
+            string qualifiedDataSourcePrefix = $"{qualifiedDataSource.Name.Trim()}.";
+
+            return TryResolveFieldType( definition, defaultData, qualifiedDataSource.Name,
+                normalizedFieldName[qualifiedDataSourcePrefix.Length..], out dataType );
+        }
+
         List<string> normalizedFieldNames = NormalizeFieldPathCandidates( definition, dataSourceName, fieldName ).ToList();
         List<ReportDesignerFieldNode> fields = ResolveDataSourceSchemaContextFields( definition, dataSourceName ).ToList();
 
