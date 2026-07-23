@@ -1775,11 +1775,11 @@ input[readonly=readonly][type=range]::-ms-thumb {
   cursor: default;
 }
 
-.resize-handle {
-  --bs-resize-handle-hit-area: .5rem;
-  --bs-resize-handle-gutter-background: #f8f9fa;
-  --bs-resize-handle-gutter-border: #dee2e6;
-  --bs-resize-handle-grip-color: #6c757d;
+.resizer {
+  --bs-resizer-hit-area: .5rem;
+  --bs-resizer-gutter-background: #f8f9fa;
+  --bs-resizer-gutter-border: #dee2e6;
+  --bs-resizer-grip-color: #6c757d;
   position: absolute;
   z-index: 10;
   padding: 0;
@@ -1789,79 +1789,79 @@ input[readonly=readonly][type=range]::-ms-thumb {
   touch-action: none;
   outline: none;
 }
-.resize-handle-vertical {
+.resizer-vertical {
   top: 0;
   bottom: 0;
-  width: var(--bs-resize-handle-hit-area);
+  width: var(--bs-resizer-hit-area);
   cursor: col-resize;
 }
-.resize-handle-horizontal {
+.resizer-horizontal {
   right: 0;
   left: 0;
-  height: var(--bs-resize-handle-hit-area);
+  height: var(--bs-resizer-hit-area);
   cursor: row-resize;
 }
-.resize-handle-top {
+.resizer-top {
   top: 0;
 }
-.resize-handle-bottom {
+.resizer-bottom {
   bottom: 0;
 }
-.resize-handle-start {
+.resizer-start {
   inset-inline-start: 0;
 }
-.resize-handle-end {
+.resizer-end {
   inset-inline-end: 0;
 }
-.resize-handle-gutter::before, .resize-handle-gutter::after {
+.resizer-gutter::before, .resizer-gutter::after {
   content: "";
   position: absolute;
   pointer-events: none;
 }
-.resize-handle-gutter::before {
+.resizer-gutter::before {
   inset: 0;
   box-sizing: border-box;
-  background: var(--bs-resize-handle-gutter-background);
+  background: var(--bs-resizer-gutter-background);
 }
-.resize-handle-gutter::after {
+.resizer-gutter::after {
   top: 50%;
   left: 50%;
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: var(--bs-resize-handle-grip-color);
+  background: var(--bs-resizer-grip-color);
   transform: translate(-50%, -50%);
 }
-.resize-handle-gutter:hover, .resize-handle-gutter.resize-handle-focused, .resize-handle-gutter.resize-handle-resizing {
-  --bs-resize-handle-gutter-background: rgba(0, 123, 255, .12);
-  --bs-resize-handle-gutter-border: #007bff;
-  --bs-resize-handle-grip-color: #007bff;
+.resizer-gutter:hover, .resizer-gutter.resizer-focused, .resizer-gutter.resizer-resizing {
+  --bs-resizer-gutter-background: rgba(0, 123, 255, .12);
+  --bs-resizer-gutter-border: #007bff;
+  --bs-resizer-grip-color: #007bff;
 }
-.resize-handle-disabled {
+.resizer-disabled {
   pointer-events: none;
   opacity: 0.5;
 }
-.resize-handle-target-resizing {
+.resizer-target-resizing {
   transition: none !important;
 }
 
-.resize-handle-gutter.resize-handle-vertical::before {
-  border-inline: 1px solid var(--bs-resize-handle-gutter-border);
+.resizer-gutter.resizer-vertical::before {
+  border-inline: 1px solid var(--bs-resizer-gutter-border);
 }
-.resize-handle-gutter.resize-handle-vertical::after {
-  box-shadow: 0 -5px 0 var(--bs-resize-handle-grip-color), 0 5px 0 var(--bs-resize-handle-grip-color);
+.resizer-gutter.resizer-vertical::after {
+  box-shadow: 0 -5px 0 var(--bs-resizer-grip-color), 0 5px 0 var(--bs-resizer-grip-color);
 }
 
-.resize-handle-gutter.resize-handle-horizontal::before {
-  border-block: 1px solid var(--bs-resize-handle-gutter-border);
+.resizer-gutter.resizer-horizontal::before {
+  border-block: 1px solid var(--bs-resizer-gutter-border);
 }
-.resize-handle-gutter.resize-handle-horizontal::after {
-  box-shadow: -5px 0 0 var(--bs-resize-handle-grip-color), 5px 0 0 var(--bs-resize-handle-grip-color);
+.resizer-gutter.resizer-horizontal::after {
+  box-shadow: -5px 0 0 var(--bs-resizer-grip-color), 5px 0 0 var(--bs-resizer-grip-color);
 }
 
 @media (pointer: coarse) {
-  .resize-handle {
-    --bs-resize-handle-hit-area: 1rem;
+  .resizer {
+    --bs-resizer-hit-area: 1rem;
   }
 }
 .jumbotron.jumbotron-primary {

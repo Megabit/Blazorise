@@ -237,23 +237,23 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
-    #region ResizeHandle
+    #region Resizer
 
-    public string ResizeHandle() => null;
+    public string Resizer() => null;
 
-    public string ResizeHandleOrientation( Orientation orientation ) => null;
+    public string ResizerOrientation( Orientation orientation ) => null;
 
-    public string ResizeHandlePlacement( Placement placement ) => null;
+    public string ResizerPlacement( Placement placement ) => null;
 
-    public string ResizeHandleGutter( bool showGutter ) => null;
+    public string ResizerGutter( bool showGutter ) => null;
 
-    public string ResizeHandleDisabled( bool disabled ) => null;
+    public string ResizerDisabled( bool disabled ) => null;
 
-    public string ResizeHandleFocused( bool focused ) => null;
+    public string ResizerFocused( bool focused ) => null;
 
-    public string ResizeHandleResizing( bool resizing ) => null;
+    public string ResizerResizing( bool resizing ) => null;
 
-    public string ResizeHandleTargetResizing( bool resizing ) => null;
+    public string ResizerTargetResizing( bool resizing ) => null;
 
     #endregion
 

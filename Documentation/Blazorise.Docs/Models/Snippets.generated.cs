@@ -4405,7 +4405,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string ResizeHandleBarExample = @"<Layout Sider
+        public const string ResizerBarExample = @"<Layout Sider
         Height=""Height.Px( 360 )""
         Border=""Border.Is1.Rounded""
         Overflow=""Overflow.Hidden"">
@@ -4421,19 +4421,19 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
                 <BarMenu>
                     <BarStart>
                         <BarItem>
-                            <BarLink To=""#resize-handle-projects"">
+                            <BarLink To=""#resizer-projects"">
                                 <BarIcon IconName=""IconName.FolderOpen"" />
                                 Projects
                             </BarLink>
                         </BarItem>
                         <BarItem>
-                            <BarLink To=""#resize-handle-reports"">
+                            <BarLink To=""#resizer-reports"">
                                 <BarIcon IconName=""IconName.ChartLine"" />
                                 Reports
                             </BarLink>
                         </BarItem>
                         <BarItem>
-                            <BarLink To=""#resize-handle-settings"">
+                            <BarLink To=""#resizer-settings"">
                                 <BarIcon IconName=""IconName.Settings"" />
                                 Settings
                             </BarLink>
@@ -4441,14 +4441,14 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
                     </BarStart>
                 </BarMenu>
 
-                <ResizeHandle Orientation=""Orientation.Vertical""
-                              Placement=""Placement.End""
-                              ResizeProperty=""--b-vertical-bar-width""
-                              Min=""180""
-                              Max=""360""
-                              @bind-Value=""barWidth""
-                              Disabled=""@(!barExpanded)""
-                              AriaLabel=""Resize navigation sidebar"" />
+                <Resizer Orientation=""Orientation.Vertical""
+                         Placement=""Placement.End""
+                         ResizeProperty=""--b-vertical-bar-width""
+                         Min=""180""
+                         Max=""360""
+                         @bind-Value=""barWidth""
+                         Disabled=""@(!barExpanded)""
+                         AriaLabel=""Resize navigation sidebar"" />
             </Bar>
         </LayoutSiderContent>
     </LayoutSider>
@@ -4457,7 +4457,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <LayoutContent Padding=""Padding.Is4"">
             <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Resizable navigation</Heading>
             <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
-                Resize the expanded Bar, then use its toggler to enter small mode. The handle is disabled while collapsed.
+                Resize the expanded Bar, then use its toggler to enter small mode. The resizer is disabled while collapsed.
             </Paragraph>
         </LayoutContent>
     </Layout>
@@ -4473,7 +4473,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             $""--b-vertical-bar-width: {barWidth}px"" );
 }";
 
-        public const string ResizeHandleHeightExample = @"<Div Flex=""Flex.Column""
+        public const string ResizerHeightExample = @"<Div Flex=""Flex.Column""
      Height=""Height.Px( 360 )""
      Border=""Border.Is1.Rounded""
      Overflow=""Overflow.Hidden"">
@@ -4487,13 +4487,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             Resize this area vertically.
         </Paragraph>
 
-        <ResizeHandle Orientation=""Orientation.Horizontal""
-                      Placement=""Placement.Bottom""
-                      ShowGutter
-                      Min=""100""
-                      Max=""260""
-                      @bind-Value=""previewHeight""
-                      AriaLabel=""Resize preview height"" />
+        <Resizer Orientation=""Orientation.Horizontal""
+                 Placement=""Placement.Bottom""
+                 ShowGutter
+                 Min=""100""
+                 Max=""260""
+                 @bind-Value=""previewHeight""
+                 AriaLabel=""Resize preview height"" />
     </Div>
 
     <Div Flex=""Flex.Grow.Is1""
@@ -4509,11 +4509,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     private double previewHeight = 180;
 }";
 
-        public const string ResizeHandleMultipleTargetsExample = @"<Div Flex=""Flex.Row""
+        public const string ResizerMultipleTargetsExample = @"<Div Flex=""Flex.Row""
      Height=""Height.Px( 260 )""
      Border=""Border.Is1.Rounded""
      Overflow=""Overflow.Hidden"">
-    <Div ElementId=""resize-handle-start-panel""
+    <Div ElementId=""resizer-start-panel""
          Flex=""Flex.Shrink.Is0""
          Style=""width: 50%;""
          Background=""Background.Light""
@@ -4527,15 +4527,15 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <Div Position=""Position.Relative""
          Flex=""Flex.Shrink.Is0""
          Width=""Width.Px( 0 )"">
-        <ResizeHandle Targets=""@resizeTargets""
-                      Orientation=""Orientation.Vertical""
-                      Placement=""Placement.Start""
-                      ShowGutter
-                      KeyboardStep=""10""
-                      AriaLabel=""Resize navigation and workspace panels"" />
+        <Resizer Targets=""@resizeTargets""
+                 Orientation=""Orientation.Vertical""
+                 Placement=""Placement.Start""
+                 ShowGutter
+                 KeyboardStep=""10""
+                 AriaLabel=""Resize navigation and workspace panels"" />
     </Div>
 
-    <Div ElementId=""resize-handle-end-panel""
+    <Div ElementId=""resizer-end-panel""
          Flex=""Flex.Shrink.Is0""
          Style=""width: 50%;""
          Padding=""Padding.Is4"">
@@ -4547,24 +4547,24 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 </Div>
 
 @code {
-    private readonly ResizeHandleTargets resizeTargets = new()
+    private readonly ResizerTargets resizeTargets = new()
     {
         Start = new()
         {
-            ElementId = ""resize-handle-start-panel"",
+            ElementId = ""resizer-start-panel"",
             ResizeProperty = ""width"",
             MinSize = ""120px"",
         },
         End = new()
         {
-            ElementId = ""resize-handle-end-panel"",
+            ElementId = ""resizer-end-panel"",
             ResizeProperty = ""width"",
             MinSize = ""160px"",
         },
     };
 }";
 
-        public const string ResizeHandlePanelExample = @"<Div Flex=""Flex.Row""
+        public const string ResizerPanelExample = @"<Div Flex=""Flex.Row""
      Height=""Height.Px( 260 )""
      Border=""Border.Is1.Rounded""
      Overflow=""Overflow.Hidden"">
@@ -4589,13 +4589,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             </Div>
         </Div>
 
-        <ResizeHandle Orientation=""Orientation.Vertical""
-                      Placement=""Placement.End""
-                      Min=""160""
-                      Max=""360""
-                      KeyboardStep=""10""
-                      @bind-Value=""panelWidth""
-                      AriaLabel=""Resize explorer panel"" />
+        <Resizer Orientation=""Orientation.Vertical""
+                 Placement=""Placement.End""
+                 Min=""160""
+                 Max=""360""
+                 KeyboardStep=""10""
+                 @bind-Value=""panelWidth""
+                 AriaLabel=""Resize explorer panel"" />
     </Div>
 
     <Div Flex=""Flex.Grow.Is1""
@@ -4611,7 +4611,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     private double panelWidth = 220;
 }";
 
-        public const string ResizeHandleTargetExample = @"<Div Flex=""Flex.Row""
+        public const string ResizerTargetExample = @"<Div Flex=""Flex.Row""
      Height=""Height.Px( 280 )""
      Border=""Border.Is1.Rounded""
      Overflow=""Overflow.Hidden"">
@@ -4619,31 +4619,31 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
          Padding=""Padding.Is4"">
         <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Canvas</Heading>
         <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
-            The handle is positioned at this boundary but targets the inspector by ID.
+            The resizer is positioned at this boundary but targets the inspector by ID.
         </Paragraph>
     </Div>
 
     <Div Position=""Position.Relative""
          Flex=""Flex.Shrink.Is0""
          Width=""Width.Px( 0 )"">
-        <ResizeHandle TargetId=""resize-handle-inspector""
-                      Orientation=""Orientation.Vertical""
-                      Placement=""Placement.Start""
-                      ResizeProperty=""--docs-inspector-width""
-                      Min=""180""
-                      Max=""360""
-                      @bind-Value=""inspectorWidth""
-                      AriaLabel=""Resize inspector panel"" />
+        <Resizer TargetId=""resizer-inspector""
+                 Orientation=""Orientation.Vertical""
+                 Placement=""Placement.Start""
+                 ResizeProperty=""--docs-inspector-width""
+                 Min=""180""
+                 Max=""360""
+                 @bind-Value=""inspectorWidth""
+                 AriaLabel=""Resize inspector panel"" />
     </Div>
 
-    <Div ElementId=""resize-handle-inspector""
+    <Div ElementId=""resizer-inspector""
          Flex=""Flex.Shrink.Is0""
          Style=""@InspectorStyle""
          Background=""Background.Light""
          Padding=""Padding.Is4"">
         <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0"">Inspector</Heading>
         <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is3.FromTop.Is0.FromBottom"">
-            Its width is read from the custom property applied by the handle.
+            Its width is read from the custom property applied by the resizer.
         </Paragraph>
     </Div>
 </Div>

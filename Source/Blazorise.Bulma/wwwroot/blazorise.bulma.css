@@ -2909,11 +2909,11 @@ input.is-danger + label + .help.is-none + .help.is-success + .help.is-danger {
   cursor: not-allowed;
 }
 
-.resize-handle {
-  --bulma-resize-handle-hit-area: .5rem;
-  --bulma-resize-handle-gutter-background: hsl(221, 14%, 93%);
-  --bulma-resize-handle-gutter-border: hsl(221, 14%, 86%);
-  --bulma-resize-handle-grip-color: hsl(221, 14%, 48%);
+.resizer {
+  --bulma-resizer-hit-area: .5rem;
+  --bulma-resizer-gutter-background: hsl(221, 14%, 93%);
+  --bulma-resizer-gutter-border: hsl(221, 14%, 86%);
+  --bulma-resizer-grip-color: hsl(221, 14%, 48%);
   position: absolute;
   z-index: 10;
   padding: 0;
@@ -2923,69 +2923,69 @@ input.is-danger + label + .help.is-none + .help.is-success + .help.is-danger {
   touch-action: none;
   outline: none;
 }
-.resize-handle.is-vertical {
+.resizer.is-vertical {
   top: 0;
   bottom: 0;
-  width: var(--bulma-resize-handle-hit-area);
+  width: var(--bulma-resizer-hit-area);
   cursor: col-resize;
 }
-.resize-handle.is-horizontal {
+.resizer.is-horizontal {
   right: 0;
   left: 0;
-  height: var(--bulma-resize-handle-hit-area);
+  height: var(--bulma-resizer-hit-area);
   cursor: row-resize;
 }
-.resize-handle.is-top {
+.resizer.is-top {
   top: 0;
 }
-.resize-handle.is-bottom {
+.resizer.is-bottom {
   bottom: 0;
 }
-.resize-handle.is-start {
+.resizer.is-start {
   inset-inline-start: 0;
 }
-.resize-handle.is-end {
+.resizer.is-end {
   inset-inline-end: 0;
 }
-.resize-handle.has-gutter::before, .resize-handle.has-gutter::after {
+.resizer.has-gutter::before, .resizer.has-gutter::after {
   content: "";
   position: absolute;
   pointer-events: none;
 }
-.resize-handle.has-gutter::before {
+.resizer.has-gutter::before {
   inset: 0;
   box-sizing: border-box;
-  background: var(--bulma-resize-handle-gutter-background);
+  background: var(--bulma-resizer-gutter-background);
 }
-.resize-handle.has-gutter::after {
+.resizer.has-gutter::after {
   top: 50%;
   left: 50%;
   border-radius: 9999px;
-  background: var(--bulma-resize-handle-grip-color);
+  background: var(--bulma-resizer-grip-color);
   transform: translate(-50%, -50%);
 }
-.resize-handle.has-gutter:hover, .resize-handle.has-gutter.is-focused, .resize-handle.has-gutter.is-resizing {
-  --bulma-resize-handle-gutter-background: rgba(0, 209.1, 177.735, 0.12);
-  --bulma-resize-handle-gutter-border: hsl(171, 100%, 41%);
-  --bulma-resize-handle-grip-color: hsl(171, 100%, 41%);
+.resizer.has-gutter:hover, .resizer.has-gutter.is-focused, .resizer.has-gutter.is-resizing {
+  --bulma-resizer-gutter-background: rgba(0, 209.1, 177.735, 0.12);
+  --bulma-resizer-gutter-border: hsl(171, 100%, 41%);
+  --bulma-resizer-grip-color: hsl(171, 100%, 41%);
 }
-.resize-handle.is-disabled {
+.resizer.is-disabled {
   pointer-events: none;
   opacity: 0.5;
 }
 
-.resize-handle.has-gutter.is-vertical::before {
-  border-inline: 1px solid var(--bulma-resize-handle-gutter-border);
+.resizer.has-gutter.is-vertical::before {
+  border-inline: 1px solid var(--bulma-resizer-gutter-border);
 }
-.resize-handle.has-gutter.is-vertical::after {
+.resizer.has-gutter.is-vertical::after {
   width: 4px;
   height: 1.75rem;
 }
 
-.resize-handle.has-gutter.is-horizontal::before {
-  border-block: 1px solid var(--bulma-resize-handle-gutter-border);
+.resizer.has-gutter.is-horizontal::before {
+  border-block: 1px solid var(--bulma-resizer-gutter-border);
 }
-.resize-handle.has-gutter.is-horizontal::after {
+.resizer.has-gutter.is-horizontal::after {
   width: 1.75rem;
   height: 4px;
 }
@@ -2995,8 +2995,8 @@ input.is-danger + label + .help.is-none + .help.is-success + .help.is-danger {
 }
 
 @media (pointer: coarse) {
-  .resize-handle {
-    --bulma-resize-handle-hit-area: 1rem;
+  .resizer {
+    --bulma-resizer-hit-area: 1rem;
   }
 }
 .hero.is-primary {

@@ -250,23 +250,23 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
-    #region ResizeHandle
+    #region Resizer
 
-    public override string ResizeHandle() => "resize-handle";
+    public override string Resizer() => "resizer";
 
-    public override string ResizeHandleOrientation( Orientation orientation ) => $"resize-handle-{orientation.ToString().ToLowerInvariant()}";
+    public override string ResizerOrientation( Orientation orientation ) => $"resizer-{orientation.ToString().ToLowerInvariant()}";
 
-    public override string ResizeHandlePlacement( Placement placement ) => $"resize-handle-{placement.ToString().ToLowerInvariant()}";
+    public override string ResizerPlacement( Placement placement ) => $"resizer-{placement.ToString().ToLowerInvariant()}";
 
-    public override string ResizeHandleGutter( bool showGutter ) => showGutter ? "resize-handle-gutter" : null;
+    public override string ResizerGutter( bool showGutter ) => showGutter ? "resizer-gutter" : null;
 
-    public override string ResizeHandleDisabled( bool disabled ) => disabled ? "resize-handle-disabled" : null;
+    public override string ResizerDisabled( bool disabled ) => disabled ? "resizer-disabled" : null;
 
-    public override string ResizeHandleFocused( bool focused ) => focused ? "resize-handle-focused" : null;
+    public override string ResizerFocused( bool focused ) => focused ? "resizer-focused" : null;
 
-    public override string ResizeHandleResizing( bool resizing ) => resizing ? "resize-handle-resizing" : null;
+    public override string ResizerResizing( bool resizing ) => resizing ? "resizer-resizing" : null;
 
-    public override string ResizeHandleTargetResizing( bool resizing ) => resizing ? "resize-handle-target-resizing" : null;
+    public override string ResizerTargetResizing( bool resizing ) => resizing ? "resizer-target-resizing" : null;
 
     #endregion
 

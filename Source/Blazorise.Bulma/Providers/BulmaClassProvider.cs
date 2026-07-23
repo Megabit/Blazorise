@@ -238,23 +238,23 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
-    #region ResizeHandle
+    #region Resizer
 
-    public override string ResizeHandle() => "resize-handle";
+    public override string Resizer() => "resizer";
 
-    public override string ResizeHandleOrientation( Orientation orientation ) => $"is-{orientation.ToString().ToLowerInvariant()}";
+    public override string ResizerOrientation( Orientation orientation ) => $"is-{orientation.ToString().ToLowerInvariant()}";
 
-    public override string ResizeHandlePlacement( Placement placement ) => $"is-{placement.ToString().ToLowerInvariant()}";
+    public override string ResizerPlacement( Placement placement ) => $"is-{placement.ToString().ToLowerInvariant()}";
 
-    public override string ResizeHandleGutter( bool showGutter ) => showGutter ? "has-gutter" : null;
+    public override string ResizerGutter( bool showGutter ) => showGutter ? "has-gutter" : null;
 
-    public override string ResizeHandleDisabled( bool disabled ) => disabled ? "is-disabled" : null;
+    public override string ResizerDisabled( bool disabled ) => disabled ? "is-disabled" : null;
 
-    public override string ResizeHandleFocused( bool focused ) => focused ? "is-focused" : null;
+    public override string ResizerFocused( bool focused ) => focused ? "is-focused" : null;
 
-    public override string ResizeHandleResizing( bool resizing ) => resizing ? "is-resizing" : null;
+    public override string ResizerResizing( bool resizing ) => resizing ? "is-resizing" : null;
 
-    public override string ResizeHandleTargetResizing( bool resizing ) => resizing ? "is-resize-target-resizing" : null;
+    public override string ResizerTargetResizing( bool resizing ) => resizing ? "is-resize-target-resizing" : null;
 
     #endregion
 

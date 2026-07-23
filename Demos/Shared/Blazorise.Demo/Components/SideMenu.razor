@@ -433,15 +433,15 @@
             </BarItem>
         </BarEnd>
     </BarMenu>
-    <ResizeHandle Orientation="Orientation.Vertical"
-                  Placement="Placement.End"
-                  ResizeProperty="--b-vertical-bar-width"
-                  Min="180"
-                  Max="480"
-                  @bind-Value="sidebarWidth"
-                  Disabled="@(!barExpanded)"
-                  ShowGutter
-                  AriaLabel="Resize navigation sidebar" />
+    <Resizer Orientation="Orientation.Vertical"
+             Placement="Placement.End"
+             ResizeProperty="--b-vertical-bar-width"
+             Min="180"
+             Max="480"
+             @bind-Value="sidebarWidth"
+             Disabled="@(!barExpanded)"
+             ShowGutter
+             AriaLabel="Resize navigation sidebar" />
 </Bar>
 @code {
     private bool barExpanded = true;

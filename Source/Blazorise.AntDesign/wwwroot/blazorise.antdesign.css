@@ -8089,11 +8089,11 @@ a.ant-typography-disabled[aria-disabled=true] {
   --ant-slider-dot-active-border-color: var(--ant-color-error);
 }
 
-.ant-resize-handle {
-  --ant-resize-handle-hit-area: .5rem;
-  --ant-resize-handle-gutter-background: var(--ant-color-fill-tertiary, #f5f5f5);
-  --ant-resize-handle-gutter-border: var(--ant-color-border, #d9d9d9);
-  --ant-resize-handle-grip-color: var(--ant-color-text-quaternary, rgba(0, 0, 0, .25));
+.ant-resizer {
+  --ant-resizer-hit-area: .5rem;
+  --ant-resizer-gutter-background: var(--ant-color-fill-tertiary, #f5f5f5);
+  --ant-resizer-gutter-border: var(--ant-color-border, #d9d9d9);
+  --ant-resizer-grip-color: var(--ant-color-text-quaternary, rgba(0, 0, 0, .25));
   position: absolute;
   z-index: 10;
   padding: 0;
@@ -8103,79 +8103,79 @@ a.ant-typography-disabled[aria-disabled=true] {
   touch-action: none;
   outline: none;
 }
-.ant-resize-handle-vertical {
+.ant-resizer-vertical {
   top: 0;
   bottom: 0;
-  width: var(--ant-resize-handle-hit-area);
+  width: var(--ant-resizer-hit-area);
   cursor: col-resize;
 }
-.ant-resize-handle-horizontal {
+.ant-resizer-horizontal {
   right: 0;
   left: 0;
-  height: var(--ant-resize-handle-hit-area);
+  height: var(--ant-resizer-hit-area);
   cursor: row-resize;
 }
-.ant-resize-handle-top {
-  top: calc(0px - var(--ant-resize-handle-hit-area));
+.ant-resizer-top {
+  top: calc(0px - var(--ant-resizer-hit-area));
 }
-.ant-resize-handle-bottom {
-  bottom: calc(0px - var(--ant-resize-handle-hit-area));
+.ant-resizer-bottom {
+  bottom: calc(0px - var(--ant-resizer-hit-area));
 }
-.ant-resize-handle-start {
-  inset-inline-start: calc(0px - var(--ant-resize-handle-hit-area));
+.ant-resizer-start {
+  inset-inline-start: calc(0px - var(--ant-resizer-hit-area));
 }
-.ant-resize-handle-end {
-  inset-inline-end: calc(0px - var(--ant-resize-handle-hit-area));
+.ant-resizer-end {
+  inset-inline-end: calc(0px - var(--ant-resizer-hit-area));
 }
-.ant-resize-handle-gutter::before, .ant-resize-handle-gutter::after {
+.ant-resizer-gutter::before, .ant-resizer-gutter::after {
   content: "";
   position: absolute;
   pointer-events: none;
 }
-.ant-resize-handle-gutter::before {
+.ant-resizer-gutter::before {
   inset: 0;
   box-sizing: border-box;
-  background: var(--ant-resize-handle-gutter-background);
+  background: var(--ant-resizer-gutter-background);
 }
-.ant-resize-handle-gutter::after {
+.ant-resizer-gutter::after {
   top: 50%;
   left: 50%;
   width: 2px;
   height: 2px;
   border-radius: 1px;
-  background: var(--ant-resize-handle-grip-color);
+  background: var(--ant-resizer-grip-color);
   transform: translate(-50%, -50%);
 }
-.ant-resize-handle-gutter:hover, .ant-resize-handle-gutter.ant-resize-handle-focused, .ant-resize-handle-gutter.ant-resize-handle-resizing {
-  --ant-resize-handle-gutter-background: var(--ant-color-primary-bg, #e6f4ff);
-  --ant-resize-handle-gutter-border: var(--ant-color-primary, #1677ff);
-  --ant-resize-handle-grip-color: var(--ant-color-primary, #1677ff);
+.ant-resizer-gutter:hover, .ant-resizer-gutter.ant-resizer-focused, .ant-resizer-gutter.ant-resizer-resizing {
+  --ant-resizer-gutter-background: var(--ant-color-primary-bg, #e6f4ff);
+  --ant-resizer-gutter-border: var(--ant-color-primary, #1677ff);
+  --ant-resizer-grip-color: var(--ant-color-primary, #1677ff);
 }
-.ant-resize-handle-disabled {
+.ant-resizer-disabled {
   pointer-events: none;
   opacity: 0.5;
 }
-.ant-resize-handle-target-resizing {
+.ant-resizer-target-resizing {
   transition: none !important;
 }
 
-.ant-resize-handle-gutter.ant-resize-handle-vertical::before {
-  border-inline: 1px solid var(--ant-resize-handle-gutter-border);
+.ant-resizer-gutter.ant-resizer-vertical::before {
+  border-inline: 1px solid var(--ant-resizer-gutter-border);
 }
-.ant-resize-handle-gutter.ant-resize-handle-vertical::after {
-  box-shadow: 0 -4px 0 var(--ant-resize-handle-grip-color), 0 4px 0 var(--ant-resize-handle-grip-color);
+.ant-resizer-gutter.ant-resizer-vertical::after {
+  box-shadow: 0 -4px 0 var(--ant-resizer-grip-color), 0 4px 0 var(--ant-resizer-grip-color);
 }
 
-.ant-resize-handle-gutter.ant-resize-handle-horizontal::before {
-  border-block: 1px solid var(--ant-resize-handle-gutter-border);
+.ant-resizer-gutter.ant-resizer-horizontal::before {
+  border-block: 1px solid var(--ant-resizer-gutter-border);
 }
-.ant-resize-handle-gutter.ant-resize-handle-horizontal::after {
-  box-shadow: -4px 0 0 var(--ant-resize-handle-grip-color), 4px 0 0 var(--ant-resize-handle-grip-color);
+.ant-resizer-gutter.ant-resizer-horizontal::after {
+  box-shadow: -4px 0 0 var(--ant-resizer-grip-color), 4px 0 0 var(--ant-resizer-grip-color);
 }
 
 @media (pointer: coarse) {
-  .ant-resize-handle {
-    --ant-resize-handle-hit-area: 1rem;
+  .ant-resizer {
+    --ant-resizer-hit-area: 1rem;
   }
 }
 .ant-skeleton {

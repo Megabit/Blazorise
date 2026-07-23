@@ -56,7 +56,7 @@ public static class Configuration
         services.AddScoped<IJSDocumentObserverModule, JSDocumentObserverModule>();
         services.AddScoped<IJSTextInputModule, JSTextInputModule>();
         services.AddScoped<IJSRangeSliderModule, JSRangeSliderModule>();
-        services.AddScoped<IJSResizeHandleModule, JSResizeHandleModule>();
+        services.AddScoped<IJSResizerModule, JSResizerModule>();
         services.AddScoped<IJSMemoInputModule, JSMemoInputModule>();
         services.AddScoped<IJSNumericPickerModule, JSNumericPickerModule>();
         services.AddScoped<IJSDatePickerModule, JSDatePickerModule>();

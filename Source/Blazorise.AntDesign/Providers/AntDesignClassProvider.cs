@@ -250,23 +250,23 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
-    #region ResizeHandle
+    #region Resizer
 
-    public override string ResizeHandle() => "ant-resize-handle";
+    public override string Resizer() => "ant-resizer";
 
-    public override string ResizeHandleOrientation( Orientation orientation ) => $"ant-resize-handle-{orientation.ToString().ToLowerInvariant()}";
+    public override string ResizerOrientation( Orientation orientation ) => $"ant-resizer-{orientation.ToString().ToLowerInvariant()}";
 
-    public override string ResizeHandlePlacement( Placement placement ) => $"ant-resize-handle-{placement.ToString().ToLowerInvariant()}";
+    public override string ResizerPlacement( Placement placement ) => $"ant-resizer-{placement.ToString().ToLowerInvariant()}";
 
-    public override string ResizeHandleGutter( bool showGutter ) => showGutter ? "ant-resize-handle-gutter" : null;
+    public override string ResizerGutter( bool showGutter ) => showGutter ? "ant-resizer-gutter" : null;
 
-    public override string ResizeHandleDisabled( bool disabled ) => disabled ? "ant-resize-handle-disabled" : null;
+    public override string ResizerDisabled( bool disabled ) => disabled ? "ant-resizer-disabled" : null;
 
-    public override string ResizeHandleFocused( bool focused ) => focused ? "ant-resize-handle-focused" : null;
+    public override string ResizerFocused( bool focused ) => focused ? "ant-resizer-focused" : null;
 
-    public override string ResizeHandleResizing( bool resizing ) => resizing ? "ant-resize-handle-resizing" : null;
+    public override string ResizerResizing( bool resizing ) => resizing ? "ant-resizer-resizing" : null;
 
-    public override string ResizeHandleTargetResizing( bool resizing ) => resizing ? "ant-resize-handle-target-resizing" : null;
+    public override string ResizerTargetResizing( bool resizing ) => resizing ? "ant-resizer-target-resizing" : null;
 
     #endregion
 

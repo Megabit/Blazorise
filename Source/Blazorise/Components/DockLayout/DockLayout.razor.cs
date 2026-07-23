@@ -283,7 +283,7 @@ public partial class DockLayout : BaseComponent
     internal string GetDockNodeElementId( string nodeId )
         => string.IsNullOrWhiteSpace( nodeId ) ? null : $"{ElementId}-{nodeId}";
 
-    internal ResizeHandleTargets GetDockResizeTargets( string nodeId )
+    internal ResizerTargets GetDockResizeTargets( string nodeId )
     {
         DockNodeState node = GetNode( nodeId );
 
@@ -299,7 +299,7 @@ public partial class DockLayout : BaseComponent
         };
     }
 
-    private ResizeHandleTarget CreateDockResizeTarget( DockNodeState node, DockSplitOrientation resizeOrientation, string resizeElementId, string resizeProperty )
+    private ResizerTarget CreateDockResizeTarget( DockNodeState node, DockSplitOrientation resizeOrientation, string resizeElementId, string resizeProperty )
     {
         DockPane pane = GetDockResizePane( node );
 
@@ -325,7 +325,7 @@ public partial class DockLayout : BaseComponent
         return TryGetPane( paneName, out DockPane pane ) ? pane : null;
     }
 
-    internal async Task ResizeDockSplit( string nodeId, ResizeHandleEventArgs eventArgs )
+    internal async Task ResizeDockSplit( string nodeId, ResizerEventArgs eventArgs )
     {
         if ( eventArgs?.Canceled == true || eventArgs?.EndSize is null )
             return;

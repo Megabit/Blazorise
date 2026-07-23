@@ -252,12 +252,12 @@ public static class JSInterop
         return jsInterop;
     }
 
-    public static BunitJSInterop AddBlazoriseResizeHandle( this BunitJSInterop jsInterop )
+    public static BunitJSInterop AddBlazoriseResizer( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );
         AddBlazoriseDocumentObserver( jsInterop );
 
-        var module = jsInterop.SetupModule( new JSResizeHandleModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        var module = jsInterop.SetupModule( new JSResizerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();

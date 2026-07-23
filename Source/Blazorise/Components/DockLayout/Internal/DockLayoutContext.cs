@@ -56,10 +56,10 @@ internal sealed class DockLayoutContext
     internal string GetDockNodeElementId( string nodeId )
         => layout?.GetDockNodeElementId( nodeId );
 
-    internal ResizeHandleTargets GetDockResizeTargets( string nodeId )
+    internal ResizerTargets GetDockResizeTargets( string nodeId )
         => layout?.GetDockResizeTargets( nodeId );
 
-    internal Task ResizeDockSplit( string nodeId, ResizeHandleEventArgs eventArgs )
+    internal Task ResizeDockSplit( string nodeId, ResizerEventArgs eventArgs )
         => layout?.ResizeDockSplit( nodeId, eventArgs ) ?? Task.CompletedTask;
 
     internal DockPaneTabPosition GetDockNodeTabPosition( DockNodeState node, DockPanePosition position )

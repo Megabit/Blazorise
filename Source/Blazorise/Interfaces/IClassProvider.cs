@@ -234,23 +234,23 @@ public interface IClassProvider
 
     #endregion
 
-    #region ResizeHandle
+    #region Resizer
 
-    string ResizeHandle();
+    string Resizer();
 
-    string ResizeHandleOrientation( Orientation orientation );
+    string ResizerOrientation( Orientation orientation );
 
-    string ResizeHandlePlacement( Placement placement );
+    string ResizerPlacement( Placement placement );
 
-    string ResizeHandleGutter( bool showGutter );
+    string ResizerGutter( bool showGutter );
 
-    string ResizeHandleDisabled( bool disabled );
+    string ResizerDisabled( bool disabled );
 
-    string ResizeHandleFocused( bool focused );
+    string ResizerFocused( bool focused );
 
-    string ResizeHandleResizing( bool resizing );
+    string ResizerResizing( bool resizing );
 
-    string ResizeHandleTargetResizing( bool resizing );
+    string ResizerTargetResizing( bool resizing );
 
     #endregion
 

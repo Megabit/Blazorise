@@ -235,23 +235,23 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
-    #region ResizeHandle
+    #region Resizer
 
-    public abstract string ResizeHandle();
+    public abstract string Resizer();
 
-    public abstract string ResizeHandleOrientation( Orientation orientation );
+    public abstract string ResizerOrientation( Orientation orientation );
 
-    public abstract string ResizeHandlePlacement( Placement placement );
+    public abstract string ResizerPlacement( Placement placement );
 
-    public abstract string ResizeHandleGutter( bool showGutter );
+    public abstract string ResizerGutter( bool showGutter );
 
-    public abstract string ResizeHandleDisabled( bool disabled );
+    public abstract string ResizerDisabled( bool disabled );
 
-    public abstract string ResizeHandleFocused( bool focused );
+    public abstract string ResizerFocused( bool focused );
 
-    public abstract string ResizeHandleResizing( bool resizing );
+    public abstract string ResizerResizing( bool resizing );
 
-    public abstract string ResizeHandleTargetResizing( bool resizing );
+    public abstract string ResizerTargetResizing( bool resizing );
 
     #endregion
 

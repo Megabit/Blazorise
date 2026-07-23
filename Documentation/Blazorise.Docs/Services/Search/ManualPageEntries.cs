@@ -59,7 +59,7 @@ public static class ManualPageEntries
     new( "docs/components/radio", "Radio", "The Radio allow the user to select a single option from a group." ),
     new( "docs/components/rating", "Rating", "Ratings provide insight regarding others opinions and experiences with a product." ),
     new( "docs/components/repeater", "Repeater", "The repeater component is a helper component that repeats the child content for each element in a collection." ),
-    new( "docs/components/resize-handle", "Resize Handle", "Resize panels, sidebars, and other elements with an accessible pointer and keyboard handle." ),
+    new( "docs/components/resizer", "Resizer", "Resize panels, sidebars, and other elements with accessible pointer and keyboard interaction." ),
     new( "docs/components/select", "Select", "Selects allow you to choose one or more items from a dropdown menu." ),
     new( "docs/components/skeleton", "Skeleton", "Skeletons are used to indicate that something is still loading or that the content is not yet available." ),
     new( "docs/components/slider", "Slider", "Sliders allow users to make selections from a range of values." ),

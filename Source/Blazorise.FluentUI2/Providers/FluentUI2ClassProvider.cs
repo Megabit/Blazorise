@@ -249,23 +249,23 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
-    #region ResizeHandle
+    #region Resizer
 
-    public override string ResizeHandle() => "fui-ResizeHandle";
+    public override string Resizer() => "fui-Resizer";
 
-    public override string ResizeHandleOrientation( Orientation orientation ) => $"fui-ResizeHandle-{orientation.ToString().ToLowerInvariant()}";
+    public override string ResizerOrientation( Orientation orientation ) => $"fui-Resizer-{orientation.ToString().ToLowerInvariant()}";
 
-    public override string ResizeHandlePlacement( Placement placement ) => $"fui-ResizeHandle-{placement.ToString().ToLowerInvariant()}";
+    public override string ResizerPlacement( Placement placement ) => $"fui-Resizer-{placement.ToString().ToLowerInvariant()}";
 
-    public override string ResizeHandleGutter( bool showGutter ) => showGutter ? "fui-ResizeHandle-gutter" : null;
+    public override string ResizerGutter( bool showGutter ) => showGutter ? "fui-Resizer-gutter" : null;
 
-    public override string ResizeHandleDisabled( bool disabled ) => disabled ? "fui-ResizeHandle-disabled" : null;
+    public override string ResizerDisabled( bool disabled ) => disabled ? "fui-Resizer-disabled" : null;
 
-    public override string ResizeHandleFocused( bool focused ) => focused ? "fui-ResizeHandle-focused" : null;
+    public override string ResizerFocused( bool focused ) => focused ? "fui-Resizer-focused" : null;
 
-    public override string ResizeHandleResizing( bool resizing ) => resizing ? "fui-ResizeHandle-resizing" : null;
+    public override string ResizerResizing( bool resizing ) => resizing ? "fui-Resizer-resizing" : null;
 
-    public override string ResizeHandleTargetResizing( bool resizing ) => resizing ? "fui-ResizeHandle-target-resizing" : null;
+    public override string ResizerTargetResizing( bool resizing ) => resizing ? "fui-Resizer-target-resizing" : null;
 
     #endregion
 

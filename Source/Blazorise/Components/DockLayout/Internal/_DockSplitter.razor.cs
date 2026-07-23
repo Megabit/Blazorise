@@ -12,7 +12,7 @@ public partial class _DockSplitter : ComponentBase
 {
     #region Methods
 
-    private Task OnResizeEnded( ResizeHandleEventArgs eventArgs )
+    private Task OnResizeEnded( ResizerEventArgs eventArgs )
         => Context?.ResizeDockSplit( NodeId, eventArgs ) ?? Task.CompletedTask;
 
     #endregion
@@ -34,7 +34,7 @@ public partial class _DockSplitter : ComponentBase
             : Blazorise.Orientation.Horizontal;
 
     /// <summary>
-    /// Places the handle on the boundary shared with the adjacent node.
+    /// Places the resizer on the boundary shared with the adjacent node.
     /// </summary>
     private Placement ResizePlacement
         => ResizeOrientation == Blazorise.Orientation.Vertical
@@ -42,14 +42,14 @@ public partial class _DockSplitter : ComponentBase
             : Blazorise.Placement.Bottom;
 
     /// <summary>
-    /// Anchors the absolute handle to the first track only on the active split axis. The cross axis remains the full split container.
+    /// Anchors the absolute resizer to the first track only on the active split axis. The cross axis remains the full split container.
     /// </summary>
     private string GridPlacementStyle
         => ResizeOrientation == Blazorise.Orientation.Vertical
             ? "grid-column:1 / 2;"
             : "grid-row:1 / 2;";
 
-    private ResizeHandleTargets Targets => Context?.GetDockResizeTargets( NodeId );
+    private ResizerTargets Targets => Context?.GetDockResizeTargets( NodeId );
 
     /// <summary>
     /// Defines whether the owning split arranges its tracks horizontally or vertically.
