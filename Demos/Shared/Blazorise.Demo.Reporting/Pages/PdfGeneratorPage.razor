@@ -103,18 +103,7 @@
                 </Div>
             </CardHeader>
             <CardBody>
-                <Div Flex="Flex.Wrap.AlignItems.Center" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom">
-                    <Button Color="Color.Primary" Clicked="@GeneratePdf" Disabled="@generating">
-                        <Icon Name="IconName.FileDownload" Margin="Margin.Is2.FromEnd" />
-                        Generate PDF
-                    </Button>
-                    @if ( pdfSource is not null )
-                    {
-                        <Button Color="Color.Secondary" To="@pdfSource" Target="@Target.Blank">
-                            <Icon Name="IconName.Eye" Margin="Margin.Is2.FromEnd" />
-                            Open
-                        </Button>
-                    }
+                <Div Margin="Margin.Is3.FromBottom">
                     <Switch TValue="bool" Value="@showElementBorders" ValueChanged="@OnShowElementBordersChanged">
                         Show element borders
                     </Switch>
@@ -164,8 +153,6 @@
 
     private string errorMessage;
 
-    private bool generating;
-
     private bool showElementBorders;
 
     private bool regeneratePdf;
@@ -192,7 +179,6 @@
         if ( pdfDocument?.Definition is null )
             return;
 
-        generating = true;
         errorMessage = null;
 
         try
@@ -208,11 +194,8 @@
         {
             errorMessage = exception.Message;
         }
-        finally
-        {
-            generating = false;
-            await InvokeAsync( StateHasChanged );
-        }
+
+        await InvokeAsync( StateHasChanged );
     }
 
 }
