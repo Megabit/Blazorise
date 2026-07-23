@@ -3,6 +3,7 @@ let elementResize;
 let elementDrag;
 const designerKeyboardShortcuts = new WeakMap();
 let activeDesignerKeyboardShortcut;
+const designerCursorGuides = new WeakMap();
 const treeDragImageSuppressors = new WeakMap();
 const textTokenEditors = new WeakMap();
 const designerInteractionOverlays = new WeakMap();
@@ -285,6 +286,71 @@ export function stopDesignerKeyboardShortcuts(element) {
     }
 
     designerKeyboardShortcuts.delete(element);
+}
+
+export function startDesignerCursorGuides(pageElement) {
+    stopDesignerCursorGuides(pageElement);
+
+    if (!pageElement) {
+        return;
+    }
+
+    const guides = {
+        frame: 0,
+        clientX: 0,
+        clientY: 0,
+        move: event => {
+            guides.clientX = event.clientX;
+            guides.clientY = event.clientY;
+
+            if (guides.frame) {
+                return;
+            }
+
+            guides.frame = requestAnimationFrame(() => {
+                guides.frame = 0;
+
+                const bounds = pageElement.getBoundingClientRect();
+                const x = Math.max(0, Math.min(bounds.width, guides.clientX - bounds.left));
+                const y = Math.max(0, Math.min(bounds.height, guides.clientY - bounds.top));
+
+                pageElement.style.setProperty("--b-report-designer-cursor-guide-x", `${x}px`);
+                pageElement.style.setProperty("--b-report-designer-cursor-guide-y", `${y}px`);
+                pageElement.classList.add("b-report-page-cursor-guides-active");
+            });
+        },
+        leave: () => hideDesignerCursorGuides(pageElement, guides),
+    };
+
+    pageElement.addEventListener("pointermove", guides.move, { passive: true });
+    pageElement.addEventListener("pointerleave", guides.leave);
+    pageElement.addEventListener("pointercancel", guides.leave);
+    designerCursorGuides.set(pageElement, guides);
+}
+
+export function stopDesignerCursorGuides(pageElement) {
+    const guides = designerCursorGuides.get(pageElement);
+
+    if (!guides) {
+        return;
+    }
+
+    pageElement.removeEventListener("pointermove", guides.move);
+    pageElement.removeEventListener("pointerleave", guides.leave);
+    pageElement.removeEventListener("pointercancel", guides.leave);
+    hideDesignerCursorGuides(pageElement, guides);
+    pageElement.style.removeProperty("--b-report-designer-cursor-guide-x");
+    pageElement.style.removeProperty("--b-report-designer-cursor-guide-y");
+    designerCursorGuides.delete(pageElement);
+}
+
+function hideDesignerCursorGuides(pageElement, guides) {
+    if (guides.frame) {
+        cancelAnimationFrame(guides.frame);
+        guides.frame = 0;
+    }
+
+    pageElement.classList.remove("b-report-page-cursor-guides-active");
 }
 
 export function getElementOffset(element, clientX, clientY) {

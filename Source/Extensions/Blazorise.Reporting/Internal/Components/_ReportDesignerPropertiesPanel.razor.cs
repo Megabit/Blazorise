@@ -765,6 +765,16 @@ public partial class _ReportDesignerPropertiesPanel
     [Parameter] public EventCallback<bool> ShowFineRulerTicksChanged { get; set; }
 
     /// <summary>
+    /// Indicates that cursor guides are visible across the report designer page.
+    /// </summary>
+    [Parameter] public bool ShowCursorGuides { get; set; }
+
+    /// <summary>
+    /// Raised when cursor guide visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowCursorGuidesChanged { get; set; }
+
+    /// <summary>
     /// Indicates that overlapping report elements are highlighted in the designer.
     /// </summary>
     [Parameter] public bool ShowCollisionWarnings { get; set; }

@@ -155,6 +155,16 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [Parameter] public EventCallback<bool> ShowFineRulerTicksChanged { get; set; }
 
     /// <summary>
+    /// Defines cursor guide visibility when constructing a report from declarative content. Persisted definitions retain their configured value.
+    /// </summary>
+    [Parameter] public bool ShowCursorGuides { get; set; }
+
+    /// <summary>
+    /// Raised when cursor guide visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowCursorGuidesChanged { get; set; }
+
+    /// <summary>
     /// Enables image upload from Image element source properties.
     /// </summary>
     [Parameter] public bool UploadImage { get; set; } = true;

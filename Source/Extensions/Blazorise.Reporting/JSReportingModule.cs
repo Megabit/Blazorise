@@ -125,6 +125,26 @@ public class JSReportingModule : BaseJSModule
     }
 
     /// <summary>
+    /// Starts cursor guide tracking for a report designer page.
+    /// </summary>
+    /// <param name="pageElement">Designer page that owns the cursor guides.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask StartDesignerCursorGuides( ElementReference pageElement )
+    {
+        await InvokeSafeVoidAsync( "startDesignerCursorGuides", pageElement );
+    }
+
+    /// <summary>
+    /// Stops cursor guide tracking for a report designer page.
+    /// </summary>
+    /// <param name="pageElement">Designer page that owns the cursor guides.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask StopDesignerCursorGuides( ElementReference pageElement )
+    {
+        await InvokeSafeVoidAsync( "stopDesignerCursorGuides", pageElement );
+    }
+
+    /// <summary>
     /// Calculates client coordinates relative to an element.
     /// </summary>
     /// <param name="element">Element used as the coordinate origin.</param>

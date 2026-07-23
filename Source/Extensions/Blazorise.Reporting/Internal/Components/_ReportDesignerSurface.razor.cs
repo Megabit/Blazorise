@@ -26,6 +26,12 @@ public partial class _ReportDesignerSurface
 
     private HashSet<string> collidingElementKeys = [];
 
+    private string cursorGuidesPageKey;
+
+    private ElementReference cursorGuidesPageElement;
+
+    private bool cursorGuidesStarted;
+
     private int collisionMutationVersion = -1;
 
     private bool designerDropInProgress;
@@ -50,6 +56,31 @@ public partial class _ReportDesignerSurface
     }
 
     /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        await base.OnAfterRenderAsync( firstRender );
+
+        string pageKey = EffectiveDefinition?.Id;
+        bool showCursorGuides = Designer.CurrentShowCursorGuides;
+
+        if ( string.Equals( cursorGuidesPageKey, pageKey, StringComparison.Ordinal )
+             && cursorGuidesStarted == showCursorGuides )
+        {
+            return;
+        }
+
+        if ( cursorGuidesStarted )
+            await reportingModule.StopDesignerCursorGuides( cursorGuidesPageElement );
+
+        cursorGuidesPageKey = pageKey;
+        cursorGuidesPageElement = designerPageRef.Element;
+        cursorGuidesStarted = showCursorGuides;
+
+        if ( cursorGuidesStarted )
+            await reportingModule.StartDesignerCursorGuides( cursorGuidesPageElement );
+    }
+
+    /// <inheritdoc />
     protected override async ValueTask DisposeAsync( bool disposing )
     {
         if ( disposing )
@@ -58,6 +89,9 @@ public partial class _ReportDesignerSurface
             {
                 try
                 {
+                    if ( cursorGuidesStarted )
+                        await reportingModule.StopDesignerCursorGuides( cursorGuidesPageElement );
+
                     await reportingModule.StopSectionResize();
                     await reportingModule.StopElementDrag();
                     await reportingModule.DisposeAsync();

@@ -47,6 +47,41 @@
             }
         }
     }
+
+    &-cursor-guides {
+        &::before,
+        &::after {
+            content: "";
+            display: none;
+            position: absolute;
+            z-index: var(--b-report-zindex-cursor-guide, 8);
+            background: var(--b-report-color-cursor-guide);
+            pointer-events: none;
+        }
+
+        &::before {
+            top: 0;
+            bottom: 0;
+            left: var(--b-report-designer-cursor-guide-x, 0);
+            width: 1px;
+            transform: translateX(-50%);
+        }
+
+        &::after {
+            top: var(--b-report-designer-cursor-guide-y, 0);
+            right: 0;
+            left: 0;
+            height: 1px;
+            transform: translateY(-50%);
+        }
+
+        &.b-report-page-cursor-guides-active {
+            &::before,
+            &::after {
+                display: block;
+            }
+        }
+    }
 }
 
 .b-report-designer-rulers {
@@ -402,16 +437,8 @@
         position: absolute;
         inset: 0;
         overflow: visible;
-        background-image:
-            linear-gradient(var(--b-report-color-grid-major) var(--b-report-grid-line-width), transparent var(--b-report-grid-line-width)),
-            linear-gradient(90deg, var(--b-report-color-grid-major) var(--b-report-grid-line-width), transparent var(--b-report-grid-line-width)),
-            linear-gradient(var(--b-report-color-grid-minor) var(--b-report-grid-line-width), transparent var(--b-report-grid-line-width)),
-            linear-gradient(90deg, var(--b-report-color-grid-minor) var(--b-report-grid-line-width), transparent var(--b-report-grid-line-width));
-        background-size:
-            var(--b-report-section-grid-major-size),
-            var(--b-report-section-grid-major-size),
-            var(--b-report-section-grid-minor-size),
-            var(--b-report-section-grid-minor-size);
+        background-image: linear-gradient(var(--b-report-color-grid-major) var(--b-report-grid-line-width), transparent var(--b-report-grid-line-width)), linear-gradient(90deg, var(--b-report-color-grid-major) var(--b-report-grid-line-width), transparent var(--b-report-grid-line-width)), linear-gradient(var(--b-report-color-grid-minor) var(--b-report-grid-line-width), transparent var(--b-report-grid-line-width)), linear-gradient(90deg, var(--b-report-color-grid-minor) var(--b-report-grid-line-width), transparent var(--b-report-grid-line-width));
+        background-size: var(--b-report-section-grid-major-size), var(--b-report-section-grid-major-size), var(--b-report-section-grid-minor-size), var(--b-report-section-grid-minor-size);
 
         &-classic {
             top: var(--b-report-section-band-header-height);

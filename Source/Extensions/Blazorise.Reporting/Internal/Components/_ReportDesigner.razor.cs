@@ -213,6 +213,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             BandMode = BandMode,
             ShowRulers = ShowRulers,
             ShowFineRulerTicks = ShowFineRulerTicks,
+            ShowCursorGuides = ShowCursorGuides,
             ShowCollisionWarnings = ShowCollisionWarnings,
         };
 
@@ -2593,6 +2594,16 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         await ShowFineRulerTicksChanged.InvokeAsync( value );
     }
 
+    internal async Task OnShowCursorGuidesChanged( bool value )
+    {
+        if ( CurrentShowCursorGuides == value )
+            return;
+
+        await UpdateDesignerDefinition( "Update cursor guides", designer => designer.ShowCursorGuides = value, ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.SelectedPanel );
+
+        await ShowCursorGuidesChanged.InvokeAsync( value );
+    }
+
     internal async Task OnShowCollisionWarningsChanged( bool value )
     {
         if ( CurrentShowCollisionWarnings == value )
@@ -2816,6 +2827,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal bool CurrentShowFineRulerTicks => DesignerDefinition.ShowFineRulerTicks;
 
+    internal bool CurrentShowCursorGuides => DesignerDefinition.ShowCursorGuides;
+
     internal bool CurrentShowCollisionWarnings => DesignerDefinition.ShowCollisionWarnings;
 
     internal ReportBandMode CurrentBandMode => DesignerDefinition.BandMode;
@@ -3024,6 +3037,16 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// Raised when fine-grained ruler tick visibility changes.
     /// </summary>
     [Parameter] public EventCallback<bool> ShowFineRulerTicksChanged { get; set; }
+
+    /// <summary>
+    /// Defines cursor guide visibility when constructing a report from declarative content. Persisted definitions retain their configured value.
+    /// </summary>
+    [Parameter] public bool ShowCursorGuides { get; set; }
+
+    /// <summary>
+    /// Raised when cursor guide visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowCursorGuidesChanged { get; set; }
 
     /// <summary>
     /// Enables image upload from Image element source properties.

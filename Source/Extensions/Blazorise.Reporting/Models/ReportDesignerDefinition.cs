@@ -32,6 +32,11 @@ public sealed class ReportDesignerDefinition
     public bool ShowFineRulerTicks { get; set; }
 
     /// <summary>
+    /// Shows horizontal and vertical guides at the pointer position.
+    /// </summary>
+    public bool ShowCursorGuides { get; set; }
+
+    /// <summary>
     /// Shows design-time warnings when sibling report elements overlap.
     /// </summary>
     public bool ShowCollisionWarnings { get; set; } = true;

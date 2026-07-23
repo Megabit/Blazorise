@@ -214,6 +214,7 @@ internal sealed class ReportContext
             GridSize = designer.GridSize,
             ShowRulers = designer.ShowRulers,
             ShowFineRulerTicks = designer.ShowFineRulerTicks,
+            ShowCursorGuides = designer.ShowCursorGuides,
             ShowCollisionWarnings = designer.ShowCollisionWarnings,
             BandMode = designer.BandMode,
         };

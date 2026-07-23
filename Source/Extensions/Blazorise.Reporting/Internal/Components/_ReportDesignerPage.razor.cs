@@ -24,8 +24,11 @@ public partial class _ReportDesignerPage
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
     {
-        if ( parameters.TryGetValue<bool>( nameof( DesignMode ), out var paramDesignMode ) && paramDesignMode != DesignMode )
+        if ( ( parameters.TryGetValue<bool>( nameof( DesignMode ), out var paramDesignMode ) && paramDesignMode != DesignMode )
+             || ( parameters.TryGetValue<bool>( nameof( ShowCursorGuides ), out var paramShowCursorGuides ) && paramShowCursorGuides != ShowCursorGuides ) )
+        {
             DirtyClasses();
+        }
 
         if ( ( parameters.TryGetValue<double>( nameof( Width ), out var paramWidth ) && paramWidth != Width )
              || ( parameters.TryGetValue<double>( nameof( WidthOffset ), out var paramWidthOffset ) && paramWidthOffset != WidthOffset )
@@ -47,6 +50,7 @@ public partial class _ReportDesignerPage
         builder.Append( "b-report-page" );
         builder.Append( "b-report-page-design", DesignMode );
         builder.Append( "b-report-page-preview", !DesignMode );
+        builder.Append( "b-report-page-cursor-guides", DesignMode && ShowCursorGuides );
 
         base.BuildClasses( builder );
     }
@@ -200,6 +204,11 @@ public partial class _ReportDesignerPage
     /// Indicates that the page is rendered in designer mode.
     /// </summary>
     [Parameter] public bool DesignMode { get; set; }
+
+    /// <summary>
+    /// Indicates that cursor guides are enabled across the designer page.
+    /// </summary>
+    [Parameter] public bool ShowCursorGuides { get; set; }
 
     /// <summary>
     /// Indicates that the selection box should be displayed.
