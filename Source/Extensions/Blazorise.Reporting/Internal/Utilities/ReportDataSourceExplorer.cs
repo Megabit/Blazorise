@@ -20,10 +20,10 @@ internal static class ReportDataSourceExplorer
 
         foreach ( var dataSource in definition.DataSources )
         {
-            List<ReportDesignerFieldNode> fields = ResolveDataSourceFields( dataSource ).ToList();
-
-            if ( fields.Count == 0 )
+            if ( dataSource is null )
                 continue;
+
+            List<ReportDesignerFieldNode> fields = ResolveDataSourceFields( dataSource ).ToList();
 
             yield return new()
             {

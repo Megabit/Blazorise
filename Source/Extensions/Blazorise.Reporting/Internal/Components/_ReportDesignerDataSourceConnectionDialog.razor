@@ -2,22 +2,29 @@
 @inherits BaseReportComponent
 
 <ModalHeader>
-    <ModalTitle>Connect data source</ModalTitle>
+    <ModalTitle>@DialogTitle</ModalTitle>
     <CloseButton Clicked="@Close" />
 </ModalHeader>
 <ModalBody>
-    <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Data source</FieldLabel>
-        <FieldBody ColumnSize="ColumnSizeIs8">
-            <Select TValue="string" Value="@selectedDataSourceId" ValueChanged="@OnSelectedDataSourceChanged" Size="Size.Small">
-                <SelectItem TValue="string" Value="@NewDataSourceValue">New data source</SelectItem>
-                @foreach ( ReportDataSourceDefinition dataSource in dataSources )
-                {
-                    <SelectItem TValue="string" Value="@dataSource.Id">@GetDataSourceDisplayName( dataSource )</SelectItem>
-                }
-            </Select>
-        </FieldBody>
-    </Field>
+    <Buttons Margin="MarginIs3FromBottom" Size="Size.Small">
+        <Button Color="Color.Primary" Outline Active="@(!IsEditingDataSource)" Clicked="@SelectNewDataSource">New data source</Button>
+        <Button Color="Color.Primary" Outline Active="@IsEditingDataSource" Clicked="@SelectExistingDataSource" Disabled="@(dataSources.Count == 0)">Existing data source</Button>
+    </Buttons>
+
+    @if ( IsEditingDataSource )
+    {
+        <Field Horizontal>
+            <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Existing data source</FieldLabel>
+            <FieldBody ColumnSize="ColumnSizeIs8">
+                <Select TValue="string" Value="@selectedDataSourceId" ValueChanged="@OnSelectedDataSourceChanged" Size="Size.Small">
+                    @foreach ( ReportDataSourceDefinition dataSource in dataSources )
+                    {
+                        <SelectItem TValue="string" Value="@dataSource.Id">@GetDataSourceDisplayName( dataSource )</SelectItem>
+                    }
+                </Select>
+            </FieldBody>
+        </Field>
+    }
 
     <Field Horizontal>
         <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Name</FieldLabel>
@@ -49,6 +56,6 @@
     </Field>
 </ModalBody>
 <ModalFooter>
-    <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm)" Size="Size.Small">Connect</Button>
+    <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm)" Size="Size.Small">@ConfirmCaption</Button>
     <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">Cancel</Button>
 </ModalFooter>

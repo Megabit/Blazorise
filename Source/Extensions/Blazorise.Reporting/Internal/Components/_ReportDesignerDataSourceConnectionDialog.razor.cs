@@ -16,8 +16,6 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 {
     #region Members
 
-    private const string NewDataSourceValue = "";
-
     private readonly List<IReportDataSourceProvider> providers = [];
 
     private readonly List<ReportDataSourceDefinition> dataSources = [];
@@ -74,24 +72,39 @@ public partial class _ReportDesignerDataSourceConnectionDialog
         await CloseReportModal();
     }
 
+    private void SelectNewDataSource()
+    {
+        if ( !IsEditingDataSource && editorContext is not null )
+            return;
+
+        selectedDataSourceId = null;
+        selectedProviderType = providers.FirstOrDefault()?.Type;
+        name = CreateUniqueDataSourceName();
+        editorContext = CreateEditorContext( selectedProviderType, null );
+    }
+
+    private void SelectExistingDataSource()
+    {
+        if ( IsEditingDataSource )
+            return;
+
+        ReportDataSourceDefinition dataSource = dataSources.FirstOrDefault();
+
+        if ( dataSource is null )
+            return;
+
+        selectedDataSourceId = dataSource.Id;
+        ApplyDataSource( dataSource );
+    }
+
     private Task OnSelectedDataSourceChanged( string value )
     {
         selectedDataSourceId = value;
 
         ReportDataSourceDefinition dataSource = FindSelectedDataSource();
 
-        if ( dataSource is null )
-        {
-            selectedProviderType = providers.FirstOrDefault()?.Type;
-            name = CreateUniqueDataSourceName();
-            editorContext = CreateEditorContext( selectedProviderType, null );
-        }
-        else
-        {
-            selectedProviderType = dataSource.ProviderType;
-            name = dataSource.Name;
-            editorContext = CreateEditorContext( selectedProviderType, dataSource.Settings );
-        }
+        if ( dataSource is not null )
+            ApplyDataSource( dataSource );
 
         return Task.CompletedTask;
     }
@@ -114,6 +127,13 @@ public partial class _ReportDesignerDataSourceConnectionDialog
     private ReportDataSourceProviderEditorContext CreateEditorContext( string providerType, IDictionary<string, object> settings )
     {
         return new( providerType, settings );
+    }
+
+    private void ApplyDataSource( ReportDataSourceDefinition dataSource )
+    {
+        selectedProviderType = dataSource.ProviderType;
+        name = dataSource.Name;
+        editorContext = CreateEditorContext( selectedProviderType, dataSource.Settings );
     }
 
     private IReportDataSourceProvider FindSelectedProvider()
@@ -193,10 +213,7 @@ public partial class _ReportDesignerDataSourceConnectionDialog
         dataSources.Clear();
         dataSources.AddRange( Definition?.DataSources ?? [] );
 
-        selectedDataSourceId = NewDataSourceValue;
-        selectedProviderType = providers.FirstOrDefault()?.Type;
-        name = CreateUniqueDataSourceName();
-        editorContext = CreateEditorContext( selectedProviderType, null );
+        SelectNewDataSource();
     }
 
     #endregion
@@ -205,7 +222,14 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 
     private bool CanConfirm => providers.Count > 0
         && !string.IsNullOrWhiteSpace( selectedProviderType )
-        && !string.IsNullOrWhiteSpace( name );
+        && !string.IsNullOrWhiteSpace( name )
+        && ( !IsEditingDataSource || FindSelectedDataSource() is not null );
+
+    private bool IsEditingDataSource => !string.IsNullOrWhiteSpace( selectedDataSourceId );
+
+    private string DialogTitle => IsEditingDataSource ? "Edit data source" : "Connect data source";
+
+    private string ConfirmCaption => IsEditingDataSource ? "Save changes" : "Connect";
 
     private Type SelectedProviderEditorComponentType => FindSelectedProvider()?.EditorComponentType ?? typeof( _ReportDataSourceSettingsEditor );
 
