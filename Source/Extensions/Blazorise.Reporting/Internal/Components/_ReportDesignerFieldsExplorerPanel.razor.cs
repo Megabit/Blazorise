@@ -356,9 +356,6 @@ public partial class _ReportDesignerFieldsExplorerPanel
     private Task OnDeleteFormulaFieldContextMenuClicked( object value )
         => DeleteFormulaFieldClicked( default );
 
-    private Task OnCloseFormulaFieldContextMenuClicked( object value )
-        => CloseFormulaFieldContextMenu();
-
     private Task OnNewRunningTotalContextMenuClicked( object value )
         => NewRunningTotalClicked( default );
 
@@ -371,17 +368,11 @@ public partial class _ReportDesignerFieldsExplorerPanel
     private Task OnDeleteRunningTotalContextMenuClicked( object value )
         => DeleteRunningTotalClicked( default );
 
-    private Task OnCloseRunningTotalContextMenuClicked( object value )
-        => CloseRunningTotalContextMenu();
-
     private Task OnRefreshDataSourceContextMenuClicked( object value )
         => RefreshDataSourceClicked( default );
 
     private Task OnDeleteDataSourceContextMenuClicked( object value )
         => DeleteDataSourceClicked( default );
-
-    private Task OnCloseDataSourceContextMenuClicked( object value )
-        => CloseDataSourceContextMenu();
 
     private async Task CloseFormulaFieldContextMenu()
     {

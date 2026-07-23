@@ -83,13 +83,11 @@
                             </CardBody>
                         </Card>
 
-                        <ContextMenu @ref="@programmaticContextMenu" CloseOnClick="false">
+                        <ContextMenu @ref="@programmaticContextMenu">
                             <ContextMenuBody MinWidth="14rem">
                                 <ContextMenuHeader>Programmatic</ContextMenuHeader>
                                 <ContextMenuItem Icon="@IconName.Save" Clicked="@(() => SetLastCommand( "Programmatic save" ))">Save</ContextMenuItem>
                                 <ContextMenuItem Icon="@IconName.Sync" Clicked="@(() => SetLastCommand( "Programmatic refresh" ))">Refresh</ContextMenuItem>
-                                <ContextMenuDivider />
-                                <ContextMenuItem Clicked="@HideProgrammaticMenu">Close menu</ContextMenuItem>
                             </ContextMenuBody>
                         </ContextMenu>
                     </Column>
@@ -173,10 +171,5 @@
     private Task ShowToggleContextMenu( Microsoft.AspNetCore.Components.Web.MouseEventArgs eventArgs )
     {
         return toggleContextMenu?.Show( eventArgs.ClientX, eventArgs.ClientY ) ?? Task.CompletedTask;
-    }
-
-    private Task HideProgrammaticMenu()
-    {
-        return programmaticContextMenu?.Hide() ?? Task.CompletedTask;
     }
 }

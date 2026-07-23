@@ -1994,8 +1994,6 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                 return DeleteSelectedTableColumn();
             case ReportDesignerContextMenuCommand.DeleteTableCell:
                 return DeleteSelectedTableCell();
-            case ReportDesignerContextMenuCommand.Close:
-                return CloseContextMenu();
             default:
                 return Task.CompletedTask;
         }

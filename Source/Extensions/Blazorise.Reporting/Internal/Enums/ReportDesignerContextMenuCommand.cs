@@ -50,5 +50,4 @@ internal enum ReportDesignerContextMenuCommand
     DeleteTableRow,
     DeleteTableColumn,
     DeleteTableCell,
-    Close,
 }
