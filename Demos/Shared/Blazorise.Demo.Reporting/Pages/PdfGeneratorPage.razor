@@ -36,7 +36,7 @@
             <PdfText Text="Custom/global font and unicode" X="48" Y="356" Width="240" Height="18" FontFamily="@OpenSansFamily" FontSize="12" Bold TextColor="@AccentColor" BorderWidth="@ElementBorderWidth" />
             <PdfText Text="@LatinExtendedSample" X="48" Y="382" Width="498" Height="18" FontFamily="@OpenSansFamily" FontSize="10" BorderWidth="@ElementBorderWidth" />
             <PdfText Text="Open Sans Demo bold, 15 pt, aligned end: 1234567890" X="48" Y="408" Width="498" Height="22" FontFamily="@OpenSansFamily" FontSize="15" Bold TextAlignment="TextAlignment.End" BorderWidth="@ElementBorderWidth" />
-            <PdfText Text="@UnicodeProbeSample" X="48" Y="438" Width="498" Height="20" FontFamily="@OpenSansFamily" FontSize="11" TextAlignment="TextAlignment.Center" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="@UnicodeCoverageSample" X="48" Y="438" Width="498" Height="20" FontFamily="@OpenSansFamily" FontSize="11" TextAlignment="TextAlignment.Center" BorderWidth="@ElementBorderWidth" />
 
             <PdfText Text="Wrapping and vertical alignment" X="48" Y="478" Width="240" Height="18" FontFamily="@OpenSansFamily" FontSize="12" Bold TextColor="@AccentColor" BorderWidth="@ElementBorderWidth" />
             <PdfRectangle X="48" Y="504" Width="235" Height="74" BorderColor="@RuleColor" BorderWidth="1" BackgroundColor="#ffffff" />
@@ -143,7 +143,7 @@
 
     private const string LatinExtendedSample = "Open Sans Demo regular, 10 pt: \u010D\u0107\u017E\u0161\u0111 \u010C\u0106\u017D\u0160\u0110 \u20AC \u03A9 \u00F1 \u00FC";
 
-    private const string UnicodeProbeSample = "Unicode fallback probe: Cyrillic \u0416\u0436, Greek \u039A\u03B1\u03BB\u03B7\u03BC\u03AD\u03C1\u03B1, CJK \u65E5\u672C\u8A9E";
+    private const string UnicodeCoverageSample = "Unicode coverage: Cyrillic \u0416\u0436, Greek \u039A\u03B1\u03BB\u03B7\u03BC\u03AD\u03C1\u03B1";
 
     private const string LongParagraph = "This deliberately long text wraps inside a fixed rectangle. It mixes words with different widths, punctuation, and numbers like 12345.67 so the PDF renderer must measure each line before placing it.";
 
