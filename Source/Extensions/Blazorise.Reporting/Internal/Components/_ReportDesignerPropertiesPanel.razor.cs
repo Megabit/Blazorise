@@ -302,7 +302,11 @@ public partial class _ReportDesignerPropertiesPanel
     private Task OnSelectedElementXChanged( double? value )
     {
         return value.HasValue
-            ? UpdateSelectedElement( element => element.X = ToPoints( value.Value ) )
+            ? UpdateSelectedElement( element =>
+            {
+                ( double containerWidth, _ ) = GetElementContainerSize( element );
+                element.X = ReportLayoutGeometry.Clamp( ToPoints( value.Value ), 0, Math.Max( 0, containerWidth - element.Width ) );
+            } )
             : Task.CompletedTask;
     }
 
@@ -320,14 +324,24 @@ public partial class _ReportDesignerPropertiesPanel
     private Task OnSelectedElementYChanged( double? value )
     {
         return value.HasValue
-            ? UpdateSelectedElement( element => element.Y = ToPoints( value.Value ) )
+            ? UpdateSelectedElement( element =>
+            {
+                ( _, double containerHeight ) = GetElementContainerSize( element );
+                element.Y = ReportLayoutGeometry.Clamp( ToPoints( value.Value ), 0, Math.Max( 0, containerHeight - element.Height ) );
+            } )
             : Task.CompletedTask;
     }
 
     private Task OnSelectedElementWidthChanged( double? value )
     {
         return value.HasValue
-            ? UpdateSelectedElement( element => element.Width = ToPoints( value.Value ) )
+            ? UpdateSelectedElement( element =>
+            {
+                ( double containerWidth, _ ) = GetElementContainerSize( element );
+                element.Width = ReportLayoutGeometry.Clamp( ToPoints( value.Value ),
+                    ReportLayoutGeometry.DefaultMinimumElementSize,
+                    Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, containerWidth - element.X ) );
+            } )
             : Task.CompletedTask;
     }
 
@@ -375,8 +389,37 @@ public partial class _ReportDesignerPropertiesPanel
     private Task OnSelectedElementHeightChanged( double? value )
     {
         return value.HasValue
-            ? UpdateSelectedElement( element => element.Height = ToPoints( value.Value ) )
+            ? UpdateSelectedElement( element =>
+            {
+                ( _, double containerHeight ) = GetElementContainerSize( element );
+                double minimumHeight = ReportLayoutGeometry.GetMinimumElementHeight( element );
+                element.Height = ReportLayoutGeometry.Clamp( ToPoints( value.Value ),
+                    minimumHeight,
+                    Math.Max( minimumHeight, containerHeight - element.Y ) );
+            } )
             : Task.CompletedTask;
+    }
+
+    private (double Width, double Height) GetElementContainerSize( ReportElementDefinition element )
+    {
+        double width = Definition?.Page?.Width ?? element.Width;
+        double height = Definition?.Page?.Height ?? element.Height;
+
+        if ( !ReportDefinitionHelper.TryFindElementLocation( Definition, ReportDefinitionHelper.EnsureElementId( element ), out ReportElementLocation location ) )
+            return ( width, height );
+
+        if ( location.ParentPanel is not null )
+            return ( location.ParentPanel.Width, location.ParentPanel.Height );
+
+        if ( location.ParentCell is not null && location.ParentTable is ReportTableElementDefinition table )
+        {
+            return ( ReportDefinitionHelper.GetTableCellWidth( table, location.ParentCell ),
+                ReportDefinitionHelper.GetTableCellHeight( table, location.ParentCell ) );
+        }
+
+        height = Definition.Bands[location.SectionIndex].Height;
+
+        return ( width, height );
     }
 
     private Task OnSelectedLineThicknessChanged( double? value )

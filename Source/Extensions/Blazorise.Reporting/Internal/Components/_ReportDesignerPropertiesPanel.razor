@@ -26,7 +26,7 @@
     <Div Margin="MarginIs3FromBottom">
         <_ReportDesignerPropertyGroup Title="Designer">
             <_ReportDesignerCheckboxProperty Label="Snap to grid" Value="@SnapToGrid" Changed="@OnSnapToGridChanged" />
-            <_ReportDesignerNumberProperty TValue="double" Label="Grid size" Value="@FromPoints( GridSize )" Changed="@OnGridSizeChanged" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Grid size" Value="@FromPoints( GridSize )" Changed="@OnGridSizeChanged" Min="@FromPoints( 1 )" Max="@FromPoints( Math.Min( Definition.Page.Width, Definition.Page.Height ) )" Step="@GetMeasurementStep()" />
             <_ReportDesignerCheckboxProperty Label="Show rulers" Value="@ShowRulers" Changed="@ShowRulersChanged" />
             <_ReportDesignerCheckboxProperty Label="Fine ruler ticks" Value="@ShowFineRulerTicks" Changed="@ShowFineRulerTicksChanged" />
             <_ReportDesignerCheckboxProperty Label="Cursor guides" Value="@ShowCursorGuides" Changed="@ShowCursorGuidesChanged" />
@@ -77,12 +77,12 @@
                     </Select>
                 </FieldBody>
             </Field>
-            <_ReportDesignerNumberProperty TValue="double" Label="Page width" Value="@FromPoints( Definition.Page.Width )" Changed="@OnPageWidthChanged" Step="@GetMeasurementStep()" />
-            <_ReportDesignerNumberProperty TValue="double" Label="Page height" Value="@FromPoints( Definition.Page.Height )" Changed="@OnPageHeightChanged" Step="@GetMeasurementStep()" />
-            <_ReportDesignerNumberProperty TValue="double" Label="Margin left" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Left )" Changed="@OnPageMarginLeftChanged" Step="@GetMeasurementStep()" />
-            <_ReportDesignerNumberProperty TValue="double" Label="Margin top" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Top )" Changed="@OnPageMarginTopChanged" Step="@GetMeasurementStep()" />
-            <_ReportDesignerNumberProperty TValue="double" Label="Margin right" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Right )" Changed="@OnPageMarginRightChanged" Step="@GetMeasurementStep()" />
-            <_ReportDesignerNumberProperty TValue="double" Label="Margin bottom" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Bottom )" Changed="@OnPageMarginBottomChanged" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Page width" Value="@FromPoints( Definition.Page.Width )" Changed="@OnPageWidthChanged" Min="@FromPoints( 1 )" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Page height" Value="@FromPoints( Definition.Page.Height )" Changed="@OnPageHeightChanged" Min="@FromPoints( 1 )" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Margin left" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Left )" Changed="@OnPageMarginLeftChanged" Max="@FromPoints( Definition.Page.Width )" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Margin top" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Top )" Changed="@OnPageMarginTopChanged" Max="@FromPoints( Definition.Page.Height )" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Margin right" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Right )" Changed="@OnPageMarginRightChanged" Max="@FromPoints( Definition.Page.Width )" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty TValue="double" Label="Margin bottom" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Bottom )" Changed="@OnPageMarginBottomChanged" Max="@FromPoints( Definition.Page.Height )" Step="@GetMeasurementStep()" />
         </_ReportDesignerPropertyGroup>
     </Div>
 }
@@ -116,7 +116,7 @@
                 }
             </_ReportDesignerPropertyGroup>
             <_ReportDesignerPropertyGroup Title="Layout">
-                <_ReportDesignerNumberProperty TValue="double" Label="Height" Value="@FromPoints( SelectedSection.Height )" Changed="@OnSelectedSectionHeightChanged" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double" Label="Height" Value="@FromPoints( SelectedSection.Height )" Changed="@OnSelectedSectionHeightChanged" Min="@FromPoints( ReportLayoutGeometry.DefaultMinimumElementSize )" Max="@FromPoints( ReportPageDefinitionHelper.GetContentHeight( Definition.Page ) )" Step="@GetMeasurementStep()" />
             </_ReportDesignerPropertyGroup>
             <_ReportDesignerPropertyGroup Title="Pagination">
                 <_ReportDesignerFormulaBooleanProperty Label="Keep together"
@@ -148,9 +148,9 @@
                 <_ReportDesignerPropertyGroup Title="Appearance">
                     <_ReportDesignerColorProperty Label="Fill color" Value="@sectionAppearance.BackgroundColor" Changed="@(value => UpdateSelectedSection( section => EnsureSectionAppearance( section ).BackgroundColor = value ))" />
                     <_ReportDesignerColorProperty Label="Border color" Value="@sectionBorder.Color" Changed="@(value => UpdateSelectedSection( section => EnsureSectionBorder( section ).Color = value ))" />
-                    <_ReportDesignerNumberProperty TValue="double?" Label="Border width" Value="@sectionBorder.Width" Changed="@(value => UpdateSelectedSection( section => EnsureSectionBorder( section ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
-                    <_ReportDesignerNumberProperty TValue="double?" Label="Corner radius" Value="@sectionBorder.Radius" Changed="@(value => UpdateSelectedSection( section => EnsureSectionBorder( section ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
-                    <_ReportDesignerNumberProperty TValue="double?" Label="Opacity" Value="@sectionAppearance.Opacity" Changed="@(value => UpdateSelectedSection( section => EnsureSectionAppearance( section ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Border width" Value="@sectionBorder.Width" Changed="@(value => UpdateSelectedSection( section => EnsureSectionBorder( section ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" Max="@Definition.Page.Width" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Corner radius" Value="@sectionBorder.Radius" Changed="@(value => UpdateSelectedSection( section => EnsureSectionBorder( section ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" Max="@Definition.Page.Width" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Opacity" Value="@sectionAppearance.Opacity" Changed="@(value => UpdateSelectedSection( section => EnsureSectionAppearance( section ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" Max="1" />
                 </_ReportDesignerPropertyGroup>
             }
             <Div Flex="FlexIsWrap" Gap="GapIs2" Margin="MarginIs3FromTop">
@@ -272,8 +272,8 @@
             @if ( AllSelectedElementsAre<ReportTableElementDefinition>() )
             {
                 <_ReportDesignerPropertyGroup Title="Table">
-                    <_ReportDesignerNumberProperty TValue="double?" Label="Rows" Value="@GetSharedSelectedElementValue( element => (double?)GetTableRowCount( element ) )" Changed="@OnSelectedTableRowCountChanged" Step="@TableCountStep" />
-                    <_ReportDesignerNumberProperty TValue="double?" Label="Columns" Value="@GetSharedSelectedElementValue( element => (double?)GetTableColumnCount( element ) )" Changed="@OnSelectedTableColumnCountChanged" Step="@TableCountStep" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Rows" Value="@GetSharedSelectedElementValue( element => (double?)GetTableRowCount( element ) )" Changed="@OnSelectedTableRowCountChanged" Min="1" Step="@TableCountStep" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Columns" Value="@GetSharedSelectedElementValue( element => (double?)GetTableColumnCount( element ) )" Changed="@OnSelectedTableColumnCountChanged" Min="1" Step="@TableCountStep" />
                 </_ReportDesignerPropertyGroup>
             }
 
@@ -289,10 +289,10 @@
             }
 
             <_ReportDesignerPropertyGroup Title="Position and size">
-                <_ReportDesignerNumberProperty TValue="double?" Label="X" Value="@GetSharedMeasurementValue( element => element.X )" Changed="@OnSelectedElementXChanged" Step="@GetMeasurementStep()" />
-                <_ReportDesignerNumberProperty TValue="double?" Label="Y" Value="@GetSharedMeasurementValue( element => element.Y )" Changed="@OnSelectedElementYChanged" Step="@GetMeasurementStep()" />
-                <_ReportDesignerNumberProperty TValue="double?" Label="Width" Value="@GetSharedMeasurementValue( element => element.Width )" Changed="@OnSelectedElementWidthChanged" Step="@GetMeasurementStep()" />
-                <_ReportDesignerNumberProperty TValue="double?" Label="Height" Value="@GetSharedMeasurementValue( element => element.Height )" Changed="@OnSelectedElementHeightChanged" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double?" Label="X" Value="@GetSharedMeasurementValue( element => element.X )" Changed="@OnSelectedElementXChanged" Max="@FromPoints( Definition.Page.Width )" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double?" Label="Y" Value="@GetSharedMeasurementValue( element => element.Y )" Changed="@OnSelectedElementYChanged" Max="@FromPoints( FormulaSection?.Height ?? Definition.Page.Height )" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double?" Label="Width" Value="@GetSharedMeasurementValue( element => element.Width )" Changed="@OnSelectedElementWidthChanged" Min="@FromPoints( ReportLayoutGeometry.DefaultMinimumElementSize )" Max="@FromPoints( Definition.Page.Width )" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty TValue="double?" Label="Height" Value="@GetSharedMeasurementValue( element => element.Height )" Changed="@OnSelectedElementHeightChanged" Min="@FromPoints( ReportLayoutGeometry.GetMinimumElementHeight( SelectedElement ) )" Max="@FromPoints( FormulaSection?.Height ?? Definition.Page.Height )" Step="@GetMeasurementStep()" />
             </_ReportDesignerPropertyGroup>
 
             @if ( AllSelectedElementsSupportTextFormatting )
@@ -317,7 +317,7 @@
                             </Select>
                         </FieldBody>
                     </Field>
-                    <_ReportDesignerNumberProperty TValue="double?" Label="Font size" Value="@GetSharedSelectedElementValue( element => element.Font?.Size )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Size = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Font size" Value="@GetSharedSelectedElementValue( element => element.Font?.Size )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Size = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" Min="1" Max="@Definition.Page.Height" />
                     <_ReportDesignerColorProperty Label="Color"
                                                   Value="@font.Color"
                                                   Mixed="@IsSelectedElementValueMixed( element => element.Font?.Color ?? ReportColor.Default )"
@@ -356,7 +356,7 @@
                                                   Value="@border.Color"
                                                   Mixed="@IsSelectedElementValueMixed( element => element.Border?.Color ?? ReportColor.Default )"
                                                   Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
-                    <_ReportDesignerNumberProperty TValue="double?" Label="Thickness" Value="@GetSharedSelectedElementValue( GetLineThickness )" Changed="@OnSelectedLineThicknessChanged" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Thickness" Value="@GetSharedSelectedElementValue( GetLineThickness )" Changed="@OnSelectedLineThicknessChanged" Min="@ReportLayoutGeometry.DefaultLineThickness" Max="@Math.Min( Definition.Page.Width, Definition.Page.Height )" />
                 }
                 else if ( !AnySelectedElementIsLine )
                 {
@@ -368,14 +368,14 @@
                                                   Value="@border.Color"
                                                   Mixed="@IsSelectedElementValueMixed( element => element.Border?.Color ?? ReportColor.Default )"
                                                   Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
-                    <_ReportDesignerNumberProperty TValue="double?" Label="Border width" Value="@GetSharedSelectedElementValue( element => element.Border?.Width )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Border width" Value="@GetSharedSelectedElementValue( element => element.Border?.Width )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" Max="@Definition.Page.Width" />
                     <_ReportDesignerSelectProperty TValue="ReportBorderStyle"
                                                    Label="Border style"
                                                    Value="@border.Style"
                                                    Mixed="@IsSelectedElementValueMixed( element => element.Border?.Style ?? ReportBorderStyle.Default )"
                                                    Options="@BorderStyleOptions"
                                                    Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Style = value ))" />
-                    <_ReportDesignerNumberProperty TValue="double?" Label="Corner radius" Value="@GetSharedSelectedElementValue( element => element.Border?.Radius )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                    <_ReportDesignerNumberProperty TValue="double?" Label="Corner radius" Value="@GetSharedSelectedElementValue( element => element.Border?.Radius )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" Max="@Definition.Page.Width" />
                 }
                 else
                 {
@@ -384,7 +384,7 @@
                                                   Mixed="@IsSelectedElementValueMixed( element => element.Border?.Color ?? ReportColor.Default )"
                                                   Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
                 }
-                <_ReportDesignerNumberProperty TValue="double?" Label="Opacity" Value="@GetSharedSelectedElementValue( element => element.Appearance?.Opacity )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" />
+                <_ReportDesignerNumberProperty TValue="double?" Label="Opacity" Value="@GetSharedSelectedElementValue( element => element.Appearance?.Opacity )" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" Max="1" />
             </_ReportDesignerPropertyGroup>
         }
 
