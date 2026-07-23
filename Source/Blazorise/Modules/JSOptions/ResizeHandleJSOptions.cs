@@ -11,9 +11,9 @@ public class ResizeHandleJSOptions
     public ResizeHandleTargets Targets { get; set; }
 
     /// <summary>
-    /// Gets or sets the target element ID. When omitted, the handle's parent element is used.
+    /// Identifies the target element. When omitted, the handle's parent element is used.
     /// </summary>
-    public string TargetElementId { get; set; }
+    public string TargetId { get; set; }
 
     /// <summary>
     /// Gets or sets whether the separator is vertical.
@@ -51,9 +51,9 @@ public class ResizeHandleJSOptions
     public double KeyboardStep { get; set; }
 
     /// <summary>
-    /// Gets or sets the minimum interval in milliseconds between resize notifications.
+    /// Defines the minimum interval in milliseconds between resizing notifications.
     /// </summary>
-    public int ResizeEventInterval { get; set; }
+    public int ResizingInterval { get; set; }
 
     /// <summary>
     /// Gets or sets whether resizing is disabled.

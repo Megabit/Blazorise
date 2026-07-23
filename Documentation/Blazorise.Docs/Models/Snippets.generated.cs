@@ -4626,7 +4626,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <Div Position=""Position.Relative""
          Flex=""Flex.Shrink.Is0""
          Width=""Width.Px( 0 )"">
-        <ResizeHandle TargetElementId=""resize-handle-inspector""
+        <ResizeHandle TargetId=""resize-handle-inspector""
                       Orientation=""Orientation.Vertical""
                       Placement=""Placement.Start""
                       ResizeProperty=""--docs-inspector-width""

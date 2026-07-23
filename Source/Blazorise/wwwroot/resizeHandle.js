@@ -580,7 +580,7 @@ function notifyResizing(instance, timestamp) {
     if (!instance.options.notifyResizing)
         return;
 
-    if (instance.options.resizeEventInterval > 0 && timestamp - instance.lastResizeNotification < instance.options.resizeEventInterval)
+    if (instance.options.resizingInterval > 0 && timestamp - instance.lastResizeNotification < instance.options.resizingInterval)
         return;
 
     instance.lastResizeNotification = timestamp;
@@ -632,8 +632,8 @@ function resolveTargets(instance) {
         ? document.getElementById(instance.options.targets.end.resizeElementId)
         : instance.endTarget;
 
-    instance.target = instance.options.targetElementId
-        ? document.getElementById(instance.options.targetElementId)
+    instance.target = instance.options.targetId
+        ? document.getElementById(instance.options.targetId)
         : instance.element?.parentElement;
 
     if (!hasResolvedTargets(instance) || typeof ResizeObserver === "undefined")
@@ -684,7 +684,7 @@ function hasCoordinatedTargets(instance) {
 }
 
 function getTargetSignature(options) {
-    return JSON.stringify({ targetElementId: options.targetElementId, targets: options.targets });
+    return JSON.stringify({ targetId: options.targetId, targets: options.targets });
 }
 
 function toggleClassNames(element, classNames, active) {
@@ -706,7 +706,7 @@ function normalizeOptions(options) {
 
     return {
         targets: normalizeTargets(options.targets, options.vertical === true),
-        targetElementId: options.targetElementId || null,
+        targetId: options.targetId || null,
         vertical: options.vertical === true,
         resizeFromStart: options.resizeFromStart === true,
         resizeProperty: options.resizeProperty || (options.vertical === true ? "width" : "height"),
@@ -714,7 +714,7 @@ function normalizeOptions(options) {
         minSize: minimum,
         maxSize: maximum,
         keyboardStep: Math.max(numberOrDefault(options.keyboardStep, 10), 0.0001),
-        resizeEventInterval: Math.max(numberOrDefault(options.resizeEventInterval, 100), 0),
+        resizingInterval: Math.max(numberOrDefault(options.resizingInterval, 100), 0),
         disabled: options.disabled === true,
         focusedClassNames: options.focusedClassNames || "",
         resizingClassNames: options.resizingClassNames || "",

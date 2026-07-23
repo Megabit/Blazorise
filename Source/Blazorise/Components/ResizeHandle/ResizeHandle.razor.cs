@@ -51,7 +51,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
 
         bool updateOptions = Rendered
             && ( parameters.IsParameterChanged( Targets )
-                || parameters.IsParameterChanged( TargetElementId )
+                || parameters.IsParameterChanged( TargetId )
                 || parameters.IsParameterChanged( Orientation )
                 || parameters.IsParameterChanged( Placement )
                 || parameters.IsParameterChanged( ResizeProperty )
@@ -59,7 +59,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
                 || parameters.IsParameterChanged( Min )
                 || parameters.IsParameterChanged( Max )
                 || parameters.IsParameterChanged( KeyboardStep )
-                || parameters.IsParameterChanged( ResizeEventInterval )
+                || parameters.IsParameterChanged( ResizingInterval )
                 || parameters.IsParameterChanged( Disabled )
                 || nextResizeStarted.HasDelegate != ResizeStarted.HasDelegate
                 || nextResizing.HasDelegate != Resizing.HasDelegate
@@ -169,7 +169,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
         => new()
         {
             Targets = Targets,
-            TargetElementId = TargetElementId,
+            TargetId = TargetId,
             Vertical = Orientation == Blazorise.Orientation.Vertical,
             ResizeFromStart = ResolvedPlacement is Blazorise.Placement.Start or Blazorise.Placement.Top,
             ResizeProperty = ResolvedResizeProperty,
@@ -177,7 +177,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
             Min = Min,
             Max = Max,
             KeyboardStep = KeyboardStep,
-            ResizeEventInterval = ResizeEventInterval,
+            ResizingInterval = ResizingInterval,
             Disabled = Disabled,
             FocusedClassNames = ClassProvider.ResizeHandleFocused( true ),
             ResizingClassNames = ClassProvider.ResizeHandleResizing( true ),
@@ -278,14 +278,14 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     [Inject] public IJSResizeHandleModule JSModule { get; set; }
 
     /// <summary>
-    /// Coordinates logical start and end targets while preserving their combined size. Use <see cref="TargetElementId"/> for one-target resizing.
+    /// Coordinates logical start and end targets while preserving their combined size. Use <see cref="TargetId"/> for one-target resizing.
     /// </summary>
     [Parameter] public ResizeHandleTargets Targets { get; set; }
 
     /// <summary>
     /// Identifies the element that receives size updates. When omitted, the handle resizes its parent.
     /// </summary>
-    [Parameter] public string TargetElementId { get; set; }
+    [Parameter] public string TargetId { get; set; }
 
     /// <summary>
     /// Controls the resize axis. Vertical handles change width, while horizontal handles change height.
@@ -358,7 +358,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Throttles <see cref="Resizing"/> notifications to at least this many milliseconds apart.
     /// </summary>
-    [Parameter] public int ResizeEventInterval { get; set; } = 100;
+    [Parameter] public int ResizingInterval { get; set; } = 100;
 
     /// <summary>
     /// Displays the provider-styled gutter, borders, and grip when enabled. The resize area is transparent by default.
@@ -448,7 +448,7 @@ public partial class ResizeHandle : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback<ResizeHandleEventArgs> ResizeStarted { get; set; }
 
     /// <summary>
-    /// Reports intermediate sizes at the cadence configured by <see cref="ResizeEventInterval"/>.
+    /// Reports intermediate sizes at the cadence configured by <see cref="ResizingInterval"/>.
     /// </summary>
     [Parameter] public EventCallback<ResizeHandleEventArgs> Resizing { get; set; }
 
