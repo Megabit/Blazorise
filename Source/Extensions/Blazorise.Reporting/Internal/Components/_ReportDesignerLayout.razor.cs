@@ -158,8 +158,13 @@ public partial class _ReportDesignerLayout
 
         DockNodeState tabsNode = FindTabsNode( State.Root, paneName );
 
-        if ( tabsNode is not null && !string.Equals( tabsNode.ActivePane, paneName, StringComparison.Ordinal ) )
+        if ( tabsNode is not null
+             && tabsNode.Panes.Contains( PropertiesPaneName )
+             && tabsNode.Panes.Contains( ReportExplorerPaneName )
+             && !string.Equals( tabsNode.ActivePane, paneName, StringComparison.Ordinal ) )
+        {
             tabsNode.ActivePane = paneName;
+        }
     }
 
     private async Task OnDockLayoutStateChanged( DockLayoutState state )
