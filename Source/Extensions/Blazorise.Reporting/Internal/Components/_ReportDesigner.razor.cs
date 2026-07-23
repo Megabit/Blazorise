@@ -884,6 +884,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                 clipboardElements,
                 clipboardBandId,
                 designerState.ContextMenu,
+                selectionManager.SelectedCellKey,
                 targetSectionIndex,
                 IsSnapToGridEnabled,
                 ApplyDesignerGrid,

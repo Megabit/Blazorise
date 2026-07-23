@@ -298,6 +298,9 @@ internal sealed class ReportSelectionManager
         if ( ReportDefinitionHelper.TryFindElementLocation( definition, PrimaryElementKey, out var sectionIndex, out _, out _ ) )
             return sectionIndex;
 
+        if ( ReportDefinitionHelper.TryFindTableCellLocation( definition, SelectedCellKey, out sectionIndex, out _, out _, out _ ) )
+            return sectionIndex;
+
         return 0;
     }
 

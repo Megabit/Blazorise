@@ -59,6 +59,7 @@ internal sealed class ReportClipboardService
         IReadOnlyList<ReportElementDefinition> clipboardElements,
         string clipboardBandId,
         ReportContextMenuState contextMenu,
+        string selectedCellKey,
         int targetSectionIndex,
         Func<ReportElementDefinition, bool> isSnapToGridEnabled,
         Func<double, bool, double> applyGrid,
@@ -70,7 +71,7 @@ internal sealed class ReportClipboardService
 
         ReportBandDefinition targetSection = definition.Bands[targetSectionIndex];
         bool sameSection = clipboardBandId == ReportDefinitionHelper.EnsureBandId( targetSection );
-        bool pasteIntoCell = TryResolveContextPasteCell( definition, contextMenu, out ReportTableElementDefinition pasteTable, out ReportTableCellDefinition pasteCell );
+        bool pasteIntoCell = TryResolvePasteCell( definition, contextMenu, selectedCellKey, out ReportTableElementDefinition pasteTable, out ReportTableCellDefinition pasteCell );
         List<ReportElementDefinition> sourceElements = clipboardElements.Where( element => element is not null ).ToList();
 
         if ( sourceElements.Count == 0 )
@@ -200,13 +201,16 @@ internal sealed class ReportClipboardService
         return true;
     }
 
-    private static bool TryResolveContextPasteCell( ReportDefinition definition, ReportContextMenuState contextMenu, out ReportTableElementDefinition table, out ReportTableCellDefinition cell )
+    private static bool TryResolvePasteCell( ReportDefinition definition, ReportContextMenuState contextMenu, string selectedCellKey, out ReportTableElementDefinition table, out ReportTableCellDefinition cell )
     {
         table = null;
         cell = null;
 
-        return contextMenu?.Target == ReportContextMenuTarget.Cell
-            && ReportDefinitionHelper.TryFindTableCellLocation( definition, contextMenu.CellKey, out _, out _, out table, out cell );
+        string cellKey = contextMenu?.Target == ReportContextMenuTarget.Cell
+            ? contextMenu.CellKey
+            : selectedCellKey;
+
+        return ReportDefinitionHelper.TryFindTableCellLocation( definition, cellKey, out _, out _, out table, out cell );
     }
 
     #endregion
