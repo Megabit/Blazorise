@@ -254,6 +254,7 @@ public static class JSInterop
 
     public static BunitJSInterop AddBlazoriseResizeHandle( this BunitJSInterop jsInterop )
     {
+        AddBlazoriseUtilities( jsInterop );
         AddBlazoriseDocumentObserver( jsInterop );
 
         var module = jsInterop.SetupModule( new JSResizeHandleModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
