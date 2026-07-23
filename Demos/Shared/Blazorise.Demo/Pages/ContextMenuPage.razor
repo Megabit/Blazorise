@@ -8,7 +8,7 @@
             </CardHeader>
             <CardBody>
                 <CardText>
-                    Right-click or use the buttons to test target-bound, toggle-bound, checked, radio, submenu, disabled, and programmatic context menu behavior.
+                    Right-click or use the buttons to test target-bound, toggle-bound, checked, radio, submenu, disabled, and programmatic context menu behavior. All commands are for display purposes only.
                 </CardText>
             </CardBody>
             <CardBody>
@@ -24,14 +24,11 @@
                                     <Paragraph Margin="Margin.Is2.FromTop">
                                         Last command: @lastCommand
                                     </Paragraph>
-                                    <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0">
-                                        Last location: @lastLocation
-                                    </Paragraph>
                                 </Div>
                             </CardBody>
                         </Card>
 
-                        <ContextMenu TargetId="@TargetElementId" Opening="@OnContextMenuOpening" Opened="@OnContextMenuOpened" Closed="@OnContextMenuClosed">
+                        <ContextMenu TargetId="@TargetElementId" Opened="@OnContextMenuOpened" Closed="@OnContextMenuClosed">
                             <ContextMenuBody MinWidth="16rem">
                                 <ContextMenuHeader>Document</ContextMenuHeader>
                                 <ContextMenuItem Icon="@IconName.Edit" Shortcut="F2" Clicked="@(() => SetLastCommand( "Rename" ))">Rename</ContextMenuItem>
@@ -90,7 +87,7 @@
                             <ContextMenuBody MinWidth="14rem">
                                 <ContextMenuHeader>Programmatic</ContextMenuHeader>
                                 <ContextMenuItem Icon="@IconName.Save" Clicked="@(() => SetLastCommand( "Programmatic save" ))">Save</ContextMenuItem>
-                                <ContextMenuItem ShowCheckbox Checked="@keepOpen" CheckedChanged="@OnKeepOpenChanged">Keep menu open</ContextMenuItem>
+                                <ContextMenuItem Icon="@IconName.Sync" Clicked="@(() => SetLastCommand( "Programmatic refresh" ))">Refresh</ContextMenuItem>
                                 <ContextMenuDivider />
                                 <ContextMenuItem Clicked="@HideProgrammaticMenu">Close menu</ContextMenuItem>
                             </ContextMenuBody>
@@ -117,22 +114,11 @@
 
     private string lastCommand = "None";
 
-    private string lastLocation = "None";
-
     private string selectedMode = SelectMode;
 
     private bool showGrid = true;
 
     private bool snapToGrid = true;
-
-    private bool keepOpen;
-
-    private Task OnContextMenuOpening( ContextMenuOpeningEventArgs eventArgs )
-    {
-        lastLocation = $"{eventArgs.ClientX:0}, {eventArgs.ClientY:0}";
-
-        return Task.CompletedTask;
-    }
 
     private Task OnContextMenuOpened( ContextMenuEventArgs eventArgs )
     {
@@ -167,14 +153,6 @@
     {
         snapToGrid = value;
         lastCommand = $"Snap to grid: {value}";
-
-        return Task.CompletedTask;
-    }
-
-    private Task OnKeepOpenChanged( bool value )
-    {
-        keepOpen = value;
-        lastCommand = $"Keep menu open: {value}";
 
         return Task.CompletedTask;
     }
