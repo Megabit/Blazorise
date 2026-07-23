@@ -91,6 +91,24 @@
                     </PdfTableCell>
                 </PdfTableRow>
             </PdfTable>
+
+            <PdfLine X="48" Y="780" Width="498" Height="0" BorderColor="@RuleColor" BorderWidth="1" />
+            <PdfText Text="Page 1 of 2" X="48" Y="792" Width="498" Height="18" FontFamily="@OpenSansFamily" FontSize="9" TextAlignment="TextAlignment.End" TextColor="@MutedColor" BorderWidth="@ElementBorderWidth" />
+        </PdfPage>
+
+        <PdfPage Size="PdfPageSize.A4" Orientation="Blazorise.Pdf.PdfOrientation.Portrait">
+            <PdfRectangle X="34" Y="30" Width="527" Height="54" BorderColor="@InkColor" BorderWidth="1" BackgroundColor="@HeaderFillColor" />
+            <PdfText Text="Blazorise multi-page PDF" X="48" Y="42" Width="336" Height="24" FontFamily="@OpenSansFamily" FontSize="18" Bold TextColor="@InkColor" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="page navigation demonstration" X="348" Y="48" Width="198" Height="18" FontFamily="@OpenSansFamily" FontSize="9" TextAlignment="TextAlignment.End" TextColor="@MutedColor" BorderWidth="@ElementBorderWidth" />
+            <PdfLine X="48" Y="96" Width="498" Height="0" BorderColor="@RuleColor" BorderWidth="1" />
+
+            <PdfText Text="Paging demonstration" X="48" Y="124" Width="240" Height="18" FontFamily="@OpenSansFamily" FontSize="12" Bold TextColor="@AccentColor" BorderWidth="@ElementBorderWidth" />
+            <PdfRectangle X="48" Y="150" Width="498" Height="150" BorderColor="@RuleColor" BorderWidth="1" BackgroundColor="#fbfcfe" />
+            <PdfText Text="This is page 2" X="64" Y="172" Width="466" Height="28" FontFamily="@OpenSansFamily" FontSize="16" Bold TextColor="@InkColor" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="Use the PDF viewer toolbar to move between pages and verify the current page and total page count." X="64" Y="214" Width="466" Height="54" FontFamily="@OpenSansFamily" FontSize="11" TextColor="@MutedColor" BorderWidth="@ElementBorderWidth" />
+
+            <PdfLine X="48" Y="780" Width="498" Height="0" BorderColor="@RuleColor" BorderWidth="1" />
+            <PdfText Text="Page 2 of 2" X="48" Y="792" Width="498" Height="18" FontFamily="@OpenSansFamily" FontSize="9" TextAlignment="TextAlignment.End" TextColor="@MutedColor" BorderWidth="@ElementBorderWidth" />
         </PdfPage>
     </PdfDocument>
 </Div>
