@@ -65,6 +65,26 @@ public partial class _ReportDesignerWorkspaceDockTree
 
         if ( activePanelPane is not null )
             await activePanelPane.Refresh();
+
+        if ( propertiesPane is not null && propertiesPane != activePanelPane && IsPaneRendered( State?.Root, PropertiesPaneName ) )
+            await propertiesPane.Refresh();
+
+        if ( reportExplorerPane is not null && reportExplorerPane != activePanelPane && IsPaneRendered( State?.Root, ReportExplorerPaneName ) )
+            await reportExplorerPane.Refresh();
+    }
+
+    private static bool IsPaneRendered( DockNodeState node, string paneName )
+    {
+        if ( node is null )
+            return false;
+
+        return node.Kind switch
+        {
+            DockNodeKind.Pane => string.Equals( node.PaneName, paneName, System.StringComparison.Ordinal ),
+            DockNodeKind.Tabs => string.Equals( node.ActivePane, paneName, System.StringComparison.Ordinal ),
+            DockNodeKind.Split => IsPaneRendered( node.First, paneName ) || IsPaneRendered( node.Second, paneName ),
+            _ => false,
+        };
     }
 
     internal ElementReference? GetPaneBodyElement( string paneName )
@@ -127,6 +147,11 @@ public partial class _ReportDesignerWorkspaceDockTree
     /// Name of the active right-side panel pane.
     /// </summary>
     [Parameter] public string ActivePanelPaneName { get; set; }
+
+    /// <summary>
+    /// Current dock layout state used to identify rendered panes.
+    /// </summary>
+    [Parameter] public DockLayoutState State { get; set; }
 
     /// <summary>
     /// Targeted pane refresh state applied after pane content has rendered.

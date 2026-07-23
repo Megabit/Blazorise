@@ -188,6 +188,15 @@ public partial class _ReportDesignerLayout
         if ( propertiesTabsNode is not null && string.Equals( propertiesTabsNode.ActivePane, PropertiesPaneName, StringComparison.Ordinal ) )
             return nameof( ReportDesignerPanelTab.Properties );
 
+        bool propertiesDocked = DockTreeContainsPane( state?.Root, PropertiesPaneName );
+        bool reportExplorerDocked = DockTreeContainsPane( state?.Root, ReportExplorerPaneName );
+
+        if ( reportExplorerDocked && !propertiesDocked )
+            return nameof( ReportDesignerPanelTab.Explorer );
+
+        if ( propertiesDocked && !reportExplorerDocked )
+            return nameof( ReportDesignerPanelTab.Properties );
+
         return null;
     }
 
