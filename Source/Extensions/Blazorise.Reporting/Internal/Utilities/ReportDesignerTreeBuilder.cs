@@ -98,10 +98,9 @@ internal static class ReportDesignerTreeBuilder
                     Children = section.Elements
                         .Where( element => allowSubreport || element.Type != ReportElementType.Subreport )
                         .Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected, allowSubreport ) )
-                        .Where( node => FilterReportElementNode( node, searchText ) )
                         .ToList(),
                 } )
-                .Where( node => string.IsNullOrWhiteSpace( searchText ) || node.Children.Count > 0 )
+                .Where( node => FilterReportSectionNode( node, searchText ) )
                 .ToList(),
             }
         ];
@@ -174,6 +173,22 @@ internal static class ReportDesignerTreeBuilder
                 _ => [],
             },
         };
+    }
+
+    private static bool FilterReportSectionNode( ReportTreeNode node, string searchText )
+    {
+        if ( string.IsNullOrWhiteSpace( searchText )
+             || node.Text?.Contains( searchText, StringComparison.OrdinalIgnoreCase ) == true
+             || node.Detail?.Contains( searchText, StringComparison.OrdinalIgnoreCase ) == true )
+        {
+            return true;
+        }
+
+        node.Children = node.Children
+            .Where( child => FilterReportElementNode( child, searchText ) )
+            .ToList();
+
+        return node.Children.Count > 0;
     }
 
     private static bool FilterReportElementNode( ReportTreeNode node, string searchText )
