@@ -67,7 +67,7 @@ public class ResizeHandleComponentTest : BunitContext
 
         Assert.DoesNotContain( "resize-handle-gutter", component.Find( ".resize-handle" ).ClassList );
 
-        component.SetParametersAndRender( parameters => parameters
+        component.Render( parameters => parameters
             .Add( x => x.ShowGutter, true ) );
 
         Assert.Contains( "resize-handle-gutter", component.Find( ".resize-handle" ).ClassList );
