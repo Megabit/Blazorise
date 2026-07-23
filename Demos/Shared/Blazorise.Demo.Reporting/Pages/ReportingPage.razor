@@ -8,7 +8,8 @@
             </CardHeader>
             <CardBody>
                 <Report Data="@invoice"
-                        @bind-Definition="@definition"
+                        Definition="@definition"
+                        DefinitionChanged="@OnDefinitionChanged"
                         SaveRequested="@SaveReport"
                         LoadRequested="@LoadReport"
                         DesignerEnabled
@@ -127,6 +128,8 @@
 @code {
     [Inject] private Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }
 
+    [Inject] private IMessageService MessageService { get; set; }
+
     [Inject] private INotificationService NotificationService { get; set; }
 
     private const string ReportStorageKey = "__REPORT_DEFINITION__";
@@ -142,6 +145,10 @@
     private static readonly ReportColor RuleColor = ReportColor.FromHex( "#d6dce5" );
 
     private ReportDefinition definition;
+
+    private string cleanDefinitionJson;
+
+    private bool loadingReport;
 
     private const string invoiceLinesCsv = "Sku,Description,Quantity,UnitPrice,Total\r\n"
         + "HB-104,CSV coastal inventory tags,18,30.00,540.00\r\n"
@@ -184,6 +191,7 @@
         string json = ReportJsonSerializer.Serialize( reportDefinition );
 
         await LocalStorage.SetItemAsync( ReportStorageKey, json );
+        cleanDefinitionJson = json;
         await NotificationService.Success( "The report definition was saved.", "Report saved" );
     }
 
@@ -198,11 +206,43 @@
             return null;
         }
 
+        if ( HasUnsavedChanges()
+            && !await MessageService.Confirm( "Loading the saved report will discard your unsaved changes.", "Load report", options =>
+            {
+                options.ShowCloseButton = false;
+                options.ShowMessageIcon = false;
+                options.CancelButtonText = "Cancel";
+                options.ConfirmButtonText = "Load";
+                options.ConfirmButtonColor = Color.Danger;
+            } ) )
+            return null;
+
         ReportDefinition reportDefinition = ReportJsonSerializer.Deserialize( json );
+        loadingReport = true;
 
         await NotificationService.Success( "The saved report definition was loaded.", "Report loaded" );
 
         return reportDefinition;
+    }
+
+    private Task OnDefinitionChanged( ReportDefinition reportDefinition )
+    {
+        definition = reportDefinition;
+
+        if ( cleanDefinitionJson is null || loadingReport )
+        {
+            cleanDefinitionJson = ReportJsonSerializer.Serialize( reportDefinition );
+            loadingReport = false;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private bool HasUnsavedChanges()
+    {
+        return definition is not null
+            && cleanDefinitionJson is not null
+            && !string.Equals( ReportJsonSerializer.Serialize( definition ), cleanDefinitionJson, StringComparison.Ordinal );
     }
 
     private sealed class InvoiceReportModel
