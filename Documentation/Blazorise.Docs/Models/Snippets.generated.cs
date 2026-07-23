@@ -29212,14 +29212,14 @@ builder.Services
         public const string SvgLineChartExample = @"<SvgLineChart TItem=""MonthlyVisitors""
               Items=""@visitors""
               Options=""@options"">
-    <SvgChartTitle Title='@(""Visitor trend"")' Subtitle='@(""Line series with markers"")' />
+    <SvgChartTitle Title='@(""Visitor trend"")' Subtitle='@(""Highlighted with a line outline"")' />
     <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
     <SvgChartTooltip Enabled />
     <SvgChartCategoryAxis Value=""@( item => item.Month )"" />
     <SvgChartValueAxis BeginAtZero TickCount=""6"" />
 
-    <SvgLineSeries Name=""Current year"" Value=""@( item => item.Current )"" Color=""Color.Primary"" StrokeWidth=""3"" MarkerRadius=""4"" />
-    <SvgLineSeries Name=""Previous year"" Value=""@( item => item.Previous )"" Color=""Color.Warning"" StrokeWidth=""3"" MarkerRadius=""4"" />
+    <SvgLineSeries Name=""Current year"" Value=""@( item => item.Current )"" Color=""Color.Primary"" StrokeWidth=""3"" MarkerRadius=""4"" Outline=""@currentYearOutline"" />
+    <SvgLineSeries Name=""Previous year"" Value=""@( item => item.Previous )"" Color=""Color.Info"" StrokeWidth=""3"" MarkerRadius=""4"" />
 </SvgLineChart>
 
 @code {
@@ -29227,6 +29227,13 @@ builder.Services
     {
         Height = 360,
         Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly SvgChartLineOutlineOptions currentYearOutline = new()
+    {
+        Color = Color.Warning,
+        StrokeWidth = 9,
+        Opacity = 0.35,
     };
 
     private readonly List<MonthlyVisitors> visitors =
@@ -32546,6 +32553,39 @@ builder.Services
         3
     </Badge>
 </Button>";
+
+        public const string FluentSizingNumericShorthandExample = @"<Div Width=""Width.Px().Max( 520 )"" Flex=""Flex.Column"" Gap=""1.Rem()"">
+    <Div Width=""8.Rem()""
+         Height=""4.Rem()""
+         TextSize=""1.25.Rem()""
+         Padding=""Padding.Is2""
+         Background=""Background.Primary.Subtle""
+         Border=""Border.Is1.Primary""
+         TextColor=""TextColor.Primary.Emphasis"">
+        Width=""8.Rem()"", Height=""4.Rem()"", and TextSize=""1.25.Rem()""
+    </Div>
+    <Div Width=""50.Percent()""
+         Padding=""Padding.Is2""
+         Background=""Background.Success.Subtle""
+         Border=""Border.Is1.Success""
+         TextColor=""TextColor.Success.Emphasis"">
+        Width=""50.Percent()""
+    </Div>
+    <Div Width=""20.Rem().Min( 12 ).Max( 30 )""
+         Padding=""Padding.Is2""
+         Background=""Background.Warning.Subtle""
+         Border=""Border.Is1.Warning""
+         TextColor=""TextColor.Warning.Emphasis"">
+        Width=""20.Rem().Min( 12 ).Max( 30 )""
+    </Div>
+    <Div Width=""@(Width.Calc( ""100% - 2rem"" ))""
+         Padding=""Padding.Is2""
+         Background=""Background.Secondary.Subtle""
+         Border=""Border.Is1.Secondary""
+         TextColor=""TextColor.Secondary.Emphasis"">
+        Width=""Width.Calc( ""100% - 2rem"" )""
+    </Div>
+</Div>";
 
         public const string FluentSizingPredefinedExample = @"<Div Width=""Width.Px().Max( 520 )"" Background=""Background.Light"" Border=""Border.Is1.Secondary.Subtle"" Padding=""Padding.Is3"">
     <Div Width=""Width.Is25""

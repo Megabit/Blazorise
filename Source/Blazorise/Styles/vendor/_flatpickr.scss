@@ -154,7 +154,8 @@
 
 .flatpickr-wrapper {
     position: relative;
-    display: contents;
+    display: inline-block;
+    width: 100%;
 }
 
 .flatpickr-months {

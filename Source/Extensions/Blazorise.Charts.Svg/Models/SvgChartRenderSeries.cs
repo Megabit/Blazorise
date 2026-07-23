@@ -44,6 +44,12 @@ internal sealed class SvgChartRenderSeries
 
     public double StrokeWidth { get; init; }
 
+    public string OutlineColor { get; init; }
+
+    public double OutlineStrokeWidth { get; init; }
+
+    public double OutlineOpacity { get; init; }
+
     public double MarkerRadius { get; init; }
 
     public double FillOpacity { get; init; }
