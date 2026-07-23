@@ -1,6 +1,8 @@
 @page "/tests/pdf-generator"
 @using System
+@using System.Collections.Generic
 @using System.Threading.Tasks
+@inject IFontProvider FontProvider
 @inject IPdfGenerator PdfGenerator
 
 <Div Display="Display.None">
@@ -36,7 +38,7 @@
             <PdfText Text="Custom/global font and unicode" X="48" Y="356" Width="240" Height="18" FontFamily="@OpenSansFamily" FontSize="12" Bold TextColor="@AccentColor" BorderWidth="@ElementBorderWidth" />
             <PdfText Text="@LatinExtendedSample" X="48" Y="382" Width="498" Height="18" FontFamily="@OpenSansFamily" FontSize="10" BorderWidth="@ElementBorderWidth" />
             <PdfText Text="Open Sans Demo bold, 15 pt, aligned end: 1234567890" X="48" Y="408" Width="498" Height="22" FontFamily="@OpenSansFamily" FontSize="15" Bold TextAlignment="TextAlignment.End" BorderWidth="@ElementBorderWidth" />
-            <PdfText Text="@UnicodeCoverageSample" X="48" Y="438" Width="498" Height="20" FontFamily="@OpenSansFamily" FontSize="11" TextAlignment="TextAlignment.Center" BorderWidth="@ElementBorderWidth" />
+            <PdfText Text="@UnicodeCoverageSample" X="48" Y="438" Width="498" Height="20" FontFamily="@previewFontFamily" FontSize="11" TextAlignment="TextAlignment.Center" BorderWidth="@ElementBorderWidth" />
 
             <PdfText Text="Wrapping and vertical alignment" X="48" Y="478" Width="240" Height="18" FontFamily="@OpenSansFamily" FontSize="12" Bold TextColor="@AccentColor" BorderWidth="@ElementBorderWidth" />
             <PdfRectangle X="48" Y="504" Width="235" Height="74" BorderColor="@RuleColor" BorderWidth="1" BackgroundColor="#ffffff" />
@@ -103,7 +105,16 @@
                 </Div>
             </CardHeader>
             <CardBody>
-                <Div Margin="Margin.Is3.FromBottom">
+                <Div Flex="Flex.Wrap.AlignItems.Center" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom">
+                    <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                        <Span TextSize="TextSize.Small">Unicode sample font</Span>
+                        <Select TValue="string" Value="@previewFontFamily" ValueChanged="@OnPreviewFontChanged" Size="Size.Small">
+                            @foreach ( FontFamily font in previewFonts )
+                            {
+                                <SelectItem TValue="string" Value="@font.Name">@(string.IsNullOrWhiteSpace( font.DisplayName ) ? font.Name : font.DisplayName)</SelectItem>
+                            }
+                        </Select>
+                    </Div>
                     <Switch TValue="bool" Value="@showElementBorders" ValueChanged="@OnShowElementBordersChanged">
                         Show element borders
                     </Switch>
@@ -147,17 +158,40 @@
 
     private const string LongParagraph = "This deliberately long text wraps inside a fixed rectangle. It mixes words with different widths, punctuation, and numbers like 12345.67 so the PDF renderer must measure each line before placing it.";
 
+    private readonly List<FontFamily> previewFonts = [];
+
     private PdfDocument pdfDocument;
 
     private string pdfSource;
 
     private string errorMessage;
 
+    private string previewFontFamily = OpenSansFamily;
+
     private bool showElementBorders;
 
     private bool regeneratePdf;
 
     private double ElementBorderWidth => showElementBorders ? 1 : 0;
+
+    protected override void OnInitialized()
+    {
+        foreach ( FontFamily font in FontProvider.GetFonts() )
+        {
+            if ( font?.Visible == true && HasEmbeddableFontSource( font.Regular ) )
+            {
+                AddPreviewFont( font );
+            }
+        }
+
+        foreach ( FontFamily font in Fonts.BuiltIn )
+        {
+            AddPreviewFont( font );
+        }
+
+        if ( !previewFonts.Exists( font => string.Equals( font.Name, previewFontFamily, StringComparison.OrdinalIgnoreCase ) ) )
+            previewFontFamily = Fonts.Helvetica;
+    }
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
@@ -172,6 +206,28 @@
     {
         showElementBorders = value;
         regeneratePdf = true;
+    }
+
+    private void OnPreviewFontChanged( string value )
+    {
+        previewFontFamily = value;
+        regeneratePdf = true;
+    }
+
+    private void AddPreviewFont( FontFamily font )
+    {
+        if ( font is not null
+            && !string.IsNullOrWhiteSpace( font.Name )
+            && !previewFonts.Exists( existing => string.Equals( existing.Name, font.Name, StringComparison.OrdinalIgnoreCase ) ) )
+        {
+            previewFonts.Add( font );
+        }
+    }
+
+    private static bool HasEmbeddableFontSource( FontSource source )
+    {
+        return source?.Data is { Length: > 0 }
+            || !string.IsNullOrWhiteSpace( source?.FileName );
     }
 
     private async Task GeneratePdf()
