@@ -124,7 +124,13 @@
     <Field Horizontal>
         <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Culture</FieldLabel>
         <FieldBody ColumnSize="ColumnSizeIs8">
-            <TextInput Value="@format.CultureName" ValueChanged="@OnCultureNameChanged" Size="Size.Small" />
+            <Select TValue="string" Value="@CurrentCultureName" ValueChanged="@OnCultureNameChanged" Size="Size.Small">
+                <SelectItem TValue="string" Value="@string.Empty">Default (application culture)</SelectItem>
+                @foreach ( (string Value, string Text) option in CultureOptions )
+                {
+                    <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
+                }
+            </Select>
         </FieldBody>
     </Field>
 

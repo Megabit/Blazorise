@@ -1,4 +1,7 @@
 #region Using directives
+using System;
+using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -44,6 +47,13 @@ public partial class _ReportDesignerFormatDialog
         ( ReportDateFormat.ShortDateTime, "Short date and time" ),
         ( ReportDateFormat.LongDateTime, "Long date and time" ),
     ];
+
+    private static readonly (string Value, string Text)[] CultureOptions = CultureInfo
+        .GetCultures( CultureTypes.AllCultures )
+        .Where( culture => !string.IsNullOrWhiteSpace( culture.Name ) )
+        .OrderBy( culture => culture.EnglishName, StringComparer.OrdinalIgnoreCase )
+        .Select( culture => ( culture.Name, $"{culture.EnglishName} ({culture.Name})" ) )
+        .ToArray();
 
     #endregion
 
@@ -171,7 +181,7 @@ public partial class _ReportDesignerFormatDialog
 
     private Task OnCultureNameChanged( string value )
     {
-        format.CultureName = value;
+        format.CultureName = string.IsNullOrWhiteSpace( value ) ? null : value;
 
         return Task.CompletedTask;
     }
@@ -222,6 +232,8 @@ public partial class _ReportDesignerFormatDialog
     private bool IsNumericCategory => NumericFormat is not null;
 
     private ReportFormatCategory CurrentCategory => format?.Category ?? ReportFormatCategory.Text;
+
+    private string CurrentCultureName => format?.CultureName ?? string.Empty;
 
     private ReportNumericFormatDefinition NumericFormat => format as ReportNumericFormatDefinition;
 
