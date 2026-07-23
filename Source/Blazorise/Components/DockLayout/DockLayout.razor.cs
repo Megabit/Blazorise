@@ -39,6 +39,8 @@ public partial class DockLayout : BaseComponent
 
     private bool paneBordered = true;
 
+    private double splitterThickness = 6;
+
     private DotNetObjectReference<DockLayout> dotNetObjectRef;
 
     private string activeAutoHidePaneName;
@@ -1172,6 +1174,23 @@ public partial class DockLayout : BaseComponent
                 return;
 
             paneBordered = value;
+            context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
+        }
+    }
+
+    /// <summary>
+    /// Defines the thickness, in pixels, of the splitters between dock panes.
+    /// </summary>
+    [Parameter]
+    public double SplitterThickness
+    {
+        get => splitterThickness;
+        set
+        {
+            if ( splitterThickness == value )
+                return;
+
+            splitterThickness = value;
             context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
         }
     }

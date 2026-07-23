@@ -4418,14 +4418,6 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
                  Background=""Background.Light""
                  ThemeContrast=""ThemeContrast.Light"">
                 <BarToggler />
-                <BarBrand>
-                    <BarItem>
-                        <BarLink To=""#resize-handle-dashboard"">
-                            <BarIcon IconName=""IconName.Dashboard"" />
-                            Workspace
-                        </BarLink>
-                    </BarItem>
-                </BarBrand>
                 <BarMenu>
                     <BarStart>
                         <BarItem>
@@ -4515,6 +4507,61 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
 @code {
     private double previewHeight = 180;
+}";
+
+        public const string ResizeHandleMultipleTargetsExample = @"<Div Flex=""Flex.Row""
+     Height=""Height.Px( 260 )""
+     Border=""Border.Is1.Rounded""
+     Overflow=""Overflow.Hidden"">
+    <Div ElementId=""resize-handle-start-panel""
+         Flex=""Flex.Shrink.Is0""
+         Style=""width: 50%;""
+         Background=""Background.Light""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Navigation</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            This is the logical start target.
+        </Paragraph>
+    </Div>
+
+    <Div Position=""Position.Relative""
+         Flex=""Flex.Shrink.Is0""
+         Width=""Width.Px( 0 )"">
+        <ResizeHandle Targets=""@resizeTargets""
+                      Orientation=""Orientation.Vertical""
+                      Placement=""Placement.Start""
+                      ShowGutter
+                      KeyboardStep=""10""
+                      AriaLabel=""Resize navigation and workspace panels"" />
+    </Div>
+
+    <Div ElementId=""resize-handle-end-panel""
+         Flex=""Flex.Shrink.Is0""
+         Style=""width: 50%;""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Workspace</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            This is the logical end target. Its width decreases as the navigation panel grows.
+        </Paragraph>
+    </Div>
+</Div>
+
+@code {
+    private readonly ResizeHandleTargets resizeTargets = new()
+    {
+        Start = new()
+        {
+            ElementId = ""resize-handle-start-panel"",
+            ResizeProperty = ""width"",
+            MinSize = ""120px"",
+        },
+        End = new()
+        {
+            ElementId = ""resize-handle-end-panel"",
+            ResizeProperty = ""width"",
+            MinSize = ""160px"",
+        },
+    };
 }";
 
         public const string ResizeHandlePanelExample = @"<Div Flex=""Flex.Row""

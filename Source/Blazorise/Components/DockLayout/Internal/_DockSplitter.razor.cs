@@ -10,14 +10,6 @@ namespace Blazorise;
 /// </summary>
 public partial class _DockSplitter : ComponentBase
 {
-    #region Members
-
-    private const double SplitterThickness = 6;
-
-    private const double SplitterOffset = SplitterThickness;
-
-    #endregion
-
     #region Methods
 
     private Task OnResizeEnded( ResizeHandleEventArgs eventArgs )
@@ -28,6 +20,10 @@ public partial class _DockSplitter : ComponentBase
     #region Properties
 
     [CascadingParameter] internal DockLayoutContext Context { get; set; }
+
+    private double SplitterThickness => Context?.SplitterThickness ?? 6;
+
+    private double SplitterOffset => SplitterThickness;
 
     /// <summary>
     /// Maps the splitter to the correct resize axis.

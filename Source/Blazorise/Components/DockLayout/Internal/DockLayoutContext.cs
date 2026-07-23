@@ -127,5 +127,7 @@ internal sealed class DockLayoutContext
 
     internal double DockCompassY => layout?.DockCompassY ?? 0;
 
+    internal double SplitterThickness => layout?.SplitterThickness ?? 6;
+
     #endregion
 }
