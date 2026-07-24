@@ -9,23 +9,25 @@
     </Div>
 </CascadingValue>
 
-<Div Class="b-report" Flex="FlexColumn" Gap="GapIs3">
+<Div Class="b-report">
     <CascadingValue Value="@modalProviderName" Name="ReportModalProviderName" IsFixed="true">
-        @if ( ShowToolbar && !( CurrentMode == ReportMode.Design && IsDesignerEnabled ) )
-        {
-            <Div Class="b-report-toolbar" Flex="FlexAlignItemsCenter" Gap="GapIs2" Padding="PaddingIs3" Border="BorderIs1" Background="BackgroundWhite">
-                <_ReportDesignerToolbarContent Designer="@this" />
-            </Div>
-        }
+        <Div Class="b-report-layout" Flex="FlexColumn" Gap="GapIs1">
+            @if ( ShowToolbar && !( CurrentMode == ReportMode.Design && IsDesignerEnabled ) )
+            {
+                <Div Class="b-report-toolbar" Flex="FlexAlignItemsCenter" Gap="GapIs2" Padding="PaddingIs3" Border="BorderIs1" Background="BackgroundWhite">
+                    <_ReportDesignerToolbarContent Designer="@this" />
+                </Div>
+            }
 
-        @if ( CurrentMode == ReportMode.Design && IsDesignerEnabled )
-        {
-            <_ReportDesignerWorkspace @ref="workspaceRef" Designer="@this" />
-        }
-        else
-        {
-            <_ReportPreview Designer="@this" />
-        }
+            @if ( CurrentMode == ReportMode.Design && IsDesignerEnabled )
+            {
+                <_ReportDesignerWorkspace @ref="workspaceRef" Designer="@this" />
+            }
+            else
+            {
+                <_ReportPreview Designer="@this" />
+            }
+        </Div>
     </CascadingValue>
 
     <_ReportModalProvider ProviderName="@modalProviderName" />

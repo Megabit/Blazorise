@@ -1,3 +1,9 @@
+.b-report-layout {
+    height: var(--b-report-designer-layout-height);
+    min-height: var(--b-report-designer-min-height);
+    min-width: 0;
+}
+
 .b-report-designer {
     min-height: var(--b-report-designer-min-height);
     position: relative;
@@ -89,6 +95,7 @@
 }
 
 .b-report-toolbar {
+    flex: 0 0 auto;
     flex-wrap: wrap;
 }
 
@@ -98,5 +105,8 @@
 }
 
 .b-report-viewer {
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
     overflow: auto;
 }

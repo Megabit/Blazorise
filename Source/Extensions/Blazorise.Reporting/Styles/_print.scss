@@ -1,4 +1,9 @@
 @media print {
+    .b-report-layout {
+        height: auto !important;
+        min-height: 0 !important;
+    }
+
     .b-report-toolbar,
     .b-report-designer-layout {
         display: none !important;
