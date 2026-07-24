@@ -4,7 +4,15 @@
 
 <ContextMenu @ref="contextMenuRef">
     <ContextMenuBody MinWidth="13rem">
-        @if ( IsSectionMenu )
+        @if ( IsPageMenu )
+        {
+            <ContextMenuItem Icon="IconName.Add" Value="@ReportDesignerContextMenuCommand.AddPage" Clicked="@OnCommandClicked">New page</ContextMenuItem>
+            <ContextMenuItem Icon="IconName.Duplicate" Value="@ReportDesignerContextMenuCommand.DuplicatePage" Clicked="@OnCommandClicked">Duplicate</ContextMenuItem>
+            <ContextMenuItem Icon="IconName.Delete" TextColor="TextColor.Danger" Disabled="@(!State.CanDeletePage)" Value="@ReportDesignerContextMenuCommand.DeletePage" Clicked="@OnCommandClicked">Delete</ContextMenuItem>
+            <ContextMenuDivider />
+            <ContextMenuItem Icon="IconName.List" TextColor="TextColor.Info" Value="@ReportDesignerContextMenuCommand.ShowPageSetup" Clicked="@OnCommandClicked">Page setup</ContextMenuItem>
+        }
+        else if ( IsSectionMenu )
         {
             <ContextMenuToolbar>
                 <ContextMenuToolbarItem Icon="IconName.Paste" Text="Paste" Disabled="@(!State.CanPasteElement)" Value="@ReportDesignerContextMenuCommand.PasteElement" Clicked="@OnCommandClicked" />

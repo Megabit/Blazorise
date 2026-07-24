@@ -13,7 +13,8 @@
                                           Icon="IconName.File"
                                           Active="@tab.Active"
                                           ActiveColor="Color.Light"
-                                          Selected="@Designer.SelectDesignerPage" />
+                                          Selected="@Designer.SelectDesignerPage"
+                                          ContextMenu="@(eventArgs => Designer.OpenPageContextMenu( tab.Key, eventArgs ))" />
             }
         </Buttons>
         <Button Color="Color.Light"

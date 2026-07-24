@@ -23,6 +23,9 @@ public partial class _ReportDesignerTabButton
         return Task.CompletedTask;
     }
 
+    private Task OnContextMenu( MouseEventArgs eventArgs )
+        => ContextMenu.InvokeAsync( eventArgs );
+
     #endregion
 
     #region Properties
@@ -63,6 +66,11 @@ public partial class _ReportDesignerTabButton
     /// Raised when the tab is selected.
     /// </summary>
     [Parameter] public Func<string, Task> Selected { get; set; }
+
+    /// <summary>
+    /// Raised when the tab context menu is requested.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> ContextMenu { get; set; }
 
     #endregion
 }

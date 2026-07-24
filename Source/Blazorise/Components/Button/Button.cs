@@ -176,6 +176,19 @@ public partial class Button : BaseComponent, IAsyncDisposable
         return JSUtilitiesModule.Focus( ElementRef, ElementId, scrollToElement ).AsTask();
     }
 
+    /// <summary>
+    /// Configures the render tree to handle the context menu event.
+    /// </summary>
+    /// <param name="builder">The <see cref="RenderTreeBuilder"/> used to define the render tree.</param>
+    protected void BuildContextMenuEventsRenderTree( RenderTreeBuilder builder )
+    {
+        if ( ContextMenu.HasDelegate )
+            builder.OnContextMenu( this, ContextMenu );
+
+        if ( ContextMenuPreventDefault )
+            builder.OnContextMenuPreventDefault( true );
+    }
+
     /// <inheritdoc/>
     protected override void BuildRenderTree( RenderTreeBuilder builder )
     {
@@ -206,6 +219,8 @@ public partial class Button : BaseComponent, IAsyncDisposable
 
         builder.OnClick( this, EventCallback.Factory.Create<MouseEventArgs>( this, ClickHandler ) );
         builder.OnClickPreventDefault( Type == ButtonType.Link && To is not null && To.StartsWith( "#" ) );
+
+        BuildContextMenuEventsRenderTree( builder );
 
         builder.Attributes( Attributes );
         builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
@@ -365,6 +380,16 @@ public partial class Button : BaseComponent, IAsyncDisposable
     /// Notifies when the button is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+
+    /// <summary>
+    /// Notifies when the button context menu is requested.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> ContextMenu { get; set; }
+
+    /// <summary>
+    /// Prevents the browser's default context menu.
+    /// </summary>
+    [Parameter] public bool ContextMenuPreventDefault { get; set; }
 
     /// <summary>
     /// Specifies the button type.

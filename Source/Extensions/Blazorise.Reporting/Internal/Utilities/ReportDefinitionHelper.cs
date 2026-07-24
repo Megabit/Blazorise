@@ -989,5 +989,21 @@ internal static class ReportDefinitionHelper
         }
     }
 
+    internal static void RegeneratePageIds( ReportPageDefinition page )
+    {
+        if ( page is null )
+            return;
+
+        page.Id = CreateDefinitionId();
+
+        foreach ( ReportBandDefinition section in page.Bands ?? [] )
+        {
+            section.Id = CreateDefinitionId();
+
+            foreach ( ReportElementDefinition element in section.Elements ?? [] )
+                RegenerateElementIds( element );
+        }
+    }
+
     #endregion
 }

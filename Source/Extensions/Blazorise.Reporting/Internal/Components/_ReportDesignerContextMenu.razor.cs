@@ -67,6 +67,8 @@ public partial class _ReportDesignerContextMenu
 
     #region Properties
 
+    private bool IsPageMenu => State?.Target == ReportContextMenuTarget.Page;
+
     private bool IsSectionMenu => State?.Target == ReportContextMenuTarget.Section;
 
     private bool IsElementMenu => State?.Target == ReportContextMenuTarget.Element;

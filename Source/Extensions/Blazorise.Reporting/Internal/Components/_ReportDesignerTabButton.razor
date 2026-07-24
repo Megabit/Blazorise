@@ -4,7 +4,9 @@
 <Button Color="@ButtonColor"
         Active="@Active"
         Size="@Size"
-        Clicked="@OnClicked">
+        Clicked="@OnClicked"
+        ContextMenu="@OnContextMenu"
+        ContextMenuPreventDefault="@ContextMenu.HasDelegate">
     @if ( Icon is not null )
     {
         <Icon Name="@Icon.Value" Margin="MarginIs2FromEnd" />

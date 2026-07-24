@@ -100,6 +100,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [Parameter] public bool ShowToolbar { get; set; } = true;
 
     /// <summary>
+    /// Shows page navigation above the report designer surface.
+    /// </summary>
+    [Parameter] public bool ShowPageTabs { get; set; } = true;
+
+    /// <summary>
     /// Band presentation used when constructing a report from declarative content. Persisted definitions retain their configured value.
     /// </summary>
     [Parameter] public ReportBandMode BandMode { get; set; } = ReportBandMode.Classic;

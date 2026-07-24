@@ -12,6 +12,10 @@ internal sealed class ReportContextMenuState
 
     internal ReportContextMenuTarget Target { get; set; }
 
+    internal string PageId { get; set; }
+
+    internal bool CanDeletePage { get; set; }
+
     internal int SectionIndex { get; set; } = -1;
 
     internal string ElementKey { get; set; }

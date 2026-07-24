@@ -1229,6 +1229,26 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         await ShowContextMenu( nextContextMenu, selectionChanged );
     }
 
+    internal Task OpenPageContextMenu( string pageId, MouseEventArgs eventArgs )
+    {
+        ReportDefinition reportDefinition = RootDefinition;
+
+        if ( reportDefinition.Pages.All( page => !string.Equals( page.Id, pageId, StringComparison.Ordinal ) ) )
+            return Task.CompletedTask;
+
+        ReportContextMenuState nextContextMenu = new()
+        {
+            Visible = true,
+            Target = ReportContextMenuTarget.Page,
+            PageId = pageId,
+            CanDeletePage = reportDefinition.Pages.Count > 1,
+            ClientX = eventArgs.ClientX,
+            ClientY = eventArgs.ClientY,
+        };
+
+        return ShowContextMenu( nextContextMenu, refreshDesignerSelection: false );
+    }
+
     internal async Task OpenSectionBodyContextMenu( int sectionIndex, MouseEventArgs eventArgs )
     {
         bool selectionChanged = selectionManager.SelectSection( sectionIndex );
@@ -1944,6 +1964,14 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         switch ( command )
         {
+            case ReportDesignerContextMenuCommand.AddPage:
+                return AddDesignerPageFromContextMenu();
+            case ReportDesignerContextMenuCommand.DuplicatePage:
+                return DuplicateDesignerPage( designerState.ContextMenu?.PageId );
+            case ReportDesignerContextMenuCommand.DeletePage:
+                return DeleteDesignerPage( designerState.ContextMenu?.PageId );
+            case ReportDesignerContextMenuCommand.ShowPageSetup:
+                return ShowDesignerPageSetup( designerState.ContextMenu?.PageId );
             case ReportDesignerContextMenuCommand.CutElement:
                 return CutSelectedElement();
             case ReportDesignerContextMenuCommand.CopyElement:
@@ -2947,6 +2975,117 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             : ReportDesignerRefreshTarget.Designer ) | ReportDesignerRefreshTarget.PageTabs ) );
     }
 
+    private async Task AddDesignerPageFromContextMenu()
+    {
+        await CloseContextMenu();
+        await AddDesignerPage();
+    }
+
+    private async Task DuplicateDesignerPage( string pageId )
+    {
+        ReportDefinition reportDefinition = RootDefinition;
+        int sourcePageIndex = reportDefinition.Pages.FindIndex( page => string.Equals( page.Id, pageId, StringComparison.Ordinal ) );
+
+        if ( sourcePageIndex < 0 )
+            return;
+
+        bool activateMainReport = !string.IsNullOrWhiteSpace( activeSubreportElementKey );
+
+        await CloseContextMenu();
+        await ExecuteDesignerCommand( new( "Duplicate page", () =>
+        {
+            ReportDefinition reportDefinition = RootDefinition;
+            int sourcePageIndex = reportDefinition.Pages.FindIndex( page => string.Equals( page.Id, pageId, StringComparison.Ordinal ) );
+
+            if ( sourcePageIndex < 0 )
+                return Task.CompletedTask;
+
+            ReportPageDefinition sourcePage = reportDefinition.Pages[sourcePageIndex];
+            ReportPageDefinition page = ReportContext.ClonePage( sourcePage );
+
+            page.Name = CreateUniquePageName( reportDefinition, $"{sourcePage.Name} Copy" );
+            ReportDefinitionHelper.RegeneratePageIds( page );
+            reportDefinition.Pages.Insert( sourcePageIndex + 1, page );
+            activeSubreportElementKey = null;
+            activePageId = page.Id;
+            InvalidateActivePageScope();
+            selectionManager.SelectReport();
+            ResetDesignerSurfaceScrollPosition();
+
+            return Task.CompletedTask;
+        }, RefreshTargets: ( activateMainReport
+            ? ReportDesignerRefreshTarget.DesignerWithFieldsExplorer
+            : ReportDesignerRefreshTarget.Designer ) | ReportDesignerRefreshTarget.PageTabs ) );
+    }
+
+    private async Task DeleteDesignerPage( string pageId )
+    {
+        ReportDefinition reportDefinition = RootDefinition;
+        ReportPageDefinition page = reportDefinition.Pages.FirstOrDefault( page => string.Equals( page.Id, pageId, StringComparison.Ordinal ) );
+
+        if ( page is null || reportDefinition.Pages.Count <= 1 )
+            return;
+
+        await CloseContextMenu();
+
+        if ( !await ConfirmDestructiveAction( $"Are you sure you want to delete the '{page.Name}' page?", "Delete page", "Delete" ) )
+            return;
+
+        bool deletingActivePage = string.Equals( ResolveDesignerHostPage( reportDefinition ).Id, pageId, StringComparison.Ordinal );
+        bool activateMainReport = deletingActivePage && !string.IsNullOrWhiteSpace( activeSubreportElementKey );
+
+        await ExecuteDesignerCommand( new( "Delete page", () =>
+        {
+            ReportDefinition reportDefinition = RootDefinition;
+            int pageIndex = reportDefinition.Pages.FindIndex( page => string.Equals( page.Id, pageId, StringComparison.Ordinal ) );
+
+            if ( pageIndex < 0 || reportDefinition.Pages.Count <= 1 )
+                return Task.CompletedTask;
+
+            reportDefinition.Pages.RemoveAt( pageIndex );
+
+            if ( deletingActivePage )
+            {
+                activeSubreportElementKey = null;
+                activePageId = reportDefinition.Pages[Math.Min( pageIndex, reportDefinition.Pages.Count - 1 )].Id;
+                selectionManager.SelectReport();
+                ResetDesignerSurfaceScrollPosition();
+            }
+
+            InvalidateActivePageScope();
+
+            return Task.CompletedTask;
+        }, RefreshTargets: ( activateMainReport
+            ? ReportDesignerRefreshTarget.DesignerWithFieldsExplorer
+            : ReportDesignerRefreshTarget.Designer ) | ReportDesignerRefreshTarget.PageTabs ) );
+    }
+
+    private async Task ShowDesignerPageSetup( string pageId )
+    {
+        string previousActiveSubreportElementKey = activeSubreportElementKey;
+
+        await CloseContextMenu();
+
+        bool pageChanged = ActivateDesignerPage( pageId );
+
+        selectionManager.SelectReport();
+        designerState.EditingElementKey = null;
+        selectedDesignerPanelTab = ReportDesignerPanelTab.Properties;
+
+        ReportDesignerRefreshTarget refreshTargets = pageChanged
+            ? string.Equals( previousActiveSubreportElementKey, activeSubreportElementKey, StringComparison.Ordinal )
+                ? ReportDesignerRefreshTarget.Designer
+                : ReportDesignerRefreshTarget.DesignerWithFieldsExplorer
+            : ReportDesignerRefreshTarget.SelectedPanel;
+
+        if ( pageChanged )
+            refreshTargets |= ReportDesignerRefreshTarget.PageTabs;
+
+        RefreshDesigner( refreshTargets | ReportDesignerRefreshTarget.ElementSelection );
+        await InvokeAsync( StateHasChanged );
+        await ( workspaceRef?.ShowPropertiesPane() ?? Task.CompletedTask );
+    }
+
     private static string CreateUniquePageName( ReportDefinition definition, string baseName )
     {
         string name = string.IsNullOrWhiteSpace( baseName ) ? "Page" : baseName.Trim();
@@ -3202,6 +3341,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// Shows the report toolbar above the designer or viewer surface.
     /// </summary>
     [Parameter] public bool ShowToolbar { get; set; } = true;
+
+    /// <summary>
+    /// Shows page navigation above the designer surface.
+    /// </summary>
+    [Parameter] public bool ShowPageTabs { get; set; } = true;
 
     /// <summary>
     /// Band presentation used when constructing a report from declarative content. Persisted definitions retain their configured value.

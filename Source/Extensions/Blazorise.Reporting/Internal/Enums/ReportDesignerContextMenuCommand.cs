@@ -2,6 +2,10 @@ namespace Blazorise.Reporting.Internal;
 
 internal enum ReportDesignerContextMenuCommand
 {
+    AddPage,
+    DuplicatePage,
+    DeletePage,
+    ShowPageSetup,
     CutElement,
     CopyElement,
     DuplicateElement,
