@@ -46,6 +46,7 @@ public abstract class BaseReportElement : ComponentBase
         definition.CanGrow = CanGrow;
         definition.Suppress = Suppress;
         definition.SnapToGrid = SnapToGrid;
+        definition.ShowCollisionWarnings = ShowCollisionWarnings;
         definition.Appearance = BuildAppearanceDefinition();
         definition.Border = BuildBorderDefinition();
         definition.Class = Class;
@@ -129,6 +130,11 @@ public abstract class BaseReportElement : ComponentBase
     /// Overrides the report-level snap-to-grid behavior for this element. A null value inherits the report setting.
     /// </summary>
     [Parameter] public ReportValue<bool?> SnapToGrid { get; set; } = (bool?)null;
+
+    /// <summary>
+    /// Indicates whether the element participates in designer collision warnings.
+    /// </summary>
+    [Parameter] public bool ShowCollisionWarnings { get; set; } = true;
 
     /// <summary>
     /// Additional CSS classes applied to the element.

@@ -348,6 +348,7 @@ internal sealed class ReportContext
         clone.CanGrow = CloneValue( element.CanGrow );
         clone.Suppress = CloneValue( element.Suppress );
         clone.SnapToGrid = CloneValue( element.SnapToGrid );
+        clone.ShowCollisionWarnings = element.ShowCollisionWarnings;
         clone.Font = CloneFont( element.Font );
         clone.Appearance = CloneAppearance( element.Appearance );
         clone.Border = CloneBorder( element.Border );

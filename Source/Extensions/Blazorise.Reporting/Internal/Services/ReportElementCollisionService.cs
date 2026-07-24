@@ -89,7 +89,8 @@ internal sealed class ReportElementCollisionService
     {
         return elementType is not null
             && elementType != ReportElementType.PageBreak
-            && element?.Suppress?.Value != true;
+            && element?.Suppress?.Value != true
+            && element?.ShowCollisionWarnings != false;
     }
 
     private static (double Left, double Top, double Width, double Height) GetBounds(

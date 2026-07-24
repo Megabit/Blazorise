@@ -2050,6 +2050,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                 return ToggleSelectedElementCanGrow();
             case ReportDesignerContextMenuCommand.ToggleElementSuppression:
                 return ToggleSelectedElementSuppression();
+            case ReportDesignerContextMenuCommand.ToggleElementCollisionWarnings:
+                return ToggleSelectedElementCollisionWarnings();
             case ReportDesignerContextMenuCommand.MergeCellRight:
                 return MergeSelectedTableCellRight();
             case ReportDesignerContextMenuCommand.MergeCellDown:
@@ -2481,6 +2483,18 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         bool value = element.Suppress?.Value != true;
         await UpdateSelectedElements( value ? "Suppress elements" : "Don't suppress elements", currentElement => currentElement.Suppress = ReportValue.Create( value, currentElement.Suppress?.Formula ) );
+        _ = CloseContextMenu();
+    }
+
+    private async Task ToggleSelectedElementCollisionWarnings()
+    {
+        ReportElementDefinition element = selectionManager.FindSelectedElement( EffectiveDefinition );
+
+        if ( element is null )
+            return;
+
+        bool value = !element.ShowCollisionWarnings;
+        await UpdateSelectedElements( value ? "Enable collision warnings" : "Disable collision warnings", currentElement => currentElement.ShowCollisionWarnings = value );
         _ = CloseContextMenu();
     }
 

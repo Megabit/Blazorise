@@ -43,6 +43,7 @@ internal enum ReportDesignerContextMenuCommand
     DeleteElement,
     ToggleElementCanGrow,
     ToggleElementSuppression,
+    ToggleElementCollisionWarnings,
     MergeCellRight,
     MergeCellDown,
     UnmergeCell,

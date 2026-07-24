@@ -198,6 +198,10 @@
                                                    Formula="@GetSharedSelectedElementValue( element => element.Suppress?.Formula )"
                                                    Changed="@UpdateSelectedElementSuppress"
                                                    OpenFormula="@OpenSelectedElementSuppressFormula" />
+            <_ReportDesignerCheckboxProperty Label="Collision warnings"
+                                             Value="@SelectedElement.ShowCollisionWarnings"
+                                             Mixed="@IsSelectedElementValueMixed( element => element.ShowCollisionWarnings )"
+                                             Changed="@(value => UpdateSelectedElement( element => element.ShowCollisionWarnings = value ))" />
             <_ReportDesignerFormulaSelectProperty Label="Snap to grid"
                                                   Value="@GetSelectedElementSnapToGridValue()"
                                                   Mixed="@IsSelectedElementValueMixed( element => element.SnapToGrid?.Value )"

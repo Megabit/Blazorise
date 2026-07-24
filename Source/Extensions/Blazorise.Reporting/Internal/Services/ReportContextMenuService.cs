@@ -56,6 +56,7 @@ internal sealed class ReportContextMenuService
         state.CanPasteElement = hasClipboardElements;
         state.ElementCanGrow = element.CanGrow?.Value == true;
         state.ElementSuppressed = element.Suppress?.Value == true;
+        state.ElementCollisionWarnings = element.ShowCollisionWarnings;
         state.CanOrderSelectedElements = state.SelectedElementCount > 0;
         state.CanAlignOrSizeSelectedElements = state.SelectedElementCount >= ReportDesignerConstants.MinimumBatchElementCount;
         state.CanInsertAggregate = sectionIndex >= 0

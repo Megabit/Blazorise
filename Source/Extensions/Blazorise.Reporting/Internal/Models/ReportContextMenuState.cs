@@ -56,6 +56,8 @@ internal sealed class ReportContextMenuState
 
     internal bool ElementSuppressed { get; set; }
 
+    internal bool ElementCollisionWarnings { get; set; }
+
     internal bool SectionKeepTogether { get; set; }
 
     internal bool SectionNewPageBefore { get; set; }

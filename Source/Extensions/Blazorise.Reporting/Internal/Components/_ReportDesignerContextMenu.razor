@@ -118,6 +118,7 @@
 
             <ContextMenuItem ShowCheckbox Checked="@State.ElementCanGrow" Value="@ReportDesignerContextMenuCommand.ToggleElementCanGrow" Clicked="@OnCommandClicked">Can grow</ContextMenuItem>
             <ContextMenuItem ShowCheckbox Checked="@State.ElementSuppressed" Value="@ReportDesignerContextMenuCommand.ToggleElementSuppression" Clicked="@OnCommandClicked">Suppress</ContextMenuItem>
+            <ContextMenuItem ShowCheckbox Checked="@State.ElementCollisionWarnings" Value="@ReportDesignerContextMenuCommand.ToggleElementCollisionWarnings" Clicked="@OnCommandClicked">Collision warnings</ContextMenuItem>
         }
         else if ( IsCellMenu )
         {

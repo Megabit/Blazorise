@@ -74,6 +74,11 @@ public abstract class ReportElementDefinition
     public ReportValue<bool?> SnapToGrid { get; set; } = (bool?)null;
 
     /// <summary>
+    /// Indicates whether the element participates in designer collision warnings.
+    /// </summary>
+    public bool ShowCollisionWarnings { get; set; } = true;
+
+    /// <summary>
     /// Font settings applied to text rendered by the element.
     /// </summary>
     public ReportFontDefinition Font { get; set; } = new();
