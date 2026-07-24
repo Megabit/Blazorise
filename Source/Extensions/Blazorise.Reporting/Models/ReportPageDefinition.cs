@@ -7,10 +7,20 @@ using Blazorise;
 namespace Blazorise.Reporting;
 
 /// <summary>
-/// Describes the physical page used for report layout.
+/// Describes one named design page, its page setup, and its bands.
 /// </summary>
 public sealed class ReportPageDefinition
 {
+    /// <summary>
+    /// Stable identifier used by the designer and persisted report definition.
+    /// </summary>
+    public string Id { get; set; } = Guid.NewGuid().ToString( "N" );
+
+    /// <summary>
+    /// Friendly page name shown in designer surfaces.
+    /// </summary>
+    public string Name { get; set; }
+
     /// <summary>
     /// Named page size used when explicit dimensions are not supplied.
     /// </summary>
@@ -40,4 +50,9 @@ public sealed class ReportPageDefinition
     /// Printable page margins in points.
     /// </summary>
     public ReportPageMarginsDefinition Margins { get; set; } = new();
+
+    /// <summary>
+    /// Ordered report bands that make up this design page.
+    /// </summary>
+    public List<ReportBandDefinition> Bands { get; set; } = [];
 }

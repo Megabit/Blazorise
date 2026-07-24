@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.Reporting;
 
 /// <summary>
-/// Base class for declarative report bands that register themselves with the current report.
+/// Base class for declarative report bands that register themselves with the current report page.
 /// </summary>
 public abstract class BaseReportSection : ComponentBase
 {
@@ -14,10 +14,10 @@ public abstract class BaseReportSection : ComponentBase
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
-        if ( ReportContext is null )
+        if ( PageContext is null )
             return;
 
-        var section = ReportContext.RegisterSection( new()
+        var section = PageContext.RegisterBand( new()
         {
             Name = Name,
             Type = SectionType,
@@ -63,7 +63,7 @@ public abstract class BaseReportSection : ComponentBase
     /// </summary>
     protected abstract ReportBandType SectionType { get; }
 
-    [CascadingParameter] internal ReportContext ReportContext { get; set; }
+    [CascadingParameter] internal ReportPageContext PageContext { get; set; }
 
     /// <summary>
     /// Friendly band name shown in the designer.

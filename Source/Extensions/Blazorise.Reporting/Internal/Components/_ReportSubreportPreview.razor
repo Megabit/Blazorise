@@ -11,18 +11,18 @@ else
 {
     @foreach ( ReportRenderPage renderPage in RenderPages )
     {
-        <Div Class="b-report-subreport-page" Style="@GetSubreportPageStyle( SubreportDefinition )">
+        <Div Class="b-report-subreport-page" Style="@GetSubreportPageStyle( renderPage.Definition )">
             @foreach ( ReportRenderSection renderSection in renderPage.HeaderSections )
             {
-                @RenderSubreportSection( renderSection )
+                @RenderSubreportSection( renderPage.Definition, renderSection )
             }
             @foreach ( ReportRenderSection renderSection in renderPage.BodySections )
             {
-                @RenderSubreportSection( renderSection )
+                @RenderSubreportSection( renderPage.Definition, renderSection )
             }
             @foreach ( ReportRenderSection renderSection in renderPage.FooterSections )
             {
-                @RenderSubreportSection( renderSection )
+                @RenderSubreportSection( renderPage.Definition, renderSection )
             }
         </Div>
     }

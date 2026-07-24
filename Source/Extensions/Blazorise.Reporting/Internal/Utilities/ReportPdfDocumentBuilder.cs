@@ -16,34 +16,36 @@ internal static class ReportPdfDocumentBuilder
         if ( definition is null )
             return new();
 
-        definition.Page = ReportPageDefinitionHelper.ResolvePage( definition.Page );
+        ReportPageDefinition firstPage = ReportPageDefinitionHelper.ResolvePage( definition.Page );
 
         PdfDocumentDefinition document = new()
         {
             Title = definition.Name,
-            PageSize = ResolvePageSize( definition.Page.Size ),
-            Orientation = ResolveOrientation( definition.Page.Orientation ),
-            PageWidth = definition.Page.Width,
-            PageHeight = definition.Page.Height,
+            PageSize = ResolvePageSize( firstPage.Size ),
+            Orientation = ResolveOrientation( firstPage.Orientation ),
+            PageWidth = firstPage.Width,
+            PageHeight = firstPage.Height,
             Fonts = CollectFonts( definition ).Select( CloneFontFamily ).ToList(),
         };
 
         foreach ( ReportRenderPage renderPage in ReportPreviewRenderPlanner.BuildRenderPages( definition, data ) )
         {
+            ReportDefinition pageDefinition = renderPage.Definition;
+            ReportPageDefinition pageDefinitionSettings = pageDefinition.Page;
             PdfPageDefinition page = new()
             {
-                Size = document.PageSize,
-                Orientation = document.Orientation,
-                Width = definition.Page.Width,
-                Height = definition.Page.Height,
+                Size = ResolvePageSize( pageDefinitionSettings.Size ),
+                Orientation = ResolveOrientation( pageDefinitionSettings.Orientation ),
+                Width = pageDefinitionSettings.Width,
+                Height = pageDefinitionSettings.Height,
             };
 
-            AppendRenderSections( page, definition, data, renderPage.HeaderSections, definition.Page.Margins.Left, definition.Page.Margins.Top );
-            AppendRenderSections( page, definition, data, renderPage.BodySections, definition.Page.Margins.Left, definition.Page.Margins.Top + GetSectionsHeight( renderPage.HeaderSections ) );
+            AppendRenderSections( page, pageDefinition, data, renderPage.HeaderSections, pageDefinitionSettings.Margins.Left, pageDefinitionSettings.Margins.Top );
+            AppendRenderSections( page, pageDefinition, data, renderPage.BodySections, pageDefinitionSettings.Margins.Left, pageDefinitionSettings.Margins.Top + GetSectionsHeight( renderPage.HeaderSections ) );
 
             double footerHeight = GetSectionsHeight( renderPage.FooterSections );
-            double footerY = definition.Page.Height - definition.Page.Margins.Bottom - footerHeight;
-            AppendRenderSections( page, definition, data, renderPage.FooterSections, definition.Page.Margins.Left, footerY );
+            double footerY = pageDefinitionSettings.Height - pageDefinitionSettings.Margins.Bottom - footerHeight;
+            AppendRenderSections( page, pageDefinition, data, renderPage.FooterSections, pageDefinitionSettings.Margins.Left, footerY );
 
             document.Pages.Add( page );
         }
@@ -214,19 +216,20 @@ internal static class ReportPdfDocumentBuilder
         if ( renderPage is null )
             return;
 
-        ReportPageDefinition subreportPage = ResolvePageCopy( subreportDefinition.Page );
+        ReportDefinition renderedSubreportDefinition = renderPage.Definition;
+        ReportPageDefinition subreportPage = ResolvePageCopy( renderedSubreportDefinition.Page );
 
         double subreportX = sectionX + element.X;
         double subreportY = sectionY + element.Y;
         double contentX = subreportX + subreportPage.Margins.Left;
         double contentY = subreportY + subreportPage.Margins.Top;
 
-        AppendRenderSections( elements, subreportDefinition, subreportData, renderPage.HeaderSections, contentX, contentY, subreportDepth + 1 );
-        AppendRenderSections( elements, subreportDefinition, subreportData, renderPage.BodySections, contentX, contentY + GetSectionsHeight( renderPage.HeaderSections ), subreportDepth + 1 );
+        AppendRenderSections( elements, renderedSubreportDefinition, subreportData, renderPage.HeaderSections, contentX, contentY, subreportDepth + 1 );
+        AppendRenderSections( elements, renderedSubreportDefinition, subreportData, renderPage.BodySections, contentX, contentY + GetSectionsHeight( renderPage.HeaderSections ), subreportDepth + 1 );
 
         double footerHeight = GetSectionsHeight( renderPage.FooterSections );
         double footerY = subreportY + subreportPage.Height - subreportPage.Margins.Bottom - footerHeight;
-        AppendRenderSections( elements, subreportDefinition, subreportData, renderPage.FooterSections, contentX, footerY, subreportDepth + 1 );
+        AppendRenderSections( elements, renderedSubreportDefinition, subreportData, renderPage.FooterSections, contentX, footerY, subreportDepth + 1 );
     }
 
     private static void AppendRenderSections( IList<PdfElementDefinition> elements, ReportDefinition definition, object data, IReadOnlyList<ReportRenderSection> renderSections, double x, double y, int subreportDepth )

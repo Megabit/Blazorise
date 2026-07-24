@@ -90,11 +90,6 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [Parameter] public object Data { get; set; }
 
     /// <summary>
-    /// Page settings used by the declarative report seed.
-    /// </summary>
-    [Parameter] public ReportPageDefinition Page { get; set; }
-
-    /// <summary>
     /// Enables the interactive designer surface for this report.
     /// </summary>
     [Parameter] public bool DesignerEnabled { get; set; }

@@ -11,14 +11,16 @@
     <ReportDataSources>
         <ReportObjectDataSource Name="Invoice" Data="@invoice" />
     </ReportDataSources>
-    <ReportHeader Name="Stateful report header" Height="72">
-        <ReportText Text="Persistent report definition" X="30" Y="18" Width="270" Height="24" FontSize="18" Bold FontColor="@ReportColors.Blue" />
-        <ReportText Text="Move elements, save the definition as JSON, and load it again from the toolbar." X="30" Y="45" Width="450" Height="18" />
-    </ReportHeader>
-    <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
-        <ReportField Field="Description" X="30" Y="6" Width="270" Height="18" />
-        <ReportField Field="Total" Format="@ReportFormats.Currency()" X="420" Y="6" Width="90" Height="18" />
-    </ReportDetail>
+    <ReportPage Name="Invoice">
+        <ReportHeader Name="Stateful report header" Height="72">
+            <ReportText Text="Persistent report definition" X="30" Y="18" Width="270" Height="24" FontSize="18" Bold FontColor="@ReportColors.Blue" />
+            <ReportText Text="Move elements, save the definition as JSON, and load it again from the toolbar." X="30" Y="45" Width="450" Height="18" />
+        </ReportHeader>
+        <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
+            <ReportField Field="Description" X="30" Y="6" Width="270" Height="18" />
+            <ReportField Field="Total" Format="@ReportFormats.Currency()" X="420" Y="6" Width="90" Height="18" />
+        </ReportDetail>
+    </ReportPage>
 </Report>
 
 @code {

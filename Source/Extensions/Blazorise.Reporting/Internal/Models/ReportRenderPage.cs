@@ -8,6 +8,8 @@ internal sealed class ReportRenderPage
 {
     #region Properties
 
+    internal ReportDefinition Definition { get; set; }
+
     internal int PageNumber { get; set; }
 
     internal IReadOnlyList<ReportRenderSection> HeaderSections { get; set; } = [];

@@ -115,6 +115,7 @@ public partial class _ReportTreeViewNode
         => Node?.Kind switch
         {
             ReportTreeNodeKind.Report => IconName.FileAlt,
+            ReportTreeNodeKind.Page => IconName.File,
             ReportTreeNodeKind.SourceFields => IconName.Database,
             ReportTreeNodeKind.FormulaFields => IconName.Magic,
             ReportTreeNodeKind.FormulaField => IconName.Code,

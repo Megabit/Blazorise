@@ -74,7 +74,8 @@ internal static class ReportDesignerTreeBuilder
         string selectedCellKey,
         Func<string, bool> isElementSelected,
         bool allowSubreport = true,
-        string searchText = null )
+        string searchText = null,
+        bool currentPageOnly = false )
     {
         searchText = searchText?.Trim();
 
@@ -87,27 +88,42 @@ internal static class ReportDesignerTreeBuilder
                 Kind = ReportTreeNodeKind.Report,
                 Selectable = true,
                 Selected = reportSelected,
-                Children = definition.Bands.Select( ( section, sectionIndex ) => new ReportTreeNode
+                Children = definition.Pages.Select( ( page, pageIndex ) => new ReportTreeNode
                 {
-                    Key = CreateSectionTreeNodeKey( sectionIndex ),
-                    Text = ReportDefinitionHelper.GetSectionDisplayName( section ),
-                    Detail = ReportDefinitionHelper.GetSectionTypeDisplayName( section.Type ),
-                    Kind = ReportTreeNodeKind.Band,
+                    Key = CreatePageTreeNodeKey( page.Id ),
+                    Text = string.IsNullOrWhiteSpace( page.Name ) ? $"Page {pageIndex + 1}" : page.Name,
+                    Detail = "Page",
+                    Kind = ReportTreeNodeKind.Page,
                     Selectable = true,
-                    Selected = selectedSectionIndex == sectionIndex && string.IsNullOrWhiteSpace( selectedElementKey ),
-                    Children = section.Elements
-                        .Where( element => allowSubreport || element.Type != ReportElementType.Subreport )
-                        .Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected, allowSubreport ) )
-                        .ToList(),
+                    Children = ( page.Bands ?? [] ).Select( ( section, sectionIndex ) => new ReportTreeNode
+                    {
+                        Key = CreateSectionTreeNodeKey( page.Id, sectionIndex ),
+                        Text = ReportDefinitionHelper.GetSectionDisplayName( section ),
+                        Detail = ReportDefinitionHelper.GetSectionTypeDisplayName( section.Type ),
+                        Kind = ReportTreeNodeKind.Band,
+                        Selectable = true,
+                        Selected = ReferenceEquals( page, definition.Page )
+                            && selectedSectionIndex == sectionIndex
+                            && string.IsNullOrWhiteSpace( selectedElementKey ),
+                        Children = section.Elements
+                            .Where( element => allowSubreport || element.Type != ReportElementType.Subreport )
+                            .Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected, allowSubreport ) )
+                            .ToList(),
+                    } )
+                    .ToList(),
                 } )
-                .Where( node => FilterReportSectionNode( node, searchText ) )
+                .Where( node => ( !currentPageOnly || string.Equals( node.Key, CreatePageTreeNodeKey( definition.Page.Id ), StringComparison.Ordinal ) )
+                    && FilterReportPageNode( node, searchText ) )
                 .ToList(),
             }
         ];
     }
 
-    internal static string CreateSectionTreeNodeKey( int sectionIndex )
-        => $"report:section:{sectionIndex}";
+    internal static string CreatePageTreeNodeKey( string pageId )
+        => $"report:page:{pageId}";
+
+    internal static string CreateSectionTreeNodeKey( string pageId, int sectionIndex )
+        => $"report:page:{pageId}:section:{sectionIndex.ToString( CultureInfo.InvariantCulture )}";
 
     internal static string CreateElementTreeNodeKey( string elementKey )
         => $"report:element:{elementKey}";
@@ -118,13 +134,38 @@ internal static class ReportDesignerTreeBuilder
     internal static string CreateTableCellTreeNodeKey( string cellKey )
         => $"report:table-cell:{cellKey}";
 
-    internal static bool TryResolveSectionTreeNode( ReportTreeNode node, out int sectionIndex )
+    internal static bool TryResolveSectionTreeNode( ReportTreeNode node, out string pageId, out int sectionIndex )
     {
+        pageId = null;
         sectionIndex = -1;
 
-        return node?.Key is not null
-            && node.Key.StartsWith( "report:section:", StringComparison.Ordinal )
-            && int.TryParse( node.Key["report:section:".Length..], NumberStyles.Integer, CultureInfo.InvariantCulture, out sectionIndex );
+        if ( node?.Key is null || !node.Key.StartsWith( "report:page:", StringComparison.Ordinal ) )
+            return false;
+
+        int separatorIndex = node.Key.IndexOf( ":section:", "report:page:".Length, StringComparison.Ordinal );
+
+        if ( separatorIndex < 0 )
+            return false;
+
+        pageId = node.Key["report:page:".Length..separatorIndex];
+
+        return !string.IsNullOrWhiteSpace( pageId )
+            && int.TryParse( node.Key[( separatorIndex + ":section:".Length )..], NumberStyles.Integer, CultureInfo.InvariantCulture, out sectionIndex );
+    }
+
+    internal static bool TryResolvePageTreeNode( ReportTreeNode node, out string pageId )
+    {
+        pageId = null;
+
+        if ( node?.Key is null || !node.Key.StartsWith( "report:page:", StringComparison.Ordinal )
+            || node.Key.Contains( ":section:", StringComparison.Ordinal ) )
+        {
+            return false;
+        }
+
+        pageId = node.Key["report:page:".Length..];
+
+        return !string.IsNullOrWhiteSpace( pageId );
     }
 
     internal static bool TryResolveElementTreeNode( ReportTreeNode node, out string elementKey )
@@ -173,6 +214,21 @@ internal static class ReportDesignerTreeBuilder
                 _ => [],
             },
         };
+    }
+
+    private static bool FilterReportPageNode( ReportTreeNode node, string searchText )
+    {
+        if ( string.IsNullOrWhiteSpace( searchText )
+             || node.Text?.Contains( searchText, StringComparison.OrdinalIgnoreCase ) == true )
+        {
+            return true;
+        }
+
+        node.Children = node.Children
+            .Where( child => FilterReportSectionNode( child, searchText ) )
+            .ToList();
+
+        return node.Children.Count > 0;
     }
 
     private static bool FilterReportSectionNode( ReportTreeNode node, string searchText )

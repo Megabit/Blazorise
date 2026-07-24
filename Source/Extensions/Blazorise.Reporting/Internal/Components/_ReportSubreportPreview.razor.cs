@@ -19,7 +19,7 @@ public partial class _ReportSubreportPreview
 
     #region Methods
 
-    private RenderFragment RenderSubreportSection( ReportRenderSection renderSection )
+    private RenderFragment RenderSubreportSection( ReportDefinition definition, ReportRenderSection renderSection )
     {
         return builder =>
         {
@@ -32,7 +32,7 @@ public partial class _ReportSubreportPreview
             builder.AddAttribute( sequence++, nameof( _ReportDesignerSection.SectionKey ), $"{renderSection.Section?.Id}:{renderSection.InstanceIndex}:subreport" );
             builder.AddAttribute( sequence++, nameof( _ReportDesignerSection.Section ), renderSection.Section );
             builder.AddAttribute( sequence++, nameof( _ReportDesignerSection.Height ), renderSection.Section?.Height ?? 0 );
-            builder.AddAttribute( sequence++, nameof( _ReportDesignerSection.BodyWidth ), ReportPageDefinitionHelper.GetContentWidth( ResolveSubreportPage( SubreportDefinition ) ) );
+            builder.AddAttribute( sequence++, nameof( _ReportDesignerSection.BodyWidth ), ReportPageDefinitionHelper.GetContentWidth( ResolveSubreportPage( definition ) ) );
             builder.AddAttribute( sequence++, nameof( _ReportDesignerSection.ChildContent ), (RenderFragment)( childBuilder =>
             {
                 if ( renderSection.RenderElements )
@@ -44,12 +44,12 @@ public partial class _ReportSubreportPreview
                         if ( childElement is ReportSubreportElementDefinition )
                             continue;
 
-                        if ( ReportValueResolver.ResolveSuppress( childElement, renderSection.Section, SubreportDefinition, SubreportData, renderSection.Item ) )
+                        if ( ReportValueResolver.ResolveSuppress( childElement, renderSection.Section, definition, SubreportData, renderSection.Item ) )
                             continue;
 
                         childBuilder.OpenComponent<_ReportDesignerElement>( childSequence++ );
                         childBuilder.AddAttribute( childSequence++, nameof( _ReportDesignerElement.Data ), SubreportData );
-                        childBuilder.AddAttribute( childSequence++, nameof( _ReportDesignerElement.Definition ), SubreportDefinition );
+                        childBuilder.AddAttribute( childSequence++, nameof( _ReportDesignerElement.Definition ), definition );
                         childBuilder.AddAttribute( childSequence++, nameof( _ReportDesignerElement.Section ), renderSection.Section );
                         childBuilder.AddAttribute( childSequence++, nameof( _ReportDesignerElement.Item ), renderSection.Item );
                         childBuilder.AddAttribute( childSequence++, nameof( _ReportDesignerElement.RunningTotals ), renderSection.RunningTotals );

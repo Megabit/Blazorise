@@ -109,6 +109,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private string activeSubreportElementKey;
 
+    private string activePageId;
+
+    private ReportDefinition activePageScope;
+
+    private ReportDefinition activePageScopeOwner;
+
     #endregion
 
     #region Constructors
@@ -195,7 +201,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private ReportDefinition BuildDeclarativeDefinition()
     {
-        var definition = context.BuildDefinition( Page ?? context.Page );
+        var definition = context.BuildDefinition();
 
         if ( !definition.DataSources.Any() && Data is not null )
         {
@@ -207,7 +213,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             } );
         }
 
-        definition.Page = ResolvePage( definition.Page );
+        foreach ( ReportPageDefinition page in definition.Pages )
+            ResolvePage( page );
         definition.Designer = new()
         {
             BandMode = BandMode,
@@ -308,51 +315,84 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         return Task.CompletedTask;
     }
 
-    internal Task OnReportTreeNodeClicked( ReportTreeNode node )
+    internal async Task OnReportTreeNodeClicked( ReportTreeNode node )
     {
         if ( string.Equals( node?.Key, "report", StringComparison.Ordinal ) )
         {
             SelectReport();
         }
-        else if ( ReportDesignerTreeBuilder.TryResolveSectionTreeNode( node, out var sectionIndex ) )
+        else if ( ReportDesignerTreeBuilder.TryResolvePageTreeNode( node, out string pageId ) )
         {
+            await SelectDesignerPage( pageId );
+        }
+        else if ( ReportDesignerTreeBuilder.TryResolveSectionTreeNode( node, out string sectionPageId, out var sectionIndex ) )
+        {
+            ActivateDesignerPage( sectionPageId );
             SelectSection( sectionIndex );
         }
         else if ( ReportDesignerTreeBuilder.TryResolveElementTreeNode( node, out var elementKey ) )
         {
-            if ( ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out var elementSectionIndex, out _, out _ )
-                && ReportValueResolver.ResolveStaticSuppress( EffectiveDefinition.Bands[elementSectionIndex] ) )
+            ReportDefinition reportDefinition = ResolveActiveReportDefinition( RootDefinition );
+
+            if ( ReportDefinitionHelper.TryFindElementLocation( reportDefinition, elementKey, out ReportElementLocation location ) )
             {
-                SelectSection( elementSectionIndex );
-            }
-            else
-            {
-                SelectElement( elementKey );
+                ActivateDesignerPage( location.Page.Id );
+
+                if ( ReportValueResolver.ResolveStaticSuppress( EffectiveDefinition.Bands[location.SectionIndex] ) )
+                    SelectSection( location.SectionIndex );
+                else
+                    SelectElement( elementKey );
             }
         }
         else if ( ReportDesignerTreeBuilder.TryResolveTableCellTreeNode( node, out var cellKey ) )
         {
-            SelectTableCell( cellKey );
-        }
+            ReportPageDefinition page = FindDesignerPageContainingCell( cellKey );
 
-        return Task.CompletedTask;
+            if ( page is not null )
+            {
+                ActivateDesignerPage( page.Id );
+                SelectTableCell( cellKey );
+            }
+        }
     }
 
     internal async Task OnReportTreeNodeContextMenu( ReportTreeNodeMouseEventArgs eventArgs )
     {
-        if ( ReportDesignerTreeBuilder.TryResolveSectionTreeNode( eventArgs.Node, out var sectionIndex ) )
+        if ( ReportDesignerTreeBuilder.TryResolveSectionTreeNode( eventArgs.Node, out string pageId, out var sectionIndex ) )
         {
+            ActivateDesignerPage( pageId );
             await OpenSectionContextMenu( sectionIndex, eventArgs.MouseEventArgs );
         }
         else if ( ReportDesignerTreeBuilder.TryResolveElementTreeNode( eventArgs.Node, out var elementKey ) )
         {
-            await OpenElementContextMenu( elementKey, eventArgs.MouseEventArgs );
+            ReportDefinition reportDefinition = ResolveActiveReportDefinition( RootDefinition );
+
+            if ( ReportDefinitionHelper.TryFindElementLocation( reportDefinition, elementKey, out ReportElementLocation location ) )
+            {
+                ActivateDesignerPage( location.Page.Id );
+                await OpenElementContextMenu( elementKey, eventArgs.MouseEventArgs );
+            }
         }
-        else if ( ReportDesignerTreeBuilder.TryResolveTableCellTreeNode( eventArgs.Node, out var cellKey )
-            && ReportDefinitionHelper.TryFindTableCellLocation( EffectiveDefinition, cellKey, out var cellSectionIndex, out _, out _, out _ ) )
+        else if ( ReportDesignerTreeBuilder.TryResolveTableCellTreeNode( eventArgs.Node, out var cellKey ) )
         {
-            await OpenTableCellContextMenu( cellSectionIndex, cellKey, eventArgs.MouseEventArgs );
+            ReportPageDefinition page = FindDesignerPageContainingCell( cellKey );
+
+            if ( page is not null )
+            {
+                ActivateDesignerPage( page.Id );
+
+                if ( ReportDefinitionHelper.TryFindTableCellLocation( EffectiveDefinition, cellKey, out var cellSectionIndex, out _, out _, out _ ) )
+                    await OpenTableCellContextMenu( cellSectionIndex, cellKey, eventArgs.MouseEventArgs );
+            }
         }
+    }
+
+    private ReportPageDefinition FindDesignerPageContainingCell( string cellKey )
+    {
+        ReportDefinition definition = ResolveActiveReportDefinition( RootDefinition );
+
+        return definition.Pages.FirstOrDefault( page =>
+            ReportDefinitionHelper.TryFindTableCellLocation( ReportDefinitionHelper.CreatePageScope( definition, page ), cellKey, out _, out _, out _, out _ ) );
     }
 
     internal Task OnFieldsTreeNodeDragStarted( ReportTreeNodeDragEventArgs eventArgs )
@@ -932,7 +972,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             Definition = ReportContext.CloneDefinition( definition ),
             Mode = CurrentMode,
             PreviewFormat = CurrentPreviewFormat,
-            Selection = selectionManager.CaptureState( definition ),
+            ActivePageId = activePageId,
+            Selection = selectionManager.CaptureState( ResolveActiveDesignerDefinition( definition ) ),
             ClipboardElements = clipboardElements?.Select( ReportContext.CloneElement ).ToList() ?? [],
             ClipboardBandId = clipboardBandId,
         };
@@ -949,10 +990,14 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         declarativeDefinition = definition;
         currentMode = nextState.Mode;
         currentPreviewFormat = nextState.PreviewFormat;
-        activeSubreportElementKey = ResolveActiveSubreportElementKey( definition, previousActiveSubreportElementKey );
+        activePageId = nextState.ActivePageId;
+        activeSubreportElementKey = TryFindDesignerPageOwner( definition, activePageId, out string subreportElementKey )
+            ? subreportElementKey
+            : ResolveActiveSubreportElementKey( definition, previousActiveSubreportElementKey );
+        InvalidateActivePageScope();
         clipboardElements = nextState.ClipboardElements?.Select( ReportContext.CloneElement ).ToList() ?? [];
         clipboardBandId = nextState.ClipboardBandId;
-        selectionManager.ApplyState( definition, nextState.Selection );
+        selectionManager.ApplyState( ResolveActiveDesignerDefinition( definition ), nextState.Selection );
         if ( !string.Equals( previousActiveSubreportElementKey, activeSubreportElementKey, StringComparison.Ordinal ) )
             ResetDesignerSurfaceScrollPosition();
 
@@ -2152,7 +2197,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             var definition = EffectiveDefinition;
 
             update?.Invoke( definition.Page );
-            definition.Page = ResolvePage( definition.Page );
+            ResolvePage( definition.Page );
 
             return Task.CompletedTask;
         } ) );
@@ -2662,12 +2707,45 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal ReportDefinition ResolveActiveDesignerDefinition( ReportDefinition rootDefinition )
     {
-        if ( CurrentMode != ReportMode.Design || !TryGetActiveSubreportElement( rootDefinition, out ReportSubreportElementDefinition subreportElement ) )
+        ReportDefinition reportDefinition = ResolveActiveReportDefinition( rootDefinition );
+
+        if ( activePageScope is not null
+             && ReferenceEquals( activePageScopeOwner, reportDefinition )
+             && string.Equals( activePageScope.ScopedPage?.Id, activePageId, StringComparison.Ordinal ) )
         {
-            return rootDefinition;
+            return activePageScope;
         }
 
+        ReportPageDefinition page = ResolveActivePage( reportDefinition );
+        activePageScopeOwner = reportDefinition;
+        activePageScope = ReportDefinitionHelper.CreatePageScope( reportDefinition, page );
+
+        return activePageScope;
+    }
+
+    private ReportDefinition ResolveActiveReportDefinition( ReportDefinition rootDefinition )
+    {
+        if ( CurrentMode != ReportMode.Design || !TryGetActiveSubreportElement( rootDefinition, out ReportSubreportElementDefinition subreportElement ) )
+            return rootDefinition;
+
         return ReportDefinitionHelper.EnsureSubreportDefinition( subreportElement ) ?? rootDefinition;
+    }
+
+    private ReportPageDefinition ResolveActivePage( ReportDefinition definition )
+    {
+        ReportPageDefinition defaultPage = definition.Page;
+        ReportPageDefinition page = definition.Pages.FirstOrDefault( page => string.Equals( page.Id, activePageId, StringComparison.Ordinal ) )
+            ?? defaultPage;
+
+        activePageId = page.Id;
+
+        return page;
+    }
+
+    private void InvalidateActivePageScope()
+    {
+        activePageScope = null;
+        activePageScopeOwner = null;
     }
 
     internal object GetFieldsExplorerData( ReportDefinition rootDefinition )
@@ -2726,7 +2804,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             },
         ];
 
-        foreach ( ReportSubreportElementDefinition subreport in ReportDefinitionHelper.EnumerateSubreportElements( rootDefinition ) )
+        foreach ( ReportSubreportElementDefinition subreport in EnumeratePageSubreports( ResolveDesignerHostPage( rootDefinition ) ) )
         {
             string key = ReportDefinitionHelper.EnsureElementId( subreport );
 
@@ -2746,6 +2824,140 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         return tabs;
     }
 
+    private ReportPageDefinition ResolveDesignerHostPage( ReportDefinition rootDefinition )
+    {
+        if ( !string.IsNullOrWhiteSpace( activeSubreportElementKey )
+             && ReportDefinitionHelper.TryFindElementLocation( rootDefinition, activeSubreportElementKey, out ReportElementLocation location ) )
+        {
+            return location.Page;
+        }
+
+        return ResolveActivePage( rootDefinition );
+    }
+
+    private static IEnumerable<ReportSubreportElementDefinition> EnumeratePageSubreports( ReportPageDefinition page )
+    {
+        return ReportDefinitionHelper
+            .EnumerateElements( page.Bands.SelectMany( section => section.Elements ) )
+            .OfType<ReportSubreportElementDefinition>();
+    }
+
+    internal IReadOnlyList<ReportDesignerTabItem> GetDesignerPageTabs( ReportDefinition rootDefinition )
+    {
+        string selectedPageId = ResolveDesignerHostPage( rootDefinition ).Id;
+
+        return rootDefinition.Pages.Select( ( page, pageIndex ) => new ReportDesignerTabItem
+        {
+            Key = page.Id,
+            Text = string.IsNullOrWhiteSpace( page.Name ) ? $"Page {pageIndex + 1}" : page.Name,
+            Active = string.Equals( page.Id, selectedPageId, StringComparison.Ordinal ),
+        } ).ToList();
+    }
+
+    internal Task SelectDesignerPage( string pageId )
+    {
+        string previousActiveSubreportElementKey = activeSubreportElementKey;
+
+        if ( !ActivateDesignerPage( pageId ) )
+            return Task.CompletedTask;
+
+        SelectReport();
+        RefreshDesigner( string.Equals( previousActiveSubreportElementKey, activeSubreportElementKey, StringComparison.Ordinal )
+            ? ReportDesignerRefreshTarget.Designer
+            : ReportDesignerRefreshTarget.DesignerWithFieldsExplorer );
+
+        return InvokeAsync( StateHasChanged );
+    }
+
+    private bool ActivateDesignerPage( string pageId )
+    {
+        if ( !TryFindDesignerPageOwner( RootDefinition, pageId, out string subreportElementKey )
+             || ( string.Equals( activePageId, pageId, StringComparison.Ordinal )
+                  && string.Equals( activeSubreportElementKey, subreportElementKey, StringComparison.Ordinal ) ) )
+        {
+            return false;
+        }
+
+        activeSubreportElementKey = subreportElementKey;
+        activePageId = pageId;
+        InvalidateActivePageScope();
+        ResetDesignerSurfaceScrollPosition();
+        InvalidateDesignerCaches();
+
+        return true;
+    }
+
+    private static bool TryFindDesignerPageOwner( ReportDefinition rootDefinition, string pageId, out string subreportElementKey )
+    {
+        subreportElementKey = null;
+
+        if ( string.IsNullOrWhiteSpace( pageId ) )
+            return false;
+
+        if ( rootDefinition.Pages.Any( page => string.Equals( page.Id, pageId, StringComparison.Ordinal ) ) )
+            return true;
+
+        foreach ( ReportSubreportElementDefinition subreport in ReportDefinitionHelper.EnumerateSubreportElements( rootDefinition ) )
+        {
+            ReportDefinition definition = ReportDefinitionHelper.EnsureSubreportDefinition( subreport );
+
+            if ( definition.Pages.Any( page => string.Equals( page.Id, pageId, StringComparison.Ordinal ) ) )
+            {
+                subreportElementKey = ReportDefinitionHelper.EnsureElementId( subreport );
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    internal async Task AddDesignerPage()
+    {
+        bool activateMainReport = !string.IsNullOrWhiteSpace( activeSubreportElementKey );
+
+        await ExecuteDesignerCommand( new( "Add page", () =>
+        {
+            ReportDefinition reportDefinition = RootDefinition;
+            ReportPageDefinition page = new()
+            {
+                Name = CreateUniquePageName( reportDefinition, $"Page {reportDefinition.Pages.Count + 1}" ),
+                Bands =
+                [
+                    new()
+                    {
+                        Name = "Detail",
+                        Type = ReportBandType.Detail,
+                        Height = 120,
+                        Default = true,
+                    },
+                ],
+            };
+
+            reportDefinition.Pages.Add( page );
+            activeSubreportElementKey = null;
+            activePageId = page.Id;
+            InvalidateActivePageScope();
+            selectionManager.SelectReport();
+            ResetDesignerSurfaceScrollPosition();
+
+            return Task.CompletedTask;
+        }, RefreshTargets: activateMainReport
+            ? ReportDesignerRefreshTarget.DesignerWithFieldsExplorer
+            : ReportDesignerRefreshTarget.Designer ) );
+    }
+
+    private static string CreateUniquePageName( ReportDefinition definition, string baseName )
+    {
+        string name = string.IsNullOrWhiteSpace( baseName ) ? "Page" : baseName.Trim();
+        string candidate = name;
+        int index = 2;
+
+        while ( definition.Pages.Any( page => string.Equals( page.Name, candidate, StringComparison.OrdinalIgnoreCase ) ) )
+            candidate = $"{name} {index++}";
+
+        return candidate;
+    }
+
     internal Task SelectDesignerTab( string key )
     {
         string nextActiveSubreportElementKey = string.Equals( key, MainReportDesignerTabKey, StringComparison.Ordinal )
@@ -2756,10 +2968,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             return Task.CompletedTask;
 
         activeSubreportElementKey = nextActiveSubreportElementKey;
+        activePageId = null;
+        InvalidateActivePageScope();
         ResetDesignerSurfaceScrollPosition();
         SelectReport();
         InvalidateDesignerCaches();
-        RefreshDesignerSelection();
+        RefreshDesigner( ReportDesignerRefreshTarget.DesignerWithFieldsExplorer );
 
         return InvokeAsync( StateHasChanged );
     }
@@ -2777,13 +2991,17 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         ReportDefinitionHelper.EnsureSubreportDefinition( subreportElement );
         activeSubreportElementKey = elementKey;
+        activePageId = null;
+        InvalidateActivePageScope();
 
         if ( activeSubreportChanged )
             ResetDesignerSurfaceScrollPosition();
 
         SelectReport();
         InvalidateDesignerCaches();
-        RefreshDesignerSelection();
+        RefreshDesigner( activeSubreportChanged
+            ? ReportDesignerRefreshTarget.DesignerWithFieldsExplorer
+            : ReportDesignerRefreshTarget.Designer );
         StateHasChanged();
 
         return true;
@@ -2862,7 +3080,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal int RenderMutationVersion => renderMutationVersion;
 
-    internal string ToolbarRenderKey => ToolbarStateKey;
+    internal string ToolbarRenderKey => $"{ToolbarStateKey}|{designerRefreshState.Toolbar}";
 
     internal ReportToolbarContext Toolbar => toolbarContext;
 
@@ -2915,7 +3133,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private string SelectedDesignerPanelTabName => selectedDesignerPanelTab.ToString();
 
-    private string ToolbarStateKey => $"{CurrentMode}|{CurrentPreviewFormat}|{activeSubreportElementKey}|{selectionManager.PrimaryElementKey}|{selectionManager.SelectedCellKey}|{selectionManager.SelectedElementKeys.Count}|{selectionManager.SelectedSectionIndex}|{clipboardElements.Count}|{commandManager.CanUndo}|{commandManager.CanRedo}";
+    private string ToolbarStateKey => $"{CurrentMode}|{CurrentPreviewFormat}|{activeSubreportElementKey}|{activePageId}|{selectionManager.PrimaryElementKey}|{selectionManager.SelectedCellKey}|{selectionManager.SelectedElementKeys.Count}|{selectionManager.SelectedSectionIndex}|{clipboardElements.Count}|{commandManager.CanUndo}|{commandManager.CanRedo}";
 
     private string DataSourceName => "Default";
 
@@ -2973,11 +3191,6 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// Default data source object or enumerable used when no explicit <see cref="ReportDataSource"/> is declared.
     /// </summary>
     [Parameter] public object Data { get; set; }
-
-    /// <summary>
-    /// Page settings used by the declarative report seed.
-    /// </summary>
-    [Parameter] public ReportPageDefinition Page { get; set; }
 
     /// <summary>
     /// Enables the interactive designer surface for this report.

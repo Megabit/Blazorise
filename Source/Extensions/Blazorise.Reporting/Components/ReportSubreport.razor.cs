@@ -77,7 +77,7 @@ public partial class ReportSubreport
     [Parameter] public string DataSource { get; set; }
 
     /// <summary>
-    /// Declarative report bands placed inside the subreport.
+    /// Declarative report pages placed inside the subreport.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

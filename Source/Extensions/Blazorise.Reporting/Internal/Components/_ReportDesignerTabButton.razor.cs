@@ -27,7 +27,7 @@ public partial class _ReportDesignerTabButton
 
     #region Properties
 
-    private Color ButtonColor => Active ? Color.Primary : Color.Light;
+    private Color ButtonColor => Active ? ActiveColor : Color.Light;
 
     /// <summary>
     /// Stable tab key.
@@ -43,6 +43,21 @@ public partial class _ReportDesignerTabButton
     /// Indicates whether the tab is active.
     /// </summary>
     [Parameter] public bool Active { get; set; }
+
+    /// <summary>
+    /// Icon shown before the tab text.
+    /// </summary>
+    [Parameter] public IconName? Icon { get; set; }
+
+    /// <summary>
+    /// Color used by the active tab.
+    /// </summary>
+    [Parameter] public Color ActiveColor { get; set; } = Color.Primary;
+
+    /// <summary>
+    /// Tab button size.
+    /// </summary>
+    [Parameter] public Size Size { get; set; } = Size.Small;
 
     /// <summary>
     /// Raised when the tab is selected.

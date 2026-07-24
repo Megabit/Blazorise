@@ -52,32 +52,33 @@
         <Div Class="b-report-viewer-pages">
             @foreach ( ReportRenderPage renderPage in Designer.ResolvePreviewRenderPages( definition ) )
             {
-                string renderPageKey = $"{definition.Id}:{renderPage.PageNumber}";
+                ReportDefinition pageDefinition = renderPage.Definition;
+                string renderPageKey = $"{pageDefinition.Page.Id}:{renderPage.PageNumber}";
 
                 <_ReportDesignerPage PageKey="@renderPageKey"
-                                     Width="@definition.Page.Width"
-                                     MinHeight="@definition.Page.Height"
-                                     Height="@definition.Page.Height">
-                    <Div Class="b-report-page-content" Style="@Designer.GetPreviewPageContentStyle( definition )">
+                                     Width="@pageDefinition.Page.Width"
+                                     MinHeight="@pageDefinition.Page.Height"
+                                     Height="@pageDefinition.Page.Height">
+                    <Div Class="b-report-page-content" Style="@Designer.GetPreviewPageContentStyle( pageDefinition )">
                         <_ReportPreviewSections TSection="ReportRenderSection"
                                                 Designer="@Designer"
-                                                Definition="@definition"
+                                                Definition="@pageDefinition"
                                                 Sections="@renderPage.HeaderSections"
                                                 PageNumber="@renderPage.PageNumber"
                                                 KeySuffix="header" />
                         <_ReportPreviewSections TSection="ReportRenderSection"
                                                 Designer="@Designer"
-                                                Definition="@definition"
+                                                Definition="@pageDefinition"
                                                 Sections="@renderPage.BodySections"
                                                 PageNumber="@renderPage.PageNumber"
                                                 KeySuffix="body" />
                     </Div>
                     @if ( renderPage.FooterSections.Count > 0 )
                     {
-                        <Div Class="b-report-page-footer-content" Style="@Designer.GetPreviewPageFooterStyle( definition, renderPage )">
+                        <Div Class="b-report-page-footer-content" Style="@Designer.GetPreviewPageFooterStyle( pageDefinition, renderPage )">
                             <_ReportPreviewSections TSection="ReportRenderSection"
                                                     Designer="@Designer"
-                                                    Definition="@definition"
+                                                    Definition="@pageDefinition"
                                                     Sections="@renderPage.FooterSections"
                                                     PageNumber="@renderPage.PageNumber"
                                                     KeySuffix="footer" />

@@ -55,21 +55,21 @@ internal sealed class ReportRenderService
 
     internal double GetPageWidth( ReportDefinition definition )
     {
-        definition.Page = ReportPageDefinitionHelper.ResolvePage( definition.Page );
+        ReportPageDefinitionHelper.ResolvePage( definition.Page );
 
         return definition.Page.Width;
     }
 
     internal double GetPageContentWidth( ReportDefinition definition )
     {
-        definition.Page = ReportPageDefinitionHelper.ResolvePage( definition.Page );
+        ReportPageDefinitionHelper.ResolvePage( definition.Page );
 
         return ReportPageDefinitionHelper.GetContentWidth( definition.Page );
     }
 
     internal string GetPreviewPageContentStyle( ReportDefinition definition )
     {
-        definition.Page = ReportPageDefinitionHelper.ResolvePage( definition.Page );
+        ReportPageDefinitionHelper.ResolvePage( definition.Page );
 
         var styleBuilder = new StyleBuilder( builder =>
         {
@@ -84,7 +84,7 @@ internal sealed class ReportRenderService
 
     internal string GetPreviewPageFooterStyle( ReportDefinition definition, ReportRenderPage renderPage, System.Func<int, ReportBandDefinition, double> getSectionHeight )
     {
-        definition.Page = ReportPageDefinitionHelper.ResolvePage( definition.Page );
+        ReportPageDefinitionHelper.ResolvePage( definition.Page );
 
         double footerHeight = renderPage.FooterSections.Sum( renderSection => getSectionHeight( renderSection.SectionIndex, renderSection.Section ) );
         var styleBuilder = new StyleBuilder( builder =>

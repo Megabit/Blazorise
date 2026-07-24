@@ -8,6 +8,8 @@ internal sealed class ReportElementLocation
 {
     #region Properties
 
+    internal ReportPageDefinition Page { get; set; }
+
     internal int SectionIndex { get; set; }
 
     internal int ElementIndex { get; set; }

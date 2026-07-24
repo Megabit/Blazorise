@@ -8,7 +8,7 @@ using Blazorise;
 namespace Blazorise.Reporting;
 
 /// <summary>
-/// Describes a complete report document, including page setup, data sources, and bands.
+/// Describes a complete report document, including design pages, data sources, and bands.
 /// </summary>
 public sealed class ReportDefinition
 {
@@ -93,9 +93,9 @@ public sealed class ReportDefinition
     public ReportDesignerDefinition Designer { get; set; } = new();
 
     /// <summary>
-    /// Page setup used by preview and export renderers.
+    /// Ordered design pages that make up the report.
     /// </summary>
-    public ReportPageDefinition Page { get; set; } = new();
+    public List<ReportPageDefinition> Pages { get; set; } = [new()];
 
     /// <summary>
     /// Data sources available to fields and detail bands.
@@ -113,16 +113,36 @@ public sealed class ReportDefinition
     public List<ReportRunningTotalDefinition> RunningTotals { get; set; } = [];
 
     /// <summary>
-    /// Ordered report bands that make up the document body.
-    /// </summary>
-    public List<ReportBandDefinition> Bands { get; set; } = [];
-
-    /// <summary>
     /// Report-scoped font families resolved before globally registered fonts.
     /// </summary>
     public List<FontFamily> Fonts { get; set; } = [];
 
     [JsonIgnore] internal int? RowsLimit { get; set; }
+
+    [JsonIgnore]
+    internal ReportPageDefinition Page
+    {
+        get
+        {
+            if ( ScopedPage is not null )
+                return ScopedPage;
+
+            Pages ??= [];
+
+            if ( Pages.Count == 0 )
+                Pages.Add( new() { Name = "Page 1" } );
+
+            return Pages[0];
+        }
+    }
+
+    [JsonIgnore] internal List<ReportBandDefinition> Bands => Page.Bands ??= [];
+
+    [JsonIgnore] internal ReportPageDefinition ScopedPage { get; set; }
+
+    [JsonIgnore] internal int RenderPageNumber { get; set; } = 1;
+
+    [JsonIgnore] internal int RenderTotalPages { get; set; } = 1;
 
     #endregion
 }

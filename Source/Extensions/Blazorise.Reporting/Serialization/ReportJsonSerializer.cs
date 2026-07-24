@@ -17,7 +17,7 @@ public static class ReportJsonSerializer
     /// <summary>
     /// Current serialized report format version.
     /// </summary>
-    public const int CurrentVersion = 1;
+    public const int CurrentVersion = 2;
 
     private static readonly JsonSerializerOptions serializerOptions = CreateOptions();
 
@@ -53,7 +53,7 @@ public static class ReportJsonSerializer
         ReportDefinition definition = JsonSerializer.Deserialize<ReportDefinition>( json, serializerOptions )
             ?? throw new JsonException( "The report definition could not be deserialized." );
 
-        if ( definition.FormatVersion > CurrentVersion )
+        if ( definition.FormatVersion != CurrentVersion )
             throw new NotSupportedException( $"Report format version {definition.FormatVersion} is not supported." );
 
         definition.FormatVersion = CurrentVersion;
@@ -66,24 +66,35 @@ public static class ReportJsonSerializer
     {
         definition.Designer ??= new();
         definition.Designer.GridSize = Math.Max( 1, definition.Designer.GridSize );
-        definition.Page ??= new();
+        definition.Pages ??= [];
         definition.DataSources ??= [];
         definition.FormulaFields ??= [];
         definition.RunningTotals ??= [];
-        definition.Bands ??= [];
         definition.Fonts ??= [];
 
+        definition.Pages.RemoveAll( item => item is null );
         definition.DataSources.RemoveAll( item => item is null );
         definition.FormulaFields.RemoveAll( item => item is null );
         definition.RunningTotals.RemoveAll( item => item is null );
-        definition.Bands.RemoveAll( item => item is null );
         definition.Fonts.RemoveAll( item => item is null );
+
+        if ( definition.Pages.Count == 0 )
+            definition.Pages.Add( new() { Name = "Page 1" } );
+
+        for ( int pageIndex = 0; pageIndex < definition.Pages.Count; pageIndex++ )
+        {
+            ReportPageDefinition page = definition.Pages[pageIndex];
+            page.Name ??= $"Page {pageIndex + 1}";
+            page.Margins ??= new();
+            page.Bands ??= [];
+            page.Bands.RemoveAll( item => item is null );
+
+            foreach ( ReportBandDefinition band in page.Bands )
+                band.Elements ??= [];
+        }
 
         foreach ( ReportDataSourceDefinition dataSource in definition.DataSources )
             dataSource.Settings ??= [];
-
-        foreach ( ReportBandDefinition band in definition.Bands )
-            band.Elements ??= [];
     }
 
     private static JsonSerializerOptions CreateOptions()

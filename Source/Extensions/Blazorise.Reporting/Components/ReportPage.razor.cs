@@ -6,42 +6,48 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.Reporting;
 
 /// <summary>
-/// Declares page size and orientation for a report.
+/// Declares a named report design page and the bands it contains.
 /// </summary>
 public partial class ReportPage : ComponentBase
 {
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    protected override void OnInitialized()
     {
-        if ( ReportContext is not null )
+        ReportPageDefinition page = new()
         {
-            ReportContext.RegisterPage( Page );
-        }
+            Name = Name,
+            Size = Size,
+            MeasurementUnit = MeasurementUnit,
+            Orientation = Orientation,
+            Width = ReportMeasurementConverter.ToPoints( Width, MeasurementUnit ),
+            Height = ReportMeasurementConverter.ToPoints( Height, MeasurementUnit ),
+            Margins = new()
+            {
+                Left = ReportMeasurementConverter.ToPoints( MarginLeft, MeasurementUnit ),
+                Top = ReportMeasurementConverter.ToPoints( MarginTop, MeasurementUnit ),
+                Right = ReportMeasurementConverter.ToPoints( MarginRight, MeasurementUnit ),
+                Bottom = ReportMeasurementConverter.ToPoints( MarginBottom, MeasurementUnit ),
+            },
+        };
+
+        PageContext = new( page );
+        ReportContext?.RegisterPage( page );
     }
 
     #endregion
 
     #region Properties
 
-    internal ReportPageDefinition Page => new()
-    {
-        Size = Size,
-        MeasurementUnit = MeasurementUnit,
-        Orientation = Orientation,
-        Width = ReportMeasurementConverter.ToPoints( Width, MeasurementUnit ),
-        Height = ReportMeasurementConverter.ToPoints( Height, MeasurementUnit ),
-        Margins = new()
-        {
-            Left = ReportMeasurementConverter.ToPoints( MarginLeft, MeasurementUnit ),
-            Top = ReportMeasurementConverter.ToPoints( MarginTop, MeasurementUnit ),
-            Right = ReportMeasurementConverter.ToPoints( MarginRight, MeasurementUnit ),
-            Bottom = ReportMeasurementConverter.ToPoints( MarginBottom, MeasurementUnit ),
-        },
-    };
+    internal ReportPageContext PageContext { get; private set; }
 
     [CascadingParameter] internal ReportContext ReportContext { get; set; }
+
+    /// <summary>
+    /// Friendly page name shown in the designer.
+    /// </summary>
+    [Parameter] public string Name { get; set; }
 
     /// <summary>
     /// Named page size used when explicit dimensions are not supplied.
@@ -87,6 +93,11 @@ public partial class ReportPage : ComponentBase
     /// Bottom printable page margin in the configured measurement unit.
     /// </summary>
     [Parameter] public double MarginBottom { get; set; }
+
+    /// <summary>
+    /// Declarative report bands placed on this page.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }

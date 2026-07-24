@@ -14,6 +14,8 @@ public partial class _ReportDesignerReportExplorer
 
     private string searchText;
 
+    private bool showCurrentPageOnly;
+
     #endregion
 
     #region Properties

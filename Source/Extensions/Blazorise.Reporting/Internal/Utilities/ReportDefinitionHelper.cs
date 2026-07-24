@@ -95,26 +95,33 @@ internal static class ReportDefinitionHelper
         return new()
         {
             Name = string.IsNullOrWhiteSpace( name ) ? "Subreport" : name,
-            Bands =
+            Pages =
             [
                 new()
                 {
-                    Name = "Report Header",
-                    Type = ReportBandType.ReportHeader,
-                    Height = 60,
-                },
-                new()
-                {
-                    Name = "Detail",
-                    Type = ReportBandType.Detail,
-                    Height = 120,
-                    Default = true,
-                },
-                new()
-                {
-                    Name = "Report Footer",
-                    Type = ReportBandType.ReportFooter,
-                    Height = 60,
+                    Name = "Page 1",
+                    Bands =
+                    [
+                        new()
+                        {
+                            Name = "Report Header",
+                            Type = ReportBandType.ReportHeader,
+                            Height = 60,
+                        },
+                        new()
+                        {
+                            Name = "Detail",
+                            Type = ReportBandType.Detail,
+                            Height = 120,
+                            Default = true,
+                        },
+                        new()
+                        {
+                            Name = "Report Footer",
+                            Type = ReportBandType.ReportFooter,
+                            Height = 60,
+                        },
+                    ],
                 },
             ],
         };
@@ -137,12 +144,13 @@ internal static class ReportDefinitionHelper
 
     internal static void RemoveSubreportElements( ReportDefinition definition )
     {
-        if ( definition?.Bands is null )
+        if ( definition?.Pages is null )
             return;
 
-        foreach ( ReportBandDefinition section in definition.Bands )
+        foreach ( ReportPageDefinition page in definition.Pages )
         {
-            RemoveSubreportElements( section.Elements );
+            foreach ( ReportBandDefinition section in page.Bands ?? [] )
+                RemoveSubreportElements( section.Elements );
         }
     }
 
@@ -168,7 +176,7 @@ internal static class ReportDefinitionHelper
 
     internal static IEnumerable<ReportSubreportElementDefinition> EnumerateSubreportElements( ReportDefinition definition )
     {
-        if ( definition?.Bands is null )
+        if ( definition?.Pages is null )
             yield break;
 
         foreach ( ReportSubreportElementDefinition subreport in EnumerateElements( definition ).OfType<ReportSubreportElementDefinition>() )
@@ -191,13 +199,16 @@ internal static class ReportDefinitionHelper
 
     internal static IEnumerable<ReportElementDefinition> EnumerateElements( ReportDefinition definition )
     {
-        if ( definition?.Bands is null )
+        if ( definition?.Pages is null )
             yield break;
 
-        foreach ( ReportBandDefinition section in definition.Bands )
+        foreach ( ReportPageDefinition page in definition.Pages )
         {
-            foreach ( ReportElementDefinition element in EnumerateElements( section.Elements ) )
-                yield return element;
+            foreach ( ReportBandDefinition section in page.Bands ?? [] )
+            {
+                foreach ( ReportElementDefinition element in EnumerateElements( section.Elements ) )
+                    yield return element;
+            }
         }
     }
 
@@ -591,6 +602,7 @@ internal static class ReportDefinitionHelper
             return null;
 
         var definitionIds = new HashSet<string>( StringComparer.Ordinal );
+        var pageIds = new HashSet<string>( StringComparer.Ordinal );
         var dataSourceIds = new HashSet<string>( StringComparer.Ordinal );
         var formulaFieldIds = new HashSet<string>( StringComparer.Ordinal );
         var runningTotalIds = new HashSet<string>( StringComparer.Ordinal );
@@ -617,13 +629,16 @@ internal static class ReportDefinitionHelper
             runningTotal.Id = EnsureUniqueDefinitionId( runningTotal.Id, runningTotalIds );
         }
 
-        foreach ( var section in definition.Bands )
+        foreach ( ReportPageDefinition page in definition.Pages ?? [] )
         {
-            section.Id = EnsureUniqueDefinitionId( section.Id, sectionIds );
+            page.Id = EnsureUniqueDefinitionId( page.Id, pageIds );
 
-            foreach ( var element in section.Elements )
+            foreach ( ReportBandDefinition section in page.Bands ?? [] )
             {
-                EnsureElementIds( element, elementIds, columnIds, rowIds, cellIds );
+                section.Id = EnsureUniqueDefinitionId( section.Id, sectionIds );
+
+                foreach ( ReportElementDefinition element in section.Elements )
+                    EnsureElementIds( element, elementIds, columnIds, rowIds, cellIds );
             }
         }
 
@@ -686,12 +701,18 @@ internal static class ReportDefinitionHelper
         if ( definition is null || string.IsNullOrWhiteSpace( key ) )
             return false;
 
-        for ( int sectionIndex = 0; sectionIndex < definition.Bands.Count; sectionIndex++ )
+        foreach ( ReportPageDefinition page in GetSearchPages( definition ) )
         {
-            ReportBandDefinition section = definition.Bands[sectionIndex];
+            for ( int sectionIndex = 0; sectionIndex < page.Bands.Count; sectionIndex++ )
+            {
+                ReportBandDefinition section = page.Bands[sectionIndex];
 
-            if ( TryFindElementLocation( section.Elements, key, sectionIndex, 0, 0, null, null, null, out location ) )
-                return true;
+                if ( TryFindElementLocation( section.Elements, key, sectionIndex, 0, 0, null, null, null, out location ) )
+                {
+                    location.Page = page;
+                    return true;
+                }
+            }
         }
 
         return false;
@@ -704,12 +725,15 @@ internal static class ReportDefinitionHelper
 
         int lastSectionIndex = -1;
 
-        for ( int sectionIndex = 0; sectionIndex < definition.Bands.Count; sectionIndex++ )
+        foreach ( ReportPageDefinition page in GetSearchPages( definition ) )
         {
-            ReportBandDefinition section = definition.Bands[sectionIndex];
+            for ( int sectionIndex = 0; sectionIndex < page.Bands.Count; sectionIndex++ )
+            {
+                ReportBandDefinition section = page.Bands[sectionIndex];
 
-            if ( RemoveElementsByIds( section.Elements, elementIds ) )
-                lastSectionIndex = sectionIndex;
+                if ( RemoveElementsByIds( section.Elements, elementIds ) )
+                    lastSectionIndex = sectionIndex;
+            }
         }
 
         return lastSectionIndex;
@@ -818,27 +842,61 @@ internal static class ReportDefinitionHelper
         if ( definition is null || string.IsNullOrWhiteSpace( cellKey ) )
             return false;
 
-        for ( int currentSectionIndex = 0; currentSectionIndex < definition.Bands.Count; currentSectionIndex++ )
+        foreach ( ReportPageDefinition page in GetSearchPages( definition ) )
         {
-            ReportBandDefinition section = definition.Bands[currentSectionIndex];
-
-            foreach ( ReportTableElementDefinition tableElement in EnumerateElements( section.Elements ).OfType<ReportTableElementDefinition>() )
+            for ( int currentSectionIndex = 0; currentSectionIndex < page.Bands.Count; currentSectionIndex++ )
             {
-                ReportTableCellDefinition foundCell = ( tableElement.Cells ?? [] ).FirstOrDefault( item => item.Id == cellKey );
+                ReportBandDefinition section = page.Bands[currentSectionIndex];
 
-                if ( foundCell is null )
-                    continue;
+                foreach ( ReportTableElementDefinition tableElement in EnumerateElements( section.Elements ).OfType<ReportTableElementDefinition>() )
+                {
+                    ReportTableCellDefinition foundCell = ( tableElement.Cells ?? [] ).FirstOrDefault( item => item.Id == cellKey );
 
-                sectionIndex = currentSectionIndex;
-                tableIndex = section.Elements.IndexOf( tableElement );
-                table = tableElement;
-                cell = foundCell;
+                    if ( foundCell is null )
+                        continue;
 
-                return true;
+                    sectionIndex = currentSectionIndex;
+                    tableIndex = section.Elements.IndexOf( tableElement );
+                    table = tableElement;
+                    cell = foundCell;
+
+                    return true;
+                }
             }
         }
 
         return false;
+    }
+
+    private static IEnumerable<ReportPageDefinition> GetSearchPages( ReportDefinition definition )
+    {
+        if ( definition?.ScopedPage is not null )
+            return [definition.ScopedPage];
+
+        return definition?.Pages ?? [];
+    }
+
+    internal static ReportDefinition CreatePageScope( ReportDefinition definition, ReportPageDefinition page )
+    {
+        if ( definition is null || page is null )
+            return definition;
+
+        return new()
+        {
+            FormatVersion = definition.FormatVersion,
+            Id = definition.Id,
+            Name = definition.Name,
+            Designer = definition.Designer,
+            Pages = definition.Pages,
+            DataSources = definition.DataSources,
+            FormulaFields = definition.FormulaFields,
+            RunningTotals = definition.RunningTotals,
+            Fonts = definition.Fonts,
+            RowsLimit = definition.RowsLimit,
+            ScopedPage = page,
+            RenderPageNumber = definition.RenderPageNumber,
+            RenderTotalPages = definition.RenderTotalPages,
+        };
     }
 
     internal static string CreateDefinitionId()

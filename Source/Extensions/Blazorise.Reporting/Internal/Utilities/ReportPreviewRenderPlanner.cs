@@ -60,10 +60,38 @@ internal static class ReportPreviewRenderPlanner
 
     internal static IReadOnlyList<ReportRenderPage> BuildRenderPages( ReportDefinition definition, object data )
     {
-        if ( definition?.Bands is null )
+        if ( definition is null )
             return [];
 
-        definition.Page = ReportPageDefinitionHelper.ResolvePage( definition.Page );
+        _ = definition.Page;
+
+        List<ReportRenderPage> pages = [];
+
+        foreach ( ReportPageDefinition page in definition.Pages )
+        {
+            ReportDefinition pageDefinition = ReportDefinitionHelper.CreatePageScope( definition, page );
+            pages.AddRange( BuildPageRenderPages( pageDefinition, data ) );
+        }
+
+        int totalPages = pages.Count;
+
+        for ( int pageIndex = 0; pageIndex < totalPages; pageIndex++ )
+        {
+            ReportRenderPage page = pages[pageIndex];
+            ReportDefinition pageDefinition = ReportDefinitionHelper.CreatePageScope( page.Definition, page.Definition.Page );
+
+            pageDefinition.RenderPageNumber = pageIndex + 1;
+            pageDefinition.RenderTotalPages = totalPages;
+            page.Definition = pageDefinition;
+            page.PageNumber = pageDefinition.RenderPageNumber;
+        }
+
+        return pages;
+    }
+
+    private static IReadOnlyList<ReportRenderPage> BuildPageRenderPages( ReportDefinition definition, object data )
+    {
+        ReportPageDefinitionHelper.ResolvePage( definition.Page );
 
         var pageHeaderSections = BuildPageBandRenderSections( definition, data, ReportBandType.PageHeader );
         var pageFooterSections = BuildPageBandRenderSections( definition, data, ReportBandType.PageFooter );
@@ -77,6 +105,7 @@ internal static class ReportPreviewRenderPlanner
             var pageNumber = pageIndex + 1;
             var page = pages[pageIndex];
 
+            page.Definition = definition;
             page.PageNumber = pageNumber;
             page.HeaderSections = pageNumber == 1
                 ? []

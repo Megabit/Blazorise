@@ -65,13 +65,13 @@ internal static class ReportSpecialFieldResolver
 
         if ( string.Equals( normalizedFieldName, PageNumberFieldName, StringComparison.OrdinalIgnoreCase ) )
         {
-            value = 1;
+            value = definition?.RenderPageNumber ?? 1;
             return true;
         }
 
         if ( string.Equals( normalizedFieldName, TotalPagesFieldName, StringComparison.OrdinalIgnoreCase ) )
         {
-            value = 1;
+            value = definition?.RenderTotalPages ?? 1;
             return true;
         }
 

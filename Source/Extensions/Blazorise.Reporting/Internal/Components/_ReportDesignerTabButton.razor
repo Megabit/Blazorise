@@ -2,7 +2,12 @@
 @inherits BaseReportComponent
 
 <Button Color="@ButtonColor"
-        Size="Size.Small"
+        Active="@Active"
+        Size="@Size"
         Clicked="@OnClicked">
+    @if ( Icon is not null )
+    {
+        <Icon Name="@Icon.Value" Margin="MarginIs2FromEnd" />
+    }
     @Text
 </Button>

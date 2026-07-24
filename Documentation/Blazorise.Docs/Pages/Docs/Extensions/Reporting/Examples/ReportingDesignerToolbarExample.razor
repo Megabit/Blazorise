@@ -38,6 +38,7 @@
             <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
             <ReportToolbarItem Command="ReportCommand.DownloadPdf" Caption="Download PDF" />
         </ReportToolbarGroup>
+        <ReportToolbarPages />
         <Div Margin="Margin.IsAuto.FromStart">
             <ReportToolbarGroup>
                 <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" ShowCaption />
@@ -48,18 +49,20 @@
     <ReportDataSources>
         <ReportObjectDataSource Name="Invoice" Data="@invoice" />
     </ReportDataSources>
-    <ReportHeader Name="Toolbar sample header" Height="72">
-        <ReportText Text="Designer toolbar" X="30" Y="18" Width="240" Height="24" FontSize="18" Bold FontColor="@ReportColors.Blue" />
-        <ReportText Text="{Header.Number} - {Customer.Name}" X="30" Y="45" Width="360" Height="18" />
-    </ReportHeader>
-    <ReportPageHeader Name="Column headers" Height="32">
-        <ReportText Text="Description" X="30" Y="8" Width="270" Height="18" Bold />
-        <ReportText Text="Total" X="420" Y="8" Width="90" Height="18" Bold TextAlignment="TextAlignment.End" />
-    </ReportPageHeader>
-    <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
-        <ReportField Field="Description" X="30" Y="6" Width="270" Height="18" />
-        <ReportField Field="Total" Format="@ReportFormats.Currency()" X="420" Y="6" Width="90" Height="18" />
-    </ReportDetail>
+    <ReportPage Name="Invoice">
+        <ReportHeader Name="Toolbar sample header" Height="72">
+            <ReportText Text="Designer toolbar" X="30" Y="18" Width="240" Height="24" FontSize="18" Bold FontColor="@ReportColors.Blue" />
+            <ReportText Text="{Header.Number} - {Customer.Name}" X="30" Y="45" Width="360" Height="18" />
+        </ReportHeader>
+        <ReportPageHeader Name="Column headers" Height="32">
+            <ReportText Text="Description" X="30" Y="8" Width="270" Height="18" Bold />
+            <ReportText Text="Total" X="420" Y="8" Width="90" Height="18" Bold TextAlignment="TextAlignment.End" />
+        </ReportPageHeader>
+        <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
+            <ReportField Field="Description" X="30" Y="6" Width="270" Height="18" />
+            <ReportField Field="Total" Format="@ReportFormats.Currency()" X="420" Y="6" Width="90" Height="18" />
+        </ReportDetail>
+    </ReportPage>
 </Report>
 
 @code {

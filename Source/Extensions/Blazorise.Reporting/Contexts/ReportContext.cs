@@ -18,9 +18,7 @@ internal sealed class ReportContext
 
     private readonly List<FontFamily> fonts = [];
 
-    private readonly List<ReportBandDefinition> sections = [];
-
-    public ReportPageDefinition Page { get; private set; } = new();
+    private readonly List<ReportPageDefinition> pages = [];
 
     public ReportViewerOptions ViewerOptions { get; } = new();
 
@@ -96,40 +94,6 @@ internal sealed class ReportContext
             fonts.Add( font );
     }
 
-    public ReportBandDefinition RegisterSection( ReportBandDefinition section )
-    {
-        if ( string.IsNullOrWhiteSpace( section.Name ) )
-            section.Name = section.Type.ToString();
-
-        var existing = sections.FirstOrDefault( x => string.Equals( x.Name, section.Name, StringComparison.OrdinalIgnoreCase ) );
-
-        if ( existing is null )
-        {
-            sections.Add( section );
-            return section;
-        }
-
-        existing.Type = section.Type;
-        existing.Height = section.Height;
-        existing.DataSource = section.DataSource;
-        existing.Class = section.Class;
-        existing.Style = section.Style;
-        existing.Default = section.Default;
-        existing.Suppress = CloneValue( section.Suppress );
-        existing.ReserveSpaceWhenSuppressed = section.ReserveSpaceWhenSuppressed;
-        existing.PrintOnFirstPage = section.PrintOnFirstPage;
-        existing.PrintOnLastPage = section.PrintOnLastPage;
-        existing.RepeatOnEveryPage = section.RepeatOnEveryPage;
-        existing.KeepTogether = CloneValue( section.KeepTogether );
-        existing.NewPageBefore = CloneValue( section.NewPageBefore );
-        existing.NewPageAfter = CloneValue( section.NewPageAfter );
-        existing.Appearance = CloneAppearance( section.Appearance );
-        existing.Border = CloneBorder( section.Border );
-        existing.Elements.Clear();
-
-        return existing;
-    }
-
     public void RegisterToolbar( ReportToolbar toolbar )
     {
         ToolbarContent = toolbar.ChildContent;
@@ -146,18 +110,23 @@ internal sealed class ReportContext
 
     public void RegisterPage( ReportPageDefinition page )
     {
-        Page = page ?? new();
+        if ( page is null )
+            return;
+
+        if ( string.IsNullOrWhiteSpace( page.Name ) )
+            page.Name = $"Page {pages.Count + 1}";
+
+        pages.Add( page );
     }
 
-    public ReportDefinition BuildDefinition( ReportPageDefinition page = null )
+    public ReportDefinition BuildDefinition()
     {
         var definition = new ReportDefinition
         {
-            Page = ClonePage( page ?? Page ?? new() ),
+            Pages = pages.Count == 0 ? [new() { Name = "Page 1" }] : pages.Select( page => ClonePage( page ) ).ToList(),
             DataSources = dataSources.Select( CloneDataSource ).ToList(),
             FormulaFields = formulaFields.Select( CloneFormulaField ).ToList(),
             Fonts = fonts.Select( CloneFontFamily ).ToList(),
-            Bands = sections.Select( section => CloneSection( section ) ).ToList(),
         };
 
         definition.RunningTotals = runningTotals.Select( CloneRunningTotal ).ToList();
@@ -179,12 +148,11 @@ internal sealed class ReportContext
             Id = definition.Id,
             Name = definition.Name,
             Designer = CloneDesigner( definition.Designer ),
-            Page = ClonePage( definition.Page ?? new() ),
+            Pages = definition.Pages?.Select( page => ClonePage( page, subreportDepth ) ).ToList() ?? [new() { Name = "Page 1" }],
             DataSources = definition.DataSources?.Select( CloneDataSource ).ToList() ?? [],
             FormulaFields = definition.FormulaFields?.Select( CloneFormulaField ).ToList() ?? [],
             RunningTotals = definition.RunningTotals?.Select( CloneRunningTotal ).ToList() ?? [],
             Fonts = definition.Fonts?.Select( CloneFontFamily ).ToList() ?? [],
-            Bands = definition.Bands?.Select( section => CloneSection( section, subreportDepth ) ).ToList() ?? [],
         };
     }
 
@@ -198,6 +166,7 @@ internal sealed class ReportContext
             Definition = CloneDefinition( state.Definition ),
             Mode = state.Mode,
             PreviewFormat = state.PreviewFormat,
+            ActivePageId = state.ActivePageId,
             Selection = CloneSelection( state.Selection ),
             ClipboardElements = state.ClipboardElements?.Select( element => CloneElement( element ) ).ToList() ?? [],
             ClipboardBandId = state.ClipboardBandId,
@@ -220,18 +189,24 @@ internal sealed class ReportContext
         };
     }
 
-    private static ReportPageDefinition ClonePage( ReportPageDefinition page )
+    internal static ReportPageDefinition ClonePage( ReportPageDefinition page )
+        => ClonePage( page, 0 );
+
+    private static ReportPageDefinition ClonePage( ReportPageDefinition page, int subreportDepth )
     {
         page ??= new();
 
         return new()
         {
+            Id = page.Id,
+            Name = page.Name,
             Size = page.Size,
             MeasurementUnit = page.MeasurementUnit,
             Orientation = page.Orientation,
             Width = page.Width,
             Height = page.Height,
             Margins = ClonePageMargins( page.Margins ),
+            Bands = page.Bands?.Select( section => CloneSection( section, subreportDepth ) ).ToList() ?? [],
         };
     }
 

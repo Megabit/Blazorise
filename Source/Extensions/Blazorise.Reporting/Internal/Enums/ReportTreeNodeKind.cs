@@ -11,6 +11,11 @@ public enum ReportTreeNodeKind
     Report,
 
     /// <summary>
+    /// Design page node.
+    /// </summary>
+    Page,
+
+    /// <summary>
     /// Data source node.
     /// </summary>
     DataSource,

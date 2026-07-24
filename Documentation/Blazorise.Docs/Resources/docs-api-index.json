@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-23T12:29:25.0544373Z",
+  "generatedUtc": "2026-07-24T08:35:12.4176813Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -90126,14 +90126,6 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Page",
-          "type": "global::Blazorise.Reporting.ReportPageDefinition",
-          "typeName": "ReportPageDefinition",
-          "defaultValue": "null",
-          "summary": "Page settings used by the declarative report seed.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "PreviewFormat",
           "type": "global::Blazorise.Reporting.ReportPreviewFormat?",
           "typeName": "ReportPreviewFormat?",
@@ -90163,6 +90155,14 @@
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Defines collision warning visibility when constructing a report from declarative content. Persisted definitions retain their configured value.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowCursorGuides",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Defines cursor guide visibility when constructing a report from declarative content. Persisted definitions retain their configured value.",
           "isBlazoriseEnum": false
         },
         {
@@ -90293,6 +90293,14 @@
           "typeName": "EventCallback<bool>",
           "defaultValue": "null",
           "summary": "Raised when collision warning visibility changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowCursorGuidesChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<bool>",
+          "defaultValue": "null",
+          "summary": "Raised when cursor guide visibility changes.",
           "isBlazoriseEnum": false
         },
         {
@@ -91303,8 +91311,16 @@
     {
       "type": "global::Blazorise.Reporting.ReportPage",
       "typeName": "ReportPage",
-      "summary": "$\"\"\"\r\n       Declares page size and orientation for a report.\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Declares a named report design page and the bands it contains.\r\n       \"\"\"",
       "parameters": [
+        {
+          "name": "ChildContent",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
+          "typeName": "RenderFragment",
+          "defaultValue": "null",
+          "summary": "Declarative report bands placed on this page.",
+          "isBlazoriseEnum": false
+        },
         {
           "name": "Height",
           "type": "double?",
@@ -91352,6 +91368,14 @@
           "defaultValue": "ReportMeasurementUnit.Centimeter",
           "summary": "Unit used by the declarative page dimensions and margins.",
           "isBlazoriseEnum": true
+        },
+        {
+          "name": "Name",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Friendly page name shown in the designer.",
+          "isBlazoriseEnum": false
         },
         {
           "name": "Orientation",

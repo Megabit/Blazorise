@@ -8,65 +8,67 @@
     <ReportDataSources>
         <ReportObjectDataSource Name="Invoice" Data="@invoice" />
     </ReportDataSources>
-    <ReportHeader Name="Invoice header" Height="150">
-        <ReportText Text="Layout table invoice" X="30" Y="18" Width="240" Height="24" FontSize="20" Bold FontColor="@ReportColors.Blue" />
-        <ReportTable X="30" Y="55" Width="495" Height="72">
-            <ReportTableRow Height="24">
-                <ReportTableCell>
-                    <ReportText Text="Customer" Bold />
-                </ReportTableCell>
-                <ReportTableCell ColumnSpan="2">
-                    <ReportText Text="{Customer.Name}" />
-                </ReportTableCell>
-                <ReportTableCell>
-                    <ReportText Text="Invoice" Bold />
-                </ReportTableCell>
-                <ReportTableCell>
-                    <ReportText Text="{Header.Number}" />
-                </ReportTableCell>
-            </ReportTableRow>
-            <ReportTableRow Height="24">
-                <ReportTableCell>
-                    <ReportText Text="Address" Bold />
-                </ReportTableCell>
-                <ReportTableCell ColumnSpan="2">
-                    <ReportText Text="{Customer.Address}" />
-                </ReportTableCell>
-                <ReportTableCell>
-                    <ReportText Text="Issued" Bold />
-                </ReportTableCell>
-                <ReportTableCell>
-                    <ReportField Field="Header.IssuedAt" Format="@ReportFormats.Date()" />
-                </ReportTableCell>
-            </ReportTableRow>
-            <ReportTableRow Height="24">
-                <ReportTableCell>
-                    <ReportText Text="Tax number" Bold />
-                </ReportTableCell>
-                <ReportTableCell ColumnSpan="2">
-                    <ReportText Text="{Customer.TaxNumber}" />
-                </ReportTableCell>
-                <ReportTableCell>
-                    <ReportText Text="Total" Bold />
-                </ReportTableCell>
-                <ReportTableCell>
-                    <ReportField Field="Header.Total" Format="@ReportFormats.Currency()" Bold FontColor="@ReportColors.Green" />
-                </ReportTableCell>
-            </ReportTableRow>
-        </ReportTable>
-    </ReportHeader>
-    <ReportPageHeader Name="Line headers" Height="32">
-        <ReportText Text="Sku" X="30" Y="8" Width="75" Height="18" Bold />
-        <ReportText Text="Description" X="120" Y="8" Width="210" Height="18" Bold />
-        <ReportText Text="Qty" X="345" Y="8" Width="60" Height="18" Bold TextAlignment="TextAlignment.End" />
-        <ReportText Text="Total" X="420" Y="8" Width="90" Height="18" Bold TextAlignment="TextAlignment.End" />
-    </ReportPageHeader>
-    <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
-        <ReportField Field="Sku" X="30" Y="6" Width="75" Height="18" />
-        <ReportField Field="Description" X="120" Y="6" Width="210" Height="18" />
-        <ReportField Field="Quantity" Format="@ReportFormats.Number( 2 )" X="345" Y="6" Width="60" Height="18" />
-        <ReportField Field="Total" Format="@ReportFormats.Currency()" X="420" Y="6" Width="90" Height="18" />
-    </ReportDetail>
+    <ReportPage Name="Invoice">
+        <ReportHeader Name="Invoice header" Height="150">
+            <ReportText Text="Layout table invoice" X="30" Y="18" Width="240" Height="24" FontSize="20" Bold FontColor="@ReportColors.Blue" />
+            <ReportTable X="30" Y="55" Width="495" Height="72">
+                <ReportTableRow Height="24">
+                    <ReportTableCell>
+                        <ReportText Text="Customer" Bold />
+                    </ReportTableCell>
+                    <ReportTableCell ColumnSpan="2">
+                        <ReportText Text="{Customer.Name}" />
+                    </ReportTableCell>
+                    <ReportTableCell>
+                        <ReportText Text="Invoice" Bold />
+                    </ReportTableCell>
+                    <ReportTableCell>
+                        <ReportText Text="{Header.Number}" />
+                    </ReportTableCell>
+                </ReportTableRow>
+                <ReportTableRow Height="24">
+                    <ReportTableCell>
+                        <ReportText Text="Address" Bold />
+                    </ReportTableCell>
+                    <ReportTableCell ColumnSpan="2">
+                        <ReportText Text="{Customer.Address}" />
+                    </ReportTableCell>
+                    <ReportTableCell>
+                        <ReportText Text="Issued" Bold />
+                    </ReportTableCell>
+                    <ReportTableCell>
+                        <ReportField Field="Header.IssuedAt" Format="@ReportFormats.Date()" />
+                    </ReportTableCell>
+                </ReportTableRow>
+                <ReportTableRow Height="24">
+                    <ReportTableCell>
+                        <ReportText Text="Tax number" Bold />
+                    </ReportTableCell>
+                    <ReportTableCell ColumnSpan="2">
+                        <ReportText Text="{Customer.TaxNumber}" />
+                    </ReportTableCell>
+                    <ReportTableCell>
+                        <ReportText Text="Total" Bold />
+                    </ReportTableCell>
+                    <ReportTableCell>
+                        <ReportField Field="Header.Total" Format="@ReportFormats.Currency()" Bold FontColor="@ReportColors.Green" />
+                    </ReportTableCell>
+                </ReportTableRow>
+            </ReportTable>
+        </ReportHeader>
+        <ReportPageHeader Name="Line headers" Height="32">
+            <ReportText Text="Sku" X="30" Y="8" Width="75" Height="18" Bold />
+            <ReportText Text="Description" X="120" Y="8" Width="210" Height="18" Bold />
+            <ReportText Text="Qty" X="345" Y="8" Width="60" Height="18" Bold TextAlignment="TextAlignment.End" />
+            <ReportText Text="Total" X="420" Y="8" Width="90" Height="18" Bold TextAlignment="TextAlignment.End" />
+        </ReportPageHeader>
+        <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
+            <ReportField Field="Sku" X="30" Y="6" Width="75" Height="18" />
+            <ReportField Field="Description" X="120" Y="6" Width="210" Height="18" />
+            <ReportField Field="Quantity" Format="@ReportFormats.Number( 2 )" X="345" Y="6" Width="60" Height="18" />
+            <ReportField Field="Total" Format="@ReportFormats.Currency()" X="420" Y="6" Width="90" Height="18" />
+        </ReportDetail>
+    </ReportPage>
 </Report>
 
 @code {

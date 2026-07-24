@@ -21,6 +21,7 @@
 
 <DocsPageParagraph>
     The default designer toolbar includes a panes menu. When defining a custom toolbar, add <Code Tag>ReportToolbarPanesMenu</Code> if users should be able to open, focus, or show flyout panes from the toolbar.
+    Add <Code Tag>ReportToolbarPages</Code> where the page selector and add-page button should appear.
     Designer panes can also be pinned or unpinned from their headers.
 </DocsPageParagraph>
 
@@ -45,7 +46,7 @@
 </DocsPageSection>
 
 <DocsPageParagraph>
-    <Code Tag>ReportDefinition</Code> is the persistent report model. It contains pages, bands, elements, data-source metadata, formulas, running totals, and designer settings such as grid size, rulers, band mode, and collision warnings.
+    <Code Tag>ReportDefinition</Code> is the persistent report model. Its ordered <Code>Pages</Code> collection contains each page's setup, bands, and elements. Data-source metadata, formulas, running totals, and designer settings such as grid size, rulers, band mode, and collision warnings remain report-wide.
     Runtime data objects are intentionally excluded from JSON and must be supplied again through <Code>Data</Code> or declarative data-source components after loading.
 </DocsPageParagraph>
 
@@ -54,7 +55,7 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Use <Code>GetDefinition</Code> and <Code>LoadDefinition</Code> when persistence is initiated outside the toolbar. <Code Tag>ReportState</Code> additionally captures transient interaction state such as the current mode,
+    Use <Code>GetDefinition</Code> and <Code>LoadDefinition</Code> when persistence is initiated outside the toolbar. <Code Tag>ReportState</Code> additionally captures transient interaction state such as the active design page, current mode,
     preview format, selection, and clipboard. It can be captured with <Code>GetState</Code> and restored with <Code>LoadState</Code>, but it is not required for long-term report storage.
 </DocsPageParagraph>
 

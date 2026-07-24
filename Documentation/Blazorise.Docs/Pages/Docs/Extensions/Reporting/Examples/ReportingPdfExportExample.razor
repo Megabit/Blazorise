@@ -26,6 +26,7 @@
             <ReportToolbarItem Command="ReportCommand.PreviewPdf" Caption="PDF Preview" />
             <ReportToolbarItem Command="ReportCommand.DownloadPdf" Caption="Download PDF" />
         </ReportToolbarGroup>
+        <ReportToolbarPages />
         <Div Margin="Margin.IsAuto.FromStart">
             <ReportToolbarGroup>
                 <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" ShowCaption />
@@ -36,24 +37,26 @@
     <ReportDataSources>
         <ReportObjectDataSource Name="Invoice" Data="@invoice" />
     </ReportDataSources>
-    <ReportHeader Name="PDF export header" Height="84">
-        <ReportText Text="PDF export invoice" X="30" Y="18" Width="240" Height="24" FontSize="20" Bold FontColor="@ReportColors.Blue" />
-        <ReportText Text="{Customer.Name}" X="30" Y="48" Width="240" Height="18" />
-        <ReportText Text="{Header.Number}" X="405" Y="48" Width="105" Height="18" TextAlignment="TextAlignment.End" />
-    </ReportHeader>
-    <ReportPageHeader Name="Column headers" Height="32">
-        <ReportText Text="Description" X="30" Y="8" Width="270" Height="18" Bold />
-        <ReportText Text="Total" X="420" Y="8" Width="90" Height="18" Bold TextAlignment="TextAlignment.End" />
-    </ReportPageHeader>
-    <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
-        <ReportField Field="Description" X="30" Y="6" Width="270" Height="18" />
-        <ReportField Field="Total" Format="@ReportFormats.Currency()" X="420" Y="6" Width="90" Height="18" FontColor="@ReportColors.Green" />
-    </ReportDetail>
-    <ReportFooter Name="Invoice footer" Height="45">
-        <ReportLine X="30" Y="6" Width="480" Height="8" Thickness="1" />
-        <ReportText Text="Invoice total" X="300" Y="18" Width="105" Height="18" Bold />
-        <ReportField Field="Header.Total" Format="@ReportFormats.Currency()" X="420" Y="18" Width="90" Height="18" Bold FontColor="@ReportColors.Green" />
-    </ReportFooter>
+    <ReportPage Name="Invoice">
+        <ReportHeader Name="PDF export header" Height="84">
+            <ReportText Text="PDF export invoice" X="30" Y="18" Width="240" Height="24" FontSize="20" Bold FontColor="@ReportColors.Blue" />
+            <ReportText Text="{Customer.Name}" X="30" Y="48" Width="240" Height="18" />
+            <ReportText Text="{Header.Number}" X="405" Y="48" Width="105" Height="18" TextAlignment="TextAlignment.End" />
+        </ReportHeader>
+        <ReportPageHeader Name="Column headers" Height="32">
+            <ReportText Text="Description" X="30" Y="8" Width="270" Height="18" Bold />
+            <ReportText Text="Total" X="420" Y="8" Width="90" Height="18" Bold TextAlignment="TextAlignment.End" />
+        </ReportPageHeader>
+        <ReportDetail Name="Invoice lines" Height="30" DataSource="Invoice.Lines">
+            <ReportField Field="Description" X="30" Y="6" Width="270" Height="18" />
+            <ReportField Field="Total" Format="@ReportFormats.Currency()" X="420" Y="6" Width="90" Height="18" FontColor="@ReportColors.Green" />
+        </ReportDetail>
+        <ReportFooter Name="Invoice footer" Height="45">
+            <ReportLine X="30" Y="6" Width="480" Height="8" Thickness="1" />
+            <ReportText Text="Invoice total" X="300" Y="18" Width="105" Height="18" Bold />
+            <ReportField Field="Header.Total" Format="@ReportFormats.Currency()" X="420" Y="18" Width="90" Height="18" Bold FontColor="@ReportColors.Green" />
+        </ReportFooter>
+    </ReportPage>
 </Report>
 
 @code {

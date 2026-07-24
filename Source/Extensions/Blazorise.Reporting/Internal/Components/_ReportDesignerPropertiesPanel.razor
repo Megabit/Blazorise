@@ -45,6 +45,7 @@
             </Field>
         </_ReportDesignerPropertyGroup>
         <_ReportDesignerPropertyGroup Title="Page">
+            <_ReportDesignerTextProperty Label="Name" Value="@Definition.Page.Name" Changed="@(value => UpdateReportPage( page => page.Name = value ))" />
             <Field Class="b-report-designer-page-unit-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
                 <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">Unit</FieldLabel>
                 <FieldBody ColumnSize="ColumnSizeIs8">

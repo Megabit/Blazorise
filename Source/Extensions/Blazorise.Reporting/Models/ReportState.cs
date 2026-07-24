@@ -27,6 +27,11 @@ public sealed class ReportState
     public ReportPreviewFormat PreviewFormat { get; set; }
 
     /// <summary>
+    /// Identifier of the design page currently shown in the designer.
+    /// </summary>
+    public string ActivePageId { get; set; }
+
+    /// <summary>
     /// Current report, band, or element selection.
     /// </summary>
     public ReportSelectionState Selection { get; set; } = new();

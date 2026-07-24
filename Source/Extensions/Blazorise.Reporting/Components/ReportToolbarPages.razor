@@ -1,0 +1,23 @@
+@namespace Blazorise.Reporting
+@using Blazorise.Reporting.Internal
+
+@if ( ShowPageControls && Designer is not null )
+{
+    <Div Class="b-report-designer-page-toolbar" Flex="FlexAlignItemsCenter" Gap="GapIs1" Margin="MarginIsAutoFromStart">
+        <ReportToolbarGroup>
+            @foreach ( _ReportDesigner.ReportDesignerTabItem tab in Designer.GetDesignerPageTabs( Designer.DesignerRootDefinition ) )
+            {
+                <_ReportDesignerTabButton TabKey="@tab.Key"
+                                          Text="@tab.Text"
+                                          Icon="IconName.File"
+                                          Active="@tab.Active"
+                                          ActiveColor="Color.Light"
+                                          Size="Size.Default"
+                                          Selected="@Designer.SelectDesignerPage" />
+            }
+        </ReportToolbarGroup>
+        <Button Color="Color.Light" Clicked="@Designer.AddDesignerPage" title="Add page" aria-label="Add page">
+            <Icon Name="IconName.Add" />
+        </Button>
+    </Div>
+}

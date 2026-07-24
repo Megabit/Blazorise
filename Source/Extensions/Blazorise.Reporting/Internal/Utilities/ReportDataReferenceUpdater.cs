@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Linq;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -18,7 +19,7 @@ internal static class ReportDataReferenceUpdater
             formulaField.Formula = ReplaceFormulaFieldExpressionToken( formulaField.Formula, oldName, newName );
         }
 
-        foreach ( ReportBandDefinition section in definition.Bands ?? [] )
+        foreach ( ReportBandDefinition section in ( definition.Pages ?? [] ).SelectMany( page => page.Bands ?? [] ) )
         {
             ReplaceFormulaFieldReference( section.Suppress, oldName, newName );
             ReplaceFormulaFieldReference( section.KeepTogether, oldName, newName );
@@ -60,7 +61,7 @@ internal static class ReportDataReferenceUpdater
             runningTotal.EvaluateFormula = ReplaceRunningTotalExpressionToken( runningTotal.EvaluateFormula, oldName, newName );
         }
 
-        foreach ( ReportBandDefinition section in definition.Bands ?? [] )
+        foreach ( ReportBandDefinition section in ( definition.Pages ?? [] ).SelectMany( page => page.Bands ?? [] ) )
         {
             ReplaceRunningTotalReference( section.Suppress, oldName, newName );
             ReplaceRunningTotalReference( section.KeepTogether, oldName, newName );
