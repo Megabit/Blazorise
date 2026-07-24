@@ -616,6 +616,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ContextMenuToolbarItemDisabled( bool disabled ) => disabled ? "disabled" : null;
 
+    public override string ContextMenuToolbarItemEndAligned( bool endAligned ) => endAligned ? "context-menu-toolbar-item-end-aligned" : null;
+
     public override string ContextMenuSubmenu() => "context-menu-submenu";
 
     public override string ContextMenuSubmenuTrigger() => "context-menu-submenu-trigger";

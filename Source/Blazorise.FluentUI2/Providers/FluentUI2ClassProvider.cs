@@ -616,6 +616,8 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ContextMenuToolbarItemDisabled( bool disabled ) => disabled ? "fui-ContextMenuToolbarItem-disabled" : null;
 
+    public override string ContextMenuToolbarItemEndAligned( bool endAligned ) => endAligned ? "fui-ContextMenuToolbarItem-endAligned" : null;
+
     public override string ContextMenuSubmenu() => "fui-ContextMenuSubmenu";
 
     public override string ContextMenuSubmenuTrigger() => "fui-ContextMenuSubmenuTrigger";

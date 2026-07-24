@@ -620,6 +620,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ContextMenuToolbarItemDisabled( bool disabled ) => disabled ? "ant-context-menu-toolbar-item-disabled" : null;
 
+    public override string ContextMenuToolbarItemEndAligned( bool endAligned ) => endAligned ? "ant-context-menu-toolbar-item-end-aligned" : null;
+
     public override string ContextMenuSubmenu() => "ant-context-menu-submenu";
 
     public override string ContextMenuSubmenuTrigger() => "ant-context-menu-submenu-trigger";

@@ -557,6 +557,8 @@ public abstract class ClassProvider : IClassProvider
 
     public virtual string ContextMenuToolbarItemDisabled( bool disabled ) => null;
 
+    public virtual string ContextMenuToolbarItemEndAligned( bool endAligned ) => null;
+
     public virtual string ContextMenuSubmenu() => null;
 
     public virtual string ContextMenuSubmenuTrigger() => null;

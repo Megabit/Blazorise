@@ -559,6 +559,8 @@ class EmptyClassProvider : IClassProvider
 
     public string ContextMenuToolbarItemDisabled( bool disabled ) => null;
 
+    public string ContextMenuToolbarItemEndAligned( bool endAligned ) => null;
+
     public string ContextMenuSubmenu() => null;
 
     public string ContextMenuSubmenuTrigger() => null;

@@ -18,6 +18,8 @@ public partial class ContextMenuToolbarItem : BaseComponent
 
     private bool disabled;
 
+    private bool endAligned;
+
     #endregion
 
     #region Methods
@@ -28,6 +30,7 @@ public partial class ContextMenuToolbarItem : BaseComponent
         builder.Append( ClassProvider.ContextMenuToolbarItem() );
         builder.Append( ClassProvider.ContextMenuToolbarItemActive( Active ) );
         builder.Append( ClassProvider.ContextMenuToolbarItemDisabled( Disabled ) );
+        builder.Append( ClassProvider.ContextMenuToolbarItemEndAligned( EndAligned ) );
 
         base.BuildClasses( builder );
     }
@@ -78,6 +81,23 @@ public partial class ContextMenuToolbarItem : BaseComponent
     /// Indicates whether <see cref="Text"/> should be rendered visibly next to the icon.
     /// </summary>
     [Parameter] public bool ShowText { get; set; }
+
+    /// <summary>
+    /// Pushes this item and any following items to the logical end of the toolbar.
+    /// </summary>
+    [Parameter]
+    public bool EndAligned
+    {
+        get => endAligned;
+        set
+        {
+            if ( endAligned == value )
+                return;
+
+            endAligned = value;
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Indicates the currently active item.

@@ -636,6 +636,8 @@ public class MaterialClassProvider : ClassProvider
 
     public override string ContextMenuToolbarItemDisabled( bool disabled ) => disabled ? "mui-context-menu-toolbar-item-disabled" : null;
 
+    public override string ContextMenuToolbarItemEndAligned( bool endAligned ) => endAligned ? "mui-context-menu-toolbar-item-end-aligned" : null;
+
     public override string ContextMenuSubmenu() => "mui-context-menu-submenu";
 
     public override string ContextMenuSubmenuTrigger() => "mui-context-menu-submenu-trigger";

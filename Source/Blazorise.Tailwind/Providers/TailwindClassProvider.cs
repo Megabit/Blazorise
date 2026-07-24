@@ -908,6 +908,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ContextMenuToolbarItemDisabled( bool disabled ) => disabled ? "tw-context-menu-toolbar-item-disabled" : null;
 
+    public override string ContextMenuToolbarItemEndAligned( bool endAligned ) => endAligned ? "tw-context-menu-toolbar-item-end-aligned" : null;
+
     public override string ContextMenuSubmenu() => "tw-context-menu-submenu";
 
     public override string ContextMenuSubmenuTrigger() => "tw-context-menu-submenu-trigger";

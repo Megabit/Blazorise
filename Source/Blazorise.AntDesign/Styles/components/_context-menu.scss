@@ -116,6 +116,10 @@
     pointer-events: none;
 }
 
+.ant-context-menu-toolbar-item-end-aligned {
+    margin-inline-start: auto;
+}
+
 .ant-context-menu-submenu {
     position: relative;
 }

@@ -4304,6 +4304,10 @@ button {
   pointer-events: none;
 }
 
+.fui-ContextMenuToolbarItem-endAligned {
+  margin-inline-start: auto;
+}
+
 .fui-ContextMenuSubmenu {
   position: relative;
 }

@@ -556,6 +556,8 @@ public interface IClassProvider
 
     string ContextMenuToolbarItemDisabled( bool disabled );
 
+    string ContextMenuToolbarItemEndAligned( bool endAligned );
+
     string ContextMenuSubmenu();
 
     string ContextMenuSubmenuTrigger();

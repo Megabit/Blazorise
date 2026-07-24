@@ -1694,6 +1694,10 @@ body:before {
   pointer-events: none;
 }
 
+.context-menu-toolbar-item-end-aligned {
+  margin-inline-start: auto;
+}
+
 .context-menu-submenu {
   position: relative;
 }

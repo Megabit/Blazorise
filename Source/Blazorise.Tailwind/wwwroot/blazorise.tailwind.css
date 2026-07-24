@@ -8967,6 +8967,9 @@ body:before {
   cursor: default;
   pointer-events: none;
 }
+.tw-context-menu-toolbar-item-end-aligned {
+  margin-inline-start: auto;
+}
 .tw-context-menu-submenu {
   position: relative;
 }

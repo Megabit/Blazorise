@@ -3811,6 +3811,10 @@ body {
   pointer-events: none;
 }
 
+.mui-context-menu-toolbar-item-end-aligned {
+  margin-inline-start: auto;
+}
+
 .mui-context-menu-submenu {
   position: relative;
 }
