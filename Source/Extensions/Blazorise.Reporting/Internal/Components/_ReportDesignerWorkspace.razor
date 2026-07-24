@@ -22,9 +22,14 @@
     <Toolbar>
         @if ( Designer.ShowToolbar )
         {
-            <_ReportDesignerToolbarContent Designer="@Designer" ShowPanesMenu ShowPageControls />
+            <_ReportDesignerToolbarContent Designer="@Designer" ShowPanesMenu />
         }
     </Toolbar>
+    <PageTabs>
+        <CascadingValue Value="@Designer" Name="ReportDesigner" IsFixed="true">
+            <ReportDesignerPageTabs Version="@Designer.RefreshState.PageTabs" />
+        </CascadingValue>
+    </PageTabs>
     <ToolboxPanel>
         <_ReportDesignerToolboxPanel ToolboxNodeDragStarted="@Designer.OnToolboxTreeNodeDragStarted"
                                      AllowSubreport="@Designer.CanInsertSubreport"

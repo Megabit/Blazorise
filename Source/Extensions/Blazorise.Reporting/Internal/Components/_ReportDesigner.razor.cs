@@ -2200,7 +2200,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             ResolvePage( definition.Page );
 
             return Task.CompletedTask;
-        } ) );
+        }, RefreshTargets: ReportDesignerRefreshTarget.Designer | ReportDesignerRefreshTarget.PageTabs ) );
     }
 
     internal async Task InsertSection( bool insertAfter )
@@ -2598,6 +2598,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             ElementSelection = designerRefreshState.ElementSelection + ( ( targets & ReportDesignerRefreshTarget.ElementSelection ) != 0 ? 1 : 0 ),
             FieldsExplorer = designerRefreshState.FieldsExplorer + ( ( targets & ReportDesignerRefreshTarget.FieldsExplorer ) != 0 ? 1 : 0 ),
             Toolbar = designerRefreshState.Toolbar + ( ( targets & ReportDesignerRefreshTarget.Toolbar ) != 0 ? 1 : 0 ),
+            PageTabs = designerRefreshState.PageTabs + ( ( targets & ReportDesignerRefreshTarget.PageTabs ) != 0 ? 1 : 0 ),
         };
     }
 
@@ -2862,9 +2863,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             return Task.CompletedTask;
 
         SelectReport();
-        RefreshDesigner( string.Equals( previousActiveSubreportElementKey, activeSubreportElementKey, StringComparison.Ordinal )
+        RefreshDesigner( ( string.Equals( previousActiveSubreportElementKey, activeSubreportElementKey, StringComparison.Ordinal )
             ? ReportDesignerRefreshTarget.Designer
-            : ReportDesignerRefreshTarget.DesignerWithFieldsExplorer );
+            : ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) | ReportDesignerRefreshTarget.PageTabs );
 
         return InvokeAsync( StateHasChanged );
     }
@@ -2941,9 +2942,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             ResetDesignerSurfaceScrollPosition();
 
             return Task.CompletedTask;
-        }, RefreshTargets: activateMainReport
+        }, RefreshTargets: ( activateMainReport
             ? ReportDesignerRefreshTarget.DesignerWithFieldsExplorer
-            : ReportDesignerRefreshTarget.Designer ) );
+            : ReportDesignerRefreshTarget.Designer ) | ReportDesignerRefreshTarget.PageTabs ) );
     }
 
     private static string CreateUniquePageName( ReportDefinition definition, string baseName )
@@ -2973,7 +2974,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         ResetDesignerSurfaceScrollPosition();
         SelectReport();
         InvalidateDesignerCaches();
-        RefreshDesigner( ReportDesignerRefreshTarget.DesignerWithFieldsExplorer );
+        RefreshDesigner( ReportDesignerRefreshTarget.DesignerWithFieldsExplorer | ReportDesignerRefreshTarget.PageTabs );
 
         return InvokeAsync( StateHasChanged );
     }
@@ -2999,9 +3000,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         SelectReport();
         InvalidateDesignerCaches();
-        RefreshDesigner( activeSubreportChanged
+        RefreshDesigner( ( activeSubreportChanged
             ? ReportDesignerRefreshTarget.DesignerWithFieldsExplorer
-            : ReportDesignerRefreshTarget.Designer );
+            : ReportDesignerRefreshTarget.Designer ) | ReportDesignerRefreshTarget.PageTabs );
         StateHasChanged();
 
         return true;

@@ -27,7 +27,7 @@ public partial class _ReportDesignerWorkspaceDockTree
 
     private DockPaneBody reportExplorerPaneBody;
 
-    private DockPaneBody surfacePaneBody;
+    private Div surfacePaneScrollBody;
 
     private DockPaneBody toolboxPaneBody;
 
@@ -89,6 +89,9 @@ public partial class _ReportDesignerWorkspaceDockTree
 
     internal ElementReference? GetPaneBodyElement( string paneName )
     {
+        if ( string.Equals( paneName, SurfacePaneName, System.StringComparison.Ordinal ) )
+            return surfacePaneScrollBody?.ElementRef;
+
         DockPaneBody paneBody = ResolvePaneBody( paneName );
 
         return paneBody?.ElementRef;
@@ -101,9 +104,6 @@ public partial class _ReportDesignerWorkspaceDockTree
 
         if ( string.Equals( paneName, FieldsExplorerPaneName, System.StringComparison.Ordinal ) )
             return fieldsExplorerPaneBody;
-
-        if ( string.Equals( paneName, SurfacePaneName, System.StringComparison.Ordinal ) )
-            return surfacePaneBody;
 
         if ( string.Equals( paneName, PropertiesPaneName, System.StringComparison.Ordinal ) )
             return propertiesPaneBody;
@@ -157,6 +157,11 @@ public partial class _ReportDesignerWorkspaceDockTree
     /// Targeted pane refresh state applied after pane content has rendered.
     /// </summary>
     [Parameter] public ReportDesignerRefreshState RefreshState { get; set; }
+
+    /// <summary>
+    /// Page navigation shown above the scrollable designer surface.
+    /// </summary>
+    [Parameter] public RenderFragment PageTabs { get; set; }
 
     /// <summary>
     /// Content shown in the toolbox dock pane.

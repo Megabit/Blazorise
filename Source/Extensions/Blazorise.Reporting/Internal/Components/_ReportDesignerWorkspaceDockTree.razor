@@ -50,11 +50,17 @@
                   ShowTab="false"
                   Closable="false">
             <DockPaneBody Class="b-report-designer-surface"
-                          @ref="@surfacePaneBody"
                           Padding="PaddingIs0"
                           Background="BackgroundLight"
-                          Overflow="OverflowAuto">
-                @Surface
+                          Flex="FlexColumn"
+                          Overflow="OverflowHidden">
+                @PageTabs
+                <Div Class="b-report-designer-surface-content"
+                     @ref="@surfacePaneScrollBody"
+                     Flex="FlexGrowIs1"
+                     Overflow="OverflowAuto">
+                    @Surface
+                </Div>
             </DockPaneBody>
         </DockPane>
 

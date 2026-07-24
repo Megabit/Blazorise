@@ -426,6 +426,11 @@ public partial class _ReportDesignerLayout
     [Parameter] public RenderFragment Toolbar { get; set; }
 
     /// <summary>
+    /// Content shown above the scrollable report designer surface.
+    /// </summary>
+    [Parameter] public RenderFragment PageTabs { get; set; }
+
+    /// <summary>
     /// Defines whether the top designer toolbar pane is visible.
     /// </summary>
     [Parameter] public bool ShowToolbar { get; set; } = true;

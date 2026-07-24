@@ -34,6 +34,7 @@ internal static class FluentConstants
     internal static readonly IFluentSpacing MarginIs3FromTop = Margin.Is3.FromTop;
     internal static readonly IFluentSpacing MarginIsAutoFromStart = Margin.IsAuto.FromStart;
     internal static readonly IFluentSpacing PaddingIs0 = Padding.Is0;
+    internal static readonly IFluentSpacing PaddingIs1 = Padding.Is1;
     internal static readonly IFluentSpacing PaddingIs1FromEnd = Padding.Is1.FromEnd;
     internal static readonly IFluentSpacing PaddingIs2 = Padding.Is2;
     internal static readonly IFluentSpacing PaddingIs3 = Padding.Is3;
@@ -58,6 +59,7 @@ internal static class FluentConstants
 
     // Overflow
     internal static readonly IFluentOverflow OverflowAuto = Overflow.Auto;
+    internal static readonly IFluentOverflow OverflowHidden = Overflow.Hidden;
 
     // Typography
     internal static readonly TextAlignment TextAlignmentCenter = TextAlignment.Center;

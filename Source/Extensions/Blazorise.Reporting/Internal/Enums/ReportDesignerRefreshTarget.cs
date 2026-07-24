@@ -13,7 +13,8 @@ internal enum ReportDesignerRefreshTarget
     ElementSelection = 4,
     FieldsExplorer = 8,
     Toolbar = 16,
+    PageTabs = 32,
     Designer = Surface | SelectedPanel | Toolbar,
     DesignerWithFieldsExplorer = Designer | FieldsExplorer,
-    All = DesignerWithFieldsExplorer | ElementSelection,
+    All = DesignerWithFieldsExplorer | ElementSelection | PageTabs,
 }

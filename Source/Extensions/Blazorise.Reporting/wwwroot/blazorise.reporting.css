@@ -191,7 +191,18 @@
   overflow: auto;
 }
 .b-report-designer-surface {
+  min-height: 0;
+  overflow: hidden;
+}
+.b-report-designer-surface-content {
+  min-height: 0;
   overflow: auto;
+}
+.b-report-designer-page-tabs {
+  flex: 0 0 auto;
+  background: var(--b-report-color-surface);
+  border-bottom: var(--b-report-section-border-width) solid var(--b-report-color-border);
+  overflow-x: auto;
 }
 .b-report-designer-toolbar-group:empty {
   display: none;

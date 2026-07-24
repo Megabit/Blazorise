@@ -26910,7 +26910,6 @@ Install-Package Blazorise.Icons.Material";
             <ReportToolbarItem Command=""ReportCommand.ConnectDataSource"" Caption=""Data sources"" ShowCaption />
             <ReportToolbarItem Command=""ReportCommand.Reset"" Caption=""Reset"" />
         </ReportToolbarGroup>
-        <ReportToolbarPages />
         <Div Margin=""Margin.IsAuto.FromStart"">
             <ReportToolbarGroup>
                 <ReportToolbarItem Command=""ReportCommand.Design"" Caption=""Design"" ShowCaption />
@@ -27034,7 +27033,6 @@ Install-Package Blazorise.Icons.Material";
             <ReportToolbarItem Command=""ReportCommand.ConnectDataSource"" Caption=""Data sources"" />
             <ReportToolbarItem Command=""ReportCommand.DownloadPdf"" Caption=""Download PDF"" />
         </ReportToolbarGroup>
-        <ReportToolbarPages />
         <Div Margin=""Margin.IsAuto.FromStart"">
             <ReportToolbarGroup>
                 <ReportToolbarItem Command=""ReportCommand.Design"" Caption=""Design"" ShowCaption />
@@ -27561,7 +27559,6 @@ builder.Services
             <ReportToolbarItem Command=""ReportCommand.PreviewPdf"" Caption=""PDF Preview"" />
             <ReportToolbarItem Command=""ReportCommand.DownloadPdf"" Caption=""Download PDF"" />
         </ReportToolbarGroup>
-        <ReportToolbarPages />
         <Div Margin=""Margin.IsAuto.FromStart"">
             <ReportToolbarGroup>
                 <ReportToolbarItem Command=""ReportCommand.Design"" Caption=""Design"" ShowCaption />

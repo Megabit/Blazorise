@@ -59,7 +59,20 @@
     }
 
     &-surface {
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    &-surface-content {
+        min-height: 0;
         overflow: auto;
+    }
+
+    &-page-tabs {
+        flex: 0 0 auto;
+        background: var(--b-report-color-surface);
+        border-bottom: var(--b-report-section-border-width) solid var(--b-report-color-border);
+        overflow-x: auto;
     }
 
     &-toolbar-group:empty {

@@ -15,7 +15,5 @@ public partial class _ReportDesignerToolbarContent
 
     [Parameter] public bool ShowPanesMenu { get; set; }
 
-    [Parameter] public bool ShowPageControls { get; set; }
-
     #endregion
 }
