@@ -1,5 +1,8 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Reporting;
 using Microsoft.AspNetCore.Components;
@@ -27,6 +30,8 @@ public partial class _CsvReportDataSourceEditor
     private const string CommaDelimiterValue = ",";
 
     private const string SpaceDelimiterValue = " ";
+
+    private const long MaxCsvFileSize = 5 * 1024 * 1024;
 
     private static readonly CsvReportDataSourceEditorOption[] encodingOptions =
     [
@@ -58,6 +63,8 @@ public partial class _CsvReportDataSourceEditor
 
     private string selectedDelimiter;
 
+    private string fileError;
+
     #endregion
 
     #region Methods
@@ -70,6 +77,7 @@ public partial class _CsvReportDataSourceEditor
         {
             currentContext = context;
             selectedDelimiter = null;
+            fileError = null;
         }
 
         return base.SetParametersAsync( parameters );
@@ -77,9 +85,38 @@ public partial class _CsvReportDataSourceEditor
 
     private Task OnSourceChanged( string value )
     {
+        fileError = null;
         Context?.SetValue( CsvReportDataSourceSettings.Source, value );
 
         return Task.CompletedTask;
+    }
+
+    private async Task OnFileChanged( FileChangedEventArgs eventArgs )
+    {
+        IFileEntry file = eventArgs?.Files?.FirstOrDefault();
+
+        if ( file is null )
+            return;
+
+        fileError = null;
+
+        if ( file.Size > MaxCsvFileSize )
+        {
+            fileError = "CSV files cannot be larger than 5 MB.";
+            return;
+        }
+
+        try
+        {
+            using Stream stream = file.OpenReadStream( MaxCsvFileSize );
+            using StreamReader reader = new( stream, CsvReportDataSourceProvider.ResolveEncoding( SelectedEncoding ), true );
+
+            Context?.SetValue( CsvReportDataSourceSettings.Source, await reader.ReadToEndAsync() );
+        }
+        catch ( Exception exception )
+        {
+            fileError = exception.Message;
+        }
     }
 
     private Task OnEncodingChanged( string value )

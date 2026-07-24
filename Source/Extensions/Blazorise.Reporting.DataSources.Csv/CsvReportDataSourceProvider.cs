@@ -64,6 +64,28 @@ public sealed class CsvReportDataSourceProvider : IReportDataSourceProvider
         };
     }
 
+    internal static Encoding ResolveEncoding( string encodingName )
+    {
+        if ( string.IsNullOrWhiteSpace( encodingName ) )
+            return Encoding.UTF8;
+
+        if ( encodingName == CsvReportDataSourceSettings.SystemEncoding )
+            return Encoding.Default;
+
+        try
+        {
+            return Encoding.GetEncoding( encodingName );
+        }
+        catch ( ArgumentException )
+        {
+            return Encoding.UTF8;
+        }
+        catch ( NotSupportedException )
+        {
+            return Encoding.UTF8;
+        }
+    }
+
     private static async Task<CsvDataSourceTable> ReadTable( ReportDataSourceDefinition definition, CancellationToken cancellationToken )
     {
         string source = await ReadSource( definition, cancellationToken );
@@ -121,26 +143,7 @@ public sealed class CsvReportDataSourceProvider : IReportDataSourceProvider
 
     private static Encoding ResolveEncoding( ReportDataSourceDefinition definition )
     {
-        string encodingName = GetSetting( definition, CsvReportDataSourceSettings.Encoding );
-
-        if ( string.IsNullOrWhiteSpace( encodingName ) )
-            return Encoding.UTF8;
-
-        if ( encodingName == CsvReportDataSourceSettings.SystemEncoding )
-            return Encoding.Default;
-
-        try
-        {
-            return Encoding.GetEncoding( encodingName );
-        }
-        catch ( ArgumentException )
-        {
-            return Encoding.UTF8;
-        }
-        catch ( NotSupportedException )
-        {
-            return Encoding.UTF8;
-        }
+        return ResolveEncoding( GetSetting( definition, CsvReportDataSourceSettings.Encoding ) );
     }
 
     private static bool IsUrlSource( string source )

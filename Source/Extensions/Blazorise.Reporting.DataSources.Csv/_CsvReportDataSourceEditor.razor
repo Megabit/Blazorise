@@ -4,8 +4,27 @@
 
 <Div Flex="Flex.Column" Gap="Gap.Is2">
     <Paragraph TextColor="TextColor.Secondary" TextSize="TextSize.Small" Margin="Margin.Is0">
-        Paste CSV text or enter an HTTP/HTTPS URL. File paths are supported outside browser-hosted applications.
+        Choose a local CSV file, paste CSV text, or enter an HTTP/HTTPS URL. File paths are supported outside browser-hosted applications.
     </Paragraph>
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">CSV file</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is8">
+            <FileInput Changed="@OnFileChanged"
+                       Filter=".csv,text/csv,text/plain"
+                       MaxFileSize="@MaxCsvFileSize"
+                       Placeholder="Choose CSV file"
+                       Size="Size.Small"
+                       DisableProgressReport />
+        </FieldBody>
+    </Field>
+
+    @if ( !string.IsNullOrWhiteSpace( fileError ) )
+    {
+        <Alert Color="Color.Danger" Visible>
+            @fileError
+        </Alert>
+    }
 
     <Field Horizontal>
         <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Source</FieldLabel>
