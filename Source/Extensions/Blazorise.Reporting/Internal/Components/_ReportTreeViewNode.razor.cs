@@ -144,6 +144,10 @@ public partial class _ReportTreeViewNode
 
     private string RowStyle => StyleNames;
 
+    private string NodeTitle => string.IsNullOrWhiteSpace( Node?.Detail )
+        ? Node?.Text
+        : $"{Node.Text} ({Node.Detail})";
+
     /// <summary>
     /// Tree node rendered by the row component.
     /// </summary>

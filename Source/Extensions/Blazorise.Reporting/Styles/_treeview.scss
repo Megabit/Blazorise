@@ -140,3 +140,13 @@
         white-space: nowrap;
     }
 }
+
+.b-report-designer-fields-explorer-pane {
+    .b-report-tree-view-row {
+        grid-template-columns: var(--b-report-tree-view-toggle-size) var(--b-report-tree-view-icon-column-width) minmax(0, 1fr);
+    }
+
+    .b-report-tree-view-detail {
+        display: none;
+    }
+}
