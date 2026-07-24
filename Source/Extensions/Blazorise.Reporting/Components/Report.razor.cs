@@ -90,9 +90,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [Parameter] public object Data { get; set; }
 
     /// <summary>
-    /// Enables the interactive designer surface for this report.
+    /// Defines whether the report can be edited using the interactive designer.
     /// </summary>
-    [Parameter] public bool DesignerEnabled { get; set; }
+    [Parameter] public bool Editable { get; set; }
 
     /// <summary>
     /// Shows the report toolbar above the designer or viewer surface.

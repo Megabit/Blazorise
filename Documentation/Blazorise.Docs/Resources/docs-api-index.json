@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-24T13:07:35.7364086Z",
+  "generatedUtc": "2026-07-24T14:21:04.1717883Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -90102,19 +90102,19 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "DesignerEnabled",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Enables the interactive designer surface for this report.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "DisableImageUploadProgressReport",
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Disables image upload progress callbacks.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Editable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Defines whether the report can be edited using the interactive designer.",
           "isBlazoriseEnum": false
         },
         {
@@ -91329,11 +91329,11 @@
           "isBlazoriseEnum": true
         },
         {
-          "name": "DesignerEnabled",
+          "name": "Editable",
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "Enables the designer surface for reports that do not set the option locally.",
+          "summary": "Gets or sets whether reports can be edited using the interactive designer.",
           "isBlazoriseEnum": false
         },
         {

@@ -141,7 +141,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         context.ViewerOptions.AllowPrint = GlobalOptions.AllowPrint;
         context.ViewerOptions.AllowDownload = GlobalOptions.AllowDownload;
 
-        currentMode = IsDesignerEnabled ? ReportMode.Design : ReportMode.Preview;
+        currentMode = IsEditable ? ReportMode.Design : ReportMode.Preview;
         currentPreviewFormat = DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat;
     }
 
@@ -513,7 +513,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal async Task HandleDesignerShortcut( ReportDesignerShortcut shortcut )
     {
-        if ( CurrentMode != ReportMode.Design || !IsDesignerEnabled || IsElementTextEditing() )
+        if ( CurrentMode != ReportMode.Design || !IsEditable || IsElementTextEditing() )
             return;
 
         switch ( shortcut )
@@ -614,13 +614,13 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         return command switch
         {
-            ReportCommand.Design => IsDesignerEnabled,
+            ReportCommand.Design => IsEditable,
             ReportCommand.Preview => SupportsPreviewFormat( currentPreviewFormat ) || SupportsPreviewFormat( context.ViewerOptions.DefaultFormat ),
             ReportCommand.PreviewHtml => SupportsPreviewFormat( ReportPreviewFormat.Html ),
             ReportCommand.PreviewPdf => SupportsPreviewFormat( ReportPreviewFormat.Pdf ),
             ReportCommand.Save => SaveRequested is not null,
             ReportCommand.Load => LoadRequested is not null && CurrentDefinitionMode != ReportDefinitionMode.AlwaysUseDeclarative,
-            ReportCommand.ConnectDataSource => CurrentMode == ReportMode.Design && IsDesignerEnabled && DataSourceProviders.Count > 0,
+            ReportCommand.ConnectDataSource => CurrentMode == ReportMode.Design && IsEditable && DataSourceProviders.Count > 0,
             ReportCommand.DownloadPdf => context.ViewerOptions.AllowDownload && SupportsPreviewFormat( ReportPreviewFormat.Pdf ) && PdfGenerator is not null,
             ReportCommand.Cut or ReportCommand.Copy or ReportCommand.Duplicate => CurrentMode == ReportMode.Design && GetSelectedElementContexts( definition ).Count > 0,
             ReportCommand.Delete => CurrentMode == ReportMode.Design && selectionManager.CanDeleteSelection( definition ),
@@ -3258,12 +3258,10 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal bool ShowToolbarModeButtons => context.ShowToolbarModeButtons;
 
-    internal bool DesignerAvailable => IsDesignerEnabled;
+    internal bool IsEditable => Editable || GlobalOptions.Editable;
 
     internal IReadOnlyList<ReportRenderPage> ResolvePreviewRenderPages( ReportDefinition definition )
         => renderService.ResolvePreviewRenderPages( definition, Data, renderMutationVersion );
-
-    private bool IsDesignerEnabled => DesignerEnabled || GlobalOptions.DesignerEnabled;
 
     private ReportOptions GlobalOptions => globalOptions ??= ServiceProvider.GetService<ReportOptions>() ?? new();
 
@@ -3349,9 +3347,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     [Parameter] public object Data { get; set; }
 
     /// <summary>
-    /// Enables the interactive designer surface for this report.
+    /// Defines whether the report can be edited using the interactive designer.
     /// </summary>
-    [Parameter] public bool DesignerEnabled { get; set; }
+    [Parameter] public bool Editable { get; set; }
 
     /// <summary>
     /// Shows the report toolbar above the designer or viewer surface.

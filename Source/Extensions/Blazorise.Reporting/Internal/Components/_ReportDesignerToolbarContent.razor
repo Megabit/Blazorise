@@ -43,7 +43,7 @@
         {
             <Div Margin="MarginIsAutoFromStart">
                 <ReportToolbarGroup>
-                    @if ( Designer.DesignerAvailable )
+                    @if ( Designer.IsEditable )
                     {
                         <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" ShowCaption Visible="@(Designer.ShowToolbarModeButtons && Designer.IsToolbarCommandVisible( ReportCommand.Design ))" />
                     }

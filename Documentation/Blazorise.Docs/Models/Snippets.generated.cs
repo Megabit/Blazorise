@@ -26767,7 +26767,7 @@ Install-Package Blazorise.Icons.Material";
     </Div>
 </Div>";
 
-        public const string ReportingBasicInvoiceExample = @"<Report Data=""@invoice"" DesignerEnabled PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+        public const string ReportingBasicInvoiceExample = @"<Report Data=""@invoice"" Editable PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
     <ReportDataSources>
         <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
     </ReportDataSources>
@@ -26847,7 +26847,7 @@ Install-Package Blazorise.Icons.Material";
 
         public const string ReportingDataSetDataSourceExample = @"@using System.Data
 
-<Report DesignerEnabled
+<Report Editable
         PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
     <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
                   DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
@@ -26898,7 +26898,7 @@ Install-Package Blazorise.Icons.Material";
 }";
 
         public const string ReportingDataSourcesExample = @"<Report Data=""@invoice""
-        DesignerEnabled
+        Editable
         PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
     <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
                   DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
@@ -26997,7 +26997,7 @@ Install-Package Blazorise.Icons.Material";
 
         public const string ReportingDesignerToolbarExample = @"<Report Data=""@invoice""
         @bind-Definition=""@definition""
-        DesignerEnabled
+        Editable
         PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
     <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
                   DefaultPreviewFormat=""ReportPreviewFormat.Html""
@@ -27107,7 +27107,7 @@ Install-Package Blazorise.Icons.Material";
 }";
 
         public const string ReportingDetailDataSourceExample = @"<Report Data=""@invoice""
-        DesignerEnabled
+        Editable
         PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
     <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
                   DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
@@ -27215,7 +27215,7 @@ builder.Services
     .AddBlazoriseReporting();";
 
         public const string ReportingFormulaFieldsExample = @"<Report Data=""@invoice""
-        DesignerEnabled
+        Editable
         PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
     <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
                   DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
@@ -27282,7 +27282,7 @@ builder.Services
         public const string ReportingImportsExample = @"@using Blazorise.Reporting";
 
         public const string ReportingLayoutBandsExample = @"<Report Data=""@invoice""
-        DesignerEnabled
+        Editable
         PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
     <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
                   DefaultPreviewFormat=""ReportPreviewFormat.Html""
@@ -27399,7 +27399,7 @@ builder.Services
 }";
 
         public const string ReportingLayoutTableExample = @"<Report Data=""@invoice""
-        DesignerEnabled
+        Editable
         PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
     <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
                   DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
@@ -27534,7 +27534,7 @@ builder.Services
         public const string ReportingNugetInstallExample = @"Install-Package Blazorise.Reporting";
 
         public const string ReportingPdfExportExample = @"<Report Data=""@invoice""
-        DesignerEnabled
+        Editable
         PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
     <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
                   DefaultPreviewFormat=""ReportPreviewFormat.Pdf""
@@ -27697,7 +27697,7 @@ builder.Services
         public const string ReportingResourcesExample = @"<link href=""_content/Blazorise.Reporting/blazorise.reporting.css?v=2.2.2.0"" rel=""stylesheet"" />";
 
         public const string ReportingRunningTotalsExample = @"<Report Data=""@invoice""
-        DesignerEnabled
+        Editable
         PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
     <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
                   DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
@@ -27784,7 +27784,7 @@ builder.Services
         @bind-Definition=""@definition""
         SaveRequested=""@SaveReport""
         LoadRequested=""@LoadReport""
-        DesignerEnabled
+        Editable
         PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
     <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
                   DefaultPreviewFormat=""ReportPreviewFormat.Html"" />

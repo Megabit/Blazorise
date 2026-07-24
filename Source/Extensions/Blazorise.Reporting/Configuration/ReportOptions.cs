@@ -21,9 +21,9 @@ public sealed class ReportOptions
     public ReportDefinitionMode DefinitionMode { get; set; } = ReportDefinitionMode.SeedWhenEmpty;
 
     /// <summary>
-    /// Enables the designer surface for reports that do not set the option locally.
+    /// Gets or sets whether reports can be edited using the interactive designer.
     /// </summary>
-    public bool DesignerEnabled { get; set; }
+    public bool Editable { get; set; }
 
     /// <summary>
     /// Enables print commands in report viewers by default.
