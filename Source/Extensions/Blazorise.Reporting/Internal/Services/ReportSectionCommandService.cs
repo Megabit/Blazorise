@@ -43,6 +43,23 @@ internal sealed class ReportSectionCommandService
         };
     }
 
+    internal int InsertBand( ReportDefinition definition, ReportBandType type )
+    {
+        if ( definition?.Bands is null )
+            return -1;
+
+        int insertIndex = ResolveBandInsertIndex( definition, type );
+
+        definition.Bands.Insert( insertIndex, new()
+        {
+            Name = ReportDefinitionHelper.CreateUniqueSectionName( definition, ReportDefinitionHelper.GetSectionTypeDisplayName( type ) ),
+            Type = type,
+            Height = type == ReportBandType.Detail ? 120 : 60,
+        } );
+
+        return insertIndex;
+    }
+
     internal int DeleteSection( ReportDefinition definition, int sectionIndex, ISet<string> collapsedBandIds )
     {
         if ( definition?.Bands is null
@@ -74,6 +91,34 @@ internal sealed class ReportSectionCommandService
 
         if ( suppressed )
             collapsedBandIds?.Remove( ReportDefinitionHelper.EnsureBandId( section ) );
+    }
+
+    private static int ResolveBandInsertIndex( ReportDefinition definition, ReportBandType type )
+    {
+        int bandOrder = GetBandOrder( type );
+
+        for ( int bandIndex = 0; bandIndex < definition.Bands.Count; bandIndex++ )
+        {
+            if ( GetBandOrder( definition.Bands[bandIndex].Type ) > bandOrder )
+                return bandIndex;
+        }
+
+        return definition.Bands.Count;
+    }
+
+    private static int GetBandOrder( ReportBandType type )
+    {
+        return type switch
+        {
+            ReportBandType.ReportHeader => 0,
+            ReportBandType.PageHeader => 1,
+            ReportBandType.GroupHeader => 2,
+            ReportBandType.Detail => 3,
+            ReportBandType.GroupFooter => 4,
+            ReportBandType.PageFooter => 5,
+            ReportBandType.ReportFooter => 6,
+            _ => 7,
+        };
     }
 
     #endregion

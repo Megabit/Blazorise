@@ -28,6 +28,7 @@ internal sealed class ReportContextMenuService
 
         ReportBandDefinition section = definition.Bands[state.SectionIndex];
 
+        state.SectionType = section.Type;
         state.SectionSuppressed = ReportValueResolver.ResolveStaticSuppress( section );
         state.CanPasteElement = CanPasteElement( definition, state, hasClipboardElements );
         state.CanSelectAllSectionElements = section.Elements?.Count > 0;

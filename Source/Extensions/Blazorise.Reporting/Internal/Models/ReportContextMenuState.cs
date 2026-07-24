@@ -18,6 +18,8 @@ internal sealed class ReportContextMenuState
 
     internal int SectionIndex { get; set; } = -1;
 
+    internal ReportBandType SectionType { get; set; }
+
     internal string ElementKey { get; set; }
 
     internal string CellKey { get; set; }

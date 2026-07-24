@@ -22,6 +22,14 @@
             </ContextMenuToolbar>
             <ContextMenuDivider />
 
+            <ContextMenuSubmenu Text="Add band">
+                <ContextMenuItem Value="@ReportBandType.ReportHeader" Clicked="@OnCommandClicked">Report header</ContextMenuItem>
+                <ContextMenuItem Value="@ReportBandType.PageHeader" Clicked="@OnCommandClicked">Page header</ContextMenuItem>
+                <ContextMenuItem Value="@ReportBandType.Detail" Clicked="@OnCommandClicked">Detail</ContextMenuItem>
+                <ContextMenuItem Value="@ReportBandType.PageFooter" Clicked="@OnCommandClicked">Page footer</ContextMenuItem>
+                <ContextMenuItem Value="@ReportBandType.ReportFooter" Clicked="@OnCommandClicked">Report footer</ContextMenuItem>
+            </ContextMenuSubmenu>
+
             @if ( State.SectionSuppressed )
             {
                 <ContextMenuItem ShowCheckbox Checked Value="@ReportDesignerContextMenuCommand.ToggleSectionSuppression" Clicked="@OnCommandClicked">Suppress</ContextMenuItem>
@@ -30,8 +38,8 @@
             {
                 @if ( State.CanInsertSection )
                 {
-                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertSectionBefore" Clicked="@OnCommandClicked">Insert band before</ContextMenuItem>
-                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertSectionAfter" Clicked="@OnCommandClicked">Insert band after</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertSectionBefore" Clicked="@OnCommandClicked">Insert @(ReportDefinitionHelper.GetSectionTypeDisplayName( State.SectionType )) band before</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertSectionAfter" Clicked="@OnCommandClicked">Insert @(ReportDefinitionHelper.GetSectionTypeDisplayName( State.SectionType )) band after</ContextMenuItem>
                 }
                 @if ( State.CanInsertGroup )
                 {

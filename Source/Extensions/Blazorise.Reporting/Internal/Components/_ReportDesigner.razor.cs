@@ -1959,6 +1959,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal Task ExecuteContextMenuCommand( object value )
     {
+        if ( value is ReportBandType bandType )
+            return AddBand( bandType );
+
         if ( value is not ReportDesignerContextMenuCommand command )
             return Task.CompletedTask;
 
@@ -2255,6 +2258,19 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
             SelectSection( insertIndex );
             _ = CloseContextMenu();
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task AddBand( ReportBandType type )
+    {
+        await ExecuteDesignerCommand( new( $"Add {ReportDefinitionHelper.GetSectionTypeDisplayName( type )}", () =>
+        {
+            int insertIndex = sectionCommandService.InsertBand( EffectiveDefinition, type );
+
+            if ( insertIndex >= 0 )
+                SelectSection( insertIndex );
 
             return Task.CompletedTask;
         } ) );

@@ -48,7 +48,7 @@ public partial class _ReportDesignerContextMenu
         await InvokeAsync( StateHasChanged );
     }
 
-    private Task InvokeCommand( ReportDesignerContextMenuCommand command )
+    private Task InvokeCommand( object command )
     {
         if ( Command is not null )
             return Command.Invoke( command );
@@ -58,9 +58,7 @@ public partial class _ReportDesignerContextMenu
 
     private Task OnCommandClicked( object value )
     {
-        return value is ReportDesignerContextMenuCommand command
-            ? InvokeCommand( command )
-            : Task.CompletedTask;
+        return InvokeCommand( value );
     }
 
     #endregion
