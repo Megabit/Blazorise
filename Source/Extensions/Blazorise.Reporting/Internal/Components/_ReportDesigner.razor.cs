@@ -2313,7 +2313,10 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             subreport.Report = ReportDefinitionHelper.CreateDefaultSubreportDefinition( subreportName );
             subreport.Report.RowsLimit = rootDefinition.RowsLimit;
 
-            workingDefinition.Bands[commandSectionIndex].Elements.Add( subreport );
+            ReportBandDefinition section = workingDefinition.Bands[commandSectionIndex];
+
+            section.Elements.Add( subreport );
+            ReportLayoutGeometry.GrowSectionToFitElement( section, subreport );
 
             SelectElement( ReportDefinitionHelper.EnsureElementId( subreport ) );
             _ = CloseContextMenu();
