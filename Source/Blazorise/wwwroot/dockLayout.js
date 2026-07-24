@@ -220,6 +220,12 @@ function findDockTarget(layout, paneName, clientX, clientY) {
     const pane = findTargetPane(layout, paneName, clientX, clientY, operation.dragGroup);
 
     if (pane) {
+        const targetName = pane.getAttribute("data-dock-pane-name");
+
+        if (targetName !== paneName && pane.getAttribute("data-dock-accept-pane-drops") === "false") {
+            return emptyDockTarget();
+        }
+
         const paneRect = pane.getBoundingClientRect();
         const compassDrop = findCompassDrop(paneRect, clientX, clientY, true);
         const zone = compassDrop?.zone ?? null;
@@ -228,7 +234,7 @@ function findDockTarget(layout, paneName, clientX, clientY) {
         const dropRect = getDropRect(layoutRect, targetRect, zone, compassDrop?.outer === true);
 
         return {
-            targetName: pane.getAttribute("data-dock-pane-name"),
+            targetName,
             targetNodeId: targetNode.getAttribute("data-dock-node-id"),
             zone,
             compassZoneKey: compassDrop?.key ?? null,

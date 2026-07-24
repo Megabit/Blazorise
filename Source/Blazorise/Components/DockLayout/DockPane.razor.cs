@@ -115,6 +115,11 @@ public partial class DockPane : BaseComponent, IDisposable
     [Parameter] public bool Movable { get; set; } = true;
 
     /// <summary>
+    /// Defines whether other panes can be dropped onto or around this pane.
+    /// </summary>
+    [Parameter] public bool AcceptPaneDrops { get; set; } = true;
+
+    /// <summary>
     /// Shows a splitter marker that indicates the pane can participate in resize behavior.
     /// </summary>
     [Parameter] public bool Resizable { get; set; }

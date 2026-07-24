@@ -656,6 +656,12 @@ public partial class DockLayout : BaseComponent
                 : new[] { paneName };
             targetName = ResolveDropTargetName( paneName, targetName, targetNodeId, moveGroup );
 
+            if ( !movedPaneNames.Contains( targetName ) && TryGetPane( targetName, out DockPane targetPane ) && !targetPane.AcceptPaneDrops )
+            {
+                StateHasChanged();
+                return;
+            }
+
             DockPaneState targetState = FindPaneState( targetName );
             bool targetExists = !string.IsNullOrWhiteSpace( targetName ) && !movedPaneNames.Contains( targetName ) && DockLayoutTreeQuery.ContainsPane( CurrentState.Root, targetName );
             bool mergeWithTargetTabs = targetExists && targetZone.Value == DockZone.Center;
