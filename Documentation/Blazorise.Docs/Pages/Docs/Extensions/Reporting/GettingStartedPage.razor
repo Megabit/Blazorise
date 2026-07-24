@@ -1,14 +1,14 @@
 @page "/docs/extensions/reporting"
 @page "/docs/extensions/reporting/getting-started"
 
-<Seo Canonical="/docs/extensions/reporting" Title="Blazorise Reporting" Description="Create banded reports with design mode, preview mode, data sources, expressions, running totals, and PDF export." />
+<Seo Canonical="/docs/extensions/reporting" Title="Blazorise Reporting" Description="Learn Blazorise Reporting progressively, from declarative Razor reports and data binding to designer persistence and programmatic definitions." />
 
 <DocsPageTitle Path="Extensions/Reporting" AddedVersion="New">
     Blazorise Reporting
 </DocsPageTitle>
 
 <DocsPageLead>
-    Build banded reports from declarative Razor templates, let users adjust them in the designer, and then preview or export the resulting report definition.
+    Start with a small declarative Razor report, add application data and design tools when needed, and move to definition-based or imperative workflows as the report becomes part of a larger application.
 </DocsPageLead>
 
 <DocsPageParagraph>
@@ -56,16 +56,66 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    A report starts as a <Code Tag>Report</Code> component. In the simplest case, you declare the page, bands, and elements directly in Razor. Blazorise reads that declarative template and creates a report definition that can be rendered in preview mode or opened in design mode.
+    The <Code Tag>Report</Code> component brings four parts together:
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    The declarative model is intended to be the first step: it keeps the initial report close to the application UI, while still producing a structured definition that can later be saved, restored, edited, or generated from code.
+    <OrderedList>
+        <OrderedListItem>
+            A <Code Tag>ReportDefinition</Code> describes pages, bands, elements, data-source metadata, formulas, running totals, and designer settings.
+        </OrderedListItem>
+        <OrderedListItem>
+            Runtime data supplies the values rendered by fields and repeated detail bands.
+        </OrderedListItem>
+        <OrderedListItem>
+            Design mode edits the definition, while preview mode renders that same definition as HTML or PDF.
+        </OrderedListItem>
+        <OrderedListItem>
+            Application code can capture, load, serialize, or construct the definition without changing the rendering model.
+        </OrderedListItem>
+    </OrderedList>
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    1. Start with a declarative report
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The easiest way to begin is to describe the report in Razor. A <Code Tag>ReportPage</Code> contains ordered bands such as <Code Tag>ReportHeader</Code>, <Code Tag>ReportDetail</Code>, and <Code Tag>ReportFooter</Code>. Elements such as <Code Tag>ReportText</Code> are positioned inside those bands.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    This first report contains one page, one report header, and two text elements. No data source, designer, persistence code, or explicit definition is required.
 </DocsPageParagraph>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Start declaratively">
-        Use Razor markup to describe the report template. This example creates an invoice report with a page, bands, text, fields, and simple layout elements.
+    <DocsPageSectionHeader Title="Minimal declarative report">
+        Declare the report structure directly with Reporting components.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ReportingSimpleDeclarativeExample" Outlined FullWidth>
+        <ReportingSimpleDeclarativeExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageParagraph>
+    During initialization, the declarative components are converted into a <Code Tag>ReportDefinition</Code>. With the default <Code>ReportDefinitionMode.SeedWhenEmpty</Code>, that generated definition becomes the initial report whenever no saved <Code>Definition</Code> is supplied.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    2. Add application data
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Add <Code Tag>ReportDataSources</Code> when the report needs named data sources that are visible to the designer. An object data source exposes the object's scalar properties, nested objects, and collections as report fields.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    A detail band repeats when its <Code>DataSource</Code> resolves to a collection. Fields inside that band are evaluated against the current collection item, while fields in report-level bands can use paths from the root data source.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Data-bound declarative report">
+        This invoice adds an object data source, a repeating detail band, formatted fields, and report headers and footers while keeping the report template declarative.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="ReportingBasicInvoiceExample" Outlined FullWidth>
         <ReportingBasicInvoiceExample />
@@ -73,46 +123,94 @@
 </DocsPageSection>
 
 <DocsPageSubtitle>
-    Where to go next
+    3. Enable design and preview
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    After the first report is rendering, build it up in layers. Each focused page goes deeper into one part of the reporting model.
+    Set <Code>DesignerEnabled</Code> when users should be able to move elements, edit properties, add pages or bands, connect data-source metadata, and switch between design and preview. Without it, the report opens as a viewer.
 </DocsPageParagraph>
+
+<DocsPageParagraph>
+    The designer does not maintain a separate visual-only template. Its commands update the current <Code Tag>ReportDefinition</Code>, and preview renders the updated definition. Bind <Code>Definition</Code> when the application needs to observe those changes.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    4. Persist the report definition
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The report definition is the long-lived document model. Use <Code>@@bind-Definition</Code> to keep it in application state, and handle <Code>SaveRequested</Code> and <Code>LoadRequested</Code> when the default toolbar should integrate with browser storage, a database, or an application service.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Serialize definitions with <Code>ReportJsonSerializer</Code>. Runtime data objects are intentionally not serialized, so they must be supplied again after loading.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Bind, save, and load">
+        Bind the generated definition and respond to persistence requests from application code.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingStateExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    5. Create reports from code
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Declarative components are optional. Advanced scenarios can construct a <Code Tag>ReportDefinition</Code> directly, retrieve it from a service or database, and pass it to <Code Tag>Report</Code>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Use <Code>ReportDefinitionMode.UseDefinitionOnly</Code> when the supplied definition is the complete source of truth. Use <Code>ReportDefinitionMode.AlwaysUseDeclarative</Code> when Razor should remain authoritative, or keep the default <Code>ReportDefinitionMode.SeedWhenEmpty</Code> when Razor provides only the initial template.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Programmatic report definition">
+        Build the same page, band, and element model directly in C# and render it without declarative report children.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ReportingProgrammaticDefinitionExample" Outlined FullWidth>
+        <ReportingProgrammaticDefinitionExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Imperative control
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Keep a component reference when report operations are initiated outside the built-in toolbar. <Code>GetDefinition</Code> returns a copy of the persistent definition, while <Code>LoadDefinition</Code> replaces it. <Code>GetState</Code> and <Code>LoadState</Code> additionally capture transient designer state such as mode, active page, selection, and clipboard.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Commands can also be invoked through <Code>ExecuteCommand</Code>. Use <Code>CanExecuteCommand</Code> and <Code>IsCommandActive</Code> when building application controls that mirror report toolbar behavior.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Continue learning
+</DocsPageSubtitle>
 
 <DocsPageParagraph>
     <UnorderedList>
         <UnorderedListItem>
-            Start with <Anchor To="docs/extensions/reporting/layout">layout</Anchor> to understand pages, bands, report measurements, panels, fields, lines, rectangles, and layout tables.
+            Learn <Anchor To="docs/extensions/reporting/layout">layout</Anchor> for pages, bands, measurements, panels, lines, rectangles, and layout tables.
         </UnorderedListItem>
         <UnorderedListItem>
-            Move to <Anchor To="docs/extensions/reporting/data-sources">data sources</Anchor> when the report needs object data, nested fields, and repeating detail bands.
+            Explore <Anchor To="docs/extensions/reporting/data-sources">data sources</Anchor> for object models, nested fields, collections, DataSet, and DataTable.
         </UnorderedListItem>
         <UnorderedListItem>
-            Use <Anchor To="docs/extensions/reporting/expressions">expressions</Anchor> for formula fields, calculated values, and running totals.
+            Add <Anchor To="docs/extensions/reporting/expressions">expressions</Anchor>, formula fields, aggregates, and running totals.
         </UnorderedListItem>
         <UnorderedListItem>
-            Open <Anchor To="docs/extensions/reporting/designer">designer</Anchor> when users should edit the generated definition, manage panes, customize the toolbar, and persist report definitions.
+            Configure the <Anchor To="docs/extensions/reporting/designer">designer</Anchor>, toolbar, definition persistence, and interactive state.
         </UnorderedListItem>
         <UnorderedListItem>
-            Finish with <Anchor To="docs/extensions/reporting/pdf-export">PDF export</Anchor> when the report definition should produce a downloadable file.
+            Configure HTML and <Anchor To="docs/extensions/reporting/pdf-export">PDF preview and export</Anchor>.
         </UnorderedListItem>
         <UnorderedListItem>
-            Use the <Anchor To="docs/extensions/reporting/api">API reference</Anchor> when you need the full component and model surface.
+            Consult the <Anchor To="docs/extensions/reporting/api">API reference</Anchor> for the complete public surface.
         </UnorderedListItem>
     </UnorderedList>
-</DocsPageParagraph>
-
-<DocsPageSubtitle>
-    From declarative to code-driven
-</DocsPageSubtitle>
-
-<DocsPageParagraph>
-    The declarative template is only the initial source of the report definition. Once created, the same definition can be edited in the designer, bound to application state, saved, restored, or passed to services for preview and export.
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    That progression is the main reporting workflow: describe the first version in Razor, let the designer modify the definition when needed, and use code for persistence, integration, and output generation.
 </DocsPageParagraph>
 
 <DocsPageApi>

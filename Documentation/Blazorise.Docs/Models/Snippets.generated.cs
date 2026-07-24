@@ -27640,6 +27640,60 @@ builder.Services
     }
 }";
 
+        public const string ReportingProgrammaticDefinitionExample = @"<Report Definition=""@definition""
+        DefinitionMode=""ReportDefinitionMode.UseDefinitionOnly""
+        ShowToolbar=""false"" />
+
+@code {
+    private readonly ReportDefinition definition = new()
+    {
+        Name = ""Programmatic report"",
+        Pages =
+        [
+            new()
+            {
+                Name = ""Summary"",
+                Bands =
+                [
+                    new()
+                    {
+                        Name = ""Summary header"",
+                        Type = ReportBandType.ReportHeader,
+                        Height = 90,
+                        Elements =
+                        [
+                            new ReportTextElementDefinition
+                            {
+                                Name = ""Title"",
+                                Text = ""Created from a ReportDefinition"",
+                                X = 30,
+                                Y = 18,
+                                Width = 360,
+                                Height = 27,
+                                Font = new()
+                                {
+                                    Size = 20,
+                                    Bold = true,
+                                    Color = ReportColors.Blue,
+                                },
+                            },
+                            new ReportTextElementDefinition
+                            {
+                                Name = ""Description"",
+                                Text = ""No declarative report page or band components are required."",
+                                X = 30,
+                                Y = 51,
+                                Width = 420,
+                                Height = 18,
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    };
+}";
+
         public const string ReportingResourcesExample = @"<link href=""_content/Blazorise.Reporting/blazorise.reporting.css?v=2.2.2.0"" rel=""stylesheet"" />";
 
         public const string ReportingRunningTotalsExample = @"<Report Data=""@invoice""
@@ -27705,6 +27759,26 @@ builder.Services
         public const string ReportingServiceRegistrationExample = @"builder.Services
     .AddBlazorise()
     .AddBlazoriseReporting();";
+
+        public const string ReportingSimpleDeclarativeExample = @"<Report ShowToolbar=""false"">
+    <ReportPage Name=""Welcome"">
+        <ReportHeader Name=""Welcome header"" Height=""90"">
+            <ReportText Text=""My first report""
+                        X=""30""
+                        Y=""18""
+                        Width=""300""
+                        Height=""27""
+                        FontSize=""20""
+                        Bold
+                        FontColor=""@ReportColors.Blue"" />
+            <ReportText Text=""This content is declared entirely in Razor.""
+                        X=""30""
+                        Y=""51""
+                        Width=""360""
+                        Height=""18"" />
+        </ReportHeader>
+    </ReportPage>
+</Report>";
 
         public const string ReportingStateExample = @"<Report Data=""@invoice""
         @bind-Definition=""@definition""

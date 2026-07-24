@@ -155,7 +155,7 @@ public static class ManualPageEntries
     new( "docs/extensions/pdfviewer", "PdfViewer", "A PdfViewer component used to display a regular PDF document." ),
     new( "docs/extensions/pivotgrid", "PivotGrid", "Create read-only Excel-like pivot tables for multi-dimensional data analysis with rows, columns, aggregates, totals, field chooser, paging, virtualization, and styling." ),
     new( "docs/extensions/reporting", "Reporting", "Create banded reports with design mode, preview mode, data sources, expressions, running totals, and PDF export." ),
-    new( "docs/extensions/reporting/getting-started", "Reporting Getting Started", "Install Blazorise Reporting and create a first declarative report template." ),
+    new( "docs/extensions/reporting/getting-started", "Reporting Getting Started", "Learn Reporting from declarative Razor and data binding through designer editing, persistence, and code-built definitions." ),
     new( "docs/extensions/reporting/designer", "Reporting Designer", "Configure design mode, toolbar commands, definition persistence, and interactive report state." ),
     new( "docs/extensions/reporting/layout", "Reporting Layout", "Define report pages, bands, panels, fields, lines, rectangles, and layout tables." ),
     new( "docs/extensions/reporting/data-sources", "Reporting Data Sources", "Bind reports to object data sources, nested models, and detail collections." ),
