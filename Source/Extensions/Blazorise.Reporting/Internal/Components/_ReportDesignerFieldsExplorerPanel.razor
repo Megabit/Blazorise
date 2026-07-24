@@ -14,8 +14,10 @@
 
         @if ( IsFormulaFieldContextMenuTarget )
         {
+            <ContextMenuDivider />
             <ContextMenuItem Clicked="@OnEditFormulaFieldContextMenuClicked">Edit</ContextMenuItem>
             <ContextMenuItem Clicked="@OnRenameFormulaFieldContextMenuClicked">Rename</ContextMenuItem>
+            <ContextMenuDivider />
             <ContextMenuItem Clicked="@OnDeleteFormulaFieldContextMenuClicked">Delete</ContextMenuItem>
         }
     </ContextMenuBody>
@@ -27,8 +29,10 @@
 
         @if ( IsRunningTotalContextMenuTarget )
         {
+            <ContextMenuDivider />
             <ContextMenuItem Clicked="@OnEditRunningTotalContextMenuClicked">Edit</ContextMenuItem>
             <ContextMenuItem Clicked="@OnRenameRunningTotalContextMenuClicked">Rename</ContextMenuItem>
+            <ContextMenuDivider />
             <ContextMenuItem Clicked="@OnDeleteRunningTotalContextMenuClicked">Delete</ContextMenuItem>
         }
     </ContextMenuBody>
@@ -37,6 +41,7 @@
 <ContextMenu @ref="dataSourceContextMenuRef">
     <ContextMenuBody MinWidth="12rem">
         <ContextMenuItem Clicked="@OnRefreshDataSourceContextMenuClicked">Refresh</ContextMenuItem>
+        <ContextMenuDivider />
         <ContextMenuItem Clicked="@OnDeleteDataSourceContextMenuClicked">Delete</ContextMenuItem>
     </ContextMenuBody>
 </ContextMenu>

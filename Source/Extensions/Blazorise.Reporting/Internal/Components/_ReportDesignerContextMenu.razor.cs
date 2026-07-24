@@ -71,6 +71,13 @@ public partial class _ReportDesignerContextMenu
 
     private bool IsElementMenu => State?.Target == ReportContextMenuTarget.Element;
 
+    private bool HasElementLayoutCommands => State?.CanOrderSelectedElements == true || State?.CanAlignOrSizeSelectedElements == true;
+
+    private bool HasElementContentCommands => State?.CanInsertAggregate == true
+        || State?.CanEditText == true
+        || State?.CanEditFormula == true
+        || State?.CanEditRunningTotal == true;
+
     private bool IsCellMenu => State?.Target == ReportContextMenuTarget.Cell;
 
     /// <summary>

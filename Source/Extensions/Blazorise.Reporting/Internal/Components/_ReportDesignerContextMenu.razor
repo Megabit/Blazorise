@@ -29,6 +29,7 @@
                 <ContextMenuItem Value="@ReportBandType.PageFooter" Clicked="@OnCommandClicked">Page footer</ContextMenuItem>
                 <ContextMenuItem Value="@ReportBandType.ReportFooter" Clicked="@OnCommandClicked">Report footer</ContextMenuItem>
             </ContextMenuSubmenu>
+            <ContextMenuDivider />
 
             @if ( State.SectionSuppressed )
             {
@@ -48,6 +49,10 @@
                 @if ( State.CanInsertSubreport )
                 {
                     <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertSubreport" Clicked="@OnCommandClicked">Insert subreport</ContextMenuItem>
+                }
+                @if ( State.CanInsertSection || State.CanInsertGroup || State.CanInsertSubreport )
+                {
+                    <ContextMenuDivider />
                 }
                 <ContextMenuItem ShowCheckbox Checked="@State.SectionSuppressed" Value="@ReportDesignerContextMenuCommand.ToggleSectionSuppression" Clicked="@OnCommandClicked">Suppress</ContextMenuItem>
                 <ContextMenuItem ShowCheckbox Checked="@State.SectionKeepTogether" Value="@ReportDesignerContextMenuCommand.ToggleSectionKeepTogether" Clicked="@OnCommandClicked">Keep together</ContextMenuItem>
@@ -96,6 +101,11 @@
                 </ContextMenuSubmenu>
             }
 
+            @if ( HasElementLayoutCommands && HasElementContentCommands )
+            {
+                <ContextMenuDivider />
+            }
+
             @if ( State.CanInsertAggregate )
             {
                 <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertAggregate" Clicked="@OnCommandClicked">Insert aggregate</ContextMenuItem>
@@ -114,6 +124,11 @@
             @if ( State.CanEditRunningTotal )
             {
                 <ContextMenuItem Value="@ReportDesignerContextMenuCommand.EditRunningTotal" Clicked="@OnCommandClicked">Edit Running Total</ContextMenuItem>
+            }
+
+            @if ( HasElementLayoutCommands || HasElementContentCommands )
+            {
+                <ContextMenuDivider />
             }
 
             <ContextMenuItem ShowCheckbox Checked="@State.ElementCanGrow" Value="@ReportDesignerContextMenuCommand.ToggleElementCanGrow" Clicked="@OnCommandClicked">Can grow</ContextMenuItem>
