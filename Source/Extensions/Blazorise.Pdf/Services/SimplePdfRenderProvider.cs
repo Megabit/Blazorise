@@ -42,23 +42,23 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
     #region Methods
 
     /// <inheritdoc />
-    public Task<PdfGenerationResult> Render( PdfDocumentDefinition document, PdfGenerationOptions options, CancellationToken cancellationToken = default )
+    public async Task<PdfGenerationResult> Render( PdfDocumentDefinition document, PdfGenerationOptions options, CancellationToken cancellationToken = default )
     {
         if ( document is null )
             throw new ArgumentNullException( nameof( document ) );
 
         options ??= new();
 
-        byte[] content = GeneratePdf( document, fontProvider );
+        byte[] content = await GeneratePdf( document, fontProvider, options, cancellationToken );
 
-        return Task.FromResult( new PdfGenerationResult
+        return new PdfGenerationResult
         {
             Content = content,
             FileName = options.FileName,
-        } );
+        };
     }
 
-    private static byte[] GeneratePdf( PdfDocumentDefinition document, IFontProvider fontProvider )
+    private static async Task<byte[]> GeneratePdf( PdfDocumentDefinition document, IFontProvider fontProvider, PdfGenerationOptions options, CancellationToken cancellationToken )
     {
         List<PdfObject> objects = [];
         List<int> pageObjectIds = [];
@@ -66,20 +66,50 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         int pagesId = ReserveObject( objects );
         List<PdfPageDefinition> pages = document.Pages.Count > 0 ? document.Pages : [CreateDefaultPage( document )];
         IFontProvider effectiveFontProvider = new PdfDocumentFontProvider( document.Fonts, fontProvider );
+        int totalWork = pages.Count + 2;
+
+        await ReportProgress( options, PdfGenerationStage.PreparingFonts, 0, 0, pages.Count );
+        cancellationToken.ThrowIfCancellationRequested();
+
         PdfFontResources fontResources = AddFontResources( objects, pages, effectiveFontProvider );
 
-        foreach ( PdfPageDefinition page in pages )
+        await ReportProgress( options, PdfGenerationStage.RenderingPages, 1d / totalWork, 0, pages.Count );
+
+        for ( int pageIndex = 0; pageIndex < pages.Count; pageIndex++ )
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            PdfPageDefinition page = pages[pageIndex];
             PdfPageContent pageContent = BuildPageContent( page, objects, fontResources, effectiveFontProvider );
             int contentId = AddObject( objects, CreateStreamObject( pageContent.Content ) );
             int pageId = AddObject( objects, BuildPageObject( page, pagesId, fontResources, contentId, pageContent ) );
             pageObjectIds.Add( pageId );
+
+            await ReportProgress( options, PdfGenerationStage.RenderingPages, ( pageIndex + 2d ) / totalWork, pageIndex + 1, pages.Count );
         }
+
+        cancellationToken.ThrowIfCancellationRequested();
 
         SetObject( objects, pagesId, BuildPagesObject( pageObjectIds ) );
         SetObject( objects, catalogId, $"<< /Type /Catalog /Pages {pagesId.ToString( CultureInfo.InvariantCulture )} 0 R >>" );
 
-        return WriteDocument( objects );
+        await ReportProgress( options, PdfGenerationStage.WritingDocument, ( pages.Count + 1d ) / totalWork, pages.Count, pages.Count );
+        cancellationToken.ThrowIfCancellationRequested();
+
+        byte[] content = WriteDocument( objects );
+
+        await ReportProgress( options, PdfGenerationStage.Completed, 1, pages.Count, pages.Count );
+
+        return content;
+    }
+
+    private static async Task ReportProgress( PdfGenerationOptions options, PdfGenerationStage stage, double progress, int completedPages, int totalPages )
+    {
+        if ( options.Progress is null )
+            return;
+
+        await options.Progress( new( stage, progress, completedPages, totalPages ) );
+        await Task.Yield();
     }
 
     private static PdfPageDefinition CreateDefaultPage( PdfDocumentDefinition document )

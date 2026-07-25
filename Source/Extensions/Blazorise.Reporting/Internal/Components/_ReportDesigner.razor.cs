@@ -809,6 +809,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         result = await PdfGenerator.Generate( pdfDocument, new()
         {
             FileName = ResolvePdfFileName( definition ),
+            Progress = PdfGenerationProgressed.HasDelegate
+                ? progress => PdfGenerationProgressed.InvokeAsync( progress )
+                : null,
         } );
 
         pdfPreviewResult = result;
@@ -3534,6 +3537,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// Preview format selected when preview mode is first opened.
     /// </summary>
     [Parameter] public ReportPreviewFormat? DefaultPreviewFormat { get; set; }
+
+    /// <summary>
+    /// Raised when PDF generation progress changes.
+    /// </summary>
+    [Parameter] public EventCallback<PdfGenerationProgress> PdfGenerationProgressed { get; set; }
 
     /// <summary>
     /// Custom report element plugins available only to this report instance. The collection is read during initialization.

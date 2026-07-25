@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Pdf;
 using Blazorise.Reporting.Internal;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -254,6 +255,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     /// Preview format selected when preview mode is first opened.
     /// </summary>
     [Parameter] public ReportPreviewFormat? DefaultPreviewFormat { get; set; }
+
+    /// <summary>
+    /// Raised when PDF generation progress changes.
+    /// </summary>
+    [Parameter] public EventCallback<PdfGenerationProgress> PdfGenerationProgressed { get; set; }
 
     /// <summary>
     /// Custom report element plugins available only to this report instance. The collection is read during initialization.
