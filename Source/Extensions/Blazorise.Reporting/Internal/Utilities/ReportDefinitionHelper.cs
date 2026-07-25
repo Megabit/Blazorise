@@ -90,6 +90,24 @@ internal static class ReportDefinitionHelper
         return definition;
     }
 
+    internal static ReportElementDefinition CreateElementFromToolbox( IReportElementPlugin plugin, double x, double y )
+    {
+        ReportElementDescriptor descriptor = plugin?.Descriptor
+            ?? throw new ArgumentNullException( nameof( plugin ) );
+        ReportCustomElementDefinition definition = plugin.CreateElement() ?? new();
+
+        definition.TypeName = descriptor.TypeName.Trim();
+        definition.SchemaVersion = descriptor.SchemaVersion;
+        definition.Name = string.IsNullOrWhiteSpace( definition.Name ) ? descriptor.DisplayName : definition.Name;
+        definition.X = x;
+        definition.Y = y;
+        definition.Width = descriptor.Width;
+        definition.Height = descriptor.Height;
+        definition.Properties ??= new();
+
+        return definition;
+    }
+
     internal static ReportDefinition CreateDefaultSubreportDefinition( string name )
     {
         return new()
@@ -575,6 +593,7 @@ internal static class ReportDefinitionHelper
             ReportElementType.PageBreak => ReportTreeNodeKind.PageBreak,
             ReportElementType.Subreport => ReportTreeNodeKind.Subreport,
             ReportElementType.Panel => ReportTreeNodeKind.Panel,
+            ReportElementType.Custom => ReportTreeNodeKind.Custom,
             _ => ReportTreeNodeKind.Text,
         };
     }

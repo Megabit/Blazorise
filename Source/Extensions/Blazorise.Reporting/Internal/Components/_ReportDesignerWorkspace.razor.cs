@@ -37,8 +37,8 @@ public partial class _ReportDesignerWorkspace
     internal void BeginFieldDrag( string dataSourceName, string fieldName )
         => designerSurface?.BeginFieldDrag( dataSourceName, fieldName );
 
-    internal void BeginToolboxElementDrag( ReportElementType elementType, string text )
-        => designerSurface?.BeginToolboxElementDrag( elementType, text );
+    internal void BeginToolboxElementDrag( ReportToolboxTreeNodeValue value )
+        => designerSurface?.BeginToolboxElementDrag( value );
 
     internal Task CompleteExternalDrag()
         => designerSurface?.CompleteExternalDrag() ?? Task.CompletedTask;

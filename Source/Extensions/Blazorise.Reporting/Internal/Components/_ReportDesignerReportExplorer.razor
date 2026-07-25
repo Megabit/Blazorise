@@ -28,7 +28,7 @@
 
 <Div Class="b-report-designer-report-explorer-tree"
      Padding="PaddingIs3">
-    <_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildReportExplorerNodes( Definition, ReportSelected, SelectedSectionIndex, SelectedElementKey, SelectedCellKey, IsElementSelected, AllowSubreport, searchText, showCurrentPageOnly )"
+    <_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildReportExplorerNodes( Definition, ReportSelected, SelectedSectionIndex, SelectedElementKey, SelectedCellKey, IsElementSelected, ElementPluginRegistry, AllowSubreport, searchText, showCurrentPageOnly )"
                      ExpandAll="@(!string.IsNullOrWhiteSpace( searchText ))"
                      NodeClicked="@NodeClicked"
                      NodeContextMenu="@NodeContextMenu" />

@@ -112,7 +112,7 @@ public partial class _ReportTreeViewNode
     private string IconClass => iconClassBuilder.Class;
 
     private IconName NodeIconName
-        => Node?.Kind switch
+        => Node?.Icon ?? Node?.Kind switch
         {
             ReportTreeNodeKind.Report => IconName.FileAlt,
             ReportTreeNodeKind.Page => IconName.File,
@@ -136,6 +136,7 @@ public partial class _ReportTreeViewNode
             ReportTreeNodeKind.PageBreak => IconName.File,
             ReportTreeNodeKind.Subreport => IconName.FileAlt,
             ReportTreeNodeKind.Panel => IconName.LayerGroup,
+            ReportTreeNodeKind.Custom => IconName.PuzzlePiece,
             ReportTreeNodeKind.Folder => IconName.Folder,
             _ => IconName.TextHeight,
         };

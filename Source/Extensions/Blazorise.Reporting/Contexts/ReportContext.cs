@@ -389,6 +389,11 @@ internal sealed class ReportContext
                 subreportClone.Report = CloneDefinition( ResolveSubreportDefinition( subreportElement ), subreportDepth + 1 );
                 subreportClone.DataSource = subreportElement.DataSource;
                 break;
+            case ReportCustomElementDefinition customElement when clone is ReportCustomElementDefinition customClone:
+                customClone.TypeName = customElement.TypeName;
+                customClone.SchemaVersion = customElement.SchemaVersion;
+                customClone.Properties = customElement.Properties?.DeepClone().AsObject() ?? new();
+                break;
         }
 
         return clone;

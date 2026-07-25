@@ -98,10 +98,18 @@
     <EmbeddedResource Include="Pages\**\*.html" />
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Pages\Docs\Extensions\Reporting\Examples\StatusBadgeReportElementPropertiesExample.razor" />
+    <Content Remove="Pages\Docs\Extensions\Reporting\Examples\StatusBadgeReportElementRendererExample.razor" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Markdig" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pages\Docs\Extensions\Reporting\Examples\StatusBadgeReportElementPropertiesExample.razor" />
+    <None Include="Pages\Docs\Extensions\Reporting\Examples\StatusBadgeReportElementRendererExample.razor" />
   </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->

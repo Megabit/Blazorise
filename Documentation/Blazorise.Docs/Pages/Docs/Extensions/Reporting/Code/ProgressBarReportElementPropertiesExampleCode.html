@@ -1,0 +1,48 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="atSign">&#64;</span>inherits BaseReportElementPropertiesEditor
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span> <span class="htmlAttributeName">Horizontal</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is4</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextSize</span><span class="enumValue">.Small</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Caption<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is8</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>ProgressBarReportElementPlugin.GetCaption( Context.Element )</span><span class="quot">&quot;</span>
+                   <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnCaptionChanged</span><span class="quot">&quot;</span>
+                   <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span> <span class="htmlAttributeName">Horizontal</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is4</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextSize</span><span class="enumValue">.Small</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Value<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is8</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NumericInput</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">int</span><span class="quot">&quot;</span>
+                      <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>ProgressBarReportElementPlugin.GetValue( Context.Element )</span><span class="quot">&quot;</span>
+                      <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnValueChanged</span><span class="quot">&quot;</span>
+                      <span class="htmlAttributeName">Min</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">0</span><span class="quot">&quot;</span>
+                      <span class="htmlAttributeName">Max</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">100</span><span class="quot">&quot;</span>
+                      <span class="htmlAttributeName">Immediate</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">true</span><span class="quot">&quot;</span>
+                      <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span> <span class="htmlAttributeName">Horizontal</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is4</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextSize</span><span class="enumValue">.Small</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Color<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is8</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ColorPicker</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>ProgressBarReportElementPlugin.GetColor( Context.Element )</span><span class="quot">&quot;</span>
+                     <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnColorChanged</span><span class="quot">&quot;</span>
+                     <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> Task OnCaptionChanged( <span class="keyword">string</span> value )
+        =&gt; Context.Update( element =&gt; element.Properties[<span class="string">&quot;caption&quot;</span>] = value );
+
+    <span class="keyword">private</span> Task OnValueChanged( <span class="keyword">int</span> value )
+        =&gt; Context.Update( element =&gt; element.Properties[<span class="string">&quot;value&quot;</span>] = Math.Clamp( value, <span class="number">0</span>, <span class="number">100</span> ) );
+
+    <span class="keyword">private</span> Task OnColorChanged( <span class="keyword">string</span> value )
+        =&gt; Context.Update( element =&gt; element.Properties[<span class="string">&quot;color&quot;</span>] = value );
+}
+</pre></div>
+</div>

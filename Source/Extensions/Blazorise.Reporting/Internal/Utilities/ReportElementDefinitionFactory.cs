@@ -15,6 +15,7 @@ internal static class ReportElementDefinitionFactory
             ReportElementType.PageBreak => new ReportPageBreakElementDefinition(),
             ReportElementType.Subreport => new ReportSubreportElementDefinition(),
             ReportElementType.Panel => new ReportPanelElementDefinition(),
+            ReportElementType.Custom => new ReportCustomElementDefinition(),
             _ => throw new System.ArgumentOutOfRangeException( nameof( elementType ), elementType, null ),
         };
     }

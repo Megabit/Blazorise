@@ -1,0 +1,102 @@
+<div class="blazorise-codeblock">
+<div class="csharp"><pre>
+<span class="keyword">public</span> <span class="keyword">sealed</span> <span class="keyword">class</span> ProgressBarReportElementPlugin : IReportElementPlugin, IReportElementPdfRenderer
+{
+    <span class="keyword">public</span> <span class="keyword">const</span> <span class="keyword">string</span> TypeName = <span class="string">&quot;docs.progress-bar&quot;</span>;
+
+    <span class="keyword">public</span> ReportElementDescriptor Descriptor { <span class="keyword">get</span>; } = <span class="keyword">new</span>()
+    {
+        TypeName = TypeName,
+        DisplayName = <span class="string">&quot;Progress Bar&quot;</span>,
+        Category = <span class="string">&quot;Custom&quot;</span>,
+        Icon = IconName.ChartBar,
+        Width = <span class="number">200</span>,
+        Height = <span class="number">38</span>,
+        Capabilities = ReportElementCapabilities.Default,
+    };
+
+    <span class="keyword">public</span> Type RendererComponentType =&gt; <span class="keyword">typeof</span>( ProgressBarReportElementRenderer );
+
+    <span class="keyword">public</span> Type PropertiesComponentType =&gt; <span class="keyword">typeof</span>( ProgressBarReportElementProperties );
+
+    <span class="keyword">public</span> IReportElementPdfRenderer PdfRenderer =&gt; <span class="keyword">this</span>;
+
+    <span class="keyword">public</span> ReportCustomElementDefinition CreateElement()
+    {
+        <span class="keyword">return</span> <span class="keyword">new</span>()
+        {
+            Properties = <span class="keyword">new</span>()
+            {
+                [<span class="string">&quot;caption&quot;</span>] = <span class="string">&quot;Progress&quot;</span>,
+                [<span class="string">&quot;value&quot;</span>] = <span class="number">60</span>,
+                [<span class="string">&quot;color&quot;</span>] = <span class="string">&quot;#0D6EFD&quot;</span>,
+            },
+        };
+    }
+
+    <span class="keyword">public</span> IEnumerable&lt;PdfElementDefinition&gt; Render( ReportElementPdfRenderContext context )
+    {
+        <span class="keyword">int</span> value = GetValue( context.Element );
+        <span class="keyword">double</span> trackHeight = Math.Min( <span class="number">12</span>, context.Element.Height );
+        <span class="keyword">double</span> trackY = Math.Max( <span class="number">0</span>, context.Element.Height - trackHeight );
+
+        <span class="keyword">yield</span> <span class="keyword">return</span> CreateLabel( context.Element, GetCaption( context.Element ), TextAlignment.Start );
+        <span class="keyword">yield</span> <span class="keyword">return</span> CreateLabel( context.Element, $<span class="string">&quot;{value}%&quot;</span>, TextAlignment.End );
+        <span class="keyword">yield</span> <span class="keyword">return</span> CreateRectangle( context.Element.Width, trackY, trackHeight, <span class="string">&quot;#E9ECEF&quot;</span> );
+        <span class="keyword">yield</span> <span class="keyword">return</span> CreateRectangle( context.Element.Width * value / 100d, trackY, trackHeight, GetColor( context.Element ) );
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span> GetCaption( ReportCustomElementDefinition element )
+        =&gt; element?.Properties?[<span class="string">&quot;caption&quot;</span>]?.GetValue&lt;<span class="keyword">string</span>&gt;() ?? <span class="string">&quot;Progress&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> GetValue( ReportCustomElementDefinition element )
+        =&gt; Math.Clamp( element?.Properties?[<span class="string">&quot;value&quot;</span>]?.GetValue&lt;<span class="keyword">int</span>&gt;() ?? <span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span> );
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span> GetColor( ReportCustomElementDefinition element )
+        =&gt; element?.Properties?[<span class="string">&quot;color&quot;</span>]?.GetValue&lt;<span class="keyword">string</span>&gt;() ?? <span class="string">&quot;#0D6EFD&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">static</span> PdfElementDefinition CreateLabel( ReportCustomElementDefinition element, <span class="keyword">string</span> text, TextAlignment alignment )
+    {
+        <span class="keyword">return</span> <span class="keyword">new</span>()
+        {
+            Type = PdfElementType.Text,
+            Width = element.Width,
+            Height = Math.Min( <span class="number">14</span>, element.Height ),
+            Text = text,
+            Wrap = <span class="keyword">false</span>,
+            Font = <span class="keyword">new</span>()
+            {
+                Size = <span class="number">9</span>,
+                Bold = <span class="keyword">true</span>,
+                Alignment = alignment,
+                VerticalAlignment = VerticalAlignment.Middle,
+                Color = <span class="string">&quot;#212529&quot;</span>,
+            },
+            Border = <span class="keyword">new</span>()
+            {
+                Width = <span class="number">0</span>,
+            },
+        };
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> PdfElementDefinition CreateRectangle( <span class="keyword">double</span> width, <span class="keyword">double</span> y, <span class="keyword">double</span> height, <span class="keyword">string</span> color )
+    {
+        <span class="keyword">return</span> <span class="keyword">new</span>()
+        {
+            Type = PdfElementType.Rectangle,
+            Y = y,
+            Width = width,
+            Height = height,
+            Border = <span class="keyword">new</span>()
+            {
+                Width = <span class="number">0</span>,
+            },
+            Appearance = <span class="keyword">new</span>()
+            {
+                BackgroundColor = color,
+            },
+        };
+    }
+}
+</pre></div>
+</div>

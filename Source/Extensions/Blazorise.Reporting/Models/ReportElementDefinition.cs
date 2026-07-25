@@ -20,6 +20,7 @@ namespace Blazorise.Reporting;
 [JsonDerivedType( typeof( ReportPageBreakElementDefinition ), "pageBreak" )]
 [JsonDerivedType( typeof( ReportSubreportElementDefinition ), "subreport" )]
 [JsonDerivedType( typeof( ReportPanelElementDefinition ), "panel" )]
+[JsonDerivedType( typeof( ReportCustomElementDefinition ), "custom" )]
 public abstract class ReportElementDefinition
 {
     /// <summary>

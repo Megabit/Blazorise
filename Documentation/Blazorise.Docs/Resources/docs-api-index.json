@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-24T14:21:04.1717883Z",
+  "generatedUtc": "2026-07-24T21:19:34.4924239Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -90118,6 +90118,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ElementPlugins",
+          "type": "IEnumerable<>",
+          "typeName": "IEnumerable<IReportElementPlugin>",
+          "defaultValue": "null",
+          "summary": "Custom report element plugins available only to this report instance. The collection is read during initialization.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "ImageAccept",
           "type": "string",
           "typeName": "string",
@@ -90714,6 +90722,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ShowCollisionWarnings",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Indicates whether the element participates in designer collision warnings.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "SnapToGrid",
           "type": "global::Blazorise.Reporting.ReportValue<>",
           "typeName": "ReportValue<bool?>",
@@ -91030,6 +91046,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ShowCollisionWarnings",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Indicates whether the element participates in designer collision warnings.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "SnapToGrid",
           "type": "global::Blazorise.Reporting.ReportValue<>",
           "typeName": "ReportValue<bool?>",
@@ -91197,6 +91221,14 @@
           "defaultValue": "Horizontal",
           "summary": "Line orientation within the element bounds.",
           "isBlazoriseEnum": true
+        },
+        {
+          "name": "ShowCollisionWarnings",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Indicates whether the element participates in designer collision warnings.",
+          "isBlazoriseEnum": false
         },
         {
           "name": "SnapToGrid",
@@ -91547,6 +91579,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ShowCollisionWarnings",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Indicates whether the element participates in designer collision warnings.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "SnapToGrid",
           "type": "global::Blazorise.Reporting.ReportValue<>",
           "typeName": "ReportValue<bool?>",
@@ -91697,6 +91737,14 @@
           "typeName": "double?",
           "defaultValue": "null",
           "summary": "Element opacity from 0 to 1.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowCollisionWarnings",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Indicates whether the element participates in designer collision warnings.",
           "isBlazoriseEnum": false
         },
         {
@@ -92087,6 +92135,14 @@
           "typeName": "double?",
           "defaultValue": "null",
           "summary": "Element opacity from 0 to 1.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowCollisionWarnings",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Indicates whether the element participates in designer collision warnings.",
           "isBlazoriseEnum": false
         },
         {

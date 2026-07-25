@@ -91,6 +91,11 @@ public enum ReportTreeNodeKind
     Panel,
 
     /// <summary>
+    /// Custom element node.
+    /// </summary>
+    Custom,
+
+    /// <summary>
     /// Source fields folder node.
     /// </summary>
     SourceFields,

@@ -124,18 +124,49 @@ public partial class _ReportDesignerPropertiesPanel
 
     private bool MultipleElementsSelected => SelectedElements?.Count > 1;
 
-    private bool AllSelectedElementsSupportCanGrow => AllSelectedElementsMatch( static element => element is not ReportPanelElementDefinition );
+    private bool AllSelectedElementsSupportCanGrow => AllSelectedElementsMatch( element =>
+        element is not ReportPanelElementDefinition
+        && ( element is not ReportCustomElementDefinition
+            || SupportsCustomCapability( element, ReportElementCapabilities.CanGrow ) ) );
 
-    private bool AllSelectedElementsSupportTextFormatting => AllSelectedElementsMatch( static element => ReportElementDefinitionHelper.SupportsTextFormatting( element.Type ) );
+    private bool AllSelectedElementsSupportTextFormatting => AllSelectedElementsMatch( element =>
+        ReportElementDefinitionHelper.SupportsTextFormatting( element.Type )
+        || SupportsCustomCapability( element, ReportElementCapabilities.TextFormatting ) );
 
     private bool AllSelectedElementsSuppressed => AllSelectedElementsMatch( static element => element.Suppress?.Value == true );
 
     private bool AnySelectedElementIsLine => SelectedElements?.Any( static element => element is ReportLineElementDefinition ) == true;
 
+    private IReportElementPlugin SelectedCustomElementPlugin
+    {
+        get
+        {
+            if ( SelectedElement is not ReportCustomElementDefinition customElement
+                 || !AllSelectedElementsMatch( element => element is ReportCustomElementDefinition selectedCustomElement
+                     && string.Equals( selectedCustomElement.TypeName, customElement.TypeName, StringComparison.OrdinalIgnoreCase ) ) )
+            {
+                return null;
+            }
+
+            return ElementPluginRegistry?.Find( customElement.TypeName );
+        }
+    }
+
     private string GetSelectedElementTypeDisplayName()
     {
         if ( SelectedCell is not null )
             return "Table Cell";
+
+        if ( SelectedCustomElementPlugin is not null )
+            return SelectedCustomElementPlugin.Descriptor.DisplayName;
+
+        if ( SelectedElement is ReportCustomElementDefinition customElement )
+        {
+            return AllSelectedElementsMatch( element => element is ReportCustomElementDefinition selectedCustomElement
+                && string.Equals( selectedCustomElement.TypeName, customElement.TypeName, StringComparison.OrdinalIgnoreCase ) )
+                    ? customElement.TypeName ?? "Custom"
+                    : "Multiple types";
+        }
 
         ReportElementType type = SelectedElement.Type;
 
@@ -147,6 +178,28 @@ public partial class _ReportDesignerPropertiesPanel
     private bool AllSelectedElementsAre<TElement>()
         where TElement : ReportElementDefinition
         => AllSelectedElementsMatch( static element => element is TElement );
+
+    private bool SupportsCustomCapability( ReportElementDefinition element, ReportElementCapabilities capability )
+    {
+        if ( element is not ReportCustomElementDefinition customElement )
+            return false;
+
+        return ElementPluginRegistry?.Find( customElement.TypeName )?.Descriptor.Capabilities.HasFlag( capability ) == true;
+    }
+
+    private IDictionary<string, object> GetCustomPropertiesParameters()
+    {
+        if ( SelectedElement is not ReportCustomElementDefinition )
+            return null;
+
+        return new Dictionary<string, object>
+        {
+            [nameof( BaseReportElementPropertiesEditor.Context )] = new ReportElementPropertiesContext(
+                Definition,
+                SelectedElements.OfType<ReportCustomElementDefinition>().ToList(),
+                UpdateSelectedElement ),
+        };
+    }
 
     private bool AllSelectedElementsMatch( Func<ReportElementDefinition, bool> predicate )
     {
@@ -888,6 +941,11 @@ public partial class _ReportDesignerPropertiesPanel
     /// Updates the selected element definitions.
     /// </summary>
     [Parameter] public Func<Action<ReportElementDefinition>, Task> UpdateSelectedElement { get; set; }
+
+    /// <summary>
+    /// Registered custom report elements.
+    /// </summary>
+    [Parameter] public IReportElementPluginRegistry ElementPluginRegistry { get; set; }
 
     /// <summary>
     /// Enables image upload from the Image element source property.

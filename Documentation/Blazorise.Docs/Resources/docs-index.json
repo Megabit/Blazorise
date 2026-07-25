@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-24T14:21:04.7173706Z",
+  "generatedUtc": "2026-07-25T11:07:27.4844578Z",
   "pages": [
     {
       "route": "/docs",
@@ -7665,6 +7665,100 @@
           "content": "@font-face {\r\n    font-family: \"Inter\";\r\n    src: url(\"fonts/Inter-Regular.ttf\") format(\"truetype\");\r\n    font-weight: 400;\r\n    font-style: normal;\r\n    font-display: swap;\r\n}",
           "title": "Fonts",
           "description": "Register fonts when PDF export must use the same font family as the designer and HTML preview."
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/reporting/plugins",
+      "title": "Blazorise Reporting plugins",
+      "description": "Create custom report elements with toolbox, designer, HTML preview, properties, serialization, and PDF rendering support.",
+      "pagePath": "Pages/Docs/Extensions/Reporting/PluginsPage.razor",
+      "examples": [
+        {
+          "code": "ReportingPluginRegistrationExample",
+          "kind": "csharp",
+          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingPluginRegistrationExample.csharp",
+          "content": "builder.Services\r\n    .AddBlazoriseReporting()\r\n    .AddReportElementPlugin<ProgressBarReportElementPlugin>();",
+          "title": "Application-wide registration",
+          "description": "Register a plugin once to make it available to every report in the current scope."
+        },
+        {
+          "code": "ReportingPluginExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingPluginExample.razor",
+          "content": "<Report Definition=\"@definition\"\r\n        ElementPlugins=\"@plugins\"\r\n        Editable\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\" />\r\n\r\n@code {\r\n    private readonly IReportElementPlugin[] plugins = [new ProgressBarReportElementPlugin()];\r\n\r\n    private readonly ReportDefinition definition = new()\r\n    {\r\n        Name = \"Plugin example\",\r\n        Pages =\r\n        [\r\n            new()\r\n            {\r\n                Name = \"Plugin\",\r\n                Bands =\r\n                [\r\n                    new()\r\n                    {\r\n                        Name = \"Custom elements\",\r\n                        Type = ReportBandType.Detail,\r\n                        Default = true,\r\n                        Height = 150,\r\n                        Elements =\r\n                        [\r\n                            new ReportTextElementDefinition\r\n                            {\r\n                                Text = \"Custom report element\",\r\n                                X = 30,\r\n                                Y = 18,\r\n                                Width = 240,\r\n                                Height = 24,\r\n                                Font = new()\r\n                                {\r\n                                    Size = 18,\r\n                                    Bold = true,\r\n                                },\r\n                            },\r\n                            new ReportCustomElementDefinition\r\n                            {\r\n                                TypeName = ProgressBarReportElementPlugin.TypeName,\r\n                                Name = \"Project completion\",\r\n                                X = 30,\r\n                                Y = 60,\r\n                                Width = 200,\r\n                                Height = 38,\r\n                                Properties = new()\r\n                                {\r\n                                    [\"caption\"] = \"Project completion\",\r\n                                    [\"value\"] = 72,\r\n                                    [\"color\"] = \"#0D6EFD\",\r\n                                },\r\n                            },\r\n                        ],\r\n                    },\r\n                ],\r\n            },\r\n        ],\r\n    };\r\n}",
+          "title": "Custom progress element",
+          "description": "This report registers a Progress Bar plugin on one report instance. The element appears under the Custom toolbox group, can be moved and resized like a built-in element, exposes undo-aware Caption, Value, and Color properties, and renders the same fixed geometry in HTML preview and PDF output."
+        },
+        {
+          "code": "ProgressBarReportElementPluginExample",
+          "kind": "csharp",
+          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ProgressBarReportElementPluginExample.csharp",
+          "content": "public sealed class ProgressBarReportElementPlugin : IReportElementPlugin, IReportElementPdfRenderer\r\n{\r\n    public const string TypeName = \"docs.progress-bar\";\r\n\r\n    public ReportElementDescriptor Descriptor { get; } = new()\r\n    {\r\n        TypeName = TypeName,\r\n        DisplayName = \"Progress Bar\",\r\n        Category = \"Custom\",\r\n        Icon = IconName.ChartBar,\r\n        Width = 200,\r\n        Height = 38,\r\n        Capabilities = ReportElementCapabilities.Default,\r\n    };\r\n\r\n    public Type RendererComponentType => typeof( ProgressBarReportElementRenderer );\r\n\r\n    public Type PropertiesComponentType => typeof( ProgressBarReportElementProperties );\r\n\r\n    public IReportElementPdfRenderer PdfRenderer => this;\r\n\r\n    public ReportCustomElementDefinition CreateElement()\r\n    {\r\n        return new()\r\n        {\r\n            Properties = new()\r\n            {\r\n                [\"caption\"] = \"Progress\",\r\n                [\"value\"] = 60,\r\n                [\"color\"] = \"#0D6EFD\",\r\n            },\r\n        };\r\n    }\r\n\r\n    public IEnumerable<PdfElementDefinition> Render( ReportElementPdfRenderContext context )\r\n    {\r\n        int value = GetValue( context.Element );\r\n        double trackHeight = Math.Min( 12, context.Element.Height );\r\n        double trackY = Math.Max( 0, context.Element.Height - trackHeight );\r\n\r\n        yield return CreateLabel( context.Element, GetCaption( context.Element ), TextAlignment.Start );\r\n        yield return CreateLabel( context.Element, $\"{value}%\", TextAlignment.End );\r\n        yield return CreateRectangle( context.Element.Width, trackY, trackHeight, \"#E9ECEF\" );\r\n        yield return CreateRectangle( context.Element.Width * value / 100d, trackY, trackHeight, GetColor( context.Element ) );\r\n    }\r\n\r\n    private static string GetCaption( ReportCustomElementDefinition element )\r\n        => element?.Properties?[\"caption\"]?.GetValue<string>() ?? \"Progress\";\r\n\r\n    private static int GetValue( ReportCustomElementDefinition element )\r\n        => Math.Clamp( element?.Properties?[\"value\"]?.GetValue<int>() ?? 0, 0, 100 );\r\n\r\n    private static string GetColor( ReportCustomElementDefinition element )\r\n        => element?.Properties?[\"color\"]?.GetValue<string>() ?? \"#0D6EFD\";\r\n\r\n    private static PdfElementDefinition CreateLabel( ReportCustomElementDefinition element, string text, TextAlignment alignment )\r\n    {\r\n        return new()\r\n        {\r\n            Type = PdfElementType.Text,\r\n            Width = element.Width,\r\n            Height = Math.Min( 14, element.Height ),\r\n            Text = text,\r\n            Wrap = false,\r\n            Font = new()\r\n            {\r\n                Size = 9,\r\n                Bold = true,\r\n                Alignment = alignment,\r\n                VerticalAlignment = VerticalAlignment.Middle,\r\n                Color = \"#212529\",\r\n            },\r\n            Border = new()\r\n            {\r\n                Width = 0,\r\n            },\r\n        };\r\n    }\r\n\r\n    private static PdfElementDefinition CreateRectangle( double width, double y, double height, string color )\r\n    {\r\n        return new()\r\n        {\r\n            Type = PdfElementType.Rectangle,\r\n            Y = y,\r\n            Width = width,\r\n            Height = height,\r\n            Border = new()\r\n            {\r\n                Width = 0,\r\n            },\r\n            Appearance = new()\r\n            {\r\n                BackgroundColor = color,\r\n            },\r\n        };\r\n    }\r\n}",
+          "title": "Plugin definition and PDF renderer",
+          "description": "The descriptor controls toolbox metadata and capabilities, while the factory initializes plugin-owned JSON properties. The PDF renderer maps the progress element to text and rectangle primitives positioned inside the element bounds."
+        },
+        {
+          "code": "ProgressBarReportElementRendererExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ProgressBarReportElementRendererExample.razor",
+          "content": "@inherits BaseReportElementRenderer\r\n\r\n<Div Height=\"Height.Is100\"\r\n     Width=\"Width.Is100\"\r\n     Flex=\"Flex.Column.JustifyContent.Between\">\r\n    <Div Flex=\"Flex.JustifyContent.Between.AlignItems.Center\"\r\n         Style=\"height:14pt;font-size:9pt;line-height:14pt;font-weight:700;color:#212529\">\r\n        <Span>@ProgressBarReportElementPlugin.GetCaption( Context.Element )</Span>\r\n        <Span>@($\"{Value}%\")</Span>\r\n    </Div>\r\n    <Div Style=\"height:12pt;background-color:#E9ECEF;overflow:hidden\">\r\n        <Div Height=\"Height.Is100\" Style=\"@FillStyle\" />\r\n    </Div>\r\n</Div>\r\n\r\n@code {\r\n    private int Value => ProgressBarReportElementPlugin.GetValue( Context.Element );\r\n\r\n    private string FillStyle => $\"width:{Value}%;background-color:{ProgressBarReportElementPlugin.GetColor( Context.Element )}\";\r\n}",
+          "title": "HTML renderer",
+          "description": "The renderer receives current report and data state through its context and draws only inside the element content box."
+        },
+        {
+          "code": "ProgressBarReportElementPropertiesExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ProgressBarReportElementPropertiesExample.razor",
+          "content": "@inherits BaseReportElementPropertiesEditor\r\n\r\n<Field Horizontal>\r\n    <FieldLabel ColumnSize=\"ColumnSize.Is4\" TextSize=\"TextSize.Small\">Caption</FieldLabel>\r\n    <FieldBody ColumnSize=\"ColumnSize.Is8\">\r\n        <TextInput Value=\"@ProgressBarReportElementPlugin.GetCaption( Context.Element )\"\r\n                   ValueChanged=\"@OnCaptionChanged\"\r\n                   Size=\"Size.Small\" />\r\n    </FieldBody>\r\n</Field>\r\n\r\n<Field Horizontal>\r\n    <FieldLabel ColumnSize=\"ColumnSize.Is4\" TextSize=\"TextSize.Small\">Value</FieldLabel>\r\n    <FieldBody ColumnSize=\"ColumnSize.Is8\">\r\n        <NumericInput TValue=\"int\"\r\n                      Value=\"@ProgressBarReportElementPlugin.GetValue( Context.Element )\"\r\n                      ValueChanged=\"@OnValueChanged\"\r\n                      Min=\"0\"\r\n                      Max=\"100\"\r\n                      Immediate=\"true\"\r\n                      Size=\"Size.Small\" />\r\n    </FieldBody>\r\n</Field>\r\n\r\n<Field Horizontal>\r\n    <FieldLabel ColumnSize=\"ColumnSize.Is4\" TextSize=\"TextSize.Small\">Color</FieldLabel>\r\n    <FieldBody ColumnSize=\"ColumnSize.Is8\">\r\n        <ColorPicker Value=\"@ProgressBarReportElementPlugin.GetColor( Context.Element )\"\r\n                     ValueChanged=\"@OnColorChanged\"\r\n                     Size=\"Size.Small\" />\r\n    </FieldBody>\r\n</Field>\r\n\r\n@code {\r\n    private Task OnCaptionChanged( string value )\r\n        => Context.Update( element => element.Properties[\"caption\"] = value );\r\n\r\n    private Task OnValueChanged( int value )\r\n        => Context.Update( element => element.Properties[\"value\"] = Math.Clamp( value, 0, 100 ) );\r\n\r\n    private Task OnColorChanged( string value )\r\n        => Context.Update( element => element.Properties[\"color\"] = value );\r\n}",
+          "title": "Properties editor",
+          "description": "Plugin property changes are applied through the context so they participate in undo, refresh, and multi-selection updates."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "IReportElementPlugin"
+        },
+        {
+          "kind": "type",
+          "name": "IReportElementPluginRegistry"
+        },
+        {
+          "kind": "type",
+          "name": "ReportElementDescriptor"
+        },
+        {
+          "kind": "type",
+          "name": "ReportElementCapabilities"
+        },
+        {
+          "kind": "type",
+          "name": "ReportCustomElementDefinition"
+        },
+        {
+          "kind": "type",
+          "name": "BaseReportElementRenderer"
+        },
+        {
+          "kind": "type",
+          "name": "BaseReportElementPropertiesEditor"
+        },
+        {
+          "kind": "type",
+          "name": "IReportElementPdfRenderer"
+        },
+        {
+          "kind": "type",
+          "name": "ReportElementRenderContext"
+        },
+        {
+          "kind": "type",
+          "name": "ReportElementPropertiesContext"
+        },
+        {
+          "kind": "type",
+          "name": "ReportElementPdfRenderContext"
         }
       ]
     },

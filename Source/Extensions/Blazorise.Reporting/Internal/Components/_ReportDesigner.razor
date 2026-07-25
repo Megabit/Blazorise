@@ -3,32 +3,34 @@
 @using Microsoft.AspNetCore.Components
 @using Blazorise.Reporting.Internal
 
-<CascadingValue Value="@context" IsFixed="true">
-    <Div Display="DisplayNone">
-        @ChildContent
-    </Div>
-</CascadingValue>
-
-<Div Class="b-report">
-    <CascadingValue Value="@modalProviderName" Name="ReportModalProviderName" IsFixed="true">
-        <Div Class="b-report-layout" Flex="FlexColumn" Gap="GapIs1">
-            @if ( ShowToolbar && !( CurrentMode == ReportMode.Design && IsEditable ) )
-            {
-                <Div Class="b-report-toolbar" Flex="FlexAlignItemsCenter" Gap="GapIs2" Padding="PaddingIs3" Border="BorderIs1" Background="BackgroundWhite">
-                    <_ReportDesignerToolbarContent Designer="@this" />
-                </Div>
-            }
-
-            @if ( CurrentMode == ReportMode.Design && IsEditable )
-            {
-                <_ReportDesignerWorkspace @ref="workspaceRef" Designer="@this" />
-            }
-            else
-            {
-                <_ReportPreview Designer="@this" />
-            }
+<CascadingValue Value="@ElementPluginRegistry" IsFixed="true">
+    <CascadingValue Value="@context" IsFixed="true">
+        <Div Display="DisplayNone">
+            @ChildContent
         </Div>
     </CascadingValue>
 
-    <_ReportModalProvider ProviderName="@modalProviderName" />
-</Div>
+    <Div Class="b-report">
+        <CascadingValue Value="@modalProviderName" Name="ReportModalProviderName" IsFixed="true">
+            <Div Class="b-report-layout" Flex="FlexColumn" Gap="GapIs1">
+                @if ( ShowToolbar && !( CurrentMode == ReportMode.Design && IsEditable ) )
+                {
+                    <Div Class="b-report-toolbar" Flex="FlexAlignItemsCenter" Gap="GapIs2" Padding="PaddingIs3" Border="BorderIs1" Background="BackgroundWhite">
+                        <_ReportDesignerToolbarContent Designer="@this" />
+                    </Div>
+                }
+
+                @if ( CurrentMode == ReportMode.Design && IsEditable )
+                {
+                    <_ReportDesignerWorkspace @ref="workspaceRef" Designer="@this" />
+                }
+                else
+                {
+                    <_ReportPreview Designer="@this" />
+                }
+            </Div>
+        </CascadingValue>
+
+        <_ReportModalProvider ProviderName="@modalProviderName" />
+    </Div>
+</CascadingValue>

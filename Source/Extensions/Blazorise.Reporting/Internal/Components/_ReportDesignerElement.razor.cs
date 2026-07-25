@@ -133,7 +133,7 @@ public partial class _ReportDesignerElement
     /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
-        ReportElementDefinitionHelper.BuildStyle( builder, Element, Definition, Data, Item, Section, DesignMode );
+        ReportElementDefinitionHelper.BuildStyle( builder, Element, Definition, Data, Item, Section, DesignMode, CustomElementSupportsTextFormatting );
 
         base.BuildStyles( builder );
     }
@@ -279,6 +279,21 @@ public partial class _ReportDesignerElement
         reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
     }
 
+    private IDictionary<string, object> GetCustomRendererParameters( ReportCustomElementDefinition element )
+    {
+        return new Dictionary<string, object>
+        {
+            [nameof( BaseReportElementRenderer.Context )] = new ReportElementRenderContext(
+                Definition,
+                Section,
+                element,
+                Data,
+                Item,
+                RunningTotals,
+                DesignMode ),
+        };
+    }
+
     #endregion
 
     #region Properties
@@ -303,7 +318,36 @@ public partial class _ReportDesignerElement
 
     private bool IsDesignerEditing => CanReceiveDesignerInteraction && !ElementSuppressed && Editing;
 
-    private bool ShowResizeHandles => CanReceiveDesignerInteraction && !ElementSuppressed && Selected && !Editing && !LayoutLocked;
+    private bool ShowResizeHandles => CanReceiveDesignerInteraction && !ElementSuppressed && Selected && !Editing && !LayoutLocked && CustomElementResizable;
+
+    private bool CustomElementResizable
+    {
+        get
+        {
+            if ( Element is not ReportCustomElementDefinition customElement )
+                return true;
+
+            IReportElementPlugin plugin = ElementPluginRegistry?.Find( customElement.TypeName );
+
+            return plugin?.Descriptor.Capabilities.HasFlag( ReportElementCapabilities.Resizable ) == true;
+        }
+    }
+
+    private bool CustomElementSupportsTextFormatting
+    {
+        get
+        {
+            if ( Element is not ReportCustomElementDefinition customElement )
+                return false;
+
+            return ElementPluginRegistry?.Find( customElement.TypeName )?.Descriptor.Capabilities.HasFlag( ReportElementCapabilities.TextFormatting ) == true;
+        }
+    }
+
+    /// <summary>
+    /// Registered custom report elements.
+    /// </summary>
+    [CascadingParameter] public IReportElementPluginRegistry ElementPluginRegistry { get; set; }
 
     [Inject] private IJSRuntime JSRuntime { get; set; }
 

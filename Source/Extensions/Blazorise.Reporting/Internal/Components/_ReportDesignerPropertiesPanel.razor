@@ -300,6 +300,14 @@
                 </_ReportDesignerPropertyGroup>
             }
 
+            @if ( SelectedCustomElementPlugin?.PropertiesComponentType is not null )
+            {
+                <_ReportDesignerPropertyGroup Title="@(SelectedCustomElementPlugin.Descriptor.PropertiesGroupName ?? SelectedCustomElementPlugin.Descriptor.DisplayName)">
+                    <DynamicComponent Type="@SelectedCustomElementPlugin.PropertiesComponentType"
+                                      Parameters="@GetCustomPropertiesParameters()" />
+                </_ReportDesignerPropertyGroup>
+            }
+
             <_ReportDesignerPropertyGroup Title="Position and size">
                 <_ReportDesignerNumberProperty TValue="double?" Label="X" Value="@GetSharedMeasurementValue( element => element.X )" Changed="@OnSelectedElementXChanged" Max="@FromPoints( Definition.Page.Width )" Step="@GetMeasurementStep()" />
                 <_ReportDesignerNumberProperty TValue="double?" Label="Y" Value="@GetSharedMeasurementValue( element => element.Y )" Changed="@OnSelectedElementYChanged" Max="@FromPoints( FormulaSection?.Height ?? Definition.Page.Height )" Step="@GetMeasurementStep()" />

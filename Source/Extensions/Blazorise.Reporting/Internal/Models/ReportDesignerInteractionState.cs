@@ -24,6 +24,8 @@ internal sealed class ReportDesignerInteractionState
 
     public ReportElementType? DraggedElementType { get; set; }
 
+    public string DraggedCustomElementTypeName { get; set; }
+
     public string DraggedElementText { get; set; }
 
     public string DraggedElementKey { get; set; }

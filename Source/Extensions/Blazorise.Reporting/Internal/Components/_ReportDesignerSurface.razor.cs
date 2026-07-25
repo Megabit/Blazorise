@@ -112,12 +112,12 @@ public partial class _ReportDesignerSurface
         ReportDesignerInteractionService.BeginFieldDrag( designerState, dataSourceName, fieldName );
     }
 
-    internal void BeginToolboxElementDrag( ReportElementType elementType, string text )
+    internal void BeginToolboxElementDrag( ReportToolboxTreeNodeValue value )
     {
-        if ( elementType == ReportElementType.Subreport && !CanInsertSubreportElement )
+        if ( value?.ElementType == ReportElementType.Subreport && !CanInsertSubreportElement )
             return;
 
-        ReportDesignerInteractionService.BeginToolboxElementDrag( designerState, elementType, text );
+        ReportDesignerInteractionService.BeginToolboxElementDrag( designerState, value );
     }
 
     internal bool IsExternalDesignerDragActive()
@@ -210,6 +210,7 @@ public partial class _ReportDesignerSurface
         designerState.DraggedDataSourceName = null;
         designerState.DraggedFieldName = null;
         designerState.DraggedElementType = null;
+        designerState.DraggedCustomElementTypeName = null;
         designerState.DraggedElementText = null;
         designerState.DraggedElementKey = tableKey;
         designerState.DraggedElement = table;
@@ -264,6 +265,7 @@ public partial class _ReportDesignerSurface
         designerState.DraggedDataSourceName = null;
         designerState.DraggedFieldName = null;
         designerState.DraggedElementType = null;
+        designerState.DraggedCustomElementTypeName = null;
         designerState.DraggedElementText = null;
         designerState.DraggedElementKey = null;
         designerState.DraggedElement = null;
@@ -1558,7 +1560,7 @@ public partial class _ReportDesignerSurface
                     && dragDropService.TryFindPanelAt( targetSection, x, y, designerState.DraggedElement, out ReportPanelDropTarget foundPanelDropTarget )
                         ? foundPanelDropTarget
                         : null;
-                ReportDropResult result = dragDropService.Drop( definition, designerState, targetSectionIndex, x, y, tableCellDropTarget, panelDropTarget, tableEditor );
+                ReportDropResult result = dragDropService.Drop( definition, designerState, targetSectionIndex, x, y, tableCellDropTarget, panelDropTarget, tableEditor, Designer.ElementPluginRegistry );
 
                 if ( !string.IsNullOrWhiteSpace( result.SelectedCellKey ) )
                     SelectTableCell( result.SelectedCellKey );
@@ -1583,7 +1585,7 @@ public partial class _ReportDesignerSurface
 
     private ReportDesignerDragPreview CreateDragPreview( int targetSectionIndex, double x, double y )
     {
-        return dragDropService.CreateDragPreview( EffectiveDefinition, designerState, targetSectionIndex, x, y );
+        return dragDropService.CreateDragPreview( EffectiveDefinition, designerState, targetSectionIndex, x, y, Designer.ElementPluginRegistry );
     }
 
     internal async Task ClearDesignerDrag()

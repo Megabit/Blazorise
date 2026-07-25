@@ -20,6 +20,7 @@ internal static class ReportDesignerInteractionService
         state.DraggedDataSourceName = dataSourceName;
         state.DraggedFieldName = fieldName;
         state.DraggedElementType = null;
+        state.DraggedCustomElementTypeName = null;
         state.DraggedElementText = null;
         state.DraggedElementKey = null;
         state.DraggedElement = null;
@@ -32,14 +33,15 @@ internal static class ReportDesignerInteractionService
         state.SectionPointerResize = null;
     }
 
-    internal static void BeginToolboxElementDrag( ReportDesignerInteractionState state, ReportElementType elementType, string text )
+    internal static void BeginToolboxElementDrag( ReportDesignerInteractionState state, ReportToolboxTreeNodeValue value )
     {
-        if ( state is null )
+        if ( state is null || value is null )
             return;
 
         state.DraggedKind = ReportDesignerDragKind.ToolboxElement;
-        state.DraggedElementType = elementType;
-        state.DraggedElementText = text;
+        state.DraggedElementType = value.ElementType;
+        state.DraggedCustomElementTypeName = value.CustomTypeName;
+        state.DraggedElementText = value.Text;
         state.DraggedDataSourceName = null;
         state.DraggedFieldName = null;
         state.DraggedElementKey = null;
@@ -76,6 +78,7 @@ internal static class ReportDesignerInteractionService
         state.DraggedDataSourceName = null;
         state.DraggedFieldName = null;
         state.DraggedElementType = null;
+        state.DraggedCustomElementTypeName = null;
         state.DraggedElementText = null;
         state.DragPreview = null;
         state.LastDragPreviewRenderTime = DateTime.MinValue;
@@ -121,6 +124,7 @@ internal static class ReportDesignerInteractionService
         state.DraggedDataSourceName = null;
         state.DraggedFieldName = null;
         state.DraggedElementType = null;
+        state.DraggedCustomElementTypeName = null;
         state.DraggedElementText = null;
         state.DragPreview = null;
         state.LastDragPreviewRenderTime = DateTime.MinValue;
@@ -160,6 +164,7 @@ internal static class ReportDesignerInteractionService
         state.DraggedDataSourceName = null;
         state.DraggedFieldName = null;
         state.DraggedElementType = null;
+        state.DraggedCustomElementTypeName = null;
         state.DraggedElementText = null;
         state.DraggedElementKey = null;
         state.DraggedElement = null;

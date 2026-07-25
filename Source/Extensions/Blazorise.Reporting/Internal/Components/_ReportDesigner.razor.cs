@@ -97,6 +97,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private IReportDataSourceProviderRegistry dataSourceProviderRegistry;
 
+    private IReportElementPluginRegistry elementPluginRegistry;
+
     private JSReportingModule reportingModule;
 
     private PdfGenerationResult pdfPreviewResult;
@@ -409,7 +411,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     {
         if ( eventArgs.Node?.Value is ReportToolboxTreeNodeValue value )
         {
-            workspaceRef?.BeginToolboxElementDrag( value.ElementType, value.Text );
+            workspaceRef?.BeginToolboxElementDrag( value );
         }
 
         return Task.CompletedTask;
@@ -802,7 +804,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             return result;
 
         ReportDefinition definition = RootDefinition;
-        PdfDocumentDefinition pdfDocument = ReportPdfDocumentBuilder.Build( definition, Data );
+        PdfDocumentDefinition pdfDocument = ReportPdfDocumentBuilder.Build( definition, Data, ElementPluginRegistry );
 
         result = await PdfGenerator.Generate( pdfDocument, new()
         {
@@ -3285,6 +3287,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     private IReportDataSourceProviderRegistry DataSourceProviderRegistry
         => dataSourceProviderRegistry ??= ServiceProvider.GetService<IReportDataSourceProviderRegistry>();
 
+    internal IReportElementPluginRegistry ElementPluginRegistry
+        => elementPluginRegistry ??= new ReportElementPluginRegistry(
+            ( ServiceProvider.GetService<IReportElementPluginRegistry>()?.Plugins ?? [] )
+                .Concat( ElementPlugins ?? [] ) );
+
     private IReadOnlyList<IReportDataSourceProvider> DataSourceProviders
         => DataSourceProviderRegistry?.Providers?.Count > 0
             ? DataSourceProviderRegistry.Providers
@@ -3527,6 +3534,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// Preview format selected when preview mode is first opened.
     /// </summary>
     [Parameter] public ReportPreviewFormat? DefaultPreviewFormat { get; set; }
+
+    /// <summary>
+    /// Custom report element plugins available only to this report instance. The collection is read during initialization.
+    /// </summary>
+    [Parameter] public IEnumerable<IReportElementPlugin> ElementPlugins { get; set; }
 
     /// <summary>
     /// Declarative report content used as the initial report definition.

@@ -35,6 +35,7 @@
     </PageTabs>
     <ToolboxPanel>
         <_ReportDesignerToolboxPanel ToolboxNodeDragStarted="@Designer.OnToolboxTreeNodeDragStarted"
+                                     ElementPluginRegistry="@Designer.ElementPluginRegistry"
                                      AllowSubreport="@Designer.CanInsertSubreport"
                                      NodeDragEnded="@Designer.OnDesignerNodeDragEnded" />
     </ToolboxPanel>
@@ -105,6 +106,7 @@
                                         InsertGroup="@Designer.OpenSelectedDetailGroupDialog"
                                         DeleteSelectedSection="@Designer.DeleteSelectedSection"
                                         UpdateSelectedElement="@Designer.UpdateSelectedElementsFromProperties"
+                                        ElementPluginRegistry="@Designer.ElementPluginRegistry"
                                         UploadImage="@Designer.UploadImage"
                                         ImageAccept="@Designer.ImageAccept"
                                         ImageMaxSize="@Designer.ImageMaxSize"
@@ -125,6 +127,7 @@
                                        SelectedElementKey="@Designer.Selection.PrimaryElementKey"
                                        SelectedCellKey="@Designer.Selection.SelectedCellKey"
                                        AllowSubreport="@Designer.CanInsertSubreport"
+                                       ElementPluginRegistry="@Designer.ElementPluginRegistry"
                                        IsElementSelected="@Designer.Selection.IsElementSelected"
                                        NodeClicked="@Designer.OnReportTreeNodeClicked"
                                        NodeContextMenu="@Designer.OnReportTreeNodeContextMenu" />

@@ -12,6 +12,11 @@ public partial class _ReportDesignerToolboxPanel
     #region Properties
 
     /// <summary>
+    /// Registered custom report elements.
+    /// </summary>
+    [Parameter] public IReportElementPluginRegistry ElementPluginRegistry { get; set; }
+
+    /// <summary>
     /// Indicates that subreport toolbox item is available.
     /// </summary>
     [Parameter] public bool AllowSubreport { get; set; } = true;

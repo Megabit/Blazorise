@@ -48,5 +48,10 @@ public enum ReportElementType
     /// <summary>
     /// Container that groups child report elements.
     /// </summary>
-    Panel
+    Panel,
+
+    /// <summary>
+    /// Element supplied by a registered report element plugin.
+    /// </summary>
+    Custom
 }

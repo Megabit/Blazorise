@@ -19,7 +19,7 @@ internal static class ReportDesignerTreeBuilder
 
     #region Methods
 
-    internal static IReadOnlyList<ReportTreeNode> BuildToolboxNodes( bool allowSubreport = true )
+    internal static IReadOnlyList<ReportTreeNode> BuildToolboxNodes( IReportElementPluginRegistry pluginRegistry, bool allowSubreport = true )
     {
         List<ReportTreeNode> reportItems =
         [
@@ -34,7 +34,7 @@ internal static class ReportDesignerTreeBuilder
         if ( allowSubreport )
             reportItems.Add( CreateToolboxNode( "toolbox:subreport", "Subreport", ReportElementType.Subreport, null ) );
 
-        return
+        List<ReportTreeNode> groups =
         [
             new()
             {
@@ -44,6 +44,30 @@ internal static class ReportDesignerTreeBuilder
                 Children = reportItems,
             }
         ];
+
+        foreach ( IGrouping<string, IReportElementPlugin> category in ( pluginRegistry?.Plugins ?? [] )
+                     .Where( plugin => plugin.Descriptor?.ShowInToolbox == true )
+                     .GroupBy(
+                         plugin => string.IsNullOrWhiteSpace( plugin.Descriptor.Category ) ? "Custom" : plugin.Descriptor.Category,
+                         StringComparer.OrdinalIgnoreCase ) )
+        {
+            List<ReportTreeNode> customItems = category.Select( CreateToolboxNode ).ToList();
+
+            if ( string.Equals( category.Key, "Report Items", StringComparison.OrdinalIgnoreCase ) )
+                reportItems.AddRange( customItems );
+            else
+            {
+                groups.Add( new()
+                {
+                    Key = $"toolbox:category:{category.Key}",
+                    Text = category.Key,
+                    Kind = ReportTreeNodeKind.Folder,
+                    Children = customItems,
+                } );
+            }
+        }
+
+        return groups;
     }
 
     internal static IReadOnlyList<ReportTreeNode> BuildFieldsExplorerNodes(
@@ -73,6 +97,7 @@ internal static class ReportDesignerTreeBuilder
         string selectedElementKey,
         string selectedCellKey,
         Func<string, bool> isElementSelected,
+        IReportElementPluginRegistry pluginRegistry,
         bool allowSubreport = true,
         string searchText = null,
         bool currentPageOnly = false )
@@ -107,7 +132,7 @@ internal static class ReportDesignerTreeBuilder
                             && string.IsNullOrWhiteSpace( selectedElementKey ),
                         Children = section.Elements
                             .Where( element => allowSubreport || element.Type != ReportElementType.Subreport )
-                            .Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected, allowSubreport ) )
+                            .Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected, pluginRegistry, allowSubreport ) )
                             .ToList(),
                     } )
                     .ToList(),
@@ -192,24 +217,30 @@ internal static class ReportDesignerTreeBuilder
         return !string.IsNullOrWhiteSpace( cellKey );
     }
 
-    private static ReportTreeNode BuildReportElementNode( ReportElementDefinition element, string selectedCellKey, Func<string, bool> isElementSelected, bool allowSubreport = true )
+    private static ReportTreeNode BuildReportElementNode( ReportElementDefinition element, string selectedCellKey, Func<string, bool> isElementSelected, IReportElementPluginRegistry pluginRegistry, bool allowSubreport = true )
     {
         var elementKey = ReportDefinitionHelper.EnsureElementId( element );
+        IReportElementPlugin plugin = element is ReportCustomElementDefinition customElement
+            ? pluginRegistry?.Find( customElement.TypeName )
+            : null;
 
         return new()
         {
             Key = CreateElementTreeNodeKey( elementKey ),
             Text = element.Name ?? ReportElementDefinitionHelper.GetDisplayText( element ),
-            Detail = ReportDefinitionHelper.GetElementTypeDisplayName( element.Type ),
+            Detail = plugin?.Descriptor.DisplayName
+                ?? ( element as ReportCustomElementDefinition )?.TypeName
+                ?? ReportDefinitionHelper.GetElementTypeDisplayName( element.Type ),
             Kind = ReportDefinitionHelper.GetElementTreeNodeKind( element.Type ),
+            Icon = plugin?.Descriptor.Icon,
             Selectable = true,
             Selected = isElementSelected?.Invoke( elementKey ) == true,
             Children = element switch
             {
-                ReportTableElementDefinition table => BuildTableChildNodes( table, elementKey, selectedCellKey, isElementSelected, allowSubreport ),
+                ReportTableElementDefinition table => BuildTableChildNodes( table, elementKey, selectedCellKey, isElementSelected, pluginRegistry, allowSubreport ),
                 ReportPanelElementDefinition panel => ( panel.Elements ?? [] )
                     .Where( child => allowSubreport || child.Type != ReportElementType.Subreport )
-                    .Select( child => BuildReportElementNode( child, selectedCellKey, isElementSelected, allowSubreport ) )
+                    .Select( child => BuildReportElementNode( child, selectedCellKey, isElementSelected, pluginRegistry, allowSubreport ) )
                     .ToList(),
                 _ => [],
             },
@@ -266,7 +297,7 @@ internal static class ReportDesignerTreeBuilder
         return node.Children.Count > 0;
     }
 
-    private static List<ReportTreeNode> BuildTableChildNodes( ReportTableElementDefinition table, string tableKey, string selectedCellKey, Func<string, bool> isElementSelected, bool allowSubreport )
+    private static List<ReportTreeNode> BuildTableChildNodes( ReportTableElementDefinition table, string tableKey, string selectedCellKey, Func<string, bool> isElementSelected, IReportElementPluginRegistry pluginRegistry, bool allowSubreport )
     {
         List<ReportTreeNode> rows = [];
         int rowCount = Math.Max(
@@ -281,14 +312,14 @@ internal static class ReportDesignerTreeBuilder
                 Text = $"Row {( rowIndex + 1 ).ToString( CultureInfo.InvariantCulture )}",
                 Detail = "Row",
                 Kind = ReportTreeNodeKind.TableRow,
-                Children = BuildTableCellNodes( table, rowIndex, selectedCellKey, isElementSelected, allowSubreport ),
+                Children = BuildTableCellNodes( table, rowIndex, selectedCellKey, isElementSelected, pluginRegistry, allowSubreport ),
             } );
         }
 
         return rows;
     }
 
-    private static List<ReportTreeNode> BuildTableCellNodes( ReportTableElementDefinition table, int rowIndex, string selectedCellKey, Func<string, bool> isElementSelected, bool allowSubreport )
+    private static List<ReportTreeNode> BuildTableCellNodes( ReportTableElementDefinition table, int rowIndex, string selectedCellKey, Func<string, bool> isElementSelected, IReportElementPluginRegistry pluginRegistry, bool allowSubreport )
     {
         return ( table.Cells ?? [] )
             .Where( cell => cell.RowIndex == rowIndex )
@@ -307,7 +338,7 @@ internal static class ReportDesignerTreeBuilder
                     Selected = string.Equals( selectedCellKey, cellKey, StringComparison.Ordinal ),
                     Children = ( cell.Elements ?? [] )
                         .Where( element => allowSubreport || element.Type != ReportElementType.Subreport )
-                        .Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected, allowSubreport ) )
+                        .Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected, pluginRegistry, allowSubreport ) )
                         .ToList(),
                 };
             } )
@@ -332,7 +363,22 @@ internal static class ReportDesignerTreeBuilder
             Text = text,
             Kind = ReportDefinitionHelper.GetElementTreeNodeKind( elementType ),
             Draggable = true,
-            Value = new ReportToolboxTreeNodeValue( elementType, elementText ?? text ),
+            Value = new ReportToolboxTreeNodeValue( elementType, null, elementText ?? text ),
+        };
+    }
+
+    private static ReportTreeNode CreateToolboxNode( IReportElementPlugin plugin )
+    {
+        ReportElementDescriptor descriptor = plugin.Descriptor;
+
+        return new()
+        {
+            Key = $"toolbox:custom:{descriptor.TypeName}",
+            Text = descriptor.DisplayName,
+            Kind = ReportTreeNodeKind.Custom,
+            Icon = descriptor.Icon,
+            Draggable = true,
+            Value = new ReportToolboxTreeNodeValue( null, descriptor.TypeName, descriptor.DisplayName ),
         };
     }
 

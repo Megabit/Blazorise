@@ -126,6 +126,26 @@
                         <Image Source="@imageElement.Source" Text="@ImageAlternativeText" ObjectFit="@GetImageObjectFit( imageElement )" />
                     }
                     break;
+                case ReportElementType.Custom:
+                    @if ( Element is ReportCustomElementDefinition customElement )
+                    {
+                        IReportElementPlugin plugin = ElementPluginRegistry?.Find( customElement.TypeName );
+
+                        @if ( plugin?.RendererComponentType is not null )
+                        {
+                            <DynamicComponent Type="@plugin.RendererComponentType"
+                                              Parameters="@GetCustomRendererParameters( customElement )" />
+                        }
+                        else
+                        {
+                            <Div Class="b-report-custom-element-unavailable"
+                                 TextSize="TextSizeSmall"
+                                 TextColor="TextColorSecondary">
+                                @(string.IsNullOrWhiteSpace( customElement.TypeName ) ? "Custom element" : customElement.TypeName)
+                            </Div>
+                        }
+                    }
+                    break;
                 case ReportElementType.Line:
                 case ReportElementType.Rectangle:
                 case ReportElementType.PageBreak:

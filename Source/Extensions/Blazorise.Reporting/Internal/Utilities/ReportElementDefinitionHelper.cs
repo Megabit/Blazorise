@@ -21,8 +21,11 @@ internal static class ReportElementDefinitionHelper
     }
 
     internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element, ReportDefinition definition, object defaultData, object item, ReportBandDefinition section, bool designMode )
+        => BuildStyle( builder, element, definition, defaultData, item, section, designMode, false );
+
+    internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element, ReportDefinition definition, object defaultData, object item, ReportBandDefinition section, bool designMode, bool supportsTextFormatting )
     {
-        ReportFontDefinition font = SupportsTextFormatting( element.Type ) ? element.Font : null;
+        ReportFontDefinition font = SupportsTextFormatting( element.Type ) || supportsTextFormatting ? element.Font : null;
         ReportAppearanceDefinition appearance = element.Appearance;
         ReportBorderDefinition border = element.Border;
 
@@ -63,7 +66,9 @@ internal static class ReportElementDefinitionHelper
         if ( textAlignment is not null )
             builder.Append( $"text-align:{textAlignment}" );
 
-        string verticalAlignment = ToCssContentVerticalAlignment( ResolveVerticalAlignment( element ) );
+        string verticalAlignment = ToCssContentVerticalAlignment( supportsTextFormatting
+            ? element.Font?.VerticalAlignment ?? VerticalAlignment.Default
+            : ResolveVerticalAlignment( element ) );
 
         if ( verticalAlignment is not null )
             builder.Append( $"--b-report-element-content-justify:{verticalAlignment}" );

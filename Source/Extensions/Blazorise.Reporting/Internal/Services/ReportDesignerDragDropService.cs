@@ -17,9 +17,9 @@ internal sealed class ReportDesignerDragDropService
             ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( state.DraggedFieldName ) && panelDropTarget is not null => "Add field to panel",
             ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( state.DraggedFieldName ) && textDropTarget is not null => "Insert field into text",
             ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( state.DraggedFieldName ) => "Add field",
-            ReportDesignerDragKind.ToolboxElement when state.DraggedElementType is not null && tableDropTarget is not null => "Add element to table cell",
-            ReportDesignerDragKind.ToolboxElement when state.DraggedElementType is not null && panelDropTarget is not null => "Add element to panel",
-            ReportDesignerDragKind.ToolboxElement when state.DraggedElementType is not null => "Add element",
+            ReportDesignerDragKind.ToolboxElement when HasToolboxElement( state ) && tableDropTarget is not null => "Add element to table cell",
+            ReportDesignerDragKind.ToolboxElement when HasToolboxElement( state ) && panelDropTarget is not null => "Add element to panel",
+            ReportDesignerDragKind.ToolboxElement when HasToolboxElement( state ) => "Add element",
             ReportDesignerDragKind.Element when tableDropTarget is not null && ReportDefinitionHelper.TryFindElementLocation( definition, state.DraggedElementKey, out _, out _, out _ ) => "Move element to table cell",
             ReportDesignerDragKind.Element when panelDropTarget is not null && ReportDefinitionHelper.TryFindElementLocation( definition, state.DraggedElementKey, out _, out _, out _ ) => "Move element to panel",
             ReportDesignerDragKind.Element when ReportDefinitionHelper.TryFindElementLocation( definition, state.DraggedElementKey, out _, out _, out _ ) => "Move element",
@@ -35,7 +35,8 @@ internal sealed class ReportDesignerDragDropService
         double y,
         ReportTableCellDropTarget tableCellDropTarget,
         ReportPanelDropTarget panelDropTarget,
-        ReportTableEditor tableEditor )
+        ReportTableEditor tableEditor,
+        IReportElementPluginRegistry pluginRegistry )
     {
         if ( definition is null || state is null || targetSectionIndex < 0 || targetSectionIndex >= definition.Bands.Count )
             return new();
@@ -46,8 +47,8 @@ internal sealed class ReportDesignerDragDropService
         {
             ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( state.DraggedFieldName )
                 => DropField( definition, state, targetSectionIndex, targetSection, x, y, tableCellDropTarget, panelDropTarget, tableEditor ),
-            ReportDesignerDragKind.ToolboxElement when state.DraggedElementType is not null
-                => DropToolboxElement( state, targetSection, x, y, tableCellDropTarget, panelDropTarget, tableEditor ),
+            ReportDesignerDragKind.ToolboxElement when HasToolboxElement( state )
+                => DropToolboxElement( state, targetSection, x, y, tableCellDropTarget, panelDropTarget, tableEditor, pluginRegistry ),
             ReportDesignerDragKind.Element when ReportDefinitionHelper.TryFindElementLocation( definition, state.DraggedElementKey, out ReportElementLocation location )
                 => DropElement( definition, targetSectionIndex, targetSection, x, y, tableCellDropTarget, panelDropTarget, tableEditor, location ),
             _ => new(),
@@ -85,12 +86,12 @@ internal sealed class ReportDesignerDragDropService
             && TryFindPanelAt( section.Elements, x, y, 0, 0, excludedElement, out target );
     }
 
-    internal ReportDesignerDragPreview CreateDragPreview( ReportDefinition definition, ReportDesignerInteractionState state, int targetSectionIndex, double x, double y )
+    internal ReportDesignerDragPreview CreateDragPreview( ReportDefinition definition, ReportDesignerInteractionState state, int targetSectionIndex, double x, double y, IReportElementPluginRegistry pluginRegistry )
     {
         return state.DraggedKind switch
         {
             ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( state.DraggedFieldName ) => CreateFieldDragPreview( definition, state, targetSectionIndex, x, y ),
-            ReportDesignerDragKind.ToolboxElement when state.DraggedElementType is not null => CreateDragPreview( definition, targetSectionIndex, ReportDefinitionHelper.CreateElementFromToolbox( state.DraggedElementType.Value, state.DraggedElementText, x, y ) ),
+            ReportDesignerDragKind.ToolboxElement when HasToolboxElement( state ) => CreateDragPreview( definition, targetSectionIndex, CreateToolboxElement( state, pluginRegistry, x, y ) ),
             ReportDesignerDragKind.Element when state.DraggedElement is not null => CreateDragPreview( definition, targetSectionIndex, state.DraggedElement, x, y ),
             _ => null,
         };
@@ -164,9 +165,13 @@ internal sealed class ReportDesignerDragDropService
         double y,
         ReportTableCellDropTarget tableCellDropTarget,
         ReportPanelDropTarget panelDropTarget,
-        ReportTableEditor tableEditor )
+        ReportTableEditor tableEditor,
+        IReportElementPluginRegistry pluginRegistry )
     {
-        ReportElementDefinition toolboxElement = ReportDefinitionHelper.CreateElementFromToolbox( state.DraggedElementType.Value, state.DraggedElementText, tableCellDropTarget?.X ?? x, tableCellDropTarget?.Y ?? y );
+        ReportElementDefinition toolboxElement = CreateToolboxElement( state, pluginRegistry, tableCellDropTarget?.X ?? x, tableCellDropTarget?.Y ?? y );
+
+        if ( toolboxElement is null )
+            return new();
 
         if ( tableCellDropTarget is not null )
         {
@@ -189,6 +194,19 @@ internal sealed class ReportDesignerDragDropService
         targetSection.Elements.Add( toolboxElement );
 
         return SelectElement( ReportDefinitionHelper.EnsureElementId( toolboxElement ) );
+    }
+
+    private static bool HasToolboxElement( ReportDesignerInteractionState state )
+        => state?.DraggedElementType is not null || !string.IsNullOrWhiteSpace( state?.DraggedCustomElementTypeName );
+
+    private static ReportElementDefinition CreateToolboxElement( ReportDesignerInteractionState state, IReportElementPluginRegistry pluginRegistry, double x, double y )
+    {
+        if ( state?.DraggedElementType is not null )
+            return ReportDefinitionHelper.CreateElementFromToolbox( state.DraggedElementType.Value, state.DraggedElementText, x, y );
+
+        IReportElementPlugin plugin = pluginRegistry?.Find( state?.DraggedCustomElementTypeName );
+
+        return plugin is null ? null : ReportDefinitionHelper.CreateElementFromToolbox( plugin, x, y );
     }
 
     private static ReportDropResult DropElement(
@@ -311,6 +329,9 @@ internal sealed class ReportDesignerDragDropService
 
     private static ReportDesignerDragPreview CreateDragPreview( ReportDefinition definition, int targetSectionIndex, ReportElementDefinition element, double? x = null, double? y = null )
     {
+        if ( element is null )
+            return null;
+
         return new()
         {
             SectionIndex = targetSectionIndex,

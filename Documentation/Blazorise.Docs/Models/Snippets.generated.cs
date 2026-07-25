@@ -26767,6 +26767,170 @@ Install-Package Blazorise.Icons.Material";
     </Div>
 </Div>";
 
+        public const string ProgressBarReportElementPluginExample = @"public sealed class ProgressBarReportElementPlugin : IReportElementPlugin, IReportElementPdfRenderer
+{
+    public const string TypeName = ""docs.progress-bar"";
+
+    public ReportElementDescriptor Descriptor { get; } = new()
+    {
+        TypeName = TypeName,
+        DisplayName = ""Progress Bar"",
+        Category = ""Custom"",
+        Icon = IconName.ChartBar,
+        Width = 200,
+        Height = 38,
+        Capabilities = ReportElementCapabilities.Default,
+    };
+
+    public Type RendererComponentType => typeof( ProgressBarReportElementRenderer );
+
+    public Type PropertiesComponentType => typeof( ProgressBarReportElementProperties );
+
+    public IReportElementPdfRenderer PdfRenderer => this;
+
+    public ReportCustomElementDefinition CreateElement()
+    {
+        return new()
+        {
+            Properties = new()
+            {
+                [""caption""] = ""Progress"",
+                [""value""] = 60,
+                [""color""] = ""#0D6EFD"",
+            },
+        };
+    }
+
+    public IEnumerable<PdfElementDefinition> Render( ReportElementPdfRenderContext context )
+    {
+        int value = GetValue( context.Element );
+        double trackHeight = Math.Min( 12, context.Element.Height );
+        double trackY = Math.Max( 0, context.Element.Height - trackHeight );
+
+        yield return CreateLabel( context.Element, GetCaption( context.Element ), TextAlignment.Start );
+        yield return CreateLabel( context.Element, $""{value}%"", TextAlignment.End );
+        yield return CreateRectangle( context.Element.Width, trackY, trackHeight, ""#E9ECEF"" );
+        yield return CreateRectangle( context.Element.Width * value / 100d, trackY, trackHeight, GetColor( context.Element ) );
+    }
+
+    private static string GetCaption( ReportCustomElementDefinition element )
+        => element?.Properties?[""caption""]?.GetValue<string>() ?? ""Progress"";
+
+    private static int GetValue( ReportCustomElementDefinition element )
+        => Math.Clamp( element?.Properties?[""value""]?.GetValue<int>() ?? 0, 0, 100 );
+
+    private static string GetColor( ReportCustomElementDefinition element )
+        => element?.Properties?[""color""]?.GetValue<string>() ?? ""#0D6EFD"";
+
+    private static PdfElementDefinition CreateLabel( ReportCustomElementDefinition element, string text, TextAlignment alignment )
+    {
+        return new()
+        {
+            Type = PdfElementType.Text,
+            Width = element.Width,
+            Height = Math.Min( 14, element.Height ),
+            Text = text,
+            Wrap = false,
+            Font = new()
+            {
+                Size = 9,
+                Bold = true,
+                Alignment = alignment,
+                VerticalAlignment = VerticalAlignment.Middle,
+                Color = ""#212529"",
+            },
+            Border = new()
+            {
+                Width = 0,
+            },
+        };
+    }
+
+    private static PdfElementDefinition CreateRectangle( double width, double y, double height, string color )
+    {
+        return new()
+        {
+            Type = PdfElementType.Rectangle,
+            Y = y,
+            Width = width,
+            Height = height,
+            Border = new()
+            {
+                Width = 0,
+            },
+            Appearance = new()
+            {
+                BackgroundColor = color,
+            },
+        };
+    }
+}";
+
+        public const string ProgressBarReportElementPropertiesExample = @"@inherits BaseReportElementPropertiesEditor
+
+<Field Horizontal>
+    <FieldLabel ColumnSize=""ColumnSize.Is4"" TextSize=""TextSize.Small"">Caption</FieldLabel>
+    <FieldBody ColumnSize=""ColumnSize.Is8"">
+        <TextInput Value=""@ProgressBarReportElementPlugin.GetCaption( Context.Element )""
+                   ValueChanged=""@OnCaptionChanged""
+                   Size=""Size.Small"" />
+    </FieldBody>
+</Field>
+
+<Field Horizontal>
+    <FieldLabel ColumnSize=""ColumnSize.Is4"" TextSize=""TextSize.Small"">Value</FieldLabel>
+    <FieldBody ColumnSize=""ColumnSize.Is8"">
+        <NumericInput TValue=""int""
+                      Value=""@ProgressBarReportElementPlugin.GetValue( Context.Element )""
+                      ValueChanged=""@OnValueChanged""
+                      Min=""0""
+                      Max=""100""
+                      Immediate=""true""
+                      Size=""Size.Small"" />
+    </FieldBody>
+</Field>
+
+<Field Horizontal>
+    <FieldLabel ColumnSize=""ColumnSize.Is4"" TextSize=""TextSize.Small"">Color</FieldLabel>
+    <FieldBody ColumnSize=""ColumnSize.Is8"">
+        <ColorPicker Value=""@ProgressBarReportElementPlugin.GetColor( Context.Element )""
+                     ValueChanged=""@OnColorChanged""
+                     Size=""Size.Small"" />
+    </FieldBody>
+</Field>
+
+@code {
+    private Task OnCaptionChanged( string value )
+        => Context.Update( element => element.Properties[""caption""] = value );
+
+    private Task OnValueChanged( int value )
+        => Context.Update( element => element.Properties[""value""] = Math.Clamp( value, 0, 100 ) );
+
+    private Task OnColorChanged( string value )
+        => Context.Update( element => element.Properties[""color""] = value );
+}";
+
+        public const string ProgressBarReportElementRendererExample = @"@inherits BaseReportElementRenderer
+
+<Div Height=""Height.Is100""
+     Width=""Width.Is100""
+     Flex=""Flex.Column.JustifyContent.Between"">
+    <Div Flex=""Flex.JustifyContent.Between.AlignItems.Center""
+         Style=""height:14pt;font-size:9pt;line-height:14pt;font-weight:700;color:#212529"">
+        <Span>@ProgressBarReportElementPlugin.GetCaption( Context.Element )</Span>
+        <Span>@($""{Value}%"")</Span>
+    </Div>
+    <Div Style=""height:12pt;background-color:#E9ECEF;overflow:hidden"">
+        <Div Height=""Height.Is100"" Style=""@FillStyle"" />
+    </Div>
+</Div>
+
+@code {
+    private int Value => ProgressBarReportElementPlugin.GetValue( Context.Element );
+
+    private string FillStyle => $""width:{Value}%;background-color:{ProgressBarReportElementPlugin.GetColor( Context.Element )}"";
+}";
+
         public const string ReportingBasicInvoiceExample = @"<Report Data=""@invoice"" Editable PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
     <ReportDataSources>
         <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
@@ -27639,6 +27803,72 @@ builder.Services
         public decimal Total { get; set; }
     }
 }";
+
+        public const string ReportingPluginExample = @"<Report Definition=""@definition""
+        ElementPlugins=""@plugins""
+        Editable
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"" />
+
+@code {
+    private readonly IReportElementPlugin[] plugins = [new ProgressBarReportElementPlugin()];
+
+    private readonly ReportDefinition definition = new()
+    {
+        Name = ""Plugin example"",
+        Pages =
+        [
+            new()
+            {
+                Name = ""Plugin"",
+                Bands =
+                [
+                    new()
+                    {
+                        Name = ""Custom elements"",
+                        Type = ReportBandType.Detail,
+                        Default = true,
+                        Height = 150,
+                        Elements =
+                        [
+                            new ReportTextElementDefinition
+                            {
+                                Text = ""Custom report element"",
+                                X = 30,
+                                Y = 18,
+                                Width = 240,
+                                Height = 24,
+                                Font = new()
+                                {
+                                    Size = 18,
+                                    Bold = true,
+                                },
+                            },
+                            new ReportCustomElementDefinition
+                            {
+                                TypeName = ProgressBarReportElementPlugin.TypeName,
+                                Name = ""Project completion"",
+                                X = 30,
+                                Y = 60,
+                                Width = 200,
+                                Height = 38,
+                                Properties = new()
+                                {
+                                    [""caption""] = ""Project completion"",
+                                    [""value""] = 72,
+                                    [""color""] = ""#0D6EFD"",
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    };
+}";
+
+        public const string ReportingPluginRegistrationExample = @"builder.Services
+    .AddBlazoriseReporting()
+    .AddReportElementPlugin<ProgressBarReportElementPlugin>();";
 
         public const string ReportingProgrammaticDefinitionExample = @"<Report Definition=""@definition""
         DefinitionMode=""ReportDefinitionMode.UseDefinitionOnly""

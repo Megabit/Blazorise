@@ -30,6 +30,11 @@ public sealed class ReportTreeNode
     public ReportTreeNodeKind Kind { get; set; }
 
     /// <summary>
+    /// Optional icon that overrides the icon inferred from <see cref="Kind"/>.
+    /// </summary>
+    public IconName? Icon { get; set; }
+
+    /// <summary>
     /// Indicates that clicking the node can select a report object.
     /// </summary>
     public bool Selectable { get; set; }

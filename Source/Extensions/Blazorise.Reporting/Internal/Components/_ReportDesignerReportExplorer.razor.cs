@@ -51,6 +51,11 @@ public partial class _ReportDesignerReportExplorer
     [Parameter] public Func<string, bool> IsElementSelected { get; set; }
 
     /// <summary>
+    /// Registered custom report elements.
+    /// </summary>
+    [Parameter] public IReportElementPluginRegistry ElementPluginRegistry { get; set; }
+
+    /// <summary>
     /// Indicates that subreport elements are shown in the explorer tree.
     /// </summary>
     [Parameter] public bool AllowSubreport { get; set; } = true;

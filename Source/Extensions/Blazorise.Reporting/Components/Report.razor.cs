@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Reporting.Internal;
 using Microsoft.AspNetCore.Components;
@@ -253,6 +254,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     /// Preview format selected when preview mode is first opened.
     /// </summary>
     [Parameter] public ReportPreviewFormat? DefaultPreviewFormat { get; set; }
+
+    /// <summary>
+    /// Custom report element plugins available only to this report instance. The collection is read during initialization.
+    /// </summary>
+    [Parameter] public IEnumerable<IReportElementPlugin> ElementPlugins { get; set; }
 
     /// <summary>
     /// Declarative report content used as the initial report definition.
