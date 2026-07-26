@@ -25659,6 +25659,14 @@ Install-Package Blazorise.Icons.Material";
     <Button Color=""Color.Primary"" Clicked=""@Generate"">Generate PDF</Button>
 </Div>
 
+@if ( generationProgress is not null )
+{
+    <Div Margin=""Margin.Is3.FromBottom"">
+        <Span TextSize=""TextSize.Small"">@GenerationStatus</Span>
+        <Progress Value=""@((int)generationProgress.Percentage)"" Size=""Size.Small"" />
+    </Div>
+}
+
 @if ( pdfSource is not null )
 {
     <PdfViewerContainer Height=""Height.Rem(35)"">
@@ -25670,8 +25678,21 @@ Install-Package Blazorise.Icons.Material";
 @code {
     private string pdfSource;
 
+    private PdfGenerationProgress generationProgress;
+
+    private string GenerationStatus => generationProgress.Stage switch
+    {
+        PdfGenerationStage.PreparingFonts => ""Preparing fonts"",
+        PdfGenerationStage.RenderingPages => $""Rendering page {generationProgress.CompletedPages} of {generationProgress.TotalPages}"",
+        PdfGenerationStage.WritingDocument => ""Writing PDF document"",
+        PdfGenerationStage.Completed => ""PDF generation completed"",
+        _ => string.Empty,
+    };
+
     private async Task Generate()
     {
+        generationProgress = null;
+
         PdfDocumentDefinition document = PdfDocumentBuilder.Create()
             .Title( ""Invoice"" )
             .Page( page =>
@@ -25685,9 +25706,17 @@ Install-Package Blazorise.Icons.Material";
         PdfGenerationResult result = await PdfGenerator.Generate( document, new()
         {
             FileName = ""invoice.pdf"",
+            Progress = OnGenerationProgress,
         } );
 
         pdfSource = BuildPdfSource( result.Content );
+    }
+
+    private async Task OnGenerationProgress( PdfGenerationProgress progress )
+    {
+        generationProgress = progress;
+
+        await InvokeAsync( StateHasChanged );
     }
 
     private static string BuildPdfSource( byte[] content )

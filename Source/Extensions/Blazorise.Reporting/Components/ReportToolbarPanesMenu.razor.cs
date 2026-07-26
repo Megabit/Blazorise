@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.Reporting;
 
 /// <summary>
-/// Declares a toolbar dropdown used to show or hide report designer dock panes.
+/// Declares a toolbar dropdown used to show report designer dock panes and toggle the status bar.
 /// </summary>
 public partial class ReportToolbarPanesMenu
 {
@@ -14,6 +14,8 @@ public partial class ReportToolbarPanesMenu
     private string Text => string.IsNullOrWhiteSpace( Caption ) ? "Panes" : Caption;
 
     [CascadingParameter] internal ReportToolbarDockContext DockContext { get; set; }
+
+    [CascadingParameter] internal ReportToolbarContext ToolbarContext { get; set; }
 
     /// <summary>
     /// Text shown for the pane menu.

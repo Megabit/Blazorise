@@ -1,0 +1,36 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<ModalHeader>
+    <ModalTitle>Report warnings</ModalTitle>
+    <CloseButton Clicked="@Close" />
+</ModalHeader>
+<ModalBody>
+    <Div Class="b-report-designer-warnings">
+        <Table Narrow Striped Hoverable>
+            <TableHeader>
+                <TableRow>
+                    <TableHeaderCell Width="Width.Px( 110 )">Severity</TableHeaderCell>
+                    <TableHeaderCell>Description</TableHeaderCell>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                @foreach ( string warning in Warnings )
+                {
+                    <TableRow>
+                        <TableRowCell>
+                            <Icon Name="IconName.ExclamationTriangle"
+                                  TextColor="TextColor.Warning"
+                                  Margin="MarginIs1FromEnd" />
+                            Warning
+                        </TableRowCell>
+                        <TableRowCell>@warning</TableRowCell>
+                    </TableRow>
+                }
+            </TableBody>
+        </Table>
+    </Div>
+</ModalBody>
+<ModalFooter>
+    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">Close</Button>
+</ModalFooter>

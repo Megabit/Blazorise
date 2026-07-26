@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-24T21:19:34.4924239Z",
+  "generatedUtc": "2026-07-26T12:45:00.8483880Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -81409,7 +81409,16 @@
           "isBlazoriseEnum": false
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "name": "Progress",
+          "type": "Func<,>",
+          "typeName": "Func<PdfGenerationProgress, Task>",
+          "defaultValue": "null",
+          "summary": "Callback invoked when PDF generation progress changes.",
+          "isBlazoriseEnum": false
+        }
+      ],
       "methods": []
     },
     {
@@ -90230,6 +90239,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ShowStatusBar",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Shows the status bar below the report designer or preview surface.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "ShowToolbar",
           "type": "bool",
           "typeName": "bool",
@@ -90325,6 +90342,14 @@
           "typeName": "EventCallback<ReportMode>",
           "defaultValue": "null",
           "summary": "Raised when design or preview mode changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "PdfProgressed",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<ReportProgress>",
+          "defaultValue": "null",
+          "summary": "Raised when the overall report PDF operation progress changes.",
           "isBlazoriseEnum": false
         },
         {

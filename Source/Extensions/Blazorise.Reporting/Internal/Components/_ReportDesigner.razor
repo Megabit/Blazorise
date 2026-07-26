@@ -12,10 +12,10 @@
 
     <Div Class="b-report">
         <CascadingValue Value="@modalProviderName" Name="ReportModalProviderName" IsFixed="true">
-            <Div Class="b-report-layout" Flex="FlexColumn" Gap="GapIs1">
+            <Div Class="b-report-layout" Flex="FlexColumn">
                 @if ( ShowToolbar && !( CurrentMode == ReportMode.Design && IsEditable ) )
                 {
-                    <Div Class="b-report-toolbar" Flex="FlexAlignItemsCenter" Gap="GapIs2" Padding="PaddingIs3" Border="BorderIs1" Background="BackgroundWhite">
+                    <Div Class="b-report-toolbar" Flex="FlexAlignItemsCenter" Gap="GapIs2" Margin="MarginIs1FromBottom" Padding="PaddingIs3" Border="BorderIs1" Background="BackgroundWhite">
                         <_ReportDesignerToolbarContent Designer="@this" />
                     </Div>
                 }
@@ -27,6 +27,11 @@
                 else
                 {
                     <_ReportPreview Designer="@this" />
+                }
+
+                @if ( ShowStatusBar )
+                {
+                    <_ReportDesignerStatusBar Designer="@this" />
                 }
             </Div>
         </CascadingValue>

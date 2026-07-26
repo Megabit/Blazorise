@@ -12,6 +12,7 @@ internal static class FluentConstants
 
     // Flex
     internal static readonly IFluentFlex FlexAlignItemsCenter = Flex.AlignItems.Center;
+    internal static readonly IFluentFlex FlexAlignItemsStart = Flex.AlignItems.Start;
     internal static readonly IFluentFlex FlexColumn = Flex.Column;
     internal static readonly IFluentFlex FlexGrowIs1 = Flex.Grow.Is1;
     internal static readonly IFluentFlex FlexJustifyContentBetweenAlignItemsCenter = Flex.JustifyContent.Between.AlignItems.Center;

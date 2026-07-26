@@ -55,6 +55,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private readonly ReportDesignerRulerService rulerService = new();
 
+    private readonly ReportElementCollisionService collisionService = new();
+
     private readonly ReportDesignerInteractionState designerState = new();
 
     private readonly DockLayoutState designerDockLayoutState = new();
@@ -86,6 +88,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     private _ReportDesignerWorkspace workspaceRef;
 
     private int renderMutationVersion;
+
+    private IReadOnlyList<ReportDesignerWarning> designerWarnings = [];
+
+    private HashSet<string> collidingElementKeys = [];
+
+    private int designerWarningsMutationVersion = -1;
 
     private ReportDesignerRefreshState designerRefreshState;
 
@@ -119,6 +127,16 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     #endregion
 
+    #region Events
+
+    internal event Action<ReportProgress> Progressed;
+
+    internal event Action OperationFinished;
+
+    internal event Action WarningsChanged;
+
+    #endregion
+
     #region Constructors
 
     /// <summary>
@@ -126,7 +144,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// </summary>
     public _ReportDesigner()
     {
-        toolbarContext = new( this );
+        toolbarContext = new( this, () => ShowStatusBar, SetStatusBarVisible );
         elementCommandService = new( elementLayoutService );
         tableCommandService = new( tableEditor );
     }
@@ -165,9 +183,10 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         if ( definition is not null )
         {
-            await ResolveDataSources( definition, CurrentMode == ReportMode.Preview );
             if ( CurrentMode == ReportMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf )
-                await ResolvePdfPreview();
+                await ResolvePdfPreviewOperation( definition, resolveDataSources: true );
+            else
+                await ResolveDataSources( definition, CurrentMode == ReportMode.Preview );
         }
         else
             InvalidateDesignerCaches();
@@ -283,6 +302,17 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     {
         return dataSource?.Data is null
             || string.Equals( provider?.Type, DataSetReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase );
+    }
+
+    private Task SetStatusBarVisible( bool visible )
+    {
+        if ( ShowStatusBar == visible )
+            return Task.CompletedTask;
+
+        ShowStatusBar = visible;
+        StateHasChanged();
+
+        return Task.CompletedTask;
     }
 
     private bool IsElementContextMenuVisible()
@@ -755,10 +785,10 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             currentMode = ReportMode.Preview;
             designerState.EditingElementKey = null;
 
-            await ResolveDataSources( RootDefinition, loadData: true );
-
             if ( format == ReportPreviewFormat.Pdf )
-                await ResolvePdfPreview();
+                await ResolvePdfPreviewOperation( RootDefinition, resolveDataSources: true );
+            else
+                await ResolveDataSources( RootDefinition, loadData: true );
 
             await ModeChanged.InvokeAsync( currentMode );
         }, TrackHistory: false, NotifyDefinitionChanged: false ) );
@@ -781,19 +811,57 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         if ( PdfGenerator is null )
             return;
 
-        PdfGenerationResult result = CurrentPdfPreviewResult;
-
-        if ( result is null )
+        try
         {
-            await ResolveDataSources( RootDefinition, true );
-            result = await ResolvePdfPreview();
+            PdfGenerationResult result = CurrentPdfPreviewResult;
+
+            if ( result is null )
+            {
+                await NotifyPdfProgress( new( "Resolving data" ), yieldRender: true );
+                await ResolveDataSources( RootDefinition, true );
+                result = await ResolvePdfPreview();
+            }
+
+            if ( result is null )
+                return;
+
+            await NotifyPdfProgress( new( "Requesting download" ), yieldRender: true );
+
+            reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
+            await reportingModule.DownloadFile( result.FileName, result.ContentType, result.Content );
+
+            await NotifyPdfProgress( new( "PDF ready", 1 ), yieldRender: true );
         }
+        finally
+        {
+            OperationFinished?.Invoke();
+        }
+    }
 
-        if ( result is null )
-            return;
+    private async Task<PdfGenerationResult> ResolvePdfPreviewOperation( ReportDefinition definition, bool resolveDataSources )
+    {
+        try
+        {
+            if ( resolveDataSources )
+            {
+                await NotifyPdfProgress( new( "Resolving data" ), yieldRender: true );
+                await ResolveDataSources( definition, loadData: true );
+            }
 
-        reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
-        await reportingModule.DownloadFile( result.FileName, result.ContentType, result.Content );
+            PdfGenerationResult result = await ResolvePdfPreview();
+
+            if ( result is not null )
+            {
+                await NotifyPdfProgress( new( "Preparing preview" ), yieldRender: true );
+                await NotifyPdfProgress( new( "PDF ready", 1 ), yieldRender: true );
+            }
+
+            return result;
+        }
+        finally
+        {
+            OperationFinished?.Invoke();
+        }
     }
 
     private async Task<PdfGenerationResult> ResolvePdfPreview()
@@ -804,13 +872,14 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             return result;
 
         ReportDefinition definition = RootDefinition;
+        await NotifyPdfProgress( new( "Building PDF" ), yieldRender: true );
         PdfDocumentDefinition pdfDocument = ReportPdfDocumentBuilder.Build( definition, Data, ElementPluginRegistry );
 
         result = await PdfGenerator.Generate( pdfDocument, new()
         {
             FileName = ResolvePdfFileName( definition ),
-            Progress = PdfGenerationProgressed.HasDelegate
-                ? progress => PdfGenerationProgressed.InvokeAsync( progress )
+            Progress = HasPdfProgressListeners
+                ? OnPdfGeneratorProgressed
                 : null,
         } );
 
@@ -825,6 +894,32 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         pdfPreviewMutationVersion = renderMutationVersion;
 
         return result;
+    }
+
+    private async Task OnPdfGeneratorProgressed( PdfGenerationProgress progress )
+    {
+        string status = progress.Stage switch
+        {
+            PdfGenerationStage.PreparingFonts => "Preparing fonts",
+            PdfGenerationStage.RenderingPages when progress.TotalPages > 0 => $"PDF {progress.CompletedPages}/{progress.TotalPages}",
+            PdfGenerationStage.RenderingPages => "Rendering PDF",
+            PdfGenerationStage.WritingDocument or PdfGenerationStage.Completed => "Writing PDF",
+            _ => "Building PDF",
+        };
+
+        await NotifyPdfProgress( new( status, progress.Progress, progress.CompletedPages, progress.TotalPages ) );
+    }
+
+    private async Task NotifyPdfProgress( ReportProgress progress, bool yieldRender = false )
+    {
+        if ( !HasPdfProgressListeners )
+            return;
+
+        Progressed?.Invoke( progress );
+        await PdfProgressed.InvokeAsync( progress );
+
+        if ( yieldRender )
+            await Task.Yield();
     }
 
     private async Task ResetDefinition()
@@ -1016,7 +1111,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         InvalidateDesignerCaches();
 
         if ( CurrentMode == ReportMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf )
-            await ResolvePdfPreview();
+            await ResolvePdfPreviewOperation( definition, resolveDataSources: false );
 
         if ( notifyDefinitionChanged )
             await DefinitionChanged.InvokeAsync( definition );
@@ -2615,6 +2710,33 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             GetDesignerSectionBodyTopOffset() );
     }
 
+    internal IReadOnlyList<ReportDesignerWarning> GetDesignerWarnings()
+    {
+        if ( !CurrentShowCollisionWarnings || DesignerRootDefinition is null )
+            return [];
+
+        if ( designerWarningsMutationVersion != renderMutationVersion )
+        {
+            designerWarnings = collisionService.FindWarnings( DesignerRootDefinition );
+            collidingElementKeys = designerWarnings
+                .SelectMany( warning => warning.ElementKeys )
+                .ToHashSet( StringComparer.Ordinal );
+            designerWarningsMutationVersion = renderMutationVersion;
+        }
+
+        return designerWarnings;
+    }
+
+    internal bool IsElementColliding( string elementKey )
+    {
+        if ( string.IsNullOrWhiteSpace( elementKey ) )
+            return false;
+
+        _ = GetDesignerWarnings();
+
+        return CurrentShowCollisionWarnings && collidingElementKeys.Contains( elementKey );
+    }
+
     internal double GetElementPageY( ReportDefinition definition, int sectionIndex, double elementY )
     {
         return GetSectionOffsetY( definition, sectionIndex ) + GetDesignerSectionBodyTopOffset() + elementY;
@@ -2639,6 +2761,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     {
         renderMutationVersion++;
         renderService.Invalidate();
+        WarningsChanged?.Invoke();
     }
 
     private void RefreshDesignerSurface()
@@ -3285,6 +3408,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     internal IReadOnlyList<ReportRenderPage> ResolvePreviewRenderPages( ReportDefinition definition )
         => renderService.ResolvePreviewRenderPages( definition, Data, renderMutationVersion );
 
+    private bool HasPdfProgressListeners => Progressed is not null || PdfProgressed.HasDelegate;
+
     private ReportOptions GlobalOptions => globalOptions ??= ServiceProvider.GetService<ReportOptions>() ?? new();
 
     private IReportDataSourceProviderRegistry DataSourceProviderRegistry
@@ -3387,6 +3512,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// Shows page navigation above the designer surface.
     /// </summary>
     [Parameter] public bool ShowPageTabs { get; set; } = true;
+
+    /// <summary>
+    /// Shows the status bar below the designer or preview surface.
+    /// </summary>
+    [Parameter] public bool ShowStatusBar { get; set; } = true;
 
     /// <summary>
     /// Band presentation used when constructing a report from declarative content. Persisted definitions retain their configured value.
@@ -3539,9 +3669,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     [Parameter] public ReportPreviewFormat? DefaultPreviewFormat { get; set; }
 
     /// <summary>
-    /// Raised when PDF generation progress changes.
+    /// Raised when the overall report PDF operation progress changes.
     /// </summary>
-    [Parameter] public EventCallback<PdfGenerationProgress> PdfGenerationProgressed { get; set; }
+    [Parameter] public EventCallback<ReportProgress> PdfProgressed { get; set; }
 
     /// <summary>
     /// Custom report element plugins available only to this report instance. The collection is read during initialization.

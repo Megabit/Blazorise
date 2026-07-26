@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Blazorise.Pdf;
 using Blazorise.Reporting.Internal;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -105,6 +104,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     /// Shows page navigation above the report designer surface.
     /// </summary>
     [Parameter] public bool ShowPageTabs { get; set; } = true;
+
+    /// <summary>
+    /// Shows the status bar below the report designer or preview surface.
+    /// </summary>
+    [Parameter] public bool ShowStatusBar { get; set; } = true;
 
     /// <summary>
     /// Band presentation used when constructing a report from declarative content. Persisted definitions retain their configured value.
@@ -257,9 +261,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [Parameter] public ReportPreviewFormat? DefaultPreviewFormat { get; set; }
 
     /// <summary>
-    /// Raised when PDF generation progress changes.
+    /// Raised when the overall report PDF operation progress changes.
     /// </summary>
-    [Parameter] public EventCallback<PdfGenerationProgress> PdfGenerationProgressed { get; set; }
+    [Parameter] public EventCallback<ReportProgress> PdfProgressed { get; set; }
 
     /// <summary>
     /// Custom report element plugins available only to this report instance. The collection is read during initialization.

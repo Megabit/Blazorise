@@ -3,7 +3,7 @@ let elementResize;
 let elementDrag;
 const designerKeyboardShortcuts = new WeakMap();
 let activeDesignerKeyboardShortcut;
-const designerCursorGuides = new WeakMap();
+const designerPointerTrackers = new WeakMap();
 const treeDragImageSuppressors = new WeakMap();
 const textTokenEditors = new WeakMap();
 const designerInteractionOverlays = new WeakMap();
@@ -168,6 +168,7 @@ export function startElementDrag(pageElement, dotNetReference, startClientX, sta
             drag.lastClientX = getClientX(event, drag.lastClientX);
             drag.lastClientY = getClientY(event, drag.lastClientY);
             drag.lastSectionId = getReportSectionId(drag.pageElement, drag.lastClientX, drag.lastClientY) ?? drag.lastSectionId;
+            updateActiveDesignerPointerTracking(drag.pageElement, drag.lastClientX, drag.lastClientY);
             drag.dotNetReference.invokeMethodAsync("OnDocumentElementDragMove", drag.lastClientX, drag.lastClientY, drag.lastSectionId);
         },
         end: event => {
@@ -288,69 +289,149 @@ export function stopDesignerKeyboardShortcuts(element) {
     designerKeyboardShortcuts.delete(element);
 }
 
-export function startDesignerCursorGuides(pageElement) {
-    stopDesignerCursorGuides(pageElement);
+export function startDesignerPointerTracking(pageElement, measurementUnit, showCursorGuides) {
+    stopDesignerPointerTracking(pageElement);
 
     if (!pageElement) {
         return;
     }
 
-    const guides = {
+    const coordinateSettings = getDesignerCoordinateSettings(measurementUnit);
+    const reportElement = pageElement.closest(".b-report");
+    const statusX = reportElement?.querySelector("[data-report-status-x]");
+    const statusY = reportElement?.querySelector("[data-report-status-y]");
+    const tracker = {
         frame: 0,
         clientX: 0,
         clientY: 0,
+        coordinateSettings,
+        showCursorGuides,
+        statusX,
+        statusY,
         move: event => {
-            guides.clientX = event.clientX;
-            guides.clientY = event.clientY;
-
-            if (guides.frame) {
-                return;
-            }
-
-            guides.frame = requestAnimationFrame(() => {
-                guides.frame = 0;
-
-                const bounds = pageElement.getBoundingClientRect();
-                const x = Math.max(0, Math.min(bounds.width, guides.clientX - bounds.left));
-                const y = Math.max(0, Math.min(bounds.height, guides.clientY - bounds.top));
-
-                pageElement.style.setProperty("--b-report-designer-cursor-guide-x", `${x}px`);
-                pageElement.style.setProperty("--b-report-designer-cursor-guide-y", `${y}px`);
-                pageElement.classList.add("b-report-page-cursor-guides-active");
-            });
+            updateActiveDesignerPointerTracking(pageElement, event.clientX, event.clientY);
         },
-        leave: () => hideDesignerCursorGuides(pageElement, guides),
+        leave: () => clearDesignerPointerTracking(pageElement, tracker, statusX, statusY),
     };
 
-    pageElement.addEventListener("pointermove", guides.move, { passive: true });
-    pageElement.addEventListener("pointerleave", guides.leave);
-    pageElement.addEventListener("pointercancel", guides.leave);
-    designerCursorGuides.set(pageElement, guides);
+    pageElement.addEventListener("pointermove", tracker.move, { passive: true });
+    pageElement.addEventListener("pointerleave", tracker.leave);
+    pageElement.addEventListener("pointercancel", tracker.leave);
+    designerPointerTrackers.set(pageElement, tracker);
 }
 
-export function stopDesignerCursorGuides(pageElement) {
-    const guides = designerCursorGuides.get(pageElement);
+function updateActiveDesignerPointerTracking(pageElement, clientX, clientY) {
+    const tracker = designerPointerTrackers.get(pageElement);
 
-    if (!guides) {
+    if (!tracker) {
         return;
     }
 
-    pageElement.removeEventListener("pointermove", guides.move);
-    pageElement.removeEventListener("pointerleave", guides.leave);
-    pageElement.removeEventListener("pointercancel", guides.leave);
-    hideDesignerCursorGuides(pageElement, guides);
-    pageElement.style.removeProperty("--b-report-designer-cursor-guide-x");
-    pageElement.style.removeProperty("--b-report-designer-cursor-guide-y");
-    designerCursorGuides.delete(pageElement);
+    tracker.clientX = clientX;
+    tracker.clientY = clientY;
+
+    if (tracker.frame) {
+        return;
+    }
+
+    tracker.frame = requestAnimationFrame(() => {
+        tracker.frame = 0;
+
+        if (tracker.showCursorGuides) {
+            const bounds = pageElement.getBoundingClientRect();
+            const x = Math.max(0, Math.min(bounds.width, tracker.clientX - bounds.left));
+            const y = Math.max(0, Math.min(bounds.height, tracker.clientY - bounds.top));
+
+            pageElement.style.setProperty("--b-report-designer-cursor-guide-x", `${x}px`);
+            pageElement.style.setProperty("--b-report-designer-cursor-guide-y", `${y}px`);
+            pageElement.classList.add("b-report-page-cursor-guides-active");
+        }
+
+        updateDesignerStatusPosition(
+            pageElement,
+            tracker.statusX,
+            tracker.statusY,
+            tracker.clientX,
+            tracker.clientY,
+            tracker.coordinateSettings);
+    });
 }
 
-function hideDesignerCursorGuides(pageElement, guides) {
-    if (guides.frame) {
-        cancelAnimationFrame(guides.frame);
-        guides.frame = 0;
+export function stopDesignerPointerTracking(pageElement) {
+    const tracker = designerPointerTrackers.get(pageElement);
+
+    if (!tracker) {
+        return;
+    }
+
+    const reportElement = pageElement.closest(".b-report");
+
+    pageElement.removeEventListener("pointermove", tracker.move);
+    pageElement.removeEventListener("pointerleave", tracker.leave);
+    pageElement.removeEventListener("pointercancel", tracker.leave);
+    clearDesignerPointerTracking(
+        pageElement,
+        tracker,
+        reportElement?.querySelector("[data-report-status-x]"),
+        reportElement?.querySelector("[data-report-status-y]"));
+    pageElement.style.removeProperty("--b-report-designer-cursor-guide-x");
+    pageElement.style.removeProperty("--b-report-designer-cursor-guide-y");
+    designerPointerTrackers.delete(pageElement);
+}
+
+function clearDesignerPointerTracking(pageElement, tracker, statusX, statusY) {
+    if (tracker.frame) {
+        cancelAnimationFrame(tracker.frame);
+        tracker.frame = 0;
     }
 
     pageElement.classList.remove("b-report-page-cursor-guides-active");
+
+    if (statusX) {
+        statusX.textContent = "X: —";
+    }
+
+    if (statusY) {
+        statusY.textContent = "Y: —";
+    }
+}
+
+function updateDesignerStatusPosition(pageElement, statusX, statusY, clientX, clientY, settings) {
+    if (!statusX || !statusY) {
+        return;
+    }
+
+    const target = document.elementFromPoint(clientX, clientY);
+    const sectionBody = target?.closest?.(".b-report-section-body");
+
+    if (!sectionBody || !pageElement.contains(sectionBody)) {
+        return;
+    }
+
+    const bounds = sectionBody.getBoundingClientRect();
+    const sectionOffsetY = Number.parseFloat(sectionBody.dataset.reportSectionOffsetY ?? "0");
+    const x = Math.max(0, clientX - bounds.left) * settings.cssPixelScale;
+    const y = (sectionOffsetY * 96 / 72 + Math.max(0, clientY - bounds.top)) * settings.cssPixelScale;
+
+    statusX.textContent = `X: ${formatDesignerCoordinate(x, settings.decimalDigits)}`;
+    statusY.textContent = `Y: ${formatDesignerCoordinate(y, settings.decimalDigits)}`;
+}
+
+function getDesignerCoordinateSettings(measurementUnit) {
+    switch (measurementUnit) {
+        case "Inch":
+            return { cssPixelScale: 1 / 96, decimalDigits: 2 };
+        case "Centimeter":
+            return { cssPixelScale: 2.54 / 96, decimalDigits: 2 };
+        case "Millimeter":
+            return { cssPixelScale: 25.4 / 96, decimalDigits: 1 };
+        default:
+            return { cssPixelScale: 72 / 96, decimalDigits: 1 };
+    }
+}
+
+function formatDesignerCoordinate(value, decimalDigits) {
+    return value.toFixed(decimalDigits);
 }
 
 export function getElementOffset(element, clientX, clientY) {
@@ -494,6 +575,7 @@ export function downloadFile(fileName, contentType, content) {
     document.body.appendChild(anchor);
     anchor.click();
     anchor.remove();
+
     setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 

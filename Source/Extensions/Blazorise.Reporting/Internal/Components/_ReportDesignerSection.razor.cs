@@ -227,6 +227,8 @@ public partial class _ReportDesignerSection
 
     private string SectionStyle => StyleNames;
 
+    private string SectionOffsetYValue => FormattableString.Invariant( $"{SectionOffsetY:0.###}" );
+
     /// <summary>
     /// Stable key used to preserve band identity across designer renders.
     /// </summary>
@@ -246,6 +248,11 @@ public partial class _ReportDesignerSection
     /// Section height in report layout units.
     /// </summary>
     [Parameter] public double Height { get; set; }
+
+    /// <summary>
+    /// Vertical report coordinate of the section body.
+    /// </summary>
+    [Parameter] public double SectionOffsetY { get; set; }
 
     /// <summary>
     /// Left CSS pixel offset of the section body.

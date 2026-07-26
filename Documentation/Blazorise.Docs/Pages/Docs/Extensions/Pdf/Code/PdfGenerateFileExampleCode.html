@@ -6,6 +6,14 @@
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Generate</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Generate PDF<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
 
+<span class="atSign">&#64;</span>if ( generationProgress is not null )
+{
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Span</span> <span class="htmlAttributeName">TextSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextSize</span><span class="enumValue">.Small</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>GenerationStatus<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Progress</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((int)generationProgress.Percentage)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+}
+
 <span class="atSign">&#64;</span>if ( pdfSource is not null )
 {
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PdfViewerContainer</span> <span class="htmlAttributeName">Height</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Height.Rem(35)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
@@ -18,8 +26,21 @@
 <span class="atSign">&#64;</span>code {
     <span class="keyword">private</span> <span class="keyword">string</span> pdfSource;
 
+    <span class="keyword">private</span> PdfGenerationProgress generationProgress;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> GenerationStatus =&gt; generationProgress.Stage <span class="keyword">switch</span>
+    {
+        PdfGenerationStage.PreparingFonts =&gt; <span class="string">&quot;Preparing fonts&quot;</span>,
+        PdfGenerationStage.RenderingPages =&gt; $<span class="string">&quot;Rendering page {generationProgress.CompletedPages} of {generationProgress.TotalPages}&quot;</span>,
+        PdfGenerationStage.WritingDocument =&gt; <span class="string">&quot;Writing PDF document&quot;</span>,
+        PdfGenerationStage.Completed =&gt; <span class="string">&quot;PDF generation completed&quot;</span>,
+        _ =&gt; <span class="keyword">string</span>.Empty,
+    };
+
     <span class="keyword">private</span> <span class="keyword">async</span> Task Generate()
     {
+        generationProgress = <span class="keyword">null</span>;
+
         PdfDocumentDefinition document = PdfDocumentBuilder.Create()
             .Title( <span class="string">&quot;Invoice&quot;</span> )
             .Page( page =&gt;
@@ -33,9 +54,17 @@
         PdfGenerationResult result = <span class="keyword">await</span> PdfGenerator.Generate( document, <span class="keyword">new</span>()
         {
             FileName = <span class="string">&quot;invoice.pdf&quot;</span>,
+            Progress = OnGenerationProgress,
         } );
 
         pdfSource = BuildPdfSource( result.Content );
+    }
+
+    <span class="keyword">private</span> <span class="keyword">async</span> Task OnGenerationProgress( PdfGenerationProgress progress )
+    {
+        generationProgress = progress;
+
+        <span class="keyword">await</span> InvokeAsync( StateHasChanged );
     }
 
     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span> BuildPdfSource( <span class="keyword">byte</span>[] content )

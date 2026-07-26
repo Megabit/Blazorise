@@ -26,6 +26,15 @@
                     @paneItem.Caption
                 </DropdownItem>
             }
+            @if ( ToolbarContext is not null )
+            {
+                <DropdownDivider />
+                <DropdownItem ShowCheckbox
+                              Checked="@ToolbarContext.StatusBarVisible"
+                              CheckedChanged="@ToolbarContext.SetStatusBarVisible">
+                    Status Bar
+                </DropdownItem>
+            }
         </DropdownMenu>
     </Dropdown>
 }

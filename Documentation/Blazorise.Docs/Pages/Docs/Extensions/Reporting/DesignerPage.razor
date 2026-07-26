@@ -21,6 +21,8 @@
 
 <DocsPageParagraph>
     The default designer toolbar includes a panes menu. When defining a custom toolbar, add <Code Tag>ReportToolbarPanesMenu</Code> if users should be able to open, focus, or show flyout panes from the toolbar.
+    The same menu contains a Status Bar checkbox. The status bar remains available in design and preview modes and shows PDF operation progress and, while designing, the current pointer coordinates and any report warnings.
+    Use <Code Tag>ShowStatusBar</Code> to define whether it is initially visible.
     Page tabs and the add-page button are rendered automatically above the designer surface and can be hidden with <Code Tag>ShowPageTabs</Code>.
     Designer panes can also be pinned or unpinned from their headers.
 </DocsPageParagraph>
@@ -66,7 +68,7 @@
 <DocsPageParagraph>
     Designer settings are stored in <Code Tag>ReportDesignerDefinition</Code> and can also be changed from the report properties pane.
     <Code>SnapToGrid</Code> and <Code>GridSize</Code> control grid-aligned movement and resizing. <Code>ShowRulers</Code> and <Code>ShowFineRulerTicks</Code> control measurement rulers,
-    while <Code>ShowCollisionWarnings</Code> highlights overlapping sibling elements. Individual elements can disable their own <Code>ShowCollisionWarnings</Code> setting to opt out. These settings are saved with the report definition.
+    while <Code>ShowCollisionWarnings</Code> highlights overlapping sibling elements and adds them to the status-bar warnings dialog. Individual elements can disable their own <Code>ShowCollisionWarnings</Code> setting to opt out. These settings are saved with the report definition.
 </DocsPageParagraph>
 
 <DocsPageApi>

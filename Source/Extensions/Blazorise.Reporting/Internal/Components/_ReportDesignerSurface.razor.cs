@@ -24,15 +24,15 @@ public partial class _ReportDesignerSurface
 
     private readonly ReportTableResizeService tableResizeService = new();
 
-    private HashSet<string> collidingElementKeys = [];
+    private string pointerTrackingPageKey;
 
-    private string cursorGuidesPageKey;
+    private ElementReference pointerTrackingPageElement;
 
-    private ElementReference cursorGuidesPageElement;
+    private ReportMeasurementUnit pointerTrackingUnit;
 
-    private bool cursorGuidesStarted;
+    private bool pointerTrackingStarted;
 
-    private int collisionMutationVersion = -1;
+    private bool pointerTrackingShowsCursorGuides;
 
     private bool designerDropInProgress;
 
@@ -61,23 +61,29 @@ public partial class _ReportDesignerSurface
         await base.OnAfterRenderAsync( firstRender );
 
         string pageKey = EffectiveDefinition?.Id;
+        ReportMeasurementUnit measurementUnit = EffectiveDefinition.Page.MeasurementUnit;
         bool showCursorGuides = Designer.CurrentShowCursorGuides;
+        bool trackPointer = Designer.ShowStatusBar || showCursorGuides;
 
-        if ( string.Equals( cursorGuidesPageKey, pageKey, StringComparison.Ordinal )
-             && cursorGuidesStarted == showCursorGuides )
+        if ( string.Equals( pointerTrackingPageKey, pageKey, StringComparison.Ordinal )
+             && pointerTrackingUnit == measurementUnit
+             && pointerTrackingShowsCursorGuides == showCursorGuides
+             && pointerTrackingStarted == trackPointer )
         {
             return;
         }
 
-        if ( cursorGuidesStarted )
-            await reportingModule.StopDesignerCursorGuides( cursorGuidesPageElement );
+        if ( pointerTrackingStarted )
+            await reportingModule.StopDesignerPointerTracking( pointerTrackingPageElement );
 
-        cursorGuidesPageKey = pageKey;
-        cursorGuidesPageElement = designerPageRef.Element;
-        cursorGuidesStarted = showCursorGuides;
+        pointerTrackingPageKey = pageKey;
+        pointerTrackingPageElement = designerPageRef.Element;
+        pointerTrackingUnit = measurementUnit;
+        pointerTrackingShowsCursorGuides = showCursorGuides;
+        pointerTrackingStarted = trackPointer;
 
-        if ( cursorGuidesStarted )
-            await reportingModule.StartDesignerCursorGuides( cursorGuidesPageElement );
+        if ( pointerTrackingStarted )
+            await reportingModule.StartDesignerPointerTracking( pointerTrackingPageElement, measurementUnit, showCursorGuides );
     }
 
     /// <inheritdoc />
@@ -89,8 +95,8 @@ public partial class _ReportDesignerSurface
             {
                 try
                 {
-                    if ( cursorGuidesStarted )
-                        await reportingModule.StopDesignerCursorGuides( cursorGuidesPageElement );
+                    if ( pointerTrackingStarted )
+                        await reportingModule.StopDesignerPointerTracking( pointerTrackingPageElement );
 
                     await reportingModule.StopSectionResize();
                     await reportingModule.StopElementDrag();
@@ -1332,16 +1338,7 @@ public partial class _ReportDesignerSurface
 
     private bool IsElementColliding( string elementKey )
     {
-        if ( !Designer.CurrentShowCollisionWarnings || string.IsNullOrWhiteSpace( elementKey ) )
-            return false;
-
-        if ( collisionMutationVersion != Designer.RenderMutationVersion )
-        {
-            collidingElementKeys = collisionService.FindCollidingElementKeys( EffectiveDefinition );
-            collisionMutationVersion = Designer.RenderMutationVersion;
-        }
-
-        return collidingElementKeys.Contains( elementKey );
+        return Designer.IsElementColliding( elementKey );
     }
 
     private bool IsDragPreviewColliding( ReportDesignerDragPreview preview )

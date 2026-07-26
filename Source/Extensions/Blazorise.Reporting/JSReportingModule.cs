@@ -125,23 +125,25 @@ public class JSReportingModule : BaseJSModule
     }
 
     /// <summary>
-    /// Starts cursor guide tracking for a report designer page.
+    /// Starts pointer position and cursor guide tracking for a report designer page.
     /// </summary>
-    /// <param name="pageElement">Designer page that owns the cursor guides.</param>
+    /// <param name="pageElement">Designer page that owns pointer tracking.</param>
+    /// <param name="measurementUnit">Measurement unit used to display pointer coordinates.</param>
+    /// <param name="showCursorGuides">Whether cursor guides should be displayed.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public virtual async ValueTask StartDesignerCursorGuides( ElementReference pageElement )
+    public virtual async ValueTask StartDesignerPointerTracking( ElementReference pageElement, ReportMeasurementUnit measurementUnit, bool showCursorGuides )
     {
-        await InvokeSafeVoidAsync( "startDesignerCursorGuides", pageElement );
+        await InvokeSafeVoidAsync( "startDesignerPointerTracking", pageElement, measurementUnit.ToString(), showCursorGuides );
     }
 
     /// <summary>
-    /// Stops cursor guide tracking for a report designer page.
+    /// Stops pointer position and cursor guide tracking for a report designer page.
     /// </summary>
-    /// <param name="pageElement">Designer page that owns the cursor guides.</param>
+    /// <param name="pageElement">Designer page that owns pointer tracking.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public virtual async ValueTask StopDesignerCursorGuides( ElementReference pageElement )
+    public virtual async ValueTask StopDesignerPointerTracking( ElementReference pageElement )
     {
-        await InvokeSafeVoidAsync( "stopDesignerCursorGuides", pageElement );
+        await InvokeSafeVoidAsync( "stopDesignerPointerTracking", pageElement );
     }
 
     /// <summary>

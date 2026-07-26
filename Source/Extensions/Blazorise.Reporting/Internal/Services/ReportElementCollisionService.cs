@@ -9,14 +9,14 @@ internal sealed class ReportElementCollisionService
 {
     #region Methods
 
-    internal HashSet<string> FindCollidingElementKeys( ReportDefinition definition )
+    internal IReadOnlyList<ReportDesignerWarning> FindWarnings( ReportDefinition definition )
     {
-        HashSet<string> collidingElementKeys = [];
+        List<ReportDesignerWarning> warnings = [];
+        HashSet<ReportDefinition> visitedDefinitions = [];
 
-        foreach ( ReportBandDefinition band in definition?.Bands ?? [] )
-            FindCollisions( band.Elements, collidingElementKeys );
+        FindWarnings( definition, warnings, visitedDefinitions );
 
-        return collidingElementKeys;
+        return warnings;
     }
 
     internal bool HasCollision(
@@ -50,7 +50,37 @@ internal sealed class ReportElementCollisionService
         return false;
     }
 
-    private static void FindCollisions( IList<ReportElementDefinition> elements, ISet<string> collidingElementKeys )
+    private static void FindWarnings(
+        ReportDefinition definition,
+        ICollection<ReportDesignerWarning> warnings,
+        ISet<ReportDefinition> visitedDefinitions )
+    {
+        if ( definition is null || !visitedDefinitions.Add( definition ) )
+            return;
+
+        IReadOnlyList<ReportPageDefinition> pages = definition.Pages ?? [];
+
+        for ( int pageIndex = 0; pageIndex < pages.Count; pageIndex++ )
+        {
+            ReportPageDefinition page = pages[pageIndex];
+            string pageName = string.IsNullOrWhiteSpace( page?.Name ) ? $"Page {pageIndex + 1}" : page.Name;
+
+            foreach ( ReportBandDefinition band in page?.Bands ?? [] )
+            {
+                if ( band is null )
+                    continue;
+
+                FindWarnings( band.Elements, pageName, ReportDefinitionHelper.GetSectionDisplayName( band ), warnings );
+                FindSubreportWarnings( band.Elements, warnings, visitedDefinitions );
+            }
+        }
+    }
+
+    private static void FindWarnings(
+        IList<ReportElementDefinition> elements,
+        string pageName,
+        string bandName,
+        ICollection<ReportDesignerWarning> warnings )
     {
         if ( elements is null )
             return;
@@ -75,14 +105,51 @@ internal sealed class ReportElementCollisionService
                     if ( !Intersects( bounds, siblingBounds ) )
                         continue;
 
-                    collidingElementKeys.Add( ReportDefinitionHelper.EnsureElementId( element ) );
-                    collidingElementKeys.Add( ReportDefinitionHelper.EnsureElementId( sibling ) );
+                    string elementKey = ReportDefinitionHelper.EnsureElementId( element );
+                    string siblingKey = ReportDefinitionHelper.EnsureElementId( sibling );
+                    string elementName = GetElementDisplayName( element );
+                    string siblingName = GetElementDisplayName( sibling );
+
+                    warnings.Add( new(
+                        $"{elementName} overlaps {siblingName} in {bandName} on {pageName}.",
+                        [elementKey, siblingKey] ) );
                 }
             }
 
             foreach ( IList<ReportElementDefinition> childElements in ReportDefinitionHelper.GetChildElementCollections( element ) )
-                FindCollisions( childElements, collidingElementKeys );
+                FindWarnings( childElements, pageName, bandName, warnings );
         }
+    }
+
+    private static void FindSubreportWarnings(
+        IEnumerable<ReportElementDefinition> elements,
+        ICollection<ReportDesignerWarning> warnings,
+        ISet<ReportDefinition> visitedDefinitions )
+    {
+        foreach ( ReportElementDefinition element in elements ?? [] )
+        {
+            if ( element is null )
+                continue;
+
+            if ( element is ReportSubreportElementDefinition subreport )
+                FindWarnings( subreport.Report, warnings, visitedDefinitions );
+
+            foreach ( IList<ReportElementDefinition> childElements in ReportDefinitionHelper.GetChildElementCollections( element ) )
+                FindSubreportWarnings( childElements, warnings, visitedDefinitions );
+        }
+    }
+
+    private static string GetElementDisplayName( ReportElementDefinition element )
+    {
+        string name = element?.Name;
+
+        if ( string.IsNullOrWhiteSpace( name ) )
+            name = ReportElementDefinitionHelper.GetDisplayText( element );
+
+        if ( string.IsNullOrWhiteSpace( name ) )
+            name = ReportDefinitionHelper.GetElementTypeDisplayName( element.Type );
+
+        return $"“{name}”";
     }
 
     private static bool CanCollide( ReportElementDefinition element, ReportElementType? elementType )
