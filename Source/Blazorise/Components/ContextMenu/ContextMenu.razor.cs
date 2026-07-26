@@ -28,10 +28,6 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
 
     private string subscribedTargetSelector;
 
-    private bool subscribedPreventDefault;
-
-    private bool subscribedStopPropagation;
-
     private ContextMenuBody body;
 
     private IAsyncDisposable contextMenuSubscription;
@@ -200,17 +196,13 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     {
         string targetSelector = ResolvedTargetSelector;
 
-        if ( subscribedTargetSelector == targetSelector
-             && subscribedPreventDefault == PreventDefault
-             && subscribedStopPropagation == StopPropagation )
+        if ( subscribedTargetSelector == targetSelector )
             return;
 
         if ( contextMenuSubscription is not null )
             await contextMenuSubscription.DisposeAsync();
 
         subscribedTargetSelector = targetSelector;
-        subscribedPreventDefault = PreventDefault;
-        subscribedStopPropagation = StopPropagation;
         contextMenuSubscription = string.IsNullOrWhiteSpace( targetSelector )
             ? null
             : await DocumentObserver.Subscribe( new()
@@ -218,8 +210,8 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
                 OwnerId = ElementId,
                 EventTypes = DocumentEventTypes.ContextMenu,
                 Selector = targetSelector,
-                PreventDefault = PreventDefault,
-                StopPropagation = StopPropagation,
+                PreventDefault = true,
+                StopPropagation = true,
                 Handler = HandleContextMenu,
             } );
     }
@@ -378,16 +370,6 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     /// Specifies an element id that opens this context menu when right-clicked.
     /// </summary>
     [Parameter] public string TargetId { get; set; }
-
-    /// <summary>
-    /// Prevents the browser's default context menu for observed targets.
-    /// </summary>
-    [Parameter] public bool PreventDefault { get; set; } = true;
-
-    /// <summary>
-    /// Stops propagation for observed context menu events.
-    /// </summary>
-    [Parameter] public bool StopPropagation { get; set; } = true;
 
     /// <summary>
     /// Closes the menu when clicking outside of it.
