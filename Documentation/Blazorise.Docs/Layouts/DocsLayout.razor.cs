@@ -27,6 +27,8 @@ public partial class DocsLayout
 
     private bool sideBarDataGridMenuVisible;
 
+    private bool sideBarReportingMenuVisible;
+
     private bool sideBarSvgChartMenuVisible;
 
     private bool sideBarServicesMenuVisible;
@@ -116,6 +118,7 @@ public partial class DocsLayout
         return relativePath.Equals( "docs/extensions", StringComparison.OrdinalIgnoreCase )
                || ( relativePath.StartsWith( "docs/extensions/", StringComparison.OrdinalIgnoreCase )
                     && !relativePath.StartsWith( "docs/extensions/datagrid", StringComparison.OrdinalIgnoreCase )
+                    && !relativePath.StartsWith( "docs/extensions/reporting", StringComparison.OrdinalIgnoreCase )
                     && !relativePath.StartsWith( "docs/extensions/svg-chart", StringComparison.OrdinalIgnoreCase ) );
     }
 

@@ -1,0 +1,21 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<Div Display="DisplayNone">
+    <_ReportDesignerAggregateDialog @ref="aggregateDialog"
+                                    ResolveSupportedFunctions="@Designer.ResolveAggregateDialogSupportedFunctions"
+                                    Confirmed="@Designer.OnAggregateDialogConfirmed" />
+    <_ReportDesignerRunningTotalDialog @ref="runningTotalDialog"
+                                       Definition="@Definition"
+                                       Data="@Designer.Data"
+                                       Confirmed="@Designer.OnRunningTotalConfirmed" />
+    <_ReportDesignerGroupDialog @ref="groupDialog"
+                                Confirmed="@Designer.OnGroupDialogConfirmed" />
+    <_ReportDesignerDataSourceConnectionDialog @ref="dataSourceConnectionDialog"
+                                               Confirmed="@Designer.OnDataSourceConnectionConfirmed" />
+    <_ReportDesignerFormulaDialog @ref="formulaDialog"
+                                  Definition="@Definition"
+                                  Data="@Designer.Data"
+                                  Section="@Designer.GetSelectedFormulaSection( Definition )"
+                                  Confirmed="@Designer.OnFormulaDialogConfirmed" />
+</Div>

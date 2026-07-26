@@ -1,0 +1,44 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using Microsoft.AspNetCore.Components.Web
+
+<span @key="@NorthWestKey"
+      class="b-report-resize-handle b-report-resize-handle-nw"
+      @onpointerdown="@NorthWestPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>
+<span @key="@NorthKey"
+      class="b-report-resize-handle b-report-resize-handle-n"
+      @onpointerdown="@NorthPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>
+<span @key="@NorthEastKey"
+      class="b-report-resize-handle b-report-resize-handle-ne"
+      @onpointerdown="@NorthEastPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>
+<span @key="@EastKey"
+      class="b-report-resize-handle b-report-resize-handle-e"
+      @onpointerdown="@EastPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>
+<span @key="@SouthEastKey"
+      class="b-report-resize-handle b-report-resize-handle-se"
+      @onpointerdown="@SouthEastPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>
+<span @key="@SouthKey"
+      class="b-report-resize-handle b-report-resize-handle-s"
+      @onpointerdown="@SouthPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>
+<span @key="@SouthWestKey"
+      class="b-report-resize-handle b-report-resize-handle-sw"
+      @onpointerdown="@SouthWestPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>
+<span @key="@WestKey"
+      class="b-report-resize-handle b-report-resize-handle-w"
+      @onpointerdown="@WestPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>

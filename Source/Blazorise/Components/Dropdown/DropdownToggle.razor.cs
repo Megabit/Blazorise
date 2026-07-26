@@ -141,7 +141,8 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
                 return;
             }
 
-            await ParentDropdown.Toggle( ElementId );
+            if ( ParentDropdown.IsClickTriggerEnabled )
+                await ParentDropdown.Toggle( ElementId );
         }
 
         await Clicked.InvokeAsync( eventArgs );

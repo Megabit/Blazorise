@@ -32,6 +32,47 @@ export function createFloatingUiAutoUpdate(targetElement, menuElement, options) 
     });
 }
 
+export function createFloatingUiPointAutoUpdate(clientX, clientY, contextElement, menuElement, options) {
+    const contextRect = contextElement?.getBoundingClientRect?.();
+    const offsetX = contextRect ? clientX - contextRect.left : 0;
+    const offsetY = contextRect ? clientY - contextRect.top : 0;
+    const targetElement = {
+        contextElement: contextElement ?? undefined,
+        getBoundingClientRect() {
+            const point = getVirtualPoint(clientX, clientY, contextElement, offsetX, offsetY);
+
+            return {
+                x: point.x,
+                y: point.y,
+                left: point.x,
+                top: point.y,
+                right: point.x,
+                bottom: point.y,
+                width: 0,
+                height: 0,
+            };
+        }
+    };
+
+    return createFloatingUiAutoUpdate(targetElement, menuElement, options);
+}
+
+function getVirtualPoint(clientX, clientY, contextElement, offsetX, offsetY) {
+    const contextRect = contextElement?.getBoundingClientRect?.();
+
+    if (!contextRect) {
+        return {
+            x: clientX,
+            y: clientY,
+        };
+    }
+
+    return {
+        x: contextRect.left + offsetX,
+        y: contextRect.top + offsetY,
+    };
+}
+
 function shouldUseFloatingUi(options, menuElement) {
     if (!options?.onlyWhenPositioned)
         return true;

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -56,6 +56,7 @@ public class Button : Blazorise.Button
 
         builder.OnClick( this, EventCallback.Factory.Create<MouseEventArgs>( this, ClickHandler ) );
         builder.OnClickPreventDefault( Type == ButtonType.Link && To != null && To.StartsWith( "#" ) );
+        BuildContextMenuEventsRenderTree( builder );
 
         builder.Attributes( Attributes );
         builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );

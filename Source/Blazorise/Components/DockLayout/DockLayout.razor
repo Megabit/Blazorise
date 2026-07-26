@@ -1,0 +1,35 @@
+@namespace Blazorise
+@inherits BaseComponent
+<CascadingValue Value="@this" IsFixed>
+    <CascadingValue Value="@Context" IsFixed>
+        <section @ref="@ElementRef"
+                 id="@ElementId"
+                 class="@ClassNames"
+                 style="@StyleNames"
+                 data-dock-drag-preview-class="@DragPreviewClassName"
+                 data-dock-drop-preview-class="@DropPreviewClassName"
+                 @attributes="@Attributes">
+            <CascadingValue Value="@RootCollector" IsFixed>
+                <div style="display:none">
+                    @ChildContent
+                </div>
+            </CascadingValue>
+            @if ( CurrentState.Root is not null )
+            {
+                <_DockNodeRenderer NodeId="@CurrentState.Root.Id" />
+            }
+            <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Left" Items="@GetRailItems( DockPanePosition.Left )" Bordered="@IsDockPaneBordered( DockPanePosition.Left )" />
+            <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Right" Items="@GetRailItems( DockPanePosition.Right )" Bordered="@IsDockPaneBordered( DockPanePosition.Right )" />
+            <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Top" Items="@GetRailItems( DockPanePosition.Top )" Bordered="@IsDockPaneBordered( DockPanePosition.Top )" />
+            <_DockAutoHideRailRenderer RailPosition="@DockPanePosition.Bottom" Items="@GetRailItems( DockPanePosition.Bottom )" Bordered="@IsDockPaneBordered( DockPanePosition.Bottom )" />
+            @if ( ActiveAutoHidePane is not null )
+            {
+                <_DockPaneRenderer @key="@ActiveAutoHidePane.ResolvedName" PaneName="@ActiveAutoHidePane.ResolvedName" Flyout />
+            }
+            @if ( DockGuidesVisible )
+            {
+                <_DockCompassRenderer />
+            }
+        </section>
+    </CascadingValue>
+</CascadingValue>

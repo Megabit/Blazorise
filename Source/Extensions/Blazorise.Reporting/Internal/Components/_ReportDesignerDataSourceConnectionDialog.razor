@@ -1,0 +1,61 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<ModalHeader>
+    <ModalTitle>@DialogTitle</ModalTitle>
+    <CloseButton Clicked="@Close" />
+</ModalHeader>
+<ModalBody>
+    <Buttons Margin="MarginIs3FromBottom" Size="Size.Small">
+        <Button Color="Color.Primary" Outline Active="@(!IsEditingDataSource)" Clicked="@SelectNewDataSource">New data source</Button>
+        <Button Color="Color.Primary" Outline Active="@IsEditingDataSource" Clicked="@SelectExistingDataSource" Disabled="@(dataSources.Count == 0)">Existing data source</Button>
+    </Buttons>
+
+    @if ( IsEditingDataSource )
+    {
+        <Field Horizontal>
+            <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Existing data source</FieldLabel>
+            <FieldBody ColumnSize="ColumnSizeIs8">
+                <Select TValue="string" Value="@selectedDataSourceId" ValueChanged="@OnSelectedDataSourceChanged" Size="Size.Small">
+                    @foreach ( ReportDataSourceDefinition dataSource in dataSources )
+                    {
+                        <SelectItem TValue="string" Value="@dataSource.Id">@GetDataSourceDisplayName( dataSource )</SelectItem>
+                    }
+                </Select>
+            </FieldBody>
+        </Field>
+    }
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Name</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs8">
+            <TextInput Value="@name" ValueChanged="@OnNameChanged" Size="Size.Small" />
+        </FieldBody>
+    </Field>
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Provider</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs8">
+            <Select TValue="string" Value="@selectedProviderType" ValueChanged="@OnSelectedProviderChanged" Size="Size.Small">
+                @foreach ( IReportDataSourceProvider provider in providers )
+                {
+                    <SelectItem TValue="string" Value="@provider.Type">@provider.DisplayName</SelectItem>
+                }
+            </Select>
+        </FieldBody>
+    </Field>
+
+    <Field>
+        <FieldLabel TextSize="TextSizeSmall">@GetProviderSettingsLabel()</FieldLabel>
+        <FieldBody>
+            @if ( editorContext is not null )
+            {
+                <DynamicComponent Type="@SelectedProviderEditorComponentType" Parameters="@ProviderEditorParameters" />
+            }
+        </FieldBody>
+    </Field>
+</ModalBody>
+<ModalFooter>
+    <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm)" Size="Size.Small">@ConfirmCaption</Button>
+    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">Cancel</Button>
+</ModalFooter>

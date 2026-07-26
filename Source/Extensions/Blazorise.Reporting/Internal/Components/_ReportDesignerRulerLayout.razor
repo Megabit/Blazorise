@@ -1,0 +1,27 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using static Blazorise.Reporting.Internal.FluentConstants
+
+<Div Class="@RulerClass" Padding="@(Visible ? PaddingIs0 : PaddingIs3)">
+    @if ( Visible )
+    {
+        <div class="b-report-designer-ruler-corner"
+             role="button"
+             title="Select report"
+             @onclick="@OnReportSelected"></div>
+        <_ReportDesignerHorizontalRuler Unit="@Unit"
+                                        Width="@PageWidth"
+                                        WidthOffset="@WidthOffset"
+                                        GridSize="@GridSize"
+                                        ShowFineTicks="@ShowFineTicks"
+                                        Marker="@Marker" />
+        <_ReportDesignerVerticalRuler Unit="@Unit"
+                                      Height="@PageHeight"
+                                      GridSize="@GridSize"
+                                      ShowFineTicks="@ShowFineTicks"
+                                      Marker="@Marker" />
+    }
+    <div class="b-report-designer-ruler-content">
+        @ChildContent
+    </div>
+</Div>

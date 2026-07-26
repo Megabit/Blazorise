@@ -1,0 +1,6 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildToolboxNodes( ElementPluginRegistry, AllowSubreport )"
+                 NodeDragStarted="@ToolboxNodeDragStarted"
+                 NodeDragEnded="@NodeDragEnded" />

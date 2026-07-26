@@ -1,0 +1,24 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<ModalHeader>
+    <ModalTitle>Insert group</ModalTitle>
+    <CloseButton Clicked="@Close" />
+</ModalHeader>
+<ModalBody>
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Group by</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs8">
+            <Select TValue="string" Value="@selectedFieldKey" ValueChanged="@OnSelectedFieldChanged" Size="Size.Small">
+                @foreach ( ReportDesignerFieldOption field in fields )
+                {
+                    <SelectItem TValue="string" Value="@CreateFieldKey( field )">@field.DisplayName</SelectItem>
+                }
+            </Select>
+        </FieldBody>
+    </Field>
+</ModalBody>
+<ModalFooter>
+    <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm)" Size="Size.Small">OK</Button>
+    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">Cancel</Button>
+</ModalFooter>

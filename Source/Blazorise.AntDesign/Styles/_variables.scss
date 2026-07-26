@@ -601,6 +601,7 @@ html {
     --ant-menu-active-bar-border-width: var(--ant-line-width);
     --ant-menu-active-bar-height: var(--ant-line-width-bold);
     --ant-menu-active-bar-width: 0;
+    --ant-menu-brand-height: 64px;
     --ant-menu-collapsed-icon-size: var(--ant-font-size-lg);
     --ant-menu-collapsed-width: calc(var(--ant-control-height-lg) * 2);
     --ant-menu-danger-item-active-bg: var(--ant-color-error-bg);
@@ -634,6 +635,7 @@ html {
     --ant-menu-horizontal-line-height: 46px;
     --ant-menu-icon-margin-inline-end: 10px;
     --ant-menu-icon-size: var(--ant-font-size);
+    --ant-menu-inline-width: 230px;
     --ant-menu-item-active-bg: var(--ant-control-item-bg-active);
     --ant-menu-item-bg: var(--ant-color-bg-container);
     --ant-menu-item-border-radius: var(--ant-border-radius-lg);

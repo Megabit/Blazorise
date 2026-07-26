@@ -1,0 +1,35 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<Field Class="b-report-designer-report-explorer-search"
+       Margin="MarginIs0"
+       Padding="PaddingIs3OnXIs3FromTop">
+    <Div Flex="FlexRow" Gap="GapIs1">
+        <Div Flex="FlexGrowIs1">
+            <TextInput @bind-Value="@searchText"
+                       Role="TextRole.Search"
+                       Placeholder="Search..."
+                       Size="Size.Small"
+                       Immediate="true"
+                       Debounce="true" />
+        </Div>
+        <Button Color="Color.Primary"
+                Size="Size.Small"
+                Outline
+                Active="@showCurrentPageOnly"
+                Clicked="@(() => showCurrentPageOnly = !showCurrentPageOnly)"
+                title="Show current page only"
+                aria-label="Show current page only"
+                aria-pressed="@showCurrentPageOnly">
+            <Icon Name="IconName.Filter" />
+        </Button>
+    </Div>
+</Field>
+
+<Div Class="b-report-designer-report-explorer-tree"
+     Padding="PaddingIs3">
+    <_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildReportExplorerNodes( Definition, ReportSelected, SelectedSectionIndex, SelectedElementKey, SelectedCellKey, IsElementSelected, ElementPluginRegistry, AllowSubreport, searchText, showCurrentPageOnly )"
+                     ExpandAll="@(!string.IsNullOrWhiteSpace( searchText ))"
+                     NodeClicked="@NodeClicked"
+                     NodeContextMenu="@NodeContextMenu" />
+</Div>

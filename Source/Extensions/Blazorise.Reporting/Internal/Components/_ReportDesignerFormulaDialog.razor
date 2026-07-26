@@ -1,0 +1,71 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<ModalHeader>
+    <ModalTitle>@Title</ModalTitle>
+    <CloseButton Clicked="@Close" />
+</ModalHeader>
+<ModalBody>
+    <Grid Columns="GridColumns.Are3" Gap="GapIs2">
+        <Div>
+            <Div TextSize="TextSizeSmall" TextWeight="TextWeightBold" Margin="MarginIs1FromBottom">Fields</Div>
+            <Div Height="HeightPx180" Overflow="OverflowAuto">
+                <_ReportTreeView Nodes="@FieldNodes" NodeClicked="@OnFieldNodeClicked" CollapseByDefault />
+            </Div>
+        </Div>
+        <Div>
+            <Div TextSize="TextSizeSmall" TextWeight="TextWeightBold" Margin="MarginIs1FromBottom">Functions</Div>
+            <Div Height="HeightPx180" Overflow="OverflowAuto">
+                <_ReportTreeView Nodes="@FunctionNodes" NodeClicked="@OnFunctionNodeClicked" CollapseByDefault />
+            </Div>
+        </Div>
+        <Div>
+            <Div TextSize="TextSizeSmall" TextWeight="TextWeightBold" Margin="MarginIs1FromBottom">Operators</Div>
+            <Div Height="HeightPx180" Overflow="OverflowAuto">
+                <_ReportTreeView Nodes="@OperatorNodes" NodeClicked="@OnOperatorNodeClicked" CollapseByDefault />
+            </Div>
+        </Div>
+    </Grid>
+
+    <Field Margin="MarginIs3FromTop">
+        <FieldLabel TextSize="TextSizeSmall">Formula</FieldLabel>
+        <FieldBody>
+            <MemoInput Value="@formula" ValueChanged="@OnFormulaChanged" Immediate="true" Size="Size.Small" Rows="@FormulaEditorRows" />
+        </FieldBody>
+    </Field>
+
+    @if ( HasValidationMessage )
+    {
+        <Alert Color="@ValidationAlertColor" Visible Margin="MarginIs2FromTop">
+            <AlertDescription>@validationMessage</AlertDescription>
+        </Alert>
+    }
+
+    <Div Margin="MarginIs2FromTop">
+        <Table Narrow Striped>
+            <TableBody>
+                <TableRow>
+                    <TableRowCell TextSize="TextSizeSmall" TextWeight="TextWeightBold">Item</TableRowCell>
+                    <TableRowCell TextSize="TextSizeSmall">@SelectedHelpItem</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowCell TextSize="TextSizeSmall" TextWeight="TextWeightBold">Description</TableRowCell>
+                    <TableRowCell TextSize="TextSizeSmall">@SelectedHelpDescription</TableRowCell>
+                </TableRow>
+            </TableBody>
+        </Table>
+    </Div>
+</ModalBody>
+<ModalFooter>
+    <Div Display="DisplayFlex" Flex="FlexJustifyContentBetweenAlignItemsCenter" Width="WidthIs100">
+        <Div Display="DisplayFlex" Gap="GapIs2">
+            <Button Color="Color.Info" Clicked="@Check" Size="Size.Small">Check</Button>
+            <Button Color="Color.Primary" Clicked="@Save" Size="Size.Small">Save</Button>
+            <Button Color="Color.Primary" Clicked="@SaveAndClose" Size="Size.Small">Save and close</Button>
+        </Div>
+        <Div Display="DisplayFlex" Gap="GapIs2">
+            <Button Color="Color.Light" Clicked="@Clear" Size="Size.Small">Clear</Button>
+            <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">Cancel</Button>
+        </Div>
+    </Div>
+</ModalFooter>

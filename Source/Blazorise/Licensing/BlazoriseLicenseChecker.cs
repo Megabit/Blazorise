@@ -162,6 +162,16 @@ public sealed class BlazoriseLicenseChecker
     }
 
     /// <summary>
+    /// Returns the maximum number of rows that can be rendered in a report.
+    /// Null if no limit is set.
+    /// </summary>
+    /// <returns></returns>
+    public int? GetReportingRowsLimit()
+    {
+        return blazoriseLicenseProvider.GetReportingRowsLimit();
+    }
+
+    /// <summary>
     /// Returns the maximum number of rows that can be displayed.
     /// Null if no limit is set.
     /// </summary>

@@ -1,0 +1,90 @@
+@page "/docs/components/context-menu"
+
+<Seo Canonical="/docs/components/context-menu" Title="Blazorise ContextMenu component" Description="Learn to use the Blazorise ContextMenu component to show right-click menus with actions, checked items, and submenus." />
+
+<DocsPageTitle Path="Components/ContextMenu">
+    Blazorise ContextMenu component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Show contextual actions when a user right-clicks a target element or when application code opens the menu.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The <Code Tag>ContextMenu</Code> component uses the shared document observer to listen for right-click events on a toggle or target selector.
+    Use <Code Tag>ContextMenuBody</Code> for the menu surface and <Code Tag>ContextMenuItem</Code>, <Code Tag>ContextMenuDivider</Code>, <Code Tag>ContextMenuHeader</Code>, and <Code Tag>ContextMenuSubmenu</Code> for commands.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic context menu">
+        Attach a menu to any element id and provide menu items for the available actions.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ContextMenuBasicExample" Outlined FullWidth>
+        <ContextMenuBasicExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Toggle content">
+        Use <Code Tag>ContextMenuToggle</Code> when the menu target is declared inside the <Code Tag>ContextMenu</Code>, without assigning an element id.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ContextMenuToggleExample" Outlined FullWidth>
+        <ContextMenuToggleExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Checked items">
+        Use <Code>ShowCheckbox</Code> for toggle items, or <Code Tag>ContextMenuGroup</Code> with radio mode for mutually exclusive choices.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ContextMenuCheckedExample" Outlined FullWidth>
+        <ContextMenuCheckedExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Toolbar">
+        Use <Code Tag>ContextMenuToolbar</Code> for compact icon commands that should be grouped on a single row.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ContextMenuToolbarExample" Outlined FullWidth>
+        <ContextMenuToolbarExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Submenus">
+        Use <Code Tag>ContextMenuSubmenu</Code> to group related commands inside a nested menu.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ContextMenuSubmenuExample" Outlined FullWidth>
+        <ContextMenuSubmenuExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Functions
+</DocsPageSubtitle>
+
+<Table>
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Description</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell><Code>Show( double clientX, double clientY )</Code></TableRowCell>
+            <TableRowCell>Shows the context menu at the supplied client coordinates.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Hide()</Code></TableRowCell>
+            <TableRowCell>Hides the context menu.</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<ComponentApiDocs ComponentTypes="[typeof( ContextMenu ), typeof( ContextMenuToggle ), typeof( ContextMenuBody ), typeof( ContextMenuItem ), typeof( ContextMenuToolbar ), typeof( ContextMenuToolbarItem ), typeof( ContextMenuDivider ), typeof( ContextMenuHeader ), typeof( ContextMenuGroup ), typeof( ContextMenuSubmenu )]" />

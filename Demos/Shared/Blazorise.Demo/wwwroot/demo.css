@@ -1,4 +1,12 @@
-﻿.b-demo-startup {
+﻿@font-face {
+    font-family: "Open Sans Demo";
+    src: url("fonts/OpenSans-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+.b-demo-startup {
     position: fixed;
     inset: 0;
     display: flex;

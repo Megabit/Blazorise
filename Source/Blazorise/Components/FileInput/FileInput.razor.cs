@@ -182,10 +182,10 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
 
         if ( AutoReset )
         {
-            await InvokeAsync( async () => await Reset() );
+            await InvokeAsync( () => Reset().AsTask() );
         }
 
-        await InvokeAsync( async () => await Ended.InvokeAsync( new( fileEntry, success, fileInvalidReason ) ) );
+        await InvokeAsync( () => Ended.InvokeAsync( new( fileEntry, success, fileInvalidReason ) ) );
     }
 
     /// <inheritdoc/>
@@ -194,7 +194,7 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
         if ( DisableProgressReport )
             return Task.CompletedTask;
 
-        return InvokeAsync( async () => await Written.InvokeAsync( new( fileEntry, position, data ) ) );
+        return InvokeAsync( () => Written.InvokeAsync( new( fileEntry, position, data ) ) );
     }
 
     /// <inheritdoc/>
@@ -211,7 +211,7 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
         {
             Progress = progress;
 
-            return InvokeAsync( async () => await Progressed.InvokeAsync( new( fileEntry, Progress ) ) );
+            return InvokeAsync( () => Progressed.InvokeAsync( new( fileEntry, Progress ) ) );
         }
 
         return Task.CompletedTask;

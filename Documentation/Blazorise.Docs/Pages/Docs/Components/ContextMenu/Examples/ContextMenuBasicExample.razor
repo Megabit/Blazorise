@@ -1,0 +1,31 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div id="context-menu-basic-target"
+     Padding="Padding.Is4"
+     Border="Border.Is1.Rounded"
+     Background="Background.Light">
+    Right-click this area.
+</Div>
+
+<ContextMenu TargetId="context-menu-basic-target">
+    <ContextMenuBody MinWidth="12rem">
+        <ContextMenuHeader>Document</ContextMenuHeader>
+        <ContextMenuItem Icon="IconName.Copy" Value="@("Copy")" Clicked="@SetSelectedAction">Copy</ContextMenuItem>
+        <ContextMenuItem Icon="IconName.Paste" Value="@("Paste")" Clicked="@SetSelectedAction">Paste</ContextMenuItem>
+        <ContextMenuDivider />
+        <ContextMenuItem Icon="IconName.Delete" Value="@("Delete")" Clicked="@SetSelectedAction">Delete</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin="Margin.Is2.FromTop">
+    Last action: @selectedAction
+</Paragraph>
+
+@code {
+    private string selectedAction = "None";
+
+    private void SetSelectedAction( object value )
+    {
+        selectedAction = value?.ToString();
+    }
+}

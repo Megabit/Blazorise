@@ -251,6 +251,20 @@ public static class RenderTreeBuilderExtensions
         return builder;
     }
 
+    public static RenderTreeBuilder EventPreventDefault( this RenderTreeBuilder builder, string name, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventPreventDefaultAttribute( GetSequence( line ), name, value );
+
+        return builder;
+    }
+
+    public static RenderTreeBuilder EventStopPropagation( this RenderTreeBuilder builder, string name, bool value, [CallerLineNumber] int line = 0 )
+    {
+        builder.AddEventStopPropagationAttribute( GetSequence( line ), name, value );
+
+        return builder;
+    }
+
     public static RenderTreeBuilder OnClick<T>( this RenderTreeBuilder builder, object receiver, EventCallback<T> callback, [CallerLineNumber] int line = 0 )
     {
         builder.AddAttribute( GetSequence( line ), "onclick", EventCallback.Factory.Create<T>( receiver, callback ) );

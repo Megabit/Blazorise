@@ -13,18 +13,17 @@
     }
 }
 
-.is-showing,
-.is-active:not(.is-hiding) {
+.offcanvas.is-showing,
+.offcanvas.is-active:not(.is-hiding) {
     transform: none;
 }
 
-.is-showing,
-.is-hiding,
-.is-showing {
+.offcanvas.is-showing,
+.offcanvas.is-hiding {
     visibility: visible;
 }
 
-.is-start {
+.offcanvas.is-start {
     top: 0;
     left: 0;
     height: 100%;
@@ -32,7 +31,7 @@
     transform-origin: left;
 }
 
-.is-end {
+.offcanvas.is-end {
     top: 0;
     right: 0;
     height: 100%;
@@ -44,7 +43,7 @@
     }
 }
 
-.is-top {
+.offcanvas.is-top {
     top: 0;
     left: 0;
     right: 0;
@@ -58,7 +57,7 @@
     }
 }
 
-.is-bottom {
+.offcanvas.is-bottom {
     bottom: 0;
     left: 0;
     right: 0;

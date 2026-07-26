@@ -1,0 +1,19 @@
+@namespace Blazorise
+@inherits BaseComponent
+@if ( Visible )
+{
+    <span class="@ClassNames" @onpointerdown:stopPropagation>
+        @if ( AutoHideActionVisible )
+        {
+            <button type="button" class="@ActionClassNames" title="@AutoHideTitle" @onclick="@ToggleAutoHide">
+                <Icon Name="@AutoHideIconName" />
+            </button>
+        }
+        @if ( CloseActionVisible )
+        {
+            <button type="button" class="@ActionClassNames" title="Close" @onclick="@Close">
+                <Icon Name="IconName.Times" />
+            </button>
+        }
+    </span>
+}

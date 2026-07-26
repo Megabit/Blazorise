@@ -1,0 +1,112 @@
+.mui-resizer {
+    --mui-resizer-hit-area: .5rem;
+    --mui-resizer-gutter-background: var(--mui-surface-container, #f3edf7);
+    --mui-resizer-gutter-border: var(--mui-outline-variant, #cac4d0);
+    --mui-resizer-grip-color: var(--mui-on-surface-variant, #49454f);
+    position: absolute;
+    z-index: 10;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    user-select: none;
+    touch-action: none;
+    outline: none;
+
+    &-vertical {
+        top: 0;
+        bottom: 0;
+        width: var(--mui-resizer-hit-area);
+        cursor: col-resize;
+    }
+
+    &-horizontal {
+        right: 0;
+        left: 0;
+        height: var(--mui-resizer-hit-area);
+        cursor: row-resize;
+    }
+
+    &-top {
+        top: 0;
+    }
+
+    &-bottom {
+        bottom: 0;
+    }
+
+    &-start {
+        inset-inline-start: 0;
+    }
+
+    &-end {
+        inset-inline-end: 0;
+    }
+
+    &-gutter {
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            pointer-events: none;
+        }
+
+        &::before {
+            inset: 0;
+            box-sizing: border-box;
+            background: var(--mui-resizer-gutter-background);
+        }
+
+        &::after {
+            top: 50%;
+            left: 50%;
+            border-radius: 9999px;
+            background: var(--mui-resizer-grip-color);
+            transform: translate(-50%, -50%);
+        }
+
+        &:hover,
+        &.mui-resizer-focused,
+        &.mui-resizer-resizing {
+            --mui-resizer-gutter-background: var(--mui-primary-container, #eaddff);
+            --mui-resizer-gutter-border: var(--mui-primary, #6750a4);
+            --mui-resizer-grip-color: var(--mui-on-primary-container, #21005d);
+        }
+    }
+
+    &-disabled {
+        pointer-events: none;
+        opacity: .5;
+    }
+
+    &-target-resizing {
+        transition: none !important;
+    }
+}
+
+.mui-resizer-gutter.mui-resizer-vertical {
+    &::before {
+        border-inline: 1px solid var(--mui-resizer-gutter-border);
+    }
+
+    &::after {
+        width: 4px;
+        height: 2rem;
+    }
+}
+
+.mui-resizer-gutter.mui-resizer-horizontal {
+    &::before {
+        border-block: 1px solid var(--mui-resizer-gutter-border);
+    }
+
+    &::after {
+        width: 2rem;
+        height: 4px;
+    }
+}
+
+@media (pointer: coarse) {
+    .mui-resizer {
+        --mui-resizer-hit-area: 1rem;
+    }
+}

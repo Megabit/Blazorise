@@ -1,0 +1,3 @@
+builder.Services
+    .AddBlazoriseReporting()
+    .AddReportElementPlugin<ProgressBarReportElementPlugin>();
