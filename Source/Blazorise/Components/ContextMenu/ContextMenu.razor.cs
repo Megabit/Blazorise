@@ -59,7 +59,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        await EnsureContextMenuSubscription();
+        await SynchronizeContextMenuSubscription();
         await SynchronizeVisibilitySubscriptions();
 
         if ( Visible )
@@ -196,7 +196,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
             await Hide();
     }
 
-    private async Task EnsureContextMenuSubscription()
+    private async Task SynchronizeContextMenuSubscription()
     {
         string targetSelector = ResolvedTargetSelector;
 
