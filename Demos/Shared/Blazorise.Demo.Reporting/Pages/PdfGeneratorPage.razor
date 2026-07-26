@@ -1,6 +1,7 @@
 @page "/tests/pdf-generator"
 @using System
 @using System.Collections.Generic
+@using System.Diagnostics
 @using System.Threading.Tasks
 @inject IFontProvider FontProvider
 @inject IPdfGenerator PdfGenerator
@@ -136,6 +137,20 @@
                     <Switch TValue="bool" Value="@showElementBorders" ValueChanged="@OnShowElementBordersChanged">
                         Show element borders
                     </Switch>
+
+                    @if ( pdfGenerationProgress is not null )
+                    {
+                        <Div Flex="Flex.AlignItems.Center"
+                             Gap="Gap.Is2"
+                             Margin="Margin.IsAuto.FromStart">
+                            <Span TextSize="TextSize.Small">@PdfGenerationStatus</Span>
+                            <Progress Value="@((int)pdfGenerationProgress.Percentage)"
+                                      Color="@(pdfGenerationProgress.Stage == PdfGenerationStage.Completed ? Color.Success : Color.Primary)"
+                                      Size="Size.Small"
+                                      Width="Width.Rem( 12 )" />
+                            <Span TextSize="TextSize.Small" TextColor="TextColor.Secondary">@PdfGenerationDuration</Span>
+                        </Div>
+                    }
                 </Div>
 
                 @if ( errorMessage is not null )
@@ -178,11 +193,17 @@
 
     private readonly List<FontFamily> previewFonts = [];
 
+    private readonly Stopwatch pdfGenerationStopwatch = new();
+
     private PdfDocument pdfDocument;
 
     private string pdfSource;
 
     private string errorMessage;
+
+    private PdfGenerationProgress pdfGenerationProgress;
+
+    private TimeSpan pdfGenerationElapsed;
 
     private string previewFontFamily = OpenSansFamily;
 
@@ -191,6 +212,19 @@
     private bool regeneratePdf;
 
     private double ElementBorderWidth => showElementBorders ? 1 : 0;
+
+    private string PdfGenerationStatus => pdfGenerationProgress.Stage switch
+    {
+        PdfGenerationStage.PreparingFonts => "Preparing fonts",
+        PdfGenerationStage.RenderingPages => $"Rendering page {pdfGenerationProgress.CompletedPages} of {pdfGenerationProgress.TotalPages}",
+        PdfGenerationStage.WritingDocument => "Writing PDF document",
+        PdfGenerationStage.Completed => $"Generated {pdfGenerationProgress.TotalPages} pages",
+        _ => string.Empty,
+    };
+
+    private string PdfGenerationDuration => pdfGenerationElapsed.TotalSeconds >= 1
+        ? $"{pdfGenerationElapsed.TotalSeconds:0.00} s"
+        : $"{pdfGenerationElapsed.TotalMilliseconds:0} ms";
 
     protected override void OnInitialized()
     {
@@ -254,12 +288,16 @@
             return;
 
         errorMessage = null;
+        pdfGenerationProgress = null;
+        pdfGenerationElapsed = TimeSpan.Zero;
+        pdfGenerationStopwatch.Restart();
 
         try
         {
             PdfGenerationResult result = await PdfGenerator.Generate( pdfDocument.Definition, new()
             {
                 FileName = "blazorise-pdf-rendering-matrix.pdf",
+                Progress = OnPdfGenerationProgress,
             } );
 
             pdfSource = $"data:application/pdf;base64,{Convert.ToBase64String( result.Content )}";
@@ -268,6 +306,17 @@
         {
             errorMessage = exception.Message;
         }
+
+        pdfGenerationStopwatch.Stop();
+        pdfGenerationElapsed = pdfGenerationStopwatch.Elapsed;
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    private async Task OnPdfGenerationProgress( PdfGenerationProgress progress )
+    {
+        pdfGenerationProgress = progress;
+        pdfGenerationElapsed = pdfGenerationStopwatch.Elapsed;
 
         await InvokeAsync( StateHasChanged );
     }
