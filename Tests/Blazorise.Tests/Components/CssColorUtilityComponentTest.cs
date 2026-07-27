@@ -8,6 +8,7 @@ public class CssColorUtilityComponentTest : BunitContext
     public CssColorUtilityComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider();
+        JSInterop.AddBlazoriseUtilities();
     }
 
     [Fact]
