@@ -12,11 +12,13 @@ public record Color : Enumeration<Color>
     /// <inheritdoc/>
     public Color( string name ) : base( name )
     {
+        IsCssValue = CssColor.IsValue( name );
     }
 
     /// <inheritdoc/>
     private Color( Color parent, string name ) : base( parent, name )
     {
+        IsCssValue = false;
     }
 
     /// <summary>
@@ -30,6 +32,11 @@ public record Color : Enumeration<Color>
 
     /// <inheritdoc/>
     public override string ToString() => Name;
+
+    /// <summary>
+    /// Gets whether this instance represents an explicit CSS color value.
+    /// </summary>
+    public bool IsCssValue { get; }
 
     /// <summary>
     /// No color will be applied to an element, meaning it will appear as default to whatever current theme is set to.

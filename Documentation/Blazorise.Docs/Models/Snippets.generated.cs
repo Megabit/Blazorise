@@ -31908,6 +31908,31 @@ builder.Services
     Warning Subtle
 </Div>";
 
+        public const string CustomCssColorsExample = @"<Div Background=""@softBackground""
+     TextColor=""@accentText""
+     Border=""Border.Rounded""
+     Padding=""Padding.Is3""
+     Margin=""Margin.Is2.FromBottom"">
+    Raw hexadecimal text color on an RGBA background
+</Div>
+
+<Div Background=""@variableBackground""
+     TextColor=""@lightText""
+     Border=""Border.Rounded""
+     Padding=""Padding.Is3"">
+    CSS variable background with an HSL text color
+</Div>
+
+@code {
+    private readonly TextColor accentText = ""#7c3aed"";
+
+    private readonly TextColor lightText = CssColor.Hsl( 210, 40, 98 );
+
+    private readonly Background softBackground = CssColor.Rgba( 196, 181, 253, 0.35 );
+
+    private readonly Background variableBackground = CssColor.Variable( ""b-theme-dark"", ""#0f172a"" );
+}";
+
         public const string TextColorsExample = @"<Paragraph TextColor=""TextColor.Primary"">
     Primary
 </Paragraph>
@@ -32181,6 +32206,10 @@ builder.Services
 
 <Div Border=""Border.Is2.Danger.OnBottom"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
     Bottom border accent
+</Div>
+
+<Div Border=""@Border.WithColor( CssColor.Rgba( 124, 58, 237, 0.65 ) ).OnStart"" Padding=""Padding.Is3"">
+    Start border with a custom RGBA color
 </Div>";
 
         public const string ColumnSizeExample = @"<Row>
