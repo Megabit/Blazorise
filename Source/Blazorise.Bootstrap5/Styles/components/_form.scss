@@ -187,6 +187,11 @@
 
 .input-group {
     > div.flatpickr-wrapper {
+        display: flex;
+        flex: 1 1 auto;
+        width: 1%;
+        min-width: 0;
+
         > .form-control {
             position: relative;
             flex: 1 1 auto;

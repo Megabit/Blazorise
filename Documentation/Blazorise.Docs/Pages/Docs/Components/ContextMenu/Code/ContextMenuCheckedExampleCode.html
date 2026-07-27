@@ -1,0 +1,36 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">id</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">context-menu-checked-target</span><span class="quot">&quot;</span>
+     <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Padding</span><span class="enumValue">.Is4</span><span class="quot">&quot;</span>
+     <span class="htmlAttributeName">Border</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Border.Is1.Rounded</span><span class="quot">&quot;</span>
+     <span class="htmlAttributeName">Background</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Background</span><span class="enumValue">.Light</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    Right-click to change view options.
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ContextMenu</span> <span class="htmlAttributeName">TargetId</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">context-menu-checked-target</span><span class="quot">&quot;</span> <span class="htmlAttributeName">CloseOnClick</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ContextMenuBody</span> <span class="htmlAttributeName">MinWidth</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">13rem</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ContextMenuHeader</span><span class="htmlTagDelimiter">&gt;</span>View<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ContextMenuHeader</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ContextMenuItem</span> <span class="htmlAttributeName">ShowCheckbox</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Checked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>showGrid</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Show grid<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ContextMenuItem</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ContextMenuItem</span> <span class="htmlAttributeName">ShowCheckbox</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Checked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>snapToGrid</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Snap to grid<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ContextMenuItem</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ContextMenuDivider</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ContextMenuGroup</span> <span class="htmlAttributeName">CheckMode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ContextMenuCheckMode</span><span class="enumValue">.Radio</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>density</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ContextMenuItem</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(&quot;Comfortable&quot;)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Comfortable<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ContextMenuItem</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ContextMenuItem</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(&quot;Compact&quot;)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Compact<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ContextMenuItem</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ContextMenuGroup</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ContextMenuBody</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ContextMenu</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    Grid: <span class="atSign">&#64;</span>showGrid, Snap: <span class="atSign">&#64;</span>snapToGrid, Density: <span class="atSign">&#64;</span>density
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">bool</span> showGrid = <span class="keyword">true</span>;
+
+    <span class="keyword">private</span> <span class="keyword">bool</span> snapToGrid = <span class="keyword">true</span>;
+
+    <span class="keyword">private</span> <span class="keyword">object</span> density = <span class="string">&quot;Comfortable&quot;</span>;
+}
+</pre></div>
+</div>

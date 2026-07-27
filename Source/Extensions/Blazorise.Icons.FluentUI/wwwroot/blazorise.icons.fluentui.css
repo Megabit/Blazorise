@@ -1,0 +1,67 @@
+.fluentui-icon {
+    display: inline-block;
+    font-size: 20px;
+    line-height: 0;
+    vertical-align: -0.125em;
+}
+
+    .fluentui-icon > svg {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        fill: currentColor;
+    }
+
+.fluentui-icon-xs {
+    font-size: .75em;
+}
+
+.fluentui-icon-sm {
+    font-size: .875em;
+}
+
+.fluentui-icon-lg {
+    font-size: 1.33333em;
+    line-height: .75em;
+    vertical-align: -.0667em;
+}
+
+.fluentui-icon-1x {
+    font-size: 1em;
+}
+
+.fluentui-icon-2x {
+    font-size: 2em;
+}
+
+.fluentui-icon-3x {
+    font-size: 3em;
+}
+
+.fluentui-icon-4x {
+    font-size: 4em;
+}
+
+.fluentui-icon-5x {
+    font-size: 5em;
+}
+
+.fluentui-icon-6x {
+    font-size: 6em;
+}
+
+.fluentui-icon-7x {
+    font-size: 7em;
+}
+
+.fluentui-icon-8x {
+    font-size: 8em;
+}
+
+.fluentui-icon-9x {
+    font-size: 9em;
+}
+
+.fluentui-icon-10x {
+    font-size: 10em;
+}

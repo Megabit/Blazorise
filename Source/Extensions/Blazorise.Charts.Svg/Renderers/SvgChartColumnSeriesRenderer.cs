@@ -41,7 +41,8 @@ internal sealed class SvgChartColumnSeriesRenderer : ISvgChartSeriesRenderer
         foreach ( var item in renderSeries )
         {
             var seriesIndex = stackGroups.IndexOf( ResolveStackGroup( item ) );
-            var baseline = chart.ProjectY( 0, item.ValueAxisId );
+            var baselineValue = Math.Clamp( 0, chart.GetValueMin( item.ValueAxisId ), chart.GetValueMax( item.ValueAxisId ) );
+            var baseline = chart.ProjectY( baselineValue, item.ValueAxisId );
 
             for ( var pointIndex = 0; pointIndex < chart.Labels.Count && pointIndex < item.Values.Count; pointIndex++ )
             {
@@ -52,7 +53,7 @@ internal sealed class SvgChartColumnSeriesRenderer : ISvgChartSeriesRenderer
 
                 var categoryStart = chart.ProjectCategoryBoundary( pointIndex ) + ( categoryWidth - groupWidth ) / 2;
                 var x = categoryStart + barWidth * seriesIndex + barWidth * 0.1;
-                var startValue = ResolveStackValue( item.StackBaseValues, pointIndex, 0 );
+                var startValue = ResolveStackValue( item.StackBaseValues, pointIndex, baselineValue );
                 var endValue = ResolveStackValue( item.StackEndValues, pointIndex, value.Value );
                 var startY = chart.ProjectY( startValue, item.ValueAxisId );
                 var endY = chart.ProjectY( endValue, item.ValueAxisId );

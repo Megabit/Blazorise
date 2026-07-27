@@ -74,6 +74,19 @@
     Usage
 </DocsPageSubtitle>
 
+<DocsPageParagraph>
+    Every DataGrid example is presented as one self-contained <Code>Example.razor</Code> file. The model and sample data are included in its <Code>@@code</Code> block, so the entire example can be copied into a configured Blazorise project at once.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic DataGrid">
+        Bind the grid to an in-memory collection and define the columns that should be displayed.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="DataGridExample" FullWidth>
+        <DataGridExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="DataGrid">
         For DataGrid the required fields are <Code>TItem</Code> typeparam and Data attribute. Other attributes on the <Code>DataGrid</Code> are optional.

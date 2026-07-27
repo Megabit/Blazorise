@@ -35,10 +35,10 @@ public partial class Routes
         public const string Info = "#0284c7";
         public const string Light = "#f1f5f9";
         public const string Dark = "#1e293b";
-        public const string BarItemActiveBackground = "#eef2f7";
-        public const string BarItemHoverBackground = "#f5effe";
-        public const string DarkBarItemActiveBackground = "#334155";
-        public const string DarkBarItemHoverBackground = "#2b384b";
+        public const string BarItemActiveBackground = "#f5effe";
+        public const string BarItemHoverBackground = "#eef2f7";
+        public const string DarkBarItemActiveBackground = "#2b384b";
+        public const string DarkBarItemHoverBackground = "#334155";
     }
 
     private readonly Theme lightTheme = new Theme
@@ -146,9 +146,9 @@ public partial class Routes
             ItemColorOptions = new ThemeBarItemColorOptions
             {
                 ActiveBackgroundColor = DocsThemeColors.BarItemActiveBackground,
-                ActiveColor = DocsThemeColors.BodyStrong,
+                ActiveColor = DocsThemeColors.Brand,
                 HoverBackgroundColor = DocsThemeColors.BarItemHoverBackground,
-                HoverColor = DocsThemeColors.Brand,
+                HoverColor = DocsThemeColors.BodyStrong,
             },
         },
     };
@@ -164,9 +164,9 @@ public partial class Routes
             ItemColorOptions = new ThemeBarItemColorOptions
             {
                 ActiveBackgroundColor = DocsThemeColors.BarItemActiveBackground,
-                ActiveColor = DocsThemeColors.BodyStrong,
+                ActiveColor = DocsThemeColors.Brand,
                 HoverBackgroundColor = DocsThemeColors.BarItemHoverBackground,
-                HoverColor = DocsThemeColors.Brand,
+                HoverColor = DocsThemeColors.BodyStrong,
             },
         },
         DarkColors = new ThemeBarColorOptions
@@ -176,7 +176,7 @@ public partial class Routes
             ItemColorOptions = new ThemeBarItemColorOptions
             {
                 ActiveBackgroundColor = DocsThemeColors.DarkBarItemActiveBackground,
-                ActiveColor = DocsThemeColors.DarkBodyStrong,
+                ActiveColor = DocsThemeColors.BrandTextDark,
                 HoverBackgroundColor = DocsThemeColors.DarkBarItemHoverBackground,
                 HoverColor = DocsThemeColors.DarkBodyStrong,
             },

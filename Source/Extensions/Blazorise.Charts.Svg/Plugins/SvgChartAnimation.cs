@@ -1,5 +1,7 @@
 #region Using directives
 using System;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -10,6 +12,74 @@ namespace Blazorise.Charts.Svg;
 /// </summary>
 public class SvgChartAnimation : SvgChartPluginBase
 {
+    #region Members
+
+    private ComponentParameterInfo<bool> paramEnabled;
+
+    private ComponentParameterInfo<TimeSpan> paramDuration;
+
+    private ComponentParameterInfo<TimeSpan> paramDelay;
+
+    private ComponentParameterInfo<SvgChartAnimationEasing> paramEasing;
+
+    private ComponentParameterInfo<bool> paramAnimateOnLoad;
+
+    private ComponentParameterInfo<bool> paramAnimateOnUpdate;
+
+    private ComponentParameterInfo<SvgChartGeometryAnimationOptions> paramGeometry;
+
+    private ComponentParameterInfo<SvgChartOpacityAnimationOptions> paramOpacity;
+
+    private ComponentParameterInfo<SvgChartStrokeAnimationOptions> paramStroke;
+
+    private ComponentParameterInfo<SvgChartTransformAnimationOptions> paramTransform;
+
+    private ComponentParameterInfo<SvgChartPathAnimationOptions> paramPath;
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Enabled, out paramEnabled );
+        parameters.TryGetParameter( Duration, out paramDuration );
+        parameters.TryGetParameter( Delay, out paramDelay );
+        parameters.TryGetParameter( Easing, out paramEasing );
+        parameters.TryGetParameter( AnimateOnLoad, out paramAnimateOnLoad );
+        parameters.TryGetParameter( AnimateOnUpdate, out paramAnimateOnUpdate );
+        parameters.TryGetParameter( Geometry, out paramGeometry );
+        parameters.TryGetParameter( Opacity, out paramOpacity );
+        parameters.TryGetParameter( Stroke, out paramStroke );
+        parameters.TryGetParameter( Transform, out paramTransform );
+        parameters.TryGetParameter( Path, out paramPath );
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    internal SvgChartAnimationOptions ResolveOptions( SvgChartAnimationOptions fallback )
+    {
+        fallback ??= new();
+
+        return new()
+        {
+            Enabled = paramEnabled.GetValueOrDefault( fallback.Enabled ),
+            Duration = paramDuration.GetValueOrDefault( fallback.Duration ),
+            Delay = paramDelay.GetValueOrDefault( fallback.Delay ),
+            Easing = paramEasing.GetValueOrDefault( fallback.Easing ),
+            AnimateOnLoad = paramAnimateOnLoad.GetValueOrDefault( fallback.AnimateOnLoad ),
+            AnimateOnUpdate = paramAnimateOnUpdate.GetValueOrDefault( fallback.AnimateOnUpdate ),
+            Geometry = paramGeometry.GetValueOrDefault( fallback.Geometry ),
+            Opacity = paramOpacity.GetValueOrDefault( fallback.Opacity ),
+            Stroke = paramStroke.GetValueOrDefault( fallback.Stroke ),
+            Transform = paramTransform.GetValueOrDefault( fallback.Transform ),
+            Path = paramPath.GetValueOrDefault( fallback.Path )
+        };
+    }
+
+    #endregion
+
     #region Properties
 
     /// <summary>

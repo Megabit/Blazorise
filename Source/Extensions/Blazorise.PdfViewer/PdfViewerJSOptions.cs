@@ -8,6 +8,11 @@ namespace Blazorise.PdfViewer;
 public class PdfViewerJSOptions
 {
     /// <summary>
+    /// Gets or sets the page display mode.
+    /// </summary>
+    public PdfViewerMode Mode { get; set; }
+
+    /// <summary>
     /// Gets or sets the source URL of the PDF document to be displayed.
     /// </summary>
     public string Source { get; set; }
@@ -33,6 +38,11 @@ public class PdfViewerJSOptions
 /// </summary>
 public class PdfViewerUpdateJSOptions
 {
+    /// <summary>
+    /// Gets or sets the option for updating the page display mode.
+    /// </summary>
+    public JSOptionChange<PdfViewerMode> Mode { get; set; }
+
     /// <summary>
     /// Gets or sets the option for updating the source URL of the PDF document.
     /// </summary>

@@ -30,6 +30,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Gantt\Blazorise.Gantt.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.PivotGrid\Blazorise.PivotGrid.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Scheduler\Blazorise.Scheduler.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Svg\Blazorise.Charts.Svg.csproj" />
     <ProjectReference Include="..\..\Source\Helpers\Blazorise.Tests.bUnit\Blazorise.Tests.bUnit.csproj" />
     <ProjectReference Include="..\BasicTestApp.Server\BasicTestApp.Server.csproj" />
   </ItemGroup>

@@ -1,5 +1,4 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
-
 <Paragraph>
     <Button Color="Color.Primary" Clicked="LoadState">Load State</Button>
     <Button Color="Color.Success" Clicked="SaveState">Save State</Button>
@@ -44,6 +43,7 @@
 
 @code {
     [Inject] Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }
+
     [Inject] EmployeeData EmployeeData { get; set; }
 
     private const string STORAGE_KEY = "__DATAGRID_STATE__";
@@ -70,7 +70,7 @@
     {
         await LocalStorage.RemoveItemAsync( STORAGE_KEY );
 
-        var state = new DataGridState<Employee>()
+        DataGridState<Employee> state = new()
         {
             Page = 1,
             PageSize = 10,
@@ -81,7 +81,7 @@
 
     private async Task LoadState()
     {
-        var stateFromLocalStorage = await LocalStorage.GetItemAsync<DataGridState<Employee>>( STORAGE_KEY );
+        DataGridState<Employee> stateFromLocalStorage = await LocalStorage.GetItemAsync<DataGridState<Employee>>( STORAGE_KEY );
 
         if ( stateFromLocalStorage is not null )
         {
@@ -101,7 +101,7 @@
 
     private async Task SaveState()
     {
-        var state = await dataGridRef.GetState();
+        DataGridState<Employee> state = await dataGridRef.GetState();
         await LocalStorage.SetItemAsync( STORAGE_KEY, state );
     }
 }

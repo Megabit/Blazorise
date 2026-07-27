@@ -1,0 +1,37 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div id="context-menu-submenu-target"
+     Padding="Padding.Is4"
+     Border="Border.Is1.Rounded"
+     Background="Background.Light">
+    Right-click to open commands with submenus.
+</Div>
+
+<ContextMenu TargetId="context-menu-submenu-target">
+    <ContextMenuBody MinWidth="12rem">
+        <ContextMenuItem Icon="IconName.Edit" Value="@("Rename")" Clicked="@SetSelectedCommand">Rename</ContextMenuItem>
+        <ContextMenuSubmenu Text="Move to" Icon="IconName.Folder">
+            <ContextMenuItem Value="@("Move to Inbox")" Clicked="@SetSelectedCommand">Inbox</ContextMenuItem>
+            <ContextMenuItem Value="@("Move to Archive")" Clicked="@SetSelectedCommand">Archive</ContextMenuItem>
+            <ContextMenuItem Value="@("Move to Trash")" Clicked="@SetSelectedCommand">Trash</ContextMenuItem>
+        </ContextMenuSubmenu>
+        <ContextMenuSubmenu Text="Priority" Icon="IconName.Flag">
+            <ContextMenuItem Value="@("High priority")" Clicked="@SetSelectedCommand">High</ContextMenuItem>
+            <ContextMenuItem Value="@("Normal priority")" Clicked="@SetSelectedCommand">Normal</ContextMenuItem>
+            <ContextMenuItem Value="@("Low priority")" Clicked="@SetSelectedCommand">Low</ContextMenuItem>
+        </ContextMenuSubmenu>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin="Margin.Is2.FromTop">
+    Selected command: @selectedCommand
+</Paragraph>
+
+@code {
+    private string selectedCommand = "None";
+
+    private void SetSelectedCommand( object value )
+    {
+        selectedCommand = value?.ToString();
+    }
+}

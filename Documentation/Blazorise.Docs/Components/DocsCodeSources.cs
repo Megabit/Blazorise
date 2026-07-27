@@ -19,7 +19,8 @@ public static class DocsCodeSources
 
     public static readonly IReadOnlyList<DocsCodeSource> FluentValidationValidator =
     [
-        new( "PersonValidator", "PersonValidator.cs" )
+        new( "PersonValidator", "PersonValidator.cs" ),
+        new( "Person", "Person.cs" )
     ];
 
     public static readonly IReadOnlyList<DocsCodeSource> ModalProviderCounter =

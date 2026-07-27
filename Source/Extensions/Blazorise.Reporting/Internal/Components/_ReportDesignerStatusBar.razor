@@ -1,0 +1,50 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<Div Class="b-report-status-bar"
+     Flex="FlexAlignItemsCenter"
+     Gap="GapIs2">
+    @if ( warnings.Count > 0 )
+    {
+        <Button Color="Color.Warning"
+                Outline="true"
+                Size="Size.ExtraSmall"
+                Clicked="@ShowWarnings"
+                aria-label="@WarningsTitle"
+                title="@WarningsTitle">
+            <Icon Name="IconName.ExclamationTriangle" Margin="MarginIs1FromEnd" />
+            <Span>@warnings.Count</Span>
+        </Button>
+    }
+
+    <Div Class="b-report-status-bar-progress"
+         Flex="FlexAlignItemsCenter"
+         Gap="GapIs2"
+         role="status"
+         aria-live="polite">
+        @if ( progress is not null )
+        {
+            <Span Class="b-report-status-bar-progress-label">@progress.Status</Span>
+            <Progress Class="b-report-status-bar-progress-bar"
+                      Value="@Percentage"
+                      Indeterminate="@(!progress.Progress.HasValue)"
+                      Color="Color.Primary"
+                      Size="Size.Small"
+                      ShowValue="false" />
+            @if ( Percentage.HasValue )
+            {
+                <Span Class="b-report-status-bar-progress-value">@Percentage%</Span>
+            }
+        }
+    </Div>
+
+    <Div Class="b-report-status-bar-position"
+         Flex="FlexAlignItemsCenter"
+         Gap="GapIs2"
+         Margin="MarginIsAutoFromStart"
+         aria-hidden="true"
+         title="Current designer position">
+        <Span data-report-status-x>X: —</Span>
+        <Span data-report-status-y>Y: —</Span>
+    </Div>
+</Div>

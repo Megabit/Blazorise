@@ -112,6 +112,8 @@
 }
 
 .button {
+    min-height: var(--bulma-control-height);
+
     &.is-extra-small {
         font-size: $size-extra-small;
     }
@@ -177,6 +179,23 @@
 
 .field.has-addons {
     gap: 0;
+
+    > .control {
+        align-self: stretch;
+
+        > .control {
+            height: 100%;
+        }
+
+        > .button,
+        > .control > .button {
+            height: 100%;
+
+            &.is-light {
+                border-color: var(--bulma-input-border-color, $grey-lighter);
+            }
+        }
+    }
 
     > .control > .button,
     > .dropdown-trigger > .control > .button,

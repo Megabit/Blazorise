@@ -1,0 +1,63 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Report Definition="@definition"
+        ElementPlugins="@plugins"
+        Editable
+        PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf" />
+
+@code {
+    private readonly IReportElementPlugin[] plugins = [new ProgressBarReportElementPlugin()];
+
+    private readonly ReportDefinition definition = new()
+    {
+        Name = "Plugin example",
+        Pages =
+        [
+            new()
+            {
+                Name = "Plugin",
+                Bands =
+                [
+                    new()
+                    {
+                        Name = "Custom elements",
+                        Type = ReportBandType.Detail,
+                        Default = true,
+                        Height = 150,
+                        Elements =
+                        [
+                            new ReportTextElementDefinition
+                            {
+                                Text = "Custom report element",
+                                X = 30,
+                                Y = 18,
+                                Width = 240,
+                                Height = 24,
+                                Font = new()
+                                {
+                                    Size = 18,
+                                    Bold = true,
+                                },
+                            },
+                            new ReportCustomElementDefinition
+                            {
+                                TypeName = ProgressBarReportElementPlugin.TypeName,
+                                Name = "Project completion",
+                                X = 30,
+                                Y = 60,
+                                Width = 200,
+                                Height = 38,
+                                Properties = new()
+                                {
+                                    ["caption"] = "Project completion",
+                                    ["value"] = 72,
+                                    ["color"] = "#0D6EFD",
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    };
+}

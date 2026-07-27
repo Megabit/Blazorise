@@ -8,9 +8,9 @@ public class SvgChartGridLinesOptions
     #region Properties
 
     /// <summary>
-    /// Defines whether grid lines are visible.
+    /// Defines whether grid lines are visible. When null, the value is inherited from the parent options.
     /// </summary>
-    public bool Visible { get; set; } = true;
+    public bool? Visible { get; set; }
 
     /// <summary>
     /// Defines the grid line color.

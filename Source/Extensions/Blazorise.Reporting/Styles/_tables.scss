@@ -1,0 +1,100 @@
+.b-report-element-table {
+    overflow: hidden;
+}
+
+.b-report-table {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    &-cell {
+        position: relative;
+        box-sizing: border-box;
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
+        border: var(--b-report-element-border-width) dashed var(--b-report-color-table-cell-border);
+
+        &-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+
+            > .b-report-element {
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+                pointer-events: auto;
+            }
+        }
+
+        &.b-report-table-cell-active {
+            outline: var(--b-report-section-selection-outline-width) solid var(--b-report-color-primary);
+            outline-offset: calc(-1 * var(--b-report-section-selection-outline-width));
+        }
+
+        &.b-report-table-cell-active,
+        &.b-report-table-cell-table-active:hover,
+        &:hover {
+            > .b-report-table-column-resize-handle::after,
+            > .b-report-table-row-resize-handle::after {
+                opacity: 1;
+            }
+        }
+    }
+
+    &-column-resize-handle,
+    &-row-resize-handle {
+        position: absolute;
+        z-index: var(--b-report-zindex-resize-handle, 5);
+        pointer-events: auto;
+        touch-action: none;
+
+        &::after {
+            content: "";
+            position: absolute;
+            box-sizing: border-box;
+            width: var(--b-report-table-cell-resize-indicator-size);
+            height: var(--b-report-table-cell-resize-indicator-size);
+            border: var(--b-report-element-border-width) solid var(--b-report-color-primary);
+            background: var(--b-report-color-surface);
+            opacity: 0;
+        }
+    }
+
+    &-column-resize-handle {
+        top: 0;
+        right: 0;
+        width: var(--b-report-table-cell-resize-hit-size);
+        height: 100%;
+        cursor: ew-resize;
+
+        &::after {
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+        }
+    }
+
+    &-row-resize-handle {
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: var(--b-report-table-cell-resize-hit-size);
+        cursor: ns-resize;
+
+        &::after {
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+        }
+    }
+}
+
+.b-report-page-preview {
+    .b-report-table-cell {
+        border-color: transparent;
+    }
+}

@@ -110,6 +110,106 @@ public static class ThemeVariables
     /// <returns>Breakpoint name.</returns>
     public static string Breakpoint( string name ) => $"--b-theme-breakpoint-{name}";
 
+    /// <summary>
+    /// Gets the DockLayout pane background variable name.
+    /// </summary>
+    public const string DockLayoutPaneBackground = "--b-dock-pane-background";
+
+    /// <summary>
+    /// Gets the DockLayout pane text color variable name.
+    /// </summary>
+    public const string DockLayoutPaneColor = "--b-dock-pane-color";
+
+    /// <summary>
+    /// Gets the DockLayout pane border color variable name.
+    /// </summary>
+    public const string DockLayoutPaneBorderColor = "--b-dock-pane-border-color";
+
+    /// <summary>
+    /// Gets the DockLayout pane header background variable name.
+    /// </summary>
+    public const string DockLayoutPaneHeaderBackground = "--b-dock-pane-header-background";
+
+    /// <summary>
+    /// Gets the DockLayout pane footer background variable name.
+    /// </summary>
+    public const string DockLayoutPaneFooterBackground = "--b-dock-pane-footer-background";
+
+    /// <summary>
+    /// Gets the DockLayout interactive hover background variable name.
+    /// </summary>
+    public const string DockLayoutHoverBackground = "--b-dock-hover-background";
+
+    /// <summary>
+    /// Gets the DockLayout tabs background variable name.
+    /// </summary>
+    public const string DockLayoutTabsBackground = "--b-dock-tabs-background";
+
+    /// <summary>
+    /// Gets the DockLayout active tab background variable name.
+    /// </summary>
+    public const string DockLayoutTabActiveBackground = "--b-dock-tab-active-background";
+
+    /// <summary>
+    /// Gets the DockLayout active tab text color variable name.
+    /// </summary>
+    public const string DockLayoutTabActiveColor = "--b-dock-tab-active-color";
+
+    /// <summary>
+    /// Gets the DockLayout tab close button color variable name.
+    /// </summary>
+    public const string DockLayoutTabCloseColor = "--b-dock-tab-close-color";
+
+    /// <summary>
+    /// Gets the DockLayout drag preview background variable name.
+    /// </summary>
+    public const string DockLayoutDragPreviewBackground = "--b-dock-drag-preview-background";
+
+    /// <summary>
+    /// Gets the DockLayout drag preview border color variable name.
+    /// </summary>
+    public const string DockLayoutDragPreviewBorderColor = "--b-dock-drag-preview-border-color";
+
+    /// <summary>
+    /// Gets the DockLayout drop preview background variable name.
+    /// </summary>
+    public const string DockLayoutDropPreviewBackground = "--b-dock-drop-preview-background";
+
+    /// <summary>
+    /// Gets the DockLayout drop preview border color variable name.
+    /// </summary>
+    public const string DockLayoutDropPreviewBorderColor = "--b-dock-drop-preview-border-color";
+
+    /// <summary>
+    /// Gets the DockLayout compass zone background variable name.
+    /// </summary>
+    public const string DockLayoutCompassZoneBackground = "--b-dock-compass-zone-background";
+
+    /// <summary>
+    /// Gets the DockLayout compass zone text color variable name.
+    /// </summary>
+    public const string DockLayoutCompassZoneColor = "--b-dock-compass-zone-color";
+
+    /// <summary>
+    /// Gets the DockLayout compass zone border color variable name.
+    /// </summary>
+    public const string DockLayoutCompassZoneBorderColor = "--b-dock-compass-zone-border-color";
+
+    /// <summary>
+    /// Gets the DockLayout active compass zone background variable name.
+    /// </summary>
+    public const string DockLayoutCompassZoneActiveBackground = "--b-dock-compass-zone-active-background";
+
+    /// <summary>
+    /// Gets the DockLayout active compass zone text color variable name.
+    /// </summary>
+    public const string DockLayoutCompassZoneActiveColor = "--b-dock-compass-zone-active-color";
+
+    /// <summary>
+    /// Gets the DockLayout active compass zone border color variable name.
+    /// </summary>
+    public const string DockLayoutCompassZoneActiveBorderColor = "--b-dock-compass-zone-active-border-color";
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public const string BorderRadius = "--b-border-radius";
     public const string BorderRadiusLarge = "--b-border-radius-lg";

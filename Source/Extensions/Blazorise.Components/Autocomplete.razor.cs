@@ -71,6 +71,7 @@ public partial class Autocomplete<TItem, TValue>
     private bool selectedTextsParamChanged;
     private bool dataParamChanged;
     private bool showAllItemsOnFocus;
+    private bool activeItemNavigatedByKeyboard;
 
     private TValue selectedValueParam;
     private bool selectedValueParamDefined;
@@ -481,6 +482,7 @@ public partial class Autocomplete<TItem, TValue>
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextChangedHandler( string text )
     {
+        activeItemNavigatedByKeyboard = false;
         showAllItemsOnFocus = false;
         DirtyFilter();
 
@@ -563,7 +565,7 @@ public partial class Autocomplete<TItem, TValue>
                         await ResetCurrentSearch();
                     }
                 }
-                else if ( SelectionMode != AutocompleteSelectionMode.Checkbox )
+                else if ( ShouldSelectOnConfirmKey )
                 {
                     await SelectedOrResetOnCommit();
                 }
@@ -623,13 +625,11 @@ public partial class Autocomplete<TItem, TValue>
                 return;
             }
 
-            if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
+            if ( ShouldSelectOnConfirmKey )
             {
-                await SearchKeyDown.InvokeAsync( eventArgs );
-                return;
+                await SelectedOrResetOnCommit();
             }
 
-            await SelectedOrResetOnCommit();
             await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }
@@ -1010,6 +1010,7 @@ public partial class Autocomplete<TItem, TValue>
     private Task ResetActiveItemIndex()
     {
         ActiveItemIndex = -1;
+        activeItemNavigatedByKeyboard = false;
         return Task.CompletedTask;
     }
 
@@ -1219,6 +1220,7 @@ public partial class Autocomplete<TItem, TValue>
         }
 
         ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count - 1, activeItemIndex ) );
+        activeItemNavigatedByKeyboard = true;
         return Task.CompletedTask;
     }
 
@@ -1323,6 +1325,9 @@ public partial class Autocomplete<TItem, TValue>
 
         return ConfirmKey.Contains( eventArgs.Code ) && !eventArgs.IsModifierKey();
     }
+
+    private bool ShouldSelectOnConfirmKey
+        => SelectionMode != AutocompleteSelectionMode.Checkbox || activeItemNavigatedByKeyboard;
 
     private bool IsSuggestedActiveItem( TItem item )
     {

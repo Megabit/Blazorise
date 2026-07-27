@@ -41,7 +41,9 @@ public static class Configuration
         services.AddScoped<IModalSharedContext, ModalSharedContext>();
         services.AddScoped<IMessageService, MockMessageService>();
         services.AddScoped<IBreakpointService, BreakpointService>();
+        services.AddScoped<IDocumentObserver, DocumentObserver>();
         services.AddScoped<IDropdownCoordinator, DropdownCoordinator>();
+        services.AddScoped( sp => Mock.Of<IGestureService>() );
         services.AddScoped<IOnScreenKeyboardService, OnScreenKeyboardService>();
 
         services.AddSingleton( sp => new BlazoriseOptions( sp, ( options ) => { } ) );
@@ -51,8 +53,10 @@ public static class Configuration
         services.AddScoped<IJSButtonModule, JSButtonModule>();
         services.AddScoped<IJSClosableModule, JSClosableModule>();
         services.AddScoped<IJSBreakpointModule, JSBreakpointModule>();
+        services.AddScoped<IJSDocumentObserverModule, JSDocumentObserverModule>();
         services.AddScoped<IJSTextInputModule, JSTextInputModule>();
         services.AddScoped<IJSRangeSliderModule, JSRangeSliderModule>();
+        services.AddScoped<IJSResizerModule, JSResizerModule>();
         services.AddScoped<IJSMemoInputModule, JSMemoInputModule>();
         services.AddScoped<IJSNumericPickerModule, JSNumericPickerModule>();
         services.AddScoped<IJSDatePickerModule, JSDatePickerModule>();

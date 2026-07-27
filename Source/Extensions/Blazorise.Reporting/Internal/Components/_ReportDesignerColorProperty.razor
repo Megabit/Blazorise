@@ -1,0 +1,30 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<Field Class="b-report-designer-color-property" Horizontal Margin="MarginIs0FromBottomIs0OnX">
+    <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall" Padding="PaddingIs1FromEnd" TextOverflow="TextOverflowTruncate">@Label</FieldLabel>
+    <FieldBody ColumnSize="ColumnSizeIs8">
+        <Addons Size="Size.Small">
+            <Addon AddonType="AddonType.Body">
+                <Select TValue="string" Value="@SelectedName" ValueChanged="@OnNameChanged" Size="Size.Small">
+                    @if ( Mixed )
+                    {
+                        <SelectItem TValue="string" Value="@MixedValue" Hidden></SelectItem>
+                    }
+                    @foreach ( var option in DefaultNamedOptions )
+                    {
+                        <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
+                    }
+                </Select>
+            </Addon>
+            <Addon AddonType="AddonType.Body">
+                <ColorPicker Value="@CustomValue" ValueChanged="@OnCustomChanged" Size="Size.Small" />
+            </Addon>
+            <Addon AddonType="AddonType.End">
+                <Button Color="Color.Light" Clicked="@Clear" Size="Size.Small" aria-label="Clear color">
+                    <Icon Name="IconName.Clear" />
+                </Button>
+            </Addon>
+        </Addons>
+    </FieldBody>
+</Field>

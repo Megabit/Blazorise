@@ -24,6 +24,20 @@ public interface IModalService
     public void SetModalProvider( ModalProvider modalProvider );
 
     /// <summary>
+    /// Registers a Modal Provider.
+    /// </summary>
+    /// <param name="providerName">The provider name. A null or empty value registers the default provider.</param>
+    /// <param name="modalProvider">The Modal Provider.</param>
+    public void RegisterModalProvider( string providerName, ModalProvider modalProvider );
+
+    /// <summary>
+    /// Unregisters a Modal Provider.
+    /// </summary>
+    /// <param name="providerName">The provider name. A null or empty value unregisters the default provider.</param>
+    /// <param name="modalProvider">The Modal Provider.</param>
+    public void UnregisterModalProvider( string providerName, ModalProvider modalProvider );
+
+    /// <summary>
     /// Shows a Modal where the content is TComponent.
     /// </summary>
     /// <typeparam name="TComponent"></typeparam>
@@ -143,6 +157,13 @@ public interface IModalService
     /// </summary>
     /// <returns></returns>
     public Task Hide();
+
+    /// <summary>
+    /// Hides currently opened modal from the specified Modal Provider.
+    /// </summary>
+    /// <param name="providerName">The provider name. A null or empty value hides from the default provider.</param>
+    /// <returns></returns>
+    public Task Hide( string providerName );
 
     /// <summary>
     /// Hides the modal.

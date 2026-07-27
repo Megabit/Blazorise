@@ -1,0 +1,59 @@
+@page "/docs/components/dock-layout"
+
+<Seo Canonical="/docs/components/dock-layout" Title="Blazorise DockLayout component" Description="Learn to use the Blazorise DockLayout component to build docked workspaces with panes, tabs, splitters, auto-hide, and persisted layout state." />
+
+<DocsPageTitle Path="Components/DockLayout">
+    Blazorise DockLayout component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Build IDE-like workspaces with docked panes, document areas, tab groups, splitters, auto-hide panes, and restorable layout state.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The <Code Tag>DockLayout</Code> component owns the docking tree and state for a workspace.
+    Use <Code Tag>DockPane</Code> for tool and document panes, and give each pane a stable <Code>Name</Code> so state can be saved and restored later.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    A pane can start on the left, right, top, bottom, or center document area.
+    Users can move panes by dragging their headers, resize panes with splitters, group panes as tabs, auto-hide side panes, and close panes when enabled.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    For simple layouts, place panes directly inside <Code>DockLayout</Code>.
+    For advanced starting layouts, combine <Code>DockSplit</Code> and <Code>DockTabs</Code> to predefine the initial split and tab structure.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic workspace">
+        A typical workspace uses a top toolbar, left explorer, center document pane, right properties pane, and bottom output pane.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="BasicDockLayoutExample" Outlined FullWidth>
+        <BasicDockLayoutExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Tabbed panes">
+        Panes that share the same tab group can render as tabs. Tool panes usually place tabs at the bottom, while document panes usually place tabs at the top.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="DockLayoutTabbedPanesExample" Outlined FullWidth>
+        <DockLayoutTabbedPanesExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="State">
+        Use <Code>GetState</Code>, <Code>LoadState</Code>, or <Code>@@bind-State</Code> to persist the layout after users move, resize, hide, or activate panes.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="DockLayoutStateExample" Outlined FullWidth>
+        <DockLayoutStateExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof( DockLayout ), typeof( DockPane ), typeof( DockPaneHeader ), typeof( DockPaneBody ), typeof( DockPaneFooter ), typeof( DockContent ), typeof( DockSplit ), typeof( DockTabs )]" />

@@ -1,0 +1,33 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div id="context-menu-checked-target"
+     Padding="Padding.Is4"
+     Border="Border.Is1.Rounded"
+     Background="Background.Light">
+    Right-click to change view options.
+</Div>
+
+<ContextMenu TargetId="context-menu-checked-target" CloseOnClick="false">
+    <ContextMenuBody MinWidth="13rem">
+        <ContextMenuHeader>View</ContextMenuHeader>
+        <ContextMenuItem ShowCheckbox @bind-Checked="@showGrid">Show grid</ContextMenuItem>
+        <ContextMenuItem ShowCheckbox @bind-Checked="@snapToGrid">Snap to grid</ContextMenuItem>
+        <ContextMenuDivider />
+        <ContextMenuGroup CheckMode="ContextMenuCheckMode.Radio" @bind-SelectedValue="@density">
+            <ContextMenuItem Value="@("Comfortable")">Comfortable</ContextMenuItem>
+            <ContextMenuItem Value="@("Compact")">Compact</ContextMenuItem>
+        </ContextMenuGroup>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin="Margin.Is2.FromTop">
+    Grid: @showGrid, Snap: @snapToGrid, Density: @density
+</Paragraph>
+
+@code {
+    private bool showGrid = true;
+
+    private bool snapToGrid = true;
+
+    private object density = "Comfortable";
+}

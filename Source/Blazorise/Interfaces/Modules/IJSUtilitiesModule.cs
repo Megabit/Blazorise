@@ -216,6 +216,17 @@ public interface IJSUtilitiesModule : IBaseJSModule
     ValueTask Log( bool showBanner, string message, params string[] args );
 
     /// <summary>
+    /// Writes a log message to the browser console.
+    /// </summary>
+    /// <param name="showBanner">If true, shows the full Blazorise banner.</param>
+    /// <param name="showCompactBanner">If true, shows a compact Blazorise banner that can be expanded.</param>
+    /// <param name="message">Message to write.</param>
+    /// <param name="args">Optional parameters.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask Log( bool showBanner, bool showCompactBanner, string message, params string[] args )
+        => Log( showBanner || showCompactBanner, message, args );
+
+    /// <summary>
     /// Waits until the next browser animation frame.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>

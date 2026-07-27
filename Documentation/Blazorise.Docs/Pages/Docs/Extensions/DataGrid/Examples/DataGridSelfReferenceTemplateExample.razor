@@ -41,7 +41,7 @@
 </DataGrid>
 
 @code {
-    [Inject] public EmployeeData EmployeeData { get; set; }
+    [Inject] EmployeeData EmployeeData { get; set; }
 
     private List<SelfReferenceEmployee> rootItems = new();
     private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();

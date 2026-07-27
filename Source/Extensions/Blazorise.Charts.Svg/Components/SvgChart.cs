@@ -175,7 +175,7 @@ public class SvgChart<TItem> : SvgChartBase
         var currentAnimationPointBounds = new Dictionary<string, SvgChartPointBounds>();
         var currentAnimationPathValues = new Dictionary<string, string>();
         var pluginContext = CreatePluginRenderContext( model, plot );
-        var seriesRendererContext = new SvgChartSeriesRendererContext( pluginContext, chartAnimation, previousAnimationPointBounds, currentAnimationPointBounds, previousAnimationPathValues, currentAnimationPathValues );
+        var seriesRendererContext = new SvgChartSeriesRendererContext( pluginContext, chartAnimation, previousAnimationPointBounds, currentAnimationPointBounds, previousAnimationPathValues, currentAnimationPathValues, ( value, index ) => FormatCategory( model, value, index ) );
         var zoom = model.Zoom;
 
         runStreamingAnimationAfterRender = streamingAnimation.Enabled;
@@ -234,7 +234,7 @@ public class SvgChart<TItem> : SvgChartBase
         SvgChartTextRenderer.Render( builder, ref sequence, options, title, subtitle );
 
         if ( hasTopLegend )
-            SvgChartLegendRenderer.Render( builder, ref sequence, model, options, 48, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden );
+            SvgChartLegendRenderer.Render( builder, ref sequence, model, options, legend.Position, 48, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden );
 
         if ( IsBarChart( model ) )
             SvgChartAxesRenderer.RenderHorizontalGridAndAxes( builder, ref sequence, model, plot );
@@ -257,7 +257,7 @@ public class SvgChart<TItem> : SvgChartBase
             RenderCartesianSeries( builder, ref sequence, model, streamingAnimation, pluginContext, seriesRendererContext );
 
         if ( hasBottomLegend )
-            SvgChartLegendRenderer.Render( builder, ref sequence, model, options, options.Height - 30, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden );
+            SvgChartLegendRenderer.Render( builder, ref sequence, model, options, legend.Position, options.Height - 30, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden );
 
         RenderPlugins( builder, ref sequence, pluginContext, SvgChartRenderLayer.InteractionOverlay );
         RenderActiveTooltip( builder, ref sequence, model );
@@ -406,6 +406,9 @@ public class SvgChart<TItem> : SvgChartBase
                 StackEndValues = x.StackEndValues,
                 BorderRadius = x.BorderRadius,
                 StrokeWidth = x.StrokeWidth,
+                OutlineColor = x.OutlineColor,
+                OutlineStrokeWidth = x.OutlineStrokeWidth,
+                OutlineOpacity = x.OutlineOpacity,
                 MarkerRadius = x.MarkerRadius,
                 FillOpacity = x.FillOpacity,
                 Interpolation = x.Interpolation,
@@ -414,6 +417,8 @@ public class SvgChart<TItem> : SvgChartBase
             IsRadialChart( model ),
             model.Min,
             model.Max,
+            valueAxisId => ResolveValueAxis( model, valueAxisId ).Min,
+            valueAxisId => ResolveValueAxis( model, valueAxisId ).Max,
             GetCategorySlotCount( model ),
             model.CategoryScaleKind,
             this,
@@ -479,7 +484,9 @@ public class SvgChart<TItem> : SvgChartBase
         if ( options.DataLabels?.Visible == true && !pluginComponents.OfType<SvgChartDataLabels>().Any() )
             result.Add( SvgChartDataLabels.Create( options.DataLabels ) );
 
-        result.AddRange( pluginComponents );
+        result.AddRange( pluginComponents.Select( plugin => plugin is SvgChartDataLabels dataLabels
+            ? SvgChartDataLabels.Create( options.DataLabels, dataLabels )
+            : plugin ) );
 
         return result;
     }
@@ -629,7 +636,7 @@ public class SvgChart<TItem> : SvgChartBase
         {
             builder.OpenElement( sequence++, "div" );
             builder.AddAttribute( sequence++, "style", "font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" );
-            builder.AddContent( sequence++, context.Items.Count > 1 ? context.Category : context.SeriesName );
+            builder.AddContent( sequence++, context.Items.Count > 1 ? FormatCategory( model, context.Category, context.PointIndex ) : context.SeriesName );
             builder.CloseElement();
 
             if ( tooltip.Formatter is not null || context.Items.Count <= 1 )
@@ -697,9 +704,8 @@ public class SvgChart<TItem> : SvgChartBase
     private bool ShouldRunAnimations()
     {
         var animationComponent = pluginComponents.OfType<SvgChartAnimation>().LastOrDefault();
-        var animation = animationComponent is null
-            ? Animation ?? ResolveOptions().Animation
-            : CreateAnimationOptions( animationComponent );
+        var animationOptions = Animation ?? ResolveOptions().Animation ?? new();
+        var animation = CreateAnimationOptions( animationComponent?.ResolveOptions( animationOptions ) ?? animationOptions );
 
         return animation?.Enabled == true && IsAnyAnimationTargetEnabled( animation );
     }
@@ -708,9 +714,7 @@ public class SvgChart<TItem> : SvgChartBase
     {
         var animationComponent = pluginComponents.OfType<SvgChartAnimation>().LastOrDefault();
         var animationOptions = Animation ?? options.Animation ?? new();
-        var animation = animationComponent is null
-            ? CreateAnimationOptions( animationOptions )
-            : CreateAnimationOptions( animationComponent );
+        var animation = CreateAnimationOptions( animationComponent?.ResolveOptions( animationOptions ) ?? animationOptions );
 
         if ( streamingAnimationEnabled
              || !animation.Enabled
@@ -805,27 +809,6 @@ public class SvgChart<TItem> : SvgChartBase
             Stroke = CreateStrokeAnimationOptions( options.Stroke ),
             Transform = CreateTransformAnimationOptions( options.Transform ),
             Path = CreatePathAnimationOptions( options.Path )
-        };
-    }
-
-    private static SvgChartAnimationOptions CreateAnimationOptions( SvgChartAnimation component )
-    {
-        if ( component is null )
-            return new();
-
-        return new()
-        {
-            Enabled = component.Enabled,
-            Duration = component.Duration,
-            Delay = component.Delay,
-            Easing = component.Easing,
-            AnimateOnLoad = component.AnimateOnLoad,
-            AnimateOnUpdate = component.AnimateOnUpdate,
-            Geometry = CreateGeometryAnimationOptions( component.Geometry ),
-            Opacity = CreateOpacityAnimationOptions( component.Opacity ),
-            Stroke = CreateStrokeAnimationOptions( component.Stroke ),
-            Transform = CreateTransformAnimationOptions( component.Transform ),
-            Path = CreatePathAnimationOptions( component.Path )
         };
     }
 
@@ -932,15 +915,9 @@ public class SvgChart<TItem> : SvgChartBase
     private SvgChartLegendOptions ResolveLegend( SvgChartOptions options )
     {
         var legendComponent = legendComponents.LastOrDefault();
+        var legendOptions = options.Legend ?? new();
 
-        if ( legendComponent is null )
-            return options.Legend ?? new();
-
-        return new()
-        {
-            Visible = legendComponent.Visible,
-            Position = legendComponent.Position
-        };
+        return legendComponent?.ResolveOptions( legendOptions ) ?? legendOptions;
     }
 
     private SvgChartTooltipOptions ResolveTooltip( SvgChartOptions options )
@@ -948,20 +925,7 @@ public class SvgChart<TItem> : SvgChartBase
         var tooltipComponent = tooltipComponents.LastOrDefault();
         var tooltipOptions = options.Tooltip ?? new();
 
-        if ( tooltipComponent is null )
-            return tooltipOptions;
-
-        return new()
-        {
-            Enabled = tooltipComponent.Enabled,
-            InteractionMode = tooltipComponent.InteractionMode,
-            Formatter = tooltipComponent.Formatter ?? tooltipOptions.Formatter,
-            Template = tooltipComponent.Template ?? tooltipOptions.Template,
-            Width = tooltipComponent.Width,
-            Height = tooltipComponent.Height,
-            OffsetX = tooltipComponent.OffsetX,
-            OffsetY = tooltipComponent.OffsetY
-        };
+        return tooltipComponent?.ResolveOptions( tooltipOptions ) ?? tooltipOptions;
     }
 
     private SvgChartZoomOptions ResolveZoom( SvgChartOptions options )
@@ -972,16 +936,7 @@ public class SvgChart<TItem> : SvgChartBase
         if ( zoomComponent is null )
             return CreateZoomOptions( zoomOptions );
 
-        return new()
-        {
-            Enabled = zoomComponent.Enabled,
-            Mode = zoomComponent.Mode,
-            Wheel = zoomComponent.Wheel,
-            Pan = zoomComponent.Pan,
-            MinZoom = zoomComponent.MinZoom,
-            MaxZoom = zoomComponent.MaxZoom,
-            Viewport = zoomComponent.Viewport ?? zoomOptions.Viewport
-        };
+        return zoomComponent.ResolveOptions( zoomOptions );
     }
 
     private static SvgChartZoomOptions CreateZoomOptions( SvgChartZoomOptions options )
@@ -1110,7 +1065,7 @@ public class SvgChart<TItem> : SvgChartBase
             Items = items,
             Bounds = point.Bounds,
             Color = color,
-            Text = GetPointLabel( point ),
+            Text = GetPointLabel( point, model ),
             X = x,
             Y = y,
             Width = width,
@@ -1216,9 +1171,20 @@ public class SvgChart<TItem> : SvgChartBase
         };
     }
 
-    private static string GetPointLabel( SvgChartPointEventArgs point )
+    private static string GetPointLabel( SvgChartPointEventArgs point, SvgChartRenderModel model )
     {
-        return $"{point.Category}, {point.Value}. {point.SeriesName}.";
+        return $"{FormatCategory( model, point.Category, point.PointIndex )}, {point.Value}. {point.SeriesName}.";
+    }
+
+    private static string FormatCategory( SvgChartRenderModel model, object value, int index )
+    {
+        return model.CategoryValueFormatter?.Invoke( new()
+        {
+            Value = value,
+            Index = index,
+            CategoryAxis = true,
+            AxisId = model.CategoryAxis?.Id
+        } ) ?? SvgChartRenderHelpers.FormatDataLabelValue( value );
     }
 
     private static string ResolvePointColor( SvgChartRenderSeries series, int pointIndex )

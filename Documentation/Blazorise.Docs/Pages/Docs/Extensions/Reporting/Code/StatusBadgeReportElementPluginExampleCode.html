@@ -1,0 +1,71 @@
+<div class="blazorise-codeblock">
+<div class="csharp"><pre>
+<span class="keyword">public</span> <span class="keyword">sealed</span> <span class="keyword">class</span> StatusBadgeReportElementPlugin : IReportElementPlugin, IReportElementPdfRenderer
+{
+    <span class="keyword">public</span> <span class="keyword">const</span> <span class="keyword">string</span> TypeName = <span class="string">&quot;docs.status-badge&quot;</span>;
+
+    <span class="keyword">public</span> ReportElementDescriptor Descriptor { <span class="keyword">get</span>; } = <span class="keyword">new</span>()
+    {
+        TypeName = TypeName,
+        DisplayName = <span class="string">&quot;Status Badge&quot;</span>,
+        Category = <span class="string">&quot;Custom&quot;</span>,
+        Icon = IconName.Tag,
+        Width = <span class="number">150</span>,
+        Height = <span class="number">30</span>,
+    };
+
+    <span class="keyword">public</span> Type RendererComponentType =&gt; <span class="keyword">typeof</span>( StatusBadgeReportElementRenderer );
+
+    <span class="keyword">public</span> Type PropertiesComponentType =&gt; <span class="keyword">typeof</span>( StatusBadgeReportElementProperties );
+
+    <span class="keyword">public</span> IReportElementPdfRenderer PdfRenderer =&gt; <span class="keyword">this</span>;
+
+    <span class="keyword">public</span> ReportCustomElementDefinition CreateElement()
+    {
+        <span class="keyword">return</span> <span class="keyword">new</span>()
+        {
+            Properties = <span class="keyword">new</span>()
+            {
+                [<span class="string">&quot;text&quot;</span>] = <span class="string">&quot;Status&quot;</span>,
+            },
+        };
+    }
+
+    <span class="keyword">public</span> IEnumerable&lt;PdfElementDefinition&gt; Render( ReportElementPdfRenderContext context )
+    {
+        <span class="keyword">string</span> text = GetText( context.Element );
+        <span class="keyword">double</span> width = Math.Min( context.Element.Width, Math.Max( <span class="number">36</span>, text.Length * <span class="number">5</span>.<span class="number">5</span> + <span class="number">16</span> ) );
+        <span class="keyword">double</span> height = Math.Min( context.Element.Height, <span class="number">16</span> );
+
+        <span class="keyword">yield</span> <span class="keyword">return</span> <span class="keyword">new</span>()
+        {
+            Type = PdfElementType.Text,
+            X = Math.Max( <span class="number">0</span>, ( context.Element.Width - width ) / <span class="number">2</span> ),
+            Y = Math.Max( <span class="number">0</span>, ( context.Element.Height - height ) / <span class="number">2</span> ),
+            Width = width,
+            Height = height,
+            Text = text,
+            Font = <span class="keyword">new</span>()
+            {
+                Bold = <span class="keyword">true</span>,
+                Size = <span class="number">9</span>,
+                Alignment = TextAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Middle,
+                Color = <span class="string">&quot;#FFFFFF&quot;</span>,
+            },
+            Border = <span class="keyword">new</span>()
+            {
+                Width = <span class="number">0</span>,
+            },
+            Appearance = <span class="keyword">new</span>()
+            {
+                BackgroundColor = <span class="string">&quot;#28A745&quot;</span>,
+            },
+        };
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span> GetText( ReportCustomElementDefinition element )
+        =&gt; element?.Properties?[<span class="string">&quot;text&quot;</span>]?.GetValue&lt;<span class="keyword">string</span>&gt;() ?? <span class="string">&quot;Status&quot;</span>;
+}
+</pre></div>
+</div>

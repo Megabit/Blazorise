@@ -1,0 +1,30 @@
+body .b-report {
+    --b-report-zindex-designer: 0;
+    --b-report-zindex-section-label: 2;
+    --b-report-zindex-section-rail: 3;
+    --b-report-zindex-drag-preview: 4;
+    --b-report-zindex-selection: 4;
+    --b-report-zindex-resize-handle: 5;
+    --b-report-zindex-section-active: 6;
+    --b-report-zindex-section-resize-handle: 7;
+    --b-report-zindex-toolbar: 20;
+    --b-report-zindex-menu: 11;
+    --b-report-zindex-modal-layer: 40;
+}
+
+.b-report-designer-properties-pane {
+    .field.is-horizontal {
+        margin-bottom: .25rem !important;
+    }
+}
+
+.b-report-designer-color-property {
+    .field.has-addons > .control:has(> .b-input-color-picker) {
+        flex: none;
+    }
+
+    .b-input-color-picker {
+        width: var(--bulma-control-height);
+        padding: .35rem;
+    }
+}

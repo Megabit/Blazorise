@@ -133,6 +133,10 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
         => InvokeSafeVoidAsync( "log", showBanner, message, args );
 
     /// <inheritdoc/>
+    public ValueTask Log( bool showBanner, bool showCompactBanner, string message, params string[] args )
+        => InvokeSafeVoidAsync( "log", showBanner, showCompactBanner, message, args );
+
+    /// <inheritdoc/>
     public ValueTask WaitForAnimationFrame()
         => InvokeSafeVoidAsync( "waitForAnimationFrame" );
 

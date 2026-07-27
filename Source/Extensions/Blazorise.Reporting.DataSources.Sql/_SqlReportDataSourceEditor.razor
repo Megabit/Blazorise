@@ -1,0 +1,26 @@
+@namespace Blazorise.Reporting.DataSources.Sql
+@inherits Blazorise.Reporting.Internal.BaseReportComponent
+@using Blazorise
+
+<Div Flex="Flex.Column" Gap="Gap.Is2">
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Connection</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is8">
+            <TextInput Value="@ConnectionName" ValueChanged="@OnConnectionNameChanged" Size="Size.Small" />
+        </FieldBody>
+    </Field>
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Query</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is8">
+            <MemoInput Value="@Query" ValueChanged="@OnQueryChanged" Size="Size.Small" Rows="6" />
+        </FieldBody>
+    </Field>
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Timeout</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is8">
+            <NumericInput TValue="int?" Value="@CommandTimeout" ValueChanged="@OnCommandTimeoutChanged" Size="Size.Small" />
+        </FieldBody>
+    </Field>
+</Div>

@@ -1,4 +1,4 @@
-﻿@import "_vendors/bootstrap/functions";
+@import "_vendors/bootstrap/functions";
 @import "_vendors/bootstrap/variables";
 @import "_vendors/bootstrap/variables-dark";
 @import "_vendors/bootstrap/maps";
@@ -13,12 +13,15 @@
 @import "components/bar";
 @import "components/button";
 @import "components/card";
+@import "components/context-menu";
 @import "components/divider";
+@import "components/dock-layout";
 @import "components/dropdown";
 @import "components/figure";
 @import "components/file";
 @import "components/form";
 @import "components/range-slider";
+@import "components/resizer";
 @import "components/jumbotron";
 @import "components/layout";
 @import "components/link";
@@ -39,6 +42,7 @@
 @import "extensions/autocomplete";
 @import "extensions/markdown";
 @import "extensions/richtextedit";
+@import "extensions/reporting";
 
 @import "utilities/animations";
 @import "utilities/border";

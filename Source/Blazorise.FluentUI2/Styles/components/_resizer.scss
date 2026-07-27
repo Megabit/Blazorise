@@ -1,0 +1,112 @@
+.fui-Resizer {
+    --fui-resizer-hit-area: .5rem;
+    --fui-resizer-gutter-background: var(--colorNeutralBackground2, #fafafa);
+    --fui-resizer-gutter-border: var(--colorNeutralStroke1, #d1d1d1);
+    --fui-resizer-grip-color: var(--colorNeutralForeground3, #616161);
+    position: absolute;
+    z-index: 10;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    user-select: none;
+    touch-action: none;
+    outline: none;
+
+    &-vertical {
+        top: 0;
+        bottom: 0;
+        width: var(--fui-resizer-hit-area);
+        cursor: col-resize;
+    }
+
+    &-horizontal {
+        right: 0;
+        left: 0;
+        height: var(--fui-resizer-hit-area);
+        cursor: row-resize;
+    }
+
+    &-top {
+        top: 0;
+    }
+
+    &-bottom {
+        bottom: 0;
+    }
+
+    &-start {
+        inset-inline-start: 0;
+    }
+
+    &-end {
+        inset-inline-end: 0;
+    }
+
+    &-gutter {
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            pointer-events: none;
+        }
+
+        &::before {
+            inset: 0;
+            box-sizing: border-box;
+            background: var(--fui-resizer-gutter-background);
+        }
+
+        &::after {
+            top: 50%;
+            left: 50%;
+            border-radius: 9999px;
+            background: var(--fui-resizer-grip-color);
+            transform: translate(-50%, -50%);
+        }
+
+        &:hover,
+        &.fui-Resizer-focused,
+        &.fui-Resizer-resizing {
+            --fui-resizer-gutter-background: var(--colorBrandBackground2, #ebf3fc);
+            --fui-resizer-gutter-border: var(--colorBrandStroke1, #0f6cbd);
+            --fui-resizer-grip-color: var(--colorBrandForeground1, #115ea3);
+        }
+    }
+
+    &-disabled {
+        pointer-events: none;
+        opacity: .5;
+    }
+
+    &-target-resizing {
+        transition: none !important;
+    }
+}
+
+.fui-Resizer-gutter.fui-Resizer-vertical {
+    &::before {
+        border-inline: 1px solid var(--fui-resizer-gutter-border);
+    }
+
+    &::after {
+        width: 4px;
+        height: 1.5rem;
+    }
+}
+
+.fui-Resizer-gutter.fui-Resizer-horizontal {
+    &::before {
+        border-block: 1px solid var(--fui-resizer-gutter-border);
+    }
+
+    &::after {
+        width: 1.5rem;
+        height: 4px;
+    }
+}
+
+@media (pointer: coarse) {
+    .fui-Resizer {
+        --fui-resizer-hit-area: 1rem;
+    }
+}

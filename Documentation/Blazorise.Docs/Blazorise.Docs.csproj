@@ -42,11 +42,15 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Cropper\Blazorise.Cropper.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.SignaturePad\Blazorise.SignaturePad.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Pdf\Blazorise.Pdf.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Scheduler\Blazorise.Scheduler.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Gantt\Blazorise.Gantt.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Maps\Blazorise.Maps.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.PivotGrid\Blazorise.PivotGrid.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Reporting\Blazorise.Reporting.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Reporting.DataSources.Csv\Blazorise.Reporting.DataSources.Csv.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Reporting.DataSources.Sql\Blazorise.Reporting.DataSources.Sql.csproj" />
     <PackageReference Include="MailKit" />
     <PackageReference Include="MimeKit" />
     <PackageReference Include="Blazored.LocalStorage" />
@@ -94,10 +98,18 @@
     <EmbeddedResource Include="Pages\**\*.html" />
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Pages\Docs\Extensions\Reporting\Examples\StatusBadgeReportElementPropertiesExample.razor" />
+    <Content Remove="Pages\Docs\Extensions\Reporting\Examples\StatusBadgeReportElementRendererExample.razor" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Markdig" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pages\Docs\Extensions\Reporting\Examples\StatusBadgeReportElementPropertiesExample.razor" />
+    <None Include="Pages\Docs\Extensions\Reporting\Examples\StatusBadgeReportElementRendererExample.razor" />
   </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->

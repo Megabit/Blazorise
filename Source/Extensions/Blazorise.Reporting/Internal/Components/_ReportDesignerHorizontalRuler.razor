@@ -1,0 +1,17 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<div class="@ClassNames" style="@StyleNames" aria-hidden="true">
+    @foreach ( ReportDesignerRulerTick tick in Ticks )
+    {
+        <span class="@GetTickClass( tick )" style="@GetTickStyle( tick )">
+            @if ( tick.Major )
+            {
+                <span class="b-report-designer-ruler-label">@tick.Label</span>
+            }
+        </span>
+    }
+    <span class="@GetMarkerRangeClass()" style="@GetMarkerRangeStyle()" hidden="@(!HasMarker)"></span>
+    <span class="@GetMarkerClass()" style="@GetMarkerStyle( Marker?.X ?? 0 )" hidden="@(!HasMarker)"></span>
+    <span class="@GetMarkerClass()" style="@GetMarkerStyle( ( Marker?.X ?? 0 ) + ( Marker?.Width ?? 0 ) )" hidden="@(!HasMarker)"></span>
+</div>

@@ -23,6 +23,11 @@
     font-size: 0.875rem;
 }
 
+.flatpickr-calendar.open,
+.flatpickr-calendar.static.open {
+    z-index: var(--mui-zindex-popover);
+}
+
 .flatpickr-calendar:before,
 .flatpickr-calendar:after {
     display: none;

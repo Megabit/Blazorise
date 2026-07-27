@@ -1,0 +1,13 @@
+@namespace Blazorise
+@inherits BaseComponent
+
+<Button ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Active="@Active" Disabled="@Disabled" Clicked="@ButtonClicked" title="@Text" aria-label="@Text" @attributes="@Attributes">
+    @if ( Icon is not null )
+    {
+        <Icon Name="@Icon" />
+    }
+    @if ( ShowText )
+    {
+        <span>@Text</span>
+    }
+</Button>

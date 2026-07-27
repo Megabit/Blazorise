@@ -66,6 +66,7 @@ public class CodeExamplesMarkup
                 var currentCode = string.Empty;
                 var builtCode = string.Empty;
                 var source = File.ReadAllText( entry.FullName, Encoding.UTF8 );
+                source = CodeSnippets.PrepareSourceForDisplay( entry.FullName, source );
 
                 if ( File.Exists( markupPath ) )
                 {

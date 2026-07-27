@@ -1,0 +1,34 @@
+body .b-report {
+    --b-report-zindex-designer: 0;
+    --b-report-zindex-section-label: 2;
+    --b-report-zindex-section-rail: 3;
+    --b-report-zindex-drag-preview: 4;
+    --b-report-zindex-selection: 4;
+    --b-report-zindex-resize-handle: 5;
+    --b-report-zindex-section-active: 6;
+    --b-report-zindex-section-resize-handle: 7;
+    --b-report-zindex-toolbar: 20;
+    --b-report-zindex-menu: var(--zIndexDropdown);
+    --b-report-zindex-modal-layer: var(--zIndexModal);
+}
+
+.b-report-designer-properties-pane {
+    .fui-Field.fui-FieldHorizontal {
+        margin-bottom: var(--spacingVerticalXS) !important;
+    }
+}
+
+.b-report-designer-color-property {
+    .fui-Input__colorValue {
+        display: none;
+    }
+
+    .fui-Input__content:has(> .fui-ColorPicker) {
+        flex: none;
+    }
+
+    .fui-ColorPicker {
+        flex: none;
+        min-width: auto;
+    }
+}

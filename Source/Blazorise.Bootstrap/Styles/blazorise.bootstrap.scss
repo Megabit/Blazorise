@@ -1,4 +1,4 @@
-﻿@import "_vendors/bootstrap/functions";
+@import "_vendors/bootstrap/functions";
 @import "_vendors/bootstrap/variables";
 @import "_vendors/bootstrap/mixins";
 
@@ -9,10 +9,13 @@
 @import "components/badge";
 @import "components/bar";
 @import "components/button";
+@import "components/context-menu";
+@import "components/dock-layout";
 @import "components/dropdown";
 @import "components/figure";
 @import "components/form";
 @import "components/range-slider";
+@import "components/resizer";
 @import "components/jumbotron";
 @import "components/layout";
 @import "components/link";
@@ -32,6 +35,7 @@
 @import "extensions/one-time-input";
 @import "extensions/markdown";
 @import "extensions/richtextedit";
+@import "extensions/reporting";
 
 @import "utilities/animations";
 @import "utilities/background-color";

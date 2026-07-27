@@ -1,0 +1,44 @@
+@namespace Blazorise.Docs.Docs.Examples
+@inherits BaseReportElementPropertiesEditor
+
+<Field Horizontal>
+    <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Caption</FieldLabel>
+    <FieldBody ColumnSize="ColumnSize.Is8">
+        <TextInput Value="@ProgressBarReportElementPlugin.GetCaption( Context.Element )"
+                   ValueChanged="@OnCaptionChanged"
+                   Size="Size.Small" />
+    </FieldBody>
+</Field>
+
+<Field Horizontal>
+    <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Value</FieldLabel>
+    <FieldBody ColumnSize="ColumnSize.Is8">
+        <NumericInput TValue="int"
+                      Value="@ProgressBarReportElementPlugin.GetValue( Context.Element )"
+                      ValueChanged="@OnValueChanged"
+                      Min="0"
+                      Max="100"
+                      Immediate="true"
+                      Size="Size.Small" />
+    </FieldBody>
+</Field>
+
+<Field Horizontal>
+    <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Color</FieldLabel>
+    <FieldBody ColumnSize="ColumnSize.Is8">
+        <ColorPicker Value="@ProgressBarReportElementPlugin.GetColor( Context.Element )"
+                     ValueChanged="@OnColorChanged"
+                     Size="Size.Small" />
+    </FieldBody>
+</Field>
+
+@code {
+    private Task OnCaptionChanged( string value )
+        => Context.Update( element => element.Properties["caption"] = value );
+
+    private Task OnValueChanged( int value )
+        => Context.Update( element => element.Properties["value"] = Math.Clamp( value, 0, 100 ) );
+
+    private Task OnColorChanged( string value )
+        => Context.Update( element => element.Properties["color"] = value );
+}
