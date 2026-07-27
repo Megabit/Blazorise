@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-26T12:45:00.8483880Z",
+  "generatedUtc": "2026-07-26T21:11:54.1826571Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -25034,28 +25034,12 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "PreventDefault",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Prevents the browser's default context menu for observed targets.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Shadow",
           "type": "global::Blazorise.Shadow",
           "typeName": "Shadow",
           "defaultValue": "Shadow.None",
           "summary": "Configures the shadow effect of the component.",
           "isBlazoriseEnum": true
-        },
-        {
-          "name": "StopPropagation",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Stops propagation for observed context menu events.",
-          "isBlazoriseEnum": false
         },
         {
           "name": "Style",

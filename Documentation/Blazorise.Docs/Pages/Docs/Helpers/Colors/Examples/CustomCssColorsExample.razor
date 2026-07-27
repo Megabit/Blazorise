@@ -1,0 +1,26 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Background="@softBackground"
+     TextColor="@accentText"
+     Border="Border.Rounded"
+     Padding="Padding.Is3"
+     Margin="Margin.Is2.FromBottom">
+    Raw hexadecimal text color on an RGBA background
+</Div>
+
+<Div Background="@variableBackground"
+     TextColor="@lightText"
+     Border="Border.Rounded"
+     Padding="Padding.Is3">
+    CSS variable background with an HSL text color
+</Div>
+
+@code {
+    private readonly TextColor accentText = "#7c3aed";
+
+    private readonly TextColor lightText = CssColor.Hsl( 210, 40, 98 );
+
+    private readonly Background softBackground = CssColor.Rgba( 196, 181, 253, 0.35 );
+
+    private readonly Background variableBackground = CssColor.Variable( "b-theme-dark", "#0f172a" );
+}

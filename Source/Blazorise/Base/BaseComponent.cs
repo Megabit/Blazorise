@@ -284,10 +284,10 @@ public abstract class BaseComponent : BaseStyledComponent
         if ( ShouldApplyUtility( TextSize, currentTarget ) )
             builder.Append( TextSize.Class( ClassProvider ) );
 
-        if ( ShouldApplyUtility( TextColor, currentTarget ) && TextColor.IsNotNullOrDefault() )
+        if ( ShouldApplyUtility( TextColor, currentTarget ) && TextColor.IsNotNullOrDefault() && !TextColor.IsCssValue )
             builder.Append( ClassProvider.TextColor( TextColor ) );
 
-        if ( ShouldApplyUtility( Background, currentTarget ) && Background.IsNotNullOrDefault() )
+        if ( ShouldApplyUtility( Background, currentTarget ) && Background.IsNotNullOrDefault() && !Background.IsCssValue )
             builder.Append( ClassProvider.BackgroundColor( Background ) );
 
         if ( UtilityTarget == currentTarget )
@@ -376,6 +376,15 @@ public abstract class BaseComponent : BaseStyledComponent
 
         if ( ShouldApplyUtility( TextSize, currentTarget ) && TextSize is FluentCssValue textSizeValue )
             builder.Append( textSizeValue.Style( "font-size" ) );
+
+        if ( ShouldApplyUtility( TextColor, currentTarget ) && TextColor.IsNotNullOrDefault() && TextColor.IsCssValue )
+            builder.Append( $"color:{TextColor.Name} !important" );
+
+        if ( ShouldApplyUtility( Background, currentTarget ) && Background.IsNotNullOrDefault() && Background.IsCssValue )
+            builder.Append( $"background-color:{Background.Name} !important" );
+
+        if ( ShouldApplyUtility( Border, currentTarget ) && Border is IFluentBorderStyle borderStyle )
+            builder.Append( borderStyle.Style() );
     }
 
     /// <summary>
@@ -732,6 +741,7 @@ public abstract class BaseComponent : BaseStyledComponent
             border = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 
@@ -822,6 +832,7 @@ public abstract class BaseComponent : BaseStyledComponent
             textColor = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 
@@ -985,6 +996,7 @@ public abstract class BaseComponent : BaseStyledComponent
             background = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 

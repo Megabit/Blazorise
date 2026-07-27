@@ -20,6 +20,19 @@ public interface IFluentBorder : IFluentUtilityTarget<IFluentBorder>
 }
 
 /// <summary>
+/// Defines a fluent border that can emit inline styles.
+/// </summary>
+public interface IFluentBorderStyle :
+    IFluentBorder
+{
+    /// <summary>
+    /// Builds inline styles for the configured border rules.
+    /// </summary>
+    /// <returns>Inline border styles.</returns>
+    string Style();
+}
+
+/// <summary>
 /// Sizes allowed for fluent border builder.
 /// </summary>
 public interface IFluentBorderSize :
@@ -250,6 +263,7 @@ public record BorderDefinition
 /// </summary>
 public class FluentBorder :
     IFluentBorder,
+    IFluentBorderStyle,
     IFluentBorderSide,
     IFluentBorderSize,
     IFluentBorderWithSizeAndSide,
@@ -304,7 +318,7 @@ public class FluentBorder :
             {
                 if ( rules is not null && rules.Count > 0 )
                 {
-                    builder.Append( rules.Select( r => classProvider.Border( r.Key, r.Value.Select( v => v ) ) ) );
+                    builder.Append( rules.Select( r => classProvider.Border( r.Key, r.Value.Select( ResolveClassDefinition ) ) ) );
                 }
 
                 if ( borderRadius != BorderRadius.Default )
@@ -324,11 +338,51 @@ public class FluentBorder :
     }
 
     /// <summary>
+    /// Builds inline styles for border rules that use explicit CSS colors.
+    /// </summary>
+    /// <returns>Inline border color styles.</returns>
+    public string Style()
+    {
+        if ( rules is null || rules.Count == 0 )
+            return null;
+
+        void BuildStyles( StyleBuilder builder )
+        {
+            foreach ( BorderDefinition definition in rules.SelectMany( rule => rule.Value ) )
+            {
+                if ( definition.Color.IsCssValue )
+                    builder.Append( $"{GetBorderColorProperty( definition.Side )}:{definition.Color.Name} !important" );
+            }
+        }
+
+        return new StyleBuilder( BuildStyles ).Styles;
+    }
+
+    /// <summary>
     /// Flags the classnames to be rebuilt.
     /// </summary>
     private void Dirty()
     {
         dirty = true;
+    }
+
+    private static BorderDefinition ResolveClassDefinition( BorderDefinition definition )
+    {
+        return definition.Color.IsCssValue
+            ? definition with { Color = BorderColor.None, Subtle = false }
+            : definition;
+    }
+
+    private static string GetBorderColorProperty( BorderSide side )
+    {
+        return side switch
+        {
+            BorderSide.Top => "border-top-color",
+            BorderSide.End => "border-right-color",
+            BorderSide.Bottom => "border-bottom-color",
+            BorderSide.Start => "border-left-color",
+            _ => "border-color"
+        };
     }
 
     private IFluentBorder WithUtilityTarget( UtilityTarget target )
@@ -577,6 +631,16 @@ public class FluentBorder :
 /// </summary>
 public static class Border
 {
+    /// <summary>
+    /// Defines a custom border color on all sides of an element.
+    /// </summary>
+    /// <param name="color">CSS border color value.</param>
+    /// <returns>A fluent border builder.</returns>
+    public static IFluentBorderColorWithSide WithColor( BorderColor color )
+    {
+        return new FluentBorder().WithColor( color );
+    }
+
     /// <summary>
     /// Makes the element borderless.
     /// </summary>
