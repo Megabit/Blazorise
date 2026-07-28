@@ -1,0 +1,46 @@
+@namespace Blazorise
+@inherits BasePropertyGridEditorItem
+
+<PropertyGridItem Label="@Label"
+                  LabelContent="@LabelContent"
+                  ElementId="@ElementId"
+                  Size="@Size"
+                  Class="@ClassNames"
+                  Style="@StyleNames"
+                  ActionVisible="@ActionVisible"
+                  ActionDisabled="@ActionDisabled"
+                  ActionColor="@ActionColor"
+                  ActionIcon="@ActionIcon"
+                  ActionText="@ActionText"
+                  ActionTitle="@ActionTitle"
+                  ActionContent="@ActionContent"
+                  ActionTemplate="@ActionTemplate"
+                  ActionClicked="@ActionClicked"
+                  data-property-grid-editor="color"
+                  @attributes="@Attributes">
+    <Addons Size="@Size">
+        <Addon AddonType="AddonType.Body">
+            <Select TValue="string" Value="@SelectedName" ValueChanged="@OnNameChanged" Size="@Size">
+                @if ( Mixed )
+                {
+                    <SelectItem TValue="string" Value="@MixedValue" Hidden></SelectItem>
+                }
+                @foreach ( PropertyGridSelectOption<string> option in ResolvedNamedColors )
+                {
+                    <SelectItem TValue="string" Value="@option.Value" Disabled="@option.Disabled">@option.Text</SelectItem>
+                }
+            </Select>
+        </Addon>
+        <Addon AddonType="AddonType.Body">
+            <ColorPicker Value="@CustomValue" ValueChanged="@OnCustomChanged" Size="@Size" />
+        </Addon>
+        @if ( Clearable )
+        {
+            <Addon AddonType="AddonType.End">
+                <Button Color="Color.Light" Clicked="@Clear" Size="@Size" title="@ClearTitle" aria-label="@ClearTitle">
+                    <Icon Name="IconName.Clear" />
+                </Button>
+            </Addon>
+        }
+    </Addons>
+</PropertyGridItem>

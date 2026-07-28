@@ -2613,6 +2613,56 @@ li.list-group-item-action {
     mask-position: -200% 0%;
   }
 }
+.property-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.property-grid-toolbar {
+  display: flex;
+  align-items: center;
+}
+
+.property-grid-group,
+.property-grid-group-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.property-grid-group-header {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.property-grid-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 0.25rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.property-grid-item-label {
+  min-width: 0;
+  padding-inline-end: 0.25rem;
+  overflow: hidden;
+  font-size: 0.875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.property-grid-item-body {
+  min-width: 0;
+}
+.property-grid-item-body > * {
+  width: 100%;
+  min-width: 0;
+}
+
 .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-primary {
   background-color: #007bff;
 }

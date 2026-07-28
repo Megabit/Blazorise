@@ -1,0 +1,57 @@
+@namespace Blazorise
+@inherits BaseComponent
+
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <div class="@LabelClassNames" title="@Label">
+        @if ( LabelContent is not null )
+        {
+            @LabelContent
+        }
+        else
+        {
+            @Label
+        }
+    </div>
+    <div class="@BodyClassNames">
+        @if ( HasAction )
+        {
+            <Addons Size="@Size">
+                <Addon AddonType="AddonType.Body">
+                    @ChildContent
+                </Addon>
+                <Addon AddonType="AddonType.End">
+                    @if ( ActionTemplate is not null )
+                    {
+                        @ActionTemplate
+                    }
+                    else
+                    {
+                        <Button Color="@ActionColor"
+                                Size="@Size"
+                                Disabled="@ActionDisabled"
+                                Clicked="@ActionClicked"
+                                title="@ActionTitle"
+                                aria-label="@ActionTitle">
+                            @if ( ActionContent is not null )
+                            {
+                                @ActionContent
+                            }
+                            else
+                            {
+                                @if ( ActionIcon is not null )
+                                {
+                                    <Icon Name="@ActionIcon" />
+                                }
+                                @ActionText
+                            }
+                        </Button>
+                    }
+                </Addon>
+            </Addons>
+        }
+        else
+        {
+            @ChildContent
+        }
+    </div>
+</div>

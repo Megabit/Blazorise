@@ -9402,6 +9402,67 @@ input::file-selector-button {
   cursor: not-allowed;
 }
 
+.fui-PropertyGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.fui-PropertyGrid__toolbar {
+  display: flex;
+  align-items: center;
+}
+
+.fui-PropertyGridGroup,
+.fui-PropertyGridGroup__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.fui-PropertyGridGroup__header {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.fui-PropertyGridItem {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 0.25rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.fui-PropertyGridItem__label {
+  min-width: 0;
+  padding-inline-end: 0.25rem;
+  overflow: hidden;
+  font-size: 0.875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fui-PropertyGridItem__body {
+  min-width: 0;
+}
+.fui-PropertyGridItem__body > * {
+  width: 100%;
+  min-width: 0;
+}
+
+.fui-PropertyGridItem[data-property-grid-editor=color] .fui-Input__colorValue {
+  display: none;
+}
+.fui-PropertyGridItem[data-property-grid-editor=color] .fui-Input__content:has(> .fui-ColorPicker) {
+  flex: none;
+}
+.fui-PropertyGridItem[data-property-grid-editor=color] .fui-ColorPicker {
+  flex: none;
+  min-width: auto;
+}
+
 .fui-ProgressBar {
   height: 3px;
   overflow-x: hidden;
@@ -22548,19 +22609,4 @@ body .b-report {
   --b-report-zindex-toolbar: 20;
   --b-report-zindex-menu: var(--zIndexDropdown);
   --b-report-zindex-modal-layer: var(--zIndexModal);
-}
-
-.b-report-designer-properties-pane .fui-Field.fui-FieldHorizontal {
-  margin-bottom: var(--spacingVerticalXS) !important;
-}
-
-.b-report-designer-color-property .fui-Input__colorValue {
-  display: none;
-}
-.b-report-designer-color-property .fui-Input__content:has(> .fui-ColorPicker) {
-  flex: none;
-}
-.b-report-designer-color-property .fui-ColorPicker {
-  flex: none;
-  min-width: auto;
 }

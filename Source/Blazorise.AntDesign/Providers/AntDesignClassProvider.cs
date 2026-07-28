@@ -632,6 +632,26 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
+    #region PropertyGrid
+
+    public override string PropertyGrid() => "ant-property-grid";
+
+    public override string PropertyGridToolbar() => "ant-property-grid-toolbar";
+
+    public override string PropertyGridGroup() => "ant-property-grid-group";
+
+    public override string PropertyGridGroupHeader() => "ant-property-grid-group-header";
+
+    public override string PropertyGridGroupBody() => "ant-property-grid-group-body";
+
+    public override string PropertyGridItem() => "ant-property-grid-item";
+
+    public override string PropertyGridItemLabel() => "ant-property-grid-item-label";
+
+    public override string PropertyGridItemBody() => "ant-property-grid-item-body";
+
+    #endregion
+
     #region Tabs
 
     public override string Tabs( bool pills ) => pills ? "ant-tabs b-ant-tabs-pills" : "ant-tabs";

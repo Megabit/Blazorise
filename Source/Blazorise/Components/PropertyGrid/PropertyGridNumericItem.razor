@@ -1,0 +1,43 @@
+@namespace Blazorise
+@inherits BasePropertyGridEditorItem
+@typeparam TValue
+
+<PropertyGridItem Label="@Label"
+                  LabelContent="@LabelContent"
+                  ElementId="@ElementId"
+                  Size="@Size"
+                  Class="@ClassNames"
+                  Style="@StyleNames"
+                  ActionVisible="@ActionVisible"
+                  ActionDisabled="@ActionDisabled"
+                  ActionColor="@ActionColor"
+                  ActionIcon="@ActionIcon"
+                  ActionText="@ActionText"
+                  ActionTitle="@ActionTitle"
+                  ActionContent="@ActionContent"
+                  ActionTemplate="@ActionTemplate"
+                  ActionClicked="@ActionClicked"
+                  data-property-grid-editor="numeric"
+                  @attributes="@Attributes">
+    @if ( Max.HasValue )
+    {
+        <NumericInput TValue="TValue"
+                      Value="@Value"
+                      ValueChanged="@ValueChanged"
+                      Immediate="@Immediate"
+                      Min="@ConvertValue( Min )"
+                      Max="@ConvertValue( Max.Value )"
+                      Step="@Step"
+                      Size="@Size" />
+    }
+    else
+    {
+        <NumericInput TValue="TValue"
+                      Value="@Value"
+                      ValueChanged="@ValueChanged"
+                      Immediate="@Immediate"
+                      Min="@ConvertValue( Min )"
+                      Step="@Step"
+                      Size="@Size" />
+    }
+</PropertyGridItem>

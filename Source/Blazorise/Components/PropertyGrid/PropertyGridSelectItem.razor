@@ -1,0 +1,32 @@
+@namespace Blazorise
+@inherits BasePropertyGridEditorItem
+@typeparam TValue where TValue : struct
+
+<PropertyGridItem Label="@Label"
+                  LabelContent="@LabelContent"
+                  ElementId="@ElementId"
+                  Size="@Size"
+                  Class="@ClassNames"
+                  Style="@StyleNames"
+                  ActionVisible="@ActionVisible"
+                  ActionDisabled="@ActionDisabled"
+                  ActionColor="@ActionColor"
+                  ActionIcon="@ActionIcon"
+                  ActionText="@ActionText"
+                  ActionTitle="@ActionTitle"
+                  ActionContent="@ActionContent"
+                  ActionTemplate="@ActionTemplate"
+                  ActionClicked="@ActionClicked"
+                  data-property-grid-editor="select"
+                  @attributes="@Attributes">
+    <Select TValue="TValue?" Value="@DisplayValue" ValueChanged="@OnValueChanged" Size="@Size">
+        @if ( Mixed )
+        {
+            <SelectItem TValue="TValue?" Value="@((TValue?)null)" Hidden></SelectItem>
+        }
+        @foreach ( PropertyGridSelectOption<TValue> option in ResolvedOptions )
+        {
+            <SelectItem TValue="TValue?" Value="@option.Value" Disabled="@option.Disabled">@option.Text</SelectItem>
+        }
+    </Select>
+</PropertyGridItem>

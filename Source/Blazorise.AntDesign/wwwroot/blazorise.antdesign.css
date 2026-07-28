@@ -7172,6 +7172,65 @@ a.ant-typography-disabled[aria-disabled=true] {
   background-color: var(--ant-pagination-item-active-bg-disabled);
 }
 
+.ant-property-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.ant-property-grid-toolbar {
+  display: flex;
+  align-items: center;
+}
+
+.ant-property-grid-group,
+.ant-property-grid-group-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.ant-property-grid-group-header {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.ant-property-grid-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 0.25rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.ant-property-grid-item-label {
+  min-width: 0;
+  padding-inline-end: 0.25rem;
+  overflow: hidden;
+  font-size: 0.875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ant-property-grid-item-body {
+  min-width: 0;
+}
+.ant-property-grid-item-body > * {
+  width: 100%;
+  min-width: 0;
+}
+
+.ant-property-grid-item[data-property-grid-editor=color] .ant-color-picker-trigger-text {
+  display: none;
+}
+.ant-property-grid-item[data-property-grid-editor=color] .b-ant-addons > .ant-input-wrapper.ant-input-group > .b-input-color-picker.ant-color-picker-trigger {
+  flex: none;
+  width: auto;
+  min-width: auto;
+}
+
 .ant-progress {
   width: 100%;
 }
@@ -9783,15 +9842,6 @@ body .b-report {
   --b-report-zindex-toolbar: 20;
   --b-report-zindex-menu: var(--ant-dropdown-z-index-popup);
   --b-report-zindex-modal-layer: var(--ant-dropdown-z-index-popup);
-}
-
-.b-report-designer-color-property .ant-color-picker-trigger-text {
-  display: none;
-}
-.b-report-designer-color-property .b-ant-addons > .ant-input-wrapper.ant-input-group > .b-input-color-picker.ant-color-picker-trigger {
-  flex: none;
-  width: auto;
-  min-width: auto;
 }
 
 @keyframes fadeIn {

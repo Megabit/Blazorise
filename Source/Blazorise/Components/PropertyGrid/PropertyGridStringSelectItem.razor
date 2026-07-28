@@ -1,0 +1,31 @@
+@namespace Blazorise
+@inherits BasePropertyGridEditorItem
+
+<PropertyGridItem Label="@Label"
+                  LabelContent="@LabelContent"
+                  ElementId="@ElementId"
+                  Size="@Size"
+                  Class="@ClassNames"
+                  Style="@StyleNames"
+                  ActionVisible="@ActionVisible"
+                  ActionDisabled="@ActionDisabled"
+                  ActionColor="@ActionColor"
+                  ActionIcon="@ActionIcon"
+                  ActionText="@ActionText"
+                  ActionTitle="@ActionTitle"
+                  ActionContent="@ActionContent"
+                  ActionTemplate="@ActionTemplate"
+                  ActionClicked="@ActionClicked"
+                  data-property-grid-editor="select"
+                  @attributes="@Attributes">
+    <Select TValue="string" Value="@DisplayValue" ValueChanged="@OnValueChanged" Size="@Size">
+        @if ( Mixed )
+        {
+            <SelectItem TValue="string" Value="@MixedValue" Hidden></SelectItem>
+        }
+        @foreach ( PropertyGridSelectOption<string> option in ResolvedOptions )
+        {
+            <SelectItem TValue="string" Value="@option.Value" Disabled="@option.Disabled">@option.Text</SelectItem>
+        }
+    </Select>
+</PropertyGridItem>

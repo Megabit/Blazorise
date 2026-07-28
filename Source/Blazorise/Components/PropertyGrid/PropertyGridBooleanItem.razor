@@ -1,0 +1,29 @@
+@namespace Blazorise
+@inherits BasePropertyGridEditorItem
+
+<PropertyGridItem Label="@Label"
+                  LabelContent="@LabelContent"
+                  ElementId="@ElementId"
+                  Size="@Size"
+                  Class="@ClassNames"
+                  Style="@StyleNames"
+                  ActionVisible="@ActionVisible"
+                  ActionDisabled="@ActionDisabled"
+                  ActionColor="@ActionColor"
+                  ActionIcon="@ActionIcon"
+                  ActionText="@ActionText"
+                  ActionTitle="@ActionTitle"
+                  ActionContent="@ActionContent"
+                  ActionTemplate="@ActionTemplate"
+                  ActionClicked="@ActionClicked"
+                  data-property-grid-editor="boolean"
+                  @attributes="@Attributes">
+    <Select TValue="bool?" Value="@DisplayValue" ValueChanged="@OnValueChanged" Size="@Size">
+        @if ( Mixed )
+        {
+            <SelectItem TValue="bool?" Value="@((bool?)null)" Hidden></SelectItem>
+        }
+        <SelectItem TValue="bool?" Value="@true">@TrueText</SelectItem>
+        <SelectItem TValue="bool?" Value="@false">@FalseText</SelectItem>
+    </Select>
+</PropertyGridItem>

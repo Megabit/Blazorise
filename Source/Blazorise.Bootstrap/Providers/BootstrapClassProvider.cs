@@ -625,6 +625,26 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
+    #region PropertyGrid
+
+    public override string PropertyGrid() => "property-grid";
+
+    public override string PropertyGridToolbar() => "property-grid-toolbar";
+
+    public override string PropertyGridGroup() => "property-grid-group";
+
+    public override string PropertyGridGroupHeader() => "property-grid-group-header";
+
+    public override string PropertyGridGroupBody() => "property-grid-group-body";
+
+    public override string PropertyGridItem() => "property-grid-item";
+
+    public override string PropertyGridItemLabel() => "property-grid-item-label";
+
+    public override string PropertyGridItemBody() => "property-grid-item-body";
+
+    #endregion
+
     #region Tabs
 
     public override string Tabs( bool pills ) => pills ? "nav nav-pills" : "nav nav-tabs";

@@ -1,0 +1,133 @@
+@namespace Blazorise
+@inherits BaseComponent
+@using System.Collections.Generic
+
+@{
+    IReadOnlyList<PropertyGridGroupDefinition> renderedGroups = GetRenderedGroups();
+    bool hasContent = renderedGroups.Count > 0 || AdditionalContent is not null;
+}
+
+@if ( hasContent )
+{
+    <PropertyGrid ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" @attributes="@Attributes">
+        @if ( ShowToolbar && renderedGroups.Count > 0 )
+        {
+            PropertyGridToolbarContext toolbarContext = new( this );
+
+            @if ( ToolbarTemplate is not null )
+            {
+                @ToolbarTemplate( toolbarContext )
+            }
+            else
+            {
+                PropertyGridViewModeContext categorizedContext = toolbarContext.Categorized;
+                PropertyGridViewModeContext alphabeticalContext = toolbarContext.Alphabetical;
+
+                <Div Class="@ToolbarClassName">
+                    <Buttons Role="ButtonsRole.Addons" Size="Size.Small">
+                        @if ( CategorizedButtonTemplate is not null )
+                        {
+                            @CategorizedButtonTemplate( categorizedContext )
+                        }
+                        else
+                        {
+                            <Button Color="Color.Secondary"
+                                    Outline
+                                    Active="@categorizedContext.Active"
+                                    Clicked="@categorizedContext.ActivateAsync"
+                                    title="@categorizedContext.Title"
+                                    aria-label="@categorizedContext.Title">
+                                <Icon Name="@categorizedContext.Icon" />
+                            </Button>
+                        }
+
+                        @if ( AlphabeticalButtonTemplate is not null )
+                        {
+                            @AlphabeticalButtonTemplate( alphabeticalContext )
+                        }
+                        else
+                        {
+                            <Button Color="Color.Secondary"
+                                    Outline
+                                    Active="@alphabeticalContext.Active"
+                                    Clicked="@alphabeticalContext.ActivateAsync"
+                                    title="@alphabeticalContext.Title"
+                                    aria-label="@alphabeticalContext.Title">
+                                <Icon Name="@alphabeticalContext.Icon" />
+                            </Button>
+                        }
+                    </Buttons>
+                </Div>
+            }
+        }
+
+        @foreach ( PropertyGridGroupDefinition group in renderedGroups )
+        {
+            PropertyGridGroupContext groupContext = new( this, group );
+            RenderFragment<PropertyGridGroupContext> groupTemplate = group.GroupTemplate ?? GroupTemplate;
+
+            @if ( groupTemplate is not null )
+            {
+                @groupTemplate( groupContext )
+            }
+            else
+            {
+                <PropertyGridGroup @key="@group.Key"
+                                   Title="@group.Title"
+                                   Header="@GetGroupHeader( group, groupContext )"
+                                   Class="@group.Class"
+                                   Style="@group.Style">
+                    @foreach ( PropertyGridProperty property in group.Properties )
+                    {
+                        if ( property.Visible )
+                        {
+                            PropertyGridItemContext itemContext = new( this, property );
+                            RenderFragment<PropertyGridItemContext> itemTemplate = property.ItemTemplate ?? ItemTemplate;
+
+                            @if ( itemTemplate is not null )
+                            {
+                                @itemTemplate( itemContext )
+                            }
+                            else
+                            {
+                                RenderFragment<PropertyGridEditorContext> editorTemplate = GetEditorTemplate( property );
+
+                                @if ( editorTemplate is not null )
+                                {
+                                    <PropertyGridItem @key="@property.Key"
+                                                      Label="@property.Label"
+                                                      LabelContent="@GetLabelContent( property )"
+                                                      Size="@property.Size"
+                                                      Class="@property.Class"
+                                                      Style="@property.Style"
+                                                      ActionVisible="@(property.Action?.Visible == true)"
+                                                      ActionDisabled="@(property.Action?.Disabled == true)"
+                                                      ActionColor="@(property.Action?.Color ?? Color.Light)"
+                                                      ActionIcon="@property.Action?.Icon"
+                                                      ActionText="@property.Action?.Text"
+                                                      ActionTitle="@property.Action?.Title"
+                                                      ActionTemplate="@GetActionTemplate( property )"
+                                                      ActionClicked="@(() => InvokeActionAsync( property ))"
+                                                      @attributes="@property.Attributes">
+                                        @editorTemplate( new PropertyGridEditorContext( this, property ) )
+                                    </PropertyGridItem>
+                                }
+                                else
+                                {
+                                    <DynamicComponent @key="@property.Key"
+                                                      Type="@property.AtomicComponentType"
+                                                      Parameters="@GetAtomicComponentParameters( property )" />
+                                }
+                            }
+                        }
+                    }
+                </PropertyGridGroup>
+            }
+        }
+        @AdditionalContent
+    </PropertyGrid>
+}
+else
+{
+    @EmptyTemplate
+}

@@ -648,6 +648,26 @@ public class MaterialClassProvider : ClassProvider
 
     #endregion
 
+    #region PropertyGrid
+
+    public override string PropertyGrid() => "mui-property-grid";
+
+    public override string PropertyGridToolbar() => "mui-property-grid-toolbar";
+
+    public override string PropertyGridGroup() => "mui-property-grid-group";
+
+    public override string PropertyGridGroupHeader() => "mui-property-grid-group-header";
+
+    public override string PropertyGridGroupBody() => "mui-property-grid-group-body";
+
+    public override string PropertyGridItem() => "mui-property-grid-item";
+
+    public override string PropertyGridItemLabel() => "mui-property-grid-item-label";
+
+    public override string PropertyGridItemBody() => "mui-property-grid-item-body";
+
+    #endregion
+
     #region Tabs
 
     public override string Tabs( bool pills ) => pills ? "mui-tabs mui-tabs-pills" : "mui-tabs";

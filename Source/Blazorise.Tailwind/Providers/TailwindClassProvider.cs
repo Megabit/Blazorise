@@ -920,6 +920,26 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region PropertyGrid
+
+    public override string PropertyGrid() => "tw-property-grid";
+
+    public override string PropertyGridToolbar() => "tw-property-grid-toolbar";
+
+    public override string PropertyGridGroup() => "tw-property-grid-group";
+
+    public override string PropertyGridGroupHeader() => "tw-property-grid-group-header";
+
+    public override string PropertyGridGroupBody() => "tw-property-grid-group-body";
+
+    public override string PropertyGridItem() => "tw-property-grid-item";
+
+    public override string PropertyGridItemLabel() => "tw-property-grid-item-label";
+
+    public override string PropertyGridItemBody() => "tw-property-grid-item-body";
+
+    #endregion
+
     #region Tabs
 
     public override string Tabs( bool pills ) => pills

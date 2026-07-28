@@ -569,6 +569,26 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region PropertyGrid
+
+    public virtual string PropertyGrid() => null;
+
+    public virtual string PropertyGridToolbar() => null;
+
+    public virtual string PropertyGridGroup() => null;
+
+    public virtual string PropertyGridGroupHeader() => null;
+
+    public virtual string PropertyGridGroupBody() => null;
+
+    public virtual string PropertyGridItem() => null;
+
+    public virtual string PropertyGridItemLabel() => null;
+
+    public virtual string PropertyGridItemBody() => null;
+
+    #endregion
+
     #region Tabs
 
     public abstract string Tabs( bool pills );

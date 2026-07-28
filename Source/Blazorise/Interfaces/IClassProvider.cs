@@ -568,6 +568,26 @@ public interface IClassProvider
 
     #endregion
 
+    #region PropertyGrid
+
+    string PropertyGrid();
+
+    string PropertyGridToolbar();
+
+    string PropertyGridGroup();
+
+    string PropertyGridGroupHeader();
+
+    string PropertyGridGroupBody();
+
+    string PropertyGridItem();
+
+    string PropertyGridItemLabel();
+
+    string PropertyGridItemBody();
+
+    #endregion
+
     #region Tabs
 
     string Tabs( bool pills );

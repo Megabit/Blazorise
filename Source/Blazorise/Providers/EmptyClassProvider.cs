@@ -571,6 +571,26 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region PropertyGrid
+
+    public string PropertyGrid() => null;
+
+    public string PropertyGridToolbar() => null;
+
+    public string PropertyGridGroup() => null;
+
+    public string PropertyGridGroupHeader() => null;
+
+    public string PropertyGridGroupBody() => null;
+
+    public string PropertyGridItem() => null;
+
+    public string PropertyGridItemLabel() => null;
+
+    public string PropertyGridItemBody() => null;
+
+    #endregion
+
     #region Tabs
 
     public string Tabs( bool pills ) => null;

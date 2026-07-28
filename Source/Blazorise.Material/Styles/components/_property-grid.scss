@@ -1,0 +1,76 @@
+.mui-property-grid {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    min-width: 0;
+}
+
+.mui-property-grid-toolbar {
+    display: flex;
+    align-items: center;
+}
+
+.mui-property-grid-group,
+.mui-property-grid-group-body {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    min-width: 0;
+}
+
+.mui-property-grid-group-header {
+    font-size: .875rem;
+    font-weight: 600;
+}
+
+.mui-property-grid-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: .25rem;
+    align-items: center;
+    min-width: 0;
+}
+
+.mui-property-grid-item-label {
+    min-width: 0;
+    padding-inline-end: .25rem;
+    overflow: hidden;
+    font-size: .875rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mui-property-grid-item-body {
+    min-width: 0;
+
+    > * {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+.mui-property-grid-item[data-property-grid-editor="color"] {
+    .mui-addon-body:has(> .mui-color-picker) {
+        flex: none;
+    }
+
+    .mui-addon-body > .mui-color-picker {
+        box-sizing: border-box;
+        flex: 0 0 var(--mui-input-size);
+        inline-size: var(--mui-input-size);
+        min-inline-size: var(--mui-input-size);
+        justify-content: center;
+        gap: 0;
+        padding-inline: 0;
+
+        &::after {
+            display: none;
+        }
+    }
+
+    .mui-addon-end > .mui-button {
+        --mui-btn-padding: 0;
+        inline-size: var(--mui-input-size);
+        min-inline-size: var(--mui-input-size);
+    }
+}

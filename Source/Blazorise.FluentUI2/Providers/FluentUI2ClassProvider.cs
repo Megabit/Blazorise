@@ -628,6 +628,26 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
+    #region PropertyGrid
+
+    public override string PropertyGrid() => "fui-PropertyGrid";
+
+    public override string PropertyGridToolbar() => "fui-PropertyGrid__toolbar";
+
+    public override string PropertyGridGroup() => "fui-PropertyGridGroup";
+
+    public override string PropertyGridGroupHeader() => "fui-PropertyGridGroup__header";
+
+    public override string PropertyGridGroupBody() => "fui-PropertyGridGroup__body";
+
+    public override string PropertyGridItem() => "fui-PropertyGridItem";
+
+    public override string PropertyGridItemLabel() => "fui-PropertyGridItem__label";
+
+    public override string PropertyGridItemBody() => "fui-PropertyGridItem__body";
+
+    #endregion
+
     #region Tabs
 
     public override string Tabs( bool pills ) => "fui-TabList";

@@ -1,0 +1,18 @@
+@namespace Blazorise
+@inherits BaseComponent
+
+<section @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    @if ( Header is not null )
+    {
+        <div class="@HeaderClassNames">
+            @Header
+        </div>
+    }
+    else if ( !string.IsNullOrWhiteSpace( Title ) )
+    {
+        <div class="@HeaderClassNames">@Title</div>
+    }
+    <div class="@BodyClassNames">
+        @ChildContent
+    </div>
+</section>

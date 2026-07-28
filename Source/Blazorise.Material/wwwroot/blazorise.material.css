@@ -6392,6 +6392,77 @@ body.modal-open {
   --mui-pagination-font-size: 1.125rem;
 }
 
+.mui-property-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.mui-property-grid-toolbar {
+  display: flex;
+  align-items: center;
+}
+
+.mui-property-grid-group,
+.mui-property-grid-group-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.mui-property-grid-group-header {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.mui-property-grid-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 0.25rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.mui-property-grid-item-label {
+  min-width: 0;
+  padding-inline-end: 0.25rem;
+  overflow: hidden;
+  font-size: 0.875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mui-property-grid-item-body {
+  min-width: 0;
+}
+.mui-property-grid-item-body > * {
+  width: 100%;
+  min-width: 0;
+}
+
+.mui-property-grid-item[data-property-grid-editor=color] .mui-addon-body:has(> .mui-color-picker) {
+  flex: none;
+}
+.mui-property-grid-item[data-property-grid-editor=color] .mui-addon-body > .mui-color-picker {
+  box-sizing: border-box;
+  flex: 0 0 var(--mui-input-size);
+  inline-size: var(--mui-input-size);
+  min-inline-size: var(--mui-input-size);
+  justify-content: center;
+  gap: 0;
+  padding-inline: 0;
+}
+.mui-property-grid-item[data-property-grid-editor=color] .mui-addon-body > .mui-color-picker::after {
+  display: none;
+}
+.mui-property-grid-item[data-property-grid-editor=color] .mui-addon-end > .mui-button {
+  --mui-btn-padding: 0;
+  inline-size: var(--mui-input-size);
+  min-inline-size: var(--mui-input-size);
+}
+
 .mui-progress {
   --mui-progress-default-size: 0.35rem;
   --mui-progress-size: var(--mui-progress-default-size);
@@ -10004,31 +10075,6 @@ body .b-report {
 
 .b-report-tree-view-toggle > :is(.material-icons, .material-icons-outlined, .material-icons-sharp, .material-icons-two-tone), .b-report-tree-view-icon > :is(.material-icons, .material-icons-outlined, .material-icons-sharp, .material-icons-two-tone) {
   font-size: 1rem;
-}
-
-.b-report-designer-properties-pane .mui-field.mui-field-horizontal {
-  margin-bottom: 0.25rem !important;
-}
-
-.b-report-designer-color-property .mui-addon-body:has(> .mui-color-picker) {
-  flex: none;
-}
-.b-report-designer-color-property .mui-addon-body > .mui-color-picker {
-  box-sizing: border-box;
-  flex: 0 0 var(--mui-input-size);
-  inline-size: var(--mui-input-size);
-  min-inline-size: var(--mui-input-size);
-  justify-content: center;
-  gap: 0;
-  padding-inline: 0;
-}
-.b-report-designer-color-property .mui-addon-body > .mui-color-picker::after {
-  display: none;
-}
-.b-report-designer-color-property .mui-addon-end > .mui-button {
-  --mui-btn-padding: 0;
-  inline-size: var(--mui-input-size);
-  min-inline-size: var(--mui-input-size);
 }
 
 .flatpickr-calendar {

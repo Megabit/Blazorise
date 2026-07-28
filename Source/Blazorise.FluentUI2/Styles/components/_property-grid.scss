@@ -1,0 +1,65 @@
+.fui-PropertyGrid {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    min-width: 0;
+}
+
+.fui-PropertyGrid__toolbar {
+    display: flex;
+    align-items: center;
+}
+
+.fui-PropertyGridGroup,
+.fui-PropertyGridGroup__body {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    min-width: 0;
+}
+
+.fui-PropertyGridGroup__header {
+    font-size: .875rem;
+    font-weight: 600;
+}
+
+.fui-PropertyGridItem {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: .25rem;
+    align-items: center;
+    min-width: 0;
+}
+
+.fui-PropertyGridItem__label {
+    min-width: 0;
+    padding-inline-end: .25rem;
+    overflow: hidden;
+    font-size: .875rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fui-PropertyGridItem__body {
+    min-width: 0;
+
+    > * {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+.fui-PropertyGridItem[data-property-grid-editor="color"] {
+    .fui-Input__colorValue {
+        display: none;
+    }
+
+    .fui-Input__content:has(> .fui-ColorPicker) {
+        flex: none;
+    }
+
+    .fui-ColorPicker {
+        flex: none;
+        min-width: auto;
+    }
+}
