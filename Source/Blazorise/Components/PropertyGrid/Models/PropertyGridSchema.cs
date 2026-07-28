@@ -1,6 +1,8 @@
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#endregion
 
 namespace Blazorise;
 
@@ -9,9 +11,15 @@ namespace Blazorise;
 /// </summary>
 public sealed class PropertyGridSchema
 {
+    #region Members
+
     private readonly IReadOnlyList<PropertyGridGroupDefinition> categorizedGroups;
 
     private readonly IReadOnlyList<PropertyGridGroupDefinition> alphabeticalGroups;
+
+    #endregion
+
+    #region Constructors
 
     /// <summary>
     /// Initializes a new property grid schema.
@@ -35,13 +43,23 @@ public sealed class PropertyGridSchema
             : [new PropertyGridGroupDefinition( "__alphabetical", null, alphabeticalProperties )];
     }
 
+    #endregion
+
+    #region Methods
+
     internal IReadOnlyList<PropertyGridGroupDefinition> GetRenderedGroups( PropertyGridViewMode viewMode )
         => viewMode == PropertyGridViewMode.Alphabetical
             ? alphabeticalGroups
             : categorizedGroups;
 
+    #endregion
+
+    #region Properties
+
     /// <summary>
     /// Gets the property groups.
     /// </summary>
     public IReadOnlyList<PropertyGridGroupDefinition> Groups { get; }
+
+    #endregion
 }

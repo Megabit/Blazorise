@@ -1,6 +1,8 @@
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise;
 
@@ -9,6 +11,8 @@ namespace Blazorise;
 /// </summary>
 public sealed class PropertyGridGroupDefinition
 {
+    #region Constructors
+
     /// <summary>
     /// Initializes a new property group.
     /// </summary>
@@ -21,6 +25,10 @@ public sealed class PropertyGridGroupDefinition
             .Where( property => property.Visible )
             .ToArray();
     }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Gets the stable group key.
@@ -66,4 +74,6 @@ public sealed class PropertyGridGroupDefinition
     /// Gets or sets a property-specific header template.
     /// </summary>
     public RenderFragment<PropertyGridGroupContext> HeaderTemplate { get; set; }
+
+    #endregion
 }

@@ -1,5 +1,7 @@
+#region Using directives
 using System;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise;
 
@@ -8,6 +10,8 @@ namespace Blazorise;
 /// </summary>
 public sealed class PropertyGridCustomProperty<TValue> : PropertyGridProperty<TValue>
 {
+    #region Constructors
+
     /// <summary>
     /// Initializes a custom property.
     /// </summary>
@@ -16,4 +20,6 @@ public sealed class PropertyGridCustomProperty<TValue> : PropertyGridProperty<TV
     {
         EditorTemplate = editorTemplate ?? throw new ArgumentNullException( nameof( editorTemplate ) );
     }
+
+    #endregion
 }

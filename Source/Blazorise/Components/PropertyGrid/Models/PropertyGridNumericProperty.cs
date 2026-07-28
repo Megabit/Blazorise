@@ -1,5 +1,7 @@
+#region Using directives
 using System;
 using System.Collections.Generic;
+#endregion
 
 namespace Blazorise;
 
@@ -8,6 +10,8 @@ namespace Blazorise;
 /// </summary>
 public sealed class PropertyGridNumericProperty<TValue> : PropertyGridProperty<TValue>
 {
+    #region Constructors
+
     /// <summary>
     /// Initializes a numeric property.
     /// </summary>
@@ -15,6 +19,26 @@ public sealed class PropertyGridNumericProperty<TValue> : PropertyGridProperty<T
         : base( key, label, value )
     {
     }
+
+    #endregion
+
+    #region Methods
+
+    internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
+    {
+        parameters[nameof( PropertyGridNumericItem<TValue>.Min )] = Min;
+        parameters[nameof( PropertyGridNumericItem<TValue>.Max )] = Max;
+        parameters[nameof( PropertyGridNumericItem<TValue>.Step )] = Step;
+        parameters[nameof( PropertyGridNumericItem<TValue>.Immediate )] = Immediate;
+    }
+
+    #endregion
+
+    #region Properties
+
+    internal override Type AtomicComponentType => typeof( PropertyGridNumericItem<TValue> );
+
+    internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Numeric;
 
     /// <summary>
     /// Gets or sets the minimum accepted value.
@@ -36,15 +60,5 @@ public sealed class PropertyGridNumericProperty<TValue> : PropertyGridProperty<T
     /// </summary>
     public bool Immediate { get; set; } = true;
 
-    internal override Type AtomicComponentType => typeof( PropertyGridNumericItem<TValue> );
-
-    internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Numeric;
-
-    internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
-    {
-        parameters[nameof( PropertyGridNumericItem<TValue>.Min )] = Min;
-        parameters[nameof( PropertyGridNumericItem<TValue>.Max )] = Max;
-        parameters[nameof( PropertyGridNumericItem<TValue>.Step )] = Step;
-        parameters[nameof( PropertyGridNumericItem<TValue>.Immediate )] = Immediate;
-    }
+    #endregion
 }

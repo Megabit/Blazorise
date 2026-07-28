@@ -1,5 +1,7 @@
+#region Using directives
 using System;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise;
 
@@ -8,6 +10,8 @@ namespace Blazorise;
 /// </summary>
 public abstract class PropertyGridProperty<TValue> : PropertyGridProperty
 {
+    #region Constructors
+
     /// <summary>
     /// Initializes a strongly typed property definition.
     /// </summary>
@@ -16,6 +20,17 @@ public abstract class PropertyGridProperty<TValue> : PropertyGridProperty
     {
         TypedValue = value;
     }
+
+    #endregion
+
+    #region Methods
+
+    internal override object CreateValueChangedCallback( PropertyGridView owner )
+        => EventCallback.Factory.Create<TValue>( owner, value => owner.ChangeValueAsync( this, value ) );
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Gets the strongly typed property value.
@@ -28,6 +43,5 @@ public abstract class PropertyGridProperty<TValue> : PropertyGridProperty
     /// <inheritdoc/>
     public override Type ValueType => typeof( TValue );
 
-    internal override object CreateValueChangedCallback( PropertyGridView owner )
-        => EventCallback.Factory.Create<TValue>( owner, value => owner.ChangeValueAsync( this, value ) );
+    #endregion
 }

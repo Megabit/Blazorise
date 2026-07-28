@@ -11,14 +11,24 @@ namespace Blazorise;
 /// </summary>
 public partial class PropertyGridStringSelectItem : BasePropertyGridEditorItem
 {
+    #region Members
+
     private const string MixedValue = "__b_property_grid_mixed__";
+
+    #endregion
+
+    #region Methods
+
+    private Task OnValueChanged( string value )
+        => value == MixedValue ? Task.CompletedTask : ValueChanged.InvokeAsync( value );
+
+    #endregion
+
+    #region Properties
 
     private string DisplayValue => Mixed ? MixedValue : Value;
 
     private IReadOnlyList<PropertyGridSelectOption<string>> ResolvedOptions => Options ?? [];
-
-    private Task OnValueChanged( string value )
-        => value == MixedValue ? Task.CompletedTask : ValueChanged.InvokeAsync( value );
 
     /// <summary>
     /// Gets or sets the property value.
@@ -34,4 +44,6 @@ public partial class PropertyGridStringSelectItem : BasePropertyGridEditorItem
     /// Defines the available property values.
     /// </summary>
     [Parameter] public IReadOnlyList<PropertyGridSelectOption<string>> Options { get; set; }
+
+    #endregion
 }

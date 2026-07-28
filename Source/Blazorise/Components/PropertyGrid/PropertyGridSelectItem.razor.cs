@@ -13,12 +13,18 @@ namespace Blazorise;
 public partial class PropertyGridSelectItem<TValue> : BasePropertyGridEditorItem
     where TValue : struct
 {
-    private TValue? DisplayValue => Mixed ? null : Value;
-
-    private IReadOnlyList<PropertyGridSelectOption<TValue>> ResolvedOptions => Options ?? [];
+    #region Methods
 
     private Task OnValueChanged( TValue? value )
         => value.HasValue ? ValueChanged.InvokeAsync( value.Value ) : Task.CompletedTask;
+
+    #endregion
+
+    #region Properties
+
+    private TValue? DisplayValue => Mixed ? null : Value;
+
+    private IReadOnlyList<PropertyGridSelectOption<TValue>> ResolvedOptions => Options ?? [];
 
     /// <summary>
     /// Gets or sets the property value.
@@ -34,4 +40,6 @@ public partial class PropertyGridSelectItem<TValue> : BasePropertyGridEditorItem
     /// Defines the available property values.
     /// </summary>
     [Parameter] public IReadOnlyList<PropertyGridSelectOption<TValue>> Options { get; set; }
+
+    #endregion
 }

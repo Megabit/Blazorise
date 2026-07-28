@@ -10,10 +10,16 @@ namespace Blazorise;
 /// </summary>
 public partial class PropertyGridBooleanItem : BasePropertyGridEditorItem
 {
-    private bool? DisplayValue => Mixed ? null : Value;
+    #region Methods
 
     private Task OnValueChanged( bool? value )
         => value.HasValue ? ValueChanged.InvokeAsync( value.Value ) : Task.CompletedTask;
+
+    #endregion
+
+    #region Properties
+
+    private bool? DisplayValue => Mixed ? null : Value;
 
     /// <summary>
     /// Gets or sets the property value.
@@ -34,4 +40,6 @@ public partial class PropertyGridBooleanItem : BasePropertyGridEditorItem
     /// Defines the text displayed for a false value.
     /// </summary>
     [Parameter] public string FalseText { get; set; } = "False";
+
+    #endregion
 }

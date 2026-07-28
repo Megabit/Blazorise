@@ -1,5 +1,7 @@
+#region Using directives
 using System;
 using System.Collections.Generic;
+#endregion
 
 namespace Blazorise;
 
@@ -8,6 +10,8 @@ namespace Blazorise;
 /// </summary>
 public sealed class PropertyGridColorProperty : PropertyGridProperty<string>
 {
+    #region Constructors
+
     /// <summary>
     /// Initializes a CSS color property.
     /// </summary>
@@ -15,6 +19,25 @@ public sealed class PropertyGridColorProperty : PropertyGridProperty<string>
         : base( key, label, value )
     {
     }
+
+    #endregion
+
+    #region Methods
+
+    internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
+    {
+        parameters[nameof( PropertyGridColorItem.NamedColors )] = NamedColors;
+        parameters[nameof( PropertyGridColorItem.Clearable )] = Clearable;
+        parameters[nameof( PropertyGridColorItem.ClearTitle )] = ClearTitle;
+    }
+
+    #endregion
+
+    #region Properties
+
+    internal override Type AtomicComponentType => typeof( PropertyGridColorItem );
+
+    internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Color;
 
     /// <summary>
     /// Gets or sets the named color options.
@@ -31,14 +54,5 @@ public sealed class PropertyGridColorProperty : PropertyGridProperty<string>
     /// </summary>
     public string ClearTitle { get; set; } = "Clear color";
 
-    internal override Type AtomicComponentType => typeof( PropertyGridColorItem );
-
-    internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Color;
-
-    internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
-    {
-        parameters[nameof( PropertyGridColorItem.NamedColors )] = NamedColors;
-        parameters[nameof( PropertyGridColorItem.Clearable )] = Clearable;
-        parameters[nameof( PropertyGridColorItem.ClearTitle )] = ClearTitle;
-    }
+    #endregion
 }

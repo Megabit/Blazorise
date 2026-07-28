@@ -1,5 +1,7 @@
+#region Using directives
 using System;
 using System.Collections.Generic;
+#endregion
 
 namespace Blazorise;
 
@@ -8,6 +10,8 @@ namespace Blazorise;
 /// </summary>
 public sealed class PropertyGridBooleanProperty : PropertyGridProperty<bool>
 {
+    #region Constructors
+
     /// <summary>
     /// Initializes a boolean property.
     /// </summary>
@@ -15,6 +19,24 @@ public sealed class PropertyGridBooleanProperty : PropertyGridProperty<bool>
         : base( key, label, value )
     {
     }
+
+    #endregion
+
+    #region Methods
+
+    internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
+    {
+        parameters[nameof( PropertyGridBooleanItem.TrueText )] = TrueText;
+        parameters[nameof( PropertyGridBooleanItem.FalseText )] = FalseText;
+    }
+
+    #endregion
+
+    #region Properties
+
+    internal override Type AtomicComponentType => typeof( PropertyGridBooleanItem );
+
+    internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Boolean;
 
     /// <summary>
     /// Gets or sets the text displayed for a true value.
@@ -26,13 +48,5 @@ public sealed class PropertyGridBooleanProperty : PropertyGridProperty<bool>
     /// </summary>
     public string FalseText { get; set; } = "False";
 
-    internal override Type AtomicComponentType => typeof( PropertyGridBooleanItem );
-
-    internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Boolean;
-
-    internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
-    {
-        parameters[nameof( PropertyGridBooleanItem.TrueText )] = TrueText;
-        parameters[nameof( PropertyGridBooleanItem.FalseText )] = FalseText;
-    }
+    #endregion
 }

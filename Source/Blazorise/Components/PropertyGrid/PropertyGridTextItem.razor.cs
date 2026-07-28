@@ -9,6 +9,8 @@ namespace Blazorise;
 /// </summary>
 public partial class PropertyGridTextItem : BasePropertyGridEditorItem
 {
+    #region Properties
+
     private string DisplayValue => Mixed ? null : Value;
 
     private bool EffectiveImmediate => Immediate ?? ValueChanged.HasDelegate;
@@ -32,4 +34,6 @@ public partial class PropertyGridTextItem : BasePropertyGridEditorItem
     /// Defines whether value changes are reported immediately.
     /// </summary>
     [Parameter] public bool? Immediate { get; set; }
+
+    #endregion
 }

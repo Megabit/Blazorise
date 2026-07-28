@@ -1,5 +1,7 @@
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
+#endregion
 
 namespace Blazorise;
 
@@ -8,13 +10,23 @@ namespace Blazorise;
 /// </summary>
 public sealed class PropertyGridGroupContext
 {
+    #region Members
+
     private readonly PropertyGridView owner;
+
+    #endregion
+
+    #region Constructors
 
     internal PropertyGridGroupContext( PropertyGridView owner, PropertyGridGroupDefinition group )
     {
         this.owner = owner;
         Group = group;
     }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Gets the group definition.
@@ -26,4 +38,6 @@ public sealed class PropertyGridGroupContext
     /// </summary>
     public IEnumerable<PropertyGridItemContext> Properties
         => Group.VisibleProperties.Select( property => new PropertyGridItemContext( owner, property ) );
+
+    #endregion
 }

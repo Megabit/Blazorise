@@ -1,4 +1,6 @@
+#region Using directives
 using System.Threading.Tasks;
+#endregion
 
 namespace Blazorise;
 
@@ -7,7 +9,13 @@ namespace Blazorise;
 /// </summary>
 public sealed class PropertyGridToolbarContext
 {
+    #region Members
+
     private readonly PropertyGridView owner;
+
+    #endregion
+
+    #region Constructors
 
     internal PropertyGridToolbarContext( PropertyGridView owner )
     {
@@ -15,6 +23,19 @@ public sealed class PropertyGridToolbarContext
         Categorized = new( owner, PropertyGridViewMode.Categorized );
         Alphabetical = new( owner, PropertyGridViewMode.Alphabetical );
     }
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Changes the active property arrangement.
+    /// </summary>
+    public Task SetViewModeAsync( PropertyGridViewMode viewMode ) => owner.ChangeViewModeAsync( viewMode );
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Gets the active property arrangement.
@@ -31,8 +52,5 @@ public sealed class PropertyGridToolbarContext
     /// </summary>
     public PropertyGridViewModeContext Alphabetical { get; }
 
-    /// <summary>
-    /// Changes the active property arrangement.
-    /// </summary>
-    public Task SetViewModeAsync( PropertyGridViewMode viewMode ) => owner.ChangeViewModeAsync( viewMode );
+    #endregion
 }

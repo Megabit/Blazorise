@@ -5,10 +5,16 @@ namespace Blazorise;
 /// </summary>
 public sealed class PropertyGridLabelContext
 {
+    #region Constructors
+
     internal PropertyGridLabelContext( PropertyGridProperty property )
     {
         Property = property;
     }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Gets the property definition.
@@ -19,4 +25,6 @@ public sealed class PropertyGridLabelContext
     /// Gets the property label.
     /// </summary>
     public string Label => Property.Label;
+
+    #endregion
 }

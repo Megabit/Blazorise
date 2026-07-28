@@ -1,5 +1,7 @@
+#region Using directives
 using System;
 using System.Collections.Generic;
+#endregion
 
 namespace Blazorise;
 
@@ -8,6 +10,8 @@ namespace Blazorise;
 /// </summary>
 public sealed class PropertyGridStringSelectProperty : PropertyGridProperty<string>
 {
+    #region Constructors
+
     /// <summary>
     /// Initializes a string select property.
     /// </summary>
@@ -17,15 +21,25 @@ public sealed class PropertyGridStringSelectProperty : PropertyGridProperty<stri
         Options = options ?? [];
     }
 
-    /// <summary>
-    /// Gets the available options.
-    /// </summary>
-    public IReadOnlyList<PropertyGridSelectOption<string>> Options { get; }
+    #endregion
+
+    #region Methods
+
+    internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
+        => parameters[nameof( PropertyGridStringSelectItem.Options )] = Options;
+
+    #endregion
+
+    #region Properties
 
     internal override Type AtomicComponentType => typeof( PropertyGridStringSelectItem );
 
     internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Select;
 
-    internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
-        => parameters[nameof( PropertyGridStringSelectItem.Options )] = Options;
+    /// <summary>
+    /// Gets the available options.
+    /// </summary>
+    public IReadOnlyList<PropertyGridSelectOption<string>> Options { get; }
+
+    #endregion
 }

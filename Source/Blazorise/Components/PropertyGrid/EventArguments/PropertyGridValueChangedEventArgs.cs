@@ -1,4 +1,6 @@
+#region Using directives
 using System;
+#endregion
 
 namespace Blazorise;
 
@@ -7,6 +9,8 @@ namespace Blazorise;
 /// </summary>
 public sealed class PropertyGridValueChangedEventArgs : EventArgs
 {
+    #region Constructors
+
     /// <summary>
     /// Initializes value change event data.
     /// </summary>
@@ -15,6 +19,19 @@ public sealed class PropertyGridValueChangedEventArgs : EventArgs
         Property = property;
         Value = value;
     }
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Gets the new property value as the requested type.
+    /// </summary>
+    public TValue GetValue<TValue>() => (TValue)Value;
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Gets the changed property definition.
@@ -31,8 +48,5 @@ public sealed class PropertyGridValueChangedEventArgs : EventArgs
     /// </summary>
     public object Value { get; }
 
-    /// <summary>
-    /// Gets the new property value as the requested type.
-    /// </summary>
-    public TValue GetValue<TValue>() => (TValue)Value;
+    #endregion
 }

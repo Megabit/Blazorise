@@ -1,4 +1,6 @@
+#region Using directives
 using System.Threading.Tasks;
+#endregion
 
 namespace Blazorise;
 
@@ -7,13 +9,37 @@ namespace Blazorise;
 /// </summary>
 public sealed class PropertyGridItemContext
 {
+    #region Members
+
     private readonly PropertyGridView owner;
+
+    #endregion
+
+    #region Constructors
 
     internal PropertyGridItemContext( PropertyGridView owner, PropertyGridProperty property )
     {
         this.owner = owner;
         Property = property;
     }
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Reports a new property value.
+    /// </summary>
+    public Task SetValueAsync<TValue>( TValue value ) => owner.ChangeValueAsync( Property, value );
+
+    /// <summary>
+    /// Invokes the property action.
+    /// </summary>
+    public Task InvokeActionAsync() => owner.InvokeActionAsync( Property );
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Gets the property definition.
@@ -45,13 +71,5 @@ public sealed class PropertyGridItemContext
     /// </summary>
     public PropertyGridActionContext Action => Property.Action is null ? null : new( owner, Property );
 
-    /// <summary>
-    /// Reports a new property value.
-    /// </summary>
-    public Task SetValueAsync<TValue>( TValue value ) => owner.ChangeValueAsync( Property, value );
-
-    /// <summary>
-    /// Invokes the property action.
-    /// </summary>
-    public Task InvokeActionAsync() => owner.InvokeActionAsync( Property );
+    #endregion
 }

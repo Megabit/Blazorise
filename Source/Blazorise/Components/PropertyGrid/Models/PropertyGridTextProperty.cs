@@ -1,5 +1,7 @@
+#region Using directives
 using System;
 using System.Collections.Generic;
+#endregion
 
 namespace Blazorise;
 
@@ -8,6 +10,8 @@ namespace Blazorise;
 /// </summary>
 public sealed class PropertyGridTextProperty : PropertyGridProperty<string>
 {
+    #region Constructors
+
     /// <summary>
     /// Initializes a text property.
     /// </summary>
@@ -15,6 +19,24 @@ public sealed class PropertyGridTextProperty : PropertyGridProperty<string>
         : base( key, label, value )
     {
     }
+
+    #endregion
+
+    #region Methods
+
+    internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
+    {
+        parameters[nameof( PropertyGridTextItem.ReadOnly )] = ReadOnly;
+        parameters[nameof( PropertyGridTextItem.Immediate )] = Immediate;
+    }
+
+    #endregion
+
+    #region Properties
+
+    internal override Type AtomicComponentType => typeof( PropertyGridTextItem );
+
+    internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Text;
 
     /// <summary>
     /// Gets or sets whether the text editor is read-only.
@@ -26,13 +48,5 @@ public sealed class PropertyGridTextProperty : PropertyGridProperty<string>
     /// </summary>
     public bool? Immediate { get; set; }
 
-    internal override Type AtomicComponentType => typeof( PropertyGridTextItem );
-
-    internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Text;
-
-    internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
-    {
-        parameters[nameof( PropertyGridTextItem.ReadOnly )] = ReadOnly;
-        parameters[nameof( PropertyGridTextItem.Immediate )] = Immediate;
-    }
+    #endregion
 }

@@ -11,8 +11,14 @@ namespace Blazorise;
 /// <typeparam name="TValue">The numeric value type.</typeparam>
 public partial class PropertyGridNumericItem<TValue> : BasePropertyGridEditorItem
 {
+    #region Methods
+
     private static TValue ConvertValue( double value )
         => Converters.ChangeType<TValue>( value );
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Gets or sets the property value.
@@ -43,4 +49,6 @@ public partial class PropertyGridNumericItem<TValue> : BasePropertyGridEditorIte
     /// Defines whether value changes are reported immediately.
     /// </summary>
     [Parameter] public bool Immediate { get; set; } = true;
+
+    #endregion
 }

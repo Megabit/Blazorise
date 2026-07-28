@@ -9,6 +9,8 @@ namespace Blazorise;
 /// </summary>
 public abstract class BasePropertyGridEditorItem : BaseComponent
 {
+    #region Properties
+
     /// <summary>
     /// Defines the property label.
     /// </summary>
@@ -73,4 +75,6 @@ public abstract class BasePropertyGridEditorItem : BaseComponent
     /// Occurs when the property editor action is clicked.
     /// </summary>
     [Parameter] public EventCallback ActionClicked { get; set; }
+
+    #endregion
 }

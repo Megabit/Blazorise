@@ -1,4 +1,6 @@
+#region Using directives
 using System;
+#endregion
 
 namespace Blazorise;
 
@@ -7,6 +9,8 @@ namespace Blazorise;
 /// </summary>
 public sealed class PropertyGridActionEventArgs : EventArgs
 {
+    #region Constructors
+
     /// <summary>
     /// Initializes action event data.
     /// </summary>
@@ -15,6 +19,10 @@ public sealed class PropertyGridActionEventArgs : EventArgs
         Property = property;
         Action = action;
     }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Gets the property definition that owns the action.
@@ -30,4 +38,6 @@ public sealed class PropertyGridActionEventArgs : EventArgs
     /// Gets the invoked action.
     /// </summary>
     public PropertyGridAction Action { get; }
+
+    #endregion
 }

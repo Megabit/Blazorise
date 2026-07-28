@@ -1,6 +1,8 @@
+#region Using directives
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise;
 
@@ -9,6 +11,8 @@ namespace Blazorise;
 /// </summary>
 public abstract class PropertyGridProperty
 {
+    #region Constructors
+
     /// <summary>
     /// Initializes a property definition.
     /// </summary>
@@ -17,6 +21,25 @@ public abstract class PropertyGridProperty
         Key = key;
         Label = label;
     }
+
+    #endregion
+
+    #region Methods
+
+    internal abstract object CreateValueChangedCallback( PropertyGridView owner );
+
+    internal virtual void AddAtomicComponentParameters( IDictionary<string, object> parameters )
+    {
+    }
+
+    #endregion
+
+    #region Properties
+
+    internal virtual Type AtomicComponentType
+        => throw new InvalidOperationException( $"Property '{GetType().FullName}' requires an editor or item template." );
+
+    internal virtual PropertyGridEditorType EditorType => PropertyGridEditorType.None;
 
     /// <summary>
     /// Gets the stable property key.
@@ -88,14 +111,5 @@ public abstract class PropertyGridProperty
     /// </summary>
     public RenderFragment<PropertyGridEditorContext> EditorTemplate { get; set; }
 
-    internal virtual Type AtomicComponentType
-        => throw new InvalidOperationException( $"Property '{GetType().FullName}' requires an editor or item template." );
-
-    internal virtual PropertyGridEditorType EditorType => PropertyGridEditorType.None;
-
-    internal abstract object CreateValueChangedCallback( PropertyGridView owner );
-
-    internal virtual void AddAtomicComponentParameters( IDictionary<string, object> parameters )
-    {
-    }
+    #endregion
 }

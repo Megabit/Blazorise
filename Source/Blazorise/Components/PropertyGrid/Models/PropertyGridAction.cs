@@ -1,4 +1,6 @@
+#region Using directives
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise;
 
@@ -7,6 +9,8 @@ namespace Blazorise;
 /// </summary>
 public sealed class PropertyGridAction
 {
+    #region Constructors
+
     /// <summary>
     /// Initializes a property action.
     /// </summary>
@@ -14,6 +18,10 @@ public sealed class PropertyGridAction
     {
         Name = name;
     }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Gets the action name.
@@ -55,4 +63,5 @@ public sealed class PropertyGridAction
     /// </summary>
     public RenderFragment<PropertyGridActionContext> ActionTemplate { get; set; }
 
+    #endregion
 }
