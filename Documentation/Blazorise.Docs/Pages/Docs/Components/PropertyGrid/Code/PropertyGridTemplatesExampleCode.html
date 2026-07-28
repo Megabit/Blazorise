@@ -1,0 +1,88 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridView</span> <span class="htmlAttributeName">Schema</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>schema</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">PropertyValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnPropertyValueChanged</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">ActionInvoked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnActionInvoked</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">ShowToolbar</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GroupHeaderTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">context</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.AlignItems.Center</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is2</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Wrench</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>context.Group.Title<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">GroupHeaderTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LabelTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">context</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>context.Label<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LabelTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextEditorTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">context</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( context.GetValue&lt;string&gt;() )</span><span class="quot">&quot;</span>
+                   <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( ( string value ) =&gt; context.SetValue( value ) )</span><span class="quot">&quot;</span>
+                   <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TextEditorTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ActionTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">context</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Warning</span><span class="quot">&quot;</span>
+                <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span>
+                <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>context.Action.Title</span><span class="quot">&quot;</span>
+                <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>context.Invoke</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="atSign">&#64;</span>context.Action.Text
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ActionTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PropertyGridView</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>Display name:<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span> <span class="atSign">&#64;</span>displayName
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">string</span> displayName = <span class="string">&quot;Revenue&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">bool</span> highlighted = <span class="keyword">true</span>;
+
+    <span class="keyword">private</span> PropertyGridSchema schema;
+
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> OnInitialized()
+    {
+        schema = BuildSchema();
+    }
+
+    <span class="keyword">private</span> PropertyGridSchema BuildSchema()
+        =&gt; <span class="keyword">new</span>(
+        [
+            <span class="keyword">new</span> PropertyGridGroupDefinition(
+                <span class="string">&quot;appearance&quot;</span>,
+                <span class="string">&quot;Custom appearance&quot;</span>,
+                [
+                    <span class="keyword">new</span> PropertyGridTextProperty( <span class="string">&quot;appearance.name&quot;</span>, <span class="string">&quot;Display name&quot;</span>, displayName )
+                    {
+                        Immediate = <span class="keyword">true</span>,
+                        Action = <span class="keyword">new</span> PropertyGridAction( <span class="string">&quot;reset&quot;</span> )
+                        {
+                            Text = <span class="string">&quot;Reset&quot;</span>,
+                            Title = <span class="string">&quot;Reset display name&quot;</span>,
+                        },
+                    },
+                    <span class="keyword">new</span> PropertyGridBooleanProperty( <span class="string">&quot;appearance.highlighted&quot;</span>, <span class="string">&quot;Highlighted&quot;</span>, highlighted ),
+                ] ),
+        ] );
+
+    <span class="keyword">private</span> <span class="keyword">void</span> OnPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )
+    {
+        <span class="keyword">if</span> ( eventArgs.PropertyKey == <span class="string">&quot;appearance.name&quot;</span> )
+            displayName = eventArgs.GetValue&lt;<span class="keyword">string</span>&gt;();
+        <span class="keyword">else</span> <span class="keyword">if</span> ( eventArgs.PropertyKey == <span class="string">&quot;appearance.highlighted&quot;</span> )
+            highlighted = eventArgs.GetValue&lt;<span class="keyword">bool</span>&gt;();
+
+        schema = BuildSchema();
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> OnActionInvoked( PropertyGridActionEventArgs eventArgs )
+    {
+        <span class="keyword">if</span> ( eventArgs.Action.Name != <span class="string">&quot;reset&quot;</span> )
+            <span class="keyword">return</span>;
+
+        displayName = <span class="string">&quot;Revenue&quot;</span>;
+        schema = BuildSchema();
+    }
+}
+</pre></div>
+</div>

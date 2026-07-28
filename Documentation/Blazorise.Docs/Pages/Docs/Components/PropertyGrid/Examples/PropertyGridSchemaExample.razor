@@ -1,0 +1,107 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<PropertyGridView Schema="@schema"
+                  PropertyValueChanged="@OnPropertyValueChanged"
+                  ActionInvoked="@OnActionInvoked"
+                  @bind-ViewMode="@viewMode" />
+
+<Paragraph Margin="Margin.Is3.FromTop">
+    <Strong>Status:</Strong> @status
+</Paragraph>
+
+@code {
+    private string documentName = "Quarterly report";
+
+    private bool enabled = true;
+
+    private int copies = 1;
+
+    private string format = "PDF";
+
+    private string accent = "Blue";
+
+    private string status = "Change a property or invoke its action.";
+
+    private PropertyGridViewMode viewMode = PropertyGridViewMode.Categorized;
+
+    private PropertyGridSchema schema;
+
+    protected override void OnInitialized()
+    {
+        schema = BuildSchema();
+    }
+
+    private PropertyGridSchema BuildSchema()
+        => new(
+        [
+            new PropertyGridGroupDefinition(
+                "document",
+                "Document",
+                [
+                    new PropertyGridTextProperty( "document.name", "Name", documentName )
+                    {
+                        Immediate = true,
+                        Action = new PropertyGridAction( "rename" )
+                        {
+                            Icon = IconName.Edit,
+                            Title = "Rename document",
+                        },
+                    },
+                    new PropertyGridBooleanProperty( "document.enabled", "Enabled", enabled )
+                    {
+                        TrueText = "Enabled",
+                        FalseText = "Disabled",
+                    },
+                ] ),
+            new PropertyGridGroupDefinition(
+                "output",
+                "Output",
+                [
+                    new PropertyGridStringSelectProperty(
+                        "output.format",
+                        "Format",
+                        format,
+                        [
+                            new( "PDF", "PDF" ),
+                            new( "HTML", "HTML" ),
+                            new( "CSV", "CSV" ),
+                        ] ),
+                    new PropertyGridNumericProperty<int>( "output.copies", "Copies", copies )
+                    {
+                        Min = 1,
+                        Max = 10,
+                    },
+                    new PropertyGridColorProperty( "output.accent", "Accent", accent ),
+                ] ),
+        ] );
+
+    private void OnPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )
+    {
+        switch ( eventArgs.PropertyKey )
+        {
+            case "document.name":
+                documentName = eventArgs.GetValue<string>();
+                break;
+            case "document.enabled":
+                enabled = eventArgs.GetValue<bool>();
+                break;
+            case "output.format":
+                format = eventArgs.GetValue<string>();
+                break;
+            case "output.copies":
+                copies = eventArgs.GetValue<int>();
+                break;
+            case "output.accent":
+                accent = eventArgs.GetValue<string>();
+                break;
+        }
+
+        status = $"{eventArgs.Property.Label} changed.";
+        schema = BuildSchema();
+    }
+
+    private void OnActionInvoked( PropertyGridActionEventArgs eventArgs )
+    {
+        status = $"{eventArgs.Action.Name} invoked for {eventArgs.Property.Label}.";
+    }
+}

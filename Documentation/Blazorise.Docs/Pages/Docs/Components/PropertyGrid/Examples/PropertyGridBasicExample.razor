@@ -1,0 +1,35 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<PropertyGrid>
+    <PropertyGridGroup Title="Appearance">
+        <PropertyGridTextItem Label="Title" @bind-Value="@title" />
+        <PropertyGridBooleanItem Label="Visible" @bind-Value="@visible" TrueText="Visible" FalseText="Hidden" />
+        <PropertyGridNumericItem TValue="int" Label="Width" @bind-Value="@width" Min="100" Max="1200" Step="10" />
+        <PropertyGridStringSelectItem Label="Alignment" @bind-Value="@alignment" Options="@alignmentOptions" />
+        <PropertyGridColorItem Label="Accent" @bind-Value="@accent" />
+    </PropertyGridGroup>
+</PropertyGrid>
+
+<Paragraph Margin="Margin.Is3.FromTop">
+    <Strong>Current values:</Strong>
+    @title, @width px, @alignment, @accent, @(visible ? "visible" : "hidden")
+</Paragraph>
+
+@code {
+    private static readonly IReadOnlyList<PropertyGridSelectOption<string>> alignmentOptions =
+    [
+        new( "Left", "Left" ),
+        new( "Center", "Center" ),
+        new( "Right", "Right" ),
+    ];
+
+    private string title = "Quarterly summary";
+
+    private bool visible = true;
+
+    private int width = 640;
+
+    private string alignment = "Left";
+
+    private string accent = "Blue";
+}

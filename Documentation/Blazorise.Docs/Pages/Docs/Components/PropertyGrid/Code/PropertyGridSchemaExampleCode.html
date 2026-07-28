@@ -1,0 +1,110 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridView</span> <span class="htmlAttributeName">Schema</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>schema</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">PropertyValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnPropertyValueChanged</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">ActionInvoked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnActionInvoked</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-ViewMode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>viewMode</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>Status:<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span> <span class="atSign">&#64;</span>status
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">string</span> documentName = <span class="string">&quot;Quarterly report&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">bool</span> enabled = <span class="keyword">true</span>;
+
+    <span class="keyword">private</span> <span class="keyword">int</span> copies = <span class="number">1</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> format = <span class="string">&quot;PDF&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> accent = <span class="string">&quot;Blue&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> status = <span class="string">&quot;Change a property or invoke its action.&quot;</span>;
+
+    <span class="keyword">private</span> PropertyGridViewMode viewMode = PropertyGridViewMode.Categorized;
+
+    <span class="keyword">private</span> PropertyGridSchema schema;
+
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> OnInitialized()
+    {
+        schema = BuildSchema();
+    }
+
+    <span class="keyword">private</span> PropertyGridSchema BuildSchema()
+        =&gt; <span class="keyword">new</span>(
+        [
+            <span class="keyword">new</span> PropertyGridGroupDefinition(
+                <span class="string">&quot;document&quot;</span>,
+                <span class="string">&quot;Document&quot;</span>,
+                [
+                    <span class="keyword">new</span> PropertyGridTextProperty( <span class="string">&quot;document.name&quot;</span>, <span class="string">&quot;Name&quot;</span>, documentName )
+                    {
+                        Immediate = <span class="keyword">true</span>,
+                        Action = <span class="keyword">new</span> PropertyGridAction( <span class="string">&quot;rename&quot;</span> )
+                        {
+                            Icon = IconName.Edit,
+                            Title = <span class="string">&quot;Rename document&quot;</span>,
+                        },
+                    },
+                    <span class="keyword">new</span> PropertyGridBooleanProperty( <span class="string">&quot;document.enabled&quot;</span>, <span class="string">&quot;Enabled&quot;</span>, enabled )
+                    {
+                        TrueText = <span class="string">&quot;Enabled&quot;</span>,
+                        FalseText = <span class="string">&quot;Disabled&quot;</span>,
+                    },
+                ] ),
+            <span class="keyword">new</span> PropertyGridGroupDefinition(
+                <span class="string">&quot;output&quot;</span>,
+                <span class="string">&quot;Output&quot;</span>,
+                [
+                    <span class="keyword">new</span> PropertyGridStringSelectProperty(
+                        <span class="string">&quot;output.format&quot;</span>,
+                        <span class="string">&quot;Format&quot;</span>,
+                        format,
+                        [
+                            <span class="keyword">new</span>( <span class="string">&quot;PDF&quot;</span>, <span class="string">&quot;PDF&quot;</span> ),
+                            <span class="keyword">new</span>( <span class="string">&quot;HTML&quot;</span>, <span class="string">&quot;HTML&quot;</span> ),
+                            <span class="keyword">new</span>( <span class="string">&quot;CSV&quot;</span>, <span class="string">&quot;CSV&quot;</span> ),
+                        ] ),
+                    <span class="keyword">new</span> PropertyGridNumericProperty&lt;<span class="keyword">int</span>&gt;( <span class="string">&quot;output.copies&quot;</span>, <span class="string">&quot;Copies&quot;</span>, copies )
+                    {
+                        Min = <span class="number">1</span>,
+                        Max = <span class="number">10</span>,
+                    },
+                    <span class="keyword">new</span> PropertyGridColorProperty( <span class="string">&quot;output.accent&quot;</span>, <span class="string">&quot;Accent&quot;</span>, accent ),
+                ] ),
+        ] );
+
+    <span class="keyword">private</span> <span class="keyword">void</span> OnPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )
+    {
+        <span class="keyword">switch</span> ( eventArgs.PropertyKey )
+        {
+            <span class="keyword">case</span> <span class="string">&quot;document.name&quot;</span>:
+                documentName = eventArgs.GetValue&lt;<span class="keyword">string</span>&gt;();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">&quot;document.enabled&quot;</span>:
+                enabled = eventArgs.GetValue&lt;<span class="keyword">bool</span>&gt;();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">&quot;output.format&quot;</span>:
+                format = eventArgs.GetValue&lt;<span class="keyword">string</span>&gt;();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">&quot;output.copies&quot;</span>:
+                copies = eventArgs.GetValue&lt;<span class="keyword">int</span>&gt;();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">&quot;output.accent&quot;</span>:
+                accent = eventArgs.GetValue&lt;<span class="keyword">string</span>&gt;();
+                <span class="keyword">break</span>;
+        }
+
+        status = $<span class="string">&quot;{eventArgs.Property.Label} changed.&quot;</span>;
+        schema = BuildSchema();
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> OnActionInvoked( PropertyGridActionEventArgs eventArgs )
+    {
+        status = $<span class="string">&quot;{eventArgs.Action.Name} invoked for {eventArgs.Property.Label}.&quot;</span>;
+    }
+}
+</pre></div>
+</div>

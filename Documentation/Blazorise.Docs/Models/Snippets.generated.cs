@@ -4286,6 +4286,230 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string PropertyGridBasicExample = @"<PropertyGrid>
+    <PropertyGridGroup Title=""Appearance"">
+        <PropertyGridTextItem Label=""Title"" @bind-Value=""@title"" />
+        <PropertyGridBooleanItem Label=""Visible"" @bind-Value=""@visible"" TrueText=""Visible"" FalseText=""Hidden"" />
+        <PropertyGridNumericItem TValue=""int"" Label=""Width"" @bind-Value=""@width"" Min=""100"" Max=""1200"" Step=""10"" />
+        <PropertyGridStringSelectItem Label=""Alignment"" @bind-Value=""@alignment"" Options=""@alignmentOptions"" />
+        <PropertyGridColorItem Label=""Accent"" @bind-Value=""@accent"" />
+    </PropertyGridGroup>
+</PropertyGrid>
+
+<Paragraph Margin=""Margin.Is3.FromTop"">
+    <Strong>Current values:</Strong>
+    @title, @width px, @alignment, @accent, @(visible ? ""visible"" : ""hidden"")
+</Paragraph>
+
+@code {
+    private static readonly IReadOnlyList<PropertyGridSelectOption<string>> alignmentOptions =
+    [
+        new( ""Left"", ""Left"" ),
+        new( ""Center"", ""Center"" ),
+        new( ""Right"", ""Right"" ),
+    ];
+
+    private string title = ""Quarterly summary"";
+
+    private bool visible = true;
+
+    private int width = 640;
+
+    private string alignment = ""Left"";
+
+    private string accent = ""Blue"";
+}";
+
+        public const string PropertyGridSchemaExample = @"<PropertyGridView Schema=""@schema""
+                  PropertyValueChanged=""@OnPropertyValueChanged""
+                  ActionInvoked=""@OnActionInvoked""
+                  @bind-ViewMode=""@viewMode"" />
+
+<Paragraph Margin=""Margin.Is3.FromTop"">
+    <Strong>Status:</Strong> @status
+</Paragraph>
+
+@code {
+    private string documentName = ""Quarterly report"";
+
+    private bool enabled = true;
+
+    private int copies = 1;
+
+    private string format = ""PDF"";
+
+    private string accent = ""Blue"";
+
+    private string status = ""Change a property or invoke its action."";
+
+    private PropertyGridViewMode viewMode = PropertyGridViewMode.Categorized;
+
+    private PropertyGridSchema schema;
+
+    protected override void OnInitialized()
+    {
+        schema = BuildSchema();
+    }
+
+    private PropertyGridSchema BuildSchema()
+        => new(
+        [
+            new PropertyGridGroupDefinition(
+                ""document"",
+                ""Document"",
+                [
+                    new PropertyGridTextProperty( ""document.name"", ""Name"", documentName )
+                    {
+                        Immediate = true,
+                        Action = new PropertyGridAction( ""rename"" )
+                        {
+                            Icon = IconName.Edit,
+                            Title = ""Rename document"",
+                        },
+                    },
+                    new PropertyGridBooleanProperty( ""document.enabled"", ""Enabled"", enabled )
+                    {
+                        TrueText = ""Enabled"",
+                        FalseText = ""Disabled"",
+                    },
+                ] ),
+            new PropertyGridGroupDefinition(
+                ""output"",
+                ""Output"",
+                [
+                    new PropertyGridStringSelectProperty(
+                        ""output.format"",
+                        ""Format"",
+                        format,
+                        [
+                            new( ""PDF"", ""PDF"" ),
+                            new( ""HTML"", ""HTML"" ),
+                            new( ""CSV"", ""CSV"" ),
+                        ] ),
+                    new PropertyGridNumericProperty<int>( ""output.copies"", ""Copies"", copies )
+                    {
+                        Min = 1,
+                        Max = 10,
+                    },
+                    new PropertyGridColorProperty( ""output.accent"", ""Accent"", accent ),
+                ] ),
+        ] );
+
+    private void OnPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )
+    {
+        switch ( eventArgs.PropertyKey )
+        {
+            case ""document.name"":
+                documentName = eventArgs.GetValue<string>();
+                break;
+            case ""document.enabled"":
+                enabled = eventArgs.GetValue<bool>();
+                break;
+            case ""output.format"":
+                format = eventArgs.GetValue<string>();
+                break;
+            case ""output.copies"":
+                copies = eventArgs.GetValue<int>();
+                break;
+            case ""output.accent"":
+                accent = eventArgs.GetValue<string>();
+                break;
+        }
+
+        status = $""{eventArgs.Property.Label} changed."";
+        schema = BuildSchema();
+    }
+
+    private void OnActionInvoked( PropertyGridActionEventArgs eventArgs )
+    {
+        status = $""{eventArgs.Action.Name} invoked for {eventArgs.Property.Label}."";
+    }
+}";
+
+        public const string PropertyGridTemplatesExample = @"<PropertyGridView Schema=""@schema""
+                  PropertyValueChanged=""@OnPropertyValueChanged""
+                  ActionInvoked=""@OnActionInvoked""
+                  ShowToolbar=""false"">
+    <GroupHeaderTemplate Context=""context"">
+        <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+            <Icon Name=""IconName.Wrench"" />
+            <Strong>@context.Group.Title</Strong>
+        </Div>
+    </GroupHeaderTemplate>
+    <LabelTemplate Context=""context"">
+        <Strong>@context.Label</Strong>
+    </LabelTemplate>
+    <TextEditorTemplate Context=""context"">
+        <TextInput Value=""@( context.GetValue<string>() )""
+                   ValueChanged=""@( ( string value ) => context.SetValue( value ) )""
+                   Size=""Size.Small"" />
+    </TextEditorTemplate>
+    <ActionTemplate Context=""context"">
+        <Button Color=""Color.Warning""
+                Size=""Size.Small""
+                Title=""@context.Action.Title""
+                Clicked=""@context.Invoke"">
+            @context.Action.Text
+        </Button>
+    </ActionTemplate>
+</PropertyGridView>
+
+<Paragraph Margin=""Margin.Is3.FromTop"">
+    <Strong>Display name:</Strong> @displayName
+</Paragraph>
+
+@code {
+    private string displayName = ""Revenue"";
+
+    private bool highlighted = true;
+
+    private PropertyGridSchema schema;
+
+    protected override void OnInitialized()
+    {
+        schema = BuildSchema();
+    }
+
+    private PropertyGridSchema BuildSchema()
+        => new(
+        [
+            new PropertyGridGroupDefinition(
+                ""appearance"",
+                ""Custom appearance"",
+                [
+                    new PropertyGridTextProperty( ""appearance.name"", ""Display name"", displayName )
+                    {
+                        Immediate = true,
+                        Action = new PropertyGridAction( ""reset"" )
+                        {
+                            Text = ""Reset"",
+                            Title = ""Reset display name"",
+                        },
+                    },
+                    new PropertyGridBooleanProperty( ""appearance.highlighted"", ""Highlighted"", highlighted ),
+                ] ),
+        ] );
+
+    private void OnPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )
+    {
+        if ( eventArgs.PropertyKey == ""appearance.name"" )
+            displayName = eventArgs.GetValue<string>();
+        else if ( eventArgs.PropertyKey == ""appearance.highlighted"" )
+            highlighted = eventArgs.GetValue<bool>();
+
+        schema = BuildSchema();
+    }
+
+    private void OnActionInvoked( PropertyGridActionEventArgs eventArgs )
+    {
+        if ( eventArgs.Action.Name != ""reset"" )
+            return;
+
+        displayName = ""Revenue"";
+        schema = BuildSchema();
+    }
+}";
+
         public const string BasicRadioGroupExample = @"<RadioGroup TValue=""string"" Name=""colors"">
     <Radio Value=""@(""red"")"">Red</Radio>
     <Radio Value=""@(""green"")"">Green</Radio>

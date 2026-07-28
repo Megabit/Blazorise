@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-27T11:16:21.8858940Z",
+  "generatedUtc": "2026-07-28T14:39:19.7967353Z",
   "pages": [
     {
       "route": "/docs",
@@ -2873,6 +2873,80 @@
         {
           "kind": "type",
           "name": "PageProgress"
+        }
+      ]
+    },
+    {
+      "route": "/docs/components/property-grid",
+      "title": "Blazorise PropertyGrid component",
+      "description": "Learn to use the Blazorise PropertyGrid component with manually composed editors, schema-driven rendering, actions, sorting, grouping, and custom templates.",
+      "pagePath": "Pages/Docs/Components/PropertyGrid/PropertyGridPage.razor",
+      "examples": [
+        {
+          "code": "PropertyGridBasicExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/PropertyGrid/Examples/PropertyGridBasicExample.razor",
+          "content": "<PropertyGrid>\r\n    <PropertyGridGroup Title=\"Appearance\">\r\n        <PropertyGridTextItem Label=\"Title\" @bind-Value=\"@title\" />\r\n        <PropertyGridBooleanItem Label=\"Visible\" @bind-Value=\"@visible\" TrueText=\"Visible\" FalseText=\"Hidden\" />\r\n        <PropertyGridNumericItem TValue=\"int\" Label=\"Width\" @bind-Value=\"@width\" Min=\"100\" Max=\"1200\" Step=\"10\" />\r\n        <PropertyGridStringSelectItem Label=\"Alignment\" @bind-Value=\"@alignment\" Options=\"@alignmentOptions\" />\r\n        <PropertyGridColorItem Label=\"Accent\" @bind-Value=\"@accent\" />\r\n    </PropertyGridGroup>\r\n</PropertyGrid>\r\n\r\n<Paragraph Margin=\"Margin.Is3.FromTop\">\r\n    <Strong>Current values:</Strong>\r\n    @title, @width px, @alignment, @accent, @(visible ? \"visible\" : \"hidden\")\r\n</Paragraph>\r\n\r\n@code {\r\n    private static readonly IReadOnlyList<PropertyGridSelectOption<string>> alignmentOptions =\r\n    [\r\n        new( \"Left\", \"Left\" ),\r\n        new( \"Center\", \"Center\" ),\r\n        new( \"Right\", \"Right\" ),\r\n    ];\r\n\r\n    private string title = \"Quarterly summary\";\r\n\r\n    private bool visible = true;\r\n\r\n    private int width = 640;\r\n\r\n    private string alignment = \"Left\";\r\n\r\n    private string accent = \"Blue\";\r\n}",
+          "title": "Basic property grid",
+          "description": "Compose a small property grid directly from groups and strongly typed editor components."
+        },
+        {
+          "code": "PropertyGridSchemaExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/PropertyGrid/Examples/PropertyGridSchemaExample.razor",
+          "content": "<PropertyGridView Schema=\"@schema\"\r\n                  PropertyValueChanged=\"@OnPropertyValueChanged\"\r\n                  ActionInvoked=\"@OnActionInvoked\"\r\n                  @bind-ViewMode=\"@viewMode\" />\r\n\r\n<Paragraph Margin=\"Margin.Is3.FromTop\">\r\n    <Strong>Status:</Strong> @status\r\n</Paragraph>\r\n\r\n@code {\r\n    private string documentName = \"Quarterly report\";\r\n\r\n    private bool enabled = true;\r\n\r\n    private int copies = 1;\r\n\r\n    private string format = \"PDF\";\r\n\r\n    private string accent = \"Blue\";\r\n\r\n    private string status = \"Change a property or invoke its action.\";\r\n\r\n    private PropertyGridViewMode viewMode = PropertyGridViewMode.Categorized;\r\n\r\n    private PropertyGridSchema schema;\r\n\r\n    protected override void OnInitialized()\r\n    {\r\n        schema = BuildSchema();\r\n    }\r\n\r\n    private PropertyGridSchema BuildSchema()\r\n        => new(\r\n        [\r\n            new PropertyGridGroupDefinition(\r\n                \"document\",\r\n                \"Document\",\r\n                [\r\n                    new PropertyGridTextProperty( \"document.name\", \"Name\", documentName )\r\n                    {\r\n                        Immediate = true,\r\n                        Action = new PropertyGridAction( \"rename\" )\r\n                        {\r\n                            Icon = IconName.Edit,\r\n                            Title = \"Rename document\",\r\n                        },\r\n                    },\r\n                    new PropertyGridBooleanProperty( \"document.enabled\", \"Enabled\", enabled )\r\n                    {\r\n                        TrueText = \"Enabled\",\r\n                        FalseText = \"Disabled\",\r\n                    },\r\n                ] ),\r\n            new PropertyGridGroupDefinition(\r\n                \"output\",\r\n                \"Output\",\r\n                [\r\n                    new PropertyGridStringSelectProperty(\r\n                        \"output.format\",\r\n                        \"Format\",\r\n                        format,\r\n                        [\r\n                            new( \"PDF\", \"PDF\" ),\r\n                            new( \"HTML\", \"HTML\" ),\r\n                            new( \"CSV\", \"CSV\" ),\r\n                        ] ),\r\n                    new PropertyGridNumericProperty<int>( \"output.copies\", \"Copies\", copies )\r\n                    {\r\n                        Min = 1,\r\n                        Max = 10,\r\n                    },\r\n                    new PropertyGridColorProperty( \"output.accent\", \"Accent\", accent ),\r\n                ] ),\r\n        ] );\r\n\r\n    private void OnPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )\r\n    {\r\n        switch ( eventArgs.PropertyKey )\r\n        {\r\n            case \"document.name\":\r\n                documentName = eventArgs.GetValue<string>();\r\n                break;\r\n            case \"document.enabled\":\r\n                enabled = eventArgs.GetValue<bool>();\r\n                break;\r\n            case \"output.format\":\r\n                format = eventArgs.GetValue<string>();\r\n                break;\r\n            case \"output.copies\":\r\n                copies = eventArgs.GetValue<int>();\r\n                break;\r\n            case \"output.accent\":\r\n                accent = eventArgs.GetValue<string>();\r\n                break;\r\n        }\r\n\r\n        status = $\"{eventArgs.Property.Label} changed.\";\r\n        schema = BuildSchema();\r\n    }\r\n\r\n    private void OnActionInvoked( PropertyGridActionEventArgs eventArgs )\r\n    {\r\n        status = $\"{eventArgs.Action.Name} invoked for {eventArgs.Property.Label}.\";\r\n    }\r\n}",
+          "title": "Schema-driven property grid",
+          "description": "Define groups, editors, and actions in a schema. Use stable property keys to update the backing model when a value changes."
+        },
+        {
+          "code": "PropertyGridTemplatesExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/PropertyGrid/Examples/PropertyGridTemplatesExample.razor",
+          "content": "<PropertyGridView Schema=\"@schema\"\r\n                  PropertyValueChanged=\"@OnPropertyValueChanged\"\r\n                  ActionInvoked=\"@OnActionInvoked\"\r\n                  ShowToolbar=\"false\">\r\n    <GroupHeaderTemplate Context=\"context\">\r\n        <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\">\r\n            <Icon Name=\"IconName.Wrench\" />\r\n            <Strong>@context.Group.Title</Strong>\r\n        </Div>\r\n    </GroupHeaderTemplate>\r\n    <LabelTemplate Context=\"context\">\r\n        <Strong>@context.Label</Strong>\r\n    </LabelTemplate>\r\n    <TextEditorTemplate Context=\"context\">\r\n        <TextInput Value=\"@( context.GetValue<string>() )\"\r\n                   ValueChanged=\"@( ( string value ) => context.SetValue( value ) )\"\r\n                   Size=\"Size.Small\" />\r\n    </TextEditorTemplate>\r\n    <ActionTemplate Context=\"context\">\r\n        <Button Color=\"Color.Warning\"\r\n                Size=\"Size.Small\"\r\n                Title=\"@context.Action.Title\"\r\n                Clicked=\"@context.Invoke\">\r\n            @context.Action.Text\r\n        </Button>\r\n    </ActionTemplate>\r\n</PropertyGridView>\r\n\r\n<Paragraph Margin=\"Margin.Is3.FromTop\">\r\n    <Strong>Display name:</Strong> @displayName\r\n</Paragraph>\r\n\r\n@code {\r\n    private string displayName = \"Revenue\";\r\n\r\n    private bool highlighted = true;\r\n\r\n    private PropertyGridSchema schema;\r\n\r\n    protected override void OnInitialized()\r\n    {\r\n        schema = BuildSchema();\r\n    }\r\n\r\n    private PropertyGridSchema BuildSchema()\r\n        => new(\r\n        [\r\n            new PropertyGridGroupDefinition(\r\n                \"appearance\",\r\n                \"Custom appearance\",\r\n                [\r\n                    new PropertyGridTextProperty( \"appearance.name\", \"Display name\", displayName )\r\n                    {\r\n                        Immediate = true,\r\n                        Action = new PropertyGridAction( \"reset\" )\r\n                        {\r\n                            Text = \"Reset\",\r\n                            Title = \"Reset display name\",\r\n                        },\r\n                    },\r\n                    new PropertyGridBooleanProperty( \"appearance.highlighted\", \"Highlighted\", highlighted ),\r\n                ] ),\r\n        ] );\r\n\r\n    private void OnPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )\r\n    {\r\n        if ( eventArgs.PropertyKey == \"appearance.name\" )\r\n            displayName = eventArgs.GetValue<string>();\r\n        else if ( eventArgs.PropertyKey == \"appearance.highlighted\" )\r\n            highlighted = eventArgs.GetValue<bool>();\r\n\r\n        schema = BuildSchema();\r\n    }\r\n\r\n    private void OnActionInvoked( PropertyGridActionEventArgs eventArgs )\r\n    {\r\n        if ( eventArgs.Action.Name != \"reset\" )\r\n            return;\r\n\r\n        displayName = \"Revenue\";\r\n        schema = BuildSchema();\r\n    }\r\n}",
+          "title": "Templates",
+          "description": "Override rendering at the toolbar, group, item, label, editor, or action level. Template contexts expose the current definition and callbacks for changing values or invoking actions."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "PropertyGrid"
+        },
+        {
+          "kind": "type",
+          "name": "PropertyGridGroup"
+        },
+        {
+          "kind": "type",
+          "name": "PropertyGridItem"
+        },
+        {
+          "kind": "type",
+          "name": "PropertyGridView"
+        },
+        {
+          "kind": "type",
+          "name": "PropertyGridTextItem"
+        },
+        {
+          "kind": "type",
+          "name": "PropertyGridBooleanItem"
+        },
+        {
+          "kind": "type",
+          "name": "PropertyGridNumericItem"
+        },
+        {
+          "kind": "type",
+          "name": "PropertyGridSelectItem"
+        },
+        {
+          "kind": "type",
+          "name": "PropertyGridStringSelectItem"
+        },
+        {
+          "kind": "type",
+          "name": "PropertyGridColorItem"
         }
       ]
     },

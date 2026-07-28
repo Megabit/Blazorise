@@ -1,0 +1,85 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<PropertyGridView Schema="@schema"
+                  PropertyValueChanged="@OnPropertyValueChanged"
+                  ActionInvoked="@OnActionInvoked"
+                  ShowToolbar="false">
+    <GroupHeaderTemplate Context="context">
+        <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+            <Icon Name="IconName.Wrench" />
+            <Strong>@context.Group.Title</Strong>
+        </Div>
+    </GroupHeaderTemplate>
+    <LabelTemplate Context="context">
+        <Strong>@context.Label</Strong>
+    </LabelTemplate>
+    <TextEditorTemplate Context="context">
+        <TextInput Value="@( context.GetValue<string>() )"
+                   ValueChanged="@( ( string value ) => context.SetValue( value ) )"
+                   Size="Size.Small" />
+    </TextEditorTemplate>
+    <ActionTemplate Context="context">
+        <Button Color="Color.Warning"
+                Size="Size.Small"
+                Title="@context.Action.Title"
+                Clicked="@context.Invoke">
+            @context.Action.Text
+        </Button>
+    </ActionTemplate>
+</PropertyGridView>
+
+<Paragraph Margin="Margin.Is3.FromTop">
+    <Strong>Display name:</Strong> @displayName
+</Paragraph>
+
+@code {
+    private string displayName = "Revenue";
+
+    private bool highlighted = true;
+
+    private PropertyGridSchema schema;
+
+    protected override void OnInitialized()
+    {
+        schema = BuildSchema();
+    }
+
+    private PropertyGridSchema BuildSchema()
+        => new(
+        [
+            new PropertyGridGroupDefinition(
+                "appearance",
+                "Custom appearance",
+                [
+                    new PropertyGridTextProperty( "appearance.name", "Display name", displayName )
+                    {
+                        Immediate = true,
+                        Action = new PropertyGridAction( "reset" )
+                        {
+                            Text = "Reset",
+                            Title = "Reset display name",
+                        },
+                    },
+                    new PropertyGridBooleanProperty( "appearance.highlighted", "Highlighted", highlighted ),
+                ] ),
+        ] );
+
+    private void OnPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )
+    {
+        if ( eventArgs.PropertyKey == "appearance.name" )
+            displayName = eventArgs.GetValue<string>();
+        else if ( eventArgs.PropertyKey == "appearance.highlighted" )
+            highlighted = eventArgs.GetValue<bool>();
+
+        schema = BuildSchema();
+    }
+
+    private void OnActionInvoked( PropertyGridActionEventArgs eventArgs )
+    {
+        if ( eventArgs.Action.Name != "reset" )
+            return;
+
+        displayName = "Revenue";
+        schema = BuildSchema();
+    }
+}

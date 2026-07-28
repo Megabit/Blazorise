@@ -1,0 +1,55 @@
+@page "/docs/components/property-grid"
+
+<Seo Canonical="/docs/components/property-grid" Title="Blazorise PropertyGrid component" Description="Learn to use the Blazorise PropertyGrid component with manually composed editors, schema-driven rendering, actions, sorting, grouping, and custom templates." />
+
+<DocsPageTitle Path="Components/PropertyGrid">
+    Blazorise PropertyGrid component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Display and edit related values in a compact two-column property inspector.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Use <Code Tag>PropertyGrid</Code>, <Code Tag>PropertyGridGroup</Code>, and the individual editor components when the properties are known in Razor markup.
+    Use <Code Tag>PropertyGridView</Code> when properties are described by a <Code>PropertyGridSchema</Code> and need to be generated dynamically.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    A schema is a snapshot of the values to render.
+    Handle <Code>PropertyValueChanged</Code> to update the application model, then assign a new schema when the displayed values need to change.
+    The built-in toolbar lets users switch between categorized and alphabetical views.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic property grid">
+        Compose a small property grid directly from groups and strongly typed editor components.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PropertyGridBasicExample" Outlined FullWidth>
+        <PropertyGridBasicExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Schema-driven property grid">
+        Define groups, editors, and actions in a schema. Use stable property keys to update the backing model when a value changes.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PropertyGridSchemaExample" Outlined FullWidth>
+        <PropertyGridSchemaExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Templates">
+        Override rendering at the toolbar, group, item, label, editor, or action level. Template contexts expose the current definition and callbacks for changing values or invoking actions.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PropertyGridTemplatesExample" Outlined FullWidth>
+        <PropertyGridTemplatesExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof( PropertyGrid ), typeof( PropertyGridGroup ), typeof( PropertyGridItem ), typeof( PropertyGridView ), typeof( PropertyGridTextItem ), typeof( PropertyGridBooleanItem ), typeof( PropertyGridNumericItem<> ), typeof( PropertyGridSelectItem<> ), typeof( PropertyGridStringSelectItem ), typeof( PropertyGridColorItem )]" />
