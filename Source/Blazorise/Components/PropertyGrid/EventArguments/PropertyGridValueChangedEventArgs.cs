@@ -36,33 +36,3 @@ public sealed class PropertyGridValueChangedEventArgs : EventArgs
     /// </summary>
     public TValue GetValue<TValue>() => (TValue)Value;
 }
-
-/// <summary>
-/// Supplies information about a property action.
-/// </summary>
-public sealed class PropertyGridActionEventArgs : EventArgs
-{
-    /// <summary>
-    /// Initializes action event data.
-    /// </summary>
-    public PropertyGridActionEventArgs( PropertyGridProperty property, PropertyGridAction action )
-    {
-        Property = property;
-        Action = action;
-    }
-
-    /// <summary>
-    /// Gets the property definition that owns the action.
-    /// </summary>
-    public PropertyGridProperty Property { get; }
-
-    /// <summary>
-    /// Gets the property key.
-    /// </summary>
-    public string PropertyKey => Property.Key;
-
-    /// <summary>
-    /// Gets the invoked action.
-    /// </summary>
-    public PropertyGridAction Action { get; }
-}

@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+
+namespace Blazorise;
+
+/// <summary>
+/// Describes a CSS color property.
+/// </summary>
+public sealed class PropertyGridColorProperty : PropertyGridProperty<string>
+{
+    /// <summary>
+    /// Initializes a CSS color property.
+    /// </summary>
+    public PropertyGridColorProperty( string key, string label, string value )
+        : base( key, label, value )
+    {
+    }
+
+    /// <summary>
+    /// Gets or sets the named color options.
+    /// </summary>
+    public IReadOnlyList<PropertyGridSelectOption<string>> NamedColors { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the color can be cleared.
+    /// </summary>
+    public bool Clearable { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets the accessible title for the clear action.
+    /// </summary>
+    public string ClearTitle { get; set; } = "Clear color";
+
+    internal override Type AtomicComponentType => typeof( PropertyGridColorItem );
+
+    internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Color;
+
+    internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
+    {
+        parameters[nameof( PropertyGridColorItem.NamedColors )] = NamedColors;
+        parameters[nameof( PropertyGridColorItem.Clearable )] = Clearable;
+        parameters[nameof( PropertyGridColorItem.ClearTitle )] = ClearTitle;
+    }
+}
