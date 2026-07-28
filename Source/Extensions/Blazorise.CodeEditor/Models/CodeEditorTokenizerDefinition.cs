@@ -26,4 +26,12 @@ public class CodeEditorTokenizerDefinition
     /// Gets or sets the root tokenizer rules.
     /// </summary>
     public IReadOnlyList<CodeEditorTokenDefinition> Tokens { get; set; }
+
+    /// <summary>
+    /// Gets or sets named tokenizer states.
+    /// </summary>
+    /// <remarks>
+    /// A state named <c>root</c> overrides the rules supplied through <see cref="Tokens"/>.
+    /// </remarks>
+    public IReadOnlyDictionary<string, IReadOnlyList<CodeEditorTokenDefinition>> States { get; set; }
 }

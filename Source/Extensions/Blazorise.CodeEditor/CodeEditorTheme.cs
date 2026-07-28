@@ -8,4 +8,5 @@ public static class CodeEditorTheme
     public const string VisualStudio = "vs";
     public const string VisualStudioDark = "vs-dark";
     public const string HighContrastDark = "hc-black";
+    public const string HighContrastLight = "hc-light";
 }

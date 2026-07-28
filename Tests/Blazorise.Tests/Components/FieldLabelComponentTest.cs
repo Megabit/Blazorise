@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using Blazorise.CodeEditor;
 using Blazorise.Components;
 using Blazorise.RichTextEdit;
 using Bunit;
@@ -24,8 +25,10 @@ public class FieldLabelComponentTest : BunitContext
             options.AccessibilityOptions.UseLabelForAttribute = true;
             options.AccessibilityOptions.UseAriaLabelledByAttribute = true;
         } ) );
+        Services.AddBlazoriseCodeEditor();
         Services.AddBlazoriseRichTextEdit();
         JSInterop
+            .AddBlazoriseCodeEditor()
             .AddBlazoriseTextInput()
             .AddBlazoriseColorPicker()
             .AddBlazoriseMarkdown()
@@ -286,6 +289,32 @@ public class FieldLabelComponentTest : BunitContext
         {
             var label = cut.Find( "label" );
             var editor = cut.Find( "#message-editor" );
+
+            Assert.NotNull( label.GetAttribute( "id" ) );
+            Assert.Equal( label.GetAttribute( "id" ), editor.GetAttribute( "aria-labelledby" ) );
+            Assert.Null( label.GetAttribute( "for" ) );
+        } );
+    }
+
+    [Fact]
+    public void FieldLabel_Should_LabelCodeEditorWithAriaLabelledBy()
+    {
+        IRenderedComponent<Field> cut = Render<Field>( parameters => parameters
+            .AddChildContent( builder =>
+            {
+                builder.OpenComponent<FieldLabel>( 0 );
+                builder.AddAttribute( 1, nameof( FieldLabel.ChildContent ), (RenderFragment)( childBuilder => childBuilder.AddContent( 0, "Source code" ) ) );
+                builder.CloseComponent();
+
+                builder.OpenComponent<CodeEditor>( 2 );
+                builder.AddAttribute( 3, nameof( CodeEditor.ElementId ), "source-code-editor" );
+                builder.CloseComponent();
+            } ) );
+
+        cut.WaitForAssertion( () =>
+        {
+            var label = cut.Find( "label" );
+            var editor = cut.Find( "#source-code-editor" );
 
             Assert.NotNull( label.GetAttribute( "id" ) );
             Assert.Equal( label.GetAttribute( "id" ), editor.GetAttribute( "aria-labelledby" ) );

@@ -49,6 +49,9 @@ public class JSCodeEditorModule : BaseJSModule,
     public ValueTask SetCompletionProvider( ElementReference elementRef, string elementId, CodeEditorCompletionProvider completionProvider )
         => InvokeSafeVoidAsync( "setCompletionProvider", elementRef, elementId, completionProvider );
 
+    public ValueTask SetFormattingProvider( ElementReference elementRef, string elementId, CodeEditorDocumentFormattingProvider formattingProvider )
+        => InvokeSafeVoidAsync( "setFormattingProvider", elementRef, elementId, formattingProvider );
+
     public ValueTask SetValue( ElementReference elementRef, string elementId, string value )
         => InvokeSafeVoidAsync( "setValue", elementRef, elementId, value );
 
@@ -61,8 +64,8 @@ public class JSCodeEditorModule : BaseJSModule,
     public ValueTask Layout( ElementReference elementRef, string elementId )
         => InvokeSafeVoidAsync( "layout", elementRef, elementId );
 
-    public ValueTask FormatDocument( ElementReference elementRef, string elementId )
-        => InvokeSafeVoidAsync( "formatDocument", elementRef, elementId );
+    public ValueTask<bool> FormatDocument( ElementReference elementRef, string elementId )
+        => InvokeSafeAsync<bool>( "formatDocument", elementRef, elementId );
 
     public ValueTask RevealLine( ElementReference elementRef, string elementId, int lineNumber )
         => InvokeSafeVoidAsync( "revealLine", elementRef, elementId, lineNumber );

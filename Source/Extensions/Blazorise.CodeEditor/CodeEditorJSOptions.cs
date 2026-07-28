@@ -13,6 +13,14 @@ public class CodeEditorJSOptions
     public string Theme { get; set; }
     public bool ReadOnly { get; set; }
     public bool Disabled { get; set; }
+    public int? TabIndex { get; set; }
+    public string AriaInvalid { get; set; }
+    public string AriaRequired { get; set; }
+    public string AriaDescribedBy { get; set; }
+    public string AriaLabelledBy { get; set; }
+    public bool Immediate { get; set; }
+    public bool Debounce { get; set; }
+    public int DebounceInterval { get; set; }
     public bool AutomaticLayout { get; set; }
     public bool Minimap { get; set; }
     public bool LineNumbers { get; set; }
@@ -29,4 +37,5 @@ public class CodeEditorJSOptions
     public Dictionary<string, object> AdditionalOptions { get; set; }
     public IReadOnlyList<CodeEditorLanguageDefinition> Languages { get; set; }
     public CodeEditorCompletionProvider CompletionProvider { get; set; }
+    public CodeEditorDocumentFormattingProvider FormattingProvider { get; set; }
 }

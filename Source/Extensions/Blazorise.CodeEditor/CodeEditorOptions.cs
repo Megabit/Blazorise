@@ -70,5 +70,8 @@ public class CodeEditorOptions
     /// <summary>
     /// Gets or sets additional editor-specific options.
     /// </summary>
+    /// <remarks>
+    /// Strongly typed component options take precedence over entries with the same name.
+    /// </remarks>
     public Dictionary<string, object> AdditionalOptions { get; set; }
 }

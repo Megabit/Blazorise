@@ -1,4 +1,6 @@
 @page "/tests/codeeditor"
+@using Microsoft.CodeAnalysis
+@using Microsoft.CodeAnalysis.CSharp
 
 <Row>
     <Column>
@@ -25,18 +27,19 @@
                             <Select TValue="string" @bind-Value="@theme">
                                 <SelectItem TValue="string" Value="@CodeEditorTheme.VisualStudio">Light</SelectItem>
                                 <SelectItem TValue="string" Value="@CodeEditorTheme.VisualStudioDark">Dark</SelectItem>
-                                <SelectItem TValue="string" Value="@CodeEditorTheme.HighContrastDark">High contrast</SelectItem>
+                                <SelectItem TValue="string" Value="@CodeEditorTheme.HighContrastDark">High contrast dark</SelectItem>
+                                <SelectItem TValue="string" Value="@CodeEditorTheme.HighContrastLight">High contrast light</SelectItem>
                             </Select>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldBody>
-                            <Check TValue="bool" @bind-Value="@wordWrap">Word wrap</Check>
+                            <Check TValue="bool" Value="@wordWrap" ValueChanged="@OnWordWrapChanged">Word wrap</Check>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldBody>
-                            <Check TValue="bool" @bind-Value="@minimap">Minimap</Check>
+                            <Check TValue="bool" Value="@minimap" ValueChanged="@OnMinimapChanged">Minimap</Check>
                         </FieldBody>
                     </Field>
                     <Field>
@@ -52,8 +55,11 @@
                             Language="@language"
                             Theme="@theme"
                             ReadOnly="@readOnly"
-                            EditorOptions="@EditorOptions"
+                            EditorOptions="@editorOptions"
+                            FormattingProvider="@csharpFormattingProvider"
                             Diagnostics="@diagnostics"
+                            Debounce
+                            DebounceInterval="150"
                             MinHeight="420px"
                             Ready="@OnReady"
                             EditorFocus="@OnFocus"
@@ -84,7 +90,7 @@
                                             Language="@CodeEditorLanguage.JavaScript"
                                             Theme="@theme"
                                             MinHeight="180px"
-                                            EditorOptions="@ValidationEditorOptions">
+                                            EditorOptions="@validationEditorOptions">
                                     <Feedback>
                                         <ValidationError>Please enter script content.</ValidationError>
                                     </Feedback>
@@ -105,21 +111,22 @@
                 <Field>
                     <FieldLabel>Datasource</FieldLabel>
                     <FieldBody>
-                        <Select TValue="string" @bind-Value="@selectedDataSource">
+                        <Select TValue="string" Value="@selectedDataSource" ValueChanged="@OnDataSourceChanged">
                             <SelectItem TValue="string" Value="@CustomerDataSource">Customer</SelectItem>
                             <SelectItem TValue="string" Value="@OrderDataSource">Order</SelectItem>
                         </Select>
                     </FieldBody>
                 </Field>
                 <CodeEditor @ref="@formulaEditorRef"
-                            @bind-Value="@formula"
+                            Value="@formula"
+                            ValueChanged="@OnFormulaChanged"
                             Language="@FormulaLanguage"
                             Theme="@theme"
                             MinHeight="240px"
-                            EditorOptions="@FormulaEditorOptions"
-                            CompletionItems="@FormulaCompletionItems"
+                            EditorOptions="@formulaEditorOptions"
+                            CompletionItems="@formulaCompletionItems"
                             CompletionTriggerCharacters="@formulaTriggerCharacters"
-                            Diagnostics="@FormulaDiagnostics">
+                            Diagnostics="@formulaDiagnostics">
                     <CodeEditorCustomLanguage Id="@FormulaLanguage" Aliases="@formulaLanguageAliases" Extensions="@formulaLanguageExtensions">
                         <CodeEditorTokenizer IgnoreCase>
                             <CodeEditorToken Pattern="@FormulaKeywordPattern" Token="keyword" />
@@ -177,6 +184,38 @@ else
     private readonly IReadOnlyList<string> formulaLanguageAliases = new[] { "Formula" };
     private readonly IReadOnlyList<string> formulaLanguageExtensions = new[] { ".formula" };
     private readonly IReadOnlyList<string> formulaTriggerCharacters = new[] { "{", ".", "(" };
+    private readonly CodeEditorDocumentFormattingProvider csharpFormattingProvider = new()
+    {
+        Language = CodeEditorLanguage.CSharp,
+        Formatter = FormatCSharpDocumentAsync
+    };
+    private readonly CodeEditorOptions validationEditorOptions = new()
+    {
+        AutomaticLayout = true,
+        Minimap = false,
+        WordWrap = true,
+        TabSize = 2
+    };
+    private readonly CodeEditorOptions formulaEditorOptions = new()
+    {
+        AutomaticLayout = true,
+        Minimap = false,
+        WordWrap = true,
+        TabSize = 4
+    };
+
+    private CodeEditorOptions editorOptions = new()
+    {
+        AutomaticLayout = true,
+        Minimap = true,
+        WordWrap = true,
+        FormatOnPaste = true,
+        FormatOnType = true,
+        TabSize = 4
+    };
+    private IReadOnlyList<CodeEditorCompletionItem> formulaCompletionItems;
+    private IReadOnlyList<CodeEditorDiagnostic> formulaDiagnostics = Array.Empty<CodeEditorDiagnostic>();
+    private int formulaDiagnosticStartColumn = -1;
 
     private string sourceCode = """
 using System;
@@ -190,67 +229,44 @@ public class Greeting
 }
 """;
 
-    private IReadOnlyList<CodeEditorDiagnostic> diagnostics => showDiagnostics
-        ? new[]
+    private static readonly IReadOnlyList<CodeEditorDiagnostic> demoDiagnostics = new[]
+    {
+        new CodeEditorDiagnostic
         {
-            new CodeEditorDiagnostic
-            {
-                Severity = CodeEditorDiagnosticSeverity.Warning,
-                Message = "Demo diagnostic marker.",
-                StartLineNumber = 5,
-                StartColumn = 19,
-                EndLineNumber = 5,
-                EndColumn = 32
-            }
+            Severity = CodeEditorDiagnosticSeverity.Warning,
+            Message = "Demo diagnostic marker.",
+            StartLineNumber = 5,
+            StartColumn = 19,
+            EndLineNumber = 5,
+            EndColumn = 32
         }
-        : Array.Empty<CodeEditorDiagnostic>();
-
-    private CodeEditorOptions EditorOptions => new()
-    {
-        AutomaticLayout = true,
-        Minimap = minimap,
-        WordWrap = wordWrap,
-        FormatOnPaste = true,
-        FormatOnType = true,
-        TabSize = 4
     };
+    private IReadOnlyList<CodeEditorDiagnostic> diagnostics = demoDiagnostics;
 
-    private CodeEditorOptions ValidationEditorOptions => new()
+    protected override void OnInitialized()
     {
-        AutomaticLayout = true,
-        Minimap = false,
-        WordWrap = true,
-        TabSize = 2
-    };
+        formulaCompletionItems = BuildFormulaCompletionItems();
+        UpdateFormulaDiagnostics();
 
-    private CodeEditorOptions FormulaEditorOptions => new()
+        base.OnInitialized();
+    }
+
+    private async Task FormatDocumentAsync()
     {
-        AutomaticLayout = true,
-        Minimap = false,
-        WordWrap = true,
-        TabSize = 4
-    };
+        bool formatted = codeEditorRef is not null
+            && await codeEditorRef.FormatDocumentAsync();
 
-    private IReadOnlyList<CodeEditorCompletionItem> FormulaCompletionItems => BuildFormulaCompletionItems();
+        editorStatus = formatted
+            ? "Document formatted."
+            : $"No document formatter is available for '{language}'.";
+    }
 
-    private IReadOnlyList<CodeEditorDiagnostic> FormulaDiagnostics => formula?.Contains( "{Order.", StringComparison.OrdinalIgnoreCase ) == true && selectedDataSource == CustomerDataSource
-        ? new[]
-        {
-            new CodeEditorDiagnostic
-            {
-                Severity = CodeEditorDiagnosticSeverity.Warning,
-                Message = "This field belongs to the Order datasource.",
-                StartLineNumber = 1,
-                StartColumn = Math.Max( 1, formula.IndexOf( "{Order.", StringComparison.OrdinalIgnoreCase ) + 1 ),
-                EndLineNumber = 1,
-                EndColumn = Math.Max( 1, formula.IndexOf( "{Order.", StringComparison.OrdinalIgnoreCase ) + 8 )
-            }
-        }
-        : Array.Empty<CodeEditorDiagnostic>();
-
-    private Task FormatDocumentAsync()
+    private static Task<string> FormatCSharpDocumentAsync( string value )
     {
-        return codeEditorRef?.FormatDocumentAsync() ?? Task.CompletedTask;
+        SyntaxNode root = CSharpSyntaxTree.ParseText( value ?? string.Empty ).GetRoot();
+        string formattedValue = root.NormalizeWhitespace( "    ", "\r\n" ).ToFullString();
+
+        return Task.FromResult( formattedValue );
     }
 
     private Task FocusEditorAsync()
@@ -292,14 +308,84 @@ public class Greeting
     private void ToggleDiagnostics()
     {
         showDiagnostics = !showDiagnostics;
+        diagnostics = showDiagnostics
+            ? demoDiagnostics
+            : Array.Empty<CodeEditorDiagnostic>();
     }
 
     private async Task RefreshFormulaCompletionsAsync()
     {
+        formulaCompletionItems = BuildFormulaCompletionItems();
+
         if ( formulaEditorRef is not null )
-            await formulaEditorRef.SetCompletionItemsAsync( FormulaCompletionItems );
+            await formulaEditorRef.SetCompletionItemsAsync( formulaCompletionItems );
 
         formulaStatus = $"Completion items refreshed for {selectedDataSource}.";
+    }
+
+    private void OnWordWrapChanged( bool value )
+    {
+        wordWrap = value;
+        UpdateEditorOptions();
+    }
+
+    private void OnMinimapChanged( bool value )
+    {
+        minimap = value;
+        UpdateEditorOptions();
+    }
+
+    private void OnDataSourceChanged( string value )
+    {
+        selectedDataSource = value;
+        formulaCompletionItems = BuildFormulaCompletionItems();
+        UpdateFormulaDiagnostics();
+    }
+
+    private void OnFormulaChanged( string value )
+    {
+        formula = value;
+        UpdateFormulaDiagnostics();
+    }
+
+    private void UpdateEditorOptions()
+    {
+        editorOptions = new CodeEditorOptions
+        {
+            AutomaticLayout = true,
+            Minimap = minimap,
+            WordWrap = wordWrap,
+            FormatOnPaste = true,
+            FormatOnType = true,
+            TabSize = 4
+        };
+    }
+
+    private void UpdateFormulaDiagnostics()
+    {
+        int startColumn = formula?.IndexOf( "{Order.", StringComparison.OrdinalIgnoreCase ) ?? -1;
+        int nextDiagnosticStartColumn = startColumn >= 0 && selectedDataSource == CustomerDataSource
+            ? startColumn
+            : -1;
+
+        if ( nextDiagnosticStartColumn == formulaDiagnosticStartColumn )
+            return;
+
+        formulaDiagnosticStartColumn = nextDiagnosticStartColumn;
+        formulaDiagnostics = nextDiagnosticStartColumn >= 0
+            ? new[]
+            {
+                new CodeEditorDiagnostic
+                {
+                    Severity = CodeEditorDiagnosticSeverity.Warning,
+                    Message = "This field belongs to the Order datasource.",
+                    StartLineNumber = 1,
+                    StartColumn = nextDiagnosticStartColumn + 1,
+                    EndLineNumber = 1,
+                    EndColumn = nextDiagnosticStartColumn + 8
+                }
+            }
+            : Array.Empty<CodeEditorDiagnostic>();
     }
 
     private IReadOnlyList<CodeEditorCompletionItem> BuildFormulaCompletionItems()

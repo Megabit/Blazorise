@@ -25,5 +25,9 @@ public class CodeEditorCompletionProvider
     /// <summary>
     /// Gets or sets the custom JavaScript method used to provide completion items.
     /// </summary>
+    /// <remarks>
+    /// The method receives the editor, model, position, completion context, static suggestions, and cancellation token.
+    /// It can return suggestions, a Monaco completion result, or a promise for either value.
+    /// </remarks>
     public string ProviderMethod { get; set; }
 }

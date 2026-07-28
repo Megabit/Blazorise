@@ -1,10 +1,11 @@
 import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.2.2.0";
 
-const instances = {};
-const registeredLanguages = {};
-const tokenizerDisposables = {};
+const instances = new Map();
+const languageOwners = new Map();
+const languageRegistry = new Map();
 const stylesheetUrls = new Set();
 let loaderPromise = null;
+let runtimeAssetsPath = null;
 
 export async function initialize(dotNetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
@@ -14,7 +15,11 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
 
     await ensureEditorRuntime(options);
 
-    registerLanguages(options.languages);
+    if (instances.has(elementId)) {
+        destroy(element, elementId);
+    }
+
+    synchronizeLanguages(elementId, options.languages);
 
     const editorOptions = buildEditorOptions(options);
 
@@ -26,42 +31,60 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         }
     }
 
-    let updating = false;
-    const editor = monaco.editor.create(element, editorOptions);
-    const disposables = [];
+    try {
+        let updating = false;
+        const editor = monaco.editor.create(element, editorOptions);
+        const instance = {
+            dotNetAdapter,
+            editor,
+            element,
+            options,
+            disposables: [],
+            completionDisposable: null,
+            formattingDisposable: null,
+            markerOwner: `blazorise-code-editor-${elementId}`,
+            pendingValue: undefined,
+            valueUpdateTimer: null,
+            valueUpdatePromise: Promise.resolve(),
+            ownsModel: !editorOptions.model,
+            setUpdating: (value) => updating = value
+        };
 
-    disposables.push(editor.onDidChangeModelContent(() => {
-        if (updating)
-            return;
+        instances.set(elementId, instance);
 
-        dotNetAdapter.invokeMethodAsync("UpdateInternalValue", editor.getValue());
-    }));
+        instance.disposables.push(editor.onDidChangeModelContent(() => {
+            if (!updating) {
+                queueValueChange(instance);
+            }
+        }));
 
-    disposables.push(editor.onDidFocusEditorWidget(() => {
-        dotNetAdapter.invokeMethodAsync("OnEditorFocus");
-    }));
+        instance.disposables.push(editor.onDidFocusEditorWidget(() => {
+            invokeDotNet(instance, "OnEditorFocus");
+        }));
 
-    disposables.push(editor.onDidBlurEditorWidget(() => {
-        dotNetAdapter.invokeMethodAsync("OnEditorBlur");
-    }));
+        instance.disposables.push(editor.onDidBlurEditorWidget(async () => {
+            await flushValueChange(instance);
+            await invokeDotNet(instance, "OnEditorBlur");
+        }));
 
-    instances[elementId] = {
-        dotNetAdapter,
-        editor,
-        element,
-        disposables,
-        completionDisposable: null,
-        markerOwner: `blazorise-code-editor-${elementId}`,
-        setUpdating: (value) => updating = value
-    };
+        applyAccessibility(instance);
+        registerCompletionProvider(instance, options.completionProvider || { language: options.language });
+        registerFormattingProvider(instance, options.formattingProvider);
 
-    registerCompletionProvider(instances[elementId], options.completionProvider || { language: options.language });
+        instance.disconnectCleanupId = registerDisconnectCleanup(element, () => destroy(element, elementId, false));
+    } catch (error) {
+        if (instances.has(elementId)) {
+            destroy(element, elementId, false);
+        } else {
+            releaseLanguages(elementId);
+        }
 
-    instances[elementId].disconnectCleanupId = registerDisconnectCleanup(element, () => destroy(element, elementId, false));
+        throw error;
+    }
 }
 
 export function destroy(element, elementId, unregisterCleanup = true) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
     if (!instance)
         return;
@@ -75,35 +98,67 @@ export function destroy(element, elementId, unregisterCleanup = true) {
     }
 
     instance.completionDisposable?.dispose?.();
+    instance.formattingDisposable?.dispose?.();
+    clearTimeout(instance.valueUpdateTimer);
 
     if (instance.editor) {
         const model = instance.editor.getModel();
-        monaco.editor.setModelMarkers(model, instance.markerOwner, []);
+
+        if (model) {
+            monaco.editor.setModelMarkers(model, instance.markerOwner, []);
+        }
+
         instance.editor.dispose();
-        model?.dispose?.();
+
+        if (instance.ownsModel) {
+            model?.dispose?.();
+        }
     }
 
-    delete instances[elementId];
+    releaseLanguages(elementId);
+    instances.delete(elementId);
 }
 
 export function updateOptions(element, elementId, options) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
     if (!instance?.editor)
         return;
 
-    instance.editor.updateOptions(buildEditorOptions(options, false));
+    const previousOptions = instance.options;
+    const hasPendingValue = instance.pendingValue !== undefined;
+    const shouldFlushValue = hasPendingValue
+        && ((previousOptions?.immediate === false && options.immediate !== false)
+            || (previousOptions?.debounce === true && options.debounce !== true));
 
-    setLanguage(element, elementId, options.language);
-    registerCompletionProvider(instance, options.completionProvider || { language: options.language });
+    instance.options = options;
+    instance.editor.updateOptions(buildEditorOptions(options, false));
+    instance.editor.getModel()?.updateOptions(buildModelOptions(options));
+    applyAccessibility(instance);
+
+    if (hasPendingValue && options.immediate === false) {
+        clearTimeout(instance.valueUpdateTimer);
+        instance.valueUpdateTimer = null;
+    } else if (shouldFlushValue) {
+        flushValueChange(instance);
+    } else if (hasPendingValue
+        && options.debounce === true
+        && previousOptions?.debounceInterval !== options.debounceInterval) {
+        clearTimeout(instance.valueUpdateTimer);
+        instance.valueUpdateTimer = setTimeout(
+            () => flushValueChange(instance),
+            Math.max(0, options.debounceInterval || 0));
+    }
 }
 
 export function setLanguages(element, elementId, languages) {
-    registerLanguages(languages);
+    if (instances.has(elementId)) {
+        synchronizeLanguages(elementId, languages);
+    }
 }
 
 export function setCompletionProvider(element, elementId, completionProvider) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
     if (!instance?.editor)
         return;
@@ -111,8 +166,17 @@ export function setCompletionProvider(element, elementId, completionProvider) {
     registerCompletionProvider(instance, completionProvider);
 }
 
+export function setFormattingProvider(element, elementId, formattingProvider) {
+    const instance = instances.get(elementId);
+
+    if (!instance?.editor)
+        return;
+
+    registerFormattingProvider(instance, formattingProvider);
+}
+
 export function setDiagnostics(element, elementId, diagnostics) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
     if (!instance?.editor)
         return;
@@ -130,7 +194,7 @@ export function setDiagnostics(element, elementId, diagnostics) {
 }
 
 export function setValue(element, elementId, value) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
     if (!instance?.editor)
         return;
@@ -140,6 +204,9 @@ export function setValue(element, elementId, value) {
     if (instance.editor.getValue() === value)
         return;
 
+    clearTimeout(instance.valueUpdateTimer);
+    instance.valueUpdateTimer = null;
+    instance.pendingValue = undefined;
     instance.setUpdating(true);
 
     try {
@@ -150,37 +217,45 @@ export function setValue(element, elementId, value) {
 }
 
 export function getValue(element, elementId) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
     return instance?.editor?.getValue() ?? "";
 }
 
 export function focus(element, elementId) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
-    instance?.editor?.focus();
+    if (!instance?.options?.disabled) {
+        instance?.editor?.focus();
+    }
 }
 
 export function layout(element, elementId) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
     instance?.editor?.layout();
 }
 
 export async function formatDocument(element, elementId) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
+    const action = instance?.editor?.getAction("editor.action.formatDocument");
 
-    await instance?.editor?.getAction("editor.action.formatDocument")?.run();
+    if (!action || (typeof action.isSupported === "function" && !action.isSupported()))
+        return false;
+
+    await action.run();
+
+    return true;
 }
 
 export function revealLine(element, elementId, lineNumber) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
-    instance?.editor?.revealLineInCenter(lineNumber);
+    instance?.editor?.revealLineInCenter(Math.max(1, lineNumber || 1));
 }
 
 export function setLanguage(element, elementId, language) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
     if (!instance?.editor || !language)
         return;
@@ -199,20 +274,20 @@ export function setTheme(element, elementId, theme) {
 }
 
 export function setSelection(element, elementId, selection) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
     if (!instance?.editor || !selection)
         return;
 
     instance.editor.setSelection(new monaco.Selection(
-        selection.startLineNumber,
-        selection.startColumn,
-        selection.endLineNumber,
-        selection.endColumn));
+        Math.max(1, selection.startLineNumber || 1),
+        Math.max(1, selection.startColumn || 1),
+        Math.max(1, selection.endLineNumber || selection.startLineNumber || 1),
+        Math.max(1, selection.endColumn || selection.startColumn || 1)));
 }
 
 export function getSelection(element, elementId) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
     const selection = instance?.editor?.getSelection();
 
     if (!selection)
@@ -227,14 +302,19 @@ export function getSelection(element, elementId) {
 }
 
 async function ensureEditorRuntime(options) {
+    const assetsPath = normalizeAssetsPath(options.assetsPath);
+
+    if (runtimeAssetsPath && runtimeAssetsPath !== assetsPath) {
+        console.warn(`Blazorise CodeEditor has already loaded Monaco from '${runtimeAssetsPath}'. The requested path '${assetsPath}' cannot be applied after initialization.`);
+    }
+
     if (window.monaco?.editor)
         return;
 
     if (loaderPromise)
         return await loaderPromise;
 
-    const assetsPath = normalizeAssetsPath(options.assetsPath);
-
+    runtimeAssetsPath = assetsPath;
     ensureStylesheet(`${assetsPath}/editor/editor.main.css`);
 
     loaderPromise = loadScript(`${assetsPath}/loader.js`)
@@ -247,31 +327,44 @@ async function ensureEditorRuntime(options) {
         await loaderPromise;
     } catch (error) {
         loaderPromise = null;
+        runtimeAssetsPath = null;
         throw error;
     }
 }
 
 function buildEditorOptions(options, includeValue = true) {
-    const editorOptions = {
+    const editorOptions = options.additionalOptions
+        ? { ...options.additionalOptions }
+        : {};
+    const minimapOptions = editorOptions.minimap && typeof editorOptions.minimap === "object"
+        ? { ...editorOptions.minimap }
+        : {};
+
+    Object.assign(editorOptions, {
         readOnly: options.readOnly === true || options.disabled === true,
+        domReadOnly: options.readOnly === true || options.disabled === true,
         automaticLayout: options.automaticLayout !== false,
-        minimap: {
-            enabled: options.minimap !== false
-        },
+        minimap: Object.assign(minimapOptions, { enabled: options.minimap !== false }),
         lineNumbers: options.lineNumbers === false ? "off" : "on",
         wordWrap: options.wordWrap === true ? "on" : "off",
-        tabSize: options.tabSize || 4,
-        insertSpaces: options.insertSpaces !== false,
         formatOnPaste: options.formatOnPaste === true,
         formatOnType: options.formatOnType === true,
         renderWhitespace: options.renderWhitespace === true ? "all" : "none",
-        scrollBeyondLastLine: options.scrollBeyondLastLine !== false
-    };
+        scrollBeyondLastLine: options.scrollBeyondLastLine !== false,
+        tabIndex: options.disabled === true ? -1 : (options.tabIndex ?? 0),
+        ariaRequired: options.ariaRequired === "true"
+    });
 
     if (includeValue) {
-        editorOptions.value = options.value || "";
+        editorOptions.value = options.value ?? "";
         editorOptions.language = options.language || "plaintext";
         editorOptions.theme = options.theme || "vs";
+        Object.assign(editorOptions, buildModelOptions(options));
+    } else {
+        delete editorOptions.value;
+        delete editorOptions.language;
+        delete editorOptions.theme;
+        delete editorOptions.model;
     }
 
     if (options.fontFamily) {
@@ -282,56 +375,168 @@ function buildEditorOptions(options, includeValue = true) {
         editorOptions.fontSize = options.fontSize;
     }
 
-    if (options.additionalOptions) {
-        Object.assign(editorOptions, options.additionalOptions);
-    }
-
     return editorOptions;
 }
 
-function registerLanguages(languages) {
-    if (!Array.isArray(languages))
-        return;
-
-    languages.forEach(registerLanguage);
+function buildModelOptions(options) {
+    return {
+        tabSize: Math.max(1, options.tabSize || 4),
+        insertSpaces: options.insertSpaces !== false
+    };
 }
 
-function registerLanguage(language) {
-    if (!language?.id)
-        return;
+function synchronizeLanguages(ownerId, languages) {
+    const previousLanguages = languageOwners.get(ownerId) || new Map();
+    const nextLanguages = new Map();
 
-    if (!registeredLanguages[language.id]) {
-        monaco.languages.register({
-            id: language.id,
-            aliases: language.aliases || undefined,
-            extensions: language.extensions || undefined,
-            mimetypes: language.mimeTypes || undefined
-        });
-
-        registeredLanguages[language.id] = true;
+    if (Array.isArray(languages)) {
+        for (const language of languages) {
+            if (language?.id) {
+                nextLanguages.set(language.id, language);
+            }
+        }
     }
 
+    for (const languageId of previousLanguages.keys()) {
+        if (!nextLanguages.has(languageId)) {
+            removeLanguageOwner(ownerId, languageId);
+        }
+    }
+
+    for (const [languageId, language] of nextLanguages) {
+        setLanguageOwner(ownerId, languageId, language);
+    }
+
+    if (nextLanguages.size > 0) {
+        languageOwners.set(ownerId, nextLanguages);
+    } else {
+        languageOwners.delete(ownerId);
+    }
+}
+
+function releaseLanguages(ownerId) {
+    const ownedLanguages = languageOwners.get(ownerId);
+
+    if (!ownedLanguages)
+        return;
+
+    for (const languageId of ownedLanguages.keys()) {
+        removeLanguageOwner(ownerId, languageId);
+    }
+
+    languageOwners.delete(ownerId);
+}
+
+function setLanguageOwner(ownerId, languageId, language) {
+    let entry = languageRegistry.get(languageId);
+
+    if (!entry) {
+        entry = {
+            owners: new Map(),
+            registrationDisposable: null,
+            tokenizerDisposable: null,
+            configurationDisposable: null,
+            activeSignature: null
+        };
+
+        languageRegistry.set(languageId, entry);
+    }
+
+    entry.owners.delete(ownerId);
+    entry.owners.set(ownerId, language);
+    applyEffectiveLanguage(languageId, entry);
+}
+
+function removeLanguageOwner(ownerId, languageId) {
+    const entry = languageRegistry.get(languageId);
+
+    if (!entry)
+        return;
+
+    entry.owners.delete(ownerId);
+
+    if (entry.owners.size === 0) {
+        disposeLanguageEntry(entry);
+        languageRegistry.delete(languageId);
+        return;
+    }
+
+    applyEffectiveLanguage(languageId, entry);
+}
+
+function applyEffectiveLanguage(languageId, entry) {
+    const ownedLanguages = Array.from(entry.owners.values());
+    const language = ownedLanguages[ownedLanguages.length - 1];
+    const signature = JSON.stringify(language);
+
+    if (entry.activeSignature === signature)
+        return;
+
+    if (new Set(ownedLanguages.map(value => JSON.stringify(value))).size > 1) {
+        console.warn(`Blazorise CodeEditor received conflicting definitions for the global Monaco language '${languageId}'. The most recently updated definition is active.`);
+    }
+
+    disposeLanguageEntry(entry);
+
+    entry.registrationDisposable = monaco.languages.register({
+        id: language.id,
+        aliases: language.aliases || undefined,
+        extensions: language.extensions || undefined,
+        mimetypes: language.mimeTypes || undefined
+    });
+
     if (language.tokenizer) {
-        tokenizerDisposables[language.id]?.dispose?.();
-        tokenizerDisposables[language.id] = monaco.languages.setMonarchTokensProvider(language.id, buildMonarchTokensProvider(language.tokenizer));
+        entry.tokenizerDisposable = monaco.languages.setMonarchTokensProvider(
+            language.id,
+            buildMonarchTokensProvider(language.tokenizer));
     }
 
     if (language.configureLanguageMethod) {
+        let disposable;
+
         try {
-            configure(language.configureLanguageMethod, window, [language, monaco]);
-        } catch (err) {
-            console.error(err);
+            disposable = configure(language.configureLanguageMethod, window, [language, monaco]);
+        } catch (error) {
+            console.error(error);
+        }
+
+        if (disposable?.dispose) {
+            entry.configurationDisposable = disposable;
         }
     }
+
+    entry.activeSignature = signature;
+}
+
+function disposeLanguageEntry(entry) {
+    entry.configurationDisposable?.dispose?.();
+    entry.tokenizerDisposable?.dispose?.();
+    entry.registrationDisposable?.dispose?.();
+    entry.configurationDisposable = null;
+    entry.tokenizerDisposable = null;
+    entry.registrationDisposable = null;
+    entry.activeSignature = null;
 }
 
 function buildMonarchTokensProvider(tokenizer) {
-    const provider = {
-        tokenizer: {
-            root: Array.isArray(tokenizer.tokens)
-                ? tokenizer.tokens.map(toMonarchRule).filter(rule => rule)
-                : []
+    const states = {};
+
+    if (Array.isArray(tokenizer.tokens)) {
+        states.root = tokenizer.tokens.map(toMonarchRule).filter(rule => rule);
+    }
+
+    if (tokenizer.states && typeof tokenizer.states === "object") {
+        for (const [stateName, tokens] of Object.entries(tokenizer.states)) {
+            if (stateName && Array.isArray(tokens)) {
+                states[stateName] = tokens.map(toMonarchRule).filter(rule => rule);
+            }
         }
+    }
+
+    states.root ??= [];
+
+    const provider = {
+        tokenizer: states
     };
 
     if (tokenizer.defaultToken) {
@@ -367,9 +572,15 @@ function toMonarchRule(token) {
         action.bracket = token.bracket;
     }
 
+    if (!action.token && (action.next || action.bracket)) {
+        action.token = "";
+    }
+
     return [
-        new RegExp(token.pattern),
-        Object.keys(action).length === 1 && action.token ? action.token : action
+        token.pattern,
+        Object.keys(action).length === 0
+            ? ""
+            : (Object.keys(action).length === 1 && action.token ? action.token : action)
     ];
 }
 
@@ -401,7 +612,12 @@ function registerCompletionProvider(instance, completionProvider) {
                     const result = configure(completionProvider.providerMethod, window, [instance.editor, model, position, context, suggestions, cancellationToken]);
 
                     if (result?.then) {
-                        return result.then(value => normalizeCompletionResult(value, suggestions));
+                        return result
+                            .then(value => normalizeCompletionResult(value, suggestions))
+                            .catch(error => {
+                                console.error(error);
+                                return { suggestions };
+                            });
                     }
 
                     return normalizeCompletionResult(result, suggestions);
@@ -413,6 +629,67 @@ function registerCompletionProvider(instance, completionProvider) {
             return { suggestions };
         }
     });
+}
+
+function registerFormattingProvider(instance, formattingProvider) {
+    instance.formattingDisposable?.dispose?.();
+    instance.formattingDisposable = null;
+
+    if (!formattingProvider)
+        return;
+
+    const model = instance.editor?.getModel();
+    const language = formattingProvider.language || model?.getLanguageId?.();
+
+    if (!model || !language || (!formattingProvider.useFormatter && !formattingProvider.providerMethod))
+        return;
+
+    const selector = {
+        language,
+        scheme: model.uri.scheme,
+        pattern: model.uri.path
+    };
+
+    instance.formattingDisposable = monaco.languages.registerDocumentFormattingEditProvider(selector, {
+        provideDocumentFormattingEdits: async (formattingModel, options, cancellationToken) => {
+            if (formattingModel !== instance.editor?.getModel() || cancellationToken.isCancellationRequested)
+                return [];
+
+            try {
+                let result;
+
+                if (formattingProvider.useFormatter) {
+                    result = await invokeDotNet(instance, "NotifyDocumentFormatting", formattingModel.getValue());
+                } else if (formattingProvider.providerMethod) {
+                    result = configure(
+                        formattingProvider.providerMethod,
+                        window,
+                        [instance.editor, formattingModel, options, cancellationToken]);
+
+                    if (result?.then) {
+                        result = await result;
+                    }
+                }
+
+                return normalizeDocumentFormattingResult(result, formattingModel);
+            } catch (error) {
+                console.error(error);
+                return [];
+            }
+        }
+    });
+}
+
+function normalizeDocumentFormattingResult(result, model) {
+    if (typeof result === "string") {
+        return result === model.getValue()
+            ? []
+            : [{ range: model.getFullModelRange(), text: result }];
+    }
+
+    return Array.isArray(result)
+        ? result
+        : [];
 }
 
 function normalizeCompletionResult(result, fallbackSuggestions) {
@@ -431,7 +708,7 @@ function toCompletionItem(item, model, position) {
     const word = model.getWordUntilPosition(position);
     const completionItem = {
         label: item.label || item.insertText || "",
-        kind: item.kind || monaco.languages.CompletionItemKind.Text,
+        kind: item.kind ?? monaco.languages.CompletionItemKind.Text,
         insertText: item.insertText || item.label || "",
         range: {
             startLineNumber: position.lineNumber,
@@ -469,15 +746,101 @@ function toCompletionItem(item, model, position) {
 }
 
 function toMarker(diagnostic) {
+    const startLineNumber = Math.max(1, diagnostic.startLineNumber || 1);
+    const startColumn = Math.max(1, diagnostic.startColumn || 1);
+    const endLineNumber = Math.max(startLineNumber, diagnostic.endLineNumber || startLineNumber);
+    const endColumn = endLineNumber === startLineNumber
+        ? Math.max(startColumn, diagnostic.endColumn || startColumn)
+        : Math.max(1, diagnostic.endColumn || 1);
+
     return {
-        severity: diagnostic.severity || monaco.MarkerSeverity.Error,
+        severity: diagnostic.severity ?? monaco.MarkerSeverity.Error,
         message: diagnostic.message || "",
         code: diagnostic.code || undefined,
-        startLineNumber: Math.max(1, diagnostic.startLineNumber || 1),
-        startColumn: Math.max(1, diagnostic.startColumn || 1),
-        endLineNumber: Math.max(1, diagnostic.endLineNumber || diagnostic.startLineNumber || 1),
-        endColumn: Math.max(1, diagnostic.endColumn || diagnostic.startColumn || 1)
+        startLineNumber,
+        startColumn,
+        endLineNumber,
+        endColumn
     };
+}
+
+function queueValueChange(instance) {
+    const value = instance.editor?.getValue() ?? "";
+
+    if (instance.options?.immediate === false) {
+        instance.pendingValue = value;
+        clearTimeout(instance.valueUpdateTimer);
+        instance.valueUpdateTimer = null;
+        return;
+    }
+
+    if (instance.options?.debounce !== true) {
+        sendValueChange(instance, value);
+        return;
+    }
+
+    instance.pendingValue = value;
+    clearTimeout(instance.valueUpdateTimer);
+    instance.valueUpdateTimer = setTimeout(
+        () => flushValueChange(instance),
+        Math.max(0, instance.options.debounceInterval || 0));
+}
+
+function flushValueChange(instance) {
+    clearTimeout(instance.valueUpdateTimer);
+    instance.valueUpdateTimer = null;
+
+    if (instance.pendingValue === undefined) {
+        return instance.valueUpdatePromise;
+    }
+
+    const value = instance.pendingValue;
+    instance.pendingValue = undefined;
+
+    return sendValueChange(instance, value);
+}
+
+function sendValueChange(instance, value) {
+    instance.valueUpdatePromise = instance.valueUpdatePromise
+        .then(() => invokeDotNet(instance, "UpdateInternalValue", value));
+
+    return instance.valueUpdatePromise;
+}
+
+function invokeDotNet(instance, method, ...args) {
+    return instance.dotNetAdapter.invokeMethodAsync(method, ...args)
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+function applyAccessibility(instance) {
+    const input = instance.element.querySelector("textarea.inputarea");
+
+    if (!input)
+        return;
+
+    input.setAttribute("aria-disabled", instance.options.disabled === true ? "true" : "false");
+    input.setAttribute("aria-readonly", instance.options.readOnly === true || instance.options.disabled === true ? "true" : "false");
+    setOptionalAttribute(input, "aria-invalid", instance.options.ariaInvalid);
+    setOptionalAttribute(input, "aria-required", instance.options.ariaRequired);
+    setOptionalAttribute(input, "aria-describedby", instance.options.ariaDescribedBy);
+    setOptionalAttribute(input, "aria-labelledby", instance.options.ariaLabelledBy);
+
+    const ariaLabel = instance.element.getAttribute("aria-label");
+
+    if (ariaLabel) {
+        input.setAttribute("aria-label", ariaLabel);
+    }
+}
+
+function setOptionalAttribute(element, name, value) {
+    if (value === null || value === undefined || value === "") {
+        element.removeAttribute(name);
+        return;
+    }
+
+    element.setAttribute(name, value);
 }
 
 function normalizeAssetsPath(assetsPath) {
@@ -504,6 +867,11 @@ function loadScript(src) {
     const existing = document.querySelector(`script[data-blazorise-code-editor-loader="${src}"]`);
 
     if (existing) {
+        if (existing.dataset.failed === "true") {
+            existing.remove();
+            return loadScript(src);
+        }
+
         return new Promise((resolve, reject) => {
             if (existing.dataset.loaded === "true") {
                 resolve();
@@ -511,7 +879,10 @@ function loadScript(src) {
             }
 
             existing.addEventListener("load", resolve, { once: true });
-            existing.addEventListener("error", reject, { once: true });
+            existing.addEventListener("error", error => {
+                existing.dataset.failed = "true";
+                reject(error);
+            }, { once: true });
         });
     }
 
@@ -524,21 +895,32 @@ function loadScript(src) {
             script.dataset.loaded = "true";
             resolve();
         }, { once: true });
-        script.addEventListener("error", reject, { once: true });
+        script.addEventListener("error", error => {
+            script.dataset.failed = "true";
+            reject(error);
+        }, { once: true });
         document.head.appendChild(script);
     });
 }
 
 function configure(functionName, context, args) {
+    if (!functionName)
+        return;
+
     const namespaces = functionName.split(".");
     const func = namespaces.pop();
 
     for (const namespace of namespaces) {
-        context = context[namespace];
+        context = context?.[namespace];
 
         if (!context)
-            return;
+            throw new Error(`Unable to find JavaScript namespace '${namespace}' while resolving '${functionName}'.`);
     }
 
-    return context[func].apply(context, args);
+    const callback = context?.[func];
+
+    if (typeof callback !== "function")
+        throw new Error(`Unable to find JavaScript function '${functionName}'.`);
+
+    return callback.apply(context, args);
 }

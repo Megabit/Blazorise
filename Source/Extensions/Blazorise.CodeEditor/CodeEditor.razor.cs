@@ -19,6 +19,8 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
 {
     #region Members
 
+    private static readonly CodeEditorOptions defaultEditorOptions = new();
+
     private DotNetObjectReference<CodeEditor> dotNetObjectRef;
 
     private readonly List<CodeEditorCustomLanguage> customLanguages = new();
@@ -37,10 +39,6 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
 
     private ComponentParameterInfo<IReadOnlyList<CodeEditorDiagnostic>> paramDiagnostics;
 
-    private ComponentParameterInfo<string> paramConfigureEditorMethod;
-
-    private ComponentParameterInfo<CodeEditorLanguageDefinition> paramLanguageDefinition;
-
     private ComponentParameterInfo<IReadOnlyList<CodeEditorLanguageDefinition>> paramLanguages;
 
     private ComponentParameterInfo<CodeEditorCompletionProvider> paramCompletionProvider;
@@ -50,6 +48,30 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     private ComponentParameterInfo<IReadOnlyList<string>> paramCompletionTriggerCharacters;
 
     private ComponentParameterInfo<string> paramConfigureCompletionProviderMethod;
+
+    private ComponentParameterInfo<CodeEditorDocumentFormattingProvider> paramFormattingProvider;
+
+    private ComponentParameterInfo<bool?> paramDebounce;
+
+    private ComponentParameterInfo<int?> paramDebounceInterval;
+
+    private ComponentParameterInfo<bool?> paramImmediate;
+
+    private ComponentParameterInfo<int?> paramTabIndex;
+
+    private ComponentParameterInfo<bool> paramReadOnly;
+
+    private ComponentParameterInfo<bool> paramDisabled;
+
+    private ComponentParameterInfo<Dictionary<string, object>> paramAttributes;
+
+    private bool editorOptionsUpdateScheduled;
+
+    private bool languagesUpdateScheduled;
+
+    private bool completionProviderUpdateScheduled;
+
+    private bool formattingProviderUpdateScheduled;
 
     #endregion
 
@@ -64,13 +86,19 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
         parameters.TryGetParameter( Theme, out paramTheme );
         parameters.TryGetParameter( EditorOptions, newOptions => ReferenceEquals( newOptions, EditorOptions ), out paramEditorOptions );
         parameters.TryGetParameter( Diagnostics, newDiagnostics => ReferenceEquals( newDiagnostics, Diagnostics ), out paramDiagnostics );
-        parameters.TryGetParameter( ConfigureEditorMethod, out paramConfigureEditorMethod );
-        parameters.TryGetParameter( LanguageDefinition, newLanguageDefinition => ReferenceEquals( newLanguageDefinition, LanguageDefinition ), out paramLanguageDefinition );
         parameters.TryGetParameter( Languages, newLanguages => ReferenceEquals( newLanguages, Languages ), out paramLanguages );
         parameters.TryGetParameter( CompletionProvider, newCompletionProvider => ReferenceEquals( newCompletionProvider, CompletionProvider ), out paramCompletionProvider );
         parameters.TryGetParameter( CompletionItems, newCompletionItems => ReferenceEquals( newCompletionItems, CompletionItems ), out paramCompletionItems );
         parameters.TryGetParameter( CompletionTriggerCharacters, newCompletionTriggerCharacters => ReferenceEquals( newCompletionTriggerCharacters, CompletionTriggerCharacters ), out paramCompletionTriggerCharacters );
         parameters.TryGetParameter( ConfigureCompletionProviderMethod, out paramConfigureCompletionProviderMethod );
+        parameters.TryGetParameter( FormattingProvider, newFormattingProvider => ReferenceEquals( newFormattingProvider, FormattingProvider ), out paramFormattingProvider );
+        parameters.TryGetParameter( Debounce, out paramDebounce );
+        parameters.TryGetParameter( DebounceInterval, out paramDebounceInterval );
+        parameters.TryGetParameter( Immediate, out paramImmediate );
+        parameters.TryGetParameter( TabIndex, out paramTabIndex );
+        parameters.TryGetParameter( ReadOnly, out paramReadOnly );
+        parameters.TryGetParameter( Disabled, out paramDisabled );
+        parameters.TryGetParameter( Attributes, newAttributes => ReferenceEquals( newAttributes, Attributes ), out paramAttributes );
     }
 
     /// <inheritdoc/>
@@ -83,32 +111,45 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
 
         if ( paramValue.Defined && paramValue.Changed )
         {
-            var value = paramValue.Value ?? string.Empty;
+            string value = paramValue.Value ?? string.Empty;
 
-            ExecuteAfterRender( async () => await JSModule.SetValue( ElementRef, ElementId, value ) );
+            ExecuteAfterRender( () => JSModule.SetValue( ElementRef, ElementId, value ).AsTask() );
         }
 
-        if ( paramLanguage.Changed
-             || paramEditorOptions.Changed
-             || paramConfigureEditorMethod.Changed )
+        if ( paramEditorOptions.Changed
+             || paramImmediate.Changed
+             || paramDebounce.Changed
+             || paramDebounceInterval.Changed
+             || paramTabIndex.Changed
+             || paramReadOnly.Changed
+             || paramDisabled.Changed
+             || paramAttributes.Changed
+             || paramAriaInvalid.Changed
+             || paramAriaRequired.Changed
+             || paramAriaDescribedBy.Changed
+             || paramAriaLabelledBy.Changed )
         {
-            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, CreateJSOptions() ) );
+            ScheduleEditorOptionsUpdate();
+        }
+
+        if ( paramLanguages.Changed )
+        {
+            ScheduleLanguagesUpdate();
+        }
+
+        if ( paramLanguage.Changed )
+        {
+            ExecuteAfterRender( () => JSModule.SetLanguage( ElementRef, ElementId, ResolveLanguage() ).AsTask() );
         }
 
         if ( paramTheme.Changed )
         {
-            ExecuteAfterRender( async () => await JSModule.SetTheme( ElementRef, ElementId, Theme ) );
+            ExecuteAfterRender( () => JSModule.SetTheme( ElementRef, ElementId, ResolveTheme() ).AsTask() );
         }
 
         if ( paramDiagnostics.Changed )
         {
-            ExecuteAfterRender( async () => await JSModule.SetDiagnostics( ElementRef, ElementId, Diagnostics ) );
-        }
-
-        if ( paramLanguageDefinition.Changed
-             || paramLanguages.Changed )
-        {
-            ExecuteAfterRender( async () => await JSModule.SetLanguages( ElementRef, ElementId, CreateLanguageDefinitions() ) );
+            ExecuteAfterRender( () => JSModule.SetDiagnostics( ElementRef, ElementId, Diagnostics ).AsTask() );
         }
 
         if ( paramLanguage.Changed
@@ -117,7 +158,13 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
              || paramCompletionTriggerCharacters.Changed
              || paramConfigureCompletionProviderMethod.Changed )
         {
-            ExecuteAfterRender( async () => await JSModule.SetCompletionProvider( ElementRef, ElementId, CreateCompletionProvider() ) );
+            ScheduleCompletionProviderUpdate();
+        }
+
+        if ( paramLanguage.Changed
+             || paramFormattingProvider.Changed )
+        {
+            ScheduleFormattingProviderUpdate();
         }
     }
 
@@ -131,31 +178,9 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
 
         jsInitialized = true;
 
-        await Ready.InvokeAsync( new CodeEditorReadyEventArgs( ElementId, ElementRef ) );
+        await Ready.InvokeAsync( new CodeEditorReadyEventArgs( this ) );
 
         await base.OnFirstAfterRenderAsync();
-    }
-
-    /// <inheritdoc/>
-    public override async Task SetParametersAsync( ParameterView parameters )
-    {
-        bool shouldUpdateOptions = false;
-
-        if ( Rendered )
-        {
-            if ( ( parameters.TryGetParameter( ReadOnly, out var readOnlyParameter ) && readOnlyParameter.Changed )
-                 || ( parameters.TryGetParameter( Disabled, out var disabledParameter ) && disabledParameter.Changed ) )
-            {
-                shouldUpdateOptions = true;
-            }
-        }
-
-        await base.SetParametersAsync( parameters );
-
-        if ( jsInitialized && shouldUpdateOptions )
-        {
-            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, CreateJSOptions() ) );
-        }
     }
 
     /// <inheritdoc/>
@@ -163,11 +188,13 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     {
         if ( disposing && Rendered )
         {
-            await JSModule.SafeDestroy( ElementRef, ElementId );
+            jsInitialized = false;
 
-            dotNetObjectRef?.Dispose();
-            dotNetObjectRef = null;
+            await JSModule.SafeDestroy( ElementRef, ElementId );
         }
+
+        dotNetObjectRef?.Dispose();
+        dotNetObjectRef = null;
 
         await base.DisposeAsync( disposing );
     }
@@ -192,7 +219,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
         if ( jsInitialized )
             return await JSModule.GetValue( ElementRef, ElementId );
 
-        return await ExecuteAfterRenderAsync( async () => await JSModule.GetValue( ElementRef, ElementId ) );
+        return await ExecuteAfterRenderAsync( () => JSModule.GetValue( ElementRef, ElementId ).AsTask() );
     }
 
     /// <summary>
@@ -213,7 +240,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
             return;
         }
 
-        ExecuteAfterRender( async () => await JSModule.SetValue( ElementRef, ElementId, value ) );
+        ExecuteAfterRender( () => JSModule.SetValue( ElementRef, ElementId, value ).AsTask() );
     }
 
     /// <summary>
@@ -233,15 +260,16 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// <summary>
     /// Formats the current document.
     /// </summary>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    public Task FormatDocumentAsync()
+    /// <returns>
+    /// A task that represents the asynchronous operation. The result is <see langword="true"/> when a formatter
+    /// was available; otherwise, <see langword="false"/>.
+    /// </returns>
+    public async Task<bool> FormatDocumentAsync()
     {
         if ( jsInitialized )
-            return JSModule.FormatDocument( ElementRef, ElementId ).AsTask();
+            return await JSModule.FormatDocument( ElementRef, ElementId );
 
-        ExecuteAfterRender( () => JSModule.FormatDocument( ElementRef, ElementId ).AsTask() );
-
-        return Task.CompletedTask;
+        return await ExecuteAfterRenderAsync( () => JSModule.FormatDocument( ElementRef, ElementId ).AsTask() );
     }
 
     /// <summary>
@@ -255,19 +283,6 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
 
         if ( jsInitialized )
             await JSModule.SetLanguages( ElementRef, ElementId, CreateLanguageDefinitions( languages ) );
-    }
-
-    /// <summary>
-    /// Sets a custom language definition.
-    /// </summary>
-    /// <param name="languageDefinition">Custom language definition.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task SetLanguageDefinitionAsync( CodeEditorLanguageDefinition languageDefinition )
-    {
-        LanguageDefinition = languageDefinition;
-
-        if ( jsInitialized )
-            await JSModule.SetLanguages( ElementRef, ElementId, CreateLanguageDefinitions() );
     }
 
     /// <summary>
@@ -296,6 +311,19 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
 
         if ( jsInitialized )
             await JSModule.SetCompletionProvider( ElementRef, ElementId, CreateCompletionProvider() );
+    }
+
+    /// <summary>
+    /// Sets the document formatting provider.
+    /// </summary>
+    /// <param name="formattingProvider">Document formatting provider.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task SetFormattingProviderAsync( CodeEditorDocumentFormattingProvider formattingProvider )
+    {
+        FormattingProvider = formattingProvider;
+
+        if ( jsInitialized )
+            await JSModule.SetFormattingProvider( ElementRef, ElementId, CreateFormattingProvider( formattingProvider ) );
     }
 
     /// <summary>
@@ -333,12 +361,13 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetLanguageAsync( string language )
     {
-        Language = language;
+        Language = string.IsNullOrWhiteSpace( language ) ? CodeEditorLanguage.PlainText : language;
 
         if ( jsInitialized )
         {
-            await JSModule.SetLanguage( ElementRef, ElementId, language );
+            await JSModule.SetLanguage( ElementRef, ElementId, Language );
             await JSModule.SetCompletionProvider( ElementRef, ElementId, CreateCompletionProvider() );
+            await JSModule.SetFormattingProvider( ElementRef, ElementId, CreateFormattingProvider() );
         }
     }
 
@@ -349,10 +378,10 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetThemeAsync( string theme )
     {
-        Theme = theme;
+        Theme = string.IsNullOrWhiteSpace( theme ) ? CodeEditorTheme.VisualStudio : theme;
 
         if ( jsInitialized )
-            await JSModule.SetTheme( ElementRef, ElementId, theme );
+            await JSModule.SetTheme( ElementRef, ElementId, Theme );
     }
 
     /// <summary>
@@ -379,7 +408,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
         if ( jsInitialized )
             return await JSModule.GetSelection( ElementRef, ElementId );
 
-        return await ExecuteAfterRenderAsync( async () => await JSModule.GetSelection( ElementRef, ElementId ) );
+        return await ExecuteAfterRenderAsync( () => JSModule.GetSelection( ElementRef, ElementId ).AsTask() );
     }
 
     /// <summary>
@@ -408,7 +437,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     [JSInvokable]
     public Task OnEditorFocus()
     {
-        return EditorFocus.InvokeAsync( true );
+        return EditorFocus.InvokeAsync();
     }
 
     /// <summary>
@@ -417,8 +446,24 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     [JSInvokable]
     public async Task OnEditorBlur()
     {
-        await EditorBlur.InvokeAsync( true );
+        await EditorBlur.InvokeAsync();
         await ValidateOnBlurAsync();
+    }
+
+    /// <summary>
+    /// Formats the specified document value using the configured .NET formatter.
+    /// This method should only be called internally.
+    /// </summary>
+    /// <param name="value">Document value to format.</param>
+    /// <returns>Formatted document value.</returns>
+    [JSInvokable]
+    public Task<string> NotifyDocumentFormatting( string value )
+    {
+        Func<string, Task<string>> formatter = FormattingProvider?.Formatter;
+
+        return formatter is null
+            ? Task.FromResult<string>( null )
+            : formatter.Invoke( value ?? string.Empty );
     }
 
     /// <summary>
@@ -426,20 +471,19 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// </summary>
     protected async Task<T> ExecuteAfterRenderAsync<T>( Func<Task<T>> action, CancellationToken token = default )
     {
-        var source = new TaskCompletionSource<T>();
-
-        token.Register( () => source.TrySetCanceled() );
+        TaskCompletionSource<T> source = new( TaskCreationOptions.RunContinuationsAsynchronously );
+        using CancellationTokenRegistration registration = token.Register( () => source.TrySetCanceled( token ) );
 
         ExecuteAfterRender( async () =>
         {
             try
             {
-                var result = await action();
+                T result = await action();
                 source.TrySetResult( result );
             }
-            catch ( TaskCanceledException )
+            catch ( OperationCanceledException exception )
             {
-                source.TrySetCanceled();
+                source.TrySetCanceled( exception.CancellationToken );
             }
             catch ( Exception e )
             {
@@ -485,7 +529,9 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     internal void NotifyLanguageInitialized( CodeEditorCustomLanguage customLanguage )
     {
         if ( !customLanguages.Contains( customLanguage ) )
+        {
             customLanguages.Add( customLanguage );
+        }
 
         NotifyLanguageChanged();
     }
@@ -498,22 +544,109 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
 
     internal void NotifyLanguageChanged()
     {
-        if ( jsInitialized )
-            ExecuteAfterRender( async () => await JSModule.SetLanguages( ElementRef, ElementId, CreateLanguageDefinitions() ) );
+        ScheduleLanguagesUpdate();
+    }
+
+    private void ScheduleEditorOptionsUpdate()
+    {
+        if ( !jsInitialized || editorOptionsUpdateScheduled )
+        {
+            return;
+        }
+
+        editorOptionsUpdateScheduled = true;
+
+        ExecuteAfterRender( async () =>
+        {
+            editorOptionsUpdateScheduled = false;
+
+            if ( jsInitialized )
+            {
+                await JSModule.UpdateOptions( ElementRef, ElementId, CreateJSOptions() );
+            }
+        } );
+    }
+
+    private void ScheduleLanguagesUpdate()
+    {
+        if ( !jsInitialized || languagesUpdateScheduled )
+        {
+            return;
+        }
+
+        languagesUpdateScheduled = true;
+
+        ExecuteAfterRender( async () =>
+        {
+            languagesUpdateScheduled = false;
+
+            if ( jsInitialized )
+            {
+                await JSModule.SetLanguages( ElementRef, ElementId, CreateLanguageDefinitions() );
+            }
+        } );
+    }
+
+    private void ScheduleCompletionProviderUpdate()
+    {
+        if ( !jsInitialized || completionProviderUpdateScheduled )
+        {
+            return;
+        }
+
+        completionProviderUpdateScheduled = true;
+
+        ExecuteAfterRender( async () =>
+        {
+            completionProviderUpdateScheduled = false;
+
+            if ( jsInitialized )
+            {
+                await JSModule.SetCompletionProvider( ElementRef, ElementId, CreateCompletionProvider() );
+            }
+        } );
+    }
+
+    private void ScheduleFormattingProviderUpdate()
+    {
+        if ( !jsInitialized || formattingProviderUpdateScheduled )
+        {
+            return;
+        }
+
+        formattingProviderUpdateScheduled = true;
+
+        ExecuteAfterRender( async () =>
+        {
+            formattingProviderUpdateScheduled = false;
+
+            if ( jsInitialized )
+            {
+                await JSModule.SetFormattingProvider( ElementRef, ElementId, CreateFormattingProvider() );
+            }
+        } );
     }
 
     private CodeEditorJSOptions CreateJSOptions()
     {
-        var editorOptions = EditorOptions ?? new CodeEditorOptions();
+        CodeEditorOptions editorOptions = EditorOptions ?? defaultEditorOptions;
 
         return new CodeEditorJSOptions
         {
             AssetsPath = GlobalOptions.AssetsPath,
             Value = Value ?? string.Empty,
-            Language = string.IsNullOrWhiteSpace( Language ) ? CodeEditorLanguage.PlainText : Language,
-            Theme = string.IsNullOrWhiteSpace( Theme ) ? CodeEditorTheme.VisualStudio : Theme,
+            Language = ResolveLanguage(),
+            Theme = ResolveTheme(),
             ReadOnly = ReadOnly,
             Disabled = Disabled,
+            TabIndex = Disabled ? -1 : TabIndex,
+            AriaInvalid = ResolvedAriaInvalid,
+            AriaRequired = ResolvedAriaRequired,
+            AriaDescribedBy = ResolvedAriaDescribedBy,
+            AriaLabelledBy = ResolvedAriaLabelledBy,
+            Immediate = Immediate.GetValueOrDefault( Options?.Immediate ?? true ),
+            Debounce = Debounce.GetValueOrDefault( Options?.Debounce ?? false ),
+            DebounceInterval = Math.Max( 0, DebounceInterval.GetValueOrDefault( Options?.DebounceInterval ?? 300 ) ),
             AutomaticLayout = editorOptions.AutomaticLayout,
             Minimap = editorOptions.Minimap,
             LineNumbers = editorOptions.LineNumbers,
@@ -529,28 +662,43 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
             ConfigureEditorMethod = ConfigureEditorMethod,
             AdditionalOptions = editorOptions.AdditionalOptions,
             Languages = CreateLanguageDefinitions(),
-            CompletionProvider = CreateCompletionProvider()
+            CompletionProvider = CreateCompletionProvider(),
+            FormattingProvider = CreateFormattingProvider()
         };
     }
 
     private IReadOnlyList<CodeEditorLanguageDefinition> CreateLanguageDefinitions( IReadOnlyList<CodeEditorLanguageDefinition> languages = null )
     {
-        List<CodeEditorLanguageDefinition> languageDefinitions = new();
+        Dictionary<string, CodeEditorLanguageDefinition> languageDefinitions = new( StringComparer.Ordinal );
 
         if ( GlobalOptions.Languages is not null )
-            languageDefinitions.AddRange( GlobalOptions.Languages.Where( x => x is not null && !string.IsNullOrWhiteSpace( x.Id ) ) );
+        {
+            AddLanguageDefinitions( languageDefinitions, GlobalOptions.Languages );
+        }
 
         if ( languages is not null )
-            languageDefinitions.AddRange( languages.Where( x => x is not null && !string.IsNullOrWhiteSpace( x.Id ) ) );
+        {
+            AddLanguageDefinitions( languageDefinitions, languages );
+        }
         else if ( Languages is not null )
-            languageDefinitions.AddRange( Languages.Where( x => x is not null && !string.IsNullOrWhiteSpace( x.Id ) ) );
+        {
+            AddLanguageDefinitions( languageDefinitions, Languages );
+        }
 
-        if ( LanguageDefinition is not null && !string.IsNullOrWhiteSpace( LanguageDefinition.Id ) )
-            languageDefinitions.Add( LanguageDefinition );
+        AddLanguageDefinitions( languageDefinitions, customLanguages.Select( customLanguage => customLanguage.ToDefinition() ) );
 
-        languageDefinitions.AddRange( customLanguages.Select( x => x.ToDefinition() ).Where( x => x is not null && !string.IsNullOrWhiteSpace( x.Id ) ) );
+        return languageDefinitions.Values.ToArray();
+    }
 
-        return languageDefinitions;
+    private static void AddLanguageDefinitions( Dictionary<string, CodeEditorLanguageDefinition> target, IEnumerable<CodeEditorLanguageDefinition> languages )
+    {
+        foreach ( CodeEditorLanguageDefinition language in languages )
+        {
+            if ( language is not null && !string.IsNullOrWhiteSpace( language.Id ) )
+            {
+                target[language.Id] = language;
+            }
+        }
     }
 
     private CodeEditorCompletionProvider CreateCompletionProvider( CodeEditorCompletionProvider completionProvider = null )
@@ -561,7 +709,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
         {
             return new CodeEditorCompletionProvider
             {
-                Language = string.IsNullOrWhiteSpace( provider.Language ) ? Language : provider.Language,
+                Language = string.IsNullOrWhiteSpace( provider.Language ) ? ResolveLanguage() : provider.Language,
                 TriggerCharacters = provider.TriggerCharacters,
                 Items = provider.Items,
                 ProviderMethod = provider.ProviderMethod
@@ -573,11 +721,43 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
 
         return new CodeEditorCompletionProvider
         {
-            Language = Language,
+            Language = ResolveLanguage(),
             Items = CompletionItems,
             TriggerCharacters = CompletionTriggerCharacters,
             ProviderMethod = ConfigureCompletionProviderMethod
         };
+    }
+
+    private CodeEditorDocumentFormattingProvider CreateFormattingProvider( CodeEditorDocumentFormattingProvider formattingProvider = null )
+    {
+        CodeEditorDocumentFormattingProvider provider = formattingProvider ?? FormattingProvider;
+
+        if ( provider is null
+             || ( provider.Formatter is null && string.IsNullOrWhiteSpace( provider.ProviderMethod ) ) )
+        {
+            return null;
+        }
+
+        return new CodeEditorDocumentFormattingProvider
+        {
+            Language = string.IsNullOrWhiteSpace( provider.Language ) ? ResolveLanguage() : provider.Language,
+            Formatter = provider.Formatter,
+            ProviderMethod = provider.ProviderMethod
+        };
+    }
+
+    private string ResolveLanguage()
+    {
+        return string.IsNullOrWhiteSpace( Language )
+            ? CodeEditorLanguage.PlainText
+            : Language;
+    }
+
+    private string ResolveTheme()
+    {
+        return string.IsNullOrWhiteSpace( Theme )
+            ? CodeEditorTheme.VisualStudio
+            : Theme;
     }
 
     #endregion
@@ -611,6 +791,9 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// <summary>
     /// Gets or sets the editor theme.
     /// </summary>
+    /// <remarks>
+    /// Monaco themes are global. Changing the theme updates every Monaco editor on the page.
+    /// </remarks>
     [Parameter] public string Theme { get; set; } = CodeEditorTheme.VisualStudio;
 
     /// <summary>
@@ -619,18 +802,40 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     [Parameter] public CodeEditorOptions EditorOptions { get; set; }
 
     /// <summary>
+    /// Gets or sets whether user-originated value updates are sent to .NET while typing.
+    /// </summary>
+    /// <remarks>
+    /// When set, this value overrides the global Blazorise immediate option. When disabled, the value is sent on blur.
+    /// </remarks>
+    [Parameter] public bool? Immediate { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether user-originated value updates are debounced before being sent to .NET.
+    /// </summary>
+    /// <remarks>
+    /// When set, this value overrides the global Blazorise debounce option.
+    /// </remarks>
+    [Parameter] public bool? Debounce { get; set; }
+
+    /// <summary>
+    /// Gets or sets the debounce interval in milliseconds.
+    /// </summary>
+    /// <remarks>
+    /// When set, this value overrides the global Blazorise debounce interval.
+    /// </remarks>
+    [Parameter] public int? DebounceInterval { get; set; }
+
+    /// <summary>
     /// Gets or sets diagnostic markers.
     /// </summary>
     [Parameter] public IReadOnlyList<CodeEditorDiagnostic> Diagnostics { get; set; }
 
     /// <summary>
-    /// Gets or sets a custom language definition.
-    /// </summary>
-    [Parameter] public CodeEditorLanguageDefinition LanguageDefinition { get; set; }
-
-    /// <summary>
     /// Gets or sets custom language definitions.
     /// </summary>
+    /// <remarks>
+    /// Monaco language registrations are global to the page. Use one definition per language identifier.
+    /// </remarks>
     [Parameter] public IReadOnlyList<CodeEditorLanguageDefinition> Languages { get; set; }
 
     /// <summary>
@@ -651,7 +856,16 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// <summary>
     /// Gets or sets the custom JavaScript method used to provide completion items.
     /// </summary>
+    /// <remarks>
+    /// The method receives the editor, model, position, completion context, static suggestions, and cancellation token.
+    /// It can return suggestions, a Monaco completion result, or a promise for either value.
+    /// </remarks>
     [Parameter] public string ConfigureCompletionProviderMethod { get; set; }
+
+    /// <summary>
+    /// Gets or sets the document formatting provider.
+    /// </summary>
+    [Parameter] public CodeEditorDocumentFormattingProvider FormattingProvider { get; set; }
 
     /// <summary>
     /// Gets or sets the minimum editor height.
@@ -690,8 +904,11 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets or sets the custom JavaScript method used to configure editor options before initialization.
+    /// Gets or sets the custom JavaScript method used to configure editor options during initialization.
     /// </summary>
+    /// <remarks>
+    /// The method receives the Monaco editor options object and is only invoked during initialization.
+    /// </remarks>
     [Parameter] public string ConfigureEditorMethod { get; set; }
 
     /// <summary>
@@ -700,8 +917,11 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     [Parameter] public EventCallback<CodeEditorReadyEventArgs> Ready { get; set; }
 
     /// <summary>
-    /// Notifies when editor content changes.
+    /// Notifies when user-originated editor content changes.
     /// </summary>
+    /// <remarks>
+    /// Programmatic value updates do not raise this event.
+    /// </remarks>
     [Parameter] public EventCallback<string> ContentChanged { get; set; }
 
     /// <summary>

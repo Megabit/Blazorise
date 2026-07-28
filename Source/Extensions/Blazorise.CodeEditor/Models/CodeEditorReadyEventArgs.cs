@@ -11,21 +11,26 @@ public class CodeEditorReadyEventArgs : EventArgs
     /// <summary>
     /// Initializes a new instance of <see cref="CodeEditorReadyEventArgs"/>.
     /// </summary>
-    /// <param name="elementId">Editor element id.</param>
-    /// <param name="elementRef">Editor element reference.</param>
-    public CodeEditorReadyEventArgs( string elementId, ElementReference elementRef )
+    /// <param name="editor">Initialized editor instance.</param>
+    public CodeEditorReadyEventArgs( CodeEditor editor )
     {
-        ElementId = elementId;
-        ElementRef = elementRef;
+        ArgumentNullException.ThrowIfNull( editor );
+
+        Editor = editor;
     }
+
+    /// <summary>
+    /// Gets the initialized editor instance.
+    /// </summary>
+    public CodeEditor Editor { get; }
 
     /// <summary>
     /// Gets the editor element id.
     /// </summary>
-    public string ElementId { get; }
+    public string ElementId => Editor.ElementId;
 
     /// <summary>
     /// Gets the editor element reference.
     /// </summary>
-    public ElementReference ElementRef { get; }
+    public ElementReference ElementRef => Editor.ElementRef;
 }
