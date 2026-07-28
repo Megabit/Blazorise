@@ -25,8 +25,7 @@ public sealed class PropertyGridSchema
             .ToArray();
 
         PropertyGridProperty[] alphabeticalProperties = categorizedGroups
-            .SelectMany( group => group.Properties )
-            .Where( property => property.Visible )
+            .SelectMany( group => group.VisibleProperties )
             .OrderBy( property => property.Label, StringComparer.CurrentCultureIgnoreCase )
             .ThenBy( property => property.Key, StringComparer.Ordinal )
             .ToArray();

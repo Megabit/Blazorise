@@ -26,7 +26,7 @@ public sealed class PropertyGridGroupContext
     /// Gets contexts for the visible properties in the group.
     /// </summary>
     public IEnumerable<PropertyGridItemContext> Properties
-        => Group.Properties.Where( property => property.Visible ).Select( property => new PropertyGridItemContext( owner, property ) );
+        => Group.VisibleProperties.Select( property => new PropertyGridItemContext( owner, property ) );
 }
 
 /// <summary>
@@ -182,6 +182,8 @@ public sealed class PropertyGridToolbarContext
     internal PropertyGridToolbarContext( PropertyGridView owner )
     {
         this.owner = owner;
+        Categorized = new( owner, PropertyGridViewMode.Categorized );
+        Alphabetical = new( owner, PropertyGridViewMode.Alphabetical );
     }
 
     /// <summary>
@@ -192,12 +194,12 @@ public sealed class PropertyGridToolbarContext
     /// <summary>
     /// Gets the categorized button context.
     /// </summary>
-    public PropertyGridViewModeContext Categorized => new( owner, PropertyGridViewMode.Categorized );
+    public PropertyGridViewModeContext Categorized { get; }
 
     /// <summary>
     /// Gets the alphabetical button context.
     /// </summary>
-    public PropertyGridViewModeContext Alphabetical => new( owner, PropertyGridViewMode.Alphabetical );
+    public PropertyGridViewModeContext Alphabetical { get; }
 
     /// <summary>
     /// Changes the active property arrangement.

@@ -4,6 +4,16 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise;
 
+internal enum PropertyGridEditorType
+{
+    None,
+    Text,
+    Boolean,
+    Numeric,
+    Select,
+    Color,
+}
+
 /// <summary>
 /// Base definition for a property rendered by a <see cref="PropertyGridView"/>.
 /// </summary>
@@ -90,6 +100,8 @@ public abstract class PropertyGridProperty
 
     internal virtual Type AtomicComponentType
         => throw new InvalidOperationException( $"Property '{GetType().FullName}' requires an editor or item template." );
+
+    internal virtual PropertyGridEditorType EditorType => PropertyGridEditorType.None;
 
     internal abstract object CreateValueChangedCallback( PropertyGridView owner );
 

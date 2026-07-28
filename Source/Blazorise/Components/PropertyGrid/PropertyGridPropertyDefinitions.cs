@@ -44,6 +44,8 @@ public sealed class PropertyGridTextProperty : PropertyGridProperty<string>
 
     internal override Type AtomicComponentType => typeof( PropertyGridTextItem );
 
+    internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Text;
+
     internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
     {
         parameters[nameof( PropertyGridTextItem.ReadOnly )] = ReadOnly;
@@ -75,6 +77,8 @@ public sealed class PropertyGridBooleanProperty : PropertyGridProperty<bool>
     public string FalseText { get; set; } = "False";
 
     internal override Type AtomicComponentType => typeof( PropertyGridBooleanItem );
+
+    internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Boolean;
 
     internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
     {
@@ -118,6 +122,8 @@ public sealed class PropertyGridNumericProperty<TValue> : PropertyGridProperty<T
 
     internal override Type AtomicComponentType => typeof( PropertyGridNumericItem<TValue> );
 
+    internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Numeric;
+
     internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
     {
         parameters[nameof( PropertyGridNumericItem<TValue>.Min )] = Min;
@@ -149,6 +155,8 @@ public sealed class PropertyGridSelectProperty<TValue> : PropertyGridProperty<TV
 
     internal override Type AtomicComponentType => typeof( PropertyGridSelectItem<TValue> );
 
+    internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Select;
+
     internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
         => parameters[nameof( PropertyGridSelectItem<TValue>.Options )] = Options;
 }
@@ -173,6 +181,8 @@ public sealed class PropertyGridStringSelectProperty : PropertyGridProperty<stri
     public IReadOnlyList<PropertyGridSelectOption<string>> Options { get; }
 
     internal override Type AtomicComponentType => typeof( PropertyGridStringSelectItem );
+
+    internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Select;
 
     internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
         => parameters[nameof( PropertyGridStringSelectItem.Options )] = Options;
@@ -207,6 +217,8 @@ public sealed class PropertyGridColorProperty : PropertyGridProperty<string>
     public string ClearTitle { get; set; } = "Clear color";
 
     internal override Type AtomicComponentType => typeof( PropertyGridColorItem );
+
+    internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Color;
 
     internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
     {

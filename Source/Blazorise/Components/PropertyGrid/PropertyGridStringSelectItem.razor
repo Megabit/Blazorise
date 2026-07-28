@@ -25,7 +25,7 @@
         }
         @foreach ( PropertyGridSelectOption<string> option in ResolvedOptions )
         {
-            <SelectItem TValue="string" Value="@option.Value" Disabled="@option.Disabled">@option.Text</SelectItem>
+            <SelectItem @key="@option.Value" TValue="string" Value="@option.Value" Disabled="@option.Disabled">@option.Text</SelectItem>
         }
     </Select>
 </PropertyGridItem>

@@ -12,7 +12,7 @@
     <PropertyGrid ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" @attributes="@Attributes">
         @if ( ShowToolbar && renderedGroups.Count > 0 )
         {
-            PropertyGridToolbarContext toolbarContext = new( this );
+            PropertyGridToolbarContext toolbarContext = ToolbarContext;
 
             @if ( ToolbarTemplate is not null )
             {
@@ -63,61 +63,56 @@
 
         @foreach ( PropertyGridGroupDefinition group in renderedGroups )
         {
-            PropertyGridGroupContext groupContext = new( this, group );
             RenderFragment<PropertyGridGroupContext> groupTemplate = group.GroupTemplate ?? GroupTemplate;
 
             @if ( groupTemplate is not null )
             {
-                @groupTemplate( groupContext )
+                @groupTemplate( new PropertyGridGroupContext( this, group ) )
             }
             else
             {
                 <PropertyGridGroup @key="@group.Key"
                                    Title="@group.Title"
-                                   Header="@GetGroupHeader( group, groupContext )"
+                                   Header="@GetGroupHeader( group )"
                                    Class="@group.Class"
                                    Style="@group.Style">
-                    @foreach ( PropertyGridProperty property in group.Properties )
+                    @foreach ( PropertyGridProperty property in group.VisibleProperties )
                     {
-                        if ( property.Visible )
-                        {
-                            PropertyGridItemContext itemContext = new( this, property );
-                            RenderFragment<PropertyGridItemContext> itemTemplate = property.ItemTemplate ?? ItemTemplate;
+                        RenderFragment<PropertyGridItemContext> itemTemplate = property.ItemTemplate ?? ItemTemplate;
 
-                            @if ( itemTemplate is not null )
+                        @if ( itemTemplate is not null )
+                        {
+                            @itemTemplate( new PropertyGridItemContext( this, property ) )
+                        }
+                        else
+                        {
+                            RenderFragment<PropertyGridEditorContext> editorTemplate = GetEditorTemplate( property );
+
+                            @if ( editorTemplate is not null )
                             {
-                                @itemTemplate( itemContext )
+                                <PropertyGridItem @key="@property.Key"
+                                                  Label="@property.Label"
+                                                  LabelContent="@GetLabelContent( property )"
+                                                  Size="@property.Size"
+                                                  Class="@property.Class"
+                                                  Style="@property.Style"
+                                                  ActionVisible="@(property.Action?.Visible == true)"
+                                                  ActionDisabled="@(property.Action?.Disabled == true)"
+                                                  ActionColor="@(property.Action?.Color ?? Color.Light)"
+                                                  ActionIcon="@property.Action?.Icon"
+                                                  ActionText="@property.Action?.Text"
+                                                  ActionTitle="@property.Action?.Title"
+                                                  ActionTemplate="@GetActionTemplate( property )"
+                                                  ActionClicked="@(() => InvokeActionAsync( property ))"
+                                                  @attributes="@property.Attributes">
+                                    @editorTemplate( new PropertyGridEditorContext( this, property ) )
+                                </PropertyGridItem>
                             }
                             else
                             {
-                                RenderFragment<PropertyGridEditorContext> editorTemplate = GetEditorTemplate( property );
-
-                                @if ( editorTemplate is not null )
-                                {
-                                    <PropertyGridItem @key="@property.Key"
-                                                      Label="@property.Label"
-                                                      LabelContent="@GetLabelContent( property )"
-                                                      Size="@property.Size"
-                                                      Class="@property.Class"
-                                                      Style="@property.Style"
-                                                      ActionVisible="@(property.Action?.Visible == true)"
-                                                      ActionDisabled="@(property.Action?.Disabled == true)"
-                                                      ActionColor="@(property.Action?.Color ?? Color.Light)"
-                                                      ActionIcon="@property.Action?.Icon"
-                                                      ActionText="@property.Action?.Text"
-                                                      ActionTitle="@property.Action?.Title"
-                                                      ActionTemplate="@GetActionTemplate( property )"
-                                                      ActionClicked="@(() => InvokeActionAsync( property ))"
-                                                      @attributes="@property.Attributes">
-                                        @editorTemplate( new PropertyGridEditorContext( this, property ) )
-                                    </PropertyGridItem>
-                                }
-                                else
-                                {
-                                    <DynamicComponent @key="@property.Key"
-                                                      Type="@property.AtomicComponentType"
-                                                      Parameters="@GetAtomicComponentParameters( property )" />
-                                }
+                                <DynamicComponent @key="@property.Key"
+                                                  Type="@property.AtomicComponentType"
+                                                  Parameters="@GetAtomicComponentParameters( property )" />
                             }
                         }
                     }

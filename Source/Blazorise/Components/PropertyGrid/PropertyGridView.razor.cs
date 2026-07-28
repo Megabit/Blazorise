@@ -1,5 +1,4 @@
 #region Using directives
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -12,6 +11,14 @@ namespace Blazorise;
 /// </summary>
 public partial class PropertyGridView : BaseComponent
 {
+    #region Members
+
+    private const int AtomicComponentParameterCapacity = 21;
+
+    private PropertyGridToolbarContext toolbarContext;
+
+    #endregion
+
     #region Methods
 
     internal async Task ChangeValueAsync( PropertyGridProperty property, object value )
@@ -37,11 +44,11 @@ public partial class PropertyGridView : BaseComponent
         await ActionInvoked.InvokeAsync( new PropertyGridActionEventArgs( property, property.Action ) );
     }
 
-    private RenderFragment GetGroupHeader( PropertyGridGroupDefinition group, PropertyGridGroupContext context )
+    private RenderFragment GetGroupHeader( PropertyGridGroupDefinition group )
     {
         RenderFragment<PropertyGridGroupContext> template = group.HeaderTemplate ?? GroupHeaderTemplate;
 
-        return template is null ? null : template( context );
+        return template is null ? null : template( new PropertyGridGroupContext( this, group ) );
     }
 
     private RenderFragment GetLabelContent( PropertyGridProperty property )
@@ -66,37 +73,20 @@ public partial class PropertyGridView : BaseComponent
         if ( property.EditorTemplate is not null )
             return property.EditorTemplate;
 
-        Type propertyType = property.GetType();
-
-        if ( property is PropertyGridTextProperty )
-            return TextEditorTemplate;
-
-        if ( property is PropertyGridBooleanProperty )
-            return BooleanEditorTemplate;
-
-        if ( property is PropertyGridStringSelectProperty )
-            return SelectEditorTemplate;
-
-        if ( property is PropertyGridColorProperty )
-            return ColorEditorTemplate;
-
-        if ( propertyType.IsGenericType )
+        return property.EditorType switch
         {
-            Type genericType = propertyType.GetGenericTypeDefinition();
-
-            if ( genericType == typeof( PropertyGridNumericProperty<> ) )
-                return NumericEditorTemplate;
-
-            if ( genericType == typeof( PropertyGridSelectProperty<> ) )
-                return SelectEditorTemplate;
-        }
-
-        return null;
+            PropertyGridEditorType.Text => TextEditorTemplate,
+            PropertyGridEditorType.Boolean => BooleanEditorTemplate,
+            PropertyGridEditorType.Numeric => NumericEditorTemplate,
+            PropertyGridEditorType.Select => SelectEditorTemplate,
+            PropertyGridEditorType.Color => ColorEditorTemplate,
+            _ => null,
+        };
     }
 
     private IDictionary<string, object> GetAtomicComponentParameters( PropertyGridProperty property )
     {
-        Dictionary<string, object> parameters = new()
+        Dictionary<string, object> parameters = new( AtomicComponentParameterCapacity )
         {
             [nameof( PropertyGridItem.Label )] = property.Label,
             [nameof( PropertyGridItem.Size )] = property.Size,
@@ -136,6 +126,8 @@ public partial class PropertyGridView : BaseComponent
     /// Gets the provider class for the toolbar.
     /// </summary>
     protected string ToolbarClassName => ClassProvider.PropertyGridToolbar();
+
+    private PropertyGridToolbarContext ToolbarContext => toolbarContext ??= new( this );
 
     /// <summary>
     /// Gets or sets the schema rendered by the property grid.

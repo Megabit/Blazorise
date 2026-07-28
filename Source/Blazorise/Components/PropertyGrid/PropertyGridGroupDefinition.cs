@@ -17,6 +17,9 @@ public sealed class PropertyGridGroupDefinition
         Key = key;
         Title = title;
         Properties = properties?.ToArray() ?? [];
+        VisibleProperties = Properties
+            .Where( property => property.Visible )
+            .ToArray();
     }
 
     /// <summary>
@@ -33,6 +36,11 @@ public sealed class PropertyGridGroupDefinition
     /// Gets the properties in the group.
     /// </summary>
     public IReadOnlyList<PropertyGridProperty> Properties { get; }
+
+    /// <summary>
+    /// Gets the properties rendered in the group.
+    /// </summary>
+    internal IReadOnlyList<PropertyGridProperty> VisibleProperties { get; }
 
     /// <summary>
     /// Gets whether the group is rendered.
