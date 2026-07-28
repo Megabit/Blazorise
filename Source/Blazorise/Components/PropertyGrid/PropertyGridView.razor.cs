@@ -23,7 +23,7 @@ public partial class PropertyGridView : BaseComponent
 
     internal async Task ChangeValueAsync( PropertyGridProperty property, object value )
     {
-        await ValueChanged.InvokeAsync( new PropertyGridValueChangedEventArgs( property, value ) );
+        await PropertyValueChanged.InvokeAsync( new PropertyGridValueChangedEventArgs( property, value ) );
     }
 
     internal async Task ChangeViewModeAsync( PropertyGridViewMode viewMode )
@@ -94,7 +94,7 @@ public partial class PropertyGridView : BaseComponent
             [nameof( PropertyGridItem.Style )] = property.Style,
             [nameof( BasePropertyGridEditorItem.Mixed )] = property.Mixed,
             [nameof( BasePropertyGridEditorItem.LabelContent )] = GetLabelContent( property ),
-            [nameof( BasePropertyGridEditorItem.ActionVisible )] = property.Action?.Visible == true,
+            [nameof( BasePropertyGridEditorItem.ShowAction )] = property.Action?.Visible == true,
             [nameof( BasePropertyGridEditorItem.ActionDisabled )] = property.Action?.Disabled == true,
             [nameof( BasePropertyGridEditorItem.ActionColor )] = property.Action?.Color ?? Color.Light,
             [nameof( BasePropertyGridEditorItem.ActionIcon )] = property.Action?.Icon,
@@ -137,7 +137,7 @@ public partial class PropertyGridView : BaseComponent
     /// <summary>
     /// Occurs after a property value changes.
     /// </summary>
-    [Parameter] public EventCallback<PropertyGridValueChangedEventArgs> ValueChanged { get; set; }
+    [Parameter] public EventCallback<PropertyGridValueChangedEventArgs> PropertyValueChanged { get; set; }
 
     /// <summary>
     /// Occurs after a property action is invoked.
@@ -247,10 +247,10 @@ public partial class PropertyGridView : BaseComponent
     /// <summary>
     /// Defines content rendered after all schema groups.
     /// </summary>
-    [Parameter] public RenderFragment AdditionalContent { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Defines content rendered when the schema and additional content are empty.
+    /// Defines content rendered when the schema and child content are empty.
     /// </summary>
     [Parameter] public RenderFragment EmptyTemplate { get; set; }
 

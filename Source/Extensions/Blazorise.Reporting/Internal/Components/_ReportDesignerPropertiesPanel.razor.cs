@@ -1390,7 +1390,7 @@ public partial class _ReportDesignerPropertiesPanel
             Title = title,
         };
 
-    private Task OnPropertyGridValueChanged( PropertyGridValueChangedEventArgs eventArgs )
+    private Task OnPropertyGridPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )
     {
         return eventArgs.PropertyKey switch
         {

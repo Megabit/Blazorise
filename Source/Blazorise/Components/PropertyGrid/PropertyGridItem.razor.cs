@@ -37,7 +37,7 @@ public partial class PropertyGridItem : BaseComponent
     /// <summary>
     /// Indicates whether an action button is rendered after the property editor.
     /// </summary>
-    protected bool HasAction => ActionVisible && ( ActionClicked.HasDelegate || ActionContent is not null || ActionTemplate is not null );
+    protected bool HasAction => ShowAction && ( ActionClicked.HasDelegate || ActionContent is not null || ActionTemplate is not null );
 
     /// <summary>
     /// Defines the property label.
@@ -55,9 +55,9 @@ public partial class PropertyGridItem : BaseComponent
     [Parameter] public Size Size { get; set; } = Size.Small;
 
     /// <summary>
-    /// Defines whether the property editor action is visible.
+    /// Defines whether the property editor action is shown.
     /// </summary>
-    [Parameter] public bool ActionVisible { get; set; } = true;
+    [Parameter] public bool ShowAction { get; set; } = true;
 
     /// <summary>
     /// Defines whether the property editor action is disabled.

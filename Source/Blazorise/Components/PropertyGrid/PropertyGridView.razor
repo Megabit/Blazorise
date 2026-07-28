@@ -4,7 +4,7 @@
 
 @{
     IReadOnlyList<PropertyGridGroupDefinition> renderedGroups = Schema?.GetRenderedGroups( ViewMode ) ?? [];
-    bool hasContent = renderedGroups.Count > 0 || AdditionalContent is not null;
+    bool hasContent = renderedGroups.Count > 0 || ChildContent is not null;
 }
 
 @if ( hasContent )
@@ -34,7 +34,7 @@
                             <Button Color="Color.Secondary"
                                     Outline
                                     Active="@categorizedContext.Active"
-                                    Clicked="@categorizedContext.ActivateAsync"
+                                    Clicked="@categorizedContext.Activate"
                                     title="@categorizedContext.Title"
                                     aria-label="@categorizedContext.Title">
                                 <Icon Name="@categorizedContext.Icon" />
@@ -50,7 +50,7 @@
                             <Button Color="Color.Secondary"
                                     Outline
                                     Active="@alphabeticalContext.Active"
-                                    Clicked="@alphabeticalContext.ActivateAsync"
+                                    Clicked="@alphabeticalContext.Activate"
                                     title="@alphabeticalContext.Title"
                                     aria-label="@alphabeticalContext.Title">
                                 <Icon Name="@alphabeticalContext.Icon" />
@@ -96,7 +96,7 @@
                                                   Size="@property.Size"
                                                   Class="@property.Class"
                                                   Style="@property.Style"
-                                                  ActionVisible="@(property.Action?.Visible == true)"
+                                                  ShowAction="@(property.Action?.Visible == true)"
                                                   ActionDisabled="@(property.Action?.Disabled == true)"
                                                   ActionColor="@(property.Action?.Color ?? Color.Light)"
                                                   ActionIcon="@property.Action?.Icon"
@@ -119,7 +119,7 @@
                 </PropertyGridGroup>
             }
         }
-        @AdditionalContent
+        @ChildContent
     </PropertyGrid>
 }
 else

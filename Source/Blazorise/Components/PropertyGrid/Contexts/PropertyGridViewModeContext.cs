@@ -30,7 +30,7 @@ public sealed class PropertyGridViewModeContext
     /// <summary>
     /// Activates the represented arrangement.
     /// </summary>
-    public Task ActivateAsync() => owner.ChangeViewModeAsync( ViewMode );
+    public Task Activate() => owner.ChangeViewModeAsync( ViewMode );
 
     #endregion
 

@@ -35,7 +35,7 @@ public sealed class PropertyGridEditorContext
     /// <summary>
     /// Reports a new property value.
     /// </summary>
-    public Task SetValueAsync<TValue>( TValue value ) => owner.ChangeValueAsync( Property, value );
+    public Task SetValue<TValue>( TValue value ) => owner.ChangeValueAsync( Property, value );
 
     #endregion
 

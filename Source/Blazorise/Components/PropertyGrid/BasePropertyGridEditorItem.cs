@@ -32,9 +32,9 @@ public abstract class BasePropertyGridEditorItem : BaseComponent
     [Parameter] public bool Mixed { get; set; }
 
     /// <summary>
-    /// Defines whether the property editor action is visible.
+    /// Defines whether the property editor action is shown.
     /// </summary>
-    [Parameter] public bool ActionVisible { get; set; } = true;
+    [Parameter] public bool ShowAction { get; set; } = true;
 
     /// <summary>
     /// Defines whether the property editor action is disabled.

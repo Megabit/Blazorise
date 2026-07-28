@@ -30,12 +30,12 @@ public sealed class PropertyGridItemContext
     /// <summary>
     /// Reports a new property value.
     /// </summary>
-    public Task SetValueAsync<TValue>( TValue value ) => owner.ChangeValueAsync( Property, value );
+    public Task SetValue<TValue>( TValue value ) => owner.ChangeValueAsync( Property, value );
 
     /// <summary>
     /// Invokes the property action.
     /// </summary>
-    public Task InvokeActionAsync() => owner.InvokeActionAsync( Property );
+    public Task InvokeAction() => owner.InvokeActionAsync( Property );
 
     #endregion
 

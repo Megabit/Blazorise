@@ -31,7 +31,7 @@ public sealed class PropertyGridToolbarContext
     /// <summary>
     /// Changes the active property arrangement.
     /// </summary>
-    public Task SetViewModeAsync( PropertyGridViewMode viewMode ) => owner.ChangeViewModeAsync( viewMode );
+    public Task SetViewMode( PropertyGridViewMode viewMode ) => owner.ChangeViewModeAsync( viewMode );
 
     #endregion
 

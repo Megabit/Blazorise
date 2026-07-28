@@ -30,7 +30,7 @@ public sealed class PropertyGridActionContext
     /// <summary>
     /// Invokes the property action.
     /// </summary>
-    public Task InvokeAsync() => owner.InvokeActionAsync( Property );
+    public Task Invoke() => owner.InvokeActionAsync( Property );
 
     #endregion
 

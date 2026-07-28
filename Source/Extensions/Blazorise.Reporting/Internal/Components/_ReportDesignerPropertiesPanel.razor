@@ -21,9 +21,9 @@
 </Div>
 
 <PropertyGridView Schema="@propertyGridSchema"
-                  ValueChanged="@OnPropertyGridValueChanged"
+                  PropertyValueChanged="@OnPropertyGridPropertyValueChanged"
                   ActionInvoked="@OnPropertyGridActionInvoked">
-    <AdditionalContent>
+    <ChildContent>
         @if ( SelectedElement is not null
             && !SelectedElementSuppressed
             && !AllSelectedElementsSuppressed
@@ -60,5 +60,5 @@
         {
             <Paragraph TextColor="TextColorSecondary">Select a band or report element to edit its properties.</Paragraph>
         }
-    </AdditionalContent>
+    </ChildContent>
 </PropertyGridView>
