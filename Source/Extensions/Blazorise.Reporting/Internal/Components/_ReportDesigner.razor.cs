@@ -2780,6 +2780,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private void RefreshDesigner( ReportDesignerRefreshTarget targets )
     {
+        if ( ( targets & ReportDesignerRefreshTarget.SelectedPanel ) != 0 )
+            workspaceRef?.InvalidatePropertiesPanel();
+
         designerRefreshState = designerRefreshState with
         {
             Surface = designerRefreshState.Surface + ( ( targets & ReportDesignerRefreshTarget.Surface ) != 0 ? 1 : 0 ),

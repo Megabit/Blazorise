@@ -34,6 +34,8 @@ public partial class _ReportDesignerPropertiesPanel
 
     private Func<string, Task> dataSourceConfirmed;
 
+    private PropertyGridSchema propertyGridSchema;
+
     private static readonly PropertyGridSelectOption<ReportPageSize>[] PageSizeOptions =
     [
         new( ReportPageSize.Custom, "Custom" ),
@@ -117,6 +119,17 @@ public partial class _ReportDesignerPropertiesPanel
     #endregion
 
     #region Methods
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        propertyGridSchema ??= BuildPropertyGridSchema();
+    }
+
+    internal void InvalidatePropertyGridSchema()
+        => propertyGridSchema = null;
 
     private bool HasSelection => ReportSelected || SelectedSection is not null || SelectedElement is not null || SelectedCell is not null;
 
