@@ -3,7 +3,7 @@
 @using System.Collections.Generic
 
 @{
-    IReadOnlyList<PropertyGridGroupDefinition> renderedGroups = GetRenderedGroups();
+    IReadOnlyList<PropertyGridGroupDefinition> renderedGroups = Schema?.GetRenderedGroups( ViewMode ) ?? [];
     bool hasContent = renderedGroups.Count > 0 || AdditionalContent is not null;
 }
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazorise;
@@ -15,7 +16,7 @@ public sealed class PropertyGridGroupDefinition
     {
         Key = key;
         Title = title;
-        Properties = properties ?? [];
+        Properties = properties?.ToArray() ?? [];
     }
 
     /// <summary>
@@ -34,9 +35,9 @@ public sealed class PropertyGridGroupDefinition
     public IReadOnlyList<PropertyGridProperty> Properties { get; }
 
     /// <summary>
-    /// Gets or sets whether the group is rendered.
+    /// Gets whether the group is rendered.
     /// </summary>
-    public bool Visible { get; set; } = true;
+    public bool Visible { get; init; } = true;
 
     /// <summary>
     /// Gets or sets custom group classes.

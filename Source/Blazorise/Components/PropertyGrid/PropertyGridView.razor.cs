@@ -1,7 +1,6 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -128,27 +127,6 @@ public partial class PropertyGridView : BaseComponent
 
     internal string GetViewModeTitle( PropertyGridViewMode viewMode )
         => viewMode == PropertyGridViewMode.Alphabetical ? AlphabeticalButtonTitle : CategorizedButtonTitle;
-
-    private IReadOnlyList<PropertyGridGroupDefinition> GetRenderedGroups()
-    {
-        PropertyGridGroupDefinition[] visibleGroups = Schema?.Groups?
-            .Where( group => group.Visible )
-            .ToArray() ?? [];
-
-        if ( ViewMode == PropertyGridViewMode.Categorized )
-            return visibleGroups;
-
-        PropertyGridProperty[] visibleProperties = visibleGroups
-            .SelectMany( group => group.Properties )
-            .Where( property => property.Visible )
-            .OrderBy( property => property.Label, StringComparer.CurrentCultureIgnoreCase )
-            .ThenBy( property => property.Key, StringComparer.Ordinal )
-            .ToArray();
-
-        return visibleProperties.Length == 0
-            ? []
-            : [new PropertyGridGroupDefinition( "__alphabetical", null, visibleProperties )];
-    }
 
     #endregion
 

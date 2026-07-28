@@ -39,9 +39,9 @@ public abstract class PropertyGridProperty
     public abstract Type ValueType { get; }
 
     /// <summary>
-    /// Gets or sets whether the property is rendered.
+    /// Gets whether the property is rendered.
     /// </summary>
-    public bool Visible { get; set; } = true;
+    public bool Visible { get; init; } = true;
 
     /// <summary>
     /// Gets or sets whether the property represents multiple different values.
