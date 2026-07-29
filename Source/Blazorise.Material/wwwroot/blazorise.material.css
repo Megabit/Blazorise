@@ -3962,7 +3962,10 @@ body {
   border: 0.0625rem solid transparent;
   background: transparent;
   color: inherit;
-  font: inherit;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
   border-radius: 999rem;
   transition: background-color var(--mui-duration-normal), color var(--mui-duration-normal);
 }
@@ -4030,14 +4033,92 @@ body {
 }
 .mui-date-picker-calendar .mui-date-picker-time {
   justify-content: center;
+  min-height: 3rem;
+  margin-inline: -0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-block-start: 0.0625rem solid var(--mui-outline-variant);
+  background: var(--mui-surface-container-low);
+}
+.mui-date-picker-calendar .mui-date-picker-time:last-child {
+  margin-block-end: -0.5rem;
+}
+.mui-date-picker-calendar .mui-date-picker-time > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.75rem;
+  color: var(--mui-on-surface);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+}
+.mui-date-picker-calendar .mui-date-picker-time .mui-date-picker-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.25rem;
+  height: 2.25rem;
+  padding-inline: 0.5rem;
+  border-radius: 0.75rem;
+  color: var(--mui-on-surface);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+}
+.mui-date-picker-calendar .mui-date-picker-time .mui-date-picker-button:hover:not(:disabled), .mui-date-picker-calendar .mui-date-picker-time .mui-date-picker-button:focus-visible {
+  background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
+  outline: 0;
 }
 .mui-date-picker-calendar .mui-date-picker-actions {
-  justify-content: flex-end;
+  justify-content: flex-start;
+  margin-inline: -0.5rem;
+  margin-block-end: -0.5rem;
+  padding: 0.5rem 0.5rem 0.625rem;
   border-block-start: 0.0625rem solid var(--mui-outline-variant);
 }
+.mui-date-picker-calendar .mui-date-picker-actions .mui-date-picker-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding-inline: 0.75rem;
+  color: var(--mui-primary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  cursor: pointer;
+}
+.mui-date-picker-calendar .mui-date-picker-actions .mui-date-picker-button:hover:not(:disabled), .mui-date-picker-calendar .mui-date-picker-actions .mui-date-picker-button:focus-visible {
+  background: color-mix(in srgb, var(--mui-primary) 8%, transparent);
+}
+.mui-date-picker-calendar .mui-date-picker-actions .mui-date-picker-button:last-child {
+  margin-inline-start: auto;
+}
 .mui-date-picker-calendar .mui-date-picker-time-input {
-  width: 4rem;
+  box-sizing: border-box;
+  width: 3.25rem;
+  height: 2.25rem;
+  padding: 0 0 0 0.5rem;
+  border: 0;
+  border-radius: 0.75rem;
+  outline: 0;
+  background: transparent;
+  color: var(--mui-on-surface);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
   text-align: center;
+  transition: background-color var(--mui-duration-normal);
+}
+.mui-date-picker-calendar .mui-date-picker-time-input:hover:not(:disabled), .mui-date-picker-calendar .mui-date-picker-time-input:focus {
+  background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
+}
+.mui-date-picker-calendar .mui-date-picker-time-input:disabled {
+  color: color-mix(in srgb, var(--mui-on-surface) 38%, transparent);
 }
 
 .mui-time-picker {
