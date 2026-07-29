@@ -45,11 +45,6 @@ public partial class PropertyGridToolbarSearch : BaseComponent
     [Parameter] public string AriaLabel { get; set; } = "Search properties";
 
     /// <summary>
-    /// Defines the search icon.
-    /// </summary>
-    [Parameter] public object SearchIcon { get; set; } = IconName.Search;
-
-    /// <summary>
     /// Defines whether search input changes are debounced.
     /// </summary>
     [Parameter] public bool Debounce { get; set; } = true;
