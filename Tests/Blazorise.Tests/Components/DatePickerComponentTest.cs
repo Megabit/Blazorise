@@ -176,7 +176,9 @@ public class DatePickerComponentTest : BunitContext
         DocumentObserverJsSubscription subscription = Assert.IsType<DocumentObserverJsSubscription>( invocation.Arguments[0] );
 
         Assert.Equal( "pointerdown", Assert.Single( subscription.EventNames ) );
-        Assert.Equal( $"[id=\"{comp.Instance.PickerContainerId}\"]", subscription.ExcludeSelector );
+        Assert.Equal(
+            $"[id=\"{comp.Instance.PickerContainerId}\"], [id=\"{comp.Instance.CalendarId}\"]",
+            subscription.ExcludeSelector );
     }
 
     [Fact]

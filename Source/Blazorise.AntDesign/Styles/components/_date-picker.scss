@@ -38,6 +38,7 @@
     font-size: var(--ant-font-size);
     line-height: var(--ant-line-height);
     outline: 0;
+    pointer-events: auto;
 
     &.ant-picker-dropdown-inline {
         position: relative;
@@ -85,6 +86,8 @@
 
         select {
             max-width: calc(var(--ant-control-height) * 3);
+            appearance: none;
+            cursor: pointer;
         }
 
         input {
@@ -102,6 +105,16 @@
         align-items: center;
         justify-content: center;
         min-width: 0;
+    }
+
+    .ant-picker-header-navigation,
+    .ant-picker-cell-in-view,
+    .ant-picker-month-cell {
+        cursor: pointer;
+
+        &:disabled {
+            cursor: not-allowed;
+        }
     }
 
     .ant-picker-cell {
@@ -124,6 +137,10 @@
         &:hover:not(:disabled) {
             background: var(--ant-picker-cell-hover-bg);
         }
+    }
+
+    .ant-picker-cell-outside-view {
+        color: var(--ant-color-text-disabled);
     }
 
     .ant-picker-cell-today {
@@ -180,11 +197,83 @@
     }
 
     .ant-picker-time-panel {
-        justify-content: center;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        min-height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-sm) * 2);
+        padding: var(--ant-padding-xs);
+        background: var(--ant-color-bg-elevated);
+
+        > span {
+            flex: 0 0 var(--ant-padding-xs);
+            width: var(--ant-padding-xs);
+            color: var(--ant-color-text);
+            font-size: var(--ant-font-size);
+            font-weight: 400;
+            line-height: 1;
+            text-align: center;
+        }
+
+        .ant-picker-footer-button {
+            display: inline-flex;
+            flex: 0 0 var(--ant-picker-time-column-width);
+            align-items: center;
+            justify-content: center;
+            min-width: var(--ant-picker-time-column-width);
+            height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
+            margin-inline-start: var(--ant-margin-xxs);
+            padding: 0;
+            border: 0;
+            border-radius: var(--ant-border-radius-sm);
+            appearance: none;
+            background: transparent;
+            box-shadow: none;
+            color: var(--ant-color-text);
+            font-family: inherit;
+            font-size: var(--ant-font-size);
+            font-weight: 400;
+            line-height: 1;
+            cursor: pointer;
+            transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+
+            &:hover:not(:disabled),
+            &:focus-visible {
+                outline: 0;
+                background: var(--ant-picker-cell-hover-bg);
+            }
+        }
     }
 
     .ant-picker-footer {
-        justify-content: flex-end;
+        justify-content: space-between;
+        min-height: var(--ant-picker-text-height);
+        padding: 0 var(--ant-padding-sm);
+        background: var(--ant-color-bg-elevated);
+
+        .ant-picker-footer-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: var(--ant-control-height-sm);
+            padding: 0 var(--ant-padding-sm);
+            border: 0;
+            border-radius: var(--ant-border-radius);
+            appearance: none;
+            background: transparent;
+            box-shadow: none;
+            color: var(--ant-color-primary);
+            font-family: inherit;
+            font-size: var(--ant-font-size-sm);
+            font-weight: 400;
+            line-height: 1;
+            cursor: pointer;
+            transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+
+            &:hover:not(:disabled),
+            &:focus-visible {
+                outline: 0;
+                background: var(--ant-picker-cell-hover-bg);
+            }
+        }
     }
 
     .ant-picker-weekdays,
@@ -215,7 +304,28 @@
     }
 
     .ant-picker-time-input {
-        width: calc(var(--ant-control-height) * 1.5);
+        box-sizing: border-box;
+        flex: 1 1 var(--ant-picker-time-column-width);
+        width: var(--ant-picker-time-column-width);
+        min-width: 0;
+        height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: var(--ant-border-radius-sm);
+        outline: 0;
+        background: transparent;
+        color: var(--ant-color-text);
+        font-family: inherit;
+        font-size: var(--ant-font-size);
+        font-weight: 400;
+        line-height: 1;
         text-align: center;
+        transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+
+        &:hover,
+        &:focus {
+            background: var(--ant-picker-cell-hover-bg);
+        }
     }
 }

@@ -1659,7 +1659,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             {
                 OwnerId = ElementId,
                 EventTypes = DocumentEventTypes.PointerDown,
-                ExcludeSelector = CssSelectorUtilities.BuildElementIdSelector( PickerContainerId ),
+                ExcludeSelector = $"{CssSelectorUtilities.BuildElementIdSelector( PickerContainerId )}, {CssSelectorUtilities.BuildElementIdSelector( CalendarId )}",
                 Priority = -100,
                 Handler = HandleOutsidePointerAsync,
             } );

@@ -129,11 +129,11 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DatePickerCalendarTime() => "ant-picker-time-panel";
 
-    public override string DatePickerCalendarTimeInput() => "ant-picker-time-input ant-input-number-input";
+    public override string DatePickerCalendarTimeInput() => "ant-picker-time-input";
 
     public override string DatePickerCalendarActions() => "ant-picker-footer";
 
-    public override string DatePickerCalendarButton() => "ant-picker-footer-button ant-btn ant-btn-text ant-btn-sm";
+    public override string DatePickerCalendarButton() => "ant-picker-footer-button";
 
     #endregion
 
