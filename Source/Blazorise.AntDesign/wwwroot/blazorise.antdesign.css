@@ -4247,8 +4247,8 @@ template {
   inset-block-start: calc(100% + var(--ant-margin-xxs));
   inset-inline-start: 0;
   z-index: var(--ant-picker-z-index-popup);
-  width: max-content;
-  min-width: calc(var(--ant-control-height) * 4);
+  width: auto;
+  min-width: calc(var(--ant-picker-time-column-width) * 3 + var(--ant-padding-xs) * 5);
   max-width: calc(100vw - 1rem);
   padding: var(--ant-padding-xs);
   border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border-secondary);
@@ -4257,6 +4257,7 @@ template {
   background: var(--ant-color-bg-elevated);
   box-shadow: var(--ant-box-shadow-secondary);
   outline: 0;
+  pointer-events: auto;
 }
 .ant-time-picker-dropdown.ant-picker-panel-container.ant-time-picker-dropdown-inline {
   position: relative;
@@ -4279,30 +4280,97 @@ template {
 .ant-time-picker-panel {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: var(--ant-margin-xxs);
+  min-height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
+  font-family: var(--ant-font-family);
+  font-size: var(--ant-font-size);
+  line-height: 1;
 }
 
 .ant-time-picker-column {
-  width: calc(var(--ant-control-height) * 1.5);
+  display: flex;
+  flex: 0 0 var(--ant-picker-time-column-width);
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: var(--ant-picker-time-column-width);
+  height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
+  border-radius: var(--ant-border-radius-sm);
+  background: transparent;
+  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+}
+.ant-time-picker-column:hover, .ant-time-picker-column:focus-within, .ant-time-picker-column.ant-time-picker-column-focused {
+  background: var(--ant-picker-cell-hover-bg);
 }
 
 .ant-time-picker-input {
+  box-sizing: border-box;
   width: 100%;
-  min-height: var(--ant-control-height);
-  border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border);
-  border-radius: var(--ant-border-radius);
-  color: inherit;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  outline: 0;
+  appearance: auto;
+  color: var(--ant-color-text);
   background: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 400;
+  line-height: 1;
   text-align: center;
+}
+.ant-time-picker-input::-webkit-inner-spin-button, .ant-time-picker-input::-webkit-outer-spin-button {
+  height: auto;
+  opacity: 1;
+  cursor: pointer;
+}
+.ant-time-picker-input:disabled {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
 }
 
 .ant-time-picker-separator {
-  color: var(--ant-color-text-secondary);
+  flex: 0 0 var(--ant-padding-xs);
+  width: var(--ant-padding-xs);
+  color: var(--ant-color-text);
+  font-size: var(--ant-font-size);
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
 }
 
-.ant-time-picker-column-focused {
-  outline: 2px solid var(--ant-color-primary);
-  outline-offset: var(--ant-line-width);
+.ant-time-picker-meridiem {
+  display: inline-flex;
+  flex: 0 0 var(--ant-picker-time-column-width);
+  align-items: center;
+  justify-content: center;
+  min-width: var(--ant-picker-time-column-width);
+  height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
+  margin-inline-start: var(--ant-margin-xxs);
+  padding: 0;
+  border: 0;
+  border-radius: var(--ant-border-radius-sm);
+  appearance: none;
+  background: transparent;
+  box-shadow: none;
+  color: var(--ant-color-text);
+  font-family: inherit;
+  font-size: var(--ant-font-size);
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+}
+.ant-time-picker-meridiem:hover:not(:disabled), .ant-time-picker-meridiem:focus-visible, .ant-time-picker-meridiem.ant-time-picker-column-focused {
+  outline: 0;
+  background: var(--ant-picker-cell-hover-bg);
+}
+.ant-time-picker-meridiem:disabled {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
 }
 
 .ant-divider {

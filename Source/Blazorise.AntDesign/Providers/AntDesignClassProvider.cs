@@ -159,12 +159,12 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TimePickerControl( bool focused ) => $"ant-time-picker-column{( focused ? " ant-time-picker-column-focused" : null )}";
 
-    public override string TimePickerInput() => "ant-time-picker-input ant-input-number-input";
+    public override string TimePickerInput() => "ant-time-picker-input";
 
     public override string TimePickerSeparator() => "ant-time-picker-separator";
 
     public override string TimePickerMeridiem( bool postMeridiem, bool focused )
-        => $"ant-time-picker-meridiem ant-btn ant-btn-text ant-btn-sm{( postMeridiem ? " ant-time-picker-meridiem-pm" : null )}{( focused ? " ant-time-picker-column-focused" : null )}";
+        => $"ant-time-picker-meridiem{( postMeridiem ? " ant-time-picker-meridiem-pm" : null )}{( focused ? " ant-time-picker-column-focused" : null )}";
 
     #endregion
 

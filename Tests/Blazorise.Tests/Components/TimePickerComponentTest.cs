@@ -112,7 +112,9 @@ public class TimePickerComponentTest : BunitContext
         DocumentObserverJsSubscription subscription = Assert.IsType<DocumentObserverJsSubscription>( invocation.Arguments[0] );
 
         Assert.Equal( "pointerdown", Assert.Single( subscription.EventNames ) );
-        Assert.Equal( $"[id=\"{comp.Instance.PickerContainerId}\"]", subscription.ExcludeSelector );
+        Assert.Equal(
+            $"[id=\"{comp.Instance.PickerContainerId}\"], [id=\"{comp.Instance.MenuId}\"]",
+            subscription.ExcludeSelector );
     }
 
     [Fact]
@@ -126,6 +128,7 @@ public class TimePickerComponentTest : BunitContext
 
         // validate
         Assert.Equal( "12", comp.Find( ".timepicker-input" ).GetAttribute( "value" ) );
+        Assert.Equal( "00", comp.FindAll( ".timepicker-input" )[1].GetAttribute( "value" ) );
         Assert.Equal( "PM", comp.Find( ".timepicker-meridiem" ).TextContent.Trim() );
         Assert.Contains( "timepicker-meridiem-pm", comp.Find( ".timepicker-meridiem" ).ClassList );
     }

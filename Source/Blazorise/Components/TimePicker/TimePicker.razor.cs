@@ -622,7 +622,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
             {
                 OwnerId = ElementId,
                 EventTypes = DocumentEventTypes.PointerDown,
-                ExcludeSelector = CssSelectorUtilities.BuildElementIdSelector( PickerContainerId ),
+                ExcludeSelector = $"{CssSelectorUtilities.BuildElementIdSelector( PickerContainerId )}, {CssSelectorUtilities.BuildElementIdSelector( MenuId )}",
                 Priority = -100,
                 Handler = HandleOutsidePointerAsync,
             } );
@@ -1122,6 +1122,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     internal int CurrentSecond => selectedTime.Seconds;
 
     internal int DisplayHour => TimeAs24hr ? CurrentHour : CurrentHour % 12 == 0 ? 12 : CurrentHour % 12;
+
+    internal string DisplayHourText => DisplayHour.ToString( "D2", CultureInfo.InvariantCulture );
+
+    internal string CurrentMinuteText => CurrentMinute.ToString( "D2", CultureInfo.InvariantCulture );
+
+    internal string CurrentSecondText => CurrentSecond.ToString( "D2", CultureInfo.InvariantCulture );
 
     internal bool IsPostMeridiem => CurrentHour >= 12;
 
