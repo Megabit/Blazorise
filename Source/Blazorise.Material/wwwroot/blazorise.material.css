@@ -4146,14 +4146,15 @@ body {
   inset-inline-start: 0;
   z-index: 1302;
   width: max-content;
-  min-width: 12rem;
-  max-width: calc(100vw - 1rem);
-  padding: 0.75rem;
+  min-width: 17.5rem;
+  max-width: min(22rem, 100vw - 1rem);
+  padding: 0.5rem;
   color: var(--mui-on-surface);
-  background: var(--mui-surface-container);
+  background: var(--mui-surface-container-lowest);
   border: 0.0625rem solid var(--mui-outline-variant);
   border-radius: 0.75rem;
-  box-shadow: var(--mui-elevation-3, 0 0.5rem 1rem rgba(0, 0, 0, 0.15));
+  box-shadow: var(--mui-elevate2);
+  font-family: var(--mui-font-family);
   outline: 0;
 }
 .mui-time-picker-menu.mui-time-picker-menu-inline {
@@ -4177,29 +4178,79 @@ body {
 .mui-time-picker-controls {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  justify-content: center;
+  gap: 0.125rem;
+  min-height: 3rem;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  background: var(--mui-surface-container-low);
 }
 
 .mui-time-picker-control {
-  width: 4rem;
+  width: 3.25rem;
+  height: 2.25rem;
+  border-radius: 0.75rem;
+  transition: background-color var(--mui-duration-normal);
+}
+.mui-time-picker-control:hover, .mui-time-picker-control:focus-within {
+  background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
 }
 
 .mui-time-picker-input {
+  box-sizing: border-box;
   width: 100%;
+  height: 100%;
+  padding: 0 0 0 0.5rem;
+  border: 0;
+  border-radius: inherit;
+  outline: 0;
+  appearance: auto;
+  background: transparent;
+  color: var(--mui-on-surface);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
   text-align: center;
+}
+.mui-time-picker-input:disabled {
+  color: color-mix(in srgb, var(--mui-on-surface) 38%, transparent);
 }
 
 .mui-time-picker-separator {
-  color: var(--mui-on-surface-variant);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.75rem;
+  color: var(--mui-on-surface);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .mui-time-picker-meridiem {
-  min-height: 2.5rem;
-  padding-inline: 0.75rem;
+  min-width: 3.25rem;
+  height: 2.25rem;
+  margin-inline-start: 0.125rem;
+  padding-inline: 0.5rem;
   border: 0;
-  border-radius: 999rem;
-  color: var(--mui-primary);
+  border-radius: 0.75rem;
+  color: var(--mui-on-surface);
   background: transparent;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--mui-duration-normal);
+}
+.mui-time-picker-meridiem:hover:not(:disabled), .mui-time-picker-meridiem:focus-visible {
+  background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
+  outline: 0;
+}
+.mui-time-picker-meridiem:disabled {
+  color: color-mix(in srgb, var(--mui-on-surface) 38%, transparent);
+  cursor: not-allowed;
 }
 
 .mui-time-picker-control-focused {

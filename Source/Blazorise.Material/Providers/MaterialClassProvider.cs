@@ -157,7 +157,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string TimePickerControl( bool focused ) => $"mui-time-picker-control{( focused ? " mui-time-picker-control-focused" : null )}";
 
-    public override string TimePickerInput() => "mui-time-picker-input mui-input";
+    public override string TimePickerInput() => "mui-time-picker-input";
 
     public override string TimePickerSeparator() => "mui-time-picker-separator";
 

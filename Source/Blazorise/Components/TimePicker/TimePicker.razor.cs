@@ -584,7 +584,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
     internal string GetMenuControlClassNames( TimePickerPart part )
     {
-        return ClassProvider.TimePickerControl( focusedPart == part );
+        return ClassProvider.TimePickerControl( focusedPart == part && FocusMenuOnOpen );
     }
 
     internal string GetPartId( TimePickerPart part )
@@ -1062,7 +1062,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
     internal string MenuSeparatorClassNames => ClassProvider.TimePickerSeparator();
 
-    internal string MenuMeridiemClassNames => ClassProvider.TimePickerMeridiem( IsPostMeridiem, focusedPart == TimePickerPart.Meridiem );
+    internal string MenuMeridiemClassNames => ClassProvider.TimePickerMeridiem( IsPostMeridiem, focusedPart == TimePickerPart.Meridiem && FocusMenuOnOpen );
 
     internal string FocusedPartId => GetPartId( focusedPart );
 
