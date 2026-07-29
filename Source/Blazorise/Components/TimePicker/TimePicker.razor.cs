@@ -538,13 +538,11 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         if ( !int.TryParse( eventArgs?.Value?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out int hour ) )
             return;
 
-        if ( TimeAs24hr )
+        hour = Math.Clamp( hour, 0, 23 );
+
+        if ( !TimeAs24hr && hour is >= 1 and <= 12 )
         {
-            hour = Math.Clamp( hour, 0, 23 );
-        }
-        else
-        {
-            hour = Math.Clamp( hour, 1, 12 ) % 12;
+            hour %= 12;
 
             if ( IsPostMeridiem )
             {

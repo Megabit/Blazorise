@@ -201,6 +201,23 @@ public class TimePickerComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task TwelveHourMenuAcceptsTwentyFourHourValue()
+    {
+        // setup
+        IRenderedComponent<TimePicker<TimeSpan?>> comp = Render<TimePicker<TimeSpan?>>();
+
+        // test
+        await comp.Find( "input" ).ClickAsync( new MouseEventArgs() );
+        await comp.Find( ".timepicker-input" ).ChangeAsync( new ChangeEventArgs { Value = "16" } );
+
+        // validate
+        Assert.Equal( new TimeSpan( 16, 0, 0 ), comp.Instance.Value );
+        Assert.Equal( "16:00", comp.Find( "input" ).GetAttribute( "value" ) );
+        Assert.Equal( "04", comp.Find( ".timepicker-input" ).GetAttribute( "value" ) );
+        Assert.Equal( "PM", comp.Find( ".timepicker-meridiem" ).TextContent.Trim() );
+    }
+
+    [Fact]
     public async Task CompactNumericInputUsesLiteralHourInTwentyFourHourMode()
     {
         // setup
