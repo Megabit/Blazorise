@@ -105,35 +105,35 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DatePickerCalendarHeader() => "datepicker-header";
 
-    public override string DatePickerCalendarNavigation() => "datepicker-navigation btn btn-sm btn-light";
+    public override string DatePickerCalendarNavigation() => "datepicker-navigation";
 
-    public override string DatePickerCalendarTitle() => "datepicker-title d-flex align-items-center";
+    public override string DatePickerCalendarTitle() => "datepicker-title";
 
     public override string DatePickerCalendarGrid() => "datepicker-grid";
 
-    public override string DatePickerCalendarWeekdays() => "datepicker-weekdays text-body-secondary";
+    public override string DatePickerCalendarWeekdays() => "datepicker-weekdays";
 
-    public override string DatePickerCalendarWeekday() => "datepicker-weekday small";
+    public override string DatePickerCalendarWeekday() => "datepicker-weekday";
 
     public override string DatePickerCalendarWeek() => "datepicker-week";
 
-    public override string DatePickerCalendarWeekNumber() => "datepicker-week-number text-body-secondary small";
+    public override string DatePickerCalendarWeekNumber() => "datepicker-week-number";
 
     public override string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused )
-        => $"datepicker-day btn btn-sm{( outside ? " datepicker-day-outside" : null )}{( today ? " datepicker-day-today" : null )}{( selected ? " datepicker-day-selected" : null )}{( rangeStart ? " datepicker-day-range-start" : null )}{( inRange ? " datepicker-day-in-range" : null )}{( rangeEnd ? " datepicker-day-range-end" : null )}{( disabled ? " datepicker-day-disabled" : null )}{( focused ? " datepicker-day-focused" : null )}";
+        => $"datepicker-day{( outside ? " datepicker-day-outside" : null )}{( today ? " datepicker-day-today" : null )}{( selected ? " datepicker-day-selected" : null )}{( rangeStart ? " datepicker-day-range-start" : null )}{( inRange ? " datepicker-day-in-range" : null )}{( rangeEnd ? " datepicker-day-range-end" : null )}{( disabled ? " datepicker-day-disabled" : null )}{( focused ? " datepicker-day-focused" : null )}";
 
     public override string DatePickerCalendarMonths() => "datepicker-months";
 
     public override string DatePickerCalendarMonth( bool selected, bool disabled, bool focused )
-        => $"datepicker-month btn btn-sm{( selected ? " datepicker-month-selected" : null )}{( disabled ? " datepicker-month-disabled" : null )}{( focused ? " datepicker-month-focused" : null )}";
+        => $"datepicker-month{( selected ? " datepicker-month-selected" : null )}{( disabled ? " datepicker-month-disabled" : null )}{( focused ? " datepicker-month-focused" : null )}";
 
-    public override string DatePickerCalendarTime() => "datepicker-time input-group input-group-sm";
+    public override string DatePickerCalendarTime() => "datepicker-time";
 
-    public override string DatePickerCalendarTimeInput() => "datepicker-time-input form-control";
+    public override string DatePickerCalendarTimeInput() => "datepicker-time-input";
 
-    public override string DatePickerCalendarActions() => "datepicker-actions d-flex justify-content-end";
+    public override string DatePickerCalendarActions() => "datepicker-actions";
 
-    public override string DatePickerCalendarButton() => "datepicker-button btn btn-sm btn-light";
+    public override string DatePickerCalendarButton() => "datepicker-button";
 
     #endregion
 
@@ -155,16 +155,16 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TimePickerBackdrop() => "timepicker-backdrop";
 
-    public override string TimePickerControls() => "timepicker-controls input-group input-group-sm";
+    public override string TimePickerControls() => "timepicker-controls";
 
     public override string TimePickerControl( bool focused ) => $"timepicker-control{( focused ? " timepicker-control-focused" : null )}";
 
-    public override string TimePickerInput() => "timepicker-input form-control";
+    public override string TimePickerInput() => "timepicker-input";
 
-    public override string TimePickerSeparator() => "timepicker-separator input-group-text";
+    public override string TimePickerSeparator() => "timepicker-separator";
 
     public override string TimePickerMeridiem( bool postMeridiem, bool focused )
-        => $"timepicker-meridiem btn btn-sm btn-light{( postMeridiem ? " timepicker-meridiem-pm" : null )}{( focused ? " timepicker-control-focused" : null )}";
+        => $"timepicker-meridiem{( postMeridiem ? " timepicker-meridiem-pm" : null )}{( focused ? " timepicker-control-focused" : null )}";
 
     #endregion
 

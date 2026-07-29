@@ -257,6 +257,20 @@ public class DatePickerComponentTest : BunitContext
     }
 
     [Fact]
+    public void DateTimeMenuUsesTwoDigitTimeValues()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2026, 7, 27, 7, 4, 0 ) )
+            .Add( x => x.InputMode, DateInputMode.DateTime )
+            .Add( x => x.Inline, true ) );
+
+        // validate
+        Assert.Equal( "07", comp.FindAll( ".datepicker-time-input" )[0].GetAttribute( "value" ) );
+        Assert.Equal( "04", comp.FindAll( ".datepicker-time-input" )[1].GetAttribute( "value" ) );
+    }
+
+    [Fact]
     public async Task RangeSelectionCommitsOrderedDates()
     {
         // setup

@@ -1642,6 +1642,10 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     internal int DisplayHour => TimeAs24hr ? CurrentHour : CurrentHour % 12 == 0 ? 12 : CurrentHour % 12;
 
+    internal string DisplayHourText => DisplayHour.ToString( "D2", CultureInfo.InvariantCulture );
+
+    internal string CurrentMinuteText => CurrentMinute.ToString( "D2", CultureInfo.InvariantCulture );
+
     internal bool IsPostMeridiem => CurrentHour >= 12;
 
     internal string MeridiemText => Localizer[IsPostMeridiem ? "PM" : "AM"];
