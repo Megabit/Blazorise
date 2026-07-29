@@ -166,7 +166,8 @@
 
     .ant-picker-cell-disabled {
         color: var(--ant-color-text-disabled);
-        opacity: .6;
+        opacity: .25;
+        border-color: transparent;
     }
 
     .ant-picker-time-panel,

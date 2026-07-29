@@ -11776,7 +11776,8 @@ code {
 .fui-DatePicker__calendar .fui-DatePicker__day-disabled,
 .fui-DatePicker__calendar .fui-DatePicker__month-disabled {
   color: var(--colorNeutralForegroundDisabled);
-  opacity: 0.65;
+  opacity: 0.25;
+  border-color: transparent;
 }
 .fui-DatePicker__calendar .fui-DatePicker__time,
 .fui-DatePicker__calendar .fui-DatePicker__actions {

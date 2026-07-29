@@ -3975,9 +3975,14 @@
       cursor: not-allowed;
     }
   }
-  .disabled\:opacity-40 {
+  .disabled\:border-transparent {
     &:disabled {
-      opacity: 40%;
+      border-color: transparent;
+    }
+  }
+  .disabled\:opacity-25 {
+    &:disabled {
+      opacity: 25%;
     }
   }
   .disabled\:opacity-60 {

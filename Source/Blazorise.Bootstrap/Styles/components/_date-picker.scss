@@ -183,7 +183,8 @@
 
     .datepicker-day-disabled,
     .datepicker-month-disabled {
-        opacity: .4;
+        opacity: .25;
+        border-color: transparent;
     }
 
     .datepicker-months {

@@ -4078,7 +4078,8 @@ template {
 }
 .ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-disabled {
   color: var(--ant-color-text-disabled);
-  opacity: 0.6;
+  opacity: 0.25;
+  border-color: transparent;
 }
 .ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-panel,
 .ant-picker-dropdown.ant-picker-panel-container .ant-picker-footer {

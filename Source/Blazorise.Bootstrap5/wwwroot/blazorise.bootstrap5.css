@@ -1271,7 +1271,8 @@ input[type=button].btn-block {
 }
 .datepicker .datepicker-day-disabled,
 .datepicker .datepicker-month-disabled {
-  opacity: 0.4;
+  opacity: 0.25;
+  border-color: transparent;
 }
 .datepicker .datepicker-months {
   display: grid;

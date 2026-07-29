@@ -195,7 +195,8 @@
     .fui-DatePicker__day-disabled,
     .fui-DatePicker__month-disabled {
         color: var(--colorNeutralForegroundDisabled);
-        opacity: .65;
+        opacity: .25;
+        border-color: transparent;
     }
 
     .fui-DatePicker__time,

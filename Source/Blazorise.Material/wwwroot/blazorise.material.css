@@ -4004,7 +4004,8 @@ body {
 }
 .mui-date-picker-calendar .mui-date-picker-day-disabled,
 .mui-date-picker-calendar .mui-date-picker-month-disabled {
-  opacity: 0.38;
+  opacity: 0.25;
+  border-color: transparent;
 }
 .mui-date-picker-calendar .mui-date-picker-month {
   min-height: 2.5rem;

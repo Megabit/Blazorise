@@ -193,7 +193,8 @@
 
     .mui-date-picker-day-disabled,
     .mui-date-picker-month-disabled {
-        opacity: .38;
+        opacity: .25;
+        border-color: transparent;
     }
 
     .mui-date-picker-month {

@@ -1875,7 +1875,8 @@ body:before {
 }
 .datepicker .datepicker-day.is-disabled,
 .datepicker .datepicker-month.is-disabled {
-  opacity: 0.4;
+  opacity: 0.25;
+  border-color: transparent;
 }
 .datepicker .datepicker-months {
   display: grid;
