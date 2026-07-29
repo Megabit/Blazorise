@@ -319,30 +319,355 @@ body:before {
 }
 
 .tw-datepicker {
+  position: relative;
+  display: inline-block;
+  width: 100%;
   anchor-name: --tailwind-datepicker-anchor;
   anchor-scope: --tailwind-datepicker-anchor;
 }
+.tw-datepicker.tw-datepicker-open {
+  z-index: 40;
+}
+
+.tw-datepicker-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: transparent;
+  pointer-events: none;
+}
 
 .tw-datepicker-calendar {
+  position: absolute;
+  inset-block-start: calc(100% + 0.25rem);
+  inset-inline-start: 0;
+  z-index: 50;
+  width: 19.25rem;
+  min-width: 0;
   max-width: calc(100vw - 1rem);
   max-height: calc(100vh - 1rem);
   overflow: auto;
+  padding: 0;
+  border: 1px solid rgb(229, 231, 235);
+  border-radius: 0.5rem;
+  color: rgb(55, 65, 81);
+  background: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  outline: 0;
+  pointer-events: auto;
 }
-
-.tw-datepicker-day-range-start {
-  border-radius: 0;
-  border-start-start-radius: 0.375rem;
-  border-end-start-radius: 0.375rem;
+.tw-datepicker-calendar.tw-datepicker-calendar-inline {
+  position: relative;
+  inset: auto;
+  margin-block-start: 0.25rem;
+  z-index: auto;
 }
-
-.tw-datepicker-day-range-end {
-  border-radius: 0;
-  border-start-end-radius: 0.375rem;
-  border-end-end-radius: 0.375rem;
+.tw-datepicker-calendar .tw-datepicker-header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  min-height: 2.5rem;
+  padding-inline: 0.25rem;
 }
-
-.tw-datepicker-day-range-start.tw-datepicker-day-range-end {
+.tw-datepicker-calendar .tw-datepicker-navigation {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
   border-radius: 0.375rem;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+.tw-datepicker-calendar .tw-datepicker-navigation:hover:not(:disabled), .tw-datepicker-calendar .tw-datepicker-navigation:focus-visible {
+  outline: 0;
+  background: rgb(243, 244, 246);
+}
+.tw-datepicker-calendar .tw-datepicker-navigation:disabled {
+  color: rgb(209, 213, 219);
+  cursor: not-allowed;
+}
+.tw-datepicker-calendar .tw-datepicker-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  gap: 0.25rem;
+}
+.tw-datepicker-calendar .tw-datepicker-title select,
+.tw-datepicker-calendar .tw-datepicker-title input {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: inherit;
+  background: transparent;
+  box-shadow: none;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+}
+.tw-datepicker-calendar .tw-datepicker-title select:focus,
+.tw-datepicker-calendar .tw-datepicker-title input:focus {
+  outline: 0;
+  box-shadow: none;
+}
+.tw-datepicker-calendar .tw-datepicker-title select {
+  max-width: 8rem;
+  cursor: pointer;
+}
+.tw-datepicker-calendar .tw-datepicker-title input {
+  width: 5rem;
+  appearance: textfield;
+}
+.tw-datepicker-calendar .tw-datepicker-title input::-webkit-inner-spin-button, .tw-datepicker-calendar .tw-datepicker-title input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+.tw-datepicker-calendar .tw-datepicker-weekdays,
+.tw-datepicker-calendar .tw-datepicker-week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: center;
+}
+.tw-datepicker-calendar .tw-datepicker-weekdays:has(.tw-datepicker-week-number),
+.tw-datepicker-calendar .tw-datepicker-week:has(.tw-datepicker-week-number) {
+  grid-template-columns: auto repeat(7, minmax(0, 1fr));
+}
+.tw-datepicker-calendar .tw-datepicker-weekday,
+.tw-datepicker-calendar .tw-datepicker-week-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  height: 1.75rem;
+  color: rgb(107, 114, 128);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.tw-datepicker-calendar .tw-datepicker-day,
+.tw-datepicker-calendar .tw-datepicker-month {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  width: 2.5rem;
+  min-width: 0;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 999rem;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.tw-datepicker-calendar .tw-datepicker-day:hover:not(:disabled),
+.tw-datepicker-calendar .tw-datepicker-month:hover:not(:disabled) {
+  background: rgb(243, 244, 246);
+}
+.tw-datepicker-calendar .tw-datepicker-day-outside {
+  color: rgb(209, 213, 219);
+}
+.tw-datepicker-calendar .tw-datepicker-day-today {
+  border-color: rgb(96, 165, 250);
+}
+.tw-datepicker-calendar .tw-datepicker-day-in-range {
+  border-radius: 0;
+  background: rgb(219, 234, 254);
+}
+.tw-datepicker-calendar .tw-datepicker-day-selected,
+.tw-datepicker-calendar .tw-datepicker-day-range-start,
+.tw-datepicker-calendar .tw-datepicker-day-range-end,
+.tw-datepicker-calendar .tw-datepicker-month-selected {
+  border-color: rgb(96, 165, 250);
+  color: white;
+  background: rgb(96, 165, 250);
+}
+.tw-datepicker-calendar .tw-datepicker-day-selected:hover:not(:disabled),
+.tw-datepicker-calendar .tw-datepicker-day-range-start:hover:not(:disabled),
+.tw-datepicker-calendar .tw-datepicker-day-range-end:hover:not(:disabled),
+.tw-datepicker-calendar .tw-datepicker-month-selected:hover:not(:disabled) {
+  border-color: rgb(59, 130, 246);
+  background: rgb(59, 130, 246);
+}
+.tw-datepicker-calendar .tw-datepicker-day-range-start {
+  border-radius: 0;
+  border-start-start-radius: 999rem;
+  border-end-start-radius: 999rem;
+}
+.tw-datepicker-calendar .tw-datepicker-day-range-end {
+  border-radius: 0;
+  border-start-end-radius: 999rem;
+  border-end-end-radius: 999rem;
+}
+.tw-datepicker-calendar .tw-datepicker-day-range-start.tw-datepicker-day-range-end {
+  border-radius: 999rem;
+}
+.tw-datepicker-calendar .tw-datepicker-day-focused,
+.tw-datepicker-calendar .tw-datepicker-month-focused {
+  outline: 2px solid rgb(59, 130, 246);
+  outline-offset: 1px;
+}
+.tw-datepicker-calendar .tw-datepicker-day-disabled,
+.tw-datepicker-calendar .tw-datepicker-month-disabled {
+  opacity: 0.25;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+.tw-datepicker-calendar .tw-datepicker-month {
+  width: 100%;
+  border-radius: 0.375rem;
+}
+.tw-datepicker-calendar .tw-datepicker-months {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.25rem;
+  padding-block: 0.5rem;
+}
+.tw-datepicker-calendar .tw-datepicker-time,
+.tw-datepicker-calendar .tw-datepicker-actions {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-block-start: 1px solid rgb(229, 231, 235);
+}
+.tw-datepicker-calendar .tw-datepicker-time {
+  justify-content: flex-start;
+  height: 2.5rem;
+  overflow: hidden;
+}
+.tw-datepicker-calendar .tw-datepicker-time > span {
+  flex: 0 0 2%;
+  width: 2%;
+  height: 2.5rem;
+  color: inherit;
+  font-weight: 600;
+  line-height: 2.5rem;
+  text-align: center;
+  user-select: none;
+}
+.tw-datepicker-calendar .tw-datepicker-time .tw-datepicker-button {
+  flex: 0 0 18%;
+  width: 18%;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  appearance: none;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 2.5rem;
+  text-align: center;
+  cursor: pointer;
+}
+.tw-datepicker-calendar .tw-datepicker-time .tw-datepicker-button:hover:not(:disabled), .tw-datepicker-calendar .tw-datepicker-time .tw-datepicker-button:focus-visible {
+  outline: 0;
+  background: rgb(243, 244, 246);
+}
+.tw-datepicker-calendar .tw-datepicker-time .tw-datepicker-button:disabled {
+  color: rgb(156, 163, 175);
+  cursor: not-allowed;
+}
+.tw-datepicker-calendar .tw-datepicker-actions {
+  justify-content: space-between;
+  padding: 0.625rem;
+}
+.tw-datepicker-calendar .tw-datepicker-actions .tw-datepicker-button {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 999rem;
+  color: rgb(37, 99, 235);
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.tw-datepicker-calendar .tw-datepicker-actions .tw-datepicker-button:hover:not(:disabled), .tw-datepicker-calendar .tw-datepicker-actions .tw-datepicker-button:focus-visible {
+  outline: 0;
+  background: rgb(239, 246, 255);
+}
+.tw-datepicker-calendar .tw-datepicker-actions .tw-datepicker-button:disabled {
+  color: rgb(156, 163, 175);
+  cursor: not-allowed;
+}
+.tw-datepicker-calendar .tw-datepicker-time-input {
+  box-sizing: border-box;
+  flex: 1 1 0;
+  width: 40%;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  appearance: auto;
+  color: inherit;
+  background: transparent;
+  box-shadow: none;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.tw-datepicker-calendar .tw-datepicker-time-input:first-child {
+  font-weight: 600;
+}
+.tw-datepicker-calendar .tw-datepicker-time-input:hover:not(:disabled), .tw-datepicker-calendar .tw-datepicker-time-input:focus {
+  background: rgb(243, 244, 246);
+}
+.tw-datepicker-calendar .tw-datepicker-time-input:disabled {
+  color: rgb(156, 163, 175);
+  cursor: not-allowed;
+}
+
+.dark .tw-datepicker-calendar {
+  border-color: rgb(55, 65, 81);
+  color: rgb(243, 244, 246);
+  background: rgb(31, 41, 55);
+}
+.dark .tw-datepicker-calendar .tw-datepicker-navigation:hover:not(:disabled),
+.dark .tw-datepicker-calendar .tw-datepicker-navigation:focus-visible,
+.dark .tw-datepicker-calendar .tw-datepicker-day:hover:not(:disabled),
+.dark .tw-datepicker-calendar .tw-datepicker-month:hover:not(:disabled),
+.dark .tw-datepicker-calendar .tw-datepicker-time-input:hover:not(:disabled),
+.dark .tw-datepicker-calendar .tw-datepicker-time-input:focus,
+.dark .tw-datepicker-calendar .tw-datepicker-time .tw-datepicker-button:hover:not(:disabled),
+.dark .tw-datepicker-calendar .tw-datepicker-time .tw-datepicker-button:focus-visible {
+  background: rgb(55, 65, 81);
+}
+.dark .tw-datepicker-calendar .tw-datepicker-weekday,
+.dark .tw-datepicker-calendar .tw-datepicker-week-number {
+  color: rgb(156, 163, 175);
+}
+.dark .tw-datepicker-calendar .tw-datepicker-day-outside {
+  color: rgb(107, 114, 128);
+}
+.dark .tw-datepicker-calendar .tw-datepicker-day-in-range {
+  background: rgb(23, 37, 84);
+}
+.dark .tw-datepicker-calendar .tw-datepicker-day-selected:hover:not(:disabled),
+.dark .tw-datepicker-calendar .tw-datepicker-day-range-start:hover:not(:disabled),
+.dark .tw-datepicker-calendar .tw-datepicker-day-range-end:hover:not(:disabled),
+.dark .tw-datepicker-calendar .tw-datepicker-month-selected:hover:not(:disabled) {
+  background: rgb(37, 99, 235);
+}
+.dark .tw-datepicker-calendar .tw-datepicker-time,
+.dark .tw-datepicker-calendar .tw-datepicker-actions {
+  border-color: rgb(55, 65, 81);
+}
+.dark .tw-datepicker-calendar .tw-datepicker-actions .tw-datepicker-button:hover:not(:disabled),
+.dark .tw-datepicker-calendar .tw-datepicker-actions .tw-datepicker-button:focus-visible {
+  background: rgb(30, 58, 138);
 }
 
 @supports (position-anchor: --tailwind-datepicker-anchor) {
@@ -380,16 +705,17 @@ body:before {
   inset-block-start: calc(100% + 0.25rem);
   inset-inline-start: 0;
   z-index: 50;
-  width: max-content;
-  min-width: 12rem;
+  width: 19.25rem;
+  min-width: 0;
   max-width: calc(100vw - 1rem);
-  padding: 0.75rem;
+  padding: 0;
   border: 1px solid rgb(229, 231, 235);
   border-radius: 0.5rem;
   color: rgb(17, 24, 39);
   background: white;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
   outline: 0;
+  pointer-events: auto;
 }
 .tw-timepicker-menu.tw-timepicker-menu-inline {
   position: relative;
@@ -412,39 +738,107 @@ body:before {
 .tw-timepicker-controls {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  width: 100%;
+  height: 2.5rem;
+  overflow: hidden;
+  flex-wrap: nowrap;
 }
 
 .tw-timepicker-control {
-  width: 4rem;
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  height: 2.5rem;
 }
 
 .tw-timepicker-input {
+  box-sizing: border-box;
   width: 100%;
-  min-height: 2.25rem;
-  border: 1px solid rgb(209, 213, 219);
-  border-radius: 0.375rem;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  appearance: auto;
   color: inherit;
-  background: white;
+  background: transparent;
+  box-shadow: none;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 2.5rem;
   text-align: center;
+}
+.tw-timepicker-input:hover:not(:disabled), .tw-timepicker-input:focus {
+  background: rgb(243, 244, 246);
+}
+.tw-timepicker-input:disabled {
+  color: rgb(156, 163, 175);
+  cursor: not-allowed;
+}
+
+.tw-timepicker-control:first-child .tw-timepicker-input {
+  font-weight: 600;
 }
 
 .tw-timepicker-separator {
-  color: rgb(107, 114, 128);
+  flex: 0 0 2%;
+  width: 2%;
+  height: 2.5rem;
+  color: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 2.5rem;
+  text-align: center;
+  user-select: none;
 }
 
 .tw-timepicker-meridiem {
-  min-height: 2.25rem;
-  padding-inline: 0.75rem;
-  border: 1px solid rgb(209, 213, 219);
-  border-radius: 0.375rem;
+  display: inline-flex;
+  flex: 0 0 18%;
+  align-items: center;
+  justify-content: center;
+  width: 18%;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  appearance: none;
   color: inherit;
-  background: white;
+  background: transparent;
+  box-shadow: none;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 2.5rem;
+  cursor: pointer;
+}
+.tw-timepicker-meridiem:hover:not(:disabled), .tw-timepicker-meridiem:focus-visible, .tw-timepicker-meridiem.tw-timepicker-control-focused {
+  outline: 0;
+  background: rgb(243, 244, 246);
+}
+.tw-timepicker-meridiem:disabled {
+  color: rgb(156, 163, 175);
+  cursor: not-allowed;
 }
 
-.tw-timepicker-control-focused {
-  outline: 2px solid rgb(59, 130, 246);
-  outline-offset: 2px;
+.tw-timepicker-control-focused .tw-timepicker-input {
+  background: rgb(243, 244, 246);
+}
+
+.dark .tw-timepicker-menu {
+  border-color: rgb(55, 65, 81);
+  color: rgb(243, 244, 246);
+  background: rgb(31, 41, 55);
+}
+.dark .tw-timepicker-menu .tw-timepicker-input:hover:not(:disabled),
+.dark .tw-timepicker-menu .tw-timepicker-input:focus,
+.dark .tw-timepicker-menu .tw-timepicker-control-focused .tw-timepicker-input,
+.dark .tw-timepicker-menu .tw-timepicker-meridiem:hover:not(:disabled),
+.dark .tw-timepicker-menu .tw-timepicker-meridiem:focus-visible,
+.dark .tw-timepicker-menu .tw-timepicker-meridiem.tw-timepicker-control-focused {
+  background: rgb(55, 65, 81);
 }
 
 .b-dropdown.b-dropdown-group > .b-button:not(:last-child):not(.b-dropdown-toggle) {
