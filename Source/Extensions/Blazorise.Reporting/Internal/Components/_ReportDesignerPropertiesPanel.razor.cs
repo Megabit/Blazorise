@@ -120,14 +120,6 @@ public partial class _ReportDesignerPropertiesPanel
 
     #region Methods
 
-    /// <inheritdoc />
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-
-        propertyGridSchema ??= BuildPropertyGridSchema();
-    }
-
     internal void InvalidatePropertyGridSchema()
         => propertyGridSchema = null;
 
@@ -1513,6 +1505,8 @@ public partial class _ReportDesignerPropertiesPanel
     #endregion
 
     #region Properties
+
+    private PropertyGridSchema PropertyGridSchema => propertyGridSchema ??= BuildPropertyGridSchema();
 
     private ReportElementDefinition SelectedElement => SelectedElements is { Count: > 0 } ? SelectedElements[0] : null;
 
