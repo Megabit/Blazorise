@@ -786,6 +786,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
             }
         }
 
+        if ( TryParseCompactInputTime( trimmedValue, out result ) )
+            return true;
+
         if ( !string.IsNullOrWhiteSpace( DisplayFormat ) )
             return false;
 
@@ -812,6 +815,48 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         }
 
         return false;
+    }
+
+    private bool TryParseCompactInputTime( string value, out TimeSpan result )
+    {
+        result = default;
+
+        int maximumLength = Seconds ? 6 : 4;
+
+        if ( string.IsNullOrEmpty( value )
+             || value.Length > maximumLength
+             || value.Any( character => character is < '0' or > '9' ) )
+        {
+            return false;
+        }
+
+        int hourDigits = value.Length <= 2
+            ? value.Length
+            : 2 - value.Length % 2;
+        int hour = int.Parse( value.AsSpan( 0, hourDigits ), NumberStyles.None, CultureInfo.InvariantCulture );
+        int minute = value.Length >= hourDigits + 2
+            ? int.Parse( value.AsSpan( hourDigits, 2 ), NumberStyles.None, CultureInfo.InvariantCulture )
+            : 0;
+        int second = value.Length >= hourDigits + 4
+            ? int.Parse( value.AsSpan( hourDigits + 2, 2 ), NumberStyles.None, CultureInfo.InvariantCulture )
+            : 0;
+
+        if ( hour > 23 || minute > 59 || second > 59 )
+            return false;
+
+        if ( !TimeAs24hr && hour is >= 1 and <= 12 )
+        {
+            hour %= 12;
+
+            if ( IsPostMeridiem )
+            {
+                hour += 12;
+            }
+        }
+
+        result = new TimeSpan( hour, minute, second );
+
+        return true;
     }
 
     private static void AddFormat( ICollection<string> formats, string format )

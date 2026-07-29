@@ -116,6 +116,21 @@ public class TimePickerComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task OpeningUnsetPickerUsesDefaultTimeAndMeridiem()
+    {
+        // setup
+        IRenderedComponent<TimePicker<TimeSpan?>> comp = Render<TimePicker<TimeSpan?>>();
+
+        // test
+        await comp.Find( "input" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( "12", comp.Find( ".timepicker-input" ).GetAttribute( "value" ) );
+        Assert.Equal( "PM", comp.Find( ".timepicker-meridiem" ).TextContent.Trim() );
+        Assert.Contains( "timepicker-meridiem-pm", comp.Find( ".timepicker-meridiem" ).ClassList );
+    }
+
+    [Fact]
     public async Task TabFromInputClosesMenu()
     {
         // setup
@@ -143,6 +158,77 @@ public class TimePickerComponentTest : BunitContext
 
         // validate
         Assert.Equal( new TimeSpan( 12, 34, 0 ), comp.Instance.Value );
+    }
+
+    [Theory]
+    [InlineData( "1333", 13, 33, "13:33" )]
+    [InlineData( "13", 13, 0, "13:00" )]
+    public async Task CompactNumericInputParsesEditableText( string text, int hour, int minute, string expectedText )
+    {
+        // setup
+        IRenderedComponent<TimePicker<TimeSpan?>> comp = Render<TimePicker<TimeSpan?>>();
+        IElement input = comp.Find( "input" );
+
+        // test
+        await input.InputAsync( new ChangeEventArgs { Value = text } );
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = text } );
+
+        // validate
+        Assert.Equal( new TimeSpan( hour, minute, 0 ), comp.Instance.Value );
+        Assert.Equal( expectedText, comp.Find( "input" ).GetAttribute( "value" ) );
+    }
+
+    [Theory]
+    [InlineData( 12, 21, "21:33" )]
+    [InlineData( 9, 9, "09:33" )]
+    public async Task CompactNumericInputUsesPickerMeridiemInTwelveHourMode( int defaultHour, int expectedHour, string expectedText )
+    {
+        // setup
+        IRenderedComponent<TimePicker<TimeSpan?>> comp = Render<TimePicker<TimeSpan?>>( parameters => parameters
+            .Add( x => x.DefaultHour, defaultHour ) );
+        IElement input = comp.Find( "input" );
+
+        // test
+        await input.InputAsync( new ChangeEventArgs { Value = "933" } );
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "933" } );
+
+        // validate
+        Assert.Equal( new TimeSpan( expectedHour, 33, 0 ), comp.Instance.Value );
+        Assert.Equal( expectedText, comp.Find( "input" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
+    public async Task CompactNumericInputUsesLiteralHourInTwentyFourHourMode()
+    {
+        // setup
+        IRenderedComponent<TimePicker<TimeSpan?>> comp = Render<TimePicker<TimeSpan?>>( parameters => parameters
+            .Add( x => x.TimeAs24hr, true ) );
+        IElement input = comp.Find( "input" );
+
+        // test
+        await input.InputAsync( new ChangeEventArgs { Value = "933" } );
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "933" } );
+
+        // validate
+        Assert.Equal( new TimeSpan( 9, 33, 0 ), comp.Instance.Value );
+        Assert.Equal( "09:33", comp.Find( "input" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
+    public async Task CompactNumericInputParsesSeconds()
+    {
+        // setup
+        IRenderedComponent<TimePicker<TimeSpan?>> comp = Render<TimePicker<TimeSpan?>>( parameters => parameters
+            .Add( x => x.Seconds, true ) );
+        IElement input = comp.Find( "input" );
+
+        // test
+        await input.InputAsync( new ChangeEventArgs { Value = "133355" } );
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "133355" } );
+
+        // validate
+        Assert.Equal( new TimeSpan( 13, 33, 55 ), comp.Instance.Value );
+        Assert.Equal( "13:33:55", comp.Find( "input" ).GetAttribute( "value" ) );
     }
 
     [Fact]
