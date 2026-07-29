@@ -339,18 +339,19 @@ body:before {
   inset-block-start: calc(100% + 0.25rem);
   inset-inline-start: 0;
   z-index: 1052;
-  width: max-content;
-  min-width: 18rem;
+  width: 19.25rem;
+  min-width: 0;
   max-width: calc(100vw - 1rem);
   max-height: calc(100vh - 1rem);
   overflow: auto;
-  padding: 0.5rem;
+  padding: 0;
   color: #212529;
   background-color: #fff;
   border-color: #dee2e6;
   border-radius: 0.25rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   outline: 0;
+  pointer-events: auto;
 }
 .datepicker .datepicker-calendar-inline {
   position: relative;
@@ -373,7 +374,31 @@ body:before {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 0.25rem;
+  min-height: 3rem;
+  padding: 0.5rem 0;
+}
+.datepicker .datepicker-navigation {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.125rem;
+  height: 2.125rem;
+  padding: 0.625rem;
+  border: 0;
+  border-radius: 0.25rem;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+.datepicker .datepicker-navigation:hover:not(:disabled), .datepicker .datepicker-navigation:focus-visible {
+  outline: 0;
+  background: rgba(0, 123, 255, 0.1);
+}
+.datepicker .datepicker-navigation:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
 }
 .datepicker .datepicker-title {
   display: flex;
@@ -384,19 +409,21 @@ body:before {
 .datepicker .datepicker-title select,
 .datepicker .datepicker-title input {
   border: 0;
-  border-radius: 0.25rem;
+  border-radius: 0;
   background: transparent;
   color: inherit;
-  font-weight: 700;
+  font: inherit;
+  font-weight: 400;
   text-align: center;
 }
 .datepicker .datepicker-title select:focus,
 .datepicker .datepicker-title input:focus {
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  box-shadow: none;
 }
 .datepicker .datepicker-title select {
   max-width: 8rem;
+  cursor: pointer;
 }
 .datepicker .datepicker-title input {
   width: 5rem;
@@ -416,9 +443,10 @@ body:before {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 2rem;
-  min-height: 2rem;
+  min-width: 0;
+  min-height: 1.75rem;
   color: #6c757d;
+  font-size: 0.875rem;
   font-weight: 700;
 }
 .datepicker .datepicker-day,
@@ -426,19 +454,31 @@ body:before {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 2.25rem;
-  min-height: 2.25rem;
+  justify-self: center;
+  width: 2.4375rem;
+  min-width: 0;
+  height: 2.4375rem;
   padding: 0;
   color: #212529;
+  border: 1px solid transparent;
   border-radius: 0.25rem;
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
 }
 .datepicker .datepicker-day:hover:not(:disabled),
 .datepicker .datepicker-month:hover:not(:disabled) {
   background: rgba(0, 123, 255, 0.1);
 }
 .datepicker .datepicker-day-outside {
-  color: #6c757d;
-  opacity: 0.65;
+  color: #212529;
+  opacity: 0.3;
+}
+.datepicker .datepicker-month {
+  width: 100%;
 }
 .datepicker .datepicker-day-today {
   border-color: #007bff;
@@ -474,8 +514,9 @@ body:before {
 }
 .datepicker .datepicker-day-disabled,
 .datepicker .datepicker-month-disabled {
-  opacity: 0.25;
+  opacity: 0.1;
   border-color: transparent;
+  cursor: not-allowed;
 }
 .datepicker .datepicker-months {
   display: grid;
@@ -487,18 +528,103 @@ body:before {
 .datepicker .datepicker-actions {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  padding-block-start: 0.5rem;
+  width: 100%;
+  border-block-start: 1px solid #dee2e6;
 }
 .datepicker .datepicker-time {
-  justify-content: center;
+  justify-content: flex-start;
+  height: 2.5rem;
+  overflow: hidden;
+}
+.datepicker .datepicker-time > span {
+  flex: 0 0 2%;
+  width: 2%;
+  color: #212529;
+  font-weight: 700;
+  line-height: 2.5rem;
+  text-align: center;
+  user-select: none;
+}
+.datepicker .datepicker-time .datepicker-button {
+  flex: 0 0 18%;
+  width: 18%;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  appearance: none;
+  color: #212529;
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 2.5rem;
+  text-align: center;
+  cursor: pointer;
+}
+.datepicker .datepicker-time .datepicker-button:hover:not(:disabled), .datepicker .datepicker-time .datepicker-button:focus-visible {
+  outline: 0;
+  background: rgba(0, 123, 255, 0.1);
+}
+.datepicker .datepicker-time .datepicker-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 .datepicker .datepicker-actions {
-  justify-content: flex-end;
+  justify-content: space-between;
+  padding: 0.625rem;
+}
+.datepicker .datepicker-actions .datepicker-button {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 10rem;
+  color: #212529;
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.datepicker .datepicker-actions .datepicker-button:hover:not(:disabled), .datepicker .datepicker-actions .datepicker-button:focus-visible {
+  outline: 0;
+  background: rgba(0, 123, 255, 0.1);
+}
+.datepicker .datepicker-actions .datepicker-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 .datepicker .datepicker-time-input {
-  width: 4rem;
+  box-sizing: border-box;
+  flex: 1 1 0;
+  width: 40%;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  appearance: textfield;
+  color: #212529;
+  background: transparent;
+  box-shadow: none;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 2.5rem;
   text-align: center;
+}
+.datepicker .datepicker-time-input:first-child {
+  font-weight: 700;
+}
+.datepicker .datepicker-time-input:hover:not(:disabled), .datepicker .datepicker-time-input:focus {
+  background: rgba(0, 123, 255, 0.1);
+}
+.datepicker .datepicker-time-input::-webkit-inner-spin-button, .datepicker .datepicker-time-input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+.datepicker .datepicker-time-input:disabled {
+  color: #6c757d;
+  cursor: not-allowed;
 }
 
 .timepicker {
@@ -509,12 +635,12 @@ body:before {
   anchor-scope: --bootstrap-timepicker-anchor;
 }
 .timepicker.show {
-  z-index: 1051;
+  z-index: 1001;
 }
 .timepicker .timepicker-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 1050;
+  z-index: 1000;
   background: transparent;
   pointer-events: none;
 }
@@ -523,17 +649,18 @@ body:before {
   position: absolute;
   inset-block-start: calc(100% + 0.25rem);
   inset-inline-start: 0;
-  z-index: 1052;
-  width: max-content;
-  min-width: 12rem;
+  z-index: 1002;
+  width: 13.875rem;
+  min-width: 0;
   max-width: calc(100vw - 1rem);
-  padding: 0.5rem;
+  padding: 0;
   color: #212529;
   background-color: #fff;
-  border-color: #dee2e6;
+  border-color: rgba(0, 0, 0, 0.15);
   border-radius: 0.25rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
   outline: 0;
+  pointer-events: auto;
 }
 .timepicker .timepicker-menu-inline {
   position: relative;
@@ -555,19 +682,98 @@ body:before {
 .timepicker .timepicker-controls {
   display: flex;
   align-items: center;
+  width: 100%;
+  height: 2.5rem;
+  overflow: hidden;
   flex-wrap: nowrap;
 }
 .timepicker .timepicker-control {
-  width: 4rem;
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  height: 2.5rem;
 }
 .timepicker .timepicker-input {
+  box-sizing: border-box;
   width: 100%;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  appearance: auto;
+  color: #212529;
+  background: transparent;
+  box-shadow: none;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 2.5rem;
   text-align: center;
 }
-.timepicker .timepicker-control-focused .timepicker-input,
-.timepicker .timepicker-meridiem.timepicker-control-focused {
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+.timepicker .timepicker-input::-webkit-inner-spin-button, .timepicker .timepicker-input::-webkit-outer-spin-button {
+  height: auto;
+  opacity: 0.65;
+  cursor: pointer;
+}
+.timepicker .timepicker-input:hover:not(:disabled), .timepicker .timepicker-input:focus {
+  background: rgba(0, 123, 255, 0.1);
+}
+.timepicker .timepicker-input:disabled {
+  color: #6c757d;
+  cursor: not-allowed;
+}
+.timepicker .timepicker-control:first-child .timepicker-input {
+  font-weight: 700;
+}
+.timepicker .timepicker-separator {
+  flex: 0 0 2%;
+  width: 2%;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  color: #212529;
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+  text-align: center;
+  user-select: none;
+}
+.timepicker .timepicker-meridiem {
+  display: inline-flex;
+  flex: 0 0 18%;
+  align-items: center;
+  justify-content: center;
+  width: 18%;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  appearance: none;
+  color: #212529;
+  background: transparent;
+  box-shadow: none;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 2.5rem;
+  cursor: pointer;
+}
+.timepicker .timepicker-meridiem:hover:not(:disabled), .timepicker .timepicker-meridiem:focus-visible, .timepicker .timepicker-meridiem.timepicker-control-focused {
+  outline: 0;
+  background: rgba(0, 123, 255, 0.1);
+}
+.timepicker .timepicker-meridiem:disabled {
+  color: #6c757d;
+  cursor: not-allowed;
+}
+.timepicker .timepicker-control-focused .timepicker-input {
+  background: rgba(0, 123, 255, 0.1);
 }
 
 .dock-layout {
