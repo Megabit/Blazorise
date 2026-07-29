@@ -2655,24 +2655,25 @@ li.list-group-item-action {
 
 .property-grid-empty {
   padding: 0.75rem;
+  color: #6c757d;
   font-size: 0.875rem;
-  opacity: 0.7;
 }
 
 .property-grid-help {
   flex: 0 0 auto;
   padding: 0.625rem 0.75rem;
-  border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  border-top: 1px solid #dee2e6;
 }
 
 .property-grid-help-title {
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .property-grid-help-description {
   margin-top: 0.125rem;
-  font-size: 0.8125rem;
+  color: #6c757d;
+  font-size: 0.875rem;
 }
 
 .property-grid-group,
@@ -2685,7 +2686,7 @@ li.list-group-item-action {
 
 .property-grid-group-header {
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .property-grid-group-toggle {
@@ -2712,11 +2713,11 @@ li.list-group-item-action {
 }
 
 .property-grid-item-selected {
-  background: color-mix(in srgb, currentColor 8%, transparent);
+  background: #f8f9fa;
 }
 
 .property-grid-item:focus-visible {
-  outline: 1px solid currentColor;
+  outline: 1px solid rgb(127.5, 189, 255);
   outline-offset: 1px;
 }
 

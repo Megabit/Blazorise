@@ -1,7 +1,7 @@
 .fui-PropertyGrid {
     display: flex;
     flex-direction: column;
-    gap: .5rem;
+    gap: var(--spacingVerticalS);
     max-height: 100%;
     min-height: 0;
     min-width: 0;
@@ -12,7 +12,7 @@
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    gap: .75rem;
+    gap: var(--spacingVerticalM);
     min-height: 0;
     min-width: 0;
     overflow-y: auto;
@@ -23,7 +23,7 @@
     display: flex;
     flex: 0 0 auto;
     align-items: center;
-    gap: .5rem;
+    gap: var(--spacingHorizontalS);
     min-width: 0;
 }
 
@@ -32,51 +32,52 @@
 }
 
 .fui-PropertyGrid__toolbarSearch {
-    flex: 1 1 16rem;
-    min-width: 10rem;
-    max-width: 22rem;
+    flex: 1 1 calc(var(--spacingHorizontalXXXL) * 8);
+    min-width: calc(var(--spacingHorizontalXXXL) * 5);
+    max-width: calc(var(--spacingHorizontalXXXL) * 11);
     margin-inline-start: auto;
 }
 
 .fui-PropertyGrid__empty {
-    padding: .75rem;
-    font-size: .875rem;
-    opacity: .7;
+    padding: var(--spacingVerticalM) var(--spacingHorizontalM);
+    color: var(--colorNeutralForeground3);
+    font-size: var(--fontSizeBase300);
 }
 
 .fui-PropertyGrid__help {
     flex: 0 0 auto;
-    padding: .625rem .75rem;
-    border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+    padding: var(--spacingVerticalMNudge) var(--spacingHorizontalM);
+    border-top: var(--strokeWidthThin) solid var(--colorNeutralStroke2);
 }
 
 .fui-PropertyGrid__helpTitle {
-    font-size: .875rem;
-    font-weight: 600;
+    font-size: var(--fontSizeBase300);
+    font-weight: var(--fontWeightSemibold);
 }
 
 .fui-PropertyGrid__helpDescription {
-    margin-top: .125rem;
-    font-size: .8125rem;
+    margin-top: var(--spacingVerticalXXS);
+    color: var(--colorNeutralForeground3);
+    font-size: var(--fontSizeBase200);
 }
 
 .fui-PropertyGridGroup,
 .fui-PropertyGridGroup__body {
     display: flex;
     flex-direction: column;
-    gap: .25rem;
+    gap: var(--spacingVerticalXS);
     min-width: 0;
 }
 
 .fui-PropertyGridGroup__header {
-    font-size: .875rem;
-    font-weight: 600;
+    font-size: var(--fontSizeBase300);
+    font-weight: var(--fontWeightSemibold);
 }
 
 .fui-PropertyGridGroup__toggle {
     display: flex;
     align-items: center;
-    gap: .375rem;
+    gap: var(--spacingHorizontalSNudge);
     width: 100%;
     padding: 0;
     border: 0;
@@ -91,25 +92,25 @@
 .fui-PropertyGridItem {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    gap: .25rem;
+    gap: var(--spacingHorizontalXS);
     align-items: center;
     min-width: 0;
 }
 
 .fui-PropertyGridItem-selected {
-    background: color-mix(in srgb, currentColor 8%, transparent);
+    background: var(--colorSubtleBackgroundSelected);
 }
 
 .fui-PropertyGridItem:focus-visible {
-    outline: 1px solid currentColor;
-    outline-offset: 1px;
+    outline: var(--strokeWidthThin) solid var(--colorStrokeFocus2);
+    outline-offset: var(--strokeWidthThin);
 }
 
 .fui-PropertyGridItem__label {
     min-width: 0;
-    padding-inline-end: .25rem;
+    padding-inline-end: var(--spacingHorizontalXS);
     overflow: hidden;
-    font-size: .875rem;
+    font-size: var(--fontSizeBase300);
     text-overflow: ellipsis;
     white-space: nowrap;
 }

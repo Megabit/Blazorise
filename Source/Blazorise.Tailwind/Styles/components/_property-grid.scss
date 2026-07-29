@@ -1,7 +1,7 @@
 .tw-property-grid {
     display: flex;
     flex-direction: column;
-    gap: .5rem;
+    gap: calc(var(--spacing) * 2);
     max-height: 100%;
     min-height: 0;
     min-width: 0;
@@ -12,7 +12,7 @@
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    gap: .75rem;
+    gap: calc(var(--spacing) * 3);
     min-height: 0;
     min-width: 0;
     overflow-y: auto;
@@ -23,7 +23,7 @@
     display: flex;
     flex: 0 0 auto;
     align-items: center;
-    gap: .5rem;
+    gap: calc(var(--spacing) * 2);
     min-width: 0;
 }
 
@@ -32,51 +32,52 @@
 }
 
 .tw-property-grid-toolbar-search {
-    flex: 1 1 16rem;
-    min-width: 10rem;
-    max-width: 22rem;
+    flex: 1 1 calc(var(--spacing) * 64);
+    min-width: calc(var(--spacing) * 40);
+    max-width: calc(var(--spacing) * 88);
     margin-inline-start: auto;
 }
 
 .tw-property-grid-empty {
-    padding: .75rem;
-    font-size: .875rem;
-    opacity: .7;
+    padding: calc(var(--spacing) * 3);
+    color: var(--color-gray-600, var(--btw-color-gray-600));
+    font-size: var(--text-sm);
 }
 
 .tw-property-grid-help {
     flex: 0 0 auto;
-    padding: .625rem .75rem;
-    border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+    padding: calc(var(--spacing) * 2.5) calc(var(--spacing) * 3);
+    border-top: 1px solid var(--color-gray-200, var(--btw-color-gray-200));
 }
 
 .tw-property-grid-help-title {
-    font-size: .875rem;
-    font-weight: 600;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
 }
 
 .tw-property-grid-help-description {
-    margin-top: .125rem;
-    font-size: .8125rem;
+    margin-top: calc(var(--spacing) * .5);
+    color: var(--color-gray-600, var(--btw-color-gray-600));
+    font-size: var(--text-xs);
 }
 
 .tw-property-grid-group,
 .tw-property-grid-group-body {
     display: flex;
     flex-direction: column;
-    gap: .25rem;
+    gap: var(--spacing);
     min-width: 0;
 }
 
 .tw-property-grid-group-header {
-    font-size: .875rem;
-    font-weight: 600;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
 }
 
 .tw-property-grid-group-toggle {
     display: flex;
     align-items: center;
-    gap: .375rem;
+    gap: calc(var(--spacing) * 1.5);
     width: 100%;
     padding: 0;
     border: 0;
@@ -91,25 +92,25 @@
 .tw-property-grid-item {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    gap: .25rem;
+    gap: var(--spacing);
     align-items: center;
     min-width: 0;
 }
 
 .tw-property-grid-item-selected {
-    background: color-mix(in srgb, currentColor 8%, transparent);
+    background: var(--color-gray-100, var(--btw-color-gray-100));
 }
 
 .tw-property-grid-item:focus-visible {
-    outline: 1px solid currentColor;
+    outline: 1px solid var(--color-primary-500, var(--btw-color-primary-500));
     outline-offset: 1px;
 }
 
 .tw-property-grid-item-label {
     min-width: 0;
-    padding-inline-end: .25rem;
+    padding-inline-end: var(--spacing);
     overflow: hidden;
-    font-size: .875rem;
+    font-size: var(--text-sm);
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -132,10 +133,10 @@
 
     .b-addon-body:nth-child(2) > .relative {
         box-sizing: border-box;
-        flex: 0 0 2.125rem;
-        width: 2.125rem;
-        min-width: 2.125rem;
-        height: 2.125rem;
+        flex: 0 0 calc(var(--spacing) * 8.5);
+        width: calc(var(--spacing) * 8.5);
+        min-width: calc(var(--spacing) * 8.5);
+        height: calc(var(--spacing) * 8.5);
 
         > .absolute {
             inset: 0;
@@ -157,13 +158,28 @@
     }
 
     .b-addon-end {
-        flex: 0 0 2.125rem;
-        width: 2.125rem;
+        flex: 0 0 calc(var(--spacing) * 8.5);
+        width: calc(var(--spacing) * 8.5);
 
         > .b-button {
-            width: 2.125rem;
+            width: calc(var(--spacing) * 8.5);
             padding-inline: 0;
             justify-content: center;
         }
+    }
+}
+
+.dark {
+    .tw-property-grid-empty,
+    .tw-property-grid-help-description {
+        color: var(--color-gray-400, var(--btw-color-gray-400));
+    }
+
+    .tw-property-grid-help {
+        border-top-color: var(--color-gray-700, var(--btw-color-gray-700));
+    }
+
+    .tw-property-grid-item-selected {
+        background: var(--color-gray-800, var(--btw-color-gray-800));
     }
 }

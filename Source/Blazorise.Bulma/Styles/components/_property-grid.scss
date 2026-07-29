@@ -1,7 +1,7 @@
 .property-grid {
     display: flex;
     flex-direction: column;
-    gap: .5rem;
+    gap: $spacer * .5;
     max-height: 100%;
     min-height: 0;
     min-width: 0;
@@ -12,7 +12,7 @@
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    gap: .75rem;
+    gap: $spacer * .75;
     min-height: 0;
     min-width: 0;
     overflow-y: auto;
@@ -23,7 +23,7 @@
     display: flex;
     flex: 0 0 auto;
     align-items: center;
-    gap: .5rem;
+    gap: $spacer * .5;
     min-width: 0;
 }
 
@@ -32,51 +32,52 @@
 }
 
 .property-grid-toolbar-search {
-    flex: 1 1 16rem;
-    min-width: 10rem;
-    max-width: 22rem;
+    flex: 1 1 ($spacer * 16);
+    min-width: $spacer * 10;
+    max-width: $spacer * 22;
     margin-inline-start: auto;
 }
 
 .property-grid-empty {
-    padding: .75rem;
-    font-size: .875rem;
-    opacity: .7;
+    padding: $spacer * .75;
+    color: $text-weak;
+    font-size: $size-small;
 }
 
 .property-grid-help {
     flex: 0 0 auto;
-    padding: .625rem .75rem;
-    border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+    padding: ($spacer * .625) ($spacer * .75);
+    border-top: $control-border-width solid $border;
 }
 
 .property-grid-help-title {
-    font-size: .875rem;
-    font-weight: 600;
+    font-size: $size-small;
+    font-weight: $weight-semibold;
 }
 
 .property-grid-help-description {
-    margin-top: .125rem;
-    font-size: .8125rem;
+    margin-top: $spacer * .125;
+    color: $text-weak;
+    font-size: $size-small;
 }
 
 .property-grid-group,
 .property-grid-group-body {
     display: flex;
     flex-direction: column;
-    gap: .25rem;
+    gap: $spacer * .25;
     min-width: 0;
 }
 
 .property-grid-group-header {
-    font-size: .875rem;
-    font-weight: 600;
+    font-size: $size-small;
+    font-weight: $weight-semibold;
 }
 
 .property-grid-group-toggle {
     display: flex;
     align-items: center;
-    gap: .375rem;
+    gap: $spacer * .375;
     width: 100%;
     padding: 0;
     border: 0;
@@ -91,25 +92,25 @@
 .property-grid-item {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    gap: .25rem;
+    gap: $spacer * .25;
     align-items: center;
     min-width: 0;
 }
 
 .property-grid-item-selected {
-    background: color-mix(in srgb, currentColor 8%, transparent);
+    background: $background;
 }
 
 .property-grid-item:focus-visible {
-    outline: 1px solid currentColor;
-    outline-offset: 1px;
+    outline: $control-border-width solid $link;
+    outline-offset: $control-border-width;
 }
 
 .property-grid-item-label {
     min-width: 0;
-    padding-inline-end: .25rem;
+    padding-inline-end: $spacer * .25;
     overflow: hidden;
-    font-size: .875rem;
+    font-size: $size-small;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -130,6 +131,6 @@
 
     .b-input-color-picker {
         width: var(--bulma-control-height);
-        padding: .35rem;
+        padding: $spacer * .25;
     }
 }
