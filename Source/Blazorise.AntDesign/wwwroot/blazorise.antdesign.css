@@ -4165,7 +4165,7 @@ template {
 }
 
 @supports (position-anchor: --ant-timepicker-anchor) {
-  .ant-time-picker-dropdown-floating {
+  .ant-time-picker-dropdown.ant-picker-panel-container.ant-time-picker-dropdown-floating {
     position: fixed;
     position-anchor: --ant-timepicker-anchor;
     inset: auto;

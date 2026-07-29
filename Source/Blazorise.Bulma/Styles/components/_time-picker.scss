@@ -37,7 +37,7 @@
     }
 
     @supports (position-anchor: --bulma-timepicker-anchor) {
-        .timepicker-menu-floating {
+        .timepicker-menu.timepicker-menu-floating {
             position: fixed;
             position-anchor: --bulma-timepicker-anchor;
             inset: auto;

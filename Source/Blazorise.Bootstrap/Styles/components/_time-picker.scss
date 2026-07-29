@@ -43,7 +43,7 @@
     }
 
     @supports (position-anchor: --bootstrap-timepicker-anchor) {
-        .timepicker-menu-floating {
+        .timepicker-menu.dropdown-menu.timepicker-menu-floating {
             position: fixed;
             position-anchor: --bootstrap-timepicker-anchor;
             inset: auto;

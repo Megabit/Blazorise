@@ -4082,7 +4082,7 @@ body {
 }
 
 @supports (position-anchor: --material-timepicker-anchor) {
-  .mui-time-picker-menu-floating {
+  .mui-time-picker-menu.mui-time-picker-menu-floating {
     position: fixed;
     position-anchor: --material-timepicker-anchor;
     inset: auto;

@@ -1758,7 +1758,7 @@ body:before {
   z-index: auto;
 }
 @supports (position-anchor: --bulma-datepicker-anchor) {
-  .datepicker .datepicker-calendar.is-floating {
+  .datepicker .datepicker-calendar.box.is-floating {
     position: fixed;
     position-anchor: --bulma-datepicker-anchor;
     inset: auto;
@@ -1936,7 +1936,7 @@ body:before {
   z-index: auto;
 }
 @supports (position-anchor: --bulma-timepicker-anchor) {
-  .timepicker .timepicker-menu-floating {
+  .timepicker .timepicker-menu.timepicker-menu-floating {
     position: fixed;
     position-anchor: --bulma-timepicker-anchor;
     inset: auto;

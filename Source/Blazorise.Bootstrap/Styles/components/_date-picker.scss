@@ -50,7 +50,7 @@
     }
 
     @supports (position-anchor: --bootstrap-datepicker-anchor) {
-        .datepicker-calendar-floating {
+        .datepicker-calendar.dropdown-menu.datepicker-calendar-floating {
             position: fixed;
             position-anchor: --bootstrap-datepicker-anchor;
             inset: auto;

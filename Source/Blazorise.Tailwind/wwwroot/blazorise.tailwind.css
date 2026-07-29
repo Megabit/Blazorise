@@ -9079,7 +9079,7 @@ body:before {
   border-radius: 0.375rem;
 }
 @supports (position-anchor: --tailwind-datepicker-anchor) {
-  .tw-datepicker-calendar-floating {
+  .tw-datepicker-calendar.tw-datepicker-calendar-floating {
     position: fixed;
     position-anchor: --tailwind-datepicker-anchor;
     inset: auto;
@@ -9129,7 +9129,7 @@ body:before {
   z-index: auto;
 }
 @supports (position-anchor: --tailwind-timepicker-anchor) {
-  .tw-timepicker-menu-floating {
+  .tw-timepicker-menu.tw-timepicker-menu-floating {
     position: fixed;
     position-anchor: --tailwind-timepicker-anchor;
     inset: auto;

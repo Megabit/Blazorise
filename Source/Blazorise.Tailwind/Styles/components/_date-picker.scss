@@ -26,7 +26,7 @@
 }
 
 @supports (position-anchor: --tailwind-datepicker-anchor) {
-    .tw-datepicker-calendar-floating {
+    .tw-datepicker-calendar.tw-datepicker-calendar-floating {
         position: fixed;
         position-anchor: --tailwind-datepicker-anchor;
         inset: auto;
