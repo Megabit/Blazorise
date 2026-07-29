@@ -1,13 +1,43 @@
 @namespace Blazorise.Docs.Docs.Examples
 
-<PropertyGrid>
-    <PropertyGridGroup Title="Appearance">
-        <PropertyGridTextItem Label="Title" @bind-Value="@title" />
-        <PropertyGridBooleanItem Label="Visible" @bind-Value="@visible" TrueText="Visible" FalseText="Hidden" />
-        <PropertyGridNumericItem TValue="int" Label="Width" @bind-Value="@width" Min="100" Max="1200" Step="10" />
-        <PropertyGridStringSelectItem Label="Alignment" @bind-Value="@alignment" Options="@alignmentOptions" />
-        <PropertyGridColorItem Label="Accent" @bind-Value="@accent" />
-    </PropertyGridGroup>
+<PropertyGrid Height="Height.Px( 360 )">
+    <Toolbar>
+        <PropertyGridToolbar>
+            <PropertyGridToolbarButton Icon="IconName.Clear"
+                                       Title="Clear search"
+                                       Disabled="@( string.IsNullOrWhiteSpace( searchText ) )"
+                                       Clicked="@ClearSearch" />
+            <PropertyGridToolbarSearch @bind-SearchText="@searchText" />
+        </PropertyGridToolbar>
+    </Toolbar>
+    <ChildContent>
+        <PropertyGridGroup Title="Appearance">
+            @if ( MatchesSearch( "Title" ) )
+            {
+                <PropertyGridTextItem Label="Title" @bind-Value="@title" />
+            }
+            @if ( MatchesSearch( "Visible" ) )
+            {
+                <PropertyGridBooleanItem Label="Visible" @bind-Value="@visible" TrueText="Visible" FalseText="Hidden" />
+            }
+            @if ( MatchesSearch( "Width" ) )
+            {
+                <PropertyGridNumericItem TValue="int" Label="Width" @bind-Value="@width" Min="100" Max="1200" Step="10" />
+            }
+            @if ( MatchesSearch( "Alignment" ) )
+            {
+                <PropertyGridStringSelectItem Label="Alignment" @bind-Value="@alignment" Options="@alignmentOptions" />
+            }
+            @if ( MatchesSearch( "Accent" ) )
+            {
+                <PropertyGridColorItem Label="Accent" @bind-Value="@accent" />
+            }
+        </PropertyGridGroup>
+    </ChildContent>
+    <Help>
+        <PropertyGridHelp Title="Manual composition"
+                          Description="Toolbar, editor, filtering, and help behavior can be composed directly." />
+    </Help>
 </PropertyGrid>
 
 <Paragraph Margin="Margin.Is3.FromTop">
@@ -32,4 +62,13 @@
     private string alignment = "Left";
 
     private string accent = "Blue";
+
+    private string searchText;
+
+    private bool MatchesSearch( string label )
+        => string.IsNullOrWhiteSpace( searchText )
+            || label.Contains( searchText, StringComparison.CurrentCultureIgnoreCase );
+
+    private void ClearSearch()
+        => searchText = string.Empty;
 }

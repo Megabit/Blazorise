@@ -3,10 +3,15 @@
 <PropertyGridView Schema="@schema"
                   PropertyValueChanged="@OnPropertyValueChanged"
                   ActionInvoked="@OnActionInvoked"
+                  @bind-SelectedProperty="@selectedProperty"
                   @bind-ViewMode="@viewMode" />
 
 <Paragraph Margin="Margin.Is3.FromTop">
     <Strong>Status:</Strong> @status
+    @if ( selectedProperty is not null )
+    {
+        <Span> Selected: @selectedProperty.Label.</Span>
+    }
 </Paragraph>
 
 @code {
@@ -26,6 +31,8 @@
 
     private PropertyGridSchema schema;
 
+    private PropertyGridProperty selectedProperty;
+
     protected override void OnInitialized()
     {
         schema = BuildSchema();
@@ -40,6 +47,7 @@
                 [
                     new PropertyGridTextProperty( "document.name", "Name", documentName )
                     {
+                        Description = "The display name used for the generated document.",
                         Immediate = true,
                         Action = new PropertyGridAction( "rename" )
                         {
@@ -49,6 +57,7 @@
                     },
                     new PropertyGridBooleanProperty( "document.enabled", "Enabled", enabled )
                     {
+                        Description = "Controls whether the document is included in output.",
                         TrueText = "Enabled",
                         FalseText = "Disabled",
                     },
@@ -65,13 +74,20 @@
                             new( "PDF", "PDF" ),
                             new( "HTML", "HTML" ),
                             new( "CSV", "CSV" ),
-                        ] ),
+                        ] )
+                    {
+                        Description = "The file format used when the document is exported.",
+                    },
                     new PropertyGridNumericProperty<int>( "output.copies", "Copies", copies )
                     {
+                        Description = "The number of output copies to create.",
                         Min = 1,
                         Max = 10,
                     },
-                    new PropertyGridColorProperty( "output.accent", "Accent", accent ),
+                    new PropertyGridColorProperty( "output.accent", "Accent", accent )
+                    {
+                        Description = "The accent color used by the document theme.",
+                    },
                 ] ),
         ] );
 

@@ -13,9 +13,11 @@ public partial class PropertyGridView : BaseComponent
 {
     #region Members
 
-    private const int AtomicComponentParameterCapacity = 21;
+    private const int AtomicComponentParameterCapacity = 25;
 
     private PropertyGridToolbarContext toolbarContext;
+
+    private readonly Dictionary<string, bool> groupExpandedStates = [];
 
     #endregion
 
@@ -34,6 +36,38 @@ public partial class PropertyGridView : BaseComponent
         ViewMode = viewMode;
 
         await ViewModeChanged.InvokeAsync( viewMode );
+    }
+
+    internal async Task ChangeSearchTextAsync( string searchText )
+    {
+        searchText ??= string.Empty;
+
+        if ( string.Equals( SearchText, searchText, System.StringComparison.Ordinal ) )
+            return;
+
+        SearchText = searchText;
+
+        await SearchTextChanged.InvokeAsync( searchText );
+    }
+
+    internal async Task ChangeGroupExpandedAsync( PropertyGridGroupDefinition group, bool expanded )
+    {
+        if ( group is null || IsGroupExpanded( group ) == expanded )
+            return;
+
+        groupExpandedStates[group.Key] = expanded;
+
+        await GroupExpandedChanged.InvokeAsync( new PropertyGridGroupExpandedEventArgs( group, expanded ) );
+    }
+
+    internal async Task SelectPropertyAsync( PropertyGridProperty property )
+    {
+        if ( property is null || IsPropertySelected( property ) )
+            return;
+
+        SelectedProperty = property;
+
+        await SelectedPropertyChanged.InvokeAsync( property );
     }
 
     internal async Task InvokeActionAsync( PropertyGridProperty property )
@@ -84,7 +118,7 @@ public partial class PropertyGridView : BaseComponent
         };
     }
 
-    private IDictionary<string, object> GetAtomicComponentParameters( PropertyGridProperty property )
+    private IDictionary<string, object> GetAtomicComponentParameters( PropertyGridProperty property, bool selected, string ariaDescribedBy )
     {
         Dictionary<string, object> parameters = new( AtomicComponentParameterCapacity )
         {
@@ -94,6 +128,10 @@ public partial class PropertyGridView : BaseComponent
             [nameof( PropertyGridItem.Style )] = property.Style,
             [nameof( BasePropertyGridEditorItem.Mixed )] = property.Mixed,
             [nameof( BasePropertyGridEditorItem.LabelContent )] = GetLabelContent( property ),
+            [nameof( BasePropertyGridEditorItem.Selectable )] = true,
+            [nameof( BasePropertyGridEditorItem.Selected )] = selected,
+            [nameof( BasePropertyGridEditorItem.SelectedChanged )] = EventCallback.Factory.Create<bool>( this, value => value ? SelectPropertyAsync( property ) : Task.CompletedTask ),
+            [nameof( BasePropertyGridEditorItem.AriaDescribedBy )] = ariaDescribedBy,
             [nameof( BasePropertyGridEditorItem.ShowAction )] = property.Action?.Visible == true,
             [nameof( BasePropertyGridEditorItem.ActionDisabled )] = property.Action?.Disabled == true,
             [nameof( BasePropertyGridEditorItem.ActionColor )] = property.Action?.Color ?? Color.Light,
@@ -112,20 +150,50 @@ public partial class PropertyGridView : BaseComponent
         return parameters;
     }
 
+    private PropertyGridProperty GetSelectedProperty()
+    {
+        if ( SelectedProperty is null )
+            return null;
+
+        return Schema is null
+            ? SelectedProperty
+            : Schema.FindProperty( SelectedProperty.Key );
+    }
+
     internal IconName GetViewModeIcon( PropertyGridViewMode viewMode )
         => viewMode == PropertyGridViewMode.Alphabetical ? AlphabeticalButtonIcon : CategorizedButtonIcon;
 
     internal string GetViewModeTitle( PropertyGridViewMode viewMode )
         => viewMode == PropertyGridViewMode.Alphabetical ? AlphabeticalButtonTitle : CategorizedButtonTitle;
 
+    internal bool IsGroupExpanded( PropertyGridGroupDefinition group )
+        => group is not null
+            && ( groupExpandedStates.TryGetValue( group.Key, out bool expanded ) ? expanded : group.Expanded );
+
+    internal bool IsPropertySelected( PropertyGridProperty property )
+        => IsPropertySelected( property, GetSelectedProperty() );
+
+    private static bool IsPropertySelected( PropertyGridProperty property, PropertyGridProperty selectedProperty )
+        => property is not null
+            && selectedProperty is not null
+            && string.Equals( property.Key, selectedProperty.Key, System.StringComparison.Ordinal );
+
     #endregion
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
     /// <summary>
-    /// Gets the provider class for the toolbar.
+    /// Gets the provider class for empty search results.
     /// </summary>
-    protected string ToolbarClassName => ClassProvider.PropertyGridToolbar();
+    protected string EmptyClassNames => ClassProvider.PropertyGridEmpty();
+
+    /// <summary>
+    /// Gets the stable help element id.
+    /// </summary>
+    protected string HelpElementId => $"{ElementId}-help";
 
     private PropertyGridToolbarContext ToolbarContext => toolbarContext ??= new( this );
 
@@ -145,9 +213,44 @@ public partial class PropertyGridView : BaseComponent
     [Parameter] public EventCallback<PropertyGridActionEventArgs> ActionInvoked { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the categorized and alphabetical view buttons are shown.
+    /// Occurs after a property group expansion state changes.
+    /// </summary>
+    [Parameter] public EventCallback<PropertyGridGroupExpandedEventArgs> GroupExpandedChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the selected property.
+    /// </summary>
+    [Parameter] public PropertyGridProperty SelectedProperty { get; set; }
+
+    /// <summary>
+    /// Occurs after the selected property changes.
+    /// </summary>
+    [Parameter] public EventCallback<PropertyGridProperty> SelectedPropertyChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the property grid toolbar is shown.
     /// </summary>
     [Parameter] public bool ShowToolbar { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether the categorized and alphabetical view buttons are shown.
+    /// </summary>
+    [Parameter] public bool ShowViewModeButtons { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether the property search editor is shown.
+    /// </summary>
+    [Parameter] public bool ShowSearch { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether help for the selected property is shown.
+    /// </summary>
+    [Parameter] public bool ShowHelp { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets the accessible property grid label.
+    /// </summary>
+    [Parameter] public string AriaLabel { get; set; } = "Properties";
 
     /// <summary>
     /// Gets or sets how properties are arranged.
@@ -158,6 +261,31 @@ public partial class PropertyGridView : BaseComponent
     /// Occurs after the property arrangement changes.
     /// </summary>
     [Parameter] public EventCallback<PropertyGridViewMode> ViewModeChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the property search text.
+    /// </summary>
+    [Parameter] public string SearchText { get; set; }
+
+    /// <summary>
+    /// Occurs after the property search text changes.
+    /// </summary>
+    [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the property search placeholder.
+    /// </summary>
+    [Parameter] public string SearchPlaceholder { get; set; } = "Search properties";
+
+    /// <summary>
+    /// Gets or sets whether property search changes are debounced.
+    /// </summary>
+    [Parameter] public bool SearchDebounce { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets the property search debounce interval in milliseconds.
+    /// </summary>
+    [Parameter] public int SearchDebounceInterval { get; set; } = 300;
 
     /// <summary>
     /// Gets or sets the categorized button icon.
@@ -193,6 +321,11 @@ public partial class PropertyGridView : BaseComponent
     /// Defines the alphabetical view button template.
     /// </summary>
     [Parameter] public RenderFragment<PropertyGridViewModeContext> AlphabeticalButtonTemplate { get; set; }
+
+    /// <summary>
+    /// Defines the property search template.
+    /// </summary>
+    [Parameter] public RenderFragment<PropertyGridSearchContext> SearchTemplate { get; set; }
 
     /// <summary>
     /// Defines a complete group template.
@@ -245,6 +378,11 @@ public partial class PropertyGridView : BaseComponent
     [Parameter] public RenderFragment<PropertyGridActionContext> ActionTemplate { get; set; }
 
     /// <summary>
+    /// Defines the selected property help template.
+    /// </summary>
+    [Parameter] public RenderFragment<PropertyGridHelpContext> HelpTemplate { get; set; }
+
+    /// <summary>
     /// Defines content rendered after all schema groups.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
@@ -253,6 +391,16 @@ public partial class PropertyGridView : BaseComponent
     /// Defines content rendered when the schema and child content are empty.
     /// </summary>
     [Parameter] public RenderFragment EmptyTemplate { get; set; }
+
+    /// <summary>
+    /// Defines content rendered when no properties match the current search.
+    /// </summary>
+    [Parameter] public RenderFragment NoResultsTemplate { get; set; }
+
+    /// <summary>
+    /// Defines the text rendered when no properties match the current search.
+    /// </summary>
+    [Parameter] public string NoResultsText { get; set; } = "No properties found.";
 
     #endregion
 }

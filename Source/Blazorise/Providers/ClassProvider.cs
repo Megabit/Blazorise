@@ -573,15 +573,33 @@ public abstract class ClassProvider : IClassProvider
 
     public virtual string PropertyGrid() => null;
 
+    public virtual string PropertyGridViewport() => null;
+
     public virtual string PropertyGridToolbar() => null;
+
+    public virtual string PropertyGridToolbarButton() => null;
+
+    public virtual string PropertyGridToolbarSearch() => null;
+
+    public virtual string PropertyGridEmpty() => null;
+
+    public virtual string PropertyGridHelp() => null;
+
+    public virtual string PropertyGridHelpTitle() => null;
+
+    public virtual string PropertyGridHelpDescription() => null;
 
     public virtual string PropertyGridGroup() => null;
 
     public virtual string PropertyGridGroupHeader() => null;
 
+    public virtual string PropertyGridGroupToggle() => null;
+
     public virtual string PropertyGridGroupBody() => null;
 
     public virtual string PropertyGridItem() => null;
+
+    public virtual string PropertyGridItemSelected( bool selected ) => null;
 
     public virtual string PropertyGridItemLabel() => null;
 

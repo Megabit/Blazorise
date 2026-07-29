@@ -37,6 +37,11 @@ public sealed class PropertyGridItemContext
     /// </summary>
     public Task InvokeAction() => owner.InvokeActionAsync( Property );
 
+    /// <summary>
+    /// Selects the property.
+    /// </summary>
+    public Task Select() => owner.SelectPropertyAsync( Property );
+
     #endregion
 
     #region Properties
@@ -55,6 +60,11 @@ public sealed class PropertyGridItemContext
     /// Gets whether the property represents multiple different values.
     /// </summary>
     public bool Mixed => Property.Mixed;
+
+    /// <summary>
+    /// Gets whether the property is selected.
+    /// </summary>
+    public bool Selected => owner.IsPropertySelected( Property );
 
     /// <summary>
     /// Gets the property label context.

@@ -18,7 +18,13 @@
 <DocsPageParagraph>
     A schema is a snapshot of the values to render.
     Handle <Code>PropertyValueChanged</Code> to update the application model, then assign a new schema when the displayed values need to change.
-    The built-in toolbar lets users switch between categorized and alphabetical views.
+    The built-in toolbar lets users search properties and switch between categorized and alphabetical views.
+    Selecting a property displays its <Code>Description</Code> in the help panel.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The property viewport scrolls independently when the component receives a constrained height, keeping the toolbar and help panel visible.
+    Groups and property rows expose grid, row, gridcell, selection, and expansion semantics for assistive technologies.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -27,7 +33,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic property grid">
-        Compose a small property grid directly from groups and strongly typed editor components.
+        Compose a property grid directly from toolbar, group, editor, and help components.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="PropertyGridBasicExample" Outlined FullWidth>
         <PropertyGridBasicExample />
@@ -52,4 +58,4 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof( PropertyGrid ), typeof( PropertyGridGroup ), typeof( PropertyGridItem ), typeof( PropertyGridView ), typeof( PropertyGridTextItem ), typeof( PropertyGridBooleanItem ), typeof( PropertyGridNumericItem<> ), typeof( PropertyGridSelectItem<> ), typeof( PropertyGridStringSelectItem ), typeof( PropertyGridColorItem )]" />
+<ComponentApiDocs ComponentTypes="[typeof( PropertyGrid ), typeof( PropertyGridToolbar ), typeof( PropertyGridToolbarButton ), typeof( PropertyGridToolbarSearch ), typeof( PropertyGridHelp ), typeof( PropertyGridGroup ), typeof( PropertyGridItem ), typeof( PropertyGridView ), typeof( PropertyGridTextItem ), typeof( PropertyGridBooleanItem ), typeof( PropertyGridNumericItem<> ), typeof( PropertyGridSelectItem<> ), typeof( PropertyGridStringSelectItem ), typeof( PropertyGridColorItem )]" />

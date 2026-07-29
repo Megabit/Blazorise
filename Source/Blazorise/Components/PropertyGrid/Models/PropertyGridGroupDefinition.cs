@@ -56,6 +56,11 @@ public sealed class PropertyGridGroupDefinition
     public bool Visible { get; init; } = true;
 
     /// <summary>
+    /// Gets or sets whether the group is initially expanded.
+    /// </summary>
+    public bool Expanded { get; set; } = true;
+
+    /// <summary>
     /// Gets or sets custom group classes.
     /// </summary>
     public string Class { get; set; }

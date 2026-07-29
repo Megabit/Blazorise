@@ -2,5 +2,9 @@
 @inherits BaseComponent
 
 <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    @ChildContent
+    @Toolbar
+    <div class="@ViewportClassNames" role="grid" aria-label="@AriaLabel">
+        @ChildContent
+    </div>
+    @Help
 </div>

@@ -1,4 +1,5 @@
 #region Using directives
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -20,6 +21,16 @@ public partial class PropertyGridItem : BaseComponent
         base.BuildClasses( builder );
     }
 
+    private async Task Select()
+    {
+        if ( !Selectable || Selected )
+            return;
+
+        Selected = true;
+
+        await SelectedChanged.InvokeAsync( true );
+    }
+
     #endregion
 
     #region Properties
@@ -35,9 +46,24 @@ public partial class PropertyGridItem : BaseComponent
     protected string BodyClassNames => ClassProvider.PropertyGridItemBody();
 
     /// <summary>
+    /// Gets the provider class for the selected item state.
+    /// </summary>
+    protected string SelectedClassNames => ClassProvider.PropertyGridItemSelected( Selected );
+
+    /// <summary>
     /// Indicates whether an action button is rendered after the property editor.
     /// </summary>
     protected bool HasAction => ShowAction && ( ActionClicked.HasDelegate || ActionContent is not null || ActionTemplate is not null );
+
+    /// <summary>
+    /// Gets the row tab index when selection is enabled.
+    /// </summary>
+    protected int? TabIndexValue => Selectable ? 0 : null;
+
+    /// <summary>
+    /// Gets the accessible selection state.
+    /// </summary>
+    protected bool? AriaSelected => Selectable ? Selected : null;
 
     /// <summary>
     /// Defines the property label.
@@ -48,6 +74,26 @@ public partial class PropertyGridItem : BaseComponent
     /// Defines custom content for the property label. When specified, it takes precedence over <see cref="Label"/>.
     /// </summary>
     [Parameter] public RenderFragment LabelContent { get; set; }
+
+    /// <summary>
+    /// Defines whether the property can be selected.
+    /// </summary>
+    [Parameter] public bool Selectable { get; set; }
+
+    /// <summary>
+    /// Defines whether the property is selected.
+    /// </summary>
+    [Parameter] public bool Selected { get; set; }
+
+    /// <summary>
+    /// Occurs after the property selection state changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> SelectedChanged { get; set; }
+
+    /// <summary>
+    /// Identifies the element that describes the property.
+    /// </summary>
+    [Parameter] public string AriaDescribedBy { get; set; }
 
     /// <summary>
     /// Defines the size of the property editor action.

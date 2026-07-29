@@ -575,15 +575,33 @@ class EmptyClassProvider : IClassProvider
 
     public string PropertyGrid() => null;
 
+    public string PropertyGridViewport() => null;
+
     public string PropertyGridToolbar() => null;
+
+    public string PropertyGridToolbarButton() => null;
+
+    public string PropertyGridToolbarSearch() => null;
+
+    public string PropertyGridEmpty() => null;
+
+    public string PropertyGridHelp() => null;
+
+    public string PropertyGridHelpTitle() => null;
+
+    public string PropertyGridHelpDescription() => null;
 
     public string PropertyGridGroup() => null;
 
     public string PropertyGridGroupHeader() => null;
 
+    public string PropertyGridGroupToggle() => null;
+
     public string PropertyGridGroupBody() => null;
 
     public string PropertyGridItem() => null;
+
+    public string PropertyGridItemSelected( bool selected ) => null;
 
     public string PropertyGridItemLabel() => null;
 

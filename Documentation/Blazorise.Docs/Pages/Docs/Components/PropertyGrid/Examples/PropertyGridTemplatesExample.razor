@@ -5,10 +5,10 @@
                   ActionInvoked="@OnActionInvoked"
                   ShowToolbar="false">
     <GroupHeaderTemplate Context="context">
-        <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+        <Span Display="Display.Flex" Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
             <Icon Name="IconName.Wrench" />
             <Strong>@context.Group.Title</Strong>
-        </Div>
+        </Span>
     </GroupHeaderTemplate>
     <LabelTemplate Context="context">
         <Strong>@context.Label</Strong>
@@ -26,6 +26,10 @@
             @context.Action.Text
         </Button>
     </ActionTemplate>
+    <HelpTemplate Context="context">
+        <Strong>About @context.Label</Strong>
+        <Text>@context.Description</Text>
+    </HelpTemplate>
 </PropertyGridView>
 
 <Paragraph Margin="Margin.Is3.FromTop">
@@ -53,6 +57,7 @@
                 [
                     new PropertyGridTextProperty( "appearance.name", "Display name", displayName )
                     {
+                        Description = "The name displayed to users.",
                         Immediate = true,
                         Action = new PropertyGridAction( "reset" )
                         {
@@ -60,7 +65,10 @@
                             Title = "Reset display name",
                         },
                     },
-                    new PropertyGridBooleanProperty( "appearance.highlighted", "Highlighted", highlighted ),
+                    new PropertyGridBooleanProperty( "appearance.highlighted", "Highlighted", highlighted )
+                    {
+                        Description = "Emphasizes the item in the rendered output.",
+                    },
                 ] ),
         ] );
 

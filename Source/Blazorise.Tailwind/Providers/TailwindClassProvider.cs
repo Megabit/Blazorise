@@ -924,15 +924,33 @@ public class TailwindClassProvider : ClassProvider
 
     public override string PropertyGrid() => "tw-property-grid";
 
+    public override string PropertyGridViewport() => "tw-property-grid-viewport";
+
     public override string PropertyGridToolbar() => "tw-property-grid-toolbar";
+
+    public override string PropertyGridToolbarButton() => "tw-property-grid-toolbar-button";
+
+    public override string PropertyGridToolbarSearch() => "tw-property-grid-toolbar-search";
+
+    public override string PropertyGridEmpty() => "tw-property-grid-empty";
+
+    public override string PropertyGridHelp() => "tw-property-grid-help";
+
+    public override string PropertyGridHelpTitle() => "tw-property-grid-help-title";
+
+    public override string PropertyGridHelpDescription() => "tw-property-grid-help-description";
 
     public override string PropertyGridGroup() => "tw-property-grid-group";
 
     public override string PropertyGridGroupHeader() => "tw-property-grid-group-header";
 
+    public override string PropertyGridGroupToggle() => "tw-property-grid-group-toggle";
+
     public override string PropertyGridGroupBody() => "tw-property-grid-group-body";
 
     public override string PropertyGridItem() => "tw-property-grid-item";
+
+    public override string PropertyGridItemSelected( bool selected ) => selected ? "tw-property-grid-item-selected" : null;
 
     public override string PropertyGridItemLabel() => "tw-property-grid-item-label";
 

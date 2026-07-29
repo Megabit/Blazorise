@@ -22,6 +22,26 @@ public abstract class BasePropertyGridEditorItem : BaseComponent
     [Parameter] public RenderFragment LabelContent { get; set; }
 
     /// <summary>
+    /// Defines whether the property can be selected.
+    /// </summary>
+    [Parameter] public bool Selectable { get; set; }
+
+    /// <summary>
+    /// Defines whether the property is selected.
+    /// </summary>
+    [Parameter] public bool Selected { get; set; }
+
+    /// <summary>
+    /// Occurs after the property selection state changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> SelectedChanged { get; set; }
+
+    /// <summary>
+    /// Identifies the element that describes the property.
+    /// </summary>
+    [Parameter] public string AriaDescribedBy { get; set; }
+
+    /// <summary>
     /// Defines the property editor size.
     /// </summary>
     [Parameter] public Size Size { get; set; } = Size.Small;

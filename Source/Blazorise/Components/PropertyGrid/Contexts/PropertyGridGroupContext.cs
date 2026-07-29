@@ -1,6 +1,7 @@
 #region Using directives
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise;
@@ -26,12 +27,36 @@ public sealed class PropertyGridGroupContext
 
     #endregion
 
+    #region Methods
+
+    /// <summary>
+    /// Changes whether the property group is expanded.
+    /// </summary>
+    public Task SetExpanded( bool expanded ) => owner.ChangeGroupExpandedAsync( Group, expanded );
+
+    /// <summary>
+    /// Toggles whether the property group is expanded.
+    /// </summary>
+    public Task Toggle() => SetExpanded( !Expanded );
+
+    #endregion
+
     #region Properties
 
     /// <summary>
     /// Gets the group definition.
     /// </summary>
     public PropertyGridGroupDefinition Group { get; }
+
+    /// <summary>
+    /// Gets whether the property group can be expanded and collapsed.
+    /// </summary>
+    public bool Expandable => !string.IsNullOrWhiteSpace( Group.Title );
+
+    /// <summary>
+    /// Gets whether the property group is expanded.
+    /// </summary>
+    public bool Expanded => owner.IsGroupExpanded( Group );
 
     /// <summary>
     /// Gets contexts for the visible properties in the group.

@@ -22,6 +22,7 @@ public sealed class PropertyGridToolbarContext
         this.owner = owner;
         Categorized = new( owner, PropertyGridViewMode.Categorized );
         Alphabetical = new( owner, PropertyGridViewMode.Alphabetical );
+        Search = new( owner );
     }
 
     #endregion
@@ -32,6 +33,11 @@ public sealed class PropertyGridToolbarContext
     /// Changes the active property arrangement.
     /// </summary>
     public Task SetViewMode( PropertyGridViewMode viewMode ) => owner.ChangeViewModeAsync( viewMode );
+
+    /// <summary>
+    /// Changes the property search text.
+    /// </summary>
+    public Task SetSearchText( string searchText ) => owner.ChangeSearchTextAsync( searchText );
 
     #endregion
 
@@ -51,6 +57,16 @@ public sealed class PropertyGridToolbarContext
     /// Gets the alphabetical button context.
     /// </summary>
     public PropertyGridViewModeContext Alphabetical { get; }
+
+    /// <summary>
+    /// Gets the property search context.
+    /// </summary>
+    public PropertyGridSearchContext Search { get; }
+
+    /// <summary>
+    /// Gets the current property search text.
+    /// </summary>
+    public string SearchText => owner.SearchText;
 
     #endregion
 }

@@ -572,15 +572,33 @@ public interface IClassProvider
 
     string PropertyGrid();
 
+    string PropertyGridViewport();
+
     string PropertyGridToolbar();
+
+    string PropertyGridToolbarButton();
+
+    string PropertyGridToolbarSearch();
+
+    string PropertyGridEmpty();
+
+    string PropertyGridHelp();
+
+    string PropertyGridHelpTitle();
+
+    string PropertyGridHelpDescription();
 
     string PropertyGridGroup();
 
     string PropertyGridGroupHeader();
 
+    string PropertyGridGroupToggle();
+
     string PropertyGridGroupBody();
 
     string PropertyGridItem();
+
+    string PropertyGridItemSelected( bool selected );
 
     string PropertyGridItemLabel();
 

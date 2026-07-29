@@ -1,13 +1,13 @@
 namespace Blazorise;
 
 /// <summary>
-/// Provides context for a property label template.
+/// Provides context for a property grid help template.
 /// </summary>
-public sealed class PropertyGridLabelContext
+public sealed class PropertyGridHelpContext
 {
     #region Constructors
 
-    internal PropertyGridLabelContext( PropertyGridProperty property )
+    internal PropertyGridHelpContext( PropertyGridProperty property )
     {
         Property = property;
     }
@@ -17,17 +17,17 @@ public sealed class PropertyGridLabelContext
     #region Properties
 
     /// <summary>
-    /// Gets the property definition.
+    /// Gets the selected property definition.
     /// </summary>
     public PropertyGridProperty Property { get; }
 
     /// <summary>
-    /// Gets the property label.
+    /// Gets the selected property label.
     /// </summary>
     public string Label => Property.Label;
 
     /// <summary>
-    /// Gets the property description.
+    /// Gets the selected property description.
     /// </summary>
     public string Description => Property.Description;
 

@@ -652,15 +652,33 @@ public class MaterialClassProvider : ClassProvider
 
     public override string PropertyGrid() => "mui-property-grid";
 
+    public override string PropertyGridViewport() => "mui-property-grid-viewport";
+
     public override string PropertyGridToolbar() => "mui-property-grid-toolbar";
+
+    public override string PropertyGridToolbarButton() => "mui-property-grid-toolbar-button";
+
+    public override string PropertyGridToolbarSearch() => "mui-property-grid-toolbar-search";
+
+    public override string PropertyGridEmpty() => "mui-property-grid-empty";
+
+    public override string PropertyGridHelp() => "mui-property-grid-help";
+
+    public override string PropertyGridHelpTitle() => "mui-property-grid-help-title";
+
+    public override string PropertyGridHelpDescription() => "mui-property-grid-help-description";
 
     public override string PropertyGridGroup() => "mui-property-grid-group";
 
     public override string PropertyGridGroupHeader() => "mui-property-grid-group-header";
 
+    public override string PropertyGridGroupToggle() => "mui-property-grid-group-toggle";
+
     public override string PropertyGridGroupBody() => "mui-property-grid-group-body";
 
     public override string PropertyGridItem() => "mui-property-grid-item";
+
+    public override string PropertyGridItemSelected( bool selected ) => selected ? "mui-property-grid-item-selected" : null;
 
     public override string PropertyGridItemLabel() => "mui-property-grid-item-label";
 

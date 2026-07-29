@@ -52,6 +52,11 @@ public abstract class PropertyGridProperty
     public string Label { get; }
 
     /// <summary>
+    /// Gets or sets the property description shown in the help panel.
+    /// </summary>
+    public string Description { get; set; }
+
+    /// <summary>
     /// Gets the runtime property value.
     /// </summary>
     public abstract object Value { get; }

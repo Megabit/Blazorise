@@ -636,15 +636,33 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string PropertyGrid() => "ant-property-grid";
 
+    public override string PropertyGridViewport() => "ant-property-grid-viewport";
+
     public override string PropertyGridToolbar() => "ant-property-grid-toolbar";
+
+    public override string PropertyGridToolbarButton() => "ant-property-grid-toolbar-button";
+
+    public override string PropertyGridToolbarSearch() => "ant-property-grid-toolbar-search";
+
+    public override string PropertyGridEmpty() => "ant-property-grid-empty";
+
+    public override string PropertyGridHelp() => "ant-property-grid-help";
+
+    public override string PropertyGridHelpTitle() => "ant-property-grid-help-title";
+
+    public override string PropertyGridHelpDescription() => "ant-property-grid-help-description";
 
     public override string PropertyGridGroup() => "ant-property-grid-group";
 
     public override string PropertyGridGroupHeader() => "ant-property-grid-group-header";
 
+    public override string PropertyGridGroupToggle() => "ant-property-grid-group-toggle";
+
     public override string PropertyGridGroupBody() => "ant-property-grid-group-body";
 
     public override string PropertyGridItem() => "ant-property-grid-item";
+
+    public override string PropertyGridItemSelected( bool selected ) => selected ? "ant-property-grid-item-selected" : null;
 
     public override string PropertyGridItemLabel() => "ant-property-grid-item-label";
 
