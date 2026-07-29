@@ -122,6 +122,11 @@
         width: 100%;
         min-width: 0;
     }
+
+    > .b-ant-select-root > .ant-select {
+        width: 100%;
+        min-width: 0;
+    }
 }
 
 .ant-property-grid-item[data-property-grid-editor="color"] {
