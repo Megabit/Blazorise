@@ -37,7 +37,7 @@ public partial class PropertyGridToolbarSearch : BaseComponent
     /// <summary>
     /// Defines the search input placeholder.
     /// </summary>
-    [Parameter] public string Placeholder { get; set; } = "Search properties";
+    [Parameter] public string Placeholder { get; set; } = "Search";
 
     /// <summary>
     /// Defines the accessible search input label.

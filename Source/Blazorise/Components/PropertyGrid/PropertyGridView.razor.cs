@@ -275,7 +275,7 @@ public partial class PropertyGridView : BaseComponent
     /// <summary>
     /// Gets or sets the property search placeholder.
     /// </summary>
-    [Parameter] public string SearchPlaceholder { get; set; } = "Search properties";
+    [Parameter] public string SearchPlaceholder { get; set; } = "Search";
 
     /// <summary>
     /// Gets or sets whether property search changes are debounced.
