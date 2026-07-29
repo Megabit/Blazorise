@@ -1,6 +1,7 @@
 @namespace Blazorise.Docs.Docs.Examples
 
-<PropertyGridView Schema="@schema"
+<PropertyGridView Width="Width.Px( 360 )"
+                  Schema="@schema"
                   PropertyValueChanged="@OnPropertyValueChanged"
                   ActionInvoked="@OnActionInvoked"
                   @bind-SelectedProperty="@selectedProperty"
@@ -17,13 +18,25 @@
 @code {
     private string documentName = "Quarterly report";
 
+    private string documentDescription = "Quarterly financial performance.";
+
+    private string category = "Finance";
+
     private bool enabled = true;
+
+    private int pageWidth = 794;
+
+    private int pageHeight = 1123;
+
+    private string orientation = "Portrait";
 
     private int copies = 1;
 
     private string format = "PDF";
 
     private string accent = "Blue";
+
+    private bool includePageNumbers = true;
 
     private string status = "Change a property or invoke its action.";
 
@@ -61,6 +74,51 @@
                         TrueText = "Enabled",
                         FalseText = "Disabled",
                     },
+                    new PropertyGridTextProperty( "document.description", "Description", documentDescription )
+                    {
+                        Description = "A short summary of the document contents.",
+                        Immediate = true,
+                    },
+                    new PropertyGridStringSelectProperty(
+                        "document.category",
+                        "Category",
+                        category,
+                        [
+                            new( "Finance", "Finance" ),
+                            new( "Operations", "Operations" ),
+                            new( "Sales", "Sales" ),
+                        ] )
+                    {
+                        Description = "The category used to organize the document.",
+                    },
+                ] ),
+            new PropertyGridGroupDefinition(
+                "layout",
+                "Layout",
+                [
+                    new PropertyGridNumericProperty<int>( "layout.width", "Page width", pageWidth )
+                    {
+                        Description = "The page width in pixels.",
+                        Min = 100,
+                        Max = 2000,
+                    },
+                    new PropertyGridNumericProperty<int>( "layout.height", "Page height", pageHeight )
+                    {
+                        Description = "The page height in pixels.",
+                        Min = 100,
+                        Max = 2000,
+                    },
+                    new PropertyGridStringSelectProperty(
+                        "layout.orientation",
+                        "Orientation",
+                        orientation,
+                        [
+                            new( "Portrait", "Portrait" ),
+                            new( "Landscape", "Landscape" ),
+                        ] )
+                    {
+                        Description = "The page orientation used during export.",
+                    },
                 ] ),
             new PropertyGridGroupDefinition(
                 "output",
@@ -88,6 +146,12 @@
                     {
                         Description = "The accent color used by the document theme.",
                     },
+                    new PropertyGridBooleanProperty( "output.pageNumbers", "Page numbers", includePageNumbers )
+                    {
+                        Description = "Controls whether page numbers are included in output.",
+                        TrueText = "Included",
+                        FalseText = "Hidden",
+                    },
                 ] ),
         ] );
 
@@ -101,6 +165,21 @@
             case "document.enabled":
                 enabled = eventArgs.GetValue<bool>();
                 break;
+            case "document.description":
+                documentDescription = eventArgs.GetValue<string>();
+                break;
+            case "document.category":
+                category = eventArgs.GetValue<string>();
+                break;
+            case "layout.width":
+                pageWidth = eventArgs.GetValue<int>();
+                break;
+            case "layout.height":
+                pageHeight = eventArgs.GetValue<int>();
+                break;
+            case "layout.orientation":
+                orientation = eventArgs.GetValue<string>();
+                break;
             case "output.format":
                 format = eventArgs.GetValue<string>();
                 break;
@@ -109,6 +188,9 @@
                 break;
             case "output.accent":
                 accent = eventArgs.GetValue<string>();
+                break;
+            case "output.pageNumbers":
+                includePageNumbers = eventArgs.GetValue<bool>();
                 break;
         }
 

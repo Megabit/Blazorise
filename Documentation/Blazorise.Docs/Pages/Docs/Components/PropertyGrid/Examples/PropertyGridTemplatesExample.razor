@@ -1,6 +1,7 @@
 @namespace Blazorise.Docs.Docs.Examples
 
-<PropertyGridView Schema="@schema"
+<PropertyGridView Width="Width.Px( 360 )"
+                  Schema="@schema"
                   PropertyValueChanged="@OnPropertyValueChanged"
                   ActionInvoked="@OnActionInvoked"
                   ShowToolbar="false">
@@ -33,13 +34,27 @@
 </PropertyGridView>
 
 <Paragraph Margin="Margin.Is3.FromTop">
-    <Strong>Display name:</Strong> @displayName
+    <Strong>Current item:</Strong> @displayName, @layoutMode, @opacity% opacity
 </Paragraph>
 
 @code {
     private string displayName = "Revenue";
 
+    private string subtitle = "Year-to-date";
+
     private bool highlighted = true;
+
+    private bool visible = true;
+
+    private string accent = "Blue";
+
+    private int opacity = 100;
+
+    private string layoutMode = "Card";
+
+    private bool locked;
+
+    private string notes = "Reviewed monthly.";
 
     private PropertyGridSchema schema;
 
@@ -69,15 +84,86 @@
                     {
                         Description = "Emphasizes the item in the rendered output.",
                     },
+                    new PropertyGridTextProperty( "appearance.subtitle", "Subtitle", subtitle )
+                    {
+                        Description = "The supporting text displayed below the name.",
+                        Immediate = true,
+                    },
+                    new PropertyGridBooleanProperty( "appearance.visible", "Visible", visible )
+                    {
+                        Description = "Controls whether the item is displayed.",
+                    },
+                    new PropertyGridColorProperty( "appearance.accent", "Accent", accent )
+                    {
+                        Description = "The accent color used to emphasize the item.",
+                    },
+                    new PropertyGridNumericProperty<int>( "appearance.opacity", "Opacity", opacity )
+                    {
+                        Description = "The item opacity as a percentage.",
+                        Min = 0,
+                        Max = 100,
+                    },
+                ] ),
+            new PropertyGridGroupDefinition(
+                "behavior",
+                "Custom behavior",
+                [
+                    new PropertyGridStringSelectProperty(
+                        "behavior.layout",
+                        "Layout",
+                        layoutMode,
+                        [
+                            new( "Card", "Card" ),
+                            new( "Compact", "Compact" ),
+                            new( "Expanded", "Expanded" ),
+                        ] )
+                    {
+                        Description = "The layout used to present the item.",
+                    },
+                    new PropertyGridBooleanProperty( "behavior.locked", "Locked", locked )
+                    {
+                        Description = "Prevents the item from being repositioned.",
+                    },
+                    new PropertyGridTextProperty( "behavior.notes", "Notes", notes )
+                    {
+                        Description = "Additional information about the item.",
+                        Immediate = true,
+                    },
                 ] ),
         ] );
 
     private void OnPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )
     {
-        if ( eventArgs.PropertyKey == "appearance.name" )
-            displayName = eventArgs.GetValue<string>();
-        else if ( eventArgs.PropertyKey == "appearance.highlighted" )
-            highlighted = eventArgs.GetValue<bool>();
+        switch ( eventArgs.PropertyKey )
+        {
+            case "appearance.name":
+                displayName = eventArgs.GetValue<string>();
+                break;
+            case "appearance.subtitle":
+                subtitle = eventArgs.GetValue<string>();
+                break;
+            case "appearance.highlighted":
+                highlighted = eventArgs.GetValue<bool>();
+                break;
+            case "appearance.visible":
+                visible = eventArgs.GetValue<bool>();
+                break;
+            case "appearance.accent":
+                accent = eventArgs.GetValue<string>();
+                break;
+            case "appearance.opacity":
+                opacity = eventArgs.GetValue<int>();
+                break;
+            case "behavior.layout":
+                layoutMode = eventArgs.GetValue<string>();
+                break;
+            case "behavior.locked":
+                locked = eventArgs.GetValue<bool>();
+                break;
+            case "behavior.notes":
+                notes = eventArgs.GetValue<string>();
+                break;
+        }
 
         schema = BuildSchema();
     }

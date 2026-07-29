@@ -1,6 +1,6 @@
 @namespace Blazorise.Docs.Docs.Examples
 
-<PropertyGrid Height="Height.Px( 360 )">
+<PropertyGrid Width="Width.Px( 360 )">
     <Toolbar>
         <PropertyGridToolbar>
             <PropertyGridToolbarButton Icon="IconName.Clear"
@@ -20,17 +20,45 @@
             {
                 <PropertyGridBooleanItem Label="Visible" @bind-Value="@visible" TrueText="Visible" FalseText="Hidden" />
             }
+            @if ( MatchesSearch( "Accent" ) )
+            {
+                <PropertyGridColorItem Label="Accent" @bind-Value="@accent" />
+            }
+        </PropertyGridGroup>
+        <PropertyGridGroup Title="Typography">
+            @if ( MatchesSearch( "Font family" ) )
+            {
+                <PropertyGridStringSelectItem Label="Font family" @bind-Value="@fontFamily" Options="@fontFamilyOptions" />
+            }
+            @if ( MatchesSearch( "Font size" ) )
+            {
+                <PropertyGridNumericItem TValue="int" Label="Font size" @bind-Value="@fontSize" Min="8" Max="72" />
+            }
+            @if ( MatchesSearch( "Bold" ) )
+            {
+                <PropertyGridBooleanItem Label="Bold" @bind-Value="@bold" />
+            }
+            @if ( MatchesSearch( "Italic" ) )
+            {
+                <PropertyGridBooleanItem Label="Italic" @bind-Value="@italic" />
+            }
+        </PropertyGridGroup>
+        <PropertyGridGroup Title="Layout">
             @if ( MatchesSearch( "Width" ) )
             {
                 <PropertyGridNumericItem TValue="int" Label="Width" @bind-Value="@width" Min="100" Max="1200" Step="10" />
             }
+            @if ( MatchesSearch( "Height" ) )
+            {
+                <PropertyGridNumericItem TValue="int" Label="Height" @bind-Value="@height" Min="100" Max="1200" Step="10" />
+            }
+            @if ( MatchesSearch( "Padding" ) )
+            {
+                <PropertyGridNumericItem TValue="int" Label="Padding" @bind-Value="@padding" Min="0" Max="64" />
+            }
             @if ( MatchesSearch( "Alignment" ) )
             {
                 <PropertyGridStringSelectItem Label="Alignment" @bind-Value="@alignment" Options="@alignmentOptions" />
-            }
-            @if ( MatchesSearch( "Accent" ) )
-            {
-                <PropertyGridColorItem Label="Accent" @bind-Value="@accent" />
             }
         </PropertyGridGroup>
     </ChildContent>
@@ -42,7 +70,7 @@
 
 <Paragraph Margin="Margin.Is3.FromTop">
     <Strong>Current values:</Strong>
-    @title, @width px, @alignment, @accent, @(visible ? "visible" : "hidden")
+    @title, @width x @height px, @fontFamily @fontSize px, @alignment, @accent, @(visible ? "visible" : "hidden")
 </Paragraph>
 
 @code {
@@ -53,15 +81,34 @@
         new( "Right", "Right" ),
     ];
 
+    private static readonly IReadOnlyList<PropertyGridSelectOption<string>> fontFamilyOptions =
+    [
+        new( "Arial", "Arial" ),
+        new( "Georgia", "Georgia" ),
+        new( "Inter", "Inter" ),
+    ];
+
     private string title = "Quarterly summary";
 
     private bool visible = true;
 
+    private string accent = "Blue";
+
+    private string fontFamily = "Arial";
+
+    private int fontSize = 16;
+
+    private bool bold;
+
+    private bool italic;
+
     private int width = 640;
 
-    private string alignment = "Left";
+    private int height = 360;
 
-    private string accent = "Blue";
+    private int padding = 16;
+
+    private string alignment = "Left";
 
     private string searchText;
 
