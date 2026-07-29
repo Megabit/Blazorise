@@ -25,6 +25,8 @@
     align-items: center;
     gap: $spacer * .5;
     min-width: 0;
+    padding-block-start: $input-btn-focus-width;
+    padding-inline-end: $input-btn-focus-width;
 }
 
 .property-grid-toolbar-button {

@@ -2984,6 +2984,8 @@ li.list-group-item-action {
   align-items: center;
   gap: 0.5rem;
   min-width: 0;
+  padding-block-start: 0.25rem;
+  padding-inline-end: 0.25rem;
 }
 
 .property-grid-toolbar-button {
