@@ -241,6 +241,32 @@ public class DatePickerComponentTest : BunitContext
     }
 
     [Fact]
+    public void DateTimeDefaultDisplayFormatPreservesPreviousPickerSemantics()
+    {
+        // setup
+        DateTime first = new( 2026, 7, 26, 22, 22, 21 );
+        DateTime second = new( 2026, 8, 1, 22, 22, 21 );
+
+        // test
+        IRenderedComponent<DatePicker<DateTime>> single = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, first )
+            .Add( x => x.InputMode, DateInputMode.DateTime ) );
+        IRenderedComponent<DatePicker<DateTime[]>> range = Render<DatePicker<DateTime[]>>( parameters => parameters
+            .Add( x => x.Value, new[] { first, second } )
+            .Add( x => x.InputMode, DateInputMode.DateTime )
+            .Add( x => x.SelectionMode, DateInputSelectionMode.Range ) );
+        IRenderedComponent<DatePicker<DateTime[]>> multiple = Render<DatePicker<DateTime[]>>( parameters => parameters
+            .Add( x => x.Value, new[] { first, second } )
+            .Add( x => x.InputMode, DateInputMode.DateTime )
+            .Add( x => x.SelectionMode, DateInputSelectionMode.Multiple ) );
+
+        // validate
+        Assert.Equal( "2026-07-26 22:22", single.Find( "input" ).GetAttribute( "value" ) );
+        Assert.Equal( "2026-07-26 22:22 to 2026-08-01 22:22", range.Find( "input" ).GetAttribute( "value" ) );
+        Assert.Equal( "2026-07-26 22:22, 2026-08-01 22:22", multiple.Find( "input" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
     public void DisabledDateRendersAsDisabledCalendarCell()
     {
         // setup

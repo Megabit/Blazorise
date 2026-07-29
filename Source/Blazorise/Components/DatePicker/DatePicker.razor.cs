@@ -145,6 +145,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// </summary>
     protected const string MULTIPLE_DELIMITER = ", ";
 
+    /// <summary>
+    /// The default format presented by date-time inputs.
+    /// </summary>
+    protected const string DEFAULT_DATETIME_DISPLAY_FORMAT = "yyyy-MM-dd HH:mm";
+
     private bool stateInitialized;
 
     private bool calendarOpen;
@@ -1713,7 +1718,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// <summary>
     /// Gets the format presented in the visible input.
     /// </summary>
-    protected string EffectiveDisplayFormat => PickerDateTimeFormat.Normalize( DisplayFormat ?? DateFormat );
+    protected string EffectiveDisplayFormat => PickerDateTimeFormat.Normalize( DisplayFormat ?? ( InputMode == DateInputMode.DateTime ? DEFAULT_DATETIME_DISPLAY_FORMAT : DateFormat ) );
 
     /// <summary>
     /// Gets the text presented in the visible input.
