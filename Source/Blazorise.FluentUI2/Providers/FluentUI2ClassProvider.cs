@@ -452,7 +452,7 @@ public class FluentUI2ClassProvider : ClassProvider
         {
             AddonType.Start => "fui-Input__contentBefore",
             AddonType.End => "fui-Input__contentAfter",
-            _ => null,
+            _ => "fui-Input__content",
         };
     }
 

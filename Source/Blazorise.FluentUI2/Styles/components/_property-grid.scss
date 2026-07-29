@@ -22,13 +22,23 @@
 .fui-PropertyGrid__toolbar {
     display: flex;
     flex: 0 0 auto;
-    align-items: center;
+    align-items: stretch;
     gap: var(--spacingHorizontalS);
     min-width: 0;
 }
 
 .fui-PropertyGrid__toolbarButton {
     flex: 0 0 auto;
+
+    > :is(i, .fluentui-icon) {
+        font-size: var(--fontSizeBase400);
+    }
+
+    > svg,
+    > i > svg {
+        width: var(--fontSizeBase400);
+        height: var(--fontSizeBase400);
+    }
 }
 
 .fui-PropertyGrid__toolbarSearch {
