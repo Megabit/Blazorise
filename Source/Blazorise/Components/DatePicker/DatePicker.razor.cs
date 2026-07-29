@@ -1552,12 +1552,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             day.InRange,
             day.RangeEnd,
             day.Disabled,
-            day.Focused );
+            day.Focused && FocusCalendarOnOpen );
     }
 
     internal string GetCalendarMonthClassNames( DatePickerCalendarMonth month )
     {
-        return ClassProvider.DatePickerCalendarMonth( month.Selected, month.Disabled, month.Focused );
+        return ClassProvider.DatePickerCalendarMonth( month.Selected, month.Disabled, month.Focused && FocusCalendarOnOpen );
     }
 
     internal string GetDayId( DateTime date )

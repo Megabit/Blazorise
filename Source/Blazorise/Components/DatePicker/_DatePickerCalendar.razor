@@ -202,19 +202,6 @@
         @if ( Parent.ShowTodayButton || Parent.ShowClearButton )
         {
             <div class="@Parent.CalendarActionsClassNames">
-                @if ( Parent.ShowTodayButton )
-                {
-                    <button type="button"
-                            class="@Parent.CalendarButtonClassNames"
-                            tabindex="@Parent.CalendarControlTabIndex"
-                            disabled="@Parent.CalendarInteractionDisabled"
-                            @onmousedown:preventDefault
-                            @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
-                            @onkeydown:stopPropagation
-                            @onclick="@Parent.SelectTodayAsync">
-                        @Parent.TodayText
-                    </button>
-                }
                 @if ( Parent.ShowClearButton )
                 {
                     <button type="button"
@@ -226,6 +213,19 @@
                             @onkeydown:stopPropagation
                             @onclick="@Parent.ClearAsync">
                         @Parent.ClearText
+                    </button>
+                }
+                @if ( Parent.ShowTodayButton )
+                {
+                    <button type="button"
+                            class="@Parent.CalendarButtonClassNames"
+                            tabindex="@Parent.CalendarControlTabIndex"
+                            disabled="@Parent.CalendarInteractionDisabled"
+                            @onmousedown:preventDefault
+                            @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                            @onkeydown:stopPropagation
+                            @onclick="@Parent.SelectTodayAsync">
+                        @Parent.TodayText
                     </button>
                 }
             </div>
