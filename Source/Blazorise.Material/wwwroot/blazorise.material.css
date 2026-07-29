@@ -3933,8 +3933,7 @@ body {
   background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
 }
 .mui-date-picker-calendar .mui-date-picker-weekday,
-.mui-date-picker-calendar .mui-date-picker-week-number,
-.mui-date-picker-calendar .mui-date-picker-day-outside {
+.mui-date-picker-calendar .mui-date-picker-week-number {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3971,6 +3970,9 @@ body {
 }
 .mui-date-picker-calendar .mui-date-picker-day:hover:not(:disabled) {
   background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
+}
+.mui-date-picker-calendar .mui-date-picker-day-outside {
+  color: color-mix(in srgb, var(--mui-on-surface) 42%, transparent);
 }
 .mui-date-picker-calendar .mui-date-picker-day-today {
   border-color: var(--mui-outline);
@@ -4032,10 +4034,12 @@ body {
   padding-block-start: 0.5rem;
 }
 .mui-date-picker-calendar .mui-date-picker-time {
-  justify-content: center;
-  min-height: 3rem;
+  justify-content: flex-start;
+  gap: 0.125rem;
+  height: 2.5rem;
+  min-height: 0;
   margin-inline: -0.5rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.0625rem 0.25rem;
   border-block-start: 0.0625rem solid var(--mui-outline-variant);
   background: var(--mui-surface-container-low);
 }
@@ -4099,7 +4103,9 @@ body {
 }
 .mui-date-picker-calendar .mui-date-picker-time-input {
   box-sizing: border-box;
-  width: 3.25rem;
+  flex: 1 1 0;
+  width: 40%;
+  min-width: 0;
   height: 2.25rem;
   padding: 0 0 0 0.5rem;
   border: 0;
@@ -4178,16 +4184,20 @@ body {
 .mui-time-picker-controls {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.125rem;
-  min-height: 3rem;
-  padding: 0.25rem;
+  width: 100%;
+  height: 2.5rem;
+  min-height: 0;
+  padding: 0;
   border-radius: 0.5rem;
   background: var(--mui-surface-container-low);
 }
 
 .mui-time-picker-control {
-  width: 3.25rem;
+  flex: 1 1 0;
+  width: 40%;
+  min-width: 0;
   height: 2.25rem;
   border-radius: 0.75rem;
   transition: background-color var(--mui-duration-normal);
@@ -4219,6 +4229,7 @@ body {
 
 .mui-time-picker-separator {
   display: inline-flex;
+  flex: 0 0 0.75rem;
   align-items: center;
   justify-content: center;
   width: 0.75rem;
@@ -4229,6 +4240,7 @@ body {
 }
 
 .mui-time-picker-meridiem {
+  flex: 0 0 3.25rem;
   min-width: 3.25rem;
   height: 2.25rem;
   margin-inline-start: 0.125rem;
