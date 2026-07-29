@@ -25,6 +25,10 @@
     align-items: center;
     gap: $spacer * .5;
     min-width: 0;
+
+    > :is(.buttons, .field) {
+        margin-block-end: 0;
+    }
 }
 
 .property-grid-toolbar-button {

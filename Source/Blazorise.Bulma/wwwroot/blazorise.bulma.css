@@ -3640,6 +3640,9 @@ li.list-group-item-action {
   gap: 0.5rem;
   min-width: 0;
 }
+.property-grid-toolbar > :is(.buttons, .field) {
+  margin-block-end: 0;
+}
 
 .property-grid-toolbar-button {
   flex: 0 0 auto;
