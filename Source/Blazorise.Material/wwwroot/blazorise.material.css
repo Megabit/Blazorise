@@ -6422,7 +6422,19 @@ body.modal-open {
 }
 
 .mui-property-grid-toolbar-button {
+  --mui-btn-padding: calc(var(--mui-spacing) * .375);
+  --mui-btn-size: calc(var(--mui-size-xs) + var(--mui-spacing) * .25);
   flex: 0 0 auto;
+}
+.mui-property-grid-toolbar-button > :is(i, svg, .icon) {
+  inline-size: var(--mui-btn-font-size);
+  block-size: var(--mui-btn-font-size);
+  font-size: var(--mui-btn-font-size);
+  line-height: 1;
+}
+.mui-property-grid-toolbar-button > i > svg {
+  inline-size: 100%;
+  block-size: 100%;
 }
 
 .mui-property-grid-toolbar-search {
@@ -6471,6 +6483,7 @@ body.modal-open {
 .mui-property-grid-group-toggle {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: calc(var(--mui-spacing) * 0.375);
   width: 100%;
   padding: 0;
@@ -6515,6 +6528,9 @@ body.modal-open {
 .mui-property-grid-item-body > * {
   width: 100%;
   min-width: 0;
+}
+.mui-property-grid-item-body :is(.mui-addon-start, .mui-addon-end) > .mui-button {
+  --mui-btn-padding: calc(var(--mui-spacing) * .375);
 }
 
 .mui-property-grid-item[data-property-grid-editor=color] .mui-addon-body:has(> .mui-color-picker) {

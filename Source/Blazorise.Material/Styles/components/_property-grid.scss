@@ -28,7 +28,21 @@
 }
 
 .mui-property-grid-toolbar-button {
+    --mui-btn-padding: calc(var(--mui-spacing) * .375);
+    --mui-btn-size: calc(var(--mui-size-xs) + var(--mui-spacing) * .25);
     flex: 0 0 auto;
+
+    > :is(i, svg, .icon) {
+        inline-size: var(--mui-btn-font-size);
+        block-size: var(--mui-btn-font-size);
+        font-size: var(--mui-btn-font-size);
+        line-height: 1;
+    }
+
+    > i > svg {
+        inline-size: 100%;
+        block-size: 100%;
+    }
 }
 
 .mui-property-grid-toolbar-search {
@@ -77,6 +91,7 @@
 .mui-property-grid-group-toggle {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     gap: calc(var(--mui-spacing) * .375);
     width: 100%;
     padding: 0;
@@ -121,6 +136,10 @@
     > * {
         width: 100%;
         min-width: 0;
+    }
+
+    :is(.mui-addon-start, .mui-addon-end) > .mui-button {
+        --mui-btn-padding: calc(var(--mui-spacing) * .375);
     }
 }
 
