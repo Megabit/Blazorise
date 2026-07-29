@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-28T08:49:14.2129745Z",
+  "generatedUtc": "2026-07-29T08:58:57.7583498Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -38229,7 +38229,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
-          "summary": "Retained for compatibility. The DatePicker always uses its Blazor calendar.",
+          "summary": "Prevents the browser's native picker from being used on mobile devices.",
           "isBlazoriseEnum": false
         },
         {
@@ -131925,7 +131925,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
-          "summary": "Retained for compatibility. The native Blazor picker is used on every device.",
+          "summary": "Prevents the browser's native picker from being used on mobile devices.",
           "isBlazoriseEnum": false
         },
         {

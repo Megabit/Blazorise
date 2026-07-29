@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using AngleSharp.Dom;
 using Blazorise.Modules;
+using Blazorise.Utilities;
 using Bunit;
 using Microsoft.AspNetCore.Components.Web;
 using Xunit;
@@ -10,12 +11,113 @@ namespace Blazorise.Tests.Components;
 
 public class DatePickerComponentTest : BunitContext
 {
+    private const string MobileUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148";
+
     public DatePickerComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
-        JSInterop.AddBlazoriseUtilities();
+        JSInterop.AddBlazoriseUtilities( MobileUserAgent, mobileDevice: true );
         JSInterop.AddBlazoriseInputMask();
         JSInterop.AddBlazoriseDocumentObserver();
+    }
+
+    [Theory]
+    [InlineData( "Mozilla/5.0 Mobile" )]
+    [InlineData( "Opera Mobi" )]
+    [InlineData( "Silk/3.13" )]
+    [InlineData( "Kindle/3.0" )]
+    [InlineData( "Windows Phone 10.0" )]
+    [InlineData( "PlayBook" )]
+    [InlineData( "BB10" )]
+    [InlineData( "MeeGo" )]
+    [InlineData( "Tizen 6.0" )]
+    [InlineData( "Puffin/10.0" )]
+    public void MobileDetectorUsesCompleteCompatibilityUserAgentPattern( string userAgent )
+    {
+        Assert.True( MobileDeviceDetector.IsMobile( userAgent ) );
+    }
+
+    [Fact]
+    public void DesktopUserAgentDoesNotMatchMobilePattern()
+    {
+        Assert.False( MobileDeviceDetector.IsMobile( "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/131.0.0.0" ) );
+    }
+
+    [Fact]
+    public async Task MobileModeUsesNativeDateInput()
+    {
+        // setup
+        DateTime value = new( 2026, 7, 27 );
+
+        // test
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.DisplayFormat, "dd.MM.yyyy" )
+            .Add( x => x.DisableMobile, false ) );
+        IElement input = comp.Find( "input" );
+
+        await input.ChangeAsync( new Microsoft.AspNetCore.Components.ChangeEventArgs { Value = "2026-07-28" } );
+        input = comp.Find( "input" );
+
+        // validate
+        Assert.Equal( "date", input.GetAttribute( "type" ) );
+        Assert.Equal( "2026-07-28", input.GetAttribute( "value" ) );
+        Assert.Equal( new DateTime( 2026, 7, 28 ), comp.Instance.Value );
+        Assert.False( input.HasAttribute( "role" ) );
+        Assert.Empty( comp.FindAll( "[role='dialog']" ) );
+    }
+
+    [Fact]
+    public void MobileModeRetainsBlazorCalendarForDisabledDates()
+    {
+        // test
+        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>( parameters => parameters
+            .Add( x => x.DisableMobile, false )
+            .Add( x => x.DisabledDates, new[] { new DateTime( 2026, 7, 28 ) } ) );
+        IElement input = comp.Find( "input" );
+
+        // validate
+        Assert.Equal( "text", input.GetAttribute( "type" ) );
+        Assert.Equal( "combobox", input.GetAttribute( "role" ) );
+    }
+
+    [Fact]
+    public void MobileModeRetainsBlazorCalendarWhenEnabledDatesIsDefined()
+    {
+        // test
+        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>( parameters => parameters
+            .Add( x => x.DisableMobile, false )
+            .Add( x => x.EnabledDates, Array.Empty<DateTime>() ) );
+
+        // validate
+        Assert.Equal( "text", comp.Find( "input" ).GetAttribute( "type" ) );
+    }
+
+    [Fact]
+    public void MobileModeRetainsBlazorCalendarWhenDisabledDaysIsDefined()
+    {
+        // test
+        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>( parameters => parameters
+            .Add( x => x.DisableMobile, false )
+            .Add( x => x.DisabledDays, Array.Empty<DayOfWeek>() ) );
+
+        // validate
+        Assert.Equal( "text", comp.Find( "input" ).GetAttribute( "type" ) );
+    }
+
+    [Fact]
+    public async Task MobileOpenUsesBrowserPicker()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>( parameters => parameters
+            .Add( x => x.DisableMobile, false ) );
+
+        // test
+        await comp.InvokeAsync( () => comp.Instance.OpenAsync().AsTask() );
+
+        // validate
+        JSInterop.VerifyInvoke( "showPicker", 1 );
+        Assert.Empty( comp.FindAll( "[role='dialog']" ) );
     }
 
     [Fact]

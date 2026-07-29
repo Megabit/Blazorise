@@ -8,7 +8,6 @@ using Blazorise.Extensions;
 using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Utilities;
-using Blazorise.Vendors;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -122,6 +121,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
     private TimePickerPart focusedPart;
 
+    private bool? mobileDevice;
+
     private IAsyncDisposable outsidePointerSubscription;
 
     #endregion
@@ -187,6 +188,18 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
             focusedPart = TimePickerPart.Hour;
         }
 
+        if ( Rendered && paramDisableMobile.Defined && paramDisableMobile.Changed && !DisableMobile )
+        {
+            ExecuteAfterRender( DetectMobileDeviceAsync );
+        }
+
+        if ( Rendered && UseNativeMobilePicker )
+        {
+            menuOpen = false;
+            focusMenuOnOpen = false;
+            await DisposeOutsidePointerSubscriptionAsync();
+        }
+
         stateInitialized = true;
     }
 
@@ -199,9 +212,10 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     }
 
     /// <inheritdoc/>
-    protected override Task OnFirstAfterRenderAsync()
+    protected override async Task OnFirstAfterRenderAsync()
     {
-        return base.OnFirstAfterRenderAsync();
+        await base.OnFirstAfterRenderAsync();
+        await DetectMobileDeviceAsync();
     }
 
     /// <inheritdoc/>
@@ -272,6 +286,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         if ( MenuInteractionDisabled )
             return;
 
+        if ( UseNativeMobilePicker )
+            return;
+
         await OpenAsync();
     }
 
@@ -305,6 +322,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         await KeyDown.InvokeAsync( eventArgs );
 
         if ( MenuInteractionDisabled || eventArgs is null )
+            return;
+
+        if ( UseNativeMobilePicker )
             return;
 
         if ( MenuVisible )
@@ -384,6 +404,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask OpenAsync()
     {
+        if ( MenuInteractionDisabled )
+            return ValueTask.CompletedTask;
+
+        if ( UseNativeMobilePicker )
+            return JSUtilitiesModule.ShowPicker( ElementRef, ElementId );
+
         return OpenMenuAsync( focusMenu: false );
     }
 
@@ -391,6 +417,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     {
         if ( MenuInteractionDisabled )
             return;
+
+        if ( UseNativeMobilePicker )
+        {
+            await JSUtilitiesModule.ShowPicker( ElementRef, ElementId );
+            return;
+        }
 
         SynchronizeSelectionForOpen();
         focusedPart = TimePickerPart.Hour;
@@ -858,6 +890,43 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         return NormalizeTime( time ).ToString( Parsers.InternalTimeFormat.ToLowerInvariant(), CultureInfo.InvariantCulture );
     }
 
+    private static string FormatNativeTime( TimeSpan time, bool includeSeconds )
+    {
+        return NormalizeTime( time ).ToString( includeSeconds ? @"hh\:mm\:ss" : @"hh\:mm", CultureInfo.InvariantCulture );
+    }
+
+    private async Task DetectMobileDeviceAsync()
+    {
+        if ( DisableMobile || mobileDevice.HasValue )
+            return;
+
+        bool detectedMobileDevice;
+
+        if ( JSUtilitiesModule is Blazorise.Modules.JSUtilitiesModule utilitiesModule )
+        {
+            detectedMobileDevice = await utilitiesModule.IsMobileDevice();
+        }
+        else
+        {
+            string userAgent = await JSUtilitiesModule.GetUserAgent();
+            detectedMobileDevice = MobileDeviceDetector.IsMobile( userAgent );
+        }
+
+        if ( mobileDevice != detectedMobileDevice )
+        {
+            mobileDevice = detectedMobileDevice;
+
+            if ( UseNativeMobilePicker )
+            {
+                menuOpen = false;
+                focusMenuOnOpen = false;
+                await DisposeOutsidePointerSubscriptionAsync();
+            }
+
+            await InvokeAsync( StateHasChanged );
+        }
+    }
+
     /// <summary>
     /// Handles the localization changed event.
     /// </summary>
@@ -882,6 +951,57 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// Gets the text presented in the visible input.
     /// </summary>
     protected string InputText => inputText;
+
+    /// <summary>
+    /// Gets the input type rendered for the active picker mode.
+    /// </summary>
+    protected string InputType => UseNativeMobilePicker ? "time" : "text";
+
+    /// <summary>
+    /// Gets the value rendered by the visible input.
+    /// </summary>
+    protected string VisibleInputText => UseNativeMobilePicker
+        ? ( Value is null ? null : FormatNativeTime( selectedTime, Seconds ) )
+        : InputText;
+
+    /// <summary>
+    /// Gets the minimum value rendered by the input.
+    /// </summary>
+    protected string InputMin => UseNativeMobilePicker && Min.HasValue
+        ? FormatNativeTime( Min.Value, includeSeconds: true )
+        : null;
+
+    /// <summary>
+    /// Gets the maximum value rendered by the input.
+    /// </summary>
+    protected string InputMax => UseNativeMobilePicker && Max.HasValue
+        ? FormatNativeTime( Max.Value, includeSeconds: true )
+        : null;
+
+    /// <summary>
+    /// Gets the step rendered by a native mobile input.
+    /// </summary>
+    protected string InputStep => UseNativeMobilePicker ? "any" : null;
+
+    /// <summary>
+    /// Gets the ARIA role used by the custom picker input.
+    /// </summary>
+    protected string InputRole => UseNativeMobilePicker ? null : "combobox";
+
+    /// <summary>
+    /// Gets the ARIA popup type used by the custom picker input.
+    /// </summary>
+    protected string InputAriaHasPopup => UseNativeMobilePicker ? null : "dialog";
+
+    /// <summary>
+    /// Gets the ARIA expanded state used by the custom picker input.
+    /// </summary>
+    protected string InputAriaExpanded => UseNativeMobilePicker ? null : MenuVisible.ToString().ToLowerInvariant();
+
+    /// <summary>
+    /// Gets the ARIA control target used by the custom picker input.
+    /// </summary>
+    protected string InputAriaControls => UseNativeMobilePicker ? null : MenuId;
 
     /// <summary>
     /// Gets the format presented in the visible input.
@@ -912,7 +1032,15 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// </summary>
     protected string ProviderPickerContainerClassNames => ClassProvider.TimePickerContainer( Inline, MenuVisible );
 
-    protected internal bool MenuVisible => !Plaintext && ( Inline || menuOpen );
+    protected internal bool MenuVisible => !UseNativeMobilePicker && !Plaintext && ( Inline || menuOpen );
+
+    /// <summary>
+    /// Gets whether the browser's native mobile picker should be used.
+    /// </summary>
+    internal bool UseNativeMobilePicker => !DisableMobile
+        && mobileDevice == true
+        && !Plaintext
+        && !Inline;
 
     internal bool FocusMenuOnOpen => focusMenuOnOpen;
 
@@ -983,12 +1111,6 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     [Inject] protected ITextLocalizer<TimePicker<TValue>> Localizer { get; set; }
 
     /// <summary>
-    /// Gets or sets the legacy Flatpickr display-format converter.
-    /// Retained for source compatibility and not used by the native TimePicker.
-    /// </summary>
-    [Inject] protected IFlatPickrDateTimeDisplayFormatConverter DisplayFormatConverter { get; set; }
-
-    /// <summary>
     /// Gets or sets the document observer used to detect pointer interactions outside of the picker.
     /// </summary>
     [Inject] protected IDocumentObserver DocumentObserver { get; set; }
@@ -1019,7 +1141,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     [Parameter] public bool Inline { get; set; }
 
     /// <summary>
-    /// Retained for compatibility. The native Blazor picker is used on every device.
+    /// Prevents the browser's native picker from being used on mobile devices.
     /// </summary>
     [Parameter] public bool DisableMobile { get; set; } = true;
 

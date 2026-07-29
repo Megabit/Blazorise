@@ -499,6 +499,17 @@ export function getUserAgent() {
     return navigator.userAgent;
 }
 
+export function isMobileDevice() {
+    const mobileUserAgentPattern = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Opera Mobi|Mobile|Silk|Kindle|Windows Phone|PlayBook|BB10|MeeGo|Tizen|Puffin/i;
+    const maxTouchPoints = navigator.maxTouchPoints || navigator.msMaxTouchPoints || 0;
+    const isTouchCapableMac = navigator.platform === "MacIntel" && maxTouchPoints > 1;
+    const isMobileUserAgentData = navigator.userAgentData && navigator.userAgentData.mobile === true;
+
+    return isMobileUserAgentData
+        || mobileUserAgentPattern.test(navigator.userAgent)
+        || isTouchCapableMac;
+}
+
 export function copyToClipboard(element, elementId) {
     element = getRequiredElement(element, elementId);
 

@@ -10,10 +10,54 @@ namespace Blazorise.Tests.Components;
 
 public class TimePickerComponentTest : BunitContext
 {
+    private const string MobileUserAgent = "Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 Chrome/131.0.0.0 Mobile Safari/537.36";
+
     public TimePickerComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseUtilities( MobileUserAgent, mobileDevice: true );
         JSInterop.AddBlazoriseDocumentObserver();
+    }
+
+    [Fact]
+    public async Task MobileModeUsesNativeTimeInput()
+    {
+        // test
+        IRenderedComponent<TimePicker<TimeSpan?>> comp = Render<TimePicker<TimeSpan?>>( parameters => parameters
+            .Add( x => x.Value, new TimeSpan( 9, 5, 7 ) )
+            .Add( x => x.Min, new TimeSpan( 8, 30, 0 ) )
+            .Add( x => x.Max, new TimeSpan( 17, 45, 0 ) )
+            .Add( x => x.Seconds, true )
+            .Add( x => x.DisableMobile, false ) );
+        IElement input = comp.Find( "input" );
+
+        await input.ChangeAsync( new ChangeEventArgs { Value = "10:15:30" } );
+        input = comp.Find( "input" );
+
+        // validate
+        Assert.Equal( "time", input.GetAttribute( "type" ) );
+        Assert.Equal( "10:15:30", input.GetAttribute( "value" ) );
+        Assert.Equal( new TimeSpan( 10, 15, 30 ), comp.Instance.Value );
+        Assert.Equal( "08:30:00", input.GetAttribute( "min" ) );
+        Assert.Equal( "17:45:00", input.GetAttribute( "max" ) );
+        Assert.Equal( "any", input.GetAttribute( "step" ) );
+        Assert.False( input.HasAttribute( "role" ) );
+        Assert.Empty( comp.FindAll( "[role='dialog']" ) );
+    }
+
+    [Fact]
+    public async Task MobileOpenUsesBrowserPicker()
+    {
+        // setup
+        IRenderedComponent<TimePicker<TimeSpan?>> comp = Render<TimePicker<TimeSpan?>>( parameters => parameters
+            .Add( x => x.DisableMobile, false ) );
+
+        // test
+        await comp.InvokeAsync( () => comp.Instance.OpenAsync().AsTask() );
+
+        // validate
+        JSInterop.VerifyInvoke( "showPicker", 1 );
+        Assert.Empty( comp.FindAll( "[role='dialog']" ) );
     }
 
     [Fact]

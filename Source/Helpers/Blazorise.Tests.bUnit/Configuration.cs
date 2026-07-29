@@ -31,7 +31,6 @@ public static class Configuration
         services.AddSingleton<ValidatorValidationHandler>();
         services.AddSingleton<PatternValidationHandler>();
         services.AddSingleton<DataAnnotationValidationHandler>();
-        services.AddSingleton<IFlatPickrDateTimeDisplayFormatConverter, FlatPickrDateTimeDisplayFormatConverter>();
         services.AddSingleton<IInputMaskDateTimeInputFormatConverter, InputMaskDateTimeInputFormatConverter>();
         services.AddSingleton<IVersionProvider, MockVersionProvider>();
         services.AddScoped<ITextLocalizerService, TextLocalizerService>();

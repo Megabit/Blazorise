@@ -8,9 +8,9 @@ namespace Blazorise.Utilities;
 /// Converts the public picker format syntax into an equivalent .NET custom format.
 /// </summary>
 /// <remarks>
-/// DatePicker and TimePicker historically converted their public .NET-like formats to Flatpickr tokens.
+/// DatePicker and TimePicker historically converted their public .NET-like formats before formatting.
 /// Some of those tokens differ subtly from direct <c>DateTime.ToString</c> behavior. This converter
-/// preserves the established picker behavior without depending on Flatpickr.
+/// preserves the established picker behavior.
 /// </remarks>
 internal static class PickerDateTimeFormat
 {

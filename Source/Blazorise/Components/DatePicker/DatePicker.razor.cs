@@ -165,6 +165,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     private bool inputFocused;
 
+    private bool? mobileDevice;
+
     private IAsyncDisposable outsidePointerSubscription;
 
     #endregion
@@ -237,12 +239,29 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
         if ( Rendered && paramInputFormat.Defined && paramInputFormat.Changed )
         {
-            if ( inputFocused && !string.IsNullOrWhiteSpace( InputFormat ) )
+            if ( inputFocused && !UseNativeMobilePicker && !string.IsNullOrWhiteSpace( InputFormat ) )
             {
                 inputText = FormatValueWithFormat( Value, PickerDateTimeFormat.Normalize( InputFormat ) );
                 ExecuteAfterRender( RefreshInputMaskAsync );
             }
             else
+            {
+                ExecuteAfterRender( DestroyInputMaskAsync );
+            }
+        }
+
+        if ( Rendered && paramDisableMobile.Defined && paramDisableMobile.Changed && !DisableMobile )
+        {
+            ExecuteAfterRender( DetectMobileDeviceAsync );
+        }
+
+        if ( Rendered && UseNativeMobilePicker )
+        {
+            calendarOpen = false;
+            focusCalendarOnOpen = false;
+            await DisposeOutsidePointerSubscriptionAsync();
+
+            if ( inputMaskInitialized )
             {
                 ExecuteAfterRender( DestroyInputMaskAsync );
             }
@@ -260,8 +279,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     }
 
     /// <inheritdoc/>
-    protected override Task OnFirstAfterRenderAsync()
-        => base.OnFirstAfterRenderAsync();
+    protected override async Task OnFirstAfterRenderAsync()
+    {
+        await base.OnFirstAfterRenderAsync();
+        await DetectMobileDeviceAsync();
+    }
 
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
@@ -329,6 +351,9 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     protected async Task OnClickHandler( MouseEventArgs eventArgs )
     {
         if ( IsDisabled || ReadOnly || Plaintext )
+            return;
+
+        if ( UseNativeMobilePicker )
             return;
 
         await BeginMaskedEditingAsync();
@@ -405,6 +430,9 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         await KeyDown.InvokeAsync( eventArgs );
 
         if ( IsDisabled || ReadOnly || eventArgs is null )
+            return;
+
+        if ( UseNativeMobilePicker )
             return;
 
         if ( CalendarVisible )
@@ -506,6 +534,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask OpenAsync()
     {
+        if ( IsDisabled || ReadOnly || Plaintext )
+            return ValueTask.CompletedTask;
+
+        if ( UseNativeMobilePicker )
+            return JSUtilitiesModule.ShowPicker( ElementRef, ElementId );
+
         return OpenCalendarAsync( focusCalendar: false );
     }
 
@@ -513,6 +547,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     {
         if ( IsDisabled || ReadOnly || Plaintext )
             return;
+
+        if ( UseNativeMobilePicker )
+        {
+            await JSUtilitiesModule.ShowPicker( ElementRef, ElementId );
+            return;
+        }
 
         bool renderRequired = !CalendarVisible || focusCalendarOnOpen != focusCalendar;
 
@@ -793,6 +833,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     {
         if ( inputMaskInitialized
              || !inputFocused
+             || UseNativeMobilePicker
              || string.IsNullOrWhiteSpace( InputFormat )
              || IsDisabled
              || ReadOnly
@@ -805,6 +846,30 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
         ExecuteAfterRender( RefreshInputMaskAsync );
         await InvokeAsync( StateHasChanged );
+    }
+
+    private async Task DetectMobileDeviceAsync()
+    {
+        if ( DisableMobile || mobileDevice.HasValue )
+            return;
+
+        string userAgent = await JSUtilitiesModule.GetUserAgent();
+        bool detectedMobileDevice = MobileDeviceDetector.IsMobile( userAgent );
+
+        if ( mobileDevice != detectedMobileDevice )
+        {
+            mobileDevice = detectedMobileDevice;
+
+            if ( UseNativeMobilePicker )
+            {
+                calendarOpen = false;
+                focusCalendarOnOpen = false;
+                await DisposeOutsidePointerSubscriptionAsync();
+                await DestroyInputMaskAsync();
+            }
+
+            await InvokeAsync( StateHasChanged );
+        }
     }
 
     private async Task FinishMaskedEditingAsync()
@@ -1423,7 +1488,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     #region Calendar rendering helpers
 
-    internal bool CalendarVisible => Inline || calendarOpen;
+    internal bool CalendarVisible => !UseNativeMobilePicker && ( Inline || calendarOpen );
 
     internal bool FocusCalendarOnOpen => focusCalendarOnOpen;
 
@@ -1651,6 +1716,83 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// </summary>
     protected string InputText => inputText;
 
+    /// <summary>
+    /// Gets the input type rendered for the active picker mode.
+    /// </summary>
+    protected string InputType => UseNativeMobilePicker ? Mode : "text";
+
+    /// <summary>
+    /// Gets the value rendered by the visible input.
+    /// </summary>
+    protected string VisibleInputText => UseNativeMobilePicker
+        ? FormatValueWithFormat( Value, DateFormat )
+        : InputText;
+
+    /// <summary>
+    /// Gets the minimum value rendered by the input.
+    /// </summary>
+    protected string InputMin => Min?.ToString( DateFormat, CultureInfo.InvariantCulture );
+
+    /// <summary>
+    /// Gets the maximum value rendered by the input.
+    /// </summary>
+    protected string InputMax => Max?.ToString( DateFormat, CultureInfo.InvariantCulture );
+
+    /// <summary>
+    /// Gets the step rendered by a native mobile input.
+    /// </summary>
+    protected string InputStep => UseNativeMobilePicker ? "any" : null;
+
+    /// <summary>
+    /// Gets the ARIA role used by the custom picker input.
+    /// </summary>
+    protected string InputRole => UseNativeMobilePicker ? null : "combobox";
+
+    /// <summary>
+    /// Gets the ARIA popup type used by the custom picker input.
+    /// </summary>
+    protected string InputAriaHasPopup => UseNativeMobilePicker ? null : "dialog";
+
+    /// <summary>
+    /// Gets the ARIA expanded state used by the custom picker input.
+    /// </summary>
+    protected string InputAriaExpanded => UseNativeMobilePicker ? null : CalendarVisible.ToString().ToLowerInvariant();
+
+    /// <summary>
+    /// Gets the ARIA control target used by the custom picker input.
+    /// </summary>
+    protected string InputAriaControls => UseNativeMobilePicker ? null : CalendarId;
+
+    /// <summary>
+    /// Gets whether the browser's native mobile picker should be used.
+    /// </summary>
+    internal bool UseNativeMobilePicker => !DisableMobile
+        && mobileDevice == true
+        && !Plaintext
+        && !Inline
+        && SelectionMode == DateInputSelectionMode.Single
+        && !ShowWeekNumbers
+        && !HasItems( DisabledDates )
+        && !HasItems( EnabledDates )
+        && !HasItems( DisabledDays );
+
+    private static bool HasItems( IEnumerable items )
+    {
+        if ( items is null )
+            return false;
+
+        IEnumerator enumerator = items.GetEnumerator();
+
+        try
+        {
+            return enumerator.MoveNext();
+        }
+        finally
+        {
+            ( enumerator as IDisposable )?.Dispose();
+        }
+    }
+
     private Func<MouseEventArgs, Task> NonRenderingClickHandler
         => EventUtil.AsNonRenderingEventHandler<MouseEventArgs>( OnClickHandler );
 
@@ -1716,12 +1858,6 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// Specifies the DI registered <see cref="ITextLocalizer{T}"/>.
     /// </summary>
     [Inject] protected ITextLocalizer<DatePicker<TValue>> Localizer { get; set; }
-
-    /// <summary>
-    /// Gets or sets the legacy Flatpickr display-format converter.
-    /// Retained for source compatibility and not used by the native DatePicker.
-    /// </summary>
-    [Inject] protected IFlatPickrDateTimeDisplayFormatConverter DisplayFormatConverter { get; set; }
 
     /// <summary>
     /// Gets or sets the date input-mask format converter.
@@ -1804,7 +1940,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     [Parameter] public bool Inline { get; set; }
 
     /// <summary>
-    /// Retained for compatibility. The DatePicker always uses its Blazor calendar.
+    /// Prevents the browser's native picker from being used on mobile devices.
     /// </summary>
     [Parameter] public bool DisableMobile { get; set; } = true;
 
