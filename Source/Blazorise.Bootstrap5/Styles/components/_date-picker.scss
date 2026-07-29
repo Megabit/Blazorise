@@ -1,0 +1,216 @@
+.datepicker {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    anchor-name: --bootstrap5-datepicker-anchor;
+    anchor-scope: --bootstrap5-datepicker-anchor;
+
+    &.dropdown {
+        display: inline-block;
+        width: 100%;
+    }
+
+    &.show {
+        z-index: 1051;
+    }
+
+    .datepicker-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 1050;
+        background: transparent;
+        pointer-events: none;
+    }
+
+    .datepicker-calendar.dropdown-menu {
+        display: block;
+        position: absolute;
+        inset-block-start: calc(100% + .25rem);
+        inset-inline-start: 0;
+        z-index: 1052;
+        width: max-content;
+        min-width: 18rem;
+        max-width: calc(100vw - 1rem);
+        max-height: calc(100vh - 1rem);
+        overflow: auto;
+        padding: $spacer * .5;
+        color: var(--#{$prefix}body-color);
+        background-color: var(--#{$prefix}body-bg);
+        border-color: var(--#{$prefix}border-color);
+        border-radius: $border-radius;
+        box-shadow: $box-shadow;
+        outline: 0;
+    }
+
+    .datepicker-calendar-inline {
+        position: relative;
+        inset: auto;
+        margin-block-start: .25rem;
+        z-index: auto;
+    }
+
+    @supports (position-anchor: --bootstrap5-datepicker-anchor) {
+        .datepicker-calendar-floating {
+            position: fixed;
+            position-anchor: --bootstrap5-datepicker-anchor;
+            inset: auto;
+            top: anchor(bottom);
+            inset-inline-start: anchor(start);
+            margin-block-start: .25rem;
+            position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+        }
+    }
+
+    .datepicker-header {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: .25rem;
+    }
+
+    .datepicker-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+
+        select,
+        input {
+            border: 0;
+            border-radius: $border-radius;
+            background: transparent;
+            color: inherit;
+            font-weight: $font-weight-bold;
+            text-align: center;
+
+            &:focus {
+                outline: 0;
+                box-shadow: 0 0 0 $focus-ring-width rgba($primary, $focus-ring-opacity);
+            }
+        }
+
+        select {
+            max-width: 8rem;
+        }
+
+        input {
+            width: 5rem;
+        }
+    }
+
+    .datepicker-weekdays,
+    .datepicker-week {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        align-items: center;
+    }
+
+    .datepicker-weekdays:has(.datepicker-week-number),
+    .datepicker-week:has(.datepicker-week-number) {
+        grid-template-columns: auto repeat(7, minmax(0, 1fr));
+    }
+
+    .datepicker-weekday,
+    .datepicker-week-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2rem;
+        min-height: 2rem;
+        color: var(--#{$prefix}secondary-color);
+        font-weight: $font-weight-bold;
+    }
+
+    .datepicker-day,
+    .datepicker-month {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.25rem;
+        min-height: 2.25rem;
+        padding: 0;
+        color: var(--#{$prefix}body-color);
+        border-radius: $border-radius;
+
+        &:hover:not(:disabled) {
+            background: rgba($primary, .1);
+        }
+    }
+
+    .datepicker-day-outside {
+        color: var(--#{$prefix}secondary-color);
+        opacity: .65;
+    }
+
+    .datepicker-day-today {
+        border-color: $primary;
+    }
+
+    .datepicker-day-in-range {
+        border-radius: 0;
+        background: rgba($primary, .15);
+    }
+
+    .datepicker-day-selected,
+    .datepicker-day-range-start,
+    .datepicker-day-range-end,
+    .datepicker-month-selected {
+        background: $primary;
+        border-color: $primary;
+        color: color-contrast($primary);
+    }
+
+    .datepicker-day-range-start {
+        border-radius: 0;
+        border-start-start-radius: $border-radius;
+        border-end-start-radius: $border-radius;
+    }
+
+    .datepicker-day-range-end {
+        border-radius: 0;
+        border-start-end-radius: $border-radius;
+        border-end-end-radius: $border-radius;
+    }
+
+    .datepicker-day-range-start.datepicker-day-range-end {
+        border-radius: $border-radius;
+    }
+
+    .datepicker-day-focused,
+    .datepicker-month-focused {
+        box-shadow: 0 0 0 $focus-ring-width rgba($primary, $focus-ring-opacity);
+    }
+
+    .datepicker-day-disabled,
+    .datepicker-month-disabled {
+        opacity: .4;
+    }
+
+    .datepicker-months {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: .25rem;
+        padding-block: .5rem;
+    }
+
+    .datepicker-time,
+    .datepicker-actions {
+        display: flex;
+        align-items: center;
+        gap: .25rem;
+        padding-block-start: .5rem;
+    }
+
+    .datepicker-time {
+        justify-content: center;
+    }
+
+    .datepicker-actions {
+        justify-content: flex-end;
+    }
+
+    .datepicker-time-input {
+        width: 4rem;
+        text-align: center;
+    }
+}

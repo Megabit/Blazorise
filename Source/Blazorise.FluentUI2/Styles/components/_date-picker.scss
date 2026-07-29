@@ -1,3 +1,233 @@
-﻿.fui-Input__input.b-input-color-picker {
+.fui-DatePicker__container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    anchor-name: --fluent-datepicker-anchor;
+    anchor-scope: --fluent-datepicker-anchor;
+
+    &.fui-DatePicker__container-open {
+        z-index: 1000000;
+    }
+}
+
+.fui-DatePicker__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: transparent;
+    pointer-events: none;
+}
+
+.fui-DatePicker__calendar {
+    position: absolute;
+    inset-block-start: calc(100% + var(--spacingVerticalXXS));
+    inset-inline-start: 0;
+    z-index: 1000001;
+    width: max-content;
+    min-width: 18rem;
+    max-width: calc(100vw - 1rem);
+    max-height: calc(100vh - 1rem);
+    overflow: auto;
+    padding: var(--spacingHorizontalS);
+    border: 1px solid var(--colorNeutralStroke1);
+    border-radius: var(--borderRadiusMedium);
+    background: var(--colorNeutralBackground1);
+    color: var(--colorNeutralForeground1);
+    box-shadow: var(--shadow16);
+    font-family: var(--fontFamilyBase);
+    font-size: var(--fontSizeBase200);
+    outline: 0;
+
+    &.fui-DatePicker__calendar-inline {
+        position: relative;
+        inset: auto;
+        margin-block-start: var(--spacingVerticalXXS);
+        z-index: auto;
+    }
+
+    @supports (position-anchor: --fluent-datepicker-anchor) {
+        &.fui-DatePicker__calendar-floating {
+            position: fixed;
+            position-anchor: --fluent-datepicker-anchor;
+            inset: auto;
+            top: anchor(bottom);
+            inset-inline-start: anchor(start);
+            margin-block-start: var(--spacingVerticalXXS);
+            position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+        }
+    }
+
+    .fui-DatePicker__header {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: var(--spacingHorizontalXXS);
+        padding-block-end: var(--spacingVerticalXS);
+    }
+
+    .fui-DatePicker__navigation,
+    .fui-DatePicker__button {
+        border: 0;
+        border-radius: var(--borderRadiusMedium);
+        background: var(--colorTransparentBackground);
+        color: var(--colorNeutralForeground1);
+
+        &:hover:not(:disabled),
+        &:focus {
+            background: var(--colorNeutralBackground1Hover);
+        }
+    }
+
+    .fui-DatePicker__title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+
+        select,
+        input {
+            border: 0;
+            border-radius: var(--borderRadiusMedium);
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            font-weight: var(--fontWeightSemibold);
+            text-align: center;
+
+            &:hover,
+            &:focus {
+                outline: 0;
+                background: var(--colorNeutralBackground1Hover);
+            }
+        }
+
+        select {
+            max-width: 8rem;
+        }
+
+        input {
+            width: 5rem;
+        }
+    }
+
+    .fui-DatePicker__weekday,
+    .fui-DatePicker__weekNumber,
+    .fui-DatePicker__day-outside {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2rem;
+        min-height: 2rem;
+        color: var(--colorNeutralForeground3);
+    }
+
+    .fui-DatePicker__weekdays,
+    .fui-DatePicker__week {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        align-items: center;
+    }
+
+    .fui-DatePicker__weekdays:has(.fui-DatePicker__weekNumber),
+    .fui-DatePicker__week:has(.fui-DatePicker__weekNumber) {
+        grid-template-columns: auto repeat(7, minmax(0, 1fr));
+    }
+
+    .fui-DatePicker__day,
+    .fui-DatePicker__month {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.25rem;
+        min-height: 2.25rem;
+        padding: 0;
+        border: 1px solid transparent;
+        background: transparent;
+        color: inherit;
+        font: inherit;
+        border-radius: var(--borderRadiusMedium);
+
+        &:hover:not(:disabled) {
+            background: var(--colorNeutralBackground1Hover);
+        }
+    }
+
+    .fui-DatePicker__day-today {
+        border-color: var(--colorBrandStroke1);
+    }
+
+    .fui-DatePicker__day-inRange {
+        border-radius: 0;
+        background: var(--colorBrandBackground2);
+    }
+
+    .fui-DatePicker__day-rangeStart {
+        border-radius: 0;
+        border-start-start-radius: var(--borderRadiusMedium);
+        border-end-start-radius: var(--borderRadiusMedium);
+    }
+
+    .fui-DatePicker__day-rangeEnd {
+        border-radius: 0;
+        border-start-end-radius: var(--borderRadiusMedium);
+        border-end-end-radius: var(--borderRadiusMedium);
+    }
+
+    .fui-DatePicker__day-rangeStart.fui-DatePicker__day-rangeEnd {
+        border-radius: var(--borderRadiusMedium);
+    }
+
+    .fui-DatePicker__day-selected,
+    .fui-DatePicker__day-rangeStart,
+    .fui-DatePicker__day-rangeEnd,
+    .fui-DatePicker__month-selected {
+        background: var(--colorBrandBackground);
+        border-color: var(--colorBrandBackground);
+        color: var(--colorNeutralForegroundOnBrand);
+    }
+
+    .fui-DatePicker__day-focused,
+    .fui-DatePicker__month-focused {
+        outline: 2px solid var(--colorStrokeFocus2);
+        outline-offset: 1px;
+    }
+
+    .fui-DatePicker__day-disabled,
+    .fui-DatePicker__month-disabled {
+        color: var(--colorNeutralForegroundDisabled);
+        opacity: .65;
+    }
+
+    .fui-DatePicker__time,
+    .fui-DatePicker__actions {
+        display: flex;
+        align-items: center;
+        gap: var(--spacingHorizontalXXS);
+        padding-block-start: var(--spacingVerticalXS);
+        border-block-start: 1px solid var(--colorNeutralStroke2);
+    }
+
+    .fui-DatePicker__time {
+        justify-content: center;
+    }
+
+    .fui-DatePicker__actions {
+        justify-content: flex-end;
+    }
+
+    .fui-DatePicker__months {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: var(--spacingHorizontalXXS);
+        padding-block: var(--spacingVerticalXS);
+    }
+
+    .fui-DatePicker__timeInput {
+        width: 4rem;
+        text-align: center;
+    }
+}
+
+.fui-Input__input.b-input-color-picker {
     height: 20px;
 }

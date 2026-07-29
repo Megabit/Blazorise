@@ -1,0 +1,93 @@
+.fui-TimePicker-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    anchor-name: --fluent-timepicker-anchor;
+    anchor-scope: --fluent-timepicker-anchor;
+
+    &.fui-TimePicker-container--open {
+        z-index: var(--fui-zIndex-Popup, 1000);
+    }
+}
+
+.fui-TimePicker__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: calc(var(--fui-zIndex-Popup, 1000) - 1);
+    background: transparent;
+    pointer-events: none;
+}
+
+.fui-TimePicker__menu {
+    position: absolute;
+    inset-block-start: calc(100% + var(--fui-SpacingHorizontalXXS));
+    inset-inline-start: 0;
+    z-index: var(--fui-zIndex-Popup, 1000);
+    width: max-content;
+    min-width: 12rem;
+    max-width: calc(100vw - 1rem);
+    padding: var(--fui-SpacingHorizontalS);
+    border: 1px solid var(--fui-ColorNeutralStroke2);
+    border-radius: var(--fui-BorderRadiusMedium);
+    color: var(--fui-ColorNeutralForeground1);
+    background: var(--fui-ColorNeutralBackground1);
+    box-shadow: var(--fui-Shadow16);
+    outline: 0;
+
+    &.fui-TimePicker__menu--inline {
+        position: relative;
+        inset: auto;
+        margin-block-start: var(--fui-SpacingHorizontalXXS);
+        z-index: auto;
+    }
+}
+
+@supports (position-anchor: --fluent-timepicker-anchor) {
+    .fui-TimePicker__menu--floating {
+        position: fixed;
+        position-anchor: --fluent-timepicker-anchor;
+        inset: auto;
+        top: anchor(bottom);
+        inset-inline-start: anchor(start);
+        margin-block-start: var(--fui-SpacingHorizontalXXS);
+        position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+    }
+}
+
+.fui-TimePicker__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--fui-SpacingHorizontalXXS);
+}
+
+.fui-TimePicker__control {
+    width: 4rem;
+}
+
+.fui-TimePicker__input {
+    width: 100%;
+    min-height: 2rem;
+    border: 1px solid var(--fui-ColorNeutralStroke1);
+    border-radius: var(--fui-BorderRadiusMedium);
+    color: inherit;
+    background: var(--fui-ColorNeutralBackground1);
+    text-align: center;
+}
+
+.fui-TimePicker__separator {
+    color: var(--fui-ColorNeutralForeground3);
+}
+
+.fui-TimePicker__meridiem {
+    min-height: 2rem;
+    padding-inline: var(--fui-SpacingHorizontalS);
+    border: 1px solid var(--fui-ColorNeutralStroke1);
+    border-radius: var(--fui-BorderRadiusMedium);
+    color: var(--fui-ColorNeutralForeground1);
+    background: var(--fui-ColorNeutralBackground1);
+}
+
+.fui-TimePicker__control--focused {
+    outline: 2px solid var(--fui-ColorCompoundBrandStroke);
+    outline-offset: 1px;
+}

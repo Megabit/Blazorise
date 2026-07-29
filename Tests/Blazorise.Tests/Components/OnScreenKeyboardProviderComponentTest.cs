@@ -364,8 +364,6 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
             options.AccessibilityOptions.OnScreenKeyboard.EnterKeyBehavior = OnScreenKeyboardEnterKeyBehavior.Submit;
         } ) );
         JSInterop.AddBlazoriseTextInput();
-        JSInterop.AddBlazoriseDatePicker();
-        JSInterop.AddBlazoriseTimePicker();
         JSInterop.AddBlazoriseNumericInput();
     }
 
@@ -951,7 +949,7 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
         await keyboardService.InsertText( "0" );
 
         Assert.Equal( "20", keyboardService.State.Context.GetValue() );
-        JSInterop.VerifyInvoke( "updateTextValue", 2 );
+        Assert.Equal( "20", comp.Find( "input" ).GetAttribute( "value" ) );
     }
 
     [Fact]
@@ -966,7 +964,7 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
         await keyboardService.InsertText( "2" );
 
         Assert.Equal( "12", keyboardService.State.Context.GetValue() );
-        JSInterop.VerifyInvoke( "updateTextValue", 2 );
+        Assert.Equal( "12", comp.Find( "input" ).GetAttribute( "value" ) );
     }
 
     [Fact]

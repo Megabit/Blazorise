@@ -97,6 +97,44 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
+    public override string DatePickerContainer( bool inline, bool open ) => $"datepicker dropdown{( inline ? " datepicker-inline" : null )}{( open ? " show" : null )}";
+
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"datepicker-calendar dropdown-menu show{( inline ? " datepicker-calendar-inline" : null )}{( staticPicker ? " datepicker-calendar-static" : " datepicker-calendar-floating" )}";
+
+    public override string DatePickerCalendarBackdrop() => "datepicker-backdrop";
+
+    public override string DatePickerCalendarHeader() => "datepicker-header";
+
+    public override string DatePickerCalendarNavigation() => "datepicker-navigation btn btn-sm btn-light";
+
+    public override string DatePickerCalendarTitle() => "datepicker-title d-flex align-items-center";
+
+    public override string DatePickerCalendarGrid() => "datepicker-grid";
+
+    public override string DatePickerCalendarWeekdays() => "datepicker-weekdays text-body-secondary";
+
+    public override string DatePickerCalendarWeekday() => "datepicker-weekday small";
+
+    public override string DatePickerCalendarWeek() => "datepicker-week";
+
+    public override string DatePickerCalendarWeekNumber() => "datepicker-week-number text-body-secondary small";
+
+    public override string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused )
+        => $"datepicker-day btn btn-sm{( outside ? " datepicker-day-outside" : null )}{( today ? " datepicker-day-today" : null )}{( selected ? " datepicker-day-selected" : null )}{( rangeStart ? " datepicker-day-range-start" : null )}{( inRange ? " datepicker-day-in-range" : null )}{( rangeEnd ? " datepicker-day-range-end" : null )}{( disabled ? " datepicker-day-disabled" : null )}{( focused ? " datepicker-day-focused" : null )}";
+
+    public override string DatePickerCalendarMonths() => "datepicker-months";
+
+    public override string DatePickerCalendarMonth( bool selected, bool disabled, bool focused )
+        => $"datepicker-month btn btn-sm{( selected ? " datepicker-month-selected" : null )}{( disabled ? " datepicker-month-disabled" : null )}{( focused ? " datepicker-month-focused" : null )}";
+
+    public override string DatePickerCalendarTime() => "datepicker-time input-group input-group-sm";
+
+    public override string DatePickerCalendarTimeInput() => "datepicker-time-input form-control";
+
+    public override string DatePickerCalendarActions() => "datepicker-actions d-flex justify-content-end";
+
+    public override string DatePickerCalendarButton() => "datepicker-button btn btn-sm btn-light";
+
     #endregion
 
     #region TimePicker
@@ -108,6 +146,25 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    public override string TimePickerContainer( bool inline, bool open )
+        => $"timepicker dropdown{( inline ? " timepicker-inline" : null )}{( open ? " show" : null )}";
+
+    public override string TimePickerMenu( bool inline, bool staticPicker )
+        => $"timepicker-menu dropdown-menu show{( inline ? " timepicker-menu-inline" : null )}{( staticPicker ? " timepicker-menu-static" : " timepicker-menu-floating" )}";
+
+    public override string TimePickerBackdrop() => "timepicker-backdrop";
+
+    public override string TimePickerControls() => "timepicker-controls input-group input-group-sm";
+
+    public override string TimePickerControl( bool focused ) => $"timepicker-control{( focused ? " timepicker-control-focused" : null )}";
+
+    public override string TimePickerInput() => "timepicker-input form-control";
+
+    public override string TimePickerSeparator() => "timepicker-separator input-group-text";
+
+    public override string TimePickerMeridiem( bool postMeridiem, bool focused )
+        => $"timepicker-meridiem btn btn-sm btn-light{( postMeridiem ? " timepicker-meridiem-pm" : null )}{( focused ? " timepicker-control-focused" : null )}";
 
     #endregion
 

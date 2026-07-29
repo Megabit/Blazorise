@@ -1,0 +1,88 @@
+.mui-time-picker {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    anchor-name: --material-timepicker-anchor;
+    anchor-scope: --material-timepicker-anchor;
+
+    &.mui-time-picker-open {
+        z-index: 1301;
+    }
+}
+
+.mui-time-picker-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1300;
+    background: transparent;
+    pointer-events: none;
+}
+
+.mui-time-picker-menu {
+    position: absolute;
+    inset-block-start: calc(100% + .25rem);
+    inset-inline-start: 0;
+    z-index: 1302;
+    width: max-content;
+    min-width: 12rem;
+    max-width: calc(100vw - 1rem);
+    padding: .75rem;
+    color: var(--mui-on-surface);
+    background: var(--mui-surface-container);
+    border: .0625rem solid var(--mui-outline-variant);
+    border-radius: .75rem;
+    box-shadow: var(--mui-elevation-3, 0 .5rem 1rem rgba(0, 0, 0, .15));
+    outline: 0;
+
+    &.mui-time-picker-menu-inline {
+        position: relative;
+        inset: auto;
+        margin-block-start: .25rem;
+        z-index: auto;
+    }
+}
+
+@supports (position-anchor: --material-timepicker-anchor) {
+    .mui-time-picker-menu-floating {
+        position: fixed;
+        position-anchor: --material-timepicker-anchor;
+        inset: auto;
+        top: anchor(bottom);
+        inset-inline-start: anchor(start);
+        margin-block-start: .25rem;
+        position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+    }
+}
+
+.mui-time-picker-controls {
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+}
+
+.mui-time-picker-control {
+    width: 4rem;
+}
+
+.mui-time-picker-input {
+    width: 100%;
+    text-align: center;
+}
+
+.mui-time-picker-separator {
+    color: var(--mui-on-surface-variant);
+}
+
+.mui-time-picker-meridiem {
+    min-height: 2.5rem;
+    padding-inline: .75rem;
+    border: 0;
+    border-radius: 999rem;
+    color: var(--mui-primary);
+    background: transparent;
+}
+
+.mui-time-picker-control-focused {
+    outline: .125rem solid var(--mui-primary);
+    outline-offset: .125rem;
+}

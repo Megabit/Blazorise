@@ -1,0 +1,93 @@
+.tw-timepicker {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    anchor-name: --tailwind-timepicker-anchor;
+    anchor-scope: --tailwind-timepicker-anchor;
+
+    &.tw-timepicker-open {
+        z-index: 50;
+    }
+}
+
+.tw-timepicker-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: transparent;
+    pointer-events: none;
+}
+
+.tw-timepicker-menu {
+    position: absolute;
+    inset-block-start: calc(100% + .25rem);
+    inset-inline-start: 0;
+    z-index: 50;
+    width: max-content;
+    min-width: 12rem;
+    max-width: calc(100vw - 1rem);
+    padding: .75rem;
+    border: 1px solid rgb(229 231 235);
+    border-radius: .5rem;
+    color: rgb(17 24 39);
+    background: white;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1);
+    outline: 0;
+
+    &.tw-timepicker-menu-inline {
+        position: relative;
+        inset: auto;
+        margin-block-start: .25rem;
+        z-index: auto;
+    }
+}
+
+@supports (position-anchor: --tailwind-timepicker-anchor) {
+    .tw-timepicker-menu-floating {
+        position: fixed;
+        position-anchor: --tailwind-timepicker-anchor;
+        inset: auto;
+        top: anchor(bottom);
+        inset-inline-start: anchor(start);
+        margin-block-start: .25rem;
+        position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+    }
+}
+
+.tw-timepicker-controls {
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+}
+
+.tw-timepicker-control {
+    width: 4rem;
+}
+
+.tw-timepicker-input {
+    width: 100%;
+    min-height: 2.25rem;
+    border: 1px solid rgb(209 213 219);
+    border-radius: .375rem;
+    color: inherit;
+    background: white;
+    text-align: center;
+}
+
+.tw-timepicker-separator {
+    color: rgb(107 114 128);
+}
+
+.tw-timepicker-meridiem {
+    min-height: 2.25rem;
+    padding-inline: .75rem;
+    border: 1px solid rgb(209 213 219);
+    border-radius: .375rem;
+    color: inherit;
+    background: white;
+}
+
+.tw-timepicker-control-focused {
+    outline: 2px solid rgb(59 130 246);
+    outline-offset: 2px;
+}

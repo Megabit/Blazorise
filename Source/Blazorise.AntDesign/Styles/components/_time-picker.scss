@@ -1,0 +1,84 @@
+.ant-time-picker-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    anchor-name: --ant-timepicker-anchor;
+    anchor-scope: --ant-timepicker-anchor;
+
+    &.ant-time-picker-container-open {
+        z-index: var(--ant-picker-z-index-popup);
+    }
+}
+
+.ant-time-picker-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: calc(var(--ant-picker-z-index-popup) - 1);
+    background: transparent;
+    pointer-events: none;
+}
+
+.ant-time-picker-dropdown.ant-picker-panel-container {
+    position: absolute;
+    inset-block-start: calc(100% + var(--ant-margin-xxs));
+    inset-inline-start: 0;
+    z-index: var(--ant-picker-z-index-popup);
+    width: max-content;
+    min-width: calc(var(--ant-control-height) * 4);
+    max-width: calc(100vw - 1rem);
+    padding: var(--ant-padding-xs);
+    border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border-secondary);
+    border-radius: var(--ant-border-radius-lg);
+    color: var(--ant-color-text);
+    background: var(--ant-color-bg-elevated);
+    box-shadow: var(--ant-box-shadow-secondary);
+    outline: 0;
+
+    &.ant-time-picker-dropdown-inline {
+        position: relative;
+        inset: auto;
+        margin-block-start: var(--ant-margin-xxs);
+        z-index: auto;
+    }
+}
+
+@supports (position-anchor: --ant-timepicker-anchor) {
+    .ant-time-picker-dropdown-floating {
+        position: fixed;
+        position-anchor: --ant-timepicker-anchor;
+        inset: auto;
+        top: anchor(bottom);
+        inset-inline-start: anchor(start);
+        margin-block-start: var(--ant-margin-xxs);
+        position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+    }
+}
+
+.ant-time-picker-panel {
+    display: flex;
+    align-items: center;
+    gap: var(--ant-margin-xxs);
+}
+
+.ant-time-picker-column {
+    width: calc(var(--ant-control-height) * 1.5);
+}
+
+.ant-time-picker-input {
+    width: 100%;
+    min-height: var(--ant-control-height);
+    border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border);
+    border-radius: var(--ant-border-radius);
+    color: inherit;
+    background: transparent;
+    text-align: center;
+}
+
+.ant-time-picker-separator {
+    color: var(--ant-color-text-secondary);
+}
+
+.ant-time-picker-column-focused {
+    outline: 2px solid var(--ant-color-primary);
+    outline-offset: var(--ant-line-width);
+}

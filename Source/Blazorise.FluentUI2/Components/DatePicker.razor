@@ -1,23 +1,59 @@
 @using System.Text
 @typeparam TValue
 @inherits Blazorise.DatePicker<TValue>
-@if ( ParentIsAddons )
-{
-    <span class="@AddonClassNames" style="@WrapperStyleNames">
-        @InputElement
-    </span>
-}
-else
-{
-    <span class="@InputClassNames" style="@WrapperStyleNames">
-        @InputElement
-    </span>
-}
+<span class="@ProviderPickerContainerClassNames">
+    @if ( ParentIsAddons )
+    {
+        <span class="@AddonClassNames" style="@WrapperStyleNames">
+            @InputElement
+        </span>
+    }
+    else
+    {
+        <span class="@InputClassNames" style="@WrapperStyleNames">
+            @InputElement
+        </span>
+    }
+    <_DatePickerCalendar TValue="TValue" Parent="@this" />
+</span>
 @ChildContent
 @Feedback
 @code {
     private RenderFragment InputElement => __builder =>
     {
-        <input @ref="@ElementRef" id="@ElementId" type="text" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" min="@Min?.ToString( Utilities.Parsers.InternalDateFormat )" max="@Max?.ToString( Utilities.Parsers.InternalDateFormat )" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" @attributes="@Attributes" />
+        <input @ref="@ElementRef"
+               id="@ElementId"
+               type="text"
+               name="@NameAttributeValue"
+               class="@ClassNames"
+               style="@StyleNames"
+               disabled="@IsDisabled"
+               readonly="@ReadOnly"
+               pattern="@Pattern"
+               value="@InputText"
+               @oninput="@OnInputHandler"
+               @onchange="@OnChangeHandler"
+               @onclick="@OnClickHandler"
+               @onkeydown="@OnKeyDownHandler"
+               @onkeypress="@OnKeyPressHandler"
+               @onkeyup="@OnKeyUpHandler"
+               @onblur="@OnBlurHandler"
+               @onfocus="@OnFocusHandler"
+               @onfocusin="@OnFocusInHandler"
+               @onfocusout="@OnFocusOutHandler"
+               placeholder="@Placeholder"
+               min="@Min?.ToString( Utilities.Parsers.InternalDateFormat )"
+               max="@Max?.ToString( Utilities.Parsers.InternalDateFormat )"
+               tabindex="@TabIndex"
+               role="combobox"
+               aria-haspopup="dialog"
+               aria-expanded="@CalendarVisible"
+               aria-controls="@CalendarId"
+               aria-invalid="@AriaInvalid"
+               aria-required="@ResolvedAriaRequired"
+               aria-describedby="@AriaDescribedBy"
+               aria-labelledby="@AriaLabelledBy"
+               autocomplete="off"
+               @attributes="@Attributes" />
     };
 }

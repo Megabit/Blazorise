@@ -1,4 +1,4 @@
-﻿@page "/docs/components/date-picker"
+@page "/docs/components/date-picker"
 
 <Seo Canonical="/docs/components/date-picker" Title="Blazorise DatePicker component" Description="Learn to use and work with the Blazorise DatePicker component, which is a fully featured date selection component that lets users select a date." />
 
@@ -12,8 +12,9 @@
 
 <DocsPageParagraph>
     <Code Tag>DatePicker</Code> is a fully featured date selection component that lets users select a date.
-    <Code>DatePicker</Code> is based on a <Anchor To="https://flatpickr.js.org/">flatpickr</Anchor> datetime picker
-    and as such is not a native date input element. That means that unlike <code>DateInput</code> which will render <Code>type="date"</Code>,
+    Its calendar, keyboard navigation, and parsing are implemented in Blazor and C# without a third-party JavaScript picker.
+    When <Code>InputFormat</Code> is defined, DatePicker continues to use Blazorise's existing InputMask integration for compatible caret-aware editing.
+    Unlike <code>DateInput</code>, which renders <Code>type="date"</Code>,
     <Code>DatePicker</Code> will render <Code>type="text"</Code> in the DOM.
 </DocsPageParagraph>
 
@@ -168,19 +169,25 @@
 </Heading>
 
 <DocsPageParagraph>
-    Native Flatpickr component has some special rules regarding the date format string. To make it easier to use we
-    tried to map the flatpickr custom formatter to behave as close to <Strong>.NET</Strong> date format string.
+    <Code>DisplayFormat</Code> and <Code>InputFormat</Code> retain the .NET-style picker format syntax supported by earlier DatePicker versions.
+    <Code>InputFormat</Code> is converted to the existing InputMask datetime format and used as the caret-aware typing mask.
+    After the mask is completed, the committed value is presented using <Code>DisplayFormat</Code>.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Bellow you can find the list of available and supported mappings between Blazorise and flatpickr.
+    For example, <Code>dd.MM.yyyy</Code> renders and accepts values such as <Code>27.07.2026</Code>.
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    Display output and parsing preserve the format-token behavior from earlier DatePicker versions.
+</DocsPageParagraph>
+
+@*
 <Table>
     <TableHeader ThemeContrast="ThemeContrast.Light">
         <TableRow>
             <TableHeaderCell TextAlignment="TextAlignment.Center">.NET value</TableHeaderCell>
-            <TableHeaderCell TextAlignment="TextAlignment.Center">Flatpickr value</TableHeaderCell>
+            <TableHeaderCell TextAlignment="TextAlignment.Center">Example</TableHeaderCell>
             <TableHeaderCell>Description</TableHeaderCell>
         </TableRow>
     </TableHeader>
@@ -421,6 +428,7 @@
         </TableRow>
     </TableBody>
 </Table>
+*@
 
 <DocsPageSubtitle>
     Best Practices

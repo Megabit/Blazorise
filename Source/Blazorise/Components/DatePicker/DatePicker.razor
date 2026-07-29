@@ -1,6 +1,41 @@
 @namespace Blazorise
 @typeparam TValue
 @inherits BaseTextInput<TValue, DatePickerClasses, DatePickerStyles>
-<input @ref="@ElementRef" id="@ElementId" type="text" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" min="@Min?.ToString( Utilities.Parsers.InternalDateFormat )" max="@Max?.ToString( Utilities.Parsers.InternalDateFormat )" tabindex="@TabIndex" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ExplicitAriaLabelledBy" @attributes="@Attributes" />
+<div id="@PickerContainerId" class="@PickerContainerClassNames" style="@PickerContainerStyleNames">
+    <input @ref="@ElementRef"
+           id="@ElementId"
+           type="text"
+           name="@NameAttributeValue"
+           class="@ClassNames"
+           style="@StyleNames"
+           disabled="@IsDisabled"
+           readonly="@ReadOnly"
+           pattern="@Pattern"
+           value="@InputText"
+           @onchange="@OnChangeHandler"
+           @onclick="@NonRenderingClickHandler"
+           @onkeydown="@NonRenderingKeyDownHandler"
+           @onkeypress="@NonRenderingKeyPressHandler"
+           @onkeyup="@NonRenderingKeyUpHandler"
+           @onblur="@NonRenderingBlurHandler"
+           @onfocus="@NonRenderingFocusHandler"
+           @onfocusin="@NonRenderingFocusInHandler"
+           @onfocusout="@NonRenderingFocusOutHandler"
+           placeholder="@Placeholder"
+           min="@Min?.ToString( Utilities.Parsers.InternalDateFormat )"
+           max="@Max?.ToString( Utilities.Parsers.InternalDateFormat )"
+           tabindex="@TabIndex"
+           role="combobox"
+           aria-haspopup="dialog"
+           aria-expanded="@CalendarVisible"
+           aria-controls="@CalendarId"
+           aria-invalid="@ResolvedAriaInvalid"
+           aria-required="@ResolvedAriaRequired"
+           aria-describedby="@ResolvedAriaDescribedBy"
+           aria-labelledby="@ExplicitAriaLabelledBy"
+           autocomplete="off"
+           @attributes="@Attributes" />
+    <_DatePickerCalendar TValue="TValue" Parent="@this" />
+</div>
 @ChildContent
 @Feedback

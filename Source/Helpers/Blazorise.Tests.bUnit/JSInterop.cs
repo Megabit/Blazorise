@@ -100,6 +100,16 @@ public static class JSInterop
         return jsInterop;
     }
 
+    public static BunitJSInterop AddBlazoriseInputMask( this BunitJSInterop jsInterop )
+    {
+        var module = jsInterop.SetupModule( new JSInputMaskModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "extendAliases", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
     public static BunitJSInterop AddBlazoriseTimePicker( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );

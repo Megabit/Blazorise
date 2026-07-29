@@ -37,6 +37,7 @@
     --color-blue-500: oklch(62.3% 0.214 259.815);
     --color-blue-600: oklch(54.6% 0.245 262.881);
     --color-blue-900: oklch(37.9% 0.146 265.522);
+    --color-blue-950: oklch(28.2% 0.091 267.935);
     --color-gray-50: oklch(98.5% 0.002 247.839);
     --color-gray-100: oklch(96.7% 0.003 264.542);
     --color-gray-200: oklch(92.8% 0.006 264.531);
@@ -882,6 +883,14 @@
   .table-row {
     display: table-row;
   }
+  .size-8 {
+    width: calc(var(--spacing) * 8);
+    height: calc(var(--spacing) * 8);
+  }
+  .size-9 {
+    width: calc(var(--spacing) * 9);
+    height: calc(var(--spacing) * 9);
+  }
   .h-1 {
     height: calc(var(--spacing) * 1);
   }
@@ -1116,6 +1125,9 @@
   .max-w-sm {
     max-width: var(--container-sm);
   }
+  .min-w-0 {
+    min-width: calc(var(--spacing) * 0);
+  }
   .min-w-1\/2 {
     min-width: calc(1 / 2 * 100%);
   }
@@ -1133,6 +1145,9 @@
   }
   .min-w-10 {
     min-width: calc(var(--spacing) * 10);
+  }
+  .min-w-72 {
+    min-width: calc(var(--spacing) * 72);
   }
   .min-w-auto {
     min-width: auto;
@@ -1305,6 +1320,9 @@
   }
   .grid-cols-12 {
     grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+  .grid-cols-\[auto_minmax\(0\,1fr\)_auto\] {
+    grid-template-columns: auto minmax(0,1fr) auto;
   }
   .grid-rows-1 {
     grid-template-rows: repeat(1, minmax(0, 1fr));
@@ -1547,6 +1565,9 @@
   .rounded-lg {
     border-radius: var(--radius-lg);
   }
+  .rounded-md {
+    border-radius: var(--radius-md);
+  }
   .rounded-none {
     border-radius: 0;
   }
@@ -1581,6 +1602,10 @@
     border-top-left-radius: var(--radius-md);
     border-bottom-left-radius: var(--radius-md);
   }
+  .rounded-l-none {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
   .rounded-l-sm {
     border-top-left-radius: var(--radius-sm);
     border-bottom-left-radius: var(--radius-sm);
@@ -1596,6 +1621,10 @@
   .rounded-r-md {
     border-top-right-radius: var(--radius-md);
     border-bottom-right-radius: var(--radius-md);
+  }
+  .rounded-r-none {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
   .rounded-r-sm {
     border-top-right-radius: var(--radius-sm);
@@ -1848,6 +1877,12 @@
   }
   .\!border-warning-600 {
     border-color: var(--color-warning-600) !important;
+  }
+  .border-blue-500 {
+    border-color: var(--color-blue-500);
+  }
+  .border-blue-600 {
+    border-color: var(--color-blue-600);
   }
   .border-danger-100 {
     border-color: var(--color-danger-100);
@@ -2367,6 +2402,9 @@
   }
   .\!pt-5 {
     padding-top: calc(var(--spacing) * 5) !important;
+  }
+  .pt-2 {
+    padding-top: calc(var(--spacing) * 2);
   }
   .\!pr-0 {
     padding-right: calc(var(--spacing) * 0) !important;
@@ -2961,6 +2999,10 @@
     --tw-shadow: 0 1px 2px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.05));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
+  .ring-2 {
+    --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
   .shadow-blue-900 {
     --tw-shadow-color: oklch(37.9% 0.146 265.522);
     @supports (color: color-mix(in lab, red, red)) {
@@ -3008,6 +3050,13 @@
     @supports (color: color-mix(in lab, red, red)) {
       --tw-shadow-color: color-mix(in oklab, var(--color-warning-500) var(--tw-shadow-alpha), transparent);
     }
+  }
+  .ring-blue-500 {
+    --tw-ring-color: var(--color-blue-500);
+  }
+  .ring-offset-1 {
+    --tw-ring-offset-width: 1px;
+    --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   }
   .outline {
     outline-style: var(--tw-outline-style);
@@ -3924,6 +3973,11 @@
   .disabled\:cursor-not-allowed {
     &:disabled {
       cursor: not-allowed;
+    }
+  }
+  .disabled\:opacity-40 {
+    &:disabled {
+      opacity: 40%;
     }
   }
   .disabled\:opacity-60 {
@@ -6913,6 +6967,11 @@
       background-color: var(--color-blue-500);
     }
   }
+  .dark\:bg-blue-950 {
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--color-blue-950);
+    }
+  }
   .dark\:bg-danger-200 {
     @media (prefers-color-scheme: dark) {
       background-color: var(--color-danger-200);
@@ -7969,6 +8028,21 @@
       }
     }
   }
+  .\[\&_input\]\:w-20 {
+    & input {
+      width: calc(var(--spacing) * 20);
+    }
+  }
+  .\[\&_input\]\:bg-transparent {
+    & input {
+      background-color: transparent;
+    }
+  }
+  .\[\&_select\]\:bg-transparent {
+    & select {
+      background-color: transparent;
+    }
+  }
   .\[\&\.tw-offcanvas-bottom\]\:h-48 {
     &.tw-offcanvas-bottom {
       height: calc(var(--spacing) * 48);
@@ -8763,7 +8837,7 @@ body:before {
 .b-accordion > .b-accordion-item:not(:last-child) > .b-accordion-header .b-accordion-button {
   border-bottom-width: 0;
 }
-.b-addons > .b-addon-body:not(:last-child) > input, .b-addons > .b-addon-body:not(:last-child) > div.flatpickr-wrapper > input {
+.b-addons > .b-addon-body:not(:last-child) > input, .b-addons > .b-addon-body:not(:last-child) > div.tw-datepicker > input, .b-addons > .b-addon-body:not(:last-child) > div.tw-timepicker > input {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -8771,7 +8845,7 @@ body:before {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input, .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.flatpickr-wrapper > input {
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input, .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-datepicker > input, .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -8789,13 +8863,13 @@ body:before {
   border-bottom-left-radius: 0;
   height: 100%;
 }
-.b-addons > .b-addon-body > input, .b-addons > .b-addon-body > div.flatpickr-wrapper {
+.b-addons > .b-addon-body > input, .b-addons > .b-addon-body > div.tw-datepicker, .b-addons > .b-addon-body > div.tw-timepicker {
   position: relative;
   flex: 1 1 auto;
   width: 1%;
   min-width: 0;
 }
-.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input, .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.flatpickr-wrapper > input {
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input, .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-datepicker > input, .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input {
   border-left: 0;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -8981,6 +9055,121 @@ body:before {
 }
 .tw-context-menu-submenu-menu {
   z-index: calc(var(--context-menu-zindex, 1080) + 1);
+}
+.tw-datepicker {
+  anchor-name: --tailwind-datepicker-anchor;
+  anchor-scope: --tailwind-datepicker-anchor;
+}
+.tw-datepicker-calendar {
+  max-width: calc(100vw - 1rem);
+  max-height: calc(100vh - 1rem);
+  overflow: auto;
+}
+.tw-datepicker-day-range-start {
+  border-radius: 0;
+  border-start-start-radius: 0.375rem;
+  border-end-start-radius: 0.375rem;
+}
+.tw-datepicker-day-range-end {
+  border-radius: 0;
+  border-start-end-radius: 0.375rem;
+  border-end-end-radius: 0.375rem;
+}
+.tw-datepicker-day-range-start.tw-datepicker-day-range-end {
+  border-radius: 0.375rem;
+}
+@supports (position-anchor: --tailwind-datepicker-anchor) {
+  .tw-datepicker-calendar-floating {
+    position: fixed;
+    position-anchor: --tailwind-datepicker-anchor;
+    inset: auto;
+    top: anchor(bottom);
+    inset-inline-start: anchor(start);
+    margin-block-start: 0.25rem;
+    position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  }
+}
+.tw-timepicker {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  anchor-name: --tailwind-timepicker-anchor;
+  anchor-scope: --tailwind-timepicker-anchor;
+}
+.tw-timepicker.tw-timepicker-open {
+  z-index: 50;
+}
+.tw-timepicker-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: transparent;
+  pointer-events: none;
+}
+.tw-timepicker-menu {
+  position: absolute;
+  inset-block-start: calc(100% + 0.25rem);
+  inset-inline-start: 0;
+  z-index: 50;
+  width: max-content;
+  min-width: 12rem;
+  max-width: calc(100vw - 1rem);
+  padding: 0.75rem;
+  border: 1px solid rgb(229, 231, 235);
+  border-radius: 0.5rem;
+  color: rgb(17, 24, 39);
+  background: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  outline: 0;
+}
+.tw-timepicker-menu.tw-timepicker-menu-inline {
+  position: relative;
+  inset: auto;
+  margin-block-start: 0.25rem;
+  z-index: auto;
+}
+@supports (position-anchor: --tailwind-timepicker-anchor) {
+  .tw-timepicker-menu-floating {
+    position: fixed;
+    position-anchor: --tailwind-timepicker-anchor;
+    inset: auto;
+    top: anchor(bottom);
+    inset-inline-start: anchor(start);
+    margin-block-start: 0.25rem;
+    position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  }
+}
+.tw-timepicker-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.tw-timepicker-control {
+  width: 4rem;
+}
+.tw-timepicker-input {
+  width: 100%;
+  min-height: 2.25rem;
+  border: 1px solid rgb(209, 213, 219);
+  border-radius: 0.375rem;
+  color: inherit;
+  background: white;
+  text-align: center;
+}
+.tw-timepicker-separator {
+  color: rgb(107, 114, 128);
+}
+.tw-timepicker-meridiem {
+  min-height: 2.25rem;
+  padding-inline: 0.75rem;
+  border: 1px solid rgb(209, 213, 219);
+  border-radius: 0.375rem;
+  color: inherit;
+  background: white;
+}
+.tw-timepicker-control-focused {
+  outline: 2px solid rgb(59, 130, 246);
+  outline-offset: 2px;
 }
 .b-dropdown.b-dropdown-group > .b-button:not(:last-child):not(.b-dropdown-toggle) {
   border-top-right-radius: 0;

@@ -1,0 +1,70 @@
+.timepicker {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    anchor-name: --bulma-timepicker-anchor;
+    anchor-scope: --bulma-timepicker-anchor;
+
+    &.is-active {
+        z-index: 40;
+    }
+
+    .timepicker-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 39;
+        background: transparent;
+        pointer-events: none;
+    }
+
+    .timepicker-menu {
+        display: block;
+        position: absolute;
+        inset-block-start: calc(100% + .25rem);
+        inset-inline-start: 0;
+        z-index: 41;
+        width: max-content;
+        min-width: 12rem;
+        max-width: calc(100vw - 1rem);
+        outline: 0;
+    }
+
+    .timepicker-menu-inline {
+        position: relative;
+        inset: auto;
+        margin-block-start: .25rem;
+        z-index: auto;
+    }
+
+    @supports (position-anchor: --bulma-timepicker-anchor) {
+        .timepicker-menu-floating {
+            position: fixed;
+            position-anchor: --bulma-timepicker-anchor;
+            inset: auto;
+            top: anchor(bottom);
+            inset-inline-start: anchor(start);
+            margin-block-start: .25rem;
+            position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+        }
+    }
+
+    .timepicker-controls {
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        margin: 0;
+    }
+
+    .timepicker-control {
+        width: 4rem;
+    }
+
+    .timepicker-input {
+        width: 100%;
+        text-align: center;
+    }
+
+    .timepicker-separator {
+        pointer-events: none;
+    }
+}

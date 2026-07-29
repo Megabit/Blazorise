@@ -125,6 +125,44 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
+    public override string DatePickerContainer( bool inline, bool open ) => $"tw-datepicker relative inline-block w-full{( inline ? " tw-datepicker-inline" : null )}{( open ? " tw-datepicker-open z-40" : null )}";
+
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"tw-datepicker-calendar{( inline ? " tw-datepicker-calendar-inline relative mt-1" : staticPicker ? " tw-datepicker-calendar-static absolute left-0 top-full z-50 mt-1" : " tw-datepicker-calendar-floating absolute left-0 top-full z-50 mt-1" )} w-max min-w-72 rounded-lg border border-gray-200 bg-white p-3 text-gray-900 shadow-lg outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100";
+
+    public override string DatePickerCalendarBackdrop() => "tw-datepicker-backdrop pointer-events-none fixed inset-0 z-40 bg-transparent";
+
+    public override string DatePickerCalendarHeader() => "tw-datepicker-header grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2";
+
+    public override string DatePickerCalendarNavigation() => "tw-datepicker-navigation inline-flex size-8 cursor-pointer items-center justify-center rounded-md border-0 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700";
+
+    public override string DatePickerCalendarTitle() => "tw-datepicker-title flex min-w-0 items-center justify-center gap-1 font-semibold [&_input]:w-20 [&_input]:bg-transparent [&_select]:bg-transparent";
+
+    public override string DatePickerCalendarGrid() => "tw-datepicker-grid mt-2 grid";
+
+    public override string DatePickerCalendarWeekdays() => "tw-datepicker-weekdays flex items-center text-center text-xs text-gray-500";
+
+    public override string DatePickerCalendarWeekday() => "tw-datepicker-weekday flex size-9 items-center justify-center";
+
+    public override string DatePickerCalendarWeek() => "tw-datepicker-week flex items-center";
+
+    public override string DatePickerCalendarWeekNumber() => "tw-datepicker-week-number flex size-9 items-center justify-center text-xs text-gray-400";
+
+    public override string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused )
+        => $"tw-datepicker-day{( outside ? " tw-datepicker-day-outside text-gray-400 dark:text-gray-500" : null )}{( today ? " tw-datepicker-day-today border-blue-500" : null )}{( inRange ? " tw-datepicker-day-in-range rounded-none bg-blue-100 dark:bg-blue-950" : null )}{( selected ? " tw-datepicker-day-selected" : null )}{( rangeStart ? " tw-datepicker-day-range-start rounded-l-md rounded-r-none" : null )}{( rangeEnd ? " tw-datepicker-day-range-end rounded-l-none rounded-r-md" : null )}{( disabled ? " tw-datepicker-day-disabled" : null )}{( focused ? " tw-datepicker-day-focused ring-2 ring-blue-500 ring-offset-1" : null )} inline-flex size-9 cursor-pointer items-center justify-center rounded-md border border-transparent bg-transparent p-0 text-sm hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:bg-gray-700{( selected || rangeStart || rangeEnd ? " border-blue-600 bg-blue-600 text-white" : null )}";
+
+    public override string DatePickerCalendarMonths() => "tw-datepicker-months mt-2 grid grid-cols-4 gap-1";
+
+    public override string DatePickerCalendarMonth( bool selected, bool disabled, bool focused )
+        => $"tw-datepicker-month{( selected ? " tw-datepicker-month-selected border-blue-600 bg-blue-600 text-white" : null )}{( disabled ? " tw-datepicker-month-disabled" : null )}{( focused ? " tw-datepicker-month-focused ring-2 ring-blue-500 ring-offset-1" : null )} cursor-pointer rounded-md border border-transparent bg-transparent px-2 py-3 text-sm hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:bg-gray-700";
+
+    public override string DatePickerCalendarTime() => "tw-datepicker-time mt-2 flex items-center justify-center gap-1 border-t border-gray-200 pt-2 dark:border-gray-700";
+
+    public override string DatePickerCalendarTimeInput() => "tw-datepicker-time-input w-14 rounded-md border border-gray-300 bg-transparent px-2 py-1 text-center";
+
+    public override string DatePickerCalendarActions() => "tw-datepicker-actions mt-2 flex justify-end gap-2 border-t border-gray-200 pt-2 dark:border-gray-700";
+
+    public override string DatePickerCalendarButton() => "tw-datepicker-button cursor-pointer rounded-md border-0 bg-transparent px-2 py-1 text-sm hover:bg-gray-100 dark:hover:bg-gray-700";
+
     #endregion
 
     #region TimePicker
@@ -136,6 +174,25 @@ public class TailwindClassProvider : ClassProvider
     public override string TimePickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    public override string TimePickerContainer( bool inline, bool open )
+        => $"tw-timepicker{( inline ? " tw-timepicker-inline" : null )}{( open ? " tw-timepicker-open" : null )}";
+
+    public override string TimePickerMenu( bool inline, bool staticPicker )
+        => $"tw-timepicker-menu{( inline ? " tw-timepicker-menu-inline" : null )}{( staticPicker ? " tw-timepicker-menu-static" : " tw-timepicker-menu-floating" )}";
+
+    public override string TimePickerBackdrop() => "tw-timepicker-backdrop";
+
+    public override string TimePickerControls() => "tw-timepicker-controls";
+
+    public override string TimePickerControl( bool focused ) => $"tw-timepicker-control{( focused ? " tw-timepicker-control-focused" : null )}";
+
+    public override string TimePickerInput() => "tw-timepicker-input";
+
+    public override string TimePickerSeparator() => "tw-timepicker-separator";
+
+    public override string TimePickerMeridiem( bool postMeridiem, bool focused )
+        => $"tw-timepicker-meridiem{( postMeridiem ? " tw-timepicker-meridiem-pm" : null )}{( focused ? " tw-timepicker-control-focused" : null )}";
 
     #endregion
 

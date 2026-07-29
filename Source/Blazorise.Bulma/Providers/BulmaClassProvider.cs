@@ -97,6 +97,44 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
+    public override string DatePickerContainer( bool inline, bool open ) => $"datepicker dropdown{( inline ? " is-inline" : null )}{( open ? " is-active" : null )}";
+
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"datepicker-calendar box{( inline ? " is-inline" : null )}{( staticPicker ? " is-static" : " is-floating" )}";
+
+    public override string DatePickerCalendarBackdrop() => "datepicker-backdrop";
+
+    public override string DatePickerCalendarHeader() => "datepicker-header";
+
+    public override string DatePickerCalendarNavigation() => "datepicker-navigation button is-small is-light";
+
+    public override string DatePickerCalendarTitle() => "datepicker-title is-flex is-align-items-center";
+
+    public override string DatePickerCalendarGrid() => "datepicker-grid";
+
+    public override string DatePickerCalendarWeekdays() => "datepicker-weekdays has-text-grey";
+
+    public override string DatePickerCalendarWeekday() => "datepicker-weekday is-size-7";
+
+    public override string DatePickerCalendarWeek() => "datepicker-week";
+
+    public override string DatePickerCalendarWeekNumber() => "datepicker-week-number has-text-grey is-size-7";
+
+    public override string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused )
+        => $"datepicker-day button is-small{( outside ? " is-outside" : null )}{( today ? " is-today" : null )}{( selected ? " is-selected" : null )}{( rangeStart ? " is-range-start" : null )}{( inRange ? " is-in-range" : null )}{( rangeEnd ? " is-range-end" : null )}{( disabled ? " is-disabled" : null )}{( focused ? " is-focused" : null )}";
+
+    public override string DatePickerCalendarMonths() => "datepicker-months";
+
+    public override string DatePickerCalendarMonth( bool selected, bool disabled, bool focused )
+        => $"datepicker-month button is-small{( selected ? " is-selected" : null )}{( disabled ? " is-disabled" : null )}{( focused ? " is-focused" : null )}";
+
+    public override string DatePickerCalendarTime() => "datepicker-time field has-addons";
+
+    public override string DatePickerCalendarTimeInput() => "datepicker-time-input input is-small";
+
+    public override string DatePickerCalendarActions() => "datepicker-actions buttons is-right";
+
+    public override string DatePickerCalendarButton() => "datepicker-button button is-small is-light";
+
     #endregion
 
     #region TimePicker
@@ -108,6 +146,25 @@ public class BulmaClassProvider : ClassProvider
     public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    public override string TimePickerContainer( bool inline, bool open )
+        => $"timepicker{( inline ? " timepicker-inline" : null )}{( open ? " is-active" : null )}";
+
+    public override string TimePickerMenu( bool inline, bool staticPicker )
+        => $"timepicker-menu box{( inline ? " timepicker-menu-inline" : null )}{( staticPicker ? " timepicker-menu-static" : " timepicker-menu-floating" )}";
+
+    public override string TimePickerBackdrop() => "timepicker-backdrop";
+
+    public override string TimePickerControls() => "timepicker-controls field has-addons";
+
+    public override string TimePickerControl( bool focused ) => $"timepicker-control control{( focused ? " is-focused" : null )}";
+
+    public override string TimePickerInput() => "timepicker-input input";
+
+    public override string TimePickerSeparator() => "timepicker-separator button is-static";
+
+    public override string TimePickerMeridiem( bool postMeridiem, bool focused )
+        => $"timepicker-meridiem button{( postMeridiem ? " is-primary" : null )}{( focused ? " is-focused" : null )}";
 
     #endregion
 

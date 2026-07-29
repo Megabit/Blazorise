@@ -1,7 +1,8 @@
-﻿.b-addons {
+.b-addons {
     > .b-addon-body:not(:last-child) {
         > input,
-        > div.flatpickr-wrapper > input {
+        > div.tw-datepicker > input,
+        > div.tw-timepicker > input {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
         }
@@ -14,7 +15,8 @@
 
     > .b-addon-body:not(:first-child):not(.b-dropdown-menu) {
         > input,
-        > div.flatpickr-wrapper > input {
+        > div.tw-datepicker > input,
+        > div.tw-timepicker > input {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
@@ -43,7 +45,8 @@
 
     > .b-addon-body {
         > input,
-        > div.flatpickr-wrapper {
+        > div.tw-datepicker,
+        > div.tw-timepicker {
             position: relative;
             flex: 1 1 auto;
             width: 1%;
@@ -53,7 +56,8 @@
 
     > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) {
         > input,
-        > div.flatpickr-wrapper > input {
+        > div.tw-datepicker > input,
+        > div.tw-timepicker > input {
             border-left: 0;
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;

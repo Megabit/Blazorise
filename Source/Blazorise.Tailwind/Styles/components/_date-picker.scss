@@ -1,0 +1,38 @@
+.tw-datepicker {
+    anchor-name: --tailwind-datepicker-anchor;
+    anchor-scope: --tailwind-datepicker-anchor;
+}
+
+.tw-datepicker-calendar {
+    max-width: calc(100vw - 1rem);
+    max-height: calc(100vh - 1rem);
+    overflow: auto;
+}
+
+.tw-datepicker-day-range-start {
+    border-radius: 0;
+    border-start-start-radius: .375rem;
+    border-end-start-radius: .375rem;
+}
+
+.tw-datepicker-day-range-end {
+    border-radius: 0;
+    border-start-end-radius: .375rem;
+    border-end-end-radius: .375rem;
+}
+
+.tw-datepicker-day-range-start.tw-datepicker-day-range-end {
+    border-radius: .375rem;
+}
+
+@supports (position-anchor: --tailwind-datepicker-anchor) {
+    .tw-datepicker-calendar-floating {
+        position: fixed;
+        position-anchor: --tailwind-datepicker-anchor;
+        inset: auto;
+        top: anchor(bottom);
+        inset-inline-start: anchor(start);
+        margin-block-start: .25rem;
+        position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+    }
+}

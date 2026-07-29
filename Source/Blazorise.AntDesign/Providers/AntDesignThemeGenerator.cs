@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Globalization;
 using System.Text;
@@ -583,47 +583,45 @@ public class AntDesignThemeGenerator : ThemeGenerator
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
             sb
-                .Append( ".flatpickr-months .flatpickr-month:hover svg," )
-                .Append( ".flatpickr-months .flatpickr-next-month:hover svg," )
-                .Append( ".flatpickr-months .flatpickr-prev-month:hover svg" )
+                .Append( ".ant-picker-header-navigation:hover" )
                 .Append( "{" )
-                .Append( $"fill: {Var( ThemeVariables.Color( "primary" ) )} !important;" )
+                .Append( $"color: {Var( ThemeVariables.Color( "primary" ) )} !important;" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay" ).Append( "{" )
+                .Append( ".ant-picker-cell-selected, .ant-picker-cell-range-start, .ant-picker-cell-range-end" ).Append( "{" )
                 .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
                 .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-day:hover" ).Append( "{" )
+                .Append( ".ant-picker-cell-in-view:hover:not(:disabled), .ant-picker-month-cell:hover:not(:disabled)" ).Append( "{" )
                 .Append( $"background: {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1))" ).Append( "{" )
-                .Append( $"box-shadow: -10px 0 0 {Var( ThemeVariables.Color( "primary" ) )};" )
+                .Append( ".ant-picker-cell-focused" ).Append( "{" )
+                .Append( $"outline-color: {Var( ThemeVariables.Color( "primary" ) )};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-day.today" ).Append( "{" )
+                .Append( ".ant-picker-cell-today" ).Append( "{" )
                 .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-day.today:hover" ).Append( "{" )
+                .Append( ".ant-picker-cell-today:hover:not(:disabled)" ).Append( "{" )
                 .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
                 .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-monthSelect-month:hover,.flatpickr-monthSelect-month:focus" ).Append( "{" )
+                .Append( ".ant-picker-month-cell:hover:not(:disabled), .ant-picker-month-cell:focus" ).Append( "{" )
                 .Append( $"background: {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-monthSelect-month.selected" ).Append( "{" )
+                .Append( ".ant-picker-month-cell.ant-picker-cell-selected" ).Append( "{" )
                 .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
                 .AppendLine( "}" );
         }

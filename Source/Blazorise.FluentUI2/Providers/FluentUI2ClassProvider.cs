@@ -97,6 +97,44 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
+    public override string DatePickerContainer( bool inline, bool open ) => $"fui-DatePicker__container{( inline ? " fui-DatePicker__container-inline" : null )}{( open ? " fui-DatePicker__container-open" : null )}";
+
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"fui-DatePicker__calendar{( inline ? " fui-DatePicker__calendar-inline" : null )}{( staticPicker ? " fui-DatePicker__calendar-static" : " fui-DatePicker__calendar-floating" )}";
+
+    public override string DatePickerCalendarBackdrop() => "fui-DatePicker__backdrop";
+
+    public override string DatePickerCalendarHeader() => "fui-DatePicker__header";
+
+    public override string DatePickerCalendarNavigation() => "fui-DatePicker__navigation";
+
+    public override string DatePickerCalendarTitle() => "fui-DatePicker__title";
+
+    public override string DatePickerCalendarGrid() => "fui-DatePicker__grid";
+
+    public override string DatePickerCalendarWeekdays() => "fui-DatePicker__weekdays";
+
+    public override string DatePickerCalendarWeekday() => "fui-DatePicker__weekday";
+
+    public override string DatePickerCalendarWeek() => "fui-DatePicker__week";
+
+    public override string DatePickerCalendarWeekNumber() => "fui-DatePicker__weekNumber";
+
+    public override string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused )
+        => $"fui-DatePicker__day{( outside ? " fui-DatePicker__day-outside" : null )}{( today ? " fui-DatePicker__day-today" : null )}{( selected ? " fui-DatePicker__day-selected" : null )}{( rangeStart ? " fui-DatePicker__day-rangeStart" : null )}{( inRange ? " fui-DatePicker__day-inRange" : null )}{( rangeEnd ? " fui-DatePicker__day-rangeEnd" : null )}{( disabled ? " fui-DatePicker__day-disabled" : null )}{( focused ? " fui-DatePicker__day-focused" : null )}";
+
+    public override string DatePickerCalendarMonths() => "fui-DatePicker__months";
+
+    public override string DatePickerCalendarMonth( bool selected, bool disabled, bool focused )
+        => $"fui-DatePicker__month{( selected ? " fui-DatePicker__month-selected" : null )}{( disabled ? " fui-DatePicker__month-disabled" : null )}{( focused ? " fui-DatePicker__month-focused" : null )}";
+
+    public override string DatePickerCalendarTime() => "fui-DatePicker__time";
+
+    public override string DatePickerCalendarTimeInput() => "fui-DatePicker__timeInput fui-Input__input";
+
+    public override string DatePickerCalendarActions() => "fui-DatePicker__actions";
+
+    public override string DatePickerCalendarButton() => "fui-DatePicker__button fui-Button fui-Button-subtle fui-Button-sm";
+
     #endregion
 
     #region TimePicker
@@ -108,6 +146,25 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
+
+    public override string TimePickerContainer( bool inline, bool open )
+        => $"fui-TimePicker-container{( inline ? " fui-TimePicker-container--inline" : null )}{( open ? " fui-TimePicker-container--open" : null )}";
+
+    public override string TimePickerMenu( bool inline, bool staticPicker )
+        => $"fui-TimePicker__menu{( inline ? " fui-TimePicker__menu--inline" : null )}{( staticPicker ? " fui-TimePicker__menu--static" : " fui-TimePicker__menu--floating" )}";
+
+    public override string TimePickerBackdrop() => "fui-TimePicker__backdrop";
+
+    public override string TimePickerControls() => "fui-TimePicker__controls";
+
+    public override string TimePickerControl( bool focused ) => $"fui-TimePicker__control{( focused ? " fui-TimePicker__control--focused" : null )}";
+
+    public override string TimePickerInput() => "fui-TimePicker__input";
+
+    public override string TimePickerSeparator() => "fui-TimePicker__separator";
+
+    public override string TimePickerMeridiem( bool postMeridiem, bool focused )
+        => $"fui-TimePicker__meridiem{( postMeridiem ? " fui-TimePicker__meridiem--pm" : null )}{( focused ? " fui-TimePicker__control--focused" : null )}";
 
     #endregion
 

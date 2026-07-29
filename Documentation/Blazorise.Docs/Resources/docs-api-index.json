@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-26T12:45:00.8483880Z",
+  "generatedUtc": "2026-07-28T08:49:14.2129745Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -25034,28 +25034,12 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "PreventDefault",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Prevents the browser's default context menu for observed targets.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Shadow",
           "type": "global::Blazorise.Shadow",
           "typeName": "Shadow",
           "defaultValue": "Shadow.None",
           "summary": "Configures the shadow effect of the component.",
           "isBlazoriseEnum": true
-        },
-        {
-          "name": "StopPropagation",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Stops propagation for observed context menu events.",
-          "isBlazoriseEnum": false
         },
         {
           "name": "Style",
@@ -38245,7 +38229,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
-          "summary": "If enabled, it always uses the non-native picker. Default is true.",
+          "summary": "Retained for compatibility. The DatePicker always uses its Blazor calendar.",
           "isBlazoriseEnum": false
         },
         {
@@ -38285,7 +38269,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies the display format of the date input.",
+          "summary": "Specifies the display format of the date input using the picker format syntax supported by earlier versions.",
           "isBlazoriseEnum": false
         },
         {
@@ -38366,7 +38350,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies the input format mask of the date input.",
+          "summary": "Specifies the input format mask of the date input using Blazorise's InputMask integration.",
           "isBlazoriseEnum": false
         },
         {
@@ -131941,7 +131925,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
-          "summary": "If enabled, it always uses the non-native picker. Default is true.",
+          "summary": "Retained for compatibility. The native Blazor picker is used on every device.",
           "isBlazoriseEnum": false
         },
         {
@@ -131965,7 +131949,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies the display format of the time input.",
+          "summary": "Specifies the display format of the time input using the picker format syntax supported by earlier versions.",
           "isBlazoriseEnum": false
         },
         {
@@ -132198,7 +132182,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
-          "summary": "If enabled, the calendar menu will be positioned as static.",
+          "summary": "If enabled, the time menu will be positioned as static.",
           "isBlazoriseEnum": false
         },
         {

@@ -97,6 +97,42 @@ class EmptyClassProvider : IClassProvider
 
     public string DatePickerValidation( ValidationStatus validationStatus ) => null;
 
+    public string DatePickerContainer( bool inline, bool open ) => null;
+
+    public string DatePickerCalendar( bool inline, bool staticPicker ) => null;
+
+    public string DatePickerCalendarBackdrop() => null;
+
+    public string DatePickerCalendarHeader() => null;
+
+    public string DatePickerCalendarNavigation() => null;
+
+    public string DatePickerCalendarTitle() => null;
+
+    public string DatePickerCalendarGrid() => null;
+
+    public string DatePickerCalendarWeekdays() => null;
+
+    public string DatePickerCalendarWeekday() => null;
+
+    public string DatePickerCalendarWeek() => null;
+
+    public string DatePickerCalendarWeekNumber() => null;
+
+    public string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused ) => null;
+
+    public string DatePickerCalendarMonths() => null;
+
+    public string DatePickerCalendarMonth( bool selected, bool disabled, bool focused ) => null;
+
+    public string DatePickerCalendarTime() => null;
+
+    public string DatePickerCalendarTimeInput() => null;
+
+    public string DatePickerCalendarActions() => null;
+
+    public string DatePickerCalendarButton() => null;
+
     #endregion
 
     #region TimePicker
@@ -108,6 +144,22 @@ class EmptyClassProvider : IClassProvider
     public string TimePickerColor( Color color ) => null;
 
     public string TimePickerValidation( ValidationStatus validationStatus ) => null;
+
+    public string TimePickerContainer( bool inline, bool open ) => null;
+
+    public string TimePickerMenu( bool inline, bool staticPicker ) => null;
+
+    public string TimePickerBackdrop() => null;
+
+    public string TimePickerControls() => null;
+
+    public string TimePickerControl( bool focused ) => null;
+
+    public string TimePickerInput() => null;
+
+    public string TimePickerSeparator() => null;
+
+    public string TimePickerMeridiem( bool postMeridiem, bool focused ) => null;
 
     #endregion
 
