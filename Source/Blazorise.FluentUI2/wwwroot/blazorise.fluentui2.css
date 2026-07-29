@@ -9578,6 +9578,9 @@ input::file-selector-button {
   width: 100%;
   min-width: 0;
 }
+.fui-PropertyGridItem__body :is(.fui-Input__contentBefore, .fui-Input__contentAfter) > .fui-Button {
+  padding-inline: var(--spacingHorizontalXS);
+}
 
 .fui-PropertyGridItem[data-property-grid-editor=color] .fui-Input__colorValue {
   display: none;
