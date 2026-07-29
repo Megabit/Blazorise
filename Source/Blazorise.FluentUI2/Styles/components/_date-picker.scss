@@ -23,12 +23,12 @@
     inset-block-start: calc(100% + var(--spacingVerticalXXS));
     inset-inline-start: 0;
     z-index: 1000001;
-    width: max-content;
-    min-width: 18rem;
+    width: 19.25rem;
+    min-width: 0;
     max-width: calc(100vw - 1rem);
     max-height: calc(100vh - 1rem);
     overflow: auto;
-    padding: var(--spacingHorizontalS);
+    padding: 0;
     border: 1px solid var(--colorNeutralStroke1);
     border-radius: var(--borderRadiusMedium);
     background: var(--colorNeutralBackground1);
@@ -37,6 +37,7 @@
     font-family: var(--fontFamilyBase);
     font-size: var(--fontSizeBase200);
     outline: 0;
+    pointer-events: auto;
 
     &.fui-DatePicker__calendar-inline {
         position: relative;
@@ -61,20 +62,34 @@
         display: grid;
         grid-template-columns: auto minmax(0, 1fr) auto;
         align-items: center;
-        gap: var(--spacingHorizontalXXS);
-        padding-block-end: var(--spacingVerticalXS);
+        min-height: 2.75rem;
+        padding-inline: var(--spacingHorizontalXS);
     }
 
-    .fui-DatePicker__navigation,
-    .fui-DatePicker__button {
+    .fui-DatePicker__navigation {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        padding: 0;
         border: 0;
         border-radius: var(--borderRadiusMedium);
         background: var(--colorTransparentBackground);
         color: var(--colorNeutralForeground1);
+        font: inherit;
+        line-height: 1;
+        cursor: pointer;
 
         &:hover:not(:disabled),
-        &:focus {
+        &:focus-visible {
+            outline: 0;
             background: var(--colorNeutralBackground1Hover);
+        }
+
+        &:disabled {
+            color: var(--colorNeutralForegroundDisabled);
+            cursor: not-allowed;
         }
     }
 
@@ -94,15 +109,19 @@
             font-weight: var(--fontWeightSemibold);
             text-align: center;
 
-            &:hover,
             &:focus {
                 outline: 0;
-                background: var(--colorNeutralBackground1Hover);
+                box-shadow: none;
             }
         }
 
         select {
             max-width: 8rem;
+            cursor: pointer;
+
+            &:hover {
+                background: var(--colorNeutralBackground1Hover);
+            }
         }
 
         input {
@@ -111,14 +130,14 @@
     }
 
     .fui-DatePicker__weekday,
-    .fui-DatePicker__weekNumber,
-    .fui-DatePicker__day-outside {
+    .fui-DatePicker__weekNumber {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-width: 2rem;
-        min-height: 2rem;
-        color: var(--colorNeutralForeground3);
+        min-width: 0;
+        height: 1.75rem;
+        color: var(--colorNeutralForeground1);
+        font-weight: var(--fontWeightRegular);
     }
 
     .fui-DatePicker__weekdays,
@@ -138,22 +157,40 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-width: 2.25rem;
-        min-height: 2.25rem;
+        justify-self: stretch;
+        width: 100%;
+        min-width: 0;
+        height: 1.75rem;
         padding: 0;
         border: 1px solid transparent;
         background: transparent;
         color: inherit;
         font: inherit;
-        border-radius: var(--borderRadiusMedium);
+        font-weight: var(--fontWeightRegular);
+        line-height: 1.75rem;
+        border-radius: 0;
+        cursor: pointer;
 
         &:hover:not(:disabled) {
-            background: var(--colorNeutralBackground1Hover);
+            background: var(--colorBrandBackgroundInvertedHover);
         }
     }
 
-    .fui-DatePicker__day-today {
-        border-color: var(--colorBrandStroke1);
+    .fui-DatePicker__day-outside {
+        color: var(--colorNeutralForegroundDisabled);
+        opacity: .65;
+    }
+
+    .fui-DatePicker__month {
+        height: 2.25rem;
+        border-radius: var(--borderRadiusMedium);
+    }
+
+    .fui-DatePicker__day-today:not(.fui-DatePicker__day-selected):not(.fui-DatePicker__day-rangeStart):not(.fui-DatePicker__day-rangeEnd) {
+        border-color: var(--colorBrandBackground);
+        border-radius: var(--borderRadiusCircular);
+        background: var(--colorBrandBackground);
+        color: var(--colorNeutralForegroundOnBrand);
     }
 
     .fui-DatePicker__day-inRange {
@@ -181,9 +218,10 @@
     .fui-DatePicker__day-rangeStart,
     .fui-DatePicker__day-rangeEnd,
     .fui-DatePicker__month-selected {
-        background: var(--colorBrandBackground);
-        border-color: var(--colorBrandBackground);
-        color: var(--colorNeutralForegroundOnBrand);
+        background: var(--colorBrandBackgroundInvertedSelected);
+        border-color: var(--colorBrandBackgroundInvertedSelected);
+        color: var(--colorNeutralForeground1Static);
+        font-weight: var(--fontWeightSemibold);
     }
 
     .fui-DatePicker__day-focused,
@@ -195,25 +233,97 @@
     .fui-DatePicker__day-disabled,
     .fui-DatePicker__month-disabled {
         color: var(--colorNeutralForegroundDisabled);
-        opacity: .25;
+        opacity: .45;
         border-color: transparent;
+        cursor: not-allowed;
     }
 
     .fui-DatePicker__time,
     .fui-DatePicker__actions {
         display: flex;
         align-items: center;
-        gap: var(--spacingHorizontalXXS);
-        padding-block-start: var(--spacingVerticalXS);
+        width: 100%;
         border-block-start: 1px solid var(--colorNeutralStroke2);
     }
 
     .fui-DatePicker__time {
-        justify-content: center;
+        justify-content: flex-start;
+        height: 2.5rem;
+        overflow: hidden;
+
+        > span {
+            flex: 0 0 2%;
+            width: 2%;
+            color: var(--colorNeutralForeground1);
+            font-weight: var(--fontWeightSemibold);
+            line-height: 2.5rem;
+            text-align: center;
+            user-select: none;
+        }
+
+        .fui-DatePicker__button {
+            flex: 0 0 18%;
+            width: 18%;
+            height: 2.5rem;
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            appearance: none;
+            color: var(--colorNeutralForeground1);
+            background: transparent;
+            font: inherit;
+            font-weight: var(--fontWeightRegular);
+            line-height: 2.5rem;
+            text-align: center;
+            cursor: pointer;
+
+            &:hover:not(:disabled),
+            &:focus-visible {
+                outline: 0;
+                background: var(--colorNeutralBackground1Hover);
+            }
+
+            &:disabled {
+                color: var(--colorNeutralForegroundDisabled);
+                cursor: not-allowed;
+            }
+        }
     }
 
     .fui-DatePicker__actions {
-        justify-content: flex-end;
+        justify-content: space-between;
+        padding: 10px;
+
+        .fui-DatePicker__button {
+            height: 1.875rem;
+            margin: 0;
+            padding: 0 var(--spacingHorizontalXS);
+            border: 1px solid transparent;
+            border-radius: var(--borderRadiusCircular);
+            color: var(--colorNeutralForeground1);
+            background: transparent;
+            font: inherit;
+            font-size: var(--fontSizeBase200);
+            font-weight: var(--fontWeightRegular);
+            line-height: 1.875rem;
+            cursor: pointer;
+
+            &:hover:not(:disabled),
+            &:focus-visible {
+                outline: 0;
+                color: var(--colorBrandForeground1);
+                background: transparent;
+            }
+
+            &:active:not(:disabled) {
+                color: var(--colorBrandForeground2);
+            }
+
+            &:disabled {
+                color: var(--colorNeutralForegroundDisabled);
+                cursor: not-allowed;
+            }
+        }
     }
 
     .fui-DatePicker__months {
@@ -224,8 +334,43 @@
     }
 
     .fui-DatePicker__timeInput {
-        width: 4rem;
+        box-sizing: border-box;
+        flex: 1 1 0;
+        width: 40%;
+        height: 2.5rem;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        outline: 0;
+        appearance: textfield;
+        color: var(--colorNeutralForeground1);
+        background: transparent;
+        box-shadow: none;
+        font: inherit;
+        font-weight: var(--fontWeightRegular);
+        line-height: 2.5rem;
         text-align: center;
+
+        &:first-child {
+            font-weight: var(--fontWeightSemibold);
+        }
+
+        &:hover:not(:disabled),
+        &:focus {
+            background: var(--colorNeutralBackground1Hover);
+        }
+
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+            margin: 0;
+            appearance: none;
+        }
+
+        &:disabled {
+            color: var(--colorNeutralForegroundDisabled);
+            cursor: not-allowed;
+        }
     }
 }
 
