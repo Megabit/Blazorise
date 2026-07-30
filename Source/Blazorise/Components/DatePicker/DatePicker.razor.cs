@@ -678,12 +678,13 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
         NotifyCalendarStateChanged();
         await DisposeOutsidePointerSubscriptionAsync();
-        await InvokeAsync( StateHasChanged );
 
         if ( focusInput )
         {
             ExecuteAfterRender( () => Focus() );
         }
+
+        await InvokeAsync( StateHasChanged );
     }
 
     private void SynchronizeStateFromValue( bool resetVisibleMonth, bool updateInputText = true )

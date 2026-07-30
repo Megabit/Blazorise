@@ -93,6 +93,21 @@ public class TimePickerComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task ClosingMenuRestoresInputFocusDuringCloseRender()
+    {
+        // setup
+        IRenderedComponent<TimePicker<TimeSpan?>> comp = Render<TimePicker<TimeSpan?>>();
+
+        // test
+        await comp.Find( "input" ).ClickAsync( new MouseEventArgs() );
+        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "Enter" } );
+
+        // validate
+        Assert.Empty( comp.FindAll( "[role='dialog']" ) );
+        JSInterop.VerifyInvoke( "focus", 1 );
+    }
+
+    [Fact]
     public async Task ClickingInputOpensMenuWithoutMovingFocusToMenu()
     {
         // setup

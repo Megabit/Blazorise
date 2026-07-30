@@ -238,6 +238,22 @@ public class DatePickerComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task SelectingDateRestoresInputFocusDuringCloseRender()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2026, 7, 27 ) ) );
+
+        // test
+        await comp.Find( "input" ).ClickAsync( new MouseEventArgs() );
+        await comp.Find( "[id$='day-20260728']" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Empty( comp.FindAll( "[role='dialog']" ) );
+        JSInterop.VerifyInvoke( "focus", 1 );
+    }
+
+    [Fact]
     public async Task ClickingInputOpensCalendarWithoutMovingFocusToCalendar()
     {
         // setup

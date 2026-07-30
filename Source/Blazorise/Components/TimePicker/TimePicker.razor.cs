@@ -646,12 +646,13 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
         NotifyMenuStateChanged();
         await DisposeOutsidePointerSubscriptionAsync();
-        await InvokeAsync( StateHasChanged );
 
         if ( focusInput )
         {
             ExecuteAfterRender( () => Focus() );
         }
+
+        await InvokeAsync( StateHasChanged );
     }
 
     private Task HandleOutsidePointerAsync( DocumentEventArgs eventArgs )
