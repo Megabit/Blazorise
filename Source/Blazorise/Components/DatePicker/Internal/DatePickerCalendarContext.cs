@@ -248,54 +248,58 @@ internal sealed class DatePickerCalendarContext<TValue>
     public string ClearText => parent.PickerLocalizer["Clear"];
 
     /// <summary>
-    /// Gets the accessible month field label.
+    /// Gets the localized month field label.
     /// </summary>
-    public string MonthText => "Month";
+    public string MonthText => parent.PickerLocalizer["Month"];
 
     /// <summary>
-    /// Gets the accessible year field label.
+    /// Gets the localized year field label.
     /// </summary>
-    public string YearText => "Year";
+    public string YearText => parent.PickerLocalizer["Year"];
 
     /// <summary>
-    /// Gets the abbreviated week label.
+    /// Gets the localized abbreviated week label.
     /// </summary>
-    public string WeekText => "Wk";
+    public string WeekText => parent.PickerLocalizer["Week"];
 
     /// <summary>
-    /// Gets the accessible time section label.
+    /// Gets the localized time section label.
     /// </summary>
-    public string TimeText => "Time";
+    public string TimeText => parent.PickerLocalizer["Time"];
 
     /// <summary>
-    /// Gets the accessible hour field label.
+    /// Gets the localized hour field label.
     /// </summary>
-    public string HourText => "Hour";
+    public string HourText => parent.PickerLocalizer["Hour"];
 
     /// <summary>
-    /// Gets the accessible minute field label.
+    /// Gets the localized minute field label.
     /// </summary>
-    public string MinuteText => "Minute";
+    public string MinuteText => parent.PickerLocalizer["Minute"];
 
     /// <summary>
-    /// Gets the accessible label for navigating to the previous period.
+    /// Gets the localized accessible label for navigating to the previous period.
     /// </summary>
-    public string PreviousPeriodAriaLabel => parent.InputMode == DateInputMode.Month ? "Previous year" : "Previous month";
+    public string PreviousPeriodAriaLabel => parent.InputMode == DateInputMode.Month
+        ? parent.PickerLocalizer["PreviousYear"]
+        : parent.PickerLocalizer["PreviousMonth"];
 
     /// <summary>
-    /// Gets the accessible label for navigating to the next period.
+    /// Gets the localized accessible label for navigating to the next period.
     /// </summary>
-    public string NextPeriodAriaLabel => parent.InputMode == DateInputMode.Month ? "Next year" : "Next month";
+    public string NextPeriodAriaLabel => parent.InputMode == DateInputMode.Month
+        ? parent.PickerLocalizer["NextYear"]
+        : parent.PickerLocalizer["NextMonth"];
 
     /// <summary>
-    /// Gets the accessible label for navigating to the previous year.
+    /// Gets the localized accessible label for navigating to the previous year.
     /// </summary>
-    public string PreviousYearAriaLabel => "Previous year";
+    public string PreviousYearAriaLabel => parent.PickerLocalizer["PreviousYear"];
 
     /// <summary>
-    /// Gets the accessible label for navigating to the next year.
+    /// Gets the localized accessible label for navigating to the next year.
     /// </summary>
-    public string NextYearAriaLabel => "Next year";
+    public string NextYearAriaLabel => parent.PickerLocalizer["NextYear"];
 
     /// <summary>
     /// Gets the direction-aware icon for navigating to the previous period.

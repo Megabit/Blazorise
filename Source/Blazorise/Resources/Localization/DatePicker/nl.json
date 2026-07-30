@@ -43,6 +43,16 @@
     "PM": "PM",
     "RangeSeparator": " t/m ",
     "Today": "Vandaag",
-    "Clear": "Wissen"
+    "Clear": "Wissen",
+    "Month": "Maand",
+    "Year": "Jaar",
+    "Week": "Wk",
+    "Time": "Tijd",
+    "Hour": "Uur",
+    "Minute": "Minuut",
+    "PreviousMonth": "Vorige maand",
+    "NextMonth": "Volgende maand",
+    "PreviousYear": "Vorig jaar",
+    "NextYear": "Volgend jaar"
   }
 }

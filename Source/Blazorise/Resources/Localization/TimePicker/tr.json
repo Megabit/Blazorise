@@ -2,6 +2,10 @@
   "culture": "tr",
   "translations": {
     "AM": "ÖÖ",
-    "PM": "ÖS"
+    "PM": "ÖS",
+    "Time": "Saat",
+    "Hour": "Saat",
+    "Minute": "Dakika",
+    "Second": "Saniye"
   }
 }

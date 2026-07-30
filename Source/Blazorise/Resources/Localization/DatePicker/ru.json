@@ -43,6 +43,16 @@
     "PM": "ПП",
     "RangeSeparator": " — ",
     "Today": "Сегодня",
-    "Clear": "Очистить"
+    "Clear": "Очистить",
+    "Month": "Месяц",
+    "Year": "Год",
+    "Week": "Нед.",
+    "Time": "Время",
+    "Hour": "Час",
+    "Minute": "Минута",
+    "PreviousMonth": "Предыдущий месяц",
+    "NextMonth": "Следующий месяц",
+    "PreviousYear": "Предыдущий год",
+    "NextYear": "Следующий год"
   }
 }

@@ -43,6 +43,16 @@
     "PM": "PM",
     "RangeSeparator": " til ",
     "Today": "Í dag",
-    "Clear": "Hreinsa"
+    "Clear": "Hreinsa",
+    "Month": "Mánuður",
+    "Year": "Ár",
+    "Week": "Vika",
+    "Time": "Tími",
+    "Hour": "Klukkustund",
+    "Minute": "Mínúta",
+    "PreviousMonth": "Fyrri mánuður",
+    "NextMonth": "Næsti mánuður",
+    "PreviousYear": "Fyrra ár",
+    "NextYear": "Næsta ár"
   }
 }

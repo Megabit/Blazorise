@@ -43,6 +43,16 @@
     "PM": "PM",
     "RangeSeparator": " do ",
     "Today": "Dnes",
-    "Clear": "Vymazať"
+    "Clear": "Vymazať",
+    "Month": "Mesiac",
+    "Year": "Rok",
+    "Week": "Týž.",
+    "Time": "Čas",
+    "Hour": "Hodina",
+    "Minute": "Minúta",
+    "PreviousMonth": "Predchádzajúci mesiac",
+    "NextMonth": "Nasledujúci mesiac",
+    "PreviousYear": "Predchádzajúci rok",
+    "NextYear": "Nasledujúci rok"
   }
 }

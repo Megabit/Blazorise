@@ -43,6 +43,16 @@
     "PM": "PM",
     "RangeSeparator": " până la ",
     "Today": "Astăzi",
-    "Clear": "Șterge"
+    "Clear": "Șterge",
+    "Month": "Lună",
+    "Year": "An",
+    "Week": "Săpt.",
+    "Time": "Oră",
+    "Hour": "Oră",
+    "Minute": "Minut",
+    "PreviousMonth": "Luna precedentă",
+    "NextMonth": "Luna următoare",
+    "PreviousYear": "Anul precedent",
+    "NextYear": "Anul următor"
   }
 }

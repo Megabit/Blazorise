@@ -43,6 +43,16 @@
     "PM": "PM",
     "RangeSeparator": " to ",
     "Today": "Today",
-    "Clear": "Clear"
+    "Clear": "Clear",
+    "Month": "Month",
+    "Year": "Year",
+    "Week": "Wk",
+    "Time": "Time",
+    "Hour": "Hour",
+    "Minute": "Minute",
+    "PreviousMonth": "Previous month",
+    "NextMonth": "Next month",
+    "PreviousYear": "Previous year",
+    "NextYear": "Next year"
   }
 }

@@ -43,6 +43,16 @@
     "PM": "PM",
     "RangeSeparator": " do ",
     "Today": "Danas",
-    "Clear": "Obriši"
+    "Clear": "Obriši",
+    "Month": "Mjesec",
+    "Year": "Godina",
+    "Week": "Tjedan",
+    "Time": "Vrijeme",
+    "Hour": "Sat",
+    "Minute": "Minuta",
+    "PreviousMonth": "Prethodni mjesec",
+    "NextMonth": "Sljedeći mjesec",
+    "PreviousYear": "Prethodna godina",
+    "NextYear": "Sljedeća godina"
   }
 }

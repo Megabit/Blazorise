@@ -43,6 +43,16 @@
     "PM": "odpo",
     "RangeSeparator": " do ",
     "Today": "Dnes",
-    "Clear": "Vymazat"
+    "Clear": "Vymazat",
+    "Month": "Měsíc",
+    "Year": "Rok",
+    "Week": "Týd.",
+    "Time": "Čas",
+    "Hour": "Hodina",
+    "Minute": "Minuta",
+    "PreviousMonth": "Předchozí měsíc",
+    "NextMonth": "Následující měsíc",
+    "PreviousYear": "Předchozí rok",
+    "NextYear": "Následující rok"
   }
 }
