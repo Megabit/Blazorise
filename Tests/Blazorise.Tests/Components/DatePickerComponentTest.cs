@@ -218,6 +218,10 @@ public class DatePickerComponentTest : BunitContext
         Assert.Single( comp.FindAll( "button[aria-label='Next year']" ) );
         Assert.Empty( comp.FindAll( "button[aria-label='Previous month']" ) );
         Assert.Empty( comp.FindAll( "button[aria-label='Next month']" ) );
+        Assert.Collection(
+            comp.FindComponents<Icon>(),
+            icon => Assert.Equal( IconName.ChevronDoubleLeft, icon.Instance.Name ),
+            icon => Assert.Equal( IconName.ChevronDoubleRight, icon.Instance.Name ) );
     }
 
     [Fact]

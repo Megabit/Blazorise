@@ -304,16 +304,20 @@ internal sealed class DatePickerCalendarContext<TValue>
     /// <summary>
     /// Gets the direction-aware icon for navigating to the previous period.
     /// </summary>
-    public IconName PreviousPeriodIconName => CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
-        ? IconName.ChevronRight
-        : IconName.ChevronLeft;
+    public IconName PreviousPeriodIconName => parent.InputMode == DateInputMode.Month
+        ? PreviousYearIconName
+        : CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
+            ? IconName.ChevronRight
+            : IconName.ChevronLeft;
 
     /// <summary>
     /// Gets the direction-aware icon for navigating to the next period.
     /// </summary>
-    public IconName NextPeriodIconName => CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
-        ? IconName.ChevronLeft
-        : IconName.ChevronRight;
+    public IconName NextPeriodIconName => parent.InputMode == DateInputMode.Month
+        ? NextYearIconName
+        : CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
+            ? IconName.ChevronLeft
+            : IconName.ChevronRight;
 
     /// <summary>
     /// Gets the direction-aware icon for navigating to the previous year.
