@@ -140,6 +140,49 @@ public class DatePickerComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task SharedCalendarNavigationSupportsMonthAndYearChanges()
+    {
+        // setup
+        DateTime value = new( 2026, 7, 27 );
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.Inline, true ) );
+
+        // validate
+        Assert.Single( comp.FindAll( "button[aria-label='Previous year']" ) );
+        Assert.Single( comp.FindAll( "button[aria-label='Previous month']" ) );
+        Assert.Single( comp.FindAll( "button[aria-label='Next month']" ) );
+        Assert.Single( comp.FindAll( "button[aria-label='Next year']" ) );
+        Assert.Collection(
+            comp.FindComponents<Icon>(),
+            icon => Assert.Equal( IconName.ChevronDoubleLeft, icon.Instance.Name ),
+            icon => Assert.Equal( IconName.ChevronLeft, icon.Instance.Name ),
+            icon => Assert.Equal( IconName.ChevronRight, icon.Instance.Name ),
+            icon => Assert.Equal( IconName.ChevronDoubleRight, icon.Instance.Name ) );
+
+        // test
+        await comp.Find( "button[aria-label='Next year']" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( "2027", comp.Find( "input[aria-label='Year']" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
+    public void MonthModeDoesNotDuplicateYearNavigation()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>( parameters => parameters
+            .Add( x => x.Inline, true )
+            .Add( x => x.InputMode, DateInputMode.Month ) );
+
+        // validate
+        Assert.Single( comp.FindAll( "button[aria-label='Previous year']" ) );
+        Assert.Single( comp.FindAll( "button[aria-label='Next year']" ) );
+        Assert.Empty( comp.FindAll( "button[aria-label='Previous month']" ) );
+        Assert.Empty( comp.FindAll( "button[aria-label='Next month']" ) );
+    }
+
+    [Fact]
     public async Task CalendarKeyboardNavigationSelectsFocusedDate()
     {
         // setup

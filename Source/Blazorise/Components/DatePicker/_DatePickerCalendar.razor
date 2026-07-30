@@ -22,17 +22,34 @@
          @onkeydown="@Parent.OnCalendarKeyDownAsync"
          @onkeydown:stopPropagation>
         <div class="@Parent.CalendarHeaderClassNames">
-            <button type="button"
-                    class="@Parent.CalendarNavigationClassNames"
-                    aria-label="@Parent.PreviousPeriodAriaLabel"
-                    tabindex="@Parent.CalendarControlTabIndex"
-                    disabled="@Parent.CalendarInteractionDisabled"
-                    @onmousedown:preventDefault
-                    @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
-                    @onkeydown:stopPropagation
-                    @onclick="@Parent.ShowPreviousPeriod">
-                <span aria-hidden="true">@Parent.PreviousText</span>
-            </button>
+            <Div Flex="Flex.InlineFlex">
+                @if ( Parent.InputMode != DateInputMode.Month )
+                {
+                    <button type="button"
+                            class="@Parent.CalendarNavigationClassNames"
+                            aria-label="@Parent.PreviousYearAriaLabel"
+                            tabindex="@Parent.CalendarControlTabIndex"
+                            disabled="@Parent.CalendarInteractionDisabled"
+                            @onmousedown:preventDefault
+                            @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                            @onkeydown:stopPropagation
+                            @onclick="@Parent.ShowPreviousYear">
+                        <Icon Name="@Parent.PreviousYearIconName" aria-hidden="true" />
+                    </button>
+                }
+
+                <button type="button"
+                        class="@Parent.CalendarNavigationClassNames"
+                        aria-label="@Parent.PreviousPeriodAriaLabel"
+                        tabindex="@Parent.CalendarControlTabIndex"
+                        disabled="@Parent.CalendarInteractionDisabled"
+                        @onmousedown:preventDefault
+                        @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                        @onkeydown:stopPropagation
+                        @onclick="@Parent.ShowPreviousPeriod">
+                    <Icon Name="@Parent.PreviousPeriodIconName" aria-hidden="true" />
+                </button>
+            </Div>
 
             <div id="@($"{Parent.CalendarId}-title")" class="@Parent.CalendarTitleClassNames" aria-live="polite">
                 @if ( Parent.InputMode == DateInputMode.Month )
@@ -75,17 +92,34 @@
                 }
             </div>
 
-            <button type="button"
-                    class="@Parent.CalendarNavigationClassNames"
-                    aria-label="@Parent.NextPeriodAriaLabel"
-                    tabindex="@Parent.CalendarControlTabIndex"
-                    disabled="@Parent.CalendarInteractionDisabled"
-                    @onmousedown:preventDefault
-                    @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
-                    @onkeydown:stopPropagation
-                    @onclick="@Parent.ShowNextPeriod">
-                <span aria-hidden="true">@Parent.NextText</span>
-            </button>
+            <Div Flex="Flex.InlineFlex">
+                <button type="button"
+                        class="@Parent.CalendarNavigationClassNames"
+                        aria-label="@Parent.NextPeriodAriaLabel"
+                        tabindex="@Parent.CalendarControlTabIndex"
+                        disabled="@Parent.CalendarInteractionDisabled"
+                        @onmousedown:preventDefault
+                        @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                        @onkeydown:stopPropagation
+                        @onclick="@Parent.ShowNextPeriod">
+                    <Icon Name="@Parent.NextPeriodIconName" aria-hidden="true" />
+                </button>
+
+                @if ( Parent.InputMode != DateInputMode.Month )
+                {
+                    <button type="button"
+                            class="@Parent.CalendarNavigationClassNames"
+                            aria-label="@Parent.NextYearAriaLabel"
+                            tabindex="@Parent.CalendarControlTabIndex"
+                            disabled="@Parent.CalendarInteractionDisabled"
+                            @onmousedown:preventDefault
+                            @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                            @onkeydown:stopPropagation
+                            @onclick="@Parent.ShowNextYear">
+                        <Icon Name="@Parent.NextYearIconName" aria-hidden="true" />
+                    </button>
+                }
+            </Div>
         </div>
 
         @if ( Parent.InputMode == DateInputMode.Month )

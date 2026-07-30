@@ -1059,6 +1059,22 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         }
     }
 
+    internal void ShowPreviousYear()
+    {
+        if ( CalendarInteractionDisabled )
+            return;
+
+        MoveFocusedMonth( -12 );
+    }
+
+    internal void ShowNextYear()
+    {
+        if ( CalendarInteractionDisabled )
+            return;
+
+        MoveFocusedMonth( 12 );
+    }
+
     internal void ChangeVisibleMonth( ChangeEventArgs eventArgs )
     {
         if ( CalendarInteractionDisabled )
@@ -1646,6 +1662,26 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     internal string PreviousPeriodAriaLabel => InputMode == DateInputMode.Month ? "Previous year" : "Previous month";
 
     internal string NextPeriodAriaLabel => InputMode == DateInputMode.Month ? "Next year" : "Next month";
+
+    internal string PreviousYearAriaLabel => "Previous year";
+
+    internal string NextYearAriaLabel => "Next year";
+
+    internal IconName PreviousPeriodIconName => CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
+        ? IconName.ChevronRight
+        : IconName.ChevronLeft;
+
+    internal IconName NextPeriodIconName => CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
+        ? IconName.ChevronLeft
+        : IconName.ChevronRight;
+
+    internal IconName PreviousYearIconName => CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
+        ? IconName.ChevronDoubleRight
+        : IconName.ChevronDoubleLeft;
+
+    internal IconName NextYearIconName => CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
+        ? IconName.ChevronDoubleLeft
+        : IconName.ChevronDoubleRight;
 
     internal string PreviousText => CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "\u203A" : "\u2039";
 
