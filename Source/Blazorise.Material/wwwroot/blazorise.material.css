@@ -5984,6 +5984,25 @@ textarea.mui-input:not([rows]) {
   display: none;
 }
 
+:is(.mui-date-picker, .mui-time-picker):has(> input.is-valid) + .valid-feedback, :is(.mui-date-picker, .mui-time-picker):has(> input.is-valid) + .form-text.text-muted + .valid-feedback {
+  display: inline-block;
+}
+:is(.mui-date-picker, .mui-time-picker):has(> input.is-valid) + .none-feedback {
+  display: none;
+}
+:is(.mui-date-picker, .mui-time-picker):has(> input.is-warning) + .warning-feedback, :is(.mui-date-picker, .mui-time-picker):has(> input.is-warning) + .form-text.text-muted + .warning-feedback, :is(.mui-date-picker, .mui-time-picker):has(> input.is-warning) + .valid-feedback + .warning-feedback, :is(.mui-date-picker, .mui-time-picker):has(> input.is-warning) + .form-text.text-muted + .valid-feedback + .warning-feedback {
+  display: inline-block;
+}
+:is(.mui-date-picker, .mui-time-picker):has(> input.is-warning) + .none-feedback {
+  display: none;
+}
+:is(.mui-date-picker, .mui-time-picker):has(> input.is-invalid) + .invalid-feedback, :is(.mui-date-picker, .mui-time-picker):has(> input.is-invalid) + .form-text.text-muted + .invalid-feedback, :is(.mui-date-picker, .mui-time-picker):has(> input.is-invalid) + .valid-feedback + .invalid-feedback, :is(.mui-date-picker, .mui-time-picker):has(> input.is-invalid) + .form-text.text-muted + .valid-feedback + .invalid-feedback, :is(.mui-date-picker, .mui-time-picker):has(> input.is-invalid) + .warning-feedback + .invalid-feedback, :is(.mui-date-picker, .mui-time-picker):has(> input.is-invalid) + .form-text.text-muted + .warning-feedback + .invalid-feedback, :is(.mui-date-picker, .mui-time-picker):has(> input.is-invalid) + .valid-feedback + .warning-feedback + .invalid-feedback, :is(.mui-date-picker, .mui-time-picker):has(> input.is-invalid) + .form-text.text-muted + .valid-feedback + .warning-feedback + .invalid-feedback {
+  display: inline-block;
+}
+:is(.mui-date-picker, .mui-time-picker):has(> input.is-invalid) + .none-feedback {
+  display: none;
+}
+
 .form-text.text-muted {
   color: var(--mui-on-surface-variant);
 }

@@ -532,6 +532,49 @@ input[type="color"].form-control-color,
     display: none;
 }
 
+:is(.datepicker, .timepicker) {
+    &:has(> input.is-valid) {
+        & + .valid-feedback,
+        & + .form-text.text-muted + .valid-feedback {
+            display: block;
+        }
+
+        & + .none-feedback {
+            display: none;
+        }
+    }
+
+    &:has(> input.is-warning) {
+        & + .warning-feedback,
+        & + .form-text.text-muted + .warning-feedback,
+        & + .valid-feedback + .warning-feedback,
+        & + .form-text.text-muted + .valid-feedback + .warning-feedback {
+            display: block;
+        }
+
+        & + .none-feedback {
+            display: none;
+        }
+    }
+
+    &:has(> input.is-invalid) {
+        & + .invalid-feedback,
+        & + .form-text.text-muted + .invalid-feedback,
+        & + .valid-feedback + .invalid-feedback,
+        & + .form-text.text-muted + .valid-feedback + .invalid-feedback,
+        & + .warning-feedback + .invalid-feedback,
+        & + .form-text.text-muted + .warning-feedback + .invalid-feedback,
+        & + .valid-feedback + .warning-feedback + .invalid-feedback,
+        & + .form-text.text-muted + .valid-feedback + .warning-feedback + .invalid-feedback {
+            display: block;
+        }
+
+        & + .none-feedback {
+            display: none;
+        }
+    }
+}
+
 .form-file input[type=file] {
     margin-left: -2px !important;
 }
