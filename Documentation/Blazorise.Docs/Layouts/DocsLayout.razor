@@ -37,7 +37,7 @@
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarGuidesMenuVisible">
                                 <BarDropdownToggle To="docs" CustomMatch="@IsGuidesMenuRoute" Trigger="BarDropdownToggleTrigger.All">
-                                    <BarIcon IconName="IconName.Directions" /> Guides
+                                    <BarIcon IconName="IconName.Directions" FixedWidth /> Guides
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs">Overview</BarDropdownItem>
@@ -54,7 +54,7 @@
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarUiProvidersMenuVisible">
                                 <BarDropdownToggle To="docs/usage" CustomMatch="@IsUiProvidersMenuRoute" Trigger="BarDropdownToggleTrigger.All">
-                                    <BarIcon IconName="IconName.BookReader" /> UI Providers
+                                    <BarIcon IconName="IconName.BookReader" FixedWidth /> UI Providers
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/usage">Overview</BarDropdownItem>
@@ -83,7 +83,7 @@
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarComponentsMenuVisible">
                                 <BarDropdownToggle To="docs/components" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                    <BarIcon IconName="IconName.Wrench" /> Components
+                                    <BarIcon IconName="IconName.Wrench" FixedWidth /> Components
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/components/accordion">Accordion</BarDropdownItem>
@@ -187,7 +187,7 @@
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarDataGridMenuVisible">
                                 <BarDropdownToggle To="docs/extensions/datagrid" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                    <BarIcon IconName="IconName.Table" /> DataGrid
+                                    <BarIcon IconName="IconName.Table" FixedWidth /> DataGrid
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/extensions/datagrid/getting-started">Getting Started</BarDropdownItem>
@@ -296,7 +296,7 @@
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarReportingMenuVisible">
                                 <BarDropdownToggle To="docs/extensions/reporting" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                    <BarIcon IconName="IconName.FileAlt" />
+                                    <BarIcon IconName="IconName.FileAlt" FixedWidth />
                                     <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
                                         <DocsNewFeatureBadge>Reporting</DocsNewFeatureBadge>
                                     </Span>
@@ -316,7 +316,7 @@
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarSvgChartMenuVisible">
                                 <BarDropdownToggle To="docs/extensions/svg-chart" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                    <BarIcon IconName="IconName.ChartLine" />
+                                    <BarIcon IconName="IconName.ChartLine" FixedWidth />
                                     <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
                                         <DocsNewFeatureBadge>SVG Chart</DocsNewFeatureBadge>
                                     </Span>
@@ -337,7 +337,7 @@
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarExtensionsMenuVisible">
                                 <BarDropdownToggle To="docs/extensions" Match="Match.Prefix" CustomMatch="@IsExtensionsMenuRoute" Trigger="BarDropdownToggleTrigger.All">
-                                    <BarIcon IconName="IconName.PuzzlePiece" /> Extensions
+                                    <BarIcon IconName="IconName.PuzzlePiece" FixedWidth /> Extensions
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/extensions/animate">
@@ -438,7 +438,7 @@
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarServicesMenuVisible">
                                 <BarDropdownToggle To="docs/services" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                    <BarIcon IconName="IconName.Comment" /> Services
+                                    <BarIcon IconName="IconName.Comment" FixedWidth /> Services
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/services/message-provider">Message Provider</BarDropdownItem>
@@ -457,7 +457,7 @@
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarHelpersMenuVisible">
                                 <BarDropdownToggle To="docs/helpers" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                    <BarIcon IconName="IconName.Flask" />
+                                    <BarIcon IconName="IconName.Flask" FixedWidth />
                                     Helpers
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
@@ -515,7 +515,7 @@
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarSpecificationsMenuVisible">
                                 <BarDropdownToggle To="docs/specifications" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                    <BarIcon IconName="IconName.Book" /> Specifications
+                                    <BarIcon IconName="IconName.Book" FixedWidth /> Specifications
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/specifications">Introduction</BarDropdownItem>
@@ -530,7 +530,7 @@
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarMetaMenuVisible">
                                 <BarDropdownToggle>
-                                    <BarIcon IconName="IconName.QuestionCircle" /> Meta
+                                    <BarIcon IconName="IconName.QuestionCircle" FixedWidth /> Meta
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/mcp">MCP Server</BarDropdownItem>

@@ -24,6 +24,8 @@ class EmptyIconProvider : BaseIconProvider
         };
     }
 
+    public override string IconFixedWidth() => null;
+
     public override string GetIconName( IconName iconName, IconStyle iconStyle )
     {
         names.TryGetValue( iconName, out var name );

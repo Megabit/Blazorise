@@ -422,6 +422,8 @@ class FluentUIIconProvider : BaseIconProvider
         };
     }
 
+    public override string IconFixedWidth() => options.UseSvgIcons ? "fluentui-icon-fw" : "icon-ic-fw";
+
     public override string GetIconName( IconName iconName, IconStyle iconStyle )
     {
         if ( names.TryGetValue( iconName, out string name ) )

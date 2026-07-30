@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-30T11:41:58.0828871Z",
+  "generatedUtc": "2026-07-30T11:59:50.7151865Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -9374,6 +9374,14 @@
           "defaultValue": "null",
           "summary": "Specifies the unique id of the element.",
           "remarks": "Note that this ID is not defined for the component but instead for the underlined element that it represents.     eg: for the TextInput the ID will be set on the input element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "FixedWidth",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Renders the icon within a fixed-width slot.",
           "isBlazoriseEnum": false
         },
         {
@@ -57431,6 +57439,14 @@
           "defaultValue": "null",
           "summary": "Specifies the unique id of the element.",
           "remarks": "Note that this ID is not defined for the component but instead for the underlined element that it represents.     eg: for the TextInput the ID will be set on the input element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "FixedWidth",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Renders the icon within a fixed-width slot.",
           "isBlazoriseEnum": false
         },
         {

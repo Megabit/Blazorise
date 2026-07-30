@@ -397,6 +397,8 @@ class LucideIconProvider : BaseIconProvider
         };
     }
 
+    public override string IconFixedWidth() => "lucide-fw";
+
     public override string GetIconName( IconName iconName, IconStyle iconStyle )
     {
         if ( !names.TryGetValue( iconName, out string name ) )
