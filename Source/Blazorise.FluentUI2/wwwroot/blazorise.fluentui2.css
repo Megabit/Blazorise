@@ -1084,22 +1084,39 @@ html[data-theme=dark] .surface {
   grid-template-rows: 1fr;
 }
 
+.fui-Input {
+  --fui-addon-icon-size: var(--fontSizeBase500);
+}
 .fui-Input .fui-Input__contentBefore,
 .fui-Input .fui-Input__contentAfter {
+  align-items: center;
+  align-self: stretch;
   box-sizing: border-box;
   color: var(--colorNeutralForeground3);
   display: flex;
 }
 .fui-Input .fui-Input__contentBefore button.fui-Button,
 .fui-Input .fui-Input__contentAfter button.fui-Button {
+  align-self: stretch;
   background-color: var(--colorNeutralBackground1);
   color: var(--colorNeutralForeground1);
   border: none;
-  font-family: var(--fontFamilyBase);
-  font-size: var(--fontSizeBase300);
+  font-family: inherit;
+  font-size: inherit;
   font-weight: var(--fontWeightSemibold);
-  line-height: var(--lineHeightBase300);
+  line-height: inherit;
+  padding-bottom: 0;
+  padding-top: 0;
   cursor: pointer;
+}
+.fui-Input .fui-Input__contentBefore button.fui-Button > :is(i, .fluentui-icon),
+.fui-Input .fui-Input__contentAfter button.fui-Button > :is(i, .fluentui-icon) {
+  font-size: var(--fui-addon-icon-size);
+}
+.fui-Input .fui-Input__contentBefore button.fui-Button > svg,
+.fui-Input .fui-Input__contentAfter button.fui-Button > svg {
+  width: var(--fui-addon-icon-size);
+  height: var(--fui-addon-icon-size);
 }
 .fui-Input .fui-Input__contentBefore button.fui-Button:hover,
 .fui-Input .fui-Input__contentAfter button.fui-Button:hover {
@@ -1160,10 +1177,17 @@ html[data-theme=dark] .surface {
   display: flex;
   font-family: var(--fontFamilyBase);
   flex-grow: 1;
+  min-width: 0;
 }
 .fui-Input .fui-Input__content .fui-Select__select {
   align-self: stretch;
   height: auto;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  padding-left: var(--spacingHorizontalXXS);
+  padding-right: calc(var(--fontSizeBase500) + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
 }
 .fui-Input .fui-Input__content .fui-Select__select,
 .fui-Input .fui-Input__content .fui-Select__select:focus {
@@ -1171,6 +1195,26 @@ html[data-theme=dark] .surface {
   border-left-color: transparent;
   border-right-color: transparent;
   border-top-color: transparent;
+}
+.fui-Input.fui-Input-xs {
+  --fui-addon-icon-size: var(--fontSizeBase200);
+}
+.fui-Input.fui-Input-sm {
+  --fui-addon-icon-size: var(--fontSizeBase400);
+}
+.fui-Input.fui-Input-xs .fui-Input__content .fui-Select__select, .fui-Input.fui-Input-sm .fui-Input__content .fui-Select__select {
+  padding-left: var(--spacingHorizontalXXS);
+  padding-right: calc(var(--fontSizeBase400) + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
+}
+.fui-Input.fui-Input-md, .fui-Input.fui-Input-lg {
+  --fui-addon-icon-size: var(--fontSizeBase600);
+}
+.fui-Input.fui-Input-xl {
+  --fui-addon-icon-size: calc(var(--fontSizeBase600) + var(--spacingHorizontalXS));
+}
+.fui-Input.fui-Input-md .fui-Input__content .fui-Select__select, .fui-Input.fui-Input-lg .fui-Input__content .fui-Select__select, .fui-Input.fui-Input-xl .fui-Input__content .fui-Select__select {
+  padding-left: var(--spacingHorizontalSNudge);
+  padding-right: calc(var(--fontSizeBase600) + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
 }
 
 @keyframes alert-slide-away {
@@ -5243,8 +5287,12 @@ button {
   background: transparent;
   color: var(--b-dock-pane-color, var(--colorNeutralForeground2, #424242));
   cursor: pointer;
-  font-size: 0.75rem;
+  font-size: var(--fontSizeBase200);
   line-height: 1;
+}
+.fui-DockPaneHeader__action > .icon-ic,
+.fui-DockPaneHeader__action > .fluentui-icon {
+  font-size: var(--fontSizeBase200);
 }
 
 .fui-DockPaneHeader__action:hover {
@@ -10241,6 +10289,153 @@ input::file-selector-button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
   cursor: not-allowed;
+}
+
+.fui-PropertyGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacingVerticalS);
+  max-height: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.fui-PropertyGrid__viewport {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--spacingVerticalM);
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.fui-PropertyGrid__toolbar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: stretch;
+  gap: var(--spacingHorizontalS);
+  min-width: 0;
+}
+
+.fui-PropertyGrid__toolbarButton {
+  flex: 0 0 auto;
+}
+.fui-PropertyGrid__toolbarButton > :is(i, .fluentui-icon) {
+  font-size: var(--fontSizeBase400);
+}
+.fui-PropertyGrid__toolbarButton > svg,
+.fui-PropertyGrid__toolbarButton > i > svg {
+  width: var(--fontSizeBase400);
+  height: var(--fontSizeBase400);
+}
+
+.fui-PropertyGrid__toolbarSearch {
+  flex: 1 1 calc(var(--spacingHorizontalXXXL) * 8);
+  min-width: calc(var(--spacingHorizontalXXXL) * 5);
+  max-width: calc(var(--spacingHorizontalXXXL) * 11);
+  margin-inline-start: auto;
+}
+
+.fui-PropertyGrid__empty {
+  padding: var(--spacingVerticalM) var(--spacingHorizontalM);
+  color: var(--colorNeutralForeground3);
+  font-size: var(--fontSizeBase300);
+}
+
+.fui-PropertyGrid__help {
+  flex: 0 0 auto;
+  padding: var(--spacingVerticalMNudge) var(--spacingHorizontalM);
+  border-top: var(--strokeWidthThin) solid var(--colorNeutralStroke2);
+}
+
+.fui-PropertyGrid__helpTitle {
+  font-size: var(--fontSizeBase300);
+  font-weight: var(--fontWeightSemibold);
+}
+
+.fui-PropertyGrid__helpDescription {
+  margin-top: var(--spacingVerticalXXS);
+  color: var(--colorNeutralForeground3);
+  font-size: var(--fontSizeBase200);
+}
+
+.fui-PropertyGridGroup,
+.fui-PropertyGridGroup__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacingVerticalXS);
+  min-width: 0;
+}
+
+.fui-PropertyGridGroup__header {
+  font-size: var(--fontSizeBase300);
+  font-weight: var(--fontWeightSemibold);
+}
+
+.fui-PropertyGridGroup__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacingHorizontalSNudge);
+  width: 100%;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  font-weight: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.fui-PropertyGridItem {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: var(--spacingHorizontalXS);
+  align-items: center;
+  min-width: 0;
+}
+
+.fui-PropertyGridItem-selected {
+  background: var(--colorSubtleBackgroundSelected);
+}
+
+.fui-PropertyGridItem:focus-visible {
+  outline: var(--strokeWidthThin) solid var(--colorStrokeFocus2);
+  outline-offset: var(--strokeWidthThin);
+}
+
+.fui-PropertyGridItem__label {
+  min-width: 0;
+  padding-inline-end: var(--spacingHorizontalXS);
+  overflow: hidden;
+  font-size: var(--fontSizeBase300);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fui-PropertyGridItem__body {
+  min-width: 0;
+}
+.fui-PropertyGridItem__body > * {
+  width: 100%;
+  min-width: 0;
+}
+.fui-PropertyGridItem__body :is(.fui-Input__contentBefore, .fui-Input__contentAfter) > .fui-Button {
+  padding-inline: var(--spacingHorizontalXS);
+}
+
+.fui-PropertyGridItem[data-property-grid-editor=color] .fui-Input__colorValue {
+  display: none;
+}
+.fui-PropertyGridItem[data-property-grid-editor=color] .fui-Input__content:has(> .fui-ColorPicker) {
+  flex: none;
+}
+.fui-PropertyGridItem[data-property-grid-editor=color] .fui-ColorPicker {
+  flex: none;
+  min-width: auto;
 }
 
 .fui-ProgressBar {
@@ -23700,19 +23895,4 @@ body .b-report {
   --b-report-zindex-toolbar: 20;
   --b-report-zindex-menu: var(--zIndexDropdown);
   --b-report-zindex-modal-layer: var(--zIndexModal);
-}
-
-.b-report-designer-properties-pane .fui-Field.fui-FieldHorizontal {
-  margin-bottom: var(--spacingVerticalXS) !important;
-}
-
-.b-report-designer-color-property .fui-Input__colorValue {
-  display: none;
-}
-.b-report-designer-color-property .fui-Input__content:has(> .fui-ColorPicker) {
-  flex: none;
-}
-.b-report-designer-color-property .fui-ColorPicker {
-  flex: none;
-  min-width: auto;
 }

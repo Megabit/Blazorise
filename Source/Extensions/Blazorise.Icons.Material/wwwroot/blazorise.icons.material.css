@@ -1,4 +1,4 @@
-﻿.material-icons.md-xs {
+.material-icons.md-xs {
     font-size: .75em;
 }
 
@@ -45,4 +45,11 @@
 
 .material-icons.md-10x {
     font-size: 10em;
+}
+
+.material-icons.md-fw {
+    display: inline-block;
+    flex: 0 0 1.25em;
+    width: 1.25em;
+    text-align: center;
 }

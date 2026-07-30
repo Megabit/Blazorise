@@ -180,7 +180,7 @@
 .b-report-designer-panes-menu {
   z-index: var(--b-report-zindex-menu, 1200);
 }
-.b-report-designer-toolbox-pane, .b-report-designer-fields-explorer-pane, .b-report-designer-properties-pane {
+.b-report-designer-toolbox-pane, .b-report-designer-fields-explorer-pane {
   min-height: 0;
   overflow: auto;
 }

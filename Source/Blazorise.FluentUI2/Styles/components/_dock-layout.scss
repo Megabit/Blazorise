@@ -327,8 +327,13 @@
     background: transparent;
     color: var(--b-dock-pane-color, var(--colorNeutralForeground2, #424242));
     cursor: pointer;
-    font-size: .75rem;
+    font-size: var(--fontSizeBase200);
     line-height: 1;
+
+    > .icon-ic,
+    > .fluentui-icon {
+        font-size: var(--fontSizeBase200);
+    }
 }
 
 .fui-DockPaneHeader__action:hover {

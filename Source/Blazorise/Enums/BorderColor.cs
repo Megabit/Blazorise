@@ -5,6 +5,19 @@
 /// </summary>
 public record struct BorderColor
 {
+    #region Operators
+
+    /// <summary>
+    /// Creates a custom border color based on the supplied CSS color value.
+    /// </summary>
+    /// <param name="name">CSS color value.</param>
+    public static implicit operator BorderColor( string name )
+    {
+        return new BorderColor( name );
+    }
+
+    #endregion
+
     /// <summary>
     /// Gets the enum name.
     /// </summary>
@@ -17,7 +30,13 @@ public record struct BorderColor
     public BorderColor( string name )
     {
         Name = name;
+        IsCssValue = CssColor.IsValue( name );
     }
+
+    /// <summary>
+    /// Gets whether this instance represents an explicit CSS color value.
+    /// </summary>
+    public bool IsCssValue { get; }
 
     /// <summary>
     /// No color will be applied to an element.
