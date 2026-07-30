@@ -176,6 +176,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     private bool inputFocused;
 
+    private bool pointerInteraction;
+
     private bool? mobileDevice;
 
     private PickerObserverCoordinator observerCoordinator;
@@ -373,6 +375,9 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     [JSInvokable]
     protected async Task OnClickHandler( MouseEventArgs eventArgs )
     {
+        if ( !OpenTrigger.HasFlag( PickerOpenTrigger.Click ) )
+            return;
+
         if ( IsDisabled || ReadOnly || Plaintext )
             return;
 
@@ -381,6 +386,28 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
         await BeginMaskedEditingAsync();
         await OpenAsync();
+    }
+
+    /// <summary>
+    /// Records that the input is receiving focus through a pointer interaction.
+    /// </summary>
+    /// <param name="eventArgs">Information about the pointer event.</param>
+    /// <returns>A completed task.</returns>
+    protected Task OnPointerDownHandler( PointerEventArgs eventArgs )
+    {
+        pointerInteraction = true;
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Clears the active pointer interaction when it finishes without focusing the input.
+    /// </summary>
+    /// <param name="eventArgs">Information about the pointer event.</param>
+    /// <returns>A completed task.</returns>
+    protected Task OnPointerInteractionEndedHandler( PointerEventArgs eventArgs )
+    {
+        pointerInteraction = false;
+        return Task.CompletedTask;
     }
 
     /// <inheritdoc/>
@@ -477,7 +504,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
                 await CloseCalendarAsync( focusInput: false );
             }
         }
-        else if ( eventArgs.Key is "ArrowDown" || eventArgs.Key is "F4" )
+        else if ( OpenTrigger.HasFlag( PickerOpenTrigger.OpenKeys )
+                  && eventArgs.Key is "ArrowDown" or "F4" )
         {
             await OpenCalendarAsync( focusCalendar: true );
         }
@@ -494,10 +522,19 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     [JSInvokable]
     public new virtual async Task OnFocusHandler( FocusEventArgs eventArgs )
     {
+        bool pointerInitiatedFocus = pointerInteraction;
+        pointerInteraction = false;
         inputFocused = true;
 
         await OnFocus.InvokeAsync( eventArgs );
         await BeginMaskedEditingAsync();
+
+        if ( !pointerInitiatedFocus
+             && OpenTrigger.HasFlag( PickerOpenTrigger.Focus )
+             && !UseNativeMobilePicker )
+        {
+            await OpenCalendarAsync( focusCalendar: false );
+        }
     }
 
     /// <inheritdoc/>
@@ -1423,10 +1460,14 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// </summary>
     protected string InputAriaControls => UseNativeMobilePicker ? null : CalendarId;
 
-    private bool InputKeyboardNavigationEnabled => !UseNativeMobilePicker
+    /// <summary>
+    /// Gets whether keyboard opening keys are enabled for the visible input.
+    /// </summary>
+    protected bool InputKeyboardNavigationEnabled => !UseNativeMobilePicker
         && !IsDisabled
         && !ReadOnly
-        && !Plaintext;
+        && !Plaintext
+        && OpenTrigger.HasFlag( PickerOpenTrigger.OpenKeys );
 
     /// <summary>
     /// Gets whether the browser's native mobile picker should be used.
@@ -1586,6 +1627,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// Display the calendar in an always-open state with the inline option.
     /// </summary>
     [Parameter] public bool Inline { get; set; }
+
+    /// <summary>
+    /// Defines which interactions can open the calendar menu.
+    /// </summary>
+    [Parameter] public PickerOpenTrigger OpenTrigger { get; set; } = PickerOpenTrigger.All;
 
     /// <summary>
     /// Prevents the browser's native picker from being used on mobile devices.

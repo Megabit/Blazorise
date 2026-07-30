@@ -237,6 +237,88 @@ public class DatePickerComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task FocusingInputOpensCalendarByDefault()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>();
+
+        // test
+        await comp.Find( "input" ).FocusAsync( new FocusEventArgs() );
+
+        // validate
+        Assert.NotNull( comp.Find( "[role='dialog']" ) );
+        Assert.False( comp.Instance.FocusCalendarOnOpen );
+    }
+
+    [Fact]
+    public async Task ClickOnlyTriggerDoesNotOpenCalendarForFocusOrOpeningKeys()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>( parameters => parameters
+            .Add( x => x.OpenTrigger, PickerOpenTrigger.Click ) );
+        IElement input = comp.Find( "input" );
+
+        // test
+        await input.FocusAsync( new FocusEventArgs() );
+        await input.KeyDownAsync( new KeyboardEventArgs { Key = "ArrowDown" } );
+
+        // validate
+        Assert.Empty( comp.FindAll( "[role='dialog']" ) );
+
+        // test
+        await input.ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.NotNull( comp.Find( "[role='dialog']" ) );
+    }
+
+    [Fact]
+    public async Task FocusOnlyTriggerIgnoresPointerInducedFocusAndClick()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>( parameters => parameters
+            .Add( x => x.OpenTrigger, PickerOpenTrigger.Focus ) );
+        IElement input = comp.Find( "input" );
+
+        // test
+        await input.TriggerEventAsync( "onpointerdown", new PointerEventArgs() );
+        await input.FocusAsync( new FocusEventArgs() );
+        await input.TriggerEventAsync( "onpointerup", new PointerEventArgs() );
+        await input.ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Empty( comp.FindAll( "[role='dialog']" ) );
+
+        // test
+        await input.BlurAsync( new FocusEventArgs() );
+        await input.FocusAsync( new FocusEventArgs() );
+
+        // validate
+        Assert.NotNull( comp.Find( "[role='dialog']" ) );
+    }
+
+    [Fact]
+    public async Task OpenKeysOnlyTriggerOpensCalendarWithOpeningKey()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>( parameters => parameters
+            .Add( x => x.OpenTrigger, PickerOpenTrigger.OpenKeys ) );
+        IElement input = comp.Find( "input" );
+
+        // test
+        await input.FocusAsync( new FocusEventArgs() );
+
+        // validate
+        Assert.Empty( comp.FindAll( "[role='dialog']" ) );
+
+        // test
+        await input.KeyDownAsync( new KeyboardEventArgs { Key = "ArrowDown" } );
+
+        // validate
+        Assert.NotNull( comp.Find( "[role='dialog']" ) );
+    }
+
+    [Fact]
     public async Task TabFromInputClosesCalendar()
     {
         // setup

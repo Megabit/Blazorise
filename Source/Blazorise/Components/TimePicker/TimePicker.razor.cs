@@ -116,6 +116,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
     private TimePickerPart focusedPart;
 
+    private bool pointerInteraction;
+
     private bool? mobileDevice;
 
     private PickerObserverCoordinator observerCoordinator;
@@ -296,6 +298,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     [JSInvokable]
     protected async Task OnClickHandler( MouseEventArgs eventArgs )
     {
+        if ( !OpenTrigger.HasFlag( PickerOpenTrigger.Click ) )
+            return;
+
         if ( MenuInteractionDisabled )
             return;
 
@@ -303,6 +308,28 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
             return;
 
         await OpenAsync();
+    }
+
+    /// <summary>
+    /// Records that the input is receiving focus through a pointer interaction.
+    /// </summary>
+    /// <param name="eventArgs">Information about the pointer event.</param>
+    /// <returns>A completed task.</returns>
+    protected Task OnPointerDownHandler( PointerEventArgs eventArgs )
+    {
+        pointerInteraction = true;
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Clears the active pointer interaction when it finishes without focusing the input.
+    /// </summary>
+    /// <param name="eventArgs">Information about the pointer event.</param>
+    /// <returns>A completed task.</returns>
+    protected Task OnPointerInteractionEndedHandler( PointerEventArgs eventArgs )
+    {
+        pointerInteraction = false;
+        return Task.CompletedTask;
     }
 
     /// <inheritdoc/>
@@ -351,7 +378,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
                 await CloseMenuAsync( focusInput: false );
             }
         }
-        else if ( eventArgs.Key is "ArrowDown" or "F4" )
+        else if ( OpenTrigger.HasFlag( PickerOpenTrigger.OpenKeys )
+                  && eventArgs.Key is "ArrowDown" or "F4" )
         {
             await OpenMenuAsync( focusMenu: true );
         }
@@ -366,9 +394,19 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
     /// <inheritdoc/>
     [JSInvokable]
-    public new virtual Task OnFocusHandler( FocusEventArgs eventArgs )
+    public new virtual async Task OnFocusHandler( FocusEventArgs eventArgs )
     {
-        return OnFocus.InvokeAsync( eventArgs );
+        bool pointerInitiatedFocus = pointerInteraction;
+        pointerInteraction = false;
+
+        await OnFocus.InvokeAsync( eventArgs );
+
+        if ( !pointerInitiatedFocus
+             && OpenTrigger.HasFlag( PickerOpenTrigger.Focus )
+             && !UseNativeMobilePicker )
+        {
+            await OpenMenuAsync( focusMenu: false );
+        }
     }
 
     /// <inheritdoc/>
@@ -895,10 +933,14 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// </summary>
     protected string InputAriaControls => UseNativeMobilePicker ? null : MenuId;
 
-    private bool InputKeyboardNavigationEnabled => !UseNativeMobilePicker
+    /// <summary>
+    /// Gets whether keyboard opening keys are enabled for the visible input.
+    /// </summary>
+    protected bool InputKeyboardNavigationEnabled => !UseNativeMobilePicker
         && !IsDisabled
         && !ReadOnly
-        && !Plaintext;
+        && !Plaintext
+        && OpenTrigger.HasFlag( PickerOpenTrigger.OpenKeys );
 
     /// <summary>
     /// Gets the format presented in the visible input.
@@ -1005,6 +1047,11 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// Display the time menu in an always-open state with the inline option.
     /// </summary>
     [Parameter] public bool Inline { get; set; }
+
+    /// <summary>
+    /// Defines which interactions can open the time menu.
+    /// </summary>
+    [Parameter] public PickerOpenTrigger OpenTrigger { get; set; } = PickerOpenTrigger.All;
 
     /// <summary>
     /// Prevents the browser's native picker from being used on mobile devices.

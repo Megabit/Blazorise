@@ -22,6 +22,9 @@ else
                            value="@InputText"
                            @oninput="@OnInputHandler"
                            @onchange="@OnChangeHandler"
+                           @onpointerdown="@OnPointerDownHandler"
+                           @onpointerup="@OnPointerInteractionEndedHandler"
+                           @onpointercancel="@OnPointerInteractionEndedHandler"
                            @onkeydown="@OnKeyDownHandler"
                            @onkeypress="@OnKeyPressHandler"
                            @onkeyup="@OnKeyUpHandler"
@@ -39,6 +42,7 @@ else
                            aria-required="@ResolvedAriaRequired"
                            aria-describedby="@ResolvedAriaDescribedBy"
                            aria-labelledby="@ExplicitAriaLabelledBy"
+                           data-open-keys="@(InputKeyboardNavigationEnabled ? "true" : null)"
                            autocomplete="off"
                            @attributes="@Attributes" />
                 </div>

@@ -36,6 +36,9 @@
                @oninput="@OnInputHandler"
                @onchange="@OnChangeHandler"
                @onclick="@OnClickHandler"
+               @onpointerdown="@OnPointerDownHandler"
+               @onpointerup="@OnPointerInteractionEndedHandler"
+               @onpointercancel="@OnPointerInteractionEndedHandler"
                @onkeydown="@OnKeyDownHandler"
                @onkeypress="@OnKeyPressHandler"
                @onkeyup="@OnKeyUpHandler"
@@ -53,6 +56,7 @@
                aria-required="@ResolvedAriaRequired"
                aria-describedby="@AriaDescribedBy"
                aria-labelledby="@AriaLabelledBy"
+               data-open-keys="@(InputKeyboardNavigationEnabled ? "true" : null)"
                autocomplete="off"
                @attributes="@Attributes" />
     };
