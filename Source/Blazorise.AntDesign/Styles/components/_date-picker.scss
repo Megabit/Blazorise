@@ -290,17 +290,61 @@
 
     .ant-picker-month-panel {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: var(--ant-margin-xxs);
-        padding-block: var(--ant-padding-xs);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: repeat(4, calc(var(--ant-control-height-lg) + var(--ant-padding-lg) + var(--ant-line-width) * 2));
+        place-items: center;
+        gap: 0;
+        padding-inline: var(--ant-padding-xs);
     }
 
     .ant-picker-month-cell {
-        min-height: var(--ant-control-height-lg);
+        width: calc(var(--ant-picker-cell-width) + var(--ant-padding-lg));
+        min-height: var(--ant-picker-cell-height);
+        padding: 0 var(--ant-padding-xxs);
         border: var(--ant-line-width) solid transparent;
+        border-radius: var(--ant-border-radius-sm);
         background: transparent;
         color: inherit;
         font: inherit;
+
+        &:hover:not(:disabled):not(.ant-picker-cell-selected) {
+            background: var(--ant-picker-cell-hover-bg);
+        }
+
+        &.ant-picker-cell-selected {
+            border-color: var(--ant-color-primary);
+            background: var(--ant-color-primary);
+            color: var(--ant-color-text-light-solid);
+            font-weight: var(--ant-font-weight-strong);
+        }
+
+        &.ant-picker-cell-disabled {
+            border-color: transparent;
+            background: transparent;
+            color: var(--ant-color-text-disabled);
+            opacity: .25;
+        }
+    }
+
+    &:has(> .ant-picker-month-panel) {
+        padding: 0;
+
+        .ant-picker-header {
+            min-height: var(--ant-control-height-lg);
+            padding-inline: var(--ant-padding-xs);
+            padding-block-end: 0;
+        }
+
+        .ant-picker-header-navigation {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--ant-control-height-sm);
+            height: var(--ant-control-height-sm);
+            padding: 0;
+            color: var(--ant-color-text-tertiary);
+            font-size: var(--ant-font-size-sm);
+        }
     }
 
     .ant-picker-time-input {
