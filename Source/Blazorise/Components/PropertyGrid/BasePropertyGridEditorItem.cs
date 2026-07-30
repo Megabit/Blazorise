@@ -52,49 +52,9 @@ public abstract class BasePropertyGridEditorItem : BaseComponent
     [Parameter] public bool Mixed { get; set; }
 
     /// <summary>
-    /// Defines whether the property editor action is shown.
-    /// </summary>
-    [Parameter] public bool ShowAction { get; set; } = true;
-
-    /// <summary>
-    /// Defines whether the property editor action is disabled.
-    /// </summary>
-    [Parameter] public bool ActionDisabled { get; set; }
-
-    /// <summary>
-    /// Defines the property editor action color.
-    /// </summary>
-    [Parameter] public Color ActionColor { get; set; } = Color.Light;
-
-    /// <summary>
-    /// Defines the property editor action icon.
-    /// </summary>
-    [Parameter] public object ActionIcon { get; set; }
-
-    /// <summary>
-    /// Defines the property editor action text.
-    /// </summary>
-    [Parameter] public string ActionText { get; set; }
-
-    /// <summary>
-    /// Defines the accessible title for the property editor action.
-    /// </summary>
-    [Parameter] public string ActionTitle { get; set; }
-
-    /// <summary>
-    /// Defines custom content for the property editor action.
+    /// Defines complete trailing content for the property editor.
     /// </summary>
     [Parameter] public RenderFragment ActionContent { get; set; }
-
-    /// <summary>
-    /// Defines a complete template for the trailing property action.
-    /// </summary>
-    [Parameter] public RenderFragment ActionTemplate { get; set; }
-
-    /// <summary>
-    /// Occurs when the property editor action is clicked.
-    /// </summary>
-    [Parameter] public EventCallback ActionClicked { get; set; }
 
     #endregion
 }

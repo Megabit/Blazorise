@@ -14,7 +14,17 @@
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridGroup</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Appearance</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="atSign">&#64;</span>if ( MatchesSearch( &quot;Title&quot; ) )
             {
-                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridTextItem</span> <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Title</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>title</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridTextItem</span> <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Title</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>title</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ActionContent</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Light</span><span class="quot">&quot;</span>
+                                <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span>
+                                <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ResetTitle</span><span class="quot">&quot;</span>
+                                <span class="htmlAttributeName">title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Reset title</span><span class="quot">&quot;</span>
+                                <span class="htmlAttributeName">aria-label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Reset title</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Undo</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ActionContent</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PropertyGridTextItem</span><span class="htmlTagDelimiter">&gt;</span>
             }
             <span class="atSign">&#64;</span>if ( MatchesSearch( &quot;Visible&quot; ) )
             {
@@ -119,6 +129,9 @@
 
     <span class="keyword">private</span> <span class="keyword">void</span> ClearSearch()
         =&gt; searchText = <span class="keyword">string</span>.Empty;
+
+    <span class="keyword">private</span> <span class="keyword">void</span> ResetTitle()
+        =&gt; title = <span class="string">&quot;Quarterly summary&quot;</span>;
 }
 </pre></div>
 </div>

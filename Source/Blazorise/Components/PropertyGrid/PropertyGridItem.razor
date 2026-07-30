@@ -30,32 +30,7 @@
                     @ChildContent
                 </Addon>
                 <Addon AddonType="AddonType.End">
-                    @if ( ActionTemplate is not null )
-                    {
-                        @ActionTemplate
-                    }
-                    else
-                    {
-                        <Button Color="@ActionColor"
-                                Size="@Size"
-                                Disabled="@ActionDisabled"
-                                Clicked="@ActionClicked"
-                                title="@ActionTitle"
-                                aria-label="@ActionTitle">
-                            @if ( ActionContent is not null )
-                            {
-                                @ActionContent
-                            }
-                            else
-                            {
-                                @if ( ActionIcon is not null )
-                                {
-                                    <Icon Name="@ActionIcon" />
-                                }
-                                @ActionText
-                            }
-                        </Button>
-                    }
+                    @ActionContent
                 </Addon>
             </Addons>
         }

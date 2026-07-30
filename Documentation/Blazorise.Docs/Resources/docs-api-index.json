@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-29T16:32:18.9497072Z",
+  "generatedUtc": "2026-07-30T11:41:58.0828871Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -86942,59 +86942,11 @@
       "searchUrl": "docs/components/property-grid",
       "parameters": [
         {
-          "name": "ActionColor",
-          "type": "global::Blazorise.Color",
-          "typeName": "Color",
-          "defaultValue": "Color.Light",
-          "summary": "Defines the property editor action color.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "ActionContent",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
           "typeName": "RenderFragment",
           "defaultValue": "null",
-          "summary": "Defines custom content for the property editor action.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionDisabled",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Defines whether the property editor action is disabled.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionIcon",
-          "type": "object",
-          "typeName": "object",
-          "defaultValue": "null",
-          "summary": "Defines the property editor action icon.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionTemplate",
-          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
-          "typeName": "RenderFragment",
-          "defaultValue": "null",
-          "summary": "Defines a complete template for the trailing property action.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionText",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Defines the property editor action text.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionTitle",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Defines the accessible title for the property editor action.",
+          "summary": "Defines complete trailing content for the property editor.",
           "isBlazoriseEnum": false
         },
         {
@@ -87200,14 +87152,6 @@
           "isBlazoriseEnum": true
         },
         {
-          "name": "ShowAction",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Defines whether the property editor action is shown.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Size",
           "type": "global::Blazorise.Size",
           "typeName": "Size",
@@ -87330,14 +87274,6 @@
       ],
       "events": [
         {
-          "name": "ActionClicked",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback",
-          "typeName": "EventCallback",
-          "defaultValue": "null",
-          "summary": "Occurs when the property editor action is clicked.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "SelectedChanged",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<bool>",
@@ -87363,59 +87299,11 @@
       "searchUrl": "docs/components/property-grid",
       "parameters": [
         {
-          "name": "ActionColor",
-          "type": "global::Blazorise.Color",
-          "typeName": "Color",
-          "defaultValue": "Color.Light",
-          "summary": "Defines the property editor action color.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "ActionContent",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
           "typeName": "RenderFragment",
           "defaultValue": "null",
-          "summary": "Defines custom content for the property editor action.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionDisabled",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Defines whether the property editor action is disabled.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionIcon",
-          "type": "object",
-          "typeName": "object",
-          "defaultValue": "null",
-          "summary": "Defines the property editor action icon.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionTemplate",
-          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
-          "typeName": "RenderFragment",
-          "defaultValue": "null",
-          "summary": "Defines a complete template for the trailing property action.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionText",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Defines the property editor action text.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionTitle",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Defines the accessible title for the property editor action.",
+          "summary": "Defines complete trailing content for the property editor.",
           "isBlazoriseEnum": false
         },
         {
@@ -87637,14 +87525,6 @@
           "isBlazoriseEnum": true
         },
         {
-          "name": "ShowAction",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Defines whether the property editor action is shown.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Size",
           "type": "global::Blazorise.Size",
           "typeName": "Size",
@@ -87758,14 +87638,6 @@
         }
       ],
       "events": [
-        {
-          "name": "ActionClicked",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback",
-          "typeName": "EventCallback",
-          "defaultValue": "null",
-          "summary": "Occurs when the property editor action is clicked.",
-          "isBlazoriseEnum": false
-        },
         {
           "name": "SelectedChanged",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
@@ -88401,59 +88273,11 @@
       "searchUrl": "docs/components/property-grid",
       "parameters": [
         {
-          "name": "ActionColor",
-          "type": "global::Blazorise.Color",
-          "typeName": "Color",
-          "defaultValue": "Color.Light",
-          "summary": "Defines the property editor action color.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "ActionContent",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
           "typeName": "RenderFragment",
           "defaultValue": "null",
-          "summary": "Defines custom content for the property editor action.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionDisabled",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Defines whether the property editor action is disabled.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionIcon",
-          "type": "object",
-          "typeName": "object",
-          "defaultValue": "null",
-          "summary": "Defines the property editor action icon.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionTemplate",
-          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
-          "typeName": "RenderFragment",
-          "defaultValue": "null",
-          "summary": "Defines a complete template for the trailing property action.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionText",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Defines the property editor action text.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionTitle",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Defines the accessible title for the property editor action.",
+          "summary": "Defines complete trailing content for the property editor.",
           "isBlazoriseEnum": false
         },
         {
@@ -88651,19 +88475,11 @@
           "isBlazoriseEnum": true
         },
         {
-          "name": "ShowAction",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Defines whether the property editor action is shown.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Size",
           "type": "global::Blazorise.Size",
           "typeName": "Size",
           "defaultValue": "Size.Small",
-          "summary": "Defines the size of the property editor action.",
+          "summary": "Defines the property editor size.",
           "isBlazoriseEnum": true
         },
         {
@@ -88765,14 +88581,6 @@
       ],
       "events": [
         {
-          "name": "ActionClicked",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback",
-          "typeName": "EventCallback",
-          "defaultValue": "null",
-          "summary": "Occurs when the property editor action is clicked.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "SelectedChanged",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<bool>",
@@ -88790,59 +88598,11 @@
       "searchUrl": "docs/components/property-grid",
       "parameters": [
         {
-          "name": "ActionColor",
-          "type": "global::Blazorise.Color",
-          "typeName": "Color",
-          "defaultValue": "Color.Light",
-          "summary": "Defines the property editor action color.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "ActionContent",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
           "typeName": "RenderFragment",
           "defaultValue": "null",
-          "summary": "Defines custom content for the property editor action.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionDisabled",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Defines whether the property editor action is disabled.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionIcon",
-          "type": "object",
-          "typeName": "object",
-          "defaultValue": "null",
-          "summary": "Defines the property editor action icon.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionTemplate",
-          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
-          "typeName": "RenderFragment",
-          "defaultValue": "null",
-          "summary": "Defines a complete template for the trailing property action.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionText",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Defines the property editor action text.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionTitle",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Defines the accessible title for the property editor action.",
+          "summary": "Defines complete trailing content for the property editor.",
           "isBlazoriseEnum": false
         },
         {
@@ -89064,14 +88824,6 @@
           "isBlazoriseEnum": true
         },
         {
-          "name": "ShowAction",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Defines whether the property editor action is shown.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Size",
           "type": "global::Blazorise.Size",
           "typeName": "Size",
@@ -89194,14 +88946,6 @@
       ],
       "events": [
         {
-          "name": "ActionClicked",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback",
-          "typeName": "EventCallback",
-          "defaultValue": "null",
-          "summary": "Occurs when the property editor action is clicked.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "SelectedChanged",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<bool>",
@@ -89227,59 +88971,11 @@
       "searchUrl": "docs/components/property-grid",
       "parameters": [
         {
-          "name": "ActionColor",
-          "type": "global::Blazorise.Color",
-          "typeName": "Color",
-          "defaultValue": "Color.Light",
-          "summary": "Defines the property editor action color.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "ActionContent",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
           "typeName": "RenderFragment",
           "defaultValue": "null",
-          "summary": "Defines custom content for the property editor action.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionDisabled",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Defines whether the property editor action is disabled.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionIcon",
-          "type": "object",
-          "typeName": "object",
-          "defaultValue": "null",
-          "summary": "Defines the property editor action icon.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionTemplate",
-          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
-          "typeName": "RenderFragment",
-          "defaultValue": "null",
-          "summary": "Defines a complete template for the trailing property action.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionText",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Defines the property editor action text.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionTitle",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Defines the accessible title for the property editor action.",
+          "summary": "Defines complete trailing content for the property editor.",
           "isBlazoriseEnum": false
         },
         {
@@ -89485,14 +89181,6 @@
           "isBlazoriseEnum": true
         },
         {
-          "name": "ShowAction",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Defines whether the property editor action is shown.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Size",
           "type": "global::Blazorise.Size",
           "typeName": "Size",
@@ -89607,14 +89295,6 @@
       ],
       "events": [
         {
-          "name": "ActionClicked",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback",
-          "typeName": "EventCallback",
-          "defaultValue": "null",
-          "summary": "Occurs when the property editor action is clicked.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "SelectedChanged",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<bool>",
@@ -89640,59 +89320,11 @@
       "searchUrl": "docs/components/property-grid",
       "parameters": [
         {
-          "name": "ActionColor",
-          "type": "global::Blazorise.Color",
-          "typeName": "Color",
-          "defaultValue": "Color.Light",
-          "summary": "Defines the property editor action color.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "ActionContent",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
           "typeName": "RenderFragment",
           "defaultValue": "null",
-          "summary": "Defines custom content for the property editor action.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionDisabled",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Defines whether the property editor action is disabled.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionIcon",
-          "type": "object",
-          "typeName": "object",
-          "defaultValue": "null",
-          "summary": "Defines the property editor action icon.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionTemplate",
-          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
-          "typeName": "RenderFragment",
-          "defaultValue": "null",
-          "summary": "Defines a complete template for the trailing property action.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionText",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Defines the property editor action text.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionTitle",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Defines the accessible title for the property editor action.",
+          "summary": "Defines complete trailing content for the property editor.",
           "isBlazoriseEnum": false
         },
         {
@@ -89898,14 +89530,6 @@
           "isBlazoriseEnum": true
         },
         {
-          "name": "ShowAction",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Defines whether the property editor action is shown.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Size",
           "type": "global::Blazorise.Size",
           "typeName": "Size",
@@ -90020,14 +89644,6 @@
       ],
       "events": [
         {
-          "name": "ActionClicked",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback",
-          "typeName": "EventCallback",
-          "defaultValue": "null",
-          "summary": "Occurs when the property editor action is clicked.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "SelectedChanged",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<bool>",
@@ -90053,59 +89669,11 @@
       "searchUrl": "docs/components/property-grid",
       "parameters": [
         {
-          "name": "ActionColor",
-          "type": "global::Blazorise.Color",
-          "typeName": "Color",
-          "defaultValue": "Color.Light",
-          "summary": "Defines the property editor action color.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "ActionContent",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
           "typeName": "RenderFragment",
           "defaultValue": "null",
-          "summary": "Defines custom content for the property editor action.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionDisabled",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Defines whether the property editor action is disabled.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionIcon",
-          "type": "object",
-          "typeName": "object",
-          "defaultValue": "null",
-          "summary": "Defines the property editor action icon.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionTemplate",
-          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
-          "typeName": "RenderFragment",
-          "defaultValue": "null",
-          "summary": "Defines a complete template for the trailing property action.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionText",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Defines the property editor action text.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ActionTitle",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Defines the accessible title for the property editor action.",
+          "summary": "Defines complete trailing content for the property editor.",
           "isBlazoriseEnum": false
         },
         {
@@ -90319,14 +89887,6 @@
           "isBlazoriseEnum": true
         },
         {
-          "name": "ShowAction",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Defines whether the property editor action is shown.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Size",
           "type": "global::Blazorise.Size",
           "typeName": "Size",
@@ -90440,14 +90000,6 @@
         }
       ],
       "events": [
-        {
-          "name": "ActionClicked",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback",
-          "typeName": "EventCallback",
-          "defaultValue": "null",
-          "summary": "Occurs when the property editor action is clicked.",
-          "isBlazoriseEnum": false
-        },
         {
           "name": "SelectedChanged",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",

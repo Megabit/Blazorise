@@ -4300,7 +4300,17 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <PropertyGridGroup Title=""Appearance"">
             @if ( MatchesSearch( ""Title"" ) )
             {
-                <PropertyGridTextItem Label=""Title"" @bind-Value=""@title"" />
+                <PropertyGridTextItem Label=""Title"" @bind-Value=""@title"">
+                    <ActionContent>
+                        <Button Color=""Color.Light""
+                                Size=""Size.Small""
+                                Clicked=""@ResetTitle""
+                                title=""Reset title""
+                                aria-label=""Reset title"">
+                            <Icon Name=""IconName.Undo"" />
+                        </Button>
+                    </ActionContent>
+                </PropertyGridTextItem>
             }
             @if ( MatchesSearch( ""Visible"" ) )
             {
@@ -4404,6 +4414,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
     private void ClearSearch()
         => searchText = string.Empty;
+
+    private void ResetTitle()
+        => title = ""Quarterly summary"";
 }";
 
         public const string PropertyGridSchemaExample = @"<PropertyGridView Width=""Width.Px( 360 )""

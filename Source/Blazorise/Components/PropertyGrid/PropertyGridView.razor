@@ -141,14 +141,7 @@
                                                           Selected="@selected"
                                                           SelectedChanged="@( ( bool value ) => value ? SelectPropertyAsync( property ) : Task.CompletedTask )"
                                                           AriaDescribedBy="@ariaDescribedBy"
-                                                          ShowAction="@(property.Action?.Visible == true)"
-                                                          ActionDisabled="@(property.Action?.Disabled == true)"
-                                                          ActionColor="@(property.Action?.Color ?? Color.Light)"
-                                                          ActionIcon="@property.Action?.Icon"
-                                                          ActionText="@property.Action?.Text"
-                                                          ActionTitle="@property.Action?.Title"
-                                                          ActionTemplate="@GetActionTemplate( property )"
-                                                          ActionClicked="@(() => InvokeActionAsync( property ))"
+                                                          ActionContent="@GetActionContent( property )"
                                                           @attributes="@property.Attributes">
                                             @editorTemplate( new PropertyGridEditorContext( this, property ) )
                                         </PropertyGridItem>

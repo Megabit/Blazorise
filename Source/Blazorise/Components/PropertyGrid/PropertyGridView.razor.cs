@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise;
@@ -13,7 +14,7 @@ public partial class PropertyGridView : BaseComponent
 {
     #region Members
 
-    private const int AtomicComponentParameterCapacity = 25;
+    private const int AtomicComponentParameterCapacity = 20;
 
     private PropertyGridToolbarContext toolbarContext;
 
@@ -92,14 +93,43 @@ public partial class PropertyGridView : BaseComponent
         return template is null ? null : template( new PropertyGridLabelContext( property ) );
     }
 
-    private RenderFragment GetActionTemplate( PropertyGridProperty property )
+    private RenderFragment GetActionContent( PropertyGridProperty property )
     {
-        if ( property.Action is null )
+        PropertyGridAction action = property.Action;
+
+        if ( action?.Visible != true )
             return null;
 
-        RenderFragment<PropertyGridActionContext> template = property.Action.ActionTemplate ?? ActionTemplate;
+        RenderFragment<PropertyGridActionContext> actionTemplate = action.ActionTemplate ?? ActionTemplate;
 
-        return template is null ? null : template( new PropertyGridActionContext( this, property ) );
+        if ( actionTemplate is not null )
+            return actionTemplate( new PropertyGridActionContext( this, property ) );
+
+        return builder =>
+        {
+            builder.OpenComponent<Button>( 0 );
+            builder.AddAttribute( 1, nameof( Button.Color ), action.Color );
+            builder.AddAttribute( 2, nameof( Button.Size ), property.Size );
+            builder.AddAttribute( 3, nameof( Button.Disabled ), action.Disabled );
+            builder.AddAttribute( 4, nameof( Button.Clicked ), EventCallback.Factory.Create<MouseEventArgs>( this, () => InvokeActionAsync( property ) ) );
+            builder.AddAttribute( 5, "title", action.Title );
+            builder.AddAttribute( 6, "aria-label", action.Title );
+            builder.AddAttribute( 7, nameof( Button.ChildContent ), (RenderFragment)( contentBuilder =>
+            {
+                if ( action.Icon is not null )
+                {
+                    contentBuilder.OpenComponent<Icon>( 0 );
+                    contentBuilder.AddAttribute( 1, nameof( Icon.Name ), action.Icon );
+                    contentBuilder.CloseComponent();
+                }
+
+                if ( action.Icon is not null && !string.IsNullOrEmpty( action.Text ) )
+                    contentBuilder.AddContent( 2, " " );
+
+                contentBuilder.AddContent( 3, action.Text );
+            } ) );
+            builder.CloseComponent();
+        };
     }
 
     private RenderFragment<PropertyGridEditorContext> GetEditorTemplate( PropertyGridProperty property )
@@ -132,14 +162,7 @@ public partial class PropertyGridView : BaseComponent
             [nameof( BasePropertyGridEditorItem.Selected )] = selected,
             [nameof( BasePropertyGridEditorItem.SelectedChanged )] = EventCallback.Factory.Create<bool>( this, value => value ? SelectPropertyAsync( property ) : Task.CompletedTask ),
             [nameof( BasePropertyGridEditorItem.AriaDescribedBy )] = ariaDescribedBy,
-            [nameof( BasePropertyGridEditorItem.ShowAction )] = property.Action?.Visible == true,
-            [nameof( BasePropertyGridEditorItem.ActionDisabled )] = property.Action?.Disabled == true,
-            [nameof( BasePropertyGridEditorItem.ActionColor )] = property.Action?.Color ?? Color.Light,
-            [nameof( BasePropertyGridEditorItem.ActionIcon )] = property.Action?.Icon,
-            [nameof( BasePropertyGridEditorItem.ActionText )] = property.Action?.Text,
-            [nameof( BasePropertyGridEditorItem.ActionTitle )] = property.Action?.Title,
-            [nameof( BasePropertyGridEditorItem.ActionTemplate )] = GetActionTemplate( property ),
-            [nameof( BasePropertyGridEditorItem.ActionClicked )] = EventCallback.Factory.Create( this, () => InvokeActionAsync( property ) ),
+            [nameof( BasePropertyGridEditorItem.ActionContent )] = GetActionContent( property ),
             [nameof( BasePropertyGridEditorItem.Attributes )] = property.Attributes,
             ["Value"] = property.Value,
             ["ValueChanged"] = property.CreateValueChangedCallback( this ),
