@@ -2613,6 +2613,131 @@ li.list-group-item-action {
     mask-position: -200% 0%;
   }
 }
+.property-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.property-grid-viewport {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.property-grid-toolbar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.property-grid-toolbar-button {
+  flex: 0 0 auto;
+}
+
+.property-grid-toolbar-search {
+  flex: 1 1 16rem;
+  min-width: 10rem;
+  max-width: 22rem;
+  margin-inline-start: auto;
+}
+
+.property-grid-empty {
+  padding: 0.75rem;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.property-grid-help {
+  flex: 0 0 auto;
+  padding: 0.625rem 0.75rem;
+  border-top: 1px solid #dee2e6;
+}
+
+.property-grid-help-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.property-grid-help-description {
+  margin-top: 0.125rem;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.property-grid-group,
+.property-grid-group-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.property-grid-group-header {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.property-grid-group-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  font-weight: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.property-grid-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 0.25rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.property-grid-item-selected {
+  background: #f8f9fa;
+}
+
+.property-grid-item:focus-visible {
+  outline: 1px solid rgb(127.5, 189, 255);
+  outline-offset: 1px;
+}
+
+.property-grid-item-label {
+  min-width: 0;
+  padding-inline-end: 0.25rem;
+  overflow: hidden;
+  font-size: 0.875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.property-grid-item-body {
+  min-width: 0;
+}
+.property-grid-item-body > * {
+  width: 100%;
+  min-width: 0;
+}
+
 .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-primary {
   background-color: #007bff;
 }

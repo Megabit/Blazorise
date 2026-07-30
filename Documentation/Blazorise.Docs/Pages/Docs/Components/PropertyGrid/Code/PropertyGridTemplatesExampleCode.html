@@ -1,0 +1,182 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridView</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px( 360 )</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">Schema</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>schema</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">PropertyValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnPropertyValueChanged</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">ActionInvoked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnActionInvoked</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">ShowToolbar</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GroupHeaderTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">context</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Span</span> <span class="htmlAttributeName">Display</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Display</span><span class="enumValue">.Flex</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.AlignItems.Center</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is2</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Wrench</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>context.Group.Title<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">GroupHeaderTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LabelTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">context</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>context.Label<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LabelTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextEditorTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">context</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( context.GetValue&lt;string&gt;() )</span><span class="quot">&quot;</span>
+                   <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( ( string value ) =&gt; context.SetValue( value ) )</span><span class="quot">&quot;</span>
+                   <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TextEditorTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ActionTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">context</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Warning</span><span class="quot">&quot;</span>
+                <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span>
+                <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>context.Action.Title</span><span class="quot">&quot;</span>
+                <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>context.Invoke</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="atSign">&#64;</span>context.Action.Text
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ActionTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">HelpTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">context</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>About <span class="atSign">&#64;</span>context.Label<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Text</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>context.Description<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Text</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">HelpTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PropertyGridView</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>Current item:<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span> <span class="atSign">&#64;</span>displayName, <span class="atSign">&#64;</span>layoutMode, <span class="atSign">&#64;</span>opacity% opacity
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">string</span> displayName = <span class="string">&quot;Revenue&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> subtitle = <span class="string">&quot;Year-to-date&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">bool</span> highlighted = <span class="keyword">true</span>;
+
+    <span class="keyword">private</span> <span class="keyword">bool</span> visible = <span class="keyword">true</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> accent = <span class="string">&quot;Blue&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">int</span> opacity = <span class="number">100</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> layoutMode = <span class="string">&quot;Card&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">bool</span> locked;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> notes = <span class="string">&quot;Reviewed monthly.&quot;</span>;
+
+    <span class="keyword">private</span> PropertyGridSchema schema;
+
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> OnInitialized()
+    {
+        schema = BuildSchema();
+    }
+
+    <span class="keyword">private</span> PropertyGridSchema BuildSchema()
+        =&gt; <span class="keyword">new</span>(
+        [
+            <span class="keyword">new</span> PropertyGridGroupDefinition(
+                <span class="string">&quot;appearance&quot;</span>,
+                <span class="string">&quot;Custom appearance&quot;</span>,
+                [
+                    <span class="keyword">new</span> PropertyGridTextProperty( <span class="string">&quot;appearance.name&quot;</span>, <span class="string">&quot;Display name&quot;</span>, displayName )
+                    {
+                        Description = <span class="string">&quot;The name displayed to users.&quot;</span>,
+                        Immediate = <span class="keyword">true</span>,
+                        Action = <span class="keyword">new</span> PropertyGridAction( <span class="string">&quot;reset&quot;</span> )
+                        {
+                            Text = <span class="string">&quot;Reset&quot;</span>,
+                            Title = <span class="string">&quot;Reset display name&quot;</span>,
+                        },
+                    },
+                    <span class="keyword">new</span> PropertyGridBooleanProperty( <span class="string">&quot;appearance.highlighted&quot;</span>, <span class="string">&quot;Highlighted&quot;</span>, highlighted )
+                    {
+                        Description = <span class="string">&quot;Emphasizes the item in the rendered output.&quot;</span>,
+                    },
+                    <span class="keyword">new</span> PropertyGridTextProperty( <span class="string">&quot;appearance.subtitle&quot;</span>, <span class="string">&quot;Subtitle&quot;</span>, subtitle )
+                    {
+                        Description = <span class="string">&quot;The supporting text displayed below the name.&quot;</span>,
+                        Immediate = <span class="keyword">true</span>,
+                    },
+                    <span class="keyword">new</span> PropertyGridBooleanProperty( <span class="string">&quot;appearance.visible&quot;</span>, <span class="string">&quot;Visible&quot;</span>, visible )
+                    {
+                        Description = <span class="string">&quot;Controls whether the item is displayed.&quot;</span>,
+                    },
+                    <span class="keyword">new</span> PropertyGridColorProperty( <span class="string">&quot;appearance.accent&quot;</span>, <span class="string">&quot;Accent&quot;</span>, accent )
+                    {
+                        Description = <span class="string">&quot;The accent color used to emphasize the item.&quot;</span>,
+                    },
+                    <span class="keyword">new</span> PropertyGridNumericProperty&lt;<span class="keyword">int</span>&gt;( <span class="string">&quot;appearance.opacity&quot;</span>, <span class="string">&quot;Opacity&quot;</span>, opacity )
+                    {
+                        Description = <span class="string">&quot;The item opacity as a percentage.&quot;</span>,
+                        Min = <span class="number">0</span>,
+                        Max = <span class="number">100</span>,
+                    },
+                ] ),
+            <span class="keyword">new</span> PropertyGridGroupDefinition(
+                <span class="string">&quot;behavior&quot;</span>,
+                <span class="string">&quot;Custom behavior&quot;</span>,
+                [
+                    <span class="keyword">new</span> PropertyGridStringSelectProperty(
+                        <span class="string">&quot;behavior.layout&quot;</span>,
+                        <span class="string">&quot;Layout&quot;</span>,
+                        layoutMode,
+                        [
+                            <span class="keyword">new</span>( <span class="string">&quot;Card&quot;</span>, <span class="string">&quot;Card&quot;</span> ),
+                            <span class="keyword">new</span>( <span class="string">&quot;Compact&quot;</span>, <span class="string">&quot;Compact&quot;</span> ),
+                            <span class="keyword">new</span>( <span class="string">&quot;Expanded&quot;</span>, <span class="string">&quot;Expanded&quot;</span> ),
+                        ] )
+                    {
+                        Description = <span class="string">&quot;The layout used to present the item.&quot;</span>,
+                    },
+                    <span class="keyword">new</span> PropertyGridBooleanProperty( <span class="string">&quot;behavior.locked&quot;</span>, <span class="string">&quot;Locked&quot;</span>, locked )
+                    {
+                        Description = <span class="string">&quot;Prevents the item from being repositioned.&quot;</span>,
+                    },
+                    <span class="keyword">new</span> PropertyGridTextProperty( <span class="string">&quot;behavior.notes&quot;</span>, <span class="string">&quot;Notes&quot;</span>, notes )
+                    {
+                        Description = <span class="string">&quot;Additional information about the item.&quot;</span>,
+                        Immediate = <span class="keyword">true</span>,
+                    },
+                ] ),
+        ] );
+
+    <span class="keyword">private</span> <span class="keyword">void</span> OnPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )
+    {
+        <span class="keyword">switch</span> ( eventArgs.PropertyKey )
+        {
+            <span class="keyword">case</span> <span class="string">&quot;appearance.name&quot;</span>:
+                displayName = eventArgs.GetValue&lt;<span class="keyword">string</span>&gt;();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">&quot;appearance.subtitle&quot;</span>:
+                subtitle = eventArgs.GetValue&lt;<span class="keyword">string</span>&gt;();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">&quot;appearance.highlighted&quot;</span>:
+                highlighted = eventArgs.GetValue&lt;<span class="keyword">bool</span>&gt;();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">&quot;appearance.visible&quot;</span>:
+                visible = eventArgs.GetValue&lt;<span class="keyword">bool</span>&gt;();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">&quot;appearance.accent&quot;</span>:
+                accent = eventArgs.GetValue&lt;<span class="keyword">string</span>&gt;();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">&quot;appearance.opacity&quot;</span>:
+                opacity = eventArgs.GetValue&lt;<span class="keyword">int</span>&gt;();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">&quot;behavior.layout&quot;</span>:
+                layoutMode = eventArgs.GetValue&lt;<span class="keyword">string</span>&gt;();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">&quot;behavior.locked&quot;</span>:
+                locked = eventArgs.GetValue&lt;<span class="keyword">bool</span>&gt;();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">&quot;behavior.notes&quot;</span>:
+                notes = eventArgs.GetValue&lt;<span class="keyword">string</span>&gt;();
+                <span class="keyword">break</span>;
+        }
+
+        schema = BuildSchema();
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> OnActionInvoked( PropertyGridActionEventArgs eventArgs )
+    {
+        <span class="keyword">if</span> ( eventArgs.Action.Name != <span class="string">&quot;reset&quot;</span> )
+            <span class="keyword">return</span>;
+
+        displayName = <span class="string">&quot;Revenue&quot;</span>;
+        schema = BuildSchema();
+    }
+}
+</pre></div>
+</div>

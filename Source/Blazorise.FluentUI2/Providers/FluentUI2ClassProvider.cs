@@ -452,7 +452,7 @@ public class FluentUI2ClassProvider : ClassProvider
         {
             AddonType.Start => "fui-Input__contentBefore",
             AddonType.End => "fui-Input__contentAfter",
-            _ => null,
+            _ => "fui-Input__content",
         };
     }
 
@@ -625,6 +625,44 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string ContextMenuSubmenuTriggerDisabled( bool disabled ) => DropdownItemDisabled( disabled );
 
     public override string ContextMenuSubmenuBody() => "fui-ContextMenuSubmenuPopover";
+
+    #endregion
+
+    #region PropertyGrid
+
+    public override string PropertyGrid() => "fui-PropertyGrid";
+
+    public override string PropertyGridViewport() => "fui-PropertyGrid__viewport";
+
+    public override string PropertyGridToolbar() => "fui-PropertyGrid__toolbar";
+
+    public override string PropertyGridToolbarButton() => "fui-PropertyGrid__toolbarButton";
+
+    public override string PropertyGridToolbarSearch() => "fui-PropertyGrid__toolbarSearch";
+
+    public override string PropertyGridEmpty() => "fui-PropertyGrid__empty";
+
+    public override string PropertyGridHelp() => "fui-PropertyGrid__help";
+
+    public override string PropertyGridHelpTitle() => "fui-PropertyGrid__helpTitle";
+
+    public override string PropertyGridHelpDescription() => "fui-PropertyGrid__helpDescription";
+
+    public override string PropertyGridGroup() => "fui-PropertyGridGroup";
+
+    public override string PropertyGridGroupHeader() => "fui-PropertyGridGroup__header";
+
+    public override string PropertyGridGroupToggle() => "fui-PropertyGridGroup__toggle";
+
+    public override string PropertyGridGroupBody() => "fui-PropertyGridGroup__body";
+
+    public override string PropertyGridItem() => "fui-PropertyGridItem";
+
+    public override string PropertyGridItemSelected( bool selected ) => selected ? "fui-PropertyGridItem-selected" : null;
+
+    public override string PropertyGridItemLabel() => "fui-PropertyGridItem__label";
+
+    public override string PropertyGridItemBody() => "fui-PropertyGridItem__body";
 
     #endregion
 

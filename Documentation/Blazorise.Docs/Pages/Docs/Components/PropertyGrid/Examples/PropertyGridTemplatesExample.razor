@@ -1,0 +1,179 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<PropertyGridView Width="Width.Px( 360 )"
+                  Schema="@schema"
+                  PropertyValueChanged="@OnPropertyValueChanged"
+                  ActionInvoked="@OnActionInvoked"
+                  ShowToolbar="false">
+    <GroupHeaderTemplate Context="context">
+        <Span Display="Display.Flex" Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+            <Icon Name="IconName.Wrench" />
+            <Strong>@context.Group.Title</Strong>
+        </Span>
+    </GroupHeaderTemplate>
+    <LabelTemplate Context="context">
+        <Strong>@context.Label</Strong>
+    </LabelTemplate>
+    <TextEditorTemplate Context="context">
+        <TextInput Value="@( context.GetValue<string>() )"
+                   ValueChanged="@( ( string value ) => context.SetValue( value ) )"
+                   Size="Size.Small" />
+    </TextEditorTemplate>
+    <ActionTemplate Context="context">
+        <Button Color="Color.Warning"
+                Size="Size.Small"
+                Title="@context.Action.Title"
+                Clicked="@context.Invoke">
+            @context.Action.Text
+        </Button>
+    </ActionTemplate>
+    <HelpTemplate Context="context">
+        <Strong>About @context.Label</Strong>
+        <Text>@context.Description</Text>
+    </HelpTemplate>
+</PropertyGridView>
+
+<Paragraph Margin="Margin.Is3.FromTop">
+    <Strong>Current item:</Strong> @displayName, @layoutMode, @opacity% opacity
+</Paragraph>
+
+@code {
+    private string displayName = "Revenue";
+
+    private string subtitle = "Year-to-date";
+
+    private bool highlighted = true;
+
+    private bool visible = true;
+
+    private string accent = "Blue";
+
+    private int opacity = 100;
+
+    private string layoutMode = "Card";
+
+    private bool locked;
+
+    private string notes = "Reviewed monthly.";
+
+    private PropertyGridSchema schema;
+
+    protected override void OnInitialized()
+    {
+        schema = BuildSchema();
+    }
+
+    private PropertyGridSchema BuildSchema()
+        => new(
+        [
+            new PropertyGridGroupDefinition(
+                "appearance",
+                "Custom appearance",
+                [
+                    new PropertyGridTextProperty( "appearance.name", "Display name", displayName )
+                    {
+                        Description = "The name displayed to users.",
+                        Immediate = true,
+                        Action = new PropertyGridAction( "reset" )
+                        {
+                            Text = "Reset",
+                            Title = "Reset display name",
+                        },
+                    },
+                    new PropertyGridBooleanProperty( "appearance.highlighted", "Highlighted", highlighted )
+                    {
+                        Description = "Emphasizes the item in the rendered output.",
+                    },
+                    new PropertyGridTextProperty( "appearance.subtitle", "Subtitle", subtitle )
+                    {
+                        Description = "The supporting text displayed below the name.",
+                        Immediate = true,
+                    },
+                    new PropertyGridBooleanProperty( "appearance.visible", "Visible", visible )
+                    {
+                        Description = "Controls whether the item is displayed.",
+                    },
+                    new PropertyGridColorProperty( "appearance.accent", "Accent", accent )
+                    {
+                        Description = "The accent color used to emphasize the item.",
+                    },
+                    new PropertyGridNumericProperty<int>( "appearance.opacity", "Opacity", opacity )
+                    {
+                        Description = "The item opacity as a percentage.",
+                        Min = 0,
+                        Max = 100,
+                    },
+                ] ),
+            new PropertyGridGroupDefinition(
+                "behavior",
+                "Custom behavior",
+                [
+                    new PropertyGridStringSelectProperty(
+                        "behavior.layout",
+                        "Layout",
+                        layoutMode,
+                        [
+                            new( "Card", "Card" ),
+                            new( "Compact", "Compact" ),
+                            new( "Expanded", "Expanded" ),
+                        ] )
+                    {
+                        Description = "The layout used to present the item.",
+                    },
+                    new PropertyGridBooleanProperty( "behavior.locked", "Locked", locked )
+                    {
+                        Description = "Prevents the item from being repositioned.",
+                    },
+                    new PropertyGridTextProperty( "behavior.notes", "Notes", notes )
+                    {
+                        Description = "Additional information about the item.",
+                        Immediate = true,
+                    },
+                ] ),
+        ] );
+
+    private void OnPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )
+    {
+        switch ( eventArgs.PropertyKey )
+        {
+            case "appearance.name":
+                displayName = eventArgs.GetValue<string>();
+                break;
+            case "appearance.subtitle":
+                subtitle = eventArgs.GetValue<string>();
+                break;
+            case "appearance.highlighted":
+                highlighted = eventArgs.GetValue<bool>();
+                break;
+            case "appearance.visible":
+                visible = eventArgs.GetValue<bool>();
+                break;
+            case "appearance.accent":
+                accent = eventArgs.GetValue<string>();
+                break;
+            case "appearance.opacity":
+                opacity = eventArgs.GetValue<int>();
+                break;
+            case "behavior.layout":
+                layoutMode = eventArgs.GetValue<string>();
+                break;
+            case "behavior.locked":
+                locked = eventArgs.GetValue<bool>();
+                break;
+            case "behavior.notes":
+                notes = eventArgs.GetValue<string>();
+                break;
+        }
+
+        schema = BuildSchema();
+    }
+
+    private void OnActionInvoked( PropertyGridActionEventArgs eventArgs )
+    {
+        if ( eventArgs.Action.Name != "reset" )
+            return;
+
+        displayName = "Revenue";
+        schema = BuildSchema();
+    }
+}

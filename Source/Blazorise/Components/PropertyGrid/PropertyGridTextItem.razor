@@ -1,0 +1,22 @@
+@namespace Blazorise
+@inherits BasePropertyGridEditorItem
+
+<PropertyGridItem Label="@Label"
+                  LabelContent="@LabelContent"
+                  Selectable="@Selectable"
+                  Selected="@Selected"
+                  SelectedChanged="@SelectedChanged"
+                  AriaDescribedBy="@AriaDescribedBy"
+                  ElementId="@ElementId"
+                  Size="@Size"
+                  Class="@ClassNames"
+                  Style="@StyleNames"
+                  ActionContent="@ActionContent"
+                  data-property-grid-editor="text"
+                  @attributes="@Attributes">
+    <TextInput Value="@DisplayValue"
+               ValueChanged="@ValueChanged"
+               ReadOnly="@ReadOnly"
+               Immediate="@EffectiveImmediate"
+               Size="@Size" />
+</PropertyGridItem>

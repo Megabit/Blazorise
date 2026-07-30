@@ -628,6 +628,44 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #endregion
 
+    #region PropertyGrid
+
+    public override string PropertyGrid() => "property-grid";
+
+    public override string PropertyGridViewport() => "property-grid-viewport";
+
+    public override string PropertyGridToolbar() => "property-grid-toolbar";
+
+    public override string PropertyGridToolbarButton() => "property-grid-toolbar-button";
+
+    public override string PropertyGridToolbarSearch() => "property-grid-toolbar-search";
+
+    public override string PropertyGridEmpty() => "property-grid-empty";
+
+    public override string PropertyGridHelp() => "property-grid-help";
+
+    public override string PropertyGridHelpTitle() => "property-grid-help-title";
+
+    public override string PropertyGridHelpDescription() => "property-grid-help-description";
+
+    public override string PropertyGridGroup() => "property-grid-group";
+
+    public override string PropertyGridGroupHeader() => "property-grid-group-header";
+
+    public override string PropertyGridGroupToggle() => "property-grid-group-toggle";
+
+    public override string PropertyGridGroupBody() => "property-grid-group-body";
+
+    public override string PropertyGridItem() => "property-grid-item";
+
+    public override string PropertyGridItemSelected( bool selected ) => selected ? "property-grid-item-selected" : null;
+
+    public override string PropertyGridItemLabel() => "property-grid-item-label";
+
+    public override string PropertyGridItemBody() => "property-grid-item-body";
+
+    #endregion
+
     #region Tabs
 
     public override string Tabs( bool pills ) => pills ? "nav nav-pills" : "nav nav-tabs";

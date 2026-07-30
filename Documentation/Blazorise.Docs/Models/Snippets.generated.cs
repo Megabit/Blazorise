@@ -4286,6 +4286,521 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string PropertyGridBasicExample = @"<PropertyGrid Width=""Width.Px( 360 )"">
+    <Toolbar>
+        <PropertyGridToolbar>
+            <PropertyGridToolbarButton Icon=""IconName.Clear""
+                                       Title=""Clear search""
+                                       Disabled=""@( string.IsNullOrWhiteSpace( searchText ) )""
+                                       Clicked=""@ClearSearch"" />
+            <PropertyGridToolbarSearch @bind-SearchText=""@searchText"" />
+        </PropertyGridToolbar>
+    </Toolbar>
+    <ChildContent>
+        <PropertyGridGroup Title=""Appearance"">
+            @if ( MatchesSearch( ""Title"" ) )
+            {
+                <PropertyGridTextItem Label=""Title"" @bind-Value=""@title"">
+                    <ActionContent>
+                        <Button Color=""Color.Light""
+                                Size=""Size.Small""
+                                Clicked=""@ResetTitle""
+                                title=""Reset title""
+                                aria-label=""Reset title"">
+                            <Icon Name=""IconName.Undo"" />
+                        </Button>
+                    </ActionContent>
+                </PropertyGridTextItem>
+            }
+            @if ( MatchesSearch( ""Visible"" ) )
+            {
+                <PropertyGridBooleanItem Label=""Visible"" @bind-Value=""@visible"" TrueText=""Visible"" FalseText=""Hidden"" />
+            }
+            @if ( MatchesSearch( ""Accent"" ) )
+            {
+                <PropertyGridColorItem Label=""Accent"" @bind-Value=""@accent"" />
+            }
+        </PropertyGridGroup>
+        <PropertyGridGroup Title=""Typography"">
+            @if ( MatchesSearch( ""Font family"" ) )
+            {
+                <PropertyGridStringSelectItem Label=""Font family"" @bind-Value=""@fontFamily"" Options=""@fontFamilyOptions"" />
+            }
+            @if ( MatchesSearch( ""Font size"" ) )
+            {
+                <PropertyGridNumericItem TValue=""int"" Label=""Font size"" @bind-Value=""@fontSize"" Min=""8"" Max=""72"" />
+            }
+            @if ( MatchesSearch( ""Bold"" ) )
+            {
+                <PropertyGridBooleanItem Label=""Bold"" @bind-Value=""@bold"" />
+            }
+            @if ( MatchesSearch( ""Italic"" ) )
+            {
+                <PropertyGridBooleanItem Label=""Italic"" @bind-Value=""@italic"" />
+            }
+        </PropertyGridGroup>
+        <PropertyGridGroup Title=""Layout"">
+            @if ( MatchesSearch( ""Width"" ) )
+            {
+                <PropertyGridNumericItem TValue=""int"" Label=""Width"" @bind-Value=""@width"" Min=""100"" Max=""1200"" Step=""10"" />
+            }
+            @if ( MatchesSearch( ""Height"" ) )
+            {
+                <PropertyGridNumericItem TValue=""int"" Label=""Height"" @bind-Value=""@height"" Min=""100"" Max=""1200"" Step=""10"" />
+            }
+            @if ( MatchesSearch( ""Padding"" ) )
+            {
+                <PropertyGridNumericItem TValue=""int"" Label=""Padding"" @bind-Value=""@padding"" Min=""0"" Max=""64"" />
+            }
+            @if ( MatchesSearch( ""Alignment"" ) )
+            {
+                <PropertyGridStringSelectItem Label=""Alignment"" @bind-Value=""@alignment"" Options=""@alignmentOptions"" />
+            }
+        </PropertyGridGroup>
+    </ChildContent>
+    <Help>
+        <PropertyGridHelp Title=""Manual composition""
+                          Description=""Toolbar, editor, filtering, and help behavior can be composed directly."" />
+    </Help>
+</PropertyGrid>
+
+<Paragraph Margin=""Margin.Is3.FromTop"">
+    <Strong>Current values:</Strong>
+    @title, @width x @height px, @fontFamily @fontSize px, @alignment, @accent, @(visible ? ""visible"" : ""hidden"")
+</Paragraph>
+
+@code {
+    private static readonly IReadOnlyList<PropertyGridSelectOption<string>> alignmentOptions =
+    [
+        new( ""Left"", ""Left"" ),
+        new( ""Center"", ""Center"" ),
+        new( ""Right"", ""Right"" ),
+    ];
+
+    private static readonly IReadOnlyList<PropertyGridSelectOption<string>> fontFamilyOptions =
+    [
+        new( ""Arial"", ""Arial"" ),
+        new( ""Georgia"", ""Georgia"" ),
+        new( ""Inter"", ""Inter"" ),
+    ];
+
+    private string title = ""Quarterly summary"";
+
+    private bool visible = true;
+
+    private string accent = ""Blue"";
+
+    private string fontFamily = ""Arial"";
+
+    private int fontSize = 16;
+
+    private bool bold;
+
+    private bool italic;
+
+    private int width = 640;
+
+    private int height = 360;
+
+    private int padding = 16;
+
+    private string alignment = ""Left"";
+
+    private string searchText;
+
+    private bool MatchesSearch( string label )
+        => string.IsNullOrWhiteSpace( searchText )
+            || label.Contains( searchText, StringComparison.CurrentCultureIgnoreCase );
+
+    private void ClearSearch()
+        => searchText = string.Empty;
+
+    private void ResetTitle()
+        => title = ""Quarterly summary"";
+}";
+
+        public const string PropertyGridSchemaExample = @"<PropertyGridView Width=""Width.Px( 360 )""
+                  Schema=""@schema""
+                  PropertyValueChanged=""@OnPropertyValueChanged""
+                  ActionInvoked=""@OnActionInvoked""
+                  @bind-SelectedProperty=""@selectedProperty""
+                  @bind-ViewMode=""@viewMode"" />
+
+<Paragraph Margin=""Margin.Is3.FromTop"">
+    <Strong>Status:</Strong> @status
+    @if ( selectedProperty is not null )
+    {
+        <Span> Selected: @selectedProperty.Label.</Span>
+    }
+</Paragraph>
+
+@code {
+    private string documentName = ""Quarterly report"";
+
+    private string documentDescription = ""Quarterly financial performance."";
+
+    private string category = ""Finance"";
+
+    private bool enabled = true;
+
+    private int pageWidth = 794;
+
+    private int pageHeight = 1123;
+
+    private string orientation = ""Portrait"";
+
+    private int copies = 1;
+
+    private string format = ""PDF"";
+
+    private string accent = ""Blue"";
+
+    private bool includePageNumbers = true;
+
+    private string status = ""Change a property or invoke its action."";
+
+    private PropertyGridViewMode viewMode = PropertyGridViewMode.Categorized;
+
+    private PropertyGridSchema schema;
+
+    private PropertyGridProperty selectedProperty;
+
+    protected override void OnInitialized()
+    {
+        schema = BuildSchema();
+    }
+
+    private PropertyGridSchema BuildSchema()
+        => new(
+        [
+            new PropertyGridGroupDefinition(
+                ""document"",
+                ""Document"",
+                [
+                    new PropertyGridTextProperty( ""document.name"", ""Name"", documentName )
+                    {
+                        Description = ""The display name used for the generated document."",
+                        Immediate = true,
+                        Action = new PropertyGridAction( ""rename"" )
+                        {
+                            Icon = IconName.Edit,
+                            Title = ""Rename document"",
+                        },
+                    },
+                    new PropertyGridBooleanProperty( ""document.enabled"", ""Enabled"", enabled )
+                    {
+                        Description = ""Controls whether the document is included in output."",
+                        TrueText = ""Enabled"",
+                        FalseText = ""Disabled"",
+                    },
+                    new PropertyGridTextProperty( ""document.description"", ""Description"", documentDescription )
+                    {
+                        Description = ""A short summary of the document contents."",
+                        Immediate = true,
+                    },
+                    new PropertyGridStringSelectProperty(
+                        ""document.category"",
+                        ""Category"",
+                        category,
+                        [
+                            new( ""Finance"", ""Finance"" ),
+                            new( ""Operations"", ""Operations"" ),
+                            new( ""Sales"", ""Sales"" ),
+                        ] )
+                    {
+                        Description = ""The category used to organize the document."",
+                    },
+                ] ),
+            new PropertyGridGroupDefinition(
+                ""layout"",
+                ""Layout"",
+                [
+                    new PropertyGridNumericProperty<int>( ""layout.width"", ""Page width"", pageWidth )
+                    {
+                        Description = ""The page width in pixels."",
+                        Min = 100,
+                        Max = 2000,
+                    },
+                    new PropertyGridNumericProperty<int>( ""layout.height"", ""Page height"", pageHeight )
+                    {
+                        Description = ""The page height in pixels."",
+                        Min = 100,
+                        Max = 2000,
+                    },
+                    new PropertyGridStringSelectProperty(
+                        ""layout.orientation"",
+                        ""Orientation"",
+                        orientation,
+                        [
+                            new( ""Portrait"", ""Portrait"" ),
+                            new( ""Landscape"", ""Landscape"" ),
+                        ] )
+                    {
+                        Description = ""The page orientation used during export."",
+                    },
+                ] ),
+            new PropertyGridGroupDefinition(
+                ""output"",
+                ""Output"",
+                [
+                    new PropertyGridStringSelectProperty(
+                        ""output.format"",
+                        ""Format"",
+                        format,
+                        [
+                            new( ""PDF"", ""PDF"" ),
+                            new( ""HTML"", ""HTML"" ),
+                            new( ""CSV"", ""CSV"" ),
+                        ] )
+                    {
+                        Description = ""The file format used when the document is exported."",
+                    },
+                    new PropertyGridNumericProperty<int>( ""output.copies"", ""Copies"", copies )
+                    {
+                        Description = ""The number of output copies to create."",
+                        Min = 1,
+                        Max = 10,
+                    },
+                    new PropertyGridColorProperty( ""output.accent"", ""Accent"", accent )
+                    {
+                        Description = ""The accent color used by the document theme."",
+                    },
+                    new PropertyGridBooleanProperty( ""output.pageNumbers"", ""Page numbers"", includePageNumbers )
+                    {
+                        Description = ""Controls whether page numbers are included in output."",
+                        TrueText = ""Included"",
+                        FalseText = ""Hidden"",
+                    },
+                ] ),
+        ] );
+
+    private void OnPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )
+    {
+        switch ( eventArgs.PropertyKey )
+        {
+            case ""document.name"":
+                documentName = eventArgs.GetValue<string>();
+                break;
+            case ""document.enabled"":
+                enabled = eventArgs.GetValue<bool>();
+                break;
+            case ""document.description"":
+                documentDescription = eventArgs.GetValue<string>();
+                break;
+            case ""document.category"":
+                category = eventArgs.GetValue<string>();
+                break;
+            case ""layout.width"":
+                pageWidth = eventArgs.GetValue<int>();
+                break;
+            case ""layout.height"":
+                pageHeight = eventArgs.GetValue<int>();
+                break;
+            case ""layout.orientation"":
+                orientation = eventArgs.GetValue<string>();
+                break;
+            case ""output.format"":
+                format = eventArgs.GetValue<string>();
+                break;
+            case ""output.copies"":
+                copies = eventArgs.GetValue<int>();
+                break;
+            case ""output.accent"":
+                accent = eventArgs.GetValue<string>();
+                break;
+            case ""output.pageNumbers"":
+                includePageNumbers = eventArgs.GetValue<bool>();
+                break;
+        }
+
+        status = $""{eventArgs.Property.Label} changed."";
+        schema = BuildSchema();
+    }
+
+    private void OnActionInvoked( PropertyGridActionEventArgs eventArgs )
+    {
+        status = $""{eventArgs.Action.Name} invoked for {eventArgs.Property.Label}."";
+    }
+}";
+
+        public const string PropertyGridTemplatesExample = @"<PropertyGridView Width=""Width.Px( 360 )""
+                  Schema=""@schema""
+                  PropertyValueChanged=""@OnPropertyValueChanged""
+                  ActionInvoked=""@OnActionInvoked""
+                  ShowToolbar=""false"">
+    <GroupHeaderTemplate Context=""context"">
+        <Span Display=""Display.Flex"" Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+            <Icon Name=""IconName.Wrench"" />
+            <Strong>@context.Group.Title</Strong>
+        </Span>
+    </GroupHeaderTemplate>
+    <LabelTemplate Context=""context"">
+        <Strong>@context.Label</Strong>
+    </LabelTemplate>
+    <TextEditorTemplate Context=""context"">
+        <TextInput Value=""@( context.GetValue<string>() )""
+                   ValueChanged=""@( ( string value ) => context.SetValue( value ) )""
+                   Size=""Size.Small"" />
+    </TextEditorTemplate>
+    <ActionTemplate Context=""context"">
+        <Button Color=""Color.Warning""
+                Size=""Size.Small""
+                Title=""@context.Action.Title""
+                Clicked=""@context.Invoke"">
+            @context.Action.Text
+        </Button>
+    </ActionTemplate>
+    <HelpTemplate Context=""context"">
+        <Strong>About @context.Label</Strong>
+        <Text>@context.Description</Text>
+    </HelpTemplate>
+</PropertyGridView>
+
+<Paragraph Margin=""Margin.Is3.FromTop"">
+    <Strong>Current item:</Strong> @displayName, @layoutMode, @opacity% opacity
+</Paragraph>
+
+@code {
+    private string displayName = ""Revenue"";
+
+    private string subtitle = ""Year-to-date"";
+
+    private bool highlighted = true;
+
+    private bool visible = true;
+
+    private string accent = ""Blue"";
+
+    private int opacity = 100;
+
+    private string layoutMode = ""Card"";
+
+    private bool locked;
+
+    private string notes = ""Reviewed monthly."";
+
+    private PropertyGridSchema schema;
+
+    protected override void OnInitialized()
+    {
+        schema = BuildSchema();
+    }
+
+    private PropertyGridSchema BuildSchema()
+        => new(
+        [
+            new PropertyGridGroupDefinition(
+                ""appearance"",
+                ""Custom appearance"",
+                [
+                    new PropertyGridTextProperty( ""appearance.name"", ""Display name"", displayName )
+                    {
+                        Description = ""The name displayed to users."",
+                        Immediate = true,
+                        Action = new PropertyGridAction( ""reset"" )
+                        {
+                            Text = ""Reset"",
+                            Title = ""Reset display name"",
+                        },
+                    },
+                    new PropertyGridBooleanProperty( ""appearance.highlighted"", ""Highlighted"", highlighted )
+                    {
+                        Description = ""Emphasizes the item in the rendered output."",
+                    },
+                    new PropertyGridTextProperty( ""appearance.subtitle"", ""Subtitle"", subtitle )
+                    {
+                        Description = ""The supporting text displayed below the name."",
+                        Immediate = true,
+                    },
+                    new PropertyGridBooleanProperty( ""appearance.visible"", ""Visible"", visible )
+                    {
+                        Description = ""Controls whether the item is displayed."",
+                    },
+                    new PropertyGridColorProperty( ""appearance.accent"", ""Accent"", accent )
+                    {
+                        Description = ""The accent color used to emphasize the item."",
+                    },
+                    new PropertyGridNumericProperty<int>( ""appearance.opacity"", ""Opacity"", opacity )
+                    {
+                        Description = ""The item opacity as a percentage."",
+                        Min = 0,
+                        Max = 100,
+                    },
+                ] ),
+            new PropertyGridGroupDefinition(
+                ""behavior"",
+                ""Custom behavior"",
+                [
+                    new PropertyGridStringSelectProperty(
+                        ""behavior.layout"",
+                        ""Layout"",
+                        layoutMode,
+                        [
+                            new( ""Card"", ""Card"" ),
+                            new( ""Compact"", ""Compact"" ),
+                            new( ""Expanded"", ""Expanded"" ),
+                        ] )
+                    {
+                        Description = ""The layout used to present the item."",
+                    },
+                    new PropertyGridBooleanProperty( ""behavior.locked"", ""Locked"", locked )
+                    {
+                        Description = ""Prevents the item from being repositioned."",
+                    },
+                    new PropertyGridTextProperty( ""behavior.notes"", ""Notes"", notes )
+                    {
+                        Description = ""Additional information about the item."",
+                        Immediate = true,
+                    },
+                ] ),
+        ] );
+
+    private void OnPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )
+    {
+        switch ( eventArgs.PropertyKey )
+        {
+            case ""appearance.name"":
+                displayName = eventArgs.GetValue<string>();
+                break;
+            case ""appearance.subtitle"":
+                subtitle = eventArgs.GetValue<string>();
+                break;
+            case ""appearance.highlighted"":
+                highlighted = eventArgs.GetValue<bool>();
+                break;
+            case ""appearance.visible"":
+                visible = eventArgs.GetValue<bool>();
+                break;
+            case ""appearance.accent"":
+                accent = eventArgs.GetValue<string>();
+                break;
+            case ""appearance.opacity"":
+                opacity = eventArgs.GetValue<int>();
+                break;
+            case ""behavior.layout"":
+                layoutMode = eventArgs.GetValue<string>();
+                break;
+            case ""behavior.locked"":
+                locked = eventArgs.GetValue<bool>();
+                break;
+            case ""behavior.notes"":
+                notes = eventArgs.GetValue<string>();
+                break;
+        }
+
+        schema = BuildSchema();
+    }
+
+    private void OnActionInvoked( PropertyGridActionEventArgs eventArgs )
+    {
+        if ( eventArgs.Action.Name != ""reset"" )
+            return;
+
+        displayName = ""Revenue"";
+        schema = BuildSchema();
+    }
+}";
+
         public const string BasicRadioGroupExample = @"<RadioGroup TValue=""string"" Name=""colors"">
     <Radio Value=""@(""red"")"">Red</Radio>
     <Radio Value=""@(""green"")"">Green</Radio>

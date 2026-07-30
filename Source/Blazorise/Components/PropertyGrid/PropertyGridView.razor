@@ -1,0 +1,187 @@
+@namespace Blazorise
+@inherits BaseComponent
+@using System.Collections.Generic
+@using System.Threading.Tasks
+
+@{
+    IReadOnlyList<PropertyGridGroupDefinition> renderedGroups = Schema?.GetRenderedGroups( ViewMode, SearchText ) ?? [];
+    bool hasSchemaContent = ( Schema?.GetRenderedGroups( ViewMode ).Count ?? 0 ) > 0;
+    bool hasContent = hasSchemaContent || ChildContent is not null;
+    PropertyGridProperty selectedProperty = GetSelectedProperty();
+    bool showHelp = ShowHelp && selectedProperty is not null;
+}
+
+@if ( hasContent )
+{
+    <PropertyGrid ElementId="@ElementId"
+                  Class="@ClassNames"
+                  Style="@StyleNames"
+                  AriaLabel="@AriaLabel"
+                  @attributes="@Attributes">
+        <Toolbar>
+        @if ( ShowToolbar
+            && hasSchemaContent
+            && ( ToolbarTemplate is not null || ShowViewModeButtons || ShowSearch ) )
+        {
+            PropertyGridToolbarContext toolbarContext = ToolbarContext;
+
+            @if ( ToolbarTemplate is not null )
+            {
+                @ToolbarTemplate( toolbarContext )
+            }
+            else
+            {
+                PropertyGridViewModeContext categorizedContext = toolbarContext.Categorized;
+                PropertyGridViewModeContext alphabeticalContext = toolbarContext.Alphabetical;
+
+                <PropertyGridToolbar>
+                    @if ( ShowViewModeButtons )
+                    {
+                        <Buttons Role="ButtonsRole.Addons" Size="Size.Small">
+                            @if ( CategorizedButtonTemplate is not null )
+                            {
+                                @CategorizedButtonTemplate( categorizedContext )
+                            }
+                            else
+                            {
+                                <PropertyGridToolbarButton Icon="@categorizedContext.Icon"
+                                                           Active="@categorizedContext.Active"
+                                                           Clicked="@categorizedContext.Activate"
+                                                           Title="@categorizedContext.Title" />
+                            }
+
+                            @if ( AlphabeticalButtonTemplate is not null )
+                            {
+                                @AlphabeticalButtonTemplate( alphabeticalContext )
+                            }
+                            else
+                            {
+                                <PropertyGridToolbarButton Icon="@alphabeticalContext.Icon"
+                                                           Active="@alphabeticalContext.Active"
+                                                           Clicked="@alphabeticalContext.Activate"
+                                                           Title="@alphabeticalContext.Title" />
+                            }
+                        </Buttons>
+                    }
+                    @if ( ShowSearch )
+                    {
+                        @if ( SearchTemplate is not null )
+                        {
+                            @SearchTemplate( toolbarContext.Search )
+                        }
+                        else
+                        {
+                            <PropertyGridToolbarSearch SearchText="@SearchText"
+                                                       SearchTextChanged="@ChangeSearchTextAsync"
+                                                       Placeholder="@SearchPlaceholder"
+                                                       Debounce="@SearchDebounce"
+                                                       DebounceInterval="@SearchDebounceInterval" />
+                        }
+                    }
+                </PropertyGridToolbar>
+            }
+        }
+        </Toolbar>
+
+        <ChildContent>
+            @if ( renderedGroups.Count == 0 && !string.IsNullOrWhiteSpace( SearchText ) )
+            {
+                @if ( NoResultsTemplate is not null )
+                {
+                    @NoResultsTemplate
+                }
+                else
+                {
+                    <div class="@EmptyClassNames" role="status">@NoResultsText</div>
+                }
+            }
+            else
+            {
+                @foreach ( PropertyGridGroupDefinition group in renderedGroups )
+                {
+                    RenderFragment<PropertyGridGroupContext> groupTemplate = group.GroupTemplate ?? GroupTemplate;
+
+                    @if ( groupTemplate is not null )
+                    {
+                        @groupTemplate( new PropertyGridGroupContext( this, group ) )
+                    }
+                    else
+                    {
+                        <PropertyGridGroup @key="@group.Key"
+                                           Title="@group.Title"
+                                           Header="@GetGroupHeader( group )"
+                                           Class="@group.Class"
+                                           Style="@group.Style"
+                                           Expandable="@(!string.IsNullOrWhiteSpace( group.Title ))"
+                                           Expanded="@IsGroupExpanded( group )"
+                                           ExpandedChanged="@( ( bool expanded ) => ChangeGroupExpandedAsync( group, expanded ) )">
+                            @foreach ( PropertyGridProperty property in group.VisibleProperties )
+                            {
+                                bool selected = IsPropertySelected( property, selectedProperty );
+                                string ariaDescribedBy = selected && showHelp ? HelpElementId : null;
+                                RenderFragment<PropertyGridItemContext> itemTemplate = property.ItemTemplate ?? ItemTemplate;
+
+                                @if ( itemTemplate is not null )
+                                {
+                                    @itemTemplate( new PropertyGridItemContext( this, property ) )
+                                }
+                                else
+                                {
+                                    RenderFragment<PropertyGridEditorContext> editorTemplate = GetEditorTemplate( property );
+
+                                    @if ( editorTemplate is not null )
+                                    {
+                                        <PropertyGridItem @key="@property.Key"
+                                                          Label="@property.Label"
+                                                          LabelContent="@GetLabelContent( property )"
+                                                          Size="@property.Size"
+                                                          Class="@property.Class"
+                                                          Style="@property.Style"
+                                                          Selectable
+                                                          Selected="@selected"
+                                                          SelectedChanged="@( ( bool value ) => value ? SelectPropertyAsync( property ) : Task.CompletedTask )"
+                                                          AriaDescribedBy="@ariaDescribedBy"
+                                                          ActionContent="@GetActionContent( property )"
+                                                          @attributes="@property.Attributes">
+                                            @editorTemplate( new PropertyGridEditorContext( this, property ) )
+                                        </PropertyGridItem>
+                                    }
+                                    else
+                                    {
+                                        <DynamicComponent @key="@property.Key"
+                                                          Type="@property.AtomicComponentType"
+                                                          Parameters="@GetAtomicComponentParameters( property, selected, ariaDescribedBy )" />
+                                    }
+                                }
+                            }
+                        </PropertyGridGroup>
+                    }
+                }
+            }
+
+            @ChildContent
+        </ChildContent>
+
+        <Help>
+            @if ( showHelp )
+            {
+                @if ( HelpTemplate is not null )
+                {
+                    <PropertyGridHelp ElementId="@HelpElementId">
+                        @HelpTemplate( new PropertyGridHelpContext( selectedProperty ) )
+                    </PropertyGridHelp>
+                }
+                else
+                {
+                    <PropertyGridHelp ElementId="@HelpElementId"
+                                      Title="@selectedProperty.Label"
+                                      Description="@selectedProperty.Description" />
+                }
+            }
+        </Help>
+    </PropertyGrid>
+}
+else
+{
+    @EmptyTemplate
+}
