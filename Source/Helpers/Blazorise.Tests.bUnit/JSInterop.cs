@@ -83,6 +83,7 @@ public static class JSInterop
     public static BunitJSInterop AddBlazoriseDatePicker( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );
+        AddBlazoriseDocumentObserver( jsInterop );
 
         var module = jsInterop.SetupModule( new JSDatePickerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
@@ -113,6 +114,7 @@ public static class JSInterop
     public static BunitJSInterop AddBlazoriseTimePicker( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );
+        AddBlazoriseDocumentObserver( jsInterop );
 
         var module = jsInterop.SetupModule( new JSTimePickerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();

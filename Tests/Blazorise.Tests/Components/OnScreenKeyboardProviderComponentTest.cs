@@ -365,6 +365,7 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
         } ) );
         JSInterop.AddBlazoriseTextInput();
         JSInterop.AddBlazoriseNumericInput();
+        JSInterop.AddBlazoriseDocumentObserver();
     }
 
     [Fact]

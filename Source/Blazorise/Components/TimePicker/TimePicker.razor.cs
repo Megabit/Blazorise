@@ -246,9 +246,14 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     }
 
     /// <inheritdoc/>
-    protected override async Task OnChangeHandler( ChangeEventArgs eventArgs )
+    protected override Task OnChangeHandler( ChangeEventArgs eventArgs )
     {
-        inputText = eventArgs?.Value?.ToString();
+        return ProcessInputTextAsync( eventArgs?.Value?.ToString(), formatParsedValue: true );
+    }
+
+    private async Task ProcessInputTextAsync( string value, bool formatParsedValue )
+    {
+        inputText = value;
 
         if ( string.IsNullOrWhiteSpace( inputText ) )
         {
@@ -264,7 +269,10 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
             await CurrentValueHandler( normalizedValue );
 
-            inputText = FormatTime( selectedTime );
+            if ( formatParsedValue )
+            {
+                inputText = FormatTime( selectedTime );
+            }
         }
         else if ( ParentValidation is not null )
         {
@@ -398,8 +406,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// <inheritdoc/>
     protected override async Task OnScreenKeyboardValueChanged( string value )
     {
-        inputText = value;
-        await OnChangeHandler( new ChangeEventArgs { Value = inputText } );
+        await ProcessInputTextAsync( value, formatParsedValue: false );
+        await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>

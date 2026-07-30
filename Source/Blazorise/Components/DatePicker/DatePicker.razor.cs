@@ -325,10 +325,13 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     }
 
     /// <inheritdoc/>
-    protected override async Task OnChangeHandler( ChangeEventArgs eventArgs )
+    protected override Task OnChangeHandler( ChangeEventArgs eventArgs )
     {
-        string value = eventArgs?.Value?.ToString();
+        return ProcessInputTextAsync( eventArgs?.Value?.ToString(), formatParsedValue: true );
+    }
 
+    private async Task ProcessInputTextAsync( string value, bool formatParsedValue )
+    {
         inputText = value;
 
         if ( string.IsNullOrWhiteSpace( inputText ) )
@@ -344,7 +347,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         if ( TryNormalizeInputValue( inputText, out string normalizedValue ) )
         {
             await CurrentValueHandler( normalizedValue );
-            SynchronizeStateFromValue( resetVisibleMonth: true );
+            SynchronizeStateFromValue( resetVisibleMonth: true, updateInputText: formatParsedValue );
             await FinishMaskedEditingAsync();
         }
         else if ( ParentValidation is not null )
@@ -533,8 +536,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// <inheritdoc/>
     protected override async Task OnScreenKeyboardValueChanged( string value )
     {
-        inputText = value;
-        await OnChangeHandler( new ChangeEventArgs { Value = inputText } );
+        await ProcessInputTextAsync( value, formatParsedValue: false );
+        await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
@@ -633,9 +636,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         }
     }
 
-    private void SynchronizeStateFromValue( bool resetVisibleMonth )
+    private void SynchronizeStateFromValue( bool resetVisibleMonth, bool updateInputText = true )
     {
-        inputText = FormatValueAsString( Value );
+        if ( updateInputText )
+        {
+            inputText = FormatValueAsString( Value );
+        }
 
         IReadOnlyList<DateTime> selectedDates = GetSelectedDates();
         DateTime navigationDate = selectedDates.FirstOrDefault();
@@ -1816,8 +1822,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         && SelectionMode == DateInputSelectionMode.Single
         && !ShowWeekNumbers
         && !HasItems( DisabledDates )
-        && !HasItems( EnabledDates )
-        && !HasItems( DisabledDays );
+        && EnabledDates is null
+        && DisabledDays is null;
 
     private static bool HasItems( IEnumerable items )
     {

@@ -222,8 +222,10 @@ public class DatePickerComponentTest : BunitContext
         await input.ChangeAsync( new Microsoft.AspNetCore.Components.ChangeEventArgs { Value = "27.07.2026" } );
 
         // validate
-        var invocation = JSInterop.VerifyInvoke( "initialize", 1 );
-        InputMaskJSOptions options = Assert.IsType<InputMaskJSOptions>( invocation.Arguments[3] );
+        JSRuntimeInvocation inputMaskInitialization = Assert.Single(
+            JSInterop.Invocations["initialize"],
+            invocation => invocation.Arguments.Count > 3 && invocation.Arguments[3] is InputMaskJSOptions );
+        InputMaskJSOptions options = Assert.IsType<InputMaskJSOptions>( inputMaskInitialization.Arguments[3] );
 
         Assert.Equal( "datetime", options.Alias );
         Assert.Equal( "dd.mm.yyyy", options.InputFormat );
