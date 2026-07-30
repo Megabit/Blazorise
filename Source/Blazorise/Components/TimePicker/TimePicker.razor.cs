@@ -16,22 +16,17 @@ using Microsoft.JSInterop;
 namespace Blazorise;
 
 /// <summary>
-/// Identifies the active field in the native time selection menu.
-/// </summary>
-internal enum TimePickerPart
-{
-    Hour,
-    Minute,
-    Second,
-    Meridiem,
-}
-
-/// <summary>
 /// An editor that displays a time value and allows a user to edit the value.
 /// </summary>
 /// <typeparam name="TValue">Data-type to be binded by the <see cref="TimePicker{TValue}"/> property.</typeparam>
 public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasses, TimePickerStyles>, IAsyncDisposable, ITimePicker
 {
+    #region Events
+
+    internal event Action MenuStateChanged;
+
+    #endregion
+
     #region Members
 
     /// <summary>
@@ -123,9 +118,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
     private bool? mobileDevice;
 
-    private IAsyncDisposable outsidePointerSubscription;
+    private PickerObserverCoordinator observerCoordinator;
 
-    private IAsyncDisposable inputKeyDownSubscription;
+    private TimePickerMenuContext<TValue> menuContext;
 
     #endregion
 
@@ -202,6 +197,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
             await DisposeOutsidePointerSubscriptionAsync();
         }
 
+        NotifyMenuStateChanged();
         stateInitialized = true;
     }
 
@@ -226,8 +222,10 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     {
         if ( disposing )
         {
-            await DisposeOutsidePointerSubscriptionAsync();
-            await DisposeInputKeyDownSubscriptionAsync();
+            if ( observerCoordinator is not null )
+            {
+                await observerCoordinator.DisposeAsync();
+            }
             LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         }
 
@@ -259,6 +257,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         {
             await CurrentValueHandler( null );
             selectedTime = GetDefaultTime();
+            NotifyMenuStateChanged();
             return;
         }
 
@@ -278,6 +277,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         {
             await ParentValidation.NotifyInputChanged<TValue>( default );
         }
+
+        NotifyMenuStateChanged();
     }
 
     /// <summary>
@@ -310,7 +311,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         if ( value is null )
             return null;
 
-        if ( TryGetTime( value, out TimeSpan time ) )
+        if ( TimePickerTimeUtilities.TryGetTime( value, out TimeSpan time ) )
             return FormatInternalTime( time );
 
         throw new InvalidOperationException( $"Unsupported type {value.GetType()}" );
@@ -441,6 +442,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         focusMenuOnOpen = focusMenu;
         menuOpen = true;
 
+        NotifyMenuStateChanged();
         await InvokeAsync( StateHasChanged );
         await SynchronizeOutsidePointerSubscriptionAsync();
     }
@@ -592,16 +594,6 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         focusedPart = part;
     }
 
-    internal string GetMenuControlClassNames( TimePickerPart part )
-    {
-        return ClassProvider.TimePickerControl( focusedPart == part && FocusMenuOnOpen );
-    }
-
-    internal string GetPartId( TimePickerPart part )
-    {
-        return $"{ElementId}-{part.ToString().ToLowerInvariant()}";
-    }
-
     private async ValueTask CloseMenuAsync( bool focusInput )
     {
         if ( Inline )
@@ -610,6 +602,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         menuOpen = false;
         focusMenuOnOpen = false;
 
+        NotifyMenuStateChanged();
         await DisposeOutsidePointerSubscriptionAsync();
         await InvokeAsync( StateHasChanged );
 
@@ -624,58 +617,24 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         return CloseMenuAsync( focusInput: false ).AsTask();
     }
 
-    private async ValueTask SynchronizeOutsidePointerSubscriptionAsync()
-    {
-        if ( menuOpen && !Inline )
-        {
-            outsidePointerSubscription ??= await DocumentObserver.Subscribe( new()
-            {
-                OwnerId = ElementId,
-                EventTypes = DocumentEventTypes.PointerDown | DocumentEventTypes.FocusIn,
-                ExcludeSelector = $"{CssSelectorUtilities.BuildElementIdSelector( PickerContainerId )}, {CssSelectorUtilities.BuildElementIdSelector( MenuId )}",
-                Priority = -100,
-                Handler = HandleOutsidePointerAsync,
-            } );
-        }
-        else
-        {
-            await DisposeOutsidePointerSubscriptionAsync();
-        }
-    }
+    private ValueTask SynchronizeOutsidePointerSubscriptionAsync()
+        => ObserverCoordinator.SynchronizeOutsideSubscriptionAsync(
+            menuOpen,
+            Inline,
+            ElementId,
+            PickerContainerId,
+            MenuId,
+            HandleOutsidePointerAsync );
 
-    private async ValueTask DisposeOutsidePointerSubscriptionAsync()
-    {
-        if ( outsidePointerSubscription is null )
-            return;
+    private ValueTask DisposeOutsidePointerSubscriptionAsync()
+        => ObserverCoordinator.DisposeOutsideSubscriptionAsync();
 
-        await outsidePointerSubscription.DisposeAsync();
-        outsidePointerSubscription = null;
-    }
-
-    private async ValueTask InitializeInputKeyDownSubscriptionAsync()
-    {
-        inputKeyDownSubscription ??= await DocumentObserver.Subscribe( new()
-        {
-            OwnerId = ElementId,
-            EventTypes = DocumentEventTypes.KeyDown,
-            Selector = $"{CssSelectorUtilities.BuildElementIdSelector( ElementId )}[data-open-keys]",
-            KeysFilter = new[] { "ArrowDown", "F4" },
-            PreventDefault = true,
-        } );
-    }
-
-    private async ValueTask DisposeInputKeyDownSubscriptionAsync()
-    {
-        if ( inputKeyDownSubscription is null )
-            return;
-
-        await inputKeyDownSubscription.DisposeAsync();
-        inputKeyDownSubscription = null;
-    }
+    private ValueTask InitializeInputKeyDownSubscriptionAsync()
+        => ObserverCoordinator.InitializeInputKeyDownAsync( ElementId, ElementId );
 
     private void SynchronizeStateFromValue()
     {
-        if ( TryGetTime( Value, out TimeSpan time ) )
+        if ( TimePickerTimeUtilities.TryGetTime( Value, out TimeSpan time ) )
         {
             selectedTime = ClampTime( time );
             inputText = FormatTime( selectedTime );
@@ -693,7 +652,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
     private void SynchronizeSelectionForOpen()
     {
-        if ( TryGetTime( Value, out TimeSpan time ) )
+        if ( TimePickerTimeUtilities.TryGetTime( Value, out TimeSpan time ) )
         {
             selectedTime = ClampTime( time );
         }
@@ -777,199 +736,48 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         focusedPart = parts[nextIndex];
     }
 
+    private int SafeHourIncrement => Math.Max( 1, HourIncrement );
+
+    private int SafeMinuteIncrement => Math.Max( 1, MinuteIncrement );
+
+    private int CurrentHour => selectedTime.Hours;
+
+    private int CurrentMinute => selectedTime.Minutes;
+
+    private int CurrentSecond => selectedTime.Seconds;
+
+    private bool IsPostMeridiem => CurrentHour >= 12;
+
     private bool TryNormalizeInputValue( string value, out string normalizedValue, out TimeSpan result )
-    {
-        normalizedValue = null;
-        result = default;
-
-        if ( string.IsNullOrWhiteSpace( value ) || !TryParseInputTime( value, out result ) )
-            return false;
-
-        result = ClampTime( NormalizeTime( result ) );
-        normalizedValue = FormatInternalTime( result );
-
-        return true;
-    }
-
-    private bool TryParseInputTime( string value, out TimeSpan result )
-    {
-        result = default;
-
-        string trimmedValue = value?.Trim();
-        List<string> formats = new();
-
-        AddFormat( formats, PickerDateTimeFormat.Normalize( DisplayFormat ) );
-        AddFormat( formats, EffectiveDisplayFormat );
-        AddFormat( formats, "HH:mm:ss" );
-        AddFormat( formats, "HH:mm" );
-        AddFormat( formats, "H:mm" );
-        AddFormat( formats, "hh:mm:ss tt" );
-        AddFormat( formats, "hh:mm tt" );
-        AddFormat( formats, "h:mm tt" );
-
-        foreach ( string format in formats )
-        {
-            if ( DateTime.TryParseExact( trimmedValue, format, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces, out DateTime parsedDateTime )
-                 || DateTime.TryParseExact( trimmedValue, format, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out parsedDateTime ) )
-            {
-                result = parsedDateTime.TimeOfDay;
-                return true;
-            }
-        }
-
-        if ( TryParseCompactInputTime( trimmedValue, out result ) )
-            return true;
-
-        if ( !string.IsNullOrWhiteSpace( DisplayFormat ) )
-            return false;
-
-        string cultureSeparator = CultureInfo.CurrentCulture.DateTimeFormat.TimeSeparator;
-        bool hasTimeSyntax = trimmedValue.Contains( ":", StringComparison.Ordinal )
-            || ( !string.IsNullOrEmpty( cultureSeparator ) && trimmedValue.Contains( cultureSeparator, StringComparison.Ordinal ) )
-            || ( !string.IsNullOrEmpty( CultureInfo.CurrentCulture.DateTimeFormat.AMDesignator ) && trimmedValue.Contains( CultureInfo.CurrentCulture.DateTimeFormat.AMDesignator, StringComparison.OrdinalIgnoreCase ) )
-            || ( !string.IsNullOrEmpty( CultureInfo.CurrentCulture.DateTimeFormat.PMDesignator ) && trimmedValue.Contains( CultureInfo.CurrentCulture.DateTimeFormat.PMDesignator, StringComparison.OrdinalIgnoreCase ) );
-
-        if ( !hasTimeSyntax )
-            return false;
-
-        if ( TimeSpan.TryParse( trimmedValue, CultureInfo.CurrentCulture, out result )
-             || TimeSpan.TryParse( trimmedValue, CultureInfo.InvariantCulture, out result ) )
-        {
-            return true;
-        }
-
-        if ( DateTime.TryParse( trimmedValue, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces, out DateTime parsed )
-             || DateTime.TryParse( trimmedValue, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out parsed ) )
-        {
-            result = parsed.TimeOfDay;
-            return true;
-        }
-
-        return false;
-    }
-
-    private bool TryParseCompactInputTime( string value, out TimeSpan result )
-    {
-        result = default;
-
-        int maximumLength = Seconds ? 6 : 4;
-
-        if ( string.IsNullOrEmpty( value )
-             || value.Length > maximumLength
-             || value.Any( character => character is < '0' or > '9' ) )
-        {
-            return false;
-        }
-
-        int hourDigits = value.Length <= 2
-            ? value.Length
-            : 2 - value.Length % 2;
-        int hour = int.Parse( value.AsSpan( 0, hourDigits ), NumberStyles.None, CultureInfo.InvariantCulture );
-        int minute = value.Length >= hourDigits + 2
-            ? int.Parse( value.AsSpan( hourDigits, 2 ), NumberStyles.None, CultureInfo.InvariantCulture )
-            : 0;
-        int second = value.Length >= hourDigits + 4
-            ? int.Parse( value.AsSpan( hourDigits + 2, 2 ), NumberStyles.None, CultureInfo.InvariantCulture )
-            : 0;
-
-        if ( hour > 23 || minute > 59 || second > 59 )
-            return false;
-
-        if ( !TimeAs24hr && hour is >= 1 and <= 12 )
-        {
-            hour %= 12;
-
-            if ( IsPostMeridiem )
-            {
-                hour += 12;
-            }
-        }
-
-        result = new TimeSpan( hour, minute, second );
-
-        return true;
-    }
-
-    private static void AddFormat( ICollection<string> formats, string format )
-    {
-        if ( !string.IsNullOrWhiteSpace( format ) && !formats.Contains( format ) )
-        {
-            formats.Add( format );
-        }
-    }
-
-    private static bool TryGetTime( object value, out TimeSpan result )
-    {
-        switch ( value )
-        {
-            case TimeSpan timeSpan:
-                result = NormalizeTime( timeSpan );
-                return true;
-            case TimeOnly timeOnly:
-                result = timeOnly.ToTimeSpan();
-                return true;
-            case DateTime dateTime:
-                result = dateTime.TimeOfDay;
-                return true;
-            default:
-                result = default;
-                return false;
-        }
-    }
+        => TimePickerInputParser.TryNormalize(
+            value,
+            DisplayFormat,
+            EffectiveDisplayFormat,
+            Seconds,
+            TimeAs24hr,
+            IsPostMeridiem,
+            Min,
+            Max,
+            out normalizedValue,
+            out result );
 
     private TimeSpan GetDefaultTime()
-    {
-        TimeSpan result = new(
-            Math.Clamp( DefaultHour, 0, 23 ),
-            Math.Clamp( DefaultMinute, 0, 59 ),
-            0 );
-
-        return ClampTime( result );
-    }
+        => TimePickerTimeUtilities.GetDefault( DefaultHour, DefaultMinute, Min, Max );
 
     private TimeSpan ClampTime( TimeSpan time )
-    {
-        time = NormalizeTime( time );
-
-        if ( Min.HasValue && time < NormalizeTime( Min.Value ) )
-        {
-            time = NormalizeTime( Min.Value );
-        }
-
-        if ( Max.HasValue && time > NormalizeTime( Max.Value ) )
-        {
-            time = NormalizeTime( Max.Value );
-        }
-
-        return time;
-    }
+        => TimePickerTimeUtilities.Clamp( time, Min, Max );
 
     private static TimeSpan NormalizeTime( TimeSpan time )
-    {
-        long ticks = time.Ticks % TimeSpan.TicksPerDay;
-
-        if ( ticks < 0 )
-        {
-            ticks += TimeSpan.TicksPerDay;
-        }
-
-        return TimeSpan.FromTicks( ticks );
-    }
+        => TimePickerTimeUtilities.Normalize( time );
 
     private string FormatTime( TimeSpan time )
-    {
-        return DateTime.Today.Add( NormalizeTime( time ) ).ToString( EffectiveDisplayFormat, CultureInfo.CurrentCulture );
-    }
+        => TimePickerTimeUtilities.FormatDisplay( time, EffectiveDisplayFormat );
 
     private static string FormatInternalTime( TimeSpan time )
-    {
-        return NormalizeTime( time ).ToString( Parsers.InternalTimeFormat.ToLowerInvariant(), CultureInfo.InvariantCulture );
-    }
+        => TimePickerTimeUtilities.FormatInternal( time );
 
     private static string FormatNativeTime( TimeSpan time, bool includeSeconds )
-    {
-        return NormalizeTime( time ).ToString( includeSeconds ? @"hh\:mm\:ss" : @"hh\:mm", CultureInfo.InvariantCulture );
-    }
+        => TimePickerTimeUtilities.FormatNative( time, includeSeconds );
 
     private async Task DetectMobileDeviceAsync()
     {
@@ -999,6 +807,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
                 await DisposeOutsidePointerSubscriptionAsync();
             }
 
+            NotifyMenuStateChanged();
             await InvokeAsync( StateHasChanged );
         }
     }
@@ -1010,8 +819,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     {
         inputText = Value is null ? inputText : FormatTime( selectedTime );
 
+        NotifyMenuStateChanged();
         await InvokeAsync( StateHasChanged );
     }
+
+    private void NotifyMenuStateChanged()
+        => MenuStateChanged?.Invoke();
 
     #endregion
 
@@ -1019,6 +832,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
+
+    private PickerObserverCoordinator ObserverCoordinator
+        => observerCoordinator ??= new( DocumentObserver );
 
     /// <inheritdoc/>
     protected override OnScreenKeyboardInputType OnScreenKeyboardInputType => OnScreenKeyboardInputType.Time | OnScreenKeyboardInputType.Pickers;
@@ -1125,63 +941,22 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
     internal bool FocusMenuOnOpen => focusMenuOnOpen;
 
-    internal int MenuControlTabIndex => Inline || FocusMenuOnOpen ? 0 : -1;
-
     internal bool MenuInteractionDisabled => IsDisabled || ReadOnly || Plaintext;
 
     protected internal string MenuId => $"{ElementId}-menu";
 
     internal string PickerContainerId => $"{ElementId}-container";
 
-    internal string MenuClassNames => ClassProvider.TimePickerMenu( Inline, StaticPicker );
+    internal TimePickerMenuContext<TValue> MenuContext
+        => menuContext ??= new( this );
 
-    internal string MenuBackdropClassNames => ClassProvider.TimePickerBackdrop();
+    internal TimeSpan PickerSelectedTime => selectedTime;
 
-    internal string MenuControlsClassNames => ClassProvider.TimePickerControls();
+    internal TimePickerPart PickerFocusedPart => focusedPart;
 
-    internal string MenuInputClassNames => ClassProvider.TimePickerInput();
+    internal IClassProvider PickerClassProvider => ClassProvider;
 
-    internal string MenuSeparatorClassNames => ClassProvider.TimePickerSeparator();
-
-    internal string MenuMeridiemClassNames => ClassProvider.TimePickerMeridiem( IsPostMeridiem, focusedPart == TimePickerPart.Meridiem && FocusMenuOnOpen );
-
-    internal string FocusedPartId => GetPartId( focusedPart );
-
-    internal int SafeHourIncrement => Math.Max( 1, HourIncrement );
-
-    internal int SafeMinuteIncrement => Math.Max( 1, MinuteIncrement );
-
-    internal int CurrentHour => selectedTime.Hours;
-
-    internal int CurrentMinute => selectedTime.Minutes;
-
-    internal int CurrentSecond => selectedTime.Seconds;
-
-    internal int DisplayHour => TimeAs24hr ? CurrentHour : CurrentHour % 12 == 0 ? 12 : CurrentHour % 12;
-
-    internal string DisplayHourText => DisplayHour.ToString( "D2", CultureInfo.InvariantCulture );
-
-    internal string CurrentMinuteText => CurrentMinute.ToString( "D2", CultureInfo.InvariantCulture );
-
-    internal string CurrentSecondText => CurrentSecond.ToString( "D2", CultureInfo.InvariantCulture );
-
-    internal bool IsPostMeridiem => CurrentHour >= 12;
-
-    internal string AnteMeridiemText => Localizer["AM"];
-
-    internal string PostMeridiemText => Localizer["PM"];
-
-    internal string MeridiemText => IsPostMeridiem ? PostMeridiemText : AnteMeridiemText;
-
-    internal string MeridiemLabel => MeridiemText;
-
-    internal string TimeText => "Time";
-
-    internal string HourText => "Hour";
-
-    internal string MinuteText => "Minute";
-
-    internal string SecondText => "Second";
+    internal ITextLocalizer PickerLocalizer => Localizer;
 
     /// <summary>
     /// Gets or sets the legacy TimePicker JavaScript module.

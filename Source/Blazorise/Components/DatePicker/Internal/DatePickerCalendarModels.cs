@@ -10,14 +10,22 @@ namespace Blazorise;
 /// </summary>
 internal sealed class DatePickerCalendarWeek
 {
+    #region Constructors
+
     /// <summary>
     /// Initializes a new calendar week.
     /// </summary>
+    /// <param name="weekNumber">Localized number of the represented week.</param>
+    /// <param name="days">Seven days contained in the represented week.</param>
     public DatePickerCalendarWeek( int weekNumber, IReadOnlyList<DatePickerCalendarDay> days )
     {
         WeekNumber = weekNumber;
         Days = days;
     }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Gets the localized week number.
@@ -28,6 +36,8 @@ internal sealed class DatePickerCalendarWeek
     /// Gets the seven days contained in the week.
     /// </summary>
     public IReadOnlyList<DatePickerCalendarDay> Days { get; }
+
+    #endregion
 }
 
 /// <summary>
@@ -35,9 +45,20 @@ internal sealed class DatePickerCalendarWeek
 /// </summary>
 internal sealed class DatePickerCalendarDay
 {
+    #region Constructors
+
     /// <summary>
     /// Initializes a new calendar day.
     /// </summary>
+    /// <param name="date">Represented date.</param>
+    /// <param name="outside">Whether the date belongs to an adjacent month.</param>
+    /// <param name="today">Whether the date is today.</param>
+    /// <param name="selected">Whether the date is selected.</param>
+    /// <param name="rangeStart">Whether the date starts a selected range.</param>
+    /// <param name="inRange">Whether the date is contained in a selected or previewed range.</param>
+    /// <param name="rangeEnd">Whether the date ends a selected range.</param>
+    /// <param name="disabled">Whether the date cannot be selected.</param>
+    /// <param name="focused">Whether the date is targeted by keyboard navigation.</param>
     public DatePickerCalendarDay(
         DateTime date,
         bool outside,
@@ -59,6 +80,10 @@ internal sealed class DatePickerCalendarDay
         Disabled = disabled;
         Focused = focused;
     }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Gets the represented date.
@@ -104,6 +129,8 @@ internal sealed class DatePickerCalendarDay
     /// Gets whether the day is the keyboard navigation target.
     /// </summary>
     public bool Focused { get; }
+
+    #endregion
 }
 
 /// <summary>
@@ -111,9 +138,16 @@ internal sealed class DatePickerCalendarDay
 /// </summary>
 internal sealed class DatePickerCalendarMonth
 {
+    #region Constructors
+
     /// <summary>
     /// Initializes a new calendar month.
     /// </summary>
+    /// <param name="date">First day of the represented month.</param>
+    /// <param name="name">Localized month name.</param>
+    /// <param name="selected">Whether the month is selected.</param>
+    /// <param name="disabled">Whether the month cannot be selected.</param>
+    /// <param name="focused">Whether the month is targeted by keyboard navigation.</param>
     public DatePickerCalendarMonth( DateTime date, string name, bool selected, bool disabled, bool focused )
     {
         Date = date;
@@ -122,6 +156,10 @@ internal sealed class DatePickerCalendarMonth
         Disabled = disabled;
         Focused = focused;
     }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Gets the first day of the represented month.
@@ -147,4 +185,6 @@ internal sealed class DatePickerCalendarMonth
     /// Gets whether the month is the keyboard navigation target.
     /// </summary>
     public bool Focused { get; }
+
+    #endregion
 }

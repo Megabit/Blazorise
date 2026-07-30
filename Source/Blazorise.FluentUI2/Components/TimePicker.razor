@@ -1,21 +1,23 @@
 @using System.Text
 @typeparam TValue
 @inherits Blazorise.TimePicker<TValue>
-<span class="@ProviderPickerContainerClassNames">
-    @if ( ParentIsAddons )
-    {
-        <span class="@AddonClassNames" style="@WrapperStyleNames">
-            @InputElement
-        </span>
-    }
-    else
-    {
-        <span class="@InputClassNames" style="@WrapperStyleNames">
-            @InputElement
-        </span>
-    }
-    <_TimePickerMenu TValue="TValue" Parent="@this" />
-</span>
+<CascadingValue Value="@this" IsFixed>
+    <span class="@ProviderPickerContainerClassNames">
+        @if ( ParentIsAddons )
+        {
+            <span class="@AddonClassNames" style="@WrapperStyleNames">
+                @InputElement
+            </span>
+        }
+        else
+        {
+            <span class="@InputClassNames" style="@WrapperStyleNames">
+                @InputElement
+            </span>
+        }
+        <_TimePickerMenu TValue="TValue" />
+    </span>
+</CascadingValue>
 @ChildContent
 @Feedback
 @code {

@@ -9,51 +9,51 @@
 {
     @if ( !Parent.Inline )
     {
-        <div class="@Parent.CalendarBackdropClassNames"
+        <div class="@Calendar.BackdropClassNames"
              aria-hidden="true"></div>
     }
 
     <div @ref="@CalendarElementRef"
          id="@Parent.CalendarId"
-         class="@Parent.CalendarClassNames"
+         class="@Calendar.ClassNames"
          role="dialog"
          aria-modal="false"
          aria-labelledby="@($"{Parent.CalendarId}-title")"
-         aria-activedescendant="@(Parent.InputMode == DateInputMode.Month ? Parent.GetMonthId( Parent.FocusedDate ) : Parent.GetDayId( Parent.FocusedDate ))"
+         aria-activedescendant="@(Parent.InputMode == DateInputMode.Month ? Calendar.GetMonthId( Calendar.FocusedDate ) : Calendar.GetDayId( Calendar.FocusedDate ))"
          tabindex="-1"
          @onkeydown="@Parent.OnCalendarKeyDownAsync"
          @onkeydown:stopPropagation>
         <div class="mui-date-picker-date-pane">
-            <div class="@Parent.CalendarHeaderClassNames">
+            <div class="@Calendar.HeaderClassNames">
                 <div id="@($"{Parent.CalendarId}-title")"
-                     class="@Parent.CalendarTitleClassNames"
+                     class="@Calendar.TitleClassNames"
                      aria-live="polite">
                     @if ( Parent.InputMode != DateInputMode.Month )
                     {
                         <label class="mui-date-picker-selector">
-                            <span class="mui-date-picker-selector-label">@Parent.MonthText</span>
-                            <select value="@Parent.VisibleMonthNumber"
-                                    aria-label="@Parent.MonthText"
+                            <span class="mui-date-picker-selector-label">@Calendar.MonthText</span>
+                            <select value="@Calendar.VisibleMonthNumber"
+                                    aria-label="@Calendar.MonthText"
                                     tabindex="0"
                                     disabled="@Parent.CalendarInteractionDisabled"
                                     @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                                     @onkeydown:stopPropagation
                                     @onchange="@Parent.ChangeVisibleMonth">
-                                @for ( int monthIndex = 0; monthIndex < Parent.MonthNames.Length; monthIndex++ )
+                                @for ( int monthIndex = 0; monthIndex < Calendar.MonthNames.Length; monthIndex++ )
                                 {
-                                    <option value="@(monthIndex + 1)">@Parent.MonthNames[monthIndex]</option>
+                                    <option value="@(monthIndex + 1)">@Calendar.MonthNames[monthIndex]</option>
                                 }
                             </select>
                         </label>
                     }
 
                     <label class="mui-date-picker-selector mui-date-picker-year-selector">
-                        <span class="mui-date-picker-selector-label">@Parent.YearText</span>
+                        <span class="mui-date-picker-selector-label">@Calendar.YearText</span>
                         <input type="number"
                                min="1"
                                max="9999"
-                               value="@Parent.VisibleMonthYear"
-                               aria-label="@Parent.YearText"
+                               value="@Calendar.VisibleMonthYear"
+                               aria-label="@Calendar.YearText"
                                tabindex="0"
                                disabled="@Parent.CalendarInteractionDisabled"
                                @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
@@ -64,43 +64,43 @@
 
                 <div class="mui-date-picker-navigation-group">
                     <button type="button"
-                            class="@Parent.CalendarNavigationClassNames"
-                            aria-label="@Parent.PreviousPeriodAriaLabel"
+                            class="@Calendar.NavigationClassNames"
+                            aria-label="@Calendar.PreviousPeriodAriaLabel"
                             tabindex="0"
                             disabled="@Parent.CalendarInteractionDisabled"
                             @onmousedown:preventDefault
                             @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                             @onkeydown:stopPropagation
                             @onclick="@Parent.ShowPreviousPeriod">
-                        <span aria-hidden="true">@Parent.PreviousText</span>
+                        <span aria-hidden="true">@Calendar.PreviousText</span>
                     </button>
 
                     <button type="button"
-                            class="@Parent.CalendarNavigationClassNames"
-                            aria-label="@Parent.NextPeriodAriaLabel"
+                            class="@Calendar.NavigationClassNames"
+                            aria-label="@Calendar.NextPeriodAriaLabel"
                             tabindex="0"
                             disabled="@Parent.CalendarInteractionDisabled"
                             @onmousedown:preventDefault
                             @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                             @onkeydown:stopPropagation
                             @onclick="@Parent.ShowNextPeriod">
-                        <span aria-hidden="true">@Parent.NextText</span>
+                        <span aria-hidden="true">@Calendar.NextText</span>
                     </button>
                 </div>
             </div>
 
             @if ( Parent.InputMode == DateInputMode.Month )
             {
-                <div class="@Parent.CalendarMonthsClassNames"
+                <div class="@Calendar.MonthsClassNames"
                      role="grid"
-                     aria-label="@Parent.CalendarLabel"
-                     aria-activedescendant="@Parent.GetMonthId( Parent.FocusedDate )"
+                     aria-label="@Calendar.Label"
+                     aria-activedescendant="@Calendar.GetMonthId( Calendar.FocusedDate )"
                      tabindex="0"
                      @onfocus="@HandleGridFocus"
                      @onblur="@HandleGridBlur">
                     @foreach ( DatePickerCalendarMonth month in Parent.BuildCalendarMonths() )
                     {
-                        <button id="@Parent.GetMonthId( month.Date )"
+                        <button id="@Calendar.GetMonthId( month.Date )"
                                 @key="@month.Date"
                                 type="button"
                                 role="gridcell"
@@ -118,39 +118,39 @@
             }
             else
             {
-                <div class="@Parent.CalendarGridClassNames"
+                <div class="@Calendar.GridClassNames"
                      role="grid"
-                     aria-label="@Parent.CalendarLabel"
-                     aria-activedescendant="@Parent.GetDayId( Parent.FocusedDate )"
+                     aria-label="@Calendar.Label"
+                     aria-activedescendant="@Calendar.GetDayId( Calendar.FocusedDate )"
                      tabindex="0"
                      @onfocus="@HandleGridFocus"
                      @onblur="@HandleGridBlur">
-                    <div class="@Parent.CalendarWeekdaysClassNames" role="row">
+                    <div class="@Calendar.WeekdaysClassNames" role="row">
                         @if ( Parent.ShowWeekNumbers )
                         {
-                            <span class="@Parent.CalendarWeekNumberClassNames" role="columnheader">@Parent.WeekText</span>
+                            <span class="@Calendar.WeekNumberClassNames" role="columnheader">@Calendar.WeekText</span>
                         }
-                        @foreach ( string weekday in Parent.WeekdayNames )
+                        @foreach ( string weekday in Calendar.WeekdayNames )
                         {
-                            <span class="@Parent.CalendarWeekdayClassNames" role="columnheader">@weekday</span>
+                            <span class="@Calendar.WeekdayClassNames" role="columnheader">@weekday</span>
                         }
                     </div>
 
                     @foreach ( DatePickerCalendarWeek week in Parent.BuildCalendarWeeks() )
                     {
-                        <div class="@Parent.CalendarWeekClassNames" role="row">
+                        <div class="@Calendar.WeekClassNames" role="row">
                             @if ( Parent.ShowWeekNumbers )
                             {
-                                <span class="@Parent.CalendarWeekNumberClassNames" role="rowheader">@week.WeekNumber</span>
+                                <span class="@Calendar.WeekNumberClassNames" role="rowheader">@week.WeekNumber</span>
                             }
                             @foreach ( DatePickerCalendarDay day in week.Days )
                             {
-                                <button id="@Parent.GetDayId( day.Date )"
+                                <button id="@Calendar.GetDayId( day.Date )"
                                         @key="@day.Date"
                                         type="button"
                                         role="gridcell"
                                         class="@GetDayClassNames( day )"
-                                        aria-label="@Parent.GetDateAriaLabel( day.Date )"
+                                        aria-label="@Calendar.GetDateAriaLabel( day.Date )"
                                         aria-selected="@day.Selected"
                                         aria-current="@(day.Today ? "date" : null)"
                                         disabled="@day.Disabled"
@@ -170,66 +170,66 @@
 
         @if ( Parent.InputMode == DateInputMode.DateTime )
         {
-            <div class="@Parent.CalendarTimeClassNames" role="group" aria-label="@Parent.TimeText">
-                <span class="mui-date-picker-time-label">@Parent.TimeText</span>
+            <div class="@Calendar.TimeClassNames" role="group" aria-label="@Calendar.TimeText">
+                <span class="mui-date-picker-time-label">@Calendar.TimeText</span>
 
                 <div class="mui-date-picker-time-content">
                     <label class="mui-date-picker-time-field">
                         <input type="number"
-                               class="@Parent.CalendarTimeInputClassNames"
+                               class="@Calendar.TimeInputClassNames"
                                min="@(Parent.TimeAs24hr ? 0 : 1)"
                                max="@(Parent.TimeAs24hr ? 23 : 12)"
-                               value="@Parent.DisplayHourText"
-                               aria-label="@Parent.HourText"
+                               value="@Calendar.DisplayHourText"
+                               aria-label="@Calendar.HourText"
                                tabindex="0"
                                disabled="@Parent.CalendarInteractionDisabled"
                                @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                                @onkeydown:stopPropagation
                                @onchange="@Parent.ChangeHourAsync" />
-                        <span>@Parent.HourText</span>
+                        <span>@Calendar.HourText</span>
                     </label>
 
                     <span class="mui-date-picker-time-separator" aria-hidden="true">:</span>
 
                     <label class="mui-date-picker-time-field">
                         <input type="number"
-                               class="@Parent.CalendarTimeInputClassNames"
+                               class="@Calendar.TimeInputClassNames"
                                min="0"
                                max="59"
-                               value="@Parent.CurrentMinuteText"
-                               aria-label="@Parent.MinuteText"
+                               value="@Calendar.CurrentMinuteText"
+                               aria-label="@Calendar.MinuteText"
                                tabindex="0"
                                disabled="@Parent.CalendarInteractionDisabled"
                                @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                                @onkeydown:stopPropagation
                                @onchange="@Parent.ChangeMinuteAsync" />
-                        <span>@Parent.MinuteText</span>
+                        <span>@Calendar.MinuteText</span>
                     </label>
 
                     @if ( !Parent.TimeAs24hr )
                     {
-                        <div class="mui-date-picker-period" role="group" aria-label="@($"{Parent.AnteMeridiemText}/{Parent.PostMeridiemText}")">
+                        <div class="mui-date-picker-period" role="group" aria-label="@($"{Calendar.AnteMeridiemText}/{Calendar.PostMeridiemText}")">
                             <button type="button"
                                     class="@GetPeriodClass( false )"
-                                    aria-pressed="@(!Parent.IsPostMeridiem)"
+                                    aria-pressed="@(!Calendar.IsPostMeridiem)"
                                     tabindex="0"
                                     disabled="@Parent.CalendarInteractionDisabled"
                                     @onmousedown:preventDefault
                                     @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                                     @onkeydown:stopPropagation
                                     @onclick="@(() => SetMeridiemAsync( false ))">
-                                @Parent.AnteMeridiemText
+                                @Calendar.AnteMeridiemText
                             </button>
                             <button type="button"
                                     class="@GetPeriodClass( true )"
-                                    aria-pressed="@Parent.IsPostMeridiem"
+                                    aria-pressed="@Calendar.IsPostMeridiem"
                                     tabindex="0"
                                     disabled="@Parent.CalendarInteractionDisabled"
                                     @onmousedown:preventDefault
                                     @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                                     @onkeydown:stopPropagation
                                     @onclick="@(() => SetMeridiemAsync( true ))">
-                                @Parent.PostMeridiemText
+                                @Calendar.PostMeridiemText
                             </button>
                         </div>
                     }
@@ -239,31 +239,31 @@
 
         @if ( Parent.ShowTodayButton || Parent.ShowClearButton )
         {
-            <div class="@Parent.CalendarActionsClassNames">
+            <div class="@Calendar.ActionsClassNames">
                 @if ( Parent.ShowClearButton )
                 {
                     <button type="button"
-                            class="@Parent.CalendarButtonClassNames"
+                            class="@Calendar.ButtonClassNames"
                             tabindex="0"
                             disabled="@Parent.CalendarInteractionDisabled"
                             @onmousedown:preventDefault
                             @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                             @onkeydown:stopPropagation
                             @onclick="@Parent.ClearAsync">
-                        @Parent.ClearText
+                        @Calendar.ClearText
                     </button>
                 }
                 @if ( Parent.ShowTodayButton )
                 {
                     <button type="button"
-                            class="@Parent.CalendarButtonClassNames"
+                            class="@Calendar.ButtonClassNames"
                             tabindex="0"
                             disabled="@Parent.CalendarInteractionDisabled"
                             @onmousedown:preventDefault
                             @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                             @onkeydown:stopPropagation
                             @onclick="@Parent.SelectTodayAsync">
-                        @Parent.TodayText
+                        @Calendar.TodayText
                     </button>
                 }
             </div>
@@ -285,16 +285,16 @@
         => gridFocused = false;
 
     private string GetDayClassNames( DatePickerCalendarDay day )
-        => $"{Parent.GetCalendarDayClassNames( day )}{( gridFocused && day.Focused && !Parent.FocusCalendarOnOpen ? " mui-date-picker-day-focused" : null )}";
+        => $"{Calendar.GetDayClassNames( day )}{( gridFocused && day.Focused && !Parent.FocusCalendarOnOpen ? " mui-date-picker-day-focused" : null )}";
 
     private string GetMonthClassNames( DatePickerCalendarMonth month )
-        => $"{Parent.GetCalendarMonthClassNames( month )}{( gridFocused && month.Focused && !Parent.FocusCalendarOnOpen ? " mui-date-picker-month-focused" : null )}";
+        => $"{Calendar.GetMonthClassNames( month )}{( gridFocused && month.Focused && !Parent.FocusCalendarOnOpen ? " mui-date-picker-month-focused" : null )}";
 
     private string GetPeriodClass( bool postMeridiem )
-        => $"mui-date-picker-period-button{( Parent.IsPostMeridiem == postMeridiem ? " mui-date-picker-period-button-selected" : null )}";
+        => $"mui-date-picker-period-button{( Calendar.IsPostMeridiem == postMeridiem ? " mui-date-picker-period-button-selected" : null )}";
 
     private Task SetMeridiemAsync( bool postMeridiem )
-        => Parent.IsPostMeridiem == postMeridiem
+        => Calendar.IsPostMeridiem == postMeridiem
             ? Task.CompletedTask
             : Parent.ToggleMeridiemAsync();
 

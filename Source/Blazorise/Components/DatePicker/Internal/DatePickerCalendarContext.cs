@@ -1,0 +1,384 @@
+#region Using directives
+using System;
+using System.Globalization;
+using System.Linq;
+#endregion
+
+namespace Blazorise;
+
+/// <summary>
+/// Exposes calendar presentation state shared by the default and provider-specific date picker renderers.
+/// </summary>
+internal sealed class DatePickerCalendarContext<TValue>
+{
+    #region Members
+
+    private readonly DatePicker<TValue> parent;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new calendar presentation context.
+    /// </summary>
+    /// <param name="parent">Date picker that owns the calendar.</param>
+    public DatePickerCalendarContext( DatePicker<TValue> parent )
+    {
+        this.parent = parent;
+    }
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Gets the provider classes for a rendered calendar day.
+    /// </summary>
+    /// <param name="day">Calendar day being rendered.</param>
+    /// <returns>The provider-specific class names.</returns>
+    public string GetDayClassNames( DatePickerCalendarDay day )
+        => parent.PickerClassProvider.DatePickerCalendarDay(
+            day.Outside,
+            day.Today,
+            day.Selected,
+            day.RangeStart,
+            day.InRange,
+            day.RangeEnd,
+            day.Disabled,
+            day.Focused && parent.FocusCalendarOnOpen );
+
+    /// <summary>
+    /// Gets the provider classes for a rendered calendar month.
+    /// </summary>
+    /// <param name="month">Calendar month being rendered.</param>
+    /// <returns>The provider-specific class names.</returns>
+    public string GetMonthClassNames( DatePickerCalendarMonth month )
+        => parent.PickerClassProvider.DatePickerCalendarMonth(
+            month.Selected,
+            month.Disabled,
+            month.Focused && parent.FocusCalendarOnOpen );
+
+    /// <summary>
+    /// Gets the DOM identifier for a rendered calendar day.
+    /// </summary>
+    /// <param name="date">Rendered date.</param>
+    /// <returns>The day element identifier.</returns>
+    public string GetDayId( DateTime date )
+        => $"{parent.ElementId}-day-{date:yyyyMMdd}";
+
+    /// <summary>
+    /// Gets the DOM identifier for a rendered calendar month.
+    /// </summary>
+    /// <param name="date">Rendered month.</param>
+    /// <returns>The month element identifier.</returns>
+    public string GetMonthId( DateTime date )
+        => $"{parent.ElementId}-month-{date:yyyyMM}";
+
+    /// <summary>
+    /// Gets the localized accessible label for a date.
+    /// </summary>
+    /// <param name="date">Date being described.</param>
+    /// <returns>The localized long-date label.</returns>
+    public string GetDateAriaLabel( DateTime date )
+        => date.ToString( "D", CultureInfo.CurrentCulture );
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Gets the tab index applied to interactive calendar controls.
+    /// </summary>
+    public int ControlTabIndex => parent.FocusCalendarOnOpen ? 0 : -1;
+
+    /// <summary>
+    /// Gets the accessible label for the visible calendar period.
+    /// </summary>
+    public string Label => parent.InputMode == DateInputMode.Month
+        ? $"{parent.CalendarVisibleMonth.Year}"
+        : $"{MonthNames[parent.CalendarVisibleMonth.Month - 1]} {parent.CalendarVisibleMonth.Year}";
+
+    /// <summary>
+    /// Gets the date targeted by keyboard navigation.
+    /// </summary>
+    public DateTime FocusedDate => parent.CalendarFocusedDate;
+
+    /// <summary>
+    /// Gets the number of the visible month.
+    /// </summary>
+    public int VisibleMonthNumber => parent.CalendarVisibleMonth.Month;
+
+    /// <summary>
+    /// Gets the year of the visible month.
+    /// </summary>
+    public int VisibleMonthYear => parent.CalendarVisibleMonth.Year;
+
+    /// <summary>
+    /// Gets the provider classes for the picker container.
+    /// </summary>
+    public string ContainerClassNames => parent.PickerClassProvider.DatePickerContainer( parent.Inline, parent.CalendarVisible );
+
+    /// <summary>
+    /// Gets the provider classes for the calendar.
+    /// </summary>
+    public string ClassNames => parent.PickerClassProvider.DatePickerCalendar( parent.Inline, parent.StaticPicker );
+
+    /// <summary>
+    /// Gets the provider classes for the calendar backdrop.
+    /// </summary>
+    public string BackdropClassNames => parent.PickerClassProvider.DatePickerCalendarBackdrop();
+
+    /// <summary>
+    /// Gets the provider classes for the calendar header.
+    /// </summary>
+    public string HeaderClassNames => parent.PickerClassProvider.DatePickerCalendarHeader();
+
+    /// <summary>
+    /// Gets the provider classes for calendar navigation.
+    /// </summary>
+    public string NavigationClassNames => parent.PickerClassProvider.DatePickerCalendarNavigation();
+
+    /// <summary>
+    /// Gets the provider classes for the calendar title.
+    /// </summary>
+    public string TitleClassNames => parent.PickerClassProvider.DatePickerCalendarTitle();
+
+    /// <summary>
+    /// Gets the provider classes for the calendar grid.
+    /// </summary>
+    public string GridClassNames => parent.PickerClassProvider.DatePickerCalendarGrid();
+
+    /// <summary>
+    /// Gets the provider classes for the weekday row.
+    /// </summary>
+    public string WeekdaysClassNames => parent.PickerClassProvider.DatePickerCalendarWeekdays();
+
+    /// <summary>
+    /// Gets the provider classes for a weekday label.
+    /// </summary>
+    public string WeekdayClassNames => parent.PickerClassProvider.DatePickerCalendarWeekday();
+
+    /// <summary>
+    /// Gets the provider classes for a calendar week.
+    /// </summary>
+    public string WeekClassNames => parent.PickerClassProvider.DatePickerCalendarWeek();
+
+    /// <summary>
+    /// Gets the provider classes for a week number.
+    /// </summary>
+    public string WeekNumberClassNames => parent.PickerClassProvider.DatePickerCalendarWeekNumber();
+
+    /// <summary>
+    /// Gets the provider classes for the month grid.
+    /// </summary>
+    public string MonthsClassNames => parent.PickerClassProvider.DatePickerCalendarMonths();
+
+    /// <summary>
+    /// Gets the provider classes for the calendar time controls.
+    /// </summary>
+    public string TimeClassNames => parent.PickerClassProvider.DatePickerCalendarTime();
+
+    /// <summary>
+    /// Gets the provider classes for a calendar time input.
+    /// </summary>
+    public string TimeInputClassNames => parent.PickerClassProvider.DatePickerCalendarTimeInput();
+
+    /// <summary>
+    /// Gets the provider classes for the calendar actions.
+    /// </summary>
+    public string ActionsClassNames => parent.PickerClassProvider.DatePickerCalendarActions();
+
+    /// <summary>
+    /// Gets the provider classes for a calendar action button.
+    /// </summary>
+    public string ButtonClassNames => parent.PickerClassProvider.DatePickerCalendarButton();
+
+    /// <summary>
+    /// Gets localized weekday names ordered according to the configured first day of the week.
+    /// </summary>
+    public string[] WeekdayNames
+    {
+        get
+        {
+            string[] names =
+            {
+                parent.PickerLocalizer["Sun"],
+                parent.PickerLocalizer["Mon"],
+                parent.PickerLocalizer["Tue"],
+                parent.PickerLocalizer["Wed"],
+                parent.PickerLocalizer["Thu"],
+                parent.PickerLocalizer["Fri"],
+                parent.PickerLocalizer["Sat"],
+            };
+
+            return Enumerable.Range( 0, 7 )
+                .Select( index => names[( index + (int)parent.FirstDayOfWeek ) % 7] )
+                .ToArray();
+        }
+    }
+
+    /// <summary>
+    /// Gets localized month names.
+    /// </summary>
+    public string[] MonthNames =>
+    [
+        parent.PickerLocalizer["January"],
+        parent.PickerLocalizer["February"],
+        parent.PickerLocalizer["March"],
+        parent.PickerLocalizer["April"],
+        parent.PickerLocalizer["May!"],
+        parent.PickerLocalizer["June"],
+        parent.PickerLocalizer["July"],
+        parent.PickerLocalizer["August"],
+        parent.PickerLocalizer["September"],
+        parent.PickerLocalizer["October"],
+        parent.PickerLocalizer["November"],
+        parent.PickerLocalizer["December"],
+    ];
+
+    /// <summary>
+    /// Gets the localized Today action text.
+    /// </summary>
+    public string TodayText => parent.PickerLocalizer["Today"];
+
+    /// <summary>
+    /// Gets the localized Clear action text.
+    /// </summary>
+    public string ClearText => parent.PickerLocalizer["Clear"];
+
+    /// <summary>
+    /// Gets the accessible month field label.
+    /// </summary>
+    public string MonthText => "Month";
+
+    /// <summary>
+    /// Gets the accessible year field label.
+    /// </summary>
+    public string YearText => "Year";
+
+    /// <summary>
+    /// Gets the abbreviated week label.
+    /// </summary>
+    public string WeekText => "Wk";
+
+    /// <summary>
+    /// Gets the accessible time section label.
+    /// </summary>
+    public string TimeText => "Time";
+
+    /// <summary>
+    /// Gets the accessible hour field label.
+    /// </summary>
+    public string HourText => "Hour";
+
+    /// <summary>
+    /// Gets the accessible minute field label.
+    /// </summary>
+    public string MinuteText => "Minute";
+
+    /// <summary>
+    /// Gets the accessible label for navigating to the previous period.
+    /// </summary>
+    public string PreviousPeriodAriaLabel => parent.InputMode == DateInputMode.Month ? "Previous year" : "Previous month";
+
+    /// <summary>
+    /// Gets the accessible label for navigating to the next period.
+    /// </summary>
+    public string NextPeriodAriaLabel => parent.InputMode == DateInputMode.Month ? "Next year" : "Next month";
+
+    /// <summary>
+    /// Gets the accessible label for navigating to the previous year.
+    /// </summary>
+    public string PreviousYearAriaLabel => "Previous year";
+
+    /// <summary>
+    /// Gets the accessible label for navigating to the next year.
+    /// </summary>
+    public string NextYearAriaLabel => "Next year";
+
+    /// <summary>
+    /// Gets the direction-aware icon for navigating to the previous period.
+    /// </summary>
+    public IconName PreviousPeriodIconName => CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
+        ? IconName.ChevronRight
+        : IconName.ChevronLeft;
+
+    /// <summary>
+    /// Gets the direction-aware icon for navigating to the next period.
+    /// </summary>
+    public IconName NextPeriodIconName => CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
+        ? IconName.ChevronLeft
+        : IconName.ChevronRight;
+
+    /// <summary>
+    /// Gets the direction-aware icon for navigating to the previous year.
+    /// </summary>
+    public IconName PreviousYearIconName => CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
+        ? IconName.ChevronDoubleRight
+        : IconName.ChevronDoubleLeft;
+
+    /// <summary>
+    /// Gets the direction-aware icon for navigating to the next year.
+    /// </summary>
+    public IconName NextYearIconName => CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
+        ? IconName.ChevronDoubleLeft
+        : IconName.ChevronDoubleRight;
+
+    /// <summary>
+    /// Gets the direction-aware fallback text for navigating to the previous period.
+    /// </summary>
+    public string PreviousText => CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "\u203A" : "\u2039";
+
+    /// <summary>
+    /// Gets the direction-aware fallback text for navigating to the next period.
+    /// </summary>
+    public string NextText => CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "\u2039" : "\u203A";
+
+    /// <summary>
+    /// Gets the selected hour in 24-hour form.
+    /// </summary>
+    public int CurrentHour => parent.CalendarTimeSource.Hour;
+
+    /// <summary>
+    /// Gets the selected minute.
+    /// </summary>
+    public int CurrentMinute => parent.CalendarTimeSource.Minute;
+
+    /// <summary>
+    /// Gets the hour represented according to the configured clock format.
+    /// </summary>
+    public int DisplayHour => parent.TimeAs24hr ? CurrentHour : CurrentHour % 12 == 0 ? 12 : CurrentHour % 12;
+
+    /// <summary>
+    /// Gets the zero-padded display hour.
+    /// </summary>
+    public string DisplayHourText => DisplayHour.ToString( "D2", CultureInfo.InvariantCulture );
+
+    /// <summary>
+    /// Gets the zero-padded selected minute.
+    /// </summary>
+    public string CurrentMinuteText => CurrentMinute.ToString( "D2", CultureInfo.InvariantCulture );
+
+    /// <summary>
+    /// Gets whether the selected time is post meridiem.
+    /// </summary>
+    public bool IsPostMeridiem => CurrentHour >= 12;
+
+    /// <summary>
+    /// Gets the localized ante meridiem text.
+    /// </summary>
+    public string AnteMeridiemText => parent.PickerLocalizer["AM"];
+
+    /// <summary>
+    /// Gets the localized post meridiem text.
+    /// </summary>
+    public string PostMeridiemText => parent.PickerLocalizer["PM"];
+
+    /// <summary>
+    /// Gets the localized meridiem text for the selected time.
+    /// </summary>
+    public string MeridiemText => IsPostMeridiem ? PostMeridiemText : AnteMeridiemText;
+
+    #endregion
+}

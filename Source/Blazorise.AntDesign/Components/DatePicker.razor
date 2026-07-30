@@ -8,50 +8,52 @@
 }
 else
 {
-    <div id="@PickerContainerId" class="@PickerContainerClassNames" style="@PickerContainerStyleNames">
-        <div class="@ContainerClassNames" style="@StyleNames" @onclick="@OnPickerClickHandler">
-            <div class="ant-picker-input">
-                <input @ref="@ElementRef"
-                       id="@ElementId"
-                       type="text"
-                       name="@NameAttributeValue"
-                       disabled="@IsDisabled"
-                       readonly="@ReadOnly"
-                       pattern="@Pattern"
-                       value="@InputText"
-                       @onchange="@OnChangeHandler"
-                       @onkeydown="@OnKeyDownHandler"
-                       @onkeypress="@OnKeyPressHandler"
-                       @onkeyup="@OnKeyUpHandler"
-                       @onblur="@OnBlurHandler"
-                       @onfocus="@OnFocusHandler"
-                       @onfocusin="@OnFocusInHandler"
-                       @onfocusout="@OnFocusOutHandler"
-                       placeholder="@Placeholder"
-                       min="@Min?.ToString( Utilities.Parsers.InternalDateFormat )"
-                       max="@Max?.ToString( Utilities.Parsers.InternalDateFormat )"
-                       tabindex="@TabIndex"
-                       role="combobox"
-                       aria-haspopup="dialog"
-                       aria-expanded="@CalendarVisible"
-                       aria-controls="@CalendarId"
-                       aria-invalid="@ResolvedAriaInvalid"
-                       aria-required="@ResolvedAriaRequired"
-                       aria-describedby="@ResolvedAriaDescribedBy"
-                       aria-labelledby="@ExplicitAriaLabelledBy"
-                       autocomplete="off"
-                       @attributes="@Attributes" />
-            </div>
-            <span class="ant-picker-suffix" aria-hidden="true">
-                <span role="img" aria-label="calendar" class="anticon anticon-calendar">
-                    <svg viewBox="64 64 896 896" focusable="false" data-icon="calendar" width="1em" height="1em" fill="currentColor" aria-hidden="true">
-                        <path d="M880 184H712v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H384v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H144c-17.7 0-32 14.3-32 32v664c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V216c0-17.7-14.3-32-32-32zm-40 656H184V360h656v480z"></path>
-                    </svg>
+    <CascadingValue Value="@this" IsFixed>
+        <div id="@PickerContainerId" class="@PickerContainerClassNames" style="@PickerContainerStyleNames">
+            <div class="@ContainerClassNames" style="@StyleNames" @onclick="@OnPickerClickHandler">
+                <div class="ant-picker-input">
+                    <input @ref="@ElementRef"
+                           id="@ElementId"
+                           type="text"
+                           name="@NameAttributeValue"
+                           disabled="@IsDisabled"
+                           readonly="@ReadOnly"
+                           pattern="@Pattern"
+                           value="@InputText"
+                           @onchange="@OnChangeHandler"
+                           @onkeydown="@OnKeyDownHandler"
+                           @onkeypress="@OnKeyPressHandler"
+                           @onkeyup="@OnKeyUpHandler"
+                           @onblur="@OnBlurHandler"
+                           @onfocus="@OnFocusHandler"
+                           @onfocusin="@OnFocusInHandler"
+                           @onfocusout="@OnFocusOutHandler"
+                           placeholder="@Placeholder"
+                           min="@Min?.ToString( Utilities.Parsers.InternalDateFormat )"
+                           max="@Max?.ToString( Utilities.Parsers.InternalDateFormat )"
+                           tabindex="@TabIndex"
+                           role="combobox"
+                           aria-haspopup="dialog"
+                           aria-expanded="@CalendarVisible"
+                           aria-controls="@CalendarId"
+                           aria-invalid="@ResolvedAriaInvalid"
+                           aria-required="@ResolvedAriaRequired"
+                           aria-describedby="@ResolvedAriaDescribedBy"
+                           aria-labelledby="@ExplicitAriaLabelledBy"
+                           autocomplete="off"
+                           @attributes="@Attributes" />
+                </div>
+                <span class="ant-picker-suffix" aria-hidden="true">
+                    <span role="img" aria-label="calendar" class="anticon anticon-calendar">
+                        <svg viewBox="64 64 896 896" focusable="false" data-icon="calendar" width="1em" height="1em" fill="currentColor" aria-hidden="true">
+                            <path d="M880 184H712v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H384v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H144c-17.7 0-32 14.3-32 32v664c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V216c0-17.7-14.3-32-32-32zm-40 656H184V360h656v480z"></path>
+                        </svg>
+                    </span>
                 </span>
-            </span>
+            </div>
+            <_DatePickerCalendar TValue="TValue" />
         </div>
-        <_DatePickerCalendar TValue="TValue" Parent="@this" />
-    </div>
+    </CascadingValue>
 }
 @ChildContent
 @Feedback

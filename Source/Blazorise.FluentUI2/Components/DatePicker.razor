@@ -1,21 +1,23 @@
 @using System.Text
 @typeparam TValue
 @inherits Blazorise.DatePicker<TValue>
-<span class="@ProviderPickerContainerClassNames">
-    @if ( ParentIsAddons )
-    {
-        <span class="@AddonClassNames" style="@WrapperStyleNames">
-            @InputElement
-        </span>
-    }
-    else
-    {
-        <span class="@InputClassNames" style="@WrapperStyleNames">
-            @InputElement
-        </span>
-    }
-    <_DatePickerCalendar TValue="TValue" Parent="@this" />
-</span>
+<CascadingValue Value="@this" IsFixed>
+    <span class="@ProviderPickerContainerClassNames">
+        @if ( ParentIsAddons )
+        {
+            <span class="@AddonClassNames" style="@WrapperStyleNames">
+                @InputElement
+            </span>
+        }
+        else
+        {
+            <span class="@InputClassNames" style="@WrapperStyleNames">
+                @InputElement
+            </span>
+        }
+        <_DatePickerCalendar TValue="TValue" />
+    </span>
+</CascadingValue>
 @ChildContent
 @Feedback
 @code {
