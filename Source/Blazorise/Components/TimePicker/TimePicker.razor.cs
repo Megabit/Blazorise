@@ -629,7 +629,11 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
     internal void FocusPart( TimePickerPart part )
     {
+        if ( focusedPart == part )
+            return;
+
         focusedPart = part;
+        NotifyMenuStateChanged();
     }
 
     private async ValueTask CloseMenuAsync( bool focusInput )
@@ -720,6 +724,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         await CurrentValueHandler( normalizedValue );
 
         inputText = FormatTime( selectedTime );
+        NotifyMenuStateChanged();
     }
 
     private async Task AdjustFocusedPartAsync( int direction )
@@ -771,7 +776,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         int currentIndex = parts.IndexOf( focusedPart );
         int nextIndex = ( currentIndex + direction + parts.Count ) % parts.Count;
 
-        focusedPart = parts[nextIndex];
+        FocusPart( parts[nextIndex] );
     }
 
     private int SafeHourIncrement => Math.Max( 1, HourIncrement );

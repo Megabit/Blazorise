@@ -809,6 +809,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             await CurrentValueHandler( null );
             inputText = null;
             await FinishMaskedEditingAsync();
+            NotifyCalendarStateChanged();
             return;
         }
 
@@ -820,6 +821,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         await CurrentValueHandler( normalizedValue );
         inputText = FormatValueAsString( Value );
         await FinishMaskedEditingAsync();
+        NotifyCalendarStateChanged();
     }
 
     internal async Task SelectDateAsync( DateTime selectedDate )
@@ -842,6 +844,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             {
                 pendingRangeStart = date;
                 hoveredRangeEnd = null;
+                NotifyCalendarStateChanged();
             }
             else
             {
@@ -897,9 +900,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     internal void PreviewRange( DateTime? date )
     {
-        if ( SelectionMode == DateInputSelectionMode.Range && pendingRangeStart.HasValue )
+        if ( SelectionMode == DateInputSelectionMode.Range
+             && pendingRangeStart.HasValue
+             && hoveredRangeEnd != date )
         {
             hoveredRangeEnd = date;
+            NotifyCalendarStateChanged();
         }
     }
 
@@ -990,6 +996,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         {
             visibleMonth = new DateTime( visibleMonth.Year, month, 1 );
             focusedDate = DatePickerDateUtilities.MoveIntoMonth( focusedDate, visibleMonth );
+            NotifyCalendarStateChanged();
         }
     }
 
@@ -1002,6 +1009,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         {
             visibleMonth = new DateTime( year, visibleMonth.Month, 1 );
             focusedDate = DatePickerDateUtilities.MoveIntoMonth( focusedDate, visibleMonth );
+            NotifyCalendarStateChanged();
         }
     }
 
@@ -1036,6 +1044,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
                 if ( monthMode )
                 {
                     focusedDate = new DateTime( visibleMonth.Year, 1, 1 );
+                    NotifyCalendarStateChanged();
                 }
                 else
                 {
@@ -1046,6 +1055,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
                 if ( monthMode )
                 {
                     focusedDate = new DateTime( visibleMonth.Year, 12, 1 );
+                    NotifyCalendarStateChanged();
                 }
                 else
                 {
@@ -1091,6 +1101,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
         focusedDate = candidate;
         visibleMonth = new DateTime( candidate.Year, candidate.Month, 1 );
+        NotifyCalendarStateChanged();
     }
 
     private void MoveFocusedMonth( int months )
@@ -1100,6 +1111,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
         visibleMonth = new DateTime( targetMonth.Year, targetMonth.Month, 1 );
         focusedDate = DatePickerDateUtilities.MoveIntoMonth( focusedDate, visibleMonth );
+        NotifyCalendarStateChanged();
     }
 
     private void MoveFocusToWeekBoundary( bool beginning )
@@ -1109,6 +1121,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             ? focusedDate.AddDays( -offset )
             : focusedDate.AddDays( 6 - offset );
         visibleMonth = new DateTime( focusedDate.Year, focusedDate.Month, 1 );
+        NotifyCalendarStateChanged();
     }
 
     internal async Task ChangeHourAsync( ChangeEventArgs eventArgs )
@@ -1183,6 +1196,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
                     DateTimeKind.Unspecified );
             }
 
+            NotifyCalendarStateChanged();
             return;
         }
 

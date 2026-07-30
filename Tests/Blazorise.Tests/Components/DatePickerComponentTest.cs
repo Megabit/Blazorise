@@ -168,6 +168,44 @@ public class DatePickerComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task PopupCalendarNavigationRefreshesImmediately()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2026, 7, 27 ) ) );
+
+        await comp.Find( "input[role='combobox']" ).ClickAsync( new MouseEventArgs() );
+
+        // test
+        await comp.Find( "button[aria-label='Next month']" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( "8", comp.Find( "select[aria-label='Month']" ).GetAttribute( "value" ) );
+
+        // test
+        await comp.Find( "button[aria-label='Next year']" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( "2027", comp.Find( "input[aria-label='Year']" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
+    public async Task PendingRangeSelectionRefreshesImmediately()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime[]>> comp = Render<DatePicker<DateTime[]>>( parameters => parameters
+            .Add( x => x.Value, new[] { new DateTime( 2026, 7, 27 ) } )
+            .Add( x => x.SelectionMode, DateInputSelectionMode.Range )
+            .Add( x => x.Inline, true ) );
+
+        // test
+        await comp.Find( "[id$='day-20260728']" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Contains( "datepicker-day-range-start", comp.Find( "[id$='day-20260728']" ).ClassList );
+    }
+
+    [Fact]
     public void MonthModeDoesNotDuplicateYearNavigation()
     {
         // setup
