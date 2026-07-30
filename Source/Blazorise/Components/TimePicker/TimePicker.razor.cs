@@ -619,7 +619,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
             outsidePointerSubscription ??= await DocumentObserver.Subscribe( new()
             {
                 OwnerId = ElementId,
-                EventTypes = DocumentEventTypes.PointerDown,
+                EventTypes = DocumentEventTypes.PointerDown | DocumentEventTypes.FocusIn,
                 ExcludeSelector = $"{CssSelectorUtilities.BuildElementIdSelector( PickerContainerId )}, {CssSelectorUtilities.BuildElementIdSelector( MenuId )}",
                 Priority = -100,
                 Handler = HandleOutsidePointerAsync,
@@ -1129,9 +1129,13 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
     internal bool IsPostMeridiem => CurrentHour >= 12;
 
-    internal string MeridiemText => Localizer[IsPostMeridiem ? "PM" : "AM"];
+    internal string AnteMeridiemText => Localizer["AM"];
 
-    internal string MeridiemLabel => Localizer[IsPostMeridiem ? "PM" : "AM"];
+    internal string PostMeridiemText => Localizer["PM"];
+
+    internal string MeridiemText => IsPostMeridiem ? PostMeridiemText : AnteMeridiemText;
+
+    internal string MeridiemLabel => MeridiemText;
 
     internal string TimeText => "Time";
 

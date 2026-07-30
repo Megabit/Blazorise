@@ -1653,7 +1653,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     internal bool IsPostMeridiem => CurrentHour >= 12;
 
-    internal string MeridiemText => Localizer[IsPostMeridiem ? "PM" : "AM"];
+    internal string AnteMeridiemText => Localizer["AM"];
+
+    internal string PostMeridiemText => Localizer["PM"];
+
+    internal string MeridiemText => IsPostMeridiem ? PostMeridiemText : AnteMeridiemText;
 
     private Task HandleOutsidePointerAsync( DocumentEventArgs eventArgs )
     {
