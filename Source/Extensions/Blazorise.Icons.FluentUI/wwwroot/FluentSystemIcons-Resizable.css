@@ -16649,3 +16649,10 @@ i[class^="icon-"]:before, i[class*=" icon-"]:before {
 .icon-ic_fluent_zoom_out_20_regular:before {
     content: "\f593";
 }
+
+.icon-ic-fw {
+    display: inline-block;
+    flex: 0 0 1.25em;
+    width: 1.25em;
+    text-align: center;
+}

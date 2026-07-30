@@ -73,5 +73,10 @@ public partial class BarIcon : BaseComponent
     /// </summary>
     [Parameter] public IconSize IconSize { get; set; }
 
+    /// <summary>
+    /// Renders the icon within a fixed-width slot.
+    /// </summary>
+    [Parameter] public bool FixedWidth { get; set; }
+
     #endregion
 }

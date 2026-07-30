@@ -20,6 +20,8 @@ public partial class Icon : BaseComponent
 
     private IconSize? iconSize;
 
+    private bool fixedWidth;
+
     #endregion
 
     #region Methods
@@ -33,6 +35,9 @@ public partial class Icon : BaseComponent
 
         if ( iconSize != Blazorise.IconSize.Default )
             builder.Append( IconProvider.IconSize( GetIconSize() ) );
+
+        if ( FixedWidth )
+            builder.Append( IconProvider.IconFixedWidth() );
 
         base.BuildClasses( builder );
     }
@@ -131,6 +136,24 @@ public partial class Icon : BaseComponent
         set
         {
             iconSize = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Renders the icon within a fixed-width slot.
+    /// </summary>
+    [Parameter]
+    public bool FixedWidth
+    {
+        get => fixedWidth;
+        set
+        {
+            if ( fixedWidth == value )
+                return;
+
+            fixedWidth = value;
 
             DirtyClasses();
         }

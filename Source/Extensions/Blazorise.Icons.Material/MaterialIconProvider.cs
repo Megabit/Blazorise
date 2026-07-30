@@ -405,6 +405,8 @@ class MaterialIconProvider : BaseIconProvider
         };
     }
 
+    public override string IconFixedWidth() => "md-fw";
+
     public override string GetIconName( IconName iconName, IconStyle iconStyle )
     {
         if ( names.TryGetValue( iconName, out var value ) )

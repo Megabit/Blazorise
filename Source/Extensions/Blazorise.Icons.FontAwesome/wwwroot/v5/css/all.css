@@ -58,6 +58,7 @@
   font-size: 10em; }
 
 .fa-fw {
+  flex: 0 0 1.25em;
   text-align: center;
   width: 1.25em; }
 

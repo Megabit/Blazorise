@@ -399,6 +399,8 @@ class FontAwesomeIconProvider : BaseIconProvider
         };
     }
 
+    public override string IconFixedWidth() => "fa-fw";
+
     public override string GetIconName( IconName iconName, IconStyle iconStyle )
     {
         names.TryGetValue( iconName, out var name );
