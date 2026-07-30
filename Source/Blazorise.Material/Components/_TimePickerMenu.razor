@@ -149,7 +149,7 @@
             if ( Parent.FocusMenuOnOpen && !focusApplied )
             {
                 focusApplied = true;
-                await MenuElementRef.FocusAsync();
+                await MenuElementRef.FocusAsync( preventScroll: true );
             }
             else if ( !Parent.FocusMenuOnOpen )
             {

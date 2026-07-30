@@ -172,13 +172,25 @@ public class DatePickerComponentTest : BunitContext
             comp.FindAll( "[role='dialog'] button, [role='dialog'] select, [role='dialog'] input" ),
             element => Assert.Equal( "-1", element.GetAttribute( "tabindex" ) ) );
 
-        var invocation = JSInterop.VerifyInvoke( "addSubscription", 1 );
-        DocumentObserverJsSubscription subscription = Assert.IsType<DocumentObserverJsSubscription>( invocation.Arguments[0] );
+        Assert.Equal( 2, JSInterop.Invocations["addSubscription"].Count );
 
-        Assert.Equal( "pointerdown", Assert.Single( subscription.EventNames ) );
+        DocumentObserverJsSubscription keyboardSubscription = Assert.IsType<DocumentObserverJsSubscription>(
+            JSInterop.Invocations["addSubscription"][0].Arguments[0] );
+
+        Assert.Equal( "keydown", Assert.Single( keyboardSubscription.EventNames ) );
+        Assert.Equal( new[] { "ArrowDown", "F4" }, keyboardSubscription.KeysFilter );
+        Assert.True( keyboardSubscription.PreventDefault );
+        Assert.Equal(
+            $"[id=\"{comp.Instance.ElementId}\"][data-open-keys]",
+            keyboardSubscription.Selector );
+
+        DocumentObserverJsSubscription outsideSubscription = Assert.IsType<DocumentObserverJsSubscription>(
+            JSInterop.Invocations["addSubscription"][1].Arguments[0] );
+
+        Assert.Equal( new[] { "pointerdown", "focusin" }, outsideSubscription.EventNames );
         Assert.Equal(
             $"[id=\"{comp.Instance.PickerContainerId}\"], [id=\"{comp.Instance.CalendarId}\"]",
-            subscription.ExcludeSelector );
+            outsideSubscription.ExcludeSelector );
     }
 
     [Fact]

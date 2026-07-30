@@ -174,6 +174,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     private IAsyncDisposable outsidePointerSubscription;
 
+    private IAsyncDisposable inputKeyDownSubscription;
+
     #endregion
 
     #region Methods
@@ -288,6 +290,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     {
         await base.OnFirstAfterRenderAsync();
         await DetectMobileDeviceAsync();
+        await InitializeInputKeyDownSubscriptionAsync();
     }
 
     /// <inheritdoc/>
@@ -302,6 +305,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             }
 
             await DisposeOutsidePointerSubscriptionAsync();
+            await DisposeInputKeyDownSubscriptionAsync();
 
             LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         }
@@ -1671,7 +1675,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             outsidePointerSubscription ??= await DocumentObserver.Subscribe( new()
             {
                 OwnerId = ElementId,
-                EventTypes = DocumentEventTypes.PointerDown,
+                EventTypes = DocumentEventTypes.PointerDown | DocumentEventTypes.FocusIn,
                 ExcludeSelector = $"{CssSelectorUtilities.BuildElementIdSelector( PickerContainerId )}, {CssSelectorUtilities.BuildElementIdSelector( CalendarId )}",
                 Priority = -100,
                 Handler = HandleOutsidePointerAsync,
@@ -1690,6 +1694,27 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
         await outsidePointerSubscription.DisposeAsync();
         outsidePointerSubscription = null;
+    }
+
+    private async ValueTask InitializeInputKeyDownSubscriptionAsync()
+    {
+        inputKeyDownSubscription ??= await DocumentObserver.Subscribe( new()
+        {
+            OwnerId = ElementId,
+            EventTypes = DocumentEventTypes.KeyDown,
+            Selector = $"{CssSelectorUtilities.BuildElementIdSelector( ElementId )}[data-open-keys]",
+            KeysFilter = new[] { "ArrowDown", "F4" },
+            PreventDefault = true,
+        } );
+    }
+
+    private async ValueTask DisposeInputKeyDownSubscriptionAsync()
+    {
+        if ( inputKeyDownSubscription is null )
+            return;
+
+        await inputKeyDownSubscription.DisposeAsync();
+        inputKeyDownSubscription = null;
     }
 
     #endregion
@@ -1775,6 +1800,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// Gets the ARIA control target used by the custom picker input.
     /// </summary>
     protected string InputAriaControls => UseNativeMobilePicker ? null : CalendarId;
+
+    private bool InputKeyboardNavigationEnabled => !UseNativeMobilePicker
+        && !IsDisabled
+        && !ReadOnly
+        && !Plaintext;
 
     /// <summary>
     /// Gets whether the browser's native mobile picker should be used.

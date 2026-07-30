@@ -3963,11 +3963,6 @@ body {
 .mui-date-picker-calendar .mui-date-picker-year-selector input {
   width: 4.5rem;
   padding-inline: 0.5rem;
-  appearance: textfield;
-}
-.mui-date-picker-calendar .mui-date-picker-year-selector input::-webkit-inner-spin-button, .mui-date-picker-calendar .mui-date-picker-year-selector input::-webkit-outer-spin-button {
-  margin: 0;
-  appearance: none;
 }
 .mui-date-picker-calendar .mui-date-picker-selector-label {
   position: absolute;

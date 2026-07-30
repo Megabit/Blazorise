@@ -248,7 +248,7 @@
             if ( Parent.FocusCalendarOnOpen && !focusApplied )
             {
                 focusApplied = true;
-                await CalendarElementRef.FocusAsync();
+                await CalendarElementRef.FocusAsync( preventScroll: true );
             }
             else if ( !Parent.FocusCalendarOnOpen )
             {

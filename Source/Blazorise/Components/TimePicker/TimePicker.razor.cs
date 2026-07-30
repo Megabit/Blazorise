@@ -125,6 +125,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
     private IAsyncDisposable outsidePointerSubscription;
 
+    private IAsyncDisposable inputKeyDownSubscription;
+
     #endregion
 
     #region Methods
@@ -216,6 +218,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     {
         await base.OnFirstAfterRenderAsync();
         await DetectMobileDeviceAsync();
+        await InitializeInputKeyDownSubscriptionAsync();
     }
 
     /// <inheritdoc/>
@@ -224,6 +227,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         if ( disposing )
         {
             await DisposeOutsidePointerSubscriptionAsync();
+            await DisposeInputKeyDownSubscriptionAsync();
             LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         }
 
@@ -640,6 +644,27 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         outsidePointerSubscription = null;
     }
 
+    private async ValueTask InitializeInputKeyDownSubscriptionAsync()
+    {
+        inputKeyDownSubscription ??= await DocumentObserver.Subscribe( new()
+        {
+            OwnerId = ElementId,
+            EventTypes = DocumentEventTypes.KeyDown,
+            Selector = $"{CssSelectorUtilities.BuildElementIdSelector( ElementId )}[data-open-keys]",
+            KeysFilter = new[] { "ArrowDown", "F4" },
+            PreventDefault = true,
+        } );
+    }
+
+    private async ValueTask DisposeInputKeyDownSubscriptionAsync()
+    {
+        if ( inputKeyDownSubscription is null )
+            return;
+
+        await inputKeyDownSubscription.DisposeAsync();
+        inputKeyDownSubscription = null;
+    }
+
     private void SynchronizeStateFromValue()
     {
         if ( TryGetTime( Value, out TimeSpan time ) )
@@ -1045,6 +1070,11 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// Gets the ARIA control target used by the custom picker input.
     /// </summary>
     protected string InputAriaControls => UseNativeMobilePicker ? null : MenuId;
+
+    private bool InputKeyboardNavigationEnabled => !UseNativeMobilePicker
+        && !IsDisabled
+        && !ReadOnly
+        && !Plaintext;
 
     /// <summary>
     /// Gets the format presented in the visible input.

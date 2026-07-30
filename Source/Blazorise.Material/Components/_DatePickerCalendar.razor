@@ -34,7 +34,7 @@
                             <span class="mui-date-picker-selector-label">@Parent.MonthText</span>
                             <select value="@Parent.VisibleMonthNumber"
                                     aria-label="@Parent.MonthText"
-                                    tabindex="@Parent.CalendarControlTabIndex"
+                                    tabindex="0"
                                     disabled="@Parent.CalendarInteractionDisabled"
                                     @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                                     @onkeydown:stopPropagation
@@ -54,7 +54,7 @@
                                max="9999"
                                value="@Parent.VisibleMonthYear"
                                aria-label="@Parent.YearText"
-                               tabindex="@Parent.CalendarControlTabIndex"
+                               tabindex="0"
                                disabled="@Parent.CalendarInteractionDisabled"
                                @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                                @onkeydown:stopPropagation
@@ -66,7 +66,7 @@
                     <button type="button"
                             class="@Parent.CalendarNavigationClassNames"
                             aria-label="@Parent.PreviousPeriodAriaLabel"
-                            tabindex="@Parent.CalendarControlTabIndex"
+                            tabindex="0"
                             disabled="@Parent.CalendarInteractionDisabled"
                             @onmousedown:preventDefault
                             @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
@@ -78,7 +78,7 @@
                     <button type="button"
                             class="@Parent.CalendarNavigationClassNames"
                             aria-label="@Parent.NextPeriodAriaLabel"
-                            tabindex="@Parent.CalendarControlTabIndex"
+                            tabindex="0"
                             disabled="@Parent.CalendarInteractionDisabled"
                             @onmousedown:preventDefault
                             @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
@@ -91,14 +91,20 @@
 
             @if ( Parent.InputMode == DateInputMode.Month )
             {
-                <div class="@Parent.CalendarMonthsClassNames" role="grid" aria-label="@Parent.CalendarLabel">
+                <div class="@Parent.CalendarMonthsClassNames"
+                     role="grid"
+                     aria-label="@Parent.CalendarLabel"
+                     aria-activedescendant="@Parent.GetMonthId( Parent.FocusedDate )"
+                     tabindex="0"
+                     @onfocus="@HandleGridFocus"
+                     @onblur="@HandleGridBlur">
                     @foreach ( DatePickerCalendarMonth month in Parent.BuildCalendarMonths() )
                     {
                         <button id="@Parent.GetMonthId( month.Date )"
                                 @key="@month.Date"
                                 type="button"
                                 role="gridcell"
-                                class="@Parent.GetCalendarMonthClassNames( month )"
+                                class="@GetMonthClassNames( month )"
                                 aria-label="@($"{month.Name} {month.Date.Year}")"
                                 aria-selected="@month.Selected"
                                 disabled="@month.Disabled"
@@ -114,7 +120,11 @@
             {
                 <div class="@Parent.CalendarGridClassNames"
                      role="grid"
-                     aria-label="@Parent.CalendarLabel">
+                     aria-label="@Parent.CalendarLabel"
+                     aria-activedescendant="@Parent.GetDayId( Parent.FocusedDate )"
+                     tabindex="0"
+                     @onfocus="@HandleGridFocus"
+                     @onblur="@HandleGridBlur">
                     <div class="@Parent.CalendarWeekdaysClassNames" role="row">
                         @if ( Parent.ShowWeekNumbers )
                         {
@@ -139,7 +149,7 @@
                                         @key="@day.Date"
                                         type="button"
                                         role="gridcell"
-                                        class="@Parent.GetCalendarDayClassNames( day )"
+                                        class="@GetDayClassNames( day )"
                                         aria-label="@Parent.GetDateAriaLabel( day.Date )"
                                         aria-selected="@day.Selected"
                                         aria-current="@(day.Today ? "date" : null)"
@@ -171,7 +181,7 @@
                                max="@(Parent.TimeAs24hr ? 23 : 12)"
                                value="@Parent.DisplayHourText"
                                aria-label="@Parent.HourText"
-                               tabindex="@Parent.CalendarControlTabIndex"
+                               tabindex="0"
                                disabled="@Parent.CalendarInteractionDisabled"
                                @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                                @onkeydown:stopPropagation
@@ -188,7 +198,7 @@
                                max="59"
                                value="@Parent.CurrentMinuteText"
                                aria-label="@Parent.MinuteText"
-                               tabindex="@Parent.CalendarControlTabIndex"
+                               tabindex="0"
                                disabled="@Parent.CalendarInteractionDisabled"
                                @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                                @onkeydown:stopPropagation
@@ -202,7 +212,7 @@
                             <button type="button"
                                     class="@GetPeriodClass( false )"
                                     aria-pressed="@(!Parent.IsPostMeridiem)"
-                                    tabindex="@Parent.CalendarControlTabIndex"
+                                    tabindex="0"
                                     disabled="@Parent.CalendarInteractionDisabled"
                                     @onmousedown:preventDefault
                                     @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
@@ -213,7 +223,7 @@
                             <button type="button"
                                     class="@GetPeriodClass( true )"
                                     aria-pressed="@Parent.IsPostMeridiem"
-                                    tabindex="@Parent.CalendarControlTabIndex"
+                                    tabindex="0"
                                     disabled="@Parent.CalendarInteractionDisabled"
                                     @onmousedown:preventDefault
                                     @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
@@ -234,7 +244,7 @@
                 {
                     <button type="button"
                             class="@Parent.CalendarButtonClassNames"
-                            tabindex="@Parent.CalendarControlTabIndex"
+                            tabindex="0"
                             disabled="@Parent.CalendarInteractionDisabled"
                             @onmousedown:preventDefault
                             @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
@@ -247,7 +257,7 @@
                 {
                     <button type="button"
                             class="@Parent.CalendarButtonClassNames"
-                            tabindex="@Parent.CalendarControlTabIndex"
+                            tabindex="0"
                             disabled="@Parent.CalendarInteractionDisabled"
                             @onmousedown:preventDefault
                             @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
@@ -264,7 +274,21 @@
 @code {
     private bool focusApplied;
 
+    private bool gridFocused;
+
     private ElementReference CalendarElementRef;
+
+    private void HandleGridFocus( FocusEventArgs eventArgs )
+        => gridFocused = true;
+
+    private void HandleGridBlur( FocusEventArgs eventArgs )
+        => gridFocused = false;
+
+    private string GetDayClassNames( DatePickerCalendarDay day )
+        => $"{Parent.GetCalendarDayClassNames( day )}{( gridFocused && day.Focused && !Parent.FocusCalendarOnOpen ? " mui-date-picker-day-focused" : null )}";
+
+    private string GetMonthClassNames( DatePickerCalendarMonth month )
+        => $"{Parent.GetCalendarMonthClassNames( month )}{( gridFocused && month.Focused && !Parent.FocusCalendarOnOpen ? " mui-date-picker-month-focused" : null )}";
 
     private string GetPeriodClass( bool postMeridiem )
         => $"mui-date-picker-period-button{( Parent.IsPostMeridiem == postMeridiem ? " mui-date-picker-period-button-selected" : null )}";
@@ -281,7 +305,7 @@
             if ( Parent.FocusCalendarOnOpen && !focusApplied )
             {
                 focusApplied = true;
-                await CalendarElementRef.FocusAsync();
+                await CalendarElementRef.FocusAsync( preventScroll: true );
             }
             else if ( !Parent.FocusCalendarOnOpen )
             {

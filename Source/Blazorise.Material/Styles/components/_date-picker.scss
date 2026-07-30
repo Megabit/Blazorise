@@ -144,13 +144,6 @@
         input {
             width: 4.5rem;
             padding-inline: .5rem;
-            appearance: textfield;
-
-            &::-webkit-inner-spin-button,
-            &::-webkit-outer-spin-button {
-                margin: 0;
-                appearance: none;
-            }
         }
     }
 
