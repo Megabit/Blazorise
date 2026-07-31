@@ -4029,6 +4029,22 @@ template {
   justify-content: center;
   min-width: 0;
 }
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-title > button,
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-title > span {
+  padding: var(--ant-padding-xxs) var(--ant-padding-xs);
+  border: 0;
+  border-radius: var(--ant-border-radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: var(--ant-font-weight-strong);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-title > button {
+  cursor: pointer;
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-title > button:hover:not(:disabled) {
+  background: var(--ant-picker-cell-hover-bg);
+}
 .ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-navigation,
 .ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-in-view,
 .ant-picker-dropdown.ant-picker-panel-container .ant-picker-month-cell {
@@ -4235,6 +4251,11 @@ template {
   gap: 0;
   padding-inline: var(--ant-padding-xs);
 }
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-month-panel[data-calendar-view=decade] .ant-picker-month-cell {
+  box-sizing: border-box;
+  width: calc(100% - var(--ant-padding-xs));
+  white-space: nowrap;
+}
 .ant-picker-dropdown.ant-picker-panel-container .ant-picker-month-cell {
   width: calc(var(--ant-picker-cell-width) + var(--ant-padding-lg));
   min-height: var(--ant-picker-cell-height);
@@ -4244,6 +4265,9 @@ template {
   background: transparent;
   color: inherit;
   font: inherit;
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-month-cell[data-outside=true]:not(.ant-picker-cell-selected):not(.ant-picker-cell-disabled) {
+  color: var(--ant-color-text-disabled);
 }
 .ant-picker-dropdown.ant-picker-panel-container .ant-picker-month-cell:hover:not(:disabled):not(.ant-picker-cell-selected) {
   background: var(--ant-picker-cell-hover-bg);

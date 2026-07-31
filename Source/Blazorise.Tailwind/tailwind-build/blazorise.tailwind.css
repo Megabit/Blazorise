@@ -432,6 +432,20 @@ body:before {
   margin: 0;
   appearance: none;
 }
+.tw-datepicker-calendar .tw-datepicker-title > button,
+.tw-datepicker-calendar .tw-datepicker-title > span {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+}
+.tw-datepicker-calendar .tw-datepicker-title > button {
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
 .tw-datepicker-calendar .tw-datepicker-weekdays,
 .tw-datepicker-calendar .tw-datepicker-week {
   display: grid;
@@ -576,6 +590,12 @@ body:before {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.25rem;
   padding-block: 0.5rem;
+}
+.tw-datepicker-calendar .tw-datepicker-months[data-calendar-view=year], .tw-datepicker-calendar .tw-datepicker-months[data-calendar-view=decade] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.tw-datepicker-calendar .tw-datepicker-months [data-outside=true] {
+  opacity: 0.45;
 }
 .tw-datepicker-calendar .tw-datepicker-time,
 .tw-datepicker-calendar .tw-datepicker-actions {

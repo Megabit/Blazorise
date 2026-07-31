@@ -19,7 +19,7 @@
          role="dialog"
          aria-modal="false"
          aria-labelledby="@($"{Parent.CalendarId}-title")"
-         aria-activedescendant="@(Parent.InputMode == DateInputMode.Month ? Calendar.GetMonthId( Calendar.FocusedDate ) : Calendar.GetDayId( Calendar.FocusedDate ))"
+         aria-activedescendant="@Calendar.ActiveDescendantId"
          data-week-mode="@(Parent.InputMode == DateInputMode.Week ? "true" : null)"
          tabindex="-1"
          @onkeydown="@Parent.OnCalendarKeyDownAsync"
@@ -29,7 +29,26 @@
                 <div id="@($"{Parent.CalendarId}-title")"
                      class="@Calendar.TitleClassNames"
                      aria-live="polite">
-                    @if ( Parent.InputMode != DateInputMode.Month )
+                    @if ( Parent.InputMode == DateInputMode.Month )
+                    {
+                        @if ( Parent.CalendarView == DatePickerCalendarView.Decade )
+                        {
+                            <span class="mui-date-picker-view-title">@Calendar.Title</span>
+                        }
+                        else
+                        {
+                            <button type="button"
+                                    class="mui-date-picker-view-title"
+                                    tabindex="0"
+                                    disabled="@Parent.CalendarInteractionDisabled"
+                                    @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                                    @onkeydown:stopPropagation
+                                    @onclick="@Parent.ShowBroaderCalendarView">
+                                @Calendar.Title
+                            </button>
+                        }
+                    }
+                    else
                     {
                         <label class="mui-date-picker-selector">
                             <span class="mui-date-picker-selector-label">@Calendar.MonthText</span>
@@ -48,19 +67,22 @@
                         </label>
                     }
 
-                    <label class="mui-date-picker-selector mui-date-picker-year-selector">
-                        <span class="mui-date-picker-selector-label">@Calendar.YearText</span>
-                        <input type="number"
-                               min="1"
-                               max="9999"
-                               value="@Calendar.VisibleMonthYear"
-                               aria-label="@Calendar.YearText"
-                               tabindex="0"
-                               disabled="@Parent.CalendarInteractionDisabled"
-                               @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
-                               @onkeydown:stopPropagation
-                               @onchange="@Parent.ChangeVisibleYear" />
-                    </label>
+                    @if ( Parent.InputMode != DateInputMode.Month )
+                    {
+                        <label class="mui-date-picker-selector mui-date-picker-year-selector">
+                            <span class="mui-date-picker-selector-label">@Calendar.YearText</span>
+                            <input type="number"
+                                   min="1"
+                                   max="9999"
+                                   value="@Calendar.VisibleMonthYear"
+                                   aria-label="@Calendar.YearText"
+                                   tabindex="0"
+                                   disabled="@Parent.CalendarInteractionDisabled"
+                                   @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                                   @onkeydown:stopPropagation
+                                   @onchange="@Parent.ChangeVisibleYear" />
+                        </label>
+                    }
                 </div>
 
                 <div class="mui-date-picker-navigation-group">
@@ -90,12 +112,13 @@
                 </div>
             </div>
 
-            @if ( Parent.InputMode == DateInputMode.Month )
+            @if ( Parent.InputMode == DateInputMode.Month && Parent.CalendarView == DatePickerCalendarView.Month )
             {
                 <div class="@Calendar.MonthsClassNames"
                      role="grid"
                      aria-label="@Calendar.Label"
                      aria-activedescendant="@Calendar.GetMonthId( Calendar.FocusedDate )"
+                     data-calendar-view="@Calendar.ViewName"
                      tabindex="0"
                      @onfocus="@HandleGridFocus"
                      @onblur="@HandleGridBlur">
@@ -113,6 +136,35 @@
                                 @onmousedown:preventDefault
                                 @onclick="@(() => Parent.SelectMonthAsync( month.Date ))">
                             @month.Name
+                        </button>
+                    }
+                </div>
+            }
+            else if ( Parent.InputMode == DateInputMode.Month )
+            {
+                <div class="@Calendar.MonthsClassNames"
+                     role="grid"
+                     aria-label="@Calendar.Label"
+                     aria-activedescendant="@Calendar.ActiveDescendantId"
+                     data-calendar-view="@Calendar.ViewName"
+                     tabindex="0"
+                     @onfocus="@HandleGridFocus"
+                     @onblur="@HandleGridBlur">
+                    @foreach ( DatePickerCalendarPeriod period in ( Parent.CalendarView == DatePickerCalendarView.Year ? Parent.BuildCalendarYears() : Parent.BuildCalendarDecades() ) )
+                    {
+                        <button id="@Calendar.GetPeriodId( period )"
+                                @key="@period.StartYear"
+                                type="button"
+                                role="gridcell"
+                                class="@GetPeriodClassNames( period )"
+                                aria-label="@period.Label"
+                                aria-selected="@period.Selected"
+                                data-outside="@(period.Outside ? "true" : null)"
+                                disabled="@period.Disabled"
+                                tabindex="-1"
+                                @onmousedown:preventDefault
+                                @onclick="@(() => Parent.SelectCalendarPeriod( period ))">
+                            @period.Label
                         </button>
                     }
                 </div>
@@ -300,6 +352,9 @@
 
     private string GetMonthClassNames( DatePickerCalendarMonth month )
         => $"{Calendar.GetMonthClassNames( month )}{( gridFocused && month.Focused && !Parent.FocusCalendarOnOpen ? " mui-date-picker-month-focused" : null )}";
+
+    private string GetPeriodClassNames( DatePickerCalendarPeriod period )
+        => $"{Calendar.GetPeriodClassNames( period )}{( gridFocused && period.Focused && !Parent.FocusCalendarOnOpen ? " mui-date-picker-month-focused" : null )}";
 
     private string GetPeriodClass( bool postMeridiem )
         => $"mui-date-picker-period-button{( Calendar.IsPostMeridiem == postMeridiem ? " mui-date-picker-period-button-selected" : null )}";

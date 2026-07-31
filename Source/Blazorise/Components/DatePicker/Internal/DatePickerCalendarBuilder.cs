@@ -165,6 +165,103 @@ internal static class DatePickerCalendarBuilder
         return months;
     }
 
+    /// <summary>
+    /// Builds the years displayed by the year-selection view.
+    /// </summary>
+    /// <param name="visibleMonth">Month whose decade is currently displayed.</param>
+    /// <param name="focusedDate">Year targeted by keyboard navigation.</param>
+    /// <param name="selectedDates">Dates currently selected by the picker.</param>
+    /// <param name="isYearDisabled">Callback that determines whether a year is disabled.</param>
+    /// <returns>The active decade with one adjacent year on each side.</returns>
+    public static IReadOnlyList<DatePickerCalendarPeriod> BuildYears(
+        DateTime visibleMonth,
+        DateTime focusedDate,
+        IReadOnlyList<DateTime> selectedDates,
+        Func<int, bool> isYearDisabled )
+    {
+        List<DatePickerCalendarPeriod> years = new();
+        int decadeStart = GetDecadeStart( visibleMonth.Year );
+        int decadeEnd = Math.Min( decadeStart + 9, DateTime.MaxValue.Year );
+        int firstRenderedYear = decadeStart > DateTime.MinValue.Year
+            ? decadeStart - 1
+            : DateTime.MinValue.Year;
+
+        for ( int yearOffset = 0; yearOffset < 12; yearOffset++ )
+        {
+            int year = firstRenderedYear + yearOffset;
+            bool valid = year is >= 1 and <= 9999;
+
+            years.Add( new DatePickerCalendarPeriod(
+                year,
+                year,
+                year.ToString( CultureInfo.InvariantCulture ),
+                year < decadeStart || year > decadeEnd,
+                valid && selectedDates.Any( item => item.Year == year ),
+                !valid || isYearDisabled( year ),
+                valid && focusedDate.Year == year ) );
+        }
+
+        return years;
+    }
+
+    /// <summary>
+    /// Builds the decades displayed by the decade-selection view.
+    /// </summary>
+    /// <param name="visibleMonth">Month whose century is currently displayed.</param>
+    /// <param name="focusedDate">Decade targeted by keyboard navigation.</param>
+    /// <param name="selectedDates">Dates currently selected by the picker.</param>
+    /// <param name="isPeriodDisabled">Callback that determines whether a year range is disabled.</param>
+    /// <returns>The active century with one adjacent decade on each side.</returns>
+    public static IReadOnlyList<DatePickerCalendarPeriod> BuildDecades(
+        DateTime visibleMonth,
+        DateTime focusedDate,
+        IReadOnlyList<DateTime> selectedDates,
+        Func<int, int, bool> isPeriodDisabled )
+    {
+        List<DatePickerCalendarPeriod> decades = new();
+        int centuryStart = GetCenturyStart( visibleMonth.Year );
+        int centuryEnd = Math.Min( centuryStart + 99, DateTime.MaxValue.Year );
+        int firstRenderedDecade = centuryStart >= 11
+            ? centuryStart - 10
+            : DateTime.MinValue.Year;
+
+        for ( int decadeOffset = 0; decadeOffset < 12; decadeOffset++ )
+        {
+            int startYear = firstRenderedDecade + decadeOffset * 10;
+            int endYear = startYear + 9;
+            bool valid = startYear <= DateTime.MaxValue.Year && endYear >= DateTime.MinValue.Year;
+            int validStartYear = Math.Max( startYear, DateTime.MinValue.Year );
+            int validEndYear = Math.Min( endYear, DateTime.MaxValue.Year );
+
+            decades.Add( new DatePickerCalendarPeriod(
+                startYear,
+                endYear,
+                $"{startYear.ToString( CultureInfo.InvariantCulture )}-{endYear.ToString( CultureInfo.InvariantCulture )}",
+                endYear < centuryStart || startYear > centuryEnd,
+                valid && selectedDates.Any( item => item.Year >= validStartYear && item.Year <= validEndYear ),
+                !valid || isPeriodDisabled( validStartYear, validEndYear ),
+                valid && focusedDate.Year >= validStartYear && focusedDate.Year <= validEndYear ) );
+        }
+
+        return decades;
+    }
+
+    /// <summary>
+    /// Gets the first year of the decade containing the specified year.
+    /// </summary>
+    /// <param name="year">Year whose decade is requested.</param>
+    /// <returns>The first year of the containing decade.</returns>
+    public static int GetDecadeStart( int year )
+        => Math.Max( DateTime.MinValue.Year, year - year % 10 );
+
+    /// <summary>
+    /// Gets the first year of the century containing the specified year.
+    /// </summary>
+    /// <param name="year">Year whose century is requested.</param>
+    /// <returns>The first year of the containing century.</returns>
+    public static int GetCenturyStart( int year )
+        => Math.Max( DateTime.MinValue.Year, year - year % 100 );
+
     private static ( DateTime? Start, DateTime? End ) GetDisplayRange(
         DateInputSelectionMode selectionMode,
         IReadOnlyList<DateTime> selectedDates,

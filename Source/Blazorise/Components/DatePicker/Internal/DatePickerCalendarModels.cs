@@ -257,3 +257,80 @@ internal sealed class DatePickerCalendarMonth
 
     #endregion
 }
+
+/// <summary>
+/// Describes one rendered year or decade in month-selection mode.
+/// </summary>
+internal sealed class DatePickerCalendarPeriod
+{
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new calendar period.
+    /// </summary>
+    /// <param name="startYear">First year represented by the period.</param>
+    /// <param name="endYear">Last year represented by the period.</param>
+    /// <param name="label">Text displayed for the period.</param>
+    /// <param name="outside">Whether the period is adjacent to the titled range.</param>
+    /// <param name="selected">Whether the period contains a selected month.</param>
+    /// <param name="disabled">Whether the period cannot be selected.</param>
+    /// <param name="focused">Whether the period is targeted by keyboard navigation.</param>
+    public DatePickerCalendarPeriod(
+        int startYear,
+        int endYear,
+        string label,
+        bool outside,
+        bool selected,
+        bool disabled,
+        bool focused )
+    {
+        StartYear = startYear;
+        EndYear = endYear;
+        Label = label;
+        Outside = outside;
+        Selected = selected;
+        Disabled = disabled;
+        Focused = focused;
+    }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Gets the first year represented by the period.
+    /// </summary>
+    public int StartYear { get; }
+
+    /// <summary>
+    /// Gets the last year represented by the period.
+    /// </summary>
+    public int EndYear { get; }
+
+    /// <summary>
+    /// Gets the text displayed for the period.
+    /// </summary>
+    public string Label { get; }
+
+    /// <summary>
+    /// Gets whether the period is adjacent to the titled range.
+    /// </summary>
+    public bool Outside { get; }
+
+    /// <summary>
+    /// Gets whether the period contains a selected month.
+    /// </summary>
+    public bool Selected { get; }
+
+    /// <summary>
+    /// Gets whether the period cannot be selected.
+    /// </summary>
+    public bool Disabled { get; }
+
+    /// <summary>
+    /// Gets whether the period is targeted by keyboard navigation.
+    /// </summary>
+    public bool Focused { get; }
+
+    #endregion
+}

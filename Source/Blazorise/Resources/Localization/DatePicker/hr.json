@@ -53,6 +53,10 @@
     "PreviousMonth": "Prethodni mjesec",
     "NextMonth": "Sljedeći mjesec",
     "PreviousYear": "Prethodna godina",
-    "NextYear": "Sljedeća godina"
+    "NextYear": "Sljedeća godina",
+    "PreviousDecade": "Prethodno desetljeće",
+    "NextDecade": "Sljedeće desetljeće",
+    "PreviousCentury": "Prethodno stoljeće",
+    "NextCentury": "Sljedeće stoljeće"
   }
 }

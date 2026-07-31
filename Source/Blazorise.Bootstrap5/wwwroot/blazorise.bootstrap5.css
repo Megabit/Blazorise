@@ -1228,6 +1228,19 @@ input[type=button].btn-block {
 .datepicker .datepicker-title input {
   width: 5rem;
 }
+.datepicker .datepicker-title > button,
+.datepicker .datepicker-title > span {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 400;
+  text-align: center;
+}
+.datepicker .datepicker-title > button {
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
 .datepicker .datepicker-weekdays,
 .datepicker .datepicker-week {
   display: grid;
@@ -1365,6 +1378,12 @@ input[type=button].btn-block {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.25rem;
   padding-block: 0.5rem;
+}
+.datepicker .datepicker-months[data-calendar-view=year], .datepicker .datepicker-months[data-calendar-view=decade] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.datepicker .datepicker-months [data-outside=true] {
+  opacity: 0.45;
 }
 .datepicker .datepicker-time,
 .datepicker .datepicker-actions {

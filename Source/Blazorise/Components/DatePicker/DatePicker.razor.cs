@@ -168,6 +168,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     private DateTime focusedDate;
 
+    private readonly DatePickerCalendarNavigation calendarNavigation = new();
+
     private DateTime? pendingRangeStart;
 
     private DateTime? hoveredRangeEnd;
@@ -245,6 +247,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         if ( !stateInitialized || paramValue.Changed || formatChanged || resetEmptyNavigation )
         {
             SynchronizeStateFromValue( resetVisibleMonth: !stateInitialized || paramValue.Changed || resetEmptyNavigation );
+        }
+
+        if ( paramInputMode.Defined && paramInputMode.Changed )
+        {
+            calendarNavigation.Reset();
         }
 
         if ( paramInline.Defined && paramInline.Changed )
@@ -639,9 +646,16 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             return;
         }
 
-        bool renderRequired = !CalendarVisible || focusCalendarOnOpen != focusCalendar;
+        bool calendarWasVisible = CalendarVisible;
+        bool renderRequired = !calendarWasVisible || focusCalendarOnOpen != focusCalendar;
 
         InitializeNavigationTarget();
+
+        if ( !calendarWasVisible )
+        {
+            calendarNavigation.Reset();
+        }
+
         focusCalendarOnOpen = focusCalendar;
         calendarOpen = true;
 
@@ -1046,7 +1060,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
         if ( InputMode == DateInputMode.Month )
         {
-            MoveFocusedMonth( -12 );
+            MoveFocusedMonth( calendarNavigation.GetNavigationMonths( -1 ) );
         }
         else
         {
@@ -1061,7 +1075,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
         if ( InputMode == DateInputMode.Month )
         {
-            MoveFocusedMonth( 12 );
+            MoveFocusedMonth( calendarNavigation.GetNavigationMonths( 1 ) );
         }
         else
         {
@@ -1123,6 +1137,41 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         }
     }
 
+    /// <summary>
+    /// Advances the month-selection calendar from months to years or from years to decades.
+    /// </summary>
+    internal void ShowBroaderCalendarView()
+    {
+        if ( CalendarInteractionDisabled || InputMode != DateInputMode.Month )
+            return;
+
+        calendarNavigation.ShowBroaderView();
+
+        NotifyCalendarStateChanged();
+    }
+
+    /// <summary>
+    /// Selects an intermediate year or decade and returns to the next narrower calendar view.
+    /// </summary>
+    /// <param name="period">Calendar period to select.</param>
+    internal void SelectCalendarPeriod( DatePickerCalendarPeriod period )
+    {
+        if ( CalendarInteractionDisabled )
+            return;
+
+        if ( calendarNavigation.TrySelectPeriod(
+            period,
+            visibleMonth,
+            focusedDate,
+            out DateTime targetVisibleMonth,
+            out DateTime targetFocusedDate ) )
+        {
+            visibleMonth = targetVisibleMonth;
+            focusedDate = targetFocusedDate;
+            NotifyCalendarStateChanged();
+        }
+    }
+
     internal async Task OnCalendarKeyDownAsync( KeyboardEventArgs eventArgs )
     {
         if ( eventArgs is null || CalendarInteractionDisabled )
@@ -1134,27 +1183,28 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         switch ( eventArgs.Key )
         {
             case "ArrowLeft":
-                MoveFocus( weekMode ? -7 : -1, monthMode );
+                MoveCalendarFocus( weekMode ? -7 : -1, monthMode );
                 break;
             case "ArrowRight":
-                MoveFocus( weekMode ? 7 : 1, monthMode );
+                MoveCalendarFocus( weekMode ? 7 : 1, monthMode );
                 break;
             case "ArrowUp":
-                MoveFocus( monthMode ? -4 : -7, monthMode );
+                MoveCalendarFocus( monthMode ? -calendarNavigation.GetColumnCount() : -7, monthMode );
                 break;
             case "ArrowDown":
-                MoveFocus( monthMode ? 4 : 7, monthMode );
+                MoveCalendarFocus( monthMode ? calendarNavigation.GetColumnCount() : 7, monthMode );
                 break;
             case "PageUp":
-                MoveFocusedMonth( eventArgs.ShiftKey ? -12 : monthMode ? -12 : -1 );
+                MoveFocusedMonth( monthMode ? calendarNavigation.GetNavigationMonths( -1 ) : eventArgs.ShiftKey ? -12 : -1 );
                 break;
             case "PageDown":
-                MoveFocusedMonth( eventArgs.ShiftKey ? 12 : monthMode ? 12 : 1 );
+                MoveFocusedMonth( monthMode ? calendarNavigation.GetNavigationMonths( 1 ) : eventArgs.ShiftKey ? 12 : 1 );
                 break;
             case "Home":
                 if ( monthMode )
                 {
-                    focusedDate = new DateTime( visibleMonth.Year, 1, 1 );
+                    focusedDate = new DateTime( calendarNavigation.GetBoundaryYear( visibleMonth.Year, beginning: true ), CalendarView == DatePickerCalendarView.Month ? 1 : visibleMonth.Month, 1 );
+                    visibleMonth = new DateTime( focusedDate.Year, visibleMonth.Month, 1 );
                     NotifyCalendarStateChanged();
                 }
                 else if ( weekMode )
@@ -1170,7 +1220,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             case "End":
                 if ( monthMode )
                 {
-                    focusedDate = new DateTime( visibleMonth.Year, 12, 1 );
+                    focusedDate = new DateTime( calendarNavigation.GetBoundaryYear( visibleMonth.Year, beginning: false ), CalendarView == DatePickerCalendarView.Month ? 12 : visibleMonth.Month, 1 );
+                    visibleMonth = new DateTime( focusedDate.Year, visibleMonth.Month, 1 );
                     NotifyCalendarStateChanged();
                 }
                 else if ( weekMode )
@@ -1191,7 +1242,14 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             case " ":
                 if ( monthMode )
                 {
-                    await SelectMonthAsync( focusedDate );
+                    if ( CalendarView == DatePickerCalendarView.Month )
+                    {
+                        await SelectMonthAsync( focusedDate );
+                    }
+                    else
+                    {
+                        SelectCalendarPeriod( calendarNavigation.GetFocusedPeriod( focusedDate, IsYearDisabled, IsPeriodDisabled ) );
+                    }
                 }
                 else
                 {
@@ -1231,6 +1289,29 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         focusedDate = candidate;
         visibleMonth = new DateTime( candidate.Year, candidate.Month, 1 );
         NotifyCalendarStateChanged();
+    }
+
+    private void MoveCalendarFocus( int amount, bool monthMode )
+    {
+        if ( !monthMode || CalendarView == DatePickerCalendarView.Month )
+        {
+            MoveFocus( amount, monthMode );
+            return;
+        }
+
+        if ( calendarNavigation.TryMoveFocus(
+            visibleMonth,
+            focusedDate,
+            amount,
+            IsYearDisabled,
+            IsPeriodDisabled,
+            out DateTime targetVisibleMonth,
+            out DateTime targetFocusedDate ) )
+        {
+            visibleMonth = targetVisibleMonth;
+            focusedDate = targetFocusedDate;
+            NotifyCalendarStateChanged();
+        }
     }
 
     private void MoveFocusedMonth( int months )
@@ -1441,6 +1522,34 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         return false;
     }
 
+    private bool IsYearDisabled( int year )
+    {
+        if ( year is < 1 or > 9999 )
+            return true;
+
+        for ( int month = 1; month <= 12; month++ )
+        {
+            if ( !IsMonthDisabled( new DateTime( year, month, 1 ) ) )
+                return false;
+        }
+
+        return true;
+    }
+
+    private bool IsPeriodDisabled( int startYear, int endYear )
+    {
+        int validStartYear = Math.Max( startYear, DateTime.MinValue.Year );
+        int validEndYear = Math.Min( endYear, DateTime.MaxValue.Year );
+
+        for ( int year = validStartYear; year <= validEndYear; year++ )
+        {
+            if ( !IsYearDisabled( year ) )
+                return false;
+        }
+
+        return true;
+    }
+
     internal IReadOnlyList<DatePickerCalendarWeek> BuildCalendarWeeks()
         => DatePickerCalendarBuilder.BuildWeeks(
             visibleMonth,
@@ -1461,6 +1570,28 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             GetSelectedDates(),
             CalendarContext.MonthNames,
             IsMonthDisabled );
+
+    /// <summary>
+    /// Builds the years displayed by the active month-selection calendar.
+    /// </summary>
+    /// <returns>The years in the active decade plus adjacent boundary years.</returns>
+    internal IReadOnlyList<DatePickerCalendarPeriod> BuildCalendarYears()
+        => DatePickerCalendarBuilder.BuildYears(
+            visibleMonth,
+            focusedDate,
+            GetSelectedDates(),
+            IsYearDisabled );
+
+    /// <summary>
+    /// Builds the decades displayed by the active month-selection calendar.
+    /// </summary>
+    /// <returns>The decades in the active century plus adjacent boundary decades.</returns>
+    internal IReadOnlyList<DatePickerCalendarPeriod> BuildCalendarDecades()
+        => DatePickerCalendarBuilder.BuildDecades(
+            visibleMonth,
+            focusedDate,
+            GetSelectedDates(),
+            IsPeriodDisabled );
 
     private void OnLocalizationChanged( object sender, EventArgs eventArgs )
     {
@@ -1531,6 +1662,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     internal DateTime CalendarVisibleMonth => visibleMonth;
 
     internal DateTime CalendarFocusedDate => focusedDate;
+
+    /// <summary>
+    /// Gets the active panel displayed by a month-selection calendar.
+    /// </summary>
+    internal DatePickerCalendarView CalendarView => calendarNavigation.View;
 
     internal DateTime CalendarTimeSource => GetCurrentTimeSource();
 

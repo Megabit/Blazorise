@@ -105,6 +105,25 @@
         align-items: center;
         justify-content: center;
         min-width: 0;
+
+        > button,
+        > span {
+            padding: var(--ant-padding-xxs) var(--ant-padding-xs);
+            border: 0;
+            border-radius: var(--ant-border-radius-sm);
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            font-weight: var(--ant-font-weight-strong);
+        }
+
+        > button {
+            cursor: pointer;
+
+            &:hover:not(:disabled) {
+                background: var(--ant-picker-cell-hover-bg);
+            }
+        }
     }
 
     .ant-picker-header-navigation,
@@ -348,6 +367,12 @@
         place-items: center;
         gap: 0;
         padding-inline: var(--ant-padding-xs);
+
+        &[data-calendar-view="decade"] .ant-picker-month-cell {
+            box-sizing: border-box;
+            width: calc(100% - var(--ant-padding-xs));
+            white-space: nowrap;
+        }
     }
 
     .ant-picker-month-cell {
@@ -359,6 +384,10 @@
         background: transparent;
         color: inherit;
         font: inherit;
+
+        &[data-outside="true"]:not(.ant-picker-cell-selected):not(.ant-picker-cell-disabled) {
+            color: var(--ant-color-text-disabled);
+        }
 
         &:hover:not(:disabled):not(.ant-picker-cell-selected) {
             background: var(--ant-picker-cell-hover-bg);

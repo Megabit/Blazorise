@@ -53,6 +53,10 @@
     "PreviousMonth": "Vorige maand",
     "NextMonth": "Volgende maand",
     "PreviousYear": "Vorig jaar",
-    "NextYear": "Volgend jaar"
+    "NextYear": "Volgend jaar",
+    "PreviousDecade": "Vorig decennium",
+    "NextDecade": "Volgend decennium",
+    "PreviousCentury": "Vorige eeuw",
+    "NextCentury": "Volgende eeuw"
   }
 }

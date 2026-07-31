@@ -12756,6 +12756,23 @@ code {
 .fui-DatePicker__calendar .fui-DatePicker__title input {
   width: 5rem;
 }
+.fui-DatePicker__calendar .fui-DatePicker__title > button,
+.fui-DatePicker__calendar .fui-DatePicker__title > span {
+  border: 0;
+  border-radius: var(--borderRadiusMedium);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: var(--fontWeightSemibold);
+  text-align: center;
+}
+.fui-DatePicker__calendar .fui-DatePicker__title > button {
+  padding: var(--spacingVerticalXXS) var(--spacingHorizontalS);
+  cursor: pointer;
+}
+.fui-DatePicker__calendar .fui-DatePicker__title > button:hover:not(:disabled) {
+  background: var(--colorNeutralBackground1Hover);
+}
 .fui-DatePicker__calendar .fui-DatePicker__weekday,
 .fui-DatePicker__calendar .fui-DatePicker__weekNumber {
   display: inline-flex;
@@ -12972,6 +12989,12 @@ code {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--spacingHorizontalXXS);
   padding-block: var(--spacingVerticalXS);
+}
+.fui-DatePicker__calendar .fui-DatePicker__months[data-calendar-view=year], .fui-DatePicker__calendar .fui-DatePicker__months[data-calendar-view=decade] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.fui-DatePicker__calendar .fui-DatePicker__months [data-outside=true] {
+  color: var(--colorNeutralForegroundDisabled);
 }
 .fui-DatePicker__calendar .fui-DatePicker__timeInput {
   box-sizing: border-box;

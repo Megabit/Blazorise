@@ -53,6 +53,10 @@
     "PreviousMonth": "Předchozí měsíc",
     "NextMonth": "Následující měsíc",
     "PreviousYear": "Předchozí rok",
-    "NextYear": "Následující rok"
+    "NextYear": "Následující rok",
+    "PreviousDecade": "Předchozí desetiletí",
+    "NextDecade": "Následující desetiletí",
+    "PreviousCentury": "Předchozí století",
+    "NextCentury": "Následující století"
   }
 }

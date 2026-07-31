@@ -53,6 +53,10 @@
     "PreviousMonth": "Fyrri mánuður",
     "NextMonth": "Næsti mánuður",
     "PreviousYear": "Fyrra ár",
-    "NextYear": "Næsta ár"
+    "NextYear": "Næsta ár",
+    "PreviousDecade": "Fyrri áratugur",
+    "NextDecade": "Næsti áratugur",
+    "PreviousCentury": "Fyrri öld",
+    "NextCentury": "Næsta öld"
   }
 }

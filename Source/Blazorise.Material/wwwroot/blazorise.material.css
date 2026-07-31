@@ -3905,6 +3905,25 @@ body {
   min-width: 0;
   gap: 0.125rem;
 }
+.mui-date-picker-calendar .mui-date-picker-view-title {
+  padding: 0.5rem 0.75rem;
+  border: 0;
+  border-radius: 999rem;
+  background: transparent;
+  color: var(--mui-on-surface);
+  font: inherit;
+  font-weight: 500;
+}
+.mui-date-picker-calendar button.mui-date-picker-view-title {
+  cursor: pointer;
+}
+.mui-date-picker-calendar button.mui-date-picker-view-title:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
+}
+.mui-date-picker-calendar button.mui-date-picker-view-title:focus-visible {
+  outline: 0.125rem solid var(--mui-primary);
+  outline-offset: -0.125rem;
+}
 .mui-date-picker-calendar .mui-date-picker-selector {
   position: relative;
   display: inline-flex;
@@ -4157,6 +4176,9 @@ body {
   gap: 0.5rem;
   padding-block: 0.5rem;
 }
+.mui-date-picker-calendar .mui-date-picker-months[data-calendar-view=year], .mui-date-picker-calendar .mui-date-picker-months[data-calendar-view=decade] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
 .mui-date-picker-calendar .mui-date-picker-month {
   min-height: 2.5rem;
   padding-inline: 0.75rem;
@@ -4168,6 +4190,9 @@ body {
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
+}
+.mui-date-picker-calendar .mui-date-picker-month[data-outside=true]:not(.mui-date-picker-month-selected):not(.mui-date-picker-month-disabled) {
+  color: color-mix(in srgb, var(--mui-on-surface) 38%, transparent);
 }
 .mui-date-picker-calendar .mui-date-picker-month:hover:not(:disabled) {
   background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);

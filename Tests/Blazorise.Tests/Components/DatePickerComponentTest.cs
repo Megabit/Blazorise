@@ -236,6 +236,65 @@ public class DatePickerComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task MonthModeNavigatesThroughYearsAndDecadesBeforeSelectingMonth()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2026, 7, 1 ) )
+            .Add( x => x.Inline, true )
+            .Add( x => x.InputMode, DateInputMode.Month ) );
+
+        // test
+        await comp.Find( ".datepicker-title > button" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( "2020-2029", comp.Find( ".datepicker-title > button" ).TextContent.Trim() );
+        Assert.Collection(
+            comp.FindAll( ".datepicker-months[data-calendar-view='year'] > button" ),
+            year => Assert.Equal( "2019", year.TextContent.Trim() ),
+            year => Assert.Equal( "2020", year.TextContent.Trim() ),
+            year => Assert.Equal( "2021", year.TextContent.Trim() ),
+            year => Assert.Equal( "2022", year.TextContent.Trim() ),
+            year => Assert.Equal( "2023", year.TextContent.Trim() ),
+            year => Assert.Equal( "2024", year.TextContent.Trim() ),
+            year => Assert.Equal( "2025", year.TextContent.Trim() ),
+            year => Assert.Equal( "2026", year.TextContent.Trim() ),
+            year => Assert.Equal( "2027", year.TextContent.Trim() ),
+            year => Assert.Equal( "2028", year.TextContent.Trim() ),
+            year => Assert.Equal( "2029", year.TextContent.Trim() ),
+            year => Assert.Equal( "2030", year.TextContent.Trim() ) );
+
+        // test
+        await comp.Find( "button[aria-label='Next decade']" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( "2030-2039", comp.Find( ".datepicker-title > button" ).TextContent.Trim() );
+
+        // test
+        await comp.Find( "button[aria-label='Previous decade']" ).ClickAsync( new MouseEventArgs() );
+        await comp.Find( ".datepicker-title > button" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( "2000-2099", comp.Find( ".datepicker-title > span" ).TextContent.Trim() );
+        Assert.Equal( "1990-1999", comp.Find( ".datepicker-months[data-calendar-view='decade'] > button" ).TextContent.Trim() );
+
+        // test
+        await comp.Find( "button[aria-label='Next century']" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( "2100-2199", comp.Find( ".datepicker-title > span" ).TextContent.Trim() );
+
+        // test
+        await comp.Find( "button[aria-label='Previous century']" ).ClickAsync( new MouseEventArgs() );
+        await comp.Find( "button[aria-label='2040-2049']" ).ClickAsync( new MouseEventArgs() );
+        await comp.Find( "button[aria-label='2045']" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( "2045", comp.Find( ".datepicker-title > button" ).TextContent.Trim() );
+        Assert.Equal( 12, comp.FindAll( ".datepicker-months[data-calendar-view='month'] > button" ).Count );
+    }
+
+    [Fact]
     public async Task CalendarKeyboardNavigationSelectsFocusedDate()
     {
         // setup

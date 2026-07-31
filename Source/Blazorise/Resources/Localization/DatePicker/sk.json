@@ -53,6 +53,10 @@
     "PreviousMonth": "Predchádzajúci mesiac",
     "NextMonth": "Nasledujúci mesiac",
     "PreviousYear": "Predchádzajúci rok",
-    "NextYear": "Nasledujúci rok"
+    "NextYear": "Nasledujúci rok",
+    "PreviousDecade": "Predchádzajúce desaťročie",
+    "NextDecade": "Nasledujúce desaťročie",
+    "PreviousCentury": "Predchádzajúce storočie",
+    "NextCentury": "Nasledujúce storočie"
   }
 }

@@ -53,6 +53,10 @@
     "PreviousMonth": "Предыдущий месяц",
     "NextMonth": "Следующий месяц",
     "PreviousYear": "Предыдущий год",
-    "NextYear": "Следующий год"
+    "NextYear": "Следующий год",
+    "PreviousDecade": "Предыдущее десятилетие",
+    "NextDecade": "Следующее десятилетие",
+    "PreviousCentury": "Предыдущий век",
+    "NextCentury": "Следующий век"
   }
 }

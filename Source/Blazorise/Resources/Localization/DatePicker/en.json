@@ -53,6 +53,10 @@
     "PreviousMonth": "Previous month",
     "NextMonth": "Next month",
     "PreviousYear": "Previous year",
-    "NextYear": "Next year"
+    "NextYear": "Next year",
+    "PreviousDecade": "Previous decade",
+    "NextDecade": "Next decade",
+    "PreviousCentury": "Previous century",
+    "NextCentury": "Next century"
   }
 }

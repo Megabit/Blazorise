@@ -61,6 +61,17 @@ internal sealed class DatePickerCalendarContext<TValue>
             month.Focused && parent.FocusCalendarOnOpen );
 
     /// <summary>
+    /// Gets the provider classes for a rendered year or decade.
+    /// </summary>
+    /// <param name="period">Calendar period being rendered.</param>
+    /// <returns>The provider-specific class names.</returns>
+    public string GetPeriodClassNames( DatePickerCalendarPeriod period )
+        => parent.PickerClassProvider.DatePickerCalendarMonth(
+            period.Selected,
+            period.Disabled,
+            period.Focused && parent.FocusCalendarOnOpen );
+
+    /// <summary>
     /// Gets the DOM identifier for a rendered calendar day.
     /// </summary>
     /// <param name="date">Rendered date.</param>
@@ -75,6 +86,17 @@ internal sealed class DatePickerCalendarContext<TValue>
     /// <returns>The month element identifier.</returns>
     public string GetMonthId( DateTime date )
         => $"{parent.ElementId}-month-{date:yyyyMM}";
+
+    /// <summary>
+    /// Gets the DOM identifier for a rendered year or decade.
+    /// </summary>
+    /// <param name="period">Rendered calendar period.</param>
+    /// <returns>The period element identifier.</returns>
+    public string GetPeriodId( DatePickerCalendarPeriod period )
+        => GetPeriodId( parent.CalendarView, period.StartYear );
+
+    private string GetPeriodId( DatePickerCalendarView view, int startYear )
+        => $"{parent.ElementId}-{view.ToString().ToLowerInvariant()}-{startYear.ToString( CultureInfo.InvariantCulture )}";
 
     /// <summary>
     /// Gets the localized accessible label for a date.
@@ -104,6 +126,12 @@ internal sealed class DatePickerCalendarContext<TValue>
         return $"{WeekText} {WeekDateFormat.GetWeekNumber( weekStart )}, {weekStart.ToString( "d", CultureInfo.CurrentCulture )} \u2013 {weekStart.AddDays( 6 ).ToString( "d", CultureInfo.CurrentCulture )}";
     }
 
+    private static string FormatRange( int startYear, int length )
+    {
+        int endYear = Math.Min( startYear + length, DateTime.MaxValue.Year );
+        return $"{startYear.ToString( CultureInfo.InvariantCulture )}-{endYear.ToString( CultureInfo.InvariantCulture )}";
+    }
+
     #endregion
 
     #region Properties
@@ -117,8 +145,52 @@ internal sealed class DatePickerCalendarContext<TValue>
     /// Gets the accessible label for the visible calendar period.
     /// </summary>
     public string Label => parent.InputMode == DateInputMode.Month
-        ? $"{parent.CalendarVisibleMonth.Year}"
+        ? Title
         : $"{MonthNames[parent.CalendarVisibleMonth.Month - 1]} {parent.CalendarVisibleMonth.Year}";
+
+    /// <summary>
+    /// Gets the title for the active calendar panel.
+    /// </summary>
+    public string Title
+    {
+        get
+        {
+            int year = parent.CalendarVisibleMonth.Year;
+
+            return parent.CalendarView switch
+            {
+                DatePickerCalendarView.Year => FormatRange( DatePickerCalendarBuilder.GetDecadeStart( year ), 9 ),
+                DatePickerCalendarView.Decade => FormatRange( DatePickerCalendarBuilder.GetCenturyStart( year ), 99 ),
+                _ => year.ToString( CultureInfo.InvariantCulture ),
+            };
+        }
+    }
+
+    /// <summary>
+    /// Gets the value applied to the calendar panel data attribute.
+    /// </summary>
+    public string ViewName => parent.CalendarView.ToString().ToLowerInvariant();
+
+    /// <summary>
+    /// Gets the identifier of the item targeted by keyboard navigation.
+    /// </summary>
+    public string ActiveDescendantId
+    {
+        get
+        {
+            if ( parent.InputMode != DateInputMode.Month )
+                return GetDayId( FocusedDate );
+
+            if ( parent.CalendarView == DatePickerCalendarView.Month )
+                return GetMonthId( FocusedDate );
+
+            int startYear = parent.CalendarView == DatePickerCalendarView.Year
+                ? FocusedDate.Year
+                : DatePickerCalendarBuilder.GetDecadeStart( FocusedDate.Year );
+
+            return GetPeriodId( parent.CalendarView, startYear );
+        }
+    }
 
     /// <summary>
     /// Gets the date targeted by keyboard navigation.
@@ -302,14 +374,24 @@ internal sealed class DatePickerCalendarContext<TValue>
     /// Gets the localized accessible label for navigating to the previous period.
     /// </summary>
     public string PreviousPeriodAriaLabel => parent.InputMode == DateInputMode.Month
-        ? parent.PickerLocalizer["PreviousYear"]
+        ? parent.CalendarView switch
+        {
+            DatePickerCalendarView.Year => parent.PickerLocalizer["PreviousDecade"],
+            DatePickerCalendarView.Decade => parent.PickerLocalizer["PreviousCentury"],
+            _ => parent.PickerLocalizer["PreviousYear"],
+        }
         : parent.PickerLocalizer["PreviousMonth"];
 
     /// <summary>
     /// Gets the localized accessible label for navigating to the next period.
     /// </summary>
     public string NextPeriodAriaLabel => parent.InputMode == DateInputMode.Month
-        ? parent.PickerLocalizer["NextYear"]
+        ? parent.CalendarView switch
+        {
+            DatePickerCalendarView.Year => parent.PickerLocalizer["NextDecade"],
+            DatePickerCalendarView.Decade => parent.PickerLocalizer["NextCentury"],
+            _ => parent.PickerLocalizer["NextYear"],
+        }
         : parent.PickerLocalizer["NextMonth"];
 
     /// <summary>

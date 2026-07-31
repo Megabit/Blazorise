@@ -53,6 +53,10 @@
     "PreviousMonth": "Forrige måned",
     "NextMonth": "Næste måned",
     "PreviousYear": "Forrige år",
-    "NextYear": "Næste år"
+    "NextYear": "Næste år",
+    "PreviousDecade": "Forrige årti",
+    "NextDecade": "Næste årti",
+    "PreviousCentury": "Forrige århundrede",
+    "NextCentury": "Næste århundrede"
   }
 }

@@ -124,6 +124,22 @@
                 appearance: none;
             }
         }
+
+        > button,
+        > span {
+            border: 0;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            font-size: 1rem;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        > button {
+            padding: .25rem .5rem;
+            cursor: pointer;
+        }
     }
 
     .tw-datepicker-weekdays,
@@ -296,6 +312,16 @@
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: .25rem;
+
+        &[data-calendar-view="year"],
+        &[data-calendar-view="decade"] {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        [data-outside="true"] {
+            opacity: .45;
+        }
+
         padding-block: .5rem;
     }
 

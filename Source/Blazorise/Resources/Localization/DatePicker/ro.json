@@ -53,6 +53,10 @@
     "PreviousMonth": "Luna precedentă",
     "NextMonth": "Luna următoare",
     "PreviousYear": "Anul precedent",
-    "NextYear": "Anul următor"
+    "NextYear": "Anul următor",
+    "PreviousDecade": "Deceniul precedent",
+    "NextDecade": "Deceniul următor",
+    "PreviousCentury": "Secolul precedent",
+    "NextCentury": "Secolul următor"
   }
 }

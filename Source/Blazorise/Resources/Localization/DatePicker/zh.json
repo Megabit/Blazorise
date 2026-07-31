@@ -53,6 +53,10 @@
     "PreviousMonth": "上个月",
     "NextMonth": "下个月",
     "PreviousYear": "上一年",
-    "NextYear": "下一年"
+    "NextYear": "下一年",
+    "PreviousDecade": "上一个十年",
+    "NextDecade": "下一个十年",
+    "PreviousCentury": "上一个世纪",
+    "NextCentury": "下一个世纪"
   }
 }

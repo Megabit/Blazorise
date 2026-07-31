@@ -131,6 +131,26 @@
         input {
             width: 5rem;
         }
+
+        > button,
+        > span {
+            border: 0;
+            border-radius: var(--borderRadiusMedium);
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            font-weight: var(--fontWeightSemibold);
+            text-align: center;
+        }
+
+        > button {
+            padding: var(--spacingVerticalXXS) var(--spacingHorizontalS);
+            cursor: pointer;
+
+            &:hover:not(:disabled) {
+                background: var(--colorNeutralBackground1Hover);
+            }
+        }
     }
 
     .fui-DatePicker__weekday,
@@ -387,6 +407,16 @@
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: var(--spacingHorizontalXXS);
+
+        &[data-calendar-view="year"],
+        &[data-calendar-view="decade"] {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        [data-outside="true"] {
+            color: var(--colorNeutralForegroundDisabled);
+        }
+
         padding-block: var(--spacingVerticalXS);
     }
 

@@ -53,6 +53,10 @@
     "PreviousMonth": "Önceki ay",
     "NextMonth": "Sonraki ay",
     "PreviousYear": "Önceki yıl",
-    "NextYear": "Sonraki yıl"
+    "NextYear": "Sonraki yıl",
+    "PreviousDecade": "Önceki on yıl",
+    "NextDecade": "Sonraki on yıl",
+    "PreviousCentury": "Önceki yüzyıl",
+    "NextCentury": "Sonraki yüzyıl"
   }
 }
