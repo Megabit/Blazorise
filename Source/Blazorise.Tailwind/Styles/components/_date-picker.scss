@@ -142,6 +142,12 @@
         }
     }
 
+    .tw-datepicker-grid {
+        box-sizing: border-box;
+        padding: calc(var(--spacing, .25rem) * 2);
+        padding-block-start: 0;
+    }
+
     .tw-datepicker-weekdays,
     .tw-datepicker-week {
         display: grid;

@@ -446,6 +446,11 @@ body:before {
   padding: 0.25rem 0.5rem;
   cursor: pointer;
 }
+.tw-datepicker-calendar .tw-datepicker-grid {
+  box-sizing: border-box;
+  padding: calc(var(--spacing, 0.25rem) * 2);
+  padding-block-start: 0;
+}
 .tw-datepicker-calendar .tw-datepicker-weekdays,
 .tw-datepicker-calendar .tw-datepicker-week {
   display: grid;

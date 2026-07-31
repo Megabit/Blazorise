@@ -1241,6 +1241,11 @@ input[type=button].btn-block {
   padding: 0.25rem 0.5rem;
   cursor: pointer;
 }
+.datepicker .datepicker-grid {
+  box-sizing: border-box;
+  padding: 0.5rem;
+  padding-block-start: 0;
+}
 .datepicker .datepicker-weekdays,
 .datepicker .datepicker-week {
   display: grid;

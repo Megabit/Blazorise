@@ -1814,6 +1814,11 @@ body:before {
   font-weight: 700;
   text-align: center;
 }
+.datepicker .datepicker-grid {
+  box-sizing: border-box;
+  padding: 8px;
+  padding-block-start: 0;
+}
 .datepicker .datepicker-weekdays,
 .datepicker .datepicker-week {
   display: grid;

@@ -148,6 +148,12 @@
         }
     }
 
+    .datepicker-grid {
+        box-sizing: border-box;
+        padding: $spacer * .5;
+        padding-block-start: 0;
+    }
+
     .datepicker-weekdays,
     .datepicker-week {
         display: grid;

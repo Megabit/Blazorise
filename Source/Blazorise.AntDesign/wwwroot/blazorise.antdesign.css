@@ -4045,6 +4045,11 @@ template {
 .ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-title > button:hover:not(:disabled) {
   background: var(--ant-picker-cell-hover-bg);
 }
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-body {
+  box-sizing: border-box;
+  padding: var(--ant-padding-xs);
+  padding-block-start: 0;
+}
 .ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-navigation,
 .ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-in-view,
 .ant-picker-dropdown.ant-picker-panel-container .ant-picker-month-cell {

@@ -12773,6 +12773,11 @@ code {
 .fui-DatePicker__calendar .fui-DatePicker__title > button:hover:not(:disabled) {
   background: var(--colorNeutralBackground1Hover);
 }
+.fui-DatePicker__calendar .fui-DatePicker__grid {
+  box-sizing: border-box;
+  padding: var(--spacingHorizontalS);
+  padding-block-start: 0;
+}
 .fui-DatePicker__calendar .fui-DatePicker__weekday,
 .fui-DatePicker__calendar .fui-DatePicker__weekNumber {
   display: inline-flex;

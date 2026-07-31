@@ -126,6 +126,12 @@
         }
     }
 
+    .ant-picker-body {
+        box-sizing: border-box;
+        padding: var(--ant-padding-xs);
+        padding-block-start: 0;
+    }
+
     .ant-picker-header-navigation,
     .ant-picker-cell-in-view,
     .ant-picker-month-cell {
