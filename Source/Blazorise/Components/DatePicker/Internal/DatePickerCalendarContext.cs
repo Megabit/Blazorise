@@ -331,9 +331,14 @@ internal sealed class DatePickerCalendarContext<TValue>
     ];
 
     /// <summary>
-    /// Gets the localized Today action text.
+    /// Gets the localized current-period action text for the active input mode.
     /// </summary>
-    public string TodayText => parent.PickerLocalizer["Today"];
+    public string TodayText => parent.InputMode switch
+    {
+        DateInputMode.Month => parent.PickerLocalizer["ThisMonth"],
+        DateInputMode.Week => parent.PickerLocalizer["ThisWeek"],
+        _ => parent.PickerLocalizer["Today"],
+    };
 
     /// <summary>
     /// Gets the localized Clear action text.

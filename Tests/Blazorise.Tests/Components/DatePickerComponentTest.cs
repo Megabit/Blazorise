@@ -235,6 +235,23 @@ public class DatePickerComponentTest : BunitContext
             icon => Assert.Equal( IconName.ChevronDoubleRight, icon.Instance.Name ) );
     }
 
+    [Theory]
+    [InlineData( DateInputMode.Date, "Today" )]
+    [InlineData( DateInputMode.Month, "This month" )]
+    [InlineData( DateInputMode.Week, "This week" )]
+    public void TodayButtonUsesInputModeSpecificLabel( DateInputMode inputMode, string expected )
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>( parameters => parameters
+            .Add( x => x.InputMode, inputMode )
+            .Add( x => x.Inline, true )
+            .Add( x => x.ShowClearButton, false )
+            .Add( x => x.ShowTodayButton, true ) );
+
+        // validate
+        Assert.Equal( expected, comp.Find( ".datepicker-actions button" ).TextContent.Trim() );
+    }
+
     [Fact]
     public async Task MonthModeNavigatesThroughYearsAndDecadesBeforeSelectingMonth()
     {
