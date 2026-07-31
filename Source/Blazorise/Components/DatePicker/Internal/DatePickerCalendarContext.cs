@@ -2,6 +2,7 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise;
@@ -82,6 +83,26 @@ internal sealed class DatePickerCalendarContext<TValue>
     /// <returns>The localized long-date label.</returns>
     public string GetDateAriaLabel( DateTime date )
         => date.ToString( "D", CultureInfo.CurrentCulture );
+
+    /// <summary>
+    /// Gets the localized accessible label for a rendered ISO week.
+    /// </summary>
+    /// <param name="week">Week being described.</param>
+    /// <returns>The localized week and date-range label.</returns>
+    public string GetWeekAriaLabel( DatePickerCalendarWeek week )
+        => $"{WeekText} {week.WeekNumber}, {week.StartDate.ToString( "d", CultureInfo.CurrentCulture )} \u2013 {week.EndDate.ToString( "d", CultureInfo.CurrentCulture )}";
+
+    /// <summary>
+    /// Gets the localized accessible label for the ISO week containing a date.
+    /// </summary>
+    /// <param name="date">Date contained by the described ISO week.</param>
+    /// <returns>The localized week and date-range label.</returns>
+    public string GetWeekAriaLabel( DateTime date )
+    {
+        DateTime weekStart = WeekDateFormat.GetWeekStart( date );
+
+        return $"{WeekText} {WeekDateFormat.GetWeekNumber( weekStart )}, {weekStart.ToString( "d", CultureInfo.CurrentCulture )} \u2013 {weekStart.AddDays( 6 ).ToString( "d", CultureInfo.CurrentCulture )}";
+    }
 
     #endregion
 
@@ -213,7 +234,7 @@ internal sealed class DatePickerCalendarContext<TValue>
             };
 
             return Enumerable.Range( 0, 7 )
-                .Select( index => names[( index + (int)parent.FirstDayOfWeek ) % 7] )
+                .Select( index => names[( index + (int)parent.CalendarFirstDayOfWeek ) % 7] )
                 .ToArray();
         }
     }

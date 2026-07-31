@@ -580,51 +580,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
             GenerateInputSliderStyles( sb, theme, options );
         }
 
-        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
-        {
-            sb
-                .Append( ".ant-picker-header-navigation:hover" )
-                .Append( "{" )
-                .Append( $"color: {Var( ThemeVariables.Color( "primary" ) )} !important;" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".ant-picker-cell-selected, .ant-picker-cell-range-start, .ant-picker-cell-range-end" ).Append( "{" )
-                .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".ant-picker-cell-in-view:hover:not(:disabled), .ant-picker-month-cell:hover:not(:disabled)" ).Append( "{" )
-                .Append( $"background: {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".ant-picker-cell-focused" ).Append( "{" )
-                .Append( $"outline-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".ant-picker-cell-today" ).Append( "{" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".ant-picker-cell-today:hover:not(:disabled)" ).Append( "{" )
-                .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".ant-picker-month-cell:hover:not(:disabled), .ant-picker-month-cell:focus" ).Append( "{" )
-                .Append( $"background: {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".ant-picker-month-cell.ant-picker-cell-selected" ).Append( "{" )
-                .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-        }
     }
 
     protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )

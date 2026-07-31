@@ -354,7 +354,7 @@ body:before {
   pointer-events: auto;
 }
 .datepicker .datepicker-calendar.dropdown-menu:has(.datepicker-week-number) {
-  width: 21.25rem;
+  width: 21.6875rem;
 }
 .datepicker .datepicker-calendar-inline {
   position: relative;
@@ -439,7 +439,7 @@ body:before {
 }
 .datepicker .datepicker-weekdays:has(.datepicker-week-number),
 .datepicker .datepicker-week:has(.datepicker-week-number) {
-  grid-template-columns: 2rem repeat(7, minmax(0, 1fr));
+  grid-template-columns: 2.4375rem repeat(7, minmax(0, 1fr));
 }
 .datepicker .datepicker-weekday,
 .datepicker .datepicker-week-number {
@@ -513,6 +513,45 @@ body:before {
 }
 .datepicker .datepicker-day-range-start.datepicker-day-range-end {
   border-radius: 0.25rem;
+}
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-week-number[data-week-hovered=true],
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-day[data-week-hovered=true] {
+  background: rgba(0, 123, 255, 0.1);
+}
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-week-number[data-week-hovered=true] {
+  align-self: stretch;
+  height: auto;
+  border-radius: 0.25rem;
+  opacity: 1;
+}
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-day[data-week-hovered=true] {
+  justify-self: stretch;
+  width: auto;
+  border-radius: 0;
+}
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-day-in-range {
+  justify-self: stretch;
+  width: auto;
+}
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-day[data-week-hover-start=true] {
+  border-start-start-radius: 0.25rem;
+  border-end-start-radius: 0.25rem;
+}
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-day[data-week-hover-end=true] {
+  border-start-end-radius: 0.25rem;
+  border-end-end-radius: 0.25rem;
+}
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-week[data-week-fully-selected=true] {
+  border-radius: 0.25rem;
+  background: #007bff;
+}
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-week[data-week-selected=true] .datepicker-week-number {
+  align-self: stretch;
+  height: auto;
+  border-radius: 0.25rem;
+  opacity: 1;
+  background: #007bff;
+  color: #fff;
 }
 .datepicker .datepicker-day-focused,
 .datepicker .datepicker-month-focused {

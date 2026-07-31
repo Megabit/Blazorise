@@ -172,6 +172,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     private DateTime? hoveredRangeEnd;
 
+    private DateTime? hoveredWeekStart;
+
     private DatePickerInputMask inputMask;
 
     private bool inputFocused;
@@ -252,7 +254,10 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             await SynchronizeOutsidePointerSubscriptionAsync();
         }
 
-        if ( Rendered && paramInputFormat.Defined && paramInputFormat.Changed )
+        bool inputMaskConfigurationChanged = ( paramInputFormat.Defined && paramInputFormat.Changed )
+            || ( paramInputMode.Defined && paramInputMode.Changed );
+
+        if ( Rendered && inputMaskConfigurationChanged )
         {
             if ( inputFocused && !UseNativeMobilePicker && !string.IsNullOrWhiteSpace( InputFormat ) )
             {
@@ -351,6 +356,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             await FinishMaskedEditingAsync();
             pendingRangeStart = null;
             hoveredRangeEnd = null;
+            hoveredWeekStart = null;
             NotifyCalendarStateChanged();
             return;
         }
@@ -429,7 +435,21 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             {
                 foreach ( object item in values )
                 {
-                    results.Add( Formaters.FormatDateValueAsString( item, format ) );
+                    results.Add( FormatDateValue( item, format ) );
+                }
+            }
+
+            if ( InputMode == DateInputMode.Week )
+            {
+                if ( SelectionMode == DateInputSelectionMode.Multiple )
+                {
+                    results = results.Distinct().ToList();
+                }
+                else if ( SelectionMode == DateInputSelectionMode.Range
+                          && results.Count == 2
+                          && results[0] == results[1] )
+                {
+                    results.RemoveAt( 1 );
                 }
             }
 
@@ -438,8 +458,13 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             return string.Join( delimiter, results );
         }
 
-        return Formaters.FormatDateValueAsString( value, format );
+        return FormatDateValue( value, format );
     }
+
+    private string FormatDateValue( object value, string format )
+        => InputMode == DateInputMode.Week
+            ? WeekDateFormat.FormatValue( value, format, CultureInfo.CurrentCulture )
+            : Formaters.FormatDateValueAsString( value, format );
 
     /// <inheritdoc/>
     protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
@@ -675,6 +700,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         focusCalendarOnOpen = false;
         pendingRangeStart = null;
         hoveredRangeEnd = null;
+        hoveredWeekStart = null;
 
         NotifyCalendarStateChanged();
         await DisposeOutsidePointerSubscriptionAsync();
@@ -729,10 +755,30 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     }
 
     private DateTime GetInitialDate()
-        => DatePickerDateUtilities.GetInitialDate( DefaultHour, DefaultMinute, Min, Max );
+    {
+        DateTime initialDate = DatePickerDateUtilities.GetInitialDate( DefaultHour, DefaultMinute, Min, Max );
+
+        return InputMode == DateInputMode.Week
+            ? WeekDateFormat.GetWeekStart( initialDate )
+            : initialDate;
+    }
 
     private IReadOnlyList<DateTime> GetSelectedDates()
-        => DatePickerDateUtilities.GetSelectedDates( Value, SelectionMode );
+    {
+        IReadOnlyList<DateTime> selectedDates = DatePickerDateUtilities.GetSelectedDates( Value, SelectionMode );
+
+        if ( InputMode != DateInputMode.Week )
+            return selectedDates;
+
+        IEnumerable<DateTime> normalizedDates = selectedDates.Select( WeekDateFormat.GetWeekStart );
+
+        if ( SelectionMode == DateInputSelectionMode.Multiple )
+        {
+            normalizedDates = normalizedDates.Distinct();
+        }
+
+        return normalizedDates.ToArray();
+    }
 
     private bool TryNormalizeInputValue( string value, out string normalizedValue )
         => DatePickerInputParser.TryNormalize(
@@ -742,10 +788,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             InputFormat,
             DisplayFormat,
             DateFormat,
+            InputMode,
             out normalizedValue );
 
     private Task RefreshInputMaskAsync()
-        => InputMask.RefreshAsync( ElementRef, ElementId, InputFormat );
+        => InputMask.RefreshAsync( ElementRef, ElementId, InputFormat, InputMode );
 
     private Task DestroyInputMaskAsync()
         => inputMask?.DestroyAsync( ElementRef, ElementId ) ?? Task.CompletedTask;
@@ -811,7 +858,15 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             inputText = null;
             await FinishMaskedEditingAsync();
             NotifyCalendarStateChanged();
+            await InvokeAsync( StateHasChanged );
             return;
+        }
+
+        if ( InputMode == DateInputMode.Week )
+        {
+            dates = dates
+                .Select( WeekDateFormat.GetWeekStart )
+                .ToArray();
         }
 
         if ( SelectionMode == DateInputSelectionMode.Range
@@ -831,16 +886,20 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         inputText = FormatValueAsString( Value );
         await FinishMaskedEditingAsync();
         NotifyCalendarStateChanged();
+        await InvokeAsync( StateHasChanged );
     }
 
     internal async Task SelectDateAsync( DateTime selectedDate, DatePickerSelectionSource selectionSource = DatePickerSelectionSource.Calendar )
     {
-        if ( CalendarInteractionDisabled || IsDateDisabled( selectedDate ) )
+        if ( CalendarInteractionDisabled
+             || ( InputMode == DateInputMode.Week ? IsWeekDisabled( selectedDate ) : IsDateDisabled( selectedDate ) ) )
             return;
 
-        DateTime date = ApplyCurrentTime( selectedDate );
+        DateTime date = ApplyCurrentTime( InputMode == DateInputMode.Week
+            ? WeekDateFormat.GetWeekStart( selectedDate )
+            : selectedDate );
         focusedDate = date;
-        visibleMonth = new DateTime( date.Year, date.Month, 1 );
+        visibleMonth = new DateTime( selectedDate.Year, selectedDate.Month, 1 );
 
         if ( SelectionMode == DateInputSelectionMode.Single )
         {
@@ -853,6 +912,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             {
                 pendingRangeStart = null;
                 hoveredRangeEnd = null;
+                hoveredWeekStart = null;
 
                 await CommitDatesAsync( new[] { date, date } );
                 await CloseCalendarAsync( focusInput: true );
@@ -861,6 +921,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             {
                 pendingRangeStart = date;
                 hoveredRangeEnd = null;
+                hoveredWeekStart = null;
                 NotifyCalendarStateChanged();
             }
             else
@@ -875,6 +936,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
                 pendingRangeStart = null;
                 hoveredRangeEnd = null;
+                hoveredWeekStart = null;
 
                 await CommitDatesAsync( new[] { start, end } );
                 await CloseCalendarAsync( focusInput: true );
@@ -917,11 +979,29 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     internal void PreviewRange( DateTime? date )
     {
+        bool stateChanged = false;
+
+        if ( InputMode == DateInputMode.Week && date.HasValue )
+        {
+            date = WeekDateFormat.GetWeekStart( date.Value );
+        }
+
+        if ( InputMode == DateInputMode.Week && hoveredWeekStart != date )
+        {
+            hoveredWeekStart = date;
+            stateChanged = true;
+        }
+
         if ( SelectionMode == DateInputSelectionMode.Range
              && pendingRangeStart.HasValue
              && hoveredRangeEnd != date )
         {
             hoveredRangeEnd = date;
+            stateChanged = true;
+        }
+
+        if ( stateChanged )
+        {
             NotifyCalendarStateChanged();
         }
     }
@@ -950,6 +1030,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
         pendingRangeStart = null;
         hoveredRangeEnd = null;
+        hoveredWeekStart = null;
         await CommitDatesAsync( Array.Empty<DateTime>() );
 
         if ( !Inline )
@@ -1013,6 +1094,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         {
             visibleMonth = new DateTime( visibleMonth.Year, month, 1 );
             focusedDate = DatePickerDateUtilities.MoveIntoMonth( focusedDate, visibleMonth );
+
+            if ( InputMode == DateInputMode.Week )
+            {
+                focusedDate = WeekDateFormat.GetWeekStart( focusedDate );
+            }
+
             NotifyCalendarStateChanged();
         }
     }
@@ -1026,6 +1113,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         {
             visibleMonth = new DateTime( year, visibleMonth.Month, 1 );
             focusedDate = DatePickerDateUtilities.MoveIntoMonth( focusedDate, visibleMonth );
+
+            if ( InputMode == DateInputMode.Week )
+            {
+                focusedDate = WeekDateFormat.GetWeekStart( focusedDate );
+            }
+
             NotifyCalendarStateChanged();
         }
     }
@@ -1036,14 +1129,15 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             return;
 
         bool monthMode = InputMode == DateInputMode.Month;
+        bool weekMode = InputMode == DateInputMode.Week;
 
         switch ( eventArgs.Key )
         {
             case "ArrowLeft":
-                MoveFocus( -1, monthMode );
+                MoveFocus( weekMode ? -7 : -1, monthMode );
                 break;
             case "ArrowRight":
-                MoveFocus( 1, monthMode );
+                MoveFocus( weekMode ? 7 : 1, monthMode );
                 break;
             case "ArrowUp":
                 MoveFocus( monthMode ? -4 : -7, monthMode );
@@ -1063,6 +1157,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
                     focusedDate = new DateTime( visibleMonth.Year, 1, 1 );
                     NotifyCalendarStateChanged();
                 }
+                else if ( weekMode )
+                {
+                    focusedDate = WeekDateFormat.GetWeekStart( visibleMonth );
+                    NotifyCalendarStateChanged();
+                }
                 else
                 {
                     MoveFocusToWeekBoundary( beginning: true );
@@ -1072,6 +1171,15 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
                 if ( monthMode )
                 {
                     focusedDate = new DateTime( visibleMonth.Year, 12, 1 );
+                    NotifyCalendarStateChanged();
+                }
+                else if ( weekMode )
+                {
+                    DateTime monthEnd = new(
+                        visibleMonth.Year,
+                        visibleMonth.Month,
+                        DateTime.DaysInMonth( visibleMonth.Year, visibleMonth.Month ) );
+                    focusedDate = WeekDateFormat.GetWeekStart( monthEnd );
                     NotifyCalendarStateChanged();
                 }
                 else
@@ -1110,7 +1218,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
         int attempts = 0;
 
-        while ( ( byMonth ? IsMonthDisabled( candidate ) : IsDateDisabled( candidate ) ) && attempts++ < 3660 )
+        while ( ( byMonth
+            ? IsMonthDisabled( candidate )
+            : InputMode == DateInputMode.Week
+                ? IsWeekDisabled( candidate )
+                : IsDateDisabled( candidate ) ) && attempts++ < 3660 )
         {
             if ( !DatePickerDateUtilities.TryMoveDate( candidate, Math.Sign( amount ), byMonth, out candidate ) )
                 return;
@@ -1128,12 +1240,18 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
         visibleMonth = new DateTime( targetMonth.Year, targetMonth.Month, 1 );
         focusedDate = DatePickerDateUtilities.MoveIntoMonth( focusedDate, visibleMonth );
+
+        if ( InputMode == DateInputMode.Week )
+        {
+            focusedDate = WeekDateFormat.GetWeekStart( focusedDate );
+        }
+
         NotifyCalendarStateChanged();
     }
 
     private void MoveFocusToWeekBoundary( bool beginning )
     {
-        int offset = ( 7 + (int)focusedDate.DayOfWeek - (int)FirstDayOfWeek ) % 7;
+        int offset = ( 7 + (int)focusedDate.DayOfWeek - (int)CalendarFirstDayOfWeek ) % 7;
         focusedDate = beginning
             ? focusedDate.AddDays( -offset )
             : focusedDate.AddDays( 6 - offset );
@@ -1285,6 +1403,19 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         return false;
     }
 
+    private bool IsWeekDisabled( DateTime date )
+    {
+        DateTime weekStart = WeekDateFormat.GetWeekStart( date );
+
+        for ( int dayOffset = 0; dayOffset < 7; dayOffset++ )
+        {
+            if ( !IsDateDisabled( weekStart.AddDays( dayOffset ) ) )
+                return false;
+        }
+
+        return true;
+    }
+
     private bool IsMonthDisabled( DateTime month )
     {
         if ( CalendarInteractionDisabled )
@@ -1314,11 +1445,13 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         => DatePickerCalendarBuilder.BuildWeeks(
             visibleMonth,
             focusedDate,
-            FirstDayOfWeek,
+            CalendarFirstDayOfWeek,
+            InputMode,
             SelectionMode,
             GetSelectedDates(),
             pendingRangeStart,
             hoveredRangeEnd,
+            hoveredWeekStart,
             IsDateDisabled );
 
     internal IReadOnlyList<DatePickerCalendarMonth> BuildCalendarMonths()
@@ -1401,6 +1534,10 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     internal DateTime CalendarTimeSource => GetCurrentTimeSource();
 
+    internal DayOfWeek CalendarFirstDayOfWeek => FirstDayOfWeek;
+
+    internal bool CalendarShowsWeekNumbers => ShowWeekNumbers || InputMode == DateInputMode.Week;
+
     internal IClassProvider PickerClassProvider => ClassProvider;
 
     internal ITextLocalizer PickerLocalizer => Localizer;
@@ -1437,7 +1574,13 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// <summary>
     /// Gets the format presented in the visible input.
     /// </summary>
-    protected string EffectiveDisplayFormat => PickerDateTimeFormat.Normalize( DisplayFormat ?? ( InputMode == DateInputMode.DateTime ? DEFAULT_DATETIME_DISPLAY_FORMAT : DateFormat ) );
+    protected string EffectiveDisplayFormat => PickerDateTimeFormat.Normalize(
+        DisplayFormat ?? ( InputMode switch
+        {
+            DateInputMode.DateTime => DEFAULT_DATETIME_DISPLAY_FORMAT,
+            DateInputMode.Week => WeekDateFormat.DefaultDisplayFormat,
+            _ => DateFormat,
+        } ) );
 
     /// <summary>
     /// Gets the text presented in the visible input.
@@ -1453,23 +1596,31 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// Gets the value rendered by the visible input.
     /// </summary>
     protected string VisibleInputText => UseNativeMobilePicker
-        ? FormatValueWithFormat( Value, DateFormat )
+        ? InputMode == DateInputMode.Week
+            ? WeekDateFormat.FormatNativeValue( Value )
+            : FormatValueWithFormat( Value, DateFormat )
         : InputText;
 
     /// <summary>
     /// Gets the minimum value rendered by the input.
     /// </summary>
-    protected string InputMin => Min?.ToString( DateFormat, CultureInfo.InvariantCulture );
+    protected string InputMin => InputMode == DateInputMode.Week
+        ? WeekDateFormat.FormatNativeValue( Min )
+        : Min?.ToString( DateFormat, CultureInfo.InvariantCulture );
 
     /// <summary>
     /// Gets the maximum value rendered by the input.
     /// </summary>
-    protected string InputMax => Max?.ToString( DateFormat, CultureInfo.InvariantCulture );
+    protected string InputMax => InputMode == DateInputMode.Week
+        ? WeekDateFormat.FormatNativeValue( Max )
+        : Max?.ToString( DateFormat, CultureInfo.InvariantCulture );
 
     /// <summary>
     /// Gets the step rendered by a native mobile input.
     /// </summary>
-    protected string InputStep => UseNativeMobilePicker ? "any" : null;
+    protected string InputStep => UseNativeMobilePicker
+        ? InputMode == DateInputMode.Week ? "1" : "any"
+        : null;
 
     /// <summary>
     /// Gets the ARIA role used by the custom picker input.
@@ -1622,16 +1773,25 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// <summary>
     /// Specifies the first day of the week used for date calculations.
     /// </summary>
+    /// <remarks>
+    /// In week mode this controls the visual calendar layout. Selected values continue to represent ISO Monday-to-Sunday weeks.
+    /// </remarks>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Monday;
 
     /// <summary>
     /// Specifies the display format of the date input using the picker format syntax supported by earlier versions.
     /// </summary>
+    /// <remarks>
+    /// Week mode additionally supports <c>w</c>, <c>ww</c>, and <c>wo</c> for the week number and its English ordinal form.
+    /// </remarks>
     [Parameter] public string DisplayFormat { get; set; }
 
     /// <summary>
     /// Specifies the input format mask of the date input using Blazorise's InputMask integration.
     /// </summary>
+    /// <remarks>
+    /// Week mode supports the <c>w</c> and <c>ww</c> week-number tokens.
+    /// </remarks>
     [Parameter] public string InputFormat { get; set; }
 
     /// <summary>
@@ -1677,6 +1837,9 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// <summary>
     /// Determines whether the calendar menu will show week numbers.
     /// </summary>
+    /// <remarks>
+    /// Week numbers are always shown when <see cref="InputMode"/> is <see cref="DateInputMode.Week"/>.
+    /// </remarks>
     [Parameter] public bool ShowWeekNumbers { get; set; }
 
     /// <summary>

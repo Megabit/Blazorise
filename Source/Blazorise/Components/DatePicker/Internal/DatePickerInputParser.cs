@@ -23,6 +23,7 @@ internal static class DatePickerInputParser
     /// <param name="inputFormat">Configured input mask format.</param>
     /// <param name="displayFormat">Configured display format.</param>
     /// <param name="dateFormat">Internal date format.</param>
+    /// <param name="inputMode">Active date input mode.</param>
     /// <param name="normalizedValue">Normalized text when parsing succeeds.</param>
     /// <returns><see langword="true"/> when the complete value was parsed successfully.</returns>
     public static bool TryNormalize(
@@ -32,6 +33,7 @@ internal static class DatePickerInputParser
         string inputFormat,
         string displayFormat,
         string dateFormat,
+        DateInputMode inputMode,
         out string normalizedValue )
     {
         normalizedValue = null;
@@ -41,7 +43,7 @@ internal static class DatePickerInputParser
 
         if ( selectionMode == DateInputSelectionMode.Single )
         {
-            if ( TryParse( value, inputFormat, displayFormat, dateFormat, out DateTime date ) )
+            if ( TryParse( value, inputFormat, displayFormat, dateFormat, inputMode, out DateTime date ) )
             {
                 normalizedValue = date.ToString( dateFormat, CultureInfo.InvariantCulture );
                 return true;
@@ -55,7 +57,7 @@ internal static class DatePickerInputParser
 
         foreach ( string part in parts )
         {
-            if ( !TryParse( part, inputFormat, displayFormat, dateFormat, out DateTime date ) )
+            if ( !TryParse( part, inputFormat, displayFormat, dateFormat, inputMode, out DateTime date ) )
                 return false;
 
             normalizedDates.Add( date.ToString( dateFormat, CultureInfo.InvariantCulture ) );
@@ -73,11 +75,41 @@ internal static class DatePickerInputParser
         string inputFormat,
         string displayFormat,
         string dateFormat,
+        DateInputMode inputMode,
         out DateTime result )
     {
         result = default;
 
         string trimmedValue = value?.Trim();
+
+        if ( inputMode == DateInputMode.Week )
+        {
+            if ( WeekDateFormat.TryParse( trimmedValue, inputFormat, displayFormat, out result ) )
+                return true;
+
+            List<string> dateFormats = new();
+
+            if ( !WeekDateFormat.IsWeekFormat( inputFormat ) )
+                AddFormat( dateFormats, PickerDateTimeFormat.Normalize( inputFormat ) );
+
+            if ( !WeekDateFormat.IsWeekFormat( displayFormat ) )
+                AddFormat( dateFormats, PickerDateTimeFormat.Normalize( displayFormat ) );
+
+            AddFormat( dateFormats, dateFormat );
+
+            foreach ( string format in dateFormats )
+            {
+                if ( DateTime.TryParseExact( trimmedValue, format, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces, out result )
+                     || DateTime.TryParseExact( trimmedValue, format, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out result ) )
+                {
+                    result = WeekDateFormat.GetWeekStart( result );
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         List<string> formats = new();
 
         AddFormat( formats, PickerDateTimeFormat.Normalize( inputFormat ) );

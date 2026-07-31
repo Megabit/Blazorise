@@ -48,6 +48,18 @@
                         <DatePicker @bind-Value="@d4" Placeholder="Select month..." InputMode="DateInputMode.Month" />
                     </FieldBody>
                 </Field>
+                <Field Horizontal>
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Week</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
+                        <DatePicker @bind-Value="@d5" Placeholder="Select week..." InputMode="DateInputMode.Week" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal>
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Week (Sunday)</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
+                        <DatePicker @bind-Value="@d5" Placeholder="Select week..." InputMode="DateInputMode.Week" FirstDayOfWeek="DayOfWeek.Sunday" />
+                    </FieldBody>
+                </Field>
             </CardBody>
             <CardBody>
                 <Div>
@@ -221,6 +233,7 @@
     IReadOnlyList<DateOnly?> d3;
     IReadOnlyList<DateTime?> dt3 = new DateTime?[] { DateTime.Now, DateTime.Now.AddDays( 1 ) };
     DateOnly? d4;
+    DateOnly? d5;
     TimeOnly? t1;
     TimeOnly? t2;
     TimeSpan? ts1;

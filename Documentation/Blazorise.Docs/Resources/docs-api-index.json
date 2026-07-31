@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-30T16:32:32.5750664Z",
+  "generatedUtc": "2026-07-31T11:09:59.9964022Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -38278,6 +38278,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Specifies the display format of the date input using the picker format syntax supported by earlier versions.",
+          "remarks": "Week mode additionally supports <code>w</code>, <code>ww</code>, and <code>wo</code> for the week number and its English ordinal form.",
           "isBlazoriseEnum": false
         },
         {
@@ -38311,6 +38312,7 @@
           "typeName": "DayOfWeek",
           "defaultValue": "DayOfWeek.Monday",
           "summary": "Specifies the first day of the week used for date calculations.",
+          "remarks": "In week mode this controls the visual calendar layout. Selected values continue to represent ISO Monday-to-Sunday weeks.",
           "isBlazoriseEnum": false
         },
         {
@@ -38359,6 +38361,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Specifies the input format mask of the date input using Blazorise's InputMask integration.",
+          "remarks": "Week mode supports the <code>w</code> and <code>ww</code> week-number tokens.",
           "isBlazoriseEnum": false
         },
         {
@@ -38551,6 +38554,7 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Determines whether the calendar menu will show week numbers.",
+          "remarks": "Week numbers are always shown when <strong>InputMode</strong> is <strong>Week</strong>.",
           "isBlazoriseEnum": false
         },
         {

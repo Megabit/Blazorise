@@ -500,49 +500,81 @@ public class BulmaThemeGenerator : ThemeGenerator
                 .AppendLine( "}" );
         }
 
-        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+        if ( !string.IsNullOrEmpty( theme.BodyOptions?.BackgroundColor ) )
         {
             sb
-                .Append( ".datepicker-navigation:hover" )
+                .Append( ".datepicker-calendar.box, .timepicker-menu.box" )
                 .Append( "{" )
-                .Append( $"color: {Var( ThemeVariables.Color( "primary" ) )} !important;" )
+                .Append( $"background-color: {Var( ThemeVariables.BodyBackgroundColor )};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( theme.BodyOptions?.TextColor ) )
+        {
+            sb
+                .Append( ".datepicker-calendar.box, .datepicker-day, .datepicker-month, .timepicker-menu.box" )
+                .Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.BodyTextColor )};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( theme.TextColorOptions?.Muted ) )
+        {
+            sb
+                .Append( ".datepicker-weekday, .datepicker-week-number, .datepicker-day.is-outside" )
+                .Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.TextColor( "muted" ) )};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+        {
+            string primary = Var( ThemeVariables.Color( "primary" ) );
+            string onPrimary = Var( ThemeVariables.ButtonYiqBackground( "primary" ) );
+            string hoverBackground = ToHex( Lighten( primary, 90f ) );
+            string rangeBackground = ToHex( Lighten( primary, 85f ) );
+            string focusShadow = ToHex( Lighten( primary, 75f ) );
+
+            sb
+                .Append( ".datepicker-day.is-selected, .datepicker-day.is-range-start, .datepicker-day.is-range-end, .datepicker-month.is-selected," )
+                .Append( ".datepicker-calendar[data-week-mode=\"true\"] .datepicker-week[data-week-fully-selected=\"true\"]," )
+                .Append( ".datepicker-calendar[data-week-mode=\"true\"] .datepicker-week[data-week-selected=\"true\"] .datepicker-week-number" )
+                .Append( "{" )
+                .Append( $"background: {primary};" )
+                .Append( $"border-color: {primary};" )
+                .Append( $"color: {onPrimary} !important;" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".datepicker-day.is-selected, .datepicker-day.is-range-start, .datepicker-day.is-range-end, .datepicker-month.is-selected" ).Append( "{" )
-                .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
+                .Append( ".datepicker-calendar[data-week-mode=\"true\"] .datepicker-week[data-week-fully-selected=\"true\"] .datepicker-day" )
+                .Append( "{" )
+                .Append( $"color: {onPrimary} !important;" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".datepicker-day:hover:not(:disabled), .datepicker-month:hover:not(:disabled)" ).Append( "{" )
-                .Append( $"background: {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
+                .Append( ".datepicker-day:hover:not(:disabled), .datepicker-month:hover:not(:disabled)," )
+                .Append( ".datepicker-calendar[data-week-mode=\"true\"] .datepicker-week-number[data-week-hovered=\"true\"]," )
+                .Append( ".datepicker-calendar[data-week-mode=\"true\"] .datepicker-day[data-week-hovered=\"true\"]" )
+                .Append( "{" )
+                .Append( $"background: {hoverBackground};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".datepicker-day.is-focused, .datepicker-month.is-focused" ).Append( "{" )
-                .Append( $"box-shadow: 0 0 0 .125em {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 75f ) )};" )
+                .Append( ".datepicker-day.is-in-range" )
+                .Append( "{" )
+                .Append( $"background: {rangeBackground};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( ".datepicker-title select:focus, .datepicker-title input:focus," )
+                .Append( ".datepicker-day.is-focused, .datepicker-month.is-focused" )
+                .Append( "{" )
+                .Append( $"box-shadow: 0 0 0 .125em {focusShadow};" )
                 .AppendLine( "}" );
 
             sb
                 .Append( ".datepicker-day.is-today" ).Append( "{" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".datepicker-day.is-today:hover:not(:disabled)" ).Append( "{" )
-                .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".datepicker-month:hover:not(:disabled), .datepicker-month:focus" ).Append( "{" )
-                .Append( $"background: {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".datepicker-month.is-selected" ).Append( "{" )
-                .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
+                .Append( $"border-color: {primary};" )
                 .AppendLine( "}" );
         }
     }

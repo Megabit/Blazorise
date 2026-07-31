@@ -27,11 +27,11 @@
         min-width: 0;
         max-width: calc(100vw - 1rem);
         padding: 0;
-        color: $dropdown-color;
-        background-color: $dropdown-bg;
-        border-color: $dropdown-border-color;
-        border-radius: $dropdown-border-radius;
-        box-shadow: $dropdown-box-shadow;
+        color: var(--#{$prefix}dropdown-color);
+        background-color: var(--#{$prefix}dropdown-bg);
+        border-color: var(--#{$prefix}dropdown-border-color);
+        border-radius: var(--#{$prefix}dropdown-border-radius);
+        box-shadow: var(--#{$prefix}dropdown-box-shadow);
         outline: 0;
         pointer-events: auto;
     }
@@ -83,7 +83,7 @@
         border-radius: 0;
         outline: 0;
         appearance: auto;
-        color: $dropdown-color;
+        color: var(--#{$prefix}dropdown-color);
         background: transparent;
         box-shadow: none;
         font: inherit;
@@ -101,7 +101,7 @@
 
         &:hover:not(:disabled),
         &:focus {
-            background: rgba($primary, .1);
+            background: rgba(var(--#{$prefix}primary-rgb), .1);
         }
 
         &:disabled {
@@ -120,7 +120,7 @@
         height: 2.5rem;
         padding: 0;
         border: 0;
-        color: $dropdown-color;
+        color: var(--#{$prefix}dropdown-color);
         background: transparent;
         font: inherit;
         font-size: .875rem;
@@ -141,7 +141,7 @@
         border: 0;
         border-radius: 0;
         appearance: none;
-        color: $dropdown-color;
+        color: var(--#{$prefix}dropdown-color);
         background: transparent;
         box-shadow: none;
         font: inherit;
@@ -154,7 +154,7 @@
         &:focus-visible,
         &.timepicker-control-focused {
             outline: 0;
-            background: rgba($primary, .1);
+            background: rgba(var(--#{$prefix}primary-rgb), .1);
         }
 
         &:disabled {
@@ -164,6 +164,6 @@
     }
 
     .timepicker-control-focused .timepicker-input {
-        background: rgba($primary, .1);
+        background: rgba(var(--#{$prefix}primary-rgb), .1);
     }
 }

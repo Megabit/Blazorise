@@ -27,11 +27,11 @@
     min-width: 0;
     max-width: calc(100vw - 1rem);
     padding: 0;
-    border: 1px solid rgb(229 231 235);
+    border: 1px solid var(--color-gray-200, var(--btw-color-gray-200));
     border-radius: .5rem;
-    color: rgb(17 24 39);
-    background: white;
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1);
+    color: var(--color-gray-900, var(--btw-color-gray-900));
+    background: var(--color-white, white);
+    box-shadow: 0 10px 15px -3px color-mix(in srgb, var(--color-black, black) 10%, transparent), 0 4px 6px -4px color-mix(in srgb, var(--color-black, black) 10%, transparent);
     outline: 0;
     pointer-events: auto;
 
@@ -93,11 +93,11 @@
 
     &:hover:not(:disabled),
     &:focus {
-        background: rgb(243 244 246);
+        background: var(--color-gray-100, var(--btw-color-gray-100));
     }
 
     &:disabled {
-        color: rgb(156 163 175);
+        color: var(--color-gray-400, var(--btw-color-gray-400));
         cursor: not-allowed;
     }
 }
@@ -141,23 +141,23 @@
     &:focus-visible,
     &.tw-timepicker-control-focused {
         outline: 0;
-        background: rgb(243 244 246);
+        background: var(--color-gray-100, var(--btw-color-gray-100));
     }
 
     &:disabled {
-        color: rgb(156 163 175);
+        color: var(--color-gray-400, var(--btw-color-gray-400));
         cursor: not-allowed;
     }
 }
 
 .tw-timepicker-control-focused .tw-timepicker-input {
-    background: rgb(243 244 246);
+    background: var(--color-gray-100, var(--btw-color-gray-100));
 }
 
 .dark .tw-timepicker-menu {
-    border-color: rgb(55 65 81);
-    color: rgb(243 244 246);
-    background: rgb(31 41 55);
+    border-color: var(--color-gray-700, var(--btw-color-gray-700));
+    color: var(--color-gray-100, var(--btw-color-gray-100));
+    background: var(--color-gray-800, var(--btw-color-gray-800));
 
     .tw-timepicker-input:hover:not(:disabled),
     .tw-timepicker-input:focus,
@@ -165,6 +165,6 @@
     .tw-timepicker-meridiem:hover:not(:disabled),
     .tw-timepicker-meridiem:focus-visible,
     .tw-timepicker-meridiem.tw-timepicker-control-focused {
-        background: rgb(55 65 81);
+        background: var(--color-gray-700, var(--btw-color-gray-700));
     }
 }

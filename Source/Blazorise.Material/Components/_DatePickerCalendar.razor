@@ -20,6 +20,7 @@
          aria-modal="false"
          aria-labelledby="@($"{Parent.CalendarId}-title")"
          aria-activedescendant="@(Parent.InputMode == DateInputMode.Month ? Calendar.GetMonthId( Calendar.FocusedDate ) : Calendar.GetDayId( Calendar.FocusedDate ))"
+         data-week-mode="@(Parent.InputMode == DateInputMode.Week ? "true" : null)"
          tabindex="-1"
          @onkeydown="@Parent.OnCalendarKeyDownAsync"
          @onkeydown:stopPropagation>
@@ -126,7 +127,7 @@
                      @onfocus="@HandleGridFocus"
                      @onblur="@HandleGridBlur">
                     <div class="@Calendar.WeekdaysClassNames" role="row">
-                        @if ( Parent.ShowWeekNumbers )
+                        @if ( Parent.CalendarShowsWeekNumbers )
                         {
                             <span class="@Calendar.WeekNumberClassNames" role="columnheader">@Calendar.WeekText</span>
                         }
@@ -138,10 +139,17 @@
 
                     @foreach ( DatePickerCalendarWeek week in Parent.BuildCalendarWeeks() )
                     {
-                        <div class="@Calendar.WeekClassNames" role="row">
-                            @if ( Parent.ShowWeekNumbers )
+                        <div class="@Calendar.WeekClassNames"
+                             role="row"
+                             data-week-selected="@(Parent.InputMode == DateInputMode.Week && week.Selected ? "true" : null)"
+                             data-week-fully-selected="@(Parent.InputMode == DateInputMode.Week && week.FullySelected ? "true" : null)"
+                             data-week-disabled="@(Parent.InputMode == DateInputMode.Week && week.Disabled ? "true" : null)">
+                            @if ( Parent.CalendarShowsWeekNumbers )
                             {
-                                <span class="@Calendar.WeekNumberClassNames" role="rowheader">@week.WeekNumber</span>
+                                <span class="@Calendar.WeekNumberClassNames"
+                                      role="rowheader"
+                                      aria-label="@(Parent.InputMode == DateInputMode.Week ? Calendar.GetWeekAriaLabel( week ) : null)"
+                                      data-week-hovered="@(Parent.InputMode == DateInputMode.Week && week.Hovered ? "true" : null)">@week.WeekNumber</span>
                             }
                             @foreach ( DatePickerCalendarDay day in week.Days )
                             {
@@ -150,9 +158,12 @@
                                         type="button"
                                         role="gridcell"
                                         class="@GetDayClassNames( day )"
-                                        aria-label="@Calendar.GetDateAriaLabel( day.Date )"
+                                        aria-label="@(Parent.InputMode == DateInputMode.Week ? Calendar.GetWeekAriaLabel( day.Date ) : Calendar.GetDateAriaLabel( day.Date ))"
                                         aria-selected="@day.Selected"
                                         aria-current="@(day.Today ? "date" : null)"
+                                        data-week-hovered="@(Parent.InputMode == DateInputMode.Week && day.WeekHovered ? "true" : null)"
+                                        data-week-hover-start="@(Parent.InputMode == DateInputMode.Week && day.WeekHovered && day.Date.DayOfWeek == DayOfWeek.Monday ? "true" : null)"
+                                        data-week-hover-end="@(Parent.InputMode == DateInputMode.Week && day.WeekHovered && day.Date.DayOfWeek == DayOfWeek.Sunday ? "true" : null)"
                                         disabled="@day.Disabled"
                                         tabindex="-1"
                                         @onmousedown:preventDefault

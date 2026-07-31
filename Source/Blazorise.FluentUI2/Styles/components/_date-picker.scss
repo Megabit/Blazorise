@@ -40,7 +40,7 @@
     pointer-events: auto;
 
     &:has(.fui-DatePicker__weekNumber) {
-        width: calc(19.25rem + 2rem);
+        width: calc(19.25rem + 2.75rem);
     }
 
     &.fui-DatePicker__calendar-inline {
@@ -157,7 +157,7 @@
 
     .fui-DatePicker__weekdays:has(.fui-DatePicker__weekNumber),
     .fui-DatePicker__week:has(.fui-DatePicker__weekNumber) {
-        grid-template-columns: 2rem repeat(7, minmax(0, 1fr));
+        grid-template-columns: repeat(8, minmax(0, 1fr));
     }
 
     .fui-DatePicker__day,
@@ -220,6 +220,55 @@
 
     .fui-DatePicker__day-rangeStart.fui-DatePicker__day-rangeEnd {
         border-radius: var(--borderRadiusMedium);
+    }
+
+    &[data-week-mode="true"] .fui-DatePicker__weekNumber[data-week-hovered="true"],
+    &[data-week-mode="true"] .fui-DatePicker__day[data-week-hovered="true"] {
+        background: var(--colorBrandBackgroundInvertedHover);
+    }
+
+    &[data-week-mode="true"] .fui-DatePicker__weekNumber[data-week-hovered="true"] {
+        align-self: stretch;
+        height: auto;
+        border-radius: var(--borderRadiusMedium);
+        opacity: 1;
+    }
+
+    &[data-week-mode="true"] .fui-DatePicker__day[data-week-hovered="true"] {
+        justify-self: stretch;
+        width: auto;
+        border-radius: 0;
+    }
+
+    &[data-week-mode="true"] .fui-DatePicker__day-inRange {
+        justify-self: stretch;
+        width: auto;
+    }
+
+    &[data-week-mode="true"] .fui-DatePicker__day[data-week-hover-start="true"] {
+        border-start-start-radius: var(--borderRadiusMedium);
+        border-end-start-radius: var(--borderRadiusMedium);
+    }
+
+    &[data-week-mode="true"] .fui-DatePicker__day[data-week-hover-end="true"] {
+        border-start-end-radius: var(--borderRadiusMedium);
+        border-end-end-radius: var(--borderRadiusMedium);
+    }
+
+    &[data-week-mode="true"] .fui-DatePicker__week[data-week-fully-selected="true"] {
+        border-radius: var(--borderRadiusMedium);
+        background: var(--colorBrandBackgroundInvertedSelected);
+    }
+
+    &[data-week-mode="true"] .fui-DatePicker__week[data-week-selected="true"] {
+        .fui-DatePicker__weekNumber {
+            align-self: stretch;
+            height: auto;
+            border-radius: var(--borderRadiusMedium);
+            opacity: 1;
+            background: var(--colorBrandBackgroundInvertedSelected);
+            color: var(--colorNeutralForegroundOnBrand);
+        }
     }
 
     .fui-DatePicker__day-selected,

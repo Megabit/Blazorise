@@ -136,6 +136,23 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Week selection">
+        <Paragraph>
+            Set <Code>InputMode</Code> to <Code>DateInputMode.Week</Code> to select complete Monday-to-Sunday weeks. Week numbers are shown automatically in this mode.
+        </Paragraph>
+        <Paragraph>
+            Bound values are normalized to the Monday that starts the selected week. By default, the input displays week values such as <Code>2026-41st</Code>.
+        </Paragraph>
+        <Paragraph>
+            Week mode supports single, range, and multiple selection. <Code>FirstDayOfWeek</Code> changes the visual order of the calendar; when Sunday is displayed first, a selected week continues into the following row.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="DatePickerWeekExample" Outlined FullWidth>
+        <DatePickerWeekExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Show buttons">
         <Paragraph>
             Use the <Code>ShowTodayButton</Code>, or <Code>ShowClearButton</Code> parameters to toggle the visibility of the buttons in the calendar view.

@@ -665,6 +665,47 @@ public class TailwindThemeGenerator : ThemeGenerator
                 .Append( $"color: {validationDangerColor};" )
                 .AppendLine( "}" );
         }
+
+        if ( !string.IsNullOrEmpty( theme.BodyOptions?.BackgroundColor ) )
+        {
+            sb
+                .Append( ".tw-datepicker-calendar, .dark .tw-datepicker-calendar," )
+                .Append( ".tw-timepicker-menu, .dark .tw-timepicker-menu" )
+                .Append( "{" )
+                .Append( $"background-color: {Var( ThemeVariables.BodyBackgroundColor )};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( theme.BodyOptions?.TextColor ) )
+        {
+            sb
+                .Append( ".tw-datepicker-calendar, .dark .tw-datepicker-calendar," )
+                .Append( ".tw-timepicker-menu, .dark .tw-timepicker-menu" )
+                .Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.BodyTextColor )};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( theme.TextColorOptions?.Muted ) )
+        {
+            sb
+                .Append( ".tw-datepicker-weekday, .tw-datepicker-week-number, .tw-datepicker-day-outside," )
+                .Append( ".tw-datepicker-time-input:disabled, .tw-timepicker-input:disabled, .tw-timepicker-meridiem:disabled" )
+                .Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.TextColor( "muted" ) )};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+        {
+            sb
+                .Append( ".tw-datepicker-day-selected, .tw-datepicker-day-range-start, .tw-datepicker-day-range-end, .tw-datepicker-month-selected," )
+                .Append( ".tw-datepicker-calendar[data-week-mode=\"true\"] .tw-datepicker-week[data-week-selected=\"true\"] .tw-datepicker-week-number," )
+                .Append( ".tw-datepicker-calendar[data-week-mode=\"true\"] .tw-datepicker-week[data-week-fully-selected=\"true\"] .tw-datepicker-day" )
+                .Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.ButtonYiqBackground( "primary" ) )};" )
+                .AppendLine( "}" );
+        }
     }
 
     protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )

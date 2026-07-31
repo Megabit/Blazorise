@@ -43,7 +43,7 @@
         pointer-events: auto;
 
         &:has(.datepicker-week-number) {
-            width: calc(19.25rem + 2rem);
+            width: calc(19.25rem + 2.4375rem);
         }
     }
 
@@ -142,7 +142,7 @@
 
     .datepicker-weekdays:has(.datepicker-week-number),
     .datepicker-week:has(.datepicker-week-number) {
-        grid-template-columns: 2rem repeat(7, minmax(0, 1fr));
+        grid-template-columns: 2.4375rem repeat(7, minmax(0, 1fr));
     }
 
     .datepicker-weekday,
@@ -227,6 +227,55 @@
 
     .datepicker-day-range-start.datepicker-day-range-end {
         border-radius: $border-radius;
+    }
+
+    .datepicker-calendar[data-week-mode="true"] .datepicker-week-number[data-week-hovered="true"],
+    .datepicker-calendar[data-week-mode="true"] .datepicker-day[data-week-hovered="true"] {
+        background: rgba($primary, .1);
+    }
+
+    .datepicker-calendar[data-week-mode="true"] .datepicker-week-number[data-week-hovered="true"] {
+        align-self: stretch;
+        height: auto;
+        border-radius: $border-radius;
+        opacity: 1;
+    }
+
+    .datepicker-calendar[data-week-mode="true"] .datepicker-day[data-week-hovered="true"] {
+        justify-self: stretch;
+        width: auto;
+        border-radius: 0;
+    }
+
+    .datepicker-calendar[data-week-mode="true"] .datepicker-day-in-range {
+        justify-self: stretch;
+        width: auto;
+    }
+
+    .datepicker-calendar[data-week-mode="true"] .datepicker-day[data-week-hover-start="true"] {
+        border-start-start-radius: $border-radius;
+        border-end-start-radius: $border-radius;
+    }
+
+    .datepicker-calendar[data-week-mode="true"] .datepicker-day[data-week-hover-end="true"] {
+        border-start-end-radius: $border-radius;
+        border-end-end-radius: $border-radius;
+    }
+
+    .datepicker-calendar[data-week-mode="true"] .datepicker-week[data-week-fully-selected="true"] {
+        border-radius: $border-radius;
+        background: $primary;
+    }
+
+    .datepicker-calendar[data-week-mode="true"] .datepicker-week[data-week-selected="true"] {
+        .datepicker-week-number {
+            align-self: stretch;
+            height: auto;
+            border-radius: $border-radius;
+            opacity: 1;
+            background: $primary;
+            color: color-yiq($primary);
+        }
     }
 
     .datepicker-day-focused,

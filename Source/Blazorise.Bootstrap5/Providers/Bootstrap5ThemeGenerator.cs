@@ -553,50 +553,6 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
-            sb
-                .Append( ".datepicker-navigation:hover" )
-                .Append( "{" )
-                .Append( $"color: {Var( ThemeVariables.Color( "primary" ) )} !important;" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".datepicker-day-selected, .datepicker-day-range-start, .datepicker-day-range-end, .datepicker-month-selected" ).Append( "{" )
-                .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".datepicker-day:hover:not(:disabled), .datepicker-month:hover:not(:disabled)" ).Append( "{" )
-                .Append( $"background: {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".datepicker-day-focused, .datepicker-month-focused" ).Append( "{" )
-                .Append( $"box-shadow: 0 0 0 .2rem {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 75f ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".datepicker-day-today" ).Append( "{" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".datepicker-day-today:hover:not(:disabled)" ).Append( "{" )
-                .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".datepicker-month:hover:not(:disabled), .datepicker-month:focus" ).Append( "{" )
-                .Append( $"background: {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".datepicker-month-selected" ).Append( "{" )
-                .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-
-
             sb.Append( $".form-range::-webkit-slider-thumb" )
                 .Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )

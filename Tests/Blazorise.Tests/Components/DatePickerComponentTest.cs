@@ -44,6 +44,17 @@ public class DatePickerComponentTest : BunitContext
     }
 
     [Fact]
+    public void WeekDisplayFormatUsesEnglishOrdinalSuffix()
+    {
+        Assert.Equal(
+            "2026-41st",
+            WeekDateFormat.Format(
+                new DateTime( 2026, 10, 8 ),
+                WeekDateFormat.DefaultDisplayFormat,
+                System.Globalization.CultureInfo.GetCultureInfo( "en-US" ) ) );
+    }
+
+    [Fact]
     public async Task MobileModeUsesNativeDateInput()
     {
         // setup
@@ -239,6 +250,132 @@ public class DatePickerComponentTest : BunitContext
 
         // validate
         Assert.Equal( new DateTime( 2026, 7, 28 ), comp.Instance.Value );
+    }
+
+    [Fact]
+    public async Task WeekModeSelectsAndFormatsCompleteIsoWeek()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2026, 10, 8 ) )
+            .Add( x => x.InputMode, DateInputMode.Week )
+            .Add( x => x.DisplayFormat, "yyyy-'W'ww" )
+            .Add( x => x.Inline, true ) );
+
+        // validate
+        Assert.Equal( "2026-W41", comp.Find( "input[type='text']" ).GetAttribute( "value" ) );
+        Assert.Equal( 6, comp.FindAll( ".datepicker-week .datepicker-week-number" ).Count );
+
+        IElement selectedWeek = comp.Find( ".datepicker-week[data-week-selected='true']" );
+        Assert.Equal( 7, selectedWeek.QuerySelectorAll( ".datepicker-day-selected" ).Length );
+
+        // test
+        await comp.Find( "[id$='day-20261020']" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( new DateTime( 2026, 10, 19 ), comp.Instance.Value );
+        Assert.Equal( "2026-W43", comp.Find( "input[type='text']" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
+    public async Task WeekModeUsesFirstDayOfWeekForLayoutWithoutChangingIsoSelection()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2026, 10, 8 ) )
+            .Add( x => x.InputMode, DateInputMode.Week )
+            .Add( x => x.FirstDayOfWeek, DayOfWeek.Sunday )
+            .Add( x => x.Inline, true ) );
+
+        // validate
+        Assert.Equal( "Sun", comp.Find( ".datepicker-weekday" ).TextContent );
+        Assert.Equal( 7, comp.FindAll( ".datepicker-day-selected" ).Count );
+        Assert.NotEqual(
+            comp.Find( "[id$='day-20261005']" ).ParentElement,
+            comp.Find( "[id$='day-20261011']" ).ParentElement );
+        Assert.Equal( "41", comp.Find( ".datepicker-week[data-week-selected='true'] .datepicker-week-number" ).TextContent );
+
+        // test
+        await comp.Find( "[id$='day-20261007']" ).TriggerEventAsync( "onmouseover", new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( 7, comp.FindAll( ".datepicker-day[data-week-hovered='true']" ).Count );
+        Assert.Equal( "41", comp.Find( ".datepicker-week-number[data-week-hovered='true']" ).TextContent );
+    }
+
+    [Fact]
+    public async Task WeekModeParsesOrdinalWeekInput()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>( parameters => parameters
+            .Add( x => x.InputMode, DateInputMode.Week )
+            .Add( x => x.DisplayFormat, "yyyy-'W'ww" ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new Microsoft.AspNetCore.Components.ChangeEventArgs { Value = "2026-41st" } );
+
+        // validate
+        Assert.Equal( new DateTime( 2026, 10, 5 ), comp.Instance.Value );
+        Assert.Equal( "2026-W41", comp.Find( "input" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
+    public async Task WeekModeKeyboardNavigationMovesByCompleteWeeks()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2026, 10, 8 ) )
+            .Add( x => x.InputMode, DateInputMode.Week )
+            .Add( x => x.Inline, true ) );
+
+        // test
+        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "ArrowDown" } );
+        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "Enter" } );
+
+        // validate
+        Assert.Equal( new DateTime( 2026, 10, 12 ), comp.Instance.Value );
+    }
+
+    [Fact]
+    public async Task MobileWeekModeUsesNativeWeekInput()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2026, 10, 8 ) )
+            .Add( x => x.InputMode, DateInputMode.Week )
+            .Add( x => x.DisableMobile, false ) );
+        IElement input = comp.Find( "input" );
+
+        // validate
+        Assert.Equal( "week", input.GetAttribute( "type" ) );
+        Assert.Equal( "2026-W41", input.GetAttribute( "value" ) );
+
+        // test
+        await input.ChangeAsync( new Microsoft.AspNetCore.Components.ChangeEventArgs { Value = "2026-W42" } );
+
+        // validate
+        Assert.Equal( new DateTime( 2026, 10, 12 ), comp.Instance.Value );
+    }
+
+    [Fact]
+    public async Task WeekInputFormatUsesNumericWeekMask()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>( parameters => parameters
+            .Add( x => x.InputMode, DateInputMode.Week )
+            .Add( x => x.InputFormat, "yyyy-ww" ) );
+
+        // test
+        await comp.Find( "input" ).FocusAsync( new FocusEventArgs() );
+
+        // validate
+        JSRuntimeInvocation inputMaskInitialization = Assert.Single(
+            JSInterop.Invocations["initialize"],
+            invocation => invocation.Arguments.Count > 3 && invocation.Arguments[3] is InputMaskJSOptions );
+        InputMaskJSOptions options = Assert.IsType<InputMaskJSOptions>( inputMaskInitialization.Arguments[3] );
+
+        Assert.Null( options.Alias );
+        Assert.Equal( "9999-99", options.Mask );
     }
 
     [Fact]

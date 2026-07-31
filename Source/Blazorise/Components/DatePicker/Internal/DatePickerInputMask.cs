@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Modules;
+using Blazorise.Utilities;
 using Blazorise.Vendors;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -44,24 +45,35 @@ internal sealed class DatePickerInputMask
     /// <param name="elementRef">Input element reference.</param>
     /// <param name="elementId">Input element identifier.</param>
     /// <param name="inputFormat">Date input format.</param>
+    /// <param name="inputMode">Date input mode.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task RefreshAsync( ElementReference elementRef, string elementId, string inputFormat )
+    public async Task RefreshAsync( ElementReference elementRef, string elementId, string inputFormat, DateInputMode inputMode )
     {
         await DestroyAsync( elementRef, elementId );
 
         if ( string.IsNullOrWhiteSpace( inputFormat ) )
             return;
 
-        await jsModule.Initialize( null, elementRef, elementId, new InputMaskJSOptions
+        InputMaskJSOptions options = new()
         {
-            Alias = "datetime",
-            InputFormat = inputFormatConverter.Convert( inputFormat ),
             MaskPlaceholder = "_",
             ShowMaskOnFocus = true,
             ShowMaskOnHover = true,
             ClearMaskOnLostFocus = true,
             DispatchChangeOnComplete = true,
-        } );
+        };
+
+        if ( inputMode == DateInputMode.Week )
+        {
+            options.Mask = WeekDateFormat.ToInputMask( inputFormat );
+        }
+        else
+        {
+            options.Alias = "datetime";
+            options.InputFormat = inputFormatConverter.Convert( inputFormat );
+        }
+
+        await jsModule.Initialize( null, elementRef, elementId, options );
 
         IsInitialized = true;
     }

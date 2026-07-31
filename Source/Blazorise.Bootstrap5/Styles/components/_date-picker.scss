@@ -43,7 +43,7 @@
         pointer-events: auto;
 
         &:has(.datepicker-week-number) {
-            width: calc(19.25rem + 2rem);
+            width: calc(19.25rem + 2.4375rem);
         }
     }
 
@@ -92,7 +92,7 @@
         &:hover:not(:disabled),
         &:focus-visible {
             outline: 0;
-            background: rgba($primary, .1);
+            background: rgba(var(--#{$prefix}primary-rgb), .1);
         }
 
         &:disabled {
@@ -142,7 +142,7 @@
 
     .datepicker-weekdays:has(.datepicker-week-number),
     .datepicker-week:has(.datepicker-week-number) {
-        grid-template-columns: 2rem repeat(7, minmax(0, 1fr));
+        grid-template-columns: 2.4375rem repeat(7, minmax(0, 1fr));
     }
 
     .datepicker-weekday,
@@ -182,7 +182,7 @@
         cursor: pointer;
 
         &:hover:not(:disabled) {
-            background: rgba($primary, .1);
+            background: rgba(var(--#{$prefix}primary-rgb), .1);
         }
     }
 
@@ -196,21 +196,21 @@
     }
 
     .datepicker-day-today {
-        border-color: $primary;
+        border-color: var(--#{$prefix}primary);
     }
 
     .datepicker-day-in-range {
         border-radius: 0;
-        background: rgba($primary, .15);
+        background: rgba(var(--#{$prefix}primary-rgb), .15);
     }
 
     .datepicker-day-selected,
     .datepicker-day-range-start,
     .datepicker-day-range-end,
     .datepicker-month-selected {
-        background: $primary;
-        border-color: $primary;
-        color: color-contrast($primary);
+        background: var(--#{$prefix}primary);
+        border-color: var(--#{$prefix}primary);
+        color: var(--b-button-primary-yiq-background, #{color-contrast($primary)});
     }
 
     .datepicker-day-range-start {
@@ -229,9 +229,58 @@
         border-radius: $border-radius;
     }
 
+    .datepicker-calendar[data-week-mode="true"] .datepicker-week-number[data-week-hovered="true"],
+    .datepicker-calendar[data-week-mode="true"] .datepicker-day[data-week-hovered="true"] {
+        background: rgba(var(--#{$prefix}primary-rgb), .1);
+    }
+
+    .datepicker-calendar[data-week-mode="true"] .datepicker-week-number[data-week-hovered="true"] {
+        align-self: stretch;
+        height: auto;
+        border-radius: $border-radius;
+        opacity: 1;
+    }
+
+    .datepicker-calendar[data-week-mode="true"] .datepicker-day[data-week-hovered="true"] {
+        justify-self: stretch;
+        width: auto;
+        border-radius: 0;
+    }
+
+    .datepicker-calendar[data-week-mode="true"] .datepicker-day-in-range {
+        justify-self: stretch;
+        width: auto;
+    }
+
+    .datepicker-calendar[data-week-mode="true"] .datepicker-day[data-week-hover-start="true"] {
+        border-start-start-radius: $border-radius;
+        border-end-start-radius: $border-radius;
+    }
+
+    .datepicker-calendar[data-week-mode="true"] .datepicker-day[data-week-hover-end="true"] {
+        border-start-end-radius: $border-radius;
+        border-end-end-radius: $border-radius;
+    }
+
+    .datepicker-calendar[data-week-mode="true"] .datepicker-week[data-week-fully-selected="true"] {
+        border-radius: $border-radius;
+        background: var(--#{$prefix}primary);
+    }
+
+    .datepicker-calendar[data-week-mode="true"] .datepicker-week[data-week-selected="true"] {
+        .datepicker-week-number {
+            align-self: stretch;
+            height: auto;
+            border-radius: $border-radius;
+            opacity: 1;
+            background: var(--#{$prefix}primary);
+            color: var(--b-button-primary-yiq-background, #{color-contrast($primary)});
+        }
+    }
+
     .datepicker-day-focused,
     .datepicker-month-focused {
-        box-shadow: 0 0 0 $focus-ring-width rgba($primary, $focus-ring-opacity);
+        box-shadow: 0 0 0 $focus-ring-width rgba(var(--#{$prefix}primary-rgb), #{$focus-ring-opacity});
     }
 
     .datepicker-day-disabled,
@@ -291,7 +340,7 @@
             &:hover:not(:disabled),
             &:focus-visible {
                 outline: 0;
-                background: rgba($primary, .1);
+                background: rgba(var(--#{$prefix}primary-rgb), .1);
             }
 
             &:disabled {
@@ -318,7 +367,7 @@
             &:hover:not(:disabled),
             &:focus-visible {
                 outline: 0;
-                background: rgba($primary, .1);
+                background: rgba(var(--#{$prefix}primary-rgb), .1);
             }
 
             &:disabled {
@@ -354,7 +403,7 @@
 
         &:hover:not(:disabled),
         &:focus {
-            background: rgba($primary, .1);
+            background: rgba(var(--#{$prefix}primary-rgb), .1);
         }
 
         &::-webkit-inner-spin-button,

@@ -4019,6 +4019,10 @@ body {
   font-weight: 500;
   line-height: 1rem;
 }
+.mui-date-picker-calendar .mui-date-picker-week-number {
+  width: var(--mui-date-picker-day-size);
+  opacity: 0.65;
+}
 .mui-date-picker-calendar .mui-date-picker-weekdays,
 .mui-date-picker-calendar .mui-date-picker-week {
   display: grid;
@@ -4027,7 +4031,7 @@ body {
 }
 .mui-date-picker-calendar .mui-date-picker-weekdays:has(.mui-date-picker-week-number),
 .mui-date-picker-calendar .mui-date-picker-week:has(.mui-date-picker-week-number) {
-  grid-template-columns: 2rem repeat(7, minmax(0, 1fr));
+  grid-template-columns: var(--mui-date-picker-day-size) repeat(7, minmax(0, 1fr));
 }
 .mui-date-picker-calendar .mui-date-picker-day {
   box-sizing: border-box;
@@ -4090,6 +4094,44 @@ body {
 }
 .mui-date-picker-calendar .mui-date-picker-day-range-start.mui-date-picker-day-range-end {
   border-radius: 999rem;
+}
+.mui-date-picker-calendar[data-week-mode=true] .mui-date-picker-week-number[data-week-hovered=true], .mui-date-picker-calendar[data-week-mode=true] .mui-date-picker-day[data-week-hovered=true] {
+  background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
+}
+.mui-date-picker-calendar[data-week-mode=true] .mui-date-picker-week-number[data-week-hovered=true] {
+  align-self: stretch;
+  height: auto;
+  border-radius: 999rem;
+  opacity: 1;
+}
+.mui-date-picker-calendar[data-week-mode=true] .mui-date-picker-day[data-week-hovered=true] {
+  justify-self: stretch;
+  width: auto;
+  border-radius: 0;
+}
+.mui-date-picker-calendar[data-week-mode=true] .mui-date-picker-day-in-range {
+  justify-self: stretch;
+  width: auto;
+}
+.mui-date-picker-calendar[data-week-mode=true] .mui-date-picker-day[data-week-hover-start=true] {
+  border-start-start-radius: 999rem;
+  border-end-start-radius: 999rem;
+}
+.mui-date-picker-calendar[data-week-mode=true] .mui-date-picker-day[data-week-hover-end=true] {
+  border-start-end-radius: 999rem;
+  border-end-end-radius: 999rem;
+}
+.mui-date-picker-calendar[data-week-mode=true] .mui-date-picker-week[data-week-fully-selected=true] {
+  border-radius: 999rem;
+  background: var(--mui-primary);
+}
+.mui-date-picker-calendar[data-week-mode=true] .mui-date-picker-week[data-week-selected=true] .mui-date-picker-week-number {
+  align-self: stretch;
+  height: auto;
+  border-radius: 999rem;
+  opacity: 1;
+  background: var(--mui-primary);
+  color: var(--mui-on-primary);
 }
 .mui-date-picker-calendar .mui-date-picker-day-focused,
 .mui-date-picker-calendar .mui-date-picker-month-focused {

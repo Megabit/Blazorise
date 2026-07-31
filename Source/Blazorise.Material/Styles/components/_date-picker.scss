@@ -211,6 +211,7 @@
     }
 
     .mui-date-picker-week-number {
+        width: var(--mui-date-picker-day-size);
         opacity: .65;
     }
 
@@ -223,7 +224,7 @@
 
     .mui-date-picker-weekdays:has(.mui-date-picker-week-number),
     .mui-date-picker-week:has(.mui-date-picker-week-number) {
-        grid-template-columns: 2rem repeat(7, minmax(0, 1fr));
+        grid-template-columns: var(--mui-date-picker-day-size) repeat(7, minmax(0, 1fr));
     }
 
     .mui-date-picker-day {
@@ -296,6 +297,55 @@
 
     .mui-date-picker-day-range-start.mui-date-picker-day-range-end {
         border-radius: 999rem;
+    }
+
+    &[data-week-mode="true"] .mui-date-picker-week-number[data-week-hovered="true"],
+    &[data-week-mode="true"] .mui-date-picker-day[data-week-hovered="true"] {
+        background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
+    }
+
+    &[data-week-mode="true"] .mui-date-picker-week-number[data-week-hovered="true"] {
+        align-self: stretch;
+        height: auto;
+        border-radius: 999rem;
+        opacity: 1;
+    }
+
+    &[data-week-mode="true"] .mui-date-picker-day[data-week-hovered="true"] {
+        justify-self: stretch;
+        width: auto;
+        border-radius: 0;
+    }
+
+    &[data-week-mode="true"] .mui-date-picker-day-in-range {
+        justify-self: stretch;
+        width: auto;
+    }
+
+    &[data-week-mode="true"] .mui-date-picker-day[data-week-hover-start="true"] {
+        border-start-start-radius: 999rem;
+        border-end-start-radius: 999rem;
+    }
+
+    &[data-week-mode="true"] .mui-date-picker-day[data-week-hover-end="true"] {
+        border-start-end-radius: 999rem;
+        border-end-end-radius: 999rem;
+    }
+
+    &[data-week-mode="true"] .mui-date-picker-week[data-week-fully-selected="true"] {
+        border-radius: 999rem;
+        background: var(--mui-primary);
+    }
+
+    &[data-week-mode="true"] .mui-date-picker-week[data-week-selected="true"] {
+        .mui-date-picker-week-number {
+            align-self: stretch;
+            height: auto;
+            border-radius: 999rem;
+            opacity: 1;
+            background: var(--mui-primary);
+            color: var(--mui-on-primary);
+        }
     }
 
     .mui-date-picker-day-focused,
