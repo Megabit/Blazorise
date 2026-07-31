@@ -164,7 +164,7 @@ public class BulmaClassProvider : ClassProvider
     public override string TimePickerSeparator() => "timepicker-separator button is-static";
 
     public override string TimePickerMeridiem( bool postMeridiem, bool focused )
-        => $"timepicker-meridiem button{( postMeridiem ? " is-primary" : null )}{( focused ? " is-focused" : null )}";
+        => $"timepicker-meridiem button{( postMeridiem ? " is-pm" : null )}{( focused ? " is-focused" : null )}";
 
     #endregion
 

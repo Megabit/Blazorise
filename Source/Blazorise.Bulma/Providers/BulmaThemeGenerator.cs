@@ -503,7 +503,7 @@ public class BulmaThemeGenerator : ThemeGenerator
         if ( !string.IsNullOrEmpty( theme.BodyOptions?.BackgroundColor ) )
         {
             sb
-                .Append( ".datepicker-calendar.box, .timepicker-menu.box" )
+                .Append( ".datepicker .datepicker-calendar.box, .timepicker .timepicker-menu.box" )
                 .Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BodyBackgroundColor )};" )
                 .AppendLine( "}" );
@@ -512,7 +512,13 @@ public class BulmaThemeGenerator : ThemeGenerator
         if ( !string.IsNullOrEmpty( theme.BodyOptions?.TextColor ) )
         {
             sb
-                .Append( ".datepicker-calendar.box, .datepicker-day, .datepicker-month, .timepicker-menu.box" )
+                .Append( ".datepicker .datepicker-calendar.box, .datepicker .datepicker-day, .datepicker .datepicker-month," )
+                .Append( ".timepicker .timepicker-menu.box, .timepicker .timepicker-input.input," )
+                .Append( ".timepicker .timepicker-separator.button, .timepicker .timepicker-meridiem.button," )
+                .Append( ".datepicker .datepicker-navigation.button:hover:not(:disabled)," )
+                .Append( ".datepicker .datepicker-navigation.button:focus-visible," )
+                .Append( ".timepicker .timepicker-meridiem.button:hover:not(:disabled)," )
+                .Append( ".timepicker .timepicker-meridiem.button:focus-visible, .timepicker .timepicker-meridiem.button.is-focused" )
                 .Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.BodyTextColor )};" )
                 .AppendLine( "}" );
@@ -521,7 +527,9 @@ public class BulmaThemeGenerator : ThemeGenerator
         if ( !string.IsNullOrEmpty( theme.TextColorOptions?.Muted ) )
         {
             sb
-                .Append( ".datepicker-weekday, .datepicker-week-number, .datepicker-day.is-outside" )
+                .Append( ".datepicker .datepicker-navigation.button, .datepicker .datepicker-weekday," )
+                .Append( ".datepicker .datepicker-week-number, .datepicker .datepicker-day.is-outside," )
+                .Append( ".timepicker .timepicker-input.input:disabled, .timepicker .timepicker-meridiem.button:disabled" )
                 .Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.TextColor( "muted" ) )};" )
                 .AppendLine( "}" );
@@ -536,9 +544,10 @@ public class BulmaThemeGenerator : ThemeGenerator
             string focusShadow = ToHex( Lighten( primary, 75f ) );
 
             sb
-                .Append( ".datepicker-day.is-selected, .datepicker-day.is-range-start, .datepicker-day.is-range-end, .datepicker-month.is-selected," )
-                .Append( ".datepicker-calendar[data-week-mode=\"true\"] .datepicker-week[data-week-fully-selected=\"true\"]," )
-                .Append( ".datepicker-calendar[data-week-mode=\"true\"] .datepicker-week[data-week-selected=\"true\"] .datepicker-week-number" )
+                .Append( ".datepicker .datepicker-day.is-selected, .datepicker .datepicker-day.is-range-start," )
+                .Append( ".datepicker .datepicker-day.is-range-end, .datepicker .datepicker-month.is-selected," )
+                .Append( ".datepicker .datepicker-calendar[data-week-mode=\"true\"] .datepicker-week[data-week-fully-selected=\"true\"]," )
+                .Append( ".datepicker .datepicker-calendar[data-week-mode=\"true\"] .datepicker-week[data-week-selected=\"true\"] .datepicker-week-number" )
                 .Append( "{" )
                 .Append( $"background: {primary};" )
                 .Append( $"border-color: {primary};" )
@@ -546,34 +555,41 @@ public class BulmaThemeGenerator : ThemeGenerator
                 .AppendLine( "}" );
 
             sb
-                .Append( ".datepicker-calendar[data-week-mode=\"true\"] .datepicker-week[data-week-fully-selected=\"true\"] .datepicker-day" )
+                .Append( ".datepicker .datepicker-calendar[data-week-mode=\"true\"] .datepicker-week[data-week-fully-selected=\"true\"] .datepicker-day" )
                 .Append( "{" )
                 .Append( $"color: {onPrimary} !important;" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".datepicker-day:hover:not(:disabled), .datepicker-month:hover:not(:disabled)," )
-                .Append( ".datepicker-calendar[data-week-mode=\"true\"] .datepicker-week-number[data-week-hovered=\"true\"]," )
-                .Append( ".datepicker-calendar[data-week-mode=\"true\"] .datepicker-day[data-week-hovered=\"true\"]" )
+                .Append( ".datepicker .datepicker-navigation.button:hover:not(:disabled)," )
+                .Append( ".datepicker .datepicker-navigation.button:focus-visible," )
+                .Append( ".datepicker .datepicker-day:hover:not(:disabled):not(.is-selected):not(.is-range-start):not(.is-range-end)," )
+                .Append( ".datepicker .datepicker-month:hover:not(:disabled):not(.is-selected)," )
+                .Append( ".datepicker .datepicker-calendar[data-week-mode=\"true\"] .datepicker-week:not([data-week-selected=\"true\"]) .datepicker-week-number[data-week-hovered=\"true\"]," )
+                .Append( ".datepicker .datepicker-calendar[data-week-mode=\"true\"] .datepicker-week:not([data-week-selected=\"true\"]) .datepicker-day[data-week-hovered=\"true\"]," )
+                .Append( ".timepicker .timepicker-input.input:hover:not(:disabled), .timepicker .timepicker-input.input:focus," )
+                .Append( ".timepicker .timepicker-control.is-focused .timepicker-input.input," )
+                .Append( ".timepicker .timepicker-meridiem.button:hover:not(:disabled)," )
+                .Append( ".timepicker .timepicker-meridiem.button:focus-visible, .timepicker .timepicker-meridiem.button.is-focused" )
                 .Append( "{" )
                 .Append( $"background: {hoverBackground};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".datepicker-day.is-in-range" )
+                .Append( ".datepicker .datepicker-day.is-in-range" )
                 .Append( "{" )
                 .Append( $"background: {rangeBackground};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".datepicker-title select:focus, .datepicker-title input:focus," )
-                .Append( ".datepicker-day.is-focused, .datepicker-month.is-focused" )
+                .Append( ".datepicker .datepicker-title select:focus, .datepicker .datepicker-title input:focus," )
+                .Append( ".datepicker .datepicker-day.is-focused, .datepicker .datepicker-month.is-focused" )
                 .Append( "{" )
                 .Append( $"box-shadow: 0 0 0 .125em {focusShadow};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".datepicker-day.is-today" ).Append( "{" )
+                .Append( ".datepicker .datepicker-day.is-today" ).Append( "{" )
                 .Append( $"border-color: {primary};" )
                 .AppendLine( "}" );
         }

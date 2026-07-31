@@ -66,6 +66,23 @@
         gap: .25rem;
     }
 
+    .datepicker-navigation.button {
+        width: 2rem;
+        height: 2rem;
+        padding: 0;
+        border-color: transparent;
+        background: transparent;
+        box-shadow: none;
+        color: $text-weak;
+
+        &:hover:not(:disabled),
+        &:focus-visible {
+            border-color: transparent;
+            background: rgba($primary, .1);
+            color: $text;
+        }
+    }
+
     .datepicker-title {
         display: flex;
         align-items: center;
@@ -155,18 +172,30 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        justify-self: center;
         min-width: 2.25rem;
         min-height: 2.25rem;
         padding: 0;
+        border: 1px solid transparent;
         border-radius: 999rem;
+        background: transparent;
+        box-shadow: none;
         color: $text;
 
         &:hover:not(:disabled) {
+            border-color: transparent;
             background: rgba($primary, .1);
         }
     }
 
+    .datepicker-day {
+        width: 2.25rem;
+        height: 2.25rem;
+    }
+
     .datepicker-month {
+        justify-self: stretch;
+        width: 100%;
         border-radius: $radius-small;
     }
 
@@ -298,7 +327,11 @@
     }
 
     .datepicker-time-input {
-        width: 4rem;
+        width: 3.25rem;
+        height: 2.25rem;
+        padding: 0;
+        border-color: transparent;
+        box-shadow: none;
         text-align: center;
     }
 }
