@@ -126,6 +126,10 @@
         color: var(--ant-color-text-description);
     }
 
+    .ant-picker-week-panel-row {
+        opacity: .65;
+    }
+
     .ant-picker-cell-in-view {
         padding: 0;
         border: var(--ant-line-width) solid transparent;

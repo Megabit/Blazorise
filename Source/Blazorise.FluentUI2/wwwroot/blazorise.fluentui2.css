@@ -12675,6 +12675,9 @@ code {
   outline: 0;
   pointer-events: auto;
 }
+.fui-DatePicker__calendar:has(.fui-DatePicker__weekNumber) {
+  width: 21.25rem;
+}
 .fui-DatePicker__calendar.fui-DatePicker__calendar-inline {
   position: relative;
   inset: auto;
@@ -12763,6 +12766,9 @@ code {
   color: var(--colorNeutralForeground1);
   font-weight: var(--fontWeightRegular);
 }
+.fui-DatePicker__calendar .fui-DatePicker__weekNumber {
+  opacity: 0.65;
+}
 .fui-DatePicker__calendar .fui-DatePicker__weekdays,
 .fui-DatePicker__calendar .fui-DatePicker__week {
   display: grid;
@@ -12771,7 +12777,7 @@ code {
 }
 .fui-DatePicker__calendar .fui-DatePicker__weekdays:has(.fui-DatePicker__weekNumber),
 .fui-DatePicker__calendar .fui-DatePicker__week:has(.fui-DatePicker__weekNumber) {
-  grid-template-columns: auto repeat(7, minmax(0, 1fr));
+  grid-template-columns: 2rem repeat(7, minmax(0, 1fr));
 }
 .fui-DatePicker__calendar .fui-DatePicker__day,
 .fui-DatePicker__calendar .fui-DatePicker__month {

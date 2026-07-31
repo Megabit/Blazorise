@@ -1818,6 +1818,9 @@ body:before {
   min-width: 2rem;
   min-height: 2rem;
 }
+.datepicker .datepicker-week-number {
+  opacity: 0.65;
+}
 .datepicker .datepicker-weekday,
 .datepicker .datepicker-week-number,
 .datepicker .datepicker-day.is-outside {

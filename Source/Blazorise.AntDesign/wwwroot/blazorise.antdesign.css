@@ -4047,6 +4047,9 @@ template {
   min-height: var(--ant-control-height);
   color: var(--ant-color-text-description);
 }
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-week-panel-row {
+  opacity: 0.65;
+}
 .ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-in-view {
   padding: 0;
   border: var(--ant-line-width) solid transparent;

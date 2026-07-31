@@ -37,6 +37,10 @@
     outline: 0;
     pointer-events: auto;
 
+    &:has(.tw-datepicker-week-number) {
+        width: calc(19.25rem + 2rem);
+    }
+
     &.tw-datepicker-calendar-inline {
         position: relative;
         inset: auto;
@@ -131,7 +135,7 @@
 
     .tw-datepicker-weekdays:has(.tw-datepicker-week-number),
     .tw-datepicker-week:has(.tw-datepicker-week-number) {
-        grid-template-columns: auto repeat(7, minmax(0, 1fr));
+        grid-template-columns: 2rem repeat(7, minmax(0, 1fr));
     }
 
     .tw-datepicker-weekday,
@@ -144,6 +148,10 @@
         color: rgb(107 114 128);
         font-size: .875rem;
         font-weight: 600;
+    }
+
+    .tw-datepicker-week-number {
+        opacity: .65;
     }
 
     .tw-datepicker-day,

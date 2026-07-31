@@ -39,6 +39,10 @@
     outline: 0;
     pointer-events: auto;
 
+    &:has(.fui-DatePicker__weekNumber) {
+        width: calc(19.25rem + 2rem);
+    }
+
     &.fui-DatePicker__calendar-inline {
         position: relative;
         inset: auto;
@@ -140,6 +144,10 @@
         font-weight: var(--fontWeightRegular);
     }
 
+    .fui-DatePicker__weekNumber {
+        opacity: .65;
+    }
+
     .fui-DatePicker__weekdays,
     .fui-DatePicker__week {
         display: grid;
@@ -149,7 +157,7 @@
 
     .fui-DatePicker__weekdays:has(.fui-DatePicker__weekNumber),
     .fui-DatePicker__week:has(.fui-DatePicker__weekNumber) {
-        grid-template-columns: auto repeat(7, minmax(0, 1fr));
+        grid-template-columns: 2rem repeat(7, minmax(0, 1fr));
     }
 
     .fui-DatePicker__day,

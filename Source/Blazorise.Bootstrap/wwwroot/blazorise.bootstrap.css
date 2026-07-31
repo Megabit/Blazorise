@@ -353,6 +353,9 @@ body:before {
   outline: 0;
   pointer-events: auto;
 }
+.datepicker .datepicker-calendar.dropdown-menu:has(.datepicker-week-number) {
+  width: 21.25rem;
+}
 .datepicker .datepicker-calendar-inline {
   position: relative;
   inset: auto;
@@ -436,7 +439,7 @@ body:before {
 }
 .datepicker .datepicker-weekdays:has(.datepicker-week-number),
 .datepicker .datepicker-week:has(.datepicker-week-number) {
-  grid-template-columns: auto repeat(7, minmax(0, 1fr));
+  grid-template-columns: 2rem repeat(7, minmax(0, 1fr));
 }
 .datepicker .datepicker-weekday,
 .datepicker .datepicker-week-number {
@@ -448,6 +451,9 @@ body:before {
   color: #6c757d;
   font-size: 0.875rem;
   font-weight: 700;
+}
+.datepicker .datepicker-week-number {
+  opacity: 0.65;
 }
 .datepicker .datepicker-day,
 .datepicker .datepicker-month {
