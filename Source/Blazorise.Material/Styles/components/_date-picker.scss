@@ -45,7 +45,7 @@
         z-index: auto;
     }
 
-    @supports (position-anchor: --material-datepicker-anchor) {
+    @supports (position-anchor: --material-datepicker-anchor) and (anchor-scope: --material-datepicker-anchor) {
         &.mui-date-picker-calendar-floating {
             position: fixed;
             position-anchor: --material-datepicker-anchor;

@@ -54,7 +54,7 @@
         z-index: auto;
     }
 
-    @supports (position-anchor: --bootstrap5-datepicker-anchor) {
+    @supports (position-anchor: --bootstrap5-datepicker-anchor) and (anchor-scope: --bootstrap5-datepicker-anchor) {
         .datepicker-calendar.dropdown-menu.datepicker-calendar-floating {
             position: fixed;
             position-anchor: --bootstrap5-datepicker-anchor;

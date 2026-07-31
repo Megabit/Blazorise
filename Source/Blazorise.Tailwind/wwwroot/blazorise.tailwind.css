@@ -9377,7 +9377,7 @@ body:before {
 .dark .tw-datepicker-calendar .tw-datepicker-actions .tw-datepicker-button:hover:not(:disabled), .dark .tw-datepicker-calendar .tw-datepicker-actions .tw-datepicker-button:focus-visible {
   background: var(--color-primary-900, var(--btw-color-primary-900));
 }
-@supports (position-anchor: --tailwind-datepicker-anchor) {
+@supports (position-anchor: --tailwind-datepicker-anchor) and (anchor-scope: --tailwind-datepicker-anchor) {
   .tw-datepicker-calendar.tw-datepicker-calendar-floating {
     position: fixed;
     position-anchor: --tailwind-datepicker-anchor;
@@ -9431,7 +9431,7 @@ body:before {
   margin-block-start: 0.25rem;
   z-index: auto;
 }
-@supports (position-anchor: --tailwind-timepicker-anchor) {
+@supports (position-anchor: --tailwind-timepicker-anchor) and (anchor-scope: --tailwind-timepicker-anchor) {
   .tw-timepicker-menu.tw-timepicker-menu-floating {
     position: fixed;
     position-anchor: --tailwind-timepicker-anchor;

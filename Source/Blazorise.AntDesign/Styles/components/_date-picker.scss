@@ -47,7 +47,7 @@
         z-index: auto;
     }
 
-    @supports (position-anchor: --ant-datepicker-anchor) {
+    @supports (position-anchor: --ant-datepicker-anchor) and (anchor-scope: --ant-datepicker-anchor) {
         &.ant-picker-dropdown-floating {
             position: fixed;
             position-anchor: --ant-datepicker-anchor;

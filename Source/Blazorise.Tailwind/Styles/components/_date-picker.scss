@@ -498,7 +498,7 @@
     }
 }
 
-@supports (position-anchor: --tailwind-datepicker-anchor) {
+@supports (position-anchor: --tailwind-datepicker-anchor) and (anchor-scope: --tailwind-datepicker-anchor) {
     .tw-datepicker-calendar.tw-datepicker-calendar-floating {
         position: fixed;
         position-anchor: --tailwind-datepicker-anchor;

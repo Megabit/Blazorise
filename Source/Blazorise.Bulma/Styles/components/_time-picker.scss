@@ -41,7 +41,7 @@
         z-index: auto;
     }
 
-    @supports (position-anchor: --bulma-timepicker-anchor) {
+    @supports (position-anchor: --bulma-timepicker-anchor) and (anchor-scope: --bulma-timepicker-anchor) {
         .timepicker-menu.timepicker-menu-floating {
             position: fixed;
             position-anchor: --bulma-timepicker-anchor;
