@@ -513,6 +513,68 @@ public class DatePickerComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task EqualRangeDatesAreDisplayedOnce()
+    {
+        // setup
+        DateTime date = new( 2026, 7, 16 );
+        IRenderedComponent<DatePicker<DateTime[]>> comp = Render<DatePicker<DateTime[]>>( parameters => parameters
+            .Add( x => x.Value, new[] { date } )
+            .Add( x => x.SelectionMode, DateInputSelectionMode.Range )
+            .Add( x => x.DisplayFormat, "yyyy-MM-dd" ) );
+
+        // test
+        await comp.Find( "input" ).ClickAsync( new MouseEventArgs() );
+        await comp.Find( "[id$='day-20260716']" ).ClickAsync( new MouseEventArgs() );
+        await comp.Find( "[id$='day-20260716']" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( new[] { date }, comp.Instance.Value );
+        Assert.Equal( "2026-07-16", comp.Find( "input" ).GetAttribute( "value" ) );
+        Assert.Empty( comp.FindAll( "[role='dialog']" ) );
+    }
+
+    [Fact]
+    public async Task TodayButtonCommitsRangeOnFirstClick()
+    {
+        // setup
+        DateTime today = DateTime.Today;
+        IRenderedComponent<DatePicker<DateTime[]>> comp = Render<DatePicker<DateTime[]>>( parameters => parameters
+            .Add( x => x.SelectionMode, DateInputSelectionMode.Range )
+            .Add( x => x.ShowTodayButton, true )
+            .Add( x => x.DisplayFormat, "yyyy-MM-dd" )
+            .Add( x => x.RangeSeparator, " to " ) );
+
+        // test
+        await comp.Find( "input" ).ClickAsync( new MouseEventArgs() );
+        await comp.Find( ".datepicker-button" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( new[] { today }, comp.Instance.Value );
+        Assert.Equal( $"{today:yyyy-MM-dd}", comp.Find( "input" ).GetAttribute( "value" ) );
+        Assert.Empty( comp.FindAll( "[role='dialog']" ) );
+    }
+
+    [Fact]
+    public async Task TodayButtonReplacesPendingRange()
+    {
+        // setup
+        DateTime today = DateTime.Today;
+        DateTime pendingStart = today.AddDays( -1 );
+        IRenderedComponent<DatePicker<DateTime[]>> comp = Render<DatePicker<DateTime[]>>( parameters => parameters
+            .Add( x => x.SelectionMode, DateInputSelectionMode.Range )
+            .Add( x => x.ShowTodayButton, true ) );
+
+        // test
+        await comp.Find( "input" ).ClickAsync( new MouseEventArgs() );
+        await comp.Find( $"[id$='day-{pendingStart:yyyyMMdd}']" ).ClickAsync( new MouseEventArgs() );
+        await comp.Find( ".datepicker-button" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( new[] { today }, comp.Instance.Value );
+        Assert.Empty( comp.FindAll( "[role='dialog']" ) );
+    }
+
+    [Fact]
     public void RenderDateTimeTest()
     {
         // setup

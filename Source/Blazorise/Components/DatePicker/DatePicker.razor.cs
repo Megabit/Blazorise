@@ -814,6 +814,14 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             return;
         }
 
+        if ( SelectionMode == DateInputSelectionMode.Range
+             && InputMode != DateInputMode.DateTime
+             && dates.Count == 2
+             && dates[0].Date == dates[1].Date )
+        {
+            dates = new[] { dates[0] };
+        }
+
         string delimiter = SelectionMode == DateInputSelectionMode.Multiple ? MULTIPLE_DELIMITER : CurrentRangeSeparator;
         string normalizedValue = string.Join(
             delimiter,
@@ -825,7 +833,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         NotifyCalendarStateChanged();
     }
 
-    internal async Task SelectDateAsync( DateTime selectedDate )
+    internal async Task SelectDateAsync( DateTime selectedDate, DatePickerSelectionSource selectionSource = DatePickerSelectionSource.Calendar )
     {
         if ( CalendarInteractionDisabled || IsDateDisabled( selectedDate ) )
             return;
@@ -841,7 +849,15 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         }
         else if ( SelectionMode == DateInputSelectionMode.Range )
         {
-            if ( !pendingRangeStart.HasValue )
+            if ( selectionSource == DatePickerSelectionSource.TodayButton )
+            {
+                pendingRangeStart = null;
+                hoveredRangeEnd = null;
+
+                await CommitDatesAsync( new[] { date, date } );
+                await CloseCalendarAsync( focusInput: true );
+            }
+            else if ( !pendingRangeStart.HasValue )
             {
                 pendingRangeStart = date;
                 hoveredRangeEnd = null;
@@ -854,7 +870,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
                 if ( end < start )
                 {
-                    ( start, end ) = ( end, start );
+                    (start, end) = (end, start);
                 }
 
                 pendingRangeStart = null;
@@ -924,7 +940,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             today = new DateTime( today.Year, today.Month, 1, today.Hour, today.Minute, 0 );
         }
 
-        await SelectDateAsync( today );
+        await SelectDateAsync( today, DatePickerSelectionSource.TodayButton );
     }
 
     internal async Task ClearAsync()
