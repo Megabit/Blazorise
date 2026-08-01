@@ -1,4 +1,5 @@
 @page "/tests/codeeditor"
+@using System.Threading
 @using Microsoft.CodeAnalysis
 @using Microsoft.CodeAnalysis.CSharp
 
@@ -80,17 +81,19 @@
             </CardHeader>
             <CardBody>
                 <Validations @ref="@validations" Mode="ValidationMode.Manual">
-                    <Validation Validator="@ValidationRule.IsNotEmpty">
+                    <Validation AsyncValidator="@ValidateCode">
                         <Field>
                             <FieldLabel>Script</FieldLabel>
                             <FieldBody>
-                                <CodeEditor @bind-Value="@validationCode"
+                                <CodeEditor @ref="@validationEditorRef"
+                                            @bind-Value="@validationCode"
                                             Language="@CodeEditorLanguage.JavaScript"
                                             Theme="@theme"
+                                            Immediate
                                             MinHeight="180px"
                                             EditorOptions="@validationEditorOptions">
                                     <Feedback>
-                                        <ValidationError>Please enter script content.</ValidationError>
+                                        <ValidationError />
                                     </Feedback>
                                 </CodeEditor>
                             </FieldBody>
@@ -105,6 +108,7 @@
 
 @code {
     private CodeEditor codeEditorRef;
+    private CodeEditor validationEditorRef;
     private Validations validations;
 
     private string language = CodeEditorLanguage.CSharp;
@@ -186,6 +190,33 @@ public class Greeting
     private Task ValidateAsync()
     {
         return validations.ValidateAll();
+    }
+
+    private async Task ValidateCode( ValidatorEventArgs eventArgs, CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        string value = Convert.ToString( eventArgs.Value );
+
+        if ( string.IsNullOrWhiteSpace( value ) )
+        {
+            eventArgs.Status = ValidationStatus.Error;
+            eventArgs.ErrorText = "Please enter script content.";
+
+            return;
+        }
+
+        IReadOnlyList<CodeEditorDiagnostic> diagnostics = await validationEditorRef.GetDiagnostics();
+
+        cancellationToken.ThrowIfCancellationRequested();
+
+        CodeEditorDiagnostic error = diagnostics.FirstOrDefault(
+            diagnostic => diagnostic.Severity == CodeEditorDiagnosticSeverity.Error );
+
+        eventArgs.Status = error is null
+            ? ValidationStatus.Success
+            : ValidationStatus.Error;
+        eventArgs.ErrorText = error?.Message;
     }
 
     private Task OnReady( CodeEditorReadyEventArgs eventArgs )

@@ -193,6 +193,15 @@ export function setDiagnostics(element, elementId, diagnostics) {
     monaco.editor.setModelMarkers(model, instance.markerOwner, markers);
 }
 
+export function getDiagnostics(element, elementId) {
+    const model = instances.get(elementId)?.editor?.getModel();
+
+    if (!model)
+        return [];
+
+    return monaco.editor.getModelMarkers({ resource: model.uri }).map(toDiagnostic);
+}
+
 export function setValue(element, elementId, value) {
     const instance = instances.get(elementId);
 
@@ -761,6 +770,20 @@ function toMarker(diagnostic) {
         startColumn,
         endLineNumber,
         endColumn
+    };
+}
+
+function toDiagnostic(marker) {
+    return {
+        severity: marker.severity,
+        message: marker.message || "",
+        code: typeof marker.code === "object"
+            ? marker.code?.value
+            : marker.code?.toString(),
+        startLineNumber: marker.startLineNumber,
+        startColumn: marker.startColumn,
+        endLineNumber: marker.endLineNumber,
+        endColumn: marker.endColumn
     };
 }
 

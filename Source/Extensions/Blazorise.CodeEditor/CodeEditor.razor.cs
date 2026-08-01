@@ -327,6 +327,18 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     }
 
     /// <summary>
+    /// Gets the diagnostic markers for the current editor model.
+    /// </summary>
+    /// <returns>Diagnostic markers reported for the current editor model.</returns>
+    public async Task<IReadOnlyList<CodeEditorDiagnostic>> GetDiagnostics()
+    {
+        if ( jsInitialized )
+            return await JSModule.GetDiagnostics( ElementRef, ElementId );
+
+        return await ExecuteAfterRenderAsync( () => JSModule.GetDiagnostics( ElementRef, ElementId ).AsTask() );
+    }
+
+    /// <summary>
     /// Sets diagnostic markers.
     /// </summary>
     /// <param name="diagnostics">Diagnostic markers.</param>

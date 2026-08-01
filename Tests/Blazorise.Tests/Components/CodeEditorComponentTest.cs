@@ -81,6 +81,17 @@ public class CodeEditorComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task GetDiagnostics_Should_InvokeJavaScript()
+    {
+        IRenderedComponent<CodeEditorComponent> cut = Render<CodeEditorComponent>();
+
+        IReadOnlyList<CodeEditorDiagnostic> diagnostics = await cut.Instance.GetDiagnostics();
+
+        Assert.Empty( diagnostics );
+        JSInterop.VerifyInvoke( "getDiagnostics" );
+    }
+
+    [Fact]
     public async Task FormattingProvider_Should_MapAndInvokeFormatter()
     {
         CodeEditorDocumentFormattingProvider provider = new()

@@ -1,4 +1,5 @@
 #region Using directives
+using System.Collections.Generic;
 using Blazorise.Charts;
 using Blazorise.CodeEditor;
 using Blazorise.DataGrid;
@@ -24,6 +25,7 @@ public static class JSInterop
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
         module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
         module.SetupVoid( "setDiagnostics", _ => true ).SetVoidResult();
+        module.Setup<IReadOnlyList<CodeEditorDiagnostic>>( "getDiagnostics", _ => true ).SetResult( System.Array.Empty<CodeEditorDiagnostic>() );
         module.SetupVoid( "setLanguages", _ => true ).SetVoidResult();
         module.SetupVoid( "setCompletionProvider", _ => true ).SetVoidResult();
         module.SetupVoid( "setFormattingProvider", _ => true ).SetVoidResult();
