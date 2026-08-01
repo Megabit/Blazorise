@@ -1636,6 +1636,17 @@ namespace Blazorise.Docs.Models
     DateTime? value;
 }";
 
+        public const string DatePickerMonthExample = @"<DatePicker TValue=""DateTime?""
+            @bind-Value=""@selectedMonth""
+            InputMode=""DateInputMode.Month""
+            DisplayFormat=""MMMM yyyy""
+            Placeholder=""Select month...""
+            ShowTodayButton />
+
+@code {
+    DateTime? selectedMonth;
+}";
+
         public const string DatePickerNonStaticExample = @"<DatePicker TValue=""DateTime?"" @bind-Value=""@value"" StaticPicker=""false"" />
 
 @code {
@@ -1645,6 +1656,38 @@ namespace Blazorise.Docs.Models
         public const string DatePickerShowButtonsExample = @"<DatePicker TValue=""DateTime?"" ShowTodayButton ShowClearButton />";
 
         public const string DatePickerShowWeekNumbersExample = @"<DatePicker TValue=""DateTime?"" ShowWeekNumbers=""true"" />";
+
+        public const string DatePickerWeekExample = @"<Field>
+    <FieldLabel>Single week</FieldLabel>
+    <FieldBody>
+        <DatePicker TValue=""DateTime?"" @bind-Value=""@selectedWeek"" InputMode=""DateInputMode.Week"" Placeholder=""Select week..."" />
+    </FieldBody>
+</Field>
+<Field>
+    <FieldLabel>Week range</FieldLabel>
+    <FieldBody>
+        <DatePicker @bind-Value=""@selectedWeekRange"" InputMode=""DateInputMode.Week"" SelectionMode=""DateInputSelectionMode.Range"" Placeholder=""Select week range..."" />
+    </FieldBody>
+</Field>
+<Field>
+    <FieldLabel>Multiple weeks</FieldLabel>
+    <FieldBody>
+        <DatePicker @bind-Value=""@selectedWeeks"" InputMode=""DateInputMode.Week"" SelectionMode=""DateInputSelectionMode.Multiple"" Placeholder=""Select weeks..."" />
+    </FieldBody>
+</Field>
+<Field>
+    <FieldLabel>Sunday-first layout</FieldLabel>
+    <FieldBody>
+        <DatePicker TValue=""DateTime?"" @bind-Value=""@sundayFirstWeek"" InputMode=""DateInputMode.Week"" FirstDayOfWeek=""DayOfWeek.Sunday"" />
+    </FieldBody>
+</Field>
+
+@code {
+    DateTime? selectedWeek;
+    IReadOnlyList<DateTime?> selectedWeekRange;
+    IReadOnlyList<DateTime?> selectedWeeks;
+    DateTime? sundayFirstWeek = new DateTime( 2026, 7, 15 );
+}";
 
         public const string DatePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">

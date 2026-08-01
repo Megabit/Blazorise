@@ -95,6 +95,44 @@ public class MaterialClassProvider : ClassProvider
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
+    public override string DatePickerContainer( bool inline, bool open ) => $"mui-date-picker{( inline ? " mui-date-picker-inline" : null )}{( open ? " mui-date-picker-open" : null )}";
+
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"mui-date-picker-calendar{( inline ? " mui-date-picker-calendar-inline" : null )}{( staticPicker ? " mui-date-picker-calendar-static" : " mui-date-picker-calendar-floating" )}";
+
+    public override string DatePickerCalendarBackdrop() => "mui-date-picker-backdrop";
+
+    public override string DatePickerCalendarHeader() => "mui-date-picker-header";
+
+    public override string DatePickerCalendarNavigation() => "mui-date-picker-navigation";
+
+    public override string DatePickerCalendarTitle() => "mui-date-picker-title";
+
+    public override string DatePickerCalendarGrid() => "mui-date-picker-grid";
+
+    public override string DatePickerCalendarWeekdays() => "mui-date-picker-weekdays";
+
+    public override string DatePickerCalendarWeekday() => "mui-date-picker-weekday";
+
+    public override string DatePickerCalendarWeek() => "mui-date-picker-week";
+
+    public override string DatePickerCalendarWeekNumber() => "mui-date-picker-week-number";
+
+    public override string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused )
+        => $"mui-date-picker-day{( outside ? " mui-date-picker-day-outside" : null )}{( today ? " mui-date-picker-day-today" : null )}{( selected ? " mui-date-picker-day-selected" : null )}{( rangeStart ? " mui-date-picker-day-range-start" : null )}{( inRange ? " mui-date-picker-day-in-range" : null )}{( rangeEnd ? " mui-date-picker-day-range-end" : null )}{( disabled ? " mui-date-picker-day-disabled" : null )}{( focused ? " mui-date-picker-day-focused" : null )}";
+
+    public override string DatePickerCalendarMonths() => "mui-date-picker-months";
+
+    public override string DatePickerCalendarMonth( bool selected, bool disabled, bool focused )
+        => $"mui-date-picker-month{( selected ? " mui-date-picker-month-selected" : null )}{( disabled ? " mui-date-picker-month-disabled" : null )}{( focused ? " mui-date-picker-month-focused" : null )}";
+
+    public override string DatePickerCalendarTime() => "mui-date-picker-time";
+
+    public override string DatePickerCalendarTimeInput() => "mui-date-picker-time-input";
+
+    public override string DatePickerCalendarActions() => "mui-date-picker-actions";
+
+    public override string DatePickerCalendarButton() => "mui-date-picker-button";
+
     #endregion
 
     #region TimePicker
@@ -106,6 +144,25 @@ public class MaterialClassProvider : ClassProvider
     public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    public override string TimePickerContainer( bool inline, bool open )
+        => $"mui-time-picker{( inline ? " mui-time-picker-inline" : null )}{( open ? " mui-time-picker-open" : null )}";
+
+    public override string TimePickerMenu( bool inline, bool staticPicker )
+        => $"mui-time-picker-menu{( inline ? " mui-time-picker-menu-inline" : null )}{( staticPicker ? " mui-time-picker-menu-static" : " mui-time-picker-menu-floating" )}";
+
+    public override string TimePickerBackdrop() => "mui-time-picker-backdrop";
+
+    public override string TimePickerControls() => "mui-time-picker-controls";
+
+    public override string TimePickerControl( bool focused ) => $"mui-time-picker-control{( focused ? " mui-time-picker-control-focused" : null )}";
+
+    public override string TimePickerInput() => "mui-time-picker-input";
+
+    public override string TimePickerSeparator() => "mui-time-picker-separator";
+
+    public override string TimePickerMeridiem( bool postMeridiem, bool focused )
+        => $"mui-time-picker-meridiem{( postMeridiem ? " mui-time-picker-meridiem-pm" : null )}{( focused ? " mui-time-picker-control-focused" : null )}";
 
     #endregion
 

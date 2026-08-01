@@ -2,6 +2,10 @@
   "culture": "sk",
   "translations": {
     "AM": "AM",
-    "PM": "PM"
+    "PM": "PM",
+    "Time": "Čas",
+    "Hour": "Hodina",
+    "Minute": "Minúta",
+    "Second": "Sekunda"
   }
 }

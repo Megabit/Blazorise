@@ -51,6 +51,7 @@
 @import "components/typography";
 
 @import "components/date-picker";
+@import "components/time-picker";
 
 @import "utilities/align";
 @import "utilities/background";
@@ -69,7 +70,6 @@
 @import "utilities/text";
 @import "utilities/visibility";
 
-@import "vendors/flatpickr";
 
 @import "extensions/autocomplete";
 @import "extensions/datagrid";

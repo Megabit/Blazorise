@@ -83,6 +83,7 @@ public static class JSInterop
     public static BunitJSInterop AddBlazoriseDatePicker( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );
+        AddBlazoriseDocumentObserver( jsInterop );
 
         var module = jsInterop.SetupModule( new JSDatePickerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
@@ -100,9 +101,20 @@ public static class JSInterop
         return jsInterop;
     }
 
+    public static BunitJSInterop AddBlazoriseInputMask( this BunitJSInterop jsInterop )
+    {
+        var module = jsInterop.SetupModule( new JSInputMaskModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "extendAliases", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
     public static BunitJSInterop AddBlazoriseTimePicker( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );
+        AddBlazoriseDocumentObserver( jsInterop );
 
         var module = jsInterop.SetupModule( new JSTimePickerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
@@ -221,17 +233,19 @@ public static class JSInterop
         return jsInterop;
     }
 
-    public static BunitJSInterop AddBlazoriseUtilities( this BunitJSInterop jsInterop )
+    public static BunitJSInterop AddBlazoriseUtilities( this BunitJSInterop jsInterop, string userAgent = null, bool mobileDevice = false )
     {
         var module = jsInterop.SetupModule( new JSUtilitiesModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "setProperty", _ => true ).SetVoidResult();
-        module.Setup<string>( "getUserAgent", _ => true ).SetResult( String.Empty );
+        module.Setup<string>( "getUserAgent", _ => true ).SetResult( userAgent ?? String.Empty );
+        module.Setup<bool>( "isMobileDevice", _ => true ).SetResult( mobileDevice );
         module.SetupVoid( "scrollElementIntoView", _ => true ).SetVoidResult();
         module.SetupVoid( "scrollElementIntoViewForOnScreenKeyboard", _ => true ).SetVoidResult();
         module.SetupVoid( "clearOnScreenKeyboardScrollAdjustment", _ => true ).SetVoidResult();
         module.SetupVoid( "focus", _ => true ).SetVoidResult();
         module.SetupVoid( "select", _ => true ).SetVoidResult();
+        module.SetupVoid( "showPicker", _ => true ).SetVoidResult();
         module.SetupVoid( "submitClosestForm", _ => true ).SetVoidResult();
         module.Setup<bool>( "dispatchKeyboardEvent", _ => true ).SetResult( true );
         module.SetupVoid( "setCaret", _ => true ).SetVoidResult();

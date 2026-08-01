@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Globalization;
 using System.Text;
@@ -452,63 +452,90 @@ public class BootstrapThemeGenerator : ThemeGenerator
                 .AppendLine( "}" );
         }
 
-        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+        if ( !string.IsNullOrEmpty( theme.BodyOptions?.BackgroundColor ) )
         {
             sb
-                .Append( ".flatpickr-months .flatpickr-month:hover svg," )
-                .Append( ".flatpickr-months .flatpickr-next-month:hover svg," )
-                .Append( ".flatpickr-months .flatpickr-prev-month:hover svg" )
+                .Append( ".datepicker-calendar.dropdown-menu, .timepicker-menu.dropdown-menu" )
                 .Append( "{" )
-                .Append( $"fill: {Var( ThemeVariables.Color( "primary" ) )} !important;" )
+                .Append( $"background-color: {Var( ThemeVariables.BodyBackgroundColor )};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( theme.BodyOptions?.TextColor ) )
+        {
+            sb
+                .Append( ".datepicker-calendar.dropdown-menu, .datepicker-day, .datepicker-month," )
+                .Append( ".datepicker-time > span, .datepicker-time .datepicker-button, .datepicker-actions .datepicker-button, .datepicker-time-input," )
+                .Append( ".timepicker-menu.dropdown-menu, .timepicker-input, .timepicker-separator, .timepicker-meridiem" )
+                .Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.BodyTextColor )};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( theme.TextColorOptions?.Muted ) )
+        {
+            sb
+                .Append( ".datepicker-weekday, .datepicker-week-number, .datepicker-day-outside," )
+                .Append( ".datepicker-time-input:disabled, .timepicker-input:disabled, .timepicker-meridiem:disabled" )
+                .Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.TextColor( "muted" ) )};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+        {
+            string primary = Var( ThemeVariables.Color( "primary" ) );
+            string onPrimary = Var( ThemeVariables.ButtonYiqBackground( "primary" ) );
+            string hoverBackground = ToHex( Lighten( primary, 90f ) );
+            string rangeBackground = ToHex( Lighten( primary, 85f ) );
+            string focusShadow = ToHex( Lighten( primary, 75f ) );
+
+            sb
+                .Append( ".datepicker-day-selected, .datepicker-day-range-start, .datepicker-day-range-end, .datepicker-month-selected," )
+                .Append( ".datepicker-calendar[data-week-mode=\"true\"] .datepicker-week[data-week-fully-selected=\"true\"]," )
+                .Append( ".datepicker-calendar[data-week-mode=\"true\"] .datepicker-week[data-week-selected=\"true\"] .datepicker-week-number" )
+                .Append( "{" )
+                .Append( $"background: {primary};" )
+                .Append( $"border-color: {primary};" )
+                .Append( $"color: {onPrimary};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay" ).Append( "{" )
-                .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
+                .Append( ".datepicker-calendar[data-week-mode=\"true\"] .datepicker-week[data-week-fully-selected=\"true\"] .datepicker-day" )
+                .Append( "{" )
+                .Append( $"color: {onPrimary};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-day:hover" ).Append( "{" )
-                .Append( $"background: {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
+                .Append( ".datepicker-navigation:hover:not(:disabled), .datepicker-navigation:focus-visible," )
+                .Append( ".datepicker-day:hover:not(:disabled), .datepicker-month:hover:not(:disabled)," )
+                .Append( ".datepicker-calendar[data-week-mode=\"true\"] .datepicker-week-number[data-week-hovered=\"true\"]," )
+                .Append( ".datepicker-calendar[data-week-mode=\"true\"] .datepicker-day[data-week-hovered=\"true\"]," )
+                .Append( ".datepicker-time-input:hover:not(:disabled), .datepicker-time-input:focus," )
+                .Append( ".datepicker-time .datepicker-button:hover:not(:disabled), .datepicker-time .datepicker-button:focus-visible," )
+                .Append( ".datepicker-actions .datepicker-button:hover:not(:disabled), .datepicker-actions .datepicker-button:focus-visible," )
+                .Append( ".timepicker-input:hover:not(:disabled), .timepicker-input:focus," )
+                .Append( ".timepicker-control-focused .timepicker-input," )
+                .Append( ".timepicker-meridiem:hover:not(:disabled), .timepicker-meridiem:focus-visible, .timepicker-meridiem.timepicker-control-focused" )
+                .Append( "{" )
+                .Append( $"background: {hoverBackground};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1))" ).Append( "{" )
-                .Append( $"box-shadow: -10px 0 0 {Var( ThemeVariables.Color( "primary" ) )};" )
+                .Append( ".datepicker-day-in-range" )
+                .Append( "{" )
+                .Append( $"background: {rangeBackground};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-day.today" ).Append( "{" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
+                .Append( ".datepicker-day-focused, .datepicker-month-focused" ).Append( "{" )
+                .Append( $"box-shadow: 0 0 0 .2rem {focusShadow};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-day.today:hover" ).Append( "{" )
-                .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
+                .Append( ".datepicker-day-today" ).Append( "{" )
+                .Append( $"border-color: {primary};" )
                 .AppendLine( "}" );
-
-            sb
-                .Append( ".flatpickr-monthSelect-month:hover,.flatpickr-monthSelect-month:focus" ).Append( "{" )
-                .Append( $"background: {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".flatpickr-monthSelect-month.selected" ).Append( "{" )
-                .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-
-            //sb
-            //    .Append( $".flatpickr-time .flatpickr-am-pm" ).Append( "{" )
-            //    .Append( $"color: { Var( ThemeVariables.Color( "primary" ) )};" )
-            //    .AppendLine( "}" );
-
-            //sb
-            //    .Append( $".flatpickr-time .flatpickr-am-pm:focus, .flatpickr-time input:focus" ).Append( "{" )
-            //    .Append( $"background: { ToHex( Transparency( Var( ThemeVariables.Color( "primary" ) ), 16 ) )};" )
-            //    .Append( $"color: { Var( ThemeVariables.Color( "primary" ) )};" )
-            //    .AppendLine( "}" );
         }
     }
 

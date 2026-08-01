@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-30T11:41:58.6355086Z",
+  "generatedUtc": "2026-08-01T10:27:03.6207694Z",
   "pages": [
     {
       "route": "/docs",
@@ -1236,6 +1236,22 @@
           "content": "<DatePicker TValue=\"DateTime?\" ShowWeekNumbers=\"true\" />",
           "title": "Show week numbers",
           "description": "Use the ShowWeekNumbers parameter to toggle the visibility of week numbers in the calendar view. When enabled, a column will appear on the left side of each row in the calendar showing the corresponding week number."
+        },
+        {
+          "code": "DatePickerMonthExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Dates/Examples/DatePickerMonthExample.razor",
+          "content": "<DatePicker TValue=\"DateTime?\"\r\n            @bind-Value=\"@selectedMonth\"\r\n            InputMode=\"DateInputMode.Month\"\r\n            DisplayFormat=\"MMMM yyyy\"\r\n            Placeholder=\"Select month...\"\r\n            ShowTodayButton />\r\n\r\n@code {\r\n    DateTime? selectedMonth;\r\n}",
+          "title": "Month selection",
+          "description": "Set InputMode to DateInputMode.Month to select a month and year. The selected value is normalized to the first day of the month. Select the year heading to navigate through years and decades, then select an item to return through the views to the month grid."
+        },
+        {
+          "code": "DatePickerWeekExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Dates/Examples/DatePickerWeekExample.razor",
+          "content": "<Field>\r\n    <FieldLabel>Single week</FieldLabel>\r\n    <FieldBody>\r\n        <DatePicker TValue=\"DateTime?\" @bind-Value=\"@selectedWeek\" InputMode=\"DateInputMode.Week\" Placeholder=\"Select week...\" />\r\n    </FieldBody>\r\n</Field>\r\n<Field>\r\n    <FieldLabel>Week range</FieldLabel>\r\n    <FieldBody>\r\n        <DatePicker @bind-Value=\"@selectedWeekRange\" InputMode=\"DateInputMode.Week\" SelectionMode=\"DateInputSelectionMode.Range\" Placeholder=\"Select week range...\" />\r\n    </FieldBody>\r\n</Field>\r\n<Field>\r\n    <FieldLabel>Multiple weeks</FieldLabel>\r\n    <FieldBody>\r\n        <DatePicker @bind-Value=\"@selectedWeeks\" InputMode=\"DateInputMode.Week\" SelectionMode=\"DateInputSelectionMode.Multiple\" Placeholder=\"Select weeks...\" />\r\n    </FieldBody>\r\n</Field>\r\n<Field>\r\n    <FieldLabel>Sunday-first layout</FieldLabel>\r\n    <FieldBody>\r\n        <DatePicker TValue=\"DateTime?\" @bind-Value=\"@sundayFirstWeek\" InputMode=\"DateInputMode.Week\" FirstDayOfWeek=\"DayOfWeek.Sunday\" />\r\n    </FieldBody>\r\n</Field>\r\n\r\n@code {\r\n    DateTime? selectedWeek;\r\n    IReadOnlyList<DateTime?> selectedWeekRange;\r\n    IReadOnlyList<DateTime?> selectedWeeks;\r\n    DateTime? sundayFirstWeek = new DateTime( 2026, 7, 15 );\r\n}",
+          "title": "Week selection",
+          "description": "Set InputMode to DateInputMode.Week to select complete Monday-to-Sunday weeks. Week numbers are shown automatically in this mode. Bound values are normalized to the Monday that starts the selected week. By default, the input displays week values such as 2026-41st . Week mode supports single, range, and multiple selection. FirstDayOfWeek changes the visual order of the calendar; when Sunday is displayed first, a selected week continues into the following row."
         },
         {
           "code": "DatePickerShowButtonsExample",
@@ -9331,7 +9347,7 @@
     {
       "route": "/docs/helpers/enums/date",
       "title": "Blazorise Date Enums - Date Input Modes",
-      "description": "Date enums define how date inputs behave. Learn DateInputMode values for date, datetime, and month entry.",
+      "description": "Date enums define how date inputs behave. Learn DateInputMode values for date, datetime, month, and week entry.",
       "pagePath": "Pages/Docs/Helpers/Enums/DatePage.razor",
       "examples": []
     },

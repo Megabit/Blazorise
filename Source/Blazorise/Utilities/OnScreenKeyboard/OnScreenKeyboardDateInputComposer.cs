@@ -40,6 +40,14 @@ internal sealed class OnScreenKeyboardDateInputComposer
         string valueDigits = OnScreenKeyboardTimeInputComposer.GetDigits( value, MaxDigits );
 
         SetSegmentDigits( 'y', valueDigits, 0, 4, complete: valueDigits.Length >= 4 );
+
+        if ( InputMode == DateInputMode.Week )
+        {
+            SetSegmentDigits( 'w', valueDigits, 4, 2, complete: valueDigits.Length >= 6 );
+            activeSegmentIndex = GetNextEditableSegmentIndex();
+            return;
+        }
+
         SetSegmentDigits( 'M', valueDigits, 4, 2, complete: valueDigits.Length >= 6 );
 
         if ( InputMode != DateInputMode.Month )
@@ -176,6 +184,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
         return segment.Kind switch
         {
             'M' => value > 1,
+            'w' => value > 5,
             'd' => value > 3,
             'H' => value > 2,
             'm' or 's' => value > 5,
@@ -286,8 +295,19 @@ internal sealed class OnScreenKeyboardDateInputComposer
         {
             DateInputMode.DateTime => FormatDateTimeValue(),
             DateInputMode.Month => FormatMonthValue(),
+            DateInputMode.Week => FormatWeekValue(),
             _ => FormatDateValue(),
         };
+    }
+
+    private string FormatWeekValue()
+    {
+        StringBuilder builder = new();
+
+        AppendValueSegment( builder, GetSegment( 'y' ), null );
+        AppendValueSegment( builder, GetSegment( 'w' ), "-W" );
+
+        return builder.ToString();
     }
 
     private string FormatMonthValue()
@@ -332,6 +352,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
         {
             DateInputMode.DateTime => FormatDateTimePreview(),
             DateInputMode.Month => FormatPatternPreview( CultureInfo.CurrentCulture.DateTimeFormat.YearMonthPattern, GetPreviewSegments() ),
+            DateInputMode.Week => FormatWeekValue(),
             _ => FormatPatternPreview( CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern, GetPreviewSegments() ),
         };
     }
@@ -379,6 +400,15 @@ internal sealed class OnScreenKeyboardDateInputComposer
 
     private List<Segment> CreateSegments()
     {
+        if ( InputMode == DateInputMode.Week )
+        {
+            return
+            [
+                CreateDateSegment( 'y' ),
+                CreateDateSegment( 'w' ),
+            ];
+        }
+
         List<Segment> result = [];
 
         foreach ( char segmentKind in GetDatePatternSegmentOrder( InputMode == DateInputMode.Month ) )
@@ -402,6 +432,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
         {
             'y' => new( 'y', 4, 1, 9999 ),
             'M' => new( 'M', 2, 1, 12 ),
+            'w' => new( 'w', 2, 1, 53 ),
             'd' => new( 'd', 2, 1, 31 ),
             _ => new( kind, 2, 0, 99 ),
         };
@@ -653,6 +684,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
     {
         DateInputMode.DateTime => 14,
         DateInputMode.Month => 6,
+        DateInputMode.Week => 6,
         _ => 8,
     };
 
@@ -668,6 +700,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
     {
         DateInputMode.DateTime => IsDateComplete && IsTimeComplete,
         DateInputMode.Month => IsYearComplete && IsSegmentComplete( 'M' ),
+        DateInputMode.Week => IsYearComplete && IsSegmentComplete( 'w' ),
         _ => IsDateComplete,
     };
 

@@ -97,6 +97,44 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
+    public override string DatePickerContainer( bool inline, bool open ) => $"ant-picker-container{( inline ? " ant-picker-container-inline" : null )}{( open ? " ant-picker-container-open" : null )}";
+
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"ant-picker-dropdown ant-picker-panel-container{( inline ? " ant-picker-dropdown-inline" : null )}{( staticPicker ? " ant-picker-dropdown-static" : " ant-picker-dropdown-floating" )}";
+
+    public override string DatePickerCalendarBackdrop() => "ant-picker-backdrop";
+
+    public override string DatePickerCalendarHeader() => "ant-picker-header";
+
+    public override string DatePickerCalendarNavigation() => "ant-picker-header-view ant-picker-header-navigation";
+
+    public override string DatePickerCalendarTitle() => "ant-picker-header-view ant-picker-header-title";
+
+    public override string DatePickerCalendarGrid() => "ant-picker-body";
+
+    public override string DatePickerCalendarWeekdays() => "ant-picker-content ant-picker-weekdays";
+
+    public override string DatePickerCalendarWeekday() => "ant-picker-cell ant-picker-weekday";
+
+    public override string DatePickerCalendarWeek() => "ant-picker-content ant-picker-week";
+
+    public override string DatePickerCalendarWeekNumber() => "ant-picker-cell ant-picker-week-panel-row";
+
+    public override string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused )
+        => $"ant-picker-cell ant-picker-cell-in-view{( outside ? " ant-picker-cell-outside-view" : null )}{( today ? " ant-picker-cell-today" : null )}{( selected ? " ant-picker-cell-selected" : null )}{( rangeStart ? " ant-picker-cell-range-start" : null )}{( inRange ? " ant-picker-cell-in-range" : null )}{( rangeEnd ? " ant-picker-cell-range-end" : null )}{( disabled ? " ant-picker-cell-disabled" : null )}{( focused ? " ant-picker-cell-focused" : null )}";
+
+    public override string DatePickerCalendarMonths() => "ant-picker-month-panel";
+
+    public override string DatePickerCalendarMonth( bool selected, bool disabled, bool focused )
+        => $"ant-picker-cell ant-picker-month-cell{( selected ? " ant-picker-cell-selected" : null )}{( disabled ? " ant-picker-cell-disabled" : null )}{( focused ? " ant-picker-cell-focused" : null )}";
+
+    public override string DatePickerCalendarTime() => "ant-picker-time-panel";
+
+    public override string DatePickerCalendarTimeInput() => "ant-picker-time-input";
+
+    public override string DatePickerCalendarActions() => "ant-picker-footer";
+
+    public override string DatePickerCalendarButton() => "ant-picker-footer-button";
+
     #endregion
 
     #region TimePicker
@@ -108,6 +146,25 @@ public class AntDesignClassProvider : ClassProvider
     public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
+
+    public override string TimePickerContainer( bool inline, bool open )
+        => $"ant-time-picker-container{( inline ? " ant-time-picker-container-inline" : null )}{( open ? " ant-time-picker-container-open" : null )}";
+
+    public override string TimePickerMenu( bool inline, bool staticPicker )
+        => $"ant-time-picker-dropdown ant-picker-panel-container{( inline ? " ant-time-picker-dropdown-inline" : null )}{( staticPicker ? " ant-time-picker-dropdown-static" : " ant-time-picker-dropdown-floating" )}";
+
+    public override string TimePickerBackdrop() => "ant-time-picker-backdrop";
+
+    public override string TimePickerControls() => "ant-time-picker-panel";
+
+    public override string TimePickerControl( bool focused ) => $"ant-time-picker-column{( focused ? " ant-time-picker-column-focused" : null )}";
+
+    public override string TimePickerInput() => "ant-time-picker-input";
+
+    public override string TimePickerSeparator() => "ant-time-picker-separator";
+
+    public override string TimePickerMeridiem( bool postMeridiem, bool focused )
+        => $"ant-time-picker-meridiem{( postMeridiem ? " ant-time-picker-meridiem-pm" : null )}{( focused ? " ant-time-picker-column-focused" : null )}";
 
     #endregion
 

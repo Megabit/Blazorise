@@ -31,6 +31,11 @@ public class DocumentObserverSubscription
     public string ExcludeSelector { get; set; }
 
     /// <summary>
+    /// Gets or sets the keyboard keys that are allowed to match this subscription.
+    /// </summary>
+    public string[] KeysFilter { get; set; }
+
+    /// <summary>
     /// Gets or sets the subscription dispatch priority.
     /// </summary>
     public int Priority { get; set; }

@@ -2,6 +2,10 @@
   "culture": "zh",
   "translations": {
     "AM": "上午",
-    "PM": "下午"
+    "PM": "下午",
+    "Time": "时间",
+    "Hour": "小时",
+    "Minute": "分钟",
+    "Second": "秒"
   }
 }

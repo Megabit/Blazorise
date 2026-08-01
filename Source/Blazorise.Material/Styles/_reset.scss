@@ -65,7 +65,7 @@ label {
     user-select: none;
 }
 
-$mui-scrollbar-scope: ':where(.mui-bar, .mui-bar-menu, .mui-bar-dropdown-menu, .mui-dropdown-menu, .mui-dropdown-menu-scrollable, .mui-modal, .mui-modal-body, .mui-offcanvas, .mui-offcanvas-body, .mui-list-group-scrollable, .mui-table-responsive, .mui-table-fixed-header, .mui-table-fixed-columns, .mui-layout-content, .b-layout-content, .mui-steps, .flatpickr-calendar, .flatpickr-time, [class*="mui-overflow-"])';
+$mui-scrollbar-scope: ':where(.mui-bar, .mui-bar-menu, .mui-bar-dropdown-menu, .mui-dropdown-menu, .mui-dropdown-menu-scrollable, .mui-modal, .mui-modal-body, .mui-offcanvas, .mui-offcanvas-body, .mui-list-group-scrollable, .mui-table-responsive, .mui-table-fixed-header, .mui-table-fixed-columns, .mui-layout-content, .b-layout-content, .mui-steps, .mui-date-picker-calendar, .mui-date-picker-time, .mui-time-picker-menu, [class*="mui-overflow-"])';
 
 #{$mui-scrollbar-scope} {
     scrollbar-width: thin;

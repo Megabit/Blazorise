@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-30T11:59:50.7151865Z",
+  "generatedUtc": "2026-07-31T11:09:59.9964022Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -38237,7 +38237,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
-          "summary": "If enabled, it always uses the non-native picker. Default is true.",
+          "summary": "Prevents the browser's native picker from being used on mobile devices.",
           "isBlazoriseEnum": false
         },
         {
@@ -38277,7 +38277,8 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies the display format of the date input.",
+          "summary": "Specifies the display format of the date input using the picker format syntax supported by earlier versions.",
+          "remarks": "Week mode additionally supports <code>w</code>, <code>ww</code>, and <code>wo</code> for the week number and its English ordinal form.",
           "isBlazoriseEnum": false
         },
         {
@@ -38311,6 +38312,7 @@
           "typeName": "DayOfWeek",
           "defaultValue": "DayOfWeek.Monday",
           "summary": "Specifies the first day of the week used for date calculations.",
+          "remarks": "In week mode this controls the visual calendar layout. Selected values continue to represent ISO Monday-to-Sunday weeks.",
           "isBlazoriseEnum": false
         },
         {
@@ -38358,7 +38360,8 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies the input format mask of the date input.",
+          "summary": "Specifies the input format mask of the date input using Blazorise's InputMask integration.",
+          "remarks": "Week mode supports the <code>w</code> and <code>ww</code> week-number tokens.",
           "isBlazoriseEnum": false
         },
         {
@@ -38439,6 +38442,14 @@
           "typeName": "OnScreenKeyboardShowMode",
           "defaultValue": "OnScreenKeyboardShowMode.Default",
           "summary": "Gets or sets how the on-screen keyboard is shown for this input.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "OpenTrigger",
+          "type": "global::Blazorise.PickerOpenTrigger",
+          "typeName": "PickerOpenTrigger",
+          "defaultValue": "default(PickerOpenTrigger)",
+          "summary": "Defines which interactions can open the calendar menu.",
           "isBlazoriseEnum": true
         },
         {
@@ -38543,6 +38554,7 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Determines whether the calendar menu will show week numbers.",
+          "remarks": "Week numbers are always shown when <strong>InputMode</strong> is <strong>Week</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -136808,7 +136820,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
-          "summary": "If enabled, it always uses the non-native picker. Default is true.",
+          "summary": "Prevents the browser's native picker from being used on mobile devices.",
           "isBlazoriseEnum": false
         },
         {
@@ -136832,7 +136844,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies the display format of the time input.",
+          "summary": "Specifies the display format of the time input using the picker format syntax supported by earlier versions.",
           "isBlazoriseEnum": false
         },
         {
@@ -136981,6 +136993,14 @@
           "isBlazoriseEnum": true
         },
         {
+          "name": "OpenTrigger",
+          "type": "global::Blazorise.PickerOpenTrigger",
+          "typeName": "PickerOpenTrigger",
+          "defaultValue": "default(PickerOpenTrigger)",
+          "summary": "Defines which interactions can open the time menu.",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "Overflow",
           "type": "global::Blazorise.IFluentOverflow",
           "typeName": "IFluentOverflow",
@@ -137065,7 +137085,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
-          "summary": "If enabled, the calendar menu will be positioned as static.",
+          "summary": "If enabled, the time menu will be positioned as static.",
           "isBlazoriseEnum": false
         },
         {

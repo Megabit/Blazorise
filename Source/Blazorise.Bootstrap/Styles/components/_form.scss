@@ -71,14 +71,16 @@
 
 .input-group {
     > .b-numeric:not(:last-child) > input,
-    > .flatpickr-wrapper:not(:last-child) > input,
+    > .datepicker:not(:last-child) > input,
+    > .timepicker:not(:last-child) > input,
     > .input-group-prepend > .custom-select {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
 
     > .b-numeric:not(:first-child) > input,
-    > .flatpickr-wrapper:not(:first-child) > input,
+    > .datepicker:not(:first-child) > input,
+    > .timepicker:not(:first-child) > input,
     > .input-group-append > .custom-select {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
@@ -202,7 +204,8 @@
 }
 
 .input-group {
-    > div.flatpickr-wrapper {
+    > div.datepicker,
+    > div.timepicker {
         display: flex;
         flex: 1 1 auto;
         width: 1%;
@@ -474,6 +477,49 @@ input[readonly="readonly"][type=range] {
 .custom-file-input.is-warning + .custom-file-label + .none-feedback,
 .custom-file-input.is-invalid + .custom-file-label + .none-feedback {
     display: none;
+}
+
+:is(.datepicker, .timepicker) {
+    &:has(> input.is-valid) {
+        & + .valid-feedback,
+        & + .form-text.text-muted + .valid-feedback {
+            display: block;
+        }
+
+        & + .none-feedback {
+            display: none;
+        }
+    }
+
+    &:has(> input.is-warning) {
+        & + .warning-feedback,
+        & + .form-text.text-muted + .warning-feedback,
+        & + .valid-feedback + .warning-feedback,
+        & + .form-text.text-muted + .valid-feedback + .warning-feedback {
+            display: block;
+        }
+
+        & + .none-feedback {
+            display: none;
+        }
+    }
+
+    &:has(> input.is-invalid) {
+        & + .invalid-feedback,
+        & + .form-text.text-muted + .invalid-feedback,
+        & + .valid-feedback + .invalid-feedback,
+        & + .form-text.text-muted + .valid-feedback + .invalid-feedback,
+        & + .warning-feedback + .invalid-feedback,
+        & + .form-text.text-muted + .warning-feedback + .invalid-feedback,
+        & + .valid-feedback + .warning-feedback + .invalid-feedback,
+        & + .form-text.text-muted + .valid-feedback + .warning-feedback + .invalid-feedback {
+            display: block;
+        }
+
+        & + .none-feedback {
+            display: none;
+        }
+    }
 }
 
 .form-label-required:after {

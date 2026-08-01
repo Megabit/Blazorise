@@ -43,6 +43,22 @@
     "PM": "PM",
     "RangeSeparator": " til ",
     "Today": "I dag",
-    "Clear": "Ryd"
+    "ThisMonth": "Denne måned",
+    "ThisWeek": "Denne uge",
+    "Clear": "Ryd",
+    "Month": "Måned",
+    "Year": "År",
+    "Week": "Uge",
+    "Time": "Tid",
+    "Hour": "Time",
+    "Minute": "Minut",
+    "PreviousMonth": "Forrige måned",
+    "NextMonth": "Næste måned",
+    "PreviousYear": "Forrige år",
+    "NextYear": "Næste år",
+    "PreviousDecade": "Forrige årti",
+    "NextDecade": "Næste årti",
+    "PreviousCentury": "Forrige århundrede",
+    "NextCentury": "Næste århundrede"
   }
 }

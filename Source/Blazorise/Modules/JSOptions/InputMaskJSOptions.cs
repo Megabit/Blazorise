@@ -1,4 +1,4 @@
-﻿namespace Blazorise.Modules;
+namespace Blazorise.Modules;
 
 /// <summary>
 /// Represents JavaScript options for initializing an input mask on a text input field.
@@ -89,6 +89,11 @@ public class InputMaskJSOptions
     /// Gets or sets a value indicating whether incomplete input should be cleared automatically.
     /// </summary>
     public bool ClearIncomplete { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether a change event should be dispatched when the mask is completed.
+    /// </summary>
+    public bool DispatchChangeOnComplete { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the input is disabled.

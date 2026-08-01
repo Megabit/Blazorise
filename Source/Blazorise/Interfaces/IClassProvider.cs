@@ -94,6 +94,42 @@ public interface IClassProvider
 
     string DatePickerValidation( ValidationStatus validationStatus );
 
+    string DatePickerContainer( bool inline, bool open );
+
+    string DatePickerCalendar( bool inline, bool staticPicker );
+
+    string DatePickerCalendarBackdrop();
+
+    string DatePickerCalendarHeader();
+
+    string DatePickerCalendarNavigation();
+
+    string DatePickerCalendarTitle();
+
+    string DatePickerCalendarGrid();
+
+    string DatePickerCalendarWeekdays();
+
+    string DatePickerCalendarWeekday();
+
+    string DatePickerCalendarWeek();
+
+    string DatePickerCalendarWeekNumber();
+
+    string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused );
+
+    string DatePickerCalendarMonths();
+
+    string DatePickerCalendarMonth( bool selected, bool disabled, bool focused );
+
+    string DatePickerCalendarTime();
+
+    string DatePickerCalendarTimeInput();
+
+    string DatePickerCalendarActions();
+
+    string DatePickerCalendarButton();
+
     #endregion
 
     #region TimePicker
@@ -105,6 +141,22 @@ public interface IClassProvider
     string TimePickerColor( Color color );
 
     string TimePickerValidation( ValidationStatus validationStatus );
+
+    string TimePickerContainer( bool inline, bool open );
+
+    string TimePickerMenu( bool inline, bool staticPicker );
+
+    string TimePickerBackdrop();
+
+    string TimePickerControls();
+
+    string TimePickerControl( bool focused );
+
+    string TimePickerInput();
+
+    string TimePickerSeparator();
+
+    string TimePickerMeridiem( bool postMeridiem, bool focused );
 
     #endregion
 

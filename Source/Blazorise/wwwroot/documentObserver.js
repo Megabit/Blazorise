@@ -161,6 +161,7 @@ function createDocumentObserver() {
         return {
             ...subscription,
             eventNames: subscription.eventNames.filter(Boolean),
+            keysFilter: Array.isArray(subscription.keysFilter) ? subscription.keysFilter.filter(Boolean) : [],
             priority: Number.isFinite(subscription.priority) ? subscription.priority : 0,
             capture: subscription.capture !== false,
             preventDefault: subscription.preventDefault === true,
@@ -211,7 +212,9 @@ function createDocumentObserver() {
             : pointerCaptures.get(String(event.pointerId));
 
         for (const subscription of candidates) {
-            if (!matchesPointerCapture(subscription, event, pointerOwnerId) || !matchesTarget(subscription, event)) {
+            if (!matchesPointerCapture(subscription, event, pointerOwnerId)
+                || !matchesTarget(subscription, event)
+                || !matchesKey(subscription, event)) {
                 continue;
             }
 
@@ -258,6 +261,10 @@ function createDocumentObserver() {
         }
 
         return !subscription.selector || !!target.closest(subscription.selector);
+    }
+
+    function matchesKey(subscription, event) {
+        return subscription.keysFilter.length === 0 || subscription.keysFilter.includes(event.key);
     }
 
     function dispatchThrottled(subscription, event) {

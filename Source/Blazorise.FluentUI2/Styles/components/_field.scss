@@ -49,7 +49,9 @@
 .fui-RadioGroup,
 .fui-RadioGroup__horizontal,
 .fui-RadioGroup__buttons,
-.fui-RadioGroup__horizontal-buttons {
+.fui-RadioGroup__horizontal-buttons,
+.fui-DatePicker__container,
+.fui-TimePicker-container {
     & + .fui-Field__validationMessage-error,
     & + .fui-Field__validationMessage-warning,
     & + .fui-Field__validationMessage-success,
@@ -89,7 +91,8 @@
     &.fui-SpinButton-error,
     &.fui-Checkbox-error,
     &.fui-ColorPicker-error,
-    &.fui-RadioGroup-error {
+    &.fui-RadioGroup-error,
+    &:has(.fui-Input__input-error) {
         & + .fui-Field__validationMessage-none {
             display: none;
         }
@@ -117,7 +120,8 @@
     &.fui-SpinButton-warning,
     &.fui-Checkbox-warning,
     &.fui-ColorPicker-warning,
-    &.fui-RadioGroup-warning {
+    &.fui-RadioGroup-warning,
+    &:has(.fui-Input__input-warning) {
         & + .fui-Field__validationMessage-none {
             display: none;
         }
@@ -141,7 +145,8 @@
     &.fui-SpinButton-success,
     &.fui-Checkbox-success,
     &.fui-ColorPicker-success,
-    &.fui-RadioGroup-success {
+    &.fui-RadioGroup-success,
+    &:has(.fui-Input__input-success) {
         & + .fui-Field__validationMessage-none {
             display: none;
         }

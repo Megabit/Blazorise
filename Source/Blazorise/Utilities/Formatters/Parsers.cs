@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -164,6 +164,15 @@ public static class Parsers
             return false;
         }
 
+        if ( inputMode == DateInputMode.Week )
+        {
+            if ( TryParseWeekDate( value, out DateTime parsedWeek ) )
+                return TryConvertWeekDate( parsedWeek, out result );
+
+            result = default;
+            return false;
+        }
+
         var supportedParseFormats = GetSupportedParseDateFormats( inputMode );
 
         var type = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
@@ -253,6 +262,15 @@ public static class Parsers
             return false;
         }
 
+        if ( inputMode == DateInputMode.Week )
+        {
+            if ( TryParseWeekDate( value, out DateTime parsedWeek ) )
+                return TryConvertWeekDate( parsedWeek, conversionType, out result );
+
+            result = default;
+            return false;
+        }
+
         var supportedParseFormats = GetSupportedParseDateFormats( inputMode );
 
         var type = Nullable.GetUnderlyingType( conversionType ) ?? conversionType;
@@ -283,6 +301,61 @@ public static class Parsers
 
         result = default;
 
+        return false;
+    }
+
+    private static bool TryConvertWeekDate<TValue>( DateTime weekStart, out TValue result )
+    {
+        Type conversionType = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
+
+        if ( TryConvertWeekDate( weekStart, conversionType, out object converted ) )
+        {
+            result = (TValue)converted;
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    private static bool TryParseWeekDate( string value, out DateTime result )
+    {
+        if ( WeekDateFormat.TryParse( value, null, null, out result ) )
+            return true;
+
+        if ( DateTime.TryParseExact( value, SupportedParseDateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out result ) )
+        {
+            result = WeekDateFormat.GetWeekStart( result );
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    private static bool TryConvertWeekDate( DateTime weekStart, Type conversionType, out object result )
+    {
+        Type type = Nullable.GetUnderlyingType( conversionType ) ?? conversionType;
+
+        if ( type == typeof( DateTime ) )
+        {
+            result = weekStart;
+            return true;
+        }
+
+        if ( type == typeof( DateTimeOffset ) )
+        {
+            result = new DateTimeOffset( weekStart );
+            return true;
+        }
+
+        if ( type == typeof( DateOnly ) )
+        {
+            result = DateOnly.FromDateTime( weekStart );
+            return true;
+        }
+
+        result = default;
         return false;
     }
 

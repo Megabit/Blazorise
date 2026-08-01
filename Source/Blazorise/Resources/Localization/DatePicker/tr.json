@@ -43,6 +43,22 @@
     "PM": "ÖS",
     "RangeSeparator": " - ",
     "Today": "Bugün",
-    "Clear": "Temizle"
+    "ThisMonth": "Bu ay",
+    "ThisWeek": "Bu hafta",
+    "Clear": "Temizle",
+    "Month": "Ay",
+    "Year": "Yıl",
+    "Week": "Hf.",
+    "Time": "Saat",
+    "Hour": "Saat",
+    "Minute": "Dakika",
+    "PreviousMonth": "Önceki ay",
+    "NextMonth": "Sonraki ay",
+    "PreviousYear": "Önceki yıl",
+    "NextYear": "Sonraki yıl",
+    "PreviousDecade": "Önceki on yıl",
+    "NextDecade": "Sonraki on yıl",
+    "PreviousCentury": "Önceki yüzyıl",
+    "NextCentury": "Sonraki yüzyıl"
   }
 }
