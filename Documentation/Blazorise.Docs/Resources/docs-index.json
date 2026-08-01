@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-07-31T11:22:36.1652547Z",
+  "generatedUtc": "2026-08-01T10:27:03.6207694Z",
   "pages": [
     {
       "route": "/docs",
@@ -1236,6 +1236,14 @@
           "content": "<DatePicker TValue=\"DateTime?\" ShowWeekNumbers=\"true\" />",
           "title": "Show week numbers",
           "description": "Use the ShowWeekNumbers parameter to toggle the visibility of week numbers in the calendar view. When enabled, a column will appear on the left side of each row in the calendar showing the corresponding week number."
+        },
+        {
+          "code": "DatePickerMonthExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Dates/Examples/DatePickerMonthExample.razor",
+          "content": "<DatePicker TValue=\"DateTime?\"\r\n            @bind-Value=\"@selectedMonth\"\r\n            InputMode=\"DateInputMode.Month\"\r\n            DisplayFormat=\"MMMM yyyy\"\r\n            Placeholder=\"Select month...\"\r\n            ShowTodayButton />\r\n\r\n@code {\r\n    DateTime? selectedMonth;\r\n}",
+          "title": "Month selection",
+          "description": "Set InputMode to DateInputMode.Month to select a month and year. The selected value is normalized to the first day of the month. Select the year heading to navigate through years and decades, then select an item to return through the views to the month grid."
         },
         {
           "code": "DatePickerWeekExample",

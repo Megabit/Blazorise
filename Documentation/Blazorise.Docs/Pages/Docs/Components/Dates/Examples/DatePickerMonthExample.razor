@@ -1,0 +1,12 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<DatePicker TValue="DateTime?"
+            @bind-Value="@selectedMonth"
+            InputMode="DateInputMode.Month"
+            DisplayFormat="MMMM yyyy"
+            Placeholder="Select month..."
+            ShowTodayButton />
+
+@code {
+    DateTime? selectedMonth;
+}

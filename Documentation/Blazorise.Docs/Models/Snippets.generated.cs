@@ -1636,6 +1636,17 @@ namespace Blazorise.Docs.Models
     DateTime? value;
 }";
 
+        public const string DatePickerMonthExample = @"<DatePicker TValue=""DateTime?""
+            @bind-Value=""@selectedMonth""
+            InputMode=""DateInputMode.Month""
+            DisplayFormat=""MMMM yyyy""
+            Placeholder=""Select month...""
+            ShowTodayButton />
+
+@code {
+    DateTime? selectedMonth;
+}";
+
         public const string DatePickerNonStaticExample = @"<DatePicker TValue=""DateTime?"" @bind-Value=""@value"" StaticPicker=""false"" />
 
 @code {
