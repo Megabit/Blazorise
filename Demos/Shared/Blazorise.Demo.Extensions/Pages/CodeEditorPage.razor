@@ -57,7 +57,7 @@
                             ReadOnly="@readOnly"
                             EditorOptions="@editorOptions"
                             FormattingProvider="@csharpFormattingProvider"
-                            Diagnostics="@diagnostics"
+                            Diagnostics="@demoDiagnostics"
                             Debounce
                             DebounceInterval="150"
                             MinHeight="420px"
@@ -69,8 +69,6 @@
                 <Buttons>
                     <Button Color="Color.Primary" Clicked="@FormatDocumentAsync">Format</Button>
                     <Button Color="Color.Secondary" Clicked="@FocusEditorAsync">Focus</Button>
-                    <Button Color="Color.Secondary" Clicked="@LayoutEditorAsync">Layout</Button>
-                    <Button Color="Color.Warning" Clicked="@ToggleDiagnostics">Diagnostics</Button>
                 </Buttons>
                 <Span Margin="Margin.Is3.FromStart">@editorStatus</Span>
             </CardFooter>
@@ -102,66 +100,11 @@
                 </Validations>
             </CardBody>
         </Card>
-
-        <Card Margin="Margin.Is4.OnY">
-            <CardHeader>
-                <CardTitle>Formula editor</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <Field>
-                    <FieldLabel>Datasource</FieldLabel>
-                    <FieldBody>
-                        <Select TValue="string" Value="@selectedDataSource" ValueChanged="@OnDataSourceChanged">
-                            <SelectItem TValue="string" Value="@CustomerDataSource">Customer</SelectItem>
-                            <SelectItem TValue="string" Value="@OrderDataSource">Order</SelectItem>
-                        </Select>
-                    </FieldBody>
-                </Field>
-                <CodeEditor @ref="@formulaEditorRef"
-                            Value="@formula"
-                            ValueChanged="@OnFormulaChanged"
-                            Language="@FormulaLanguage"
-                            Theme="@theme"
-                            MinHeight="240px"
-                            EditorOptions="@formulaEditorOptions"
-                            CompletionItems="@formulaCompletionItems"
-                            CompletionTriggerCharacters="@formulaTriggerCharacters"
-                            Diagnostics="@formulaDiagnostics">
-                    <CodeEditorCustomLanguage Id="@FormulaLanguage" Aliases="@formulaLanguageAliases" Extensions="@formulaLanguageExtensions">
-                        <CodeEditorTokenizer IgnoreCase>
-                            <CodeEditorToken Pattern="@FormulaKeywordPattern" Token="keyword" />
-                            <CodeEditorToken Pattern="@FormulaFunctionPattern" Token="function" />
-                            <CodeEditorToken Pattern="@FormulaFieldPattern" Token="variable" />
-                            <CodeEditorToken Pattern="@FormulaStringPattern" Token="string" />
-                            <CodeEditorToken Pattern="@FormulaCommentPattern" Token="comment" />
-                            <CodeEditorToken Pattern="@FormulaNumberPattern" Token="number" />
-                            <CodeEditorToken Pattern="@FormulaOperatorPattern" Token="operator" />
-                        </CodeEditorTokenizer>
-                    </CodeEditorCustomLanguage>
-                </CodeEditor>
-            </CardBody>
-            <CardFooter>
-                <Button Color="Color.Secondary" Clicked="@RefreshFormulaCompletionsAsync">Refresh completions</Button>
-                <Span Margin="Margin.Is3.FromStart">@formulaStatus</Span>
-            </CardFooter>
-        </Card>
     </Column>
 </Row>
 
 @code {
-    private const string FormulaLanguage = "formula";
-    private const string CustomerDataSource = "customer";
-    private const string OrderDataSource = "order";
-    private const string FormulaKeywordPattern = @"\b(if|then|else|and|or|not|true|false)\b";
-    private const string FormulaFunctionPattern = @"\b(Sum|Count|Average|Minimum|Maximum|ToText|Date|DateTime)\b";
-    private const string FormulaFieldPattern = @"\{[A-Za-z0-9_.]+\}";
-    private const string FormulaStringPattern = @"""[^""]*""";
-    private const string FormulaCommentPattern = @"//.*$";
-    private const string FormulaNumberPattern = @"[0-9]+(\.[0-9]+)?";
-    private const string FormulaOperatorPattern = @"[\+\-\*/=<>]+";
-
     private CodeEditor codeEditorRef;
-    private CodeEditor formulaEditorRef;
     private Validations validations;
 
     private string language = CodeEditorLanguage.CSharp;
@@ -169,21 +112,9 @@
     private bool wordWrap = true;
     private bool minimap = true;
     private bool readOnly;
-    private bool showDiagnostics = true;
     private string editorStatus = "Ready";
     private string validationCode;
-    private string selectedDataSource = CustomerDataSource;
-    private string formulaStatus = "Completion items are based on the selected datasource.";
-    private string formula = """
-if {Customer.IsActive} then
-    ToText({Customer.Name})
-else
-    "Inactive"
-""";
 
-    private readonly IReadOnlyList<string> formulaLanguageAliases = new[] { "Formula" };
-    private readonly IReadOnlyList<string> formulaLanguageExtensions = new[] { ".formula" };
-    private readonly IReadOnlyList<string> formulaTriggerCharacters = new[] { "{", ".", "(" };
     private readonly CodeEditorDocumentFormattingProvider csharpFormattingProvider = new()
     {
         Language = CodeEditorLanguage.CSharp,
@@ -196,14 +127,6 @@ else
         WordWrap = true,
         TabSize = 2
     };
-    private readonly CodeEditorOptions formulaEditorOptions = new()
-    {
-        AutomaticLayout = true,
-        Minimap = false,
-        WordWrap = true,
-        TabSize = 4
-    };
-
     private CodeEditorOptions editorOptions = new()
     {
         AutomaticLayout = true,
@@ -213,10 +136,6 @@ else
         FormatOnType = true,
         TabSize = 4
     };
-    private IReadOnlyList<CodeEditorCompletionItem> formulaCompletionItems;
-    private IReadOnlyList<CodeEditorDiagnostic> formulaDiagnostics = Array.Empty<CodeEditorDiagnostic>();
-    private int formulaDiagnosticStartColumn = -1;
-
     private string sourceCode = """
 using System;
 
@@ -241,16 +160,6 @@ public class Greeting
             EndColumn = 32
         }
     };
-    private IReadOnlyList<CodeEditorDiagnostic> diagnostics = demoDiagnostics;
-
-    protected override void OnInitialized()
-    {
-        formulaCompletionItems = BuildFormulaCompletionItems();
-        UpdateFormulaDiagnostics();
-
-        base.OnInitialized();
-    }
-
     private async Task FormatDocumentAsync()
     {
         bool formatted = codeEditorRef is not null
@@ -272,11 +181,6 @@ public class Greeting
     private Task FocusEditorAsync()
     {
         return codeEditorRef?.Focus() ?? Task.CompletedTask;
-    }
-
-    private Task LayoutEditorAsync()
-    {
-        return codeEditorRef?.LayoutAsync() ?? Task.CompletedTask;
     }
 
     private Task ValidateAsync()
@@ -305,24 +209,6 @@ public class Greeting
         return Task.CompletedTask;
     }
 
-    private void ToggleDiagnostics()
-    {
-        showDiagnostics = !showDiagnostics;
-        diagnostics = showDiagnostics
-            ? demoDiagnostics
-            : Array.Empty<CodeEditorDiagnostic>();
-    }
-
-    private async Task RefreshFormulaCompletionsAsync()
-    {
-        formulaCompletionItems = BuildFormulaCompletionItems();
-
-        if ( formulaEditorRef is not null )
-            await formulaEditorRef.SetCompletionItemsAsync( formulaCompletionItems );
-
-        formulaStatus = $"Completion items refreshed for {selectedDataSource}.";
-    }
-
     private void OnWordWrapChanged( bool value )
     {
         wordWrap = value;
@@ -333,19 +219,6 @@ public class Greeting
     {
         minimap = value;
         UpdateEditorOptions();
-    }
-
-    private void OnDataSourceChanged( string value )
-    {
-        selectedDataSource = value;
-        formulaCompletionItems = BuildFormulaCompletionItems();
-        UpdateFormulaDiagnostics();
-    }
-
-    private void OnFormulaChanged( string value )
-    {
-        formula = value;
-        UpdateFormulaDiagnostics();
     }
 
     private void UpdateEditorOptions()
@@ -361,60 +234,4 @@ public class Greeting
         };
     }
 
-    private void UpdateFormulaDiagnostics()
-    {
-        int startColumn = formula?.IndexOf( "{Order.", StringComparison.OrdinalIgnoreCase ) ?? -1;
-        int nextDiagnosticStartColumn = startColumn >= 0 && selectedDataSource == CustomerDataSource
-            ? startColumn
-            : -1;
-
-        if ( nextDiagnosticStartColumn == formulaDiagnosticStartColumn )
-            return;
-
-        formulaDiagnosticStartColumn = nextDiagnosticStartColumn;
-        formulaDiagnostics = nextDiagnosticStartColumn >= 0
-            ? new[]
-            {
-                new CodeEditorDiagnostic
-                {
-                    Severity = CodeEditorDiagnosticSeverity.Warning,
-                    Message = "This field belongs to the Order datasource.",
-                    StartLineNumber = 1,
-                    StartColumn = nextDiagnosticStartColumn + 1,
-                    EndLineNumber = 1,
-                    EndColumn = nextDiagnosticStartColumn + 8
-                }
-            }
-            : Array.Empty<CodeEditorDiagnostic>();
-    }
-
-    private IReadOnlyList<CodeEditorCompletionItem> BuildFormulaCompletionItems()
-    {
-        List<CodeEditorCompletionItem> items = new();
-
-        items.AddRange( new[]
-        {
-            new CodeEditorCompletionItem { Label = "if then else", InsertText = "if ${1:condition} then\r\n    ${2:value}\r\nelse\r\n    ${3:value}", Kind = CodeEditorCompletionItemKind.Snippet, Detail = "Conditional expression", InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet },
-            new CodeEditorCompletionItem { Label = "Sum", InsertText = "Sum(${1:field})", Kind = CodeEditorCompletionItemKind.Function, Detail = "Aggregate function", InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet },
-            new CodeEditorCompletionItem { Label = "Count", InsertText = "Count(${1:field})", Kind = CodeEditorCompletionItemKind.Function, Detail = "Aggregate function", InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet },
-            new CodeEditorCompletionItem { Label = "ToText", InsertText = "ToText(${1:value})", Kind = CodeEditorCompletionItemKind.Function, Detail = "Converts a value to text", InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet },
-            new CodeEditorCompletionItem { Label = "and", InsertText = "and", Kind = CodeEditorCompletionItemKind.Operator },
-            new CodeEditorCompletionItem { Label = "or", InsertText = "or", Kind = CodeEditorCompletionItemKind.Operator }
-        } );
-
-        string[] fields = selectedDataSource == OrderDataSource
-            ? new[] { "Order.Id", "Order.Number", "Order.Total", "Order.CreatedAt", "Order.Status" }
-            : new[] { "Customer.Id", "Customer.Name", "Customer.Email", "Customer.IsActive", "Customer.CreatedAt" };
-
-        items.AddRange( fields.Select( field => new CodeEditorCompletionItem
-        {
-            Label = $"{{{field}}}",
-            InsertText = $"{{{field}}}",
-            Kind = CodeEditorCompletionItemKind.Field,
-            Detail = "Datasource field",
-            SortText = $"0_{field}"
-        } ) );
-
-        return items;
-    }
 }
