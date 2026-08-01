@@ -47,8 +47,6 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
 
     private ComponentParameterInfo<IReadOnlyList<string>> paramCompletionTriggerCharacters;
 
-    private ComponentParameterInfo<string> paramConfigureCompletionProviderMethod;
-
     private ComponentParameterInfo<CodeEditorDocumentFormattingProvider> paramFormattingProvider;
 
     private ComponentParameterInfo<bool> paramDebounce;
@@ -90,7 +88,6 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
         parameters.TryGetParameter( CompletionProvider, newCompletionProvider => ReferenceEquals( newCompletionProvider, CompletionProvider ), out paramCompletionProvider );
         parameters.TryGetParameter( CompletionItems, newCompletionItems => ReferenceEquals( newCompletionItems, CompletionItems ), out paramCompletionItems );
         parameters.TryGetParameter( CompletionTriggerCharacters, newCompletionTriggerCharacters => ReferenceEquals( newCompletionTriggerCharacters, CompletionTriggerCharacters ), out paramCompletionTriggerCharacters );
-        parameters.TryGetParameter( ConfigureCompletionProviderMethod, out paramConfigureCompletionProviderMethod );
         parameters.TryGetParameter( FormattingProvider, newFormattingProvider => ReferenceEquals( newFormattingProvider, FormattingProvider ), out paramFormattingProvider );
         parameters.TryGetParameter( Debounce, out paramDebounce );
         parameters.TryGetParameter( DebounceInterval, out paramDebounceInterval );
@@ -155,8 +152,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
         if ( paramLanguage.Changed
              || paramCompletionProvider.Changed
              || paramCompletionItems.Changed
-             || paramCompletionTriggerCharacters.Changed
-             || paramConfigureCompletionProviderMethod.Changed )
+             || paramCompletionTriggerCharacters.Changed )
         {
             ScheduleCompletionProviderUpdate();
         }
@@ -671,7 +667,6 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
             ScrollBeyondLastLine = editorOptions.ScrollBeyondLastLine,
             FontFamily = editorOptions.FontFamily,
             FontSize = editorOptions.FontSize,
-            ConfigureEditorMethod = ConfigureEditorMethod,
             AdditionalOptions = editorOptions.AdditionalOptions,
             Languages = CreateLanguageDefinitions(),
             CompletionProvider = CreateCompletionProvider(),
@@ -728,15 +723,14 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
             };
         }
 
-        if ( CompletionItems is null && string.IsNullOrWhiteSpace( ConfigureCompletionProviderMethod ) )
+        if ( CompletionItems is null )
             return null;
 
         return new CodeEditorCompletionProvider
         {
             Language = ResolveLanguage(),
             Items = CompletionItems,
-            TriggerCharacters = CompletionTriggerCharacters,
-            ProviderMethod = ConfigureCompletionProviderMethod
+            TriggerCharacters = CompletionTriggerCharacters
         };
     }
 
@@ -866,15 +860,6 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     [Parameter] public IReadOnlyList<string> CompletionTriggerCharacters { get; set; }
 
     /// <summary>
-    /// Gets or sets the custom JavaScript method used to provide completion items.
-    /// </summary>
-    /// <remarks>
-    /// The method receives the editor, model, position, completion context, static suggestions, and cancellation token.
-    /// It can return suggestions, a Monaco completion result, or a promise for either value.
-    /// </remarks>
-    [Parameter] public string ConfigureCompletionProviderMethod { get; set; }
-
-    /// <summary>
     /// Gets or sets the document formatting provider.
     /// </summary>
     [Parameter] public CodeEditorDocumentFormattingProvider FormattingProvider { get; set; }
@@ -914,14 +899,6 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
             DirtyStyles();
         }
     }
-
-    /// <summary>
-    /// Gets or sets the custom JavaScript method used to configure editor options during initialization.
-    /// </summary>
-    /// <remarks>
-    /// The method receives the Monaco editor options object and is only invoked during initialization.
-    /// </remarks>
-    [Parameter] public string ConfigureEditorMethod { get; set; }
 
     /// <summary>
     /// Notifies when the editor is initialized.

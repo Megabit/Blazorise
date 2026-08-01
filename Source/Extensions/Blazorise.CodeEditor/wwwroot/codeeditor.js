@@ -23,14 +23,6 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
 
     const editorOptions = buildEditorOptions(options);
 
-    if (options.configureEditorMethod) {
-        try {
-            configure(options.configureEditorMethod, window, [editorOptions]);
-        } catch (err) {
-            console.error(err);
-        }
-    }
-
     try {
         let updating = false;
         const editor = monaco.editor.create(element, editorOptions);
