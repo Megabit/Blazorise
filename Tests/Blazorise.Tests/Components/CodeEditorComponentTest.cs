@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.CodeEditor;
 using Bunit;
+using CodeEditorComponent = Blazorise.CodeEditor.CodeEditor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -35,7 +36,7 @@ public class CodeEditorComponentTest : BunitContext
             WordWrap = true
         };
 
-        IRenderedComponent<CodeEditor> cut = Render<CodeEditor>( parameters => parameters
+        IRenderedComponent<CodeEditorComponent> cut = Render<CodeEditorComponent>( parameters => parameters
             .Add( component => component.Value, "const answer = 42;" )
             .Add( component => component.Language, CodeEditorLanguage.JavaScript )
             .Add( component => component.EditorOptions, options )
@@ -66,11 +67,11 @@ public class CodeEditorComponentTest : BunitContext
     public void ParameterChanges_Should_InvokeTargetedJavaScriptUpdates()
     {
         CodeEditorOptions initialOptions = new();
-        IRenderedComponent<CodeEditor> cut = Render<CodeEditor>( parameters => parameters
+        IRenderedComponent<CodeEditorComponent> cut = Render<CodeEditorComponent>( parameters => parameters
             .Add( component => component.EditorOptions, initialOptions )
             .Add( component => component.Language, CodeEditorLanguage.CSharp ) );
 
-        cut.SetParametersAndRender( parameters => parameters
+        cut.Render( parameters => parameters
             .Add( component => component.EditorOptions, new CodeEditorOptions { Minimap = false } )
             .Add( component => component.Language, CodeEditorLanguage.Json ) );
 
@@ -87,7 +88,7 @@ public class CodeEditorComponentTest : BunitContext
             Language = CodeEditorLanguage.CSharp,
             Formatter = value => Task.FromResult( value.ToUpperInvariant() )
         };
-        IRenderedComponent<CodeEditor> cut = Render<CodeEditor>( parameters => parameters
+        IRenderedComponent<CodeEditorComponent> cut = Render<CodeEditorComponent>( parameters => parameters
             .Add( component => component.Language, CodeEditorLanguage.CSharp )
             .Add( component => component.FormattingProvider, provider ) );
 
@@ -103,7 +104,7 @@ public class CodeEditorComponentTest : BunitContext
     [Fact]
     public void DeclarativeTokenizer_Should_IncludeNamedStates()
     {
-        IRenderedComponent<CodeEditor> cut = Render<CodeEditor>( parameters => parameters
+        IRenderedComponent<CodeEditorComponent> cut = Render<CodeEditorComponent>( parameters => parameters
             .Add( component => component.Language, "formula" )
             .AddChildContent( BuildLanguageDefinition() ) );
 

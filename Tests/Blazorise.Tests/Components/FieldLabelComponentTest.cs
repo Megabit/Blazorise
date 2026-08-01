@@ -5,6 +5,7 @@ using Blazorise.CodeEditor;
 using Blazorise.Components;
 using Blazorise.RichTextEdit;
 using Bunit;
+using CodeEditorComponent = Blazorise.CodeEditor.CodeEditor;
 using MarkdownEditor = Blazorise.Markdown.Markdown;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
@@ -306,8 +307,8 @@ public class FieldLabelComponentTest : BunitContext
                 builder.AddAttribute( 1, nameof( FieldLabel.ChildContent ), (RenderFragment)( childBuilder => childBuilder.AddContent( 0, "Source code" ) ) );
                 builder.CloseComponent();
 
-                builder.OpenComponent<CodeEditor>( 2 );
-                builder.AddAttribute( 3, nameof( CodeEditor.ElementId ), "source-code-editor" );
+                builder.OpenComponent<CodeEditorComponent>( 2 );
+                builder.AddAttribute( 3, nameof( CodeEditorComponent.ElementId ), "source-code-editor" );
                 builder.CloseComponent();
             } ) );
 
