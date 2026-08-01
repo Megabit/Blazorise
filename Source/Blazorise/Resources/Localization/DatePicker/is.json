@@ -43,6 +43,22 @@
     "PM": "PM",
     "RangeSeparator": " til ",
     "Today": "Í dag",
-    "Clear": "Hreinsa"
+    "ThisMonth": "Þessi mánuður",
+    "ThisWeek": "Þessi vika",
+    "Clear": "Hreinsa",
+    "Month": "Mánuður",
+    "Year": "Ár",
+    "Week": "Vika",
+    "Time": "Tími",
+    "Hour": "Klukkustund",
+    "Minute": "Mínúta",
+    "PreviousMonth": "Fyrri mánuður",
+    "NextMonth": "Næsti mánuður",
+    "PreviousYear": "Fyrra ár",
+    "NextYear": "Næsta ár",
+    "PreviousDecade": "Fyrri áratugur",
+    "NextDecade": "Næsti áratugur",
+    "PreviousCentury": "Fyrri öld",
+    "NextCentury": "Næsta öld"
   }
 }

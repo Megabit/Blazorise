@@ -150,6 +150,7 @@ public class DocumentObserver : IDocumentObserver
             EventNames = GetEventNames( subscription.EventTypes ).ToArray(),
             Selector = subscription.Selector,
             ExcludeSelector = subscription.ExcludeSelector,
+            KeysFilter = subscription.KeysFilter,
             Priority = subscription.Priority,
             Capture = subscription.Capture,
             PreventDefault = subscription.PreventDefault,

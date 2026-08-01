@@ -24,6 +24,8 @@
 @import "components/carousel";
 @import "components/container";
 @import "components/context-menu";
+@import "components/date-picker";
+@import "components/time-picker";
 @import "components/dropdown";
 @import "components/divider";
 @import "components/dock-layout";
@@ -39,6 +41,7 @@
 @import "components/offcanvas";
 @import "components/modal";
 @import "components/pagination";
+@import "components/property-grid";
 @import "components/progress";
 @import "components/rating";
 @import "components/selection";
@@ -62,7 +65,6 @@
 @import "extensions/snackbar";
 @import "extensions/reporting";
 
-@import "vendors/flatpickr";
 @import "vendors/colorpicker";
 
 @import "utilities/background-color";

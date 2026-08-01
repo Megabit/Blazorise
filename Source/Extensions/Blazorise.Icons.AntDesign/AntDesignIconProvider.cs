@@ -326,6 +326,8 @@ class AntDesignIconProvider : BaseIconProvider
         };
     }
 
+    public override string IconFixedWidth() => "anticon-fw";
+
     public override string GetIconName( IconName iconName, IconStyle iconStyle )
     {
         if ( !names.TryGetValue( iconName, out string name ) )

@@ -1,23 +1,63 @@
 @using System.Text
 @typeparam TValue
 @inherits Blazorise.TimePicker<TValue>
-@if ( ParentIsAddons )
-{
-    <span class="@AddonClassNames" style="@WrapperStyleNames">
-        @InputElement
+<CascadingValue Value="@this" IsFixed>
+    <span class="@ProviderPickerContainerClassNames">
+        @if ( ParentIsAddons )
+        {
+            <span class="@AddonClassNames" style="@WrapperStyleNames">
+                @InputElement
+            </span>
+        }
+        else
+        {
+            <span class="@InputClassNames" style="@WrapperStyleNames">
+                @InputElement
+            </span>
+        }
+        <_TimePickerMenu TValue="TValue" />
     </span>
-}
-else
-{
-    <span class="@InputClassNames" style="@WrapperStyleNames">
-        @InputElement
-    </span>
-}
+</CascadingValue>
 @ChildContent
 @Feedback
 @code {
     private RenderFragment InputElement => __builder =>
     {
-        <input @ref="@ElementRef" id="@ElementId" type="text" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        <input @ref="@ElementRef"
+               id="@ElementId"
+               type="text"
+               name="@NameAttributeValue"
+               class="@ClassNames"
+               style="@StyleNames"
+               disabled="@IsDisabled"
+               readonly="@ReadOnly"
+               pattern="@Pattern"
+               value="@InputText"
+               @oninput="@OnInputHandler"
+               @onchange="@OnChangeHandler"
+               @onclick="@OnClickHandler"
+               @onpointerdown="@OnPointerDownHandler"
+               @onpointerup="@OnPointerInteractionEndedHandler"
+               @onpointercancel="@OnPointerInteractionEndedHandler"
+               @onkeydown="@OnKeyDownHandler"
+               @onkeypress="@OnKeyPressHandler"
+               @onkeyup="@OnKeyUpHandler"
+               @onblur="@OnBlurHandler"
+               @onfocus="@OnFocusHandler"
+               @onfocusin="@OnFocusInHandler"
+               @onfocusout="@OnFocusOutHandler"
+               placeholder="@Placeholder"
+               tabindex="@TabIndex"
+               role="combobox"
+               aria-haspopup="dialog"
+               aria-expanded="@MenuVisible"
+               aria-controls="@MenuId"
+               aria-invalid="@AriaInvalid"
+               aria-required="@ResolvedAriaRequired"
+               aria-describedby="@AriaDescribedBy"
+               aria-labelledby="@AriaLabelledBy"
+               data-open-keys="@(InputKeyboardNavigationEnabled ? "true" : null)"
+               autocomplete="off"
+               @attributes="@Attributes" />
     };
 }

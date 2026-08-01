@@ -34,6 +34,7 @@
 @import "components/numeric-picker";
 @import "components/offcanvas";
 @import "components/pagination";
+@import "components/property-grid";
 @import "components/progress";
 @import "components/radio";
 @import "components/rating";
@@ -50,6 +51,7 @@
 @import "components/typography";
 
 @import "components/date-picker";
+@import "components/time-picker";
 
 @import "utilities/align";
 @import "utilities/background";
@@ -68,7 +70,6 @@
 @import "utilities/text";
 @import "utilities/visibility";
 
-@import "vendors/flatpickr";
 
 @import "extensions/autocomplete";
 @import "extensions/datagrid";

@@ -74,7 +74,8 @@
         }
     </Surface>
     <PropertiesPanel>
-        <_ReportDesignerPropertiesPanel Definition="@definition"
+        <_ReportDesignerPropertiesPanel @ref="propertiesPanel"
+                                        Definition="@definition"
                                         Data="@Designer.Data"
                                         ReportSelected="@Designer.Selection.ReportSelected"
                                         SelectedSection="@Designer.GetSelectedPropertiesSection( definition )"

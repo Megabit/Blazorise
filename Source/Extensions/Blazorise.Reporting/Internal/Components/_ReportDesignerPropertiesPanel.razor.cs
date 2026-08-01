@@ -20,8 +20,6 @@ public partial class _ReportDesignerPropertiesPanel
 
     private const int DefaultTableRowCount = 2;
 
-    private const string MixedSelectValue = "__b_report_mixed__";
-
     private static readonly decimal TableCountStep = 1m;
 
     private _ReportDesignerDataSourceDialog dataSourceDialogRef;
@@ -36,89 +34,94 @@ public partial class _ReportDesignerPropertiesPanel
 
     private Func<string, Task> dataSourceConfirmed;
 
-    private static readonly (ReportPageSize Value, string Text)[] PageSizeOptions =
+    private PropertyGridSchema propertyGridSchema;
+
+    private static readonly PropertyGridSelectOption<ReportPageSize>[] PageSizeOptions =
     [
-        ( ReportPageSize.Custom, "Custom" ),
-        ( ReportPageSize.A3, "A3" ),
-        ( ReportPageSize.A4, "A4" ),
-        ( ReportPageSize.A5, "A5" ),
-        ( ReportPageSize.Letter, "Letter" ),
-        ( ReportPageSize.Legal, "Legal" ),
+        new( ReportPageSize.Custom, "Custom" ),
+        new( ReportPageSize.A3, "A3" ),
+        new( ReportPageSize.A4, "A4" ),
+        new( ReportPageSize.A5, "A5" ),
+        new( ReportPageSize.Letter, "Letter" ),
+        new( ReportPageSize.Legal, "Legal" ),
     ];
 
-    private static readonly (ReportOrientation Value, string Text)[] PageOrientationOptions =
+    private static readonly PropertyGridSelectOption<ReportOrientation>[] PageOrientationOptions =
     [
-        ( ReportOrientation.Portrait, "Portrait" ),
-        ( ReportOrientation.Landscape, "Landscape" ),
+        new( ReportOrientation.Portrait, "Portrait" ),
+        new( ReportOrientation.Landscape, "Landscape" ),
     ];
 
-    private static readonly (Orientation Value, string Text)[] LineOrientationOptions =
+    private static readonly PropertyGridSelectOption<Orientation>[] LineOrientationOptions =
     [
-        ( Orientation.Horizontal, "Horizontal" ),
-        ( Orientation.Vertical, "Vertical" ),
+        new( Orientation.Horizontal, "Horizontal" ),
+        new( Orientation.Vertical, "Vertical" ),
     ];
 
-    private static readonly (ReportMeasurementUnit Value, string Text)[] PageMeasurementUnitOptions =
+    private static readonly PropertyGridSelectOption<ReportMeasurementUnit>[] PageMeasurementUnitOptions =
     [
-        ( ReportMeasurementUnit.Centimeter, "Centimeters" ),
-        ( ReportMeasurementUnit.Millimeter, "Millimeters" ),
-        ( ReportMeasurementUnit.Inch, "Inches" ),
-        ( ReportMeasurementUnit.Point, "Points" ),
+        new( ReportMeasurementUnit.Centimeter, "Centimeters" ),
+        new( ReportMeasurementUnit.Millimeter, "Millimeters" ),
+        new( ReportMeasurementUnit.Inch, "Inches" ),
+        new( ReportMeasurementUnit.Point, "Points" ),
     ];
 
-    private static readonly (string Value, string Text)[] ElementSnapToGridOptions =
+    private static readonly PropertyGridSelectOption<string>[] ElementSnapToGridOptions =
     [
-        ( string.Empty, "Default" ),
-        ( "true", "True" ),
-        ( "false", "False" ),
+        new( string.Empty, "Default" ),
+        new( "true", "True" ),
+        new( "false", "False" ),
     ];
 
-    private static readonly (ReportBandMode Value, string Text)[] BandModeOptions =
+    private static readonly PropertyGridSelectOption<ReportBandMode>[] BandModeOptions =
     [
-        ( ReportBandMode.Rail, "Rail" ),
-        ( ReportBandMode.Separator, "Separator" ),
-        ( ReportBandMode.Compact, "Compact" ),
-        ( ReportBandMode.Classic, "Classic" ),
+        new( ReportBandMode.Rail, "Rail" ),
+        new( ReportBandMode.Separator, "Separator" ),
+        new( ReportBandMode.Compact, "Compact" ),
+        new( ReportBandMode.Classic, "Classic" ),
     ];
 
-    private static readonly (VerticalAlignment Value, string Text)[] TextVerticalAlignmentOptions =
+    private static readonly PropertyGridSelectOption<VerticalAlignment>[] TextVerticalAlignmentOptions =
     [
-        ( VerticalAlignment.Default, "Default" ),
-        ( VerticalAlignment.Top, "Top" ),
-        ( VerticalAlignment.Middle, "Middle" ),
-        ( VerticalAlignment.Bottom, "Bottom" ),
+        new( VerticalAlignment.Default, "Default" ),
+        new( VerticalAlignment.Top, "Top" ),
+        new( VerticalAlignment.Middle, "Middle" ),
+        new( VerticalAlignment.Bottom, "Bottom" ),
     ];
 
-    private static readonly (TextAlignment Value, string Text)[] TextAlignmentOptions =
+    private static readonly PropertyGridSelectOption<TextAlignment>[] TextAlignmentOptions =
     [
-        ( TextAlignment.Default, "Default" ),
-        ( TextAlignment.Start, "Start" ),
-        ( TextAlignment.End, "End" ),
-        ( TextAlignment.Center, "Center" ),
-        ( TextAlignment.Justified, "Justified" ),
+        new( TextAlignment.Default, "Default" ),
+        new( TextAlignment.Start, "Start" ),
+        new( TextAlignment.End, "End" ),
+        new( TextAlignment.Center, "Center" ),
+        new( TextAlignment.Justified, "Justified" ),
     ];
 
-    private static readonly (ReportBorderStyle Value, string Text)[] BorderStyleOptions =
+    private static readonly PropertyGridSelectOption<ReportBorderStyle>[] BorderStyleOptions =
     [
-        ( ReportBorderStyle.Default, "Default" ),
-        ( ReportBorderStyle.Solid, "Solid" ),
-        ( ReportBorderStyle.Dashed, "Dashed" ),
-        ( ReportBorderStyle.Dotted, "Dotted" ),
+        new( ReportBorderStyle.Default, "Default" ),
+        new( ReportBorderStyle.Solid, "Solid" ),
+        new( ReportBorderStyle.Dashed, "Dashed" ),
+        new( ReportBorderStyle.Dotted, "Dotted" ),
     ];
 
-    private static readonly (ReportImageFit Value, string Text)[] ImageFitOptions =
+    private static readonly PropertyGridSelectOption<ReportImageFit>[] ImageFitOptions =
     [
-        ( ReportImageFit.Default, "Default" ),
-        ( ReportImageFit.Contain, "Contain" ),
-        ( ReportImageFit.Cover, "Cover" ),
-        ( ReportImageFit.Fill, "Fill" ),
-        ( ReportImageFit.None, "None" ),
-        ( ReportImageFit.ScaleDown, "Scale down" ),
+        new( ReportImageFit.Default, "Default" ),
+        new( ReportImageFit.Contain, "Contain" ),
+        new( ReportImageFit.Cover, "Cover" ),
+        new( ReportImageFit.Fill, "Fill" ),
+        new( ReportImageFit.None, "None" ),
+        new( ReportImageFit.ScaleDown, "Scale down" ),
     ];
 
     #endregion
 
     #region Methods
+
+    internal void InvalidatePropertyGridSchema()
+        => propertyGridSchema = null;
 
     private bool HasSelection => ReportSelected || SelectedSection is not null || SelectedElement is not null || SelectedCell is not null;
 
@@ -412,9 +415,6 @@ public partial class _ReportDesignerPropertiesPanel
 
     private Task OnSelectedElementFontFamilyChanged( string value )
     {
-        if ( value == MixedSelectValue )
-            return Task.CompletedTask;
-
         return UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Family = string.IsNullOrWhiteSpace( value ) ? null : value );
     }
 
@@ -440,6 +440,19 @@ public partial class _ReportDesignerPropertiesPanel
         return fonts;
     }
 
+    private IReadOnlyList<PropertyGridSelectOption<string>> GetFontFamilyOptions()
+    {
+        List<PropertyGridSelectOption<string>> options =
+        [
+            new( string.Empty, "Default" ),
+        ];
+
+        foreach ( FontFamily font in GetVisibleFontFamilies() )
+            options.Add( new( font.Name, font.DisplayName ?? font.Name ) );
+
+        return options;
+    }
+
     private static void AddVisibleFontFamily( List<FontFamily> fonts, FontFamily font )
     {
         if ( font?.Visible != true || string.IsNullOrWhiteSpace( font.Name ) )
@@ -450,6 +463,23 @@ public partial class _ReportDesignerPropertiesPanel
 
         fonts.Add( font );
     }
+
+    private static Color GetFormulaActionColor( string formula )
+        => string.IsNullOrWhiteSpace( formula ) ? Color.Light : Color.Primary;
+
+    private static string GetDataSourceDisplayValue( string value, string displayText )
+        => string.IsNullOrWhiteSpace( displayText )
+            ? string.IsNullOrWhiteSpace( value ) ? "None" : value
+            : displayText;
+
+    private static string GetPropertyGridColorValue( ReportColor color )
+        => color.Kind switch
+        {
+            ReportColorKind.Default => string.Empty,
+            ReportColorKind.Named or ReportColorKind.Transparent => color.Name,
+            ReportColorKind.Rgb => FormattableString.Invariant( $"#{color.Red:X2}{color.Green:X2}{color.Blue:X2}" ),
+            _ => color.ToCssString(),
+        };
 
     private Task OnSelectedElementHeightChanged( double? value )
     {
@@ -743,7 +773,7 @@ public partial class _ReportDesignerPropertiesPanel
         return imageUploadDialogRef?.Show() ?? Task.CompletedTask;
     }
 
-    private Task OpenFormatDialog( MouseEventArgs eventArgs )
+    private Task OpenFormatDialog()
     {
         bool mixed = IsSelectedElementValueMixed( element => ReportFormatResolver.GetDisplayText( ( element as ReportFieldElementDefinition )?.Format ) );
 
@@ -771,9 +801,712 @@ public partial class _ReportDesignerPropertiesPanel
         } );
     }
 
+    private PropertyGridSchema BuildPropertyGridSchema()
+    {
+        List<PropertyGridGroupDefinition> groups = [];
+
+        AddReportPropertyGroups( groups );
+        AddSectionPropertyGroups( groups );
+        AddElementPropertyGroups( groups );
+        AddCellPropertyGroups( groups );
+
+        return new PropertyGridSchema( groups );
+    }
+
+    private void AddReportPropertyGroups( List<PropertyGridGroupDefinition> groups )
+    {
+        if ( !ReportSelected )
+            return;
+
+        groups.Add( new PropertyGridGroupDefinition(
+            "report.designer",
+            "Designer",
+            [
+                new PropertyGridTextProperty( "report.type", "Type", "Report" )
+                {
+                    ReadOnly = true,
+                },
+                new PropertyGridBooleanProperty( "report.snapToGrid", "Snap to grid", SnapToGrid ),
+                new PropertyGridNumericProperty<double>( "report.gridSize", "Grid size", FromPoints( GridSize ) )
+                {
+                    Min = FromPoints( 1 ),
+                    Max = FromPoints( Math.Min( Definition.Page.Width, Definition.Page.Height ) ),
+                    Step = GetMeasurementStep(),
+                },
+                new PropertyGridBooleanProperty( "report.showRulers", "Show rulers", ShowRulers ),
+                new PropertyGridBooleanProperty( "report.showFineRulerTicks", "Fine ruler ticks", ShowFineRulerTicks ),
+                new PropertyGridBooleanProperty( "report.showCursorGuides", "Cursor guides", ShowCursorGuides ),
+                new PropertyGridBooleanProperty( "report.showCollisionWarnings", "Collision warnings", ShowCollisionWarnings ),
+                new PropertyGridSelectProperty<ReportBandMode>( "report.bandMode", "Band mode", BandMode, BandModeOptions ),
+            ] ) );
+
+        groups.Add( new PropertyGridGroupDefinition(
+            "report.page",
+            "Page",
+            [
+                new PropertyGridTextProperty( "page.name", "Name", Definition.Page.Name ),
+                new PropertyGridSelectProperty<ReportMeasurementUnit>( "page.unit", "Unit", GetPageMeasurementUnit(), PageMeasurementUnitOptions ),
+                new PropertyGridSelectProperty<ReportPageSize>( "page.size", "Paper size", Definition.Page.Size, PageSizeOptions ),
+                new PropertyGridSelectProperty<ReportOrientation>( "page.orientation", "Orientation", Definition.Page.Orientation, PageOrientationOptions ),
+                new PropertyGridNumericProperty<double>( "page.width", "Page width", FromPoints( Definition.Page.Width ) )
+                {
+                    Min = FromPoints( 1 ),
+                    Step = GetMeasurementStep(),
+                },
+                new PropertyGridNumericProperty<double>( "page.height", "Page height", FromPoints( Definition.Page.Height ) )
+                {
+                    Min = FromPoints( 1 ),
+                    Step = GetMeasurementStep(),
+                },
+                new PropertyGridNumericProperty<double>( "page.marginLeft", "Margin left", FromPoints( EnsurePageMargins( Definition.Page ).Left ) )
+                {
+                    Max = FromPoints( Definition.Page.Width ),
+                    Step = GetMeasurementStep(),
+                },
+                new PropertyGridNumericProperty<double>( "page.marginTop", "Margin top", FromPoints( EnsurePageMargins( Definition.Page ).Top ) )
+                {
+                    Max = FromPoints( Definition.Page.Height ),
+                    Step = GetMeasurementStep(),
+                },
+                new PropertyGridNumericProperty<double>( "page.marginRight", "Margin right", FromPoints( EnsurePageMargins( Definition.Page ).Right ) )
+                {
+                    Max = FromPoints( Definition.Page.Width ),
+                    Step = GetMeasurementStep(),
+                },
+                new PropertyGridNumericProperty<double>( "page.marginBottom", "Margin bottom", FromPoints( EnsurePageMargins( Definition.Page ).Bottom ) )
+                {
+                    Max = FromPoints( Definition.Page.Height ),
+                    Step = GetMeasurementStep(),
+                },
+            ] ) );
+    }
+
+    private void AddSectionPropertyGroups( List<PropertyGridGroupDefinition> groups )
+    {
+        if ( SelectedSection is null || SelectedElement is not null )
+            return;
+
+        List<PropertyGridProperty> statusProperties =
+        [
+            new PropertyGridBooleanProperty( "section.suppress", "Suppress", ReportValueResolver.ResolveStaticSuppress( SelectedSection ) )
+            {
+                Action = CreateFormulaAction( SelectedSection.Suppress?.Formula ),
+            },
+        ];
+
+        if ( SelectedSection.Type == ReportBandType.PageFooter )
+        {
+            statusProperties.Add( new PropertyGridBooleanProperty(
+                "section.reserveSpaceWhenSuppressed",
+                "Reserve space when suppressed",
+                SelectedSection.ReserveSpaceWhenSuppressed ) );
+        }
+
+        groups.Add( new PropertyGridGroupDefinition( "section.status", "Status", statusProperties ) );
+
+        List<PropertyGridProperty> generalProperties =
+        [
+            new PropertyGridTextProperty( "section.type", "Type", ReportDefinitionHelper.GetSectionTypeDisplayName( SelectedSection.Type ) )
+            {
+                ReadOnly = true,
+            },
+        ];
+
+        bool suppressed = ReportValueResolver.ResolveStaticSuppress( SelectedSection );
+
+        if ( !suppressed )
+        {
+            generalProperties.Add( new PropertyGridTextProperty( "section.name", "Name", SelectedSection.Name ) );
+
+            if ( SelectedSection.Type == ReportBandType.Detail )
+            {
+                generalProperties.Add( new PropertyGridTextProperty(
+                    "section.dataSource",
+                    "Data source",
+                    GetDataSourceDisplayValue( SelectedSection.DataSource, GetSelectedSectionDataSourceDisplayName() ) )
+                {
+                    ReadOnly = true,
+                    Action = CreateAction( "select-data-source", IconName.Search, "Select data source" ),
+                } );
+            }
+
+            if ( SelectedSection.Type == ReportBandType.GroupHeader )
+                generalProperties.Add( new PropertyGridTextProperty( "section.groupBy", "Group by", SelectedSection.GroupBy ) );
+        }
+
+        groups.Add( new PropertyGridGroupDefinition( "section.general", "General", generalProperties ) );
+
+        if ( suppressed )
+            return;
+
+        groups.Add( new PropertyGridGroupDefinition(
+            "section.layout",
+            "Layout",
+            [
+                new PropertyGridNumericProperty<double>( "section.height", "Height", FromPoints( SelectedSection.Height ) )
+                {
+                    Min = FromPoints( ReportLayoutGeometry.DefaultMinimumElementSize ),
+                    Max = FromPoints( ReportPageDefinitionHelper.GetContentHeight( Definition.Page ) ),
+                    Step = GetMeasurementStep(),
+                },
+            ] ) );
+
+        groups.Add( new PropertyGridGroupDefinition(
+            "section.pagination",
+            "Pagination",
+            [
+                new PropertyGridBooleanProperty( "section.keepTogether", "Keep together", SelectedSection.KeepTogether?.Value == true )
+                {
+                    Action = CreateFormulaAction( SelectedSection.KeepTogether?.Formula ),
+                },
+                new PropertyGridBooleanProperty( "section.newPageBefore", "New page before", SelectedSection.NewPageBefore?.Value == true )
+                {
+                    Action = CreateFormulaAction( SelectedSection.NewPageBefore?.Formula ),
+                },
+                new PropertyGridBooleanProperty( "section.newPageAfter", "New page after", SelectedSection.NewPageAfter?.Value == true )
+                {
+                    Action = CreateFormulaAction( SelectedSection.NewPageAfter?.Formula ),
+                },
+            ] ) );
+
+        if ( SelectedSection.Type != ReportBandType.PageFooter )
+            return;
+
+        ReportAppearanceDefinition sectionAppearance = EnsureSelectedSectionAppearance();
+        ReportBorderDefinition sectionBorder = EnsureSelectedSectionBorder();
+
+        groups.Add( new PropertyGridGroupDefinition(
+            "section.pageFooter",
+            "Page footer",
+            [
+                new PropertyGridBooleanProperty( "section.printOnFirstPage", "Print on first page", SelectedSection.PrintOnFirstPage ),
+                new PropertyGridBooleanProperty( "section.printOnLastPage", "Print on last page", SelectedSection.PrintOnLastPage ),
+                new PropertyGridBooleanProperty( "section.repeatOnEveryPage", "Repeat on every page", SelectedSection.RepeatOnEveryPage ),
+            ] ) );
+
+        groups.Add( new PropertyGridGroupDefinition(
+            "section.appearance",
+            "Appearance",
+            [
+                new PropertyGridColorProperty( "section.fillColor", "Fill color", GetPropertyGridColorValue( sectionAppearance.BackgroundColor ) ),
+                new PropertyGridColorProperty( "section.borderColor", "Border color", GetPropertyGridColorValue( sectionBorder.Color ) ),
+                new PropertyGridNumericProperty<double?>( "section.borderWidth", "Border width", sectionBorder.Width )
+                {
+                    Max = Definition.Page.Width,
+                },
+                new PropertyGridNumericProperty<double?>( "section.cornerRadius", "Corner radius", sectionBorder.Radius )
+                {
+                    Max = Definition.Page.Width,
+                },
+                new PropertyGridNumericProperty<double?>( "section.opacity", "Opacity", sectionAppearance.Opacity )
+                {
+                    Max = 1,
+                },
+            ] ) );
+    }
+
+    private void AddElementPropertyGroups( List<PropertyGridGroupDefinition> groups )
+    {
+        if ( SelectedElement is null || SelectedElementSuppressed )
+            return;
+
+        List<PropertyGridProperty> statusProperties = [];
+
+        if ( AllSelectedElementsSupportCanGrow )
+        {
+            statusProperties.Add( new PropertyGridBooleanProperty( "element.canGrow", "Can grow", SelectedElement.CanGrow?.Value == true )
+            {
+                Mixed = IsSelectedElementValueMixed( element => element.CanGrow?.Value == true ),
+                Action = CreateFormulaAction( GetSharedSelectedElementValue( element => element.CanGrow?.Formula ) ),
+            } );
+        }
+
+        statusProperties.Add( new PropertyGridBooleanProperty( "element.suppress", "Suppress", SelectedElement.Suppress?.Value == true )
+        {
+            Mixed = IsSelectedElementValueMixed( element => element.Suppress?.Value == true ),
+            Action = CreateFormulaAction( GetSharedSelectedElementValue( element => element.Suppress?.Formula ) ),
+        } );
+        statusProperties.Add( new PropertyGridBooleanProperty( "element.showCollisionWarnings", "Collision warnings", SelectedElement.ShowCollisionWarnings )
+        {
+            Mixed = IsSelectedElementValueMixed( element => element.ShowCollisionWarnings ),
+        } );
+        statusProperties.Add( new PropertyGridStringSelectProperty(
+            "element.snapToGrid",
+            "Snap to grid",
+            GetSelectedElementSnapToGridValue(),
+            ElementSnapToGridOptions )
+        {
+            Mixed = IsSelectedElementValueMixed( element => element.SnapToGrid?.Value ),
+            Action = CreateFormulaAction( GetSharedSelectedElementValue( element => element.SnapToGrid?.Formula ) ),
+        } );
+
+        groups.Add( new PropertyGridGroupDefinition( "element.status", "Status", statusProperties ) );
+
+        List<PropertyGridProperty> generalProperties =
+        [
+            new PropertyGridTextProperty( "element.type", "Type", GetSelectedElementTypeDisplayName() )
+            {
+                ReadOnly = true,
+            },
+        ];
+
+        if ( !MultipleElementsSelected && !AllSelectedElementsSuppressed )
+            generalProperties.Add( new PropertyGridTextProperty( "element.name", "Name", SelectedElement.Name ) );
+
+        groups.Add( new PropertyGridGroupDefinition( "element.general", "General", generalProperties ) );
+
+        if ( AllSelectedElementsSuppressed )
+            return;
+
+        AddElementContentGroup( groups );
+        AddElementTableGroup( groups );
+        AddElementSubreportGroup( groups );
+        AddElementPositionGroup( groups );
+        AddElementTextGroup( groups );
+        AddElementAppearanceGroup( groups );
+    }
+
+    private void AddElementContentGroup( List<PropertyGridGroupDefinition> groups )
+    {
+        if ( !AllSelectedElementsAre<ReportTextElementDefinition>()
+            && !AllSelectedElementsAre<ReportFieldElementDefinition>()
+            && !AllSelectedElementsAre<ReportImageElementDefinition>() )
+        {
+            return;
+        }
+
+        List<PropertyGridProperty> properties = [];
+        string title = SelectedElement is ReportFieldElementDefinition ? "Data" : "Content";
+
+        switch ( SelectedElement )
+        {
+            case ReportTextElementDefinition textElement:
+                properties.Add( new PropertyGridTextProperty( "element.text", "Text", textElement.Text )
+                {
+                    Mixed = IsSelectedElementValueMixed( element => ( (ReportTextElementDefinition)element ).Text ),
+                } );
+                break;
+            case ReportFieldElementDefinition fieldElement:
+                if ( !MultipleElementsSelected )
+                {
+                    properties.Add( new PropertyGridTextProperty(
+                        "element.expression",
+                        "Expression",
+                        ReportExpressionFormatter.FormatFieldExpression( Definition, SelectedElement ) )
+                    {
+                        ReadOnly = true,
+                    } );
+
+                    if ( fieldElement.Aggregate is not null )
+                    {
+                        properties.Add( new PropertyGridTextProperty(
+                            "element.aggregate",
+                            "Aggregate",
+                            ReportAggregateResolver.GetFunctionDisplayName( fieldElement.Aggregate.Function ) )
+                        {
+                            ReadOnly = true,
+                        } );
+                    }
+                }
+
+                properties.Add( new PropertyGridTextProperty(
+                    "element.format",
+                    "Format",
+                    GetSharedSelectedElementValue( element => ReportFormatResolver.GetDisplayText( ( (ReportFieldElementDefinition)element ).Format ) ) )
+                {
+                    ReadOnly = true,
+                    Action = new PropertyGridAction( "edit-format" )
+                    {
+                        Text = "Edit",
+                        Title = "Edit format",
+                    },
+                } );
+                break;
+            case ReportImageElementDefinition imageElement:
+                properties.Add( new PropertyGridTextProperty( "element.imageSource", "Source", imageElement.Source )
+                {
+                    Mixed = IsSelectedElementValueMixed( element => ( (ReportImageElementDefinition)element ).Source ),
+                    Immediate = true,
+                    Action = new PropertyGridAction( "upload-image" )
+                    {
+                        Visible = UploadImage,
+                        Icon = IconName.Image,
+                        Title = "Upload image",
+                    },
+                } );
+                properties.Add( new PropertyGridSelectProperty<ReportImageFit>( "element.imageFit", "Fit", imageElement.Fit, ImageFitOptions )
+                {
+                    Mixed = IsSelectedElementValueMixed( element => ( (ReportImageElementDefinition)element ).Fit ),
+                } );
+                properties.Add( new PropertyGridTextProperty( "element.imageAltText", "Alt text", imageElement.Text )
+                {
+                    Mixed = IsSelectedElementValueMixed( element => ( (ReportImageElementDefinition)element ).Text ),
+                } );
+                break;
+        }
+
+        groups.Add( new PropertyGridGroupDefinition( "element.content", title, properties ) );
+    }
+
+    private void AddElementTableGroup( List<PropertyGridGroupDefinition> groups )
+    {
+        if ( !AllSelectedElementsAre<ReportTableElementDefinition>() )
+            return;
+
+        groups.Add( new PropertyGridGroupDefinition(
+            "element.table",
+            "Table",
+            [
+                new PropertyGridNumericProperty<double?>( "element.tableRows", "Rows", GetSharedSelectedElementValue( element => (double?)GetTableRowCount( element ) ) )
+                {
+                    Min = 1,
+                    Step = TableCountStep,
+                },
+                new PropertyGridNumericProperty<double?>( "element.tableColumns", "Columns", GetSharedSelectedElementValue( element => (double?)GetTableColumnCount( element ) ) )
+                {
+                    Min = 1,
+                    Step = TableCountStep,
+                },
+            ] ) );
+    }
+
+    private void AddElementSubreportGroup( List<PropertyGridGroupDefinition> groups )
+    {
+        if ( !AllSelectedElementsAre<ReportSubreportElementDefinition>()
+            || SelectedElement is not ReportSubreportElementDefinition subreportElement )
+        {
+            return;
+        }
+
+        groups.Add( new PropertyGridGroupDefinition(
+            "element.subreport",
+            "Subreport",
+            [
+                new PropertyGridTextProperty(
+                    "element.subreportDataSource",
+                    "Data source",
+                    GetDataSourceDisplayValue( subreportElement.DataSource, GetSelectedSubreportDataSourceDisplayName( subreportElement ) ) )
+                {
+                    Mixed = IsSelectedElementValueMixed( element => ( (ReportSubreportElementDefinition)element ).DataSource ),
+                    ReadOnly = true,
+                    Action = CreateAction( "select-data-source", IconName.Search, "Select data source" ),
+                },
+            ] ) );
+    }
+
+    private void AddElementPositionGroup( List<PropertyGridGroupDefinition> groups )
+    {
+        groups.Add( new PropertyGridGroupDefinition(
+            "element.position",
+            "Position and size",
+            [
+                new PropertyGridNumericProperty<double?>( "element.x", "X", GetSharedMeasurementValue( element => element.X ) )
+                {
+                    Max = FromPoints( Definition.Page.Width ),
+                    Step = GetMeasurementStep(),
+                },
+                new PropertyGridNumericProperty<double?>( "element.y", "Y", GetSharedMeasurementValue( element => element.Y ) )
+                {
+                    Max = FromPoints( FormulaSection?.Height ?? Definition.Page.Height ),
+                    Step = GetMeasurementStep(),
+                },
+                new PropertyGridNumericProperty<double?>( "element.width", "Width", GetSharedMeasurementValue( element => element.Width ) )
+                {
+                    Min = FromPoints( ReportLayoutGeometry.DefaultMinimumElementSize ),
+                    Max = FromPoints( Definition.Page.Width ),
+                    Step = GetMeasurementStep(),
+                },
+                new PropertyGridNumericProperty<double?>( "element.height", "Height", GetSharedMeasurementValue( element => element.Height ) )
+                {
+                    Min = FromPoints( ReportLayoutGeometry.GetMinimumElementHeight( SelectedElement ) ),
+                    Max = FromPoints( FormulaSection?.Height ?? Definition.Page.Height ),
+                    Step = GetMeasurementStep(),
+                },
+            ] ) );
+    }
+
+    private void AddElementTextGroup( List<PropertyGridGroupDefinition> groups )
+    {
+        if ( !AllSelectedElementsSupportTextFormatting )
+            return;
+
+        ReportFontDefinition font = ReportElementDefinitionHelper.EnsureFont( SelectedElement );
+
+        groups.Add( new PropertyGridGroupDefinition(
+            "element.textFormatting",
+            "Text",
+            [
+                new PropertyGridStringSelectProperty( "element.fontFamily", "Font family", GetFontFamilyValue( font.Family ), GetFontFamilyOptions() )
+                {
+                    Mixed = IsSelectedElementValueMixed( element => GetFontFamilyValue( element.Font?.Family ) ),
+                },
+                new PropertyGridNumericProperty<double?>( "element.fontSize", "Font size", GetSharedSelectedElementValue( element => element.Font?.Size ) )
+                {
+                    Min = 1,
+                    Max = Definition.Page.Height,
+                },
+                new PropertyGridColorProperty( "element.fontColor", "Color", GetPropertyGridColorValue( font.Color ) )
+                {
+                    Mixed = IsSelectedElementValueMixed( element => element.Font?.Color ?? ReportColor.Default ),
+                },
+                new PropertyGridSelectProperty<TextAlignment>( "element.horizontalAlignment", "Hor. align", font.Alignment, TextAlignmentOptions )
+                {
+                    Mixed = IsSelectedElementValueMixed( element => element.Font?.Alignment ?? TextAlignment.Default ),
+                },
+                new PropertyGridSelectProperty<VerticalAlignment>( "element.verticalAlignment", "Vert. align", font.VerticalAlignment, TextVerticalAlignmentOptions )
+                {
+                    Mixed = IsSelectedElementValueMixed( element => element.Font?.VerticalAlignment ?? VerticalAlignment.Default ),
+                },
+                new PropertyGridBooleanProperty( "element.bold", "Bold", font.Bold )
+                {
+                    Mixed = IsSelectedElementValueMixed( element => element.Font?.Bold == true ),
+                },
+                new PropertyGridBooleanProperty( "element.italic", "Italic", font.Italic )
+                {
+                    Mixed = IsSelectedElementValueMixed( element => element.Font?.Italic == true ),
+                },
+                new PropertyGridBooleanProperty( "element.underline", "Underline", font.Underline )
+                {
+                    Mixed = IsSelectedElementValueMixed( element => element.Font?.Underline == true ),
+                },
+            ] ) );
+    }
+
+    private void AddElementAppearanceGroup( List<PropertyGridGroupDefinition> groups )
+    {
+        ReportAppearanceDefinition appearance = ReportElementDefinitionHelper.EnsureAppearance( SelectedElement );
+        ReportBorderDefinition border = ReportElementDefinitionHelper.EnsureBorder( SelectedElement );
+        List<PropertyGridProperty> properties = [];
+
+        if ( AllSelectedElementsAre<ReportLineElementDefinition>() && SelectedElement is ReportLineElementDefinition lineElement )
+        {
+            properties.Add( new PropertyGridSelectProperty<Orientation>( "element.lineOrientation", "Orientation", lineElement.Orientation, LineOrientationOptions )
+            {
+                Mixed = IsSelectedElementValueMixed( element => ( (ReportLineElementDefinition)element ).Orientation ),
+            } );
+            properties.Add( new PropertyGridColorProperty( "element.lineColor", "Color", GetPropertyGridColorValue( border.Color ) )
+            {
+                Mixed = IsSelectedElementValueMixed( element => element.Border?.Color ?? ReportColor.Default ),
+            } );
+            properties.Add( new PropertyGridNumericProperty<double?>( "element.lineThickness", "Thickness", GetSharedSelectedElementValue( GetLineThickness ) )
+            {
+                Min = ReportLayoutGeometry.DefaultLineThickness,
+                Max = Math.Min( Definition.Page.Width, Definition.Page.Height ),
+            } );
+        }
+        else if ( !AnySelectedElementIsLine )
+        {
+            properties.Add( new PropertyGridColorProperty( "element.fillColor", "Fill", GetPropertyGridColorValue( appearance.BackgroundColor ) )
+            {
+                Mixed = IsSelectedElementValueMixed( element => element.Appearance?.BackgroundColor ?? ReportColor.Default ),
+            } );
+            properties.Add( new PropertyGridColorProperty( "element.borderColor", "Border color", GetPropertyGridColorValue( border.Color ) )
+            {
+                Mixed = IsSelectedElementValueMixed( element => element.Border?.Color ?? ReportColor.Default ),
+            } );
+            properties.Add( new PropertyGridNumericProperty<double?>( "element.borderWidth", "Border width", GetSharedSelectedElementValue( element => element.Border?.Width ) )
+            {
+                Max = Definition.Page.Width,
+            } );
+            properties.Add( new PropertyGridSelectProperty<ReportBorderStyle>( "element.borderStyle", "Border style", border.Style, BorderStyleOptions )
+            {
+                Mixed = IsSelectedElementValueMixed( element => element.Border?.Style ?? ReportBorderStyle.Default ),
+            } );
+            properties.Add( new PropertyGridNumericProperty<double?>( "element.cornerRadius", "Corner radius", GetSharedSelectedElementValue( element => element.Border?.Radius ) )
+            {
+                Max = Definition.Page.Width,
+            } );
+        }
+        else
+        {
+            properties.Add( new PropertyGridColorProperty( "element.borderColor", "Border color", GetPropertyGridColorValue( border.Color ) )
+            {
+                Mixed = IsSelectedElementValueMixed( element => element.Border?.Color ?? ReportColor.Default ),
+            } );
+        }
+
+        properties.Add( new PropertyGridNumericProperty<double?>( "element.opacity", "Opacity", GetSharedSelectedElementValue( element => element.Appearance?.Opacity ) )
+        {
+            Max = 1,
+        } );
+
+        groups.Add( new PropertyGridGroupDefinition( "element.appearance", "Appearance", properties ) );
+    }
+
+    private void AddCellPropertyGroups( List<PropertyGridGroupDefinition> groups )
+    {
+        if ( SelectedCell is null )
+            return;
+
+        groups.Add( new PropertyGridGroupDefinition(
+            "cell.position",
+            "Position",
+            [
+                new PropertyGridTextProperty( "cell.row", "Row", ( SelectedCell.RowIndex + 1 ).ToString() )
+                {
+                    ReadOnly = true,
+                },
+                new PropertyGridTextProperty( "cell.column", "Column", ( SelectedCell.ColumnIndex + 1 ).ToString() )
+                {
+                    ReadOnly = true,
+                },
+            ] ) );
+
+        groups.Add( new PropertyGridGroupDefinition(
+            "cell.span",
+            "Span",
+            [
+                new PropertyGridTextProperty( "cell.rowSpan", "Row span", SelectedCell.RowSpan.ToString() )
+                {
+                    ReadOnly = true,
+                },
+                new PropertyGridTextProperty( "cell.columnSpan", "Column span", SelectedCell.ColumnSpan.ToString() )
+                {
+                    ReadOnly = true,
+                },
+            ] ) );
+    }
+
+    private static PropertyGridAction CreateFormulaAction( string formula )
+        => new( "edit-formula" )
+        {
+            Icon = IconName.Code,
+            Title = "Edit formula",
+            Color = GetFormulaActionColor( formula ),
+        };
+
+    private static PropertyGridAction CreateAction( string name, object icon, string title )
+        => new( name )
+        {
+            Icon = icon,
+            Title = title,
+        };
+
+    private Task OnPropertyGridPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )
+    {
+        return eventArgs.PropertyKey switch
+        {
+            "report.snapToGrid" => OnSnapToGridChanged( eventArgs.GetValue<bool>() ),
+            "report.gridSize" => OnGridSizeChanged( eventArgs.GetValue<double>() ),
+            "report.showRulers" => ShowRulersChanged.InvokeAsync( eventArgs.GetValue<bool>() ),
+            "report.showFineRulerTicks" => ShowFineRulerTicksChanged.InvokeAsync( eventArgs.GetValue<bool>() ),
+            "report.showCursorGuides" => ShowCursorGuidesChanged.InvokeAsync( eventArgs.GetValue<bool>() ),
+            "report.showCollisionWarnings" => ShowCollisionWarningsChanged.InvokeAsync( eventArgs.GetValue<bool>() ),
+            "report.bandMode" => BandModeChanged.InvokeAsync( eventArgs.GetValue<ReportBandMode>() ),
+            "page.name" => UpdateReportPage( page => page.Name = eventArgs.GetValue<string>() ),
+            "page.unit" => OnPageMeasurementUnitChanged( eventArgs.GetValue<ReportMeasurementUnit>() ),
+            "page.size" => OnPageSizeChanged( eventArgs.GetValue<ReportPageSize>() ),
+            "page.orientation" => OnPageOrientationChanged( eventArgs.GetValue<ReportOrientation>() ),
+            "page.width" => OnPageWidthChanged( eventArgs.GetValue<double>() ),
+            "page.height" => OnPageHeightChanged( eventArgs.GetValue<double>() ),
+            "page.marginLeft" => OnPageMarginLeftChanged( eventArgs.GetValue<double>() ),
+            "page.marginTop" => OnPageMarginTopChanged( eventArgs.GetValue<double>() ),
+            "page.marginRight" => OnPageMarginRightChanged( eventArgs.GetValue<double>() ),
+            "page.marginBottom" => OnPageMarginBottomChanged( eventArgs.GetValue<double>() ),
+            "section.suppress" => UpdateSelectedSectionSuppression( eventArgs.GetValue<bool>() ),
+            "section.reserveSpaceWhenSuppressed" => UpdateSelectedSection( section => section.ReserveSpaceWhenSuppressed = eventArgs.GetValue<bool>() ),
+            "section.name" => UpdateSelectedSection( section => section.Name = eventArgs.GetValue<string>() ),
+            "section.groupBy" => UpdateSelectedSection( section => section.GroupBy = eventArgs.GetValue<string>() ),
+            "section.height" => OnSelectedSectionHeightChanged( eventArgs.GetValue<double>() ),
+            "section.keepTogether" => UpdateSelectedSectionKeepTogether( eventArgs.GetValue<bool>() ),
+            "section.newPageBefore" => UpdateSelectedSectionNewPageBefore( eventArgs.GetValue<bool>() ),
+            "section.newPageAfter" => UpdateSelectedSectionNewPageAfter( eventArgs.GetValue<bool>() ),
+            "section.printOnFirstPage" => UpdateSelectedSection( section => section.PrintOnFirstPage = eventArgs.GetValue<bool>() ),
+            "section.printOnLastPage" => UpdateSelectedSection( section => section.PrintOnLastPage = eventArgs.GetValue<bool>() ),
+            "section.repeatOnEveryPage" => UpdateSelectedSection( section => section.RepeatOnEveryPage = eventArgs.GetValue<bool>() ),
+            "section.fillColor" => UpdateSelectedSection( section => EnsureSectionAppearance( section ).BackgroundColor = ReportColor.FromString( eventArgs.GetValue<string>() ) ),
+            "section.borderColor" => UpdateSelectedSection( section => EnsureSectionBorder( section ).Color = ReportColor.FromString( eventArgs.GetValue<string>() ) ),
+            "section.borderWidth" => UpdateSelectedSection( section => EnsureSectionBorder( section ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( eventArgs.GetValue<double?>() ) ),
+            "section.cornerRadius" => UpdateSelectedSection( section => EnsureSectionBorder( section ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( eventArgs.GetValue<double?>() ) ),
+            "section.opacity" => UpdateSelectedSection( section => EnsureSectionAppearance( section ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( eventArgs.GetValue<double?>() ) ),
+            "element.canGrow" => UpdateSelectedElementCanGrow( eventArgs.GetValue<bool>() ),
+            "element.suppress" => UpdateSelectedElementSuppress( eventArgs.GetValue<bool>() ),
+            "element.showCollisionWarnings" => UpdateSelectedElement( element => element.ShowCollisionWarnings = eventArgs.GetValue<bool>() ),
+            "element.snapToGrid" => OnSelectedElementSnapToGridChanged( eventArgs.GetValue<string>() ),
+            "element.name" => OnSelectedElementNameChanged( eventArgs.GetValue<string>() ),
+            "element.text" => UpdateSelectedElementText( eventArgs.GetValue<string>() ),
+            "element.imageSource" => UpdateSelectedElementImageSource( eventArgs.GetValue<string>() ),
+            "element.imageFit" => UpdateSelectedElementImageFit( eventArgs.GetValue<ReportImageFit>() ),
+            "element.imageAltText" => UpdateSelectedElementImageAltText( eventArgs.GetValue<string>() ),
+            "element.tableRows" => OnSelectedTableRowCountChanged( eventArgs.GetValue<double?>() ),
+            "element.tableColumns" => OnSelectedTableColumnCountChanged( eventArgs.GetValue<double?>() ),
+            "element.x" => OnSelectedElementXChanged( eventArgs.GetValue<double?>() ),
+            "element.y" => OnSelectedElementYChanged( eventArgs.GetValue<double?>() ),
+            "element.width" => OnSelectedElementWidthChanged( eventArgs.GetValue<double?>() ),
+            "element.height" => OnSelectedElementHeightChanged( eventArgs.GetValue<double?>() ),
+            "element.fontFamily" => OnSelectedElementFontFamilyChanged( eventArgs.GetValue<string>() ),
+            "element.fontSize" => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Size = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( eventArgs.GetValue<double?>() ) ),
+            "element.fontColor" => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Color = ReportColor.FromString( eventArgs.GetValue<string>() ) ),
+            "element.horizontalAlignment" => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Alignment = eventArgs.GetValue<TextAlignment>() ),
+            "element.verticalAlignment" => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).VerticalAlignment = eventArgs.GetValue<VerticalAlignment>() ),
+            "element.bold" => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Bold = eventArgs.GetValue<bool>() ),
+            "element.italic" => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Italic = eventArgs.GetValue<bool>() ),
+            "element.underline" => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Underline = eventArgs.GetValue<bool>() ),
+            "element.lineOrientation" => OnSelectedLineOrientationChanged( eventArgs.GetValue<Orientation>() ),
+            "element.lineColor" => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = ReportColor.FromString( eventArgs.GetValue<string>() ) ),
+            "element.lineThickness" => OnSelectedLineThicknessChanged( eventArgs.GetValue<double?>() ),
+            "element.fillColor" => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).BackgroundColor = ReportColor.FromString( eventArgs.GetValue<string>() ) ),
+            "element.borderColor" => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = ReportColor.FromString( eventArgs.GetValue<string>() ) ),
+            "element.borderWidth" => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( eventArgs.GetValue<double?>() ) ),
+            "element.borderStyle" => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Style = eventArgs.GetValue<ReportBorderStyle>() ),
+            "element.cornerRadius" => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( eventArgs.GetValue<double?>() ) ),
+            "element.opacity" => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( eventArgs.GetValue<double?>() ) ),
+            _ => Task.CompletedTask,
+        };
+    }
+
+    private Task OnPropertyGridActionInvoked( PropertyGridActionEventArgs eventArgs )
+    {
+        return eventArgs.PropertyKey switch
+        {
+            "section.suppress" => OpenSelectedSectionSuppressFormula(),
+            "section.dataSource" => OpenDataSourceDialog(),
+            "section.keepTogether" => OpenSelectedSectionKeepTogetherFormula(),
+            "section.newPageBefore" => OpenSelectedSectionNewPageBeforeFormula(),
+            "section.newPageAfter" => OpenSelectedSectionNewPageAfterFormula(),
+            "element.canGrow" => OpenSelectedElementCanGrowFormula(),
+            "element.suppress" => OpenSelectedElementSuppressFormula(),
+            "element.snapToGrid" => OpenSelectedElementSnapToGridFormula(),
+            "element.format" => OpenFormatDialog(),
+            "element.imageSource" => OpenImageUploadDialog(),
+            "element.subreportDataSource" => OpenSelectedSubreportDataSourceDialog(),
+            _ => Task.CompletedTask,
+        };
+    }
+
+    private Task UpdateSelectedElementText( string value )
+        => UpdateSelectedElement( element =>
+        {
+            if ( element is ReportTextElementDefinition textElement )
+                textElement.Text = value;
+        } );
+
+    private Task UpdateSelectedElementImageSource( string value )
+        => UpdateSelectedElement( element =>
+        {
+            if ( element is ReportImageElementDefinition imageElement )
+                imageElement.Source = value;
+        } );
+
+    private Task UpdateSelectedElementImageFit( ReportImageFit value )
+        => UpdateSelectedElement( element =>
+        {
+            if ( element is ReportImageElementDefinition imageElement )
+                imageElement.Fit = value;
+        } );
+
+    private Task UpdateSelectedElementImageAltText( string value )
+        => UpdateSelectedElement( element =>
+        {
+            if ( element is ReportImageElementDefinition imageElement )
+                imageElement.Text = value;
+        } );
+
     #endregion
 
     #region Properties
+
+    private PropertyGridSchema PropertyGridSchema => propertyGridSchema ??= BuildPropertyGridSchema();
 
     private ReportElementDefinition SelectedElement => SelectedElements is { Count: > 0 } ? SelectedElements[0] : null;
 

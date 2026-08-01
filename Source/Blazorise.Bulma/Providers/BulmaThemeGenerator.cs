@@ -500,51 +500,97 @@ public class BulmaThemeGenerator : ThemeGenerator
                 .AppendLine( "}" );
         }
 
-        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+        if ( !string.IsNullOrEmpty( theme.BodyOptions?.BackgroundColor ) )
         {
             sb
-                .Append( ".flatpickr-months .flatpickr-month:hover svg," )
-                .Append( ".flatpickr-months .flatpickr-next-month:hover svg," )
-                .Append( ".flatpickr-months .flatpickr-prev-month:hover svg" )
+                .Append( ".datepicker .datepicker-calendar.box, .timepicker .timepicker-menu.box" )
                 .Append( "{" )
-                .Append( $"fill: {Var( ThemeVariables.Color( "primary" ) )} !important;" )
+                .Append( $"background-color: {Var( ThemeVariables.BodyBackgroundColor )};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( theme.BodyOptions?.TextColor ) )
+        {
+            sb
+                .Append( ".datepicker .datepicker-calendar.box, .datepicker .datepicker-day, .datepicker .datepicker-month," )
+                .Append( ".timepicker .timepicker-menu.box, .timepicker .timepicker-input.input," )
+                .Append( ".timepicker .timepicker-separator.button, .timepicker .timepicker-meridiem.button," )
+                .Append( ".datepicker .datepicker-navigation.button:hover:not(:disabled)," )
+                .Append( ".datepicker .datepicker-navigation.button:focus-visible," )
+                .Append( ".timepicker .timepicker-meridiem.button:hover:not(:disabled)," )
+                .Append( ".timepicker .timepicker-meridiem.button:focus-visible, .timepicker .timepicker-meridiem.button.is-focused" )
+                .Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.BodyTextColor )};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( theme.TextColorOptions?.Muted ) )
+        {
+            sb
+                .Append( ".datepicker .datepicker-navigation.button, .datepicker .datepicker-weekday," )
+                .Append( ".datepicker .datepicker-week-number, .datepicker .datepicker-day.is-outside," )
+                .Append( ".timepicker .timepicker-input.input:disabled, .timepicker .timepicker-meridiem.button:disabled" )
+                .Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.TextColor( "muted" ) )};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+        {
+            string primary = Var( ThemeVariables.Color( "primary" ) );
+            string onPrimary = Var( ThemeVariables.ButtonYiqBackground( "primary" ) );
+            string hoverBackground = ToHex( Lighten( primary, 90f ) );
+            string rangeBackground = ToHex( Lighten( primary, 85f ) );
+            string focusShadow = ToHex( Lighten( primary, 75f ) );
+
+            sb
+                .Append( ".datepicker .datepicker-day.is-selected, .datepicker .datepicker-day.is-range-start," )
+                .Append( ".datepicker .datepicker-day.is-range-end, .datepicker .datepicker-month.is-selected," )
+                .Append( ".datepicker .datepicker-calendar[data-week-mode=\"true\"] .datepicker-week[data-week-fully-selected=\"true\"]," )
+                .Append( ".datepicker .datepicker-calendar[data-week-mode=\"true\"] .datepicker-week[data-week-selected=\"true\"] .datepicker-week-number" )
+                .Append( "{" )
+                .Append( $"background: {primary};" )
+                .Append( $"border-color: {primary};" )
+                .Append( $"color: {onPrimary} !important;" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay" ).Append( "{" )
-                .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
+                .Append( ".datepicker .datepicker-calendar[data-week-mode=\"true\"] .datepicker-week[data-week-fully-selected=\"true\"] .datepicker-day" )
+                .Append( "{" )
+                .Append( $"color: {onPrimary} !important;" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-day:hover" ).Append( "{" )
-                .Append( $"background: {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
+                .Append( ".datepicker .datepicker-navigation.button:hover:not(:disabled)," )
+                .Append( ".datepicker .datepicker-navigation.button:focus-visible," )
+                .Append( ".datepicker .datepicker-day:hover:not(:disabled):not(.is-selected):not(.is-range-start):not(.is-range-end)," )
+                .Append( ".datepicker .datepicker-month:hover:not(:disabled):not(.is-selected)," )
+                .Append( ".datepicker .datepicker-calendar[data-week-mode=\"true\"] .datepicker-week:not([data-week-selected=\"true\"]) .datepicker-week-number[data-week-hovered=\"true\"]," )
+                .Append( ".datepicker .datepicker-calendar[data-week-mode=\"true\"] .datepicker-week:not([data-week-selected=\"true\"]) .datepicker-day[data-week-hovered=\"true\"]," )
+                .Append( ".timepicker .timepicker-input.input:hover:not(:disabled), .timepicker .timepicker-input.input:focus," )
+                .Append( ".timepicker .timepicker-control.is-focused .timepicker-input.input," )
+                .Append( ".timepicker .timepicker-meridiem.button:hover:not(:disabled)," )
+                .Append( ".timepicker .timepicker-meridiem.button:focus-visible, .timepicker .timepicker-meridiem.button.is-focused" )
+                .Append( "{" )
+                .Append( $"background: {hoverBackground};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1))" ).Append( "{" )
-                .Append( $"box-shadow: -10px 0 0 {Var( ThemeVariables.Color( "primary" ) )};" )
+                .Append( ".datepicker .datepicker-day.is-in-range" )
+                .Append( "{" )
+                .Append( $"background: {rangeBackground};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-day.today" ).Append( "{" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
+                .Append( ".datepicker .datepicker-title select:focus, .datepicker .datepicker-title input:focus," )
+                .Append( ".datepicker .datepicker-day.is-focused, .datepicker .datepicker-month.is-focused" )
+                .Append( "{" )
+                .Append( $"box-shadow: 0 0 0 .125em {focusShadow};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( ".flatpickr-day.today:hover" ).Append( "{" )
-                .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".flatpickr-monthSelect-month:hover,.flatpickr-monthSelect-month:focus" ).Append( "{" )
-                .Append( $"background: {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".flatpickr-monthSelect-month.selected" ).Append( "{" )
-                .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
+                .Append( ".datepicker .datepicker-day.is-today" ).Append( "{" )
+                .Append( $"border-color: {primary};" )
                 .AppendLine( "}" );
         }
     }

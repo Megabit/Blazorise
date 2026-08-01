@@ -461,12 +461,11 @@
              Max="480"
              @bind-Value="sidebarWidth"
              Disabled="@(!barExpanded)"
-             ShowGutter
              AriaLabel="Resize navigation sidebar" />
 </Bar>
 @code {
     private bool barExpanded = true;
-    private double sidebarWidth = 230;
+    private double sidebarWidth = 270;
     private string SidebarStyle
          => FormattableString.Invariant(
              $"--b-vertical-bar-width: {sidebarWidth}px" );

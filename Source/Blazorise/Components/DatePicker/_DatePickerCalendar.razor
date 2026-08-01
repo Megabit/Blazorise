@@ -1,0 +1,357 @@
+@namespace Blazorise
+@typeparam TValue
+@using System
+@using Microsoft.AspNetCore.Components.Web
+@implements IDisposable
+
+@if ( Parent.CalendarVisible )
+{
+    @if ( !Parent.Inline )
+    {
+        <div class="@Calendar.BackdropClassNames"
+             aria-hidden="true"></div>
+    }
+
+    <div @ref="@CalendarElementRef"
+         id="@Parent.CalendarId"
+         class="@Calendar.ClassNames"
+         role="dialog"
+         aria-modal="false"
+         aria-labelledby="@($"{Parent.CalendarId}-title")"
+         aria-activedescendant="@Calendar.ActiveDescendantId"
+         data-week-mode="@(Parent.InputMode == DateInputMode.Week ? "true" : null)"
+         tabindex="-1"
+         @onkeydown="@Parent.OnCalendarKeyDownAsync"
+         @onkeydown:stopPropagation>
+        <div class="@Calendar.HeaderClassNames">
+            <Div Flex="Flex.InlineFlex">
+                @if ( Parent.InputMode != DateInputMode.Month )
+                {
+                    <button type="button"
+                            class="@Calendar.NavigationClassNames"
+                            aria-label="@Calendar.PreviousYearAriaLabel"
+                            tabindex="@Calendar.ControlTabIndex"
+                            disabled="@Parent.CalendarInteractionDisabled"
+                            @onmousedown:preventDefault
+                            @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                            @onkeydown:stopPropagation
+                            @onclick="@Parent.ShowPreviousYear">
+                        <Icon Name="@Calendar.PreviousYearIconName" aria-hidden="true" />
+                    </button>
+                }
+
+                <button type="button"
+                        class="@Calendar.NavigationClassNames"
+                        aria-label="@Calendar.PreviousPeriodAriaLabel"
+                        tabindex="@Calendar.ControlTabIndex"
+                        disabled="@Parent.CalendarInteractionDisabled"
+                        @onmousedown:preventDefault
+                        @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                        @onkeydown:stopPropagation
+                        @onclick="@Parent.ShowPreviousPeriod">
+                    <Icon Name="@Calendar.PreviousPeriodIconName" aria-hidden="true" />
+                </button>
+            </Div>
+
+            <div id="@($"{Parent.CalendarId}-title")" class="@Calendar.TitleClassNames" aria-live="polite">
+                @if ( Parent.InputMode == DateInputMode.Month )
+                {
+                    @if ( Parent.CalendarView == DatePickerCalendarView.Decade )
+                    {
+                        <span>@Calendar.Title</span>
+                    }
+                    else
+                    {
+                        <button type="button"
+                                tabindex="@Calendar.ControlTabIndex"
+                                disabled="@Parent.CalendarInteractionDisabled"
+                                @onmousedown:preventDefault
+                                @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                                @onkeydown:stopPropagation
+                                @onclick="@Parent.ShowBroaderCalendarView">
+                            @Calendar.Title
+                        </button>
+                    }
+                }
+                else
+                {
+                    <select value="@Calendar.VisibleMonthNumber"
+                            aria-label="@Calendar.MonthText"
+                            tabindex="@Calendar.ControlTabIndex"
+                            disabled="@Parent.CalendarInteractionDisabled"
+                            @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                            @onkeydown:stopPropagation
+                            @onchange="@Parent.ChangeVisibleMonth">
+                        @for ( int monthIndex = 0; monthIndex < Calendar.MonthNames.Length; monthIndex++ )
+                        {
+                            <option value="@(monthIndex + 1)">@Calendar.MonthNames[monthIndex]</option>
+                        }
+                    </select>
+                    <input type="number"
+                           min="1"
+                           max="9999"
+                           value="@Calendar.VisibleMonthYear"
+                           aria-label="@Calendar.YearText"
+                           tabindex="@Calendar.ControlTabIndex"
+                           disabled="@Parent.CalendarInteractionDisabled"
+                           @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                           @onkeydown:stopPropagation
+                           @onchange="@Parent.ChangeVisibleYear" />
+                }
+            </div>
+
+            <Div Flex="Flex.InlineFlex">
+                <button type="button"
+                        class="@Calendar.NavigationClassNames"
+                        aria-label="@Calendar.NextPeriodAriaLabel"
+                        tabindex="@Calendar.ControlTabIndex"
+                        disabled="@Parent.CalendarInteractionDisabled"
+                        @onmousedown:preventDefault
+                        @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                        @onkeydown:stopPropagation
+                        @onclick="@Parent.ShowNextPeriod">
+                    <Icon Name="@Calendar.NextPeriodIconName" aria-hidden="true" />
+                </button>
+
+                @if ( Parent.InputMode != DateInputMode.Month )
+                {
+                    <button type="button"
+                            class="@Calendar.NavigationClassNames"
+                            aria-label="@Calendar.NextYearAriaLabel"
+                            tabindex="@Calendar.ControlTabIndex"
+                            disabled="@Parent.CalendarInteractionDisabled"
+                            @onmousedown:preventDefault
+                            @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                            @onkeydown:stopPropagation
+                            @onclick="@Parent.ShowNextYear">
+                        <Icon Name="@Calendar.NextYearIconName" aria-hidden="true" />
+                    </button>
+                }
+            </Div>
+        </div>
+
+        @if ( Parent.InputMode == DateInputMode.Month && Parent.CalendarView == DatePickerCalendarView.Month )
+        {
+            <div class="@Calendar.MonthsClassNames"
+                 role="grid"
+                 aria-label="@Calendar.Label"
+                 data-calendar-view="@Calendar.ViewName">
+                @foreach ( DatePickerCalendarMonth month in Parent.BuildCalendarMonths() )
+                {
+                    <button id="@Calendar.GetMonthId( month.Date )"
+                            @key="@month.Date"
+                            type="button"
+                            role="gridcell"
+                            class="@Calendar.GetMonthClassNames( month )"
+                            aria-label="@($"{month.Name} {month.Date.Year}")"
+                            aria-selected="@month.Selected"
+                            disabled="@month.Disabled"
+                            tabindex="-1"
+                            @onmousedown:preventDefault
+                            @onclick="@(() => Parent.SelectMonthAsync( month.Date ))">
+                        @month.Name
+                    </button>
+                }
+            </div>
+        }
+        else if ( Parent.InputMode == DateInputMode.Month )
+        {
+            <div class="@Calendar.MonthsClassNames"
+                 role="grid"
+                 aria-label="@Calendar.Label"
+                 data-calendar-view="@Calendar.ViewName">
+                @foreach ( DatePickerCalendarPeriod period in ( Parent.CalendarView == DatePickerCalendarView.Year ? Parent.BuildCalendarYears() : Parent.BuildCalendarDecades() ) )
+                {
+                    <button id="@Calendar.GetPeriodId( period )"
+                            @key="@period.StartYear"
+                            type="button"
+                            role="gridcell"
+                            class="@Calendar.GetPeriodClassNames( period )"
+                            aria-label="@period.Label"
+                            aria-selected="@period.Selected"
+                            data-outside="@(period.Outside ? "true" : null)"
+                            disabled="@period.Disabled"
+                            tabindex="-1"
+                            @onmousedown:preventDefault
+                            @onclick="@(() => Parent.SelectCalendarPeriod( period ))">
+                        @period.Label
+                    </button>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="@Calendar.GridClassNames"
+                 role="grid"
+                 aria-label="@Calendar.Label">
+                <div class="@Calendar.WeekdaysClassNames" role="row">
+                    @if ( Parent.CalendarShowsWeekNumbers )
+                    {
+                        <span class="@Calendar.WeekNumberClassNames" role="columnheader">@Calendar.WeekText</span>
+                    }
+                    @foreach ( string weekday in Calendar.WeekdayNames )
+                    {
+                        <span class="@Calendar.WeekdayClassNames" role="columnheader">@weekday</span>
+                    }
+                </div>
+
+                @foreach ( DatePickerCalendarWeek week in Parent.BuildCalendarWeeks() )
+                {
+                    <div class="@Calendar.WeekClassNames"
+                         role="row"
+                         data-week-selected="@(Parent.InputMode == DateInputMode.Week && week.Selected ? "true" : null)"
+                         data-week-fully-selected="@(Parent.InputMode == DateInputMode.Week && week.FullySelected ? "true" : null)"
+                         data-week-disabled="@(Parent.InputMode == DateInputMode.Week && week.Disabled ? "true" : null)">
+                        @if ( Parent.CalendarShowsWeekNumbers )
+                        {
+                            <span class="@Calendar.WeekNumberClassNames"
+                                  role="rowheader"
+                                  aria-label="@(Parent.InputMode == DateInputMode.Week ? Calendar.GetWeekAriaLabel( week ) : null)"
+                                  data-week-hovered="@(Parent.InputMode == DateInputMode.Week && week.Hovered ? "true" : null)">@week.WeekNumber</span>
+                        }
+                        @foreach ( DatePickerCalendarDay day in week.Days )
+                        {
+                            <button id="@Calendar.GetDayId( day.Date )"
+                                    @key="@day.Date"
+                                    type="button"
+                                    role="gridcell"
+                                    class="@Calendar.GetDayClassNames( day )"
+                                    aria-label="@(Parent.InputMode == DateInputMode.Week ? Calendar.GetWeekAriaLabel( day.Date ) : Calendar.GetDateAriaLabel( day.Date ))"
+                                    aria-selected="@day.Selected"
+                                    aria-current="@(day.Today ? "date" : null)"
+                                    data-week-hovered="@(Parent.InputMode == DateInputMode.Week && day.WeekHovered ? "true" : null)"
+                                    data-week-hover-start="@(Parent.InputMode == DateInputMode.Week && day.WeekHovered && day.Date.DayOfWeek == DayOfWeek.Monday ? "true" : null)"
+                                    data-week-hover-end="@(Parent.InputMode == DateInputMode.Week && day.WeekHovered && day.Date.DayOfWeek == DayOfWeek.Sunday ? "true" : null)"
+                                    disabled="@day.Disabled"
+                                    tabindex="-1"
+                                    @onmousedown:preventDefault
+                                    @onmouseover="@(() => Parent.PreviewRange( day.Date ))"
+                                    @onmouseout="@(() => Parent.PreviewRange( null ))"
+                                    @onclick="@(() => Parent.SelectDateAsync( day.Date ))">
+                                @day.Date.Day
+                            </button>
+                        }
+                    </div>
+                }
+            </div>
+        }
+
+        @if ( Parent.InputMode == DateInputMode.DateTime )
+        {
+            <div class="@Calendar.TimeClassNames" role="group" aria-label="@Calendar.TimeText">
+                <input type="number"
+                       class="@Calendar.TimeInputClassNames"
+                       min="@(Parent.TimeAs24hr ? 0 : 1)"
+                       max="@(Parent.TimeAs24hr ? 23 : 12)"
+                       value="@Calendar.DisplayHourText"
+                       aria-label="@Calendar.HourText"
+                       tabindex="@Calendar.ControlTabIndex"
+                       disabled="@Parent.CalendarInteractionDisabled"
+                       @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                       @onkeydown:stopPropagation
+                       @onchange="@Parent.ChangeHourAsync" />
+                <span aria-hidden="true">:</span>
+                <input type="number"
+                       class="@Calendar.TimeInputClassNames"
+                       min="0"
+                       max="59"
+                       value="@Calendar.CurrentMinuteText"
+                       aria-label="@Calendar.MinuteText"
+                       tabindex="@Calendar.ControlTabIndex"
+                       disabled="@Parent.CalendarInteractionDisabled"
+                       @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                       @onkeydown:stopPropagation
+                       @onchange="@Parent.ChangeMinuteAsync" />
+                @if ( !Parent.TimeAs24hr )
+                {
+                    <button type="button"
+                            class="@Calendar.ButtonClassNames"
+                            aria-label="@Calendar.MeridiemText"
+                            tabindex="@Calendar.ControlTabIndex"
+                            disabled="@Parent.CalendarInteractionDisabled"
+                            @onmousedown:preventDefault
+                            @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                            @onkeydown:stopPropagation
+                            @onclick="@Parent.ToggleMeridiemAsync">
+                        @Calendar.MeridiemText
+                    </button>
+                }
+            </div>
+        }
+
+        @if ( Parent.ShowTodayButton || Parent.ShowClearButton )
+        {
+            <div class="@Calendar.ActionsClassNames">
+                @if ( Parent.ShowClearButton )
+                {
+                    <button type="button"
+                            class="@Calendar.ButtonClassNames"
+                            tabindex="@Calendar.ControlTabIndex"
+                            disabled="@Parent.CalendarInteractionDisabled"
+                            @onmousedown:preventDefault
+                            @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                            @onkeydown:stopPropagation
+                            @onclick="@Parent.ClearAsync">
+                        @Calendar.ClearText
+                    </button>
+                }
+                @if ( Parent.ShowTodayButton )
+                {
+                    <button type="button"
+                            class="@Calendar.ButtonClassNames"
+                            tabindex="@Calendar.ControlTabIndex"
+                            disabled="@Parent.CalendarInteractionDisabled"
+                            @onmousedown:preventDefault
+                            @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                            @onkeydown:stopPropagation
+                            @onclick="@Parent.SelectTodayAsync">
+                        @Calendar.TodayText
+                    </button>
+                }
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private bool focusApplied;
+
+    private ElementReference CalendarElementRef;
+
+    [CascadingParameter]
+    public DatePicker<TValue> Parent { get; set; }
+
+    internal DatePickerCalendarContext<TValue> Calendar => Parent.CalendarContext;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Parent.CalendarStateChanged += OnCalendarStateChanged;
+    }
+
+    private void OnCalendarStateChanged()
+        => _ = InvokeAsync( StateHasChanged );
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( Parent.CalendarVisible && !Parent.Inline )
+        {
+            if ( Parent.FocusCalendarOnOpen && !focusApplied )
+            {
+                focusApplied = true;
+                await CalendarElementRef.FocusAsync( preventScroll: true );
+            }
+            else if ( !Parent.FocusCalendarOnOpen )
+            {
+                focusApplied = false;
+            }
+        }
+        else
+        {
+            focusApplied = false;
+        }
+    }
+
+    public void Dispose()
+        => Parent.CalendarStateChanged -= OnCalendarStateChanged;
+}

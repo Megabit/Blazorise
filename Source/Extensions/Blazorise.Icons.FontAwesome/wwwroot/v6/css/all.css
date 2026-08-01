@@ -103,6 +103,7 @@
   vertical-align: -0.1875em; }
 
 .fa-fw {
+  flex: 0 0 1.25em;
   text-align: center;
   width: 1.25em; }
 

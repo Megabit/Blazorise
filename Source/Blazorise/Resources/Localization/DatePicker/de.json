@@ -43,6 +43,22 @@
     "PM": "PM",
     "RangeSeparator": " bis ",
     "Today": "Heute",
-    "Clear": "Löschen"
+    "ThisMonth": "Dieser Monat",
+    "ThisWeek": "Diese Woche",
+    "Clear": "Löschen",
+    "Month": "Monat",
+    "Year": "Jahr",
+    "Week": "KW",
+    "Time": "Zeit",
+    "Hour": "Stunde",
+    "Minute": "Minute",
+    "PreviousMonth": "Vorheriger Monat",
+    "NextMonth": "Nächster Monat",
+    "PreviousYear": "Vorheriges Jahr",
+    "NextYear": "Nächstes Jahr",
+    "PreviousDecade": "Vorheriges Jahrzehnt",
+    "NextDecade": "Nächstes Jahrzehnt",
+    "PreviousCentury": "Vorheriges Jahrhundert",
+    "NextCentury": "Nächstes Jahrhundert"
   }
 }

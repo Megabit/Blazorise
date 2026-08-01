@@ -10,11 +10,13 @@ public record Background : Enumeration<Background>, IUtilityTargeted, IFluentUti
     /// <inheritdoc/>
     public Background( string name ) : base( name )
     {
+        IsCssValue = CssColor.IsValue( name );
     }
 
     /// <inheritdoc/>
     private Background( Background parent, string name ) : base( parent, name )
     {
+        IsCssValue = false;
     }
 
     #endregion
@@ -50,6 +52,11 @@ public record Background : Enumeration<Background>, IUtilityTargeted, IFluentUti
     /// Gets or sets the utility target override.
     /// </summary>
     public UtilityTarget? UtilityTarget { get; set; }
+
+    /// <summary>
+    /// Gets whether this instance represents an explicit CSS color value.
+    /// </summary>
+    public bool IsCssValue { get; }
 
     /// <summary>
     /// Targets the utility output to the component element.

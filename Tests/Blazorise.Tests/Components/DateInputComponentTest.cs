@@ -1,5 +1,7 @@
 using System;
+using System.Threading.Tasks;
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
@@ -10,6 +12,25 @@ public class DateInputComponentTest : BunitContext
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseUtilities();
+    }
+
+    [Fact]
+    public async Task WeekModeUsesNativeWeekValue()
+    {
+        // setup
+        IRenderedComponent<DateInput<DateTime?>> comp = Render<DateInput<DateTime?>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2026, 10, 8 ) )
+            .Add( x => x.InputMode, DateInputMode.Week ) );
+
+        // validate
+        Assert.Equal( "week", comp.Find( "input" ).GetAttribute( "type" ) );
+        Assert.Equal( "2026-W41", comp.Find( "input" ).GetAttribute( "value" ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "2026-W42" } );
+
+        // validate
+        Assert.Equal( new DateTime( 2026, 10, 12 ), comp.Instance.Value );
     }
 
     [Fact]

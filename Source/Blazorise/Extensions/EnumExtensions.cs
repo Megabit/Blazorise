@@ -1,4 +1,4 @@
-﻿namespace Blazorise.Extensions;
+namespace Blazorise.Extensions;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public static class EnumExtensions
 {
@@ -68,6 +68,7 @@ public static class EnumExtensions
         {
             DateInputMode.DateTime => "datetime-local",
             DateInputMode.Month => "month",
+            DateInputMode.Week => "week",
             _ => "date",
         };
     }

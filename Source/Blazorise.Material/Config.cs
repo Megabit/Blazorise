@@ -46,6 +46,8 @@ public static class Config
         [typeof( Blazorise.CarouselSlide )] = typeof( Components.CarouselSlide ),
         [typeof( Blazorise.ColorInput )] = typeof( Components.ColorInput ),
         [typeof( Blazorise.ColorPicker )] = typeof( Components.ColorPicker ),
+        [typeof( Blazorise._DatePickerCalendar<> )] = typeof( Components._DatePickerCalendar<> ),
+        [typeof( Blazorise._TimePickerMenu<> )] = typeof( Components._TimePickerMenu<> ),
         [typeof( Blazorise.DropdownToggle )] = typeof( Components.DropdownToggle ),
         [typeof( Blazorise.Field )] = typeof( Components.Field ),
         [typeof( Blazorise.NumericPicker<> )] = typeof( Components.NumericPicker<> ),

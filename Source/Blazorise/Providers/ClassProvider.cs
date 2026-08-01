@@ -95,6 +95,42 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string DatePickerValidation( ValidationStatus validationStatus );
 
+    public abstract string DatePickerContainer( bool inline, bool open );
+
+    public abstract string DatePickerCalendar( bool inline, bool staticPicker );
+
+    public abstract string DatePickerCalendarBackdrop();
+
+    public abstract string DatePickerCalendarHeader();
+
+    public abstract string DatePickerCalendarNavigation();
+
+    public abstract string DatePickerCalendarTitle();
+
+    public abstract string DatePickerCalendarGrid();
+
+    public abstract string DatePickerCalendarWeekdays();
+
+    public abstract string DatePickerCalendarWeekday();
+
+    public abstract string DatePickerCalendarWeek();
+
+    public abstract string DatePickerCalendarWeekNumber();
+
+    public abstract string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused );
+
+    public abstract string DatePickerCalendarMonths();
+
+    public abstract string DatePickerCalendarMonth( bool selected, bool disabled, bool focused );
+
+    public abstract string DatePickerCalendarTime();
+
+    public abstract string DatePickerCalendarTimeInput();
+
+    public abstract string DatePickerCalendarActions();
+
+    public abstract string DatePickerCalendarButton();
+
     #endregion
 
     #region TimePicker
@@ -106,6 +142,22 @@ public abstract class ClassProvider : IClassProvider
     public abstract string TimePickerColor( Color color );
 
     public abstract string TimePickerValidation( ValidationStatus validationStatus );
+
+    public abstract string TimePickerContainer( bool inline, bool open );
+
+    public abstract string TimePickerMenu( bool inline, bool staticPicker );
+
+    public abstract string TimePickerBackdrop();
+
+    public abstract string TimePickerControls();
+
+    public abstract string TimePickerControl( bool focused );
+
+    public abstract string TimePickerInput();
+
+    public abstract string TimePickerSeparator();
+
+    public abstract string TimePickerMeridiem( bool postMeridiem, bool focused );
 
     #endregion
 
@@ -566,6 +618,44 @@ public abstract class ClassProvider : IClassProvider
     public virtual string ContextMenuSubmenuTriggerDisabled( bool disabled ) => null;
 
     public virtual string ContextMenuSubmenuBody() => null;
+
+    #endregion
+
+    #region PropertyGrid
+
+    public virtual string PropertyGrid() => null;
+
+    public virtual string PropertyGridViewport() => null;
+
+    public virtual string PropertyGridToolbar() => null;
+
+    public virtual string PropertyGridToolbarButton() => null;
+
+    public virtual string PropertyGridToolbarSearch() => null;
+
+    public virtual string PropertyGridEmpty() => null;
+
+    public virtual string PropertyGridHelp() => null;
+
+    public virtual string PropertyGridHelpTitle() => null;
+
+    public virtual string PropertyGridHelpDescription() => null;
+
+    public virtual string PropertyGridGroup() => null;
+
+    public virtual string PropertyGridGroupHeader() => null;
+
+    public virtual string PropertyGridGroupToggle() => null;
+
+    public virtual string PropertyGridGroupBody() => null;
+
+    public virtual string PropertyGridItem() => null;
+
+    public virtual string PropertyGridItemSelected( bool selected ) => null;
+
+    public virtual string PropertyGridItemLabel() => null;
+
+    public virtual string PropertyGridItemBody() => null;
 
     #endregion
 

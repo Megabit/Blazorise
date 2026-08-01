@@ -3931,6 +3931,556 @@ template {
   z-index: calc(var(--context-menu-zindex, 1080) + 1);
 }
 
+.ant-picker-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  anchor-name: --ant-datepicker-anchor;
+  anchor-scope: --ant-datepicker-anchor;
+}
+.ant-picker-container.ant-picker-container-open {
+  z-index: var(--ant-picker-z-index-popup);
+}
+
+.ant-picker-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--ant-picker-z-index-popup) - 1);
+  background: transparent;
+  pointer-events: none;
+}
+
+.ant-picker-dropdown.ant-picker-panel-container {
+  position: absolute;
+  inset-block-start: calc(100% + var(--ant-margin-xxs));
+  inset-inline-start: 0;
+  z-index: var(--ant-picker-z-index-popup);
+  width: max-content;
+  min-width: calc(var(--ant-picker-cell-width) * 7 + var(--ant-padding-sm) * 2);
+  max-width: calc(100vw - 1rem);
+  max-height: calc(100vh - 1rem);
+  overflow: auto;
+  padding: var(--ant-padding-xs);
+  border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border-secondary);
+  border-radius: var(--ant-border-radius-lg);
+  background: var(--ant-color-bg-elevated);
+  color: var(--ant-color-text);
+  box-shadow: var(--ant-box-shadow-secondary);
+  font-family: var(--ant-font-family);
+  font-size: var(--ant-font-size);
+  line-height: var(--ant-line-height);
+  outline: 0;
+  pointer-events: auto;
+}
+.ant-picker-dropdown.ant-picker-panel-container.ant-picker-dropdown-inline {
+  position: relative;
+  inset: auto;
+  margin-block-start: var(--ant-margin-xxs);
+  z-index: auto;
+}
+@supports (position-anchor: --ant-datepicker-anchor) and (anchor-scope: --ant-datepicker-anchor) {
+  .ant-picker-dropdown.ant-picker-panel-container.ant-picker-dropdown-floating {
+    position: fixed;
+    position-anchor: --ant-datepicker-anchor;
+    inset: auto;
+    top: anchor(bottom);
+    inset-inline-start: anchor(start);
+    margin-block-start: var(--ant-margin-xxs);
+    position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  }
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--ant-margin-xxs);
+  padding-block-end: var(--ant-padding-xxs);
+  border-block-end: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border-secondary);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-view {
+  border: 0;
+  border-radius: var(--ant-border-radius-sm);
+  background: transparent;
+  color: var(--ant-color-text-heading);
+  font-weight: var(--ant-font-weight-strong);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-view select,
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-view input {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: center;
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-view select {
+  max-width: calc(var(--ant-control-height) * 3);
+  appearance: none;
+  cursor: pointer;
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-view input {
+  width: calc(var(--ant-control-height) * 2);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-view:hover, .ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-view:focus-within {
+  background: var(--ant-picker-cell-hover-bg);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-title > button,
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-title > span {
+  padding: var(--ant-padding-xxs) var(--ant-padding-xs);
+  border: 0;
+  border-radius: var(--ant-border-radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: var(--ant-font-weight-strong);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-title > button {
+  cursor: pointer;
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-title > button:hover:not(:disabled) {
+  background: var(--ant-picker-cell-hover-bg);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-body {
+  box-sizing: border-box;
+  padding: var(--ant-padding-xs);
+  padding-block-start: 0;
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-navigation,
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-in-view,
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-month-cell {
+  cursor: pointer;
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-header-navigation:disabled,
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-in-view:disabled,
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-month-cell:disabled {
+  cursor: not-allowed;
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--ant-picker-cell-width);
+  min-height: var(--ant-control-height);
+  color: var(--ant-color-text-description);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-week-panel-row {
+  opacity: 0.65;
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-in-view {
+  padding: 0;
+  border: var(--ant-line-width) solid transparent;
+  background: transparent;
+  font: inherit;
+  border-radius: var(--ant-border-radius-sm);
+  color: var(--ant-color-text);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-in-view:hover:not(:disabled) {
+  background: var(--ant-picker-cell-hover-bg);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-outside-view {
+  color: var(--ant-color-text-disabled);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-today {
+  border-color: var(--ant-color-primary);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-in-range {
+  border-radius: 0;
+  background: var(--ant-picker-cell-active-with-range-bg);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-selected,
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-range-start,
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-range-end {
+  background: var(--ant-color-primary);
+  border-color: var(--ant-color-primary);
+  color: var(--ant-color-text-light-solid);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-range-start {
+  border-radius: 0;
+  border-start-start-radius: var(--ant-border-radius-sm);
+  border-end-start-radius: var(--ant-border-radius-sm);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-range-end {
+  border-radius: 0;
+  border-start-end-radius: var(--ant-border-radius-sm);
+  border-end-end-radius: var(--ant-border-radius-sm);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-range-start.ant-picker-cell-range-end {
+  border-radius: var(--ant-border-radius-sm);
+}
+.ant-picker-dropdown.ant-picker-panel-container[data-week-mode=true] .ant-picker-week-panel-row[data-week-hovered=true], .ant-picker-dropdown.ant-picker-panel-container[data-week-mode=true] .ant-picker-cell-in-view[data-week-hovered=true] {
+  background: var(--ant-picker-cell-hover-bg);
+}
+.ant-picker-dropdown.ant-picker-panel-container[data-week-mode=true] .ant-picker-week-panel-row[data-week-hovered=true] {
+  align-self: stretch;
+  height: auto;
+  border-radius: var(--ant-border-radius-sm);
+  opacity: 1;
+}
+.ant-picker-dropdown.ant-picker-panel-container[data-week-mode=true] .ant-picker-cell-in-view[data-week-hovered=true] {
+  justify-self: stretch;
+  width: auto;
+  border-radius: 0;
+}
+.ant-picker-dropdown.ant-picker-panel-container[data-week-mode=true] .ant-picker-cell-in-range {
+  justify-self: stretch;
+  width: auto;
+}
+.ant-picker-dropdown.ant-picker-panel-container[data-week-mode=true] .ant-picker-cell-in-view[data-week-hover-start=true] {
+  border-start-start-radius: var(--ant-border-radius-sm);
+  border-end-start-radius: var(--ant-border-radius-sm);
+}
+.ant-picker-dropdown.ant-picker-panel-container[data-week-mode=true] .ant-picker-cell-in-view[data-week-hover-end=true] {
+  border-start-end-radius: var(--ant-border-radius-sm);
+  border-end-end-radius: var(--ant-border-radius-sm);
+}
+.ant-picker-dropdown.ant-picker-panel-container[data-week-mode=true] .ant-picker-week[data-week-fully-selected=true] {
+  border-radius: var(--ant-border-radius-sm);
+  background: var(--ant-color-primary);
+}
+.ant-picker-dropdown.ant-picker-panel-container[data-week-mode=true] .ant-picker-week[data-week-selected=true] .ant-picker-week-panel-row {
+  align-self: stretch;
+  height: auto;
+  border-radius: var(--ant-border-radius-sm);
+  opacity: 1;
+  background: var(--ant-color-primary);
+  color: var(--ant-color-text-light-solid);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-focused {
+  outline: 2px solid var(--ant-color-primary);
+  outline-offset: var(--ant-line-width);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-cell-disabled {
+  color: var(--ant-color-text-disabled);
+  opacity: 0.25;
+  border-color: transparent;
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-panel,
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--ant-margin-xxs);
+  padding-block-start: var(--ant-padding-xs);
+  border-block-start: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border-secondary);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-panel {
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  min-height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-sm) * 2);
+  padding: var(--ant-padding-xs);
+  background: var(--ant-color-bg-elevated);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-panel > span {
+  flex: 0 0 var(--ant-padding-xs);
+  width: var(--ant-padding-xs);
+  color: var(--ant-color-text);
+  font-size: var(--ant-font-size);
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-panel .ant-picker-footer-button {
+  display: inline-flex;
+  flex: 0 0 var(--ant-picker-time-column-width);
+  align-items: center;
+  justify-content: center;
+  min-width: var(--ant-picker-time-column-width);
+  height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
+  margin-inline-start: var(--ant-margin-xxs);
+  padding: 0;
+  border: 0;
+  border-radius: var(--ant-border-radius-sm);
+  appearance: none;
+  background: transparent;
+  box-shadow: none;
+  color: var(--ant-color-text);
+  font-family: inherit;
+  font-size: var(--ant-font-size);
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-panel .ant-picker-footer-button:hover:not(:disabled), .ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-panel .ant-picker-footer-button:focus-visible {
+  outline: 0;
+  background: var(--ant-picker-cell-hover-bg);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-footer {
+  justify-content: space-between;
+  min-height: var(--ant-picker-text-height);
+  padding: 0 var(--ant-padding-sm);
+  background: var(--ant-color-bg-elevated);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-footer .ant-picker-footer-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--ant-control-height-sm);
+  padding: 0 var(--ant-padding-sm);
+  border: 0;
+  border-radius: var(--ant-border-radius);
+  appearance: none;
+  background: transparent;
+  box-shadow: none;
+  color: var(--ant-color-primary);
+  font-family: inherit;
+  font-size: var(--ant-font-size-sm);
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-footer .ant-picker-footer-button:hover:not(:disabled), .ant-picker-dropdown.ant-picker-panel-container .ant-picker-footer .ant-picker-footer-button:focus-visible {
+  outline: 0;
+  background: var(--ant-picker-cell-hover-bg);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-weekdays,
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: center;
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-weekdays:has(.ant-picker-week-panel-row),
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-week:has(.ant-picker-week-panel-row) {
+  grid-template-columns: var(--ant-picker-cell-width) repeat(7, minmax(0, 1fr));
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-month-panel {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(4, calc(var(--ant-control-height-lg) + var(--ant-padding-lg) + var(--ant-line-width) * 2));
+  place-items: center;
+  gap: 0;
+  padding-inline: var(--ant-padding-xs);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-month-panel[data-calendar-view=decade] .ant-picker-month-cell {
+  box-sizing: border-box;
+  width: calc(100% - var(--ant-padding-xs));
+  white-space: nowrap;
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-month-cell {
+  width: calc(var(--ant-picker-cell-width) + var(--ant-padding-lg));
+  min-height: var(--ant-picker-cell-height);
+  padding: 0 var(--ant-padding-xxs);
+  border: var(--ant-line-width) solid transparent;
+  border-radius: var(--ant-border-radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-month-cell[data-outside=true]:not(.ant-picker-cell-selected):not(.ant-picker-cell-disabled) {
+  color: var(--ant-color-text-disabled);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-month-cell:hover:not(:disabled):not(.ant-picker-cell-selected) {
+  background: var(--ant-picker-cell-hover-bg);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-month-cell.ant-picker-cell-selected {
+  border-color: var(--ant-color-primary);
+  background: var(--ant-color-primary);
+  color: var(--ant-color-text-light-solid);
+  font-weight: var(--ant-font-weight-strong);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-month-cell.ant-picker-cell-disabled {
+  border-color: transparent;
+  background: transparent;
+  color: var(--ant-color-text-disabled);
+  opacity: 0.25;
+}
+.ant-picker-dropdown.ant-picker-panel-container:has(> .ant-picker-month-panel) {
+  padding: 0;
+}
+.ant-picker-dropdown.ant-picker-panel-container:has(> .ant-picker-month-panel) .ant-picker-header {
+  min-height: var(--ant-control-height-lg);
+  padding-inline: var(--ant-padding-xs);
+  padding-block-end: 0;
+}
+.ant-picker-dropdown.ant-picker-panel-container:has(> .ant-picker-month-panel) .ant-picker-header-navigation {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ant-control-height-sm);
+  height: var(--ant-control-height-sm);
+  padding: 0;
+  color: var(--ant-color-text-tertiary);
+  font-size: var(--ant-font-size-sm);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-input {
+  box-sizing: border-box;
+  flex: 1 1 var(--ant-picker-time-column-width);
+  width: var(--ant-picker-time-column-width);
+  min-width: 0;
+  height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--ant-border-radius-sm);
+  outline: 0;
+  background: transparent;
+  color: var(--ant-color-text);
+  font-family: inherit;
+  font-size: var(--ant-font-size);
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-input:hover, .ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-input:focus {
+  background: var(--ant-picker-cell-hover-bg);
+}
+
+.ant-time-picker-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  anchor-name: --ant-timepicker-anchor;
+  anchor-scope: --ant-timepicker-anchor;
+}
+.ant-time-picker-container.ant-time-picker-container-open {
+  z-index: var(--ant-picker-z-index-popup);
+}
+
+.ant-time-picker-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--ant-picker-z-index-popup) - 1);
+  background: transparent;
+  pointer-events: none;
+}
+
+.ant-time-picker-dropdown.ant-picker-panel-container {
+  position: absolute;
+  inset-block-start: calc(100% + var(--ant-margin-xxs));
+  inset-inline-start: 0;
+  z-index: var(--ant-picker-z-index-popup);
+  width: auto;
+  min-width: calc(var(--ant-picker-time-column-width) * 3 + var(--ant-padding-xs) * 5);
+  max-width: calc(100vw - 1rem);
+  padding: var(--ant-padding-xs);
+  border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border-secondary);
+  border-radius: var(--ant-border-radius-lg);
+  color: var(--ant-color-text);
+  background: var(--ant-color-bg-elevated);
+  box-shadow: var(--ant-box-shadow-secondary);
+  outline: 0;
+  pointer-events: auto;
+}
+.ant-time-picker-dropdown.ant-picker-panel-container.ant-time-picker-dropdown-inline {
+  position: relative;
+  inset: auto;
+  margin-block-start: var(--ant-margin-xxs);
+  z-index: auto;
+}
+
+@supports (position-anchor: --ant-timepicker-anchor) and (anchor-scope: --ant-timepicker-anchor) {
+  .ant-time-picker-dropdown.ant-picker-panel-container.ant-time-picker-dropdown-floating {
+    position: fixed;
+    position-anchor: --ant-timepicker-anchor;
+    inset: auto;
+    top: anchor(bottom);
+    inset-inline-start: anchor(start);
+    margin-block-start: var(--ant-margin-xxs);
+    position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  }
+}
+.ant-time-picker-panel {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--ant-margin-xxs);
+  min-height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
+  font-family: var(--ant-font-family);
+  font-size: var(--ant-font-size);
+  line-height: 1;
+}
+
+.ant-time-picker-column {
+  display: flex;
+  flex: 0 0 var(--ant-picker-time-column-width);
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: var(--ant-picker-time-column-width);
+  height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
+  border-radius: var(--ant-border-radius-sm);
+  background: transparent;
+  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+}
+.ant-time-picker-column:hover, .ant-time-picker-column:focus-within, .ant-time-picker-column.ant-time-picker-column-focused {
+  background: var(--ant-picker-cell-hover-bg);
+}
+
+.ant-time-picker-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  outline: 0;
+  appearance: auto;
+  color: var(--ant-color-text);
+  background: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+}
+.ant-time-picker-input::-webkit-inner-spin-button, .ant-time-picker-input::-webkit-outer-spin-button {
+  height: auto;
+  opacity: 1;
+  cursor: pointer;
+}
+.ant-time-picker-input:disabled {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.ant-time-picker-separator {
+  flex: 0 0 var(--ant-padding-xs);
+  width: var(--ant-padding-xs);
+  color: var(--ant-color-text);
+  font-size: var(--ant-font-size);
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+}
+
+.ant-time-picker-meridiem {
+  display: inline-flex;
+  flex: 0 0 var(--ant-picker-time-column-width);
+  align-items: center;
+  justify-content: center;
+  min-width: var(--ant-picker-time-column-width);
+  height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
+  margin-inline-start: var(--ant-margin-xxs);
+  padding: 0;
+  border: 0;
+  border-radius: var(--ant-border-radius-sm);
+  appearance: none;
+  background: transparent;
+  box-shadow: none;
+  color: var(--ant-color-text);
+  font-family: inherit;
+  font-size: var(--ant-font-size);
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+}
+.ant-time-picker-meridiem:hover:not(:disabled), .ant-time-picker-meridiem:focus-visible, .ant-time-picker-meridiem.ant-time-picker-column-focused {
+  outline: 0;
+  background: var(--ant-picker-cell-hover-bg);
+}
+.ant-time-picker-meridiem:disabled {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
+}
+
 .ant-divider {
   margin: var(--ant-margin-lg) 0;
   border: 0;
@@ -4903,53 +5453,77 @@ template {
   border-color: var(--b-theme-warning, var(--ant-color-warning));
 }
 
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback,
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain[role=status],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain[role=alert],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback,
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=alert],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback + .ant-form-item-explain[role=status],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback + .ant-form-item-explain[role=alert],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=status],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=alert],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain[role=status] + .ant-form-item-explain[role=alert],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status] + .ant-form-item-explain[role=alert] {
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback,
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain[role=status],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain[role=alert],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback,
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=alert],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback + .ant-form-item-explain[role=status],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback + .ant-form-item-explain[role=alert],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=status],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=alert],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain[role=status] + .ant-form-item-explain[role=alert],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status] + .ant-form-item-explain[role=alert] {
   display: none;
 }
 
-:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain-none {
+:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain-none {
   display: none;
 }
 
-:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .valid-feedback,
-:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain:not([role]) + .valid-feedback {
+:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .valid-feedback,
+:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain:not([role]) + .valid-feedback {
   display: block;
   color: var(--b-theme-success, var(--ant-color-success));
 }
 
-:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain-none {
+:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain-none {
   display: none;
 }
 
-:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain[role=status],
-:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status],
-:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .valid-feedback + .ant-form-item-explain[role=status],
-:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=status] {
+:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain[role=status],
+:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status],
+:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .valid-feedback + .ant-form-item-explain[role=status],
+:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=status] {
   display: block;
   color: var(--b-theme-warning, var(--ant-color-warning));
 }
 
-:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain-none {
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain-none {
   display: none;
 }
 
-:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain[role=alert],
-:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=alert],
-:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .valid-feedback + .ant-form-item-explain[role=alert],
-:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=alert],
-:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain[role=status] + .ant-form-item-explain[role=alert],
-:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status] + .ant-form-item-explain[role=alert] {
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain[role=alert],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=alert],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .valid-feedback + .ant-form-item-explain[role=alert],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=alert],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain[role=status] + .ant-form-item-explain[role=alert],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status] + .ant-form-item-explain[role=alert] {
+  display: block;
+}
+
+:is(.ant-picker-container, .ant-time-picker-container) + .valid-feedback, :is(.ant-picker-container, .ant-time-picker-container) + .ant-form-item-explain[role=status], :is(.ant-picker-container, .ant-time-picker-container) + .ant-form-item-explain[role=alert], :is(.ant-picker-container, .ant-time-picker-container) + .ant-form-item-explain:not([role]) + .valid-feedback, :is(.ant-picker-container, .ant-time-picker-container) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status], :is(.ant-picker-container, .ant-time-picker-container) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=alert], :is(.ant-picker-container, .ant-time-picker-container) + .valid-feedback + .ant-form-item-explain[role=status], :is(.ant-picker-container, .ant-time-picker-container) + .valid-feedback + .ant-form-item-explain[role=alert], :is(.ant-picker-container, .ant-time-picker-container) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=status], :is(.ant-picker-container, .ant-time-picker-container) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=alert], :is(.ant-picker-container, .ant-time-picker-container) + .ant-form-item-explain[role=status] + .ant-form-item-explain[role=alert], :is(.ant-picker-container, .ant-time-picker-container) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status] + .ant-form-item-explain[role=alert] {
+  display: none;
+}
+:is(.ant-picker-container, .ant-time-picker-container):has(> .ant-picker-status-success) + .ant-form-item-explain-none {
+  display: none;
+}
+:is(.ant-picker-container, .ant-time-picker-container):has(> .ant-picker-status-success) + .valid-feedback, :is(.ant-picker-container, .ant-time-picker-container):has(> .ant-picker-status-success) + .ant-form-item-explain:not([role]) + .valid-feedback {
+  display: block;
+  color: var(--b-theme-success, var(--ant-color-success));
+}
+:is(.ant-picker-container, .ant-time-picker-container):has(> .ant-picker-status-warning) + .ant-form-item-explain-none {
+  display: none;
+}
+:is(.ant-picker-container, .ant-time-picker-container):has(> .ant-picker-status-warning) + .ant-form-item-explain[role=status], :is(.ant-picker-container, .ant-time-picker-container):has(> .ant-picker-status-warning) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status], :is(.ant-picker-container, .ant-time-picker-container):has(> .ant-picker-status-warning) + .valid-feedback + .ant-form-item-explain[role=status], :is(.ant-picker-container, .ant-time-picker-container):has(> .ant-picker-status-warning) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=status] {
+  display: block;
+  color: var(--b-theme-warning, var(--ant-color-warning));
+}
+:is(.ant-picker-container, .ant-time-picker-container):has(> .ant-picker-status-error) + .ant-form-item-explain-none {
+  display: none;
+}
+:is(.ant-picker-container, .ant-time-picker-container):has(> .ant-picker-status-error) + .ant-form-item-explain[role=alert], :is(.ant-picker-container, .ant-time-picker-container):has(> .ant-picker-status-error) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=alert], :is(.ant-picker-container, .ant-time-picker-container):has(> .ant-picker-status-error) + .valid-feedback + .ant-form-item-explain[role=alert], :is(.ant-picker-container, .ant-time-picker-container):has(> .ant-picker-status-error) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=alert], :is(.ant-picker-container, .ant-time-picker-container):has(> .ant-picker-status-error) + .ant-form-item-explain[role=status] + .ant-form-item-explain[role=alert], :is(.ant-picker-container, .ant-time-picker-container):has(> .ant-picker-status-error) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status] + .ant-form-item-explain[role=alert] {
   display: block;
 }
 
@@ -5406,18 +5980,7 @@ template {
   align-items: center;
   min-width: 0;
 }
-.ant-picker .ant-picker-input > .flatpickr-wrapper {
-  display: inline-flex;
-  flex: auto;
-  align-items: center;
-  width: 100%;
-  min-width: 0;
-}
-.ant-picker .ant-picker-input > .flatpickr-wrapper > input[type=hidden] {
-  display: none;
-}
-.ant-picker .ant-picker-input > input:not([type=hidden]),
-.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden]) {
+.ant-picker .ant-picker-input > input:not([type=hidden]) {
   width: 100%;
   padding: 0;
   color: inherit;
@@ -5432,29 +5995,15 @@ template {
   appearance: none;
   -webkit-appearance: none;
 }
-.ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-calendar-picker-indicator,
-.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-calendar-picker-indicator {
+.ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
 }
-.ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-clear-button, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-inner-spin-button,
-.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-clear-button,
-.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-inner-spin-button {
+.ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-clear-button, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-inner-spin-button {
   display: none;
   -webkit-appearance: none;
 }
-.ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-date-and-time-value, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-fields-wrapper, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-text, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-month-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-day-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-year-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-hour-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-minute-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-second-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-ampm-field,
-.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-date-and-time-value,
-.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit,
-.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-fields-wrapper,
-.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-text,
-.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-month-field,
-.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-day-field,
-.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-year-field,
-.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-hour-field,
-.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-minute-field,
-.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-second-field,
-.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-ampm-field {
+.ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-date-and-time-value, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-fields-wrapper, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-text, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-month-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-day-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-year-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-hour-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-minute-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-second-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-ampm-field {
   padding: 0;
   line-height: inherit;
 }
@@ -5480,9 +6029,7 @@ template {
   background: var(--ant-color-bg-container-disabled);
   cursor: not-allowed;
 }
-.ant-picker.ant-picker-disabled .ant-picker-input > .flatpickr-wrapper,
 .ant-picker.ant-picker-disabled .ant-picker-input > input:not([type=hidden]),
-.ant-picker.ant-picker-disabled .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden]),
 .ant-picker.ant-picker-disabled .ant-picker-suffix {
   cursor: not-allowed;
 }
@@ -5493,8 +6040,7 @@ template {
   font-size: 10px;
 }
 
-.ant-picker-xs .ant-picker-input > input:not([type=hidden]),
-.ant-picker-xs .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden]) {
+.ant-picker-xs .ant-picker-input > input:not([type=hidden]) {
   font-size: 10px;
 }
 
@@ -5504,8 +6050,7 @@ template {
   font-size: 14px;
 }
 
-.ant-picker-md .ant-picker-input > input:not([type=hidden]),
-.ant-picker-md .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden]) {
+.ant-picker-md .ant-picker-input > input:not([type=hidden]) {
   font-size: 14px;
 }
 
@@ -5515,8 +6060,7 @@ template {
   font-size: 18px;
 }
 
-.ant-picker-xl .ant-picker-input > input:not([type=hidden]),
-.ant-picker-xl .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden]) {
+.ant-picker-xl .ant-picker-input > input:not([type=hidden]) {
   font-size: 18px;
 }
 
@@ -7170,6 +7714,144 @@ a.ant-typography-disabled[aria-disabled=true] {
 .ant-pagination > li.ant-pagination-item-active.ant-pagination-disabled > .b-ant-pagination-link {
   color: var(--ant-pagination-item-active-color-disabled);
   background-color: var(--ant-pagination-item-active-bg-disabled);
+}
+
+.ant-property-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ant-padding-xs);
+  max-height: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.ant-property-grid-viewport {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--ant-padding-sm);
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.ant-property-grid-toolbar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--ant-padding-xs);
+  min-width: 0;
+}
+
+.ant-property-grid-toolbar-button {
+  flex: 0 0 auto;
+}
+
+.ant-property-grid-toolbar-search {
+  flex: 1 1 calc(var(--ant-size-unit) * 64);
+  min-width: calc(var(--ant-size-unit) * 40);
+  max-width: calc(var(--ant-size-unit) * 88);
+  margin-inline-start: auto;
+}
+
+.ant-property-grid-empty {
+  padding: var(--ant-padding-sm);
+  color: var(--ant-color-text-secondary);
+  font-size: var(--ant-font-size-sm);
+}
+
+.ant-property-grid-help {
+  flex: 0 0 auto;
+  padding: var(--ant-padding-xs) var(--ant-padding-sm);
+  border-top: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border-secondary);
+}
+
+.ant-property-grid-help-title {
+  font-size: var(--ant-font-size);
+  font-weight: var(--ant-font-weight-strong);
+}
+
+.ant-property-grid-help-description {
+  margin-top: var(--ant-margin-xxs);
+  color: var(--ant-color-text-secondary);
+  font-size: var(--ant-font-size-sm);
+}
+
+.ant-property-grid-group,
+.ant-property-grid-group-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ant-padding-xxs);
+  min-width: 0;
+}
+
+.ant-property-grid-group-header {
+  font-size: var(--ant-font-size);
+  font-weight: var(--ant-font-weight-strong);
+}
+
+.ant-property-grid-group-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--ant-margin-xxs);
+  width: 100%;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  font-weight: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.ant-property-grid-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: var(--ant-padding-xxs);
+  align-items: center;
+  min-width: 0;
+}
+
+.ant-property-grid-item-selected {
+  background: var(--ant-control-item-bg-active);
+}
+
+.ant-property-grid-item:focus-visible {
+  outline: var(--ant-line-width) solid var(--ant-color-primary);
+  outline-offset: var(--ant-line-width);
+}
+
+.ant-property-grid-item-label {
+  min-width: 0;
+  padding-inline-end: var(--ant-padding-xxs);
+  overflow: hidden;
+  font-size: var(--ant-font-size);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ant-property-grid-item-body {
+  min-width: 0;
+}
+.ant-property-grid-item-body > * {
+  width: 100%;
+  min-width: 0;
+}
+.ant-property-grid-item-body > .b-ant-select-root > .ant-select {
+  width: 100%;
+  min-width: 0;
+}
+
+.ant-property-grid-item[data-property-grid-editor=color] .ant-color-picker-trigger-text {
+  display: none;
+}
+.ant-property-grid-item[data-property-grid-editor=color] .b-ant-addons > .ant-input-wrapper.ant-input-group > .b-input-color-picker.ant-color-picker-trigger {
+  flex: none;
+  width: auto;
+  min-width: auto;
 }
 
 .ant-progress {
@@ -9783,15 +10465,6 @@ body .b-report {
   --b-report-zindex-toolbar: 20;
   --b-report-zindex-menu: var(--ant-dropdown-z-index-popup);
   --b-report-zindex-modal-layer: var(--ant-dropdown-z-index-popup);
-}
-
-.b-report-designer-color-property .ant-color-picker-trigger-text {
-  display: none;
-}
-.b-report-designer-color-property .b-ant-addons > .ant-input-wrapper.ant-input-group > .b-input-color-picker.ant-color-picker-trigger {
-  flex: none;
-  width: auto;
-  min-width: auto;
 }
 
 @keyframes fadeIn {
@@ -18281,376 +18954,4 @@ ol.ant-ordered-list-upper-roman {
 
 .ant-invisible {
   visibility: hidden !important;
-}
-
-.flatpickr-calendar {
-  --b-ant-flatpickr-bg: var(--ant-color-bg-elevated);
-  --b-ant-flatpickr-bg-muted: var(--ant-color-fill-quaternary);
-  --b-ant-flatpickr-color: var(--ant-color-text);
-  --b-ant-flatpickr-color-muted: var(--ant-color-text-description);
-  --b-ant-flatpickr-border: var(--ant-color-border-secondary);
-  --b-ant-flatpickr-hover-bg: var(--ant-picker-cell-hover-bg);
-  --b-ant-flatpickr-range-bg: var(--ant-picker-cell-active-with-range-bg);
-  --b-ant-flatpickr-range-hover-bg: var(--ant-picker-cell-hover-with-range-bg);
-  --b-ant-flatpickr-range-border: var(--ant-picker-cell-range-border-color);
-  --b-ant-flatpickr-selected-bg: var(--ant-color-primary);
-  --b-ant-flatpickr-selected-hover-bg: var(--ant-color-primary-hover);
-  --b-ant-flatpickr-selected-color: var(--ant-color-text-light-solid);
-  z-index: var(--ant-picker-z-index-popup);
-  border: var(--ant-line-width) var(--ant-line-type) var(--b-ant-flatpickr-border);
-  border-radius: var(--ant-border-radius-lg);
-  background: var(--b-ant-flatpickr-bg);
-  color: var(--b-ant-flatpickr-color);
-  box-shadow: var(--ant-box-shadow-secondary);
-  font-family: var(--ant-font-family);
-  font-size: var(--ant-font-size);
-  line-height: var(--ant-line-height);
-  width: calc(var(--ant-picker-cell-width) * 7 + var(--ant-padding-sm) * 2);
-  overflow: hidden;
-}
-.flatpickr-calendar:before, .flatpickr-calendar:after {
-  display: none;
-}
-
-.flatpickr-months {
-  padding: 0 var(--ant-padding-xs);
-}
-.flatpickr-months .flatpickr-month,
-.flatpickr-months .flatpickr-prev-month,
-.flatpickr-months .flatpickr-next-month {
-  color: inherit;
-  fill: currentColor;
-}
-.flatpickr-months .flatpickr-month {
-  background: transparent;
-  height: var(--ant-picker-text-height);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.flatpickr-months .flatpickr-prev-month,
-.flatpickr-months .flatpickr-next-month {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--ant-size-lg);
-  height: var(--ant-size-lg);
-  margin: 0;
-  border-radius: var(--ant-border-radius-sm);
-  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
-}
-.flatpickr-months .flatpickr-prev-month:hover,
-.flatpickr-months .flatpickr-next-month:hover {
-  background: var(--b-ant-flatpickr-hover-bg);
-  color: inherit;
-}
-.flatpickr-months .flatpickr-prev-month.flatpickr-disabled,
-.flatpickr-months .flatpickr-next-month.flatpickr-disabled {
-  color: var(--ant-color-text-disabled);
-}
-.flatpickr-months .flatpickr-prev-month svg,
-.flatpickr-months .flatpickr-next-month svg {
-  width: calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2);
-  height: calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2);
-}
-.flatpickr-months .flatpickr-prev-month svg path,
-.flatpickr-months .flatpickr-next-month svg path {
-  fill: currentColor;
-}
-
-.flatpickr-current-month {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--ant-margin-xxs);
-  height: var(--ant-picker-text-height);
-  padding: 0;
-  color: inherit;
-  font-size: var(--ant-font-size);
-  line-height: var(--ant-line-height);
-  font-weight: var(--ant-font-weight-strong);
-  color: var(--ant-color-text-heading);
-}
-.flatpickr-current-month span.cur-month {
-  border-radius: var(--ant-border-radius-sm);
-  font-weight: inherit;
-  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
-}
-.flatpickr-current-month span.cur-month:hover {
-  background: var(--b-ant-flatpickr-hover-bg);
-}
-.flatpickr-current-month .flatpickr-monthDropdown-months,
-.flatpickr-current-month .numInputWrapper,
-.flatpickr-current-month input.cur-year {
-  color: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-}
-.flatpickr-current-month .flatpickr-monthDropdown-months {
-  border: 0;
-  outline: 0;
-  background: transparent;
-  appearance: none;
-  border-radius: var(--ant-border-radius-sm);
-  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
-}
-.flatpickr-current-month .flatpickr-monthDropdown-months:hover, .flatpickr-current-month .flatpickr-monthDropdown-months:focus {
-  background: var(--b-ant-flatpickr-hover-bg);
-}
-.flatpickr-current-month .numInputWrapper {
-  width: auto;
-  min-width: 3ch;
-  border-radius: var(--ant-border-radius-sm);
-  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
-}
-.flatpickr-current-month .numInputWrapper:hover, .flatpickr-current-month .numInputWrapper:focus-within {
-  background: var(--b-ant-flatpickr-hover-bg);
-}
-.flatpickr-current-month .numInputWrapper span.arrowUp,
-.flatpickr-current-month .numInputWrapper span.arrowDown {
-  display: none;
-}
-.flatpickr-current-month input.cur-year {
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-}
-
-.flatpickr-weekdays {
-  padding: var(--ant-padding-xxs) var(--ant-padding-xs) 0;
-  box-sizing: border-box;
-  width: 100%;
-}
-
-span.flatpickr-weekday {
-  color: var(--b-ant-flatpickr-color-muted);
-  font-size: var(--ant-font-size-sm);
-  font-weight: var(--ant-font-weight-strong);
-  line-height: var(--ant-control-height);
-  text-align: center;
-}
-
-.flatpickr-days {
-  padding: 0 var(--ant-padding-xs) var(--ant-padding-xs);
-  box-sizing: border-box;
-  width: 100%;
-}
-
-.dayContainer {
-  gap: 0;
-  width: calc(var(--ant-picker-cell-width) * 7);
-  min-width: calc(var(--ant-picker-cell-width) * 7);
-  max-width: calc(var(--ant-picker-cell-width) * 7);
-}
-
-.flatpickr-day {
-  border: var(--ant-line-width) solid transparent;
-  border-radius: var(--ant-border-radius-sm);
-  color: var(--b-ant-flatpickr-color);
-  font-size: var(--ant-font-size);
-  font-weight: 400;
-  width: var(--ant-picker-cell-width);
-  max-width: var(--ant-picker-cell-width);
-  height: var(--ant-control-height);
-  line-height: calc(var(--ant-control-height) - var(--ant-line-width) * 2);
-  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), border-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
-}
-.flatpickr-day.today {
-  border-color: var(--ant-color-primary);
-}
-.flatpickr-day:hover, .flatpickr-day:focus {
-  background: var(--b-ant-flatpickr-hover-bg);
-  border-color: transparent;
-}
-.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay {
-  background: var(--b-ant-flatpickr-selected-bg);
-  border-color: var(--b-ant-flatpickr-selected-bg);
-  color: var(--b-ant-flatpickr-selected-color);
-}
-.flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover {
-  background: var(--b-ant-flatpickr-selected-hover-bg);
-  border-color: var(--b-ant-flatpickr-selected-hover-bg);
-}
-.flatpickr-day.inRange, .flatpickr-day.prevMonthDay.inRange, .flatpickr-day.nextMonthDay.inRange, .flatpickr-day.today.inRange {
-  border-radius: 0;
-  background: var(--b-ant-flatpickr-range-bg);
-  border-color: var(--b-ant-flatpickr-range-bg);
-  color: var(--b-ant-flatpickr-color);
-  box-shadow: none;
-}
-.flatpickr-day.inRange:hover, .flatpickr-day.prevMonthDay.inRange:hover, .flatpickr-day.nextMonthDay.inRange:hover, .flatpickr-day.today.inRange:hover {
-  background: var(--b-ant-flatpickr-range-hover-bg);
-  border-color: var(--b-ant-flatpickr-range-hover-bg);
-}
-.flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1)) {
-  box-shadow: calc(var(--ant-picker-cell-width) / -2) 0 0 var(--b-ant-flatpickr-range-bg);
-}
-.flatpickr-day.selected.startRange, .flatpickr-day.startRange.startRange, .flatpickr-day.endRange.startRange, .flatpickr-day.selected.endRange, .flatpickr-day.startRange.endRange, .flatpickr-day.endRange.endRange {
-  border-radius: var(--ant-border-radius-sm);
-}
-.flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay {
-  color: var(--ant-color-text-disabled);
-}
-.flatpickr-day.flatpickr-disabled, .flatpickr-day.flatpickr-disabled:hover, .flatpickr-day.notAllowed, .flatpickr-day.notAllowed.prevMonthDay, .flatpickr-day.notAllowed.nextMonthDay {
-  color: var(--ant-color-text-disabled);
-  background: transparent;
-  border-color: transparent;
-  opacity: 1;
-}
-
-.flatpickr-time {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: var(--ant-margin-xxs);
-  border-top: var(--ant-line-width) var(--ant-line-type) var(--b-ant-flatpickr-border);
-  background: var(--b-ant-flatpickr-bg);
-  height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-sm) * 2);
-  padding: var(--ant-padding-xs);
-}
-.flatpickr-time:after {
-  display: none;
-}
-.flatpickr-time .numInputWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: var(--ant-picker-time-column-width);
-  height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
-  border-radius: var(--ant-border-radius-sm);
-  background: transparent;
-  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
-}
-.flatpickr-time .numInputWrapper:hover, .flatpickr-time .numInputWrapper:focus-within {
-  background: var(--b-ant-flatpickr-hover-bg);
-}
-.flatpickr-time .numInputWrapper span.arrowUp,
-.flatpickr-time .numInputWrapper span.arrowDown {
-  position: absolute;
-  right: 2px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--ant-font-size);
-  height: calc(50% - 2px);
-  border: 0;
-  padding: 0;
-  margin: 0;
-  border-radius: var(--ant-border-radius-sm);
-  cursor: pointer;
-  color: var(--b-ant-flatpickr-color-muted);
-  background: transparent;
-  opacity: 1;
-  transition: background-color var(--ant-motion-duration-fast) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-fast) var(--ant-motion-ease-in-out);
-}
-.flatpickr-time .numInputWrapper span.arrowUp {
-  top: 1px;
-}
-.flatpickr-time .numInputWrapper span.arrowDown {
-  bottom: 1px;
-}
-.flatpickr-time .numInputWrapper span.arrowUp::after,
-.flatpickr-time .numInputWrapper span.arrowDown::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-inline-start: 3px solid transparent;
-  border-inline-end: 3px solid transparent;
-}
-.flatpickr-time .numInputWrapper span.arrowUp::after {
-  border-block-end: 4px solid currentColor;
-}
-.flatpickr-time .numInputWrapper span.arrowDown::after {
-  border-block-start: 4px solid currentColor;
-}
-.flatpickr-time .numInputWrapper span.arrowUp:hover,
-.flatpickr-time .numInputWrapper span.arrowDown:hover {
-  background: var(--b-ant-flatpickr-hover-bg);
-  color: var(--b-ant-flatpickr-color);
-}
-.flatpickr-time input,
-.flatpickr-time .flatpickr-am-pm,
-.flatpickr-time .flatpickr-time-separator {
-  color: var(--b-ant-flatpickr-color);
-  font-size: var(--ant-font-size);
-  font-weight: 400;
-  line-height: 1;
-}
-.flatpickr-time input {
-  border: 0;
-  background: transparent;
-}
-.flatpickr-time .flatpickr-time-separator {
-  width: var(--ant-padding-xs);
-  text-align: center;
-}
-.flatpickr-time .flatpickr-am-pm {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: var(--ant-picker-time-column-width);
-  height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
-  margin-inline-start: var(--ant-margin-xxs);
-  border-radius: var(--ant-border-radius-sm);
-  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
-  cursor: pointer;
-}
-.flatpickr-time .flatpickr-am-pm:hover, .flatpickr-time .flatpickr-am-pm:focus {
-  background: var(--b-ant-flatpickr-hover-bg);
-}
-
-.flatpickr-calendar.noCalendar.hasTime {
-  width: auto;
-  min-width: calc(var(--ant-picker-time-column-width) * 3 + var(--ant-padding-xs) * 5);
-  padding: var(--ant-padding-xs);
-  border-radius: var(--ant-border-radius-lg);
-}
-.flatpickr-calendar.noCalendar.hasTime .flatpickr-time {
-  border-top: 0;
-  padding: 0;
-}
-
-.flatpickr-monthSelect-month {
-  border-radius: var(--ant-border-radius-sm);
-  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
-}
-.flatpickr-monthSelect-month:hover, .flatpickr-monthSelect-month:focus {
-  background: var(--b-ant-flatpickr-hover-bg);
-}
-.flatpickr-monthSelect-month.selected {
-  background: var(--b-ant-flatpickr-selected-bg);
-  color: var(--b-ant-flatpickr-selected-color);
-}
-
-.flatpickr-footer-buttons {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--ant-margin-xxs);
-  border-top: var(--ant-line-width) var(--ant-line-type) var(--b-ant-flatpickr-border);
-  min-height: var(--ant-picker-text-height);
-  padding: 0 var(--ant-padding-sm);
-  background: var(--b-ant-flatpickr-bg);
-}
-
-.flatpickr-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: var(--ant-control-height-sm);
-  padding: 0 var(--ant-padding-sm);
-  border: 0;
-  border-radius: var(--ant-border-radius);
-  background: transparent;
-  color: var(--ant-color-primary);
-  font-size: var(--ant-font-size-sm);
-  font-weight: 400;
-  line-height: 1;
-  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
-  cursor: pointer;
-}
-.flatpickr-button:hover {
-  background: var(--b-ant-flatpickr-hover-bg);
 }

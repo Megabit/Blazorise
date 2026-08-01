@@ -97,6 +97,42 @@ class EmptyClassProvider : IClassProvider
 
     public string DatePickerValidation( ValidationStatus validationStatus ) => null;
 
+    public string DatePickerContainer( bool inline, bool open ) => null;
+
+    public string DatePickerCalendar( bool inline, bool staticPicker ) => null;
+
+    public string DatePickerCalendarBackdrop() => null;
+
+    public string DatePickerCalendarHeader() => null;
+
+    public string DatePickerCalendarNavigation() => null;
+
+    public string DatePickerCalendarTitle() => null;
+
+    public string DatePickerCalendarGrid() => null;
+
+    public string DatePickerCalendarWeekdays() => null;
+
+    public string DatePickerCalendarWeekday() => null;
+
+    public string DatePickerCalendarWeek() => null;
+
+    public string DatePickerCalendarWeekNumber() => null;
+
+    public string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused ) => null;
+
+    public string DatePickerCalendarMonths() => null;
+
+    public string DatePickerCalendarMonth( bool selected, bool disabled, bool focused ) => null;
+
+    public string DatePickerCalendarTime() => null;
+
+    public string DatePickerCalendarTimeInput() => null;
+
+    public string DatePickerCalendarActions() => null;
+
+    public string DatePickerCalendarButton() => null;
+
     #endregion
 
     #region TimePicker
@@ -108,6 +144,22 @@ class EmptyClassProvider : IClassProvider
     public string TimePickerColor( Color color ) => null;
 
     public string TimePickerValidation( ValidationStatus validationStatus ) => null;
+
+    public string TimePickerContainer( bool inline, bool open ) => null;
+
+    public string TimePickerMenu( bool inline, bool staticPicker ) => null;
+
+    public string TimePickerBackdrop() => null;
+
+    public string TimePickerControls() => null;
+
+    public string TimePickerControl( bool focused ) => null;
+
+    public string TimePickerInput() => null;
+
+    public string TimePickerSeparator() => null;
+
+    public string TimePickerMeridiem( bool postMeridiem, bool focused ) => null;
 
     #endregion
 
@@ -568,6 +620,44 @@ class EmptyClassProvider : IClassProvider
     public string ContextMenuSubmenuTriggerDisabled( bool disabled ) => null;
 
     public string ContextMenuSubmenuBody() => null;
+
+    #endregion
+
+    #region PropertyGrid
+
+    public string PropertyGrid() => null;
+
+    public string PropertyGridViewport() => null;
+
+    public string PropertyGridToolbar() => null;
+
+    public string PropertyGridToolbarButton() => null;
+
+    public string PropertyGridToolbarSearch() => null;
+
+    public string PropertyGridEmpty() => null;
+
+    public string PropertyGridHelp() => null;
+
+    public string PropertyGridHelpTitle() => null;
+
+    public string PropertyGridHelpDescription() => null;
+
+    public string PropertyGridGroup() => null;
+
+    public string PropertyGridGroupHeader() => null;
+
+    public string PropertyGridGroupToggle() => null;
+
+    public string PropertyGridGroupBody() => null;
+
+    public string PropertyGridItem() => null;
+
+    public string PropertyGridItemSelected( bool selected ) => null;
+
+    public string PropertyGridItemLabel() => null;
+
+    public string PropertyGridItemBody() => null;
 
     #endregion
 

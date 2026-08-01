@@ -17,20 +17,7 @@
         align-items: center;
         min-width: 0;
 
-        > .flatpickr-wrapper {
-            display: inline-flex;
-            flex: auto;
-            align-items: center;
-            width: 100%;
-            min-width: 0;
-
-            > input[type='hidden'] {
-                display: none;
-            }
-        }
-
-        > input:not([type='hidden']),
-        > .flatpickr-wrapper > input:not([type='hidden']) {
+        > input:not([type='hidden']) {
             width: 100%;
             padding: 0;
             color: inherit;
@@ -99,9 +86,7 @@
         background: var(--ant-color-bg-container-disabled);
         cursor: not-allowed;
 
-        .ant-picker-input > .flatpickr-wrapper,
         .ant-picker-input > input:not([type='hidden']),
-        .ant-picker-input > .flatpickr-wrapper > input:not([type='hidden']),
         .ant-picker-suffix {
             cursor: not-allowed;
         }
@@ -115,8 +100,7 @@
         font-size: $font-size;
     }
 
-    .ant-picker-#{$name} .ant-picker-input > input:not([type='hidden']),
-    .ant-picker-#{$name} .ant-picker-input > .flatpickr-wrapper > input:not([type='hidden']) {
+    .ant-picker-#{$name} .ant-picker-input > input:not([type='hidden']) {
         font-size: $font-size;
     }
 }

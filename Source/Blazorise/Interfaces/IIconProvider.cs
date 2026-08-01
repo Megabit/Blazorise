@@ -24,6 +24,12 @@ public interface IIconProvider
     string IconSize( IconSize iconSize );
 
     /// <summary>
+    /// Gets the classname used to render an icon within a fixed-width slot.
+    /// </summary>
+    /// <returns>The fixed-width classname.</returns>
+    string IconFixedWidth() => null;
+
+    /// <summary>
     /// Gets the icon name by predefined icon type.
     /// </summary>
     /// <param name="name"></param>

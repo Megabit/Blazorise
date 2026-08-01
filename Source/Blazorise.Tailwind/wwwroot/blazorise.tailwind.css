@@ -47,6 +47,7 @@
     --color-gray-700: oklch(37.3% 0.034 259.733);
     --color-gray-800: oklch(27.8% 0.033 256.848);
     --color-gray-900: oklch(21% 0.034 264.665);
+    --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
     --container-sm: 24rem;
@@ -8763,7 +8764,7 @@ body:before {
 .b-accordion > .b-accordion-item:not(:last-child) > .b-accordion-header .b-accordion-button {
   border-bottom-width: 0;
 }
-.b-addons > .b-addon-body:not(:last-child) > input, .b-addons > .b-addon-body:not(:last-child) > div.flatpickr-wrapper > input {
+.b-addons > .b-addon-body:not(:last-child) > input, .b-addons > .b-addon-body:not(:last-child) > div.tw-datepicker > input, .b-addons > .b-addon-body:not(:last-child) > div.tw-timepicker > input {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -8771,7 +8772,7 @@ body:before {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input, .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.flatpickr-wrapper > input {
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input, .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-datepicker > input, .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -8789,13 +8790,13 @@ body:before {
   border-bottom-left-radius: 0;
   height: 100%;
 }
-.b-addons > .b-addon-body > input, .b-addons > .b-addon-body > div.flatpickr-wrapper {
+.b-addons > .b-addon-body > input, .b-addons > .b-addon-body > div.tw-datepicker, .b-addons > .b-addon-body > div.tw-timepicker {
   position: relative;
   flex: 1 1 auto;
   width: 1%;
   min-width: 0;
 }
-.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input, .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.flatpickr-wrapper > input {
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input, .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-datepicker > input, .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input {
   border-left: 0;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -8981,6 +8982,558 @@ body:before {
 }
 .tw-context-menu-submenu-menu {
   z-index: calc(var(--context-menu-zindex, 1080) + 1);
+}
+.tw-datepicker {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  anchor-name: --tailwind-datepicker-anchor;
+  anchor-scope: --tailwind-datepicker-anchor;
+}
+.tw-datepicker.tw-datepicker-open {
+  z-index: 40;
+}
+.tw-datepicker-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: transparent;
+  pointer-events: none;
+}
+.tw-datepicker-calendar {
+  position: absolute;
+  inset-block-start: calc(100% + 0.25rem);
+  inset-inline-start: 0;
+  z-index: 50;
+  width: 19.25rem;
+  min-width: 0;
+  max-width: calc(100vw - 1rem);
+  max-height: calc(100vh - 1rem);
+  overflow: auto;
+  padding: 0;
+  border: 1px solid var(--color-gray-200, var(--btw-color-gray-200));
+  border-radius: 0.5rem;
+  color: var(--color-gray-700, var(--btw-color-gray-700));
+  background: var(--color-white, white);
+  box-shadow: 0 10px 15px -3px color-mix(in srgb, #000 10%, transparent), 0 4px 6px -4px color-mix(in srgb, #000 10%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    box-shadow: 0 10px 15px -3px color-mix(in srgb, var(--color-black, black) 10%, transparent), 0 4px 6px -4px color-mix(in srgb, var(--color-black, black) 10%, transparent);
+  }
+  outline: 0;
+  pointer-events: auto;
+}
+.tw-datepicker-calendar:has(.tw-datepicker-week-number) {
+  width: 21.75rem;
+}
+.tw-datepicker-calendar.tw-datepicker-calendar-inline {
+  position: relative;
+  inset: auto;
+  margin-block-start: 0.25rem;
+  z-index: auto;
+}
+.tw-datepicker-calendar .tw-datepicker-header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  min-height: 2.5rem;
+  padding-inline: 0.25rem;
+}
+.tw-datepicker-calendar .tw-datepicker-navigation {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.375rem;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+.tw-datepicker-calendar .tw-datepicker-navigation:hover:not(:disabled), .tw-datepicker-calendar .tw-datepicker-navigation:focus-visible {
+  outline: 0;
+  background: var(--color-gray-100, var(--btw-color-gray-100));
+}
+.tw-datepicker-calendar .tw-datepicker-navigation:disabled {
+  color: var(--color-gray-300, var(--btw-color-gray-300));
+  cursor: not-allowed;
+}
+.tw-datepicker-calendar .tw-datepicker-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  gap: 0.25rem;
+}
+.tw-datepicker-calendar .tw-datepicker-title select, .tw-datepicker-calendar .tw-datepicker-title input {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: inherit;
+  background: transparent;
+  box-shadow: none;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+}
+.tw-datepicker-calendar .tw-datepicker-title select:focus, .tw-datepicker-calendar .tw-datepicker-title input:focus {
+  outline: 0;
+  box-shadow: none;
+}
+.tw-datepicker-calendar .tw-datepicker-title select {
+  max-width: 8rem;
+  cursor: pointer;
+}
+.tw-datepicker-calendar .tw-datepicker-title input {
+  width: 5rem;
+  appearance: textfield;
+}
+.tw-datepicker-calendar .tw-datepicker-title input::-webkit-inner-spin-button, .tw-datepicker-calendar .tw-datepicker-title input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+.tw-datepicker-calendar .tw-datepicker-title > button, .tw-datepicker-calendar .tw-datepicker-title > span {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+}
+.tw-datepicker-calendar .tw-datepicker-title > button {
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+.tw-datepicker-calendar .tw-datepicker-grid {
+  box-sizing: border-box;
+  padding: calc(var(--spacing, 0.25rem) * 2);
+  padding-block-start: 0;
+}
+.tw-datepicker-calendar .tw-datepicker-weekdays, .tw-datepicker-calendar .tw-datepicker-week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: center;
+}
+.tw-datepicker-calendar .tw-datepicker-weekdays:has(.tw-datepicker-week-number), .tw-datepicker-calendar .tw-datepicker-week:has(.tw-datepicker-week-number) {
+  grid-template-columns: 2.5rem repeat(7, minmax(0, 1fr));
+}
+.tw-datepicker-calendar .tw-datepicker-weekday, .tw-datepicker-calendar .tw-datepicker-week-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  height: 1.75rem;
+  color: var(--color-gray-600, var(--btw-color-gray-600));
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.tw-datepicker-calendar .tw-datepicker-week-number {
+  width: 2.5rem;
+  opacity: 0.65;
+}
+.tw-datepicker-calendar .tw-datepicker-day, .tw-datepicker-calendar .tw-datepicker-month {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  width: 2.5rem;
+  min-width: 0;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 999rem;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.tw-datepicker-calendar .tw-datepicker-day:hover:not(:disabled), .tw-datepicker-calendar .tw-datepicker-month:hover:not(:disabled) {
+  background: var(--color-gray-100, var(--btw-color-gray-100));
+}
+.tw-datepicker-calendar .tw-datepicker-day-outside {
+  color: var(--color-gray-300, var(--btw-color-gray-300));
+}
+.tw-datepicker-calendar .tw-datepicker-day-today {
+  border-color: var(--color-primary-400, var(--btw-color-primary-400));
+}
+.tw-datepicker-calendar .tw-datepicker-day-in-range {
+  border-radius: 0;
+  background: var(--color-primary-100, var(--btw-color-primary-100));
+}
+.tw-datepicker-calendar .tw-datepicker-day-selected, .tw-datepicker-calendar .tw-datepicker-day-range-start, .tw-datepicker-calendar .tw-datepicker-day-range-end, .tw-datepicker-calendar .tw-datepicker-month-selected {
+  border-color: var(--color-primary-400, var(--btw-color-primary-400));
+  color: var(--color-white, white);
+  background: var(--color-primary-400, var(--btw-color-primary-400));
+}
+.tw-datepicker-calendar .tw-datepicker-day-selected:hover:not(:disabled), .tw-datepicker-calendar .tw-datepicker-day-range-start:hover:not(:disabled), .tw-datepicker-calendar .tw-datepicker-day-range-end:hover:not(:disabled), .tw-datepicker-calendar .tw-datepicker-month-selected:hover:not(:disabled) {
+  border-color: var(--color-primary-500, var(--btw-color-primary-500));
+  background: var(--color-primary-500, var(--btw-color-primary-500));
+}
+.tw-datepicker-calendar .tw-datepicker-day-range-start {
+  border-radius: 0;
+  border-start-start-radius: 999rem;
+  border-end-start-radius: 999rem;
+}
+.tw-datepicker-calendar .tw-datepicker-day-range-end {
+  border-radius: 0;
+  border-start-end-radius: 999rem;
+  border-end-end-radius: 999rem;
+}
+.tw-datepicker-calendar .tw-datepicker-day-range-start.tw-datepicker-day-range-end {
+  border-radius: 999rem;
+}
+.tw-datepicker-calendar[data-week-mode=true] .tw-datepicker-week-number[data-week-hovered=true], .tw-datepicker-calendar[data-week-mode=true] .tw-datepicker-day[data-week-hovered=true] {
+  background: var(--color-gray-100, var(--btw-color-gray-100));
+}
+.tw-datepicker-calendar[data-week-mode=true] .tw-datepicker-week-number[data-week-hovered=true] {
+  align-self: stretch;
+  height: auto;
+  border-radius: 999rem;
+  opacity: 1;
+}
+.tw-datepicker-calendar[data-week-mode=true] .tw-datepicker-day[data-week-hovered=true] {
+  justify-self: stretch;
+  width: auto;
+  border-radius: 0;
+}
+.tw-datepicker-calendar[data-week-mode=true] .tw-datepicker-day-in-range {
+  justify-self: stretch;
+  width: auto;
+}
+.tw-datepicker-calendar[data-week-mode=true] .tw-datepicker-day[data-week-hover-start=true] {
+  border-start-start-radius: 999rem;
+  border-end-start-radius: 999rem;
+}
+.tw-datepicker-calendar[data-week-mode=true] .tw-datepicker-day[data-week-hover-end=true] {
+  border-start-end-radius: 999rem;
+  border-end-end-radius: 999rem;
+}
+.tw-datepicker-calendar[data-week-mode=true] .tw-datepicker-week[data-week-fully-selected=true] {
+  border-radius: 999rem;
+  background: var(--color-primary-500, var(--btw-color-primary-500));
+}
+.tw-datepicker-calendar[data-week-mode=true] .tw-datepicker-week[data-week-selected=true] .tw-datepicker-week-number {
+  align-self: stretch;
+  height: auto;
+  border-radius: 999rem;
+  opacity: 1;
+  background: var(--color-primary-500, var(--btw-color-primary-500));
+  color: var(--color-white, white);
+}
+.tw-datepicker-calendar .tw-datepicker-day-focused, .tw-datepicker-calendar .tw-datepicker-month-focused {
+  outline: 2px solid var(--color-primary-500, var(--btw-color-primary-500));
+  outline-offset: 1px;
+}
+.tw-datepicker-calendar .tw-datepicker-day-disabled, .tw-datepicker-calendar .tw-datepicker-month-disabled {
+  opacity: 0.25;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+.tw-datepicker-calendar .tw-datepicker-month {
+  width: 100%;
+  border-radius: 0.375rem;
+}
+.tw-datepicker-calendar .tw-datepicker-months {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.25rem;
+  padding-block: 0.5rem;
+}
+.tw-datepicker-calendar .tw-datepicker-months[data-calendar-view=year], .tw-datepicker-calendar .tw-datepicker-months[data-calendar-view=decade] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.tw-datepicker-calendar .tw-datepicker-months [data-outside=true] {
+  opacity: 0.45;
+}
+.tw-datepicker-calendar .tw-datepicker-time, .tw-datepicker-calendar .tw-datepicker-actions {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-block-start: 1px solid var(--color-gray-200, var(--btw-color-gray-200));
+}
+.tw-datepicker-calendar .tw-datepicker-time {
+  justify-content: flex-start;
+  height: 2.5rem;
+  overflow: hidden;
+}
+.tw-datepicker-calendar .tw-datepicker-time > span {
+  flex: 0 0 2%;
+  width: 2%;
+  height: 2.5rem;
+  color: inherit;
+  font-weight: 600;
+  line-height: 2.5rem;
+  text-align: center;
+  user-select: none;
+}
+.tw-datepicker-calendar .tw-datepicker-time .tw-datepicker-button {
+  flex: 0 0 18%;
+  width: 18%;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  appearance: none;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 2.5rem;
+  text-align: center;
+  cursor: pointer;
+}
+.tw-datepicker-calendar .tw-datepicker-time .tw-datepicker-button:hover:not(:disabled), .tw-datepicker-calendar .tw-datepicker-time .tw-datepicker-button:focus-visible {
+  outline: 0;
+  background: var(--color-gray-100, var(--btw-color-gray-100));
+}
+.tw-datepicker-calendar .tw-datepicker-time .tw-datepicker-button:disabled {
+  color: var(--color-gray-400, var(--btw-color-gray-400));
+  cursor: not-allowed;
+}
+.tw-datepicker-calendar .tw-datepicker-actions {
+  justify-content: space-between;
+  padding: 0.625rem;
+}
+.tw-datepicker-calendar .tw-datepicker-actions .tw-datepicker-button {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 999rem;
+  color: var(--color-primary-600, var(--btw-color-primary-600));
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.tw-datepicker-calendar .tw-datepicker-actions .tw-datepicker-button:hover:not(:disabled), .tw-datepicker-calendar .tw-datepicker-actions .tw-datepicker-button:focus-visible {
+  outline: 0;
+  background: var(--color-primary-50, var(--btw-color-primary-50));
+}
+.tw-datepicker-calendar .tw-datepicker-actions .tw-datepicker-button:disabled {
+  color: var(--color-gray-400, var(--btw-color-gray-400));
+  cursor: not-allowed;
+}
+.tw-datepicker-calendar .tw-datepicker-time-input {
+  box-sizing: border-box;
+  flex: 1 1 0;
+  width: 40%;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  appearance: auto;
+  color: inherit;
+  background: transparent;
+  box-shadow: none;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.tw-datepicker-calendar .tw-datepicker-time-input:first-child {
+  font-weight: 600;
+}
+.tw-datepicker-calendar .tw-datepicker-time-input:hover:not(:disabled), .tw-datepicker-calendar .tw-datepicker-time-input:focus {
+  background: var(--color-gray-100, var(--btw-color-gray-100));
+}
+.tw-datepicker-calendar .tw-datepicker-time-input:disabled {
+  color: var(--color-gray-400, var(--btw-color-gray-400));
+  cursor: not-allowed;
+}
+.dark .tw-datepicker-calendar {
+  border-color: var(--color-gray-700, var(--btw-color-gray-700));
+  color: var(--color-gray-100, var(--btw-color-gray-100));
+  background: var(--color-gray-800, var(--btw-color-gray-800));
+}
+.dark .tw-datepicker-calendar .tw-datepicker-navigation:hover:not(:disabled), .dark .tw-datepicker-calendar .tw-datepicker-navigation:focus-visible, .dark .tw-datepicker-calendar .tw-datepicker-day:hover:not(:disabled), .dark .tw-datepicker-calendar .tw-datepicker-month:hover:not(:disabled), .dark .tw-datepicker-calendar .tw-datepicker-time-input:hover:not(:disabled), .dark .tw-datepicker-calendar .tw-datepicker-time-input:focus, .dark .tw-datepicker-calendar .tw-datepicker-time .tw-datepicker-button:hover:not(:disabled), .dark .tw-datepicker-calendar .tw-datepicker-time .tw-datepicker-button:focus-visible {
+  background: var(--color-gray-700, var(--btw-color-gray-700));
+}
+.dark .tw-datepicker-calendar .tw-datepicker-weekday, .dark .tw-datepicker-calendar .tw-datepicker-week-number {
+  color: var(--color-gray-400, var(--btw-color-gray-400));
+}
+.dark .tw-datepicker-calendar .tw-datepicker-day-outside {
+  color: var(--color-gray-600, var(--btw-color-gray-600));
+}
+.dark .tw-datepicker-calendar .tw-datepicker-day-in-range {
+  background: var(--color-primary-900, var(--btw-color-primary-900));
+}
+.dark .tw-datepicker-calendar[data-week-mode=true] .tw-datepicker-week-number[data-week-hovered=true], .dark .tw-datepicker-calendar[data-week-mode=true] .tw-datepicker-day[data-week-hovered=true] {
+  background: var(--color-gray-700, var(--btw-color-gray-700));
+}
+.dark .tw-datepicker-calendar .tw-datepicker-day-selected:hover:not(:disabled), .dark .tw-datepicker-calendar .tw-datepicker-day-range-start:hover:not(:disabled), .dark .tw-datepicker-calendar .tw-datepicker-day-range-end:hover:not(:disabled), .dark .tw-datepicker-calendar .tw-datepicker-month-selected:hover:not(:disabled) {
+  background: var(--color-primary-600, var(--btw-color-primary-600));
+}
+.dark .tw-datepicker-calendar .tw-datepicker-time, .dark .tw-datepicker-calendar .tw-datepicker-actions {
+  border-color: var(--color-gray-700, var(--btw-color-gray-700));
+}
+.dark .tw-datepicker-calendar .tw-datepicker-actions .tw-datepicker-button:hover:not(:disabled), .dark .tw-datepicker-calendar .tw-datepicker-actions .tw-datepicker-button:focus-visible {
+  background: var(--color-primary-900, var(--btw-color-primary-900));
+}
+@supports (position-anchor: --tailwind-datepicker-anchor) and (anchor-scope: --tailwind-datepicker-anchor) {
+  .tw-datepicker-calendar.tw-datepicker-calendar-floating {
+    position: fixed;
+    position-anchor: --tailwind-datepicker-anchor;
+    inset: auto;
+    top: anchor(bottom);
+    inset-inline-start: anchor(start);
+    margin-block-start: 0.25rem;
+    position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  }
+}
+.tw-timepicker {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  anchor-name: --tailwind-timepicker-anchor;
+  anchor-scope: --tailwind-timepicker-anchor;
+}
+.tw-timepicker.tw-timepicker-open {
+  z-index: 50;
+}
+.tw-timepicker-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: transparent;
+  pointer-events: none;
+}
+.tw-timepicker-menu {
+  position: absolute;
+  inset-block-start: calc(100% + 0.25rem);
+  inset-inline-start: 0;
+  z-index: 50;
+  width: 19.25rem;
+  min-width: 0;
+  max-width: calc(100vw - 1rem);
+  padding: 0;
+  border: 1px solid var(--color-gray-200, var(--btw-color-gray-200));
+  border-radius: 0.5rem;
+  color: var(--color-gray-900, var(--btw-color-gray-900));
+  background: var(--color-white, white);
+  box-shadow: 0 10px 15px -3px color-mix(in srgb, #000 10%, transparent), 0 4px 6px -4px color-mix(in srgb, #000 10%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    box-shadow: 0 10px 15px -3px color-mix(in srgb, var(--color-black, black) 10%, transparent), 0 4px 6px -4px color-mix(in srgb, var(--color-black, black) 10%, transparent);
+  }
+  outline: 0;
+  pointer-events: auto;
+}
+.tw-timepicker-menu.tw-timepicker-menu-inline {
+  position: relative;
+  inset: auto;
+  margin-block-start: 0.25rem;
+  z-index: auto;
+}
+@supports (position-anchor: --tailwind-timepicker-anchor) and (anchor-scope: --tailwind-timepicker-anchor) {
+  .tw-timepicker-menu.tw-timepicker-menu-floating {
+    position: fixed;
+    position-anchor: --tailwind-timepicker-anchor;
+    inset: auto;
+    top: anchor(bottom);
+    inset-inline-start: anchor(start);
+    margin-block-start: 0.25rem;
+    position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  }
+}
+.tw-timepicker-controls {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 2.5rem;
+  overflow: hidden;
+  flex-wrap: nowrap;
+}
+.tw-timepicker-control {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  height: 2.5rem;
+}
+.tw-timepicker-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  appearance: auto;
+  color: inherit;
+  background: transparent;
+  box-shadow: none;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.tw-timepicker-input:hover:not(:disabled), .tw-timepicker-input:focus {
+  background: var(--color-gray-100, var(--btw-color-gray-100));
+}
+.tw-timepicker-input:disabled {
+  color: var(--color-gray-400, var(--btw-color-gray-400));
+  cursor: not-allowed;
+}
+.tw-timepicker-control:first-child .tw-timepicker-input {
+  font-weight: 600;
+}
+.tw-timepicker-separator {
+  flex: 0 0 2%;
+  width: 2%;
+  height: 2.5rem;
+  color: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 2.5rem;
+  text-align: center;
+  user-select: none;
+}
+.tw-timepicker-meridiem {
+  display: inline-flex;
+  flex: 0 0 18%;
+  align-items: center;
+  justify-content: center;
+  width: 18%;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  appearance: none;
+  color: inherit;
+  background: transparent;
+  box-shadow: none;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 2.5rem;
+  cursor: pointer;
+}
+.tw-timepicker-meridiem:hover:not(:disabled), .tw-timepicker-meridiem:focus-visible, .tw-timepicker-meridiem.tw-timepicker-control-focused {
+  outline: 0;
+  background: var(--color-gray-100, var(--btw-color-gray-100));
+}
+.tw-timepicker-meridiem:disabled {
+  color: var(--color-gray-400, var(--btw-color-gray-400));
+  cursor: not-allowed;
+}
+.tw-timepicker-control-focused .tw-timepicker-input {
+  background: var(--color-gray-100, var(--btw-color-gray-100));
+}
+.dark .tw-timepicker-menu {
+  border-color: var(--color-gray-700, var(--btw-color-gray-700));
+  color: var(--color-gray-100, var(--btw-color-gray-100));
+  background: var(--color-gray-800, var(--btw-color-gray-800));
+}
+.dark .tw-timepicker-menu .tw-timepicker-input:hover:not(:disabled), .dark .tw-timepicker-menu .tw-timepicker-input:focus, .dark .tw-timepicker-menu .tw-timepicker-control-focused .tw-timepicker-input, .dark .tw-timepicker-menu .tw-timepicker-meridiem:hover:not(:disabled), .dark .tw-timepicker-menu .tw-timepicker-meridiem:focus-visible, .dark .tw-timepicker-menu .tw-timepicker-meridiem.tw-timepicker-control-focused {
+  background: var(--color-gray-700, var(--btw-color-gray-700));
 }
 .b-dropdown.b-dropdown-group > .b-button:not(:last-child):not(.b-dropdown-toggle) {
   border-top-right-radius: 0;
@@ -9631,6 +10184,158 @@ body:before {
 .pagination > li.pagination-item:not(:first-child):not(:last-child) > * {
   border-radius: 0;
 }
+.tw-property-grid {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing) * 2);
+  max-height: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+.tw-property-grid-viewport {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: calc(var(--spacing) * 3);
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.tw-property-grid-toolbar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: calc(var(--spacing) * 2);
+  min-width: 0;
+}
+.tw-property-grid-toolbar-button {
+  flex: 0 0 auto;
+}
+.tw-property-grid-toolbar-search {
+  flex: 1 1 calc(var(--spacing) * 64);
+  min-width: calc(var(--spacing) * 40);
+  max-width: calc(var(--spacing) * 88);
+  margin-inline-start: auto;
+}
+.tw-property-grid-empty {
+  padding: calc(var(--spacing) * 3);
+  color: var(--color-gray-600, var(--btw-color-gray-600));
+  font-size: var(--text-sm);
+}
+.tw-property-grid-help {
+  flex: 0 0 auto;
+  padding: calc(var(--spacing) * 2.5) calc(var(--spacing) * 3);
+  border-top: 1px solid var(--color-gray-200, var(--btw-color-gray-200));
+}
+.tw-property-grid-help-title {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+}
+.tw-property-grid-help-description {
+  margin-top: calc(var(--spacing) * 0.5);
+  color: var(--color-gray-600, var(--btw-color-gray-600));
+  font-size: var(--text-xs);
+}
+.tw-property-grid-group, .tw-property-grid-group-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+  min-width: 0;
+}
+.tw-property-grid-group-header {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+}
+.tw-property-grid-group-toggle {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing) * 1.5);
+  width: 100%;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  font-weight: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+.tw-property-grid-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: var(--spacing);
+  align-items: center;
+  min-width: 0;
+}
+.tw-property-grid-item-selected {
+  background: var(--color-gray-100, var(--btw-color-gray-100));
+}
+.tw-property-grid-item:focus-visible {
+  outline: 1px solid var(--color-primary-500, var(--btw-color-primary-500));
+  outline-offset: 1px;
+}
+.tw-property-grid-item-label {
+  min-width: 0;
+  padding-inline-end: var(--spacing);
+  overflow: hidden;
+  font-size: var(--text-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tw-property-grid-item-body {
+  min-width: 0;
+}
+.tw-property-grid-item-body > * {
+  width: 100%;
+  min-width: 0;
+}
+.tw-property-grid-item[data-property-grid-editor=color] .b-addon-body:first-child > select {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+}
+.tw-property-grid-item[data-property-grid-editor=color] .b-addon-body:nth-child(2) > .relative {
+  box-sizing: border-box;
+  flex: 0 0 calc(var(--spacing) * 8.5);
+  width: calc(var(--spacing) * 8.5);
+  min-width: calc(var(--spacing) * 8.5);
+  height: calc(var(--spacing) * 8.5);
+}
+.tw-property-grid-item[data-property-grid-editor=color] .b-addon-body:nth-child(2) > .relative > .absolute {
+  inset: 0;
+  padding: 0;
+  justify-content: center;
+}
+.tw-property-grid-item[data-property-grid-editor=color] .b-addon-body:nth-child(2) > .relative > .absolute > span {
+  padding: 0;
+}
+.tw-property-grid-item[data-property-grid-editor=color] .b-addon-body:nth-child(2) > .relative > input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  color: transparent;
+}
+.tw-property-grid-item[data-property-grid-editor=color] .b-addon-end {
+  flex: 0 0 calc(var(--spacing) * 8.5);
+  width: calc(var(--spacing) * 8.5);
+}
+.tw-property-grid-item[data-property-grid-editor=color] .b-addon-end > .b-button {
+  width: calc(var(--spacing) * 8.5);
+  padding-inline: 0;
+  justify-content: center;
+}
+.dark .tw-property-grid-empty, .dark .tw-property-grid-help-description {
+  color: var(--color-gray-400, var(--btw-color-gray-400));
+}
+.dark .tw-property-grid-help {
+  border-top-color: var(--color-gray-700, var(--btw-color-gray-700));
+}
+.dark .tw-property-grid-item-selected {
+  background: var(--color-gray-800, var(--btw-color-gray-800));
+}
 @keyframes progress-bar-stripes {
   0% {
     background-position-x: 1rem;
@@ -10041,47 +10746,6 @@ body .b-report {
 .b-report-toolbar-group .b-button {
   height: 2.375rem;
   padding-block: 0;
-}
-.b-report-designer-property-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-.b-report-designer-color-property .b-addon-body:first-child > select {
-  flex: 1 1 0;
-  width: auto;
-  min-width: 0;
-}
-.b-report-designer-color-property .b-addon-body:nth-child(2) > .relative {
-  box-sizing: border-box;
-  flex: 0 0 2.125rem;
-  width: 2.125rem;
-  min-width: 2.125rem;
-  height: 2.125rem;
-}
-.b-report-designer-color-property .b-addon-body:nth-child(2) > .relative > .absolute {
-  inset: 0;
-  padding: 0;
-  justify-content: center;
-}
-.b-report-designer-color-property .b-addon-body:nth-child(2) > .relative > .absolute > span {
-  padding: 0;
-}
-.b-report-designer-color-property .b-addon-body:nth-child(2) > .relative > input {
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  color: transparent;
-}
-.b-report-designer-color-property .b-addon-end {
-  flex: 0 0 2.125rem;
-  width: 2.125rem;
-}
-.b-report-designer-color-property .b-addon-end > .b-button {
-  width: 2.125rem;
-  padding-inline: 0;
-  justify-content: center;
 }
 .no-gutters > .pl-2.pr-2, .no-gutters > [class*=column-] {
   padding-right: 0;

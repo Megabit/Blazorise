@@ -312,6 +312,539 @@ body:before {
   z-index: calc(var(--context-menu-zindex, 1080) + 1);
 }
 
+.datepicker {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  anchor-name: --bootstrap-datepicker-anchor;
+  anchor-scope: --bootstrap-datepicker-anchor;
+}
+.datepicker.dropdown {
+  display: inline-block;
+  width: 100%;
+}
+.datepicker.show {
+  z-index: 1051;
+}
+.datepicker .datepicker-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  background: transparent;
+  pointer-events: none;
+}
+.datepicker .datepicker-calendar.dropdown-menu {
+  display: block;
+  position: absolute;
+  inset-block-start: calc(100% + 0.25rem);
+  inset-inline-start: 0;
+  z-index: 1052;
+  width: 19.25rem;
+  min-width: 0;
+  max-width: calc(100vw - 1rem);
+  max-height: calc(100vh - 1rem);
+  overflow: auto;
+  padding: 0;
+  color: #212529;
+  background-color: #fff;
+  border-color: #dee2e6;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  outline: 0;
+  pointer-events: auto;
+}
+.datepicker .datepicker-calendar.dropdown-menu:has(.datepicker-week-number) {
+  width: 21.6875rem;
+}
+.datepicker .datepicker-calendar-inline {
+  position: relative;
+  inset: auto;
+  margin-block-start: 0.25rem;
+  z-index: auto;
+}
+@supports (position-anchor: --bootstrap-datepicker-anchor) and (anchor-scope: --bootstrap-datepicker-anchor) {
+  .datepicker .datepicker-calendar.dropdown-menu.datepicker-calendar-floating {
+    position: fixed;
+    position-anchor: --bootstrap-datepicker-anchor;
+    inset: auto;
+    top: anchor(bottom);
+    inset-inline-start: anchor(start);
+    margin-block-start: 0.25rem;
+    position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  }
+}
+.datepicker .datepicker-header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  min-height: 3rem;
+  padding: 0.5rem 0;
+}
+.datepicker .datepicker-navigation {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.125rem;
+  height: 2.125rem;
+  padding: 0.625rem;
+  border: 0;
+  border-radius: 0.25rem;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+.datepicker .datepicker-navigation:hover:not(:disabled), .datepicker .datepicker-navigation:focus-visible {
+  outline: 0;
+  background: rgba(0, 123, 255, 0.1);
+}
+.datepicker .datepicker-navigation:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+.datepicker .datepicker-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+.datepicker .datepicker-title select,
+.datepicker .datepicker-title input {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 400;
+  text-align: center;
+}
+.datepicker .datepicker-title select:focus,
+.datepicker .datepicker-title input:focus {
+  outline: 0;
+  box-shadow: none;
+}
+.datepicker .datepicker-title select {
+  max-width: 8rem;
+  cursor: pointer;
+}
+.datepicker .datepicker-title input {
+  width: 5rem;
+}
+.datepicker .datepicker-title > button,
+.datepicker .datepicker-title > span {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 400;
+  text-align: center;
+}
+.datepicker .datepicker-title > button {
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+.datepicker .datepicker-grid {
+  box-sizing: border-box;
+  padding: 0.5rem;
+  padding-block-start: 0;
+}
+.datepicker .datepicker-weekdays,
+.datepicker .datepicker-week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: center;
+}
+.datepicker .datepicker-weekdays:has(.datepicker-week-number),
+.datepicker .datepicker-week:has(.datepicker-week-number) {
+  grid-template-columns: 2.4375rem repeat(7, minmax(0, 1fr));
+}
+.datepicker .datepicker-weekday,
+.datepicker .datepicker-week-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 1.75rem;
+  color: #6c757d;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+.datepicker .datepicker-week-number {
+  opacity: 0.65;
+}
+.datepicker .datepicker-day,
+.datepicker .datepicker-month {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  width: 2.4375rem;
+  min-width: 0;
+  height: 2.4375rem;
+  padding: 0;
+  color: #212529;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+}
+.datepicker .datepicker-day:hover:not(:disabled),
+.datepicker .datepicker-month:hover:not(:disabled) {
+  background: rgba(0, 123, 255, 0.1);
+}
+.datepicker .datepicker-day-outside {
+  color: #212529;
+  opacity: 0.3;
+}
+.datepicker .datepicker-month {
+  width: 100%;
+}
+.datepicker .datepicker-day-today {
+  border-color: #007bff;
+}
+.datepicker .datepicker-day-in-range {
+  border-radius: 0;
+  background: rgba(0, 123, 255, 0.15);
+}
+.datepicker .datepicker-day-selected,
+.datepicker .datepicker-day-range-start,
+.datepicker .datepicker-day-range-end,
+.datepicker .datepicker-month-selected {
+  background: #007bff;
+  border-color: #007bff;
+  color: #fff;
+}
+.datepicker .datepicker-day-range-start {
+  border-radius: 0;
+  border-start-start-radius: 0.25rem;
+  border-end-start-radius: 0.25rem;
+}
+.datepicker .datepicker-day-range-end {
+  border-radius: 0;
+  border-start-end-radius: 0.25rem;
+  border-end-end-radius: 0.25rem;
+}
+.datepicker .datepicker-day-range-start.datepicker-day-range-end {
+  border-radius: 0.25rem;
+}
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-week-number[data-week-hovered=true],
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-day[data-week-hovered=true] {
+  background: rgba(0, 123, 255, 0.1);
+}
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-week-number[data-week-hovered=true] {
+  align-self: stretch;
+  height: auto;
+  border-radius: 0.25rem;
+  opacity: 1;
+}
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-day[data-week-hovered=true] {
+  justify-self: stretch;
+  width: auto;
+  border-radius: 0;
+}
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-day-in-range {
+  justify-self: stretch;
+  width: auto;
+}
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-day[data-week-hover-start=true] {
+  border-start-start-radius: 0.25rem;
+  border-end-start-radius: 0.25rem;
+}
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-day[data-week-hover-end=true] {
+  border-start-end-radius: 0.25rem;
+  border-end-end-radius: 0.25rem;
+}
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-week[data-week-fully-selected=true] {
+  border-radius: 0.25rem;
+  background: #007bff;
+}
+.datepicker .datepicker-calendar[data-week-mode=true] .datepicker-week[data-week-selected=true] .datepicker-week-number {
+  align-self: stretch;
+  height: auto;
+  border-radius: 0.25rem;
+  opacity: 1;
+  background: #007bff;
+  color: #fff;
+}
+.datepicker .datepicker-day-focused,
+.datepicker .datepicker-month-focused {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+.datepicker .datepicker-day-disabled,
+.datepicker .datepicker-month-disabled {
+  opacity: 0.1;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+.datepicker .datepicker-months {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.25rem;
+  padding-block: 0.5rem;
+}
+.datepicker .datepicker-months[data-calendar-view=year], .datepicker .datepicker-months[data-calendar-view=decade] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.datepicker .datepicker-months [data-outside=true] {
+  opacity: 0.45;
+}
+.datepicker .datepicker-time,
+.datepicker .datepicker-actions {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-block-start: 1px solid #dee2e6;
+}
+.datepicker .datepicker-time {
+  justify-content: flex-start;
+  height: 2.5rem;
+  overflow: hidden;
+}
+.datepicker .datepicker-time > span {
+  flex: 0 0 2%;
+  width: 2%;
+  color: #212529;
+  font-weight: 700;
+  line-height: 2.5rem;
+  text-align: center;
+  user-select: none;
+}
+.datepicker .datepicker-time .datepicker-button {
+  flex: 0 0 18%;
+  width: 18%;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  appearance: none;
+  color: #212529;
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 2.5rem;
+  text-align: center;
+  cursor: pointer;
+}
+.datepicker .datepicker-time .datepicker-button:hover:not(:disabled), .datepicker .datepicker-time .datepicker-button:focus-visible {
+  outline: 0;
+  background: rgba(0, 123, 255, 0.1);
+}
+.datepicker .datepicker-time .datepicker-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+.datepicker .datepicker-actions {
+  justify-content: space-between;
+  padding: 0.625rem;
+}
+.datepicker .datepicker-actions .datepicker-button {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 10rem;
+  color: #212529;
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.datepicker .datepicker-actions .datepicker-button:hover:not(:disabled), .datepicker .datepicker-actions .datepicker-button:focus-visible {
+  outline: 0;
+  background: rgba(0, 123, 255, 0.1);
+}
+.datepicker .datepicker-actions .datepicker-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+.datepicker .datepicker-time-input {
+  box-sizing: border-box;
+  flex: 1 1 0;
+  width: 40%;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  appearance: textfield;
+  color: #212529;
+  background: transparent;
+  box-shadow: none;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.datepicker .datepicker-time-input:first-child {
+  font-weight: 700;
+}
+.datepicker .datepicker-time-input:hover:not(:disabled), .datepicker .datepicker-time-input:focus {
+  background: rgba(0, 123, 255, 0.1);
+}
+.datepicker .datepicker-time-input::-webkit-inner-spin-button, .datepicker .datepicker-time-input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+.datepicker .datepicker-time-input:disabled {
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.timepicker {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  anchor-name: --bootstrap-timepicker-anchor;
+  anchor-scope: --bootstrap-timepicker-anchor;
+}
+.timepicker.show {
+  z-index: 1001;
+}
+.timepicker .timepicker-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: transparent;
+  pointer-events: none;
+}
+.timepicker .timepicker-menu.dropdown-menu {
+  display: block;
+  position: absolute;
+  inset-block-start: calc(100% + 0.25rem);
+  inset-inline-start: 0;
+  z-index: 1002;
+  width: 13.875rem;
+  min-width: 0;
+  max-width: calc(100vw - 1rem);
+  padding: 0;
+  color: #212529;
+  background-color: #fff;
+  border-color: rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+  outline: 0;
+  pointer-events: auto;
+}
+.timepicker .timepicker-menu-inline {
+  position: relative;
+  inset: auto;
+  margin-block-start: 0.25rem;
+  z-index: auto;
+}
+@supports (position-anchor: --bootstrap-timepicker-anchor) and (anchor-scope: --bootstrap-timepicker-anchor) {
+  .timepicker .timepicker-menu.dropdown-menu.timepicker-menu-floating {
+    position: fixed;
+    position-anchor: --bootstrap-timepicker-anchor;
+    inset: auto;
+    top: anchor(bottom);
+    inset-inline-start: anchor(start);
+    margin-block-start: 0.25rem;
+    position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  }
+}
+.timepicker .timepicker-controls {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 2.5rem;
+  overflow: hidden;
+  flex-wrap: nowrap;
+}
+.timepicker .timepicker-control {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  height: 2.5rem;
+}
+.timepicker .timepicker-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  appearance: auto;
+  color: #212529;
+  background: transparent;
+  box-shadow: none;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.timepicker .timepicker-input::-webkit-inner-spin-button, .timepicker .timepicker-input::-webkit-outer-spin-button {
+  height: auto;
+  opacity: 0.65;
+  cursor: pointer;
+}
+.timepicker .timepicker-input:hover:not(:disabled), .timepicker .timepicker-input:focus {
+  background: rgba(0, 123, 255, 0.1);
+}
+.timepicker .timepicker-input:disabled {
+  color: #6c757d;
+  cursor: not-allowed;
+}
+.timepicker .timepicker-control:first-child .timepicker-input {
+  font-weight: 700;
+}
+.timepicker .timepicker-separator {
+  flex: 0 0 2%;
+  width: 2%;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  color: #212529;
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+  text-align: center;
+  user-select: none;
+}
+.timepicker .timepicker-meridiem {
+  display: inline-flex;
+  flex: 0 0 18%;
+  align-items: center;
+  justify-content: center;
+  width: 18%;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  appearance: none;
+  color: #212529;
+  background: transparent;
+  box-shadow: none;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 2.5rem;
+  cursor: pointer;
+}
+.timepicker .timepicker-meridiem:hover:not(:disabled), .timepicker .timepicker-meridiem:focus-visible, .timepicker .timepicker-meridiem.timepicker-control-focused {
+  outline: 0;
+  background: rgba(0, 123, 255, 0.1);
+}
+.timepicker .timepicker-meridiem:disabled {
+  color: #6c757d;
+  cursor: not-allowed;
+}
+.timepicker .timepicker-control-focused .timepicker-input {
+  background: rgba(0, 123, 255, 0.1);
+}
+
 .dock-layout {
   --dock-split-gap: .25rem;
   display: block;
@@ -1170,13 +1703,15 @@ body:before {
 }
 
 .input-group > .b-numeric:not(:last-child) > input,
-.input-group > .flatpickr-wrapper:not(:last-child) > input,
+.input-group > .datepicker:not(:last-child) > input,
+.input-group > .timepicker:not(:last-child) > input,
 .input-group > .input-group-prepend > .custom-select {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 .input-group > .b-numeric:not(:first-child) > input,
-.input-group > .flatpickr-wrapper:not(:first-child) > input,
+.input-group > .datepicker:not(:first-child) > input,
+.input-group > .timepicker:not(:first-child) > input,
 .input-group > .input-group-append > .custom-select {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -1290,14 +1825,17 @@ body:before {
   border-bottom-left-radius: 0;
 }
 
-.input-group > div.flatpickr-wrapper {
+.input-group > div.datepicker,
+.input-group > div.timepicker {
   display: flex;
   flex: 1 1 auto;
   width: 1%;
   min-width: 0;
 }
-.input-group > div.flatpickr-wrapper > .form-control,
-.input-group > div.flatpickr-wrapper > .form-control-plaintext {
+.input-group > div.datepicker > .form-control,
+.input-group > div.datepicker > .form-control-plaintext,
+.input-group > div.timepicker > .form-control,
+.input-group > div.timepicker > .form-control-plaintext {
   position: relative;
   flex: 1 1 auto;
   width: 1%;
@@ -1607,6 +2145,25 @@ input[readonly=readonly][type=range]::-ms-thumb {
 .custom-file-input.is-valid + .custom-file-label + .none-feedback,
 .custom-file-input.is-warning + .custom-file-label + .none-feedback,
 .custom-file-input.is-invalid + .custom-file-label + .none-feedback {
+  display: none;
+}
+
+:is(.datepicker, .timepicker):has(> input.is-valid) + .valid-feedback, :is(.datepicker, .timepicker):has(> input.is-valid) + .form-text.text-muted + .valid-feedback {
+  display: block;
+}
+:is(.datepicker, .timepicker):has(> input.is-valid) + .none-feedback {
+  display: none;
+}
+:is(.datepicker, .timepicker):has(> input.is-warning) + .warning-feedback, :is(.datepicker, .timepicker):has(> input.is-warning) + .form-text.text-muted + .warning-feedback, :is(.datepicker, .timepicker):has(> input.is-warning) + .valid-feedback + .warning-feedback, :is(.datepicker, .timepicker):has(> input.is-warning) + .form-text.text-muted + .valid-feedback + .warning-feedback {
+  display: block;
+}
+:is(.datepicker, .timepicker):has(> input.is-warning) + .none-feedback {
+  display: none;
+}
+:is(.datepicker, .timepicker):has(> input.is-invalid) + .invalid-feedback, :is(.datepicker, .timepicker):has(> input.is-invalid) + .form-text.text-muted + .invalid-feedback, :is(.datepicker, .timepicker):has(> input.is-invalid) + .valid-feedback + .invalid-feedback, :is(.datepicker, .timepicker):has(> input.is-invalid) + .form-text.text-muted + .valid-feedback + .invalid-feedback, :is(.datepicker, .timepicker):has(> input.is-invalid) + .warning-feedback + .invalid-feedback, :is(.datepicker, .timepicker):has(> input.is-invalid) + .form-text.text-muted + .warning-feedback + .invalid-feedback, :is(.datepicker, .timepicker):has(> input.is-invalid) + .valid-feedback + .warning-feedback + .invalid-feedback, :is(.datepicker, .timepicker):has(> input.is-invalid) + .form-text.text-muted + .valid-feedback + .warning-feedback + .invalid-feedback {
+  display: block;
+}
+:is(.datepicker, .timepicker):has(> input.is-invalid) + .none-feedback {
   display: none;
 }
 
@@ -2613,6 +3170,131 @@ li.list-group-item-action {
     mask-position: -200% 0%;
   }
 }
+.property-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.property-grid-viewport {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.property-grid-toolbar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.property-grid-toolbar-button {
+  flex: 0 0 auto;
+}
+
+.property-grid-toolbar-search {
+  flex: 1 1 16rem;
+  min-width: 10rem;
+  max-width: 22rem;
+  margin-inline-start: auto;
+}
+
+.property-grid-empty {
+  padding: 0.75rem;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.property-grid-help {
+  flex: 0 0 auto;
+  padding: 0.625rem 0.75rem;
+  border-top: 1px solid #dee2e6;
+}
+
+.property-grid-help-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.property-grid-help-description {
+  margin-top: 0.125rem;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.property-grid-group,
+.property-grid-group-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.property-grid-group-header {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.property-grid-group-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  font-weight: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.property-grid-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 0.25rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.property-grid-item-selected {
+  background: #f8f9fa;
+}
+
+.property-grid-item:focus-visible {
+  outline: 1px solid rgb(127.5, 189, 255);
+  outline-offset: 1px;
+}
+
+.property-grid-item-label {
+  min-width: 0;
+  padding-inline-end: 0.25rem;
+  overflow: hidden;
+  font-size: 0.875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.property-grid-item-body {
+  min-width: 0;
+}
+.property-grid-item-body > * {
+  width: 100%;
+  min-width: 0;
+}
+
 .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-primary {
   background-color: #007bff;
 }
@@ -8157,84 +8839,4 @@ ol.ordered-list-upper-roman {
 
 .text-dark-emphasis {
   color: #495057 !important;
-}
-
-.flatpickr-months {
-  margin: 0.5rem 0;
-}
-.flatpickr-months .flatpickr-month, .flatpickr-months .flatpickr-next-month, .flatpickr-months .flatpickr-prev-month {
-  height: auto;
-  position: relative;
-}
-.flatpickr-months .flatpickr-month:hover svg, .flatpickr-months .flatpickr-next-month:hover svg, .flatpickr-months .flatpickr-prev-month:hover svg {
-  fill: #007bff;
-}
-.flatpickr-months .flatpickr-month {
-  color: #212529;
-}
-
-.flatpickr-current-month {
-  padding: 13px 0 0 0;
-  font-size: 115%;
-}
-.flatpickr-current-month span.cur-month {
-  font-weight: 700;
-}
-.flatpickr-current-month span.cur-month:hover {
-  background: rgba(0, 123, 255, 0.15);
-}
-
-.numInputWrapper:hover {
-  background: rgba(0, 123, 255, 0.15);
-}
-
-.flatpickr-day {
-  border-radius: 0.25rem;
-  font-weight: 500;
-  color: #212529;
-}
-.flatpickr-day.today {
-  border-color: #007bff;
-}
-.flatpickr-day.today:hover {
-  background: #007bff;
-  border-color: #007bff;
-}
-.flatpickr-day:hover {
-  background: rgba(0, 123, 255, 0.1);
-  border-color: rgba(0, 0, 0, 0);
-}
-
-span.flatpickr-weekday {
-  color: #212529;
-}
-
-.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay {
-  background: #007bff;
-  border-color: #007bff;
-}
-
-.flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1)) {
-  box-shadow: -10px 0 0 #007bff;
-}
-
-.flatpickr-day.selected.startRange, .flatpickr-day.startRange.startRange, .flatpickr-day.endRange.startRange {
-  border-radius: 0.25rem 0 0 0.25rem;
-}
-
-.flatpickr-day.selected.endRange, .flatpickr-day.startRange.endRange, .flatpickr-day.endRange.endRange {
-  border-radius: 0 0.25rem 0.25rem 0;
-}
-
-.flatpickr-monthSelect-month:hover,
-.flatpickr-monthSelect-month:focus {
-  background: rgba(0, 123, 255, 0.1);
-}
-
-.flatpickr-monthSelect-month.selected {
-  background-color: #007bff;
-}
-
-.flatpickr-button:hover {
-  background: rgba(0, 123, 255, 0.15);
 }

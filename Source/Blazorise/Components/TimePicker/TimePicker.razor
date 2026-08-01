@@ -1,6 +1,49 @@
 @namespace Blazorise
 @typeparam TValue
 @inherits BaseTextInput<TValue, TimePickerClasses, TimePickerStyles>
-<input @ref="@ElementRef" id="@ElementId" type="text" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ExplicitAriaLabelledBy" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+<CascadingValue Value="@this" IsFixed>
+    <div id="@PickerContainerId" class="@PickerContainerClassNames" style="@PickerContainerStyleNames">
+        <input @ref="@ElementRef"
+               id="@ElementId"
+               type="@InputType"
+               name="@NameAttributeValue"
+               class="@ClassNames"
+               style="@StyleNames"
+               disabled="@IsDisabled"
+               readonly="@ReadOnly"
+               pattern="@Pattern"
+               value="@VisibleInputText"
+               @oninput="@OnInputHandler"
+               @onchange="@OnChangeHandler"
+               @onclick="@OnClickHandler"
+               @onpointerdown="@OnPointerDownHandler"
+               @onpointerup="@OnPointerInteractionEndedHandler"
+               @onpointercancel="@OnPointerInteractionEndedHandler"
+               @onkeydown="@OnKeyDownHandler"
+               @onkeypress="@OnKeyPressHandler"
+               @onkeyup="@OnKeyUpHandler"
+               @onblur="@OnBlurHandler"
+               @onfocus="@OnFocusHandler"
+               @onfocusin="@OnFocusInHandler"
+               @onfocusout="@OnFocusOutHandler"
+               placeholder="@Placeholder"
+               min="@InputMin"
+               max="@InputMax"
+               step="@InputStep"
+               tabindex="@TabIndex"
+               role="@InputRole"
+               aria-haspopup="@InputAriaHasPopup"
+               aria-expanded="@InputAriaExpanded"
+               aria-controls="@InputAriaControls"
+               aria-invalid="@ResolvedAriaInvalid"
+               aria-required="@ResolvedAriaRequired"
+               aria-describedby="@ResolvedAriaDescribedBy"
+               aria-labelledby="@ExplicitAriaLabelledBy"
+               data-open-keys="@(InputKeyboardNavigationEnabled ? "true" : null)"
+               autocomplete="off"
+               @attributes="@Attributes" />
+        <_TimePickerMenu TValue="TValue" />
+    </div>
+</CascadingValue>
 @ChildContent
 @Feedback

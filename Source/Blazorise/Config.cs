@@ -45,7 +45,6 @@ public static class Config
         serviceCollection.AddSingleton<IIdGenerator, IdGenerator>();
         serviceCollection.AddSingleton<IThemeCache, ThemeCache>();
         serviceCollection.AddSingleton<IValidationMessageLocalizerAttributeFinder, ValidationMessageLocalizerAttributeFinder>();
-        serviceCollection.AddSingleton<IFlatPickrDateTimeDisplayFormatConverter, FlatPickrDateTimeDisplayFormatConverter>();
         serviceCollection.AddSingleton<IInputMaskDateTimeInputFormatConverter, InputMaskDateTimeInputFormatConverter>();
 
         foreach ( var mapping in LocalizationMap

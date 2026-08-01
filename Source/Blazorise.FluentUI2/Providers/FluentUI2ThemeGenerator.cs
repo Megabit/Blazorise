@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Text;
 #endregion
@@ -113,11 +113,11 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
             SetVar( "--colorBrandBackground2Hover", ToHex( ShadeColor( ParseColor( brand2 ), 10f ) ) );
             SetVar( "--colorBrandBackground2Pressed", ToHex( ShadeColor( ParseColor( brand2 ), 25f ) ) );
 
-            // inverted brand background - defer to neutral backgrounds (keeps system consistent)
+            // Inverted brand backgrounds preserve Fluent's subtle selected states.
             SetVar( "--colorBrandBackgroundInverted", "var(--colorNeutralBackground1)" );
-            SetVar( "--colorBrandBackgroundInvertedHover", "var(--colorNeutralBackground1Hover)" );
-            SetVar( "--colorBrandBackgroundInvertedPressed", "var(--colorNeutralBackground1Pressed)" );
-            SetVar( "--colorBrandBackgroundInvertedSelected", "var(--colorNeutralBackground1Selected)" );
+            SetVar( "--colorBrandBackgroundInvertedHover", "var(--colorBrandBackground2)" );
+            SetVar( "--colorBrandBackgroundInvertedPressed", "var(--colorBrandBackground2Pressed)" );
+            SetVar( "--colorBrandBackgroundInvertedSelected", "var(--colorBrandBackground2Hover)" );
 
             // brand stroke 2 + contrast
             SetVar( "--colorBrandStroke2", ToHex( ShadeColor( ParseColor( baseHex ), 30f ) ) );

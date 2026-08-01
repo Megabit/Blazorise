@@ -14,6 +14,8 @@
 @import "components/button";
 @import "components/card";
 @import "components/context-menu";
+@import "components/date-picker";
+@import "components/time-picker";
 @import "components/divider";
 @import "components/dock-layout";
 @import "components/dropdown";
@@ -30,6 +32,7 @@
 @import "components/modal";
 @import "components/offcanvas";
 @import "components/pagination";
+@import "components/property-grid";
 @import "components/progress";
 @import "components/rating";
 @import "components/steps";
@@ -52,5 +55,3 @@
 @import "utilities/list";
 @import "utilities/sizing";
 @import "utilities/text";
-
-@import "_vendors/flatpickr";

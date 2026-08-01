@@ -17,6 +17,8 @@ public partial class _ReportDesignerWorkspace
 
     private _ReportDesignerSurface designerSurface;
 
+    private _ReportDesignerPropertiesPanel propertiesPanel;
+
     private _ReportDesignerContextMenu contextMenu;
 
     private _ReportDesignerDialogsHost dialogsHost;
@@ -33,6 +35,9 @@ public partial class _ReportDesignerWorkspace
         if ( designerLayout is not null )
             _ = designerLayout.RefreshSurface();
     }
+
+    internal void InvalidatePropertiesPanel()
+        => propertiesPanel?.InvalidatePropertyGridSchema();
 
     internal void BeginFieldDrag( string dataSourceName, string fieldName )
         => designerSurface?.BeginFieldDrag( dataSourceName, fieldName );

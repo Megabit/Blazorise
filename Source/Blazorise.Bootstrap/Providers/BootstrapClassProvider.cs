@@ -98,6 +98,44 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
+    public override string DatePickerContainer( bool inline, bool open ) => $"datepicker dropdown{( inline ? " datepicker-inline" : null )}{( open ? " show" : null )}";
+
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"datepicker-calendar dropdown-menu show{( inline ? " datepicker-calendar-inline" : null )}{( staticPicker ? " datepicker-calendar-static" : " datepicker-calendar-floating" )}";
+
+    public override string DatePickerCalendarBackdrop() => "datepicker-backdrop";
+
+    public override string DatePickerCalendarHeader() => "datepicker-header";
+
+    public override string DatePickerCalendarNavigation() => "datepicker-navigation";
+
+    public override string DatePickerCalendarTitle() => "datepicker-title";
+
+    public override string DatePickerCalendarGrid() => "datepicker-grid";
+
+    public override string DatePickerCalendarWeekdays() => "datepicker-weekdays";
+
+    public override string DatePickerCalendarWeekday() => "datepicker-weekday";
+
+    public override string DatePickerCalendarWeek() => "datepicker-week";
+
+    public override string DatePickerCalendarWeekNumber() => "datepicker-week-number";
+
+    public override string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused )
+        => $"datepicker-day{( outside ? " datepicker-day-outside" : null )}{( today ? " datepicker-day-today" : null )}{( selected ? " datepicker-day-selected" : null )}{( rangeStart ? " datepicker-day-range-start" : null )}{( inRange ? " datepicker-day-in-range" : null )}{( rangeEnd ? " datepicker-day-range-end" : null )}{( disabled ? " datepicker-day-disabled" : null )}{( focused ? " datepicker-day-focused" : null )}";
+
+    public override string DatePickerCalendarMonths() => "datepicker-months";
+
+    public override string DatePickerCalendarMonth( bool selected, bool disabled, bool focused )
+        => $"datepicker-month{( selected ? " datepicker-month-selected" : null )}{( disabled ? " datepicker-month-disabled" : null )}{( focused ? " datepicker-month-focused" : null )}";
+
+    public override string DatePickerCalendarTime() => "datepicker-time";
+
+    public override string DatePickerCalendarTimeInput() => "datepicker-time-input";
+
+    public override string DatePickerCalendarActions() => "datepicker-actions";
+
+    public override string DatePickerCalendarButton() => "datepicker-button";
+
     #endregion
 
     #region TimePicker
@@ -109,6 +147,25 @@ public class BootstrapClassProvider : ClassProvider
     public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    public override string TimePickerContainer( bool inline, bool open )
+        => $"timepicker dropdown{( inline ? " timepicker-inline" : null )}{( open ? " show" : null )}";
+
+    public override string TimePickerMenu( bool inline, bool staticPicker )
+        => $"timepicker-menu dropdown-menu show{( inline ? " timepicker-menu-inline" : null )}{( staticPicker ? " timepicker-menu-static" : " timepicker-menu-floating" )}";
+
+    public override string TimePickerBackdrop() => "timepicker-backdrop";
+
+    public override string TimePickerControls() => "timepicker-controls";
+
+    public override string TimePickerControl( bool focused ) => $"timepicker-control{( focused ? " timepicker-control-focused" : null )}";
+
+    public override string TimePickerInput() => "timepicker-input";
+
+    public override string TimePickerSeparator() => "timepicker-separator";
+
+    public override string TimePickerMeridiem( bool postMeridiem, bool focused )
+        => $"timepicker-meridiem{( postMeridiem ? " timepicker-meridiem-pm" : null )}{( focused ? " timepicker-control-focused" : null )}";
 
     #endregion
 
@@ -622,6 +679,44 @@ public class BootstrapClassProvider : ClassProvider
     public override string ContextMenuSubmenuTriggerDisabled( bool disabled ) => DropdownItemDisabled( disabled );
 
     public override string ContextMenuSubmenuBody() => "context-menu-submenu-menu";
+
+    #endregion
+
+    #region PropertyGrid
+
+    public override string PropertyGrid() => "property-grid";
+
+    public override string PropertyGridViewport() => "property-grid-viewport";
+
+    public override string PropertyGridToolbar() => "property-grid-toolbar";
+
+    public override string PropertyGridToolbarButton() => "property-grid-toolbar-button";
+
+    public override string PropertyGridToolbarSearch() => "property-grid-toolbar-search";
+
+    public override string PropertyGridEmpty() => "property-grid-empty";
+
+    public override string PropertyGridHelp() => "property-grid-help";
+
+    public override string PropertyGridHelpTitle() => "property-grid-help-title";
+
+    public override string PropertyGridHelpDescription() => "property-grid-help-description";
+
+    public override string PropertyGridGroup() => "property-grid-group";
+
+    public override string PropertyGridGroupHeader() => "property-grid-group-header";
+
+    public override string PropertyGridGroupToggle() => "property-grid-group-toggle";
+
+    public override string PropertyGridGroupBody() => "property-grid-group-body";
+
+    public override string PropertyGridItem() => "property-grid-item";
+
+    public override string PropertyGridItemSelected( bool selected ) => selected ? "property-grid-item-selected" : null;
+
+    public override string PropertyGridItemLabel() => "property-grid-item-label";
+
+    public override string PropertyGridItemBody() => "property-grid-item-body";
 
     #endregion
 

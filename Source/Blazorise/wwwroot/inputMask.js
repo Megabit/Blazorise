@@ -1,5 +1,5 @@
 import Inputmask from "./vendors/inputmask.js?v=2.2.2.0";
-import { getRequiredElement } from "./utilities.js?v=2.2.2.0";
+import { createEvent, getRequiredElement } from "./utilities.js?v=2.2.2.0";
 
 let _instances = [];
 
@@ -8,6 +8,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
     if (!element)
         return;
+
+    let initializing = true;
 
     const maskOptions = options.mask ? { mask: options.mask } : {};
     const regexOptions = options.mask ? { regex: options.regex } : {};
@@ -23,7 +25,16 @@ export function initialize(dotnetAdapter, element, elementId, options) {
             oncleared: function () {
                 dotnetAdapter.invokeMethodAsync('NotifyCleared');
             }
-        } : {};
+        }
+        : options.dispatchChangeOnComplete
+            ? {
+                oncomplete: function (e) {
+                    if (!initializing) {
+                        e.target.dispatchEvent(createEvent("change"));
+                    }
+                }
+            }
+            : {};
 
     const otherOptions = {
         placeholder: options.maskPlaceholder || "_",
@@ -47,6 +58,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     let inputMask = new Inputmask(finalOptions);
 
     inputMask.mask(element);
+
+    setTimeout(() => initializing = false, 0);
 
     _instances[elementId] = {
         dotnetAdapter: dotnetAdapter,

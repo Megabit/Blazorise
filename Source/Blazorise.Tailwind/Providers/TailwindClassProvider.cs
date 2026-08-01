@@ -125,6 +125,44 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
+    public override string DatePickerContainer( bool inline, bool open ) => $"tw-datepicker{( inline ? " tw-datepicker-inline" : null )}{( open ? " tw-datepicker-open" : null )}";
+
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"tw-datepicker-calendar{( inline ? " tw-datepicker-calendar-inline" : null )}{( staticPicker ? " tw-datepicker-calendar-static" : " tw-datepicker-calendar-floating" )}";
+
+    public override string DatePickerCalendarBackdrop() => "tw-datepicker-backdrop";
+
+    public override string DatePickerCalendarHeader() => "tw-datepicker-header";
+
+    public override string DatePickerCalendarNavigation() => "tw-datepicker-navigation";
+
+    public override string DatePickerCalendarTitle() => "tw-datepicker-title";
+
+    public override string DatePickerCalendarGrid() => "tw-datepicker-grid";
+
+    public override string DatePickerCalendarWeekdays() => "tw-datepicker-weekdays";
+
+    public override string DatePickerCalendarWeekday() => "tw-datepicker-weekday";
+
+    public override string DatePickerCalendarWeek() => "tw-datepicker-week";
+
+    public override string DatePickerCalendarWeekNumber() => "tw-datepicker-week-number";
+
+    public override string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused )
+        => $"tw-datepicker-day{( outside ? " tw-datepicker-day-outside" : null )}{( today ? " tw-datepicker-day-today" : null )}{( inRange ? " tw-datepicker-day-in-range" : null )}{( selected ? " tw-datepicker-day-selected" : null )}{( rangeStart ? " tw-datepicker-day-range-start" : null )}{( rangeEnd ? " tw-datepicker-day-range-end" : null )}{( disabled ? " tw-datepicker-day-disabled" : null )}{( focused ? " tw-datepicker-day-focused" : null )}";
+
+    public override string DatePickerCalendarMonths() => "tw-datepicker-months";
+
+    public override string DatePickerCalendarMonth( bool selected, bool disabled, bool focused )
+        => $"tw-datepicker-month{( selected ? " tw-datepicker-month-selected" : null )}{( disabled ? " tw-datepicker-month-disabled" : null )}{( focused ? " tw-datepicker-month-focused" : null )}";
+
+    public override string DatePickerCalendarTime() => "tw-datepicker-time";
+
+    public override string DatePickerCalendarTimeInput() => "tw-datepicker-time-input";
+
+    public override string DatePickerCalendarActions() => "tw-datepicker-actions";
+
+    public override string DatePickerCalendarButton() => "tw-datepicker-button";
+
     #endregion
 
     #region TimePicker
@@ -136,6 +174,25 @@ public class TailwindClassProvider : ClassProvider
     public override string TimePickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    public override string TimePickerContainer( bool inline, bool open )
+        => $"tw-timepicker{( inline ? " tw-timepicker-inline" : null )}{( open ? " tw-timepicker-open" : null )}";
+
+    public override string TimePickerMenu( bool inline, bool staticPicker )
+        => $"tw-timepicker-menu{( inline ? " tw-timepicker-menu-inline" : null )}{( staticPicker ? " tw-timepicker-menu-static" : " tw-timepicker-menu-floating" )}";
+
+    public override string TimePickerBackdrop() => "tw-timepicker-backdrop";
+
+    public override string TimePickerControls() => "tw-timepicker-controls";
+
+    public override string TimePickerControl( bool focused ) => $"tw-timepicker-control{( focused ? " tw-timepicker-control-focused" : null )}";
+
+    public override string TimePickerInput() => "tw-timepicker-input";
+
+    public override string TimePickerSeparator() => "tw-timepicker-separator";
+
+    public override string TimePickerMeridiem( bool postMeridiem, bool focused )
+        => $"tw-timepicker-meridiem{( postMeridiem ? " tw-timepicker-meridiem-pm" : null )}{( focused ? " tw-timepicker-control-focused" : null )}";
 
     #endregion
 
@@ -917,6 +974,44 @@ public class TailwindClassProvider : ClassProvider
     public override string ContextMenuSubmenuTriggerDisabled( bool disabled ) => DropdownItemDisabled( disabled );
 
     public override string ContextMenuSubmenuBody() => "tw-context-menu-submenu-menu";
+
+    #endregion
+
+    #region PropertyGrid
+
+    public override string PropertyGrid() => "tw-property-grid";
+
+    public override string PropertyGridViewport() => "tw-property-grid-viewport";
+
+    public override string PropertyGridToolbar() => "tw-property-grid-toolbar";
+
+    public override string PropertyGridToolbarButton() => "tw-property-grid-toolbar-button";
+
+    public override string PropertyGridToolbarSearch() => "tw-property-grid-toolbar-search";
+
+    public override string PropertyGridEmpty() => "tw-property-grid-empty";
+
+    public override string PropertyGridHelp() => "tw-property-grid-help";
+
+    public override string PropertyGridHelpTitle() => "tw-property-grid-help-title";
+
+    public override string PropertyGridHelpDescription() => "tw-property-grid-help-description";
+
+    public override string PropertyGridGroup() => "tw-property-grid-group";
+
+    public override string PropertyGridGroupHeader() => "tw-property-grid-group-header";
+
+    public override string PropertyGridGroupToggle() => "tw-property-grid-group-toggle";
+
+    public override string PropertyGridGroupBody() => "tw-property-grid-group-body";
+
+    public override string PropertyGridItem() => "tw-property-grid-item";
+
+    public override string PropertyGridItemSelected( bool selected ) => selected ? "tw-property-grid-item-selected" : null;
+
+    public override string PropertyGridItemLabel() => "tw-property-grid-item-label";
+
+    public override string PropertyGridItemBody() => "tw-property-grid-item-body";
 
     #endregion
 
