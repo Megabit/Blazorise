@@ -51,11 +51,11 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
 
     private ComponentParameterInfo<CodeEditorDocumentFormattingProvider> paramFormattingProvider;
 
-    private ComponentParameterInfo<bool?> paramDebounce;
+    private ComponentParameterInfo<bool> paramDebounce;
 
     private ComponentParameterInfo<int?> paramDebounceInterval;
 
-    private ComponentParameterInfo<bool?> paramImmediate;
+    private ComponentParameterInfo<bool> paramImmediate;
 
     private ComponentParameterInfo<int?> paramTabIndex;
 
@@ -644,8 +644,8 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
             AriaRequired = ResolvedAriaRequired,
             AriaDescribedBy = ResolvedAriaDescribedBy,
             AriaLabelledBy = ResolvedAriaLabelledBy,
-            Immediate = Immediate.GetValueOrDefault( Options?.Immediate ?? true ),
-            Debounce = Debounce.GetValueOrDefault( Options?.Debounce ?? false ),
+            Immediate = paramImmediate.GetValueOrDefault( Options?.Immediate ?? true ),
+            Debounce = paramDebounce.GetValueOrDefault( Options?.Debounce ?? false ),
             DebounceInterval = Math.Max( 0, DebounceInterval.GetValueOrDefault( Options?.DebounceInterval ?? 300 ) ),
             AutomaticLayout = editorOptions.AutomaticLayout,
             Minimap = editorOptions.Minimap,
@@ -805,17 +805,17 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// Gets or sets whether user-originated value updates are sent to .NET while typing.
     /// </summary>
     /// <remarks>
-    /// When set, this value overrides the global Blazorise immediate option. When disabled, the value is sent on blur.
+    /// When supplied, this value overrides the global Blazorise immediate option. When disabled, the value is sent on blur.
     /// </remarks>
-    [Parameter] public bool? Immediate { get; set; }
+    [Parameter] public bool Immediate { get; set; }
 
     /// <summary>
     /// Gets or sets whether user-originated value updates are debounced before being sent to .NET.
     /// </summary>
     /// <remarks>
-    /// When set, this value overrides the global Blazorise debounce option.
+    /// When supplied, this value overrides the global Blazorise debounce option.
     /// </remarks>
-    [Parameter] public bool? Debounce { get; set; }
+    [Parameter] public bool Debounce { get; set; }
 
     /// <summary>
     /// Gets or sets the debounce interval in milliseconds.
