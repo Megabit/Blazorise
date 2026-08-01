@@ -445,7 +445,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     [JSInvokable]
     public Task OnEditorFocus()
     {
-        return EditorFocus.InvokeAsync();
+        return Focused.InvokeAsync();
     }
 
     /// <summary>
@@ -454,7 +454,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     [JSInvokable]
     public async Task OnEditorBlur()
     {
-        await EditorBlur.InvokeAsync();
+        await Blurred.InvokeAsync();
         await ValidateOnBlurAsync();
     }
 
@@ -916,12 +916,12 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// <summary>
     /// Notifies when the editor gains focus.
     /// </summary>
-    [Parameter] public EventCallback EditorFocus { get; set; }
+    [Parameter] public EventCallback Focused { get; set; }
 
     /// <summary>
     /// Notifies when the editor loses focus.
     /// </summary>
-    [Parameter] public EventCallback EditorBlur { get; set; }
+    [Parameter] public EventCallback Blurred { get; set; }
 
     #endregion
 }

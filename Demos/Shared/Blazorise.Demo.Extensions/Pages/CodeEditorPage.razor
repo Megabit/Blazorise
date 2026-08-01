@@ -63,8 +63,8 @@
                             DebounceInterval="150"
                             MinHeight="420px"
                             Ready="@OnReady"
-                            EditorFocus="@OnFocus"
-                            EditorBlur="@OnBlur" />
+                            Focused="@OnFocused"
+                            Blurred="@OnBlurred" />
             </CardBody>
             <CardFooter>
                 <Buttons>
@@ -226,14 +226,14 @@ public class Greeting
         return Task.CompletedTask;
     }
 
-    private Task OnFocus()
+    private Task OnFocused()
     {
         editorStatus = "Focused";
 
         return Task.CompletedTask;
     }
 
-    private Task OnBlur()
+    private Task OnBlurred()
     {
         editorStatus = "Blurred";
 
