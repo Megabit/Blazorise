@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-01T10:27:03.6207694Z",
+  "generatedUtc": "2026-08-02T14:24:40.7801373Z",
   "pages": [
     {
       "route": "/docs",
@@ -4996,6 +4996,108 @@
         {
           "kind": "type",
           "name": "ChartZoom"
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/code-editor",
+      "title": "Blazorise CodeEditor component",
+      "description": "Learn how to use the Blazorise CodeEditor component for source editing, options, events, diagnostics, custom languages, completion, and formatting.",
+      "pagePath": "Pages/Docs/Extensions/CodeEditor/CodeEditorPage.razor",
+      "examples": [
+        {
+          "code": "CodeEditorNugetInstallExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/CodeEditor/Examples/CodeEditorNugetInstallExample.snippet",
+          "content": "Install-Package Blazorise.CodeEditor",
+          "title": "NuGet",
+          "description": "Install the CodeEditor extension package."
+        },
+        {
+          "code": "CodeEditorServiceRegistrationExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/CodeEditor/Examples/CodeEditorServiceRegistrationExample.snippet",
+          "content": "builder.Services\r\n    .AddBlazorise()\r\n    .AddBootstrap5Providers()\r\n    .AddBlazoriseCodeEditor();",
+          "title": "Service registration",
+          "description": "Register CodeEditor after the main Blazorise services and UI provider. The extension serves and loads its editor assets automatically."
+        },
+        {
+          "code": "CodeEditorImportsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/CodeEditor/Examples/CodeEditorImportsExample.snippet",
+          "content": "@using Blazorise.CodeEditor",
+          "title": "Imports",
+          "description": "Add the extension namespace to the application's main _Imports.razor ."
+        },
+        {
+          "code": "CodeEditorBasicExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/CodeEditor/Examples/CodeEditorBasicExample.razor",
+          "content": "<CodeEditor @bind-Value=\"@sourceCode\"\r\n            Language=\"@CodeEditorLanguage.CSharp\"\r\n            Theme=\"@CodeEditorTheme.VisualStudioDark\"\r\n            Immediate\r\n            MinHeight=\"220px\" />\r\n\r\n<Div Margin=\"Margin.Is3.FromTop\">\r\n    <Span TextWeight=\"TextWeight.SemiBold\">Characters:</Span>\r\n    <Code>@sourceCode.Length</Code>\r\n</Div>\r\n\r\n@code {\r\n    private string sourceCode = \"\"\"\r\npublic static string Greet( string name )\r\n{\r\n    return $\"Hello, {name}!\";\r\n}\r\n\"\"\";\r\n}",
+          "title": "Bind a document",
+          "description": "Use @@bind-Value for normal two-way binding and choose one of the identifiers from CodeEditorLanguage . Immediate sends user changes to .NET while typing."
+        },
+        {
+          "code": "CodeEditorOptionsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/CodeEditor/Examples/CodeEditorOptionsExample.razor",
+          "content": "<CodeEditor @ref=\"@editor\"\r\n            @bind-Value=\"@sourceCode\"\r\n            Language=\"@CodeEditorLanguage.JavaScript\"\r\n            EditorOptions=\"@editorOptions\"\r\n            Immediate\r\n            Debounce\r\n            DebounceInterval=\"250\"\r\n            Ready=\"@OnReady\"\r\n            ContentChanged=\"@OnContentChanged\"\r\n            Focused=\"@OnFocused\"\r\n            Blurred=\"@OnBlurred\"\r\n            MinHeight=\"220px\" />\r\n\r\n<Div Display=\"Display.Flex\" Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is3\" Margin=\"Margin.Is3.FromTop\">\r\n    <Button Color=\"Color.Primary\" Clicked=\"@FocusEditor\">Focus editor</Button>\r\n    <Span>@status</Span>\r\n</Div>\r\n\r\n@code {\r\n    private global::Blazorise.CodeEditor.CodeEditor editor;\r\n\r\n    private string status = \"Waiting for the editor\";\r\n\r\n    private string sourceCode = \"\"\"\r\nconst greeting = name => `Hello, ${name}!`;\r\n\r\nconsole.log(greeting(\"Blazorise\"));\r\n\"\"\";\r\n\r\n    private readonly CodeEditorOptions editorOptions = new()\r\n    {\r\n        Minimap = false,\r\n        WordWrap = true,\r\n        TabSize = 2,\r\n        RenderWhitespace = true,\r\n        ScrollBeyondLastLine = false,\r\n        FontSize = 14,\r\n    };\r\n\r\n    private Task FocusEditor()\r\n        => editor?.Focus() ?? Task.CompletedTask;\r\n\r\n    private Task OnReady( CodeEditorReadyEventArgs eventArgs )\r\n    {\r\n        status = $\"Ready: {eventArgs.ElementId}\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task OnContentChanged( string value )\r\n    {\r\n        status = $\"Changed: {value.Length} characters\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task OnFocused()\r\n    {\r\n        status = \"Focused\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task OnBlurred()\r\n    {\r\n        status = \"Blurred\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
+          "title": "Configure behavior and observe events",
+          "description": "EditorOptions contains editor-specific settings. Ready , Focused , Blurred , and ContentChanged describe the editor lifecycle and user activity. Debouncing keeps frequent server-side value updates under control."
+        },
+        {
+          "code": "CodeEditorDiagnosticsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/CodeEditor/Examples/CodeEditorDiagnosticsExample.razor",
+          "content": "<CodeEditor @ref=\"@editor\"\r\n            @bind-Value=\"@json\"\r\n            Language=\"@CodeEditorLanguage.Json\"\r\n            Diagnostics=\"@applicationDiagnostics\"\r\n            Immediate\r\n            MinHeight=\"220px\" />\r\n\r\n<Div Display=\"Display.Flex\" Flex=\"Flex.Wrap.AlignItems.Center\" Gap=\"Gap.Is2\" Margin=\"Margin.Is3.FromTop\">\r\n    <Button Color=\"Color.Primary\" Clicked=\"@ReadDiagnostics\">Read diagnostics</Button>\r\n    <Button Color=\"Color.Warning\" Clicked=\"@AddApplicationWarning\">Add application warning</Button>\r\n    <Button Color=\"Color.Light\" Clicked=\"@ClearApplicationDiagnostics\">Clear application markers</Button>\r\n</Div>\r\n\r\n<Paragraph Margin=\"Margin.Is3.FromTop\">\r\n    @status\r\n</Paragraph>\r\n\r\n@code {\r\n    private global::Blazorise.CodeEditor.CodeEditor editor;\r\n\r\n    private string status = \"Edit the JSON or add an application warning.\";\r\n\r\n    private string json = \"\"\"\r\n{\r\n  \"name\": \"Blazorise\",\r\n  \"debug\": true\r\n}\r\n\"\"\";\r\n\r\n    private IReadOnlyList<CodeEditorDiagnostic> applicationDiagnostics = [];\r\n\r\n    private async Task ReadDiagnostics()\r\n    {\r\n        IReadOnlyList<CodeEditorDiagnostic> diagnostics = await editor.GetDiagnostics();\r\n        CodeEditorDiagnostic firstError = diagnostics.FirstOrDefault( diagnostic => diagnostic.Severity == CodeEditorDiagnosticSeverity.Error );\r\n\r\n        status = firstError is null\r\n            ? $\"No syntax errors. The editor currently reports {diagnostics.Count} marker(s).\"\r\n            : $\"Line {firstError.StartLineNumber}: {firstError.Message}\";\r\n    }\r\n\r\n    private Task AddApplicationWarning()\r\n    {\r\n        applicationDiagnostics =\r\n        [\r\n            new()\r\n            {\r\n                Severity = CodeEditorDiagnosticSeverity.Warning,\r\n                Message = \"Disable debug mode before publishing.\",\r\n                Code = \"APP001\",\r\n                StartLineNumber = 3,\r\n                StartColumn = 3,\r\n                EndLineNumber = 3,\r\n                EndColumn = 16,\r\n            },\r\n        ];\r\n        status = \"Application warning added.\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task ClearApplicationDiagnostics()\r\n    {\r\n        applicationDiagnostics = [];\r\n        status = \"Application markers cleared.\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
+          "title": "Read and display diagnostics",
+          "description": "Built-in language support can report syntax diagnostics for supported languages. Call GetDiagnostics when validation is requested. Use the Diagnostics parameter for application rules that should also appear as editor markers."
+        },
+        {
+          "code": "CodeEditorValidationExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/CodeEditor/Examples/CodeEditorValidationExample.razor",
+          "content": "@using System.Threading\r\n\r\n<Validations @ref=\"@validations\" Mode=\"ValidationMode.Manual\">\r\n    <Validation AsyncValidator=\"@ValidateCode\">\r\n        <Field>\r\n            <FieldLabel>JSON configuration</FieldLabel>\r\n            <FieldBody>\r\n                <CodeEditor @ref=\"@editor\"\r\n                            @bind-Value=\"@json\"\r\n                            Language=\"@CodeEditorLanguage.Json\"\r\n                            Immediate\r\n                            MinHeight=\"220px\">\r\n                    <Feedback>\r\n                        <ValidationError />\r\n                    </Feedback>\r\n                </CodeEditor>\r\n            </FieldBody>\r\n        </Field>\r\n    </Validation>\r\n\r\n    <Button Color=\"Color.Primary\" Clicked=\"@Validate\">Validate</Button>\r\n</Validations>\r\n\r\n@code {\r\n    private global::Blazorise.CodeEditor.CodeEditor editor;\r\n\r\n    private Validations validations;\r\n\r\n    private string json = \"\"\"\r\n{\r\n  \"name\": \"Blazorise\",\r\n  \"enabled\":\r\n}\r\n\"\"\";\r\n\r\n    private Task Validate()\r\n        => validations.ValidateAll();\r\n\r\n    private async Task ValidateCode( ValidatorEventArgs eventArgs, CancellationToken cancellationToken )\r\n    {\r\n        cancellationToken.ThrowIfCancellationRequested();\r\n\r\n        string value = Convert.ToString( eventArgs.Value );\r\n\r\n        if ( string.IsNullOrWhiteSpace( value ) )\r\n        {\r\n            eventArgs.Status = ValidationStatus.Error;\r\n            eventArgs.ErrorText = \"Enter a JSON document.\";\r\n\r\n            return;\r\n        }\r\n\r\n        IReadOnlyList<CodeEditorDiagnostic> diagnostics = await editor.GetDiagnostics();\r\n\r\n        cancellationToken.ThrowIfCancellationRequested();\r\n\r\n        CodeEditorDiagnostic error = diagnostics.FirstOrDefault(\r\n            diagnostic => diagnostic.Severity == CodeEditorDiagnosticSeverity.Error );\r\n\r\n        eventArgs.Status = error is null\r\n            ? ValidationStatus.Success\r\n            : ValidationStatus.Error;\r\n        eventArgs.ErrorText = error?.Message;\r\n    }\r\n}",
+          "title": "Validate code in a form",
+          "description": "Put CodeEditor inside the standard Blazorise validation components. The validator runs only when requested and uses GetDiagnostics to reject documents that contain error markers."
+        },
+        {
+          "code": "CodeEditorCompletionExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/CodeEditor/Examples/CodeEditorCompletionExample.razor",
+          "content": "<Paragraph>\r\n    Type <Code>console.</Code>, or press <Code>Ctrl+Space</Code>, and select a suggestion. Press <Code>Tab</Code> to move through snippet placeholders.\r\n</Paragraph>\r\n\r\n<CodeEditor @bind-Value=\"@sourceCode\"\r\n            Language=\"@CodeEditorLanguage.JavaScript\"\r\n            CompletionItems=\"@completionItems\"\r\n            CompletionTriggerCharacters=\"@triggerCharacters\"\r\n            Immediate\r\n            MinHeight=\"220px\" />\r\n\r\n@code {\r\n    private string sourceCode = \"\"\"\r\nfunction greet( name ) {\r\n    // Type console. here\r\n}\r\n\"\"\";\r\n\r\n    private static readonly IReadOnlyList<string> triggerCharacters = [\".\"];\r\n\r\n    private static readonly IReadOnlyList<CodeEditorCompletionItem> completionItems =\r\n    [\r\n        new()\r\n        {\r\n            Label = \"log\",\r\n            InsertText = \"log(${1:value});\",\r\n            Kind = CodeEditorCompletionItemKind.Method,\r\n            Detail = \"Write a message to the console\",\r\n            Documentation = \"Inserts console.log with an editable value placeholder.\",\r\n            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,\r\n        },\r\n        new()\r\n        {\r\n            Label = \"warn\",\r\n            InsertText = \"warn(${1:value});\",\r\n            Kind = CodeEditorCompletionItemKind.Method,\r\n            Detail = \"Write a warning to the console\",\r\n            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,\r\n        },\r\n        new()\r\n        {\r\n            Label = \"error\",\r\n            InsertText = \"error(${1:value});\",\r\n            Kind = CodeEditorCompletionItemKind.Method,\r\n            Detail = \"Write an error to the console\",\r\n            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,\r\n        },\r\n    ];\r\n}",
+          "title": "Add static completion and snippets",
+          "description": "Use CompletionItems when the same suggestions are valid everywhere. InsertAsSnippet enables numbered placeholders, and CompletionTriggerCharacters can open suggestions after characters such as a dot. Press Ctrl+Space to request suggestions manually."
+        },
+        {
+          "code": "CodeEditorCustomLanguageExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/CodeEditor/Examples/CodeEditorCustomLanguageExample.razor",
+          "content": "<CodeEditor @bind-Value=\"@workflow\"\r\n            Language=\"@workflowLanguageId\"\r\n            Languages=\"@workflowLanguages\"\r\n            Theme=\"@CodeEditorTheme.VisualStudioDark\"\r\n            Immediate\r\n            MinHeight=\"220px\" />\r\n\r\n@code {\r\n    private const string workflowLanguageId = \"sample-workflow\";\r\n\r\n    private string workflow = \"\"\"\r\n# A small domain-specific workflow\r\nstep Build\r\nwhen success\r\nrun \"dotnet build\"\r\n\"\"\";\r\n\r\n    private static readonly IReadOnlyList<CodeEditorLanguageDefinition> workflowLanguages =\r\n    [\r\n        new()\r\n        {\r\n            Id = workflowLanguageId,\r\n            Aliases = [\"Workflow\"],\r\n            Extensions = [\".workflow\"],\r\n            Tokenizer = new()\r\n            {\r\n                IgnoreCase = true,\r\n                DefaultToken = string.Empty,\r\n                Tokens =\r\n                [\r\n                    new() { Pattern = \"\\\\s+\", Token = \"white\" },\r\n                    new() { Pattern = \"#.*$\", Token = \"comment\" },\r\n                    new() { Pattern = \"\\\"[^\\\"\\\\r\\\\n]*\\\"\", Token = \"string\" },\r\n                    new() { Pattern = \"\\\\b(?:step|when|run|success|failure)\\\\b\", Token = \"keyword\" },\r\n                    new() { Pattern = \"\\\\b\\\\d+\\\\b\", Token = \"number\" },\r\n                    new() { Pattern = \"[A-Za-z_][A-Za-z0-9_-]*\", Token = \"identifier\" },\r\n                ],\r\n            },\r\n        },\r\n    ];\r\n}",
+          "title": "Define a custom language",
+          "description": "Supply Languages when editing a domain-specific language. Each CodeEditorLanguageDefinition registers an identifier, while its Tokenizer maps regular-expression rules to token names used for syntax highlighting."
+        },
+        {
+          "code": "CodeEditorContextualCompletionExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/CodeEditor/Examples/CodeEditorContextualCompletionExample.razor",
+          "content": "<Paragraph>\r\n    Type an opening brace followed by part of a field name, for example <Code>{Customer</Code>.\r\n</Paragraph>\r\n\r\n<CodeEditor @bind-Value=\"@template\"\r\n            Language=\"@CodeEditorLanguage.PlainText\"\r\n            CompletionProvider=\"@completionProvider\"\r\n            Immediate\r\n            MinHeight=\"220px\" />\r\n\r\n@code {\r\n    private string template = \"Invoice for \";\r\n\r\n    private static readonly IReadOnlyList<string> fields =\r\n    [\r\n        \"Customer.Name\",\r\n        \"Customer.Email\",\r\n        \"Invoice.Number\",\r\n        \"Invoice.Total\",\r\n    ];\r\n\r\n    private static readonly CodeEditorCompletionProvider completionProvider = new()\r\n    {\r\n        Language = CodeEditorLanguage.PlainText,\r\n        TriggerCharacters = [\"{\"],\r\n        ItemsProvider = ProvideFields,\r\n    };\r\n\r\n    private static Task<IReadOnlyList<CodeEditorCompletionItem>> ProvideFields( CodeEditorCompletionContext context )\r\n    {\r\n        CodeEditorCompletionRange range = FindFieldRange( context );\r\n\r\n        if ( range is null )\r\n            return Task.FromResult<IReadOnlyList<CodeEditorCompletionItem>>( [] );\r\n\r\n        IReadOnlyList<CodeEditorCompletionItem> items = fields\r\n            .Select( field =>\r\n            {\r\n                string expression = $\"{{{field}}}\";\r\n\r\n                return new CodeEditorCompletionItem\r\n                {\r\n                    Label = expression,\r\n                    InsertText = expression,\r\n                    FilterText = expression,\r\n                    Kind = CodeEditorCompletionItemKind.Field,\r\n                    Detail = \"Template field\",\r\n                    Range = range,\r\n                };\r\n            } )\r\n            .ToArray();\r\n\r\n        return Task.FromResult( items );\r\n    }\r\n\r\n    private static CodeEditorCompletionRange FindFieldRange( CodeEditorCompletionContext context )\r\n    {\r\n        if ( context is null || context.LineNumber < 1 || context.Column < 1 )\r\n            return null;\r\n\r\n        string line = context.LineText ?? string.Empty;\r\n        int cursorIndex = Math.Min( context.Column - 1, line.Length );\r\n        string textBeforeCursor = line[..cursorIndex];\r\n        int openingIndex = textBeforeCursor.LastIndexOf( '{' );\r\n        int closingIndex = textBeforeCursor.LastIndexOf( '}' );\r\n\r\n        if ( openingIndex <= closingIndex )\r\n            return null;\r\n\r\n        int endColumn = cursorIndex < line.Length && line[cursorIndex] == '}'\r\n            ? context.Column + 1\r\n            : context.Column;\r\n\r\n        return new()\r\n        {\r\n            StartLineNumber = context.LineNumber,\r\n            StartColumn = openingIndex + 1,\r\n            EndLineNumber = context.LineNumber,\r\n            EndColumn = endColumn,\r\n        };\r\n    }\r\n}",
+          "title": "Provide context-aware completion",
+          "description": "Use CodeEditorCompletionProvider.ItemsProvider when suggestions depend on the document or cursor. The callback receives the current value, line, position, word, and trigger character. An item's optional Range tells the editor exactly what text to replace."
+        },
+        {
+          "code": "CodeEditorFormattingExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/CodeEditor/Examples/CodeEditorFormattingExample.razor",
+          "content": "@using System.Text.Json\r\n\r\n<CodeEditor @ref=\"@editor\"\r\n            @bind-Value=\"@json\"\r\n            Language=\"@CodeEditorLanguage.Json\"\r\n            FormattingProvider=\"@formattingProvider\"\r\n            EditorOptions=\"@editorOptions\"\r\n            Immediate\r\n            MinHeight=\"220px\" />\r\n\r\n<Div Display=\"Display.Flex\" Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is3\" Margin=\"Margin.Is3.FromTop\">\r\n    <Button Color=\"Color.Primary\" Clicked=\"@FormatDocument\">Format document</Button>\r\n    <Span>@status</Span>\r\n</Div>\r\n\r\n@code {\r\n    private global::Blazorise.CodeEditor.CodeEditor editor;\r\n\r\n    private string status = \"Ready\";\r\n\r\n    private string json = \"\"\"{\"name\":\"Blazorise\",\"features\":[\"completion\",\"diagnostics\",\"formatting\"]}\"\"\";\r\n\r\n    private static readonly JsonSerializerOptions serializerOptions = new()\r\n    {\r\n        WriteIndented = true,\r\n    };\r\n\r\n    private static readonly CodeEditorOptions editorOptions = new()\r\n    {\r\n        Minimap = false,\r\n        FormatOnPaste = true,\r\n        ScrollBeyondLastLine = false,\r\n    };\r\n\r\n    private static readonly CodeEditorDocumentFormattingProvider formattingProvider = new()\r\n    {\r\n        Language = CodeEditorLanguage.Json,\r\n        Formatter = FormatJson,\r\n    };\r\n\r\n    private async Task FormatDocument()\r\n    {\r\n        bool formatted = await editor.FormatDocumentAsync();\r\n\r\n        status = formatted\r\n            ? \"Formatting provider invoked.\"\r\n            : \"No formatting provider is available.\";\r\n    }\r\n\r\n    private static Task<string> FormatJson( string value )\r\n    {\r\n        try\r\n        {\r\n            using JsonDocument document = JsonDocument.Parse( value ?? string.Empty );\r\n            string formattedValue = JsonSerializer.Serialize( document.RootElement, serializerOptions );\r\n\r\n            return Task.FromResult( formattedValue );\r\n        }\r\n        catch ( JsonException )\r\n        {\r\n            return Task.FromResult( value );\r\n        }\r\n    }\r\n}",
+          "title": "Format a document",
+          "description": "A FormattingProvider connects the Format Document action to application code. Call FormatDocumentAsync from a button, or let users invoke the standard keyboard command."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "CodeEditor"
         }
       ]
     },

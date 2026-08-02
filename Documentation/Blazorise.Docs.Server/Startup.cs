@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using Blazored.LocalStorage;
 using Blazorise.Bootstrap5;
 using Blazorise.Captcha.ReCaptcha;
+using Blazorise.CodeEditor;
 using Blazorise.Components;
 using Blazorise.Docs.BlogRuntime;
 using Blazorise.Docs.Core;
@@ -64,6 +65,7 @@ public class Startup
             } )
             .AddBootstrap5Providers()
             .AddFontAwesomeIcons()
+            .AddBlazoriseCodeEditor()
             .AddBlazoriseRichTextEdit( options =>
             {
                 options.UseTables = true;

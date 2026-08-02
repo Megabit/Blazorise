@@ -1,0 +1,46 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CodeEditor</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>workflow</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Language</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>workflowLanguageId</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Languages</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>workflowLanguages</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Theme</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>CodeEditorTheme.VisualStudioDark</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Immediate</span>
+            <span class="htmlAttributeName">MinHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">220px</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">const</span> <span class="keyword">string</span> workflowLanguageId = <span class="string">&quot;sample-workflow&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> workflow = <span class="string">&quot;&quot;</span>&quot;
+# A small domain-specific workflow
+step Build
+when success
+run <span class="string">&quot;dotnet build&quot;</span>
+<span class="string">&quot;&quot;</span>&quot;;
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> IReadOnlyList&lt;CodeEditorLanguageDefinition&gt; workflowLanguages =
+    [
+        <span class="keyword">new</span>()
+        {
+            Id = workflowLanguageId,
+            Aliases = [<span class="string">&quot;Workflow&quot;</span>],
+            Extensions = [<span class="string">&quot;.workflow&quot;</span>],
+            Tokenizer = <span class="keyword">new</span>()
+            {
+                IgnoreCase = <span class="keyword">true</span>,
+                DefaultToken = <span class="keyword">string</span>.Empty,
+                Tokens =
+                [
+                    <span class="keyword">new</span>() { Pattern = <span class="string">&quot;\\s+&quot;</span>, Token = <span class="string">&quot;white&quot;</span> },
+                    <span class="keyword">new</span>() { Pattern = <span class="string">&quot;#.*$&quot;</span>, Token = <span class="string">&quot;comment&quot;</span> },
+                    <span class="keyword">new</span>() { Pattern = <span class="string">&quot;\&quot;[^\&quot;\\r\\n]*\&quot;&quot;</span>, Token = <span class="string">&quot;string&quot;</span> },
+                    <span class="keyword">new</span>() { Pattern = <span class="string">&quot;\\b(?:step|when|run|success|failure)\\b&quot;</span>, Token = <span class="string">&quot;keyword&quot;</span> },
+                    <span class="keyword">new</span>() { Pattern = <span class="string">&quot;\\b\\d+\\b&quot;</span>, Token = <span class="string">&quot;number&quot;</span> },
+                    <span class="keyword">new</span>() { Pattern = <span class="string">&quot;[A-Za-z_][A-Za-z0-9_-]*&quot;</span>, Token = <span class="string">&quot;identifier&quot;</span> },
+                ],
+            },
+        },
+    ];
+}
+</pre></div>
+</div>

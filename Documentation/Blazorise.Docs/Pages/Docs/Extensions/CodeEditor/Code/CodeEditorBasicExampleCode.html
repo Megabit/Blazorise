@@ -1,0 +1,24 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CodeEditor</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>sourceCode</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Language</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>CodeEditorLanguage.CSharp</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Theme</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>CodeEditorTheme.VisualStudioDark</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Immediate</span>
+            <span class="htmlAttributeName">MinHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">220px</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Span</span> <span class="htmlAttributeName">TextWeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextWeight</span><span class="enumValue">.SemiBold</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Characters:<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>sourceCode.Length<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">string</span> sourceCode = <span class="string">&quot;&quot;</span>&quot;
+<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">string</span> Greet( <span class="keyword">string</span> name )
+{
+    <span class="keyword">return</span> $<span class="string">&quot;Hello, {name}!&quot;</span>;
+}
+<span class="string">&quot;&quot;</span>&quot;;
+}
+</pre></div>
+</div>

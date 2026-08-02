@@ -1,0 +1,66 @@
+@namespace Blazorise.Docs.Docs.Examples
+@using System.Threading
+
+<Validations @ref="@validations" Mode="ValidationMode.Manual">
+    <Validation AsyncValidator="@ValidateCode">
+        <Field>
+            <FieldLabel>JSON configuration</FieldLabel>
+            <FieldBody>
+                <CodeEditor @ref="@editor"
+                            @bind-Value="@json"
+                            Language="@CodeEditorLanguage.Json"
+                            Immediate
+                            MinHeight="220px">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </CodeEditor>
+            </FieldBody>
+        </Field>
+    </Validation>
+
+    <Button Color="Color.Primary" Clicked="@Validate">Validate</Button>
+</Validations>
+
+@code {
+    private Blazorise.CodeEditor.CodeEditor editor;
+
+    private Validations validations;
+
+    private string json = """
+{
+  "name": "Blazorise",
+  "enabled":
+}
+""";
+
+    private Task Validate()
+        => validations.ValidateAll();
+
+    private async Task ValidateCode( ValidatorEventArgs eventArgs, CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        string value = Convert.ToString( eventArgs.Value );
+
+        if ( string.IsNullOrWhiteSpace( value ) )
+        {
+            eventArgs.Status = ValidationStatus.Error;
+            eventArgs.ErrorText = "Enter a JSON document.";
+
+            return;
+        }
+
+        IReadOnlyList<CodeEditorDiagnostic> diagnostics = await editor.GetDiagnostics();
+
+        cancellationToken.ThrowIfCancellationRequested();
+
+        CodeEditorDiagnostic error = diagnostics.FirstOrDefault(
+            diagnostic => diagnostic.Severity == CodeEditorDiagnosticSeverity.Error );
+
+        eventArgs.Status = error is null
+            ? ValidationStatus.Success
+            : ValidationStatus.Error;
+        eventArgs.ErrorText = error?.Message;
+    }
+}

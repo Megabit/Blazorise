@@ -1,0 +1,51 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Paragraph>
+    Type <Code>console.</Code>, or press <Code>Ctrl+Space</Code>, and select a suggestion. Press <Code>Tab</Code> to move through snippet placeholders.
+</Paragraph>
+
+<CodeEditor @bind-Value="@sourceCode"
+            Language="@CodeEditorLanguage.JavaScript"
+            CompletionItems="@completionItems"
+            CompletionTriggerCharacters="@triggerCharacters"
+            Immediate
+            MinHeight="220px" />
+
+@code {
+    private string sourceCode = """
+function greet( name ) {
+    // Type console. here
+}
+""";
+
+    private static readonly IReadOnlyList<string> triggerCharacters = ["."];
+
+    private static readonly IReadOnlyList<CodeEditorCompletionItem> completionItems =
+    [
+        new()
+        {
+            Label = "log",
+            InsertText = "log(${1:value});",
+            Kind = CodeEditorCompletionItemKind.Method,
+            Detail = "Write a message to the console",
+            Documentation = "Inserts console.log with an editable value placeholder.",
+            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,
+        },
+        new()
+        {
+            Label = "warn",
+            InsertText = "warn(${1:value});",
+            Kind = CodeEditorCompletionItemKind.Method,
+            Detail = "Write a warning to the console",
+            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,
+        },
+        new()
+        {
+            Label = "error",
+            InsertText = "error(${1:value});",
+            Kind = CodeEditorCompletionItemKind.Method,
+            Detail = "Write an error to the console",
+            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,
+        },
+    ];
+}

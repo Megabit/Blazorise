@@ -1,0 +1,70 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="atSign">&#64;</span>using System.Threading
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Validations</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>validations</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Mode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ValidationMode</span><span class="enumValue">.Manual</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Validation</span> <span class="htmlAttributeName">AsyncValidator</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ValidateCode</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>JSON configuration<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CodeEditor</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>editor</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>json</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">Language</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>CodeEditorLanguage.Json</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">Immediate</span>
+                            <span class="htmlAttributeName">MinHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">220px</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ValidationError</span> <span class="htmlTagDelimiter">/&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CodeEditor</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Validation</span><span class="htmlTagDelimiter">&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Validate</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Validate<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Validations</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> global::Blazorise.CodeEditor.CodeEditor editor;
+
+    <span class="keyword">private</span> Validations validations;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> json = <span class="string">&quot;&quot;</span>&quot;
+{
+  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Blazorise&quot;</span>,
+  <span class="string">&quot;enabled&quot;</span>:
+}
+<span class="string">&quot;&quot;</span>&quot;;
+
+    <span class="keyword">private</span> Task Validate()
+        =&gt; validations.ValidateAll();
+
+    <span class="keyword">private</span> <span class="keyword">async</span> Task ValidateCode( ValidatorEventArgs eventArgs, CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        <span class="keyword">string</span> value = Convert.ToString( eventArgs.Value );
+
+        <span class="keyword">if</span> ( <span class="keyword">string</span>.IsNullOrWhiteSpace( value ) )
+        {
+            eventArgs.Status = ValidationStatus.Error;
+            eventArgs.ErrorText = <span class="string">&quot;Enter a JSON document.&quot;</span>;
+
+            <span class="keyword">return</span>;
+        }
+
+        IReadOnlyList&lt;CodeEditorDiagnostic&gt; diagnostics = <span class="keyword">await</span> editor.GetDiagnostics();
+
+        cancellationToken.ThrowIfCancellationRequested();
+
+        CodeEditorDiagnostic error = diagnostics.FirstOrDefault(
+            diagnostic =&gt; diagnostic.Severity == CodeEditorDiagnosticSeverity.Error );
+
+        eventArgs.Status = error <span class="keyword">is</span> <span class="keyword">null</span>
+            ? ValidationStatus.Success
+            : ValidationStatus.Error;
+        eventArgs.ErrorText = error?.Message;
+    }
+}
+</pre></div>
+</div>

@@ -118,7 +118,7 @@ public partial class _ReportDesignerFormulaDialog
         new( "Control Structures", "Conditional", " ? : ", "Chooses between two values based on a condition." ),
     ];
 
-    private global::Blazorise.CodeEditor.CodeEditor formulaEditor;
+    private Blazorise.CodeEditor.CodeEditor formulaEditor;
 
     private string formula;
 

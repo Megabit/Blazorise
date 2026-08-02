@@ -1,0 +1,21 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<CodeEditor @bind-Value="@sourceCode"
+            Language="@CodeEditorLanguage.CSharp"
+            Theme="@CodeEditorTheme.VisualStudioDark"
+            Immediate
+            MinHeight="220px" />
+
+<Div Margin="Margin.Is3.FromTop">
+    <Span TextWeight="TextWeight.SemiBold">Characters:</Span>
+    <Code>@sourceCode.Length</Code>
+</Div>
+
+@code {
+    private string sourceCode = """
+public static string Greet( string name )
+{
+    return $"Hello, {name}!";
+}
+""";
+}

@@ -1,0 +1,87 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+    Type an opening brace followed by part of a field name, for example <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span>{Customer<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span>.
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CodeEditor</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>template</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Language</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>CodeEditorLanguage.PlainText</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">CompletionProvider</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>completionProvider</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Immediate</span>
+            <span class="htmlAttributeName">MinHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">220px</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">string</span> template = <span class="string">&quot;Invoice for &quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> IReadOnlyList&lt;<span class="keyword">string</span>&gt; fields =
+    [
+        <span class="string">&quot;Customer.Name&quot;</span>,
+        <span class="string">&quot;Customer.Email&quot;</span>,
+        <span class="string">&quot;Invoice.Number&quot;</span>,
+        <span class="string">&quot;Invoice.Total&quot;</span>,
+    ];
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> CodeEditorCompletionProvider completionProvider = <span class="keyword">new</span>()
+    {
+        Language = CodeEditorLanguage.PlainText,
+        TriggerCharacters = [<span class="string">&quot;{&quot;</span>],
+        ItemsProvider = ProvideFields,
+    };
+
+    <span class="keyword">private</span> <span class="keyword">static</span> Task&lt;IReadOnlyList&lt;CodeEditorCompletionItem&gt;&gt; ProvideFields( CodeEditorCompletionContext context )
+    {
+        CodeEditorCompletionRange range = FindFieldRange( context );
+
+        <span class="keyword">if</span> ( range <span class="keyword">is</span> <span class="keyword">null</span> )
+            <span class="keyword">return</span> Task.FromResult&lt;IReadOnlyList&lt;CodeEditorCompletionItem&gt;&gt;( [] );
+
+        IReadOnlyList&lt;CodeEditorCompletionItem&gt; items = fields
+            .Select( field =&gt;
+            {
+                <span class="keyword">string</span> expression = $<span class="string">&quot;{{{field}}}&quot;</span>;
+
+                <span class="keyword">return</span> <span class="keyword">new</span> CodeEditorCompletionItem
+                {
+                    Label = expression,
+                    InsertText = expression,
+                    FilterText = expression,
+                    Kind = CodeEditorCompletionItemKind.Field,
+                    Detail = <span class="string">&quot;Template field&quot;</span>,
+                    Range = range,
+                };
+            } )
+            .ToArray();
+
+        <span class="keyword">return</span> Task.FromResult( items );
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> CodeEditorCompletionRange FindFieldRange( CodeEditorCompletionContext context )
+    {
+        <span class="keyword">if</span> ( context <span class="keyword">is</span> <span class="keyword">null</span> || context.LineNumber &lt; <span class="number">1</span> || context.Column &lt; <span class="number">1</span> )
+            <span class="keyword">return</span> <span class="keyword">null</span>;
+
+        <span class="keyword">string</span> line = context.LineText ?? <span class="keyword">string</span>.Empty;
+        <span class="keyword">int</span> cursorIndex = Math.Min( context.Column - <span class="number">1</span>, line.Length );
+        <span class="keyword">string</span> textBeforeCursor = line[..cursorIndex];
+        <span class="keyword">int</span> openingIndex = textBeforeCursor.LastIndexOf( <span class="string">&#39;{&#39;</span> );
+        <span class="keyword">int</span> closingIndex = textBeforeCursor.LastIndexOf( <span class="string">&#39;}&#39;</span> );
+
+        <span class="keyword">if</span> ( openingIndex &lt;= closingIndex )
+            <span class="keyword">return</span> <span class="keyword">null</span>;
+
+        <span class="keyword">int</span> endColumn = cursorIndex &lt; line.Length &amp;&amp; line[cursorIndex] == <span class="string">&#39;}&#39;</span>
+            ? context.Column + <span class="number">1</span>
+            : context.Column;
+
+        <span class="keyword">return</span> <span class="keyword">new</span>()
+        {
+            StartLineNumber = context.LineNumber,
+            StartColumn = openingIndex + <span class="number">1</span>,
+            EndLineNumber = context.LineNumber,
+            EndColumn = endColumn,
+        };
+    }
+}
+</pre></div>
+</div>

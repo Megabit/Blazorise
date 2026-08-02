@@ -1,0 +1,69 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="atSign">&#64;</span>using System.Text.Json
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CodeEditor</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>editor</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>json</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Language</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>CodeEditorLanguage.Json</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">FormattingProvider</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>formattingProvider</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">EditorOptions</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>editorOptions</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Immediate</span>
+            <span class="htmlAttributeName">MinHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">220px</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Display</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Display</span><span class="enumValue">.Flex</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.AlignItems.Center</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>FormatDocument</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Format document<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>status<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> global::Blazorise.CodeEditor.CodeEditor editor;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> status = <span class="string">&quot;Ready&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> json = <span class="string">&quot;&quot;</span><span class="string">&quot;{&quot;</span>name<span class="string">&quot;:&quot;</span>Blazorise<span class="string">&quot;,&quot;</span>features<span class="string">&quot;:[&quot;</span>completion<span class="string">&quot;,&quot;</span>diagnostics<span class="string">&quot;,&quot;</span>formatting<span class="string">&quot;]}&quot;</span><span class="string">&quot;&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> JsonSerializerOptions serializerOptions = <span class="keyword">new</span>()
+    {
+        WriteIndented = <span class="keyword">true</span>,
+    };
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> CodeEditorOptions editorOptions = <span class="keyword">new</span>()
+    {
+        Minimap = <span class="keyword">false</span>,
+        FormatOnPaste = <span class="keyword">true</span>,
+        ScrollBeyondLastLine = <span class="keyword">false</span>,
+    };
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> CodeEditorDocumentFormattingProvider formattingProvider = <span class="keyword">new</span>()
+    {
+        Language = CodeEditorLanguage.Json,
+        Formatter = FormatJson,
+    };
+
+    <span class="keyword">private</span> <span class="keyword">async</span> Task FormatDocument()
+    {
+        <span class="keyword">bool</span> formatted = <span class="keyword">await</span> editor.FormatDocumentAsync();
+
+        status = formatted
+            ? <span class="string">&quot;Formatting provider invoked.&quot;</span>
+            : <span class="string">&quot;No formatting provider is available.&quot;</span>;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> Task&lt;<span class="keyword">string</span>&gt; FormatJson( <span class="keyword">string</span> value )
+    {
+        <span class="keyword">try</span>
+        {
+            <span class="keyword">using</span> JsonDocument document = JsonDocument.Parse( value ?? <span class="keyword">string</span>.Empty );
+            <span class="keyword">string</span> formattedValue = JsonSerializer.Serialize( document.RootElement, serializerOptions );
+
+            <span class="keyword">return</span> Task.FromResult( formattedValue );
+        }
+        <span class="keyword">catch</span> ( JsonException )
+        {
+            <span class="keyword">return</span> Task.FromResult( value );
+        }
+    }
+}
+</pre></div>
+</div>

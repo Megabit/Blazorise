@@ -1,0 +1,65 @@
+@namespace Blazorise.Docs.Docs.Examples
+@using System.Text.Json
+
+<CodeEditor @ref="@editor"
+            @bind-Value="@json"
+            Language="@CodeEditorLanguage.Json"
+            FormattingProvider="@formattingProvider"
+            EditorOptions="@editorOptions"
+            Immediate
+            MinHeight="220px" />
+
+<Div Display="Display.Flex" Flex="Flex.AlignItems.Center" Gap="Gap.Is3" Margin="Margin.Is3.FromTop">
+    <Button Color="Color.Primary" Clicked="@FormatDocument">Format document</Button>
+    <Span>@status</Span>
+</Div>
+
+@code {
+    private Blazorise.CodeEditor.CodeEditor editor;
+
+    private string status = "Ready";
+
+    private string json = """{"name":"Blazorise","features":["completion","diagnostics","formatting"]}""";
+
+    private static readonly JsonSerializerOptions serializerOptions = new()
+    {
+        WriteIndented = true,
+    };
+
+    private static readonly CodeEditorOptions editorOptions = new()
+    {
+        Minimap = false,
+        FormatOnPaste = true,
+        ScrollBeyondLastLine = false,
+    };
+
+    private static readonly CodeEditorDocumentFormattingProvider formattingProvider = new()
+    {
+        Language = CodeEditorLanguage.Json,
+        Formatter = FormatJson,
+    };
+
+    private async Task FormatDocument()
+    {
+        bool formatted = await editor.FormatDocumentAsync();
+
+        status = formatted
+            ? "Formatting provider invoked."
+            : "No formatting provider is available.";
+    }
+
+    private static Task<string> FormatJson( string value )
+    {
+        try
+        {
+            using JsonDocument document = JsonDocument.Parse( value ?? string.Empty );
+            string formattedValue = JsonSerializer.Serialize( document.RootElement, serializerOptions );
+
+            return Task.FromResult( formattedValue );
+        }
+        catch ( JsonException )
+        {
+            return Task.FromResult( value );
+        }
+    }
+}

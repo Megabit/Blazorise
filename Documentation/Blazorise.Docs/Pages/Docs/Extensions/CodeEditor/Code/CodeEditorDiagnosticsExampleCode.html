@@ -1,0 +1,74 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CodeEditor</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>editor</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>json</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Language</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>CodeEditorLanguage.Json</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Diagnostics</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>applicationDiagnostics</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Immediate</span>
+            <span class="htmlAttributeName">MinHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">220px</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Display</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Display</span><span class="enumValue">.Flex</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.Wrap.AlignItems.Center</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is2</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ReadDiagnostics</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Read diagnostics<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Warning</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>AddApplicationWarning</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Add application warning<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Light</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ClearApplicationDiagnostics</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Clear application markers<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="atSign">&#64;</span>status
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> global::Blazorise.CodeEditor.CodeEditor editor;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> status = <span class="string">&quot;Edit the JSON or add an application warning.&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> json = <span class="string">&quot;&quot;</span>&quot;
+{
+  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Blazorise&quot;</span>,
+  <span class="string">&quot;debug&quot;</span>: <span class="keyword">true</span>
+}
+<span class="string">&quot;&quot;</span>&quot;;
+
+    <span class="keyword">private</span> IReadOnlyList&lt;CodeEditorDiagnostic&gt; applicationDiagnostics = [];
+
+    <span class="keyword">private</span> <span class="keyword">async</span> Task ReadDiagnostics()
+    {
+        IReadOnlyList&lt;CodeEditorDiagnostic&gt; diagnostics = <span class="keyword">await</span> editor.GetDiagnostics();
+        CodeEditorDiagnostic firstError = diagnostics.FirstOrDefault( diagnostic =&gt; diagnostic.Severity == CodeEditorDiagnosticSeverity.Error );
+
+        status = firstError <span class="keyword">is</span> <span class="keyword">null</span>
+            ? $<span class="string">&quot;No syntax errors. The editor currently reports {diagnostics.Count} marker(s).&quot;</span>
+            : $<span class="string">&quot;Line {firstError.StartLineNumber}: {firstError.Message}&quot;</span>;
+    }
+
+    <span class="keyword">private</span> Task AddApplicationWarning()
+    {
+        applicationDiagnostics =
+        [
+            <span class="keyword">new</span>()
+            {
+                Severity = CodeEditorDiagnosticSeverity.Warning,
+                Message = <span class="string">&quot;Disable debug mode before publishing.&quot;</span>,
+                Code = <span class="string">&quot;APP001&quot;</span>,
+                StartLineNumber = <span class="number">3</span>,
+                StartColumn = <span class="number">3</span>,
+                EndLineNumber = <span class="number">3</span>,
+                EndColumn = <span class="number">16</span>,
+            },
+        ];
+        status = <span class="string">&quot;Application warning added.&quot;</span>;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> Task ClearApplicationDiagnostics()
+    {
+        applicationDiagnostics = [];
+        status = <span class="string">&quot;Application markers cleared.&quot;</span>;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+}
+</pre></div>
+</div>
