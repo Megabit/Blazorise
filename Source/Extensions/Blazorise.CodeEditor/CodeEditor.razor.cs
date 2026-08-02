@@ -27,10 +27,6 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
 
     private bool jsInitialized;
 
-    private string minHeight = "300px";
-
-    private string maxHeight;
-
     private ComponentParameterInfo<string> paramLanguage;
 
     private ComponentParameterInfo<string> paramTheme;
@@ -70,6 +66,18 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     private bool completionProviderUpdateScheduled;
 
     private bool formattingProviderUpdateScheduled;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// A default <see cref="CodeEditor"/> constructor.
+    /// </summary>
+    public CodeEditor()
+    {
+        Height = Blazorise.Height.Px().Min( 300 );
+    }
 
     #endregion
 
@@ -529,22 +537,6 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     }
 
     /// <inheritdoc/>
-    protected override void BuildStyles( StyleBuilder builder )
-    {
-        if ( !string.IsNullOrWhiteSpace( MinHeight ) )
-        {
-            builder.Append( $"min-height:{MinHeight}" );
-        }
-
-        if ( !string.IsNullOrWhiteSpace( MaxHeight ) )
-        {
-            builder.Append( $"max-height:{MaxHeight}" );
-        }
-
-        base.BuildStyles( builder );
-    }
-
-    /// <inheritdoc/>
     protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
     {
         return Task.FromResult( new ParseValue<string>( true, value ?? string.Empty, null ) );
@@ -879,42 +871,6 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// Gets or sets the document formatting provider.
     /// </summary>
     [Parameter] public CodeEditorDocumentFormattingProvider FormattingProvider { get; set; }
-
-    /// <summary>
-    /// Gets or sets the minimum editor height.
-    /// </summary>
-    [Parameter]
-    public string MinHeight
-    {
-        get => minHeight;
-        set
-        {
-            if ( minHeight == value )
-                return;
-
-            minHeight = value;
-
-            DirtyStyles();
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the maximum editor height.
-    /// </summary>
-    [Parameter]
-    public string MaxHeight
-    {
-        get => maxHeight;
-        set
-        {
-            if ( maxHeight == value )
-                return;
-
-            maxHeight = value;
-
-            DirtyStyles();
-        }
-    }
 
     /// <summary>
     /// Notifies when the editor is initialized.

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-01T16:17:46.9588728Z",
+  "generatedUtc": "2026-08-02T17:22:42.3775828Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -22714,22 +22714,6 @@
           "typeName": "IFluentSpacing",
           "defaultValue": "null",
           "summary": "Configures the margin spacing for the component.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "MaxHeight",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Gets or sets the maximum editor height.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "MinHeight",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"300px\"",
-          "summary": "Gets or sets the minimum editor height.",
           "isBlazoriseEnum": false
         },
         {

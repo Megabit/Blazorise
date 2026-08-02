@@ -9588,7 +9588,7 @@ Install-Package Blazorise.Chart.Zoom";
             Language=""@CodeEditorLanguage.CSharp""
             Theme=""@CodeEditorTheme.VisualStudioDark""
             Immediate
-            MinHeight=""220px"" />
+            Height=""220.Px()"" />
 
 <Div Margin=""Margin.Is3.FromTop"">
     <Span TextWeight=""TextWeight.SemiBold"">Characters:</Span>
@@ -9613,7 +9613,7 @@ public static string Greet( string name )
             CompletionItems=""@completionItems""
             CompletionTriggerCharacters=""@triggerCharacters""
             Immediate
-            MinHeight=""220px"" />
+            Height=""220.Px()"" />
 
 @code {
     private string sourceCode = """"""
@@ -9662,7 +9662,7 @@ function greet( name ) {
             Language=""@CodeEditorLanguage.PlainText""
             CompletionProvider=""@completionProvider""
             Immediate
-            MinHeight=""220px"" />
+            Height=""220.Px()"" />
 
 @code {
     private string template = ""Invoice for "";
@@ -9742,7 +9742,7 @@ function greet( name ) {
             Languages=""@workflowLanguages""
             Theme=""@CodeEditorTheme.VisualStudioDark""
             Immediate
-            MinHeight=""220px"" />
+            Height=""220.Px()"" />
 
 @code {
     private const string workflowLanguageId = ""sample-workflow"";
@@ -9784,7 +9784,7 @@ run ""dotnet build""
             Language=""@CodeEditorLanguage.Json""
             Diagnostics=""@applicationDiagnostics""
             Immediate
-            MinHeight=""220px"" />
+            Height=""220.Px()"" />
 
 <Div Display=""Display.Flex"" Flex=""Flex.Wrap.AlignItems.Center"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromTop"">
     <Button Color=""Color.Primary"" Clicked=""@ReadDiagnostics"">Read diagnostics</Button>
@@ -9797,7 +9797,7 @@ run ""dotnet build""
 </Paragraph>
 
 @code {
-    private global::Blazorise.CodeEditor.CodeEditor editor;
+    private Blazorise.CodeEditor.CodeEditor editor;
 
     private string status = ""Edit the JSON or add an application warning."";
 
@@ -9857,7 +9857,7 @@ run ""dotnet build""
             FormattingProvider=""@formattingProvider""
             EditorOptions=""@editorOptions""
             Immediate
-            MinHeight=""220px"" />
+            Height=""220.Px()"" />
 
 <Div Display=""Display.Flex"" Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is3"" Margin=""Margin.Is3.FromTop"">
     <Button Color=""Color.Primary"" Clicked=""@FormatDocument"">Format document</Button>
@@ -9865,7 +9865,7 @@ run ""dotnet build""
 </Div>
 
 @code {
-    private global::Blazorise.CodeEditor.CodeEditor editor;
+    private Blazorise.CodeEditor.CodeEditor editor;
 
     private string status = ""Ready"";
 
@@ -9929,7 +9929,7 @@ run ""dotnet build""
             ContentChanged=""@OnContentChanged""
             Focused=""@OnFocused""
             Blurred=""@OnBlurred""
-            MinHeight=""220px"" />
+            Height=""220.Px()"" />
 
 <Div Display=""Display.Flex"" Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is3"" Margin=""Margin.Is3.FromTop"">
     <Button Color=""Color.Primary"" Clicked=""@FocusEditor"">Focus editor</Button>
@@ -9937,7 +9937,7 @@ run ""dotnet build""
 </Div>
 
 @code {
-    private global::Blazorise.CodeEditor.CodeEditor editor;
+    private Blazorise.CodeEditor.CodeEditor editor;
 
     private string status = ""Waiting for the editor"";
 
@@ -10005,7 +10005,7 @@ console.log(greeting(""Blazorise""));
                             @bind-Value=""@json""
                             Language=""@CodeEditorLanguage.Json""
                             Immediate
-                            MinHeight=""220px"">
+                            Height=""220.Px()"">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
@@ -10018,7 +10018,7 @@ console.log(greeting(""Blazorise""));
 </Validations>
 
 @code {
-    private global::Blazorise.CodeEditor.CodeEditor editor;
+    private Blazorise.CodeEditor.CodeEditor editor;
 
     private Validations validations;
 
