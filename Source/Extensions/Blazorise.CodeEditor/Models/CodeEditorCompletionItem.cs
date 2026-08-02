@@ -51,4 +51,12 @@ public class CodeEditorCompletionItem
     /// Gets or sets insert text rules.
     /// </summary>
     public CodeEditorCompletionItemInsertTextRule InsertTextRules { get; set; }
+
+    /// <summary>
+    /// Gets or sets the document range replaced when the completion item is accepted.
+    /// </summary>
+    /// <remarks>
+    /// When not set, the current Monaco word range is used.
+    /// </remarks>
+    public CodeEditorCompletionRange Range { get; set; }
 }

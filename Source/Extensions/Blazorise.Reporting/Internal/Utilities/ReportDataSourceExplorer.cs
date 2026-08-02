@@ -172,14 +172,72 @@ internal static class ReportDataSourceExplorer
             fields = ResolveDataSourceFields( dataSourceValue ).ToList();
         }
 
-        ReportDesignerFieldNode fieldNode = fields.FirstOrDefault( field =>
-            normalizedFieldNames.Any( normalizedFieldName =>
-                string.Equals( field.Path, normalizedFieldName, StringComparison.OrdinalIgnoreCase )
-                || string.Equals( field.Name, normalizedFieldName, StringComparison.OrdinalIgnoreCase ) ) );
+        ReportDesignerFieldNode fieldNode = FindFieldNode( fields, normalizedFieldNames );
 
         dataType = fieldNode?.DataType;
 
         return dataType is not null;
+    }
+
+    internal static bool TryResolveField( IEnumerable<ReportDesignerDataSourceNode> dataSources, string fieldPath, out ReportDesignerFieldNode field )
+    {
+        field = null;
+
+        if ( string.IsNullOrWhiteSpace( fieldPath ) )
+            return false;
+
+        string normalizedFieldPath = fieldPath.Trim();
+
+        foreach ( ReportDesignerDataSourceNode dataSource in dataSources ?? [] )
+        {
+            List<string> fieldPathCandidates = [normalizedFieldPath];
+
+            AddDataSourceRelativeFieldPath( fieldPathCandidates, dataSource?.BindingName, normalizedFieldPath );
+            AddDataSourceRelativeFieldPath( fieldPathCandidates, dataSource?.Name, normalizedFieldPath );
+
+            field = FindFieldNode( dataSource?.Fields, fieldPathCandidates );
+
+            if ( field is not null )
+                return true;
+        }
+
+        return false;
+    }
+
+    private static void AddDataSourceRelativeFieldPath( List<string> candidates, string dataSourceName, string fieldPath )
+    {
+        if ( string.IsNullOrWhiteSpace( dataSourceName ) )
+            return;
+
+        string prefix = $"{dataSourceName.Trim()}.";
+
+        if ( fieldPath.StartsWith( prefix, StringComparison.OrdinalIgnoreCase ) )
+            candidates.Add( fieldPath[prefix.Length..] );
+    }
+
+    private static ReportDesignerFieldNode FindFieldNode( IEnumerable<ReportDesignerFieldNode> fields, IReadOnlyList<string> fieldNames )
+    {
+        return FindFieldNode( fields, fieldNames, true );
+    }
+
+    private static ReportDesignerFieldNode FindFieldNode( IEnumerable<ReportDesignerFieldNode> fields, IReadOnlyList<string> fieldNames, bool matchFieldName )
+    {
+        foreach ( ReportDesignerFieldNode field in fields ?? [] )
+        {
+            if ( fieldNames.Any( fieldName =>
+                string.Equals( field.Path, fieldName, StringComparison.OrdinalIgnoreCase )
+                || ( matchFieldName && string.Equals( field.Name, fieldName, StringComparison.OrdinalIgnoreCase ) ) ) )
+            {
+                return field;
+            }
+
+            ReportDesignerFieldNode child = FindFieldNode( field.Children, fieldNames, false );
+
+            if ( child is not null )
+                return child;
+        }
+
+        return null;
     }
 
     private static IEnumerable<ReportDesignerFieldNode> ResolveDataSourceSchemaContextFields( ReportDefinition definition, string dataSourceName )

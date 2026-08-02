@@ -35,6 +35,10 @@ internal static class ReportFormulaEvaluator
 
             return new( true, $"Formula is valid. Result: {Parser.FormatValidationValue( value )}." );
         }
+        catch ( ReportFormulaValidationException exception )
+        {
+            return new( false, exception.Message, exception.Position, exception.Length );
+        }
         catch ( Exception exception )
         {
             return new( false, exception.Message );
@@ -78,7 +82,7 @@ internal static class ReportFormulaEvaluator
             SkipWhiteSpace();
 
             if ( position < formula.Length )
-                throw new InvalidOperationException( $"Unexpected token '{formula[position]}'." );
+                throw CreateValidationException( $"Unexpected token '{formula[position]}'.", position );
 
             return value;
         }
@@ -123,7 +127,8 @@ internal static class ReportFormulaEvaluator
                 if ( !Match( "||" ) )
                     return value;
 
-                value = ToBoolean( value ) || ToBoolean( ParseAnd() );
+                object otherValue = ParseAnd();
+                value = ToBoolean( value ) || ToBoolean( otherValue );
             }
         }
 
@@ -138,7 +143,8 @@ internal static class ReportFormulaEvaluator
                 if ( !Match( "&&" ) )
                     return value;
 
-                value = ToBoolean( value ) && ToBoolean( ParseEquality() );
+                object otherValue = ParseEquality();
+                value = ToBoolean( value ) && ToBoolean( otherValue );
             }
         }
 
@@ -262,13 +268,15 @@ internal static class ReportFormulaEvaluator
                 return ParseIdentifierOrFunction();
 
             if ( validationMode )
-                throw new InvalidOperationException( "Expected expression." );
+                throw CreateValidationException( "Expected expression.", position );
 
             return null;
         }
 
         private object ParseFieldToken()
         {
+            int tokenStart = position;
+
             Expect( "{" );
             var start = position;
 
@@ -278,11 +286,12 @@ internal static class ReportFormulaEvaluator
             var fieldPath = formula[start..position].Trim();
             Expect( "}" );
 
-            return ResolveFieldValue( fieldPath );
+            return ResolveFieldValue( fieldPath, tokenStart, Math.Max( 1, position - tokenStart ) );
         }
 
         private object ParseIdentifierOrFunction()
         {
+            int identifierStart = position;
             var identifier = ParseIdentifier();
             SkipWhiteSpace();
 
@@ -297,7 +306,7 @@ internal static class ReportFormulaEvaluator
                 if ( string.Equals( identifier, "false", StringComparison.OrdinalIgnoreCase ) )
                     return false;
 
-                return ResolveFieldValue( identifier );
+                return ResolveFieldValue( identifier, identifierStart, identifier.Length );
             }
 
             var arguments = new List<FormulaArgument>();
@@ -316,7 +325,7 @@ internal static class ReportFormulaEvaluator
                 Expect( ")" );
             }
 
-            return EvaluateFunction( identifier, arguments );
+            return EvaluateFunction( identifier, arguments, identifierStart );
         }
 
         private FormulaArgument ParseArgument()
@@ -335,11 +344,14 @@ internal static class ReportFormulaEvaluator
             return new( ParseConditional(), null );
         }
 
-        private object EvaluateFunction( string name, IReadOnlyList<FormulaArgument> arguments )
+        private object EvaluateFunction( string name, IReadOnlyList<FormulaArgument> arguments, int identifierStart )
         {
             var normalizedName = name?.Trim();
 
-            if ( TryEvaluateAggregateFunction( normalizedName, arguments, out var aggregateValue ) )
+            if ( validationMode )
+                ValidateFunctionArguments( normalizedName, arguments.Count, identifierStart );
+
+            if ( TryEvaluateAggregateFunction( normalizedName, arguments, identifierStart, out var aggregateValue ) )
                 return aggregateValue;
 
             return normalizedName?.ToLowerInvariant() switch
@@ -357,16 +369,44 @@ internal static class ReportFormulaEvaluator
                 "abs" => Math.Abs( ToDecimal( arguments.FirstOrDefault()?.Value ) ),
                 "today" => DateTime.Today,
                 "now" => DateTime.Now,
-                _ => validationMode ? throw new InvalidOperationException( $"Unknown function '{name}'." ) : null,
+                _ => validationMode ? throw CreateValidationException( $"Unknown function '{name}'.", identifierStart, name?.Length ?? 1 ) : null,
             };
         }
 
-        private bool TryEvaluateAggregateFunction( string name, IReadOnlyList<FormulaArgument> arguments, out object value )
+        private void ValidateFunctionArguments( string name, int argumentCount, int identifierStart )
+        {
+            ( int Minimum, int Maximum ) argumentRange = name?.ToLowerInvariant() switch
+            {
+                "isnull" or "isnullorempty" or "upper" or "lower" or "length" or "abs" => ( 1, 1 ),
+                "contains" or "startswith" or "endswith" => ( 2, 2 ),
+                "coalesce" => ( 1, int.MaxValue ),
+                "round" => ( 1, 2 ),
+                "today" or "now" => ( 0, 0 ),
+                "count" or "sum" or "average" or "avg" or "minimum" or "min" or "maximum" or "max" => ( 1, 1 ),
+                _ => ( -1, -1 ),
+            };
+
+            if ( argumentRange.Minimum < 0
+                || ( argumentCount >= argumentRange.Minimum && argumentCount <= argumentRange.Maximum ) )
+            {
+                return;
+            }
+
+            string expectedArguments = argumentRange.Maximum == int.MaxValue
+                ? $"at least {argumentRange.Minimum} argument{( argumentRange.Minimum == 1 ? null : "s" )}"
+                : argumentRange.Minimum == argumentRange.Maximum
+                    ? $"{argumentRange.Minimum} argument{( argumentRange.Minimum == 1 ? null : "s" )}"
+                    : $"between {argumentRange.Minimum} and {argumentRange.Maximum} arguments";
+
+            throw CreateValidationException(
+                $"Function '{name}' expects {expectedArguments}, but received {argumentCount}.",
+                identifierStart,
+                name?.Length ?? 1 );
+        }
+
+        private bool TryEvaluateAggregateFunction( string name, IReadOnlyList<FormulaArgument> arguments, int identifierStart, out object value )
         {
             value = null;
-
-            if ( arguments.Count == 0 || string.IsNullOrWhiteSpace( arguments[0].FieldPath ) )
-                return false;
 
             ReportAggregateFunction? function = name?.ToLowerInvariant() switch
             {
@@ -383,6 +423,19 @@ internal static class ReportFormulaEvaluator
 
             if ( function is null )
                 return false;
+
+            if ( arguments.Count == 0 || string.IsNullOrWhiteSpace( arguments[0].FieldPath ) )
+            {
+                if ( validationMode )
+                {
+                    throw CreateValidationException(
+                        $"Aggregate function '{name}' requires a report field reference.",
+                        identifierStart,
+                        name?.Length ?? 1 );
+                }
+
+                return true;
+            }
 
             SplitAggregateFieldPath( function.Value, arguments[0].FieldPath, out var dataSource, out var field );
             value = ReportAggregateResolver.ResolveAggregateValue( context.Definition, context.Data, context.Item, function.Value, dataSource, field );
@@ -415,14 +468,14 @@ internal static class ReportFormulaEvaluator
             field = fieldPath[( separatorIndex + 1 )..];
         }
 
-        private object ResolveFieldValue( string fieldPath )
+        private object ResolveFieldValue( string fieldPath, int tokenStart, int tokenLength )
         {
             if ( validationMode )
             {
                 if ( TryResolveValidationFieldValue( fieldPath, out object validationValue ) )
                     return validationValue;
 
-                throw new InvalidOperationException( $"Unknown field '{{{fieldPath}}}'." );
+                throw CreateValidationException( $"Unknown field '{{{fieldPath}}}'.", tokenStart, tokenLength );
             }
 
             return ReportExpressionResolver.ResolveValue( context.Definition, context.Data, context.Item, fieldPath, context.Section?.DataSource, context.RunningTotals );
@@ -453,6 +506,9 @@ internal static class ReportFormulaEvaluator
                 return true;
             }
 
+            if ( TryResolveValidationDataSourceFieldValue( fieldPath, out value ) )
+                return true;
+
             if ( ReportDataSourceExplorer.TryResolveFieldType( context.Definition, context.Data, context.Section?.DataSource, fieldPath, out Type sectionFieldType ) )
             {
                 value = CreateValidationValue( sectionFieldType );
@@ -466,6 +522,17 @@ internal static class ReportFormulaEvaluator
             }
 
             return TryResolveCurrentItemFieldValue( fieldPath, out value );
+        }
+
+        private bool TryResolveValidationDataSourceFieldValue( string fieldPath, out object value )
+        {
+            value = null;
+
+            if ( !ReportDataSourceExplorer.TryResolveField( context.ValidationDataSources, fieldPath, out ReportDesignerFieldNode field ) )
+                return false;
+
+            value = CreateValidationValue( field.DataType );
+            return true;
         }
 
         private bool TryResolveCurrentItemFieldValue( string fieldPath, out object value )
@@ -556,13 +623,26 @@ internal static class ReportFormulaEvaluator
             while ( position < formula.Length && ( char.IsDigit( formula[position] ) || formula[position] == '.' ) )
                 position++;
 
-            return decimal.TryParse( formula[start..position], NumberStyles.Number, CultureInfo.InvariantCulture, out var value )
-                ? value
-                : 0m;
+            string numberToken = formula[start..position];
+
+            if ( validationMode
+                && ( numberToken.EndsWith( ".", StringComparison.Ordinal ) || numberToken.Count( character => character == '.' ) > 1 ) )
+            {
+                throw CreateValidationException( $"Invalid number '{numberToken}'.", start, position - start );
+            }
+
+            if ( decimal.TryParse( numberToken, NumberStyles.Number, CultureInfo.InvariantCulture, out var value ) )
+                return value;
+
+            if ( validationMode )
+                throw CreateValidationException( "Invalid number.", start, position - start );
+
+            return 0m;
         }
 
         private string ParseString()
         {
+            int stringStart = position;
             var quote = formula[position++];
             var result = string.Empty;
             var closed = false;
@@ -584,7 +664,7 @@ internal static class ReportFormulaEvaluator
             }
 
             if ( validationMode && !closed )
-                throw new InvalidOperationException( "Expected closing string quote." );
+                throw CreateValidationException( "Expected closing string quote.", stringStart, position - stringStart );
 
             return result;
         }
@@ -594,13 +674,18 @@ internal static class ReportFormulaEvaluator
             SkipWhiteSpace();
 
             if ( !Match( token ) )
-                throw new InvalidOperationException( $"Expected '{token}'." );
+                throw CreateValidationException( $"Expected '{token}'.", position );
         }
 
         private void ExpectKeyword( string keyword )
         {
             if ( !MatchKeyword( keyword ) )
-                throw new InvalidOperationException( $"Expected '{keyword}'." );
+                throw CreateValidationException( $"Expected '{keyword}'.", position );
+        }
+
+        private ReportFormulaValidationException CreateValidationException( string message, int errorPosition, int errorLength = 1 )
+        {
+            return new( message, errorPosition, errorLength );
         }
 
         private bool Match( string token )
@@ -818,6 +903,20 @@ internal static class ReportFormulaEvaluator
         }
 
         #endregion
+    }
+
+    private sealed class ReportFormulaValidationException : Exception
+    {
+        internal ReportFormulaValidationException( string message, int position, int length )
+            : base( message )
+        {
+            Position = Math.Max( 0, position );
+            Length = Math.Max( 1, length );
+        }
+
+        internal int Position { get; }
+
+        internal int Length { get; }
     }
 
     private sealed record FormulaArgument( object Value, string FieldPath );

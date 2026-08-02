@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace Blazorise.CodeEditor;
 
@@ -23,11 +26,13 @@ public class CodeEditorCompletionProvider
     public IReadOnlyList<CodeEditorCompletionItem> Items { get; set; }
 
     /// <summary>
-    /// Gets or sets the custom JavaScript method used to provide completion items.
+    /// Gets or sets the callback used to provide contextual completion items.
     /// </summary>
-    /// <remarks>
-    /// The method receives the editor, model, position, completion context, static suggestions, and cancellation token.
-    /// It can return suggestions, a Monaco completion result, or a promise for either value.
-    /// </remarks>
-    public string ProviderMethod { get; set; }
+    [JsonIgnore]
+    public Func<CodeEditorCompletionContext, Task<IReadOnlyList<CodeEditorCompletionItem>>> ItemsProvider { get; set; }
+
+    /// <summary>
+    /// Gets whether a contextual completion items provider is configured.
+    /// </summary>
+    public bool UseItemsProvider => ItemsProvider is not null;
 }

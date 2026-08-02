@@ -594,36 +594,29 @@ function registerCompletionProvider(instance, completionProvider) {
 
     const language = completionProvider.language || instance.editor?.getModel()?.getLanguageId?.();
     const hasItems = Array.isArray(completionProvider.items) && completionProvider.items.length > 0;
+    const hasItemsProvider = completionProvider.useItemsProvider === true;
 
-    if (!language || (!hasItems && !completionProvider.providerMethod))
+    if (!language || (!hasItems && !hasItemsProvider))
         return;
 
     instance.completionDisposable = monaco.languages.registerCompletionItemProvider(language, {
         triggerCharacters: completionProvider.triggerCharacters || undefined,
-        provideCompletionItems: (model, position, context, cancellationToken) => {
+        provideCompletionItems: async (model, position, context, cancellationToken) => {
             if (model !== instance.editor?.getModel())
                 return { suggestions: [] };
 
-            let suggestions = hasItems
+            const suggestions = hasItems
                 ? completionProvider.items.map(item => toCompletionItem(item, model, position))
                 : [];
 
-            if (completionProvider.providerMethod) {
-                try {
-                    const result = configure(completionProvider.providerMethod, window, [instance.editor, model, position, context, suggestions, cancellationToken]);
+            if (hasItemsProvider && !cancellationToken.isCancellationRequested) {
+                const contextualItems = await invokeDotNet(
+                    instance,
+                    "NotifyCompletion",
+                    createCompletionContext(model, position, context));
 
-                    if (result?.then) {
-                        return result
-                            .then(value => normalizeCompletionResult(value, suggestions))
-                            .catch(error => {
-                                console.error(error);
-                                return { suggestions };
-                            });
-                    }
-
-                    return normalizeCompletionResult(result, suggestions);
-                } catch (err) {
-                    console.error(err);
+                if (!cancellationToken.isCancellationRequested && Array.isArray(contextualItems)) {
+                    suggestions.push(...contextualItems.map(item => toCompletionItem(item, model, position)));
                 }
             }
 
@@ -693,30 +686,14 @@ function normalizeDocumentFormattingResult(result, model) {
         : [];
 }
 
-function normalizeCompletionResult(result, fallbackSuggestions) {
-    if (Array.isArray(result)) {
-        return { suggestions: result };
-    }
-
-    if (result) {
-        return result;
-    }
-
-    return { suggestions: fallbackSuggestions };
-}
-
 function toCompletionItem(item, model, position) {
     const word = model.getWordUntilPosition(position);
+    const insertText = item.insertText || item.label || "";
     const completionItem = {
-        label: item.label || item.insertText || "",
+        label: item.label || insertText,
         kind: item.kind ?? monaco.languages.CompletionItemKind.Text,
-        insertText: item.insertText || item.label || "",
-        range: {
-            startLineNumber: position.lineNumber,
-            endLineNumber: position.lineNumber,
-            startColumn: word.startColumn,
-            endColumn: word.endColumn
-        }
+        insertText,
+        range: toCompletionRange(item.range, position, word)
     };
 
     if (item.detail) {
@@ -744,6 +721,44 @@ function toCompletionItem(item, model, position) {
     }
 
     return completionItem;
+}
+
+function toCompletionRange(range, position, word) {
+    if (!range) {
+        return {
+            startLineNumber: position.lineNumber,
+            startColumn: word.startColumn,
+            endLineNumber: position.lineNumber,
+            endColumn: word.endColumn
+        };
+    }
+
+    const startLineNumber = Math.max(1, range.startLineNumber || position.lineNumber);
+    const startColumn = Math.max(1, range.startColumn || word.startColumn);
+    const endLineNumber = Math.max(startLineNumber, range.endLineNumber || startLineNumber);
+    const endColumn = endLineNumber === startLineNumber
+        ? Math.max(startColumn, range.endColumn || position.column)
+        : Math.max(1, range.endColumn || position.column);
+
+    return {
+        startLineNumber,
+        startColumn,
+        endLineNumber,
+        endColumn
+    };
+}
+
+function createCompletionContext(model, position, context) {
+    const word = model.getWordUntilPosition(position);
+
+    return {
+        value: model.getValue(),
+        lineText: model.getLineContent(position.lineNumber),
+        lineNumber: position.lineNumber,
+        column: position.column,
+        word: word.word || "",
+        triggerCharacter: context?.triggerCharacter || null
+    };
 }
 
 function toMarker(diagnostic) {

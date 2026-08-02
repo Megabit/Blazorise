@@ -113,6 +113,61 @@ public class CodeEditorComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task CompletionProvider_Should_MapAndInvokeItemsProvider()
+    {
+        CodeEditorCompletionContext receivedContext = null;
+        IReadOnlyList<CodeEditorCompletionItem> expectedItems =
+        [
+            new()
+            {
+                Label = "Customer.Name",
+                InsertText = "{Customer.Name}",
+                Kind = CodeEditorCompletionItemKind.Field,
+                Range = new()
+                {
+                    StartLineNumber = 1,
+                    StartColumn = 1,
+                    EndLineNumber = 1,
+                    EndColumn = 10,
+                },
+            },
+        ];
+        CodeEditorCompletionProvider provider = new()
+        {
+            Language = "formula",
+            TriggerCharacters = ["{"],
+            ItemsProvider = context =>
+            {
+                receivedContext = context;
+
+                return Task.FromResult( expectedItems );
+            },
+        };
+        IRenderedComponent<CodeEditorComponent> cut = Render<CodeEditorComponent>( parameters => parameters
+            .Add( component => component.Language, "formula" )
+            .Add( component => component.CompletionProvider, provider ) );
+
+        JSRuntimeInvocation invocation = JSInterop.VerifyInvoke( "initialize" );
+        CodeEditorJSOptions jsOptions = Assert.IsType<CodeEditorJSOptions>( invocation.Arguments[3] );
+        CodeEditorCompletionContext context = new()
+        {
+            Value = "{Customer",
+            LineText = "{Customer",
+            LineNumber = 1,
+            Column = 10,
+            Word = "Customer",
+            TriggerCharacter = "{",
+        };
+
+        IReadOnlyList<CodeEditorCompletionItem> items = await cut.Instance.NotifyCompletion( context );
+
+        Assert.True( jsOptions.CompletionProvider.UseItemsProvider );
+        Assert.Same( context, receivedContext );
+        Assert.Same( expectedItems, items );
+        Assert.Equal( 1, Assert.Single( items ).Range.StartColumn );
+    }
+
+    [Fact]
     public void DeclarativeTokenizer_Should_IncludeNamedStates()
     {
         IRenderedComponent<CodeEditorComponent> cut = Render<CodeEditorComponent>( parameters => parameters

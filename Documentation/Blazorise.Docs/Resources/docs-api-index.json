@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-01T10:45:27.6150055Z",
+  "generatedUtc": "2026-08-01T16:17:46.9588728Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -22576,30 +22576,12 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "ConfigureCompletionProviderMethod",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Gets or sets the custom JavaScript method used to provide completion items.",
-          "remarks": "The method receives the editor, model, position, completion context, static suggestions, and cancellation token.     It can return suggestions, a Monaco completion result, or a promise for either value.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ConfigureEditorMethod",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Gets or sets the custom JavaScript method used to configure editor options during initialization.",
-          "remarks": "The method receives the Monaco editor options object and is only invoked during initialization.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Debounce",
-          "type": "bool?",
-          "typeName": "bool?",
-          "defaultValue": "null",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
           "summary": "Gets or sets whether user-originated value updates are debounced before being sent to .NET.",
-          "remarks": "When set, this value overrides the global Blazorise debounce option.",
+          "remarks": "When supplied, this value overrides the global Blazorise debounce option.",
           "isBlazoriseEnum": false
         },
         {
@@ -22702,11 +22684,11 @@
         },
         {
           "name": "Immediate",
-          "type": "bool?",
-          "typeName": "bool?",
-          "defaultValue": "null",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
           "summary": "Gets or sets whether user-originated value updates are sent to .NET while typing.",
-          "remarks": "When set, this value overrides the global Blazorise immediate option. When disabled, the value is sent on blur.",
+          "remarks": "When supplied, this value overrides the global Blazorise immediate option. When disabled, the value is sent on blur.",
           "isBlazoriseEnum": false
         },
         {
@@ -22954,6 +22936,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Blurred",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback",
+          "typeName": "EventCallback",
+          "defaultValue": "null",
+          "summary": "Notifies when the editor loses focus.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "ContentChanged",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<string>",
@@ -22972,22 +22962,6 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "EditorBlur",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback",
-          "typeName": "EventCallback",
-          "defaultValue": "null",
-          "summary": "Notifies when the editor loses focus.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "EditorFocus",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback",
-          "typeName": "EventCallback",
-          "defaultValue": "null",
-          "summary": "Notifies when the editor gains focus.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "FocusIn",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<FocusEventArgs>",
@@ -23001,6 +22975,14 @@
           "typeName": "EventCallback<FocusEventArgs>",
           "defaultValue": "null",
           "summary": "Notifies when the input box loses focus.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Focused",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback",
+          "typeName": "EventCallback",
+          "defaultValue": "null",
+          "summary": "Notifies when the editor gains focus.",
           "isBlazoriseEnum": false
         },
         {
@@ -23068,6 +23050,12 @@
           "name": "FormatDocumentAsync",
           "returnTypeName": "Task<bool>",
           "summary": "Formats the current document.",
+          "parameters": []
+        },
+        {
+          "name": "GetDiagnostics",
+          "returnTypeName": "Task<IReadOnlyList<CodeEditorDiagnostic>>",
+          "summary": "Gets the diagnostic markers for the current editor model.",
           "parameters": []
         },
         {
@@ -23372,15 +23360,6 @@
           "name": "CompletionProvider",
           "type": "global::Blazorise.CodeEditor.CodeEditorCompletionProvider",
           "typeName": "CodeEditorCompletionProvider",
-          "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ConfigureEditorMethod",
-          "type": "string",
-          "typeName": "string",
           "defaultValue": "null",
           "summary": "No documentation available - no XML comment",
           "remarks": "No documentation available - no XML comment",

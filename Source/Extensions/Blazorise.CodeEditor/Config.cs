@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 #endregion
 
 namespace Blazorise.CodeEditor;
@@ -17,10 +18,17 @@ public static class Config
     {
         var codeEditorOptions = new CodeEditorExtensionOptions();
 
-        options?.Invoke( codeEditorOptions );
+        if ( options is null )
+        {
+            services.TryAddSingleton( codeEditorOptions );
+        }
+        else
+        {
+            options.Invoke( codeEditorOptions );
+            services.AddSingleton( codeEditorOptions );
+        }
 
-        services.AddSingleton( codeEditorOptions );
-        services.AddScoped<JSCodeEditorModule>();
+        services.TryAddScoped<JSCodeEditorModule>();
 
         return services;
     }

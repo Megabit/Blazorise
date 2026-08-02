@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using Blazorise.CodeEditor;
 using Blazorise.Pdf;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -25,6 +26,7 @@ public static class Config
         options?.Invoke( reportOptions );
 
         services.AddSingleton( reportOptions );
+        services.AddBlazoriseCodeEditor();
         services.AddBlazorisePdf();
         services.TryAddScoped<IReportDataSourceProviderRegistry, ReportDataSourceProviderRegistry>();
         services.TryAddScoped<IReportElementPluginRegistry, ReportElementPluginRegistry>();

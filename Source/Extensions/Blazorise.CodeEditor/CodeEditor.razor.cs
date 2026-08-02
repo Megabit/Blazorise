@@ -475,6 +475,22 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     }
 
     /// <summary>
+    /// Provides contextual completion items using the configured .NET provider.
+    /// This method should only be called internally.
+    /// </summary>
+    /// <param name="context">Current completion context.</param>
+    /// <returns>Contextual completion items.</returns>
+    [JSInvokable]
+    public Task<IReadOnlyList<CodeEditorCompletionItem>> NotifyCompletion( CodeEditorCompletionContext context )
+    {
+        Func<CodeEditorCompletionContext, Task<IReadOnlyList<CodeEditorCompletionItem>>> itemsProvider = CompletionProvider?.ItemsProvider;
+
+        return itemsProvider is null
+            ? Task.FromResult<IReadOnlyList<CodeEditorCompletionItem>>( [] )
+            : itemsProvider.Invoke( context ?? new() );
+    }
+
+    /// <summary>
     /// Executes given action after the rendering is done.
     /// </summary>
     protected async Task<T> ExecuteAfterRenderAsync<T>( Func<Task<T>> action, CancellationToken token = default )
@@ -719,7 +735,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
                 Language = string.IsNullOrWhiteSpace( provider.Language ) ? ResolveLanguage() : provider.Language,
                 TriggerCharacters = provider.TriggerCharacters,
                 Items = provider.Items,
-                ProviderMethod = provider.ProviderMethod
+                ItemsProvider = provider.ItemsProvider
             };
         }
 
