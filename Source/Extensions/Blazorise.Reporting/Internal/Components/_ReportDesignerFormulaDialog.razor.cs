@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.CodeEditor;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -17,13 +18,63 @@ public partial class _ReportDesignerFormulaDialog
 
     private const int DefaultRoundDecimalPlaces = 2;
 
-    private const int FormulaEditorRows = 8;
+    private const string FormulaLanguageId = "blazorise-report-formula";
+
+    private static readonly IReadOnlyList<CodeEditorLanguageDefinition> FormulaLanguages =
+    [
+        new()
+        {
+            Id = FormulaLanguageId,
+            Aliases = ["Report formula"],
+            Tokenizer = new()
+            {
+                IgnoreCase = true,
+                DefaultToken = string.Empty,
+                Tokens =
+                [
+                    new() { Pattern = "\\s+", Token = "white" },
+                    new() { Pattern = "\\{[^}\\r\\n]+\\}", Token = "variable" },
+                    new() { Pattern = "\\{[^}\\r\\n]*$", Token = "invalid" },
+                    new() { Pattern = "\"(?:\\\\.|[^\"\\\\])*\"", Token = "string" },
+                    new() { Pattern = "'(?:\\\\.|[^'\\\\])*'", Token = "string" },
+                    new() { Pattern = "\"(?:\\\\.|[^\"\\\\])*$", Token = "invalid" },
+                    new() { Pattern = "'(?:\\\\.|[^'\\\\])*$", Token = "invalid" },
+                    new() { Pattern = "\\b\\d+(?:\\.\\d+)?\\b", Token = "number" },
+                    new() { Pattern = "\\b(?:IsNull|IsNullOrEmpty|Coalesce|Contains|StartsWith|EndsWith|Upper|Lower|Length|Round|Abs|Today|Now|Count|Sum|Average|Avg|Minimum|Min|Maximum|Max)(?=\\s*\\()", Token = "predefined" },
+                    new() { Pattern = "\\b(?:if|then|else|true|false|null)\\b", Token = "keyword" },
+                    new() { Pattern = "[+\\-*/%!=<>?:&|]+", Token = "operator" },
+                    new() { Pattern = "[(),]", Token = "delimiter.parenthesis" },
+                    new() { Pattern = "[A-Za-z_][A-Za-z0-9_.]*", Token = "identifier" },
+                ],
+            },
+        },
+    ];
+
+    private static readonly CodeEditorOptions FormulaEditorOptions = new()
+    {
+        AutomaticLayout = true,
+        Minimap = false,
+        LineNumbers = true,
+        WordWrap = true,
+        TabSize = 4,
+        ScrollBeyondLastLine = false,
+        AdditionalOptions = new()
+        {
+            ["folding"] = false,
+            ["glyphMargin"] = false,
+            ["lineDecorationsWidth"] = 8,
+            ["lineNumbersMinChars"] = 2,
+            ["overviewRulerLanes"] = 0,
+        },
+    };
+
+    private static readonly IReadOnlyList<string> FormulaCompletionTriggerCharacters = ["{"];
 
     private static readonly IReadOnlyList<ReportFormulaFunctionOption> Functions =
     [
         new( "Additional Functions", "IsNull", "IsNull({0})", "Returns true when a value is null." ),
         new( "Additional Functions", "IsNullOrEmpty", "IsNullOrEmpty({0})", "Returns true when a text value is null or empty." ),
-        new( "Additional Functions", "Coalesce", "Coalesce({0}, {1})", "Returns the first non-null value." ),
+        new( "Additional Functions", "Coalesce", "Coalesce({0}, null)", "Returns the first non-null value." ),
         new( "Text", "Contains", "Contains({0}, \"\")", "Returns true when text contains the specified value." ),
         new( "Text", "StartsWith", "StartsWith({0}, \"\")", "Returns true when text starts with the specified value." ),
         new( "Text", "EndsWith", "EndsWith({0}, \"\")", "Returns true when text ends with the specified value." ),
@@ -47,8 +98,10 @@ public partial class _ReportDesignerFormulaDialog
         new( "Arithmetic", "Subtract", " - ", "Subtracts one value from another." ),
         new( "Arithmetic", "Multiply", " * ", "Multiplies two values." ),
         new( "Arithmetic", "Divide", " / ", "Divides one value by another." ),
+        new( "Arithmetic", "Modulo", " % ", "Returns the remainder after division." ),
         new( "Boolean", "And", " && ", "Returns true when both conditions are true." ),
         new( "Boolean", "Or", " || ", "Returns true when at least one condition is true." ),
+        new( "Boolean", "Not", "!", "Negates a boolean value." ),
         new( "Boolean", "True", "true", "Boolean true literal." ),
         new( "Boolean", "False", "false", "Boolean false literal." ),
         new( "Boolean", "Null", "null", "Null literal." ),
@@ -58,11 +111,22 @@ public partial class _ReportDesignerFormulaDialog
         new( "Comparisons", "Greater Than Or Equal", " >= ", "Compares whether the left value is greater or equal." ),
         new( "Comparisons", "Less Than", " < ", "Compares whether the left value is smaller." ),
         new( "Comparisons", "Less Than Or Equal", " <= ", "Compares whether the left value is smaller or equal." ),
-        new( "Control Structures", "If Then Else", "if {0} then true else false", "Chooses between two values based on a condition." ),
+        new( "Control Structures", "If Then Else", "if  then true else false", "Chooses between two values based on a condition.",
+            CaretIndex: 3,
+            CompletionText: "if ${1:condition} then ${2:true} else ${3:false}",
+            CompletionInsertTextRules: CodeEditorCompletionItemInsertTextRule.InsertAsSnippet ),
         new( "Control Structures", "Conditional", " ? : ", "Chooses between two values based on a condition." ),
     ];
 
+    private CodeEditor.CodeEditor formulaEditor;
+
     private string formula;
+
+    private CodeEditorCompletionProvider formulaCompletionProvider;
+
+    private IReadOnlyList<CodeEditorCompletionItem> formulaFieldCompletionItems = [];
+
+    private IReadOnlyList<CodeEditorDiagnostic> formulaDiagnostics = [];
 
     private string selectedFieldExpression;
 
@@ -94,12 +158,20 @@ public partial class _ReportDesignerFormulaDialog
         }, CreateReportModalOptions( ModalSize.Large ) );
     }
 
-    private Task Clear()
+    private async Task Clear()
     {
-        formula = null;
         ClearValidation();
+        formulaDiagnostics = [];
 
-        return Task.CompletedTask;
+        if ( formulaEditor is not null )
+        {
+            await formulaEditor.SetValue( string.Empty );
+            await formulaEditor.Focus();
+        }
+        else
+        {
+            formula = null;
+        }
     }
 
     private Task Close()
@@ -107,11 +179,10 @@ public partial class _ReportDesignerFormulaDialog
         return CloseReportModal();
     }
 
-    private Task Check()
+    private async Task Check()
     {
+        await SynchronizeFormula();
         ValidateFormula();
-
-        return Task.CompletedTask;
     }
 
     private async Task Save()
@@ -127,6 +198,8 @@ public partial class _ReportDesignerFormulaDialog
 
     private async Task<bool> SaveFormula()
     {
+        await SynchronizeFormula();
+
         if ( !ValidateFormula() )
             return false;
 
@@ -139,17 +212,56 @@ public partial class _ReportDesignerFormulaDialog
 
     private bool ValidateFormula()
     {
-        ReportFormulaValidationResult result = ReportFormulaEvaluator.Validate( formula, new()
-        {
-            Definition = Definition,
-            Data = Data,
-            Section = Section,
-        } );
+        ReportFormulaValidationResult result = ValidateFormulaValue();
 
         validationSucceeded = result.Success;
         validationMessage = result.Message;
+        UpdateFormulaDiagnostics( result );
 
         return result.Success;
+    }
+
+    private async Task SynchronizeFormula()
+    {
+        if ( formulaEditor is not null )
+            formula = await formulaEditor.GetValue();
+    }
+
+    private ReportFormulaValidationResult ValidateFormulaValue()
+    {
+        return ReportFormulaEvaluator.Validate( formula, new()
+        {
+            Definition = Definition,
+            Data = Data,
+            ValidationDataSources = SourceDataSources,
+            Section = Section,
+        } );
+    }
+
+    private void UpdateFormulaDiagnostics( ReportFormulaValidationResult result )
+    {
+        if ( result.Success )
+        {
+            formulaDiagnostics = [];
+            return;
+        }
+
+        GetFormulaPosition( formula, result.Position, out int lineNumber, out int column );
+        GetFormulaPosition( formula, result.Position + Math.Max( 1, result.Length ), out int endLineNumber, out int endColumn );
+
+        formulaDiagnostics =
+        [
+            new()
+            {
+                Severity = CodeEditorDiagnosticSeverity.Error,
+                Code = "REPORT_FORMULA",
+                Message = result.Message,
+                StartLineNumber = lineNumber,
+                StartColumn = column,
+                EndLineNumber = endLineNumber,
+                EndColumn = endColumn,
+            },
+        ];
     }
 
     private void ClearValidation()
@@ -184,67 +296,88 @@ public partial class _ReportDesignerFormulaDialog
         };
     }
 
-    private Task OnFieldNodeClicked( ReportTreeNode node )
+    private async Task OnFieldNodeClicked( ReportTreeNode node )
     {
         if ( node?.Value is ReportFieldTreeNodeValue field )
         {
             selectedFieldExpression = ReportExpressionFormatter.FormatFieldExpression( Definition, field.DataSourceName, field.FieldName );
             selectedHelpItem = selectedFieldExpression;
             selectedHelpDescription = "Report field value.";
-            InsertText( selectedFieldExpression );
+            await InsertText( selectedFieldExpression );
         }
-
-        return Task.CompletedTask;
     }
 
-    private Task OnFunctionNodeClicked( ReportTreeNode node )
+    private async Task OnFunctionNodeClicked( ReportTreeNode node )
     {
         if ( node?.Value is ReportFormulaFunctionOption function )
-            InsertFunction( function );
-
-        return Task.CompletedTask;
+            await InsertFunction( function );
     }
 
-    private Task OnOperatorNodeClicked( ReportTreeNode node )
+    private async Task OnOperatorNodeClicked( ReportTreeNode node )
     {
         if ( node?.Value is ReportFormulaOperatorOption operatorOption )
-            InsertOperator( operatorOption );
-
-        return Task.CompletedTask;
+            await InsertOperator( operatorOption );
     }
 
-    private void InsertFunction( ReportFormulaFunctionOption function )
+    private Task InsertFunction( ReportFormulaFunctionOption function )
     {
         string fieldExpression = string.IsNullOrWhiteSpace( selectedFieldExpression ) ? "{Field}" : selectedFieldExpression;
 
         selectedHelpItem = function.Name;
         selectedHelpDescription = function.Description;
 
-        InsertText( function.Template.Replace( "{0}", fieldExpression, StringComparison.Ordinal ) );
+        return InsertText( function.Template.Replace( "{0}", fieldExpression, StringComparison.Ordinal ) );
     }
 
-    private void InsertOperator( ReportFormulaOperatorOption operatorOption )
+    private Task InsertOperator( ReportFormulaOperatorOption operatorOption )
     {
         selectedHelpItem = operatorOption.Name;
         selectedHelpDescription = operatorOption.Description;
 
-        InsertText( operatorOption.Text );
+        return InsertText( operatorOption.Text, operatorOption.CaretIndex );
     }
 
-    private void InsertText( string text )
+    private async Task InsertText( string text, int? caretIndex = null )
     {
         if ( string.IsNullOrWhiteSpace( text ) )
             return;
 
-        formula = string.IsNullOrWhiteSpace( formula )
-            ? text
-            : $"{formula}{text}";
+        if ( formulaEditor is null )
+        {
+            formula = string.IsNullOrWhiteSpace( formula )
+                ? text
+                : $"{formula}{text}";
+
+            formulaDiagnostics = [];
+            return;
+        }
+
+        string editorValue = await formulaEditor.GetValue() ?? string.Empty;
+        CodeEditorSelection selection = await formulaEditor.GetSelection() ?? CreateEndSelection( editorValue );
+        int startOffset = GetFormulaOffset( editorValue, selection.StartLineNumber, selection.StartColumn );
+        int endOffset = GetFormulaOffset( editorValue, selection.EndLineNumber, selection.EndColumn );
+        string updatedValue = editorValue[..startOffset] + text + editorValue[endOffset..];
+        int relativeCaretOffset = Math.Min( Math.Max( 0, caretIndex ?? text.Length ), text.Length );
+        int caretOffset = startOffset + relativeCaretOffset;
+
+        await formulaEditor.SetValue( updatedValue );
+
+        GetFormulaPosition( updatedValue, caretOffset, out int lineNumber, out int column );
+        await formulaEditor.SetSelection( new()
+        {
+            StartLineNumber = lineNumber,
+            StartColumn = column,
+            EndLineNumber = lineNumber,
+            EndColumn = column,
+        } );
+        await formulaEditor.Focus();
     }
 
     private Task OnFormulaChanged( string value )
     {
         formula = value;
         ClearValidation();
+        formulaDiagnostics = [];
 
         return Task.CompletedTask;
     }
@@ -258,7 +391,216 @@ public partial class _ReportDesignerFormulaDialog
         selectedFieldExpression = null;
         selectedHelpItem = null;
         selectedHelpDescription = null;
+        formulaFieldCompletionItems = CreateFormulaFieldCompletionItems();
+        formulaCompletionProvider = new()
+        {
+            Language = FormulaLanguageId,
+            TriggerCharacters = FormulaCompletionTriggerCharacters,
+            Items = CreateFormulaSyntaxCompletionItems(),
+            ItemsProvider = ProvideFormulaCompletionItems,
+        };
         ClearValidation();
+        formulaDiagnostics = [];
+    }
+
+    private static IReadOnlyList<CodeEditorCompletionItem> CreateFormulaSyntaxCompletionItems()
+    {
+        List<CodeEditorCompletionItem> completionItems = Functions
+            .Select( function => new CodeEditorCompletionItem
+            {
+                Label = function.Name,
+                InsertText = function.Template.Replace( "{0}", "{Field}", StringComparison.Ordinal ),
+                Kind = CodeEditorCompletionItemKind.Function,
+                Detail = function.Category,
+                Documentation = function.Description,
+                FilterText = function.Name,
+            } )
+            .ToList();
+
+        completionItems.AddRange( Operators.Select( operatorOption => new CodeEditorCompletionItem
+        {
+            Label = operatorOption.Name,
+            InsertText = operatorOption.CompletionText ?? operatorOption.Text,
+            Kind = IsFormulaKeyword( operatorOption.Text )
+                ? CodeEditorCompletionItemKind.Keyword
+                : CodeEditorCompletionItemKind.Operator,
+            Detail = operatorOption.Category,
+            Documentation = operatorOption.Description,
+            FilterText = operatorOption.Name,
+            InsertTextRules = operatorOption.CompletionInsertTextRules,
+        } ) );
+
+        return completionItems;
+    }
+
+    private IReadOnlyList<CodeEditorCompletionItem> CreateFormulaFieldCompletionItems()
+    {
+        List<CodeEditorCompletionItem> completionItems = [];
+
+        HashSet<string> fieldExpressions = new( StringComparer.OrdinalIgnoreCase );
+
+        foreach ( ReportTreeNode fieldNode in EnumerateFormulaNodes( FieldNodes ) )
+        {
+            if ( fieldNode?.Value is not ReportFieldTreeNodeValue field )
+                continue;
+
+            string expression = ReportExpressionFormatter.FormatFieldExpression( Definition, field.DataSourceName, field.FieldName );
+
+            if ( string.IsNullOrWhiteSpace( expression ) || !fieldExpressions.Add( expression ) )
+                continue;
+
+            completionItems.Add( new()
+            {
+                Label = expression,
+                InsertText = expression,
+                Kind = CodeEditorCompletionItemKind.Field,
+                Detail = fieldNode.Detail ?? "Report field",
+                Documentation = $"Inserts the {expression} report field.",
+                FilterText = expression,
+                SortText = $"0_{expression}",
+            } );
+        }
+
+        return completionItems;
+    }
+
+    private Task<IReadOnlyList<CodeEditorCompletionItem>> ProvideFormulaCompletionItems( CodeEditorCompletionContext context )
+    {
+        CodeEditorCompletionRange range = GetFormulaCompletionRange( context );
+
+        if ( range is null )
+            return Task.FromResult<IReadOnlyList<CodeEditorCompletionItem>>( [] );
+
+        IReadOnlyList<CodeEditorCompletionItem> completionItems = formulaFieldCompletionItems
+            .Select( item => new CodeEditorCompletionItem
+            {
+                Label = item.Label,
+                InsertText = item.InsertText,
+                Kind = item.Kind,
+                Detail = item.Detail,
+                Documentation = item.Documentation,
+                FilterText = item.FilterText,
+                SortText = item.SortText,
+                CommitCharacters = item.CommitCharacters,
+                InsertTextRules = item.InsertTextRules,
+                Range = range,
+            } )
+            .ToArray();
+
+        return Task.FromResult( completionItems );
+    }
+
+    private static CodeEditorCompletionRange GetFormulaCompletionRange( CodeEditorCompletionContext context )
+    {
+        if ( context is null || context.LineNumber < 1 || context.Column < 1 )
+            return null;
+
+        string lineText = context.LineText ?? string.Empty;
+        int cursorIndex = Math.Min( context.Column - 1, lineText.Length );
+        string textBeforeCursor = lineText[..cursorIndex];
+        int openingIndex = textBeforeCursor.LastIndexOf( '{' );
+        int closingIndex = textBeforeCursor.LastIndexOf( '}' );
+
+        if ( openingIndex <= closingIndex )
+            return null;
+
+        int endColumn = context.Column;
+
+        if ( cursorIndex < lineText.Length && lineText[cursorIndex] == '}' )
+            endColumn++;
+
+        return new()
+        {
+            StartLineNumber = context.LineNumber,
+            StartColumn = openingIndex + 1,
+            EndLineNumber = context.LineNumber,
+            EndColumn = endColumn,
+        };
+    }
+
+    private static IEnumerable<ReportTreeNode> EnumerateFormulaNodes( IEnumerable<ReportTreeNode> nodes )
+    {
+        foreach ( ReportTreeNode node in nodes ?? [] )
+        {
+            yield return node;
+
+            foreach ( ReportTreeNode child in EnumerateFormulaNodes( node?.Children ) )
+                yield return child;
+        }
+    }
+
+    private static bool IsFormulaKeyword( string value )
+    {
+        string normalizedValue = value?.Trim();
+
+        return string.Equals( normalizedValue, "true", StringComparison.OrdinalIgnoreCase )
+            || string.Equals( normalizedValue, "false", StringComparison.OrdinalIgnoreCase )
+            || string.Equals( normalizedValue, "null", StringComparison.OrdinalIgnoreCase )
+            || normalizedValue?.StartsWith( "if ", StringComparison.OrdinalIgnoreCase ) == true;
+    }
+
+    private static CodeEditorSelection CreateEndSelection( string value )
+    {
+        GetFormulaPosition( value, value?.Length ?? 0, out int lineNumber, out int column );
+
+        return new()
+        {
+            StartLineNumber = lineNumber,
+            StartColumn = column,
+            EndLineNumber = lineNumber,
+            EndColumn = column,
+        };
+    }
+
+    private static int GetFormulaOffset( string value, int lineNumber, int column )
+    {
+        if ( string.IsNullOrEmpty( value ) )
+            return 0;
+
+        int currentLine = 1;
+        int currentColumn = 1;
+
+        for ( int index = 0; index < value.Length; index++ )
+        {
+            if ( currentLine == Math.Max( 1, lineNumber ) && currentColumn >= Math.Max( 1, column ) )
+                return index;
+
+            if ( value[index] == '\n' )
+            {
+                currentLine++;
+                currentColumn = 1;
+            }
+            else if ( value[index] != '\r' )
+            {
+                currentColumn++;
+            }
+        }
+
+        return value.Length;
+    }
+
+    private static void GetFormulaPosition( string value, int offset, out int lineNumber, out int column )
+    {
+        lineNumber = 1;
+        column = 1;
+
+        if ( string.IsNullOrEmpty( value ) )
+            return;
+
+        int maximumOffset = Math.Min( Math.Max( 0, offset ), value.Length );
+
+        for ( int index = 0; index < maximumOffset; index++ )
+        {
+            if ( value[index] == '\n' )
+            {
+                lineNumber++;
+                column = 1;
+            }
+            else if ( value[index] != '\r' )
+            {
+                column++;
+            }
+        }
     }
 
     private static IReadOnlyList<ReportTreeNode> BuildFormulaNodes( string prefix, ReportTreeNodeKind kind, IEnumerable<IReportFormulaTreeOption> options )
@@ -347,7 +689,14 @@ public partial class _ReportDesignerFormulaDialog
 
     private sealed record ReportFormulaFunctionOption( string Category, string Name, string Template, string Description ) : IReportFormulaTreeOption;
 
-    private sealed record ReportFormulaOperatorOption( string Category, string Name, string Text, string Description ) : IReportFormulaTreeOption;
+    private sealed record ReportFormulaOperatorOption(
+        string Category,
+        string Name,
+        string Text,
+        string Description,
+        int? CaretIndex = null,
+        string CompletionText = null,
+        CodeEditorCompletionItemInsertTextRule CompletionInsertTextRules = CodeEditorCompletionItemInsertTextRule.None ) : IReportFormulaTreeOption;
 
     #endregion
 }

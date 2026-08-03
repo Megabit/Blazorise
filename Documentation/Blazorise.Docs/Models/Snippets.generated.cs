@@ -9584,6 +9584,482 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         public const string ChartZoomNugetInstallExample = @"Install-Package Blazorise.Charts
 Install-Package Blazorise.Chart.Zoom";
 
+        public const string CodeEditorBasicExample = @"<CodeEditor @bind-Value=""@sourceCode""
+            Language=""@CodeEditorLanguage.CSharp""
+            Theme=""@CodeEditorTheme.VisualStudioDark""
+            Immediate
+            Height=""220.Px()"" />
+
+<Div Margin=""Margin.Is3.FromTop"">
+    <Span TextWeight=""TextWeight.SemiBold"">Characters:</Span>
+    <Code>@sourceCode.Length</Code>
+</Div>
+
+@code {
+    private string sourceCode = """"""
+public static string Greet( string name )
+{
+    return $""Hello, {name}!"";
+}
+"""""";
+}";
+
+        public const string CodeEditorCompletionExample = @"<Paragraph>
+    Type <Code>console.</Code>, or press <Code>Ctrl+Space</Code>, and select a suggestion. Press <Code>Tab</Code> to move through snippet placeholders.
+</Paragraph>
+
+<CodeEditor @bind-Value=""@sourceCode""
+            Language=""@CodeEditorLanguage.JavaScript""
+            CompletionItems=""@completionItems""
+            CompletionTriggerCharacters=""@triggerCharacters""
+            Immediate
+            Height=""220.Px()"" />
+
+@code {
+    private string sourceCode = """"""
+function greet( name ) {
+    // Type console. here
+}
+"""""";
+
+    private static readonly IReadOnlyList<string> triggerCharacters = ["".""];
+
+    private static readonly IReadOnlyList<CodeEditorCompletionItem> completionItems =
+    [
+        new()
+        {
+            Label = ""log"",
+            InsertText = ""log(${1:value});"",
+            Kind = CodeEditorCompletionItemKind.Method,
+            Detail = ""Write a message to the console"",
+            Documentation = ""Inserts console.log with an editable value placeholder."",
+            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,
+        },
+        new()
+        {
+            Label = ""warn"",
+            InsertText = ""warn(${1:value});"",
+            Kind = CodeEditorCompletionItemKind.Method,
+            Detail = ""Write a warning to the console"",
+            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,
+        },
+        new()
+        {
+            Label = ""error"",
+            InsertText = ""error(${1:value});"",
+            Kind = CodeEditorCompletionItemKind.Method,
+            Detail = ""Write an error to the console"",
+            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,
+        },
+    ];
+}";
+
+        public const string CodeEditorContextualCompletionExample = @"<Paragraph>
+    Type an opening brace followed by part of a field name, for example <Code>{Customer</Code>.
+</Paragraph>
+
+<CodeEditor @bind-Value=""@template""
+            Language=""@CodeEditorLanguage.PlainText""
+            CompletionProvider=""@completionProvider""
+            Immediate
+            Height=""220.Px()"" />
+
+@code {
+    private string template = ""Invoice for "";
+
+    private static readonly IReadOnlyList<string> fields =
+    [
+        ""Customer.Name"",
+        ""Customer.Email"",
+        ""Invoice.Number"",
+        ""Invoice.Total"",
+    ];
+
+    private static readonly CodeEditorCompletionProvider completionProvider = new()
+    {
+        Language = CodeEditorLanguage.PlainText,
+        TriggerCharacters = [""{""],
+        ItemsProvider = ProvideFields,
+    };
+
+    private static Task<IReadOnlyList<CodeEditorCompletionItem>> ProvideFields( CodeEditorCompletionContext context )
+    {
+        CodeEditorCompletionRange range = FindFieldRange( context );
+
+        if ( range is null )
+            return Task.FromResult<IReadOnlyList<CodeEditorCompletionItem>>( [] );
+
+        IReadOnlyList<CodeEditorCompletionItem> items = fields
+            .Select( field =>
+            {
+                string expression = $""{{{field}}}"";
+
+                return new CodeEditorCompletionItem
+                {
+                    Label = expression,
+                    InsertText = expression,
+                    FilterText = expression,
+                    Kind = CodeEditorCompletionItemKind.Field,
+                    Detail = ""Template field"",
+                    Range = range,
+                };
+            } )
+            .ToArray();
+
+        return Task.FromResult( items );
+    }
+
+    private static CodeEditorCompletionRange FindFieldRange( CodeEditorCompletionContext context )
+    {
+        if ( context is null || context.LineNumber < 1 || context.Column < 1 )
+            return null;
+
+        string line = context.LineText ?? string.Empty;
+        int cursorIndex = Math.Min( context.Column - 1, line.Length );
+        string textBeforeCursor = line[..cursorIndex];
+        int openingIndex = textBeforeCursor.LastIndexOf( '{' );
+        int closingIndex = textBeforeCursor.LastIndexOf( '}' );
+
+        if ( openingIndex <= closingIndex )
+            return null;
+
+        int endColumn = cursorIndex < line.Length && line[cursorIndex] == '}'
+            ? context.Column + 1
+            : context.Column;
+
+        return new()
+        {
+            StartLineNumber = context.LineNumber,
+            StartColumn = openingIndex + 1,
+            EndLineNumber = context.LineNumber,
+            EndColumn = endColumn,
+        };
+    }
+}";
+
+        public const string CodeEditorCustomLanguageExample = @"<CodeEditor @bind-Value=""@workflow""
+            Language=""@workflowLanguageId""
+            Languages=""@workflowLanguages""
+            Theme=""@CodeEditorTheme.VisualStudioDark""
+            Immediate
+            Height=""220.Px()"" />
+
+@code {
+    private const string workflowLanguageId = ""sample-workflow"";
+
+    private string workflow = """"""
+# A small domain-specific workflow
+step Build
+when success
+run ""dotnet build""
+"""""";
+
+    private static readonly IReadOnlyList<CodeEditorLanguageDefinition> workflowLanguages =
+    [
+        new()
+        {
+            Id = workflowLanguageId,
+            Aliases = [""Workflow""],
+            Extensions = ["".workflow""],
+            Tokenizer = new()
+            {
+                IgnoreCase = true,
+                DefaultToken = string.Empty,
+                Tokens =
+                [
+                    new() { Pattern = ""\\s+"", Token = ""white"" },
+                    new() { Pattern = ""#.*$"", Token = ""comment"" },
+                    new() { Pattern = ""\""[^\""\\r\\n]*\"""", Token = ""string"" },
+                    new() { Pattern = ""\\b(?:step|when|run|success|failure)\\b"", Token = ""keyword"" },
+                    new() { Pattern = ""\\b\\d+\\b"", Token = ""number"" },
+                    new() { Pattern = ""[A-Za-z_][A-Za-z0-9_-]*"", Token = ""identifier"" },
+                ],
+            },
+        },
+    ];
+}";
+
+        public const string CodeEditorDiagnosticsExample = @"<CodeEditor @ref=""@editor""
+            @bind-Value=""@json""
+            Language=""@CodeEditorLanguage.Json""
+            Diagnostics=""@applicationDiagnostics""
+            Immediate
+            Height=""220.Px()"" />
+
+<Div Display=""Display.Flex"" Flex=""Flex.Wrap.AlignItems.Center"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromTop"">
+    <Button Color=""Color.Primary"" Clicked=""@ReadDiagnostics"">Read diagnostics</Button>
+    <Button Color=""Color.Warning"" Clicked=""@AddApplicationWarning"">Add application warning</Button>
+    <Button Color=""Color.Light"" Clicked=""@ClearApplicationDiagnostics"">Clear application markers</Button>
+</Div>
+
+<Paragraph Margin=""Margin.Is3.FromTop"">
+    @status
+</Paragraph>
+
+@code {
+    private CodeEditor editor;
+
+    private string status = ""Edit the JSON or add an application warning."";
+
+    private string json = """"""
+{
+  ""name"": ""Blazorise"",
+  ""debug"": true
+}
+"""""";
+
+    private IReadOnlyList<CodeEditorDiagnostic> applicationDiagnostics = [];
+
+    private async Task ReadDiagnostics()
+    {
+        IReadOnlyList<CodeEditorDiagnostic> diagnostics = await editor.GetDiagnostics();
+        CodeEditorDiagnostic firstError = diagnostics.FirstOrDefault( diagnostic => diagnostic.Severity == CodeEditorDiagnosticSeverity.Error );
+
+        status = firstError is null
+            ? $""No error markers are currently available. The editor reports {diagnostics.Count} marker(s).""
+            : $""Line {firstError.StartLineNumber}: {firstError.Message}"";
+    }
+
+    private Task AddApplicationWarning()
+    {
+        applicationDiagnostics =
+        [
+            new()
+            {
+                Severity = CodeEditorDiagnosticSeverity.Warning,
+                Message = ""Disable debug mode before publishing."",
+                Code = ""APP001"",
+                StartLineNumber = 3,
+                StartColumn = 3,
+                EndLineNumber = 3,
+                EndColumn = 16,
+            },
+        ];
+        status = ""Application warning added."";
+
+        return Task.CompletedTask;
+    }
+
+    private Task ClearApplicationDiagnostics()
+    {
+        applicationDiagnostics = [];
+        status = ""Application markers cleared."";
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string CodeEditorFormattingExample = @"@using System.Text.Json
+
+<CodeEditor @ref=""@editor""
+            @bind-Value=""@json""
+            Language=""@CodeEditorLanguage.Json""
+            FormattingProvider=""@formattingProvider""
+            EditorOptions=""@editorOptions""
+            Immediate
+            Height=""220.Px()"" />
+
+<Div Display=""Display.Flex"" Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is3"" Margin=""Margin.Is3.FromTop"">
+    <Button Color=""Color.Primary"" Clicked=""@FormatDocument"">Format document</Button>
+    <Span>@status</Span>
+</Div>
+
+@code {
+    private CodeEditor editor;
+
+    private string status = ""Ready"";
+
+    private string json = """"""{""name"":""Blazorise"",""features"":[""completion"",""diagnostics"",""formatting""]}"""""";
+
+    private static readonly JsonSerializerOptions serializerOptions = new()
+    {
+        WriteIndented = true,
+    };
+
+    private static readonly CodeEditorOptions editorOptions = new()
+    {
+        Minimap = false,
+        FormatOnPaste = true,
+        ScrollBeyondLastLine = false,
+    };
+
+    private static readonly CodeEditorDocumentFormattingProvider formattingProvider = new()
+    {
+        Language = CodeEditorLanguage.Json,
+        Formatter = FormatJson,
+    };
+
+    private async Task FormatDocument()
+    {
+        bool formatted = await editor.FormatDocument();
+
+        status = formatted
+            ? ""Formatting provider invoked.""
+            : ""No formatting provider is available."";
+    }
+
+    private static Task<string> FormatJson( string value )
+    {
+        try
+        {
+            using JsonDocument document = JsonDocument.Parse( value ?? string.Empty );
+            string formattedValue = JsonSerializer.Serialize( document.RootElement, serializerOptions );
+
+            return Task.FromResult( formattedValue );
+        }
+        catch ( JsonException )
+        {
+            return Task.FromResult( value );
+        }
+    }
+}";
+
+        public const string CodeEditorImportsExample = @"@using Blazorise.CodeEditor";
+
+        public const string CodeEditorNugetInstallExample = @"Install-Package Blazorise.CodeEditor";
+
+        public const string CodeEditorOptionsExample = @"<CodeEditor @ref=""@editor""
+            @bind-Value=""@sourceCode""
+            Language=""@CodeEditorLanguage.JavaScript""
+            EditorOptions=""@editorOptions""
+            Immediate
+            Debounce
+            DebounceInterval=""250""
+            Ready=""@OnReady""
+            ContentChanged=""@OnContentChanged""
+            Focused=""@OnFocused""
+            Blurred=""@OnBlurred""
+            Height=""220.Px()"" />
+
+<Div Display=""Display.Flex"" Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is3"" Margin=""Margin.Is3.FromTop"">
+    <Button Color=""Color.Primary"" Clicked=""@FocusEditor"">Focus editor</Button>
+    <Span>@status</Span>
+</Div>
+
+@code {
+    private CodeEditor editor;
+
+    private string status = ""Waiting for the editor"";
+
+    private string sourceCode = """"""
+const greeting = name => `Hello, ${name}!`;
+
+console.log(greeting(""Blazorise""));
+"""""";
+
+    private readonly CodeEditorOptions editorOptions = new()
+    {
+        Minimap = false,
+        WordWrap = true,
+        TabSize = 2,
+        RenderWhitespace = true,
+        ScrollBeyondLastLine = false,
+        FontSize = 14,
+    };
+
+    private Task FocusEditor()
+        => editor?.Focus() ?? Task.CompletedTask;
+
+    private Task OnReady( CodeEditorReadyEventArgs eventArgs )
+    {
+        status = $""Ready: {eventArgs.ElementId}"";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnContentChanged( string value )
+    {
+        status = $""Changed: {value.Length} characters"";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnFocused()
+    {
+        status = ""Focused"";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnBlurred()
+    {
+        status = ""Blurred"";
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string CodeEditorServiceRegistrationExample = @"builder.Services
+    .AddBlazorise()
+    .AddBootstrap5Providers()
+    .AddBlazoriseCodeEditor();";
+
+        public const string CodeEditorValidationExample = @"@using System.Threading
+
+<Validations @ref=""@validations"" Mode=""ValidationMode.Manual"">
+    <Validation AsyncValidator=""@ValidateCode"">
+        <Field>
+            <FieldLabel>JSON configuration</FieldLabel>
+            <FieldBody>
+                <CodeEditor @ref=""@editor""
+                            @bind-Value=""@json""
+                            Language=""@CodeEditorLanguage.Json""
+                            Immediate
+                            Height=""220.Px()"">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </CodeEditor>
+            </FieldBody>
+        </Field>
+    </Validation>
+
+    <Button Color=""Color.Primary"" Clicked=""@Validate"">Validate</Button>
+</Validations>
+
+@code {
+    private CodeEditor editor;
+
+    private Validations validations;
+
+    private string json = """"""
+{
+  ""name"": ""Blazorise"",
+  ""enabled"":
+}
+"""""";
+
+    private Task Validate()
+        => validations.ValidateAll();
+
+    private async Task ValidateCode( ValidatorEventArgs eventArgs, CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        string value = Convert.ToString( eventArgs.Value );
+
+        if ( string.IsNullOrWhiteSpace( value ) )
+        {
+            eventArgs.Status = ValidationStatus.Error;
+            eventArgs.ErrorText = ""Enter a JSON document."";
+
+            return;
+        }
+
+        IReadOnlyList<CodeEditorDiagnostic> diagnostics = await editor.GetDiagnostics();
+
+        cancellationToken.ThrowIfCancellationRequested();
+
+        CodeEditorDiagnostic error = diagnostics.FirstOrDefault(
+            diagnostic => diagnostic.Severity == CodeEditorDiagnosticSeverity.Error );
+
+        eventArgs.Status = error is null
+            ? ValidationStatus.Success
+            : ValidationStatus.Error;
+        eventArgs.ErrorText = error?.Message;
+    }
+}";
+
         public const string BasicCropperExample = @"<Row>
     <Column>
         <FieldLabel>

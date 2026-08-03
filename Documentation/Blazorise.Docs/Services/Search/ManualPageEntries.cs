@@ -84,6 +84,7 @@ public static class ManualPageEntries
     new( "docs/extensions/chart-live", "Chart Streaming", "Chart plugin for live streaming data." ),
     new( "docs/extensions/chart-trendline", "Chart Trendline", "This plugin draws an linear trendline in your Chart." ),
     new( "docs/extensions/chart-zoom", "Chart Zoom", "Zoom and pan the chart with the zoom plugin." ),
+    new( "docs/extensions/code-editor", "CodeEditor", "Edit source code and custom languages with syntax highlighting, diagnostics, completion, and formatting." ),
     new( "docs/extensions/svg-chart", "SVG Chart", "Full C# and Blazor charting, rendered with native SVG." ),
     new( "docs/extensions/svg-chart/api", "SVG Chart API", "Explore the API reference for Blazorise SVG chart components, options, methods, and events." ),
     new( "docs/extensions/svg-chart-plugins", "SVG Chart Plugins", "Extend native SVG charts with custom C# and Blazor rendering logic." ),

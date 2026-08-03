@@ -1,5 +1,7 @@
 #region Using directives
+using System.Collections.Generic;
 using Blazorise.Charts;
+using Blazorise.CodeEditor;
 using Blazorise.DataGrid;
 using Blazorise.Markdown;
 using Blazorise.Gantt;
@@ -14,6 +16,33 @@ namespace Blazorise.Tests.bUnit;
 
 public static class JSInterop
 {
+    public static BunitJSInterop AddBlazoriseCodeEditor( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseUtilities( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSCodeEditorModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
+        module.SetupVoid( "setDiagnostics", _ => true ).SetVoidResult();
+        module.Setup<IReadOnlyList<CodeEditorDiagnostic>>( "getDiagnostics", _ => true ).SetResult( System.Array.Empty<CodeEditorDiagnostic>() );
+        module.SetupVoid( "setLanguages", _ => true ).SetVoidResult();
+        module.SetupVoid( "setCompletionProvider", _ => true ).SetVoidResult();
+        module.SetupVoid( "setFormattingProvider", _ => true ).SetVoidResult();
+        module.SetupVoid( "setValue", _ => true ).SetVoidResult();
+        module.Setup<string>( "getValue", _ => true ).SetResult( string.Empty );
+        module.SetupVoid( "focus", _ => true ).SetVoidResult();
+        module.SetupVoid( "layout", _ => true ).SetVoidResult();
+        module.Setup<bool>( "formatDocument", _ => true ).SetResult( true );
+        module.SetupVoid( "revealLine", _ => true ).SetVoidResult();
+        module.SetupVoid( "setLanguage", _ => true ).SetVoidResult();
+        module.SetupVoid( "setTheme", _ => true ).SetVoidResult();
+        module.SetupVoid( "setSelection", _ => true ).SetVoidResult();
+        module.Setup<CodeEditorSelection>( "getSelection", _ => true ).SetResult( null );
+
+        return jsInterop;
+    }
+
     public static BunitJSInterop AddBlazoriseButton( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );

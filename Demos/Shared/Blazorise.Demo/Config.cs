@@ -1,6 +1,7 @@
 #region Using directives
 using Blazored.LocalStorage;
 using Blazorise.Captcha.ReCaptcha;
+using Blazorise.CodeEditor;
 using Blazorise.Components;
 using Blazorise.FluentValidation;
 using Blazorise.LoadingIndicator;
@@ -50,6 +51,7 @@ public static class Config
                 options.UseTables = true;
                 options.UseResize = true;
             } )
+            .AddBlazoriseCodeEditor()
             .AddLoadingIndicator()
             .AddBlazoriseFluentValidation()
             .AddBlazoriseReporting()

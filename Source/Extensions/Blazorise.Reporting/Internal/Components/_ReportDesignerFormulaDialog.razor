@@ -30,7 +30,18 @@
     <Field Margin="MarginIs3FromTop">
         <FieldLabel TextSize="TextSizeSmall">Formula</FieldLabel>
         <FieldBody>
-            <MemoInput Value="@formula" ValueChanged="@OnFormulaChanged" Immediate="true" Size="Size.Small" Rows="@FormulaEditorRows" />
+            <CodeEditor @ref="@formulaEditor"
+                        Value="@formula"
+                        ValueChanged="@OnFormulaChanged"
+                        Language="@FormulaLanguageId"
+                        Languages="@FormulaLanguages"
+                        CompletionProvider="@formulaCompletionProvider"
+                        Diagnostics="@formulaDiagnostics"
+                        EditorOptions="@FormulaEditorOptions"
+                        Immediate
+                        Debounce
+                        DebounceInterval="150"
+                        Height="180.Px()" />
         </FieldBody>
     </Field>
 
