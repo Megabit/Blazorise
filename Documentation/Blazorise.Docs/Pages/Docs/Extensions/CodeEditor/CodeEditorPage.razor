@@ -110,7 +110,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Diagnostics">
-        Built-in language support can report syntax diagnostics for supported languages. Call <Code>GetDiagnostics</Code> when validation is requested. Use the <Code>Diagnostics</Code> parameter for application rules that should also appear as editor markers.
+        Built-in language support can report syntax diagnostics for supported languages. <Code>GetDiagnostics</Code> returns a snapshot of the markers currently available, including markers supplied through the <Code>Diagnostics</Code> parameter.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="CodeEditorDiagnosticsExample" Outlined FullWidth>
         <CodeEditorDiagnosticsExample />
@@ -119,13 +119,13 @@
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
-        Diagnostics describe locations and messages inside the document; they do not decide whether a form is valid. Run <Code>GetDiagnostics</Code> from a Blazorise validator or submit handler when diagnostics must participate in form validation.
+        <Code>GetDiagnostics</Code> does not start or wait for asynchronous language analysis. Diagnostics describe the markers available at the time of the call; they are not a synchronous compiler or parser. Use a dedicated parser or application validator when validation must complete deterministically.
     </AlertDescription>
 </Alert>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Validation">
-        Put <Code>CodeEditor</Code> inside the standard Blazorise validation components. The validator runs only when requested and uses <Code>GetDiagnostics</Code> to reject documents that contain error markers.
+        Put <Code>CodeEditor</Code> inside the standard Blazorise validation components. The validator runs only when requested and uses the currently available diagnostics to reject documents that contain error markers.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="CodeEditorValidationExample" Outlined FullWidth>
         <CodeEditorValidationExample />

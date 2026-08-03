@@ -109,7 +109,7 @@ public class CodeEditorComponentTest : BunitContext
             .Add( component => component.CompletionProvider, completionProvider )
             .Add( component => component.FormattingProvider, formattingProvider ) );
 
-        JSInterop.VerifyInvoke( "setDiagnostics" );
+        JSInterop.VerifyInvoke( "setDiagnostics", 2 );
         JSInterop.VerifyInvoke( "setLanguages" );
         JSInterop.VerifyInvoke( "setCompletionProvider" );
         JSInterop.VerifyInvoke( "setFormattingProvider" );
@@ -134,6 +134,20 @@ public class CodeEditorComponentTest : BunitContext
         await cut.Instance.Resize();
 
         JSInterop.VerifyInvoke( "resize" );
+    }
+
+    [Theory]
+    [InlineData( true )]
+    [InlineData( false )]
+    public async Task Focus_Should_ForwardScrollPreference( bool scrollToElement )
+    {
+        IRenderedComponent<CodeEditor.CodeEditor> cut = Render<CodeEditor.CodeEditor>();
+
+        await cut.Instance.Focus( scrollToElement );
+
+        JSRuntimeInvocation invocation = JSInterop.VerifyInvoke( "focus" );
+
+        Assert.Equal( scrollToElement, invocation.Arguments[2] );
     }
 
     [Fact]

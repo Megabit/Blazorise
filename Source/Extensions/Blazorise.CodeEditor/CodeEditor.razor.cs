@@ -207,9 +207,9 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     public override Task Focus( bool scrollToElement = true )
     {
         if ( jsInitialized )
-            return JSModule.Focus( ElementRef, ElementId ).AsTask();
+            return JSModule.Focus( ElementRef, ElementId, scrollToElement ).AsTask();
 
-        ExecuteAfterRender( () => JSModule.Focus( ElementRef, ElementId ).AsTask() );
+        ExecuteAfterRender( () => JSModule.Focus( ElementRef, ElementId, scrollToElement ).AsTask() );
 
         return Task.CompletedTask;
     }
@@ -279,6 +279,10 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// <summary>
     /// Gets the diagnostic markers for the current editor model.
     /// </summary>
+    /// <remarks>
+    /// Returns a snapshot of the markers currently available. This method does not start or wait for asynchronous
+    /// language analysis to complete.
+    /// </remarks>
     /// <returns>Diagnostic markers reported for the current editor model.</returns>
     public async Task<IReadOnlyList<CodeEditorDiagnostic>> GetDiagnostics()
     {

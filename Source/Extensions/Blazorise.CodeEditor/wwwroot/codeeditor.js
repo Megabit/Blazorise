@@ -232,11 +232,20 @@ export function getValue(element, elementId) {
     return instance?.editor?.getValue() ?? "";
 }
 
-export function focus(element, elementId) {
+export function focus(element, elementId, scrollToElement) {
     const instance = instances.get(elementId);
 
     if (!instance?.options?.disabled) {
-        instance?.editor?.focus();
+        if (scrollToElement === false) {
+            const input = instance.element.querySelector("textarea.inputarea");
+
+            if (input) {
+                input.focus({ preventScroll: true });
+                return;
+            }
+        }
+
+        instance.editor?.focus();
     }
 }
 

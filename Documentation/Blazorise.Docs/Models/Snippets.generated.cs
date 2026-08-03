@@ -9816,7 +9816,7 @@ run ""dotnet build""
         CodeEditorDiagnostic firstError = diagnostics.FirstOrDefault( diagnostic => diagnostic.Severity == CodeEditorDiagnosticSeverity.Error );
 
         status = firstError is null
-            ? $""No syntax errors. The editor currently reports {diagnostics.Count} marker(s).""
+            ? $""No error markers are currently available. The editor reports {diagnostics.Count} marker(s).""
             : $""Line {firstError.StartLineNumber}: {firstError.Message}"";
     }
 
