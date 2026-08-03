@@ -8901,7 +8901,6 @@ body:before {
   }
 }
 .tw-context-menu {
-  --context-menu-zindex: 50;
   display: contents;
 }
 .tw-context-menu-toggle {
@@ -8916,7 +8915,7 @@ body:before {
 .tw-context-menu-menu {
   position: fixed;
   display: block;
-  z-index: var(--context-menu-zindex, 1080);
+  z-index: 50;
 }
 .tw-context-menu-item {
   cursor: pointer;
@@ -8981,7 +8980,7 @@ body:before {
   cursor: default;
 }
 .tw-context-menu-submenu-menu {
-  z-index: calc(var(--context-menu-zindex, 1080) + 1);
+  z-index: 51;
 }
 .tw-datepicker {
   position: relative;
