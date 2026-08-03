@@ -55,7 +55,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
         if ( visibleResult )
             await Show();
         else
-            await Hide();
+            await Hide( CloseReason.None, null );
     }
 
     /// <inheritdoc/>
@@ -117,10 +117,30 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     /// Hides the context menu.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task Hide()
+    public Task Hide()
+        => Hide( CloseReason.UserClosing, null );
+
+    /// <summary>
+    /// Hides the context menu for the specified reason.
+    /// </summary>
+    /// <param name="closeReason">The reason the menu is being closed.</param>
+    /// <param name="documentEventArgs">The originating document event.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private async Task Hide( CloseReason closeReason, DocumentEventArgs documentEventArgs )
     {
         if ( !State.Visible )
             return;
+
+        ContextMenuClosingEventArgs closingEventArgs = new( State.ClientX, State.ClientY, documentEventArgs, closeReason );
+
+        await Closing.InvokeAsync( closingEventArgs );
+
+        if ( closingEventArgs.Cancel )
+        {
+            await VisibleChanged.InvokeAsync( true );
+
+            return;
+        }
 
         state = state with { Visible = false };
         DirtyClasses();
@@ -129,7 +149,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
 
         await VisibleChanged.InvokeAsync( false );
 
-        await Closed.InvokeAsync( new ContextMenuEventArgs( State.ClientX, State.ClientY, null ) );
+        await Closed.InvokeAsync( new ContextMenuEventArgs( State.ClientX, State.ClientY, documentEventArgs ) );
 
         await InvokeAsync( StateHasChanged );
     }
@@ -225,13 +245,13 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     private async Task HandleOutsidePointer( DocumentEventArgs eventArgs )
     {
         if ( State.Visible && CloseOnOutsideClick )
-            await Hide();
+            await Hide( CloseReason.FocusLostClosing, eventArgs );
     }
 
     private async Task HandleKeyDown( DocumentEventArgs eventArgs )
     {
         if ( State.Visible && CloseOnEscape && string.Equals( eventArgs.Key, "Escape", StringComparison.Ordinal ) )
-            await Hide();
+            await Hide( CloseReason.EscapeClosing, eventArgs );
     }
 
     private async Task SynchronizeContextMenuSubscription()
@@ -395,7 +415,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     [Parameter] public bool Visible { get; set; }
 
     /// <summary>
-    /// Occurs after the menu visibility changes.
+    /// Notifies when the effective menu visibility changes or a canceled request must be synchronized.
     /// </summary>
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
@@ -443,6 +463,11 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     /// Occurs before the menu opens. Set <see cref="ContextMenuOpeningEventArgs.Cancel"/> to prevent opening.
     /// </summary>
     [Parameter] public EventCallback<ContextMenuOpeningEventArgs> Opening { get; set; }
+
+    /// <summary>
+    /// Occurs before the menu closes. Set <see cref="ContextMenuClosingEventArgs.Cancel"/> to prevent closing.
+    /// </summary>
+    [Parameter] public EventCallback<ContextMenuClosingEventArgs> Closing { get; set; }
 
     /// <summary>
     /// Occurs after the menu opens.
