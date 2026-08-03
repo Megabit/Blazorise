@@ -23,13 +23,6 @@
                 Note that this mode requires that all rows have the same height.
             </AlertDescription>
         </Alert>
-
-        <Alert Margin="Margin.Is4.FromTop" Color="Color.Info" Visible>
-            <AlertDescription>
-                Note that there is a known bug in .NET5 where Virtualize throws a <Code>TaskCanceledException</Code> on the background, this does not seem to crash your application.
-                <Anchor To="https://github.com/dotnet/aspnetcore/issues/28280">TaskCanceledException when scrolling Virtualized component #28280</Anchor>
-            </AlertDescription>
-        </Alert>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="DataGridVirtualizeExample" FullWidth AdditionalCodes="@DocsCodeSources.DataGridSharedData" CopyFullExample>
         <DataGridVirtualizeExample />
