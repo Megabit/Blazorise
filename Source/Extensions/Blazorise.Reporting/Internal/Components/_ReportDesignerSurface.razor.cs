@@ -1685,6 +1685,9 @@ public partial class _ReportDesignerSurface
     /// </summary>
     [Parameter, EditorRequired] public _ReportDesigner Designer { get; set; }
 
+    /// <summary>
+    /// Report rendered on the design surface.
+    /// </summary>
     [Parameter, EditorRequired] public ReportDefinition Definition { get; set; }
 
     [Inject] private IJSRuntime JSRuntime { get; set; }

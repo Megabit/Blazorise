@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Blazorise.FluentValidation;
 
+/// <summary>
+/// Resolves and runs FluentValidation validators for individual Blazorise fields.
+/// </summary>
 public class FluentValidationHandler : IValidationHandler
 {
     #region Members
@@ -21,6 +24,10 @@ public class FluentValidationHandler : IValidationHandler
 
     #region Constructors
 
+    /// <summary>
+    /// Creates a handler that resolves validators from the application service provider.
+    /// </summary>
+    /// <param name="serviceProvider">Services used to locate the validator for each model type.</param>
     public FluentValidationHandler( IServiceProvider serviceProvider )
     {
         this.serviceProvider = serviceProvider;
@@ -30,6 +37,7 @@ public class FluentValidationHandler : IValidationHandler
 
     #region Methods
 
+    /// <inheritdoc />
     public void Validate( IValidation validation, object newValidationValue )
     {
         try
@@ -48,6 +56,7 @@ public class FluentValidationHandler : IValidationHandler
         }
     }
 
+    /// <inheritdoc />
     public async Task ValidateAsync( IValidation validation, object newValidationValue, CancellationToken cancellationToken = default )
     {
         try

@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid;
 
+/// <summary>
+/// Supports data grid aggregate behavior in DataGrid components.
+/// </summary>
 public class DataGridAggregate<TItem> : BaseDataGridComponent
 {
     #region Members
@@ -133,6 +136,7 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
                  select value ).Count();
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         // connect column to the parent datagrid

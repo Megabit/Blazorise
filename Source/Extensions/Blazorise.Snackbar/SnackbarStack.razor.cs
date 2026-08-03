@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Snackbar;
 
+/// <summary>
+/// Queues and positions transient snackbar notifications as a stack.
+/// </summary>
 public partial class SnackbarStack : BaseComponent
 {
     #region Members
@@ -90,6 +93,7 @@ public partial class SnackbarStack : BaseComponent
 
     #region Methods
 
+    /// <inheritdoc />
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "snackbar-stack" );
@@ -98,6 +102,7 @@ public partial class SnackbarStack : BaseComponent
         base.BuildClasses( builder );
     }
 
+    /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
         var baseAnimationDuration = AnimationDuration;
@@ -186,6 +191,9 @@ public partial class SnackbarStack : BaseComponent
         await Closed.InvokeAsync( new( key, closeReason ) );
     }
 
+    /// <summary>
+    /// Produces the baseline options copied into each newly queued snackbar.
+    /// </summary>
     protected virtual SnackbarOptions CreateDefaultOptions()
     {
         return new()

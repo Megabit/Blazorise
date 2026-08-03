@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Renders a line chart.
+/// </summary>
 public partial class LineChart<TItem> : BaseChart<LineChartDataset<TItem>, TItem, LineChartOptions, LineChartModel>
 {
     #region Members
@@ -16,6 +19,9 @@ public partial class LineChart<TItem> : BaseChart<LineChartDataset<TItem>, TItem
 
     #region Constructors
 
+    /// <summary>
+    /// Creates a line chart instance.
+    /// </summary>
     public LineChart()
     {
         Type = ChartType.Line;

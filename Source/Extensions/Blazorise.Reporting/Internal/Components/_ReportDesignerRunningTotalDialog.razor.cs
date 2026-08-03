@@ -296,6 +296,7 @@ public partial class _ReportDesignerRunningTotalDialog
             : node.Path;
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         runningTotal = CloneRunningTotal( InitialDefinition ?? new() );
@@ -320,6 +321,9 @@ public partial class _ReportDesignerRunningTotalDialog
     private ReportBandDefinition SelectedSection => Definition?.Bands?.FirstOrDefault( section =>
         string.Equals( section.DataSource, runningTotal.DataSource, StringComparison.OrdinalIgnoreCase ) );
 
+    /// <summary>
+    /// Running-total definition loaded into the dialog.
+    /// </summary>
     [Parameter] public ReportRunningTotalDefinition InitialDefinition { get; set; }
 
     /// <summary>

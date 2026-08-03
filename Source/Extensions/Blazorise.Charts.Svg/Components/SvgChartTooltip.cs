@@ -49,12 +49,14 @@ public class SvgChartTooltip : SvgChartComponentBase
         return base.SetParametersAsync( parameters );
     }
 
+    /// <inheritdoc />
     protected override void Register()
     {
         Parent?.RegisterTooltip( this );
         SetRegisteredParent();
     }
 
+    /// <inheritdoc />
     protected override void Unregister()
     {
         RegisteredParent?.UnregisterTooltip( this );

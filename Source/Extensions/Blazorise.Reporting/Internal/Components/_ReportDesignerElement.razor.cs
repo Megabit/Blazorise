@@ -79,6 +79,7 @@ public partial class _ReportDesignerElement
         return base.SetParametersAsync( parameters );
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( focusTextEdit )

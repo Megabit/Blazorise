@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid;
 
+/// <summary>
+/// Provides data grid date column behavior within a DataGrid.
+/// </summary>
 public class DataGridDateColumn<TItem> : DataGridColumn<TItem>
 {
     /// <inheritdoc/>

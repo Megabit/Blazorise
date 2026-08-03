@@ -13,6 +13,9 @@ public class SvgPolarAreaChart<TItem> : SvgChart<TItem>
 {
     #region Constructors
 
+    /// <summary>
+    /// Creates equal-angle sectors whose radii represent values.
+    /// </summary>
     public SvgPolarAreaChart()
     {
         Type = SvgChartType.PolarArea;

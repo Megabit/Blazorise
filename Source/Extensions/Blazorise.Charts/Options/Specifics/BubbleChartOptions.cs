@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Configures bubble chart behavior.
+/// </summary>
 public class BubbleChartOptions : ChartOptions
 {
 }

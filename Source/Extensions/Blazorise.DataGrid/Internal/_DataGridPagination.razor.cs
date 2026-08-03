@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid.Internal;
 
+/// <summary>
+/// Coordinates pager controls, grid commands, and pagination templates.
+/// </summary>
 partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
 {
     #region Members 
@@ -42,6 +45,7 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
     private Size GetSize()
         => ParentDataGrid.PagerOptions?.ButtonSize ?? ParentDataGrid.Theme?.PaginationOptions?.Size ?? Size.Default;
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         LocalizerService.LocalizationChanged += OnLocalizationChanged;
@@ -70,27 +74,46 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
         await InvokeAsync( StateHasChanged );
     }
 
+    /// <inheritdoc />
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.FieldJustifyContent( JustifyContent.Between ) );
         base.BuildClasses( builder );
     }
 
+    /// <summary>
+    /// Starts creation of a new row.
+    /// </summary>
     protected EventCallback NewClick
         => EventCallback.Factory.Create( this, ParentDataGrid.New );
 
+    /// <summary>
+    /// Opens the selected row for editing.
+    /// </summary>
     protected EventCallback EditClick
         => EventCallback.Factory.Create( this, () => ParentDataGrid.Edit( SelectedRow ) );
 
+    /// <summary>
+    /// Requests deletion of the selected row.
+    /// </summary>
     protected EventCallback DeleteClick
         => EventCallback.Factory.Create( this, () => ParentDataGrid.Delete( SelectedRow ) );
 
+    /// <summary>
+    /// Removes every active grid filter.
+    /// </summary>
     protected EventCallback ClearFilterClick
         => EventCallback.Factory.Create( this, ParentDataGrid.ClearFilter );
 
+    /// <summary>
+    /// Commits the pending batch edits.
+    /// </summary>
     protected EventCallback SaveBatchClick
          => EventCallback.Factory.Create( this, ParentDataGrid.SaveBatch );
 
+    /// <summary>
+    /// Discards the pending batch edits.
+    /// </summary>
     protected EventCallback CancelBatchClick
         => EventCallback.Factory.Create( this, ParentDataGrid.Cancel );
 
@@ -119,8 +142,14 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
         _ => Blazorise.Margin.Is2.FromEnd
     };
 
+    /// <summary>
+    /// Signals when pager translations have changed.
+    /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
+    /// <summary>
+    /// Supplies translated pager and command labels.
+    /// </summary>
     [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
 
     /// <summary>
@@ -220,6 +249,9 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
     /// </summary>
     [Parameter] public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get; set; }
 
+    /// <summary>
+    /// Receives the page identifier selected by the user.
+    /// </summary>
     [Parameter] public EventCallback<string> OnPaginationItemClick { get; set; }
 
     /// <summary>

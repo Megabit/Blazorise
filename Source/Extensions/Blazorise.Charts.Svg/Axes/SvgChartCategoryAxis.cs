@@ -45,12 +45,14 @@ public class SvgChartCategoryAxis<TItem> : SvgChartComponentBase
         return base.SetParametersAsync( parameters );
     }
 
+    /// <inheritdoc />
     protected override void Register()
     {
         Parent?.RegisterCategoryAxis( this );
         SetRegisteredParent();
     }
 
+    /// <inheritdoc />
     protected override void Unregister()
     {
         RegisteredParent?.UnregisterCategoryAxis( this );

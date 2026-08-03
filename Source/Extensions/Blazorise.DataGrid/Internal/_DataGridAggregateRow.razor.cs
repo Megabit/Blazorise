@@ -5,10 +5,16 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid.Internal;
 
+/// <summary>
+/// Supports data grid aggregate row rendering and interaction in a DataGrid.
+/// </summary>
 public partial class _DataGridAggregateRow<TItem> : BaseDataGridComponent
 {
     #region Methods
 
+    /// <summary>
+    /// Calculates aggregate values for the current grid data.
+    /// </summary>
     protected object Calculate( DataGridAggregate<TItem> aggregate, DataGridColumn<TItem> column )
         => aggregate?.AggregationFunction?.Invoke( Data, column );
 
@@ -16,6 +22,9 @@ public partial class _DataGridAggregateRow<TItem> : BaseDataGridComponent
 
     #region Properties
 
+    /// <summary>
+    /// Data consumed by the data grid aggregate row.
+    /// </summary>
     protected IEnumerable<TItem> Data
         => ParentDataGrid.ManualReadMode ? ParentDataGrid.AggregateData : ParentDataGrid.FilteredData;
 

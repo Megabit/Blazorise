@@ -65,6 +65,7 @@ public partial class _ReportDesignerDataSourceDialog
         return resolvedDataSource?.Value ?? NoDataSourceValue;
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         dataSourceOptions.Clear();
@@ -77,6 +78,9 @@ public partial class _ReportDesignerDataSourceDialog
 
     #region Properties
 
+    /// <summary>
+    /// Data source selected when the dialog opens.
+    /// </summary>
     [Parameter] public string InitialDataSource { get; set; }
 
     /// <summary>

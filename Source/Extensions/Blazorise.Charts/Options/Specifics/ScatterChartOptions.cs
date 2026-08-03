@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Configures scatter chart behavior.
+/// </summary>
 public class ScatterChartOptions : ChartOptions
 {
 }

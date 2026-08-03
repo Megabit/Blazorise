@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Sidebar;
 
+/// <summary>
+/// Wraps the primary content area adjacent to a sidebar.
+/// </summary>
 public partial class SidebarContent : BaseComponent
 {
     #region Members

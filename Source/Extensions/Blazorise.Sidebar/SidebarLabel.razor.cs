@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Sidebar;
 
+/// <summary>
+/// Displays a non-interactive label within sidebar navigation.
+/// </summary>
 public partial class SidebarLabel : BaseComponent
 {
     #region Members

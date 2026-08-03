@@ -4,8 +4,14 @@ using System;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Supports chart mouse event args behavior in chart components.
+/// </summary>
 public class ChartMouseEventArgs : EventArgs
 {
+    /// <summary>
+    /// Creates a chart mouse event args instance.
+    /// </summary>
     public ChartMouseEventArgs( int datasetIndex, int index, object model )
     {
         DatasetIndex = datasetIndex;

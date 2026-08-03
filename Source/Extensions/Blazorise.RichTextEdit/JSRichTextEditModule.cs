@@ -91,6 +91,9 @@ public class JSRichTextEditModule : BaseJSModule,
         } );
     }
 
+    /// <summary>
+    /// Releases Quill and its event handlers for an editor element.
+    /// </summary>
     public ValueTask Destroy( ElementReference editorRef, string elementId )
         => InvokeSafeVoidAsync( "destroy", editorRef, elementId );
 

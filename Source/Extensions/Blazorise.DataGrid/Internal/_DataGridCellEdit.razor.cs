@@ -13,14 +13,19 @@ namespace Blazorise.DataGrid.Internal;
 /// <typeparam name="TItem"></typeparam>
 public partial class _DataGridCellEdit<TItem> : ComponentBase
 {
+    /// <summary>
+    /// Element Id identifying content in the data grid cell edit.
+    /// </summary>
     protected string elementId;
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         elementId = IdGenerator.Generate;
         base.OnInitialized();
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( ParentDataGrid.IsCellEdit && Column.CellEditing )
@@ -53,11 +58,17 @@ public partial class _DataGridCellEdit<TItem> : ComponentBase
         await base.OnAfterRenderAsync( firstRender );
     }
 
+    /// <summary>
+    /// Moves keyboard focus to the cell editor.
+    /// </summary>
     public async Task Focus()
     {
         await JSUtilitiesModule.Focus( default, elementId, true );
     }
 
+    /// <summary>
+    /// Selects the cell editor contents.
+    /// </summary>
     public async Task Select()
     {
         await JSUtilitiesModule.Select( default, elementId, true );
@@ -79,8 +90,14 @@ public partial class _DataGridCellEdit<TItem> : ComponentBase
         return CellValueChanged.InvokeAsync( value );
     }
 
+    /// <summary>
+    /// Parent Data Grid identifying content in the data grid cell edit.
+    /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
+    /// <summary>
+    /// Creates the DOM identifier used by the cell editor.
+    /// </summary>
     [Inject] public IIdGenerator IdGenerator { get; set; }
     /// <summary>
     /// Specifies the <see cref="IJSUtilitiesModule"/> instance.

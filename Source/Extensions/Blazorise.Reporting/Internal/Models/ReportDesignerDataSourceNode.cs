@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace Blazorise.Reporting.Internal;
 
+/// <summary>
+/// Represents a data source or field in the designer explorer tree.
+/// </summary>
 public sealed class ReportDesignerDataSourceNode
 {
     #region Constructors

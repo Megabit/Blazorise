@@ -10,6 +10,9 @@ namespace Blazorise.Charts;
 /// </remarks>
 public class RadarChartDataset<T> : ChartDataset<T>
 {
+    /// <summary>
+    /// Creates a radar chart dataset.
+    /// </summary>
     public RadarChartDataset() : base(
         label: string.Empty,
         backgroundColor: "rgba(0, 0, 0, 0.1)",
@@ -44,10 +47,16 @@ public class RadarChartDataset<T> : ChartDataset<T>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string BorderJoinStyle { get; set; }
 
+    /// <summary>
+    /// Point fill colors applied on hover.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
     public IndexableOption<object> HoverBackgroundColor { get; set; }
 
+    /// <summary>
+    /// CSS styling applied to the radar chart dataset.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string HoverBorderCapStyle { get; set; }
 
@@ -58,12 +67,21 @@ public class RadarChartDataset<T> : ChartDataset<T>
     [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
     public IndexableOption<object> HoverBorderColor { get; set; }
 
+    /// <summary>
+    /// Dash pattern applied to the hovered radar border.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public int[] HoverBorderDash { get; set; }
 
+    /// <summary>
+    /// Offset of the hovered radar border's dash pattern.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public int? HoverBorderDashOffset { get; set; }
 
+    /// <summary>
+    /// CSS styling applied to the radar chart dataset.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string HoverBorderJoinStyle { get; set; }
 

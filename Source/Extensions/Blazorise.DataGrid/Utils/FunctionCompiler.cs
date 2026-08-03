@@ -9,8 +9,14 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace Blazorise.DataGrid.Utils;
 
+/// <summary>
+/// Supports function compiler behavior in DataGrid components.
+/// </summary>
 public static class FunctionCompiler
 {
+    /// <summary>
+    /// Compiles a function delegate for the requested signature.
+    /// </summary>
     public static Func<TItem> CreateNewItem<TItem>()
     {
         return Expression.Lambda<Func<TItem>>( Expression.New( typeof( TItem ) ) ).Compile();
@@ -29,11 +35,17 @@ public static class FunctionCompiler
         return ExpressionCompiler.CreateValidationGetterExpression<TItem, TValue>( item, fieldName );
     }
 
+    /// <summary>
+    /// Compiles a function delegate for the requested signature.
+    /// </summary>
     public static Func<TItem, object> CreateValueGetter<TItem>( string fieldName )
     {
         return ExpressionCompiler.CreateValueGetterExpression<TItem>( fieldName ).Compile();
     }
 
+    /// <summary>
+    /// Compiles a function delegate for the requested signature.
+    /// </summary>
     public static Func<TItem, Type> CreateValueTypeGetter<TItem>( string fieldName )
     {
         var item = Expression.Parameter( typeof( TItem ), "item" );
@@ -41,6 +53,9 @@ public static class FunctionCompiler
         return Expression.Lambda<Func<TItem, Type>>( Expression.Constant( property.Type ), item ).Compile();
     }
 
+    /// <summary>
+    /// Compiles a function delegate for the requested signature.
+    /// </summary>
     public static Func<object> CreateDefaultValueByType<TItem>( string fieldName )
     {
         var item = Expression.Parameter( typeof( TItem ) );
@@ -48,6 +63,9 @@ public static class FunctionCompiler
         return Expression.Lambda<Func<object>>( Expression.Convert( Expression.Default( property.Type ), typeof( object ) ) ).Compile();
     }
 
+    /// <summary>
+    /// Compiles an action delegate for the requested signature.
+    /// </summary>
     public static Action<TItem, object> CreateValueSetter<TItem>( string fieldName )
     {
         var item = Expression.Parameter( typeof( TItem ), "item" );

@@ -5,25 +5,104 @@ namespace Blazorise.Animate;
 /// </summary>
 public static class Easings
 {
+    /// <summary>
+    /// Constant-speed motion from start to finish.
+    /// </summary>
     public static IEasing Linear => Create( "linear" );
+
+    /// <summary>
+    /// Balanced CSS easing with a gentle start and finish.
+    /// </summary>
     public static IEasing Ease => Create( "ease" );
+
+    /// <summary>
+    /// Motion that accelerates away from rest.
+    /// </summary>
     public static IEasing EaseIn => Create( "ease-in" );
+
+    /// <summary>
+    /// Motion that decelerates into its destination.
+    /// </summary>
     public static IEasing EaseOut => Create( "ease-out" );
+
+    /// <summary>
+    /// Symmetric acceleration followed by deceleration.
+    /// </summary>
     public static IEasing EaseInOut => Create( "ease-in-out" );
+
+    /// <summary>
+    /// Accelerating motion that first pulls slightly backward.
+    /// </summary>
     public static IEasing EaseInBack => Create( "ease-in-back" );
+
+    /// <summary>
+    /// Decelerating motion that overshoots its destination.
+    /// </summary>
     public static IEasing EaseOutBack => Create( "ease-out-back" );
+
+    /// <summary>
+    /// Motion with anticipation at the start and overshoot at the end.
+    /// </summary>
     public static IEasing EaseInOutBack => Create( "ease-in-out-back" );
+
+    /// <summary>
+    /// Gentle sinusoidal acceleration from rest.
+    /// </summary>
     public static IEasing EaseInSine => Create( "ease-in-sine" );
+
+    /// <summary>
+    /// Gentle sinusoidal deceleration toward rest.
+    /// </summary>
     public static IEasing EaseOutSine => Create( "ease-out-sine" );
+
+    /// <summary>
+    /// Smooth sinusoidal motion at both endpoints.
+    /// </summary>
     public static IEasing EaseInOutSine => Create( "ease-in-out-sine" );
+
+    /// <summary>
+    /// Moderate quadratic acceleration.
+    /// </summary>
     public static IEasing EaseInQuad => Create( "ease-in-quad" );
+
+    /// <summary>
+    /// Moderate quadratic deceleration.
+    /// </summary>
     public static IEasing EaseOutQuad => Create( "ease-out-quad" );
+
+    /// <summary>
+    /// Quadratic timing mirrored around the midpoint.
+    /// </summary>
     public static IEasing EaseInOutQuad => Create( "ease-in-out-quad" );
+
+    /// <summary>
+    /// Strong cubic acceleration into motion.
+    /// </summary>
     public static IEasing EaseInCubic => Create( "ease-in-cubic" );
+
+    /// <summary>
+    /// Strong cubic deceleration into the endpoint.
+    /// </summary>
     public static IEasing EaseOutCubic => Create( "ease-out-cubic" );
+
+    /// <summary>
+    /// Cubic acceleration and deceleration around the midpoint.
+    /// </summary>
     public static IEasing EaseInOutCubic => Create( "ease-in-out-cubic" );
+
+    /// <summary>
+    /// Pronounced quartic acceleration from a slow start.
+    /// </summary>
     public static IEasing EaseInQuart => Create( "ease-in-quart" );
+
+    /// <summary>
+    /// Pronounced quartic deceleration near completion.
+    /// </summary>
     public static IEasing EaseOutQuart => Create( "ease-out-quart" );
+
+    /// <summary>
+    /// Quartic timing with a sharp midpoint transition.
+    /// </summary>
     public static IEasing EaseInOutQuart => Create( "ease-in-out-quart" );
 
     private static IEasing Create( string name )

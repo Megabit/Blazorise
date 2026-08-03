@@ -13,6 +13,9 @@ public class SvgScatterChart<TItem> : SvgChart<TItem>
 {
     #region Constructors
 
+    /// <summary>
+    /// Creates a Cartesian plot of independent coordinate pairs.
+    /// </summary>
     public SvgScatterChart()
     {
         Type = SvgChartType.Scatter;

@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.RichTextEdit;
 
+/// <summary>
+/// Offers a choice of values for a rich-text formatting action.
+/// </summary>
 public partial class RichTextEditToolbarSelect : BaseComponent
 {
     #region Members

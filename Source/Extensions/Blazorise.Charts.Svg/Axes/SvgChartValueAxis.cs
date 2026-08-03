@@ -58,12 +58,14 @@ public class SvgChartValueAxis : SvgChartComponentBase
         return base.SetParametersAsync( parameters );
     }
 
+    /// <inheritdoc />
     protected override void Register()
     {
         Parent?.RegisterValueAxis( this );
         SetRegisteredParent();
     }
 
+    /// <inheritdoc />
     protected override void Unregister()
     {
         RegisteredParent?.UnregisterValueAxis( this );

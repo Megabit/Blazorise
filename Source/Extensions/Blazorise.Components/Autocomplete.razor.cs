@@ -293,6 +293,9 @@ public partial class Autocomplete<TItem, TValue>
         await SynchronizeMultiple( selectedValuesParamChanged, selectedTextsParamChanged, dataParamChanged );
     }
 
+    /// <summary>
+    /// Supplies the requested window of suggestions to Blazor virtualization.
+    /// </summary>
     protected async ValueTask<ItemsProviderResult<TItem>> VirtualizeItemsProviderHandler( ItemsProviderRequest request )
     {
         // Credit to Steve Sanderson's Quickgrid implementation
@@ -880,6 +883,9 @@ public partial class Autocomplete<TItem, TValue>
         }
     }
 
+    /// <summary>
+    /// Requests suggestions for the current search text.
+    /// </summary>
     protected async Task HandleReadData( CancellationToken cancellationToken = default )
     {
         try
@@ -913,6 +919,9 @@ public partial class Autocomplete<TItem, TValue>
         }
     }
 
+    /// <summary>
+    /// Loads one externally supplied range for the virtualized suggestion list.
+    /// </summary>
     protected async Task HandleVirtualizeReadData( int startIdx, int count, CancellationToken cancellationToken )
     {
         try

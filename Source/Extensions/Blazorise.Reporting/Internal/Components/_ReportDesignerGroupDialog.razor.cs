@@ -74,6 +74,7 @@ public partial class _ReportDesignerGroupDialog
         return selectedField is null ? null : CreateFieldKey( selectedField );
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         fields.Clear();
@@ -88,8 +89,14 @@ public partial class _ReportDesignerGroupDialog
 
     private bool CanConfirm => fields.Count > 0 && FindSelectedField() is not null;
 
+    /// <summary>
+    /// Fields available for grouping.
+    /// </summary>
     [Parameter] public IEnumerable<ReportDesignerFieldOption> FieldOptions { get; set; }
 
+    /// <summary>
+    /// Field selected when the dialog opens.
+    /// </summary>
     [Parameter] public string SelectedFieldName { get; set; }
 
     /// <summary>

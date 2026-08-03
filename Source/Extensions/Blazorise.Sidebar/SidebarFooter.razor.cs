@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Sidebar;
 
+/// <summary>
+/// Anchors supplementary content at the bottom of a sidebar.
+/// </summary>
 public partial class SidebarFooter : BaseComponent
 {
     #region Members

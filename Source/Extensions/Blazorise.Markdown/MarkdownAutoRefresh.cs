@@ -6,5 +6,8 @@
 /// </summary>
 public class MarkdownAutoRefresh
 {
+    /// <summary>
+    /// Milliseconds between visibility checks while awaiting a usable layout.
+    /// </summary>
     public int Delay { get; set; } = 300;
 }

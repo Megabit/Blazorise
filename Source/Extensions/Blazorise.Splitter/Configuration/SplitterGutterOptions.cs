@@ -2,6 +2,9 @@
 
 namespace Blazorise.Splitter;
 
+/// <summary>
+/// Visual customization passed to each draggable splitter gutter.
+/// </summary>
 public class SplitterGutterOptions
 {
     /// <summary>

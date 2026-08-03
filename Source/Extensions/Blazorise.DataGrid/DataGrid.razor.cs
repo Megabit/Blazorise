@@ -212,6 +212,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     #region Constructors
 
+    /// <summary>
+    /// Creates a data grid instance.
+    /// </summary>
     public DataGrid()
     {
         newItemCreator = new( () => FunctionCompiler.CreateNewItem<TItem>() );
@@ -635,6 +638,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 removedColumn ) ) );
     }
 
+    /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         await CheckMultipleSelectionSetEmpty( parameters );
@@ -679,6 +683,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( firstRender )
@@ -1299,11 +1304,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             await SelectedRowsChanged.InvokeAsync( SelectedRows );
     }
 
+    /// <summary>
+    /// Marks computed CSS classes for regeneration.
+    /// </summary>
     protected void DirtyClasses()
     {
         classBuilder?.Dirty();
     }
 
+    /// <summary>
+    /// Marks computed CSS styles for regeneration.
+    /// </summary>
     protected void DirtyStyles()
     {
         styleBuilder?.Dirty();
@@ -2197,6 +2208,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return ToggleDetailRow( item, DetailRowTriggerType.Manual, forceDetailRow, true );
     }
 
+    /// <summary>
+    /// Toggles detail row.
+    /// </summary>
     protected internal Task ToggleDetailRow( TItem item, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
     {
         if ( detailRowTriggerType == DetailRowTriggerType.RowClick && pendingForcedDetailRowToggleTracker.TryConsume( item ) )
@@ -2207,6 +2221,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return ToggleDetailRow( GetRowInfo( item ), detailRowTriggerType, forceDetailRow, skipDetailRowTriggerType );
     }
 
+    /// <summary>
+    /// Toggles detail row.
+    /// </summary>
     protected internal async Task ToggleDetailRow( DataGridRowInfo<TItem> rowInfo, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
     {
         if ( rowInfo is not null )
@@ -2497,6 +2514,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return RowContextMenu.InvokeAsync( eventArgs );
     }
 
+    /// <summary>
+    /// Resolves item index.
+    /// </summary>
     protected internal int ResolveItemIndex( TItem item )
     {
         short index = 0;
@@ -2573,6 +2593,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             lastSelectedRowIndex = ResolveItemIndex( eventArgs.Item );
     }
 
+    /// <summary>
+    /// Handles multi select all.
+    /// </summary>
     protected internal async Task OnMultiSelectAll( bool selectAll )
     {
         SelectedRows ??= new();
@@ -2726,6 +2749,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     public virtual async Task Refresh()
         => await InvokeAsync( StateHasChanged );
 
+    /// <summary>
+    /// Handles read data.
+    /// </summary>
     protected async Task HandleReadData( CancellationToken cancellationToken )
     {
         try
@@ -2746,6 +2772,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
     }
 
+    /// <summary>
+    /// Handles virtualize read data.
+    /// </summary>
     protected async Task HandleVirtualizeReadData( int startIdx, int count, CancellationToken cancellationToken )
     {
         try
@@ -2761,6 +2790,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
     }
 
+    /// <summary>
+    /// Loads the item window requested by the virtualizer.
+    /// </summary>
     protected async ValueTask<ItemsProviderResult<TItem>> VirtualizeItemsProviderHandler( ItemsProviderRequest request )
     {
         // Credit to Steve Sanderson's Quickgrid implementation
@@ -2792,6 +2824,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await SelectedCellChanged.InvokeAsync( SelectedCell );
     }
 
+    /// <summary>
+    /// Handles sort column.
+    /// </summary>
     protected void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection = null ) =>
         HandleSortColumn( column, changeSortDirection, sortDirection, false );
 
@@ -2846,6 +2881,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
     }
 
+    /// <summary>
+    /// Handles pagination item click.
+    /// </summary>
     protected Task OnPaginationItemClick( string pageName )
     {
         if ( int.TryParse( pageName, out var pageNumber ) )
@@ -3033,6 +3071,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         oldCts?.Dispose();
     }
 
+    /// <summary>
+    /// Handles filter changed.
+    /// </summary>
     protected internal Task OnFilterChanged( DataGridColumn<TItem> column, object value )
     {
         ResetFilterCts();
@@ -3439,6 +3480,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return Math.Max( 1, PageSize );
     }
 
+    /// <summary>
+    /// Returns row info.
+    /// </summary>
     public DataGridRowInfo<TItem> GetRowInfo( TItem item )
         => Rows?.LastOrDefault( x => x.Item.IsEqual( item ) );
 
@@ -4996,10 +5040,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     [Parameter( CaptureUnmatchedValues = true )]
     public Dictionary<string, object> Attributes { get; set; }
-
-    /// <summary>
-    /// Gets or sets whether the Datagrid is Navigable, users will be able to navigate the Grid by pressing the Keyboard's ArrowUp and ArrowDown keys.
-    /// </summary>
 
     /// <summary>
     /// Gets a zero-based index of the currently selected row if found; otherwise it'll return -1. Considers the current pagination.

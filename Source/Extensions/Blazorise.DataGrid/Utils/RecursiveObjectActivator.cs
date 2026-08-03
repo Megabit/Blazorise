@@ -5,6 +5,9 @@ using System.Reflection;
 
 namespace Blazorise.DataGrid.Utils;
 
+/// <summary>
+/// Supports recursive object activator behavior in DataGrid components.
+/// </summary>
 public static class RecursiveObjectActivator
 {
     #region Methods

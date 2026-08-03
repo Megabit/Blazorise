@@ -4,8 +4,14 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Stores values and styling for scatter chart data.
+/// </summary>
 public class ScatterChartDataset<T> : ChartDataset<T>
 {
+    /// <summary>
+    /// Creates a scatter chart dataset.
+    /// </summary>
     public ScatterChartDataset() : base(
         label: string.Empty,
         backgroundColor: "rgba(0, 0, 0, 0.1)",
@@ -23,29 +29,53 @@ public class ScatterChartDataset<T> : ChartDataset<T>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string Stack { get; set; }
 
+    /// <summary>
+    /// Point fill colors applied on hover.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
     public IndexableOption<object> HoverBackgroundColor { get; set; }
 
+    /// <summary>
+    /// CSS styling applied to the scatter chart dataset.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string HoverBorderCapStyle { get; set; }
 
+    /// <summary>
+    /// Point border colors applied on hover.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
     public IndexableOption<object> HoverBorderColor { get; set; }
 
+    /// <summary>
+    /// Dash pattern applied to hovered point borders.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public int[] HoverBorderDash { get; set; }
 
+    /// <summary>
+    /// Offset of the hovered point-border dash pattern.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public int? HoverBorderDashOffset { get; set; }
 
+    /// <summary>
+    /// CSS styling applied to the scatter chart dataset.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string HoverBorderJoinStyle { get; set; }
 
+    /// <summary>
+    /// Hover Border Width used to size or locate content in the scatter chart dataset.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public int? HoverBorderWidth { get; set; }
 
+    /// <summary>
+    /// Axis used to index scatter data points.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string IndexAxis { get; set; }
 
@@ -132,18 +162,30 @@ public class ScatterChartDataset<T> : ChartDataset<T>
     public string YAxisID { get; set; }
 }
 
+/// <summary>
+/// Supports scatter chart point behavior in chart components.
+/// </summary>
 public struct ScatterChartPoint
 {
+    /// <summary>
+    /// Creates a scatter chart point instance.
+    /// </summary>
     public ScatterChartPoint( double? x, double? y )
     {
         X = x;
         Y = y;
     }
 
+    /// <summary>
+    /// Horizontal coordinate of the rendered element.
+    /// </summary>
     [JsonPropertyName( "x" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? X { get; set; }
 
+    /// <summary>
+    /// Vertical coordinate of the rendered element.
+    /// </summary>
     [JsonPropertyName( "y" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? Y { get; set; }

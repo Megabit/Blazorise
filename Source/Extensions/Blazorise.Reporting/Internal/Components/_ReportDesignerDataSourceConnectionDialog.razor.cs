@@ -205,6 +205,7 @@ public partial class _ReportDesignerDataSourceConnectionDialog
         return true;
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         providers.Clear();
@@ -238,8 +239,14 @@ public partial class _ReportDesignerDataSourceConnectionDialog
         [nameof( _ReportDataSourceSettingsEditor.Context )] = editorContext,
     };
 
+    /// <summary>
+    /// Report whose data source connections are edited.
+    /// </summary>
     [Parameter] public ReportDefinition Definition { get; set; }
 
+    /// <summary>
+    /// Providers offered for new connections.
+    /// </summary>
     [Parameter] public IEnumerable<IReportDataSourceProvider> ProviderOptions { get; set; }
 
     /// <summary>

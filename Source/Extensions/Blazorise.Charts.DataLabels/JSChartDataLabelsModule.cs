@@ -6,6 +6,9 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Charts.DataLabels;
 
+/// <summary>
+/// Sends dataset-label configuration to the Chart.js data-labels plugin.
+/// </summary>
 public class JSChartDataLabelsModule : BaseJSModule
 {
     /// <summary>
@@ -19,6 +22,9 @@ public class JSChartDataLabelsModule : BaseJSModule
     {
     }
 
+    /// <summary>
+    /// Updates label settings for the chart rendered on a canvas.
+    /// </summary>
     public virtual ValueTask SetDataLabels( string canvasId, object datasets, ChartDataLabelsOptions options )
         => InvokeSafeVoidAsync( "setDataLabels", canvasId, datasets, options );
 

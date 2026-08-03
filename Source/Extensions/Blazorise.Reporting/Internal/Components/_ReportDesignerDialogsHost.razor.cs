@@ -46,8 +46,14 @@ public partial class _ReportDesignerDialogsHost
 
     #region Properties
 
+    /// <summary>
+    /// Designer that owns the hosted dialogs.
+    /// </summary>
     [Parameter, EditorRequired] public _ReportDesigner Designer { get; set; }
 
+    /// <summary>
+    /// Report definition supplied to dialog workflows.
+    /// </summary>
     [Parameter, EditorRequired] public ReportDefinition Definition { get; set; }
 
     #endregion

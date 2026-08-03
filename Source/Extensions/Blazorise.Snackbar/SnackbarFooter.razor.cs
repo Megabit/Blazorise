@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Snackbar;
 
+/// <summary>
+/// Holds supplementary controls beneath snackbar content.
+/// </summary>
 public partial class SnackbarFooter : BaseComponent
 {
     #region Members
@@ -13,6 +16,7 @@ public partial class SnackbarFooter : BaseComponent
 
     #region Methods
 
+    /// <inheritdoc />
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "snackbar-footer" );

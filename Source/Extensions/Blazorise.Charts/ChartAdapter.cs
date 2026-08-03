@@ -5,15 +5,24 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Routes browser chart events to the owning component.
+/// </summary>
 public class ChartAdapter
 {
     private readonly IBaseChart chart;
 
+    /// <summary>
+    /// Creates a chart adapter instance.
+    /// </summary>
     public ChartAdapter( IBaseChart chart )
     {
         this.chart = chart;
     }
 
+    /// <summary>
+    /// Forwards a chart event to its component.
+    /// </summary>
     [JSInvokable]
     public Task Event( string eventName, int datasetIndex, int index, string model )
     {

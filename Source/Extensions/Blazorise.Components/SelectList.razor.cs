@@ -37,6 +37,9 @@ public partial class SelectList<TItem, TValue> : ComponentBase
         base.OnInitialized();
     }
 
+    /// <summary>
+    /// Maps a selected value back to its source item and raises the binding callbacks.
+    /// </summary>
     protected Task OnValueChanged( TValue value )
     {
         Value = value;

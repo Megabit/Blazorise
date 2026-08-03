@@ -13,6 +13,9 @@ public class SvgLineChart<TItem> : SvgChart<TItem>
 {
     #region Constructors
 
+    /// <summary>
+    /// Creates a Cartesian chart connecting values with line segments.
+    /// </summary>
     public SvgLineChart()
     {
         Type = SvgChartType.Line;
