@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Blazorise;
+using Microsoft.AspNetCore.Components;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
@@ -8,22 +10,9 @@ public class DockLayoutSizingTest
     [Fact]
     public void MovingSizedPaneOutOfTopTabsPreservesTargetAutoSize()
     {
-        DockPane explorer = new()
-        {
-            Name = "explorer",
-            PanePosition = DockPanePosition.Left,
-            Size = "16rem",
-        };
-        DockPane toolbar = new()
-        {
-            Name = "toolbar",
-            PanePosition = DockPanePosition.Top,
-        };
-        DockPane designer = new()
-        {
-            Name = "designer",
-            Role = DockRole.Document,
-        };
+        DockPane explorer = CreateDockPane( "explorer", DockPanePosition.Left, size: "16rem" );
+        DockPane toolbar = CreateDockPane( "toolbar", DockPanePosition.Top );
+        DockPane designer = CreateDockPane( "designer", role: DockRole.Document );
         DockLayoutRegistry registry = new();
 
         registry.RegisterPane( explorer );
@@ -71,23 +60,9 @@ public class DockLayoutSizingTest
     [Fact]
     public void RedockingSizedPaneBesideCenterPreservesFixedTrack()
     {
-        DockPane explorer = new()
-        {
-            Name = "explorer",
-            PanePosition = DockPanePosition.Left,
-            Size = "16rem",
-        };
-        DockPane designer = new()
-        {
-            Name = "designer",
-            Role = DockRole.Document,
-        };
-        DockPane properties = new()
-        {
-            Name = "properties",
-            PanePosition = DockPanePosition.Right,
-            Size = "18rem",
-        };
+        DockPane explorer = CreateDockPane( "explorer", DockPanePosition.Left, size: "16rem" );
+        DockPane designer = CreateDockPane( "designer", role: DockRole.Document );
+        DockPane properties = CreateDockPane( "properties", DockPanePosition.Right, size: "18rem" );
         DockLayoutRegistry registry = new();
 
         registry.RegisterPane( explorer );
@@ -129,5 +104,25 @@ public class DockLayoutSizingTest
         Assert.False( redockedSplit.UseRatio );
         Assert.Contains( "--dock-split-start-size:16rem", splitStyle );
         Assert.Contains( "--dock-split-end-size:minmax(0,1fr)", splitStyle );
+    }
+
+    private static DockPane CreateDockPane( string name, DockPanePosition? position = null, string size = null, DockRole role = DockRole.Tool )
+    {
+        DockPane pane = new();
+        Dictionary<string, object> parameters = new()
+        {
+            [nameof( DockPane.Name )] = name,
+            [nameof( DockPane.Role )] = role,
+        };
+
+        if ( position.HasValue )
+            parameters[nameof( DockPane.PanePosition )] = position.Value;
+
+        if ( size is not null )
+            parameters[nameof( DockPane.Size )] = size;
+
+        ParameterView.FromDictionary( parameters ).SetParameterProperties( pane );
+
+        return pane;
     }
 }

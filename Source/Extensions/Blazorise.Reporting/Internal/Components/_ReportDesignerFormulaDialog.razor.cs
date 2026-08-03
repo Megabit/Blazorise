@@ -646,8 +646,14 @@ public partial class _ReportDesignerFormulaDialog
 
     private Color ValidationAlertColor => validationSucceeded ? Color.Success : Color.Danger;
 
+    /// <summary>
+    /// Gets or sets the initial property name displayed by the formula dialog.
+    /// </summary>
     [Parameter] public string InitialPropertyName { get; set; }
 
+    /// <summary>
+    /// Gets or sets the initial formula value.
+    /// </summary>
     [Parameter] public string InitialValue { get; set; }
 
     /// <summary>

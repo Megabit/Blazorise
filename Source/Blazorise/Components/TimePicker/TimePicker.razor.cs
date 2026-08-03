@@ -977,6 +977,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// </summary>
     protected string ProviderPickerContainerClassNames => ClassProvider.TimePickerContainer( Inline, MenuVisible );
 
+    /// <summary>
+    /// Gets whether the custom picker menu is visible.
+    /// </summary>
     protected internal bool MenuVisible => !UseNativeMobilePicker && !Plaintext && ( Inline || menuOpen );
 
     /// <summary>
@@ -991,6 +994,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
     internal bool MenuInteractionDisabled => IsDisabled || ReadOnly || Plaintext;
 
+    /// <summary>
+    /// Gets the identifier of the custom picker menu.
+    /// </summary>
     protected internal string MenuId => $"{ElementId}-menu";
 
     internal string PickerContainerId => $"{ElementId}-container";

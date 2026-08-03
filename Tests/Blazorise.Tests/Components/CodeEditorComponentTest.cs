@@ -1,6 +1,5 @@
 #region Using directives
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.CodeEditor;
 using Bunit;
@@ -235,7 +234,7 @@ public class CodeEditorComponentTest : BunitContext
 
         JSRuntimeInvocation invocation = JSInterop.VerifyInvoke( "initialize" );
         CodeEditorJSOptions jsOptions = Assert.IsType<CodeEditorJSOptions>( invocation.Arguments[3] );
-        CodeEditorLanguageDefinition language = Assert.Single( jsOptions.Languages.Where( item => item.Id == "formula" ) );
+        CodeEditorLanguageDefinition language = Assert.Single( jsOptions.Languages, item => item.Id == "formula" );
 
         Assert.NotNull( language.Tokenizer );
         Assert.Single( language.Tokenizer.Tokens );
