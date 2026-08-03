@@ -1,4 +1,5 @@
 #region Using directives
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -10,6 +11,12 @@ namespace Blazorise;
 /// </summary>
 public partial class ContextMenuBody : BaseComponent
 {
+    #region Members
+
+    private ContextMenuState parentContextMenuState;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -55,7 +62,23 @@ public partial class ContextMenuBody : BaseComponent
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
-    private bool IsVisible => Visible ?? ParentContextMenu?.Visible == true;
+    private bool IsVisible => ParentContextMenuState?.Visible == true;
+
+    /// <summary>
+    /// Gets the state of the parent <see cref="ContextMenu"/> component.
+    /// </summary>
+    [CascadingParameter]
+    protected ContextMenuState ParentContextMenuState
+    {
+        get => parentContextMenuState;
+        set
+        {
+            if ( parentContextMenuState == value )
+                return;
+
+            parentContextMenuState = value;
+        }
+    }
 
     /// <summary>
     /// Provides the reference to the parent <see cref="ContextMenu"/> component.
@@ -66,11 +89,6 @@ public partial class ContextMenuBody : BaseComponent
     /// Specifies the content to be rendered inside this <see cref="ContextMenuBody"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
-
-    /// <summary>
-    /// Overrides the parent menu visibility.
-    /// </summary>
-    [Parameter] public bool? Visible { get; set; }
 
     /// <summary>
     /// Sets a minimum menu width.

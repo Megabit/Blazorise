@@ -1,5 +1,5 @@
 import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "./utilities.js?v=2.2.2.0";
-import { createFloatingUiPointAutoUpdate } from './floatingUi.js?v=2.2.2.0';
+import { createFloatingUiAutoUpdate, createFloatingUiPointAutoUpdate } from './floatingUi.js?v=2.2.2.0';
 
 const _instances = [];
 
@@ -20,7 +20,9 @@ export function initialize(element, elementId, menuElementId, clientX, clientY, 
 
     const contextElement = findContextElement(contextElementSelector) ?? element;
 
-    const instanceCleanupFunction = createFloatingUiPointAutoUpdate(clientX, clientY, contextElement, menuElement, options);
+    const instanceCleanupFunction = Number.isFinite(clientX) && Number.isFinite(clientY)
+        ? createFloatingUiPointAutoUpdate(clientX, clientY, contextElement, menuElement, options)
+        : createFloatingUiAutoUpdate(contextElement, menuElement, options);
 
     _instances[elementId] = {
         cleanupFunction: instanceCleanupFunction,

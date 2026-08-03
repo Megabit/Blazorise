@@ -29,7 +29,7 @@ public class JSContextMenuModule : BaseJSModule, IJSContextMenuModule
     #region Methods
 
     /// <inheritdoc/>
-    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, string menuElementId, double clientX, double clientY, string contextElementSelector, ContextMenuJSOptions options )
+    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, string menuElementId, double? clientX, double? clientY, string contextElementSelector, ContextMenuJSOptions options )
         => InvokeSafeVoidAsync( "initialize", elementRef, elementId, menuElementId, clientX, clientY, contextElementSelector, options );
 
     /// <inheritdoc/>
