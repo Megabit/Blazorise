@@ -45,8 +45,6 @@ internal sealed class ServerJobsService : IJobsService
         this.options = options.Value ?? new JobsOptions();
 
         this.httpClient.DefaultRequestHeaders.UserAgent.ParseAdd( "BlazoriseJobsFeed/1.0" );
-        if ( !string.IsNullOrWhiteSpace( this.options.GitHubToken ) )
-            this.httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue( "Bearer", this.options.GitHubToken );
     }
 
     #endregion

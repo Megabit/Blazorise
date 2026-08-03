@@ -87,6 +87,7 @@ public class Startup
         services.Configure<JobsOptions>( Configuration.GetSection( JobsOptions.SectionName ) );
         services.AddHttpClient();
         services.AddHttpClient<IJobsService, ServerJobsService>();
+        services.AddHttpClient<IJobSubmissionService, GitHubJobSubmissionService>();
         services.AddValidatorsFromAssembly( typeof( App ).Assembly );
 
         services.Configure<BrevoApiOptions>( Configuration.GetSection( BrevoApiOptions.SectionName ) );

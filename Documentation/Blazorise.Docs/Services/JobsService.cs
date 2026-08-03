@@ -144,8 +144,6 @@ public sealed class JobsService : IJobsService
         {
             HttpRequestMessage request = new HttpRequestMessage( HttpMethod.Get, options.FeedUrl );
             request.Headers.Accept.Add( new MediaTypeWithQualityHeaderValue( "application/json" ) );
-            if ( !string.IsNullOrWhiteSpace( options.GitHubToken ) )
-                request.Headers.Authorization = new AuthenticationHeaderValue( "Bearer", options.GitHubToken );
             if ( !string.IsNullOrWhiteSpace( cachedEtag ) )
                 request.Headers.IfNoneMatch.Add( EntityTagHeaderValue.Parse( cachedEtag ) );
             return request;
