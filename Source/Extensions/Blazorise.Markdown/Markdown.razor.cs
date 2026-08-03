@@ -569,6 +569,7 @@ public partial class Markdown : BaseOnScreenKeyboardInputComponent<string, Markd
         builder.Append( ClassProvider.MemoInputValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
     }
 
+    /// <inheritdoc />
     internal protected override void DirtyClasses()
     {
         textAreaElementClassBuilder.Dirty();

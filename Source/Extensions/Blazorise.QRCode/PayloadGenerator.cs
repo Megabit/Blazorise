@@ -863,7 +863,7 @@ public static class PayloadGenerator
         /// <summary>
         /// Generates a Bitcoin like cryptocurrency payment payload. QR Codes with this payload can open a payment app.
         /// </summary>
-        /// <param name="currencyName">Bitcoin like cryptocurrency address of the payment receiver</param>
+        /// <param name="currencyType">Type of Bitcoin-like cryptocurrency</param>
         /// <param name="address">Bitcoin like cryptocurrency address of the payment receiver</param>
         /// <param name="amount">Amount of coins to transfer</param>
         /// <param name="label">Reference label</param>
@@ -1599,6 +1599,7 @@ public static class PayloadGenerator
         /// <param name="currency">Currency (either EUR or CHF)</param>
         /// <param name="creditor">Creditor (payee) information</param>
         /// <param name="reference">Reference information</param>
+        /// <param name="additionalInformation">Additional payment information</param>
         /// <param name="debitor">Debitor (payer) information</param>
         /// <param name="amount">Amount</param>
         /// <param name="requestedDateOfPayment">Requested date of debitor's payment</param>
@@ -4219,20 +4220,65 @@ public static class PayloadGenerator
         /// </summary>
         public enum TechCode
         {
+            /// <summary>
+            /// Mobile communications and landline telephone services.
+            /// </summary>
             Мобильная_связь_стационарный_телефон = 1,
+            /// <summary>
+            /// Utility and housing services.
+            /// </summary>
             Коммунальные_услуги_ЖКХAFN,
+            /// <summary>
+            /// Traffic police, taxes, duties, and budget payments.
+            /// </summary>
             ГИБДД_налоги_пошлины_бюджетные_платежи,
+            /// <summary>
+            /// Security services.
+            /// </summary>
             Охранные_услуги,
+            /// <summary>
+            /// Services provided by the Federal Migration Service.
+            /// </summary>
             Услуги_оказываемые_УФМС,
+            /// <summary>
+            /// Pension Fund payments.
+            /// </summary>
             ПФР,
+            /// <summary>
+            /// Loan repayments.
+            /// </summary>
             Погашение_кредитов,
+            /// <summary>
+            /// Educational institutions.
+            /// </summary>
             Образовательные_учреждения,
+            /// <summary>
+            /// Internet and television services.
+            /// </summary>
             Интернет_и_ТВ,
+            /// <summary>
+            /// Electronic money.
+            /// </summary>
             Электронные_деньги,
+            /// <summary>
+            /// Leisure and travel services.
+            /// </summary>
             Отдых_и_путешествия,
+            /// <summary>
+            /// Investment and insurance services.
+            /// </summary>
             Инвестиции_и_страхование,
+            /// <summary>
+            /// Sports and health services.
+            /// </summary>
             Спорт_и_здоровье,
+            /// <summary>
+            /// Charitable and public organizations.
+            /// </summary>
             Благотворительные_и_общественные_организации,
+            /// <summary>
+            /// Other services.
+            /// </summary>
             Прочие_услуги
         }
 

@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Tests.Mocks;
 using Microsoft.AspNetCore.Components;
@@ -12,6 +13,14 @@ namespace Blazorise.Tests;
 public class ButtonTest
 {
     private readonly EventCallbackFactory callbackFactory = new();
+
+    private static void SetParameter<TValue>( MockButton button, string name, TValue value )
+    {
+        ParameterView.FromDictionary( new Dictionary<string, object>
+        {
+            [name] = value,
+        } ).SetParameterProperties( button );
+    }
 
     [Fact]
     public async Task SetFocus()
@@ -130,7 +139,7 @@ public class ButtonTest
         // setup
         var button = new MockButton();
         bool active = false;
-        button.ActiveChanged = callbackFactory.Create<bool>( this, value => active = value );
+        SetParameter( button, nameof( Button.ActiveChanged ), callbackFactory.Create<bool>( this, value => active = value ) );
 
         // test
         await button.Click();
@@ -151,10 +160,8 @@ public class ButtonTest
     public async Task ClickWithoutActiveChangedDoesNotToggleActiveState()
     {
         // setup
-        var button = new MockButton
-        {
-            Active = true,
-        };
+        var button = new MockButton();
+        SetParameter( button, nameof( Button.Active ), true );
 
         // test
         await button.Click();
@@ -167,12 +174,10 @@ public class ButtonTest
     public async Task ClickWhenDisabledDoesNotToggleActiveState()
     {
         // setup
-        var button = new MockButton
-        {
-            Disabled = true,
-        };
+        var button = new MockButton();
+        SetParameter( button, nameof( Button.Disabled ), true );
         bool activeChanged = false;
-        button.ActiveChanged = callbackFactory.Create<bool>( this, _ => activeChanged = true );
+        SetParameter( button, nameof( Button.ActiveChanged ), callbackFactory.Create<bool>( this, _ => activeChanged = true ) );
 
         // test
         await button.Click();
