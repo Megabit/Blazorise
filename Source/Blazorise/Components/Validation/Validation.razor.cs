@@ -123,8 +123,7 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
             ParentValidations.NotifyValidationRemoved( this );
         }
 
-        cancellationTokenSource?.Dispose();
-        cancellationTokenSource = null;
+        CancelPendingValidation();
     }
 
     /// <summary>
@@ -240,6 +239,13 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     /// </remarks>
     public Task NotifyInputChanged<T>( T newExpressionValue, bool overrideNewValue = false )
     {
+        if ( inputComponent.Disabled )
+        {
+            Clear();
+
+            return Task.CompletedTask;
+        }
+
         var newValidationValue = overrideNewValue
             ? newExpressionValue
             : inputComponent.ValidationValue;
@@ -282,12 +288,16 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     /// <returns>Returns the validation result.</returns>
     public ValidationStatus Validate( object newValidationValue )
     {
-        if ( !inputComponent.Disabled )
+        if ( inputComponent.Disabled )
         {
-            var validationHandler = GetValidationHandler();
+            Clear();
 
-            validationHandler?.Validate( this, newValidationValue );
+            return Status;
         }
+
+        var validationHandler = GetValidationHandler();
+
+        validationHandler?.Validate( this, newValidationValue );
 
         return Status;
     }
@@ -328,32 +338,45 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     /// <returns>Returns the validation result.</returns>
     private async Task<ValidationStatus> TriggerValidation( object newValidationValue )
     {
-        if ( !inputComponent.Disabled )
+        CancelPendingValidation();
+
+        if ( inputComponent.Disabled )
         {
-            cancellationTokenSource?.Cancel();
-            cancellationTokenSource?.Dispose();
+            Clear();
 
-            // Create a CTS for this request.
-            cancellationTokenSource = new();
-
-            var cancellationToken = cancellationTokenSource.Token;
-
-            try
-            {
-                var validationHandler = GetValidationHandler();
-
-                if ( validationHandler is not null )
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
-                    await validationHandler.ValidateAsync( this, newValidationValue, cancellationToken );
-                }
-            }
-            catch ( OperationCanceledException )
-            {
-            }
+            return Status;
         }
 
-        return await Task.FromResult( Status );
+        // Create a CTS for this request.
+        cancellationTokenSource = new();
+
+        var cancellationToken = cancellationTokenSource.Token;
+
+        try
+        {
+            var validationHandler = GetValidationHandler();
+
+            if ( validationHandler is not null )
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await validationHandler.ValidateAsync( this, newValidationValue, cancellationToken );
+            }
+        }
+        catch ( OperationCanceledException )
+        {
+        }
+
+        return Status;
+    }
+
+    /// <summary>
+    /// Cancels and releases any validation that is currently running.
+    /// </summary>
+    private void CancelPendingValidation()
+    {
+        cancellationTokenSource?.Cancel();
+        cancellationTokenSource?.Dispose();
+        cancellationTokenSource = null;
     }
 
     /// <summary>
@@ -407,6 +430,8 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     /// </summary>
     public void Clear()
     {
+        CancelPendingValidation();
+
         NotifyValidationStatusChanged( ValidationStatus.None );
     }
 
