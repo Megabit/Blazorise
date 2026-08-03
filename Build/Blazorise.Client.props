@@ -12,6 +12,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Update="wwwroot\appsettings.Development.json" CopyToPublishDirectory="Never" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.Charts.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Charts.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Charts.Annotation.wasm" />

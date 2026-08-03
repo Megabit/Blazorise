@@ -271,6 +271,9 @@ Documentation/Blazorise.Docs.Server/wwwroot/img/blog/.DS_Store
 .vscode/*
 .vscode/settings.json
 
+# Local-only Blazor WebAssembly demo configuration
+Demos/Blazorise.Demo.*/wwwroot/appsettings.Development.json
+
 
 # Source Generation directory
 __SOURCEGENERATED__/
