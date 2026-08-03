@@ -578,7 +578,7 @@ public partial class _ReportDesignerPropertiesPanel
 
     private string GetSelectedElementSnapToGridValue()
     {
-        return SelectedElement?.SnapToGrid?.Value switch
+        return SelectedElement?.SnapToGrid switch
         {
             true => "true",
             false => "false",
@@ -595,7 +595,7 @@ public partial class _ReportDesignerPropertiesPanel
             _ => null,
         };
 
-        return UpdateSelectedElement( element => element.SnapToGrid = ReportValue.Create( snapToGrid, element.SnapToGrid?.Formula ) );
+        return UpdateSelectedElement( element => element.SnapToGrid = snapToGrid );
     }
 
     private Task UpdateSelectedElementCanGrow( bool value )
@@ -669,14 +669,6 @@ public partial class _ReportDesignerPropertiesPanel
             "Suppress",
             GetSharedSelectedElementValue( element => element.Suppress?.Formula ),
             formula => UpdateSelectedElement( element => element.Suppress = ReportValue.Create( element.Suppress?.Value ?? false, formula ) ) );
-    }
-
-    private Task OpenSelectedElementSnapToGridFormula()
-    {
-        return OpenFormulaDialog(
-            "Snap to grid",
-            GetSharedSelectedElementValue( element => element.SnapToGrid?.Formula ),
-            formula => UpdateSelectedElement( element => element.SnapToGrid = ReportValue.Create( element.SnapToGrid?.Value, formula ) ) );
     }
 
     private Task OpenFormulaDialog( string propertyName, string formula, Func<string, Task> confirmed )
@@ -1036,8 +1028,7 @@ public partial class _ReportDesignerPropertiesPanel
             GetSelectedElementSnapToGridValue(),
             ElementSnapToGridOptions )
         {
-            Mixed = IsSelectedElementValueMixed( element => element.SnapToGrid?.Value ),
-            Action = CreateFormulaAction( GetSharedSelectedElementValue( element => element.SnapToGrid?.Formula ) ),
+            Mixed = IsSelectedElementValueMixed( element => element.SnapToGrid ),
         } );
 
         groups.Add( new PropertyGridGroupDefinition( "element.status", "Status", statusProperties ) );
@@ -1466,7 +1457,6 @@ public partial class _ReportDesignerPropertiesPanel
             "section.newPageAfter" => OpenSelectedSectionNewPageAfterFormula(),
             "element.canGrow" => OpenSelectedElementCanGrowFormula(),
             "element.suppress" => OpenSelectedElementSuppressFormula(),
-            "element.snapToGrid" => OpenSelectedElementSnapToGridFormula(),
             "element.format" => OpenFormatDialog(),
             "element.imageSource" => OpenImageUploadDialog(),
             "element.subreportDataSource" => OpenSelectedSubreportDataSourceDialog(),

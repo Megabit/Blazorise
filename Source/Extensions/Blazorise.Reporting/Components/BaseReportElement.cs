@@ -127,9 +127,9 @@ public abstract class BaseReportElement : ComponentBase
     [Parameter] public ReportValue<bool> Suppress { get; set; } = false;
 
     /// <summary>
-    /// Overrides the report-level snap-to-grid behavior for this element. A null value inherits the report setting.
+    /// Overrides the designer-level snap-to-grid behavior for this element. A null value inherits the designer setting.
     /// </summary>
-    [Parameter] public ReportValue<bool?> SnapToGrid { get; set; } = (bool?)null;
+    [Parameter] public bool? SnapToGrid { get; set; }
 
     /// <summary>
     /// Indicates whether the element participates in designer collision warnings.

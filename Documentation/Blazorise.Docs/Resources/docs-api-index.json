@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-03T07:34:13.0619091Z",
+  "generatedUtc": "2026-08-03T10:08:10.8289927Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -96914,10 +96914,10 @@
         },
         {
           "name": "SnapToGrid",
-          "type": "global::Blazorise.Reporting.ReportValue<>",
-          "typeName": "ReportValue<bool?>",
-          "defaultValue": "(bool?)null",
-          "summary": "Overrides the report-level snap-to-grid behavior for this element. A null value inherits the report setting.",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Overrides the designer-level snap-to-grid behavior for this element. A null value inherits the designer setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -97238,10 +97238,10 @@
         },
         {
           "name": "SnapToGrid",
-          "type": "global::Blazorise.Reporting.ReportValue<>",
-          "typeName": "ReportValue<bool?>",
-          "defaultValue": "(bool?)null",
-          "summary": "Overrides the report-level snap-to-grid behavior for this element. A null value inherits the report setting.",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Overrides the designer-level snap-to-grid behavior for this element. A null value inherits the designer setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -97415,10 +97415,10 @@
         },
         {
           "name": "SnapToGrid",
-          "type": "global::Blazorise.Reporting.ReportValue<>",
-          "typeName": "ReportValue<bool?>",
-          "defaultValue": "(bool?)null",
-          "summary": "Overrides the report-level snap-to-grid behavior for this element. A null value inherits the report setting.",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Overrides the designer-level snap-to-grid behavior for this element. A null value inherits the designer setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -97771,10 +97771,10 @@
         },
         {
           "name": "SnapToGrid",
-          "type": "global::Blazorise.Reporting.ReportValue<>",
-          "typeName": "ReportValue<bool?>",
-          "defaultValue": "(bool?)null",
-          "summary": "Overrides the report-level snap-to-grid behavior for this element. A null value inherits the report setting.",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Overrides the designer-level snap-to-grid behavior for this element. A null value inherits the designer setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -97932,10 +97932,10 @@
         },
         {
           "name": "SnapToGrid",
-          "type": "global::Blazorise.Reporting.ReportValue<>",
-          "typeName": "ReportValue<bool?>",
-          "defaultValue": "(bool?)null",
-          "summary": "Overrides the report-level snap-to-grid behavior for this element. A null value inherits the report setting.",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Overrides the designer-level snap-to-grid behavior for this element. A null value inherits the designer setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -98330,10 +98330,10 @@
         },
         {
           "name": "SnapToGrid",
-          "type": "global::Blazorise.Reporting.ReportValue<>",
-          "typeName": "ReportValue<bool?>",
-          "defaultValue": "(bool?)null",
-          "summary": "Overrides the report-level snap-to-grid behavior for this element. A null value inherits the report setting.",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Overrides the designer-level snap-to-grid behavior for this element. A null value inherits the designer setting.",
           "isBlazoriseEnum": false
         },
         {

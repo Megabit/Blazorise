@@ -2654,7 +2654,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal bool IsSnapToGridEnabled( ReportElementDefinition element )
     {
-        return element?.SnapToGrid?.Value ?? SnapToGrid;
+        return element?.SnapToGrid ?? SnapToGrid;
     }
 
     internal IEnumerable<string> FindElementsInsideSelectionBox( ReportDefinition definition, ReportDesignerSelectionBox selectionBox )

@@ -41,7 +41,6 @@ internal static class ReportDataReferenceUpdater
 
                 ReplaceFormulaFieldReference( element.CanGrow, oldName, newName );
                 ReplaceFormulaFieldReference( element.Suppress, oldName, newName );
-                ReplaceFormulaFieldReference( element.SnapToGrid, oldName, newName );
             }
         }
     }
@@ -83,18 +82,11 @@ internal static class ReportDataReferenceUpdater
 
                 ReplaceRunningTotalReference( element.CanGrow, oldName, newName );
                 ReplaceRunningTotalReference( element.Suppress, oldName, newName );
-                ReplaceRunningTotalReference( element.SnapToGrid, oldName, newName );
             }
         }
     }
 
     private static void ReplaceFormulaFieldReference( ReportValue<bool> value, string oldName, string newName )
-    {
-        if ( value is not null )
-            value.Formula = ReplaceFormulaFieldExpressionToken( value.Formula, oldName, newName );
-    }
-
-    private static void ReplaceFormulaFieldReference( ReportValue<bool?> value, string oldName, string newName )
     {
         if ( value is not null )
             value.Formula = ReplaceFormulaFieldExpressionToken( value.Formula, oldName, newName );
@@ -115,12 +107,6 @@ internal static class ReportDataReferenceUpdater
     }
 
     private static void ReplaceRunningTotalReference( ReportValue<bool> value, string oldName, string newName )
-    {
-        if ( value is not null )
-            value.Formula = ReplaceRunningTotalExpressionToken( value.Formula, oldName, newName );
-    }
-
-    private static void ReplaceRunningTotalReference( ReportValue<bool?> value, string oldName, string newName )
     {
         if ( value is not null )
             value.Formula = ReplaceRunningTotalExpressionToken( value.Formula, oldName, newName );
