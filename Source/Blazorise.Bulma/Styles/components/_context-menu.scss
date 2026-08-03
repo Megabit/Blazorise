@@ -1,5 +1,4 @@
 .context-menu {
-    --context-menu-zindex: 40;
     display: contents;
 }
 
@@ -22,7 +21,7 @@
 .context-menu-menu {
     position: fixed;
     display: block;
-    z-index: var(--context-menu-zindex, 1080);
+    z-index: 40;
 }
 
 .context-menu-item {
@@ -112,5 +111,5 @@
 }
 
 .context-menu-submenu-menu {
-    z-index: calc(var(--context-menu-zindex, 1080) + 1);
+    z-index: 41;
 }

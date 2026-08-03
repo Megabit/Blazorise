@@ -1,5 +1,4 @@
 .fui-ContextMenu {
-    --context-menu-zindex: var(--zIndexPopover);
     display: contents;
 }
 
@@ -30,7 +29,7 @@
 .fui-ContextMenuPopover {
     position: fixed;
     display: block;
-    z-index: var(--context-menu-zindex, 1080);
+    z-index: var(--zIndexPopover);
 }
 
 .fui-ContextMenuItem,
@@ -150,5 +149,5 @@
 }
 
 .fui-ContextMenuSubmenuPopover {
-    z-index: calc(var(--context-menu-zindex, 1080) + 1);
+    z-index: calc(var(--zIndexPopover) + 1);
 }

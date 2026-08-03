@@ -1,5 +1,4 @@
 .mui-context-menu {
-    --context-menu-zindex: var(--mui-zindex-popover);
     display: contents;
 }
 
@@ -17,7 +16,7 @@
 .mui-context-menu-menu {
     position: fixed;
     display: block;
-    z-index: var(--context-menu-zindex, 1080);
+    z-index: var(--mui-zindex-popover);
 }
 
 .mui-context-menu-item {
@@ -98,5 +97,5 @@
 }
 
 .mui-context-menu-submenu-menu {
-    z-index: calc(var(--context-menu-zindex, 1080) + 1);
+    z-index: calc(var(--mui-zindex-popover) + 1);
 }

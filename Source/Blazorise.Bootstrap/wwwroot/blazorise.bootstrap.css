@@ -208,7 +208,6 @@ body:before {
 }
 
 .context-menu {
-  --context-menu-zindex: 1060;
   display: contents;
 }
 
@@ -227,7 +226,7 @@ body:before {
 .context-menu-menu {
   position: fixed;
   display: block;
-  z-index: var(--context-menu-zindex, 1080);
+  z-index: 1060;
 }
 
 .context-menu-item {
@@ -309,7 +308,7 @@ body:before {
 }
 
 .context-menu-submenu-menu {
-  z-index: calc(var(--context-menu-zindex, 1080) + 1);
+  z-index: 1061;
 }
 
 .datepicker {

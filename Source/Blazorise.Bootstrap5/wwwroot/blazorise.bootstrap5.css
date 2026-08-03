@@ -1005,7 +1005,6 @@ input[type=button].btn-block {
 }
 
 .context-menu {
-  --context-menu-zindex: 1070;
   display: contents;
 }
 
@@ -1024,7 +1023,7 @@ input[type=button].btn-block {
 .context-menu-menu {
   position: fixed;
   display: block;
-  z-index: var(--context-menu-zindex, 1080);
+  z-index: 1070;
 }
 
 .context-menu-item {
@@ -1106,7 +1105,7 @@ input[type=button].btn-block {
 }
 
 .context-menu-submenu-menu {
-  z-index: calc(var(--context-menu-zindex, 1080) + 1);
+  z-index: 1071;
 }
 
 .datepicker {

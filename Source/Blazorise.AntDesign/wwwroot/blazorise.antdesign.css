@@ -3795,7 +3795,6 @@ template {
 }
 
 .ant-context-menu {
-  --context-menu-zindex: var(--ant-dropdown-z-index-popup);
   display: contents;
 }
 
@@ -3818,7 +3817,7 @@ template {
 .ant-context-menu-menu {
   position: fixed;
   display: block;
-  z-index: var(--context-menu-zindex, 1080);
+  z-index: var(--ant-dropdown-z-index-popup);
 }
 
 .ant-context-menu-item,
@@ -3928,7 +3927,7 @@ template {
 }
 
 .ant-context-menu-submenu-menu {
-  z-index: calc(var(--context-menu-zindex, 1080) + 1);
+  z-index: calc(var(--ant-dropdown-z-index-popup) + 1);
 }
 
 .ant-picker-container {

@@ -215,7 +215,6 @@ body:before {
 }
 
 .tw-context-menu {
-  --context-menu-zindex: 50;
   display: contents;
 }
 
@@ -234,7 +233,7 @@ body:before {
 .tw-context-menu-menu {
   position: fixed;
   display: block;
-  z-index: var(--context-menu-zindex, 1080);
+  z-index: 50;
 }
 
 .tw-context-menu-item {
@@ -315,7 +314,7 @@ body:before {
 }
 
 .tw-context-menu-submenu-menu {
-  z-index: calc(var(--context-menu-zindex, 1080) + 1);
+  z-index: 51;
 }
 
 .tw-datepicker {
