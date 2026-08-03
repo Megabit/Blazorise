@@ -14,7 +14,7 @@
     --breakpoint-2xl: 1792px;
 
     /* Font Family */
-    --font-sans: 'Graphik', sans-serif;
+    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-serif: 'Merriweather', serif;
 
     --text-md: ['1.0625rem', '1.25rem'];
