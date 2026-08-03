@@ -6,6 +6,10 @@ namespace Blazorise;
 /// <summary>
 /// Defines a font source used by Blazorise features that render or export text.
 /// </summary>
+/// <remarks>
+/// Callers are responsible for ensuring that the font license permits each intended use, including browser delivery and document embedding.
+/// Blazorise does not validate font license metadata or embedding permissions.
+/// </remarks>
 public sealed class FontSource
 {
     #region Methods
@@ -65,12 +69,12 @@ public sealed class FontSource
     public string Url { get; set; }
 
     /// <summary>
-    /// Raw font bytes used by renderers that need to embed fonts.
+    /// Raw font bytes used by renderers that need to embed fonts. The caller must ensure that the font license permits embedding.
     /// </summary>
     public byte[] Data { get; set; }
 
     /// <summary>
-    /// Local file name used by renderers that need to read font bytes.
+    /// Local file name used by renderers that need to read font bytes. The caller must ensure that the font license permits embedding.
     /// </summary>
     public string FileName { get; set; }
 

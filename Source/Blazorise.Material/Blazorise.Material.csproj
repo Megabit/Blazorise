@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Blazorise\Blazorise.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="MATERIAL-SYMBOLS-LICENSE.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
 </Project>

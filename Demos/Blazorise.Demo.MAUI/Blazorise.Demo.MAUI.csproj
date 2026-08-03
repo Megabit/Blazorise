@@ -48,6 +48,7 @@
 
     <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    <MauiAsset Include="OPEN-SANS-LICENSE.txt" LogicalName="OPEN-SANS-LICENSE.txt" />
   </ItemGroup>
 
   <ItemGroup>
