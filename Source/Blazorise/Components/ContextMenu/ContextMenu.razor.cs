@@ -145,6 +145,9 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
         state = state with { Visible = false };
         DirtyClasses();
 
+        if ( Rendered && floatingPositionInitialized )
+            await JSModule.RestoreFocus( ElementRef, ElementId );
+
         await DisposeVisibilitySubscriptions();
 
         await VisibleChanged.InvokeAsync( false );
@@ -252,6 +255,8 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     {
         if ( State.Visible && CloseOnEscape && string.Equals( eventArgs.Key, "Escape", StringComparison.Ordinal ) )
             await Hide( CloseReason.EscapeClosing, eventArgs );
+        else if ( State.Visible && string.Equals( eventArgs.Key, "Tab", StringComparison.Ordinal ) )
+            await Hide( CloseReason.FocusLostClosing, eventArgs );
     }
 
     private async Task SynchronizeContextMenuSubscription()
@@ -297,12 +302,14 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
             outsidePointerSubscription = null;
         }
 
-        if ( State.Visible && CloseOnEscape )
+        if ( State.Visible )
         {
             keyDownSubscription ??= await DocumentObserver.Subscribe( new()
             {
                 OwnerId = ElementId,
                 EventTypes = DocumentEventTypes.KeyDown,
+                KeysFilter = new[] { "Escape", "Tab" },
+                Capture = false,
                 Handler = HandleKeyDown,
             } );
         }

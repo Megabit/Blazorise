@@ -23,4 +23,12 @@ public interface IJSContextMenuModule : IBaseJSModule,
     /// <param name="options">Additional options for the context menu initialization.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     ValueTask Initialize( ElementReference elementRef, string elementId, string menuElementId, double? clientX, double? clientY, string contextElementSelector, ContextMenuJSOptions options );
+
+    /// <summary>
+    /// Restores focus to the element that owned focus before the context menu opened.
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered element.</param>
+    /// <param name="elementId">ID of the rendered element.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask RestoreFocus( ElementReference elementRef, string elementId );
 }

@@ -32,6 +32,15 @@
     z-index: var(--zIndexPopover);
 }
 
+.fui-ContextMenuPopover[data-context-menu-keyboard-navigation="false"] {
+    &:focus,
+    [role="menu"]:focus,
+    [data-context-menu-item="true"]:focus {
+        outline: none;
+        box-shadow: none;
+    }
+}
+
 .fui-ContextMenuItem,
 .fui-ContextMenuSubmenuTrigger {
     border-radius: var(--borderRadiusMedium);

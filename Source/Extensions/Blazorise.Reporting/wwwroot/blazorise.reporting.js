@@ -1016,6 +1016,7 @@ function shouldIgnoreDesignerShortcut(event) {
         || tagName === "textarea"
         || tagName === "select"
         || target.isContentEditable
+        || !!target.closest?.('[role="menu"]')
         || !!target.closest?.(".b-report-element-text-editor");
 }
 

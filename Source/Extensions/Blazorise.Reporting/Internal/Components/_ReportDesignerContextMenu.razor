@@ -39,8 +39,8 @@
             {
                 @if ( State.CanInsertSection )
                 {
-                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertSectionBefore" Clicked="@OnCommandClicked">Insert @(ReportDefinitionHelper.GetSectionTypeDisplayName( State.SectionType )) band before</ContextMenuItem>
-                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertSectionAfter" Clicked="@OnCommandClicked">Insert @(ReportDefinitionHelper.GetSectionTypeDisplayName( State.SectionType )) band after</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertSectionBefore" Clicked="@OnCommandClicked">Insert @SectionTypeDisplayName band before</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertSectionAfter" Clicked="@OnCommandClicked">Insert @SectionTypeDisplayName band after</ContextMenuItem>
                 }
                 @if ( State.CanInsertGroup )
                 {

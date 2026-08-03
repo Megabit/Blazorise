@@ -229,6 +229,13 @@ body:before {
   z-index: 1060;
 }
 
+.context-menu-menu[data-context-menu-keyboard-navigation=false]:focus,
+.context-menu-menu[data-context-menu-keyboard-navigation=false] [role=menu]:focus,
+.context-menu-menu[data-context-menu-keyboard-navigation=false] [data-context-menu-item=true]:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 .context-menu-item {
   cursor: pointer;
 }

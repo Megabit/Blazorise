@@ -3748,6 +3748,13 @@ body {
   z-index: var(--mui-zindex-popover);
 }
 
+.mui-context-menu-menu[data-context-menu-keyboard-navigation=false]:focus,
+.mui-context-menu-menu[data-context-menu-keyboard-navigation=false] [role=menu]:focus,
+.mui-context-menu-menu[data-context-menu-keyboard-navigation=false] [data-context-menu-item=true]:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 .mui-context-menu-item {
   cursor: pointer;
 }

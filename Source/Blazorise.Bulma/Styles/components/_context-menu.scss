@@ -24,6 +24,15 @@
     z-index: 40;
 }
 
+.context-menu-menu[data-context-menu-keyboard-navigation="false"] {
+    &:focus,
+    [role="menu"]:focus,
+    [data-context-menu-item="true"]:focus {
+        outline: none;
+        box-shadow: none;
+    }
+}
+
 .context-menu-item {
     cursor: pointer;
     display: flex;

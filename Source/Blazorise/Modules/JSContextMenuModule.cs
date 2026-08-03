@@ -33,6 +33,10 @@ public class JSContextMenuModule : BaseJSModule, IJSContextMenuModule
         => InvokeSafeVoidAsync( "initialize", elementRef, elementId, menuElementId, clientX, clientY, contextElementSelector, options );
 
     /// <inheritdoc/>
+    public virtual ValueTask RestoreFocus( ElementReference elementRef, string elementId )
+        => InvokeSafeVoidAsync( "restoreFocus", elementRef, elementId );
+
+    /// <inheritdoc/>
     public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
     {
         if ( IsUnsafe )
