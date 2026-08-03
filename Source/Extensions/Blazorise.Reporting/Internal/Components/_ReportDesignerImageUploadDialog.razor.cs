@@ -173,6 +173,7 @@ public partial class _ReportDesignerImageUploadDialog
         return $"{kilobytes / 1024d:0.#} MB";
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         selectedFile = null;

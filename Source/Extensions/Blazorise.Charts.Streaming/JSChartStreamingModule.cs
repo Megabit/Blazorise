@@ -7,6 +7,9 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Charts.Streaming;
 
+/// <summary>
+/// Controls the browser-side Chart.js streaming plugin.
+/// </summary>
 public class JSChartStreamingModule : BaseJSModule,
     IJSDestroyableModule
 {
@@ -27,6 +30,9 @@ public class JSChartStreamingModule : BaseJSModule,
 
     #region Methods
 
+    /// <summary>
+    /// Enables realtime behavior on a chart canvas.
+    /// </summary>
     public virtual ValueTask Initialize( DotNetObjectReference<ChartStreamingAdapter> dotNetObjectReference, ElementReference canvasRef, string canvasId, bool vertical, ChartStreamingOptions options )
         => InvokeSafeVoidAsync( "initialize",
             dotNetObjectReference,
@@ -35,15 +41,27 @@ public class JSChartStreamingModule : BaseJSModule,
             vertical,
             options );
 
+    /// <summary>
+    /// Detaches realtime processing from a chart canvas.
+    /// </summary>
     public virtual ValueTask Destroy( ElementReference canvasRef, string canvasId )
         => InvokeSafeVoidAsync( "destroy", canvasRef, canvasId );
 
+    /// <summary>
+    /// Appends a value to one dataset in the live chart.
+    /// </summary>
     public virtual ValueTask AddData( string canvasId, int datasetIndex, object data )
         => InvokeSafeVoidAsync( "addData", canvasId, datasetIndex, data );
 
+    /// <summary>
+    /// Suspends chart scrolling while optionally animating the transition.
+    /// </summary>
     public virtual ValueTask Pause( string canvasId, bool animate )
         => InvokeSafeVoidAsync( "pause", canvasId, animate );
 
+    /// <summary>
+    /// Resumes chart scrolling while optionally animating the transition.
+    /// </summary>
     public virtual ValueTask Play( string canvasId, bool animate )
         => InvokeSafeVoidAsync( "play", canvasId, animate );
 

@@ -1,12 +1,12 @@
 ﻿namespace Blazorise.Animate;
 
 /// <summary>
-/// Defines the easing effect.
+/// Supplies the timing curve used by an <see cref="Animate"/> transition.
 /// </summary>
 public interface IEasing
 {
     /// <summary>
-    /// Gets the easing name.
+    /// CSS easing identifier associated with the curve.
     /// </summary>
     string Name { get; }
 }

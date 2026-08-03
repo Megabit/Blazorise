@@ -15,6 +15,7 @@ public partial class SplitterSection : BaseComponent, IDisposable
 {
     #region Methods
 
+    /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
     {
         if ( Rendered )

@@ -33,7 +33,7 @@ public class CellDisplayContext<TItem> : BaseTemplateContext<TItem>
     public DataGrid<TItem> DataGrid { get; }
 
     /// <summary>
-    /// Gets the column associated with the cell.
+    /// Gets the column used by the cell.
     /// </summary>
     public DataGridColumn<TItem> Column { get; }
 

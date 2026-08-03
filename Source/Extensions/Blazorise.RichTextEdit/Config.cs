@@ -5,6 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Blazorise.RichTextEdit;
 
+/// <summary>
+/// Registers rich-text editor services and shared Quill preferences.
+/// </summary>
 public static class Config
 {
     /// <summary>

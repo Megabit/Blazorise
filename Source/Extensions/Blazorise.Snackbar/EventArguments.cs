@@ -9,6 +9,11 @@ namespace Blazorise.Snackbar;
 /// </summary>
 public class SnackbarClosedEventArgs : EventArgs
 {
+    /// <summary>
+    /// Captures the snackbar identity and the event that dismissed it.
+    /// </summary>
+    /// <param name="key">Application key assigned to the snackbar.</param>
+    /// <param name="closeReason">Condition that caused dismissal.</param>
     public SnackbarClosedEventArgs( string key, SnackbarCloseReason closeReason )
     {
         Key = key;

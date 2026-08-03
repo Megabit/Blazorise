@@ -7,6 +7,9 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Charts.Trendline;
 
+/// <summary>
+/// Connects trendline configuration to the Chart.js browser plugin.
+/// </summary>
 public class JSChartTrendlineModule : BaseJSModule
 {
     /// <summary>
@@ -20,6 +23,12 @@ public class JSChartTrendlineModule : BaseJSModule
     {
     }
 
+    /// <summary>
+    /// Applies trendline settings to the chart rendered on the specified canvas.
+    /// </summary>
+    /// <param name="canvasId">Identifier of the chart canvas.</param>
+    /// <param name="trendlineData">Per-dataset trendline settings.</param>
+    /// <returns>Whether the browser plugin accepted the settings.</returns>
     public virtual async ValueTask<bool> AddTrendlineOptions( string canvasId, List<ChartTrendlineData> trendlineData )
     {
         var moduleInstance = await Module;

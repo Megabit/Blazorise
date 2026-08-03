@@ -68,6 +68,7 @@ public partial class _ReportDesignerFormatDialog
         } );
     }
 
+    /// <inheritdoc />
     protected override void OnParametersSet()
     {
         format = ReportFormats.Clone( InitialFormat ) ?? ReportFormats.Text();
@@ -262,8 +263,14 @@ public partial class _ReportDesignerFormatDialog
         _ => null,
     };
 
+    /// <summary>
+    /// Format loaded into the editor.
+    /// </summary>
     [Parameter] public ReportFormatDefinition InitialFormat { get; set; }
 
+    /// <summary>
+    /// Reports the format accepted by the user.
+    /// </summary>
     [Parameter] public EventCallback<ReportFormatDefinition> Confirmed { get; set; }
 
     #endregion

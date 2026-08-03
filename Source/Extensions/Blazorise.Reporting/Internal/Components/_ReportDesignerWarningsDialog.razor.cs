@@ -20,6 +20,9 @@ public partial class _ReportDesignerWarningsDialog
 
     #region Properties
 
+    /// <summary>
+    /// Validation warnings displayed by the dialog.
+    /// </summary>
     [Parameter] public IReadOnlyList<string> Warnings { get; set; } = [];
 
     #endregion

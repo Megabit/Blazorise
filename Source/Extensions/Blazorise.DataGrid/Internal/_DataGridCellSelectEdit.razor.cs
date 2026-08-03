@@ -32,18 +32,23 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
         }
     }
 
+    /// <summary>
+    /// Element Id identifying content in the data grid cell select edit.
+    /// </summary>
     protected string elementId;
 
     #endregion
 
     #region Methods
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         elementId = IdGenerator.Generate;
         base.OnInitialized();
     }
 
+    /// <inheritdoc />
     protected override void OnParametersSet()
     {
         if ( Column?.Data is not null && selectItems?.Count != Column.Data.Count() )
@@ -115,6 +120,9 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
         await CellValueChanged.InvokeAsync( values?.Select( x => x.ToString() )?.ToArray() );
     }
 
+    /// <summary>
+    /// Returns selected values.
+    /// </summary>
     public object[] GetSelectedValues()
     {
         var columnType = Column.GetValueType( default );
@@ -146,6 +154,7 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
         return CellValue as object[];
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( ParentDataGrid.IsCellEdit && Column.CellEditing )
@@ -177,11 +186,17 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
         await base.OnAfterRenderAsync( firstRender );
     }
 
+    /// <summary>
+    /// Moves keyboard focus to the cell editor.
+    /// </summary>
     public async Task Focus()
     {
         await JSUtilitiesModule.Focus( default, elementId, true );
     }
 
+    /// <summary>
+    /// Selects the cell editor contents.
+    /// </summary>
     public async Task Select()
     {
         await JSUtilitiesModule.Select( default, elementId, true );
@@ -191,8 +206,14 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
 
     #region Properties
 
+    /// <summary>
+    /// Parent Data Grid identifying content in the data grid cell select edit.
+    /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
+    /// <summary>
+    /// Creates the DOM identifier used by the select editor.
+    /// </summary>
     [Inject] public IIdGenerator IdGenerator { get; set; }
 
     /// <summary>

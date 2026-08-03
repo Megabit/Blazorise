@@ -122,6 +122,7 @@ public partial class _ReportDesignerAggregateDialog
         return selectedField is null ? null : CreateFieldKey( selectedField );
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         fields.Clear();
@@ -151,10 +152,19 @@ public partial class _ReportDesignerAggregateDialog
 
     private bool CanConfirm => fields.Count > 0 && supportedFunctions.Count > 0 && FindSelectedField() is not null;
 
+    /// <summary>
+    /// Fields available for aggregation.
+    /// </summary>
     [Parameter] public IEnumerable<ReportDesignerFieldOption> FieldOptions { get; set; }
 
+    /// <summary>
+    /// Field selected when the dialog opens.
+    /// </summary>
     [Parameter] public string SelectedFieldName { get; set; }
 
+    /// <summary>
+    /// Sections where the aggregate summary can be placed.
+    /// </summary>
     [Parameter] public IEnumerable<ReportAggregateSummaryLocation> SummaryLocationOptions { get; set; }
 
     /// <summary>

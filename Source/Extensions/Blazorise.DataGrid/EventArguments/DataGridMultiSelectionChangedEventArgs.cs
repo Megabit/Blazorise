@@ -30,7 +30,7 @@ public class DataGridMultiSelectionChangedEventArgs<TItem> : EventArgs
     #region Properties
 
     /// <summary>
-    /// Gets the model associated with the row.
+    /// Gets the model used by the row.
     /// </summary>
     public TItem Item { get; }
 

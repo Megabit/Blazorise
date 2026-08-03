@@ -10,6 +10,9 @@ namespace Blazorise.Charts;
 /// </remarks>
 public class BarChartDataset<T> : ChartDataset<T>
 {
+    /// <summary>
+    /// Creates a bar chart dataset.
+    /// </summary>
     public BarChartDataset() : base(
         label: string.Empty,
         backgroundColor: "rgba(0, 0, 0, 0.1)",

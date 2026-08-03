@@ -10,12 +10,21 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.DataGrid.Internal;
 
+/// <summary>
+/// Supports base data grid row rendering and interaction in a DataGrid.
+/// </summary>
 public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
 {
     #region Members
 
+    /// <summary>
+    /// Batch Edit Item consumed by the base data grid row.
+    /// </summary>
     protected DataGridBatchEditItem<TItem> BatchEditItem;
 
+    /// <summary>
+    /// Controls mouse is over behavior for the base data grid row.
+    /// </summary>
     protected bool mouseIsOver = false;
 
     /// <summary>
@@ -62,6 +71,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
 
     #region Methods
 
+    /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
     {
         foreach ( var parameter in parameters )
@@ -93,6 +103,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         return base.SetParametersAsync( ParameterView.Empty );
     }
 
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         Columns = ParentDataGrid.DisplayableColumns;
@@ -106,6 +117,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         await base.OnInitializedAsync();
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( firstRender )
@@ -131,6 +143,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         await base.OnAfterRenderAsync( firstRender );
     }
 
+    /// <inheritdoc />
     protected override Task OnParametersSetAsync()
     {
         var isSelected = IsSelected;
@@ -143,6 +156,9 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         return base.OnParametersSetAsync();
     }
 
+    /// <summary>
+    /// Handles key down.
+    /// </summary>
     protected internal async Task HandleKeyDown( KeyboardEventArgs eventArgs )
     {
         if ( eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" )
@@ -197,6 +213,9 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         await ParentDataGrid.Select( displayList[targetIndex] );
     }
 
+    /// <summary>
+    /// Handles cell key down.
+    /// </summary>
     protected async Task HandleCellKeyDown( KeyboardEventArgs args, DataGridColumn<TItem> column )
     {
         if ( !ParentDataGrid.IsCellEdit )
@@ -220,6 +239,9 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         }
     }
 
+    /// <summary>
+    /// Handles cell focus.
+    /// </summary>
     protected async Task HandleCellFocus( FocusEventArgs args, DataGridColumn<TItem> column )
     {
         if ( !ParentDataGrid.IsCellNavigable )
@@ -228,23 +250,38 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         await ParentDataGrid.HandleSelectedCell( Item, RowInfo, column );
     }
 
+    /// <summary>
+    /// Creates the mouse leave callback for the row.
+    /// </summary>
     protected bool BindMouseLeave()
         => ParentDataGrid.RowMouseLeave.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
 
+    /// <summary>
+    /// Creates the mouse over callback for the row.
+    /// </summary>
     protected bool BindMouseOver()
         => ParentDataGrid.RowMouseOver.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
 
+    /// <summary>
+    /// Handles mouse leave.
+    /// </summary>
     protected internal async Task HandleMouseLeave( MouseEventArgs eventArgs )
     {
         mouseIsOver = false;
         await ParentDataGrid.OnRowMouseLeaveCommand( new( Item, eventArgs ) );
     }
+    /// <summary>
+    /// Handles mouse over.
+    /// </summary>
     protected internal async Task HandleMouseOver( MouseEventArgs eventArgs )
     {
         mouseIsOver = true;
         await ParentDataGrid.OnRowMouseOverCommand( new( Item, eventArgs ) );
     }
 
+    /// <summary>
+    /// Handles click.
+    /// </summary>
     protected internal async Task HandleClick( MouseEventArgs eventArgs )
     {
         await ParentDataGrid.OnRowClickedCommand( new( Item, eventArgs ) );
@@ -294,21 +331,33 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         }
     }
 
+    /// <summary>
+    /// Handles double click.
+    /// </summary>
     protected internal Task HandleDoubleClick( MouseEventArgs eventArgs )
     {
         return ParentDataGrid.OnRowDoubleClickedCommand( new( Item, eventArgs ) );
     }
 
+    /// <summary>
+    /// Handles context menu.
+    /// </summary>
     protected internal Task HandleContextMenu( MouseEventArgs eventArgs )
     {
         return ParentDataGrid.OnRowContextMenuCommand( new( Item, eventArgs ) );
     }
 
+    /// <summary>
+    /// Handles multi select command.
+    /// </summary>
     protected internal Task OnMultiSelectCommand( DataGridMultiSelectionChangedEventArgs<TItem> eventArgs )
     {
         return ParentDataGrid.OnMultiSelectCommand( eventArgs );
     }
 
+    /// <summary>
+    /// Returns hover cursor.
+    /// </summary>
     protected Cursor GetHoverCursor()
         => ParentDataGrid.RowHoverCursor == null ? Cursor.Pointer : ParentDataGrid.RowHoverCursor( Item );
 
@@ -323,6 +372,9 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         return base.DisposeAsync( disposing );
     }
 
+    /// <summary>
+    /// Returns current item.
+    /// </summary>
     protected TItem GetCurrentItem()
     {
         return BatchEditItem is null
@@ -330,6 +382,9 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
             : BatchEditItem.NewItem;
     }
 
+    /// <summary>
+    /// Builds cell display context for the current row.
+    /// </summary>
     protected CellDisplayContext<TItem> BuildCellDisplayContext( DataGridColumn<TItem> column, TItem item, object cellValue = null )
     {
         object resolvedValue = cellValue ?? column.GetValue( item );
@@ -339,11 +394,17 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         return new CellDisplayContext<TItem>( item, column, RowInfo, rowIndex, resolvedValue, displayValue, ParentDataGrid );
     }
 
+    /// <summary>
+    /// Builds expand row context for the current row.
+    /// </summary>
     protected DataGridExpandRowContext<TItem> BuildExpandRowContext( TItem item, int level, bool expandable, bool expanded )
     {
         return new DataGridExpandRowContext<TItem>( item, level, expandable, expanded, () => ParentDataGrid.ToggleRow( item ) );
     }
 
+    /// <summary>
+    /// Toggles row.
+    /// </summary>
     protected Task ToggleRow()
         => ParentDataGrid.ToggleRow( Item );
 
@@ -449,10 +510,13 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
     /// <summary>
-    /// Item associated with the data set.
+    /// Item consumed by the data set.
     /// </summary>
     [Parameter] public TItem Item { get; set; }
 
+    /// <summary>
+    /// Renders the cells contained by this row.
+    /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>

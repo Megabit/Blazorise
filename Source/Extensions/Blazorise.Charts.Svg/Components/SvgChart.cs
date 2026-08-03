@@ -126,6 +126,7 @@ public class SvgChart<TItem> : SvgChartBase
 
     #region Methods
 
+    /// <inheritdoc />
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "svg-chart" );
@@ -159,6 +160,7 @@ public class SvgChart<TItem> : SvgChartBase
         return base.SetParametersAsync( parameters );
     }
 
+    /// <inheritdoc />
     protected override void BuildRenderTree( RenderTreeBuilder builder )
     {
         var sequence = 0;

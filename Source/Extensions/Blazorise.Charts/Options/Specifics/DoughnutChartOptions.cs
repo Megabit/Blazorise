@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Configures doughnut chart behavior.
+/// </summary>
 public class DoughnutChartOptions : PieChartOptions
 {
     /// <summary>

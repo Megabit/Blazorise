@@ -83,6 +83,9 @@ public partial class _ReportDesignerStatusBar
         ? "1 report warning"
         : $"{warnings.Count} report warnings";
 
+    /// <summary>
+    /// Designer whose status is presented.
+    /// </summary>
     [Parameter, EditorRequired] public _ReportDesigner Designer { get; set; }
 
     #endregion

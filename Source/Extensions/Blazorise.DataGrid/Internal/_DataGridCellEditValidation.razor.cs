@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid.Internal;
 
+/// <summary>
+/// Supports data grid cell edit validation behavior in DataGrid components.
+/// </summary>
 public partial class _DataGridCellEditValidation<TItem> : _DataGridCellEdit<TItem>
 {
     #region Members
@@ -51,6 +54,7 @@ public partial class _DataGridCellEditValidation<TItem> : _DataGridCellEdit<TIte
 
     #region Methods
 
+    /// <inheritdoc />
     protected override Task OnInitializedAsync()
     {
         if ( ValueType == typeof( string ) )
@@ -107,8 +111,14 @@ public partial class _DataGridCellEditValidation<TItem> : _DataGridCellEdit<TIte
 
     #region Properties
 
+    /// <summary>
+    /// Controls whether validation feedback is shown.
+    /// </summary>
     [Parameter] public bool ShowValidationFeedback { get; set; }
 
+    /// <summary>
+    /// Applies a regular-expression rule to the edited value.
+    /// </summary>
     [Parameter] public string ValidationPattern { get; set; }
 
     #endregion

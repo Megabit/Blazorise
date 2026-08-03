@@ -1,5 +1,8 @@
 ﻿namespace Blazorise.DataGrid;
 
+/// <summary>
+/// Provides data grid check column behavior within a DataGrid.
+/// </summary>
 public class DataGridCheckColumn<TItem> : DataGridColumn<TItem>
 {
     /// <inheritdoc/>

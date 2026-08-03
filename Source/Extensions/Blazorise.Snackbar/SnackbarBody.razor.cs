@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Snackbar;
 
+/// <summary>
+/// Contains the primary message of a snackbar notification.
+/// </summary>
 public partial class SnackbarBody : BaseComponent
 {
     #region Members
@@ -13,6 +16,7 @@ public partial class SnackbarBody : BaseComponent
 
     #region Methods
 
+    /// <inheritdoc />
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "snackbar-body" );

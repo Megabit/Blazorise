@@ -12,6 +12,9 @@ public partial class DataGridMultiSelectColumn<TItem> : DataGridColumn<TItem>
 {
     #region Constructors
 
+    /// <summary>
+    /// Creates a data grid multi select column instance.
+    /// </summary>
     public DataGridMultiSelectColumn()
     {
         // Avoid row click side-effects when interacting with the header/body checkboxes.

@@ -9,14 +9,19 @@ using Lambda2Js;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Converts scriptable options values during serialization.
+/// </summary>
 public class ScriptableOptionsConverter<TValue, TContext> : JsonConverter<ScriptableOptions<TValue, TContext>>
 {
+    /// <inheritdoc />
     public override ScriptableOptions<TValue, TContext> Read( ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options )
     {
         // I only need serialization currently
         throw new NotImplementedException();
     }
 
+    /// <inheritdoc />
     public override void Write( Utf8JsonWriter writer, ScriptableOptions<TValue, TContext> value, JsonSerializerOptions options )
     {
         if ( value.IsScriptable && value.ScriptableValue != null )

@@ -13,6 +13,9 @@ public class SvgDoughnutChart<TItem> : SvgChart<TItem>
 {
     #region Constructors
 
+    /// <summary>
+    /// Creates a circular chart with a hollow center.
+    /// </summary>
     public SvgDoughnutChart()
     {
         Type = SvgChartType.Doughnut;

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-03T10:08:10.8289927Z",
+  "generatedUtc": "2026-08-03T12:34:01.2595495Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -6860,7 +6860,7 @@
     {
       "type": "global::Blazorise.Charts.BarChart<>",
       "typeName": "BarChart",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Renders a bar chart.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -7395,7 +7395,7 @@
     {
       "type": "global::Blazorise.Charts.BarChartOptions",
       "typeName": "BarChartOptions",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Configures bar chart behavior.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "BarPercentage",
@@ -12752,8 +12752,7 @@
           "type": "ChartColor?",
           "typeName": "ChartColor?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Shadow color behind the box fill.",
           "isBlazoriseEnum": false
         },
         {
@@ -12761,8 +12760,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Canvas cap style applied to box border endpoints.",
           "isBlazoriseEnum": false
         },
         {
@@ -12770,8 +12768,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Canvas join style used where box border segments meet.",
           "isBlazoriseEnum": false
         },
         {
@@ -12779,8 +12776,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Radius used to round the box corners.",
           "isBlazoriseEnum": false
         },
         {
@@ -12788,8 +12784,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Thickness of the box outline in pixels.",
           "isBlazoriseEnum": false
         },
         {
@@ -12797,8 +12792,7 @@
           "type": "global::Blazorise.Charts.Annotation.ChartAnnotationLabelOptions",
           "typeName": "ChartAnnotationLabelOptions",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Caption rendered with the annotated box.",
           "isBlazoriseEnum": false
         },
         {
@@ -12806,8 +12800,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Clockwise rotation applied to the box geometry.",
           "isBlazoriseEnum": false
         }
       ],
@@ -13689,7 +13682,7 @@
     {
       "type": "global::Blazorise.Charts.BubbleChartOptions",
       "typeName": "BubbleChartOptions",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Configures bubble chart behavior.\r\n       \"\"\"",
       "parameters": [],
       "events": [],
       "methods": []
@@ -18793,7 +18786,7 @@
     {
       "type": "global::Blazorise.Charts.Chart<>",
       "typeName": "Chart",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Renders a Chart.js visualization.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -19328,7 +19321,7 @@
     {
       "type": "global::Blazorise.Charts.Annotation.ChartAnnotationLabelOptions",
       "typeName": "ChartAnnotationLabelOptions",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Presentation and positioning settings for text attached to an annotation.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "AdjustScaleRange",
@@ -19343,8 +19336,7 @@
           "type": "ChartColor?",
           "typeName": "ChartColor?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Fill painted behind the label content.",
           "isBlazoriseEnum": false
         },
         {
@@ -19352,8 +19344,7 @@
           "type": "ChartColor?",
           "typeName": "ChartColor?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Color of the shadow behind the label background.",
           "isBlazoriseEnum": false
         },
         {
@@ -19361,8 +19352,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Canvas cap style for open label border paths.",
           "isBlazoriseEnum": false
         },
         {
@@ -19370,8 +19360,7 @@
           "type": "ChartColor?",
           "typeName": "ChartColor?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Stroke color around the label boundary.",
           "isBlazoriseEnum": false
         },
         {
@@ -19379,8 +19368,7 @@
           "type": "double?[]",
           "typeName": "double?[]",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Dash and gap lengths used for the label outline.",
           "isBlazoriseEnum": false
         },
         {
@@ -19388,8 +19376,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Offset into the outline's dash sequence.",
           "isBlazoriseEnum": false
         },
         {
@@ -19397,8 +19384,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Canvas join style at label border corners.",
           "isBlazoriseEnum": false
         },
         {
@@ -19414,8 +19400,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Thickness of the label outline in pixels.",
           "isBlazoriseEnum": false
         },
         {
@@ -19423,8 +19408,7 @@
           "type": "object",
           "typeName": "object",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Connector-line settings between the label and its annotation.",
           "isBlazoriseEnum": false
         },
         {
@@ -19432,8 +19416,7 @@
           "type": "ChartColor?",
           "typeName": "ChartColor?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Foreground color of the label text.",
           "isBlazoriseEnum": false
         },
         {
@@ -19441,8 +19424,7 @@
           "type": "IndexableOption<>",
           "typeName": "IndexableOption<string>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "One or more text values rendered inside the label.",
           "isBlazoriseEnum": false
         },
         {
@@ -19466,8 +19448,7 @@
           "type": "IndexableOption<>",
           "typeName": "IndexableOption<ChartFont>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Typography for each line of label content.",
           "isBlazoriseEnum": false
         },
         {
@@ -19475,8 +19456,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Explicit label height expressed as a CSS-compatible value.",
           "isBlazoriseEnum": false
         },
         {
@@ -19492,8 +19472,7 @@
           "type": "bool?",
           "typeName": "bool?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether the label participates in initial annotation animation.",
           "isBlazoriseEnum": false
         },
         {
@@ -19501,8 +19480,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Alpha applied to the entire label.",
           "isBlazoriseEnum": false
         },
         {
@@ -19510,8 +19488,7 @@
           "type": "ChartPadding",
           "typeName": "ChartPadding",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Interior spacing around the label content.",
           "isBlazoriseEnum": false
         },
         {
@@ -19527,8 +19504,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Clockwise rotation of label content in degrees.",
           "isBlazoriseEnum": false
         },
         {
@@ -19536,8 +19512,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Blur radius of the label shadow.",
           "isBlazoriseEnum": false
         },
         {
@@ -19545,8 +19520,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Horizontal distance between the label and its shadow.",
           "isBlazoriseEnum": false
         },
         {
@@ -19554,8 +19528,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Vertical distance between the label and its shadow.",
           "isBlazoriseEnum": false
         },
         {
@@ -19563,8 +19536,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Horizontal alignment of multiline text within the label.",
           "isBlazoriseEnum": false
         },
         {
@@ -19572,8 +19544,7 @@
           "type": "ChartColor?",
           "typeName": "ChartColor?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Color used to outline text glyphs.",
           "isBlazoriseEnum": false
         },
         {
@@ -19581,8 +19552,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Width of the text glyph outline in pixels.",
           "isBlazoriseEnum": false
         },
         {
@@ -19590,8 +19560,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Explicit label width expressed as a CSS-compatible value.",
           "isBlazoriseEnum": false
         },
         {
@@ -19599,8 +19568,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Final horizontal pixel adjustment after positioning.",
           "isBlazoriseEnum": false
         },
         {
@@ -19608,8 +19576,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Maximum horizontal coordinate used when the label owns its bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -19617,8 +19584,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Minimum horizontal coordinate used when the label owns its bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -19626,8 +19592,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Horizontal scale used to interpret label coordinates.",
           "isBlazoriseEnum": false
         },
         {
@@ -19635,8 +19600,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Horizontal data value used to place the label.",
           "isBlazoriseEnum": false
         },
         {
@@ -19644,8 +19608,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Final vertical pixel adjustment after positioning.",
           "isBlazoriseEnum": false
         },
         {
@@ -19653,8 +19616,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Maximum vertical coordinate used when the label owns its bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -19662,8 +19624,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Minimum vertical coordinate used when the label owns its bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -19671,8 +19632,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Vertical scale used to interpret label coordinates.",
           "isBlazoriseEnum": false
         },
         {
@@ -19680,8 +19640,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Vertical data value used to place the label.",
           "isBlazoriseEnum": false
         },
         {
@@ -19689,8 +19648,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Stacking order among overlapping chart elements.",
           "isBlazoriseEnum": false
         }
       ],
@@ -19707,8 +19665,7 @@
           "type": "bool?",
           "typeName": "bool?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether an out-of-range annotation expands its associated scales.",
           "isBlazoriseEnum": false
         },
         {
@@ -19716,8 +19673,7 @@
           "type": "ChartColor?",
           "typeName": "ChartColor?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Fill painted inside the annotation geometry.",
           "isBlazoriseEnum": false
         },
         {
@@ -19725,8 +19681,7 @@
           "type": "ChartColor?",
           "typeName": "ChartColor?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Stroke color used around the annotation.",
           "isBlazoriseEnum": false
         },
         {
@@ -19734,8 +19689,7 @@
           "type": "List<>",
           "typeName": "List<double>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Alternating dash and gap lengths for the border stroke.",
           "isBlazoriseEnum": false
         },
         {
@@ -19743,8 +19697,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Starting offset within the border dash pattern.",
           "isBlazoriseEnum": false
         },
         {
@@ -19752,8 +19705,7 @@
           "type": "ChartColor?",
           "typeName": "ChartColor?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Color cast by the border shadow.",
           "isBlazoriseEnum": false
         },
         {
@@ -19761,8 +19713,7 @@
           "type": "bool?",
           "typeName": "bool?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether the annotation participates in rendering.",
           "isBlazoriseEnum": false
         },
         {
@@ -19770,8 +19721,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Chart lifecycle phase in which the annotation is painted.",
           "isBlazoriseEnum": false
         },
         {
@@ -19779,8 +19729,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Stable identifier stored in the annotation element context.",
           "isBlazoriseEnum": false
         },
         {
@@ -19788,8 +19737,7 @@
           "type": "bool?",
           "typeName": "bool?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether initial animation state is calculated for the annotation.",
           "isBlazoriseEnum": false
         },
         {
@@ -19797,8 +19745,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Blur radius applied to the annotation shadow.",
           "isBlazoriseEnum": false
         },
         {
@@ -19806,8 +19753,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Horizontal displacement of the annotation shadow.",
           "isBlazoriseEnum": false
         },
         {
@@ -19815,8 +19761,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Vertical displacement of the annotation shadow.",
           "isBlazoriseEnum": false
         },
         {
@@ -19824,8 +19769,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Shape discriminator understood by the Chart.js annotation plugin.",
           "isBlazoriseEnum": false
         },
         {
@@ -19833,8 +19777,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Upper horizontal scale boundary occupied by the annotation.",
           "isBlazoriseEnum": false
         },
         {
@@ -19842,8 +19785,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Lower horizontal scale boundary occupied by the annotation.",
           "isBlazoriseEnum": false
         },
         {
@@ -19851,8 +19793,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Identifier of the horizontal scale used for coordinates.",
           "isBlazoriseEnum": false
         },
         {
@@ -19860,8 +19801,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Upper vertical scale boundary occupied by the annotation.",
           "isBlazoriseEnum": false
         },
         {
@@ -19869,8 +19809,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Lower vertical scale boundary occupied by the annotation.",
           "isBlazoriseEnum": false
         },
         {
@@ -19878,8 +19817,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Identifier of the vertical scale used for coordinates.",
           "isBlazoriseEnum": false
         },
         {
@@ -19887,8 +19825,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Rendering order relative to overlapping chart elements.",
           "isBlazoriseEnum": false
         }
       ],
@@ -19898,15 +19835,14 @@
     {
       "type": "global::Blazorise.Charts.DataLabels.ChartDataLabelsOptions",
       "typeName": "ChartDataLabelsOptions",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Controls how the Chart.js data-labels plugin positions and paints values.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Align",
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<string, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Label alignment relative to its anchor point.",
           "isBlazoriseEnum": false
         },
         {
@@ -19914,8 +19850,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<string, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Element boundary used as the label's positioning origin.",
           "isBlazoriseEnum": false
         },
         {
@@ -19923,8 +19858,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<string, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Fill painted behind each label.",
           "isBlazoriseEnum": false
         },
         {
@@ -19932,8 +19866,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<string, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Outline color surrounding the label box.",
           "isBlazoriseEnum": false
         },
         {
@@ -19941,8 +19874,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<double?, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Corner radius of the label background.",
           "isBlazoriseEnum": false
         },
         {
@@ -19950,8 +19882,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<double?, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Thickness of the label outline in pixels.",
           "isBlazoriseEnum": false
         },
         {
@@ -19959,8 +19890,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<bool?, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether positioning is constrained to the visible portion of an element.",
           "isBlazoriseEnum": false
         },
         {
@@ -19968,8 +19898,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<bool?, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether label pixels outside the chart area are clipped.",
           "isBlazoriseEnum": false
         },
         {
@@ -19977,8 +19906,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<string, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Foreground color used to draw label text.",
           "isBlazoriseEnum": false
         },
         {
@@ -19986,8 +19914,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<object, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Visibility rule evaluated for each data point.",
           "isBlazoriseEnum": false
         },
         {
@@ -19995,8 +19922,7 @@
           "type": "ChartFont",
           "typeName": "ChartFont",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Typography applied to the rendered value.",
           "isBlazoriseEnum": false
         },
         {
@@ -20004,8 +19930,7 @@
           "type": "ChartMathFormatter?",
           "typeName": "ChartMathFormatter?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Callback that converts a chart value into label text.",
           "isBlazoriseEnum": false
         },
         {
@@ -20013,8 +19938,7 @@
           "type": "object",
           "typeName": "object",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Named child-label configurations for rendering multiple labels per value.",
           "isBlazoriseEnum": false
         },
         {
@@ -20022,8 +19946,7 @@
           "type": "object",
           "typeName": "object",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Pointer-event handlers registered for rendered labels.",
           "isBlazoriseEnum": false
         },
         {
@@ -20031,8 +19954,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<double?, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Distance in pixels between a label and its anchor.",
           "isBlazoriseEnum": false
         },
         {
@@ -20040,8 +19962,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<double?, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Alpha applied to the complete label rendering.",
           "isBlazoriseEnum": false
         },
         {
@@ -20049,8 +19970,7 @@
           "type": "ChartPadding",
           "typeName": "ChartPadding",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Space between the text and label boundary.",
           "isBlazoriseEnum": false
         },
         {
@@ -20058,8 +19978,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<double?, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Clockwise text rotation in degrees.",
           "isBlazoriseEnum": false
         },
         {
@@ -20067,8 +19986,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<string, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Horizontal alignment used for multiline label text.",
           "isBlazoriseEnum": false
         },
         {
@@ -20076,8 +19994,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<double?, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Blur radius applied to the text shadow.",
           "isBlazoriseEnum": false
         },
         {
@@ -20085,8 +20002,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<string, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Color cast behind label text as a shadow.",
           "isBlazoriseEnum": false
         },
         {
@@ -20094,8 +20010,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<string, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Color of the outline painted around text glyphs.",
           "isBlazoriseEnum": false
         },
         {
@@ -20103,8 +20018,7 @@
           "type": "ScriptableOptions<,>",
           "typeName": "ScriptableOptions<double?, ScriptableOptionsContext>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Width in pixels of the text glyph outline.",
           "isBlazoriseEnum": false
         }
       ],
@@ -20729,7 +20643,7 @@
     {
       "type": "global::Blazorise.Charts.Streaming.ChartStreamingOptions",
       "typeName": "ChartStreamingOptions",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Timing and rendering preferences for a realtime Chart.js axis.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Delay",
@@ -23197,8 +23111,7 @@
           "type": "Dictionary<string, object>",
           "typeName": "Dictionary<string, object>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Additional Monaco options merged after the typed settings.",
           "isBlazoriseEnum": false
         },
         {
@@ -23206,8 +23119,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Identifiers of elements describing the editor.",
           "isBlazoriseEnum": false
         },
         {
@@ -23215,8 +23127,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Accessible invalid-state value forwarded to the editor input.",
           "isBlazoriseEnum": false
         },
         {
@@ -23224,8 +23135,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Identifiers of elements labelling the editor.",
           "isBlazoriseEnum": false
         },
         {
@@ -23233,8 +23143,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Accessible required-state value forwarded to the editor input.",
           "isBlazoriseEnum": false
         },
         {
@@ -23242,8 +23151,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Base URL from which Monaco worker and editor assets are loaded.",
           "isBlazoriseEnum": false
         },
         {
@@ -23251,8 +23159,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether Monaco observes its container and recalculates layout automatically.",
           "isBlazoriseEnum": false
         },
         {
@@ -23260,8 +23167,7 @@
           "type": "global::Blazorise.CodeEditor.CodeEditorCompletionProvider",
           "typeName": "CodeEditorCompletionProvider",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Completion provider exposed to Monaco for the active language.",
           "isBlazoriseEnum": false
         },
         {
@@ -23269,8 +23175,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether rapid value changes are consolidated before notification.",
           "isBlazoriseEnum": false
         },
         {
@@ -23278,8 +23183,7 @@
           "type": "int",
           "typeName": "int",
           "defaultValue": "0",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Milliseconds waited before a debounced value notification.",
           "isBlazoriseEnum": false
         },
         {
@@ -23287,8 +23191,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether the editor rejects all user interaction.",
           "isBlazoriseEnum": false
         },
         {
@@ -23296,8 +23199,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "CSS font-family stack used for source text.",
           "isBlazoriseEnum": false
         },
         {
@@ -23305,8 +23207,7 @@
           "type": "int?",
           "typeName": "int?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Source text size in pixels.",
           "isBlazoriseEnum": false
         },
         {
@@ -23314,8 +23215,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether pasted source is formatted immediately.",
           "isBlazoriseEnum": false
         },
         {
@@ -23323,8 +23223,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether supported trigger characters format the active line.",
           "isBlazoriseEnum": false
         },
         {
@@ -23332,8 +23231,7 @@
           "type": "global::Blazorise.CodeEditor.CodeEditorDocumentFormattingProvider",
           "typeName": "CodeEditorDocumentFormattingProvider",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Document formatter exposed to Monaco for the active language.",
           "isBlazoriseEnum": false
         },
         {
@@ -23341,8 +23239,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether value changes are reported while typing.",
           "isBlazoriseEnum": false
         },
         {
@@ -23350,8 +23247,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether indentation inserts spaces instead of tab characters.",
           "isBlazoriseEnum": false
         },
         {
@@ -23359,8 +23255,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Language identifier used for tokenization and editor services.",
           "isBlazoriseEnum": false
         },
         {
@@ -23368,8 +23263,7 @@
           "type": "IReadOnlyList<>",
           "typeName": "IReadOnlyList<CodeEditorLanguageDefinition>",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Custom language definitions registered before editor creation.",
           "isBlazoriseEnum": false
         },
         {
@@ -23377,8 +23271,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether line numbers appear beside source text.",
           "isBlazoriseEnum": false
         },
         {
@@ -23386,8 +23279,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether the source minimap is visible.",
           "isBlazoriseEnum": false
         },
         {
@@ -23395,8 +23287,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether source changes are blocked while navigation remains available.",
           "isBlazoriseEnum": false
         },
         {
@@ -23404,8 +23295,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether spaces and tabs are drawn as visible glyphs.",
           "isBlazoriseEnum": false
         },
         {
@@ -23413,8 +23303,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether scrolling may continue below the final source line.",
           "isBlazoriseEnum": false
         },
         {
@@ -23422,8 +23311,7 @@
           "type": "int?",
           "typeName": "int?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Keyboard navigation order assigned to the editor.",
           "isBlazoriseEnum": false
         },
         {
@@ -23431,8 +23319,7 @@
           "type": "int",
           "typeName": "int",
           "defaultValue": "0",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Number of columns represented by one tab stop.",
           "isBlazoriseEnum": false
         },
         {
@@ -23440,8 +23327,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Color theme applied to the editor surface.",
           "isBlazoriseEnum": false
         },
         {
@@ -23449,8 +23335,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Source text initially displayed by the editor.",
           "isBlazoriseEnum": false
         },
         {
@@ -23458,8 +23343,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether long lines wrap within the viewport.",
           "isBlazoriseEnum": false
         }
       ],
@@ -31940,8 +31824,7 @@
         {
           "name": "GetRowInfo",
           "returnTypeName": "DataGridRowInfo<TItem>",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Returns row info.",
           "parameters": [
             {
               "name": "item",
@@ -32212,7 +32095,7 @@
     {
       "type": "global::Blazorise.DataGrid.DataGridAggregate<>",
       "typeName": "DataGridAggregate",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Supports data grid aggregate behavior in DataGrid components.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Aggregate",
@@ -32392,7 +32275,7 @@
     {
       "type": "global::Blazorise.DataGrid.DataGridCheckColumn<>",
       "typeName": "DataGridCheckColumn",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Provides data grid check column behavior within a DataGrid.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "AggregateCellClass",
@@ -33192,8 +33075,7 @@
         {
           "name": "SetDisplayOrder",
           "returnTypeName": "Task",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Updates display order.",
           "parameters": [
             {
               "name": "displayOrder",
@@ -33221,7 +33103,7 @@
     {
       "type": "global::Blazorise.DataGrid.DataGridColumn<>",
       "typeName": "DataGridColumn",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Provides data grid column behavior within a DataGrid.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "AggregateCellClass",
@@ -34021,8 +33903,7 @@
         {
           "name": "SetDisplayOrder",
           "returnTypeName": "Task",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Updates display order.",
           "parameters": [
             {
               "name": "displayOrder",
@@ -34050,7 +33931,7 @@
     {
       "type": "global::Blazorise.DataGrid.DataGridCommandColumn<>",
       "typeName": "DataGridCommandColumn",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Provides data grid command column behavior within a DataGrid.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "AggregateCellClass",
@@ -34978,8 +34859,7 @@
         {
           "name": "SetDisplayOrder",
           "returnTypeName": "Task",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Updates display order.",
           "parameters": [
             {
               "name": "displayOrder",
@@ -35007,7 +34887,7 @@
     {
       "type": "global::Blazorise.DataGrid.DataGridDateColumn<>",
       "typeName": "DataGridDateColumn",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Provides data grid date column behavior within a DataGrid.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "AggregateCellClass",
@@ -35903,8 +35783,7 @@
         {
           "name": "SetDisplayOrder",
           "returnTypeName": "Task",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Updates display order.",
           "parameters": [
             {
               "name": "displayOrder",
@@ -36814,8 +36693,7 @@
         {
           "name": "SetDisplayOrder",
           "returnTypeName": "Task",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Updates display order.",
           "parameters": [
             {
               "name": "displayOrder",
@@ -37708,8 +37586,7 @@
         {
           "name": "SetDisplayOrder",
           "returnTypeName": "Task",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Updates display order.",
           "parameters": [
             {
               "name": "displayOrder",
@@ -37786,7 +37663,7 @@
     {
       "type": "global::Blazorise.DataGrid.DataGridSelectColumn<>",
       "typeName": "DataGridSelectColumn",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Provides data grid select column behavior within a DataGrid.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "AggregateCellClass",
@@ -38746,8 +38623,7 @@
         {
           "name": "SetDisplayOrder",
           "returnTypeName": "Task",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Updates display order.",
           "parameters": [
             {
               "name": "displayOrder",
@@ -45339,7 +45215,7 @@
     {
       "type": "global::Blazorise.Charts.DoughnutChart<>",
       "typeName": "DoughnutChart",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Renders a doughnut chart.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -45874,7 +45750,7 @@
     {
       "type": "global::Blazorise.Charts.DoughnutChartOptions",
       "typeName": "DoughnutChartOptions",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Configures doughnut chart behavior.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Cutout",
@@ -48900,8 +48776,7 @@
           "type": "ChartColor?",
           "typeName": "ChartColor?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Shadow color visible behind the ellipse fill.",
           "isBlazoriseEnum": false
         },
         {
@@ -48909,8 +48784,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Width of the ellipse outline in pixels.",
           "isBlazoriseEnum": false
         },
         {
@@ -48918,8 +48792,7 @@
           "type": "object",
           "typeName": "object",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Label configuration attached to the ellipse.",
           "isBlazoriseEnum": false
         },
         {
@@ -48927,8 +48800,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Angle used to rotate the ellipse around its center.",
           "isBlazoriseEnum": false
         }
       ],
@@ -64208,7 +64080,7 @@
     {
       "type": "global::Blazorise.Charts.LineChart<>",
       "typeName": "LineChart",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Renders a line chart.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -64750,8 +64622,7 @@
           "type": "int?",
           "typeName": "int?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Thickness of the annotated line in pixels.",
           "isBlazoriseEnum": false
         },
         {
@@ -64759,8 +64630,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Control-point offset used when drawing a curved line.",
           "isBlazoriseEnum": false
         },
         {
@@ -64768,8 +64638,7 @@
           "type": "bool?",
           "typeName": "bool?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Whether the line bends through its configured control point.",
           "isBlazoriseEnum": false
         },
         {
@@ -64777,8 +64646,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Ending coordinate for a line spanning one scale.",
           "isBlazoriseEnum": false
         },
         {
@@ -64786,8 +64654,7 @@
           "type": "global::Blazorise.Charts.Annotation.ChartAnnotationLabelOptions",
           "typeName": "ChartAnnotationLabelOptions",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Text and styling displayed alongside the line.",
           "isBlazoriseEnum": false
         },
         {
@@ -64795,8 +64662,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Scale that interprets <strong>Value</strong> and <strong>EndValue</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -64804,8 +64670,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Starting coordinate for a line bound to one scale.",
           "isBlazoriseEnum": false
         }
       ],
@@ -64815,7 +64680,7 @@
     {
       "type": "global::Blazorise.Charts.LineChartOptions",
       "typeName": "LineChartOptions",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Configures line chart behavior.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "ShowLines",
@@ -69257,8 +69122,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Locale format used for the day of the month.",
           "isBlazoriseEnum": false
         },
         {
@@ -69266,8 +69130,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Locale format used for the calendar era.",
           "isBlazoriseEnum": false
         },
         {
@@ -69275,8 +69138,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Locale format used for the hour.",
           "isBlazoriseEnum": false
         },
         {
@@ -69284,8 +69146,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Locale format used for minutes.",
           "isBlazoriseEnum": false
         },
         {
@@ -69293,8 +69154,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Locale format used for the month.",
           "isBlazoriseEnum": false
         },
         {
@@ -69302,8 +69162,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Locale format used for seconds.",
           "isBlazoriseEnum": false
         },
         {
@@ -69311,8 +69170,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Locale format used for the time-zone label.",
           "isBlazoriseEnum": false
         },
         {
@@ -69320,8 +69178,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Locale format used for the weekday name.",
           "isBlazoriseEnum": false
         },
         {
@@ -69329,8 +69186,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Locale format used for the year.",
           "isBlazoriseEnum": false
         }
       ],
@@ -84747,7 +84603,7 @@
     {
       "type": "global::Blazorise.Charts.PieChart<>",
       "typeName": "PieChart",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Renders a pie chart.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -85282,7 +85138,7 @@
     {
       "type": "global::Blazorise.Charts.PieChartOptions",
       "typeName": "PieChartOptions",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Configures pie chart behavior.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Circumference",
@@ -86517,8 +86373,7 @@
           "type": "ChartColor?",
           "typeName": "ChartColor?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Shadow color cast behind the point marker.",
           "isBlazoriseEnum": false
         },
         {
@@ -86526,8 +86381,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Outline thickness of the point marker.",
           "isBlazoriseEnum": false
         },
         {
@@ -86535,8 +86389,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Canvas marker shape used for the point.",
           "isBlazoriseEnum": false
         },
         {
@@ -86544,8 +86397,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Radius of the point marker in pixels.",
           "isBlazoriseEnum": false
         },
         {
@@ -86553,8 +86405,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Marker rotation around its coordinate.",
           "isBlazoriseEnum": false
         },
         {
@@ -86562,8 +86413,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Horizontal pixel adjustment after scale positioning.",
           "isBlazoriseEnum": false
         },
         {
@@ -86571,8 +86421,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Horizontal data coordinate of the point marker.",
           "isBlazoriseEnum": false
         },
         {
@@ -86580,8 +86429,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Vertical pixel adjustment after scale positioning.",
           "isBlazoriseEnum": false
         },
         {
@@ -86589,8 +86437,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Vertical data coordinate of the point marker.",
           "isBlazoriseEnum": false
         }
       ],
@@ -86600,7 +86447,7 @@
     {
       "type": "global::Blazorise.Charts.PolarAreaChart<>",
       "typeName": "PolarAreaChart",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Renders a polar area chart.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -87135,7 +86982,7 @@
     {
       "type": "global::Blazorise.Charts.PolarAreaChartOptions",
       "typeName": "PolarAreaChartOptions",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Configures polar area chart behavior.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "StartAngle",
@@ -87159,8 +87006,7 @@
           "type": "ChartColor?",
           "typeName": "ChartColor?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Shadow color beneath the polygon interior.",
           "isBlazoriseEnum": false
         },
         {
@@ -87168,8 +87014,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Canvas treatment for exposed border endpoints.",
           "isBlazoriseEnum": false
         },
         {
@@ -87177,8 +87022,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Canvas treatment where polygon edges connect.",
           "isBlazoriseEnum": false
         },
         {
@@ -87186,8 +87030,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Width of the polygon outline in pixels.",
           "isBlazoriseEnum": false
         },
         {
@@ -87195,8 +87038,7 @@
           "type": "object",
           "typeName": "object",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Styling applied to vertices of the polygon.",
           "isBlazoriseEnum": false
         },
         {
@@ -87204,8 +87046,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Distance from the center to each polygon vertex.",
           "isBlazoriseEnum": false
         },
         {
@@ -87213,8 +87054,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Angular offset of the first polygon vertex.",
           "isBlazoriseEnum": false
         },
         {
@@ -87222,8 +87062,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Number of edges used to construct the polygon.",
           "isBlazoriseEnum": false
         },
         {
@@ -87231,8 +87070,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Horizontal pixel shift from the resolved coordinate.",
           "isBlazoriseEnum": false
         },
         {
@@ -87240,8 +87078,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Horizontal data coordinate of the polygon center.",
           "isBlazoriseEnum": false
         },
         {
@@ -87249,8 +87086,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Vertical pixel shift from the resolved coordinate.",
           "isBlazoriseEnum": false
         },
         {
@@ -87258,8 +87094,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Vertical data coordinate of the polygon center.",
           "isBlazoriseEnum": false
         }
       ],
@@ -93248,7 +93083,7 @@
     {
       "type": "global::Blazorise.Charts.RadarChart<>",
       "typeName": "RadarChart",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Renders a radar chart.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -93783,7 +93618,7 @@
     {
       "type": "global::Blazorise.Charts.RadarChartOptions",
       "typeName": "RadarChartOptions",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Configures radar chart behavior.\r\n       \"\"\"",
       "parameters": [],
       "events": [],
       "methods": []
@@ -98966,7 +98801,7 @@
     {
       "type": "global::Blazorise.RichTextEdit.RichTextEdit",
       "typeName": "RichTextEdit",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Edits formatted HTML content through a Quill-powered input surface.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "AriaDescribedBy",
@@ -99834,7 +99669,7 @@
     {
       "type": "global::Blazorise.RichTextEdit.RichTextEditToolbarButton",
       "typeName": "RichTextEditToolbarButton",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Invokes one formatting action from a rich-text toolbar.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Action",
@@ -100101,7 +99936,7 @@
     {
       "type": "global::Blazorise.RichTextEdit.RichTextEditToolbarGroup",
       "typeName": "RichTextEditToolbarGroup",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Arranges related rich-text controls as one toolbar group.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -100360,7 +100195,7 @@
     {
       "type": "global::Blazorise.RichTextEdit.RichTextEditToolbarSelect",
       "typeName": "RichTextEditToolbarSelect",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Offers a choice of values for a rich-text formatting action.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Action",
@@ -100946,7 +100781,7 @@
     {
       "type": "global::Blazorise.Charts.ScatterChartOptions",
       "typeName": "ScatterChartOptions",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Configures scatter chart behavior.\r\n       \"\"\"",
       "parameters": [],
       "events": [],
       "methods": []
@@ -103459,7 +103294,7 @@
     {
       "type": "global::Blazorise.Sidebar.Sidebar",
       "typeName": "Sidebar",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Hosts a collapsible navigation panel with optional generated content.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -103761,7 +103596,7 @@
     {
       "type": "global::Blazorise.Sidebar.SidebarBrand",
       "typeName": "SidebarBrand",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Presents branding content at the top of a sidebar.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -104020,7 +103855,7 @@
     {
       "type": "global::Blazorise.Sidebar.SidebarContent",
       "typeName": "SidebarContent",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Wraps the primary content area adjacent to a sidebar.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -104279,7 +104114,7 @@
     {
       "type": "global::Blazorise.Sidebar.SidebarFooter",
       "typeName": "SidebarFooter",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Anchors supplementary content at the bottom of a sidebar.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -104538,7 +104373,7 @@
     {
       "type": "global::Blazorise.Sidebar.SidebarItem",
       "typeName": "SidebarItem",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Groups a sidebar link with its optional nested navigation items.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -104797,7 +104632,7 @@
     {
       "type": "global::Blazorise.Sidebar.SidebarLabel",
       "typeName": "SidebarLabel",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Displays a non-interactive label within sidebar navigation.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -105056,7 +104891,7 @@
     {
       "type": "global::Blazorise.Sidebar.SidebarLink",
       "typeName": "SidebarLink",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Navigates from a sidebar item and controls an attached submenu when present.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -105380,7 +105215,7 @@
     {
       "type": "global::Blazorise.Sidebar.SidebarNavigation",
       "typeName": "SidebarNavigation",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Provides the navigation list region inside a sidebar.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -105639,7 +105474,7 @@
     {
       "type": "global::Blazorise.Sidebar.SidebarSubItem",
       "typeName": "SidebarSubItem",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Reveals a nested group of links beneath a sidebar item.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -108508,7 +108343,7 @@
     {
       "type": "global::Blazorise.Snackbar.SnackbarAction",
       "typeName": "SnackbarAction",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Renders an interactive command within a snackbar notification.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -108776,7 +108611,7 @@
     {
       "type": "global::Blazorise.Snackbar.SnackbarBody",
       "typeName": "SnackbarBody",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Contains the primary message of a snackbar notification.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -109035,7 +108870,7 @@
     {
       "type": "global::Blazorise.Snackbar.SnackbarFooter",
       "typeName": "SnackbarFooter",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Holds supplementary controls beneath snackbar content.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -109294,7 +109129,7 @@
     {
       "type": "global::Blazorise.Snackbar.SnackbarHeader",
       "typeName": "SnackbarHeader",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Presents title content at the top of a snackbar notification.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",
@@ -109650,7 +109485,7 @@
     {
       "type": "global::Blazorise.Snackbar.SnackbarStack",
       "typeName": "SnackbarStack",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Queues and positions transient snackbar notifications as a stack.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "ActionButtonIcon",
@@ -110940,7 +110775,7 @@
     {
       "type": "global::Blazorise.Splitter.SplitterGutterOptions",
       "typeName": "SplitterGutterOptions",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Visual customization passed to each draggable splitter gutter.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "BackgroundImage",
@@ -141060,7 +140895,7 @@
     {
       "type": "global::Blazorise.TreeView.TreeView<>",
       "typeName": "TreeView",
-      "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Displays hierarchical data with expansion, selection, and drag-and-drop behavior.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "Attributes",

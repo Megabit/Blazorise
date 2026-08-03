@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.RichTextEdit;
 
+/// <summary>
+/// Supplies one selectable value to a rich-text toolbar list.
+/// </summary>
 public partial class RichTextEditToolbarSelectItem
 {
     #region Properties

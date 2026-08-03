@@ -13,6 +13,9 @@ public class SvgRadarChart<TItem> : SvgChart<TItem>
 {
     #region Constructors
 
+    /// <summary>
+    /// Creates a radial chart comparing values across shared axes.
+    /// </summary>
     public SvgRadarChart()
     {
         Type = SvgChartType.Radar;

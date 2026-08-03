@@ -382,6 +382,7 @@ public partial class _ReportDesignerFormulaDialog
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         title = string.IsNullOrWhiteSpace( InitialPropertyName )

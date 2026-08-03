@@ -13,6 +13,9 @@ public class SvgAreaChart<TItem> : SvgChart<TItem>
 {
     #region Constructors
 
+    /// <summary>
+    /// Creates a Cartesian chart with filled areas beneath line series.
+    /// </summary>
     public SvgAreaChart()
     {
         Type = SvgChartType.Area;

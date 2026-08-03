@@ -6,8 +6,12 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid.Internal;
 
+/// <summary>
+/// Supports data grid cancel batch command behavior in DataGrid components.
+/// </summary>
 public partial class _DataGridCancelBatchCommand<TItem> : ComponentBase, IDisposable
 {
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         LocalizerService.LocalizationChanged += OnLocalizationChanged;
@@ -15,6 +19,9 @@ public partial class _DataGridCancelBatchCommand<TItem> : ComponentBase, IDispos
         base.OnInitialized();
     }
 
+    /// <summary>
+    /// Releases resources held by the data grid cancel batch command.
+    /// </summary>
     public void Dispose()
     {
         LocalizerService.LocalizationChanged -= OnLocalizationChanged;
@@ -25,8 +32,14 @@ public partial class _DataGridCancelBatchCommand<TItem> : ComponentBase, IDispos
         await InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Supplies localized text for the cancel-batch command.
+    /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
+    /// <summary>
+    /// Provides translated labels for the cancel-batch action.
+    /// </summary>
     [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
 
     /// <summary>

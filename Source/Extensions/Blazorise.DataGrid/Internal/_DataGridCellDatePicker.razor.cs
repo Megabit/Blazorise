@@ -16,6 +16,9 @@ public partial class _DataGridCellDatePicker<TItem> : ComponentBase
 {
     #region Members
 
+    /// <summary>
+    /// Element Id identifying content in the data grid cell date picker.
+    /// </summary>
     protected string elementId;
 
     /// <summary>
@@ -45,9 +48,13 @@ public partial class _DataGridCellDatePicker<TItem> : ComponentBase
         base.OnInitialized();
     }
 
+    /// <summary>
+    /// Handles cell value changed.
+    /// </summary>
     public Task OnCellValueChanged<TValue>( TValue value )
         => CellValueChanged.InvokeAsync( value );
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( ParentDataGrid.IsCellEdit && Column.CellEditing )
@@ -63,6 +70,9 @@ public partial class _DataGridCellDatePicker<TItem> : ComponentBase
         await base.OnAfterRenderAsync( firstRender );
     }
 
+    /// <summary>
+    /// Moves keyboard focus to the cell editor.
+    /// </summary>
     public async Task Focus()
     {
         await JSUtilitiesModule.Focus( default, elementId, true );
@@ -146,8 +156,14 @@ public partial class _DataGridCellDatePicker<TItem> : ComponentBase
         builder.CloseComponent();
     };
 
+    /// <summary>
+    /// Parent Data Grid identifying content in the data grid cell date picker.
+    /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
+    /// <summary>
+    /// Creates the DOM identifier used by the date editor.
+    /// </summary>
     [Inject] public IIdGenerator IdGenerator { get; set; }
     /// <summary>
     /// Specifies the <see cref="IJSUtilitiesModule"/> instance.

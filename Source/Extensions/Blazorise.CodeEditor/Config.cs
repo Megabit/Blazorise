@@ -6,6 +6,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Blazorise.CodeEditor;
 
+/// <summary>
+/// Registers Monaco code-editor services and extension defaults.
+/// </summary>
 public static class Config
 {
     /// <summary>

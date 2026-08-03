@@ -18,6 +18,7 @@ public partial class ReportDetail
 {
     #region Properties
 
+    /// <inheritdoc />
     protected override ReportBandType SectionType => ReportBandType.Detail;
 
     #endregion

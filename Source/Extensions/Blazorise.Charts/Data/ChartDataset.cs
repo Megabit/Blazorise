@@ -10,8 +10,14 @@ namespace Blazorise.Charts;
 /// </summary>
 public class ChartDataset<T>
 {
+    /// <summary>
+    /// Creates a chart dataset.
+    /// </summary>
     public ChartDataset() { }
 
+    /// <summary>
+    /// Creates a chart dataset.
+    /// </summary>
     protected ChartDataset(
         string label,
         List<string> backgroundColor,
@@ -25,6 +31,9 @@ public class ChartDataset<T>
         BorderWidth = borderWidth;
     }
 
+    /// <summary>
+    /// Creates a chart dataset.
+    /// </summary>
     protected ChartDataset(
         string label,
         IndexableOption<object> backgroundColor,

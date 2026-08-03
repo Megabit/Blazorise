@@ -30,12 +30,14 @@ public class SvgChartLegend : SvgChartComponentBase
         return base.SetParametersAsync( parameters );
     }
 
+    /// <inheritdoc />
     protected override void Register()
     {
         Parent?.RegisterLegend( this );
         SetRegisteredParent();
     }
 
+    /// <inheritdoc />
     protected override void Unregister()
     {
         RegisteredParent?.UnregisterLegend( this );

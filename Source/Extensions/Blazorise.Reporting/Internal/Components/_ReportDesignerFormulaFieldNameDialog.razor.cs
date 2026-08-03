@@ -58,6 +58,7 @@ public partial class _ReportDesignerFormulaFieldNameDialog
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         name = InitialValue;
@@ -72,8 +73,14 @@ public partial class _ReportDesignerFormulaFieldNameDialog
 
     private string Title => title ?? "New Formula Field";
 
+    /// <summary>
+    /// Formula field name loaded into the dialog.
+    /// </summary>
     [Parameter] public string InitialValue { get; set; }
 
+    /// <summary>
+    /// Optional title shown above the editor.
+    /// </summary>
     [Parameter] public string InitialTitle { get; set; }
 
     /// <summary>

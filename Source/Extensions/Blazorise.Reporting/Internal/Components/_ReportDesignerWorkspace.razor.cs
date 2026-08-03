@@ -76,6 +76,9 @@ public partial class _ReportDesignerWorkspace
 
     #region Properties
 
+    /// <summary>
+    /// Designer hosted in the workspace.
+    /// </summary>
     [Parameter, EditorRequired] public _ReportDesigner Designer { get; set; }
 
     #endregion

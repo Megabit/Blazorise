@@ -69,6 +69,7 @@ public partial class Snackbar : BaseComponent, IDisposable
 
     #region Methods
 
+    /// <inheritdoc />
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "snackbar" );
@@ -81,6 +82,7 @@ public partial class Snackbar : BaseComponent, IDisposable
         base.BuildClasses( builder );
     }
 
+    /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
         var baseAnimationDuration = AnimationDuration;
@@ -103,6 +105,7 @@ public partial class Snackbar : BaseComponent, IDisposable
         base.BuildStyles( builder );
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         if ( countdownTimer == null )
@@ -131,6 +134,9 @@ public partial class Snackbar : BaseComponent, IDisposable
         base.Dispose( disposing );
     }
 
+    /// <summary>
+    /// Handles direct clicks according to the configured close delay.
+    /// </summary>
     protected async Task OnClickHandler()
     {
         if ( DelayCloseOnClick && !closingDelayed )
@@ -167,6 +173,9 @@ public partial class Snackbar : BaseComponent, IDisposable
         return Hide( SnackbarCloseReason.UserClosed );
     }
 
+    /// <summary>
+    /// Runs the closing animation and reports why the snackbar was dismissed.
+    /// </summary>
     protected async Task Hide( SnackbarCloseReason closeReason )
     {
         closingAnimation = true;
@@ -246,6 +255,9 @@ public partial class Snackbar : BaseComponent, IDisposable
 
     #region Properties
 
+    /// <summary>
+    /// Whether any action components are registered with this snackbar.
+    /// </summary>
     protected bool HasSnackbarActions => snackbarActions.Count > 0;
 
     /// <summary>

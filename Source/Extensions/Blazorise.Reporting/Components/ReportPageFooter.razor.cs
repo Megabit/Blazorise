@@ -18,6 +18,7 @@ public partial class ReportPageFooter
 {
     #region Properties
 
+    /// <inheritdoc />
     protected override ReportBandType SectionType => ReportBandType.PageFooter;
 
     #endregion

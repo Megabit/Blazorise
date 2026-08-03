@@ -13,6 +13,9 @@ public class SvgColumnChart<TItem> : SvgChart<TItem>
 {
     #region Constructors
 
+    /// <summary>
+    /// Creates a Cartesian chart with vertical value columns.
+    /// </summary>
     public SvgColumnChart()
     {
         Type = SvgChartType.Column;

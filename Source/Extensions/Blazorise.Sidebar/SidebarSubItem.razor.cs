@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Sidebar;
 
+/// <summary>
+/// Reveals a nested group of links beneath a sidebar item.
+/// </summary>
 public partial class SidebarSubItem : BaseComponent
 {
     #region Members
@@ -62,6 +65,9 @@ public partial class SidebarSubItem : BaseComponent
         }
     }
 
+    /// <summary>
+    /// Item whose link toggles this nested group.
+    /// </summary>
     [CascadingParameter] public SidebarItem ParentSidebarItem { get; set; }
 
     /// <summary>

@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Sidebar;
 
+/// <summary>
+/// Navigates from a sidebar item and controls an attached submenu when present.
+/// </summary>
 public partial class SidebarLink : BaseComponent
 {
     #region Members
@@ -58,10 +61,19 @@ public partial class SidebarLink : BaseComponent
 
     #region Properties
 
+    /// <summary>
+    /// Whether this link controls a nested sidebar item.
+    /// </summary>
     protected bool Collapsable => ParentSidebarItem?.HasSubItem == true;
 
+    /// <summary>
+    /// Browser data attribute used to activate submenu collapsing.
+    /// </summary>
     protected string DataToggle => Collapsable ? "sidebar-collapse" : null;
 
+    /// <summary>
+    /// Accessible expansion state exposed for collapsible links.
+    /// </summary>
     protected string AriaExpanded => Collapsable ? Visible.ToString().ToLowerInvariant() : null;
 
     /// <summary>
@@ -134,6 +146,9 @@ public partial class SidebarLink : BaseComponent
     /// </summary>
     [Parameter] public EventCallback<bool> Toggled { get; set; }
 
+    /// <summary>
+    /// Item that supplies this link's submenu relationship.
+    /// </summary>
     [CascadingParameter] public SidebarItem ParentSidebarItem { get; set; }
 
     /// <summary>

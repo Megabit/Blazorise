@@ -20,5 +20,8 @@ public class DataGridBatchSavingEventArgs<TItem> : CancelEventArgs
         Items = batchEditItems;
     }
 
+    /// <summary>
+    /// Pending item changes included in the save operation.
+    /// </summary>
     public IReadOnlyList<DataGridBatchEditItem<TItem>> Items { get; private set; }
 }

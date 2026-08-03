@@ -25,6 +25,9 @@ public partial class OneTimeInput : BaseInputComponent<string, OneTimeInputClass
 
     private readonly List<SlotGroup> slotGroups = new();
 
+    /// <summary>
+    /// Tracks whether the input pattern was explicitly supplied.
+    /// </summary>
     protected ComponentParameterInfo<string> paramPattern;
 
     #endregion
@@ -448,20 +451,44 @@ public partial class OneTimeInput : BaseInputComponent<string, OneTimeInputClass
     /// </summary>
     protected ClassBuilder SeparatorClassBuilder { get; private set; }
 
+    /// <summary>
+    /// Contiguous slot ranges separated by visual delimiters.
+    /// </summary>
     protected IReadOnlyList<SlotGroup> SlotGroups => slotGroups;
 
+    /// <summary>
+    /// Computed classes for each grouped slot container.
+    /// </summary>
     protected string GroupClassNames => GroupClassBuilder.Class;
 
+    /// <summary>
+    /// Custom styles applied to grouped slot containers.
+    /// </summary>
     protected string GroupStyleNames => Styles?.Group;
 
+    /// <summary>
+    /// Computed classes for individual character slots.
+    /// </summary>
     protected string SlotClassNames => SlotClassBuilder.Class;
 
+    /// <summary>
+    /// Custom styles applied to individual character slots.
+    /// </summary>
     protected string SlotStyleNames => Styles?.Slot;
 
+    /// <summary>
+    /// Computed classes for separators between slot groups.
+    /// </summary>
     protected string SeparatorClassNames => SeparatorClassBuilder.Class;
 
+    /// <summary>
+    /// Custom styles applied to slot-group separators.
+    /// </summary>
     protected string SeparatorStyleNames => Styles?.Separator;
 
+    /// <summary>
+    /// Attributes rendered on the input's outer container.
+    /// </summary>
     protected Dictionary<string, object> ContainerAttributes => BuildContainerAttributes();
 
     /// <inheritdoc />
@@ -496,6 +523,9 @@ public partial class OneTimeInput : BaseInputComponent<string, OneTimeInputClass
 
     #region Data Types
 
+    /// <summary>
+    /// Locates one uninterrupted run of input slots.
+    /// </summary>
     protected readonly record struct SlotGroup( int StartIndex, int Length );
 
     #endregion

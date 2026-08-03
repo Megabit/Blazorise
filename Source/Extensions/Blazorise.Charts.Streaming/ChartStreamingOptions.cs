@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts.Streaming;
 
+/// <summary>
+/// Timing and rendering preferences for a realtime Chart.js axis.
+/// </summary>
 public class ChartStreamingOptions
 {
     /// <summary>

@@ -44,6 +44,9 @@ public class RouterTabsService
 
     #region Constructors
 
+    /// <summary>
+    /// Creates route-aware tab state backed by Blazor navigation.
+    /// </summary>
     public RouterTabsService( NavigationManager navigationManager, RouterTabsOptions options )
     {
         this.navigationManager = navigationManager;

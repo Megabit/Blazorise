@@ -27,12 +27,14 @@ public class SvgChartTitle : SvgChartComponentBase
         return base.SetParametersAsync( parameters );
     }
 
+    /// <inheritdoc />
     protected override void Register()
     {
         Parent?.RegisterTitle( this );
         SetRegisteredParent();
     }
 
+    /// <inheritdoc />
     protected override void Unregister()
     {
         RegisteredParent?.UnregisterTitle( this );

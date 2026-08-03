@@ -9,15 +9,24 @@ using Blazorise.Utilities;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Stores an RGBA color used by chart datasets and options.
+/// </summary>
 public struct ChartColor
 {
     #region Constructors
 
+    /// <summary>
+    /// Creates a chart color instance.
+    /// </summary>
     public ChartColor( byte red, byte green, byte blue )
         : this( red, green, blue, 1f )
     {
     }
 
+    /// <summary>
+    /// Creates a chart color instance.
+    /// </summary>
     public ChartColor( byte red, byte green, byte blue, float alpha )
     {
         R = red;
@@ -26,11 +35,17 @@ public struct ChartColor
         A = alpha;
     }
 
+    /// <summary>
+    /// Creates a chart color instance.
+    /// </summary>
     public ChartColor( float red, float green, float blue )
         : this( red, green, blue, 1f )
     {
     }
 
+    /// <summary>
+    /// Creates a chart color instance.
+    /// </summary>
     public ChartColor( float red, float green, float blue, float alpha )
     {
         R = (byte)( red * 255 );

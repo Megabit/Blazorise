@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Sidebar;
 
+/// <summary>
+/// Hosts a collapsible navigation panel with optional generated content.
+/// </summary>
 public partial class Sidebar : BaseComponent
 {
     #region Members

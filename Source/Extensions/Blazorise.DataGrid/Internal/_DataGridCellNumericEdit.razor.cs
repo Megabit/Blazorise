@@ -15,6 +15,9 @@ public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
 {
     #region Members
 
+    /// <summary>
+    /// Element Id identifying content in the data grid cell numeric edit.
+    /// </summary>
     protected string elementId;
 
     /// <summary>
@@ -34,9 +37,13 @@ public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
         base.OnInitialized();
     }
 
+    /// <summary>
+    /// Handles cell value changed.
+    /// </summary>
     public Task OnCellValueChanged<TValue>( TValue value )
         => CellValueChanged.InvokeAsync( value );
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( ParentDataGrid.IsCellEdit && Column.CellEditing )
@@ -69,11 +76,17 @@ public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
         await base.OnAfterRenderAsync( firstRender );
     }
 
+    /// <summary>
+    /// Moves keyboard focus to the cell editor.
+    /// </summary>
     public async Task Focus()
     {
         await JSUtilitiesModule.Focus( default, elementId, true );
     }
 
+    /// <summary>
+    /// Selects the cell editor contents.
+    /// </summary>
     public async Task Select()
     {
         await JSUtilitiesModule.Select( default, elementId, true );
@@ -146,8 +159,14 @@ public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
         builder.CloseComponent();
     };
 
+    /// <summary>
+    /// Parent Data Grid identifying content in the data grid cell numeric edit.
+    /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
+    /// <summary>
+    /// Creates the DOM identifier used by the numeric editor.
+    /// </summary>
     [Inject] public IIdGenerator IdGenerator { get; set; }
     /// <summary>
     /// Specifies the <see cref="IJSUtilitiesModule"/> instance.

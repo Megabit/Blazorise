@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid.Internal;
 
+/// <summary>
+/// Supports base data grid multi select all behavior in DataGrid components.
+/// </summary>
 public abstract class _BaseDataGridMultiSelectAll<TItem> : ComponentBase
 {
     #region Methods
@@ -25,8 +28,14 @@ public abstract class _BaseDataGridMultiSelectAll<TItem> : ComponentBase
     /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
+    /// <summary>
+    /// Shows a mixed state when only some rows are selected.
+    /// </summary>
     [Parameter] public bool IsIndeterminate { get; set; }
 
+    /// <summary>
+    /// Indicates whether all eligible rows are selected.
+    /// </summary>
     [Parameter] public bool IsChecked { get; set; }
 
     #endregion

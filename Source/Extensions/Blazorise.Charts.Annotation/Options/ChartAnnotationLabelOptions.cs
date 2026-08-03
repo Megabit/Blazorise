@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts.Annotation;
 
+/// <summary>
+/// Presentation and positioning settings for text attached to an annotation.
+/// </summary>
 public class ChartAnnotationLabelOptions
 {
     /// <summary>
@@ -13,33 +16,54 @@ public class ChartAnnotationLabelOptions
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public bool? AdjustScaleRange { get; set; }
 
+    /// <summary>
+    /// Fill painted behind the label content.
+    /// </summary>
     [JsonPropertyName( "backgroundColor" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     [JsonConverter( typeof( ChartColorConverter ) )]
     public ChartColor? BackgroundColor { get; set; }
 
+    /// <summary>
+    /// Stroke color around the label boundary.
+    /// </summary>
     [JsonPropertyName( "borderColor" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     [JsonConverter( typeof( ChartColorConverter ) )]
     public ChartColor? BorderColor { get; set; }
 
+    /// <summary>
+    /// Dash and gap lengths used for the label outline.
+    /// </summary>
     [JsonPropertyName( "borderDash" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double?[] BorderDash { get; set; }
 
+    /// <summary>
+    /// Offset into the outline's dash sequence.
+    /// </summary>
     [JsonPropertyName( "borderDashOffset" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? BorderDashOffset { get; set; }
 
+    /// <summary>
+    /// Color of the shadow behind the label background.
+    /// </summary>
     [JsonPropertyName( "backgroundShadowColor" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     [JsonConverter( typeof( ChartColorConverter ) )]
     public ChartColor? BackgroundShadowColor { get; set; }
 
+    /// <summary>
+    /// Canvas cap style for open label border paths.
+    /// </summary>
     [JsonPropertyName( "borderCapStyle" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string BorderCapStyle { get; set; }
 
+    /// <summary>
+    /// Canvas join style at label border corners.
+    /// </summary>
     [JsonPropertyName( "borderJoinStyle" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string BorderJoinStyle { get; set; }
@@ -51,19 +75,31 @@ public class ChartAnnotationLabelOptions
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public object BorderRadius { get; set; }
 
+    /// <summary>
+    /// Thickness of the label outline in pixels.
+    /// </summary>
     [JsonPropertyName( "borderWidth" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? BorderWidth { get; set; }
 
+    /// <summary>
+    /// Connector-line settings between the label and its annotation.
+    /// </summary>
     [JsonPropertyName( "callout" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public object Callout { get; set; }
 
+    /// <summary>
+    /// Foreground color of the label text.
+    /// </summary>
     [JsonPropertyName( "color" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     [JsonConverter( typeof( ChartColorConverter ) )]
     public ChartColor? Color { get; set; }
 
+    /// <summary>
+    /// One or more text values rendered inside the label.
+    /// </summary>
     [JsonPropertyName( "content" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     [JsonConverter( typeof( IndexableOptionsConverter<string> ) )]
@@ -83,15 +119,24 @@ public class ChartAnnotationLabelOptions
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string DrawTime { get; set; }
 
+    /// <summary>
+    /// Typography for each line of label content.
+    /// </summary>
     [JsonPropertyName( "font" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     [JsonConverter( typeof( IndexableOptionsConverter<ChartFont> ) )]
     public IndexableOption<ChartFont> Font { get; set; }
 
+    /// <summary>
+    /// Explicit label height expressed as a CSS-compatible value.
+    /// </summary>
     [JsonPropertyName( "height" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string Height { get; set; }
 
+    /// <summary>
+    /// Whether the label participates in initial annotation animation.
+    /// </summary>
     [JsonPropertyName( "init" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public bool? Init { get; set; }
@@ -103,10 +148,16 @@ public class ChartAnnotationLabelOptions
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string Id { get; set; }
 
+    /// <summary>
+    /// Alpha applied to the entire label.
+    /// </summary>
     [JsonPropertyName( "opacity" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? Opacity { get; set; }
 
+    /// <summary>
+    /// Interior spacing around the label content.
+    /// </summary>
     [JsonPropertyName( "padding" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public ChartPadding Padding { get; set; }
@@ -130,79 +181,136 @@ public class ChartAnnotationLabelOptions
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public object Position { get; set; }
 
+    /// <summary>
+    /// Clockwise rotation of label content in degrees.
+    /// </summary>
     [JsonPropertyName( "rotation" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? Rotation { get; set; }
 
+    /// <summary>
+    /// Blur radius of the label shadow.
+    /// </summary>
     [JsonPropertyName( "shadowBlur" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? ShadowBlur { get; set; }
 
+    /// <summary>
+    /// Horizontal distance between the label and its shadow.
+    /// </summary>
     [JsonPropertyName( "shadowOffsetX" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? ShadowOffsetX { get; set; }
 
+    /// <summary>
+    /// Vertical distance between the label and its shadow.
+    /// </summary>
     [JsonPropertyName( "shadowOffsetY" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? ShadowOffsetY { get; set; }
 
+    /// <summary>
+    /// Maximum horizontal coordinate used when the label owns its bounds.
+    /// </summary>
     [JsonPropertyName( "xMax" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? XMax { get; set; }
 
+    /// <summary>
+    /// Minimum horizontal coordinate used when the label owns its bounds.
+    /// </summary>
     [JsonPropertyName( "xMin" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? XMin { get; set; }
 
+    /// <summary>
+    /// Horizontal scale used to interpret label coordinates.
+    /// </summary>
     [JsonPropertyName( "xScaleID" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string XScaleID { get; set; }
 
+    /// <summary>
+    /// Maximum vertical coordinate used when the label owns its bounds.
+    /// </summary>
     [JsonPropertyName( "yMax" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? YMax { get; set; }
 
+    /// <summary>
+    /// Minimum vertical coordinate used when the label owns its bounds.
+    /// </summary>
     [JsonPropertyName( "yMin" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? YMin { get; set; }
 
+    /// <summary>
+    /// Vertical scale used to interpret label coordinates.
+    /// </summary>
     [JsonPropertyName( "yScaleID" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string YScaleID { get; set; }
 
+    /// <summary>
+    /// Stacking order among overlapping chart elements.
+    /// </summary>
     [JsonPropertyName( "z" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? Z { get; set; }
 
+    /// <summary>
+    /// Horizontal alignment of multiline text within the label.
+    /// </summary>
     [JsonPropertyName( "textAlign" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string TextAlign { get; set; }
 
+    /// <summary>
+    /// Color used to outline text glyphs.
+    /// </summary>
     [JsonPropertyName( "textStrokeColor" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     [JsonConverter( typeof( ChartColorConverter ) )]
     public ChartColor? TextStrokeColor { get; set; }
 
+    /// <summary>
+    /// Width of the text glyph outline in pixels.
+    /// </summary>
     [JsonPropertyName( "textStrokeWidth" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? TextStrokeWidth { get; set; }
 
+    /// <summary>
+    /// Explicit label width expressed as a CSS-compatible value.
+    /// </summary>
     [JsonPropertyName( "width" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string Width { get; set; }
 
+    /// <summary>
+    /// Final horizontal pixel adjustment after positioning.
+    /// </summary>
     [JsonPropertyName( "xAdjust" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? XAdjust { get; set; }
 
+    /// <summary>
+    /// Horizontal data value used to place the label.
+    /// </summary>
     [JsonPropertyName( "xValue" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string XValue { get; set; }
 
+    /// <summary>
+    /// Final vertical pixel adjustment after positioning.
+    /// </summary>
     [JsonPropertyName( "yAdjust" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? YAdjust { get; set; }
 
+    /// <summary>
+    /// Vertical data value used to place the label.
+    /// </summary>
     [JsonPropertyName( "yValue" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string YValue { get; set; }

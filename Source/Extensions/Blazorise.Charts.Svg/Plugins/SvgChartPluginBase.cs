@@ -11,12 +11,14 @@ public abstract class SvgChartPluginBase : SvgChartComponentBase, ISvgChartPlugi
 {
     #region Methods
 
+    /// <inheritdoc />
     protected override void Register()
     {
         Parent?.RegisterPlugin( this );
         SetRegisteredParent();
     }
 
+    /// <inheritdoc />
     protected override void Unregister()
     {
         RegisteredParent?.UnregisterPlugin( this );

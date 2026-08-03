@@ -11,27 +11,49 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.DataGrid.Internal;
 
+/// <summary>
+/// Supports base data grid row edit rendering and interaction in a DataGrid.
+/// </summary>
 public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
 {
     #region Members
 
+    /// <summary>
+    /// Creates the edit model used by the base data grid row edit.
+    /// </summary>
     protected EventCallbackFactory callbackFactory = new();
 
+    /// <summary>
+    /// Validation component for the inline edit row.
+    /// </summary>
     protected Validations validations;
 
+    /// <summary>
+    /// Indicates whether the base data grid row edit is invalid.
+    /// </summary>
     protected bool isInvalid;
 
+    /// <summary>
+    /// Callback invoked for member.
+    /// </summary>
     protected EventCallback Cancel
         => EventCallback.Factory.Create( this, ParentDataGrid.CancelInternal );
 
+    /// <summary>
+    /// Default flex behavior for command-cell content.
+    /// </summary>
     protected static readonly IFluentFlex DefaultFlex = Constants.FlexInlineFlex;
 
+    /// <summary>
+    /// Default spacing between command-cell controls.
+    /// </summary>
     protected static readonly IFluentGap DefaultGap = Constants.GapIs2;
 
     #endregion
 
     #region Methods
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         LocalizerService.LocalizationChanged += OnLocalizationChanged;
@@ -39,6 +61,9 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         base.OnInitialized();
     }
 
+    /// <summary>
+    /// Releases resources held by the base data grid row edit.
+    /// </summary>
     public void Dispose()
     {
         LocalizerService.LocalizationChanged -= OnLocalizationChanged;
@@ -49,6 +74,9 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         await InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Responds to validation status changes in the edit form.
+    /// </summary>
     protected void ValidationsStatusChanged( ValidationsStatusChangedEventArgs args )
     {
         isInvalid = args.Status == ValidationStatus.Error;
@@ -56,31 +84,49 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Validates every field in the inline edit row.
+    /// </summary>
     internal protected Task<bool> ValidateAll()
     {
         return validations.ValidateAll();
     }
 
+    /// <summary>
+    /// Submits the current inline row edits.
+    /// </summary>
     internal protected async Task Save()
     {
         await ParentDataGrid.SaveInternal();
     }
 
+    /// <summary>
+    /// Controls member behavior for the base data grid row edit.
+    /// </summary>
     protected bool CanSaveFromOnScreenKeyboard
         => ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.SaveCommandAllowed )
             && ParentDataGrid.SubmitFormOnEnter
             && !ParentDataGrid.IsCellEdit;
 
+    /// <summary>
+    /// Overrides Enter-key behavior while an on-screen keyboard is active.
+    /// </summary>
     protected OnScreenKeyboardEnterKeyBehavior? DataGridOnScreenKeyboardEnterKeyBehaviorOverride
         => ParentDataGrid.IsCellEdit
             ? OnScreenKeyboardEnterKeyBehavior.KeyDown
             : CascadedOnScreenKeyboardEnterKeyBehaviorOverride;
 
+    /// <summary>
+    /// Handles cell click.
+    /// </summary>
     protected async Task HandleCellClick( DataGridColumn<TItem> column )
     {
         await ParentDataGrid.HandleCellEdit( column, Item );
     }
 
+    /// <summary>
+    /// Handles cell key down.
+    /// </summary>
     protected async Task HandleCellKeyDown( KeyboardEventArgs args, DataGridColumn<TItem> column )
     {
         var isCellEdit = ParentDataGrid.IsCellEdit && column.CellEditing;
@@ -219,6 +265,9 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
             : ParentDataGrid.DisplayData.ElementAtOrDefault( currentEditRowIdx + rowOffset );
     }
 
+    /// <summary>
+    /// Builds cell display context for the current row.
+    /// </summary>
     protected CellDisplayContext<TItem> BuildCellDisplayContext( DataGridColumn<TItem> column, TItem item, object cellValue = null )
     {
         object resolvedValue = cellValue ?? column.GetValue( item );
@@ -233,16 +282,34 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
 
     #region Properties
 
+    /// <summary>
+    /// Supplies localized text for inline edit commands.
+    /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
+    /// <summary>
+    /// Supplies translated labels for inline editing controls.
+    /// </summary>
     [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
 
+    /// <summary>
+    /// Identifies the item being edited inline.
+    /// </summary>
     [Parameter] public TItem Item { get; set; }
 
+    /// <summary>
+    /// Holds the model used to validate inline changes.
+    /// </summary>
     [Parameter] public TItem ValidationItem { get; set; }
 
+    /// <summary>
+    /// Provides the columns participating in inline editing.
+    /// </summary>
     [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
 
+    /// <summary>
+    /// Orders the columns eligible for inline editing.
+    /// </summary>
     protected IEnumerable<DataGridColumn<TItem>> OrderedEditableColumns
     {
         get
@@ -253,6 +320,9 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         }
     }
 
+    /// <summary>
+    /// Editable columns arranged in their display order.
+    /// </summary>
     protected IEnumerable<DataGridColumn<TItem>> OrderedColumnsForEditing
     {
         get
@@ -263,6 +333,9 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         }
     }
 
+    /// <summary>
+    /// Columns currently visible in the edit row.
+    /// </summary>
     protected IEnumerable<DataGridColumn<TItem>> DisplayableColumns
     {
         get
@@ -273,8 +346,14 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         }
     }
 
+    /// <summary>
+    /// Editable values keyed by column field name.
+    /// </summary>
     [Parameter] public Dictionary<string, CellEditContext<TItem>> CellValues { get; set; }
 
+    /// <summary>
+    /// Selects the editing layout used for the row.
+    /// </summary>
     [Parameter] public DataGridEditMode EditMode { get; set; }
 
     /// <summary>
@@ -282,6 +361,9 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
     /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
+    /// <summary>
+    /// Carries the surrounding Enter-key behavior into the inline editor.
+    /// </summary>
     [CascadingParameter( Name = "OnScreenKeyboardEnterKeyBehaviorOverride" )] protected OnScreenKeyboardEnterKeyBehavior? CascadedOnScreenKeyboardEnterKeyBehaviorOverride { get; set; }
 
     #endregion

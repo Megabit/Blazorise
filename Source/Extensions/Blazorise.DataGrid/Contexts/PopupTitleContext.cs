@@ -1,7 +1,13 @@
 ﻿namespace Blazorise.DataGrid;
 
+/// <summary>
+/// Carries popup title state and callbacks.
+/// </summary>
 public class PopupTitleContext<TItem>
 {
+    /// <summary>
+    /// Creates a popup title context instance.
+    /// </summary>
     public PopupTitleContext( TItem item, DataGridEditState editState, string localizationString )
     {
         Item = item;
