@@ -77,97 +77,80 @@
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
-    Declarative reports
+    Examples
 </DocsPageSubtitle>
 
-<DocsPageParagraph>
-    The easiest way to begin is to describe the report in Razor. A <Code Tag>ReportPage</Code> contains ordered bands such as <Code Tag>ReportHeader</Code>, <Code Tag>ReportDetail</Code>, and <Code Tag>ReportFooter</Code>. Elements such as <Code Tag>ReportText</Code> are positioned inside those bands.
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    This first report contains one page, one report header, and two text elements. No data source, designer, persistence code, or explicit definition is required.
-</DocsPageParagraph>
-
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Basic report">
-        Declare the report structure directly with Reporting components.
+    <DocsPageSectionHeader Title="Declarative report">
+        <Paragraph>
+            The easiest way to begin is to describe the report in Razor. A <Code Tag>ReportPage</Code> contains ordered bands such as <Code Tag>ReportHeader</Code>, <Code Tag>ReportDetail</Code>, and <Code Tag>ReportFooter</Code>. Elements such as <Code Tag>ReportText</Code> are positioned inside those bands.
+        </Paragraph>
+        <Paragraph>
+            This first report contains one page, one report header, and two text elements. No data source, designer, persistence code, or explicit definition is required.
+        </Paragraph>
+        <Paragraph>
+            During initialization, the declarative components are converted into a <Code Tag>ReportDefinition</Code>. With the default <Code>ReportDefinitionMode.SeedWhenEmpty</Code>, that generated definition becomes the initial report whenever no saved <Code>Definition</Code> is supplied.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="ReportingSimpleDeclarativeExample" Outlined FullWidth>
         <ReportingSimpleDeclarativeExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageParagraph>
-    During initialization, the declarative components are converted into a <Code Tag>ReportDefinition</Code>. With the default <Code>ReportDefinitionMode.SeedWhenEmpty</Code>, that generated definition becomes the initial report whenever no saved <Code>Definition</Code> is supplied.
-</DocsPageParagraph>
-
-<DocsPageSubtitle>
-    Application data
-</DocsPageSubtitle>
-
-<DocsPageParagraph>
-    Add <Code Tag>ReportDataSources</Code> when the report needs named data sources that are visible to the designer. An object data source exposes the object's scalar properties, nested objects, and collections as report fields.
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    A detail band repeats when its <Code>DataSource</Code> resolves to a collection. Fields inside that band are evaluated against the current collection item, while fields in report-level bands can use paths from the root data source.
-</DocsPageParagraph>
-
 <DocsPageSection>
     <DocsPageSectionHeader Title="Data binding">
-        This invoice adds an object data source, a repeating detail band, formatted fields, and report headers and footers while keeping the report template declarative.
+        <Paragraph>
+            Add <Code Tag>ReportDataSources</Code> when the report needs named data sources that are visible to the designer. An object data source exposes the object's scalar properties, nested objects, and collections as report fields.
+        </Paragraph>
+        <Paragraph>
+            A detail band repeats when its <Code>DataSource</Code> resolves to a collection. Fields inside that band are evaluated against the current collection item, while fields in report-level bands can use paths from the root data source.
+        </Paragraph>
+        <Paragraph>
+            This invoice adds an object data source, a repeating detail band, formatted fields, and report headers and footers while keeping the report template declarative.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="ReportingBasicInvoiceExample" Outlined FullWidth>
         <ReportingBasicInvoiceExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
-    Design preview
-</DocsPageSubtitle>
-
-<DocsPageParagraph>
-    Set <Code>Editable</Code> when users should be able to move elements, edit properties, add pages or bands, connect data-source metadata, and switch between design and preview. Without it, the report opens as a viewer.
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    The designer does not maintain a separate visual-only template. Its commands update the current <Code Tag>ReportDefinition</Code>, and preview renders the updated definition. Bind <Code>Definition</Code> when the application needs to observe those changes.
-</DocsPageParagraph>
-
-<DocsPageSubtitle>
-    Persistence
-</DocsPageSubtitle>
-
-<DocsPageParagraph>
-    The report definition is the long-lived document model. Use <Code>@@bind-Definition</Code> to keep it in application state, and handle <Code>SaveRequested</Code> and <Code>LoadRequested</Code> when the default toolbar should integrate with browser storage, a database, or an application service.
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    Serialize definitions with <Code>ReportJsonSerializer</Code>. Runtime data objects are intentionally not serialized, so they must be supplied again after loading.
-</DocsPageParagraph>
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Design preview">
+        <Paragraph>
+            Set <Code>Editable</Code> when users should be able to move elements, edit properties, add pages or bands, connect data-source metadata, and switch between design and preview. Without it, the report opens as a viewer.
+        </Paragraph>
+        <Paragraph>
+            The designer does not maintain a separate visual-only template. Its commands update the current <Code Tag>ReportDefinition</Code>, and preview renders the updated definition. Bind <Code>Definition</Code> when the application needs to observe those changes.
+        </Paragraph>
+    </DocsPageSectionHeader>
+</DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="State management">
-        Bind the generated definition and respond to persistence requests from application code.
+    <DocsPageSectionHeader Title="Persistence">
+        <Paragraph>
+            The report definition is the long-lived document model. Use <Code>@@bind-Definition</Code> to keep it in application state, and handle <Code>SaveRequested</Code> and <Code>LoadRequested</Code> when the default toolbar should integrate with browser storage, a database, or an application service.
+        </Paragraph>
+        <Paragraph>
+            Serialize definitions with <Code>ReportJsonSerializer</Code>. Runtime data objects are intentionally not serialized, so they must be supplied again after loading.
+        </Paragraph>
+        <Paragraph>
+            Bind the generated definition and respond to persistence requests from application code.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ReportingStateExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
-    Programmatic reports
-</DocsPageSubtitle>
-
-<DocsPageParagraph>
-    Declarative components are optional. Advanced scenarios can construct a <Code Tag>ReportDefinition</Code> directly, retrieve it from a service or database, and pass it to <Code Tag>Report</Code>.
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    Use <Code>ReportDefinitionMode.UseDefinitionOnly</Code> when the supplied definition is the complete source of truth. Use <Code>ReportDefinitionMode.AlwaysUseDeclarative</Code> when Razor should remain authoritative, or keep the default <Code>ReportDefinitionMode.SeedWhenEmpty</Code> when Razor provides only the initial template.
-</DocsPageParagraph>
-
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Report definition">
-        Build the same page, band, and element model directly in C# and render it without declarative report children.
+    <DocsPageSectionHeader Title="Programmatic reports">
+        <Paragraph>
+            Declarative components are optional. Advanced scenarios can construct a <Code Tag>ReportDefinition</Code> directly, retrieve it from a service or database, and pass it to <Code Tag>Report</Code>.
+        </Paragraph>
+        <Paragraph>
+            Use <Code>ReportDefinitionMode.UseDefinitionOnly</Code> when the supplied definition is the complete source of truth. Use <Code>ReportDefinitionMode.AlwaysUseDeclarative</Code> when Razor should remain authoritative, or keep the default <Code>ReportDefinitionMode.SeedWhenEmpty</Code> when Razor provides only the initial template.
+        </Paragraph>
+        <Paragraph>
+            Build the same page, band, and element model directly in C# and render it without declarative report children.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="ReportingProgrammaticDefinitionExample" Outlined FullWidth>
         <ReportingProgrammaticDefinitionExample />
