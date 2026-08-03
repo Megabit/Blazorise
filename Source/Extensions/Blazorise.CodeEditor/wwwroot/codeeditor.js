@@ -16,7 +16,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
     await ensureEditorRuntime(options);
 
     if (instances.has(elementId)) {
-        destroy(element, elementId);
+        await destroy(element, elementId);
     }
 
     synchronizeLanguages(elementId, options.languages);
@@ -66,7 +66,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         instance.disconnectCleanupId = registerDisconnectCleanup(element, () => destroy(element, elementId, false));
     } catch (error) {
         if (instances.has(elementId)) {
-            destroy(element, elementId, false);
+            await destroy(element, elementId, false);
         } else {
             releaseLanguages(elementId);
         }
@@ -85,30 +85,39 @@ export function destroy(element, elementId, unregisterCleanup = true) {
         unregisterDisconnectCleanup(instance.disconnectCleanupId);
     }
 
+    instance.destroyPromise ??= destroyInstance(instance, elementId);
+
+    return instance.destroyPromise;
+}
+
+async function destroyInstance(instance, elementId) {
     if (instance.disposables) {
         instance.disposables.forEach(disposable => disposable?.dispose?.());
     }
 
     instance.completionDisposable?.dispose?.();
     instance.formattingDisposable?.dispose?.();
-    clearTimeout(instance.valueUpdateTimer);
 
-    if (instance.editor) {
-        const model = instance.editor.getModel();
+    try {
+        await flushValueChange(instance);
+    } finally {
+        if (instance.editor) {
+            const model = instance.editor.getModel();
 
-        if (model) {
-            monaco.editor.setModelMarkers(model, instance.markerOwner, []);
+            if (model) {
+                monaco.editor.setModelMarkers(model, instance.markerOwner, []);
+            }
+
+            instance.editor.dispose();
+
+            if (instance.ownsModel) {
+                model?.dispose?.();
+            }
         }
 
-        instance.editor.dispose();
-
-        if (instance.ownsModel) {
-            model?.dispose?.();
-        }
+        releaseLanguages(elementId);
+        instances.delete(elementId);
     }
-
-    releaseLanguages(elementId);
-    instances.delete(elementId);
 }
 
 export function updateOptions(element, elementId, options) {
@@ -231,7 +240,7 @@ export function focus(element, elementId) {
     }
 }
 
-export function layout(element, elementId) {
+export function resize(element, elementId) {
     const instance = instances.get(elementId);
 
     instance?.editor?.layout();
@@ -436,7 +445,6 @@ function setLanguageOwner(ownerId, languageId, language) {
             owners: new Map(),
             registrationDisposable: null,
             tokenizerDisposable: null,
-            configurationDisposable: null,
             activeSignature: null
         };
 
@@ -492,28 +500,12 @@ function applyEffectiveLanguage(languageId, entry) {
             buildMonarchTokensProvider(language.tokenizer));
     }
 
-    if (language.configureLanguageMethod) {
-        let disposable;
-
-        try {
-            disposable = configure(language.configureLanguageMethod, window, [language, monaco]);
-        } catch (error) {
-            console.error(error);
-        }
-
-        if (disposable?.dispose) {
-            entry.configurationDisposable = disposable;
-        }
-    }
-
     entry.activeSignature = signature;
 }
 
 function disposeLanguageEntry(entry) {
-    entry.configurationDisposable?.dispose?.();
     entry.tokenizerDisposable?.dispose?.();
     entry.registrationDisposable?.dispose?.();
-    entry.configurationDisposable = null;
     entry.tokenizerDisposable = null;
     entry.registrationDisposable = null;
     entry.activeSignature = null;
@@ -635,7 +627,7 @@ function registerFormattingProvider(instance, formattingProvider) {
     const model = instance.editor?.getModel();
     const language = formattingProvider.language || model?.getLanguageId?.();
 
-    if (!model || !language || (!formattingProvider.useFormatter && !formattingProvider.providerMethod))
+    if (!model || !language || !formattingProvider.useFormatter)
         return;
 
     const selector = {
@@ -645,25 +637,12 @@ function registerFormattingProvider(instance, formattingProvider) {
     };
 
     instance.formattingDisposable = monaco.languages.registerDocumentFormattingEditProvider(selector, {
-        provideDocumentFormattingEdits: async (formattingModel, options, cancellationToken) => {
+        provideDocumentFormattingEdits: async (formattingModel, _options, cancellationToken) => {
             if (formattingModel !== instance.editor?.getModel() || cancellationToken.isCancellationRequested)
                 return [];
 
             try {
-                let result;
-
-                if (formattingProvider.useFormatter) {
-                    result = await invokeDotNet(instance, "NotifyDocumentFormatting", formattingModel.getValue());
-                } else if (formattingProvider.providerMethod) {
-                    result = configure(
-                        formattingProvider.providerMethod,
-                        window,
-                        [instance.editor, formattingModel, options, cancellationToken]);
-
-                    if (result?.then) {
-                        result = await result;
-                    }
-                }
+                const result = await invokeDotNet(instance, "NotifyDocumentFormatting", formattingModel.getValue());
 
                 return normalizeDocumentFormattingResult(result, formattingModel);
             } catch (error) {
@@ -931,26 +910,4 @@ function loadScript(src) {
         }, { once: true });
         document.head.appendChild(script);
     });
-}
-
-function configure(functionName, context, args) {
-    if (!functionName)
-        return;
-
-    const namespaces = functionName.split(".");
-    const func = namespaces.pop();
-
-    for (const namespace of namespaces) {
-        context = context?.[namespace];
-
-        if (!context)
-            throw new Error(`Unable to find JavaScript namespace '${namespace}' while resolving '${functionName}'.`);
-    }
-
-    const callback = context?.[func];
-
-    if (typeof callback !== "function")
-        throw new Error(`Unable to find JavaScript function '${functionName}'.`);
-
-    return callback.apply(context, args);
 }

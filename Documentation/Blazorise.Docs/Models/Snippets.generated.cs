@@ -9797,7 +9797,7 @@ run ""dotnet build""
 </Paragraph>
 
 @code {
-    private Blazorise.CodeEditor.CodeEditor editor;
+    private CodeEditor editor;
 
     private string status = ""Edit the JSON or add an application warning."";
 
@@ -9865,7 +9865,7 @@ run ""dotnet build""
 </Div>
 
 @code {
-    private Blazorise.CodeEditor.CodeEditor editor;
+    private CodeEditor editor;
 
     private string status = ""Ready"";
 
@@ -9891,7 +9891,7 @@ run ""dotnet build""
 
     private async Task FormatDocument()
     {
-        bool formatted = await editor.FormatDocumentAsync();
+        bool formatted = await editor.FormatDocument();
 
         status = formatted
             ? ""Formatting provider invoked.""
@@ -9937,7 +9937,7 @@ run ""dotnet build""
 </Div>
 
 @code {
-    private Blazorise.CodeEditor.CodeEditor editor;
+    private CodeEditor editor;
 
     private string status = ""Waiting for the editor"";
 
@@ -10018,7 +10018,7 @@ console.log(greeting(""Blazorise""));
 </Validations>
 
 @code {
-    private Blazorise.CodeEditor.CodeEditor editor;
+    private CodeEditor editor;
 
     private Validations validations;
 

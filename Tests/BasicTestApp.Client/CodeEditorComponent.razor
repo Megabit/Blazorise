@@ -1,0 +1,198 @@
+@using System.Text.Json
+
+<Div Flex="Flex.Column" Gap="Gap.Is3">
+    <Div>
+        <CodeEditor ElementId="code-editor-immediate"
+                    @bind-Value="@immediateValue"
+                    Language="@CodeEditorLanguage.PlainText"
+                    Immediate
+                    Height="8.Rem()" />
+        <Span ElementId="code-editor-immediate-result">@immediateValue</Span>
+    </Div>
+
+    <Div>
+        <CodeEditor ElementId="code-editor-blur"
+                    @bind-Value="@blurValue"
+                    Language="@CodeEditorLanguage.PlainText"
+                    Immediate="false"
+                    Height="8.Rem()" />
+        <Button ElementId="code-editor-blur-target">Blur target</Button>
+        <Span ElementId="code-editor-blur-result">@blurValue</Span>
+    </Div>
+
+    <Div>
+        <CodeEditor ElementId="code-editor-debounce"
+                    @bind-Value="@debounceValue"
+                    Language="@CodeEditorLanguage.PlainText"
+                    Immediate
+                    Debounce
+                    DebounceInterval="1000"
+                    Height="8.Rem()" />
+        <Span ElementId="code-editor-debounce-result">@debounceValue</Span>
+    </Div>
+
+    <Div>
+        <CodeEditor @ref="@formattingEditor"
+                    ElementId="code-editor-formatting"
+                    @bind-Value="@formattingValue"
+                    Language="@CodeEditorLanguage.Json"
+                    FormattingProvider="@formattingProvider"
+                    Immediate
+                    Height="8.Rem()" />
+        <Button ElementId="code-editor-format" Clicked="@FormatDocument">Format</Button>
+        <Span ElementId="code-editor-format-result">@formatResult</Span>
+    </Div>
+
+    <Div>
+        <CodeEditor ElementId="code-editor-completion"
+                    @bind-Value="@completionValue"
+                    Language="@CodeEditorLanguage.PlainText"
+                    CompletionItems="@completionItems"
+                    Immediate
+                    Height="8.Rem()" />
+    </Div>
+
+    <Div>
+        <CodeEditor @ref="@diagnosticsEditor"
+                    ElementId="code-editor-diagnostics"
+                    Value="diagnostic"
+                    Language="@CodeEditorLanguage.PlainText"
+                    Diagnostics="@diagnostics"
+                    Height="8.Rem()" />
+        <Button ElementId="code-editor-read-diagnostics" Clicked="@ReadDiagnostics">Read diagnostics</Button>
+        <Span ElementId="code-editor-diagnostics-result">@diagnosticsResult</Span>
+    </Div>
+
+    <Div>
+        @if ( showDisposableEditor )
+        {
+            <CodeEditor ElementId="code-editor-disposable"
+                        @bind-Value="@disposableValue"
+                        Language="@CodeEditorLanguage.PlainText"
+                        Immediate="false"
+                        Height="8.Rem()" />
+        }
+        <Button ElementId="code-editor-remove-disposable" Clicked="@RemoveDisposableEditor">Remove editor</Button>
+        <Span ElementId="code-editor-disposable-result">@disposableValue</Span>
+    </Div>
+
+    <Div>
+        @if ( showFirstEditor )
+        {
+            <CodeEditor ElementId="code-editor-first"
+                        @bind-Value="@firstValue"
+                        Language="@CodeEditorLanguage.PlainText"
+                        Immediate
+                        Height="8.Rem()" />
+        }
+        <CodeEditor ElementId="code-editor-second"
+                    @bind-Value="@secondValue"
+                    Language="@CodeEditorLanguage.PlainText"
+                    Immediate
+                    Height="8.Rem()" />
+        <Button ElementId="code-editor-remove-first" Clicked="@RemoveFirstEditor">Remove first editor</Button>
+        <Span ElementId="code-editor-second-result">@secondValue</Span>
+    </Div>
+</Div>
+
+@code {
+    private static readonly JsonSerializerOptions serializerOptions = new()
+    {
+        WriteIndented = true,
+    };
+
+    private static readonly CodeEditorDocumentFormattingProvider formattingProvider = new()
+    {
+        Language = CodeEditorLanguage.Json,
+        Formatter = FormatJson,
+    };
+
+    private static readonly IReadOnlyList<CodeEditorCompletionItem> completionItems =
+    [
+        new()
+        {
+            Label = "Customer.Name",
+            InsertText = "Customer.Name",
+            Kind = CodeEditorCompletionItemKind.Field,
+        },
+    ];
+
+    private static readonly IReadOnlyList<CodeEditorDiagnostic> diagnostics =
+    [
+        new()
+        {
+            Severity = CodeEditorDiagnosticSeverity.Warning,
+            Message = "Test diagnostic",
+            StartLineNumber = 1,
+            StartColumn = 1,
+            EndLineNumber = 1,
+            EndColumn = 5,
+        },
+    ];
+
+    private CodeEditor formattingEditor;
+
+    private CodeEditor diagnosticsEditor;
+
+    private string immediateValue = string.Empty;
+
+    private string blurValue = string.Empty;
+
+    private string debounceValue = string.Empty;
+
+    private string formattingValue = "{\"name\":\"Blazorise\"}";
+
+    private string formatResult = string.Empty;
+
+    private string completionValue = string.Empty;
+
+    private string diagnosticsResult = string.Empty;
+
+    private string disposableValue = string.Empty;
+
+    private string firstValue = string.Empty;
+
+    private string secondValue = string.Empty;
+
+    private bool showDisposableEditor = true;
+
+    private bool showFirstEditor = true;
+
+    private async Task FormatDocument()
+    {
+        bool formatted = await formattingEditor.FormatDocument();
+
+        formatResult = formatted
+            ? await formattingEditor.GetValue()
+            : "Formatting unavailable";
+    }
+
+    private async Task ReadDiagnostics()
+    {
+        IReadOnlyList<CodeEditorDiagnostic> currentDiagnostics = await diagnosticsEditor.GetDiagnostics();
+
+        diagnosticsResult = currentDiagnostics.Count.ToString();
+    }
+
+    private Task RemoveDisposableEditor()
+    {
+        showDisposableEditor = false;
+
+        return Task.CompletedTask;
+    }
+
+    private Task RemoveFirstEditor()
+    {
+        showFirstEditor = false;
+
+        return Task.CompletedTask;
+    }
+
+    private static Task<string> FormatJson( string value )
+    {
+        using JsonDocument document = JsonDocument.Parse( value );
+        string formattedValue = JsonSerializer.Serialize( document.RootElement, serializerOptions );
+
+        return Task.FromResult( formattedValue );
+    }
+}

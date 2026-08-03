@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.CodeEditor;
 using Bunit;
-using CodeEditorComponent = Blazorise.CodeEditor.CodeEditor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -36,7 +35,7 @@ public class CodeEditorComponentTest : BunitContext
             WordWrap = true
         };
 
-        IRenderedComponent<CodeEditorComponent> cut = Render<CodeEditorComponent>( parameters => parameters
+        IRenderedComponent<CodeEditor.CodeEditor> cut = Render<CodeEditor.CodeEditor>( parameters => parameters
             .Add( component => component.Value, "const answer = 42;" )
             .Add( component => component.Language, CodeEditorLanguage.JavaScript )
             .Add( component => component.EditorOptions, options )
@@ -67,7 +66,7 @@ public class CodeEditorComponentTest : BunitContext
     public void ParameterChanges_Should_InvokeTargetedJavaScriptUpdates()
     {
         CodeEditorOptions initialOptions = new();
-        IRenderedComponent<CodeEditorComponent> cut = Render<CodeEditorComponent>( parameters => parameters
+        IRenderedComponent<CodeEditor.CodeEditor> cut = Render<CodeEditor.CodeEditor>( parameters => parameters
             .Add( component => component.EditorOptions, initialOptions )
             .Add( component => component.Language, CodeEditorLanguage.CSharp ) );
 
@@ -81,14 +80,60 @@ public class CodeEditorComponentTest : BunitContext
     }
 
     [Fact]
+    public void FeatureParameterChanges_Should_InvokeTargetedJavaScriptUpdates()
+    {
+        IRenderedComponent<CodeEditor.CodeEditor> cut = Render<CodeEditor.CodeEditor>();
+        IReadOnlyList<CodeEditorDiagnostic> diagnostics =
+        [
+            new() { Message = "Diagnostic" },
+        ];
+        IReadOnlyList<CodeEditorLanguageDefinition> languages =
+        [
+            new() { Id = "formula" },
+        ];
+        CodeEditorCompletionProvider completionProvider = new()
+        {
+            Items =
+            [
+                new() { Label = "Field" },
+            ],
+        };
+        CodeEditorDocumentFormattingProvider formattingProvider = new()
+        {
+            Formatter = value => Task.FromResult( value ),
+        };
+
+        cut.Render( parameters => parameters
+            .Add( component => component.Diagnostics, diagnostics )
+            .Add( component => component.Languages, languages )
+            .Add( component => component.CompletionProvider, completionProvider )
+            .Add( component => component.FormattingProvider, formattingProvider ) );
+
+        JSInterop.VerifyInvoke( "setDiagnostics" );
+        JSInterop.VerifyInvoke( "setLanguages" );
+        JSInterop.VerifyInvoke( "setCompletionProvider" );
+        JSInterop.VerifyInvoke( "setFormattingProvider" );
+    }
+
+    [Fact]
     public async Task GetDiagnostics_Should_InvokeJavaScript()
     {
-        IRenderedComponent<CodeEditorComponent> cut = Render<CodeEditorComponent>();
+        IRenderedComponent<CodeEditor.CodeEditor> cut = Render<CodeEditor.CodeEditor>();
 
         IReadOnlyList<CodeEditorDiagnostic> diagnostics = await cut.Instance.GetDiagnostics();
 
         Assert.Empty( diagnostics );
         JSInterop.VerifyInvoke( "getDiagnostics" );
+    }
+
+    [Fact]
+    public async Task Resize_Should_InvokeJavaScript()
+    {
+        IRenderedComponent<CodeEditor.CodeEditor> cut = Render<CodeEditor.CodeEditor>();
+
+        await cut.Instance.Resize();
+
+        JSInterop.VerifyInvoke( "resize" );
     }
 
     [Fact]
@@ -99,7 +144,7 @@ public class CodeEditorComponentTest : BunitContext
             Language = CodeEditorLanguage.CSharp,
             Formatter = value => Task.FromResult( value.ToUpperInvariant() )
         };
-        IRenderedComponent<CodeEditorComponent> cut = Render<CodeEditorComponent>( parameters => parameters
+        IRenderedComponent<CodeEditor.CodeEditor> cut = Render<CodeEditor.CodeEditor>( parameters => parameters
             .Add( component => component.Language, CodeEditorLanguage.CSharp )
             .Add( component => component.FormattingProvider, provider ) );
 
@@ -109,7 +154,7 @@ public class CodeEditorComponentTest : BunitContext
         Assert.Equal( CodeEditorLanguage.CSharp, jsOptions.FormattingProvider.Language );
         Assert.True( jsOptions.FormattingProvider.UseFormatter );
         Assert.Equal( "FORMATTED", await cut.Instance.NotifyDocumentFormatting( "formatted" ) );
-        Assert.True( await cut.Instance.FormatDocumentAsync() );
+        Assert.True( await cut.Instance.FormatDocument() );
     }
 
     [Fact]
@@ -143,7 +188,7 @@ public class CodeEditorComponentTest : BunitContext
                 return Task.FromResult( expectedItems );
             },
         };
-        IRenderedComponent<CodeEditorComponent> cut = Render<CodeEditorComponent>( parameters => parameters
+        IRenderedComponent<CodeEditor.CodeEditor> cut = Render<CodeEditor.CodeEditor>( parameters => parameters
             .Add( component => component.Language, "formula" )
             .Add( component => component.CompletionProvider, provider ) );
 
@@ -170,7 +215,7 @@ public class CodeEditorComponentTest : BunitContext
     [Fact]
     public void DeclarativeTokenizer_Should_IncludeNamedStates()
     {
-        IRenderedComponent<CodeEditorComponent> cut = Render<CodeEditorComponent>( parameters => parameters
+        IRenderedComponent<CodeEditor.CodeEditor> cut = Render<CodeEditor.CodeEditor>( parameters => parameters
             .Add( component => component.Language, "formula" )
             .AddChildContent( BuildLanguageDefinition() ) );
 
@@ -188,7 +233,7 @@ public class CodeEditorComponentTest : BunitContext
     [InlineData( CodeEditorCompletionItemKind.Method, 0 )]
     [InlineData( CodeEditorCompletionItemKind.Text, 18 )]
     [InlineData( CodeEditorCompletionItemKind.Snippet, 27 )]
-    public void CompletionItemKind_Should_MatchMonacoValues( CodeEditorCompletionItemKind kind, int expected )
+    public void CompletionItemKind_Should_MatchRuntimeValues( CodeEditorCompletionItemKind kind, int expected )
     {
         Assert.Equal( expected, (int)kind );
     }

@@ -56,7 +56,7 @@ public class CodeEditorCompletionItem
     /// Gets or sets the document range replaced when the completion item is accepted.
     /// </summary>
     /// <remarks>
-    /// When not set, the current Monaco word range is used.
+    /// When not set, the current word range is used.
     /// </remarks>
     public CodeEditorCompletionRange Range { get; set; }
 }

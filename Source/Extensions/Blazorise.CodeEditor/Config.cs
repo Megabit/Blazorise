@@ -16,7 +16,7 @@ public static class Config
     /// <returns>Service collection.</returns>
     public static IServiceCollection AddBlazoriseCodeEditor( this IServiceCollection services, Action<CodeEditorExtensionOptions> options = default )
     {
-        var codeEditorOptions = new CodeEditorExtensionOptions();
+        CodeEditorExtensionOptions codeEditorOptions = new();
 
         if ( options is null )
         {

@@ -218,12 +218,12 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// Gets the current editor value.
     /// </summary>
     /// <returns>Current editor value.</returns>
-    public async Task<string> GetValueAsync()
+    public async Task<string> GetValue()
     {
         if ( jsInitialized )
             return await JSModule.GetValue( ElementRef, ElementId );
 
-        return await ExecuteAfterRenderAsync( () => JSModule.GetValue( ElementRef, ElementId ).AsTask() );
+        return await ExecuteAfterRenderResult( () => JSModule.GetValue( ElementRef, ElementId ).AsTask() );
     }
 
     /// <summary>
@@ -231,7 +231,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// </summary>
     /// <param name="value">Value to set.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task SetValueAsync( string value )
+    public async Task SetValue( string value )
     {
         value ??= string.Empty;
 
@@ -248,15 +248,15 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     }
 
     /// <summary>
-    /// Refreshes the editor layout.
+    /// Recalculates the editor dimensions to fit its container.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public Task LayoutAsync()
+    public Task Resize()
     {
         if ( jsInitialized )
-            return JSModule.Layout( ElementRef, ElementId ).AsTask();
+            return JSModule.Resize( ElementRef, ElementId ).AsTask();
 
-        ExecuteAfterRender( () => JSModule.Layout( ElementRef, ElementId ).AsTask() );
+        ExecuteAfterRender( () => JSModule.Resize( ElementRef, ElementId ).AsTask() );
 
         return Task.CompletedTask;
     }
@@ -268,66 +268,12 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// A task that represents the asynchronous operation. The result is <see langword="true"/> when a formatter
     /// was available; otherwise, <see langword="false"/>.
     /// </returns>
-    public async Task<bool> FormatDocumentAsync()
+    public async Task<bool> FormatDocument()
     {
         if ( jsInitialized )
             return await JSModule.FormatDocument( ElementRef, ElementId );
 
-        return await ExecuteAfterRenderAsync( () => JSModule.FormatDocument( ElementRef, ElementId ).AsTask() );
-    }
-
-    /// <summary>
-    /// Sets custom language definitions.
-    /// </summary>
-    /// <param name="languages">Custom language definitions.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task SetLanguagesAsync( IReadOnlyList<CodeEditorLanguageDefinition> languages )
-    {
-        Languages = languages;
-
-        if ( jsInitialized )
-            await JSModule.SetLanguages( ElementRef, ElementId, CreateLanguageDefinitions( languages ) );
-    }
-
-    /// <summary>
-    /// Sets the completion provider.
-    /// </summary>
-    /// <param name="completionProvider">Completion provider.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task SetCompletionProviderAsync( CodeEditorCompletionProvider completionProvider )
-    {
-        CompletionProvider = completionProvider;
-        CompletionItems = null;
-
-        if ( jsInitialized )
-            await JSModule.SetCompletionProvider( ElementRef, ElementId, CreateCompletionProvider( completionProvider ) );
-    }
-
-    /// <summary>
-    /// Sets the completion items.
-    /// </summary>
-    /// <param name="completionItems">Completion items.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task SetCompletionItemsAsync( IReadOnlyList<CodeEditorCompletionItem> completionItems )
-    {
-        CompletionProvider = null;
-        CompletionItems = completionItems;
-
-        if ( jsInitialized )
-            await JSModule.SetCompletionProvider( ElementRef, ElementId, CreateCompletionProvider() );
-    }
-
-    /// <summary>
-    /// Sets the document formatting provider.
-    /// </summary>
-    /// <param name="formattingProvider">Document formatting provider.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task SetFormattingProviderAsync( CodeEditorDocumentFormattingProvider formattingProvider )
-    {
-        FormattingProvider = formattingProvider;
-
-        if ( jsInitialized )
-            await JSModule.SetFormattingProvider( ElementRef, ElementId, CreateFormattingProvider( formattingProvider ) );
+        return await ExecuteAfterRenderResult( () => JSModule.FormatDocument( ElementRef, ElementId ).AsTask() );
     }
 
     /// <summary>
@@ -339,20 +285,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
         if ( jsInitialized )
             return await JSModule.GetDiagnostics( ElementRef, ElementId );
 
-        return await ExecuteAfterRenderAsync( () => JSModule.GetDiagnostics( ElementRef, ElementId ).AsTask() );
-    }
-
-    /// <summary>
-    /// Sets diagnostic markers.
-    /// </summary>
-    /// <param name="diagnostics">Diagnostic markers.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task SetDiagnosticsAsync( IReadOnlyList<CodeEditorDiagnostic> diagnostics )
-    {
-        Diagnostics = diagnostics;
-
-        if ( jsInitialized )
-            await JSModule.SetDiagnostics( ElementRef, ElementId, diagnostics );
+        return await ExecuteAfterRenderResult( () => JSModule.GetDiagnostics( ElementRef, ElementId ).AsTask() );
     }
 
     /// <summary>
@@ -360,7 +293,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// </summary>
     /// <param name="lineNumber">Line number.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public Task RevealLineAsync( int lineNumber )
+    public Task RevealLine( int lineNumber )
     {
         if ( jsInitialized )
             return JSModule.RevealLine( ElementRef, ElementId, lineNumber ).AsTask();
@@ -371,41 +304,11 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     }
 
     /// <summary>
-    /// Sets the editor language.
-    /// </summary>
-    /// <param name="language">Language identifier.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task SetLanguageAsync( string language )
-    {
-        Language = string.IsNullOrWhiteSpace( language ) ? CodeEditorLanguage.PlainText : language;
-
-        if ( jsInitialized )
-        {
-            await JSModule.SetLanguage( ElementRef, ElementId, Language );
-            await JSModule.SetCompletionProvider( ElementRef, ElementId, CreateCompletionProvider() );
-            await JSModule.SetFormattingProvider( ElementRef, ElementId, CreateFormattingProvider() );
-        }
-    }
-
-    /// <summary>
-    /// Sets the editor theme.
-    /// </summary>
-    /// <param name="theme">Theme identifier.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task SetThemeAsync( string theme )
-    {
-        Theme = string.IsNullOrWhiteSpace( theme ) ? CodeEditorTheme.VisualStudio : theme;
-
-        if ( jsInitialized )
-            await JSModule.SetTheme( ElementRef, ElementId, Theme );
-    }
-
-    /// <summary>
     /// Sets the current editor selection.
     /// </summary>
     /// <param name="selection">Selection range.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public Task SetSelectionAsync( CodeEditorSelection selection )
+    public Task SetSelection( CodeEditorSelection selection )
     {
         if ( jsInitialized )
             return JSModule.SetSelection( ElementRef, ElementId, selection ).AsTask();
@@ -419,12 +322,12 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// Gets the current editor selection.
     /// </summary>
     /// <returns>Current selection.</returns>
-    public async Task<CodeEditorSelection> GetSelectionAsync()
+    public async Task<CodeEditorSelection> GetSelection()
     {
         if ( jsInitialized )
             return await JSModule.GetSelection( ElementRef, ElementId );
 
-        return await ExecuteAfterRenderAsync( () => JSModule.GetSelection( ElementRef, ElementId ).AsTask() );
+        return await ExecuteAfterRenderResult( () => JSModule.GetSelection( ElementRef, ElementId ).AsTask() );
     }
 
     /// <summary>
@@ -501,7 +404,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// <summary>
     /// Executes given action after the rendering is done.
     /// </summary>
-    protected async Task<T> ExecuteAfterRenderAsync<T>( Func<Task<T>> action, CancellationToken token = default )
+    private async Task<T> ExecuteAfterRenderResult<T>( Func<Task<T>> action, CancellationToken token = default )
     {
         TaskCompletionSource<T> source = new( TaskCreationOptions.RunContinuationsAsynchronously );
         using CancellationTokenRegistration registration = token.Register( () => source.TrySetCanceled( token ) );
@@ -682,7 +585,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
         };
     }
 
-    private IReadOnlyList<CodeEditorLanguageDefinition> CreateLanguageDefinitions( IReadOnlyList<CodeEditorLanguageDefinition> languages = null )
+    private IReadOnlyList<CodeEditorLanguageDefinition> CreateLanguageDefinitions()
     {
         Dictionary<string, CodeEditorLanguageDefinition> languageDefinitions = new( StringComparer.Ordinal );
 
@@ -691,11 +594,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
             AddLanguageDefinitions( languageDefinitions, GlobalOptions.Languages );
         }
 
-        if ( languages is not null )
-        {
-            AddLanguageDefinitions( languageDefinitions, languages );
-        }
-        else if ( Languages is not null )
+        if ( Languages is not null )
         {
             AddLanguageDefinitions( languageDefinitions, Languages );
         }
@@ -716,9 +615,9 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
         }
     }
 
-    private CodeEditorCompletionProvider CreateCompletionProvider( CodeEditorCompletionProvider completionProvider = null )
+    private CodeEditorCompletionProvider CreateCompletionProvider()
     {
-        CodeEditorCompletionProvider provider = completionProvider ?? CompletionProvider;
+        CodeEditorCompletionProvider provider = CompletionProvider;
 
         if ( provider is not null )
         {
@@ -742,12 +641,11 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
         };
     }
 
-    private CodeEditorDocumentFormattingProvider CreateFormattingProvider( CodeEditorDocumentFormattingProvider formattingProvider = null )
+    private CodeEditorDocumentFormattingProvider CreateFormattingProvider()
     {
-        CodeEditorDocumentFormattingProvider provider = formattingProvider ?? FormattingProvider;
+        CodeEditorDocumentFormattingProvider provider = FormattingProvider;
 
-        if ( provider is null
-             || ( provider.Formatter is null && string.IsNullOrWhiteSpace( provider.ProviderMethod ) ) )
+        if ( provider?.Formatter is null )
         {
             return null;
         }
@@ -755,8 +653,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
         return new CodeEditorDocumentFormattingProvider
         {
             Language = string.IsNullOrWhiteSpace( provider.Language ) ? ResolveLanguage() : provider.Language,
-            Formatter = provider.Formatter,
-            ProviderMethod = provider.ProviderMethod
+            Formatter = provider.Formatter
         };
     }
 
@@ -806,7 +703,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// Gets or sets the editor theme.
     /// </summary>
     /// <remarks>
-    /// Monaco themes are global. Changing the theme updates every Monaco editor on the page.
+    /// Themes are global. Changing the theme updates every code editor on the page.
     /// </remarks>
     [Parameter] public string Theme { get; set; } = CodeEditorTheme.VisualStudio;
 
@@ -848,7 +745,7 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     /// Gets or sets custom language definitions.
     /// </summary>
     /// <remarks>
-    /// Monaco language registrations are global to the page. Use one definition per language identifier.
+    /// Custom language registrations are global to the page. Use one definition per language identifier.
     /// </remarks>
     [Parameter] public IReadOnlyList<CodeEditorLanguageDefinition> Languages { get; set; }
 

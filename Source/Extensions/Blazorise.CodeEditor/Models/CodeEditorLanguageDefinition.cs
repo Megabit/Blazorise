@@ -31,9 +31,4 @@ public class CodeEditorLanguageDefinition
     /// Gets or sets the declarative tokenizer definition.
     /// </summary>
     public CodeEditorTokenizerDefinition Tokenizer { get; set; }
-
-    /// <summary>
-    /// Gets or sets the custom JavaScript method used to configure advanced language features.
-    /// </summary>
-    public string ConfigureLanguageMethod { get; set; }
 }

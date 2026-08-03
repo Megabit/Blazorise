@@ -169,7 +169,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Format a document">
-        A <Code>FormattingProvider</Code> connects the Format Document action to application code. Call <Code>FormatDocumentAsync</Code> from a button, or let users invoke the standard keyboard command.
+        A <Code>FormattingProvider</Code> connects the Format Document action to application code. Call <Code>FormatDocument</Code> from a button, or let users invoke the standard keyboard command.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="CodeEditorFormattingExample" Outlined FullWidth>
         <CodeEditorFormattingExample />
@@ -189,7 +189,8 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    Keep an <Code>@@ref</Code> when the application needs commands that are not naturally expressed through parameters. Common methods include <Code>Focus</Code>, <Code>GetValueAsync</Code>, <Code>SetValueAsync</Code>, <Code>GetSelectionAsync</Code>, <Code>SetSelectionAsync</Code>, <Code>RevealLineAsync</Code>, <Code>LayoutAsync</Code>, <Code>GetDiagnostics</Code>, and <Code>FormatDocumentAsync</Code>.
+    Keep an <Code>@@ref</Code> when the application needs commands that are not naturally expressed through parameters. Common methods include <Code>Focus</Code>, <Code>GetValue</Code>, <Code>SetValue</Code>, <Code>GetSelection</Code>, <Code>SetSelection</Code>, <Code>RevealLine</Code>, <Code>Resize</Code>, <Code>GetDiagnostics</Code>, and <Code>FormatDocument</Code>.
+    Update language, theme, diagnostics, completion, formatting, and custom language configuration through component parameters.
 </DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Blazorise.CodeEditor.CodeEditor)]" />

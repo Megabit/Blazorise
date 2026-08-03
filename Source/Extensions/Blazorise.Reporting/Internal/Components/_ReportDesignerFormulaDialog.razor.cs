@@ -118,7 +118,7 @@ public partial class _ReportDesignerFormulaDialog
         new( "Control Structures", "Conditional", " ? : ", "Chooses between two values based on a condition." ),
     ];
 
-    private Blazorise.CodeEditor.CodeEditor formulaEditor;
+    private CodeEditor.CodeEditor formulaEditor;
 
     private string formula;
 
@@ -165,7 +165,7 @@ public partial class _ReportDesignerFormulaDialog
 
         if ( formulaEditor is not null )
         {
-            await formulaEditor.SetValueAsync( string.Empty );
+            await formulaEditor.SetValue( string.Empty );
             await formulaEditor.Focus();
         }
         else
@@ -224,7 +224,7 @@ public partial class _ReportDesignerFormulaDialog
     private async Task SynchronizeFormula()
     {
         if ( formulaEditor is not null )
-            formula = await formulaEditor.GetValueAsync();
+            formula = await formulaEditor.GetValue();
     }
 
     private ReportFormulaValidationResult ValidateFormulaValue()
@@ -352,18 +352,18 @@ public partial class _ReportDesignerFormulaDialog
             return;
         }
 
-        string editorValue = await formulaEditor.GetValueAsync() ?? string.Empty;
-        CodeEditorSelection selection = await formulaEditor.GetSelectionAsync() ?? CreateEndSelection( editorValue );
+        string editorValue = await formulaEditor.GetValue() ?? string.Empty;
+        CodeEditorSelection selection = await formulaEditor.GetSelection() ?? CreateEndSelection( editorValue );
         int startOffset = GetFormulaOffset( editorValue, selection.StartLineNumber, selection.StartColumn );
         int endOffset = GetFormulaOffset( editorValue, selection.EndLineNumber, selection.EndColumn );
         string updatedValue = editorValue[..startOffset] + text + editorValue[endOffset..];
         int relativeCaretOffset = Math.Min( Math.Max( 0, caretIndex ?? text.Length ), text.Length );
         int caretOffset = startOffset + relativeCaretOffset;
 
-        await formulaEditor.SetValueAsync( updatedValue );
+        await formulaEditor.SetValue( updatedValue );
 
         GetFormulaPosition( updatedValue, caretOffset, out int lineNumber, out int column );
-        await formulaEditor.SetSelectionAsync( new()
+        await formulaEditor.SetSelection( new()
         {
             StartLineNumber = lineNumber,
             StartColumn = column,

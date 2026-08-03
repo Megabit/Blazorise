@@ -15,7 +15,7 @@
 </Div>
 
 @code {
-    private Blazorise.CodeEditor.CodeEditor editor;
+    private CodeEditor editor;
 
     private string status = "Ready";
 
@@ -41,7 +41,7 @@
 
     private async Task FormatDocument()
     {
-        bool formatted = await editor.FormatDocumentAsync();
+        bool formatted = await editor.FormatDocument();
 
         status = formatted
             ? "Formatting provider invoked."

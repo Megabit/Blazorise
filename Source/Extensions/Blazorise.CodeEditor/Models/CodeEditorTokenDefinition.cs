@@ -19,7 +19,7 @@ public class CodeEditorTokenDefinition
     /// Gets or sets the next tokenizer state.
     /// </summary>
     /// <remarks>
-    /// Use a named state such as <c>@string</c>, or a Monarch transition such as <c>@pop</c>.
+    /// Use a named state such as <c>@string</c>, or a tokenizer transition such as <c>@pop</c>.
     /// </remarks>
     public string Next { get; set; }
 

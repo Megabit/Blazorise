@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-02T17:22:42.3775828Z",
+  "generatedUtc": "2026-08-03T06:49:43.3174326Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -22705,7 +22705,7 @@
           "typeName": "IReadOnlyList<CodeEditorLanguageDefinition>",
           "defaultValue": "null",
           "summary": "Gets or sets custom language definitions.",
-          "remarks": "Monaco language registrations are global to the page. Use one definition per language identifier.",
+          "remarks": "Custom language registrations are global to the page. Use one definition per language identifier.",
           "isBlazoriseEnum": false
         },
         {
@@ -22858,7 +22858,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the editor theme.",
-          "remarks": "Monaco themes are global. Changing the theme updates every Monaco editor on the page.",
+          "remarks": "Themes are global. Changing the theme updates every code editor on the page.",
           "isBlazoriseEnum": false
         },
         {
@@ -23031,7 +23031,7 @@
           ]
         },
         {
-          "name": "FormatDocumentAsync",
+          "name": "FormatDocument",
           "returnTypeName": "Task<bool>",
           "summary": "Formats the current document.",
           "parameters": []
@@ -23043,21 +23043,21 @@
           "parameters": []
         },
         {
-          "name": "GetSelectionAsync",
+          "name": "GetSelection",
           "returnTypeName": "Task<CodeEditorSelection>",
           "summary": "Gets the current editor selection.",
           "parameters": []
         },
         {
-          "name": "GetValueAsync",
+          "name": "GetValue",
           "returnTypeName": "Task<string>",
           "summary": "Gets the current editor value.",
           "parameters": []
         },
         {
-          "name": "LayoutAsync",
+          "name": "Resize",
           "returnTypeName": "Task",
-          "summary": "Refreshes the editor layout.",
+          "summary": "Recalculates the editor dimensions to fit its container.",
           "parameters": []
         },
         {
@@ -23067,7 +23067,7 @@
           "parameters": []
         },
         {
-          "name": "RevealLineAsync",
+          "name": "RevealLine",
           "returnTypeName": "Task",
           "summary": "Reveals the specified line.",
           "parameters": [
@@ -23078,73 +23078,7 @@
           ]
         },
         {
-          "name": "SetCompletionItemsAsync",
-          "returnTypeName": "Task",
-          "summary": "Sets the completion items.",
-          "parameters": [
-            {
-              "name": "completionItems",
-              "typeName": "IReadOnlyList<CodeEditorCompletionItem>"
-            }
-          ]
-        },
-        {
-          "name": "SetCompletionProviderAsync",
-          "returnTypeName": "Task",
-          "summary": "Sets the completion provider.",
-          "parameters": [
-            {
-              "name": "completionProvider",
-              "typeName": "CodeEditorCompletionProvider"
-            }
-          ]
-        },
-        {
-          "name": "SetDiagnosticsAsync",
-          "returnTypeName": "Task",
-          "summary": "Sets diagnostic markers.",
-          "parameters": [
-            {
-              "name": "diagnostics",
-              "typeName": "IReadOnlyList<CodeEditorDiagnostic>"
-            }
-          ]
-        },
-        {
-          "name": "SetFormattingProviderAsync",
-          "returnTypeName": "Task",
-          "summary": "Sets the document formatting provider.",
-          "parameters": [
-            {
-              "name": "formattingProvider",
-              "typeName": "CodeEditorDocumentFormattingProvider"
-            }
-          ]
-        },
-        {
-          "name": "SetLanguageAsync",
-          "returnTypeName": "Task",
-          "summary": "Sets the editor language.",
-          "parameters": [
-            {
-              "name": "language",
-              "typeName": "string"
-            }
-          ]
-        },
-        {
-          "name": "SetLanguagesAsync",
-          "returnTypeName": "Task",
-          "summary": "Sets custom language definitions.",
-          "parameters": [
-            {
-              "name": "languages",
-              "typeName": "IReadOnlyList<CodeEditorLanguageDefinition>"
-            }
-          ]
-        },
-        {
-          "name": "SetSelectionAsync",
+          "name": "SetSelection",
           "returnTypeName": "Task",
           "summary": "Sets the current editor selection.",
           "parameters": [
@@ -23155,18 +23089,7 @@
           ]
         },
         {
-          "name": "SetThemeAsync",
-          "returnTypeName": "Task",
-          "summary": "Sets the editor theme.",
-          "parameters": [
-            {
-              "name": "theme",
-              "typeName": "string"
-            }
-          ]
-        },
-        {
-          "name": "SetValueAsync",
+          "name": "SetValue",
           "returnTypeName": "Task",
           "summary": "Sets the current editor value.",
           "parameters": [
@@ -23197,15 +23120,6 @@
           "typeName": "RenderFragment",
           "defaultValue": "null",
           "summary": "Gets or sets the child content.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ConfigureLanguageMethod",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Gets or sets the custom JavaScript method used to configure advanced language features.",
-          "remarks": "The method receives the language definition and the Monaco API. It can return a disposable registration.",
           "isBlazoriseEnum": false
         },
         {
@@ -23256,7 +23170,7 @@
           "typeName": "string",
           "defaultValue": "\"_content/Blazorise.CodeEditor/vendors/monaco/min/vs\"",
           "summary": "Gets or sets the base URL where the code editor runtime assets are located.",
-          "remarks": "Monaco is loaded once per page. The first code editor determines the runtime asset path.",
+          "remarks": "Runtime assets are loaded once per page. The first code editor determines the asset path.",
           "isBlazoriseEnum": false
         },
         {
@@ -23265,7 +23179,7 @@
           "typeName": "IReadOnlyList<CodeEditorLanguageDefinition>",
           "defaultValue": "null",
           "summary": "Gets or sets globally registered custom languages.",
-          "remarks": "Monaco language registrations are global to the page. Use one definition per language identifier.",
+          "remarks": "Custom language registrations are global to the page. Use one definition per language identifier.",
           "isBlazoriseEnum": false
         }
       ],
@@ -23685,7 +23599,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the next tokenizer state.",
-          "remarks": "Use a named state such as <code>@string</code>, or a Monarch transition such as <code>@pop</code>.",
+          "remarks": "Use a named state such as <code>@string</code>, or a tokenizer transition such as <code>@pop</code>.",
           "isBlazoriseEnum": false
         },
         {
@@ -23770,7 +23684,7 @@
     {
       "type": "global::Blazorise.CodeEditor.CodeEditorTokenizerState",
       "typeName": "CodeEditorTokenizerState",
-      "summary": "$\"\"\"\r\n       Declaratively defines a named Monarch tokenizer state.\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Declaratively defines a named tokenizer state.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "ChildContent",

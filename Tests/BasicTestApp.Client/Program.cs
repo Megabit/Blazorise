@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Blazorise;
 using Blazorise.Bootstrap;
+using Blazorise.CodeEditor;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -27,6 +28,7 @@ public class Program
             .AddFontAwesomeIcons();
 
         builder.Services.AddBlazoriseRichTextEdit();
+        builder.Services.AddBlazoriseCodeEditor();
 
         builder.Services.AddMemoryCache();
         builder.Services.AddScoped<Blazorise.Shared.Data.EmployeeData>();

@@ -64,8 +64,8 @@ public class JSCodeEditorModule : BaseJSModule,
     public ValueTask Focus( ElementReference elementRef, string elementId )
         => InvokeSafeVoidAsync( "focus", elementRef, elementId );
 
-    public ValueTask Layout( ElementReference elementRef, string elementId )
-        => InvokeSafeVoidAsync( "layout", elementRef, elementId );
+    public ValueTask Resize( ElementReference elementRef, string elementId )
+        => InvokeSafeVoidAsync( "resize", elementRef, elementId );
 
     public ValueTask<bool> FormatDocument( ElementReference elementRef, string elementId )
         => InvokeSafeAsync<bool>( "formatDocument", elementRef, elementId );

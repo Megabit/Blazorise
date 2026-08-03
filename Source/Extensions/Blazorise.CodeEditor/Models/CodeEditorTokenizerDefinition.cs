@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace Blazorise.CodeEditor;
 
 /// <summary>
-/// Defines a Monarch tokenizer for a custom code editor language.
+/// Defines a tokenizer for a custom code editor language.
 /// </summary>
 public class CodeEditorTokenizerDefinition
 {

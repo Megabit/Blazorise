@@ -45,8 +45,7 @@ public partial class CodeEditorCustomLanguage : ComponentBase, IDisposable
                   || paramAliases.Changed
                   || paramExtensions.Changed
                   || paramMimeTypes.Changed
-                  || paramTokenizer.Changed
-                  || parameters.IsParameterChanged( ConfigureLanguageMethod ) ) )
+                  || paramTokenizer.Changed ) )
         {
             ParentCodeEditor.NotifyLanguageChanged();
         }
@@ -90,8 +89,7 @@ public partial class CodeEditorCustomLanguage : ComponentBase, IDisposable
             Aliases = Aliases,
             Extensions = Extensions,
             MimeTypes = MimeTypes,
-            Tokenizer = Tokenizer ?? tokenizer?.ToDefinition(),
-            ConfigureLanguageMethod = ConfigureLanguageMethod
+            Tokenizer = Tokenizer ?? tokenizer?.ToDefinition()
         };
     }
 
@@ -126,14 +124,6 @@ public partial class CodeEditorCustomLanguage : ComponentBase, IDisposable
     /// When supplied, this definition takes precedence over a nested <see cref="CodeEditorTokenizer"/>.
     /// </remarks>
     [Parameter] public CodeEditorTokenizerDefinition Tokenizer { get; set; }
-
-    /// <summary>
-    /// Gets or sets the custom JavaScript method used to configure advanced language features.
-    /// </summary>
-    /// <remarks>
-    /// The method receives the language definition and the Monaco API. It can return a disposable registration.
-    /// </remarks>
-    [Parameter] public string ConfigureLanguageMethod { get; set; }
 
     /// <summary>
     /// Gets or sets the child content.

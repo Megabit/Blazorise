@@ -68,7 +68,7 @@
             </CardBody>
             <CardFooter>
                 <Buttons>
-                    <Button Color="Color.Primary" Clicked="@FormatDocumentAsync">Format</Button>
+                    <Button Color="Color.Primary" Clicked="@FormatDocument">Format</Button>
                     <Button Color="Color.Secondary" Clicked="@FocusEditorAsync">Focus</Button>
                 </Buttons>
                 <Span Margin="Margin.Is3.FromStart">@editorStatus</Span>
@@ -164,10 +164,10 @@ public class Greeting
             EndColumn = 32
         }
     };
-    private async Task FormatDocumentAsync()
+    private async Task FormatDocument()
     {
         bool formatted = codeEditorRef is not null
-            && await codeEditorRef.FormatDocumentAsync();
+            && await codeEditorRef.FormatDocument();
 
         editorStatus = formatted
             ? "Document formatted."

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.CodeEditor;
 
 /// <summary>
-/// Declaratively defines a named Monarch tokenizer state.
+/// Declaratively defines a named tokenizer state.
 /// </summary>
 public partial class CodeEditorTokenizerState : ComponentBase, IDisposable
 {
