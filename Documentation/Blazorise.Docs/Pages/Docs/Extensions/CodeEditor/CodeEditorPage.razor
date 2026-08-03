@@ -91,7 +91,7 @@
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Bind a document">
+    <DocsPageSectionHeader Title="Binding">
         Use <Code>@@bind-Value</Code> for normal two-way binding and choose one of the identifiers from <Code>CodeEditorLanguage</Code>. <Code>Immediate</Code> sends user changes to .NET while typing.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="CodeEditorBasicExample" Outlined FullWidth>
@@ -100,7 +100,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Configure behavior and observe events">
+    <DocsPageSectionHeader Title="Options">
         <Code>EditorOptions</Code> contains editor-specific settings. <Code>Ready</Code>, <Code>Focused</Code>, <Code>Blurred</Code>, and <Code>ContentChanged</Code> describe the editor lifecycle and user activity. Debouncing keeps frequent server-side value updates under control.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="CodeEditorOptionsExample" Outlined FullWidth>
@@ -109,7 +109,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Read and display diagnostics">
+    <DocsPageSectionHeader Title="Diagnostics">
         Built-in language support can report syntax diagnostics for supported languages. Call <Code>GetDiagnostics</Code> when validation is requested. Use the <Code>Diagnostics</Code> parameter for application rules that should also appear as editor markers.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="CodeEditorDiagnosticsExample" Outlined FullWidth>
@@ -124,7 +124,7 @@
 </Alert>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Validate code in a form">
+    <DocsPageSectionHeader Title="Validation">
         Put <Code>CodeEditor</Code> inside the standard Blazorise validation components. The validator runs only when requested and uses <Code>GetDiagnostics</Code> to reject documents that contain error markers.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="CodeEditorValidationExample" Outlined FullWidth>
@@ -133,7 +133,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Add static completion and snippets">
+    <DocsPageSectionHeader Title="Completion">
         Use <Code>CompletionItems</Code> when the same suggestions are valid everywhere. <Code>InsertAsSnippet</Code> enables numbered placeholders, and <Code>CompletionTriggerCharacters</Code> can open suggestions after characters such as a dot. Press <Code>Ctrl+Space</Code> to request suggestions manually.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="CodeEditorCompletionExample" Outlined FullWidth>
@@ -142,7 +142,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Define a custom language">
+    <DocsPageSectionHeader Title="Custom language">
         Supply <Code>Languages</Code> when editing a domain-specific language. Each <Code>CodeEditorLanguageDefinition</Code> registers an identifier, while its <Code>Tokenizer</Code> maps regular-expression rules to token names used for syntax highlighting.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="CodeEditorCustomLanguageExample" Outlined FullWidth>
@@ -155,7 +155,7 @@
 </DocsPageParagraph>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Provide context-aware completion">
+    <DocsPageSectionHeader Title="Dynamic completion">
         Use <Code>CodeEditorCompletionProvider.ItemsProvider</Code> when suggestions depend on the document or cursor. The callback receives the current value, line, position, word, and trigger character. An item's optional <Code>Range</Code> tells the editor exactly what text to replace.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="CodeEditorContextualCompletionExample" Outlined FullWidth>
@@ -168,7 +168,7 @@
 </DocsPageParagraph>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Format a document">
+    <DocsPageSectionHeader Title="Formatting">
         A <Code>FormattingProvider</Code> connects the Format Document action to application code. Call <Code>FormatDocument</Code> from a button, or let users invoke the standard keyboard command.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="CodeEditorFormattingExample" Outlined FullWidth>

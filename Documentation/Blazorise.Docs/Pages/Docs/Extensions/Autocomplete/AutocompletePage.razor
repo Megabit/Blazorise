@@ -57,7 +57,7 @@
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Searching single value">
+    <DocsPageSectionHeader Title="Single selection">
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="AutocompleteExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" CopyFullExample Outlined FullWidth>
         <AutocompleteExample />
@@ -65,7 +65,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Searching multiple values">
+    <DocsPageSectionHeader Title="Multiple selection">
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="AutocompleteMultipleExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" CopyFullExample Outlined FullWidth>
         <AutocompleteMultipleExample />
@@ -91,7 +91,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Validation (data annotations)">
+    <DocsPageSectionHeader Title="Validation">
         <Paragraph>
             Use <Code>ValidationMode.Auto</Code> with a model decorated with data annotations to validate single and multiple selections.
         </Paragraph>
@@ -110,7 +110,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Searching with data on demand (ReadData)">
+    <DocsPageSectionHeader Title="ReadData">
         Frequently, you'll want to read data on demand rather than loading everything into memory at startup. You can do it with the <Code>ReadData</Code> API.
         It will provide you with enough information for you to call an external data-source, which will return new data, which you can then reassign to the <Code>Data</Code> parameter.
         <Alert Color="Color.Info" Visible>
@@ -125,7 +125,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Extending with custom item content">
+    <DocsPageSectionHeader Title="Custom content">
         Customize the way you display the Autocomplete items by providing <Code>ItemContent</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="AutocompleteItemContentExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" CopyFullExample Outlined FullWidth>
@@ -134,7 +134,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Suggesting already selected items and Checkbox support">
+    <DocsPageSectionHeader Title="Selected items">
         Enabling `<Code>AutocompleteSelectionMode.Checkbox</Code>` adds checkboxes to all items in the autocomplete menu, while also keeping previously selected items visible.
         <Strong>Note: </Strong> Make sure to set <Code>CloseOnSelection</Code> to false if you want to keep the dropdown open whenever an item is selected.
     </DocsPageSectionHeader>
@@ -144,7 +144,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Highlight search text">
+    <DocsPageSectionHeader Title="Text highlighting">
         Autocomplete <Code>HighlightSearch</Code> is a feature that allows you to highlight the search text that you have entered in a dropdown list of items. When you start typing in the search field, the dropdown list of items will automatically be filtered to show only the items that match the search text. The search text will also be highlighted in the dropdown list of items, so that you can easily see which items match your search. This can be a useful feature when you are trying to find a specific item in a long list of items, as it allows you to quickly locate the item you are looking for.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="AutocompleteHighlightExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" CopyFullExample Outlined FullWidth>
@@ -167,7 +167,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Virtualize with ReadData">
+    <DocsPageSectionHeader Title="Virtualization">
         <Paragraph>
             Blazorise Autocomplete's <Code>Virtualize</Code> and <Code>ReadData</Code> features work together to handle large datasets efficiently.
             The <Code>ReadData</Code> event allows you to load only the data needed for the current interaction, without loading the entire dataset into memory.
