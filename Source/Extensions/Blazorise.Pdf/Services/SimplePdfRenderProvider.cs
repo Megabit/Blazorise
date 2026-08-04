@@ -92,11 +92,12 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         SetObject( objects, pagesId, BuildPagesObject( pageObjectIds ) );
         SetObject( objects, catalogId, $"<< /Type /Catalog /Pages {pagesId.ToString( CultureInfo.InvariantCulture )} 0 R >>" );
+        int informationId = string.IsNullOrEmpty( document.Title ) ? 0 : AddObject( objects, BuildDocumentInformationObject( document.Title ) );
 
         await ReportProgress( options, PdfGenerationStage.WritingDocument, ( pages.Count + 1d ) / totalWork, pages.Count, pages.Count );
         cancellationToken.ThrowIfCancellationRequested();
 
-        byte[] content = WriteDocument( objects );
+        byte[] content = WriteDocument( objects, catalogId, informationId );
 
         await ReportProgress( options, PdfGenerationStage.Completed, 1, pages.Count, pages.Count );
 
@@ -162,6 +163,22 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         string kids = string.Join( " ", pageObjectIds.Select( pageObjectId => $"{pageObjectId.ToString( CultureInfo.InvariantCulture )} 0 R" ) );
 
         return $"<< /Type /Pages /Kids [ {kids} ] /Count {pageObjectIds.Count.ToString( CultureInfo.InvariantCulture )} >>";
+    }
+
+    private static string BuildDocumentInformationObject( string title )
+    {
+        byte[] titleBytes = Encoding.BigEndianUnicode.GetBytes( title );
+        StringBuilder builder = new( titleBytes.Length * 2 + 20 );
+        builder.Append( "<< /Title <FEFF" );
+
+        foreach ( byte titleByte in titleBytes )
+        {
+            builder.Append( titleByte.ToString( "X2", CultureInfo.InvariantCulture ) );
+        }
+
+        builder.Append( "> >>" );
+
+        return builder.ToString();
     }
 
     private static PdfFontResources AddFontResources( List<PdfObject> objects, IReadOnlyList<PdfPageDefinition> pages, IFontProvider fontProvider )
@@ -1335,7 +1352,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return value != 0;
     }
 
-    private static byte[] WriteDocument( IReadOnlyList<PdfObject> objects )
+    private static byte[] WriteDocument( IReadOnlyList<PdfObject> objects, int catalogId, int informationId )
     {
         using MemoryStream stream = new();
         List<long> offsets = [];
@@ -1368,7 +1385,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         }
 
         WriteAsciiLine( stream, "trailer" );
-        WriteAsciiLine( stream, FormattableString.Invariant( $"<< /Size {objects.Count + 1} /Root 1 0 R >>" ) );
+        string informationReference = informationId > 0 ? FormattableString.Invariant( $" /Info {informationId} 0 R" ) : string.Empty;
+        WriteAsciiLine( stream, FormattableString.Invariant( $"<< /Size {objects.Count + 1} /Root {catalogId} 0 R{informationReference} >>" ) );
         WriteAsciiLine( stream, "startxref" );
         WriteAsciiLine( stream, xrefOffset.ToString( CultureInfo.InvariantCulture ) );
         WriteAscii( stream, "%%EOF" );
