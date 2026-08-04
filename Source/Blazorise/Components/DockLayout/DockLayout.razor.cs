@@ -720,7 +720,7 @@ public partial class DockLayout : BaseComponent
                     autoHideOutsideHandlerEnabled = false;
                 }
 
-                await JSModule.Cancel();
+                await JSModule.Cancel( ElementRef );
             }
 
             if ( dotNetObjectRef is not null )

@@ -1,11 +1,10 @@
-let operation = null;
-let animationFrame = null;
-let autoHideOutside = null;
+const operations = new WeakMap();
+const autoHideOutsideHandlers = new WeakMap();
 
 export function beginDrag(dotNetObjectRef, layout, paneName, pointerId, clientX, clientY, dragGroup) {
-    cancel();
+    cancel(layout);
 
-    operation = {
+    const operation = {
         type: "drag",
         dotNetObjectRef,
         layout,
@@ -22,38 +21,44 @@ export function beginDrag(dotNetObjectRef, layout, paneName, pointerId, clientX,
         compassX: 0,
         compassY: 0,
         dragPreview: null,
-        dropPreview: null
+        dropPreview: null,
+        animationFrame: null
     };
 
-    addDocumentListeners(onDragMove, onDragEnd);
+    operations.set(layout, operation);
+    addDocumentListeners(operation);
 }
 
-export function cancel() {
+export function cancel(layout) {
+    const operation = operations.get(layout);
+
     if (!operation) {
         return;
     }
 
-    removeDocumentListeners();
-    removeDragVisuals();
+    removeDocumentListeners(operation);
+    removeDragVisuals(operation);
 
-    if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-        animationFrame = null;
+    if (operation.animationFrame) {
+        cancelAnimationFrame(operation.animationFrame);
+        operation.animationFrame = null;
     }
 
-    operation = null;
+    operations.delete(layout);
 }
 
 export function setAutoHideOutsideHandler(dotNetObjectRef, layout, enabled) {
-    clearAutoHideOutsideHandler();
+    clearAutoHideOutsideHandler(layout);
 
     if (!enabled || !layout) {
         return;
     }
 
     const handler = (event) => {
+        const autoHideOutside = autoHideOutsideHandlers.get(layout);
+
         if (!autoHideOutside || !autoHideOutside.layout || !autoHideOutside.layout.isConnected) {
-            clearAutoHideOutsideHandler();
+            clearAutoHideOutsideHandler(layout);
             return;
         }
 
@@ -69,7 +74,7 @@ export function setAutoHideOutsideHandler(dotNetObjectRef, layout, enabled) {
         }
 
         const currentAutoHideOutside = autoHideOutside;
-        clearAutoHideOutsideHandler();
+        clearAutoHideOutsideHandler(layout);
 
         window.setTimeout(() => {
             if (currentAutoHideOutside?.dotNetObjectRef) {
@@ -84,39 +89,41 @@ export function setAutoHideOutsideHandler(dotNetObjectRef, layout, enabled) {
         return;
     }
 
+    autoHideOutsideHandlers.set(layout, { dotNetObjectRef, layout, documentObserverScope });
+
     documentObserverScope.subscribe({
         eventNames: ["pointerdown"],
         capture: false,
         ignorePointerCapture: true,
         handler,
     });
-
-    autoHideOutside = { dotNetObjectRef, layout, documentObserverScope };
 }
 
-function clearAutoHideOutsideHandler() {
+function clearAutoHideOutsideHandler(layout) {
+    const autoHideOutside = autoHideOutsideHandlers.get(layout);
+
     if (!autoHideOutside) {
         return;
     }
 
     autoHideOutside.documentObserverScope.dispose();
-    autoHideOutside = null;
+    autoHideOutsideHandlers.delete(layout);
 }
 
 function createDocumentObserverScope(scope) {
     return globalThis.Blazorise?.documentObserver?.createScope(`dock-layout-${scope}`) ?? null;
 }
 
-function addDocumentListeners(move, end) {
+function addDocumentListeners(operation) {
     const documentObserverScope = createDocumentObserverScope(operation.type);
 
     if (!documentObserverScope) {
         return;
     }
 
-    operation.move = move;
-    operation.end = end;
-    operation.cancelOnPointerDown = cancelStaleOperationOnPointerDown;
+    operation.move = event => onDragMove(operation, event);
+    operation.end = event => onDragEnd(operation, event);
+    operation.cancelOnPointerDown = () => cancelStaleOperationOnPointerDown(operation);
     operation.documentObserverScope = documentObserverScope;
 
     documentObserverScope.subscribe({
@@ -131,38 +138,38 @@ function addDocumentListeners(move, end) {
         capture: true,
         preventDefault: true,
         throttle: true,
-        handler: move,
+        handler: operation.move,
     });
 
     documentObserverScope.subscribe({
         eventNames: ["pointerup", "pointercancel"],
         capture: true,
         preventDefault: true,
-        handler: end,
+        handler: operation.end,
     });
 
     documentObserverScope.capturePointer(operation.pointerId);
 }
 
-function removeDocumentListeners() {
+function removeDocumentListeners(operation) {
     operation.documentObserverScope?.dispose();
 }
 
-function cancelStaleOperationOnPointerDown() {
-    if (!operation) {
+function cancelStaleOperationOnPointerDown(operation) {
+    if (operations.get(operation.layout) !== operation) {
         return;
     }
 
-    cancel();
+    cancel(operation.layout);
 }
 
-function onDragMove(event) {
-    if (!operation || operation.type !== "drag") {
+function onDragMove(operation, event) {
+    if (operations.get(operation.layout) !== operation || operation.type !== "drag" || event.pointerId !== operation.pointerId) {
         return;
     }
 
     if (isPrimaryPointerButtonReleased(event)) {
-        cancel();
+        cancel(operation.layout);
         return;
     }
 
@@ -175,11 +182,11 @@ function onDragMove(event) {
     event.preventDefault();
     operation.dragging = true;
 
-    ensureDragPreview(event.clientX, event.clientY);
-    updateDragPreview(event.clientX, event.clientY);
+    ensureDragPreview(operation, event.clientX, event.clientY);
+    updateDragPreview(operation, event.clientX, event.clientY);
 
-    const target = findDockTarget(operation.layout, operation.paneName, event.clientX, event.clientY);
-    updateDropPreview(target);
+    const target = findDockTarget(operation.layout, operation.paneName, event.clientX, event.clientY, operation.dragGroup);
+    updateDropPreview(operation, target);
 
     if (operation.targetName !== target.targetName || operation.targetNodeId !== target.targetNodeId || operation.zone !== target.zone || operation.compassZoneKey !== target.compassZoneKey || operation.compassX !== target.compassX || operation.compassY !== target.compassY) {
         operation.targetName = target.targetName;
@@ -188,18 +195,18 @@ function onDragMove(event) {
         operation.compassZoneKey = target.compassZoneKey;
         operation.compassX = target.compassX;
         operation.compassY = target.compassY;
-        scheduleCallback(() => operation.dotNetObjectRef.invokeMethodAsync("NotifyDockPaneDrag", operation.paneName, target.zone, target.compassZoneKey, target.compassX, target.compassY));
+        scheduleCallback(operation, () => operation.dotNetObjectRef.invokeMethodAsync("NotifyDockPaneDrag", operation.paneName, target.zone, target.compassZoneKey, target.compassX, target.compassY));
     }
 }
 
-function onDragEnd(event) {
-    if (!operation || operation.type !== "drag") {
+function onDragEnd(operation, event) {
+    if (operations.get(operation.layout) !== operation || operation.type !== "drag" || event.pointerId !== operation.pointerId) {
         return;
     }
 
     const currentOperation = operation;
 
-    cancel();
+    cancel(operation.layout);
 
     if (!currentOperation.dragging) {
         return;
@@ -210,14 +217,14 @@ function onDragEnd(event) {
     currentOperation.dotNetObjectRef.invokeMethodAsync("NotifyDockPaneDropped", currentOperation.paneName, currentOperation.targetName, currentOperation.targetNodeId, currentOperation.zone);
 }
 
-function findDockTarget(layout, paneName, clientX, clientY) {
+function findDockTarget(layout, paneName, clientX, clientY, dragGroup) {
     const layoutRect = layout.getBoundingClientRect();
 
     if (clientX < layoutRect.left || clientX > layoutRect.right || clientY < layoutRect.top || clientY > layoutRect.bottom) {
         return emptyDockTarget();
     }
 
-    const pane = findTargetPane(layout, paneName, clientX, clientY, operation.dragGroup);
+    const pane = findTargetPane(layout, paneName, clientX, clientY, dragGroup);
 
     if (pane) {
         const targetName = pane.getAttribute("data-dock-pane-name");
@@ -409,7 +416,7 @@ function emptyDockTarget() {
     };
 }
 
-function ensureDragPreview(clientX, clientY) {
+function ensureDragPreview(operation, clientX, clientY) {
     if (operation.dragPreview) {
         return;
     }
@@ -420,10 +427,10 @@ function ensureDragPreview(clientX, clientY) {
     preview.textContent = getPaneCaption(operation.layout, operation.paneName);
     operation.layout.appendChild(preview);
     operation.dragPreview = preview;
-    updateDragPreview(clientX, clientY);
+    updateDragPreview(operation, clientX, clientY);
 }
 
-function updateDragPreview(clientX, clientY) {
+function updateDragPreview(operation, clientX, clientY) {
     if (!operation.dragPreview) {
         return;
     }
@@ -436,9 +443,9 @@ function updateDragPreview(clientX, clientY) {
     operation.dragPreview.style.top = `${top}px`;
 }
 
-function updateDropPreview(target) {
+function updateDropPreview(operation, target) {
     if (!target.zone || !target.dropWidth || !target.dropHeight) {
-        removeDropPreview();
+        removeDropPreview(operation);
         return;
     }
 
@@ -456,8 +463,8 @@ function updateDropPreview(target) {
     operation.dropPreview.style.height = `${target.dropHeight}px`;
 }
 
-function removeDragVisuals() {
-    removeDropPreview();
+function removeDragVisuals(operation) {
+    removeDropPreview(operation);
 
     if (operation.dragPreview) {
         operation.dragPreview.remove();
@@ -465,7 +472,7 @@ function removeDragVisuals() {
     }
 }
 
-function removeDropPreview() {
+function removeDropPreview(operation) {
     if (operation.dropPreview) {
         operation.dropPreview.remove();
         operation.dropPreview = null;
@@ -492,13 +499,13 @@ function cssEscape(value) {
     return String(value).replace(/["\\]/g, "\\$&");
 }
 
-function scheduleCallback(callback) {
-    if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
+function scheduleCallback(operation, callback) {
+    if (operation.animationFrame) {
+        cancelAnimationFrame(operation.animationFrame);
     }
 
-    animationFrame = requestAnimationFrame(() => {
-        animationFrame = null;
+    operation.animationFrame = requestAnimationFrame(() => {
+        operation.animationFrame = null;
         callback();
     });
 }

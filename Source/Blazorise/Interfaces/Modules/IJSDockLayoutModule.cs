@@ -23,10 +23,11 @@ public interface IJSDockLayoutModule : IBaseJSModule
     ValueTask BeginDrag( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference layoutRef, string paneName, long pointerId, double clientX, double clientY, bool dragGroup );
 
     /// <summary>
-    /// Cancels the current dock pointer operation.
+    /// Cancels the current dock pointer operation for a layout.
     /// </summary>
+    /// <param name="layoutRef">The dock layout element reference.</param>
     /// <returns>A task that completes when the operation is cancelled.</returns>
-    ValueTask Cancel();
+    ValueTask Cancel( ElementReference layoutRef );
 
     /// <summary>
     /// Enables or disables document-level outside pointer tracking for auto-hide flyouts.
