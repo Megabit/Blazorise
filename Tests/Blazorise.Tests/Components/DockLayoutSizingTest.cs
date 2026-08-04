@@ -143,7 +143,7 @@ public class DockLayoutSizingTest
     }
 
     [Fact]
-    public void CreatingPersistenceSnapshotExcludesRuntimeState()
+    public void CreatingSnapshotsPreservesRestorationWithoutPersistingNodeIds()
     {
         DockLayoutState state = new()
         {
@@ -161,17 +161,37 @@ public class DockLayoutSizingTest
                     Name = "first",
                     Position = DockPanePosition.Left,
                     Size = "16rem",
-                    RestorePlacement = new() { SourceGroupId = "dock-node-1" },
+                    RestorePlacement = new()
+                    {
+                        SourceGroupId = "dock-node-1",
+                        SourceTabPaneName = "second",
+                        SourceGroupTargetNodeId = "dock-node-2",
+                    },
                 },
             ],
             Rails =
             [
-                new() { Position = DockPanePosition.Left },
+                new()
+                {
+                    Position = DockPanePosition.Left,
+                    Items =
+                    [
+                        new()
+                        {
+                            PaneName = "first",
+                            SourceGroupId = "dock-node-1",
+                            SourceTabPaneName = "second",
+                            SourceTargetNodeId = "dock-node-3",
+                            Order = 2,
+                        },
+                    ],
+                },
             ],
         };
         DockLayoutStateManager stateManager = new();
 
         DockLayoutState snapshot = stateManager.CreatePersistenceSnapshot( state );
+        DockLayoutState runtimeSnapshot = stateManager.CreateRuntimeSnapshot( state );
 
         Assert.NotSame( state, snapshot );
         Assert.NotSame( state.Root, snapshot.Root );
@@ -181,14 +201,35 @@ public class DockLayoutSizingTest
         Assert.Equal( new[] { "first", "second" }, snapshot.Root.Panes );
         Assert.Equal( "second", snapshot.Root.ActivePane );
         Assert.Equal( "16rem", snapshot.Panes[0].Size );
-        Assert.Null( snapshot.Panes[0].RestorePlacement );
-        Assert.Empty( snapshot.Rails );
+        Assert.NotSame( state.Panes[0].RestorePlacement, snapshot.Panes[0].RestorePlacement );
+        Assert.Equal( "dock-state-group-1", snapshot.Panes[0].RestorePlacement.SourceGroupId );
+        Assert.Equal( "second", snapshot.Panes[0].RestorePlacement.SourceTabPaneName );
+        Assert.Null( snapshot.Panes[0].RestorePlacement.SourceGroupTargetNodeId );
+        Assert.Single( snapshot.Rails );
+        Assert.NotSame( state.Rails[0], snapshot.Rails[0] );
+        Assert.Equal( snapshot.Panes[0].RestorePlacement.SourceGroupId, snapshot.Rails[0].Items[0].SourceGroupId );
+        Assert.Equal( 2, snapshot.Rails[0].Items[0].Order );
+        Assert.Null( snapshot.Rails[0].Items[0].SourceTargetNodeId );
 
-        string json = JsonSerializer.Serialize( state );
+        Assert.Equal( "dock-node-1", runtimeSnapshot.Root.Id );
+        Assert.Equal( "dock-node-1", runtimeSnapshot.Panes[0].RestorePlacement.SourceGroupId );
+        Assert.Equal( "dock-node-2", runtimeSnapshot.Panes[0].RestorePlacement.SourceGroupTargetNodeId );
+        Assert.Equal( "dock-node-3", runtimeSnapshot.Rails[0].Items[0].SourceTargetNodeId );
 
+        string json = JsonSerializer.Serialize( snapshot );
+
+        Assert.DoesNotContain( "dock-node-", json );
         Assert.DoesNotContain( "\"Id\"", json );
-        Assert.DoesNotContain( "\"Rails\"", json );
-        Assert.DoesNotContain( "\"RestorePlacement\"", json );
+        Assert.DoesNotContain( "\"SourceGroupTargetNodeId\"", json );
+        Assert.DoesNotContain( "\"SourceTargetNodeId\"", json );
+        Assert.Contains( "\"Rails\"", json );
+        Assert.Contains( "\"RestorePlacement\"", json );
+
+        DockLayoutState serializedState = JsonSerializer.Deserialize<DockLayoutState>( json );
+
+        Assert.Equal( "dock-state-group-1", serializedState.Panes[0].RestorePlacement.SourceGroupId );
+        Assert.Equal( "second", serializedState.Panes[0].RestorePlacement.SourceTabPaneName );
+        Assert.Equal( 2, serializedState.Rails[0].Items[0].Order );
     }
 
     [Fact]

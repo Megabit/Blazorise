@@ -226,17 +226,44 @@ public partial class _ReportDesignerLayout
     private void EnsureDockLayoutState()
     {
         bool toolbarVisible = ShowToolbar && Toolbar is not null;
+        bool toolbarInTree = DockTreeContainsPane( State.Root, ToolbarPaneName );
+        bool workspaceInitialized = State.Root is not null
+            && DockStateContainsPane( ToolboxPaneName )
+            && DockStateContainsPane( FieldsExplorerPaneName )
+            && DockStateContainsPane( SurfacePaneName )
+            && DockStateContainsPane( PropertiesPaneName )
+            && DockStateContainsPane( ReportExplorerPaneName );
 
         if ( dockLayoutToolbarVisible is null )
-            dockLayoutToolbarVisible = DockStateContainsPane( ToolbarPaneName );
+            dockLayoutToolbarVisible = toolbarInTree;
 
-        if ( dockLayoutToolbarVisible == toolbarVisible
-             && DockStateContainsPane( ToolboxPaneName )
-             && DockStateContainsPane( FieldsExplorerPaneName )
-             && DockStateContainsPane( SurfacePaneName )
-             && DockStateContainsPane( PropertiesPaneName )
-             && DockStateContainsPane( ReportExplorerPaneName )
-             && ( !toolbarVisible || DockStateContainsPane( ToolbarPaneName ) ) )
+        if ( workspaceInitialized && dockLayoutToolbarVisible != toolbarVisible )
+        {
+            DockNodeState workspaceNode = !toolbarVisible
+                && State.Root.Kind == DockNodeKind.Split
+                && DockTreeContainsPane( State.Root.First, ToolbarPaneName )
+                    ? State.Root.Second
+                    : State.Root;
+
+            if ( workspaceNode is not null && ( toolbarVisible || !DockTreeContainsPane( workspaceNode, ToolbarPaneName ) ) )
+            {
+                State.Root = toolbarVisible
+                    ? CreateSplitNode(
+                        "report-dock-root",
+                        CreatePaneNode( "report-dock-toolbar", ToolbarPaneName ),
+                        workspaceNode,
+                        DockSplitOrientation.Vertical,
+                        0.08d )
+                    : workspaceNode;
+
+                dockLayoutToolbarVisible = toolbarVisible;
+                return;
+            }
+        }
+
+        if ( workspaceInitialized
+             && dockLayoutToolbarVisible == toolbarVisible
+             && ( !toolbarVisible || toolbarInTree ) )
         {
             return;
         }

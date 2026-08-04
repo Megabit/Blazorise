@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Blazorise;
 
@@ -31,6 +30,5 @@ public class DockLayoutState
     /// <summary>
     /// Defines the auto-hide rails and their pane tabs.
     /// </summary>
-    [JsonIgnore]
     public List<DockRailState> Rails { get; set; } = new();
 }

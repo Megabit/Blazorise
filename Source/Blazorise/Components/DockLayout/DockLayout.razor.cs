@@ -126,7 +126,7 @@ public partial class DockLayout : BaseComponent
         if ( state is not null && state.SchemaVersion != DockLayoutState.CurrentSchemaVersion )
             throw new ArgumentException( $"Unsupported dock layout state schema version '{state.SchemaVersion}'.", nameof( state ) );
 
-        this.state = stateManager.CreatePersistenceSnapshot( state );
+        this.state = stateManager.CreateRuntimeSnapshot( state );
         activeAutoHidePaneName = null;
 
         EnsureCurrentStateInitialized();

@@ -11,10 +11,21 @@ internal sealed class DockLayoutStateManager
     #region Methods
 
     public DockLayoutState CreatePersistenceSnapshot( DockLayoutState state )
+    {
+        Dictionary<string, string> groupIds = new();
+
+        return CreateSnapshot( state, false, groupIds );
+    }
+
+    public DockLayoutState CreateRuntimeSnapshot( DockLayoutState state )
+        => CreateSnapshot( state, true, null );
+
+    private static DockLayoutState CreateSnapshot( DockLayoutState state, bool includeRuntimeState, Dictionary<string, string> groupIds )
         => new()
         {
-            Root = ClonePersistenceNode( state?.Root ),
-            Panes = state?.Panes?.Select( ClonePersistencePane ).ToList() ?? new(),
+            Root = CloneNode( state?.Root, includeRuntimeState ),
+            Panes = state?.Panes?.Select( pane => ClonePane( pane, includeRuntimeState, groupIds ) ).ToList() ?? new(),
+            Rails = state?.Rails?.Select( rail => CloneRail( rail, includeRuntimeState, groupIds ) ).ToList() ?? new(),
         };
 
     public DockPaneState EnsurePaneState( DockLayoutState state, DockPane pane )
@@ -261,17 +272,18 @@ internal sealed class DockLayoutStateManager
         }
     }
 
-    private static DockNodeState ClonePersistenceNode( DockNodeState node )
+    private static DockNodeState CloneNode( DockNodeState node, bool includeRuntimeState )
     {
         if ( node is null )
             return null;
 
         return new()
         {
+            Id = includeRuntimeState ? node.Id : null,
             Kind = node.Kind,
             PaneName = node.PaneName,
-            First = ClonePersistenceNode( node.First ),
-            Second = ClonePersistenceNode( node.Second ),
+            First = CloneNode( node.First, includeRuntimeState ),
+            Second = CloneNode( node.Second, includeRuntimeState ),
             Orientation = node.Orientation,
             Ratio = node.Ratio,
             UseRatio = node.UseRatio,
@@ -281,7 +293,7 @@ internal sealed class DockLayoutStateManager
         };
     }
 
-    private static DockPaneState ClonePersistencePane( DockPaneState pane )
+    private static DockPaneState ClonePane( DockPaneState pane, bool includeRuntimeState, Dictionary<string, string> groupIds )
         => new()
         {
             Name = pane.Name,
@@ -290,8 +302,77 @@ internal sealed class DockLayoutStateManager
             Collapsed = pane.Collapsed,
             AutoHide = pane.AutoHide,
             Visible = pane.Visible,
+            RestorePlacement = CloneRestorePlacement( pane.RestorePlacement, includeRuntimeState, groupIds ),
             Order = pane.Order,
         };
+
+    private static DockRailState CloneRail( DockRailState rail, bool includeRuntimeState, Dictionary<string, string> groupIds )
+        => new()
+        {
+            Position = rail.Position,
+            Items = rail.Items?.Select( item => CloneRailItem( item, includeRuntimeState, groupIds ) ).ToList() ?? new(),
+        };
+
+    private static DockRailItemState CloneRailItem( DockRailItemState item, bool includeRuntimeState, Dictionary<string, string> groupIds )
+        => new()
+        {
+            PaneName = item.PaneName,
+            SourceGroupId = CloneSourceGroupId( item.SourceGroupId, groupIds ),
+            SourceTabPaneName = item.SourceTabPaneName,
+            SourcePosition = item.SourcePosition,
+            SourceSize = item.SourceSize,
+            SourceSplitRatio = item.SourceSplitRatio,
+            SourceSplitUseRatio = item.SourceSplitUseRatio,
+            SourceGroupTargetPaneName = item.SourceGroupTargetPaneName,
+            SourceGroupTargetNodeId = includeRuntimeState ? item.SourceGroupTargetNodeId : null,
+            SourceGroupZone = item.SourceGroupZone,
+            SourceGroupSplitRatio = item.SourceGroupSplitRatio,
+            SourceGroupSplitUseRatio = item.SourceGroupSplitUseRatio,
+            SourceTargetPaneName = item.SourceTargetPaneName,
+            SourceTargetNodeId = includeRuntimeState ? item.SourceTargetNodeId : null,
+            SourceZone = item.SourceZone,
+            SourceIndex = item.SourceIndex,
+            Order = item.Order,
+        };
+
+    private static DockPaneRestoreState CloneRestorePlacement( DockPaneRestoreState restorePlacement, bool includeRuntimeState, Dictionary<string, string> groupIds )
+    {
+        if ( restorePlacement is null )
+            return null;
+
+        return new()
+        {
+            SourceGroupId = CloneSourceGroupId( restorePlacement.SourceGroupId, groupIds ),
+            SourceTabPaneName = restorePlacement.SourceTabPaneName,
+            SourcePosition = restorePlacement.SourcePosition,
+            SourceSize = restorePlacement.SourceSize,
+            SourceSplitRatio = restorePlacement.SourceSplitRatio,
+            SourceSplitUseRatio = restorePlacement.SourceSplitUseRatio,
+            SourceGroupTargetPaneName = restorePlacement.SourceGroupTargetPaneName,
+            SourceGroupTargetNodeId = includeRuntimeState ? restorePlacement.SourceGroupTargetNodeId : null,
+            SourceGroupZone = restorePlacement.SourceGroupZone,
+            SourceGroupSplitRatio = restorePlacement.SourceGroupSplitRatio,
+            SourceGroupSplitUseRatio = restorePlacement.SourceGroupSplitUseRatio,
+            SourceTargetPaneName = restorePlacement.SourceTargetPaneName,
+            SourceTargetNodeId = includeRuntimeState ? restorePlacement.SourceTargetNodeId : null,
+            SourceZone = restorePlacement.SourceZone,
+            SourceIndex = restorePlacement.SourceIndex,
+        };
+    }
+
+    private static string CloneSourceGroupId( string sourceGroupId, Dictionary<string, string> groupIds )
+    {
+        if ( string.IsNullOrWhiteSpace( sourceGroupId ) || groupIds is null )
+            return sourceGroupId;
+
+        if ( !groupIds.TryGetValue( sourceGroupId, out string groupId ) )
+        {
+            groupId = $"dock-state-group-{groupIds.Count + 1}";
+            groupIds.Add( sourceGroupId, groupId );
+        }
+
+        return groupId;
+    }
 
     private static DockPanePosition ToRailPosition( DockPanePosition position )
         => position == DockPanePosition.Center ? DockPanePosition.Right : position;
