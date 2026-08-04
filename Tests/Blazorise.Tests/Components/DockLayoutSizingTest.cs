@@ -110,6 +110,51 @@ public class DockLayoutSizingTest
     }
 
     [Fact]
+    public void PaneSizeConstraintsApplyOnlyOnDockAxis()
+    {
+        DockPane explorer = CreateDockPane( "explorer", DockPanePosition.Left );
+        DockPane properties = CreateDockPane( "properties", DockPanePosition.Left );
+        DockPane designer = CreateDockPane( "designer", role: DockPaneRole.Document );
+        DockLayoutRegistry registry = new();
+
+        explorer.MinSize = "10rem";
+        explorer.MaxSize = "24rem";
+        properties.MinSize = "12rem";
+
+        registry.RegisterPane( explorer );
+        registry.RegisterPane( properties );
+        registry.RegisterPane( designer );
+
+        DockNodeState explorerNode = new() { Kind = DockNodeKind.Pane, PaneName = "explorer" };
+        DockNodeState propertiesNode = new() { Kind = DockNodeKind.Pane, PaneName = "properties" };
+        DockNodeState leftSplit = DockLayoutTreeBuilder.CreateSplitNode( explorerNode, propertiesNode, Orientation.Vertical, 0.5 );
+        DockLayoutState state = new()
+        {
+            Root = DockLayoutTreeBuilder.CreateSplitNode(
+                leftSplit,
+                new() { Kind = DockNodeKind.Pane, PaneName = "designer" },
+                Orientation.Horizontal,
+                0.25 ),
+            Panes =
+            [
+                new() { Name = "explorer", Position = DockPanePosition.Left },
+                new() { Name = "properties", Position = DockPanePosition.Left },
+                new() { Name = "designer", Position = DockPanePosition.Center },
+            ],
+        };
+        DockLayoutStateManager stateManager = new();
+        DockLayoutTreeQuery query = new( registry, stateManager, () => state );
+        DockLayoutSizer sizer = new( registry, stateManager, query, () => state );
+
+        Assert.Equal( "10rem", sizer.GetDockNodeMinimumSize( explorerNode, Orientation.Horizontal ) );
+        Assert.Equal( "24rem", sizer.GetDockNodeMaximumSize( explorerNode, Orientation.Horizontal ) );
+        Assert.Equal( "2rem", sizer.GetDockNodeMinimumSize( explorerNode, Orientation.Vertical ) );
+        Assert.Null( sizer.GetDockNodeMaximumSize( explorerNode, Orientation.Vertical ) );
+        Assert.Equal( "calc(2rem + 2rem + var(--dock-split-gap, 0px))", sizer.GetDockNodeMinimumSize( leftSplit, Orientation.Vertical ) );
+        Assert.Null( sizer.GetDockNodeMaximumSize( leftSplit, Orientation.Horizontal ) );
+    }
+
+    [Fact]
     public void NormalizingStateContinuesGeneratedNodeIdsAfterPersistedIds()
     {
         DockPane left = CreateDockPane( "left", DockPanePosition.Left );

@@ -320,28 +320,14 @@ public partial class DockLayout : BaseComponent
 
     private ResizerTarget CreateDockResizeTarget( DockNodeState node, Orientation resizeOrientation, string resizeElementId, string resizeProperty )
     {
-        DockPane pane = GetDockResizePane( node );
-
         return new()
         {
             ElementId = GetDockNodeElementId( node.Id ),
             ResizeElementId = resizeElementId,
             ResizeProperty = resizeProperty,
             MinSize = sizer.GetDockNodeMinimumSize( node, resizeOrientation ),
-            MaxSize = pane?.MaxSize,
+            MaxSize = sizer.GetDockNodeMaximumSize( node, resizeOrientation ),
         };
-    }
-
-    private DockPane GetDockResizePane( DockNodeState node )
-    {
-        string paneName = node?.Kind switch
-        {
-            DockNodeKind.Pane => node.PaneName,
-            DockNodeKind.Tabs => GetActiveTabPaneName( node ),
-            _ => null,
-        };
-
-        return TryGetPane( paneName, out DockPane pane ) ? pane : null;
     }
 
     internal async Task ResizeDockSplit( string nodeId, ResizerEventArgs eventArgs )

@@ -78,7 +78,7 @@ internal sealed class DockLayoutSizer
     public string GetDockNodeMinimumSize( DockNodeState node, Orientation resizeOrientation )
     {
         if ( node?.Kind != DockNodeKind.Split )
-            return GetDockPaneMinimumSize( node );
+            return GetDockPaneMinimumSize( node, resizeOrientation );
 
         string firstMinimum = GetDockChildMinimumSize( node, node.First, resizeOrientation );
         string secondMinimum = GetDockChildMinimumSize( node, node.Second, resizeOrientation );
@@ -86,6 +86,18 @@ internal sealed class DockLayoutSizer
         return node.Orientation == resizeOrientation
             ? $"calc({firstMinimum} + {secondMinimum} + {SplitGapSize})"
             : $"max({firstMinimum}, {secondMinimum})";
+    }
+
+    public string GetDockNodeMaximumSize( DockNodeState node, Orientation resizeOrientation )
+    {
+        if ( node?.Kind == DockNodeKind.Split )
+            return null;
+
+        DockPane pane = GetDockNodePane( node );
+
+        return IsPaneSizeConstraintApplicable( node, resizeOrientation )
+            ? pane?.MaxSize
+            : null;
     }
 
     public bool IsCenterDockGroup( DockLayoutState state, IEnumerable<string> paneNames )
@@ -171,13 +183,21 @@ internal sealed class DockLayoutSizer
         return GetDockNodeMinimumSize( child, resizeOrientation );
     }
 
-    private string GetDockPaneMinimumSize( DockNodeState node )
+    private string GetDockPaneMinimumSize( DockNodeState node, Orientation resizeOrientation )
     {
         DockPane pane = GetDockNodePane( node );
 
-        return string.IsNullOrWhiteSpace( pane?.MinSize )
+        return !IsPaneSizeConstraintApplicable( node, resizeOrientation ) || string.IsNullOrWhiteSpace( pane?.MinSize )
             ? DefaultMinimumPaneSize
             : pane.MinSize;
+    }
+
+    private bool IsPaneSizeConstraintApplicable( DockNodeState node, Orientation resizeOrientation )
+    {
+        DockPanePosition? position = query.GetDockNodePosition( node );
+
+        return position == DockPanePosition.Center
+            || position is not null && IsPanePositionCompatibleWithOrientation( position.Value, resizeOrientation );
     }
 
     private DockPane GetDockNodePane( DockNodeState node )
