@@ -25,15 +25,20 @@ public partial class DockPane : BaseComponent, IDisposable
         base.OnInitialized();
 
         Node.PaneName = ResolvedName;
-        ParentDockLayout?.RegisterPane( this );
         ParentCollector?.AddNode( Node );
+
+        if ( ParentDockLayout?.RegisterPane( this ) == true )
+            ExecuteAfterRender( ParentDockLayout.NotifyDefinitionChanged );
     }
 
     /// <inheritdoc/>
     protected override void Dispose( bool disposing )
     {
         if ( disposing )
+        {
+            ParentCollector?.RemoveNode( Node );
             ParentDockLayout?.UnregisterPane( this );
+        }
 
         base.Dispose( disposing );
     }

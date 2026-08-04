@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,11 +9,11 @@ namespace Blazorise;
 /// <summary>
 /// Defines an initial split node inside a <see cref="DockLayout"/>.
 /// </summary>
-public partial class DockSplit : BaseComponent
+public partial class DockSplit : BaseComponent, IDisposable
 {
     #region Members
 
-    private DockNodeCollector childCollector = new();
+    private DockNodeCollector childCollector;
 
     private DockNodeState node;
 
@@ -46,10 +47,19 @@ public partial class DockSplit : BaseComponent
             await ParentDockLayout.NotifyDefinitionChanged();
     }
 
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+            ParentCollector?.RemoveNode( Node );
+
+        base.Dispose( disposing );
+    }
+
     private void SynchronizeNode()
     {
-        DockNodeState first = childCollector.Nodes.Count > 0 ? childCollector.Nodes[0] : null;
-        DockNodeState second = childCollector.Nodes.Count > 1 ? childCollector.Nodes[1] : null;
+        DockNodeState first = ChildCollector.Nodes.Count > 0 ? ChildCollector.Nodes[0] : null;
+        DockNodeState second = ChildCollector.Nodes.Count > 1 ? ChildCollector.Nodes[1] : null;
         DockNodeState currentNode = Node;
 
         currentNode.Orientation = Orientation;
@@ -62,7 +72,7 @@ public partial class DockSplit : BaseComponent
 
     #region Properties
 
-    internal DockNodeCollector ChildCollector => childCollector;
+    internal DockNodeCollector ChildCollector => childCollector ??= new( SynchronizeNode );
 
     internal DockNodeState Node => node ??= new()
     {

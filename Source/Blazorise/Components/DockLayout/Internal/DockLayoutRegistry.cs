@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 #endregion
 
@@ -21,25 +22,44 @@ internal sealed class DockLayoutRegistry
         if ( string.IsNullOrWhiteSpace( paneName ) )
             return false;
 
+        if ( panes.TryGetValue( paneName, out DockPane registeredPane ) && ReferenceEquals( registeredPane, pane ) )
+            return false;
+
         panes[paneName] = pane;
 
         return true;
     }
 
-    public void RegisterContent( DockContent content )
+    public bool RegisterContent( DockContent content )
     {
-        if ( content is not null )
-            Content = content;
+        if ( content is null || ReferenceEquals( Content, content ) )
+            return false;
+
+        Content = content;
+
+        return true;
     }
 
-    public void UnregisterPane( DockPane pane )
+    public bool UnregisterPane( DockPane pane )
     {
         string paneName = pane?.ResolvedName;
 
-        if ( string.IsNullOrWhiteSpace( paneName ) )
-            return;
+        if ( string.IsNullOrWhiteSpace( paneName )
+             || !panes.TryGetValue( paneName, out DockPane registeredPane )
+             || !ReferenceEquals( registeredPane, pane ) )
+            return false;
 
-        panes.Remove( paneName );
+        return panes.Remove( paneName );
+    }
+
+    public bool UnregisterContent( DockContent content )
+    {
+        if ( content is null || !ReferenceEquals( Content, content ) )
+            return false;
+
+        Content = null;
+
+        return true;
     }
 
     public bool TryGetPane( string paneName, out DockPane pane )

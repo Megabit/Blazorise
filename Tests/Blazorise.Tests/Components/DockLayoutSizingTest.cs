@@ -202,6 +202,63 @@ public class DockLayoutSizingTest
         Assert.Null( sizer.GetDockPaneSize( state, pane.ResolvedName ) );
     }
 
+    [Fact]
+    public void DockNodeCollectorTracksDynamicMembership()
+    {
+        int changes = 0;
+        DockNodeCollector collector = new( () => changes++ );
+        DockNodeState node = new();
+
+        collector.AddNode( node );
+        collector.AddNode( node );
+        collector.RemoveNode( node );
+        collector.RemoveNode( node );
+
+        Assert.Equal( 2, changes );
+        Assert.Empty( collector.Nodes );
+    }
+
+    [Fact]
+    public void UnregisteringOldComponentsDoesNotRemoveReplacements()
+    {
+        DockPane first = CreateDockPane( "pane" );
+        DockPane replacement = CreateDockPane( "pane" );
+        DockContent firstContent = new();
+        DockContent replacementContent = new();
+        DockLayoutRegistry registry = new();
+
+        Assert.True( registry.RegisterPane( first ) );
+        Assert.True( registry.RegisterPane( replacement ) );
+        Assert.False( registry.UnregisterPane( first ) );
+        Assert.True( registry.TryGetPane( "pane", out DockPane registeredPane ) );
+        Assert.Same( replacement, registeredPane );
+
+        Assert.True( registry.RegisterContent( firstContent ) );
+        Assert.True( registry.RegisterContent( replacementContent ) );
+        Assert.False( registry.UnregisterContent( firstContent ) );
+        Assert.Same( replacementContent, registry.Content );
+    }
+
+    [Fact]
+    public void RegisteringPaneAddsItToInitializedTree()
+    {
+        DockLayoutState state = new()
+        {
+            Root = new() { Kind = DockNodeKind.Content },
+        };
+        DockLayout layout = new();
+        DockPane pane = CreateDockPane( "pane", DockPanePosition.Left );
+
+        ParameterView.FromDictionary( new Dictionary<string, object>
+        {
+            [nameof( DockLayout.State )] = state,
+        } ).SetParameterProperties( layout );
+
+        layout.RegisterPane( pane );
+
+        Assert.True( DockLayoutTreeQuery.ContainsPane( state.Root, "pane" ) );
+    }
+
     private static DockPane CreateDockPane( string name, DockPanePosition? position = null, string size = null, DockRole role = DockRole.Tool )
     {
         DockPane pane = new();

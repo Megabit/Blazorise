@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -9,11 +10,11 @@ namespace Blazorise;
 /// <summary>
 /// Defines an initial tab group inside a <see cref="DockLayout"/>.
 /// </summary>
-public partial class DockTabs : BaseComponent
+public partial class DockTabs : BaseComponent, IDisposable
 {
     #region Members
 
-    private DockNodeCollector childCollector = new();
+    private DockNodeCollector childCollector;
 
     private DockNodeState node;
 
@@ -45,12 +46,21 @@ public partial class DockTabs : BaseComponent
             await ParentDockLayout.NotifyDefinitionChanged();
     }
 
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+            ParentCollector?.RemoveNode( Node );
+
+        base.Dispose( disposing );
+    }
+
     private void SynchronizeNode()
     {
         DockNodeState currentNode = Node;
         List<string> paneNames = new();
 
-        foreach ( DockNodeState childNode in childCollector.Nodes )
+        foreach ( DockNodeState childNode in ChildCollector.Nodes )
         {
             if ( childNode.Kind == DockNodeKind.Pane && !string.IsNullOrWhiteSpace( childNode.PaneName ) )
                 paneNames.Add( childNode.PaneName );
@@ -70,7 +80,7 @@ public partial class DockTabs : BaseComponent
 
     #region Properties
 
-    internal DockNodeCollector ChildCollector => childCollector;
+    internal DockNodeCollector ChildCollector => childCollector ??= new( SynchronizeNode );
 
     internal DockNodeState Node => node ??= new()
     {

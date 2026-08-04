@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// The central content region of a <see cref="DockLayout"/>.
 /// </summary>
-public partial class DockContent : BaseComponent
+public partial class DockContent : BaseComponent, IDisposable
 {
     #region Members
 
@@ -31,8 +32,22 @@ public partial class DockContent : BaseComponent
     {
         base.OnInitialized();
 
-        ParentDockLayout?.RegisterContent( this );
         ParentCollector?.AddNode( Node );
+
+        if ( ParentDockLayout?.RegisterContent( this ) == true )
+            ExecuteAfterRender( ParentDockLayout.NotifyDefinitionChanged );
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentCollector?.RemoveNode( Node );
+            ParentDockLayout?.UnregisterContent( this );
+        }
+
+        base.Dispose( disposing );
     }
 
     #endregion

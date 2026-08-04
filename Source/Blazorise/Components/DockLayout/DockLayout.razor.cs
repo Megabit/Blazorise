@@ -220,14 +220,21 @@ public partial class DockLayout : BaseComponent
             : OpenPane( paneName );
     }
 
-    internal void RegisterPane( DockPane pane )
+    internal bool RegisterPane( DockPane pane )
     {
-        if ( registry.RegisterPane( pane ) )
-            stateManager.EnsurePaneState( CurrentState, pane );
+        if ( !registry.RegisterPane( pane ) )
+            return false;
+
+        DockPaneState paneState = stateManager.EnsurePaneState( CurrentState, pane );
+
+        if ( CurrentState.Root is not null && paneState.Visible && !paneState.AutoHide )
+            AddPaneToLayout( paneState );
+
+        return Rendered;
     }
 
-    internal void RegisterContent( DockContent dockContent )
-        => registry.RegisterContent( dockContent );
+    internal bool RegisterContent( DockContent dockContent )
+        => registry.RegisterContent( dockContent ) && Rendered;
 
     internal Task RefreshPane( string paneName )
         => InvokeAsync( () => context.NotifyChanged( new( DockLayoutChangeKind.Pane, PaneName: paneName ) ) );
@@ -242,7 +249,14 @@ public partial class DockLayout : BaseComponent
 
     internal void UnregisterPane( DockPane pane )
     {
-        registry.UnregisterPane( pane );
+        if ( registry.UnregisterPane( pane ) && Rendered && !Disposed )
+            _ = NotifyDefinitionChanged();
+    }
+
+    internal void UnregisterContent( DockContent dockContent )
+    {
+        if ( registry.UnregisterContent( dockContent ) && Rendered && !Disposed )
+            _ = NotifyDefinitionChanged();
     }
 
     internal DockPaneState GetPaneState( DockPane pane )
