@@ -1,9 +1,13 @@
+#region Using directives
+using System;
+#endregion
+
 namespace Blazorise;
 
 /// <summary>
 /// Supplies context menu event information.
 /// </summary>
-public class ContextMenuEventArgs
+public class ContextMenuEventArgs : EventArgs
 {
     /// <summary>
     /// Initializes a new instance of <see cref="ContextMenuEventArgs"/>.

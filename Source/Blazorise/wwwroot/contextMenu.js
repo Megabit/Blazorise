@@ -7,7 +7,7 @@ const submenuTriggerSelector = '[data-context-menu-submenu-trigger="true"]';
 const keyboardNavigationAttribute = 'data-context-menu-keyboard-navigation';
 const typeaheadResetDelay = 500;
 
-export function initialize(element, elementId, menuElementId, clientX, clientY, contextElementSelector, options) {
+export async function initialize(element, elementId, menuElementId, clientX, clientY, contextElementSelector, options) {
     element = getRequiredElement(element, elementId);
 
     if (!element)
@@ -32,10 +32,14 @@ export function initialize(element, elementId, menuElementId, clientX, clientY, 
     destroy(null, elementId);
 
     const contextElement = selectedContextElement ?? element;
+    let completeInitialPosition;
+    const initialPosition = new Promise((resolve, reject) => {
+        completeInitialPosition = error => error ? reject(error) : resolve();
+    });
 
     const positionCleanupFunction = Number.isFinite(clientX) && Number.isFinite(clientY)
-        ? createFloatingUiPointAutoUpdate(clientX, clientY, contextElement, menuElement, options)
-        : createFloatingUiAutoUpdate(contextElement, menuElement, options);
+        ? createFloatingUiPointAutoUpdate(clientX, clientY, contextElement, menuElement, options, completeInitialPosition)
+        : createFloatingUiAutoUpdate(contextElement, menuElement, options, completeInitialPosition);
     const navigationCleanupFunction = initializeMenuNavigation(menuElement);
 
     _instances[elementId] = {
@@ -47,6 +51,8 @@ export function initialize(element, elementId, menuElementId, clientX, clientY, 
         },
         disconnectCleanupId: registerDisconnectCleanup(element, () => destroy(null, elementId, false))
     };
+
+    await initialPosition;
 }
 
 export function restoreFocus(element, elementId) {

@@ -77,8 +77,20 @@
     </TableHeader>
     <TableBody>
         <TableRow>
+            <TableRowCell><Code>Show()</Code></TableRowCell>
+            <TableRowCell>Shows the context menu relative to its configured target. Calling it while visible has no effect.</TableRowCell>
+        </TableRow>
+        <TableRow>
             <TableRowCell><Code>Show( double clientX, double clientY )</Code></TableRowCell>
-            <TableRowCell>Shows the context menu at the supplied client coordinates.</TableRowCell>
+            <TableRowCell>Shows the context menu at the supplied client coordinates. Calling it while visible has no effect.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Reposition()</Code></TableRowCell>
+            <TableRowCell>Repositions a visible context menu relative to its configured target without invoking <Code>Opening</Code>, <Code>Opened</Code>, or <Code>VisibleChanged</Code>.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>Reposition( double clientX, double clientY )</Code></TableRowCell>
+            <TableRowCell>Repositions a visible context menu at the supplied client coordinates without invoking <Code>Opening</Code>, <Code>Opened</Code>, or <Code>VisibleChanged</Code>.</TableRowCell>
         </TableRow>
         <TableRow>
             <TableRowCell><Code>Hide()</Code></TableRowCell>

@@ -6,33 +6,57 @@ const DIRECTION_UP = 'Up'
 const DIRECTION_END = 'End'
 const DIRECTION_START = 'Start'
 
-export function createFloatingUiAutoUpdate(targetElement, menuElement, options) {
+export function createFloatingUiAutoUpdate(targetElement, menuElement, options, initialPositionCallback) {
+    let initialPositionPending = true;
+
+    const completeInitialPosition = error => {
+        if (!initialPositionPending)
+            return false;
+
+        initialPositionPending = false;
+
+        if (!initialPositionCallback)
+            return false;
+
+        initialPositionCallback(error);
+
+        return true;
+    };
+
     //https://floating-ui.com/docs/autoUpdate
-    return autoUpdate(targetElement, menuElement, () => {
+    return autoUpdate(targetElement, menuElement, async () => {
         if (!shouldUseFloatingUi(options, menuElement)) {
             menuElement.style.left = '';
             menuElement.style.top = '';
             menuElement.style.visibility = '';
+            completeInitialPosition();
 
             return;
         }
 
-        computePosition(targetElement, menuElement, { //https://floating-ui.com/docs/computePosition#anchoring
-            placement: getPlacementDirection(options.direction, options.endAligned), //https://floating-ui.com/docs/computePosition#placement
-            strategy: options.strategy, //https://floating-ui.com/docs/computePosition#strategy
-            middleware: [flip(), shift({ padding: 0, limiter: limitShift() }), hide()] //https://floating-ui.com/docs/computePosition#middleware
-        }).then(({ x, y, middlewareData }) => {
+        try {
+            const { x, y, middlewareData } = await computePosition(targetElement, menuElement, { //https://floating-ui.com/docs/computePosition#anchoring
+                placement: getPlacementDirection(options.direction, options.endAligned), //https://floating-ui.com/docs/computePosition#placement
+                strategy: options.strategy, //https://floating-ui.com/docs/computePosition#strategy
+                middleware: [flip(), shift({ padding: 0, limiter: limitShift() }), hide()] //https://floating-ui.com/docs/computePosition#middleware
+            });
             const { referenceHidden, escaped } = middlewareData.hide ?? {};
             Object.assign(menuElement.style, {
                 left: `${x}px`,
                 top: `${y}px`,
                 visibility: referenceHidden || escaped ? 'hidden' : 'visible'
             });
-        });
+
+            completeInitialPosition();
+        }
+        catch (error) {
+            if (!completeInitialPosition(error))
+                throw error;
+        }
     });
 }
 
-export function createFloatingUiPointAutoUpdate(clientX, clientY, contextElement, menuElement, options) {
+export function createFloatingUiPointAutoUpdate(clientX, clientY, contextElement, menuElement, options, initialPositionCallback) {
     const contextRect = contextElement?.getBoundingClientRect?.();
     const offsetX = contextRect ? clientX - contextRect.left : 0;
     const offsetY = contextRect ? clientY - contextRect.top : 0;
@@ -54,7 +78,7 @@ export function createFloatingUiPointAutoUpdate(clientX, clientY, contextElement
         }
     };
 
-    return createFloatingUiAutoUpdate(targetElement, menuElement, options);
+    return createFloatingUiAutoUpdate(targetElement, menuElement, options, initialPositionCallback);
 }
 
 function getVirtualPoint(clientX, clientY, contextElement, offsetX, offsetY) {
