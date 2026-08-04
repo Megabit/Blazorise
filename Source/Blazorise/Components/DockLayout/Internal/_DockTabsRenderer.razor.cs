@@ -107,6 +107,9 @@ public partial class _DockTabsRenderer : _BaseDockRenderer
         builder.Append( ClassProvider.DockPaneTabPosition( TabPosition ) );
     }
 
+    private string GetTabElementId( string paneName )
+        => $"{Context.GetDockNodeElementId( NodeId )}-tab-{Node.Panes.IndexOf( paneName )}";
+
     /// <inheritdoc/>
     protected internal override void DirtyClasses()
     {
@@ -133,6 +136,8 @@ public partial class _DockTabsRenderer : _BaseDockRenderer
     #region Properties
 
     private string ActivePaneName => activePaneName;
+
+    private string ActiveTabElementId => TabsVisible ? GetTabElementId( ActivePaneName ) : null;
 
     private DockPane ActivePane => activePane;
 

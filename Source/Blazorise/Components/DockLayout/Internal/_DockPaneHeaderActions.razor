@@ -5,13 +5,13 @@
     <span class="@ClassNames" @onpointerdown:stopPropagation>
         @if ( AutoHideActionVisible )
         {
-            <button type="button" class="@ActionClassNames" title="@AutoHideTitle" @onclick="@ToggleAutoHide">
+            <button type="button" class="@ActionClassNames" title="@AutoHideTitle" aria-label="@AutoHideTitle" @onclick="@ToggleAutoHide">
                 <Icon Name="@AutoHideIconName" />
             </button>
         }
         @if ( CloseActionVisible )
         {
-            <button type="button" class="@ActionClassNames" title="Close" @onclick="@Close">
+            <button type="button" class="@ActionClassNames" title="Close" aria-label="Close" @onclick="@Close">
                 <Icon Name="IconName.Times" />
             </button>
         }
