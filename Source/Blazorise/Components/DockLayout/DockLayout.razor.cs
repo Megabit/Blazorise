@@ -98,6 +98,8 @@ public partial class DockLayout : BaseComponent
     public Task Refresh()
         => InvokeAsync( () =>
         {
+            EnsureCurrentStateInitialized();
+            NormalizeCurrentState();
             context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
             StateHasChanged();
         } );
