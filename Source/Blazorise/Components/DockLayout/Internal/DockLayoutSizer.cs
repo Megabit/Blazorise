@@ -121,7 +121,7 @@ internal sealed class DockLayoutSizer
 
         DockPaneState paneState = stateManager.FindPaneState( state, paneName );
 
-        return paneState?.Size ?? pane.Size;
+        return paneState is not null ? paneState.Size : pane.Size;
     }
 
     private string GetDockNodeTrackSize( DockNodeState node, DockSplitOrientation orientation )
@@ -153,7 +153,9 @@ internal sealed class DockLayoutSizer
         if ( !string.IsNullOrWhiteSpace( node.Size ) )
             return node.Size;
 
-        return paneState?.Size ?? pane.Size ?? GetDefaultDockPaneSize( position.Value );
+        string paneSize = paneState is not null ? paneState.Size : pane.Size;
+
+        return paneSize ?? GetDefaultDockPaneSize( position.Value );
     }
 
     private string GetDockChildMinimumSize( DockNodeState parent, DockNodeState child, DockSplitOrientation resizeOrientation )
@@ -196,14 +198,15 @@ internal sealed class DockLayoutSizer
 
     private bool IsCenterDockPane( DockLayoutState state, string paneName )
     {
-        if ( registry.TryGetPane( paneName, out DockPane pane ) && IsCenterPane( pane ) )
+        if ( registry.TryGetPane( paneName, out DockPane pane ) && pane.Role == DockRole.Document )
             return true;
 
-        return stateManager.FindPaneState( state, paneName )?.Position == DockPanePosition.Center;
-    }
+        DockPaneState paneState = stateManager.FindPaneState( state, paneName );
 
-    private static bool IsCenterPane( DockPane pane )
-        => pane is not null && ( pane.Role == DockRole.Document || pane.PanePosition == DockPanePosition.Center );
+        return paneState is not null
+            ? paneState.Position == DockPanePosition.Center
+            : pane?.PanePosition == DockPanePosition.Center;
+    }
 
     private static string GetDefaultDockPaneSize( DockPanePosition position )
         => position == DockPanePosition.Top || position == DockPanePosition.Bottom

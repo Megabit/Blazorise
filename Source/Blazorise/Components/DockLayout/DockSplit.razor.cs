@@ -16,6 +16,10 @@ public partial class DockSplit : BaseComponent
 
     private DockNodeState node;
 
+    private DockSplitOrientation orientation;
+
+    private double ratio = 0.5;
+
     #endregion
 
     #region Methods
@@ -63,6 +67,8 @@ public partial class DockSplit : BaseComponent
     internal DockNodeState Node => node ??= new()
     {
         Kind = DockNodeKind.Split,
+        Orientation = orientation,
+        Ratio = ratio,
     };
 
     [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
@@ -70,14 +76,42 @@ public partial class DockSplit : BaseComponent
     [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
 
     /// <summary>
-    /// Defines the split orientation.
+    /// Defines the initial split orientation.
     /// </summary>
-    [Parameter] public DockSplitOrientation Orientation { get; set; }
+    [Parameter]
+    public DockSplitOrientation Orientation
+    {
+        get => orientation;
+        set
+        {
+            if ( orientation == value )
+                return;
+
+            orientation = value;
+
+            if ( node is not null )
+                node.Orientation = value;
+        }
+    }
 
     /// <summary>
-    /// Defines the first child ratio.
+    /// Defines the initial first child ratio.
     /// </summary>
-    [Parameter] public double Ratio { get; set; } = 0.5;
+    [Parameter]
+    public double Ratio
+    {
+        get => ratio;
+        set
+        {
+            if ( ratio == value )
+                return;
+
+            ratio = value;
+
+            if ( node is not null )
+                node.Ratio = value;
+        }
+    }
 
     /// <summary>
     /// Specifies the split child content.

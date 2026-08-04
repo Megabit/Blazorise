@@ -102,7 +102,7 @@ public partial class _DockPaneRenderer : _BaseDockRenderer
 
     private bool Collapsed => paneState?.Collapsed == true;
 
-    private string PaneSize => paneState?.Size ?? Pane?.Size;
+    private string PaneSize => paneState is not null ? paneState.Size : Pane?.Size;
 
     private bool CanResize => !Flyout && Resizable;
 

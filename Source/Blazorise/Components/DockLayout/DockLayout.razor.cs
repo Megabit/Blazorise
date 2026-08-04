@@ -130,7 +130,7 @@ public partial class DockLayout : BaseComponent
     }
 
     /// <summary>
-    /// Resets the docking state to the declarative layout definition.
+    /// Resets the docking state to the latest declarative layout definition.
     /// </summary>
     /// <returns>A task that completes after the state has been reset.</returns>
     public Task ResetState()
@@ -1203,6 +1203,7 @@ public partial class DockLayout : BaseComponent
 
     /// <summary>
     /// Defines the mutable state used for docking, resizing, active tabs, and pane visibility. The same state can be saved with <see cref="GetState"/> and restored with <see cref="LoadState"/>.
+    /// Declarative values initialize this state and are reapplied by <see cref="ResetState"/>.
     /// In-place changes to the assigned instance are not detected; apply them with <see cref="LoadState"/> or follow them with <see cref="Refresh"/>.
     /// </summary>
     [Parameter]
@@ -1215,6 +1216,7 @@ public partial class DockLayout : BaseComponent
                 return;
 
             state = value;
+            EnsureCurrentStateInitialized();
             context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
         }
     }

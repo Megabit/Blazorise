@@ -150,7 +150,7 @@ public partial class _DockTabsRenderer : _BaseDockRenderer
 
     private bool Collapsed => activePaneState?.Collapsed == true;
 
-    private string PaneSize => Node?.Size ?? activePaneState?.Size ?? ActivePane?.Size;
+    private string PaneSize => Node?.Size ?? ( activePaneState is not null ? activePaneState.Size : ActivePane?.Size );
 
     private bool CanResize => Resizable;
 

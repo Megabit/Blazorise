@@ -139,6 +139,69 @@ public class DockLayoutSizingTest
         Assert.Equal( 8, nextNodeId );
     }
 
+    [Fact]
+    public void BuildingInitialRootClonesDeclarativeTree()
+    {
+        DockLayoutRegistry registry = new();
+        DockNodeState definition = DockLayoutTreeBuilder.CreateSplitNode(
+            new() { Kind = DockNodeKind.Pane, PaneName = "left" },
+            new() { Kind = DockNodeKind.Tabs, Panes = ["first", "second"], ActivePane = "second" },
+            DockSplitOrientation.Horizontal,
+            0.25 );
+        DockLayoutState state = new();
+        DockLayoutStateManager stateManager = new();
+        DockLayoutTreeQuery query = new( registry, stateManager, () => state );
+        DockLayoutSizer sizer = new( registry, stateManager, query, () => state );
+        DockLayoutTreeBuilder builder = new( registry, stateManager, query, sizer );
+
+        registry.RootCollector.AddNode( definition );
+
+        DockNodeState firstRoot = builder.BuildInitialRoot( state );
+
+        Assert.NotSame( definition, firstRoot );
+        Assert.NotSame( definition.First, firstRoot.First );
+        Assert.NotSame( definition.Second, firstRoot.Second );
+        Assert.NotSame( definition.Second.Panes, firstRoot.Second.Panes );
+
+        firstRoot.Ratio = 0.75;
+        firstRoot.First.PaneName = "changed";
+        firstRoot.Second.Panes.Clear();
+
+        DockNodeState secondRoot = builder.BuildInitialRoot( state );
+
+        Assert.Equal( 0.25, secondRoot.Ratio );
+        Assert.Equal( "left", secondRoot.First.PaneName );
+        Assert.Equal( new[] { "first", "second" }, secondRoot.Second.Panes );
+    }
+
+    [Fact]
+    public void ExistingPaneStateTakesPrecedenceOverDeclarativeSizeAndPosition()
+    {
+        DockPane pane = CreateDockPane( "pane", DockPanePosition.Center, size: "16rem" );
+        DockLayoutRegistry registry = new();
+
+        registry.RegisterPane( pane );
+
+        DockLayoutState state = new()
+        {
+            Root = DockLayoutTreeBuilder.CreateSplitNode(
+                new() { Kind = DockNodeKind.Content },
+                new() { Kind = DockNodeKind.Pane, PaneName = "pane" },
+                DockSplitOrientation.Horizontal,
+                0.75 ),
+            Panes =
+            [
+                new() { Name = "pane", Position = DockPanePosition.Right },
+            ],
+        };
+        DockLayoutStateManager stateManager = new();
+        DockLayoutTreeQuery query = new( registry, stateManager, () => state );
+        DockLayoutSizer sizer = new( registry, stateManager, query, () => state );
+
+        Assert.Equal( DockPanePosition.Right, query.GetPanePosition( pane ) );
+        Assert.Null( sizer.GetDockPaneSize( state, pane.ResolvedName ) );
+    }
+
     private static DockPane CreateDockPane( string name, DockPanePosition? position = null, string size = null, DockRole role = DockRole.Tool )
     {
         DockPane pane = new();

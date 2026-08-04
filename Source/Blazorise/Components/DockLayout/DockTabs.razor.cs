@@ -17,6 +17,8 @@ public partial class DockTabs : BaseComponent
 
     private DockNodeState node;
 
+    private string activePane;
+
     #endregion
 
     #region Methods
@@ -73,6 +75,7 @@ public partial class DockTabs : BaseComponent
     internal DockNodeState Node => node ??= new()
     {
         Kind = DockNodeKind.Tabs,
+        ActivePane = activePane,
     };
 
     [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
@@ -80,9 +83,23 @@ public partial class DockTabs : BaseComponent
     [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
 
     /// <summary>
-    /// Defines the active pane name.
+    /// Defines the initially active pane name.
     /// </summary>
-    [Parameter] public string ActivePane { get; set; }
+    [Parameter]
+    public string ActivePane
+    {
+        get => activePane;
+        set
+        {
+            if ( activePane == value )
+                return;
+
+            activePane = value;
+
+            if ( node is not null )
+                node.ActivePane = value;
+        }
+    }
 
     /// <summary>
     /// Specifies the tab child content.

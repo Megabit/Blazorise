@@ -105,7 +105,7 @@ public partial class DockPane : BaseComponent, IDisposable
     [Parameter] public DockPaneTabPosition TabPosition { get; set; }
 
     /// <summary>
-    /// Defines where the pane is docked inside the layout.
+    /// Defines where the pane is initially docked inside the layout.
     /// </summary>
     [Parameter] public DockPanePosition PanePosition { get; set; }
 
@@ -125,17 +125,17 @@ public partial class DockPane : BaseComponent, IDisposable
     [Parameter] public bool Resizable { get; set; }
 
     /// <summary>
-    /// Shows or hides the pane in the dock layout.
+    /// Initially shows or hides the pane in the dock layout.
     /// </summary>
     [Parameter] public bool Visible { get; set; } = true;
 
     /// <summary>
-    /// Collapses the pane content while keeping the pane in the dock layout.
+    /// Initially collapses the pane content while keeping the pane in the dock layout.
     /// </summary>
     [Parameter] public bool Collapsed { get; set; }
 
     /// <summary>
-    /// Auto-hides the pane content while keeping the pane available on its docked side.
+    /// Initially auto-hides the pane content while keeping the pane available on its docked side.
     /// </summary>
     [Parameter] public bool AutoHide { get; set; }
 
@@ -150,7 +150,7 @@ public partial class DockPane : BaseComponent, IDisposable
     [Parameter] public bool Closable { get; set; } = true;
 
     /// <summary>
-    /// Defines the preferred pane size, such as <c>280px</c>, <c>18rem</c>, or <c>25%</c>.
+    /// Defines the initial pane size, such as <c>280px</c>, <c>18rem</c>, or <c>25%</c>.
     /// </summary>
     [Parameter] public string Size { get; set; }
 
