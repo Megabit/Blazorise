@@ -725,6 +725,26 @@ public class DatePickerComponentTest : BunitContext
         Assert.Equal( value, comp.Instance.Value );
     }
 
+    [Theory]
+    [InlineData( "2026-07-27 08:59" )]
+    [InlineData( "2026-07-27 17:01" )]
+    public async Task TypedDateTimeHonorsTimeConstraints( string inputValue )
+    {
+        // setup
+        DateTime value = new( 2026, 7, 27, 12, 0, 0 );
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.InputMode, DateInputMode.DateTime )
+            .Add( x => x.Min, new DateTimeOffset( new DateTime( 2026, 7, 27, 9, 0, 0 ) ) )
+            .Add( x => x.Max, new DateTimeOffset( new DateTime( 2026, 7, 27, 17, 0, 0 ) ) ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = inputValue } );
+
+        // validate
+        Assert.Equal( value, comp.Instance.Value );
+    }
+
     [Fact]
     public void DisabledDateRendersAsDisabledCalendarCell()
     {
@@ -753,6 +773,41 @@ public class DatePickerComponentTest : BunitContext
         // validate
         Assert.Equal( "07", comp.FindAll( ".datepicker-time-input" )[0].GetAttribute( "value" ) );
         Assert.Equal( "04", comp.FindAll( ".datepicker-time-input" )[1].GetAttribute( "value" ) );
+    }
+
+    [Fact]
+    public async Task DateTimeCalendarSelectionClampsToMinimumTime()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2026, 7, 28, 8, 0, 0 ) )
+            .Add( x => x.InputMode, DateInputMode.DateTime )
+            .Add( x => x.Inline, true )
+            .Add( x => x.Min, new DateTimeOffset( new DateTime( 2026, 7, 27, 9, 0, 0 ) ) ) );
+
+        // test
+        await comp.Find( "[id$='day-20260727']" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( new DateTime( 2026, 7, 27, 9, 0, 0 ), comp.Instance.Value );
+    }
+
+    [Fact]
+    public async Task DateTimeControlClampsToMaximumTime()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2026, 7, 29, 16, 0, 0 ) )
+            .Add( x => x.InputMode, DateInputMode.DateTime )
+            .Add( x => x.Inline, true )
+            .Add( x => x.TimeAs24hr, true )
+            .Add( x => x.Max, new DateTimeOffset( new DateTime( 2026, 7, 29, 17, 0, 0 ) ) ) );
+
+        // test
+        await comp.FindAll( ".datepicker-time-input" )[0].ChangeAsync( new ChangeEventArgs { Value = "18" } );
+
+        // validate
+        Assert.Equal( new DateTime( 2026, 7, 29, 17, 0, 0 ), comp.Instance.Value );
     }
 
     [Fact]

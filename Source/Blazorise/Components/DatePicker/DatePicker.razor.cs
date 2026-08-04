@@ -822,7 +822,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             {
                 DateInputMode.Month => IsMonthDisabled( date ),
                 DateInputMode.Week => IsWeekDisabled( date ),
-                _ => IsDateDisabled( date ),
+                _ => IsDateDisabled( date ) || IsDateTimeOutsideRange( date ),
             };
 
             if ( disabled )
@@ -1418,25 +1418,25 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
         if ( selectedDates.Count == 0 )
         {
-            focusedDate = new DateTime(
+            focusedDate = ClampDateTime( new DateTime(
                 focusedDate.Year,
                 focusedDate.Month,
                 focusedDate.Day,
                 hour,
                 minute,
                 0,
-                DateTimeKind.Unspecified );
+                DateTimeKind.Unspecified ) );
 
             if ( pendingRangeStart.HasValue )
             {
-                pendingRangeStart = new DateTime(
+                pendingRangeStart = ClampDateTime( new DateTime(
                     pendingRangeStart.Value.Year,
                     pendingRangeStart.Value.Month,
                     pendingRangeStart.Value.Day,
                     hour,
                     minute,
                     0,
-                    DateTimeKind.Unspecified );
+                    DateTimeKind.Unspecified ) );
             }
 
             NotifyCalendarStateChanged();
@@ -1444,7 +1444,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         }
 
         List<DateTime> updatedDates = selectedDates
-            .Select( date => new DateTime( date.Year, date.Month, date.Day, hour, minute, 0, date.Kind ) )
+            .Select( date => ClampDateTime( new DateTime( date.Year, date.Month, date.Day, hour, minute, 0, date.Kind ) ) )
             .ToList();
 
         focusedDate = updatedDates[0];
@@ -1456,8 +1456,25 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         if ( InputMode != DateInputMode.DateTime )
             return date.Date;
 
-        return new DateTime( date.Year, date.Month, date.Day, CurrentHour, CurrentMinute, 0, date.Kind );
+        return ClampDateTime( new DateTime( date.Year, date.Month, date.Day, CurrentHour, CurrentMinute, 0, date.Kind ) );
     }
+
+    private DateTime ClampDateTime( DateTime date )
+    {
+        if ( InputMode != DateInputMode.DateTime )
+            return date;
+
+        if ( Min.HasValue && date < Min.Value.DateTime )
+            date = Min.Value.DateTime;
+
+        if ( Max.HasValue && date > Max.Value.DateTime )
+            date = Max.Value.DateTime;
+
+        return date;
+    }
+
+    private bool IsDateTimeOutsideRange( DateTime date )
+        => InputMode == DateInputMode.DateTime && ClampDateTime( date ) != date;
 
     private DateTime GetCurrentTimeSource()
     {
