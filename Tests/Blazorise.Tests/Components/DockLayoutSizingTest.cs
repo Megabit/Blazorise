@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Blazorise;
 using Microsoft.AspNetCore.Components;
@@ -139,6 +140,55 @@ public class DockLayoutSizingTest
 
         Assert.Equal( "dock-node-8", state.Root.Id );
         Assert.Equal( 8, nextNodeId );
+    }
+
+    [Fact]
+    public void CreatingPersistenceSnapshotExcludesRuntimeState()
+    {
+        DockLayoutState state = new()
+        {
+            Root = new()
+            {
+                Id = "dock-node-1",
+                Kind = DockNodeKind.Tabs,
+                Panes = ["first", "second"],
+                ActivePane = "second",
+            },
+            Panes =
+            [
+                new()
+                {
+                    Name = "first",
+                    Position = DockPanePosition.Left,
+                    Size = "16rem",
+                    RestorePlacement = new() { SourceGroupId = "dock-node-1" },
+                },
+            ],
+            Rails =
+            [
+                new() { Position = DockPanePosition.Left },
+            ],
+        };
+        DockLayoutStateManager stateManager = new();
+
+        DockLayoutState snapshot = stateManager.CreatePersistenceSnapshot( state );
+
+        Assert.NotSame( state, snapshot );
+        Assert.NotSame( state.Root, snapshot.Root );
+        Assert.NotSame( state.Panes, snapshot.Panes );
+        Assert.Equal( DockLayoutState.CurrentSchemaVersion, snapshot.SchemaVersion );
+        Assert.Null( snapshot.Root.Id );
+        Assert.Equal( new[] { "first", "second" }, snapshot.Root.Panes );
+        Assert.Equal( "second", snapshot.Root.ActivePane );
+        Assert.Equal( "16rem", snapshot.Panes[0].Size );
+        Assert.Null( snapshot.Panes[0].RestorePlacement );
+        Assert.Empty( snapshot.Rails );
+
+        string json = JsonSerializer.Serialize( state );
+
+        Assert.DoesNotContain( "\"Id\"", json );
+        Assert.DoesNotContain( "\"Rails\"", json );
+        Assert.DoesNotContain( "\"RestorePlacement\"", json );
     }
 
     [Fact]

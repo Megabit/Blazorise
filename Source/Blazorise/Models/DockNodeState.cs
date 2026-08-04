@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Blazorise;
 
@@ -10,6 +11,7 @@ public class DockNodeState
     /// <summary>
     /// Identifies the node inside the dock layout tree.
     /// </summary>
+    [JsonIgnore]
     public string Id { get; set; }
 
     /// <summary>

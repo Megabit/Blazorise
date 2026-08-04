@@ -10,6 +10,13 @@ internal sealed class DockLayoutStateManager
 {
     #region Methods
 
+    public DockLayoutState CreatePersistenceSnapshot( DockLayoutState state )
+        => new()
+        {
+            Root = ClonePersistenceNode( state?.Root ),
+            Panes = state?.Panes?.Select( ClonePersistencePane ).ToList() ?? new(),
+        };
+
     public DockPaneState EnsurePaneState( DockLayoutState state, DockPane pane )
     {
         DockPaneState paneState = FindPaneState( state, pane.ResolvedName );
@@ -253,6 +260,38 @@ internal sealed class DockLayoutStateManager
             EnsureNodeIds( node.Second, ref nextNodeId );
         }
     }
+
+    private static DockNodeState ClonePersistenceNode( DockNodeState node )
+    {
+        if ( node is null )
+            return null;
+
+        return new()
+        {
+            Kind = node.Kind,
+            PaneName = node.PaneName,
+            First = ClonePersistenceNode( node.First ),
+            Second = ClonePersistenceNode( node.Second ),
+            Orientation = node.Orientation,
+            Ratio = node.Ratio,
+            UseRatio = node.UseRatio,
+            Panes = node.Panes is null ? new() : new( node.Panes ),
+            ActivePane = node.ActivePane,
+            Size = node.Size,
+        };
+    }
+
+    private static DockPaneState ClonePersistencePane( DockPaneState pane )
+        => new()
+        {
+            Name = pane.Name,
+            Position = pane.Position,
+            Size = pane.Size,
+            Collapsed = pane.Collapsed,
+            AutoHide = pane.AutoHide,
+            Visible = pane.Visible,
+            Order = pane.Order,
+        };
 
     private static DockPanePosition ToRailPosition( DockPanePosition position )
         => position == DockPanePosition.Center ? DockPanePosition.Right : position;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Blazorise;
 
@@ -7,6 +8,16 @@ namespace Blazorise;
 /// </summary>
 public class DockLayoutState
 {
+    /// <summary>
+    /// Gets the current persistence schema version.
+    /// </summary>
+    public const int CurrentSchemaVersion = 1;
+
+    /// <summary>
+    /// Defines the persistence schema version.
+    /// </summary>
+    public int SchemaVersion { get; set; } = CurrentSchemaVersion;
+
     /// <summary>
     /// Defines the root dock node.
     /// </summary>
@@ -20,5 +31,6 @@ public class DockLayoutState
     /// <summary>
     /// Defines the auto-hide rails and their pane tabs.
     /// </summary>
+    [JsonIgnore]
     public List<DockRailState> Rails { get; set; } = new();
 }

@@ -105,15 +105,15 @@ public partial class DockLayout : BaseComponent
         } );
 
     /// <summary>
-    /// Returns the current mutable docking state.
+    /// Returns a persistence snapshot of the current docking state.
     /// </summary>
-    /// <returns>The current docking state instance.</returns>
+    /// <returns>A detached docking state snapshot.</returns>
     public DockLayoutState GetState()
     {
         EnsureCurrentStateInitialized();
         NormalizeCurrentState();
 
-        return CurrentState;
+        return stateManager.CreatePersistenceSnapshot( CurrentState );
     }
 
     /// <summary>
@@ -123,7 +123,10 @@ public partial class DockLayout : BaseComponent
     /// <returns>A task that completes after the state has been applied.</returns>
     public async Task LoadState( DockLayoutState state )
     {
-        this.state = state ?? new();
+        if ( state is not null && state.SchemaVersion != DockLayoutState.CurrentSchemaVersion )
+            throw new ArgumentException( $"Unsupported dock layout state schema version '{state.SchemaVersion}'.", nameof( state ) );
+
+        this.state = stateManager.CreatePersistenceSnapshot( state );
         activeAutoHidePaneName = null;
 
         EnsureCurrentStateInitialized();

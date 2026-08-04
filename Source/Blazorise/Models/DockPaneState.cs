@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Blazorise;
 
 /// <summary>
@@ -38,6 +40,7 @@ public class DockPaneState
     /// <summary>
     /// Stores the source placement used when reopening the pane after it was closed.
     /// </summary>
+    [JsonIgnore]
     public DockPaneRestoreState RestorePlacement { get; set; }
 
     /// <summary>
