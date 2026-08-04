@@ -165,6 +165,15 @@ public class JSReportingModule : BaseJSModule
         => InvokeSafeAsync<double[]>( "getScrollPosition", element );
 
     /// <summary>
+    /// Gets the current scroll position of a descendant element.
+    /// </summary>
+    /// <param name="element">Element containing the scrollable descendant.</param>
+    /// <param name="selector">Scrollable descendant selector.</param>
+    /// <returns>A two-item array containing horizontal and vertical scroll offsets.</returns>
+    public virtual ValueTask<double[]> GetScrollPosition( ElementReference element, string selector )
+        => InvokeSafeAsync<double[]>( "getScrollPosition", element, selector );
+
+    /// <summary>
     /// Sets the scroll position of an element.
     /// </summary>
     /// <param name="element">Element to scroll.</param>
@@ -174,6 +183,19 @@ public class JSReportingModule : BaseJSModule
     public virtual async ValueTask SetScrollPosition( ElementReference element, double left, double top )
     {
         await InvokeSafeVoidAsync( "setScrollPosition", element, left, top );
+    }
+
+    /// <summary>
+    /// Sets the scroll position of a descendant element.
+    /// </summary>
+    /// <param name="element">Element containing the scrollable descendant.</param>
+    /// <param name="left">Horizontal scroll offset.</param>
+    /// <param name="top">Vertical scroll offset.</param>
+    /// <param name="selector">Scrollable descendant selector.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask SetScrollPosition( ElementReference element, double left, double top, string selector )
+    {
+        await InvokeSafeVoidAsync( "setScrollPosition", element, left, top, selector );
     }
 
     /// <summary>

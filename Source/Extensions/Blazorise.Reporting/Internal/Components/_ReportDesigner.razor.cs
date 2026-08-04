@@ -340,9 +340,15 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal Task SelectDesignerPanelTab( string tab )
     {
-        selectedDesignerPanelTab = string.Equals( tab, nameof( ReportDesignerPanelTab.Explorer ), StringComparison.Ordinal )
+        ReportDesignerPanelTab selectedPanelTab = string.Equals( tab, nameof( ReportDesignerPanelTab.Explorer ), StringComparison.Ordinal )
             ? ReportDesignerPanelTab.Explorer
             : ReportDesignerPanelTab.Properties;
+
+        if ( selectedDesignerPanelTab != selectedPanelTab )
+        {
+            selectedDesignerPanelTab = selectedPanelTab;
+            designerPaneScrollRestoreVersion++;
+        }
 
         return Task.CompletedTask;
     }

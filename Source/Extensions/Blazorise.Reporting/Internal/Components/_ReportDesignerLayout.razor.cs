@@ -28,6 +28,8 @@ public partial class _ReportDesignerLayout
 
     private const string ToolboxPaneName = "report-toolbox";
 
+    private const string PropertyGridViewportSelector = "[data-property-grid-viewport]";
+
     private static readonly ReportToolbarDockPaneItem[] dockPaneOptions =
     [
         new( ToolboxPaneName, "Toolbox" ),
@@ -170,13 +172,16 @@ public partial class _ReportDesignerLayout
     private async Task OnDockLayoutStateChanged( DockLayoutState state )
     {
         string selectedPanelTab = ResolveSelectedPanelTab( state );
+        bool selectedPanelChanged = !string.IsNullOrWhiteSpace( selectedPanelTab )
+            && !string.Equals( selectedPanelTab, SelectedPanelTab, StringComparison.Ordinal );
+
+        if ( selectedPanelChanged && PaneScrollPositions is not null )
+            await CapturePaneScrollPosition( PaneScrollPositions, ResolvePanelPaneName( SelectedPanelTab ) );
 
         if ( !string.IsNullOrWhiteSpace( selectedPanelTab ) )
             activePanelPaneName = ResolvePanelPaneName( selectedPanelTab );
 
-        if ( !string.IsNullOrWhiteSpace( selectedPanelTab )
-             && !string.Equals( selectedPanelTab, SelectedPanelTab, StringComparison.Ordinal )
-             && SelectedPanelTabChanged.HasDelegate )
+        if ( selectedPanelChanged && SelectedPanelTabChanged.HasDelegate )
         {
             await SelectedPanelTabChanged.InvokeAsync( selectedPanelTab );
         }
@@ -301,22 +306,26 @@ public partial class _ReportDesignerLayout
         if ( scrollPositions is null || workspaceDockTree is null )
             return;
 
+        foreach ( string paneName in scrollablePaneNames )
+            await CapturePaneScrollPosition( scrollPositions, paneName );
+    }
+
+    private async Task CapturePaneScrollPosition( Dictionary<string, ( double Left, double Top )> scrollPositions, string paneName )
+    {
         EnsureReportingModule();
 
-        foreach ( string paneName in scrollablePaneNames )
-        {
-            ElementReference? element = workspaceDockTree.GetPaneBodyElement( paneName );
+        ElementReference? element = workspaceDockTree.GetPaneBodyElement( paneName );
 
-            if ( element is null )
-                continue;
+        if ( element is null )
+            return;
 
-            double[] position = await reportingModule.GetScrollPosition( element.Value );
+        string selector = GetPaneScrollSelector( paneName );
+        double[] position = selector is null
+            ? await reportingModule.GetScrollPosition( element.Value )
+            : await reportingModule.GetScrollPosition( element.Value, selector );
 
-            if ( position is not { Length: >= 2 } )
-                continue;
-
+        if ( position is { Length: >= 2 } )
             scrollPositions[paneName] = ( position[0], position[1] );
-        }
     }
 
     internal async Task RestorePaneScrollPositions( IReadOnlyDictionary<string, ( double Left, double Top )> scrollPositions )
@@ -336,9 +345,19 @@ public partial class _ReportDesignerLayout
             if ( element is null )
                 continue;
 
-            await reportingModule.SetScrollPosition( element.Value, position.Left, position.Top );
+            string selector = GetPaneScrollSelector( paneName );
+
+            if ( selector is null )
+                await reportingModule.SetScrollPosition( element.Value, position.Left, position.Top );
+            else
+                await reportingModule.SetScrollPosition( element.Value, position.Left, position.Top, selector );
         }
     }
+
+    private static string GetPaneScrollSelector( string paneName )
+        => string.Equals( paneName, PropertiesPaneName, StringComparison.Ordinal )
+            ? PropertyGridViewportSelector
+            : null;
 
     private DockNodeState CreateWorkspaceNode()
     {
@@ -495,7 +514,7 @@ public partial class _ReportDesignerLayout
     /// <summary>
     /// Saved scroll positions for designer dock panes.
     /// </summary>
-    [Parameter] public IReadOnlyDictionary<string, ( double Left, double Top )> PaneScrollPositions { get; set; }
+    [Parameter] public Dictionary<string, ( double Left, double Top )> PaneScrollPositions { get; set; }
 
     /// <summary>
     /// Version used to request a one-time pane scroll restoration.
