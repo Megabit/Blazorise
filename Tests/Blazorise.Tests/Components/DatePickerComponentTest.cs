@@ -676,6 +676,55 @@ public class DatePickerComponentTest : BunitContext
         Assert.Equal( "2026-07-26 22:22, 2026-08-01 22:22", multiple.Find( "input" ).GetAttribute( "value" ) );
     }
 
+    [Theory]
+    [InlineData( "2026-07-19" )]
+    [InlineData( "2026-08-01" )]
+    [InlineData( "2026-07-25" )]
+    [InlineData( "2026-07-26" )]
+    [InlineData( "2026-07-29" )]
+    public async Task TypedDateHonorsDateConstraints( string inputValue )
+    {
+        // setup
+        DateTime value = new( 2026, 7, 27 );
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.Min, new DateTimeOffset( new DateTime( 2026, 7, 20 ) ) )
+            .Add( x => x.Max, new DateTimeOffset( new DateTime( 2026, 7, 31 ) ) )
+            .Add( x => x.DisabledDates, new[] { new DateTime( 2026, 7, 25 ) } )
+            .Add( x => x.DisabledDays, new[] { DayOfWeek.Sunday } )
+            .Add( x => x.EnabledDates, new[]
+            {
+                value,
+                new DateTime( 2026, 7, 19 ),
+                new DateTime( 2026, 8, 1 ),
+                new DateTime( 2026, 7, 25 ),
+                new DateTime( 2026, 7, 26 ),
+            } ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = inputValue } );
+
+        // validate
+        Assert.Equal( value, comp.Instance.Value );
+    }
+
+    [Fact]
+    public async Task TypedRangeRejectsDisabledDate()
+    {
+        // setup
+        DateTime[] value = new[] { new DateTime( 2026, 7, 23 ), new DateTime( 2026, 7, 24 ) };
+        IRenderedComponent<DatePicker<DateTime[]>> comp = Render<DatePicker<DateTime[]>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.SelectionMode, DateInputSelectionMode.Range )
+            .Add( x => x.DisabledDates, new[] { new DateTime( 2026, 7, 25 ) } ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "2026-07-24 to 2026-07-25" } );
+
+        // validate
+        Assert.Equal( value, comp.Instance.Value );
+    }
+
     [Fact]
     public void DisabledDateRendersAsDisabledCalendarCell()
     {

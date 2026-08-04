@@ -795,7 +795,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     }
 
     private bool TryNormalizeInputValue( string value, out string normalizedValue )
-        => DatePickerInputParser.TryNormalize(
+    {
+        if ( !DatePickerInputParser.TryNormalize(
             value,
             SelectionMode,
             SelectionMode == DateInputSelectionMode.Multiple ? MULTIPLE_DELIMITER : CurrentRangeSeparator,
@@ -803,7 +804,33 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             DisplayFormat,
             DateFormat,
             InputMode,
-            out normalizedValue );
+            out normalizedValue ) )
+        {
+            return false;
+        }
+
+        string delimiter = SelectionMode == DateInputSelectionMode.Multiple ? MULTIPLE_DELIMITER : CurrentRangeSeparator;
+
+        foreach ( string normalizedDate in normalizedValue.Split( delimiter, StringSplitOptions.None ) )
+        {
+            if ( !DateTime.TryParseExact( normalizedDate, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date ) )
+            {
+                return false;
+            }
+
+            bool disabled = InputMode switch
+            {
+                DateInputMode.Month => IsMonthDisabled( date ),
+                DateInputMode.Week => IsWeekDisabled( date ),
+                _ => IsDateDisabled( date ),
+            };
+
+            if ( disabled )
+                return false;
+        }
+
+        return true;
+    }
 
     private Task RefreshInputMaskAsync()
         => InputMask.RefreshAsync( ElementRef, ElementId, InputFormat, InputMode );
