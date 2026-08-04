@@ -12,17 +12,19 @@
              aria-hidden="true"></div>
     }
 
-    <div @ref="@MenuElementRef"
-         id="@Parent.MenuId"
+    <div id="@Parent.MenuId"
          class="@Menu.ClassNames"
          role="dialog"
          aria-modal="false"
-         aria-label="@Menu.TimeText"
-         aria-activedescendant="@Menu.FocusedPartId"
-         tabindex="-1"
-         @onkeydown="@Parent.OnMenuKeyDownAsync"
-         @onkeydown:stopPropagation>
-        <div class="@Menu.ControlsClassNames" role="group" aria-label="@Menu.TimeText">
+         aria-label="@Menu.TimeText">
+        <div @ref="@MenuControlsElementRef"
+             class="@Menu.ControlsClassNames"
+             role="group"
+             aria-label="@Menu.TimeText"
+             aria-activedescendant="@Menu.FocusedPartId"
+             tabindex="-1"
+             @onkeydown="@Parent.OnMenuKeyDownAsync"
+             @onkeydown:stopPropagation>
             <div class="@Menu.GetControlClassNames( TimePickerPart.Hour )">
                 <input type="number"
                        id="@Menu.GetPartId( TimePickerPart.Hour )"
@@ -105,7 +107,7 @@
 @code {
     private bool focusApplied;
 
-    private ElementReference MenuElementRef;
+    private ElementReference MenuControlsElementRef;
 
     [CascadingParameter]
     public TimePicker<TValue> Parent { get; set; }
@@ -128,7 +130,7 @@
             if ( Parent.FocusMenuOnOpen && !focusApplied )
             {
                 focusApplied = true;
-                await MenuElementRef.FocusAsync( preventScroll: true );
+                await MenuControlsElementRef.FocusAsync( preventScroll: true );
             }
             else if ( !Parent.FocusMenuOnOpen )
             {

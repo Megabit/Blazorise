@@ -86,7 +86,7 @@ public class TimePickerComponentTest : BunitContext
             .Add( x => x.DefaultHour, 12 ) );
 
         // test
-        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "ArrowUp" } );
+        await comp.Find( "[role='group']" ).KeyDownAsync( new KeyboardEventArgs { Key = "ArrowUp" } );
 
         // validate
         Assert.Equal( new TimeSpan( 13, 0, 0 ), comp.Instance.Value );
@@ -100,7 +100,7 @@ public class TimePickerComponentTest : BunitContext
 
         // test
         await comp.Find( "input" ).ClickAsync( new MouseEventArgs() );
-        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "Enter" } );
+        await comp.Find( "[role='group']" ).KeyDownAsync( new KeyboardEventArgs { Key = "Enter" } );
 
         // validate
         Assert.Empty( comp.FindAll( "[role='dialog']" ) );
@@ -119,6 +119,8 @@ public class TimePickerComponentTest : BunitContext
         // validate
         Assert.NotNull( comp.Find( "[role='dialog']" ) );
         Assert.False( comp.Instance.FocusMenuOnOpen );
+        Assert.False( comp.Find( "[role='dialog']" ).HasAttribute( "aria-activedescendant" ) );
+        Assert.NotNull( comp.Find( "[role='group']" ).GetAttribute( "aria-activedescendant" ) );
         Assert.All(
             comp.FindAll( "[role='dialog'] button, [role='dialog'] input" ),
             element => Assert.Equal( "-1", element.GetAttribute( "tabindex" ) ) );
@@ -224,6 +226,9 @@ public class TimePickerComponentTest : BunitContext
 
         // validate
         Assert.NotNull( comp.Find( "[role='dialog']" ) );
+        Assert.True( comp.Instance.FocusMenuOnOpen );
+        Assert.Equal( "-1", comp.Find( "[role='group']" ).GetAttribute( "tabindex" ) );
+        JSInterop.VerifyInvoke( "focus", 1 );
     }
 
     [Fact]

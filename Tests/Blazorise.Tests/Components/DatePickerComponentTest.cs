@@ -321,8 +321,8 @@ public class DatePickerComponentTest : BunitContext
             .Add( x => x.Inline, true ) );
 
         // test
-        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "ArrowRight" } );
-        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "Enter" } );
+        await comp.Find( "[role='grid']" ).KeyDownAsync( new KeyboardEventArgs { Key = "ArrowRight" } );
+        await comp.Find( "[role='grid']" ).KeyDownAsync( new KeyboardEventArgs { Key = "Enter" } );
 
         // validate
         Assert.Equal( new DateTime( 2026, 7, 28 ), comp.Instance.Value );
@@ -405,8 +405,8 @@ public class DatePickerComponentTest : BunitContext
             .Add( x => x.Inline, true ) );
 
         // test
-        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "ArrowDown" } );
-        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "Enter" } );
+        await comp.Find( "[role='grid']" ).KeyDownAsync( new KeyboardEventArgs { Key = "ArrowDown" } );
+        await comp.Find( "[role='grid']" ).KeyDownAsync( new KeyboardEventArgs { Key = "Enter" } );
 
         // validate
         Assert.Equal( new DateTime( 2026, 10, 12 ), comp.Instance.Value );
@@ -482,6 +482,8 @@ public class DatePickerComponentTest : BunitContext
         // validate
         Assert.NotNull( comp.Find( "[role='dialog']" ) );
         Assert.False( comp.Instance.FocusCalendarOnOpen );
+        Assert.False( comp.Find( "[role='dialog']" ).HasAttribute( "aria-activedescendant" ) );
+        Assert.NotNull( comp.Find( "[role='grid']" ).GetAttribute( "aria-activedescendant" ) );
         Assert.All(
             comp.FindAll( "[role='dialog'] button, [role='dialog'] select, [role='dialog'] input" ),
             element => Assert.Equal( "-1", element.GetAttribute( "tabindex" ) ) );
@@ -587,6 +589,9 @@ public class DatePickerComponentTest : BunitContext
 
         // validate
         Assert.NotNull( comp.Find( "[role='dialog']" ) );
+        Assert.True( comp.Instance.FocusCalendarOnOpen );
+        Assert.Equal( "-1", comp.Find( "[role='grid']" ).GetAttribute( "tabindex" ) );
+        JSInterop.VerifyInvoke( "focus", 1 );
     }
 
     [Fact]
