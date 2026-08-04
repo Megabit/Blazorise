@@ -133,6 +133,7 @@ internal static class ReportPdfDocumentBuilder
         pdfElement.Text = ReportTextTemplateResolver.ResolveText( definition, data, renderSection.Item, element, renderSection.RunningTotals );
         ApplyTextFormatting( pdfElement, definition, data, renderSection.Section, element );
         pdfElement.Wrap = ReportValueResolver.ResolveCanGrow( element, renderSection.Section, definition, data, renderSection.Item, designMode: false );
+        pdfElement.ClipContent = !pdfElement.Wrap;
 
         return pdfElement;
     }
@@ -144,6 +145,7 @@ internal static class ReportPdfDocumentBuilder
         pdfElement.Text = ReportDataResolver.FormatValue( value, element.Format );
         ApplyTextFormatting( pdfElement, definition, data, renderSection.Section, element );
         pdfElement.Wrap = ReportValueResolver.ResolveCanGrow( element, renderSection.Section, definition, data, renderSection.Item, designMode: false );
+        pdfElement.ClipContent = !pdfElement.Wrap;
 
         return pdfElement;
     }

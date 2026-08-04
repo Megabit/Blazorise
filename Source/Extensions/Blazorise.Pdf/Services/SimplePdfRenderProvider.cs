@@ -586,7 +586,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         double textY = ResolveTextY( page, element, y, fontSize, lines.Count, lineHeight );
 
         AppendColor( context, font.Color, stroke: false );
-        AppendTextClipStart( context, page, element, x, y );
+        AppendClipStart( context, page, element, x, y );
 
         for ( int i = 0; i < lines.Count; i++ )
         {
@@ -600,7 +600,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             }
         }
 
-        AppendTextClipEnd( context, element );
+        AppendClipEnd( context, element );
     }
 
     private static bool TryAppendJustifiedTextLine( PdfPageContentContext context, PdfElementDefinition element, PdfTextLine line, double x, double y, PdfFontResource fontResource, double fontSize )
@@ -746,9 +746,9 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             .ToArray();
     }
 
-    private static void AppendTextClipStart( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
+    private static void AppendClipStart( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
     {
-        if ( element.Wrap || element.Width <= 0 || element.Height <= 0 )
+        if ( !element.ClipContent || element.Width <= 0 || element.Height <= 0 )
             return;
 
         double rectangleY = page.Height - y - element.Height;
@@ -756,9 +756,9 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         context.Builder.AppendLine( FormattableString.Invariant( $"{x} {rectangleY} {element.Width} {element.Height} re W n" ) );
     }
 
-    private static void AppendTextClipEnd( PdfPageContentContext context, PdfElementDefinition element )
+    private static void AppendClipEnd( PdfPageContentContext context, PdfElementDefinition element )
     {
-        if ( element.Wrap || element.Width <= 0 || element.Height <= 0 )
+        if ( !element.ClipContent || element.Width <= 0 || element.Height <= 0 )
             return;
 
         context.Builder.AppendLine( "Q" );
@@ -875,7 +875,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             double elementY = page.Height - y - element.Height;
             double imageX = x + placement.X;
             double imageY = page.Height - y - placement.Y - placement.Height;
-            bool clipImage = placement.X < 0 || placement.Y < 0 || placement.X + placement.Width > element.Width || placement.Y + placement.Height > element.Height;
+            bool clipImage = element.ClipContent && ( placement.X < 0 || placement.Y < 0 || placement.X + placement.Width > element.Width || placement.Y + placement.Height > element.Height );
             context.Builder.AppendLine( "q" );
 
             if ( clipImage )
@@ -940,6 +940,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         if ( HasFill( element.Appearance?.BackgroundColor ) )
             AppendRectangle( context, page, element, x, y );
 
+        AppendClipStart( context, page, element, x, y );
+
         double currentY = y;
 
         foreach ( PdfTableRowDefinition row in element.Rows )
@@ -969,6 +971,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
             currentY += rowHeight;
         }
+
+        AppendClipEnd( context, element );
     }
 
     private static void AppendStroke( PdfPageContentContext context, PdfBorderDefinition border )

@@ -56,6 +56,18 @@ public class PdfElementBuilder
     }
 
     /// <summary>
+    /// Controls whether content is clipped to the element bounds.
+    /// </summary>
+    /// <param name="clipContent">A value indicating whether content should be clipped.</param>
+    /// <returns>The element builder.</returns>
+    public PdfElementBuilder ClipContent( bool clipContent = true )
+    {
+        definition.ClipContent = clipContent;
+
+        return this;
+    }
+
+    /// <summary>
     /// Sets the image source.
     /// </summary>
     /// <param name="source">The image source.</param>

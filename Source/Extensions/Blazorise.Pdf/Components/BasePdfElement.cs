@@ -45,6 +45,7 @@ public abstract class BasePdfElement : ComponentBase, IDisposable
         definition.Height = Height;
         definition.Text = Text;
         definition.Wrap = Wrap;
+        definition.ClipContent = ClipContent;
         definition.Source = Source;
 
         definition.Font ??= new();
@@ -123,6 +124,11 @@ public abstract class BasePdfElement : ComponentBase, IDisposable
     /// Indicates that text should wrap inside the element bounds.
     /// </summary>
     [Parameter] public bool Wrap { get; set; } = true;
+
+    /// <summary>
+    /// Indicates that content should be clipped to the element bounds.
+    /// </summary>
+    [Parameter] public bool ClipContent { get; set; } = true;
 
     /// <summary>
     /// Image source used by image elements.
