@@ -1,5 +1,7 @@
 #region Using directives
 using System;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -14,28 +16,45 @@ public partial class PdfPage : ComponentBase, IDisposable
 
     private PdfPageContext pageContext;
 
-    private PdfPageDefinition definition;
+    private readonly PdfPageDefinition definition = new();
+
+    private PdfDocumentContext documentContext;
 
     #endregion
 
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    public override Task SetParametersAsync( ParameterView parameters )
     {
-        if ( definition is null )
-        {
-            if ( DocumentContext is null )
-                return;
+        bool definitionChanged = parameters.IsParameterChanged( Size )
+            || parameters.IsParameterChanged( Orientation )
+            || parameters.IsParameterChanged( Width )
+            || parameters.IsParameterChanged( Height );
 
-            DocumentContext.Definition.Pages.Add( definition = new() );
-            pageContext = new( definition );
-        }
+        Task task = base.SetParametersAsync( parameters );
 
-        PdfPageSize resolvedSize = Size == PdfPageSize.Custom && Width <= 0 && Height <= 0 ? DocumentContext.Definition.PageSize : Size;
-        PdfOrientation resolvedOrientation = Orientation ?? DocumentContext.Definition.Orientation;
-        double resolvedCustomWidth = Width > 0 ? Width : DocumentContext.Definition.PageWidth;
-        double resolvedCustomHeight = Height > 0 ? Height : DocumentContext.Definition.PageHeight;
+        if ( definitionChanged )
+            UpdateDefinition();
+
+        return task;
+    }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        pageContext = new( definition );
+    }
+
+    private void UpdateDefinition()
+    {
+        if ( documentContext is null )
+            return;
+
+        PdfPageSize resolvedSize = Size == PdfPageSize.Custom && Width <= 0 && Height <= 0 ? documentContext.Definition.PageSize : Size;
+        PdfOrientation resolvedOrientation = Orientation ?? documentContext.Definition.Orientation;
+        double resolvedCustomWidth = Width > 0 ? Width : documentContext.Definition.PageWidth;
+        double resolvedCustomHeight = Height > 0 ? Height : documentContext.Definition.PageHeight;
         (double width, double height) = PdfPageMetrics.Resolve( resolvedSize, resolvedOrientation, resolvedCustomWidth, resolvedCustomHeight );
 
         definition.Size = resolvedSize;
@@ -47,8 +66,8 @@ public partial class PdfPage : ComponentBase, IDisposable
     /// <inheritdoc />
     public void Dispose()
     {
-        if ( DocumentContext is not null && definition is not null )
-            DocumentContext.Definition.Pages.Remove( definition );
+        documentContext?.Definition.Pages.Remove( definition );
+        documentContext = null;
     }
 
     #endregion
@@ -58,7 +77,27 @@ public partial class PdfPage : ComponentBase, IDisposable
     /// <summary>
     /// Provides the PDF document that receives this page definition.
     /// </summary>
-    [CascadingParameter] protected PdfDocumentContext DocumentContext { get; set; }
+    [CascadingParameter]
+    protected PdfDocumentContext DocumentContext
+    {
+        get => documentContext;
+        set
+        {
+            if ( ReferenceEquals( documentContext, value ) )
+            {
+                UpdateDefinition();
+                return;
+            }
+
+            documentContext?.Definition.Pages.Remove( definition );
+            documentContext = value;
+
+            if ( documentContext is not null && !documentContext.Definition.Pages.Contains( definition ) )
+                documentContext.Definition.Pages.Add( definition );
+
+            UpdateDefinition();
+        }
+    }
 
     /// <summary>
     /// Page size for this page.

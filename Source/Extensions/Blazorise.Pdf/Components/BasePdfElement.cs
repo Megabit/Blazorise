@@ -1,6 +1,8 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -11,25 +13,48 @@ namespace Blazorise.Pdf;
 /// </summary>
 public abstract class BasePdfElement : ComponentBase, IDisposable
 {
+    #region Members
+
+    private IList<PdfElementDefinition> registeredElements;
+
+    private PdfPageContext pageContext;
+
+    private PdfTableCellContext tableCellContext;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    public override Task SetParametersAsync( ParameterView parameters )
     {
-        if ( Definition is null )
-        {
-            IList<PdfElementDefinition> elements = TableCellContext?.Elements ?? PageContext?.Elements;
+        bool definitionChanged = IsDefinitionChanged( parameters );
+        Task task = base.SetParametersAsync( parameters );
 
-            if ( elements is null )
-                return;
-
-            Definition = new();
+        if ( definitionChanged )
             UpdateDefinition( Definition );
-            elements.Add( Definition );
-            return;
-        }
 
+        return task;
+    }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
         UpdateDefinition( Definition );
+        RegisterDefinition();
+    }
+
+    /// <summary>
+    /// Determines whether parameters that affect the element definition have changed.
+    /// </summary>
+    protected virtual bool IsDefinitionChanged( ParameterView parameters )
+    {
+        return parameters.IsParameterChanged( X )
+            || parameters.IsParameterChanged( Y )
+            || parameters.IsParameterChanged( Width )
+            || parameters.IsParameterChanged( Height )
+            || parameters.IsParameterChanged( BorderColor )
+            || parameters.IsParameterChanged( BorderWidth );
     }
 
     /// <summary>
@@ -53,10 +78,25 @@ public abstract class BasePdfElement : ComponentBase, IDisposable
         definition.Appearance.BackgroundColor = ElementBackgroundColor;
     }
 
+    private void RegisterDefinition()
+    {
+        IList<PdfElementDefinition> elements = tableCellContext?.Elements ?? pageContext?.Elements;
+
+        if ( ReferenceEquals( registeredElements, elements ) )
+            return;
+
+        registeredElements?.Remove( Definition );
+        registeredElements = elements;
+
+        if ( registeredElements is not null && !registeredElements.Contains( Definition ) )
+            registeredElements.Add( Definition );
+    }
+
     /// <inheritdoc />
     public void Dispose()
     {
-        ( TableCellContext?.Elements ?? PageContext?.Elements )?.Remove( Definition );
+        registeredElements?.Remove( Definition );
+        registeredElements = null;
     }
 
     #endregion
@@ -81,17 +121,41 @@ public abstract class BasePdfElement : ComponentBase, IDisposable
     /// <summary>
     /// Gets the generated element definition.
     /// </summary>
-    public PdfElementDefinition Definition { get; private set; }
+    public PdfElementDefinition Definition { get; } = new();
 
     /// <summary>
     /// Provides the current PDF page that receives this element definition.
     /// </summary>
-    [CascadingParameter] protected PdfPageContext PageContext { get; set; }
+    [CascadingParameter]
+    protected PdfPageContext PageContext
+    {
+        get => pageContext;
+        set
+        {
+            if ( ReferenceEquals( pageContext, value ) )
+                return;
+
+            pageContext = value;
+            RegisterDefinition();
+        }
+    }
 
     /// <summary>
     /// Provides the current PDF table cell that receives this element definition.
     /// </summary>
-    [CascadingParameter] protected PdfTableCellContext TableCellContext { get; set; }
+    [CascadingParameter]
+    protected PdfTableCellContext TableCellContext
+    {
+        get => tableCellContext;
+        set
+        {
+            if ( ReferenceEquals( tableCellContext, value ) )
+                return;
+
+            tableCellContext = value;
+            RegisterDefinition();
+        }
+    }
 
     /// <summary>
     /// Horizontal element position.

@@ -1,5 +1,7 @@
 #region Using directives
 using System;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -14,32 +16,37 @@ public partial class PdfTableCell : ComponentBase, IDisposable
 
     private PdfTableCellContext cellContext;
 
-    private PdfTableCellDefinition definition;
+    private readonly PdfTableCellDefinition definition = new();
+
+    private PdfTableRowContext rowContext;
 
     #endregion
 
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    public override Task SetParametersAsync( ParameterView parameters )
     {
-        if ( definition is null )
-        {
-            if ( RowContext is null )
-                return;
+        bool widthChanged = parameters.IsParameterChanged( Width );
+        Task task = base.SetParametersAsync( parameters );
 
-            RowContext.Cells.Add( definition = new() );
-            cellContext = new( definition );
-        }
+        if ( widthChanged )
+            definition.Width = Width;
 
-        definition.Width = Width;
+        return task;
+    }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        cellContext = new( definition );
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        if ( RowContext is not null && definition is not null )
-            RowContext.Cells.Remove( definition );
+        rowContext?.Cells.Remove( definition );
+        rowContext = null;
     }
 
     #endregion
@@ -49,7 +56,22 @@ public partial class PdfTableCell : ComponentBase, IDisposable
     /// <summary>
     /// Provides the PDF table row that receives this cell definition.
     /// </summary>
-    [CascadingParameter] protected PdfTableRowContext RowContext { get; set; }
+    [CascadingParameter]
+    protected PdfTableRowContext RowContext
+    {
+        get => rowContext;
+        set
+        {
+            if ( ReferenceEquals( rowContext, value ) )
+                return;
+
+            rowContext?.Cells.Remove( definition );
+            rowContext = value;
+
+            if ( rowContext is not null && !rowContext.Cells.Contains( definition ) )
+                rowContext.Cells.Add( definition );
+        }
+    }
 
     /// <summary>
     /// Cell width.

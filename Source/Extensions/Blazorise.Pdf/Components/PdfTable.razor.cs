@@ -1,4 +1,5 @@
 #region Using directives
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -30,12 +31,18 @@ public partial class PdfTable : BasePdfElement
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    protected override bool IsDefinitionChanged( ParameterView parameters )
     {
-        base.OnParametersSet();
+        return base.IsDefinitionChanged( parameters )
+            || parameters.IsParameterChanged( ClipContent )
+            || parameters.IsParameterChanged( BackgroundColor );
+    }
 
-        if ( tableContext is null && Definition is not null )
-            tableContext = new( Definition );
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        tableContext = new( Definition );
     }
 
     #endregion

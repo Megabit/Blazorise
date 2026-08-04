@@ -1,3 +1,4 @@
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Pdf;
@@ -15,6 +16,17 @@ public class PdfRectangle : BasePdfElement
     public PdfRectangle()
     {
         BorderWidth = 1;
+    }
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc />
+    protected override bool IsDefinitionChanged( ParameterView parameters )
+    {
+        return base.IsDefinitionChanged( parameters )
+            || parameters.IsParameterChanged( BackgroundColor );
     }
 
     #endregion

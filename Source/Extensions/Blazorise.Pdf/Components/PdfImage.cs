@@ -1,3 +1,4 @@
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Pdf;
@@ -8,6 +9,16 @@ namespace Blazorise.Pdf;
 public class PdfImage : BasePdfElement
 {
     #region Methods
+
+    /// <inheritdoc />
+    protected override bool IsDefinitionChanged( ParameterView parameters )
+    {
+        return base.IsDefinitionChanged( parameters )
+            || parameters.IsParameterChanged( Source )
+            || parameters.IsParameterChanged( ClipContent )
+            || parameters.IsParameterChanged( Fit )
+            || parameters.IsParameterChanged( BackgroundColor );
+    }
 
     /// <inheritdoc />
     protected override void UpdateDefinition( PdfElementDefinition definition )

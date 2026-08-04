@@ -1,3 +1,4 @@
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Pdf;
@@ -8,6 +9,23 @@ namespace Blazorise.Pdf;
 public class PdfText : BasePdfElement
 {
     #region Methods
+
+    /// <inheritdoc />
+    protected override bool IsDefinitionChanged( ParameterView parameters )
+    {
+        return base.IsDefinitionChanged( parameters )
+            || parameters.IsParameterChanged( Text )
+            || parameters.IsParameterChanged( Wrap )
+            || parameters.IsParameterChanged( ClipContent )
+            || parameters.IsParameterChanged( FontFamily )
+            || parameters.IsParameterChanged( FontSize )
+            || parameters.IsParameterChanged( TextColor )
+            || parameters.IsParameterChanged( TextAlignment )
+            || parameters.IsParameterChanged( VerticalAlignment )
+            || parameters.IsParameterChanged( Bold )
+            || parameters.IsParameterChanged( Italic )
+            || parameters.IsParameterChanged( BackgroundColor );
+    }
 
     /// <inheritdoc />
     protected override void UpdateDefinition( PdfElementDefinition definition )

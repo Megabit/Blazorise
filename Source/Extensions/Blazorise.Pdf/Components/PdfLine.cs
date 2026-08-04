@@ -1,3 +1,4 @@
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Pdf;
@@ -20,6 +21,13 @@ public class PdfLine : BasePdfElement
     #endregion
 
     #region Methods
+
+    /// <inheritdoc />
+    protected override bool IsDefinitionChanged( ParameterView parameters )
+    {
+        return base.IsDefinitionChanged( parameters )
+            || parameters.IsParameterChanged( Orientation );
+    }
 
     /// <inheritdoc />
     protected override void UpdateDefinition( PdfElementDefinition definition )
