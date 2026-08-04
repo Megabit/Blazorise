@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Blazorise;
 using Microsoft.AspNetCore.Components;
 using Xunit;
@@ -256,6 +258,39 @@ public class DockLayoutSizingTest
 
         layout.RegisterPane( pane );
 
+        Assert.True( DockLayoutTreeQuery.ContainsPane( state.Root, "pane" ) );
+    }
+
+    [Fact]
+    public async Task ClosingPaneCanBeCancelled()
+    {
+        DockLayoutState state = new()
+        {
+            Root = new() { Kind = DockNodeKind.Pane, PaneName = "pane" },
+        };
+        DockLayout layout = new();
+        DockPane pane = CreateDockPane( "pane" );
+
+        ParameterView.FromDictionary( new Dictionary<string, object>
+        {
+            [nameof( DockLayout.State )] = state,
+        } ).SetParameterProperties( layout );
+        ParameterView.FromDictionary( new Dictionary<string, object>
+        {
+            [nameof( DockPane.Closing )] = new Func<DockPaneClosingEventArgs, Task>( eventArgs =>
+            {
+                Assert.Equal( "pane", eventArgs.PaneName );
+                eventArgs.Cancel = true;
+
+                return Task.CompletedTask;
+            } ),
+        } ).SetParameterProperties( pane );
+
+        layout.RegisterPane( pane );
+
+        await layout.ClosePane( "pane" );
+
+        Assert.True( layout.IsPaneOpen( "pane" ) );
         Assert.True( DockLayoutTreeQuery.ContainsPane( state.Root, "pane" ) );
     }
 

@@ -572,7 +572,7 @@ public partial class DockLayout : BaseComponent
         DockPaneState paneState = stateManager.EnsurePaneState( CurrentState, pane );
         DockRailItemState railItem = stateManager.FindRailItem( CurrentState, paneState.Name );
 
-        if ( !paneState.Visible )
+        if ( !paneState.Visible || !await pane.IsSafeToClose() )
             return;
 
         paneState.RestorePlacement = railItem is not null

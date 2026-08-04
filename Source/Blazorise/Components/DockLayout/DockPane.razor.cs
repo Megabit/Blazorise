@@ -52,6 +52,18 @@ public partial class DockPane : BaseComponent, IDisposable
             ? InvokeAsync( StateHasChanged )
             : ParentDockLayout.RefreshPane( ResolvedName );
 
+    internal async Task<bool> IsSafeToClose()
+    {
+        if ( Closing is null )
+            return true;
+
+        DockPaneClosingEventArgs eventArgs = new( false, ResolvedName );
+
+        await Closing.Invoke( eventArgs );
+
+        return !eventArgs.Cancel;
+    }
+
     #endregion
 
     #region Properties
@@ -153,6 +165,11 @@ public partial class DockPane : BaseComponent, IDisposable
     /// Allows the pane header to show a close action that hides the pane.
     /// </summary>
     [Parameter] public bool Closable { get; set; } = true;
+
+    /// <summary>
+    /// Callback invoked before the pane closes. Set <see cref="DockPaneClosingEventArgs.Cancel"/> to prevent closing.
+    /// </summary>
+    [Parameter] public Func<DockPaneClosingEventArgs, Task> Closing { get; set; }
 
     /// <summary>
     /// Defines the initial pane size, such as <c>280px</c>, <c>18rem</c>, or <c>25%</c>.
