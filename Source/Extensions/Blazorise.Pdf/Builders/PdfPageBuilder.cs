@@ -123,6 +123,10 @@ public sealed class PdfPageBuilder
             Y = y,
             Width = width,
             Height = height,
+            Border = new()
+            {
+                Width = type is PdfElementType.Line or PdfElementType.Rectangle or PdfElementType.Table ? 1 : 0,
+            },
         };
     }
 

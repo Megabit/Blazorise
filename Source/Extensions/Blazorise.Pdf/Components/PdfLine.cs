@@ -7,6 +7,18 @@ namespace Blazorise.Pdf;
 /// </summary>
 public class PdfLine : BasePdfElement
 {
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new PDF line.
+    /// </summary>
+    public PdfLine()
+    {
+        BorderWidth = 1;
+    }
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc />

@@ -21,7 +21,7 @@ public sealed class PdfBorderDefinition
     /// <summary>
     /// Border width in points.
     /// </summary>
-    public double Width { get; set; } = 1;
+    public double Width { get; set; }
 
     /// <summary>
     /// Border line style.

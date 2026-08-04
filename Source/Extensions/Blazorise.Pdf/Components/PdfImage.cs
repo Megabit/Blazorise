@@ -14,6 +14,7 @@ public class PdfImage : BasePdfElement
     {
         base.UpdateDefinition( definition );
 
+        definition.Source = Source;
         definition.ImageFit = Fit;
     }
 
@@ -24,10 +25,31 @@ public class PdfImage : BasePdfElement
     /// <inheritdoc />
     protected override PdfElementType ElementType => PdfElementType.Image;
 
+    /// <inheritdoc />
+    protected override bool ElementClipContent => ClipContent;
+
+    /// <inheritdoc />
+    protected override string ElementBackgroundColor => BackgroundColor;
+
+    /// <summary>
+    /// Image source used by the element.
+    /// </summary>
+    [Parameter] public string Source { get; set; }
+
+    /// <summary>
+    /// Indicates that content should be clipped to the element bounds.
+    /// </summary>
+    [Parameter] public bool ClipContent { get; set; } = true;
+
     /// <summary>
     /// Defines how the image should fit inside the element bounds.
     /// </summary>
     [Parameter] public PdfImageFit Fit { get; set; } = PdfImageFit.Fill;
+
+    /// <summary>
+    /// Background color in hexadecimal format.
+    /// </summary>
+    [Parameter] public string BackgroundColor { get; set; }
 
     #endregion
 }

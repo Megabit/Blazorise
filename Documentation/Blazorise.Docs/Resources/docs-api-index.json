@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-04T11:54:06.0288495Z",
+  "generatedUtc": "2026-08-04T13:59:13.1558399Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -82615,14 +82615,6 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Bold",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Makes text bold.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "BorderColor",
           "type": "string",
           "typeName": "string",
@@ -82634,8 +82626,16 @@
           "name": "BorderWidth",
           "type": "double",
           "typeName": "double",
-          "defaultValue": "1",
+          "defaultValue": "0",
           "summary": "Border width.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ClipContent",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Indicates that content should be clipped to the element bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -82647,22 +82647,6 @@
           "isBlazoriseEnum": true
         },
         {
-          "name": "FontFamily",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"Helvetica\"",
-          "summary": "Font family used by text-based elements. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "FontSize",
-          "type": "double",
-          "typeName": "double",
-          "defaultValue": "12",
-          "summary": "Font size used by text-based elements.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Height",
           "type": "double",
           "typeName": "double",
@@ -82671,54 +82655,12 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Italic",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Makes text italic.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Source",
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Image source used by image elements.",
+          "summary": "Image source used by the element.",
           "isBlazoriseEnum": false
-        },
-        {
-          "name": "Text",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Text rendered by text-based elements.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "TextAlignment",
-          "type": "global::Blazorise.TextAlignment",
-          "typeName": "TextAlignment",
-          "defaultValue": "Default",
-          "summary": "Text alignment inside the element bounds.",
-          "remarks": "<strong>Default</strong> and <strong>Start</strong> align to the start.     <strong>Justified</strong> distributes words across wrapped non-final paragraph lines.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "TextColor",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"#000000\"",
-          "summary": "Text color in hexadecimal format.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "VerticalAlignment",
-          "type": "global::Blazorise.VerticalAlignment",
-          "typeName": "VerticalAlignment",
-          "defaultValue": "Default",
-          "summary": "Text vertical alignment inside the element bounds.",
-          "remarks": "<strong>Default</strong>, <strong>Baseline</strong>,     <strong>Top</strong>, and <strong>TextTop</strong> align to the top.     <strong>Middle</strong> centers the text, while <strong>Bottom</strong>     and <strong>TextBottom</strong> align to the bottom.",
-          "isBlazoriseEnum": true
         },
         {
           "name": "Width",
@@ -82726,14 +82668,6 @@
           "typeName": "double",
           "defaultValue": "0",
           "summary": "Element width.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Wrap",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Indicates that text should wrap inside the element bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -82762,22 +82696,6 @@
       "summary": "$\"\"\"\r\n       Defines a line in a PDF document.\r\n       \"\"\"",
       "parameters": [
         {
-          "name": "BackgroundColor",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Background color in hexadecimal format.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Bold",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Makes text bold.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "BorderColor",
           "type": "string",
           "typeName": "string",
@@ -82789,24 +82707,8 @@
           "name": "BorderWidth",
           "type": "double",
           "typeName": "double",
-          "defaultValue": "1",
+          "defaultValue": "0",
           "summary": "Border width.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "FontFamily",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"Helvetica\"",
-          "summary": "Font family used by text-based elements. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "FontSize",
-          "type": "double",
-          "typeName": "double",
-          "defaultValue": "12",
-          "summary": "Font size used by text-based elements.",
           "isBlazoriseEnum": false
         },
         {
@@ -82818,14 +82720,6 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Italic",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Makes text italic.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Orientation",
           "type": "global::Blazorise.Orientation",
           "typeName": "Orientation",
@@ -82834,61 +82728,11 @@
           "isBlazoriseEnum": true
         },
         {
-          "name": "Source",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Image source used by image elements.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Text",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Text rendered by text-based elements.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "TextAlignment",
-          "type": "global::Blazorise.TextAlignment",
-          "typeName": "TextAlignment",
-          "defaultValue": "Default",
-          "summary": "Text alignment inside the element bounds.",
-          "remarks": "<strong>Default</strong> and <strong>Start</strong> align to the start.     <strong>Justified</strong> distributes words across wrapped non-final paragraph lines.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "TextColor",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"#000000\"",
-          "summary": "Text color in hexadecimal format.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "VerticalAlignment",
-          "type": "global::Blazorise.VerticalAlignment",
-          "typeName": "VerticalAlignment",
-          "defaultValue": "Default",
-          "summary": "Text vertical alignment inside the element bounds.",
-          "remarks": "<strong>Default</strong>, <strong>Baseline</strong>,     <strong>Top</strong>, and <strong>TextTop</strong> align to the top.     <strong>Middle</strong> centers the text, while <strong>Bottom</strong>     and <strong>TextBottom</strong> align to the bottom.",
-          "isBlazoriseEnum": true
-        },
-        {
           "name": "Width",
           "type": "double",
           "typeName": "double",
           "defaultValue": "0",
           "summary": "Element width.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Wrap",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Indicates that text should wrap inside the element bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -83047,14 +82891,6 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Bold",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Makes text bold.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "BorderColor",
           "type": "string",
           "typeName": "string",
@@ -83066,24 +82902,8 @@
           "name": "BorderWidth",
           "type": "double",
           "typeName": "double",
-          "defaultValue": "1",
+          "defaultValue": "0",
           "summary": "Border width.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "FontFamily",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"Helvetica\"",
-          "summary": "Font family used by text-based elements. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "FontSize",
-          "type": "double",
-          "typeName": "double",
-          "defaultValue": "12",
-          "summary": "Font size used by text-based elements.",
           "isBlazoriseEnum": false
         },
         {
@@ -83095,69 +82915,11 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Italic",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Makes text italic.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Source",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Image source used by image elements.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Text",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Text rendered by text-based elements.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "TextAlignment",
-          "type": "global::Blazorise.TextAlignment",
-          "typeName": "TextAlignment",
-          "defaultValue": "Default",
-          "summary": "Text alignment inside the element bounds.",
-          "remarks": "<strong>Default</strong> and <strong>Start</strong> align to the start.     <strong>Justified</strong> distributes words across wrapped non-final paragraph lines.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "TextColor",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"#000000\"",
-          "summary": "Text color in hexadecimal format.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "VerticalAlignment",
-          "type": "global::Blazorise.VerticalAlignment",
-          "typeName": "VerticalAlignment",
-          "defaultValue": "Default",
-          "summary": "Text vertical alignment inside the element bounds.",
-          "remarks": "<strong>Default</strong>, <strong>Baseline</strong>,     <strong>Top</strong>, and <strong>TextTop</strong> align to the top.     <strong>Middle</strong> centers the text, while <strong>Bottom</strong>     and <strong>TextBottom</strong> align to the bottom.",
-          "isBlazoriseEnum": true
-        },
-        {
           "name": "Width",
           "type": "double",
           "typeName": "double",
           "defaultValue": "0",
           "summary": "Element width.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Wrap",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Indicates that text should wrap inside the element bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -83194,14 +82956,6 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Bold",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Makes text bold.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "BorderColor",
           "type": "string",
           "typeName": "string",
@@ -83213,7 +82967,7 @@
           "name": "BorderWidth",
           "type": "double",
           "typeName": "double",
-          "defaultValue": "1",
+          "defaultValue": "0",
           "summary": "Border width.",
           "isBlazoriseEnum": false
         },
@@ -83226,19 +82980,11 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "FontFamily",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"Helvetica\"",
-          "summary": "Font family used by text-based elements. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "FontSize",
-          "type": "double",
-          "typeName": "double",
-          "defaultValue": "12",
-          "summary": "Font size used by text-based elements.",
+          "name": "ClipContent",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Indicates that content should be clipped to the element bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -83250,69 +82996,11 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Italic",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Makes text italic.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Source",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Image source used by image elements.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Text",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Text rendered by text-based elements.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "TextAlignment",
-          "type": "global::Blazorise.TextAlignment",
-          "typeName": "TextAlignment",
-          "defaultValue": "Default",
-          "summary": "Text alignment inside the element bounds.",
-          "remarks": "<strong>Default</strong> and <strong>Start</strong> align to the start.     <strong>Justified</strong> distributes words across wrapped non-final paragraph lines.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "TextColor",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"#000000\"",
-          "summary": "Text color in hexadecimal format.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "VerticalAlignment",
-          "type": "global::Blazorise.VerticalAlignment",
-          "typeName": "VerticalAlignment",
-          "defaultValue": "Default",
-          "summary": "Text vertical alignment inside the element bounds.",
-          "remarks": "<strong>Default</strong>, <strong>Baseline</strong>,     <strong>Top</strong>, and <strong>TextTop</strong> align to the top.     <strong>Middle</strong> centers the text, while <strong>Bottom</strong>     and <strong>TextBottom</strong> align to the bottom.",
-          "isBlazoriseEnum": true
-        },
-        {
           "name": "Width",
           "type": "double",
           "typeName": "double",
           "defaultValue": "0",
           "summary": "Element width.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Wrap",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Indicates that text should wrap inside the element bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -83418,8 +83106,16 @@
           "name": "BorderWidth",
           "type": "double",
           "typeName": "double",
-          "defaultValue": "1",
+          "defaultValue": "0",
           "summary": "Border width.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ClipContent",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Indicates that content should be clipped to the element bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -83427,7 +83123,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "\"Helvetica\"",
-          "summary": "Font family used by text-based elements. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).",
+          "summary": "Font family used by the text. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).",
           "isBlazoriseEnum": false
         },
         {
@@ -83435,7 +83131,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "12",
-          "summary": "Font size used by text-based elements.",
+          "summary": "Font size used by the text.",
           "isBlazoriseEnum": false
         },
         {
@@ -83455,19 +83151,11 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Source",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Image source used by image elements.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Text",
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Text rendered by text-based elements.",
+          "summary": "Text rendered by the element.",
           "isBlazoriseEnum": false
         },
         {

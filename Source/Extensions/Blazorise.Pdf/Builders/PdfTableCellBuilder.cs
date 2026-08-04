@@ -67,6 +67,10 @@ public sealed class PdfTableCellBuilder
             Type = type,
             Width = definition.Width,
             Height = 24,
+            Border = new()
+            {
+                Width = type is PdfElementType.Line or PdfElementType.Rectangle or PdfElementType.Table ? 1 : 0,
+            },
         };
 
         definition.Elements.Add( element );
