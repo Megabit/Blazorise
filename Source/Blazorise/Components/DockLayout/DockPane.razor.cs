@@ -104,7 +104,7 @@ public partial class DockPane : BaseComponent, IDisposable
     /// <summary>
     /// Defines whether this pane behaves as a tool pane or as a document pane.
     /// </summary>
-    [Parameter] public DockRole Role { get; set; } = DockRole.Tool;
+    [Parameter] public DockPaneRole Role { get; set; } = DockPaneRole.Tool;
 
     /// <summary>
     /// Defines whether this pane should display a tab when it is hosted inside a tab group.

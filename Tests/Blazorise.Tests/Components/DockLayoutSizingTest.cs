@@ -15,7 +15,7 @@ public class DockLayoutSizingTest
     {
         DockPane explorer = CreateDockPane( "explorer", DockPanePosition.Left, size: "16rem" );
         DockPane toolbar = CreateDockPane( "toolbar", DockPanePosition.Top );
-        DockPane designer = CreateDockPane( "designer", role: DockRole.Document );
+        DockPane designer = CreateDockPane( "designer", role: DockPaneRole.Document );
         DockLayoutRegistry registry = new();
 
         registry.RegisterPane( explorer );
@@ -38,10 +38,10 @@ public class DockLayoutSizingTest
         DockNodeState explorerNode = new() { Id = "explorer-node", Kind = DockNodeKind.Pane, PaneName = "explorer" };
         DockNodeState toolbarNode = new() { Id = "toolbar-node", Kind = DockNodeKind.Pane, PaneName = "toolbar" };
         DockNodeState designerNode = new() { Id = "designer-node", Kind = DockNodeKind.Pane, PaneName = "designer" };
-        DockNodeState contentSplit = DockLayoutTreeBuilder.CreateSplitNode( explorerNode, designerNode, DockSplitOrientation.Horizontal, 0.18 );
+        DockNodeState contentSplit = DockLayoutTreeBuilder.CreateSplitNode( explorerNode, designerNode, Orientation.Horizontal, 0.18 );
 
         contentSplit.Id = "content-split";
-        state.Root = DockLayoutTreeBuilder.CreateSplitNode( toolbarNode, contentSplit, DockSplitOrientation.Vertical, 0.12 );
+        state.Root = DockLayoutTreeBuilder.CreateSplitNode( toolbarNode, contentSplit, Orientation.Vertical, 0.12 );
         state.Root.Id = "root-split";
         state.Panes[0].Position = DockPanePosition.Top;
 
@@ -64,7 +64,7 @@ public class DockLayoutSizingTest
     public void RedockingSizedPaneBesideCenterPreservesFixedTrack()
     {
         DockPane explorer = CreateDockPane( "explorer", DockPanePosition.Left, size: "16rem" );
-        DockPane designer = CreateDockPane( "designer", role: DockRole.Document );
+        DockPane designer = CreateDockPane( "designer", role: DockPaneRole.Document );
         DockPane properties = CreateDockPane( "properties", DockPanePosition.Right, size: "18rem" );
         DockLayoutRegistry registry = new();
 
@@ -88,9 +88,9 @@ public class DockLayoutSizingTest
         DockNodeState explorerNode = new() { Kind = DockNodeKind.Pane, PaneName = "explorer" };
         DockNodeState designerNode = new() { Kind = DockNodeKind.Pane, PaneName = "designer" };
         DockNodeState propertiesNode = new() { Kind = DockNodeKind.Pane, PaneName = "properties" };
-        DockNodeState centerSplit = DockLayoutTreeBuilder.CreateSplitNode( explorerNode, designerNode, DockSplitOrientation.Horizontal, 0.18 );
+        DockNodeState centerSplit = DockLayoutTreeBuilder.CreateSplitNode( explorerNode, designerNode, Orientation.Horizontal, 0.18 );
 
-        state.Root = DockLayoutTreeBuilder.CreateSplitNode( centerSplit, propertiesNode, DockSplitOrientation.Horizontal, 0.78 );
+        state.Root = DockLayoutTreeBuilder.CreateSplitNode( centerSplit, propertiesNode, Orientation.Horizontal, 0.78 );
         state.Panes[0].Position = DockPanePosition.Right;
 
         mutator.MovePaneToZone( state, "explorer", "properties", null, DockZone.Center, true );
@@ -124,7 +124,7 @@ public class DockLayoutSizingTest
             Root = DockLayoutTreeBuilder.CreateSplitNode(
                 new() { Id = "dock-node-2", Kind = DockNodeKind.Pane, PaneName = "left" },
                 new() { Id = "dock-node-7", Kind = DockNodeKind.Pane, PaneName = "right" },
-                DockSplitOrientation.Horizontal,
+                Orientation.Horizontal,
                 0.5 ),
             Panes =
             [
@@ -239,7 +239,7 @@ public class DockLayoutSizingTest
         DockNodeState definition = DockLayoutTreeBuilder.CreateSplitNode(
             new() { Kind = DockNodeKind.Pane, PaneName = "left" },
             new() { Kind = DockNodeKind.Tabs, Panes = ["first", "second"], ActivePane = "second" },
-            DockSplitOrientation.Horizontal,
+            Orientation.Horizontal,
             0.25 );
         DockLayoutState state = new();
         DockLayoutStateManager stateManager = new();
@@ -280,7 +280,7 @@ public class DockLayoutSizingTest
             Root = DockLayoutTreeBuilder.CreateSplitNode(
                 new() { Kind = DockNodeKind.Content },
                 new() { Kind = DockNodeKind.Pane, PaneName = "pane" },
-                DockSplitOrientation.Horizontal,
+                Orientation.Horizontal,
                 0.75 ),
             Panes =
             [
@@ -385,7 +385,7 @@ public class DockLayoutSizingTest
         Assert.True( DockLayoutTreeQuery.ContainsPane( state.Root, "pane" ) );
     }
 
-    private static DockPane CreateDockPane( string name, DockPanePosition? position = null, string size = null, DockRole role = DockRole.Tool )
+    private static DockPane CreateDockPane( string name, DockPanePosition? position = null, string size = null, DockPaneRole role = DockPaneRole.Tool )
     {
         DockPane pane = new();
         Dictionary<string, object> parameters = new()

@@ -851,7 +851,7 @@ public abstract class ClassProvider : IClassProvider
 
     public virtual string DockSplit() => null;
 
-    public virtual string DockSplitOrientation( DockSplitOrientation orientation )
+    public virtual string DockSplitOrientation( Orientation orientation )
         => null;
 
     public virtual string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => null;

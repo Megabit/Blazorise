@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-03T12:34:01.2595495Z",
+  "generatedUtc": "2026-08-04T11:54:06.0288495Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -26337,7 +26337,8 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "Gets or sets the menu visibility.",
+          "summary": "Gets or sets whether the menu is visible.",
+          "remarks": "Setting this to  opens the menu relative to its configured target.     Use <strong>Double)</strong> to open the menu at a specific viewport position.",
           "isBlazoriseEnum": false
         },
         {
@@ -26359,19 +26360,27 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Closing",
+          "type": "Func<,>",
+          "typeName": "Func<ContextMenuClosingEventArgs, Task>",
+          "defaultValue": "null",
+          "summary": "Callback invoked before the menu closes. Set <strong>Cancel</strong> to prevent closing.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Opened",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<ContextMenuEventArgs>",
           "defaultValue": "null",
-          "summary": "Occurs after the menu opens.",
+          "summary": "Occurs after the menu body has rendered and its initial position has been applied.",
           "isBlazoriseEnum": false
         },
         {
           "name": "Opening",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
-          "typeName": "EventCallback<ContextMenuOpeningEventArgs>",
+          "type": "Func<,>",
+          "typeName": "Func<ContextMenuOpeningEventArgs, Task>",
           "defaultValue": "null",
-          "summary": "Occurs before the menu opens. Set <strong>Cancel</strong> to prevent opening.",
+          "summary": "Callback invoked before the menu opens. Set <strong>Cancel</strong> to prevent opening.",
           "isBlazoriseEnum": false
         },
         {
@@ -26379,7 +26388,7 @@
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<bool>",
           "defaultValue": "null",
-          "summary": "Occurs after the menu visibility changes.",
+          "summary": "Notifies when the effective menu visibility changes or a canceled request must be synchronized.",
           "isBlazoriseEnum": false
         }
       ],
@@ -26391,9 +26400,40 @@
           "parameters": []
         },
         {
+          "name": "Reposition",
+          "returnTypeName": "Task",
+          "summary": "Repositions the visible context menu relative to its configured target.",
+          "remarks": "This method does nothing while the menu is hidden and does not invoke <strong>Opening</strong>, <strong>Opened</strong>, or <strong>VisibleChanged</strong>.",
+          "parameters": []
+        },
+        {
+          "name": "Reposition",
+          "returnTypeName": "Task",
+          "summary": "Repositions the visible context menu at the supplied viewport coordinates.",
+          "remarks": "This method does nothing while the menu is hidden and does not invoke <strong>Opening</strong>, <strong>Opened</strong>, or <strong>VisibleChanged</strong>.",
+          "parameters": [
+            {
+              "name": "clientX",
+              "typeName": "double"
+            },
+            {
+              "name": "clientY",
+              "typeName": "double"
+            }
+          ]
+        },
+        {
           "name": "Show",
           "returnTypeName": "Task",
-          "summary": "Opens the context menu at the supplied document coordinates.",
+          "summary": "Opens the context menu relative to its configured target.",
+          "remarks": "This method does nothing while the menu is visible. Use <strong>Reposition</strong> to update its position.",
+          "parameters": []
+        },
+        {
+          "name": "Show",
+          "returnTypeName": "Task",
+          "summary": "Opens the context menu at the supplied viewport coordinates.",
+          "remarks": "This method does nothing while the menu is visible. Use <strong>Double)</strong> to update its position.",
           "parameters": [
             {
               "name": "clientX",
@@ -26528,14 +26568,6 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "MinWidth",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Sets a minimum menu width.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "ObjectFit",
           "type": "global::Blazorise.IFluentObjectFit",
           "typeName": "IFluentObjectFit",
@@ -26662,14 +26694,6 @@
           "defaultValue": "Visibility.Default",
           "summary": "Controls the visibility of an element without altering its layout.",
           "isBlazoriseEnum": true
-        },
-        {
-          "name": "Visible",
-          "type": "bool?",
-          "typeName": "bool?",
-          "defaultValue": "null",
-          "summary": "Overrides the parent menu visibility.",
-          "isBlazoriseEnum": false
         },
         {
           "name": "Width",
@@ -27701,7 +27725,7 @@
           "type": "int?",
           "typeName": "int?",
           "defaultValue": "null",
-          "summary": "Specifies the tabindex value for keyboard navigation.",
+          "summary": "Specifies the tabindex value rendered for the item.     The context menu manages item tab indexes while it is open.",
           "isBlazoriseEnum": false
         },
         {
@@ -43280,7 +43304,7 @@
           "type": "global::Blazorise.DockLayoutState",
           "typeName": "DockLayoutState",
           "defaultValue": "null",
-          "summary": "Defines the mutable state used for docking, resizing, active tabs, and pane visibility. The same state can be saved with <strong>GetState</strong> and restored with <strong>DockLayoutState)</strong>.     In-place changes to the assigned instance are not detected; apply them with <strong>DockLayoutState)</strong> or follow them with <strong>Refresh</strong>.",
+          "summary": "Defines the mutable state used for docking, resizing, active tabs, and pane visibility. The same state can be saved with <strong>GetState</strong> and restored with <strong>DockLayoutState)</strong>.     Declarative values initialize this state and are reapplied by <strong>ResetState</strong>.     In-place changes to the assigned instance are not detected; apply them with <strong>DockLayoutState)</strong> or follow them with <strong>Refresh</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -43405,7 +43429,7 @@
         {
           "name": "GetState",
           "returnTypeName": "DockLayoutState",
-          "summary": "Returns the current mutable docking state.",
+          "summary": "Returns a persistence snapshot of the current docking state.",
           "parameters": []
         },
         {
@@ -43450,7 +43474,7 @@
         {
           "name": "ResetState",
           "returnTypeName": "Task",
-          "summary": "Resets the docking state to the declarative layout definition.",
+          "summary": "Resets the docking state to the latest declarative layout definition.",
           "parameters": []
         },
         {
@@ -43505,7 +43529,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "Auto-hides the pane content while keeping the pane available on its docked side.",
+          "summary": "Initially auto-hides the pane content while keeping the pane available on its docked side.",
           "isBlazoriseEnum": false
         },
         {
@@ -43585,7 +43609,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "Collapses the pane content while keeping the pane in the dock layout.",
+          "summary": "Initially collapses the pane content while keeping the pane in the dock layout.",
           "isBlazoriseEnum": false
         },
         {
@@ -43706,7 +43730,7 @@
           "type": "global::Blazorise.DockPanePosition",
           "typeName": "DockPanePosition",
           "defaultValue": "DockPanePosition.Left",
-          "summary": "Defines where the pane is docked inside the layout.",
+          "summary": "Defines where the pane is initially docked inside the layout.",
           "isBlazoriseEnum": true
         },
         {
@@ -43727,9 +43751,9 @@
         },
         {
           "name": "Role",
-          "type": "global::Blazorise.DockRole",
-          "typeName": "DockRole",
-          "defaultValue": "DockRole.Tool",
+          "type": "global::Blazorise.DockPaneRole",
+          "typeName": "DockPaneRole",
+          "defaultValue": "DockPaneRole.Tool",
           "summary": "Defines whether this pane behaves as a tool pane or as a document pane.",
           "isBlazoriseEnum": true
         },
@@ -43762,7 +43786,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Defines the preferred pane size, such as <code>280px</code>, <code>18rem</code>, or <code>25%</code>.",
+          "summary": "Defines the initial pane size, such as <code>280px</code>, <code>18rem</code>, or <code>25%</code>.",
           "isBlazoriseEnum": false
         },
         {
@@ -43866,7 +43890,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
-          "summary": "Shows or hides the pane in the dock layout.",
+          "summary": "Initially shows or hides the pane in the dock layout.",
           "isBlazoriseEnum": false
         },
         {
@@ -43878,7 +43902,16 @@
           "isBlazoriseEnum": false
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "name": "Closing",
+          "type": "Func<,>",
+          "typeName": "Func<DockPaneClosingEventArgs, Task>",
+          "defaultValue": "null",
+          "summary": "Callback invoked before the pane closes. Set <strong>DockPaneClosingEventArgs.Cancel</strong> to prevent closing.",
+          "isBlazoriseEnum": false
+        }
+      ],
       "methods": [
         {
           "name": "Refresh",
@@ -44798,10 +44831,10 @@
         },
         {
           "name": "Orientation",
-          "type": "global::Blazorise.DockSplitOrientation",
-          "typeName": "DockSplitOrientation",
-          "defaultValue": "DockSplitOrientation.Horizontal",
-          "summary": "Defines the split orientation.",
+          "type": "global::Blazorise.Orientation",
+          "typeName": "Orientation",
+          "defaultValue": "Orientation.Horizontal",
+          "summary": "Defines the initial split orientation.",
           "isBlazoriseEnum": true
         },
         {
@@ -44833,7 +44866,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "0.5",
-          "summary": "Defines the first child ratio.",
+          "summary": "Defines the initial first child ratio.",
           "isBlazoriseEnum": false
         },
         {
@@ -44955,7 +44988,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Defines the active pane name.",
+          "summary": "Defines the initially active pane name.",
           "isBlazoriseEnum": false
         },
         {

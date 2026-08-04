@@ -29,7 +29,7 @@ public partial class _DockSplitter : ComponentBase
     /// Maps the splitter to the correct resize axis.
     /// </summary>
     private Orientation ResizeOrientation
-        => SplitOrientation == DockSplitOrientation.Horizontal
+        => SplitOrientation == Orientation.Horizontal
             ? Blazorise.Orientation.Vertical
             : Blazorise.Orientation.Horizontal;
 
@@ -54,7 +54,7 @@ public partial class _DockSplitter : ComponentBase
     /// <summary>
     /// Defines whether the owning split arranges its tracks horizontally or vertically.
     /// </summary>
-    [Parameter] public DockSplitOrientation SplitOrientation { get; set; }
+    [Parameter] public Orientation SplitOrientation { get; set; }
 
     /// <summary>
     /// Identifies the split node whose start and end tracks are resized.

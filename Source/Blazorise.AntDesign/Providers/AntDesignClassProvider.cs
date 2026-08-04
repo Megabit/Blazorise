@@ -2018,8 +2018,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DockSplit() => "ant-dock-split";
 
-    public override string DockSplitOrientation( DockSplitOrientation orientation )
-        => orientation == Blazorise.DockSplitOrientation.Vertical ? "ant-dock-split-vertical" : "ant-dock-split-horizontal";
+    public override string DockSplitOrientation( Orientation orientation )
+        => orientation == Blazorise.Orientation.Vertical ? "ant-dock-split-vertical" : "ant-dock-split-horizontal";
 
     public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "ant-dock-pane";
 

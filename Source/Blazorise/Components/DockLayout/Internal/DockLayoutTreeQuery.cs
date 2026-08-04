@@ -183,7 +183,7 @@ internal sealed class DockLayoutTreeQuery
     }
 
     public bool ShouldKeepSinglePaneTabNode( string paneName )
-        => registry.TryGetPane( paneName, out DockPane pane ) && pane.Role == DockRole.Document && pane.EffectiveShowTab;
+        => registry.TryGetPane( paneName, out DockPane pane ) && pane.Role == DockPaneRole.Document && pane.EffectiveShowTab;
 
     public string GetFirstPaneName( DockPanePosition position, IReadOnlyList<string> excludedPaneNames )
         => getState().Panes
@@ -196,7 +196,7 @@ internal sealed class DockLayoutTreeQuery
         => IsInitiallyCenterPane( pane ) ? DockPanePosition.Center : pane.PanePosition;
 
     private DockPanePosition ResolvePanePosition( string paneName, DockPanePosition inheritedPosition )
-        => registry.TryGetPane( paneName, out DockPane pane ) && pane.Role == DockRole.Document
+        => registry.TryGetPane( paneName, out DockPane pane ) && pane.Role == DockPaneRole.Document
             ? DockPanePosition.Center
             : inheritedPosition;
 
@@ -217,24 +217,24 @@ internal sealed class DockLayoutTreeQuery
         if ( string.IsNullOrWhiteSpace( paneName ) )
             return false;
 
-        if ( registry.TryGetPane( paneName, out DockPane pane ) && pane.Role == DockRole.Document )
+        if ( registry.TryGetPane( paneName, out DockPane pane ) && pane.Role == DockPaneRole.Document )
             return position == DockPanePosition.Center;
 
         return stateManager.FindPaneState( getState(), paneName )?.Position == position;
     }
 
     private static bool IsInitiallyCenterPane( DockPane pane )
-        => pane is not null && ( pane.Role == DockRole.Document || pane.PanePosition == DockPanePosition.Center );
+        => pane is not null && ( pane.Role == DockPaneRole.Document || pane.PanePosition == DockPanePosition.Center );
 
     private DockPanePosition GetFirstSplitPosition( DockNodeState node, DockPanePosition inheritedPosition )
         => ShouldPreserveInheritedPosition( node, inheritedPosition )
             ? inheritedPosition
-            : node.Orientation == DockSplitOrientation.Horizontal ? DockPanePosition.Left : DockPanePosition.Top;
+            : node.Orientation == Orientation.Horizontal ? DockPanePosition.Left : DockPanePosition.Top;
 
     private DockPanePosition GetSecondSplitPosition( DockNodeState node, DockPanePosition inheritedPosition )
         => ShouldPreserveInheritedPosition( node, inheritedPosition )
             ? inheritedPosition
-            : node.Orientation == DockSplitOrientation.Horizontal ? DockPanePosition.Right : DockPanePosition.Bottom;
+            : node.Orientation == Orientation.Horizontal ? DockPanePosition.Right : DockPanePosition.Bottom;
 
     private static DockNodePlacement FindPanePlacement( DockNodeState node, string paneName, DockNodeState parent, bool firstChild )
     {
@@ -279,7 +279,7 @@ internal sealed class DockLayoutTreeQuery
         if ( sibling is null )
             return null;
 
-        DockZone zone = parent.Orientation == DockSplitOrientation.Horizontal
+        DockZone zone = parent.Orientation == Orientation.Horizontal
             ? firstChild ? DockZone.Left : DockZone.Right
             : firstChild ? DockZone.Top : DockZone.Bottom;
 

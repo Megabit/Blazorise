@@ -48,21 +48,21 @@ internal sealed class DockLayoutTreeBuilder
         DockNodeState root = center;
 
         if ( left is not null )
-            root = CreateSplitNode( left, root, DockSplitOrientation.Horizontal, 0.18 );
+            root = CreateSplitNode( left, root, Orientation.Horizontal, 0.18 );
 
         if ( right is not null )
-            root = CreateSplitNode( root, right, DockSplitOrientation.Horizontal, 0.78 );
+            root = CreateSplitNode( root, right, Orientation.Horizontal, 0.78 );
 
         if ( top is not null )
-            root = CreateSplitNode( top, root, DockSplitOrientation.Vertical, 0.12 );
+            root = CreateSplitNode( top, root, Orientation.Vertical, 0.12 );
 
         if ( bottom is not null )
-            root = CreateSplitNode( root, bottom, DockSplitOrientation.Vertical, 0.84 );
+            root = CreateSplitNode( root, bottom, Orientation.Vertical, 0.84 );
 
         return root;
     }
 
-    public static DockNodeState CreateSplitNode( DockNodeState first, DockNodeState second, DockSplitOrientation orientation, double ratio )
+    public static DockNodeState CreateSplitNode( DockNodeState first, DockNodeState second, Orientation orientation, double ratio )
         => first is null ? second : second is null ? first : new()
         {
             Kind = DockNodeKind.Split,

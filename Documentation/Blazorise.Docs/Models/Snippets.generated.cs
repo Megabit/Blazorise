@@ -1402,7 +1402,7 @@ namespace Blazorise.Docs.Models
 </Div>
 
 <ContextMenu TargetId=""context-menu-basic-target"">
-    <ContextMenuBody MinWidth=""12rem"">
+    <ContextMenuBody Width=""Width.Rem().Min( 12 )"">
         <ContextMenuHeader>Document</ContextMenuHeader>
         <ContextMenuItem Icon=""IconName.Copy"" Value=""@(""Copy"")"" Clicked=""@SetSelectedAction"">Copy</ContextMenuItem>
         <ContextMenuItem Icon=""IconName.Paste"" Value=""@(""Paste"")"" Clicked=""@SetSelectedAction"">Paste</ContextMenuItem>
@@ -1432,7 +1432,7 @@ namespace Blazorise.Docs.Models
 </Div>
 
 <ContextMenu TargetId=""context-menu-checked-target"" CloseOnClick=""false"">
-    <ContextMenuBody MinWidth=""13rem"">
+    <ContextMenuBody Width=""Width.Rem().Min( 13 )"">
         <ContextMenuHeader>View</ContextMenuHeader>
         <ContextMenuItem ShowCheckbox @bind-Checked=""@showGrid"">Show grid</ContextMenuItem>
         <ContextMenuItem ShowCheckbox @bind-Checked=""@snapToGrid"">Snap to grid</ContextMenuItem>
@@ -1464,7 +1464,7 @@ namespace Blazorise.Docs.Models
 </Div>
 
 <ContextMenu TargetId=""context-menu-submenu-target"">
-    <ContextMenuBody MinWidth=""12rem"">
+    <ContextMenuBody Width=""Width.Rem().Min( 12 )"">
         <ContextMenuItem Icon=""IconName.Edit"" Value=""@(""Rename"")"" Clicked=""@SetSelectedCommand"">Rename</ContextMenuItem>
         <ContextMenuSubmenu Text=""Move to"" Icon=""IconName.Folder"">
             <ContextMenuItem Value=""@(""Move to Inbox"")"" Clicked=""@SetSelectedCommand"">Inbox</ContextMenuItem>
@@ -1498,7 +1498,7 @@ namespace Blazorise.Docs.Models
             Right-click this button
         </Button>
     </ContextMenuToggle>
-    <ContextMenuBody MinWidth=""12rem"">
+    <ContextMenuBody Width=""Width.Rem().Min( 12 )"">
         <ContextMenuHeader>Button actions</ContextMenuHeader>
         <ContextMenuItem Icon=""IconName.Edit"" Value=""@(""Rename"")"" Clicked=""@SetSelectedAction"">Rename</ContextMenuItem>
         <ContextMenuItem Icon=""IconName.Copy"" Value=""@(""Duplicate"")"" Clicked=""@SetSelectedAction"">Duplicate</ContextMenuItem>
@@ -1528,7 +1528,7 @@ namespace Blazorise.Docs.Models
 </Div>
 
 <ContextMenu TargetId=""context-menu-toolbar-target"">
-    <ContextMenuBody MinWidth=""12rem"">
+    <ContextMenuBody Width=""Width.Rem().Min( 12 )"">
         <ContextMenuToolbar>
             <ContextMenuToolbarItem Icon=""IconName.Cut"" Text=""Cut"" Value=""@(""Cut"")"" Clicked=""@SetSelectedAction"" />
             <ContextMenuToolbarItem Icon=""IconName.Copy"" Text=""Copy"" Value=""@(""Copy"")"" Clicked=""@SetSelectedAction"" />
@@ -1764,7 +1764,7 @@ namespace Blazorise.Docs.Models
 </Paragraph>";
 
         public const string BasicDockLayoutExample = @"<DockLayout Style=""height: 28rem;"" PaneBordered>
-    <DockPane Name=""toolbar"" Caption=""Toolbar"" PanePosition=""DockPanePosition.Top"" Role=""DockRole.Tool"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
+    <DockPane Name=""toolbar"" Caption=""Toolbar"" PanePosition=""DockPanePosition.Top"" Role=""DockPaneRole.Tool"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
         <DockPaneBody>
             Toolbar
         </DockPaneBody>
@@ -1779,7 +1779,7 @@ namespace Blazorise.Docs.Models
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name=""designer"" Caption=""Designer"" PanePosition=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+    <DockPane Name=""designer"" Caption=""Designer"" PanePosition=""DockPanePosition.Center"" Role=""DockPaneRole.Document"" ShowTab=""false"" Closable=""false"">
         <DockPaneHeader>
             <Strong>Designer</Strong>
         </DockPaneHeader>
@@ -1830,7 +1830,7 @@ namespace Blazorise.Docs.Models
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name=""preview"" Caption=""Preview"" PanePosition=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+    <DockPane Name=""preview"" Caption=""Preview"" PanePosition=""DockPanePosition.Center"" Role=""DockPaneRole.Document"" ShowTab=""false"" Closable=""false"">
         <DockPaneHeader>
             <Strong>Preview</Strong>
         </DockPaneHeader>
@@ -1891,7 +1891,7 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string DockLayoutTabbedPanesExample = @"<DockLayout Style=""height: 24rem;"" PaneBordered>
-    <DockPane Name=""document"" Caption=""Document"" PanePosition=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+    <DockPane Name=""document"" Caption=""Document"" PanePosition=""DockPanePosition.Center"" Role=""DockPaneRole.Document"" ShowTab=""false"" Closable=""false"">
         <DockPaneHeader>
             <Strong>Document</Strong>
         </DockPaneHeader>

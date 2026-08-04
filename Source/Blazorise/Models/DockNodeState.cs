@@ -37,7 +37,7 @@ public class DockNodeState
     /// <summary>
     /// Defines the split orientation when <see cref="Kind"/> is <see cref="DockNodeKind.Split"/>.
     /// </summary>
-    public DockSplitOrientation Orientation { get; set; }
+    public Orientation Orientation { get; set; }
 
     /// <summary>
     /// Defines the first child ratio when <see cref="Kind"/> is <see cref="DockNodeKind.Split"/>.

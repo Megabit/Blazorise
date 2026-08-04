@@ -114,7 +114,7 @@ internal static class DockLayoutNormalizer
     }
 
     private static bool ShouldKeepSinglePaneTabNode( string paneName, IReadOnlyDictionary<string, DockPane> panes )
-        => panes.TryGetValue( paneName, out DockPane pane ) && pane.Role == DockRole.Document && pane.EffectiveShowTab;
+        => panes.TryGetValue( paneName, out DockPane pane ) && pane.Role == DockPaneRole.Document && pane.EffectiveShowTab;
 
     private static bool IsCenterTabsNode( DockNodeState node, IReadOnlyDictionary<string, DockPane> panes, IReadOnlyList<DockPaneState> paneStates )
         => node.Panes.Any( paneName => IsCenterPane( paneName, panes, paneStates ) );
@@ -126,7 +126,7 @@ internal static class DockLayoutNormalizer
 
         panes.TryGetValue( paneName, out DockPane pane );
 
-        if ( pane?.Role == DockRole.Document )
+        if ( pane?.Role == DockPaneRole.Document )
             return true;
 
         DockPaneState paneState = paneStates.FirstOrDefault( x => x.Name == paneName );

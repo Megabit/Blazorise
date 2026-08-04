@@ -1970,8 +1970,8 @@ public class MaterialClassProvider : ClassProvider
 
     public override string DockSplit() => "mui-dock-split";
 
-    public override string DockSplitOrientation( DockSplitOrientation orientation )
-        => orientation == Blazorise.DockSplitOrientation.Vertical ? "mui-dock-split-vertical" : "mui-dock-split-horizontal";
+    public override string DockSplitOrientation( Orientation orientation )
+        => orientation == Blazorise.Orientation.Vertical ? "mui-dock-split-vertical" : "mui-dock-split-horizontal";
 
     public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "mui-dock-pane";
 

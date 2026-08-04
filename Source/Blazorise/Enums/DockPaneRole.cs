@@ -3,7 +3,7 @@ namespace Blazorise;
 /// <summary>
 /// Defines the logical role of a dock pane.
 /// </summary>
-public enum DockRole
+public enum DockPaneRole
 {
     /// <summary>
     /// Represents a regular tool pane that is usually docked around the document area.

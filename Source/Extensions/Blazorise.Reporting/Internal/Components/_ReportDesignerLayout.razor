@@ -12,11 +12,11 @@
                 PaneBordered>
         @if ( ShowToolbar && Toolbar is not null )
         {
-            <DockSplit Orientation="DockSplitOrientation.Vertical" Ratio="0.08">
+            <DockSplit Orientation="Orientation.Vertical" Ratio="0.08">
                 <DockPane @ref="toolbarPane"
                           Name="@ToolbarPaneName"
                           Caption="Toolbar"
-                          Role="DockRole.Tool"
+                          Role="DockPaneRole.Tool"
                           PanePosition="DockPanePosition.Top"
                           Movable="false"
                           AcceptPaneDrops="false"

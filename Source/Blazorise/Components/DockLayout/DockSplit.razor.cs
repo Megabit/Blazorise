@@ -17,7 +17,7 @@ public partial class DockSplit : BaseComponent, IDisposable
 
     private DockNodeState node;
 
-    private DockSplitOrientation orientation;
+    private Orientation orientation;
 
     private double ratio = 0.5;
 
@@ -89,7 +89,7 @@ public partial class DockSplit : BaseComponent, IDisposable
     /// Defines the initial split orientation.
     /// </summary>
     [Parameter]
-    public DockSplitOrientation Orientation
+    public Orientation Orientation
     {
         get => orientation;
         set

@@ -318,7 +318,7 @@ public partial class DockLayout : BaseComponent
         };
     }
 
-    private ResizerTarget CreateDockResizeTarget( DockNodeState node, DockSplitOrientation resizeOrientation, string resizeElementId, string resizeProperty )
+    private ResizerTarget CreateDockResizeTarget( DockNodeState node, Orientation resizeOrientation, string resizeElementId, string resizeProperty )
     {
         DockPane pane = GetDockResizePane( node );
 
@@ -1257,7 +1257,7 @@ public partial class DockLayout : BaseComponent
     /// <summary>
     /// Contains metadata for a dock compass zone.
     /// </summary>
-    public sealed class DockCompassZoneInfo
+    internal sealed class DockCompassZoneInfo
     {
         internal DockCompassZoneInfo( DockZone zone, DockCompassZone compassZone, string key )
         {

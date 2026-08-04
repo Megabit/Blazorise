@@ -257,7 +257,7 @@ public partial class _ReportDesignerLayout
                         "report-dock-root",
                         CreatePaneNode( "report-dock-toolbar", ToolbarPaneName ),
                         workspaceNode,
-                        DockSplitOrientation.Vertical,
+                        Orientation.Vertical,
                         0.08d )
                     : workspaceNode;
 
@@ -278,7 +278,7 @@ public partial class _ReportDesignerLayout
                 "report-dock-root",
                 CreatePaneNode( "report-dock-toolbar", ToolbarPaneName ),
                 CreateWorkspaceNode(),
-                DockSplitOrientation.Vertical,
+                Orientation.Vertical,
                 0.08d )
             : CreateWorkspaceNode();
 
@@ -367,15 +367,15 @@ public partial class _ReportDesignerLayout
                 "report-dock-left-stack",
                 CreatePaneNode( "report-dock-toolbox", ToolboxPaneName ),
                 CreatePaneNode( "report-dock-fields-explorer", FieldsExplorerPaneName ),
-                DockSplitOrientation.Vertical,
+                Orientation.Vertical,
                 0.34d ),
             CreateSplitNode(
                 "report-dock-content",
                 CreatePaneNode( "report-dock-surface", SurfacePaneName ),
                 CreateTabsNode( "report-dock-right-tabs", activePanelPaneName, PropertiesPaneName, ReportExplorerPaneName ),
-                DockSplitOrientation.Horizontal,
+                Orientation.Horizontal,
                 0.76d ),
-            DockSplitOrientation.Horizontal,
+            Orientation.Horizontal,
             0.24d );
     }
 
@@ -389,7 +389,7 @@ public partial class _ReportDesignerLayout
         };
     }
 
-    private static DockNodeState CreateSplitNode( string id, DockNodeState first, DockNodeState second, DockSplitOrientation orientation, double ratio )
+    private static DockNodeState CreateSplitNode( string id, DockNodeState first, DockNodeState second, Orientation orientation, double ratio )
     {
         return new()
         {
