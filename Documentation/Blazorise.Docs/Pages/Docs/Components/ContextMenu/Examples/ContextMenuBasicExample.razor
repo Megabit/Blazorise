@@ -8,7 +8,7 @@
 </Div>
 
 <ContextMenu TargetId="context-menu-basic-target">
-    <ContextMenuBody MinWidth="12rem">
+    <ContextMenuBody Width="Width.Rem().Min( 12 )">
         <ContextMenuHeader>Document</ContextMenuHeader>
         <ContextMenuItem Icon="IconName.Copy" Value="@("Copy")" Clicked="@SetSelectedAction">Copy</ContextMenuItem>
         <ContextMenuItem Icon="IconName.Paste" Value="@("Paste")" Clicked="@SetSelectedAction">Paste</ContextMenuItem>

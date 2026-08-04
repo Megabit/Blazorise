@@ -15,6 +15,8 @@ public partial class ContextMenuSubmenu : BaseComponent
 
     private bool visible;
 
+    private bool disabled;
+
     private ClassBuilder triggerClassBuilder;
 
     private ClassBuilder submenuClassBuilder;
@@ -109,7 +111,19 @@ public partial class ContextMenuSubmenu : BaseComponent
     /// <summary>
     /// Indicates the submenu is disabled.
     /// </summary>
-    [Parameter] public bool Disabled { get; set; }
+    [Parameter]
+    public bool Disabled
+    {
+        get => disabled;
+        set
+        {
+            if ( disabled == value )
+                return;
+
+            disabled = value;
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Defines which pointer interactions can open or close this submenu.

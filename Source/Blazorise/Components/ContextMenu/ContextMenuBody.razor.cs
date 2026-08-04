@@ -46,15 +46,6 @@ public partial class ContextMenuBody : BaseComponent
         base.BuildClasses( builder );
     }
 
-    /// <inheritdoc/>
-    protected override void BuildStyles( StyleBuilder builder )
-    {
-        if ( MinWidth is not null )
-            builder.Append( $"min-width:{MinWidth}" );
-
-        base.BuildStyles( builder );
-    }
-
     #endregion
 
     #region Properties
@@ -89,11 +80,6 @@ public partial class ContextMenuBody : BaseComponent
     /// Specifies the content to be rendered inside this <see cref="ContextMenuBody"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
-
-    /// <summary>
-    /// Sets a minimum menu width.
-    /// </summary>
-    [Parameter] public string MinWidth { get; set; }
 
     #endregion
 }

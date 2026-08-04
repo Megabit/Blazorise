@@ -6,7 +6,7 @@
             Right-click this button
         </Button>
     </ContextMenuToggle>
-    <ContextMenuBody MinWidth="12rem">
+    <ContextMenuBody Width="Width.Rem().Min( 12 )">
         <ContextMenuHeader>Button actions</ContextMenuHeader>
         <ContextMenuItem Icon="IconName.Edit" Value="@("Rename")" Clicked="@SetSelectedAction">Rename</ContextMenuItem>
         <ContextMenuItem Icon="IconName.Copy" Value="@("Duplicate")" Clicked="@SetSelectedAction">Duplicate</ContextMenuItem>

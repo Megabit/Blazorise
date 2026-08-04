@@ -29,7 +29,7 @@
                         </Card>
 
                         <ContextMenu TargetId="@TargetElementId" Opened="@OnContextMenuOpened" Closed="@OnContextMenuClosed">
-                            <ContextMenuBody MinWidth="16rem">
+                            <ContextMenuBody Width="Width.Rem().Min( 16 )">
                                 <ContextMenuHeader>Document</ContextMenuHeader>
                                 <ContextMenuItem Icon="@IconName.Edit" Shortcut="F2" Clicked="@(() => SetLastCommand( "Rename" ))">Rename</ContextMenuItem>
                                 <ContextMenuItem Icon="@IconName.Copy" Shortcut="Ctrl+C" Clicked="@(() => SetLastCommand( "Copy" ))">Copy</ContextMenuItem>
@@ -68,7 +68,7 @@
                                         <ContextMenuToggle>
                                             <Button Color="Color.Primary" Clicked="@ShowToggleContextMenu">Click or right-click toggle</Button>
                                         </ContextMenuToggle>
-                                        <ContextMenuBody MinWidth="14rem">
+                                        <ContextMenuBody Width="Width.Rem().Min( 14 )">
                                             <ContextMenuItem Icon="@IconName.Edit" Active Clicked="@(() => SetLastCommand( "Toggle edit" ))">Edit</ContextMenuItem>
                                             <ContextMenuItem Icon="@IconName.Copy" Clicked="@(() => SetLastCommand( "Toggle copy" ))">Copy</ContextMenuItem>
                                             <ContextMenuDivider />
@@ -84,7 +84,7 @@
                         </Card>
 
                         <ContextMenu @ref="@programmaticContextMenu">
-                            <ContextMenuBody MinWidth="14rem">
+                            <ContextMenuBody Width="Width.Rem().Min( 14 )">
                                 <ContextMenuHeader>Programmatic</ContextMenuHeader>
                                 <ContextMenuItem Icon="@IconName.Save" Clicked="@(() => SetLastCommand( "Programmatic save" ))">Save</ContextMenuItem>
                                 <ContextMenuItem Icon="@IconName.Sync" Clicked="@(() => SetLastCommand( "Programmatic refresh" ))">Refresh</ContextMenuItem>

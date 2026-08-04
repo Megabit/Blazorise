@@ -8,7 +8,7 @@
 </Div>
 
 <ContextMenu TargetId="context-menu-checked-target" CloseOnClick="false">
-    <ContextMenuBody MinWidth="13rem">
+    <ContextMenuBody Width="Width.Rem().Min( 13 )">
         <ContextMenuHeader>View</ContextMenuHeader>
         <ContextMenuItem ShowCheckbox @bind-Checked="@showGrid">Show grid</ContextMenuItem>
         <ContextMenuItem ShowCheckbox @bind-Checked="@snapToGrid">Snap to grid</ContextMenuItem>

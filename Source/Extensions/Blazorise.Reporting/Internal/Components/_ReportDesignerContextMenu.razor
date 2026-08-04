@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.Components.Web
 
 <ContextMenu @ref="contextMenuRef">
-    <ContextMenuBody MinWidth="13rem">
+    <ContextMenuBody Width="Width.Rem().Min( 13 )">
         @if ( IsPageMenu )
         {
             <ContextMenuItem Icon="IconName.Add" Value="@ReportDesignerContextMenuCommand.AddPage" Clicked="@OnCommandClicked">New page</ContextMenuItem>

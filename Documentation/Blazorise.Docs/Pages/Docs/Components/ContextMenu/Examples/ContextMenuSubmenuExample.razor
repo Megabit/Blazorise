@@ -8,7 +8,7 @@
 </Div>
 
 <ContextMenu TargetId="context-menu-submenu-target">
-    <ContextMenuBody MinWidth="12rem">
+    <ContextMenuBody Width="Width.Rem().Min( 12 )">
         <ContextMenuItem Icon="IconName.Edit" Value="@("Rename")" Clicked="@SetSelectedCommand">Rename</ContextMenuItem>
         <ContextMenuSubmenu Text="Move to" Icon="IconName.Folder">
             <ContextMenuItem Value="@("Move to Inbox")" Clicked="@SetSelectedCommand">Inbox</ContextMenuItem>
