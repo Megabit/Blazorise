@@ -19,6 +19,10 @@ public class MaterialThemeGenerator : ThemeGenerator
 
     #region Methods
 
+    /// <inheritdoc />
+    protected override string GetDockLayoutVariableName( string name )
+        => $"--mui-dock-{name}";
+
     public override string GenerateVariables( Theme theme )
     {
         string background = ResolveThemeColor(

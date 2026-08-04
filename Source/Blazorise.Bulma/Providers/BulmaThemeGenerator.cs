@@ -37,6 +37,10 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     #region Methods
 
+    /// <inheritdoc />
+    protected override string GetDockLayoutVariableName( string name )
+        => $"--bulma-dock-{name}";
+
     public override string GenerateVariables( Theme theme )
     {
         if ( ThemeCache.TryGetVariablesFromCache( theme, out var cachedVariables ) )

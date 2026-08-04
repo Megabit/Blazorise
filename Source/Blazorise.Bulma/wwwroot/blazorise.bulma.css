@@ -2387,9 +2387,9 @@ body:before {
   min-width: 0;
   position: relative;
   overflow: hidden;
-  background: var(--b-dock-pane-background, hsl(221, 14%, 100%));
-  color: var(--b-dock-pane-color, hsl(221, 14%, 29%));
-  border-color: var(--b-dock-pane-border-color, hsl(221, 14%, 86%));
+  background: var(--bulma-dock-pane-background, hsl(221, 14%, 100%));
+  color: var(--bulma-dock-pane-color, hsl(221, 14%, 29%));
+  border-color: var(--bulma-dock-pane-border-color, hsl(221, 14%, 86%));
   border-style: solid;
   border-width: 0;
   z-index: 1;
@@ -2484,13 +2484,13 @@ body:before {
 
 .dock-auto-hide-rail {
   position: absolute;
-  z-index: var(--b-dock-auto-hide-rail-zindex, 1301);
+  z-index: 1301;
   display: flex;
   align-items: stretch;
   justify-content: flex-start;
   overflow: hidden;
-  background: var(--b-dock-pane-background, hsl(221, 14%, 100%));
-  border-color: var(--b-dock-pane-border-color, hsl(221, 14%, 86%));
+  background: var(--bulma-dock-pane-background, hsl(221, 14%, 100%));
+  border-color: var(--bulma-dock-pane-border-color, hsl(221, 14%, 86%));
   border-style: solid;
   border-width: 0;
 }
@@ -2533,8 +2533,8 @@ body:before {
 
 .dock-auto-hide-flyout {
   position: absolute;
-  z-index: var(--b-dock-auto-hide-flyout-zindex, 1302);
-  box-shadow: var(--b-dock-pane-shadow, 0 0.5em 1em -0.125em rgba(8.772, 9.6764, 11.628, 0.1), 0 0 0 1px rgba(8.772, 9.6764, 11.628, 0.02));
+  z-index: 1302;
+  box-shadow: 0 0.5em 1em -0.125em rgba(8.772, 9.6764, 11.628, 0.1), 0 0 0 1px rgba(8.772, 9.6764, 11.628, 0.02);
 }
 
 .dock-auto-hide-flyout.is-left {
@@ -2586,8 +2586,8 @@ body:before {
   min-height: 0;
   padding: 0.5rem 0.375rem;
   border: 0;
-  background: var(--b-dock-pane-header-background, hsl(221, 14%, 96%));
-  color: var(--b-dock-pane-color, hsl(221, 14%, 29%));
+  background: var(--bulma-dock-pane-header-background, hsl(221, 14%, 96%));
+  color: var(--bulma-dock-pane-color, hsl(221, 14%, 29%));
   cursor: pointer;
   font: inherit;
   line-height: 1.25;
@@ -2595,7 +2595,7 @@ body:before {
 }
 
 .dock-pane-auto-hide-tab:hover {
-  background: var(--b-dock-hover-background, rgba(0, 209.1, 177.735, 0.12));
+  background: var(--bulma-dock-hover-background, rgba(0, 209.1, 177.735, 0.12));
 }
 
 .dock-pane-auto-hide-tab.is-left,
@@ -2619,11 +2619,11 @@ body:before {
 .dock-pane-footer {
   flex: 0 0 auto;
   padding: 0.5rem 0.75rem;
-  background: var(--b-dock-pane-header-background, hsl(221, 14%, 96%));
+  background: var(--bulma-dock-pane-header-background, hsl(221, 14%, 96%));
 }
 
 .dock-pane-footer {
-  background: var(--b-dock-pane-footer-background, var(--b-dock-pane-header-background, hsl(221, 14%, 96%)));
+  background: var(--bulma-dock-pane-footer-background, var(--bulma-dock-pane-header-background, hsl(221, 14%, 96%)));
 }
 
 .dock-pane-header {
@@ -2660,15 +2660,15 @@ body:before {
   border: 0;
   border-radius: 0.25rem;
   background: transparent;
-  color: var(--b-dock-pane-color, hsl(221, 14%, 29%));
+  color: var(--bulma-dock-pane-color, hsl(221, 14%, 29%));
   cursor: pointer;
   font-size: 0.75rem;
   line-height: 1;
 }
 
 .dock-pane-header-action:hover {
-  background: var(--b-dock-hover-background, rgba(0, 209.1, 177.735, 0.12));
-  color: var(--b-dock-tab-active-color, hsl(171, 100%, 41%));
+  background: var(--bulma-dock-hover-background, rgba(0, 209.1, 177.735, 0.12));
+  color: var(--bulma-dock-tab-active-color, hsl(171, 100%, 41%));
 }
 
 .dock-pane-body {
@@ -2690,8 +2690,8 @@ body:before {
   flex: 0 0 auto;
   gap: 0.125rem;
   padding: 0 0.25rem 0.25rem;
-  background: var(--b-dock-tabs-background, hsl(221, 14%, 96%));
-  border-top: 1px solid var(--b-dock-pane-border-color, hsl(221, 14%, 86%));
+  background: var(--bulma-dock-tabs-background, hsl(221, 14%, 96%));
+  border-top: 1px solid var(--bulma-dock-pane-border-color, hsl(221, 14%, 86%));
 }
 
 .dock-pane-tab {
@@ -2701,7 +2701,7 @@ body:before {
   border: 0;
   border-radius: 0 0 0.375rem 0.375rem;
   background: transparent;
-  color: var(--b-dock-pane-color, hsl(221, 14%, 29%));
+  color: var(--bulma-dock-pane-color, hsl(221, 14%, 29%));
   cursor: pointer;
   font: inherit;
   line-height: 1.25;
@@ -2732,7 +2732,7 @@ body:before {
   border: 0;
   border-radius: 0.25rem;
   background: transparent;
-  color: var(--b-dock-tab-close-color, hsl(221, 14%, 48%));
+  color: var(--bulma-dock-tab-close-color, hsl(221, 14%, 48%));
   cursor: pointer;
   font: inherit;
   line-height: 1;
@@ -2740,15 +2740,15 @@ body:before {
 }
 
 .dock-pane-tab-close:hover {
-  background: var(--b-dock-hover-background, rgba(0, 209.1, 177.735, 0.12));
-  color: var(--b-dock-pane-color, hsl(221, 14%, 29%));
+  background: var(--bulma-dock-hover-background, rgba(0, 209.1, 177.735, 0.12));
+  color: var(--bulma-dock-pane-color, hsl(221, 14%, 29%));
 }
 
 .dock-pane.is-center > .dock-pane-tabs,
 .dock-pane-tabs.is-top {
   padding: 0.25rem 0.25rem 0;
   border-top: 0;
-  border-bottom: 1px solid var(--b-dock-pane-border-color, hsl(221, 14%, 86%));
+  border-bottom: 1px solid var(--bulma-dock-pane-border-color, hsl(221, 14%, 86%));
 }
 
 .dock-pane.is-center > .dock-pane-tabs .dock-pane-tab,
@@ -2757,8 +2757,8 @@ body:before {
 }
 
 .dock-pane-tab.is-active {
-  background: var(--b-dock-tab-active-background, hsl(221, 14%, 100%));
-  color: var(--b-dock-tab-active-color, hsl(171, 100%, 41%));
+  background: var(--bulma-dock-tab-active-background, hsl(221, 14%, 100%));
+  color: var(--bulma-dock-tab-active-color, hsl(171, 100%, 41%));
 }
 
 .dock-drag-preview {
@@ -2768,11 +2768,11 @@ body:before {
   max-width: 18rem;
   padding: 0.375rem 0.625rem;
   pointer-events: none;
-  border: 1px solid var(--b-dock-drag-preview-border-color, hsl(171, 100%, 41%));
+  border: 1px solid var(--bulma-dock-drag-preview-border-color, hsl(171, 100%, 41%));
   border-radius: 0.375rem;
-  background: var(--b-dock-drag-preview-background, hsl(221, 14%, 100%));
+  background: var(--bulma-dock-drag-preview-background, hsl(221, 14%, 100%));
   box-shadow: 0 0.5rem 1rem rgba(8.772, 9.6764, 11.628, 0.15);
-  color: var(--b-dock-pane-color, hsl(221, 14%, 29%));
+  color: var(--bulma-dock-pane-color, hsl(221, 14%, 29%));
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2783,12 +2783,12 @@ body:before {
   position: absolute;
   z-index: 30;
   pointer-events: none;
-  border: 2px dashed var(--b-dock-drop-preview-border-color, hsl(171, 100%, 41%));
-  background: var(--b-dock-drop-preview-background, rgba(0, 209.1, 177.735, 0.12));
+  border: 2px dashed var(--bulma-dock-drop-preview-border-color, hsl(171, 100%, 41%));
+  background: var(--bulma-dock-drop-preview-background, rgba(0, 209.1, 177.735, 0.12));
 }
 
 .dock-shell-guide.is-active {
-  background: var(--b-dock-drop-preview-background, rgba(0, 209.1, 177.735, 0.18));
+  background: var(--bulma-dock-drop-preview-background, rgba(0, 209.1, 177.735, 0.18));
 }
 
 .dock-compass {
@@ -2808,10 +2808,10 @@ body:before {
   justify-content: center;
   width: 2rem;
   height: 2rem;
-  color: var(--b-dock-compass-zone-color, hsl(221, 14%, 71%));
-  border: 1px solid var(--b-dock-compass-zone-border-color, hsl(221, 14%, 86%));
+  color: var(--bulma-dock-compass-zone-color, hsl(221, 14%, 71%));
+  border: 1px solid var(--bulma-dock-compass-zone-border-color, hsl(221, 14%, 86%));
   border-radius: 0.25rem;
-  background: var(--b-dock-compass-zone-background, hsl(221, 14%, 100%));
+  background: var(--bulma-dock-compass-zone-background, hsl(221, 14%, 100%));
   box-shadow: 0 0.125rem 0.25rem rgba(8.772, 9.6764, 11.628, 0.08);
 }
 
@@ -2821,9 +2821,9 @@ body:before {
 }
 
 .dock-compass-zone.is-active {
-  color: var(--b-dock-compass-zone-active-color, hsl(171, 100%, 41%));
-  border-color: var(--b-dock-compass-zone-active-border-color, hsl(171, 100%, 41%));
-  background: var(--b-dock-compass-zone-active-background, rgba(0, 209.1, 177.735, 0.12));
+  color: var(--bulma-dock-compass-zone-active-color, hsl(171, 100%, 41%));
+  border-color: var(--bulma-dock-compass-zone-active-border-color, hsl(171, 100%, 41%));
+  background: var(--bulma-dock-compass-zone-active-background, rgba(0, 209.1, 177.735, 0.12));
 }
 
 .dock-compass-zone.is-center {

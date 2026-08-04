@@ -20,6 +20,10 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     #region Methods
 
+    /// <inheritdoc />
+    protected override string GetDockLayoutVariableName( string name )
+        => $"--ant-dock-{name}";
+
     protected override void GenerateBodyVariables( Theme theme )
     {
         base.GenerateBodyVariables( theme );

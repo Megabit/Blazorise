@@ -20,6 +20,10 @@ public class BootstrapThemeGenerator : ThemeGenerator
 
     #region Methods
 
+    /// <inheritdoc />
+    protected override string GetDockLayoutVariableName( string name )
+        => $"--bs-dock-{name}";
+
     protected override void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpointName, string breakpointSize )
     {
         if ( !string.IsNullOrEmpty( breakpointSize ) )

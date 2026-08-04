@@ -21,6 +21,10 @@ public class TailwindThemeGenerator : ThemeGenerator
 
     #region Methods
 
+    /// <inheritdoc />
+    protected override string GetDockLayoutVariableName( string name )
+        => $"--tw-dock-{name}";
+
     protected override void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpointName, string breakpointSize )
     {
         if ( !string.IsNullOrEmpty( breakpointSize ) )

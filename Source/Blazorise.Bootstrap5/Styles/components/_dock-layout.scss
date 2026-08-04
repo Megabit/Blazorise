@@ -38,9 +38,9 @@
     min-width: 0;
     position: relative;
     overflow: hidden;
-    background: var(--b-dock-pane-background, var(--bs-body-bg, #fff));
-    color: var(--b-dock-pane-color, var(--bs-body-color, #212529));
-    border-color: var(--b-dock-pane-border-color, var(--bs-border-color, rgba(var(--bs-body-color-rgb, 33, 37, 41), .125)));
+    background: var(--bs-dock-pane-background, var(--bs-body-bg, #fff));
+    color: var(--bs-dock-pane-color, var(--bs-body-color, #212529));
+    border-color: var(--bs-dock-pane-border-color, var(--bs-border-color, rgba(var(--bs-body-color-rgb, 33, 37, 41), .125)));
     border-style: solid;
     border-width: 0;
     z-index: 1;
@@ -155,13 +155,13 @@
 
 .dock-auto-hide-rail {
     position: absolute;
-    z-index: var(--b-dock-auto-hide-rail-zindex, 1301);
+    z-index: $zindex-popover;
     display: flex;
     align-items: stretch;
     justify-content: flex-start;
     overflow: hidden;
-    background: var(--b-dock-pane-background, var(--bs-body-bg, #fff));
-    border-color: var(--b-dock-pane-border-color, var(--bs-border-color, rgba(var(--bs-body-color-rgb, 33, 37, 41), .125)));
+    background: var(--bs-dock-pane-background, var(--bs-body-bg, #fff));
+    border-color: var(--bs-dock-pane-border-color, var(--bs-border-color, rgba(var(--bs-body-color-rgb, 33, 37, 41), .125)));
     border-style: solid;
     border-width: 0;
 }
@@ -204,8 +204,8 @@
 
 .dock-auto-hide-flyout {
     position: absolute;
-    z-index: var(--b-dock-auto-hide-flyout-zindex, 1302);
-    box-shadow: var(--b-dock-pane-shadow, 0 .5rem 1rem rgba(var(--bs-body-color-rgb, 33, 37, 41), .15));
+    z-index: $zindex-popover + 1;
+    box-shadow: $box-shadow;
 }
 
 .dock-auto-hide-flyout-start {
@@ -257,8 +257,8 @@
     min-height: 0;
     padding: .5rem .375rem;
     border: 0;
-    background: var(--b-dock-pane-header-background, var(--bs-tertiary-bg, rgba(var(--bs-body-color-rgb, 33, 37, 41), .03)));
-    color: var(--b-dock-pane-color, var(--bs-body-color, #212529));
+    background: var(--bs-dock-pane-header-background, var(--bs-tertiary-bg, rgba(var(--bs-body-color-rgb, 33, 37, 41), .03)));
+    color: var(--bs-dock-pane-color, var(--bs-body-color, #212529));
     cursor: pointer;
     font: inherit;
     line-height: 1.25;
@@ -266,7 +266,7 @@
 }
 
 .dock-pane-autohide-tab:hover {
-    background: var(--b-dock-hover-background, rgba(var(--bs-primary-rgb, 13, 110, 253), .12));
+    background: var(--bs-dock-hover-background, rgba(var(--bs-primary-rgb, 13, 110, 253), .12));
 }
 
 .dock-pane-autohide-tab-start,
@@ -290,11 +290,11 @@
 .dock-pane-footer {
     flex: 0 0 auto;
     padding: .5rem .75rem;
-    background: var(--b-dock-pane-header-background, var(--bs-tertiary-bg, rgba(var(--bs-body-color-rgb, 33, 37, 41), .03)));
+    background: var(--bs-dock-pane-header-background, var(--bs-tertiary-bg, rgba(var(--bs-body-color-rgb, 33, 37, 41), .03)));
 }
 
 .dock-pane-footer {
-    background: var(--b-dock-pane-footer-background, var(--b-dock-pane-header-background, var(--bs-tertiary-bg, rgba(var(--bs-body-color-rgb, 33, 37, 41), .03))));
+    background: var(--bs-dock-pane-footer-background, var(--bs-dock-pane-header-background, var(--bs-tertiary-bg, rgba(var(--bs-body-color-rgb, 33, 37, 41), .03))));
 }
 
 .dock-pane-header {
@@ -331,14 +331,14 @@
     border: 0;
     border-radius: .125rem;
     background: transparent;
-    color: var(--b-dock-pane-color, var(--bs-body-color, #212529));
+    color: var(--bs-dock-pane-color, var(--bs-body-color, #212529));
     cursor: pointer;
     font-size: .75rem;
     line-height: 1;
 }
 
 .dock-pane-header-action:hover {
-    background: var(--b-dock-hover-background, rgba(var(--bs-primary-rgb, 13, 110, 253), .12));
+    background: var(--bs-dock-hover-background, rgba(var(--bs-primary-rgb, 13, 110, 253), .12));
 }
 
 .dock-pane-tabs {
@@ -346,8 +346,8 @@
     flex: 0 0 auto;
     gap: .125rem;
     padding: 0 .25rem .25rem;
-    background: var(--b-dock-tabs-background, var(--bs-tertiary-bg, rgba(var(--bs-body-color-rgb, 33, 37, 41), .03)));
-    border-top: 1px solid var(--b-dock-pane-border-color, var(--bs-border-color, rgba(var(--bs-body-color-rgb, 33, 37, 41), .125)));
+    background: var(--bs-dock-tabs-background, var(--bs-tertiary-bg, rgba(var(--bs-body-color-rgb, 33, 37, 41), .03)));
+    border-top: 1px solid var(--bs-dock-pane-border-color, var(--bs-border-color, rgba(var(--bs-body-color-rgb, 33, 37, 41), .125)));
 }
 
 .dock-pane-tab {
@@ -357,7 +357,7 @@
     border: 0;
     border-radius: 0 0 .25rem .25rem;
     background: transparent;
-    color: var(--b-dock-pane-color, var(--bs-body-color, #212529));
+    color: var(--bs-dock-pane-color, var(--bs-body-color, #212529));
     cursor: pointer;
     font: inherit;
     line-height: 1.25;
@@ -388,7 +388,7 @@
     border: 0;
     border-radius: .125rem;
     background: transparent;
-    color: var(--b-dock-tab-close-color, var(--bs-secondary-color, rgba(var(--bs-body-color-rgb, 33, 37, 41), .65)));
+    color: var(--bs-dock-tab-close-color, var(--bs-secondary-color, rgba(var(--bs-body-color-rgb, 33, 37, 41), .65)));
     cursor: pointer;
     font: inherit;
     line-height: 1;
@@ -396,8 +396,8 @@
 }
 
 .dock-pane-tab-close:hover {
-    background: var(--b-dock-hover-background, rgba(var(--bs-primary-rgb, 13, 110, 253), .12));
-    color: var(--b-dock-pane-color, var(--bs-body-color, #212529));
+    background: var(--bs-dock-hover-background, rgba(var(--bs-primary-rgb, 13, 110, 253), .12));
+    color: var(--bs-dock-pane-color, var(--bs-body-color, #212529));
 }
 
 
@@ -405,7 +405,7 @@
 .dock-pane-tabs-top {
     padding: .25rem .25rem 0;
     border-top: 0;
-    border-bottom: 1px solid var(--b-dock-pane-border-color, var(--bs-border-color, rgba(var(--bs-body-color-rgb, 33, 37, 41), .125)));
+    border-bottom: 1px solid var(--bs-dock-pane-border-color, var(--bs-border-color, rgba(var(--bs-body-color-rgb, 33, 37, 41), .125)));
 }
 
 .dock-pane-center > .dock-pane-tabs .dock-pane-tab,
@@ -414,8 +414,8 @@
 }
 
 .dock-pane-tab.active {
-    background: var(--b-dock-tab-active-background, var(--bs-body-bg, #fff));
-    color: var(--b-dock-tab-active-color, var(--bs-primary, #0d6efd));
+    background: var(--bs-dock-tab-active-background, var(--bs-body-bg, #fff));
+    color: var(--bs-dock-tab-active-color, var(--bs-primary, #0d6efd));
 }
 
 .dock-drag-preview {
@@ -425,11 +425,11 @@
     max-width: 18rem;
     padding: .375rem .625rem;
     pointer-events: none;
-    border: 1px solid var(--b-dock-drag-preview-border-color, rgba(var(--bs-primary-rgb, 13, 110, 253), .65));
+    border: 1px solid var(--bs-dock-drag-preview-border-color, rgba(var(--bs-primary-rgb, 13, 110, 253), .65));
     border-radius: .25rem;
-    background: var(--b-dock-drag-preview-background, rgba(var(--bs-body-bg-rgb, 255, 255, 255), .92));
+    background: var(--bs-dock-drag-preview-background, rgba(var(--bs-body-bg-rgb, 255, 255, 255), .92));
     box-shadow: 0 .375rem 1.25rem rgba(var(--bs-body-color-rgb, 33, 37, 41), .16);
-    color: var(--b-dock-pane-color, var(--bs-body-color, #212529));
+    color: var(--bs-dock-pane-color, var(--bs-body-color, #212529));
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -439,8 +439,8 @@
     position: absolute;
     z-index: 30;
     pointer-events: none;
-    border: 2px dashed var(--b-dock-drop-preview-border-color, rgba(var(--bs-primary-rgb, 13, 110, 253), .7));
-    background: var(--b-dock-drop-preview-background, rgba(var(--bs-primary-rgb, 13, 110, 253), .1));
+    border: 2px dashed var(--bs-dock-drop-preview-border-color, rgba(var(--bs-primary-rgb, 13, 110, 253), .7));
+    background: var(--bs-dock-drop-preview-background, rgba(var(--bs-primary-rgb, 13, 110, 253), .1));
 }
 
 .dock-pane-body {
@@ -474,9 +474,9 @@
     justify-content: center;
     width: 2rem;
     height: 2rem;
-    color: var(--b-dock-compass-zone-color, var(--bs-gray-400, #ced4da));
-    border: 1px solid var(--b-dock-compass-zone-border-color, var(--bs-border-color, #dee2e6));
-    background: var(--b-dock-compass-zone-background, rgba(var(--bs-body-bg-rgb, 255, 255, 255), .85));
+    color: var(--bs-dock-compass-zone-color, var(--bs-gray-400, #ced4da));
+    border: 1px solid var(--bs-dock-compass-zone-border-color, var(--bs-border-color, #dee2e6));
+    background: var(--bs-dock-compass-zone-background, rgba(var(--bs-body-bg-rgb, 255, 255, 255), .85));
 }
 
 .dock-compass-zone-icon {
@@ -485,9 +485,9 @@
 }
 
 .dock-compass-zone.active {
-    color: var(--b-dock-compass-zone-active-color, var(--bs-primary, #0d6efd));
-    border-color: var(--b-dock-compass-zone-active-border-color, var(--bs-primary, #0d6efd));
-    background: var(--b-dock-compass-zone-active-background, rgba(var(--bs-primary-rgb, 13, 110, 253), .08));
+    color: var(--bs-dock-compass-zone-active-color, var(--bs-primary, #0d6efd));
+    border-color: var(--bs-dock-compass-zone-active-border-color, var(--bs-primary, #0d6efd));
+    background: var(--bs-dock-compass-zone-active-background, rgba(var(--bs-primary-rgb, 13, 110, 253), .08));
 }
 
 .dock-compass-zone-center {

@@ -18,6 +18,10 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
 
     #region Methods
 
+    /// <inheritdoc />
+    protected override string GetDockLayoutVariableName( string name )
+        => $"--fui-dock-{name}";
+
     public override string GenerateVariables( Theme theme )
     {
         // Polarity-aware state generator: lighten dark colors, darken light colors.

@@ -56,9 +56,9 @@
     min-width: 0;
     position: relative;
     overflow: hidden;
-    background: var(--b-dock-pane-background, var(--colorNeutralBackground1, #ffffff));
-    color: var(--b-dock-pane-color, var(--colorNeutralForeground1, #242424));
-    border-color: var(--b-dock-pane-border-color, var(--colorNeutralStroke1, #d1d1d1));
+    background: var(--fui-dock-pane-background, var(--colorNeutralBackground1, #ffffff));
+    color: var(--fui-dock-pane-color, var(--colorNeutralForeground1, #242424));
+    border-color: var(--fui-dock-pane-border-color, var(--colorNeutralStroke1, #d1d1d1));
     border-style: solid;
     border-width: 0;
     z-index: 1;
@@ -149,13 +149,13 @@
 
 .fui-DockAutoHideRail {
     position: absolute;
-    z-index: var(--b-dock-auto-hide-rail-zindex, 1301);
+    z-index: var(--zIndexPopover);
     display: flex;
     align-items: stretch;
     justify-content: flex-start;
     overflow: hidden;
-    background: var(--b-dock-pane-background, var(--colorNeutralBackground1, #ffffff));
-    border-color: var(--b-dock-pane-border-color, var(--colorNeutralStroke1, #d1d1d1));
+    background: var(--fui-dock-pane-background, var(--colorNeutralBackground1, #ffffff));
+    border-color: var(--fui-dock-pane-border-color, var(--colorNeutralStroke1, #d1d1d1));
     border-style: solid;
     border-width: 0;
 }
@@ -198,8 +198,8 @@
 
 .fui-DockAutoHideFlyout {
     position: absolute;
-    z-index: var(--b-dock-auto-hide-flyout-zindex, 1302);
-    box-shadow: var(--b-dock-pane-shadow, var(--shadow16, 0 8px 16px rgba(0, 0, 0, .14)));
+    z-index: calc(var(--zIndexPopover) + 1);
+    box-shadow: var(--shadow16);
 }
 
 .fui-DockAutoHideFlyout--left {
@@ -251,8 +251,8 @@
     min-height: 0;
     padding: .5rem .375rem;
     border: 0;
-    background: var(--b-dock-pane-header-background, var(--colorNeutralBackground2, #fafafa));
-    color: var(--b-dock-pane-color, var(--colorNeutralForeground1, #242424));
+    background: var(--fui-dock-pane-header-background, var(--colorNeutralBackground2, #fafafa));
+    color: var(--fui-dock-pane-color, var(--colorNeutralForeground1, #242424));
     cursor: pointer;
     font: inherit;
     line-height: 1.25;
@@ -260,7 +260,7 @@
 }
 
 .fui-DockPaneAutoHideTab:hover {
-    background: var(--b-dock-hover-background, var(--colorBrandBackground2, #ebf3fc));
+    background: var(--fui-dock-hover-background, var(--colorBrandBackground2, #ebf3fc));
 }
 
 .fui-DockPaneAutoHideTab--left,
@@ -284,11 +284,11 @@
 .fui-DockPaneFooter {
     flex: 0 0 auto;
     padding: .5rem .75rem;
-    background: var(--b-dock-pane-header-background, var(--colorNeutralBackground2, #fafafa));
+    background: var(--fui-dock-pane-header-background, var(--colorNeutralBackground2, #fafafa));
 }
 
 .fui-DockPaneFooter {
-    background: var(--b-dock-pane-footer-background, var(--b-dock-pane-header-background, var(--colorNeutralBackground2, #fafafa)));
+    background: var(--fui-dock-pane-footer-background, var(--fui-dock-pane-header-background, var(--colorNeutralBackground2, #fafafa)));
 }
 
 .fui-DockPaneHeader {
@@ -325,7 +325,7 @@
     border: 0;
     border-radius: var(--borderRadiusSmall, 2px);
     background: transparent;
-    color: var(--b-dock-pane-color, var(--colorNeutralForeground2, #424242));
+    color: var(--fui-dock-pane-color, var(--colorNeutralForeground2, #424242));
     cursor: pointer;
     font-size: var(--fontSizeBase200);
     line-height: 1;
@@ -337,8 +337,8 @@
 }
 
 .fui-DockPaneHeader__action:hover {
-    background: var(--b-dock-hover-background, var(--colorBrandBackground2, #ebf3fc));
-    color: var(--b-dock-tab-active-color, var(--colorBrandForeground1, #115ea3));
+    background: var(--fui-dock-hover-background, var(--colorBrandBackground2, #ebf3fc));
+    color: var(--fui-dock-tab-active-color, var(--colorBrandForeground1, #115ea3));
 }
 
 .fui-DockPaneBody {
@@ -360,8 +360,8 @@
     flex: 0 0 auto;
     gap: .125rem;
     padding: 0 .25rem .25rem;
-    background: var(--b-dock-tabs-background, var(--colorNeutralBackground2, #fafafa));
-    border-top: 1px solid var(--b-dock-pane-border-color, var(--colorNeutralStroke1, #d1d1d1));
+    background: var(--fui-dock-tabs-background, var(--colorNeutralBackground2, #fafafa));
+    border-top: 1px solid var(--fui-dock-pane-border-color, var(--colorNeutralStroke1, #d1d1d1));
 }
 
 .fui-DockPaneTab {
@@ -371,7 +371,7 @@
     border: 0;
     border-radius: 0 0 var(--borderRadiusMedium, 4px) var(--borderRadiusMedium, 4px);
     background: transparent;
-    color: var(--b-dock-pane-color, var(--colorNeutralForeground1, #242424));
+    color: var(--fui-dock-pane-color, var(--colorNeutralForeground1, #242424));
     cursor: pointer;
     font: inherit;
     line-height: 1.25;
@@ -402,7 +402,7 @@
     border: 0;
     border-radius: var(--borderRadiusSmall, 2px);
     background: transparent;
-    color: var(--b-dock-tab-close-color, var(--colorNeutralForeground3, #616161));
+    color: var(--fui-dock-tab-close-color, var(--colorNeutralForeground3, #616161));
     cursor: pointer;
     font: inherit;
     line-height: 1;
@@ -410,15 +410,15 @@
 }
 
 .fui-DockPaneTab__close:hover {
-    background: var(--b-dock-hover-background, var(--colorBrandBackground2, #ebf3fc));
-    color: var(--b-dock-pane-color, var(--colorNeutralForeground1, #242424));
+    background: var(--fui-dock-hover-background, var(--colorBrandBackground2, #ebf3fc));
+    color: var(--fui-dock-pane-color, var(--colorNeutralForeground1, #242424));
 }
 
 .fui-DockPane--center > .fui-DockPaneTabs,
 .fui-DockPaneTabs--top {
     padding: .25rem .25rem 0;
     border-top: 0;
-    border-bottom: 1px solid var(--b-dock-pane-border-color, var(--colorNeutralStroke1, #d1d1d1));
+    border-bottom: 1px solid var(--fui-dock-pane-border-color, var(--colorNeutralStroke1, #d1d1d1));
 }
 
 .fui-DockPane--center > .fui-DockPaneTabs .fui-DockPaneTab,
@@ -427,8 +427,8 @@
 }
 
 .fui-DockPaneTab--active {
-    background: var(--b-dock-tab-active-background, var(--colorNeutralBackground1, #ffffff));
-    color: var(--b-dock-tab-active-color, var(--colorBrandForeground1, #115ea3));
+    background: var(--fui-dock-tab-active-background, var(--colorNeutralBackground1, #ffffff));
+    color: var(--fui-dock-tab-active-color, var(--colorBrandForeground1, #115ea3));
 }
 
 
@@ -439,11 +439,11 @@
     max-width: 18rem;
     padding: .375rem .625rem;
     pointer-events: none;
-    border: 1px solid var(--b-dock-drag-preview-border-color, var(--colorBrandStroke1, #0f6cbd));
+    border: 1px solid var(--fui-dock-drag-preview-border-color, var(--colorBrandStroke1, #0f6cbd));
     border-radius: var(--borderRadiusMedium, 4px);
-    background: var(--b-dock-drag-preview-background, var(--colorNeutralBackground1, #ffffff));
+    background: var(--fui-dock-drag-preview-background, var(--colorNeutralBackground1, #ffffff));
     box-shadow: var(--shadow16, 0 8px 16px rgba(0, 0, 0, .14));
-    color: var(--b-dock-pane-color, var(--colorNeutralForeground1, #242424));
+    color: var(--fui-dock-pane-color, var(--colorNeutralForeground1, #242424));
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -454,12 +454,12 @@
     position: absolute;
     z-index: 30;
     pointer-events: none;
-    border: 2px dashed var(--b-dock-drop-preview-border-color, var(--colorBrandStroke1, #0f6cbd));
-    background: var(--b-dock-drop-preview-background, var(--colorBrandBackground2, #ebf3fc));
+    border: 2px dashed var(--fui-dock-drop-preview-border-color, var(--colorBrandStroke1, #0f6cbd));
+    background: var(--fui-dock-drop-preview-background, var(--colorBrandBackground2, #ebf3fc));
 }
 
 .fui-DockShellGuide--active {
-    background: var(--b-dock-drop-preview-background, var(--colorBrandBackground2Hover, #cfe4fa));
+    background: var(--fui-dock-drop-preview-background, var(--colorBrandBackground2Hover, #cfe4fa));
 }
 
 .fui-DockCompass {
@@ -479,10 +479,10 @@
     justify-content: center;
     width: 2rem;
     height: 2rem;
-    color: var(--b-dock-compass-zone-color, var(--colorNeutralForeground3, #616161));
-    border: 1px solid var(--b-dock-compass-zone-border-color, var(--colorNeutralStroke1, #d1d1d1));
+    color: var(--fui-dock-compass-zone-color, var(--colorNeutralForeground3, #616161));
+    border: 1px solid var(--fui-dock-compass-zone-border-color, var(--colorNeutralStroke1, #d1d1d1));
     border-radius: var(--borderRadiusSmall, 2px);
-    background: var(--b-dock-compass-zone-background, var(--colorNeutralBackground1, #ffffff));
+    background: var(--fui-dock-compass-zone-background, var(--colorNeutralBackground1, #ffffff));
     box-shadow: var(--shadow4, 0 2px 4px rgba(0, 0, 0, .14));
 }
 
@@ -492,9 +492,9 @@
 }
 
 .fui-DockCompassZone--active {
-    color: var(--b-dock-compass-zone-active-color, var(--colorBrandForeground1, #115ea3));
-    border-color: var(--b-dock-compass-zone-active-border-color, var(--colorBrandStroke1, #0f6cbd));
-    background: var(--b-dock-compass-zone-active-background, var(--colorBrandBackground2, #ebf3fc));
+    color: var(--fui-dock-compass-zone-active-color, var(--colorBrandForeground1, #115ea3));
+    border-color: var(--fui-dock-compass-zone-active-border-color, var(--colorBrandStroke1, #0f6cbd));
+    background: var(--fui-dock-compass-zone-active-background, var(--colorBrandBackground2, #ebf3fc));
 }
 
 .fui-DockCompassZone--center {

@@ -891,9 +891,9 @@ body:before {
   min-width: 0;
   position: relative;
   overflow: hidden;
-  background: var(--b-dock-pane-background, var(--b-theme-body-background-color, #fff));
-  color: var(--b-dock-pane-color, var(--b-theme-body-text-color, #212529));
-  border-color: var(--b-dock-pane-border-color, #dee2e6);
+  background: var(--bs-dock-pane-background, var(--b-theme-body-background-color, #fff));
+  color: var(--bs-dock-pane-color, var(--b-theme-body-text-color, #212529));
+  border-color: var(--bs-dock-pane-border-color, #dee2e6);
   border-style: solid;
   border-width: 0;
   z-index: 1;
@@ -1008,13 +1008,13 @@ body:before {
 
 .dock-auto-hide-rail {
   position: absolute;
-  z-index: var(--b-dock-auto-hide-rail-zindex, 1301);
+  z-index: 1060;
   display: flex;
   align-items: stretch;
   justify-content: flex-start;
   overflow: hidden;
-  background: var(--b-dock-pane-background, var(--b-theme-body-background-color, #fff));
-  border-color: var(--b-dock-pane-border-color, #dee2e6);
+  background: var(--bs-dock-pane-background, var(--b-theme-body-background-color, #fff));
+  border-color: var(--bs-dock-pane-border-color, #dee2e6);
   border-style: solid;
   border-width: 0;
 }
@@ -1057,8 +1057,8 @@ body:before {
 
 .dock-auto-hide-flyout {
   position: absolute;
-  z-index: var(--b-dock-auto-hide-flyout-zindex, 1302);
-  box-shadow: var(--b-dock-pane-shadow, 0 0.5rem 1rem rgba(0, 0, 0, 0.15));
+  z-index: 1061;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .dock-auto-hide-flyout-left {
@@ -1110,8 +1110,8 @@ body:before {
   min-height: 0;
   padding: 0.5rem 0.375rem;
   border: 0;
-  background: var(--b-dock-pane-header-background, rgba(0, 0, 0, 0.03));
-  color: var(--b-dock-pane-color, var(--b-theme-body-text-color, #212529));
+  background: var(--bs-dock-pane-header-background, rgba(0, 0, 0, 0.03));
+  color: var(--bs-dock-pane-color, var(--b-theme-body-text-color, #212529));
   cursor: pointer;
   font: inherit;
   line-height: 1.25;
@@ -1119,7 +1119,7 @@ body:before {
 }
 
 .dock-pane-autohide-tab:hover {
-  background: var(--b-dock-hover-background, rgba(var(--b-theme-primary-r, 0), var(--b-theme-primary-g, 123), var(--b-theme-primary-b, 255), 0.12));
+  background: var(--bs-dock-hover-background, rgba(var(--b-theme-primary-r, 0), var(--b-theme-primary-g, 123), var(--b-theme-primary-b, 255), 0.12));
 }
 
 .dock-pane-autohide-tab-left,
@@ -1143,11 +1143,11 @@ body:before {
 .dock-pane-footer {
   flex: 0 0 auto;
   padding: 0.5rem 0.75rem;
-  background: var(--b-dock-pane-header-background, rgba(0, 0, 0, 0.03));
+  background: var(--bs-dock-pane-header-background, rgba(0, 0, 0, 0.03));
 }
 
 .dock-pane-footer {
-  background: var(--b-dock-pane-footer-background, var(--b-dock-pane-header-background, rgba(0, 0, 0, 0.03)));
+  background: var(--bs-dock-pane-footer-background, var(--bs-dock-pane-header-background, rgba(0, 0, 0, 0.03)));
 }
 
 .dock-pane-header {
@@ -1184,14 +1184,14 @@ body:before {
   border: 0;
   border-radius: 0.125rem;
   background: transparent;
-  color: var(--b-dock-pane-color, var(--b-theme-body-text-color, #212529));
+  color: var(--bs-dock-pane-color, var(--b-theme-body-text-color, #212529));
   cursor: pointer;
   font-size: 0.75rem;
   line-height: 1;
 }
 
 .dock-pane-header-action:hover {
-  background: var(--b-dock-hover-background, rgba(var(--b-theme-primary-r, 0), var(--b-theme-primary-g, 123), var(--b-theme-primary-b, 255), 0.12));
+  background: var(--bs-dock-hover-background, rgba(var(--b-theme-primary-r, 0), var(--b-theme-primary-g, 123), var(--b-theme-primary-b, 255), 0.12));
 }
 
 .dock-pane-tabs {
@@ -1199,8 +1199,8 @@ body:before {
   flex: 0 0 auto;
   gap: 0.125rem;
   padding: 0 0.25rem 0.25rem;
-  background: var(--b-dock-tabs-background, rgba(0, 0, 0, 0.03));
-  border-top: 1px solid var(--b-dock-pane-border-color, #dee2e6);
+  background: var(--bs-dock-tabs-background, rgba(0, 0, 0, 0.03));
+  border-top: 1px solid var(--bs-dock-pane-border-color, #dee2e6);
 }
 
 .dock-pane-tab {
@@ -1210,7 +1210,7 @@ body:before {
   border: 0;
   border-radius: 0 0 0.25rem 0.25rem;
   background: transparent;
-  color: var(--b-dock-pane-color, var(--b-theme-body-text-color, #212529));
+  color: var(--bs-dock-pane-color, var(--b-theme-body-text-color, #212529));
   cursor: pointer;
   font: inherit;
   line-height: 1.25;
@@ -1241,7 +1241,7 @@ body:before {
   border: 0;
   border-radius: 0.125rem;
   background: transparent;
-  color: var(--b-dock-tab-close-color, rgba(33, 37, 41, 0.65));
+  color: var(--bs-dock-tab-close-color, rgba(33, 37, 41, 0.65));
   cursor: pointer;
   font: inherit;
   line-height: 1;
@@ -1249,15 +1249,15 @@ body:before {
 }
 
 .dock-pane-tab-close:hover {
-  background: var(--b-dock-hover-background, rgba(var(--b-theme-primary-r, 0), var(--b-theme-primary-g, 123), var(--b-theme-primary-b, 255), 0.12));
-  color: var(--b-dock-pane-color, var(--b-theme-body-text-color, #212529));
+  background: var(--bs-dock-hover-background, rgba(var(--b-theme-primary-r, 0), var(--b-theme-primary-g, 123), var(--b-theme-primary-b, 255), 0.12));
+  color: var(--bs-dock-pane-color, var(--b-theme-body-text-color, #212529));
 }
 
 .dock-pane-center > .dock-pane-tabs,
 .dock-pane-tabs-top {
   padding: 0.25rem 0.25rem 0;
   border-top: 0;
-  border-bottom: 1px solid var(--b-dock-pane-border-color, #dee2e6);
+  border-bottom: 1px solid var(--bs-dock-pane-border-color, #dee2e6);
 }
 
 .dock-pane-center > .dock-pane-tabs .dock-pane-tab,
@@ -1266,8 +1266,8 @@ body:before {
 }
 
 .dock-pane-tab.active {
-  background: var(--b-dock-tab-active-background, var(--b-theme-body-background-color, #fff));
-  color: var(--b-dock-tab-active-color, var(--b-theme-primary, #007bff));
+  background: var(--bs-dock-tab-active-background, var(--b-theme-body-background-color, #fff));
+  color: var(--bs-dock-tab-active-color, var(--b-theme-primary, #007bff));
 }
 
 .dock-drag-preview {
@@ -1277,11 +1277,11 @@ body:before {
   max-width: 18rem;
   padding: 0.375rem 0.625rem;
   pointer-events: none;
-  border: 1px solid var(--b-dock-drag-preview-border-color, rgba(var(--b-theme-primary-r, 0), var(--b-theme-primary-g, 123), var(--b-theme-primary-b, 255), 0.65));
+  border: 1px solid var(--bs-dock-drag-preview-border-color, rgba(var(--b-theme-primary-r, 0), var(--b-theme-primary-g, 123), var(--b-theme-primary-b, 255), 0.65));
   border-radius: 0.25rem;
-  background: var(--b-dock-drag-preview-background, rgba(255, 255, 255, 0.92));
+  background: var(--bs-dock-drag-preview-background, rgba(255, 255, 255, 0.92));
   box-shadow: 0 0.375rem 1.25rem rgba(0, 0, 0, 0.16);
-  color: var(--b-dock-pane-color, var(--b-theme-body-text-color, #212529));
+  color: var(--bs-dock-pane-color, var(--b-theme-body-text-color, #212529));
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1291,8 +1291,8 @@ body:before {
   position: absolute;
   z-index: 30;
   pointer-events: none;
-  border: 2px dashed var(--b-dock-drop-preview-border-color, rgba(var(--b-theme-primary-r, 0), var(--b-theme-primary-g, 123), var(--b-theme-primary-b, 255), 0.7));
-  background: var(--b-dock-drop-preview-background, rgba(var(--b-theme-primary-r, 0), var(--b-theme-primary-g, 123), var(--b-theme-primary-b, 255), 0.1));
+  border: 2px dashed var(--bs-dock-drop-preview-border-color, rgba(var(--b-theme-primary-r, 0), var(--b-theme-primary-g, 123), var(--b-theme-primary-b, 255), 0.7));
+  background: var(--bs-dock-drop-preview-background, rgba(var(--b-theme-primary-r, 0), var(--b-theme-primary-g, 123), var(--b-theme-primary-b, 255), 0.1));
 }
 
 .dock-pane-body {
@@ -1326,9 +1326,9 @@ body:before {
   justify-content: center;
   width: 2rem;
   height: 2rem;
-  color: var(--b-dock-compass-zone-color, #ced4da);
-  border: 1px solid var(--b-dock-compass-zone-border-color, #dee2e6);
-  background: var(--b-dock-compass-zone-background, rgba(255, 255, 255, 0.85));
+  color: var(--bs-dock-compass-zone-color, #ced4da);
+  border: 1px solid var(--bs-dock-compass-zone-border-color, #dee2e6);
+  background: var(--bs-dock-compass-zone-background, rgba(255, 255, 255, 0.85));
 }
 
 .dock-compass-zone-icon {
@@ -1337,9 +1337,9 @@ body:before {
 }
 
 .dock-compass-zone.active {
-  color: var(--b-dock-compass-zone-active-color, var(--b-theme-primary, #007bff));
-  border-color: var(--b-dock-compass-zone-active-border-color, var(--b-theme-primary, #007bff));
-  background: var(--b-dock-compass-zone-active-background, rgba(var(--b-theme-primary-r, 0), var(--b-theme-primary-g, 123), var(--b-theme-primary-b, 255), 0.08));
+  color: var(--bs-dock-compass-zone-active-color, var(--b-theme-primary, #007bff));
+  border-color: var(--bs-dock-compass-zone-active-border-color, var(--b-theme-primary, #007bff));
+  background: var(--bs-dock-compass-zone-active-background, rgba(var(--b-theme-primary-r, 0), var(--b-theme-primary-g, 123), var(--b-theme-primary-b, 255), 0.08));
 }
 
 .dock-compass-zone-center {

@@ -4850,9 +4850,9 @@ body {
   min-width: 0;
   position: relative;
   overflow: hidden;
-  background: var(--b-dock-pane-background, var(--mui-surface, #ffffff));
-  color: var(--b-dock-pane-color, var(--mui-on-surface, #1d1b20));
-  border-color: var(--b-dock-pane-border-color, var(--mui-outline-variant, #cac4d0));
+  background: var(--mui-dock-pane-background, var(--mui-surface, #ffffff));
+  color: var(--mui-dock-pane-color, var(--mui-on-surface, #1d1b20));
+  border-color: var(--mui-dock-pane-border-color, var(--mui-outline-variant, #cac4d0));
   border-style: solid;
   border-width: 0;
   z-index: 1;
@@ -4943,13 +4943,13 @@ body {
 
 .mui-dock-auto-hide-rail {
   position: absolute;
-  z-index: var(--b-dock-auto-hide-rail-zindex, 1301);
+  z-index: var(--mui-zindex-popover);
   display: flex;
   align-items: stretch;
   justify-content: flex-start;
   overflow: hidden;
-  background: var(--b-dock-pane-background, var(--mui-surface, #ffffff));
-  border-color: var(--b-dock-pane-border-color, var(--mui-outline-variant, #cac4d0));
+  background: var(--mui-dock-pane-background, var(--mui-surface, #ffffff));
+  border-color: var(--mui-dock-pane-border-color, var(--mui-outline-variant, #cac4d0));
   border-style: solid;
   border-width: 0;
 }
@@ -4992,8 +4992,8 @@ body {
 
 .mui-dock-auto-hide-flyout {
   position: absolute;
-  z-index: var(--b-dock-auto-hide-flyout-zindex, 1302);
-  box-shadow: var(--b-dock-pane-shadow, 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12));
+  z-index: calc(var(--mui-zindex-popover) + 1);
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
 }
 
 .mui-dock-auto-hide-flyout-left {
@@ -5045,8 +5045,8 @@ body {
   min-height: 0;
   padding: 0.5rem 0.375rem;
   border: 0;
-  background: var(--b-dock-pane-header-background, var(--mui-surface-container, #f3edf7));
-  color: var(--b-dock-pane-color, var(--mui-on-surface, #1d1b20));
+  background: var(--mui-dock-pane-header-background, var(--mui-surface-container, #f3edf7));
+  color: var(--mui-dock-pane-color, var(--mui-on-surface, #1d1b20));
   cursor: pointer;
   font: inherit;
   line-height: 1.25;
@@ -5054,7 +5054,7 @@ body {
 }
 
 .mui-dock-pane-autohide-tab:hover {
-  background: var(--b-dock-hover-background, var(--mui-primary-container, #eaddff));
+  background: var(--mui-dock-hover-background, var(--mui-primary-container, #eaddff));
 }
 
 .mui-dock-pane-autohide-tab-left,
@@ -5078,11 +5078,11 @@ body {
 .mui-dock-pane-footer {
   flex: 0 0 auto;
   padding: 0.5rem 0.75rem;
-  background: var(--b-dock-pane-header-background, var(--mui-surface-container, #f3edf7));
+  background: var(--mui-dock-pane-header-background, var(--mui-surface-container, #f3edf7));
 }
 
 .mui-dock-pane-footer {
-  background: var(--b-dock-pane-footer-background, var(--b-dock-pane-header-background, var(--mui-surface-container, #f3edf7)));
+  background: var(--mui-dock-pane-footer-background, var(--mui-dock-pane-header-background, var(--mui-surface-container, #f3edf7)));
 }
 
 .mui-dock-pane-header {
@@ -5119,15 +5119,15 @@ body {
   border: 0;
   border-radius: var(--mui-shape-corner-small, 0.25rem);
   background: transparent;
-  color: var(--b-dock-pane-color, var(--mui-on-surface-variant, #49454f));
+  color: var(--mui-dock-pane-color, var(--mui-on-surface-variant, #49454f));
   cursor: pointer;
   font-size: 0.75rem;
   line-height: 1;
 }
 
 .mui-dock-pane-header-action:hover {
-  background: var(--b-dock-hover-background, var(--mui-primary-container, #eaddff));
-  color: var(--b-dock-tab-active-color, var(--mui-primary, #6750a4));
+  background: var(--mui-dock-hover-background, var(--mui-primary-container, #eaddff));
+  color: var(--mui-dock-tab-active-color, var(--mui-primary, #6750a4));
 }
 
 .mui-dock-pane-body {
@@ -5149,8 +5149,8 @@ body {
   flex: 0 0 auto;
   gap: 0.125rem;
   padding: 0 0.25rem 0.25rem;
-  background: var(--b-dock-tabs-background, var(--mui-surface-container, #f3edf7));
-  border-top: 1px solid var(--b-dock-pane-border-color, var(--mui-outline-variant, #cac4d0));
+  background: var(--mui-dock-tabs-background, var(--mui-surface-container, #f3edf7));
+  border-top: 1px solid var(--mui-dock-pane-border-color, var(--mui-outline-variant, #cac4d0));
 }
 
 .mui-dock-pane-tab {
@@ -5160,7 +5160,7 @@ body {
   border: 0;
   border-radius: 0 0 var(--mui-shape-corner-small, 0.25rem) var(--mui-shape-corner-small, 0.25rem);
   background: transparent;
-  color: var(--b-dock-pane-color, var(--mui-on-surface, #1d1b20));
+  color: var(--mui-dock-pane-color, var(--mui-on-surface, #1d1b20));
   cursor: pointer;
   font: inherit;
   line-height: 1.25;
@@ -5191,7 +5191,7 @@ body {
   border: 0;
   border-radius: var(--mui-shape-corner-small, 0.25rem);
   background: transparent;
-  color: var(--b-dock-tab-close-color, var(--mui-on-surface-variant, #49454f));
+  color: var(--mui-dock-tab-close-color, var(--mui-on-surface-variant, #49454f));
   cursor: pointer;
   font: inherit;
   line-height: 1;
@@ -5199,15 +5199,15 @@ body {
 }
 
 .mui-dock-pane-tab-close:hover {
-  background: var(--b-dock-hover-background, var(--mui-primary-container, #eaddff));
-  color: var(--b-dock-pane-color, var(--mui-on-surface, #1d1b20));
+  background: var(--mui-dock-hover-background, var(--mui-primary-container, #eaddff));
+  color: var(--mui-dock-pane-color, var(--mui-on-surface, #1d1b20));
 }
 
 .mui-dock-pane-center > .mui-dock-pane-tabs,
 .mui-dock-pane-tabs-top {
   padding: 0.25rem 0.25rem 0;
   border-top: 0;
-  border-bottom: 1px solid var(--b-dock-pane-border-color, var(--mui-outline-variant, #cac4d0));
+  border-bottom: 1px solid var(--mui-dock-pane-border-color, var(--mui-outline-variant, #cac4d0));
 }
 
 .mui-dock-pane-center > .mui-dock-pane-tabs .mui-dock-pane-tab,
@@ -5216,8 +5216,8 @@ body {
 }
 
 .mui-dock-pane-tab-active {
-  background: var(--b-dock-tab-active-background, var(--mui-surface, #ffffff));
-  color: var(--b-dock-tab-active-color, var(--mui-primary, #6750a4));
+  background: var(--mui-dock-tab-active-background, var(--mui-surface, #ffffff));
+  color: var(--mui-dock-tab-active-color, var(--mui-primary, #6750a4));
 }
 
 .mui-dock-drag-preview {
@@ -5227,11 +5227,11 @@ body {
   max-width: 18rem;
   padding: 0.375rem 0.625rem;
   pointer-events: none;
-  border: 1px solid var(--b-dock-drag-preview-border-color, var(--mui-primary, #6750a4));
+  border: 1px solid var(--mui-dock-drag-preview-border-color, var(--mui-primary, #6750a4));
   border-radius: var(--mui-shape-corner-small, 0.25rem);
-  background: var(--b-dock-drag-preview-background, var(--mui-surface, #ffffff));
+  background: var(--mui-dock-drag-preview-background, var(--mui-surface, #ffffff));
   box-shadow: var(--mui-elevation-3, 0 0.375rem 1.25rem rgba(0, 0, 0, 0.16));
-  color: var(--b-dock-pane-color, var(--mui-on-surface, #1d1b20));
+  color: var(--mui-dock-pane-color, var(--mui-on-surface, #1d1b20));
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -5242,12 +5242,12 @@ body {
   position: absolute;
   z-index: 30;
   pointer-events: none;
-  border: 2px dashed var(--b-dock-drop-preview-border-color, var(--mui-primary, #6750a4));
-  background: var(--b-dock-drop-preview-background, var(--mui-primary-container, #eaddff));
+  border: 2px dashed var(--mui-dock-drop-preview-border-color, var(--mui-primary, #6750a4));
+  background: var(--mui-dock-drop-preview-background, var(--mui-primary-container, #eaddff));
 }
 
 .mui-dock-shell-guide-active {
-  background: var(--b-dock-drop-preview-background, var(--mui-secondary-container, #e8def8));
+  background: var(--mui-dock-drop-preview-background, var(--mui-secondary-container, #e8def8));
 }
 
 .mui-dock-compass {
@@ -5267,10 +5267,10 @@ body {
   justify-content: center;
   width: 2rem;
   height: 2rem;
-  color: var(--b-dock-compass-zone-color, var(--mui-on-surface-variant, #49454f));
-  border: 1px solid var(--b-dock-compass-zone-border-color, var(--mui-outline-variant, #cac4d0));
+  color: var(--mui-dock-compass-zone-color, var(--mui-on-surface-variant, #49454f));
+  border: 1px solid var(--mui-dock-compass-zone-border-color, var(--mui-outline-variant, #cac4d0));
   border-radius: var(--mui-shape-corner-small, 0.25rem);
-  background: var(--b-dock-compass-zone-background, var(--mui-surface, #ffffff));
+  background: var(--mui-dock-compass-zone-background, var(--mui-surface, #ffffff));
   box-shadow: var(--mui-elevation-1, 0 0.125rem 0.25rem rgba(0, 0, 0, 0.08));
 }
 
@@ -5280,9 +5280,9 @@ body {
 }
 
 .mui-dock-compass-zone-active {
-  color: var(--b-dock-compass-zone-active-color, var(--mui-primary, #6750a4));
-  border-color: var(--b-dock-compass-zone-active-border-color, var(--mui-primary, #6750a4));
-  background: var(--b-dock-compass-zone-active-background, var(--mui-primary-container, #eaddff));
+  color: var(--mui-dock-compass-zone-active-color, var(--mui-primary, #6750a4));
+  border-color: var(--mui-dock-compass-zone-active-border-color, var(--mui-primary, #6750a4));
+  background: var(--mui-dock-compass-zone-active-background, var(--mui-primary-container, #eaddff));
 }
 
 .mui-dock-compass-zone-center {
