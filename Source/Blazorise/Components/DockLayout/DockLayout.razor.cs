@@ -255,13 +255,13 @@ public partial class DockLayout : BaseComponent
     internal void UnregisterPane( DockPane pane )
     {
         if ( registry.UnregisterPane( pane ) && Rendered && !Disposed )
-            _ = NotifyDefinitionChanged();
+            ExecuteAfterRender( NotifyDefinitionChanged );
     }
 
     internal void UnregisterContent( DockContent dockContent )
     {
         if ( registry.UnregisterContent( dockContent ) && Rendered && !Disposed )
-            _ = NotifyDefinitionChanged();
+            ExecuteAfterRender( NotifyDefinitionChanged );
     }
 
     internal DockPaneState GetPaneState( DockPane pane )
