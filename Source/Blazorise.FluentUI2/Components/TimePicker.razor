@@ -2,7 +2,7 @@
 @typeparam TValue
 @inherits Blazorise.TimePicker<TValue>
 <CascadingValue Value="@this" IsFixed>
-    <span class="@ProviderPickerContainerClassNames">
+    <span id="@PickerContainerId" class="@ProviderPickerContainerClassNames">
         @if ( ParentIsAddons )
         {
             <span class="@AddonClassNames" style="@WrapperStyleNames">
@@ -25,14 +25,14 @@
     {
         <input @ref="@ElementRef"
                id="@ElementId"
-               type="text"
+               type="@InputType"
                name="@NameAttributeValue"
                class="@ClassNames"
                style="@StyleNames"
                disabled="@IsDisabled"
                readonly="@ReadOnly"
                pattern="@Pattern"
-               value="@InputText"
+               value="@VisibleInputText"
                @oninput="@OnInputHandler"
                @onchange="@OnChangeHandler"
                @onclick="@OnClickHandler"
@@ -47,11 +47,14 @@
                @onfocusin="@OnFocusInHandler"
                @onfocusout="@OnFocusOutHandler"
                placeholder="@Placeholder"
+               min="@InputMin"
+               max="@InputMax"
+               step="@InputStep"
                tabindex="@TabIndex"
-               role="combobox"
-               aria-haspopup="dialog"
-               aria-expanded="@MenuVisible"
-               aria-controls="@MenuId"
+               role="@InputRole"
+               aria-haspopup="@InputAriaHasPopup"
+               aria-expanded="@InputAriaExpanded"
+               aria-controls="@InputAriaControls"
                aria-invalid="@AriaInvalid"
                aria-required="@ResolvedAriaRequired"
                aria-describedby="@AriaDescribedBy"
