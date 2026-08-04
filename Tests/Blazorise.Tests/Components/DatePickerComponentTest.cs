@@ -4,6 +4,7 @@ using AngleSharp.Dom;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Xunit;
 
@@ -321,8 +322,8 @@ public class DatePickerComponentTest : BunitContext
             .Add( x => x.Inline, true ) );
 
         // test
-        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "ArrowRight" } );
-        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "Enter" } );
+        await comp.Find( "[role='grid']" ).KeyDownAsync( new KeyboardEventArgs { Key = "ArrowRight" } );
+        await comp.Find( "[role='grid']" ).KeyDownAsync( new KeyboardEventArgs { Key = "Enter" } );
 
         // validate
         Assert.Equal( new DateTime( 2026, 7, 28 ), comp.Instance.Value );
@@ -405,8 +406,8 @@ public class DatePickerComponentTest : BunitContext
             .Add( x => x.Inline, true ) );
 
         // test
-        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "ArrowDown" } );
-        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "Enter" } );
+        await comp.Find( "[role='grid']" ).KeyDownAsync( new KeyboardEventArgs { Key = "ArrowDown" } );
+        await comp.Find( "[role='grid']" ).KeyDownAsync( new KeyboardEventArgs { Key = "Enter" } );
 
         // validate
         Assert.Equal( new DateTime( 2026, 10, 12 ), comp.Instance.Value );
@@ -482,6 +483,8 @@ public class DatePickerComponentTest : BunitContext
         // validate
         Assert.NotNull( comp.Find( "[role='dialog']" ) );
         Assert.False( comp.Instance.FocusCalendarOnOpen );
+        Assert.False( comp.Find( "[role='dialog']" ).HasAttribute( "aria-activedescendant" ) );
+        Assert.NotNull( comp.Find( "[role='grid']" ).GetAttribute( "aria-activedescendant" ) );
         Assert.All(
             comp.FindAll( "[role='dialog'] button, [role='dialog'] select, [role='dialog'] input" ),
             element => Assert.Equal( "-1", element.GetAttribute( "tabindex" ) ) );
@@ -587,6 +590,9 @@ public class DatePickerComponentTest : BunitContext
 
         // validate
         Assert.NotNull( comp.Find( "[role='dialog']" ) );
+        Assert.True( comp.Instance.FocusCalendarOnOpen );
+        Assert.Equal( "-1", comp.Find( "[role='grid']" ).GetAttribute( "tabindex" ) );
+        JSInterop.VerifyInvoke( "focus", 1 );
     }
 
     [Fact]
@@ -677,6 +683,120 @@ public class DatePickerComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task DateTimeOffsetValuePreservesOffsetWhenDateChanges()
+    {
+        // setup
+        TimeSpan offset = TimeSpan.FromHours( 5.5 );
+        DateTimeOffset value = new( 2026, 7, 27, 9, 15, 0, offset );
+        IRenderedComponent<DatePicker<DateTimeOffset>> comp = Render<DatePicker<DateTimeOffset>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.InputMode, DateInputMode.DateTime ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "2026-07-28 14:30" } );
+
+        // validate
+        Assert.Equal( new DateTimeOffset( 2026, 7, 28, 14, 30, 0, offset ), comp.Instance.Value );
+    }
+
+    [Fact]
+    public async Task DateTimeOffsetRangePreservesOffsetWhenDatesChange()
+    {
+        // setup
+        TimeSpan offset = TimeSpan.FromHours( 5.5 );
+        DateTimeOffset[] value = new[]
+        {
+            new DateTimeOffset( 2026, 7, 27, 9, 15, 0, offset ),
+            new DateTimeOffset( 2026, 7, 29, 9, 15, 0, offset ),
+        };
+        IRenderedComponent<DatePicker<DateTimeOffset[]>> comp = Render<DatePicker<DateTimeOffset[]>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.InputMode, DateInputMode.DateTime )
+            .Add( x => x.SelectionMode, DateInputSelectionMode.Range ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "2026-07-28 10:30 to 2026-07-30 11:45" } );
+
+        // validate
+        Assert.Equal(
+            new[]
+            {
+                new DateTimeOffset( 2026, 7, 28, 10, 30, 0, offset ),
+                new DateTimeOffset( 2026, 7, 30, 11, 45, 0, offset ),
+            },
+            comp.Instance.Value );
+    }
+
+    [Theory]
+    [InlineData( "2026-07-19" )]
+    [InlineData( "2026-08-01" )]
+    [InlineData( "2026-07-25" )]
+    [InlineData( "2026-07-26" )]
+    [InlineData( "2026-07-29" )]
+    public async Task TypedDateHonorsDateConstraints( string inputValue )
+    {
+        // setup
+        DateTime value = new( 2026, 7, 27 );
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.Min, new DateTimeOffset( new DateTime( 2026, 7, 20 ) ) )
+            .Add( x => x.Max, new DateTimeOffset( new DateTime( 2026, 7, 31 ) ) )
+            .Add( x => x.DisabledDates, new[] { new DateTime( 2026, 7, 25 ) } )
+            .Add( x => x.DisabledDays, new[] { DayOfWeek.Sunday } )
+            .Add( x => x.EnabledDates, new[]
+            {
+                value,
+                new DateTime( 2026, 7, 19 ),
+                new DateTime( 2026, 8, 1 ),
+                new DateTime( 2026, 7, 25 ),
+                new DateTime( 2026, 7, 26 ),
+            } ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = inputValue } );
+
+        // validate
+        Assert.Equal( value, comp.Instance.Value );
+    }
+
+    [Fact]
+    public async Task TypedRangeRejectsDisabledDate()
+    {
+        // setup
+        DateTime[] value = new[] { new DateTime( 2026, 7, 23 ), new DateTime( 2026, 7, 24 ) };
+        IRenderedComponent<DatePicker<DateTime[]>> comp = Render<DatePicker<DateTime[]>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.SelectionMode, DateInputSelectionMode.Range )
+            .Add( x => x.DisabledDates, new[] { new DateTime( 2026, 7, 25 ) } ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "2026-07-24 to 2026-07-25" } );
+
+        // validate
+        Assert.Equal( value, comp.Instance.Value );
+    }
+
+    [Theory]
+    [InlineData( "2026-07-27 08:59" )]
+    [InlineData( "2026-07-27 17:01" )]
+    public async Task TypedDateTimeHonorsTimeConstraints( string inputValue )
+    {
+        // setup
+        DateTime value = new( 2026, 7, 27, 12, 0, 0 );
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.InputMode, DateInputMode.DateTime )
+            .Add( x => x.Min, new DateTimeOffset( new DateTime( 2026, 7, 27, 9, 0, 0 ) ) )
+            .Add( x => x.Max, new DateTimeOffset( new DateTime( 2026, 7, 27, 17, 0, 0 ) ) ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = inputValue } );
+
+        // validate
+        Assert.Equal( value, comp.Instance.Value );
+    }
+
+    [Fact]
     public void DisabledDateRendersAsDisabledCalendarCell()
     {
         // setup
@@ -704,6 +824,41 @@ public class DatePickerComponentTest : BunitContext
         // validate
         Assert.Equal( "07", comp.FindAll( ".datepicker-time-input" )[0].GetAttribute( "value" ) );
         Assert.Equal( "04", comp.FindAll( ".datepicker-time-input" )[1].GetAttribute( "value" ) );
+    }
+
+    [Fact]
+    public async Task DateTimeCalendarSelectionClampsToMinimumTime()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2026, 7, 28, 8, 0, 0 ) )
+            .Add( x => x.InputMode, DateInputMode.DateTime )
+            .Add( x => x.Inline, true )
+            .Add( x => x.Min, new DateTimeOffset( new DateTime( 2026, 7, 27, 9, 0, 0 ) ) ) );
+
+        // test
+        await comp.Find( "[id$='day-20260727']" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( new DateTime( 2026, 7, 27, 9, 0, 0 ), comp.Instance.Value );
+    }
+
+    [Fact]
+    public async Task DateTimeControlClampsToMaximumTime()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2026, 7, 29, 16, 0, 0 ) )
+            .Add( x => x.InputMode, DateInputMode.DateTime )
+            .Add( x => x.Inline, true )
+            .Add( x => x.TimeAs24hr, true )
+            .Add( x => x.Max, new DateTimeOffset( new DateTime( 2026, 7, 29, 17, 0, 0 ) ) ) );
+
+        // test
+        await comp.FindAll( ".datepicker-time-input" )[0].ChangeAsync( new ChangeEventArgs { Value = "18" } );
+
+        // validate
+        Assert.Equal( new DateTime( 2026, 7, 29, 17, 0, 0 ), comp.Instance.Value );
     }
 
     [Fact]

@@ -487,7 +487,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
             try
             {
-                TValue readOnlyList = Parsers.ParseCsvDatesToReadOnlyList<TValue>( normalizedValue, delimiter, InputMode );
+                TValue readOnlyList = Parsers.ParseCsvDatesToReadOnlyList<TValue>( normalizedValue, delimiter, InputMode, GetCurrentDateTimeOffset() );
 
                 return Task.FromResult( new ParseValue<TValue>( true, readOnlyList, null ) );
             }
@@ -497,12 +497,29 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             }
         }
 
-        if ( Parsers.TryParseDate( normalizedValue, InputMode, out TValue result ) )
+        if ( Parsers.TryParseDate( normalizedValue, InputMode, GetCurrentDateTimeOffset(), out TValue result ) )
         {
             return Task.FromResult( new ParseValue<TValue>( true, result, null ) );
         }
 
         return Task.FromResult( new ParseValue<TValue>( false, default, null ) );
+    }
+
+    private TimeSpan? GetCurrentDateTimeOffset()
+    {
+        if ( Value is DateTimeOffset dateTimeOffset && dateTimeOffset != default )
+            return dateTimeOffset.Offset;
+
+        if ( Value is IEnumerable values )
+        {
+            foreach ( object item in values )
+            {
+                if ( item is DateTimeOffset dateTimeOffsetItem && dateTimeOffsetItem != default )
+                    return dateTimeOffsetItem.Offset;
+            }
+        }
+
+        return null;
     }
 
     /// <inheritdoc/>
@@ -663,6 +680,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         {
             NotifyCalendarStateChanged();
             await InvokeAsync( StateHasChanged );
+
+            if ( focusCalendar )
+            {
+                await JSUtilitiesModule.Focus( default, CalendarGridId, scrollToElement: false );
+            }
         }
 
         await SynchronizeOutsidePointerSubscriptionAsync();
@@ -795,7 +817,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     }
 
     private bool TryNormalizeInputValue( string value, out string normalizedValue )
-        => DatePickerInputParser.TryNormalize(
+    {
+        if ( !DatePickerInputParser.TryNormalize(
             value,
             SelectionMode,
             SelectionMode == DateInputSelectionMode.Multiple ? MULTIPLE_DELIMITER : CurrentRangeSeparator,
@@ -803,7 +826,33 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             DisplayFormat,
             DateFormat,
             InputMode,
-            out normalizedValue );
+            out normalizedValue ) )
+        {
+            return false;
+        }
+
+        string delimiter = SelectionMode == DateInputSelectionMode.Multiple ? MULTIPLE_DELIMITER : CurrentRangeSeparator;
+
+        foreach ( string normalizedDate in normalizedValue.Split( delimiter, StringSplitOptions.None ) )
+        {
+            if ( !DateTime.TryParseExact( normalizedDate, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date ) )
+            {
+                return false;
+            }
+
+            bool disabled = InputMode switch
+            {
+                DateInputMode.Month => IsMonthDisabled( date ),
+                DateInputMode.Week => IsWeekDisabled( date ),
+                _ => IsDateDisabled( date ) || IsDateTimeOutsideRange( date ),
+            };
+
+            if ( disabled )
+                return false;
+        }
+
+        return true;
+    }
 
     private Task RefreshInputMaskAsync()
         => InputMask.RefreshAsync( ElementRef, ElementId, InputFormat, InputMode );
@@ -1391,25 +1440,25 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
         if ( selectedDates.Count == 0 )
         {
-            focusedDate = new DateTime(
+            focusedDate = ClampDateTime( new DateTime(
                 focusedDate.Year,
                 focusedDate.Month,
                 focusedDate.Day,
                 hour,
                 minute,
                 0,
-                DateTimeKind.Unspecified );
+                DateTimeKind.Unspecified ) );
 
             if ( pendingRangeStart.HasValue )
             {
-                pendingRangeStart = new DateTime(
+                pendingRangeStart = ClampDateTime( new DateTime(
                     pendingRangeStart.Value.Year,
                     pendingRangeStart.Value.Month,
                     pendingRangeStart.Value.Day,
                     hour,
                     minute,
                     0,
-                    DateTimeKind.Unspecified );
+                    DateTimeKind.Unspecified ) );
             }
 
             NotifyCalendarStateChanged();
@@ -1417,7 +1466,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         }
 
         List<DateTime> updatedDates = selectedDates
-            .Select( date => new DateTime( date.Year, date.Month, date.Day, hour, minute, 0, date.Kind ) )
+            .Select( date => ClampDateTime( new DateTime( date.Year, date.Month, date.Day, hour, minute, 0, date.Kind ) ) )
             .ToList();
 
         focusedDate = updatedDates[0];
@@ -1429,8 +1478,25 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         if ( InputMode != DateInputMode.DateTime )
             return date.Date;
 
-        return new DateTime( date.Year, date.Month, date.Day, CurrentHour, CurrentMinute, 0, date.Kind );
+        return ClampDateTime( new DateTime( date.Year, date.Month, date.Day, CurrentHour, CurrentMinute, 0, date.Kind ) );
     }
+
+    private DateTime ClampDateTime( DateTime date )
+    {
+        if ( InputMode != DateInputMode.DateTime )
+            return date;
+
+        if ( Min.HasValue && date < Min.Value.DateTime )
+            date = Min.Value.DateTime;
+
+        if ( Max.HasValue && date > Max.Value.DateTime )
+            date = Max.Value.DateTime;
+
+        return date;
+    }
+
+    private bool IsDateTimeOutsideRange( DateTime date )
+        => InputMode == DateInputMode.DateTime && ClampDateTime( date ) != date;
 
     private DateTime GetCurrentTimeSource()
     {
@@ -1653,6 +1719,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     internal bool CalendarInteractionDisabled => IsDisabled || ReadOnly || Plaintext;
 
     internal string CalendarId => $"{ElementId}-calendar";
+
+    internal string CalendarGridId => $"{CalendarId}-grid";
 
     internal string PickerContainerId => $"{ElementId}-container";
 

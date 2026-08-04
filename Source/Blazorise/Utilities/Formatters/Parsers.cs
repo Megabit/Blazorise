@@ -206,6 +206,17 @@ public static class Parsers
         return false;
     }
 
+    internal static bool TryParseDate<TValue>( string value, DateInputMode inputMode, TimeSpan? dateTimeOffset, out TValue result )
+    {
+        if ( TryParseDate( value, inputMode, out result ) )
+        {
+            result = (TValue)ApplyDateTimeOffset( result, dateTimeOffset );
+            return true;
+        }
+
+        return false;
+    }
+
     /// <summary>
     /// Tries to parse a time from a given string value.
     /// </summary>
@@ -369,6 +380,9 @@ public static class Parsers
     /// <returns>A readonly list or array containing the parsed date values.</returns>
     /// <exception cref="ArgumentException">Thrown if the target type is not an array or IReadOnlyList.</exception>
     public static TValue ParseCsvDatesToReadOnlyList<TValue>( string csv, string delimiter, DateInputMode inputMode )
+        => ParseCsvDatesToReadOnlyList<TValue>( csv, delimiter, inputMode, null );
+
+    internal static TValue ParseCsvDatesToReadOnlyList<TValue>( string csv, string delimiter, DateInputMode inputMode, TimeSpan? dateTimeOffset )
     {
         var targetType = typeof( TValue );
 
@@ -394,7 +408,7 @@ public static class Parsers
             .Select( val =>
             {
                 if ( TryParseDate( val, elementType, inputMode, out var newValue ) )
-                    return newValue;
+                    return ApplyDateTimeOffset( newValue, dateTimeOffset );
 
                 return Activator.CreateInstance( elementType );
             } ).ToList();
@@ -427,4 +441,9 @@ public static class Parsers
             return (TValue)readOnlyList;
         }
     }
+
+    private static object ApplyDateTimeOffset( object value, TimeSpan? dateTimeOffset )
+        => dateTimeOffset.HasValue && value is DateTimeOffset parsedDateTimeOffset
+            ? new DateTimeOffset( parsedDateTimeOffset.DateTime, dateTimeOffset.Value )
+            : value;
 }

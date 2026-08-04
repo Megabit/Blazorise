@@ -12,17 +12,12 @@
              aria-hidden="true"></div>
     }
 
-    <div @ref="@CalendarElementRef"
-         id="@Parent.CalendarId"
+    <div id="@Parent.CalendarId"
          class="@Calendar.ClassNames"
          role="dialog"
          aria-modal="false"
          aria-labelledby="@($"{Parent.CalendarId}-title")"
-         aria-activedescendant="@Calendar.ActiveDescendantId"
-         data-week-mode="@(Parent.InputMode == DateInputMode.Week ? "true" : null)"
-         tabindex="-1"
-         @onkeydown="@Parent.OnCalendarKeyDownAsync"
-         @onkeydown:stopPropagation>
+         data-week-mode="@(Parent.InputMode == DateInputMode.Week ? "true" : null)">
         <div class="@Calendar.HeaderClassNames">
             <Div Flex="Flex.InlineFlex">
                 @if ( Parent.InputMode != DateInputMode.Month )
@@ -132,10 +127,15 @@
 
         @if ( Parent.InputMode == DateInputMode.Month && Parent.CalendarView == DatePickerCalendarView.Month )
         {
-            <div class="@Calendar.MonthsClassNames"
+            <div id="@Parent.CalendarGridId"
+                 class="@Calendar.MonthsClassNames"
                  role="grid"
                  aria-label="@Calendar.Label"
-                 data-calendar-view="@Calendar.ViewName">
+                 aria-activedescendant="@Calendar.ActiveDescendantId"
+                 data-calendar-view="@Calendar.ViewName"
+                 tabindex="-1"
+                 @onkeydown="@Parent.OnCalendarKeyDownAsync"
+                 @onkeydown:stopPropagation>
                 @foreach ( DatePickerCalendarMonth month in Parent.BuildCalendarMonths() )
                 {
                     <button id="@Calendar.GetMonthId( month.Date )"
@@ -156,10 +156,15 @@
         }
         else if ( Parent.InputMode == DateInputMode.Month )
         {
-            <div class="@Calendar.MonthsClassNames"
+            <div id="@Parent.CalendarGridId"
+                 class="@Calendar.MonthsClassNames"
                  role="grid"
                  aria-label="@Calendar.Label"
-                 data-calendar-view="@Calendar.ViewName">
+                 aria-activedescendant="@Calendar.ActiveDescendantId"
+                 data-calendar-view="@Calendar.ViewName"
+                 tabindex="-1"
+                 @onkeydown="@Parent.OnCalendarKeyDownAsync"
+                 @onkeydown:stopPropagation>
                 @foreach ( DatePickerCalendarPeriod period in ( Parent.CalendarView == DatePickerCalendarView.Year ? Parent.BuildCalendarYears() : Parent.BuildCalendarDecades() ) )
                 {
                     <button id="@Calendar.GetPeriodId( period )"
@@ -181,9 +186,14 @@
         }
         else
         {
-            <div class="@Calendar.GridClassNames"
+            <div id="@Parent.CalendarGridId"
+                 class="@Calendar.GridClassNames"
                  role="grid"
-                 aria-label="@Calendar.Label">
+                 aria-label="@Calendar.Label"
+                 aria-activedescendant="@Calendar.ActiveDescendantId"
+                 tabindex="-1"
+                 @onkeydown="@Parent.OnCalendarKeyDownAsync"
+                 @onkeydown:stopPropagation>
                 <div class="@Calendar.WeekdaysClassNames" role="row">
                     @if ( Parent.CalendarShowsWeekNumbers )
                     {
@@ -314,10 +324,6 @@
 }
 
 @code {
-    private bool focusApplied;
-
-    private ElementReference CalendarElementRef;
-
     [CascadingParameter]
     public DatePicker<TValue> Parent { get; set; }
 
@@ -331,26 +337,6 @@
 
     private void OnCalendarStateChanged()
         => _ = InvokeAsync( StateHasChanged );
-
-    protected override async Task OnAfterRenderAsync( bool firstRender )
-    {
-        if ( Parent.CalendarVisible && !Parent.Inline )
-        {
-            if ( Parent.FocusCalendarOnOpen && !focusApplied )
-            {
-                focusApplied = true;
-                await CalendarElementRef.FocusAsync( preventScroll: true );
-            }
-            else if ( !Parent.FocusCalendarOnOpen )
-            {
-                focusApplied = false;
-            }
-        }
-        else
-        {
-            focusApplied = false;
-        }
-    }
 
     public void Dispose()
         => Parent.CalendarStateChanged -= OnCalendarStateChanged;

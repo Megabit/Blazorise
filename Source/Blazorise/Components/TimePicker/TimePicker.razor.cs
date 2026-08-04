@@ -349,6 +349,11 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     {
         if ( Parsers.TryParseTime<TValue>( value, out TValue result ) )
         {
+            if ( result is DateTime parsedDateTime && Value is DateTime currentDateTime && currentDateTime != default )
+            {
+                result = (TValue)(object)currentDateTime.Date.Add( parsedDateTime.TimeOfDay );
+            }
+
             return Task.FromResult( new ParseValue<TValue>( true, result, null ) );
         }
 
@@ -482,6 +487,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
         NotifyMenuStateChanged();
         await InvokeAsync( StateHasChanged );
+
+        if ( focusMenu )
+        {
+            await JSUtilitiesModule.Focus( default, MenuControlsId, scrollToElement: false );
+        }
+
         await SynchronizeOutsidePointerSubscriptionAsync();
     }
 
@@ -679,7 +690,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     {
         if ( TimePickerTimeUtilities.TryGetTime( Value, out TimeSpan time ) )
         {
-            selectedTime = ClampTime( time );
+            selectedTime = time;
             inputText = FormatTime( selectedTime );
         }
         else if ( Value is not null )
@@ -697,7 +708,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     {
         if ( TimePickerTimeUtilities.TryGetTime( Value, out TimeSpan time ) )
         {
-            selectedTime = ClampTime( time );
+            selectedTime = time;
         }
         else if ( TryNormalizeInputValue( inputText, out _, out TimeSpan parsedTime ) )
         {
@@ -998,6 +1009,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// Gets the identifier of the custom picker menu.
     /// </summary>
     protected internal string MenuId => $"{ElementId}-menu";
+
+    internal string MenuControlsId => $"{MenuId}-controls";
 
     internal string PickerContainerId => $"{ElementId}-container";
 

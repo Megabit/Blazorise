@@ -86,7 +86,7 @@ public class TimePickerComponentTest : BunitContext
             .Add( x => x.DefaultHour, 12 ) );
 
         // test
-        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "ArrowUp" } );
+        await comp.Find( "[role='group']" ).KeyDownAsync( new KeyboardEventArgs { Key = "ArrowUp" } );
 
         // validate
         Assert.Equal( new TimeSpan( 13, 0, 0 ), comp.Instance.Value );
@@ -100,7 +100,7 @@ public class TimePickerComponentTest : BunitContext
 
         // test
         await comp.Find( "input" ).ClickAsync( new MouseEventArgs() );
-        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "Enter" } );
+        await comp.Find( "[role='group']" ).KeyDownAsync( new KeyboardEventArgs { Key = "Enter" } );
 
         // validate
         Assert.Empty( comp.FindAll( "[role='dialog']" ) );
@@ -119,6 +119,8 @@ public class TimePickerComponentTest : BunitContext
         // validate
         Assert.NotNull( comp.Find( "[role='dialog']" ) );
         Assert.False( comp.Instance.FocusMenuOnOpen );
+        Assert.False( comp.Find( "[role='dialog']" ).HasAttribute( "aria-activedescendant" ) );
+        Assert.NotNull( comp.Find( "[role='group']" ).GetAttribute( "aria-activedescendant" ) );
         Assert.All(
             comp.FindAll( "[role='dialog'] button, [role='dialog'] input" ),
             element => Assert.Equal( "-1", element.GetAttribute( "tabindex" ) ) );
@@ -224,6 +226,9 @@ public class TimePickerComponentTest : BunitContext
 
         // validate
         Assert.NotNull( comp.Find( "[role='dialog']" ) );
+        Assert.True( comp.Instance.FocusMenuOnOpen );
+        Assert.Equal( "-1", comp.Find( "[role='group']" ).GetAttribute( "tabindex" ) );
+        JSInterop.VerifyInvoke( "focus", 1 );
     }
 
     [Fact]
@@ -270,6 +275,23 @@ public class TimePickerComponentTest : BunitContext
 
         // validate
         Assert.Equal( new TimeSpan( 12, 34, 0 ), comp.Instance.Value );
+    }
+
+    [Fact]
+    public async Task DateTimeValuePreservesDateAndKindWhenTimeChanges()
+    {
+        // setup
+        DateTime value = new( 2020, 4, 13, 9, 15, 0, DateTimeKind.Utc );
+        IRenderedComponent<TimePicker<DateTime>> comp = Render<TimePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.TimeAs24hr, true ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "14:30" } );
+
+        // validate
+        Assert.Equal( new DateTime( 2020, 4, 13, 14, 30, 0, DateTimeKind.Utc ), comp.Instance.Value );
+        Assert.Equal( DateTimeKind.Utc, comp.Instance.Value.Kind );
     }
 
     [Theory]
@@ -370,6 +392,32 @@ public class TimePickerComponentTest : BunitContext
 
         // validate
         Assert.Equal( "09:05", comp.Find( "input" ).GetAttribute( "value" ) );
+    }
+
+    [Theory]
+    [InlineData( 8, "08:15", "08" )]
+    [InlineData( 18, "18:15", "18" )]
+    public async Task ExternalValueOutsideLimitsIsDisplayedUnchanged( int hour, string expectedText, string expectedHour )
+    {
+        // setup
+        TimeSpan value = new( hour, 15, 0 );
+        IRenderedComponent<TimePicker<TimeSpan?>> comp = Render<TimePicker<TimeSpan?>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.Min, new TimeSpan( 9, 0, 0 ) )
+            .Add( x => x.Max, new TimeSpan( 17, 0, 0 ) )
+            .Add( x => x.TimeAs24hr, true ) );
+
+        // validate
+        Assert.Equal( value, comp.Instance.Value );
+        Assert.Equal( expectedText, comp.Find( "input" ).GetAttribute( "value" ) );
+
+        // test
+        await comp.Find( "input" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( value, comp.Instance.Value );
+        Assert.Equal( expectedText, comp.Find( "input[role='combobox']" ).GetAttribute( "value" ) );
+        Assert.Equal( expectedHour, comp.Find( ".timepicker-input" ).GetAttribute( "value" ) );
     }
 
     [Fact]
