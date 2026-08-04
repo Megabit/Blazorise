@@ -26716,7 +26716,7 @@ Install-Package Blazorise.Icons.Material";
 
     private string GenerationStatus => generationProgress.Stage switch
     {
-        PdfGenerationStage.PreparingFonts => ""Preparing fonts"",
+        PdfGenerationStage.PreparingResources => ""Preparing resources"",
         PdfGenerationStage.RenderingPages => $""Rendering page {generationProgress.CompletedPages} of {generationProgress.TotalPages}"",
         PdfGenerationStage.WritingDocument => ""Writing PDF document"",
         PdfGenerationStage.Completed => ""PDF generation completed"",
@@ -26758,6 +26758,50 @@ Install-Package Blazorise.Icons.Material";
             ? null
             : $""data:application/pdf;base64,{Convert.ToBase64String( content )}"";
 }";
+
+        public const string PdfHttpResourceRegistrationExample = @"using Blazorise.Pdf;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazorisePdfHttpResources(
+        httpClient => httpClient
+            .ConfigureHttpClient( client =>
+            {
+                client.BaseAddress = new Uri( ""https://cdn.example.com/"" );
+            } )
+            .ConfigurePrimaryHttpMessageHandler( () => new SocketsHttpHandler
+            {
+                AllowAutoRedirect = false,
+            } ),
+        options =>
+        {
+            options.MaxResourceSize = 20 * 1024 * 1024;
+            options.ResourceAllowed = uri => uri.Host.Equals( ""cdn.example.com"", StringComparison.OrdinalIgnoreCase );
+        } );";
+
+        public const string PdfHttpResourcesExample = @"PdfDocumentDefinition document = PdfDocumentBuilder.Create()
+    .Title( ""Remote resources"" )
+    .AddFont( ""Inter"", FontSource.FromUrl( ""fonts/Inter-Regular.ttf"" ) )
+    .Page( page =>
+    {
+        page.Image( ""images/company-logo.png"", 48, 48, 120, 48 );
+
+        page.Text( ""This font and image were resolved from URLs."", 48, 120, 360, 24 )
+            .FontFamily( ""Inter"" );
+    } )
+    .Build();
+
+PdfGenerationResult result = await PdfGenerator.Generate( document );";
+
+        public const string PdfHttpWebAssemblyRegistrationExample = @"using Blazorise.Pdf;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazorisePdfHttpResources( httpClient =>
+        httpClient.ConfigureHttpClient( client =>
+        {
+            client.BaseAddress = new Uri( builder.HostEnvironment.BaseAddress );
+        } ) );";
 
         public const string PdfImportsExample = @"@using Blazorise.Pdf";
 

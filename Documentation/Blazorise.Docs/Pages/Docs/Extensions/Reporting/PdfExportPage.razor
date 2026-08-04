@@ -18,6 +18,9 @@
         Reporting does not depend on a specific viewer. The example uses the optional <Anchor To="docs/extensions/pdfviewer">Blazorise PdfViewer</Anchor> package and receives the PDF content, data URL, file name, permissions, and download callback through <Code>ReportPdfPreviewContext</Code>.
         The report status bar displays progress for data-source resolution, PDF construction and rendering, preview preparation, and browser download handoff. Handle <Code>PdfProgressed</Code> to receive the same reusable <Code>ReportProgress</Code> updates in application code. Indeterminate operations expose no percentage; page rendering exposes measured progress through the <Code>Completed</Code> and <Code>Total</Code> values.
     </DocsPageParagraph>
+    <DocsPageParagraph>
+        Reports can include images and custom fonts in their PDF output. Without additional setup, an image must contain a base64 data URL and a custom font must be supplied as data or as a file that the application can read. If a report instead points to an image or font URL, enable URL loading as described in the <Anchor To="docs/extensions/pdf">Blazorise PDF setup guide</Anchor>.
+    </DocsPageParagraph>
     <DocsPageSectionContent Code="ReportingPdfExportExample" Outlined FullWidth>
         <ReportingPdfExportExample />
     </DocsPageSectionContent>

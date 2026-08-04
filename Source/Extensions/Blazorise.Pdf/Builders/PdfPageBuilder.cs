@@ -48,7 +48,7 @@ public sealed class PdfPageBuilder
     /// <summary>
     /// Adds an image to the page.
     /// </summary>
-    /// <param name="source">The image source.</param>
+    /// <param name="source">The image source resolved by the configured <see cref="IPdfResourceResolver"/>.</param>
     /// <param name="x">The horizontal position.</param>
     /// <param name="y">The vertical position.</param>
     /// <param name="width">The image width.</param>

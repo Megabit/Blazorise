@@ -28,7 +28,7 @@
 
     private string GenerationStatus => generationProgress.Stage switch
     {
-        PdfGenerationStage.PreparingFonts => "Preparing fonts",
+        PdfGenerationStage.PreparingResources => "Preparing resources",
         PdfGenerationStage.RenderingPages => $"Rendering page {generationProgress.CompletedPages} of {generationProgress.TotalPages}",
         PdfGenerationStage.WritingDocument => "Writing PDF document",
         PdfGenerationStage.Completed => "PDF generation completed",

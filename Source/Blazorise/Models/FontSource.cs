@@ -64,7 +64,7 @@ public sealed class FontSource
     #region Properties
 
     /// <summary>
-    /// URL used by browser-based rendering.
+    /// URL used by renderers that support external font resources.
     /// </summary>
     public string Url { get; set; }
 

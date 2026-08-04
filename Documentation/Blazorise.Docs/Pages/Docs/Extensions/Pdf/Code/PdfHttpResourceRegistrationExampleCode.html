@@ -1,0 +1,23 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+using Blazorise.Pdf;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazorisePdfHttpResources(
+        httpClient =&gt; httpClient
+            .ConfigureHttpClient( client =&gt;
+            {
+                client.BaseAddress = new Uri( &quot;https://cdn.example.com/&quot; );
+            } )
+            .ConfigurePrimaryHttpMessageHandler( () =&gt; new SocketsHttpHandler
+            {
+                AllowAutoRedirect = false,
+            } ),
+        options =&gt;
+        {
+            options.MaxResourceSize = 20 * 1024 * 1024;
+            options.ResourceAllowed = uri =&gt; uri.Host.Equals( &quot;cdn.example.com&quot;, StringComparison.OrdinalIgnoreCase );
+        } );
+</pre></div>
+</div>

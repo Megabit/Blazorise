@@ -91,7 +91,7 @@ public class PdfFont : ComponentBase, IDisposable
     }
 
     /// <summary>
-    /// Complete font family registration.
+    /// Complete font family registration resolved through <see cref="IPdfResourceResolver"/>.
     /// </summary>
     [Parameter] public FontFamily Font { get; set; }
 

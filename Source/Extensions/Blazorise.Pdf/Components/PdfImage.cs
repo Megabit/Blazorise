@@ -43,7 +43,7 @@ public class PdfImage : BasePdfElement
     protected override string ElementBackgroundColor => BackgroundColor;
 
     /// <summary>
-    /// Image source used by the element.
+    /// Image source resolved by <see cref="IPdfResourceResolver"/>. The default resolver accepts base64 data URIs.
     /// </summary>
     [Parameter] public string Source { get; set; }
 

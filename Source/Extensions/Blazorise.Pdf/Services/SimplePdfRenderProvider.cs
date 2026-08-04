@@ -24,6 +24,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private readonly IFontProvider fontProvider;
 
+    private readonly IPdfResourceResolver resourceResolver;
+
     #endregion
 
     #region Constructors
@@ -32,9 +34,11 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
     /// Initializes a new instance of the simple PDF render provider.
     /// </summary>
     /// <param name="fontProvider">Blazorise font provider.</param>
-    public SimplePdfRenderProvider( IFontProvider fontProvider = null )
+    /// <param name="resourceResolver">PDF resource resolver.</param>
+    public SimplePdfRenderProvider( IFontProvider fontProvider = null, IPdfResourceResolver resourceResolver = null )
     {
         this.fontProvider = fontProvider;
+        this.resourceResolver = resourceResolver ?? new PdfResourceResolver();
     }
 
     #endregion
@@ -49,7 +53,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         options ??= new();
 
-        byte[] content = await GeneratePdf( document, fontProvider, options, cancellationToken );
+        byte[] content = await GeneratePdf( document, fontProvider, resourceResolver, options, cancellationToken );
 
         return new PdfGenerationResult
         {
@@ -58,7 +62,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         };
     }
 
-    private static async Task<byte[]> GeneratePdf( PdfDocumentDefinition document, IFontProvider fontProvider, PdfGenerationOptions options, CancellationToken cancellationToken )
+    private static async Task<byte[]> GeneratePdf( PdfDocumentDefinition document, IFontProvider fontProvider, IPdfResourceResolver resourceResolver, PdfGenerationOptions options, CancellationToken cancellationToken )
     {
         List<PdfObject> objects = [];
         List<int> pageObjectIds = [];
@@ -68,10 +72,11 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         IFontProvider effectiveFontProvider = new PdfDocumentFontProvider( document.Fonts, fontProvider );
         int totalWork = pages.Count + 2;
 
-        await ReportProgress( options, PdfGenerationStage.PreparingFonts, 0, 0, pages.Count );
+        await ReportProgress( options, PdfGenerationStage.PreparingResources, 0, 0, pages.Count );
         cancellationToken.ThrowIfCancellationRequested();
 
-        PdfFontResources fontResources = AddFontResources( objects, pages, effectiveFontProvider );
+        PdfResolvedResources resolvedResources = await ResolveResources( pages, effectiveFontProvider, resourceResolver, cancellationToken );
+        PdfFontResources fontResources = AddFontResources( objects, pages, effectiveFontProvider, resolvedResources );
 
         await ReportProgress( options, PdfGenerationStage.RenderingPages, 1d / totalWork, 0, pages.Count );
 
@@ -80,7 +85,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             cancellationToken.ThrowIfCancellationRequested();
 
             PdfPageDefinition page = pages[pageIndex];
-            PdfPageContent pageContent = BuildPageContent( page, objects, fontResources, effectiveFontProvider );
+            PdfPageContent pageContent = BuildPageContent( page, objects, fontResources, effectiveFontProvider, resolvedResources );
             int contentId = AddObject( objects, CreateStreamObject( pageContent.Content ) );
             int pageId = AddObject( objects, BuildPageObject( page, pagesId, fontResources, contentId, pageContent ) );
             pageObjectIds.Add( pageId );
@@ -181,7 +186,106 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return builder.ToString();
     }
 
-    private static PdfFontResources AddFontResources( List<PdfObject> objects, IReadOnlyList<PdfPageDefinition> pages, IFontProvider fontProvider )
+    private static async Task<PdfResolvedResources> ResolveResources( IReadOnlyList<PdfPageDefinition> pages, IFontProvider fontProvider, IPdfResourceResolver resourceResolver, CancellationToken cancellationToken )
+    {
+        PdfResolvedResources resources = new();
+
+        foreach ( string source in CollectImageSources( pages ) )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            PdfResourceContent content = await resourceResolver.ResolveImageAsync( source, cancellationToken );
+
+            if ( !PdfImageDataReader.TryRead( content, out PdfImageData imageData ) )
+                throw new InvalidDataException( $"The PDF image source {DescribeImageSource( source )} is not a supported JPEG or 8-bit non-interlaced PNG image." );
+
+            resources.Images.Add( source, imageData );
+        }
+
+        foreach ( string family in CollectFontFamilies( pages, fontProvider ) )
+        {
+            FontFamily customFont = ResolveCustomFontFamily( family, fontProvider );
+
+            if ( customFont is null )
+                continue;
+
+            for ( int variantIndex = 0; variantIndex < 4; variantIndex++ )
+            {
+                FontSource source = customFont.ResolveSource( variantIndex is 1 or 3, variantIndex is 2 or 3 );
+
+                if ( source is null )
+                    throw new InvalidDataException( $"The PDF font family '{customFont.Name}' does not define an embeddable font source." );
+
+                if ( resources.Fonts.ContainsKey( source ) )
+                    continue;
+
+                PdfResourceContent content = await resourceResolver.ResolveFontAsync( source, cancellationToken );
+
+                if ( content?.Data is not { Length: > 0 } )
+                    throw new InvalidDataException( $"The PDF resource resolver returned no data for font family '{customFont.Name}'." );
+
+                resources.Fonts.Add( source, content.Data );
+            }
+        }
+
+        return resources;
+    }
+
+    private static IReadOnlyList<string> CollectImageSources( IReadOnlyList<PdfPageDefinition> pages )
+    {
+        List<string> sources = [];
+
+        foreach ( PdfPageDefinition page in pages )
+        {
+            foreach ( PdfElementDefinition element in page.Elements )
+            {
+                CollectImageSources( sources, element );
+            }
+        }
+
+        return sources;
+    }
+
+    private static void CollectImageSources( List<string> sources, PdfElementDefinition element )
+    {
+        if ( element is null )
+            return;
+
+        if ( element.Type == PdfElementType.Image )
+        {
+            if ( string.IsNullOrWhiteSpace( element.Source ) )
+                throw new InvalidDataException( "The PDF image element does not define a source." );
+
+            if ( !sources.Contains( element.Source, StringComparer.Ordinal ) )
+                sources.Add( element.Source );
+        }
+
+        foreach ( PdfTableRowDefinition row in element.Rows ?? [] )
+        {
+            foreach ( PdfTableCellDefinition cell in row.Cells ?? [] )
+            {
+                foreach ( PdfElementDefinition child in cell.Elements ?? [] )
+                {
+                    CollectImageSources( sources, child );
+                }
+            }
+        }
+    }
+
+    private static string DescribeImageSource( string source )
+    {
+        if ( source?.StartsWith( "data:", StringComparison.OrdinalIgnoreCase ) == true )
+        {
+            int separatorIndex = source.IndexOf( ';' );
+            string mediaType = separatorIndex > 5 ? source.Substring( 5, separatorIndex - 5 ) : "unknown";
+
+            return $"data URI ({mediaType})";
+        }
+
+        return $"'{source}'";
+    }
+
+    private static PdfFontResources AddFontResources( List<PdfObject> objects, IReadOnlyList<PdfPageDefinition> pages, IFontProvider fontProvider, PdfResolvedResources resolvedResources )
     {
         PdfFontResources fontResources = new();
         bool centralEuropeanFallbackRequired = RequiresType1CentralEuropeanFallback( pages );
@@ -195,7 +299,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             for ( int i = 0; i < baseFonts.Length; i++ )
             {
                 PdfEmbeddedFont embeddedFont = customFont is not null
-                    ? TryCreateEmbeddedFontResource( objects, customFont, i, fontResources.All.Count + i + 1 )
+                    ? CreateEmbeddedFontResource( objects, customFont, resolvedResources.Fonts[customFont.ResolveSource( i is 1 or 3, i is 2 or 3 )], i, fontResources.All.Count + i + 1 )
                     : null;
 
                 resources[i] = new()
@@ -392,10 +496,10 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return character is '\u010D' or '\u010C' or '\u0107' or '\u0106' or '\u0111' or '\u0110';
     }
 
-    private static PdfEmbeddedFont TryCreateEmbeddedFontResource( List<PdfObject> objects, FontFamily family, int variantIndex, int resourceIndex )
+    private static PdfEmbeddedFont CreateEmbeddedFontResource( List<PdfObject> objects, FontFamily family, byte[] fontBytes, int variantIndex, int resourceIndex )
     {
-        if ( !PdfEmbeddedFont.TryCreate( family, variantIndex, resourceIndex, out PdfEmbeddedFont embeddedFont ) )
-            return null;
+        if ( !PdfEmbeddedFont.TryCreate( fontBytes, family.Name, variantIndex, resourceIndex, out PdfEmbeddedFont embeddedFont ) )
+            throw new InvalidDataException( $"The PDF font family '{family.Name}' contains invalid or unsupported TrueType/OpenType font data." );
 
         return AddEmbeddedFontResource( objects, embeddedFont );
     }
@@ -544,9 +648,9 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return stream.ToArray();
     }
 
-    private static PdfPageContent BuildPageContent( PdfPageDefinition page, List<PdfObject> objects, PdfFontResources fontResources, IFontProvider fontProvider )
+    private static PdfPageContent BuildPageContent( PdfPageDefinition page, List<PdfObject> objects, PdfFontResources fontResources, IFontProvider fontProvider, PdfResolvedResources resolvedResources )
     {
-        PdfPageContentContext context = new( objects, fontResources, fontProvider );
+        PdfPageContentContext context = new( objects, fontResources, fontProvider, resolvedResources );
 
         foreach ( PdfElementDefinition element in page.Elements )
         {
@@ -886,8 +990,11 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         AppendRectangleFill( context, page, element, x, y );
 
-        if ( !string.IsNullOrWhiteSpace( element.Source ) && TryCreateImageResource( context, element.Source, out PdfImageResource imageResource ) )
+        if ( !string.IsNullOrWhiteSpace( element.Source ) )
         {
+            if ( !TryCreateImageResource( context, element.Source, out PdfImageResource imageResource ) )
+                throw new InvalidOperationException( "The resolved PDF image resource is unavailable during page rendering." );
+
             PdfImagePlacement placement = ResolveImagePlacement( element, imageResource.Width, imageResource.Height );
             double elementY = page.Height - y - element.Height;
             double imageX = x + placement.X;
@@ -1198,10 +1305,14 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
     {
         imageResource = null;
 
-        if ( !PdfImageDataReader.TryRead( source, out PdfImageData imageData ) )
+        if ( !context.ResolvedResources.Images.TryGetValue( source, out PdfImageData imageData ) )
             return false;
 
-        string dictionary = FormattableString.Invariant( $"<< /Type /XObject /Subtype /Image /Width {imageData.Width} /Height {imageData.Height} /ColorSpace {imageData.ColorSpace} /BitsPerComponent {imageData.BitsPerComponent} /Filter {imageData.Filter} /Length {imageData.Data.Length} >>" );
+        int alphaMaskId = imageData.AlphaData is null
+            ? 0
+            : AddObject( context.Objects, CreateStreamObject( FormattableString.Invariant( $"<< /Type /XObject /Subtype /Image /Width {imageData.Width} /Height {imageData.Height} /ColorSpace /DeviceGray /BitsPerComponent 8 /Filter /FlateDecode /Length {imageData.AlphaData.Length} >>" ), imageData.AlphaData ) );
+        string alphaMaskReference = alphaMaskId > 0 ? FormattableString.Invariant( $" /SMask {alphaMaskId} 0 R" ) : string.Empty;
+        string dictionary = FormattableString.Invariant( $"<< /Type /XObject /Subtype /Image /Width {imageData.Width} /Height {imageData.Height} /ColorSpace {imageData.ColorSpace} /BitsPerComponent {imageData.BitsPerComponent} /Filter {imageData.Filter}{alphaMaskReference} /Length {imageData.Data.Length} >>" );
         int objectId = AddObject( context.Objects, CreateStreamObject( dictionary, imageData.Data ) );
 
         imageResource = new()
@@ -1413,6 +1524,13 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     #region Classes
 
+    private sealed class PdfResolvedResources
+    {
+        internal Dictionary<string, PdfImageData> Images { get; } = new( StringComparer.Ordinal );
+
+        internal Dictionary<FontSource, byte[]> Fonts { get; } = [];
+    }
+
     private sealed class PdfPageContentContext
     {
         #region Members
@@ -1423,11 +1541,12 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         #region Constructors
 
-        internal PdfPageContentContext( List<PdfObject> objects, PdfFontResources fontResources, IFontProvider fontProvider )
+        internal PdfPageContentContext( List<PdfObject> objects, PdfFontResources fontResources, IFontProvider fontProvider, PdfResolvedResources resolvedResources )
         {
             Objects = objects;
             FontResources = fontResources;
             FontProvider = fontProvider;
+            ResolvedResources = resolvedResources;
         }
 
         #endregion
@@ -1465,6 +1584,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         internal PdfFontResources FontResources { get; }
 
         internal IFontProvider FontProvider { get; }
+
+        internal PdfResolvedResources ResolvedResources { get; }
 
         internal List<PdfAlphaState> AlphaStates { get; } = [];
 
@@ -1604,42 +1725,14 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
                 .ToList();
         }
 
-        internal static bool TryCreate( FontFamily family, int variantIndex, int resourceIndex, out PdfEmbeddedFont embeddedFont )
+        internal static bool TryCreate( byte[] fontBytes, string family, int variantIndex, int resourceIndex, out PdfEmbeddedFont embeddedFont )
         {
             embeddedFont = null;
-            bool bold = variantIndex is 1 or 3;
-            bool italic = variantIndex is 2 or 3;
-            FontSource source = family?.ResolveSource( bold, italic );
 
-            if ( !TryReadFontSource( source, out byte[] fontBytes ) )
+            if ( fontBytes is not { Length: > 0 } )
                 return false;
 
-            return TryReadTrueTypeFont( fontBytes, family?.Name ?? Fonts.Helvetica, variantIndex, resourceIndex, out embeddedFont );
-        }
-
-        private static bool TryReadFontSource( FontSource source, out byte[] fontBytes )
-        {
-            fontBytes = null;
-
-            if ( source is null )
-                return false;
-
-            if ( source.Format is not FontFormat.TrueType and not FontFormat.OpenType )
-                return false;
-
-            if ( source.Data is { Length: > 0 } )
-            {
-                fontBytes = source.Data;
-                return true;
-            }
-
-            if ( !string.IsNullOrWhiteSpace( source.FileName ) && File.Exists( source.FileName ) )
-            {
-                fontBytes = File.ReadAllBytes( source.FileName );
-                return true;
-            }
-
-            return false;
+            return TryReadTrueTypeFont( fontBytes, family ?? Fonts.Helvetica, variantIndex, resourceIndex, out embeddedFont );
         }
 
         private static bool TryReadTrueTypeFont( byte[] fontBytes, string family, int variantIndex, int resourceIndex, out PdfEmbeddedFont embeddedFont )

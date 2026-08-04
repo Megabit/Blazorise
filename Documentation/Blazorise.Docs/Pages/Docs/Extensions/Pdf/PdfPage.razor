@@ -41,6 +41,55 @@
 </DocsPageSection>
 
 <DocsPageSubtitle>
+    Images and fonts
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    A PDF can use images and custom fonts that are already available to the application without any additional setup. For an image, set <Code>PdfImage.Source</Code> to a base64 data URL, such as <Code>data:image/png;base64,...</Code>. For a custom font, provide its contents through <Code>FontSource.Data</Code>, or use <Code>FontSource.FileName</Code> when the application can read the font from the local file system. Images can be JPEG or 8-bit, non-interlaced PNG files. Transparent PNGs remain transparent in the generated PDF.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    URL loading is included in <Code>Blazorise.Pdf</Code> but is not enabled automatically. Enable it when an image or font is available through a URL instead of embedded data or a local file.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="WebAssembly">
+        Register HTTP resources in the client project. Downloads are made by the user's browser. Configuring the application base address allows relative URLs, such as <Code>images/logo.png</Code>, to resolve against the application URL.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PdfHttpWebAssemblyRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    When a resource is hosted on another domain, that server must allow requests from the application through CORS. Otherwise, the browser blocks the download before the PDF generator can use it.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Server">
+        Register HTTP resources in the server project. Downloads are made by the server, so applications that accept report URLs from users should limit which hosts are allowed and how large each resource can be.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PdfHttpResourceRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    The registration callback provides <Code>IHttpClientBuilder</Code> for configuring authentication, proxies, retry policies, and other HTTP behavior. Each resource is limited to 20 MB by default; change <Code>MaxResourceSize</Code> when a different limit is appropriate. Use <Code>ResourceAllowed</Code> to reject a URL before it is requested. When URLs are not trusted, also disable automatic redirects or validate redirect targets so an allowed address cannot redirect to a blocked host.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    A Blazor Web App may generate a PDF on the server during prerendering and in the browser after WebAssembly becomes interactive. If generation can run in both places, register the HTTP integration in both the server and client projects, using the appropriate HTTP configuration for each host. A failed download, invalid resource, unsupported file format, or rejected URL stops generation and reports the reason.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Images and fonts from URLs">
+        After enabling URL loading, use an HTTP or HTTPS URL in <Code>PdfImage.Source</Code> or <Code>FontSource.Url</Code>. Each resource is downloaded once and reused if it appears more than once in the same PDF.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PdfHttpResourcesExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    To load resources from another source, such as an embedded application asset or a storage SDK, implement <Code>IPdfResourceResolver</Code> and register it before <Code>AddBlazorisePdf</Code>. The resolver supplies the file contents; the PDF renderer still validates and embeds the image or font.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
     Examples
 </DocsPageSubtitle>
 

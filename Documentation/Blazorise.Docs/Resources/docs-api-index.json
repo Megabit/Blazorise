@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-04T13:59:13.1558399Z",
+  "generatedUtc": "2026-08-04T20:03:03.5427422Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -82536,7 +82536,7 @@
           "type": "global::Blazorise.FontFamily",
           "typeName": "FontFamily",
           "defaultValue": "null",
-          "summary": "Complete font family registration.",
+          "summary": "Complete font family registration resolved through <strong>IPdfResourceResolver</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -82602,6 +82602,32 @@
       "methods": []
     },
     {
+      "type": "global::Blazorise.Pdf.PdfHttpResourceOptions",
+      "typeName": "PdfHttpResourceOptions",
+      "summary": "$\"\"\"\r\n       Defines HTTP PDF resource policies.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "MaxResourceSize",
+          "type": "long",
+          "typeName": "long",
+          "defaultValue": "20 * 1024 * 1024",
+          "summary": "Maximum number of bytes allowed for one resource. Defaults to 20 MB.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [
+        {
+          "name": "ResourceAllowed",
+          "type": "Func<,>",
+          "typeName": "Func<Uri, bool>",
+          "defaultValue": "null",
+          "summary": "Determines whether an absolute HTTP resource URI is allowed. A null value allows every HTTP and HTTPS URI.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "methods": []
+    },
+    {
       "type": "global::Blazorise.Pdf.PdfImage",
       "typeName": "PdfImage",
       "summary": "$\"\"\"\r\n       Defines an image in a PDF document.\r\n       \"\"\"",
@@ -82659,7 +82685,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Image source used by the element.",
+          "summary": "Image source resolved by <strong>IPdfResourceResolver</strong>. The default resolver accepts base64 data URIs.",
           "isBlazoriseEnum": false
         },
         {

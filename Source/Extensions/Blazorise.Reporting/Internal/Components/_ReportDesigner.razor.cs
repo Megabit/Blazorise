@@ -906,7 +906,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     {
         string status = progress.Stage switch
         {
-            PdfGenerationStage.PreparingFonts => "Preparing fonts",
+            PdfGenerationStage.PreparingResources => "Preparing resources",
             PdfGenerationStage.RenderingPages when progress.TotalPages > 0 => $"PDF {progress.CompletedPages}/{progress.TotalPages}",
             PdfGenerationStage.RenderingPages => "Rendering PDF",
             PdfGenerationStage.WritingDocument or PdfGenerationStage.Completed => "Writing PDF",

@@ -1,0 +1,19 @@
+using Blazorise.Pdf;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazorisePdfHttpResources(
+        httpClient => httpClient
+            .ConfigureHttpClient( client =>
+            {
+                client.BaseAddress = new Uri( "https://cdn.example.com/" );
+            } )
+            .ConfigurePrimaryHttpMessageHandler( () => new SocketsHttpHandler
+            {
+                AllowAutoRedirect = false,
+            } ),
+        options =>
+        {
+            options.MaxResourceSize = 20 * 1024 * 1024;
+            options.ResourceAllowed = uri => uri.Host.Equals( "cdn.example.com", StringComparison.OrdinalIgnoreCase );
+        } );

@@ -1,0 +1,17 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+PdfDocumentDefinition document = PdfDocumentBuilder.Create()
+    .Title( &quot;Remote resources&quot; )
+    .AddFont( &quot;Inter&quot;, FontSource.FromUrl( &quot;fonts/Inter-Regular.ttf&quot; ) )
+    .Page( page =&gt;
+    {
+        page.Image( &quot;images/company-logo.png&quot;, 48, 48, 120, 48 );
+
+        page.Text( &quot;This font and image were resolved from URLs.&quot;, 48, 120, 360, 24 )
+            .FontFamily( &quot;Inter&quot; );
+    } )
+    .Build();
+
+PdfGenerationResult result = await PdfGenerator.Generate( document );
+</pre></div>
+</div>

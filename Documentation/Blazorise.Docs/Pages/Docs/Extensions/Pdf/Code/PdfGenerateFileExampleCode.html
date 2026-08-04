@@ -30,7 +30,7 @@
 
     <span class="keyword">private</span> <span class="keyword">string</span> GenerationStatus =&gt; generationProgress.Stage <span class="keyword">switch</span>
     {
-        PdfGenerationStage.PreparingFonts =&gt; <span class="string">&quot;Preparing fonts&quot;</span>,
+        PdfGenerationStage.PreparingResources =&gt; <span class="string">&quot;Preparing resources&quot;</span>,
         PdfGenerationStage.RenderingPages =&gt; $<span class="string">&quot;Rendering page {generationProgress.CompletedPages} of {generationProgress.TotalPages}&quot;</span>,
         PdfGenerationStage.WritingDocument =&gt; <span class="string">&quot;Writing PDF document&quot;</span>,
         PdfGenerationStage.Completed =&gt; <span class="string">&quot;PDF generation completed&quot;</span>,

@@ -70,7 +70,7 @@ public class PdfElementBuilder
     /// <summary>
     /// Sets the image source.
     /// </summary>
-    /// <param name="source">The image source.</param>
+    /// <param name="source">The image source resolved by the configured <see cref="IPdfResourceResolver"/>.</param>
     /// <returns>The element builder.</returns>
     public PdfElementBuilder Source( string source )
     {
