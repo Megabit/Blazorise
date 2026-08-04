@@ -277,6 +277,23 @@ public class TimePickerComponentTest : BunitContext
         Assert.Equal( new TimeSpan( 12, 34, 0 ), comp.Instance.Value );
     }
 
+    [Fact]
+    public async Task DateTimeValuePreservesDateAndKindWhenTimeChanges()
+    {
+        // setup
+        DateTime value = new( 2020, 4, 13, 9, 15, 0, DateTimeKind.Utc );
+        IRenderedComponent<TimePicker<DateTime>> comp = Render<TimePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.TimeAs24hr, true ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "14:30" } );
+
+        // validate
+        Assert.Equal( new DateTime( 2020, 4, 13, 14, 30, 0, DateTimeKind.Utc ), comp.Instance.Value );
+        Assert.Equal( DateTimeKind.Utc, comp.Instance.Value.Kind );
+    }
+
     [Theory]
     [InlineData( "1333", 13, 33, "13:33" )]
     [InlineData( "13", 13, 0, "13:00" )]

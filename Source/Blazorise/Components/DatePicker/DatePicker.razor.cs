@@ -487,7 +487,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
             try
             {
-                TValue readOnlyList = Parsers.ParseCsvDatesToReadOnlyList<TValue>( normalizedValue, delimiter, InputMode );
+                TValue readOnlyList = Parsers.ParseCsvDatesToReadOnlyList<TValue>( normalizedValue, delimiter, InputMode, GetCurrentDateTimeOffset() );
 
                 return Task.FromResult( new ParseValue<TValue>( true, readOnlyList, null ) );
             }
@@ -497,12 +497,29 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             }
         }
 
-        if ( Parsers.TryParseDate( normalizedValue, InputMode, out TValue result ) )
+        if ( Parsers.TryParseDate( normalizedValue, InputMode, GetCurrentDateTimeOffset(), out TValue result ) )
         {
             return Task.FromResult( new ParseValue<TValue>( true, result, null ) );
         }
 
         return Task.FromResult( new ParseValue<TValue>( false, default, null ) );
+    }
+
+    private TimeSpan? GetCurrentDateTimeOffset()
+    {
+        if ( Value is DateTimeOffset dateTimeOffset && dateTimeOffset != default )
+            return dateTimeOffset.Offset;
+
+        if ( Value is IEnumerable values )
+        {
+            foreach ( object item in values )
+            {
+                if ( item is DateTimeOffset dateTimeOffsetItem && dateTimeOffsetItem != default )
+                    return dateTimeOffsetItem.Offset;
+            }
+        }
+
+        return null;
     }
 
     /// <inheritdoc/>

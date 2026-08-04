@@ -349,6 +349,11 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     {
         if ( Parsers.TryParseTime<TValue>( value, out TValue result ) )
         {
+            if ( result is DateTime parsedDateTime && Value is DateTime currentDateTime && currentDateTime != default )
+            {
+                result = (TValue)(object)currentDateTime.Date.Add( parsedDateTime.TimeOfDay );
+            }
+
             return Task.FromResult( new ParseValue<TValue>( true, result, null ) );
         }
 

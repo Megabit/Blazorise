@@ -4,6 +4,7 @@ using AngleSharp.Dom;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Xunit;
 
@@ -679,6 +680,51 @@ public class DatePickerComponentTest : BunitContext
         Assert.Equal( "2026-07-26 22:22", single.Find( "input" ).GetAttribute( "value" ) );
         Assert.Equal( "2026-07-26 22:22 to 2026-08-01 22:22", range.Find( "input" ).GetAttribute( "value" ) );
         Assert.Equal( "2026-07-26 22:22, 2026-08-01 22:22", multiple.Find( "input" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
+    public async Task DateTimeOffsetValuePreservesOffsetWhenDateChanges()
+    {
+        // setup
+        TimeSpan offset = TimeSpan.FromHours( 5.5 );
+        DateTimeOffset value = new( 2026, 7, 27, 9, 15, 0, offset );
+        IRenderedComponent<DatePicker<DateTimeOffset>> comp = Render<DatePicker<DateTimeOffset>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.InputMode, DateInputMode.DateTime ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "2026-07-28 14:30" } );
+
+        // validate
+        Assert.Equal( new DateTimeOffset( 2026, 7, 28, 14, 30, 0, offset ), comp.Instance.Value );
+    }
+
+    [Fact]
+    public async Task DateTimeOffsetRangePreservesOffsetWhenDatesChange()
+    {
+        // setup
+        TimeSpan offset = TimeSpan.FromHours( 5.5 );
+        DateTimeOffset[] value = new[]
+        {
+            new DateTimeOffset( 2026, 7, 27, 9, 15, 0, offset ),
+            new DateTimeOffset( 2026, 7, 29, 9, 15, 0, offset ),
+        };
+        IRenderedComponent<DatePicker<DateTimeOffset[]>> comp = Render<DatePicker<DateTimeOffset[]>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.InputMode, DateInputMode.DateTime )
+            .Add( x => x.SelectionMode, DateInputSelectionMode.Range ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "2026-07-28 10:30 to 2026-07-30 11:45" } );
+
+        // validate
+        Assert.Equal(
+            new[]
+            {
+                new DateTimeOffset( 2026, 7, 28, 10, 30, 0, offset ),
+                new DateTimeOffset( 2026, 7, 30, 11, 45, 0, offset ),
+            },
+            comp.Instance.Value );
     }
 
     [Theory]
