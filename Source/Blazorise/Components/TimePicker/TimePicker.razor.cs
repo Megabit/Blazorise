@@ -679,7 +679,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     {
         if ( TimePickerTimeUtilities.TryGetTime( Value, out TimeSpan time ) )
         {
-            selectedTime = ClampTime( time );
+            selectedTime = time;
             inputText = FormatTime( selectedTime );
         }
         else if ( Value is not null )
@@ -697,7 +697,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     {
         if ( TimePickerTimeUtilities.TryGetTime( Value, out TimeSpan time ) )
         {
-            selectedTime = ClampTime( time );
+            selectedTime = time;
         }
         else if ( TryNormalizeInputValue( inputText, out _, out TimeSpan parsedTime ) )
         {

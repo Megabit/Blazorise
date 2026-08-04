@@ -377,6 +377,32 @@ public class TimePickerComponentTest : BunitContext
         Assert.Equal( "09:05", comp.Find( "input" ).GetAttribute( "value" ) );
     }
 
+    [Theory]
+    [InlineData( 8, "08:15", "08" )]
+    [InlineData( 18, "18:15", "18" )]
+    public async Task ExternalValueOutsideLimitsIsDisplayedUnchanged( int hour, string expectedText, string expectedHour )
+    {
+        // setup
+        TimeSpan value = new( hour, 15, 0 );
+        IRenderedComponent<TimePicker<TimeSpan?>> comp = Render<TimePicker<TimeSpan?>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.Min, new TimeSpan( 9, 0, 0 ) )
+            .Add( x => x.Max, new TimeSpan( 17, 0, 0 ) )
+            .Add( x => x.TimeAs24hr, true ) );
+
+        // validate
+        Assert.Equal( value, comp.Instance.Value );
+        Assert.Equal( expectedText, comp.Find( "input" ).GetAttribute( "value" ) );
+
+        // test
+        await comp.Find( "input" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( value, comp.Instance.Value );
+        Assert.Equal( expectedText, comp.Find( "input[role='combobox']" ).GetAttribute( "value" ) );
+        Assert.Equal( expectedHour, comp.Find( ".timepicker-input" ).GetAttribute( "value" ) );
+    }
+
     [Fact]
     public async Task MenuSelectionHonorsMaximumTime()
     {
