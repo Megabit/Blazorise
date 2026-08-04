@@ -106,6 +106,39 @@ public class DockLayoutSizingTest
         Assert.Contains( "--dock-split-end-size:minmax(0,1fr)", splitStyle );
     }
 
+    [Fact]
+    public void NormalizingStateContinuesGeneratedNodeIdsAfterPersistedIds()
+    {
+        DockPane left = CreateDockPane( "left", DockPanePosition.Left );
+        DockPane right = CreateDockPane( "right", DockPanePosition.Right );
+        DockLayoutRegistry registry = new();
+
+        registry.RegisterPane( left );
+        registry.RegisterPane( right );
+
+        DockLayoutState state = new()
+        {
+            Root = DockLayoutTreeBuilder.CreateSplitNode(
+                new() { Id = "dock-node-2", Kind = DockNodeKind.Pane, PaneName = "left" },
+                new() { Id = "dock-node-7", Kind = DockNodeKind.Pane, PaneName = "right" },
+                DockSplitOrientation.Horizontal,
+                0.5 ),
+            Panes =
+            [
+                new() { Name = "left", Position = DockPanePosition.Left },
+                new() { Name = "right", Position = DockPanePosition.Right },
+            ],
+        };
+        DockLayoutStateManager stateManager = new();
+        DockLayoutTreeQuery query = new( registry, stateManager, () => state );
+        int nextNodeId = 0;
+
+        stateManager.Normalize( state, registry, query, ref nextNodeId );
+
+        Assert.Equal( "dock-node-8", state.Root.Id );
+        Assert.Equal( 8, nextNodeId );
+    }
+
     private static DockPane CreateDockPane( string name, DockPanePosition? position = null, string size = null, DockRole role = DockRole.Tool )
     {
         DockPane pane = new();

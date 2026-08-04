@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 #endregion
@@ -119,6 +120,7 @@ internal sealed class DockLayoutStateManager
         if ( state.Root is null )
             return;
 
+        UpdateNextNodeId( state.Root, ref nextNodeId );
         EnsureNodeIds( state.Root, ref nextNodeId );
         state.Root = DockLayoutNormalizer.Normalize( state.Root, registry.Panes, state.Panes );
         EnsureNodeIds( state.Root, ref nextNodeId );
@@ -216,6 +218,26 @@ internal sealed class DockLayoutStateManager
         => !string.IsNullOrWhiteSpace( paneState?.Name )
             && paneState.Visible
             && ( paneState.AutoHide || state.Root is not null && !DockLayoutTreeQuery.ContainsPane( state.Root, paneState.Name ) );
+
+    private static void UpdateNextNodeId( DockNodeState node, ref int nextNodeId )
+    {
+        const string nodeIdPrefix = "dock-node-";
+
+        if ( node is null )
+            return;
+
+        if ( node.Id?.StartsWith( nodeIdPrefix, StringComparison.Ordinal ) == true
+             && int.TryParse( node.Id.AsSpan( nodeIdPrefix.Length ), out int nodeId ) )
+        {
+            nextNodeId = Math.Max( nextNodeId, nodeId );
+        }
+
+        if ( node.Kind == DockNodeKind.Split )
+        {
+            UpdateNextNodeId( node.First, ref nextNodeId );
+            UpdateNextNodeId( node.Second, ref nextNodeId );
+        }
+    }
 
     private static void EnsureNodeIds( DockNodeState node, ref int nextNodeId )
     {
