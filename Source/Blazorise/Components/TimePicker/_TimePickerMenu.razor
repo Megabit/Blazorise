@@ -17,7 +17,7 @@
          role="dialog"
          aria-modal="false"
          aria-label="@Menu.TimeText">
-        <div @ref="@MenuControlsElementRef"
+        <div id="@Parent.MenuControlsId"
              class="@Menu.ControlsClassNames"
              role="group"
              aria-label="@Menu.TimeText"
@@ -105,10 +105,6 @@
 }
 
 @code {
-    private bool focusApplied;
-
-    private ElementReference MenuControlsElementRef;
-
     [CascadingParameter]
     public TimePicker<TValue> Parent { get; set; }
 
@@ -122,26 +118,6 @@
 
     private void OnMenuStateChanged()
         => _ = InvokeAsync( StateHasChanged );
-
-    protected override async Task OnAfterRenderAsync( bool firstRender )
-    {
-        if ( Parent.MenuVisible && !Parent.Inline )
-        {
-            if ( Parent.FocusMenuOnOpen && !focusApplied )
-            {
-                focusApplied = true;
-                await MenuControlsElementRef.FocusAsync( preventScroll: true );
-            }
-            else if ( !Parent.FocusMenuOnOpen )
-            {
-                focusApplied = false;
-            }
-        }
-        else
-        {
-            focusApplied = false;
-        }
-    }
 
     public void Dispose()
         => Parent.MenuStateChanged -= OnMenuStateChanged;

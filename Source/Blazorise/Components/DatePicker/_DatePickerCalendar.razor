@@ -127,7 +127,7 @@
 
         @if ( Parent.InputMode == DateInputMode.Month && Parent.CalendarView == DatePickerCalendarView.Month )
         {
-            <div @ref="@CalendarGridElementRef"
+            <div id="@Parent.CalendarGridId"
                  class="@Calendar.MonthsClassNames"
                  role="grid"
                  aria-label="@Calendar.Label"
@@ -156,7 +156,7 @@
         }
         else if ( Parent.InputMode == DateInputMode.Month )
         {
-            <div @ref="@CalendarGridElementRef"
+            <div id="@Parent.CalendarGridId"
                  class="@Calendar.MonthsClassNames"
                  role="grid"
                  aria-label="@Calendar.Label"
@@ -186,7 +186,7 @@
         }
         else
         {
-            <div @ref="@CalendarGridElementRef"
+            <div id="@Parent.CalendarGridId"
                  class="@Calendar.GridClassNames"
                  role="grid"
                  aria-label="@Calendar.Label"
@@ -324,10 +324,6 @@
 }
 
 @code {
-    private bool focusApplied;
-
-    private ElementReference CalendarGridElementRef;
-
     [CascadingParameter]
     public DatePicker<TValue> Parent { get; set; }
 
@@ -341,26 +337,6 @@
 
     private void OnCalendarStateChanged()
         => _ = InvokeAsync( StateHasChanged );
-
-    protected override async Task OnAfterRenderAsync( bool firstRender )
-    {
-        if ( Parent.CalendarVisible && !Parent.Inline )
-        {
-            if ( Parent.FocusCalendarOnOpen && !focusApplied )
-            {
-                focusApplied = true;
-                await CalendarGridElementRef.FocusAsync( preventScroll: true );
-            }
-            else if ( !Parent.FocusCalendarOnOpen )
-            {
-                focusApplied = false;
-            }
-        }
-        else
-        {
-            focusApplied = false;
-        }
-    }
 
     public void Dispose()
         => Parent.CalendarStateChanged -= OnCalendarStateChanged;

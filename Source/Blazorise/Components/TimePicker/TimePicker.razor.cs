@@ -487,6 +487,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
         NotifyMenuStateChanged();
         await InvokeAsync( StateHasChanged );
+
+        if ( focusMenu )
+        {
+            await JSUtilitiesModule.Focus( default, MenuControlsId, scrollToElement: false );
+        }
+
         await SynchronizeOutsidePointerSubscriptionAsync();
     }
 
@@ -1003,6 +1009,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// Gets the identifier of the custom picker menu.
     /// </summary>
     protected internal string MenuId => $"{ElementId}-menu";
+
+    internal string MenuControlsId => $"{MenuId}-controls";
 
     internal string PickerContainerId => $"{ElementId}-container";
 

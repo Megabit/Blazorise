@@ -680,6 +680,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         {
             NotifyCalendarStateChanged();
             await InvokeAsync( StateHasChanged );
+
+            if ( focusCalendar )
+            {
+                await JSUtilitiesModule.Focus( default, CalendarGridId, scrollToElement: false );
+            }
         }
 
         await SynchronizeOutsidePointerSubscriptionAsync();
@@ -1714,6 +1719,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     internal bool CalendarInteractionDisabled => IsDisabled || ReadOnly || Plaintext;
 
     internal string CalendarId => $"{ElementId}-calendar";
+
+    internal string CalendarGridId => $"{CalendarId}-grid";
 
     internal string PickerContainerId => $"{ElementId}-container";
 
