@@ -1,5 +1,6 @@
 #region Using directives
 using System.Collections.Generic;
+using System.Threading;
 #endregion
 
 namespace Blazorise.Pdf.Internal;
@@ -27,15 +28,20 @@ internal sealed class PdfTrueTypeFontMetrics : IPdfFontMetrics
 
     #region Methods
 
-    public double MeasureTextWidth( string text, double fontSize )
+    public double MeasureTextWidth( string text, double fontSize, CancellationToken cancellationToken )
     {
         if ( string.IsNullOrEmpty( text ) )
             return 0;
 
         double width = 0;
 
+        int index = 0;
+
         foreach ( int codePoint in EnumerateCodePoints( text ) )
         {
+            if ( ( index++ & 4095 ) == 0 )
+                cancellationToken.ThrowIfCancellationRequested();
+
             width += GetGlyphWidth( GetGlyphId( codePoint ) );
         }
 

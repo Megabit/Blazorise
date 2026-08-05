@@ -8,7 +8,7 @@ public sealed class PdfGenerationResult
     #region Properties
 
     /// <summary>
-    /// Generated PDF bytes.
+    /// Generated PDF bytes returned by in-memory generation.
     /// </summary>
     public byte[] Content { get; set; }
 

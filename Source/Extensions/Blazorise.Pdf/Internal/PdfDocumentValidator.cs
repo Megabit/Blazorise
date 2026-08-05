@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using Blazorise;
 #endregion
 
@@ -27,8 +28,9 @@ internal static class PdfDocumentValidator
 
     #region Methods
 
-    internal static void Validate( PdfDocumentDefinition document, PdfGenerationOptions options )
+    internal static void Validate( PdfDocumentDefinition document, PdfGenerationOptions options, CancellationToken cancellationToken )
     {
+        cancellationToken.ThrowIfCancellationRequested();
         NormalizeOptions( options );
 
         document.Pages ??= [];
@@ -44,6 +46,8 @@ internal static class PdfDocumentValidator
 
         for ( int pageIndex = document.Pages.Count - 1; pageIndex >= 0; pageIndex-- )
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             if ( document.Pages[pageIndex] is null )
                 document.Pages.RemoveAt( pageIndex );
         }
@@ -57,12 +61,13 @@ internal static class PdfDocumentValidator
         long textLength = document.Title?.Length ?? 0;
 
         ValidateTextLength( textLength, options );
-        NormalizeFonts( document.Fonts, options, ref nodeCount );
+        NormalizeFonts( document.Fonts, options, cancellationToken, ref nodeCount );
 
         HashSet<PdfElementDefinition> ancestors = new( ReferenceEqualityComparer.Instance );
 
         for ( int pageIndex = document.Pages.Count - 1; pageIndex >= 0; pageIndex-- )
         {
+            cancellationToken.ThrowIfCancellationRequested();
             PdfPageDefinition page = document.Pages[pageIndex];
 
             CountNode( ref nodeCount, options );
@@ -78,7 +83,7 @@ internal static class PdfDocumentValidator
 
             for ( int elementIndex = page.Elements.Count - 1; elementIndex >= 0; elementIndex-- )
             {
-                if ( !NormalizeElement( page.Elements[elementIndex], $"Pages[{pageIndex}].Elements[{elementIndex}]", options, ancestors, 0, ref nodeCount, ref textLength ) )
+                if ( !NormalizeElement( page.Elements[elementIndex], $"Pages[{pageIndex}].Elements[{elementIndex}]", options, ancestors, 0, cancellationToken, ref nodeCount, ref textLength ) )
                     page.Elements.RemoveAt( elementIndex );
             }
         }
@@ -105,13 +110,14 @@ internal static class PdfDocumentValidator
             options.MaxImagePixels = PdfGenerationOptions.DefaultMaxImagePixels;
     }
 
-    private static void NormalizeFonts( List<FontFamily> fonts, PdfGenerationOptions options, ref int nodeCount )
+    private static void NormalizeFonts( List<FontFamily> fonts, PdfGenerationOptions options, CancellationToken cancellationToken, ref int nodeCount )
     {
         for ( int fontIndex = fonts.Count - 1; fontIndex >= 0; fontIndex-- )
         {
+            cancellationToken.ThrowIfCancellationRequested();
             FontFamily font = fonts[fontIndex];
 
-            if ( font is null || string.IsNullOrWhiteSpace( font.Name ) || !IsValidFontSource( font.Regular, options, ref nodeCount ) )
+            if ( font is null || string.IsNullOrWhiteSpace( font.Name ) || !IsValidFontSource( font.Regular, options, cancellationToken, ref nodeCount ) )
             {
                 fonts.RemoveAt( fontIndex );
                 continue;
@@ -119,22 +125,23 @@ internal static class PdfDocumentValidator
 
             CountNode( ref nodeCount, options );
 
-            if ( !IsValidFontSource( font.Bold, options, ref nodeCount ) )
+            if ( !IsValidFontSource( font.Bold, options, cancellationToken, ref nodeCount ) )
                 font.Bold = null;
 
-            if ( !IsValidFontSource( font.Italic, options, ref nodeCount ) )
+            if ( !IsValidFontSource( font.Italic, options, cancellationToken, ref nodeCount ) )
                 font.Italic = null;
 
-            if ( !IsValidFontSource( font.BoldItalic, options, ref nodeCount ) )
+            if ( !IsValidFontSource( font.BoldItalic, options, cancellationToken, ref nodeCount ) )
                 font.BoldItalic = null;
         }
     }
 
-    private static bool IsValidFontSource( FontSource source, PdfGenerationOptions options, ref int nodeCount )
+    private static bool IsValidFontSource( FontSource source, PdfGenerationOptions options, CancellationToken cancellationToken, ref int nodeCount )
     {
         if ( source is null )
             return false;
 
+        cancellationToken.ThrowIfCancellationRequested();
         CountNode( ref nodeCount, options );
 
         if ( source.Format is not FontFormat.TrueType and not FontFormat.OpenType )
@@ -151,8 +158,10 @@ internal static class PdfDocumentValidator
         return !string.IsNullOrWhiteSpace( source.FileName ) || !string.IsNullOrWhiteSpace( source.Url );
     }
 
-    private static bool NormalizeElement( PdfElementDefinition element, string path, PdfGenerationOptions options, HashSet<PdfElementDefinition> ancestors, int depth, ref int nodeCount, ref long textLength )
+    private static bool NormalizeElement( PdfElementDefinition element, string path, PdfGenerationOptions options, HashSet<PdfElementDefinition> ancestors, int depth, CancellationToken cancellationToken, ref int nodeCount, ref long textLength )
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         if ( element is null || depth >= MaxElementDepth || !ancestors.Add( element ) )
             return false;
 
@@ -193,6 +202,7 @@ internal static class PdfDocumentValidator
 
             for ( int rowIndex = element.Rows.Count - 1; rowIndex >= 0; rowIndex-- )
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 PdfTableRowDefinition row = element.Rows[rowIndex];
 
                 if ( row is null )
@@ -207,6 +217,7 @@ internal static class PdfDocumentValidator
 
                 for ( int cellIndex = row.Cells.Count - 1; cellIndex >= 0; cellIndex-- )
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
                     PdfTableCellDefinition cell = row.Cells[cellIndex];
 
                     if ( cell is null )
@@ -221,7 +232,7 @@ internal static class PdfDocumentValidator
 
                     for ( int childIndex = cell.Elements.Count - 1; childIndex >= 0; childIndex-- )
                     {
-                        if ( !NormalizeElement( cell.Elements[childIndex], $"{path}.Rows[{rowIndex}].Cells[{cellIndex}].Elements[{childIndex}]", options, ancestors, depth + 1, ref nodeCount, ref textLength ) )
+                        if ( !NormalizeElement( cell.Elements[childIndex], $"{path}.Rows[{rowIndex}].Cells[{cellIndex}].Elements[{childIndex}]", options, ancestors, depth + 1, cancellationToken, ref nodeCount, ref textLength ) )
                             cell.Elements.RemoveAt( childIndex );
                     }
                 }

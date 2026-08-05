@@ -26572,7 +26572,7 @@ Install-Package Blazorise.Icons.Material";
     {
         PdfDocumentDefinition document = BuildInvoice();
 
-        PdfGenerationResult result = await PdfGenerator.Generate( document, new()
+        PdfGenerationResult result = await PdfGenerator.GenerateAsync( document, new()
         {
             FileName = ""builder-invoice.pdf"",
         } );
@@ -26671,7 +26671,7 @@ Install-Package Blazorise.Icons.Material";
         {
             generated = true;
 
-            PdfGenerationResult result = await PdfGenerator.Generate( document.Definition, new()
+            PdfGenerationResult result = await PdfGenerator.GenerateAsync( document.Definition, new()
             {
                 FileName = ""declarative-invoice.pdf"",
             } );
@@ -26737,7 +26737,7 @@ Install-Package Blazorise.Icons.Material";
             } )
             .Build();
 
-        PdfGenerationResult result = await PdfGenerator.Generate( document, new()
+        PdfGenerationResult result = await PdfGenerator.GenerateAsync( document, new()
         {
             FileName = ""invoice.pdf"",
             Progress = OnGenerationProgress,

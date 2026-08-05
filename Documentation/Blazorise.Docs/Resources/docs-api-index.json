@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-05T05:43:12.2715968Z",
+  "generatedUtc": "2026-08-05T11:31:39.3840865Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -82697,6 +82697,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "BorderStyle",
+          "type": "global::Blazorise.Pdf.PdfBorderStyle",
+          "typeName": "PdfBorderStyle",
+          "defaultValue": "PdfBorderStyle.Solid",
+          "summary": "Border style.",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "BorderWidth",
           "type": "double",
           "typeName": "double",
@@ -82776,6 +82784,14 @@
           "defaultValue": "\"#000000\"",
           "summary": "Border color in hexadecimal format.",
           "isBlazoriseEnum": false
+        },
+        {
+          "name": "BorderStyle",
+          "type": "global::Blazorise.Pdf.PdfBorderStyle",
+          "typeName": "PdfBorderStyle",
+          "defaultValue": "PdfBorderStyle.Solid",
+          "summary": "Border style.",
+          "isBlazoriseEnum": true
         },
         {
           "name": "BorderWidth",
@@ -82973,6 +82989,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "BorderStyle",
+          "type": "global::Blazorise.Pdf.PdfBorderStyle",
+          "typeName": "PdfBorderStyle",
+          "defaultValue": "PdfBorderStyle.Solid",
+          "summary": "Border style.",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "BorderWidth",
           "type": "double",
           "typeName": "double",
@@ -83036,6 +83060,14 @@
           "defaultValue": "\"#000000\"",
           "summary": "Border color in hexadecimal format.",
           "isBlazoriseEnum": false
+        },
+        {
+          "name": "BorderStyle",
+          "type": "global::Blazorise.Pdf.PdfBorderStyle",
+          "typeName": "PdfBorderStyle",
+          "defaultValue": "PdfBorderStyle.Solid",
+          "summary": "Border style.",
+          "isBlazoriseEnum": true
         },
         {
           "name": "BorderWidth",
@@ -83175,6 +83207,14 @@
           "defaultValue": "\"#000000\"",
           "summary": "Border color in hexadecimal format.",
           "isBlazoriseEnum": false
+        },
+        {
+          "name": "BorderStyle",
+          "type": "global::Blazorise.Pdf.PdfBorderStyle",
+          "typeName": "PdfBorderStyle",
+          "defaultValue": "PdfBorderStyle.Solid",
+          "summary": "Border style.",
+          "isBlazoriseEnum": true
         },
         {
           "name": "BorderWidth",

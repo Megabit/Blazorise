@@ -119,3 +119,23 @@
         <PdfGenerateFileExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Large documents and cancellation
+</Heading>
+
+<DocsPageParagraph>
+    Calling <Code>GenerateAsync(document)</Code> returns the completed PDF as a byte array. When the PDF should go directly to a file, response body, or another writable stream, call <Code>GenerateToStreamAsync(document, stream)</Code> instead. The stream method avoids creating an additional byte array for the completed document and leaves the supplied stream open.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The built-in renderer still keeps the PDF object definitions, rendered page content, and resolved images and fonts in memory until generation finishes. It is intended for previews and bounded small-to-medium documents, not unbounded document workloads. Use the limits on <Code>PdfGenerationOptions</Code> to control accepted document and resource sizes. Applications that require constant-memory generation can provide a custom <Code>IPdfRenderProvider</Code>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Pass a cancellation token to stop validation, resource loading and decoding, font parsing, page rendering, or output writing. If cancellation occurs while writing to a stream, discard or reset that stream because it can contain an incomplete PDF.
+</DocsPageParagraph>
