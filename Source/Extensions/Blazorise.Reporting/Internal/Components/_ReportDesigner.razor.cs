@@ -881,7 +881,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         await NotifyPdfProgress( new( "Building PDF" ), yieldRender: true );
         PdfDocumentDefinition pdfDocument = ReportPdfDocumentBuilder.Build( definition, Data, ElementPluginRegistry );
 
-        result = await PdfGenerator.Generate( pdfDocument, new()
+        result = await PdfGenerator.GenerateAsync( pdfDocument, new()
         {
             FileName = ResolvePdfFileName( definition ),
             Progress = HasPdfProgressListeners

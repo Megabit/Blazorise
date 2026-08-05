@@ -19,7 +19,7 @@ public interface IPdfRenderProvider
     /// <param name="options">The generation options.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The generated PDF result.</returns>
-    Task<PdfGenerationResult> Render( PdfDocumentDefinition document, PdfGenerationOptions options, CancellationToken cancellationToken = default );
+    Task<PdfGenerationResult> RenderAsync( PdfDocumentDefinition document, PdfGenerationOptions options, CancellationToken cancellationToken = default );
 
     #endregion
 }

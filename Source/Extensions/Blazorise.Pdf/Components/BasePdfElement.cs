@@ -54,7 +54,8 @@ public abstract class BasePdfElement : ComponentBase, IDisposable
             || parameters.IsParameterChanged( Width )
             || parameters.IsParameterChanged( Height )
             || parameters.IsParameterChanged( BorderColor )
-            || parameters.IsParameterChanged( BorderWidth );
+            || parameters.IsParameterChanged( BorderWidth )
+            || parameters.IsParameterChanged( BorderStyle );
     }
 
     /// <summary>
@@ -73,6 +74,7 @@ public abstract class BasePdfElement : ComponentBase, IDisposable
         definition.Border ??= new();
         definition.Border.Color = BorderColor;
         definition.Border.Width = BorderWidth;
+        definition.Border.Style = BorderStyle;
 
         definition.Appearance ??= new();
         definition.Appearance.BackgroundColor = ElementBackgroundColor;
@@ -186,6 +188,11 @@ public abstract class BasePdfElement : ComponentBase, IDisposable
     /// Border width.
     /// </summary>
     [Parameter] public double BorderWidth { get; set; }
+
+    /// <summary>
+    /// Border style.
+    /// </summary>
+    [Parameter] public PdfBorderStyle BorderStyle { get; set; }
 
     #endregion
 }

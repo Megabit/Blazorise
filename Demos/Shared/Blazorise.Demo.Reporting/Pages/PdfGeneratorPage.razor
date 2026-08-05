@@ -294,7 +294,7 @@
 
         try
         {
-            PdfGenerationResult result = await PdfGenerator.Generate( pdfDocument.Definition, new()
+            PdfGenerationResult result = await PdfGenerator.GenerateAsync( pdfDocument.Definition, new()
             {
                 FileName = "blazorise-pdf-rendering-matrix.pdf",
                 Progress = OnPdfGenerationProgress,

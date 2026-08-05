@@ -46,7 +46,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
     #region Methods
 
     /// <inheritdoc />
-    public async Task<PdfGenerationResult> Render( PdfDocumentDefinition document, PdfGenerationOptions options, CancellationToken cancellationToken = default )
+    public async Task<PdfGenerationResult> RenderAsync( PdfDocumentDefinition document, PdfGenerationOptions options, CancellationToken cancellationToken = default )
     {
         if ( document is null )
             throw new ArgumentNullException( nameof( document ) );

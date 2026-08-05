@@ -49,7 +49,7 @@
             } )
             .Build();
 
-        PdfGenerationResult result = await PdfGenerator.Generate( document, new()
+        PdfGenerationResult result = await PdfGenerator.GenerateAsync( document, new()
         {
             FileName = "invoice.pdf",
             Progress = OnGenerationProgress,

@@ -80,6 +80,18 @@ public class PdfElementBuilder
     }
 
     /// <summary>
+    /// Defines how the image should fit inside the element bounds.
+    /// </summary>
+    /// <param name="fit">The image fit mode.</param>
+    /// <returns>The element builder.</returns>
+    public PdfElementBuilder Fit( PdfImageFit fit )
+    {
+        definition.ImageFit = fit;
+
+        return this;
+    }
+
+    /// <summary>
     /// Sets the orientation used by line elements.
     /// </summary>
     /// <param name="orientation">The line orientation.</param>
@@ -195,6 +207,18 @@ public class PdfElementBuilder
     public PdfElementBuilder BorderWidth( double width )
     {
         definition.Border.Width = width;
+
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the border style.
+    /// </summary>
+    /// <param name="style">The border style.</param>
+    /// <returns>The element builder.</returns>
+    public PdfElementBuilder BorderStyle( PdfBorderStyle style )
+    {
+        definition.Border.Style = style;
 
         return this;
     }
