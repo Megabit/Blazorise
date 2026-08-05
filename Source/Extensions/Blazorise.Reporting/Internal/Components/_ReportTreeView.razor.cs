@@ -201,6 +201,11 @@ public partial class _ReportTreeView
     [Parameter] public IReadOnlyList<ReportTreeNode> Nodes { get; set; }
 
     /// <summary>
+    /// Accessible tree label.
+    /// </summary>
+    [Parameter] public string AriaLabel { get; set; } = "Report tree";
+
+    /// <summary>
     /// Collapses nodes the first time they are rendered.
     /// </summary>
     [Parameter] public bool CollapseByDefault { get; set; }

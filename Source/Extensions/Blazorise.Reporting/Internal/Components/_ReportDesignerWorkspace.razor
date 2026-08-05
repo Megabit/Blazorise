@@ -63,12 +63,19 @@
         <_ReportDesignerSurface @ref="designerSurface" Designer="@Designer" Definition="@definition" />
         @if ( designerTabs.Count > 1 )
         {
-            <Div Class="b-report-designer-tabs" Flex="FlexAlignItemsCenter" Gap="GapIs1" Padding="PaddingIs2" Border="BorderIs1OnTop">
+            <Div Class="b-report-designer-tabs"
+                 Flex="FlexAlignItemsCenter"
+                 Gap="GapIs1"
+                 Padding="PaddingIs2"
+                 Border="BorderIs1OnTop"
+                 role="tablist"
+                 aria-label="Report documents">
                 @foreach ( _ReportDesigner.ReportDesignerTabItem tab in designerTabs )
                 {
                     <_ReportDesignerTabButton TabKey="@tab.Key"
                                               Text="@tab.Text"
                                               Active="@tab.Active"
+                                              Controls="@($"{Designer.AccessibilityId}-surface")"
                                               Selected="@Designer.SelectDesignerTab" />
                 }
             </Div>

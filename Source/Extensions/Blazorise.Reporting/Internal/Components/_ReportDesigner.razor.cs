@@ -3789,6 +3789,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal string DefaultDataSourceName => DataSourceName;
 
+    internal string AccessibilityId => modalProviderName;
+
     internal ReportDefinition PreviewDefinition => RootDefinition;
 
     internal ReportPreviewFormat ActivePreviewFormat => CurrentPreviewFormat;

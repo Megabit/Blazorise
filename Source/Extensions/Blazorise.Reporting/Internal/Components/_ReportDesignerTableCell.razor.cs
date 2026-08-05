@@ -14,16 +14,37 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerTableCell
 {
+    #region Members
+
+    private ElementReference cellElementReference;
+
+    #endregion
+
     #region Methods
 
     private bool CanReceiveDesignerInteraction => DesignMode && Editable;
 
-    private Task OnCellClicked( MouseEventArgs eventArgs )
+    private async Task OnCellClicked( MouseEventArgs eventArgs )
     {
-        if ( CanReceiveDesignerInteraction )
-            return CellClicked.InvokeAsync( new( Cell.Id, eventArgs ) );
+        if ( !CanReceiveDesignerInteraction )
+            return;
 
-        return Task.CompletedTask;
+        await cellElementReference.FocusAsync( true );
+        await CellClicked.InvokeAsync( new( Cell.Id, eventArgs ) );
+    }
+
+    private Task OnCellKeyDown( KeyboardEventArgs eventArgs )
+    {
+        if ( !CanReceiveDesignerInteraction || eventArgs.Key is not ( "Enter" or " " ) )
+            return Task.CompletedTask;
+
+        return CellClicked.InvokeAsync( new( Cell.Id, new()
+        {
+            AltKey = eventArgs.AltKey,
+            CtrlKey = eventArgs.CtrlKey,
+            MetaKey = eventArgs.MetaKey,
+            ShiftKey = eventArgs.ShiftKey,
+        } ) );
     }
 
     private Task OnCellContextMenu( MouseEventArgs eventArgs )
@@ -97,6 +118,8 @@ public partial class _ReportDesignerTableCell
 
     #region Properties
 
+    private string AccessibilityLabel => $"Table cell, row {Cell.RowIndex + 1}, column {Cell.ColumnIndex + 1}";
+
     /// <summary>
     /// Report data used when resolving nested field values.
     /// </summary>
@@ -161,6 +184,11 @@ public partial class _ReportDesignerTableCell
     /// Indicates that the table element is part of the current selection.
     /// </summary>
     [Parameter] public bool TableSelected { get; set; }
+
+    /// <summary>
+    /// Indicates that this table cell is selected.
+    /// </summary>
+    [Parameter] public bool Selected { get; set; }
 
     /// <summary>
     /// Raised when a table cell is clicked.

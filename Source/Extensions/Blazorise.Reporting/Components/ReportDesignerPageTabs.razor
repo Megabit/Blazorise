@@ -3,20 +3,26 @@
 
 @if ( Designer is not null )
 {
-    <Div Class="b-report-designer-page-tabs" Flex="FlexAlignItemsCenter" Gap="GapIs1" Padding="PaddingIs1">
-        <Buttons Role="ButtonsRole.Addons" Size="Size.Small">
-            @foreach ( _ReportDesigner.ReportDesignerTabItem tab in Designer.GetDesignerPageTabs( Designer.DesignerRootDefinition ) )
-            {
-                <_ReportDesignerTabButton @key="@tab.Key"
-                                          TabKey="@tab.Key"
-                                          Text="@tab.Text"
-                                          Icon="IconName.File"
-                                          Active="@tab.Active"
-                                          ActiveColor="Color.Light"
-                                          Selected="@Designer.SelectDesignerPage"
-                                          ContextMenu="@(eventArgs => Designer.OpenPageContextMenu( tab.Key, eventArgs ))" />
-            }
-        </Buttons>
+    <Div Class="b-report-designer-page-tabs"
+         Flex="FlexAlignItemsCenter"
+         Gap="GapIs1"
+         Padding="PaddingIs1">
+        <Div role="tablist" aria-label="Report pages">
+            <Buttons Role="ButtonsRole.Addons" Size="Size.Small">
+                @foreach ( _ReportDesigner.ReportDesignerTabItem tab in Designer.GetDesignerPageTabs( Designer.DesignerRootDefinition ) )
+                {
+                    <_ReportDesignerTabButton @key="@tab.Key"
+                                              TabKey="@tab.Key"
+                                              Text="@tab.Text"
+                                              Icon="IconName.File"
+                                              Active="@tab.Active"
+                                              Controls="@($"{Designer.AccessibilityId}-surface")"
+                                              ActiveColor="Color.Light"
+                                              Selected="@Designer.SelectDesignerPage"
+                                              ContextMenu="@(eventArgs => Designer.OpenPageContextMenu( tab.Key, eventArgs ))" />
+                }
+            </Buttons>
+        </Div>
         <Button Color="Color.Light"
                 Size="Size.Small"
                 Clicked="@Designer.AddDesignerPage"

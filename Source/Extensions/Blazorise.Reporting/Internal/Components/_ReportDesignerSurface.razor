@@ -8,6 +8,7 @@
 }
 
 <_ReportDesignerRulerLayout Visible="@Designer.CurrentShowRulers"
+                            PanelId="@($"{Designer.AccessibilityId}-surface")"
                             Unit="@definition.Page.MeasurementUnit"
                             PageWidth="@Designer.GetReportPageWidth( definition )"
                             PageHeight="@Designer.GetDesignerRulerHeight( definition )"

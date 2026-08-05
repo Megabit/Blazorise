@@ -1,6 +1,7 @@
 #region Using directives
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -13,12 +14,22 @@ public partial class _ReportDesignerRulerLayout
     private Task OnReportSelected()
         => ReportSelected.InvokeAsync();
 
+    private Task OnReportSelectorKeyDown( KeyboardEventArgs eventArgs )
+        => eventArgs.Key is "Enter" or " "
+            ? OnReportSelected()
+            : Task.CompletedTask;
+
     #region Properties
 
     private string RulerClass
         => Visible
             ? "b-report-designer-rulers"
             : "b-report-designer-rulers b-report-designer-rulers-hidden";
+
+    /// <summary>
+    /// Identifier of the designer tab panel.
+    /// </summary>
+    [Parameter] public string PanelId { get; set; }
 
     /// <summary>
     /// Indicates that ruler chrome should be rendered.

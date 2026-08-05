@@ -7,10 +7,16 @@
 <div class="@RowClass"
      style="@RowStyle"
      title="@NodeTitle"
+     role="treeitem"
+     tabindex="@TabIndex"
+     aria-level="@( Level + 1 )"
+     aria-selected="@AriaSelected"
+     aria-expanded="@AriaExpanded"
      data-report-tree-node-key="@Node.Key"
      draggable="@( Node.Draggable ? "true" : null )"
      @onclick="OnNodeClicked"
      @ondblclick="OnNodeDoubleClicked"
+     @onkeydown="OnNodeKeyDown"
      @oncontextmenu="OnNodeContextMenu"
      @oncontextmenu:preventDefault="@( NodeContextMenu.HasDelegate && Node.Selectable )"
      @ondragstart="OnNodeDragStarted"
@@ -19,6 +25,8 @@
     {
         <button class="b-report-tree-view-toggle"
                 type="button"
+                aria-label="@( Expanded ? $"Collapse {Node.Text}" : $"Expand {Node.Text}" )"
+                aria-expanded="@Expanded"
                 @onclick="ToggleClicked"
                 @onclick:stopPropagation>
             <Icon Name="@( Expanded ? IconName.MinusSquare : IconName.PlusSquare )" />

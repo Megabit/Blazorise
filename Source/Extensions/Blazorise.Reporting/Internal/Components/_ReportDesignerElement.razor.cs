@@ -17,6 +17,7 @@ public partial class _ReportDesignerElement
 {
     #region Members
 
+    private ElementReference elementReference;
     private ElementReference textEditElement;
     private string textEditValue;
     private bool textEditCancelled;
@@ -220,12 +221,27 @@ public partial class _ReportDesignerElement
         return Task.CompletedTask;
     }
 
-    private Task OnClicked( MouseEventArgs eventArgs )
+    private async Task OnClicked( MouseEventArgs eventArgs )
     {
-        if ( CanReceiveDesignerInteraction )
-            return Clicked.InvokeAsync( new( ElementKey, eventArgs ) );
+        if ( !CanReceiveDesignerInteraction )
+            return;
 
-        return Task.CompletedTask;
+        await elementReference.FocusAsync( true );
+        await Clicked.InvokeAsync( new( ElementKey, eventArgs ) );
+    }
+
+    private Task OnKeyDown( KeyboardEventArgs eventArgs )
+    {
+        if ( !CanReceiveKeyboardInteraction || eventArgs.Key is not ( "Enter" or " " ) )
+            return Task.CompletedTask;
+
+        return Clicked.InvokeAsync( new( ElementKey, new()
+        {
+            AltKey = eventArgs.AltKey,
+            CtrlKey = eventArgs.CtrlKey,
+            MetaKey = eventArgs.MetaKey,
+            ShiftKey = eventArgs.ShiftKey,
+        } ) );
     }
 
     private Task OnDoubleClicked( MouseEventArgs eventArgs )
@@ -301,11 +317,23 @@ public partial class _ReportDesignerElement
 
     private string ImageAlternativeText => ( Element as ReportImageElementDefinition )?.Text ?? Element?.Name;
 
+    private string AccessibilityLabel => string.IsNullOrWhiteSpace( Element?.Name )
+        ? $"{Element?.Type} report element"
+        : $"{Element.Name}, {Element.Type} report element";
+
+    private bool AccessibilityGroup => Element is ReportTableElementDefinition or ReportPanelElementDefinition or ReportCustomElementDefinition;
+
+    private string AccessibilityRole => AccessibilityGroup ? "group" : "button";
+
+    private bool? AccessibilityPressed => AccessibilityGroup ? null : Selected;
+
     private bool CanEditText => Element is ReportTextElementDefinition;
 
     private bool CanHandleDesignerPointerDown => CanReceiveDesignerInteraction && !Editing;
 
     private bool CanReceiveDesignerInteraction => DesignMode && Editable;
+
+    private bool CanReceiveKeyboardInteraction => CanReceiveDesignerInteraction && !Editing;
 
     private bool CanStartDesignerPointerDrag => CanHandleDesignerPointerDown && !TextEditingActive && !LayoutLocked;
 
