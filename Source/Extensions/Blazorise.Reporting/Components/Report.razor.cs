@@ -178,7 +178,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     /// <summary>
     /// A comma-separated list of image MIME types accepted by the image upload dialog.
     /// </summary>
-    [Parameter] public string ImageAccept { get; set; } = "image/png, image/jpeg, image/webp, image/svg+xml";
+    [Parameter] public string ImageAccept { get; set; } = "image/png, image/jpeg";
 
     /// <summary>
     /// Maximum image size in bytes.
@@ -269,6 +269,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     /// Raised when the overall report PDF operation progress changes.
     /// </summary>
     [Parameter] public EventCallback<ReportProgress> PdfProgressed { get; set; }
+
+    /// <summary>
+    /// Raised when a report operation fails.
+    /// </summary>
+    [Parameter] public EventCallback<ReportOperationFailedEventArgs> OperationFailed { get; set; }
 
     /// <summary>
     /// Custom report element plugins available only to this report instance. The collection is read during initialization.

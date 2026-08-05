@@ -50,21 +50,11 @@ internal sealed class ReportDataCommandService
         IReportDataSourceProvider provider = providerRegistry?.FindProvider( dataSource.ProviderType );
 
         if ( provider is null )
-            return;
+            throw new InvalidOperationException( $"No report data source provider is registered for '{dataSource.ProviderType}'." );
 
-        try
-        {
-            ReportDataSourceSchema schema = await provider.GetSchemaAsync( dataSource, cancellationToken );
-            cancellationToken.ThrowIfCancellationRequested();
-            dataSource.Schema = schema;
-        }
-        catch ( OperationCanceledException ) when ( cancellationToken.IsCancellationRequested )
-        {
-            throw;
-        }
-        catch
-        {
-        }
+        ReportDataSourceSchema schema = await provider.GetSchemaAsync( dataSource, cancellationToken );
+        cancellationToken.ThrowIfCancellationRequested();
+        dataSource.Schema = schema;
 
         if ( !IsInMemoryProvider( dataSource.ProviderType ) )
             dataSource.Data = null;

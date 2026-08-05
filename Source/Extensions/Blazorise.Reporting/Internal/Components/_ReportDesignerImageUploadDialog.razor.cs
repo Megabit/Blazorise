@@ -197,7 +197,7 @@ public partial class _ReportDesignerImageUploadDialog
     /// <summary>
     /// A comma-separated list of image MIME types accepted by the picker.
     /// </summary>
-    [Parameter] public string ImageAccept { get; set; } = "image/png, image/jpeg, image/webp, image/svg+xml";
+    [Parameter] public string ImageAccept { get; set; } = "image/png, image/jpeg";
 
     /// <summary>
     /// Maximum image size in bytes.
