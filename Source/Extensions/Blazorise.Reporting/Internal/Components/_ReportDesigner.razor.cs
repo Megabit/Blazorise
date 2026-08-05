@@ -163,6 +163,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         currentMode = IsEditable ? ReportMode.Design : ReportMode.Preview;
         currentPreviewFormat = DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat;
+
+        if ( CurrentDefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative || Definition is null )
+            declarativeDefinition = new();
     }
 
     /// <inheritdoc />
@@ -173,13 +176,14 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         bool declarativeDefinitionCreated = false;
 
-        if ( Definition is null && CurrentDefinitionMode != ReportDefinitionMode.UseDefinitionOnly )
+        if ( CurrentDefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative
+            || Definition is null && CurrentDefinitionMode != ReportDefinitionMode.UseDefinitionOnly )
         {
             declarativeDefinition = BuildDeclarativeDefinition();
             declarativeDefinitionCreated = true;
         }
 
-        ReportDefinition definition = Definition ?? declarativeDefinition;
+        ReportDefinition definition = RootDefinition;
 
         if ( definition is not null )
         {
@@ -3334,9 +3338,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     #region Properties
 
     private ReportDefinition RootDefinition
-        => CurrentDefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative
-            ? BuildDeclarativeDefinition()
-            : declarativeDefinition ?? Definition ?? BuildDeclarativeDefinition();
+        => declarativeDefinition ?? Definition;
 
     private ReportDefinition EffectiveDefinition
         => ResolveActiveDesignerDefinition( RootDefinition );
