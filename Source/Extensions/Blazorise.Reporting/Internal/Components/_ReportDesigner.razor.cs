@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Licensing;
@@ -121,6 +122,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     private ReportPdfPreviewContext pdfPreviewContext;
 
     private int pdfPreviewMutationVersion = -1;
+
+    private CancellationTokenSource asyncOperationCancellationTokenSource;
+
+    private Task<PdfGenerationResult> pdfPreviewTask;
+
+    private int pdfPreviewTaskMutationVersion = -1;
 
     private string editingFormulaFieldName;
 
@@ -307,6 +314,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
+        CancelAsyncOperations();
+
         if ( reportingModule is not null )
         {
             try
@@ -373,20 +382,56 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private async Task ResolveDataSources( ReportDefinition definition, bool loadData )
     {
+        await ResolveDataSourcesOperation( definition, loadData );
+    }
+
+    private Task<bool> ResolveDataSourcesOperation( ReportDefinition definition, bool loadData )
+    {
+        return ExecuteDataOperation( ( cancellationToken, mutationVersion ) =>
+            ResolveDataSources( definition, loadData, mutationVersion, cancellationToken ) );
+    }
+
+    private async Task<bool> ExecuteDataOperation( Func<CancellationToken, int, Task<bool>> operation )
+    {
         InvalidateDesignerCaches();
 
+        int mutationVersion = renderMutationVersion;
+        CancellationTokenSource cancellationTokenSource = new();
+        asyncOperationCancellationTokenSource = cancellationTokenSource;
+
+        try
+        {
+            return await operation( cancellationTokenSource.Token, mutationVersion );
+        }
+        catch ( OperationCanceledException ) when ( cancellationTokenSource.IsCancellationRequested )
+        {
+            return false;
+        }
+        finally
+        {
+            if ( ReferenceEquals( asyncOperationCancellationTokenSource, cancellationTokenSource ) )
+                asyncOperationCancellationTokenSource = null;
+
+            cancellationTokenSource.Dispose();
+        }
+    }
+
+    private async Task<bool> ResolveDataSources( ReportDefinition definition, bool loadData, int mutationVersion, CancellationToken cancellationToken )
+    {
         ReportDefinitionHelper.ApplyRowsLimit( definition, BlazoriseLicenseLimitsHelper.GetReportingRowsLimit( LicenseChecker ) );
 
         if ( definition?.DataSources is null )
-            return;
+            return IsOperationCurrent( mutationVersion, cancellationToken );
 
         IReportDataSourceProviderRegistry registry = DataSourceProviderRegistry;
 
         if ( registry is null )
-            return;
+            return IsOperationCurrent( mutationVersion, cancellationToken );
 
         foreach ( ReportDataSourceDefinition dataSource in definition.DataSources )
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             if ( dataSource is null )
                 continue;
 
@@ -402,19 +447,38 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                     ReportDataSourceResult result = await provider.LoadDataAsync( dataSource, new()
                     {
                         DefaultData = Data,
-                    } );
+                    }, cancellationToken );
+
+                    if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+                        return false;
 
                     dataSource.Data = result?.Data;
                     dataSource.Schema = result?.Schema ?? dataSource.Schema;
                 }
                 else if ( dataSource.Schema is null )
-                    dataSource.Schema = await provider.GetSchemaAsync( dataSource );
+                {
+                    ReportDataSourceSchema schema = await provider.GetSchemaAsync( dataSource, cancellationToken );
+
+                    if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+                        return false;
+
+                    dataSource.Schema = schema;
+                }
+            }
+            catch ( OperationCanceledException ) when ( cancellationToken.IsCancellationRequested )
+            {
+                return false;
             }
             catch
             {
             }
         }
+
+        return IsOperationCurrent( mutationVersion, cancellationToken );
     }
+
+    private bool IsOperationCurrent( int mutationVersion, CancellationToken cancellationToken )
+        => !cancellationToken.IsCancellationRequested && mutationVersion == renderMutationVersion;
 
     private void SynchronizeDefaultDataSource( ReportDefinition definition, object previousData )
     {
@@ -882,6 +946,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal async Task ExecuteDesignerCommand( ReportDesignerCommand command )
     {
+        if ( command.NotifyDefinitionChanged )
+            CancelAsyncOperations();
+
         ReportDefinition definition = await commandManager.Execute( command, RootDefinition, CaptureReportState );
 
         if ( command.NotifyDefinitionChanged && command.RefreshSurface )
@@ -926,6 +993,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     private async Task SetMode( ReportMode mode, bool notifyChanged = true, ReportMode? previousMode = null )
     {
         ReportMode sourceMode = previousMode ?? CurrentMode;
+
+        if ( mode != ReportMode.Preview )
+            CancelAsyncOperations();
 
         if ( sourceMode == ReportMode.Design && mode != ReportMode.Design )
             await CaptureDesignerPaneScrollPositions();
@@ -990,18 +1060,29 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         if ( PdfGenerator is null )
             return;
 
+        int operationMutationVersion = renderMutationVersion;
+
         try
         {
             PdfGenerationResult result = CurrentPdfPreviewResult;
+            bool pdfPreviewPending = result is null && IsPdfPreviewPending;
 
-            if ( result is null )
+            if ( pdfPreviewPending )
+                result = await ResolvePdfPreview();
+
+            if ( result is null && !pdfPreviewPending )
             {
+                Task<bool> resolveDataSourcesTask = ResolveDataSourcesOperation( RootDefinition, true );
                 await NotifyPdfProgress( new( "Resolving data" ), yieldRender: true );
-                await ResolveDataSources( RootDefinition, true );
+
+                if ( !await resolveDataSourcesTask )
+                    return;
+
+                operationMutationVersion = renderMutationVersion;
                 result = await ResolvePdfPreview();
             }
 
-            if ( result is null )
+            if ( result is null || operationMutationVersion != renderMutationVersion )
                 return;
 
             await NotifyPdfProgress( new( "Requesting download" ), yieldRender: true );
@@ -1013,23 +1094,38 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         }
         finally
         {
-            OperationFinished?.Invoke();
+            if ( operationMutationVersion == renderMutationVersion )
+                OperationFinished?.Invoke();
         }
     }
 
     private async Task<PdfGenerationResult> ResolvePdfPreviewOperation( ReportDefinition definition, bool resolveDataSources )
     {
+        int operationMutationVersion = renderMutationVersion;
+
         try
         {
-            if ( resolveDataSources )
+            PdfGenerationResult result;
+
+            if ( IsPdfPreviewPending )
+                result = await ResolvePdfPreview();
+            else
             {
-                await NotifyPdfProgress( new( "Resolving data" ), yieldRender: true );
-                await ResolveDataSources( definition, loadData: true );
+                if ( resolveDataSources )
+                {
+                    Task<bool> resolveDataSourcesTask = ResolveDataSourcesOperation( definition, loadData: true );
+                    await NotifyPdfProgress( new( "Resolving data" ), yieldRender: true );
+
+                    if ( !await resolveDataSourcesTask )
+                        return null;
+
+                    operationMutationVersion = renderMutationVersion;
+                }
+
+                result = await ResolvePdfPreview();
             }
 
-            PdfGenerationResult result = await ResolvePdfPreview();
-
-            if ( result is not null )
+            if ( result is not null && operationMutationVersion == renderMutationVersion )
             {
                 await NotifyPdfProgress( new( "Preparing preview" ), yieldRender: true );
                 await NotifyPdfProgress( new( "PDF ready", 1 ), yieldRender: true );
@@ -1039,7 +1135,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         }
         finally
         {
-            OperationFinished?.Invoke();
+            if ( operationMutationVersion == renderMutationVersion )
+                OperationFinished?.Invoke();
         }
     }
 
@@ -1050,33 +1147,90 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         if ( result is not null || PdfGenerator is null )
             return result;
 
-        ReportDefinition definition = RootDefinition;
-        await NotifyPdfProgress( new( "Building PDF" ), yieldRender: true );
-        PdfDocumentDefinition pdfDocument = ReportPdfDocumentBuilder.Build( definition, Data, ElementPluginRegistry );
+        int mutationVersion = renderMutationVersion;
+        Task<PdfGenerationResult> task = pdfPreviewTask;
+        CancellationTokenSource cancellationTokenSource = null;
 
-        result = await PdfGenerator.GenerateAsync( pdfDocument, new()
+        if ( task is null || pdfPreviewTaskMutationVersion != mutationVersion )
         {
-            FileName = ResolvePdfFileName( definition ),
-            Progress = HasPdfProgressListeners
-                ? OnPdfGeneratorProgressed
-                : null,
-        } );
+            CancelAsyncOperations();
 
-        pdfPreviewResult = result;
-        pdfPreviewContext = new(
-            result.Content,
-            result.ContentType,
-            result.FileName,
-            context.ViewerOptions.AllowPrint,
-            context.ViewerOptions.AllowDownload,
-            EventCallback.Factory.Create( this, DownloadPdf ) );
-        pdfPreviewMutationVersion = renderMutationVersion;
+            cancellationTokenSource = new();
+            asyncOperationCancellationTokenSource = cancellationTokenSource;
+            pdfPreviewTaskMutationVersion = mutationVersion;
+            task = GeneratePdfPreview( RootDefinition, mutationVersion, cancellationTokenSource.Token );
+            pdfPreviewTask = task;
+        }
 
-        return result;
+        try
+        {
+            return await task;
+        }
+        finally
+        {
+            if ( cancellationTokenSource is not null )
+            {
+                if ( ReferenceEquals( pdfPreviewTask, task ) )
+                {
+                    pdfPreviewTask = null;
+                    pdfPreviewTaskMutationVersion = -1;
+
+                    if ( ReferenceEquals( asyncOperationCancellationTokenSource, cancellationTokenSource ) )
+                        asyncOperationCancellationTokenSource = null;
+                }
+
+                cancellationTokenSource.Dispose();
+            }
+        }
     }
 
-    private async Task OnPdfGeneratorProgressed( PdfGenerationProgress progress )
+    private async Task<PdfGenerationResult> GeneratePdfPreview( ReportDefinition definition, int mutationVersion, CancellationToken cancellationToken )
     {
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            await NotifyPdfProgress( new( "Building PDF" ), yieldRender: true );
+
+            if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+                return null;
+
+            PdfDocumentDefinition pdfDocument = ReportPdfDocumentBuilder.Build( definition, Data, ElementPluginRegistry );
+            cancellationToken.ThrowIfCancellationRequested();
+
+            PdfGenerationResult result = await PdfGenerator.GenerateAsync( pdfDocument, new()
+            {
+                FileName = ResolvePdfFileName( definition ),
+                Progress = HasPdfProgressListeners
+                    ? progress => OnPdfGeneratorProgressed( progress, mutationVersion, cancellationToken )
+                    : null,
+            }, cancellationToken );
+
+            if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+                return null;
+
+            pdfPreviewResult = result;
+            pdfPreviewContext = new(
+                result.Content,
+                result.ContentType,
+                result.FileName,
+                context.ViewerOptions.AllowPrint,
+                context.ViewerOptions.AllowDownload,
+                EventCallback.Factory.Create( this, DownloadPdf ) );
+            pdfPreviewMutationVersion = mutationVersion;
+
+            return result;
+        }
+        catch ( OperationCanceledException ) when ( cancellationToken.IsCancellationRequested )
+        {
+            return null;
+        }
+    }
+
+    private async Task OnPdfGeneratorProgressed( PdfGenerationProgress progress, int mutationVersion, CancellationToken cancellationToken )
+    {
+        if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+            return;
+
         string status = progress.Stage switch
         {
             PdfGenerationStage.PreparingResources => "Preparing resources",
@@ -1980,8 +2134,17 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         await ExecuteDesignerCommand( new( "Refresh data source", async () =>
         {
-            await dataCommandService.RefreshDataSource( EffectiveDefinition, DataSourceProviderRegistry, dataSourceName );
-            await ResolveDataSources( EffectiveDefinition, CurrentMode == ReportMode.Preview );
+            ReportDefinition definition = EffectiveDefinition;
+
+            await ExecuteDataOperation( async ( cancellationToken, mutationVersion ) =>
+            {
+                await dataCommandService.RefreshDataSource( definition, DataSourceProviderRegistry, dataSourceName, cancellationToken );
+
+                if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+                    return false;
+
+                return await ResolveDataSources( definition, CurrentMode == ReportMode.Preview, mutationVersion, cancellationToken );
+            } );
         }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
     }
 
@@ -2938,9 +3101,19 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private void InvalidateDesignerCaches()
     {
+        CancelAsyncOperations();
         renderMutationVersion++;
         renderService.Invalidate();
         WarningsChanged?.Invoke();
+    }
+
+    private void CancelAsyncOperations()
+    {
+        CancellationTokenSource cancellationTokenSource = asyncOperationCancellationTokenSource;
+        asyncOperationCancellationTokenSource = null;
+        pdfPreviewTask = null;
+        pdfPreviewTaskMutationVersion = -1;
+        cancellationTokenSource?.Cancel();
     }
 
     private void RefreshDesignerSurface()
@@ -3614,6 +3787,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     private bool HasClipboardElements => clipboardElements.Count > 0;
 
     private PdfGenerationResult CurrentPdfPreviewResult => pdfPreviewMutationVersion == renderMutationVersion ? pdfPreviewResult : null;
+
+    private bool IsPdfPreviewPending => pdfPreviewTask is not null && pdfPreviewTaskMutationVersion == renderMutationVersion;
 
     private bool CanInsertSubreportElement => string.IsNullOrWhiteSpace( activeSubreportElementKey );
 
