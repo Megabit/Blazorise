@@ -1,4 +1,5 @@
 #region Using directives
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -10,6 +11,15 @@ namespace Blazorise.Reporting;
 public partial class ReportField : BaseReportTextElement
 {
     #region Methods
+
+    /// <inheritdoc />
+    protected override bool HasDefinitionChanged( ParameterView parameters )
+    {
+        return base.HasDefinitionChanged( parameters )
+            || parameters.IsParameterChanged( Field )
+            || parameters.IsParameterChanged( Format )
+            || parameters.IsParameterChanged( AggregateFunction );
+    }
 
     /// <inheritdoc />
     protected override ReportElementDefinition BuildDefinition()

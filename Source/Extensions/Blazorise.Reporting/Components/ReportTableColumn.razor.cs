@@ -1,4 +1,7 @@
 #region Using directives
+using System;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -7,30 +10,68 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Declares a column inside a report table element.
 /// </summary>
-public partial class ReportTableColumn : ComponentBase
+public partial class ReportTableColumn : ComponentBase, IDisposable
 {
+    #region Members
+
+    private readonly ReportTableColumnDefinition definition = new();
+
+    private ReportTableContext registeredTableContext;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        if ( TableDefinition is null )
-            return;
+        bool definitionChanged = registeredTableContext is null
+            || parameters.IsParameterChanged( Title )
+            || parameters.IsParameterChanged( Field )
+            || parameters.IsParameterChanged( Format )
+            || parameters.IsParameterChanged( Width );
 
-        TableDefinition.Columns.Add( new()
+        await base.SetParametersAsync( parameters );
+
+        bool contextChanged = !ReferenceEquals( registeredTableContext, TableContext );
+
+        if ( contextChanged )
         {
-            Title = Title,
-            Field = Field,
-            Format = Format,
-            Width = Width,
-        } );
+            if ( registeredTableContext?.Definition is not null )
+                registeredTableContext.Definition.Columns.Remove( definition );
+
+            registeredTableContext = TableContext;
+
+            if ( registeredTableContext?.Definition is not null )
+                registeredTableContext.Definition.Columns.Add( definition );
+        }
+
+        if ( definitionChanged )
+        {
+            definition.Title = Title;
+            definition.Field = Field;
+            definition.Format = Format;
+            definition.Width = Width;
+        }
+
+        if ( definitionChanged || contextChanged )
+            registeredTableContext?.NotifyDefinitionChanged();
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        if ( registeredTableContext?.Definition?.Columns.Remove( definition ) == true )
+            registeredTableContext.NotifyDefinitionChanged();
+
+        registeredTableContext = null;
     }
 
     #endregion
 
     #region Properties
 
-    [CascadingParameter] internal ReportTableElementDefinition TableDefinition { get; set; }
+    [CascadingParameter] internal ReportTableContext TableContext { get; set; }
 
     /// <summary>
     /// Header text displayed for the table column.

@@ -1,4 +1,7 @@
 #region Using directives
+using System;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -7,46 +10,106 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Base class for declarative report bands that register themselves with the current report page.
 /// </summary>
-public abstract class BaseReportSection : ComponentBase
+public abstract class BaseReportSection : ComponentBase, IDisposable
 {
+    #region Members
+
+    private readonly ReportBandDefinition definition = new();
+
+    private ReportPageContext registeredPageContext;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new report section component.
+    /// </summary>
+    protected BaseReportSection()
+    {
+        SectionContext = new( definition );
+    }
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        if ( PageContext is null )
-            return;
+        bool definitionChanged = registeredPageContext is null
+            || parameters.IsParameterChanged( Name )
+            || parameters.IsParameterChanged( Height )
+            || parameters.IsParameterChanged( DataSource )
+            || parameters.IsParameterChanged( GroupBy )
+            || parameters.IsParameterChanged( Class )
+            || parameters.IsParameterChanged( Style )
+            || parameters.IsReportValueChanged( Suppress )
+            || parameters.IsParameterChanged( ReserveSpaceWhenSuppressed )
+            || parameters.IsParameterChanged( PrintOnFirstPage )
+            || parameters.IsParameterChanged( PrintOnLastPage )
+            || parameters.IsParameterChanged( RepeatOnEveryPage )
+            || parameters.IsReportValueChanged( KeepTogether )
+            || parameters.IsReportValueChanged( NewPageBefore )
+            || parameters.IsReportValueChanged( NewPageAfter )
+            || parameters.IsParameterChanged( BackgroundColor )
+            || parameters.IsParameterChanged( BorderColor )
+            || parameters.IsParameterChanged( BorderWidth );
 
-        var section = PageContext.RegisterBand( new()
+        await base.SetParametersAsync( parameters );
+
+        bool pageChanged = !ReferenceEquals( registeredPageContext, PageContext );
+
+        if ( pageChanged )
         {
-            Name = Name,
-            Type = SectionType,
-            Height = Height,
-            DataSource = DataSource,
-            GroupBy = GroupBy,
-            Class = Class,
-            Style = Style,
-            Default = true,
-            Suppress = Suppress ?? false,
-            ReserveSpaceWhenSuppressed = ReserveSpaceWhenSuppressed,
-            PrintOnFirstPage = PrintOnFirstPage,
-            PrintOnLastPage = PrintOnLastPage,
-            RepeatOnEveryPage = RepeatOnEveryPage,
-            KeepTogether = KeepTogether,
-            NewPageBefore = NewPageBefore,
-            NewPageAfter = NewPageAfter,
-            Appearance = new()
-            {
-                BackgroundColor = BackgroundColor,
-            },
-            Border = new()
-            {
-                Color = BorderColor,
-                Width = BorderWidth,
-            },
-        } );
+            registeredPageContext?.UnregisterBand( this );
+            registeredPageContext = PageContext;
+            SectionContext.DefinitionChanged = registeredPageContext is null
+                ? null
+                : new Action( registeredPageContext.NotifyDefinitionChanged );
+        }
 
-        SectionContext = new( section );
+        if ( definitionChanged )
+            UpdateDefinition();
+
+        if ( definitionChanged || pageChanged )
+            registeredPageContext?.RegisterBand( this, definition );
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        registeredPageContext?.UnregisterBand( this );
+        registeredPageContext = null;
+    }
+
+    private void UpdateDefinition()
+    {
+        definition.Name = Name;
+        definition.Type = SectionType;
+        definition.Height = Height;
+        definition.DataSource = DataSource;
+        definition.GroupBy = GroupBy;
+        definition.Class = Class;
+        definition.Style = Style;
+        definition.Default = true;
+        definition.Suppress = Suppress ?? false;
+        definition.ReserveSpaceWhenSuppressed = ReserveSpaceWhenSuppressed;
+        definition.PrintOnFirstPage = PrintOnFirstPage;
+        definition.PrintOnLastPage = PrintOnLastPage;
+        definition.RepeatOnEveryPage = RepeatOnEveryPage;
+        definition.KeepTogether = KeepTogether;
+        definition.NewPageBefore = NewPageBefore;
+        definition.NewPageAfter = NewPageAfter;
+        definition.Appearance = new()
+        {
+            BackgroundColor = BackgroundColor,
+        };
+        definition.Border = new()
+        {
+            Color = BorderColor,
+            Width = BorderWidth,
+        };
     }
 
     #endregion
@@ -56,7 +119,7 @@ public abstract class BaseReportSection : ComponentBase
     /// <summary>
     /// Section context provided to child report elements.
     /// </summary>
-    internal ReportSectionContext SectionContext { get; private set; }
+    internal ReportSectionContext SectionContext { get; }
 
     /// <summary>
     /// Band kind represented by the derived component.

@@ -1,4 +1,5 @@
 #region Using directives
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -9,20 +10,51 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportTable
 {
-    #region Methods
+    #region Members
 
-    private ReportTableElementDefinition TableDefinition => Definition as ReportTableElementDefinition;
+    private readonly ReportTableContext tableContext = new();
+
+    private bool declarativeContent;
+
+    #endregion
+
+    #region Methods
 
     /// <inheritdoc />
     protected override ReportElementType ElementType => ReportElementType.Table;
 
     /// <inheritdoc />
+    protected override bool HasDefinitionChanged( ParameterView parameters )
+    {
+        return base.HasDefinitionChanged( parameters )
+            || parameters.IsParameterChanged( RowCount )
+            || parameters.IsParameterChanged( ColumnCount )
+            || parameters.TryGetParameter( ChildContent,
+                value => ( value is null ) == ( ChildContent is null ),
+                out ComponentParameterInfo<RenderFragment> childContentParameter ) && childContentParameter.Changed;
+    }
+
+    /// <inheritdoc />
     protected override ReportElementDefinition BuildDefinition()
     {
         ReportTableElementDefinition definition = (ReportTableElementDefinition)base.BuildDefinition();
+        bool hasDeclarativeContent = ChildContent is not null;
 
-        if ( ChildContent is null )
+        if ( declarativeContent != hasDeclarativeContent )
+        {
+            definition.Columns.Clear();
+            definition.Rows.Clear();
+            definition.Cells.Clear();
+            declarativeContent = hasDeclarativeContent;
+        }
+
+        if ( !hasDeclarativeContent )
             Internal.ReportDefinitionHelper.EnsureTableLayout( definition, RowCount, ColumnCount );
+
+        tableContext.Definition = definition;
+        tableContext.DefinitionChanged = RegisteredContainerContext is null
+            ? null
+            : new System.Action( RegisteredContainerContext.NotifyDefinitionChanged );
 
         return definition;
     }

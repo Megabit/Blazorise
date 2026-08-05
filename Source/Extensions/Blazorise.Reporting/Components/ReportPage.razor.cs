@@ -1,4 +1,7 @@
 #region Using directives
+using System;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Reporting.Internal;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,39 +11,94 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Declares a named report design page and the bands it contains.
 /// </summary>
-public partial class ReportPage : ComponentBase
+public partial class ReportPage : ComponentBase, IDisposable
 {
+    #region Members
+
+    private readonly ReportPageDefinition definition = new();
+
+    private ReportContext registeredReportContext;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new report page component.
+    /// </summary>
+    public ReportPage()
+    {
+        PageContext = new( definition, null );
+    }
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnInitialized()
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        ReportPageDefinition page = new()
-        {
-            Name = Name,
-            Size = Size,
-            MeasurementUnit = MeasurementUnit,
-            Orientation = Orientation,
-            Width = ReportMeasurementConverter.ToPoints( Width, MeasurementUnit ),
-            Height = ReportMeasurementConverter.ToPoints( Height, MeasurementUnit ),
-            Margins = new()
-            {
-                Left = ReportMeasurementConverter.ToPoints( MarginLeft, MeasurementUnit ),
-                Top = ReportMeasurementConverter.ToPoints( MarginTop, MeasurementUnit ),
-                Right = ReportMeasurementConverter.ToPoints( MarginRight, MeasurementUnit ),
-                Bottom = ReportMeasurementConverter.ToPoints( MarginBottom, MeasurementUnit ),
-            },
-        };
+        bool definitionChanged = registeredReportContext is null
+            || parameters.IsParameterChanged( Name )
+            || parameters.IsParameterChanged( Size )
+            || parameters.IsParameterChanged( MeasurementUnit )
+            || parameters.IsParameterChanged( Orientation )
+            || parameters.IsParameterChanged( Width )
+            || parameters.IsParameterChanged( Height )
+            || parameters.IsParameterChanged( MarginLeft )
+            || parameters.IsParameterChanged( MarginTop )
+            || parameters.IsParameterChanged( MarginRight )
+            || parameters.IsParameterChanged( MarginBottom );
 
-        PageContext = new( page );
-        ReportContext?.RegisterPage( page );
+        await base.SetParametersAsync( parameters );
+
+        bool contextChanged = !ReferenceEquals( registeredReportContext, ReportContext );
+
+        if ( contextChanged )
+        {
+            registeredReportContext?.UnregisterPage( this );
+            registeredReportContext = ReportContext;
+            PageContext.DefinitionChanged = registeredReportContext is null
+                ? null
+                : new Action( registeredReportContext.NotifyDefinitionChanged );
+        }
+
+        if ( definitionChanged )
+            UpdateDefinition();
+
+        if ( definitionChanged || contextChanged )
+            registeredReportContext?.RegisterPage( this, definition );
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        registeredReportContext?.UnregisterPage( this );
+        registeredReportContext = null;
+    }
+
+    private void UpdateDefinition()
+    {
+        definition.Name = Name;
+        definition.Size = Size;
+        definition.MeasurementUnit = MeasurementUnit;
+        definition.Orientation = Orientation;
+        definition.Width = ReportMeasurementConverter.ToPoints( Width, MeasurementUnit );
+        definition.Height = ReportMeasurementConverter.ToPoints( Height, MeasurementUnit );
+        definition.Margins = new()
+        {
+            Left = ReportMeasurementConverter.ToPoints( MarginLeft, MeasurementUnit ),
+            Top = ReportMeasurementConverter.ToPoints( MarginTop, MeasurementUnit ),
+            Right = ReportMeasurementConverter.ToPoints( MarginRight, MeasurementUnit ),
+            Bottom = ReportMeasurementConverter.ToPoints( MarginBottom, MeasurementUnit ),
+        };
     }
 
     #endregion
 
     #region Properties
 
-    internal ReportPageContext PageContext { get; private set; }
+    internal ReportPageContext PageContext { get; }
 
     [CascadingParameter] internal ReportContext ReportContext { get; set; }
 

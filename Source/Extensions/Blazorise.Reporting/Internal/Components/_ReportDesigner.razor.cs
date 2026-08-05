@@ -78,6 +78,10 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private ReportDefinition workingDefinition;
 
+    private int declarativeContextVersion = -1;
+
+    private int declarativeConfigurationVersion = -1;
+
     private ReportMode currentMode;
 
     private ReportPreviewFormat currentPreviewFormat;
@@ -194,7 +198,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         if ( definitionChanged || definitionModeChanged )
         {
-            await ApplyDefinition( CreateWorkingDefinition(), notifyDefinitionChanged: false );
+            ReportDefinition definition = CreateWorkingDefinition();
+
+            if ( ShouldUseDeclarativeDefinition() )
+                declarativeContextVersion = context.DefinitionVersion;
+
+            await ApplyDefinition( definition, notifyDefinitionChanged: false );
             return;
         }
 
@@ -222,10 +231,13 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        context.ViewerOptions.PreviewFormats = GlobalOptions.PreviewFormats;
-        context.ViewerOptions.DefaultFormat = GlobalOptions.DefaultPreviewFormat;
-        context.ViewerOptions.AllowPrint = GlobalOptions.AllowPrint;
-        context.ViewerOptions.AllowDownload = GlobalOptions.AllowDownload;
+        context.SetViewerDefaults( new()
+        {
+            PreviewFormats = GlobalOptions.PreviewFormats,
+            DefaultFormat = GlobalOptions.DefaultPreviewFormat,
+            AllowPrint = GlobalOptions.AllowPrint,
+            AllowDownload = GlobalOptions.AllowDownload,
+        } );
 
         currentMode = Mode ?? ( IsEditable ? ReportMode.Design : ReportMode.Preview );
         currentPreviewFormat = PreviewFormat ?? DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat;
@@ -239,9 +251,25 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( !firstRender )
+        {
+            bool configurationChanged = declarativeConfigurationVersion != context.ConfigurationVersion;
+            declarativeConfigurationVersion = context.ConfigurationVersion;
+
+            if ( CurrentDefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative
+                && declarativeContextVersion != context.DefinitionVersion )
+            {
+                declarativeContextVersion = context.DefinitionVersion;
+                await ApplyDefinition( BuildDeclarativeDefinition(), notifyDefinitionChanged: true );
+            }
+            else if ( configurationChanged )
+                StateHasChanged();
+
             return;
+        }
 
         bool declarativeDefinitionCreated = ShouldUseDeclarativeDefinition();
+        declarativeContextVersion = context.DefinitionVersion;
+        declarativeConfigurationVersion = context.ConfigurationVersion;
 
         if ( declarativeDefinitionCreated )
             workingDefinition = BuildDeclarativeDefinition();

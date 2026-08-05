@@ -1,4 +1,7 @@
 #region Using directives
+using System;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -7,26 +10,49 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Declares a cell inside a report layout table element.
 /// </summary>
-public partial class ReportTableCell : ComponentBase
+public partial class ReportTableCell : ComponentBase, IDisposable
 {
     #region Members
 
-    private ReportTableCellContext cellContext;
+    private readonly ReportTableCellContext cellContext = new();
+
+    private ReportTableRowContext registeredRowContext;
 
     #endregion
 
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        cellContext = null;
+        bool definitionChanged = registeredRowContext is null
+            || parameters.IsParameterChanged( RowSpan )
+            || parameters.IsParameterChanged( ColumnSpan );
 
-        if ( RowContext is null )
-            return;
+        await base.SetParametersAsync( parameters );
 
-        ReportTableCellDefinition definition = RowContext.AddCell( RowSpan, ColumnSpan );
-        cellContext = new( RowContext.TableDefinition, definition );
+        bool contextChanged = !ReferenceEquals( registeredRowContext, RowContext );
+
+        if ( contextChanged )
+        {
+            registeredRowContext?.UnregisterCell( this );
+            registeredRowContext = RowContext;
+        }
+
+        if ( definitionChanged || contextChanged )
+        {
+            ReportTableCellDefinition definition = registeredRowContext?.RegisterCell( this, RowSpan, ColumnSpan );
+
+            if ( definition is not null )
+                cellContext.Attach( registeredRowContext, definition );
+        }
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        registeredRowContext?.UnregisterCell( this );
+        registeredRowContext = null;
     }
 
     #endregion

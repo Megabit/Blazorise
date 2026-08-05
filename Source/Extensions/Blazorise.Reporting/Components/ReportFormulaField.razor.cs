@@ -1,4 +1,7 @@
 #region Using directives
+using System;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -7,18 +10,48 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Declares a reusable formula-backed field available to report elements and text templates.
 /// </summary>
-public partial class ReportFormulaField : ComponentBase
+public partial class ReportFormulaField : ComponentBase, IDisposable
 {
+    #region Members
+
+    private ReportContext registeredReportContext;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        ReportContext?.RegisterFormulaField( new()
+        bool definitionChanged = registeredReportContext is null
+            || parameters.IsParameterChanged( Name )
+            || parameters.IsParameterChanged( Formula );
+
+        await base.SetParametersAsync( parameters );
+
+        bool contextChanged = !ReferenceEquals( registeredReportContext, ReportContext );
+
+        if ( contextChanged )
         {
-            Name = Name,
-            Formula = Formula,
-        } );
+            registeredReportContext?.UnregisterFormulaField( this );
+            registeredReportContext = ReportContext;
+        }
+
+        if ( definitionChanged || contextChanged )
+        {
+            registeredReportContext?.RegisterFormulaField( this, new()
+            {
+                Name = Name,
+                Formula = Formula,
+            } );
+        }
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        registeredReportContext?.UnregisterFormulaField( this );
+        registeredReportContext = null;
     }
 
     #endregion

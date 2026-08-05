@@ -2,6 +2,8 @@ namespace Blazorise.Reporting;
 
 internal sealed class ReportSectionContext : IReportElementContainerContext
 {
+    private readonly ReportRegistrationCollection<ReportElementDefinition> elements = new();
+
     #region Constructors
 
     public ReportSectionContext( ReportBandDefinition definition )
@@ -13,10 +15,28 @@ internal sealed class ReportSectionContext : IReportElementContainerContext
 
     #region Methods
 
-    public void AddElement( ReportElementDefinition element )
+    public void RegisterElement( object owner, ReportElementDefinition element )
     {
-        if ( element is not null )
-            Definition.Elements.Add( element );
+        if ( element is null )
+            return;
+
+        elements.Set( owner, element );
+        Definition.Elements = [.. elements.Values];
+        NotifyDefinitionChanged();
+    }
+
+    public void UnregisterElement( object owner )
+    {
+        if ( !elements.Remove( owner ) )
+            return;
+
+        Definition.Elements = [.. elements.Values];
+        NotifyDefinitionChanged();
+    }
+
+    public void NotifyDefinitionChanged()
+    {
+        DefinitionChanged?.Invoke();
     }
 
     #endregion
@@ -24,6 +44,8 @@ internal sealed class ReportSectionContext : IReportElementContainerContext
     #region Properties
 
     public ReportBandDefinition Definition { get; }
+
+    internal System.Action DefinitionChanged { get; set; }
 
     #endregion
 }

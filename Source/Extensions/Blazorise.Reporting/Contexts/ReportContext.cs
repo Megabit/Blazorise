@@ -10,15 +10,21 @@ namespace Blazorise.Reporting;
 
 internal sealed class ReportContext
 {
-    private readonly List<ReportDataSourceDefinition> dataSources = [];
+    private readonly ReportRegistrationCollection<ReportDataSourceDefinition> dataSources = new();
 
-    private readonly List<ReportFormulaFieldDefinition> formulaFields = [];
+    private readonly ReportRegistrationCollection<ReportFormulaFieldDefinition> formulaFields = new();
 
-    private readonly List<ReportRunningTotalDefinition> runningTotals = [];
+    private readonly ReportRegistrationCollection<ReportRunningTotalDefinition> runningTotals = new();
 
-    private readonly List<FontFamily> fonts = [];
+    private readonly ReportRegistrationCollection<FontFamily> fonts = new();
 
-    private readonly List<ReportPageDefinition> pages = [];
+    private readonly ReportRegistrationCollection<ReportPageDefinition> pages = new();
+
+    private readonly ReportRegistrationCollection<ReportToolbar> toolbars = new();
+
+    private readonly ReportRegistrationCollection<ReportViewerOptions> viewers = new();
+
+    private readonly ReportViewerOptions defaultViewerOptions = new();
 
     public ReportViewerOptions ViewerOptions { get; } = new();
 
@@ -42,60 +48,117 @@ internal sealed class ReportContext
 
     public bool ShowToolbarModeButtons { get; private set; } = true;
 
-    public void RegisterDataSource( ReportDataSourceDefinition dataSource )
+    public void RegisterDataSource( object owner, ReportDataSourceDefinition dataSource )
     {
+        if ( dataSource is null )
+            return;
+
         if ( string.IsNullOrWhiteSpace( dataSource.Name ) )
             dataSource.Name = "Default";
 
-        var existingIndex = dataSources.FindIndex( x => string.Equals( x.Name, dataSource.Name, StringComparison.OrdinalIgnoreCase ) );
+        if ( dataSources.TryGetValue( owner, out ReportDataSourceDefinition currentDataSource ) )
+            dataSource.Id = currentDataSource.Id;
 
-        if ( existingIndex >= 0 )
-            dataSources[existingIndex] = dataSource;
-        else
-            dataSources.Add( dataSource );
+        dataSources.Set( owner, dataSource );
+        NotifyDefinitionChanged();
     }
 
-    public void RegisterFormulaField( ReportFormulaFieldDefinition formulaField )
+    public void UnregisterDataSource( object owner )
+    {
+        if ( dataSources.Remove( owner ) )
+            NotifyDefinitionChanged();
+    }
+
+    public void RegisterFormulaField( object owner, ReportFormulaFieldDefinition formulaField )
     {
         if ( string.IsNullOrWhiteSpace( formulaField?.Name ) )
+        {
+            UnregisterFormulaField( owner );
             return;
+        }
 
-        var existingIndex = formulaFields.FindIndex( x => string.Equals( x.Name, formulaField.Name, StringComparison.OrdinalIgnoreCase ) );
+        if ( formulaFields.TryGetValue( owner, out ReportFormulaFieldDefinition currentFormulaField ) )
+            formulaField.Id = currentFormulaField.Id;
 
-        if ( existingIndex >= 0 )
-            formulaFields[existingIndex] = formulaField;
-        else
-            formulaFields.Add( formulaField );
+        formulaFields.Set( owner, formulaField );
+        NotifyDefinitionChanged();
     }
 
-    public void RegisterRunningTotal( ReportRunningTotalDefinition runningTotal )
+    public void UnregisterFormulaField( object owner )
+    {
+        if ( formulaFields.Remove( owner ) )
+            NotifyDefinitionChanged();
+    }
+
+    public void RegisterRunningTotal( object owner, ReportRunningTotalDefinition runningTotal )
     {
         if ( string.IsNullOrWhiteSpace( runningTotal?.Name ) )
+        {
+            UnregisterRunningTotal( owner );
             return;
+        }
 
-        var existingIndex = runningTotals.FindIndex( x => string.Equals( x.Name, runningTotal.Name, StringComparison.OrdinalIgnoreCase ) );
-
-        if ( existingIndex >= 0 )
-            runningTotals[existingIndex] = runningTotal;
-        else
-            runningTotals.Add( runningTotal );
+        runningTotals.Set( owner, runningTotal );
+        NotifyDefinitionChanged();
     }
 
-    public void RegisterFont( FontFamily font )
+    public void UnregisterRunningTotal( object owner )
+    {
+        if ( runningTotals.Remove( owner ) )
+            NotifyDefinitionChanged();
+    }
+
+    public void RegisterFont( object owner, FontFamily font )
     {
         if ( string.IsNullOrWhiteSpace( font?.Name ) )
+        {
+            UnregisterFont( owner );
             return;
+        }
 
-        int existingIndex = fonts.FindIndex( x => string.Equals( x.Name, font.Name, StringComparison.OrdinalIgnoreCase ) );
-
-        if ( existingIndex >= 0 )
-            fonts[existingIndex] = font;
-        else
-            fonts.Add( font );
+        fonts.Set( owner, font );
+        NotifyDefinitionChanged();
     }
 
-    public void RegisterToolbar( ReportToolbar toolbar )
+    public void UnregisterFont( object owner )
     {
+        if ( fonts.Remove( owner ) )
+            NotifyDefinitionChanged();
+    }
+
+    public void RegisterToolbar( object owner, ReportToolbar toolbar )
+    {
+        toolbars.Set( owner, toolbar );
+        ApplyToolbar( toolbars.LastOrDefault );
+        ConfigurationVersion++;
+    }
+
+    public void UnregisterToolbar( object owner )
+    {
+        if ( toolbars.Remove( owner ) )
+        {
+            ApplyToolbar( toolbars.LastOrDefault );
+            ConfigurationVersion++;
+        }
+    }
+
+    private void ApplyToolbar( ReportToolbar toolbar )
+    {
+        if ( toolbar is null )
+        {
+            ToolbarContent = null;
+            ToolbarButtonTemplate = null;
+            HiddenToolbarCommands = null;
+            ShowToolbarPanesMenu = true;
+            ShowToolbarPersistenceButtons = true;
+            ShowToolbarEditButtons = true;
+            ShowToolbarHistoryButtons = true;
+            ShowToolbarDataSourceButtons = true;
+            ShowToolbarExportButtons = true;
+            ShowToolbarModeButtons = true;
+            return;
+        }
+
         ToolbarContent = toolbar.ChildContent;
         ToolbarButtonTemplate = toolbar.ButtonTemplate;
         HiddenToolbarCommands = toolbar.HiddenCommands;
@@ -108,28 +171,79 @@ internal sealed class ReportContext
         ShowToolbarModeButtons = toolbar.ShowModeButtons;
     }
 
-    public void RegisterPage( ReportPageDefinition page )
+    public void RegisterPage( object owner, ReportPageDefinition page )
     {
         if ( page is null )
             return;
 
         if ( string.IsNullOrWhiteSpace( page.Name ) )
-            page.Name = $"Page {pages.Count + 1}";
+        {
+            int index = pages.IndexOf( owner );
+            page.Name = $"Page {( index >= 0 ? index : pages.Count ) + 1}";
+        }
 
-        pages.Add( page );
+        pages.Set( owner, page );
+        NotifyDefinitionChanged();
+    }
+
+    public void UnregisterPage( object owner )
+    {
+        if ( pages.Remove( owner ) )
+            NotifyDefinitionChanged();
+    }
+
+    public void SetViewerDefaults( ReportViewerOptions options )
+    {
+        CopyViewerOptions( options, defaultViewerOptions );
+        ApplyViewerOptions();
+    }
+
+    public void RegisterViewer( object owner, ReportViewerOptions options )
+    {
+        viewers.Set( owner, options );
+        ApplyViewerOptions();
+        ConfigurationVersion++;
+    }
+
+    public void UnregisterViewer( object owner )
+    {
+        if ( viewers.Remove( owner ) )
+        {
+            ApplyViewerOptions();
+            ConfigurationVersion++;
+        }
+    }
+
+    private void ApplyViewerOptions()
+    {
+        CopyViewerOptions( viewers.LastOrDefault ?? defaultViewerOptions, ViewerOptions );
+    }
+
+    private static void CopyViewerOptions( ReportViewerOptions source, ReportViewerOptions target )
+    {
+        target.PreviewFormats = source.PreviewFormats;
+        target.DefaultFormat = source.DefaultFormat;
+        target.AllowPrint = source.AllowPrint;
+        target.AllowDownload = source.AllowDownload;
+        target.PdfPreviewTemplate = source.PdfPreviewTemplate;
+    }
+
+    internal void NotifyDefinitionChanged()
+    {
+        DefinitionVersion++;
     }
 
     public ReportDefinition BuildDefinition()
     {
         var definition = new ReportDefinition
         {
-            Pages = pages.Count == 0 ? [new() { Name = "Page 1" }] : pages.Select( page => ClonePage( page ) ).ToList(),
-            DataSources = dataSources.Select( CloneDataSource ).ToList(),
-            FormulaFields = formulaFields.Select( CloneFormulaField ).ToList(),
-            Fonts = fonts.Select( CloneFontFamily ).ToList(),
+            Pages = pages.Count == 0 ? [new() { Name = "Page 1" }] : pages.Values.Select( page => ClonePage( page ) ).ToList(),
+            DataSources = dataSources.Values.Select( CloneDataSource ).ToList(),
+            FormulaFields = formulaFields.Values.Select( CloneFormulaField ).ToList(),
+            Fonts = fonts.Values.Select( CloneFontFamily ).ToList(),
         };
 
-        definition.RunningTotals = runningTotals.Select( CloneRunningTotal ).ToList();
+        definition.RunningTotals = runningTotals.Values.Select( CloneRunningTotal ).ToList();
 
         return definition;
     }
@@ -573,6 +687,10 @@ internal sealed class ReportContext
             ElementIds = selection.ElementIds?.ToList() ?? [],
         };
     }
+
+    internal int DefinitionVersion { get; private set; }
+
+    internal int ConfigurationVersion { get; private set; }
 
 }
 

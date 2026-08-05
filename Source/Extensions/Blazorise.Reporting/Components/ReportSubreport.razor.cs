@@ -1,4 +1,5 @@
 #region Using directives
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -13,6 +14,8 @@ public partial class ReportSubreport
 
     private readonly ReportContext context = new();
 
+    private int declarativeContextVersion = -1;
+
     #endregion
 
     #region Methods
@@ -20,7 +23,23 @@ public partial class ReportSubreport
     /// <inheritdoc />
     protected override void OnAfterRender( bool firstRender )
     {
+        if ( context.DefinitionVersion == declarativeContextVersion )
+            return;
+
+        declarativeContextVersion = context.DefinitionVersion;
         SyncNestedReportDefinition();
+        RegisteredContainerContext?.NotifyDefinitionChanged();
+    }
+
+    /// <inheritdoc />
+    protected override bool HasDefinitionChanged( ParameterView parameters )
+    {
+        return base.HasDefinitionChanged( parameters )
+            || parameters.IsParameterChanged( Report )
+            || parameters.IsParameterChanged( DataSource )
+            || parameters.TryGetParameter( ChildContent,
+                value => ( value is null ) == ( ChildContent is null ),
+                out ComponentParameterInfo<RenderFragment> childContentParameter ) && childContentParameter.Changed;
     }
 
     /// <inheritdoc />

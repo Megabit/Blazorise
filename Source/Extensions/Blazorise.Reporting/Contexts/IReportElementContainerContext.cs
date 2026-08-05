@@ -5,5 +5,9 @@ namespace Blazorise.Reporting;
 /// </summary>
 internal interface IReportElementContainerContext
 {
-    void AddElement( ReportElementDefinition element );
+    void RegisterElement( object owner, ReportElementDefinition element );
+
+    void UnregisterElement( object owner );
+
+    void NotifyDefinitionChanged();
 }

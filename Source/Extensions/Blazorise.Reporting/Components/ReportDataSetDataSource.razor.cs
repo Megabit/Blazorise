@@ -1,6 +1,7 @@
 #region Using directives
 using System.Collections.Generic;
 using System.Data;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,6 +13,16 @@ namespace Blazorise.Reporting;
 public partial class ReportDataSetDataSource : BaseReportDataSourceComponent
 {
     #region Methods
+
+    /// <inheritdoc />
+    protected override bool HasDefinitionChanged( ParameterView parameters )
+    {
+        return parameters.IsParameterChanged( Name )
+            || parameters.IsParameterChanged( DataSet )
+            || parameters.IsParameterChanged( DataTable )
+            || parameters.IsParameterChanged( TableName )
+            || parameters.IsParameterChanged( Schema );
+    }
 
     /// <inheritdoc />
     protected override ReportDataSourceDefinition CreateDataSourceDefinition()

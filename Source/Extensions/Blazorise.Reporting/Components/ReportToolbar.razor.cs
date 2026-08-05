@@ -1,5 +1,9 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -8,14 +12,54 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Declares custom toolbar content for the containing report.
 /// </summary>
-public partial class ReportToolbar : ComponentBase
+public partial class ReportToolbar : ComponentBase, IDisposable
 {
+    #region Members
+
+    private ReportContext registeredReportContext;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        ReportContext?.RegisterToolbar( this );
+        bool optionsChanged = registeredReportContext is null
+            || parameters.IsParameterChanged( ChildContent )
+            || parameters.IsParameterChanged( ButtonTemplate )
+            || parameters.TryGetParameter( HiddenCommands,
+                value => value is null
+                    ? HiddenCommands is null
+                    : HiddenCommands is not null && value.SequenceEqual( HiddenCommands ),
+                out ComponentParameterInfo<IReadOnlyCollection<ReportCommand>> hiddenCommandsParameter ) && hiddenCommandsParameter.Changed
+            || parameters.IsParameterChanged( ShowPanesMenu )
+            || parameters.IsParameterChanged( ShowPersistenceButtons )
+            || parameters.IsParameterChanged( ShowEditButtons )
+            || parameters.IsParameterChanged( ShowHistoryButtons )
+            || parameters.IsParameterChanged( ShowDataSourceButtons )
+            || parameters.IsParameterChanged( ShowExportButtons )
+            || parameters.IsParameterChanged( ShowModeButtons );
+
+        await base.SetParametersAsync( parameters );
+
+        bool contextChanged = !ReferenceEquals( registeredReportContext, ReportContext );
+
+        if ( contextChanged )
+        {
+            registeredReportContext?.UnregisterToolbar( this );
+            registeredReportContext = ReportContext;
+        }
+
+        if ( optionsChanged || contextChanged )
+            registeredReportContext?.RegisterToolbar( this, this );
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        registeredReportContext?.UnregisterToolbar( this );
+        registeredReportContext = null;
     }
 
     #endregion

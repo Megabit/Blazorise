@@ -1,25 +1,46 @@
 namespace Blazorise.Reporting;
 
-internal sealed class ReportTableCellContext( ReportTableElementDefinition tableDefinition, ReportTableCellDefinition definition ) : IReportElementContainerContext
+internal sealed class ReportTableCellContext : IReportElementContainerContext
 {
-    #region Methods
+    private readonly ReportRegistrationCollection<ReportElementDefinition> elements = new();
 
-    public void AddElement( ReportElementDefinition element )
+    internal void Attach( ReportTableRowContext rowContext, ReportTableCellDefinition definition )
+    {
+        RowContext = rowContext;
+        Definition = definition;
+        Definition.Elements = [.. elements.Values];
+    }
+
+    public void RegisterElement( object owner, ReportElementDefinition element )
     {
         if ( element is null )
             return;
 
         Internal.ReportDefinitionHelper.FitElementToTableCell( TableDefinition, Definition, element );
-        Definition.Elements.Add( element );
+        elements.Set( owner, element );
+        Definition.Elements = [.. elements.Values];
+        NotifyDefinitionChanged();
     }
 
-    #endregion
+    public void UnregisterElement( object owner )
+    {
+        if ( !elements.Remove( owner ) )
+            return;
 
-    #region Properties
+        if ( Definition is not null )
+            Definition.Elements = [.. elements.Values];
 
-    internal ReportTableElementDefinition TableDefinition { get; } = tableDefinition;
+        NotifyDefinitionChanged();
+    }
 
-    internal ReportTableCellDefinition Definition { get; } = definition;
+    public void NotifyDefinitionChanged()
+    {
+        RowContext?.NotifyDefinitionChanged();
+    }
 
-    #endregion
+    internal ReportTableElementDefinition TableDefinition => RowContext?.TableDefinition;
+
+    internal ReportTableCellDefinition Definition { get; private set; }
+
+    internal ReportTableRowContext RowContext { get; private set; }
 }

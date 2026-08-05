@@ -1,4 +1,7 @@
 #region Using directives
+using System;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -7,25 +10,62 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Declares a stateful summary field that accumulates values while detail records are rendered.
 /// </summary>
-public partial class ReportRunningTotal : ComponentBase
+public partial class ReportRunningTotal : ComponentBase, IDisposable
 {
+    #region Members
+
+    private ReportContext registeredReportContext;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        ReportContext?.RegisterRunningTotal( new()
+        bool definitionChanged = registeredReportContext is null
+            || parameters.IsParameterChanged( Id )
+            || parameters.IsParameterChanged( Name )
+            || parameters.IsParameterChanged( DataSource )
+            || parameters.IsParameterChanged( Field )
+            || parameters.IsParameterChanged( AggregateFunction )
+            || parameters.IsParameterChanged( EvaluateMode )
+            || parameters.IsParameterChanged( EvaluateFormula )
+            || parameters.IsParameterChanged( ResetMode )
+            || parameters.IsParameterChanged( ResetGroupId );
+
+        await base.SetParametersAsync( parameters );
+
+        bool contextChanged = !ReferenceEquals( registeredReportContext, ReportContext );
+
+        if ( contextChanged )
         {
-            Id = Id,
-            Name = Name,
-            DataSource = DataSource,
-            Field = Field,
-            AggregateFunction = AggregateFunction,
-            EvaluateMode = EvaluateMode,
-            EvaluateFormula = EvaluateFormula,
-            ResetMode = ResetMode,
-            ResetGroupId = ResetGroupId,
-        } );
+            registeredReportContext?.UnregisterRunningTotal( this );
+            registeredReportContext = ReportContext;
+        }
+
+        if ( definitionChanged || contextChanged )
+        {
+            registeredReportContext?.RegisterRunningTotal( this, new()
+            {
+                Id = Id,
+                Name = Name,
+                DataSource = DataSource,
+                Field = Field,
+                AggregateFunction = AggregateFunction,
+                EvaluateMode = EvaluateMode,
+                EvaluateFormula = EvaluateFormula,
+                ResetMode = ResetMode,
+                ResetGroupId = ResetGroupId,
+            } );
+        }
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        registeredReportContext?.UnregisterRunningTotal( this );
+        registeredReportContext = null;
     }
 
     #endregion
