@@ -64,10 +64,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private static async Task<byte[]> GeneratePdf( PdfDocumentDefinition document, IFontProvider fontProvider, IPdfResourceResolver resourceResolver, PdfGenerationOptions options, CancellationToken cancellationToken )
     {
-        List<PdfObject> objects = [];
-        List<int> pageObjectIds = [];
-        int catalogId = ReserveObject( objects );
-        int pagesId = ReserveObject( objects );
+        PdfDocumentValidator.Validate( document, options );
+
         List<PdfPageDefinition> pages = document.Pages.Count > 0 ? document.Pages : [CreateDefaultPage( document )];
         IFontProvider effectiveFontProvider = new PdfDocumentFontProvider( document.Fonts, fontProvider );
         int totalWork = pages.Count + 2;
@@ -75,7 +73,11 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         await ReportProgress( options, PdfGenerationStage.PreparingResources, 0, 0, pages.Count );
         cancellationToken.ThrowIfCancellationRequested();
 
-        PdfResolvedResources resolvedResources = await ResolveResources( pages, effectiveFontProvider, resourceResolver, cancellationToken );
+        PdfResolvedResources resolvedResources = await ResolveResources( pages, effectiveFontProvider, resourceResolver, options, cancellationToken );
+        List<PdfObject> objects = [];
+        List<int> pageObjectIds = [];
+        int catalogId = ReserveObject( objects );
+        int pagesId = ReserveObject( objects );
         PdfFontResources fontResources = AddFontResources( objects, pages, effectiveFontProvider, resolvedResources );
 
         await ReportProgress( options, PdfGenerationStage.RenderingPages, 1d / totalWork, 0, pages.Count );
@@ -186,17 +188,19 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return builder.ToString();
     }
 
-    private static async Task<PdfResolvedResources> ResolveResources( IReadOnlyList<PdfPageDefinition> pages, IFontProvider fontProvider, IPdfResourceResolver resourceResolver, CancellationToken cancellationToken )
+    private static async Task<PdfResolvedResources> ResolveResources( IReadOnlyList<PdfPageDefinition> pages, IFontProvider fontProvider, IPdfResourceResolver resourceResolver, PdfGenerationOptions options, CancellationToken cancellationToken )
     {
         PdfResolvedResources resources = new();
+        long totalResourceSize = 0;
 
         foreach ( string source in CollectImageSources( pages ) )
         {
             cancellationToken.ThrowIfCancellationRequested();
 
             PdfResourceContent content = await resourceResolver.ResolveImageAsync( source, cancellationToken );
+            ValidateResolvedResource( content, $"image source {DescribeImageSource( source )}", options, ref totalResourceSize );
 
-            if ( !PdfImageDataReader.TryRead( content, out PdfImageData imageData ) )
+            if ( !PdfImageDataReader.TryRead( content, options.MaxImagePixels, out PdfImageData imageData ) )
                 throw new InvalidDataException( $"The PDF image source {DescribeImageSource( source )} is not a supported JPEG or 8-bit non-interlaced PNG image." );
 
             resources.Images.Add( source, imageData );
@@ -221,14 +225,30 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
                 PdfResourceContent content = await resourceResolver.ResolveFontAsync( source, cancellationToken );
 
-                if ( content?.Data is not { Length: > 0 } )
-                    throw new InvalidDataException( $"The PDF resource resolver returned no data for font family '{customFont.Name}'." );
+                ValidateResolvedResource( content, $"font family '{customFont.Name}'", options, ref totalResourceSize );
+
+                if ( !PdfEmbeddedFont.TryCreate( content.Data, customFont.Name, variantIndex, 1, out _ ) )
+                    throw new InvalidDataException( $"The PDF font family '{customFont.Name}' contains invalid or unsupported TrueType/OpenType font data." );
 
                 resources.Fonts.Add( source, content.Data );
             }
         }
 
         return resources;
+    }
+
+    private static void ValidateResolvedResource( PdfResourceContent content, string description, PdfGenerationOptions options, ref long totalResourceSize )
+    {
+        if ( content?.Data is not { Length: > 0 } data )
+            throw new InvalidDataException( $"The PDF resource resolver returned no data for {description}." );
+
+        if ( data.LongLength > options.MaxResourceSize )
+            throw new InvalidDataException( $"The PDF {description} exceeds the configured resource limit of {options.MaxResourceSize} bytes." );
+
+        if ( totalResourceSize > options.MaxTotalResourceSize - data.LongLength )
+            throw new InvalidDataException( $"The resolved PDF resources exceed the configured total limit of {options.MaxTotalResourceSize} bytes." );
+
+        totalResourceSize += data.LongLength;
     }
 
     private static IReadOnlyList<string> CollectImageSources( IReadOnlyList<PdfPageDefinition> pages )
@@ -1167,13 +1187,34 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private static PdfColor ParseColor( string color )
     {
+        if ( TryParseColor( color, out PdfColor pdfColor ) )
+            return pdfColor;
+
+        return new( 0, 0, 0, 1 );
+    }
+
+    internal static bool IsValidColor( string color )
+    {
+        return TryParseColor( color, out _ );
+    }
+
+    private static bool TryParseColor( string color, out PdfColor pdfColor )
+    {
+        pdfColor = new( 0, 0, 0, 1 );
+
         if ( string.IsNullOrWhiteSpace( color ) )
-            return new( 0, 0, 0, 1 );
+            return true;
 
         string value = ResolveKnownColor( color.Trim() ).TrimStart( '#' );
 
         if ( TryParseRgbFunction( value, out double redComponent, out double greenComponent, out double blueComponent, out double alphaComponent ) )
-            return new( redComponent, greenComponent, blueComponent, alphaComponent );
+        {
+            pdfColor = new( redComponent, greenComponent, blueComponent, alphaComponent );
+            return true;
+        }
+
+        if ( value.StartsWith( "rgb", StringComparison.OrdinalIgnoreCase ) )
+            return false;
 
         if ( value.Length == 3 )
             value = $"{value[0]}{value[0]}{value[1]}{value[1]}{value[2]}{value[2]}";
@@ -1181,22 +1222,24 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             value = $"{value[0]}{value[0]}{value[1]}{value[1]}{value[2]}{value[2]}{value[3]}{value[3]}";
 
         if ( value.Length != 6 && value.Length != 8 )
-            return new( 0, 0, 0, 1 );
+            return false;
 
         if ( !TryParseHexComponent( value, 0, out int red ) || !TryParseHexComponent( value, 2, out int green ) || !TryParseHexComponent( value, 4, out int blue ) )
-            return new( 0, 0, 0, 1 );
+            return false;
 
         double alpha = 1;
 
         if ( value.Length == 8 )
         {
             if ( !TryParseHexComponent( value, 6, out int alphaValue ) )
-                return new( 0, 0, 0, 1 );
+                return false;
 
             alpha = alphaValue / 255d;
         }
 
-        return new( red / 255d, green / 255d, blue / 255d, alpha );
+        pdfColor = new( red / 255d, green / 255d, blue / 255d, alpha );
+
+        return true;
     }
 
     private static bool TryParseHexComponent( string value, int startIndex, out int component )
@@ -1211,18 +1254,19 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         blue = 0;
         alpha = 1;
 
-        if ( !value.StartsWith( "rgb", StringComparison.OrdinalIgnoreCase ) )
+        if ( !value.StartsWith( "rgb(", StringComparison.OrdinalIgnoreCase )
+            && !value.StartsWith( "rgba(", StringComparison.OrdinalIgnoreCase ) )
             return false;
 
         int startIndex = value.IndexOf( '(' );
         int endIndex = value.LastIndexOf( ')' );
 
-        if ( startIndex < 0 || endIndex <= startIndex )
+        if ( startIndex < 0 || endIndex <= startIndex || endIndex != value.Length - 1 )
             return false;
 
         string[] components = value.Substring( startIndex + 1, endIndex - startIndex - 1 ).Split( ',', StringSplitOptions.TrimEntries );
 
-        if ( components.Length < 3 )
+        if ( components.Length != 3 && components.Length != 4 )
             return false;
 
         if ( !TryParseColorComponent( components[0], 255d, out red ) || !TryParseColorComponent( components[1], 255d, out green ) || !TryParseColorComponent( components[2], 255d, out blue ) )
@@ -1247,7 +1291,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         if ( percentage )
             trimmedValue = trimmedValue[..^1];
 
-        if ( !double.TryParse( trimmedValue, NumberStyles.Float, CultureInfo.InvariantCulture, out double parsedValue ) )
+        if ( !double.TryParse( trimmedValue, NumberStyles.Float, CultureInfo.InvariantCulture, out double parsedValue ) || !double.IsFinite( parsedValue ) )
             return false;
 
         component = Math.Clamp( percentage ? parsedValue / 100d : parsedValue / divisor, 0, 1 );

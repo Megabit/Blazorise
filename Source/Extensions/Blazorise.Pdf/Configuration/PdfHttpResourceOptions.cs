@@ -24,7 +24,7 @@ public sealed class PdfHttpResourceOptions
     /// <summary>
     /// Maximum number of bytes allowed for one resource. Defaults to 20 MB.
     /// </summary>
-    public long MaxResourceSize { get; set; } = 20 * 1024 * 1024;
+    public long MaxResourceSize { get; set; } = PdfGenerationOptions.DefaultMaxResourceSize;
 
     /// <summary>
     /// Determines whether an absolute HTTP resource URI is allowed. A null value allows every HTTP and HTTPS URI.

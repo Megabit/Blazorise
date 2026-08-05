@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-04T20:03:03.5427422Z",
+  "generatedUtc": "2026-08-05T05:43:12.2715968Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -82587,6 +82587,54 @@
           "defaultValue": "\"document.pdf\"",
           "summary": "Suggested output file name.",
           "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaxDefinitionNodes",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "DefaultMaxDefinitionNodes",
+          "summary": "Maximum number of definition nodes allowed in one document.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaxImagePixels",
+          "type": "long",
+          "typeName": "long",
+          "defaultValue": "DefaultMaxImagePixels",
+          "summary": "Maximum number of pixels allowed in one image.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaxPages",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "DefaultMaxPages",
+          "summary": "Maximum number of pages allowed in one document.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaxResourceSize",
+          "type": "long",
+          "typeName": "long",
+          "defaultValue": "DefaultMaxResourceSize",
+          "summary": "Maximum number of bytes allowed for one image or font.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaxTextLength",
+          "type": "long",
+          "typeName": "long",
+          "defaultValue": "DefaultMaxTextLength",
+          "summary": "Maximum combined number of text characters allowed in one document.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaxTotalResourceSize",
+          "type": "long",
+          "typeName": "long",
+          "defaultValue": "DefaultMaxTotalResourceSize",
+          "summary": "Maximum combined number of image and font bytes allowed in one document.",
+          "isBlazoriseEnum": false
         }
       ],
       "events": [
@@ -82610,7 +82658,7 @@
           "name": "MaxResourceSize",
           "type": "long",
           "typeName": "long",
-          "defaultValue": "20 * 1024 * 1024",
+          "defaultValue": "0",
           "summary": "Maximum number of bytes allowed for one resource. Defaults to 20 MB.",
           "isBlazoriseEnum": false
         }

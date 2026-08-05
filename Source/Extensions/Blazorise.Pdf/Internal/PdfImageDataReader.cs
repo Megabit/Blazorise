@@ -12,7 +12,7 @@ internal static class PdfImageDataReader
 {
     #region Methods
 
-    internal static bool TryRead( PdfResourceContent resource, out PdfImageData imageData )
+    internal static bool TryRead( PdfResourceContent resource, long maxImagePixels, out PdfImageData imageData )
     {
         imageData = null;
 
@@ -21,6 +21,11 @@ internal static class PdfImageDataReader
 
         if ( ( IsJpegMediaType( resource.MediaType ) || HasJpegSignature( data ) ) && TryReadJpegInfo( data, out int jpegWidth, out int jpegHeight, out int componentCount, out int bitsPerComponent ) )
         {
+            if ( bitsPerComponent != 8 || ( componentCount != 1 && componentCount != 3 && componentCount != 4 ) )
+                return false;
+
+            ValidateImageDimensions( jpegWidth, jpegHeight, maxImagePixels );
+
             imageData = new()
             {
                 Data = data,
@@ -34,7 +39,7 @@ internal static class PdfImageDataReader
             return true;
         }
 
-        if ( ( IsPngMediaType( resource.MediaType ) || HasPngSignature( data ) ) && TryCreatePngImageData( data, out imageData ) )
+        if ( ( IsPngMediaType( resource.MediaType ) || HasPngSignature( data ) ) && TryCreatePngImageData( data, maxImagePixels, out imageData ) )
             return true;
 
         return false;
@@ -104,11 +109,14 @@ internal static class PdfImageDataReader
 
             int length = ReadBigEndianUInt16( data, index );
 
-            if ( length < 2 || index + length > data.Length )
+            if ( length < 2 || length > data.Length - index )
                 return false;
 
             if ( IsJpegStartOfFrameMarker( marker ) )
             {
+                if ( length < 8 )
+                    return false;
+
                 bitsPerComponent = data[index + 2];
                 height = ReadBigEndianUInt16( data, index + 3 );
                 width = ReadBigEndianUInt16( data, index + 5 );
@@ -128,7 +136,7 @@ internal static class PdfImageDataReader
         return marker is 0xC0 or 0xC1 or 0xC2 or 0xC3 or 0xC5 or 0xC6 or 0xC7 or 0xC9 or 0xCA or 0xCB or 0xCD or 0xCE or 0xCF;
     }
 
-    private static bool TryCreatePngImageData( byte[] data, out PdfImageData imageData )
+    private static bool TryCreatePngImageData( byte[] data, long maxImagePixels, out PdfImageData imageData )
     {
         imageData = null;
 
@@ -150,7 +158,7 @@ internal static class PdfImageDataReader
             int length = ReadBigEndianInt32( data, index );
             index += 4;
 
-            if ( length < 0 || index + 4 + length > data.Length )
+            if ( length < 0 || length > data.Length - index - 4 )
                 return false;
 
             string chunkType = Encoding.ASCII.GetString( data, index, 4 );
@@ -158,6 +166,9 @@ internal static class PdfImageDataReader
 
             if ( chunkType == "IHDR" )
             {
+                if ( length != 13 )
+                    return false;
+
                 width = ReadBigEndianInt32( data, index );
                 height = ReadBigEndianInt32( data, index + 4 );
                 bitDepth = data[index + 8];
@@ -189,6 +200,8 @@ internal static class PdfImageDataReader
         if ( width <= 0 || height <= 0 || bitDepth != 8 || compressedImageData.Length == 0 )
             return false;
 
+        ValidateImageDimensions( width, height, maxImagePixels );
+
         if ( !TryDecodePngImageBytes( compressedImageData.ToArray(), width, height, colorType, palette, transparency, out byte[] imageBytes, out byte[] alphaBytes, out string colorSpace ) )
             return false;
 
@@ -206,6 +219,12 @@ internal static class PdfImageDataReader
         };
 
         return true;
+    }
+
+    private static void ValidateImageDimensions( int width, int height, long maxImagePixels )
+    {
+        if ( width <= 0 || height <= 0 || (long)width * height > maxImagePixels )
+            throw new InvalidDataException( $"The PDF image dimensions {width}x{height} exceed the configured limit of {maxImagePixels} pixels." );
     }
 
     private static bool HasPngSignature( byte[] data )
@@ -232,19 +251,22 @@ internal static class PdfImageDataReader
         if ( sourceComponents <= 0 )
             return false;
 
+        long sourceStride = (long)width * sourceComponents;
+        long expectedLength = ( sourceStride + 1 ) * height;
+
+        if ( sourceStride > int.MaxValue || expectedLength > int.MaxValue )
+            return false;
+
         byte[] decodedBytes;
 
         try
         {
-            decodedBytes = DecompressZlib( compressedData );
+            decodedBytes = DecompressZlib( compressedData, (int)expectedLength );
         }
         catch ( InvalidDataException )
         {
             return false;
         }
-
-        int sourceStride = width * sourceComponents;
-        int expectedLength = ( sourceStride + 1 ) * height;
 
         if ( decodedBytes.Length < expectedLength )
             return false;
@@ -457,15 +479,27 @@ internal static class PdfImageDataReader
         return alpha?.Any( value => value < byte.MaxValue ) == true;
     }
 
-    private static byte[] DecompressZlib( byte[] data )
+    private static byte[] DecompressZlib( byte[] data, int expectedLength )
     {
         using MemoryStream sourceStream = new( data );
         using ZLibStream zlibStream = new( sourceStream, CompressionMode.Decompress );
-        using MemoryStream targetStream = new();
+        byte[] result = new byte[expectedLength];
+        int totalBytesRead = 0;
 
-        zlibStream.CopyTo( targetStream );
+        while ( totalBytesRead < result.Length )
+        {
+            int bytesRead = zlibStream.Read( result, totalBytesRead, result.Length - totalBytesRead );
 
-        return targetStream.ToArray();
+            if ( bytesRead == 0 )
+                break;
+
+            totalBytesRead += bytesRead;
+        }
+
+        if ( totalBytesRead != result.Length || zlibStream.ReadByte() >= 0 )
+            throw new InvalidDataException( "The PNG decompressed data length does not match its declared dimensions." );
+
+        return result;
     }
 
     private static byte[] CompressZlib( byte[] data )
