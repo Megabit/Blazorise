@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Licensing;
 using Blazorise.Pdf;
 using Blazorise.Reporting.Internal;
@@ -75,7 +76,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private const string DesignerSurfacePaneName = "report-designer";
 
-    private ReportDefinition declarativeDefinition;
+    private ReportDefinition workingDefinition;
 
     private ReportMode currentMode;
 
@@ -154,6 +155,71 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     #region Methods
 
     /// <inheritdoc />
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        bool initialized = commandManager.State?.Definition is not null;
+        ReportMode previousMode = CurrentMode;
+        ReportPreviewFormat previousPreviewFormat = CurrentPreviewFormat;
+        object previousData = Data;
+
+        parameters.TryGetParameter( Definition, out ComponentParameterInfo<ReportDefinition> definitionParameter );
+        parameters.TryGetParameter( Mode, out ComponentParameterInfo<ReportMode?> modeParameter );
+        parameters.TryGetParameter( PreviewFormat, out ComponentParameterInfo<ReportPreviewFormat?> previewFormatParameter );
+
+        bool definitionModeChanged = initialized && parameters.IsParameterChanged( DefinitionMode );
+        bool dataChanged = initialized && parameters.IsParameterChanged( Data );
+        bool modeChanged = initialized
+            && modeParameter.Changed
+            && modeParameter.Value is ReportMode mode
+            && mode != currentMode;
+        bool previewFormatChanged = initialized
+            && previewFormatParameter.Changed
+            && previewFormatParameter.Value is ReportPreviewFormat previewFormat
+            && previewFormat != currentPreviewFormat;
+
+        await base.SetParametersAsync( parameters );
+
+        if ( !initialized )
+            return;
+
+        if ( modeParameter.Changed )
+            currentMode = modeParameter.Value ?? previousMode;
+
+        if ( previewFormatParameter.Changed )
+            currentPreviewFormat = previewFormatParameter.Value ?? previousPreviewFormat;
+
+        bool definitionChanged = definitionParameter.Changed
+            && !ReferenceEquals( definitionParameter.Value, RootDefinition )
+            && CurrentDefinitionMode != ReportDefinitionMode.AlwaysUseDeclarative;
+
+        if ( definitionChanged || definitionModeChanged )
+        {
+            await ApplyDefinition( CreateWorkingDefinition(), notifyDefinitionChanged: false );
+            return;
+        }
+
+        if ( dataChanged )
+            SynchronizeDefaultDataSource( RootDefinition, previousData );
+
+        if ( CurrentMode == ReportMode.Preview && ( modeChanged || previewFormatChanged || dataChanged ) )
+        {
+            await SetPreview( CurrentPreviewFormat, notifyChanged: false, previousMode: previousMode );
+            return;
+        }
+
+        if ( modeChanged )
+            await SetMode( CurrentMode, notifyChanged: false, previousMode: previousMode );
+
+        if ( dataChanged )
+        {
+            await ResolveDataSources( RootDefinition, loadData: false );
+            RefreshDesigner( ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.FieldsExplorer );
+        }
+        else if ( previewFormatChanged )
+            InvalidateDesignerCaches();
+    }
+
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         context.ViewerOptions.PreviewFormats = GlobalOptions.PreviewFormats;
@@ -161,11 +227,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         context.ViewerOptions.AllowPrint = GlobalOptions.AllowPrint;
         context.ViewerOptions.AllowDownload = GlobalOptions.AllowDownload;
 
-        currentMode = IsEditable ? ReportMode.Design : ReportMode.Preview;
-        currentPreviewFormat = DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat;
+        currentMode = Mode ?? ( IsEditable ? ReportMode.Design : ReportMode.Preview );
+        currentPreviewFormat = PreviewFormat ?? DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat;
 
-        if ( CurrentDefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative || Definition is null )
-            declarativeDefinition = new();
+        workingDefinition = ShouldUseDeclarativeDefinition()
+            ? new()
+            : ReportContext.CloneDefinition( Definition ) ?? new();
     }
 
     /// <inheritdoc />
@@ -174,14 +241,10 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         if ( !firstRender )
             return;
 
-        bool declarativeDefinitionCreated = false;
+        bool declarativeDefinitionCreated = ShouldUseDeclarativeDefinition();
 
-        if ( CurrentDefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative
-            || Definition is null && CurrentDefinitionMode != ReportDefinitionMode.UseDefinitionOnly )
-        {
-            declarativeDefinition = BuildDeclarativeDefinition();
-            declarativeDefinitionCreated = true;
-        }
+        if ( declarativeDefinitionCreated )
+            workingDefinition = BuildDeclarativeDefinition();
 
         ReportDefinition definition = RootDefinition;
 
@@ -196,7 +259,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             InvalidateDesignerCaches();
 
         if ( declarativeDefinitionCreated )
-            await DefinitionChanged.InvokeAsync( declarativeDefinition );
+            await DefinitionChanged.InvokeAsync( workingDefinition );
 
         if ( definition is not null )
             RefreshDesigner( ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.FieldsExplorer );
@@ -252,6 +315,24 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         return ReportDefinitionHelper.EnsureDefinitionIds( definition );
     }
 
+    private ReportDefinition CreateWorkingDefinition()
+    {
+        return ShouldUseDeclarativeDefinition()
+            ? BuildDeclarativeDefinition()
+            : ReportContext.CloneDefinition( Definition ) ?? new();
+    }
+
+    private bool ShouldUseDeclarativeDefinition()
+    {
+        return CurrentDefinitionMode switch
+        {
+            ReportDefinitionMode.AlwaysUseDeclarative => true,
+            ReportDefinitionMode.SeedWhenEmpty => Definition is null,
+            ReportDefinitionMode.UseDefinitionOnly => false,
+            _ => false,
+        };
+    }
+
     private ReportPageDefinition ResolvePage( ReportPageDefinition page )
     {
         return ReportPageDefinitionHelper.ResolvePage( page );
@@ -299,6 +380,31 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             catch
             {
             }
+        }
+    }
+
+    private void SynchronizeDefaultDataSource( ReportDefinition definition, object previousData )
+    {
+        if ( definition?.DataSources is null )
+            return;
+
+        ReportDataSourceDefinition dataSource = definition.DataSources.FirstOrDefault( x =>
+            string.Equals( x?.Name, DataSourceName, StringComparison.OrdinalIgnoreCase )
+            && string.Equals( x.ProviderType, ObjectReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase ) );
+
+        if ( dataSource is not null && ReferenceEquals( dataSource.Data, previousData ) )
+        {
+            dataSource.Data = Data;
+            dataSource.Schema = null;
+        }
+        else if ( dataSource is null && definition.DataSources.Count == 0 && Data is not null )
+        {
+            definition.DataSources.Add( new()
+            {
+                Name = DataSourceName,
+                ProviderType = ObjectReportDataSourceProvider.ProviderType,
+                Data = Data,
+            } );
         }
     }
 
@@ -716,17 +822,19 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         if ( definition is null || CurrentDefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative )
             return;
 
-        ReportDefinition loadedDefinition = ReportContext.CloneDefinition( definition );
+        await ApplyDefinition( ReportContext.CloneDefinition( definition ), notifyDefinitionChanged: true );
+    }
 
-        await ResolveDataSources( loadedDefinition, CurrentMode == ReportMode.Preview );
-
+    private async Task ApplyDefinition( ReportDefinition definition, bool notifyDefinitionChanged )
+    {
+        await ResolveDataSources( definition, CurrentMode == ReportMode.Preview );
         commandManager.Clear();
         await ApplyReportState( new()
         {
-            Definition = loadedDefinition,
+            Definition = definition,
             Mode = CurrentMode,
             PreviewFormat = CurrentPreviewFormat,
-        }, notifyDefinitionChanged: true, ReportDesignerRefreshTarget.All );
+        }, notifyDefinitionChanged, ReportDesignerRefreshTarget.All );
     }
 
     /// <summary>
@@ -767,9 +875,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         } );
     }
 
-    private async Task SetMode( ReportMode mode )
+    private async Task SetMode( ReportMode mode, bool notifyChanged = true, ReportMode? previousMode = null )
     {
-        if ( CurrentMode == ReportMode.Design && mode != ReportMode.Design )
+        ReportMode sourceMode = previousMode ?? CurrentMode;
+
+        if ( sourceMode == ReportMode.Design && mode != ReportMode.Design )
             await CaptureDesignerPaneScrollPositions();
 
         await ExecuteDesignerCommand( new( $"Set {mode} mode", async () =>
@@ -780,13 +890,17 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             if ( mode == ReportMode.Design )
                 designerPaneScrollRestoreVersion++;
 
-            await ModeChanged.InvokeAsync( currentMode );
+            if ( notifyChanged && sourceMode != currentMode )
+                await ModeChanged.InvokeAsync( currentMode );
         }, TrackHistory: false, NotifyDefinitionChanged: false ) );
     }
 
-    private async Task SetPreview( ReportPreviewFormat format )
+    private async Task SetPreview( ReportPreviewFormat format, bool notifyChanged = true, ReportMode? previousMode = null )
     {
-        if ( CurrentMode == ReportMode.Design )
+        ReportMode sourceMode = previousMode ?? CurrentMode;
+        ReportPreviewFormat sourceFormat = CurrentPreviewFormat;
+
+        if ( sourceMode == ReportMode.Design )
             await CaptureDesignerPaneScrollPositions();
 
         await ExecuteDesignerCommand( new( $"Set {format} preview", async () =>
@@ -800,7 +914,14 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             else
                 await ResolveDataSources( RootDefinition, loadData: true );
 
-            await ModeChanged.InvokeAsync( currentMode );
+            if ( notifyChanged )
+            {
+                if ( sourceFormat != currentPreviewFormat )
+                    await PreviewFormatChanged.InvokeAsync( currentPreviewFormat );
+
+                if ( sourceMode != currentMode )
+                    await ModeChanged.InvokeAsync( currentMode );
+            }
         }, TrackHistory: false, NotifyDefinitionChanged: false ) );
     }
 
@@ -939,7 +1060,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         await ExecuteDesignerCommand( new( "Reset report", () =>
         {
-            declarativeDefinition = BuildDeclarativeDefinition();
+            workingDefinition = BuildDeclarativeDefinition();
             activeSubreportElementKey = null;
             SelectReport();
             _ = CloseContextMenu();
@@ -947,7 +1068,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             designerState.EditingElementKey = null;
 
             return Task.CompletedTask;
-        }, () => declarativeDefinition, RefreshTargets: ReportDesignerRefreshTarget.All ) );
+        }, () => workingDefinition, RefreshTargets: ReportDesignerRefreshTarget.All ) );
     }
 
     private Task<bool> ConfirmDestructiveAction( string message, string title, string confirmButtonText )
@@ -1097,7 +1218,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         ReportDefinitionHelper.ApplyRowsLimit( definition, BlazoriseLicenseLimitsHelper.GetReportingRowsLimit( LicenseChecker ) );
 
-        declarativeDefinition = definition;
+        workingDefinition = definition;
         currentMode = nextState.Mode;
         currentPreviewFormat = nextState.PreviewFormat;
         activePageId = nextState.ActivePageId;
@@ -2402,12 +2523,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         await ExecuteDesignerCommand( new( "Insert subreport", () =>
         {
-            ReportDefinition workingDefinition = EffectiveDefinition;
+            ReportDefinition commandDefinition = EffectiveDefinition;
             ReportDefinition rootDefinition = RootDefinition;
             ReportContextMenuState commandContextMenu = designerState.ContextMenu;
             int commandSectionIndex = commandContextMenu?.SectionIndex ?? selectionManager.SelectedSectionIndex ?? -1;
 
-            if ( commandSectionIndex < 0 || commandSectionIndex >= workingDefinition.Bands.Count )
+            if ( commandSectionIndex < 0 || commandSectionIndex >= commandDefinition.Bands.Count )
                 return Task.CompletedTask;
 
             string subreportName = ReportDefinitionHelper.CreateUniqueSubreportName( rootDefinition );
@@ -2423,7 +2544,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             subreport.Report = ReportDefinitionHelper.CreateDefaultSubreportDefinition( subreportName );
             subreport.Report.RowsLimit = rootDefinition.RowsLimit;
 
-            ReportBandDefinition section = workingDefinition.Bands[commandSectionIndex];
+            ReportBandDefinition section = commandDefinition.Bands[commandSectionIndex];
 
             section.Elements.Add( subreport );
             ReportLayoutGeometry.GrowSectionToFitElement( section, subreport );
@@ -3338,7 +3459,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     #region Properties
 
     private ReportDefinition RootDefinition
-        => declarativeDefinition ?? Definition;
+        => workingDefinition;
 
     private ReportDefinition EffectiveDefinition
         => ResolveActiveDesignerDefinition( RootDefinition );
@@ -3668,6 +3789,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// Externally controlled preview format.
     /// </summary>
     [Parameter] public ReportPreviewFormat? PreviewFormat { get; set; }
+
+    /// <summary>
+    /// Raised when the preview format changes.
+    /// </summary>
+    [Parameter] public EventCallback<ReportPreviewFormat> PreviewFormatChanged { get; set; }
 
     /// <summary>
     /// Preview formats available for this report.

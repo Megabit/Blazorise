@@ -251,6 +251,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [Parameter] public ReportPreviewFormat? PreviewFormat { get; set; }
 
     /// <summary>
+    /// Raised when the preview format changes.
+    /// </summary>
+    [Parameter] public EventCallback<ReportPreviewFormat> PreviewFormatChanged { get; set; }
+
+    /// <summary>
     /// Preview formats available for this report.
     /// </summary>
     [Parameter] public ReportPreviewFormat? PreviewFormats { get; set; }
