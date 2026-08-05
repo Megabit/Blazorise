@@ -20,11 +20,13 @@
                     </Div>
                 }
 
-                @if ( CurrentMode == ReportMode.Design && IsEditable )
+                @if ( IsEditable && designerWorkspaceRendered )
                 {
-                    <_ReportDesignerWorkspace @ref="workspaceRef" Designer="@this" />
+                    <_ReportDesignerWorkspace @ref="workspaceRef"
+                                              Designer="@this" />
                 }
-                else
+
+                @if ( CurrentMode != ReportMode.Design || !IsEditable )
                 {
                     <_ReportPreview Designer="@this" />
                 }

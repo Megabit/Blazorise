@@ -467,6 +467,11 @@ public partial class _ReportDesignerLayout
     [Parameter] public DockLayoutState State { get; set; } = new();
 
     /// <summary>
+    /// Defines whether the designer layout is visible.
+    /// </summary>
+    [Parameter] public bool Visible { get; set; } = true;
+
+    /// <summary>
     /// Content shown in the top designer toolbar pane.
     /// </summary>
     [Parameter] public RenderFragment Toolbar { get; set; }

@@ -4,7 +4,8 @@
 @using System
 
 <Div @ref="designerElement"
-     Class="b-report-designer">
+     Class="b-report-designer"
+     Display="@( Visible ? null : DisplayNone )">
     <DockLayout @ref="dockLayout"
                 Class="b-report-designer-layout"
                 State="@State"

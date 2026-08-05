@@ -93,6 +93,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private int designerPaneScrollRestoreVersion;
 
+    private bool designerWorkspaceRendered;
+
     private _ReportDesignerWorkspace workspaceRef;
 
     private int renderMutationVersion;
@@ -253,6 +255,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         currentMode = Mode ?? ( IsEditable ? ReportMode.Design : ReportMode.Preview );
         currentPreviewFormat = PreviewFormat ?? DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat;
+        designerWorkspaceRendered = IsEditable && currentMode == ReportMode.Design;
 
         workingDefinition = ShouldUseDeclarativeDefinition()
             ? new()
@@ -1006,7 +1009,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             designerState.EditingElementKey = null;
 
             if ( mode == ReportMode.Design )
+            {
+                designerWorkspaceRendered = true;
                 designerPaneScrollRestoreVersion++;
+                RefreshDesigner( ReportDesignerRefreshTarget.All );
+            }
 
             if ( notifyChanged && sourceMode != currentMode )
                 await ModeChanged.InvokeAsync( currentMode );
@@ -3778,7 +3785,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             ? DataSourceProviderRegistry.Providers
             : fallbackDataSourceProviders;
 
-    private ReportMode CurrentMode => Mode ?? currentMode;
+    internal ReportMode CurrentMode => Mode ?? currentMode;
 
     private ReportPreviewFormat CurrentPreviewFormat => PreviewFormat ?? currentPreviewFormat;
 

@@ -12,6 +12,7 @@
 
 <_ReportDesignerLayout @ref="designerLayout"
                        Shortcut="@Designer.HandleDesignerShortcut"
+                       Visible="@( Designer.CurrentMode == ReportMode.Design )"
                        State="@Designer.DesignerDockLayoutState"
                        ShowToolbar="@Designer.ShowToolbar"
                        PaneScrollPositions="@Designer.DesignerPaneScrollPositions"
