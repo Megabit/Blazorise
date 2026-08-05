@@ -262,11 +262,11 @@ internal sealed class ReportContext
             Id = definition.Id,
             Name = definition.Name,
             Designer = CloneDesigner( definition.Designer ),
-            Pages = definition.Pages?.Select( page => ClonePage( page, subreportDepth ) ).ToList() ?? [new() { Name = "Page 1" }],
-            DataSources = definition.DataSources?.Select( CloneDataSource ).ToList() ?? [],
-            FormulaFields = definition.FormulaFields?.Select( CloneFormulaField ).ToList() ?? [],
-            RunningTotals = definition.RunningTotals?.Select( CloneRunningTotal ).ToList() ?? [],
-            Fonts = definition.Fonts?.Select( CloneFontFamily ).ToList() ?? [],
+            Pages = definition.Pages?.Select( page => ClonePage( page, subreportDepth ) ).Where( page => page is not null ).ToList() ?? [new() { Name = "Page 1" }],
+            DataSources = definition.DataSources?.Select( CloneDataSource ).Where( dataSource => dataSource is not null ).ToList() ?? [],
+            FormulaFields = definition.FormulaFields?.Select( CloneFormulaField ).Where( formulaField => formulaField is not null ).ToList() ?? [],
+            RunningTotals = definition.RunningTotals?.Select( CloneRunningTotal ).Where( runningTotal => runningTotal is not null ).ToList() ?? [],
+            Fonts = definition.Fonts?.Select( CloneFontFamily ).Where( font => font is not null ).ToList() ?? [],
         };
     }
 
@@ -282,7 +282,7 @@ internal sealed class ReportContext
             PreviewFormat = state.PreviewFormat,
             ActivePageId = state.ActivePageId,
             Selection = CloneSelection( state.Selection ),
-            ClipboardElements = state.ClipboardElements?.Select( element => CloneElement( element ) ).ToList() ?? [],
+            ClipboardElements = state.ClipboardElements?.Select( element => CloneElement( element ) ).Where( element => element is not null ).ToList() ?? [],
             ClipboardBandId = state.ClipboardBandId,
         };
     }
@@ -308,7 +308,8 @@ internal sealed class ReportContext
 
     private static ReportPageDefinition ClonePage( ReportPageDefinition page, int subreportDepth )
     {
-        page ??= new();
+        if ( page is null )
+            return null;
 
         return new()
         {
@@ -320,7 +321,7 @@ internal sealed class ReportContext
             Width = page.Width,
             Height = page.Height,
             Margins = ClonePageMargins( page.Margins ),
-            Bands = page.Bands?.Select( section => CloneSection( section, subreportDepth ) ).ToList() ?? [],
+            Bands = page.Bands?.Select( section => CloneSection( section, subreportDepth ) ).Where( section => section is not null ).ToList() ?? [],
         };
     }
 
@@ -340,6 +341,9 @@ internal sealed class ReportContext
 
     private static ReportDataSourceDefinition CloneDataSource( ReportDataSourceDefinition dataSource )
     {
+        if ( dataSource is null )
+            return null;
+
         return new()
         {
             Id = dataSource.Id,
@@ -359,7 +363,7 @@ internal sealed class ReportContext
         return new()
         {
             IsCollection = schema.IsCollection,
-            Fields = schema.Fields?.Select( CloneSchemaField ).ToList() ?? [],
+            Fields = schema.Fields?.Select( CloneSchemaField ).Where( field => field is not null ).ToList() ?? [],
         };
     }
 
@@ -374,7 +378,7 @@ internal sealed class ReportContext
             DisplayName = field.DisplayName,
             DataType = field.DataType,
             IsCollection = field.IsCollection,
-            Fields = field.Fields?.Select( CloneSchemaField ).ToList() ?? [],
+            Fields = field.Fields?.Select( CloneSchemaField ).Where( childField => childField is not null ).ToList() ?? [],
         };
     }
 
@@ -415,6 +419,9 @@ internal sealed class ReportContext
 
     private static ReportBandDefinition CloneSection( ReportBandDefinition section, int subreportDepth )
     {
+        if ( section is null )
+            return null;
+
         return new()
         {
             Id = section.Id,
@@ -436,7 +443,7 @@ internal sealed class ReportContext
             NewPageAfter = CloneValue( section.NewPageAfter ),
             Appearance = CloneAppearance( section.Appearance ),
             Border = CloneBorder( section.Border ),
-            Elements = section.Elements.Select( element => CloneElement( element, subreportDepth ) ).Where( element => element is not null ).ToList(),
+            Elements = section.Elements?.Select( element => CloneElement( element, subreportDepth ) ).Where( element => element is not null ).ToList() ?? [],
         };
     }
 
@@ -492,9 +499,9 @@ internal sealed class ReportContext
                 break;
             case ReportTableElementDefinition tableElement when clone is ReportTableElementDefinition tableClone:
                 tableClone.DataSource = tableElement.DataSource;
-                tableClone.Columns = tableElement.Columns?.Select( CloneColumn ).ToList() ?? [];
-                tableClone.Rows = tableElement.Rows?.Select( CloneRow ).ToList() ?? [];
-                tableClone.Cells = tableElement.Cells?.Select( cell => CloneCell( cell, subreportDepth ) ).ToList() ?? [];
+                tableClone.Columns = tableElement.Columns?.Select( CloneColumn ).Where( column => column is not null ).ToList() ?? [];
+                tableClone.Rows = tableElement.Rows?.Select( CloneRow ).Where( row => row is not null ).ToList() ?? [];
+                tableClone.Cells = tableElement.Cells?.Select( cell => CloneCell( cell, subreportDepth ) ).Where( cell => cell is not null ).ToList() ?? [];
                 break;
             case ReportPanelElementDefinition panelElement when clone is ReportPanelElementDefinition panelClone:
                 panelClone.Elements = panelElement.Elements?.Select( element => CloneElement( element, subreportDepth ) ).Where( element => element is not null ).ToList() ?? [];

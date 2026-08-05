@@ -615,8 +615,77 @@ internal static class ReportDefinitionHelper
         return section is not null && !section.Default;
     }
 
-    internal static ReportDefinition EnsureDefinitionIds( ReportDefinition definition )
+    internal static ReportDefinition NormalizeDefinition( ReportDefinition definition, ICollection<string> diagnostics = null )
     {
+        if ( definition is null )
+            return null;
+
+        NormalizeDefinition( definition, null, diagnostics, new() );
+
+        return definition;
+    }
+
+    private static void NormalizeDefinition( ReportDefinition definition, string path, ICollection<string> diagnostics, HashSet<object> normalizedNodes )
+    {
+        if ( definition is null || !normalizedNodes.Add( definition ) )
+            return;
+
+        string designerPath = GetNormalizationPath( path, "Designer" );
+        string pagesPath = GetNormalizationPath( path, "Pages" );
+        string dataSourcesPath = GetNormalizationPath( path, "DataSources" );
+        string formulaFieldsPath = GetNormalizationPath( path, "FormulaFields" );
+        string runningTotalsPath = GetNormalizationPath( path, "RunningTotals" );
+        string fontsPath = GetNormalizationPath( path, "Fonts" );
+
+        if ( definition.Designer is null )
+        {
+            definition.Designer = new();
+            diagnostics?.Add( $"{designerPath} was null and was replaced with default settings." );
+        }
+
+        definition.Designer.GridSize = NormalizePositiveDimension( definition.Designer.GridSize, ReportLayoutGeometry.DefaultGridSize, $"{designerPath}.GridSize", diagnostics );
+        definition.Designer.BandMode = NormalizeEnum( definition.Designer.BandMode, ReportBandMode.Classic, $"{designerPath}.BandMode", diagnostics );
+        definition.Pages = NormalizeCollection( definition.Pages, pagesPath, diagnostics );
+        definition.DataSources = NormalizeCollection( definition.DataSources, dataSourcesPath, diagnostics );
+        definition.FormulaFields = NormalizeCollection( definition.FormulaFields, formulaFieldsPath, diagnostics );
+        definition.RunningTotals = NormalizeCollection( definition.RunningTotals, runningTotalsPath, diagnostics );
+        definition.Fonts = NormalizeCollection( definition.Fonts, fontsPath, diagnostics );
+
+        if ( definition.Pages.Count == 0 )
+        {
+            definition.Pages.Add( new() { Name = "Page 1" } );
+            diagnostics?.Add( $"{pagesPath} was empty and a default page was added." );
+        }
+
+        for ( int dataSourceIndex = 0; dataSourceIndex < definition.DataSources.Count; dataSourceIndex++ )
+        {
+            ReportDataSourceDefinition dataSource = definition.DataSources[dataSourceIndex];
+            string dataSourcePath = $"{dataSourcesPath}[{dataSourceIndex}]";
+
+            if ( dataSource.Settings is null )
+            {
+                dataSource.Settings = [];
+                diagnostics?.Add( $"{dataSourcePath}.Settings was null and was replaced with an empty collection." );
+            }
+        }
+
+        for ( int runningTotalIndex = 0; runningTotalIndex < definition.RunningTotals.Count; runningTotalIndex++ )
+        {
+            ReportRunningTotalDefinition runningTotal = definition.RunningTotals[runningTotalIndex];
+            string runningTotalPath = $"{runningTotalsPath}[{runningTotalIndex}]";
+            runningTotal.AggregateFunction = NormalizeEnum( runningTotal.AggregateFunction, ReportAggregateFunction.Sum, $"{runningTotalPath}.AggregateFunction", diagnostics );
+            runningTotal.EvaluateMode = NormalizeEnum( runningTotal.EvaluateMode, ReportRunningTotalEvaluateMode.EveryRecord, $"{runningTotalPath}.EvaluateMode", diagnostics );
+            runningTotal.ResetMode = NormalizeEnum( runningTotal.ResetMode, ReportRunningTotalResetMode.Never, $"{runningTotalPath}.ResetMode", diagnostics );
+        }
+
+        for ( int pageIndex = 0; pageIndex < definition.Pages.Count; pageIndex++ )
+            NormalizePage( definition.Pages[pageIndex], $"{pagesPath}[{pageIndex}]", pageIndex, diagnostics, normalizedNodes );
+    }
+
+    internal static ReportDefinition EnsureDefinitionIds( ReportDefinition definition, ICollection<string> diagnostics = null )
+    {
+        definition = NormalizeDefinition( definition, diagnostics );
+
         if ( definition is null )
             return null;
 
@@ -631,37 +700,53 @@ internal static class ReportDefinitionHelper
         var rowIds = new HashSet<string>( StringComparer.Ordinal );
         var cellIds = new HashSet<string>( StringComparer.Ordinal );
 
-        definition.Id = EnsureUniqueDefinitionId( definition.Id, definitionIds );
+        definition.Id = EnsureUniqueDefinitionId( definition.Id, definitionIds, "Id", diagnostics );
 
-        foreach ( var dataSource in definition.DataSources )
+        for ( int dataSourceIndex = 0; dataSourceIndex < definition.DataSources.Count; dataSourceIndex++ )
         {
-            dataSource.Id = EnsureUniqueDefinitionId( dataSource.Id, dataSourceIds );
+            ReportDataSourceDefinition dataSource = definition.DataSources[dataSourceIndex];
+            dataSource.Id = EnsureUniqueDefinitionId( dataSource.Id, dataSourceIds, $"DataSources[{dataSourceIndex}].Id", diagnostics );
         }
 
-        foreach ( var formulaField in definition.FormulaFields ?? [] )
+        for ( int formulaFieldIndex = 0; formulaFieldIndex < definition.FormulaFields.Count; formulaFieldIndex++ )
         {
-            formulaField.Id = EnsureUniqueDefinitionId( formulaField.Id, formulaFieldIds );
+            ReportFormulaFieldDefinition formulaField = definition.FormulaFields[formulaFieldIndex];
+            formulaField.Id = EnsureUniqueDefinitionId( formulaField.Id, formulaFieldIds, $"FormulaFields[{formulaFieldIndex}].Id", diagnostics );
         }
 
-        foreach ( var runningTotal in definition.RunningTotals ?? [] )
+        for ( int runningTotalIndex = 0; runningTotalIndex < definition.RunningTotals.Count; runningTotalIndex++ )
         {
-            runningTotal.Id = EnsureUniqueDefinitionId( runningTotal.Id, runningTotalIds );
+            ReportRunningTotalDefinition runningTotal = definition.RunningTotals[runningTotalIndex];
+            runningTotal.Id = EnsureUniqueDefinitionId( runningTotal.Id, runningTotalIds, $"RunningTotals[{runningTotalIndex}].Id", diagnostics );
         }
 
-        foreach ( ReportPageDefinition page in definition.Pages ?? [] )
+        for ( int pageIndex = 0; pageIndex < definition.Pages.Count; pageIndex++ )
         {
-            page.Id = EnsureUniqueDefinitionId( page.Id, pageIds );
+            ReportPageDefinition page = definition.Pages[pageIndex];
+            page.Id = EnsureUniqueDefinitionId( page.Id, pageIds, $"Pages[{pageIndex}].Id", diagnostics );
 
-            foreach ( ReportBandDefinition section in page.Bands ?? [] )
+            for ( int sectionIndex = 0; sectionIndex < page.Bands.Count; sectionIndex++ )
             {
-                section.Id = EnsureUniqueDefinitionId( section.Id, sectionIds );
+                ReportBandDefinition section = page.Bands[sectionIndex];
+                string sectionPath = $"Pages[{pageIndex}].Bands[{sectionIndex}]";
+                section.Id = EnsureUniqueDefinitionId( section.Id, sectionIds, $"{sectionPath}.Id", diagnostics );
 
-                foreach ( ReportElementDefinition element in section.Elements )
-                    EnsureElementIds( element, elementIds, columnIds, rowIds, cellIds );
+                for ( int elementIndex = 0; elementIndex < section.Elements.Count; elementIndex++ )
+                    EnsureElementIds( section.Elements[elementIndex], elementIds, columnIds, rowIds, cellIds, $"{sectionPath}.Elements[{elementIndex}]", diagnostics );
             }
         }
 
         return definition;
+    }
+
+    internal static ReportElementDefinition NormalizeElement( ReportElementDefinition element, string path, ICollection<string> diagnostics = null )
+    {
+        if ( element is null )
+            return null;
+
+        NormalizeElement( element, path, diagnostics, new() );
+
+        return element;
     }
 
     internal static string EnsureElementId( ReportElementDefinition element )
@@ -923,16 +1008,236 @@ internal static class ReportDefinitionHelper
         return Guid.NewGuid().ToString( "N" );
     }
 
-    private static string EnsureUniqueDefinitionId( string id, HashSet<string> usedIds )
+    private static void NormalizePage( ReportPageDefinition page, string path, int pageIndex, ICollection<string> diagnostics, HashSet<object> normalizedNodes )
     {
-        if ( string.IsNullOrWhiteSpace( id ) || !usedIds.Add( id ) )
+        if ( !normalizedNodes.Add( page ) )
+            return;
+
+        ReportPageDefinition defaults = new();
+
+        page.Name ??= $"Page {pageIndex + 1}";
+        page.Size = NormalizeEnum( page.Size, defaults.Size, $"{path}.Size", diagnostics );
+        page.MeasurementUnit = NormalizeEnum( page.MeasurementUnit, defaults.MeasurementUnit, $"{path}.MeasurementUnit", diagnostics );
+        page.Orientation = NormalizeEnum( page.Orientation, defaults.Orientation, $"{path}.Orientation", diagnostics );
+        page.Width = NormalizePositiveDimension( page.Width, defaults.Width, $"{path}.Width", diagnostics );
+        page.Height = NormalizePositiveDimension( page.Height, defaults.Height, $"{path}.Height", diagnostics );
+
+        if ( page.Margins is null )
         {
-            do
-            {
-                id = CreateDefinitionId();
-            }
-            while ( !usedIds.Add( id ) );
+            page.Margins = new();
+            diagnostics?.Add( $"{path}.Margins was null and was replaced with default margins." );
         }
+
+        page.Margins.Left = NormalizeNonNegativeDimension( page.Margins.Left, 0, $"{path}.Margins.Left", diagnostics );
+        page.Margins.Top = NormalizeNonNegativeDimension( page.Margins.Top, 0, $"{path}.Margins.Top", diagnostics );
+        page.Margins.Right = NormalizeNonNegativeDimension( page.Margins.Right, 0, $"{path}.Margins.Right", diagnostics );
+        page.Margins.Bottom = NormalizeNonNegativeDimension( page.Margins.Bottom, 0, $"{path}.Margins.Bottom", diagnostics );
+        page.Bands = NormalizeCollection( page.Bands, $"{path}.Bands", diagnostics );
+
+        ReportPageDefinitionHelper.ResolvePage( page );
+
+        for ( int bandIndex = 0; bandIndex < page.Bands.Count; bandIndex++ )
+            NormalizeBand( page.Bands[bandIndex], $"{path}.Bands[{bandIndex}]", diagnostics, normalizedNodes );
+    }
+
+    private static void NormalizeBand( ReportBandDefinition band, string path, ICollection<string> diagnostics, HashSet<object> normalizedNodes )
+    {
+        if ( !normalizedNodes.Add( band ) )
+            return;
+
+        ReportBandDefinition defaults = new();
+
+        band.Type = NormalizeEnum( band.Type, defaults.Type, $"{path}.Type", diagnostics );
+        band.Height = NormalizeNonNegativeDimension( band.Height, defaults.Height, $"{path}.Height", diagnostics );
+        band.Elements = NormalizeCollection( band.Elements, $"{path}.Elements", diagnostics );
+
+        for ( int elementIndex = 0; elementIndex < band.Elements.Count; elementIndex++ )
+            NormalizeElement( band.Elements[elementIndex], $"{path}.Elements[{elementIndex}]", diagnostics, normalizedNodes );
+    }
+
+    private static void NormalizeElement( ReportElementDefinition element, string path, ICollection<string> diagnostics, HashSet<object> normalizedNodes )
+    {
+        if ( !normalizedNodes.Add( element ) )
+            return;
+
+        element.X = NormalizeFiniteValue( element.X, 0, $"{path}.X", diagnostics );
+        element.Y = NormalizeFiniteValue( element.Y, 0, $"{path}.Y", diagnostics );
+        element.Width = NormalizePositiveDimension( element.Width, 90, $"{path}.Width", diagnostics );
+        element.Height = NormalizePositiveDimension( element.Height, 18, $"{path}.Height", diagnostics );
+        switch ( element )
+        {
+            case ReportImageElementDefinition image:
+                image.Fit = NormalizeEnum( image.Fit, ReportImageFit.Default, $"{path}.Fit", diagnostics );
+                break;
+            case ReportLineElementDefinition line:
+                line.Orientation = NormalizeEnum( line.Orientation, Orientation.Horizontal, $"{path}.Orientation", diagnostics );
+                line.Thickness = NormalizeNullablePositiveDimension( line.Thickness, $"{path}.Thickness", diagnostics );
+                break;
+            case ReportPanelElementDefinition panel:
+                panel.Elements = NormalizeCollection( panel.Elements, $"{path}.Elements", diagnostics );
+
+                for ( int elementIndex = 0; elementIndex < panel.Elements.Count; elementIndex++ )
+                    NormalizeElement( panel.Elements[elementIndex], $"{path}.Elements[{elementIndex}]", diagnostics, normalizedNodes );
+                break;
+            case ReportTableElementDefinition table:
+                NormalizeTable( table, path, diagnostics, normalizedNodes );
+                break;
+            case ReportSubreportElementDefinition subreport when subreport.Report is not null:
+                NormalizeDefinition( subreport.Report, $"{path}.Report", diagnostics, normalizedNodes );
+                break;
+        }
+    }
+
+    private static void NormalizeTable( ReportTableElementDefinition table, string path, ICollection<string> diagnostics, HashSet<object> normalizedNodes )
+    {
+        table.Columns = NormalizeCollection( table.Columns, $"{path}.Columns", diagnostics );
+        table.Rows = NormalizeCollection( table.Rows, $"{path}.Rows", diagnostics );
+        table.Cells = NormalizeCollection( table.Cells, $"{path}.Cells", diagnostics );
+
+        if ( table.Columns.Count == 0 )
+        {
+            table.Columns.Add( new() { Width = DefaultTableColumnWidth } );
+            diagnostics?.Add( $"{path}.Columns was empty and a default column was added." );
+        }
+
+        if ( table.Rows.Count == 0 )
+        {
+            table.Rows.Add( new() { Height = DefaultTableRowHeight } );
+            diagnostics?.Add( $"{path}.Rows was empty and a default row was added." );
+        }
+
+        for ( int columnIndex = 0; columnIndex < table.Columns.Count; columnIndex++ )
+        {
+            ReportTableColumnDefinition column = table.Columns[columnIndex];
+            column.Width = NormalizePositiveDimension( column.Width, DefaultTableColumnWidth, $"{path}.Columns[{columnIndex}].Width", diagnostics );
+        }
+
+        for ( int rowIndex = 0; rowIndex < table.Rows.Count; rowIndex++ )
+        {
+            ReportTableRowDefinition row = table.Rows[rowIndex];
+            row.Height = NormalizePositiveDimension( row.Height, DefaultTableRowHeight, $"{path}.Rows[{rowIndex}].Height", diagnostics );
+        }
+
+        for ( int cellIndex = 0; cellIndex < table.Cells.Count; cellIndex++ )
+        {
+            ReportTableCellDefinition cell = table.Cells[cellIndex];
+            string cellPath = $"{path}.Cells[{cellIndex}]";
+            cell.RowIndex = NormalizeIndex( cell.RowIndex, table.Rows.Count, $"{cellPath}.RowIndex", diagnostics );
+            cell.ColumnIndex = NormalizeIndex( cell.ColumnIndex, table.Columns.Count, $"{cellPath}.ColumnIndex", diagnostics );
+            cell.RowSpan = NormalizeSpan( cell.RowSpan, table.Rows.Count - cell.RowIndex, $"{cellPath}.RowSpan", diagnostics );
+            cell.ColumnSpan = NormalizeSpan( cell.ColumnSpan, table.Columns.Count - cell.ColumnIndex, $"{cellPath}.ColumnSpan", diagnostics );
+            cell.Elements = NormalizeCollection( cell.Elements, $"{cellPath}.Elements", diagnostics );
+
+            for ( int elementIndex = 0; elementIndex < cell.Elements.Count; elementIndex++ )
+                NormalizeElement( cell.Elements[elementIndex], $"{cellPath}.Elements[{elementIndex}]", diagnostics, normalizedNodes );
+        }
+
+        int cellCount = table.Cells.Count;
+        EnsureTableLayout( table, table.Rows.Count, table.Columns.Count );
+
+        if ( table.Cells.Count > cellCount )
+            diagnostics?.Add( $"{path}.Cells did not cover the table layout and missing cells were added." );
+    }
+
+    private static List<T> NormalizeCollection<T>( List<T> collection, string path, ICollection<string> diagnostics ) where T : class
+    {
+        if ( collection is null )
+        {
+            diagnostics?.Add( $"{path} was null and was replaced with an empty collection." );
+            return [];
+        }
+
+        int removedCount = collection.RemoveAll( item => item is null );
+
+        if ( removedCount > 0 )
+            diagnostics?.Add( $"{path} contained {removedCount} null item(s), which were removed." );
+
+        return collection;
+    }
+
+    private static double NormalizePositiveDimension( double value, double defaultValue, string path, ICollection<string> diagnostics )
+    {
+        if ( double.IsFinite( value ) && value > 0 )
+            return value;
+
+        diagnostics?.Add( $"{path} was invalid and was normalized to {defaultValue}." );
+        return defaultValue;
+    }
+
+    private static double NormalizeFiniteValue( double value, double defaultValue, string path, ICollection<string> diagnostics )
+    {
+        if ( double.IsFinite( value ) )
+            return value;
+
+        diagnostics?.Add( $"{path} was invalid and was normalized to {defaultValue}." );
+        return defaultValue;
+    }
+
+    private static double NormalizeNonNegativeDimension( double value, double defaultValue, string path, ICollection<string> diagnostics )
+    {
+        if ( double.IsFinite( value ) && value >= 0 )
+            return value;
+
+        diagnostics?.Add( $"{path} was invalid and was normalized to {defaultValue}." );
+        return defaultValue;
+    }
+
+    private static double? NormalizeNullablePositiveDimension( double? value, string path, ICollection<string> diagnostics )
+    {
+        if ( value is null || double.IsFinite( value.Value ) && value.Value > 0 )
+            return value;
+
+        diagnostics?.Add( $"{path} was invalid and was reset to its default value." );
+        return null;
+    }
+
+    private static int NormalizeIndex( int value, int count, string path, ICollection<string> diagnostics )
+    {
+        int normalizedValue = Math.Clamp( value, 0, Math.Max( 0, count - 1 ) );
+
+        if ( normalizedValue != value )
+            diagnostics?.Add( $"{path} was outside the table bounds and was normalized to {normalizedValue}." );
+
+        return normalizedValue;
+    }
+
+    private static int NormalizeSpan( int value, int availableCount, string path, ICollection<string> diagnostics )
+    {
+        int normalizedValue = Math.Clamp( value, 1, Math.Max( 1, availableCount ) );
+
+        if ( normalizedValue != value )
+            diagnostics?.Add( $"{path} was outside the table bounds and was normalized to {normalizedValue}." );
+
+        return normalizedValue;
+    }
+
+    private static TEnum NormalizeEnum<TEnum>( TEnum value, TEnum defaultValue, string path, ICollection<string> diagnostics ) where TEnum : struct, Enum
+    {
+        if ( Enum.IsDefined( value ) )
+            return value;
+
+        diagnostics?.Add( $"{path} was invalid and was normalized to {defaultValue}." );
+        return defaultValue;
+    }
+
+    private static string GetNormalizationPath( string path, string propertyName )
+    {
+        return string.IsNullOrEmpty( path ) ? propertyName : $"{path}.{propertyName}";
+    }
+
+    private static string EnsureUniqueDefinitionId( string id, HashSet<string> usedIds, string path = null, ICollection<string> diagnostics = null )
+    {
+        if ( !string.IsNullOrWhiteSpace( id ) && usedIds.Add( id ) )
+            return id;
+
+        if ( !string.IsNullOrWhiteSpace( id ) )
+            diagnostics?.Add( $"{path} duplicated the ID '{id}' and was assigned a new ID." );
+
+        do
+        {
+            id = CreateDefinitionId();
+        }
+        while ( !usedIds.Add( id ) );
 
         return id;
     }
@@ -942,43 +1247,48 @@ internal static class ReportDefinitionHelper
         HashSet<string> elementIds,
         HashSet<string> columnIds,
         HashSet<string> rowIds,
-        HashSet<string> cellIds )
+        HashSet<string> cellIds,
+        string path,
+        ICollection<string> diagnostics )
     {
         if ( element is null )
             return;
 
-        element.Id = EnsureUniqueDefinitionId( element.Id, elementIds );
+        element.Id = EnsureUniqueDefinitionId( element.Id, elementIds, $"{path}.Id", diagnostics );
 
         if ( element is ReportPanelElementDefinition panel )
         {
-            foreach ( ReportElementDefinition childElement in panel.Elements ?? [] )
-            {
-                EnsureElementIds( childElement, elementIds, columnIds, rowIds, cellIds );
-            }
+            for ( int elementIndex = 0; elementIndex < panel.Elements.Count; elementIndex++ )
+                EnsureElementIds( panel.Elements[elementIndex], elementIds, columnIds, rowIds, cellIds, $"{path}.Elements[{elementIndex}]", diagnostics );
         }
+
+        if ( element is ReportSubreportElementDefinition { Report: not null } subreport )
+            EnsureDefinitionIds( subreport.Report, diagnostics );
 
         if ( element is not ReportTableElementDefinition table )
             return;
 
-        foreach ( ReportTableColumnDefinition column in table.Columns ?? Enumerable.Empty<ReportTableColumnDefinition>() )
+        for ( int columnIndex = 0; columnIndex < table.Columns.Count; columnIndex++ )
         {
-            column.Id = EnsureUniqueDefinitionId( column.Id, columnIds );
+            ReportTableColumnDefinition column = table.Columns[columnIndex];
+            column.Id = EnsureUniqueDefinitionId( column.Id, columnIds, $"{path}.Columns[{columnIndex}].Id", diagnostics );
         }
 
-        foreach ( ReportTableRowDefinition row in table.Rows ?? Enumerable.Empty<ReportTableRowDefinition>() )
+        for ( int rowIndex = 0; rowIndex < table.Rows.Count; rowIndex++ )
         {
-            row.Id = EnsureUniqueDefinitionId( row.Id, rowIds );
+            ReportTableRowDefinition row = table.Rows[rowIndex];
+            row.Id = EnsureUniqueDefinitionId( row.Id, rowIds, $"{path}.Rows[{rowIndex}].Id", diagnostics );
         }
 
-        foreach ( ReportTableCellDefinition cell in table.Cells ?? Enumerable.Empty<ReportTableCellDefinition>() )
+        for ( int cellIndex = 0; cellIndex < table.Cells.Count; cellIndex++ )
         {
-            cell.Id = EnsureUniqueDefinitionId( cell.Id, cellIds );
+            ReportTableCellDefinition cell = table.Cells[cellIndex];
+            string cellPath = $"{path}.Cells[{cellIndex}]";
+            cell.Id = EnsureUniqueDefinitionId( cell.Id, cellIds, $"{cellPath}.Id", diagnostics );
             FitElementsToTableCell( table, cell );
 
-            foreach ( ReportElementDefinition childElement in cell.Elements ?? Enumerable.Empty<ReportElementDefinition>() )
-            {
-                EnsureElementIds( childElement, elementIds, columnIds, rowIds, cellIds );
-            }
+            for ( int elementIndex = 0; elementIndex < cell.Elements.Count; elementIndex++ )
+                EnsureElementIds( cell.Elements[elementIndex], elementIds, columnIds, rowIds, cellIds, $"{cellPath}.Elements[{elementIndex}]", diagnostics );
         }
     }
 

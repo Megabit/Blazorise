@@ -260,9 +260,13 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         currentPreviewFormat = PreviewFormat ?? DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat;
         designerWorkspaceRendered = IsEditable && currentMode == ReportMode.Design;
 
+        List<string> normalizationDiagnostics = [];
+
         workingDefinition = ShouldUseDeclarativeDefinition()
             ? new()
             : ReportContext.CloneDefinition( Definition ) ?? new();
+        workingDefinition = ReportDefinitionHelper.EnsureDefinitionIds( workingDefinition, normalizationDiagnostics );
+        NotifyDefinitionNormalized( normalizationDiagnostics );
     }
 
     /// <inheritdoc />
@@ -942,6 +946,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private async Task ApplyDefinition( ReportDefinition definition, bool notifyDefinitionChanged )
     {
+        List<string> normalizationDiagnostics = [];
+        definition = ReportDefinitionHelper.EnsureDefinitionIds( definition ?? new(), normalizationDiagnostics );
+
         await ResolveDataSources( definition, CurrentMode == ReportMode.Preview );
         commandManager.Clear();
         await ApplyReportState( new()
@@ -950,6 +957,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             Mode = CurrentMode,
             PreviewFormat = CurrentPreviewFormat,
         }, notifyDefinitionChanged, ReportDesignerRefreshTarget.All );
+        NotifyDefinitionNormalized( normalizationDiagnostics );
     }
 
     /// <summary>
@@ -1461,7 +1469,26 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     {
         string previousActiveSubreportElementKey = activeSubreportElementKey;
         ReportState nextState = ReportContext.CloneState( state );
-        ReportDefinition definition = ReportDefinitionHelper.EnsureDefinitionIds( nextState.Definition ?? BuildDeclarativeDefinition() );
+        List<string> normalizationDiagnostics = [];
+        ReportDefinition definition = ReportDefinitionHelper.EnsureDefinitionIds( nextState.Definition ?? BuildDeclarativeDefinition(), normalizationDiagnostics );
+
+        if ( !Enum.IsDefined( nextState.Mode ) )
+        {
+            nextState.Mode = IsEditable ? ReportMode.Design : ReportMode.Preview;
+            normalizationDiagnostics.Add( $"Mode was invalid and was normalized to {nextState.Mode}." );
+        }
+
+        if ( !Enum.IsDefined( nextState.PreviewFormat ) )
+        {
+            nextState.PreviewFormat = DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat;
+            normalizationDiagnostics.Add( $"PreviewFormat was invalid and was normalized to {nextState.PreviewFormat}." );
+        }
+
+        if ( !Enum.IsDefined( nextState.Selection.Type ) )
+        {
+            nextState.Selection.Type = ReportSelectionType.Report;
+            normalizationDiagnostics.Add( $"Selection.Type was invalid and was normalized to {nextState.Selection.Type}." );
+        }
 
         ReportDefinitionHelper.ApplyRowsLimit( definition, BlazoriseLicenseLimitsHelper.GetReportingRowsLimit( LicenseChecker ) );
 
@@ -1473,7 +1500,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             ? subreportElementKey
             : ResolveActiveSubreportElementKey( definition, previousActiveSubreportElementKey );
         InvalidateActivePageScope();
-        clipboardElements = nextState.ClipboardElements?.Select( ReportContext.CloneElement ).ToList() ?? [];
+        clipboardElements = nextState.ClipboardElements?.Select( ReportContext.CloneElement ).Where( element => element is not null ).ToList() ?? [];
+
+        for ( int elementIndex = 0; elementIndex < clipboardElements.Count; elementIndex++ )
+            ReportDefinitionHelper.NormalizeElement( clipboardElements[elementIndex], $"ClipboardElements[{elementIndex}]", normalizationDiagnostics );
+
         clipboardBandId = nextState.ClipboardBandId;
         selectionManager.ApplyState( ResolveActiveDesignerDefinition( definition ), nextState.Selection );
         if ( !string.Equals( previousActiveSubreportElementKey, activeSubreportElementKey, StringComparison.Ordinal ) )
@@ -1487,6 +1518,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         commandManager.SetState( CaptureReportState( definition ) );
 
         InvalidateDesignerCaches();
+        NotifyDefinitionNormalized( normalizationDiagnostics );
 
         if ( CurrentMode == ReportMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf )
             await ResolvePdfPreviewOperation( definition, resolveDataSources: false );
@@ -3170,6 +3202,24 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         {
             Logger?.LogError( callbackException, "The report OperationFailed callback failed." );
         }
+    }
+
+    private void NotifyDefinitionNormalized( IReadOnlyList<string> diagnostics )
+    {
+        if ( diagnostics is null || diagnostics.Count == 0 )
+            return;
+
+        string message = diagnostics.Count == 1
+            ? $"Report definition normalized: {diagnostics[0]}"
+            : $"Report definition contained {diagnostics.Count} invalid values and was normalized. See the application log for details.";
+
+        Logger?.LogWarning( "Report definition was normalized: {Diagnostics}", string.Join( " ", diagnostics ) );
+
+        if ( operationWarning is not null )
+            return;
+
+        operationWarning = new( message, [] );
+        WarningsChanged?.Invoke();
     }
 
     private void CancelAsyncOperations()
