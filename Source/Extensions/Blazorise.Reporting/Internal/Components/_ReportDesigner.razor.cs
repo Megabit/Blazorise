@@ -78,6 +78,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private ReportDefinition workingDefinition;
 
+    private ReportDefinition lastNotifiedDefinition;
+
     private int declarativeContextVersion = -1;
 
     private int declarativeConfigurationVersion = -1;
@@ -193,8 +195,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             currentPreviewFormat = previewFormatParameter.Value ?? previousPreviewFormat;
 
         bool definitionChanged = definitionParameter.Changed
-            && !ReferenceEquals( definitionParameter.Value, RootDefinition )
+            && !ReferenceEquals( definitionParameter.Value, lastNotifiedDefinition )
             && CurrentDefinitionMode != ReportDefinitionMode.AlwaysUseDeclarative;
+
+        if ( definitionParameter.Defined )
+            lastNotifiedDefinition = null;
 
         if ( definitionChanged || definitionModeChanged )
         {
@@ -287,7 +292,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             InvalidateDesignerCaches();
 
         if ( declarativeDefinitionCreated )
-            await DefinitionChanged.InvokeAsync( workingDefinition );
+            await NotifyDefinitionChanged( workingDefinition );
 
         if ( definition is not null )
             RefreshDesigner( ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.FieldsExplorer );
@@ -880,7 +885,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         ReportDefinition definition = await commandManager.Execute( command, RootDefinition, CaptureReportState );
 
         if ( command.NotifyDefinitionChanged && command.RefreshSurface )
-            await DefinitionChanged.InvokeAsync( definition );
+            await NotifyDefinitionChanged( definition );
 
         if ( command.NotifyDefinitionChanged )
         {
@@ -896,11 +901,26 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private Task NotifyDefinitionChangedLater( ReportDefinition definition )
     {
+        if ( !DefinitionChanged.HasDelegate )
+            return Task.CompletedTask;
+
+        ReportDefinition snapshot = ReportContext.CloneDefinition( definition );
+
         return InvokeAsync( async () =>
         {
             await Task.Yield();
-            await DefinitionChanged.InvokeAsync( definition );
+            lastNotifiedDefinition = snapshot;
+            await DefinitionChanged.InvokeAsync( snapshot );
         } );
+    }
+
+    private Task NotifyDefinitionChanged( ReportDefinition definition )
+    {
+        if ( !DefinitionChanged.HasDelegate )
+            return Task.CompletedTask;
+
+        lastNotifiedDefinition = ReportContext.CloneDefinition( definition );
+        return DefinitionChanged.InvokeAsync( lastNotifiedDefinition );
     }
 
     private async Task SetMode( ReportMode mode, bool notifyChanged = true, ReportMode? previousMode = null )
@@ -1273,7 +1293,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             await ResolvePdfPreviewOperation( definition, resolveDataSources: false );
 
         if ( notifyDefinitionChanged )
-            await DefinitionChanged.InvokeAsync( definition );
+            await NotifyDefinitionChanged( definition );
 
         RefreshDesigner( refreshTargets );
 
@@ -3634,12 +3654,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     [Inject] private BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
-    /// Persisted report definition used by the designer and viewer.
+    /// Persisted report definition copied into the designer working state.
     /// </summary>
     [Parameter] public ReportDefinition Definition { get; set; }
 
     /// <summary>
-    /// Raised when the report definition changes through designer commands.
+    /// Raised with a snapshot of the updated report definition.
     /// </summary>
     [Parameter] public EventCallback<ReportDefinition> DefinitionChanged { get; set; }
 

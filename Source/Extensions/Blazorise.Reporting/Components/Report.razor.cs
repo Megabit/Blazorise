@@ -66,12 +66,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     #region Properties
 
     /// <summary>
-    /// Persisted report definition used by the designer and viewer.
+    /// Persisted report definition copied into the designer working state.
     /// </summary>
     [Parameter] public ReportDefinition Definition { get; set; }
 
     /// <summary>
-    /// Raised when the report definition changes through designer commands.
+    /// Raised with a snapshot of the updated report definition.
     /// </summary>
     [Parameter] public EventCallback<ReportDefinition> DefinitionChanged { get; set; }
 
