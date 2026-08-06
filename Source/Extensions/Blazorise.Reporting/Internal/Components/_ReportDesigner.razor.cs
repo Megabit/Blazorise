@@ -1294,7 +1294,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
                 return null;
 
-            PdfDocumentDefinition pdfDocument = ReportPdfDocumentBuilder.Build( definition, Data, ElementPluginRegistry );
+            PdfDocumentDefinition pdfDocument = ReportPdfDocumentBuilder.Build( definition, Data, ElementPluginRegistry, cancellationToken );
             cancellationToken.ThrowIfCancellationRequested();
 
             PdfGenerationResult result = await PdfGenerator.GenerateAsync( pdfDocument, new()

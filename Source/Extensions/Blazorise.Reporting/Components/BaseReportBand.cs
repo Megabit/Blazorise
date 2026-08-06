@@ -38,6 +38,7 @@ public abstract class BaseReportBand : ComponentBase, IDisposable
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         bool definitionChanged = registeredPageContext is null
+            || parameters.IsParameterChanged( Id )
             || parameters.IsParameterChanged( Name )
             || parameters.IsParameterChanged( Height )
             || parameters.IsParameterChanged( DataSource )
@@ -85,6 +86,7 @@ public abstract class BaseReportBand : ComponentBase, IDisposable
 
     private void UpdateDefinition()
     {
+        definition.Id = Id;
         definition.Name = Name;
         definition.Type = SectionType;
         definition.Height = Height;
@@ -127,6 +129,11 @@ public abstract class BaseReportBand : ComponentBase, IDisposable
     protected abstract ReportBandType SectionType { get; }
 
     [CascadingParameter] internal ReportPageContext PageContext { get; set; }
+
+    /// <summary>
+    /// Stable identifier used to reference the band.
+    /// </summary>
+    [Parameter] public string Id { get; set; } = Guid.NewGuid().ToString( "N" );
 
     /// <summary>
     /// Friendly band name shown in the designer.

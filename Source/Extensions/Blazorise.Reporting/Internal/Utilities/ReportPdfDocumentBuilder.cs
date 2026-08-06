@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Blazorise;
 using Blazorise.Pdf;
 #endregion
@@ -12,8 +13,10 @@ internal static class ReportPdfDocumentBuilder
 {
     #region Methods
 
-    internal static PdfDocumentDefinition Build( ReportDefinition definition, object data, IReportElementPluginRegistry pluginRegistry )
+    internal static PdfDocumentDefinition Build( ReportDefinition definition, object data, IReportElementPluginRegistry pluginRegistry, CancellationToken cancellationToken = default )
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         if ( definition is null )
             return new();
 
@@ -31,6 +34,8 @@ internal static class ReportPdfDocumentBuilder
 
         foreach ( ReportRenderPage renderPage in ReportPreviewRenderPlanner.BuildRenderPages( definition, data ) )
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             ReportDefinition pageDefinition = renderPage.Definition;
             ReportPageDefinition pageDefinitionSettings = pageDefinition.Page;
             PdfPageDefinition page = new()
@@ -41,12 +46,12 @@ internal static class ReportPdfDocumentBuilder
                 Height = pageDefinitionSettings.Height,
             };
 
-            AppendRenderSections( page, pageDefinition, data, renderPage.HeaderSections, pageDefinitionSettings.Margins.Left, pageDefinitionSettings.Margins.Top, pluginRegistry );
-            AppendRenderSections( page, pageDefinition, data, renderPage.BodySections, pageDefinitionSettings.Margins.Left, pageDefinitionSettings.Margins.Top + GetSectionsHeight( renderPage.HeaderSections ), pluginRegistry );
+            AppendRenderSections( page, pageDefinition, data, renderPage.HeaderSections, pageDefinitionSettings.Margins.Left, pageDefinitionSettings.Margins.Top, pluginRegistry, cancellationToken );
+            AppendRenderSections( page, pageDefinition, data, renderPage.BodySections, pageDefinitionSettings.Margins.Left, pageDefinitionSettings.Margins.Top + GetSectionsHeight( renderPage.HeaderSections ), pluginRegistry, cancellationToken );
 
             double footerHeight = GetSectionsHeight( renderPage.FooterSections );
             double footerY = pageDefinitionSettings.Height - pageDefinitionSettings.Margins.Bottom - footerHeight;
-            AppendRenderSections( page, pageDefinition, data, renderPage.FooterSections, pageDefinitionSettings.Margins.Left, footerY, pluginRegistry );
+            AppendRenderSections( page, pageDefinition, data, renderPage.FooterSections, pageDefinitionSettings.Margins.Left, footerY, pluginRegistry, cancellationToken );
 
             document.Pages.Add( page );
         }
@@ -54,7 +59,7 @@ internal static class ReportPdfDocumentBuilder
         return document;
     }
 
-    private static void AppendRenderSections( PdfPageDefinition page, ReportDefinition definition, object data, IReadOnlyList<ReportRenderSection> renderSections, double x, double y, IReportElementPluginRegistry pluginRegistry )
+    private static void AppendRenderSections( PdfPageDefinition page, ReportDefinition definition, object data, IReadOnlyList<ReportRenderSection> renderSections, double x, double y, IReportElementPluginRegistry pluginRegistry, CancellationToken cancellationToken )
     {
         double sectionY = y;
 
@@ -64,7 +69,7 @@ internal static class ReportPdfDocumentBuilder
             {
                 foreach ( ReportElementDefinition element in renderSection.Section.Elements.Where( element => ShouldRenderElement( definition, data, renderSection.Section, element, renderSection.Item ) ) )
                 {
-                    AppendElement( page.Elements, definition, data, renderSection, element, x, sectionY, 0, pluginRegistry );
+                    AppendElement( page.Elements, definition, data, renderSection, element, x, sectionY, 0, pluginRegistry, cancellationToken );
                 }
             }
 
@@ -72,7 +77,7 @@ internal static class ReportPdfDocumentBuilder
         }
     }
 
-    private static PdfElementDefinition CreateElement( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportElementDefinition element, double sectionX, double sectionY, int subreportDepth, IReportElementPluginRegistry pluginRegistry )
+    private static PdfElementDefinition CreateElement( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportElementDefinition element, double sectionX, double sectionY, int subreportDepth, IReportElementPluginRegistry pluginRegistry, CancellationToken cancellationToken )
     {
         return element.Type switch
         {
@@ -81,38 +86,38 @@ internal static class ReportPdfDocumentBuilder
             ReportElementType.Line => CreateShapeElement( PdfElementType.Line, element, sectionX, sectionY ),
             ReportElementType.Rectangle => CreateShapeElement( PdfElementType.Rectangle, element, sectionX, sectionY ),
             ReportElementType.Image when element is ReportImageElementDefinition imageElement => CreateImageElement( imageElement, sectionX, sectionY ),
-            ReportElementType.Table when element is ReportTableElementDefinition tableElement => CreateTableElement( definition, data, renderSection, tableElement, sectionX, sectionY, subreportDepth, pluginRegistry ),
+            ReportElementType.Table when element is ReportTableElementDefinition tableElement => CreateTableElement( definition, data, renderSection, tableElement, sectionX, sectionY, subreportDepth, pluginRegistry, cancellationToken ),
             _ => null,
         };
     }
 
-    private static void AppendElement( IList<PdfElementDefinition> elements, ReportDefinition definition, object data, ReportRenderSection renderSection, ReportElementDefinition element, double sectionX, double sectionY, int subreportDepth, IReportElementPluginRegistry pluginRegistry )
+    private static void AppendElement( IList<PdfElementDefinition> elements, ReportDefinition definition, object data, ReportRenderSection renderSection, ReportElementDefinition element, double sectionX, double sectionY, int subreportDepth, IReportElementPluginRegistry pluginRegistry, CancellationToken cancellationToken )
     {
         if ( element is ReportPanelElementDefinition panelElement )
         {
-            AppendPanelElements( elements, definition, data, renderSection, panelElement, sectionX, sectionY, subreportDepth, pluginRegistry );
+            AppendPanelElements( elements, definition, data, renderSection, panelElement, sectionX, sectionY, subreportDepth, pluginRegistry, cancellationToken );
             return;
         }
 
         if ( element is ReportSubreportElementDefinition subreportElement )
         {
-            AppendSubreportElements( elements, definition, data, renderSection, subreportElement, sectionX, sectionY, subreportDepth, pluginRegistry );
+            AppendSubreportElements( elements, definition, data, renderSection, subreportElement, sectionX, sectionY, subreportDepth, pluginRegistry, cancellationToken );
             return;
         }
 
         if ( element is ReportCustomElementDefinition customElement )
         {
-            AppendCustomElements( elements, definition, data, renderSection, customElement, sectionX, sectionY, pluginRegistry );
+            AppendCustomElements( elements, definition, data, renderSection, customElement, sectionX, sectionY, pluginRegistry, cancellationToken );
             return;
         }
 
-        PdfElementDefinition pdfElement = CreateElement( definition, data, renderSection, element, sectionX, sectionY, subreportDepth, pluginRegistry );
+        PdfElementDefinition pdfElement = CreateElement( definition, data, renderSection, element, sectionX, sectionY, subreportDepth, pluginRegistry, cancellationToken );
 
         if ( pdfElement is not null )
             elements.Add( pdfElement );
     }
 
-    private static void AppendPanelElements( IList<PdfElementDefinition> elements, ReportDefinition definition, object data, ReportRenderSection renderSection, ReportPanelElementDefinition panel, double sectionX, double sectionY, int subreportDepth, IReportElementPluginRegistry pluginRegistry )
+    private static void AppendPanelElements( IList<PdfElementDefinition> elements, ReportDefinition definition, object data, ReportRenderSection renderSection, ReportPanelElementDefinition panel, double sectionX, double sectionY, int subreportDepth, IReportElementPluginRegistry pluginRegistry, CancellationToken cancellationToken )
     {
         PdfElementDefinition pdfPanel = CreateBaseElement( PdfElementType.Rectangle, panel, sectionX, sectionY );
         ApplyShapeFormatting( pdfPanel, panel );
@@ -123,7 +128,7 @@ internal static class ReportPdfDocumentBuilder
 
         foreach ( ReportElementDefinition child in ( panel.Elements ?? [] ).Where( element => ShouldRenderElement( definition, data, renderSection.Section, element, renderSection.Item ) ) )
         {
-            AppendElement( elements, definition, data, renderSection, child, panelX, panelY, subreportDepth, pluginRegistry );
+            AppendElement( elements, definition, data, renderSection, child, panelX, panelY, subreportDepth, pluginRegistry, cancellationToken );
         }
     }
 
@@ -168,7 +173,7 @@ internal static class ReportPdfDocumentBuilder
         return pdfElement;
     }
 
-    private static PdfElementDefinition CreateTableElement( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportTableElementDefinition element, double sectionX, double sectionY, int subreportDepth, IReportElementPluginRegistry pluginRegistry )
+    private static PdfElementDefinition CreateTableElement( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportTableElementDefinition element, double sectionX, double sectionY, int subreportDepth, IReportElementPluginRegistry pluginRegistry, CancellationToken cancellationToken )
     {
         PdfElementDefinition pdfElement = CreateBaseElement( PdfElementType.Table, element, sectionX, sectionY );
         ApplyShapeFormatting( pdfElement, element );
@@ -181,7 +186,7 @@ internal static class ReportPdfDocumentBuilder
                 Cells = element.Cells
                     .Where( cell => cell.RowIndex == element.Rows.IndexOf( row ) )
                     .OrderBy( cell => cell.ColumnIndex )
-                    .Select( cell => CreateTableCell( definition, data, renderSection, element, cell, subreportDepth, pluginRegistry ) )
+                    .Select( cell => CreateTableCell( definition, data, renderSection, element, cell, subreportDepth, pluginRegistry, cancellationToken ) )
                     .ToList(),
             } );
         }
@@ -189,7 +194,7 @@ internal static class ReportPdfDocumentBuilder
         return pdfElement;
     }
 
-    private static PdfTableCellDefinition CreateTableCell( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportTableElementDefinition table, ReportTableCellDefinition cell, int subreportDepth, IReportElementPluginRegistry pluginRegistry )
+    private static PdfTableCellDefinition CreateTableCell( ReportDefinition definition, object data, ReportRenderSection renderSection, ReportTableElementDefinition table, ReportTableCellDefinition cell, int subreportDepth, IReportElementPluginRegistry pluginRegistry, CancellationToken cancellationToken )
     {
         double width = table.Columns
             .Skip( cell.ColumnIndex )
@@ -203,7 +208,7 @@ internal static class ReportPdfDocumentBuilder
 
         foreach ( ReportElementDefinition child in cell.Elements.Where( element => ShouldRenderElement( definition, data, renderSection.Section, element, renderSection.Item ) ) )
         {
-            AppendElement( pdfCell.Elements, definition, data, renderSection, child, 0, 0, subreportDepth, pluginRegistry );
+            AppendElement( pdfCell.Elements, definition, data, renderSection, child, 0, 0, subreportDepth, pluginRegistry, cancellationToken );
         }
 
         return pdfCell;
@@ -217,8 +222,11 @@ internal static class ReportPdfDocumentBuilder
         ReportCustomElementDefinition element,
         double sectionX,
         double sectionY,
-        IReportElementPluginRegistry pluginRegistry )
+        IReportElementPluginRegistry pluginRegistry,
+        CancellationToken cancellationToken )
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         IReportElementPlugin plugin = pluginRegistry?.Find( element.TypeName );
 
         if ( plugin is null )
@@ -233,10 +241,13 @@ internal static class ReportPdfDocumentBuilder
             element,
             data,
             renderSection.Item,
-            renderSection.RunningTotals );
+            renderSection.RunningTotals,
+            cancellationToken );
 
         foreach ( PdfElementDefinition pdfElement in plugin.PdfRenderer.Render( context ) ?? [] )
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             if ( pdfElement is null )
                 continue;
 
@@ -248,7 +259,7 @@ internal static class ReportPdfDocumentBuilder
         }
     }
 
-    private static void AppendSubreportElements( IList<PdfElementDefinition> elements, ReportDefinition parentDefinition, object parentData, ReportRenderSection parentRenderSection, ReportSubreportElementDefinition element, double sectionX, double sectionY, int subreportDepth, IReportElementPluginRegistry pluginRegistry )
+    private static void AppendSubreportElements( IList<PdfElementDefinition> elements, ReportDefinition parentDefinition, object parentData, ReportRenderSection parentRenderSection, ReportSubreportElementDefinition element, double sectionX, double sectionY, int subreportDepth, IReportElementPluginRegistry pluginRegistry, CancellationToken cancellationToken )
     {
         if ( subreportDepth > 0 )
             return;
@@ -272,15 +283,15 @@ internal static class ReportPdfDocumentBuilder
         double contentX = subreportX + subreportPage.Margins.Left;
         double contentY = subreportY + subreportPage.Margins.Top;
 
-        AppendRenderSections( elements, renderedSubreportDefinition, subreportData, renderPage.HeaderSections, contentX, contentY, subreportDepth + 1, pluginRegistry );
-        AppendRenderSections( elements, renderedSubreportDefinition, subreportData, renderPage.BodySections, contentX, contentY + GetSectionsHeight( renderPage.HeaderSections ), subreportDepth + 1, pluginRegistry );
+        AppendRenderSections( elements, renderedSubreportDefinition, subreportData, renderPage.HeaderSections, contentX, contentY, subreportDepth + 1, pluginRegistry, cancellationToken );
+        AppendRenderSections( elements, renderedSubreportDefinition, subreportData, renderPage.BodySections, contentX, contentY + GetSectionsHeight( renderPage.HeaderSections ), subreportDepth + 1, pluginRegistry, cancellationToken );
 
         double footerHeight = GetSectionsHeight( renderPage.FooterSections );
         double footerY = subreportY + subreportPage.Height - subreportPage.Margins.Bottom - footerHeight;
-        AppendRenderSections( elements, renderedSubreportDefinition, subreportData, renderPage.FooterSections, contentX, footerY, subreportDepth + 1, pluginRegistry );
+        AppendRenderSections( elements, renderedSubreportDefinition, subreportData, renderPage.FooterSections, contentX, footerY, subreportDepth + 1, pluginRegistry, cancellationToken );
     }
 
-    private static void AppendRenderSections( IList<PdfElementDefinition> elements, ReportDefinition definition, object data, IReadOnlyList<ReportRenderSection> renderSections, double x, double y, int subreportDepth, IReportElementPluginRegistry pluginRegistry )
+    private static void AppendRenderSections( IList<PdfElementDefinition> elements, ReportDefinition definition, object data, IReadOnlyList<ReportRenderSection> renderSections, double x, double y, int subreportDepth, IReportElementPluginRegistry pluginRegistry, CancellationToken cancellationToken )
     {
         double sectionY = y;
 
@@ -290,7 +301,7 @@ internal static class ReportPdfDocumentBuilder
             {
                 foreach ( ReportElementDefinition element in renderSection.Section.Elements.Where( element => ShouldRenderElement( definition, data, renderSection.Section, element, renderSection.Item ) ) )
                 {
-                    AppendElement( elements, definition, data, renderSection, element, x, sectionY, subreportDepth, pluginRegistry );
+                    AppendElement( elements, definition, data, renderSection, element, x, sectionY, subreportDepth, pluginRegistry, cancellationToken );
                 }
             }
 

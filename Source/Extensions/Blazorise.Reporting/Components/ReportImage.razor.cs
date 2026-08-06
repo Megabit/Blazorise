@@ -18,7 +18,7 @@ public partial class ReportImage : BaseReportElement
         return base.HasDefinitionChanged( parameters )
             || parameters.IsParameterChanged( Source )
             || parameters.IsParameterChanged( Fit )
-            || parameters.IsParameterChanged( Alt );
+            || parameters.IsParameterChanged( Text );
     }
 
     /// <inheritdoc />
@@ -27,7 +27,7 @@ public partial class ReportImage : BaseReportElement
         ReportImageElementDefinition definition = (ReportImageElementDefinition)base.BuildDefinition();
         definition.Source = Source;
         definition.Fit = Fit;
-        definition.Text = Alt;
+        definition.Text = Text;
 
         return definition;
     }
@@ -52,7 +52,7 @@ public partial class ReportImage : BaseReportElement
     /// <summary>
     /// Alternate text associated with the image element.
     /// </summary>
-    [Parameter] public string Alt { get; set; }
+    [Parameter] public string Text { get; set; }
 
     #endregion
 }
