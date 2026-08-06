@@ -94,7 +94,7 @@ public partial class DockPane : BaseComponent, IDisposable
     /// <summary>
     /// Identifies the pane inside the parent <see cref="DockLayout"/> and acts as the stable key used by persisted <see cref="DockLayoutState"/> values.
     /// </summary>
-    [Parameter] public string Name { get; set; }
+    [Parameter, EditorRequired] public string Name { get; set; }
 
     /// <summary>
     /// Defines the caption used by tabbed dock groups.
