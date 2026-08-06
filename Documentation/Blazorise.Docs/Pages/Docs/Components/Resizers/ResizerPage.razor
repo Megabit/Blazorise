@@ -59,6 +59,8 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Multiple targets">
         Use <Code>Targets</Code> to coordinate elements on both sides of the resizer. Resizing changes the start and end targets together while preserving their combined size.
+        In this mode, <Code>Value</Code>, <Code>Min</Code>, and <Code>Max</Code> apply to the logical start target. <Code>TargetId</Code> and the component-level <Code>ResizeProperty</Code> apply only to single-target resizing.
+        Both coordinated targets must resolve to elements; otherwise, the resizer remains inactive.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="ResizerMultipleTargetsExample" Outlined FullWidth>
         <ResizerMultipleTargetsExample />

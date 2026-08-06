@@ -319,7 +319,11 @@ function synchronizeSize(instance, applyControlledSize) {
         instance.currentSize = instance.startSize;
         instance.startEndSize = measureElement(instance.endTarget, instance.options.vertical);
         instance.currentEndSize = instance.startEndSize;
-        updateAriaValue(instance);
+
+        if (applyControlledSize && instance.options.size !== null)
+            applySize(instance, instance.options.size);
+        else
+            updateAriaValue(instance);
     }
     else if (applyControlledSize && instance.options.size !== null)
         applySize(instance, instance.options.size);
@@ -358,8 +362,9 @@ function getSizeRange(instance) {
     const startMaximum = parseTargetSize(instance.options.targets.start.maxSize, instance.startTarget, instance.options.vertical, Number.POSITIVE_INFINITY);
     const endMinimum = parseTargetSize(instance.options.targets.end.minSize, instance.endTarget, instance.options.vertical, 0);
     const endMaximum = parseTargetSize(instance.options.targets.end.maxSize, instance.endTarget, instance.options.vertical, Number.POSITIVE_INFINITY);
-    const minimum = Math.min(Math.max(startMinimum, Number.isFinite(endMaximum) ? totalSize - endMaximum : 0), totalSize);
-    const maximum = Math.max(Math.min(startMaximum, totalSize - endMinimum), minimum);
+    const configuredMaximum = instance.options.maxSize === null ? Number.POSITIVE_INFINITY : instance.options.maxSize;
+    const minimum = Math.min(Math.max(instance.options.minSize, startMinimum, Number.isFinite(endMaximum) ? totalSize - endMaximum : 0), totalSize);
+    const maximum = Math.max(Math.min(configuredMaximum, startMaximum, totalSize - endMinimum), minimum);
 
     return { minimum, maximum };
 }
@@ -632,9 +637,11 @@ function resolveTargets(instance) {
         ? document.getElementById(instance.options.targets.end.resizeElementId)
         : instance.endTarget;
 
-    instance.target = instance.options.targetId
-        ? document.getElementById(instance.options.targetId)
-        : instance.element?.parentElement;
+    instance.target = instance.options.coordinated
+        ? null
+        : instance.options.targetId
+            ? document.getElementById(instance.options.targetId)
+            : instance.element?.parentElement;
 
     if (!hasResolvedTargets(instance) || typeof ResizeObserver === "undefined")
         return;
@@ -671,7 +678,7 @@ function updateAriaValue(instance) {
 }
 
 function hasResolvedTargets(instance) {
-    return instance.options.targets
+    return instance.options.coordinated
         ? hasCoordinatedTargets(instance)
         : !!instance.target;
 }
@@ -684,7 +691,7 @@ function hasCoordinatedTargets(instance) {
 }
 
 function getTargetSignature(options) {
-    return JSON.stringify({ targetId: options.targetId, targets: options.targets });
+    return JSON.stringify({ coordinated: options.coordinated, targetId: options.targetId, targets: options.targets });
 }
 
 function toggleClassNames(element, classNames, active) {
@@ -700,13 +707,15 @@ function toggleClassNames(element, classNames, active) {
 function normalizeOptions(options) {
     options = options || {};
 
+    const coordinated = options.targets !== null && typeof options.targets !== "undefined";
     const minimum = Math.max(numberOrDefault(options.min, 0), 0);
     const maximumValue = nullableNumber(options.max);
     const maximum = maximumValue === null ? null : Math.max(maximumValue, minimum);
 
     return {
+        coordinated: coordinated,
         targets: normalizeTargets(options.targets, options.vertical === true),
-        targetId: options.targetId || null,
+        targetId: coordinated ? null : options.targetId || null,
         vertical: options.vertical === true,
         resizeFromStart: options.resizeFromStart === true,
         resizeProperty: options.resizeProperty || (options.vertical === true ? "width" : "height"),

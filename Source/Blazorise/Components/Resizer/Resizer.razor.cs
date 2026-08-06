@@ -169,10 +169,10 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
         => new()
         {
             Targets = Targets,
-            TargetId = TargetId,
+            TargetId = Targets is null ? TargetId : null,
             Vertical = Orientation == Blazorise.Orientation.Vertical,
-            ResizeFromStart = ResolvedPlacement is Blazorise.Placement.Start or Blazorise.Placement.Top,
-            ResizeProperty = ResolvedResizeProperty,
+            ResizeFromStart = Targets is null && ( ResolvedPlacement is Blazorise.Placement.Start or Blazorise.Placement.Top ),
+            ResizeProperty = Targets is null ? ResolvedResizeProperty : null,
             Value = Value,
             Min = Min,
             Max = Max,
@@ -278,12 +278,12 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     [Inject] public IJSResizerModule JSModule { get; set; }
 
     /// <summary>
-    /// Coordinates logical start and end targets while preserving their combined size. Use <see cref="TargetId"/> for one-target resizing.
+    /// Enables coordinated resizing of logical start and end targets while preserving their combined size. Both targets must resolve.
     /// </summary>
     [Parameter] public ResizerTargets Targets { get; set; }
 
     /// <summary>
-    /// Identifies the element that receives size updates. When omitted, the resizer resizes its parent.
+    /// Identifies the element that receives size updates. Used only when <see cref="Targets"/> is not supplied.
     /// </summary>
     [Parameter] public string TargetId { get; set; }
 
@@ -307,7 +307,7 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Positions the resizer on the target edge. Vertical resizers default to end and horizontal resizers default to bottom.
+    /// Positions the resizer on the target edge. In coordinated mode, target order determines the resize direction.
     /// </summary>
     [Parameter]
     public Placement? Placement
@@ -326,12 +326,12 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Names the CSS property updated during resizing, including custom properties such as <c>--panel-width</c>.
+    /// Names the CSS property updated during single-target resizing. Coordinated targets define their own resize properties.
     /// </summary>
     [Parameter] public string ResizeProperty { get; set; }
 
     /// <summary>
-    /// Supplies the controlled resize value in pixels. Without a value, the browser measures the target's initial size.
+    /// Supplies the controlled target size in pixels. In coordinated mode, this is the logical start-target size.
     /// </summary>
     [Parameter] public double? Value { get; set; }
 
@@ -341,12 +341,12 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback<double> ValueChanged { get; set; }
 
     /// <summary>
-    /// Prevents the resize value from falling below this pixel value.
+    /// Prevents the target, or logical start target, from falling below this pixel value.
     /// </summary>
     [Parameter] public double Min { get; set; }
 
     /// <summary>
-    /// Limits the resize value in pixels; a null value leaves the upper bound unrestricted.
+    /// Limits the target, or logical start target, in pixels; a null value leaves the upper bound unrestricted.
     /// </summary>
     [Parameter] public double? Max { get; set; }
 
