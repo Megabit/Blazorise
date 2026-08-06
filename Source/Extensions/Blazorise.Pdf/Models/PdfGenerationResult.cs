@@ -14,22 +14,22 @@ public sealed class PdfGenerationResult
     /// <summary>
     /// Generated PDF bytes returned by in-memory generation.
     /// </summary>
-    public byte[] Content { get; set; }
+    public byte[] Content { get; init; }
 
     /// <summary>
     /// Result content type.
     /// </summary>
-    public string ContentType { get; set; } = "application/pdf";
+    public string ContentType { get; init; } = "application/pdf";
 
     /// <summary>
     /// Suggested file name for the generated PDF.
     /// </summary>
-    public string FileName { get; set; }
+    public string FileName { get; init; }
 
     /// <summary>
     /// Normalization messages produced while preparing the document.
     /// </summary>
-    public IReadOnlyList<string> Diagnostics { get; set; } = [];
+    public IReadOnlyList<string> Diagnostics { get; init; } = [];
 
     #endregion
 }
