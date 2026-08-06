@@ -35,20 +35,52 @@ public sealed class PdfTableCellBuilder
     /// Adds text to the cell.
     /// </summary>
     /// <param name="text">The text value.</param>
-    /// <returns>The element builder.</returns>
-    public PdfElementBuilder Text( string text )
+    /// <returns>The text builder.</returns>
+    public PdfTextBuilder Text( string text )
     {
-        PdfElementDefinition element = new()
-        {
-            Type = PdfElementType.Text,
-            Text = text,
-            Width = definition.Width,
-            Height = 24,
-        };
+        return new PdfTextBuilder( AddElement( PdfElementType.Text ) ).Text( text );
+    }
 
-        definition.Elements.Add( element );
+    /// <summary>
+    /// Adds an image to the cell.
+    /// </summary>
+    /// <param name="source">The image source resolved by the configured <see cref="IPdfResourceResolver"/>.</param>
+    /// <returns>The image builder.</returns>
+    public PdfImageBuilder Image( string source )
+    {
+        return new PdfImageBuilder( AddElement( PdfElementType.Image ) ).Source( source );
+    }
 
-        return new( element );
+    /// <summary>
+    /// Adds a line to the cell.
+    /// </summary>
+    /// <param name="orientation">The line orientation.</param>
+    /// <returns>The line builder.</returns>
+    public PdfLineBuilder Line( Orientation orientation = Orientation.Horizontal )
+    {
+        return new PdfLineBuilder( AddElement( PdfElementType.Line ) ).Orientation( orientation );
+    }
+
+    /// <summary>
+    /// Adds a rectangle to the cell.
+    /// </summary>
+    /// <returns>The rectangle builder.</returns>
+    public PdfRectangleBuilder Rectangle()
+    {
+        return new( AddElement( PdfElementType.Rectangle ) );
+    }
+
+    /// <summary>
+    /// Adds a table to the cell.
+    /// </summary>
+    /// <param name="configure">The table configuration.</param>
+    /// <returns>The table builder.</returns>
+    public PdfTableBuilder Table( Action<PdfTableBuilder> configure = null )
+    {
+        PdfTableBuilder builder = new( AddElement( PdfElementType.Table ) );
+        configure?.Invoke( builder );
+
+        return builder;
     }
 
     /// <summary>
@@ -62,6 +94,14 @@ public sealed class PdfTableCellBuilder
         if ( configure is null )
             throw new ArgumentNullException( nameof( configure ) );
 
+        PdfElementDefinition element = AddElement( type );
+        configure( new( element ) );
+
+        return this;
+    }
+
+    private PdfElementDefinition AddElement( PdfElementType type )
+    {
         PdfElementDefinition element = new()
         {
             Type = type,
@@ -74,9 +114,8 @@ public sealed class PdfTableCellBuilder
         };
 
         definition.Elements.Add( element );
-        configure( new( element ) );
 
-        return this;
+        return element;
     }
 
     #endregion
