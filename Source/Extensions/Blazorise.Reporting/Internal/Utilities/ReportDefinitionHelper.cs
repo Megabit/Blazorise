@@ -651,6 +651,10 @@ internal static class ReportDefinitionHelper
         definition.RunningTotals = NormalizeCollection( definition.RunningTotals, runningTotalsPath, diagnostics );
         definition.Fonts = NormalizeCollection( definition.Fonts, fontsPath, diagnostics );
 
+        RemoveDuplicateNames( definition.DataSources, dataSource => dataSource.Name, dataSourcesPath, diagnostics );
+        RemoveDuplicateNames( definition.FormulaFields, formulaField => formulaField.Name, formulaFieldsPath, diagnostics );
+        RemoveDuplicateNames( definition.RunningTotals, runningTotal => runningTotal.Name, runningTotalsPath, diagnostics );
+
         if ( definition.Pages.Count == 0 )
         {
             definition.Pages.Add( new() { Name = "Page 1" } );
@@ -1153,6 +1157,26 @@ internal static class ReportDefinitionHelper
             diagnostics?.Add( $"{path} contained {removedCount} null item(s), which were removed." );
 
         return collection;
+    }
+
+    private static void RemoveDuplicateNames<T>( List<T> definitions, Func<T, string> nameSelector, string path, ICollection<string> diagnostics )
+    {
+        HashSet<string> names = new( StringComparer.OrdinalIgnoreCase );
+        int originalIndex = 0;
+
+        for ( int index = 0; index < definitions.Count; originalIndex++ )
+        {
+            string name = nameSelector( definitions[index] );
+
+            if ( string.IsNullOrWhiteSpace( name ) || names.Add( name ) )
+            {
+                index++;
+                continue;
+            }
+
+            definitions.RemoveAt( index );
+            diagnostics?.Add( $"{path}[{originalIndex}].Name duplicated '{name}' and was removed. The first case-insensitive match was kept." );
+        }
     }
 
     private static double NormalizePositiveDimension( double value, double defaultValue, string path, ICollection<string> diagnostics )

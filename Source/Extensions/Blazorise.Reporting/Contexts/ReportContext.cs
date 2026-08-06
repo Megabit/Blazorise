@@ -238,12 +238,21 @@ internal sealed class ReportContext
         var definition = new ReportDefinition
         {
             Pages = pages.Count == 0 ? [new() { Name = "Page 1" }] : pages.Values.Select( page => ClonePage( page ) ).ToList(),
-            DataSources = dataSources.Values.Select( CloneDataSource ).ToList(),
-            FormulaFields = formulaFields.Values.Select( CloneFormulaField ).ToList(),
+            DataSources = dataSources.Values
+                .DistinctBy( dataSource => dataSource.Name, StringComparer.OrdinalIgnoreCase )
+                .Select( CloneDataSource )
+                .ToList(),
+            FormulaFields = formulaFields.Values
+                .DistinctBy( formulaField => formulaField.Name, StringComparer.OrdinalIgnoreCase )
+                .Select( CloneFormulaField )
+                .ToList(),
             Fonts = fonts.Values.Select( CloneFontFamily ).ToList(),
         };
 
-        definition.RunningTotals = runningTotals.Values.Select( CloneRunningTotal ).ToList();
+        definition.RunningTotals = runningTotals.Values
+            .DistinctBy( runningTotal => runningTotal.Name, StringComparer.OrdinalIgnoreCase )
+            .Select( CloneRunningTotal )
+            .ToList();
 
         return definition;
     }
