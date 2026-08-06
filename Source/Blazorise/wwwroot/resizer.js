@@ -667,14 +667,14 @@ function updateAriaValue(instance) {
         return;
 
     const range = getSizeRange(instance);
+    const maximum = Number.isFinite(range.maximum)
+        ? range.maximum
+        : Math.max(instance.currentSize, range.minimum, 100);
+    const current = Math.min(Math.max(instance.currentSize, range.minimum), maximum);
 
     instance.element.setAttribute("aria-valuemin", formatNumber(range.minimum));
-    instance.element.setAttribute("aria-valuenow", formatNumber(instance.currentSize));
-
-    if (Number.isFinite(range.maximum))
-        instance.element.setAttribute("aria-valuemax", formatNumber(range.maximum));
-    else
-        instance.element.removeAttribute("aria-valuemax");
+    instance.element.setAttribute("aria-valuemax", formatNumber(maximum));
+    instance.element.setAttribute("aria-valuenow", formatNumber(current));
 }
 
 function hasResolvedTargets(instance) {

@@ -8851,6 +8851,14 @@ a.ant-typography-disabled[aria-disabled=true] {
   transition: none !important;
 }
 
+.ant-resizer-focused.ant-resizer-vertical:not(.ant-resizer-gutter) {
+  background: linear-gradient(var(--ant-color-primary, #1677ff) 0 0) center/2px 100% no-repeat;
+}
+
+.ant-resizer-focused.ant-resizer-horizontal:not(.ant-resizer-gutter) {
+  background: linear-gradient(var(--ant-color-primary, #1677ff) 0 0) center/100% 2px no-repeat;
+}
+
 .ant-resizer-gutter.ant-resizer-vertical::before {
   border-inline: 1px solid var(--ant-resizer-gutter-border);
 }

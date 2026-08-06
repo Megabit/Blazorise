@@ -2412,6 +2412,14 @@ input[readonly=readonly][type=range]::-ms-thumb {
   transition: none !important;
 }
 
+.resizer-focused.resizer-vertical:not(.resizer-gutter) {
+  background: linear-gradient(#007bff 0 0) center/2px 100% no-repeat;
+}
+
+.resizer-focused.resizer-horizontal:not(.resizer-gutter) {
+  background: linear-gradient(#007bff 0 0) center/100% 2px no-repeat;
+}
+
 .resizer-gutter.resizer-vertical::before {
   border-inline: 1px solid var(--bs-resizer-gutter-border);
 }

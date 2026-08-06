@@ -3,6 +3,7 @@ using System;
 using System.Globalization;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -35,6 +36,20 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+        base.OnInitialized();
+    }
+
+    private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
+    {
+        if ( AriaLabel is null )
+            await InvokeAsync( StateHasChanged );
+    }
 
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
@@ -128,6 +143,8 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
 
             DisposeDotNetObjectRef( dotNetObjectRef );
             dotNetObjectRef = null;
+
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         }
 
         await base.DisposeAsync( disposing );
@@ -241,19 +258,37 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     /// Formats the minimum size for the rendered separator semantics.
     /// </summary>
     protected string AriaValueMin
-        => FormatAriaValue( Min );
+        => FormatAriaValue( ResolvedAriaValueMin );
 
     /// <summary>
-    /// Formats the optional maximum size for assistive technologies.
+    /// Formats the maximum size for assistive technologies.
     /// </summary>
     protected string AriaValueMax
-        => FormatAriaValue( Max );
+        => FormatAriaValue( ResolvedAriaValueMax );
 
     /// <summary>
     /// Supplies the initial accessible size; JavaScript keeps the value synchronized during resizing.
     /// </summary>
     protected string AriaValueNow
-        => FormatAriaValue( Value );
+        => FormatAriaValue( Math.Min( Math.Max( Value ?? ResolvedAriaValueMin, ResolvedAriaValueMin ), ResolvedAriaValueMax ) );
+
+    private double ResolvedAriaValueMin
+        => Math.Max( Min, 0 );
+
+    private double ResolvedAriaValueMax
+        => Math.Max( Max ?? Math.Max( Value ?? ResolvedAriaValueMin, 100 ), ResolvedAriaValueMin );
+
+    /// <summary>
+    /// Identifies the logical start target controlled by the resizer.
+    /// </summary>
+    protected string AriaControls
+        => Targets is null ? TargetId : Targets.Start?.ElementId;
+
+    /// <summary>
+    /// Resolves the accessible name from the parameter or localization resources.
+    /// </summary>
+    protected string ResolvedAriaLabel
+        => AriaLabel ?? Localizer["Resize"];
 
     /// <summary>
     /// Converts the disabled state to the lowercase ARIA boolean format.
@@ -271,6 +306,16 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     /// Provides the shared document-event infrastructure used by the JavaScript interaction.
     /// </summary>
     [Inject] protected IDocumentObserver DocumentObserver { get; set; }
+
+    /// <summary>
+    /// Gets the localization service used to refresh the default accessible name.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+    /// <summary>
+    /// Gets the localizer for the default accessible name.
+    /// </summary>
+    [Inject] protected ITextLocalizer<Resizer> Localizer { get; set; }
 
     /// <summary>
     /// Performs pointer, keyboard, focus, and target-sizing operations in the browser.
@@ -433,9 +478,9 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Describes the separator's purpose to assistive technologies.
+    /// Describes the separator's purpose to assistive technologies. Uses a localized default when omitted.
     /// </summary>
-    [Parameter] public string AriaLabel { get; set; } = "Resize";
+    [Parameter] public string AriaLabel { get; set; }
 
     /// <summary>
     /// Controls the resizer's position in the keyboard tab order while it is enabled.
