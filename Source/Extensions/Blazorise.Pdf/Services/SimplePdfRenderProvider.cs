@@ -48,15 +48,19 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
     /// <inheritdoc />
     public async Task<PdfGenerationResult> RenderAsync( PdfDocumentDefinition document, PdfGenerationOptions options, CancellationToken cancellationToken = default )
     {
+        if ( document is null )
+            throw new ArgumentNullException( nameof( document ) );
+
         options ??= new();
 
         using MemoryStream stream = new();
-        await RenderToStreamAsync( document, stream, options, cancellationToken );
+        IReadOnlyList<string> diagnostics = await GeneratePdf( document, stream, fontProvider, resourceResolver, options, cancellationToken );
 
         return new PdfGenerationResult
         {
             Content = stream.ToArray(),
             FileName = options.FileName,
+            Diagnostics = diagnostics,
         };
     }
 
@@ -77,9 +81,11 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         await GeneratePdf( document, stream, fontProvider, resourceResolver, options, cancellationToken );
     }
 
-    private static async Task GeneratePdf( PdfDocumentDefinition document, Stream stream, IFontProvider fontProvider, IPdfResourceResolver resourceResolver, PdfGenerationOptions options, CancellationToken cancellationToken )
+    private static async Task<IReadOnlyList<string>> GeneratePdf( PdfDocumentDefinition document, Stream stream, IFontProvider fontProvider, IPdfResourceResolver resourceResolver, PdfGenerationOptions options, CancellationToken cancellationToken )
     {
-        PdfDocumentValidator.Validate( document, options, cancellationToken );
+        document = PdfDocumentCloner.Clone( document, cancellationToken );
+        options = CloneOptions( options );
+        IReadOnlyList<string> diagnostics = PdfDocumentValidator.Validate( document, options, cancellationToken );
 
         List<PdfPageDefinition> pages = document.Pages.Count > 0 ? document.Pages : [CreateDefaultPage( document )];
         IFontProvider effectiveFontProvider = new PdfDocumentFontProvider( document.Fonts, fontProvider );
@@ -122,7 +128,22 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         await WriteDocumentAsync( stream, objects, catalogId, informationId, cancellationToken );
 
         await ReportProgress( options, PdfGenerationStage.Completed, 1, pages.Count, pages.Count );
+
+        return diagnostics;
     }
+
+    private static PdfGenerationOptions CloneOptions( PdfGenerationOptions options )
+        => new()
+        {
+            FileName = options.FileName,
+            Progress = options.Progress,
+            MaxPages = options.MaxPages,
+            MaxDefinitionNodes = options.MaxDefinitionNodes,
+            MaxTextLength = options.MaxTextLength,
+            MaxResourceSize = options.MaxResourceSize,
+            MaxTotalResourceSize = options.MaxTotalResourceSize,
+            MaxImagePixels = options.MaxImagePixels,
+        };
 
     private static async Task ReportProgress( PdfGenerationOptions options, PdfGenerationStage stage, double progress, int completedPages, int totalPages )
     {

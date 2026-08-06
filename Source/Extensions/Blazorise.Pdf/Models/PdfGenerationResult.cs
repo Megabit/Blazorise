@@ -1,3 +1,7 @@
+#region Using directives
+using System.Collections.Generic;
+#endregion
+
 namespace Blazorise.Pdf;
 
 /// <summary>
@@ -21,6 +25,11 @@ public sealed class PdfGenerationResult
     /// Suggested file name for the generated PDF.
     /// </summary>
     public string FileName { get; set; }
+
+    /// <summary>
+    /// Normalization messages produced while preparing the document.
+    /// </summary>
+    public IReadOnlyList<string> Diagnostics { get; set; } = [];
 
     #endregion
 }

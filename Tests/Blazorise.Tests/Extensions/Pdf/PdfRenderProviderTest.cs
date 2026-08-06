@@ -138,7 +138,7 @@ public class PdfRenderProviderTest
     }
 
     [Fact]
-    public async Task RenderAsync_Should_Normalize_Invalid_Definition_Values()
+    public async Task RenderAsync_Should_Normalize_Working_Copy_And_Report_Diagnostics()
     {
         PdfElementDefinition element = CreateText( "Fallback", double.PositiveInfinity, double.NaN, -10, double.NaN );
         element.Type = (PdfElementType)999;
@@ -169,24 +169,34 @@ public class PdfRenderProviderTest
             ],
         };
 
-        string pdf = await RenderAsync( document );
+        PdfGenerationOptions options = new()
+        {
+            MaxPages = 0,
+        };
+        SimplePdfRenderProvider provider = new();
+        PdfGenerationResult result = await provider.RenderAsync( document, options );
+        string pdf = Encoding.Latin1.GetString( result.Content );
 
         Assert.StartsWith( "%PDF-1.4", pdf );
-        Assert.Single( document.Pages );
-        Assert.Empty( document.Fonts );
-        Assert.Single( document.Pages[0].Elements );
-        Assert.Equal( PdfElementType.Text, element.Type );
-        Assert.Equal( 0d, element.X );
-        Assert.Equal( 0d, element.Y );
-        Assert.Equal( 0d, element.Width );
-        Assert.Equal( 0d, element.Height );
-        Assert.Equal( "Helvetica", element.Font.Family );
-        Assert.Equal( 12d, element.Font.Size );
-        Assert.Equal( "#000000", element.Font.Color );
-        Assert.Equal( "#000000", element.Border.Color );
-        Assert.Null( element.Appearance.BackgroundColor );
-        Assert.True( document.Pages[0].Width > 0 );
-        Assert.True( document.Pages[0].Height > 0 );
+        Assert.Equal( 2, document.Pages.Count );
+        Assert.Single( document.Fonts );
+        Assert.Equal( 2, document.Pages[1].Elements.Count );
+        Assert.Equal( (PdfElementType)999, element.Type );
+        Assert.True( double.IsPositiveInfinity( element.X ) );
+        Assert.True( double.IsNaN( element.Y ) );
+        Assert.Equal( -10d, element.Width );
+        Assert.True( double.IsNaN( element.Height ) );
+        Assert.Null( element.Font.Family );
+        Assert.True( double.IsNaN( element.Font.Size ) );
+        Assert.Equal( "invalid", element.Font.Color );
+        Assert.Equal( "invalid", element.Border.Color );
+        Assert.Equal( "invalid", element.Appearance.BackgroundColor );
+        Assert.True( double.IsNaN( document.Pages[1].Width ) );
+        Assert.Equal( -10d, document.Pages[1].Height );
+        Assert.Equal( 0, options.MaxPages );
+        Assert.Contains( result.Diagnostics, diagnostic => diagnostic.StartsWith( "Options.MaxPages", StringComparison.Ordinal ) );
+        Assert.Contains( result.Diagnostics, diagnostic => diagnostic.StartsWith( "Pages[0]", StringComparison.Ordinal ) );
+        Assert.Contains( result.Diagnostics, diagnostic => diagnostic.StartsWith( "Pages[0].Elements[1].Type", StringComparison.Ordinal ) );
     }
 
     [Fact]

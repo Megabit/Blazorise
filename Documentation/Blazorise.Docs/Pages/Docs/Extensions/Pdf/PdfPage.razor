@@ -125,6 +125,14 @@
 </DocsPageSubtitle>
 
 <Heading Size="HeadingSize.Is3">
+    Definition validation
+</Heading>
+
+<DocsPageParagraph>
+    PDF generation validates and normalizes a working copy, so the supplied document and generation options are not changed. Recoverable invalid values use safe defaults or are omitted. Inspect <Code>PdfGenerationResult.Diagnostics</Code> to see what was normalized during in-memory generation.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
     Large documents and cancellation
 </Heading>
 
