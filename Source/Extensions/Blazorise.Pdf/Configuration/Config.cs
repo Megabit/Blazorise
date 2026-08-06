@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 #endregion
@@ -45,6 +46,14 @@ public static class Config
         services.AddSingleton( options );
 
         IHttpClientBuilder httpClientBuilder = services.AddHttpClient( HttpPdfResourceResolver.HttpClientName );
+
+        if ( !OperatingSystem.IsBrowser() )
+        {
+            httpClientBuilder.ConfigurePrimaryHttpMessageHandler( () => new HttpClientHandler
+            {
+                AllowAutoRedirect = false,
+            } );
+        }
 
         configureHttpClientBuilder?.Invoke( httpClientBuilder );
 

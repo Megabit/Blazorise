@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +13,9 @@ namespace Blazorise.Pdf;
 /// <summary>
 /// Resolves PDF image and font resources from HTTP sources.
 /// </summary>
+/// <remarks>
+/// Automatic redirects must be disabled on the configured HTTP handler. <see cref="Config.AddBlazorisePdfHttpResources"/> does this by default for server applications.
+/// </remarks>
 public sealed class HttpPdfResourceResolver : PdfResourceResolver
 {
     #region Members
@@ -77,6 +81,20 @@ public sealed class HttpPdfResourceResolver : PdfResourceResolver
             throw new InvalidOperationException( $"The PDF HTTP resource '{resourceDescription}' is not allowed by the configured resource policy." );
 
         using HttpResponseMessage response = await httpClient.GetAsync( resourceUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken );
+
+        Uri responseUri = response.RequestMessage?.RequestUri;
+
+        if ( responseUri is not null && responseUri != resourceUri )
+            throw new InvalidOperationException( $"The PDF HTTP resource '{resourceDescription}' redirected to '{DescribeResourceUri( responseUri )}'. Redirects are not allowed." );
+
+        if ( IsRedirect( response.StatusCode ) )
+        {
+            Uri redirectUri = ResolveRedirectUri( resourceUri, response.Headers.Location );
+            string redirectDescription = redirectUri is null ? "another location" : $"'{DescribeResourceUri( redirectUri )}'";
+
+            throw new InvalidOperationException( $"The PDF HTTP resource '{resourceDescription}' redirected to {redirectDescription}. Redirects are not allowed." );
+        }
+
         response.EnsureSuccessStatusCode();
 
         if ( response.Content.Headers.ContentLength is long contentLength && contentLength > options.MaxResourceSize )
@@ -108,6 +126,22 @@ public sealed class HttpPdfResourceResolver : PdfResourceResolver
 
         return resourceUri;
     }
+
+    private static Uri ResolveRedirectUri( Uri resourceUri, Uri location )
+    {
+        if ( location is null )
+            return null;
+
+        return location.IsAbsoluteUri ? location : new( resourceUri, location );
+    }
+
+    private static bool IsRedirect( HttpStatusCode statusCode )
+        => statusCode is HttpStatusCode.MultipleChoices
+            or HttpStatusCode.MovedPermanently
+            or HttpStatusCode.Found
+            or HttpStatusCode.SeeOther
+            or HttpStatusCode.TemporaryRedirect
+            or HttpStatusCode.PermanentRedirect;
 
     private async Task<byte[]> ReadContentAsync( HttpContent content, string resourceDescription, CancellationToken cancellationToken )
     {

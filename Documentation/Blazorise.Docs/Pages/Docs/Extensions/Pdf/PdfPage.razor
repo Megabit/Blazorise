@@ -71,7 +71,7 @@
 </DocsPageSection>
 
 <DocsPageParagraph>
-    The registration callback provides <Code>IHttpClientBuilder</Code> for configuring authentication, proxies, retry policies, and other HTTP behavior. Each resource is limited to 20 MB by default; change <Code>MaxResourceSize</Code> when a different limit is appropriate. Use <Code>ResourceAllowed</Code> to reject a URL before it is requested. When URLs are not trusted, also disable automatic redirects or validate redirect targets so an allowed address cannot redirect to a blocked host.
+    The registration callback provides <Code>IHttpClientBuilder</Code> for configuring authentication, proxies, retry policies, and other HTTP behavior. Each resource is limited to 20 MB by default; change <Code>MaxResourceSize</Code> when a different limit is appropriate. Use <Code>ResourceAllowed</Code> to reject a URL before it is requested. Server registrations disable redirects by default. If you replace the primary HTTP handler, keep automatic redirects disabled so an allowed address cannot redirect to a blocked host. For user-controlled URLs, prefer an allow-list and reject loopback or private-network destinations.
 </DocsPageParagraph>
 
 <DocsPageParagraph>

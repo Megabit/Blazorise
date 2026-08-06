@@ -27,7 +27,8 @@ public sealed class PdfHttpResourceOptions
     public long MaxResourceSize { get; set; } = PdfGenerationOptions.DefaultMaxResourceSize;
 
     /// <summary>
-    /// Determines whether an absolute HTTP resource URI is allowed. A null value allows every HTTP and HTTPS URI.
+    /// Determines whether the requested absolute HTTP resource URI is allowed. A null value allows every HTTP and HTTPS URI.
+    /// Redirects are rejected by the built-in resolver.
     /// </summary>
     public Func<Uri, bool> ResourceAllowed { get; set; }
 
