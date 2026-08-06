@@ -1,13 +1,13 @@
 @page "/docs/extensions/reporting/data-sources"
 
-<Seo Canonical="/docs/extensions/reporting/data-sources" Title="Blazorise Reporting data sources" Description="Bind Blazorise reports to object data sources, nested models, and detail collections." />
+<Seo Canonical="/docs/extensions/reporting/data-sources" Title="Blazorise Reporting data sources" Description="Bind Blazorise reports to objects, DataSets, DataTables, and CSV sources." />
 
 <DocsPageTitle Path="Extensions/Reporting/Data Sources" AddedVersion="New">
     Reporting data sources
 </DocsPageTitle>
 
 <DocsPageLead>
-    Reports can bind to an object model, DataSet, or DataTable, expose nested fields in the field explorer, and repeat detail bands from enumerable data paths.
+    Reports can bind to an object model, DataSet, DataTable, or CSV source, expose fields in the field explorer, and repeat detail bands from enumerable data paths.
 </DocsPageLead>
 
 <DocsPageSection>
@@ -27,6 +27,36 @@
         <ReportingDataSetDataSourceExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    CSV data source
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Install the <Code>Blazorise.Reporting.DataSources.Csv</Code> package and import the <Code>Blazorise.Reporting.DataSources.Csv</Code> namespace. Register the provider after the core Reporting services. Calling <Code>AddBlazoriseReportingCsvDataSource()</Code> without callbacks uses the default HTTP configuration and a 5 MB source limit.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Registration">
+        The optional callbacks configure the HTTP client and decide which remote CSV addresses the application permits.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingCsvDataSourceRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    Set <Code>ReportCsvDataSource.Source</Code> to inline CSV text, a local file path in a server application, or an absolute HTTP or HTTPS URL. The first row supplies field names by default, and the provider infers the field types from the remaining rows.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Declarative CSV">
+        Give the source a name and use that name as the data source of a detail band.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingCsvDataSourceExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    HTTP sources are downloaded by the browser in Blazor WebAssembly and therefore follow browser CORS rules. In server applications they are downloaded by the server, so use <Code>ResourceAllowed</Code> to restrict user-controlled URLs. Server registrations disable and reject redirects by default. If the primary HTTP handler is replaced, keep automatic redirects disabled so an allowed address cannot redirect to a blocked destination.
+</DocsPageParagraph>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Detail data source">

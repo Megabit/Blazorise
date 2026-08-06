@@ -28116,6 +28116,40 @@ builder.Services
     }
 }";
 
+        public const string ReportingCsvDataSourceExample = @"@using Blazorise.Reporting.DataSources.Csv
+
+<Report>
+    <ReportDataSources>
+        <ReportCsvDataSource Name=""Products""
+                             Source=""https://data.example.com/products.csv""
+                             Encoding=""utf-8""
+                             Delimiter="",""
+                             HasHeaderRow />
+    </ReportDataSources>
+    <ReportPage Name=""Products"">
+        <ReportDetail Name=""Product row"" Height=""24"" DataSource=""Products"">
+            <ReportField Field=""Name"" X=""30"" Y=""3"" Width=""240"" Height=""18"" />
+            <ReportField Field=""Price"" X=""285"" Y=""3"" Width=""90"" Height=""18"" />
+        </ReportDetail>
+    </ReportPage>
+</Report>";
+
+        public const string ReportingCsvDataSourceRegistrationExample = @"using Blazorise.Reporting.DataSources.Csv;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazoriseReporting()
+    .AddBlazoriseReportingCsvDataSource(
+        httpClient => httpClient.ConfigureHttpClient( client =>
+        {
+            client.Timeout = TimeSpan.FromSeconds( 30 );
+        } ),
+        options =>
+        {
+            options.MaxSourceSize = 5 * 1024 * 1024;
+            options.ResourceAllowed = uri => uri.Host.Equals( ""data.example.com"", StringComparison.OrdinalIgnoreCase );
+        } );";
+
         public const string ReportingDataSetDataSourceExample = @"@using System.Data
 
 <Report Editable

@@ -1,0 +1,19 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+using Blazorise.Reporting.DataSources.Csv;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazoriseReporting()
+    .AddBlazoriseReportingCsvDataSource(
+        httpClient =&gt; httpClient.ConfigureHttpClient( client =&gt;
+        {
+            client.Timeout = TimeSpan.FromSeconds( 30 );
+        } ),
+        options =&gt;
+        {
+            options.MaxSourceSize = 5 * 1024 * 1024;
+            options.ResourceAllowed = uri =&gt; uri.Host.Equals( &quot;data.example.com&quot;, StringComparison.OrdinalIgnoreCase );
+        } );
+</pre></div>
+</div>

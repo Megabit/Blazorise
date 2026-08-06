@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-05T11:31:39.3840865Z",
+  "generatedUtc": "2026-08-06T15:25:00.9032210Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -27721,14 +27721,6 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "TabIndex",
-          "type": "int?",
-          "typeName": "int?",
-          "defaultValue": "null",
-          "summary": "Specifies the tabindex value rendered for the item.     The context menu manages item tab indexes while it is open.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "TextAlignment",
           "type": "global::Blazorise.TextAlignment",
           "typeName": "TextAlignment",
@@ -30399,6 +30391,32 @@
         }
       ],
       "events": [],
+      "methods": []
+    },
+    {
+      "type": "global::Blazorise.Reporting.DataSources.Csv.CsvReportDataSourceOptions",
+      "typeName": "CsvReportDataSourceOptions",
+      "summary": "$\"\"\"\r\n       Defines CSV report data source options.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "MaxSourceSize",
+          "type": "long",
+          "typeName": "long",
+          "defaultValue": "DefaultMaxSourceSize",
+          "summary": "Maximum number of bytes allowed for a CSV source.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [
+        {
+          "name": "ResourceAllowed",
+          "type": "Func<,>",
+          "typeName": "Func<Uri, bool>",
+          "defaultValue": "null",
+          "summary": "Determines whether the requested absolute CSV source URI is allowed. A null value allows every HTTP and HTTPS URI.     Redirects are rejected by the built-in provider.",
+          "isBlazoriseEnum": false
+        }
+      ],
       "methods": []
     },
     {
@@ -82669,7 +82687,7 @@
           "type": "Func<,>",
           "typeName": "Func<Uri, bool>",
           "defaultValue": "null",
-          "summary": "Determines whether an absolute HTTP resource URI is allowed. A null value allows every HTTP and HTTPS URI.",
+          "summary": "Determines whether the requested absolute HTTP resource URI is allowed. A null value allows every HTTP and HTTPS URI.     Redirects are rejected by the built-in resolver.",
           "isBlazoriseEnum": false
         }
       ],
@@ -92227,6 +92245,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "SearchAriaLabel",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "\"Search properties\"",
+          "summary": "Gets or sets the accessible property search label.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "SearchDebounce",
           "type": "bool",
           "typeName": "bool",
@@ -92393,6 +92419,14 @@
           "defaultValue": "TextWeight.Default",
           "summary": "Specifies the font weight of text in the component (e.g., bold, normal).",
           "isBlazoriseEnum": true
+        },
+        {
+          "name": "ToolbarAriaLabel",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "\"Property grid controls\"",
+          "summary": "Gets or sets the accessible property grid toolbar label.",
+          "isBlazoriseEnum": false
         },
         {
           "name": "ToolbarTemplate",
@@ -95891,6 +95925,23 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Attributes",
+          "type": "Dictionary<string, object>",
+          "typeName": "Dictionary<string, object>",
+          "defaultValue": "null",
+          "summary": "Captures unmatched HTML attributes for customization.",
+          "remarks": "These attributes are applied directly to the component's root HTML element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Background",
+          "type": "global::Blazorise.Background",
+          "typeName": "Background",
+          "defaultValue": "Background.Default",
+          "summary": "Sets the background color of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "BandMode",
           "type": "global::Blazorise.Reporting.ReportBandMode",
           "typeName": "ReportBandMode",
@@ -95899,11 +95950,43 @@
           "isBlazoriseEnum": true
         },
         {
+          "name": "Border",
+          "type": "global::Blazorise.IFluentBorder",
+          "typeName": "IFluentBorder",
+          "defaultValue": "null",
+          "summary": "Configures the border properties of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Casing",
+          "type": "global::Blazorise.CharacterCasing",
+          "typeName": "CharacterCasing",
+          "defaultValue": "default(CharacterCasing)",
+          "summary": "Specifies the text casing transformation (e.g., uppercase, lowercase).",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "ChildContent",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
           "typeName": "RenderFragment",
           "defaultValue": "null",
           "summary": "Declarative report content used as the initial report definition.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Class",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Custom CSS class name to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Clearfix",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Determines whether to apply clearfix to manage floating children.",
           "isBlazoriseEnum": false
         },
         {
@@ -95919,7 +96002,7 @@
           "type": "global::Blazorise.Reporting.ReportPreviewFormat?",
           "typeName": "ReportPreviewFormat?",
           "defaultValue": "null",
-          "summary": "Preview format selected when preview mode is first opened.",
+          "summary": "Preview format selected when preview mode is first opened. Must be enabled in <strong>PreviewFormats</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -95927,7 +96010,7 @@
           "type": "global::Blazorise.Reporting.ReportDefinition",
           "typeName": "ReportDefinition",
           "defaultValue": "null",
-          "summary": "Persisted report definition used by the designer and viewer.",
+          "summary": "Persisted report definition copied into the designer working state.",
           "isBlazoriseEnum": false
         },
         {
@@ -95947,11 +96030,28 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Display",
+          "type": "global::Blazorise.IFluentDisplay",
+          "typeName": "IFluentDisplay",
+          "defaultValue": "null",
+          "summary": "Specifies the display behavior (e.g., block, inline, flex) of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Editable",
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Defines whether the report can be edited using the interactive designer.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ElementId",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Specifies the unique id of the element.",
+          "remarks": "Note that this ID is not defined for the component but instead for the underlined element that it represents.     eg: for the TextInput the ID will be set on the input element.",
           "isBlazoriseEnum": false
         },
         {
@@ -95963,10 +96063,42 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Flex",
+          "type": "global::Blazorise.IFluentFlex",
+          "typeName": "IFluentFlex",
+          "defaultValue": "null",
+          "summary": "Configures the flexbox properties of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Float",
+          "type": "global::Blazorise.Float",
+          "typeName": "Float",
+          "defaultValue": "Float.Default",
+          "summary": "Specifies how an element should float within its containing block.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Gap",
+          "type": "global::Blazorise.IFluentGap",
+          "typeName": "IFluentGap",
+          "defaultValue": "null",
+          "summary": "Configures the gap spacing between child elements of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Height",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Specifies the height of the component using responsive sizing utilities.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "ImageAccept",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "\"image/png, image/jpeg, image/webp, image/svg+xml\"",
+          "defaultValue": "\"image/png, image/jpeg\"",
           "summary": "A comma-separated list of image MIME types accepted by the image upload dialog.",
           "isBlazoriseEnum": false
         },
@@ -95987,6 +96119,22 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Localizers",
+          "type": "global::Blazorise.Reporting.ReportLocalizers",
+          "typeName": "ReportLocalizers",
+          "defaultValue": "null",
+          "summary": "Custom localizers used by the report designer and viewer.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Margin",
+          "type": "global::Blazorise.IFluentSpacing",
+          "typeName": "IFluentSpacing",
+          "defaultValue": "null",
+          "summary": "Configures the margin spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "MaxUploadImageChunkSize",
           "type": "int",
           "typeName": "int",
@@ -96003,11 +96151,43 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ObjectFit",
+          "type": "global::Blazorise.IFluentObjectFit",
+          "typeName": "IFluentObjectFit",
+          "defaultValue": "null",
+          "summary": "Configures the object-fit property, which determines how content is resized within its container.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Overflow",
+          "type": "global::Blazorise.IFluentOverflow",
+          "typeName": "IFluentOverflow",
+          "defaultValue": "null",
+          "summary": "Configures the overflow behavior when content exceeds the component's bounds.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Padding",
+          "type": "global::Blazorise.IFluentSpacing",
+          "typeName": "IFluentSpacing",
+          "defaultValue": "null",
+          "summary": "Configures the padding spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Position",
+          "type": "global::Blazorise.IFluentPosition",
+          "typeName": "IFluentPosition",
+          "defaultValue": "null",
+          "summary": "Specifies the positioning method for the component (static, relative, absolute, etc.).",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "PreviewFormat",
           "type": "global::Blazorise.Reporting.ReportPreviewFormat?",
           "typeName": "ReportPreviewFormat?",
           "defaultValue": "null",
-          "summary": "Externally controlled preview format.",
+          "summary": "Externally controlled preview format. Must be either HTML or PDF.",
           "isBlazoriseEnum": false
         },
         {
@@ -96015,8 +96195,16 @@
           "type": "global::Blazorise.Reporting.ReportPreviewFormat?",
           "typeName": "ReportPreviewFormat?",
           "defaultValue": "null",
-          "summary": "Preview formats available for this report.",
+          "summary": "Preview formats available for this report. None disables preview.",
           "isBlazoriseEnum": false
+        },
+        {
+          "name": "Shadow",
+          "type": "global::Blazorise.Shadow",
+          "typeName": "Shadow",
+          "defaultValue": "Shadow.None",
+          "summary": "Configures the shadow effect of the component.",
+          "isBlazoriseEnum": true
         },
         {
           "name": "ShowBandDataSource",
@@ -96083,11 +96271,107 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Style",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextAlignment",
+          "type": "global::Blazorise.TextAlignment",
+          "typeName": "TextAlignment",
+          "defaultValue": "TextAlignment.Default",
+          "summary": "Configures the horizontal alignment of text within the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextColor",
+          "type": "global::Blazorise.TextColor",
+          "typeName": "TextColor",
+          "defaultValue": "TextColor.Default",
+          "summary": "Specifies the text color of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextDecoration",
+          "type": "global::Blazorise.TextDecoration",
+          "typeName": "TextDecoration",
+          "defaultValue": "TextDecoration.Default",
+          "summary": "Specifies the text decoration style (e.g., underline, none) for the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextOverflow",
+          "type": "global::Blazorise.TextOverflow",
+          "typeName": "TextOverflow",
+          "defaultValue": "TextOverflow.Default",
+          "summary": "Configures how text behaves when it overflows its container.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextSize",
+          "type": "global::Blazorise.IFluentTextSize",
+          "typeName": "IFluentTextSize",
+          "defaultValue": "null",
+          "summary": "Sets the font size of the text in the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextTransform",
+          "type": "global::Blazorise.TextTransform",
+          "typeName": "TextTransform",
+          "defaultValue": "TextTransform.Default",
+          "summary": "Configures the text transformation (e.g., capitalize, none) of the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextWeight",
+          "type": "global::Blazorise.TextWeight",
+          "typeName": "TextWeight",
+          "defaultValue": "TextWeight.Default",
+          "summary": "Specifies the font weight of text in the component (e.g., bold, normal).",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "UploadImage",
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Enables image upload from Image element source properties.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "UtilityTarget",
+          "type": "global::Blazorise.UtilityTarget",
+          "typeName": "UtilityTarget",
+          "defaultValue": "UtilityTarget.Self",
+          "summary": "Specifies the default target where utility classes and styles are applied when no per-utility target is set.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "VerticalAlignment",
+          "type": "global::Blazorise.VerticalAlignment",
+          "typeName": "VerticalAlignment",
+          "defaultValue": "VerticalAlignment.Default",
+          "summary": "Specifies the vertical alignment of inline or table-cell elements.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Visibility",
+          "type": "global::Blazorise.Visibility",
+          "typeName": "Visibility",
+          "defaultValue": "Visibility.Default",
+          "summary": "Controls the visibility of an element without altering its layout.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Width",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Specifies the width of the component using responsive sizing utilities.",
           "isBlazoriseEnum": false
         }
       ],
@@ -96105,7 +96389,7 @@
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<ReportDefinition>",
           "defaultValue": "null",
-          "summary": "Raised when the report definition changes through designer commands.",
+          "summary": "Raised with a snapshot of the updated report definition.",
           "isBlazoriseEnum": false
         },
         {
@@ -96173,11 +96457,27 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "OperationFailed",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<ReportOperationFailedEventArgs>",
+          "defaultValue": "null",
+          "summary": "Raised when a report operation fails.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "PdfProgressed",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<ReportProgress>",
           "defaultValue": "null",
           "summary": "Raised when the overall report PDF operation progress changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "PreviewFormatChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<ReportPreviewFormat>",
+          "defaultValue": "null",
+          "summary": "Raised when the preview format changes.",
           "isBlazoriseEnum": false
         },
         {
@@ -96218,6 +96518,14 @@
           "typeName": "EventCallback<bool>",
           "defaultValue": "null",
           "summary": "Raised when designer ruler visibility changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowStatusBarChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<bool>",
+          "defaultValue": "null",
+          "summary": "Raised when status bar visibility changes.",
           "isBlazoriseEnum": false
         }
       ],
@@ -96787,14 +97095,6 @@
       "summary": "$\"\"\"\r\n       Declares an image element in a report band.\r\n       \"\"\"",
       "parameters": [
         {
-          "name": "Alt",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Alternate text associated with the image element.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Appearance",
           "type": "global::Blazorise.Reporting.ReportAppearanceDefinition",
           "typeName": "ReportAppearanceDefinition",
@@ -96936,6 +97236,14 @@
           "typeName": "ReportValue<bool>",
           "defaultValue": "false",
           "summary": "Prevents the element from being edited on the designer surface and rendered in preview output.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Text",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Alternate text associated with the image element.",
           "isBlazoriseEnum": false
         },
         {
@@ -97202,7 +97510,7 @@
           "type": "global::Blazorise.Reporting.ReportPreviewFormat",
           "typeName": "ReportPreviewFormat",
           "defaultValue": "default(ReportPreviewFormat)",
-          "summary": "Preview format selected when a report first enters preview mode.",
+          "summary": "Preview format selected when a report first enters preview mode. Must be enabled in <strong>PreviewFormats</strong>.",
           "isBlazoriseEnum": true
         },
         {
@@ -97226,7 +97534,7 @@
           "type": "global::Blazorise.Reporting.ReportPreviewFormat",
           "typeName": "ReportPreviewFormat",
           "defaultValue": "default(ReportPreviewFormat)",
-          "summary": "Preview formats available to report viewers by default.",
+          "summary": "Preview formats available to report viewers by default. None disables preview.",
           "isBlazoriseEnum": true
         }
       ],
@@ -98197,7 +98505,7 @@
           "type": "global::Blazorise.Reporting.ReportPreviewFormat",
           "typeName": "ReportPreviewFormat",
           "defaultValue": "default(ReportPreviewFormat)",
-          "summary": "Preview format selected when preview mode is opened.",
+          "summary": "Preview format selected when preview mode is opened. Must be enabled in <strong>PreviewFormat</strong>.",
           "isBlazoriseEnum": true
         },
         {
@@ -98213,7 +98521,7 @@
           "type": "global::Blazorise.Reporting.ReportPreviewFormat",
           "typeName": "ReportPreviewFormat",
           "defaultValue": "default(ReportPreviewFormat)",
-          "summary": "Preview formats offered by the report viewer.",
+          "summary": "Preview formats offered by the report viewer. None disables preview.",
           "isBlazoriseEnum": true
         }
       ],
