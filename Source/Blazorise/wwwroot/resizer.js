@@ -31,6 +31,7 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         currentEndSize: null,
         startOriginalPropertyValue: null,
         endOriginalPropertyValue: null,
+        sizeRange: null,
         lastResizeNotification: 0,
         resizeObserver: null,
         originalBodyCursor: "",
@@ -253,8 +254,10 @@ function captureInteractionSizes(instance) {
         instance.currentEndSize = instance.startEndSize;
         instance.startOriginalPropertyValue = instance.startResizeElement.style.getPropertyValue(instance.options.targets.start.resizeProperty);
         instance.endOriginalPropertyValue = instance.endResizeElement.style.getPropertyValue(instance.options.targets.end.resizeProperty);
+        updateSizeRange(instance);
     }
     else {
+        updateSizeRange(instance);
         instance.startSize = measureTarget(instance);
         instance.currentSize = instance.startSize;
         instance.startEndSize = null;
@@ -311,17 +314,22 @@ function synchronizeSize(instance, applyControlledSize) {
         instance.currentSize = instance.startSize;
         instance.startEndSize = measureElement(instance.endTarget, instance.options.vertical);
         instance.currentEndSize = instance.startEndSize;
+        updateSizeRange(instance);
 
         if (applyControlledSize && instance.options.size !== null)
             applySize(instance, instance.options.size);
         else
             updateAriaValue(instance);
     }
-    else if (applyControlledSize && instance.options.size !== null)
-        applySize(instance, instance.options.size);
     else {
-        instance.currentSize = measureTarget(instance);
-        updateAriaValue(instance);
+        updateSizeRange(instance);
+
+        if (applyControlledSize && instance.options.size !== null)
+            applySize(instance, instance.options.size);
+        else {
+            instance.currentSize = measureTarget(instance);
+            updateAriaValue(instance);
+        }
     }
 }
 
@@ -342,11 +350,17 @@ function clampSize(instance, size) {
 }
 
 function getSizeRange(instance) {
+    return instance.sizeRange ?? updateSizeRange(instance);
+}
+
+function updateSizeRange(instance) {
     if (!hasCoordinatedTargets(instance)) {
-        return {
+        instance.sizeRange = {
             minimum: instance.options.minSize,
             maximum: instance.options.maxSize === null ? Number.POSITIVE_INFINITY : instance.options.maxSize
         };
+
+        return instance.sizeRange;
     }
 
     const totalSize = instance.startSize + instance.startEndSize;
@@ -358,7 +372,9 @@ function getSizeRange(instance) {
     const minimum = Math.min(Math.max(instance.options.minSize, startMinimum, Number.isFinite(endMaximum) ? totalSize - endMaximum : 0), totalSize);
     const maximum = Math.max(Math.min(configuredMaximum, startMaximum, totalSize - endMinimum), minimum);
 
-    return { minimum, maximum };
+    instance.sizeRange = { minimum, maximum };
+
+    return instance.sizeRange;
 }
 
 function measureElement(element, vertical) {
@@ -615,6 +631,7 @@ function toggleTargetClassNames(instance, classNames, active) {
 function resolveTargets(instance) {
     instance.resizeObserver?.disconnect();
     instance.resizeObserver = null;
+    instance.sizeRange = null;
 
     instance.startTarget = instance.options.targets?.start?.elementId
         ? document.getElementById(instance.options.targets.start.elementId)
