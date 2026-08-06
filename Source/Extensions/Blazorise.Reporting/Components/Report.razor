@@ -11,7 +11,7 @@
                  SaveRequested="@SaveRequested"
                  LoadRequested="@LoadRequested"
                  Data="@Data"
-                 Editable="@Editable"
+                 Editable="@( paramEditable.Defined ? Editable : (bool?)null )"
                  ShowToolbar="@ShowToolbar"
                  ShowPageTabs="@ShowPageTabs"
                  ShowStatusBar="@ShowStatusBar"

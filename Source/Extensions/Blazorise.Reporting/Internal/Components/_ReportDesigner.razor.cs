@@ -3936,7 +3936,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal bool ShowToolbarModeButtons => context.ShowToolbarModeButtons;
 
-    internal bool IsEditable => Editable || GlobalOptions.Editable;
+    internal bool IsEditable => Editable ?? GlobalOptions.Editable;
 
     internal IReadOnlyList<ReportRenderPage> ResolvePreviewRenderPages( ReportDefinition definition )
         => renderService.ResolvePreviewRenderPages( definition, Data, renderMutationVersion );
@@ -4076,7 +4076,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// <summary>
     /// Defines whether the report can be edited using the interactive designer.
     /// </summary>
-    [Parameter] public bool Editable { get; set; }
+    [Parameter] public bool? Editable { get; set; }
 
     /// <summary>
     /// Shows the report toolbar above the designer or viewer surface.

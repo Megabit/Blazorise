@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Reporting.Internal;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -18,9 +19,19 @@ public partial class Report : BaseComponent, IReportCommandExecutor
 
     private _ReportDesigner designer;
 
+    private ComponentParameterInfo<bool> paramEditable;
+
     #endregion
 
     #region Methods
+
+    /// <inheritdoc />
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Editable, out paramEditable );
+
+        return base.SetParametersAsync( parameters );
+    }
 
     /// <inheritdoc />
     public Task ExecuteCommand( ReportCommand command )
