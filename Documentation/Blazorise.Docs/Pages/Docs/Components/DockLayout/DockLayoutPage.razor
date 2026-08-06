@@ -50,6 +50,7 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="State">
         Use <Code>GetState</Code>, <Code>LoadState</Code>, or <Code>@@bind-State</Code> to persist the layout after users move, resize, hide, or activate panes.
+        The returned state can also be edited directly for advanced layouts. Keep pane names stable and call <Code>Refresh</Code> after changing an assigned state instance in place.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="DockLayoutStateExample" Outlined FullWidth>
         <DockLayoutStateExample />
