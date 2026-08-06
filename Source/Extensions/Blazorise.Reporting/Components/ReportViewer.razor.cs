@@ -67,12 +67,12 @@ public partial class ReportViewer : ComponentBase, IDisposable
     [CascadingParameter] internal ReportContext ReportContext { get; set; }
 
     /// <summary>
-    /// Preview formats offered by the report viewer.
+    /// Preview formats offered by the report viewer. None disables preview.
     /// </summary>
     [Parameter] public ReportPreviewFormat PreviewFormat { get; set; } = ReportPreviewFormat.Html;
 
     /// <summary>
-    /// Preview format selected when preview mode is opened.
+    /// Preview format selected when preview mode is opened. Must be enabled in <see cref="PreviewFormat"/>.
     /// </summary>
     [Parameter] public ReportPreviewFormat DefaultPreviewFormat { get; set; } = ReportPreviewFormat.Html;
 

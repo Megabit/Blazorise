@@ -267,7 +267,7 @@ public partial class Report : BaseComponent, IReportCommandExecutor
     [Parameter] public EventCallback<ReportMode> ModeChanged { get; set; }
 
     /// <summary>
-    /// Externally controlled preview format.
+    /// Externally controlled preview format. Must be either HTML or PDF.
     /// </summary>
     [Parameter] public ReportPreviewFormat? PreviewFormat { get; set; }
 
@@ -277,12 +277,12 @@ public partial class Report : BaseComponent, IReportCommandExecutor
     [Parameter] public EventCallback<ReportPreviewFormat> PreviewFormatChanged { get; set; }
 
     /// <summary>
-    /// Preview formats available for this report.
+    /// Preview formats available for this report. None disables preview.
     /// </summary>
     [Parameter] public ReportPreviewFormat? PreviewFormats { get; set; }
 
     /// <summary>
-    /// Preview format selected when preview mode is first opened.
+    /// Preview format selected when preview mode is first opened. Must be enabled in <see cref="PreviewFormats"/>.
     /// </summary>
     [Parameter] public ReportPreviewFormat? DefaultPreviewFormat { get; set; }
 

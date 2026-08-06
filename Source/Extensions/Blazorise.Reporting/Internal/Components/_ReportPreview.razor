@@ -5,7 +5,16 @@
      Padding="PaddingIs3"
      Border="BorderIs1"
      Overflow="OverflowAuto">
-    @if ( Designer.ActivePreviewFormat == ReportPreviewFormat.Pdf )
+    @if ( !Designer.HasPreviewFormats )
+    {
+        <Div Class="b-report-preview-message"
+             Padding="PaddingIs5"
+             Border="BorderIs1"
+             TextAlignment="TextAlignmentCenter">
+            @Localize( "No preview formats are enabled." )
+        </Div>
+    }
+    else if ( Designer.ActivePreviewFormat == ReportPreviewFormat.Pdf )
     {
         ReportPdfPreviewContext pdfPreviewContext = Designer.PdfPreviewContext;
 

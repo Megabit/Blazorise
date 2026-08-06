@@ -179,6 +179,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         bool initialized = commandManager.State?.Definition is not null;
         ReportMode previousMode = CurrentMode;
         ReportPreviewFormat previousPreviewFormat = CurrentPreviewFormat;
+        bool previouslyHadPreviewFormats = HasPreviewFormats;
         object previousData = Data;
 
         parameters.TryGetParameter( Definition, out ComponentParameterInfo<ReportDefinition> definitionParameter );
@@ -192,14 +193,14 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         bool definitionModeChanged = initialized && parameters.IsParameterChanged( DefinitionMode );
         bool dataChanged = initialized && parameters.IsParameterChanged( Data );
+        bool previewOptionsChanged = initialized
+            && ( previewFormatParameter.Changed
+                || parameters.IsParameterChanged( PreviewFormats )
+                || parameters.IsParameterChanged( DefaultPreviewFormat ) );
         bool modeChanged = initialized
             && modeParameter.Changed
             && modeParameter.Value is ReportMode mode
             && mode != currentMode;
-        bool previewFormatChanged = initialized
-            && previewFormatParameter.Changed
-            && previewFormatParameter.Value is ReportPreviewFormat previewFormat
-            && previewFormat != currentPreviewFormat;
 
         await base.SetParametersAsync( parameters );
 
@@ -209,8 +210,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         if ( modeParameter.Changed )
             currentMode = modeParameter.Value ?? previousMode;
 
-        if ( previewFormatParameter.Changed )
-            currentPreviewFormat = previewFormatParameter.Value ?? previousPreviewFormat;
+        if ( previewOptionsChanged )
+            currentPreviewFormat = ResolvePreviewFormat( previewFormatParameter.Value ?? currentPreviewFormat );
+
+        bool previewFormatChanged = previewOptionsChanged && currentPreviewFormat != previousPreviewFormat;
+        bool previewAvailabilityChanged = previewOptionsChanged && HasPreviewFormats != previouslyHadPreviewFormats;
 
         bool definitionChanged = definitionParameter.Changed
             && !ReferenceEquals( definitionParameter.Value, lastNotifiedDefinition )
@@ -236,7 +240,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         if ( dataChanged )
             SynchronizeDefaultDataSource( RootDefinition, previousData );
 
-        if ( CurrentMode == ReportMode.Preview && ( modeChanged || previewFormatChanged || dataChanged ) )
+        if ( CurrentMode == ReportMode.Preview && ( modeChanged || previewFormatChanged || previewAvailabilityChanged || dataChanged ) )
         {
             await SetPreview( CurrentPreviewFormat, notifyChanged: false, previousMode: previousMode );
             return;
@@ -268,7 +272,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         } );
 
         currentMode = Mode ?? ( IsEditable ? ReportMode.Design : ReportMode.Preview );
-        currentPreviewFormat = PreviewFormat ?? DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat;
+        currentPreviewFormat = ResolvePreviewFormat( PreviewFormat ?? DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat );
         designerWorkspaceRendered = IsEditable && currentMode == ReportMode.Design;
 
         List<string> normalizationDiagnostics = [];
@@ -295,7 +299,20 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                 await ApplyDefinition( BuildDeclarativeDefinition(), notifyDefinitionChanged: true );
             }
             else if ( configurationChanged )
-                StateHasChanged();
+            {
+                ReportPreviewFormat previewFormat = CurrentPreviewFormat;
+                currentPreviewFormat = previewFormat;
+
+                if ( CurrentMode == ReportMode.Preview && HasPreviewFormats )
+                    await SetPreview( previewFormat, notifyChanged: false, previousMode: CurrentMode );
+                else
+                {
+                    if ( !HasPreviewFormats )
+                        CancelAsyncOperations();
+
+                    StateHasChanged();
+                }
+            }
 
             return;
         }
@@ -303,13 +320,14 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         bool declarativeDefinitionCreated = ShouldUseDeclarativeDefinition();
         declarativeContextVersion = context.DefinitionVersion;
         declarativeConfigurationVersion = context.ConfigurationVersion;
+        currentPreviewFormat = ResolvePreviewFormat( PreviewFormat ?? DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat );
 
         if ( declarativeDefinitionCreated )
             workingDefinition = BuildDeclarativeDefinition();
 
         ReportDefinition definition = RootDefinition;
 
-        if ( definition is not null )
+        if ( definition is not null && ( CurrentMode != ReportMode.Preview || HasPreviewFormats ) )
         {
             if ( CurrentMode == ReportMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf )
                 await ResolvePdfPreviewOperation( definition, resolveDataSources: true );
@@ -872,7 +890,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             await ( command switch
             {
                 ReportCommand.Design => SetMode( ReportMode.Design ),
-                ReportCommand.Preview => SetPreview( SupportsPreviewFormat( currentPreviewFormat ) ? currentPreviewFormat : context.ViewerOptions.DefaultFormat ),
+                ReportCommand.Preview => SetPreview( CurrentPreviewFormat ),
                 ReportCommand.PreviewHtml => SetPreview( ReportPreviewFormat.Html ),
                 ReportCommand.PreviewPdf => SetPreview( ReportPreviewFormat.Pdf ),
                 ReportCommand.Save => SaveDefinition(),
@@ -908,7 +926,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         return command switch
         {
             ReportCommand.Design => IsEditable,
-            ReportCommand.Preview => SupportsPreviewFormat( currentPreviewFormat ) || SupportsPreviewFormat( context.ViewerOptions.DefaultFormat ),
+            ReportCommand.Preview => HasPreviewFormats,
             ReportCommand.PreviewHtml => SupportsPreviewFormat( ReportPreviewFormat.Html ),
             ReportCommand.PreviewPdf => SupportsPreviewFormat( ReportPreviewFormat.Pdf ),
             ReportCommand.Save => SaveRequested is not null,
@@ -1080,6 +1098,14 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private async Task SetPreview( ReportPreviewFormat format, bool notifyChanged = true, ReportMode? previousMode = null )
     {
+        if ( !SupportsPreviewFormat( format ) )
+        {
+            if ( !HasPreviewFormats )
+                CancelAsyncOperations();
+
+            return;
+        }
+
         ReportMode sourceMode = previousMode ?? CurrentMode;
         ReportPreviewFormat sourceFormat = CurrentPreviewFormat;
 
@@ -1504,10 +1530,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             normalizationDiagnostics.Add( $"Mode was invalid and was normalized to {nextState.Mode}." );
         }
 
-        if ( !Enum.IsDefined( nextState.PreviewFormat ) )
+        ReportPreviewFormat previewFormat = ResolvePreviewFormat( nextState.PreviewFormat );
+
+        if ( nextState.PreviewFormat != previewFormat )
         {
-            nextState.PreviewFormat = DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat;
-            normalizationDiagnostics.Add( $"PreviewFormat was invalid and was normalized to {nextState.PreviewFormat}." );
+            nextState.PreviewFormat = previewFormat;
+            normalizationDiagnostics.Add( $"PreviewFormat was invalid or unavailable and was normalized to {nextState.PreviewFormat}." );
         }
 
         if ( !Enum.IsDefined( nextState.Selection.Type ) )
@@ -3410,8 +3438,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private bool SupportsPreviewFormat( ReportPreviewFormat format )
     {
-        return ( PreviewFormats ?? context.ViewerOptions.PreviewFormats ).HasFlag( format );
+        return ReportPreviewFormatResolver.IsEnabled( AvailablePreviewFormats, format );
     }
+
+    private ReportPreviewFormat ResolvePreviewFormat( ReportPreviewFormat format )
+        => ReportPreviewFormatResolver.Resolve( format, AvailablePreviewFormats, EffectiveDefaultPreviewFormat );
 
     private static string ResolvePdfFileName( ReportDefinition definition )
     {
@@ -3908,6 +3939,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal ReportPreviewFormat ActivePreviewFormat => CurrentPreviewFormat;
 
+    internal bool HasPreviewFormats => AvailablePreviewFormats != ReportPreviewFormat.None;
+
     internal ReportPdfPreviewContext PdfPreviewContext => pdfPreviewMutationVersion == renderMutationVersion ? pdfPreviewContext : null;
 
     internal RenderFragment<ReportPdfPreviewContext> PdfPreviewTemplate => context.ViewerOptions.PdfPreviewTemplate;
@@ -3960,7 +3993,14 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal ReportMode CurrentMode => Mode ?? currentMode;
 
-    private ReportPreviewFormat CurrentPreviewFormat => PreviewFormat ?? currentPreviewFormat;
+    private ReportPreviewFormat AvailablePreviewFormats
+        => ReportPreviewFormatResolver.Normalize( PreviewFormats ?? context.ViewerOptions.PreviewFormats );
+
+    private ReportPreviewFormat EffectiveDefaultPreviewFormat
+        => ReportPreviewFormatResolver.Resolve( DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat, AvailablePreviewFormats );
+
+    private ReportPreviewFormat CurrentPreviewFormat
+        => ResolvePreviewFormat( PreviewFormat ?? currentPreviewFormat );
 
     private ReportDefinitionMode CurrentDefinitionMode => DefinitionMode ?? GlobalOptions.DefinitionMode;
 

@@ -6,12 +6,12 @@ namespace Blazorise.Reporting;
 public sealed class ReportOptions
 {
     /// <summary>
-    /// Preview formats available to report viewers by default.
+    /// Preview formats available to report viewers by default. None disables preview.
     /// </summary>
     public ReportPreviewFormat PreviewFormats { get; set; } = ReportPreviewFormat.Html;
 
     /// <summary>
-    /// Preview format selected when a report first enters preview mode.
+    /// Preview format selected when a report first enters preview mode. Must be enabled in <see cref="PreviewFormats"/>.
     /// </summary>
     public ReportPreviewFormat DefaultPreviewFormat { get; set; } = ReportPreviewFormat.Html;
 

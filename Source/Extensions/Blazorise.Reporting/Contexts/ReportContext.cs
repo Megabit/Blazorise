@@ -221,8 +221,8 @@ internal sealed class ReportContext
 
     private static void CopyViewerOptions( ReportViewerOptions source, ReportViewerOptions target )
     {
-        target.PreviewFormats = source.PreviewFormats;
-        target.DefaultFormat = source.DefaultFormat;
+        target.PreviewFormats = ReportPreviewFormatResolver.Normalize( source.PreviewFormats );
+        target.DefaultFormat = ReportPreviewFormatResolver.Resolve( source.DefaultFormat, target.PreviewFormats );
         target.AllowPrint = source.AllowPrint;
         target.AllowDownload = source.AllowDownload;
         target.PdfPreviewTemplate = source.PdfPreviewTemplate;
