@@ -101,7 +101,7 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Resizer() );
-        builder.Append( ClassProvider.ResizerOrientation( Orientation ) );
+        builder.Append( ClassProvider.ResizerOrientation( ResolvedOrientation ) );
         builder.Append( ClassProvider.ResizerPlacement( ResolvedPlacement ) );
         builder.Append( ClassProvider.ResizerGutter( ShowGutter ) );
         builder.Append( ClassProvider.ResizerDisabled( Disabled ) );
@@ -112,17 +112,17 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        if ( Thickness is not null )
+        if ( ResolvedThickness is not null )
         {
-            string thicknessValue = Thickness.Value.ToString( "0.####", CultureInfo.InvariantCulture );
+            string thicknessValue = ResolvedThickness.Value.ToString( "0.####", CultureInfo.InvariantCulture );
 
-            builder.Append( $"width:{thicknessValue}px", Orientation == Blazorise.Orientation.Vertical );
-            builder.Append( $"height:{thicknessValue}px", Orientation == Blazorise.Orientation.Horizontal );
+            builder.Append( $"width:{thicknessValue}px", ResolvedOrientation == Blazorise.Orientation.Vertical );
+            builder.Append( $"height:{thicknessValue}px", ResolvedOrientation == Blazorise.Orientation.Horizontal );
         }
 
-        if ( Offset != 0 )
+        if ( ResolvedOffset != 0 )
         {
-            string offsetValue = ( -Offset ).ToString( "0.####", CultureInfo.InvariantCulture );
+            string offsetValue = ( -ResolvedOffset ).ToString( "0.####", CultureInfo.InvariantCulture );
 
             builder.Append( $"top:{offsetValue}px", ResolvedPlacement == Blazorise.Placement.Top );
             builder.Append( $"bottom:{offsetValue}px", ResolvedPlacement == Blazorise.Placement.Bottom );
@@ -187,14 +187,14 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
         {
             Targets = Targets,
             TargetId = Targets is null ? TargetId : null,
-            Vertical = Orientation == Blazorise.Orientation.Vertical,
+            Vertical = ResolvedOrientation == Blazorise.Orientation.Vertical,
             ResizeFromStart = Targets is null && ( ResolvedPlacement is Blazorise.Placement.Start or Blazorise.Placement.Top ),
             ResizeProperty = Targets is null ? ResolvedResizeProperty : null,
-            Value = Value,
-            Min = Min,
-            Max = Max,
-            KeyboardStep = KeyboardStep,
-            ResizingInterval = ResizingInterval,
+            Value = ResolvedValue,
+            Min = ResolvedMin,
+            Max = ResolvedMax,
+            KeyboardStep = ResolvedKeyboardStep,
+            ResizingInterval = ResolvedResizingInterval,
             Disabled = Disabled,
             FocusedClassNames = ClassProvider.ResizerFocused( true ),
             ResizingClassNames = ClassProvider.ResizerResizing( true ),
@@ -215,13 +215,19 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
+    /// Resolves unsupported orientation values to horizontal.
+    /// </summary>
+    protected Orientation ResolvedOrientation
+        => Orientation == Blazorise.Orientation.Vertical ? Blazorise.Orientation.Vertical : Blazorise.Orientation.Horizontal;
+
+    /// <summary>
     /// Chooses a placement that is valid for the current orientation.
     /// </summary>
     protected Placement ResolvedPlacement
     {
         get
         {
-            if ( Orientation == Blazorise.Orientation.Vertical )
+            if ( ResolvedOrientation == Blazorise.Orientation.Vertical )
             {
                 return Placement switch
                 {
@@ -246,19 +252,19 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     protected string ResolvedResizeProperty
         => !string.IsNullOrWhiteSpace( ResizeProperty )
             ? ResizeProperty
-            : Orientation == Blazorise.Orientation.Vertical ? "width" : "height";
+            : ResolvedOrientation == Blazorise.Orientation.Vertical ? "width" : "height";
 
     /// <summary>
     /// Maps the component orientation to its ARIA representation.
     /// </summary>
     protected string AriaOrientation
-        => Orientation == Blazorise.Orientation.Vertical ? "vertical" : "horizontal";
+        => ResolvedOrientation == Blazorise.Orientation.Vertical ? "vertical" : "horizontal";
 
     /// <summary>
     /// Formats the minimum size for the rendered separator semantics.
     /// </summary>
     protected string AriaValueMin
-        => FormatAriaValue( ResolvedAriaValueMin );
+        => FormatAriaValue( ResolvedMin );
 
     /// <summary>
     /// Formats the maximum size for assistive technologies.
@@ -270,13 +276,31 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     /// Supplies the initial accessible size; JavaScript keeps the value synchronized during resizing.
     /// </summary>
     protected string AriaValueNow
-        => FormatAriaValue( Math.Min( Math.Max( Value ?? ResolvedAriaValueMin, ResolvedAriaValueMin ), ResolvedAriaValueMax ) );
-
-    private double ResolvedAriaValueMin
-        => Math.Max( Min, 0 );
+        => FormatAriaValue( Math.Min( Math.Max( ResolvedValue ?? ResolvedMin, ResolvedMin ), ResolvedAriaValueMax ) );
 
     private double ResolvedAriaValueMax
-        => Math.Max( Max ?? Math.Max( Value ?? ResolvedAriaValueMin, 100 ), ResolvedAriaValueMin );
+        => ResolvedMax ?? Math.Max( ResolvedValue ?? ResolvedMin, 100 );
+
+    private double? ResolvedValue
+        => Value is not null && double.IsFinite( Value.Value ) ? Value : null;
+
+    private double ResolvedMin
+        => double.IsFinite( Min ) ? Math.Max( Min, 0 ) : 0;
+
+    private double? ResolvedMax
+        => Max is not null && double.IsFinite( Max.Value ) ? Math.Max( Max.Value, ResolvedMin ) : null;
+
+    private double ResolvedKeyboardStep
+        => double.IsFinite( KeyboardStep ) ? Math.Max( KeyboardStep, 0.0001 ) : 10;
+
+    private int ResolvedResizingInterval
+        => Math.Max( ResizingInterval, 0 );
+
+    private double? ResolvedThickness
+        => Thickness is not null && double.IsFinite( Thickness.Value ) && Thickness.Value >= 0 ? Thickness : null;
+
+    private double ResolvedOffset
+        => double.IsFinite( Offset ) ? Offset : 0;
 
     /// <summary>
     /// Identifies the logical start target controlled by the resizer.
