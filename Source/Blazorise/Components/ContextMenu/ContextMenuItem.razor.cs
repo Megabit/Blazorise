@@ -101,8 +101,6 @@ public partial class ContextMenuItem : BaseComponent
 
     private string AriaChecked => EffectiveShowCheckbox ? IsChecked.ToString().ToLowerInvariant() : null;
 
-    private int ComputedTabIndex => Disabled ? -1 : TabIndex ?? -1;
-
     private string ContentClassNames => ClassProvider.ContextMenuItemContent();
 
     private string CheckClassNames => ClassProvider.ContextMenuItemCheck();
@@ -133,12 +131,6 @@ public partial class ContextMenuItem : BaseComponent
     /// Specifies shortcut text rendered at the end of the item.
     /// </summary>
     [Parameter] public string Shortcut { get; set; }
-
-    /// <summary>
-    /// Specifies the tabindex value rendered for the item.
-    /// The context menu manages item tab indexes while it is open.
-    /// </summary>
-    [Parameter] public int? TabIndex { get; set; }
 
     /// <summary>
     /// Indicates the currently active item.

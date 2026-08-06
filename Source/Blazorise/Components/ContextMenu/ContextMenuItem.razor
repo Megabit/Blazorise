@@ -1,7 +1,7 @@
 @namespace Blazorise
 @inherits BaseComponent
 
-<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="@Role" aria-disabled="@AriaDisabled" aria-checked="@AriaChecked" tabindex="@ComputedTabIndex" data-context-menu-item="true" @onmousedown:preventDefault @onmousedown="@EventCallback.Empty" @onclick="@ClickHandler" @attributes="@Attributes">
+<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="@Role" aria-disabled="@AriaDisabled" aria-checked="@AriaChecked" tabindex="-1" data-context-menu-item="true" @onmousedown:preventDefault @onmousedown="@EventCallback.Empty" @onclick="@ClickHandler" @attributes="@Attributes">
     <span class="@ContentClassNames">
         @if ( Icon is not null )
         {
