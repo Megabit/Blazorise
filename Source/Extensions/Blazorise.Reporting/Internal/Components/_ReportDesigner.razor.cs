@@ -553,15 +553,14 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             || string.Equals( provider?.Type, DataSetReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase );
     }
 
-    private Task SetStatusBarVisible( bool visible )
+    private async Task SetStatusBarVisible( bool visible )
     {
         if ( ShowStatusBar == visible )
-            return Task.CompletedTask;
+            return;
 
         ShowStatusBar = visible;
+        await ShowStatusBarChanged.InvokeAsync( visible );
         StateHasChanged();
-
-        return Task.CompletedTask;
     }
 
     private bool IsElementContextMenuVisible()
@@ -4093,6 +4092,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// Shows the status bar below the designer or preview surface.
     /// </summary>
     [Parameter] public bool ShowStatusBar { get; set; } = true;
+
+    /// <summary>
+    /// Raised when status bar visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowStatusBarChanged { get; set; }
 
     /// <summary>
     /// Band presentation used when constructing a report from declarative content. Persisted definitions retain their configured value.

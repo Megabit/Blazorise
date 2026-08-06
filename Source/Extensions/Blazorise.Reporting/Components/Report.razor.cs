@@ -116,6 +116,11 @@ public partial class Report : BaseComponent, IReportCommandExecutor
     [Parameter] public bool ShowStatusBar { get; set; } = true;
 
     /// <summary>
+    /// Raised when status bar visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowStatusBarChanged { get; set; }
+
+    /// <summary>
     /// Band presentation used when constructing a report from declarative content. Persisted definitions retain their configured value.
     /// </summary>
     [Parameter] public ReportBandMode BandMode { get; set; } = ReportBandMode.Classic;
