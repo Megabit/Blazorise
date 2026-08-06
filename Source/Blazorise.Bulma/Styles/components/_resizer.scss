@@ -79,6 +79,14 @@
     }
 }
 
+.resizer.is-focused.is-vertical:not(.has-gutter) {
+    background: linear-gradient($primary 0 0) center / 2px 100% no-repeat;
+}
+
+.resizer.is-focused.is-horizontal:not(.has-gutter) {
+    background: linear-gradient($primary 0 0) center / 100% 2px no-repeat;
+}
+
 .resizer.has-gutter.is-vertical {
     &::before {
         border-inline: 1px solid var(--bulma-resizer-gutter-border);

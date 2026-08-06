@@ -79,9 +79,11 @@ public partial class _ReportDesignerSectionRail
 
     #region Properties
 
-    private string DisplayName => ReportDefinitionHelper.GetSectionDisplayName( Section );
+    private string DisplayName => string.IsNullOrWhiteSpace( Section?.Name )
+        ? Localize( ReportDefinitionHelper.GetSectionTypeDisplayName( Section.Type ) )
+        : Section.Name;
 
-    private string ToggleTitle => ReportValueResolver.ResolveStaticSuppress( Section ) ? "Band is suppressed" : Collapsed ? "Expand band" : "Collapse band";
+    private string ToggleTitle => ReportValueResolver.ResolveStaticSuppress( Section ) ? Localize( "Band is suppressed" ) : Collapsed ? Localize( "Expand band" ) : Localize( "Collapse band" );
 
     /// <summary>
     /// Report section displayed in the rail.

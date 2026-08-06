@@ -2,12 +2,12 @@
 @inherits BaseReportComponent
 
 <ModalHeader>
-    <ModalTitle>Insert aggregate</ModalTitle>
+    <ModalTitle>@Localize( "Insert aggregate" )</ModalTitle>
     <CloseButton Clicked="@Close" />
 </ModalHeader>
 <ModalBody>
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Field</FieldLabel>
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Field" )</FieldLabel>
         <FieldBody ColumnSize="ColumnSizeIs8">
             <Select TValue="string" Value="@selectedFieldKey" ValueChanged="@OnSelectedFieldChanged" Size="Size.Small">
                 @foreach ( ReportDesignerFieldOption field in fields )
@@ -19,7 +19,7 @@
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Function</FieldLabel>
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Function" )</FieldLabel>
         <FieldBody ColumnSize="ColumnSizeIs8">
             <Select TValue="ReportAggregateFunction" Value="@selectedFunction" ValueChanged="@OnSelectedFunctionChanged" Size="Size.Small">
                 @foreach ( ReportAggregateFunction function in supportedFunctions )
@@ -31,7 +31,7 @@
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Summary location</FieldLabel>
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Summary location" )</FieldLabel>
         <FieldBody ColumnSize="ColumnSizeIs8">
             <Select TValue="int" Value="@selectedSummaryLocationIndex" ValueChanged="@OnSelectedSummaryLocationChanged" Disabled="@(summaryLocations.Count <= 1)" Size="Size.Small">
                 @foreach ( ReportAggregateSummaryLocation location in summaryLocations )
@@ -43,6 +43,6 @@
     </Field>
 </ModalBody>
 <ModalFooter>
-    <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm)" Size="Size.Small">OK</Button>
-    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">Cancel</Button>
+    <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm)" Size="Size.Small">@Localize( "OK" )</Button>
+    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">@Localize( "Cancel" )</Button>
 </ModalFooter>

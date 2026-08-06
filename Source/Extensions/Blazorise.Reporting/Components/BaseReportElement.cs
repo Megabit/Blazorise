@@ -1,5 +1,7 @@
 #region Using directives
 using System;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Reporting.Internal;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -9,33 +11,80 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Base class for declarative report elements that register themselves with the current report container.
 /// </summary>
-public abstract class BaseReportElement : ComponentBase
+public abstract class BaseReportElement : ComponentBase, IDisposable
 {
     #region Members
 
     private readonly string definitionId = Guid.NewGuid().ToString( "N" );
+
+    private IReportElementContainerContext registeredContainerContext;
 
     #endregion
 
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        if ( ContainerContext is null )
-            return;
+        bool definitionChanged = Definition is null || HasDefinitionChanged( parameters );
 
-        Definition = BuildDefinition();
-        ContainerContext.AddElement( Definition );
+        await base.SetParametersAsync( parameters );
+
+        bool containerChanged = !ReferenceEquals( registeredContainerContext, ContainerContext );
+
+        if ( containerChanged )
+        {
+            registeredContainerContext?.UnregisterElement( this );
+            registeredContainerContext = ContainerContext;
+        }
+
+        if ( definitionChanged || containerChanged )
+            Definition = BuildDefinition();
+
+        if ( definitionChanged || containerChanged )
+            registeredContainerContext?.RegisterElement( this, Definition );
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        registeredContainerContext?.UnregisterElement( this );
+        registeredContainerContext = null;
     }
 
     /// <summary>
-    /// Creates the element definition registered with the containing report band.
+    /// Determines whether parameters affecting the element definition changed.
     /// </summary>
-    /// <returns>A new element definition based on the component parameters.</returns>
+    protected virtual bool HasDefinitionChanged( ParameterView parameters )
+    {
+        return parameters.IsParameterChanged( Name )
+            || parameters.IsParameterChanged( X )
+            || parameters.IsParameterChanged( Y )
+            || parameters.IsParameterChanged( Width )
+            || parameters.IsParameterChanged( Height )
+            || parameters.IsReportValueChanged( CanGrow )
+            || parameters.IsReportValueChanged( Suppress )
+            || parameters.IsParameterChanged( SnapToGrid )
+            || parameters.IsParameterChanged( ShowCollisionWarnings )
+            || parameters.IsParameterChanged( Class )
+            || parameters.IsParameterChanged( Style )
+            || parameters.IsParameterChanged( BackgroundColor )
+            || parameters.IsParameterChanged( BorderColor )
+            || parameters.IsParameterChanged( BorderWidth )
+            || parameters.IsParameterChanged( BorderStyle )
+            || parameters.IsParameterChanged( BorderRadius )
+            || parameters.IsParameterChanged( Opacity )
+            || parameters.IsParameterChanged( Appearance )
+            || parameters.IsParameterChanged( Border );
+    }
+
+    /// <summary>
+    /// Creates or updates the registered element definition.
+    /// </summary>
+    /// <returns>The element definition based on the component parameters.</returns>
     protected virtual ReportElementDefinition BuildDefinition()
     {
-        ReportElementDefinition definition = ReportElementDefinitionFactory.Create( ElementType );
+        ReportElementDefinition definition = Definition ?? ReportElementDefinitionFactory.Create( ElementType );
 
         definition.Id = definitionId;
         definition.Name = Name;
@@ -88,6 +137,8 @@ public abstract class BaseReportElement : ComponentBase
     /// Element definition produced from the current component parameters.
     /// </summary>
     protected ReportElementDefinition Definition { get; private set; }
+
+    private protected IReportElementContainerContext RegisteredContainerContext => registeredContainerContext;
 
     [CascadingParameter] internal IReportElementContainerContext ContainerContext { get; set; }
 

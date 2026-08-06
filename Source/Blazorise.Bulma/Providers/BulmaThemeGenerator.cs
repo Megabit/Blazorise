@@ -37,6 +37,21 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     #region Methods
 
+    /// <inheritdoc />
+    protected override string GetDockLayoutVariableName( string name )
+        => $"--bulma-dock-{name}";
+
+    /// <inheritdoc />
+    protected override void GenerateResizerStyles( StringBuilder sb, Theme theme )
+        => GenerateResizerColorStyles(
+            sb,
+            theme,
+            ".resizer",
+            ".resizer.has-gutter:hover,.resizer.has-gutter.is-focused,.resizer.has-gutter.is-resizing",
+            ".resizer.is-focused.is-vertical:not(.has-gutter)",
+            ".resizer.is-focused.is-horizontal:not(.has-gutter)",
+            "--bulma-resizer" );
+
     public override string GenerateVariables( Theme theme )
     {
         if ( ThemeCache.TryGetVariablesFromCache( theme, out var cachedVariables ) )

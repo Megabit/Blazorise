@@ -57,7 +57,7 @@ internal sealed class DockLayoutSizer
         string firstTrack = firstFixedTrack ?? ( secondFixedTrack is not null ? FlexibleFillTrack : GetFlexibleSplitTrack( node.Ratio ) );
         string secondTrack = secondFixedTrack ?? ( firstFixedTrack is not null ? FlexibleFillTrack : GetFlexibleSplitTrack( 1d - node.Ratio ) );
 
-        return node.Orientation == DockSplitOrientation.Vertical
+        return node.Orientation == Orientation.Vertical
             ? $"--dock-split-start-size:{firstTrack};--dock-split-end-size:{secondTrack};grid-template-rows:var(--dock-split-start-size) var(--dock-split-end-size);"
             : $"--dock-split-start-size:{firstTrack};--dock-split-end-size:{secondTrack};grid-template-columns:var(--dock-split-start-size) var(--dock-split-end-size);";
     }
@@ -75,10 +75,10 @@ internal sealed class DockLayoutSizer
         return DefaultPaneSize;
     }
 
-    public string GetDockNodeMinimumSize( DockNodeState node, DockSplitOrientation resizeOrientation )
+    public string GetDockNodeMinimumSize( DockNodeState node, Orientation resizeOrientation )
     {
         if ( node?.Kind != DockNodeKind.Split )
-            return GetDockPaneMinimumSize( node );
+            return GetDockPaneMinimumSize( node, resizeOrientation );
 
         string firstMinimum = GetDockChildMinimumSize( node, node.First, resizeOrientation );
         string secondMinimum = GetDockChildMinimumSize( node, node.Second, resizeOrientation );
@@ -86,6 +86,18 @@ internal sealed class DockLayoutSizer
         return node.Orientation == resizeOrientation
             ? $"calc({firstMinimum} + {secondMinimum} + {SplitGapSize})"
             : $"max({firstMinimum}, {secondMinimum})";
+    }
+
+    public string GetDockNodeMaximumSize( DockNodeState node, Orientation resizeOrientation )
+    {
+        if ( node?.Kind == DockNodeKind.Split )
+            return null;
+
+        DockPane pane = GetDockNodePane( node );
+
+        return IsPaneSizeConstraintApplicable( node, resizeOrientation )
+            ? pane?.MaxSize
+            : null;
     }
 
     public bool IsCenterDockGroup( DockLayoutState state, IEnumerable<string> paneNames )
@@ -121,10 +133,10 @@ internal sealed class DockLayoutSizer
 
         DockPaneState paneState = stateManager.FindPaneState( state, paneName );
 
-        return paneState?.Size ?? pane.Size;
+        return paneState is not null ? paneState.Size : pane.Size;
     }
 
-    private string GetDockNodeTrackSize( DockNodeState node, DockSplitOrientation orientation )
+    private string GetDockNodeTrackSize( DockNodeState node, Orientation orientation )
     {
         DockPanePosition? position = query.GetDockNodePosition( node );
 
@@ -153,10 +165,12 @@ internal sealed class DockLayoutSizer
         if ( !string.IsNullOrWhiteSpace( node.Size ) )
             return node.Size;
 
-        return paneState?.Size ?? pane.Size ?? GetDefaultDockPaneSize( position.Value );
+        string paneSize = paneState is not null ? paneState.Size : pane.Size;
+
+        return paneSize ?? GetDefaultDockPaneSize( position.Value );
     }
 
-    private string GetDockChildMinimumSize( DockNodeState parent, DockNodeState child, DockSplitOrientation resizeOrientation )
+    private string GetDockChildMinimumSize( DockNodeState parent, DockNodeState child, Orientation resizeOrientation )
     {
         if ( parent?.UseRatio == false && parent.Orientation == resizeOrientation )
         {
@@ -169,13 +183,21 @@ internal sealed class DockLayoutSizer
         return GetDockNodeMinimumSize( child, resizeOrientation );
     }
 
-    private string GetDockPaneMinimumSize( DockNodeState node )
+    private string GetDockPaneMinimumSize( DockNodeState node, Orientation resizeOrientation )
     {
         DockPane pane = GetDockNodePane( node );
 
-        return string.IsNullOrWhiteSpace( pane?.MinSize )
+        return !IsPaneSizeConstraintApplicable( node, resizeOrientation ) || string.IsNullOrWhiteSpace( pane?.MinSize )
             ? DefaultMinimumPaneSize
             : pane.MinSize;
+    }
+
+    private bool IsPaneSizeConstraintApplicable( DockNodeState node, Orientation resizeOrientation )
+    {
+        DockPanePosition? position = query.GetDockNodePosition( node );
+
+        return position == DockPanePosition.Center
+            || position is not null && IsPanePositionCompatibleWithOrientation( position.Value, resizeOrientation );
     }
 
     private DockPane GetDockNodePane( DockNodeState node )
@@ -196,22 +218,23 @@ internal sealed class DockLayoutSizer
 
     private bool IsCenterDockPane( DockLayoutState state, string paneName )
     {
-        if ( registry.TryGetPane( paneName, out DockPane pane ) && IsCenterPane( pane ) )
+        if ( registry.TryGetPane( paneName, out DockPane pane ) && pane.Role == DockPaneRole.Document )
             return true;
 
-        return stateManager.FindPaneState( state, paneName )?.Position == DockPanePosition.Center;
-    }
+        DockPaneState paneState = stateManager.FindPaneState( state, paneName );
 
-    private static bool IsCenterPane( DockPane pane )
-        => pane is not null && ( pane.Role == DockRole.Document || pane.PanePosition == DockPanePosition.Center );
+        return paneState is not null
+            ? paneState.Position == DockPanePosition.Center
+            : pane?.PanePosition == DockPanePosition.Center;
+    }
 
     private static string GetDefaultDockPaneSize( DockPanePosition position )
         => position == DockPanePosition.Top || position == DockPanePosition.Bottom
             ? "auto"
             : DefaultPaneSize;
 
-    private static bool IsPanePositionCompatibleWithOrientation( DockPanePosition position, DockSplitOrientation orientation )
-        => orientation == DockSplitOrientation.Horizontal
+    private static bool IsPanePositionCompatibleWithOrientation( DockPanePosition position, Orientation orientation )
+        => orientation == Orientation.Horizontal
             ? position is DockPanePosition.Left or DockPanePosition.Right
             : position is DockPanePosition.Top or DockPanePosition.Bottom;
 

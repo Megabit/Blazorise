@@ -215,7 +215,7 @@
 
     private string PdfGenerationStatus => pdfGenerationProgress.Stage switch
     {
-        PdfGenerationStage.PreparingFonts => "Preparing fonts",
+        PdfGenerationStage.PreparingResources => "Preparing resources",
         PdfGenerationStage.RenderingPages => $"Rendering page {pdfGenerationProgress.CompletedPages} of {pdfGenerationProgress.TotalPages}",
         PdfGenerationStage.WritingDocument => "Writing PDF document",
         PdfGenerationStage.Completed => $"Generated {pdfGenerationProgress.TotalPages} pages",
@@ -294,7 +294,7 @@
 
         try
         {
-            PdfGenerationResult result = await PdfGenerator.Generate( pdfDocument.Definition, new()
+            PdfGenerationResult result = await PdfGenerator.GenerateAsync( pdfDocument.Definition, new()
             {
                 FileName = "blazorise-pdf-rendering-matrix.pdf",
                 Progress = OnPdfGenerationProgress,

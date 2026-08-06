@@ -1,5 +1,6 @@
 #region Using directives
 using System.Collections.Generic;
+using Blazorise.Extensions;
 using Blazorise.Reporting;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -12,6 +13,16 @@ namespace Blazorise.Reporting.DataSources.Sql;
 public partial class ReportSqlDataSource : BaseReportDataSourceComponent
 {
     #region Methods
+
+    /// <inheritdoc />
+    protected override bool HasDefinitionChanged( ParameterView parameters )
+    {
+        return parameters.IsParameterChanged( Name )
+            || parameters.IsParameterChanged( ConnectionName )
+            || parameters.IsParameterChanged( Query )
+            || parameters.IsParameterChanged( CommandTimeout )
+            || parameters.IsParameterChanged( Schema );
+    }
 
     /// <inheritdoc />
     protected override ReportDataSourceDefinition CreateDataSourceDefinition()

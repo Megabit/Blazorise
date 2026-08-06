@@ -51,8 +51,8 @@ public partial class _ReportDesignerFormatDialog
     private static readonly (string Value, string Text)[] CultureOptions = CultureInfo
         .GetCultures( CultureTypes.AllCultures )
         .Where( culture => !string.IsNullOrWhiteSpace( culture.Name ) )
-        .OrderBy( culture => culture.EnglishName, StringComparer.OrdinalIgnoreCase )
-        .Select( culture => ( culture.Name, $"{culture.EnglishName} ({culture.Name})" ) )
+        .OrderBy( culture => culture.NativeName, StringComparer.CurrentCultureIgnoreCase )
+        .Select( culture => ( culture.Name, $"{culture.NativeName} ({culture.Name})" ) )
         .ToArray();
 
     #endregion

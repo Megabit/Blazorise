@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,13 +9,17 @@ namespace Blazorise;
 /// <summary>
 /// Defines an initial split node inside a <see cref="DockLayout"/>.
 /// </summary>
-public partial class DockSplit : BaseComponent
+public partial class DockSplit : BaseComponent, IDisposable
 {
     #region Members
 
-    private DockNodeCollector childCollector = new();
+    private DockNodeCollector childCollector;
 
     private DockNodeState node;
+
+    private Orientation orientation;
+
+    private double ratio = 0.5;
 
     #endregion
 
@@ -42,10 +47,19 @@ public partial class DockSplit : BaseComponent
             await ParentDockLayout.NotifyDefinitionChanged();
     }
 
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+            ParentCollector?.RemoveNode( Node );
+
+        base.Dispose( disposing );
+    }
+
     private void SynchronizeNode()
     {
-        DockNodeState first = childCollector.Nodes.Count > 0 ? childCollector.Nodes[0] : null;
-        DockNodeState second = childCollector.Nodes.Count > 1 ? childCollector.Nodes[1] : null;
+        DockNodeState first = ChildCollector.Nodes.Count > 0 ? ChildCollector.Nodes[0] : null;
+        DockNodeState second = ChildCollector.Nodes.Count > 1 ? ChildCollector.Nodes[1] : null;
         DockNodeState currentNode = Node;
 
         currentNode.Orientation = Orientation;
@@ -58,11 +72,13 @@ public partial class DockSplit : BaseComponent
 
     #region Properties
 
-    internal DockNodeCollector ChildCollector => childCollector;
+    internal DockNodeCollector ChildCollector => childCollector ??= new( SynchronizeNode );
 
     internal DockNodeState Node => node ??= new()
     {
         Kind = DockNodeKind.Split,
+        Orientation = orientation,
+        Ratio = ratio,
     };
 
     [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
@@ -70,14 +86,42 @@ public partial class DockSplit : BaseComponent
     [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
 
     /// <summary>
-    /// Defines the split orientation.
+    /// Defines the initial split orientation.
     /// </summary>
-    [Parameter] public DockSplitOrientation Orientation { get; set; }
+    [Parameter]
+    public Orientation Orientation
+    {
+        get => orientation;
+        set
+        {
+            if ( orientation == value )
+                return;
+
+            orientation = value;
+
+            if ( node is not null )
+                node.Orientation = value;
+        }
+    }
 
     /// <summary>
-    /// Defines the first child ratio.
+    /// Defines the initial first child ratio.
     /// </summary>
-    [Parameter] public double Ratio { get; set; } = 0.5;
+    [Parameter]
+    public double Ratio
+    {
+        get => ratio;
+        set
+        {
+            if ( ratio == value )
+                return;
+
+            ratio = value;
+
+            if ( node is not null )
+                node.Ratio = value;
+        }
+    }
 
     /// <summary>
     /// Specifies the split child content.

@@ -3795,7 +3795,6 @@ template {
 }
 
 .ant-context-menu {
-  --context-menu-zindex: var(--ant-dropdown-z-index-popup);
   display: contents;
 }
 
@@ -3818,7 +3817,14 @@ template {
 .ant-context-menu-menu {
   position: fixed;
   display: block;
-  z-index: var(--context-menu-zindex, 1080);
+  z-index: var(--ant-dropdown-z-index-popup);
+}
+
+.ant-context-menu-menu[data-context-menu-keyboard-navigation=false]:focus,
+.ant-context-menu-menu[data-context-menu-keyboard-navigation=false] [role=menu]:focus,
+.ant-context-menu-menu[data-context-menu-keyboard-navigation=false] [data-context-menu-item=true]:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .ant-context-menu-item,
@@ -3928,7 +3934,7 @@ template {
 }
 
 .ant-context-menu-submenu-menu {
-  z-index: calc(var(--context-menu-zindex, 1080) + 1);
+  z-index: calc(var(--ant-dropdown-z-index-popup) + 1);
 }
 
 .ant-picker-container {
@@ -4740,9 +4746,9 @@ template {
   min-width: 0;
   position: relative;
   overflow: hidden;
-  background: var(--b-dock-pane-background, var(--ant-color-bg-container, #ffffff));
-  color: var(--b-dock-pane-color, var(--ant-color-text, rgba(0, 0, 0, 0.88)));
-  border-color: var(--b-dock-pane-border-color, var(--ant-color-border, #d9d9d9));
+  background: var(--ant-dock-pane-background, var(--ant-color-bg-container, #ffffff));
+  color: var(--ant-dock-pane-color, var(--ant-color-text, rgba(0, 0, 0, 0.88)));
+  border-color: var(--ant-dock-pane-border-color, var(--ant-color-border, #d9d9d9));
   border-style: solid;
   border-width: 0;
   z-index: 1;
@@ -4833,13 +4839,13 @@ template {
 
 .ant-dock-auto-hide-rail {
   position: absolute;
-  z-index: var(--b-dock-auto-hide-rail-zindex, 1301);
+  z-index: var(--ant-dropdown-z-index-popup);
   display: flex;
   align-items: stretch;
   justify-content: flex-start;
   overflow: hidden;
-  background: var(--b-dock-pane-background, var(--ant-color-bg-container, #ffffff));
-  border-color: var(--b-dock-pane-border-color, var(--ant-color-border, #d9d9d9));
+  background: var(--ant-dock-pane-background, var(--ant-color-bg-container, #ffffff));
+  border-color: var(--ant-dock-pane-border-color, var(--ant-color-border, #d9d9d9));
   border-style: solid;
   border-width: 0;
 }
@@ -4882,8 +4888,8 @@ template {
 
 .ant-dock-auto-hide-flyout {
   position: absolute;
-  z-index: var(--b-dock-auto-hide-flyout-zindex, 1302);
-  box-shadow: var(--b-dock-pane-shadow, 0 6px 16px rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05));
+  z-index: calc(var(--ant-dropdown-z-index-popup) + 1);
+  box-shadow: var(--ant-box-shadow-secondary);
 }
 
 .ant-dock-auto-hide-flyout-left {
@@ -4935,8 +4941,8 @@ template {
   min-height: 0;
   padding: 0.5rem 0.375rem;
   border: 0;
-  background: var(--b-dock-pane-header-background, var(--ant-color-fill-tertiary, #f5f5f5));
-  color: var(--b-dock-pane-color, var(--ant-color-text, rgba(0, 0, 0, 0.88)));
+  background: var(--ant-dock-pane-header-background, var(--ant-color-fill-tertiary, #f5f5f5));
+  color: var(--ant-dock-pane-color, var(--ant-color-text, rgba(0, 0, 0, 0.88)));
   cursor: pointer;
   font: inherit;
   line-height: 1.25;
@@ -4944,7 +4950,7 @@ template {
 }
 
 .ant-dock-pane-autohide-tab:hover {
-  background: var(--b-dock-hover-background, var(--ant-color-primary-bg, #e6f4ff));
+  background: var(--ant-dock-hover-background, var(--ant-color-primary-bg, #e6f4ff));
 }
 
 .ant-dock-pane-autohide-tab-left,
@@ -4968,11 +4974,11 @@ template {
 .ant-dock-pane-footer {
   flex: 0 0 auto;
   padding: 0.5rem 0.75rem;
-  background: var(--b-dock-pane-header-background, var(--ant-color-fill-tertiary, #f5f5f5));
+  background: var(--ant-dock-pane-header-background, var(--ant-color-fill-tertiary, #f5f5f5));
 }
 
 .ant-dock-pane-footer {
-  background: var(--b-dock-pane-footer-background, var(--b-dock-pane-header-background, var(--ant-color-fill-tertiary, #f5f5f5)));
+  background: var(--ant-dock-pane-footer-background, var(--ant-dock-pane-header-background, var(--ant-color-fill-tertiary, #f5f5f5)));
 }
 
 .ant-dock-pane-header {
@@ -5009,15 +5015,15 @@ template {
   border: 0;
   border-radius: var(--ant-border-radius-sm, 4px);
   background: transparent;
-  color: var(--b-dock-pane-color, var(--ant-color-text-secondary, rgba(0, 0, 0, 0.65)));
+  color: var(--ant-dock-pane-color, var(--ant-color-text-secondary, rgba(0, 0, 0, 0.65)));
   cursor: pointer;
   font-size: 0.75rem;
   line-height: 1;
 }
 
 .ant-dock-pane-header-action:hover {
-  background: var(--b-dock-hover-background, var(--ant-color-primary-bg, #e6f4ff));
-  color: var(--b-dock-tab-active-color, var(--ant-color-primary, #1677ff));
+  background: var(--ant-dock-hover-background, var(--ant-color-primary-bg, #e6f4ff));
+  color: var(--ant-dock-tab-active-color, var(--ant-color-primary, #1677ff));
 }
 
 .ant-dock-pane-body {
@@ -5039,8 +5045,8 @@ template {
   flex: 0 0 auto;
   gap: 0.125rem;
   padding: 0 0.25rem 0.25rem;
-  background: var(--b-dock-tabs-background, var(--ant-color-fill-tertiary, #f5f5f5));
-  border-top: 1px solid var(--b-dock-pane-border-color, var(--ant-color-border, #d9d9d9));
+  background: var(--ant-dock-tabs-background, var(--ant-color-fill-tertiary, #f5f5f5));
+  border-top: 1px solid var(--ant-dock-pane-border-color, var(--ant-color-border, #d9d9d9));
 }
 
 .ant-dock-pane-tab {
@@ -5050,7 +5056,7 @@ template {
   border: 0;
   border-radius: 0 0 var(--ant-border-radius, 6px) var(--ant-border-radius, 6px);
   background: transparent;
-  color: var(--b-dock-pane-color, var(--ant-color-text, rgba(0, 0, 0, 0.88)));
+  color: var(--ant-dock-pane-color, var(--ant-color-text, rgba(0, 0, 0, 0.88)));
   cursor: pointer;
   font: inherit;
   line-height: 1.25;
@@ -5081,7 +5087,7 @@ template {
   border: 0;
   border-radius: var(--ant-border-radius-sm, 4px);
   background: transparent;
-  color: var(--b-dock-tab-close-color, var(--ant-color-text-tertiary, rgba(0, 0, 0, 0.45)));
+  color: var(--ant-dock-tab-close-color, var(--ant-color-text-tertiary, rgba(0, 0, 0, 0.45)));
   cursor: pointer;
   font: inherit;
   line-height: 1;
@@ -5089,15 +5095,15 @@ template {
 }
 
 .ant-dock-pane-tab-close:hover {
-  background: var(--b-dock-hover-background, var(--ant-color-primary-bg, #e6f4ff));
-  color: var(--b-dock-pane-color, var(--ant-color-text, rgba(0, 0, 0, 0.88)));
+  background: var(--ant-dock-hover-background, var(--ant-color-primary-bg, #e6f4ff));
+  color: var(--ant-dock-pane-color, var(--ant-color-text, rgba(0, 0, 0, 0.88)));
 }
 
 .ant-dock-pane-center > .ant-dock-pane-tabs,
 .ant-dock-pane-tabs-top {
   padding: 0.25rem 0.25rem 0;
   border-top: 0;
-  border-bottom: 1px solid var(--b-dock-pane-border-color, var(--ant-color-border, #d9d9d9));
+  border-bottom: 1px solid var(--ant-dock-pane-border-color, var(--ant-color-border, #d9d9d9));
 }
 
 .ant-dock-pane-center > .ant-dock-pane-tabs .ant-dock-pane-tab,
@@ -5106,8 +5112,8 @@ template {
 }
 
 .ant-dock-pane-tab-active {
-  background: var(--b-dock-tab-active-background, var(--ant-color-bg-container, #ffffff));
-  color: var(--b-dock-tab-active-color, var(--ant-color-primary, #1677ff));
+  background: var(--ant-dock-tab-active-background, var(--ant-color-bg-container, #ffffff));
+  color: var(--ant-dock-tab-active-color, var(--ant-color-primary, #1677ff));
 }
 
 .ant-dock-drag-preview {
@@ -5117,11 +5123,11 @@ template {
   max-width: 18rem;
   padding: 0.375rem 0.625rem;
   pointer-events: none;
-  border: 1px solid var(--b-dock-drag-preview-border-color, var(--ant-color-primary, #1677ff));
+  border: 1px solid var(--ant-dock-drag-preview-border-color, var(--ant-color-primary, #1677ff));
   border-radius: var(--ant-border-radius, 6px);
-  background: var(--b-dock-drag-preview-background, var(--ant-color-bg-elevated, #ffffff));
+  background: var(--ant-dock-drag-preview-background, var(--ant-color-bg-elevated, #ffffff));
   box-shadow: var(--ant-box-shadow-secondary, 0 6px 16px 0 rgba(0, 0, 0, 0.08));
-  color: var(--b-dock-pane-color, var(--ant-color-text, rgba(0, 0, 0, 0.88)));
+  color: var(--ant-dock-pane-color, var(--ant-color-text, rgba(0, 0, 0, 0.88)));
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -5132,12 +5138,12 @@ template {
   position: absolute;
   z-index: 30;
   pointer-events: none;
-  border: 2px dashed var(--b-dock-drop-preview-border-color, var(--ant-color-primary, #1677ff));
-  background: var(--b-dock-drop-preview-background, var(--ant-color-primary-bg, #e6f4ff));
+  border: 2px dashed var(--ant-dock-drop-preview-border-color, var(--ant-color-primary, #1677ff));
+  background: var(--ant-dock-drop-preview-background, var(--ant-color-primary-bg, #e6f4ff));
 }
 
 .ant-dock-shell-guide-active {
-  background: var(--b-dock-drop-preview-background, var(--ant-color-primary-bg-hover, #bae0ff));
+  background: var(--ant-dock-drop-preview-background, var(--ant-color-primary-bg-hover, #bae0ff));
 }
 
 .ant-dock-compass {
@@ -5157,10 +5163,10 @@ template {
   justify-content: center;
   width: 2rem;
   height: 2rem;
-  color: var(--b-dock-compass-zone-color, var(--ant-color-text-tertiary, rgba(0, 0, 0, 0.45)));
-  border: 1px solid var(--b-dock-compass-zone-border-color, var(--ant-color-border, #d9d9d9));
+  color: var(--ant-dock-compass-zone-color, var(--ant-color-text-tertiary, rgba(0, 0, 0, 0.45)));
+  border: 1px solid var(--ant-dock-compass-zone-border-color, var(--ant-color-border, #d9d9d9));
   border-radius: var(--ant-border-radius-sm, 4px);
-  background: var(--b-dock-compass-zone-background, var(--ant-color-bg-elevated, #ffffff));
+  background: var(--ant-dock-compass-zone-background, var(--ant-color-bg-elevated, #ffffff));
   box-shadow: var(--ant-box-shadow-tertiary, 0 1px 2px rgba(0, 0, 0, 0.03));
 }
 
@@ -5170,9 +5176,9 @@ template {
 }
 
 .ant-dock-compass-zone-active {
-  color: var(--b-dock-compass-zone-active-color, var(--ant-color-primary, #1677ff));
-  border-color: var(--b-dock-compass-zone-active-border-color, var(--ant-color-primary, #1677ff));
-  background: var(--b-dock-compass-zone-active-background, var(--ant-color-primary-bg, #e6f4ff));
+  color: var(--ant-dock-compass-zone-active-color, var(--ant-color-primary, #1677ff));
+  border-color: var(--ant-dock-compass-zone-active-border-color, var(--ant-color-primary, #1677ff));
+  background: var(--ant-dock-compass-zone-active-background, var(--ant-color-primary-bg, #e6f4ff));
 }
 
 .ant-dock-compass-zone-center {
@@ -8843,6 +8849,14 @@ a.ant-typography-disabled[aria-disabled=true] {
 }
 .ant-resizer-target-resizing {
   transition: none !important;
+}
+
+.ant-resizer-focused.ant-resizer-vertical:not(.ant-resizer-gutter) {
+  background: linear-gradient(var(--ant-color-primary, #1677ff) 0 0) center/2px 100% no-repeat;
+}
+
+.ant-resizer-focused.ant-resizer-horizontal:not(.ant-resizer-gutter) {
+  background: linear-gradient(var(--ant-color-primary, #1677ff) 0 0) center/100% 2px no-repeat;
 }
 
 .ant-resizer-gutter.ant-resizer-vertical::before {

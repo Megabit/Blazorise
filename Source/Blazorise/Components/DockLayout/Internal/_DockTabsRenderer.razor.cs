@@ -107,6 +107,9 @@ public partial class _DockTabsRenderer : _BaseDockRenderer
         builder.Append( ClassProvider.DockPaneTabPosition( TabPosition ) );
     }
 
+    private string GetTabElementId( string paneName )
+        => $"{Context.GetDockNodeElementId( NodeId )}-tab-{Node.Panes.IndexOf( paneName )}";
+
     /// <inheritdoc/>
     protected internal override void DirtyClasses()
     {
@@ -134,6 +137,8 @@ public partial class _DockTabsRenderer : _BaseDockRenderer
 
     private string ActivePaneName => activePaneName;
 
+    private string ActiveTabElementId => TabsVisible ? GetTabElementId( ActivePaneName ) : null;
+
     private DockPane ActivePane => activePane;
 
     private bool Visible => Node is not null && ActivePane is not null && activePaneState?.Visible != false && activePaneState?.AutoHide != true;
@@ -150,7 +155,7 @@ public partial class _DockTabsRenderer : _BaseDockRenderer
 
     private bool Collapsed => activePaneState?.Collapsed == true;
 
-    private string PaneSize => Node?.Size ?? activePaneState?.Size ?? ActivePane?.Size;
+    private string PaneSize => Node?.Size ?? ( activePaneState is not null ? activePaneState.Size : ActivePane?.Size );
 
     private bool CanResize => Resizable;
 

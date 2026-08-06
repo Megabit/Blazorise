@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 #endregion
@@ -33,14 +34,31 @@ public sealed class PdfGenerator : IPdfGenerator
     #region Methods
 
     /// <inheritdoc />
-    public Task<PdfGenerationResult> Generate( PdfDocumentDefinition document, PdfGenerationOptions options = null, CancellationToken cancellationToken = default )
+    public Task<PdfGenerationResult> GenerateAsync( PdfDocumentDefinition document, PdfGenerationOptions options = null, CancellationToken cancellationToken = default )
     {
         if ( document is null )
             throw new ArgumentNullException( nameof( document ) );
 
         options ??= new();
 
-        return renderProvider.Render( document, options, cancellationToken );
+        return renderProvider.RenderAsync( document, options, cancellationToken );
+    }
+
+    /// <inheritdoc />
+    public Task GenerateToStreamAsync( PdfDocumentDefinition document, Stream stream, PdfGenerationOptions options = null, CancellationToken cancellationToken = default )
+    {
+        if ( document is null )
+            throw new ArgumentNullException( nameof( document ) );
+
+        if ( stream is null )
+            throw new ArgumentNullException( nameof( stream ) );
+
+        if ( !stream.CanWrite )
+            throw new ArgumentException( "The PDF destination stream must be writable.", nameof( stream ) );
+
+        options ??= new();
+
+        return renderProvider.RenderToStreamAsync( document, stream, options, cancellationToken );
     }
 
     #endregion

@@ -8,7 +8,8 @@
         <Div Flex="FlexGrowIs1">
             <TextInput @bind-Value="@searchText"
                        Role="TextRole.Search"
-                       Placeholder="Search..."
+                       Placeholder="@Localize( "Search..." )"
+                       aria-label="@Localize( "Search..." )"
                        Size="Size.Small"
                        Immediate="true"
                        Debounce="true" />
@@ -18,8 +19,8 @@
                 Outline
                 Active="@showCurrentPageOnly"
                 Clicked="@(() => showCurrentPageOnly = !showCurrentPageOnly)"
-                title="Show current page only"
-                aria-label="Show current page only"
+                title="@Localize( "Show current page only" )"
+                aria-label="@Localize( "Show current page only" )"
                 aria-pressed="@showCurrentPageOnly">
             <Icon Name="IconName.Filter" />
         </Button>
@@ -28,7 +29,8 @@
 
 <Div Class="b-report-designer-report-explorer-tree"
      Padding="PaddingIs3">
-    <_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildReportExplorerNodes( Definition, ReportSelected, SelectedSectionIndex, SelectedElementKey, SelectedCellKey, IsElementSelected, ElementPluginRegistry, AllowSubreport, searchText, showCurrentPageOnly )"
+    <_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildReportExplorerNodes( Definition, ReportSelected, SelectedSectionIndex, SelectedElementKey, SelectedCellKey, IsElementSelected, ElementPluginRegistry, AllowSubreport, searchText, showCurrentPageOnly, Localize )"
+                     AriaLabel="@Localize( "Report Explorer" )"
                      ExpandAll="@(!string.IsNullOrWhiteSpace( searchText ))"
                      NodeClicked="@NodeClicked"
                      NodeContextMenu="@NodeContextMenu" />

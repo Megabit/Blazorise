@@ -2,7 +2,7 @@
 @inherits BaseComponent
 
 <Dropdown ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Visible="@Visible" VisibleChanged="@OnVisibleChanged" Direction="Direction.End" Disabled="@Disabled" Submenu="true" Trigger="@EffectiveTrigger" HoverCloseDelay="@EffectiveHoverCloseDelay" @attributes="@Attributes">
-    <DropdownToggle Class="@TriggerClassNames" Disabled="@Disabled">
+    <DropdownToggle Class="@TriggerClassNames" Disabled="@Disabled" role="menuitem" tabindex="-1" data-context-menu-item="true" data-context-menu-submenu-trigger="true">
         @if ( Icon is not null )
         {
             <Icon Name="@Icon" />

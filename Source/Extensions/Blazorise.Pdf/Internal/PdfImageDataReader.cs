@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System.Threading;
 #endregion
 
 namespace Blazorise.Pdf;
@@ -12,15 +13,21 @@ internal static class PdfImageDataReader
 {
     #region Methods
 
-    internal static bool TryRead( string source, out PdfImageData imageData )
+    internal static bool TryRead( PdfResourceContent resource, long maxImagePixels, CancellationToken cancellationToken, out PdfImageData imageData )
     {
+        cancellationToken.ThrowIfCancellationRequested();
         imageData = null;
 
-        if ( !TryReadDataUri( source, out string mediaType, out byte[] data ) )
+        if ( resource?.Data is not { Length: > 0 } data )
             return false;
 
-        if ( IsJpegMediaType( mediaType ) && TryReadJpegInfo( data, out int jpegWidth, out int jpegHeight, out int componentCount, out int bitsPerComponent ) )
+        if ( ( IsJpegMediaType( resource.MediaType ) || HasJpegSignature( data ) ) && TryReadJpegInfo( data, cancellationToken, out int jpegWidth, out int jpegHeight, out int componentCount, out int bitsPerComponent ) )
         {
+            if ( bitsPerComponent != 8 || ( componentCount != 1 && componentCount != 3 && componentCount != 4 ) )
+                return false;
+
+            ValidateImageDimensions( jpegWidth, jpegHeight, maxImagePixels );
+
             imageData = new()
             {
                 Data = data,
@@ -34,44 +41,10 @@ internal static class PdfImageDataReader
             return true;
         }
 
-        if ( IsPngMediaType( mediaType ) && TryCreatePngImageData( data, out imageData ) )
+        if ( ( IsPngMediaType( resource.MediaType ) || HasPngSignature( data ) ) && TryCreatePngImageData( data, maxImagePixels, cancellationToken, out imageData ) )
             return true;
 
         return false;
-    }
-
-    private static bool TryReadDataUri( string source, out string mediaType, out byte[] data )
-    {
-        mediaType = null;
-        data = null;
-
-        if ( string.IsNullOrWhiteSpace( source ) || !source.StartsWith( "data:", StringComparison.OrdinalIgnoreCase ) )
-            return false;
-
-        int commaIndex = source.IndexOf( ',' );
-
-        if ( commaIndex < 0 )
-            return false;
-
-        string metadata = source.Substring( 5, commaIndex - 5 );
-
-        if ( !metadata.Contains( ";base64", StringComparison.OrdinalIgnoreCase ) )
-            return false;
-
-        mediaType = metadata.Split( ';', StringSplitOptions.RemoveEmptyEntries ).FirstOrDefault()?.Trim().ToLowerInvariant();
-
-        if ( string.IsNullOrWhiteSpace( mediaType ) )
-            return false;
-
-        try
-        {
-            data = Convert.FromBase64String( source[( commaIndex + 1 )..] );
-            return data.Length > 0;
-        }
-        catch ( FormatException )
-        {
-            return false;
-        }
     }
 
     private static bool IsJpegMediaType( string mediaType )
@@ -85,6 +58,11 @@ internal static class PdfImageDataReader
         return string.Equals( mediaType, "image/png", StringComparison.OrdinalIgnoreCase );
     }
 
+    private static bool HasJpegSignature( byte[] data )
+    {
+        return data.Length >= 2 && data[0] == 0xFF && data[1] == 0xD8;
+    }
+
     private static string ResolveImageColorSpace( int componentCount )
     {
         return componentCount switch
@@ -95,7 +73,7 @@ internal static class PdfImageDataReader
         };
     }
 
-    private static bool TryReadJpegInfo( byte[] data, out int width, out int height, out int componentCount, out int bitsPerComponent )
+    private static bool TryReadJpegInfo( byte[] data, CancellationToken cancellationToken, out int width, out int height, out int componentCount, out int bitsPerComponent )
     {
         width = 0;
         height = 0;
@@ -109,6 +87,8 @@ internal static class PdfImageDataReader
 
         while ( index + 9 < data.Length )
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             if ( data[index] != 0xFF )
             {
                 index++;
@@ -133,11 +113,14 @@ internal static class PdfImageDataReader
 
             int length = ReadBigEndianUInt16( data, index );
 
-            if ( length < 2 || index + length > data.Length )
+            if ( length < 2 || length > data.Length - index )
                 return false;
 
             if ( IsJpegStartOfFrameMarker( marker ) )
             {
+                if ( length < 8 )
+                    return false;
+
                 bitsPerComponent = data[index + 2];
                 height = ReadBigEndianUInt16( data, index + 3 );
                 width = ReadBigEndianUInt16( data, index + 5 );
@@ -157,7 +140,7 @@ internal static class PdfImageDataReader
         return marker is 0xC0 or 0xC1 or 0xC2 or 0xC3 or 0xC5 or 0xC6 or 0xC7 or 0xC9 or 0xCA or 0xCB or 0xCD or 0xCE or 0xCF;
     }
 
-    private static bool TryCreatePngImageData( byte[] data, out PdfImageData imageData )
+    private static bool TryCreatePngImageData( byte[] data, long maxImagePixels, CancellationToken cancellationToken, out PdfImageData imageData )
     {
         imageData = null;
 
@@ -169,16 +152,18 @@ internal static class PdfImageDataReader
         int bitDepth = 0;
         int colorType = 0;
         byte[] palette = null;
+        byte[] transparency = null;
         using MemoryStream compressedImageData = new();
 
         int index = 8;
 
         while ( index + 8 <= data.Length )
         {
+            cancellationToken.ThrowIfCancellationRequested();
             int length = ReadBigEndianInt32( data, index );
             index += 4;
 
-            if ( length < 0 || index + 4 + length > data.Length )
+            if ( length < 0 || length > data.Length - index - 4 )
                 return false;
 
             string chunkType = Encoding.ASCII.GetString( data, index, 4 );
@@ -186,6 +171,9 @@ internal static class PdfImageDataReader
 
             if ( chunkType == "IHDR" )
             {
+                if ( length != 13 )
+                    return false;
+
                 width = ReadBigEndianInt32( data, index );
                 height = ReadBigEndianInt32( data, index + 4 );
                 bitDepth = data[index + 8];
@@ -197,6 +185,10 @@ internal static class PdfImageDataReader
             else if ( chunkType == "PLTE" )
             {
                 palette = data.Skip( index ).Take( length ).ToArray();
+            }
+            else if ( chunkType == "tRNS" )
+            {
+                transparency = data.Skip( index ).Take( length ).ToArray();
             }
             else if ( chunkType == "IDAT" )
             {
@@ -213,10 +205,12 @@ internal static class PdfImageDataReader
         if ( width <= 0 || height <= 0 || bitDepth != 8 || compressedImageData.Length == 0 )
             return false;
 
-        if ( !TryDecodePngImageBytes( compressedImageData.ToArray(), width, height, colorType, palette, out byte[] imageBytes, out string colorSpace ) )
+        ValidateImageDimensions( width, height, maxImagePixels );
+
+        if ( !TryDecodePngImageBytes( compressedImageData.ToArray(), width, height, colorType, palette, transparency, cancellationToken, out byte[] imageBytes, out byte[] alphaBytes, out string colorSpace ) )
             return false;
 
-        byte[] encodedImageBytes = CompressZlib( imageBytes );
+        byte[] encodedImageBytes = CompressZlib( imageBytes, cancellationToken );
 
         imageData = new()
         {
@@ -226,14 +220,22 @@ internal static class PdfImageDataReader
             ColorSpace = colorSpace,
             BitsPerComponent = bitDepth,
             Filter = "/FlateDecode",
+            AlphaData = alphaBytes is null ? null : CompressZlib( alphaBytes, cancellationToken ),
         };
 
         return true;
     }
 
+    private static void ValidateImageDimensions( int width, int height, long maxImagePixels )
+    {
+        if ( width <= 0 || height <= 0 || (long)width * height > maxImagePixels )
+            throw new InvalidDataException( $"The PDF image dimensions {width}x{height} exceed the configured limit of {maxImagePixels} pixels." );
+    }
+
     private static bool HasPngSignature( byte[] data )
     {
-        return data[0] == 0x89
+        return data.Length >= 8
+            && data[0] == 0x89
             && data[1] == 0x50
             && data[2] == 0x4E
             && data[3] == 0x47
@@ -243,9 +245,10 @@ internal static class PdfImageDataReader
             && data[7] == 0x0A;
     }
 
-    private static bool TryDecodePngImageBytes( byte[] compressedData, int width, int height, int colorType, byte[] palette, out byte[] imageBytes, out string colorSpace )
+    private static bool TryDecodePngImageBytes( byte[] compressedData, int width, int height, int colorType, byte[] palette, byte[] transparency, CancellationToken cancellationToken, out byte[] imageBytes, out byte[] alphaBytes, out string colorSpace )
     {
         imageBytes = null;
+        alphaBytes = null;
         colorSpace = null;
 
         int sourceComponents = GetPngSourceComponentCount( colorType );
@@ -253,28 +256,32 @@ internal static class PdfImageDataReader
         if ( sourceComponents <= 0 )
             return false;
 
+        long sourceStride = (long)width * sourceComponents;
+        long expectedLength = ( sourceStride + 1 ) * height;
+
+        if ( sourceStride > int.MaxValue || expectedLength > int.MaxValue )
+            return false;
+
         byte[] decodedBytes;
 
         try
         {
-            decodedBytes = DecompressZlib( compressedData );
+            decodedBytes = DecompressZlib( compressedData, (int)expectedLength, cancellationToken );
         }
         catch ( InvalidDataException )
         {
             return false;
         }
 
-        int sourceStride = width * sourceComponents;
-        int expectedLength = ( sourceStride + 1 ) * height;
-
         if ( decodedBytes.Length < expectedLength )
             return false;
 
-        byte[] unfilteredBytes = UnfilterPngBytes( decodedBytes, width, height, sourceComponents );
+        byte[] unfilteredBytes = UnfilterPngBytes( decodedBytes, width, height, sourceComponents, cancellationToken );
 
         if ( colorType == 0 )
         {
             imageBytes = unfilteredBytes;
+            alphaBytes = CreatePngColorKeyAlphaBytes( unfilteredBytes, 1, transparency, cancellationToken );
             colorSpace = "/DeviceGray";
             return true;
         }
@@ -282,6 +289,7 @@ internal static class PdfImageDataReader
         if ( colorType == 2 )
         {
             imageBytes = unfilteredBytes;
+            alphaBytes = CreatePngColorKeyAlphaBytes( unfilteredBytes, 3, transparency, cancellationToken );
             colorSpace = "/DeviceRGB";
             return true;
         }
@@ -291,21 +299,22 @@ internal static class PdfImageDataReader
             if ( palette is null || palette.Length < 3 )
                 return false;
 
-            imageBytes = ExpandPngPaletteBytes( unfilteredBytes, palette );
+            imageBytes = ExpandPngPaletteBytes( unfilteredBytes, palette, cancellationToken );
+            alphaBytes = ExpandPngPaletteAlphaBytes( unfilteredBytes, transparency, cancellationToken );
             colorSpace = "/DeviceRGB";
             return true;
         }
 
         if ( colorType == 4 )
         {
-            imageBytes = StripPngAlphaBytes( unfilteredBytes, 2, 1 );
+            SplitPngAlphaBytes( unfilteredBytes, 2, 1, cancellationToken, out imageBytes, out alphaBytes );
             colorSpace = "/DeviceGray";
             return true;
         }
 
         if ( colorType == 6 )
         {
-            imageBytes = StripPngAlphaBytes( unfilteredBytes, 4, 3 );
+            SplitPngAlphaBytes( unfilteredBytes, 4, 3, cancellationToken, out imageBytes, out alphaBytes );
             colorSpace = "/DeviceRGB";
             return true;
         }
@@ -326,7 +335,7 @@ internal static class PdfImageDataReader
         };
     }
 
-    private static byte[] UnfilterPngBytes( byte[] decodedBytes, int width, int height, int components )
+    private static byte[] UnfilterPngBytes( byte[] decodedBytes, int width, int height, int components, CancellationToken cancellationToken )
     {
         int stride = width * components;
         byte[] result = new byte[stride * height];
@@ -334,7 +343,12 @@ internal static class PdfImageDataReader
 
         for ( int row = 0; row < height; row++ )
         {
+            cancellationToken.ThrowIfCancellationRequested();
             int filter = decodedBytes[sourceIndex++];
+
+            if ( filter > 4 )
+                throw new InvalidDataException( $"The PNG image uses unsupported scanline filter {filter}." );
+
             int rowStart = row * stride;
             int previousRowStart = rowStart - stride;
 
@@ -376,20 +390,21 @@ internal static class PdfImageDataReader
         return upperLeft;
     }
 
-    private static byte[] ExpandPngPaletteBytes( byte[] indexBytes, byte[] palette )
+    private static byte[] ExpandPngPaletteBytes( byte[] indexBytes, byte[] palette, CancellationToken cancellationToken )
     {
         byte[] result = new byte[indexBytes.Length * 3];
         int targetIndex = 0;
 
-        foreach ( byte index in indexBytes )
+        for ( int i = 0; i < indexBytes.Length; i++ )
         {
+            if ( ( i & 4095 ) == 0 )
+                cancellationToken.ThrowIfCancellationRequested();
+
+            byte index = indexBytes[i];
             int paletteIndex = index * 3;
 
             if ( paletteIndex + 2 >= palette.Length )
-            {
-                targetIndex += 3;
-                continue;
-            }
+                throw new InvalidDataException( "The PNG image contains a palette index outside its palette." );
 
             result[targetIndex++] = palette[paletteIndex];
             result[targetIndex++] = palette[paletteIndex + 1];
@@ -399,40 +414,137 @@ internal static class PdfImageDataReader
         return result;
     }
 
-    private static byte[] StripPngAlphaBytes( byte[] source, int sourceComponents, int targetComponents )
+    private static byte[] ExpandPngPaletteAlphaBytes( byte[] indexBytes, byte[] transparency, CancellationToken cancellationToken )
     {
-        byte[] result = new byte[source.Length / sourceComponents * targetComponents];
-        int targetIndex = 0;
+        if ( transparency is null || transparency.Length == 0 )
+            return null;
+
+        byte[] result = new byte[indexBytes.Length];
+
+        for ( int i = 0; i < indexBytes.Length; i++ )
+        {
+            if ( ( i & 4095 ) == 0 )
+                cancellationToken.ThrowIfCancellationRequested();
+
+            int paletteIndex = indexBytes[i];
+            result[i] = paletteIndex < transparency.Length ? transparency[paletteIndex] : byte.MaxValue;
+        }
+
+        return HasTransparency( result, cancellationToken ) ? result : null;
+    }
+
+    private static byte[] CreatePngColorKeyAlphaBytes( byte[] source, int components, byte[] transparency, CancellationToken cancellationToken )
+    {
+        if ( transparency is null || transparency.Length < components * 2 )
+            return null;
+
+        int[] transparentComponents = new int[components];
+
+        for ( int component = 0; component < components; component++ )
+        {
+            transparentComponents[component] = ReadBigEndianUInt16( transparency, component * 2 );
+        }
+
+        byte[] alpha = new byte[source.Length / components];
+
+        for ( int pixel = 0; pixel < alpha.Length; pixel++ )
+        {
+            if ( ( pixel & 4095 ) == 0 )
+                cancellationToken.ThrowIfCancellationRequested();
+
+            bool transparent = true;
+
+            for ( int component = 0; component < components; component++ )
+            {
+                if ( source[pixel * components + component] != transparentComponents[component] )
+                {
+                    transparent = false;
+                    break;
+                }
+            }
+
+            alpha[pixel] = transparent ? (byte)0 : byte.MaxValue;
+        }
+
+        return HasTransparency( alpha, cancellationToken ) ? alpha : null;
+    }
+
+    private static void SplitPngAlphaBytes( byte[] source, int sourceComponents, int targetComponents, CancellationToken cancellationToken, out byte[] image, out byte[] alpha )
+    {
+        image = new byte[source.Length / sourceComponents * targetComponents];
+        alpha = new byte[source.Length / sourceComponents];
+        int imageIndex = 0;
+        int alphaIndex = 0;
 
         for ( int sourceIndex = 0; sourceIndex < source.Length; sourceIndex += sourceComponents )
         {
+            if ( ( sourceIndex & 16383 ) == 0 )
+                cancellationToken.ThrowIfCancellationRequested();
+
             for ( int component = 0; component < targetComponents; component++ )
             {
-                result[targetIndex++] = source[sourceIndex + component];
+                image[imageIndex++] = source[sourceIndex + component];
             }
+
+            alpha[alphaIndex++] = source[sourceIndex + targetComponents];
         }
+
+        if ( !HasTransparency( alpha, cancellationToken ) )
+            alpha = null;
+    }
+
+    private static bool HasTransparency( byte[] alpha, CancellationToken cancellationToken )
+    {
+        if ( alpha is null )
+            return false;
+
+        for ( int i = 0; i < alpha.Length; i++ )
+        {
+            if ( ( i & 4095 ) == 0 )
+                cancellationToken.ThrowIfCancellationRequested();
+
+            if ( alpha[i] < byte.MaxValue )
+                return true;
+        }
+
+        return false;
+    }
+
+    private static byte[] DecompressZlib( byte[] data, int expectedLength, CancellationToken cancellationToken )
+    {
+        using MemoryStream sourceStream = new( data );
+        using ZLibStream zlibStream = new( sourceStream, CompressionMode.Decompress );
+        byte[] result = new byte[expectedLength];
+        int totalBytesRead = 0;
+
+        while ( totalBytesRead < result.Length )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            int bytesRead = zlibStream.Read( result, totalBytesRead, Math.Min( 81920, result.Length - totalBytesRead ) );
+
+            if ( bytesRead == 0 )
+                break;
+
+            totalBytesRead += bytesRead;
+        }
+
+        if ( totalBytesRead != result.Length || zlibStream.ReadByte() >= 0 )
+            throw new InvalidDataException( "The PNG decompressed data length does not match its declared dimensions." );
 
         return result;
     }
 
-    private static byte[] DecompressZlib( byte[] data )
-    {
-        using MemoryStream sourceStream = new( data );
-        using ZLibStream zlibStream = new( sourceStream, CompressionMode.Decompress );
-        using MemoryStream targetStream = new();
-
-        zlibStream.CopyTo( targetStream );
-
-        return targetStream.ToArray();
-    }
-
-    private static byte[] CompressZlib( byte[] data )
+    private static byte[] CompressZlib( byte[] data, CancellationToken cancellationToken )
     {
         using MemoryStream targetStream = new();
 
         using ( ZLibStream zlibStream = new( targetStream, CompressionLevel.Optimal, leaveOpen: true ) )
         {
-            zlibStream.Write( data, 0, data.Length );
+            for ( int offset = 0; offset < data.Length; offset += 81920 )
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                zlibStream.Write( data, offset, Math.Min( 81920, data.Length - offset ) );
+            }
         }
 
         return targetStream.ToArray();
@@ -466,6 +578,8 @@ internal sealed class PdfImageData
     internal int BitsPerComponent { get; set; }
 
     internal string Filter { get; set; }
+
+    internal byte[] AlphaData { get; set; }
 
     #endregion
 }

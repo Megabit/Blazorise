@@ -4,7 +4,8 @@
 @using System
 
 <Div @ref="designerElement"
-     Class="b-report-designer">
+     Class="b-report-designer"
+     Display="@( Visible ? null : DisplayNone )">
     <DockLayout @ref="dockLayout"
                 Class="b-report-designer-layout"
                 State="@State"
@@ -12,11 +13,11 @@
                 PaneBordered>
         @if ( ShowToolbar && Toolbar is not null )
         {
-            <DockSplit Orientation="DockSplitOrientation.Vertical" Ratio="0.08">
+            <DockSplit Orientation="Orientation.Vertical" Ratio="0.08">
                 <DockPane @ref="toolbarPane"
                           Name="@ToolbarPaneName"
-                          Caption="Toolbar"
-                          Role="DockRole.Tool"
+                  Caption="@Localize( "Toolbar" )"
+                          Role="DockPaneRole.Tool"
                           PanePosition="DockPanePosition.Top"
                           Movable="false"
                           AcceptPaneDrops="false"

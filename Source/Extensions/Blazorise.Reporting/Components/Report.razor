@@ -1,16 +1,21 @@
 @namespace Blazorise.Reporting
 @using Blazorise.Reporting.Internal
+@inherits BaseComponent
 
 <_ReportDesigner @ref="designer"
+                 ElementId="@ElementId"
+                 Class="@ClassNames"
+                 Style="@StyleNames"
                  Definition="@Definition"
                  DefinitionChanged="@DefinitionChanged"
                  SaveRequested="@SaveRequested"
                  LoadRequested="@LoadRequested"
                  Data="@Data"
-                 Editable="@Editable"
+                 Editable="@( paramEditable.Defined ? Editable : (bool?)null )"
                  ShowToolbar="@ShowToolbar"
                  ShowPageTabs="@ShowPageTabs"
                  ShowStatusBar="@ShowStatusBar"
+                 ShowStatusBarChanged="@ShowStatusBarChanged"
                  BandMode="@BandMode"
                  BandModeChanged="@BandModeChanged"
                  AllowBandCollapse="@AllowBandCollapse"
@@ -39,9 +44,13 @@
                  Mode="@Mode"
                  ModeChanged="@ModeChanged"
                  PreviewFormat="@PreviewFormat"
+                 PreviewFormatChanged="@PreviewFormatChanged"
                  PreviewFormats="@PreviewFormats"
                  DefaultPreviewFormat="@DefaultPreviewFormat"
                  PdfProgressed="@PdfProgressed"
-                 ElementPlugins="@ElementPlugins">
+                 OperationFailed="@OperationFailed"
+                 ElementPlugins="@ElementPlugins"
+                 Localizers="@Localizers"
+                 Attributes="@Attributes">
     @ChildContent
 </_ReportDesigner>

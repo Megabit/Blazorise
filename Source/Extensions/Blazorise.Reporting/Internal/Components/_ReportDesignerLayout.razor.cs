@@ -28,6 +28,8 @@ public partial class _ReportDesignerLayout
 
     private const string ToolboxPaneName = "report-toolbox";
 
+    private const string PropertyGridViewportSelector = "[data-property-grid-viewport]";
+
     private static readonly ReportToolbarDockPaneItem[] dockPaneOptions =
     [
         new( ToolboxPaneName, "Toolbox" ),
@@ -170,13 +172,16 @@ public partial class _ReportDesignerLayout
     private async Task OnDockLayoutStateChanged( DockLayoutState state )
     {
         string selectedPanelTab = ResolveSelectedPanelTab( state );
+        bool selectedPanelChanged = !string.IsNullOrWhiteSpace( selectedPanelTab )
+            && !string.Equals( selectedPanelTab, SelectedPanelTab, StringComparison.Ordinal );
+
+        if ( selectedPanelChanged && PaneScrollPositions is not null )
+            await CapturePaneScrollPosition( PaneScrollPositions, ResolvePanelPaneName( SelectedPanelTab ) );
 
         if ( !string.IsNullOrWhiteSpace( selectedPanelTab ) )
             activePanelPaneName = ResolvePanelPaneName( selectedPanelTab );
 
-        if ( !string.IsNullOrWhiteSpace( selectedPanelTab )
-             && !string.Equals( selectedPanelTab, SelectedPanelTab, StringComparison.Ordinal )
-             && SelectedPanelTabChanged.HasDelegate )
+        if ( selectedPanelChanged && SelectedPanelTabChanged.HasDelegate )
         {
             await SelectedPanelTabChanged.InvokeAsync( selectedPanelTab );
         }
@@ -226,17 +231,44 @@ public partial class _ReportDesignerLayout
     private void EnsureDockLayoutState()
     {
         bool toolbarVisible = ShowToolbar && Toolbar is not null;
+        bool toolbarInTree = DockTreeContainsPane( State.Root, ToolbarPaneName );
+        bool workspaceInitialized = State.Root is not null
+            && DockStateContainsPane( ToolboxPaneName )
+            && DockStateContainsPane( FieldsExplorerPaneName )
+            && DockStateContainsPane( SurfacePaneName )
+            && DockStateContainsPane( PropertiesPaneName )
+            && DockStateContainsPane( ReportExplorerPaneName );
 
         if ( dockLayoutToolbarVisible is null )
-            dockLayoutToolbarVisible = DockStateContainsPane( ToolbarPaneName );
+            dockLayoutToolbarVisible = toolbarInTree;
 
-        if ( dockLayoutToolbarVisible == toolbarVisible
-             && DockStateContainsPane( ToolboxPaneName )
-             && DockStateContainsPane( FieldsExplorerPaneName )
-             && DockStateContainsPane( SurfacePaneName )
-             && DockStateContainsPane( PropertiesPaneName )
-             && DockStateContainsPane( ReportExplorerPaneName )
-             && ( !toolbarVisible || DockStateContainsPane( ToolbarPaneName ) ) )
+        if ( workspaceInitialized && dockLayoutToolbarVisible != toolbarVisible )
+        {
+            DockNodeState workspaceNode = !toolbarVisible
+                && State.Root.Kind == DockNodeKind.Split
+                && DockTreeContainsPane( State.Root.First, ToolbarPaneName )
+                    ? State.Root.Second
+                    : State.Root;
+
+            if ( workspaceNode is not null && ( toolbarVisible || !DockTreeContainsPane( workspaceNode, ToolbarPaneName ) ) )
+            {
+                State.Root = toolbarVisible
+                    ? CreateSplitNode(
+                        "report-dock-root",
+                        CreatePaneNode( "report-dock-toolbar", ToolbarPaneName ),
+                        workspaceNode,
+                        Orientation.Vertical,
+                        0.08d )
+                    : workspaceNode;
+
+                dockLayoutToolbarVisible = toolbarVisible;
+                return;
+            }
+        }
+
+        if ( workspaceInitialized
+             && dockLayoutToolbarVisible == toolbarVisible
+             && ( !toolbarVisible || toolbarInTree ) )
         {
             return;
         }
@@ -246,7 +278,7 @@ public partial class _ReportDesignerLayout
                 "report-dock-root",
                 CreatePaneNode( "report-dock-toolbar", ToolbarPaneName ),
                 CreateWorkspaceNode(),
-                DockSplitOrientation.Vertical,
+                Orientation.Vertical,
                 0.08d )
             : CreateWorkspaceNode();
 
@@ -269,27 +301,34 @@ public partial class _ReportDesignerLayout
     internal Task RefreshSurface()
         => workspaceDockTree?.RefreshSurface() ?? Task.CompletedTask;
 
+    internal Task RefreshLocalization()
+        => dockLayout?.Refresh() ?? Task.CompletedTask;
+
     internal async Task CapturePaneScrollPositions( Dictionary<string, ( double Left, double Top )> scrollPositions )
     {
         if ( scrollPositions is null || workspaceDockTree is null )
             return;
 
+        foreach ( string paneName in scrollablePaneNames )
+            await CapturePaneScrollPosition( scrollPositions, paneName );
+    }
+
+    private async Task CapturePaneScrollPosition( Dictionary<string, ( double Left, double Top )> scrollPositions, string paneName )
+    {
         EnsureReportingModule();
 
-        foreach ( string paneName in scrollablePaneNames )
-        {
-            ElementReference? element = workspaceDockTree.GetPaneBodyElement( paneName );
+        ElementReference? element = workspaceDockTree.GetPaneBodyElement( paneName );
 
-            if ( element is null )
-                continue;
+        if ( element is null )
+            return;
 
-            double[] position = await reportingModule.GetScrollPosition( element.Value );
+        string selector = GetPaneScrollSelector( paneName );
+        double[] position = selector is null
+            ? await reportingModule.GetScrollPosition( element.Value )
+            : await reportingModule.GetScrollPosition( element.Value, selector );
 
-            if ( position is not { Length: >= 2 } )
-                continue;
-
+        if ( position is { Length: >= 2 } )
             scrollPositions[paneName] = ( position[0], position[1] );
-        }
     }
 
     internal async Task RestorePaneScrollPositions( IReadOnlyDictionary<string, ( double Left, double Top )> scrollPositions )
@@ -309,9 +348,19 @@ public partial class _ReportDesignerLayout
             if ( element is null )
                 continue;
 
-            await reportingModule.SetScrollPosition( element.Value, position.Left, position.Top );
+            string selector = GetPaneScrollSelector( paneName );
+
+            if ( selector is null )
+                await reportingModule.SetScrollPosition( element.Value, position.Left, position.Top );
+            else
+                await reportingModule.SetScrollPosition( element.Value, position.Left, position.Top, selector );
         }
     }
+
+    private static string GetPaneScrollSelector( string paneName )
+        => string.Equals( paneName, PropertiesPaneName, StringComparison.Ordinal )
+            ? PropertyGridViewportSelector
+            : null;
 
     private DockNodeState CreateWorkspaceNode()
     {
@@ -321,15 +370,15 @@ public partial class _ReportDesignerLayout
                 "report-dock-left-stack",
                 CreatePaneNode( "report-dock-toolbox", ToolboxPaneName ),
                 CreatePaneNode( "report-dock-fields-explorer", FieldsExplorerPaneName ),
-                DockSplitOrientation.Vertical,
+                Orientation.Vertical,
                 0.34d ),
             CreateSplitNode(
                 "report-dock-content",
                 CreatePaneNode( "report-dock-surface", SurfacePaneName ),
                 CreateTabsNode( "report-dock-right-tabs", activePanelPaneName, PropertiesPaneName, ReportExplorerPaneName ),
-                DockSplitOrientation.Horizontal,
+                Orientation.Horizontal,
                 0.76d ),
-            DockSplitOrientation.Horizontal,
+            Orientation.Horizontal,
             0.24d );
     }
 
@@ -343,7 +392,7 @@ public partial class _ReportDesignerLayout
         };
     }
 
-    private static DockNodeState CreateSplitNode( string id, DockNodeState first, DockNodeState second, DockSplitOrientation orientation, double ratio )
+    private static DockNodeState CreateSplitNode( string id, DockNodeState first, DockNodeState second, Orientation orientation, double ratio )
     {
         return new()
         {
@@ -421,6 +470,11 @@ public partial class _ReportDesignerLayout
     [Parameter] public DockLayoutState State { get; set; } = new();
 
     /// <summary>
+    /// Defines whether the designer layout is visible.
+    /// </summary>
+    [Parameter] public bool Visible { get; set; } = true;
+
+    /// <summary>
     /// Content shown in the top designer toolbar pane.
     /// </summary>
     [Parameter] public RenderFragment Toolbar { get; set; }
@@ -468,7 +522,7 @@ public partial class _ReportDesignerLayout
     /// <summary>
     /// Saved scroll positions for designer dock panes.
     /// </summary>
-    [Parameter] public IReadOnlyDictionary<string, ( double Left, double Top )> PaneScrollPositions { get; set; }
+    [Parameter] public Dictionary<string, ( double Left, double Top )> PaneScrollPositions { get; set; }
 
     /// <summary>
     /// Version used to request a one-time pane scroll restoration.

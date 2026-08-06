@@ -21,7 +21,7 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    The resize hit area is visually transparent by default, including while focused or dragging, so it does not change the attached element's appearance.
+    The resize hit area is visually transparent by default, so it does not change the attached element's appearance. Keyboard focus is shown by a thin line inside that existing hit area without affecting layout.
     Enable <Code>ShowGutter</Code> to render the current provider's separator surface, borders, and grip.
 </DocsPageParagraph>
 
@@ -59,6 +59,8 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Multiple targets">
         Use <Code>Targets</Code> to coordinate elements on both sides of the resizer. Resizing changes the start and end targets together while preserving their combined size.
+        In this mode, <Code>Value</Code>, <Code>Min</Code>, and <Code>Max</Code> apply to the logical start target. <Code>TargetId</Code> and the component-level <Code>ResizeProperty</Code> apply only to single-target resizing.
+        Both coordinated targets must resolve to elements; otherwise, the resizer remains inactive.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="ResizerMultipleTargetsExample" Outlined FullWidth>
         <ResizerMultipleTargetsExample />
@@ -90,7 +92,8 @@
 <DocsPageParagraph>
     The component renders an ARIA separator and supports arrow-key resizing. Click the resizer area or reach it with the Tab key, then use the arrow keys to resize.
     Use <Code>KeyboardStep</Code> to control the keyboard increment and provide an <Code>AriaLabel</Code> that describes the resized region.
-    <Code>Min</Code> and <Code>Max</Code> apply to both pointer and keyboard interaction.
+    <Code>Min</Code> and <Code>Max</Code> apply to both pointer and keyboard interaction. Set <Code>Max</Code> when the layout has a defined upper bound so assistive technologies receive the same range.
+    <Code>aria-controls</Code> identifies the single target or the logical start target in coordinated mode.
 </DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof( Resizer )]" />

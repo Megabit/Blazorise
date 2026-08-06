@@ -24,6 +24,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private readonly IFontProvider fontProvider;
 
+    private readonly IPdfResourceResolver resourceResolver;
+
     #endregion
 
     #region Constructors
@@ -32,9 +34,11 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
     /// Initializes a new instance of the simple PDF render provider.
     /// </summary>
     /// <param name="fontProvider">Blazorise font provider.</param>
-    public SimplePdfRenderProvider( IFontProvider fontProvider = null )
+    /// <param name="resourceResolver">PDF resource resolver.</param>
+    public SimplePdfRenderProvider( IFontProvider fontProvider = null, IPdfResourceResolver resourceResolver = null )
     {
         this.fontProvider = fontProvider;
+        this.resourceResolver = resourceResolver ?? new PdfResourceResolver();
     }
 
     #endregion
@@ -42,36 +46,60 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
     #region Methods
 
     /// <inheritdoc />
-    public async Task<PdfGenerationResult> Render( PdfDocumentDefinition document, PdfGenerationOptions options, CancellationToken cancellationToken = default )
+    public async Task<PdfGenerationResult> RenderAsync( PdfDocumentDefinition document, PdfGenerationOptions options, CancellationToken cancellationToken = default )
     {
         if ( document is null )
             throw new ArgumentNullException( nameof( document ) );
 
         options ??= new();
 
-        byte[] content = await GeneratePdf( document, fontProvider, options, cancellationToken );
+        using MemoryStream stream = new();
+        IReadOnlyList<string> diagnostics = await GeneratePdf( document, stream, fontProvider, resourceResolver, options, cancellationToken );
 
         return new PdfGenerationResult
         {
-            Content = content,
+            Content = stream.ToArray(),
             FileName = options.FileName,
+            Diagnostics = diagnostics,
         };
     }
 
-    private static async Task<byte[]> GeneratePdf( PdfDocumentDefinition document, IFontProvider fontProvider, PdfGenerationOptions options, CancellationToken cancellationToken )
+    /// <inheritdoc />
+    public async Task RenderToStreamAsync( PdfDocumentDefinition document, Stream stream, PdfGenerationOptions options, CancellationToken cancellationToken = default )
     {
-        List<PdfObject> objects = [];
-        List<int> pageObjectIds = [];
-        int catalogId = ReserveObject( objects );
-        int pagesId = ReserveObject( objects );
+        if ( document is null )
+            throw new ArgumentNullException( nameof( document ) );
+
+        if ( stream is null )
+            throw new ArgumentNullException( nameof( stream ) );
+
+        if ( !stream.CanWrite )
+            throw new ArgumentException( "The PDF destination stream must be writable.", nameof( stream ) );
+
+        options ??= new();
+
+        await GeneratePdf( document, stream, fontProvider, resourceResolver, options, cancellationToken );
+    }
+
+    private static async Task<IReadOnlyList<string>> GeneratePdf( PdfDocumentDefinition document, Stream stream, IFontProvider fontProvider, IPdfResourceResolver resourceResolver, PdfGenerationOptions options, CancellationToken cancellationToken )
+    {
+        document = PdfDocumentCloner.Clone( document, cancellationToken );
+        options = CloneOptions( options );
+        IReadOnlyList<string> diagnostics = PdfDocumentValidator.Validate( document, options, cancellationToken );
+
         List<PdfPageDefinition> pages = document.Pages.Count > 0 ? document.Pages : [CreateDefaultPage( document )];
         IFontProvider effectiveFontProvider = new PdfDocumentFontProvider( document.Fonts, fontProvider );
         int totalWork = pages.Count + 2;
 
-        await ReportProgress( options, PdfGenerationStage.PreparingFonts, 0, 0, pages.Count );
+        await ReportProgress( options, PdfGenerationStage.PreparingResources, 0, 0, pages.Count );
         cancellationToken.ThrowIfCancellationRequested();
 
-        PdfFontResources fontResources = AddFontResources( objects, pages, effectiveFontProvider );
+        PdfResolvedResources resolvedResources = await ResolveResources( pages, effectiveFontProvider, resourceResolver, options, cancellationToken );
+        List<PdfObject> objects = [];
+        List<int> pageObjectIds = [];
+        int catalogId = ReserveObject( objects );
+        int pagesId = ReserveObject( objects );
+        PdfFontResources fontResources = AddFontResources( objects, pages, effectiveFontProvider, resolvedResources, cancellationToken );
 
         await ReportProgress( options, PdfGenerationStage.RenderingPages, 1d / totalWork, 0, pages.Count );
 
@@ -80,9 +108,9 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             cancellationToken.ThrowIfCancellationRequested();
 
             PdfPageDefinition page = pages[pageIndex];
-            PdfPageContent pageContent = BuildPageContent( page, objects, fontResources, effectiveFontProvider );
-            int contentId = AddObject( objects, CreateStreamObject( pageContent.Content ) );
-            int pageId = AddObject( objects, BuildPageObject( page, pagesId, fontResources, contentId, pageContent ) );
+            PdfPageContent pageContent = BuildPageContent( page, objects, fontResources, effectiveFontProvider, resolvedResources, cancellationToken );
+            int contentId = AddObject( objects, CreateStreamObject( pageContent.Content, cancellationToken ) );
+            int pageId = AddObject( objects, BuildPageObject( page, pagesId, fontResources, contentId, pageContent, cancellationToken ) );
             pageObjectIds.Add( pageId );
 
             await ReportProgress( options, PdfGenerationStage.RenderingPages, ( pageIndex + 2d ) / totalWork, pageIndex + 1, pages.Count );
@@ -90,18 +118,32 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        SetObject( objects, pagesId, BuildPagesObject( pageObjectIds ) );
+        SetObject( objects, pagesId, BuildPagesObject( pageObjectIds, cancellationToken ) );
         SetObject( objects, catalogId, $"<< /Type /Catalog /Pages {pagesId.ToString( CultureInfo.InvariantCulture )} 0 R >>" );
+        int informationId = string.IsNullOrEmpty( document.Title ) ? 0 : AddObject( objects, BuildDocumentInformationObject( document.Title, cancellationToken ) );
 
         await ReportProgress( options, PdfGenerationStage.WritingDocument, ( pages.Count + 1d ) / totalWork, pages.Count, pages.Count );
         cancellationToken.ThrowIfCancellationRequested();
 
-        byte[] content = WriteDocument( objects );
+        await WriteDocumentAsync( stream, objects, catalogId, informationId, cancellationToken );
 
         await ReportProgress( options, PdfGenerationStage.Completed, 1, pages.Count, pages.Count );
 
-        return content;
+        return diagnostics;
     }
+
+    private static PdfGenerationOptions CloneOptions( PdfGenerationOptions options )
+        => new()
+        {
+            FileName = options.FileName,
+            Progress = options.Progress,
+            MaxPages = options.MaxPages,
+            MaxDefinitionNodes = options.MaxDefinitionNodes,
+            MaxTextLength = options.MaxTextLength,
+            MaxResourceSize = options.MaxResourceSize,
+            MaxTotalResourceSize = options.MaxTotalResourceSize,
+            MaxImagePixels = options.MaxImagePixels,
+        };
 
     private static async Task ReportProgress( PdfGenerationOptions options, PdfGenerationStage stage, double progress, int completedPages, int totalPages )
     {
@@ -157,28 +199,184 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         objects[objectId - 1].Content = content;
     }
 
-    private static string BuildPagesObject( IReadOnlyList<int> pageObjectIds )
+    private static string BuildPagesObject( IReadOnlyList<int> pageObjectIds, CancellationToken cancellationToken )
     {
-        string kids = string.Join( " ", pageObjectIds.Select( pageObjectId => $"{pageObjectId.ToString( CultureInfo.InvariantCulture )} 0 R" ) );
+        StringBuilder kids = new();
+
+        for ( int i = 0; i < pageObjectIds.Count; i++ )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if ( i > 0 )
+                kids.Append( ' ' );
+
+            kids.Append( pageObjectIds[i].ToString( CultureInfo.InvariantCulture ) );
+            kids.Append( " 0 R" );
+        }
 
         return $"<< /Type /Pages /Kids [ {kids} ] /Count {pageObjectIds.Count.ToString( CultureInfo.InvariantCulture )} >>";
     }
 
-    private static PdfFontResources AddFontResources( List<PdfObject> objects, IReadOnlyList<PdfPageDefinition> pages, IFontProvider fontProvider )
+    private static string BuildDocumentInformationObject( string title, CancellationToken cancellationToken )
+    {
+        StringBuilder builder = new( title.Length * 4 + 20 );
+        builder.Append( "<< /Title <FEFF" );
+
+        for ( int i = 0; i < title.Length; i++ )
+        {
+            if ( ( i & 4095 ) == 0 )
+                cancellationToken.ThrowIfCancellationRequested();
+
+            int character = title[i];
+            builder.Append( ( character >> 8 ).ToString( "X2", CultureInfo.InvariantCulture ) );
+            builder.Append( ( character & 0xFF ).ToString( "X2", CultureInfo.InvariantCulture ) );
+        }
+
+        builder.Append( "> >>" );
+
+        return builder.ToString();
+    }
+
+    private static async Task<PdfResolvedResources> ResolveResources( IReadOnlyList<PdfPageDefinition> pages, IFontProvider fontProvider, IPdfResourceResolver resourceResolver, PdfGenerationOptions options, CancellationToken cancellationToken )
+    {
+        PdfResolvedResources resources = new();
+        long totalResourceSize = 0;
+
+        foreach ( string source in CollectImageSources( pages, cancellationToken ) )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            PdfResourceContent content = await resourceResolver.ResolveImageAsync( source, cancellationToken );
+            ValidateResolvedResource( content, $"image source {DescribeImageSource( source )}", options, ref totalResourceSize );
+
+            if ( !PdfImageDataReader.TryRead( content, options.MaxImagePixels, cancellationToken, out PdfImageData imageData ) )
+                throw new InvalidDataException( $"The PDF image source {DescribeImageSource( source )} is not a supported JPEG or 8-bit non-interlaced PNG image." );
+
+            resources.Images.Add( source, imageData );
+        }
+
+        foreach ( string family in CollectFontFamilies( pages, fontProvider, cancellationToken ) )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            FontFamily customFont = ResolveCustomFontFamily( family, fontProvider );
+
+            if ( customFont is null )
+                continue;
+
+            for ( int variantIndex = 0; variantIndex < 4; variantIndex++ )
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                FontSource source = customFont.ResolveSource( variantIndex is 1 or 3, variantIndex is 2 or 3 );
+
+                if ( source is null )
+                    throw new InvalidDataException( $"The PDF font family '{customFont.Name}' does not define an embeddable font source." );
+
+                if ( resources.Fonts.ContainsKey( source ) )
+                    continue;
+
+                PdfResourceContent content = await resourceResolver.ResolveFontAsync( source, cancellationToken );
+
+                ValidateResolvedResource( content, $"font family '{customFont.Name}'", options, ref totalResourceSize );
+
+                if ( !PdfEmbeddedFont.TryCreate( content.Data, customFont.Name, variantIndex, 1, cancellationToken, out _ ) )
+                    throw new InvalidDataException( $"The PDF font family '{customFont.Name}' contains invalid or unsupported TrueType/OpenType font data." );
+
+                resources.Fonts.Add( source, content.Data );
+            }
+        }
+
+        return resources;
+    }
+
+    private static void ValidateResolvedResource( PdfResourceContent content, string description, PdfGenerationOptions options, ref long totalResourceSize )
+    {
+        if ( content?.Data is not { Length: > 0 } data )
+            throw new InvalidDataException( $"The PDF resource resolver returned no data for {description}." );
+
+        if ( data.LongLength > options.MaxResourceSize )
+            throw new InvalidDataException( $"The PDF {description} exceeds the configured resource limit of {options.MaxResourceSize} bytes." );
+
+        if ( totalResourceSize > options.MaxTotalResourceSize - data.LongLength )
+            throw new InvalidDataException( $"The resolved PDF resources exceed the configured total limit of {options.MaxTotalResourceSize} bytes." );
+
+        totalResourceSize += data.LongLength;
+    }
+
+    private static IReadOnlyList<string> CollectImageSources( IReadOnlyList<PdfPageDefinition> pages, CancellationToken cancellationToken )
+    {
+        List<string> sources = [];
+
+        foreach ( PdfPageDefinition page in pages )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            foreach ( PdfElementDefinition element in page.Elements )
+            {
+                CollectImageSources( sources, element, cancellationToken );
+            }
+        }
+
+        return sources;
+    }
+
+    private static void CollectImageSources( List<string> sources, PdfElementDefinition element, CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if ( element is null )
+            return;
+
+        if ( element.Type == PdfElementType.Image )
+        {
+            if ( string.IsNullOrWhiteSpace( element.Source ) )
+                throw new InvalidDataException( "The PDF image element does not define a source." );
+
+            if ( !sources.Contains( element.Source, StringComparer.Ordinal ) )
+                sources.Add( element.Source );
+        }
+
+        foreach ( PdfTableRowDefinition row in element.Rows ?? [] )
+        {
+            foreach ( PdfTableCellDefinition cell in row.Cells ?? [] )
+            {
+                foreach ( PdfElementDefinition child in cell.Elements ?? [] )
+                {
+                    CollectImageSources( sources, child, cancellationToken );
+                }
+            }
+        }
+    }
+
+    private static string DescribeImageSource( string source )
+    {
+        if ( source?.StartsWith( "data:", StringComparison.OrdinalIgnoreCase ) == true )
+        {
+            int separatorIndex = source.IndexOf( ';' );
+            string mediaType = separatorIndex > 5 ? source.Substring( 5, separatorIndex - 5 ) : "unknown";
+
+            return $"data URI ({mediaType})";
+        }
+
+        return $"'{source}'";
+    }
+
+    private static PdfFontResources AddFontResources( List<PdfObject> objects, IReadOnlyList<PdfPageDefinition> pages, IFontProvider fontProvider, PdfResolvedResources resolvedResources, CancellationToken cancellationToken )
     {
         PdfFontResources fontResources = new();
-        bool centralEuropeanFallbackRequired = RequiresType1CentralEuropeanFallback( pages );
+        bool centralEuropeanFallbackRequired = RequiresType1CentralEuropeanFallback( pages, cancellationToken );
 
-        foreach ( string family in CollectFontFamilies( pages, fontProvider ) )
+        foreach ( string family in CollectFontFamilies( pages, fontProvider, cancellationToken ) )
         {
+            cancellationToken.ThrowIfCancellationRequested();
             FontFamily customFont = ResolveCustomFontFamily( family, fontProvider );
             string[] baseFonts = GetBaseFontNames( customFont is null ? family : Fonts.Helvetica );
             PdfFontResource[] resources = new PdfFontResource[baseFonts.Length];
 
             for ( int i = 0; i < baseFonts.Length; i++ )
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 PdfEmbeddedFont embeddedFont = customFont is not null
-                    ? TryCreateEmbeddedFontResource( objects, customFont, i, fontResources.All.Count + i + 1 )
+                    ? CreateEmbeddedFontResource( objects, customFont, resolvedResources.Fonts[customFont.ResolveSource( i is 1 or 3, i is 2 or 3 )], i, fontResources.All.Count + i + 1, cancellationToken )
                     : null;
 
                 resources[i] = new()
@@ -196,23 +394,27 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return fontResources;
     }
 
-    private static IReadOnlyList<string> CollectFontFamilies( IReadOnlyList<PdfPageDefinition> pages, IFontProvider fontProvider )
+    private static IReadOnlyList<string> CollectFontFamilies( IReadOnlyList<PdfPageDefinition> pages, IFontProvider fontProvider, CancellationToken cancellationToken )
     {
         List<string> families = [Fonts.Helvetica];
 
         foreach ( PdfPageDefinition page in pages )
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             foreach ( PdfElementDefinition element in page.Elements )
             {
-                CollectFontFamilies( families, element, fontProvider );
+                CollectFontFamilies( families, element, fontProvider, cancellationToken );
             }
         }
 
         return families;
     }
 
-    private static void CollectFontFamilies( List<string> families, PdfElementDefinition element, IFontProvider fontProvider )
+    private static void CollectFontFamilies( List<string> families, PdfElementDefinition element, IFontProvider fontProvider, CancellationToken cancellationToken )
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         if ( element is null )
             return;
 
@@ -230,7 +432,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             {
                 foreach ( PdfElementDefinition child in cell.Elements ?? [] )
                 {
-                    CollectFontFamilies( families, child, fontProvider );
+                    CollectFontFamilies( families, child, fontProvider, cancellationToken );
                 }
             }
         }
@@ -319,13 +521,15 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return FormattableString.Invariant( $"<< /Type /Font /Subtype /Type1 /BaseFont /{baseFontName} /Encoding << /Type /Encoding /BaseEncoding /WinAnsiEncoding /Differences [ 129 /ccaron 131 /Dcroat 141 /cacute 143 /dcroat 144 /Ccaron 157 /Cacute ] >> >>" );
     }
 
-    private static bool RequiresType1CentralEuropeanFallback( IReadOnlyList<PdfPageDefinition> pages )
+    private static bool RequiresType1CentralEuropeanFallback( IReadOnlyList<PdfPageDefinition> pages, CancellationToken cancellationToken )
     {
         foreach ( PdfPageDefinition page in pages )
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             foreach ( PdfElementDefinition element in page.Elements )
             {
-                if ( RequiresType1CentralEuropeanFallback( element ) )
+                if ( RequiresType1CentralEuropeanFallback( element, cancellationToken ) )
                     return true;
             }
         }
@@ -333,12 +537,14 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return false;
     }
 
-    private static bool RequiresType1CentralEuropeanFallback( PdfElementDefinition element )
+    private static bool RequiresType1CentralEuropeanFallback( PdfElementDefinition element, CancellationToken cancellationToken )
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         if ( element is null )
             return false;
 
-        if ( element.Type == PdfElementType.Text && RequiresType1CentralEuropeanFallback( element.Text ) )
+        if ( element.Type == PdfElementType.Text && RequiresType1CentralEuropeanFallback( element.Text, cancellationToken ) )
             return true;
 
         foreach ( PdfTableRowDefinition row in element.Rows ?? [] )
@@ -347,7 +553,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             {
                 foreach ( PdfElementDefinition child in cell.Elements ?? [] )
                 {
-                    if ( RequiresType1CentralEuropeanFallback( child ) )
+                    if ( RequiresType1CentralEuropeanFallback( child, cancellationToken ) )
                         return true;
                 }
             }
@@ -356,14 +562,17 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return false;
     }
 
-    private static bool RequiresType1CentralEuropeanFallback( string text )
+    private static bool RequiresType1CentralEuropeanFallback( string text, CancellationToken cancellationToken )
     {
         if ( string.IsNullOrEmpty( text ) )
             return false;
 
-        foreach ( char character in text )
+        for ( int i = 0; i < text.Length; i++ )
         {
-            if ( IsType1CentralEuropeanFallbackCharacter( character ) )
+            if ( ( i & 4095 ) == 0 )
+                cancellationToken.ThrowIfCancellationRequested();
+
+            if ( IsType1CentralEuropeanFallbackCharacter( text[i] ) )
                 return true;
         }
 
@@ -375,20 +584,21 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return character is '\u010D' or '\u010C' or '\u0107' or '\u0106' or '\u0111' or '\u0110';
     }
 
-    private static PdfEmbeddedFont TryCreateEmbeddedFontResource( List<PdfObject> objects, FontFamily family, int variantIndex, int resourceIndex )
+    private static PdfEmbeddedFont CreateEmbeddedFontResource( List<PdfObject> objects, FontFamily family, byte[] fontBytes, int variantIndex, int resourceIndex, CancellationToken cancellationToken )
     {
-        if ( !PdfEmbeddedFont.TryCreate( family, variantIndex, resourceIndex, out PdfEmbeddedFont embeddedFont ) )
-            return null;
+        if ( !PdfEmbeddedFont.TryCreate( fontBytes, family.Name, variantIndex, resourceIndex, cancellationToken, out PdfEmbeddedFont embeddedFont ) )
+            throw new InvalidDataException( $"The PDF font family '{family.Name}' contains invalid or unsupported TrueType/OpenType font data." );
 
-        return AddEmbeddedFontResource( objects, embeddedFont );
+        return AddEmbeddedFontResource( objects, embeddedFont, cancellationToken );
     }
 
-    private static PdfEmbeddedFont AddEmbeddedFontResource( List<PdfObject> objects, PdfEmbeddedFont embeddedFont )
+    private static PdfEmbeddedFont AddEmbeddedFontResource( List<PdfObject> objects, PdfEmbeddedFont embeddedFont, CancellationToken cancellationToken )
     {
-        int fontFileId = AddObject( objects, CreateStreamObject( FormattableString.Invariant( $"<< /Length {embeddedFont.FontBytes.Length} /Length1 {embeddedFont.FontBytes.Length} >>" ), embeddedFont.FontBytes ) );
+        cancellationToken.ThrowIfCancellationRequested();
+        int fontFileId = AddObject( objects, CreateStreamObject( FormattableString.Invariant( $"<< /Length {embeddedFont.FontBytes.Length} /Length1 {embeddedFont.FontBytes.Length} >>" ), embeddedFont.FontBytes, cancellationToken ) );
         int fontDescriptorId = AddObject( objects, BuildEmbeddedFontDescriptorObject( embeddedFont, fontFileId ) );
-        int toUnicodeId = AddObject( objects, CreateStreamObject( BuildToUnicodeMap( embeddedFont ) ) );
-        int cidFontId = AddObject( objects, BuildEmbeddedCidFontObject( embeddedFont, fontDescriptorId ) );
+        int toUnicodeId = AddObject( objects, CreateStreamObject( BuildToUnicodeMap( embeddedFont, cancellationToken ), cancellationToken ) );
+        int cidFontId = AddObject( objects, BuildEmbeddedCidFontObject( embeddedFont, fontDescriptorId, cancellationToken ) );
         embeddedFont.ObjectId = AddObject( objects, BuildEmbeddedType0FontObject( embeddedFont, cidFontId, toUnicodeId ) );
 
         return embeddedFont;
@@ -399,9 +609,9 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return FormattableString.Invariant( $"<< /Type /Font /Subtype /Type0 /BaseFont /{embeddedFont.FontName} /Encoding /Identity-H /DescendantFonts [ {cidFontId} 0 R ] /ToUnicode {toUnicodeId} 0 R >>" );
     }
 
-    private static string BuildEmbeddedCidFontObject( PdfEmbeddedFont embeddedFont, int fontDescriptorId )
+    private static string BuildEmbeddedCidFontObject( PdfEmbeddedFont embeddedFont, int fontDescriptorId, CancellationToken cancellationToken )
     {
-        return FormattableString.Invariant( $"<< /Type /Font /Subtype /CIDFontType2 /BaseFont /{embeddedFont.FontName} /CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> /FontDescriptor {fontDescriptorId} 0 R /CIDToGIDMap /Identity /DW {PdfTrueTypeFontMetrics.DefaultGlyphWidth} /W {embeddedFont.BuildWidthArray()} >>" );
+        return FormattableString.Invariant( $"<< /Type /Font /Subtype /CIDFontType2 /BaseFont /{embeddedFont.FontName} /CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> /FontDescriptor {fontDescriptorId} 0 R /CIDToGIDMap /Identity /DW {PdfTrueTypeFontMetrics.DefaultGlyphWidth} /W {embeddedFont.BuildWidthArray( cancellationToken )} >>" );
     }
 
     private static string BuildEmbeddedFontDescriptorObject( PdfEmbeddedFont embeddedFont, int fontFileId )
@@ -409,7 +619,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return FormattableString.Invariant( $"<< /Type /FontDescriptor /FontName /{embeddedFont.FontName} /Flags {embeddedFont.Flags} /FontBBox [ {embeddedFont.MinX} {embeddedFont.MinY} {embeddedFont.MaxX} {embeddedFont.MaxY} ] /ItalicAngle {embeddedFont.ItalicAngle} /Ascent {embeddedFont.Ascent} /Descent {embeddedFont.Descent} /CapHeight {embeddedFont.CapHeight} /StemV 80 /FontFile2 {fontFileId} 0 R >>" );
     }
 
-    private static string BuildToUnicodeMap( PdfEmbeddedFont embeddedFont )
+    private static string BuildToUnicodeMap( PdfEmbeddedFont embeddedFont, CancellationToken cancellationToken )
     {
         StringBuilder builder = new();
         builder.AppendLine( "/CIDInit /ProcSet findresource begin" );
@@ -422,10 +632,11 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         builder.AppendLine( "<0000> <FFFF>" );
         builder.AppendLine( "endcodespacerange" );
 
-        List<KeyValuePair<int, int>> mappings = embeddedFont.CreateGlyphUnicodeMappings();
+        List<KeyValuePair<int, int>> mappings = embeddedFont.CreateGlyphUnicodeMappings( cancellationToken );
 
         for ( int i = 0; i < mappings.Count; i += 100 )
         {
+            cancellationToken.ThrowIfCancellationRequested();
             int count = Math.Min( 100, mappings.Count - i );
             builder.AppendLine( FormattableString.Invariant( $"{count} beginbfchar" ) );
 
@@ -462,18 +673,19 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return builder.ToString();
     }
 
-    private static string BuildPageObject( PdfPageDefinition page, int pagesId, PdfFontResources fontResources, int contentId, PdfPageContent pageContent )
+    private static string BuildPageObject( PdfPageDefinition page, int pagesId, PdfFontResources fontResources, int contentId, PdfPageContent pageContent, CancellationToken cancellationToken )
     {
-        return FormattableString.Invariant( $"<< /Type /Page /Parent {pagesId} 0 R /MediaBox [ 0 0 {page.Width} {page.Height} ] /Resources {BuildPageResources( fontResources, pageContent )} /Contents {contentId} 0 R >>" );
+        return FormattableString.Invariant( $"<< /Type /Page /Parent {pagesId} 0 R /MediaBox [ 0 0 {page.Width} {page.Height} ] /Resources {BuildPageResources( fontResources, pageContent, cancellationToken )} /Contents {contentId} 0 R >>" );
     }
 
-    private static string BuildPageResources( PdfFontResources fontResources, PdfPageContent pageContent )
+    private static string BuildPageResources( PdfFontResources fontResources, PdfPageContent pageContent, CancellationToken cancellationToken )
     {
         StringBuilder builder = new();
         builder.Append( "<< /Font <<" );
 
         foreach ( PdfFontResource fontResource in fontResources.All )
         {
+            cancellationToken.ThrowIfCancellationRequested();
             builder.Append( FormattableString.Invariant( $" /{fontResource.Name} {fontResource.ObjectId} 0 R" ) );
         }
 
@@ -485,6 +697,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
             foreach ( PdfAlphaState alphaState in pageContent.AlphaStates )
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 string alphaProperty = alphaState.Stroke ? "CA" : "ca";
                 builder.Append( FormattableString.Invariant( $" /{alphaState.Name} << /{alphaProperty} {alphaState.Alpha} >>" ) );
             }
@@ -498,6 +711,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
             foreach ( PdfImageResource image in pageContent.Images )
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 builder.Append( FormattableString.Invariant( $" /{image.Name} {image.ObjectId} 0 R" ) );
             }
 
@@ -509,27 +723,48 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return builder.ToString();
     }
 
-    private static byte[] CreateStreamObject( string content )
+    private static byte[] CreateStreamObject( string content, CancellationToken cancellationToken )
     {
-        byte[] contentBytes = Encoding.ASCII.GetBytes( content );
+        string dictionary = FormattableString.Invariant( $"<< /Length {content.Length} >>" );
+        byte[] prefix = Encoding.ASCII.GetBytes( $"{dictionary}\nstream\n" );
+        byte[] suffix = Encoding.ASCII.GetBytes( "\nendstream" );
+        byte[] result = new byte[prefix.Length + content.Length + suffix.Length];
+        Buffer.BlockCopy( prefix, 0, result, 0, prefix.Length );
 
-        return CreateStreamObject( FormattableString.Invariant( $"<< /Length {contentBytes.Length} >>" ), contentBytes );
+        for ( int offset = 0; offset < content.Length; offset += 81920 )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            int count = Math.Min( 81920, content.Length - offset );
+            Encoding.ASCII.GetBytes( content, offset, count, result, prefix.Length + offset );
+        }
+
+        Buffer.BlockCopy( suffix, 0, result, prefix.Length + content.Length, suffix.Length );
+
+        return result;
     }
 
-    private static byte[] CreateStreamObject( string dictionary, byte[] content )
+    private static byte[] CreateStreamObject( string dictionary, byte[] content, CancellationToken cancellationToken )
     {
-        using MemoryStream stream = new();
+        byte[] prefix = Encoding.ASCII.GetBytes( $"{dictionary}\nstream\n" );
+        byte[] suffix = Encoding.ASCII.GetBytes( "\nendstream" );
+        byte[] result = new byte[prefix.Length + content.Length + suffix.Length];
+        Buffer.BlockCopy( prefix, 0, result, 0, prefix.Length );
 
-        WriteAscii( stream, $"{dictionary}\nstream\n" );
-        stream.Write( content, 0, content.Length );
-        WriteAscii( stream, "\nendstream" );
+        for ( int offset = 0; offset < content.Length; offset += 81920 )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            int count = Math.Min( 81920, content.Length - offset );
+            Buffer.BlockCopy( content, offset, result, prefix.Length + offset, count );
+        }
 
-        return stream.ToArray();
+        Buffer.BlockCopy( suffix, 0, result, prefix.Length + content.Length, suffix.Length );
+
+        return result;
     }
 
-    private static PdfPageContent BuildPageContent( PdfPageDefinition page, List<PdfObject> objects, PdfFontResources fontResources, IFontProvider fontProvider )
+    private static PdfPageContent BuildPageContent( PdfPageDefinition page, List<PdfObject> objects, PdfFontResources fontResources, IFontProvider fontProvider, PdfResolvedResources resolvedResources, CancellationToken cancellationToken )
     {
-        PdfPageContentContext context = new( objects, fontResources, fontProvider );
+        PdfPageContentContext context = new( objects, fontResources, fontProvider, resolvedResources, cancellationToken );
 
         foreach ( PdfElementDefinition element in page.Elements )
         {
@@ -546,6 +781,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private static void AppendElement( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double offsetX, double offsetY )
     {
+        context.CancellationToken.ThrowIfCancellationRequested();
+
         if ( element is null )
             return;
 
@@ -580,27 +817,28 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         double fontSize = Math.Max( 1, font.Size );
         PdfFontResource fontResource = ResolveFontResource( context.FontResources, context.FontProvider, font );
         IReadOnlyList<PdfTextLine> lines = element.Wrap
-            ? WrapText( element.Text, fontResource, fontSize, element.Width )
-            : SplitTextLines( element.Text );
+            ? WrapText( element.Text, fontResource, fontSize, element.Width, context.CancellationToken )
+            : SplitTextLines( element.Text, context.CancellationToken );
         double lineHeight = ResolveLineHeight( fontSize );
         double textY = ResolveTextY( page, element, y, fontSize, lines.Count, lineHeight );
 
         AppendColor( context, font.Color, stroke: false );
-        AppendTextClipStart( context, page, element, x, y );
+        AppendClipStart( context, page, element, x, y );
 
         for ( int i = 0; i < lines.Count; i++ )
         {
+            context.CancellationToken.ThrowIfCancellationRequested();
             PdfTextLine line = lines[i];
             double lineY = textY - ( i * lineHeight );
 
             if ( !TryAppendJustifiedTextLine( context, element, line, x, lineY, fontResource, fontSize ) )
             {
-                double textX = ResolveTextX( element, x, line.Text, fontResource, fontSize );
+                double textX = ResolveTextX( element, x, line.Text, fontResource, fontSize, context.CancellationToken );
                 AppendTextRun( context, line.Text, textX, lineY, fontResource, fontSize );
             }
         }
 
-        AppendTextClipEnd( context, element );
+        AppendClipEnd( context, element );
     }
 
     private static bool TryAppendJustifiedTextLine( PdfPageContentContext context, PdfElementDefinition element, PdfTextLine line, double x, double y, PdfFontResource fontResource, double fontSize )
@@ -618,7 +856,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         for ( int i = 0; i < words.Length; i++ )
         {
-            wordWidths[i] = MeasureTextWidth( words[i], fontResource, fontSize );
+            context.CancellationToken.ThrowIfCancellationRequested();
+            wordWidths[i] = MeasureTextWidth( words[i], fontResource, fontSize, context.CancellationToken );
             wordsWidth += wordWidths[i];
         }
 
@@ -630,6 +869,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         for ( int i = 0; i < words.Length; i++ )
         {
+            context.CancellationToken.ThrowIfCancellationRequested();
             AppendTextRun( context, words[i], wordX, y, fontResource, fontSize );
             wordX += wordWidths[i] + wordGap;
         }
@@ -640,8 +880,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
     private static void AppendTextRun( PdfPageContentContext context, string text, double x, double y, PdfFontResource fontResource, double fontSize )
     {
         string textOperand = fontResource.EmbeddedFont is null
-            ? $"({EscapeText( text )})"
-            : EncodeEmbeddedText( text, fontResource.EmbeddedFont );
+            ? $"({EscapeText( text, context.CancellationToken )})"
+            : EncodeEmbeddedText( text, fontResource.EmbeddedFont, context.CancellationToken );
 
         context.Builder.AppendLine( FormattableString.Invariant( $"BT /{fontResource.Name} {fontSize} Tf {x} {y} Td {textOperand} Tj ET" ) );
     }
@@ -662,10 +902,10 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return variants[0];
     }
 
-    private static double ResolveTextX( PdfElementDefinition element, double x, string text, PdfFontResource fontResource, double fontSize )
+    private static double ResolveTextX( PdfElementDefinition element, double x, string text, PdfFontResource fontResource, double fontSize, CancellationToken cancellationToken )
     {
         PdfFontDefinition font = element.Font ?? new();
-        double textWidth = MeasureTextWidth( text, fontResource, fontSize );
+        double textWidth = MeasureTextWidth( text, fontResource, fontSize, cancellationToken );
 
         if ( font.Alignment == TextAlignment.Center )
             return x + Math.Max( 0, element.Width - textWidth ) / 2;
@@ -704,12 +944,12 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             : fontSize + ( Math.Max( 0, lineCount - 1 ) * lineHeight );
     }
 
-    private static double MeasureTextWidth( string text, PdfFontResource fontResource, double fontSize )
+    private static double MeasureTextWidth( string text, PdfFontResource fontResource, double fontSize, CancellationToken cancellationToken )
     {
-        return fontResource?.MeasureTextWidth( text, fontSize ) ?? 0;
+        return fontResource?.MeasureTextWidth( text, fontSize, cancellationToken ) ?? 0;
     }
 
-    private static IReadOnlyList<PdfTextLine> WrapText( string text, PdfFontResource fontResource, double fontSize, double maxWidth )
+    private static IReadOnlyList<PdfTextLine> WrapText( string text, PdfFontResource fontResource, double fontSize, double maxWidth, CancellationToken cancellationToken )
     {
         if ( string.IsNullOrEmpty( text ) )
             return [new( string.Empty, false )];
@@ -722,8 +962,9 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         foreach ( string paragraph in paragraphs )
         {
+            cancellationToken.ThrowIfCancellationRequested();
             List<string> paragraphLines = [];
-            AppendWrappedParagraph( paragraphLines, paragraph, fontResource, fontSize, maxWidth );
+            AppendWrappedParagraph( paragraphLines, paragraph, fontResource, fontSize, maxWidth, cancellationToken );
 
             for ( int i = 0; i < paragraphLines.Count; i++ )
             {
@@ -734,21 +975,28 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return lines;
     }
 
-    private static IReadOnlyList<PdfTextLine> SplitTextLines( string text )
+    private static IReadOnlyList<PdfTextLine> SplitTextLines( string text, CancellationToken cancellationToken )
     {
         if ( string.IsNullOrEmpty( text ) )
             return [new( string.Empty, false )];
 
-        return text.Replace( "\r\n", "\n", StringComparison.Ordinal )
+        string[] lines = text.Replace( "\r\n", "\n", StringComparison.Ordinal )
             .Replace( '\r', '\n' )
-            .Split( '\n' )
-            .Select( line => new PdfTextLine( line, false ) )
-            .ToArray();
+            .Split( '\n' );
+        PdfTextLine[] result = new PdfTextLine[lines.Length];
+
+        for ( int i = 0; i < lines.Length; i++ )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            result[i] = new( lines[i], false );
+        }
+
+        return result;
     }
 
-    private static void AppendTextClipStart( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
+    private static void AppendClipStart( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
     {
-        if ( element.Wrap || element.Width <= 0 || element.Height <= 0 )
+        if ( !element.ClipContent || element.Width <= 0 || element.Height <= 0 )
             return;
 
         double rectangleY = page.Height - y - element.Height;
@@ -756,15 +1004,15 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         context.Builder.AppendLine( FormattableString.Invariant( $"{x} {rectangleY} {element.Width} {element.Height} re W n" ) );
     }
 
-    private static void AppendTextClipEnd( PdfPageContentContext context, PdfElementDefinition element )
+    private static void AppendClipEnd( PdfPageContentContext context, PdfElementDefinition element )
     {
-        if ( element.Wrap || element.Width <= 0 || element.Height <= 0 )
+        if ( !element.ClipContent || element.Width <= 0 || element.Height <= 0 )
             return;
 
         context.Builder.AppendLine( "Q" );
     }
 
-    private static void AppendWrappedParagraph( List<string> lines, string paragraph, PdfFontResource fontResource, double fontSize, double maxWidth )
+    private static void AppendWrappedParagraph( List<string> lines, string paragraph, PdfFontResource fontResource, double fontSize, double maxWidth, CancellationToken cancellationToken )
     {
         if ( string.IsNullOrWhiteSpace( paragraph ) )
         {
@@ -776,13 +1024,15 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         foreach ( string word in paragraph.Split( ' ', StringSplitOptions.RemoveEmptyEntries ) )
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             if ( currentLine is null )
             {
-                AppendWordToLines( lines, ref currentLine, word, fontResource, fontSize, maxWidth );
+                AppendWordToLines( lines, ref currentLine, word, fontResource, fontSize, maxWidth, cancellationToken );
                 continue;
             }
 
-            if ( MeasureTextWidth( $"{currentLine} {word}", fontResource, fontSize ) <= maxWidth )
+            if ( MeasureTextWidth( $"{currentLine} {word}", fontResource, fontSize, cancellationToken ) <= maxWidth )
             {
                 currentLine = $"{currentLine} {word}";
                 continue;
@@ -790,22 +1040,22 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
             lines.Add( currentLine );
             currentLine = null;
-            AppendWordToLines( lines, ref currentLine, word, fontResource, fontSize, maxWidth );
+            AppendWordToLines( lines, ref currentLine, word, fontResource, fontSize, maxWidth, cancellationToken );
         }
 
         if ( currentLine is not null )
             lines.Add( currentLine );
     }
 
-    private static void AppendWordToLines( List<string> lines, ref string currentLine, string word, PdfFontResource fontResource, double fontSize, double maxWidth )
+    private static void AppendWordToLines( List<string> lines, ref string currentLine, string word, PdfFontResource fontResource, double fontSize, double maxWidth, CancellationToken cancellationToken )
     {
-        if ( MeasureTextWidth( word, fontResource, fontSize ) <= maxWidth )
+        if ( MeasureTextWidth( word, fontResource, fontSize, cancellationToken ) <= maxWidth )
         {
             currentLine = word;
             return;
         }
 
-        foreach ( string segment in SplitWord( word, fontResource, fontSize, maxWidth ) )
+        foreach ( string segment in SplitWord( word, fontResource, fontSize, maxWidth, cancellationToken ) )
         {
             if ( currentLine is null )
             {
@@ -818,13 +1068,15 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         }
     }
 
-    private static IEnumerable<string> SplitWord( string word, PdfFontResource fontResource, double fontSize, double maxWidth )
+    private static IEnumerable<string> SplitWord( string word, PdfFontResource fontResource, double fontSize, double maxWidth, CancellationToken cancellationToken )
     {
         StringBuilder segment = new();
 
         foreach ( char character in word )
         {
-            if ( segment.Length > 0 && MeasureTextWidth( $"{segment}{character}", fontResource, fontSize ) > maxWidth )
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if ( segment.Length > 0 && MeasureTextWidth( $"{segment}{character}", fontResource, fontSize, cancellationToken ) > maxWidth )
             {
                 yield return segment.ToString();
                 segment.Clear();
@@ -869,13 +1121,16 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         AppendRectangleFill( context, page, element, x, y );
 
-        if ( !string.IsNullOrWhiteSpace( element.Source ) && TryCreateImageResource( context, element.Source, out PdfImageResource imageResource ) )
+        if ( !string.IsNullOrWhiteSpace( element.Source ) )
         {
+            if ( !TryCreateImageResource( context, element.Source, out PdfImageResource imageResource ) )
+                throw new InvalidOperationException( "The resolved PDF image resource is unavailable during page rendering." );
+
             PdfImagePlacement placement = ResolveImagePlacement( element, imageResource.Width, imageResource.Height );
             double elementY = page.Height - y - element.Height;
             double imageX = x + placement.X;
             double imageY = page.Height - y - placement.Y - placement.Height;
-            bool clipImage = placement.X < 0 || placement.Y < 0 || placement.X + placement.Width > element.Width || placement.Y + placement.Height > element.Height;
+            bool clipImage = element.ClipContent && ( placement.X < 0 || placement.Y < 0 || placement.X + placement.Width > element.Width || placement.Y + placement.Height > element.Height );
             context.Builder.AppendLine( "q" );
 
             if ( clipImage )
@@ -940,15 +1195,19 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         if ( HasFill( element.Appearance?.BackgroundColor ) )
             AppendRectangle( context, page, element, x, y );
 
+        AppendClipStart( context, page, element, x, y );
+
         double currentY = y;
 
         foreach ( PdfTableRowDefinition row in element.Rows )
         {
+            context.CancellationToken.ThrowIfCancellationRequested();
             double currentX = x;
             double rowHeight = Math.Max( 1, row.Height );
 
             foreach ( PdfTableCellDefinition cell in row.Cells )
             {
+                context.CancellationToken.ThrowIfCancellationRequested();
                 double cellWidth = Math.Max( 1, cell.Width );
                 AppendRectangle( context, page, new()
                 {
@@ -969,6 +1228,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
             currentY += rowHeight;
         }
+
+        AppendClipEnd( context, element );
     }
 
     private static void AppendStroke( PdfPageContentContext context, PdfBorderDefinition border )
@@ -1039,13 +1300,34 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private static PdfColor ParseColor( string color )
     {
+        if ( TryParseColor( color, out PdfColor pdfColor ) )
+            return pdfColor;
+
+        return new( 0, 0, 0, 1 );
+    }
+
+    internal static bool IsValidColor( string color )
+    {
+        return TryParseColor( color, out _ );
+    }
+
+    private static bool TryParseColor( string color, out PdfColor pdfColor )
+    {
+        pdfColor = new( 0, 0, 0, 1 );
+
         if ( string.IsNullOrWhiteSpace( color ) )
-            return new( 0, 0, 0, 1 );
+            return true;
 
         string value = ResolveKnownColor( color.Trim() ).TrimStart( '#' );
 
         if ( TryParseRgbFunction( value, out double redComponent, out double greenComponent, out double blueComponent, out double alphaComponent ) )
-            return new( redComponent, greenComponent, blueComponent, alphaComponent );
+        {
+            pdfColor = new( redComponent, greenComponent, blueComponent, alphaComponent );
+            return true;
+        }
+
+        if ( value.StartsWith( "rgb", StringComparison.OrdinalIgnoreCase ) )
+            return false;
 
         if ( value.Length == 3 )
             value = $"{value[0]}{value[0]}{value[1]}{value[1]}{value[2]}{value[2]}";
@@ -1053,22 +1335,24 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             value = $"{value[0]}{value[0]}{value[1]}{value[1]}{value[2]}{value[2]}{value[3]}{value[3]}";
 
         if ( value.Length != 6 && value.Length != 8 )
-            return new( 0, 0, 0, 1 );
+            return false;
 
         if ( !TryParseHexComponent( value, 0, out int red ) || !TryParseHexComponent( value, 2, out int green ) || !TryParseHexComponent( value, 4, out int blue ) )
-            return new( 0, 0, 0, 1 );
+            return false;
 
         double alpha = 1;
 
         if ( value.Length == 8 )
         {
             if ( !TryParseHexComponent( value, 6, out int alphaValue ) )
-                return new( 0, 0, 0, 1 );
+                return false;
 
             alpha = alphaValue / 255d;
         }
 
-        return new( red / 255d, green / 255d, blue / 255d, alpha );
+        pdfColor = new( red / 255d, green / 255d, blue / 255d, alpha );
+
+        return true;
     }
 
     private static bool TryParseHexComponent( string value, int startIndex, out int component )
@@ -1083,18 +1367,19 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         blue = 0;
         alpha = 1;
 
-        if ( !value.StartsWith( "rgb", StringComparison.OrdinalIgnoreCase ) )
+        if ( !value.StartsWith( "rgb(", StringComparison.OrdinalIgnoreCase )
+            && !value.StartsWith( "rgba(", StringComparison.OrdinalIgnoreCase ) )
             return false;
 
         int startIndex = value.IndexOf( '(' );
         int endIndex = value.LastIndexOf( ')' );
 
-        if ( startIndex < 0 || endIndex <= startIndex )
+        if ( startIndex < 0 || endIndex <= startIndex || endIndex != value.Length - 1 )
             return false;
 
         string[] components = value.Substring( startIndex + 1, endIndex - startIndex - 1 ).Split( ',', StringSplitOptions.TrimEntries );
 
-        if ( components.Length < 3 )
+        if ( components.Length != 3 && components.Length != 4 )
             return false;
 
         if ( !TryParseColorComponent( components[0], 255d, out red ) || !TryParseColorComponent( components[1], 255d, out green ) || !TryParseColorComponent( components[2], 255d, out blue ) )
@@ -1119,7 +1404,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         if ( percentage )
             trimmedValue = trimmedValue[..^1];
 
-        if ( !double.TryParse( trimmedValue, NumberStyles.Float, CultureInfo.InvariantCulture, out double parsedValue ) )
+        if ( !double.TryParse( trimmedValue, NumberStyles.Float, CultureInfo.InvariantCulture, out double parsedValue ) || !double.IsFinite( parsedValue ) )
             return false;
 
         component = Math.Clamp( percentage ? parsedValue / 100d : parsedValue / divisor, 0, 1 );
@@ -1177,11 +1462,15 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
     {
         imageResource = null;
 
-        if ( !PdfImageDataReader.TryRead( source, out PdfImageData imageData ) )
+        if ( !context.ResolvedResources.Images.TryGetValue( source, out PdfImageData imageData ) )
             return false;
 
-        string dictionary = FormattableString.Invariant( $"<< /Type /XObject /Subtype /Image /Width {imageData.Width} /Height {imageData.Height} /ColorSpace {imageData.ColorSpace} /BitsPerComponent {imageData.BitsPerComponent} /Filter {imageData.Filter} /Length {imageData.Data.Length} >>" );
-        int objectId = AddObject( context.Objects, CreateStreamObject( dictionary, imageData.Data ) );
+        int alphaMaskId = imageData.AlphaData is null
+            ? 0
+            : AddObject( context.Objects, CreateStreamObject( FormattableString.Invariant( $"<< /Type /XObject /Subtype /Image /Width {imageData.Width} /Height {imageData.Height} /ColorSpace /DeviceGray /BitsPerComponent 8 /Filter /FlateDecode /Length {imageData.AlphaData.Length} >>" ), imageData.AlphaData, context.CancellationToken ) );
+        string alphaMaskReference = alphaMaskId > 0 ? FormattableString.Invariant( $" /SMask {alphaMaskId} 0 R" ) : string.Empty;
+        string dictionary = FormattableString.Invariant( $"<< /Type /XObject /Subtype /Image /Width {imageData.Width} /Height {imageData.Height} /ColorSpace {imageData.ColorSpace} /BitsPerComponent {imageData.BitsPerComponent} /Filter {imageData.Filter}{alphaMaskReference} /Length {imageData.Data.Length} >>" );
+        int objectId = AddObject( context.Objects, CreateStreamObject( dictionary, imageData.Data, context.CancellationToken ) );
 
         imageResource = new()
         {
@@ -1196,7 +1485,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return true;
     }
 
-    private static string EscapeText( string text )
+    private static string EscapeText( string text, CancellationToken cancellationToken )
     {
         if ( string.IsNullOrEmpty( text ) )
             return string.Empty;
@@ -1205,6 +1494,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         foreach ( char character in text )
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             if ( TryGetType1TextByte( character, out byte value ) )
             {
                 AppendPdfStringByte( builder, value );
@@ -1218,7 +1509,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return builder.ToString();
     }
 
-    private static string EncodeEmbeddedText( string text, PdfEmbeddedFont embeddedFont )
+    private static string EncodeEmbeddedText( string text, PdfEmbeddedFont embeddedFont, CancellationToken cancellationToken )
     {
         if ( string.IsNullOrEmpty( text ) )
             return "<>";
@@ -1228,6 +1519,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         foreach ( int codePoint in EnumerateCodePoints( text ) )
         {
+            cancellationToken.ThrowIfCancellationRequested();
             int glyphId = embeddedFont.GetGlyphId( codePoint );
             builder.Append( glyphId.ToString( "X4", CultureInfo.InvariantCulture ) );
         }
@@ -1331,65 +1623,99 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         return value != 0;
     }
 
-    private static byte[] WriteDocument( IReadOnlyList<PdfObject> objects )
+    private static async Task WriteDocumentAsync( Stream stream, IReadOnlyList<PdfObject> objects, int catalogId, int informationId, CancellationToken cancellationToken )
     {
-        using MemoryStream stream = new();
         List<long> offsets = [];
+        long position = stream.CanSeek ? stream.Position : 0;
 
-        WriteAsciiLine( stream, "%PDF-1.4" );
+        position += await WriteAsciiLineAsync( stream, "%PDF-1.4", cancellationToken );
 
         for ( int i = 0; i < objects.Count; i++ )
         {
-            offsets.Add( stream.Position );
-            WriteAsciiLine( stream, FormattableString.Invariant( $"{( i + 1 )} 0 obj" ) );
+            cancellationToken.ThrowIfCancellationRequested();
+            offsets.Add( position );
+            position += await WriteAsciiLineAsync( stream, FormattableString.Invariant( $"{( i + 1 )} 0 obj" ), cancellationToken );
 
             if ( objects[i].ContentBytes is not null )
-                stream.Write( objects[i].ContentBytes, 0, objects[i].ContentBytes.Length );
+            {
+                await WriteBytesAsync( stream, objects[i].ContentBytes, cancellationToken );
+                position += objects[i].ContentBytes.Length;
+            }
             else
-                WriteAscii( stream, objects[i].Content );
+            {
+                position += await WriteAsciiAsync( stream, objects[i].Content, cancellationToken );
+            }
 
-            WriteAsciiLine( stream, string.Empty );
-            WriteAsciiLine( stream, "endobj" );
+            position += await WriteAsciiLineAsync( stream, string.Empty, cancellationToken );
+            position += await WriteAsciiLineAsync( stream, "endobj", cancellationToken );
         }
 
-        long xrefOffset = stream.Position;
+        long xrefOffset = position;
 
-        WriteAsciiLine( stream, "xref" );
-        WriteAsciiLine( stream, FormattableString.Invariant( $"0 {objects.Count + 1}" ) );
-        WriteAsciiLine( stream, "0000000000 65535 f " );
+        await WriteAsciiLineAsync( stream, "xref", cancellationToken );
+        await WriteAsciiLineAsync( stream, FormattableString.Invariant( $"0 {objects.Count + 1}" ), cancellationToken );
+        await WriteAsciiLineAsync( stream, "0000000000 65535 f ", cancellationToken );
 
         foreach ( long offset in offsets )
         {
-            WriteAsciiLine( stream, FormattableString.Invariant( $"{offset:0000000000} 00000 n " ) );
+            cancellationToken.ThrowIfCancellationRequested();
+            await WriteAsciiLineAsync( stream, FormattableString.Invariant( $"{offset:0000000000} 00000 n " ), cancellationToken );
         }
 
-        WriteAsciiLine( stream, "trailer" );
-        WriteAsciiLine( stream, FormattableString.Invariant( $"<< /Size {objects.Count + 1} /Root 1 0 R >>" ) );
-        WriteAsciiLine( stream, "startxref" );
-        WriteAsciiLine( stream, xrefOffset.ToString( CultureInfo.InvariantCulture ) );
-        WriteAscii( stream, "%%EOF" );
-
-        return stream.ToArray();
+        await WriteAsciiLineAsync( stream, "trailer", cancellationToken );
+        string informationReference = informationId > 0 ? FormattableString.Invariant( $" /Info {informationId} 0 R" ) : string.Empty;
+        await WriteAsciiLineAsync( stream, FormattableString.Invariant( $"<< /Size {objects.Count + 1} /Root {catalogId} 0 R{informationReference} >>" ), cancellationToken );
+        await WriteAsciiLineAsync( stream, "startxref", cancellationToken );
+        await WriteAsciiLineAsync( stream, xrefOffset.ToString( CultureInfo.InvariantCulture ), cancellationToken );
+        await WriteAsciiAsync( stream, "%%EOF", cancellationToken );
     }
 
-    private static void WriteAsciiLine( Stream stream, string value )
+    private static Task<int> WriteAsciiLineAsync( Stream stream, string value, CancellationToken cancellationToken )
     {
-        WriteAscii( stream, value );
-        stream.WriteByte( (byte)'\n' );
+        return WriteAsciiAsync( stream, $"{value}\n", cancellationToken );
     }
 
-    private static void WriteAscii( Stream stream, string value )
+    private static async Task<int> WriteAsciiAsync( Stream stream, string value, CancellationToken cancellationToken )
     {
         if ( string.IsNullOrEmpty( value ) )
-            return;
+            return 0;
 
-        byte[] bytes = Encoding.ASCII.GetBytes( value );
-        stream.Write( bytes, 0, bytes.Length );
+        const int BufferSize = 81920;
+        byte[] buffer = new byte[Math.Min( BufferSize, value.Length )];
+
+        for ( int offset = 0; offset < value.Length; offset += buffer.Length )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            int characterCount = Math.Min( buffer.Length, value.Length - offset );
+            int byteCount = Encoding.ASCII.GetBytes( value, offset, characterCount, buffer, 0 );
+            await stream.WriteAsync( buffer.AsMemory( 0, byteCount ), cancellationToken );
+        }
+
+        return value.Length;
+    }
+
+    private static async Task WriteBytesAsync( Stream stream, byte[] bytes, CancellationToken cancellationToken )
+    {
+        const int BufferSize = 81920;
+
+        for ( int offset = 0; offset < bytes.Length; offset += BufferSize )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            int count = Math.Min( BufferSize, bytes.Length - offset );
+            await stream.WriteAsync( bytes.AsMemory( offset, count ), cancellationToken );
+        }
     }
 
     #endregion
 
     #region Classes
+
+    private sealed class PdfResolvedResources
+    {
+        internal Dictionary<string, PdfImageData> Images { get; } = new( StringComparer.Ordinal );
+
+        internal Dictionary<FontSource, byte[]> Fonts { get; } = [];
+    }
 
     private sealed class PdfPageContentContext
     {
@@ -1401,11 +1727,13 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
         #region Constructors
 
-        internal PdfPageContentContext( List<PdfObject> objects, PdfFontResources fontResources, IFontProvider fontProvider )
+        internal PdfPageContentContext( List<PdfObject> objects, PdfFontResources fontResources, IFontProvider fontProvider, PdfResolvedResources resolvedResources, CancellationToken cancellationToken )
         {
             Objects = objects;
             FontResources = fontResources;
             FontProvider = fontProvider;
+            ResolvedResources = resolvedResources;
+            CancellationToken = cancellationToken;
         }
 
         #endregion
@@ -1443,6 +1771,10 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         internal PdfFontResources FontResources { get; }
 
         internal IFontProvider FontProvider { get; }
+
+        internal PdfResolvedResources ResolvedResources { get; }
+
+        internal CancellationToken CancellationToken { get; }
 
         internal List<PdfAlphaState> AlphaStates { get; } = [];
 
@@ -1538,7 +1870,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
                 : 0;
         }
 
-        internal string BuildWidthArray()
+        internal string BuildWidthArray( CancellationToken cancellationToken )
         {
             if ( glyphWidths.Count == 0 )
                 return "[]";
@@ -1548,6 +1880,8 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
             foreach ( KeyValuePair<int, int> pair in glyphWidths.OrderBy( x => x.Key ) )
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 if ( pair.Value == PdfTrueTypeFontMetrics.DefaultGlyphWidth )
                     continue;
 
@@ -1564,12 +1898,14 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             return builder.ToString();
         }
 
-        internal List<KeyValuePair<int, int>> CreateGlyphUnicodeMappings()
+        internal List<KeyValuePair<int, int>> CreateGlyphUnicodeMappings( CancellationToken cancellationToken )
         {
             Dictionary<int, int> mappings = [];
 
             foreach ( KeyValuePair<int, int> pair in glyphsByCodePoint )
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 if ( pair.Value <= 0 )
                     continue;
 
@@ -1582,52 +1918,25 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
                 .ToList();
         }
 
-        internal static bool TryCreate( FontFamily family, int variantIndex, int resourceIndex, out PdfEmbeddedFont embeddedFont )
+        internal static bool TryCreate( byte[] fontBytes, string family, int variantIndex, int resourceIndex, CancellationToken cancellationToken, out PdfEmbeddedFont embeddedFont )
         {
+            cancellationToken.ThrowIfCancellationRequested();
             embeddedFont = null;
-            bool bold = variantIndex is 1 or 3;
-            bool italic = variantIndex is 2 or 3;
-            FontSource source = family?.ResolveSource( bold, italic );
 
-            if ( !TryReadFontSource( source, out byte[] fontBytes ) )
+            if ( fontBytes is not { Length: > 0 } )
                 return false;
 
-            return TryReadTrueTypeFont( fontBytes, family?.Name ?? Fonts.Helvetica, variantIndex, resourceIndex, out embeddedFont );
+            return TryReadTrueTypeFont( fontBytes, family ?? Fonts.Helvetica, variantIndex, resourceIndex, cancellationToken, out embeddedFont );
         }
 
-        private static bool TryReadFontSource( FontSource source, out byte[] fontBytes )
-        {
-            fontBytes = null;
-
-            if ( source is null )
-                return false;
-
-            if ( source.Format is not FontFormat.TrueType and not FontFormat.OpenType )
-                return false;
-
-            if ( source.Data is { Length: > 0 } )
-            {
-                fontBytes = source.Data;
-                return true;
-            }
-
-            if ( !string.IsNullOrWhiteSpace( source.FileName ) && File.Exists( source.FileName ) )
-            {
-                fontBytes = File.ReadAllBytes( source.FileName );
-                return true;
-            }
-
-            return false;
-        }
-
-        private static bool TryReadTrueTypeFont( byte[] fontBytes, string family, int variantIndex, int resourceIndex, out PdfEmbeddedFont embeddedFont )
+        private static bool TryReadTrueTypeFont( byte[] fontBytes, string family, int variantIndex, int resourceIndex, CancellationToken cancellationToken, out PdfEmbeddedFont embeddedFont )
         {
             embeddedFont = null;
 
-            if ( !TryReadTableDirectory( fontBytes, out Dictionary<string, TrueTypeTable> tables ) )
+            if ( !TryReadTableDirectory( fontBytes, cancellationToken, out Dictionary<string, TrueTypeTable> tables ) )
                 return false;
 
-            if ( !TryReadCMap( fontBytes, tables, out Dictionary<int, int> glyphsByCodePoint ) || glyphsByCodePoint.Count == 0 )
+            if ( !TryReadCMap( fontBytes, tables, cancellationToken, out Dictionary<int, int> glyphsByCodePoint ) || glyphsByCodePoint.Count == 0 )
                 return false;
 
             int unitsPerEm = 1000;
@@ -1653,7 +1962,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
                 descent = ScaleMetric( ReadInt16( fontBytes, hhea.Offset + 6 ), unitsPerEm );
             }
 
-            Dictionary<int, int> glyphWidths = TryReadGlyphWidths( fontBytes, tables, unitsPerEm, out Dictionary<int, int> parsedGlyphWidths )
+            Dictionary<int, int> glyphWidths = TryReadGlyphWidths( fontBytes, tables, unitsPerEm, cancellationToken, out Dictionary<int, int> parsedGlyphWidths )
                 ? parsedGlyphWidths
                 : [];
 
@@ -1691,7 +2000,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             return (int)Math.Round( value * 1000d / unitsPerEm );
         }
 
-        private static bool TryReadGlyphWidths( byte[] fontBytes, Dictionary<string, TrueTypeTable> tables, int unitsPerEm, out Dictionary<int, int> glyphWidths )
+        private static bool TryReadGlyphWidths( byte[] fontBytes, Dictionary<string, TrueTypeTable> tables, int unitsPerEm, CancellationToken cancellationToken, out Dictionary<int, int> glyphWidths )
         {
             glyphWidths = [];
 
@@ -1719,6 +2028,9 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
             for ( int glyphId = 0; glyphId < glyphCount; glyphId++ )
             {
+                if ( ( glyphId & 4095 ) == 0 )
+                    cancellationToken.ThrowIfCancellationRequested();
+
                 int advanceWidth;
 
                 if ( glyphId < readableMetricCount )
@@ -1737,7 +2049,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             return glyphWidths.Count > 0;
         }
 
-        private static bool TryReadTableDirectory( byte[] fontBytes, out Dictionary<string, TrueTypeTable> tables )
+        private static bool TryReadTableDirectory( byte[] fontBytes, CancellationToken cancellationToken, out Dictionary<string, TrueTypeTable> tables )
         {
             tables = [];
 
@@ -1749,6 +2061,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
             for ( int i = 0; i < tableCount; i++ )
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 int recordOffset = tableOffset + ( i * 16 );
 
                 if ( recordOffset + 16 > fontBytes.Length )
@@ -1767,7 +2080,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             return tables.Count > 0;
         }
 
-        private static bool TryReadCMap( byte[] fontBytes, Dictionary<string, TrueTypeTable> tables, out Dictionary<int, int> glyphsByCodePoint )
+        private static bool TryReadCMap( byte[] fontBytes, Dictionary<string, TrueTypeTable> tables, CancellationToken cancellationToken, out Dictionary<int, int> glyphsByCodePoint )
         {
             glyphsByCodePoint = [];
 
@@ -1780,6 +2093,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
             for ( int i = 0; i < recordCount; i++ )
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 int recordOffset = cmap.Offset + 4 + ( i * 8 );
 
                 if ( recordOffset + 8 > fontBytes.Length )
@@ -1800,13 +2114,13 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
                     bestFormat4Offset = subtableOffset;
             }
 
-            if ( bestFormat12Offset >= 0 && TryReadFormat12CMap( fontBytes, bestFormat12Offset, glyphsByCodePoint ) )
+            if ( bestFormat12Offset >= 0 && TryReadFormat12CMap( fontBytes, bestFormat12Offset, glyphsByCodePoint, cancellationToken ) )
                 return true;
 
-            return bestFormat4Offset >= 0 && TryReadFormat4CMap( fontBytes, bestFormat4Offset, glyphsByCodePoint );
+            return bestFormat4Offset >= 0 && TryReadFormat4CMap( fontBytes, bestFormat4Offset, glyphsByCodePoint, cancellationToken );
         }
 
-        private static bool TryReadFormat12CMap( byte[] fontBytes, int offset, Dictionary<int, int> glyphsByCodePoint )
+        private static bool TryReadFormat12CMap( byte[] fontBytes, int offset, Dictionary<int, int> glyphsByCodePoint, CancellationToken cancellationToken )
         {
             if ( offset + 16 > fontBytes.Length )
                 return false;
@@ -1815,6 +2129,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
             for ( int i = 0; i < groupCount; i++ )
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 int groupOffset = offset + 16 + ( i * 12 );
 
                 if ( groupOffset + 12 > fontBytes.Length )
@@ -1826,6 +2141,9 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
                 for ( int codePoint = startCodePoint; codePoint <= endCodePoint && codePoint <= 0x10FFFF; codePoint++ )
                 {
+                    if ( ( codePoint & 4095 ) == 0 )
+                        cancellationToken.ThrowIfCancellationRequested();
+
                     glyphsByCodePoint[codePoint] = startGlyphId + codePoint - startCodePoint;
                 }
             }
@@ -1833,7 +2151,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             return glyphsByCodePoint.Count > 0;
         }
 
-        private static bool TryReadFormat4CMap( byte[] fontBytes, int offset, Dictionary<int, int> glyphsByCodePoint )
+        private static bool TryReadFormat4CMap( byte[] fontBytes, int offset, Dictionary<int, int> glyphsByCodePoint, CancellationToken cancellationToken )
         {
             if ( offset + 16 > fontBytes.Length )
                 return false;
@@ -1851,6 +2169,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
             for ( int i = 0; i < segmentCount; i++ )
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 int endCode = ReadUInt16( fontBytes, endCodeOffset + ( i * 2 ) );
                 int startCode = ReadUInt16( fontBytes, startCodeOffset + ( i * 2 ) );
                 int idDelta = ReadInt16( fontBytes, idDeltaOffset + ( i * 2 ) );
@@ -1861,6 +2180,9 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
                 for ( int codePoint = startCode; codePoint <= endCode && codePoint < 0xFFFF; codePoint++ )
                 {
+                    if ( ( codePoint & 4095 ) == 0 )
+                        cancellationToken.ThrowIfCancellationRequested();
+
                     int glyphId;
 
                     if ( idRangeOffset == 0 )
@@ -1917,9 +2239,9 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private sealed class PdfFontResource
     {
-        internal double MeasureTextWidth( string text, double fontSize )
+        internal double MeasureTextWidth( string text, double fontSize, CancellationToken cancellationToken )
         {
-            return Metrics?.MeasureTextWidth( text, fontSize ) ?? 0;
+            return Metrics?.MeasureTextWidth( text, fontSize, cancellationToken ) ?? 0;
         }
 
         internal string Name { get; set; }

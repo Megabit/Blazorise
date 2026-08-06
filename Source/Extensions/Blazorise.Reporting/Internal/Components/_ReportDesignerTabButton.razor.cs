@@ -33,6 +33,11 @@ public partial class _ReportDesignerTabButton
     private Color ButtonColor => Active ? ActiveColor : Color.Light;
 
     /// <summary>
+    /// Identifier of the tab panel controlled by this tab.
+    /// </summary>
+    [Parameter] public string Controls { get; set; }
+
+    /// <summary>
     /// Stable tab key.
     /// </summary>
     [Parameter] public string TabKey { get; set; }

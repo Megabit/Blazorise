@@ -1634,8 +1634,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DockSplit() => "dock-split";
 
-    public override string DockSplitOrientation( DockSplitOrientation orientation )
-        => orientation == Blazorise.DockSplitOrientation.Vertical ? "dock-split-vertical" : "dock-split-horizontal";
+    public override string DockSplitOrientation( Orientation orientation )
+        => orientation == Blazorise.Orientation.Vertical ? "dock-split-vertical" : "dock-split-horizontal";
 
     public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "dock-pane";
 

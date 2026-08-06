@@ -1,54 +1,104 @@
-#region Using directives
 using System;
-#endregion
 
 namespace Blazorise.Reporting;
 
-internal sealed class ReportTableRowContext( ReportTableElementDefinition tableDefinition, int rowIndex )
+internal sealed class ReportTableRowContext
 {
-    #region Methods
+    private readonly ReportRegistrationCollection<ReportTableCellDefinition> cells = new();
 
-    internal ReportTableCellDefinition AddCell( int rowSpan, int columnSpan )
+    internal void Attach( ReportTableContext tableContext, ReportTableRowDefinition rowDefinition )
     {
-        rowSpan = Math.Max( 1, rowSpan );
-        columnSpan = Math.Max( 1, columnSpan );
+        RemoveCells();
+        TableContext = tableContext;
+        RowDefinition = rowDefinition;
+        RebuildCells();
+    }
 
-        int columnIndex = 0;
+    internal void Detach()
+    {
+        RemoveCells();
+        TableContext = null;
+        RowDefinition = null;
+    }
 
-        while ( IsPositionOccupied( RowIndex, columnIndex ) )
-        {
-            columnIndex++;
-        }
+    internal ReportTableCellDefinition RegisterCell( object owner, int rowSpan, int columnSpan )
+    {
+        if ( !cells.TryGetValue( owner, out ReportTableCellDefinition definition ) )
+            definition = new();
 
-        EnsureColumns( columnIndex + columnSpan );
-
-        ReportTableCellDefinition definition = new()
-        {
-            RowIndex = RowIndex,
-            ColumnIndex = columnIndex,
-            RowSpan = rowSpan,
-            ColumnSpan = columnSpan,
-        };
-
-        TableDefinition.Cells.Add( definition );
+        definition.RowSpan = Math.Max( 1, rowSpan );
+        definition.ColumnSpan = Math.Max( 1, columnSpan );
+        cells.Set( owner, definition );
+        RebuildCells();
 
         return definition;
     }
 
-    private void EnsureColumns( int columnCount )
+    internal void UnregisterCell( object owner )
     {
-        while ( TableDefinition.Columns.Count < columnCount )
+        if ( cells.Remove( owner ) )
+            RebuildCells();
+    }
+
+    internal void NotifyDefinitionChanged()
+    {
+        TableContext?.NotifyDefinitionChanged();
+    }
+
+    private void RebuildCells()
+    {
+        ReportTableElementDefinition tableDefinition = TableDefinition;
+
+        if ( tableDefinition is null || RowDefinition is null )
+            return;
+
+        foreach ( ReportTableCellDefinition cell in cells.Values )
+            tableDefinition.Cells.Remove( cell );
+
+        int rowIndex = tableDefinition.Rows.IndexOf( RowDefinition );
+
+        if ( rowIndex < 0 )
+            return;
+
+        foreach ( ReportTableCellDefinition cell in cells.Values )
         {
-            TableDefinition.Columns.Add( new()
+            int columnIndex = 0;
+
+            while ( IsPositionOccupied( tableDefinition, rowIndex, columnIndex ) )
+                columnIndex++;
+
+            EnsureColumns( tableDefinition, columnIndex + cell.ColumnSpan );
+            cell.RowIndex = rowIndex;
+            cell.ColumnIndex = columnIndex;
+            tableDefinition.Cells.Add( cell );
+        }
+
+        NotifyDefinitionChanged();
+    }
+
+    private void RemoveCells()
+    {
+        if ( TableDefinition is not ReportTableElementDefinition tableDefinition )
+            return;
+
+        foreach ( ReportTableCellDefinition cell in cells.Values )
+            tableDefinition.Cells.Remove( cell );
+    }
+
+    private static void EnsureColumns( ReportTableElementDefinition tableDefinition, int columnCount )
+    {
+        while ( tableDefinition.Columns.Count < columnCount )
+        {
+            tableDefinition.Columns.Add( new()
             {
                 Width = Internal.ReportDefinitionHelper.DefaultTableColumnWidth,
             } );
         }
     }
 
-    private bool IsPositionOccupied( int rowIndex, int columnIndex )
+    private static bool IsPositionOccupied( ReportTableElementDefinition tableDefinition, int rowIndex, int columnIndex )
     {
-        foreach ( ReportTableCellDefinition cell in TableDefinition.Cells )
+        foreach ( ReportTableCellDefinition cell in tableDefinition.Cells )
         {
             int rowSpan = Math.Max( 1, cell.RowSpan );
             int columnSpan = Math.Max( 1, cell.ColumnSpan );
@@ -65,13 +115,9 @@ internal sealed class ReportTableRowContext( ReportTableElementDefinition tableD
         return false;
     }
 
-    #endregion
+    internal ReportTableContext TableContext { get; private set; }
 
-    #region Properties
+    internal ReportTableElementDefinition TableDefinition => TableContext?.Definition;
 
-    internal ReportTableElementDefinition TableDefinition { get; } = tableDefinition;
-
-    internal int RowIndex { get; } = rowIndex;
-
-    #endregion
+    internal ReportTableRowDefinition RowDefinition { get; private set; }
 }

@@ -6,9 +6,9 @@ namespace Blazorise.Pdf;
 public enum PdfGenerationStage
 {
     /// <summary>
-    /// Font resources are being prepared.
+    /// Image and font resources are being prepared.
     /// </summary>
-    PreparingFonts,
+    PreparingResources,
 
     /// <summary>
     /// Document pages are being rendered.

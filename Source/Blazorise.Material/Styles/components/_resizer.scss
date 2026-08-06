@@ -83,6 +83,14 @@
     }
 }
 
+.mui-resizer-focused.mui-resizer-vertical:not(.mui-resizer-gutter) {
+    background: linear-gradient(var(--mui-primary, #6750a4) 0 0) center / 2px 100% no-repeat;
+}
+
+.mui-resizer-focused.mui-resizer-horizontal:not(.mui-resizer-gutter) {
+    background: linear-gradient(var(--mui-primary, #6750a4) 0 0) center / 100% 2px no-repeat;
+}
+
 .mui-resizer-gutter.mui-resizer-vertical {
     &::before {
         border-inline: 1px solid var(--mui-resizer-gutter-border);

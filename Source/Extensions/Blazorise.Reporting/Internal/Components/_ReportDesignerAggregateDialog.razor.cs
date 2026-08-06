@@ -136,7 +136,7 @@ public partial class _ReportDesignerAggregateDialog
             summaryLocations.Add( new()
             {
                 TargetSectionIndex = -1,
-                Name = "Grand Total (Report Footer)",
+                Name = Localize( "Grand Total (Report Footer)" ),
             } );
         }
 

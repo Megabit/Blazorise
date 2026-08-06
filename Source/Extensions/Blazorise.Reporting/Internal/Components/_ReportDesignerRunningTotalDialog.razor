@@ -2,19 +2,19 @@
 @inherits BaseReportComponent
 
 <ModalHeader>
-    <ModalTitle>Running total</ModalTitle>
+    <ModalTitle>@Localize( "Running total" )</ModalTitle>
     <CloseButton Clicked="@Close" />
 </ModalHeader>
 <ModalBody>
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Name</FieldLabel>
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Name" )</FieldLabel>
         <FieldBody ColumnSize="ColumnSizeIs8">
             <TextInput Value="@runningTotal.Name" ValueChanged="@OnNameChanged" Size="Size.Small" />
         </FieldBody>
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Field</FieldLabel>
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Field" )</FieldLabel>
         <FieldBody ColumnSize="ColumnSizeIs8">
             <Select TValue="string" Value="@selectedFieldKey" ValueChanged="@OnSelectedFieldChanged" Size="Size.Small">
                 @foreach ( ReportDesignerFieldOption field in fields )
@@ -26,7 +26,7 @@
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Aggregate function</FieldLabel>
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Aggregate function" )</FieldLabel>
         <FieldBody ColumnSize="ColumnSizeIs8">
             <Select TValue="ReportAggregateFunction" Value="@runningTotal.AggregateFunction" ValueChanged="@OnAggregateFunctionChanged" Size="Size.Small">
                 @foreach ( ReportAggregateFunction function in supportedFunctions )
@@ -38,11 +38,11 @@
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Evaluate</FieldLabel>
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Evaluate" )</FieldLabel>
         <FieldBody ColumnSize="ColumnSizeIs8">
             <Select TValue="ReportRunningTotalEvaluateMode" Value="@runningTotal.EvaluateMode" ValueChanged="@OnEvaluateModeChanged" Size="Size.Small">
-                <SelectItem TValue="ReportRunningTotalEvaluateMode" Value="ReportRunningTotalEvaluateMode.EveryRecord">For each record</SelectItem>
-                <SelectItem TValue="ReportRunningTotalEvaluateMode" Value="ReportRunningTotalEvaluateMode.Formula">Use formula</SelectItem>
+                <SelectItem TValue="ReportRunningTotalEvaluateMode" Value="ReportRunningTotalEvaluateMode.EveryRecord">@Localize( "For each record" )</SelectItem>
+                <SelectItem TValue="ReportRunningTotalEvaluateMode" Value="ReportRunningTotalEvaluateMode.Formula">@Localize( "Use formula" )</SelectItem>
             </Select>
         </FieldBody>
     </Field>
@@ -50,7 +50,7 @@
     @if ( runningTotal.EvaluateMode == ReportRunningTotalEvaluateMode.Formula )
     {
         <Field Horizontal>
-            <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Evaluate formula</FieldLabel>
+            <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Evaluate formula" )</FieldLabel>
             <FieldBody ColumnSize="ColumnSizeIs8">
                 <Addons Size="Size.Small">
                     <Addon AddonType="AddonType.Body">
@@ -67,11 +67,11 @@
     }
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Reset</FieldLabel>
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Reset" )</FieldLabel>
         <FieldBody ColumnSize="ColumnSizeIs8">
             <Select TValue="ReportRunningTotalResetMode" Value="@runningTotal.ResetMode" ValueChanged="@OnResetModeChanged" Size="Size.Small">
-                <SelectItem TValue="ReportRunningTotalResetMode" Value="ReportRunningTotalResetMode.Never">Never</SelectItem>
-                <SelectItem TValue="ReportRunningTotalResetMode" Value="ReportRunningTotalResetMode.Group">On change of group</SelectItem>
+                <SelectItem TValue="ReportRunningTotalResetMode" Value="ReportRunningTotalResetMode.Never">@Localize( "Never" )</SelectItem>
+                <SelectItem TValue="ReportRunningTotalResetMode" Value="ReportRunningTotalResetMode.Group">@Localize( "On change of group" )</SelectItem>
             </Select>
         </FieldBody>
     </Field>
@@ -79,7 +79,7 @@
     @if ( runningTotal.ResetMode == ReportRunningTotalResetMode.Group )
     {
         <Field Horizontal>
-            <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">Group</FieldLabel>
+            <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Group" )</FieldLabel>
             <FieldBody ColumnSize="ColumnSizeIs8">
                 <Select TValue="string" Value="@runningTotal.ResetGroupId" ValueChanged="@OnResetGroupChanged" Disabled="@(groupOptions.Count == 0)" Size="Size.Small">
                     @foreach ( ReportRunningTotalGroupOption group in groupOptions )
@@ -92,6 +92,6 @@
     }
 </ModalBody>
 <ModalFooter>
-    <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm)" Size="Size.Small">OK</Button>
-    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">Cancel</Button>
+    <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm)" Size="Size.Small">@Localize( "OK" )</Button>
+    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">@Localize( "Cancel" )</Button>
 </ModalFooter>

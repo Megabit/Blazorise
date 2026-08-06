@@ -87,6 +87,20 @@ public partial class _ReportTreeViewNode
             await NodeDoubleClicked.InvokeAsync( Node );
     }
 
+    private async Task OnNodeKeyDown( KeyboardEventArgs eventArgs )
+    {
+        if ( eventArgs.Key is "Enter" or " " )
+        {
+            await OnNodeClicked();
+        }
+        else if ( HasChildren
+                  && ( eventArgs.Key == "ArrowRight" && !Expanded
+                       || eventArgs.Key == "ArrowLeft" && Expanded ) )
+        {
+            await ToggleClicked.InvokeAsync();
+        }
+    }
+
     private async Task OnNodeContextMenu( MouseEventArgs eventArgs )
     {
         if ( Node.Selectable && NodeContextMenu.HasDelegate )
@@ -144,6 +158,12 @@ public partial class _ReportTreeViewNode
     private string RowClass => ClassNames;
 
     private string RowStyle => StyleNames;
+
+    private int? TabIndex => Node?.Selectable == true && NodeClicked.HasDelegate ? 0 : null;
+
+    private bool? AriaSelected => Node?.Selectable == true ? Node.Selected : null;
+
+    private bool? AriaExpanded => HasChildren ? Expanded : null;
 
     private string NodeTitle => string.IsNullOrWhiteSpace( Node?.Detail )
         ? Node?.Text

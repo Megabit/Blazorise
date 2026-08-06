@@ -1,17 +1,21 @@
+#region Using directives
+using System;
+#endregion
+
 namespace Blazorise;
 
 /// <summary>
 /// Supplies context menu event information.
 /// </summary>
-public class ContextMenuEventArgs
+public class ContextMenuEventArgs : EventArgs
 {
     /// <summary>
     /// Initializes a new instance of <see cref="ContextMenuEventArgs"/>.
     /// </summary>
-    /// <param name="clientX">The document client X coordinate.</param>
-    /// <param name="clientY">The document client Y coordinate.</param>
+    /// <param name="clientX">The viewport client X coordinate, or <see langword="null"/> when anchored to a target.</param>
+    /// <param name="clientY">The viewport client Y coordinate, or <see langword="null"/> when anchored to a target.</param>
     /// <param name="documentEventArgs">The originating document event.</param>
-    public ContextMenuEventArgs( double clientX, double clientY, DocumentEventArgs documentEventArgs )
+    public ContextMenuEventArgs( double? clientX, double? clientY, DocumentEventArgs documentEventArgs )
     {
         ClientX = clientX;
         ClientY = clientY;
@@ -19,14 +23,14 @@ public class ContextMenuEventArgs
     }
 
     /// <summary>
-    /// Gets the document client X coordinate.
+    /// Gets the viewport client X coordinate, or <see langword="null"/> when anchored to a target.
     /// </summary>
-    public double ClientX { get; }
+    public double? ClientX { get; }
 
     /// <summary>
-    /// Gets the document client Y coordinate.
+    /// Gets the viewport client Y coordinate, or <see langword="null"/> when anchored to a target.
     /// </summary>
-    public double ClientY { get; }
+    public double? ClientY { get; }
 
     /// <summary>
     /// Gets the originating document event.

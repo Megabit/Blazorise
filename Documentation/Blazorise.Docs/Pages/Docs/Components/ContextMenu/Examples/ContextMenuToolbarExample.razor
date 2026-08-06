@@ -8,7 +8,7 @@
 </Div>
 
 <ContextMenu TargetId="context-menu-toolbar-target">
-    <ContextMenuBody MinWidth="12rem">
+    <ContextMenuBody Width="Width.Rem().Min( 12 )">
         <ContextMenuToolbar>
             <ContextMenuToolbarItem Icon="IconName.Cut" Text="Cut" Value="@("Cut")" Clicked="@SetSelectedAction" />
             <ContextMenuToolbarItem Icon="IconName.Copy" Text="Copy" Value="@("Copy")" Clicked="@SetSelectedAction" />

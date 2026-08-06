@@ -1,0 +1,9 @@
+using Blazorise.Pdf;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazorisePdfHttpResources( httpClient =>
+        httpClient.ConfigureHttpClient( client =>
+        {
+            client.BaseAddress = new Uri( builder.HostEnvironment.BaseAddress );
+        } ) );

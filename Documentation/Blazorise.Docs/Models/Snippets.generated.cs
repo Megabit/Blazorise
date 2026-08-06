@@ -1402,7 +1402,7 @@ namespace Blazorise.Docs.Models
 </Div>
 
 <ContextMenu TargetId=""context-menu-basic-target"">
-    <ContextMenuBody MinWidth=""12rem"">
+    <ContextMenuBody Width=""Width.Rem().Min( 12 )"">
         <ContextMenuHeader>Document</ContextMenuHeader>
         <ContextMenuItem Icon=""IconName.Copy"" Value=""@(""Copy"")"" Clicked=""@SetSelectedAction"">Copy</ContextMenuItem>
         <ContextMenuItem Icon=""IconName.Paste"" Value=""@(""Paste"")"" Clicked=""@SetSelectedAction"">Paste</ContextMenuItem>
@@ -1432,7 +1432,7 @@ namespace Blazorise.Docs.Models
 </Div>
 
 <ContextMenu TargetId=""context-menu-checked-target"" CloseOnClick=""false"">
-    <ContextMenuBody MinWidth=""13rem"">
+    <ContextMenuBody Width=""Width.Rem().Min( 13 )"">
         <ContextMenuHeader>View</ContextMenuHeader>
         <ContextMenuItem ShowCheckbox @bind-Checked=""@showGrid"">Show grid</ContextMenuItem>
         <ContextMenuItem ShowCheckbox @bind-Checked=""@snapToGrid"">Snap to grid</ContextMenuItem>
@@ -1464,7 +1464,7 @@ namespace Blazorise.Docs.Models
 </Div>
 
 <ContextMenu TargetId=""context-menu-submenu-target"">
-    <ContextMenuBody MinWidth=""12rem"">
+    <ContextMenuBody Width=""Width.Rem().Min( 12 )"">
         <ContextMenuItem Icon=""IconName.Edit"" Value=""@(""Rename"")"" Clicked=""@SetSelectedCommand"">Rename</ContextMenuItem>
         <ContextMenuSubmenu Text=""Move to"" Icon=""IconName.Folder"">
             <ContextMenuItem Value=""@(""Move to Inbox"")"" Clicked=""@SetSelectedCommand"">Inbox</ContextMenuItem>
@@ -1498,7 +1498,7 @@ namespace Blazorise.Docs.Models
             Right-click this button
         </Button>
     </ContextMenuToggle>
-    <ContextMenuBody MinWidth=""12rem"">
+    <ContextMenuBody Width=""Width.Rem().Min( 12 )"">
         <ContextMenuHeader>Button actions</ContextMenuHeader>
         <ContextMenuItem Icon=""IconName.Edit"" Value=""@(""Rename"")"" Clicked=""@SetSelectedAction"">Rename</ContextMenuItem>
         <ContextMenuItem Icon=""IconName.Copy"" Value=""@(""Duplicate"")"" Clicked=""@SetSelectedAction"">Duplicate</ContextMenuItem>
@@ -1528,7 +1528,7 @@ namespace Blazorise.Docs.Models
 </Div>
 
 <ContextMenu TargetId=""context-menu-toolbar-target"">
-    <ContextMenuBody MinWidth=""12rem"">
+    <ContextMenuBody Width=""Width.Rem().Min( 12 )"">
         <ContextMenuToolbar>
             <ContextMenuToolbarItem Icon=""IconName.Cut"" Text=""Cut"" Value=""@(""Cut"")"" Clicked=""@SetSelectedAction"" />
             <ContextMenuToolbarItem Icon=""IconName.Copy"" Text=""Copy"" Value=""@(""Copy"")"" Clicked=""@SetSelectedAction"" />
@@ -1764,7 +1764,7 @@ namespace Blazorise.Docs.Models
 </Paragraph>";
 
         public const string BasicDockLayoutExample = @"<DockLayout Style=""height: 28rem;"" PaneBordered>
-    <DockPane Name=""toolbar"" Caption=""Toolbar"" PanePosition=""DockPanePosition.Top"" Role=""DockRole.Tool"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
+    <DockPane Name=""toolbar"" Caption=""Toolbar"" PanePosition=""DockPanePosition.Top"" Role=""DockPaneRole.Tool"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
         <DockPaneBody>
             Toolbar
         </DockPaneBody>
@@ -1779,7 +1779,7 @@ namespace Blazorise.Docs.Models
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name=""designer"" Caption=""Designer"" PanePosition=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+    <DockPane Name=""designer"" Caption=""Designer"" PanePosition=""DockPanePosition.Center"" Role=""DockPaneRole.Document"" ShowTab=""false"" Closable=""false"">
         <DockPaneHeader>
             <Strong>Designer</Strong>
         </DockPaneHeader>
@@ -1830,7 +1830,7 @@ namespace Blazorise.Docs.Models
         </DockPaneBody>
     </DockPane>
 
-    <DockPane Name=""preview"" Caption=""Preview"" PanePosition=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+    <DockPane Name=""preview"" Caption=""Preview"" PanePosition=""DockPanePosition.Center"" Role=""DockPaneRole.Document"" ShowTab=""false"" Closable=""false"">
         <DockPaneHeader>
             <Strong>Preview</Strong>
         </DockPaneHeader>
@@ -1891,7 +1891,7 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string DockLayoutTabbedPanesExample = @"<DockLayout Style=""height: 24rem;"" PaneBordered>
-    <DockPane Name=""document"" Caption=""Document"" PanePosition=""DockPanePosition.Center"" Role=""DockRole.Document"" ShowTab=""false"" Closable=""false"">
+    <DockPane Name=""document"" Caption=""Document"" PanePosition=""DockPanePosition.Center"" Role=""DockPaneRole.Document"" ShowTab=""false"" Closable=""false"">
         <DockPaneHeader>
             <Strong>Document</Strong>
         </DockPaneHeader>
@@ -26572,7 +26572,7 @@ Install-Package Blazorise.Icons.Material";
     {
         PdfDocumentDefinition document = BuildInvoice();
 
-        PdfGenerationResult result = await PdfGenerator.Generate( document, new()
+        PdfGenerationResult result = await PdfGenerator.GenerateAsync( document, new()
         {
             FileName = ""builder-invoice.pdf"",
         } );
@@ -26671,7 +26671,7 @@ Install-Package Blazorise.Icons.Material";
         {
             generated = true;
 
-            PdfGenerationResult result = await PdfGenerator.Generate( document.Definition, new()
+            PdfGenerationResult result = await PdfGenerator.GenerateAsync( document.Definition, new()
             {
                 FileName = ""declarative-invoice.pdf"",
             } );
@@ -26716,7 +26716,7 @@ Install-Package Blazorise.Icons.Material";
 
     private string GenerationStatus => generationProgress.Stage switch
     {
-        PdfGenerationStage.PreparingFonts => ""Preparing fonts"",
+        PdfGenerationStage.PreparingResources => ""Preparing resources"",
         PdfGenerationStage.RenderingPages => $""Rendering page {generationProgress.CompletedPages} of {generationProgress.TotalPages}"",
         PdfGenerationStage.WritingDocument => ""Writing PDF document"",
         PdfGenerationStage.Completed => ""PDF generation completed"",
@@ -26737,7 +26737,7 @@ Install-Package Blazorise.Icons.Material";
             } )
             .Build();
 
-        PdfGenerationResult result = await PdfGenerator.Generate( document, new()
+        PdfGenerationResult result = await PdfGenerator.GenerateAsync( document, new()
         {
             FileName = ""invoice.pdf"",
             Progress = OnGenerationProgress,
@@ -26758,6 +26758,50 @@ Install-Package Blazorise.Icons.Material";
             ? null
             : $""data:application/pdf;base64,{Convert.ToBase64String( content )}"";
 }";
+
+        public const string PdfHttpResourceRegistrationExample = @"using Blazorise.Pdf;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazorisePdfHttpResources(
+        httpClient => httpClient
+            .ConfigureHttpClient( client =>
+            {
+                client.BaseAddress = new Uri( ""https://cdn.example.com/"" );
+            } )
+            .ConfigurePrimaryHttpMessageHandler( () => new SocketsHttpHandler
+            {
+                AllowAutoRedirect = false,
+            } ),
+        options =>
+        {
+            options.MaxResourceSize = 20 * 1024 * 1024;
+            options.ResourceAllowed = uri => uri.Host.Equals( ""cdn.example.com"", StringComparison.OrdinalIgnoreCase );
+        } );";
+
+        public const string PdfHttpResourcesExample = @"PdfDocumentDefinition document = PdfDocumentBuilder.Create()
+    .Title( ""Remote resources"" )
+    .AddFont( ""Inter"", FontSource.FromUrl( ""fonts/Inter-Regular.ttf"" ) )
+    .Page( page =>
+    {
+        page.Image( ""images/company-logo.png"", 48, 48, 120, 48 );
+
+        page.Text( ""This font and image were resolved from URLs."", 48, 120, 360, 24 )
+            .FontFamily( ""Inter"" );
+    } )
+    .Build();
+
+PdfGenerationResult result = await PdfGenerator.Generate( document );";
+
+        public const string PdfHttpWebAssemblyRegistrationExample = @"using Blazorise.Pdf;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazorisePdfHttpResources( httpClient =>
+        httpClient.ConfigureHttpClient( client =>
+        {
+            client.BaseAddress = new Uri( builder.HostEnvironment.BaseAddress );
+        } ) );";
 
         public const string PdfImportsExample = @"@using Blazorise.Pdf";
 
@@ -28071,6 +28115,40 @@ Install-Package Blazorise.Icons.Material";
         public decimal Total { get; set; }
     }
 }";
+
+        public const string ReportingCsvDataSourceExample = @"@using Blazorise.Reporting.DataSources.Csv
+
+<Report>
+    <ReportDataSources>
+        <ReportCsvDataSource Name=""Products""
+                             Source=""https://data.example.com/products.csv""
+                             Encoding=""utf-8""
+                             Delimiter="",""
+                             HasHeaderRow />
+    </ReportDataSources>
+    <ReportPage Name=""Products"">
+        <ReportDetail Name=""Product row"" Height=""24"" DataSource=""Products"">
+            <ReportField Field=""Name"" X=""30"" Y=""3"" Width=""240"" Height=""18"" />
+            <ReportField Field=""Price"" X=""285"" Y=""3"" Width=""90"" Height=""18"" />
+        </ReportDetail>
+    </ReportPage>
+</Report>";
+
+        public const string ReportingCsvDataSourceRegistrationExample = @"using Blazorise.Reporting.DataSources.Csv;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazoriseReporting()
+    .AddBlazoriseReportingCsvDataSource(
+        httpClient => httpClient.ConfigureHttpClient( client =>
+        {
+            client.Timeout = TimeSpan.FromSeconds( 30 );
+        } ),
+        options =>
+        {
+            options.MaxSourceSize = 5 * 1024 * 1024;
+            options.ResourceAllowed = uri => uri.Host.Equals( ""data.example.com"", StringComparison.OrdinalIgnoreCase );
+        } );";
 
         public const string ReportingDataSetDataSourceExample = @"@using System.Data
 

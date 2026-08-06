@@ -20,6 +20,10 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     #region Methods
 
+    /// <inheritdoc />
+    protected override string GetDockLayoutVariableName( string name )
+        => $"--bs-dock-{name}";
+
     protected override void GenerateBodyVariables( Theme theme )
     {
         base.GenerateBodyVariables( theme );

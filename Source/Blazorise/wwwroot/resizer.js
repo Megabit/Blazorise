@@ -31,6 +31,7 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         currentEndSize: null,
         startOriginalPropertyValue: null,
         endOriginalPropertyValue: null,
+        sizeRange: null,
         lastResizeNotification: 0,
         resizeObserver: null,
         originalBodyCursor: "",
@@ -65,13 +66,11 @@ export function updateOptions(element, elementId, options) {
     const previousOptions = instance.options;
     const previousTargetSignature = getTargetSignature(previousOptions);
 
+    if (instance.active)
+        cancelResize(instance, true);
+
     if (instance.focusVisible)
         toggleClassNames(instance.element, previousOptions.focusedClassNames, false);
-
-    if (instance.active) {
-        toggleClassNames(instance.element, previousOptions.resizingClassNames, false);
-        toggleTargetClassNames(instance, previousOptions.targetResizingClassNames, false);
-    }
 
     instance.options = normalizeOptions(options);
 
@@ -83,15 +82,7 @@ export function updateOptions(element, elementId, options) {
     if (previousTargetSignature !== getTargetSignature(instance.options))
         resolveTargets(instance);
 
-    if (instance.active) {
-        toggleClassNames(instance.element, instance.options.resizingClassNames, true);
-        toggleTargetClassNames(instance, instance.options.targetResizingClassNames, true);
-    }
-
-    if (instance.options.disabled && instance.active)
-        cancelResize(instance, true);
-    else if (!instance.active)
-        synchronizeSize(instance, true);
+    synchronizeSize(instance, true);
 }
 
 export function destroy(element, elementId) {
@@ -263,13 +254,15 @@ function captureInteractionSizes(instance) {
         instance.currentEndSize = instance.startEndSize;
         instance.startOriginalPropertyValue = instance.startResizeElement.style.getPropertyValue(instance.options.targets.start.resizeProperty);
         instance.endOriginalPropertyValue = instance.endResizeElement.style.getPropertyValue(instance.options.targets.end.resizeProperty);
+        updateSizeRange(instance);
     }
     else {
+        updateSizeRange(instance);
         instance.startSize = measureTarget(instance);
         instance.currentSize = instance.startSize;
         instance.startEndSize = null;
         instance.currentEndSize = null;
-        instance.startOriginalPropertyValue = null;
+        instance.startOriginalPropertyValue = instance.target.style.getPropertyValue(instance.options.resizeProperty);
         instance.endOriginalPropertyValue = null;
     }
 }
@@ -283,7 +276,9 @@ function restoreInteractionSizes(instance) {
         updateAriaValue(instance);
     }
     else {
-        applySize(instance, instance.startSize);
+        restoreStyleProperty(instance.target, instance.options.resizeProperty, instance.startOriginalPropertyValue);
+        instance.currentSize = instance.startSize;
+        updateAriaValue(instance);
     }
 }
 
@@ -319,13 +314,22 @@ function synchronizeSize(instance, applyControlledSize) {
         instance.currentSize = instance.startSize;
         instance.startEndSize = measureElement(instance.endTarget, instance.options.vertical);
         instance.currentEndSize = instance.startEndSize;
-        updateAriaValue(instance);
+        updateSizeRange(instance);
+
+        if (applyControlledSize && instance.options.size !== null)
+            applySize(instance, instance.options.size);
+        else
+            updateAriaValue(instance);
     }
-    else if (applyControlledSize && instance.options.size !== null)
-        applySize(instance, instance.options.size);
     else {
-        instance.currentSize = measureTarget(instance);
-        updateAriaValue(instance);
+        updateSizeRange(instance);
+
+        if (applyControlledSize && instance.options.size !== null)
+            applySize(instance, instance.options.size);
+        else {
+            instance.currentSize = measureTarget(instance);
+            updateAriaValue(instance);
+        }
     }
 }
 
@@ -346,11 +350,17 @@ function clampSize(instance, size) {
 }
 
 function getSizeRange(instance) {
+    return instance.sizeRange ?? updateSizeRange(instance);
+}
+
+function updateSizeRange(instance) {
     if (!hasCoordinatedTargets(instance)) {
-        return {
+        instance.sizeRange = {
             minimum: instance.options.minSize,
             maximum: instance.options.maxSize === null ? Number.POSITIVE_INFINITY : instance.options.maxSize
         };
+
+        return instance.sizeRange;
     }
 
     const totalSize = instance.startSize + instance.startEndSize;
@@ -358,10 +368,13 @@ function getSizeRange(instance) {
     const startMaximum = parseTargetSize(instance.options.targets.start.maxSize, instance.startTarget, instance.options.vertical, Number.POSITIVE_INFINITY);
     const endMinimum = parseTargetSize(instance.options.targets.end.minSize, instance.endTarget, instance.options.vertical, 0);
     const endMaximum = parseTargetSize(instance.options.targets.end.maxSize, instance.endTarget, instance.options.vertical, Number.POSITIVE_INFINITY);
-    const minimum = Math.min(Math.max(startMinimum, Number.isFinite(endMaximum) ? totalSize - endMaximum : 0), totalSize);
-    const maximum = Math.max(Math.min(startMaximum, totalSize - endMinimum), minimum);
+    const configuredMaximum = instance.options.maxSize === null ? Number.POSITIVE_INFINITY : instance.options.maxSize;
+    const minimum = Math.min(Math.max(instance.options.minSize, startMinimum, Number.isFinite(endMaximum) ? totalSize - endMaximum : 0), totalSize);
+    const maximum = Math.max(Math.min(configuredMaximum, startMaximum, totalSize - endMinimum), minimum);
 
-    return { minimum, maximum };
+    instance.sizeRange = { minimum, maximum };
+
+    return instance.sizeRange;
 }
 
 function measureElement(element, vertical) {
@@ -618,6 +631,7 @@ function toggleTargetClassNames(instance, classNames, active) {
 function resolveTargets(instance) {
     instance.resizeObserver?.disconnect();
     instance.resizeObserver = null;
+    instance.sizeRange = null;
 
     instance.startTarget = instance.options.targets?.start?.elementId
         ? document.getElementById(instance.options.targets.start.elementId)
@@ -632,9 +646,11 @@ function resolveTargets(instance) {
         ? document.getElementById(instance.options.targets.end.resizeElementId)
         : instance.endTarget;
 
-    instance.target = instance.options.targetId
-        ? document.getElementById(instance.options.targetId)
-        : instance.element?.parentElement;
+    instance.target = instance.options.coordinated
+        ? null
+        : instance.options.targetId
+            ? document.getElementById(instance.options.targetId)
+            : instance.element?.parentElement;
 
     if (!hasResolvedTargets(instance) || typeof ResizeObserver === "undefined")
         return;
@@ -660,18 +676,18 @@ function updateAriaValue(instance) {
         return;
 
     const range = getSizeRange(instance);
+    const maximum = Number.isFinite(range.maximum)
+        ? range.maximum
+        : Math.max(instance.currentSize, range.minimum, 100);
+    const current = Math.min(Math.max(instance.currentSize, range.minimum), maximum);
 
     instance.element.setAttribute("aria-valuemin", formatNumber(range.minimum));
-    instance.element.setAttribute("aria-valuenow", formatNumber(instance.currentSize));
-
-    if (Number.isFinite(range.maximum))
-        instance.element.setAttribute("aria-valuemax", formatNumber(range.maximum));
-    else
-        instance.element.removeAttribute("aria-valuemax");
+    instance.element.setAttribute("aria-valuemax", formatNumber(maximum));
+    instance.element.setAttribute("aria-valuenow", formatNumber(current));
 }
 
 function hasResolvedTargets(instance) {
-    return instance.options.targets
+    return instance.options.coordinated
         ? hasCoordinatedTargets(instance)
         : !!instance.target;
 }
@@ -684,7 +700,7 @@ function hasCoordinatedTargets(instance) {
 }
 
 function getTargetSignature(options) {
-    return JSON.stringify({ targetId: options.targetId, targets: options.targets });
+    return JSON.stringify({ coordinated: options.coordinated, targetId: options.targetId, targets: options.targets });
 }
 
 function toggleClassNames(element, classNames, active) {
@@ -700,13 +716,15 @@ function toggleClassNames(element, classNames, active) {
 function normalizeOptions(options) {
     options = options || {};
 
+    const coordinated = options.targets !== null && typeof options.targets !== "undefined";
     const minimum = Math.max(numberOrDefault(options.min, 0), 0);
     const maximumValue = nullableNumber(options.max);
     const maximum = maximumValue === null ? null : Math.max(maximumValue, minimum);
 
     return {
+        coordinated: coordinated,
         targets: normalizeTargets(options.targets, options.vertical === true),
-        targetId: options.targetId || null,
+        targetId: coordinated ? null : options.targetId || null,
         vertical: options.vertical === true,
         resizeFromStart: options.resizeFromStart === true,
         resizeProperty: options.resizeProperty || (options.vertical === true ? "width" : "height"),

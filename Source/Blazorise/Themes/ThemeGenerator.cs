@@ -662,65 +662,73 @@ public abstract class ThemeGenerator : IThemeGenerator
     protected virtual void GenerateDockLayoutVariables( Theme theme, ThemeDockLayoutOptions dockLayoutOptions )
     {
         if ( !string.IsNullOrEmpty( dockLayoutOptions.PaneBackground ) )
-            Variables[ThemeVariables.DockLayoutPaneBackground] = dockLayoutOptions.PaneBackground;
+            Variables[GetDockLayoutVariableName( "pane-background" )] = dockLayoutOptions.PaneBackground;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.PaneColor ) )
-            Variables[ThemeVariables.DockLayoutPaneColor] = dockLayoutOptions.PaneColor;
+            Variables[GetDockLayoutVariableName( "pane-color" )] = dockLayoutOptions.PaneColor;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.PaneBorderColor ) )
-            Variables[ThemeVariables.DockLayoutPaneBorderColor] = dockLayoutOptions.PaneBorderColor;
+            Variables[GetDockLayoutVariableName( "pane-border-color" )] = dockLayoutOptions.PaneBorderColor;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.PaneHeaderBackground ) )
-            Variables[ThemeVariables.DockLayoutPaneHeaderBackground] = dockLayoutOptions.PaneHeaderBackground;
+            Variables[GetDockLayoutVariableName( "pane-header-background" )] = dockLayoutOptions.PaneHeaderBackground;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.PaneFooterBackground ) )
-            Variables[ThemeVariables.DockLayoutPaneFooterBackground] = dockLayoutOptions.PaneFooterBackground;
+            Variables[GetDockLayoutVariableName( "pane-footer-background" )] = dockLayoutOptions.PaneFooterBackground;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.HoverBackground ) )
-            Variables[ThemeVariables.DockLayoutHoverBackground] = dockLayoutOptions.HoverBackground;
+            Variables[GetDockLayoutVariableName( "hover-background" )] = dockLayoutOptions.HoverBackground;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.TabsBackground ) )
-            Variables[ThemeVariables.DockLayoutTabsBackground] = dockLayoutOptions.TabsBackground;
+            Variables[GetDockLayoutVariableName( "tabs-background" )] = dockLayoutOptions.TabsBackground;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.TabActiveBackground ) )
-            Variables[ThemeVariables.DockLayoutTabActiveBackground] = dockLayoutOptions.TabActiveBackground;
+            Variables[GetDockLayoutVariableName( "tab-active-background" )] = dockLayoutOptions.TabActiveBackground;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.TabActiveColor ) )
-            Variables[ThemeVariables.DockLayoutTabActiveColor] = dockLayoutOptions.TabActiveColor;
+            Variables[GetDockLayoutVariableName( "tab-active-color" )] = dockLayoutOptions.TabActiveColor;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.TabCloseColor ) )
-            Variables[ThemeVariables.DockLayoutTabCloseColor] = dockLayoutOptions.TabCloseColor;
+            Variables[GetDockLayoutVariableName( "tab-close-color" )] = dockLayoutOptions.TabCloseColor;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.DragPreviewBackground ) )
-            Variables[ThemeVariables.DockLayoutDragPreviewBackground] = dockLayoutOptions.DragPreviewBackground;
+            Variables[GetDockLayoutVariableName( "drag-preview-background" )] = dockLayoutOptions.DragPreviewBackground;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.DragPreviewBorderColor ) )
-            Variables[ThemeVariables.DockLayoutDragPreviewBorderColor] = dockLayoutOptions.DragPreviewBorderColor;
+            Variables[GetDockLayoutVariableName( "drag-preview-border-color" )] = dockLayoutOptions.DragPreviewBorderColor;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.DropPreviewBackground ) )
-            Variables[ThemeVariables.DockLayoutDropPreviewBackground] = dockLayoutOptions.DropPreviewBackground;
+            Variables[GetDockLayoutVariableName( "drop-preview-background" )] = dockLayoutOptions.DropPreviewBackground;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.DropPreviewBorderColor ) )
-            Variables[ThemeVariables.DockLayoutDropPreviewBorderColor] = dockLayoutOptions.DropPreviewBorderColor;
+            Variables[GetDockLayoutVariableName( "drop-preview-border-color" )] = dockLayoutOptions.DropPreviewBorderColor;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.CompassZoneBackground ) )
-            Variables[ThemeVariables.DockLayoutCompassZoneBackground] = dockLayoutOptions.CompassZoneBackground;
+            Variables[GetDockLayoutVariableName( "compass-zone-background" )] = dockLayoutOptions.CompassZoneBackground;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.CompassZoneColor ) )
-            Variables[ThemeVariables.DockLayoutCompassZoneColor] = dockLayoutOptions.CompassZoneColor;
+            Variables[GetDockLayoutVariableName( "compass-zone-color" )] = dockLayoutOptions.CompassZoneColor;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.CompassZoneBorderColor ) )
-            Variables[ThemeVariables.DockLayoutCompassZoneBorderColor] = dockLayoutOptions.CompassZoneBorderColor;
+            Variables[GetDockLayoutVariableName( "compass-zone-border-color" )] = dockLayoutOptions.CompassZoneBorderColor;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.CompassZoneActiveBackground ) )
-            Variables[ThemeVariables.DockLayoutCompassZoneActiveBackground] = dockLayoutOptions.CompassZoneActiveBackground;
+            Variables[GetDockLayoutVariableName( "compass-zone-active-background" )] = dockLayoutOptions.CompassZoneActiveBackground;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.CompassZoneActiveColor ) )
-            Variables[ThemeVariables.DockLayoutCompassZoneActiveColor] = dockLayoutOptions.CompassZoneActiveColor;
+            Variables[GetDockLayoutVariableName( "compass-zone-active-color" )] = dockLayoutOptions.CompassZoneActiveColor;
 
         if ( !string.IsNullOrEmpty( dockLayoutOptions.CompassZoneActiveBorderColor ) )
-            Variables[ThemeVariables.DockLayoutCompassZoneActiveBorderColor] = dockLayoutOptions.CompassZoneActiveBorderColor;
+            Variables[GetDockLayoutVariableName( "compass-zone-active-border-color" )] = dockLayoutOptions.CompassZoneActiveBorderColor;
     }
+
+    /// <summary>
+    /// Gets a provider-specific DockLayout CSS variable name.
+    /// </summary>
+    /// <param name="name">Variable name without a provider prefix.</param>
+    /// <returns>Provider-specific variable name.</returns>
+    protected virtual string GetDockLayoutVariableName( string name )
+        => $"--b-dock-{name}";
 
     /// <summary>
     /// Gets the variable value.
@@ -823,11 +831,75 @@ public abstract class ThemeGenerator : IThemeGenerator
 
         GenerateSpacingStyles( sb, theme, theme.SpacingOptions );
 
+        GenerateResizerStyles( sb, theme );
+
         var generatedStyles = sb.ToString();
 
         ThemeCache.CacheStyles( theme, generatedStyles );
 
         return generatedStyles;
+    }
+
+    /// <summary>
+    /// Generates the Resizer styles.
+    /// </summary>
+    /// <param name="sb">Result of the generator.</param>
+    /// <param name="theme">Currently used theme options.</param>
+    protected virtual void GenerateResizerStyles( StringBuilder sb, Theme theme )
+    {
+    }
+
+    /// <summary>
+    /// Generates provider-specific Resizer color overrides from the active theme.
+    /// </summary>
+    protected void GenerateResizerColorStyles( StringBuilder sb, Theme theme, string resizerSelector, string activeGutterSelector, string focusedVerticalSelector, string focusedHorizontalSelector, string variablePrefix )
+    {
+        FirstNotEmpty( out string surface, theme.BodyOptions?.BackgroundColor, theme.BackgroundOptions?.Light, theme.ColorOptions?.Light );
+        FirstNotEmpty( out string grip, theme.TextColorOptions?.Muted, theme.ColorOptions?.Secondary );
+
+        System.Drawing.Color surfaceColor = !string.IsNullOrEmpty( surface ) ? ParseColor( surface ) : System.Drawing.Color.Empty;
+        System.Drawing.Color gripColor = !string.IsNullOrEmpty( grip ) ? ParseColor( grip ) : System.Drawing.Color.Empty;
+        System.Drawing.Color primaryColor = !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) ? ParseColor( theme.ColorOptions.Primary ) : System.Drawing.Color.Empty;
+
+        if ( !surfaceColor.IsEmpty || !gripColor.IsEmpty )
+        {
+            sb.Append( resizerSelector ).Append( "{" );
+
+            if ( !surfaceColor.IsEmpty )
+            {
+                System.Drawing.Color borderColor = LuminanceFromColor( surfaceColor ) < .5
+                    ? Lighten( surfaceColor, 10f )
+                    : Darken( surfaceColor, 10f );
+
+                sb.Append( $"{variablePrefix}-gutter-background:{ToHex( surfaceColor )};" );
+                sb.Append( $"{variablePrefix}-gutter-border:{ToHex( borderColor )};" );
+            }
+
+            if ( !gripColor.IsEmpty )
+                sb.Append( $"{variablePrefix}-grip-color:{ToHex( gripColor )};" );
+
+            sb.AppendLine( "}" );
+        }
+
+        if ( primaryColor.IsEmpty )
+            return;
+
+        string primary = ToHex( primaryColor );
+        string primaryTransparent = ToHex( Transparency( primaryColor, 31 ) );
+
+        sb.Append( activeGutterSelector ).Append( "{" )
+            .Append( $"{variablePrefix}-gutter-background:{primaryTransparent};" )
+            .Append( $"{variablePrefix}-gutter-border:{primary};" )
+            .Append( $"{variablePrefix}-grip-color:{primary};" )
+            .AppendLine( "}" );
+
+        sb.Append( focusedVerticalSelector ).Append( "{" )
+            .Append( $"background:linear-gradient({primary} 0 0) center / 2px 100% no-repeat;" )
+            .AppendLine( "}" );
+
+        sb.Append( focusedHorizontalSelector ).Append( "{" )
+            .Append( $"background:linear-gradient({primary} 0 0) center / 100% 2px no-repeat;" )
+            .AppendLine( "}" );
     }
 
     /// <summary>

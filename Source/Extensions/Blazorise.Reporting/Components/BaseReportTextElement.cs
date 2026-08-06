@@ -1,5 +1,6 @@
 #region Using directives
 using Blazorise;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -11,6 +12,20 @@ namespace Blazorise.Reporting;
 public abstract class BaseReportTextElement : BaseReportElement
 {
     #region Methods
+
+    /// <inheritdoc />
+    protected override bool HasDefinitionChanged( ParameterView parameters )
+    {
+        return base.HasDefinitionChanged( parameters )
+            || parameters.IsParameterChanged( FontFamily )
+            || parameters.IsParameterChanged( FontSize )
+            || parameters.IsParameterChanged( FontColor )
+            || parameters.IsParameterChanged( Bold )
+            || parameters.IsParameterChanged( Italic )
+            || parameters.IsParameterChanged( Underline )
+            || parameters.IsParameterChanged( TextAlignment )
+            || parameters.IsParameterChanged( VerticalAlignment );
+    }
 
     /// <inheritdoc />
     protected override ReportElementDefinition BuildDefinition()

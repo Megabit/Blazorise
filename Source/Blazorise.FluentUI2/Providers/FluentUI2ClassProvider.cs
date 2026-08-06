@@ -1986,8 +1986,8 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DockSplit() => "fui-DockSplit";
 
-    public override string DockSplitOrientation( DockSplitOrientation orientation )
-        => orientation == Blazorise.DockSplitOrientation.Vertical ? "fui-DockSplit--vertical" : "fui-DockSplit--horizontal";
+    public override string DockSplitOrientation( Orientation orientation )
+        => orientation == Blazorise.Orientation.Vertical ? "fui-DockSplit--vertical" : "fui-DockSplit--horizontal";
 
     public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "fui-DockPane";
 

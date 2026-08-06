@@ -71,7 +71,7 @@ public partial class _ReportDesignerFormulaFieldNameDialog
 
     private bool CanConfirm => !string.IsNullOrWhiteSpace( name );
 
-    private string Title => title ?? "New Formula Field";
+    private string Title => title ?? Localize( "New formula field" );
 
     /// <summary>
     /// Formula field name loaded into the dialog.

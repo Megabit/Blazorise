@@ -2,7 +2,7 @@
 @inherits BaseReportComponent
 
 <ModalHeader>
-    <ModalTitle>Report warnings</ModalTitle>
+    <ModalTitle>@Localize( "Report warnings" )</ModalTitle>
     <CloseButton Clicked="@Close" />
 </ModalHeader>
 <ModalBody>
@@ -10,8 +10,8 @@
         <Table Narrow Striped Hoverable>
             <TableHeader>
                 <TableRow>
-                    <TableHeaderCell Width="Width.Px( 110 )">Severity</TableHeaderCell>
-                    <TableHeaderCell>Description</TableHeaderCell>
+                    <TableHeaderCell Width="Width.Px( 110 )">@Localize( "Severity" )</TableHeaderCell>
+                    <TableHeaderCell>@Localize( "Description" )</TableHeaderCell>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -22,7 +22,7 @@
                             <Icon Name="IconName.ExclamationTriangle"
                                   TextColor="TextColor.Warning"
                                   Margin="MarginIs1FromEnd" />
-                            Warning
+                            @Localize( "Warning" )
                         </TableRowCell>
                         <TableRowCell>@warning</TableRowCell>
                     </TableRow>
@@ -32,5 +32,5 @@
     </Div>
 </ModalBody>
 <ModalFooter>
-    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">Close</Button>
+    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">@Localize( "Close" )</Button>
 </ModalFooter>

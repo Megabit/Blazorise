@@ -1,6 +1,8 @@
 #region Using directives
 using System;
+using System.Threading.Tasks;
 using Blazorise;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -13,32 +15,33 @@ public class PdfFont : ComponentBase, IDisposable
 {
     #region Members
 
-    private FontFamily definition;
+    private readonly FontFamily definition = new();
+
+    private PdfDocumentContext documentContext;
 
     #endregion
 
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    public override Task SetParametersAsync( ParameterView parameters )
     {
-        if ( definition is null )
-        {
-            if ( DocumentContext is null )
-                return;
+        bool definitionChanged = parameters.TryGetValue<FontFamily>( nameof( Font ), out _ )
+            || parameters.IsParameterChanged( Name )
+            || parameters.IsParameterChanged( DisplayName )
+            || parameters.IsParameterChanged( CssFamily )
+            || parameters.TryGetValue<FontSource>( nameof( Regular ), out _ )
+            || parameters.TryGetValue<FontSource>( nameof( Bold ), out _ )
+            || parameters.TryGetValue<FontSource>( nameof( Italic ), out _ )
+            || parameters.TryGetValue<FontSource>( nameof( BoldItalic ), out _ )
+            || parameters.IsParameterChanged( Visible );
 
-            definition = new();
-        }
+        Task task = base.SetParametersAsync( parameters );
 
-        UpdateDefinition();
+        if ( definitionChanged )
+            UpdateDefinition();
 
-        if ( string.IsNullOrWhiteSpace( definition.Name ) )
-        {
-            DocumentContext.UnregisterFont( definition );
-            return;
-        }
-
-        DocumentContext.RegisterFont( definition );
+        return task;
     }
 
     private void UpdateDefinition()
@@ -51,12 +54,18 @@ public class PdfFont : ComponentBase, IDisposable
         definition.Italic = Font is null ? Italic : Font.Italic;
         definition.BoldItalic = Font is null ? BoldItalic : Font.BoldItalic;
         definition.Visible = Font is null ? Visible : Font.Visible;
+
+        if ( string.IsNullOrWhiteSpace( definition.Name ) )
+            documentContext?.UnregisterFont( definition );
+        else
+            documentContext?.RegisterFont( definition );
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        DocumentContext?.UnregisterFont( definition );
+        documentContext?.UnregisterFont( definition );
+        documentContext = null;
     }
 
     #endregion
@@ -66,10 +75,23 @@ public class PdfFont : ComponentBase, IDisposable
     /// <summary>
     /// Provides the current PDF document that receives this font registration.
     /// </summary>
-    [CascadingParameter] protected PdfDocumentContext DocumentContext { get; set; }
+    [CascadingParameter]
+    protected PdfDocumentContext DocumentContext
+    {
+        get => documentContext;
+        set
+        {
+            if ( ReferenceEquals( documentContext, value ) )
+                return;
+
+            documentContext?.UnregisterFont( definition );
+            documentContext = value;
+            UpdateDefinition();
+        }
+    }
 
     /// <summary>
-    /// Complete font family registration.
+    /// Complete font family registration resolved through <see cref="IPdfResourceResolver"/>.
     /// </summary>
     [Parameter] public FontFamily Font { get; set; }
 

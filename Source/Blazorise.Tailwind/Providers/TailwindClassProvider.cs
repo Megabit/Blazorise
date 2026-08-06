@@ -2755,8 +2755,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DockSplit() => "tw-dock-split";
 
-    public override string DockSplitOrientation( DockSplitOrientation orientation )
-        => orientation == Blazorise.DockSplitOrientation.Vertical ? "tw-dock-split-vertical" : "tw-dock-split-horizontal";
+    public override string DockSplitOrientation( Orientation orientation )
+        => orientation == Blazorise.Orientation.Vertical ? "tw-dock-split-vertical" : "tw-dock-split-horizontal";
 
     public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "tw-dock-pane";
 

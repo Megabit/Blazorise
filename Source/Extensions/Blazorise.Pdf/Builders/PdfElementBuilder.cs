@@ -1,6 +1,5 @@
 #region Using directives
 using System;
-using Blazorise;
 #endregion
 
 namespace Blazorise.Pdf;
@@ -32,133 +31,13 @@ public class PdfElementBuilder
     #region Methods
 
     /// <summary>
-    /// Sets the text value.
+    /// Controls whether content is clipped to the element bounds.
     /// </summary>
-    /// <param name="text">The text value.</param>
+    /// <param name="clipContent">A value indicating whether content should be clipped.</param>
     /// <returns>The element builder.</returns>
-    public PdfElementBuilder Text( string text )
+    public PdfElementBuilder ClipContent( bool clipContent = true )
     {
-        definition.Text = text;
-
-        return this;
-    }
-
-    /// <summary>
-    /// Enables or disables text wrapping inside the element bounds.
-    /// </summary>
-    /// <param name="wrap">A value indicating whether text should wrap.</param>
-    /// <returns>The element builder.</returns>
-    public PdfElementBuilder Wrap( bool wrap = true )
-    {
-        definition.Wrap = wrap;
-
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the image source.
-    /// </summary>
-    /// <param name="source">The image source.</param>
-    /// <returns>The element builder.</returns>
-    public PdfElementBuilder Source( string source )
-    {
-        definition.Source = source;
-
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the orientation used by line elements.
-    /// </summary>
-    /// <param name="orientation">The line orientation.</param>
-    /// <returns>The element builder.</returns>
-    public PdfElementBuilder Orientation( Orientation orientation )
-    {
-        definition.Orientation = orientation;
-
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the font family. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).
-    /// </summary>
-    /// <param name="family">The font family.</param>
-    /// <returns>The element builder.</returns>
-    public PdfElementBuilder FontFamily( string family )
-    {
-        definition.Font.Family = family;
-
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the font size.
-    /// </summary>
-    /// <param name="size">The font size.</param>
-    /// <returns>The element builder.</returns>
-    public PdfElementBuilder FontSize( double size )
-    {
-        definition.Font.Size = size;
-
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the text color.
-    /// </summary>
-    /// <param name="color">The text color in hexadecimal format.</param>
-    /// <returns>The element builder.</returns>
-    public PdfElementBuilder TextColor( string color )
-    {
-        definition.Font.Color = color;
-
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the text alignment.
-    /// </summary>
-    /// <param name="alignment">The text alignment.</param>
-    /// <returns>The element builder.</returns>
-    public PdfElementBuilder TextAlignment( TextAlignment alignment )
-    {
-        definition.Font.Alignment = alignment;
-
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the text vertical alignment.
-    /// </summary>
-    /// <param name="alignment">The text vertical alignment.</param>
-    /// <returns>The element builder.</returns>
-    public PdfElementBuilder VerticalAlignment( VerticalAlignment alignment )
-    {
-        definition.Font.VerticalAlignment = alignment;
-
-        return this;
-    }
-
-    /// <summary>
-    /// Enables or disables bold text.
-    /// </summary>
-    /// <param name="bold">A value indicating whether text is bold.</param>
-    /// <returns>The element builder.</returns>
-    public PdfElementBuilder Bold( bool bold = true )
-    {
-        definition.Font.Bold = bold;
-
-        return this;
-    }
-
-    /// <summary>
-    /// Enables or disables italic text.
-    /// </summary>
-    /// <param name="italic">A value indicating whether text is italic.</param>
-    /// <returns>The element builder.</returns>
-    public PdfElementBuilder Italic( bool italic = true )
-    {
-        definition.Font.Italic = italic;
+        definition.ClipContent = clipContent;
 
         return this;
     }
@@ -188,6 +67,18 @@ public class PdfElementBuilder
     }
 
     /// <summary>
+    /// Sets the border style.
+    /// </summary>
+    /// <param name="style">The border style.</param>
+    /// <returns>The element builder.</returns>
+    public PdfElementBuilder BorderStyle( PdfBorderStyle style )
+    {
+        definition.Border.Style = style;
+
+        return this;
+    }
+
+    /// <summary>
     /// Sets the background color.
     /// </summary>
     /// <param name="color">The background color in hexadecimal format.</param>
@@ -198,6 +89,15 @@ public class PdfElementBuilder
 
         return this;
     }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Gets the element definition.
+    /// </summary>
+    protected PdfElementDefinition Definition => definition;
 
     #endregion
 }

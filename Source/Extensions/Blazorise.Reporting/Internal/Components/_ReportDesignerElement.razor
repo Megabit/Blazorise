@@ -8,8 +8,14 @@
 @implements IAsyncDisposable
 
 <div @key="@ElementKey"
+     @ref="elementReference"
      class="@ClassNames"
      style="@StyleNames"
+     role="@( CanReceiveKeyboardInteraction ? AccessibilityRole : null )"
+     tabindex="@( CanReceiveKeyboardInteraction ? 0 : (int?)null )"
+     aria-label="@( CanReceiveKeyboardInteraction ? AccessibilityLabel : null )"
+     aria-pressed="@( CanReceiveKeyboardInteraction ? AccessibilityPressed : null )"
+     aria-current="@( CanReceiveKeyboardInteraction && AccessibilityGroup && Selected ? "true" : null )"
      @onclick="OnClicked"
      @onclick:stopPropagation="@CanReceiveDesignerInteraction"
      @ondblclick="OnDoubleClicked"
@@ -18,6 +24,8 @@
      @oncontextmenu="OnContextMenu"
      @oncontextmenu:preventDefault="@CanReceiveDesignerInteraction"
      @oncontextmenu:stopPropagation="@CanReceiveDesignerInteraction"
+     @onkeydown="OnKeyDown"
+     @onkeydown:stopPropagation="@CanReceiveDesignerInteraction"
      @onpointerdown="OnPointerDown"
      @onpointerdown:preventDefault="@CanStartDesignerPointerDrag"
      @onpointerdown:stopPropagation="@ShouldStopPointerDownPropagation">
@@ -141,7 +149,7 @@
                             <Div Class="b-report-custom-element-unavailable"
                                  TextSize="TextSizeSmall"
                                  TextColor="TextColorSecondary">
-                                @(string.IsNullOrWhiteSpace( customElement.TypeName ) ? "Custom element" : customElement.TypeName)
+                        @(string.IsNullOrWhiteSpace( customElement.TypeName ) ? Localize( "Custom element" ) : customElement.TypeName)
                             </Div>
                         }
                     }

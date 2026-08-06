@@ -1,5 +1,8 @@
 #region Using directives
+using System;
+using System.Threading.Tasks;
 using Blazorise;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -8,14 +11,49 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Registers a report-scoped font family for declarative reports.
 /// </summary>
-public class ReportFont : ComponentBase
+public class ReportFont : ComponentBase, IDisposable
 {
+    #region Members
+
+    private ReportContext registeredReportContext;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        ReportContext?.RegisterFont( CreateFontFamily() );
+        bool definitionChanged = registeredReportContext is null
+            || parameters.IsParameterChanged( Font )
+            || parameters.IsParameterChanged( Name )
+            || parameters.IsParameterChanged( DisplayName )
+            || parameters.IsParameterChanged( CssFamily )
+            || parameters.IsParameterChanged( Regular )
+            || parameters.IsParameterChanged( Bold )
+            || parameters.IsParameterChanged( Italic )
+            || parameters.IsParameterChanged( BoldItalic )
+            || parameters.IsParameterChanged( Visible );
+
+        await base.SetParametersAsync( parameters );
+
+        bool contextChanged = !ReferenceEquals( registeredReportContext, ReportContext );
+
+        if ( contextChanged )
+        {
+            registeredReportContext?.UnregisterFont( this );
+            registeredReportContext = ReportContext;
+        }
+
+        if ( definitionChanged || contextChanged )
+            registeredReportContext?.RegisterFont( this, CreateFontFamily() );
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        registeredReportContext?.UnregisterFont( this );
+        registeredReportContext = null;
     }
 
     private FontFamily CreateFontFamily()

@@ -3,13 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Licensing;
+using Blazorise.Localization;
 using Blazorise.Pdf;
 using Blazorise.Reporting.Internal;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using DesignerConstants = Blazorise.Reporting.Internal.ReportDesignerConstants;
 #endregion
@@ -75,7 +79,13 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private const string DesignerSurfacePaneName = "report-designer";
 
-    private ReportDefinition declarativeDefinition;
+    private ReportDefinition workingDefinition;
+
+    private ReportDefinition lastNotifiedDefinition;
+
+    private int declarativeContextVersion = -1;
+
+    private int declarativeConfigurationVersion = -1;
 
     private ReportMode currentMode;
 
@@ -85,11 +95,15 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private int designerPaneScrollRestoreVersion;
 
+    private bool designerWorkspaceRendered;
+
     private _ReportDesignerWorkspace workspaceRef;
 
     private int renderMutationVersion;
 
     private IReadOnlyList<ReportDesignerWarning> designerWarnings = [];
+
+    private ReportDesignerWarning operationWarning;
 
     private HashSet<string> collidingElementKeys = [];
 
@@ -114,6 +128,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     private ReportPdfPreviewContext pdfPreviewContext;
 
     private int pdfPreviewMutationVersion = -1;
+
+    private CancellationTokenSource asyncOperationCancellationTokenSource;
+
+    private Task<PdfGenerationResult> pdfPreviewTask;
+
+    private int pdfPreviewTaskMutationVersion = -1;
 
     private string editingFormulaFieldName;
 
@@ -154,34 +174,160 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     #region Methods
 
     /// <inheritdoc />
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        bool initialized = commandManager.State?.Definition is not null;
+        ReportMode previousMode = CurrentMode;
+        ReportPreviewFormat previousPreviewFormat = CurrentPreviewFormat;
+        bool previouslyHadPreviewFormats = HasPreviewFormats;
+        object previousData = Data;
+
+        parameters.TryGetParameter( Definition, out ComponentParameterInfo<ReportDefinition> definitionParameter );
+        parameters.TryGetParameter( Mode, out ComponentParameterInfo<ReportMode?> modeParameter );
+        parameters.TryGetParameter( PreviewFormat, out ComponentParameterInfo<ReportPreviewFormat?> previewFormatParameter );
+        parameters.TryGetParameter( BandMode, out ComponentParameterInfo<ReportBandMode> bandModeParameter );
+        parameters.TryGetParameter( ShowRulers, out ComponentParameterInfo<bool> showRulersParameter );
+        parameters.TryGetParameter( ShowFineRulerTicks, out ComponentParameterInfo<bool> showFineRulerTicksParameter );
+        parameters.TryGetParameter( ShowCursorGuides, out ComponentParameterInfo<bool> showCursorGuidesParameter );
+        parameters.TryGetParameter( ShowCollisionWarnings, out ComponentParameterInfo<bool> showCollisionWarningsParameter );
+
+        bool definitionModeChanged = initialized && parameters.IsParameterChanged( DefinitionMode );
+        bool dataChanged = initialized && parameters.IsParameterChanged( Data );
+        bool previewOptionsChanged = initialized
+            && ( previewFormatParameter.Changed
+                || parameters.IsParameterChanged( PreviewFormats )
+                || parameters.IsParameterChanged( DefaultPreviewFormat ) );
+        bool modeChanged = initialized
+            && modeParameter.Changed
+            && modeParameter.Value is ReportMode mode
+            && mode != currentMode;
+
+        await base.SetParametersAsync( parameters );
+
+        if ( !initialized )
+            return;
+
+        if ( modeParameter.Changed )
+            currentMode = modeParameter.Value ?? previousMode;
+
+        if ( previewOptionsChanged )
+            currentPreviewFormat = ResolvePreviewFormat( previewFormatParameter.Value ?? currentPreviewFormat );
+
+        bool previewFormatChanged = previewOptionsChanged && currentPreviewFormat != previousPreviewFormat;
+        bool previewAvailabilityChanged = previewOptionsChanged && HasPreviewFormats != previouslyHadPreviewFormats;
+
+        bool definitionChanged = definitionParameter.Changed
+            && !ReferenceEquals( definitionParameter.Value, lastNotifiedDefinition )
+            && CurrentDefinitionMode != ReportDefinitionMode.AlwaysUseDeclarative;
+
+        if ( definitionParameter.Defined )
+            lastNotifiedDefinition = null;
+
+        if ( definitionChanged || definitionModeChanged )
+        {
+            ReportDefinition definition = CreateWorkingDefinition();
+
+            if ( ShouldUseDeclarativeDefinition() )
+                declarativeContextVersion = context.DefinitionVersion;
+
+            await ApplyDefinition( definition, notifyDefinitionChanged: false );
+            await SynchronizeDesignerParameters( bandModeParameter, showRulersParameter, showFineRulerTicksParameter, showCursorGuidesParameter, showCollisionWarningsParameter );
+            return;
+        }
+
+        await SynchronizeDesignerParameters( bandModeParameter, showRulersParameter, showFineRulerTicksParameter, showCursorGuidesParameter, showCollisionWarningsParameter );
+
+        if ( dataChanged )
+            SynchronizeDefaultDataSource( RootDefinition, previousData );
+
+        if ( CurrentMode == ReportMode.Preview && ( modeChanged || previewFormatChanged || previewAvailabilityChanged || dataChanged ) )
+        {
+            await SetPreview( CurrentPreviewFormat, notifyChanged: false, previousMode: previousMode );
+            return;
+        }
+
+        if ( modeChanged )
+            await SetMode( CurrentMode, notifyChanged: false, previousMode: previousMode );
+
+        if ( dataChanged )
+        {
+            await ResolveDataSources( RootDefinition, loadData: false );
+            RefreshDesigner( ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.FieldsExplorer );
+        }
+        else if ( previewFormatChanged )
+            InvalidateDesignerCaches();
+    }
+
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
-        context.ViewerOptions.PreviewFormats = GlobalOptions.PreviewFormats;
-        context.ViewerOptions.DefaultFormat = GlobalOptions.DefaultPreviewFormat;
-        context.ViewerOptions.AllowPrint = GlobalOptions.AllowPrint;
-        context.ViewerOptions.AllowDownload = GlobalOptions.AllowDownload;
+        LocalizerService.LocalizationChanged += OnLocalizationChanged;
 
-        currentMode = IsEditable ? ReportMode.Design : ReportMode.Preview;
-        currentPreviewFormat = DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat;
+        context.SetViewerDefaults( new()
+        {
+            PreviewFormats = GlobalOptions.PreviewFormats,
+            DefaultFormat = GlobalOptions.DefaultPreviewFormat,
+            AllowPrint = GlobalOptions.AllowPrint,
+            AllowDownload = GlobalOptions.AllowDownload,
+        } );
+
+        currentMode = Mode ?? ( IsEditable ? ReportMode.Design : ReportMode.Preview );
+        currentPreviewFormat = ResolvePreviewFormat( PreviewFormat ?? DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat );
+        designerWorkspaceRendered = IsEditable && currentMode == ReportMode.Design;
+
+        List<string> normalizationDiagnostics = [];
+
+        workingDefinition = ShouldUseDeclarativeDefinition()
+            ? new()
+            : ReportContext.CloneDefinition( Definition ) ?? new();
+        workingDefinition = ReportDefinitionHelper.EnsureDefinitionIds( workingDefinition, normalizationDiagnostics );
+        NotifyDefinitionNormalized( normalizationDiagnostics );
     }
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( !firstRender )
-            return;
-
-        bool declarativeDefinitionCreated = false;
-
-        if ( Definition is null && CurrentDefinitionMode != ReportDefinitionMode.UseDefinitionOnly )
         {
-            declarativeDefinition = BuildDeclarativeDefinition();
-            declarativeDefinitionCreated = true;
+            bool configurationChanged = declarativeConfigurationVersion != context.ConfigurationVersion;
+            declarativeConfigurationVersion = context.ConfigurationVersion;
+
+            if ( CurrentDefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative
+                && declarativeContextVersion != context.DefinitionVersion )
+            {
+                declarativeContextVersion = context.DefinitionVersion;
+                await ApplyDefinition( BuildDeclarativeDefinition(), notifyDefinitionChanged: true );
+            }
+            else if ( configurationChanged )
+            {
+                ReportPreviewFormat previewFormat = CurrentPreviewFormat;
+                currentPreviewFormat = previewFormat;
+
+                if ( CurrentMode == ReportMode.Preview && HasPreviewFormats )
+                    await SetPreview( previewFormat, notifyChanged: false, previousMode: CurrentMode );
+                else
+                {
+                    if ( !HasPreviewFormats )
+                        CancelAsyncOperations();
+
+                    StateHasChanged();
+                }
+            }
+
+            return;
         }
 
-        ReportDefinition definition = Definition ?? declarativeDefinition;
+        bool declarativeDefinitionCreated = ShouldUseDeclarativeDefinition();
+        declarativeContextVersion = context.DefinitionVersion;
+        declarativeConfigurationVersion = context.ConfigurationVersion;
+        currentPreviewFormat = ResolvePreviewFormat( PreviewFormat ?? DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat );
 
-        if ( definition is not null )
+        if ( declarativeDefinitionCreated )
+            workingDefinition = BuildDeclarativeDefinition();
+
+        ReportDefinition definition = RootDefinition;
+
+        if ( definition is not null && ( CurrentMode != ReportMode.Preview || HasPreviewFormats ) )
         {
             if ( CurrentMode == ReportMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf )
                 await ResolvePdfPreviewOperation( definition, resolveDataSources: true );
@@ -192,7 +338,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             InvalidateDesignerCaches();
 
         if ( declarativeDefinitionCreated )
-            await DefinitionChanged.InvokeAsync( declarativeDefinition );
+            await NotifyDefinitionChanged( workingDefinition );
 
         if ( definition is not null )
             RefreshDesigner( ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.FieldsExplorer );
@@ -207,6 +353,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
+        LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+        CancelAsyncOperations();
+
         if ( reportingModule is not null )
         {
             try
@@ -218,6 +367,21 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             }
         }
 
+    }
+
+    private async void OnLocalizationChanged( object sender, EventArgs e )
+    {
+        workspaceRef?.InvalidatePropertiesPanel();
+        await InvokeAsync( StateHasChanged );
+        await ( workspaceRef?.RefreshLocalization() ?? Task.CompletedTask );
+    }
+
+    private string Localize( string name, params object[] arguments )
+    {
+        if ( Localizers?.TextLocalizer is not null )
+            return Localizers.TextLocalizer.Invoke( name, arguments );
+
+        return Localizer[name, arguments];
     }
 
     private ReportDefinition BuildDeclarativeDefinition()
@@ -248,6 +412,24 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         return ReportDefinitionHelper.EnsureDefinitionIds( definition );
     }
 
+    private ReportDefinition CreateWorkingDefinition()
+    {
+        return ShouldUseDeclarativeDefinition()
+            ? BuildDeclarativeDefinition()
+            : ReportContext.CloneDefinition( Definition ) ?? new();
+    }
+
+    private bool ShouldUseDeclarativeDefinition()
+    {
+        return CurrentDefinitionMode switch
+        {
+            ReportDefinitionMode.AlwaysUseDeclarative => true,
+            ReportDefinitionMode.SeedWhenEmpty => Definition is null,
+            ReportDefinitionMode.UseDefinitionOnly => false,
+            _ => false,
+        };
+    }
+
     private ReportPageDefinition ResolvePage( ReportPageDefinition page )
     {
         return ReportPageDefinitionHelper.ResolvePage( page );
@@ -255,27 +437,68 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private async Task ResolveDataSources( ReportDefinition definition, bool loadData )
     {
+        await ResolveDataSourcesOperation( definition, loadData );
+    }
+
+    private Task<bool> ResolveDataSourcesOperation( ReportDefinition definition, bool loadData )
+    {
+        return ExecuteDataOperation( Localize( "Resolve report data" ), ( cancellationToken, mutationVersion ) =>
+            ResolveDataSources( definition, loadData, mutationVersion, cancellationToken ) );
+    }
+
+    private async Task<bool> ExecuteDataOperation( string operationName, Func<CancellationToken, int, Task<bool>> operation )
+    {
         InvalidateDesignerCaches();
 
+        int mutationVersion = renderMutationVersion;
+        CancellationTokenSource cancellationTokenSource = new();
+        asyncOperationCancellationTokenSource = cancellationTokenSource;
+
+        try
+        {
+            return await operation( cancellationTokenSource.Token, mutationVersion );
+        }
+        catch ( OperationCanceledException ) when ( cancellationTokenSource.IsCancellationRequested )
+        {
+            return false;
+        }
+        catch ( Exception exception )
+        {
+            await NotifyOperationFailed( operationName, exception );
+            return false;
+        }
+        finally
+        {
+            if ( ReferenceEquals( asyncOperationCancellationTokenSource, cancellationTokenSource ) )
+                asyncOperationCancellationTokenSource = null;
+
+            cancellationTokenSource.Dispose();
+        }
+    }
+
+    private async Task<bool> ResolveDataSources( ReportDefinition definition, bool loadData, int mutationVersion, CancellationToken cancellationToken )
+    {
         ReportDefinitionHelper.ApplyRowsLimit( definition, BlazoriseLicenseLimitsHelper.GetReportingRowsLimit( LicenseChecker ) );
 
-        if ( definition?.DataSources is null )
-            return;
+        if ( definition?.DataSources is null || definition.DataSources.Count == 0 )
+            return IsOperationCurrent( mutationVersion, cancellationToken );
 
         IReportDataSourceProviderRegistry registry = DataSourceProviderRegistry;
 
         if ( registry is null )
-            return;
+            throw new InvalidOperationException( "No report data source provider registry is available." );
 
         foreach ( ReportDataSourceDefinition dataSource in definition.DataSources )
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             if ( dataSource is null )
                 continue;
 
             IReportDataSourceProvider provider = registry.FindProvider( dataSource.ProviderType );
 
             if ( provider is null )
-                continue;
+                throw new InvalidOperationException( $"No report data source provider is registered for '{dataSource.ProviderType}'." );
 
             try
             {
@@ -284,17 +507,61 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                     ReportDataSourceResult result = await provider.LoadDataAsync( dataSource, new()
                     {
                         DefaultData = Data,
-                    } );
+                    }, cancellationToken );
 
-                    dataSource.Data = result?.Data;
-                    dataSource.Schema = result?.Schema ?? dataSource.Schema;
+                    if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+                        return false;
+
+                    if ( result is null )
+                        throw new InvalidOperationException( $"The '{dataSource.Name}' data source returned no result." );
+
+                    dataSource.Data = result.Data;
+                    dataSource.Schema = result.Schema ?? dataSource.Schema;
                 }
                 else if ( dataSource.Schema is null )
-                    dataSource.Schema = await provider.GetSchemaAsync( dataSource );
+                {
+                    ReportDataSourceSchema schema = await provider.GetSchemaAsync( dataSource, cancellationToken );
+
+                    if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+                        return false;
+
+                    dataSource.Schema = schema;
+                }
             }
-            catch
+            catch ( OperationCanceledException ) when ( cancellationToken.IsCancellationRequested )
             {
+                return false;
             }
+        }
+
+        return IsOperationCurrent( mutationVersion, cancellationToken );
+    }
+
+    private bool IsOperationCurrent( int mutationVersion, CancellationToken cancellationToken )
+        => !cancellationToken.IsCancellationRequested && mutationVersion == renderMutationVersion;
+
+    private void SynchronizeDefaultDataSource( ReportDefinition definition, object previousData )
+    {
+        if ( definition?.DataSources is null )
+            return;
+
+        ReportDataSourceDefinition dataSource = definition.DataSources.FirstOrDefault( x =>
+            string.Equals( x?.Name, DataSourceName, StringComparison.OrdinalIgnoreCase )
+            && string.Equals( x.ProviderType, ObjectReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase ) );
+
+        if ( dataSource is not null && ReferenceEquals( dataSource.Data, previousData ) )
+        {
+            dataSource.Data = Data;
+            dataSource.Schema = null;
+        }
+        else if ( dataSource is null && definition.DataSources.Count == 0 && Data is not null )
+        {
+            definition.DataSources.Add( new()
+            {
+                Name = DataSourceName,
+                ProviderType = ObjectReportDataSourceProvider.ProviderType,
+                Data = Data,
+            } );
         }
     }
 
@@ -304,15 +571,14 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             || string.Equals( provider?.Type, DataSetReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase );
     }
 
-    private Task SetStatusBarVisible( bool visible )
+    private async Task SetStatusBarVisible( bool visible )
     {
         if ( ShowStatusBar == visible )
-            return Task.CompletedTask;
+            return;
 
         ShowStatusBar = visible;
+        await ShowStatusBarChanged.InvokeAsync( visible );
         StateHasChanged();
-
-        return Task.CompletedTask;
     }
 
     private bool IsElementContextMenuVisible()
@@ -340,9 +606,15 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal Task SelectDesignerPanelTab( string tab )
     {
-        selectedDesignerPanelTab = string.Equals( tab, nameof( ReportDesignerPanelTab.Explorer ), StringComparison.Ordinal )
+        ReportDesignerPanelTab selectedPanelTab = string.Equals( tab, nameof( ReportDesignerPanelTab.Explorer ), StringComparison.Ordinal )
             ? ReportDesignerPanelTab.Explorer
             : ReportDesignerPanelTab.Properties;
+
+        if ( selectedDesignerPanelTab != selectedPanelTab )
+        {
+            selectedDesignerPanelTab = selectedPanelTab;
+            designerPaneScrollRestoreVersion++;
+        }
 
         return Task.CompletedTask;
     }
@@ -613,26 +885,33 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// <param name="command">Command requested by a toolbar item or external caller.</param>
     public async Task ExecuteCommand( ReportCommand command )
     {
-        await ( command switch
+        try
         {
-            ReportCommand.Design => SetMode( ReportMode.Design ),
-            ReportCommand.Preview => SetPreview( SupportsPreviewFormat( currentPreviewFormat ) ? currentPreviewFormat : context.ViewerOptions.DefaultFormat ),
-            ReportCommand.PreviewHtml => SetPreview( ReportPreviewFormat.Html ),
-            ReportCommand.PreviewPdf => SetPreview( ReportPreviewFormat.Pdf ),
-            ReportCommand.Save => SaveDefinition(),
-            ReportCommand.Load => LoadRequestedDefinition(),
-            ReportCommand.ConnectDataSource => OpenDataSourceConnectionDialog(),
-            ReportCommand.DownloadPdf => DownloadPdf(),
-            ReportCommand.Cut => CutSelectedElement(),
-            ReportCommand.Copy => CopySelectedElement(),
-            ReportCommand.Duplicate => DuplicateSelectedElement(),
-            ReportCommand.Paste => PasteElement(),
-            ReportCommand.Delete => DeleteSelection(),
-            ReportCommand.Undo => Undo(),
-            ReportCommand.Redo => Redo(),
-            ReportCommand.Reset => ResetDefinition(),
-            _ => Task.CompletedTask,
-        } );
+            await ( command switch
+            {
+                ReportCommand.Design => SetMode( ReportMode.Design ),
+                ReportCommand.Preview => SetPreview( CurrentPreviewFormat ),
+                ReportCommand.PreviewHtml => SetPreview( ReportPreviewFormat.Html ),
+                ReportCommand.PreviewPdf => SetPreview( ReportPreviewFormat.Pdf ),
+                ReportCommand.Save => SaveDefinition(),
+                ReportCommand.Load => LoadRequestedDefinition(),
+                ReportCommand.ConnectDataSource => OpenDataSourceConnectionDialog(),
+                ReportCommand.DownloadPdf => DownloadPdf(),
+                ReportCommand.Cut => CutSelectedElement(),
+                ReportCommand.Copy => CopySelectedElement(),
+                ReportCommand.Duplicate => DuplicateSelectedElement(),
+                ReportCommand.Paste => PasteElement(),
+                ReportCommand.Delete => DeleteSelection(),
+                ReportCommand.Undo => Undo(),
+                ReportCommand.Redo => Redo(),
+                ReportCommand.Reset => ResetDefinition(),
+                _ => Task.CompletedTask,
+            } );
+        }
+        catch ( Exception exception )
+        {
+            await NotifyOperationFailed( command.ToString(), exception );
+        }
     }
 
     /// <summary>
@@ -647,7 +926,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         return command switch
         {
             ReportCommand.Design => IsEditable,
-            ReportCommand.Preview => SupportsPreviewFormat( currentPreviewFormat ) || SupportsPreviewFormat( context.ViewerOptions.DefaultFormat ),
+            ReportCommand.Preview => HasPreviewFormats,
             ReportCommand.PreviewHtml => SupportsPreviewFormat( ReportPreviewFormat.Html ),
             ReportCommand.PreviewPdf => SupportsPreviewFormat( ReportPreviewFormat.Pdf ),
             ReportCommand.Save => SaveRequested is not null,
@@ -706,17 +985,23 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         if ( definition is null || CurrentDefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative )
             return;
 
-        ReportDefinition loadedDefinition = ReportContext.CloneDefinition( definition );
+        await ApplyDefinition( ReportContext.CloneDefinition( definition ), notifyDefinitionChanged: true );
+    }
 
-        await ResolveDataSources( loadedDefinition, CurrentMode == ReportMode.Preview );
+    private async Task ApplyDefinition( ReportDefinition definition, bool notifyDefinitionChanged )
+    {
+        List<string> normalizationDiagnostics = [];
+        definition = ReportDefinitionHelper.EnsureDefinitionIds( definition ?? new(), normalizationDiagnostics );
 
+        await ResolveDataSources( definition, CurrentMode == ReportMode.Preview );
         commandManager.Clear();
         await ApplyReportState( new()
         {
-            Definition = loadedDefinition,
+            Definition = definition,
             Mode = CurrentMode,
             PreviewFormat = CurrentPreviewFormat,
-        }, notifyDefinitionChanged: true, ReportDesignerRefreshTarget.All );
+        }, notifyDefinitionChanged, ReportDesignerRefreshTarget.All );
+        NotifyDefinitionNormalized( normalizationDiagnostics );
     }
 
     /// <summary>
@@ -731,35 +1016,67 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal async Task ExecuteDesignerCommand( ReportDesignerCommand command )
     {
-        ReportDefinition definition = await commandManager.Execute( command, RootDefinition, CaptureReportState );
+        try
+        {
+            if ( command.NotifyDefinitionChanged )
+                CancelAsyncOperations();
 
-        if ( command.NotifyDefinitionChanged && command.RefreshSurface )
-            await DefinitionChanged.InvokeAsync( definition );
+            ReportDefinition definition = await commandManager.Execute( command, RootDefinition, CaptureReportState );
 
-        if ( command.NotifyDefinitionChanged )
+            if ( command.NotifyDefinitionChanged && command.RefreshSurface )
+                await NotifyDefinitionChanged( definition );
+
+            if ( command.NotifyDefinitionChanged )
+            {
+                InvalidateDesignerCaches();
+                RefreshDesigner( command.RefreshTargets );
+            }
+
+            await InvokeAsync( StateHasChanged );
+
+            if ( command.NotifyDefinitionChanged && !command.RefreshSurface )
+                _ = NotifyDefinitionChangedLater( definition );
+        }
+        catch ( Exception exception )
         {
             InvalidateDesignerCaches();
-            RefreshDesigner( command.RefreshTargets );
+            await NotifyOperationFailed( command.Name, exception );
+            await InvokeAsync( StateHasChanged );
         }
-
-        await InvokeAsync( StateHasChanged );
-
-        if ( command.NotifyDefinitionChanged && !command.RefreshSurface )
-            _ = NotifyDefinitionChangedLater( definition );
     }
 
     private Task NotifyDefinitionChangedLater( ReportDefinition definition )
     {
+        if ( !DefinitionChanged.HasDelegate )
+            return Task.CompletedTask;
+
+        ReportDefinition snapshot = ReportContext.CloneDefinition( definition );
+
         return InvokeAsync( async () =>
         {
             await Task.Yield();
-            await DefinitionChanged.InvokeAsync( definition );
+            lastNotifiedDefinition = snapshot;
+            await DefinitionChanged.InvokeAsync( snapshot );
         } );
     }
 
-    private async Task SetMode( ReportMode mode )
+    private Task NotifyDefinitionChanged( ReportDefinition definition )
     {
-        if ( CurrentMode == ReportMode.Design && mode != ReportMode.Design )
+        if ( !DefinitionChanged.HasDelegate )
+            return Task.CompletedTask;
+
+        lastNotifiedDefinition = ReportContext.CloneDefinition( definition );
+        return DefinitionChanged.InvokeAsync( lastNotifiedDefinition );
+    }
+
+    private async Task SetMode( ReportMode mode, bool notifyChanged = true, ReportMode? previousMode = null )
+    {
+        ReportMode sourceMode = previousMode ?? CurrentMode;
+
+        if ( mode != ReportMode.Preview )
+            CancelAsyncOperations();
+
+        if ( sourceMode == ReportMode.Design && mode != ReportMode.Design )
             await CaptureDesignerPaneScrollPositions();
 
         await ExecuteDesignerCommand( new( $"Set {mode} mode", async () =>
@@ -768,15 +1085,31 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             designerState.EditingElementKey = null;
 
             if ( mode == ReportMode.Design )
+            {
+                designerWorkspaceRendered = true;
                 designerPaneScrollRestoreVersion++;
+                RefreshDesigner( ReportDesignerRefreshTarget.All );
+            }
 
-            await ModeChanged.InvokeAsync( currentMode );
+            if ( notifyChanged && sourceMode != currentMode )
+                await ModeChanged.InvokeAsync( currentMode );
         }, TrackHistory: false, NotifyDefinitionChanged: false ) );
     }
 
-    private async Task SetPreview( ReportPreviewFormat format )
+    private async Task SetPreview( ReportPreviewFormat format, bool notifyChanged = true, ReportMode? previousMode = null )
     {
-        if ( CurrentMode == ReportMode.Design )
+        if ( !SupportsPreviewFormat( format ) )
+        {
+            if ( !HasPreviewFormats )
+                CancelAsyncOperations();
+
+            return;
+        }
+
+        ReportMode sourceMode = previousMode ?? CurrentMode;
+        ReportPreviewFormat sourceFormat = CurrentPreviewFormat;
+
+        if ( sourceMode == ReportMode.Design )
             await CaptureDesignerPaneScrollPositions();
 
         await ExecuteDesignerCommand( new( $"Set {format} preview", async () =>
@@ -790,7 +1123,14 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             else
                 await ResolveDataSources( RootDefinition, loadData: true );
 
-            await ModeChanged.InvokeAsync( currentMode );
+            if ( notifyChanged )
+            {
+                if ( sourceFormat != currentPreviewFormat )
+                    await PreviewFormatChanged.InvokeAsync( currentPreviewFormat );
+
+                if ( sourceMode != currentMode )
+                    await ModeChanged.InvokeAsync( currentMode );
+            }
         }, TrackHistory: false, NotifyDefinitionChanged: false ) );
     }
 
@@ -811,56 +1151,92 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         if ( PdfGenerator is null )
             return;
 
+        int operationMutationVersion = renderMutationVersion;
+
         try
         {
             PdfGenerationResult result = CurrentPdfPreviewResult;
+            bool pdfPreviewPending = result is null && IsPdfPreviewPending;
 
-            if ( result is null )
+            if ( pdfPreviewPending )
+                result = await ResolvePdfPreview();
+
+            if ( result is null && !pdfPreviewPending )
             {
-                await NotifyPdfProgress( new( "Resolving data" ), yieldRender: true );
-                await ResolveDataSources( RootDefinition, true );
+                Task<bool> resolveDataSourcesTask = ResolveDataSourcesOperation( RootDefinition, true );
+                await NotifyPdfProgress( new( Localize( "Resolving data" ) ), yieldRender: true );
+
+                if ( !await resolveDataSourcesTask )
+                    return;
+
+                operationMutationVersion = renderMutationVersion;
                 result = await ResolvePdfPreview();
             }
 
-            if ( result is null )
+            if ( result is null || operationMutationVersion != renderMutationVersion )
                 return;
 
-            await NotifyPdfProgress( new( "Requesting download" ), yieldRender: true );
+            await NotifyPdfProgress( new( Localize( "Requesting download" ) ), yieldRender: true );
 
             reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
             await reportingModule.DownloadFile( result.FileName, result.ContentType, result.Content );
 
-            await NotifyPdfProgress( new( "PDF ready", 1 ), yieldRender: true );
+            await NotifyPdfProgress( new( Localize( "PDF ready" ), 1 ), yieldRender: true );
+        }
+        catch ( Exception exception )
+        {
+            await NotifyOperationFailed( Localize( "Download PDF" ), exception );
         }
         finally
         {
-            OperationFinished?.Invoke();
+            if ( operationMutationVersion == renderMutationVersion )
+                OperationFinished?.Invoke();
         }
     }
 
     private async Task<PdfGenerationResult> ResolvePdfPreviewOperation( ReportDefinition definition, bool resolveDataSources )
     {
+        int operationMutationVersion = renderMutationVersion;
+
         try
         {
-            if ( resolveDataSources )
+            PdfGenerationResult result;
+
+            if ( IsPdfPreviewPending )
+                result = await ResolvePdfPreview();
+            else
             {
-                await NotifyPdfProgress( new( "Resolving data" ), yieldRender: true );
-                await ResolveDataSources( definition, loadData: true );
+                if ( resolveDataSources )
+                {
+                    Task<bool> resolveDataSourcesTask = ResolveDataSourcesOperation( definition, loadData: true );
+                    await NotifyPdfProgress( new( Localize( "Resolving data" ) ), yieldRender: true );
+
+                    if ( !await resolveDataSourcesTask )
+                        return null;
+
+                    operationMutationVersion = renderMutationVersion;
+                }
+
+                result = await ResolvePdfPreview();
             }
 
-            PdfGenerationResult result = await ResolvePdfPreview();
-
-            if ( result is not null )
+            if ( result is not null && operationMutationVersion == renderMutationVersion )
             {
-                await NotifyPdfProgress( new( "Preparing preview" ), yieldRender: true );
-                await NotifyPdfProgress( new( "PDF ready", 1 ), yieldRender: true );
+                await NotifyPdfProgress( new( Localize( "Preparing preview" ) ), yieldRender: true );
+                await NotifyPdfProgress( new( Localize( "PDF ready" ), 1 ), yieldRender: true );
             }
 
             return result;
         }
+        catch ( Exception exception )
+        {
+            await NotifyOperationFailed( Localize( "Prepare PDF preview" ), exception );
+            return null;
+        }
         finally
         {
-            OperationFinished?.Invoke();
+            if ( operationMutationVersion == renderMutationVersion )
+                OperationFinished?.Invoke();
         }
     }
 
@@ -871,40 +1247,102 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         if ( result is not null || PdfGenerator is null )
             return result;
 
-        ReportDefinition definition = RootDefinition;
-        await NotifyPdfProgress( new( "Building PDF" ), yieldRender: true );
-        PdfDocumentDefinition pdfDocument = ReportPdfDocumentBuilder.Build( definition, Data, ElementPluginRegistry );
+        int mutationVersion = renderMutationVersion;
+        Task<PdfGenerationResult> task = pdfPreviewTask;
+        CancellationTokenSource cancellationTokenSource = null;
 
-        result = await PdfGenerator.Generate( pdfDocument, new()
+        if ( task is null || pdfPreviewTaskMutationVersion != mutationVersion )
         {
-            FileName = ResolvePdfFileName( definition ),
-            Progress = HasPdfProgressListeners
-                ? OnPdfGeneratorProgressed
-                : null,
-        } );
+            CancelAsyncOperations();
 
-        pdfPreviewResult = result;
-        pdfPreviewContext = new(
-            result.Content,
-            result.ContentType,
-            result.FileName,
-            context.ViewerOptions.AllowPrint,
-            context.ViewerOptions.AllowDownload,
-            EventCallback.Factory.Create( this, DownloadPdf ) );
-        pdfPreviewMutationVersion = renderMutationVersion;
+            cancellationTokenSource = new();
+            asyncOperationCancellationTokenSource = cancellationTokenSource;
+            pdfPreviewTaskMutationVersion = mutationVersion;
+            task = GeneratePdfPreview( RootDefinition, mutationVersion, cancellationTokenSource.Token );
+            pdfPreviewTask = task;
+        }
 
-        return result;
+        try
+        {
+            return await task;
+        }
+        finally
+        {
+            if ( cancellationTokenSource is not null )
+            {
+                if ( ReferenceEquals( pdfPreviewTask, task ) )
+                {
+                    pdfPreviewTask = null;
+                    pdfPreviewTaskMutationVersion = -1;
+
+                    if ( ReferenceEquals( asyncOperationCancellationTokenSource, cancellationTokenSource ) )
+                        asyncOperationCancellationTokenSource = null;
+                }
+
+                cancellationTokenSource.Dispose();
+            }
+        }
     }
 
-    private async Task OnPdfGeneratorProgressed( PdfGenerationProgress progress )
+    private async Task<PdfGenerationResult> GeneratePdfPreview( ReportDefinition definition, int mutationVersion, CancellationToken cancellationToken )
     {
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            await NotifyPdfProgress( new( Localize( "Building PDF" ) ), yieldRender: true );
+
+            if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+                return null;
+
+            PdfDocumentDefinition pdfDocument = ReportPdfDocumentBuilder.Build( definition, Data, ElementPluginRegistry, cancellationToken );
+            cancellationToken.ThrowIfCancellationRequested();
+
+            PdfGenerationResult result = await PdfGenerator.GenerateAsync( pdfDocument, new()
+            {
+                FileName = ResolvePdfFileName( definition ),
+                Progress = HasPdfProgressListeners
+                    ? progress => OnPdfGeneratorProgressed( progress, mutationVersion, cancellationToken )
+                    : null,
+            }, cancellationToken );
+
+            if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+                return null;
+
+            pdfPreviewResult = result;
+            pdfPreviewContext = new(
+                result.Content,
+                result.ContentType,
+                result.FileName,
+                context.ViewerOptions.AllowPrint,
+                context.ViewerOptions.AllowDownload,
+                EventCallback.Factory.Create( this, DownloadPdf ) );
+            pdfPreviewMutationVersion = mutationVersion;
+
+            return result;
+        }
+        catch ( OperationCanceledException ) when ( cancellationToken.IsCancellationRequested )
+        {
+            return null;
+        }
+        catch ( Exception exception )
+        {
+            await NotifyOperationFailed( Localize( "Generate PDF preview" ), exception );
+            return null;
+        }
+    }
+
+    private async Task OnPdfGeneratorProgressed( PdfGenerationProgress progress, int mutationVersion, CancellationToken cancellationToken )
+    {
+        if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+            return;
+
         string status = progress.Stage switch
         {
-            PdfGenerationStage.PreparingFonts => "Preparing fonts",
-            PdfGenerationStage.RenderingPages when progress.TotalPages > 0 => $"PDF {progress.CompletedPages}/{progress.TotalPages}",
-            PdfGenerationStage.RenderingPages => "Rendering PDF",
-            PdfGenerationStage.WritingDocument or PdfGenerationStage.Completed => "Writing PDF",
-            _ => "Building PDF",
+            PdfGenerationStage.PreparingResources => Localize( "Preparing resources" ),
+            PdfGenerationStage.RenderingPages when progress.TotalPages > 0 => Localize( "PDF {0}/{1}", progress.CompletedPages, progress.TotalPages ),
+            PdfGenerationStage.RenderingPages => Localize( "Rendering PDF" ),
+            PdfGenerationStage.WritingDocument or PdfGenerationStage.Completed => Localize( "Writing PDF" ),
+            _ => Localize( "Building PDF" ),
         };
 
         await NotifyPdfProgress( new( status, progress.Progress, progress.CompletedPages, progress.TotalPages ) );
@@ -924,12 +1362,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private async Task ResetDefinition()
     {
-        if ( !await ConfirmDestructiveAction( "Are you sure you want to reset the report to its initial definition?", "Reset report", "Reset" ) )
+        if ( !await ConfirmDestructiveAction( Localize( "Are you sure you want to reset the report to its initial definition?" ), Localize( "Reset report" ), Localize( "Reset" ) ) )
             return;
 
         await ExecuteDesignerCommand( new( "Reset report", () =>
         {
-            declarativeDefinition = BuildDeclarativeDefinition();
+            workingDefinition = BuildDeclarativeDefinition();
             activeSubreportElementKey = null;
             SelectReport();
             _ = CloseContextMenu();
@@ -937,7 +1375,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             designerState.EditingElementKey = null;
 
             return Task.CompletedTask;
-        }, () => declarativeDefinition, RefreshTargets: ReportDesignerRefreshTarget.All ) );
+        }, () => workingDefinition, RefreshTargets: ReportDesignerRefreshTarget.All ) );
     }
 
     private Task<bool> ConfirmDestructiveAction( string message, string title, string confirmButtonText )
@@ -946,7 +1384,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         {
             options.ShowCloseButton = false;
             options.ShowMessageIcon = false;
-            options.CancelButtonText = "Cancel";
+            options.CancelButtonText = Localize( "Cancel" );
             options.ConfirmButtonText = confirmButtonText;
             options.ConfirmButtonColor = Color.Danger;
         } );
@@ -1083,11 +1521,32 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     {
         string previousActiveSubreportElementKey = activeSubreportElementKey;
         ReportState nextState = ReportContext.CloneState( state );
-        ReportDefinition definition = ReportDefinitionHelper.EnsureDefinitionIds( nextState.Definition ?? BuildDeclarativeDefinition() );
+        List<string> normalizationDiagnostics = [];
+        ReportDefinition definition = ReportDefinitionHelper.EnsureDefinitionIds( nextState.Definition ?? BuildDeclarativeDefinition(), normalizationDiagnostics );
+
+        if ( !Enum.IsDefined( nextState.Mode ) )
+        {
+            nextState.Mode = IsEditable ? ReportMode.Design : ReportMode.Preview;
+            normalizationDiagnostics.Add( $"Mode was invalid and was normalized to {nextState.Mode}." );
+        }
+
+        ReportPreviewFormat previewFormat = ResolvePreviewFormat( nextState.PreviewFormat );
+
+        if ( nextState.PreviewFormat != previewFormat )
+        {
+            nextState.PreviewFormat = previewFormat;
+            normalizationDiagnostics.Add( $"PreviewFormat was invalid or unavailable and was normalized to {nextState.PreviewFormat}." );
+        }
+
+        if ( !Enum.IsDefined( nextState.Selection.Type ) )
+        {
+            nextState.Selection.Type = ReportSelectionType.Report;
+            normalizationDiagnostics.Add( $"Selection.Type was invalid and was normalized to {nextState.Selection.Type}." );
+        }
 
         ReportDefinitionHelper.ApplyRowsLimit( definition, BlazoriseLicenseLimitsHelper.GetReportingRowsLimit( LicenseChecker ) );
 
-        declarativeDefinition = definition;
+        workingDefinition = definition;
         currentMode = nextState.Mode;
         currentPreviewFormat = nextState.PreviewFormat;
         activePageId = nextState.ActivePageId;
@@ -1095,7 +1554,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             ? subreportElementKey
             : ResolveActiveSubreportElementKey( definition, previousActiveSubreportElementKey );
         InvalidateActivePageScope();
-        clipboardElements = nextState.ClipboardElements?.Select( ReportContext.CloneElement ).ToList() ?? [];
+        clipboardElements = nextState.ClipboardElements?.Select( ReportContext.CloneElement ).Where( element => element is not null ).ToList() ?? [];
+
+        for ( int elementIndex = 0; elementIndex < clipboardElements.Count; elementIndex++ )
+            ReportDefinitionHelper.NormalizeElement( clipboardElements[elementIndex], $"ClipboardElements[{elementIndex}]", normalizationDiagnostics );
+
         clipboardBandId = nextState.ClipboardBandId;
         selectionManager.ApplyState( ResolveActiveDesignerDefinition( definition ), nextState.Selection );
         if ( !string.Equals( previousActiveSubreportElementKey, activeSubreportElementKey, StringComparison.Ordinal ) )
@@ -1109,12 +1572,13 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         commandManager.SetState( CaptureReportState( definition ) );
 
         InvalidateDesignerCaches();
+        NotifyDefinitionNormalized( normalizationDiagnostics );
 
         if ( CurrentMode == ReportMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf )
             await ResolvePdfPreviewOperation( definition, resolveDataSources: false );
 
         if ( notifyDefinitionChanged )
-            await DefinitionChanged.InvokeAsync( definition );
+            await NotifyDefinitionChanged( definition );
 
         RefreshDesigner( refreshTargets );
 
@@ -1801,8 +2265,17 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         await ExecuteDesignerCommand( new( "Refresh data source", async () =>
         {
-            await dataCommandService.RefreshDataSource( EffectiveDefinition, DataSourceProviderRegistry, dataSourceName );
-            await ResolveDataSources( EffectiveDefinition, CurrentMode == ReportMode.Preview );
+            ReportDefinition definition = EffectiveDefinition;
+
+            await ExecuteDataOperation( $"Refresh data source '{dataSourceName}'", async ( cancellationToken, mutationVersion ) =>
+            {
+                await dataCommandService.RefreshDataSource( definition, DataSourceProviderRegistry, dataSourceName, cancellationToken );
+
+                if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+                    return false;
+
+                return await ResolveDataSources( definition, CurrentMode == ReportMode.Preview, mutationVersion, cancellationToken );
+            } );
         }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
     }
 
@@ -1811,7 +2284,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         if ( string.IsNullOrWhiteSpace( dataSourceName ) )
             return;
 
-        if ( !await ConfirmDestructiveAction( "Are you sure you want to delete this data source?", "Delete data source", "Delete" ) )
+        if ( !await ConfirmDestructiveAction( Localize( "Are you sure you want to delete this data source?" ), Localize( "Delete data source" ), Localize( "Delete" ) ) )
             return;
 
         await ExecuteDesignerCommand( new( "Delete data source", () =>
@@ -2392,12 +2865,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         await ExecuteDesignerCommand( new( "Insert subreport", () =>
         {
-            ReportDefinition workingDefinition = EffectiveDefinition;
+            ReportDefinition commandDefinition = EffectiveDefinition;
             ReportDefinition rootDefinition = RootDefinition;
             ReportContextMenuState commandContextMenu = designerState.ContextMenu;
             int commandSectionIndex = commandContextMenu?.SectionIndex ?? selectionManager.SelectedSectionIndex ?? -1;
 
-            if ( commandSectionIndex < 0 || commandSectionIndex >= workingDefinition.Bands.Count )
+            if ( commandSectionIndex < 0 || commandSectionIndex >= commandDefinition.Bands.Count )
                 return Task.CompletedTask;
 
             string subreportName = ReportDefinitionHelper.CreateUniqueSubreportName( rootDefinition );
@@ -2413,7 +2886,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             subreport.Report = ReportDefinitionHelper.CreateDefaultSubreportDefinition( subreportName );
             subreport.Report.RowsLimit = rootDefinition.RowsLimit;
 
-            ReportBandDefinition section = workingDefinition.Bands[commandSectionIndex];
+            ReportBandDefinition section = commandDefinition.Bands[commandSectionIndex];
 
             section.Elements.Add( subreport );
             ReportLayoutGeometry.GrowSectionToFitElement( section, subreport );
@@ -2713,7 +3186,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     internal IReadOnlyList<ReportDesignerWarning> GetDesignerWarnings()
     {
         if ( !CurrentShowCollisionWarnings || DesignerRootDefinition is null )
-            return [];
+            return operationWarning is null ? [] : [operationWarning];
 
         if ( designerWarningsMutationVersion != renderMutationVersion )
         {
@@ -2724,7 +3197,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             designerWarningsMutationVersion = renderMutationVersion;
         }
 
-        return designerWarnings;
+        return operationWarning is null ? designerWarnings : [operationWarning, .. designerWarnings];
     }
 
     internal bool IsElementColliding( string elementKey )
@@ -2759,9 +3232,57 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private void InvalidateDesignerCaches()
     {
+        CancelAsyncOperations();
+        operationWarning = null;
         renderMutationVersion++;
         renderService.Invalidate();
         WarningsChanged?.Invoke();
+    }
+
+    private async Task NotifyOperationFailed( string operation, Exception exception )
+    {
+        string message = Localize( "{0} failed: {1}", operation, exception.Message );
+
+        Logger?.LogError( exception, "Report operation {Operation} failed.", operation );
+        operationWarning = new( message, [] );
+        Progressed?.Invoke( new( message ) );
+        WarningsChanged?.Invoke();
+
+        try
+        {
+            await OperationFailed.InvokeAsync( new ReportOperationFailedEventArgs( operation, exception ) );
+        }
+        catch ( Exception callbackException )
+        {
+            Logger?.LogError( callbackException, "The report OperationFailed callback failed." );
+        }
+    }
+
+    private void NotifyDefinitionNormalized( IReadOnlyList<string> diagnostics )
+    {
+        if ( diagnostics is null || diagnostics.Count == 0 )
+            return;
+
+        string message = diagnostics.Count == 1
+            ? Localize( "Report definition normalized: {0}", diagnostics[0] )
+            : Localize( "Report definition contained {0} invalid values and was normalized. See the application log for details.", diagnostics.Count );
+
+        Logger?.LogWarning( "Report definition was normalized: {Diagnostics}", string.Join( " ", diagnostics ) );
+
+        if ( operationWarning is not null )
+            return;
+
+        operationWarning = new( message, [] );
+        WarningsChanged?.Invoke();
+    }
+
+    private void CancelAsyncOperations()
+    {
+        CancellationTokenSource cancellationTokenSource = asyncOperationCancellationTokenSource;
+        asyncOperationCancellationTokenSource = null;
+        pdfPreviewTask = null;
+        pdfPreviewTaskMutationVersion = -1;
+        cancellationTokenSource?.Cancel();
     }
 
     private void RefreshDesignerSurface()
@@ -2873,6 +3394,43 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         }, RefreshTargets: refreshTargets ) );
     }
 
+    private Task SynchronizeDesignerParameters(
+        ComponentParameterInfo<ReportBandMode> bandModeParameter,
+        ComponentParameterInfo<bool> showRulersParameter,
+        ComponentParameterInfo<bool> showFineRulerTicksParameter,
+        ComponentParameterInfo<bool> showCursorGuidesParameter,
+        ComponentParameterInfo<bool> showCollisionWarningsParameter )
+    {
+        if ( !( bandModeParameter.Changed && CurrentBandMode != bandModeParameter.Value )
+            && !( showRulersParameter.Changed && CurrentShowRulers != showRulersParameter.Value )
+            && !( showFineRulerTicksParameter.Changed && CurrentShowFineRulerTicks != showFineRulerTicksParameter.Value )
+            && !( showCursorGuidesParameter.Changed && CurrentShowCursorGuides != showCursorGuidesParameter.Value )
+            && !( showCollisionWarningsParameter.Changed && CurrentShowCollisionWarnings != showCollisionWarningsParameter.Value ) )
+        {
+            return Task.CompletedTask;
+        }
+
+        return ExecuteDesignerCommand( new( "Synchronize designer settings", () =>
+        {
+            if ( bandModeParameter.Changed )
+                DesignerDefinition.BandMode = bandModeParameter.Value;
+
+            if ( showRulersParameter.Changed )
+                DesignerDefinition.ShowRulers = showRulersParameter.Value;
+
+            if ( showFineRulerTicksParameter.Changed )
+                DesignerDefinition.ShowFineRulerTicks = showFineRulerTicksParameter.Value;
+
+            if ( showCursorGuidesParameter.Changed )
+                DesignerDefinition.ShowCursorGuides = showCursorGuidesParameter.Value;
+
+            if ( showCollisionWarningsParameter.Changed )
+                DesignerDefinition.ShowCollisionWarnings = showCollisionWarningsParameter.Value;
+
+            return Task.CompletedTask;
+        }, TrackHistory: false, RefreshTargets: ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.SelectedPanel ) );
+    }
+
     internal void ClearDragState()
     {
         ReportDesignerInteractionService.ClearDragState( designerState );
@@ -2880,8 +3438,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private bool SupportsPreviewFormat( ReportPreviewFormat format )
     {
-        return ( PreviewFormats ?? context.ViewerOptions.PreviewFormats ).HasFlag( format );
+        return ReportPreviewFormatResolver.IsEnabled( AvailablePreviewFormats, format );
     }
+
+    private ReportPreviewFormat ResolvePreviewFormat( ReportPreviewFormat format )
+        => ReportPreviewFormatResolver.Resolve( format, AvailablePreviewFormats, EffectiveDefaultPreviewFormat );
 
     private static string ResolvePdfFileName( ReportDefinition definition )
     {
@@ -2992,7 +3553,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             new()
             {
                 Key = MainReportDesignerTabKey,
-                Text = string.IsNullOrWhiteSpace( rootDefinition?.Name ) ? "Main Report" : rootDefinition.Name,
+                Text = string.IsNullOrWhiteSpace( rootDefinition?.Name ) ? Localize( "Main Report" ) : rootDefinition.Name,
                 Active = string.IsNullOrWhiteSpace( activeSubreportElementKey ),
             },
         ];
@@ -3042,7 +3603,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         return rootDefinition.Pages.Select( ( page, pageIndex ) => new ReportDesignerTabItem
         {
             Key = page.Id,
-            Text = string.IsNullOrWhiteSpace( page.Name ) ? $"Page {pageIndex + 1}" : page.Name,
+            Text = string.IsNullOrWhiteSpace( page.Name ) ? Localize( "Page {0}", pageIndex + 1 ) : page.Name,
             Active = string.Equals( page.Id, selectedPageId, StringComparison.Ordinal ),
         } ).ToList();
     }
@@ -3328,9 +3889,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     #region Properties
 
     private ReportDefinition RootDefinition
-        => CurrentDefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative
-            ? BuildDeclarativeDefinition()
-            : declarativeDefinition ?? Definition ?? BuildDeclarativeDefinition();
+        => workingDefinition;
 
     private ReportDefinition EffectiveDefinition
         => ResolveActiveDesignerDefinition( RootDefinition );
@@ -3374,9 +3933,13 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal string DefaultDataSourceName => DataSourceName;
 
+    internal string AccessibilityId => modalProviderName;
+
     internal ReportDefinition PreviewDefinition => RootDefinition;
 
     internal ReportPreviewFormat ActivePreviewFormat => CurrentPreviewFormat;
+
+    internal bool HasPreviewFormats => AvailablePreviewFormats != ReportPreviewFormat.None;
 
     internal ReportPdfPreviewContext PdfPreviewContext => pdfPreviewMutationVersion == renderMutationVersion ? pdfPreviewContext : null;
 
@@ -3406,7 +3969,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal bool ShowToolbarModeButtons => context.ShowToolbarModeButtons;
 
-    internal bool IsEditable => Editable || GlobalOptions.Editable;
+    internal bool IsEditable => Editable ?? GlobalOptions.Editable;
 
     internal IReadOnlyList<ReportRenderPage> ResolvePreviewRenderPages( ReportDefinition definition )
         => renderService.ResolvePreviewRenderPages( definition, Data, renderMutationVersion );
@@ -3428,15 +3991,24 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             ? DataSourceProviderRegistry.Providers
             : fallbackDataSourceProviders;
 
-    private ReportMode CurrentMode => Mode ?? currentMode;
+    internal ReportMode CurrentMode => Mode ?? currentMode;
 
-    private ReportPreviewFormat CurrentPreviewFormat => PreviewFormat ?? currentPreviewFormat;
+    private ReportPreviewFormat AvailablePreviewFormats
+        => ReportPreviewFormatResolver.Normalize( PreviewFormats ?? context.ViewerOptions.PreviewFormats );
+
+    private ReportPreviewFormat EffectiveDefaultPreviewFormat
+        => ReportPreviewFormatResolver.Resolve( DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat, AvailablePreviewFormats );
+
+    private ReportPreviewFormat CurrentPreviewFormat
+        => ResolvePreviewFormat( PreviewFormat ?? currentPreviewFormat );
 
     private ReportDefinitionMode CurrentDefinitionMode => DefinitionMode ?? GlobalOptions.DefinitionMode;
 
     private bool HasClipboardElements => clipboardElements.Count > 0;
 
     private PdfGenerationResult CurrentPdfPreviewResult => pdfPreviewMutationVersion == renderMutationVersion ? pdfPreviewResult : null;
+
+    private bool IsPdfPreviewPending => pdfPreviewTask is not null && pdfPreviewTaskMutationVersion == renderMutationVersion;
 
     private bool CanInsertSubreportElement => string.IsNullOrWhiteSpace( activeSubreportElementKey );
 
@@ -3477,12 +4049,52 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     [Inject] private BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
-    /// Persisted report definition used by the designer and viewer.
+    /// Logger used for report operation failures.
+    /// </summary>
+    [Inject] private ILogger<_ReportDesigner> Logger { get; set; }
+
+    /// <summary>
+    /// Service that notifies the report when localization changes.
+    /// </summary>
+    [Inject] private ITextLocalizerService LocalizerService { get; set; }
+
+    /// <summary>
+    /// Report text localizer.
+    /// </summary>
+    [Inject] private ITextLocalizer<Report> Localizer { get; set; }
+
+    /// <summary>
+    /// Gets or sets the report root element ID.
+    /// </summary>
+    [Parameter] public string ElementId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the report root CSS classes.
+    /// </summary>
+    [Parameter] public string Class { get; set; }
+
+    /// <summary>
+    /// Gets or sets the report root inline styles.
+    /// </summary>
+    [Parameter] public string Style { get; set; }
+
+    /// <summary>
+    /// Gets or sets additional report root attributes.
+    /// </summary>
+    [Parameter] public Dictionary<string, object> Attributes { get; set; }
+
+    /// <summary>
+    /// Custom localizers used by the report designer and viewer.
+    /// </summary>
+    [Parameter] public ReportLocalizers Localizers { get; set; }
+
+    /// <summary>
+    /// Persisted report definition copied into the designer working state.
     /// </summary>
     [Parameter] public ReportDefinition Definition { get; set; }
 
     /// <summary>
-    /// Raised when the report definition changes through designer commands.
+    /// Raised with a snapshot of the updated report definition.
     /// </summary>
     [Parameter] public EventCallback<ReportDefinition> DefinitionChanged { get; set; }
 
@@ -3504,7 +4116,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// <summary>
     /// Defines whether the report can be edited using the interactive designer.
     /// </summary>
-    [Parameter] public bool Editable { get; set; }
+    [Parameter] public bool? Editable { get; set; }
 
     /// <summary>
     /// Shows the report toolbar above the designer or viewer surface.
@@ -3520,6 +4132,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// Shows the status bar below the designer or preview surface.
     /// </summary>
     [Parameter] public bool ShowStatusBar { get; set; } = true;
+
+    /// <summary>
+    /// Raised when status bar visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowStatusBarChanged { get; set; }
 
     /// <summary>
     /// Band presentation used when constructing a report from declarative content. Persisted definitions retain their configured value.
@@ -3589,7 +4206,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// <summary>
     /// A comma-separated list of image MIME types accepted by the image upload dialog.
     /// </summary>
-    [Parameter] public string ImageAccept { get; set; } = "image/png, image/jpeg, image/webp, image/svg+xml";
+    [Parameter] public string ImageAccept { get; set; } = "image/png, image/jpeg";
 
     /// <summary>
     /// Maximum image size in bytes.
@@ -3662,6 +4279,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     [Parameter] public ReportPreviewFormat? PreviewFormat { get; set; }
 
     /// <summary>
+    /// Raised when the preview format changes.
+    /// </summary>
+    [Parameter] public EventCallback<ReportPreviewFormat> PreviewFormatChanged { get; set; }
+
+    /// <summary>
     /// Preview formats available for this report.
     /// </summary>
     [Parameter] public ReportPreviewFormat? PreviewFormats { get; set; }
@@ -3675,6 +4297,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// Raised when the overall report PDF operation progress changes.
     /// </summary>
     [Parameter] public EventCallback<ReportProgress> PdfProgressed { get; set; }
+
+    /// <summary>
+    /// Raised when a report operation fails.
+    /// </summary>
+    [Parameter] public EventCallback<ReportOperationFailedEventArgs> OperationFailed { get; set; }
 
     /// <summary>
     /// Custom report element plugins available only to this report instance. The collection is read during initialization.

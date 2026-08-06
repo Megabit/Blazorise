@@ -8,10 +8,10 @@ public class ContextMenuOpeningEventArgs : ContextMenuEventArgs
     /// <summary>
     /// Initializes a new instance of <see cref="ContextMenuOpeningEventArgs"/>.
     /// </summary>
-    /// <param name="clientX">The document client X coordinate.</param>
-    /// <param name="clientY">The document client Y coordinate.</param>
+    /// <param name="clientX">The viewport client X coordinate, or <see langword="null"/> when anchored to a target.</param>
+    /// <param name="clientY">The viewport client Y coordinate, or <see langword="null"/> when anchored to a target.</param>
     /// <param name="documentEventArgs">The originating document event.</param>
-    public ContextMenuOpeningEventArgs( double clientX, double clientY, DocumentEventArgs documentEventArgs )
+    public ContextMenuOpeningEventArgs( double? clientX, double? clientY, DocumentEventArgs documentEventArgs )
         : base( clientX, clientY, documentEventArgs )
     {
     }

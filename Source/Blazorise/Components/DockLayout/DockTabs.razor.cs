@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -9,13 +10,15 @@ namespace Blazorise;
 /// <summary>
 /// Defines an initial tab group inside a <see cref="DockLayout"/>.
 /// </summary>
-public partial class DockTabs : BaseComponent
+public partial class DockTabs : BaseComponent, IDisposable
 {
     #region Members
 
-    private DockNodeCollector childCollector = new();
+    private DockNodeCollector childCollector;
 
     private DockNodeState node;
+
+    private string activePane;
 
     #endregion
 
@@ -43,12 +46,21 @@ public partial class DockTabs : BaseComponent
             await ParentDockLayout.NotifyDefinitionChanged();
     }
 
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+            ParentCollector?.RemoveNode( Node );
+
+        base.Dispose( disposing );
+    }
+
     private void SynchronizeNode()
     {
         DockNodeState currentNode = Node;
         List<string> paneNames = new();
 
-        foreach ( DockNodeState childNode in childCollector.Nodes )
+        foreach ( DockNodeState childNode in ChildCollector.Nodes )
         {
             if ( childNode.Kind == DockNodeKind.Pane && !string.IsNullOrWhiteSpace( childNode.PaneName ) )
                 paneNames.Add( childNode.PaneName );
@@ -68,11 +80,12 @@ public partial class DockTabs : BaseComponent
 
     #region Properties
 
-    internal DockNodeCollector ChildCollector => childCollector;
+    internal DockNodeCollector ChildCollector => childCollector ??= new( SynchronizeNode );
 
     internal DockNodeState Node => node ??= new()
     {
         Kind = DockNodeKind.Tabs,
+        ActivePane = activePane,
     };
 
     [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
@@ -80,9 +93,23 @@ public partial class DockTabs : BaseComponent
     [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
 
     /// <summary>
-    /// Defines the active pane name.
+    /// Defines the initially active pane name.
     /// </summary>
-    [Parameter] public string ActivePane { get; set; }
+    [Parameter]
+    public string ActivePane
+    {
+        get => activePane;
+        set
+        {
+            if ( activePane == value )
+                return;
+
+            activePane = value;
+
+            if ( node is not null )
+                node.ActivePane = value;
+        }
+    }
 
     /// <summary>
     /// Specifies the tab child content.

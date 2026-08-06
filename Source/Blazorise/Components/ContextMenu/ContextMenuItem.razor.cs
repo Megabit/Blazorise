@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise;
@@ -70,19 +69,6 @@ public partial class ContextMenuItem : BaseComponent
     }
 
     /// <summary>
-    /// Handles keyboard activation for menu items.
-    /// </summary>
-    /// <param name="eventArgs">Information about the keyboard event.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    protected Task KeyDownHandler( KeyboardEventArgs eventArgs )
-    {
-        if ( eventArgs.Key == "Enter" || eventArgs.Key == "NumpadEnter" || eventArgs.Key == " " )
-            return ClickHandler();
-
-        return Task.CompletedTask;
-    }
-
-    /// <summary>
     /// Handles the checked state change.
     /// </summary>
     /// <param name="isChecked">The new checked state.</param>
@@ -105,13 +91,15 @@ public partial class ContextMenuItem : BaseComponent
 
     private bool IsChecked => ParentGroup?.CheckMode == ContextMenuCheckMode.Radio ? ParentGroup.IsSelected( Value ) : @checked;
 
-    private string Role => EffectiveShowCheckbox ? "menuitemcheckbox" : "menuitem";
+    private string Role => ParentGroup?.CheckMode == ContextMenuCheckMode.Radio
+        ? "menuitemradio"
+        : EffectiveShowCheckbox
+            ? "menuitemcheckbox"
+            : "menuitem";
 
     private string AriaDisabled => Disabled.ToString().ToLowerInvariant();
 
     private string AriaChecked => EffectiveShowCheckbox ? IsChecked.ToString().ToLowerInvariant() : null;
-
-    private int ComputedTabIndex => Disabled ? -1 : TabIndex ?? 0;
 
     private string ContentClassNames => ClassProvider.ContextMenuItemContent();
 
@@ -143,11 +131,6 @@ public partial class ContextMenuItem : BaseComponent
     /// Specifies shortcut text rendered at the end of the item.
     /// </summary>
     [Parameter] public string Shortcut { get; set; }
-
-    /// <summary>
-    /// Specifies the tabindex value for keyboard navigation.
-    /// </summary>
-    [Parameter] public int? TabIndex { get; set; }
 
     /// <summary>
     /// Indicates the currently active item.

@@ -5,7 +5,12 @@
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
 
-<div class="b-report-table" style="@TableStyle">
+<div class="b-report-table"
+     style="@TableStyle"
+     role="@( DesignMode && Editable ? "grid" : null )"
+     aria-label="@( DesignMode && Editable ? Localize( "Report table" ) : null )"
+     aria-rowcount="@( DesignMode && Editable ? Rows.Count : (int?)null )"
+     aria-colcount="@( DesignMode && Editable ? Columns.Count : (int?)null )">
     @foreach ( ReportTableCellDefinition cell in GetCells() )
     {
         <_ReportDesignerTableCell Data="@Data"
@@ -21,6 +26,7 @@
                                   DesignMode="@DesignMode"
                                   Editable="@Editable"
                                   TableSelected="@TableSelected"
+                                  Selected="@string.Equals( SelectedCellKey, cell.Id, StringComparison.Ordinal )"
                                   TextEditingActive="@TextEditingActive"
                                   EditingElementKey="@EditingElementKey"
                                   CellClicked="@CellClicked"

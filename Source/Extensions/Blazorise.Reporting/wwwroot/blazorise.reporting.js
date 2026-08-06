@@ -447,25 +447,33 @@ export function getElementOffset(element, clientX, clientY) {
     ];
 }
 
-export function getScrollPosition(element) {
-    if (!element) {
-        return [0, 0];
+function resolveScrollElement(element, selector) {
+    return selector ? element?.querySelector(selector) : element;
+}
+
+export function getScrollPosition(element, selector) {
+    const scrollElement = resolveScrollElement(element, selector);
+
+    if (!scrollElement || scrollElement.isConnected === false) {
+        return [];
     }
 
     return [
-        Math.max(0, element.scrollLeft ?? 0),
-        Math.max(0, element.scrollTop ?? 0),
+        Math.max(0, scrollElement.scrollLeft ?? 0),
+        Math.max(0, scrollElement.scrollTop ?? 0),
     ];
 }
 
-export function setScrollPosition(element, left, top) {
-    if (!element) {
+export function setScrollPosition(element, left, top, selector) {
+    const scrollElement = resolveScrollElement(element, selector);
+
+    if (!scrollElement || scrollElement.isConnected === false) {
         return;
     }
 
     const apply = () => {
-        element.scrollLeft = Math.max(0, left ?? 0);
-        element.scrollTop = Math.max(0, top ?? 0);
+        scrollElement.scrollLeft = Math.max(0, left ?? 0);
+        scrollElement.scrollTop = Math.max(0, top ?? 0);
     };
 
     if (typeof requestAnimationFrame === "function") {
@@ -1016,6 +1024,7 @@ function shouldIgnoreDesignerShortcut(event) {
         || tagName === "textarea"
         || tagName === "select"
         || target.isContentEditable
+        || !!target.closest?.('[role="menu"]')
         || !!target.closest?.(".b-report-element-text-editor");
 }
 

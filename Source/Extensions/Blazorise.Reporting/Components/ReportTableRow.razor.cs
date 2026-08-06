@@ -1,4 +1,7 @@
 #region Using directives
+using System;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -7,39 +10,84 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Declares a row inside a report layout table element.
 /// </summary>
-public partial class ReportTableRow : ComponentBase
+public partial class ReportTableRow : ComponentBase, IDisposable
 {
     #region Members
 
-    private ReportTableRowContext rowContext;
+    private readonly ReportTableRowDefinition definition = new();
+
+    private readonly ReportTableRowContext rowContext = new();
+
+    private ReportTableContext registeredTableContext;
 
     #endregion
 
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        rowContext = null;
+        bool definitionChanged = registeredTableContext is null || parameters.IsParameterChanged( Height );
 
-        if ( TableDefinition is null )
+        await base.SetParametersAsync( parameters );
+
+        bool contextChanged = !ReferenceEquals( registeredTableContext, TableContext );
+
+        if ( contextChanged )
+        {
+            DetachRow();
+            registeredTableContext = TableContext;
+
+            if ( registeredTableContext?.Definition is not null )
+            {
+                registeredTableContext.Definition.Rows.Add( definition );
+                rowContext.Attach( registeredTableContext, definition );
+            }
+        }
+
+        if ( definitionChanged )
+        {
+            definition.Height = Height;
+            registeredTableContext?.NotifyDefinitionChanged();
+        }
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        DetachRow();
+        registeredTableContext = null;
+    }
+
+    private void DetachRow()
+    {
+        ReportTableElementDefinition tableDefinition = registeredTableContext?.Definition;
+
+        if ( tableDefinition is null )
             return;
 
-        int rowIndex = TableDefinition.Rows.Count;
+        int rowIndex = tableDefinition.Rows.IndexOf( definition );
+        rowContext.Detach();
 
-        TableDefinition.Rows.Add( new()
+        if ( rowIndex < 0 )
+            return;
+
+        tableDefinition.Rows.RemoveAt( rowIndex );
+
+        foreach ( ReportTableCellDefinition cell in tableDefinition.Cells )
         {
-            Height = Height,
-        } );
+            if ( cell.RowIndex > rowIndex )
+                cell.RowIndex--;
+        }
 
-        rowContext = new( TableDefinition, rowIndex );
+        registeredTableContext.NotifyDefinitionChanged();
     }
 
     #endregion
 
     #region Properties
 
-    [CascadingParameter] internal ReportTableElementDefinition TableDefinition { get; set; }
+    [CascadingParameter] internal ReportTableContext TableContext { get; set; }
 
     /// <summary>
     /// Row height in points.

@@ -1,0 +1,9 @@
+{
+  "culture": "ro",
+  "translations": {
+    "Close": "Închide",
+    "Close {0}": "Închide {0}",
+    "Pin": "Fixează",
+    "Unpin": "Anulează fixarea"
+  }
+}

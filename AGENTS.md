@@ -80,6 +80,16 @@ Cleanup: `clean.bat` (removes `bin/`, `obj/`, and generated docs artifacts).
 - Naming: PascalCase for types/members; interfaces start with `I`.
 - Dependency versions are centrally managed in `Directory.Packages.props` (don’t hardcode `Version=` in `PackageReference`).
 
+## Component Development Conventions
+
+- Follow the API naming, lifecycle, state-management, and rendering patterns of the closest existing Blazorise components before introducing a new pattern.
+- When parameters synchronize derived state, prefer `SetParametersAsync` with `ParameterViewExtensions` for coordinated change detection, especially across several parameters. Use change-detecting parameter setters only for simple, independent local transitions where they are clearer, and resynchronize supplied mutable complex parameters unless value equality is guaranteed.
+- Maintain a single owner for component state. Descendants should consume parent state through cascading state rather than expose parameters that can create conflicting states.
+- Route user interaction, public methods, parameter updates, and two-way binding through the same component lifecycle and event semantics.
+- Avoid additional state fields, abstractions, and public APIs unless they are required to represent genuinely distinct state or behavior.
+- Keep static provider styling in SCSS. Use `StyleProvider` only for styles derived from runtime component state.
+- Prefer provider-native tokens and variables. Introduce new CSS variables only when necessary and name them according to the provider's established convention.
+
 ## Testing Guidelines
 
 - Unit tests: xUnit + bUnit (`Tests/Blazorise.Tests`). Match existing naming like `*ComponentTest.cs`.

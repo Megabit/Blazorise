@@ -56,9 +56,9 @@
     min-width: 0;
     position: relative;
     overflow: hidden;
-    background: var(--b-dock-pane-background, $scheme-main);
-    color: var(--b-dock-pane-color, $text);
-    border-color: var(--b-dock-pane-border-color, $border);
+    background: var(--bulma-dock-pane-background, $scheme-main);
+    color: var(--bulma-dock-pane-color, $text);
+    border-color: var(--bulma-dock-pane-border-color, $border);
     border-style: solid;
     border-width: 0;
     z-index: 1;
@@ -153,13 +153,13 @@
 
 .dock-auto-hide-rail {
     position: absolute;
-    z-index: var(--b-dock-auto-hide-rail-zindex, 1301);
+    z-index: 1301;
     display: flex;
     align-items: stretch;
     justify-content: flex-start;
     overflow: hidden;
-    background: var(--b-dock-pane-background, #{$scheme-main});
-    border-color: var(--b-dock-pane-border-color, $border);
+    background: var(--bulma-dock-pane-background, #{$scheme-main});
+    border-color: var(--bulma-dock-pane-border-color, $border);
     border-style: solid;
     border-width: 0;
 }
@@ -202,8 +202,8 @@
 
 .dock-auto-hide-flyout {
     position: absolute;
-    z-index: var(--b-dock-auto-hide-flyout-zindex, 1302);
-    box-shadow: var(--b-dock-pane-shadow, 0 .5em 1em -.125em rgba($black, .1), 0 0 0 1px rgba($black, .02));
+    z-index: 1302;
+    box-shadow: 0 .5em 1em -.125em rgba($black, .1), 0 0 0 1px rgba($black, .02);
 }
 
 .dock-auto-hide-flyout.is-left {
@@ -255,8 +255,8 @@
     min-height: 0;
     padding: .5rem .375rem;
     border: 0;
-    background: var(--b-dock-pane-header-background, $background);
-    color: var(--b-dock-pane-color, $text);
+    background: var(--bulma-dock-pane-header-background, $background);
+    color: var(--bulma-dock-pane-color, $text);
     cursor: pointer;
     font: inherit;
     line-height: 1.25;
@@ -264,7 +264,7 @@
 }
 
 .dock-pane-auto-hide-tab:hover {
-    background: var(--b-dock-hover-background, rgba($primary, .12));
+    background: var(--bulma-dock-hover-background, rgba($primary, .12));
 }
 
 .dock-pane-auto-hide-tab.is-left,
@@ -288,11 +288,11 @@
 .dock-pane-footer {
     flex: 0 0 auto;
     padding: .5rem .75rem;
-    background: var(--b-dock-pane-header-background, $background);
+    background: var(--bulma-dock-pane-header-background, $background);
 }
 
 .dock-pane-footer {
-    background: var(--b-dock-pane-footer-background, var(--b-dock-pane-header-background, $background));
+    background: var(--bulma-dock-pane-footer-background, var(--bulma-dock-pane-header-background, $background));
 }
 
 .dock-pane-header {
@@ -329,15 +329,15 @@
     border: 0;
     border-radius: $radius-small;
     background: transparent;
-    color: var(--b-dock-pane-color, $text);
+    color: var(--bulma-dock-pane-color, $text);
     cursor: pointer;
     font-size: .75rem;
     line-height: 1;
 }
 
 .dock-pane-header-action:hover {
-    background: var(--b-dock-hover-background, rgba($primary, .12));
-    color: var(--b-dock-tab-active-color, $primary);
+    background: var(--bulma-dock-hover-background, rgba($primary, .12));
+    color: var(--bulma-dock-tab-active-color, $primary);
 }
 
 .dock-pane-body {
@@ -359,8 +359,8 @@
     flex: 0 0 auto;
     gap: .125rem;
     padding: 0 .25rem .25rem;
-    background: var(--b-dock-tabs-background, $background);
-    border-top: 1px solid var(--b-dock-pane-border-color, $border);
+    background: var(--bulma-dock-tabs-background, $background);
+    border-top: 1px solid var(--bulma-dock-pane-border-color, $border);
 }
 
 .dock-pane-tab {
@@ -370,7 +370,7 @@
     border: 0;
     border-radius: 0 0 $radius $radius;
     background: transparent;
-    color: var(--b-dock-pane-color, $text);
+    color: var(--bulma-dock-pane-color, $text);
     cursor: pointer;
     font: inherit;
     line-height: 1.25;
@@ -401,7 +401,7 @@
     border: 0;
     border-radius: $radius-small;
     background: transparent;
-    color: var(--b-dock-tab-close-color, $text-weak);
+    color: var(--bulma-dock-tab-close-color, $text-weak);
     cursor: pointer;
     font: inherit;
     line-height: 1;
@@ -409,15 +409,15 @@
 }
 
 .dock-pane-tab-close:hover {
-    background: var(--b-dock-hover-background, rgba($primary, .12));
-    color: var(--b-dock-pane-color, $text);
+    background: var(--bulma-dock-hover-background, rgba($primary, .12));
+    color: var(--bulma-dock-pane-color, $text);
 }
 
 .dock-pane.is-center > .dock-pane-tabs,
 .dock-pane-tabs.is-top {
     padding: .25rem .25rem 0;
     border-top: 0;
-    border-bottom: 1px solid var(--b-dock-pane-border-color, $border);
+    border-bottom: 1px solid var(--bulma-dock-pane-border-color, $border);
 }
 
 .dock-pane.is-center > .dock-pane-tabs .dock-pane-tab,
@@ -426,8 +426,8 @@
 }
 
 .dock-pane-tab.is-active {
-    background: var(--b-dock-tab-active-background, $scheme-main);
-    color: var(--b-dock-tab-active-color, $primary);
+    background: var(--bulma-dock-tab-active-background, $scheme-main);
+    color: var(--bulma-dock-tab-active-color, $primary);
 }
 
 
@@ -438,11 +438,11 @@
     max-width: 18rem;
     padding: .375rem .625rem;
     pointer-events: none;
-    border: 1px solid var(--b-dock-drag-preview-border-color, $primary);
+    border: 1px solid var(--bulma-dock-drag-preview-border-color, $primary);
     border-radius: $radius;
-    background: var(--b-dock-drag-preview-background, $scheme-main);
+    background: var(--bulma-dock-drag-preview-background, $scheme-main);
     box-shadow: $box-shadow;
-    color: var(--b-dock-pane-color, $text);
+    color: var(--bulma-dock-pane-color, $text);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -453,12 +453,12 @@
     position: absolute;
     z-index: 30;
     pointer-events: none;
-    border: 2px dashed var(--b-dock-drop-preview-border-color, $primary);
-    background: var(--b-dock-drop-preview-background, rgba($primary, .12));
+    border: 2px dashed var(--bulma-dock-drop-preview-border-color, $primary);
+    background: var(--bulma-dock-drop-preview-background, rgba($primary, .12));
 }
 
 .dock-shell-guide.is-active {
-    background: var(--b-dock-drop-preview-background, rgba($primary, .18));
+    background: var(--bulma-dock-drop-preview-background, rgba($primary, .18));
 }
 
 .dock-compass {
@@ -478,10 +478,10 @@
     justify-content: center;
     width: 2rem;
     height: 2rem;
-    color: var(--b-dock-compass-zone-color, $grey-light);
-    border: 1px solid var(--b-dock-compass-zone-border-color, $border);
+    color: var(--bulma-dock-compass-zone-color, $grey-light);
+    border: 1px solid var(--bulma-dock-compass-zone-border-color, $border);
     border-radius: $radius-small;
-    background: var(--b-dock-compass-zone-background, $scheme-main);
+    background: var(--bulma-dock-compass-zone-background, $scheme-main);
     box-shadow: 0 .125rem .25rem rgba($black, .08);
 }
 
@@ -491,9 +491,9 @@
 }
 
 .dock-compass-zone.is-active {
-    color: var(--b-dock-compass-zone-active-color, $primary);
-    border-color: var(--b-dock-compass-zone-active-border-color, $primary);
-    background: var(--b-dock-compass-zone-active-background, rgba($primary, .12));
+    color: var(--bulma-dock-compass-zone-active-color, $primary);
+    border-color: var(--bulma-dock-compass-zone-active-border-color, $primary);
+    background: var(--bulma-dock-compass-zone-active-background, rgba($primary, .12));
 }
 
 .dock-compass-zone.is-center {

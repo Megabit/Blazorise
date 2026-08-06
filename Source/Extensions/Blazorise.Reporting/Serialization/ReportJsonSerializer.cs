@@ -57,44 +57,8 @@ public static class ReportJsonSerializer
             throw new NotSupportedException( $"Report format version {definition.FormatVersion} is not supported." );
 
         definition.FormatVersion = CurrentVersion;
-        NormalizeDefinition( definition );
 
-        return ReportDefinitionHelper.EnsureDefinitionIds( definition );
-    }
-
-    private static void NormalizeDefinition( ReportDefinition definition )
-    {
-        definition.Designer ??= new();
-        definition.Designer.GridSize = Math.Max( 1, definition.Designer.GridSize );
-        definition.Pages ??= [];
-        definition.DataSources ??= [];
-        definition.FormulaFields ??= [];
-        definition.RunningTotals ??= [];
-        definition.Fonts ??= [];
-
-        definition.Pages.RemoveAll( item => item is null );
-        definition.DataSources.RemoveAll( item => item is null );
-        definition.FormulaFields.RemoveAll( item => item is null );
-        definition.RunningTotals.RemoveAll( item => item is null );
-        definition.Fonts.RemoveAll( item => item is null );
-
-        if ( definition.Pages.Count == 0 )
-            definition.Pages.Add( new() { Name = "Page 1" } );
-
-        for ( int pageIndex = 0; pageIndex < definition.Pages.Count; pageIndex++ )
-        {
-            ReportPageDefinition page = definition.Pages[pageIndex];
-            page.Name ??= $"Page {pageIndex + 1}";
-            page.Margins ??= new();
-            page.Bands ??= [];
-            page.Bands.RemoveAll( item => item is null );
-
-            foreach ( ReportBandDefinition band in page.Bands )
-                band.Elements ??= [];
-        }
-
-        foreach ( ReportDataSourceDefinition dataSource in definition.DataSources )
-            dataSource.Settings ??= [];
+        return ReportDefinitionHelper.EnsureDefinitionIds( ReportContext.CloneDefinition( definition ) );
     }
 
     private static JsonSerializerOptions CreateOptions()

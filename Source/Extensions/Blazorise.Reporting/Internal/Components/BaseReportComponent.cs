@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -19,6 +20,17 @@ public abstract class BaseReportComponent : BaseStyledComponent
     protected Task CloseReportModal()
     {
         return ModalService?.Hide( ResolvedReportModalProviderName ) ?? Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Localizes report text.
+    /// </summary>
+    protected string Localize( string name, params object[] arguments )
+    {
+        if ( ReportLocalizers?.TextLocalizer is not null )
+            return ReportLocalizers.TextLocalizer.Invoke( name, arguments );
+
+        return Localizer[name, arguments];
     }
 
     /// <summary>
@@ -64,6 +76,16 @@ public abstract class BaseReportComponent : BaseStyledComponent
     /// Service used to show report modal components.
     /// </summary>
     [Inject] protected IModalService ModalService { get; set; }
+
+    /// <summary>
+    /// Report text localizer.
+    /// </summary>
+    [Inject] protected ITextLocalizer<Report> Localizer { get; set; }
+
+    /// <summary>
+    /// Per-report localizer overrides.
+    /// </summary>
+    [CascadingParameter] protected ReportLocalizers ReportLocalizers { get; set; }
 
     /// <summary>
     /// Cascaded report-owned Modal Provider name used by internal designer components.

@@ -327,10 +327,10 @@ internal sealed class DockLayoutTreeMutator
         string targetSize = sizer.GetDockNodeSize( state, targetNode );
         DockNodeState splitNode = zone switch
         {
-            DockZone.Left => DockLayoutTreeBuilder.CreateSplitNode( paneNode, targetNode, DockSplitOrientation.Horizontal, 0.32 ),
-            DockZone.Right => DockLayoutTreeBuilder.CreateSplitNode( targetNode, paneNode, DockSplitOrientation.Horizontal, 0.68 ),
-            DockZone.Top => DockLayoutTreeBuilder.CreateSplitNode( paneNode, targetNode, DockSplitOrientation.Vertical, 0.32 ),
-            DockZone.Bottom => DockLayoutTreeBuilder.CreateSplitNode( targetNode, paneNode, DockSplitOrientation.Vertical, 0.68 ),
+            DockZone.Left => DockLayoutTreeBuilder.CreateSplitNode( paneNode, targetNode, Orientation.Horizontal, 0.32 ),
+            DockZone.Right => DockLayoutTreeBuilder.CreateSplitNode( targetNode, paneNode, Orientation.Horizontal, 0.68 ),
+            DockZone.Top => DockLayoutTreeBuilder.CreateSplitNode( paneNode, targetNode, Orientation.Vertical, 0.32 ),
+            DockZone.Bottom => DockLayoutTreeBuilder.CreateSplitNode( targetNode, paneNode, Orientation.Vertical, 0.68 ),
             _ => targetNode,
         };
 
@@ -359,10 +359,10 @@ internal sealed class DockLayoutTreeMutator
     private static DockNodeState CreateOuterDockSplitNode( DockNodeState root, DockNodeState dockNode, DockPanePosition position )
         => position switch
         {
-            DockPanePosition.Left => DockLayoutTreeBuilder.CreateSplitNode( dockNode, root, DockSplitOrientation.Horizontal, 0.22 ),
-            DockPanePosition.Right => DockLayoutTreeBuilder.CreateSplitNode( root, dockNode, DockSplitOrientation.Horizontal, 0.78 ),
-            DockPanePosition.Top => DockLayoutTreeBuilder.CreateSplitNode( dockNode, root, DockSplitOrientation.Vertical, 0.22 ),
-            DockPanePosition.Bottom => DockLayoutTreeBuilder.CreateSplitNode( root, dockNode, DockSplitOrientation.Vertical, 0.78 ),
+            DockPanePosition.Left => DockLayoutTreeBuilder.CreateSplitNode( dockNode, root, Orientation.Horizontal, 0.22 ),
+            DockPanePosition.Right => DockLayoutTreeBuilder.CreateSplitNode( root, dockNode, Orientation.Horizontal, 0.78 ),
+            DockPanePosition.Top => DockLayoutTreeBuilder.CreateSplitNode( dockNode, root, Orientation.Vertical, 0.22 ),
+            DockPanePosition.Bottom => DockLayoutTreeBuilder.CreateSplitNode( root, dockNode, Orientation.Vertical, 0.78 ),
             _ => root,
         };
 

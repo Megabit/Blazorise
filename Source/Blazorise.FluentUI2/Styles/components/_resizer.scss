@@ -83,6 +83,14 @@
     }
 }
 
+.fui-Resizer-focused.fui-Resizer-vertical:not(.fui-Resizer-gutter) {
+    background: linear-gradient(var(--colorBrandStroke1, #0f6cbd) 0 0) center / 2px 100% no-repeat;
+}
+
+.fui-Resizer-focused.fui-Resizer-horizontal:not(.fui-Resizer-gutter) {
+    background: linear-gradient(var(--colorBrandStroke1, #0f6cbd) 0 0) center / 100% 2px no-repeat;
+}
+
 .fui-Resizer-gutter.fui-Resizer-vertical {
     &::before {
         border-inline: 1px solid var(--fui-resizer-gutter-border);

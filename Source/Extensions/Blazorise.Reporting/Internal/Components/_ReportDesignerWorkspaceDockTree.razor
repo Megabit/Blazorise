@@ -1,18 +1,18 @@
 @namespace Blazorise.Reporting.Internal
 @inherits BaseReportComponent
 
-<DockSplit Orientation="DockSplitOrientation.Horizontal" Ratio="0.24">
-    <DockSplit Orientation="DockSplitOrientation.Vertical" Ratio="0.34">
+<DockSplit Orientation="Orientation.Horizontal" Ratio="0.24">
+    <DockSplit Orientation="Orientation.Vertical" Ratio="0.34">
         <DockPane Name="@ToolboxPaneName"
-                  Caption="Toolbox"
-                  Role="DockRole.Tool"
+                  Caption="@Localize( "Toolbox" )"
+                  Role="DockPaneRole.Tool"
                   PanePosition="DockPanePosition.Left"
                   Size="18rem"
                   MinSize="12rem"
                   Resizable
                   TabPosition="DockPaneTabPosition.Bottom">
             <DockPaneHeader>
-                Toolbox
+                @Localize( "Toolbox" )
             </DockPaneHeader>
             <DockPaneBody Class="b-report-designer-toolbox-pane"
                           @ref="@toolboxPaneBody"
@@ -23,15 +23,15 @@
 
         <DockPane Name="@FieldsExplorerPaneName"
                   @ref="@fieldsExplorerPane"
-                  Caption="Fields Explorer"
-                  Role="DockRole.Tool"
+                  Caption="@Localize( "Fields Explorer" )"
+                  Role="DockPaneRole.Tool"
                   PanePosition="DockPanePosition.Left"
                   Size="18rem"
                   MinSize="12rem"
                   Resizable
                   TabPosition="DockPaneTabPosition.Bottom">
             <DockPaneHeader>
-                Fields Explorer
+                @Localize( "Fields Explorer" )
             </DockPaneHeader>
             <DockPaneBody Class="b-report-designer-fields-explorer-pane"
                           @ref="@fieldsExplorerPaneBody"
@@ -41,17 +41,16 @@
         </DockPane>
     </DockSplit>
 
-    <DockSplit Orientation="DockSplitOrientation.Horizontal" Ratio="0.76">
+    <DockSplit Orientation="Orientation.Horizontal" Ratio="0.76">
         <DockPane Name="@SurfacePaneName"
                   @ref="@surfacePane"
-                  Caption="Report Designer"
-                  Role="DockRole.Document"
+                  Caption="@Localize( "Report Designer" )"
+                  Role="DockPaneRole.Document"
                   PanePosition="DockPanePosition.Center"
                   ShowTab="false"
                   Closable="false">
             <DockPaneBody Class="b-report-designer-surface"
                           Padding="PaddingIs0"
-                          Background="BackgroundLight"
                           Flex="FlexColumn"
                           Overflow="OverflowHidden">
                 @PageTabs
@@ -67,15 +66,15 @@
         <DockTabs ActivePane="@ActivePanelPaneName">
             <DockPane Name="@PropertiesPaneName"
                       @ref="@propertiesPane"
-                      Caption="Properties"
-                      Role="DockRole.Tool"
+                      Caption="@Localize( "Properties" )"
+                      Role="DockPaneRole.Tool"
                       PanePosition="DockPanePosition.Right"
                       Size="20rem"
                       MinSize="14rem"
                       Resizable
                       TabPosition="DockPaneTabPosition.Bottom">
                 <DockPaneHeader>
-                    Properties
+                    @Localize( "Properties" )
                 </DockPaneHeader>
                 <DockPaneBody @ref="@propertiesPaneBody"
                               Padding="PaddingIs3"
@@ -86,15 +85,15 @@
 
             <DockPane Name="@ReportExplorerPaneName"
                       @ref="@reportExplorerPane"
-                      Caption="Report Explorer"
-                      Role="DockRole.Tool"
+                      Caption="@Localize( "Report Explorer" )"
+                      Role="DockPaneRole.Tool"
                       PanePosition="DockPanePosition.Right"
                       Size="20rem"
                       MinSize="14rem"
                       Resizable
                       TabPosition="DockPaneTabPosition.Bottom">
                 <DockPaneHeader>
-                    Report Explorer
+                    @Localize( "Report Explorer" )
                 </DockPaneHeader>
                 <DockPaneBody Class="b-report-designer-report-explorer-pane"
                               @ref="@reportExplorerPaneBody"

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -83,6 +84,17 @@ public partial class DockLayout : BaseComponent
     #region Methods
 
     /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( State, out ComponentParameterInfo<DockLayoutState> stateParameter );
+
+        await base.SetParametersAsync( parameters );
+
+        if ( stateParameter.Changed )
+            await ApplyState( stateParameter.Value, false, false );
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.DockLayout() );
@@ -98,20 +110,22 @@ public partial class DockLayout : BaseComponent
     public Task Refresh()
         => InvokeAsync( () =>
         {
+            EnsureCurrentStateInitialized();
+            NormalizeCurrentState();
             context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
             StateHasChanged();
         } );
 
     /// <summary>
-    /// Returns the current mutable docking state.
+    /// Returns a persistence snapshot of the current docking state.
     /// </summary>
-    /// <returns>The current docking state instance.</returns>
+    /// <returns>A detached docking state snapshot.</returns>
     public DockLayoutState GetState()
     {
         EnsureCurrentStateInitialized();
         NormalizeCurrentState();
 
-        return CurrentState;
+        return stateManager.CreatePersistenceSnapshot( CurrentState );
     }
 
     /// <summary>
@@ -119,18 +133,11 @@ public partial class DockLayout : BaseComponent
     /// </summary>
     /// <param name="state">The docking state to load.</param>
     /// <returns>A task that completes after the state has been applied.</returns>
-    public async Task LoadState( DockLayoutState state )
-    {
-        this.state = state ?? new();
-        activeAutoHidePaneName = null;
-
-        EnsureCurrentStateInitialized();
-
-        await NotifyStateChanged();
-    }
+    public Task LoadState( DockLayoutState state )
+        => ApplyState( state, true, true );
 
     /// <summary>
-    /// Resets the docking state to the declarative layout definition.
+    /// Resets the docking state to the latest declarative layout definition.
     /// </summary>
     /// <returns>A task that completes after the state has been reset.</returns>
     public Task ResetState()
@@ -220,14 +227,21 @@ public partial class DockLayout : BaseComponent
             : OpenPane( paneName );
     }
 
-    internal void RegisterPane( DockPane pane )
+    internal bool RegisterPane( DockPane pane )
     {
-        if ( registry.RegisterPane( pane ) )
-            stateManager.EnsurePaneState( CurrentState, pane );
+        if ( !registry.RegisterPane( pane ) )
+            return false;
+
+        DockPaneState paneState = stateManager.EnsurePaneState( CurrentState, pane );
+
+        if ( CurrentState.Root is not null && paneState.Visible && !paneState.AutoHide )
+            AddPaneToLayout( paneState );
+
+        return Rendered;
     }
 
-    internal void RegisterContent( DockContent dockContent )
-        => registry.RegisterContent( dockContent );
+    internal bool RegisterContent( DockContent dockContent )
+        => registry.RegisterContent( dockContent ) && Rendered;
 
     internal Task RefreshPane( string paneName )
         => InvokeAsync( () => context.NotifyChanged( new( DockLayoutChangeKind.Pane, PaneName: paneName ) ) );
@@ -242,7 +256,14 @@ public partial class DockLayout : BaseComponent
 
     internal void UnregisterPane( DockPane pane )
     {
-        registry.UnregisterPane( pane );
+        if ( registry.UnregisterPane( pane ) && Rendered && !Disposed )
+            ExecuteAfterRender( NotifyDefinitionChanged );
+    }
+
+    internal void UnregisterContent( DockContent dockContent )
+    {
+        if ( registry.UnregisterContent( dockContent ) && Rendered && !Disposed )
+            ExecuteAfterRender( NotifyDefinitionChanged );
     }
 
     internal DockPaneState GetPaneState( DockPane pane )
@@ -299,30 +320,16 @@ public partial class DockLayout : BaseComponent
         };
     }
 
-    private ResizerTarget CreateDockResizeTarget( DockNodeState node, DockSplitOrientation resizeOrientation, string resizeElementId, string resizeProperty )
+    private ResizerTarget CreateDockResizeTarget( DockNodeState node, Orientation resizeOrientation, string resizeElementId, string resizeProperty )
     {
-        DockPane pane = GetDockResizePane( node );
-
         return new()
         {
             ElementId = GetDockNodeElementId( node.Id ),
             ResizeElementId = resizeElementId,
             ResizeProperty = resizeProperty,
             MinSize = sizer.GetDockNodeMinimumSize( node, resizeOrientation ),
-            MaxSize = pane?.MaxSize,
+            MaxSize = sizer.GetDockNodeMaximumSize( node, resizeOrientation ),
         };
-    }
-
-    private DockPane GetDockResizePane( DockNodeState node )
-    {
-        string paneName = node?.Kind switch
-        {
-            DockNodeKind.Pane => node.PaneName,
-            DockNodeKind.Tabs => GetActiveTabPaneName( node ),
-            _ => null,
-        };
-
-        return TryGetPane( paneName, out DockPane pane ) ? pane : null;
     }
 
     internal async Task ResizeDockSplit( string nodeId, ResizerEventArgs eventArgs )
@@ -556,7 +563,7 @@ public partial class DockLayout : BaseComponent
         DockPaneState paneState = stateManager.EnsurePaneState( CurrentState, pane );
         DockRailItemState railItem = stateManager.FindRailItem( CurrentState, paneState.Name );
 
-        if ( !paneState.Visible )
+        if ( !paneState.Visible || !await pane.IsSafeToClose() )
             return;
 
         paneState.RestorePlacement = railItem is not null
@@ -704,7 +711,7 @@ public partial class DockLayout : BaseComponent
                     autoHideOutsideHandlerEnabled = false;
                 }
 
-                await JSModule.Cancel();
+                await JSModule.Cancel( ElementRef );
             }
 
             if ( dotNetObjectRef is not null )
@@ -1075,6 +1082,39 @@ public partial class DockLayout : BaseComponent
 
     private sealed record DockPaneRestoreReference( string PaneName, DockPaneRestoreState RestorePlacement );
 
+    private async Task ApplyState( DockLayoutState state, bool createRuntimeSnapshot, bool notifyStateChanged )
+    {
+        bool schemaSupported = state is null || state.SchemaVersion == DockLayoutState.CurrentSchemaVersion;
+
+        if ( createRuntimeSnapshot )
+            state = schemaSupported ? stateManager.CreateRuntimeSnapshot( state ) : new();
+        else
+            state ??= new();
+
+        if ( !schemaSupported )
+        {
+            state.SchemaVersion = DockLayoutState.CurrentSchemaVersion;
+            state.Root = null;
+            state.Panes = [];
+            state.Rails = [];
+        }
+        else
+        {
+            state.Panes ??= [];
+            state.Rails ??= [];
+        }
+
+        this.state = state;
+        activeAutoHidePaneName = null;
+
+        EnsureCurrentStateInitialized();
+
+        if ( notifyStateChanged )
+            await NotifyStateChanged();
+        else
+            context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
+    }
+
     private async Task NotifyStateChanged()
     {
         await CommitStateChanged();
@@ -1203,20 +1243,14 @@ public partial class DockLayout : BaseComponent
 
     /// <summary>
     /// Defines the mutable state used for docking, resizing, active tabs, and pane visibility. The same state can be saved with <see cref="GetState"/> and restored with <see cref="LoadState"/>.
+    /// Declarative values initialize this state and are reapplied by <see cref="ResetState"/>.
     /// In-place changes to the assigned instance are not detected; apply them with <see cref="LoadState"/> or follow them with <see cref="Refresh"/>.
     /// </summary>
     [Parameter]
     public DockLayoutState State
     {
         get => state;
-        set
-        {
-            if ( ReferenceEquals( state, value ) )
-                return;
-
-            state = value;
-            context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
-        }
+        set => state = value;
     }
 
     /// <summary>
@@ -1236,7 +1270,7 @@ public partial class DockLayout : BaseComponent
     /// <summary>
     /// Contains metadata for a dock compass zone.
     /// </summary>
-    public sealed class DockCompassZoneInfo
+    internal sealed class DockCompassZoneInfo
     {
         internal DockCompassZoneInfo( DockZone zone, DockCompassZone compassZone, string key )
         {

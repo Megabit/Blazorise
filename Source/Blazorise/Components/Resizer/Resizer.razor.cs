@@ -3,6 +3,7 @@ using System;
 using System.Globalization;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -35,6 +36,20 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+        base.OnInitialized();
+    }
+
+    private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
+    {
+        if ( AriaLabel is null )
+            await InvokeAsync( StateHasChanged );
+    }
 
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
@@ -86,7 +101,7 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Resizer() );
-        builder.Append( ClassProvider.ResizerOrientation( Orientation ) );
+        builder.Append( ClassProvider.ResizerOrientation( ResolvedOrientation ) );
         builder.Append( ClassProvider.ResizerPlacement( ResolvedPlacement ) );
         builder.Append( ClassProvider.ResizerGutter( ShowGutter ) );
         builder.Append( ClassProvider.ResizerDisabled( Disabled ) );
@@ -97,17 +112,17 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        if ( Thickness is not null )
+        if ( ResolvedThickness is not null )
         {
-            string thicknessValue = Thickness.Value.ToString( "0.####", CultureInfo.InvariantCulture );
+            string thicknessValue = ResolvedThickness.Value.ToString( "0.####", CultureInfo.InvariantCulture );
 
-            builder.Append( $"width:{thicknessValue}px", Orientation == Blazorise.Orientation.Vertical );
-            builder.Append( $"height:{thicknessValue}px", Orientation == Blazorise.Orientation.Horizontal );
+            builder.Append( $"width:{thicknessValue}px", ResolvedOrientation == Blazorise.Orientation.Vertical );
+            builder.Append( $"height:{thicknessValue}px", ResolvedOrientation == Blazorise.Orientation.Horizontal );
         }
 
-        if ( Offset != 0 )
+        if ( ResolvedOffset != 0 )
         {
-            string offsetValue = ( -Offset ).ToString( "0.####", CultureInfo.InvariantCulture );
+            string offsetValue = ( -ResolvedOffset ).ToString( "0.####", CultureInfo.InvariantCulture );
 
             builder.Append( $"top:{offsetValue}px", ResolvedPlacement == Blazorise.Placement.Top );
             builder.Append( $"bottom:{offsetValue}px", ResolvedPlacement == Blazorise.Placement.Bottom );
@@ -128,6 +143,8 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
 
             DisposeDotNetObjectRef( dotNetObjectRef );
             dotNetObjectRef = null;
+
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         }
 
         await base.DisposeAsync( disposing );
@@ -169,15 +186,15 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
         => new()
         {
             Targets = Targets,
-            TargetId = TargetId,
-            Vertical = Orientation == Blazorise.Orientation.Vertical,
-            ResizeFromStart = ResolvedPlacement is Blazorise.Placement.Start or Blazorise.Placement.Top,
-            ResizeProperty = ResolvedResizeProperty,
-            Value = Value,
-            Min = Min,
-            Max = Max,
-            KeyboardStep = KeyboardStep,
-            ResizingInterval = ResizingInterval,
+            TargetId = Targets is null ? TargetId : null,
+            Vertical = ResolvedOrientation == Blazorise.Orientation.Vertical,
+            ResizeFromStart = Targets is null && ( ResolvedPlacement is Blazorise.Placement.Start or Blazorise.Placement.Top ),
+            ResizeProperty = Targets is null ? ResolvedResizeProperty : null,
+            Value = ResolvedValue,
+            Min = ResolvedMin,
+            Max = ResolvedMax,
+            KeyboardStep = ResolvedKeyboardStep,
+            ResizingInterval = ResolvedResizingInterval,
             Disabled = Disabled,
             FocusedClassNames = ClassProvider.ResizerFocused( true ),
             ResizingClassNames = ClassProvider.ResizerResizing( true ),
@@ -198,13 +215,19 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
+    /// Resolves unsupported orientation values to horizontal.
+    /// </summary>
+    protected Orientation ResolvedOrientation
+        => Orientation == Blazorise.Orientation.Vertical ? Blazorise.Orientation.Vertical : Blazorise.Orientation.Horizontal;
+
+    /// <summary>
     /// Chooses a placement that is valid for the current orientation.
     /// </summary>
     protected Placement ResolvedPlacement
     {
         get
         {
-            if ( Orientation == Blazorise.Orientation.Vertical )
+            if ( ResolvedOrientation == Blazorise.Orientation.Vertical )
             {
                 return Placement switch
                 {
@@ -229,31 +252,67 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     protected string ResolvedResizeProperty
         => !string.IsNullOrWhiteSpace( ResizeProperty )
             ? ResizeProperty
-            : Orientation == Blazorise.Orientation.Vertical ? "width" : "height";
+            : ResolvedOrientation == Blazorise.Orientation.Vertical ? "width" : "height";
 
     /// <summary>
     /// Maps the component orientation to its ARIA representation.
     /// </summary>
     protected string AriaOrientation
-        => Orientation == Blazorise.Orientation.Vertical ? "vertical" : "horizontal";
+        => ResolvedOrientation == Blazorise.Orientation.Vertical ? "vertical" : "horizontal";
 
     /// <summary>
     /// Formats the minimum size for the rendered separator semantics.
     /// </summary>
     protected string AriaValueMin
-        => FormatAriaValue( Min );
+        => FormatAriaValue( ResolvedMin );
 
     /// <summary>
-    /// Formats the optional maximum size for assistive technologies.
+    /// Formats the maximum size for assistive technologies.
     /// </summary>
     protected string AriaValueMax
-        => FormatAriaValue( Max );
+        => FormatAriaValue( ResolvedAriaValueMax );
 
     /// <summary>
     /// Supplies the initial accessible size; JavaScript keeps the value synchronized during resizing.
     /// </summary>
     protected string AriaValueNow
-        => FormatAriaValue( Value );
+        => FormatAriaValue( Math.Min( Math.Max( ResolvedValue ?? ResolvedMin, ResolvedMin ), ResolvedAriaValueMax ) );
+
+    private double ResolvedAriaValueMax
+        => ResolvedMax ?? Math.Max( ResolvedValue ?? ResolvedMin, 100 );
+
+    private double? ResolvedValue
+        => Value is not null && double.IsFinite( Value.Value ) ? Value : null;
+
+    private double ResolvedMin
+        => double.IsFinite( Min ) ? Math.Max( Min, 0 ) : 0;
+
+    private double? ResolvedMax
+        => Max is not null && double.IsFinite( Max.Value ) ? Math.Max( Max.Value, ResolvedMin ) : null;
+
+    private double ResolvedKeyboardStep
+        => double.IsFinite( KeyboardStep ) ? Math.Max( KeyboardStep, 0.0001 ) : 10;
+
+    private int ResolvedResizingInterval
+        => Math.Max( ResizingInterval, 0 );
+
+    private double? ResolvedThickness
+        => Thickness is not null && double.IsFinite( Thickness.Value ) && Thickness.Value >= 0 ? Thickness : null;
+
+    private double ResolvedOffset
+        => double.IsFinite( Offset ) ? Offset : 0;
+
+    /// <summary>
+    /// Identifies the logical start target controlled by the resizer.
+    /// </summary>
+    protected string AriaControls
+        => Targets is null ? TargetId : Targets.Start?.ElementId;
+
+    /// <summary>
+    /// Resolves the accessible name from the parameter or localization resources.
+    /// </summary>
+    protected string ResolvedAriaLabel
+        => AriaLabel ?? Localizer["Resize"];
 
     /// <summary>
     /// Converts the disabled state to the lowercase ARIA boolean format.
@@ -273,17 +332,27 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     [Inject] protected IDocumentObserver DocumentObserver { get; set; }
 
     /// <summary>
+    /// Gets the localization service used to refresh the default accessible name.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+    /// <summary>
+    /// Gets the localizer for the default accessible name.
+    /// </summary>
+    [Inject] protected ITextLocalizer<Resizer> Localizer { get; set; }
+
+    /// <summary>
     /// Performs pointer, keyboard, focus, and target-sizing operations in the browser.
     /// </summary>
     [Inject] public IJSResizerModule JSModule { get; set; }
 
     /// <summary>
-    /// Coordinates logical start and end targets while preserving their combined size. Use <see cref="TargetId"/> for one-target resizing.
+    /// Enables coordinated resizing of logical start and end targets while preserving their combined size. Both targets must resolve.
     /// </summary>
     [Parameter] public ResizerTargets Targets { get; set; }
 
     /// <summary>
-    /// Identifies the element that receives size updates. When omitted, the resizer resizes its parent.
+    /// Identifies the element that receives size updates. Used only when <see cref="Targets"/> is not supplied.
     /// </summary>
     [Parameter] public string TargetId { get; set; }
 
@@ -307,7 +376,7 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Positions the resizer on the target edge. Vertical resizers default to end and horizontal resizers default to bottom.
+    /// Positions the resizer on the target edge. In coordinated mode, target order determines the resize direction.
     /// </summary>
     [Parameter]
     public Placement? Placement
@@ -326,12 +395,12 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Names the CSS property updated during resizing, including custom properties such as <c>--panel-width</c>.
+    /// Names the CSS property updated during single-target resizing. Coordinated targets define their own resize properties.
     /// </summary>
     [Parameter] public string ResizeProperty { get; set; }
 
     /// <summary>
-    /// Supplies the controlled resize value in pixels. Without a value, the browser measures the target's initial size.
+    /// Supplies the controlled target size in pixels. In coordinated mode, this is the logical start-target size.
     /// </summary>
     [Parameter] public double? Value { get; set; }
 
@@ -341,12 +410,12 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback<double> ValueChanged { get; set; }
 
     /// <summary>
-    /// Prevents the resize value from falling below this pixel value.
+    /// Prevents the target, or logical start target, from falling below this pixel value.
     /// </summary>
     [Parameter] public double Min { get; set; }
 
     /// <summary>
-    /// Limits the resize value in pixels; a null value leaves the upper bound unrestricted.
+    /// Limits the target, or logical start target, in pixels; a null value leaves the upper bound unrestricted.
     /// </summary>
     [Parameter] public double? Max { get; set; }
 
@@ -433,9 +502,9 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Describes the separator's purpose to assistive technologies.
+    /// Describes the separator's purpose to assistive technologies. Uses a localized default when omitted.
     /// </summary>
-    [Parameter] public string AriaLabel { get; set; } = "Resize";
+    [Parameter] public string AriaLabel { get; set; }
 
     /// <summary>
     /// Controls the resizer's position in the keyboard tab order while it is enabled.

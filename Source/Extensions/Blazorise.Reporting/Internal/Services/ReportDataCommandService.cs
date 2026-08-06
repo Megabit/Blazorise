@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 #endregion
 
@@ -39,7 +40,7 @@ internal sealed class ReportDataCommandService
             await resolveDataSources( definition, false );
     }
 
-    internal async Task RefreshDataSource( ReportDefinition definition, IReportDataSourceProviderRegistry providerRegistry, string dataSourceName )
+    internal async Task RefreshDataSource( ReportDefinition definition, IReportDataSourceProviderRegistry providerRegistry, string dataSourceName, CancellationToken cancellationToken = default )
     {
         ReportDataSourceDefinition dataSource = FindDataSource( definition, dataSourceName );
 
@@ -49,15 +50,11 @@ internal sealed class ReportDataCommandService
         IReportDataSourceProvider provider = providerRegistry?.FindProvider( dataSource.ProviderType );
 
         if ( provider is null )
-            return;
+            throw new InvalidOperationException( $"No report data source provider is registered for '{dataSource.ProviderType}'." );
 
-        try
-        {
-            dataSource.Schema = await provider.GetSchemaAsync( dataSource );
-        }
-        catch
-        {
-        }
+        ReportDataSourceSchema schema = await provider.GetSchemaAsync( dataSource, cancellationToken );
+        cancellationToken.ThrowIfCancellationRequested();
+        dataSource.Schema = schema;
 
         if ( !IsInMemoryProvider( dataSource.ProviderType ) )
             dataSource.Data = null;

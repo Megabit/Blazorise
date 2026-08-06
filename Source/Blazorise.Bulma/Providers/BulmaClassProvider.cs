@@ -1933,8 +1933,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DockSplit() => "dock-split";
 
-    public override string DockSplitOrientation( DockSplitOrientation orientation )
-        => orientation == Blazorise.DockSplitOrientation.Vertical ? "is-vertical" : "is-horizontal";
+    public override string DockSplitOrientation( Orientation orientation )
+        => orientation == Blazorise.Orientation.Vertical ? "is-vertical" : "is-horizontal";
 
     public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "dock-pane";
 

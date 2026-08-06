@@ -3,10 +3,18 @@
 
 <Div Class="b-report-viewer"
      Padding="PaddingIs3"
-     Background="BackgroundLight"
      Border="BorderIs1"
      Overflow="OverflowAuto">
-    @if ( Designer.ActivePreviewFormat == ReportPreviewFormat.Pdf )
+    @if ( !Designer.HasPreviewFormats )
+    {
+        <Div Class="b-report-preview-message"
+             Padding="PaddingIs5"
+             Border="BorderIs1"
+             TextAlignment="TextAlignmentCenter">
+            @Localize( "No preview formats are enabled." )
+        </Div>
+    }
+    else if ( Designer.ActivePreviewFormat == ReportPreviewFormat.Pdf )
     {
         ReportPdfPreviewContext pdfPreviewContext = Designer.PdfPreviewContext;
 
@@ -18,18 +26,18 @@
             }
             else
             {
-                <Div Padding="PaddingIs5"
+                <Div Class="b-report-preview-message"
+                     Padding="PaddingIs5"
                      Border="BorderIs1"
-                     Background="BackgroundWhite"
                      TextAlignment="TextAlignmentCenter">
                     <Div Margin="MarginIs3FromBottom">
-                        @(pdfPreviewContext.AllowDownload ? "PDF preview is available for download." : "PDF preview has been generated.")
+                        @(pdfPreviewContext.AllowDownload ? Localize( "PDF preview is available for download." ) : Localize( "PDF preview has been generated." ))
                     </Div>
                     @if ( pdfPreviewContext.AllowDownload )
                     {
                         <Button Color="Color.Primary" Clicked="@pdfPreviewContext.Download">
                             <Icon Name="IconName.FileDownload" Margin="MarginIs2FromEnd" />
-                            Download PDF
+                            @Localize( "Download PDF" )
                         </Button>
                     }
                 </Div>
@@ -37,11 +45,11 @@
         }
         else
         {
-            <Div Padding="PaddingIs5"
+            <Div Class="b-report-preview-message"
+                 Padding="PaddingIs5"
                  Border="BorderIs1"
-                 Background="BackgroundWhite"
                  TextAlignment="TextAlignmentCenter">
-                Generating PDF preview...
+                @Localize( "Generating PDF preview..." )
             </Div>
         }
     }

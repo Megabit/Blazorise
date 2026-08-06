@@ -1,3 +1,7 @@
+#region Using directives
+using System.Threading;
+#endregion
+
 namespace Blazorise.Pdf.Internal;
 
 internal sealed class PdfStandardFontMetrics : IPdfFontMetrics
@@ -81,15 +85,20 @@ internal sealed class PdfStandardFontMetrics : IPdfFontMetrics
 
     #region Methods
 
-    public double MeasureTextWidth( string text, double fontSize )
+    public double MeasureTextWidth( string text, double fontSize, CancellationToken cancellationToken )
     {
         if ( string.IsNullOrEmpty( text ) )
             return 0;
 
         double width = 0;
 
-        foreach ( char character in text )
+        for ( int i = 0; i < text.Length; i++ )
         {
+            if ( ( i & 4095 ) == 0 )
+                cancellationToken.ThrowIfCancellationRequested();
+
+            char character = text[i];
+
             if ( TryGetType1TextByte( character, out byte value ) )
                 width += GetGlyphWidth( value );
             else

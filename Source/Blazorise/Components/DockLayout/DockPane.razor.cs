@@ -25,15 +25,20 @@ public partial class DockPane : BaseComponent, IDisposable
         base.OnInitialized();
 
         Node.PaneName = ResolvedName;
-        ParentDockLayout?.RegisterPane( this );
         ParentCollector?.AddNode( Node );
+
+        if ( ParentDockLayout?.RegisterPane( this ) == true )
+            ExecuteAfterRender( ParentDockLayout.NotifyDefinitionChanged );
     }
 
     /// <inheritdoc/>
     protected override void Dispose( bool disposing )
     {
         if ( disposing )
+        {
+            ParentCollector?.RemoveNode( Node );
             ParentDockLayout?.UnregisterPane( this );
+        }
 
         base.Dispose( disposing );
     }
@@ -46,6 +51,18 @@ public partial class DockPane : BaseComponent, IDisposable
         => ParentDockLayout is null
             ? InvokeAsync( StateHasChanged )
             : ParentDockLayout.RefreshPane( ResolvedName );
+
+    internal async Task<bool> IsSafeToClose()
+    {
+        if ( Closing is null )
+            return true;
+
+        DockPaneClosingEventArgs eventArgs = new( false, ResolvedName );
+
+        await Closing.Invoke( eventArgs );
+
+        return !eventArgs.Cancel;
+    }
 
     #endregion
 
@@ -77,7 +94,7 @@ public partial class DockPane : BaseComponent, IDisposable
     /// <summary>
     /// Identifies the pane inside the parent <see cref="DockLayout"/> and acts as the stable key used by persisted <see cref="DockLayoutState"/> values.
     /// </summary>
-    [Parameter] public string Name { get; set; }
+    [Parameter, EditorRequired] public string Name { get; set; }
 
     /// <summary>
     /// Defines the caption used by tabbed dock groups.
@@ -87,7 +104,7 @@ public partial class DockPane : BaseComponent, IDisposable
     /// <summary>
     /// Defines whether this pane behaves as a tool pane or as a document pane.
     /// </summary>
-    [Parameter] public DockRole Role { get; set; } = DockRole.Tool;
+    [Parameter] public DockPaneRole Role { get; set; } = DockPaneRole.Tool;
 
     /// <summary>
     /// Defines whether this pane should display a tab when it is hosted inside a tab group.
@@ -105,7 +122,7 @@ public partial class DockPane : BaseComponent, IDisposable
     [Parameter] public DockPaneTabPosition TabPosition { get; set; }
 
     /// <summary>
-    /// Defines where the pane is docked inside the layout.
+    /// Defines where the pane is initially docked inside the layout.
     /// </summary>
     [Parameter] public DockPanePosition PanePosition { get; set; }
 
@@ -125,17 +142,17 @@ public partial class DockPane : BaseComponent, IDisposable
     [Parameter] public bool Resizable { get; set; }
 
     /// <summary>
-    /// Shows or hides the pane in the dock layout.
+    /// Initially shows or hides the pane in the dock layout.
     /// </summary>
     [Parameter] public bool Visible { get; set; } = true;
 
     /// <summary>
-    /// Collapses the pane content while keeping the pane in the dock layout.
+    /// Initially collapses the pane content while keeping the pane in the dock layout.
     /// </summary>
     [Parameter] public bool Collapsed { get; set; }
 
     /// <summary>
-    /// Auto-hides the pane content while keeping the pane available on its docked side.
+    /// Initially auto-hides the pane content while keeping the pane available on its docked side.
     /// </summary>
     [Parameter] public bool AutoHide { get; set; }
 
@@ -150,7 +167,12 @@ public partial class DockPane : BaseComponent, IDisposable
     [Parameter] public bool Closable { get; set; } = true;
 
     /// <summary>
-    /// Defines the preferred pane size, such as <c>280px</c>, <c>18rem</c>, or <c>25%</c>.
+    /// Callback invoked before the pane closes. Set <see cref="DockPaneClosingEventArgs.Cancel"/> to prevent closing.
+    /// </summary>
+    [Parameter] public Func<DockPaneClosingEventArgs, Task> Closing { get; set; }
+
+    /// <summary>
+    /// Defines the initial pane size, such as <c>280px</c>, <c>18rem</c>, or <c>25%</c>.
     /// </summary>
     [Parameter] public string Size { get; set; }
 

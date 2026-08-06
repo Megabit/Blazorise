@@ -11,7 +11,7 @@ public enum ReportDefinitionMode
     SeedWhenEmpty,
 
     /// <summary>
-    /// Rebuilds the report from declarative child components on every render.
+    /// Keeps the report synchronized with declarative child components.
     /// </summary>
     AlwaysUseDeclarative,
 

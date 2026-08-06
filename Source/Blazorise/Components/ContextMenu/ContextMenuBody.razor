@@ -3,7 +3,7 @@
 
 @if ( IsVisible )
 {
-    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menu" @oncontextmenu:preventDefault @oncontextmenu="@EventCallback.Empty" @onclick:stopPropagation @onclick="@EventCallback.Empty" @attributes="@Attributes">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menu" tabindex="-1" @oncontextmenu:preventDefault @oncontextmenu="@EventCallback.Empty" @onclick:stopPropagation @onclick="@EventCallback.Empty" @attributes="@Attributes">
         @ChildContent
     </div>
 }

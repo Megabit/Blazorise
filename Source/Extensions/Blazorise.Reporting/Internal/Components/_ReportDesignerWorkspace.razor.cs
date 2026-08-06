@@ -39,6 +39,9 @@ public partial class _ReportDesignerWorkspace
     internal void InvalidatePropertiesPanel()
         => propertiesPanel?.InvalidatePropertyGridSchema();
 
+    internal Task RefreshLocalization()
+        => designerLayout?.RefreshLocalization() ?? Task.CompletedTask;
+
     internal void BeginFieldDrag( string dataSourceName, string fieldName )
         => designerSurface?.BeginFieldDrag( dataSourceName, fieldName );
 

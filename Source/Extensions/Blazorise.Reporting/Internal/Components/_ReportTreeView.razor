@@ -4,7 +4,10 @@
 
 @if ( Nodes is not null )
 {
-    <div @ref="treeElement" class="b-report-tree-view">
+    <div @ref="treeElement"
+         class="b-report-tree-view"
+         role="tree"
+         aria-label="@(AriaLabel ?? Localize( "Report tree" ))">
         <_ReportTreeViewNodes Nodes="Nodes"
                               Level="0"
                               NodeClicked="NodeClicked"

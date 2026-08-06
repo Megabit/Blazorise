@@ -850,7 +850,7 @@ public interface IClassProvider
 
     string DockSplit();
 
-    string DockSplitOrientation( DockSplitOrientation orientation );
+    string DockSplitOrientation( Orientation orientation );
 
     string DockPane( DockPanePosition position, bool resizable, bool collapsed );
 

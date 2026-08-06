@@ -5,8 +5,23 @@ namespace Blazorise;
 /// <summary>
 /// Represents the mutable docking state for a <see cref="DockLayout"/>.
 /// </summary>
+/// <remarks>
+/// The state can be persisted or edited directly. Call <see cref="DockLayout.Refresh"/> after changing an assigned instance in place.
+/// Its tree, pane, rail, and restore-placement models are part of this advanced editing API.
+/// Pane names are the stable identities used when the state is restored.
+/// </remarks>
 public class DockLayoutState
 {
+    /// <summary>
+    /// Gets the current persistence schema version.
+    /// </summary>
+    public const int CurrentSchemaVersion = 1;
+
+    /// <summary>
+    /// Defines the persistence schema version.
+    /// </summary>
+    public int SchemaVersion { get; set; } = CurrentSchemaVersion;
+
     /// <summary>
     /// Defines the root dock node.
     /// </summary>

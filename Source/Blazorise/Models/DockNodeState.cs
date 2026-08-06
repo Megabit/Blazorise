@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Blazorise;
 
@@ -10,6 +11,7 @@ public class DockNodeState
     /// <summary>
     /// Identifies the node inside the dock layout tree.
     /// </summary>
+    [JsonIgnore]
     public string Id { get; set; }
 
     /// <summary>
@@ -35,7 +37,7 @@ public class DockNodeState
     /// <summary>
     /// Defines the split orientation when <see cref="Kind"/> is <see cref="DockNodeKind.Split"/>.
     /// </summary>
-    public DockSplitOrientation Orientation { get; set; }
+    public Orientation Orientation { get; set; }
 
     /// <summary>
     /// Defines the first child ratio when <see cref="Kind"/> is <see cref="DockNodeKind.Split"/>.

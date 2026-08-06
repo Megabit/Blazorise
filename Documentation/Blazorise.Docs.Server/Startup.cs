@@ -18,6 +18,7 @@ using Blazorise.Docs.Services.Search;
 using Blazorise.FluentValidation;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.Maps;
+using Blazorise.Pdf;
 using Blazorise.Reporting;
 using Blazorise.Reporting.DataSources.Csv;
 using Blazorise.Reporting.DataSources.Sql;
@@ -75,6 +76,7 @@ public class Startup
             .AddBlazoriseGoogleReCaptcha( x => x.SiteKey = Configuration[key: "ReCaptchaSiteKey"] )
             .AddBlazoriseMaps()
             .AddBlazoriseReporting()
+            .AddBlazorisePdfHttpResources()
             .AddBlazoriseReportingCsvDataSource()
             .AddBlazoriseReportingSqlDataSource()
             .AddBlazoriseRouterTabs();

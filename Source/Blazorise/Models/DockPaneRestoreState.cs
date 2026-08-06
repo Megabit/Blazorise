@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Blazorise;
 
 /// <summary>
@@ -43,6 +45,7 @@ public class DockPaneRestoreState
     /// <summary>
     /// Identifies the sibling dock node that the original source group should dock next to when restored.
     /// </summary>
+    [JsonIgnore]
     public string SourceGroupTargetNodeId { get; set; }
 
     /// <summary>
@@ -68,6 +71,7 @@ public class DockPaneRestoreState
     /// <summary>
     /// Identifies the sibling dock node that the hidden pane should dock next to when restored.
     /// </summary>
+    [JsonIgnore]
     public string SourceTargetNodeId { get; set; }
 
     /// <summary>

@@ -1,6 +1,8 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -11,25 +13,49 @@ namespace Blazorise.Pdf;
 /// </summary>
 public abstract class BasePdfElement : ComponentBase, IDisposable
 {
+    #region Members
+
+    private IList<PdfElementDefinition> registeredElements;
+
+    private PdfPageContext pageContext;
+
+    private PdfTableCellContext tableCellContext;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    public override Task SetParametersAsync( ParameterView parameters )
     {
-        if ( Definition is null )
-        {
-            IList<PdfElementDefinition> elements = TableCellContext?.Elements ?? PageContext?.Elements;
+        bool definitionChanged = IsDefinitionChanged( parameters );
+        Task task = base.SetParametersAsync( parameters );
 
-            if ( elements is null )
-                return;
-
-            Definition = new();
+        if ( definitionChanged )
             UpdateDefinition( Definition );
-            elements.Add( Definition );
-            return;
-        }
 
+        return task;
+    }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
         UpdateDefinition( Definition );
+        RegisterDefinition();
+    }
+
+    /// <summary>
+    /// Determines whether parameters that affect the element definition have changed.
+    /// </summary>
+    protected virtual bool IsDefinitionChanged( ParameterView parameters )
+    {
+        return parameters.IsParameterChanged( X )
+            || parameters.IsParameterChanged( Y )
+            || parameters.IsParameterChanged( Width )
+            || parameters.IsParameterChanged( Height )
+            || parameters.IsParameterChanged( BorderColor )
+            || parameters.IsParameterChanged( BorderWidth )
+            || parameters.IsParameterChanged( BorderStyle );
     }
 
     /// <summary>
@@ -43,31 +69,36 @@ public abstract class BasePdfElement : ComponentBase, IDisposable
         definition.Y = Y;
         definition.Width = Width;
         definition.Height = Height;
-        definition.Text = Text;
-        definition.Wrap = Wrap;
-        definition.Source = Source;
-
-        definition.Font ??= new();
-        definition.Font.Family = FontFamily;
-        definition.Font.Size = FontSize;
-        definition.Font.Color = TextColor;
-        definition.Font.Alignment = TextAlignment;
-        definition.Font.VerticalAlignment = VerticalAlignment;
-        definition.Font.Bold = Bold;
-        definition.Font.Italic = Italic;
+        definition.ClipContent = ElementClipContent;
 
         definition.Border ??= new();
         definition.Border.Color = BorderColor;
         definition.Border.Width = BorderWidth;
+        definition.Border.Style = BorderStyle;
 
         definition.Appearance ??= new();
-        definition.Appearance.BackgroundColor = BackgroundColor;
+        definition.Appearance.BackgroundColor = ElementBackgroundColor;
+    }
+
+    private void RegisterDefinition()
+    {
+        IList<PdfElementDefinition> elements = tableCellContext?.Elements ?? pageContext?.Elements;
+
+        if ( ReferenceEquals( registeredElements, elements ) )
+            return;
+
+        registeredElements?.Remove( Definition );
+        registeredElements = elements;
+
+        if ( registeredElements is not null && !registeredElements.Contains( Definition ) )
+            registeredElements.Add( Definition );
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        ( TableCellContext?.Elements ?? PageContext?.Elements )?.Remove( Definition );
+        registeredElements?.Remove( Definition );
+        registeredElements = null;
     }
 
     #endregion
@@ -80,19 +111,53 @@ public abstract class BasePdfElement : ComponentBase, IDisposable
     protected abstract PdfElementType ElementType { get; }
 
     /// <summary>
+    /// Indicates that content should be clipped to the element bounds.
+    /// </summary>
+    protected virtual bool ElementClipContent => true;
+
+    /// <summary>
+    /// Background color in hexadecimal format.
+    /// </summary>
+    protected virtual string ElementBackgroundColor => null;
+
+    /// <summary>
     /// Gets the generated element definition.
     /// </summary>
-    public PdfElementDefinition Definition { get; private set; }
+    public PdfElementDefinition Definition { get; } = new();
 
     /// <summary>
     /// Provides the current PDF page that receives this element definition.
     /// </summary>
-    [CascadingParameter] protected PdfPageContext PageContext { get; set; }
+    [CascadingParameter]
+    protected PdfPageContext PageContext
+    {
+        get => pageContext;
+        set
+        {
+            if ( ReferenceEquals( pageContext, value ) )
+                return;
+
+            pageContext = value;
+            RegisterDefinition();
+        }
+    }
 
     /// <summary>
     /// Provides the current PDF table cell that receives this element definition.
     /// </summary>
-    [CascadingParameter] protected PdfTableCellContext TableCellContext { get; set; }
+    [CascadingParameter]
+    protected PdfTableCellContext TableCellContext
+    {
+        get => tableCellContext;
+        set
+        {
+            if ( ReferenceEquals( tableCellContext, value ) )
+                return;
+
+            tableCellContext = value;
+            RegisterDefinition();
+        }
+    }
 
     /// <summary>
     /// Horizontal element position.
@@ -115,66 +180,6 @@ public abstract class BasePdfElement : ComponentBase, IDisposable
     [Parameter] public double Height { get; set; }
 
     /// <summary>
-    /// Text rendered by text-based elements.
-    /// </summary>
-    [Parameter] public string Text { get; set; }
-
-    /// <summary>
-    /// Indicates that text should wrap inside the element bounds.
-    /// </summary>
-    [Parameter] public bool Wrap { get; set; } = true;
-
-    /// <summary>
-    /// Image source used by image elements.
-    /// </summary>
-    [Parameter] public string Source { get; set; }
-
-    /// <summary>
-    /// Font family used by text-based elements. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).
-    /// </summary>
-    [Parameter] public string FontFamily { get; set; } = "Helvetica";
-
-    /// <summary>
-    /// Font size used by text-based elements.
-    /// </summary>
-    [Parameter] public double FontSize { get; set; } = 12;
-
-    /// <summary>
-    /// Text color in hexadecimal format.
-    /// </summary>
-    [Parameter] public string TextColor { get; set; } = "#000000";
-
-    /// <summary>
-    /// Text alignment inside the element bounds.
-    /// </summary>
-    /// <remarks>
-    /// <see cref="TextAlignment.Default"/> and <see cref="TextAlignment.Start"/> align to the start.
-    /// <see cref="TextAlignment.Justified"/> distributes words across wrapped non-final paragraph lines.
-    /// </remarks>
-    [Parameter] public TextAlignment TextAlignment { get; set; }
-
-    /// <summary>
-    /// Text vertical alignment inside the element bounds.
-    /// </summary>
-    /// <remarks>
-    /// <see cref="VerticalAlignment.Default"/>, <see cref="VerticalAlignment.Baseline"/>,
-    /// <see cref="VerticalAlignment.Top"/>, and <see cref="VerticalAlignment.TextTop"/> align to the top.
-    /// <see cref="VerticalAlignment.Middle"/> centers the text, while <see cref="VerticalAlignment.Bottom"/>
-    /// and <see cref="VerticalAlignment.TextBottom"/> align to the bottom.
-    /// </remarks>
-    [Parameter] public VerticalAlignment VerticalAlignment { get; set; }
-
-    /// <summary>
-    /// Makes text bold.
-    /// </summary>
-    [Parameter] public bool Bold { get; set; }
-
-    /// <summary>
-    /// Makes text italic.
-    /// </summary>
-    [Parameter] public bool Italic { get; set; }
-
-    /// <summary>
     /// Border color in hexadecimal format.
     /// </summary>
     [Parameter] public string BorderColor { get; set; } = "#000000";
@@ -182,12 +187,12 @@ public abstract class BasePdfElement : ComponentBase, IDisposable
     /// <summary>
     /// Border width.
     /// </summary>
-    [Parameter] public double BorderWidth { get; set; } = 1;
+    [Parameter] public double BorderWidth { get; set; }
 
     /// <summary>
-    /// Background color in hexadecimal format.
+    /// Border style.
     /// </summary>
-    [Parameter] public string BackgroundColor { get; set; }
+    [Parameter] public PdfBorderStyle BorderStyle { get; set; }
 
     #endregion
 }

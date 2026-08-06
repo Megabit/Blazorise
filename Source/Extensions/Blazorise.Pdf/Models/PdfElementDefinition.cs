@@ -54,7 +54,12 @@ public sealed class PdfElementDefinition
     public bool Wrap { get; set; } = true;
 
     /// <summary>
-    /// Image source used by image elements.
+    /// Indicates that content should be clipped to the element bounds.
+    /// </summary>
+    public bool ClipContent { get; set; } = true;
+
+    /// <summary>
+    /// Image source resolved by the configured <see cref="IPdfResourceResolver"/>.
     /// </summary>
     public string Source { get; set; }
 

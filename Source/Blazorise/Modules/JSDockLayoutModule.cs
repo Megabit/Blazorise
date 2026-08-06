@@ -33,8 +33,8 @@ public class JSDockLayoutModule : BaseJSModule, IJSDockLayoutModule
         => InvokeSafeVoidAsync( "beginDrag", dotNetObjectRef, layoutRef, paneName, pointerId, clientX, clientY, dragGroup );
 
     /// <inheritdoc/>
-    public ValueTask Cancel()
-        => InvokeSafeVoidAsync( "cancel" );
+    public ValueTask Cancel( ElementReference layoutRef )
+        => InvokeSafeVoidAsync( "cancel", layoutRef );
 
     /// <inheritdoc/>
     public ValueTask SetAutoHideOutsideHandler( DotNetObjectReference<DockLayout> dotNetObjectRef, ElementReference layoutRef, bool enabled )

@@ -1,4 +1,5 @@
 #region Using directives
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -15,15 +16,33 @@ public partial class PdfTable : BasePdfElement
 
     #endregion
 
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new PDF table.
+    /// </summary>
+    public PdfTable()
+    {
+        BorderWidth = 1;
+    }
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    protected override bool IsDefinitionChanged( ParameterView parameters )
     {
-        base.OnParametersSet();
+        return base.IsDefinitionChanged( parameters )
+            || parameters.IsParameterChanged( ClipContent )
+            || parameters.IsParameterChanged( BackgroundColor );
+    }
 
-        if ( tableContext is null && Definition is not null )
-            tableContext = new( Definition );
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        tableContext = new( Definition );
     }
 
     #endregion
@@ -32,6 +51,22 @@ public partial class PdfTable : BasePdfElement
 
     /// <inheritdoc />
     protected override PdfElementType ElementType => PdfElementType.Table;
+
+    /// <inheritdoc />
+    protected override bool ElementClipContent => ClipContent;
+
+    /// <inheritdoc />
+    protected override string ElementBackgroundColor => BackgroundColor;
+
+    /// <summary>
+    /// Indicates that content should be clipped to the element bounds.
+    /// </summary>
+    [Parameter] public bool ClipContent { get; set; } = true;
+
+    /// <summary>
+    /// Background color in hexadecimal format.
+    /// </summary>
+    [Parameter] public string BackgroundColor { get; set; }
 
     /// <summary>
     /// Rows declared inside the table.

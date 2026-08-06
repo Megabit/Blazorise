@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-03T12:34:01.2595495Z",
+  "generatedUtc": "2026-08-06T15:25:00.9032210Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -26337,7 +26337,8 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "Gets or sets the menu visibility.",
+          "summary": "Gets or sets whether the menu is visible.",
+          "remarks": "Setting this to  opens the menu relative to its configured target.     Use <strong>Double)</strong> to open the menu at a specific viewport position.",
           "isBlazoriseEnum": false
         },
         {
@@ -26359,19 +26360,27 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Closing",
+          "type": "Func<,>",
+          "typeName": "Func<ContextMenuClosingEventArgs, Task>",
+          "defaultValue": "null",
+          "summary": "Callback invoked before the menu closes. Set <strong>Cancel</strong> to prevent closing.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Opened",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<ContextMenuEventArgs>",
           "defaultValue": "null",
-          "summary": "Occurs after the menu opens.",
+          "summary": "Occurs after the menu body has rendered and its initial position has been applied.",
           "isBlazoriseEnum": false
         },
         {
           "name": "Opening",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
-          "typeName": "EventCallback<ContextMenuOpeningEventArgs>",
+          "type": "Func<,>",
+          "typeName": "Func<ContextMenuOpeningEventArgs, Task>",
           "defaultValue": "null",
-          "summary": "Occurs before the menu opens. Set <strong>Cancel</strong> to prevent opening.",
+          "summary": "Callback invoked before the menu opens. Set <strong>Cancel</strong> to prevent opening.",
           "isBlazoriseEnum": false
         },
         {
@@ -26379,7 +26388,7 @@
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<bool>",
           "defaultValue": "null",
-          "summary": "Occurs after the menu visibility changes.",
+          "summary": "Notifies when the effective menu visibility changes or a canceled request must be synchronized.",
           "isBlazoriseEnum": false
         }
       ],
@@ -26391,9 +26400,40 @@
           "parameters": []
         },
         {
+          "name": "Reposition",
+          "returnTypeName": "Task",
+          "summary": "Repositions the visible context menu relative to its configured target.",
+          "remarks": "This method does nothing while the menu is hidden and does not invoke <strong>Opening</strong>, <strong>Opened</strong>, or <strong>VisibleChanged</strong>.",
+          "parameters": []
+        },
+        {
+          "name": "Reposition",
+          "returnTypeName": "Task",
+          "summary": "Repositions the visible context menu at the supplied viewport coordinates.",
+          "remarks": "This method does nothing while the menu is hidden and does not invoke <strong>Opening</strong>, <strong>Opened</strong>, or <strong>VisibleChanged</strong>.",
+          "parameters": [
+            {
+              "name": "clientX",
+              "typeName": "double"
+            },
+            {
+              "name": "clientY",
+              "typeName": "double"
+            }
+          ]
+        },
+        {
           "name": "Show",
           "returnTypeName": "Task",
-          "summary": "Opens the context menu at the supplied document coordinates.",
+          "summary": "Opens the context menu relative to its configured target.",
+          "remarks": "This method does nothing while the menu is visible. Use <strong>Reposition</strong> to update its position.",
+          "parameters": []
+        },
+        {
+          "name": "Show",
+          "returnTypeName": "Task",
+          "summary": "Opens the context menu at the supplied viewport coordinates.",
+          "remarks": "This method does nothing while the menu is visible. Use <strong>Double)</strong> to update its position.",
           "parameters": [
             {
               "name": "clientX",
@@ -26528,14 +26568,6 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "MinWidth",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Sets a minimum menu width.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "ObjectFit",
           "type": "global::Blazorise.IFluentObjectFit",
           "typeName": "IFluentObjectFit",
@@ -26662,14 +26694,6 @@
           "defaultValue": "Visibility.Default",
           "summary": "Controls the visibility of an element without altering its layout.",
           "isBlazoriseEnum": true
-        },
-        {
-          "name": "Visible",
-          "type": "bool?",
-          "typeName": "bool?",
-          "defaultValue": "null",
-          "summary": "Overrides the parent menu visibility.",
-          "isBlazoriseEnum": false
         },
         {
           "name": "Width",
@@ -27694,14 +27718,6 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Custom inline styles to apply to the component.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "TabIndex",
-          "type": "int?",
-          "typeName": "int?",
-          "defaultValue": "null",
-          "summary": "Specifies the tabindex value for keyboard navigation.",
           "isBlazoriseEnum": false
         },
         {
@@ -30375,6 +30391,32 @@
         }
       ],
       "events": [],
+      "methods": []
+    },
+    {
+      "type": "global::Blazorise.Reporting.DataSources.Csv.CsvReportDataSourceOptions",
+      "typeName": "CsvReportDataSourceOptions",
+      "summary": "$\"\"\"\r\n       Defines CSV report data source options.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "MaxSourceSize",
+          "type": "long",
+          "typeName": "long",
+          "defaultValue": "DefaultMaxSourceSize",
+          "summary": "Maximum number of bytes allowed for a CSV source.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [
+        {
+          "name": "ResourceAllowed",
+          "type": "Func<,>",
+          "typeName": "Func<Uri, bool>",
+          "defaultValue": "null",
+          "summary": "Determines whether the requested absolute CSV source URI is allowed. A null value allows every HTTP and HTTPS URI.     Redirects are rejected by the built-in provider.",
+          "isBlazoriseEnum": false
+        }
+      ],
       "methods": []
     },
     {
@@ -43280,7 +43322,7 @@
           "type": "global::Blazorise.DockLayoutState",
           "typeName": "DockLayoutState",
           "defaultValue": "null",
-          "summary": "Defines the mutable state used for docking, resizing, active tabs, and pane visibility. The same state can be saved with <strong>GetState</strong> and restored with <strong>DockLayoutState)</strong>.     In-place changes to the assigned instance are not detected; apply them with <strong>DockLayoutState)</strong> or follow them with <strong>Refresh</strong>.",
+          "summary": "Defines the mutable state used for docking, resizing, active tabs, and pane visibility. The same state can be saved with <strong>GetState</strong> and restored with <strong>DockLayoutState)</strong>.     Declarative values initialize this state and are reapplied by <strong>ResetState</strong>.     In-place changes to the assigned instance are not detected; apply them with <strong>DockLayoutState)</strong> or follow them with <strong>Refresh</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -43405,7 +43447,7 @@
         {
           "name": "GetState",
           "returnTypeName": "DockLayoutState",
-          "summary": "Returns the current mutable docking state.",
+          "summary": "Returns a persistence snapshot of the current docking state.",
           "parameters": []
         },
         {
@@ -43450,7 +43492,7 @@
         {
           "name": "ResetState",
           "returnTypeName": "Task",
-          "summary": "Resets the docking state to the declarative layout definition.",
+          "summary": "Resets the docking state to the latest declarative layout definition.",
           "parameters": []
         },
         {
@@ -43505,7 +43547,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "Auto-hides the pane content while keeping the pane available on its docked side.",
+          "summary": "Initially auto-hides the pane content while keeping the pane available on its docked side.",
           "isBlazoriseEnum": false
         },
         {
@@ -43585,7 +43627,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "Collapses the pane content while keeping the pane in the dock layout.",
+          "summary": "Initially collapses the pane content while keeping the pane in the dock layout.",
           "isBlazoriseEnum": false
         },
         {
@@ -43706,7 +43748,7 @@
           "type": "global::Blazorise.DockPanePosition",
           "typeName": "DockPanePosition",
           "defaultValue": "DockPanePosition.Left",
-          "summary": "Defines where the pane is docked inside the layout.",
+          "summary": "Defines where the pane is initially docked inside the layout.",
           "isBlazoriseEnum": true
         },
         {
@@ -43727,9 +43769,9 @@
         },
         {
           "name": "Role",
-          "type": "global::Blazorise.DockRole",
-          "typeName": "DockRole",
-          "defaultValue": "DockRole.Tool",
+          "type": "global::Blazorise.DockPaneRole",
+          "typeName": "DockPaneRole",
+          "defaultValue": "DockPaneRole.Tool",
           "summary": "Defines whether this pane behaves as a tool pane or as a document pane.",
           "isBlazoriseEnum": true
         },
@@ -43762,7 +43804,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Defines the preferred pane size, such as <code>280px</code>, <code>18rem</code>, or <code>25%</code>.",
+          "summary": "Defines the initial pane size, such as <code>280px</code>, <code>18rem</code>, or <code>25%</code>.",
           "isBlazoriseEnum": false
         },
         {
@@ -43866,7 +43908,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
-          "summary": "Shows or hides the pane in the dock layout.",
+          "summary": "Initially shows or hides the pane in the dock layout.",
           "isBlazoriseEnum": false
         },
         {
@@ -43878,7 +43920,16 @@
           "isBlazoriseEnum": false
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "name": "Closing",
+          "type": "Func<,>",
+          "typeName": "Func<DockPaneClosingEventArgs, Task>",
+          "defaultValue": "null",
+          "summary": "Callback invoked before the pane closes. Set <strong>DockPaneClosingEventArgs.Cancel</strong> to prevent closing.",
+          "isBlazoriseEnum": false
+        }
+      ],
       "methods": [
         {
           "name": "Refresh",
@@ -44798,10 +44849,10 @@
         },
         {
           "name": "Orientation",
-          "type": "global::Blazorise.DockSplitOrientation",
-          "typeName": "DockSplitOrientation",
-          "defaultValue": "DockSplitOrientation.Horizontal",
-          "summary": "Defines the split orientation.",
+          "type": "global::Blazorise.Orientation",
+          "typeName": "Orientation",
+          "defaultValue": "Orientation.Horizontal",
+          "summary": "Defines the initial split orientation.",
           "isBlazoriseEnum": true
         },
         {
@@ -44833,7 +44884,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "0.5",
-          "summary": "Defines the first child ratio.",
+          "summary": "Defines the initial first child ratio.",
           "isBlazoriseEnum": false
         },
         {
@@ -44955,7 +45006,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Defines the active pane name.",
+          "summary": "Defines the initially active pane name.",
           "isBlazoriseEnum": false
         },
         {
@@ -82503,7 +82554,7 @@
           "type": "global::Blazorise.FontFamily",
           "typeName": "FontFamily",
           "defaultValue": "null",
-          "summary": "Complete font family registration.",
+          "summary": "Complete font family registration resolved through <strong>IPdfResourceResolver</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -82554,6 +82605,54 @@
           "defaultValue": "\"document.pdf\"",
           "summary": "Suggested output file name.",
           "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaxDefinitionNodes",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "DefaultMaxDefinitionNodes",
+          "summary": "Maximum number of definition nodes allowed in one document.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaxImagePixels",
+          "type": "long",
+          "typeName": "long",
+          "defaultValue": "DefaultMaxImagePixels",
+          "summary": "Maximum number of pixels allowed in one image.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaxPages",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "DefaultMaxPages",
+          "summary": "Maximum number of pages allowed in one document.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaxResourceSize",
+          "type": "long",
+          "typeName": "long",
+          "defaultValue": "DefaultMaxResourceSize",
+          "summary": "Maximum number of bytes allowed for one image or font.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaxTextLength",
+          "type": "long",
+          "typeName": "long",
+          "defaultValue": "DefaultMaxTextLength",
+          "summary": "Maximum combined number of text characters allowed in one document.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaxTotalResourceSize",
+          "type": "long",
+          "typeName": "long",
+          "defaultValue": "DefaultMaxTotalResourceSize",
+          "summary": "Maximum combined number of image and font bytes allowed in one document.",
+          "isBlazoriseEnum": false
         }
       ],
       "events": [
@@ -82563,6 +82662,32 @@
           "typeName": "Func<PdfGenerationProgress, Task>",
           "defaultValue": "null",
           "summary": "Callback invoked when PDF generation progress changes.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "methods": []
+    },
+    {
+      "type": "global::Blazorise.Pdf.PdfHttpResourceOptions",
+      "typeName": "PdfHttpResourceOptions",
+      "summary": "$\"\"\"\r\n       Defines HTTP PDF resource policies.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "MaxResourceSize",
+          "type": "long",
+          "typeName": "long",
+          "defaultValue": "0",
+          "summary": "Maximum number of bytes allowed for one resource. Defaults to 20 MB.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [
+        {
+          "name": "ResourceAllowed",
+          "type": "Func<,>",
+          "typeName": "Func<Uri, bool>",
+          "defaultValue": "null",
+          "summary": "Determines whether the requested absolute HTTP resource URI is allowed. A null value allows every HTTP and HTTPS URI.     Redirects are rejected by the built-in resolver.",
           "isBlazoriseEnum": false
         }
       ],
@@ -82582,14 +82707,6 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Bold",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Makes text bold.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "BorderColor",
           "type": "string",
           "typeName": "string",
@@ -82598,11 +82715,27 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "BorderStyle",
+          "type": "global::Blazorise.Pdf.PdfBorderStyle",
+          "typeName": "PdfBorderStyle",
+          "defaultValue": "PdfBorderStyle.Solid",
+          "summary": "Border style.",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "BorderWidth",
           "type": "double",
           "typeName": "double",
-          "defaultValue": "1",
+          "defaultValue": "0",
           "summary": "Border width.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ClipContent",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Indicates that content should be clipped to the element bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -82614,22 +82747,6 @@
           "isBlazoriseEnum": true
         },
         {
-          "name": "FontFamily",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"Helvetica\"",
-          "summary": "Font family used by text-based elements. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "FontSize",
-          "type": "double",
-          "typeName": "double",
-          "defaultValue": "12",
-          "summary": "Font size used by text-based elements.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Height",
           "type": "double",
           "typeName": "double",
@@ -82638,54 +82755,12 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Italic",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Makes text italic.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Source",
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Image source used by image elements.",
+          "summary": "Image source resolved by <strong>IPdfResourceResolver</strong>. The default resolver accepts base64 data URIs.",
           "isBlazoriseEnum": false
-        },
-        {
-          "name": "Text",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Text rendered by text-based elements.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "TextAlignment",
-          "type": "global::Blazorise.TextAlignment",
-          "typeName": "TextAlignment",
-          "defaultValue": "Default",
-          "summary": "Text alignment inside the element bounds.",
-          "remarks": "<strong>Default</strong> and <strong>Start</strong> align to the start.     <strong>Justified</strong> distributes words across wrapped non-final paragraph lines.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "TextColor",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"#000000\"",
-          "summary": "Text color in hexadecimal format.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "VerticalAlignment",
-          "type": "global::Blazorise.VerticalAlignment",
-          "typeName": "VerticalAlignment",
-          "defaultValue": "Default",
-          "summary": "Text vertical alignment inside the element bounds.",
-          "remarks": "<strong>Default</strong>, <strong>Baseline</strong>,     <strong>Top</strong>, and <strong>TextTop</strong> align to the top.     <strong>Middle</strong> centers the text, while <strong>Bottom</strong>     and <strong>TextBottom</strong> align to the bottom.",
-          "isBlazoriseEnum": true
         },
         {
           "name": "Width",
@@ -82693,14 +82768,6 @@
           "typeName": "double",
           "defaultValue": "0",
           "summary": "Element width.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Wrap",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Indicates that text should wrap inside the element bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -82729,22 +82796,6 @@
       "summary": "$\"\"\"\r\n       Defines a line in a PDF document.\r\n       \"\"\"",
       "parameters": [
         {
-          "name": "BackgroundColor",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Background color in hexadecimal format.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Bold",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Makes text bold.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "BorderColor",
           "type": "string",
           "typeName": "string",
@@ -82753,27 +82804,19 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "BorderStyle",
+          "type": "global::Blazorise.Pdf.PdfBorderStyle",
+          "typeName": "PdfBorderStyle",
+          "defaultValue": "PdfBorderStyle.Solid",
+          "summary": "Border style.",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "BorderWidth",
           "type": "double",
           "typeName": "double",
-          "defaultValue": "1",
+          "defaultValue": "0",
           "summary": "Border width.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "FontFamily",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"Helvetica\"",
-          "summary": "Font family used by text-based elements. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "FontSize",
-          "type": "double",
-          "typeName": "double",
-          "defaultValue": "12",
-          "summary": "Font size used by text-based elements.",
           "isBlazoriseEnum": false
         },
         {
@@ -82785,14 +82828,6 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Italic",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Makes text italic.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Orientation",
           "type": "global::Blazorise.Orientation",
           "typeName": "Orientation",
@@ -82801,61 +82836,11 @@
           "isBlazoriseEnum": true
         },
         {
-          "name": "Source",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Image source used by image elements.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Text",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Text rendered by text-based elements.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "TextAlignment",
-          "type": "global::Blazorise.TextAlignment",
-          "typeName": "TextAlignment",
-          "defaultValue": "Default",
-          "summary": "Text alignment inside the element bounds.",
-          "remarks": "<strong>Default</strong> and <strong>Start</strong> align to the start.     <strong>Justified</strong> distributes words across wrapped non-final paragraph lines.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "TextColor",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"#000000\"",
-          "summary": "Text color in hexadecimal format.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "VerticalAlignment",
-          "type": "global::Blazorise.VerticalAlignment",
-          "typeName": "VerticalAlignment",
-          "defaultValue": "Default",
-          "summary": "Text vertical alignment inside the element bounds.",
-          "remarks": "<strong>Default</strong>, <strong>Baseline</strong>,     <strong>Top</strong>, and <strong>TextTop</strong> align to the top.     <strong>Middle</strong> centers the text, while <strong>Bottom</strong>     and <strong>TextBottom</strong> align to the bottom.",
-          "isBlazoriseEnum": true
-        },
-        {
           "name": "Width",
           "type": "double",
           "typeName": "double",
           "defaultValue": "0",
           "summary": "Element width.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Wrap",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Indicates that text should wrap inside the element bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -83014,14 +82999,6 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Bold",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Makes text bold.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "BorderColor",
           "type": "string",
           "typeName": "string",
@@ -83030,27 +83007,19 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "BorderStyle",
+          "type": "global::Blazorise.Pdf.PdfBorderStyle",
+          "typeName": "PdfBorderStyle",
+          "defaultValue": "PdfBorderStyle.Solid",
+          "summary": "Border style.",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "BorderWidth",
           "type": "double",
           "typeName": "double",
-          "defaultValue": "1",
+          "defaultValue": "0",
           "summary": "Border width.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "FontFamily",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"Helvetica\"",
-          "summary": "Font family used by text-based elements. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "FontSize",
-          "type": "double",
-          "typeName": "double",
-          "defaultValue": "12",
-          "summary": "Font size used by text-based elements.",
           "isBlazoriseEnum": false
         },
         {
@@ -83062,69 +83031,11 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Italic",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Makes text italic.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Source",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Image source used by image elements.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Text",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Text rendered by text-based elements.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "TextAlignment",
-          "type": "global::Blazorise.TextAlignment",
-          "typeName": "TextAlignment",
-          "defaultValue": "Default",
-          "summary": "Text alignment inside the element bounds.",
-          "remarks": "<strong>Default</strong> and <strong>Start</strong> align to the start.     <strong>Justified</strong> distributes words across wrapped non-final paragraph lines.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "TextColor",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"#000000\"",
-          "summary": "Text color in hexadecimal format.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "VerticalAlignment",
-          "type": "global::Blazorise.VerticalAlignment",
-          "typeName": "VerticalAlignment",
-          "defaultValue": "Default",
-          "summary": "Text vertical alignment inside the element bounds.",
-          "remarks": "<strong>Default</strong>, <strong>Baseline</strong>,     <strong>Top</strong>, and <strong>TextTop</strong> align to the top.     <strong>Middle</strong> centers the text, while <strong>Bottom</strong>     and <strong>TextBottom</strong> align to the bottom.",
-          "isBlazoriseEnum": true
-        },
-        {
           "name": "Width",
           "type": "double",
           "typeName": "double",
           "defaultValue": "0",
           "summary": "Element width.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Wrap",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Indicates that text should wrap inside the element bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -83161,14 +83072,6 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Bold",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Makes text bold.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "BorderColor",
           "type": "string",
           "typeName": "string",
@@ -83177,10 +83080,18 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "BorderStyle",
+          "type": "global::Blazorise.Pdf.PdfBorderStyle",
+          "typeName": "PdfBorderStyle",
+          "defaultValue": "PdfBorderStyle.Solid",
+          "summary": "Border style.",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "BorderWidth",
           "type": "double",
           "typeName": "double",
-          "defaultValue": "1",
+          "defaultValue": "0",
           "summary": "Border width.",
           "isBlazoriseEnum": false
         },
@@ -83193,19 +83104,11 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "FontFamily",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"Helvetica\"",
-          "summary": "Font family used by text-based elements. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "FontSize",
-          "type": "double",
-          "typeName": "double",
-          "defaultValue": "12",
-          "summary": "Font size used by text-based elements.",
+          "name": "ClipContent",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Indicates that content should be clipped to the element bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -83217,69 +83120,11 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Italic",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Makes text italic.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Source",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Image source used by image elements.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Text",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Text rendered by text-based elements.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "TextAlignment",
-          "type": "global::Blazorise.TextAlignment",
-          "typeName": "TextAlignment",
-          "defaultValue": "Default",
-          "summary": "Text alignment inside the element bounds.",
-          "remarks": "<strong>Default</strong> and <strong>Start</strong> align to the start.     <strong>Justified</strong> distributes words across wrapped non-final paragraph lines.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "TextColor",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "\"#000000\"",
-          "summary": "Text color in hexadecimal format.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "VerticalAlignment",
-          "type": "global::Blazorise.VerticalAlignment",
-          "typeName": "VerticalAlignment",
-          "defaultValue": "Default",
-          "summary": "Text vertical alignment inside the element bounds.",
-          "remarks": "<strong>Default</strong>, <strong>Baseline</strong>,     <strong>Top</strong>, and <strong>TextTop</strong> align to the top.     <strong>Middle</strong> centers the text, while <strong>Bottom</strong>     and <strong>TextBottom</strong> align to the bottom.",
-          "isBlazoriseEnum": true
-        },
-        {
           "name": "Width",
           "type": "double",
           "typeName": "double",
           "defaultValue": "0",
           "summary": "Element width.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Wrap",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Indicates that text should wrap inside the element bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -83382,11 +83227,27 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "BorderStyle",
+          "type": "global::Blazorise.Pdf.PdfBorderStyle",
+          "typeName": "PdfBorderStyle",
+          "defaultValue": "PdfBorderStyle.Solid",
+          "summary": "Border style.",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "BorderWidth",
           "type": "double",
           "typeName": "double",
-          "defaultValue": "1",
+          "defaultValue": "0",
           "summary": "Border width.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ClipContent",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Indicates that content should be clipped to the element bounds.",
           "isBlazoriseEnum": false
         },
         {
@@ -83394,7 +83255,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "\"Helvetica\"",
-          "summary": "Font family used by text-based elements. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).",
+          "summary": "Font family used by the text. The built-in renderer maps the family to the closest PDF standard font (Helvetica, Times, or Courier).",
           "isBlazoriseEnum": false
         },
         {
@@ -83402,7 +83263,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "12",
-          "summary": "Font size used by text-based elements.",
+          "summary": "Font size used by the text.",
           "isBlazoriseEnum": false
         },
         {
@@ -83422,19 +83283,11 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Source",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Image source used by image elements.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Text",
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Text rendered by text-based elements.",
+          "summary": "Text rendered by the element.",
           "isBlazoriseEnum": false
         },
         {
@@ -92392,6 +92245,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "SearchAriaLabel",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "\"Search properties\"",
+          "summary": "Gets or sets the accessible property search label.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "SearchDebounce",
           "type": "bool",
           "typeName": "bool",
@@ -92558,6 +92419,14 @@
           "defaultValue": "TextWeight.Default",
           "summary": "Specifies the font weight of text in the component (e.g., bold, normal).",
           "isBlazoriseEnum": true
+        },
+        {
+          "name": "ToolbarAriaLabel",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "\"Property grid controls\"",
+          "summary": "Gets or sets the accessible property grid toolbar label.",
+          "isBlazoriseEnum": false
         },
         {
           "name": "ToolbarTemplate",
@@ -96056,6 +95925,23 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Attributes",
+          "type": "Dictionary<string, object>",
+          "typeName": "Dictionary<string, object>",
+          "defaultValue": "null",
+          "summary": "Captures unmatched HTML attributes for customization.",
+          "remarks": "These attributes are applied directly to the component's root HTML element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Background",
+          "type": "global::Blazorise.Background",
+          "typeName": "Background",
+          "defaultValue": "Background.Default",
+          "summary": "Sets the background color of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "BandMode",
           "type": "global::Blazorise.Reporting.ReportBandMode",
           "typeName": "ReportBandMode",
@@ -96064,11 +95950,43 @@
           "isBlazoriseEnum": true
         },
         {
+          "name": "Border",
+          "type": "global::Blazorise.IFluentBorder",
+          "typeName": "IFluentBorder",
+          "defaultValue": "null",
+          "summary": "Configures the border properties of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Casing",
+          "type": "global::Blazorise.CharacterCasing",
+          "typeName": "CharacterCasing",
+          "defaultValue": "default(CharacterCasing)",
+          "summary": "Specifies the text casing transformation (e.g., uppercase, lowercase).",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "ChildContent",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
           "typeName": "RenderFragment",
           "defaultValue": "null",
           "summary": "Declarative report content used as the initial report definition.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Class",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Custom CSS class name to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Clearfix",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Determines whether to apply clearfix to manage floating children.",
           "isBlazoriseEnum": false
         },
         {
@@ -96084,7 +96002,7 @@
           "type": "global::Blazorise.Reporting.ReportPreviewFormat?",
           "typeName": "ReportPreviewFormat?",
           "defaultValue": "null",
-          "summary": "Preview format selected when preview mode is first opened.",
+          "summary": "Preview format selected when preview mode is first opened. Must be enabled in <strong>PreviewFormats</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -96092,7 +96010,7 @@
           "type": "global::Blazorise.Reporting.ReportDefinition",
           "typeName": "ReportDefinition",
           "defaultValue": "null",
-          "summary": "Persisted report definition used by the designer and viewer.",
+          "summary": "Persisted report definition copied into the designer working state.",
           "isBlazoriseEnum": false
         },
         {
@@ -96112,11 +96030,28 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Display",
+          "type": "global::Blazorise.IFluentDisplay",
+          "typeName": "IFluentDisplay",
+          "defaultValue": "null",
+          "summary": "Specifies the display behavior (e.g., block, inline, flex) of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Editable",
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Defines whether the report can be edited using the interactive designer.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ElementId",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Specifies the unique id of the element.",
+          "remarks": "Note that this ID is not defined for the component but instead for the underlined element that it represents.     eg: for the TextInput the ID will be set on the input element.",
           "isBlazoriseEnum": false
         },
         {
@@ -96128,10 +96063,42 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Flex",
+          "type": "global::Blazorise.IFluentFlex",
+          "typeName": "IFluentFlex",
+          "defaultValue": "null",
+          "summary": "Configures the flexbox properties of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Float",
+          "type": "global::Blazorise.Float",
+          "typeName": "Float",
+          "defaultValue": "Float.Default",
+          "summary": "Specifies how an element should float within its containing block.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Gap",
+          "type": "global::Blazorise.IFluentGap",
+          "typeName": "IFluentGap",
+          "defaultValue": "null",
+          "summary": "Configures the gap spacing between child elements of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Height",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Specifies the height of the component using responsive sizing utilities.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "ImageAccept",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "\"image/png, image/jpeg, image/webp, image/svg+xml\"",
+          "defaultValue": "\"image/png, image/jpeg\"",
           "summary": "A comma-separated list of image MIME types accepted by the image upload dialog.",
           "isBlazoriseEnum": false
         },
@@ -96152,6 +96119,22 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Localizers",
+          "type": "global::Blazorise.Reporting.ReportLocalizers",
+          "typeName": "ReportLocalizers",
+          "defaultValue": "null",
+          "summary": "Custom localizers used by the report designer and viewer.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Margin",
+          "type": "global::Blazorise.IFluentSpacing",
+          "typeName": "IFluentSpacing",
+          "defaultValue": "null",
+          "summary": "Configures the margin spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "MaxUploadImageChunkSize",
           "type": "int",
           "typeName": "int",
@@ -96168,11 +96151,43 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ObjectFit",
+          "type": "global::Blazorise.IFluentObjectFit",
+          "typeName": "IFluentObjectFit",
+          "defaultValue": "null",
+          "summary": "Configures the object-fit property, which determines how content is resized within its container.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Overflow",
+          "type": "global::Blazorise.IFluentOverflow",
+          "typeName": "IFluentOverflow",
+          "defaultValue": "null",
+          "summary": "Configures the overflow behavior when content exceeds the component's bounds.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Padding",
+          "type": "global::Blazorise.IFluentSpacing",
+          "typeName": "IFluentSpacing",
+          "defaultValue": "null",
+          "summary": "Configures the padding spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Position",
+          "type": "global::Blazorise.IFluentPosition",
+          "typeName": "IFluentPosition",
+          "defaultValue": "null",
+          "summary": "Specifies the positioning method for the component (static, relative, absolute, etc.).",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "PreviewFormat",
           "type": "global::Blazorise.Reporting.ReportPreviewFormat?",
           "typeName": "ReportPreviewFormat?",
           "defaultValue": "null",
-          "summary": "Externally controlled preview format.",
+          "summary": "Externally controlled preview format. Must be either HTML or PDF.",
           "isBlazoriseEnum": false
         },
         {
@@ -96180,8 +96195,16 @@
           "type": "global::Blazorise.Reporting.ReportPreviewFormat?",
           "typeName": "ReportPreviewFormat?",
           "defaultValue": "null",
-          "summary": "Preview formats available for this report.",
+          "summary": "Preview formats available for this report. None disables preview.",
           "isBlazoriseEnum": false
+        },
+        {
+          "name": "Shadow",
+          "type": "global::Blazorise.Shadow",
+          "typeName": "Shadow",
+          "defaultValue": "Shadow.None",
+          "summary": "Configures the shadow effect of the component.",
+          "isBlazoriseEnum": true
         },
         {
           "name": "ShowBandDataSource",
@@ -96248,11 +96271,107 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Style",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextAlignment",
+          "type": "global::Blazorise.TextAlignment",
+          "typeName": "TextAlignment",
+          "defaultValue": "TextAlignment.Default",
+          "summary": "Configures the horizontal alignment of text within the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextColor",
+          "type": "global::Blazorise.TextColor",
+          "typeName": "TextColor",
+          "defaultValue": "TextColor.Default",
+          "summary": "Specifies the text color of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextDecoration",
+          "type": "global::Blazorise.TextDecoration",
+          "typeName": "TextDecoration",
+          "defaultValue": "TextDecoration.Default",
+          "summary": "Specifies the text decoration style (e.g., underline, none) for the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextOverflow",
+          "type": "global::Blazorise.TextOverflow",
+          "typeName": "TextOverflow",
+          "defaultValue": "TextOverflow.Default",
+          "summary": "Configures how text behaves when it overflows its container.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextSize",
+          "type": "global::Blazorise.IFluentTextSize",
+          "typeName": "IFluentTextSize",
+          "defaultValue": "null",
+          "summary": "Sets the font size of the text in the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextTransform",
+          "type": "global::Blazorise.TextTransform",
+          "typeName": "TextTransform",
+          "defaultValue": "TextTransform.Default",
+          "summary": "Configures the text transformation (e.g., capitalize, none) of the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextWeight",
+          "type": "global::Blazorise.TextWeight",
+          "typeName": "TextWeight",
+          "defaultValue": "TextWeight.Default",
+          "summary": "Specifies the font weight of text in the component (e.g., bold, normal).",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "UploadImage",
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Enables image upload from Image element source properties.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "UtilityTarget",
+          "type": "global::Blazorise.UtilityTarget",
+          "typeName": "UtilityTarget",
+          "defaultValue": "UtilityTarget.Self",
+          "summary": "Specifies the default target where utility classes and styles are applied when no per-utility target is set.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "VerticalAlignment",
+          "type": "global::Blazorise.VerticalAlignment",
+          "typeName": "VerticalAlignment",
+          "defaultValue": "VerticalAlignment.Default",
+          "summary": "Specifies the vertical alignment of inline or table-cell elements.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Visibility",
+          "type": "global::Blazorise.Visibility",
+          "typeName": "Visibility",
+          "defaultValue": "Visibility.Default",
+          "summary": "Controls the visibility of an element without altering its layout.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Width",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Specifies the width of the component using responsive sizing utilities.",
           "isBlazoriseEnum": false
         }
       ],
@@ -96270,7 +96389,7 @@
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<ReportDefinition>",
           "defaultValue": "null",
-          "summary": "Raised when the report definition changes through designer commands.",
+          "summary": "Raised with a snapshot of the updated report definition.",
           "isBlazoriseEnum": false
         },
         {
@@ -96338,11 +96457,27 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "OperationFailed",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<ReportOperationFailedEventArgs>",
+          "defaultValue": "null",
+          "summary": "Raised when a report operation fails.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "PdfProgressed",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<ReportProgress>",
           "defaultValue": "null",
           "summary": "Raised when the overall report PDF operation progress changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "PreviewFormatChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<ReportPreviewFormat>",
+          "defaultValue": "null",
+          "summary": "Raised when the preview format changes.",
           "isBlazoriseEnum": false
         },
         {
@@ -96383,6 +96518,14 @@
           "typeName": "EventCallback<bool>",
           "defaultValue": "null",
           "summary": "Raised when designer ruler visibility changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowStatusBarChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<bool>",
+          "defaultValue": "null",
+          "summary": "Raised when status bar visibility changes.",
           "isBlazoriseEnum": false
         }
       ],
@@ -96952,14 +97095,6 @@
       "summary": "$\"\"\"\r\n       Declares an image element in a report band.\r\n       \"\"\"",
       "parameters": [
         {
-          "name": "Alt",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Alternate text associated with the image element.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Appearance",
           "type": "global::Blazorise.Reporting.ReportAppearanceDefinition",
           "typeName": "ReportAppearanceDefinition",
@@ -97101,6 +97236,14 @@
           "typeName": "ReportValue<bool>",
           "defaultValue": "false",
           "summary": "Prevents the element from being edited on the designer surface and rendered in preview output.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Text",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Alternate text associated with the image element.",
           "isBlazoriseEnum": false
         },
         {
@@ -97367,7 +97510,7 @@
           "type": "global::Blazorise.Reporting.ReportPreviewFormat",
           "typeName": "ReportPreviewFormat",
           "defaultValue": "default(ReportPreviewFormat)",
-          "summary": "Preview format selected when a report first enters preview mode.",
+          "summary": "Preview format selected when a report first enters preview mode. Must be enabled in <strong>PreviewFormats</strong>.",
           "isBlazoriseEnum": true
         },
         {
@@ -97391,7 +97534,7 @@
           "type": "global::Blazorise.Reporting.ReportPreviewFormat",
           "typeName": "ReportPreviewFormat",
           "defaultValue": "default(ReportPreviewFormat)",
-          "summary": "Preview formats available to report viewers by default.",
+          "summary": "Preview formats available to report viewers by default. None disables preview.",
           "isBlazoriseEnum": true
         }
       ],
@@ -98362,7 +98505,7 @@
           "type": "global::Blazorise.Reporting.ReportPreviewFormat",
           "typeName": "ReportPreviewFormat",
           "defaultValue": "default(ReportPreviewFormat)",
-          "summary": "Preview format selected when preview mode is opened.",
+          "summary": "Preview format selected when preview mode is opened. Must be enabled in <strong>PreviewFormat</strong>.",
           "isBlazoriseEnum": true
         },
         {
@@ -98378,7 +98521,7 @@
           "type": "global::Blazorise.Reporting.ReportPreviewFormat",
           "typeName": "ReportPreviewFormat",
           "defaultValue": "default(ReportPreviewFormat)",
-          "summary": "Preview formats offered by the report viewer.",
+          "summary": "Preview formats offered by the report viewer. None disables preview.",
           "isBlazoriseEnum": true
         }
       ],

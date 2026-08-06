@@ -40,10 +40,10 @@ public partial class _ReportDesignerContextMenu
     /// <returns>A task that represents the asynchronous operation.</returns>
     internal async Task CloseMenu()
     {
-        State = null;
-
         if ( contextMenuRef is not null )
             await contextMenuRef.Hide();
+
+        State = null;
 
         await InvokeAsync( StateHasChanged );
     }
@@ -68,6 +68,10 @@ public partial class _ReportDesignerContextMenu
     private bool IsPageMenu => State?.Target == ReportContextMenuTarget.Page;
 
     private bool IsSectionMenu => State?.Target == ReportContextMenuTarget.Section;
+
+    private string SectionTypeDisplayName => State is null
+        ? null
+        : Localize( ReportDefinitionHelper.GetSectionTypeDisplayName( State.SectionType ) );
 
     private bool IsElementMenu => State?.Target == ReportContextMenuTarget.Element;
 

@@ -21,6 +21,21 @@ public class TailwindThemeGenerator : ThemeGenerator
 
     #region Methods
 
+    /// <inheritdoc />
+    protected override string GetDockLayoutVariableName( string name )
+        => $"--tw-dock-{name}";
+
+    /// <inheritdoc />
+    protected override void GenerateResizerStyles( StringBuilder sb, Theme theme )
+        => GenerateResizerColorStyles(
+            sb,
+            theme,
+            ".tw-resizer",
+            ".tw-resizer-gutter:hover,.tw-resizer-gutter.tw-resizer-focused,.tw-resizer-gutter.tw-resizer-resizing",
+            ".tw-resizer-focused.tw-resizer-vertical:not(.tw-resizer-gutter)",
+            ".tw-resizer-focused.tw-resizer-horizontal:not(.tw-resizer-gutter)",
+            "--tw-resizer" );
+
     protected override void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpointName, string breakpointSize )
     {
         if ( !string.IsNullOrEmpty( breakpointSize ) )

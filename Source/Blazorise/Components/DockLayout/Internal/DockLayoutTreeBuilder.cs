@@ -36,10 +36,10 @@ internal sealed class DockLayoutTreeBuilder
     public DockNodeState BuildInitialRoot( DockLayoutState state )
     {
         if ( registry.RootCollector.Nodes.Count == 1 && registry.RootCollector.Nodes[0].Kind is DockNodeKind.Split or DockNodeKind.Tabs )
-            return registry.RootCollector.Nodes[0];
+            return CloneNode( registry.RootCollector.Nodes[0] );
 
         DockNodeState center = BuildSimpleDockNode( state, DockPanePosition.Center )
-            ?? registry.RootCollector.Nodes.FirstOrDefault( x => x.Kind == DockNodeKind.Content )
+            ?? CloneNode( registry.RootCollector.Nodes.FirstOrDefault( x => x.Kind == DockNodeKind.Content ) )
             ?? new() { Kind = DockNodeKind.Content };
         DockNodeState left = BuildSimpleDockNode( state, DockPanePosition.Left );
         DockNodeState right = BuildSimpleDockNode( state, DockPanePosition.Right );
@@ -48,21 +48,21 @@ internal sealed class DockLayoutTreeBuilder
         DockNodeState root = center;
 
         if ( left is not null )
-            root = CreateSplitNode( left, root, DockSplitOrientation.Horizontal, 0.18 );
+            root = CreateSplitNode( left, root, Orientation.Horizontal, 0.18 );
 
         if ( right is not null )
-            root = CreateSplitNode( root, right, DockSplitOrientation.Horizontal, 0.78 );
+            root = CreateSplitNode( root, right, Orientation.Horizontal, 0.78 );
 
         if ( top is not null )
-            root = CreateSplitNode( top, root, DockSplitOrientation.Vertical, 0.12 );
+            root = CreateSplitNode( top, root, Orientation.Vertical, 0.12 );
 
         if ( bottom is not null )
-            root = CreateSplitNode( root, bottom, DockSplitOrientation.Vertical, 0.84 );
+            root = CreateSplitNode( root, bottom, Orientation.Vertical, 0.84 );
 
         return root;
     }
 
-    public static DockNodeState CreateSplitNode( DockNodeState first, DockNodeState second, DockSplitOrientation orientation, double ratio )
+    public static DockNodeState CreateSplitNode( DockNodeState first, DockNodeState second, Orientation orientation, double ratio )
         => first is null ? second : second is null ? first : new()
         {
             Kind = DockNodeKind.Split,
@@ -71,6 +71,27 @@ internal sealed class DockLayoutTreeBuilder
             Orientation = orientation,
             Ratio = ratio,
         };
+
+    private static DockNodeState CloneNode( DockNodeState node )
+    {
+        if ( node is null )
+            return null;
+
+        return new()
+        {
+            Id = node.Id,
+            Kind = node.Kind,
+            PaneName = node.PaneName,
+            First = CloneNode( node.First ),
+            Second = CloneNode( node.Second ),
+            Orientation = node.Orientation,
+            Ratio = node.Ratio,
+            UseRatio = node.UseRatio,
+            Panes = node.Panes is null ? [] : new( node.Panes ),
+            ActivePane = node.ActivePane,
+            Size = node.Size,
+        };
+    }
 
     private DockNodeState BuildSimpleDockNode( DockLayoutState state, DockPanePosition position )
     {

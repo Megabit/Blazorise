@@ -1,5 +1,6 @@
 #region Using directives
 using System.Collections.Generic;
+using System.Threading;
 #endregion
 
 namespace Blazorise.Reporting;
@@ -17,7 +18,8 @@ public sealed class ReportElementPdfRenderContext
         ReportCustomElementDefinition element,
         object data,
         object item,
-        IReadOnlyDictionary<string, object> runningTotals )
+        IReadOnlyDictionary<string, object> runningTotals,
+        CancellationToken cancellationToken )
     {
         Definition = definition;
         Band = band;
@@ -25,6 +27,7 @@ public sealed class ReportElementPdfRenderContext
         Data = data;
         Item = item;
         RunningTotals = runningTotals;
+        CancellationToken = cancellationToken;
     }
 
     #endregion
@@ -60,6 +63,11 @@ public sealed class ReportElementPdfRenderContext
     /// Gets the running-total values available at this render position.
     /// </summary>
     public IReadOnlyDictionary<string, object> RunningTotals { get; }
+
+    /// <summary>
+    /// Gets the token that is cancelled when PDF generation is superseded.
+    /// </summary>
+    public CancellationToken CancellationToken { get; }
 
     #endregion
 }

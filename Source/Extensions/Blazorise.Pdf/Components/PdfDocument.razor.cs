@@ -1,4 +1,6 @@
 #region Using directives
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -18,18 +20,37 @@ public partial class PdfDocument : ComponentBase
     #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        bool definitionChanged = parameters.IsParameterChanged( Title )
+            || parameters.IsParameterChanged( PageSize )
+            || parameters.IsParameterChanged( Orientation )
+            || parameters.IsParameterChanged( PageWidth )
+            || parameters.IsParameterChanged( PageHeight );
+
+        Task task = base.SetParametersAsync( parameters );
+
+        if ( definitionChanged )
+            UpdateDefinition();
+
+        return task;
+    }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        documentContext = new( Definition );
+    }
+
+    private void UpdateDefinition()
     {
         (double width, double height) = PdfPageMetrics.Resolve( PageSize, Orientation, PageWidth, PageHeight );
 
-        Definition ??= new();
         Definition.Title = Title;
         Definition.PageSize = PageSize;
         Definition.Orientation = Orientation;
         Definition.PageWidth = width;
         Definition.PageHeight = height;
-
-        documentContext ??= new( Definition );
     }
 
     #endregion
@@ -39,7 +60,7 @@ public partial class PdfDocument : ComponentBase
     /// <summary>
     /// Gets the generated document definition.
     /// </summary>
-    public PdfDocumentDefinition Definition { get; private set; }
+    public PdfDocumentDefinition Definition { get; } = new();
 
     /// <summary>
     /// Document title stored in the document definition.

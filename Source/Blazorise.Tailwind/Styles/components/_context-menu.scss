@@ -1,5 +1,4 @@
 .tw-context-menu {
-    --context-menu-zindex: 50;
     display: contents;
 }
 
@@ -18,7 +17,16 @@
 .tw-context-menu-menu {
     position: fixed;
     display: block;
-    z-index: var(--context-menu-zindex, 1080);
+    z-index: 50;
+}
+
+.tw-context-menu-menu[data-context-menu-keyboard-navigation="false"] {
+    &:focus,
+    [role="menu"]:focus,
+    [data-context-menu-item="true"]:focus {
+        outline: none;
+        box-shadow: none;
+    }
 }
 
 .tw-context-menu-item {
@@ -99,5 +107,5 @@
 }
 
 .tw-context-menu-submenu-menu {
-    z-index: calc(var(--context-menu-zindex, 1080) + 1);
+    z-index: 51;
 }

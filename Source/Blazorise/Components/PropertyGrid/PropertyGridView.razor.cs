@@ -276,6 +276,11 @@ public partial class PropertyGridView : BaseComponent
     [Parameter] public string AriaLabel { get; set; } = "Properties";
 
     /// <summary>
+    /// Gets or sets the accessible property grid toolbar label.
+    /// </summary>
+    [Parameter] public string ToolbarAriaLabel { get; set; } = "Property grid controls";
+
+    /// <summary>
     /// Gets or sets how properties are arranged.
     /// </summary>
     [Parameter] public PropertyGridViewMode ViewMode { get; set; } = PropertyGridViewMode.Categorized;
@@ -299,6 +304,11 @@ public partial class PropertyGridView : BaseComponent
     /// Gets or sets the property search placeholder.
     /// </summary>
     [Parameter] public string SearchPlaceholder { get; set; } = "Search";
+
+    /// <summary>
+    /// Gets or sets the accessible property search label.
+    /// </summary>
+    [Parameter] public string SearchAriaLabel { get; set; } = "Search properties";
 
     /// <summary>
     /// Gets or sets whether property search changes are debounced.

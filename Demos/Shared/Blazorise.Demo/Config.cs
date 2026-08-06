@@ -5,6 +5,7 @@ using Blazorise.CodeEditor;
 using Blazorise.Components;
 using Blazorise.FluentValidation;
 using Blazorise.LoadingIndicator;
+using Blazorise.Pdf;
 using Blazorise.Reporting;
 using Blazorise.Reporting.DataSources.Csv;
 using Blazorise.RichTextEdit;
@@ -55,6 +56,7 @@ public static class Config
             .AddLoadingIndicator()
             .AddBlazoriseFluentValidation()
             .AddBlazoriseReporting()
+            .AddBlazorisePdfHttpResources()
             .AddBlazoriseReportingCsvDataSource()
             .AddBlazoriseGoogleReCaptcha( options =>
             {

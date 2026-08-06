@@ -20,7 +20,7 @@
     {
         PdfDocumentDefinition document = BuildInvoice();
 
-        PdfGenerationResult result = await PdfGenerator.Generate( document, new()
+        PdfGenerationResult result = await PdfGenerator.GenerateAsync( document, new()
         {
             FileName = "builder-invoice.pdf",
         } );

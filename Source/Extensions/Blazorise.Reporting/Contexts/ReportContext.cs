@@ -10,15 +10,21 @@ namespace Blazorise.Reporting;
 
 internal sealed class ReportContext
 {
-    private readonly List<ReportDataSourceDefinition> dataSources = [];
+    private readonly ReportRegistrationCollection<ReportDataSourceDefinition> dataSources = new();
 
-    private readonly List<ReportFormulaFieldDefinition> formulaFields = [];
+    private readonly ReportRegistrationCollection<ReportFormulaFieldDefinition> formulaFields = new();
 
-    private readonly List<ReportRunningTotalDefinition> runningTotals = [];
+    private readonly ReportRegistrationCollection<ReportRunningTotalDefinition> runningTotals = new();
 
-    private readonly List<FontFamily> fonts = [];
+    private readonly ReportRegistrationCollection<FontFamily> fonts = new();
 
-    private readonly List<ReportPageDefinition> pages = [];
+    private readonly ReportRegistrationCollection<ReportPageDefinition> pages = new();
+
+    private readonly ReportRegistrationCollection<ReportToolbar> toolbars = new();
+
+    private readonly ReportRegistrationCollection<ReportViewerOptions> viewers = new();
+
+    private readonly ReportViewerOptions defaultViewerOptions = new();
 
     public ReportViewerOptions ViewerOptions { get; } = new();
 
@@ -42,60 +48,117 @@ internal sealed class ReportContext
 
     public bool ShowToolbarModeButtons { get; private set; } = true;
 
-    public void RegisterDataSource( ReportDataSourceDefinition dataSource )
+    public void RegisterDataSource( object owner, ReportDataSourceDefinition dataSource )
     {
+        if ( dataSource is null )
+            return;
+
         if ( string.IsNullOrWhiteSpace( dataSource.Name ) )
             dataSource.Name = "Default";
 
-        var existingIndex = dataSources.FindIndex( x => string.Equals( x.Name, dataSource.Name, StringComparison.OrdinalIgnoreCase ) );
+        if ( dataSources.TryGetValue( owner, out ReportDataSourceDefinition currentDataSource ) )
+            dataSource.Id = currentDataSource.Id;
 
-        if ( existingIndex >= 0 )
-            dataSources[existingIndex] = dataSource;
-        else
-            dataSources.Add( dataSource );
+        dataSources.Set( owner, dataSource );
+        NotifyDefinitionChanged();
     }
 
-    public void RegisterFormulaField( ReportFormulaFieldDefinition formulaField )
+    public void UnregisterDataSource( object owner )
+    {
+        if ( dataSources.Remove( owner ) )
+            NotifyDefinitionChanged();
+    }
+
+    public void RegisterFormulaField( object owner, ReportFormulaFieldDefinition formulaField )
     {
         if ( string.IsNullOrWhiteSpace( formulaField?.Name ) )
+        {
+            UnregisterFormulaField( owner );
             return;
+        }
 
-        var existingIndex = formulaFields.FindIndex( x => string.Equals( x.Name, formulaField.Name, StringComparison.OrdinalIgnoreCase ) );
+        if ( formulaFields.TryGetValue( owner, out ReportFormulaFieldDefinition currentFormulaField ) )
+            formulaField.Id = currentFormulaField.Id;
 
-        if ( existingIndex >= 0 )
-            formulaFields[existingIndex] = formulaField;
-        else
-            formulaFields.Add( formulaField );
+        formulaFields.Set( owner, formulaField );
+        NotifyDefinitionChanged();
     }
 
-    public void RegisterRunningTotal( ReportRunningTotalDefinition runningTotal )
+    public void UnregisterFormulaField( object owner )
+    {
+        if ( formulaFields.Remove( owner ) )
+            NotifyDefinitionChanged();
+    }
+
+    public void RegisterRunningTotal( object owner, ReportRunningTotalDefinition runningTotal )
     {
         if ( string.IsNullOrWhiteSpace( runningTotal?.Name ) )
+        {
+            UnregisterRunningTotal( owner );
             return;
+        }
 
-        var existingIndex = runningTotals.FindIndex( x => string.Equals( x.Name, runningTotal.Name, StringComparison.OrdinalIgnoreCase ) );
-
-        if ( existingIndex >= 0 )
-            runningTotals[existingIndex] = runningTotal;
-        else
-            runningTotals.Add( runningTotal );
+        runningTotals.Set( owner, runningTotal );
+        NotifyDefinitionChanged();
     }
 
-    public void RegisterFont( FontFamily font )
+    public void UnregisterRunningTotal( object owner )
+    {
+        if ( runningTotals.Remove( owner ) )
+            NotifyDefinitionChanged();
+    }
+
+    public void RegisterFont( object owner, FontFamily font )
     {
         if ( string.IsNullOrWhiteSpace( font?.Name ) )
+        {
+            UnregisterFont( owner );
             return;
+        }
 
-        int existingIndex = fonts.FindIndex( x => string.Equals( x.Name, font.Name, StringComparison.OrdinalIgnoreCase ) );
-
-        if ( existingIndex >= 0 )
-            fonts[existingIndex] = font;
-        else
-            fonts.Add( font );
+        fonts.Set( owner, font );
+        NotifyDefinitionChanged();
     }
 
-    public void RegisterToolbar( ReportToolbar toolbar )
+    public void UnregisterFont( object owner )
     {
+        if ( fonts.Remove( owner ) )
+            NotifyDefinitionChanged();
+    }
+
+    public void RegisterToolbar( object owner, ReportToolbar toolbar )
+    {
+        toolbars.Set( owner, toolbar );
+        ApplyToolbar( toolbars.LastOrDefault );
+        ConfigurationVersion++;
+    }
+
+    public void UnregisterToolbar( object owner )
+    {
+        if ( toolbars.Remove( owner ) )
+        {
+            ApplyToolbar( toolbars.LastOrDefault );
+            ConfigurationVersion++;
+        }
+    }
+
+    private void ApplyToolbar( ReportToolbar toolbar )
+    {
+        if ( toolbar is null )
+        {
+            ToolbarContent = null;
+            ToolbarButtonTemplate = null;
+            HiddenToolbarCommands = null;
+            ShowToolbarPanesMenu = true;
+            ShowToolbarPersistenceButtons = true;
+            ShowToolbarEditButtons = true;
+            ShowToolbarHistoryButtons = true;
+            ShowToolbarDataSourceButtons = true;
+            ShowToolbarExportButtons = true;
+            ShowToolbarModeButtons = true;
+            return;
+        }
+
         ToolbarContent = toolbar.ChildContent;
         ToolbarButtonTemplate = toolbar.ButtonTemplate;
         HiddenToolbarCommands = toolbar.HiddenCommands;
@@ -108,28 +171,88 @@ internal sealed class ReportContext
         ShowToolbarModeButtons = toolbar.ShowModeButtons;
     }
 
-    public void RegisterPage( ReportPageDefinition page )
+    public void RegisterPage( object owner, ReportPageDefinition page )
     {
         if ( page is null )
             return;
 
         if ( string.IsNullOrWhiteSpace( page.Name ) )
-            page.Name = $"Page {pages.Count + 1}";
+        {
+            int index = pages.IndexOf( owner );
+            page.Name = $"Page {( index >= 0 ? index : pages.Count ) + 1}";
+        }
 
-        pages.Add( page );
+        pages.Set( owner, page );
+        NotifyDefinitionChanged();
+    }
+
+    public void UnregisterPage( object owner )
+    {
+        if ( pages.Remove( owner ) )
+            NotifyDefinitionChanged();
+    }
+
+    public void SetViewerDefaults( ReportViewerOptions options )
+    {
+        CopyViewerOptions( options, defaultViewerOptions );
+        ApplyViewerOptions();
+    }
+
+    public void RegisterViewer( object owner, ReportViewerOptions options )
+    {
+        viewers.Set( owner, options );
+        ApplyViewerOptions();
+        ConfigurationVersion++;
+    }
+
+    public void UnregisterViewer( object owner )
+    {
+        if ( viewers.Remove( owner ) )
+        {
+            ApplyViewerOptions();
+            ConfigurationVersion++;
+        }
+    }
+
+    private void ApplyViewerOptions()
+    {
+        CopyViewerOptions( viewers.LastOrDefault ?? defaultViewerOptions, ViewerOptions );
+    }
+
+    private static void CopyViewerOptions( ReportViewerOptions source, ReportViewerOptions target )
+    {
+        target.PreviewFormats = ReportPreviewFormatResolver.Normalize( source.PreviewFormats );
+        target.DefaultFormat = ReportPreviewFormatResolver.Resolve( source.DefaultFormat, target.PreviewFormats );
+        target.AllowPrint = source.AllowPrint;
+        target.AllowDownload = source.AllowDownload;
+        target.PdfPreviewTemplate = source.PdfPreviewTemplate;
+    }
+
+    internal void NotifyDefinitionChanged()
+    {
+        DefinitionVersion++;
     }
 
     public ReportDefinition BuildDefinition()
     {
         var definition = new ReportDefinition
         {
-            Pages = pages.Count == 0 ? [new() { Name = "Page 1" }] : pages.Select( page => ClonePage( page ) ).ToList(),
-            DataSources = dataSources.Select( CloneDataSource ).ToList(),
-            FormulaFields = formulaFields.Select( CloneFormulaField ).ToList(),
-            Fonts = fonts.Select( CloneFontFamily ).ToList(),
+            Pages = pages.Count == 0 ? [new() { Name = "Page 1" }] : pages.Values.Select( page => ClonePage( page ) ).ToList(),
+            DataSources = dataSources.Values
+                .DistinctBy( dataSource => dataSource.Name, StringComparer.OrdinalIgnoreCase )
+                .Select( CloneDataSource )
+                .ToList(),
+            FormulaFields = formulaFields.Values
+                .DistinctBy( formulaField => formulaField.Name, StringComparer.OrdinalIgnoreCase )
+                .Select( CloneFormulaField )
+                .ToList(),
+            Fonts = fonts.Values.Select( CloneFontFamily ).ToList(),
         };
 
-        definition.RunningTotals = runningTotals.Select( CloneRunningTotal ).ToList();
+        definition.RunningTotals = runningTotals.Values
+            .DistinctBy( runningTotal => runningTotal.Name, StringComparer.OrdinalIgnoreCase )
+            .Select( CloneRunningTotal )
+            .ToList();
 
         return definition;
     }
@@ -148,11 +271,11 @@ internal sealed class ReportContext
             Id = definition.Id,
             Name = definition.Name,
             Designer = CloneDesigner( definition.Designer ),
-            Pages = definition.Pages?.Select( page => ClonePage( page, subreportDepth ) ).ToList() ?? [new() { Name = "Page 1" }],
-            DataSources = definition.DataSources?.Select( CloneDataSource ).ToList() ?? [],
-            FormulaFields = definition.FormulaFields?.Select( CloneFormulaField ).ToList() ?? [],
-            RunningTotals = definition.RunningTotals?.Select( CloneRunningTotal ).ToList() ?? [],
-            Fonts = definition.Fonts?.Select( CloneFontFamily ).ToList() ?? [],
+            Pages = definition.Pages?.Select( page => ClonePage( page, subreportDepth ) ).Where( page => page is not null ).ToList() ?? [new() { Name = "Page 1" }],
+            DataSources = definition.DataSources?.Select( CloneDataSource ).Where( dataSource => dataSource is not null ).ToList() ?? [],
+            FormulaFields = definition.FormulaFields?.Select( CloneFormulaField ).Where( formulaField => formulaField is not null ).ToList() ?? [],
+            RunningTotals = definition.RunningTotals?.Select( CloneRunningTotal ).Where( runningTotal => runningTotal is not null ).ToList() ?? [],
+            Fonts = definition.Fonts?.Select( CloneFontFamily ).Where( font => font is not null ).ToList() ?? [],
         };
     }
 
@@ -168,7 +291,7 @@ internal sealed class ReportContext
             PreviewFormat = state.PreviewFormat,
             ActivePageId = state.ActivePageId,
             Selection = CloneSelection( state.Selection ),
-            ClipboardElements = state.ClipboardElements?.Select( element => CloneElement( element ) ).ToList() ?? [],
+            ClipboardElements = state.ClipboardElements?.Select( element => CloneElement( element ) ).Where( element => element is not null ).ToList() ?? [],
             ClipboardBandId = state.ClipboardBandId,
         };
     }
@@ -194,7 +317,8 @@ internal sealed class ReportContext
 
     private static ReportPageDefinition ClonePage( ReportPageDefinition page, int subreportDepth )
     {
-        page ??= new();
+        if ( page is null )
+            return null;
 
         return new()
         {
@@ -206,7 +330,7 @@ internal sealed class ReportContext
             Width = page.Width,
             Height = page.Height,
             Margins = ClonePageMargins( page.Margins ),
-            Bands = page.Bands?.Select( section => CloneSection( section, subreportDepth ) ).ToList() ?? [],
+            Bands = page.Bands?.Select( section => CloneSection( section, subreportDepth ) ).Where( section => section is not null ).ToList() ?? [],
         };
     }
 
@@ -226,6 +350,9 @@ internal sealed class ReportContext
 
     private static ReportDataSourceDefinition CloneDataSource( ReportDataSourceDefinition dataSource )
     {
+        if ( dataSource is null )
+            return null;
+
         return new()
         {
             Id = dataSource.Id,
@@ -245,7 +372,7 @@ internal sealed class ReportContext
         return new()
         {
             IsCollection = schema.IsCollection,
-            Fields = schema.Fields?.Select( CloneSchemaField ).ToList() ?? [],
+            Fields = schema.Fields?.Select( CloneSchemaField ).Where( field => field is not null ).ToList() ?? [],
         };
     }
 
@@ -260,7 +387,7 @@ internal sealed class ReportContext
             DisplayName = field.DisplayName,
             DataType = field.DataType,
             IsCollection = field.IsCollection,
-            Fields = field.Fields?.Select( CloneSchemaField ).ToList() ?? [],
+            Fields = field.Fields?.Select( CloneSchemaField ).Where( childField => childField is not null ).ToList() ?? [],
         };
     }
 
@@ -301,6 +428,9 @@ internal sealed class ReportContext
 
     private static ReportBandDefinition CloneSection( ReportBandDefinition section, int subreportDepth )
     {
+        if ( section is null )
+            return null;
+
         return new()
         {
             Id = section.Id,
@@ -322,7 +452,7 @@ internal sealed class ReportContext
             NewPageAfter = CloneValue( section.NewPageAfter ),
             Appearance = CloneAppearance( section.Appearance ),
             Border = CloneBorder( section.Border ),
-            Elements = section.Elements.Select( element => CloneElement( element, subreportDepth ) ).Where( element => element is not null ).ToList(),
+            Elements = section.Elements?.Select( element => CloneElement( element, subreportDepth ) ).Where( element => element is not null ).ToList() ?? [],
         };
     }
 
@@ -378,9 +508,9 @@ internal sealed class ReportContext
                 break;
             case ReportTableElementDefinition tableElement when clone is ReportTableElementDefinition tableClone:
                 tableClone.DataSource = tableElement.DataSource;
-                tableClone.Columns = tableElement.Columns?.Select( CloneColumn ).ToList() ?? [];
-                tableClone.Rows = tableElement.Rows?.Select( CloneRow ).ToList() ?? [];
-                tableClone.Cells = tableElement.Cells?.Select( cell => CloneCell( cell, subreportDepth ) ).ToList() ?? [];
+                tableClone.Columns = tableElement.Columns?.Select( CloneColumn ).Where( column => column is not null ).ToList() ?? [];
+                tableClone.Rows = tableElement.Rows?.Select( CloneRow ).Where( row => row is not null ).ToList() ?? [];
+                tableClone.Cells = tableElement.Cells?.Select( cell => CloneCell( cell, subreportDepth ) ).Where( cell => cell is not null ).ToList() ?? [];
                 break;
             case ReportPanelElementDefinition panelElement when clone is ReportPanelElementDefinition panelClone:
                 panelClone.Elements = panelElement.Elements?.Select( element => CloneElement( element, subreportDepth ) ).Where( element => element is not null ).ToList() ?? [];
@@ -573,6 +703,10 @@ internal sealed class ReportContext
             ElementIds = selection.ElementIds?.ToList() ?? [],
         };
     }
+
+    internal int DefinitionVersion { get; private set; }
+
+    internal int ConfigurationVersion { get; private set; }
 
 }
 

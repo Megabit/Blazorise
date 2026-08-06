@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Modules;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -16,11 +17,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
 {
     #region Members
 
-    private bool visible;
-
-    private double clientX;
-
-    private double clientY;
+    private ContextMenuState state = new();
 
     private string toggleSelector;
 
@@ -45,6 +42,23 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     #region Methods
 
     /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        bool visibilityChanged = parameters.TryGetValue<bool>( nameof( Visible ), out bool visibleResult )
+            && state.Visible != visibleResult;
+
+        await base.SetParametersAsync( parameters );
+
+        if ( !visibilityChanged )
+            return;
+
+        if ( visibleResult )
+            await Show();
+        else
+            await Hide( CloseReason.None, null );
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.ContextMenu() );
@@ -58,7 +72,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
         await SynchronizeContextMenuSubscription();
         await SynchronizeVisibilitySubscriptions();
 
-        if ( Visible )
+        if ( State.Visible )
             await EnsureFloatingPosition();
         else if ( floatingPositionInitialized )
         {
@@ -84,31 +98,90 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Opens the context menu at the supplied document coordinates.
+    /// Opens the context menu relative to its configured target.
     /// </summary>
-    /// <param name="clientX">The document client X coordinate.</param>
-    /// <param name="clientY">The document client Y coordinate.</param>
+    /// <remarks>
+    /// This method does nothing while the menu is visible. Use <see cref="Reposition()"/> to update its position.
+    /// </remarks>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task Show()
+        => Show( null, null, null );
+
+    /// <summary>
+    /// Opens the context menu at the supplied viewport coordinates.
+    /// </summary>
+    /// <remarks>
+    /// This method does nothing while the menu is visible. Use <see cref="Reposition(double,double)"/> to update its position.
+    /// </remarks>
+    /// <param name="clientX">The viewport client X coordinate.</param>
+    /// <param name="clientY">The viewport client Y coordinate.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task Show( double clientX, double clientY )
         => Show( clientX, clientY, null );
 
     /// <summary>
+    /// Repositions the visible context menu relative to its configured target.
+    /// </summary>
+    /// <remarks>
+    /// This method does nothing while the menu is hidden and does not invoke <see cref="Opening"/>, <see cref="Opened"/>, or <see cref="VisibleChanged"/>.
+    /// </remarks>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task Reposition()
+        => Reposition( null, null, null );
+
+    /// <summary>
+    /// Repositions the visible context menu at the supplied viewport coordinates.
+    /// </summary>
+    /// <remarks>
+    /// This method does nothing while the menu is hidden and does not invoke <see cref="Opening"/>, <see cref="Opened"/>, or <see cref="VisibleChanged"/>.
+    /// </remarks>
+    /// <param name="clientX">The viewport client X coordinate.</param>
+    /// <param name="clientY">The viewport client Y coordinate.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task Reposition( double clientX, double clientY )
+        => Reposition( clientX, clientY, null );
+
+    /// <summary>
     /// Hides the context menu.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task Hide()
+    public Task Hide()
+        => Hide( CloseReason.UserClosing, null );
+
+    /// <summary>
+    /// Hides the context menu for the specified reason.
+    /// </summary>
+    /// <param name="closeReason">The reason the menu is being closed.</param>
+    /// <param name="documentEventArgs">The originating document event.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private async Task Hide( CloseReason closeReason, DocumentEventArgs documentEventArgs )
     {
-        if ( !Visible )
+        if ( !State.Visible )
             return;
 
-        visible = false;
+        ContextMenuClosingEventArgs closingEventArgs = new( State.ClientX, State.ClientY, documentEventArgs, closeReason );
+
+        if ( Closing is not null )
+            await Closing.Invoke( closingEventArgs );
+
+        if ( closingEventArgs.Cancel )
+        {
+            await VisibleChanged.InvokeAsync( true );
+
+            return;
+        }
+
+        state = state with { Visible = false };
         DirtyClasses();
+
+        if ( Rendered && floatingPositionInitialized )
+            await JSModule.RestoreFocus( ElementRef, ElementId );
 
         await DisposeVisibilitySubscriptions();
 
         await VisibleChanged.InvokeAsync( false );
 
-        await Closed.InvokeAsync( new ContextMenuEventArgs( clientX, clientY, null ) );
+        await Closed.InvokeAsync( new ContextMenuEventArgs( State.ClientX, State.ClientY, documentEventArgs ) );
 
         await InvokeAsync( StateHasChanged );
     }
@@ -119,6 +192,12 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
             return;
 
         toggleSelector = CssSelectorUtilities.BuildElementIdSelector( toggle.ElementId );
+
+        if ( State.Visible && State.ClientX is null && State.ClientY is null )
+        {
+            contextElementSelector = ResolvedTargetSelector;
+            floatingPositionDirty = true;
+        }
     }
 
     internal void NotifyToggleRemoved( ContextMenuToggle toggle )
@@ -126,6 +205,12 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
         if ( toggleSelector == CssSelectorUtilities.BuildElementIdSelector( toggle?.ElementId ) )
         {
             toggleSelector = null;
+
+            if ( State.Visible && State.ClientX is null && State.ClientY is null )
+            {
+                contextElementSelector = ResolvedTargetSelector;
+                floatingPositionDirty = true;
+            }
         }
     }
 
@@ -143,24 +228,60 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
             this.body = null;
     }
 
-    private async Task Show( double clientX, double clientY, DocumentEventArgs documentEventArgs )
+    private async Task Show( double? clientX, double? clientY, DocumentEventArgs documentEventArgs )
     {
-        this.clientX = clientX;
-        this.clientY = clientY;
+        if ( State.Visible )
+            return;
+
+        ContextMenuOpeningEventArgs openingEventArgs = new( clientX, clientY, documentEventArgs );
+
+        if ( Opening is not null )
+            await Opening.Invoke( openingEventArgs );
+
+        if ( openingEventArgs.Cancel )
+        {
+            if ( !State.Visible )
+                await VisibleChanged.InvokeAsync( false );
+
+            return;
+        }
+
         contextElementSelector = documentEventArgs?.ContextElementSelector ?? documentEventArgs?.MatchedSelector ?? ResolvedTargetSelector;
         floatingPositionDirty = true;
 
-        bool wasVisible = Visible;
-
-        visible = true;
+        state = state with
+        {
+            Visible = true,
+            ClientX = clientX,
+            ClientY = clientY,
+        };
         DirtyClasses();
 
-        await SynchronizeVisibilitySubscriptions();
+        if ( Rendered )
+            await SynchronizeVisibilitySubscriptions();
 
-        if ( !wasVisible )
-            await VisibleChanged.InvokeAsync( true );
+        await VisibleChanged.InvokeAsync( true );
 
-        await Opened.InvokeAsync( new ContextMenuEventArgs( clientX, clientY, documentEventArgs ) );
+        ExecuteAfterRender( () => State.Visible && floatingPositionInitialized
+            ? Opened.InvokeAsync( new ContextMenuEventArgs( State.ClientX, State.ClientY, documentEventArgs ) )
+            : Task.CompletedTask );
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    private async Task Reposition( double? clientX, double? clientY, DocumentEventArgs documentEventArgs )
+    {
+        if ( !State.Visible )
+            return;
+
+        contextElementSelector = documentEventArgs?.ContextElementSelector ?? documentEventArgs?.MatchedSelector ?? ResolvedTargetSelector;
+        floatingPositionDirty = true;
+
+        state = state with
+        {
+            ClientX = clientX,
+            ClientY = clientY,
+        };
 
         await InvokeAsync( StateHasChanged );
     }
@@ -170,26 +291,24 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
         if ( Disabled )
             return;
 
-        var openingEventArgs = new ContextMenuOpeningEventArgs( eventArgs.ClientX, eventArgs.ClientY, eventArgs );
-
-        await Opening.InvokeAsync( openingEventArgs );
-
-        if ( openingEventArgs.Cancel )
-            return;
-
-        await Show( eventArgs.ClientX, eventArgs.ClientY, eventArgs );
+        if ( State.Visible )
+            await Reposition( eventArgs.ClientX, eventArgs.ClientY, eventArgs );
+        else
+            await Show( eventArgs.ClientX, eventArgs.ClientY, eventArgs );
     }
 
     private async Task HandleOutsidePointer( DocumentEventArgs eventArgs )
     {
-        if ( Visible && CloseOnOutsideClick )
-            await Hide();
+        if ( State.Visible && CloseOnOutsideClick )
+            await Hide( CloseReason.FocusLostClosing, eventArgs );
     }
 
     private async Task HandleKeyDown( DocumentEventArgs eventArgs )
     {
-        if ( Visible && CloseOnEscape && string.Equals( eventArgs.Key, "Escape", StringComparison.Ordinal ) )
-            await Hide();
+        if ( State.Visible && CloseOnEscape && string.Equals( eventArgs.Key, "Escape", StringComparison.Ordinal ) )
+            await Hide( CloseReason.EscapeClosing, eventArgs );
+        else if ( State.Visible && string.Equals( eventArgs.Key, "Tab", StringComparison.Ordinal ) )
+            await Hide( CloseReason.FocusLostClosing, eventArgs );
     }
 
     private async Task SynchronizeContextMenuSubscription()
@@ -218,7 +337,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
 
     private async Task SynchronizeVisibilitySubscriptions()
     {
-        if ( Visible && CloseOnOutsideClick )
+        if ( State.Visible && CloseOnOutsideClick )
         {
             outsidePointerSubscription ??= await DocumentObserver.Subscribe( new()
             {
@@ -235,12 +354,14 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
             outsidePointerSubscription = null;
         }
 
-        if ( Visible && CloseOnEscape )
+        if ( State.Visible )
         {
             keyDownSubscription ??= await DocumentObserver.Subscribe( new()
             {
                 OwnerId = ElementId,
                 EventTypes = DocumentEventTypes.KeyDown,
+                KeysFilter = new[] { "Escape", "Tab" },
+                Capture = false,
                 Handler = HandleKeyDown,
             } );
         }
@@ -261,7 +382,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
         if ( string.IsNullOrWhiteSpace( bodyElementId ) )
             return;
 
-        await JSModule.Initialize( ElementRef, ElementId, bodyElementId, clientX, clientY, contextElementSelector, new()
+        await JSModule.Initialize( ElementRef, ElementId, bodyElementId, State.ClientX, State.ClientY, contextElementSelector, new()
         {
             Direction = Direction.Down.ToString( "g" ),
             Strategy = "fixed",
@@ -305,6 +426,11 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
+    /// <summary>
+    /// Gets the current context menu state.
+    /// </summary>
+    protected internal ContextMenuState State => state;
+
     internal bool EffectiveCloseOnClick => CloseOnClick;
 
     internal DropdownTrigger EffectiveSubmenuTrigger => SubmenuTrigger;
@@ -339,25 +465,16 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the menu visibility.
+    /// Gets or sets whether the menu is visible.
     /// </summary>
-    [Parameter]
-    public bool Visible
-    {
-        get => visible;
-        set
-        {
-            if ( visible == value )
-                return;
-
-            visible = value;
-            floatingPositionDirty = value;
-            DirtyClasses();
-        }
-    }
+    /// <remarks>
+    /// Setting this to <see langword="true"/> opens the menu relative to its configured target.
+    /// Use <see cref="Show(double,double)"/> to open the menu at a specific viewport position.
+    /// </remarks>
+    [Parameter] public bool Visible { get; set; }
 
     /// <summary>
-    /// Occurs after the menu visibility changes.
+    /// Notifies when the effective menu visibility changes or a canceled request must be synchronized.
     /// </summary>
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
@@ -402,12 +519,17 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
-    /// Occurs before the menu opens. Set <see cref="ContextMenuOpeningEventArgs.Cancel"/> to prevent opening.
+    /// Callback invoked before the menu opens. Set <see cref="ContextMenuOpeningEventArgs.Cancel"/> to prevent opening.
     /// </summary>
-    [Parameter] public EventCallback<ContextMenuOpeningEventArgs> Opening { get; set; }
+    [Parameter] public Func<ContextMenuOpeningEventArgs, Task> Opening { get; set; }
 
     /// <summary>
-    /// Occurs after the menu opens.
+    /// Callback invoked before the menu closes. Set <see cref="ContextMenuClosingEventArgs.Cancel"/> to prevent closing.
+    /// </summary>
+    [Parameter] public Func<ContextMenuClosingEventArgs, Task> Closing { get; set; }
+
+    /// <summary>
+    /// Occurs after the menu body has rendered and its initial position has been applied.
     /// </summary>
     [Parameter] public EventCallback<ContextMenuEventArgs> Opened { get; set; }
 

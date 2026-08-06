@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Reporting.Internal;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -11,15 +13,25 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Provides a declarative report designer and viewer for band-based report definitions.
 /// </summary>
-public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDisposable
+public partial class Report : BaseComponent, IReportCommandExecutor
 {
     #region Members
 
     private _ReportDesigner designer;
 
+    private ComponentParameterInfo<bool> paramEditable;
+
     #endregion
 
     #region Methods
+
+    /// <inheritdoc />
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Editable, out paramEditable );
+
+        return base.SetParametersAsync( parameters );
+    }
 
     /// <inheritdoc />
     public Task ExecuteCommand( ReportCommand command )
@@ -58,20 +70,24 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         => designer?.LoadState( state ) ?? Task.CompletedTask;
 
     /// <inheritdoc />
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-report" );
+
+        base.BuildClasses( builder );
+    }
 
     #endregion
 
     #region Properties
 
     /// <summary>
-    /// Persisted report definition used by the designer and viewer.
+    /// Persisted report definition copied into the designer working state.
     /// </summary>
     [Parameter] public ReportDefinition Definition { get; set; }
 
     /// <summary>
-    /// Raised when the report definition changes through designer commands.
+    /// Raised with a snapshot of the updated report definition.
     /// </summary>
     [Parameter] public EventCallback<ReportDefinition> DefinitionChanged { get; set; }
 
@@ -109,6 +125,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     /// Shows the status bar below the report designer or preview surface.
     /// </summary>
     [Parameter] public bool ShowStatusBar { get; set; } = true;
+
+    /// <summary>
+    /// Raised when status bar visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowStatusBarChanged { get; set; }
 
     /// <summary>
     /// Band presentation used when constructing a report from declarative content. Persisted definitions retain their configured value.
@@ -178,7 +199,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     /// <summary>
     /// A comma-separated list of image MIME types accepted by the image upload dialog.
     /// </summary>
-    [Parameter] public string ImageAccept { get; set; } = "image/png, image/jpeg, image/webp, image/svg+xml";
+    [Parameter] public string ImageAccept { get; set; } = "image/png, image/jpeg";
 
     /// <summary>
     /// Maximum image size in bytes.
@@ -246,17 +267,22 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [Parameter] public EventCallback<ReportMode> ModeChanged { get; set; }
 
     /// <summary>
-    /// Externally controlled preview format.
+    /// Externally controlled preview format. Must be either HTML or PDF.
     /// </summary>
     [Parameter] public ReportPreviewFormat? PreviewFormat { get; set; }
 
     /// <summary>
-    /// Preview formats available for this report.
+    /// Raised when the preview format changes.
+    /// </summary>
+    [Parameter] public EventCallback<ReportPreviewFormat> PreviewFormatChanged { get; set; }
+
+    /// <summary>
+    /// Preview formats available for this report. None disables preview.
     /// </summary>
     [Parameter] public ReportPreviewFormat? PreviewFormats { get; set; }
 
     /// <summary>
-    /// Preview format selected when preview mode is first opened.
+    /// Preview format selected when preview mode is first opened. Must be enabled in <see cref="PreviewFormats"/>.
     /// </summary>
     [Parameter] public ReportPreviewFormat? DefaultPreviewFormat { get; set; }
 
@@ -266,9 +292,19 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     [Parameter] public EventCallback<ReportProgress> PdfProgressed { get; set; }
 
     /// <summary>
+    /// Raised when a report operation fails.
+    /// </summary>
+    [Parameter] public EventCallback<ReportOperationFailedEventArgs> OperationFailed { get; set; }
+
+    /// <summary>
     /// Custom report element plugins available only to this report instance. The collection is read during initialization.
     /// </summary>
     [Parameter] public IEnumerable<IReportElementPlugin> ElementPlugins { get; set; }
+
+    /// <summary>
+    /// Custom localizers used by the report designer and viewer.
+    /// </summary>
+    [Parameter] public ReportLocalizers Localizers { get; set; }
 
     /// <summary>
     /// Declarative report content used as the initial report definition.

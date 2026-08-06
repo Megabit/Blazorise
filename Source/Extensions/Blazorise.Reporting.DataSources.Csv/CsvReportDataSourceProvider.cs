@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -16,6 +17,9 @@ namespace Blazorise.Reporting.DataSources.Csv;
 /// <summary>
 /// Provides schema inference and row loading for CSV report data sources.
 /// </summary>
+/// <remarks>
+/// Automatic redirects must be disabled on the configured HTTP handler. <see cref="Config.AddBlazoriseReportingCsvDataSource"/> does this by default for server applications.
+/// </remarks>
 public sealed class CsvReportDataSourceProvider : IReportDataSourceProvider
 {
     #region Members
@@ -29,7 +33,11 @@ public sealed class CsvReportDataSourceProvider : IReportDataSourceProvider
 
     private const string LegacyFilePathSetting = "FilePath";
 
-    private static readonly HttpClient httpClient = new();
+    internal const string HttpClientName = "Blazorise.Reporting.DataSources.Csv";
+
+    private readonly HttpClient httpClient;
+
+    private readonly CsvReportDataSourceOptions options;
 
     #endregion
 
@@ -38,6 +46,18 @@ public sealed class CsvReportDataSourceProvider : IReportDataSourceProvider
     static CsvReportDataSourceProvider()
     {
         Encoding.RegisterProvider( CodePagesEncodingProvider.Instance );
+    }
+
+    /// <summary>
+    /// Initializes a new CSV report data source provider.
+    /// </summary>
+    /// <param name="httpClientFactory">HTTP client factory.</param>
+    /// <param name="options">CSV data source options.</param>
+    public CsvReportDataSourceProvider( IHttpClientFactory httpClientFactory, CsvReportDataSourceOptions options )
+    {
+        httpClient = ( httpClientFactory ?? throw new ArgumentNullException( nameof( httpClientFactory ) ) ).CreateClient( HttpClientName );
+        this.options = options ?? throw new ArgumentNullException( nameof( options ) );
+        this.options.Validate();
     }
 
     #endregion
@@ -86,7 +106,7 @@ public sealed class CsvReportDataSourceProvider : IReportDataSourceProvider
         }
     }
 
-    private static async Task<CsvDataSourceTable> ReadTable( ReportDataSourceDefinition definition, CancellationToken cancellationToken )
+    private async Task<CsvDataSourceTable> ReadTable( ReportDataSourceDefinition definition, CancellationToken cancellationToken )
     {
         string source = await ReadSource( definition, cancellationToken );
         char delimiter = ResolveDelimiter( definition );
@@ -113,7 +133,7 @@ public sealed class CsvReportDataSourceProvider : IReportDataSourceProvider
         } );
     }
 
-    private static async Task<string> ReadSource( ReportDataSourceDefinition definition, CancellationToken cancellationToken )
+    private async Task<string> ReadSource( ReportDataSourceDefinition definition, CancellationToken cancellationToken )
     {
         string source = GetSetting( definition, CsvReportDataSourceSettings.Source )
             ?? GetSetting( definition, LegacyContentSetting )
@@ -125,20 +145,80 @@ public sealed class CsvReportDataSourceProvider : IReportDataSourceProvider
         Encoding encoding = ResolveEncoding( definition );
 
         if ( IsUrlSource( source ) )
-        {
-            byte[] bytes = await httpClient.GetByteArrayAsync( source, cancellationToken );
-
-            return encoding.GetString( bytes );
-        }
+            return encoding.GetString( await ReadHttpSource( new( source ), cancellationToken ) );
 
         if ( !OperatingSystem.IsBrowser() && File.Exists( source ) )
         {
-            byte[] bytes = await File.ReadAllBytesAsync( source, cancellationToken );
+            using FileStream stream = File.OpenRead( source );
+            byte[] bytes = await ReadSourceBytes( stream, "CSV file", cancellationToken );
 
             return encoding.GetString( bytes );
         }
 
+        if ( encoding.GetByteCount( source ) > options.MaxSourceSize )
+            throw new InvalidDataException( $"The inline CSV source exceeds the maximum allowed size of {options.MaxSourceSize} bytes." );
+
         return source;
+    }
+
+    private async Task<byte[]> ReadHttpSource( Uri resourceUri, CancellationToken cancellationToken )
+    {
+        string resourceDescription = DescribeResourceUri( resourceUri );
+
+        if ( options.ResourceAllowed?.Invoke( resourceUri ) == false )
+            throw new InvalidOperationException( $"The CSV source '{resourceDescription}' is not allowed by the configured resource policy." );
+
+        using HttpResponseMessage response = await httpClient.GetAsync( resourceUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken );
+
+        Uri responseUri = response.RequestMessage?.RequestUri;
+
+        if ( responseUri is not null && responseUri != resourceUri )
+            throw new InvalidOperationException( $"The CSV source '{resourceDescription}' redirected to '{DescribeResourceUri( responseUri )}'. Redirects are not allowed." );
+
+        if ( IsRedirect( response.StatusCode ) )
+            throw new InvalidOperationException( $"The CSV source '{resourceDescription}' redirected to another location. Redirects are not allowed." );
+
+        response.EnsureSuccessStatusCode();
+
+        if ( response.Content.Headers.ContentLength is long contentLength && contentLength > options.MaxSourceSize )
+            throw new InvalidDataException( $"The CSV source '{resourceDescription}' exceeds the maximum allowed size of {options.MaxSourceSize} bytes." );
+
+        using Stream sourceStream = await response.Content.ReadAsStreamAsync( cancellationToken );
+
+        return await ReadSourceBytes( sourceStream, $"CSV source '{resourceDescription}'", cancellationToken );
+    }
+
+    private async Task<byte[]> ReadSourceBytes( Stream sourceStream, string sourceDescription, CancellationToken cancellationToken )
+    {
+        using MemoryStream targetStream = new();
+        byte[] buffer = new byte[81920];
+        long totalBytes = 0;
+        int bytesRead;
+
+        while ( ( bytesRead = await sourceStream.ReadAsync( buffer, cancellationToken ) ) > 0 )
+        {
+            totalBytes += bytesRead;
+
+            if ( totalBytes > options.MaxSourceSize )
+                throw new InvalidDataException( $"The {sourceDescription} exceeds the maximum allowed size of {options.MaxSourceSize} bytes." );
+
+            await targetStream.WriteAsync( buffer.AsMemory( 0, bytesRead ), cancellationToken );
+        }
+
+        return targetStream.ToArray();
+    }
+
+    private static bool IsRedirect( HttpStatusCode statusCode )
+        => statusCode is HttpStatusCode.MultipleChoices
+            or HttpStatusCode.MovedPermanently
+            or HttpStatusCode.Found
+            or HttpStatusCode.SeeOther
+            or HttpStatusCode.TemporaryRedirect
+            or HttpStatusCode.PermanentRedirect;
+
+    private static string DescribeResourceUri( Uri resourceUri )
+    {
+        return resourceUri.GetComponents( UriComponents.Scheme | UriComponents.Host | UriComponents.Port | UriComponents.Path, UriFormat.UriEscaped );
     }
 
     private static Encoding ResolveEncoding( ReportDataSourceDefinition definition )

@@ -114,7 +114,7 @@ internal static class DockLayoutNormalizer
     }
 
     private static bool ShouldKeepSinglePaneTabNode( string paneName, IReadOnlyDictionary<string, DockPane> panes )
-        => panes.TryGetValue( paneName, out DockPane pane ) && pane.Role == DockRole.Document && pane.EffectiveShowTab;
+        => panes.TryGetValue( paneName, out DockPane pane ) && pane.Role == DockPaneRole.Document && pane.EffectiveShowTab;
 
     private static bool IsCenterTabsNode( DockNodeState node, IReadOnlyDictionary<string, DockPane> panes, IReadOnlyList<DockPaneState> paneStates )
         => node.Panes.Any( paneName => IsCenterPane( paneName, panes, paneStates ) );
@@ -124,16 +124,17 @@ internal static class DockLayoutNormalizer
         if ( string.IsNullOrWhiteSpace( paneName ) )
             return false;
 
-        if ( panes.TryGetValue( paneName, out DockPane pane ) && IsCenterPane( pane ) )
+        panes.TryGetValue( paneName, out DockPane pane );
+
+        if ( pane?.Role == DockPaneRole.Document )
             return true;
 
         DockPaneState paneState = paneStates.FirstOrDefault( x => x.Name == paneName );
 
-        return paneState?.Position == DockPanePosition.Center;
+        return paneState is not null
+            ? paneState.Position == DockPanePosition.Center
+            : pane?.PanePosition == DockPanePosition.Center;
     }
-
-    private static bool IsCenterPane( DockPane pane )
-        => pane is not null && ( pane.Role == DockRole.Document || pane.PanePosition == DockPanePosition.Center );
 
     private static void PreserveCollapsedTabSize( string paneName, string size, IReadOnlyList<DockPaneState> paneStates )
     {
@@ -156,8 +157,13 @@ internal static class DockLayoutNormalizer
         {
             DockPaneState paneState = paneStates.FirstOrDefault( x => x.Name == paneName );
 
-            if ( !string.IsNullOrWhiteSpace( paneState?.Size ) )
-                return paneState.Size;
+            if ( paneState is not null )
+            {
+                if ( !string.IsNullOrWhiteSpace( paneState.Size ) )
+                    return paneState.Size;
+
+                continue;
+            }
 
             if ( panes.TryGetValue( paneName, out DockPane pane ) && !string.IsNullOrWhiteSpace( pane.Size ) )
                 return pane.Size;
