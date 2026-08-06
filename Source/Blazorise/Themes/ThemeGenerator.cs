@@ -831,11 +831,75 @@ public abstract class ThemeGenerator : IThemeGenerator
 
         GenerateSpacingStyles( sb, theme, theme.SpacingOptions );
 
+        GenerateResizerStyles( sb, theme );
+
         var generatedStyles = sb.ToString();
 
         ThemeCache.CacheStyles( theme, generatedStyles );
 
         return generatedStyles;
+    }
+
+    /// <summary>
+    /// Generates the Resizer styles.
+    /// </summary>
+    /// <param name="sb">Result of the generator.</param>
+    /// <param name="theme">Currently used theme options.</param>
+    protected virtual void GenerateResizerStyles( StringBuilder sb, Theme theme )
+    {
+    }
+
+    /// <summary>
+    /// Generates provider-specific Resizer color overrides from the active theme.
+    /// </summary>
+    protected void GenerateResizerColorStyles( StringBuilder sb, Theme theme, string resizerSelector, string activeGutterSelector, string focusedVerticalSelector, string focusedHorizontalSelector, string variablePrefix )
+    {
+        FirstNotEmpty( out string surface, theme.BodyOptions?.BackgroundColor, theme.BackgroundOptions?.Light, theme.ColorOptions?.Light );
+        FirstNotEmpty( out string grip, theme.TextColorOptions?.Muted, theme.ColorOptions?.Secondary );
+
+        System.Drawing.Color surfaceColor = !string.IsNullOrEmpty( surface ) ? ParseColor( surface ) : System.Drawing.Color.Empty;
+        System.Drawing.Color gripColor = !string.IsNullOrEmpty( grip ) ? ParseColor( grip ) : System.Drawing.Color.Empty;
+        System.Drawing.Color primaryColor = !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) ? ParseColor( theme.ColorOptions.Primary ) : System.Drawing.Color.Empty;
+
+        if ( !surfaceColor.IsEmpty || !gripColor.IsEmpty )
+        {
+            sb.Append( resizerSelector ).Append( "{" );
+
+            if ( !surfaceColor.IsEmpty )
+            {
+                System.Drawing.Color borderColor = LuminanceFromColor( surfaceColor ) < .5
+                    ? Lighten( surfaceColor, 10f )
+                    : Darken( surfaceColor, 10f );
+
+                sb.Append( $"{variablePrefix}-gutter-background:{ToHex( surfaceColor )};" );
+                sb.Append( $"{variablePrefix}-gutter-border:{ToHex( borderColor )};" );
+            }
+
+            if ( !gripColor.IsEmpty )
+                sb.Append( $"{variablePrefix}-grip-color:{ToHex( gripColor )};" );
+
+            sb.AppendLine( "}" );
+        }
+
+        if ( primaryColor.IsEmpty )
+            return;
+
+        string primary = ToHex( primaryColor );
+        string primaryTransparent = ToHex( Transparency( primaryColor, 31 ) );
+
+        sb.Append( activeGutterSelector ).Append( "{" )
+            .Append( $"{variablePrefix}-gutter-background:{primaryTransparent};" )
+            .Append( $"{variablePrefix}-gutter-border:{primary};" )
+            .Append( $"{variablePrefix}-grip-color:{primary};" )
+            .AppendLine( "}" );
+
+        sb.Append( focusedVerticalSelector ).Append( "{" )
+            .Append( $"background:linear-gradient({primary} 0 0) center / 2px 100% no-repeat;" )
+            .AppendLine( "}" );
+
+        sb.Append( focusedHorizontalSelector ).Append( "{" )
+            .Append( $"background:linear-gradient({primary} 0 0) center / 100% 2px no-repeat;" )
+            .AppendLine( "}" );
     }
 
     /// <summary>

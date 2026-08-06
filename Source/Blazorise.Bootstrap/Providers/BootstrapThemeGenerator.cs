@@ -24,6 +24,17 @@ public class BootstrapThemeGenerator : ThemeGenerator
     protected override string GetDockLayoutVariableName( string name )
         => $"--bs-dock-{name}";
 
+    /// <inheritdoc />
+    protected override void GenerateResizerStyles( StringBuilder sb, Theme theme )
+        => GenerateResizerColorStyles(
+            sb,
+            theme,
+            ".resizer",
+            ".resizer-gutter:hover,.resizer-gutter.resizer-focused,.resizer-gutter.resizer-resizing",
+            ".resizer-focused.resizer-vertical:not(.resizer-gutter)",
+            ".resizer-focused.resizer-horizontal:not(.resizer-gutter)",
+            "--bs-resizer" );
+
     protected override void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpointName, string breakpointSize )
     {
         if ( !string.IsNullOrEmpty( breakpointSize ) )
