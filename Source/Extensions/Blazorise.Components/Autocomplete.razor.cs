@@ -1336,7 +1336,9 @@ public partial class Autocomplete<TItem, TValue>
     }
 
     private bool ShouldSelectOnConfirmKey
-        => SelectionMode != AutocompleteSelectionMode.Checkbox || activeItemNavigatedByKeyboard;
+        => SelectionMode != AutocompleteSelectionMode.Checkbox
+            || activeItemNavigatedByKeyboard
+            || ( FreeTyping && ActiveItemIndex >= 0 && FilteredData.Count == 1 );
 
     private bool IsSuggestedActiveItem( TItem item )
     {
