@@ -65,13 +65,11 @@ export function updateOptions(element, elementId, options) {
     const previousOptions = instance.options;
     const previousTargetSignature = getTargetSignature(previousOptions);
 
+    if (instance.active)
+        cancelResize(instance, true);
+
     if (instance.focusVisible)
         toggleClassNames(instance.element, previousOptions.focusedClassNames, false);
-
-    if (instance.active) {
-        toggleClassNames(instance.element, previousOptions.resizingClassNames, false);
-        toggleTargetClassNames(instance, previousOptions.targetResizingClassNames, false);
-    }
 
     instance.options = normalizeOptions(options);
 
@@ -83,15 +81,7 @@ export function updateOptions(element, elementId, options) {
     if (previousTargetSignature !== getTargetSignature(instance.options))
         resolveTargets(instance);
 
-    if (instance.active) {
-        toggleClassNames(instance.element, instance.options.resizingClassNames, true);
-        toggleTargetClassNames(instance, instance.options.targetResizingClassNames, true);
-    }
-
-    if (instance.options.disabled && instance.active)
-        cancelResize(instance, true);
-    else if (!instance.active)
-        synchronizeSize(instance, true);
+    synchronizeSize(instance, true);
 }
 
 export function destroy(element, elementId) {
@@ -269,7 +259,7 @@ function captureInteractionSizes(instance) {
         instance.currentSize = instance.startSize;
         instance.startEndSize = null;
         instance.currentEndSize = null;
-        instance.startOriginalPropertyValue = null;
+        instance.startOriginalPropertyValue = instance.target.style.getPropertyValue(instance.options.resizeProperty);
         instance.endOriginalPropertyValue = null;
     }
 }
@@ -283,7 +273,9 @@ function restoreInteractionSizes(instance) {
         updateAriaValue(instance);
     }
     else {
-        applySize(instance, instance.startSize);
+        restoreStyleProperty(instance.target, instance.options.resizeProperty, instance.startOriginalPropertyValue);
+        instance.currentSize = instance.startSize;
+        updateAriaValue(instance);
     }
 }
 
