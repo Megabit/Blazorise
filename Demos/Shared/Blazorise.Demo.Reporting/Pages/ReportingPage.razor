@@ -1,4 +1,5 @@
 @page "/tests/reporting"
+@inject Blazorise.Localization.ITextLocalizer<Report> ReportLocalizer
 
 <Row>
     <Column>
@@ -30,32 +31,32 @@
                     </ReportViewer>
                     <ReportToolbar>
                         <ReportToolbarGroup>
-                            <ReportToolbarItem Command="ReportCommand.Cut" Caption="Cut" />
-                            <ReportToolbarItem Command="ReportCommand.Copy" Caption="Copy" />
-                            <ReportToolbarItem Command="ReportCommand.Duplicate" Caption="Duplicate" />
-                            <ReportToolbarItem Command="ReportCommand.Paste" Caption="Paste" />
-                            <ReportToolbarItem Command="ReportCommand.Delete" Caption="Delete" />
+                            <ReportToolbarItem Command="ReportCommand.Cut" Caption="@ReportLocalizer["Cut"]" />
+                            <ReportToolbarItem Command="ReportCommand.Copy" Caption="@ReportLocalizer["Copy"]" />
+                            <ReportToolbarItem Command="ReportCommand.Duplicate" Caption="@ReportLocalizer["Duplicate"]" />
+                            <ReportToolbarItem Command="ReportCommand.Paste" Caption="@ReportLocalizer["Paste"]" />
+                            <ReportToolbarItem Command="ReportCommand.Delete" Caption="@ReportLocalizer["Delete"]" />
                         </ReportToolbarGroup>
                         <ReportToolbarGroup>
-                            <ReportToolbarItem Command="ReportCommand.Undo" Caption="Undo" />
-                            <ReportToolbarItem Command="ReportCommand.Redo" Caption="Redo" />
-                            <ReportToolbarItem Command="ReportCommand.Reset" Caption="Reset" />
+                            <ReportToolbarItem Command="ReportCommand.Undo" Caption="@ReportLocalizer["Undo"]" />
+                            <ReportToolbarItem Command="ReportCommand.Redo" Caption="@ReportLocalizer["Redo"]" />
+                            <ReportToolbarItem Command="ReportCommand.Reset" Caption="@ReportLocalizer["Reset"]" />
                         </ReportToolbarGroup>
                         <ReportToolbarGroup>
-                            <ReportToolbarItem Command="ReportCommand.Save" Caption="Save" Color="Color.Primary" />
-                            <ReportToolbarItem Command="ReportCommand.Load" Caption="Load" Color="Color.Info" />
+                            <ReportToolbarItem Command="ReportCommand.Save" Caption="@ReportLocalizer["Save"]" Color="Color.Primary" />
+                            <ReportToolbarItem Command="ReportCommand.Load" Caption="@ReportLocalizer["Load"]" Color="Color.Info" />
                         </ReportToolbarGroup>
                         <ReportToolbarGroup>
-                            <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
-                            <ReportToolbarItem Command="ReportCommand.DownloadPdf" Caption="Download PDF" />
+                            <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="@ReportLocalizer["Data sources"]" />
+                            <ReportToolbarItem Command="ReportCommand.DownloadPdf" Caption="@ReportLocalizer["Download PDF"]" />
                         </ReportToolbarGroup>
                         <ReportToolbarGroup>
                             <ReportToolbarPanesMenu />
                         </ReportToolbarGroup>
                         <Div Margin="Margin.IsAuto.FromStart">
                             <ReportToolbarGroup>
-                                <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" ShowCaption />
-                                <ReportToolbarItem Command="ReportCommand.Preview" Caption="Preview" ShowCaption />
+                                <ReportToolbarItem Command="ReportCommand.Design" Caption="@ReportLocalizer["Design"]" ShowCaption />
+                                <ReportToolbarItem Command="ReportCommand.Preview" Caption="@ReportLocalizer["Preview"]" ShowCaption />
                             </ReportToolbarGroup>
                         </Div>
                     </ReportToolbar>

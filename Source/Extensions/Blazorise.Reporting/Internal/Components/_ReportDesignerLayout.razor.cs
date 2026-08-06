@@ -301,6 +301,9 @@ public partial class _ReportDesignerLayout
     internal Task RefreshSurface()
         => workspaceDockTree?.RefreshSurface() ?? Task.CompletedTask;
 
+    internal Task RefreshLocalization()
+        => dockLayout?.Refresh() ?? Task.CompletedTask;
+
     internal async Task CapturePaneScrollPositions( Dictionary<string, ( double Left, double Top )> scrollPositions )
     {
         if ( scrollPositions is null || workspaceDockTree is null )

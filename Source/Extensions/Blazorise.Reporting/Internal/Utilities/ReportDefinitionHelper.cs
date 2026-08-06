@@ -561,13 +561,13 @@ internal static class ReportDefinitionHelper
     {
         return type switch
         {
-            ReportBandType.ReportHeader => "Report Header",
-            ReportBandType.PageHeader => "Page Header",
+            ReportBandType.ReportHeader => "Report header",
+            ReportBandType.PageHeader => "Page header",
             ReportBandType.Detail => "Detail",
-            ReportBandType.GroupHeader => "Group Header",
-            ReportBandType.GroupFooter => "Group Footer",
-            ReportBandType.PageFooter => "Page Footer",
-            ReportBandType.ReportFooter => "Report Footer",
+            ReportBandType.GroupHeader => "Group header",
+            ReportBandType.GroupFooter => "Group footer",
+            ReportBandType.PageFooter => "Page footer",
+            ReportBandType.ReportFooter => "Report footer",
             _ => type.ToString(),
         };
     }
@@ -576,7 +576,7 @@ internal static class ReportDefinitionHelper
     {
         return type switch
         {
-            ReportElementType.PageBreak => "Page Break",
+            ReportElementType.PageBreak => "Page break",
             _ => type.ToString(),
         };
     }

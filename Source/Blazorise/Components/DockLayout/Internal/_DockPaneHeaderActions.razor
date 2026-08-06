@@ -11,7 +11,7 @@
         }
         @if ( CloseActionVisible )
         {
-            <button type="button" class="@ActionClassNames" title="Close" aria-label="Close" @onclick="@Close">
+            <button type="button" class="@ActionClassNames" title="@Localizer["Close"]" aria-label="@Localizer["Close"]" @onclick="@Close">
                 <Icon Name="IconName.Times" />
             </button>
         }

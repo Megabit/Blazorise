@@ -6,14 +6,14 @@
      ElementId="@PanelId"
      Padding="@(Visible ? PaddingIs0 : PaddingIs3)"
      role="tabpanel"
-     aria-label="Report designer surface">
+     aria-label="@Localize( "Report designer surface" )">
     @if ( Visible )
     {
         <div class="b-report-designer-ruler-corner"
              role="button"
              tabindex="0"
-             aria-label="Select report"
-             title="Select report"
+             aria-label="@Localize( "Select report" )"
+             title="@Localize( "Select report" )"
              @onclick="@OnReportSelected"
              @onkeydown="@OnReportSelectorKeyDown"></div>
         <_ReportDesignerHorizontalRuler Unit="@Unit"

@@ -149,7 +149,7 @@
                             <Div Class="b-report-custom-element-unavailable"
                                  TextSize="TextSizeSmall"
                                  TextColor="TextColorSecondary">
-                                @(string.IsNullOrWhiteSpace( customElement.TypeName ) ? "Custom element" : customElement.TypeName)
+                        @(string.IsNullOrWhiteSpace( customElement.TypeName ) ? Localize( "Custom element" ) : customElement.TypeName)
                             </Div>
                         }
                     }

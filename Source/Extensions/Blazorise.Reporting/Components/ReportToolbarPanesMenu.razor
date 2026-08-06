@@ -1,4 +1,6 @@
 @namespace Blazorise.Reporting
+@using Blazorise.Reporting.Internal
+@inherits BaseReportComponent
 
 @if ( DockContext is not null )
 {
@@ -23,7 +25,7 @@
             @foreach ( ReportToolbarDockPaneItem paneItem in DockContext.Panes )
             {
                 <DropdownItem Clicked="@(_ => DockContext.ShowPane( paneItem.PaneName ))">
-                    @paneItem.Caption
+                    @Localize( paneItem.Caption )
                 </DropdownItem>
             }
             @if ( ToolbarContext is not null )
@@ -32,7 +34,7 @@
                 <DropdownItem ShowCheckbox
                               Checked="@ToolbarContext.StatusBarVisible"
                               CheckedChanged="@ToolbarContext.SetStatusBarVisible">
-                    Status Bar
+                    @Localize( "Status Bar" )
                 </DropdownItem>
             }
         </DropdownMenu>

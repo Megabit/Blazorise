@@ -203,7 +203,7 @@ public partial class _ReportTreeView
     /// <summary>
     /// Accessible tree label.
     /// </summary>
-    [Parameter] public string AriaLabel { get; set; } = "Report tree";
+    [Parameter] public string AriaLabel { get; set; }
 
     /// <summary>
     /// Collapses nodes the first time they are rendered.

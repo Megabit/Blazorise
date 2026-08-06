@@ -1,0 +1,9 @@
+{
+  "culture": "is",
+  "translations": {
+    "Close": "Loka",
+    "Close {0}": "Loka {0}",
+    "Pin": "Festa",
+    "Unpin": "Losa"
+  }
+}

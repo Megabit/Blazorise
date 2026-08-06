@@ -69,7 +69,7 @@
                  Padding="PaddingIs2"
                  Border="BorderIs1OnTop"
                  role="tablist"
-                 aria-label="Report documents">
+         aria-label="@Localize( "Report documents" )">
                 @foreach ( _ReportDesigner.ReportDesignerTabItem tab in designerTabs )
                 {
                     <_ReportDesignerTabButton TabKey="@tab.Key"

@@ -69,78 +69,78 @@
   --b-report-line-default-thickness: 1px;
   --b-report-table-cell-resize-indicator-size: .45rem;
   --b-report-table-cell-resize-hit-size: .5rem;
-  --b-report-color-text: #1f2933;
-  --b-report-color-text-muted: #52616f;
-  --b-report-color-text-subtle: #6c757d;
-  --b-report-color-text-disabled: #9aa5b1;
-  --b-report-color-surface: #ffffff;
-  --b-report-color-surface-muted: #f8fafc;
-  --b-report-color-surface-subtle: #edf0f2;
-  --b-report-color-surface-disabled: #f1f3f5;
-  --b-report-color-grid-minor: #edf0f2;
-  --b-report-color-grid-major: #d8dde2;
-  --b-report-color-border: #d9dee3;
-  --b-report-color-border-muted: #cfd6dd;
-  --b-report-color-control-border: #aeb9c4;
-  --b-report-color-primary: #0d6efd;
-  --b-report-color-primary-text: #0b5ed7;
-  --b-report-color-danger: #dc3545;
-  --b-report-color-danger-surface: rgba(220, 53, 69, .14);
-  --b-report-color-white: #ffffff;
-  --b-report-color-white-muted: rgba(255, 255, 255, .84);
-  --b-report-color-shadow: rgba(31, 41, 51, .16);
-  --b-report-color-primary-ring: rgba(13, 110, 253, .45);
-  --b-report-color-primary-ring-strong: rgba(13, 110, 253, .55);
-  --b-report-color-primary-border: rgba(13, 110, 253, .65);
-  --b-report-color-primary-surface: rgba(13, 110, 253, .16);
-  --b-report-color-primary-surface-muted: rgba(13, 110, 253, .12);
-  --b-report-color-cursor-guide: rgba(13, 110, 253, .42);
-  --b-report-color-section-resize-line: rgba(13, 110, 253, .42);
-  --b-report-color-ruler-background: #f8fafc;
-  --b-report-color-ruler-border: #cfd6dd;
-  --b-report-color-ruler-tick: #52616f;
-  --b-report-color-ruler-label: #52616f;
-  --b-report-color-ruler-marker: rgba(13, 110, 253, .72);
-  --b-report-color-ruler-marker-surface: rgba(13, 110, 253, .14);
-  --b-report-color-page-margin-surface: rgba(148, 163, 184, .13);
-  --b-report-color-page-margin-guide: rgba(100, 116, 139, .48);
-  --b-report-color-element-border: #4f7ebd;
-  --b-report-color-element-active-surface: rgba(79, 126, 189, .16);
-  --b-report-color-table-cell-border: rgba(79, 126, 189, .45);
-  --b-report-tree-view-folder-color: #d99a18;
-  --b-report-tree-view-report-color: #5f6b7a;
-  --b-report-tree-view-datasource-color: #0f766e;
-  --b-report-tree-view-specialfields-color: #9333ea;
-  --b-report-tree-view-field-color: #2563eb;
-  --b-report-tree-view-band-color: #7c3aed;
-  --b-report-tree-view-text-color: #334155;
-  --b-report-tree-view-table-color: #0891b2;
-  --b-report-tree-view-image-color: #16a34a;
-  --b-report-tree-view-line-color: #64748b;
-  --b-report-tree-view-rectangle-color: #ea580c;
-  --b-report-tree-view-pagebreak-color: #be123c;
-  --b-report-section-band-header-background: #dfeaf4;
-  --b-report-section-band-header-border-color: rgba(31, 41, 51, .16);
-  --b-report-section-band-header-report-header-background: #bde3ca;
-  --b-report-section-band-header-report-header-border-color: #8ec7a0;
-  --b-report-section-band-header-page-header-background: #c9d9ed;
-  --b-report-section-band-header-page-header-border-color: #9eb8d8;
-  --b-report-section-band-header-detail-background: #8fbfec;
-  --b-report-section-band-header-detail-border-color: #5a9bd8;
-  --b-report-section-band-header-group-background: #f7d1ad;
-  --b-report-section-band-header-group-border-color: #eda45d;
-  --b-report-section-band-header-page-footer-background: #bfe7dc;
-  --b-report-section-band-header-page-footer-border-color: #86cabb;
-  --b-report-section-band-header-report-footer-background: #c9d3df;
-  --b-report-section-band-header-report-footer-border-color: #9ba9b8;
-  --b-report-section-rail-background: #e6eef4;
-  --b-report-section-rail-active-background: #d8e8ff;
-  --b-report-section-rail-report-header-border-color: #6f42c1;
-  --b-report-section-rail-page-header-border-color: #0d6efd;
-  --b-report-section-rail-detail-border-color: #198754;
-  --b-report-section-rail-group-border-color: #fd7e14;
-  --b-report-section-rail-page-footer-border-color: #20c997;
-  --b-report-section-rail-report-footer-border-color: #6c757d;
+  --b-report-color-text: var(--b-theme-body-text-color, #1f2933);
+  --b-report-color-text-muted: color-mix(in srgb, var(--b-report-color-text) 74%, var(--b-report-color-surface));
+  --b-report-color-text-subtle: color-mix(in srgb, var(--b-report-color-text) 64%, var(--b-report-color-surface));
+  --b-report-color-text-disabled: color-mix(in srgb, var(--b-report-color-text) 45%, var(--b-report-color-surface));
+  --b-report-color-surface: var(--b-theme-body-background-color, #ffffff);
+  --b-report-color-surface-muted: color-mix(in srgb, var(--b-report-color-text) 3%, var(--b-report-color-surface));
+  --b-report-color-surface-subtle: color-mix(in srgb, var(--b-report-color-text) 8%, var(--b-report-color-surface));
+  --b-report-color-surface-disabled: color-mix(in srgb, var(--b-report-color-text) 6%, var(--b-report-color-surface));
+  --b-report-color-grid-minor: color-mix(in srgb, var(--b-report-color-text) 8%, var(--b-report-color-surface));
+  --b-report-color-grid-major: color-mix(in srgb, var(--b-report-color-text) 16%, var(--b-report-color-surface));
+  --b-report-color-border: color-mix(in srgb, var(--b-report-color-text) 18%, var(--b-report-color-surface));
+  --b-report-color-border-muted: color-mix(in srgb, var(--b-report-color-text) 22%, var(--b-report-color-surface));
+  --b-report-color-control-border: color-mix(in srgb, var(--b-report-color-text) 36%, var(--b-report-color-surface));
+  --b-report-color-primary: var(--b-theme-primary, #0d6efd);
+  --b-report-color-primary-text: var(--b-theme-text-primary-emphasis, var(--b-report-color-primary));
+  --b-report-color-danger: var(--b-theme-danger, #dc3545);
+  --b-report-color-danger-surface: var(--b-theme-background-danger-subtle, color-mix(in srgb, var(--b-report-color-danger) 14%, transparent));
+  --b-report-color-white: var(--b-theme-background-primary-yiq, #ffffff);
+  --b-report-color-white-muted: color-mix(in srgb, var(--b-report-color-white) 84%, transparent);
+  --b-report-color-shadow: color-mix(in srgb, var(--b-report-color-text) 16%, transparent);
+  --b-report-color-primary-ring: color-mix(in srgb, var(--b-report-color-primary) 45%, transparent);
+  --b-report-color-primary-ring-strong: color-mix(in srgb, var(--b-report-color-primary) 55%, transparent);
+  --b-report-color-primary-border: color-mix(in srgb, var(--b-report-color-primary) 65%, transparent);
+  --b-report-color-primary-surface: var(--b-theme-background-primary-subtle, color-mix(in srgb, var(--b-report-color-primary) 16%, transparent));
+  --b-report-color-primary-surface-muted: color-mix(in srgb, var(--b-report-color-primary) 12%, transparent);
+  --b-report-color-cursor-guide: color-mix(in srgb, var(--b-report-color-primary) 42%, transparent);
+  --b-report-color-section-resize-line: var(--b-report-color-cursor-guide);
+  --b-report-color-ruler-background: var(--b-report-color-surface-muted);
+  --b-report-color-ruler-border: var(--b-report-color-border-muted);
+  --b-report-color-ruler-tick: var(--b-report-color-text-muted);
+  --b-report-color-ruler-label: var(--b-report-color-text-muted);
+  --b-report-color-ruler-marker: color-mix(in srgb, var(--b-report-color-primary) 72%, transparent);
+  --b-report-color-ruler-marker-surface: color-mix(in srgb, var(--b-report-color-primary) 14%, transparent);
+  --b-report-color-page-margin-surface: color-mix(in srgb, var(--b-report-color-text) 8%, transparent);
+  --b-report-color-page-margin-guide: color-mix(in srgb, var(--b-report-color-text) 42%, transparent);
+  --b-report-color-element-border: var(--b-theme-text-primary, var(--b-report-color-primary));
+  --b-report-color-element-active-surface: var(--b-report-color-primary-surface);
+  --b-report-color-table-cell-border: color-mix(in srgb, var(--b-report-color-primary) 45%, transparent);
+  --b-report-tree-view-folder-color: var(--b-theme-warning, #d99a18);
+  --b-report-tree-view-report-color: var(--b-theme-secondary, #5f6b7a);
+  --b-report-tree-view-datasource-color: var(--b-theme-success, #0f766e);
+  --b-report-tree-view-specialfields-color: var(--b-theme-link, #9333ea);
+  --b-report-tree-view-field-color: var(--b-theme-primary, #2563eb);
+  --b-report-tree-view-band-color: var(--b-theme-link, #7c3aed);
+  --b-report-tree-view-text-color: var(--b-report-color-text);
+  --b-report-tree-view-table-color: var(--b-theme-info, #0891b2);
+  --b-report-tree-view-image-color: var(--b-theme-success, #16a34a);
+  --b-report-tree-view-line-color: var(--b-theme-secondary, #64748b);
+  --b-report-tree-view-rectangle-color: var(--b-theme-warning, #ea580c);
+  --b-report-tree-view-pagebreak-color: var(--b-theme-danger, #be123c);
+  --b-report-section-band-header-background: var(--b-report-color-surface-subtle);
+  --b-report-section-band-header-border-color: var(--b-report-color-border);
+  --b-report-section-band-header-report-header-background: var(--b-theme-background-success-subtle, color-mix(in srgb, var(--b-theme-success, #198754) 24%, var(--b-report-color-surface)));
+  --b-report-section-band-header-report-header-border-color: var(--b-theme-border-success, var(--b-theme-success, #198754));
+  --b-report-section-band-header-page-header-background: var(--b-theme-background-primary-subtle, color-mix(in srgb, var(--b-report-color-primary) 20%, var(--b-report-color-surface)));
+  --b-report-section-band-header-page-header-border-color: var(--b-theme-border-primary, var(--b-report-color-primary));
+  --b-report-section-band-header-detail-background: color-mix(in srgb, var(--b-report-color-primary) 38%, var(--b-report-color-surface));
+  --b-report-section-band-header-detail-border-color: var(--b-report-color-primary);
+  --b-report-section-band-header-group-background: var(--b-theme-background-warning-subtle, color-mix(in srgb, var(--b-theme-warning, #fd7e14) 26%, var(--b-report-color-surface)));
+  --b-report-section-band-header-group-border-color: var(--b-theme-border-warning, var(--b-theme-warning, #fd7e14));
+  --b-report-section-band-header-page-footer-background: var(--b-theme-background-info-subtle, color-mix(in srgb, var(--b-theme-info, #20c997) 24%, var(--b-report-color-surface)));
+  --b-report-section-band-header-page-footer-border-color: var(--b-theme-border-info, var(--b-theme-info, #20c997));
+  --b-report-section-band-header-report-footer-background: var(--b-theme-background-secondary-subtle, color-mix(in srgb, var(--b-theme-secondary, #6c757d) 22%, var(--b-report-color-surface)));
+  --b-report-section-band-header-report-footer-border-color: var(--b-theme-border-secondary, var(--b-theme-secondary, #6c757d));
+  --b-report-section-rail-background: var(--b-report-color-surface-subtle);
+  --b-report-section-rail-active-background: var(--b-report-color-primary-surface);
+  --b-report-section-rail-report-header-border-color: var(--b-theme-link, #6f42c1);
+  --b-report-section-rail-page-header-border-color: var(--b-report-color-primary);
+  --b-report-section-rail-detail-border-color: var(--b-theme-success, #198754);
+  --b-report-section-rail-group-border-color: var(--b-theme-warning, #fd7e14);
+  --b-report-section-rail-page-footer-border-color: var(--b-theme-info, #20c997);
+  --b-report-section-rail-report-footer-border-color: var(--b-theme-secondary, #6c757d);
 }
 
 .b-report-layout {
@@ -202,6 +202,7 @@
 .b-report-designer-surface {
   min-height: 0;
   overflow: hidden;
+  background: var(--b-report-color-surface-muted);
 }
 .b-report-designer-surface-content {
   min-height: 0;
@@ -227,6 +228,17 @@
 .b-report-toolbar {
   flex: 0 0 auto;
   flex-wrap: wrap;
+  background: var(--b-report-color-surface);
+}
+
+.b-report-dialog-preview {
+  background: var(--b-report-color-surface-muted);
+  color: var(--b-report-color-text);
+}
+
+.b-report-preview-message {
+  background: var(--b-report-color-surface);
+  color: var(--b-report-color-text);
 }
 
 .b-report-status-bar {
@@ -284,6 +296,7 @@
   min-height: 0;
   min-width: 0;
   overflow: auto;
+  background: var(--b-report-color-surface-muted);
 }
 
 .b-report-tree-view {

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Blazorise.Localization;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -19,27 +20,27 @@ internal static class ReportDesignerTreeBuilder
 
     #region Methods
 
-    internal static IReadOnlyList<ReportTreeNode> BuildToolboxNodes( IReportElementPluginRegistry pluginRegistry, bool allowSubreport = true )
+    internal static IReadOnlyList<ReportTreeNode> BuildToolboxNodes( IReportElementPluginRegistry pluginRegistry, bool allowSubreport = true, TextLocalizerHandler localizer = null )
     {
         List<ReportTreeNode> reportItems =
         [
-            CreateToolboxNode( "toolbox:text", "Text", ReportElementType.Text, "Text" ),
-            CreateToolboxNode( "toolbox:image", "Image", ReportElementType.Image, null ),
-            CreateToolboxNode( "toolbox:line", "Line", ReportElementType.Line, null ),
-            CreateToolboxNode( "toolbox:rectangle", "Rectangle", ReportElementType.Rectangle, null ),
-            CreateToolboxNode( "toolbox:panel", "Panel", ReportElementType.Panel, null ),
-            CreateToolboxNode( "toolbox:table", "Table", ReportElementType.Table, null ),
+            CreateToolboxNode( "toolbox:text", Localize( localizer, "Text" ), ReportElementType.Text, "Text" ),
+            CreateToolboxNode( "toolbox:image", Localize( localizer, "Image" ), ReportElementType.Image, null ),
+            CreateToolboxNode( "toolbox:line", Localize( localizer, "Line" ), ReportElementType.Line, null ),
+            CreateToolboxNode( "toolbox:rectangle", Localize( localizer, "Rectangle" ), ReportElementType.Rectangle, null ),
+            CreateToolboxNode( "toolbox:panel", Localize( localizer, "Panel" ), ReportElementType.Panel, null ),
+            CreateToolboxNode( "toolbox:table", Localize( localizer, "Table" ), ReportElementType.Table, null ),
         ];
 
         if ( allowSubreport )
-            reportItems.Add( CreateToolboxNode( "toolbox:subreport", "Subreport", ReportElementType.Subreport, null ) );
+            reportItems.Add( CreateToolboxNode( "toolbox:subreport", Localize( localizer, "Subreport" ), ReportElementType.Subreport, null ) );
 
         List<ReportTreeNode> groups =
         [
             new()
             {
                 Key = "toolbox",
-                Text = "Report Items",
+                Text = Localize( localizer, "Report Items" ),
                 Kind = ReportTreeNodeKind.Folder,
                 Children = reportItems,
             }
@@ -75,7 +76,8 @@ internal static class ReportDesignerTreeBuilder
         IEnumerable<ReportFormulaFieldDefinition> formulaFields,
         IEnumerable<ReportRunningTotalDefinition> runningTotals = null,
         string selectedFormulaFieldName = null,
-        string selectedRunningTotalName = null )
+        string selectedRunningTotalName = null,
+        TextLocalizerHandler localizer = null )
     {
         List<ReportDesignerDataSourceNode> dataSourceList = dataSources?.ToList() ?? [];
         List<ReportFormulaFieldDefinition> formulaFieldList = formulaFields?.ToList() ?? [];
@@ -83,10 +85,10 @@ internal static class ReportDesignerTreeBuilder
 
         return
         [
-            BuildSourceFieldsNode( dataSourceList ),
-            BuildFormulaFieldsNode( formulaFieldList, selectedFormulaFieldName ),
-            BuildRunningTotalFieldsNode( runningTotalList, selectedRunningTotalName ),
-            BuildSpecialFieldsNode(),
+            BuildSourceFieldsNode( dataSourceList, localizer ),
+            BuildFormulaFieldsNode( formulaFieldList, selectedFormulaFieldName, localizer ),
+            BuildRunningTotalFieldsNode( runningTotalList, selectedRunningTotalName, localizer ),
+            BuildSpecialFieldsNode( localizer ),
         ];
     }
 
@@ -100,7 +102,8 @@ internal static class ReportDesignerTreeBuilder
         IReportElementPluginRegistry pluginRegistry,
         bool allowSubreport = true,
         string searchText = null,
-        bool currentPageOnly = false )
+        bool currentPageOnly = false,
+        TextLocalizerHandler localizer = null )
     {
         searchText = searchText?.Trim();
 
@@ -109,22 +112,24 @@ internal static class ReportDesignerTreeBuilder
             new()
             {
                 Key = "report",
-                Text = "Report",
+                Text = Localize( localizer, "Report" ),
                 Kind = ReportTreeNodeKind.Report,
                 Selectable = true,
                 Selected = reportSelected,
                 Children = definition.Pages.Select( ( page, pageIndex ) => new ReportTreeNode
                 {
                     Key = CreatePageTreeNodeKey( page.Id ),
-                    Text = string.IsNullOrWhiteSpace( page.Name ) ? $"Page {pageIndex + 1}" : page.Name,
-                    Detail = "Page",
+                    Text = string.IsNullOrWhiteSpace( page.Name ) ? Localize( localizer, "Page {0}", pageIndex + 1 ) : page.Name,
+                    Detail = Localize( localizer, "Page" ),
                     Kind = ReportTreeNodeKind.Page,
                     Selectable = true,
                     Children = ( page.Bands ?? [] ).Select( ( section, sectionIndex ) => new ReportTreeNode
                     {
                         Key = CreateSectionTreeNodeKey( page.Id, sectionIndex ),
-                        Text = ReportDefinitionHelper.GetSectionDisplayName( section ),
-                        Detail = ReportDefinitionHelper.GetSectionTypeDisplayName( section.Type ),
+                        Text = string.IsNullOrWhiteSpace( section.Name )
+                            ? Localize( localizer, ReportDefinitionHelper.GetSectionTypeDisplayName( section.Type ) )
+                            : section.Name,
+                        Detail = Localize( localizer, ReportDefinitionHelper.GetSectionTypeDisplayName( section.Type ) ),
                         Kind = ReportTreeNodeKind.Band,
                         Selectable = true,
                         Selected = ReferenceEquals( page, definition.Page )
@@ -132,7 +137,7 @@ internal static class ReportDesignerTreeBuilder
                             && string.IsNullOrWhiteSpace( selectedElementKey ),
                         Children = section.Elements
                             .Where( element => allowSubreport || element.Type != ReportElementType.Subreport )
-                            .Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected, pluginRegistry, allowSubreport ) )
+                            .Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected, pluginRegistry, allowSubreport, localizer ) )
                             .ToList(),
                     } )
                     .ToList(),
@@ -217,7 +222,7 @@ internal static class ReportDesignerTreeBuilder
         return !string.IsNullOrWhiteSpace( cellKey );
     }
 
-    private static ReportTreeNode BuildReportElementNode( ReportElementDefinition element, string selectedCellKey, Func<string, bool> isElementSelected, IReportElementPluginRegistry pluginRegistry, bool allowSubreport = true )
+    private static ReportTreeNode BuildReportElementNode( ReportElementDefinition element, string selectedCellKey, Func<string, bool> isElementSelected, IReportElementPluginRegistry pluginRegistry, bool allowSubreport = true, TextLocalizerHandler localizer = null )
     {
         var elementKey = ReportDefinitionHelper.EnsureElementId( element );
         IReportElementPlugin plugin = element is ReportCustomElementDefinition customElement
@@ -230,17 +235,17 @@ internal static class ReportDesignerTreeBuilder
             Text = element.Name ?? ReportElementDefinitionHelper.GetDisplayText( element ),
             Detail = plugin?.Descriptor.DisplayName
                 ?? ( element as ReportCustomElementDefinition )?.TypeName
-                ?? ReportDefinitionHelper.GetElementTypeDisplayName( element.Type ),
+                ?? Localize( localizer, ReportDefinitionHelper.GetElementTypeDisplayName( element.Type ) ),
             Kind = ReportDefinitionHelper.GetElementTreeNodeKind( element.Type ),
             Icon = plugin?.Descriptor.Icon,
             Selectable = true,
             Selected = isElementSelected?.Invoke( elementKey ) == true,
             Children = element switch
             {
-                ReportTableElementDefinition table => BuildTableChildNodes( table, elementKey, selectedCellKey, isElementSelected, pluginRegistry, allowSubreport ),
+                ReportTableElementDefinition table => BuildTableChildNodes( table, elementKey, selectedCellKey, isElementSelected, pluginRegistry, allowSubreport, localizer ),
                 ReportPanelElementDefinition panel => ( panel.Elements ?? [] )
                     .Where( child => allowSubreport || child.Type != ReportElementType.Subreport )
-                    .Select( child => BuildReportElementNode( child, selectedCellKey, isElementSelected, pluginRegistry, allowSubreport ) )
+                    .Select( child => BuildReportElementNode( child, selectedCellKey, isElementSelected, pluginRegistry, allowSubreport, localizer ) )
                     .ToList(),
                 _ => [],
             },
@@ -297,7 +302,7 @@ internal static class ReportDesignerTreeBuilder
         return node.Children.Count > 0;
     }
 
-    private static List<ReportTreeNode> BuildTableChildNodes( ReportTableElementDefinition table, string tableKey, string selectedCellKey, Func<string, bool> isElementSelected, IReportElementPluginRegistry pluginRegistry, bool allowSubreport )
+    private static List<ReportTreeNode> BuildTableChildNodes( ReportTableElementDefinition table, string tableKey, string selectedCellKey, Func<string, bool> isElementSelected, IReportElementPluginRegistry pluginRegistry, bool allowSubreport, TextLocalizerHandler localizer )
     {
         List<ReportTreeNode> rows = [];
         int rowCount = Math.Max(
@@ -309,17 +314,17 @@ internal static class ReportDesignerTreeBuilder
             rows.Add( new()
             {
                 Key = CreateTableRowTreeNodeKey( tableKey, rowIndex ),
-                Text = $"Row {( rowIndex + 1 ).ToString( CultureInfo.InvariantCulture )}",
-                Detail = "Row",
+                Text = Localize( localizer, "Row {0}", rowIndex + 1 ),
+                Detail = Localize( localizer, "Row" ),
                 Kind = ReportTreeNodeKind.TableRow,
-                Children = BuildTableCellNodes( table, rowIndex, selectedCellKey, isElementSelected, pluginRegistry, allowSubreport ),
+                Children = BuildTableCellNodes( table, rowIndex, selectedCellKey, isElementSelected, pluginRegistry, allowSubreport, localizer ),
             } );
         }
 
         return rows;
     }
 
-    private static List<ReportTreeNode> BuildTableCellNodes( ReportTableElementDefinition table, int rowIndex, string selectedCellKey, Func<string, bool> isElementSelected, IReportElementPluginRegistry pluginRegistry, bool allowSubreport )
+    private static List<ReportTreeNode> BuildTableCellNodes( ReportTableElementDefinition table, int rowIndex, string selectedCellKey, Func<string, bool> isElementSelected, IReportElementPluginRegistry pluginRegistry, bool allowSubreport, TextLocalizerHandler localizer )
     {
         return ( table.Cells ?? [] )
             .Where( cell => cell.RowIndex == rowIndex )
@@ -331,28 +336,28 @@ internal static class ReportDesignerTreeBuilder
                 return new ReportTreeNode
                 {
                     Key = CreateTableCellTreeNodeKey( cellKey ),
-                    Text = $"Cell {( cell.ColumnIndex + 1 ).ToString( CultureInfo.InvariantCulture )}",
-                    Detail = GetCellDetail( cell ),
+                    Text = Localize( localizer, "Cell {0}", cell.ColumnIndex + 1 ),
+                    Detail = GetCellDetail( cell, localizer ),
                     Kind = ReportTreeNodeKind.TableCell,
                     Selectable = true,
                     Selected = string.Equals( selectedCellKey, cellKey, StringComparison.Ordinal ),
                     Children = ( cell.Elements ?? [] )
                         .Where( element => allowSubreport || element.Type != ReportElementType.Subreport )
-                        .Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected, pluginRegistry, allowSubreport ) )
+                        .Select( element => BuildReportElementNode( element, selectedCellKey, isElementSelected, pluginRegistry, allowSubreport, localizer ) )
                         .ToList(),
                 };
             } )
             .ToList();
     }
 
-    private static string GetCellDetail( ReportTableCellDefinition cell )
+    private static string GetCellDetail( ReportTableCellDefinition cell, TextLocalizerHandler localizer )
     {
         int rowSpan = Math.Max( 1, cell.RowSpan );
         int columnSpan = Math.Max( 1, cell.ColumnSpan );
 
         return rowSpan == 1 && columnSpan == 1
-            ? "Cell"
-            : $"Span {columnSpan.ToString( CultureInfo.InvariantCulture )}x{rowSpan.ToString( CultureInfo.InvariantCulture )}";
+            ? Localize( localizer, "Cell" )
+            : Localize( localizer, "Span {0}x{1}", columnSpan, rowSpan );
     }
 
     private static ReportTreeNode CreateToolboxNode( string key, string text, ReportElementType elementType, string elementText )
@@ -382,7 +387,7 @@ internal static class ReportDesignerTreeBuilder
         };
     }
 
-    private static ReportTreeNode BuildFieldExplorerNode( string dataSourceName, ReportDesignerFieldNode field )
+    private static ReportTreeNode BuildFieldExplorerNode( string dataSourceName, ReportDesignerFieldNode field, TextLocalizerHandler localizer )
     {
         bool hasChildren = field.Children.Count > 0;
 
@@ -390,28 +395,28 @@ internal static class ReportDesignerTreeBuilder
         {
             Key = $"fields:field:{dataSourceName}:{field.Path}",
             Text = field.Name,
-            Detail = hasChildren ? null : ReportDefinitionHelper.GetDataTypeDisplayName( field.DataType ),
+            Detail = hasChildren ? null : Localize( localizer, ReportDefinitionHelper.GetDataTypeDisplayName( field.DataType ) ),
             Kind = hasChildren ? ReportTreeNodeKind.Folder : ReportTreeNodeKind.Field,
             Selectable = !hasChildren,
             Draggable = !hasChildren,
             Value = !hasChildren ? new ReportFieldTreeNodeValue( dataSourceName, field.Path ) : null,
-            Children = field.Children.Select( child => BuildFieldExplorerNode( dataSourceName, child ) ).ToList(),
+            Children = field.Children.Select( child => BuildFieldExplorerNode( dataSourceName, child, localizer ) ).ToList(),
         };
     }
 
-    private static ReportTreeNode BuildSourceFieldsNode( IReadOnlyList<ReportDesignerDataSourceNode> dataSources )
+    private static ReportTreeNode BuildSourceFieldsNode( IReadOnlyList<ReportDesignerDataSourceNode> dataSources, TextLocalizerHandler localizer )
     {
         ReportDesignerDataSourceNode singleDataSource = dataSources.Count == 1 ? dataSources[0] : null;
 
         return new()
         {
             Key = "fields:source",
-            Text = "Source Fields",
+            Text = Localize( localizer, "Source Fields" ),
             Kind = ReportTreeNodeKind.SourceFields,
             Selectable = singleDataSource is not null,
             Value = singleDataSource is not null ? new ReportDataSourceTreeNodeValue( singleDataSource.BindingName ) : null,
             Children = dataSources.Count == 1
-                ? dataSources[0].Fields.Select( field => BuildFieldExplorerNode( dataSources[0].BindingName, field ) ).ToList()
+                ? dataSources[0].Fields.Select( field => BuildFieldExplorerNode( dataSources[0].BindingName, field, localizer ) ).ToList()
                 : dataSources.Select( dataSource => new ReportTreeNode
                 {
                     Key = $"fields:data-source:{dataSource.Name}",
@@ -419,17 +424,17 @@ internal static class ReportDesignerTreeBuilder
                     Kind = ReportTreeNodeKind.DataSource,
                     Selectable = true,
                     Value = new ReportDataSourceTreeNodeValue( dataSource.BindingName ),
-                    Children = dataSource.Fields.Select( field => BuildFieldExplorerNode( dataSource.BindingName, field ) ).ToList(),
+                    Children = dataSource.Fields.Select( field => BuildFieldExplorerNode( dataSource.BindingName, field, localizer ) ).ToList(),
                 } ).ToList(),
         };
     }
 
-    private static ReportTreeNode BuildFormulaFieldsNode( IReadOnlyList<ReportFormulaFieldDefinition> formulaFields, string selectedFormulaFieldName )
+    private static ReportTreeNode BuildFormulaFieldsNode( IReadOnlyList<ReportFormulaFieldDefinition> formulaFields, string selectedFormulaFieldName, TextLocalizerHandler localizer )
     {
         return new()
         {
             Key = FormulaFieldsNodeKey,
-            Text = "Formula Fields",
+            Text = Localize( localizer, "Formula Fields" ),
             Kind = ReportTreeNodeKind.FormulaFields,
             Selectable = true,
             Children = formulaFields
@@ -439,7 +444,7 @@ internal static class ReportDesignerTreeBuilder
                 {
                     Key = $"fields:formula:{field.Id}",
                     Text = field.Name,
-                    Detail = "Formula",
+                    Detail = Localize( localizer, "Formula" ),
                     Kind = ReportTreeNodeKind.FormulaField,
                     Selectable = true,
                     Selected = string.Equals( field.Name, selectedFormulaFieldName, StringComparison.OrdinalIgnoreCase ),
@@ -450,12 +455,12 @@ internal static class ReportDesignerTreeBuilder
         };
     }
 
-    private static ReportTreeNode BuildRunningTotalFieldsNode( IReadOnlyList<ReportRunningTotalDefinition> runningTotals, string selectedRunningTotalName )
+    private static ReportTreeNode BuildRunningTotalFieldsNode( IReadOnlyList<ReportRunningTotalDefinition> runningTotals, string selectedRunningTotalName, TextLocalizerHandler localizer )
     {
         return new()
         {
             Key = RunningTotalFieldsNodeKey,
-            Text = "Running Total Fields",
+            Text = Localize( localizer, "Running Total Fields" ),
             Kind = ReportTreeNodeKind.RunningTotalFields,
             Selectable = true,
             Children = runningTotals
@@ -465,7 +470,7 @@ internal static class ReportDesignerTreeBuilder
                 {
                     Key = $"fields:running-total:{field.Id}",
                     Text = field.Name,
-                    Detail = "Running total",
+                    Detail = Localize( localizer, "Running total" ),
                     Kind = ReportTreeNodeKind.RunningTotalField,
                     Selectable = true,
                     Selected = string.Equals( field.Name, selectedRunningTotalName, StringComparison.OrdinalIgnoreCase ),
@@ -476,18 +481,18 @@ internal static class ReportDesignerTreeBuilder
         };
     }
 
-    private static ReportTreeNode BuildSpecialFieldsNode()
+    private static ReportTreeNode BuildSpecialFieldsNode( TextLocalizerHandler localizer )
     {
         return new()
         {
             Key = "fields:special",
-            Text = "Special Fields",
+            Text = Localize( localizer, "Special Fields" ),
             Kind = ReportTreeNodeKind.SpecialFields,
             Children = ReportSpecialFieldResolver.GetFields().Select( field => new ReportTreeNode
             {
                 Key = $"fields:special:{field.Name}",
-                Text = field.DisplayName,
-                Detail = ReportDefinitionHelper.GetDataTypeDisplayName( field.DataType ),
+                Text = Localize( localizer, field.DisplayName ),
+                Detail = Localize( localizer, ReportDefinitionHelper.GetDataTypeDisplayName( field.DataType ) ),
                 Kind = ReportTreeNodeKind.Field,
                 Selectable = true,
                 Draggable = true,
@@ -495,6 +500,10 @@ internal static class ReportDesignerTreeBuilder
             } ).ToList(),
         };
     }
+
+    private static string Localize( TextLocalizerHandler localizer, string name, params object[] arguments )
+        => localizer?.Invoke( name, arguments )
+            ?? ( arguments.Length > 0 ? string.Format( CultureInfo.CurrentCulture, name, arguments ) : name );
 
     #endregion
 }

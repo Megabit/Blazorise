@@ -1,5 +1,6 @@
 #region Using directives
 using System.Threading.Tasks;
+using Blazorise.Localization;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -62,7 +63,7 @@ public partial class _DockPaneHeaderActions : BaseComponent
 
     private bool Visible => AutoHideActionVisible || CloseActionVisible;
 
-    private string AutoHideTitle => Pane?.EffectiveAutoHide == true ? "Pin" : "Unpin";
+    private string AutoHideTitle => Pane?.EffectiveAutoHide == true ? Localizer["Pin"] : Localizer["Unpin"];
 
     private IconName AutoHideIconName => Pane?.EffectiveAutoHide == true ? IconName.Pin : IconName.Unpin;
 
@@ -73,6 +74,8 @@ public partial class _DockPaneHeaderActions : BaseComponent
     [CascadingParameter] internal DockPane Pane { get; set; }
 
     [CascadingParameter] internal DockLayoutContext Context { get; set; }
+
+    [Inject] protected ITextLocalizer<DockLayout> Localizer { get; set; }
 
     #endregion
 }

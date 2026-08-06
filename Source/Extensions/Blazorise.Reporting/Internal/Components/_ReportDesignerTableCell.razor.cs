@@ -118,7 +118,7 @@ public partial class _ReportDesignerTableCell
 
     #region Properties
 
-    private string AccessibilityLabel => $"Table cell, row {Cell.RowIndex + 1}, column {Cell.ColumnIndex + 1}";
+    private string AccessibilityLabel => Localize( "Table cell, row {0}, column {1}", Cell.RowIndex + 1, Cell.ColumnIndex + 1 );
 
     /// <summary>
     /// Report data used when resolving nested field values.

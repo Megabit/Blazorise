@@ -8,7 +8,7 @@
 <div class="b-report-table"
      style="@TableStyle"
      role="@( DesignMode && Editable ? "grid" : null )"
-     aria-label="@( DesignMode && Editable ? "Report table" : null )"
+     aria-label="@( DesignMode && Editable ? Localize( "Report table" ) : null )"
      aria-rowcount="@( DesignMode && Editable ? Rows.Count : (int?)null )"
      aria-colcount="@( DesignMode && Editable ? Columns.Count : (int?)null )">
     @foreach ( ReportTableCellDefinition cell in GetCells() )

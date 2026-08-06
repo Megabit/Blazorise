@@ -8,19 +8,19 @@
 <ModalBody>
     <Grid Columns="GridColumns.Are3" Gap="GapIs2">
         <Div>
-            <Div TextSize="TextSizeSmall" TextWeight="TextWeightBold" Margin="MarginIs1FromBottom">Fields</Div>
+            <Div TextSize="TextSizeSmall" TextWeight="TextWeightBold" Margin="MarginIs1FromBottom">@Localize( "Fields" )</Div>
             <Div Height="HeightPx180" Overflow="OverflowAuto">
                 <_ReportTreeView Nodes="@FieldNodes" NodeClicked="@OnFieldNodeClicked" CollapseByDefault />
             </Div>
         </Div>
         <Div>
-            <Div TextSize="TextSizeSmall" TextWeight="TextWeightBold" Margin="MarginIs1FromBottom">Functions</Div>
+            <Div TextSize="TextSizeSmall" TextWeight="TextWeightBold" Margin="MarginIs1FromBottom">@Localize( "Functions" )</Div>
             <Div Height="HeightPx180" Overflow="OverflowAuto">
                 <_ReportTreeView Nodes="@FunctionNodes" NodeClicked="@OnFunctionNodeClicked" CollapseByDefault />
             </Div>
         </Div>
         <Div>
-            <Div TextSize="TextSizeSmall" TextWeight="TextWeightBold" Margin="MarginIs1FromBottom">Operators</Div>
+            <Div TextSize="TextSizeSmall" TextWeight="TextWeightBold" Margin="MarginIs1FromBottom">@Localize( "Operators" )</Div>
             <Div Height="HeightPx180" Overflow="OverflowAuto">
                 <_ReportTreeView Nodes="@OperatorNodes" NodeClicked="@OnOperatorNodeClicked" CollapseByDefault />
             </Div>
@@ -28,7 +28,7 @@
     </Grid>
 
     <Field Margin="MarginIs3FromTop">
-        <FieldLabel TextSize="TextSizeSmall">Formula</FieldLabel>
+        <FieldLabel TextSize="TextSizeSmall">@Localize( "Formula" )</FieldLabel>
         <FieldBody>
             <CodeEditor @ref="@formulaEditor"
                         Value="@formula"
@@ -56,11 +56,11 @@
         <Table Narrow Striped>
             <TableBody>
                 <TableRow>
-                    <TableRowCell TextSize="TextSizeSmall" TextWeight="TextWeightBold">Item</TableRowCell>
+                    <TableRowCell TextSize="TextSizeSmall" TextWeight="TextWeightBold">@Localize( "Item" )</TableRowCell>
                     <TableRowCell TextSize="TextSizeSmall">@SelectedHelpItem</TableRowCell>
                 </TableRow>
                 <TableRow>
-                    <TableRowCell TextSize="TextSizeSmall" TextWeight="TextWeightBold">Description</TableRowCell>
+                    <TableRowCell TextSize="TextSizeSmall" TextWeight="TextWeightBold">@Localize( "Description" )</TableRowCell>
                     <TableRowCell TextSize="TextSizeSmall">@SelectedHelpDescription</TableRowCell>
                 </TableRow>
             </TableBody>
@@ -70,13 +70,13 @@
 <ModalFooter>
     <Div Display="DisplayFlex" Flex="FlexJustifyContentBetweenAlignItemsCenter" Width="WidthIs100">
         <Div Display="DisplayFlex" Gap="GapIs2">
-            <Button Color="Color.Info" Clicked="@Check" Size="Size.Small">Check</Button>
-            <Button Color="Color.Primary" Clicked="@Save" Size="Size.Small">Save</Button>
-            <Button Color="Color.Primary" Clicked="@SaveAndClose" Size="Size.Small">Save and close</Button>
+            <Button Color="Color.Info" Clicked="@Check" Size="Size.Small">@Localize( "Check" )</Button>
+            <Button Color="Color.Primary" Clicked="@Save" Size="Size.Small">@Localize( "Save" )</Button>
+            <Button Color="Color.Primary" Clicked="@SaveAndClose" Size="Size.Small">@Localize( "Save and close" )</Button>
         </Div>
         <Div Display="DisplayFlex" Gap="GapIs2">
-            <Button Color="Color.Light" Clicked="@Clear" Size="Size.Small">Clear</Button>
-            <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">Cancel</Button>
+            <Button Color="Color.Light" Clicked="@Clear" Size="Size.Small">@Localize( "Clear" )</Button>
+            <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">@Localize( "Cancel" )</Button>
         </Div>
     </Div>
 </ModalFooter>

@@ -1,5 +1,6 @@
 #region Using directives
 using System.Threading.Tasks;
+using Blazorise.Localization;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -77,6 +78,8 @@ public partial class _DockTabRenderer : BaseComponent
     private ClassBuilder CloseClassBuilder { get; set; }
 
     [CascadingParameter] internal DockLayoutContext Context { get; set; }
+
+    [Inject] protected ITextLocalizer<DockLayout> Localizer { get; set; }
 
     /// <summary>
     /// Gets or sets the tab node id that owns the pane.

@@ -71,7 +71,7 @@ public partial class _ReportDesignerContextMenu
 
     private string SectionTypeDisplayName => State is null
         ? null
-        : ReportDefinitionHelper.GetSectionTypeDisplayName( State.SectionType );
+        : Localize( ReportDefinitionHelper.GetSectionTypeDisplayName( State.SectionType ) );
 
     private bool IsElementMenu => State?.Target == ReportContextMenuTarget.Element;
 

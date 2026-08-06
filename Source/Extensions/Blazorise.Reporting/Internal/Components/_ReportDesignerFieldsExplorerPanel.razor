@@ -1,7 +1,7 @@
 @namespace Blazorise.Reporting.Internal
 @inherits BaseReportComponent
 
-<_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( ResolvedDataSources, Definition?.FormulaFields, Definition?.RunningTotals, selectedFormulaFieldName, selectedRunningTotalName )"
+<_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( ResolvedDataSources, Definition?.FormulaFields, Definition?.RunningTotals, selectedFormulaFieldName, selectedRunningTotalName, Localize )"
                  NodeClicked="@FieldsNodeClicked"
                  NodeDoubleClicked="@FieldsNodeDoubleClicked"
                  NodeContextMenu="@FieldsNodeContextMenu"
@@ -15,10 +15,10 @@
         @if ( IsFormulaFieldContextMenuTarget )
         {
             <ContextMenuDivider />
-            <ContextMenuItem Clicked="@OnEditFormulaFieldContextMenuClicked">Edit</ContextMenuItem>
-            <ContextMenuItem Clicked="@OnRenameFormulaFieldContextMenuClicked">Rename</ContextMenuItem>
+                <ContextMenuItem Clicked="@OnEditFormulaFieldContextMenuClicked">@Localize( "Edit" )</ContextMenuItem>
+                <ContextMenuItem Clicked="@OnRenameFormulaFieldContextMenuClicked">@Localize( "Rename" )</ContextMenuItem>
             <ContextMenuDivider />
-            <ContextMenuItem Clicked="@OnDeleteFormulaFieldContextMenuClicked">Delete</ContextMenuItem>
+                <ContextMenuItem Clicked="@OnDeleteFormulaFieldContextMenuClicked">@Localize( "Delete" )</ContextMenuItem>
         }
     </ContextMenuBody>
 </ContextMenu>
@@ -30,19 +30,19 @@
         @if ( IsRunningTotalContextMenuTarget )
         {
             <ContextMenuDivider />
-            <ContextMenuItem Clicked="@OnEditRunningTotalContextMenuClicked">Edit</ContextMenuItem>
-            <ContextMenuItem Clicked="@OnRenameRunningTotalContextMenuClicked">Rename</ContextMenuItem>
+                <ContextMenuItem Clicked="@OnEditRunningTotalContextMenuClicked">@Localize( "Edit" )</ContextMenuItem>
+                <ContextMenuItem Clicked="@OnRenameRunningTotalContextMenuClicked">@Localize( "Rename" )</ContextMenuItem>
             <ContextMenuDivider />
-            <ContextMenuItem Clicked="@OnDeleteRunningTotalContextMenuClicked">Delete</ContextMenuItem>
+                <ContextMenuItem Clicked="@OnDeleteRunningTotalContextMenuClicked">@Localize( "Delete" )</ContextMenuItem>
         }
     </ContextMenuBody>
 </ContextMenu>
 
 <ContextMenu @ref="dataSourceContextMenuRef">
     <ContextMenuBody Width="Width.Rem().Min( 12 )">
-        <ContextMenuItem Clicked="@OnRefreshDataSourceContextMenuClicked">Refresh</ContextMenuItem>
+                <ContextMenuItem Clicked="@OnRefreshDataSourceContextMenuClicked">@Localize( "Refresh" )</ContextMenuItem>
         <ContextMenuDivider />
-        <ContextMenuItem Clicked="@OnDeleteDataSourceContextMenuClicked">Delete</ContextMenuItem>
+                <ContextMenuItem Clicked="@OnDeleteDataSourceContextMenuClicked">@Localize( "Delete" )</ContextMenuItem>
     </ContextMenuBody>
 </ContextMenu>
 

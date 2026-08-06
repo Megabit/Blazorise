@@ -179,7 +179,7 @@ public partial class _ReportDesignerDataSourceConnectionDialog
     {
         IReportDataSourceProvider provider = FindSelectedProvider();
 
-        return provider is null ? "Settings" : $"{provider.DisplayName} settings";
+        return provider is null ? Localize( "Settings" ) : Localize( "{0} settings", provider.DisplayName );
     }
 
     private static bool AreSettingsEqual( IDictionary<string, object> first, IDictionary<string, object> second )
@@ -228,9 +228,9 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 
     private bool IsEditingDataSource => !string.IsNullOrWhiteSpace( selectedDataSourceId );
 
-    private string DialogTitle => IsEditingDataSource ? "Edit data source" : "Connect data source";
+    private string DialogTitle => IsEditingDataSource ? Localize( "Edit data source" ) : Localize( "Connect data source" );
 
-    private string ConfirmCaption => IsEditingDataSource ? "Save changes" : "Connect";
+    private string ConfirmCaption => IsEditingDataSource ? Localize( "Save changes" ) : Localize( "Connect" );
 
     private Type SelectedProviderEditorComponentType => FindSelectedProvider()?.EditorComponentType ?? typeof( _ReportDataSourceSettingsEditor );
 

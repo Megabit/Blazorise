@@ -11,7 +11,7 @@ public partial class ReportToolbarPanesMenu
 {
     #region Properties
 
-    private string Text => string.IsNullOrWhiteSpace( Caption ) ? "Panes" : Caption;
+    private string Text => Localize( string.IsNullOrWhiteSpace( Caption ) ? "Panes" : Caption );
 
     [CascadingParameter] internal ReportToolbarDockContext DockContext { get; set; }
 

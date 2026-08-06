@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Licensing;
+using Blazorise.Localization;
 using Blazorise.Pdf;
 using Blazorise.Reporting.Internal;
 using Microsoft.AspNetCore.Components;
@@ -248,6 +249,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
         context.SetViewerDefaults( new()
         {
             PreviewFormats = GlobalOptions.PreviewFormats,
@@ -324,6 +327,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
+        LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         CancelAsyncOperations();
 
         if ( reportingModule is not null )
@@ -337,6 +341,21 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             }
         }
 
+    }
+
+    private async void OnLocalizationChanged( object sender, EventArgs e )
+    {
+        workspaceRef?.InvalidatePropertiesPanel();
+        await InvokeAsync( StateHasChanged );
+        await ( workspaceRef?.RefreshLocalization() ?? Task.CompletedTask );
+    }
+
+    private string Localize( string name, params object[] arguments )
+    {
+        if ( Localizers?.TextLocalizer is not null )
+            return Localizers.TextLocalizer.Invoke( name, arguments );
+
+        return Localizer[name, arguments];
     }
 
     private ReportDefinition BuildDeclarativeDefinition()
@@ -397,7 +416,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private Task<bool> ResolveDataSourcesOperation( ReportDefinition definition, bool loadData )
     {
-        return ExecuteDataOperation( "Resolve report data", ( cancellationToken, mutationVersion ) =>
+        return ExecuteDataOperation( Localize( "Resolve report data" ), ( cancellationToken, mutationVersion ) =>
             ResolveDataSources( definition, loadData, mutationVersion, cancellationToken ) );
     }
 
@@ -1112,7 +1131,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             if ( result is null && !pdfPreviewPending )
             {
                 Task<bool> resolveDataSourcesTask = ResolveDataSourcesOperation( RootDefinition, true );
-                await NotifyPdfProgress( new( "Resolving data" ), yieldRender: true );
+                await NotifyPdfProgress( new( Localize( "Resolving data" ) ), yieldRender: true );
 
                 if ( !await resolveDataSourcesTask )
                     return;
@@ -1124,16 +1143,16 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             if ( result is null || operationMutationVersion != renderMutationVersion )
                 return;
 
-            await NotifyPdfProgress( new( "Requesting download" ), yieldRender: true );
+            await NotifyPdfProgress( new( Localize( "Requesting download" ) ), yieldRender: true );
 
             reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
             await reportingModule.DownloadFile( result.FileName, result.ContentType, result.Content );
 
-            await NotifyPdfProgress( new( "PDF ready", 1 ), yieldRender: true );
+            await NotifyPdfProgress( new( Localize( "PDF ready" ), 1 ), yieldRender: true );
         }
         catch ( Exception exception )
         {
-            await NotifyOperationFailed( "Download PDF", exception );
+            await NotifyOperationFailed( Localize( "Download PDF" ), exception );
         }
         finally
         {
@@ -1157,7 +1176,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                 if ( resolveDataSources )
                 {
                     Task<bool> resolveDataSourcesTask = ResolveDataSourcesOperation( definition, loadData: true );
-                    await NotifyPdfProgress( new( "Resolving data" ), yieldRender: true );
+                    await NotifyPdfProgress( new( Localize( "Resolving data" ) ), yieldRender: true );
 
                     if ( !await resolveDataSourcesTask )
                         return null;
@@ -1170,15 +1189,15 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
             if ( result is not null && operationMutationVersion == renderMutationVersion )
             {
-                await NotifyPdfProgress( new( "Preparing preview" ), yieldRender: true );
-                await NotifyPdfProgress( new( "PDF ready", 1 ), yieldRender: true );
+                await NotifyPdfProgress( new( Localize( "Preparing preview" ) ), yieldRender: true );
+                await NotifyPdfProgress( new( Localize( "PDF ready" ), 1 ), yieldRender: true );
             }
 
             return result;
         }
         catch ( Exception exception )
         {
-            await NotifyOperationFailed( "Prepare PDF preview", exception );
+            await NotifyOperationFailed( Localize( "Prepare PDF preview" ), exception );
             return null;
         }
         finally
@@ -1237,7 +1256,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         try
         {
             cancellationToken.ThrowIfCancellationRequested();
-            await NotifyPdfProgress( new( "Building PDF" ), yieldRender: true );
+            await NotifyPdfProgress( new( Localize( "Building PDF" ) ), yieldRender: true );
 
             if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
                 return null;
@@ -1274,7 +1293,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         }
         catch ( Exception exception )
         {
-            await NotifyOperationFailed( "Generate PDF preview", exception );
+            await NotifyOperationFailed( Localize( "Generate PDF preview" ), exception );
             return null;
         }
     }
@@ -1286,11 +1305,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         string status = progress.Stage switch
         {
-            PdfGenerationStage.PreparingResources => "Preparing resources",
-            PdfGenerationStage.RenderingPages when progress.TotalPages > 0 => $"PDF {progress.CompletedPages}/{progress.TotalPages}",
-            PdfGenerationStage.RenderingPages => "Rendering PDF",
-            PdfGenerationStage.WritingDocument or PdfGenerationStage.Completed => "Writing PDF",
-            _ => "Building PDF",
+            PdfGenerationStage.PreparingResources => Localize( "Preparing resources" ),
+            PdfGenerationStage.RenderingPages when progress.TotalPages > 0 => Localize( "PDF {0}/{1}", progress.CompletedPages, progress.TotalPages ),
+            PdfGenerationStage.RenderingPages => Localize( "Rendering PDF" ),
+            PdfGenerationStage.WritingDocument or PdfGenerationStage.Completed => Localize( "Writing PDF" ),
+            _ => Localize( "Building PDF" ),
         };
 
         await NotifyPdfProgress( new( status, progress.Progress, progress.CompletedPages, progress.TotalPages ) );
@@ -1310,7 +1329,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private async Task ResetDefinition()
     {
-        if ( !await ConfirmDestructiveAction( "Are you sure you want to reset the report to its initial definition?", "Reset report", "Reset" ) )
+        if ( !await ConfirmDestructiveAction( Localize( "Are you sure you want to reset the report to its initial definition?" ), Localize( "Reset report" ), Localize( "Reset" ) ) )
             return;
 
         await ExecuteDesignerCommand( new( "Reset report", () =>
@@ -1332,7 +1351,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         {
             options.ShowCloseButton = false;
             options.ShowMessageIcon = false;
-            options.CancelButtonText = "Cancel";
+            options.CancelButtonText = Localize( "Cancel" );
             options.ConfirmButtonText = confirmButtonText;
             options.ConfirmButtonColor = Color.Danger;
         } );
@@ -2230,7 +2249,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         if ( string.IsNullOrWhiteSpace( dataSourceName ) )
             return;
 
-        if ( !await ConfirmDestructiveAction( "Are you sure you want to delete this data source?", "Delete data source", "Delete" ) )
+        if ( !await ConfirmDestructiveAction( Localize( "Are you sure you want to delete this data source?" ), Localize( "Delete data source" ), Localize( "Delete" ) ) )
             return;
 
         await ExecuteDesignerCommand( new( "Delete data source", () =>
@@ -3187,7 +3206,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private async Task NotifyOperationFailed( string operation, Exception exception )
     {
-        string message = $"{operation} failed: {exception.Message}";
+        string message = Localize( "{0} failed: {1}", operation, exception.Message );
 
         Logger?.LogError( exception, "Report operation {Operation} failed.", operation );
         operationWarning = new( message, [] );
@@ -3210,8 +3229,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             return;
 
         string message = diagnostics.Count == 1
-            ? $"Report definition normalized: {diagnostics[0]}"
-            : $"Report definition contained {diagnostics.Count} invalid values and was normalized. See the application log for details.";
+            ? Localize( "Report definition normalized: {0}", diagnostics[0] )
+            : Localize( "Report definition contained {0} invalid values and was normalized. See the application log for details.", diagnostics.Count );
 
         Logger?.LogWarning( "Report definition was normalized: {Diagnostics}", string.Join( " ", diagnostics ) );
 
@@ -3459,7 +3478,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             new()
             {
                 Key = MainReportDesignerTabKey,
-                Text = string.IsNullOrWhiteSpace( rootDefinition?.Name ) ? "Main Report" : rootDefinition.Name,
+                Text = string.IsNullOrWhiteSpace( rootDefinition?.Name ) ? Localize( "Main Report" ) : rootDefinition.Name,
                 Active = string.IsNullOrWhiteSpace( activeSubreportElementKey ),
             },
         ];
@@ -3509,7 +3528,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         return rootDefinition.Pages.Select( ( page, pageIndex ) => new ReportDesignerTabItem
         {
             Key = page.Id,
-            Text = string.IsNullOrWhiteSpace( page.Name ) ? $"Page {pageIndex + 1}" : page.Name,
+            Text = string.IsNullOrWhiteSpace( page.Name ) ? Localize( "Page {0}", pageIndex + 1 ) : page.Name,
             Active = string.Equals( page.Id, selectedPageId, StringComparison.Ordinal ),
         } ).ToList();
     }
@@ -3951,6 +3970,16 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     [Inject] private ILogger<_ReportDesigner> Logger { get; set; }
 
     /// <summary>
+    /// Service that notifies the report when localization changes.
+    /// </summary>
+    [Inject] private ITextLocalizerService LocalizerService { get; set; }
+
+    /// <summary>
+    /// Report text localizer.
+    /// </summary>
+    [Inject] private ITextLocalizer<Report> Localizer { get; set; }
+
+    /// <summary>
     /// Gets or sets the report root element ID.
     /// </summary>
     [Parameter] public string ElementId { get; set; }
@@ -3969,6 +3998,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// Gets or sets additional report root attributes.
     /// </summary>
     [Parameter] public Dictionary<string, object> Attributes { get; set; }
+
+    /// <summary>
+    /// Custom localizers used by the report designer and viewer.
+    /// </summary>
+    [Parameter] public ReportLocalizers Localizers { get; set; }
 
     /// <summary>
     /// Persisted report definition copied into the designer working state.

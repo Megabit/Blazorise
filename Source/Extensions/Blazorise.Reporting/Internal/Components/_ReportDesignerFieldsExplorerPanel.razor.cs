@@ -235,7 +235,7 @@ public partial class _ReportDesignerFieldsExplorerPanel
     {
         await CloseFormulaFieldContextMenu();
         formulaFieldNameDialogMode = ReportFormulaFieldNameDialogMode.Create;
-        await formulaFieldNameDialogRef.Show( CreateFormulaFieldName(), "New Formula Field" );
+        await formulaFieldNameDialogRef.Show( CreateFormulaFieldName(), "New formula field" );
     }
 
     private async Task NewRunningTotalClicked( MouseEventArgs eventArgs )
@@ -447,9 +447,9 @@ public partial class _ReportDesignerFieldsExplorerPanel
 
     private bool IsRunningTotalContextMenuTarget => !string.IsNullOrWhiteSpace( runningTotalContextMenu?.RunningTotalName );
 
-    private string NewFormulaFieldContextMenuText => IsFormulaFieldContextMenuTarget ? "New" : "New formula field";
+    private string NewFormulaFieldContextMenuText => IsFormulaFieldContextMenuTarget ? Localize( "New" ) : Localize( "New formula field" );
 
-    private string NewRunningTotalContextMenuText => IsRunningTotalContextMenuTarget ? "New" : "New running total";
+    private string NewRunningTotalContextMenuText => IsRunningTotalContextMenuTarget ? Localize( "New" ) : Localize( "New running total" );
 
     /// <summary>
     /// Report definition used to discover data source fields.

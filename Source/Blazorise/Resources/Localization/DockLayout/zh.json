@@ -1,0 +1,9 @@
+{
+  "culture": "zh",
+  "translations": {
+    "Close": "关闭",
+    "Close {0}": "关闭 {0}",
+    "Pin": "固定",
+    "Unpin": "取消固定"
+  }
+}

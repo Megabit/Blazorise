@@ -1,0 +1,9 @@
+{
+  "culture": "hr",
+  "translations": {
+    "Close": "Zatvori",
+    "Close {0}": "Zatvori {0}",
+    "Pin": "Prikvači",
+    "Unpin": "Otkvači"
+  }
+}

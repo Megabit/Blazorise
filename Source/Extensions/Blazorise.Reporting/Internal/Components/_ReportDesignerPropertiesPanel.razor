@@ -22,7 +22,13 @@
 
 <PropertyGridView Schema="@PropertyGridSchema"
                   Height="Height.Is100"
-                  AriaLabel="Report properties"
+                  AriaLabel="@Localize( "Report properties" )"
+                  ToolbarAriaLabel="@Localize( "Property grid controls" )"
+                  SearchPlaceholder="@Localize( "Search..." )"
+                  SearchAriaLabel="@Localize( "Search properties" )"
+                  CategorizedButtonTitle="@Localize( "Categorized" )"
+                  AlphabeticalButtonTitle="@Localize( "Alphabetical" )"
+                  NoResultsText="@Localize( "No properties found." )"
                   PropertyValueChanged="@OnPropertyGridPropertyValueChanged"
                   ActionInvoked="@OnPropertyGridActionInvoked">
     <ChildContent>
@@ -44,23 +50,23 @@
             <Div Flex="FlexIsWrap" Gap="GapIs2" Margin="MarginIs3FromTop">
                 @if ( CanInsertSection )
                 {
-                    <Button Color="Color.Light" Clicked="@OnInsertSectionBeforeClicked" Size="Size.Small">Insert before</Button>
-                    <Button Color="Color.Light" Clicked="@OnInsertSectionAfterClicked" Size="Size.Small">Insert after</Button>
+                    <Button Color="Color.Light" Clicked="@OnInsertSectionBeforeClicked" Size="Size.Small">@Localize( "Insert before" )</Button>
+                    <Button Color="Color.Light" Clicked="@OnInsertSectionAfterClicked" Size="Size.Small">@Localize( "Insert after" )</Button>
                 }
                 @if ( CanInsertGroup )
                 {
-                    <Button Color="Color.Light" Clicked="@OnInsertGroupClicked" Size="Size.Small">Insert group...</Button>
+                    <Button Color="Color.Light" Clicked="@OnInsertGroupClicked" Size="Size.Small">@Localize( "Insert group..." )</Button>
                 }
                 @if ( ReportDefinitionHelper.CanDeleteSection( SelectedSection ) )
                 {
-                    <Button Color="Color.Light" Clicked="@OnDeleteSelectedSectionClicked" Size="Size.Small">Delete band</Button>
+                    <Button Color="Color.Light" Clicked="@OnDeleteSelectedSectionClicked" Size="Size.Small">@Localize( "Delete band" )</Button>
                 }
             </Div>
         }
 
         @if ( !HasSelection )
         {
-            <Paragraph TextColor="TextColorSecondary">Select a band or report element to edit its properties.</Paragraph>
+            <Paragraph TextColor="TextColorSecondary">@Localize( "Select a band or report element to edit its properties." )</Paragraph>
         }
     </ChildContent>
 </PropertyGridView>

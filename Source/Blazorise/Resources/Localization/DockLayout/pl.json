@@ -1,0 +1,9 @@
+{
+  "culture": "pl",
+  "translations": {
+    "Close": "Zamknij",
+    "Close {0}": "Zamknij {0}",
+    "Pin": "Przypnij",
+    "Unpin": "Odepnij"
+  }
+}

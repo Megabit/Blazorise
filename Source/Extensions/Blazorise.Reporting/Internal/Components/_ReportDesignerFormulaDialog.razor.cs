@@ -83,8 +83,8 @@ public partial class _ReportDesignerFormulaDialog
         new( "Text", "Length", "Length({0})", "Returns the number of characters in text." ),
         new( "Math", "Round", $"Round({{0}}, {DefaultRoundDecimalPlaces})", "Rounds a number to the specified number of decimals." ),
         new( "Math", "Abs", "Abs({0})", "Returns the absolute value of a number." ),
-        new( "Date and Time", "Today", "Today()", "Returns the current date." ),
-        new( "Date and Time", "Now", "Now()", "Returns the current date and time." ),
+        new( "Date and time", "Today", "Today()", "Returns the current date." ),
+        new( "Date and time", "Now", "Now()", "Returns the current date and time." ),
         new( "Aggregates", "Count", "Count({0})", "Counts values in a data source." ),
         new( "Aggregates", "Sum", "Sum({0})", "Sums numeric values in a data source." ),
         new( "Aggregates", "Average", "Average({0})", "Calculates the average numeric value." ),
@@ -205,7 +205,7 @@ public partial class _ReportDesignerFormulaDialog
 
         await Confirmed.InvokeAsync( string.IsNullOrWhiteSpace( formula ) ? null : formula.Trim() );
         validationSucceeded = true;
-        validationMessage = "Formula saved.";
+        validationMessage = Localize( "Formula saved." );
 
         return true;
     }
@@ -274,7 +274,7 @@ public partial class _ReportDesignerFormulaDialog
     {
         IEnumerable<ReportDesignerDataSourceNode> dataSources = SourceDataSources ?? ReportDataSourceExplorer.ResolveDataSourceDictionary( Definition, "Default" );
 
-        return ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( dataSources, Definition?.FormulaFields, Definition?.RunningTotals )
+        return ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( dataSources, Definition?.FormulaFields, Definition?.RunningTotals, localizer: Localize )
             .Select( CloneFormulaNode )
             .ToList();
     }
@@ -302,7 +302,7 @@ public partial class _ReportDesignerFormulaDialog
         {
             selectedFieldExpression = ReportExpressionFormatter.FormatFieldExpression( Definition, field.DataSourceName, field.FieldName );
             selectedHelpItem = selectedFieldExpression;
-            selectedHelpDescription = "Report field value.";
+            selectedHelpDescription = Localize( "Report field value." );
             await InsertText( selectedFieldExpression );
         }
     }
@@ -386,8 +386,8 @@ public partial class _ReportDesignerFormulaDialog
     protected override void OnInitialized()
     {
         title = string.IsNullOrWhiteSpace( InitialPropertyName )
-            ? "Edit formula"
-            : $"Edit {InitialPropertyName} formula";
+            ? Localize( "Edit formula" )
+            : Localize( "Edit {0} formula", InitialPropertyName );
         formula = InitialValue;
         selectedFieldExpression = null;
         selectedHelpItem = null;
@@ -404,7 +404,7 @@ public partial class _ReportDesignerFormulaDialog
         formulaDiagnostics = [];
     }
 
-    private static IReadOnlyList<CodeEditorCompletionItem> CreateFormulaSyntaxCompletionItems()
+    private IReadOnlyList<CodeEditorCompletionItem> CreateFormulaSyntaxCompletionItems()
     {
         List<CodeEditorCompletionItem> completionItems = Functions
             .Select( function => new CodeEditorCompletionItem
@@ -455,8 +455,8 @@ public partial class _ReportDesignerFormulaDialog
                 Label = expression,
                 InsertText = expression,
                 Kind = CodeEditorCompletionItemKind.Field,
-                Detail = fieldNode.Detail ?? "Report field",
-                Documentation = $"Inserts the {expression} report field.",
+                Detail = fieldNode.Detail ?? Localize( "Report field" ),
+                Documentation = Localize( "Inserts the {0} report field.", expression ),
                 FilterText = expression,
                 SortText = $"0_{expression}",
             } );
@@ -604,7 +604,7 @@ public partial class _ReportDesignerFormulaDialog
         }
     }
 
-    private static IReadOnlyList<ReportTreeNode> BuildFormulaNodes( string prefix, ReportTreeNodeKind kind, IEnumerable<IReportFormulaTreeOption> options )
+    private IReadOnlyList<ReportTreeNode> BuildFormulaNodes( string prefix, ReportTreeNodeKind kind, IEnumerable<IReportFormulaTreeOption> options )
     {
         return options
             .GroupBy( option => option.Category )
@@ -630,7 +630,7 @@ public partial class _ReportDesignerFormulaDialog
 
     #region Properties
 
-    private string Title => title ?? "Edit formula";
+    private string Title => title ?? Localize( "Edit formula" );
 
     private IReadOnlyList<ReportTreeNode> FieldNodes => BuildFieldNodes();
 
@@ -638,9 +638,9 @@ public partial class _ReportDesignerFormulaDialog
 
     private IReadOnlyList<ReportTreeNode> OperatorNodes => BuildFormulaNodes( "operator", ReportTreeNodeKind.Operator, Operators );
 
-    private string SelectedHelpItem => selectedHelpItem ?? "Formula";
+    private string SelectedHelpItem => selectedHelpItem ?? Localize( "Formula" );
 
-    private string SelectedHelpDescription => selectedHelpDescription ?? "Select a field, function, or operator to insert it into the formula.";
+    private string SelectedHelpDescription => selectedHelpDescription ?? Localize( "Select a field, function, or operator to insert it into the formula." );
 
     private bool HasValidationMessage => !string.IsNullOrWhiteSpace( validationMessage );
 

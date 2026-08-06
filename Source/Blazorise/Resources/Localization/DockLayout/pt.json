@@ -1,0 +1,9 @@
+{
+  "culture": "pt",
+  "translations": {
+    "Close": "Fechar",
+    "Close {0}": "Fechar {0}",
+    "Pin": "Fixar",
+    "Unpin": "Desafixar"
+  }
+}

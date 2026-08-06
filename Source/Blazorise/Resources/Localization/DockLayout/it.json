@@ -1,0 +1,9 @@
+{
+  "culture": "it",
+  "translations": {
+    "Close": "Chiudi",
+    "Close {0}": "Chiudi {0}",
+    "Pin": "Fissa",
+    "Unpin": "Sblocca"
+  }
+}

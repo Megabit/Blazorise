@@ -3,7 +3,7 @@
 
 <Div Flex="FlexColumn" Gap="GapIs2">
     <Paragraph TextColor="TextColorSecondary" TextSize="TextSizeSmall" Margin="MarginIs0">
-        DataSet data sources use a DataSet or DataTable supplied by the report data object or by a declarative data source component.
+        @Localize( "DataSet data sources use a DataSet or DataTable supplied by the report data object or by a declarative data source component." )
     </Paragraph>
-    <TextInput Value="@TableName" ValueChanged="@OnTableNameChanged" Placeholder="Optional table name" Size="Size.Small" />
+    <TextInput Value="@TableName" ValueChanged="@OnTableNameChanged" Placeholder="@Localize( "Optional table name" )" Size="Size.Small" />
 </Div>

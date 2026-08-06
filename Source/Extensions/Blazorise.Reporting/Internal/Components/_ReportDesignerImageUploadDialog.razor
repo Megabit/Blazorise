@@ -2,7 +2,7 @@
 @inherits BaseReportComponent
 
 <ModalHeader>
-    <ModalTitle>Upload image</ModalTitle>
+    <ModalTitle>@Localize( "Upload image" )</ModalTitle>
     <CloseButton Clicked="@Close" />
 </ModalHeader>
 <ModalBody>
@@ -35,7 +35,7 @@
 
     @if ( !string.IsNullOrWhiteSpace( previewSource ) )
     {
-        <Div Margin="MarginIs3FromTop" Border="BorderIs1" Padding="PaddingIs2" Background="BackgroundLight">
+        <Div Class="b-report-dialog-preview" Margin="MarginIs3FromTop" Border="BorderIs1" Padding="PaddingIs2">
             <Image Source="@previewSource" Text="@selectedFile?.Name" Fluid />
         </Div>
     }
@@ -49,5 +49,5 @@
 </ModalBody>
 <ModalFooter>
     <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm)" Size="Size.Small">@ConfirmText</Button>
-    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">Cancel</Button>
+    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">@Localize( "Cancel" )</Button>
 </ModalFooter>

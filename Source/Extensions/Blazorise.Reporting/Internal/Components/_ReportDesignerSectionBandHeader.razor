@@ -13,10 +13,10 @@
     <span class="b-report-section-band-header-title">@DisplayName</span>
     @if ( ShowDataSource && !string.IsNullOrWhiteSpace( Section.DataSource ) )
     {
-        <span class="b-report-section-band-header-source">; Data Source: @Section.DataSource</span>
+        <span class="b-report-section-band-header-source">; @Localize( "Data Source: {0}", Section.DataSource )</span>
     }
     @if ( ReportValueResolver.ResolveStaticSuppress( Section ) )
     {
-        <span class="b-report-section-band-header-status">Suppressed</span>
+        <span class="b-report-section-band-header-status">@Localize( "Suppressed" )</span>
     }
 </div>

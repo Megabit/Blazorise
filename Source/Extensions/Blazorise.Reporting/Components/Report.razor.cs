@@ -286,6 +286,11 @@ public partial class Report : BaseComponent, IReportCommandExecutor
     [Parameter] public IEnumerable<IReportElementPlugin> ElementPlugins { get; set; }
 
     /// <summary>
+    /// Custom localizers used by the report designer and viewer.
+    /// </summary>
+    [Parameter] public ReportLocalizers Localizers { get; set; }
+
+    /// <summary>
     /// Declarative report content used as the initial report definition.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }

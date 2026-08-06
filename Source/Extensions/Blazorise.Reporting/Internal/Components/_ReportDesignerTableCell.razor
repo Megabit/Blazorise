@@ -52,17 +52,17 @@
     @if ( CanReceiveDesignerInteraction )
     {
         <span class="b-report-table-column-resize-handle"
-              title="Resize column"
+              title="@Localize( "Resize column" )"
               role="separator"
-              aria-label="Resize table column"
+              aria-label="@Localize( "Resize table column" )"
               aria-orientation="vertical"
               @onpointerdown="@OnColumnResizePointerDown"
               @onpointerdown:preventDefault
               @onpointerdown:stopPropagation></span>
         <span class="b-report-table-row-resize-handle"
-              title="Resize row"
+              title="@Localize( "Resize row" )"
               role="separator"
-              aria-label="Resize table row"
+              aria-label="@Localize( "Resize table row" )"
               aria-orientation="horizontal"
               @onpointerdown="@OnRowResizePointerDown"
               @onpointerdown:preventDefault

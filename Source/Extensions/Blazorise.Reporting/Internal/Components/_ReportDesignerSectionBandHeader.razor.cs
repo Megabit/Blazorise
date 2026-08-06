@@ -58,7 +58,9 @@ public partial class _ReportDesignerSectionBandHeader
 
     #region Properties
 
-    private string DisplayName => ReportDefinitionHelper.GetSectionDisplayName( Section );
+    private string DisplayName => string.IsNullOrWhiteSpace( Section?.Name )
+        ? Localize( ReportDefinitionHelper.GetSectionTypeDisplayName( Section.Type ) )
+        : Section.Name;
 
     /// <summary>
     /// Report section displayed in the band header.

@@ -86,7 +86,7 @@ public partial class _ReportDesignerImageUploadDialog
     private Task OnEnded( FileEndedEventArgs eventArgs )
     {
         if ( eventArgs is not null && !eventArgs.Success )
-            errorMessage = eventArgs.File?.ErrorMessage ?? "Image upload failed.";
+            errorMessage = eventArgs.File?.ErrorMessage ?? Localize( "Image upload failed." );
 
         return ImageUploadEnded.InvokeAsync( eventArgs );
     }
@@ -121,7 +121,7 @@ public partial class _ReportDesignerImageUploadDialog
 
                 if ( string.IsNullOrWhiteSpace( source ) )
                 {
-                    errorMessage = "Image upload did not return an image URL.";
+                    errorMessage = Localize( "Image upload did not return an image URL." );
                     return;
                 }
             }
@@ -192,7 +192,7 @@ public partial class _ReportDesignerImageUploadDialog
 
     private bool CanConfirm => selectedFile is not null && !busy && string.IsNullOrWhiteSpace( errorMessage );
 
-    private string ConfirmText => ImageUpload.HasDelegate ? "Upload" : "Use image";
+    private string ConfirmText => ImageUpload.HasDelegate ? Localize( "Upload" ) : Localize( "Use image" );
 
     /// <summary>
     /// A comma-separated list of image MIME types accepted by the picker.

@@ -165,7 +165,7 @@ public partial class _ReportDesignerElement
     {
         return Element is ReportSubreportElementDefinition subreportElement
             ? ReportSubreportResolver.GetDisplayName( subreportElement )
-            : "Subreport";
+            : Localize( "Subreport" );
     }
 
     private static IFluentObjectFit GetImageObjectFit( ReportImageElementDefinition imageElement )
@@ -317,9 +317,11 @@ public partial class _ReportDesignerElement
 
     private string ImageAlternativeText => ( Element as ReportImageElementDefinition )?.Text ?? Element?.Name;
 
-    private string AccessibilityLabel => string.IsNullOrWhiteSpace( Element?.Name )
-        ? $"{Element?.Type} report element"
-        : $"{Element.Name}, {Element.Type} report element";
+    private string AccessibilityLabel => Element is null
+        ? Localize( "Report element" )
+        : string.IsNullOrWhiteSpace( Element.Name )
+        ? Localize( "{0} report element", Localize( ReportDefinitionHelper.GetElementTypeDisplayName( Element.Type ) ) )
+        : Localize( "{0}, {1} report element", Element.Name, Localize( ReportDefinitionHelper.GetElementTypeDisplayName( Element.Type ) ) );
 
     private bool AccessibilityGroup => Element is ReportTableElementDefinition or ReportPanelElementDefinition or ReportCustomElementDefinition;
 

@@ -34,7 +34,10 @@ public partial class _ReportDesignerSectionLabel
 
     #region Properties
 
-    private string Label => $"{ReportDefinitionHelper.GetSectionTypeDisplayName( Section.Type )}: {ReportDefinitionHelper.GetSectionDisplayName( Section )}";
+    private string Label => Localize(
+        "{0}: {1}",
+        Localize( ReportDefinitionHelper.GetSectionTypeDisplayName( Section.Type ) ),
+        string.IsNullOrWhiteSpace( Section.Name ) ? Localize( ReportDefinitionHelper.GetSectionTypeDisplayName( Section.Type ) ) : Section.Name );
 
     /// <summary>
     /// Report section displayed in the designer label.

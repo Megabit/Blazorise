@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Blazorise.Pdf\Blazorise.Pdf.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Localization\Report\*.json" />
+  </ItemGroup>
+
 </Project>

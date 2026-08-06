@@ -67,6 +67,7 @@
     &-surface {
         min-height: 0;
         overflow: hidden;
+        background: var(--b-report-color-surface-muted);
     }
 
     &-surface-content {
@@ -97,6 +98,17 @@
 .b-report-toolbar {
     flex: 0 0 auto;
     flex-wrap: wrap;
+    background: var(--b-report-color-surface);
+}
+
+.b-report-dialog-preview {
+    background: var(--b-report-color-surface-muted);
+    color: var(--b-report-color-text);
+}
+
+.b-report-preview-message {
+    background: var(--b-report-color-surface);
+    color: var(--b-report-color-text);
 }
 
 .b-report-status-bar {
@@ -161,4 +173,5 @@
     min-height: 0;
     min-width: 0;
     overflow: auto;
+    background: var(--b-report-color-surface-muted);
 }
