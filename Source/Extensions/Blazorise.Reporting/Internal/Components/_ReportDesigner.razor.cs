@@ -184,6 +184,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         parameters.TryGetParameter( Definition, out ComponentParameterInfo<ReportDefinition> definitionParameter );
         parameters.TryGetParameter( Mode, out ComponentParameterInfo<ReportMode?> modeParameter );
         parameters.TryGetParameter( PreviewFormat, out ComponentParameterInfo<ReportPreviewFormat?> previewFormatParameter );
+        parameters.TryGetParameter( BandMode, out ComponentParameterInfo<ReportBandMode> bandModeParameter );
+        parameters.TryGetParameter( ShowRulers, out ComponentParameterInfo<bool> showRulersParameter );
+        parameters.TryGetParameter( ShowFineRulerTicks, out ComponentParameterInfo<bool> showFineRulerTicksParameter );
+        parameters.TryGetParameter( ShowCursorGuides, out ComponentParameterInfo<bool> showCursorGuidesParameter );
+        parameters.TryGetParameter( ShowCollisionWarnings, out ComponentParameterInfo<bool> showCollisionWarningsParameter );
 
         bool definitionModeChanged = initialized && parameters.IsParameterChanged( DefinitionMode );
         bool dataChanged = initialized && parameters.IsParameterChanged( Data );
@@ -222,8 +227,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                 declarativeContextVersion = context.DefinitionVersion;
 
             await ApplyDefinition( definition, notifyDefinitionChanged: false );
+            await SynchronizeDesignerParameters( bandModeParameter, showRulersParameter, showFineRulerTicksParameter, showCursorGuidesParameter, showCollisionWarningsParameter );
             return;
         }
+
+        await SynchronizeDesignerParameters( bandModeParameter, showRulersParameter, showFineRulerTicksParameter, showCursorGuidesParameter, showCollisionWarningsParameter );
 
         if ( dataChanged )
             SynchronizeDefaultDataSource( RootDefinition, previousData );
@@ -3357,6 +3365,43 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
             return Task.CompletedTask;
         }, RefreshTargets: refreshTargets ) );
+    }
+
+    private Task SynchronizeDesignerParameters(
+        ComponentParameterInfo<ReportBandMode> bandModeParameter,
+        ComponentParameterInfo<bool> showRulersParameter,
+        ComponentParameterInfo<bool> showFineRulerTicksParameter,
+        ComponentParameterInfo<bool> showCursorGuidesParameter,
+        ComponentParameterInfo<bool> showCollisionWarningsParameter )
+    {
+        if ( !( bandModeParameter.Changed && CurrentBandMode != bandModeParameter.Value )
+            && !( showRulersParameter.Changed && CurrentShowRulers != showRulersParameter.Value )
+            && !( showFineRulerTicksParameter.Changed && CurrentShowFineRulerTicks != showFineRulerTicksParameter.Value )
+            && !( showCursorGuidesParameter.Changed && CurrentShowCursorGuides != showCursorGuidesParameter.Value )
+            && !( showCollisionWarningsParameter.Changed && CurrentShowCollisionWarnings != showCollisionWarningsParameter.Value ) )
+        {
+            return Task.CompletedTask;
+        }
+
+        return ExecuteDesignerCommand( new( "Synchronize designer settings", () =>
+        {
+            if ( bandModeParameter.Changed )
+                DesignerDefinition.BandMode = bandModeParameter.Value;
+
+            if ( showRulersParameter.Changed )
+                DesignerDefinition.ShowRulers = showRulersParameter.Value;
+
+            if ( showFineRulerTicksParameter.Changed )
+                DesignerDefinition.ShowFineRulerTicks = showFineRulerTicksParameter.Value;
+
+            if ( showCursorGuidesParameter.Changed )
+                DesignerDefinition.ShowCursorGuides = showCursorGuidesParameter.Value;
+
+            if ( showCollisionWarningsParameter.Changed )
+                DesignerDefinition.ShowCollisionWarnings = showCollisionWarningsParameter.Value;
+
+            return Task.CompletedTask;
+        }, TrackHistory: false, RefreshTargets: ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.SelectedPanel ) );
     }
 
     internal void ClearDragState()
