@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -83,6 +84,17 @@ public partial class DockLayout : BaseComponent
     #region Methods
 
     /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( State, out ComponentParameterInfo<DockLayoutState> stateParameter );
+
+        await base.SetParametersAsync( parameters );
+
+        if ( stateParameter.Changed )
+            await ApplyState( stateParameter.Value, false, false );
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.DockLayout() );
@@ -121,18 +133,8 @@ public partial class DockLayout : BaseComponent
     /// </summary>
     /// <param name="state">The docking state to load.</param>
     /// <returns>A task that completes after the state has been applied.</returns>
-    public async Task LoadState( DockLayoutState state )
-    {
-        if ( state is not null && state.SchemaVersion != DockLayoutState.CurrentSchemaVersion )
-            throw new ArgumentException( $"Unsupported dock layout state schema version '{state.SchemaVersion}'.", nameof( state ) );
-
-        this.state = stateManager.CreateRuntimeSnapshot( state );
-        activeAutoHidePaneName = null;
-
-        EnsureCurrentStateInitialized();
-
-        await NotifyStateChanged();
-    }
+    public Task LoadState( DockLayoutState state )
+        => ApplyState( state, true, true );
 
     /// <summary>
     /// Resets the docking state to the latest declarative layout definition.
@@ -1080,6 +1082,39 @@ public partial class DockLayout : BaseComponent
 
     private sealed record DockPaneRestoreReference( string PaneName, DockPaneRestoreState RestorePlacement );
 
+    private async Task ApplyState( DockLayoutState state, bool createRuntimeSnapshot, bool notifyStateChanged )
+    {
+        bool schemaSupported = state is null || state.SchemaVersion == DockLayoutState.CurrentSchemaVersion;
+
+        if ( createRuntimeSnapshot )
+            state = schemaSupported ? stateManager.CreateRuntimeSnapshot( state ) : new();
+        else
+            state ??= new();
+
+        if ( !schemaSupported )
+        {
+            state.SchemaVersion = DockLayoutState.CurrentSchemaVersion;
+            state.Root = null;
+            state.Panes = [];
+            state.Rails = [];
+        }
+        else
+        {
+            state.Panes ??= [];
+            state.Rails ??= [];
+        }
+
+        this.state = state;
+        activeAutoHidePaneName = null;
+
+        EnsureCurrentStateInitialized();
+
+        if ( notifyStateChanged )
+            await NotifyStateChanged();
+        else
+            context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
+    }
+
     private async Task NotifyStateChanged()
     {
         await CommitStateChanged();
@@ -1215,15 +1250,7 @@ public partial class DockLayout : BaseComponent
     public DockLayoutState State
     {
         get => state;
-        set
-        {
-            if ( ReferenceEquals( state, value ) )
-                return;
-
-            state = value;
-            EnsureCurrentStateInitialized();
-            context.NotifyChanged( new( DockLayoutChangeKind.Tree ) );
-        }
+        set => state = value;
     }
 
     /// <summary>
