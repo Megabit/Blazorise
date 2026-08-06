@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Reporting.Internal;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -11,7 +12,7 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Provides a declarative report designer and viewer for band-based report definitions.
 /// </summary>
-public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDisposable
+public partial class Report : BaseComponent, IReportCommandExecutor
 {
     #region Members
 
@@ -58,8 +59,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         => designer?.LoadState( state ) ?? Task.CompletedTask;
 
     /// <inheritdoc />
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-report" );
+
+        base.BuildClasses( builder );
+    }
 
     #endregion
 

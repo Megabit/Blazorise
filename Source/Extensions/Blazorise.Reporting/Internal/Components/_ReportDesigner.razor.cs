@@ -3951,6 +3951,26 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     [Inject] private ILogger<_ReportDesigner> Logger { get; set; }
 
     /// <summary>
+    /// Gets or sets the report root element ID.
+    /// </summary>
+    [Parameter] public string ElementId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the report root CSS classes.
+    /// </summary>
+    [Parameter] public string Class { get; set; }
+
+    /// <summary>
+    /// Gets or sets the report root inline styles.
+    /// </summary>
+    [Parameter] public string Style { get; set; }
+
+    /// <summary>
+    /// Gets or sets additional report root attributes.
+    /// </summary>
+    [Parameter] public Dictionary<string, object> Attributes { get; set; }
+
+    /// <summary>
     /// Persisted report definition copied into the designer working state.
     /// </summary>
     [Parameter] public ReportDefinition Definition { get; set; }

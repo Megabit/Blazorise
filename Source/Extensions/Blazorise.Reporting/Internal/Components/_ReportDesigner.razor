@@ -10,7 +10,10 @@
         </Div>
     </CascadingValue>
 
-    <Div Class="b-report">
+    <Div ElementId="@ElementId"
+         Class="@Class"
+         Style="@Style"
+         Attributes="@Attributes">
         <CascadingValue Value="@modalProviderName" Name="ReportModalProviderName" IsFixed="true">
             <Div Class="b-report-layout" Flex="FlexColumn">
                 @if ( ShowToolbar && !( CurrentMode == ReportMode.Design && IsEditable ) )

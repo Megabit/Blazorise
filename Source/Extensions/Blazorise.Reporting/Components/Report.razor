@@ -1,7 +1,11 @@
 @namespace Blazorise.Reporting
 @using Blazorise.Reporting.Internal
+@inherits BaseComponent
 
 <_ReportDesigner @ref="designer"
+                 ElementId="@ElementId"
+                 Class="@ClassNames"
+                 Style="@StyleNames"
                  Definition="@Definition"
                  DefinitionChanged="@DefinitionChanged"
                  SaveRequested="@SaveRequested"
@@ -44,6 +48,7 @@
                  DefaultPreviewFormat="@DefaultPreviewFormat"
                  PdfProgressed="@PdfProgressed"
                  OperationFailed="@OperationFailed"
-                 ElementPlugins="@ElementPlugins">
+                 ElementPlugins="@ElementPlugins"
+                 Attributes="@Attributes">
     @ChildContent
 </_ReportDesigner>

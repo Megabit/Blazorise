@@ -10,7 +10,7 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Base class for declarative report bands that register themselves with the current report page.
 /// </summary>
-public abstract class BaseReportSection : ComponentBase, IDisposable
+public abstract class BaseReportBand : ComponentBase, IDisposable
 {
     #region Members
 
@@ -23,9 +23,9 @@ public abstract class BaseReportSection : ComponentBase, IDisposable
     #region Constructors
 
     /// <summary>
-    /// Initializes a new report section component.
+    /// Initializes a new report band component.
     /// </summary>
-    protected BaseReportSection()
+    protected BaseReportBand()
     {
         SectionContext = new( definition );
     }

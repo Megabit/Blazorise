@@ -11,6 +11,11 @@ namespace Blazorise.Reporting;
 public enum ReportPreviewFormat
 {
     /// <summary>
+    /// No preview formats are enabled.
+    /// </summary>
+    None = 0,
+
+    /// <summary>
     /// Renders the report as browser HTML.
     /// </summary>
     Html = 1,
