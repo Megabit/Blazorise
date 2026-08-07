@@ -340,6 +340,9 @@ public partial class MessageProvider : BaseComponent, IDisposable
     private static string GetMessageClass( MessageInstance message )
         => message.Options?.MessageClass;
 
+    private static TextAlignment GetMessageAlignment( MessageInstance message )
+        => message.Options?.MessageAlignment ?? TextAlignment.Center;
+
     private string GetConfirmButtonText( MessageInstance message )
         => message.Options?.ConfirmButtonText ?? Localizer["Confirm"] ?? "Confirm";
 
