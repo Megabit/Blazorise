@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-06T15:25:00.9032210Z",
+  "generatedUtc": "2026-08-07T10:05:54.1642750Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -98538,8 +98538,8 @@
           "name": "AriaLabel",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "\"Resize\"",
-          "summary": "Describes the separator's purpose to assistive technologies.",
+          "defaultValue": "null",
+          "summary": "Describes the separator's purpose to assistive technologies. Uses a localized default when omitted.",
           "isBlazoriseEnum": false
         },
         {
@@ -98669,7 +98669,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "Limits the resize value in pixels; a null value leaves the upper bound unrestricted.",
+          "summary": "Limits the target, or logical start target, in pixels; a null value leaves the upper bound unrestricted.",
           "isBlazoriseEnum": false
         },
         {
@@ -98677,7 +98677,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "0",
-          "summary": "Prevents the resize value from falling below this pixel value.",
+          "summary": "Prevents the target, or logical start target, from falling below this pixel value.",
           "isBlazoriseEnum": false
         },
         {
@@ -98725,7 +98725,7 @@
           "type": "global::Blazorise.Placement?",
           "typeName": "Placement?",
           "defaultValue": "null",
-          "summary": "Positions the resizer on the target edge. Vertical resizers default to end and horizontal resizers default to bottom.",
+          "summary": "Positions the resizer on the target edge. In coordinated mode, target order determines the resize direction.",
           "isBlazoriseEnum": false
         },
         {
@@ -98741,7 +98741,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Names the CSS property updated during resizing, including custom properties such as <code>--panel-width</code>.",
+          "summary": "Names the CSS property updated during single-target resizing. Coordinated targets define their own resize properties.",
           "isBlazoriseEnum": false
         },
         {
@@ -98789,7 +98789,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Identifies the element that receives size updates. When omitted, the resizer resizes its parent.",
+          "summary": "Identifies the element that receives size updates. Used only when <strong>Targets</strong> is not supplied.",
           "isBlazoriseEnum": false
         },
         {
@@ -98797,7 +98797,7 @@
           "type": "global::Blazorise.ResizerTargets",
           "typeName": "ResizerTargets",
           "defaultValue": "null",
-          "summary": "Coordinates logical start and end targets while preserving their combined size. Use <strong>TargetId</strong> for one-target resizing.",
+          "summary": "Enables coordinated resizing of logical start and end targets while preserving their combined size. Both targets must resolve.",
           "isBlazoriseEnum": false
         },
         {
@@ -98877,7 +98877,7 @@
           "type": "double?",
           "typeName": "double?",
           "defaultValue": "null",
-          "summary": "Supplies the controlled resize value in pixels. Without a value, the browser measures the target's initial size.",
+          "summary": "Supplies the controlled target size in pixels. In coordinated mode, this is the logical start-target size.",
           "isBlazoriseEnum": false
         },
         {

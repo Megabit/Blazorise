@@ -1,4 +1,4 @@
-import { getRequiredElement } from "./utilities.js?v=2.2.2.0";
+import { getRequiredElement } from "./utilities.js?v=2.2.3.0";
 
 const instances = new Map();
 
