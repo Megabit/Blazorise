@@ -27,13 +27,6 @@
     }
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Name" )</FieldLabel>
-        <FieldBody ColumnSize="ColumnSizeIs8">
-            <TextInput Value="@name" ValueChanged="@OnNameChanged" Size="Size.Small" />
-        </FieldBody>
-    </Field>
-
-    <Field Horizontal>
         <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Provider" )</FieldLabel>
         <FieldBody ColumnSize="ColumnSizeIs8">
             <Select TValue="string" Value="@selectedProviderType" ValueChanged="@OnSelectedProviderChanged" Size="Size.Small">
@@ -52,6 +45,13 @@
             {
                 <DynamicComponent Type="@SelectedProviderEditorComponentType" Parameters="@ProviderEditorParameters" />
             }
+        </FieldBody>
+    </Field>
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Name" )</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs8">
+            <TextInput Value="@name" ValueChanged="@OnNameChanged" Size="Size.Small" />
         </FieldBody>
     </Field>
 
