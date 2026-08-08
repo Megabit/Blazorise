@@ -7,8 +7,12 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Reports can bind to an object model, DataSet, DataTable, CSV source, or server-side SQL source, expose fields in the field explorer, and repeat detail bands from enumerable data paths.
+    Reports can bind to object models, DataSets, DataTables, CSV sources, or server-side SQL sources. Object and DataSet sources are built in; CSV and SQL are optional providers with their own registration and security requirements.
 </DocsPageLead>
+
+<DocsPageSubtitle>
+    Built-in data sources
+</DocsPageSubtitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Object data source">
@@ -16,6 +20,15 @@
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="ReportingDataSourcesExample" Outlined FullWidth>
         <ReportingDataSourcesExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Detail bands and collections">
+        Assign the detail band data source to a collection path. Fields inside the detail band are then resolved against each collection item.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ReportingDetailDataSourceExample" Outlined FullWidth>
+        <ReportingDetailDataSourceExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
@@ -54,16 +67,24 @@
     <DocsPageSectionSource Code="ReportingCsvDataSourceExample" />
 </DocsPageSection>
 
-<DocsPageParagraph>
-    HTTP sources are downloaded by the browser in Blazor WebAssembly and therefore follow browser CORS rules. In server applications they are downloaded by the server, so use <Code>ResourceAllowed</Code> to restrict user-controlled URLs. Server registrations disable and reject redirects by default. If the primary HTTP handler is replaced, keep automatic redirects disabled so an allowed address cannot redirect to a blocked destination.
-</DocsPageParagraph>
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Remote source security">
+        HTTP sources are downloaded by the browser in Blazor WebAssembly and therefore follow browser CORS rules. In server applications they are downloaded by the server, so use <Code>ResourceAllowed</Code> to restrict user-controlled URLs. Server registrations disable and reject redirects by default. If the primary HTTP handler is replaced, keep automatic redirects disabled so an allowed address cannot redirect to a blocked destination.
+    </DocsPageSectionHeader>
+</DocsPageSection>
 
 <DocsPageSubtitle>
     SQL data source
 </DocsPageSubtitle>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Hosting models">
+        Install the <Code>Blazorise.Reporting.DataSources.Sql</Code> package together with the ADO.NET provider for the target database, such as <Code>Microsoft.Data.SqlClient</Code> or <Code>Npgsql</Code>. The SQL extension executes in the process that renders the report and is intended for Blazor Server and <Code>InteractiveServer</Code> components.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
 <DocsPageParagraph>
-    Install the <Code>Blazorise.Reporting.DataSources.Sql</Code> package together with the ADO.NET provider for the target database, such as <Code>Microsoft.Data.SqlClient</Code> or <Code>Npgsql</Code>. The SQL extension executes in the process that renders the report and is intended for Blazor Server and <Code>InteractiveServer</Code> components.
+    Do not register a database connection or place a connection string in a standalone Blazor WebAssembly or <Code>InteractiveWebAssembly</Code> client. The SQL registration throws on browser runtimes because the component and its data source providers execute inside the browser in those render modes, where secrets are visible to the user and direct database access is not a secure application boundary. Execute the database query in an authenticated server API, return only the authorized rows, and bind those rows with <Code>ReportObjectDataSource</Code>. A Blazor Web App using <Code>InteractiveServer</Code> follows the server registration shown below because the Report component continues to execute on the server. With <Code>InteractiveAuto</Code>, use the API and object data source approach unless the Report is explicitly kept in a server render mode.
 </DocsPageParagraph>
 
 <DocsPageSection>
@@ -78,39 +99,20 @@
 </DocsPageParagraph>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Declarative SQL">
-        The connection name and query must pass the server registration policy before Reporting opens a database connection. Use the data source name from report bands and fields.
+    <DocsPageSectionHeader Title="Security model">
+        SQL settings are part of the report definition and editable reports must be treated as untrusted input. The policy is evaluated for both schema discovery and preview data loading before a connection is opened. SQL data sources provide a <Code>Test Connection</Code> action that runs server-side schema resolution without changing the report, while <Code>Connect</Code> or <Code>Save changes</Code> closes the dialog and commits the connection only after validation succeeds. A denied or failed designer connection remains open and is not committed, and editing an existing connection preserves its previous settings when validation fails. This fail-closed design prevents a modified or uploaded report definition from selecting an arbitrary connection string or executing an unapproved command. Connection names are also resolved only from the factories registered by the host application.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="ReportingSqlDataSourceExample" />
 </DocsPageSection>
-
-<DocsPageSubtitle>
-    SQL security model
-</DocsPageSubtitle>
-
-<DocsPageParagraph>
-    SQL settings are part of the report definition and editable reports must be treated as untrusted input. The policy is evaluated for both schema discovery and preview data loading before a connection is opened. SQL data sources provide a <Code>Test Connection</Code> action that runs server-side schema resolution without changing the report, while <Code>Connect</Code> or <Code>Save changes</Code> closes the dialog and commits the connection only after validation succeeds. A denied or failed designer connection remains open and is not committed, and editing an existing connection preserves its previous settings when validation fails. This fail-closed design prevents a modified or uploaded report definition from selecting an arbitrary connection string or executing an unapproved command. Connection names are also resolved only from the factories registered by the host application.
-</DocsPageParagraph>
 
 <DocsPageParagraph>
     The allowlist complements database security rather than replacing it. Use a dedicated read-only database identity with access only to reporting views or reporting data, keep dangerous database extensions and operating-system integration disabled, authenticate and authorize access to the report designer, and avoid exposing detailed database errors to the browser. The SQL provider does not add parameters to report queries, so never concatenate user input into the query text.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
-    Blazor WebAssembly
-</DocsPageSubtitle>
-
-<DocsPageParagraph>
-    Do not register a database connection or place a connection string in a standalone Blazor WebAssembly or <Code>InteractiveWebAssembly</Code> client. The SQL registration throws on browser runtimes because the component and its data source providers execute inside the browser in those render modes, where secrets are visible to the user and direct database access is not a secure application boundary. Execute the database query in an authenticated server API, return only the authorized rows, and bind those rows with <Code>ReportObjectDataSource</Code>. A Blazor Web App using <Code>InteractiveServer</Code> follows the server registration shown above because the Report component continues to execute on the server. With <Code>InteractiveAuto</Code>, use the API and object data source approach unless the Report is explicitly kept in a server render mode.
-</DocsPageParagraph>
-
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Detail data source">
-        Assign the detail band data source to a collection path. Fields inside the detail band are then resolved against each collection item.
+    <DocsPageSectionHeader Title="Declarative SQL">
+        The connection name and query must pass the server registration policy before Reporting opens a database connection. Use the data source name from report bands and fields.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="ReportingDetailDataSourceExample" Outlined FullWidth>
-        <ReportingDetailDataSourceExample />
-    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ReportingSqlDataSourceExample" />
 </DocsPageSection>
 
 <DocsPageApi>
