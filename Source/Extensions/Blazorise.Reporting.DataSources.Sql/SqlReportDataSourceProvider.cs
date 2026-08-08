@@ -244,5 +244,8 @@ public sealed class SqlReportDataSourceProvider : IReportDataSourceProvider
     /// <inheritdoc />
     public Type EditorComponentType => typeof( _SqlReportDataSourceEditor );
 
+    /// <inheritdoc />
+    public bool SupportsTestConnection => true;
+
     #endregion
 }

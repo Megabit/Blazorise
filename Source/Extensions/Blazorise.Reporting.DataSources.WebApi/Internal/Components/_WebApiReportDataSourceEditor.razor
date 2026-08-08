@@ -1,0 +1,38 @@
+@namespace Blazorise.Reporting.DataSources.WebApi
+@inherits Blazorise.Reporting.Internal.BaseReportComponent
+@using Blazorise
+
+<Div Flex="Flex.Column" Gap="Gap.Is2">
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">@Localize( "API endpoint" )</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is8">
+            <TextInput Value="@Url" ValueChanged="@OnUrlChanged" Placeholder="https://api.example.com/orders?status=open" Size="Size.Small" />
+        </FieldBody>
+    </Field>
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">@Localize( "Request headers" )</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is8">
+            <MemoInput Value="@Headers" ValueChanged="@OnHeadersChanged" Placeholder="Accept: application/json" Size="Size.Small" Rows="4" />
+        </FieldBody>
+    </Field>
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">@Localize( "Response format" )</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is8">
+            <Select TValue="string" Value="@ResponseFormat" ValueChanged="@OnResponseFormatChanged" Size="Size.Small">
+                @foreach ( WebApiReportDataSourceEditorOption option in ResponseFormatOptions )
+                {
+                    <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
+                }
+            </Select>
+        </FieldBody>
+    </Field>
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">@Localize( "Data selector" )</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is8">
+            <TextInput Value="@DataSelector" ValueChanged="@OnDataSelectorChanged" Placeholder="@DataSelectorPlaceholder" Size="Size.Small" />
+        </FieldBody>
+    </Field>
+</Div>

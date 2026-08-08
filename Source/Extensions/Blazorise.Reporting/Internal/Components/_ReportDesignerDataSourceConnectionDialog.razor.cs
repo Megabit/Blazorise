@@ -16,8 +16,6 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 {
     #region Members
 
-    private const string SqlDataSourceProviderType = "sql";
-
     private readonly List<IReportDataSourceProvider> providers = [];
 
     private readonly List<ReportDataSourceDefinition> dataSources = [];
@@ -66,7 +64,7 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 
     private async Task<bool> RequestConnection( bool commit )
     {
-        if ( !CanConfirm || IsConnecting || ConnectRequested is null || ( !commit && !IsSqlDataSource ) )
+        if ( !CanConfirm || IsConnecting || ConnectRequested is null || ( !commit && !SupportsTestConnection ) )
             return false;
 
         ReportDataSourceDefinition dataSource = CreateDataSourceDefinition();
@@ -265,7 +263,7 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 
     private bool IsCommittingConnection => pendingConnectionCommit == true;
 
-    private bool IsSqlDataSource => string.Equals( selectedProviderType, SqlDataSourceProviderType, StringComparison.OrdinalIgnoreCase );
+    private bool SupportsTestConnection => FindSelectedProvider()?.SupportsTestConnection == true;
 
     private bool HasConnectionResult => connectionSucceeded.HasValue;
 

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-08T11:24:29.1582398Z",
+  "generatedUtc": "2026-08-08T14:11:42.7769092Z",
   "pages": [
     {
       "route": "/docs",
@@ -7671,7 +7671,7 @@
     {
       "route": "/docs/extensions/reporting/data-sources",
       "title": "Blazorise Reporting data sources",
-      "description": "Bind Blazorise reports to objects, DataSets, DataTables, CSV sources, and server-side SQL sources.",
+      "description": "Bind Blazorise reports to objects, DataSets, DataTables, CSV sources, Web APIs, and server-side SQL sources.",
       "pagePath": "Pages/Docs/Extensions/Reporting/DataSourcesPage.razor",
       "examples": [
         {
@@ -7713,6 +7713,22 @@
           "content": "@using Blazorise.Reporting.DataSources.Csv\r\n\r\n<Report>\r\n    <ReportDataSources>\r\n        <ReportCsvDataSource Name=\"Products\"\r\n                             Source=\"https://data.example.com/products.csv\"\r\n                             Encoding=\"utf-8\"\r\n                             Delimiter=\",\"\r\n                             HasHeaderRow />\r\n    </ReportDataSources>\r\n    <ReportPage Name=\"Products\">\r\n        <ReportDetail Name=\"Product row\" Height=\"24\" DataSource=\"Products\">\r\n            <ReportField Field=\"Name\" X=\"30\" Y=\"3\" Width=\"240\" Height=\"18\" />\r\n            <ReportField Field=\"Price\" X=\"285\" Y=\"3\" Width=\"90\" Height=\"18\" />\r\n        </ReportDetail>\r\n    </ReportPage>\r\n</Report>",
           "title": "Declarative CSV",
           "description": "Give the source a name and use that name as the data source of a detail band."
+        },
+        {
+          "code": "ReportingWebApiDataSourceRegistrationExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingWebApiDataSourceRegistrationExample.snippet",
+          "content": "using Blazorise.Reporting.DataSources.WebApi;\r\n\r\nbuilder.Services\r\n    .AddBlazorise()\r\n    .AddBlazoriseReporting()\r\n    .AddBlazoriseReportingWebApiDataSource( configureOptions: options =>\r\n    {\r\n        // Optional: omit this callback to allow any public HTTP or HTTPS URL.\r\n        options.ResourceAllowed = uri =>\r\n            uri.Scheme == Uri.UriSchemeHttps\r\n                && string.Equals( uri.Host, \"dummyjson.com\", StringComparison.OrdinalIgnoreCase );\r\n        options.MaximumResponseSize = 5 * 1024 * 1024;\r\n        options.RequestTimeout = TimeSpan.FromSeconds( 30 );\r\n    } );",
+          "title": "Registration",
+          "description": "The designer stores the complete absolute HTTP or HTTPS URL, including its path and query, in the report definition. Pre-registering endpoint names is not required. Use the optional ResourceAllowed callback when the application wants to restrict authors to particular hosts or paths. When it is omitted, server applications allow any public URL, while WebAssembly allows any otherwise valid URL subject to browser rules."
+        },
+        {
+          "code": "ReportingWebApiDataSourceExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingWebApiDataSourceExample.snippet",
+          "content": "@using Blazorise.Reporting.DataSources.WebApi\r\n@using System.Collections.Generic\r\n\r\n<Report>\r\n    <ReportDataSources>\r\n        <ReportWebApiDataSource Name=\"Products\"\r\n                                Url=\"https://dummyjson.com/products?limit=10&amp;select=id,title,price,category\"\r\n                                Headers=\"@requestHeaders\"\r\n                                ResponseFormat=\"@WebApiReportDataSourceFormats.Json\"\r\n                                DataSelector=\"/products\" />\r\n    </ReportDataSources>\r\n    <ReportPage Name=\"Products\">\r\n        <ReportDetail Name=\"Product row\" Height=\"24\" DataSource=\"Products\">\r\n            <ReportField Field=\"title\" X=\"30\" Y=\"3\" Width=\"240\" Height=\"18\" />\r\n            <ReportField Field=\"price\" X=\"285\" Y=\"3\" Width=\"90\" Height=\"18\" />\r\n        </ReportDetail>\r\n    </ReportPage>\r\n</Report>\r\n\r\n@code {\r\n    private readonly IReadOnlyDictionary<string, string> requestHeaders =\r\n        new Dictionary<string, string>\r\n        {\r\n            [\"Accept\"] = \"application/json\",\r\n        };\r\n}",
+          "title": "Declarative",
+          "description": "Supply the complete endpoint URL, optional request headers, a response format, and the response node that supplies report rows. This example uses the public DummyJSON API."
         },
         {
           "code": "ReportingSqlDataSourceRegistrationExample",

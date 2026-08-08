@@ -52,6 +52,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Reporting\Blazorise.Reporting.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Reporting.DataSources.Csv\Blazorise.Reporting.DataSources.Csv.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Reporting.DataSources.Sql\Blazorise.Reporting.DataSources.Sql.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Reporting.DataSources.WebApi\Blazorise.Reporting.DataSources.WebApi.csproj" />
     <PackageReference Include="MailKit" />
     <PackageReference Include="MimeKit" />
     <PackageReference Include="Blazored.LocalStorage" />

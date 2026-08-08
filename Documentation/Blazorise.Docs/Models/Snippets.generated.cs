@@ -29271,6 +29271,48 @@ public static class ReportingQueries
     }
 }";
 
+        public const string ReportingWebApiDataSourceExample = @"@using Blazorise.Reporting.DataSources.WebApi
+@using System.Collections.Generic
+
+<Report>
+    <ReportDataSources>
+        <ReportWebApiDataSource Name=""Products""
+                                Url=""https://dummyjson.com/products?limit=10&amp;select=id,title,price,category""
+                                Headers=""@requestHeaders""
+                                ResponseFormat=""@WebApiReportDataSourceFormats.Json""
+                                DataSelector=""/products"" />
+    </ReportDataSources>
+    <ReportPage Name=""Products"">
+        <ReportDetail Name=""Product row"" Height=""24"" DataSource=""Products"">
+            <ReportField Field=""title"" X=""30"" Y=""3"" Width=""240"" Height=""18"" />
+            <ReportField Field=""price"" X=""285"" Y=""3"" Width=""90"" Height=""18"" />
+        </ReportDetail>
+    </ReportPage>
+</Report>
+
+@code {
+    private readonly IReadOnlyDictionary<string, string> requestHeaders =
+        new Dictionary<string, string>
+        {
+            [""Accept""] = ""application/json"",
+        };
+}";
+
+        public const string ReportingWebApiDataSourceRegistrationExample = @"using Blazorise.Reporting.DataSources.WebApi;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazoriseReporting()
+    .AddBlazoriseReportingWebApiDataSource( configureOptions: options =>
+    {
+        // Optional: omit this callback to allow any public HTTP or HTTPS URL.
+        options.ResourceAllowed = uri =>
+            uri.Scheme == Uri.UriSchemeHttps
+                && string.Equals( uri.Host, ""dummyjson.com"", StringComparison.OrdinalIgnoreCase );
+        options.MaximumResponseSize = 5 * 1024 * 1024;
+        options.RequestTimeout = TimeSpan.FromSeconds( 30 );
+    } );";
+
         public const string RichTextEditConfigurationExample = @"<RichTextEdit ConfigureQuillJsMethod=""myComponent.configureQuillJs"" />
 
 @* Define this configuration in a javascript file

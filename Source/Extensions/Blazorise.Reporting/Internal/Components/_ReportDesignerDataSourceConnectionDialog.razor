@@ -64,7 +64,7 @@
 </ModalBody>
 <ModalFooter>
     <Div Display="DisplayFlex" Flex="FlexJustifyContentBetweenAlignItemsCenter" Width="WidthIs100">
-        @if ( IsSqlDataSource )
+        @if ( SupportsTestConnection )
         {
             <Button Color="Color.Primary" Outline Clicked="@TestConnection" Disabled="@(!CanConfirm || IsConnecting)" Loading="@IsTestingConnection" Size="Size.Small">@Localize( "Test Connection" )</Button>
         }

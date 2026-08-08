@@ -34,6 +34,7 @@ dotnet pack ../Source/Extensions/Blazorise.QRCode/Blazorise.QRCode.csproj -o . -
 dotnet pack ../Source/Extensions/Blazorise.Reporting/Blazorise.Reporting.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Reporting.DataSources.Csv/Blazorise.Reporting.DataSources.Csv.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Reporting.DataSources.Sql/Blazorise.Reporting.DataSources.Sql.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.Reporting.DataSources.WebApi/Blazorise.Reporting.DataSources.WebApi.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.RichTextEdit/Blazorise.RichTextEdit.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Sidebar/Blazorise.Sidebar.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.SignaturePad/Blazorise.SignaturePad.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg

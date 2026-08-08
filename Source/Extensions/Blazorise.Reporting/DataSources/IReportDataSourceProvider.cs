@@ -28,6 +28,11 @@ public interface IReportDataSourceProvider
     /// </summary>
     Type EditorComponentType { get; }
 
+    /// <summary>
+    /// Indicates whether the designer offers a non-committing connection test for this provider.
+    /// </summary>
+    bool SupportsTestConnection => false;
+
     #endregion
 
     #region Methods

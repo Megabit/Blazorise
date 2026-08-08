@@ -1,13 +1,13 @@
 @page "/docs/extensions/reporting/data-sources"
 
-<Seo Canonical="/docs/extensions/reporting/data-sources" Title="Blazorise Reporting data sources" Description="Bind Blazorise reports to objects, DataSets, DataTables, CSV sources, and server-side SQL sources." />
+<Seo Canonical="/docs/extensions/reporting/data-sources" Title="Blazorise Reporting data sources" Description="Bind Blazorise reports to objects, DataSets, DataTables, CSV sources, Web APIs, and server-side SQL sources." />
 
 <DocsPageTitle Path="Extensions/Reporting/Data Sources" AddedVersion="New">
     Reporting data sources
 </DocsPageTitle>
 
 <DocsPageLead>
-    Reports can bind to object models, DataSets, DataTables, CSV sources, or server-side SQL sources. Object and DataSet sources are built in; CSV and SQL are optional providers with their own registration and security requirements.
+    Reports can bind to object models, DataSets, DataTables, CSV sources, Web APIs, or server-side SQL sources. Object and DataSet sources are built in; CSV, Web API, and SQL are optional providers with their own registration and security requirements.
 </DocsPageLead>
 
 <DocsPageSubtitle>
@@ -72,6 +72,48 @@
         HTTP sources are downloaded by the browser in Blazor WebAssembly and therefore follow browser CORS rules. In server applications they are downloaded by the server, so use <Code>ResourceAllowed</Code> to restrict user-controlled URLs. Server registrations disable and reject redirects by default. If the primary HTTP handler is replaced, keep automatic redirects disabled so an allowed address cannot redirect to a blocked destination.
     </DocsPageSectionHeader>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    REST / Web API data source
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Install the <Code>Blazorise.Reporting.DataSources.WebApi</Code> package and import the <Code>Blazorise.Reporting.DataSources.WebApi</Code> namespace. The provider performs read-only HTTP GET requests and delegates response parsing to registered readers. JSON and XML readers are included, and applications can register additional formats through <Code>IReportWebApiResponseReader</Code>.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Registration">
+        The designer stores the complete absolute HTTP or HTTPS URL, including its path and query, in the report definition. Pre-registering endpoint names is not required. Use the optional <Code>ResourceAllowed</Code> callback when the application wants to restrict authors to particular hosts or paths. When it is omitted, server applications allow any public URL, while WebAssembly allows any otherwise valid URL subject to browser rules.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingWebApiDataSourceRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    Request headers can be entered in the designer as one <Code>Name: Value</Code> pair per line, or supplied through <Code>ReportWebApiDataSource.Headers</Code>. The URL, query, and these headers are serialized with the report and are visible to anyone who can read or edit it, so do not place protected API keys, bearer tokens, or other server secrets there. Add protected credentials in <Code>ConfigureRequestAsync</Code>, where the host can obtain them from server configuration and replace or augment report-defined headers. Because that callback receives the requested URL, add credentials only after matching it to an application-owned allowlist; otherwise an author could send them to another public host.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Response data">
+        Use <Code>auto</Code> to select a reader from the response content type and content, or select a registered format explicitly. The JSON reader accepts an optional RFC 6901 JSON Pointer such as <Code>/items</Code>. The XML reader accepts an XPath element selector such as <Code>/orders/order</Code>. <Code>Connect</Code> infers the selected data schema and closes the dialog only when the request succeeds.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Declarative">
+        Supply the complete endpoint URL, optional request headers, a response format, and the response node that supplies report rows. This example uses the public DummyJSON API.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingWebApiDataSourceExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Security">
+        In Blazor Server and <Code>InteractiveServer</Code>, requests execute on the server. Reporting therefore rejects localhost, loopback, link-local, private, reserved, and other non-public destinations regardless of <Code>ResourceAllowed</Code>. It resolves the host again when opening the connection, connects only to a public address, disables proxies, cookies, and automatic redirects, and limits response size, collection size, nesting depth, and request duration. The optional resource policy narrows this boundary; it cannot grant access to a blocked network.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageParagraph>
+    In standalone Blazor WebAssembly and <Code>InteractiveWebAssembly</Code>, the request executes in the user's browser. Authors may enter any absolute HTTP or HTTPS URL, subject to browser CORS, mixed-content, and authentication rules. A client-side <Code>ResourceAllowed</Code> callback is useful for product behavior but is not an authorization boundary because users control the browser. The target API must authenticate and authorize each request. Browser applications may use the signed-in user's browser-accessible credentials, but must never contain server credentials or client secrets. In every hosting model, treat editable report definitions as untrusted input and expose read-only reporting endpoints.
+</DocsPageParagraph>
 
 <DocsPageSubtitle>
     SQL data source

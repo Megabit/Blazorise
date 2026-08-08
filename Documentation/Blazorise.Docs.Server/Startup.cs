@@ -22,6 +22,7 @@ using Blazorise.Pdf;
 using Blazorise.Reporting;
 using Blazorise.Reporting.DataSources.Csv;
 using Blazorise.Reporting.DataSources.Sql;
+using Blazorise.Reporting.DataSources.WebApi;
 using Blazorise.RichTextEdit;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
@@ -79,6 +80,7 @@ public class Startup
             .AddBlazorisePdfHttpResources()
             .AddBlazoriseReportingCsvDataSource()
             .AddBlazoriseReportingSqlDataSource()
+            .AddBlazoriseReportingWebApiDataSource()
             .AddBlazoriseRouterTabs();
 
         services.Configure<BlogOptions>( Configuration.GetSection( "Blog" ) );
