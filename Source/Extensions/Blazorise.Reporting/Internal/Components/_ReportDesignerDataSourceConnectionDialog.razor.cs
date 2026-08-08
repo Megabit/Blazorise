@@ -16,6 +16,8 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 {
     #region Members
 
+    private const string SqlDataSourceProviderType = "sql";
+
     private readonly List<IReportDataSourceProvider> providers = [];
 
     private readonly List<ReportDataSourceDefinition> dataSources = [];
@@ -28,6 +30,10 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 
     private string name;
 
+    private bool? pendingConnectionCommit;
+
+    private bool? connectionSucceeded;
+
     #endregion
 
     #region Methods
@@ -38,7 +44,7 @@ public partial class _ReportDesignerDataSourceConnectionDialog
         {
             parameters.Add( nameof( Definition ), definition );
             parameters.Add( nameof( ProviderOptions ), providerOptions );
-            parameters.Add( nameof( Confirmed ), Confirmed );
+            parameters.Add( nameof( ConnectRequested ), ConnectRequested );
         } );
     }
 
@@ -49,16 +55,46 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 
     private async Task Confirm()
     {
-        if ( !CanConfirm )
-            return;
+        if ( await RequestConnection( commit: true ) )
+            await CloseReportModal();
+    }
 
+    private async Task TestConnection()
+    {
+        await RequestConnection( commit: false );
+    }
+
+    private async Task<bool> RequestConnection( bool commit )
+    {
+        if ( !CanConfirm || IsConnecting || ConnectRequested is null || ( !commit && !IsSqlDataSource ) )
+            return false;
+
+        ReportDataSourceDefinition dataSource = CreateDataSourceDefinition();
+        connectionSucceeded = null;
+        pendingConnectionCommit = commit;
+        StateHasChanged();
+        await Task.Yield();
+
+        try
+        {
+            connectionSucceeded = await ConnectRequested( dataSource, commit );
+            return connectionSucceeded.Value;
+        }
+        finally
+        {
+            pendingConnectionCommit = null;
+        }
+    }
+
+    private ReportDataSourceDefinition CreateDataSourceDefinition()
+    {
         ReportDataSourceDefinition existingDataSource = FindSelectedDataSource();
         Dictionary<string, object> settings = editorContext?.Settings?.ToDictionary( setting => setting.Key, setting => setting.Value, StringComparer.OrdinalIgnoreCase ) ?? [];
         bool connectionChanged = existingDataSource is null
             || !string.Equals( existingDataSource.ProviderType, selectedProviderType, StringComparison.OrdinalIgnoreCase )
             || !AreSettingsEqual( existingDataSource.Settings, settings );
 
-        ReportDataSourceDefinition dataSource = new()
+        return new()
         {
             Id = existingDataSource?.Id ?? Guid.NewGuid().ToString( "N" ),
             Name = name?.Trim(),
@@ -67,9 +103,6 @@ public partial class _ReportDesignerDataSourceConnectionDialog
             Schema = connectionChanged ? null : existingDataSource?.Schema,
             Settings = settings,
         };
-
-        await Confirmed.InvokeAsync( dataSource );
-        await CloseReportModal();
     }
 
     private void SelectNewDataSource()
@@ -226,6 +259,22 @@ public partial class _ReportDesignerDataSourceConnectionDialog
         && !string.IsNullOrWhiteSpace( name )
         && ( !IsEditingDataSource || FindSelectedDataSource() is not null );
 
+    private bool IsConnecting => pendingConnectionCommit.HasValue;
+
+    private bool IsTestingConnection => pendingConnectionCommit == false;
+
+    private bool IsCommittingConnection => pendingConnectionCommit == true;
+
+    private bool IsSqlDataSource => string.Equals( selectedProviderType, SqlDataSourceProviderType, StringComparison.OrdinalIgnoreCase );
+
+    private bool HasConnectionResult => connectionSucceeded.HasValue;
+
+    private Color ConnectionResultColor => connectionSucceeded == true ? Color.Success : Color.Danger;
+
+    private string ConnectionResultMessage => connectionSucceeded == true
+        ? Localize( "Connection succeeded." )
+        : Localize( "Connection failed." );
+
     private bool IsEditingDataSource => !string.IsNullOrWhiteSpace( selectedDataSourceId );
 
     private string DialogTitle => IsEditingDataSource ? Localize( "Edit data source" ) : Localize( "Connect data source" );
@@ -250,9 +299,9 @@ public partial class _ReportDesignerDataSourceConnectionDialog
     [Parameter] public IEnumerable<IReportDataSourceProvider> ProviderOptions { get; set; }
 
     /// <summary>
-    /// Raised when a data source connection is confirmed.
+    /// Validates a data source connection and optionally commits it to the report definition.
     /// </summary>
-    [Parameter] public EventCallback<ReportDataSourceDefinition> Confirmed { get; set; }
+    [Parameter] public Func<ReportDataSourceDefinition, bool, Task<bool>> ConnectRequested { get; set; }
 
     #endregion
 

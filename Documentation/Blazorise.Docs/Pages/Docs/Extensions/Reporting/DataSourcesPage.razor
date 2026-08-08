@@ -1,13 +1,13 @@
 @page "/docs/extensions/reporting/data-sources"
 
-<Seo Canonical="/docs/extensions/reporting/data-sources" Title="Blazorise Reporting data sources" Description="Bind Blazorise reports to objects, DataSets, DataTables, and CSV sources." />
+<Seo Canonical="/docs/extensions/reporting/data-sources" Title="Blazorise Reporting data sources" Description="Bind Blazorise reports to objects, DataSets, DataTables, CSV sources, and server-side SQL sources." />
 
 <DocsPageTitle Path="Extensions/Reporting/Data Sources" AddedVersion="New">
     Reporting data sources
 </DocsPageTitle>
 
 <DocsPageLead>
-    Reports can bind to an object model, DataSet, DataTable, or CSV source, expose fields in the field explorer, and repeat detail bands from enumerable data paths.
+    Reports can bind to an object model, DataSet, DataTable, CSV source, or server-side SQL source, expose fields in the field explorer, and repeat detail bands from enumerable data paths.
 </DocsPageLead>
 
 <DocsPageSection>
@@ -56,6 +56,52 @@
 
 <DocsPageParagraph>
     HTTP sources are downloaded by the browser in Blazor WebAssembly and therefore follow browser CORS rules. In server applications they are downloaded by the server, so use <Code>ResourceAllowed</Code> to restrict user-controlled URLs. Server registrations disable and reject redirects by default. If the primary HTTP handler is replaced, keep automatic redirects disabled so an allowed address cannot redirect to a blocked destination.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    SQL data source
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Install the <Code>Blazorise.Reporting.DataSources.Sql</Code> package together with the ADO.NET provider for the target database, such as <Code>Microsoft.Data.SqlClient</Code> or <Code>Npgsql</Code>. The SQL extension executes in the process that renders the report and is intended for Blazor Server and <Code>InteractiveServer</Code> components.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Server registration">
+        Register application-owned connection factories and a query authorization policy. The designer lists only these registered connection names, and a report stores the selected logical name while the connection string remains in server configuration. Each factory must return a new connection because Reporting opens and disposes it for each schema or data operation.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingSqlDataSourceRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    Queries are denied when <Code>QueryAllowed</Code> is not configured or returns <Code>false</Code>. For ordinary report authors, use an exact allowlist of application-owned SQL. A check such as <Code>query.StartsWith("SELECT")</Code> is not a security boundary because SQL comments, common table expressions, multiple statements, provider-specific commands, and database functions can still have side effects. An application restricted to trusted SQL authors may deliberately allow every query for a registered connection by returning <Code>true</Code>; this grants those authors the database identity's full effective permissions, so combine it with a dedicated read-only identity and restricted reporting views. <Code>MaximumCommandTimeout</Code> is a server-owned upper bound; a report may request a shorter positive timeout but cannot disable or increase that limit.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Declarative SQL">
+        The connection name and query must pass the server registration policy before Reporting opens a database connection. Use the data source name from report bands and fields.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingSqlDataSourceExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    SQL security model
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    SQL settings are part of the report definition and editable reports must be treated as untrusted input. The policy is evaluated for both schema discovery and preview data loading before a connection is opened. SQL data sources provide a <Code>Test Connection</Code> action that runs server-side schema resolution without changing the report, while <Code>Connect</Code> or <Code>Save changes</Code> closes the dialog and commits the connection only after validation succeeds. A denied or failed designer connection remains open and is not committed, and editing an existing connection preserves its previous settings when validation fails. This fail-closed design prevents a modified or uploaded report definition from selecting an arbitrary connection string or executing an unapproved command. Connection names are also resolved only from the factories registered by the host application.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The allowlist complements database security rather than replacing it. Use a dedicated read-only database identity with access only to reporting views or reporting data, keep dangerous database extensions and operating-system integration disabled, authenticate and authorize access to the report designer, and avoid exposing detailed database errors to the browser. The SQL provider does not add parameters to report queries, so never concatenate user input into the query text.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Blazor WebAssembly
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Do not register a database connection or place a connection string in a standalone Blazor WebAssembly or <Code>InteractiveWebAssembly</Code> client. The SQL registration throws on browser runtimes because the component and its data source providers execute inside the browser in those render modes, where secrets are visible to the user and direct database access is not a secure application boundary. Execute the database query in an authenticated server API, return only the authorized rows, and bind those rows with <Code>ReportObjectDataSource</Code>. A Blazor Web App using <Code>InteractiveServer</Code> follows the server registration shown above because the Report component continues to execute on the server. With <Code>InteractiveAuto</Code>, use the API and object data source approach unless the Report is explicitly kept in a server render mode.
 </DocsPageParagraph>
 
 <DocsPageSection>

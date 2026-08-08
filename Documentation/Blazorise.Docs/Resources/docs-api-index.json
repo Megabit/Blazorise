@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-07T10:05:54.1642750Z",
+  "generatedUtc": "2026-08-08T06:12:42.2832349Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -111322,11 +111322,29 @@
           "type": "Dictionary<string, Func<object>>",
           "typeName": "Dictionary<string, Func<IServiceProvider, DbConnection>>",
           "defaultValue": "new( StringComparer.OrdinalIgnoreCase )",
-          "summary": "Named connection factories that can be referenced by report data source definitions.",
+          "summary": "Named connection factories displayed by the designer and referenced by report data source definitions.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaximumCommandTimeout",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "DefaultMaximumCommandTimeout",
+          "summary": "Maximum command timeout, in seconds, that a report definition may request. Queries without a timeout use this value.",
           "isBlazoriseEnum": false
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "name": "QueryAllowed",
+          "type": "Func<,,>",
+          "typeName": "Func<string, string, bool>",
+          "defaultValue": "null",
+          "summary": "Determines whether a report-supplied query may execute against a named connection. Queries are denied when no policy is configured.",
+          "remarks": "Prefer an exact allowlist of application-owned queries. Do not authorize queries by checking only for a leading SQL keyword.     An application restricted to trusted SQL authors may deliberately allow every query for a registered connection and rely on a dedicated read-only database identity.",
+          "isBlazoriseEnum": false
+        }
+      ],
       "methods": []
     },
     {

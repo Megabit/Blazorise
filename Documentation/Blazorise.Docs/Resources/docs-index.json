@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-07T10:05:54.7599086Z",
+  "generatedUtc": "2026-08-08T06:12:45.4922093Z",
   "pages": [
     {
       "route": "/docs",
@@ -7671,7 +7671,7 @@
     {
       "route": "/docs/extensions/reporting/data-sources",
       "title": "Blazorise Reporting data sources",
-      "description": "Bind Blazorise reports to objects, DataSets, DataTables, and CSV sources.",
+      "description": "Bind Blazorise reports to objects, DataSets, DataTables, CSV sources, and server-side SQL sources.",
       "pagePath": "Pages/Docs/Extensions/Reporting/DataSourcesPage.razor",
       "examples": [
         {
@@ -7705,6 +7705,22 @@
           "content": "@using Blazorise.Reporting.DataSources.Csv\r\n\r\n<Report>\r\n    <ReportDataSources>\r\n        <ReportCsvDataSource Name=\"Products\"\r\n                             Source=\"https://data.example.com/products.csv\"\r\n                             Encoding=\"utf-8\"\r\n                             Delimiter=\",\"\r\n                             HasHeaderRow />\r\n    </ReportDataSources>\r\n    <ReportPage Name=\"Products\">\r\n        <ReportDetail Name=\"Product row\" Height=\"24\" DataSource=\"Products\">\r\n            <ReportField Field=\"Name\" X=\"30\" Y=\"3\" Width=\"240\" Height=\"18\" />\r\n            <ReportField Field=\"Price\" X=\"285\" Y=\"3\" Width=\"90\" Height=\"18\" />\r\n        </ReportDetail>\r\n    </ReportPage>\r\n</Report>",
           "title": "Declarative CSV",
           "description": "Give the source a name and use that name as the data source of a detail band."
+        },
+        {
+          "code": "ReportingSqlDataSourceRegistrationExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingSqlDataSourceRegistrationExample.snippet",
+          "content": "using Blazorise.Reporting.DataSources.Sql;\r\nusing Microsoft.Data.SqlClient;\r\n\r\nHashSet<string> allowedQueries = new( StringComparer.Ordinal )\r\n{\r\n    ReportingQueries.Sales,\r\n};\r\n\r\nbuilder.Services\r\n    .AddBlazorise()\r\n    .AddBlazoriseReporting()\r\n    .AddBlazoriseReportingSqlDataSource( options =>\r\n    {\r\n        options.Connections[\"Reporting\"] = serviceProvider =>\r\n        {\r\n            IConfiguration configuration = serviceProvider.GetRequiredService<IConfiguration>();\r\n            string connectionString = configuration.GetConnectionString( \"Reporting\" )\r\n                ?? throw new InvalidOperationException( \"The Reporting connection string is missing.\" );\r\n\r\n            return new SqlConnection( connectionString );\r\n        };\r\n\r\n        options.QueryAllowed = ( connectionName, query ) =>\r\n            string.Equals( connectionName, \"Reporting\", StringComparison.OrdinalIgnoreCase )\r\n                && allowedQueries.Contains( query );\r\n        options.MaximumCommandTimeout = 30;\r\n    } );\r\n\r\npublic static class ReportingQueries\r\n{\r\n    public const string Sales = \"\"\"\r\n        SELECT OrderNumber, Total\r\n        FROM Reporting.Sales\r\n        ORDER BY OrderNumber\r\n        \"\"\";\r\n}",
+          "title": "Server registration",
+          "description": "Register application-owned connection factories and a query authorization policy. The designer lists only these registered connection names, and a report stores the selected logical name while the connection string remains in server configuration. Each factory must return a new connection because Reporting opens and disposes it for each schema or data operation."
+        },
+        {
+          "code": "ReportingSqlDataSourceExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingSqlDataSourceExample.snippet",
+          "content": "@using Blazorise.Reporting.DataSources.Sql\r\n\r\n<Report>\r\n    <ReportDataSources>\r\n        <ReportSqlDataSource Name=\"Sales\"\r\n                             ConnectionName=\"Reporting\"\r\n                             Query=\"@ReportingQueries.Sales\"\r\n                             CommandTimeout=\"15\" />\r\n    </ReportDataSources>\r\n    <ReportPage Name=\"Sales\">\r\n        <ReportDetail Name=\"Sale\" Height=\"24\" DataSource=\"Sales\">\r\n            <ReportField Field=\"OrderNumber\" X=\"30\" Y=\"3\" Width=\"240\" Height=\"18\" />\r\n            <ReportField Field=\"Total\" X=\"285\" Y=\"3\" Width=\"90\" Height=\"18\" />\r\n        </ReportDetail>\r\n    </ReportPage>\r\n</Report>",
+          "title": "Declarative SQL",
+          "description": "The connection name and query must pass the server registration policy before Reporting opens a database connection. Use the data source name from report bands and fields."
         },
         {
           "code": "ReportingDetailDataSourceExample",

@@ -14,6 +14,9 @@ namespace Blazorise.Reporting.DataSources.Sql;
 /// <summary>
 /// Provides schema discovery and row loading for SQL report data sources.
 /// </summary>
+/// <remarks>
+/// This provider executes database commands directly and is supported only in server applications.
+/// </remarks>
 public sealed class SqlReportDataSourceProvider : IReportDataSourceProvider
 {
     #region Members
@@ -38,8 +41,12 @@ public sealed class SqlReportDataSourceProvider : IReportDataSourceProvider
     /// <param name="options">SQL data source provider options.</param>
     public SqlReportDataSourceProvider( IServiceProvider serviceProvider, SqlReportDataSourceOptions options )
     {
-        this.serviceProvider = serviceProvider;
-        this.options = options;
+        if ( OperatingSystem.IsBrowser() )
+            throw new PlatformNotSupportedException( "The SQL report data source executes database commands directly and is supported only in server applications." );
+
+        this.serviceProvider = serviceProvider ?? throw new ArgumentNullException( nameof( serviceProvider ) );
+        this.options = options ?? throw new ArgumentNullException( nameof( options ) );
+        this.options.Validate();
     }
 
     #endregion
@@ -49,9 +56,14 @@ public sealed class SqlReportDataSourceProvider : IReportDataSourceProvider
     /// <inheritdoc />
     public async Task<ReportDataSourceSchema> GetSchemaAsync( ReportDataSourceDefinition definition, CancellationToken cancellationToken = default )
     {
-        await using DbConnection connection = CreateConnection( definition );
+        string connectionName = GetRequiredSetting( definition, SqlReportDataSourceSettings.ConnectionName );
+        string query = GetRequiredSetting( definition, SqlReportDataSourceSettings.Query );
+
+        EnsureQueryAllowed( connectionName, query );
+
+        await using DbConnection connection = CreateConnection( connectionName );
         await OpenConnection( connection, cancellationToken );
-        await using DbCommand command = CreateCommand( connection, definition );
+        await using DbCommand command = CreateCommand( connection, definition, query );
         await using DbDataReader reader = await command.ExecuteReaderAsync( CommandBehavior.SchemaOnly, cancellationToken );
 
         return CreateSchema( reader );
@@ -60,9 +72,14 @@ public sealed class SqlReportDataSourceProvider : IReportDataSourceProvider
     /// <inheritdoc />
     public async Task<ReportDataSourceResult> LoadDataAsync( ReportDataSourceDefinition definition, ReportDataSourceLoadContext context, CancellationToken cancellationToken = default )
     {
-        await using DbConnection connection = CreateConnection( definition );
+        string connectionName = GetRequiredSetting( definition, SqlReportDataSourceSettings.ConnectionName );
+        string query = GetRequiredSetting( definition, SqlReportDataSourceSettings.Query );
+
+        EnsureQueryAllowed( connectionName, query );
+
+        await using DbConnection connection = CreateConnection( connectionName );
         await OpenConnection( connection, cancellationToken );
-        await using DbCommand command = CreateCommand( connection, definition );
+        await using DbCommand command = CreateCommand( connection, definition, query );
         await using DbDataReader reader = await command.ExecuteReaderAsync( cancellationToken );
 
         ReportDataSourceSchema schema = CreateSchema( reader );
@@ -91,11 +108,15 @@ public sealed class SqlReportDataSourceProvider : IReportDataSourceProvider
         };
     }
 
-    private DbConnection CreateConnection( ReportDataSourceDefinition definition )
+    private void EnsureQueryAllowed( string connectionName, string query )
     {
-        string connectionName = GetRequiredSetting( definition, SqlReportDataSourceSettings.ConnectionName );
+        if ( options.QueryAllowed?.Invoke( connectionName, query ) != true )
+            throw new InvalidOperationException( $"The SQL report data source query is not allowed for connection '{connectionName}'." );
+    }
 
-        if ( options is null || !options.Connections.TryGetValue( connectionName, out Func<IServiceProvider, DbConnection> factory ) )
+    private DbConnection CreateConnection( string connectionName )
+    {
+        if ( !options.Connections.TryGetValue( connectionName, out Func<IServiceProvider, DbConnection> factory ) )
             throw new InvalidOperationException( $"SQL report data source connection '{connectionName}' is not registered." );
 
         DbConnection connection = factory( serviceProvider );
@@ -106,16 +127,23 @@ public sealed class SqlReportDataSourceProvider : IReportDataSourceProvider
         return connection;
     }
 
-    private static DbCommand CreateCommand( DbConnection connection, ReportDataSourceDefinition definition )
+    private DbCommand CreateCommand( DbConnection connection, ReportDataSourceDefinition definition, string query )
     {
-        string query = GetRequiredSetting( definition, SqlReportDataSourceSettings.Query );
+        int commandTimeout = options.MaximumCommandTimeout;
+
+        if ( TryGetIntegerSetting( definition, SqlReportDataSourceSettings.CommandTimeout, out int requestedCommandTimeout ) )
+        {
+            if ( requestedCommandTimeout <= 0 )
+                throw new InvalidOperationException( $"SQL report data source setting '{SqlReportDataSourceSettings.CommandTimeout}' must be greater than zero." );
+
+            commandTimeout = Math.Min( requestedCommandTimeout, options.MaximumCommandTimeout );
+        }
+
         DbCommand command = connection.CreateCommand();
 
         command.CommandText = query;
         command.CommandType = CommandType.Text;
-
-        if ( TryGetIntegerSetting( definition, SqlReportDataSourceSettings.CommandTimeout, out int commandTimeout ) )
-            command.CommandTimeout = commandTimeout;
+        command.CommandTimeout = commandTimeout;
 
         return command;
     }

@@ -3,7 +3,7 @@
 
 <ModalHeader>
     <ModalTitle>@DialogTitle</ModalTitle>
-    <CloseButton Clicked="@Close" />
+    <CloseButton Clicked="@Close" Disabled="@IsConnecting" />
 </ModalHeader>
 <ModalBody>
     <Buttons Margin="MarginIs3FromBottom" Size="Size.Small">
@@ -54,8 +54,23 @@
             }
         </FieldBody>
     </Field>
+
+    @if ( HasConnectionResult )
+    {
+        <Alert Color="@ConnectionResultColor" Visible Margin="MarginIs2FromTop">
+            <AlertDescription>@ConnectionResultMessage</AlertDescription>
+        </Alert>
+    }
 </ModalBody>
 <ModalFooter>
-    <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm)" Size="Size.Small">@ConfirmCaption</Button>
-    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">@Localize( "Cancel" )</Button>
+    <Div Display="DisplayFlex" Flex="FlexJustifyContentBetweenAlignItemsCenter" Width="WidthIs100">
+        @if ( IsSqlDataSource )
+        {
+            <Button Color="Color.Primary" Outline Clicked="@TestConnection" Disabled="@(!CanConfirm || IsConnecting)" Loading="@IsTestingConnection" Size="Size.Small">@Localize( "Test Connection" )</Button>
+        }
+        <Div Display="DisplayFlex" Gap="GapIs2">
+            <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm || IsConnecting)" Loading="@IsCommittingConnection" Size="Size.Small">@ConfirmCaption</Button>
+            <Button Color="Color.Light" Clicked="@Close" Disabled="@IsConnecting" Size="Size.Small">@Localize( "Cancel" )</Button>
+        </Div>
+    </Div>
 </ModalFooter>

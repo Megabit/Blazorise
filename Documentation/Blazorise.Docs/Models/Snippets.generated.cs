@@ -29151,6 +29151,60 @@ builder.Services
     </ReportPage>
 </Report>";
 
+        public const string ReportingSqlDataSourceExample = @"@using Blazorise.Reporting.DataSources.Sql
+
+<Report>
+    <ReportDataSources>
+        <ReportSqlDataSource Name=""Sales""
+                             ConnectionName=""Reporting""
+                             Query=""@ReportingQueries.Sales""
+                             CommandTimeout=""15"" />
+    </ReportDataSources>
+    <ReportPage Name=""Sales"">
+        <ReportDetail Name=""Sale"" Height=""24"" DataSource=""Sales"">
+            <ReportField Field=""OrderNumber"" X=""30"" Y=""3"" Width=""240"" Height=""18"" />
+            <ReportField Field=""Total"" X=""285"" Y=""3"" Width=""90"" Height=""18"" />
+        </ReportDetail>
+    </ReportPage>
+</Report>";
+
+        public const string ReportingSqlDataSourceRegistrationExample = @"using Blazorise.Reporting.DataSources.Sql;
+using Microsoft.Data.SqlClient;
+
+HashSet<string> allowedQueries = new( StringComparer.Ordinal )
+{
+    ReportingQueries.Sales,
+};
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazoriseReporting()
+    .AddBlazoriseReportingSqlDataSource( options =>
+    {
+        options.Connections[""Reporting""] = serviceProvider =>
+        {
+            IConfiguration configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            string connectionString = configuration.GetConnectionString( ""Reporting"" )
+                ?? throw new InvalidOperationException( ""The Reporting connection string is missing."" );
+
+            return new SqlConnection( connectionString );
+        };
+
+        options.QueryAllowed = ( connectionName, query ) =>
+            string.Equals( connectionName, ""Reporting"", StringComparison.OrdinalIgnoreCase )
+                && allowedQueries.Contains( query );
+        options.MaximumCommandTimeout = 30;
+    } );
+
+public static class ReportingQueries
+{
+    public const string Sales = """"""
+        SELECT OrderNumber, Total
+        FROM Reporting.Sales
+        ORDER BY OrderNumber
+        """""";
+}";
+
         public const string ReportingStateExample = @"<Report Data=""@invoice""
         @bind-Definition=""@definition""
         SaveRequested=""@SaveReport""

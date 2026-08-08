@@ -1,0 +1,40 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+using Blazorise.Reporting.DataSources.Sql;
+using Microsoft.Data.SqlClient;
+
+HashSet<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">string</span><span class="htmlTagDelimiter">&gt;</span> allowedQueries = new( StringComparer.Ordinal )
+{
+    ReportingQueries.Sales,
+};
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazoriseReporting()
+    .AddBlazoriseReportingSqlDataSource( options =&gt;
+    {
+        options.Connections[&quot;Reporting&quot;] = serviceProvider =&gt;
+        {
+            IConfiguration configuration = serviceProvider.GetRequiredService<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">IConfiguration</span><span class="htmlTagDelimiter">&gt;</span>();
+            string connectionString = configuration.GetConnectionString( &quot;Reporting&quot; )
+                ?? throw new InvalidOperationException( &quot;The Reporting connection string is missing.&quot; );
+
+            return new SqlConnection( connectionString );
+        };
+
+        options.QueryAllowed = ( connectionName, query ) =&gt;
+            string.Equals( connectionName, &quot;Reporting&quot;, StringComparison.OrdinalIgnoreCase )
+                &amp;&amp; allowedQueries.Contains( query );
+        options.MaximumCommandTimeout = 30;
+    } );
+
+public static class ReportingQueries
+{
+    public const string Sales = &quot;&quot;&quot;
+        SELECT OrderNumber, Total
+        FROM Reporting.Sales
+        ORDER BY OrderNumber
+        &quot;&quot;&quot;;
+}
+</pre></div>
+</div>

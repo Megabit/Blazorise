@@ -1,0 +1,16 @@
+@using Blazorise.Reporting.DataSources.Sql
+
+<Report>
+    <ReportDataSources>
+        <ReportSqlDataSource Name="Sales"
+                             ConnectionName="Reporting"
+                             Query="@ReportingQueries.Sales"
+                             CommandTimeout="15" />
+    </ReportDataSources>
+    <ReportPage Name="Sales">
+        <ReportDetail Name="Sale" Height="24" DataSource="Sales">
+            <ReportField Field="OrderNumber" X="30" Y="3" Width="240" Height="18" />
+            <ReportField Field="Total" X="285" Y="3" Width="90" Height="18" />
+        </ReportDetail>
+    </ReportPage>
+</Report>
