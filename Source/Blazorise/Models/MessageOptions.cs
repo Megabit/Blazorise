@@ -23,9 +23,9 @@ public class MessageOptions
     /// If true, the message dialogue will show the large icon for the current message type.
     /// </summary>
     public bool ShowMessageIcon { get; set; }
-        
+
     /// <summary>
-    /// Overrides the build-in message alignment. If not defined, the default alignment will be used.
+    /// Defines the message text alignment. The message service defaults to <see cref="TextAlignment.Center"/>.
     /// </summary>
     public TextAlignment MessageAlignment { get; set; }
 
