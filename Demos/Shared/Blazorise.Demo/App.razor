@@ -28,6 +28,7 @@
         typeof( Blazorise.Demo.Components.DemoComponentsAssemblyMarker ).Assembly,
         typeof( Blazorise.Demo.DataGrid.DemoDataGridAssemblyMarker ).Assembly,
         typeof( Blazorise.Demo.Extensions.DemoExtensionsAssemblyMarker ).Assembly,
+        typeof( Blazorise.Demo.Reporting.DemoReportingAssemblyMarker ).Assembly,
     ];
 
     private Theme theme = new()
@@ -35,7 +36,8 @@
         Enabled = false,
         BarOptions = new()
         {
-            HorizontalHeight = "72px"
+            HorizontalHeight = "72px",
+            VerticalWidth = "270px",
         },
         BreakpointOptions = new()
         {
@@ -82,7 +84,7 @@
         {
             CheckColor = "#6200ea",
             SliderColor = "#6200ea",
-        },        
+        },
         //CardOptions = new ThemeCardOptions { },
         //ModalOptions = new ThemeModalOptions { },
         //TabsOptions = new ThemeTabsOptions { },

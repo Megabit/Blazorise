@@ -4,6 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Blazorise.FluentValidation;
 
+/// <summary>
+/// Registers FluentValidation integration with Blazorise validation components.
+/// </summary>
 public static class Config
 {
     /// <summary>

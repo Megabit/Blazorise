@@ -1,5 +1,7 @@
 #region Using directives
 using System;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -10,17 +12,71 @@ namespace Blazorise.Charts.Svg;
 /// </summary>
 public class SvgChartTooltip : SvgChartComponentBase
 {
+    #region Members
+
+    private ComponentParameterInfo<bool> paramEnabled;
+
+    private ComponentParameterInfo<SvgChartInteractionMode> paramInteractionMode;
+
+    private ComponentParameterInfo<Func<SvgChartTooltipContext, string>> paramFormatter;
+
+    private ComponentParameterInfo<RenderFragment<SvgChartTooltipContext>> paramTemplate;
+
+    private ComponentParameterInfo<double> paramWidth;
+
+    private ComponentParameterInfo<double> paramHeight;
+
+    private ComponentParameterInfo<double> paramOffsetX;
+
+    private ComponentParameterInfo<double> paramOffsetY;
+
+    #endregion
+
     #region Methods
 
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Enabled, out paramEnabled );
+        parameters.TryGetParameter( InteractionMode, out paramInteractionMode );
+        parameters.TryGetParameter( Formatter, out paramFormatter );
+        parameters.TryGetParameter( Template, out paramTemplate );
+        parameters.TryGetParameter( Width, out paramWidth );
+        parameters.TryGetParameter( Height, out paramHeight );
+        parameters.TryGetParameter( OffsetX, out paramOffsetX );
+        parameters.TryGetParameter( OffsetY, out paramOffsetY );
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    /// <inheritdoc />
     protected override void Register()
     {
         Parent?.RegisterTooltip( this );
         SetRegisteredParent();
     }
 
+    /// <inheritdoc />
     protected override void Unregister()
     {
         RegisteredParent?.UnregisterTooltip( this );
+    }
+
+    internal SvgChartTooltipOptions ResolveOptions( SvgChartTooltipOptions fallback )
+    {
+        fallback ??= new();
+
+        return new()
+        {
+            Enabled = paramEnabled.GetValueOrDefault( fallback.Enabled ),
+            InteractionMode = paramInteractionMode.GetValueOrDefault( fallback.InteractionMode ),
+            Formatter = paramFormatter.GetValueOrDefault( fallback.Formatter ),
+            Template = paramTemplate.GetValueOrDefault( fallback.Template ),
+            Width = paramWidth.GetValueOrDefault( fallback.Width ),
+            Height = paramHeight.GetValueOrDefault( fallback.Height ),
+            OffsetX = paramOffsetX.GetValueOrDefault( fallback.OffsetX ),
+            OffsetY = paramOffsetY.GetValueOrDefault( fallback.OffsetY )
+        };
     }
 
     #endregion

@@ -1,0 +1,149 @@
+@page "/docs/extensions/pdf"
+@page "/docs/extensions/pdf/getting-started"
+
+<Seo Canonical="/docs/extensions/pdf" Title="Blazorise PDF" Description="Build PDF documents declaratively with Razor components or imperatively with the Blazorise PDF builder API." />
+
+<DocsPageTitle Path="Extensions/PDF" AddedVersion="New">
+    Blazorise PDF
+</DocsPageTitle>
+
+<DocsPageLead>
+    Build PDF document definitions from Razor components or from C# builder code, then generate a PDF file through the PDF generator service.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Install the <Code>Blazorise.Pdf</Code> package and register the PDF generator services in your application startup.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PdfNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PdfImportsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Services">
+        Register the PDF generator once with your Blazorise services.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PdfServiceRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Images and fonts
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    A PDF can use images and custom fonts that are already available to the application without any additional setup. For an image, set <Code>PdfImage.Source</Code> to a base64 data URL, such as <Code>data:image/png;base64,...</Code>. For a custom font, provide its contents through <Code>FontSource.Data</Code>, or use <Code>FontSource.FileName</Code> when the application can read the font from the local file system. Images can be JPEG or 8-bit, non-interlaced PNG files. Transparent PNGs remain transparent in the generated PDF.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    URL loading is included in <Code>Blazorise.Pdf</Code> but is not enabled automatically. Enable it when an image or font is available through a URL instead of embedded data or a local file.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="WebAssembly">
+        Register HTTP resources in the client project. Downloads are made by the user's browser. Configuring the application base address allows relative URLs, such as <Code>images/logo.png</Code>, to resolve against the application URL.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PdfHttpWebAssemblyRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    When a resource is hosted on another domain, that server must allow requests from the application through CORS. Otherwise, the browser blocks the download before the PDF generator can use it.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Server">
+        Register HTTP resources in the server project. Downloads are made by the server, so applications that accept report URLs from users should limit which hosts are allowed and how large each resource can be.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PdfHttpResourceRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    The registration callback provides <Code>IHttpClientBuilder</Code> for configuring authentication, proxies, retry policies, and other HTTP behavior. Each resource is limited to 20 MB by default; change <Code>MaxResourceSize</Code> when a different limit is appropriate. Use <Code>ResourceAllowed</Code> to reject a URL before it is requested. Server registrations disable redirects by default. If you replace the primary HTTP handler, keep automatic redirects disabled so an allowed address cannot redirect to a blocked host. For user-controlled URLs, prefer an allow-list and reject loopback or private-network destinations.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    A Blazor Web App may generate a PDF on the server during prerendering and in the browser after WebAssembly becomes interactive. If generation can run in both places, register the HTTP integration in both the server and client projects, using the appropriate HTTP configuration for each host. A failed download, invalid resource, unsupported file format, or rejected URL stops generation and reports the reason.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Images and fonts from URLs">
+        After enabling URL loading, use an HTTP or HTTPS URL in <Code>PdfImage.Source</Code> or <Code>FontSource.Url</Code>. Each resource is downloaded once and reused if it appears more than once in the same PDF.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PdfHttpResourcesExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    To load resources from another source, such as an embedded application asset or a storage SDK, implement <Code>IPdfResourceResolver</Code> and register it before <Code>AddBlazorisePdf</Code>. The resolver supplies the file contents; the PDF renderer still validates and embeds the image or font.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Declarative document">
+        Use Razor components when a document template should be authored close to the UI layer.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PdfDeclarativeInvoiceExample" Outlined FullWidth>
+        <PdfDeclarativeInvoiceExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imperative builder">
+        Use the builder API when a document is produced from an engine, service, or another component such as Reporting.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PdfBuilderInvoiceExample" Outlined FullWidth>
+        <PdfBuilderInvoiceExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="File generation">
+        Inject <Code>IPdfGenerator</Code>, receive progress callbacks while the document is generated, and use the resulting PDF bytes.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PdfGenerateFileExample" Outlined FullWidth>
+        <PdfGenerateFileExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Definition validation
+</Heading>
+
+<DocsPageParagraph>
+    PDF generation validates and normalizes a working copy, so the supplied document and generation options are not changed. Recoverable invalid values use safe defaults or are omitted. Inspect <Code>PdfGenerationResult.Diagnostics</Code> to see what was normalized during in-memory generation.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Large documents and cancellation
+</Heading>
+
+<DocsPageParagraph>
+    Calling <Code>GenerateAsync(document)</Code> returns the completed PDF as a byte array. When the PDF should go directly to a file, response body, or another writable stream, call <Code>GenerateToStreamAsync(document, stream)</Code> instead. The stream method avoids creating an additional byte array for the completed document and leaves the supplied stream open.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The built-in renderer still keeps the PDF object definitions, rendered page content, and resolved images and fonts in memory until generation finishes. It is intended for previews and bounded small-to-medium documents, not unbounded document workloads. Use the limits on <Code>PdfGenerationOptions</Code> to control accepted document and resource sizes. Applications that require constant-memory generation can provide a custom <Code>IPdfRenderProvider</Code>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Pass a cancellation token to stop validation, resource loading and decoding, font parsing, page rendering, or output writing. If cancellation occurs while writing to a stream, discard or reset that stream because it can contain an incomplete PDF.
+</DocsPageParagraph>

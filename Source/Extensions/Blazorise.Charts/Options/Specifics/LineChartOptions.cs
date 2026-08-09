@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Configures line chart behavior.
+/// </summary>
 public class LineChartOptions : ChartOptions
 {
     /// <summary>

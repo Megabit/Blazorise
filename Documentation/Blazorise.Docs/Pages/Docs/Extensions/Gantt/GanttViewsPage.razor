@@ -1,0 +1,37 @@
+@page "/docs/extensions/gantt/views"
+
+<Seo Canonical="/docs/extensions/gantt/views" Title="Blazorise Gantt Views" Description="Learn how to configure day, week, month, and year views in Blazorise Gantt." />
+
+<DocsPageTitle Path="Extensions/Gantt">
+    Blazorise Gantt: Views
+</DocsPageTitle>
+
+<DocsPageLead>
+    Configure the timeline scale and density users need for planning.
+</DocsPageLead>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Multiple Views">
+        Configure all timeline views in one Gantt instance, customize leading and trailing slots per view, and override week start day when needed.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="GanttMultipleViewsExample" Outlined FullWidth>
+        <GanttMultipleViewsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Year View with Weekly Columns">
+        Use <Code>TimelineScale="GanttYearViewTimelineScale.Week"</Code> on <Code>GanttYearView</Code> when planning is organized by weeks but users still need a full-year timeline.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="GanttWeeklyYearViewExample" Outlined FullWidth>
+        <GanttWeeklyYearViewExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/gantt/api" Name="<GanttViews />" />
+    <DocsPageApiItem Url="docs/extensions/gantt/api" Name="<GanttDayView />" />
+    <DocsPageApiItem Url="docs/extensions/gantt/api" Name="<GanttWeekView />" />
+    <DocsPageApiItem Url="docs/extensions/gantt/api" Name="<GanttMonthView />" />
+    <DocsPageApiItem Url="docs/extensions/gantt/api" Name="<GanttYearView />" />
+</DocsPageApi>

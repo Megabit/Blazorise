@@ -43,6 +43,22 @@
     "PM": "ПП",
     "RangeSeparator": " — ",
     "Today": "Сегодня",
-    "Clear": "Очистить"
+    "ThisMonth": "Этот месяц",
+    "ThisWeek": "Эта неделя",
+    "Clear": "Очистить",
+    "Month": "Месяц",
+    "Year": "Год",
+    "Week": "Нед.",
+    "Time": "Время",
+    "Hour": "Час",
+    "Minute": "Минута",
+    "PreviousMonth": "Предыдущий месяц",
+    "NextMonth": "Следующий месяц",
+    "PreviousYear": "Предыдущий год",
+    "NextYear": "Следующий год",
+    "PreviousDecade": "Предыдущее десятилетие",
+    "NextDecade": "Следующее десятилетие",
+    "PreviousCentury": "Предыдущий век",
+    "NextCentury": "Следующий век"
   }
 }

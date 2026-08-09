@@ -150,7 +150,8 @@
         > .ant-input-group-addon + .ant-input,
         > .ant-input-group-addon + textarea.ant-input,
         > .ant-input-group-addon + .ant-picker,
-        > .ant-input-group-addon + .ant-input-number {
+        > .ant-input-group-addon + .ant-input-number,
+        > .ant-input-group-addon + .b-input-color-picker.ant-color-picker-trigger {
             border-inline-start: 0;
         }
 
@@ -173,7 +174,9 @@
         > .ant-input-number + .ant-input,
         > .ant-input-number + textarea.ant-input,
         > .ant-input-number + .ant-picker,
-        > .ant-input-number + .ant-input-number {
+        > .ant-input-number + .ant-input-number,
+        > :is( .ant-input, textarea.ant-input, .ant-picker, .ant-input-number, .b-ant-select-root, .b-input-color-picker.ant-color-picker-trigger ) + .b-input-color-picker.ant-color-picker-trigger,
+        > .b-input-color-picker.ant-color-picker-trigger + :is( .ant-input, textarea.ant-input, .ant-picker, .ant-input-number, .b-input-color-picker.ant-color-picker-trigger ) {
             border-inline-start: 0;
         }
 
@@ -185,7 +188,8 @@
         > .b-ant-select-root + textarea.ant-input,
         > .b-ant-select-root + .ant-picker,
         > .b-ant-select-root + .ant-input-number,
-        > .b-ant-select-root + .b-ant-select-root .ant-select-selector {
+        > .b-ant-select-root + .b-ant-select-root .ant-select-selector,
+        > .b-input-color-picker.ant-color-picker-trigger + .b-ant-select-root .ant-select-selector {
             border-inline-start: 0;
         }
 
@@ -193,7 +197,8 @@
         > textarea.ant-input + .ant-input-group-addon,
         > .b-ant-select-root + .ant-input-group-addon,
         > .ant-picker + .ant-input-group-addon,
-        > .ant-input-number + .ant-input-group-addon {
+        > .ant-input-number + .ant-input-group-addon,
+        > .b-input-color-picker.ant-color-picker-trigger + .ant-input-group-addon {
             border-inline-start: 0;
         }
 
@@ -202,7 +207,8 @@
         > .ant-picker:not(:first-child).ant-picker-focused,
         > .ant-picker:not(:first-child):focus-within,
         > .ant-input-number:not(:first-child).ant-input-number-focused,
-        > .ant-input-number:not(:first-child):focus-within {
+        > .ant-input-number:not(:first-child):focus-within,
+        > .b-input-color-picker.ant-color-picker-trigger:not(:first-child):focus-within {
             z-index: 2;
         }
 
@@ -244,7 +250,8 @@
         > .ant-input:not(:first-child),
         > textarea.ant-input:not(:first-child),
         > .ant-picker:not(:first-child),
-        > .ant-input-number:not(:first-child) {
+        > .ant-input-number:not(:first-child),
+        > .b-input-color-picker.ant-color-picker-trigger:not(:first-child) {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
@@ -252,7 +259,8 @@
         > .ant-input:not(:last-child),
         > textarea.ant-input:not(:last-child),
         > .ant-picker:not(:last-child),
-        > .ant-input-number:not(:last-child) {
+        > .ant-input-number:not(:last-child),
+        > .b-input-color-picker.ant-color-picker-trigger:not(:last-child) {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
         }

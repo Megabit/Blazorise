@@ -1,0 +1,8 @@
+@namespace Blazorise.Reporting
+
+@if ( cellContext is not null )
+{
+    <CascadingValue Value="@cellContext" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
+}

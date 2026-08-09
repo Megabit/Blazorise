@@ -13,6 +13,9 @@ public class SvgPieChart<TItem> : SvgChart<TItem>
 {
     #region Constructors
 
+    /// <summary>
+    /// Creates a circular chart divided into proportional sectors.
+    /// </summary>
     public SvgPieChart()
     {
         Type = SvgChartType.Pie;

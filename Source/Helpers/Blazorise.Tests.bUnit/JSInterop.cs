@@ -1,5 +1,7 @@
 #region Using directives
+using System.Collections.Generic;
 using Blazorise.Charts;
+using Blazorise.CodeEditor;
 using Blazorise.DataGrid;
 using Blazorise.Markdown;
 using Blazorise.Gantt;
@@ -14,6 +16,33 @@ namespace Blazorise.Tests.bUnit;
 
 public static class JSInterop
 {
+    public static BunitJSInterop AddBlazoriseCodeEditor( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseUtilities( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSCodeEditorModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
+        module.SetupVoid( "setDiagnostics", _ => true ).SetVoidResult();
+        module.Setup<IReadOnlyList<CodeEditorDiagnostic>>( "getDiagnostics", _ => true ).SetResult( System.Array.Empty<CodeEditorDiagnostic>() );
+        module.SetupVoid( "setLanguages", _ => true ).SetVoidResult();
+        module.SetupVoid( "setCompletionProvider", _ => true ).SetVoidResult();
+        module.SetupVoid( "setFormattingProvider", _ => true ).SetVoidResult();
+        module.SetupVoid( "setValue", _ => true ).SetVoidResult();
+        module.Setup<string>( "getValue", _ => true ).SetResult( string.Empty );
+        module.SetupVoid( "focus", _ => true ).SetVoidResult();
+        module.SetupVoid( "layout", _ => true ).SetVoidResult();
+        module.Setup<bool>( "formatDocument", _ => true ).SetResult( true );
+        module.SetupVoid( "revealLine", _ => true ).SetVoidResult();
+        module.SetupVoid( "setLanguage", _ => true ).SetVoidResult();
+        module.SetupVoid( "setTheme", _ => true ).SetVoidResult();
+        module.SetupVoid( "setSelection", _ => true ).SetVoidResult();
+        module.Setup<CodeEditorSelection>( "getSelection", _ => true ).SetResult( null );
+
+        return jsInterop;
+    }
+
     public static BunitJSInterop AddBlazoriseButton( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );
@@ -83,6 +112,7 @@ public static class JSInterop
     public static BunitJSInterop AddBlazoriseDatePicker( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );
+        AddBlazoriseDocumentObserver( jsInterop );
 
         var module = jsInterop.SetupModule( new JSDatePickerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
@@ -100,9 +130,20 @@ public static class JSInterop
         return jsInterop;
     }
 
+    public static BunitJSInterop AddBlazoriseInputMask( this BunitJSInterop jsInterop )
+    {
+        var module = jsInterop.SetupModule( new JSInputMaskModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "extendAliases", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
     public static BunitJSInterop AddBlazoriseTimePicker( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );
+        AddBlazoriseDocumentObserver( jsInterop );
 
         var module = jsInterop.SetupModule( new JSTimePickerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
@@ -221,17 +262,19 @@ public static class JSInterop
         return jsInterop;
     }
 
-    public static BunitJSInterop AddBlazoriseUtilities( this BunitJSInterop jsInterop )
+    public static BunitJSInterop AddBlazoriseUtilities( this BunitJSInterop jsInterop, string userAgent = null, bool mobileDevice = false )
     {
         var module = jsInterop.SetupModule( new JSUtilitiesModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "setProperty", _ => true ).SetVoidResult();
-        module.Setup<string>( "getUserAgent", _ => true ).SetResult( String.Empty );
+        module.Setup<string>( "getUserAgent", _ => true ).SetResult( userAgent ?? String.Empty );
+        module.Setup<bool>( "isMobileDevice", _ => true ).SetResult( mobileDevice );
         module.SetupVoid( "scrollElementIntoView", _ => true ).SetVoidResult();
         module.SetupVoid( "scrollElementIntoViewForOnScreenKeyboard", _ => true ).SetVoidResult();
         module.SetupVoid( "clearOnScreenKeyboardScrollAdjustment", _ => true ).SetVoidResult();
         module.SetupVoid( "focus", _ => true ).SetVoidResult();
         module.SetupVoid( "select", _ => true ).SetVoidResult();
+        module.SetupVoid( "showPicker", _ => true ).SetVoidResult();
         module.SetupVoid( "submitClosestForm", _ => true ).SetVoidResult();
         module.Setup<bool>( "dispatchKeyboardEvent", _ => true ).SetResult( true );
         module.SetupVoid( "setCaret", _ => true ).SetVoidResult();
@@ -248,6 +291,32 @@ public static class JSInterop
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
+    public static BunitJSInterop AddBlazoriseResizer( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseUtilities( jsInterop );
+        AddBlazoriseDocumentObserver( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSResizerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "import", _ => true ).SetVoidResult();
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
+    public static BunitJSInterop AddBlazoriseDocumentObserver( this BunitJSInterop jsInterop )
+    {
+        var module = jsInterop.SetupModule( new JSDocumentObserverModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "addSubscription", _ => true ).SetVoidResult();
+        module.SetupVoid( "removeSubscription", _ => true ).SetVoidResult();
+        module.SetupVoid( "capturePointer", _ => true ).SetVoidResult();
+        module.SetupVoid( "releasePointer", _ => true ).SetVoidResult();
 
         return jsInterop;
     }

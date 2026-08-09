@@ -97,6 +97,44 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
+    public override string DatePickerContainer( bool inline, bool open ) => $"fui-DatePicker__container{( inline ? " fui-DatePicker__container-inline" : null )}{( open ? " fui-DatePicker__container-open" : null )}";
+
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"fui-DatePicker__calendar{( inline ? " fui-DatePicker__calendar-inline" : null )}{( staticPicker ? " fui-DatePicker__calendar-static" : " fui-DatePicker__calendar-floating" )}";
+
+    public override string DatePickerCalendarBackdrop() => "fui-DatePicker__backdrop";
+
+    public override string DatePickerCalendarHeader() => "fui-DatePicker__header";
+
+    public override string DatePickerCalendarNavigation() => "fui-DatePicker__navigation";
+
+    public override string DatePickerCalendarTitle() => "fui-DatePicker__title";
+
+    public override string DatePickerCalendarGrid() => "fui-DatePicker__grid";
+
+    public override string DatePickerCalendarWeekdays() => "fui-DatePicker__weekdays";
+
+    public override string DatePickerCalendarWeekday() => "fui-DatePicker__weekday";
+
+    public override string DatePickerCalendarWeek() => "fui-DatePicker__week";
+
+    public override string DatePickerCalendarWeekNumber() => "fui-DatePicker__weekNumber";
+
+    public override string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused )
+        => $"fui-DatePicker__day{( outside ? " fui-DatePicker__day-outside" : null )}{( today ? " fui-DatePicker__day-today" : null )}{( selected ? " fui-DatePicker__day-selected" : null )}{( rangeStart ? " fui-DatePicker__day-rangeStart" : null )}{( inRange ? " fui-DatePicker__day-inRange" : null )}{( rangeEnd ? " fui-DatePicker__day-rangeEnd" : null )}{( disabled ? " fui-DatePicker__day-disabled" : null )}{( focused ? " fui-DatePicker__day-focused" : null )}";
+
+    public override string DatePickerCalendarMonths() => "fui-DatePicker__months";
+
+    public override string DatePickerCalendarMonth( bool selected, bool disabled, bool focused )
+        => $"fui-DatePicker__month{( selected ? " fui-DatePicker__month-selected" : null )}{( disabled ? " fui-DatePicker__month-disabled" : null )}{( focused ? " fui-DatePicker__month-focused" : null )}";
+
+    public override string DatePickerCalendarTime() => "fui-DatePicker__time";
+
+    public override string DatePickerCalendarTimeInput() => "fui-DatePicker__timeInput";
+
+    public override string DatePickerCalendarActions() => "fui-DatePicker__actions";
+
+    public override string DatePickerCalendarButton() => "fui-DatePicker__button";
+
     #endregion
 
     #region TimePicker
@@ -108,6 +146,25 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
+
+    public override string TimePickerContainer( bool inline, bool open )
+        => $"fui-TimePicker-container{( inline ? " fui-TimePicker-container--inline" : null )}{( open ? " fui-TimePicker-container--open" : null )}";
+
+    public override string TimePickerMenu( bool inline, bool staticPicker )
+        => $"fui-TimePicker__menu{( inline ? " fui-TimePicker__menu--inline" : null )}{( staticPicker ? " fui-TimePicker__menu--static" : " fui-TimePicker__menu--floating" )}";
+
+    public override string TimePickerBackdrop() => "fui-TimePicker__backdrop";
+
+    public override string TimePickerControls() => "fui-TimePicker__controls";
+
+    public override string TimePickerControl( bool focused ) => $"fui-TimePicker__control{( focused ? " fui-TimePicker__control--focused" : null )}";
+
+    public override string TimePickerInput() => "fui-TimePicker__input";
+
+    public override string TimePickerSeparator() => "fui-TimePicker__separator";
+
+    public override string TimePickerMeridiem( bool postMeridiem, bool focused )
+        => $"fui-TimePicker__meridiem{( postMeridiem ? " fui-TimePicker__meridiem--pm" : null )}{( focused ? " fui-TimePicker__control--focused" : null )}";
 
     #endregion
 
@@ -246,6 +303,26 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string RangeSliderTooltip() => "fui-RangeSlider__tooltip";
 
     public override string RangeSliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
+
+    #endregion
+
+    #region Resizer
+
+    public override string Resizer() => "fui-Resizer";
+
+    public override string ResizerOrientation( Orientation orientation ) => $"fui-Resizer-{orientation.ToString().ToLowerInvariant()}";
+
+    public override string ResizerPlacement( Placement placement ) => $"fui-Resizer-{placement.ToString().ToLowerInvariant()}";
+
+    public override string ResizerGutter( bool showGutter ) => showGutter ? "fui-Resizer-gutter" : null;
+
+    public override string ResizerDisabled( bool disabled ) => disabled ? "fui-Resizer-disabled" : null;
+
+    public override string ResizerFocused( bool focused ) => focused ? "fui-Resizer-focused" : null;
+
+    public override string ResizerResizing( bool resizing ) => resizing ? "fui-Resizer-resizing" : null;
+
+    public override string ResizerTargetResizing( bool resizing ) => resizing ? "fui-Resizer-target-resizing" : null;
 
     #endregion
 
@@ -432,7 +509,7 @@ public class FluentUI2ClassProvider : ClassProvider
         {
             AddonType.Start => "fui-Input__contentBefore",
             AddonType.End => "fui-Input__contentAfter",
-            _ => null,
+            _ => "fui-Input__content",
         };
     }
 
@@ -559,6 +636,90 @@ public class FluentUI2ClassProvider : ClassProvider
         Direction.Start => "fui-Menu-start",
         _ => "fui-Menu-down",
     };
+
+    public override string ContextMenu() => "fui-ContextMenu";
+
+    public override string ContextMenuToggle() => "fui-ContextMenuToggle";
+
+    public override string ContextMenuBody() => $"{DropdownMenu()} fui-ContextMenuPopover";
+
+    public override string ContextMenuBodyVisible( bool visible ) => DropdownMenuVisible( visible );
+
+    public override string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => DropdownMenuPositionStrategy( dropdownPositionStrategy );
+
+    public override string ContextMenuItem() => $"{DropdownItem()} fui-ContextMenuItem";
+
+    public override string ContextMenuItemActive( bool active ) => DropdownItemActive( active );
+
+    public override string ContextMenuItemDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuItemContent() => "fui-ContextMenuItemContent";
+
+    public override string ContextMenuItemCheck() => "fui-ContextMenuItemCheck";
+
+    public override string ContextMenuItemShortcut() => "fui-ContextMenuItemShortcut";
+
+    public override string ContextMenuDivider() => $"{DropdownDivider()} fui-ContextMenuDivider";
+
+    public override string ContextMenuHeader() => $"{DropdownHeader()} fui-ContextMenuHeader";
+
+    public override string ContextMenuGroup() => "fui-ContextMenuGroup";
+
+    public override string ContextMenuToolbar() => "fui-ContextMenuToolbar";
+
+    public override string ContextMenuToolbarItem() => "fui-ContextMenuToolbarItem";
+
+    public override string ContextMenuToolbarItemActive( bool active ) => active ? "fui-ContextMenuToolbarItem-active" : null;
+
+    public override string ContextMenuToolbarItemDisabled( bool disabled ) => disabled ? "fui-ContextMenuToolbarItem-disabled" : null;
+
+    public override string ContextMenuToolbarItemEndAligned( bool endAligned ) => endAligned ? "fui-ContextMenuToolbarItem-endAligned" : null;
+
+    public override string ContextMenuSubmenu() => "fui-ContextMenuSubmenu";
+
+    public override string ContextMenuSubmenuTrigger() => "fui-ContextMenuSubmenuTrigger";
+
+    public override string ContextMenuSubmenuTriggerDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuSubmenuBody() => "fui-ContextMenuSubmenuPopover";
+
+    #endregion
+
+    #region PropertyGrid
+
+    public override string PropertyGrid() => "fui-PropertyGrid";
+
+    public override string PropertyGridViewport() => "fui-PropertyGrid__viewport";
+
+    public override string PropertyGridToolbar() => "fui-PropertyGrid__toolbar";
+
+    public override string PropertyGridToolbarButton() => "fui-PropertyGrid__toolbarButton";
+
+    public override string PropertyGridToolbarSearch() => "fui-PropertyGrid__toolbarSearch";
+
+    public override string PropertyGridEmpty() => "fui-PropertyGrid__empty";
+
+    public override string PropertyGridHelp() => "fui-PropertyGrid__help";
+
+    public override string PropertyGridHelpTitle() => "fui-PropertyGrid__helpTitle";
+
+    public override string PropertyGridHelpDescription() => "fui-PropertyGrid__helpDescription";
+
+    public override string PropertyGridGroup() => "fui-PropertyGridGroup";
+
+    public override string PropertyGridGroupHeader() => "fui-PropertyGridGroup__header";
+
+    public override string PropertyGridGroupToggle() => "fui-PropertyGridGroup__toggle";
+
+    public override string PropertyGridGroupBody() => "fui-PropertyGridGroup__body";
+
+    public override string PropertyGridItem() => "fui-PropertyGridItem";
+
+    public override string PropertyGridItemSelected( bool selected ) => selected ? "fui-PropertyGridItem-selected" : null;
+
+    public override string PropertyGridItemLabel() => "fui-PropertyGridItem__label";
+
+    public override string PropertyGridItemBody() => "fui-PropertyGridItem__body";
 
     #endregion
 
@@ -1553,7 +1714,7 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string Gap( GapSize gapSize, GapSide gapSide )
     {
         var side = gapSide != GapSide.None && gapSide != GapSide.All
-            ? $"-{ToGapSide( gapSide )}-"
+            ? $"-{ToGapSide( gapSide )}"
             : null;
 
         return $"fui-Gap{side}-{ToGapSize( gapSize )}";
@@ -1816,6 +1977,140 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string DescriptionListTerm() => null;
 
     public override string DescriptionListDefinition() => null;
+
+    #endregion
+
+    #region DockLayout
+
+    public override string DockLayout() => "fui-DockLayout";
+
+    public override string DockSplit() => "fui-DockSplit";
+
+    public override string DockSplitOrientation( Orientation orientation )
+        => orientation == Blazorise.Orientation.Vertical ? "fui-DockSplit--vertical" : "fui-DockSplit--horizontal";
+
+    public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "fui-DockPane";
+
+    public override string DockPanePosition( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Center => "fui-DockPane--center",
+            Blazorise.DockPanePosition.Right => "fui-DockPane--right",
+            Blazorise.DockPanePosition.Top => "fui-DockPane--top",
+            Blazorise.DockPanePosition.Bottom => "fui-DockPane--bottom",
+            _ => "fui-DockPane--left",
+        };
+
+    public override string DockPaneResizable( bool resizable ) => resizable ? "fui-DockPane--resizable" : null;
+
+    public override string DockPaneCollapsed( bool collapsed ) => collapsed ? "fui-DockPane--collapsed" : null;
+
+    public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "fui-DockPane--autoHide" : null;
+
+    public override string DockPaneBordered() => "fui-DockPane--bordered";
+
+    public override string DockPaneAutoHideRail( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "fui-DockAutoHideRail fui-DockAutoHideRail--right",
+            Blazorise.DockPanePosition.Top => "fui-DockAutoHideRail fui-DockAutoHideRail--top",
+            Blazorise.DockPanePosition.Bottom => "fui-DockAutoHideRail fui-DockAutoHideRail--bottom",
+            _ => "fui-DockAutoHideRail fui-DockAutoHideRail--left",
+        };
+
+    public override string DockPaneAutoHideTab( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "fui-DockPaneAutoHideTab fui-DockPaneAutoHideTab--right",
+            Blazorise.DockPanePosition.Top => "fui-DockPaneAutoHideTab fui-DockPaneAutoHideTab--top",
+            Blazorise.DockPanePosition.Bottom => "fui-DockPaneAutoHideTab fui-DockPaneAutoHideTab--bottom",
+            _ => "fui-DockPaneAutoHideTab fui-DockPaneAutoHideTab--left",
+        };
+
+    public override string DockPaneAutoHideFlyout( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "fui-DockAutoHideFlyout fui-DockAutoHideFlyout--right",
+            Blazorise.DockPanePosition.Top => "fui-DockAutoHideFlyout fui-DockAutoHideFlyout--top",
+            Blazorise.DockPanePosition.Bottom => "fui-DockAutoHideFlyout fui-DockAutoHideFlyout--bottom",
+            _ => "fui-DockAutoHideFlyout fui-DockAutoHideFlyout--left",
+        };
+
+    public override string DockPaneHeader() => "fui-DockPaneHeader";
+
+    public override string DockPaneHeaderContent() => "fui-DockPaneHeader__content";
+
+    public override string DockPaneHeaderActions() => "fui-DockPaneHeader__actions";
+
+    public override string DockPaneHeaderAction() => "fui-DockPaneHeader__action";
+
+    public override string DockPaneBody() => "fui-DockPaneBody";
+
+    public override string DockPaneFooter() => "fui-DockPaneFooter";
+
+    public override string DockContent() => "fui-DockContent";
+
+    public override string DockPaneTabs() => "fui-DockPaneTabs";
+
+    public override string DockPaneTabPosition( DockPaneTabPosition position )
+        => position == Blazorise.DockPaneTabPosition.Top ? "fui-DockPaneTabs--top" : null;
+
+    public override string DockPaneTabsHost() => "fui-DockTabsHost";
+
+    public override string DockPaneTab( bool active ) => active ? "fui-DockPaneTab fui-DockPaneTab--active" : "fui-DockPaneTab";
+
+    public override string DockPaneTabLabel() => "fui-DockPaneTab__label";
+
+    public override string DockPaneTabClose() => "fui-DockPaneTab__close";
+
+    public override string DockLayoutCompass() => "fui-DockCompass";
+
+    public override string DockLayoutCompassZone( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Center => "fui-DockCompassZone fui-DockCompassZone--center",
+            DockZone.Right => "fui-DockCompassZone fui-DockCompassZone--right",
+            DockZone.Top => "fui-DockCompassZone fui-DockCompassZone--top",
+            DockZone.Bottom => "fui-DockCompassZone fui-DockCompassZone--bottom",
+            _ => "fui-DockCompassZone fui-DockCompassZone--left",
+        };
+
+        return active ? $"{baseClass} fui-DockCompassZone--active" : baseClass;
+    }
+
+    public override string DockLayoutCompassZonePlacement( DockCompassZone zone )
+        => zone switch
+        {
+            DockCompassZone.TopOuter => "fui-DockCompassZone--topOuter",
+            DockCompassZone.TopInner => "fui-DockCompassZone--topInner",
+            DockCompassZone.LeftOuter => "fui-DockCompassZone--leftOuter",
+            DockCompassZone.LeftInner => "fui-DockCompassZone--leftInner",
+            DockCompassZone.RightInner => "fui-DockCompassZone--rightInner",
+            DockCompassZone.RightOuter => "fui-DockCompassZone--rightOuter",
+            DockCompassZone.BottomInner => "fui-DockCompassZone--bottomInner",
+            DockCompassZone.BottomOuter => "fui-DockCompassZone--bottomOuter",
+            _ => "fui-DockCompassZone--center",
+        };
+
+    public override string DockLayoutCompassZoneIcon() => "fui-DockCompassZone__icon";
+
+    public override string DockLayoutDragPreview() => "fui-DockDragPreview";
+
+    public override string DockLayoutDropPreview() => "fui-DockDropPreview";
+
+    public override string DockLayoutShellGuide( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Right => "fui-DockShellGuide fui-DockShellGuide--right",
+            DockZone.Top => "fui-DockShellGuide fui-DockShellGuide--top",
+            DockZone.Bottom => "fui-DockShellGuide fui-DockShellGuide--bottom",
+            _ => "fui-DockShellGuide fui-DockShellGuide--left",
+        };
+
+        return active ? $"{baseClass} fui-DockShellGuide--active" : baseClass;
+    }
 
     #endregion
 

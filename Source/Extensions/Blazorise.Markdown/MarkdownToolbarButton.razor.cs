@@ -23,6 +23,7 @@ public partial class MarkdownToolbarButton : BaseComponent, IDisposable
 
     #region Methods
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         if ( ParentMarkdown is not null )
@@ -33,6 +34,7 @@ public partial class MarkdownToolbarButton : BaseComponent, IDisposable
         base.OnInitialized();
     }
 
+    /// <inheritdoc />
     protected override void Dispose( bool disposing )
     {
         if ( disposing )

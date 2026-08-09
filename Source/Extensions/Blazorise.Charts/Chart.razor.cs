@@ -9,6 +9,9 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Renders a Chart.js visualization.
+/// </summary>
 public partial class Chart<TItem> : BaseChart<ChartDataset<TItem>, TItem, ChartOptions, ChartModel>
 {
 }

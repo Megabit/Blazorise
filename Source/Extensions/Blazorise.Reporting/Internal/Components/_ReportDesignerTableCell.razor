@@ -1,0 +1,71 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using System
+@using Microsoft.AspNetCore.Components.Web
+
+<div @ref="cellElementReference"
+     class="@CellClass"
+     style="@CellStyle"
+     role="@( CanReceiveDesignerInteraction ? "gridcell" : null )"
+     tabindex="@( CanReceiveDesignerInteraction ? 0 : (int?)null )"
+     aria-label="@( CanReceiveDesignerInteraction ? AccessibilityLabel : null )"
+     aria-selected="@( CanReceiveDesignerInteraction ? Selected : (bool?)null )"
+     aria-rowindex="@( CanReceiveDesignerInteraction ? Cell.RowIndex + 1 : (int?)null )"
+     aria-colindex="@( CanReceiveDesignerInteraction ? Cell.ColumnIndex + 1 : (int?)null )"
+     @onclick="@OnCellClicked"
+     @onclick:stopPropagation="@CanReceiveDesignerInteraction"
+     @onkeydown="@OnCellKeyDown"
+     @onkeydown:stopPropagation="@CanReceiveDesignerInteraction"
+     @oncontextmenu="@OnCellContextMenu"
+     @oncontextmenu:preventDefault="@CanReceiveDesignerInteraction"
+     @oncontextmenu:stopPropagation="@CanReceiveDesignerInteraction">
+    <div class="b-report-table-cell-content">
+        @foreach ( ReportElementDefinition childElement in GetRenderableElements() )
+        {
+            string childElementKey = ReportDefinitionHelper.EnsureElementId( childElement );
+
+            <_ReportDesignerElement Data="@Data"
+                                    Definition="@Definition"
+                                    Section="@Section"
+                                    SectionIndex="@SectionIndex"
+                                    Item="@Item"
+                                    RunningTotals="@RunningTotals"
+                                    Element="@childElement"
+                                    ElementKey="@childElementKey"
+                                    ContextMenuKey="@Cell.Id"
+                                    DesignMode="@DesignMode"
+                                    Editable="@CanReceiveDesignerInteraction"
+                                    LayoutLocked
+                                    AllowPointerDragThrough="@TableSelected"
+                                    Selected="@(IsElementSelected?.Invoke( childElementKey ) == true)"
+                                    Colliding="@(IsElementColliding?.Invoke( childElementKey ) == true)"
+                                    Editing="@string.Equals( EditingElementKey, childElementKey, StringComparison.Ordinal )"
+                                    TextEditingActive="@TextEditingActive"
+                                    Clicked="@ElementClicked"
+                                    DoubleClicked="@OnElementDoubleClicked"
+                                    ContextMenu="@OnElementContextMenu"
+                                    IsChildElementColliding="@IsElementColliding"
+                                    TextEditCommitted="@OnElementTextEditCommitted"
+                                    TextEditCancelled="@OnElementTextEditCancelled" />
+        }
+    </div>
+    @if ( CanReceiveDesignerInteraction )
+    {
+        <span class="b-report-table-column-resize-handle"
+              title="@Localize( "Resize column" )"
+              role="separator"
+              aria-label="@Localize( "Resize table column" )"
+              aria-orientation="vertical"
+              @onpointerdown="@OnColumnResizePointerDown"
+              @onpointerdown:preventDefault
+              @onpointerdown:stopPropagation></span>
+        <span class="b-report-table-row-resize-handle"
+              title="@Localize( "Resize row" )"
+              role="separator"
+              aria-label="@Localize( "Resize table row" )"
+              aria-orientation="horizontal"
+              @onpointerdown="@OnRowResizePointerDown"
+              @onpointerdown:preventDefault
+              @onpointerdown:stopPropagation></span>
+    }
+</div>

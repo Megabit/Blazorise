@@ -1,0 +1,9 @@
+@namespace Blazorise.Reporting
+@inherits BaseReportElement
+
+<CascadingValue Value="@Context" IsFixed="true">
+    @if ( Report is null )
+    {
+        @ChildContent
+    }
+</CascadingValue>

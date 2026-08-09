@@ -6,10 +6,16 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid.Internal;
 
+/// <summary>
+/// Supports base data grid row multi select rendering and interaction in a DataGrid.
+/// </summary>
 public abstract class _BaseDataGridRowMultiSelect<TItem> : ComponentBase
 {
     #region Members
 
+    /// <summary>
+    /// Controls shift key pressed behavior for the base data grid row multi select.
+    /// </summary>
     protected bool ShiftKeyPressed;
 
     #endregion
@@ -26,6 +32,9 @@ public abstract class _BaseDataGridRowMultiSelect<TItem> : ComponentBase
         }
     }
 
+    /// <summary>
+    /// Builds cell style for the current row.
+    /// </summary>
     protected string BuildCellStyle()
     {
         var style = Column.BuildCellStyle( Item );
@@ -42,8 +51,14 @@ public abstract class _BaseDataGridRowMultiSelect<TItem> : ComponentBase
 
     #region Properties
 
+    /// <summary>
+    /// Provider that supplies selection-cell behavior and styling.
+    /// </summary>
     [Inject] protected IBehaviourProvider BehaviourProvider { get; set; }
 
+    /// <summary>
+    /// Identifies the row represented by this selection cell.
+    /// </summary>
     [Parameter] public TItem Item { get; set; }
 
     /// <summary>
@@ -51,10 +66,19 @@ public abstract class _BaseDataGridRowMultiSelect<TItem> : ComponentBase
     /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
+    /// <summary>
+    /// Supplies styling metadata for the selection column.
+    /// </summary>
     [Parameter] public DataGridColumn<TItem> Column { get; set; }
 
+    /// <summary>
+    /// Indicates whether the row is part of the current selection.
+    /// </summary>
     [Parameter] public bool Checked { get; set; }
 
+    /// <summary>
+    /// Reports changes to the row's selection state.
+    /// </summary>
     [Parameter] public EventCallback<DataGridMultiSelectionChangedEventArgs<TItem>> CheckedChanged { get; set; }
 
     #endregion

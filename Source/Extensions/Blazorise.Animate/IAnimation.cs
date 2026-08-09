@@ -1,12 +1,12 @@
 ﻿namespace Blazorise.Animate;
 
 /// <summary>
-/// Defines the animation.
+/// Identifies an animation preset consumed by <see cref="Animate"/>.
 /// </summary>
 public interface IAnimation
 {
     /// <summary>
-    /// Gets the animation name.
+    /// CSS animation identifier associated with the preset.
     /// </summary>
     string Name { get; }
 }

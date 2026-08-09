@@ -24,7 +24,7 @@ public class DataGridCellInfo<TItem>
     }
 
     /// <summary>
-    /// Gets the item associated with the cell.
+    /// Gets the item consumed by the cell.
     /// </summary>
     public TItem Item { get; }
 

@@ -831,7 +831,13 @@ namespace Blazorise.Docs.Models
 </BreakpointObserver>";
 
         public const string ActiveButtonExample = @"<Button Color=""Color.Primary"" Active>Primary</Button>
-<Button Color=""Color.Secondary"" Active>Secondary</Button>";
+<Button Color=""Color.Secondary"" Active>Secondary</Button>
+<Button Color=""Color.Info"" @bind-Active=""@isActive"">Toggle me</Button>
+<Span Margin=""Margin.Is2.FromStart"">Active: @(isActive ? ""yes"" : ""no"")</Span>
+
+@code {
+    private bool isActive;
+}";
 
         public const string BlockButtonExample = @"<Button Color=""Color.Primary"" Block>Blocked primary</Button>
 <Button Color=""Color.Secondary"" Block>Blocked secondary</Button>";
@@ -1388,6 +1394,165 @@ namespace Blazorise.Docs.Models
     string colorValue = ""#ff00ff"";
 }";
 
+        public const string ContextMenuBasicExample = @"<Div id=""context-menu-basic-target""
+     Padding=""Padding.Is4""
+     Border=""Border.Is1.Rounded""
+     Background=""Background.Light"">
+    Right-click this area.
+</Div>
+
+<ContextMenu TargetId=""context-menu-basic-target"">
+    <ContextMenuBody Width=""Width.Rem().Min( 12 )"">
+        <ContextMenuHeader>Document</ContextMenuHeader>
+        <ContextMenuItem Icon=""IconName.Copy"" Value=""@(""Copy"")"" Clicked=""@SetSelectedAction"">Copy</ContextMenuItem>
+        <ContextMenuItem Icon=""IconName.Paste"" Value=""@(""Paste"")"" Clicked=""@SetSelectedAction"">Paste</ContextMenuItem>
+        <ContextMenuDivider />
+        <ContextMenuItem Icon=""IconName.Delete"" Value=""@(""Delete"")"" Clicked=""@SetSelectedAction"">Delete</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin=""Margin.Is2.FromTop"">
+    Last action: @selectedAction
+</Paragraph>
+
+@code {
+    private string selectedAction = ""None"";
+
+    private void SetSelectedAction( object value )
+    {
+        selectedAction = value?.ToString();
+    }
+}";
+
+        public const string ContextMenuCheckedExample = @"<Div id=""context-menu-checked-target""
+     Padding=""Padding.Is4""
+     Border=""Border.Is1.Rounded""
+     Background=""Background.Light"">
+    Right-click to change view options.
+</Div>
+
+<ContextMenu TargetId=""context-menu-checked-target"" CloseOnClick=""false"">
+    <ContextMenuBody Width=""Width.Rem().Min( 13 )"">
+        <ContextMenuHeader>View</ContextMenuHeader>
+        <ContextMenuItem ShowCheckbox @bind-Checked=""@showGrid"">Show grid</ContextMenuItem>
+        <ContextMenuItem ShowCheckbox @bind-Checked=""@snapToGrid"">Snap to grid</ContextMenuItem>
+        <ContextMenuDivider />
+        <ContextMenuGroup CheckMode=""ContextMenuCheckMode.Radio"" @bind-SelectedValue=""@density"">
+            <ContextMenuItem Value=""@(""Comfortable"")"">Comfortable</ContextMenuItem>
+            <ContextMenuItem Value=""@(""Compact"")"">Compact</ContextMenuItem>
+        </ContextMenuGroup>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin=""Margin.Is2.FromTop"">
+    Grid: @showGrid, Snap: @snapToGrid, Density: @density
+</Paragraph>
+
+@code {
+    private bool showGrid = true;
+
+    private bool snapToGrid = true;
+
+    private object density = ""Comfortable"";
+}";
+
+        public const string ContextMenuSubmenuExample = @"<Div id=""context-menu-submenu-target""
+     Padding=""Padding.Is4""
+     Border=""Border.Is1.Rounded""
+     Background=""Background.Light"">
+    Right-click to open commands with submenus.
+</Div>
+
+<ContextMenu TargetId=""context-menu-submenu-target"">
+    <ContextMenuBody Width=""Width.Rem().Min( 12 )"">
+        <ContextMenuItem Icon=""IconName.Edit"" Value=""@(""Rename"")"" Clicked=""@SetSelectedCommand"">Rename</ContextMenuItem>
+        <ContextMenuSubmenu Text=""Move to"" Icon=""IconName.Folder"">
+            <ContextMenuItem Value=""@(""Move to Inbox"")"" Clicked=""@SetSelectedCommand"">Inbox</ContextMenuItem>
+            <ContextMenuItem Value=""@(""Move to Archive"")"" Clicked=""@SetSelectedCommand"">Archive</ContextMenuItem>
+            <ContextMenuItem Value=""@(""Move to Trash"")"" Clicked=""@SetSelectedCommand"">Trash</ContextMenuItem>
+        </ContextMenuSubmenu>
+        <ContextMenuSubmenu Text=""Priority"" Icon=""IconName.Flag"">
+            <ContextMenuItem Value=""@(""High priority"")"" Clicked=""@SetSelectedCommand"">High</ContextMenuItem>
+            <ContextMenuItem Value=""@(""Normal priority"")"" Clicked=""@SetSelectedCommand"">Normal</ContextMenuItem>
+            <ContextMenuItem Value=""@(""Low priority"")"" Clicked=""@SetSelectedCommand"">Low</ContextMenuItem>
+        </ContextMenuSubmenu>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin=""Margin.Is2.FromTop"">
+    Selected command: @selectedCommand
+</Paragraph>
+
+@code {
+    private string selectedCommand = ""None"";
+
+    private void SetSelectedCommand( object value )
+    {
+        selectedCommand = value?.ToString();
+    }
+}";
+
+        public const string ContextMenuToggleExample = @"<ContextMenu>
+    <ContextMenuToggle>
+        <Button Color=""Color.Primary"">
+            Right-click this button
+        </Button>
+    </ContextMenuToggle>
+    <ContextMenuBody Width=""Width.Rem().Min( 12 )"">
+        <ContextMenuHeader>Button actions</ContextMenuHeader>
+        <ContextMenuItem Icon=""IconName.Edit"" Value=""@(""Rename"")"" Clicked=""@SetSelectedAction"">Rename</ContextMenuItem>
+        <ContextMenuItem Icon=""IconName.Copy"" Value=""@(""Duplicate"")"" Clicked=""@SetSelectedAction"">Duplicate</ContextMenuItem>
+        <ContextMenuDivider />
+        <ContextMenuItem Icon=""IconName.Delete"" Value=""@(""Delete"")"" Clicked=""@SetSelectedAction"">Delete</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin=""Margin.Is2.FromTop"">
+    Last action: @selectedAction
+</Paragraph>
+
+@code {
+    private string selectedAction = ""None"";
+
+    private void SetSelectedAction( object value )
+    {
+        selectedAction = value?.ToString();
+    }
+}";
+
+        public const string ContextMenuToolbarExample = @"<Div id=""context-menu-toolbar-target""
+     Padding=""Padding.Is4""
+     Border=""Border.Is1.Rounded""
+     Background=""Background.Light"">
+    Right-click to open compact commands.
+</Div>
+
+<ContextMenu TargetId=""context-menu-toolbar-target"">
+    <ContextMenuBody Width=""Width.Rem().Min( 12 )"">
+        <ContextMenuToolbar>
+            <ContextMenuToolbarItem Icon=""IconName.Cut"" Text=""Cut"" Value=""@(""Cut"")"" Clicked=""@SetSelectedAction"" />
+            <ContextMenuToolbarItem Icon=""IconName.Copy"" Text=""Copy"" Value=""@(""Copy"")"" Clicked=""@SetSelectedAction"" />
+            <ContextMenuToolbarItem Icon=""IconName.Paste"" Text=""Paste"" Value=""@(""Paste"")"" Clicked=""@SetSelectedAction"" />
+            <ContextMenuToolbarItem Icon=""IconName.Delete"" Text=""Delete"" Value=""@(""Delete"")"" Clicked=""@SetSelectedAction"" />
+        </ContextMenuToolbar>
+        <ContextMenuDivider />
+        <ContextMenuItem Icon=""IconName.List"" Value=""@(""Properties"")"" Clicked=""@SetSelectedAction"">Properties</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Paragraph Margin=""Margin.Is2.FromTop"">
+    Last action: @selectedAction
+</Paragraph>
+
+@code {
+    private string selectedAction = ""None"";
+
+    private void SetSelectedAction( object value )
+    {
+        selectedAction = value?.ToString();
+    }
+}";
+
         public const string BasicDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Value=""@value"" />
 
 @code {
@@ -1471,6 +1636,17 @@ namespace Blazorise.Docs.Models
     DateTime? value;
 }";
 
+        public const string DatePickerMonthExample = @"<DatePicker TValue=""DateTime?""
+            @bind-Value=""@selectedMonth""
+            InputMode=""DateInputMode.Month""
+            DisplayFormat=""MMMM yyyy""
+            Placeholder=""Select month...""
+            ShowTodayButton />
+
+@code {
+    DateTime? selectedMonth;
+}";
+
         public const string DatePickerNonStaticExample = @"<DatePicker TValue=""DateTime?"" @bind-Value=""@value"" StaticPicker=""false"" />
 
 @code {
@@ -1480,6 +1656,38 @@ namespace Blazorise.Docs.Models
         public const string DatePickerShowButtonsExample = @"<DatePicker TValue=""DateTime?"" ShowTodayButton ShowClearButton />";
 
         public const string DatePickerShowWeekNumbersExample = @"<DatePicker TValue=""DateTime?"" ShowWeekNumbers=""true"" />";
+
+        public const string DatePickerWeekExample = @"<Field>
+    <FieldLabel>Single week</FieldLabel>
+    <FieldBody>
+        <DatePicker TValue=""DateTime?"" @bind-Value=""@selectedWeek"" InputMode=""DateInputMode.Week"" Placeholder=""Select week..."" />
+    </FieldBody>
+</Field>
+<Field>
+    <FieldLabel>Week range</FieldLabel>
+    <FieldBody>
+        <DatePicker @bind-Value=""@selectedWeekRange"" InputMode=""DateInputMode.Week"" SelectionMode=""DateInputSelectionMode.Range"" Placeholder=""Select week range..."" />
+    </FieldBody>
+</Field>
+<Field>
+    <FieldLabel>Multiple weeks</FieldLabel>
+    <FieldBody>
+        <DatePicker @bind-Value=""@selectedWeeks"" InputMode=""DateInputMode.Week"" SelectionMode=""DateInputSelectionMode.Multiple"" Placeholder=""Select weeks..."" />
+    </FieldBody>
+</Field>
+<Field>
+    <FieldLabel>Sunday-first layout</FieldLabel>
+    <FieldBody>
+        <DatePicker TValue=""DateTime?"" @bind-Value=""@sundayFirstWeek"" InputMode=""DateInputMode.Week"" FirstDayOfWeek=""DayOfWeek.Sunday"" />
+    </FieldBody>
+</Field>
+
+@code {
+    DateTime? selectedWeek;
+    IReadOnlyList<DateTime?> selectedWeekRange;
+    IReadOnlyList<DateTime?> selectedWeeks;
+    DateTime? sundayFirstWeek = new DateTime( 2026, 7, 15 );
+}";
 
         public const string DatePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
@@ -1554,6 +1762,162 @@ namespace Blazorise.Docs.Models
 <Paragraph>
     How they tinkle, tinkle, tinkle, In the icy air of night !
 </Paragraph>";
+
+        public const string BasicDockLayoutExample = @"<DockLayout Style=""height: 28rem;"" PaneBordered>
+    <DockPane Name=""toolbar"" Caption=""Toolbar"" PanePosition=""DockPanePosition.Top"" Role=""DockPaneRole.Tool"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
+        <DockPaneBody>
+            Toolbar
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""explorer"" Caption=""Explorer"" PanePosition=""DockPanePosition.Left"" Size=""16rem"" MinSize=""10rem"" Resizable>
+        <DockPaneHeader>
+            <Strong>Explorer</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 1
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""designer"" Caption=""Designer"" PanePosition=""DockPanePosition.Center"" Role=""DockPaneRole.Document"" ShowTab=""false"" Closable=""false"">
+        <DockPaneHeader>
+            <Strong>Designer</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 2
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""properties"" Caption=""Properties"" PanePosition=""DockPanePosition.Right"" Size=""18rem"" MinSize=""12rem"" Resizable>
+        <DockPaneHeader>
+            <Strong>Properties</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 3
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""output"" Caption=""Output"" PanePosition=""DockPanePosition.Bottom"" Size=""6rem"" MinSize=""4rem"" Resizable>
+        <DockPaneHeader>
+            <Strong>Output</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 4
+        </DockPaneBody>
+    </DockPane>
+</DockLayout>";
+
+        public const string DockLayoutStateExample = @"@using System.Text.Json
+
+<DockLayout @ref=""@dockLayout"" Style=""height: 24rem;"" PaneBordered>
+    <DockPane Name=""actions"" Caption=""Actions"" PanePosition=""DockPanePosition.Top"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
+        <DockPaneBody Padding=""Padding.Is2"">
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Button Color=""Color.Primary"" Size=""Size.Small"" Clicked=""@SaveState"">Save state</Button>
+                <Button Color=""Color.Light"" Size=""Size.Small"" Clicked=""@LoadState"" Disabled=""@(savedStateJson is null)"">Load state</Button>
+                <Button Color=""Color.Light"" Size=""Size.Small"" Clicked=""@ResetState"">Reset</Button>
+                <Text TextColor=""TextColor.Secondary"">@status</Text>
+            </Div>
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""source"" Caption=""Source"" PanePosition=""DockPanePosition.Left"" Size=""15rem"" MinSize=""10rem"" Resizable>
+        <DockPaneHeader>
+            <Strong>Source</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 1
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""preview"" Caption=""Preview"" PanePosition=""DockPanePosition.Center"" Role=""DockPaneRole.Document"" ShowTab=""false"" Closable=""false"">
+        <DockPaneHeader>
+            <Strong>Preview</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 2
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""details"" Caption=""Details"" PanePosition=""DockPanePosition.Right"" Size=""17rem"" MinSize=""10rem"" Resizable>
+        <DockPaneHeader>
+            <Strong>Details</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 3
+        </DockPaneBody>
+    </DockPane>
+</DockLayout>
+
+@code {
+    private DockLayout dockLayout;
+
+    private string savedStateJson;
+
+    private string status = ""No saved state."";
+
+    private static JsonSerializerOptions StateSerializerOptions { get; } = new( JsonSerializerDefaults.Web );
+
+    private Task SaveState()
+    {
+        if ( dockLayout is not null )
+        {
+            savedStateJson = JsonSerializer.Serialize( dockLayout.GetState(), StateSerializerOptions );
+            status = ""State saved."";
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task LoadState()
+    {
+        if ( dockLayout is not null && savedStateJson is not null )
+        {
+            DockLayoutState savedState = JsonSerializer.Deserialize<DockLayoutState>( savedStateJson, StateSerializerOptions );
+
+            await dockLayout.LoadState( savedState );
+            status = ""State loaded."";
+        }
+    }
+
+    private async Task ResetState()
+    {
+        if ( dockLayout is not null )
+        {
+            await dockLayout.ResetState();
+            status = ""Layout reset."";
+        }
+    }
+}";
+
+        public const string DockLayoutTabbedPanesExample = @"<DockLayout Style=""height: 24rem;"" PaneBordered>
+    <DockPane Name=""document"" Caption=""Document"" PanePosition=""DockPanePosition.Center"" Role=""DockPaneRole.Document"" ShowTab=""false"" Closable=""false"">
+        <DockPaneHeader>
+            <Strong>Document</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 1
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""properties"" Caption=""Properties"" PanePosition=""DockPanePosition.Right"" Size=""18rem"" TabPosition=""DockPaneTabPosition.Bottom"" Resizable>
+        <DockPaneHeader>
+            <Strong>Properties</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 2
+        </DockPaneBody>
+    </DockPane>
+
+    <DockPane Name=""report-explorer"" Caption=""Report Explorer"" PanePosition=""DockPanePosition.Right"" Size=""18rem"" TabPosition=""DockPaneTabPosition.Bottom"" Resizable>
+        <DockPaneHeader>
+            <Strong>Report Explorer</Strong>
+        </DockPaneHeader>
+        <DockPaneBody>
+            Content 3
+        </DockPaneBody>
+    </DockPane>
+</DockLayout>";
 
         public const string BasicDragDropExample = @"<DropContainer TItem=""DropItem"" Items=""@items"" ItemsFilter=""@((item, dropZone) => item.Group == dropZone)"" ItemDropped=""@ItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
     <ChildContent>
@@ -3965,6 +4329,521 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string PropertyGridBasicExample = @"<PropertyGrid Width=""Width.Px( 360 )"">
+    <Toolbar>
+        <PropertyGridToolbar>
+            <PropertyGridToolbarButton Icon=""IconName.Clear""
+                                       Title=""Clear search""
+                                       Disabled=""@( string.IsNullOrWhiteSpace( searchText ) )""
+                                       Clicked=""@ClearSearch"" />
+            <PropertyGridToolbarSearch @bind-SearchText=""@searchText"" />
+        </PropertyGridToolbar>
+    </Toolbar>
+    <ChildContent>
+        <PropertyGridGroup Title=""Appearance"">
+            @if ( MatchesSearch( ""Title"" ) )
+            {
+                <PropertyGridTextItem Label=""Title"" @bind-Value=""@title"">
+                    <ActionContent>
+                        <Button Color=""Color.Light""
+                                Size=""Size.Small""
+                                Clicked=""@ResetTitle""
+                                title=""Reset title""
+                                aria-label=""Reset title"">
+                            <Icon Name=""IconName.Undo"" />
+                        </Button>
+                    </ActionContent>
+                </PropertyGridTextItem>
+            }
+            @if ( MatchesSearch( ""Visible"" ) )
+            {
+                <PropertyGridBooleanItem Label=""Visible"" @bind-Value=""@visible"" TrueText=""Visible"" FalseText=""Hidden"" />
+            }
+            @if ( MatchesSearch( ""Accent"" ) )
+            {
+                <PropertyGridColorItem Label=""Accent"" @bind-Value=""@accent"" />
+            }
+        </PropertyGridGroup>
+        <PropertyGridGroup Title=""Typography"">
+            @if ( MatchesSearch( ""Font family"" ) )
+            {
+                <PropertyGridStringSelectItem Label=""Font family"" @bind-Value=""@fontFamily"" Options=""@fontFamilyOptions"" />
+            }
+            @if ( MatchesSearch( ""Font size"" ) )
+            {
+                <PropertyGridNumericItem TValue=""int"" Label=""Font size"" @bind-Value=""@fontSize"" Min=""8"" Max=""72"" />
+            }
+            @if ( MatchesSearch( ""Bold"" ) )
+            {
+                <PropertyGridBooleanItem Label=""Bold"" @bind-Value=""@bold"" />
+            }
+            @if ( MatchesSearch( ""Italic"" ) )
+            {
+                <PropertyGridBooleanItem Label=""Italic"" @bind-Value=""@italic"" />
+            }
+        </PropertyGridGroup>
+        <PropertyGridGroup Title=""Layout"">
+            @if ( MatchesSearch( ""Width"" ) )
+            {
+                <PropertyGridNumericItem TValue=""int"" Label=""Width"" @bind-Value=""@width"" Min=""100"" Max=""1200"" Step=""10"" />
+            }
+            @if ( MatchesSearch( ""Height"" ) )
+            {
+                <PropertyGridNumericItem TValue=""int"" Label=""Height"" @bind-Value=""@height"" Min=""100"" Max=""1200"" Step=""10"" />
+            }
+            @if ( MatchesSearch( ""Padding"" ) )
+            {
+                <PropertyGridNumericItem TValue=""int"" Label=""Padding"" @bind-Value=""@padding"" Min=""0"" Max=""64"" />
+            }
+            @if ( MatchesSearch( ""Alignment"" ) )
+            {
+                <PropertyGridStringSelectItem Label=""Alignment"" @bind-Value=""@alignment"" Options=""@alignmentOptions"" />
+            }
+        </PropertyGridGroup>
+    </ChildContent>
+    <Help>
+        <PropertyGridHelp Title=""Manual composition""
+                          Description=""Toolbar, editor, filtering, and help behavior can be composed directly."" />
+    </Help>
+</PropertyGrid>
+
+<Paragraph Margin=""Margin.Is3.FromTop"">
+    <Strong>Current values:</Strong>
+    @title, @width x @height px, @fontFamily @fontSize px, @alignment, @accent, @(visible ? ""visible"" : ""hidden"")
+</Paragraph>
+
+@code {
+    private static readonly IReadOnlyList<PropertyGridSelectOption<string>> alignmentOptions =
+    [
+        new( ""Left"", ""Left"" ),
+        new( ""Center"", ""Center"" ),
+        new( ""Right"", ""Right"" ),
+    ];
+
+    private static readonly IReadOnlyList<PropertyGridSelectOption<string>> fontFamilyOptions =
+    [
+        new( ""Arial"", ""Arial"" ),
+        new( ""Georgia"", ""Georgia"" ),
+        new( ""Inter"", ""Inter"" ),
+    ];
+
+    private string title = ""Quarterly summary"";
+
+    private bool visible = true;
+
+    private string accent = ""Blue"";
+
+    private string fontFamily = ""Arial"";
+
+    private int fontSize = 16;
+
+    private bool bold;
+
+    private bool italic;
+
+    private int width = 640;
+
+    private int height = 360;
+
+    private int padding = 16;
+
+    private string alignment = ""Left"";
+
+    private string searchText;
+
+    private bool MatchesSearch( string label )
+        => string.IsNullOrWhiteSpace( searchText )
+            || label.Contains( searchText, StringComparison.CurrentCultureIgnoreCase );
+
+    private void ClearSearch()
+        => searchText = string.Empty;
+
+    private void ResetTitle()
+        => title = ""Quarterly summary"";
+}";
+
+        public const string PropertyGridSchemaExample = @"<PropertyGridView Width=""Width.Px( 360 )""
+                  Schema=""@schema""
+                  PropertyValueChanged=""@OnPropertyValueChanged""
+                  ActionInvoked=""@OnActionInvoked""
+                  @bind-SelectedProperty=""@selectedProperty""
+                  @bind-ViewMode=""@viewMode"" />
+
+<Paragraph Margin=""Margin.Is3.FromTop"">
+    <Strong>Status:</Strong> @status
+    @if ( selectedProperty is not null )
+    {
+        <Span> Selected: @selectedProperty.Label.</Span>
+    }
+</Paragraph>
+
+@code {
+    private string documentName = ""Quarterly report"";
+
+    private string documentDescription = ""Quarterly financial performance."";
+
+    private string category = ""Finance"";
+
+    private bool enabled = true;
+
+    private int pageWidth = 794;
+
+    private int pageHeight = 1123;
+
+    private string orientation = ""Portrait"";
+
+    private int copies = 1;
+
+    private string format = ""PDF"";
+
+    private string accent = ""Blue"";
+
+    private bool includePageNumbers = true;
+
+    private string status = ""Change a property or invoke its action."";
+
+    private PropertyGridViewMode viewMode = PropertyGridViewMode.Categorized;
+
+    private PropertyGridSchema schema;
+
+    private PropertyGridProperty selectedProperty;
+
+    protected override void OnInitialized()
+    {
+        schema = BuildSchema();
+    }
+
+    private PropertyGridSchema BuildSchema()
+        => new(
+        [
+            new PropertyGridGroupDefinition(
+                ""document"",
+                ""Document"",
+                [
+                    new PropertyGridTextProperty( ""document.name"", ""Name"", documentName )
+                    {
+                        Description = ""The display name used for the generated document."",
+                        Immediate = true,
+                        Action = new PropertyGridAction( ""rename"" )
+                        {
+                            Icon = IconName.Edit,
+                            Title = ""Rename document"",
+                        },
+                    },
+                    new PropertyGridBooleanProperty( ""document.enabled"", ""Enabled"", enabled )
+                    {
+                        Description = ""Controls whether the document is included in output."",
+                        TrueText = ""Enabled"",
+                        FalseText = ""Disabled"",
+                    },
+                    new PropertyGridTextProperty( ""document.description"", ""Description"", documentDescription )
+                    {
+                        Description = ""A short summary of the document contents."",
+                        Immediate = true,
+                    },
+                    new PropertyGridStringSelectProperty(
+                        ""document.category"",
+                        ""Category"",
+                        category,
+                        [
+                            new( ""Finance"", ""Finance"" ),
+                            new( ""Operations"", ""Operations"" ),
+                            new( ""Sales"", ""Sales"" ),
+                        ] )
+                    {
+                        Description = ""The category used to organize the document."",
+                    },
+                ] ),
+            new PropertyGridGroupDefinition(
+                ""layout"",
+                ""Layout"",
+                [
+                    new PropertyGridNumericProperty<int>( ""layout.width"", ""Page width"", pageWidth )
+                    {
+                        Description = ""The page width in pixels."",
+                        Min = 100,
+                        Max = 2000,
+                    },
+                    new PropertyGridNumericProperty<int>( ""layout.height"", ""Page height"", pageHeight )
+                    {
+                        Description = ""The page height in pixels."",
+                        Min = 100,
+                        Max = 2000,
+                    },
+                    new PropertyGridStringSelectProperty(
+                        ""layout.orientation"",
+                        ""Orientation"",
+                        orientation,
+                        [
+                            new( ""Portrait"", ""Portrait"" ),
+                            new( ""Landscape"", ""Landscape"" ),
+                        ] )
+                    {
+                        Description = ""The page orientation used during export."",
+                    },
+                ] ),
+            new PropertyGridGroupDefinition(
+                ""output"",
+                ""Output"",
+                [
+                    new PropertyGridStringSelectProperty(
+                        ""output.format"",
+                        ""Format"",
+                        format,
+                        [
+                            new( ""PDF"", ""PDF"" ),
+                            new( ""HTML"", ""HTML"" ),
+                            new( ""CSV"", ""CSV"" ),
+                        ] )
+                    {
+                        Description = ""The file format used when the document is exported."",
+                    },
+                    new PropertyGridNumericProperty<int>( ""output.copies"", ""Copies"", copies )
+                    {
+                        Description = ""The number of output copies to create."",
+                        Min = 1,
+                        Max = 10,
+                    },
+                    new PropertyGridColorProperty( ""output.accent"", ""Accent"", accent )
+                    {
+                        Description = ""The accent color used by the document theme."",
+                    },
+                    new PropertyGridBooleanProperty( ""output.pageNumbers"", ""Page numbers"", includePageNumbers )
+                    {
+                        Description = ""Controls whether page numbers are included in output."",
+                        TrueText = ""Included"",
+                        FalseText = ""Hidden"",
+                    },
+                ] ),
+        ] );
+
+    private void OnPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )
+    {
+        switch ( eventArgs.PropertyKey )
+        {
+            case ""document.name"":
+                documentName = eventArgs.GetValue<string>();
+                break;
+            case ""document.enabled"":
+                enabled = eventArgs.GetValue<bool>();
+                break;
+            case ""document.description"":
+                documentDescription = eventArgs.GetValue<string>();
+                break;
+            case ""document.category"":
+                category = eventArgs.GetValue<string>();
+                break;
+            case ""layout.width"":
+                pageWidth = eventArgs.GetValue<int>();
+                break;
+            case ""layout.height"":
+                pageHeight = eventArgs.GetValue<int>();
+                break;
+            case ""layout.orientation"":
+                orientation = eventArgs.GetValue<string>();
+                break;
+            case ""output.format"":
+                format = eventArgs.GetValue<string>();
+                break;
+            case ""output.copies"":
+                copies = eventArgs.GetValue<int>();
+                break;
+            case ""output.accent"":
+                accent = eventArgs.GetValue<string>();
+                break;
+            case ""output.pageNumbers"":
+                includePageNumbers = eventArgs.GetValue<bool>();
+                break;
+        }
+
+        status = $""{eventArgs.Property.Label} changed."";
+        schema = BuildSchema();
+    }
+
+    private void OnActionInvoked( PropertyGridActionEventArgs eventArgs )
+    {
+        status = $""{eventArgs.Action.Name} invoked for {eventArgs.Property.Label}."";
+    }
+}";
+
+        public const string PropertyGridTemplatesExample = @"<PropertyGridView Width=""Width.Px( 360 )""
+                  Schema=""@schema""
+                  PropertyValueChanged=""@OnPropertyValueChanged""
+                  ActionInvoked=""@OnActionInvoked""
+                  ShowToolbar=""false"">
+    <GroupHeaderTemplate Context=""context"">
+        <Span Display=""Display.Flex"" Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+            <Icon Name=""IconName.Wrench"" />
+            <Strong>@context.Group.Title</Strong>
+        </Span>
+    </GroupHeaderTemplate>
+    <LabelTemplate Context=""context"">
+        <Strong>@context.Label</Strong>
+    </LabelTemplate>
+    <TextEditorTemplate Context=""context"">
+        <TextInput Value=""@( context.GetValue<string>() )""
+                   ValueChanged=""@( ( string value ) => context.SetValue( value ) )""
+                   Size=""Size.Small"" />
+    </TextEditorTemplate>
+    <ActionTemplate Context=""context"">
+        <Button Color=""Color.Warning""
+                Size=""Size.Small""
+                Title=""@context.Action.Title""
+                Clicked=""@context.Invoke"">
+            @context.Action.Text
+        </Button>
+    </ActionTemplate>
+    <HelpTemplate Context=""context"">
+        <Strong>About @context.Label</Strong>
+        <Text>@context.Description</Text>
+    </HelpTemplate>
+</PropertyGridView>
+
+<Paragraph Margin=""Margin.Is3.FromTop"">
+    <Strong>Current item:</Strong> @displayName, @layoutMode, @opacity% opacity
+</Paragraph>
+
+@code {
+    private string displayName = ""Revenue"";
+
+    private string subtitle = ""Year-to-date"";
+
+    private bool highlighted = true;
+
+    private bool visible = true;
+
+    private string accent = ""Blue"";
+
+    private int opacity = 100;
+
+    private string layoutMode = ""Card"";
+
+    private bool locked;
+
+    private string notes = ""Reviewed monthly."";
+
+    private PropertyGridSchema schema;
+
+    protected override void OnInitialized()
+    {
+        schema = BuildSchema();
+    }
+
+    private PropertyGridSchema BuildSchema()
+        => new(
+        [
+            new PropertyGridGroupDefinition(
+                ""appearance"",
+                ""Custom appearance"",
+                [
+                    new PropertyGridTextProperty( ""appearance.name"", ""Display name"", displayName )
+                    {
+                        Description = ""The name displayed to users."",
+                        Immediate = true,
+                        Action = new PropertyGridAction( ""reset"" )
+                        {
+                            Text = ""Reset"",
+                            Title = ""Reset display name"",
+                        },
+                    },
+                    new PropertyGridBooleanProperty( ""appearance.highlighted"", ""Highlighted"", highlighted )
+                    {
+                        Description = ""Emphasizes the item in the rendered output."",
+                    },
+                    new PropertyGridTextProperty( ""appearance.subtitle"", ""Subtitle"", subtitle )
+                    {
+                        Description = ""The supporting text displayed below the name."",
+                        Immediate = true,
+                    },
+                    new PropertyGridBooleanProperty( ""appearance.visible"", ""Visible"", visible )
+                    {
+                        Description = ""Controls whether the item is displayed."",
+                    },
+                    new PropertyGridColorProperty( ""appearance.accent"", ""Accent"", accent )
+                    {
+                        Description = ""The accent color used to emphasize the item."",
+                    },
+                    new PropertyGridNumericProperty<int>( ""appearance.opacity"", ""Opacity"", opacity )
+                    {
+                        Description = ""The item opacity as a percentage."",
+                        Min = 0,
+                        Max = 100,
+                    },
+                ] ),
+            new PropertyGridGroupDefinition(
+                ""behavior"",
+                ""Custom behavior"",
+                [
+                    new PropertyGridStringSelectProperty(
+                        ""behavior.layout"",
+                        ""Layout"",
+                        layoutMode,
+                        [
+                            new( ""Card"", ""Card"" ),
+                            new( ""Compact"", ""Compact"" ),
+                            new( ""Expanded"", ""Expanded"" ),
+                        ] )
+                    {
+                        Description = ""The layout used to present the item."",
+                    },
+                    new PropertyGridBooleanProperty( ""behavior.locked"", ""Locked"", locked )
+                    {
+                        Description = ""Prevents the item from being repositioned."",
+                    },
+                    new PropertyGridTextProperty( ""behavior.notes"", ""Notes"", notes )
+                    {
+                        Description = ""Additional information about the item."",
+                        Immediate = true,
+                    },
+                ] ),
+        ] );
+
+    private void OnPropertyValueChanged( PropertyGridValueChangedEventArgs eventArgs )
+    {
+        switch ( eventArgs.PropertyKey )
+        {
+            case ""appearance.name"":
+                displayName = eventArgs.GetValue<string>();
+                break;
+            case ""appearance.subtitle"":
+                subtitle = eventArgs.GetValue<string>();
+                break;
+            case ""appearance.highlighted"":
+                highlighted = eventArgs.GetValue<bool>();
+                break;
+            case ""appearance.visible"":
+                visible = eventArgs.GetValue<bool>();
+                break;
+            case ""appearance.accent"":
+                accent = eventArgs.GetValue<string>();
+                break;
+            case ""appearance.opacity"":
+                opacity = eventArgs.GetValue<int>();
+                break;
+            case ""behavior.layout"":
+                layoutMode = eventArgs.GetValue<string>();
+                break;
+            case ""behavior.locked"":
+                locked = eventArgs.GetValue<bool>();
+                break;
+            case ""behavior.notes"":
+                notes = eventArgs.GetValue<string>();
+                break;
+        }
+
+        schema = BuildSchema();
+    }
+
+    private void OnActionInvoked( PropertyGridActionEventArgs eventArgs )
+    {
+        if ( eventArgs.Action.Name != ""reset"" )
+            return;
+
+        displayName = ""Revenue"";
+        schema = BuildSchema();
+    }
+}";
+
         public const string BasicRadioGroupExample = @"<RadioGroup TValue=""string"" Name=""colors"">
     <Radio Value=""@(""red"")"">Red</Radio>
     <Radio Value=""@(""green"")"">Green</Radio>
@@ -4082,6 +4961,257 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         return $""color: #{color}"";
     }
+}";
+
+        public const string ResizerBarExample = @"<Layout Sider
+        Height=""Height.Px( 360 )""
+        Border=""Border.Is1.Rounded""
+        Overflow=""Overflow.Hidden"">
+    <LayoutSider>
+        <LayoutSiderContent>
+            <Bar Mode=""BarMode.VerticalInline""
+                 CollapseMode=""BarCollapseMode.Small""
+                 @bind-Visible=""barExpanded""
+                 Style=""@BarStyle""
+                 Background=""Background.Light""
+                 ThemeContrast=""ThemeContrast.Light"">
+                <BarToggler />
+                <BarMenu>
+                    <BarStart>
+                        <BarItem>
+                            <BarLink To=""#resizer-projects"">
+                                <BarIcon IconName=""IconName.FolderOpen"" />
+                                Projects
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To=""#resizer-reports"">
+                                <BarIcon IconName=""IconName.ChartLine"" />
+                                Reports
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To=""#resizer-settings"">
+                                <BarIcon IconName=""IconName.Settings"" />
+                                Settings
+                            </BarLink>
+                        </BarItem>
+                    </BarStart>
+                </BarMenu>
+
+                <Resizer Orientation=""Orientation.Vertical""
+                         Placement=""Placement.End""
+                         ResizeProperty=""--b-vertical-bar-width""
+                         Min=""180""
+                         Max=""360""
+                         @bind-Value=""barWidth""
+                         Disabled=""@(!barExpanded)""
+                         AriaLabel=""Resize navigation sidebar"" />
+            </Bar>
+        </LayoutSiderContent>
+    </LayoutSider>
+
+    <Layout>
+        <LayoutContent Padding=""Padding.Is4"">
+            <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Resizable navigation</Heading>
+            <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+                Resize the expanded Bar, then use its toggler to enter small mode. The resizer is disabled while collapsed.
+            </Paragraph>
+        </LayoutContent>
+    </Layout>
+</Layout>
+
+@code {
+    private bool barExpanded = true;
+
+    private double barWidth = 230;
+
+    private string BarStyle
+        => FormattableString.Invariant(
+            $""--b-vertical-bar-width: {barWidth}px"" );
+}";
+
+        public const string ResizerHeightExample = @"<Div Flex=""Flex.Column""
+     Height=""Height.Px( 360 )""
+     Border=""Border.Is1.Rounded""
+     Overflow=""Overflow.Hidden"">
+    <Div Position=""Position.Relative""
+         Flex=""Flex.Shrink.Is0""
+         Height=""@Height.Px( previewHeight )""
+         Background=""Background.Light""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Preview</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            Resize this area vertically.
+        </Paragraph>
+
+        <Resizer Orientation=""Orientation.Horizontal""
+                 Placement=""Placement.Bottom""
+                 ShowGutter
+                 Min=""100""
+                 Max=""260""
+                 @bind-Value=""previewHeight""
+                 AriaLabel=""Resize preview height"" />
+    </Div>
+
+    <Div Flex=""Flex.Grow.Is1""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is6"" Margin=""Margin.Is0.FromBottom"">Output</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            The remaining space stays available to the lower region.
+        </Paragraph>
+    </Div>
+</Div>
+
+@code {
+    private double previewHeight = 180;
+}";
+
+        public const string ResizerMultipleTargetsExample = @"<Div Flex=""Flex.Row""
+     Height=""Height.Px( 260 )""
+     Border=""Border.Is1.Rounded""
+     Overflow=""Overflow.Hidden"">
+    <Div ElementId=""resizer-start-panel""
+         Flex=""Flex.Shrink.Is0""
+         Style=""width: 50%;""
+         Background=""Background.Light""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Navigation</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            This is the logical start target.
+        </Paragraph>
+    </Div>
+
+    <Div Position=""Position.Relative""
+         Flex=""Flex.Shrink.Is0""
+         Width=""Width.Px( 0 )"">
+        <Resizer Targets=""@resizeTargets""
+                 Orientation=""Orientation.Vertical""
+                 Placement=""Placement.Start""
+                 ShowGutter
+                 KeyboardStep=""10""
+                 AriaLabel=""Resize navigation and workspace panels"" />
+    </Div>
+
+    <Div ElementId=""resizer-end-panel""
+         Flex=""Flex.Shrink.Is0""
+         Style=""width: 50%;""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Workspace</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            This is the logical end target. Its width decreases as the navigation panel grows.
+        </Paragraph>
+    </Div>
+</Div>
+
+@code {
+    private readonly ResizerTargets resizeTargets = new()
+    {
+        Start = new()
+        {
+            ElementId = ""resizer-start-panel"",
+            ResizeProperty = ""width"",
+            MinSize = ""120px"",
+        },
+        End = new()
+        {
+            ElementId = ""resizer-end-panel"",
+            ResizeProperty = ""width"",
+            MinSize = ""160px"",
+        },
+    };
+}";
+
+        public const string ResizerPanelExample = @"<Div Flex=""Flex.Row""
+     Height=""Height.Px( 260 )""
+     Border=""Border.Is1.Rounded""
+     Overflow=""Overflow.Hidden"">
+    <Div Position=""Position.Relative""
+         Flex=""Flex.Shrink.Is0""
+         Width=""@Width.Px( panelWidth )""
+        Background=""Background.Light""
+         Padding=""Padding.Is4"">
+        <Div Flex=""Flex.Column"" Gap=""Gap.Is3"">
+            <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0"">Explorer</Heading>
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Icon Name=""IconName.FolderOpen"" />
+                <Span>Components</Span>
+            </Div>
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Icon Name=""IconName.File"" />
+                <Span>App.razor</Span>
+            </Div>
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Icon Name=""IconName.File"" />
+                <Span>Program.cs</Span>
+            </Div>
+        </Div>
+
+        <Resizer Orientation=""Orientation.Vertical""
+                 Placement=""Placement.End""
+                 Min=""160""
+                 Max=""360""
+                 KeyboardStep=""10""
+                 @bind-Value=""panelWidth""
+                 AriaLabel=""Resize explorer panel"" />
+    </Div>
+
+    <Div Flex=""Flex.Grow.Is1""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Editor</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            Drag the boundary between the explorer and editor. Click it or reach it with Tab, then use the arrow keys.
+        </Paragraph>
+    </Div>
+</Div>
+
+@code {
+    private double panelWidth = 220;
+}";
+
+        public const string ResizerTargetExample = @"<Div Flex=""Flex.Row""
+     Height=""Height.Px( 280 )""
+     Border=""Border.Is1.Rounded""
+     Overflow=""Overflow.Hidden"">
+    <Div Flex=""Flex.Grow.Is1""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Canvas</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+            The resizer is positioned at this boundary but targets the inspector by ID.
+        </Paragraph>
+    </Div>
+
+    <Div Position=""Position.Relative""
+         Flex=""Flex.Shrink.Is0""
+         Width=""Width.Px( 0 )"">
+        <Resizer TargetId=""resizer-inspector""
+                 Orientation=""Orientation.Vertical""
+                 Placement=""Placement.Start""
+                 ResizeProperty=""--docs-inspector-width""
+                 Min=""180""
+                 Max=""360""
+                 @bind-Value=""inspectorWidth""
+                 AriaLabel=""Resize inspector panel"" />
+    </Div>
+
+    <Div ElementId=""resizer-inspector""
+         Flex=""Flex.Shrink.Is0""
+         Style=""@InspectorStyle""
+         Background=""Background.Light""
+         Padding=""Padding.Is4"">
+        <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0"">Inspector</Heading>
+        <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is3.FromTop.Is0.FromBottom"">
+            Its width is read from the custom property applied by the resizer.
+        </Paragraph>
+    </Div>
+</Div>
+
+@code {
+    private double inspectorWidth = 240;
+
+    private string InspectorStyle
+        => FormattableString.Invariant(
+            $""--docs-inspector-width: {inspectorWidth}px; width: var(--docs-inspector-width);"" );
 }";
 
         public const string BasicSelectExample = @"<Select TValue=""int"">
@@ -5843,72 +6973,72 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string AnalyzerInstallStableExample = @"dotnet add package Blazorise.Analyzers";
 
-        public const string AnalyzerPackageReferenceExample = @"<PackageReference Include=""Blazorise.Analyzers"" Version=""2.2.1"" PrivateAssets=""all"" />";
+        public const string AnalyzerPackageReferenceExample = @"<PackageReference Include=""Blazorise.Analyzers"" Version=""2.2.3"" PrivateAssets=""all"" />";
 
         public const string AnalyzerSeverityExample = @"dotnet_diagnostic.BLZP004.severity = error";
 
         public const string AnimateScriptsExample = @"<!-- No script tag is required. Animate imports its JavaScript module automatically. -->";
 
-        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/bar.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/modal.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/segmented.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/tooltip.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/wave.js?v=2.2.1.0"" type=""module""></script>";
+        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/bar.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/modal.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/segmented.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/tooltip.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/wave.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=2.2.1.0"" type=""module""></script>";
+        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=2.2.1.0"" type=""module""></script>";
+        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bulma/tooltip.js?v=2.2.1.0"" type=""module""></script>";
+        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bulma/tooltip.js?v=2.2.3.0"" type=""module""></script>";
 
         public const string ButtonJavascriptMockTestingExample = @"JSInterop.AddBlazoriseButton();";
 
-        public const string CaptchaReCaptchaScriptsExample = @"<script src=""_content/Blazorise.Captcha.ReCaptcha/blazorise.recaptcha.js?v=2.2.1.0"" type=""module""></script>";
+        public const string CaptchaReCaptchaScriptsExample = @"<script src=""_content/Blazorise.Captcha.ReCaptcha/blazorise.recaptcha.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string ChartsAnnotationScriptsExample = @"<script src=""_content/Blazorise.Charts.Annotation/chart.annotation.js?v=2.2.1.0"" type=""module""></script>";
+        public const string ChartsAnnotationScriptsExample = @"<script src=""_content/Blazorise.Charts.Annotation/chart.annotation.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string ChartsDataLabelsScriptsExample = @"<script src=""_content/Blazorise.Charts.DataLabels/chart.datalabels.js?v=2.2.1.0"" type=""module""></script>";
+        public const string ChartsDataLabelsScriptsExample = @"<script src=""_content/Blazorise.Charts.DataLabels/chart.datalabels.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=2.2.1.0"" type=""module""></script>";
+        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.2.1.0"" type=""module""></script>";
+        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.2.1.0"" type=""module""></script>";
+        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string ChartsZoomScriptsExample = @"<script src=""_content/Blazorise.Charts.Zoom/chart.zoom.js?v=2.2.1.0"" type=""module""></script>";
+        public const string ChartsZoomScriptsExample = @"<script src=""_content/Blazorise.Charts.Zoom/chart.zoom.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/button.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/closable.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/colorPicker.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/datePicker.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/dragDrop.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/dropdown.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/fileInput.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/filePicker.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/floatingUi.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/inputMask.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/io.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/memoInput.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/modal.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/numericPicker.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/observer.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/rangeSlider.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/table.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/textInput.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/theme.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/timePicker.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/tooltip.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/utilities.js?v=2.2.1.0"" type=""module""></script>";
+        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/button.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/closable.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/colorPicker.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/datePicker.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/dragDrop.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/dropdown.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/fileInput.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/filePicker.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/floatingUi.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/inputMask.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/io.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/memoInput.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/modal.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/numericPicker.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/observer.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/rangeSlider.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/table.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/textInput.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/theme.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/timePicker.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/tooltip.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/utilities.js?v=2.2.3.0"" type=""module""></script>";
 
         public const string ComponentsImportExample = @"@using Blazorise.Components";
 
-        public const string CropperScriptsExample = @"<script src=""_content/Blazorise.Cropper/blazorise.cropper.js?v=2.2.1.0"" type=""module""></script>";
+        public const string CropperScriptsExample = @"<script src=""_content/Blazorise.Cropper/blazorise.cropper.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=2.2.1.0"" type=""module""></script>";
+        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=2.2.3.0"" type=""module""></script>";
 
         public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
 {
@@ -5916,18 +7046,18 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddEmptyProviders();
 }";
 
-        public const string FluentUI2ScriptsExample = @"<script src=""_content/Blazorise.FluentUI2/modal.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.FluentUI2/tooltip.js?v=2.2.1.0"" type=""module""></script>";
+        public const string FluentUI2ScriptsExample = @"<script src=""_content/Blazorise.FluentUI2/modal.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.FluentUI2/tooltip.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string GanttScriptsExample = @"<script src=""_content/Blazorise.Gantt/gantt.js?v=2.2.1.0"" type=""module""></script>";
+        public const string GanttScriptsExample = @"<script src=""_content/Blazorise.Gantt/gantt.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string LottieAnimationScriptsExample = @"<script src=""_content/Blazorise.LottieAnimation/lottie-animation.js?v=2.2.1.0"" type=""module""></script>";
+        public const string LottieAnimationScriptsExample = @"<script src=""_content/Blazorise.LottieAnimation/lottie-animation.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=2.2.1.0"" type=""module""></script>";
+        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/blazorise.material.js?v=2.2.1.0""></script>
-<script src=""_content/Blazorise.Material/modal.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Material/tooltip.js?v=2.2.1.0"" type=""module""></script>";
+        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/blazorise.material.js?v=2.2.3.0""></script>
+<script src=""_content/Blazorise.Material/modal.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Material/tooltip.js?v=2.2.3.0"" type=""module""></script>";
 
         public const string McpClientConfigExample = @"{
   ""servers"": {
@@ -5970,20 +7100,20 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string MigrationSmokeTestExample = @"blazorise-migrate --version";
 
-        public const string PdfViewerScriptsExample = @"<script src=""_content/Blazorise.PdfViewer/pdfviewer.js?v=2.2.1.0"" type=""module""></script>";
+        public const string PdfViewerScriptsExample = @"<script src=""_content/Blazorise.PdfViewer/pdfviewer.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string QRCodeScriptsExample = @"<script src=""_content/Blazorise.QRCode/blazorise.qrcode.js?v=2.2.1.0"" type=""module""></script>";
+        public const string QRCodeScriptsExample = @"<script src=""_content/Blazorise.QRCode/blazorise.qrcode.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=2.2.1.0"" type=""module""></script>";
+        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string SchedulerScriptsExample = @"<script src=""_content/Blazorise.Scheduler/scheduler.js?v=2.2.1.0"" type=""module""></script>";
+        public const string SchedulerScriptsExample = @"<script src=""_content/Blazorise.Scheduler/scheduler.js?v=2.2.3.0"" type=""module""></script>";
 
         public const string SignaturePadScriptsExample = @"<script src=""_content/Blazorise.SignaturePad/signaturepad.js"" type=""module""></script>";
 
-        public const string SplitterScriptsExample = @"<script src=""_content/Blazorise.Splitter/blazorise.splitter.js?v=2.2.1.0"" type=""module""></script>";
+        public const string SplitterScriptsExample = @"<script src=""_content/Blazorise.Splitter/blazorise.splitter.js?v=2.2.3.0"" type=""module""></script>";
 
-        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=2.2.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Tailwind/tooltip.js?v=2.2.1.0"" type=""module""></script>";
+        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=2.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Tailwind/tooltip.js?v=2.2.3.0"" type=""module""></script>";
 
         public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net10.0";
 
@@ -5993,7 +7123,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string TestingbUnitNugetExample = @"Install-Package Blazorise.Tests.bUnit";
 
-        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=2.2.1.0"" type=""module""></script>";
+        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=2.2.3.0"" type=""module""></script>";
 
         public const string AnimateCustomExample = @"<Div Display=""Display.Flex"" Flex=""Flex.Column"" Gap=""Gap.Is3"">
     <Div>
@@ -6233,7 +7363,11 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     }
 }";
 
-        public const string AutocompleteDataAnnotationValidationExample = @"@using System.ComponentModel.DataAnnotations
+        public const string AutocompleteDataAnnotationValidationExample = @"@using System
+@using System.Collections.Generic
+@using System.Linq
+@using System.Threading.Tasks
+@using System.ComponentModel.DataAnnotations
 
 <Validations Mode=""ValidationMode.Auto"" Model=""@model"">
     <Validation>
@@ -6276,8 +7410,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Validations>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
 
     public IEnumerable<Country> Countries;
 
@@ -6297,9 +7430,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
         [MinLength( 1, ErrorMessage = ""Please select at least one country."" )]
         public List<string> CountryIsos { get; set; } = new List<string>();
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
+        public const string AutocompleteExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
@@ -6323,8 +7496,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -6335,9 +7507,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
     public string selectedSearchValue { get; set; }
     public string selectedAutoCompleteText { get; set; }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteHighlightExample = @"<Autocomplete TItem=""Country""
+        public const string AutocompleteHighlightExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
@@ -6348,8 +7560,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Autocomplete>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -6357,9 +7568,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
         Countries = await CountryData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteItemContentExample = @"<Autocomplete TItem=""Country""
+        public const string AutocompleteItemContentExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
@@ -6390,8 +7641,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -6401,9 +7651,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     }
     string selectedSearchValue { get; set; }
     string selectedAutoCompleteText { get; set; }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteMultipleExample = @"<Autocomplete TItem=""Country""
+        public const string AutocompleteMultipleExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
@@ -6425,8 +7715,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -6438,9 +7727,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
     List<string> multipleSelectionData;
     List<string> multipleSelectionTexts;
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteMultipleValidationExample = @"<Validations @ref=""validations"" Mode=""ValidationMode.Manual"">
+        public const string AutocompleteMultipleValidationExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Validations @ref=""validations"" Mode=""ValidationMode.Manual"">
     <Validation Validator=""@ValidateSelection"">
         <Field>
             <FieldLabel>Countries</FieldLabel>
@@ -6464,8 +7793,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Validations>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
 
     public IEnumerable<Country> Countries;
 
@@ -6492,9 +7820,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     {
         await validations.ValidateAll();
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteReadDataExample = @"<Autocomplete TItem=""Country""
+        public const string AutocompleteReadDataExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@ReadDataCountries""
               ReadData=""@OnHandleReadData""
@@ -6517,8 +7885,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
     public IEnumerable<Country> ReadDataCountries;
 
@@ -6544,9 +7911,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
             }
         }
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteSuggestMultipleCheckboxExample = @"<Autocomplete TItem=""Country""
+        public const string AutocompleteSuggestMultipleCheckboxExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
@@ -6568,8 +7975,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -6581,9 +7987,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
     List<string> multipleSelectionData;
     List<string> multipleSelectionTexts;
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteValidationExample = @"<Validations @ref=""validations"" Mode=""ValidationMode.Manual"">
+        public const string AutocompleteValidationExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Validations @ref=""validations"" Mode=""ValidationMode.Manual"">
     <Validation Validator=""@ValidationRule.IsNotEmpty"">
         <Field>
             <FieldLabel>Country</FieldLabel>
@@ -6606,8 +8052,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 </Validations>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
 
     public IEnumerable<Country> Countries;
 
@@ -6625,9 +8070,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     {
         await validations.ValidateAll();
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteVirtualizeAndReadDataExample = @"<Autocomplete TItem=""Country""
+        public const string AutocompleteVirtualizeAndReadDataExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@ReadDataCountries""
               TotalItems=""totalCountries""
@@ -6640,8 +8125,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
 </Autocomplete>
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
 
     public IEnumerable<Country> Countries;
     IEnumerable<Country> ReadDataCountries;
@@ -6667,9 +8151,49 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         return Task.CompletedTask;
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string AutocompleteVirtualizeExample = @"<Autocomplete TItem=""Country""
+        public const string AutocompleteVirtualizeExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
@@ -6680,8 +8204,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
 </Autocomplete>
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -6691,11 +8214,43 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     }
 
     public string selectedSearchValue { get; set; }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string Country = @"namespace Blazorise.Shared.Models;
-
-public class Country
+        public const string Country = @"public class Country
 {
     public Country( string name, string iso, string capital )
     {
@@ -6712,39 +8267,23 @@ public class Country
 }";
 
         public const string CountryData = @"using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Blazorise.Shared.Models;
-using Microsoft.Extensions.Caching.Memory;
-
-namespace Blazorise.Shared.Data;
 
 public class CountryData
 {
-    private readonly IMemoryCache cache;
-    private readonly string cacheKey = ""cache_countries"";
-
-    /// <summary>
-    /// Simplified code to get and cache data in memory.
-    /// </summary>
-    public CountryData( IMemoryCache memoryCache )
-    {
-        cache = memoryCache;
-    }
-
     public Task<IEnumerable<Country>> GetDataAsync()
-        => cache.GetOrCreateAsync( cacheKey, LoadData );
-
-    private Task<IEnumerable<Country>> LoadData( ICacheEntry cacheEntry )
-    {
-        Assembly assembly = typeof( EmployeeData ).Assembly;
-        using Stream stream = assembly.GetManifestResourceStream( ""Blazorise.Shared.Resources.CountryData.json"" );
-
-        return Task.FromResult( JsonSerializer.Deserialize<List<Country>>( new StreamReader( stream ).ReadToEnd() ).AsEnumerable() );
-    }
+        => Task.FromResult<IEnumerable<Country>>( new Country[]
+        {
+            new( ""Croatia"", ""HR"", ""Zagreb"" ),
+            new( ""France"", ""FR"", ""Paris"" ),
+            new( ""Germany"", ""DE"", ""Berlin"" ),
+            new( ""Italy"", ""IT"", ""Rome"" ),
+            new( ""Japan"", ""JP"", ""Tokyo"" ),
+            new( ""Portugal"", ""PT"", ""Lisbon"" ),
+            new( ""Spain"", ""ES"", ""Madrid"" ),
+            new( ""United Kingdom"", ""GB"", ""London"" ),
+            new( ""United States"", ""US"", ""Washington, D.C."" )
+        } );
 }";
 
         public const string BarcodeStylingExample = @"<Barcode Value=""BLAZORISE""
@@ -8045,6 +9584,482 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         public const string ChartZoomNugetInstallExample = @"Install-Package Blazorise.Charts
 Install-Package Blazorise.Chart.Zoom";
 
+        public const string CodeEditorBasicExample = @"<CodeEditor @bind-Value=""@sourceCode""
+            Language=""@CodeEditorLanguage.CSharp""
+            Theme=""@CodeEditorTheme.VisualStudioDark""
+            Immediate
+            Height=""220.Px()"" />
+
+<Div Margin=""Margin.Is3.FromTop"">
+    <Span TextWeight=""TextWeight.SemiBold"">Characters:</Span>
+    <Code>@sourceCode.Length</Code>
+</Div>
+
+@code {
+    private string sourceCode = """"""
+public static string Greet( string name )
+{
+    return $""Hello, {name}!"";
+}
+"""""";
+}";
+
+        public const string CodeEditorCompletionExample = @"<Paragraph>
+    Type <Code>console.</Code>, or press <Code>Ctrl+Space</Code>, and select a suggestion. Press <Code>Tab</Code> to move through snippet placeholders.
+</Paragraph>
+
+<CodeEditor @bind-Value=""@sourceCode""
+            Language=""@CodeEditorLanguage.JavaScript""
+            CompletionItems=""@completionItems""
+            CompletionTriggerCharacters=""@triggerCharacters""
+            Immediate
+            Height=""220.Px()"" />
+
+@code {
+    private string sourceCode = """"""
+function greet( name ) {
+    // Type console. here
+}
+"""""";
+
+    private static readonly IReadOnlyList<string> triggerCharacters = ["".""];
+
+    private static readonly IReadOnlyList<CodeEditorCompletionItem> completionItems =
+    [
+        new()
+        {
+            Label = ""log"",
+            InsertText = ""log(${1:value});"",
+            Kind = CodeEditorCompletionItemKind.Method,
+            Detail = ""Write a message to the console"",
+            Documentation = ""Inserts console.log with an editable value placeholder."",
+            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,
+        },
+        new()
+        {
+            Label = ""warn"",
+            InsertText = ""warn(${1:value});"",
+            Kind = CodeEditorCompletionItemKind.Method,
+            Detail = ""Write a warning to the console"",
+            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,
+        },
+        new()
+        {
+            Label = ""error"",
+            InsertText = ""error(${1:value});"",
+            Kind = CodeEditorCompletionItemKind.Method,
+            Detail = ""Write an error to the console"",
+            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,
+        },
+    ];
+}";
+
+        public const string CodeEditorContextualCompletionExample = @"<Paragraph>
+    Type an opening brace followed by part of a field name, for example <Code>{Customer</Code>.
+</Paragraph>
+
+<CodeEditor @bind-Value=""@template""
+            Language=""@CodeEditorLanguage.PlainText""
+            CompletionProvider=""@completionProvider""
+            Immediate
+            Height=""220.Px()"" />
+
+@code {
+    private string template = ""Invoice for "";
+
+    private static readonly IReadOnlyList<string> fields =
+    [
+        ""Customer.Name"",
+        ""Customer.Email"",
+        ""Invoice.Number"",
+        ""Invoice.Total"",
+    ];
+
+    private static readonly CodeEditorCompletionProvider completionProvider = new()
+    {
+        Language = CodeEditorLanguage.PlainText,
+        TriggerCharacters = [""{""],
+        ItemsProvider = ProvideFields,
+    };
+
+    private static Task<IReadOnlyList<CodeEditorCompletionItem>> ProvideFields( CodeEditorCompletionContext context )
+    {
+        CodeEditorCompletionRange range = FindFieldRange( context );
+
+        if ( range is null )
+            return Task.FromResult<IReadOnlyList<CodeEditorCompletionItem>>( [] );
+
+        IReadOnlyList<CodeEditorCompletionItem> items = fields
+            .Select( field =>
+            {
+                string expression = $""{{{field}}}"";
+
+                return new CodeEditorCompletionItem
+                {
+                    Label = expression,
+                    InsertText = expression,
+                    FilterText = expression,
+                    Kind = CodeEditorCompletionItemKind.Field,
+                    Detail = ""Template field"",
+                    Range = range,
+                };
+            } )
+            .ToArray();
+
+        return Task.FromResult( items );
+    }
+
+    private static CodeEditorCompletionRange FindFieldRange( CodeEditorCompletionContext context )
+    {
+        if ( context is null || context.LineNumber < 1 || context.Column < 1 )
+            return null;
+
+        string line = context.LineText ?? string.Empty;
+        int cursorIndex = Math.Min( context.Column - 1, line.Length );
+        string textBeforeCursor = line[..cursorIndex];
+        int openingIndex = textBeforeCursor.LastIndexOf( '{' );
+        int closingIndex = textBeforeCursor.LastIndexOf( '}' );
+
+        if ( openingIndex <= closingIndex )
+            return null;
+
+        int endColumn = cursorIndex < line.Length && line[cursorIndex] == '}'
+            ? context.Column + 1
+            : context.Column;
+
+        return new()
+        {
+            StartLineNumber = context.LineNumber,
+            StartColumn = openingIndex + 1,
+            EndLineNumber = context.LineNumber,
+            EndColumn = endColumn,
+        };
+    }
+}";
+
+        public const string CodeEditorCustomLanguageExample = @"<CodeEditor @bind-Value=""@workflow""
+            Language=""@workflowLanguageId""
+            Languages=""@workflowLanguages""
+            Theme=""@CodeEditorTheme.VisualStudioDark""
+            Immediate
+            Height=""220.Px()"" />
+
+@code {
+    private const string workflowLanguageId = ""sample-workflow"";
+
+    private string workflow = """"""
+# A small domain-specific workflow
+step Build
+when success
+run ""dotnet build""
+"""""";
+
+    private static readonly IReadOnlyList<CodeEditorLanguageDefinition> workflowLanguages =
+    [
+        new()
+        {
+            Id = workflowLanguageId,
+            Aliases = [""Workflow""],
+            Extensions = ["".workflow""],
+            Tokenizer = new()
+            {
+                IgnoreCase = true,
+                DefaultToken = string.Empty,
+                Tokens =
+                [
+                    new() { Pattern = ""\\s+"", Token = ""white"" },
+                    new() { Pattern = ""#.*$"", Token = ""comment"" },
+                    new() { Pattern = ""\""[^\""\\r\\n]*\"""", Token = ""string"" },
+                    new() { Pattern = ""\\b(?:step|when|run|success|failure)\\b"", Token = ""keyword"" },
+                    new() { Pattern = ""\\b\\d+\\b"", Token = ""number"" },
+                    new() { Pattern = ""[A-Za-z_][A-Za-z0-9_-]*"", Token = ""identifier"" },
+                ],
+            },
+        },
+    ];
+}";
+
+        public const string CodeEditorDiagnosticsExample = @"<CodeEditor @ref=""@editor""
+            @bind-Value=""@json""
+            Language=""@CodeEditorLanguage.Json""
+            Diagnostics=""@applicationDiagnostics""
+            Immediate
+            Height=""220.Px()"" />
+
+<Div Display=""Display.Flex"" Flex=""Flex.Wrap.AlignItems.Center"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromTop"">
+    <Button Color=""Color.Primary"" Clicked=""@ReadDiagnostics"">Read diagnostics</Button>
+    <Button Color=""Color.Warning"" Clicked=""@AddApplicationWarning"">Add application warning</Button>
+    <Button Color=""Color.Light"" Clicked=""@ClearApplicationDiagnostics"">Clear application markers</Button>
+</Div>
+
+<Paragraph Margin=""Margin.Is3.FromTop"">
+    @status
+</Paragraph>
+
+@code {
+    private CodeEditor editor;
+
+    private string status = ""Edit the JSON or add an application warning."";
+
+    private string json = """"""
+{
+  ""name"": ""Blazorise"",
+  ""debug"": true
+}
+"""""";
+
+    private IReadOnlyList<CodeEditorDiagnostic> applicationDiagnostics = [];
+
+    private async Task ReadDiagnostics()
+    {
+        IReadOnlyList<CodeEditorDiagnostic> diagnostics = await editor.GetDiagnostics();
+        CodeEditorDiagnostic firstError = diagnostics.FirstOrDefault( diagnostic => diagnostic.Severity == CodeEditorDiagnosticSeverity.Error );
+
+        status = firstError is null
+            ? $""No error markers are currently available. The editor reports {diagnostics.Count} marker(s).""
+            : $""Line {firstError.StartLineNumber}: {firstError.Message}"";
+    }
+
+    private Task AddApplicationWarning()
+    {
+        applicationDiagnostics =
+        [
+            new()
+            {
+                Severity = CodeEditorDiagnosticSeverity.Warning,
+                Message = ""Disable debug mode before publishing."",
+                Code = ""APP001"",
+                StartLineNumber = 3,
+                StartColumn = 3,
+                EndLineNumber = 3,
+                EndColumn = 16,
+            },
+        ];
+        status = ""Application warning added."";
+
+        return Task.CompletedTask;
+    }
+
+    private Task ClearApplicationDiagnostics()
+    {
+        applicationDiagnostics = [];
+        status = ""Application markers cleared."";
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string CodeEditorFormattingExample = @"@using System.Text.Json
+
+<CodeEditor @ref=""@editor""
+            @bind-Value=""@json""
+            Language=""@CodeEditorLanguage.Json""
+            FormattingProvider=""@formattingProvider""
+            EditorOptions=""@editorOptions""
+            Immediate
+            Height=""220.Px()"" />
+
+<Div Display=""Display.Flex"" Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is3"" Margin=""Margin.Is3.FromTop"">
+    <Button Color=""Color.Primary"" Clicked=""@FormatDocument"">Format document</Button>
+    <Span>@status</Span>
+</Div>
+
+@code {
+    private CodeEditor editor;
+
+    private string status = ""Ready"";
+
+    private string json = """"""{""name"":""Blazorise"",""features"":[""completion"",""diagnostics"",""formatting""]}"""""";
+
+    private static readonly JsonSerializerOptions serializerOptions = new()
+    {
+        WriteIndented = true,
+    };
+
+    private static readonly CodeEditorOptions editorOptions = new()
+    {
+        Minimap = false,
+        FormatOnPaste = true,
+        ScrollBeyondLastLine = false,
+    };
+
+    private static readonly CodeEditorDocumentFormattingProvider formattingProvider = new()
+    {
+        Language = CodeEditorLanguage.Json,
+        Formatter = FormatJson,
+    };
+
+    private async Task FormatDocument()
+    {
+        bool formatted = await editor.FormatDocument();
+
+        status = formatted
+            ? ""Formatting provider invoked.""
+            : ""No formatting provider is available."";
+    }
+
+    private static Task<string> FormatJson( string value )
+    {
+        try
+        {
+            using JsonDocument document = JsonDocument.Parse( value ?? string.Empty );
+            string formattedValue = JsonSerializer.Serialize( document.RootElement, serializerOptions );
+
+            return Task.FromResult( formattedValue );
+        }
+        catch ( JsonException )
+        {
+            return Task.FromResult( value );
+        }
+    }
+}";
+
+        public const string CodeEditorImportsExample = @"@using Blazorise.CodeEditor";
+
+        public const string CodeEditorNugetInstallExample = @"Install-Package Blazorise.CodeEditor";
+
+        public const string CodeEditorOptionsExample = @"<CodeEditor @ref=""@editor""
+            @bind-Value=""@sourceCode""
+            Language=""@CodeEditorLanguage.JavaScript""
+            EditorOptions=""@editorOptions""
+            Immediate
+            Debounce
+            DebounceInterval=""250""
+            Ready=""@OnReady""
+            ContentChanged=""@OnContentChanged""
+            Focused=""@OnFocused""
+            Blurred=""@OnBlurred""
+            Height=""220.Px()"" />
+
+<Div Display=""Display.Flex"" Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is3"" Margin=""Margin.Is3.FromTop"">
+    <Button Color=""Color.Primary"" Clicked=""@FocusEditor"">Focus editor</Button>
+    <Span>@status</Span>
+</Div>
+
+@code {
+    private CodeEditor editor;
+
+    private string status = ""Waiting for the editor"";
+
+    private string sourceCode = """"""
+const greeting = name => `Hello, ${name}!`;
+
+console.log(greeting(""Blazorise""));
+"""""";
+
+    private readonly CodeEditorOptions editorOptions = new()
+    {
+        Minimap = false,
+        WordWrap = true,
+        TabSize = 2,
+        RenderWhitespace = true,
+        ScrollBeyondLastLine = false,
+        FontSize = 14,
+    };
+
+    private Task FocusEditor()
+        => editor?.Focus() ?? Task.CompletedTask;
+
+    private Task OnReady( CodeEditorReadyEventArgs eventArgs )
+    {
+        status = $""Ready: {eventArgs.ElementId}"";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnContentChanged( string value )
+    {
+        status = $""Changed: {value.Length} characters"";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnFocused()
+    {
+        status = ""Focused"";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnBlurred()
+    {
+        status = ""Blurred"";
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string CodeEditorServiceRegistrationExample = @"builder.Services
+    .AddBlazorise()
+    .AddBootstrap5Providers()
+    .AddBlazoriseCodeEditor();";
+
+        public const string CodeEditorValidationExample = @"@using System.Threading
+
+<Validations @ref=""@validations"" Mode=""ValidationMode.Manual"">
+    <Validation AsyncValidator=""@ValidateCode"">
+        <Field>
+            <FieldLabel>JSON configuration</FieldLabel>
+            <FieldBody>
+                <CodeEditor @ref=""@editor""
+                            @bind-Value=""@json""
+                            Language=""@CodeEditorLanguage.Json""
+                            Immediate
+                            Height=""220.Px()"">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </CodeEditor>
+            </FieldBody>
+        </Field>
+    </Validation>
+
+    <Button Color=""Color.Primary"" Clicked=""@Validate"">Validate</Button>
+</Validations>
+
+@code {
+    private CodeEditor editor;
+
+    private Validations validations;
+
+    private string json = """"""
+{
+  ""name"": ""Blazorise"",
+  ""enabled"":
+}
+"""""";
+
+    private Task Validate()
+        => validations.ValidateAll();
+
+    private async Task ValidateCode( ValidatorEventArgs eventArgs, CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        string value = Convert.ToString( eventArgs.Value );
+
+        if ( string.IsNullOrWhiteSpace( value ) )
+        {
+            eventArgs.Status = ValidationStatus.Error;
+            eventArgs.ErrorText = ""Enter a JSON document."";
+
+            return;
+        }
+
+        IReadOnlyList<CodeEditorDiagnostic> diagnostics = await editor.GetDiagnostics();
+
+        cancellationToken.ThrowIfCancellationRequested();
+
+        CodeEditorDiagnostic error = diagnostics.FirstOrDefault(
+            diagnostic => diagnostic.Severity == CodeEditorDiagnosticSeverity.Error );
+
+        eventArgs.Status = error is null
+            ? ValidationStatus.Success
+            : ValidationStatus.Error;
+        eventArgs.ErrorText = error?.Message;
+    }
+}";
+
         public const string BasicCropperExample = @"<Row>
     <Column>
         <FieldLabel>
@@ -8127,7 +10142,13 @@ Install-Package Blazorise.Chart.Zoom";
 
         public const string ImportCropperExample = @"@using Blazorise.Cropper";
 
-        public const string DataGridAggregatesExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
+        public const string DataGridAggregatesExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
     <DataGridAggregates>
         <DataGridAggregate Field=""@nameof( Employee.Email )"" Aggregate=""DataGridAggregateType.Count"">
             <DisplayTemplate>
@@ -8151,8 +10172,7 @@ Install-Package Blazorise.Chart.Zoom";
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
@@ -8160,9 +10180,162 @@ Install-Package Blazorise.Chart.Zoom";
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridAggregatesLargeDataExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridAggregatesLargeDataExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           ReadData=""@OnReadData""
           TotalItems=""@totalEmployees""
@@ -8191,8 +10364,7 @@ Install-Package Blazorise.Chart.Zoom";
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
@@ -8230,6 +10402,153 @@ Install-Package Blazorise.Chart.Zoom";
         }
         return Task.CompletedTask;
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
         public const string DataGridAnnotationExample = @"public class Employee
@@ -8241,7 +10560,13 @@ Install-Package Blazorise.Chart.Zoom";
 	public string LastName { get; set; }
 }";
 
-        public const string DataGridApplySortingExample = @"<Button Color=""Color.Secondary"" Clicked=""OnResetClicked"">Reset sorting</Button>
+        public const string DataGridApplySortingExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Button Color=""Color.Secondary"" Clicked=""OnResetClicked"">Reset sorting</Button>
 <Button Color=""Color.Primary"" Clicked=""OnPredefinedClicked"">Apply predefined sorting</Button>
 
 <DataGrid @ref=""dataGrid""
@@ -8262,7 +10587,7 @@ Install-Package Blazorise.Chart.Zoom";
 </DataGrid>
 
 @code {
-    [Inject] public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private DataGrid<Employee> dataGrid;
 
@@ -8278,9 +10603,160 @@ Install-Package Blazorise.Chart.Zoom";
         new DataGridSortColumnInfo( nameof( Employee.Childrens ), SortDirection.Descending ),
         new DataGridSortColumnInfo( nameof( Employee.Gender ), SortDirection.Ascending )
         );
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridAutoGenerateColumnsExample = @"@using System.ComponentModel.DataAnnotations
+        public const string DataGridAutoGenerateColumnsExample = @"@using System
+@using System.Collections.Generic
+@using System.Linq
+@using System.Threading.Tasks
+@using System.ComponentModel.DataAnnotations
 
 <DataGrid TItem=""Example""
           Data=""data""
@@ -8316,7 +10792,7 @@ Install-Package Blazorise.Chart.Zoom";
 
         [Order( DisplayOrder = 5, EditOrder = 0 )]
         [Display( Name = ""Gender"" )]
-        [Select( GetDataFunction = ""GetGenders"", TextField = nameof( Blazorise.Shared.Data.Gender.Description ), ValueField = nameof( Blazorise.Shared.Data.Gender.Code ) )]
+        [Select( GetDataFunction = ""GetGenders"", TextField = ""Description"", ValueField = ""Code"" )]
         public string Gender { get; set; }
 
         [Order( DisplayOrder = 6, EditOrder = 6 )]
@@ -8343,9 +10819,162 @@ Install-Package Blazorise.Chart.Zoom";
         new(){ FirstName = ""Jack"", LastName = ""Doe"", Gender = ""M"",Age = 22, Balance = 5000, Status = Status.Active, FieldToBeIgnored = ""76471dfe-2efd-4ec5-b192-82abc1b05c72"", DateOfBirth = new DateOnly(1990,09,10) },
         new(){ FirstName = ""Jen"", LastName = ""Doe"",Gender = ""F"", Age = 20, Balance = 6000, Status = Status.Active, FieldToBeIgnored = ""be83a3c0-9636-4ebd-acca-08e6ffb5c469"", DateOfBirth = new DateOnly(2000,01,01) },
     };
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridBatchEditExample = @"<Field>
+        public const string DataGridBatchEditExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Field>
     <FieldLabel>
         Edit Mode
     </FieldLabel>
@@ -8395,7 +11024,7 @@ Install-Package Blazorise.Chart.Zoom";
     </ButtonRowTemplate>
 </DataGrid>
 @code {
-    [Inject] EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
 
     private int batchQuantity = 0;
     private DataGrid<Employee> dataGridRef;
@@ -8428,9 +11057,162 @@ Install-Package Blazorise.Chart.Zoom";
         batchQuantity = 0;
         return Task.CompletedTask;
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridButtonRowExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridButtonRowExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Editable
@@ -8456,8 +11238,7 @@ Install-Package Blazorise.Chart.Zoom";
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
 
@@ -8466,9 +11247,162 @@ Install-Package Blazorise.Chart.Zoom";
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridCaptionExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive Caption=""This is a caption for the DataGrid."">
+        public const string DataGridCaptionExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive Caption=""This is a caption for the DataGrid."">
     <DataGridColumn Field=""@nameof( Employee.Id )"" Caption=""#"" Sortable=""false"" />
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" />
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" />
@@ -8476,8 +11410,7 @@ Install-Package Blazorise.Chart.Zoom";
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
@@ -8485,9 +11418,162 @@ Install-Package Blazorise.Chart.Zoom";
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridCellSelectionExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridCellSelectionExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           NavigationMode=""DataGridNavigationMode.Cell""
           @bind-Selectedcell=""@selectedCell""
@@ -8536,8 +11622,7 @@ Install-Package Blazorise.Chart.Zoom";
 </Row>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private DataGridCellInfo<Employee> selectedCell;
 
@@ -8546,16 +11631,168 @@ Install-Package Blazorise.Chart.Zoom";
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridCheckColumnExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
+        public const string DataGridCheckColumnExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
     <DataGridCheckColumn Field=""@nameof( Employee.IsActive )"" Caption=""Active"" Editable />
     <DataGridCommandColumn />
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
@@ -8563,9 +11800,162 @@ Install-Package Blazorise.Chart.Zoom";
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridColumnChooserDisplayableExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridColumnChooserDisplayableExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""Data""
           ShowColumnChooser>
     <DataGridColumns>
@@ -8587,9 +11977,162 @@ Install-Package Blazorise.Chart.Zoom";
 
         public decimal Salary { get; set; }
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridColumnChooserExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridColumnChooserExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""inMemoryData""
           Responsive
           ShowColumnChooser
@@ -8600,7 +12143,7 @@ Install-Package Blazorise.Chart.Zoom";
 </DataGrid>
 
 @code {
-    [Inject] EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
 
     private IEnumerable<Employee> inMemoryData;
 
@@ -8614,9 +12157,162 @@ Install-Package Blazorise.Chart.Zoom";
     {
         Console.WriteLine( $""Column: {args.Column.Field} | Display: {args.Display}"" );
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridColumnChooserPositionExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridColumnChooserPositionExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""inMemoryData""
           Responsive
           ShowColumnChooser
@@ -8625,7 +12321,7 @@ Install-Package Blazorise.Chart.Zoom";
 </DataGrid>
 
 @code {
-    [Inject] EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
 
     private IEnumerable<Employee> inMemoryData;
 
@@ -8634,16 +12330,168 @@ Install-Package Blazorise.Chart.Zoom";
         inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridColumnExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
+        public const string DataGridColumnExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
     <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
     <DataGridCommandColumn />
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
@@ -8651,9 +12499,162 @@ Install-Package Blazorise.Chart.Zoom";
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridColumnFilteringExample = @"<DataGrid @ref=""dataGrid""
+        public const string DataGridColumnFilteringExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid @ref=""dataGrid""
           TItem=""Employee""
           Data=""@employeeList""
           Responsive
@@ -8664,9 +12665,162 @@ Install-Package Blazorise.Chart.Zoom";
 @code {
     private DataGrid<Employee> dataGrid;
     private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""MLaden"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridCommandTemplatesExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridCommandTemplatesExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Editable
@@ -8691,8 +12845,7 @@ Install-Package Blazorise.Chart.Zoom";
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
 
@@ -8701,9 +12854,161 @@ Install-Package Blazorise.Chart.Zoom";
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridContextMenuExample = @"@using System.Drawing
+        public const string DataGridContextMenuExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+@using System.Drawing
 
 <DataGrid @ref=""@dataGridRef""
           TItem=""Employee""
@@ -8734,8 +13039,7 @@ Install-Package Blazorise.Chart.Zoom";
 }
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
     private DataGrid<Employee> dataGridRef;
@@ -8772,9 +13076,162 @@ Install-Package Blazorise.Chart.Zoom";
 
         showContextMenu = false;
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridCustomColumnFilteringExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridCustomColumnFilteringExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Filterable
           Responsive>
@@ -8838,9 +13295,162 @@ Install-Package Blazorise.Chart.Zoom";
         FourToSix,
         SixAndMore
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridCustomFilteringExample = @"Custom Filter: <TextInput Value=""@customFilterValue"" ValueChanged=""@OnCustomFilterValueChanged""></TextInput>
+        public const string DataGridCustomFilteringExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+ Custom Filter: <TextInput Value=""@customFilterValue"" ValueChanged=""@OnCustomFilterValueChanged""></TextInput>
 
 <DataGrid @ref=""dataGrid""
           TItem=""Employee""
@@ -8871,9 +13481,162 @@ Install-Package Blazorise.Chart.Zoom";
 
         return model.FirstName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridCustomRowColorsExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridCustomRowColorsExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           CellStyling=""@OnCellStyling""
@@ -8892,8 +13655,7 @@ Install-Package Blazorise.Chart.Zoom";
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
 
@@ -8913,16 +13675,168 @@ Install-Package Blazorise.Chart.Zoom";
     {
         styling.Background = Background.Info;
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridDateColumnExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
+        public const string DataGridDateColumnExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
     <DataGridDateColumn Field=""@nameof( Employee.DateOfBirth )"" Caption=""Birth Date"" Editable />
     <DataGridCommandColumn />
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
@@ -8930,16 +13844,168 @@ Install-Package Blazorise.Chart.Zoom";
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridDateColumnNativeExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
+        public const string DataGridDateColumnNativeExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
     <DataGridDateColumn Field=""@nameof( Employee.DateOfBirth )"" Caption=""Birth Date"" Editable NativeInputMode />
     <DataGridCommandColumn />
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
@@ -8947,9 +14013,162 @@ Install-Package Blazorise.Chart.Zoom";
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridDetailRowTemplateExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridDetailRowTemplateExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           @ref=""dataGridRef""
           Data=""@employeeList""
           DetailRowTrigger=""@(e => DisplayDetailRow(e.Item))""
@@ -8986,8 +14205,7 @@ Install-Package Blazorise.Chart.Zoom";
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     DataGrid<Employee> dataGridRef;
 
@@ -8998,9 +14216,162 @@ Install-Package Blazorise.Chart.Zoom";
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridDisplayTemplateExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridDisplayTemplateExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Responsive>
     <DataGridNumericColumn Field=""@nameof( Employee.DateOfBirth )"" Caption=""Birth Date"" Editable>
@@ -9018,8 +14389,7 @@ Install-Package Blazorise.Chart.Zoom";
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
 
@@ -9028,9 +14398,161 @@ Install-Package Blazorise.Chart.Zoom";
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridDynamicAutoGenerateExample = @"@using System.Dynamic
+        public const string DataGridDynamicAutoGenerateExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+@using System.Dynamic
 
 <DataGrid TItem=""ExpandoObject""
           Data=""inMemoryData""
@@ -9043,7 +14565,7 @@ Install-Package Blazorise.Chart.Zoom";
           NewItemCreator=""NewItemCreator"" />
 
 @code {
-    [Inject] EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
 
     private List<ExpandoObject> inMemoryData;
 
@@ -9085,9 +14607,161 @@ Install-Package Blazorise.Chart.Zoom";
 
         return (ExpandoObject)expando;
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridDynamicExample = @"@using System.Dynamic
+        public const string DataGridDynamicExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+@using System.Dynamic
 
 <DataGrid TItem=""ExpandoObject""
           Data=""inMemoryData""
@@ -9137,7 +14811,7 @@ Install-Package Blazorise.Chart.Zoom";
 
 @code {
 
-    [Inject] EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
 
     private List<ExpandoObject> inMemoryData;
 
@@ -9173,9 +14847,162 @@ Install-Package Blazorise.Chart.Zoom";
 
         return (ExpandoObject)expando;
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridEditModeExample = @"<Field>
+        public const string DataGridEditModeExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Field>
     <FieldLabel>
         Edit Mode
     </FieldLabel>
@@ -9221,8 +15048,7 @@ Install-Package Blazorise.Chart.Zoom";
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
     private DataGridEditMode editMode = DataGridEditMode.Form;
@@ -9232,9 +15058,162 @@ Install-Package Blazorise.Chart.Zoom";
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridEditTemplateExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridEditTemplateExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Editable
           Responsive>
@@ -9247,14 +15226,160 @@ Install-Package Blazorise.Chart.Zoom";
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
     {
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
+    }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
     }
 }";
 
@@ -9352,14 +15477,11 @@ public class Employee
     private decimal tax;
 }";
 
-        public const string DataGridEmployeeData = @"using System.Collections.Generic;
-using System.IO;
+        public const string DataGridEmployeeData = @"using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Blazorise.Shared.Models;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace Blazorise.Shared.Data;
 
@@ -9371,53 +15493,57 @@ public class Gender
 
 public class EmployeeData
 {
-    private readonly IMemoryCache cache;
-    private readonly string employeesCacheKey = ""cache_employees"";
+    private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+    private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+    private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
 
-    public EmployeeData( IMemoryCache memoryCache )
-    {
-        cache = memoryCache;
-    }
+    public static IEnumerable<Gender> Genders =
+    [
+        new() { Code = null, Description = string.Empty },
+        new() { Code = ""M"", Description = ""Male"" },
+        new() { Code = ""F"", Description = ""Female"" },
+        new() { Code = ""D"", Description = ""Diverse"" }
+    ];
 
-    public static IEnumerable<Gender> Genders = new List<Gender>()
-    {
-        new()
-        {
-            Code = null,
-            Description = string.Empty
-        },
-        new()
-        {
-            Code = ""M"",
-            Description = ""Male""
-        },
-        new()
-        {
-            Code = ""F"",
-            Description = ""Female""
-        },
-        new()
-        {
-            Code = ""D"",
-            Description = ""Diverse""
-        }
-    };
+    public Task<List<Employee>> GetDataAsync()
+        => Task.FromResult( Enumerable.Range( 1, 500 )
+            .Select( index =>
+            {
+                string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                string lastName = LastNames[( index - 1 ) % LastNames.Length];
 
-    public async Task<List<Employee>> GetDataAsync()
-        => ( await cache.GetOrCreateAsync( employeesCacheKey, LoadData ) )
-            .Select( x => new Employee( x ) )
-            .ToList();
-
-    private Task<List<Employee>> LoadData( ICacheEntry cacheEntry )
-    {
-        Assembly assembly = typeof( EmployeeData ).Assembly;
-        using Stream stream = assembly.GetManifestResourceStream( ""Blazorise.Shared.Resources.EmployeeData.json"" );
-
-        return Task.FromResult( JsonSerializer.Deserialize<List<Employee>>( new StreamReader( stream ).ReadToEnd() ) );
-    }
+                return new Employee
+                {
+                    Id = index,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Email = $""{firstName}.{lastName}{index}@example.com"",
+                    City = Cities[( index - 1 ) % Cities.Length],
+                    Zip = $""{10000 + index}"",
+                    DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                    Childrens = index % 6,
+                    Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                    Salary = 50000m + index * 137m % 50000m,
+                    IsActive = index % 2 == 0,
+                    Salaries = Enumerable.Range( 1, index % 4 )
+                        .Select( month => new Salary
+                        {
+                            Date = new DateTime( 2025, month, 1 ),
+                            Total = 1000m + index * month * 11m
+                        } )
+                        .ToList()
+                };
+            } )
+            .ToList() );
 }";
 
-        public const string DataGridEmptyCellTemplateExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridEmptyCellTemplateExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           TotalItems=""@totalEmployees""
@@ -9451,8 +15577,7 @@ public class EmployeeData
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
 
@@ -9476,9 +15601,158 @@ public class EmployeeData
         */
         return Task.Delay( 2000 );
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridExample = @"@using System.Collections.Generic
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Responsive>
@@ -9495,19 +15769,36 @@ public class EmployeeData
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
-    private List<Employee> employeeList;
+    private readonly List<Employee> employeeList =
+    [
+        new() { Id = 1, FirstName = ""John"", LastName = ""Doe"", Email = ""john.doe@example.com"", Salary = 80000m },
+        new() { Id = 2, FirstName = ""Jane"", LastName = ""Doe"", Email = ""jane.doe@example.com"", Salary = 75000m },
+        new() { Id = 3, FirstName = ""David"", LastName = ""Smith"", Email = ""david.smith@example.com"", Salary = 100000m }
+    ];
+
     private Employee selectedEmployee;
 
-    protected override async Task OnInitializedAsync()
+    private sealed class Employee
     {
-        employeeList = await EmployeeData.GetDataAsync();
-        await base.OnInitializedAsync();
+        public int Id { get; set; }
+
+        public string FirstName { get; set; } = string.Empty;
+
+        public string LastName { get; set; } = string.Empty;
+
+        public string Email { get; set; } = string.Empty;
+
+        public decimal Salary { get; set; }
     }
 }";
 
-        public const string DataGridFilterExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridFilterExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Filterable
           FilterMethod=""DataGridFilterMethod.StartsWith""
@@ -9517,9 +15808,162 @@ public class EmployeeData
 
 @code {
     private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""Mladen"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridFilterModeColumnFilteringExample = @"<DataGrid @ref=""dataGrid""
+        public const string DataGridFilterModeColumnFilteringExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid @ref=""dataGrid""
           TItem=""Employee""
           Data=""@employeeList""
           Responsive
@@ -9534,9 +15978,162 @@ public class EmployeeData
 @code {
     private DataGrid<Employee> dataGrid;
     private List<Employee> employeeList = new() { new() { FirstName = ""David"", LastName = ""Moreira"", Gender = ""M"", Childrens = 0 }, new() { FirstName = ""MLaden"", LastName = ""Macanovic"", Gender = ""M"", Childrens = 1 }, new() { FirstName = ""John"", LastName = ""Doe"", Gender = ""M"", Childrens = 2 }, new() { FirstName = ""Ana"", LastName = ""Chamberlain"", Gender = ""F"", Childrens = 5 }, new() { FirstName = ""Jessica"", LastName = ""Winston"", Gender = ""F"", Childrens = 2 } };
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridFilterModeColumnTemplateFilteringExample = @"<DataGrid @ref=""dataGrid""
+        public const string DataGridFilterModeColumnTemplateFilteringExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid @ref=""dataGrid""
           TItem=""Employee""
           Data=""@employeeList""
           Responsive
@@ -9637,9 +16234,162 @@ public class EmployeeData
 
         ( context.SearchValue as object[] )[1] = value2;
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridFixedColumnsExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridFixedColumnsExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           FixedColumns
           ShowPager
@@ -9661,8 +16411,7 @@ public class EmployeeData
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
 
@@ -9671,9 +16420,162 @@ public class EmployeeData
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridFixedHeaderExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridFixedHeaderExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Responsive
@@ -9693,8 +16595,7 @@ public class EmployeeData
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
 
@@ -9703,9 +16604,162 @@ public class EmployeeData
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridGroupingExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridGroupingExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Responsive
           ShowPager
@@ -9722,7 +16776,7 @@ public class EmployeeData
 </DataGrid>
 
 @code{
-    [Inject] public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
@@ -9730,9 +16784,162 @@ public class EmployeeData
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridGroupingMethodsExample = @"<Paragraph>
+        public const string DataGridGroupingMethodsExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Paragraph>
     <Button Color=""Color.Primary"" Clicked=""@(() => dataGridRef.ExpandAllGroups())"">Expand All</Button>
     <Button Color=""Color.Secondary"" Clicked=""@(() => dataGridRef.CollapseAllGroups())"">Collapse All</Button>
 </Paragraph>
@@ -9771,7 +16978,7 @@ public class EmployeeData
 </DataGrid>
 
 @code {
-    [Inject] public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
 
     private string selectedGroupKey = ""{ Childrens = 1, Gender = F }"";
     private DataGrid<Employee> dataGridRef;
@@ -9782,9 +16989,162 @@ public class EmployeeData
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridHeaderGroupExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridHeaderGroupExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""inMemoryData""
           ShowPager
           ShowPageSizes
@@ -9804,7 +17164,7 @@ public class EmployeeData
 </DataGrid>
 
 @code {
-    [Inject] EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
 
     private List<Employee> inMemoryData;
 
@@ -9813,9 +17173,162 @@ public class EmployeeData
         inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 ).ToList();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridHeaderGroupTemplateExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridHeaderGroupTemplateExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""inMemoryData""
           ShowPager
           ShowPageSizes
@@ -9845,7 +17358,7 @@ public class EmployeeData
 </DataGrid>
 
 @code {
-    [Inject] EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
 
     private List<Employee> inMemoryData;
 
@@ -9854,11 +17367,163 @@ public class EmployeeData
         inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 ).ToList();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
         public const string DataGridImportsExample = @"@using Blazorise.DataGrid";
 
         public const string DataGridLargeDataExample = @"@using Blazorise.DataGrid.Extensions;
+@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
 
 <DataGrid TItem=""Employee""
           Data=""@employeeList""
@@ -9892,8 +17557,7 @@ public class EmployeeData
 </Row>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private string oDataQuery;
     protected override async Task OnInitializedAsync()
@@ -9928,10 +17592,162 @@ public class EmployeeData
             }
         }
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
         public const string DataGridLargeDataExpressionCompilerExample = @"@using Blazorise.DataGrid.Extensions;
 @using Blazorise.DataGrid.Utils
+@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
 
 <DataGrid @ref=dataGridRef
           TItem=""Employee""
@@ -9952,7 +17768,7 @@ public class EmployeeData
 </DataGrid>
 
 @code {
-    [Inject] public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private DataGrid<Employee> dataGridRef;
     private List<Employee> employeeListSource;
     private List<Employee> employeeList;
@@ -9992,9 +17808,162 @@ public class EmployeeData
             }
         }
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridLoadingEmptyTemplateExample = @"<DataGrid @ref=""datagridRef""
+        public const string DataGridLoadingEmptyTemplateExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid @ref=""datagridRef""
           TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
@@ -10061,9 +18030,162 @@ public class EmployeeData
         progress = 100;
         await InvokeAsync( StateHasChanged );
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridMobileModeExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridMobileModeExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Responsive
@@ -10081,8 +18203,7 @@ public class EmployeeData
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
 
@@ -10091,9 +18212,162 @@ public class EmployeeData
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridMultipleGroupingExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridMultipleGroupingExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Responsive
           ShowPager
@@ -10109,7 +18383,7 @@ public class EmployeeData
 </DataGrid>
 
 @code {
-    [Inject] public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
@@ -10117,9 +18391,162 @@ public class EmployeeData
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridMultipleSelectionExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridMultipleSelectionExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           SelectionMode=""DataGridSelectionMode.Multiple""
@@ -10139,8 +18566,7 @@ public class EmployeeData
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
     private List<Employee> selectedEmployees;
@@ -10150,9 +18576,162 @@ public class EmployeeData
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridNewItemDefaultSetterExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridNewItemDefaultSetterExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           NewItemDefaultSetter=""@OnEmployeeNewItemDefaultSetter""
@@ -10172,8 +18751,7 @@ public class EmployeeData
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
 
@@ -10188,18 +18766,170 @@ public class EmployeeData
         employee.Salary = 100.0M;
         employee.IsActive = true;
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
         public const string DataGridNugetInstallExample = @"Install-Package Blazorise.DataGrid";
 
-        public const string DataGridNumericColumnExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
+        public const string DataGridNumericColumnExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
     <DataGridNumericColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable />
     <DataGridCommandColumn />
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
@@ -10207,16 +18937,168 @@ public class EmployeeData
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridNumericColumnNativeExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
+        public const string DataGridNumericColumnNativeExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
     <DataGridNumericColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable NativeInputMode />
     <DataGridCommandColumn />
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
@@ -10224,9 +19106,161 @@ public class EmployeeData
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridObservableCollectionExample = @"@using System.Collections.ObjectModel;
+        public const string DataGridObservableCollectionExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+@using System.Collections.ObjectModel;
 
 <Button Clicked=""OnAddItemClick"" Color=""Color.Primary"">Add Item</Button>
 <Button Clicked=""OnRemoveItemClick"" Color=""Color.Danger"">Remove Item</Button>
@@ -10256,9 +19290,162 @@ public class EmployeeData
 
         return Task.CompletedTask;
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridPagerExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridPagerExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Responsive
@@ -10310,8 +19497,7 @@ public class EmployeeData
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
 
@@ -10320,9 +19506,162 @@ public class EmployeeData
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridRapidEditExample = @"<Field>
+        public const string DataGridRapidEditExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Field>
     <FieldBody>
         <Switch @bind-Value=""@showCommandColumn"" Size=""Size.Medium"">Show Command Column</Switch>
     </FieldBody>
@@ -10359,8 +19698,7 @@ public class EmployeeData
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
     private bool showCommandColumn;
@@ -10370,9 +19708,162 @@ public class EmployeeData
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridReorderingColumnsExample = @"<Button Color=""Color.Primary"" Clicked=""@(() => dataGridRef.ResetDisplayOrder())"">
+        public const string DataGridReorderingColumnsExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Button Color=""Color.Primary"" Clicked=""@(() => dataGridRef.ResetDisplayOrder())"">
     Reset Columns Order
 </Button>
 
@@ -10385,7 +19876,7 @@ public class EmployeeData
 
 @code {
     private DataGrid<Employee> dataGridRef;
-    [Inject] public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
@@ -10393,9 +19884,162 @@ public class EmployeeData
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridResizableExample = @"<Field>
+        public const string DataGridResizableExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Field>
     <FieldLabel>
         Resize Mode
     </FieldLabel>
@@ -10426,8 +20070,7 @@ public class EmployeeData
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
     private TableResizeMode resizeMode = TableResizeMode.Header;
@@ -10437,9 +20080,162 @@ public class EmployeeData
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridRowOverlayExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridRowOverlayExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           RowSelectable=@((x)=> x.Item.FirstName != ""John"")
           Responsive>
@@ -10456,9 +20252,162 @@ public class EmployeeData
 
 @code {
     private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""MLaden"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridRowSelectableMultipleSelectionExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridRowSelectableMultipleSelectionExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           SelectionMode=""DataGridSelectionMode.Multiple""
@@ -10479,8 +20428,7 @@ public class EmployeeData
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
     private List<Employee> selectedEmployees;
@@ -10493,6 +20441,153 @@ public class EmployeeData
 
     private bool RowSelectableHandler( RowSelectableEventArgs<Employee> rowSelectableEventArgs )
         => rowSelectableEventArgs.SelectReason is not DataGridSelectReason.RowClick;
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
         public const string DataGridSalary = @"using System;
@@ -10505,7 +20600,13 @@ public class Salary
     public decimal Total { get; set; }
 }";
 
-        public const string DataGridScrollToExample = @"<Button Size=""Size.Small"" Color=""Color.Primary"" Clicked=""@ScrollToRow"">Scroll To Row</Button>
+        public const string DataGridScrollToExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Button Size=""Size.Small"" Color=""Color.Primary"" Clicked=""@ScrollToRow"">Scroll To Row</Button>
 <Button Size=""Size.Small"" Color=""Color.Primary"" Clicked=""@ScrollToPixels"">Scroll To Pixels</Button>
 
 <DataGrid @ref=""dataGridRef""
@@ -10530,8 +20631,7 @@ public class Salary
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
     private DataGrid<Employee> dataGridRef;
@@ -10547,17 +20647,169 @@ public class Salary
 
     private Task ScrollToPixels()
         => dataGridRef.ScrollToPixels( 500 ).AsTask();
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridSelectColumnExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
+        public const string DataGridSelectColumnExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
     <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable
                           Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
     <DataGridCommandColumn />
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
@@ -10565,9 +20817,162 @@ public class Salary
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridSelectColumnMultipleExample = @"<DataGrid TItem=""EmployeeActivity"" Data=""@employeeList"" ShowPager PageSize=""5"" Responsive Editable>
+        public const string DataGridSelectColumnMultipleExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""EmployeeActivity"" Data=""@employeeList"" ShowPager PageSize=""5"" Responsive Editable>
     <DataGridSelectColumn TItem=""EmployeeActivity"" Field=""@nameof( EmployeeActivity.Activities )""
                           Caption=""Activity""
                           Editable
@@ -10579,8 +20984,7 @@ public class Salary
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<EmployeeActivity> employeeList;
 
     protected override async Task OnInitializedAsync()
@@ -10632,9 +21036,162 @@ public class Salary
         public string Code { get; set; }
         public string Description { get; set; }
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridSelectingExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridSelectingExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           RowSelectable=@((x)=> x.Item.FirstName != ""John"")
           Responsive>
@@ -10643,9 +21200,162 @@ public class Salary
 
 @code{
     private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""MLaden"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridSelfReferenceEditingExample = @"<Button Color=""Color.Success"" Margin=""Margin.Is2.FromEnd"" Clicked=""@ExpandAllRows"">Expand All</Button>
+        public const string DataGridSelfReferenceEditingExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Button Color=""Color.Success"" Margin=""Margin.Is2.FromEnd"" Clicked=""@ExpandAllRows"">Expand All</Button>
 <Button Color=""Color.Warning"" Margin=""Margin.Is4.FromEnd"" Clicked=""@CollapseAllRows"">Collapse All</Button>
 
 <DataGrid @ref=""dataGridRef""
@@ -10676,7 +21386,7 @@ public class Salary
 }
 
 @code {
-    [Inject] public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
 
     private DataGrid<SelfReferenceEmployee> dataGridRef;
     private SelfReferenceEmployee lastUpdatedEmployee;
@@ -10771,9 +21481,162 @@ public class Salary
 
         public bool IsActive { get; set; }
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridSelfReferenceExample = @"<Button Color=""Color.Primary"" Margin=""Margin.Is2.FromEnd"" Disabled=""@(!CanToggleSelectedRow)"" Clicked=""@ExpandSelectedRow"">Expand Selected</Button>
+        public const string DataGridSelfReferenceExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<Button Color=""Color.Primary"" Margin=""Margin.Is2.FromEnd"" Disabled=""@(!CanToggleSelectedRow)"" Clicked=""@ExpandSelectedRow"">Expand Selected</Button>
 <Button Color=""Color.Secondary"" Margin=""Margin.Is2.FromEnd"" Disabled=""@(!CanToggleSelectedRow)"" Clicked=""@CollapseSelectedRow"">Collapse Selected</Button>
 <Button Color=""Color.Success"" Margin=""Margin.Is2.FromEnd"" Clicked=""@ExpandAllRows"">Expand All</Button>
 <Button Color=""Color.Warning"" Clicked=""@CollapseAllRows"">Collapse All</Button>
@@ -10794,7 +21657,7 @@ public class Salary
 </DataGrid>
 
 @code {
-    [Inject] public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
 
     private DataGrid<SelfReferenceEmployee> dataGridRef;
     private SelfReferenceEmployee selectedEmployee;
@@ -10896,9 +21759,162 @@ public class Salary
 
         public bool IsActive { get; set; }
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridSelfReferenceTemplateExample = @"<DataGrid TItem=""SelfReferenceEmployee""
+        public const string DataGridSelfReferenceTemplateExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""SelfReferenceEmployee""
           Data=""@rootItems""
           ExpandTrigger=""DataGridExpandTrigger.ToggleClick""
           ExpandRowTrigger=""OnExpandRowTrigger""
@@ -10939,7 +21955,7 @@ public class Salary
 </DataGrid>
 
 @code {
-    [Inject] public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
 
     private List<SelfReferenceEmployee> rootItems = new();
     private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();
@@ -11017,9 +22033,162 @@ public class Salary
 
         public decimal Salary { get; set; }
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridShowGroupingExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridShowGroupingExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Responsive
           ShowPager
@@ -11036,7 +22205,7 @@ public class Salary
 </DataGrid>
 
 @code{
-    [Inject] public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
@@ -11044,9 +22213,162 @@ public class Salary
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridSortComparerExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridSortComparerExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Responsive
@@ -11068,8 +22390,7 @@ public class Salary
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
 
@@ -11097,9 +22418,162 @@ public class Salary
                 : string.CompareOrdinal(x.LastName, y.LastName);
         }
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridSortFieldExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridSortFieldExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Responsive
@@ -11120,8 +22594,7 @@ public class Salary
 </DataGrid>
 
 @code{
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
 
@@ -11130,9 +22603,162 @@ public class Salary
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridSortMultipleExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridSortMultipleExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Responsive
@@ -11151,8 +22777,7 @@ public class Salary
 </DataGrid>
 
 @code{
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
 
@@ -11161,9 +22786,162 @@ public class Salary
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridSortSingleExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridSortSingleExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Responsive
@@ -11182,8 +22960,7 @@ public class Salary
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
 
@@ -11192,9 +22969,161 @@ public class Salary
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridStateManagementExample = @"<Paragraph>
+        public const string DataGridStateManagementExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+<Paragraph>
     <Button Color=""Color.Primary"" Clicked=""LoadState"">Load State</Button>
     <Button Color=""Color.Success"" Clicked=""SaveState"">Save State</Button>
     <Button Color=""Color.Light"" Clicked=""ResetState"">Reset State</Button>
@@ -11238,7 +23167,8 @@ public class Salary
 
 @code {
     [Inject] Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }
-    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private readonly EmployeeData EmployeeData = new();
 
     private const string STORAGE_KEY = ""__DATAGRID_STATE__"";
     private DataGrid<Employee> dataGridRef;
@@ -11264,7 +23194,7 @@ public class Salary
     {
         await LocalStorage.RemoveItemAsync( STORAGE_KEY );
 
-        var state = new DataGridState<Employee>()
+        DataGridState<Employee> state = new()
         {
             Page = 1,
             PageSize = 10,
@@ -11275,7 +23205,7 @@ public class Salary
 
     private async Task LoadState()
     {
-        var stateFromLocalStorage = await LocalStorage.GetItemAsync<DataGridState<Employee>>( STORAGE_KEY );
+        DataGridState<Employee> stateFromLocalStorage = await LocalStorage.GetItemAsync<DataGridState<Employee>>( STORAGE_KEY );
 
         if ( stateFromLocalStorage is not null )
         {
@@ -11295,12 +23225,165 @@ public class Salary
 
     private async Task SaveState()
     {
-        var state = await dataGridRef.GetState();
+        DataGridState<Employee> state = await dataGridRef.GetState();
         await LocalStorage.SetItemAsync( STORAGE_KEY, state );
+    }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
     }
 }";
 
-        public const string DataGridUpdateCellExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridUpdateCellExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Editable
           EditMode=""DataGridEditMode.Inline""
@@ -11327,8 +23410,7 @@ public class Salary
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
 
     protected override async Task OnInitializedAsync()
@@ -11336,9 +23418,162 @@ public class Salary
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridValidatorEditTemplateExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridValidatorEditTemplateExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Responsive
           Editable
@@ -11370,9 +23605,162 @@ public class Salary
             validationArgs.ErrorText = ""Name can't be empty."";
         }
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridValidatorExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridValidatorExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Responsive
           Editable
@@ -11393,9 +23781,162 @@ public class Salary
             validationArgs.ErrorText = ""Name can't be empty."";
         }
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DataGridVirtualizeExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridVirtualizeExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Responsive
@@ -11415,8 +23956,7 @@ public class Salary
 </DataGrid>
 
 @code {
-    [Inject]
-    public EmployeeData EmployeeData { get; set; }
+    private readonly EmployeeData EmployeeData = new();
     private List<Employee> employeeList;
     private Employee selectedEmployee;
 
@@ -11425,9 +23965,162 @@ public class Salary
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class Gender
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+    
+    public class EmployeeData
+    {
+        private static readonly string[] FirstNames = [""Samuel"", ""Irvin"", ""Cora"", ""Jessie"", ""Maryann"", ""Kara""];
+        private static readonly string[] LastNames = [""Collier"", ""Ziemann"", ""Conn"", ""Wilkinson"", ""Hilpert"", ""Brekke""];
+        private static readonly string[] Cities = [""London"", ""Paris"", ""New York"", ""Berlin"", ""Lisbon"", ""Zagreb""];
+    
+        public static IEnumerable<Gender> Genders =
+        [
+            new() { Code = null, Description = string.Empty },
+            new() { Code = ""M"", Description = ""Male"" },
+            new() { Code = ""F"", Description = ""Female"" },
+            new() { Code = ""D"", Description = ""Diverse"" }
+        ];
+    
+        public Task<List<Employee>> GetDataAsync()
+            => Task.FromResult( Enumerable.Range( 1, 500 )
+                .Select( index =>
+                {
+                    string firstName = FirstNames[( index - 1 ) % FirstNames.Length];
+                    string lastName = LastNames[( index - 1 ) % LastNames.Length];
+    
+                    return new Employee
+                    {
+                        Id = index,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = $""{firstName}.{lastName}{index}@example.com"",
+                        City = Cities[( index - 1 ) % Cities.Length],
+                        Zip = $""{10000 + index}"",
+                        DateOfBirth = new DateTime( 1950 + index % 50, 1 + index % 12, 1 + index % 28 ),
+                        Childrens = index % 6,
+                        Gender = index % 3 == 0 ? ""D"" : index % 2 == 0 ? ""F"" : ""M"",
+                        Salary = 50000m + index * 137m % 50000m,
+                        IsActive = index % 2 == 0,
+                        Salaries = Enumerable.Range( 1, index % 4 )
+                            .Select( month => new Salary
+                            {
+                                Date = new DateTime( 2025, month, 1 ),
+                                Total = 1000m + index * month * 11m
+                            } )
+                            .ToList()
+                    };
+                } )
+                .ToList() );
+    }
+    
+    public class Employee
+    {
+        public Employee()
+        {
+        }
+    
+        public Employee( Employee other )
+        {
+            Id = other.Id;
+            Childrens = other.Childrens;
+            DateOfBirth = other.DateOfBirth;
+            City = other.City;
+            Email = other.Email;
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Gender = other.Gender;
+            IsActive = other.IsActive;
+            Salaries = other.Salaries;
+            Salary = other.Salary;
+            Tax = other.Tax;
+            Zip = other.Zip;
+        }
+    
+        [Display( Name = ""Id"" )]
+        public int Id { get; set; }
+    
+        [Required]
+        public string FirstName { get; set; }
+    
+        [Required]
+        public string LastName { get; set; }
+    
+        [Required]
+        [EmailAddress]
+        [Display( Name = ""Email"" )]
+        public string Email { get; set; }
+    
+        [Display( Name = ""City"" )]
+        public string City { get; set; }
+    
+        [Display( Name = ""Zip"" )]
+        public string Zip { get; set; }
+    
+        [Display( Name = ""DOB"" )]
+        public DateTime? DateOfBirth { get; set; }
+    
+        [Display( Name = ""Childrens"" )]
+        public int? Childrens { get; set; }
+    
+        [Display( Name = ""Gender"" )]
+        public string Gender { get; set; }
+    
+        [Display( Name = ""Salary"" )]
+        public decimal Salary { get; set; }
+    
+        [Display( Name = ""Tax"" )]
+        public decimal Tax
+        {
+            get
+            {
+                if ( tax == 0 && Salary > 0 )
+                {
+                    tax = Salary * TaxPercentage;
+                }
+    
+                return tax;
+            }
+            set
+            {
+                tax = value;
+            }
+        }
+    
+        [Display( Name = ""Active"" )]
+        public bool IsActive { get; set; }
+    
+        public List<Salary> Salaries { get; set; } = new();
+    
+        public decimal ChildrensPerSalary
+            => Salary == 0m
+                ? 0m
+                : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    
+        public decimal TaxPercentage = 0.25m;
+    
+        private decimal tax;
+    }
+    
+    public class Salary
+    {
+        public DateTime Date { get; set; }
+        public decimal Total { get; set; }
+    }
 }";
 
-        public const string DropdownListCheckboxExample = @"<DropdownList TItem=""Country"" TValue=""IReadOnlyList<string>""
+        public const string DropdownListCheckboxExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DropdownList TItem=""Country"" TValue=""IReadOnlyList<string>""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
               ValueField=""@(( item ) => item.Iso)""
@@ -11450,8 +24143,7 @@ public class Salary
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -11461,9 +24153,49 @@ public class Salary
     }
 
     private IReadOnlyList<string> selectedDropValues { get; set; } = new[] { ""AM"", ""AF"" };
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string DropdownListExample = @"<DropdownList TItem=""Country"" TValue=""string""
+        public const string DropdownListExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DropdownList TItem=""Country"" TValue=""string""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
               ValueField=""@(( item ) => item.Iso)""
@@ -11483,8 +24215,7 @@ public class Salary
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -11494,9 +24225,49 @@ public class Salary
     }
 
     string selectedDropValue { get; set; } = ""CN"";
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string DropdownListSearchExample = @"<DropdownList TItem=""Country"" TValue=""string""
+        public const string DropdownListSearchExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<DropdownList TItem=""Country"" TValue=""string""
               Data=""@Countries""
               TextField=""@(( item ) => item.Name)""
               ValueField=""@(( item ) => item.Iso)""
@@ -11517,8 +24288,7 @@ public class Salary
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -11528,9 +24298,44 @@ public class Salary
     }
 
     string selectedDropValue { get; set; } = ""CN"";
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string BasicFluentValidationExample = @"@using Blazorise.FluentValidation
+        public const string BasicFluentValidationExample = @"@using FluentValidation
+@using Blazorise.FluentValidation
 
 <Validations @ref=""@fluentValidations"" Mode=""ValidationMode.Manual"" Model=""@person"" HandlerType=""typeof(FluentValidationHandler)"">
     <Validation>
@@ -11579,6 +24384,33 @@ public class Salary
             // the person is validated and we can proceed with the saving process
         }
     }
+
+
+    public class Person
+    {
+        public string FirstName { get; set; }
+    
+        public string LastName { get; set; }
+    
+        public int Age { get; set; }
+    }
+    
+    public class PersonValidator : AbstractValidator<Person>
+    {
+        public PersonValidator()
+        {
+            RuleFor( vm => vm.FirstName )
+                .NotEmpty()
+                .MaximumLength( 30 );
+    
+            RuleFor( vm => vm.LastName )
+                .NotEmpty()
+                .MaximumLength( 30 );
+    
+            RuleFor( vm => vm.Age )
+                .GreaterThanOrEqualTo( 18 );
+        }
+    }
 }";
 
         public const string FluentValidationAbstractValidatorExample = @"public class PersonValidator : AbstractValidator<Person>
@@ -11616,10 +24448,17 @@ builder.Services
 
 services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
-        public const string PersonValidator = @"using Blazorise.Shared.Models;
-using FluentValidation;
+        public const string Person = @"public class Person
+{
+    public string FirstName { get; set; }
 
-namespace Blazorise.Docs.Pages.Docs.Extensions.FluentValidation.Validators;
+    public string LastName { get; set; }
+
+    public int Age { get; set; }
+}";
+
+        public const string PersonValidator = @"using FluentValidation;
+
 
 public class PersonValidator : AbstractValidator<Person>
 {
@@ -12178,6 +25017,120 @@ public class PersonValidator : AbstractValidator<Person>
 
         public const string GanttImportsExample = @"@using Blazorise.Gantt";
 
+        public const string GanttMilestonesExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       Milestones=""@milestones""
+       Date=""@selectedDate""
+       SelectedView=""GanttView.Week""
+       DurationField=""Duration""
+       IncludeMilestonesInAutoExpandView
+       MilestoneStyling=""@ApplyMilestoneStyling"">
+    <ChildContent>
+        <GanttColumns>
+            <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px( 230 )"" />
+            <GanttColumn Field=""Start"" Width=""Width.Px( 130 )"" />
+            <GanttColumn Field=""End"" Width=""Width.Px( 130 )"" Visible=""false"" />
+            <GanttColumn Field=""Duration"" Width=""Width.Px( 90 )"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
+        </GanttColumns>
+
+        <GanttToolbar />
+
+        <GanttViews>
+            <GanttWeekView TimelineCellWidth=""92"" RowHeight=""44"" />
+        </GanttViews>
+    </ChildContent>
+
+    <MilestoneTemplate>
+        <Badge Color=""@GetMilestoneBadgeColor( context.Milestone )"" Pill>
+            @context.Title
+        </Badge>
+    </MilestoneTemplate>
+</Gantt>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private List<GanttMilestone> milestones = CreateMilestones();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        DateTime baseDate = GetStartOfWeek( DateTime.Today, DayOfWeek.Monday );
+
+        List<TaskItem> result = new()
+        {
+            new() { Id = ""1"", Title = ""Milestone release"", Start = baseDate, End = baseDate.AddDays( 14 ) },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Planning"", Start = baseDate, End = baseDate.AddDays( 2 ) },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Design"", Start = baseDate.AddDays( 2 ), End = baseDate.AddDays( 6 ) },
+            new() { Id = ""4"", ParentId = ""1"", Title = ""Development"", Start = baseDate.AddDays( 5 ), End = baseDate.AddDays( 11 ) },
+            new() { Id = ""5"", ParentId = ""1"", Title = ""Validation"", Start = baseDate.AddDays( 10 ), End = baseDate.AddDays( 13 ) },
+            new() { Id = ""6"", ParentId = ""1"", Title = ""Rollout"", Start = baseDate.AddDays( 13 ), End = baseDate.AddDays( 14 ) },
+        };
+
+        foreach ( TaskItem item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    private static List<GanttMilestone> CreateMilestones()
+    {
+        DateTime baseDate = GetStartOfWeek( DateTime.Today, DayOfWeek.Monday );
+
+        return new()
+        {
+            new() { Date = baseDate.AddDays( 2 ), Title = ""Kickoff"" },
+            new() { Date = baseDate.AddDays( 6 ), Title = ""Design approved"" },
+            new() { Date = baseDate.AddDays( 11 ), Title = ""Beta"" },
+            new() { Date = baseDate.AddDays( 14 ), Title = ""Launch"", TextColor = TextColor.Danger, LineStyle = GanttMilestoneLineStyle.Solid },
+        };
+    }
+
+    private static void ApplyMilestoneStyling( GanttMilestone milestone, GanttMilestoneStyling styling )
+    {
+        if ( milestone.Title == ""Beta"" )
+        {
+            styling.TextColor = TextColor.Warning;
+            styling.LineStyle = GanttMilestoneLineStyle.Dotted;
+        }
+    }
+
+    private static Color GetMilestoneBadgeColor( GanttMilestone milestone )
+    {
+        return milestone.Title switch
+        {
+            ""Launch"" => Color.Danger,
+            ""Beta"" => Color.Warning,
+            _ => Color.Primary,
+        };
+    }
+
+    private static DateTime GetStartOfWeek( DateTime value, DayOfWeek firstDayOfWeek )
+    {
+        int diff = ( 7 + ( value.DayOfWeek - firstDayOfWeek ) ) % 7;
+
+        return value.Date.AddDays( -diff );
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}";
+
         public const string GanttMultipleViewsExample = @"<Gantt TItem=""TaskItem""
        Data=""@tasks""
        @bind-Date=""@selectedDate""
@@ -12346,13 +25299,104 @@ public class PersonValidator : AbstractValidator<Person>
     }
 }";
 
-        public const string AntDesignIconsCSSExample = @"<link href=""_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.2.1.0"" rel=""stylesheet"" />";
+        public const string GanttWeeklyYearViewExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       Date=""@selectedDate""
+       SelectedView=""GanttView.Year""
+       DurationField=""Duration""
+       FirstDayOfWeek=""DayOfWeek.Monday"">
+    <ChildContent>
+        <GanttColumns>
+            <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px( 240 )"" />
+            <GanttColumn Field=""Start"" Width=""Width.Px( 130 )"" />
+            <GanttColumn Field=""End"" Width=""Width.Px( 130 )"" Visible=""false"" />
+            <GanttColumn Field=""Duration"" Width=""Width.Px( 90 )"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
+        </GanttColumns>
 
-        public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.2.1.0"">";
+        <GanttToolbar />
 
-        public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.2.1.0"" rel=""stylesheet"" />";
+        <GanttViews>
+            <GanttYearView TimelineScale=""GanttYearViewTimelineScale.Week""
+                           TimelineCellWidth=""42""
+                           RowHeight=""44""
+                           FirstDayOfWeek=""DayOfWeek.Monday"" />
+        </GanttViews>
+    </ChildContent>
 
-        public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.2.1.0"" rel=""stylesheet"">";
+    <TimelineHeaderCellTemplate>
+        <Span TextSize=""TextSize.Small"" TextWeight=""TextWeight.SemiBold"">
+            @context.Label
+        </Span>
+    </TimelineHeaderCellTemplate>
+</Gantt>
+
+<Paragraph TextColor=""TextColor.Muted"" Margin=""Margin.Is2.FromTop"">
+    View: @selectedViewText | Year view scale: Week
+</Paragraph>
+
+@code {
+    private DateOnly selectedDate = new( DateTime.Today.Year, 1, 1 );
+
+    private string selectedViewText = GanttView.Year.ToString();
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        DateTime yearStart = new( DateTime.Today.Year, 1, 1 );
+        DateTime planningStart = yearStart.AddDays( 91 );
+
+        List<TaskItem> result = new()
+        {
+            new() { Id = ""1"", Title = ""Release train"", Start = planningStart, End = planningStart.AddDays( 35 ) },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Discovery"", Start = planningStart, End = planningStart.AddDays( 7 ) },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Implementation"", Start = planningStart.AddDays( 7 ), End = planningStart.AddDays( 21 ) },
+            new() { Id = ""4"", ParentId = ""3"", Title = ""Backend services"", Start = planningStart.AddDays( 8 ), End = planningStart.AddDays( 16 ) },
+            new() { Id = ""5"", ParentId = ""3"", Title = ""Frontend polish"", Start = planningStart.AddDays( 14 ), End = planningStart.AddDays( 23 ) },
+            new() { Id = ""6"", ParentId = ""1"", Title = ""Validation"", Start = planningStart.AddDays( 21 ), End = planningStart.AddDays( 30 ) },
+            new() { Id = ""7"", ParentId = ""1"", Title = ""Rollout"", Start = planningStart.AddDays( 30 ), End = planningStart.AddDays( 35 ) },
+        };
+
+        foreach ( TaskItem item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}";
+
+        public const string AntDesignIconsCSSExample = @"<link href=""_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.2.3.0"" rel=""stylesheet"" />";
+
+        public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.2.3.0"">";
+
+        public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.2.3.0"" rel=""stylesheet"" />";
+
+        public const string FluentSvgIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/blazorise.icons.fluentui.css"" rel=""stylesheet"" />";
+
+        public const string FluentSvgIconsRegistrationExample = @"using Blazorise.Icons.FluentUI;
+
+builder.Services
+    .AddBlazorise()
+    .AddBootstrapProviders()
+    .AddFluentUIIcons( options => options.UseSvgIcons = true );";
+
+        public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.2.3.0"" rel=""stylesheet"">";
 
         public const string IconBasicExample = @"<Icon Name=""IconName.Mail"" />";
 
@@ -12407,16 +25451,22 @@ or
 
 Install-Package Blazorise.Icons.Material";
 
-        public const string LucideIconsCSSExample = @"<link href=""_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.2.1.0"" rel=""stylesheet"" />";
+        public const string LucideIconsCSSExample = @"<link href=""_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.2.3.0"" rel=""stylesheet"" />";
 
-        public const string MaterialCSSExample = @"<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.2.1.0"" rel=""stylesheet"" />";
+        public const string MaterialCSSExample = @"<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.2.3.0"" rel=""stylesheet"" />";
 
         public const string RegistrationsExample = @"builder.Services
 	.AddBlazorise()
 	.AddBootstrapProviders()
 +   .AddFontAwesomeIcons();";
 
-        public const string BasicListViewExample = @"<ListView TItem=""Country""
+        public const string BasicListViewExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<ListView TItem=""Country""
           Data=""Countries""
           TextField=""(item) => item.Name""
           ValueField=""(item) => item.Iso""
@@ -12425,8 +25475,7 @@ Install-Package Blazorise.Icons.Material";
 </ListView>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -12434,9 +25483,49 @@ Install-Package Blazorise.Icons.Material";
         Countries = await CountryData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string ListViewItemTemplateExample = @"<ListView TItem=""Country""
+        public const string ListViewItemTemplateExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<ListView TItem=""Country""
           Data=""Countries""
           TextField=""(item) => item.Name""
           ValueField=""(item) => item.Iso""
@@ -12452,8 +25541,7 @@ Install-Package Blazorise.Icons.Material";
 </ListView>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     protected override async Task OnInitializedAsync()
@@ -12461,9 +25549,49 @@ Install-Package Blazorise.Icons.Material";
         Countries = await CountryData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string ListViewSelectableExample = @"<ListView TItem=""Country""
+        public const string ListViewSelectableExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Linq
+@using System.Threading.Tasks
+
+<ListView TItem=""Country""
           Data=""Countries""
           TextField=""(item) => item.Name""
           ValueField=""(item) => item.Iso""
@@ -12479,8 +25607,7 @@ Install-Package Blazorise.Icons.Material";
 </Field>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public IEnumerable<Country> Countries;
 
     private Country selectedListViewItem;
@@ -12490,9 +25617,47 @@ Install-Package Blazorise.Icons.Material";
         Countries = await CountryData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
+    }
 }";
 
-        public const string ListViewStylingIndividualItemsExample = @"@using System.Linq
+        public const string ListViewStylingIndividualItemsExample = @"@using System
+@using System.Collections.Generic
+@using System.ComponentModel.DataAnnotations
+@using System.Threading.Tasks
+@using System.Linq
 
 <ListView TItem=""Country""
           Data=""Countries""
@@ -12516,8 +25681,7 @@ Install-Package Blazorise.Icons.Material";
 
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    private readonly CountryData CountryData = new();
     public List<Country> Countries;
 
     private Country selectedListViewItem;
@@ -12526,6 +25690,40 @@ Install-Package Blazorise.Icons.Material";
     {
         Countries = (await CountryData.GetDataAsync()).ToList();
         await base.OnInitializedAsync();
+    }
+
+
+    public class CountryData
+    {
+        public Task<IEnumerable<Country>> GetDataAsync()
+            => Task.FromResult<IEnumerable<Country>>( new Country[]
+            {
+                new( ""Croatia"", ""HR"", ""Zagreb"" ),
+                new( ""France"", ""FR"", ""Paris"" ),
+                new( ""Germany"", ""DE"", ""Berlin"" ),
+                new( ""Italy"", ""IT"", ""Rome"" ),
+                new( ""Japan"", ""JP"", ""Tokyo"" ),
+                new( ""Portugal"", ""PT"", ""Lisbon"" ),
+                new( ""Spain"", ""ES"", ""Madrid"" ),
+                new( ""United Kingdom"", ""GB"", ""London"" ),
+                new( ""United States"", ""US"", ""Washington, D.C."" )
+            } );
+    }
+    
+    public class Country
+    {
+        public Country( string name, string iso, string capital )
+        {
+            Name = name;
+            Iso = iso;
+            Capital = capital;
+        }
+    
+        public string Name { get; }
+    
+        public string Iso { get; }
+    
+        public string Capital { get; }
     }
 }";
 
@@ -13353,6 +26551,266 @@ Install-Package Blazorise.Icons.Material";
     }
 }";
 
+        public const string PdfBuilderInvoiceExample = @"@inject IPdfGenerator PdfGenerator
+
+<Div Flex=""Flex.Row"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromBottom"">
+    <Button Color=""Color.Primary"" Clicked=""@Build"">Build PDF</Button>
+</Div>
+
+@if ( pdfSource is not null )
+{
+    <PdfViewerContainer Height=""Height.Rem(35)"">
+        <PdfViewerToolbar />
+        <PdfViewer Source=""@pdfSource"" />
+    </PdfViewerContainer>
+}
+
+@code {
+    private string pdfSource;
+
+    private async Task Build()
+    {
+        PdfDocumentDefinition document = BuildInvoice();
+
+        PdfGenerationResult result = await PdfGenerator.GenerateAsync( document, new()
+        {
+            FileName = ""builder-invoice.pdf"",
+        } );
+
+        pdfSource = BuildPdfSource( result.Content );
+    }
+
+    private static PdfDocumentDefinition BuildInvoice()
+    {
+        return PdfDocumentBuilder.Create()
+            .Title( ""Invoice"" )
+            .PageSetup( PdfPageSize.A4 )
+            .Page( page =>
+            {
+                page.Text( ""Invoice summary"", 48, 48, 260, 32 )
+                    .FontSize( 22 )
+                    .Bold()
+                    .TextColor( ""#0d6efd"" );
+
+                page.Text( ""Generated with PdfDocumentBuilder."", 48, 82, 320, 18 )
+                    .FontSize( 11 );
+
+                page.Rectangle( 420, 48, 96, 48 )
+                    .BorderColor( ""#0d6efd"" )
+                    .BackgroundColor( ""#eef5ff"" );
+
+                page.Text( ""BLZ"", 444, 64, 48, 20 )
+                    .FontSize( 18 )
+                    .Bold()
+                    .TextAlignment( TextAlignment.Center )
+                    .TextColor( ""#0d6efd"" );
+            } )
+            .Build();
+    }
+
+    private static string BuildPdfSource( byte[] content )
+        => content is null || content.Length == 0
+            ? null
+            : $""data:application/pdf;base64,{Convert.ToBase64String( content )}"";
+}";
+
+        public const string PdfDeclarativeInvoiceExample = @"@inject IPdfGenerator PdfGenerator
+
+<PdfDocument @ref=""document"" Title=""Invoice"" PageSize=""PdfPageSize.A4"">
+    <PdfPage>
+        <PdfText Text=""Invoice summary"" X=""48"" Y=""48"" Width=""260"" Height=""32"" FontSize=""22"" Bold TextColor=""#0d6efd"" />
+        <PdfText Text=""Generated by Blazorise.Pdf declarative components."" X=""48"" Y=""82"" Width=""360"" Height=""18"" FontSize=""11"" />
+        <PdfRectangle X=""420"" Y=""48"" Width=""96"" Height=""48"" BorderColor=""#0d6efd"" BackgroundColor=""#eef5ff"" />
+        <PdfText Text=""BLZ"" X=""444"" Y=""64"" Width=""48"" Height=""20"" FontSize=""18"" Bold TextAlignment=""TextAlignment.Center"" TextColor=""#0d6efd"" />
+        <PdfLine X=""48"" Y=""122"" Width=""468"" Height=""0"" BorderColor=""#222222"" />
+        <PdfTable X=""48"" Y=""152"" Width=""468"" Height=""96"">
+            <PdfTableRow Height=""24"">
+                <PdfTableCell Width=""120"">
+                    <PdfText Text=""Number"" Bold />
+                </PdfTableCell>
+                <PdfTableCell Width=""228"">
+                    <PdfText Text=""Description"" Bold />
+                </PdfTableCell>
+                <PdfTableCell Width=""120"">
+                    <PdfText Text=""Total"" Bold TextAlignment=""TextAlignment.End"" />
+                </PdfTableCell>
+            </PdfTableRow>
+            <PdfTableRow Height=""24"">
+                <PdfTableCell Width=""120"">
+                    <PdfText Text=""INV-1001"" />
+                </PdfTableCell>
+                <PdfTableCell Width=""228"">
+                    <PdfText Text=""Northwind Traders"" />
+                </PdfTableCell>
+                <PdfTableCell Width=""120"">
+                    <PdfText Text=""$1,240.50"" TextAlignment=""TextAlignment.End"" />
+                </PdfTableCell>
+            </PdfTableRow>
+        </PdfTable>
+    </PdfPage>
+</PdfDocument>
+
+@if ( pdfSource is not null )
+{
+    <PdfViewerContainer Height=""Height.Rem(35)"">
+        <PdfViewerToolbar />
+        <PdfViewer Source=""@pdfSource"" />
+    </PdfViewerContainer>
+}
+
+@code {
+    private PdfDocument document;
+
+    private string pdfSource;
+
+    private bool generated;
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( !generated && document?.Definition is not null )
+        {
+            generated = true;
+
+            PdfGenerationResult result = await PdfGenerator.GenerateAsync( document.Definition, new()
+            {
+                FileName = ""declarative-invoice.pdf"",
+            } );
+
+            pdfSource = BuildPdfSource( result.Content );
+            await InvokeAsync( StateHasChanged );
+        }
+    }
+
+    private static string BuildPdfSource( byte[] content )
+        => content is null || content.Length == 0
+            ? null
+            : $""data:application/pdf;base64,{Convert.ToBase64String( content )}"";
+}";
+
+        public const string PdfGenerateFileExample = @"@inject IPdfGenerator PdfGenerator
+
+<Div Flex=""Flex.Row"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromBottom"">
+    <Button Color=""Color.Primary"" Clicked=""@Generate"">Generate PDF</Button>
+</Div>
+
+@if ( generationProgress is not null )
+{
+    <Div Margin=""Margin.Is3.FromBottom"">
+        <Span TextSize=""TextSize.Small"">@GenerationStatus</Span>
+        <Progress Value=""@((int)generationProgress.Percentage)"" Size=""Size.Small"" />
+    </Div>
+}
+
+@if ( pdfSource is not null )
+{
+    <PdfViewerContainer Height=""Height.Rem(35)"">
+        <PdfViewerToolbar />
+        <PdfViewer Source=""@pdfSource"" />
+    </PdfViewerContainer>
+}
+
+@code {
+    private string pdfSource;
+
+    private PdfGenerationProgress generationProgress;
+
+    private string GenerationStatus => generationProgress.Stage switch
+    {
+        PdfGenerationStage.PreparingResources => ""Preparing resources"",
+        PdfGenerationStage.RenderingPages => $""Rendering page {generationProgress.CompletedPages} of {generationProgress.TotalPages}"",
+        PdfGenerationStage.WritingDocument => ""Writing PDF document"",
+        PdfGenerationStage.Completed => ""PDF generation completed"",
+        _ => string.Empty,
+    };
+
+    private async Task Generate()
+    {
+        generationProgress = null;
+
+        PdfDocumentDefinition document = PdfDocumentBuilder.Create()
+            .Title( ""Invoice"" )
+            .Page( page =>
+            {
+                page.Text( ""Invoice summary"", 48, 48, 260, 32 )
+                    .FontSize( 22 )
+                    .Bold();
+            } )
+            .Build();
+
+        PdfGenerationResult result = await PdfGenerator.GenerateAsync( document, new()
+        {
+            FileName = ""invoice.pdf"",
+            Progress = OnGenerationProgress,
+        } );
+
+        pdfSource = BuildPdfSource( result.Content );
+    }
+
+    private async Task OnGenerationProgress( PdfGenerationProgress progress )
+    {
+        generationProgress = progress;
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    private static string BuildPdfSource( byte[] content )
+        => content is null || content.Length == 0
+            ? null
+            : $""data:application/pdf;base64,{Convert.ToBase64String( content )}"";
+}";
+
+        public const string PdfHttpResourceRegistrationExample = @"using Blazorise.Pdf;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazorisePdfHttpResources(
+        httpClient => httpClient
+            .ConfigureHttpClient( client =>
+            {
+                client.BaseAddress = new Uri( ""https://cdn.example.com/"" );
+            } )
+            .ConfigurePrimaryHttpMessageHandler( () => new SocketsHttpHandler
+            {
+                AllowAutoRedirect = false,
+            } ),
+        options =>
+        {
+            options.MaxResourceSize = 20 * 1024 * 1024;
+            options.ResourceAllowed = uri => uri.Host.Equals( ""cdn.example.com"", StringComparison.OrdinalIgnoreCase );
+        } );";
+
+        public const string PdfHttpResourcesExample = @"PdfDocumentDefinition document = PdfDocumentBuilder.Create()
+    .Title( ""Remote resources"" )
+    .AddFont( ""Inter"", FontSource.FromUrl( ""fonts/Inter-Regular.ttf"" ) )
+    .Page( page =>
+    {
+        page.Image( ""images/company-logo.png"", 48, 48, 120, 48 );
+
+        page.Text( ""This font and image were resolved from URLs."", 48, 120, 360, 24 )
+            .FontFamily( ""Inter"" );
+    } )
+    .Build();
+
+PdfGenerationResult result = await PdfGenerator.Generate( document );";
+
+        public const string PdfHttpWebAssemblyRegistrationExample = @"using Blazorise.Pdf;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazorisePdfHttpResources( httpClient =>
+        httpClient.ConfigureHttpClient( client =>
+        {
+            client.BaseAddress = new Uri( builder.HostEnvironment.BaseAddress );
+        } ) );";
+
+        public const string PdfImportsExample = @"@using Blazorise.Pdf";
+
+        public const string PdfNugetInstallExample = @"Install-Package Blazorise.Pdf";
+
+        public const string PdfServiceRegistrationExample = @"builder.Services
+    .AddBlazorise()
+    .AddBlazorisePdf();";
+
         public const string ImportPdfViewerExample = @"@using Blazorise.PdfViewer";
 
         public const string PdfViewerBase64Example = @"<PdfViewer Source=""@($""data:application/pdf;base64,{base64String}"")"" />
@@ -13362,6 +26820,11 @@ Install-Package Blazorise.Icons.Material";
 }";
 
         public const string PdfViewerBasicExample = @"<PdfViewer Source=""_content/Blazorise.Docs/assets/files/basic-text.pdf"" />";
+
+        public const string PdfViewerContinuousExample = @"<PdfViewerContainer Height=""Height.Rem( 35 )"">
+    <PdfViewerToolbar />
+    <PdfViewer Source=""_content/Blazorise.Docs/assets/files/compressed.tracemonkey-pldi-09.pdf"" Mode=""PdfViewerMode.Continuous"" />
+</PdfViewerContainer>";
 
         public const string PdfViewerNugetInstallExample = @"Install-Package Blazorise.PdfViewer";
 
@@ -14411,6 +27874,1459 @@ Install-Package Blazorise.Icons.Material";
     </Div>
 </Div>";
 
+        public const string ProgressBarReportElementPluginExample = @"public sealed class ProgressBarReportElementPlugin : IReportElementPlugin, IReportElementPdfRenderer
+{
+    public const string TypeName = ""docs.progress-bar"";
+
+    public ReportElementDescriptor Descriptor { get; } = new()
+    {
+        TypeName = TypeName,
+        DisplayName = ""Progress Bar"",
+        Category = ""Custom"",
+        Icon = IconName.ChartBar,
+        Width = 200,
+        Height = 38,
+        Capabilities = ReportElementCapabilities.Default,
+    };
+
+    public Type RendererComponentType => typeof( ProgressBarReportElementRenderer );
+
+    public Type PropertiesComponentType => typeof( ProgressBarReportElementProperties );
+
+    public IReportElementPdfRenderer PdfRenderer => this;
+
+    public ReportCustomElementDefinition CreateElement()
+    {
+        return new()
+        {
+            Properties = new()
+            {
+                [""caption""] = ""Progress"",
+                [""value""] = 60,
+                [""color""] = ""#0D6EFD"",
+            },
+        };
+    }
+
+    public IEnumerable<PdfElementDefinition> Render( ReportElementPdfRenderContext context )
+    {
+        int value = GetValue( context.Element );
+        double trackHeight = Math.Min( 12, context.Element.Height );
+        double trackY = Math.Max( 0, context.Element.Height - trackHeight );
+
+        yield return CreateLabel( context.Element, GetCaption( context.Element ), TextAlignment.Start );
+        yield return CreateLabel( context.Element, $""{value}%"", TextAlignment.End );
+        yield return CreateRectangle( context.Element.Width, trackY, trackHeight, ""#E9ECEF"" );
+        yield return CreateRectangle( context.Element.Width * value / 100d, trackY, trackHeight, GetColor( context.Element ) );
+    }
+
+    private static string GetCaption( ReportCustomElementDefinition element )
+        => element?.Properties?[""caption""]?.GetValue<string>() ?? ""Progress"";
+
+    private static int GetValue( ReportCustomElementDefinition element )
+        => Math.Clamp( element?.Properties?[""value""]?.GetValue<int>() ?? 0, 0, 100 );
+
+    private static string GetColor( ReportCustomElementDefinition element )
+        => element?.Properties?[""color""]?.GetValue<string>() ?? ""#0D6EFD"";
+
+    private static PdfElementDefinition CreateLabel( ReportCustomElementDefinition element, string text, TextAlignment alignment )
+    {
+        return new()
+        {
+            Type = PdfElementType.Text,
+            Width = element.Width,
+            Height = Math.Min( 14, element.Height ),
+            Text = text,
+            Wrap = false,
+            Font = new()
+            {
+                Size = 9,
+                Bold = true,
+                Alignment = alignment,
+                VerticalAlignment = VerticalAlignment.Middle,
+                Color = ""#212529"",
+            },
+            Border = new()
+            {
+                Width = 0,
+            },
+        };
+    }
+
+    private static PdfElementDefinition CreateRectangle( double width, double y, double height, string color )
+    {
+        return new()
+        {
+            Type = PdfElementType.Rectangle,
+            Y = y,
+            Width = width,
+            Height = height,
+            Border = new()
+            {
+                Width = 0,
+            },
+            Appearance = new()
+            {
+                BackgroundColor = color,
+            },
+        };
+    }
+}";
+
+        public const string ProgressBarReportElementPropertiesExample = @"@inherits BaseReportElementPropertiesEditor
+
+<Field Horizontal>
+    <FieldLabel ColumnSize=""ColumnSize.Is4"" TextSize=""TextSize.Small"">Caption</FieldLabel>
+    <FieldBody ColumnSize=""ColumnSize.Is8"">
+        <TextInput Value=""@ProgressBarReportElementPlugin.GetCaption( Context.Element )""
+                   ValueChanged=""@OnCaptionChanged""
+                   Size=""Size.Small"" />
+    </FieldBody>
+</Field>
+
+<Field Horizontal>
+    <FieldLabel ColumnSize=""ColumnSize.Is4"" TextSize=""TextSize.Small"">Value</FieldLabel>
+    <FieldBody ColumnSize=""ColumnSize.Is8"">
+        <NumericInput TValue=""int""
+                      Value=""@ProgressBarReportElementPlugin.GetValue( Context.Element )""
+                      ValueChanged=""@OnValueChanged""
+                      Min=""0""
+                      Max=""100""
+                      Immediate=""true""
+                      Size=""Size.Small"" />
+    </FieldBody>
+</Field>
+
+<Field Horizontal>
+    <FieldLabel ColumnSize=""ColumnSize.Is4"" TextSize=""TextSize.Small"">Color</FieldLabel>
+    <FieldBody ColumnSize=""ColumnSize.Is8"">
+        <ColorPicker Value=""@ProgressBarReportElementPlugin.GetColor( Context.Element )""
+                     ValueChanged=""@OnColorChanged""
+                     Size=""Size.Small"" />
+    </FieldBody>
+</Field>
+
+@code {
+    private Task OnCaptionChanged( string value )
+        => Context.Update( element => element.Properties[""caption""] = value );
+
+    private Task OnValueChanged( int value )
+        => Context.Update( element => element.Properties[""value""] = Math.Clamp( value, 0, 100 ) );
+
+    private Task OnColorChanged( string value )
+        => Context.Update( element => element.Properties[""color""] = value );
+}";
+
+        public const string ProgressBarReportElementRendererExample = @"@inherits BaseReportElementRenderer
+
+<Div Height=""Height.Is100""
+     Width=""Width.Is100""
+     Flex=""Flex.Column.JustifyContent.Between"">
+    <Div Flex=""Flex.JustifyContent.Between.AlignItems.Center""
+         Style=""height:14pt;font-size:9pt;line-height:14pt;font-weight:700;color:#212529"">
+        <Span>@ProgressBarReportElementPlugin.GetCaption( Context.Element )</Span>
+        <Span>@($""{Value}%"")</Span>
+    </Div>
+    <Div Style=""height:12pt;background-color:#E9ECEF;overflow:hidden"">
+        <Div Height=""Height.Is100"" Style=""@FillStyle"" />
+    </Div>
+</Div>
+
+@code {
+    private int Value => ProgressBarReportElementPlugin.GetValue( Context.Element );
+
+    private string FillStyle => $""width:{Value}%;background-color:{ProgressBarReportElementPlugin.GetColor( Context.Element )}"";
+}";
+
+        public const string ReportingBasicInvoiceExample = @"<Report Data=""@invoice"" Editable PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportPage Name=""Invoice"" Size=""ReportPageSize.A4"" Orientation=""ReportOrientation.Portrait"">
+        <ReportHeader Name=""Invoice report header"" Height=""97.5"">
+            <ReportText Text=""Invoice summary"" X=""30"" Y=""18"" Width=""210"" Height=""25.5"" FontSize=""21"" Bold />
+            <ReportText Text=""Customer: {Customer.Name}"" X=""300"" Y=""54"" Width=""180"" Height=""21"" Bold />
+        </ReportHeader>
+        <ReportPageHeader Name=""Invoice page header"" Height=""31.5"">
+            <ReportText Text=""Invoice"" X=""30"" Y=""7.5"" Width=""67.5"" Height=""18"" Bold />
+            <ReportText Text=""Description"" X=""112.5"" Y=""7.5"" Width=""165"" Height=""18"" Bold />
+            <ReportText Text=""Line total"" X=""405"" Y=""7.5"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+        </ReportPageHeader>
+        <ReportDetail Name=""Invoice lines"" Height=""39"" DataSource=""Invoice.Lines"">
+            <ReportField Field=""Sku"" X=""30"" Y=""10.5"" Width=""67.5"" Height=""18"" />
+            <ReportField Field=""Description"" X=""112.5"" Y=""10.5"" Width=""165"" Height=""18"" />
+            <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""405"" Y=""10.5"" Width=""90"" Height=""18"" />
+        </ReportDetail>
+        <ReportFooter Name=""Invoice report footer"" Height=""54"">
+            <ReportLine X=""30"" Y=""7.5"" Width=""465"" Height=""8"" Thickness=""1"" />
+            <ReportText Text=""Invoice total"" X=""30"" Y=""21"" Width=""135"" Height=""18"" />
+            <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" X=""405"" Y=""21"" Width=""90"" Height=""18"" Bold />
+        </ReportFooter>
+    </ReportPage>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = ""INV-1001"",
+            Total = 1240.50m,
+        },
+        Customer = new()
+        {
+            Name = ""Northwind Traders"",
+        },
+        Lines =
+        [
+            new() { Sku = ""SRV-001"", Description = ""Implementation workshop"", Total = 640.50m },
+            new() { Sku = ""LIC-010"", Description = ""Reporting module license"", Total = 500.00m },
+            new() { Sku = ""SUP-003"", Description = ""Priority support"", Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Sku { get; set; }
+
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingCsvDataSourceExample = @"@using Blazorise.Reporting.DataSources.Csv
+
+<Report>
+    <ReportDataSources>
+        <ReportCsvDataSource Name=""Products""
+                             Source=""https://data.example.com/products.csv""
+                             Encoding=""utf-8""
+                             Delimiter="",""
+                             HasHeaderRow />
+    </ReportDataSources>
+    <ReportPage Name=""Products"">
+        <ReportDetail Name=""Product row"" Height=""24"" DataSource=""Products"">
+            <ReportField Field=""Name"" X=""30"" Y=""3"" Width=""240"" Height=""18"" />
+            <ReportField Field=""Price"" X=""285"" Y=""3"" Width=""90"" Height=""18"" />
+        </ReportDetail>
+    </ReportPage>
+</Report>";
+
+        public const string ReportingCsvDataSourceImportsExample = @"@using Blazorise.Reporting.DataSources.Csv";
+
+        public const string ReportingCsvDataSourceNugetInstallExample = @"Install-Package Blazorise.Reporting.DataSources.Csv";
+
+        public const string ReportingCsvDataSourceRegistrationExample = @"using Blazorise.Reporting.DataSources.Csv;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazoriseReporting()
+    .AddBlazoriseReportingCsvDataSource(
+        httpClient => httpClient.ConfigureHttpClient( client =>
+        {
+            client.Timeout = TimeSpan.FromSeconds( 30 );
+        } ),
+        options =>
+        {
+            options.MaxSourceSize = 5 * 1024 * 1024;
+            options.ResourceAllowed = uri => uri.Host.Equals( ""data.example.com"", StringComparison.OrdinalIgnoreCase );
+        } );";
+
+        public const string ReportingDataSetDataSourceExample = @"@using System.Data
+
+<Report Editable
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
+    <ReportDataSources>
+        <ReportDataSetDataSource Name=""Orders"" DataSet=""@orderData"" TableName=""Orders"" />
+    </ReportDataSources>
+    <ReportPage Name=""Orders"">
+        <ReportHeader Name=""Orders header"" Height=""72"">
+            <ReportText Text=""DataSet data source"" X=""30"" Y=""18"" Width=""300"" Height=""24"" FontSize=""18"" Bold FontColor=""@ReportColors.Blue"" />
+            <ReportText Text=""The Orders table is selected from a DataSet."" X=""30"" Y=""45"" Width=""360"" Height=""18"" />
+        </ReportHeader>
+        <ReportPageHeader Name=""Column headers"" Height=""32"">
+            <ReportText Text=""Order"" X=""30"" Y=""8"" Width=""80"" Height=""18"" Bold />
+            <ReportText Text=""Customer"" X=""125"" Y=""8"" Width=""190"" Height=""18"" Bold />
+            <ReportText Text=""Date"" X=""330"" Y=""8"" Width=""80"" Height=""18"" Bold />
+            <ReportText Text=""Amount"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+        </ReportPageHeader>
+        <ReportDetail Name=""Orders"" Height=""30"" DataSource=""Orders"">
+            <ReportField Field=""OrderNumber"" X=""30"" Y=""6"" Width=""80"" Height=""18"" />
+            <ReportField Field=""Customer"" X=""125"" Y=""6"" Width=""190"" Height=""18"" />
+            <ReportField Field=""OrderDate"" Format=""@ReportFormats.Date()"" X=""330"" Y=""6"" Width=""80"" Height=""18"" />
+            <ReportField Field=""Amount"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" TextAlignment=""TextAlignment.End"" />
+        </ReportDetail>
+    </ReportPage>
+</Report>
+
+@code {
+    private readonly DataSet orderData = CreateOrderData();
+
+    private static DataSet CreateOrderData()
+    {
+        DataSet dataSet = new( ""Sales"" );
+        DataTable orders = new( ""Orders"" );
+
+        orders.Columns.Add( ""OrderNumber"", typeof( string ) );
+        orders.Columns.Add( ""Customer"", typeof( string ) );
+        orders.Columns.Add( ""OrderDate"", typeof( DateTime ) );
+        orders.Columns.Add( ""Amount"", typeof( decimal ) );
+
+        orders.Rows.Add( ""SO-1001"", ""Northwind Traders"", new DateTime( 2026, 7, 1 ), 1240.50m );
+        orders.Rows.Add( ""SO-1002"", ""Contoso Retail"", new DateTime( 2026, 7, 3 ), 835.00m );
+        orders.Rows.Add( ""SO-1003"", ""Fabrikam Parts"", new DateTime( 2026, 7, 5 ), 2195.75m );
+
+        dataSet.Tables.Add( orders );
+
+        return dataSet;
+    }
+}";
+
+        public const string ReportingDataSourcesExample = @"<Report Data=""@invoice""
+        Editable
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
+    <ReportToolbar>
+        <ReportToolbarGroup>
+            <ReportToolbarPanesMenu />
+        </ReportToolbarGroup>
+        <ReportToolbarGroup>
+            <ReportToolbarItem Command=""ReportCommand.ConnectDataSource"" Caption=""Data sources"" ShowCaption />
+            <ReportToolbarItem Command=""ReportCommand.Reset"" Caption=""Reset"" />
+        </ReportToolbarGroup>
+        <Div Margin=""Margin.IsAuto.FromStart"">
+            <ReportToolbarGroup>
+                <ReportToolbarItem Command=""ReportCommand.Design"" Caption=""Design"" ShowCaption />
+                <ReportToolbarItem Command=""ReportCommand.Preview"" Caption=""Preview"" ShowCaption />
+            </ReportToolbarGroup>
+        </Div>
+    </ReportToolbar>
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportPage Name=""Invoice"">
+        <ReportHeader Name=""Invoice header"" Height=""84"">
+            <ReportText Text=""Object data source"" X=""30"" Y=""18"" Width=""240"" Height=""24"" FontSize=""20"" Bold FontColor=""@ReportColors.Blue"" />
+            <ReportText Text=""Customer: {Customer.Name}"" X=""30"" Y=""48"" Width=""240"" Height=""18"" />
+            <ReportText Text=""Invoice: {Header.Number}"" X=""315"" Y=""48"" Width=""180"" Height=""18"" TextAlignment=""TextAlignment.End"" />
+        </ReportHeader>
+        <ReportPageHeader Name=""Line headers"" Height=""32"">
+            <ReportText Text=""Sku"" X=""30"" Y=""8"" Width=""75"" Height=""18"" Bold />
+            <ReportText Text=""Description"" X=""120"" Y=""8"" Width=""210"" Height=""18"" Bold />
+            <ReportText Text=""Total"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+        </ReportPageHeader>
+        <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+            <ReportField Field=""Sku"" X=""30"" Y=""6"" Width=""75"" Height=""18"" />
+            <ReportField Field=""Description"" X=""120"" Y=""6"" Width=""210"" Height=""18"" />
+            <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+        </ReportDetail>
+        <ReportFooter Name=""Totals"" Height=""45"">
+            <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""8"" Thickness=""1"" />
+            <ReportText Text=""Invoice total"" X=""300"" Y=""18"" Width=""105"" Height=""18"" Bold />
+            <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+        </ReportFooter>
+    </ReportPage>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = ""INV-1001"",
+            Total = 1240.50m,
+        },
+        Customer = new()
+        {
+            Name = ""Northwind Traders"",
+        },
+        Lines =
+        [
+            new() { Sku = ""SRV-001"", Description = ""Implementation workshop"", Total = 640.50m },
+            new() { Sku = ""LIC-010"", Description = ""Reporting module license"", Total = 500.00m },
+            new() { Sku = ""SUP-003"", Description = ""Priority support"", Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Sku { get; set; }
+
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingDesignerToolbarExample = @"<Report Data=""@invoice""
+        @bind-Definition=""@definition""
+        Editable
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html""
+                  AllowDownload
+                  AllowPrint />
+    <ReportToolbar>
+        <ReportToolbarGroup>
+            <ReportToolbarPanesMenu />
+        </ReportToolbarGroup>
+        <ReportToolbarGroup>
+            <ReportToolbarItem Command=""ReportCommand.Cut"" Caption=""Cut"" />
+            <ReportToolbarItem Command=""ReportCommand.Copy"" Caption=""Copy"" />
+            <ReportToolbarItem Command=""ReportCommand.Duplicate"" Caption=""Duplicate"">
+                <ButtonTemplate Context=""item"">
+                    <Button Color=""Color.Warning"" Outline Active=""@item.Active"" Disabled=""@(!item.CanExecute)"" Clicked=""@item.Execute"" title=""@item.Text"">
+                        @if ( item.Icon is not null )
+                        {
+                            <Icon Name=""@item.Icon.Value"" Margin=""Margin.Is2.FromEnd"" />
+                        }
+                        @item.Text
+                    </Button>
+                </ButtonTemplate>
+            </ReportToolbarItem>
+            <ReportToolbarItem Command=""ReportCommand.Paste"" Caption=""Paste"" />
+            <ReportToolbarItem Command=""ReportCommand.Delete"" Caption=""Delete"" />
+        </ReportToolbarGroup>
+        <ReportToolbarGroup>
+            <ReportToolbarItem Command=""ReportCommand.Undo"" Caption=""Undo"" />
+            <ReportToolbarItem Command=""ReportCommand.Redo"" Caption=""Redo"" />
+            <ReportToolbarItem Command=""ReportCommand.Reset"" Caption=""Reset"" />
+        </ReportToolbarGroup>
+        <ReportToolbarGroup>
+            <ReportToolbarItem Command=""ReportCommand.ConnectDataSource"" Caption=""Data sources"" />
+            <ReportToolbarItem Command=""ReportCommand.DownloadPdf"" Caption=""Download PDF"" />
+        </ReportToolbarGroup>
+        <Div Margin=""Margin.IsAuto.FromStart"">
+            <ReportToolbarGroup>
+                <ReportToolbarItem Command=""ReportCommand.Design"" Caption=""Design"" ShowCaption />
+                <ReportToolbarItem Command=""ReportCommand.Preview"" Caption=""Preview"" ShowCaption />
+            </ReportToolbarGroup>
+        </Div>
+    </ReportToolbar>
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportPage Name=""Invoice"">
+        <ReportHeader Name=""Toolbar sample header"" Height=""72"">
+            <ReportText Text=""Designer toolbar"" X=""30"" Y=""18"" Width=""240"" Height=""24"" FontSize=""18"" Bold FontColor=""@ReportColors.Blue"" />
+            <ReportText Text=""{Header.Number} - {Customer.Name}"" X=""30"" Y=""45"" Width=""360"" Height=""18"" />
+        </ReportHeader>
+        <ReportPageHeader Name=""Column headers"" Height=""32"">
+            <ReportText Text=""Description"" X=""30"" Y=""8"" Width=""270"" Height=""18"" Bold />
+            <ReportText Text=""Total"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+        </ReportPageHeader>
+        <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+            <ReportField Field=""Description"" X=""30"" Y=""6"" Width=""270"" Height=""18"" />
+            <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+        </ReportDetail>
+    </ReportPage>
+</Report>
+
+@code {
+    private ReportDefinition definition;
+
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = ""INV-1001"",
+        },
+        Customer = new()
+        {
+            Name = ""Northwind Traders"",
+        },
+        Lines =
+        [
+            new() { Description = ""Implementation workshop"", Total = 640.50m },
+            new() { Description = ""Reporting module license"", Total = 500.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingDetailDataSourceExample = @"<Report Data=""@invoice""
+        Editable
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportPage Name=""Invoice"">
+        <ReportHeader Name=""Invoice header"" Height=""72"">
+            <ReportText Text=""Detail band repeats Invoice.Lines"" X=""30"" Y=""18"" Width=""300"" Height=""24"" FontSize=""18"" Bold FontColor=""@ReportColors.Blue"" />
+            <ReportText Text=""{Header.Number} - {Customer.Name}"" X=""30"" Y=""45"" Width=""360"" Height=""18"" />
+        </ReportHeader>
+        <ReportPageHeader Name=""Column headers"" Height=""32"">
+            <ReportText Text=""Sku"" X=""30"" Y=""8"" Width=""75"" Height=""18"" Bold />
+            <ReportText Text=""Description"" X=""120"" Y=""8"" Width=""210"" Height=""18"" Bold />
+            <ReportText Text=""Qty"" X=""345"" Y=""8"" Width=""60"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+            <ReportText Text=""Total"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+        </ReportPageHeader>
+        <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+            <ReportField Field=""Sku"" X=""30"" Y=""6"" Width=""75"" Height=""18"" />
+            <ReportField Field=""Description"" X=""120"" Y=""6"" Width=""210"" Height=""18"" />
+            <ReportField Field=""Quantity"" Format=""@ReportFormats.Number( 2 )"" X=""345"" Y=""6"" Width=""60"" Height=""18"" />
+            <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+        </ReportDetail>
+        <ReportFooter Name=""Totals"" Height=""45"">
+            <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""8"" Thickness=""1"" />
+            <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+        </ReportFooter>
+    </ReportPage>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = ""INV-1001"",
+            Total = 1240.50m,
+        },
+        Customer = new()
+        {
+            Name = ""Northwind Traders"",
+        },
+        Lines =
+        [
+            new() { Sku = ""SRV-001"", Description = ""Implementation workshop"", Quantity = 1, Total = 640.50m },
+            new() { Sku = ""LIC-010"", Description = ""Reporting module license"", Quantity = 2, Total = 500.00m },
+            new() { Sku = ""SUP-003"", Description = ""Priority support"", Quantity = 1, Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Sku { get; set; }
+
+        public string Description { get; set; }
+
+        public decimal Quantity { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingFontFaceExample = @"@font-face {
+    font-family: ""Inter"";
+    src: url(""fonts/Inter-Regular.ttf"") format(""truetype"");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}";
+
+        public const string ReportingFontRegistrationExample = @"byte[] interRegularBytes = await File.ReadAllBytesAsync( ""wwwroot/fonts/Inter-Regular.ttf"" );
+
+builder.Services
+    .AddBlazorise( options =>
+    {
+        options.Fonts.Add( new()
+        {
+            Name = ""Inter"",
+            DisplayName = ""Inter"",
+            CssFamily = ""\""Inter\"", sans-serif"",
+            Regular = FontSource.FromBytes( interRegularBytes, FontFormat.TrueType ),
+        } );
+    } )
+    .AddBlazoriseReporting();";
+
+        public const string ReportingFormulaFieldsExample = @"<Report Data=""@invoice""
+        Editable
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportFormulaFields>
+        <ReportFormulaField Name=""CustomerSummary"" Formula=""'Customer: ' + {Customer.Name}"" />
+        <ReportFormulaField Name=""LargeLine"" Formula=""if {Lines.Total} > 500 then 'Large' else 'Standard'"" />
+    </ReportFormulaFields>
+    <ReportPage Name=""Invoice"">
+        <ReportHeader Name=""Invoice header"" Height=""72"">
+            <ReportText Text=""Formula fields"" X=""30"" Y=""18"" Width=""240"" Height=""24"" FontSize=""18"" Bold FontColor=""@ReportColors.Blue"" />
+            <ReportField Field=""CustomerSummary"" X=""30"" Y=""45"" Width=""300"" Height=""18"" />
+        </ReportHeader>
+        <ReportPageHeader Name=""Column headers"" Height=""32"">
+            <ReportText Text=""Description"" X=""30"" Y=""8"" Width=""240"" Height=""18"" Bold />
+            <ReportText Text=""Total"" X=""300"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+            <ReportText Text=""Formula result"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold />
+        </ReportPageHeader>
+        <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+            <ReportField Field=""Description"" X=""30"" Y=""6"" Width=""240"" Height=""18"" />
+            <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""300"" Y=""6"" Width=""90"" Height=""18"" />
+            <ReportField Field=""LargeLine"" X=""420"" Y=""6"" Width=""90"" Height=""18"" Bold />
+        </ReportDetail>
+    </ReportPage>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Customer = new()
+        {
+            Name = ""Northwind Traders"",
+        },
+        Lines =
+        [
+            new() { Description = ""Implementation workshop"", Total = 640.50m },
+            new() { Description = ""Reporting module license"", Total = 500.00m },
+            new() { Description = ""Priority support"", Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingImportsExample = @"@using Blazorise.Reporting";
+
+        public const string ReportingLayoutBandsExample = @"<Report Data=""@invoice""
+        Editable
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html""
+                  AllowDownload
+                  AllowPrint />
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportPage Size=""ReportPageSize.A4""
+                Name=""Invoice""
+                Orientation=""ReportOrientation.Portrait"">
+        <ReportHeader Name=""Report header"" Height=""105"">
+            <ReportText Text=""Invoice {Header.Number}"" X=""30"" Y=""18"" Width=""180"" Height=""24"" FontSize=""20"" Bold FontColor=""@ReportColors.Blue"" />
+            <ReportText Text=""{Customer.Name}"" X=""30"" Y=""48"" Width=""240"" Height=""18"" Bold />
+            <ReportText Text=""{Customer.Address}"" X=""30"" Y=""70"" Width=""300"" Height=""18"" FontColor=""@ReportColors.Gray"" />
+            <ReportLine Orientation=""Orientation.Vertical"" X=""380"" Y=""20"" Width=""8"" Height=""54"" Thickness=""1"" BorderColor=""@ReportColors.Blue"" />
+            <ReportPanel X=""405"" Y=""20"" Width=""120"" Height=""54"" BorderColor=""@ReportColors.Blue"" BorderWidth=""1"" BorderStyle=""ReportBorderStyle.Solid"">
+                <ReportText Text=""REPORT HEADER"" X=""13"" Y=""19"" Width=""94"" Height=""18"" Bold TextAlignment=""TextAlignment.Center"" FontColor=""@ReportColors.Blue"" />
+            </ReportPanel>
+        </ReportHeader>
+        <ReportPageHeader Name=""Page header"" Height=""35"">
+            <ReportText Text=""Sku"" X=""30"" Y=""9"" Width=""75"" Height=""18"" Bold />
+            <ReportText Text=""Description"" X=""120"" Y=""9"" Width=""210"" Height=""18"" Bold />
+            <ReportText Text=""Qty"" X=""345"" Y=""9"" Width=""60"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+            <ReportText Text=""Line total"" X=""420"" Y=""9"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+        </ReportPageHeader>
+        <ReportGroupHeader Name=""Category group"" Height=""28"" DataSource=""Invoice.Lines"" GroupBy=""Category"">
+            <ReportText Text=""Category: {Category}"" X=""30"" Y=""6"" Width=""240"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+            <ReportLine X=""30"" Y=""26"" Width=""480"" Height=""8"" Thickness=""1"" BorderColor=""@ReportColors.Green"" />
+        </ReportGroupHeader>
+        <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+            <ReportField Field=""Sku"" X=""30"" Y=""6"" Width=""75"" Height=""18"" />
+            <ReportField Field=""Description"" X=""120"" Y=""6"" Width=""210"" Height=""18"" />
+            <ReportField Field=""Quantity"" Format=""@ReportFormats.Number( 2 )"" X=""345"" Y=""6"" Width=""60"" Height=""18"" />
+            <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+        </ReportDetail>
+        <ReportFooter Name=""Report footer"" Height=""60"">
+            <ReportLine X=""30"" Y=""9"" Width=""480"" Height=""8"" Thickness=""1"" />
+            <ReportText Text=""Report total"" X=""300"" Y=""24"" Width=""105"" Height=""18"" Bold />
+            <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""24"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+        </ReportFooter>
+        <ReportPageFooter Name=""Page footer"" Height=""30"">
+            <ReportText Text=""Generated {PrintDate} - page {PageNumber} of {TotalPages}"" X=""30"" Y=""7"" Width=""300"" Height=""18"" FontColor=""@ReportColors.Gray"" />
+        </ReportPageFooter>
+    </ReportPage>
+    <ReportPage Name=""Terms"" Size=""ReportPageSize.A4"" Orientation=""ReportOrientation.Portrait"">
+        <ReportHeader Name=""Terms"" Height=""150"">
+            <ReportText Text=""Invoice terms"" X=""30"" Y=""24"" Width=""240"" Height=""30"" FontSize=""20"" Bold FontColor=""@ReportColors.Blue"" />
+            <ReportText Text=""Payment is due within 14 days. Include the invoice number with the transfer."" X=""30"" Y=""72"" Width=""480"" Height=""42"" CanGrow=""true"" />
+        </ReportHeader>
+        <ReportPageFooter Name=""Terms page footer"" Height=""30"">
+            <ReportText Text=""Page {PageNumber} of {TotalPages}"" X=""390"" Y=""7"" Width=""120"" Height=""18"" TextAlignment=""TextAlignment.End"" FontColor=""@ReportColors.Gray"" />
+        </ReportPageFooter>
+    </ReportPage>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = ""INV-2026-014"",
+            Total = 2765.50m,
+        },
+        Customer = new()
+        {
+            Name = ""Northwind Traders"",
+            Address = ""One Portals Way, Twin Points WA, 98156"",
+        },
+        Lines =
+        [
+            new() { Category = ""Services"", Sku = ""SRV-001"", Description = ""Implementation workshop"", Quantity = 1, Total = 640.50m },
+            new() { Category = ""Services"", Sku = ""SUP-003"", Description = ""Priority support"", Quantity = 1, Total = 100.00m },
+            new() { Category = ""Licenses"", Sku = ""LIC-010"", Description = ""Reporting module license"", Quantity = 2, Total = 500.00m },
+            new() { Category = ""Licenses"", Sku = ""LIC-020"", Description = ""PDF export add-on"", Quantity = 5, Total = 1525.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+
+        public string Address { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Category { get; set; }
+
+        public string Sku { get; set; }
+
+        public string Description { get; set; }
+
+        public decimal Quantity { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingLayoutTableExample = @"<Report Data=""@invoice""
+        Editable
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportPage Name=""Invoice"">
+        <ReportHeader Name=""Invoice header"" Height=""150"">
+            <ReportText Text=""Layout table invoice"" X=""30"" Y=""18"" Width=""240"" Height=""24"" FontSize=""20"" Bold FontColor=""@ReportColors.Blue"" />
+            <ReportTable X=""30"" Y=""55"" Width=""495"" Height=""72"">
+                <ReportTableRow Height=""24"">
+                    <ReportTableCell>
+                        <ReportText Text=""Customer"" Bold />
+                    </ReportTableCell>
+                    <ReportTableCell ColumnSpan=""2"">
+                        <ReportText Text=""{Customer.Name}"" />
+                    </ReportTableCell>
+                    <ReportTableCell>
+                        <ReportText Text=""Invoice"" Bold />
+                    </ReportTableCell>
+                    <ReportTableCell>
+                        <ReportText Text=""{Header.Number}"" />
+                    </ReportTableCell>
+                </ReportTableRow>
+                <ReportTableRow Height=""24"">
+                    <ReportTableCell>
+                        <ReportText Text=""Address"" Bold />
+                    </ReportTableCell>
+                    <ReportTableCell ColumnSpan=""2"">
+                        <ReportText Text=""{Customer.Address}"" />
+                    </ReportTableCell>
+                    <ReportTableCell>
+                        <ReportText Text=""Issued"" Bold />
+                    </ReportTableCell>
+                    <ReportTableCell>
+                        <ReportField Field=""Header.IssuedAt"" Format=""@ReportFormats.Date()"" />
+                    </ReportTableCell>
+                </ReportTableRow>
+                <ReportTableRow Height=""24"">
+                    <ReportTableCell>
+                        <ReportText Text=""Tax number"" Bold />
+                    </ReportTableCell>
+                    <ReportTableCell ColumnSpan=""2"">
+                        <ReportText Text=""{Customer.TaxNumber}"" />
+                    </ReportTableCell>
+                    <ReportTableCell>
+                        <ReportText Text=""Total"" Bold />
+                    </ReportTableCell>
+                    <ReportTableCell>
+                        <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" Bold FontColor=""@ReportColors.Green"" />
+                    </ReportTableCell>
+                </ReportTableRow>
+            </ReportTable>
+        </ReportHeader>
+        <ReportPageHeader Name=""Line headers"" Height=""32"">
+            <ReportText Text=""Sku"" X=""30"" Y=""8"" Width=""75"" Height=""18"" Bold />
+            <ReportText Text=""Description"" X=""120"" Y=""8"" Width=""210"" Height=""18"" Bold />
+            <ReportText Text=""Qty"" X=""345"" Y=""8"" Width=""60"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+            <ReportText Text=""Total"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+        </ReportPageHeader>
+        <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+            <ReportField Field=""Sku"" X=""30"" Y=""6"" Width=""75"" Height=""18"" />
+            <ReportField Field=""Description"" X=""120"" Y=""6"" Width=""210"" Height=""18"" />
+            <ReportField Field=""Quantity"" Format=""@ReportFormats.Number( 2 )"" X=""345"" Y=""6"" Width=""60"" Height=""18"" />
+            <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+        </ReportDetail>
+    </ReportPage>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = ""INV-2026-021"",
+            IssuedAt = new DateTime( 2026, 6, 17 ),
+            Total = 1240.50m,
+        },
+        Customer = new()
+        {
+            Name = ""Northwind Traders"",
+            Address = ""One Portals Way, Twin Points WA, 98156"",
+            TaxNumber = ""NW-45821"",
+        },
+        Lines =
+        [
+            new() { Sku = ""SRV-001"", Description = ""Implementation workshop"", Quantity = 1, Total = 640.50m },
+            new() { Sku = ""LIC-010"", Description = ""Reporting module license"", Quantity = 2, Total = 500.00m },
+            new() { Sku = ""SUP-003"", Description = ""Priority support"", Quantity = 1, Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+
+        public DateTime IssuedAt { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+
+        public string Address { get; set; }
+
+        public string TaxNumber { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Sku { get; set; }
+
+        public string Description { get; set; }
+
+        public decimal Quantity { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingNugetInstallExample = @"Install-Package Blazorise.Reporting";
+
+        public const string ReportingPdfExportExample = @"<Report Data=""@invoice""
+        Editable
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Pdf""
+                  AllowDownload
+                  AllowPrint>
+        <PdfPreviewTemplate Context=""preview"">
+            <PdfViewerContainer Height=""Height.Rem( 48 )"">
+                <PdfViewerToolbar ShowPrinting=""@preview.AllowPrint""
+                                  ShowDownloading=""@preview.AllowDownload"" />
+                <PdfViewer Source=""@preview.DataUrl""
+                           Mode=""PdfViewerMode.Continuous""
+                           DownloadFileName=""@preview.FileName"" />
+            </PdfViewerContainer>
+        </PdfPreviewTemplate>
+    </ReportViewer>
+    <ReportToolbar>
+        <ReportToolbarGroup>
+            <ReportToolbarPanesMenu />
+        </ReportToolbarGroup>
+        <ReportToolbarGroup>
+            <ReportToolbarItem Command=""ReportCommand.PreviewHtml"" Caption=""HTML Preview"" />
+            <ReportToolbarItem Command=""ReportCommand.PreviewPdf"" Caption=""PDF Preview"" />
+            <ReportToolbarItem Command=""ReportCommand.DownloadPdf"" Caption=""Download PDF"" />
+        </ReportToolbarGroup>
+        <Div Margin=""Margin.IsAuto.FromStart"">
+            <ReportToolbarGroup>
+                <ReportToolbarItem Command=""ReportCommand.Design"" Caption=""Design"" ShowCaption />
+                <ReportToolbarItem Command=""ReportCommand.Preview"" Caption=""Preview"" ShowCaption />
+            </ReportToolbarGroup>
+        </Div>
+    </ReportToolbar>
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportPage Name=""Invoice"">
+        <ReportHeader Name=""PDF export header"" Height=""84"">
+            <ReportText Text=""PDF export invoice"" X=""30"" Y=""18"" Width=""240"" Height=""24"" FontSize=""20"" Bold FontColor=""@ReportColors.Blue"" />
+            <ReportText Text=""{Customer.Name}"" X=""30"" Y=""48"" Width=""240"" Height=""18"" />
+            <ReportText Text=""{Header.Number}"" X=""405"" Y=""48"" Width=""105"" Height=""18"" TextAlignment=""TextAlignment.End"" />
+        </ReportHeader>
+        <ReportPageHeader Name=""Column headers"" Height=""32"">
+            <ReportText Text=""Description"" X=""30"" Y=""8"" Width=""270"" Height=""18"" Bold />
+            <ReportText Text=""Total"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+        </ReportPageHeader>
+        <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+            <ReportField Field=""Description"" X=""30"" Y=""6"" Width=""270"" Height=""18"" />
+            <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" FontColor=""@ReportColors.Green"" />
+        </ReportDetail>
+        <ReportFooter Name=""Invoice footer"" Height=""45"">
+            <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""8"" Thickness=""1"" />
+            <ReportText Text=""Invoice total"" X=""300"" Y=""18"" Width=""105"" Height=""18"" Bold />
+            <ReportField Field=""Header.Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+        </ReportFooter>
+    </ReportPage>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = ""INV-1001"",
+            Total = 1240.50m,
+        },
+        Customer = new()
+        {
+            Name = ""Northwind Traders"",
+        },
+        Lines =
+        [
+            new() { Description = ""Implementation workshop"", Total = 640.50m },
+            new() { Description = ""Reporting module license"", Total = 500.00m },
+            new() { Description = ""Priority support"", Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingPluginExample = @"<Report Definition=""@definition""
+        ElementPlugins=""@plugins""
+        Editable
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"" />
+
+@code {
+    private readonly IReportElementPlugin[] plugins = [new ProgressBarReportElementPlugin()];
+
+    private readonly ReportDefinition definition = new()
+    {
+        Name = ""Plugin example"",
+        Pages =
+        [
+            new()
+            {
+                Name = ""Plugin"",
+                Bands =
+                [
+                    new()
+                    {
+                        Name = ""Custom elements"",
+                        Type = ReportBandType.Detail,
+                        Default = true,
+                        Height = 150,
+                        Elements =
+                        [
+                            new ReportTextElementDefinition
+                            {
+                                Text = ""Custom report element"",
+                                X = 30,
+                                Y = 18,
+                                Width = 240,
+                                Height = 24,
+                                Font = new()
+                                {
+                                    Size = 18,
+                                    Bold = true,
+                                },
+                            },
+                            new ReportCustomElementDefinition
+                            {
+                                TypeName = ProgressBarReportElementPlugin.TypeName,
+                                Name = ""Project completion"",
+                                X = 30,
+                                Y = 60,
+                                Width = 200,
+                                Height = 38,
+                                Properties = new()
+                                {
+                                    [""caption""] = ""Project completion"",
+                                    [""value""] = 72,
+                                    [""color""] = ""#0D6EFD"",
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    };
+}";
+
+        public const string ReportingPluginRegistrationExample = @"builder.Services
+    .AddBlazoriseReporting()
+    .AddReportElementPlugin<ProgressBarReportElementPlugin>();";
+
+        public const string ReportingProgrammaticDefinitionExample = @"<Report Definition=""@definition""
+        DefinitionMode=""ReportDefinitionMode.UseDefinitionOnly""
+        ShowToolbar=""false"" />
+
+@code {
+    private readonly ReportDefinition definition = new()
+    {
+        Name = ""Programmatic report"",
+        Pages =
+        [
+            new()
+            {
+                Name = ""Summary"",
+                Bands =
+                [
+                    new()
+                    {
+                        Name = ""Summary header"",
+                        Type = ReportBandType.ReportHeader,
+                        Height = 90,
+                        Elements =
+                        [
+                            new ReportTextElementDefinition
+                            {
+                                Name = ""Title"",
+                                Text = ""Created from a ReportDefinition"",
+                                X = 30,
+                                Y = 18,
+                                Width = 360,
+                                Height = 27,
+                                Font = new()
+                                {
+                                    Size = 20,
+                                    Bold = true,
+                                    Color = ReportColors.Blue,
+                                },
+                            },
+                            new ReportTextElementDefinition
+                            {
+                                Name = ""Description"",
+                                Text = ""No declarative report page or band components are required."",
+                                X = 30,
+                                Y = 51,
+                                Width = 420,
+                                Height = 18,
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    };
+}";
+
+        public const string ReportingResourcesExample = @"<link href=""_content/Blazorise.Reporting/blazorise.reporting.css?v=2.2.2.0"" rel=""stylesheet"" />";
+
+        public const string ReportingRunningTotalsExample = @"<Report Data=""@invoice""
+        Editable
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportRunningTotals>
+        <ReportRunningTotal Name=""LineRunningTotal""
+                            DataSource=""Invoice.Lines""
+                            Field=""Total""
+                            AggregateFunction=""ReportAggregateFunction.Sum"" />
+    </ReportRunningTotals>
+    <ReportPage Name=""Invoice"">
+        <ReportHeader Name=""Invoice header"" Height=""60"">
+            <ReportText Text=""Running totals"" X=""30"" Y=""18"" Width=""240"" Height=""24"" FontSize=""18"" Bold FontColor=""@ReportColors.Blue"" />
+        </ReportHeader>
+        <ReportPageHeader Name=""Column headers"" Height=""32"">
+            <ReportText Text=""Description"" X=""30"" Y=""8"" Width=""210"" Height=""18"" Bold />
+            <ReportText Text=""Total"" X=""300"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+            <ReportText Text=""Running total"" X=""420"" Y=""8"" Width=""90"" Height=""18"" Bold TextAlignment=""TextAlignment.End"" />
+        </ReportPageHeader>
+        <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+            <ReportField Field=""Description"" X=""30"" Y=""6"" Width=""210"" Height=""18"" />
+            <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""300"" Y=""6"" Width=""90"" Height=""18"" />
+            <ReportField Field=""LineRunningTotal"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+        </ReportDetail>
+        <ReportFooter Name=""Totals"" Height=""45"">
+            <ReportLine X=""30"" Y=""6"" Width=""480"" Height=""8"" Thickness=""1"" />
+            <ReportText Text=""Grand total"" X=""300"" Y=""18"" Width=""105"" Height=""18"" Bold />
+            <ReportField Field=""Lines.Total"" AggregateFunction=""ReportAggregateFunction.Sum"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""18"" Width=""90"" Height=""18"" Bold FontColor=""@ReportColors.Green"" />
+        </ReportFooter>
+    </ReportPage>
+</Report>
+
+@code {
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Lines =
+        [
+            new() { Description = ""Implementation workshop"", Total = 640.50m },
+            new() { Description = ""Reporting module license"", Total = 500.00m },
+            new() { Description = ""Priority support"", Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingServiceRegistrationExample = @"builder.Services
+    .AddBlazorise()
+    .AddBlazoriseReporting();";
+
+        public const string ReportingSimpleDeclarativeExample = @"<Report ShowToolbar=""false"">
+    <ReportPage Name=""Welcome"">
+        <ReportHeader Name=""Welcome header"" Height=""90"">
+            <ReportText Text=""My first report""
+                        X=""30""
+                        Y=""18""
+                        Width=""300""
+                        Height=""27""
+                        FontSize=""20""
+                        Bold
+                        FontColor=""@ReportColors.Blue"" />
+            <ReportText Text=""This content is declared entirely in Razor.""
+                        X=""30""
+                        Y=""51""
+                        Width=""360""
+                        Height=""18"" />
+        </ReportHeader>
+    </ReportPage>
+</Report>";
+
+        public const string ReportingSqlDataSourceExample = @"@using Blazorise.Reporting.DataSources.Sql
+
+<Report>
+    <ReportDataSources>
+        <ReportSqlDataSource Name=""Sales""
+                             ConnectionName=""Reporting""
+                             Query=""@ReportingQueries.Sales""
+                             CommandTimeout=""15"" />
+    </ReportDataSources>
+    <ReportPage Name=""Sales"">
+        <ReportDetail Name=""Sale"" Height=""24"" DataSource=""Sales"">
+            <ReportField Field=""OrderNumber"" X=""30"" Y=""3"" Width=""240"" Height=""18"" />
+            <ReportField Field=""Total"" X=""285"" Y=""3"" Width=""90"" Height=""18"" />
+        </ReportDetail>
+    </ReportPage>
+</Report>";
+
+        public const string ReportingSqlDataSourceImportsExample = @"@using Blazorise.Reporting.DataSources.Sql";
+
+        public const string ReportingSqlDataSourceNugetInstallExample = @"Install-Package Blazorise.Reporting.DataSources.Sql
+Install-Package Microsoft.Data.SqlClient";
+
+        public const string ReportingSqlDataSourceRegistrationExample = @"using Blazorise.Reporting.DataSources.Sql;
+using Microsoft.Data.SqlClient;
+
+HashSet<string> allowedQueries = new( StringComparer.Ordinal )
+{
+    ReportingQueries.Sales,
+};
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazoriseReporting()
+    .AddBlazoriseReportingSqlDataSource( options =>
+    {
+        options.Connections[""Reporting""] = serviceProvider =>
+        {
+            IConfiguration configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            string connectionString = configuration.GetConnectionString( ""Reporting"" )
+                ?? throw new InvalidOperationException( ""The Reporting connection string is missing."" );
+
+            return new SqlConnection( connectionString );
+        };
+
+        options.QueryAllowed = ( connectionName, query ) =>
+            string.Equals( connectionName, ""Reporting"", StringComparison.OrdinalIgnoreCase )
+                && allowedQueries.Contains( query );
+        options.MaximumCommandTimeout = 30;
+    } );
+
+public static class ReportingQueries
+{
+    public const string Sales = """"""
+        SELECT OrderNumber, Total
+        FROM Reporting.Sales
+        ORDER BY OrderNumber
+        """""";
+}";
+
+        public const string ReportingStateExample = @"<Report Data=""@invoice""
+        @bind-Definition=""@definition""
+        SaveRequested=""@SaveReport""
+        LoadRequested=""@LoadReport""
+        Editable
+        PreviewFormats=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"">
+    <ReportViewer PreviewFormat=""ReportPreviewFormat.Html | ReportPreviewFormat.Pdf""
+                  DefaultPreviewFormat=""ReportPreviewFormat.Html"" />
+    <ReportDataSources>
+        <ReportObjectDataSource Name=""Invoice"" Data=""@invoice"" />
+    </ReportDataSources>
+    <ReportPage Name=""Invoice"">
+        <ReportHeader Name=""Stateful report header"" Height=""72"">
+            <ReportText Text=""Persistent report definition"" X=""30"" Y=""18"" Width=""270"" Height=""24"" FontSize=""18"" Bold FontColor=""@ReportColors.Blue"" />
+            <ReportText Text=""Move elements, save the definition as JSON, and load it again from the toolbar."" X=""30"" Y=""45"" Width=""450"" Height=""18"" />
+        </ReportHeader>
+        <ReportDetail Name=""Invoice lines"" Height=""30"" DataSource=""Invoice.Lines"">
+            <ReportField Field=""Description"" X=""30"" Y=""6"" Width=""270"" Height=""18"" />
+            <ReportField Field=""Total"" Format=""@ReportFormats.Currency()"" X=""420"" Y=""6"" Width=""90"" Height=""18"" />
+        </ReportDetail>
+    </ReportPage>
+</Report>
+
+@code {
+    private ReportDefinition definition;
+
+    private string reportJson;
+
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Lines =
+        [
+            new() { Description = ""Implementation workshop"", Total = 640.50m },
+            new() { Description = ""Reporting module license"", Total = 500.00m },
+        ],
+    };
+
+    private Task SaveReport( ReportDefinition definition )
+    {
+        reportJson = ReportJsonSerializer.Serialize( definition );
+
+        return Task.CompletedTask;
+    }
+
+    private Task<ReportDefinition> LoadReport()
+    {
+        ReportDefinition savedDefinition = string.IsNullOrWhiteSpace( reportJson )
+            ? null
+            : ReportJsonSerializer.Deserialize( reportJson );
+
+        return Task.FromResult( savedDefinition );
+    }
+
+    private sealed class InvoiceReportModel
+    {
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Description { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}";
+
+        public const string ReportingWebApiDataSourceExample = @"@using Blazorise.Reporting.DataSources.WebApi
+@using System.Collections.Generic
+
+<Report>
+    <ReportDataSources>
+        <ReportWebApiDataSource Name=""Products""
+                                Url=""https://dummyjson.com/products?limit=10&amp;select=id,title,price,category""
+                                Headers=""@requestHeaders""
+                                ResponseFormat=""@WebApiReportDataSourceFormats.Json""
+                                DataSelector=""/products"" />
+    </ReportDataSources>
+    <ReportPage Name=""Products"">
+        <ReportDetail Name=""Product row"" Height=""24"" DataSource=""Products"">
+            <ReportField Field=""title"" X=""30"" Y=""3"" Width=""240"" Height=""18"" />
+            <ReportField Field=""price"" X=""285"" Y=""3"" Width=""90"" Height=""18"" />
+        </ReportDetail>
+    </ReportPage>
+</Report>
+
+@code {
+    private readonly IReadOnlyDictionary<string, string> requestHeaders =
+        new Dictionary<string, string>
+        {
+            [""Accept""] = ""application/json"",
+        };
+}";
+
+        public const string ReportingWebApiDataSourceImportsExample = @"@using Blazorise.Reporting.DataSources.WebApi";
+
+        public const string ReportingWebApiDataSourceNugetInstallExample = @"Install-Package Blazorise.Reporting.DataSources.WebApi";
+
+        public const string ReportingWebApiDataSourceRegistrationExample = @"using Blazorise.Reporting.DataSources.WebApi;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazoriseReporting()
+    .AddBlazoriseReportingWebApiDataSource( configureOptions: options =>
+    {
+        // Optional: omit this callback to allow any public HTTP or HTTPS URL.
+        options.ResourceAllowed = uri =>
+            uri.Scheme == Uri.UriSchemeHttps
+                && uri.IsDefaultPort
+                && string.Equals( uri.Host, ""dummyjson.com"", StringComparison.OrdinalIgnoreCase );
+        options.MaximumResponseSize = 5 * 1024 * 1024;
+        options.RequestTimeout = TimeSpan.FromSeconds( 30 );
+    } );";
+
         public const string RichTextEditConfigurationExample = @"<RichTextEdit ConfigureQuillJsMethod=""myComponent.configureQuillJs"" />
 
 @* Define this configuration in a javascript file
@@ -14644,6 +29560,94 @@ builder.Services
         {
             RecurrenceRule = ""FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3""
         },
+    };
+}";
+
+        public const string SchedulerColumnsExample = @"<Scheduler TItem=""Appointment"" @bind-Date=""@selectedDate""
+           Data=""@Appointments""
+           @bind-SelectedView=""@selectedView""
+           Editable
+           ItemStyling=""@OnItemStyling"">
+    <SchedulerToolbar />
+    <SchedulerViews>
+        <SchedulerWeekView StartTime=""@startTime"" EndTime=""@endTime"" WorkDayStart=""@workDayStart"" WorkDayEnd=""@workDayEnd"" />
+    </SchedulerViews>
+    <SchedulerColumns>
+        <SchedulerColumn TItem=""Appointment"" Field=""@nameof( Appointment.Title )"" Caption=""Appointment title"" TValue=""string"">
+            <EditTemplate Context=""context"">
+                <TextInput @bind-Value=""@context.Value"" />
+            </EditTemplate>
+        </SchedulerColumn>
+        <SchedulerColumn TItem=""Appointment"" Field=""@nameof( Appointment.Color )"" Caption=""Color"" TValue=""string"" ColumnSize=""ColumnSize.IsHalf.OnDesktop"">
+            <EditTemplate Context=""context"">
+                <ColorPicker @bind-Value=""@context.Value"" />
+            </EditTemplate>
+        </SchedulerColumn>
+        <SchedulerColumn TItem=""Appointment"" Field=""@nameof( Appointment.Location )"" Caption=""Location"" TValue=""string"" ColumnSize=""ColumnSize.IsHalf.OnDesktop"">
+            <EditTemplate Context=""context"">
+                <TextInput @bind-Value=""@context.Value"" />
+            </EditTemplate>
+        </SchedulerColumn>
+    </SchedulerColumns>
+</Scheduler>
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    private SchedulerView selectedView = SchedulerView.Week;
+    private static DateTime today10AM = DateTime.Today.AddHours( 10 );
+    private TimeOnly startTime = new TimeOnly( 7, 0 );
+    private TimeOnly endTime = new TimeOnly( 17, 0 );
+    private TimeOnly workDayStart = new TimeOnly( 8, 0 );
+    private TimeOnly workDayEnd = new TimeOnly( 16, 0 );
+
+    private void OnItemStyling( Appointment appointment, SchedulerItemStyling itemStyling )
+    {
+        if ( !string.IsNullOrEmpty( appointment.Color ) )
+        {
+            itemStyling.Background = Background.Default;
+            itemStyling.Style = $""background-color: {appointment.Color};"";
+            itemStyling.TextColor = TextColor.White;
+        }
+    }
+
+    public class Appointment
+    {
+        public Appointment()
+        {
+        }
+
+        public Appointment( string title, string description, DateTime start, DateTime end, string color, string location )
+        {
+            Id = Guid.NewGuid().ToString();
+            Title = title;
+            Description = description;
+            Start = start;
+            End = end;
+            Color = color;
+            Location = location;
+        }
+
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public bool AllDay { get; set; }
+
+        public string Color { get; set; }
+
+        public string Location { get; set; }
+    }
+
+    List<Appointment> Appointments = new List<Appointment>
+    {
+        new Appointment( ""Design review"", ""Reviewing the new dashboard"", today10AM, today10AM.AddHours( 1 ), ""#0d6efd"", ""Conference room"" ),
+        new Appointment( ""Planning"", ""Sprint planning session"", today10AM.AddHours( 2 ), today10AM.AddHours( 3 ), ""#198754"", ""Main office"" ),
+        new Appointment( ""Customer call"", ""Quarterly product feedback"", today10AM.AddDays( 1 ).AddHours( 1 ), today10AM.AddDays( 1 ).AddHours( 2 ), ""#dc3545"", ""Remote"" ),
     };
 }";
 
@@ -15793,14 +30797,14 @@ builder.Services
         public const string SvgLineChartExample = @"<SvgLineChart TItem=""MonthlyVisitors""
               Items=""@visitors""
               Options=""@options"">
-    <SvgChartTitle Title='@(""Visitor trend"")' Subtitle='@(""Line series with markers"")' />
+    <SvgChartTitle Title='@(""Visitor trend"")' Subtitle='@(""Highlighted with a line outline"")' />
     <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
     <SvgChartTooltip Enabled />
     <SvgChartCategoryAxis Value=""@( item => item.Month )"" />
     <SvgChartValueAxis BeginAtZero TickCount=""6"" />
 
-    <SvgLineSeries Name=""Current year"" Value=""@( item => item.Current )"" Color=""Color.Primary"" StrokeWidth=""3"" MarkerRadius=""4"" />
-    <SvgLineSeries Name=""Previous year"" Value=""@( item => item.Previous )"" Color=""Color.Warning"" StrokeWidth=""3"" MarkerRadius=""4"" />
+    <SvgLineSeries Name=""Current year"" Value=""@( item => item.Current )"" Color=""Color.Primary"" StrokeWidth=""3"" MarkerRadius=""4"" Outline=""@currentYearOutline"" />
+    <SvgLineSeries Name=""Previous year"" Value=""@( item => item.Previous )"" Color=""Color.Info"" StrokeWidth=""3"" MarkerRadius=""4"" />
 </SvgLineChart>
 
 @code {
@@ -15808,6 +30812,13 @@ builder.Services
     {
         Height = 360,
         Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly SvgChartLineOutlineOptions currentYearOutline = new()
+    {
+        Color = Color.Warning,
+        StrokeWidth = 9,
+        Opacity = 0.35,
     };
 
     private readonly List<MonthlyVisitors> visitors =
@@ -17880,11 +32891,11 @@ builder.Services
     .AddAntDesignProviders()
     .AddAntDesignIcons();";
 
-        public const string AntDesignGuideSourceFilesExample = @"<link href=""_content/Blazorise.AntDesign/antd.css?v=2.2.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.2.1.0"" rel=""stylesheet"" />
+        public const string AntDesignGuideSourceFilesExample = @"<link href=""_content/Blazorise.AntDesign/antd.css?v=2.2.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.2.3.0"" rel=""stylesheet"" />
 
-<link href=""_content/Blazorise/blazorise.css?v=2.2.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.2.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.2.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.2.3.0"" rel=""stylesheet"" />";
 
         public const string AntDesignGuideUsingExample = @"@using Blazorise";
 
@@ -17907,8 +32918,8 @@ builder.Services
         public const string BootstrapGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"" integrity=""sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"" crossorigin=""anonymous"">
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.2.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.2.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.2.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.2.3.0"" rel=""stylesheet"" />";
 
         public const string BootstrapGuideUsingExample = @"@using Blazorise";
 
@@ -17931,8 +32942,8 @@ builder.Services
         public const string Bootstrap5GuideSourceFilesExample = @"<link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"" crossorigin=""anonymous"">
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.2.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.2.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.2.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.2.3.0"" rel=""stylesheet"" />";
 
         public const string Bootstrap5GuideUsingExample = @"@using Blazorise";
 
@@ -17953,10 +32964,10 @@ builder.Services
     .AddLucideIcons();";
 
         public const string BulmaGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"" />
-<link href=""_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.2.1.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.2.3.0"" rel=""stylesheet"" />
 
-<link href=""_content/Blazorise/blazorise.css?v=2.2.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bulma/blazorise.bulma.css?v=2.2.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.2.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bulma/blazorise.bulma.css?v=2.2.3.0"" rel=""stylesheet"" />";
 
         public const string BulmaGuideUsingExample = @"@using Blazorise";
 
@@ -17983,11 +32994,26 @@ builder.Services
     .AddFluentUI2Providers()
     .AddFluentUIIcons();";
 
-        public const string FluentUI2GuideSourceFiles1Example = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.2.1.0"" rel=""stylesheet"" />
+        public const string FluentUI2GuideSourceFiles1Example = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.2.3.0"" rel=""stylesheet"" />
 
-<link href=""_content/Blazorise/blazorise.css?v=2.2.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.FluentUI2/reboot.css?v=2.2.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.2.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.2.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/reboot.css?v=2.2.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.2.3.0"" rel=""stylesheet"" />";
+
+        public const string FluentUI2GuideSvgRegistrationExample = @"using Blazorise;
+using Blazorise.FluentUI2;
+using Blazorise.Icons.FluentUI;
+
+builder.Services
+    .AddBlazorise()
+    .AddFluentUI2Providers()
+    .AddFluentUIIcons( options => options.UseSvgIcons = true );";
+
+        public const string FluentUI2GuideSvgSourceFilesExample = @"<link href=""_content/Blazorise.Icons.FluentUI/blazorise.icons.fluentui.css"" rel=""stylesheet"" />
+
+<link href=""_content/Blazorise/blazorise.css?v=2.2.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/reboot.css?v=2.2.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.2.3.0"" rel=""stylesheet"" />";
 
         public const string FluentUI2GuideUsingExample = @"@using Blazorise";
 
@@ -18040,12 +33066,12 @@ builder.Services
 <!-- Required when using Blazorise.Icons.Material -->
 <link href=""https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.2.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Material/blazorise.material.css?v=2.2.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.2.1.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise/blazorise.css?v=2.2.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Material/blazorise.material.css?v=2.2.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.2.3.0"" rel=""stylesheet"" />
 
 <!-- Before </body> (before the Blazor framework script) -->
-<script src=""_content/Blazorise.Material/blazorise.material.js?v=2.2.1.0""></script>";
+<script src=""_content/Blazorise.Material/blazorise.material.js?v=2.2.3.0""></script>";
 
         public const string MaterialGuideUsingExample = @"@using Blazorise";
 
@@ -18068,8 +33094,8 @@ builder.Services
 <link href=""https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.2.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.2.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.2.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.2.3.0"" rel=""stylesheet"" />";
 
         public const string TailwindGuideUsingExample = @"@using Blazorise";
 
@@ -18103,6 +33129,31 @@ builder.Services
 <Div Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"" Background=""Background.Warning.Subtle"" TextColor=""TextColor.Warning.Emphasis"">
     Warning Subtle
 </Div>";
+
+        public const string CustomCssColorsExample = @"<Div Background=""@softBackground""
+     TextColor=""@accentText""
+     Border=""Border.Rounded""
+     Padding=""Padding.Is3""
+     Margin=""Margin.Is2.FromBottom"">
+    Raw hexadecimal text color on an RGBA background
+</Div>
+
+<Div Background=""@variableBackground""
+     TextColor=""@lightText""
+     Border=""Border.Rounded""
+     Padding=""Padding.Is3"">
+    CSS variable background with an HSL text color
+</Div>
+
+@code {
+    private readonly TextColor accentText = ""#7c3aed"";
+
+    private readonly TextColor lightText = CssColor.Hsl( 210, 40, 98 );
+
+    private readonly Background softBackground = CssColor.Rgba( 196, 181, 253, 0.35 );
+
+    private readonly Background variableBackground = CssColor.Variable( ""b-theme-dark"", ""#0f172a"" );
+}";
 
         public const string TextColorsExample = @"<Paragraph TextColor=""TextColor.Primary"">
     Primary
@@ -18377,6 +33428,10 @@ builder.Services
 
 <Div Border=""Border.Is2.Danger.OnBottom"" Padding=""Padding.Is3"" Margin=""Margin.Is2.FromBottom"">
     Bottom border accent
+</Div>
+
+<Div Border=""@Border.WithColor( CssColor.Rgba( 124, 58, 237, 0.65 ) ).OnStart"" Padding=""Padding.Is3"">
+    Start border with a custom RGBA color
 </Div>";
 
         public const string ColumnSizeExample = @"<Row>
@@ -19113,6 +34168,39 @@ builder.Services
     </Badge>
 </Button>";
 
+        public const string FluentSizingNumericShorthandExample = @"<Div Width=""Width.Px().Max( 520 )"" Flex=""Flex.Column"" Gap=""1.Rem()"">
+    <Div Width=""8.Rem()""
+         Height=""4.Rem()""
+         TextSize=""1.25.Rem()""
+         Padding=""Padding.Is2""
+         Background=""Background.Primary.Subtle""
+         Border=""Border.Is1.Primary""
+         TextColor=""TextColor.Primary.Emphasis"">
+        Width=""8.Rem()"", Height=""4.Rem()"", and TextSize=""1.25.Rem()""
+    </Div>
+    <Div Width=""50.Percent()""
+         Padding=""Padding.Is2""
+         Background=""Background.Success.Subtle""
+         Border=""Border.Is1.Success""
+         TextColor=""TextColor.Success.Emphasis"">
+        Width=""50.Percent()""
+    </Div>
+    <Div Width=""20.Rem().Min( 12 ).Max( 30 )""
+         Padding=""Padding.Is2""
+         Background=""Background.Warning.Subtle""
+         Border=""Border.Is1.Warning""
+         TextColor=""TextColor.Warning.Emphasis"">
+        Width=""20.Rem().Min( 12 ).Max( 30 )""
+    </Div>
+    <Div Width=""@(Width.Calc( ""100% - 2rem"" ))""
+         Padding=""Padding.Is2""
+         Background=""Background.Secondary.Subtle""
+         Border=""Border.Is1.Secondary""
+         TextColor=""TextColor.Secondary.Emphasis"">
+        Width=""Width.Calc( ""100% - 2rem"" )""
+    </Div>
+</Div>";
+
         public const string FluentSizingPredefinedExample = @"<Div Width=""Width.Px().Max( 520 )"" Background=""Background.Light"" Border=""Border.Is1.Secondary.Subtle"" Padding=""Padding.Is3"">
     <Div Width=""Width.Is25""
          Padding=""Padding.Is2""
@@ -19441,7 +34529,10 @@ builder.Services
     }
 }";
 
-        public const string ModalProviderCustomStructureExample = @"<Field Horizontal>
+        public const string ModalProviderCustomStructureExample = @"@using System
+@using System.Threading.Tasks
+
+<Field Horizontal>
     <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">User Name</FieldLabel>
     <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
         <TextInput @bind-Value=""userName""></TextInput>
@@ -19456,11 +34547,33 @@ builder.Services
 
     public Task ShowCustomStructure()
     {
-        return ModalService.Show<CustomStructureModalExample>( parameters => parameters.Add( x => x.UserName, userName ), new ModalInstanceOptions() { UseModalStructure = false } );
+        return ModalService.Show( string.Empty, CustomStructureModalExample, new ModalInstanceOptions() { UseModalStructure = false } );
     }
+
+
+    private RenderFragment CustomStructureModalExample => @<text>
+        <ModalHeader>
+            <ModalTitle>My Custom Structure</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody MaxHeight=""70"">
+            Welcome @userName!
+        </ModalBody>
+        <ModalFooter>
+            <Button Color=""Color.Success"" Clicked=""Confirm"">Cheers!</Button>
+        </ModalFooter>
+    </text>;
+    
+    private async Task Confirm()
+        {
+            await ModalService.Hide();
+        }
 }";
 
-        public const string ModalProviderFormularyExample = @"<Paragraph>
+        public const string ModalProviderFormularyExample = @"@using System
+@using System.Threading.Tasks
+
+<Paragraph>
     @formularyMessage
 </Paragraph>
 <Button Color=""Color.Primary"" Clicked=""ShowFormulary"">Show</Button>
@@ -19473,12 +34586,7 @@ builder.Services
     public Task ShowFormulary()
     {
         formularyMessage = string.Empty;
-        return ModalService.Show<FormularyModalExample>( x =>
-        {
-            x.Add( x => x.OnValidate, FormularyValidate );
-            x.Add( x => x.OnSuccess, FormularySuccess );
-        },
-        new ModalInstanceOptions()
+        return ModalService.Show( string.Empty, FormularyModalExample, new ModalInstanceOptions()
             {
                 UseModalStructure = false
             } );
@@ -19492,9 +34600,71 @@ builder.Services
         formularyMessage = $""Employee : {employee.FirstName} saved successfully!"";
         return InvokeAsync( StateHasChanged );
     }
+
+
+    private RenderFragment FormularyModalExample => @<text>
+        <ModalHeader>
+            <ModalTitle>
+                Please fill in the formulary
+            </ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">First Name</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
+                    <TextInput @bind-Value=""model.FirstName""></TextInput>
+                </FieldBody>
+            </Field>
+        
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">Email</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
+                    <TextInput @bind-Value=""model.Email""></TextInput>
+                </FieldBody>
+            </Field>
+        
+            @if ( !isValid )
+            {
+                <Paragraph>
+                    <Label>Invalid Submission!</Label>
+                </Paragraph>
+            }
+        </ModalBody>
+        <ModalFooter>
+            <Button Color=""Color.Success "" Clicked=""Confirm"">Confirm</Button>
+            <Button Color=""Color.Secondary"" Clicked=""ModalService.Hide"">Close</Button>
+        </ModalFooter>
+    </text>;
+    
+    private Employee model = new();
+        private bool isValid = true;
+    
+        private async Task Confirm()
+        {
+            isValid = await FormularyValidate( model );
+    
+            if ( !isValid )
+            {
+                return;
+            }
+    
+            await FormularySuccess( model );
+            await ModalService.Hide();
+        }
+    
+    public class Employee
+    {
+        public string FirstName { get; set; }
+    
+        public string Email { get; set; }
+    }
 }";
 
-        public const string ModalProviderInstantiationExample = @"<Button Color=""Color.Primary"" Clicked=""ShowCounter"">Show Counter</Button>
+        public const string ModalProviderInstantiationExample = @"@using System
+@using System.Threading.Tasks
+
+<Button Color=""Color.Primary"" Clicked=""ShowCounter"">Show Counter</Button>
 
 @code {
     [Inject] public IModalService ModalService { get; set; }
@@ -19503,8 +34673,25 @@ builder.Services
     {
         Random random = new();
         var newValue = random.NextInt64( 100 );
-        return ModalService.Show<CounterExample>( ""My Custom Content!"", x => x.Add( x => x.Value, newValue ) );
+        Value = newValue;
+        return ModalService.Show( ""My Custom Content!"", CounterExample );
     }
+
+
+    private RenderFragment CounterExample => @<text>
+        <Heading>Counter</Heading>
+        
+        <Paragraph>@Value</Paragraph>
+        
+        <Button Color=""Color.Primary"" Clicked=""Increment"">Increment</Button>
+    </text>;
+    
+    private long Value { get; set; }
+    
+        private void Increment()
+        {
+            Value++;
+        }
 }";
 
         public const string ModalProviderOptionsExample = @"<Router AppAssembly=""typeof(App).Assembly"">
@@ -19514,20 +34701,39 @@ builder.Services
 
 <ModalProvider UseModalStructure Animated Size=""ModalSize.Fullscreen"" />";
 
-        public const string ModalProviderStatefulExample = @"<Button Color=""Color.Primary"" Clicked=""ShowStateful"">Show Stateful</Button>
+        public const string ModalProviderStatefulExample = @"@using System
+@using System.Threading.Tasks
+
+<Button Color=""Color.Primary"" Clicked=""ShowStateful"">Show Stateful</Button>
 
 @code {
     [Inject] public IModalService ModalService { get; set; }
 
     public Task ShowStateful()
     {
-        return ModalService.Show<CounterExample>( ""My Stateful content"", new ModalInstanceOptions()
+        return ModalService.Show( ""My Stateful content"", CounterExample, new ModalInstanceOptions()
         {
             Stateful = true,
             ElementId = ""Stateful"",
             RenderMode = ModalRenderMode.LazyLoad
         } );
     }
+
+
+    private RenderFragment CounterExample => @<text>
+        <Heading>Counter</Heading>
+        
+        <Paragraph>@Value</Paragraph>
+        
+        <Button Color=""Color.Primary"" Clicked=""Increment"">Increment</Button>
+    </text>;
+    
+    private long Value { get; set; }
+    
+        private void Increment()
+        {
+            Value++;
+        }
 }";
 
         public const string ModalProviderUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
@@ -19683,7 +34889,10 @@ builder.Services
     }
 }";
 
-        public const string OffcanvasProviderCustomStructureExample = @"<Field Horizontal>
+        public const string OffcanvasProviderCustomStructureExample = @"@using System
+@using System.Threading.Tasks
+
+<Field Horizontal>
     <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">User Name</FieldLabel>
     <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
         <TextInput @bind-Value=""userName""></TextInput>
@@ -19698,13 +34907,33 @@ builder.Services
 
     public Task ShowCustomStructure()
     {
-        return OffcanvasService.Show<CustomStructureOffcanvasExample>(
-            parameters => parameters.Add( x => x.UserName, userName ),
-            new OffcanvasInstanceOptions() { UseOffcanvasStructure = false } );
+        return OffcanvasService.Show( string.Empty, CustomStructureOffcanvasExample, new OffcanvasInstanceOptions() { UseOffcanvasStructure = false } );
     }
+
+
+    private RenderFragment CustomStructureOffcanvasExample => @<text>
+        <OffcanvasHeader>
+            <Heading Size=""HeadingSize.Is5"">My Custom Structure</Heading>
+            <CloseButton />
+        </OffcanvasHeader>
+        <OffcanvasBody>
+            Welcome @userName!
+        </OffcanvasBody>
+        <OffcanvasFooter>
+            <Button Color=""Color.Success"" Clicked=""Confirm"">Cheers!</Button>
+        </OffcanvasFooter>
+    </text>;
+    
+    private Task Confirm()
+        {
+            return OffcanvasService.Hide();
+        }
 }";
 
-        public const string OffcanvasProviderFormularyExample = @"<Paragraph>
+        public const string OffcanvasProviderFormularyExample = @"@using System
+@using System.Threading.Tasks
+
+<Paragraph>
     @formularyMessage
 </Paragraph>
 <Button Color=""Color.Primary"" Clicked=""ShowFormulary"">Show</Button>
@@ -19717,12 +34946,7 @@ builder.Services
     public Task ShowFormulary()
     {
         formularyMessage = string.Empty;
-        return OffcanvasService.Show<FormularyOffcanvasExample>( x =>
-        {
-            x.Add( x => x.OnValidate, FormularyValidate );
-            x.Add( x => x.OnSuccess, FormularySuccess );
-        },
-        new OffcanvasInstanceOptions()
+        return OffcanvasService.Show( string.Empty, FormularyOffcanvasExample, new OffcanvasInstanceOptions()
             {
                 UseOffcanvasStructure = false
             } );
@@ -19736,9 +34960,69 @@ builder.Services
         formularyMessage = $""Employee : {employee.FirstName} saved successfully!"";
         return InvokeAsync( StateHasChanged );
     }
+
+
+    private RenderFragment FormularyOffcanvasExample => @<text>
+        <OffcanvasHeader>
+            <Heading Size=""HeadingSize.Is5"">Please fill in the formulary</Heading>
+            <CloseButton />
+        </OffcanvasHeader>
+        <OffcanvasBody>
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">First Name</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
+                    <TextInput @bind-Value=""model.FirstName""></TextInput>
+                </FieldBody>
+            </Field>
+        
+            <Field Horizontal>
+                <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">Email</FieldLabel>
+                <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
+                    <TextInput @bind-Value=""model.Email""></TextInput>
+                </FieldBody>
+            </Field>
+        
+            @if ( !isValid )
+            {
+                <Paragraph>
+                    <Label>Invalid Submission!</Label>
+                </Paragraph>
+            }
+        </OffcanvasBody>
+        <OffcanvasFooter>
+            <Button Color=""Color.Success"" Clicked=""Confirm"">Confirm</Button>
+            <Button Color=""Color.Secondary"" Clicked=""OffcanvasService.Hide"">Close</Button>
+        </OffcanvasFooter>
+    </text>;
+    
+    private Employee model = new();
+        private bool isValid = true;
+    
+        private async Task Confirm()
+        {
+            isValid = await FormularyValidate( model );
+    
+            if ( !isValid )
+            {
+                return;
+            }
+    
+            await FormularySuccess( model );
+            await OffcanvasService.Hide();
+        }
+    
+    public class Employee
+    {
+        public string FirstName { get; set; }
+    
+        public string Email { get; set; }
+    }
 }";
 
-        public const string OffcanvasProviderInstantiationExample = @"<Button Color=""Color.Primary"" Clicked=""ShowCounter"">Show Counter</Button>
+        public const string OffcanvasProviderInstantiationExample = @"@using System
+@using System.Threading.Tasks
+
+<Button Color=""Color.Primary"" Clicked=""ShowCounter"">Show Counter</Button>
 
 @code {
     [Inject] public IOffcanvasService OffcanvasService { get; set; }
@@ -19747,8 +35031,25 @@ builder.Services
     {
         Random random = new();
         var newValue = random.NextInt64( 100 );
-        return OffcanvasService.Show<CounterExample>( ""My Custom Content!"", x => x.Add( x => x.Value, newValue ) );
+        Value = newValue;
+        return OffcanvasService.Show( ""My Custom Content!"", CounterExample );
     }
+
+
+    private RenderFragment CounterExample => @<text>
+        <Heading>Counter</Heading>
+        
+        <Paragraph>@Value</Paragraph>
+        
+        <Button Color=""Color.Primary"" Clicked=""Increment"">Increment</Button>
+    </text>;
+    
+    private long Value { get; set; }
+    
+        private void Increment()
+        {
+            Value++;
+        }
 }";
 
         public const string OffcanvasProviderOptionsExample = @"<Router AppAssembly=""typeof(App).Assembly"">
@@ -19792,20 +35093,39 @@ builder.Services
     }
 }";
 
-        public const string OffcanvasProviderStatefulExample = @"<Button Color=""Color.Primary"" Clicked=""ShowStateful"">Show Stateful</Button>
+        public const string OffcanvasProviderStatefulExample = @"@using System
+@using System.Threading.Tasks
+
+<Button Color=""Color.Primary"" Clicked=""ShowStateful"">Show Stateful</Button>
 
 @code {
     [Inject] public IOffcanvasService OffcanvasService { get; set; }
 
     public Task ShowStateful()
     {
-        return OffcanvasService.Show<CounterExample>( ""My Stateful content"", new OffcanvasInstanceOptions()
+        return OffcanvasService.Show( ""My Stateful content"", CounterExample, new OffcanvasInstanceOptions()
         {
             Stateful = true,
             ElementId = ""StatefulOffcanvas"",
             Placement = Placement.Start
         } );
     }
+
+
+    private RenderFragment CounterExample => @<text>
+        <Heading>Counter</Heading>
+        
+        <Paragraph>@Value</Paragraph>
+        
+        <Button Color=""Color.Primary"" Clicked=""Increment"">Increment</Button>
+    </text>;
+    
+    private long Value { get; set; }
+    
+        private void Increment()
+        {
+            Value++;
+        }
 }";
 
         public const string OffcanvasProviderUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
@@ -19815,19 +35135,41 @@ builder.Services
 
 <OffcanvasProvider />";
 
-        public const string OffcanvasServiceOptionsExample = @"<Button Color=""Color.Primary"" Clicked=""InstantiateOffcanvas"">Override Options Example</Button>
+        public const string OffcanvasServiceOptionsExample = @"@using System
+@using System.Threading.Tasks
+
+<Button Color=""Color.Primary"" Clicked=""InstantiateOffcanvas"">Override Options Example</Button>
 @code {
     [Inject] public IOffcanvasService OffcanvasService { get; set; }
 
     public Task InstantiateOffcanvas()
     {
-        return OffcanvasService.Show<CustomStructureOffcanvasExample>( ""Override Options Example"", new OffcanvasInstanceOptions()
+        return OffcanvasService.Show( ""Override Options Example"", CustomStructureOffcanvasExample, new OffcanvasInstanceOptions()
         {
             Animated = false,
             UseOffcanvasStructure = false,
             Placement = Placement.Top
         } );
     }
+
+
+    private RenderFragment CustomStructureOffcanvasExample => @<text>
+        <OffcanvasHeader>
+            <Heading Size=""HeadingSize.Is5"">My Custom Structure</Heading>
+            <CloseButton />
+        </OffcanvasHeader>
+        <OffcanvasBody>
+            Welcome @userName!
+        </OffcanvasBody>
+        <OffcanvasFooter>
+            <Button Color=""Color.Success"" Clicked=""Confirm"">Cheers!</Button>
+        </OffcanvasFooter>
+    </text>;
+    
+    private Task Confirm()
+        {
+            return OffcanvasService.Hide();
+        }
 }";
 
         public const string BasicPageProgressServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@SetPageProgress25"">25 %</Button>

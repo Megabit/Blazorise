@@ -5,6 +5,9 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Configures pie chart behavior.
+/// </summary>
 public class PieChartOptions : ChartOptions
 {
     /// <summary>

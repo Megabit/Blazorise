@@ -9,6 +9,11 @@ namespace Blazorise.Charts.Streaming;
 /// <typeparam name="TItem"></typeparam>
 public class ChartStreamingData<TItem>
 {
+    /// <summary>
+    /// Creates a streaming data descriptor for the selected chart dataset.
+    /// </summary>
+    /// <param name="datasetLabel">Label of the target dataset.</param>
+    /// <param name="datasetIndex">Position of the target dataset.</param>
     public ChartStreamingData( string datasetLabel, int datasetIndex )
     {
         DatasetLabel = datasetLabel;

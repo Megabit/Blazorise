@@ -163,6 +163,82 @@ public class TextInputComponentTest : BunitContext
         Assert.Equal( string.Empty, validationError.TextContent.Trim() );
     }
 
+    [Theory]
+    [InlineData( ValidationMode.Auto )]
+    [InlineData( ValidationMode.Manual )]
+    public async Task ValidationState_IsCleared_WhenInputBecomesDisabled( ValidationMode mode )
+    {
+        var disabled = false;
+        var validationCount = 0;
+
+        Action<ValidatorEventArgs> validator = eventArgs =>
+        {
+            validationCount++;
+            ValidationRule.IsNotEmpty( eventArgs );
+        };
+
+        RenderFragment childContent = builder =>
+        {
+            builder.OpenComponent<Validation>( 0 );
+            builder.AddAttribute( 1, nameof( Validation.Validator ), validator );
+            builder.AddAttribute( 2, nameof( Validation.ChildContent ), (RenderFragment)( childBuilder =>
+            {
+                childBuilder.OpenComponent<TextInput>( 0 );
+                childBuilder.AddAttribute( 1, nameof( TextInput.Value ), string.Empty );
+                childBuilder.AddAttribute( 2, nameof( TextInput.Disabled ), disabled );
+                childBuilder.CloseComponent();
+            } ) );
+            builder.CloseComponent();
+        };
+
+        var comp = Render<Validations>( parameters => parameters
+            .Add( p => p.Mode, mode )
+            .Add( p => p.ChildContent, childContent ) );
+
+        Validation validation = comp.FindComponent<Validation>().Instance;
+
+        if ( mode == ValidationMode.Manual )
+            Assert.False( await comp.Instance.ValidateAll() );
+
+        Assert.Equal( ValidationStatus.Error, validation.Status );
+        Assert.Equal( 1, validationCount );
+
+        disabled = true;
+        comp.Render( parameters => parameters
+            .Add( p => p.Mode, mode )
+            .Add( p => p.ChildContent, childContent ) );
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Equal( ValidationStatus.None, validation.Status );
+            Assert.DoesNotContain( "is-invalid", comp.Find( "input" ).ClassList );
+            Assert.Equal( 1, validationCount );
+        } );
+
+        Assert.True( await comp.Instance.ValidateAll() );
+        Assert.Equal( ValidationStatus.None, validation.Status );
+        Assert.Equal( 1, validationCount );
+
+        disabled = false;
+        comp.Render( parameters => parameters
+            .Add( p => p.Mode, mode )
+            .Add( p => p.ChildContent, childContent ) );
+
+        if ( mode == ValidationMode.Manual )
+        {
+            Assert.Equal( ValidationStatus.None, validation.Status );
+            Assert.Equal( 1, validationCount );
+            Assert.False( await comp.Instance.ValidateAll() );
+        }
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Equal( ValidationStatus.Error, validation.Status );
+            Assert.Contains( "is-invalid", comp.Find( "input" ).ClassList );
+            Assert.Equal( 2, validationCount );
+        } );
+    }
+
     private IRenderedComponent<Validations> RenderRequiredTextInput( RequiredTextModel model )
     {
         return Render<Validations>( parameters => parameters

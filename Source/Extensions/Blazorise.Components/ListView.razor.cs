@@ -154,6 +154,9 @@ public partial class ListView<TItem> : ComponentBase
         return selectedItemsCacheValues;
     }
 
+    /// <summary>
+    /// Converts a single selected group value back to its item model.
+    /// </summary>
     protected Task SelectedListGroupItemChanged( string value )
     {
         SelectedItem = GetItemBySelectedValue( value );
@@ -161,6 +164,9 @@ public partial class ListView<TItem> : ComponentBase
         return SelectedItemChanged.InvokeAsync( SelectedItem );
     }
 
+    /// <summary>
+    /// Converts selected group values back to their item models.
+    /// </summary>
     protected Task SelectedListGroupItemsChanged( List<string> values )
     {
         SelectedItems = GetItemsBySelectedValues( values );
@@ -190,9 +196,15 @@ public partial class ListView<TItem> : ComponentBase
         return default;
     }
 
+    /// <summary>
+    /// CSS classes forwarded to the underlying list group.
+    /// </summary>
     protected string ListGroupClassNames
         => Class;
 
+    /// <summary>
+    /// Inline styles forwarded to the underlying list group.
+    /// </summary>
     protected string ListGroupStyleNames
     {
         get

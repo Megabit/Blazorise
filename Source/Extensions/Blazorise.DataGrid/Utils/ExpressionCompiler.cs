@@ -7,6 +7,9 @@ using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Blazorise.DataGrid.Utils;
+/// <summary>
+/// Supports expression compiler behavior in DataGrid components.
+/// </summary>
 public static class ExpressionCompiler
 {
     /// <summary>
@@ -461,6 +464,9 @@ public static class ExpressionCompiler
         return field;
     }
 
+    /// <summary>
+    /// Returns property or field expression.
+    /// </summary>
     public static MemberExpression GetPropertyOrFieldExpression( Expression item, string propertyOrFieldName )
     {
         if ( string.IsNullOrEmpty( propertyOrFieldName ) )
@@ -486,6 +492,9 @@ public static class ExpressionCompiler
         return field;
     }
 
+    /// <summary>
+    /// Compiles the expression into an executable delegate.
+    /// </summary>
     public static Expression<Func<TItem, object>> CreateValueGetterExpression<TItem>( string fieldName )
     {
         var item = Expression.Parameter( typeof( TItem ), "item" );

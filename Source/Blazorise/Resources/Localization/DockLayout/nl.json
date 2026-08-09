@@ -1,0 +1,9 @@
+{
+  "culture": "nl",
+  "translations": {
+    "Close": "Sluiten",
+    "Close {0}": "{0} sluiten",
+    "Pin": "Vastmaken",
+    "Unpin": "Losmaken"
+  }
+}

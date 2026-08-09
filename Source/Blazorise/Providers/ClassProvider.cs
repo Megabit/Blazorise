@@ -95,6 +95,42 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string DatePickerValidation( ValidationStatus validationStatus );
 
+    public abstract string DatePickerContainer( bool inline, bool open );
+
+    public abstract string DatePickerCalendar( bool inline, bool staticPicker );
+
+    public abstract string DatePickerCalendarBackdrop();
+
+    public abstract string DatePickerCalendarHeader();
+
+    public abstract string DatePickerCalendarNavigation();
+
+    public abstract string DatePickerCalendarTitle();
+
+    public abstract string DatePickerCalendarGrid();
+
+    public abstract string DatePickerCalendarWeekdays();
+
+    public abstract string DatePickerCalendarWeekday();
+
+    public abstract string DatePickerCalendarWeek();
+
+    public abstract string DatePickerCalendarWeekNumber();
+
+    public abstract string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused );
+
+    public abstract string DatePickerCalendarMonths();
+
+    public abstract string DatePickerCalendarMonth( bool selected, bool disabled, bool focused );
+
+    public abstract string DatePickerCalendarTime();
+
+    public abstract string DatePickerCalendarTimeInput();
+
+    public abstract string DatePickerCalendarActions();
+
+    public abstract string DatePickerCalendarButton();
+
     #endregion
 
     #region TimePicker
@@ -106,6 +142,22 @@ public abstract class ClassProvider : IClassProvider
     public abstract string TimePickerColor( Color color );
 
     public abstract string TimePickerValidation( ValidationStatus validationStatus );
+
+    public abstract string TimePickerContainer( bool inline, bool open );
+
+    public abstract string TimePickerMenu( bool inline, bool staticPicker );
+
+    public abstract string TimePickerBackdrop();
+
+    public abstract string TimePickerControls();
+
+    public abstract string TimePickerControl( bool focused );
+
+    public abstract string TimePickerInput();
+
+    public abstract string TimePickerSeparator();
+
+    public abstract string TimePickerMeridiem( bool postMeridiem, bool focused );
 
     #endregion
 
@@ -232,6 +284,26 @@ public abstract class ClassProvider : IClassProvider
     public abstract string RangeSliderTooltip();
 
     public abstract string RangeSliderValidation( ValidationStatus validationStatus );
+
+    #endregion
+
+    #region Resizer
+
+    public abstract string Resizer();
+
+    public abstract string ResizerOrientation( Orientation orientation );
+
+    public abstract string ResizerPlacement( Placement placement );
+
+    public abstract string ResizerGutter( bool showGutter );
+
+    public abstract string ResizerDisabled( bool disabled );
+
+    public abstract string ResizerFocused( bool focused );
+
+    public abstract string ResizerResizing( bool resizing );
+
+    public abstract string ResizerTargetResizing( bool resizing );
 
     #endregion
 
@@ -501,6 +573,90 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string DropdownDirection( Direction direction );
 
+    public virtual string ContextMenu() => null;
+
+    public virtual string ContextMenuToggle() => null;
+
+    public virtual string ContextMenuBody() => null;
+
+    public virtual string ContextMenuBodyVisible( bool visible ) => null;
+
+    public virtual string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => null;
+
+    public virtual string ContextMenuItem() => null;
+
+    public virtual string ContextMenuItemActive( bool active ) => null;
+
+    public virtual string ContextMenuItemDisabled( bool disabled ) => null;
+
+    public virtual string ContextMenuItemContent() => null;
+
+    public virtual string ContextMenuItemCheck() => null;
+
+    public virtual string ContextMenuItemShortcut() => null;
+
+    public virtual string ContextMenuDivider() => null;
+
+    public virtual string ContextMenuHeader() => null;
+
+    public virtual string ContextMenuGroup() => null;
+
+    public virtual string ContextMenuToolbar() => null;
+
+    public virtual string ContextMenuToolbarItem() => null;
+
+    public virtual string ContextMenuToolbarItemActive( bool active ) => null;
+
+    public virtual string ContextMenuToolbarItemDisabled( bool disabled ) => null;
+
+    public virtual string ContextMenuToolbarItemEndAligned( bool endAligned ) => null;
+
+    public virtual string ContextMenuSubmenu() => null;
+
+    public virtual string ContextMenuSubmenuTrigger() => null;
+
+    public virtual string ContextMenuSubmenuTriggerDisabled( bool disabled ) => null;
+
+    public virtual string ContextMenuSubmenuBody() => null;
+
+    #endregion
+
+    #region PropertyGrid
+
+    public virtual string PropertyGrid() => null;
+
+    public virtual string PropertyGridViewport() => null;
+
+    public virtual string PropertyGridToolbar() => null;
+
+    public virtual string PropertyGridToolbarButton() => null;
+
+    public virtual string PropertyGridToolbarSearch() => null;
+
+    public virtual string PropertyGridEmpty() => null;
+
+    public virtual string PropertyGridHelp() => null;
+
+    public virtual string PropertyGridHelpTitle() => null;
+
+    public virtual string PropertyGridHelpDescription() => null;
+
+    public virtual string PropertyGridGroup() => null;
+
+    public virtual string PropertyGridGroupHeader() => null;
+
+    public virtual string PropertyGridGroupToggle() => null;
+
+    public virtual string PropertyGridGroupBody() => null;
+
+    public virtual string PropertyGridItem() => null;
+
+    public virtual string PropertyGridItemSelected( bool selected ) => null;
+
+    public virtual string PropertyGridItemLabel() => null;
+
+    public virtual string PropertyGridItemBody() => null;
+
     #endregion
 
     #region Tabs
@@ -686,6 +842,85 @@ public abstract class ClassProvider : IClassProvider
     public virtual string LayoutLoading() => "b-layout-loading";
 
     public virtual string LayoutRoot( bool root ) => root ? "b-layout-root" : null;
+
+    #endregion
+
+    #region DockLayout
+
+    public virtual string DockLayout() => null;
+
+    public virtual string DockSplit() => null;
+
+    public virtual string DockSplitOrientation( Orientation orientation )
+        => null;
+
+    public virtual string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => null;
+
+    public virtual string DockPanePosition( DockPanePosition position )
+        => null;
+
+    public virtual string DockPaneResizable( bool resizable ) => null;
+
+    public virtual string DockPaneCollapsed( bool collapsed ) => null;
+
+    public virtual string DockPaneAutoHide( bool autoHide ) => null;
+
+    public virtual string DockPaneBordered() => null;
+
+    public virtual string DockPaneAutoHideRail( DockPanePosition position ) => null;
+
+    public virtual string DockPaneAutoHideTab( DockPanePosition position ) => null;
+
+    public virtual string DockPaneAutoHideFlyout( DockPanePosition position ) => null;
+
+    public virtual string DockPaneHeader() => null;
+
+    public virtual string DockPaneHeaderContent() => null;
+
+    public virtual string DockPaneHeaderActions() => null;
+
+    public virtual string DockPaneHeaderAction() => null;
+
+    public virtual string DockPaneBody() => null;
+
+    public virtual string DockPaneFooter() => null;
+
+    public virtual string DockContent() => null;
+
+    public virtual string DockPaneTabs() => null;
+
+    public virtual string DockPaneTabsPosition( DockPanePosition position ) => null;
+
+    public virtual string DockPaneTabPosition( DockPaneTabPosition position ) => null;
+
+    public virtual string DockPaneTabsHost() => null;
+
+    public virtual string DockPaneTab( bool active ) => null;
+
+    public virtual string DockPaneTabLabel() => null;
+
+    public virtual string DockPaneTabClose() => null;
+
+    public virtual string DockLayoutCompass()
+        => null;
+
+    public virtual string DockLayoutCompassZone( DockZone zone, bool active )
+        => null;
+
+    public virtual string DockLayoutCompassZonePlacement( DockCompassZone zone )
+        => null;
+
+    public virtual string DockLayoutCompassZoneIcon()
+        => null;
+
+    public virtual string DockLayoutDragPreview()
+        => null;
+
+    public virtual string DockLayoutDropPreview()
+        => null;
+
+    public virtual string DockLayoutShellGuide( DockZone zone, bool active )
+        => null;
 
     #endregion
 

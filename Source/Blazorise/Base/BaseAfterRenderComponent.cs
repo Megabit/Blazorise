@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -109,7 +109,7 @@ public abstract class BaseAfterRenderComponent : ComponentBase
     }
 
     /// <summary>
-    /// Releases the unmanaged resources used by the <see cref="BaseComponent"/> and optionally releases the managed resources.
+    /// Releases the unmanaged resources used by the component and optionally releases the managed resources.
     /// </summary>
     /// <param name="disposing">True if the component is in the disposing process.</param>
     protected virtual void Dispose( bool disposing )
@@ -136,7 +136,7 @@ public abstract class BaseAfterRenderComponent : ComponentBase
     }
 
     /// <summary>
-    /// Releases the unmanaged resources used by the <see cref="BaseComponent"/> and optionally releases the managed resources.
+    /// Releases the unmanaged resources used by the component and optionally releases the managed resources.
     /// </summary>
     /// <param name="disposing">True if the component is in the disposing process.</param>
     protected virtual ValueTask DisposeAsync( bool disposing )

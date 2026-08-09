@@ -1,0 +1,9 @@
+{
+  "culture": "tr",
+  "translations": {
+    "Close": "Kapat",
+    "Close {0}": "{0} kapat",
+    "Pin": "Sabitle",
+    "Unpin": "Sabitlemeyi kaldır"
+  }
+}

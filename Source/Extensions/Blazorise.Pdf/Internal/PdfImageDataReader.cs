@@ -1,0 +1,601 @@
+#region Using directives
+using System;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Text;
+using System.Threading;
+#endregion
+
+namespace Blazorise.Pdf;
+
+internal static class PdfImageDataReader
+{
+    #region Members
+
+    private const byte JpegMarkerPrefix = 0xFF;
+
+    private const byte JpegStartOfImageMarker = 0xD8;
+
+    private const byte JpegEndOfImageMarker = 0xD9;
+
+    private const byte JpegStartOfScanMarker = 0xDA;
+
+    private static readonly byte[] JpegSignature = [JpegMarkerPrefix, JpegStartOfImageMarker];
+
+    private static readonly byte[] JpegStartOfFrameMarkers =
+    [
+        0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF
+    ];
+
+    private static readonly byte[] PngSignature =
+    [
+        0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A
+    ];
+
+    #endregion
+
+    #region Methods
+
+    internal static bool TryRead( PdfResourceContent resource, long maxImagePixels, CancellationToken cancellationToken, out PdfImageData imageData )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        imageData = null;
+
+        if ( resource?.Data is not { Length: > 0 } data )
+            return false;
+
+        if ( ( IsJpegMediaType( resource.MediaType ) || HasJpegSignature( data ) ) && TryReadJpegInfo( data, cancellationToken, out int jpegWidth, out int jpegHeight, out int componentCount, out int bitsPerComponent ) )
+        {
+            if ( bitsPerComponent != 8 || ( componentCount != 1 && componentCount != 3 && componentCount != 4 ) )
+                return false;
+
+            ValidateImageDimensions( jpegWidth, jpegHeight, maxImagePixels );
+
+            imageData = new()
+            {
+                Data = data,
+                Width = jpegWidth,
+                Height = jpegHeight,
+                ColorSpace = ResolveImageColorSpace( componentCount ),
+                BitsPerComponent = bitsPerComponent,
+                Filter = "/DCTDecode",
+            };
+
+            return true;
+        }
+
+        if ( ( IsPngMediaType( resource.MediaType ) || HasPngSignature( data ) ) && TryCreatePngImageData( data, maxImagePixels, cancellationToken, out imageData ) )
+            return true;
+
+        return false;
+    }
+
+    private static bool IsJpegMediaType( string mediaType )
+    {
+        return string.Equals( mediaType, "image/jpeg", StringComparison.OrdinalIgnoreCase )
+            || string.Equals( mediaType, "image/jpg", StringComparison.OrdinalIgnoreCase );
+    }
+
+    private static bool IsPngMediaType( string mediaType )
+    {
+        return string.Equals( mediaType, "image/png", StringComparison.OrdinalIgnoreCase );
+    }
+
+    private static bool HasJpegSignature( byte[] data )
+    {
+        return data.AsSpan().StartsWith( JpegSignature );
+    }
+
+    private static string ResolveImageColorSpace( int componentCount )
+    {
+        return componentCount switch
+        {
+            1 => "/DeviceGray",
+            4 => "/DeviceCMYK",
+            _ => "/DeviceRGB",
+        };
+    }
+
+    private static bool TryReadJpegInfo( byte[] data, CancellationToken cancellationToken, out int width, out int height, out int componentCount, out int bitsPerComponent )
+    {
+        width = 0;
+        height = 0;
+        componentCount = 3;
+        bitsPerComponent = 8;
+
+        if ( data is null || data.Length < 4 || !HasJpegSignature( data ) )
+            return false;
+
+        int index = JpegSignature.Length;
+
+        while ( index + 9 < data.Length )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if ( data[index] != JpegMarkerPrefix )
+            {
+                index++;
+                continue;
+            }
+
+            while ( index < data.Length && data[index] == JpegMarkerPrefix )
+            {
+                index++;
+            }
+
+            if ( index >= data.Length )
+                return false;
+
+            byte marker = data[index++];
+
+            if ( marker == JpegEndOfImageMarker || marker == JpegStartOfScanMarker )
+                return false;
+
+            if ( index + 1 >= data.Length )
+                return false;
+
+            int length = ReadBigEndianUInt16( data, index );
+
+            if ( length < 2 || length > data.Length - index )
+                return false;
+
+            if ( IsJpegStartOfFrameMarker( marker ) )
+            {
+                if ( length < 8 )
+                    return false;
+
+                bitsPerComponent = data[index + 2];
+                height = ReadBigEndianUInt16( data, index + 3 );
+                width = ReadBigEndianUInt16( data, index + 5 );
+                componentCount = data[index + 7];
+
+                return width > 0 && height > 0 && bitsPerComponent > 0;
+            }
+
+            index += length;
+        }
+
+        return false;
+    }
+
+    private static bool IsJpegStartOfFrameMarker( byte marker )
+    {
+        return JpegStartOfFrameMarkers.Contains( marker );
+    }
+
+    private static bool TryCreatePngImageData( byte[] data, long maxImagePixels, CancellationToken cancellationToken, out PdfImageData imageData )
+    {
+        imageData = null;
+
+        if ( data is null || data.Length < 33 || !HasPngSignature( data ) )
+            return false;
+
+        int width = 0;
+        int height = 0;
+        int bitDepth = 0;
+        int colorType = 0;
+        byte[] palette = null;
+        byte[] transparency = null;
+        using MemoryStream compressedImageData = new();
+
+        int index = 8;
+
+        while ( index + 8 <= data.Length )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            int length = ReadBigEndianInt32( data, index );
+            index += 4;
+
+            if ( length < 0 || length > data.Length - index - 4 )
+                return false;
+
+            string chunkType = Encoding.ASCII.GetString( data, index, 4 );
+            index += 4;
+
+            if ( chunkType == "IHDR" )
+            {
+                if ( length != 13 )
+                    return false;
+
+                width = ReadBigEndianInt32( data, index );
+                height = ReadBigEndianInt32( data, index + 4 );
+                bitDepth = data[index + 8];
+                colorType = data[index + 9];
+
+                if ( data[index + 10] != 0 || data[index + 11] != 0 || data[index + 12] != 0 )
+                    return false;
+            }
+            else if ( chunkType == "PLTE" )
+            {
+                palette = data.Skip( index ).Take( length ).ToArray();
+            }
+            else if ( chunkType == "tRNS" )
+            {
+                transparency = data.Skip( index ).Take( length ).ToArray();
+            }
+            else if ( chunkType == "IDAT" )
+            {
+                compressedImageData.Write( data, index, length );
+            }
+            else if ( chunkType == "IEND" )
+            {
+                break;
+            }
+
+            index += length + 4;
+        }
+
+        if ( width <= 0 || height <= 0 || bitDepth != 8 || compressedImageData.Length == 0 )
+            return false;
+
+        ValidateImageDimensions( width, height, maxImagePixels );
+
+        if ( !TryDecodePngImageBytes( compressedImageData.ToArray(), width, height, colorType, palette, transparency, cancellationToken, out byte[] imageBytes, out byte[] alphaBytes, out string colorSpace ) )
+            return false;
+
+        byte[] encodedImageBytes = CompressZlib( imageBytes, cancellationToken );
+
+        imageData = new()
+        {
+            Data = encodedImageBytes,
+            Width = width,
+            Height = height,
+            ColorSpace = colorSpace,
+            BitsPerComponent = bitDepth,
+            Filter = "/FlateDecode",
+            AlphaData = alphaBytes is null ? null : CompressZlib( alphaBytes, cancellationToken ),
+        };
+
+        return true;
+    }
+
+    private static void ValidateImageDimensions( int width, int height, long maxImagePixels )
+    {
+        if ( width <= 0 || height <= 0 || (long)width * height > maxImagePixels )
+            throw new InvalidDataException( $"The PDF image dimensions {width}x{height} exceed the configured limit of {maxImagePixels} pixels." );
+    }
+
+    private static bool HasPngSignature( byte[] data )
+    {
+        return data.AsSpan().StartsWith( PngSignature );
+    }
+
+    private static bool TryDecodePngImageBytes( byte[] compressedData, int width, int height, int colorType, byte[] palette, byte[] transparency, CancellationToken cancellationToken, out byte[] imageBytes, out byte[] alphaBytes, out string colorSpace )
+    {
+        imageBytes = null;
+        alphaBytes = null;
+        colorSpace = null;
+
+        int sourceComponents = GetPngSourceComponentCount( colorType );
+
+        if ( sourceComponents <= 0 )
+            return false;
+
+        long sourceStride = (long)width * sourceComponents;
+        long expectedLength = ( sourceStride + 1 ) * height;
+
+        if ( sourceStride > int.MaxValue || expectedLength > int.MaxValue )
+            return false;
+
+        byte[] decodedBytes;
+
+        try
+        {
+            decodedBytes = DecompressZlib( compressedData, (int)expectedLength, cancellationToken );
+        }
+        catch ( InvalidDataException )
+        {
+            return false;
+        }
+
+        if ( decodedBytes.Length < expectedLength )
+            return false;
+
+        byte[] unfilteredBytes = UnfilterPngBytes( decodedBytes, width, height, sourceComponents, cancellationToken );
+
+        if ( colorType == 0 )
+        {
+            imageBytes = unfilteredBytes;
+            alphaBytes = CreatePngColorKeyAlphaBytes( unfilteredBytes, 1, transparency, cancellationToken );
+            colorSpace = "/DeviceGray";
+            return true;
+        }
+
+        if ( colorType == 2 )
+        {
+            imageBytes = unfilteredBytes;
+            alphaBytes = CreatePngColorKeyAlphaBytes( unfilteredBytes, 3, transparency, cancellationToken );
+            colorSpace = "/DeviceRGB";
+            return true;
+        }
+
+        if ( colorType == 3 )
+        {
+            if ( palette is null || palette.Length < 3 )
+                return false;
+
+            imageBytes = ExpandPngPaletteBytes( unfilteredBytes, palette, cancellationToken );
+            alphaBytes = ExpandPngPaletteAlphaBytes( unfilteredBytes, transparency, cancellationToken );
+            colorSpace = "/DeviceRGB";
+            return true;
+        }
+
+        if ( colorType == 4 )
+        {
+            SplitPngAlphaBytes( unfilteredBytes, 2, 1, cancellationToken, out imageBytes, out alphaBytes );
+            colorSpace = "/DeviceGray";
+            return true;
+        }
+
+        if ( colorType == 6 )
+        {
+            SplitPngAlphaBytes( unfilteredBytes, 4, 3, cancellationToken, out imageBytes, out alphaBytes );
+            colorSpace = "/DeviceRGB";
+            return true;
+        }
+
+        return false;
+    }
+
+    private static int GetPngSourceComponentCount( int colorType )
+    {
+        return colorType switch
+        {
+            0 => 1,
+            2 => 3,
+            3 => 1,
+            4 => 2,
+            6 => 4,
+            _ => 0,
+        };
+    }
+
+    private static byte[] UnfilterPngBytes( byte[] decodedBytes, int width, int height, int components, CancellationToken cancellationToken )
+    {
+        int stride = width * components;
+        byte[] result = new byte[stride * height];
+        int sourceIndex = 0;
+
+        for ( int row = 0; row < height; row++ )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            int filter = decodedBytes[sourceIndex++];
+
+            if ( filter > 4 )
+                throw new InvalidDataException( $"The PNG image uses unsupported scanline filter {filter}." );
+
+            int rowStart = row * stride;
+            int previousRowStart = rowStart - stride;
+
+            for ( int column = 0; column < stride; column++ )
+            {
+                byte value = decodedBytes[sourceIndex++];
+                int left = column >= components ? result[rowStart + column - components] : 0;
+                int above = row > 0 ? result[previousRowStart + column] : 0;
+                int upperLeft = row > 0 && column >= components ? result[previousRowStart + column - components] : 0;
+
+                result[rowStart + column] = filter switch
+                {
+                    0 => value,
+                    1 => unchecked((byte)( value + left )),
+                    2 => unchecked((byte)( value + above )),
+                    3 => unchecked((byte)( value + ( ( left + above ) / 2 ) )),
+                    4 => unchecked((byte)( value + PaethPredictor( left, above, upperLeft ) )),
+                    _ => value,
+                };
+            }
+        }
+
+        return result;
+    }
+
+    private static int PaethPredictor( int left, int above, int upperLeft )
+    {
+        int prediction = left + above - upperLeft;
+        int distanceLeft = Math.Abs( prediction - left );
+        int distanceAbove = Math.Abs( prediction - above );
+        int distanceUpperLeft = Math.Abs( prediction - upperLeft );
+
+        if ( distanceLeft <= distanceAbove && distanceLeft <= distanceUpperLeft )
+            return left;
+
+        if ( distanceAbove <= distanceUpperLeft )
+            return above;
+
+        return upperLeft;
+    }
+
+    private static byte[] ExpandPngPaletteBytes( byte[] indexBytes, byte[] palette, CancellationToken cancellationToken )
+    {
+        byte[] result = new byte[indexBytes.Length * 3];
+        int targetIndex = 0;
+
+        for ( int i = 0; i < indexBytes.Length; i++ )
+        {
+            if ( ( i & 4095 ) == 0 )
+                cancellationToken.ThrowIfCancellationRequested();
+
+            byte index = indexBytes[i];
+            int paletteIndex = index * 3;
+
+            if ( paletteIndex + 2 >= palette.Length )
+                throw new InvalidDataException( "The PNG image contains a palette index outside its palette." );
+
+            result[targetIndex++] = palette[paletteIndex];
+            result[targetIndex++] = palette[paletteIndex + 1];
+            result[targetIndex++] = palette[paletteIndex + 2];
+        }
+
+        return result;
+    }
+
+    private static byte[] ExpandPngPaletteAlphaBytes( byte[] indexBytes, byte[] transparency, CancellationToken cancellationToken )
+    {
+        if ( transparency is null || transparency.Length == 0 )
+            return null;
+
+        byte[] result = new byte[indexBytes.Length];
+
+        for ( int i = 0; i < indexBytes.Length; i++ )
+        {
+            if ( ( i & 4095 ) == 0 )
+                cancellationToken.ThrowIfCancellationRequested();
+
+            int paletteIndex = indexBytes[i];
+            result[i] = paletteIndex < transparency.Length ? transparency[paletteIndex] : byte.MaxValue;
+        }
+
+        return HasTransparency( result, cancellationToken ) ? result : null;
+    }
+
+    private static byte[] CreatePngColorKeyAlphaBytes( byte[] source, int components, byte[] transparency, CancellationToken cancellationToken )
+    {
+        if ( transparency is null || transparency.Length < components * 2 )
+            return null;
+
+        int[] transparentComponents = new int[components];
+
+        for ( int component = 0; component < components; component++ )
+        {
+            transparentComponents[component] = ReadBigEndianUInt16( transparency, component * 2 );
+        }
+
+        byte[] alpha = new byte[source.Length / components];
+
+        for ( int pixel = 0; pixel < alpha.Length; pixel++ )
+        {
+            if ( ( pixel & 4095 ) == 0 )
+                cancellationToken.ThrowIfCancellationRequested();
+
+            bool transparent = true;
+
+            for ( int component = 0; component < components; component++ )
+            {
+                if ( source[pixel * components + component] != transparentComponents[component] )
+                {
+                    transparent = false;
+                    break;
+                }
+            }
+
+            alpha[pixel] = transparent ? (byte)0 : byte.MaxValue;
+        }
+
+        return HasTransparency( alpha, cancellationToken ) ? alpha : null;
+    }
+
+    private static void SplitPngAlphaBytes( byte[] source, int sourceComponents, int targetComponents, CancellationToken cancellationToken, out byte[] image, out byte[] alpha )
+    {
+        image = new byte[source.Length / sourceComponents * targetComponents];
+        alpha = new byte[source.Length / sourceComponents];
+        int imageIndex = 0;
+        int alphaIndex = 0;
+
+        for ( int sourceIndex = 0; sourceIndex < source.Length; sourceIndex += sourceComponents )
+        {
+            if ( ( sourceIndex & 16383 ) == 0 )
+                cancellationToken.ThrowIfCancellationRequested();
+
+            for ( int component = 0; component < targetComponents; component++ )
+            {
+                image[imageIndex++] = source[sourceIndex + component];
+            }
+
+            alpha[alphaIndex++] = source[sourceIndex + targetComponents];
+        }
+
+        if ( !HasTransparency( alpha, cancellationToken ) )
+            alpha = null;
+    }
+
+    private static bool HasTransparency( byte[] alpha, CancellationToken cancellationToken )
+    {
+        if ( alpha is null )
+            return false;
+
+        for ( int i = 0; i < alpha.Length; i++ )
+        {
+            if ( ( i & 4095 ) == 0 )
+                cancellationToken.ThrowIfCancellationRequested();
+
+            if ( alpha[i] < byte.MaxValue )
+                return true;
+        }
+
+        return false;
+    }
+
+    private static byte[] DecompressZlib( byte[] data, int expectedLength, CancellationToken cancellationToken )
+    {
+        using MemoryStream sourceStream = new( data );
+        using ZLibStream zlibStream = new( sourceStream, CompressionMode.Decompress );
+        byte[] result = new byte[expectedLength];
+        int totalBytesRead = 0;
+
+        while ( totalBytesRead < result.Length )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            int bytesRead = zlibStream.Read( result, totalBytesRead, Math.Min( 81920, result.Length - totalBytesRead ) );
+
+            if ( bytesRead == 0 )
+                break;
+
+            totalBytesRead += bytesRead;
+        }
+
+        if ( totalBytesRead != result.Length || zlibStream.ReadByte() >= 0 )
+            throw new InvalidDataException( "The PNG decompressed data length does not match its declared dimensions." );
+
+        return result;
+    }
+
+    private static byte[] CompressZlib( byte[] data, CancellationToken cancellationToken )
+    {
+        using MemoryStream targetStream = new();
+
+        using ( ZLibStream zlibStream = new( targetStream, CompressionLevel.Optimal, leaveOpen: true ) )
+        {
+            for ( int offset = 0; offset < data.Length; offset += 81920 )
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                zlibStream.Write( data, offset, Math.Min( 81920, data.Length - offset ) );
+            }
+        }
+
+        return targetStream.ToArray();
+    }
+
+    private static int ReadBigEndianInt32( byte[] data, int index )
+    {
+        return data[index] << 24 | data[index + 1] << 16 | data[index + 2] << 8 | data[index + 3];
+    }
+
+    private static int ReadBigEndianUInt16( byte[] data, int index )
+    {
+        return data[index] << 8 | data[index + 1];
+    }
+
+    #endregion
+}
+
+internal sealed class PdfImageData
+{
+    #region Properties
+
+    internal byte[] Data { get; set; }
+
+    internal int Width { get; set; }
+
+    internal int Height { get; set; }
+
+    internal string ColorSpace { get; set; }
+
+    internal int BitsPerComponent { get; set; }
+
+    internal string Filter { get; set; }
+
+    internal byte[] AlphaData { get; set; }
+
+    #endregion
+}

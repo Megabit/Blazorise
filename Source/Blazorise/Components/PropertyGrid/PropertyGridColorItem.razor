@@ -1,0 +1,42 @@
+@namespace Blazorise
+@inherits BasePropertyGridEditorItem
+
+<PropertyGridItem Label="@Label"
+                  LabelContent="@LabelContent"
+                  Selectable="@Selectable"
+                  Selected="@Selected"
+                  SelectedChanged="@SelectedChanged"
+                  AriaDescribedBy="@AriaDescribedBy"
+                  ElementId="@ElementId"
+                  Size="@Size"
+                  Class="@ClassNames"
+                  Style="@StyleNames"
+                  ActionContent="@ActionContent"
+                  data-property-grid-editor="color"
+                  @attributes="@Attributes">
+    <Addons Size="@Size">
+        <Addon AddonType="AddonType.Body">
+            <Select TValue="string" Value="@SelectedName" ValueChanged="@OnNameChanged" Size="@Size">
+                @if ( Mixed )
+                {
+                    <SelectItem TValue="string" Value="@MixedValue" Hidden></SelectItem>
+                }
+                @foreach ( PropertyGridSelectOption<string> option in ResolvedNamedColors )
+                {
+                    <SelectItem @key="@option.Value" TValue="string" Value="@option.Value" Disabled="@option.Disabled">@option.Text</SelectItem>
+                }
+            </Select>
+        </Addon>
+        <Addon AddonType="AddonType.Body">
+            <ColorPicker Value="@CustomValue" ValueChanged="@OnCustomChanged" Size="@Size" />
+        </Addon>
+        @if ( Clearable )
+        {
+            <Addon AddonType="AddonType.End">
+                <Button Color="Color.Light" Clicked="@Clear" Size="@Size" title="@ClearTitle" aria-label="@ClearTitle">
+                    <Icon Name="IconName.Clear" />
+                </Button>
+            </Addon>
+        }
+    </Addons>
+</PropertyGridItem>

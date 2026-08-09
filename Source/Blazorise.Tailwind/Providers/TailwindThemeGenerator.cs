@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +20,21 @@ public class TailwindThemeGenerator : ThemeGenerator
     #endregion
 
     #region Methods
+
+    /// <inheritdoc />
+    protected override string GetDockLayoutVariableName( string name )
+        => $"--tw-dock-{name}";
+
+    /// <inheritdoc />
+    protected override void GenerateResizerStyles( StringBuilder sb, Theme theme )
+        => GenerateResizerColorStyles(
+            sb,
+            theme,
+            ".tw-resizer",
+            ".tw-resizer-gutter:hover,.tw-resizer-gutter.tw-resizer-focused,.tw-resizer-gutter.tw-resizer-resizing",
+            ".tw-resizer-focused.tw-resizer-vertical:not(.tw-resizer-gutter)",
+            ".tw-resizer-focused.tw-resizer-horizontal:not(.tw-resizer-gutter)",
+            "--tw-resizer" );
 
     protected override void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpointName, string breakpointSize )
     {
@@ -515,54 +530,6 @@ public class TailwindThemeGenerator : ThemeGenerator
             GenerateInputSliderStyles( sb, theme, options );
         }
 
-        //if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
-        //{
-        //    sb
-        //        .Append( ".flatpickr-months .flatpickr-month:hover svg," )
-        //        .Append( ".flatpickr-months .flatpickr-next-month:hover svg," )
-        //        .Append( ".flatpickr-months .flatpickr-prev-month:hover svg" )
-        //        .Append( "{" )
-        //        .Append( $"fill: {Var( ThemeVariables.Color( "primary" ) )} !important;" )
-        //        .AppendLine( "}" );
-
-        //    sb
-        //        .Append( ".flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay" ).Append( "{" )
-        //        .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
-        //        .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-        //        .AppendLine( "}" );
-
-        //    sb
-        //        .Append( ".flatpickr-day:hover" ).Append( "{" )
-        //        .Append( $"background: {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
-        //        .AppendLine( "}" );
-
-        //    sb
-        //        .Append( ".flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1))" ).Append( "{" )
-        //        .Append( $"box-shadow: -10px 0 0 {Var( ThemeVariables.Color( "primary" ) )};" )
-        //        .AppendLine( "}" );
-
-        //    sb
-        //        .Append( ".flatpickr-day.today" ).Append( "{" )
-        //        .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-        //        .AppendLine( "}" );
-
-        //    sb
-        //        .Append( ".flatpickr-day.today:hover" ).Append( "{" )
-        //        .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
-        //        .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-        //        .AppendLine( "}" );
-
-        //    sb
-        //        .Append( ".flatpickr-monthSelect-month:hover,.flatpickr-monthSelect-month:focus" ).Append( "{" )
-        //        .Append( $"background: {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
-        //        .AppendLine( "}" );
-
-        //    sb
-        //        .Append( ".flatpickr-monthSelect-month.selected" ).Append( "{" )
-        //        .Append( $"background: {Var( ThemeVariables.Color( "primary" ) )};" )
-        //        .AppendLine( "}" );
-        //}
-
         var validationSuccessColor = Var( ThemeVariables.Color( "success" ) );
         var validationDangerColor = Var( ThemeVariables.Color( "danger" ) );
 
@@ -711,6 +678,47 @@ public class TailwindThemeGenerator : ThemeGenerator
 
             sb.Append( ".dark .dark\\:text-danger-500" ).Append( "{" )
                 .Append( $"color: {validationDangerColor};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( theme.BodyOptions?.BackgroundColor ) )
+        {
+            sb
+                .Append( ".tw-datepicker-calendar, .dark .tw-datepicker-calendar," )
+                .Append( ".tw-timepicker-menu, .dark .tw-timepicker-menu" )
+                .Append( "{" )
+                .Append( $"background-color: {Var( ThemeVariables.BodyBackgroundColor )};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( theme.BodyOptions?.TextColor ) )
+        {
+            sb
+                .Append( ".tw-datepicker-calendar, .dark .tw-datepicker-calendar," )
+                .Append( ".tw-timepicker-menu, .dark .tw-timepicker-menu" )
+                .Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.BodyTextColor )};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( theme.TextColorOptions?.Muted ) )
+        {
+            sb
+                .Append( ".tw-datepicker-weekday, .tw-datepicker-week-number, .tw-datepicker-day-outside," )
+                .Append( ".tw-datepicker-time-input:disabled, .tw-timepicker-input:disabled, .tw-timepicker-meridiem:disabled" )
+                .Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.TextColor( "muted" ) )};" )
+                .AppendLine( "}" );
+        }
+
+        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+        {
+            sb
+                .Append( ".tw-datepicker-day-selected, .tw-datepicker-day-range-start, .tw-datepicker-day-range-end, .tw-datepicker-month-selected," )
+                .Append( ".tw-datepicker-calendar[data-week-mode=\"true\"] .tw-datepicker-week[data-week-selected=\"true\"] .tw-datepicker-week-number," )
+                .Append( ".tw-datepicker-calendar[data-week-mode=\"true\"] .tw-datepicker-week[data-week-fully-selected=\"true\"] .tw-datepicker-day" )
+                .Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.ButtonYiqBackground( "primary" ) )};" )
                 .AppendLine( "}" );
         }
     }

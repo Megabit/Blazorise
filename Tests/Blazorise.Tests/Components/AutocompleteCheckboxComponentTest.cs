@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Components;
 using Bunit;
 using Xunit;
 
@@ -97,7 +98,77 @@ public class AutocompleteCheckboxComponentTest : AutocompleteMultipleBaseCompone
         await autoComplete.InputAsync( "A" );
         await autoComplete.KeyDownAsync( Key.Enter );
 
-        comp.WaitForAssertion( () => Assert.Equal( new[] { "Portugal", "Croatia" }, comp.Instance.SelectedTexts ), TestExtensions.WaitTime );
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Equal( new[] { "PT", "HR" }, comp.Instance.SelectedValues );
+            Assert.Equal( new[] { "Portugal", "Croatia" }, comp.Instance.SelectedTexts );
+        }, TestExtensions.WaitTime );
         Assert.Equal( 0, selectedValuesChanged );
+    }
+
+    [Fact]
+    public async Task Enter_WithFreeTyping_ShouldSelect_AutoPreselectedSuggestion()
+    {
+        var comp = Render<Autocomplete<string, string>>( parameters => parameters
+            .Add( x => x.Data, new List<string> { "New York", "London", "Tokyo", "Paris", "Berlin" } )
+            .Add( x => x.TextField, item => item )
+            .Add( x => x.ValueField, item => item )
+            .Add( x => x.SelectionMode, AutocompleteSelectionMode.Checkbox )
+            .Add( x => x.Filter, AutocompleteFilter.Contains )
+            .Add( x => x.FreeTyping, true )
+            .Add( x => x.MinSearchLength, 0 )
+            .Add( x => x.Debounce, false ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+
+        await autoComplete.FocusAsync( new() );
+        await autoComplete.InputAsync( "ris" );
+        await autoComplete.KeyDownAsync( Key.Enter );
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Equal( new[] { "Paris" }, comp.Instance.SelectedValues );
+            Assert.Equal( new[] { "Paris" }, comp.Instance.SelectedTexts );
+        }, TestExtensions.WaitTime );
+    }
+
+    [Fact]
+    public async Task Enter_AfterKeyboardNavigation_ShouldToggle_ActiveSuggestion()
+    {
+        var selectedValuesChanged = 0;
+
+        var comp = Render<AutocompleteCheckboxComponent>( parameters =>
+        {
+            parameters.Add( x => x.SelectedValues, new List<string> { "PT", "HR" } );
+            parameters.Add( x => x.SelectedValuesChanged, ( List<string> values ) => selectedValuesChanged++ );
+        } );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+
+        await autoComplete.FocusAsync( new() );
+        await autoComplete.InputAsync( "China" );
+        await autoComplete.KeyDownAsync( Key.Down );
+        await autoComplete.KeyDownAsync( Key.Enter );
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Equal( new[] { "PT", "HR", "CN" }, comp.Instance.SelectedValues );
+            Assert.Equal( new[] { "Portugal", "Croatia", "China" }, comp.Instance.SelectedTexts );
+            Assert.Equal( 1, selectedValuesChanged );
+        }, TestExtensions.WaitTime );
+
+        autoComplete = comp.Find( ".b-is-autocomplete input" );
+
+        await autoComplete.FocusAsync( new() );
+        await autoComplete.InputAsync( "China" );
+        await autoComplete.KeyDownAsync( Key.Down );
+        await autoComplete.KeyDownAsync( Key.Enter );
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Equal( new[] { "PT", "HR" }, comp.Instance.SelectedValues );
+            Assert.Equal( new[] { "Portugal", "Croatia" }, comp.Instance.SelectedTexts );
+            Assert.Equal( 2, selectedValuesChanged );
+        }, TestExtensions.WaitTime );
     }
 }

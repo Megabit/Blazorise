@@ -1,0 +1,9 @@
+{
+  "culture": "fr",
+  "translations": {
+    "Close": "Fermer",
+    "Close {0}": "Fermer {0}",
+    "Pin": "Épingler",
+    "Unpin": "Désépingler"
+  }
+}

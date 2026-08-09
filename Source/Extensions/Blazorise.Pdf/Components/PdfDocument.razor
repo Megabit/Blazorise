@@ -1,0 +1,8 @@
+@namespace Blazorise.Pdf
+
+@if ( documentContext is not null )
+{
+    <CascadingValue Value="@documentContext" IsFixed="false">
+        @ChildContent
+    </CascadingValue>
+}

@@ -43,6 +43,22 @@
     "PM": "下午",
     "RangeSeparator": " 至 ",
     "Today": "今天",
-    "Clear": "清除"
+    "ThisMonth": "本月",
+    "ThisWeek": "本周",
+    "Clear": "清除",
+    "Month": "月",
+    "Year": "年",
+    "Week": "周",
+    "Time": "时间",
+    "Hour": "小时",
+    "Minute": "分钟",
+    "PreviousMonth": "上个月",
+    "NextMonth": "下个月",
+    "PreviousYear": "上一年",
+    "NextYear": "下一年",
+    "PreviousDecade": "上一个十年",
+    "NextDecade": "下一个十年",
+    "PreviousCentury": "上一个世纪",
+    "NextCentury": "下一个世纪"
   }
 }

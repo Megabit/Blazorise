@@ -1,0 +1,43 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<CodeEditor @bind-Value="@workflow"
+            Language="@workflowLanguageId"
+            Languages="@workflowLanguages"
+            Theme="@CodeEditorTheme.VisualStudioDark"
+            Immediate
+            Height="220.Px()" />
+
+@code {
+    private const string workflowLanguageId = "sample-workflow";
+
+    private string workflow = """
+# A small domain-specific workflow
+step Build
+when success
+run "dotnet build"
+""";
+
+    private static readonly IReadOnlyList<CodeEditorLanguageDefinition> workflowLanguages =
+    [
+        new()
+        {
+            Id = workflowLanguageId,
+            Aliases = ["Workflow"],
+            Extensions = [".workflow"],
+            Tokenizer = new()
+            {
+                IgnoreCase = true,
+                DefaultToken = string.Empty,
+                Tokens =
+                [
+                    new() { Pattern = "\\s+", Token = "white" },
+                    new() { Pattern = "#.*$", Token = "comment" },
+                    new() { Pattern = "\"[^\"\\r\\n]*\"", Token = "string" },
+                    new() { Pattern = "\\b(?:step|when|run|success|failure)\\b", Token = "keyword" },
+                    new() { Pattern = "\\b\\d+\\b", Token = "number" },
+                    new() { Pattern = "[A-Za-z_][A-Za-z0-9_-]*", Token = "identifier" },
+                ],
+            },
+        },
+    ];
+}

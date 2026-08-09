@@ -43,6 +43,22 @@
     "PM": "PM",
     "RangeSeparator": " al ",
     "Today": "Oggi",
-    "Clear": "Pulisci"
+    "ThisMonth": "Questo mese",
+    "ThisWeek": "Questa settimana",
+    "Clear": "Pulisci",
+    "Month": "Mese",
+    "Year": "Anno",
+    "Week": "Sett.",
+    "Time": "Ora",
+    "Hour": "Ora",
+    "Minute": "Minuto",
+    "PreviousMonth": "Mese precedente",
+    "NextMonth": "Mese successivo",
+    "PreviousYear": "Anno precedente",
+    "NextYear": "Anno successivo",
+    "PreviousDecade": "Decennio precedente",
+    "NextDecade": "Decennio successivo",
+    "PreviousCentury": "Secolo precedente",
+    "NextCentury": "Secolo successivo"
   }
 }

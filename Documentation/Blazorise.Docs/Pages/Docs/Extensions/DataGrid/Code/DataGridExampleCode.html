@@ -1,5 +1,7 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
+<span class="atSign">&#64;</span>using System.Collections.Generic
+
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>employeeList</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedRow</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedEmployee</span><span class="quot">&quot;</span>
@@ -18,15 +20,26 @@
 </pre></div>
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
-    [Inject]
-    <span class="keyword">public</span> EmployeeData EmployeeData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
-    <span class="keyword">private</span> List&lt;Employee&gt; employeeList;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> List&lt;Employee&gt; employeeList =
+    [
+        <span class="keyword">new</span>() { Id = <span class="number">1</span>, FirstName = <span class="string">&quot;John&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Email = <span class="string">&quot;john.doe<span class="atSign">&#64;</span>example.com&quot;</span>, Salary = 80000m },
+        <span class="keyword">new</span>() { Id = <span class="number">2</span>, FirstName = <span class="string">&quot;Jane&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Email = <span class="string">&quot;jane.doe<span class="atSign">&#64;</span>example.com&quot;</span>, Salary = 75000m },
+        <span class="keyword">new</span>() { Id = <span class="number">3</span>, FirstName = <span class="string">&quot;David&quot;</span>, LastName = <span class="string">&quot;Smith&quot;</span>, Email = <span class="string">&quot;david.smith<span class="atSign">&#64;</span>example.com&quot;</span>, Salary = 100000m }
+    ];
+
     <span class="keyword">private</span> Employee selectedEmployee;
 
-    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
+    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> Employee
     {
-        employeeList = <span class="keyword">await</span> EmployeeData.GetDataAsync();
-        <span class="keyword">await</span> <span class="keyword">base</span>.OnInitializedAsync();
+        <span class="keyword">public</span> <span class="keyword">int</span> Id { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> FirstName { <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="keyword">string</span>.Empty;
+
+        <span class="keyword">public</span> <span class="keyword">string</span> LastName { <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="keyword">string</span>.Empty;
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Email { <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="keyword">string</span>.Empty;
+
+        <span class="keyword">public</span> <span class="keyword">decimal</span> Salary { <span class="keyword">get</span>; <span class="keyword">set</span>; }
     }
 }
 </pre></div>

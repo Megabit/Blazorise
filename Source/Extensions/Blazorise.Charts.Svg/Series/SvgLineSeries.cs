@@ -23,6 +23,11 @@ public class SvgLineSeries<TItem> : SvgChartSeries<TItem>
     [Parameter] public double MarkerRadius { get; set; } = 3;
 
     /// <summary>
+    /// Defines an optional outline rendered behind the line.
+    /// </summary>
+    [Parameter] public SvgChartLineOutlineOptions Outline { get; set; }
+
+    /// <summary>
     /// Defines how the line is interpolated between data points.
     /// </summary>
     [Parameter] public SvgChartInterpolationMode Interpolation { get; set; }

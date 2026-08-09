@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid;
 
+/// <summary>
+/// Provides base data grid column behavior within a DataGrid.
+/// </summary>
 [CascadingTypeParameter( nameof( TItem ) )]
 public class BaseDataGridColumn<TItem> : BaseDataGridComponent
 {

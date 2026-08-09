@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Supports chart decimation behavior in chart components.
+/// </summary>
 public class ChartDecimation
 {
     /// <summary>

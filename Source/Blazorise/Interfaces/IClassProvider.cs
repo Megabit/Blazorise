@@ -94,6 +94,42 @@ public interface IClassProvider
 
     string DatePickerValidation( ValidationStatus validationStatus );
 
+    string DatePickerContainer( bool inline, bool open );
+
+    string DatePickerCalendar( bool inline, bool staticPicker );
+
+    string DatePickerCalendarBackdrop();
+
+    string DatePickerCalendarHeader();
+
+    string DatePickerCalendarNavigation();
+
+    string DatePickerCalendarTitle();
+
+    string DatePickerCalendarGrid();
+
+    string DatePickerCalendarWeekdays();
+
+    string DatePickerCalendarWeekday();
+
+    string DatePickerCalendarWeek();
+
+    string DatePickerCalendarWeekNumber();
+
+    string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused );
+
+    string DatePickerCalendarMonths();
+
+    string DatePickerCalendarMonth( bool selected, bool disabled, bool focused );
+
+    string DatePickerCalendarTime();
+
+    string DatePickerCalendarTimeInput();
+
+    string DatePickerCalendarActions();
+
+    string DatePickerCalendarButton();
+
     #endregion
 
     #region TimePicker
@@ -105,6 +141,22 @@ public interface IClassProvider
     string TimePickerColor( Color color );
 
     string TimePickerValidation( ValidationStatus validationStatus );
+
+    string TimePickerContainer( bool inline, bool open );
+
+    string TimePickerMenu( bool inline, bool staticPicker );
+
+    string TimePickerBackdrop();
+
+    string TimePickerControls();
+
+    string TimePickerControl( bool focused );
+
+    string TimePickerInput();
+
+    string TimePickerSeparator();
+
+    string TimePickerMeridiem( bool postMeridiem, bool focused );
 
     #endregion
 
@@ -231,6 +283,26 @@ public interface IClassProvider
     string RangeSliderTooltip();
 
     string RangeSliderValidation( ValidationStatus validationStatus );
+
+    #endregion
+
+    #region Resizer
+
+    string Resizer();
+
+    string ResizerOrientation( Orientation orientation );
+
+    string ResizerPlacement( Placement placement );
+
+    string ResizerGutter( bool showGutter );
+
+    string ResizerDisabled( bool disabled );
+
+    string ResizerFocused( bool focused );
+
+    string ResizerResizing( bool resizing );
+
+    string ResizerTargetResizing( bool resizing );
 
     #endregion
 
@@ -500,6 +572,90 @@ public interface IClassProvider
 
     string DropdownDirection( Direction direction );
 
+    string ContextMenu();
+
+    string ContextMenuToggle();
+
+    string ContextMenuBody();
+
+    string ContextMenuBodyVisible( bool visible );
+
+    string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy );
+
+    string ContextMenuItem();
+
+    string ContextMenuItemActive( bool active );
+
+    string ContextMenuItemDisabled( bool disabled );
+
+    string ContextMenuItemContent();
+
+    string ContextMenuItemCheck();
+
+    string ContextMenuItemShortcut();
+
+    string ContextMenuDivider();
+
+    string ContextMenuHeader();
+
+    string ContextMenuGroup();
+
+    string ContextMenuToolbar();
+
+    string ContextMenuToolbarItem();
+
+    string ContextMenuToolbarItemActive( bool active );
+
+    string ContextMenuToolbarItemDisabled( bool disabled );
+
+    string ContextMenuToolbarItemEndAligned( bool endAligned );
+
+    string ContextMenuSubmenu();
+
+    string ContextMenuSubmenuTrigger();
+
+    string ContextMenuSubmenuTriggerDisabled( bool disabled );
+
+    string ContextMenuSubmenuBody();
+
+    #endregion
+
+    #region PropertyGrid
+
+    string PropertyGrid();
+
+    string PropertyGridViewport();
+
+    string PropertyGridToolbar();
+
+    string PropertyGridToolbarButton();
+
+    string PropertyGridToolbarSearch();
+
+    string PropertyGridEmpty();
+
+    string PropertyGridHelp();
+
+    string PropertyGridHelpTitle();
+
+    string PropertyGridHelpDescription();
+
+    string PropertyGridGroup();
+
+    string PropertyGridGroupHeader();
+
+    string PropertyGridGroupToggle();
+
+    string PropertyGridGroupBody();
+
+    string PropertyGridItem();
+
+    string PropertyGridItemSelected( bool selected );
+
+    string PropertyGridItemLabel();
+
+    string PropertyGridItemBody();
+
     #endregion
 
     #region Tabs
@@ -685,6 +841,76 @@ public interface IClassProvider
     string LayoutLoading();
 
     string LayoutRoot( bool root );
+
+    #endregion
+
+    #region DockLayout
+
+    string DockLayout();
+
+    string DockSplit();
+
+    string DockSplitOrientation( Orientation orientation );
+
+    string DockPane( DockPanePosition position, bool resizable, bool collapsed );
+
+    string DockPanePosition( DockPanePosition position );
+
+    string DockPaneResizable( bool resizable );
+
+    string DockPaneCollapsed( bool collapsed );
+
+    string DockPaneAutoHide( bool autoHide );
+
+    string DockPaneBordered();
+
+    string DockPaneAutoHideRail( DockPanePosition position );
+
+    string DockPaneAutoHideTab( DockPanePosition position );
+
+    string DockPaneAutoHideFlyout( DockPanePosition position );
+
+    string DockPaneHeader();
+
+    string DockPaneHeaderContent();
+
+    string DockPaneHeaderActions();
+
+    string DockPaneHeaderAction();
+
+    string DockPaneBody();
+
+    string DockPaneFooter();
+
+    string DockContent();
+
+    string DockPaneTabs();
+
+    string DockPaneTabsPosition( DockPanePosition position );
+
+    string DockPaneTabPosition( DockPaneTabPosition position );
+
+    string DockPaneTabsHost();
+
+    string DockPaneTab( bool active );
+
+    string DockPaneTabLabel();
+
+    string DockPaneTabClose();
+
+    string DockLayoutCompass();
+
+    string DockLayoutCompassZone( DockZone zone, bool active );
+
+    string DockLayoutCompassZonePlacement( DockCompassZone zone );
+
+    string DockLayoutCompassZoneIcon();
+
+    string DockLayoutDragPreview();
+
+    string DockLayoutDropPreview();
+
+    string DockLayoutShellGuide( DockZone zone, bool active );
 
     #endregion
 

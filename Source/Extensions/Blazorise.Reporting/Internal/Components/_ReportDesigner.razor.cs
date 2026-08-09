@@ -1,0 +1,4346 @@
+#region Using directives
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
+using Blazorise.Licensing;
+using Blazorise.Localization;
+using Blazorise.Pdf;
+using Blazorise.Reporting.Internal;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.JSInterop;
+using DesignerConstants = Blazorise.Reporting.Internal.ReportDesignerConstants;
+#endregion
+
+namespace Blazorise.Reporting.Internal;
+
+/// <summary>
+/// Provides a declarative report designer and viewer for band-based report definitions.
+/// </summary>
+public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IAsyncDisposable
+{
+    #region Members
+
+    private readonly ReportContext context = new();
+
+    private readonly ReportToolbarContext toolbarContext;
+
+    private readonly ReportDesignerCommandManager commandManager = new();
+
+    private readonly ReportSelectionManager selectionManager = new();
+
+    private readonly ReportContextMenuService contextMenuService = new();
+
+    private readonly string modalProviderName = $"blazorise-report-{Guid.NewGuid():N}";
+
+    private readonly ReportClipboardService clipboardService = new();
+
+    private readonly ReportAggregateService aggregateService = new();
+
+    private readonly ReportDataCommandService dataCommandService = new();
+
+    private readonly ReportElementLayoutService elementLayoutService = new();
+
+    private readonly ReportElementCommandService elementCommandService;
+
+    private readonly ReportTableEditor tableEditor = new();
+
+    private readonly ReportTableCommandService tableCommandService;
+
+    private readonly ReportRenderService renderService = new();
+
+    private readonly ReportSectionCommandService sectionCommandService = new();
+
+    private readonly ReportDesignerRulerService rulerService = new();
+
+    private readonly ReportElementCollisionService collisionService = new();
+
+    private readonly ReportDesignerInteractionState designerState = new();
+
+    private readonly DockLayoutState designerDockLayoutState = new();
+
+    private readonly Dictionary<string, (double Left, double Top)> designerPaneScrollPositions = new( StringComparer.Ordinal );
+
+    private readonly HashSet<string> collapsedBandIds = new( StringComparer.Ordinal );
+
+    private readonly IReadOnlyList<IReportDataSourceProvider> fallbackDataSourceProviders =
+    [
+        new ObjectReportDataSourceProvider(),
+        new DataSetReportDataSourceProvider(),
+    ];
+
+    private const string MainReportDesignerTabKey = "__main";
+
+    private const string DesignerSurfacePaneName = "report-designer";
+
+    private ReportDefinition workingDefinition;
+
+    private ReportDefinition lastNotifiedDefinition;
+
+    private int declarativeContextVersion = -1;
+
+    private int declarativeConfigurationVersion = -1;
+
+    private ReportMode currentMode;
+
+    private ReportPreviewFormat currentPreviewFormat;
+
+    private ReportDesignerPanelTab selectedDesignerPanelTab = ReportDesignerPanelTab.Properties;
+
+    private int designerPaneScrollRestoreVersion;
+
+    private bool designerWorkspaceRendered;
+
+    private _ReportDesignerWorkspace workspaceRef;
+
+    private int renderMutationVersion;
+
+    private IReadOnlyList<ReportDesignerWarning> designerWarnings = [];
+
+    private ReportDesignerWarning operationWarning;
+
+    private HashSet<string> collidingElementKeys = [];
+
+    private int designerWarningsMutationVersion = -1;
+
+    private ReportDesignerRefreshState designerRefreshState;
+
+    private List<ReportElementDefinition> clipboardElements = [];
+
+    private string clipboardBandId;
+
+    private ReportOptions globalOptions;
+
+    private IReportDataSourceProviderRegistry dataSourceProviderRegistry;
+
+    private IReportElementPluginRegistry elementPluginRegistry;
+
+    private JSReportingModule reportingModule;
+
+    private PdfGenerationResult pdfPreviewResult;
+
+    private ReportPdfPreviewContext pdfPreviewContext;
+
+    private int pdfPreviewMutationVersion = -1;
+
+    private CancellationTokenSource asyncOperationCancellationTokenSource;
+
+    private Task<PdfGenerationResult> pdfPreviewTask;
+
+    private int pdfPreviewTaskMutationVersion = -1;
+
+    private string editingFormulaFieldName;
+
+    private string activeSubreportElementKey;
+
+    private string activePageId;
+
+    private ReportDefinition activePageScope;
+
+    private ReportDefinition activePageScopeOwner;
+
+    #endregion
+
+    #region Events
+
+    internal event Action<ReportProgress> Progressed;
+
+    internal event Action OperationFinished;
+
+    internal event Action WarningsChanged;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new report component instance.
+    /// </summary>
+    public _ReportDesigner()
+    {
+        toolbarContext = new( this, () => ShowStatusBar, SetStatusBarVisible );
+        elementCommandService = new( elementLayoutService );
+        tableCommandService = new( tableEditor );
+    }
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc />
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        bool initialized = commandManager.State?.Definition is not null;
+        ReportMode previousMode = CurrentMode;
+        ReportPreviewFormat previousPreviewFormat = CurrentPreviewFormat;
+        bool previouslyHadPreviewFormats = HasPreviewFormats;
+        object previousData = Data;
+
+        parameters.TryGetParameter( Definition, out ComponentParameterInfo<ReportDefinition> definitionParameter );
+        parameters.TryGetParameter( Mode, out ComponentParameterInfo<ReportMode?> modeParameter );
+        parameters.TryGetParameter( PreviewFormat, out ComponentParameterInfo<ReportPreviewFormat?> previewFormatParameter );
+        parameters.TryGetParameter( BandMode, out ComponentParameterInfo<ReportBandMode> bandModeParameter );
+        parameters.TryGetParameter( ShowRulers, out ComponentParameterInfo<bool> showRulersParameter );
+        parameters.TryGetParameter( ShowFineRulerTicks, out ComponentParameterInfo<bool> showFineRulerTicksParameter );
+        parameters.TryGetParameter( ShowCursorGuides, out ComponentParameterInfo<bool> showCursorGuidesParameter );
+        parameters.TryGetParameter( ShowCollisionWarnings, out ComponentParameterInfo<bool> showCollisionWarningsParameter );
+
+        bool definitionModeChanged = initialized && parameters.IsParameterChanged( DefinitionMode );
+        bool dataChanged = initialized && parameters.IsParameterChanged( Data );
+        bool previewOptionsChanged = initialized
+            && ( previewFormatParameter.Changed
+                || parameters.IsParameterChanged( PreviewFormats )
+                || parameters.IsParameterChanged( DefaultPreviewFormat ) );
+        bool modeChanged = initialized
+            && modeParameter.Changed
+            && modeParameter.Value is ReportMode mode
+            && mode != currentMode;
+
+        await base.SetParametersAsync( parameters );
+
+        if ( !initialized )
+            return;
+
+        if ( modeParameter.Changed )
+            currentMode = modeParameter.Value ?? previousMode;
+
+        if ( previewOptionsChanged )
+            currentPreviewFormat = ResolvePreviewFormat( previewFormatParameter.Value ?? currentPreviewFormat );
+
+        bool previewFormatChanged = previewOptionsChanged && currentPreviewFormat != previousPreviewFormat;
+        bool previewAvailabilityChanged = previewOptionsChanged && HasPreviewFormats != previouslyHadPreviewFormats;
+
+        bool definitionChanged = definitionParameter.Changed
+            && !ReferenceEquals( definitionParameter.Value, lastNotifiedDefinition )
+            && CurrentDefinitionMode != ReportDefinitionMode.AlwaysUseDeclarative;
+
+        if ( definitionParameter.Defined )
+            lastNotifiedDefinition = null;
+
+        if ( definitionChanged || definitionModeChanged )
+        {
+            ReportDefinition definition = CreateWorkingDefinition();
+
+            if ( ShouldUseDeclarativeDefinition() )
+                declarativeContextVersion = context.DefinitionVersion;
+
+            await ApplyDefinition( definition, notifyDefinitionChanged: false );
+            await SynchronizeDesignerParameters( bandModeParameter, showRulersParameter, showFineRulerTicksParameter, showCursorGuidesParameter, showCollisionWarningsParameter );
+            return;
+        }
+
+        await SynchronizeDesignerParameters( bandModeParameter, showRulersParameter, showFineRulerTicksParameter, showCursorGuidesParameter, showCollisionWarningsParameter );
+
+        if ( dataChanged )
+            SynchronizeDefaultDataSource( RootDefinition, previousData );
+
+        if ( CurrentMode == ReportMode.Preview && ( modeChanged || previewFormatChanged || previewAvailabilityChanged || dataChanged ) )
+        {
+            await SetPreview( CurrentPreviewFormat, notifyChanged: false, previousMode: previousMode );
+            return;
+        }
+
+        if ( modeChanged )
+            await SetMode( CurrentMode, notifyChanged: false, previousMode: previousMode );
+
+        if ( dataChanged )
+        {
+            await ResolveDataSources( RootDefinition, loadData: false );
+            RefreshDesigner( ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.FieldsExplorer );
+        }
+        else if ( previewFormatChanged )
+            InvalidateDesignerCaches();
+    }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+        context.SetViewerDefaults( new()
+        {
+            PreviewFormats = GlobalOptions.PreviewFormats,
+            DefaultFormat = GlobalOptions.DefaultPreviewFormat,
+            AllowPrint = GlobalOptions.AllowPrint,
+            AllowDownload = GlobalOptions.AllowDownload,
+        } );
+
+        currentMode = Mode ?? ( IsEditable ? ReportMode.Design : ReportMode.Preview );
+        currentPreviewFormat = ResolvePreviewFormat( PreviewFormat ?? DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat );
+        designerWorkspaceRendered = IsEditable && currentMode == ReportMode.Design;
+
+        List<string> normalizationDiagnostics = [];
+
+        workingDefinition = ShouldUseDeclarativeDefinition()
+            ? new()
+            : ReportContext.CloneDefinition( Definition ) ?? new();
+        workingDefinition = ReportDefinitionHelper.EnsureDefinitionIds( workingDefinition, normalizationDiagnostics );
+        NotifyDefinitionNormalized( normalizationDiagnostics );
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( !firstRender )
+        {
+            bool configurationChanged = declarativeConfigurationVersion != context.ConfigurationVersion;
+            declarativeConfigurationVersion = context.ConfigurationVersion;
+
+            if ( CurrentDefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative
+                && declarativeContextVersion != context.DefinitionVersion )
+            {
+                declarativeContextVersion = context.DefinitionVersion;
+                await ApplyDefinition( BuildDeclarativeDefinition(), notifyDefinitionChanged: true );
+            }
+            else if ( configurationChanged )
+            {
+                ReportPreviewFormat previewFormat = CurrentPreviewFormat;
+                currentPreviewFormat = previewFormat;
+
+                if ( CurrentMode == ReportMode.Preview && HasPreviewFormats )
+                    await SetPreview( previewFormat, notifyChanged: false, previousMode: CurrentMode );
+                else
+                {
+                    if ( !HasPreviewFormats )
+                        CancelAsyncOperations();
+
+                    StateHasChanged();
+                }
+            }
+
+            return;
+        }
+
+        bool declarativeDefinitionCreated = ShouldUseDeclarativeDefinition();
+        declarativeContextVersion = context.DefinitionVersion;
+        declarativeConfigurationVersion = context.ConfigurationVersion;
+        currentPreviewFormat = ResolvePreviewFormat( PreviewFormat ?? DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat );
+
+        if ( declarativeDefinitionCreated )
+            workingDefinition = BuildDeclarativeDefinition();
+
+        ReportDefinition definition = RootDefinition;
+
+        if ( definition is not null && ( CurrentMode != ReportMode.Preview || HasPreviewFormats ) )
+        {
+            if ( CurrentMode == ReportMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf )
+                await ResolvePdfPreviewOperation( definition, resolveDataSources: true );
+            else
+                await ResolveDataSources( definition, CurrentMode == ReportMode.Preview );
+        }
+        else
+            InvalidateDesignerCaches();
+
+        if ( declarativeDefinitionCreated )
+            await NotifyDefinitionChanged( workingDefinition );
+
+        if ( definition is not null )
+            RefreshDesigner( ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.FieldsExplorer );
+
+        if ( commandManager.State?.Definition is null )
+            commandManager.SetState( CaptureReportState( RootDefinition ) );
+
+        if ( definition is not null )
+            StateHasChanged();
+    }
+
+    /// <inheritdoc />
+    public async ValueTask DisposeAsync()
+    {
+        LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+        CancelAsyncOperations();
+
+        if ( reportingModule is not null )
+        {
+            try
+            {
+                await reportingModule.DisposeAsync();
+            }
+            catch ( JSDisconnectedException )
+            {
+            }
+        }
+
+    }
+
+    private async void OnLocalizationChanged( object sender, EventArgs e )
+    {
+        workspaceRef?.InvalidatePropertiesPanel();
+        await InvokeAsync( StateHasChanged );
+        await ( workspaceRef?.RefreshLocalization() ?? Task.CompletedTask );
+    }
+
+    private string Localize( string name, params object[] arguments )
+    {
+        if ( Localizers?.TextLocalizer is not null )
+            return Localizers.TextLocalizer.Invoke( name, arguments );
+
+        return Localizer[name, arguments];
+    }
+
+    private ReportDefinition BuildDeclarativeDefinition()
+    {
+        var definition = context.BuildDefinition();
+
+        if ( !definition.DataSources.Any() && Data is not null )
+        {
+            definition.DataSources.Add( new()
+            {
+                Name = DataSourceName,
+                ProviderType = ObjectReportDataSourceProvider.ProviderType,
+                Data = Data,
+            } );
+        }
+
+        foreach ( ReportPageDefinition page in definition.Pages )
+            ResolvePage( page );
+        definition.Designer = new()
+        {
+            BandMode = BandMode,
+            ShowRulers = ShowRulers,
+            ShowFineRulerTicks = ShowFineRulerTicks,
+            ShowCursorGuides = ShowCursorGuides,
+            ShowCollisionWarnings = ShowCollisionWarnings,
+        };
+
+        return ReportDefinitionHelper.EnsureDefinitionIds( definition );
+    }
+
+    private ReportDefinition CreateWorkingDefinition()
+    {
+        return ShouldUseDeclarativeDefinition()
+            ? BuildDeclarativeDefinition()
+            : ReportContext.CloneDefinition( Definition ) ?? new();
+    }
+
+    private bool ShouldUseDeclarativeDefinition()
+    {
+        return CurrentDefinitionMode switch
+        {
+            ReportDefinitionMode.AlwaysUseDeclarative => true,
+            ReportDefinitionMode.SeedWhenEmpty => Definition is null,
+            ReportDefinitionMode.UseDefinitionOnly => false,
+            _ => false,
+        };
+    }
+
+    private ReportPageDefinition ResolvePage( ReportPageDefinition page )
+    {
+        return ReportPageDefinitionHelper.ResolvePage( page );
+    }
+
+    private async Task ResolveDataSources( ReportDefinition definition, bool loadData )
+    {
+        await ResolveDataSourcesOperation( definition, loadData );
+    }
+
+    private Task<bool> ResolveDataSourcesOperation( ReportDefinition definition, bool loadData )
+    {
+        return ExecuteDataOperation( Localize( "Resolve report data" ), ( cancellationToken, mutationVersion ) =>
+            ResolveDataSources( definition, loadData, mutationVersion, cancellationToken ) );
+    }
+
+    private Task<bool> ResolveDataSourceConnectionOperation( ReportDefinition definition, bool loadData )
+    {
+        return ExecuteDataOperation( Localize( "Connect data source" ), ( cancellationToken, mutationVersion ) =>
+            ResolveDataSources( definition, loadData, mutationVersion, cancellationToken ) );
+    }
+
+    private async Task<bool> ExecuteDataOperation( string operationName, Func<CancellationToken, int, Task<bool>> operation )
+    {
+        InvalidateDesignerCaches();
+
+        int mutationVersion = renderMutationVersion;
+        CancellationTokenSource cancellationTokenSource = new();
+        asyncOperationCancellationTokenSource = cancellationTokenSource;
+
+        try
+        {
+            return await operation( cancellationTokenSource.Token, mutationVersion );
+        }
+        catch ( OperationCanceledException ) when ( cancellationTokenSource.IsCancellationRequested )
+        {
+            return false;
+        }
+        catch ( Exception exception )
+        {
+            await NotifyOperationFailed( operationName, exception, includeExceptionDetails: false );
+            return false;
+        }
+        finally
+        {
+            if ( ReferenceEquals( asyncOperationCancellationTokenSource, cancellationTokenSource ) )
+                asyncOperationCancellationTokenSource = null;
+
+            cancellationTokenSource.Dispose();
+        }
+    }
+
+    private async Task<bool> ResolveDataSources( ReportDefinition definition, bool loadData, int mutationVersion, CancellationToken cancellationToken )
+    {
+        ReportDefinitionHelper.ApplyRowsLimit( definition, BlazoriseLicenseLimitsHelper.GetReportingRowsLimit( LicenseChecker ) );
+
+        if ( definition?.DataSources is null || definition.DataSources.Count == 0 )
+            return IsOperationCurrent( mutationVersion, cancellationToken );
+
+        IReportDataSourceProviderRegistry registry = DataSourceProviderRegistry;
+
+        if ( registry is null )
+            throw new InvalidOperationException( "No report data source provider registry is available." );
+
+        foreach ( ReportDataSourceDefinition dataSource in definition.DataSources )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if ( dataSource is null )
+                continue;
+
+            IReportDataSourceProvider provider = registry.FindProvider( dataSource.ProviderType );
+
+            if ( provider is null )
+                throw new InvalidOperationException( $"No report data source provider is registered for '{dataSource.ProviderType}'." );
+
+            try
+            {
+                if ( loadData && ShouldLoadDataSource( provider, dataSource ) )
+                {
+                    ReportDataSourceResult result = await provider.LoadDataAsync( dataSource, new()
+                    {
+                        DefaultData = Data,
+                    }, cancellationToken );
+
+                    if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+                        return false;
+
+                    if ( result is null )
+                        throw new InvalidOperationException( $"The '{dataSource.Name}' data source returned no result." );
+
+                    dataSource.Data = result.Data;
+                    dataSource.Schema = result.Schema ?? dataSource.Schema;
+                }
+                else if ( dataSource.Schema is null )
+                {
+                    ReportDataSourceSchema schema = await provider.GetSchemaAsync( dataSource, cancellationToken );
+
+                    if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+                        return false;
+
+                    dataSource.Schema = schema;
+                }
+            }
+            catch ( OperationCanceledException ) when ( cancellationToken.IsCancellationRequested )
+            {
+                return false;
+            }
+        }
+
+        return IsOperationCurrent( mutationVersion, cancellationToken );
+    }
+
+    private bool IsOperationCurrent( int mutationVersion, CancellationToken cancellationToken )
+        => !cancellationToken.IsCancellationRequested && mutationVersion == renderMutationVersion;
+
+    private void SynchronizeDefaultDataSource( ReportDefinition definition, object previousData )
+    {
+        if ( definition?.DataSources is null )
+            return;
+
+        ReportDataSourceDefinition dataSource = definition.DataSources.FirstOrDefault( x =>
+            string.Equals( x?.Name, DataSourceName, StringComparison.OrdinalIgnoreCase )
+            && string.Equals( x.ProviderType, ObjectReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase ) );
+
+        if ( dataSource is not null && ReferenceEquals( dataSource.Data, previousData ) )
+        {
+            dataSource.Data = Data;
+            dataSource.Schema = null;
+        }
+        else if ( dataSource is null && definition.DataSources.Count == 0 && Data is not null )
+        {
+            definition.DataSources.Add( new()
+            {
+                Name = DataSourceName,
+                ProviderType = ObjectReportDataSourceProvider.ProviderType,
+                Data = Data,
+            } );
+        }
+    }
+
+    private static bool ShouldLoadDataSource( IReportDataSourceProvider provider, ReportDataSourceDefinition dataSource )
+    {
+        return dataSource?.Data is null
+            || string.Equals( provider?.Type, DataSetReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase );
+    }
+
+    private async Task SetStatusBarVisible( bool visible )
+    {
+        if ( ShowStatusBar == visible )
+            return;
+
+        ShowStatusBar = visible;
+        await ShowStatusBarChanged.InvokeAsync( visible );
+        StateHasChanged();
+    }
+
+    private bool IsElementContextMenuVisible()
+    {
+        return designerState.ContextMenu?.Visible == true
+            && designerState.ContextMenu.Target == ReportContextMenuTarget.Element;
+    }
+
+    internal ReportBandDefinition GetSelectedPropertiesSection( ReportDefinition definition )
+    {
+        return selectionManager.SelectedElementKeys.Count == 0
+            ? selectionManager.FindSelectedSection( definition )
+            : null;
+    }
+
+    internal ReportBandDefinition GetSelectedFormulaSection( ReportDefinition definition )
+    {
+        if ( selectionManager.SelectedElementKeys.Count == 0 )
+            return selectionManager.FindSelectedSection( definition );
+
+        return ReportDefinitionHelper.TryFindElementLocation( definition, selectionManager.PrimaryElementKey, out var sectionIndex, out _, out _ )
+            ? definition.Bands[sectionIndex]
+            : null;
+    }
+
+    internal Task SelectDesignerPanelTab( string tab )
+    {
+        ReportDesignerPanelTab selectedPanelTab = string.Equals( tab, nameof( ReportDesignerPanelTab.Explorer ), StringComparison.Ordinal )
+            ? ReportDesignerPanelTab.Explorer
+            : ReportDesignerPanelTab.Properties;
+
+        if ( selectedDesignerPanelTab != selectedPanelTab )
+        {
+            selectedDesignerPanelTab = selectedPanelTab;
+            designerPaneScrollRestoreVersion++;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    internal async Task OnReportTreeNodeClicked( ReportTreeNode node )
+    {
+        if ( string.Equals( node?.Key, "report", StringComparison.Ordinal ) )
+        {
+            SelectReport();
+        }
+        else if ( ReportDesignerTreeBuilder.TryResolvePageTreeNode( node, out string pageId ) )
+        {
+            await SelectDesignerPage( pageId );
+        }
+        else if ( ReportDesignerTreeBuilder.TryResolveSectionTreeNode( node, out string sectionPageId, out var sectionIndex ) )
+        {
+            ActivateDesignerPage( sectionPageId );
+            SelectSection( sectionIndex );
+        }
+        else if ( ReportDesignerTreeBuilder.TryResolveElementTreeNode( node, out var elementKey ) )
+        {
+            ReportDefinition reportDefinition = ResolveActiveReportDefinition( RootDefinition );
+
+            if ( ReportDefinitionHelper.TryFindElementLocation( reportDefinition, elementKey, out ReportElementLocation location ) )
+            {
+                ActivateDesignerPage( location.Page.Id );
+
+                if ( ReportValueResolver.ResolveStaticSuppress( EffectiveDefinition.Bands[location.SectionIndex] ) )
+                    SelectSection( location.SectionIndex );
+                else
+                    SelectElement( elementKey );
+            }
+        }
+        else if ( ReportDesignerTreeBuilder.TryResolveTableCellTreeNode( node, out var cellKey ) )
+        {
+            ReportPageDefinition page = FindDesignerPageContainingCell( cellKey );
+
+            if ( page is not null )
+            {
+                ActivateDesignerPage( page.Id );
+                SelectTableCell( cellKey );
+            }
+        }
+    }
+
+    internal async Task OnReportTreeNodeContextMenu( ReportTreeNodeMouseEventArgs eventArgs )
+    {
+        if ( ReportDesignerTreeBuilder.TryResolveSectionTreeNode( eventArgs.Node, out string pageId, out var sectionIndex ) )
+        {
+            ActivateDesignerPage( pageId );
+            await OpenSectionContextMenu( sectionIndex, eventArgs.MouseEventArgs );
+        }
+        else if ( ReportDesignerTreeBuilder.TryResolveElementTreeNode( eventArgs.Node, out var elementKey ) )
+        {
+            ReportDefinition reportDefinition = ResolveActiveReportDefinition( RootDefinition );
+
+            if ( ReportDefinitionHelper.TryFindElementLocation( reportDefinition, elementKey, out ReportElementLocation location ) )
+            {
+                ActivateDesignerPage( location.Page.Id );
+                await OpenElementContextMenu( elementKey, eventArgs.MouseEventArgs );
+            }
+        }
+        else if ( ReportDesignerTreeBuilder.TryResolveTableCellTreeNode( eventArgs.Node, out var cellKey ) )
+        {
+            ReportPageDefinition page = FindDesignerPageContainingCell( cellKey );
+
+            if ( page is not null )
+            {
+                ActivateDesignerPage( page.Id );
+
+                if ( ReportDefinitionHelper.TryFindTableCellLocation( EffectiveDefinition, cellKey, out var cellSectionIndex, out _, out _, out _ ) )
+                    await OpenTableCellContextMenu( cellSectionIndex, cellKey, eventArgs.MouseEventArgs );
+            }
+        }
+    }
+
+    private ReportPageDefinition FindDesignerPageContainingCell( string cellKey )
+    {
+        ReportDefinition definition = ResolveActiveReportDefinition( RootDefinition );
+
+        return definition.Pages.FirstOrDefault( page =>
+            ReportDefinitionHelper.TryFindTableCellLocation( ReportDefinitionHelper.CreatePageScope( definition, page ), cellKey, out _, out _, out _, out _ ) );
+    }
+
+    internal Task OnFieldsTreeNodeDragStarted( ReportTreeNodeDragEventArgs eventArgs )
+    {
+        if ( eventArgs.Node?.Value is ReportFieldTreeNodeValue value )
+        {
+            workspaceRef?.BeginFieldDrag( value.DataSourceName, value.FieldName );
+        }
+
+        return Task.CompletedTask;
+    }
+
+    internal Task OnToolboxTreeNodeDragStarted( ReportTreeNodeDragEventArgs eventArgs )
+    {
+        if ( eventArgs.Node?.Value is ReportToolboxTreeNodeValue value )
+        {
+            workspaceRef?.BeginToolboxElementDrag( value );
+        }
+
+        return Task.CompletedTask;
+    }
+
+    internal IReadOnlyList<object> ResolveSectionRenderItems( ReportDefinition definition, ReportBandDefinition section, bool designMode )
+    {
+        return renderService.ResolveSectionRenderItems( definition, section, Data, designMode );
+    }
+
+    internal double GetReportPageWidth( ReportDefinition definition )
+    {
+        return renderService.GetPageWidth( definition );
+    }
+
+    internal double GetReportPageContentWidth( ReportDefinition definition )
+    {
+        return renderService.GetPageContentWidth( definition );
+    }
+
+    internal double GetDesignerSectionBodyLeft( ReportDefinition definition )
+    {
+        return GetReportPageWidthOffset() + ReportMeasurementConverter.ToCssPixelValue( GetReportPageMarginLeft( definition ) );
+    }
+
+    internal double GetReportPageHeight( ReportDefinition definition )
+    {
+        return definition?.Page?.Height ?? 0;
+    }
+
+    private static ReportPageMarginsDefinition GetReportPageMargins( ReportDefinition definition )
+    {
+        return definition?.Page?.Margins ?? new();
+    }
+
+    internal static double GetReportPageMarginBottom( ReportDefinition definition )
+    {
+        return Math.Max( 0, GetReportPageMargins( definition ).Bottom );
+    }
+
+    internal static double GetReportPageMarginLeft( ReportDefinition definition )
+    {
+        return Math.Max( 0, GetReportPageMargins( definition ).Left );
+    }
+
+    internal static double GetReportPageMarginRight( ReportDefinition definition )
+    {
+        return Math.Max( 0, GetReportPageMargins( definition ).Right );
+    }
+
+    internal static double GetReportPageMarginTop( ReportDefinition definition )
+    {
+        return Math.Max( 0, GetReportPageMargins( definition ).Top );
+    }
+
+    internal string GetPreviewPageContentStyle( ReportDefinition definition )
+    {
+        return renderService.GetPreviewPageContentStyle( definition );
+    }
+
+    internal string GetPreviewPageFooterStyle( ReportDefinition definition, ReportRenderPage renderPage )
+    {
+        return renderService.GetPreviewPageFooterStyle( definition, renderPage, GetDesignerSectionHeight );
+    }
+
+    internal double GetSectionRenderHeight( int sectionIndex, ReportBandDefinition section )
+    {
+        return GetDesignerSectionHeight( sectionIndex, section );
+    }
+
+    internal double GetReportPageWidthOffset()
+    {
+        return IsDesignerBandRailVisible() ? DesignerConstants.DesignerBandRailWidth : 0;
+    }
+
+    internal double GetSelectionBoxLeftOffset()
+    {
+        return GetDesignerSectionBodyLeft( EffectiveDefinition );
+    }
+
+    internal double GetDesignerSectionBodyTopOffset()
+    {
+        return CurrentBandMode == ReportBandMode.Classic ? ReportMeasurementConverter.FromCssPixelValue( DesignerConstants.DesignerBandHeaderHeight ) : 0;
+    }
+
+    internal bool IsDesignerBandRailVisible()
+    {
+        return CurrentBandMode == ReportBandMode.Rail;
+    }
+
+    internal bool IsSectionCollapsedForRender( ReportBandDefinition section )
+    {
+        return IsDesignerBandRailVisible() && !ReportValueResolver.ResolveStaticSuppress( section ) && IsSectionCollapsed( section );
+    }
+
+    internal bool IsSectionSelected( int sectionIndex )
+    {
+        return selectionManager.SelectedSectionIndex == sectionIndex
+            && selectionManager.SelectedElementKeys.Count == 0;
+    }
+
+    internal async Task HandleDesignerShortcut( ReportDesignerShortcut shortcut )
+    {
+        if ( CurrentMode != ReportMode.Design || !IsEditable || IsElementTextEditing() )
+            return;
+
+        switch ( shortcut )
+        {
+            case ReportDesignerShortcut.Cut:
+                await ExecuteCommandIfAvailable( ReportCommand.Cut );
+                break;
+
+            case ReportDesignerShortcut.Copy:
+                await ExecuteCommandIfAvailable( ReportCommand.Copy );
+                break;
+
+            case ReportDesignerShortcut.Duplicate:
+                await ExecuteCommandIfAvailable( ReportCommand.Duplicate );
+                break;
+
+            case ReportDesignerShortcut.Paste:
+                await ExecuteCommandIfAvailable( ReportCommand.Paste );
+                break;
+
+            case ReportDesignerShortcut.Undo:
+                await ExecuteCommandIfAvailable( ReportCommand.Undo );
+                break;
+
+            case ReportDesignerShortcut.Redo:
+                await ExecuteCommandIfAvailable( ReportCommand.Redo );
+                break;
+
+            case ReportDesignerShortcut.Delete:
+                if ( selectionManager.SelectedElementKeys.Count > 0 )
+                    await DeleteSelectedElement();
+                break;
+
+            case ReportDesignerShortcut.EditText:
+                BeginSelectedElementTextEdit();
+                break;
+
+            case ReportDesignerShortcut.MoveLeft:
+                await MoveSelectedElements( -1, 0 );
+                break;
+
+            case ReportDesignerShortcut.MoveUp:
+                await MoveSelectedElements( 0, -1 );
+                break;
+
+            case ReportDesignerShortcut.MoveRight:
+                await MoveSelectedElements( 1, 0 );
+                break;
+
+            case ReportDesignerShortcut.MoveDown:
+                await MoveSelectedElements( 0, 1 );
+                break;
+        }
+    }
+
+    private async Task ExecuteCommandIfAvailable( ReportCommand command )
+    {
+        if ( CanExecuteCommand( command ) )
+            await ExecuteCommand( command );
+    }
+
+    /// <summary>
+    /// Executes a report command against the current designer or viewer state.
+    /// </summary>
+    /// <param name="command">Command requested by a toolbar item or external caller.</param>
+    public async Task ExecuteCommand( ReportCommand command )
+    {
+        try
+        {
+            await ( command switch
+            {
+                ReportCommand.Design => SetMode( ReportMode.Design ),
+                ReportCommand.Preview => SetPreview( CurrentPreviewFormat ),
+                ReportCommand.PreviewHtml => SetPreview( ReportPreviewFormat.Html ),
+                ReportCommand.PreviewPdf => SetPreview( ReportPreviewFormat.Pdf ),
+                ReportCommand.Save => SaveDefinition(),
+                ReportCommand.Load => LoadRequestedDefinition(),
+                ReportCommand.ConnectDataSource => OpenDataSourceConnectionDialog(),
+                ReportCommand.DownloadPdf => DownloadPdf(),
+                ReportCommand.Cut => CutSelectedElement(),
+                ReportCommand.Copy => CopySelectedElement(),
+                ReportCommand.Duplicate => DuplicateSelectedElement(),
+                ReportCommand.Paste => PasteElement(),
+                ReportCommand.Delete => DeleteSelection(),
+                ReportCommand.Undo => Undo(),
+                ReportCommand.Redo => Redo(),
+                ReportCommand.Reset => ResetDefinition(),
+                _ => Task.CompletedTask,
+            } );
+        }
+        catch ( Exception exception )
+        {
+            await NotifyOperationFailed( command.ToString(), exception );
+        }
+    }
+
+    /// <summary>
+    /// Determines whether the supplied report command is currently available.
+    /// </summary>
+    /// <param name="command">Command to evaluate against the current report state.</param>
+    /// <returns><c>true</c> when the command can be executed.</returns>
+    public bool CanExecuteCommand( ReportCommand command )
+    {
+        var definition = EffectiveDefinition;
+
+        return command switch
+        {
+            ReportCommand.Design => IsEditable,
+            ReportCommand.Preview => HasPreviewFormats,
+            ReportCommand.PreviewHtml => SupportsPreviewFormat( ReportPreviewFormat.Html ),
+            ReportCommand.PreviewPdf => SupportsPreviewFormat( ReportPreviewFormat.Pdf ),
+            ReportCommand.Save => SaveRequested is not null,
+            ReportCommand.Load => LoadRequested is not null && CurrentDefinitionMode != ReportDefinitionMode.AlwaysUseDeclarative,
+            ReportCommand.ConnectDataSource => CurrentMode == ReportMode.Design && IsEditable && DataSourceProviders.Count > 0,
+            ReportCommand.DownloadPdf => context.ViewerOptions.AllowDownload && SupportsPreviewFormat( ReportPreviewFormat.Pdf ) && PdfGenerator is not null,
+            ReportCommand.Cut or ReportCommand.Copy or ReportCommand.Duplicate => CurrentMode == ReportMode.Design && GetSelectedElementContexts( definition ).Count > 0,
+            ReportCommand.Delete => CurrentMode == ReportMode.Design && selectionManager.CanDeleteSelection( definition ),
+            ReportCommand.Paste => CurrentMode == ReportMode.Design && HasClipboardElements && definition.Bands.Count > 0,
+            ReportCommand.Undo => commandManager.CanUndo,
+            ReportCommand.Redo => commandManager.CanRedo,
+            _ => true,
+        };
+    }
+
+    /// <summary>
+    /// Determines whether the supplied report command represents the active mode or preview format.
+    /// </summary>
+    /// <param name="command">Command to evaluate against the current report state.</param>
+    /// <returns><c>true</c> when the command is active.</returns>
+    public bool IsCommandActive( ReportCommand command )
+    {
+        return command switch
+        {
+            ReportCommand.Design => CurrentMode == ReportMode.Design,
+            ReportCommand.Preview => CurrentMode == ReportMode.Preview,
+            ReportCommand.PreviewHtml => CurrentMode == ReportMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Html,
+            ReportCommand.PreviewPdf => CurrentMode == ReportMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf,
+            _ => false,
+        };
+    }
+
+    /// <summary>
+    /// Captures the current report definition, mode, selection, and clipboard.
+    /// </summary>
+    /// <returns>Interactive report designer state.</returns>
+    public Task<ReportState> GetState()
+    {
+        return Task.FromResult( CaptureReportState( RootDefinition ) );
+    }
+
+    /// <summary>
+    /// Gets a copy of the current persistent report definition.
+    /// </summary>
+    public Task<ReportDefinition> GetDefinition()
+    {
+        return Task.FromResult( ReportContext.CloneDefinition( RootDefinition ) );
+    }
+
+    /// <summary>
+    /// Loads a persistent report definition.
+    /// </summary>
+    /// <param name="definition">Definition to load.</param>
+    public async Task LoadDefinition( ReportDefinition definition )
+    {
+        if ( definition is null || CurrentDefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative )
+            return;
+
+        await ApplyDefinition( ReportContext.CloneDefinition( definition ), notifyDefinitionChanged: true );
+    }
+
+    private async Task ApplyDefinition( ReportDefinition definition, bool notifyDefinitionChanged )
+    {
+        List<string> normalizationDiagnostics = [];
+        definition = ReportDefinitionHelper.EnsureDefinitionIds( definition ?? new(), normalizationDiagnostics );
+
+        await ResolveDataSources( definition, CurrentMode == ReportMode.Preview );
+        commandManager.Clear();
+        await ApplyReportState( new()
+        {
+            Definition = definition,
+            Mode = CurrentMode,
+            PreviewFormat = CurrentPreviewFormat,
+        }, notifyDefinitionChanged, ReportDesignerRefreshTarget.All );
+        NotifyDefinitionNormalized( normalizationDiagnostics );
+    }
+
+    /// <summary>
+    /// Restores a previously captured report designer state.
+    /// </summary>
+    /// <param name="state">State to apply to the report designer.</param>
+    public async Task LoadState( ReportState state )
+    {
+        commandManager.Clear();
+        await ApplyReportState( state, notifyDefinitionChanged: true, ReportDesignerRefreshTarget.All );
+    }
+
+    internal async Task<bool> ExecuteDesignerCommand( ReportDesignerCommand command )
+    {
+        try
+        {
+            if ( command.NotifyDefinitionChanged )
+                CancelAsyncOperations();
+
+            ReportDefinition definition = await commandManager.Execute( command, RootDefinition, CaptureReportState );
+
+            if ( command.NotifyDefinitionChanged && command.RefreshSurface )
+                await NotifyDefinitionChanged( definition );
+
+            if ( command.NotifyDefinitionChanged )
+            {
+                InvalidateDesignerCaches();
+                RefreshDesigner( command.RefreshTargets );
+            }
+
+            await InvokeAsync( StateHasChanged );
+
+            if ( command.NotifyDefinitionChanged && !command.RefreshSurface )
+                _ = NotifyDefinitionChangedLater( definition );
+
+            return true;
+        }
+        catch ( Exception exception )
+        {
+            InvalidateDesignerCaches();
+            await NotifyOperationFailed( command.Name, exception );
+            await InvokeAsync( StateHasChanged );
+            return false;
+        }
+    }
+
+    private Task NotifyDefinitionChangedLater( ReportDefinition definition )
+    {
+        if ( !DefinitionChanged.HasDelegate )
+            return Task.CompletedTask;
+
+        ReportDefinition snapshot = ReportContext.CloneDefinition( definition );
+
+        return InvokeAsync( async () =>
+        {
+            await Task.Yield();
+            lastNotifiedDefinition = snapshot;
+            await DefinitionChanged.InvokeAsync( snapshot );
+        } );
+    }
+
+    private Task NotifyDefinitionChanged( ReportDefinition definition )
+    {
+        if ( !DefinitionChanged.HasDelegate )
+            return Task.CompletedTask;
+
+        lastNotifiedDefinition = ReportContext.CloneDefinition( definition );
+        return DefinitionChanged.InvokeAsync( lastNotifiedDefinition );
+    }
+
+    private async Task SetMode( ReportMode mode, bool notifyChanged = true, ReportMode? previousMode = null )
+    {
+        ReportMode sourceMode = previousMode ?? CurrentMode;
+
+        if ( mode != ReportMode.Preview )
+            CancelAsyncOperations();
+
+        if ( sourceMode == ReportMode.Design && mode != ReportMode.Design )
+            await CaptureDesignerPaneScrollPositions();
+
+        await ExecuteDesignerCommand( new( $"Set {mode} mode", async () =>
+        {
+            currentMode = mode;
+            designerState.EditingElementKey = null;
+
+            if ( mode == ReportMode.Design )
+            {
+                designerWorkspaceRendered = true;
+                designerPaneScrollRestoreVersion++;
+                RefreshDesigner( ReportDesignerRefreshTarget.All );
+            }
+
+            if ( notifyChanged && sourceMode != currentMode )
+                await ModeChanged.InvokeAsync( currentMode );
+        }, TrackHistory: false, NotifyDefinitionChanged: false ) );
+    }
+
+    private async Task SetPreview( ReportPreviewFormat format, bool notifyChanged = true, ReportMode? previousMode = null )
+    {
+        if ( !SupportsPreviewFormat( format ) )
+        {
+            if ( !HasPreviewFormats )
+                CancelAsyncOperations();
+
+            return;
+        }
+
+        ReportMode sourceMode = previousMode ?? CurrentMode;
+        ReportPreviewFormat sourceFormat = CurrentPreviewFormat;
+
+        if ( sourceMode == ReportMode.Design )
+            await CaptureDesignerPaneScrollPositions();
+
+        await ExecuteDesignerCommand( new( $"Set {format} preview", async () =>
+        {
+            currentPreviewFormat = format;
+            currentMode = ReportMode.Preview;
+            designerState.EditingElementKey = null;
+
+            if ( format == ReportPreviewFormat.Pdf )
+                await ResolvePdfPreviewOperation( RootDefinition, resolveDataSources: true );
+            else
+                await ResolveDataSources( RootDefinition, loadData: true );
+
+            if ( notifyChanged )
+            {
+                if ( sourceFormat != currentPreviewFormat )
+                    await PreviewFormatChanged.InvokeAsync( currentPreviewFormat );
+
+                if ( sourceMode != currentMode )
+                    await ModeChanged.InvokeAsync( currentMode );
+            }
+        }, TrackHistory: false, NotifyDefinitionChanged: false ) );
+    }
+
+    private async Task CaptureDesignerPaneScrollPositions()
+    {
+        if ( workspaceRef is not null )
+            await workspaceRef.CapturePaneScrollPositions( designerPaneScrollPositions );
+    }
+
+    private void ResetDesignerSurfaceScrollPosition()
+    {
+        designerPaneScrollPositions[DesignerSurfacePaneName] = (0, 0);
+        designerPaneScrollRestoreVersion++;
+    }
+
+    internal async Task DownloadPdf()
+    {
+        if ( PdfGenerator is null )
+            return;
+
+        int operationMutationVersion = renderMutationVersion;
+
+        try
+        {
+            PdfGenerationResult result = CurrentPdfPreviewResult;
+            bool pdfPreviewPending = result is null && IsPdfPreviewPending;
+
+            if ( pdfPreviewPending )
+                result = await ResolvePdfPreview();
+
+            if ( result is null && !pdfPreviewPending )
+            {
+                Task<bool> resolveDataSourcesTask = ResolveDataSourcesOperation( RootDefinition, true );
+                await NotifyPdfProgress( new( Localize( "Resolving data" ) ), yieldRender: true );
+
+                if ( !await resolveDataSourcesTask )
+                    return;
+
+                operationMutationVersion = renderMutationVersion;
+                result = await ResolvePdfPreview();
+            }
+
+            if ( result is null || operationMutationVersion != renderMutationVersion )
+                return;
+
+            await NotifyPdfProgress( new( Localize( "Requesting download" ) ), yieldRender: true );
+
+            reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
+            await reportingModule.DownloadFile( result.FileName, result.ContentType, result.Content );
+
+            await NotifyPdfProgress( new( Localize( "PDF ready" ), 1 ), yieldRender: true );
+        }
+        catch ( Exception exception )
+        {
+            await NotifyOperationFailed( Localize( "Download PDF" ), exception );
+        }
+        finally
+        {
+            if ( operationMutationVersion == renderMutationVersion )
+                OperationFinished?.Invoke();
+        }
+    }
+
+    private async Task<PdfGenerationResult> ResolvePdfPreviewOperation( ReportDefinition definition, bool resolveDataSources )
+    {
+        int operationMutationVersion = renderMutationVersion;
+
+        try
+        {
+            PdfGenerationResult result;
+
+            if ( IsPdfPreviewPending )
+                result = await ResolvePdfPreview();
+            else
+            {
+                if ( resolveDataSources )
+                {
+                    Task<bool> resolveDataSourcesTask = ResolveDataSourcesOperation( definition, loadData: true );
+                    await NotifyPdfProgress( new( Localize( "Resolving data" ) ), yieldRender: true );
+
+                    if ( !await resolveDataSourcesTask )
+                        return null;
+
+                    operationMutationVersion = renderMutationVersion;
+                }
+
+                result = await ResolvePdfPreview();
+            }
+
+            if ( result is not null && operationMutationVersion == renderMutationVersion )
+            {
+                await NotifyPdfProgress( new( Localize( "Preparing preview" ) ), yieldRender: true );
+                await NotifyPdfProgress( new( Localize( "PDF ready" ), 1 ), yieldRender: true );
+            }
+
+            return result;
+        }
+        catch ( Exception exception )
+        {
+            await NotifyOperationFailed( Localize( "Prepare PDF preview" ), exception );
+            return null;
+        }
+        finally
+        {
+            if ( operationMutationVersion == renderMutationVersion )
+                OperationFinished?.Invoke();
+        }
+    }
+
+    private async Task<PdfGenerationResult> ResolvePdfPreview()
+    {
+        PdfGenerationResult result = CurrentPdfPreviewResult;
+
+        if ( result is not null || PdfGenerator is null )
+            return result;
+
+        int mutationVersion = renderMutationVersion;
+        Task<PdfGenerationResult> task = pdfPreviewTask;
+        CancellationTokenSource cancellationTokenSource = null;
+
+        if ( task is null || pdfPreviewTaskMutationVersion != mutationVersion )
+        {
+            CancelAsyncOperations();
+
+            cancellationTokenSource = new();
+            asyncOperationCancellationTokenSource = cancellationTokenSource;
+            pdfPreviewTaskMutationVersion = mutationVersion;
+            task = GeneratePdfPreview( RootDefinition, mutationVersion, cancellationTokenSource.Token );
+            pdfPreviewTask = task;
+        }
+
+        try
+        {
+            return await task;
+        }
+        finally
+        {
+            if ( cancellationTokenSource is not null )
+            {
+                if ( ReferenceEquals( pdfPreviewTask, task ) )
+                {
+                    pdfPreviewTask = null;
+                    pdfPreviewTaskMutationVersion = -1;
+
+                    if ( ReferenceEquals( asyncOperationCancellationTokenSource, cancellationTokenSource ) )
+                        asyncOperationCancellationTokenSource = null;
+                }
+
+                cancellationTokenSource.Dispose();
+            }
+        }
+    }
+
+    private async Task<PdfGenerationResult> GeneratePdfPreview( ReportDefinition definition, int mutationVersion, CancellationToken cancellationToken )
+    {
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            await NotifyPdfProgress( new( Localize( "Building PDF" ) ), yieldRender: true );
+
+            if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+                return null;
+
+            PdfDocumentDefinition pdfDocument = ReportPdfDocumentBuilder.Build( definition, Data, ElementPluginRegistry, cancellationToken );
+            cancellationToken.ThrowIfCancellationRequested();
+
+            PdfGenerationResult result = await PdfGenerator.GenerateAsync( pdfDocument, new()
+            {
+                FileName = ResolvePdfFileName( definition ),
+                Progress = HasPdfProgressListeners
+                    ? progress => OnPdfGeneratorProgressed( progress, mutationVersion, cancellationToken )
+                    : null,
+            }, cancellationToken );
+
+            if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+                return null;
+
+            pdfPreviewResult = result;
+            pdfPreviewContext = new(
+                result.Content,
+                result.ContentType,
+                result.FileName,
+                context.ViewerOptions.AllowPrint,
+                context.ViewerOptions.AllowDownload,
+                EventCallback.Factory.Create( this, DownloadPdf ) );
+            pdfPreviewMutationVersion = mutationVersion;
+
+            return result;
+        }
+        catch ( OperationCanceledException ) when ( cancellationToken.IsCancellationRequested )
+        {
+            return null;
+        }
+        catch ( Exception exception )
+        {
+            await NotifyOperationFailed( Localize( "Generate PDF preview" ), exception );
+            return null;
+        }
+    }
+
+    private async Task OnPdfGeneratorProgressed( PdfGenerationProgress progress, int mutationVersion, CancellationToken cancellationToken )
+    {
+        if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+            return;
+
+        string status = progress.Stage switch
+        {
+            PdfGenerationStage.PreparingResources => Localize( "Preparing resources" ),
+            PdfGenerationStage.RenderingPages when progress.TotalPages > 0 => Localize( "PDF {0}/{1}", progress.CompletedPages, progress.TotalPages ),
+            PdfGenerationStage.RenderingPages => Localize( "Rendering PDF" ),
+            PdfGenerationStage.WritingDocument or PdfGenerationStage.Completed => Localize( "Writing PDF" ),
+            _ => Localize( "Building PDF" ),
+        };
+
+        await NotifyPdfProgress( new( status, progress.Progress, progress.CompletedPages, progress.TotalPages ) );
+    }
+
+    private async Task NotifyPdfProgress( ReportProgress progress, bool yieldRender = false )
+    {
+        if ( !HasPdfProgressListeners )
+            return;
+
+        Progressed?.Invoke( progress );
+        await PdfProgressed.InvokeAsync( progress );
+
+        if ( yieldRender )
+            await Task.Yield();
+    }
+
+    private async Task ResetDefinition()
+    {
+        if ( !await ConfirmDestructiveAction( Localize( "Are you sure you want to reset the report to its initial definition?" ), Localize( "Reset report" ), Localize( "Reset" ) ) )
+            return;
+
+        await ExecuteDesignerCommand( new( "Reset report", () =>
+        {
+            workingDefinition = BuildDeclarativeDefinition();
+            activeSubreportElementKey = null;
+            SelectReport();
+            _ = CloseContextMenu();
+            designerState.DragPreview = null;
+            designerState.EditingElementKey = null;
+
+            return Task.CompletedTask;
+        }, () => workingDefinition, RefreshTargets: ReportDesignerRefreshTarget.All ) );
+    }
+
+    private Task<bool> ConfirmDestructiveAction( string message, string title, string confirmButtonText )
+    {
+        return MessageService.Confirm( message, title, options =>
+        {
+            options.ShowCloseButton = false;
+            options.ShowMessageIcon = false;
+            options.CancelButtonText = Localize( "Cancel" );
+            options.ConfirmButtonText = confirmButtonText;
+            options.ConfirmButtonColor = Color.Danger;
+        } );
+    }
+
+    private Task CopySelectedElement()
+    {
+        List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( EffectiveDefinition );
+
+        if ( selectedElements.Count == 0 )
+            return Task.CompletedTask;
+
+        string commandName = selectedElements.Count == 1 ? "Copy element" : "Copy elements";
+
+        return ExecuteDesignerCommand( new( commandName, () =>
+        {
+            ReportClipboardResult result = clipboardService.CopyElements( EffectiveDefinition, GetSelectedElementContexts( EffectiveDefinition ) );
+
+            if ( result.ClipboardElements.Count > 0 )
+            {
+                if ( !HasClipboardElements )
+                    RefreshDesignerToolbar();
+
+                clipboardElements = result.ClipboardElements;
+                clipboardBandId = result.ClipboardBandId;
+                _ = CloseContextMenu();
+            }
+
+            return Task.CompletedTask;
+        }, TrackHistory: false, NotifyDefinitionChanged: false ) );
+    }
+
+    private async Task DuplicateSelectedElement()
+    {
+        await CopySelectedElement();
+        await PasteElement();
+    }
+
+    private async Task CutSelectedElement()
+    {
+        List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( EffectiveDefinition );
+
+        if ( selectedElements.Count == 0 )
+            return;
+
+        string commandName = selectedElements.Count == 1 ? "Cut element" : "Cut elements";
+
+        await ExecuteDesignerCommand( new( commandName, () =>
+        {
+            ReportClipboardResult result = clipboardService.CutElements( EffectiveDefinition, GetSelectedElementContexts( EffectiveDefinition ) );
+
+            if ( result.Changed )
+            {
+                clipboardElements = result.ClipboardElements;
+                clipboardBandId = result.ClipboardBandId;
+                SelectSection( result.SelectedSectionIndex.GetValueOrDefault() );
+                _ = CloseContextMenu();
+            }
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task PasteElement()
+    {
+        if ( !HasClipboardElements || ResolvePasteSectionIndex( EffectiveDefinition ) < 0 )
+            return;
+
+        await ExecuteDesignerCommand( new( "Paste element", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            int targetSectionIndex = ResolvePasteSectionIndex( definition );
+            ReportClipboardResult result = clipboardService.PasteElements(
+                definition,
+                clipboardElements,
+                clipboardBandId,
+                designerState.ContextMenu,
+                selectionManager.SelectedCellKey,
+                targetSectionIndex,
+                IsSnapToGridEnabled,
+                ApplyDesignerGrid,
+                elementLayoutService,
+                tableEditor );
+
+            if ( !string.IsNullOrWhiteSpace( result.SelectedCellKey ) )
+                SelectTableCell( result.SelectedCellKey );
+            else if ( result.SelectedElementKeys.Count > 0 )
+                SelectElements( result.SelectedElementKeys, result.PrimaryElementKey );
+
+            _ = CloseContextMenu();
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private int ResolvePasteSectionIndex( ReportDefinition definition )
+    {
+        return clipboardService.ResolvePasteSectionIndex( definition, designerState.ContextMenu, selectionManager.ResolvePasteSectionIndex );
+    }
+
+    private async Task Undo()
+    {
+        var state = commandManager.Undo();
+
+        if ( state is not null )
+            await ApplyReportState( state, notifyDefinitionChanged: true, commandManager.RefreshTargets );
+    }
+
+    private async Task Redo()
+    {
+        var state = commandManager.Redo();
+
+        if ( state is not null )
+            await ApplyReportState( state, notifyDefinitionChanged: true, commandManager.RefreshTargets );
+    }
+
+    private ReportState CaptureReportState( ReportDefinition definition )
+    {
+        definition = ReportDefinitionHelper.EnsureDefinitionIds( definition );
+
+        return new()
+        {
+            Definition = ReportContext.CloneDefinition( definition ),
+            Mode = CurrentMode,
+            PreviewFormat = CurrentPreviewFormat,
+            ActivePageId = activePageId,
+            Selection = selectionManager.CaptureState( ResolveActiveDesignerDefinition( definition ) ),
+            ClipboardElements = clipboardElements?.Select( ReportContext.CloneElement ).ToList() ?? [],
+            ClipboardBandId = clipboardBandId,
+        };
+    }
+
+    private async Task ApplyReportState( ReportState state, bool notifyDefinitionChanged, ReportDesignerRefreshTarget refreshTargets )
+    {
+        string previousActiveSubreportElementKey = activeSubreportElementKey;
+        ReportState nextState = ReportContext.CloneState( state );
+        List<string> normalizationDiagnostics = [];
+        ReportDefinition definition = ReportDefinitionHelper.EnsureDefinitionIds( nextState.Definition ?? BuildDeclarativeDefinition(), normalizationDiagnostics );
+
+        if ( !Enum.IsDefined( nextState.Mode ) )
+        {
+            nextState.Mode = IsEditable ? ReportMode.Design : ReportMode.Preview;
+            normalizationDiagnostics.Add( $"Mode was invalid and was normalized to {nextState.Mode}." );
+        }
+
+        ReportPreviewFormat previewFormat = ResolvePreviewFormat( nextState.PreviewFormat );
+
+        if ( nextState.PreviewFormat != previewFormat )
+        {
+            nextState.PreviewFormat = previewFormat;
+            normalizationDiagnostics.Add( $"PreviewFormat was invalid or unavailable and was normalized to {nextState.PreviewFormat}." );
+        }
+
+        if ( !Enum.IsDefined( nextState.Selection.Type ) )
+        {
+            nextState.Selection.Type = ReportSelectionType.Report;
+            normalizationDiagnostics.Add( $"Selection.Type was invalid and was normalized to {nextState.Selection.Type}." );
+        }
+
+        ReportDefinitionHelper.ApplyRowsLimit( definition, BlazoriseLicenseLimitsHelper.GetReportingRowsLimit( LicenseChecker ) );
+
+        workingDefinition = definition;
+        currentMode = nextState.Mode;
+        currentPreviewFormat = nextState.PreviewFormat;
+        activePageId = nextState.ActivePageId;
+        activeSubreportElementKey = TryFindDesignerPageOwner( definition, activePageId, out string subreportElementKey )
+            ? subreportElementKey
+            : ResolveActiveSubreportElementKey( definition, previousActiveSubreportElementKey );
+        InvalidateActivePageScope();
+        clipboardElements = nextState.ClipboardElements?.Select( ReportContext.CloneElement ).Where( element => element is not null ).ToList() ?? [];
+
+        for ( int elementIndex = 0; elementIndex < clipboardElements.Count; elementIndex++ )
+            ReportDefinitionHelper.NormalizeElement( clipboardElements[elementIndex], $"ClipboardElements[{elementIndex}]", normalizationDiagnostics );
+
+        clipboardBandId = nextState.ClipboardBandId;
+        selectionManager.ApplyState( ResolveActiveDesignerDefinition( definition ), nextState.Selection );
+        if ( !string.Equals( previousActiveSubreportElementKey, activeSubreportElementKey, StringComparison.Ordinal ) )
+            ResetDesignerSurfaceScrollPosition();
+
+        _ = CloseContextMenu();
+        designerState.DragPreview = null;
+        designerState.EditingElementKey = null;
+        ClearDragState();
+
+        commandManager.SetState( CaptureReportState( definition ) );
+
+        InvalidateDesignerCaches();
+        NotifyDefinitionNormalized( normalizationDiagnostics );
+
+        if ( CurrentMode == ReportMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf )
+            await ResolvePdfPreviewOperation( definition, resolveDataSources: false );
+
+        if ( notifyDefinitionChanged )
+            await NotifyDefinitionChanged( definition );
+
+        RefreshDesigner( refreshTargets );
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    private void SelectReport()
+    {
+        bool selectionChanged = selectionManager.SelectReport();
+        _ = CloseContextMenu();
+        designerState.EditingElementKey = null;
+
+        if ( selectionChanged )
+        {
+            RefreshDesignerElementSelection();
+            _ = InvokeAsync( StateHasChanged );
+        }
+    }
+
+    internal Task HandleElementClick( ReportDesignerSelectionMouseEventArgs eventArgs )
+    {
+        string key = eventArgs.Key;
+        MouseEventArgs mouseEventArgs = eventArgs.MouseEventArgs;
+
+        if ( IsSuppressingSelectionClick() )
+            return Task.CompletedTask;
+
+        if ( mouseEventArgs.Detail >= 2 )
+        {
+            if ( TryOpenSubreportDesigner( key ) )
+                return Task.CompletedTask;
+
+            BeginElementTextEdit( key );
+            return Task.CompletedTask;
+        }
+
+        if ( string.Equals( designerState.SuppressNextElementClickKey, key, StringComparison.Ordinal ) )
+        {
+            designerState.SuppressNextElementClickKey = null;
+            return Task.CompletedTask;
+        }
+
+        if ( mouseEventArgs.CtrlKey )
+        {
+            ToggleElementSelection( key );
+            return Task.CompletedTask;
+        }
+
+        SelectElement( key, preserveSelection: selectionManager.IsElementSelected( key ) && selectionManager.SelectedElementKeys.Count > 1 );
+
+        return Task.CompletedTask;
+    }
+
+    internal Task HandleElementDoubleClick( string key, MouseEventArgs eventArgs )
+    {
+        if ( TryOpenSubreportDesigner( key ) )
+            return Task.CompletedTask;
+
+        BeginElementTextEdit( key );
+
+        return Task.CompletedTask;
+    }
+
+    internal void HandleSectionClick( int sectionIndex )
+    {
+        if ( IsSuppressingSelectionClick() )
+            return;
+
+        SelectSection( sectionIndex );
+    }
+
+    private bool IsSuppressingSelectionClick()
+    {
+        if ( DateTime.UtcNow > designerState.SuppressSelectionClickUntil )
+            return false;
+
+        designerState.SuppressSelectionClickUntil = default;
+        designerState.SuppressNextElementClickKey = null;
+
+        return true;
+    }
+
+    internal void SuppressNextSelectionClick()
+    {
+        designerState.SuppressSelectionClickUntil = DateTime.UtcNow.AddMilliseconds( DesignerConstants.SuppressSelectionClickMilliseconds );
+    }
+
+    internal void SelectElement( string key, bool preserveSelection = false )
+    {
+        bool selectionChanged = selectionManager.SelectElement( key, preserveSelection );
+        _ = CloseContextMenu();
+
+        if ( selectionChanged )
+        {
+            RefreshDesignerElementSelection();
+            _ = InvokeAsync( StateHasChanged );
+        }
+    }
+
+    internal void ToggleElementSelection( string key )
+    {
+        bool selectionChanged = selectionManager.ToggleElementSelection( key );
+        _ = CloseContextMenu();
+
+        if ( selectionChanged )
+        {
+            RefreshDesignerElementSelection();
+            _ = InvokeAsync( StateHasChanged );
+        }
+    }
+
+    internal void SelectElements( IEnumerable<string> elementKeys, string primaryElementKey = null )
+    {
+        bool selectionChanged = selectionManager.SelectElements( elementKeys, primaryElementKey );
+        _ = CloseContextMenu();
+
+        if ( selectionChanged )
+        {
+            RefreshDesignerElementSelection();
+            _ = InvokeAsync( StateHasChanged );
+        }
+    }
+
+    internal void SelectSection( int index )
+    {
+        bool selectionChanged = selectionManager.SelectSection( index );
+        _ = CloseContextMenu();
+
+        if ( selectionChanged )
+        {
+            RefreshDesignerElementSelection();
+            _ = InvokeAsync( StateHasChanged );
+        }
+    }
+
+    internal Task OnReportSelected()
+    {
+        SelectReport();
+
+        return Task.CompletedTask;
+    }
+
+    internal Task HandleTableCellClick( ReportDesignerSelectionMouseEventArgs eventArgs )
+    {
+        if ( IsSuppressingSelectionClick() )
+            return Task.CompletedTask;
+
+        SelectTableCell( eventArgs.Key );
+
+        return Task.CompletedTask;
+    }
+
+    internal void SelectTableCell( string cellKey )
+    {
+        bool selectionChanged = selectionManager.SelectCell( cellKey );
+        _ = CloseContextMenu();
+
+        if ( selectionChanged )
+        {
+            RefreshDesignerElementSelection();
+            _ = InvokeAsync( StateHasChanged );
+        }
+    }
+
+    internal void ToggleSectionCollapsed( ReportBandDefinition section )
+    {
+        if ( !AllowBandCollapse || section is null )
+            return;
+
+        var sectionId = ReportDefinitionHelper.EnsureBandId( section );
+
+        if ( collapsedBandIds.Contains( sectionId ) )
+            collapsedBandIds.Remove( sectionId );
+        else
+            collapsedBandIds.Add( sectionId );
+
+        RefreshDesignerSurface();
+    }
+
+    internal Task ToggleSectionCollapsed( int sectionIndex, MouseEventArgs eventArgs )
+    {
+        ReportDefinition definition = EffectiveDefinition;
+
+        if ( sectionIndex >= 0 && sectionIndex < definition.Bands.Count )
+            ToggleSectionCollapsed( definition.Bands[sectionIndex] );
+
+        return Task.CompletedTask;
+    }
+
+    private bool IsSectionCollapsed( ReportBandDefinition section )
+    {
+        return AllowBandCollapse
+            && section is not null
+            && collapsedBandIds.Contains( ReportDefinitionHelper.EnsureBandId( section ) );
+    }
+
+    internal async Task OpenSectionContextMenu( int sectionIndex, MouseEventArgs eventArgs )
+    {
+        bool selectionChanged = selectionManager.SelectSection( sectionIndex );
+
+        ReportContextMenuState nextContextMenu = new()
+        {
+            Visible = true,
+            Target = ReportContextMenuTarget.Section,
+            SectionIndex = sectionIndex,
+            ClientX = eventArgs.ClientX,
+            ClientY = eventArgs.ClientY,
+        };
+
+        contextMenuService.PopulateSectionCapabilities( EffectiveDefinition, nextContextMenu, HasClipboardElements, aggregateService.CanInsertSection, aggregateService.CanInsertGroup );
+        nextContextMenu.CanInsertSubreport = CanInsertSubreportElement && nextContextMenu.CanInsertSubreport;
+        await ShowContextMenu( nextContextMenu, selectionChanged );
+    }
+
+    internal Task OpenPageContextMenu( string pageId, MouseEventArgs eventArgs )
+    {
+        ReportDefinition reportDefinition = RootDefinition;
+
+        if ( reportDefinition.Pages.All( page => !string.Equals( page.Id, pageId, StringComparison.Ordinal ) ) )
+            return Task.CompletedTask;
+
+        ReportContextMenuState nextContextMenu = new()
+        {
+            Visible = true,
+            Target = ReportContextMenuTarget.Page,
+            PageId = pageId,
+            CanDeletePage = reportDefinition.Pages.Count > 1,
+            ClientX = eventArgs.ClientX,
+            ClientY = eventArgs.ClientY,
+        };
+
+        return ShowContextMenu( nextContextMenu, refreshDesignerSelection: false );
+    }
+
+    internal async Task OpenSectionBodyContextMenu( int sectionIndex, MouseEventArgs eventArgs )
+    {
+        bool selectionChanged = selectionManager.SelectSection( sectionIndex );
+
+        ReportContextMenuState nextContextMenu = new()
+        {
+            Visible = true,
+            Target = ReportContextMenuTarget.Section,
+            SectionIndex = sectionIndex,
+            HasPastePosition = true,
+            PasteX = ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetX ),
+            PasteY = ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetY ),
+            ClientX = eventArgs.ClientX,
+            ClientY = eventArgs.ClientY,
+        };
+
+        contextMenuService.PopulateSectionCapabilities( EffectiveDefinition, nextContextMenu, HasClipboardElements, aggregateService.CanInsertSection, aggregateService.CanInsertGroup );
+        nextContextMenu.CanInsertSubreport = CanInsertSubreportElement && nextContextMenu.CanInsertSubreport;
+        await ShowContextMenu( nextContextMenu, selectionChanged );
+    }
+
+    internal async Task OpenElementContextMenu( string elementKey, MouseEventArgs eventArgs )
+    {
+        bool selectionChanged = selectionManager.SelectElement( elementKey, preserveSelection: selectionManager.IsElementSelected( elementKey ) );
+        ReportContextMenuState nextContextMenu = new()
+        {
+            Visible = true,
+            Target = ReportContextMenuTarget.Element,
+            ElementKey = elementKey,
+            SelectedElementCount = selectionManager.SelectedElementKeys.Count,
+            ClientX = eventArgs.ClientX,
+            ClientY = eventArgs.ClientY,
+        };
+
+        contextMenuService.PopulateElementCapabilities( EffectiveDefinition, nextContextMenu, HasClipboardElements );
+        await ShowContextMenu( nextContextMenu, selectionChanged );
+    }
+
+    internal async Task OpenTableCellContextMenu( int sectionIndex, string cellKey, MouseEventArgs eventArgs )
+    {
+        bool selectionChanged = !string.Equals( selectionManager.SelectedCellKey, cellKey, StringComparison.Ordinal );
+
+        selectionManager.SelectCell( cellKey );
+
+        ReportContextMenuState nextContextMenu = new()
+        {
+            Visible = true,
+            Target = ReportContextMenuTarget.Cell,
+            SectionIndex = sectionIndex,
+            CellKey = cellKey,
+            HasPastePosition = true,
+            PasteX = ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetX ),
+            PasteY = ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetY ),
+            ClientX = eventArgs.ClientX,
+            ClientY = eventArgs.ClientY,
+        };
+
+        contextMenuService.PopulateTableCellCapabilities( EffectiveDefinition, nextContextMenu, HasClipboardElements );
+        await ShowContextMenu( nextContextMenu, selectionChanged );
+    }
+
+    private async Task ShowContextMenu( ReportContextMenuState state, bool refreshDesignerSelection )
+    {
+        designerState.ContextMenu = state;
+
+        if ( workspaceRef is not null )
+            await workspaceRef.ShowContextMenu( state );
+
+        if ( refreshDesignerSelection )
+            await InvokeAsync( StateHasChanged );
+    }
+
+    private IReadOnlyList<ReportDesignerFieldOption> GetContextElementAggregateFieldOptions( ReportDefinition definition )
+    {
+        if ( !IsElementContextMenuVisible()
+            || !ReportDefinitionHelper.TryFindElementLocation( definition, designerState.ContextMenu.ElementKey, out var sectionIndex, out _, out var element )
+            || sectionIndex < 0
+            || sectionIndex >= definition.Bands.Count )
+        {
+            return [];
+        }
+
+        var section = definition.Bands[sectionIndex];
+
+        if ( section.Type != ReportBandType.Detail || element is not ReportFieldElementDefinition fieldElement )
+            return [];
+
+        var dataSourceName = section.DataSource ?? fieldElement.DataSource;
+        var dataSourceValue = ReportDataResolver.ResolveDataSourceValue( definition, Data, dataSourceName );
+        var fields = ReportDataSourceExplorer.ResolveDataSourceFields( dataSourceValue ).ToList();
+        var fieldOptions = aggregateService.FlattenFieldOptions( sectionIndex, dataSourceName, fields ).ToList();
+
+        if ( fieldOptions.Count == 0 && !string.IsNullOrWhiteSpace( fieldElement.Field ) )
+        {
+            fieldOptions.Add( new()
+            {
+                SourceSectionIndex = sectionIndex,
+                DataSourceName = dataSourceName,
+                FieldName = fieldElement.Field,
+                DisplayName = fieldElement.Field,
+            } );
+        }
+
+        return fieldOptions
+            .Where( option => ReportAggregateResolver.GetSupportedFunctions( definition, Data, option.DataSourceName, option.FieldName, option.DataType ).Count > 0 )
+            .ToList();
+    }
+
+    private bool TryGetContextElementFormulaFieldName( ReportDefinition definition, out string formulaFieldName )
+    {
+        formulaFieldName = null;
+
+        if ( !IsElementContextMenuVisible() )
+            return false;
+
+        return contextMenuService.TryGetElementFormulaFieldName( definition, designerState.ContextMenu.ElementKey, out formulaFieldName );
+    }
+
+    private bool TryGetContextElementRunningTotalName( ReportDefinition definition, out string runningTotalName )
+    {
+        runningTotalName = null;
+
+        if ( !IsElementContextMenuVisible() )
+            return false;
+
+        return contextMenuService.TryGetElementRunningTotalName( definition, designerState.ContextMenu.ElementKey, out runningTotalName );
+    }
+
+    private void BeginContextElementTextEdit()
+    {
+        if ( IsElementContextMenuVisible() )
+            BeginElementTextEdit( designerState.ContextMenu.ElementKey );
+    }
+
+    private async Task OpenContextElementFormulaDialog()
+    {
+        if ( !TryGetContextElementFormulaFieldName( EffectiveDefinition, out string formulaFieldName ) )
+            return;
+
+        await OpenFormulaFieldDialog( formulaFieldName );
+        _ = CloseContextMenu();
+    }
+
+    private async Task OpenContextElementRunningTotalDialog()
+    {
+        if ( !TryGetContextElementRunningTotalName( EffectiveDefinition, out string runningTotalName ) )
+            return;
+
+        ReportRunningTotalDefinition runningTotal = ReportRunningTotalResolver.FindRunningTotal( EffectiveDefinition, runningTotalName );
+
+        if ( runningTotal is not null )
+            await workspaceRef.ShowRunningTotalDialog( runningTotal );
+
+        _ = CloseContextMenu();
+    }
+
+    private void BeginSelectedElementTextEdit()
+    {
+        if ( !string.IsNullOrWhiteSpace( selectionManager.PrimaryElementKey ) )
+            BeginElementTextEdit( selectionManager.PrimaryElementKey );
+    }
+
+    private void BeginElementTextEdit( string elementKey )
+    {
+        if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var element )
+            || element.Suppress?.Value == true
+            || !contextMenuService.CanEditElementText( element ) )
+        {
+            return;
+        }
+
+        SelectElement( elementKey );
+        designerState.EditingElementKey = elementKey;
+        _ = CloseContextMenu();
+        RefreshDesignerSurface();
+    }
+
+    internal Task CancelElementTextEdit( string elementKey )
+    {
+        if ( string.Equals( designerState.EditingElementKey, elementKey, StringComparison.Ordinal ) )
+        {
+            designerState.EditingElementKey = null;
+            RefreshDesignerSurface();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    internal async Task CommitElementTextEdit( string elementKey, string text )
+    {
+        designerState.EditingElementKey = null;
+        RefreshDesignerSurface();
+
+        if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var currentElement )
+            || !contextMenuService.CanEditElementText( currentElement )
+            || currentElement is not ReportTextElementDefinition currentTextElement
+            || string.Equals( currentTextElement.Text, text, StringComparison.Ordinal ) )
+        {
+            return;
+        }
+
+        await ExecuteDesignerCommand( new( "Edit text", () =>
+        {
+            if ( ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var element )
+                && element is ReportTextElementDefinition textElement )
+            {
+                textElement.Text = text;
+            }
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task OpenContextElementAggregateDialog()
+    {
+        if ( !IsElementContextMenuVisible() || workspaceRef is null )
+            return;
+
+        var elementKey = designerState.ContextMenu.ElementKey;
+        var fieldOptions = GetContextElementAggregateFieldOptions( EffectiveDefinition );
+
+        if ( fieldOptions.Count == 0 )
+            return;
+
+        var sourceSectionIndex = fieldOptions[0].SourceSectionIndex;
+        var summaryLocations = aggregateService.GetSummaryLocations( EffectiveDefinition, sourceSectionIndex );
+
+        _ = CloseContextMenu();
+
+        var selectedFieldName = ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var element )
+            && element is ReportFieldElementDefinition fieldElement
+            ? fieldElement.Field
+            : null;
+
+        await workspaceRef.ShowAggregateDialog( fieldOptions, selectedFieldName, summaryLocations );
+    }
+
+    private Task MergeSelectedTableCellRight()
+    {
+        return MergeSelectedTableCell( columnSpanDelta: 1, rowSpanDelta: 0 );
+    }
+
+    private Task MergeSelectedTableCellDown()
+    {
+        return MergeSelectedTableCell( columnSpanDelta: 0, rowSpanDelta: 1 );
+    }
+
+    private async Task MergeSelectedTableCell( int columnSpanDelta, int rowSpanDelta )
+    {
+        await ExecuteSelectedTableCellCommand(
+            "Merge table cell",
+            cellKey => tableCommandService.MergeCell( EffectiveDefinition, cellKey, columnSpanDelta, rowSpanDelta ) );
+    }
+
+    private async Task UnmergeSelectedTableCell()
+    {
+        await ExecuteSelectedTableCellCommand(
+            "Unmerge table cell",
+            cellKey => tableCommandService.UnmergeCell( EffectiveDefinition, cellKey ) );
+    }
+
+    private Task InsertSelectedTableRow( bool insertBelow )
+    {
+        return ExecuteSelectedTableCellCommand(
+            insertBelow ? "Insert table row below" : "Insert table row above",
+            cellKey => tableCommandService.InsertRow( EffectiveDefinition, cellKey, insertBelow ) );
+    }
+
+    private Task InsertSelectedTableColumn( bool insertRight )
+    {
+        return ExecuteSelectedTableCellCommand(
+            insertRight ? "Insert table column right" : "Insert table column left",
+            cellKey => tableCommandService.InsertColumn( EffectiveDefinition, cellKey, insertRight ) );
+    }
+
+    private Task InsertSelectedTableCell()
+    {
+        return ExecuteSelectedTableCellCommand(
+            "Insert table cell",
+            cellKey => tableCommandService.InsertCell( EffectiveDefinition, cellKey ) );
+    }
+
+    private Task DeleteSelectedTableRow()
+    {
+        return ExecuteSelectedTableCellCommand(
+            "Delete table row",
+            cellKey => tableCommandService.DeleteRow( EffectiveDefinition, cellKey ) );
+    }
+
+    private Task DeleteSelectedTableColumn()
+    {
+        return ExecuteSelectedTableCellCommand(
+            "Delete table column",
+            cellKey => tableCommandService.DeleteColumn( EffectiveDefinition, cellKey ) );
+    }
+
+    private Task DeleteSelectedTableCell()
+    {
+        return ExecuteSelectedTableCellCommand(
+            "Delete table cell",
+            cellKey => tableCommandService.DeleteCell( EffectiveDefinition, cellKey ) );
+    }
+
+    private async Task ExecuteSelectedTableCellCommand( string commandName, Func<string, ReportTableCommandResult> execute )
+    {
+        string cellKey = designerState.ContextMenu?.CellKey ?? selectionManager.SelectedCellKey;
+
+        if ( string.IsNullOrWhiteSpace( cellKey ) )
+            return;
+
+        await ExecuteDesignerCommand( new( commandName, () =>
+        {
+            ReportTableCommandResult result = execute( cellKey );
+
+            if ( result.Changed && !string.IsNullOrWhiteSpace( result.SelectedCellKey ) )
+                SelectTableCell( result.SelectedCellKey );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    internal async Task OnAggregateDialogConfirmed( ReportAggregateDialogResult result )
+    {
+        if ( result is null )
+            return;
+
+        await ExecuteDesignerCommand( new( $"Insert {ReportAggregateResolver.GetFunctionDisplayName( result.Function )}", () =>
+        {
+            var definition = EffectiveDefinition;
+            var sourceSectionIndex = result.SourceSectionIndex;
+
+            if ( sourceSectionIndex < 0 || sourceSectionIndex >= definition.Bands.Count )
+                return Task.CompletedTask;
+
+            var sourceSection = definition.Bands[sourceSectionIndex];
+            var sourceElement = aggregateService.FindDetailFieldElement( sourceSection, result.FieldName ) ?? new ReportFieldElementDefinition
+            {
+                Name = result.FieldName,
+                Field = result.FieldName,
+                DataSource = result.DataSourceName,
+                X = DesignerConstants.DefaultGroupHeaderElementX,
+                Width = DesignerConstants.DefaultDroppedFieldWidth,
+                Height = DesignerConstants.DefaultDroppedFieldHeight,
+            };
+
+            if ( !ReportAggregateResolver.GetSupportedFunctions( definition, Data, result.DataSourceName, result.FieldName ).Contains( result.Function ) )
+                return Task.CompletedTask;
+
+            var targetSectionIndex = result.TargetSectionIndex >= 0 && result.TargetSectionIndex < definition.Bands.Count
+                ? result.TargetSectionIndex
+                : aggregateService.EnsureTargetSection( definition, sourceSectionIndex );
+            var targetSection = definition.Bands[targetSectionIndex];
+            var aggregateElement = aggregateService.CreateAggregateElement( sourceSection, sourceElement, result.Function, targetSection, targetSection.Type == ReportBandType.GroupFooter );
+
+            targetSection.Elements.Add( aggregateElement );
+            ReportLayoutGeometry.GrowSectionToFitElement( targetSection, aggregateElement );
+            SelectElement( ReportDefinitionHelper.EnsureElementId( aggregateElement ) );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    internal bool CanSelectedSectionInsertGroup( ReportDefinition definition )
+    {
+        return aggregateService.CanInsertGroup( selectionManager.FindSelectedSection( definition ) );
+    }
+
+    internal bool CanSelectedSectionInsertSection( ReportDefinition definition )
+    {
+        return selectionManager.SelectedSectionIndex is { } sectionIndex
+            && aggregateService.CanInsertSection( definition, sectionIndex );
+    }
+
+    internal async Task OpenSelectedDetailGroupDialog()
+    {
+        if ( workspaceRef is null )
+            return;
+
+        var definition = EffectiveDefinition;
+        var fieldOptions = aggregateService.GetDetailGroupFieldOptions( definition, Data, selectionManager.SelectedSectionIndex );
+
+        if ( fieldOptions.Count == 0 )
+            return;
+
+        var selectedFieldName = selectionManager.SelectedSectionIndex is { } sectionIndex
+            && aggregateService.TryFindGroupLocation( definition, sectionIndex, out var groupHeader, out _ )
+                ? groupHeader.GroupBy
+                : fieldOptions[0].FieldName;
+
+        _ = CloseContextMenu();
+
+        await workspaceRef.ShowGroupDialog( fieldOptions, selectedFieldName );
+    }
+
+    internal async Task OnGroupDialogConfirmed( string groupBy )
+    {
+        if ( string.IsNullOrWhiteSpace( groupBy ) || selectionManager.SelectedSectionIndex is null )
+            return;
+
+        var detailSectionIndex = selectionManager.SelectedSectionIndex.Value;
+
+        await ExecuteDesignerCommand( new( "Insert group", () =>
+        {
+            var definition = EffectiveDefinition;
+
+            if ( detailSectionIndex < 0 || detailSectionIndex >= definition.Bands.Count )
+                return Task.CompletedTask;
+
+            var detailSection = definition.Bands[detailSectionIndex];
+
+            if ( detailSection.Type != ReportBandType.Detail || ReportValueResolver.ResolveStaticSuppress( detailSection ) )
+                return Task.CompletedTask;
+
+            var groupHeader = aggregateService.CreateGroupHeaderSection( definition, groupBy );
+            var groupFooter = aggregateService.CreateGroupFooterSection( definition, groupBy );
+
+            definition.Bands.Insert( detailSectionIndex, groupHeader );
+            definition.Bands.Insert( detailSectionIndex + 2, groupFooter );
+
+            SelectSection( detailSectionIndex );
+            _ = CloseContextMenu();
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task OpenDataSourceConnectionDialog()
+    {
+        if ( workspaceRef is null )
+            return;
+
+        await workspaceRef.ShowDataSourceConnectionDialog( EffectiveDefinition, DataSourceProviders );
+    }
+
+    internal async Task<bool> OnDataSourceConnectionRequested( ReportDataSourceDefinition dataSource, bool commit )
+    {
+        if ( dataSource is null || string.IsNullOrWhiteSpace( dataSource.Name ) )
+            return false;
+
+        ReportDefinition definition = EffectiveDefinition;
+        ReportDefinition connectedDefinition = await dataCommandService.PrepareDataSourceConnection( definition, Data, dataSource, ResolveDataSourceConnectionOperation );
+
+        if ( connectedDefinition is null )
+            return false;
+
+        if ( !commit )
+            return true;
+
+        return await ExecuteDesignerCommand( new( "Connect data source", () =>
+        {
+            definition.DataSources = connectedDefinition.DataSources;
+            return Task.CompletedTask;
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
+    }
+
+    internal async Task OnDataSourceRefreshed( string dataSourceName )
+    {
+        if ( string.IsNullOrWhiteSpace( dataSourceName ) )
+            return;
+
+        await ExecuteDesignerCommand( new( "Refresh data source", async () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+
+            await ExecuteDataOperation( $"Refresh data source '{dataSourceName}'", async ( cancellationToken, mutationVersion ) =>
+            {
+                await dataCommandService.RefreshDataSource( definition, DataSourceProviderRegistry, dataSourceName, cancellationToken );
+
+                if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
+                    return false;
+
+                return await ResolveDataSources( definition, CurrentMode == ReportMode.Preview, mutationVersion, cancellationToken );
+            } );
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
+    }
+
+    internal async Task OnDataSourceDeleted( string dataSourceName )
+    {
+        if ( string.IsNullOrWhiteSpace( dataSourceName ) )
+            return;
+
+        if ( !await ConfirmDestructiveAction( Localize( "Are you sure you want to delete this data source?" ), Localize( "Delete data source" ), Localize( "Delete" ) ) )
+            return;
+
+        await ExecuteDesignerCommand( new( "Delete data source", () =>
+        {
+            dataCommandService.DeleteDataSource( RootDefinition, dataSourceName );
+            return Task.CompletedTask;
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
+    }
+
+    internal async Task OnFormulaFieldConfirmed( ReportFormulaFieldDefinition formulaField )
+    {
+        if ( formulaField is null || string.IsNullOrWhiteSpace( formulaField.Name ) )
+            return;
+
+        await ExecuteDesignerCommand( new( "Save formula field", () =>
+        {
+            dataCommandService.SaveFormulaField( EffectiveDefinition, formulaField );
+            return Task.CompletedTask;
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
+    }
+
+    internal async Task OnFormulaFieldRenamed( (string OldName, string NewName) formulaFieldRename )
+    {
+        if ( string.IsNullOrWhiteSpace( formulaFieldRename.OldName ) || string.IsNullOrWhiteSpace( formulaFieldRename.NewName ) )
+            return;
+
+        string oldName = formulaFieldRename.OldName.Trim();
+        string newName = formulaFieldRename.NewName.Trim();
+
+        if ( string.Equals( oldName, newName, StringComparison.OrdinalIgnoreCase ) )
+            return;
+
+        await ExecuteDesignerCommand( new( "Rename formula field", () =>
+        {
+            dataCommandService.RenameFormulaField( EffectiveDefinition, oldName, newName );
+            return Task.CompletedTask;
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
+    }
+
+    internal async Task OnFormulaFieldDeleted( string formulaFieldName )
+    {
+        if ( string.IsNullOrWhiteSpace( formulaFieldName ) )
+            return;
+
+        await ExecuteDesignerCommand( new( "Delete formula field", () =>
+        {
+            dataCommandService.DeleteFormulaField( EffectiveDefinition, formulaFieldName );
+
+            if ( string.Equals( editingFormulaFieldName, formulaFieldName, StringComparison.OrdinalIgnoreCase ) )
+                editingFormulaFieldName = null;
+
+            return Task.CompletedTask;
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
+    }
+
+    internal async Task OnFormulaFieldInserted( string formulaFieldName )
+    {
+        if ( string.IsNullOrWhiteSpace( formulaFieldName ) )
+            return;
+
+        await ExecuteDesignerCommand( new( "Add formula field", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            int sectionIndex = GetDataElementInsertionSectionIndex( definition );
+
+            if ( sectionIndex >= 0 && sectionIndex < definition.Bands.Count )
+            {
+                double y = GetNextDataElementInsertionY( definition.Bands[sectionIndex] );
+                ReportElementDefinition element = dataCommandService.CreateFormulaFieldElement( definition, sectionIndex, formulaFieldName, y );
+
+                if ( element is not null )
+                    SelectElement( ReportDefinitionHelper.EnsureElementId( element ) );
+            }
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    internal async Task OnFieldInserted( (string DataSourceName, string FieldName) field )
+    {
+        if ( string.IsNullOrWhiteSpace( field.FieldName ) )
+            return;
+
+        await ExecuteDesignerCommand( new( "Add field", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            int sectionIndex = GetDataElementInsertionSectionIndex( definition );
+
+            if ( sectionIndex >= 0 && sectionIndex < definition.Bands.Count )
+            {
+                double y = GetNextDataElementInsertionY( definition.Bands[sectionIndex] );
+                ReportElementDefinition element = dataCommandService.CreateFieldElement( definition, sectionIndex, field.DataSourceName, field.FieldName, y );
+
+                if ( element is not null )
+                    SelectElement( ReportDefinitionHelper.EnsureElementId( element ) );
+            }
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    internal async Task OnRunningTotalConfirmed( ReportRunningTotalDefinition runningTotal )
+    {
+        if ( runningTotal is null || string.IsNullOrWhiteSpace( runningTotal.Name ) )
+            return;
+
+        await ExecuteDesignerCommand( new( "Save running total", () =>
+        {
+            dataCommandService.SaveRunningTotal( EffectiveDefinition, runningTotal );
+            return Task.CompletedTask;
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
+    }
+
+    internal async Task OnRunningTotalRenamed( (string OldName, string NewName) runningTotalRename )
+    {
+        if ( string.IsNullOrWhiteSpace( runningTotalRename.OldName ) || string.IsNullOrWhiteSpace( runningTotalRename.NewName ) )
+            return;
+
+        string oldName = runningTotalRename.OldName.Trim();
+        string newName = runningTotalRename.NewName.Trim();
+
+        if ( string.Equals( oldName, newName, StringComparison.OrdinalIgnoreCase ) )
+            return;
+
+        await ExecuteDesignerCommand( new( "Rename running total", () =>
+        {
+            dataCommandService.RenameRunningTotal( EffectiveDefinition, oldName, newName );
+            return Task.CompletedTask;
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
+    }
+
+    internal async Task OnRunningTotalDeleted( string runningTotalName )
+    {
+        if ( string.IsNullOrWhiteSpace( runningTotalName ) )
+            return;
+
+        await ExecuteDesignerCommand( new( "Delete running total", () =>
+        {
+            dataCommandService.DeleteRunningTotal( EffectiveDefinition, runningTotalName );
+            return Task.CompletedTask;
+        }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
+    }
+
+    internal async Task OnRunningTotalInserted( string runningTotalName )
+    {
+        if ( string.IsNullOrWhiteSpace( runningTotalName ) )
+            return;
+
+        await ExecuteDesignerCommand( new( "Add running total", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            int sectionIndex = GetDataElementInsertionSectionIndex( definition );
+
+            if ( sectionIndex >= 0 && sectionIndex < definition.Bands.Count )
+            {
+                double y = GetNextDataElementInsertionY( definition.Bands[sectionIndex] );
+                ReportElementDefinition element = dataCommandService.CreateRunningTotalElement( definition, sectionIndex, runningTotalName, y );
+
+                if ( element is not null )
+                    SelectElement( ReportDefinitionHelper.EnsureElementId( element ) );
+            }
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    internal async Task OnFormulaDialogConfirmed( string formula )
+    {
+        if ( string.IsNullOrWhiteSpace( editingFormulaFieldName ) )
+            return;
+
+        await OnFormulaFieldConfirmed( new()
+        {
+            Name = editingFormulaFieldName,
+            Formula = formula,
+        } );
+    }
+
+    private async Task OpenFormulaFieldDialog( string formulaFieldName )
+    {
+        if ( string.IsNullOrWhiteSpace( formulaFieldName ) )
+            return;
+
+        ReportFormulaFieldDefinition formulaField = ReportFormulaFieldResolver.FindFormulaField( EffectiveDefinition, formulaFieldName );
+
+        if ( formulaField is null )
+            return;
+
+        editingFormulaFieldName = formulaField.Name;
+        if ( workspaceRef is not null )
+            await workspaceRef.ShowFormulaDialog( formulaField.Name, formulaField.Formula );
+    }
+
+    private int GetDataElementInsertionSectionIndex( ReportDefinition definition )
+    {
+        if ( definition?.Bands is null )
+            return -1;
+
+        if ( selectionManager.SelectedSectionIndex is { } sectionIndex
+             && sectionIndex >= 0
+             && sectionIndex < definition.Bands.Count )
+        {
+            return sectionIndex;
+        }
+
+        return !string.IsNullOrWhiteSpace( selectionManager.PrimaryElementKey )
+               && ReportDefinitionHelper.TryFindElementLocation( definition, selectionManager.PrimaryElementKey, out int elementSectionIndex, out _, out _ )
+            ? elementSectionIndex
+            : -1;
+    }
+
+    private double GetNextDataElementInsertionY( ReportBandDefinition section )
+    {
+        if ( section?.Elements is null || section.Elements.Count == 0 )
+            return 0;
+
+        double y = section.Elements.Max( element => element.Y + element.Height ) + ReportDesignerConstants.DefaultDroppedFieldHeight;
+
+        return ApplyDesignerGrid( y );
+    }
+
+    internal IReadOnlyList<ReportAggregateFunction> ResolveAggregateDialogSupportedFunctions( ReportDesignerFieldOption field )
+    {
+        return aggregateService.ResolveSupportedFunctions( EffectiveDefinition, Data, field );
+    }
+
+    internal bool IsElementTextEditing( string elementKey = null )
+    {
+        return string.IsNullOrWhiteSpace( elementKey )
+            ? !string.IsNullOrWhiteSpace( designerState.EditingElementKey )
+            : string.Equals( designerState.EditingElementKey, elementKey, StringComparison.Ordinal );
+    }
+
+    internal Task CloseContextMenu()
+    {
+        designerState.ContextMenu = null;
+
+        return workspaceRef?.CloseContextMenu() ?? Task.CompletedTask;
+    }
+
+    internal Task OnDesignerNodeDragEnded( ReportTreeNode node )
+    {
+        return workspaceRef?.CompleteExternalDrag() ?? Task.CompletedTask;
+    }
+
+    internal Task ExecuteContextMenuCommand( object value )
+    {
+        if ( value is ReportBandType bandType )
+            return AddBand( bandType );
+
+        if ( value is not ReportDesignerContextMenuCommand command )
+            return Task.CompletedTask;
+
+        switch ( command )
+        {
+            case ReportDesignerContextMenuCommand.AddPage:
+                return AddDesignerPageFromContextMenu();
+            case ReportDesignerContextMenuCommand.DuplicatePage:
+                return DuplicateDesignerPage( designerState.ContextMenu?.PageId );
+            case ReportDesignerContextMenuCommand.DeletePage:
+                return DeleteDesignerPage( designerState.ContextMenu?.PageId );
+            case ReportDesignerContextMenuCommand.ShowPageSetup:
+                return ShowDesignerPageSetup( designerState.ContextMenu?.PageId );
+            case ReportDesignerContextMenuCommand.CutElement:
+                return CutSelectedElement();
+            case ReportDesignerContextMenuCommand.CopyElement:
+                return CopySelectedElement();
+            case ReportDesignerContextMenuCommand.DuplicateElement:
+                return DuplicateSelectedElement();
+            case ReportDesignerContextMenuCommand.PasteElement:
+                return PasteElement();
+            case ReportDesignerContextMenuCommand.SelectAllSectionElements:
+                return SelectAllContextSectionElements();
+            case ReportDesignerContextMenuCommand.ShowProperties:
+                return ShowContextProperties();
+            case ReportDesignerContextMenuCommand.InsertSectionBefore:
+                return InsertSection( insertAfter: false );
+            case ReportDesignerContextMenuCommand.InsertSectionAfter:
+                return InsertSection( insertAfter: true );
+            case ReportDesignerContextMenuCommand.InsertGroup:
+                return OpenSelectedDetailGroupDialog();
+            case ReportDesignerContextMenuCommand.InsertSubreport:
+                return InsertSubreport();
+            case ReportDesignerContextMenuCommand.ToggleSectionSuppression:
+                return ToggleSelectedSectionSuppression();
+            case ReportDesignerContextMenuCommand.ToggleSectionKeepTogether:
+                return ToggleSelectedSectionKeepTogether();
+            case ReportDesignerContextMenuCommand.ToggleSectionNewPageBefore:
+                return ToggleSelectedSectionNewPageBefore();
+            case ReportDesignerContextMenuCommand.ToggleSectionNewPageAfter:
+                return ToggleSelectedSectionNewPageAfter();
+            case ReportDesignerContextMenuCommand.DeleteSection:
+                return DeleteSelectedSection();
+            case ReportDesignerContextMenuCommand.AlignTops:
+                return AlignSelectedElements( ReportElementAlignment.Tops );
+            case ReportDesignerContextMenuCommand.AlignMiddles:
+                return AlignSelectedElements( ReportElementAlignment.Middles );
+            case ReportDesignerContextMenuCommand.AlignBottoms:
+                return AlignSelectedElements( ReportElementAlignment.Bottoms );
+            case ReportDesignerContextMenuCommand.AlignBaseline:
+                return AlignSelectedElements( ReportElementAlignment.Baseline );
+            case ReportDesignerContextMenuCommand.AlignLefts:
+                return AlignSelectedElements( ReportElementAlignment.Lefts );
+            case ReportDesignerContextMenuCommand.AlignCenters:
+                return AlignSelectedElements( ReportElementAlignment.Centers );
+            case ReportDesignerContextMenuCommand.AlignRights:
+                return AlignSelectedElements( ReportElementAlignment.Rights );
+            case ReportDesignerContextMenuCommand.AlignToGrid:
+                return AlignSelectedElements( ReportElementAlignment.ToGrid );
+            case ReportDesignerContextMenuCommand.SizeSameWidth:
+                return SizeSelectedElements( ReportElementSizeMode.SameWidth );
+            case ReportDesignerContextMenuCommand.SizeSameHeight:
+                return SizeSelectedElements( ReportElementSizeMode.SameHeight );
+            case ReportDesignerContextMenuCommand.SizeSameSize:
+                return SizeSelectedElements( ReportElementSizeMode.SameSize );
+            case ReportDesignerContextMenuCommand.BringToFront:
+                return OrderSelectedElements( ReportElementOrderMode.BringToFront );
+            case ReportDesignerContextMenuCommand.SendToBack:
+                return OrderSelectedElements( ReportElementOrderMode.SendToBack );
+            case ReportDesignerContextMenuCommand.MoveForward:
+                return OrderSelectedElements( ReportElementOrderMode.MoveForward );
+            case ReportDesignerContextMenuCommand.MoveBackward:
+                return OrderSelectedElements( ReportElementOrderMode.MoveBackward );
+            case ReportDesignerContextMenuCommand.InsertAggregate:
+                return OpenContextElementAggregateDialog();
+            case ReportDesignerContextMenuCommand.EditText:
+                BeginContextElementTextEdit();
+                return Task.CompletedTask;
+            case ReportDesignerContextMenuCommand.EditFormula:
+                return OpenContextElementFormulaDialog();
+            case ReportDesignerContextMenuCommand.EditRunningTotal:
+                return OpenContextElementRunningTotalDialog();
+            case ReportDesignerContextMenuCommand.DeleteElement:
+                return DeleteSelectedElement();
+            case ReportDesignerContextMenuCommand.ToggleElementCanGrow:
+                return ToggleSelectedElementCanGrow();
+            case ReportDesignerContextMenuCommand.ToggleElementSuppression:
+                return ToggleSelectedElementSuppression();
+            case ReportDesignerContextMenuCommand.ToggleElementCollisionWarnings:
+                return ToggleSelectedElementCollisionWarnings();
+            case ReportDesignerContextMenuCommand.MergeCellRight:
+                return MergeSelectedTableCellRight();
+            case ReportDesignerContextMenuCommand.MergeCellDown:
+                return MergeSelectedTableCellDown();
+            case ReportDesignerContextMenuCommand.UnmergeCell:
+                return UnmergeSelectedTableCell();
+            case ReportDesignerContextMenuCommand.InsertTableRowAbove:
+                return InsertSelectedTableRow( insertBelow: false );
+            case ReportDesignerContextMenuCommand.InsertTableRowBelow:
+                return InsertSelectedTableRow( insertBelow: true );
+            case ReportDesignerContextMenuCommand.InsertTableColumnLeft:
+                return InsertSelectedTableColumn( insertRight: false );
+            case ReportDesignerContextMenuCommand.InsertTableColumnRight:
+                return InsertSelectedTableColumn( insertRight: true );
+            case ReportDesignerContextMenuCommand.InsertTableCell:
+                return InsertSelectedTableCell();
+            case ReportDesignerContextMenuCommand.DeleteTableRow:
+                return DeleteSelectedTableRow();
+            case ReportDesignerContextMenuCommand.DeleteTableColumn:
+                return DeleteSelectedTableColumn();
+            case ReportDesignerContextMenuCommand.DeleteTableCell:
+                return DeleteSelectedTableCell();
+            default:
+                return Task.CompletedTask;
+        }
+    }
+
+    private async Task MoveSelectedElements( double x, double y )
+    {
+        ReportDefinition definition = EffectiveDefinition;
+        ReportElementDefinition element = selectionManager.FindSelectedElement( definition );
+
+        if ( element is null )
+            return;
+
+        bool useSnapToGrid = IsSnapToGridEnabled( element );
+        double moveStep = useSnapToGrid ? GridSize : DesignerConstants.KeyboardMoveStep;
+        List<ReportElementPointerItemState> selectedElements = CaptureElementPointerItems( definition, ReportDefinitionHelper.EnsureElementId( element ) ).ToList();
+
+        if ( selectedElements.Count == 0 )
+            return;
+
+        string commandName = selectedElements.Count == 1 ? "Move element" : "Move elements";
+
+        await ExecuteDesignerCommand( new( commandName, () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            ReportElementCommandResult result = elementCommandService.MoveElements( definition, selectedElements, ReportDefinitionHelper.EnsureElementId( element ), x * moveStep, y * moveStep, useSnapToGrid, ApplyDesignerGrid );
+
+            if ( result.SelectedElementKeys.Count > 0 )
+                SelectElements( result.SelectedElementKeys, result.PrimaryElementKey );
+
+            return Task.CompletedTask;
+        }, RefreshSurface: false ) );
+    }
+
+    private async Task AlignSelectedElements( ReportElementAlignment alignment )
+    {
+        List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( EffectiveDefinition );
+
+        if ( selectedElements.Count < DesignerConstants.MinimumBatchElementCount )
+            return;
+
+        string commandName = $"Align {elementLayoutService.GetAlignmentDisplayName( alignment )}";
+
+        await ExecuteDesignerCommand( new( commandName, () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( definition );
+            ReportElementCommandResult result = elementCommandService.AlignElements( definition, selectedElements, alignment, ApplyDesignerGrid );
+
+            if ( result.SelectedElementKeys.Count > 0 )
+                SelectElements( result.SelectedElementKeys, result.PrimaryElementKey );
+
+            return Task.CompletedTask;
+        }, RefreshSurface: false ) );
+    }
+
+    private async Task SizeSelectedElements( ReportElementSizeMode sizeMode )
+    {
+        List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( EffectiveDefinition );
+
+        if ( selectedElements.Count < DesignerConstants.MinimumBatchElementCount )
+            return;
+
+        string commandName = $"Size {elementLayoutService.GetSizeDisplayName( sizeMode )}";
+
+        await ExecuteDesignerCommand( new( commandName, () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( definition );
+            ReportElementCommandResult result = elementCommandService.SizeElements( definition, selectedElements, sizeMode );
+
+            if ( result.SelectedElementKeys.Count > 0 )
+                SelectElements( result.SelectedElementKeys, result.PrimaryElementKey );
+
+            return Task.CompletedTask;
+        }, RefreshSurface: false ) );
+    }
+
+    private async Task OrderSelectedElements( ReportElementOrderMode orderMode )
+    {
+        List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( EffectiveDefinition );
+
+        if ( selectedElements.Count == 0 )
+            return;
+
+        string commandName = elementLayoutService.GetOrderDisplayName( orderMode );
+
+        await ExecuteDesignerCommand( new( commandName, () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( definition );
+            ReportElementCommandResult result = elementCommandService.OrderElements( selectedElements, orderMode );
+
+            if ( result.SelectedElementKeys.Count > 0 )
+                SelectElements( result.SelectedElementKeys, result.PrimaryElementKey );
+
+            return Task.CompletedTask;
+        }, RefreshSurface: false ) );
+    }
+
+    private List<ReportSelectedElementContext> GetSelectedElementContexts( ReportDefinition definition )
+    {
+        return elementLayoutService.GetSelectedElementContexts( definition, selectionManager.SelectedElementKeys, selectionManager.PrimaryElementKey );
+    }
+
+    internal Task UpdateSelectedElementsFromProperties( Action<ReportElementDefinition> update )
+        => UpdateSelectedElements( "Update elements", update );
+
+    private async Task UpdateSelectedElements( string commandName, Action<ReportElementDefinition> update )
+    {
+        List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( EffectiveDefinition );
+
+        if ( selectedElements.Count == 0 )
+            return;
+
+        await ExecuteDesignerCommand( new( commandName, () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( definition );
+            ReportElementCommandResult result = elementCommandService.UpdateElements( definition, selectedElements, update );
+
+            if ( result.SelectedElementKeys.Count > 0 )
+                SelectElements( result.SelectedElementKeys, result.PrimaryElementKey );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    internal async Task UpdateSelectedSection( Action<ReportBandDefinition> update )
+    {
+        var section = selectionManager.FindSelectedSection( EffectiveDefinition );
+
+        if ( section is null )
+            return;
+
+        await ExecuteDesignerCommand( new( "Update band", () =>
+        {
+            var section = selectionManager.FindSelectedSection( EffectiveDefinition );
+
+            if ( section is not null )
+            {
+                update?.Invoke( section );
+                section.Height = Math.Max( section.Height, GetMinimumSectionHeight( section ) );
+            }
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    internal async Task UpdateReportPage( Action<ReportPageDefinition> update )
+    {
+        await ExecuteDesignerCommand( new( "Update page", () =>
+        {
+            var definition = EffectiveDefinition;
+
+            update?.Invoke( definition.Page );
+            ResolvePage( definition.Page );
+
+            return Task.CompletedTask;
+        }, RefreshTargets: ReportDesignerRefreshTarget.Designer | ReportDesignerRefreshTarget.PageTabs ) );
+    }
+
+    internal async Task InsertSection( bool insertAfter )
+    {
+        var definition = EffectiveDefinition;
+
+        if ( selectionManager.SelectedSectionIndex is not { } selectedSectionIndex
+            || !aggregateService.CanInsertSection( definition, selectedSectionIndex ) )
+            return;
+
+        await ExecuteDesignerCommand( new( insertAfter ? "Insert band after" : "Insert band before", () =>
+        {
+            var definition = EffectiveDefinition;
+            var sourceSection = selectionManager.FindSelectedSection( definition );
+
+            if ( selectionManager.SelectedSectionIndex is not { } selectedSectionIndex
+                || !aggregateService.CanInsertSection( definition, selectedSectionIndex ) )
+                return Task.CompletedTask;
+
+            var insertIndex = insertAfter ? selectedSectionIndex + 1 : selectedSectionIndex;
+            ReportBandDefinition section = sectionCommandService.CreateInsertedSection( definition, sourceSection );
+
+            definition.Bands.Insert( insertIndex, section );
+
+            SelectSection( insertIndex );
+            _ = CloseContextMenu();
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task AddBand( ReportBandType type )
+    {
+        await ExecuteDesignerCommand( new( $"Add {ReportDefinitionHelper.GetSectionTypeDisplayName( type )}", () =>
+        {
+            int insertIndex = sectionCommandService.InsertBand( EffectiveDefinition, type );
+
+            if ( insertIndex >= 0 )
+                SelectSection( insertIndex );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task InsertSubreport()
+    {
+        if ( !CanInsertSubreportElement )
+            return;
+
+        ReportDefinition activeDefinition = EffectiveDefinition;
+        ReportContextMenuState currentContextMenu = designerState.ContextMenu;
+        int currentSectionIndex = currentContextMenu?.SectionIndex ?? selectionManager.SelectedSectionIndex ?? -1;
+
+        if ( currentSectionIndex < 0 || currentSectionIndex >= activeDefinition.Bands.Count )
+            return;
+
+        await ExecuteDesignerCommand( new( "Insert subreport", () =>
+        {
+            ReportDefinition commandDefinition = EffectiveDefinition;
+            ReportDefinition rootDefinition = RootDefinition;
+            ReportContextMenuState commandContextMenu = designerState.ContextMenu;
+            int commandSectionIndex = commandContextMenu?.SectionIndex ?? selectionManager.SelectedSectionIndex ?? -1;
+
+            if ( commandSectionIndex < 0 || commandSectionIndex >= commandDefinition.Bands.Count )
+                return Task.CompletedTask;
+
+            string subreportName = ReportDefinitionHelper.CreateUniqueSubreportName( rootDefinition );
+            double x = commandContextMenu?.HasPastePosition == true
+                ? ApplyDesignerGrid( commandContextMenu.PasteX )
+                : ReportDesignerConstants.PasteElementOffset;
+            double y = commandContextMenu?.HasPastePosition == true
+                ? ApplyDesignerGrid( commandContextMenu.PasteY )
+                : ReportDesignerConstants.PasteElementOffset;
+
+            ReportSubreportElementDefinition subreport = (ReportSubreportElementDefinition)ReportDefinitionHelper.CreateElementFromToolbox( ReportElementType.Subreport, subreportName, x, y );
+            subreport.Name = subreportName;
+            subreport.Report = ReportDefinitionHelper.CreateDefaultSubreportDefinition( subreportName );
+            subreport.Report.RowsLimit = rootDefinition.RowsLimit;
+
+            ReportBandDefinition section = commandDefinition.Bands[commandSectionIndex];
+
+            section.Elements.Add( subreport );
+            ReportLayoutGeometry.GrowSectionToFitElement( section, subreport );
+
+            SelectElement( ReportDefinitionHelper.EnsureElementId( subreport ) );
+            _ = CloseContextMenu();
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private Task DeleteSelection()
+    {
+        if ( selectionManager.SelectedElementKeys.Count > 0 )
+            return DeleteSelectedElement();
+
+        return DeleteSelectedSection();
+    }
+
+    internal async Task DeleteSelectedSection()
+    {
+        var definition = EffectiveDefinition;
+
+        if ( selectionManager.SelectedSectionIndex is null
+            || selectionManager.SelectedSectionIndex < 0
+            || selectionManager.SelectedSectionIndex >= definition.Bands.Count
+            || !ReportDefinitionHelper.CanDeleteSection( definition.Bands[selectionManager.SelectedSectionIndex.Value] ) )
+        {
+            return;
+        }
+
+        await ExecuteDesignerCommand( new( "Delete band", () =>
+        {
+            var definition = EffectiveDefinition;
+
+            if ( selectionManager.SelectedSectionIndex is null
+                || selectionManager.SelectedSectionIndex < 0
+                || selectionManager.SelectedSectionIndex >= definition.Bands.Count )
+            {
+                return Task.CompletedTask;
+            }
+
+            int nextSectionIndex = sectionCommandService.DeleteSection( definition, selectionManager.SelectedSectionIndex.Value, collapsedBandIds );
+
+            if ( definition.Bands.Count == 0 )
+            {
+                SelectReport();
+            }
+            else
+            {
+                SelectSection( nextSectionIndex );
+            }
+
+            _ = CloseContextMenu();
+            ClearDragState();
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task ToggleSelectedSectionSuppression()
+    {
+        var section = selectionManager.FindSelectedSection( EffectiveDefinition );
+
+        if ( section is null )
+            return;
+
+        await UpdateSelectedSectionSuppression( !ReportValueResolver.ResolveStaticSuppress( section ) );
+    }
+
+    private async Task ShowContextProperties()
+    {
+        selectedDesignerPanelTab = ReportDesignerPanelTab.Properties;
+        await CloseContextMenu();
+        await ( workspaceRef?.ShowPropertiesPane() ?? Task.CompletedTask );
+    }
+
+    private Task SelectAllContextSectionElements()
+    {
+        if ( designerState.ContextMenu?.SectionIndex is not { } sectionIndex )
+            return Task.CompletedTask;
+
+        var definition = EffectiveDefinition;
+
+        if ( sectionIndex < 0 || sectionIndex >= definition.Bands.Count )
+            return Task.CompletedTask;
+
+        var elementKeys = definition.Bands[sectionIndex].Elements
+            .Select( ReportDefinitionHelper.EnsureElementId )
+            .Where( key => !string.IsNullOrWhiteSpace( key ) )
+            .ToList();
+
+        SelectElements( elementKeys );
+        selectedDesignerPanelTab = ReportDesignerPanelTab.Properties;
+
+        return Task.CompletedTask;
+    }
+
+    private async Task ToggleSelectedSectionKeepTogether()
+    {
+        var section = selectionManager.FindSelectedSection( EffectiveDefinition );
+
+        if ( section is null )
+            return;
+
+        bool value = section.KeepTogether?.Value != true;
+        await UpdateSelectedSection( currentSection => currentSection.KeepTogether = ReportValue.Create( value, currentSection.KeepTogether?.Formula ) );
+        _ = CloseContextMenu();
+    }
+
+    private async Task ToggleSelectedSectionNewPageBefore()
+    {
+        var section = selectionManager.FindSelectedSection( EffectiveDefinition );
+
+        if ( section is null )
+            return;
+
+        bool value = section.NewPageBefore?.Value != true;
+        await UpdateSelectedSection( currentSection => currentSection.NewPageBefore = ReportValue.Create( value, currentSection.NewPageBefore?.Formula ) );
+        _ = CloseContextMenu();
+    }
+
+    private async Task ToggleSelectedSectionNewPageAfter()
+    {
+        var section = selectionManager.FindSelectedSection( EffectiveDefinition );
+
+        if ( section is null )
+            return;
+
+        bool value = section.NewPageAfter?.Value != true;
+        await UpdateSelectedSection( currentSection => currentSection.NewPageAfter = ReportValue.Create( value, currentSection.NewPageAfter?.Formula ) );
+        _ = CloseContextMenu();
+    }
+
+    internal async Task UpdateSelectedSectionSuppression( bool suppressed )
+    {
+        await ExecuteDesignerCommand( new( suppressed ? "Suppress" : "Don't suppress", () =>
+        {
+            var section = selectionManager.FindSelectedSection( EffectiveDefinition );
+
+            if ( section is not null )
+            {
+                sectionCommandService.UpdateSectionSuppression( section, suppressed, collapsedBandIds );
+            }
+
+            _ = CloseContextMenu();
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task ToggleSelectedElementCanGrow()
+    {
+        var element = selectionManager.FindSelectedElement( EffectiveDefinition );
+
+        if ( element is null )
+            return;
+
+        bool value = element.CanGrow?.Value != true;
+        await UpdateSelectedElements( value ? "Enable can grow" : "Disable can grow", currentElement => currentElement.CanGrow = ReportValue.Create( value, currentElement.CanGrow?.Formula ) );
+        _ = CloseContextMenu();
+    }
+
+    private async Task ToggleSelectedElementSuppression()
+    {
+        var element = selectionManager.FindSelectedElement( EffectiveDefinition );
+
+        if ( element is null )
+            return;
+
+        bool value = element.Suppress?.Value != true;
+        await UpdateSelectedElements( value ? "Suppress elements" : "Don't suppress elements", currentElement => currentElement.Suppress = ReportValue.Create( value, currentElement.Suppress?.Formula ) );
+        _ = CloseContextMenu();
+    }
+
+    private async Task ToggleSelectedElementCollisionWarnings()
+    {
+        ReportElementDefinition element = selectionManager.FindSelectedElement( EffectiveDefinition );
+
+        if ( element is null )
+            return;
+
+        bool value = !element.ShowCollisionWarnings;
+        await UpdateSelectedElements( value ? "Enable collision warnings" : "Disable collision warnings", currentElement => currentElement.ShowCollisionWarnings = value );
+        _ = CloseContextMenu();
+    }
+
+    private async Task DeleteSelectedElement()
+    {
+        ReportDefinition definition = EffectiveDefinition;
+
+        List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( definition );
+
+        if ( selectedElements.Count == 0 )
+            return;
+
+        await ExecuteDesignerCommand( new( selectedElements.Count == 1 ? "Delete element" : "Delete elements", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( definition );
+            ReportElementCommandResult result = elementCommandService.DeleteElements( definition, selectedElements );
+
+            if ( result.SelectedSectionIndex is int selectedSectionIndex )
+                SelectSection( selectedSectionIndex );
+
+            _ = CloseContextMenu();
+            designerState.EditingElementKey = null;
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    internal double ApplyDesignerGrid( double value )
+    {
+        return ApplyDesignerGrid( value, SnapToGrid );
+    }
+
+    private Task SaveDefinition()
+    {
+        return SaveRequested?.Invoke( ReportContext.CloneDefinition( RootDefinition ) ) ?? Task.CompletedTask;
+    }
+
+    private async Task LoadRequestedDefinition()
+    {
+        if ( LoadRequested is null )
+            return;
+
+        ReportDefinition definition = await LoadRequested();
+
+        if ( definition is not null )
+            await LoadDefinition( definition );
+    }
+
+    internal double ApplyDesignerGrid( double value, bool useSnapToGrid )
+    {
+        return useSnapToGrid ? ReportLayoutGeometry.SnapToGrid( value, GridSize ) : Math.Max( 0, value );
+    }
+
+    internal bool IsSnapToGridEnabled( ReportElementDefinition element )
+    {
+        return element?.SnapToGrid ?? SnapToGrid;
+    }
+
+    internal IEnumerable<string> FindElementsInsideSelectionBox( ReportDefinition definition, ReportDesignerSelectionBox selectionBox )
+    {
+        return ReportDesignerInteractionService.FindElementsInsideSelectionBox(
+            definition,
+            selectionBox,
+            IsSectionCollapsed,
+            sectionIndex => GetSectionOffsetY( definition, sectionIndex ) );
+    }
+
+    internal IEnumerable<ReportElementPointerItemState> CaptureElementPointerItems( ReportDefinition definition, string activeElementKey )
+    {
+        if ( definition is null || string.IsNullOrWhiteSpace( activeElementKey ) )
+            return Enumerable.Empty<ReportElementPointerItemState>();
+
+        List<string> elementKeys = selectionManager.IsElementSelected( activeElementKey ) && selectionManager.SelectedElementKeys.Count > 1
+            ? selectionManager.SelectedElementKeys.ToList()
+            : [activeElementKey];
+
+        return ReportDesignerInteractionService.CaptureElementPointerItems(
+            definition,
+            elementKeys,
+            sectionIndex => GetSectionOffsetY( definition, sectionIndex ) );
+    }
+
+    internal double GetSectionOffsetY( ReportDefinition definition, int sectionIndex )
+    {
+        return GetReportPageMarginTop( definition ) + ReportLayoutGeometry.GetSectionOffsetY( definition, sectionIndex, GetDesignerSectionHeight );
+    }
+
+    internal double GetDesignerContentHeight( ReportDefinition definition )
+    {
+        return GetReportPageMarginTop( definition )
+            + ReportLayoutGeometry.GetContentHeight( definition, GetDesignerSectionHeight )
+            + GetReportPageMarginBottom( definition );
+    }
+
+    internal double GetDesignerRulerHeight( ReportDefinition definition )
+    {
+        return Math.Max( definition?.Page?.Height ?? 0, GetDesignerContentHeight( definition ) );
+    }
+
+    internal ReportDesignerRulerMarker GetDesignerRulerMarker( ReportDefinition definition )
+    {
+        return rulerService.CreateMarker(
+            definition,
+            designerState,
+            GetSelectedElementContexts( definition ),
+            selectionManager.SelectedSectionIndex,
+            sectionIndex => GetSectionOffsetY( definition, sectionIndex ),
+            sectionIndex => GetDesignerSectionHeight( sectionIndex, definition.Bands[sectionIndex] ),
+            GetDesignerSectionBodyTopOffset() );
+    }
+
+    internal IReadOnlyList<ReportDesignerWarning> GetDesignerWarnings()
+    {
+        if ( !CurrentShowCollisionWarnings || DesignerRootDefinition is null )
+            return operationWarning is null ? [] : [operationWarning];
+
+        if ( designerWarningsMutationVersion != renderMutationVersion )
+        {
+            designerWarnings = collisionService.FindWarnings( DesignerRootDefinition );
+            collidingElementKeys = designerWarnings
+                .SelectMany( warning => warning.ElementKeys )
+                .ToHashSet( StringComparer.Ordinal );
+            designerWarningsMutationVersion = renderMutationVersion;
+        }
+
+        return operationWarning is null ? designerWarnings : [operationWarning, .. designerWarnings];
+    }
+
+    internal bool IsElementColliding( string elementKey )
+    {
+        if ( string.IsNullOrWhiteSpace( elementKey ) )
+            return false;
+
+        _ = GetDesignerWarnings();
+
+        return CurrentShowCollisionWarnings && collidingElementKeys.Contains( elementKey );
+    }
+
+    internal double GetElementPageY( ReportDefinition definition, int sectionIndex, double elementY )
+    {
+        return GetSectionOffsetY( definition, sectionIndex ) + GetDesignerSectionBodyTopOffset() + elementY;
+    }
+
+    internal double GetDesignerSectionHeight( int sectionIndex, ReportBandDefinition section )
+    {
+        if ( designerState.SectionPointerResize?.SectionIndex == sectionIndex )
+            return designerState.SectionPointerResize.TargetHeight + GetDesignerSectionBodyTopOffset();
+
+        if ( CurrentBandMode == ReportBandMode.Rail
+             && !ReportValueResolver.ResolveStaticSuppress( section )
+             && IsSectionCollapsed( section ) )
+        {
+            return ReportMeasurementConverter.FromCssPixelValue( ReportDesignerConstants.DesignerCollapsedBandHeight );
+        }
+
+        return ( section?.Height ?? 0 ) + GetDesignerSectionBodyTopOffset();
+    }
+
+    private void InvalidateDesignerCaches()
+    {
+        CancelAsyncOperations();
+        operationWarning = null;
+        renderMutationVersion++;
+        renderService.Invalidate();
+        WarningsChanged?.Invoke();
+    }
+
+    private async Task NotifyOperationFailed( string operation, Exception exception, bool includeExceptionDetails = true )
+    {
+        string message = includeExceptionDetails
+            ? Localize( "{0} failed: {1}", operation, exception.Message )
+            : Localize( "{0} failed.", operation );
+
+        Logger?.LogError( exception, "Report operation {Operation} failed.", operation );
+        operationWarning = new( message, [] );
+        WarningsChanged?.Invoke();
+
+        try
+        {
+            await OperationFailed.InvokeAsync( new ReportOperationFailedEventArgs( operation, exception ) );
+        }
+        catch ( Exception callbackException )
+        {
+            Logger?.LogError( callbackException, "The report OperationFailed callback failed." );
+        }
+    }
+
+    private void NotifyDefinitionNormalized( IReadOnlyList<string> diagnostics )
+    {
+        if ( diagnostics is null || diagnostics.Count == 0 )
+            return;
+
+        string message = diagnostics.Count == 1
+            ? Localize( "Report definition normalized: {0}", diagnostics[0] )
+            : Localize( "Report definition contained {0} invalid values and was normalized. See the application log for details.", diagnostics.Count );
+
+        Logger?.LogWarning( "Report definition was normalized: {Diagnostics}", string.Join( " ", diagnostics ) );
+
+        if ( operationWarning is not null )
+            return;
+
+        operationWarning = new( message, [] );
+        WarningsChanged?.Invoke();
+    }
+
+    private void CancelAsyncOperations()
+    {
+        CancellationTokenSource cancellationTokenSource = asyncOperationCancellationTokenSource;
+        asyncOperationCancellationTokenSource = null;
+        pdfPreviewTask = null;
+        pdfPreviewTaskMutationVersion = -1;
+        cancellationTokenSource?.Cancel();
+    }
+
+    private void RefreshDesignerSurface()
+    {
+        workspaceRef?.RefreshSurface();
+    }
+
+    private void RefreshDesignerElementSelection()
+        => RefreshDesigner( ReportDesignerRefreshTarget.Designer | ReportDesignerRefreshTarget.ElementSelection );
+
+    private void RefreshDesignerSelection()
+        => RefreshDesigner( ReportDesignerRefreshTarget.Designer );
+
+    private void RefreshDesignerToolbar()
+        => RefreshDesigner( ReportDesignerRefreshTarget.Toolbar );
+
+    private void RefreshDesigner( ReportDesignerRefreshTarget targets )
+    {
+        if ( ( targets & ReportDesignerRefreshTarget.SelectedPanel ) != 0 )
+            workspaceRef?.InvalidatePropertiesPanel();
+
+        designerRefreshState = designerRefreshState with
+        {
+            Surface = designerRefreshState.Surface + ( ( targets & ReportDesignerRefreshTarget.Surface ) != 0 ? 1 : 0 ),
+            SelectedPanel = designerRefreshState.SelectedPanel + ( ( targets & ReportDesignerRefreshTarget.SelectedPanel ) != 0 ? 1 : 0 ),
+            ElementSelection = designerRefreshState.ElementSelection + ( ( targets & ReportDesignerRefreshTarget.ElementSelection ) != 0 ? 1 : 0 ),
+            FieldsExplorer = designerRefreshState.FieldsExplorer + ( ( targets & ReportDesignerRefreshTarget.FieldsExplorer ) != 0 ? 1 : 0 ),
+            Toolbar = designerRefreshState.Toolbar + ( ( targets & ReportDesignerRefreshTarget.Toolbar ) != 0 ? 1 : 0 ),
+            PageTabs = designerRefreshState.PageTabs + ( ( targets & ReportDesignerRefreshTarget.PageTabs ) != 0 ? 1 : 0 ),
+        };
+    }
+
+    internal static double GetMinimumSectionHeight( ReportBandDefinition section )
+    {
+        return ReportLayoutGeometry.GetMinimumSectionHeight( section );
+    }
+
+    internal Task OnSnapToGridChanged( bool value )
+        => SnapToGrid == value
+            ? Task.CompletedTask
+            : UpdateDesignerDefinition( "Update snap to grid", designer => designer.SnapToGrid = value, ReportDesignerRefreshTarget.SelectedPanel );
+
+    internal Task OnGridSizeChanged( double value )
+    {
+        double gridSize = Math.Max( 1, value );
+
+        return GridSize == gridSize
+            ? Task.CompletedTask
+            : UpdateDesignerDefinition( "Update grid size", designer => designer.GridSize = gridSize, ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.SelectedPanel );
+    }
+
+    internal async Task OnShowRulersChanged( bool value )
+    {
+        if ( CurrentShowRulers == value )
+            return;
+
+        await UpdateDesignerDefinition( "Update ruler visibility", designer => designer.ShowRulers = value, ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.SelectedPanel );
+
+        await ShowRulersChanged.InvokeAsync( value );
+    }
+
+    internal async Task OnShowFineRulerTicksChanged( bool value )
+    {
+        if ( CurrentShowFineRulerTicks == value )
+            return;
+
+        await UpdateDesignerDefinition( "Update fine ruler ticks", designer => designer.ShowFineRulerTicks = value, ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.SelectedPanel );
+
+        await ShowFineRulerTicksChanged.InvokeAsync( value );
+    }
+
+    internal async Task OnShowCursorGuidesChanged( bool value )
+    {
+        if ( CurrentShowCursorGuides == value )
+            return;
+
+        await UpdateDesignerDefinition( "Update cursor guides", designer => designer.ShowCursorGuides = value, ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.SelectedPanel );
+
+        await ShowCursorGuidesChanged.InvokeAsync( value );
+    }
+
+    internal async Task OnShowCollisionWarningsChanged( bool value )
+    {
+        if ( CurrentShowCollisionWarnings == value )
+            return;
+
+        await UpdateDesignerDefinition( "Update collision warnings", designer => designer.ShowCollisionWarnings = value, ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.SelectedPanel );
+
+        await ShowCollisionWarningsChanged.InvokeAsync( value );
+    }
+
+    internal async Task OnBandModeChanged( ReportBandMode value )
+    {
+        if ( CurrentBandMode == value )
+            return;
+
+        await UpdateDesignerDefinition( "Update band mode", designer => designer.BandMode = value, ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.SelectedPanel );
+
+        await BandModeChanged.InvokeAsync( value );
+    }
+
+    private Task UpdateDesignerDefinition( string commandName, Action<ReportDesignerDefinition> update, ReportDesignerRefreshTarget refreshTargets )
+    {
+        return ExecuteDesignerCommand( new( commandName, () =>
+        {
+            update( DesignerDefinition );
+
+            return Task.CompletedTask;
+        }, RefreshTargets: refreshTargets ) );
+    }
+
+    private Task SynchronizeDesignerParameters(
+        ComponentParameterInfo<ReportBandMode> bandModeParameter,
+        ComponentParameterInfo<bool> showRulersParameter,
+        ComponentParameterInfo<bool> showFineRulerTicksParameter,
+        ComponentParameterInfo<bool> showCursorGuidesParameter,
+        ComponentParameterInfo<bool> showCollisionWarningsParameter )
+    {
+        if ( !( bandModeParameter.Changed && CurrentBandMode != bandModeParameter.Value )
+            && !( showRulersParameter.Changed && CurrentShowRulers != showRulersParameter.Value )
+            && !( showFineRulerTicksParameter.Changed && CurrentShowFineRulerTicks != showFineRulerTicksParameter.Value )
+            && !( showCursorGuidesParameter.Changed && CurrentShowCursorGuides != showCursorGuidesParameter.Value )
+            && !( showCollisionWarningsParameter.Changed && CurrentShowCollisionWarnings != showCollisionWarningsParameter.Value ) )
+        {
+            return Task.CompletedTask;
+        }
+
+        return ExecuteDesignerCommand( new( "Synchronize designer settings", () =>
+        {
+            if ( bandModeParameter.Changed )
+                DesignerDefinition.BandMode = bandModeParameter.Value;
+
+            if ( showRulersParameter.Changed )
+                DesignerDefinition.ShowRulers = showRulersParameter.Value;
+
+            if ( showFineRulerTicksParameter.Changed )
+                DesignerDefinition.ShowFineRulerTicks = showFineRulerTicksParameter.Value;
+
+            if ( showCursorGuidesParameter.Changed )
+                DesignerDefinition.ShowCursorGuides = showCursorGuidesParameter.Value;
+
+            if ( showCollisionWarningsParameter.Changed )
+                DesignerDefinition.ShowCollisionWarnings = showCollisionWarningsParameter.Value;
+
+            return Task.CompletedTask;
+        }, TrackHistory: false, RefreshTargets: ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.SelectedPanel ) );
+    }
+
+    internal void ClearDragState()
+    {
+        ReportDesignerInteractionService.ClearDragState( designerState );
+    }
+
+    private bool SupportsPreviewFormat( ReportPreviewFormat format )
+    {
+        return ReportPreviewFormatResolver.IsEnabled( AvailablePreviewFormats, format );
+    }
+
+    private ReportPreviewFormat ResolvePreviewFormat( ReportPreviewFormat format )
+        => ReportPreviewFormatResolver.Resolve( format, AvailablePreviewFormats, EffectiveDefaultPreviewFormat );
+
+    private static string ResolvePdfFileName( ReportDefinition definition )
+    {
+        string name = string.IsNullOrWhiteSpace( definition?.Name ) ? "report" : definition.Name.Trim();
+
+        foreach ( char invalidCharacter in Path.GetInvalidFileNameChars() )
+            name = name.Replace( invalidCharacter, '-' );
+
+        return name.EndsWith( ".pdf", StringComparison.OrdinalIgnoreCase ) ? name : $"{name}.pdf";
+    }
+
+    internal bool ShouldRenderElement( ReportDefinition definition, ReportBandDefinition section, ReportElementDefinition element, object item )
+    {
+        return !ReportValueResolver.ResolveSuppress( element, section, definition, Data, item );
+    }
+
+    internal ReportDefinition ResolveActiveDesignerDefinition( ReportDefinition rootDefinition )
+    {
+        ReportDefinition reportDefinition = ResolveActiveReportDefinition( rootDefinition );
+
+        if ( activePageScope is not null
+             && ReferenceEquals( activePageScopeOwner, reportDefinition )
+             && string.Equals( activePageScope.ScopedPage?.Id, activePageId, StringComparison.Ordinal ) )
+        {
+            return activePageScope;
+        }
+
+        ReportPageDefinition page = ResolveActivePage( reportDefinition );
+        activePageScopeOwner = reportDefinition;
+        activePageScope = ReportDefinitionHelper.CreatePageScope( reportDefinition, page );
+
+        return activePageScope;
+    }
+
+    private ReportDefinition ResolveActiveReportDefinition( ReportDefinition rootDefinition )
+    {
+        if ( CurrentMode != ReportMode.Design || !TryGetActiveSubreportElement( rootDefinition, out ReportSubreportElementDefinition subreportElement ) )
+            return rootDefinition;
+
+        return ReportDefinitionHelper.EnsureSubreportDefinition( subreportElement ) ?? rootDefinition;
+    }
+
+    private ReportPageDefinition ResolveActivePage( ReportDefinition definition )
+    {
+        ReportPageDefinition defaultPage = definition.Page;
+        ReportPageDefinition page = definition.Pages.FirstOrDefault( page => string.Equals( page.Id, activePageId, StringComparison.Ordinal ) )
+            ?? defaultPage;
+
+        activePageId = page.Id;
+
+        return page;
+    }
+
+    private void InvalidateActivePageScope()
+    {
+        activePageScope = null;
+        activePageScopeOwner = null;
+    }
+
+    internal object GetFieldsExplorerData( ReportDefinition rootDefinition )
+    {
+        return TryGetActiveSubreportElement( rootDefinition, out ReportSubreportElementDefinition subreportElement )
+            ? ReportSubreportResolver.ResolveData( rootDefinition, Data, null, subreportElement )
+            : Data;
+    }
+
+    internal IReadOnlyList<ReportDesignerDataSourceNode> GetFieldsExplorerDataSources( ReportDefinition rootDefinition )
+    {
+        if ( !TryGetActiveSubreportElement( rootDefinition, out ReportSubreportElementDefinition subreportElement ) )
+            return null;
+
+        List<ReportDesignerFieldNode> fields = ReportDataSourceExplorer.ResolveDataSourceFields( rootDefinition, Data, subreportElement.DataSource ).ToList();
+
+        if ( fields.Count == 0 )
+            return [];
+
+        return
+        [
+            new()
+            {
+                Name = DataSourceName,
+                BindingName = null,
+                Fields = fields,
+            },
+        ];
+    }
+
+    private bool TryGetActiveSubreportElement( ReportDefinition rootDefinition, out ReportSubreportElementDefinition subreportElement )
+    {
+        subreportElement = null;
+
+        if ( string.IsNullOrWhiteSpace( activeSubreportElementKey )
+             || !ReportDefinitionHelper.TryFindElementLocation( rootDefinition, activeSubreportElementKey, out _, out _, out ReportElementDefinition element )
+             || element is not ReportSubreportElementDefinition activeSubreportElement )
+        {
+            return false;
+        }
+
+        subreportElement = activeSubreportElement;
+
+        return true;
+    }
+
+    internal IReadOnlyList<ReportDesignerTabItem> GetDesignerTabs( ReportDefinition rootDefinition )
+    {
+        List<ReportDesignerTabItem> tabs =
+        [
+            new()
+            {
+                Key = MainReportDesignerTabKey,
+                Text = string.IsNullOrWhiteSpace( rootDefinition?.Name ) ? Localize( "Main Report" ) : rootDefinition.Name,
+                Active = string.IsNullOrWhiteSpace( activeSubreportElementKey ),
+            },
+        ];
+
+        foreach ( ReportSubreportElementDefinition subreport in EnumeratePageSubreports( ResolveDesignerHostPage( rootDefinition ) ) )
+        {
+            string key = ReportDefinitionHelper.EnsureElementId( subreport );
+
+            tabs.Add( new()
+            {
+                Key = key,
+                Text = ReportSubreportResolver.GetDisplayName( subreport ),
+                Active = string.Equals( activeSubreportElementKey, key, StringComparison.Ordinal ),
+            } );
+        }
+
+        if ( tabs.All( tab => !tab.Active ) )
+        {
+            tabs[0].Active = true;
+        }
+
+        return tabs;
+    }
+
+    private ReportPageDefinition ResolveDesignerHostPage( ReportDefinition rootDefinition )
+    {
+        if ( !string.IsNullOrWhiteSpace( activeSubreportElementKey )
+             && ReportDefinitionHelper.TryFindElementLocation( rootDefinition, activeSubreportElementKey, out ReportElementLocation location ) )
+        {
+            return location.Page;
+        }
+
+        return ResolveActivePage( rootDefinition );
+    }
+
+    private static IEnumerable<ReportSubreportElementDefinition> EnumeratePageSubreports( ReportPageDefinition page )
+    {
+        return ReportDefinitionHelper
+            .EnumerateElements( page.Bands.SelectMany( section => section.Elements ) )
+            .OfType<ReportSubreportElementDefinition>();
+    }
+
+    internal IReadOnlyList<ReportDesignerTabItem> GetDesignerPageTabs( ReportDefinition rootDefinition )
+    {
+        string selectedPageId = ResolveDesignerHostPage( rootDefinition ).Id;
+
+        return rootDefinition.Pages.Select( ( page, pageIndex ) => new ReportDesignerTabItem
+        {
+            Key = page.Id,
+            Text = string.IsNullOrWhiteSpace( page.Name ) ? Localize( "Page {0}", pageIndex + 1 ) : page.Name,
+            Active = string.Equals( page.Id, selectedPageId, StringComparison.Ordinal ),
+        } ).ToList();
+    }
+
+    internal Task SelectDesignerPage( string pageId )
+    {
+        string previousActiveSubreportElementKey = activeSubreportElementKey;
+
+        if ( !ActivateDesignerPage( pageId ) )
+            return Task.CompletedTask;
+
+        SelectReport();
+        RefreshDesigner( ( string.Equals( previousActiveSubreportElementKey, activeSubreportElementKey, StringComparison.Ordinal )
+            ? ReportDesignerRefreshTarget.Designer
+            : ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) | ReportDesignerRefreshTarget.PageTabs );
+
+        return InvokeAsync( StateHasChanged );
+    }
+
+    private bool ActivateDesignerPage( string pageId )
+    {
+        if ( !TryFindDesignerPageOwner( RootDefinition, pageId, out string subreportElementKey )
+             || ( string.Equals( activePageId, pageId, StringComparison.Ordinal )
+                  && string.Equals( activeSubreportElementKey, subreportElementKey, StringComparison.Ordinal ) ) )
+        {
+            return false;
+        }
+
+        activeSubreportElementKey = subreportElementKey;
+        activePageId = pageId;
+        InvalidateActivePageScope();
+        ResetDesignerSurfaceScrollPosition();
+        InvalidateDesignerCaches();
+
+        return true;
+    }
+
+    private static bool TryFindDesignerPageOwner( ReportDefinition rootDefinition, string pageId, out string subreportElementKey )
+    {
+        subreportElementKey = null;
+
+        if ( string.IsNullOrWhiteSpace( pageId ) )
+            return false;
+
+        if ( rootDefinition.Pages.Any( page => string.Equals( page.Id, pageId, StringComparison.Ordinal ) ) )
+            return true;
+
+        foreach ( ReportSubreportElementDefinition subreport in ReportDefinitionHelper.EnumerateSubreportElements( rootDefinition ) )
+        {
+            ReportDefinition definition = ReportDefinitionHelper.EnsureSubreportDefinition( subreport );
+
+            if ( definition.Pages.Any( page => string.Equals( page.Id, pageId, StringComparison.Ordinal ) ) )
+            {
+                subreportElementKey = ReportDefinitionHelper.EnsureElementId( subreport );
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    internal async Task AddDesignerPage()
+    {
+        bool activateMainReport = !string.IsNullOrWhiteSpace( activeSubreportElementKey );
+
+        await ExecuteDesignerCommand( new( "Add page", () =>
+        {
+            ReportDefinition reportDefinition = RootDefinition;
+            ReportPageDefinition page = new()
+            {
+                Name = CreateUniquePageName( reportDefinition, $"Page {reportDefinition.Pages.Count + 1}" ),
+                Bands =
+                [
+                    new()
+                    {
+                        Name = "Detail",
+                        Type = ReportBandType.Detail,
+                        Height = 120,
+                        Default = true,
+                    },
+                ],
+            };
+
+            reportDefinition.Pages.Add( page );
+            activeSubreportElementKey = null;
+            activePageId = page.Id;
+            InvalidateActivePageScope();
+            selectionManager.SelectReport();
+            ResetDesignerSurfaceScrollPosition();
+
+            return Task.CompletedTask;
+        }, RefreshTargets: ( activateMainReport
+            ? ReportDesignerRefreshTarget.DesignerWithFieldsExplorer
+            : ReportDesignerRefreshTarget.Designer ) | ReportDesignerRefreshTarget.PageTabs ) );
+    }
+
+    private async Task AddDesignerPageFromContextMenu()
+    {
+        await CloseContextMenu();
+        await AddDesignerPage();
+    }
+
+    private async Task DuplicateDesignerPage( string pageId )
+    {
+        ReportDefinition reportDefinition = RootDefinition;
+        int sourcePageIndex = reportDefinition.Pages.FindIndex( page => string.Equals( page.Id, pageId, StringComparison.Ordinal ) );
+
+        if ( sourcePageIndex < 0 )
+            return;
+
+        bool activateMainReport = !string.IsNullOrWhiteSpace( activeSubreportElementKey );
+
+        await CloseContextMenu();
+        await ExecuteDesignerCommand( new( "Duplicate page", () =>
+        {
+            ReportDefinition reportDefinition = RootDefinition;
+            int sourcePageIndex = reportDefinition.Pages.FindIndex( page => string.Equals( page.Id, pageId, StringComparison.Ordinal ) );
+
+            if ( sourcePageIndex < 0 )
+                return Task.CompletedTask;
+
+            ReportPageDefinition sourcePage = reportDefinition.Pages[sourcePageIndex];
+            ReportPageDefinition page = ReportContext.ClonePage( sourcePage );
+
+            page.Name = CreateUniquePageName( reportDefinition, $"{sourcePage.Name} Copy" );
+            ReportDefinitionHelper.RegeneratePageIds( page );
+            reportDefinition.Pages.Insert( sourcePageIndex + 1, page );
+            activeSubreportElementKey = null;
+            activePageId = page.Id;
+            InvalidateActivePageScope();
+            selectionManager.SelectReport();
+            ResetDesignerSurfaceScrollPosition();
+
+            return Task.CompletedTask;
+        }, RefreshTargets: ( activateMainReport
+            ? ReportDesignerRefreshTarget.DesignerWithFieldsExplorer
+            : ReportDesignerRefreshTarget.Designer ) | ReportDesignerRefreshTarget.PageTabs ) );
+    }
+
+    private async Task DeleteDesignerPage( string pageId )
+    {
+        ReportDefinition reportDefinition = RootDefinition;
+        ReportPageDefinition page = reportDefinition.Pages.FirstOrDefault( page => string.Equals( page.Id, pageId, StringComparison.Ordinal ) );
+
+        if ( page is null || reportDefinition.Pages.Count <= 1 )
+            return;
+
+        await CloseContextMenu();
+
+        if ( !await ConfirmDestructiveAction( $"Are you sure you want to delete the '{page.Name}' page?", "Delete page", "Delete" ) )
+            return;
+
+        bool deletingActivePage = string.Equals( ResolveDesignerHostPage( reportDefinition ).Id, pageId, StringComparison.Ordinal );
+        bool activateMainReport = deletingActivePage && !string.IsNullOrWhiteSpace( activeSubreportElementKey );
+
+        await ExecuteDesignerCommand( new( "Delete page", () =>
+        {
+            ReportDefinition reportDefinition = RootDefinition;
+            int pageIndex = reportDefinition.Pages.FindIndex( page => string.Equals( page.Id, pageId, StringComparison.Ordinal ) );
+
+            if ( pageIndex < 0 || reportDefinition.Pages.Count <= 1 )
+                return Task.CompletedTask;
+
+            reportDefinition.Pages.RemoveAt( pageIndex );
+
+            if ( deletingActivePage )
+            {
+                activeSubreportElementKey = null;
+                activePageId = reportDefinition.Pages[Math.Min( pageIndex, reportDefinition.Pages.Count - 1 )].Id;
+                selectionManager.SelectReport();
+                ResetDesignerSurfaceScrollPosition();
+            }
+
+            InvalidateActivePageScope();
+
+            return Task.CompletedTask;
+        }, RefreshTargets: ( activateMainReport
+            ? ReportDesignerRefreshTarget.DesignerWithFieldsExplorer
+            : ReportDesignerRefreshTarget.Designer ) | ReportDesignerRefreshTarget.PageTabs ) );
+    }
+
+    private async Task ShowDesignerPageSetup( string pageId )
+    {
+        string previousActiveSubreportElementKey = activeSubreportElementKey;
+
+        await CloseContextMenu();
+
+        bool pageChanged = ActivateDesignerPage( pageId );
+
+        selectionManager.SelectReport();
+        designerState.EditingElementKey = null;
+        selectedDesignerPanelTab = ReportDesignerPanelTab.Properties;
+
+        ReportDesignerRefreshTarget refreshTargets = pageChanged
+            ? string.Equals( previousActiveSubreportElementKey, activeSubreportElementKey, StringComparison.Ordinal )
+                ? ReportDesignerRefreshTarget.Designer
+                : ReportDesignerRefreshTarget.DesignerWithFieldsExplorer
+            : ReportDesignerRefreshTarget.SelectedPanel;
+
+        if ( pageChanged )
+            refreshTargets |= ReportDesignerRefreshTarget.PageTabs;
+
+        RefreshDesigner( refreshTargets | ReportDesignerRefreshTarget.ElementSelection );
+        await InvokeAsync( StateHasChanged );
+        await ( workspaceRef?.ShowPropertiesPane() ?? Task.CompletedTask );
+    }
+
+    private static string CreateUniquePageName( ReportDefinition definition, string baseName )
+    {
+        string name = string.IsNullOrWhiteSpace( baseName ) ? "Page" : baseName.Trim();
+        string candidate = name;
+        int index = 2;
+
+        while ( definition.Pages.Any( page => string.Equals( page.Name, candidate, StringComparison.OrdinalIgnoreCase ) ) )
+            candidate = $"{name} {index++}";
+
+        return candidate;
+    }
+
+    internal Task SelectDesignerTab( string key )
+    {
+        string nextActiveSubreportElementKey = string.Equals( key, MainReportDesignerTabKey, StringComparison.Ordinal )
+            ? null
+            : key;
+
+        if ( string.Equals( activeSubreportElementKey, nextActiveSubreportElementKey, StringComparison.Ordinal ) )
+            return Task.CompletedTask;
+
+        activeSubreportElementKey = nextActiveSubreportElementKey;
+        activePageId = null;
+        InvalidateActivePageScope();
+        ResetDesignerSurfaceScrollPosition();
+        SelectReport();
+        InvalidateDesignerCaches();
+        RefreshDesigner( ReportDesignerRefreshTarget.DesignerWithFieldsExplorer | ReportDesignerRefreshTarget.PageTabs );
+
+        return InvokeAsync( StateHasChanged );
+    }
+
+    private bool TryOpenSubreportDesigner( string elementKey )
+    {
+        if ( string.IsNullOrWhiteSpace( elementKey )
+             || !ReportDefinitionHelper.TryFindElementLocation( RootDefinition, elementKey, out _, out _, out ReportElementDefinition element )
+             || element is not ReportSubreportElementDefinition subreportElement )
+        {
+            return false;
+        }
+
+        bool activeSubreportChanged = !string.Equals( activeSubreportElementKey, elementKey, StringComparison.Ordinal );
+
+        ReportDefinitionHelper.EnsureSubreportDefinition( subreportElement );
+        activeSubreportElementKey = elementKey;
+        activePageId = null;
+        InvalidateActivePageScope();
+
+        if ( activeSubreportChanged )
+            ResetDesignerSurfaceScrollPosition();
+
+        SelectReport();
+        InvalidateDesignerCaches();
+        RefreshDesigner( ( activeSubreportChanged
+            ? ReportDesignerRefreshTarget.DesignerWithFieldsExplorer
+            : ReportDesignerRefreshTarget.Designer ) | ReportDesignerRefreshTarget.PageTabs );
+        StateHasChanged();
+
+        return true;
+    }
+
+    internal bool IsToolbarCommandVisible( ReportCommand command )
+        => context.HiddenToolbarCommands?.Contains( command ) != true;
+
+    private static string ResolveActiveSubreportElementKey( ReportDefinition definition, string elementKey )
+    {
+        return !string.IsNullOrWhiteSpace( elementKey )
+            && ReportDefinitionHelper.TryFindElementLocation( definition, elementKey, out _, out _, out ReportElementDefinition element )
+            && element is ReportSubreportElementDefinition
+                ? elementKey
+                : null;
+    }
+
+    #endregion
+
+    #region Properties
+
+    private ReportDefinition RootDefinition
+        => workingDefinition;
+
+    private ReportDefinition EffectiveDefinition
+        => ResolveActiveDesignerDefinition( RootDefinition );
+
+    private ReportDesignerDefinition DesignerDefinition
+        => RootDefinition.Designer ??= new();
+
+    internal ReportDefinition DesignerRootDefinition => RootDefinition;
+
+    internal ReportDesignerInteractionState InteractionState => designerState;
+
+    internal bool SnapToGrid => DesignerDefinition.SnapToGrid;
+
+    internal double GridSize => DesignerDefinition.GridSize;
+
+    internal bool CurrentShowRulers => DesignerDefinition.ShowRulers;
+
+    internal bool CurrentShowFineRulerTicks => DesignerDefinition.ShowFineRulerTicks;
+
+    internal bool CurrentShowCursorGuides => DesignerDefinition.ShowCursorGuides;
+
+    internal bool CurrentShowCollisionWarnings => DesignerDefinition.ShowCollisionWarnings;
+
+    internal ReportBandMode CurrentBandMode => DesignerDefinition.BandMode;
+
+    internal ReportSelectionManager Selection => selectionManager;
+
+    internal ReportDesignerRefreshState RefreshState => designerRefreshState;
+
+    internal ReportTableEditor TableEditor => tableEditor;
+
+    internal bool CanInsertSubreport => CanInsertSubreportElement;
+
+    internal DockLayoutState DesignerDockLayoutState => designerDockLayoutState;
+
+    internal Dictionary<string, (double Left, double Top)> DesignerPaneScrollPositions => designerPaneScrollPositions;
+
+    internal int DesignerPaneScrollRestoreVersion => designerPaneScrollRestoreVersion;
+
+    internal string SelectedDesignerPanel => SelectedDesignerPanelTabName;
+
+    internal string DefaultDataSourceName => DataSourceName;
+
+    internal string AccessibilityId => modalProviderName;
+
+    internal ReportDefinition PreviewDefinition => RootDefinition;
+
+    internal ReportPreviewFormat ActivePreviewFormat => CurrentPreviewFormat;
+
+    internal bool HasPreviewFormats => AvailablePreviewFormats != ReportPreviewFormat.None;
+
+    internal ReportPdfPreviewContext PdfPreviewContext => pdfPreviewMutationVersion == renderMutationVersion ? pdfPreviewContext : null;
+
+    internal RenderFragment<ReportPdfPreviewContext> PdfPreviewTemplate => context.ViewerOptions.PdfPreviewTemplate;
+
+    internal int RenderMutationVersion => renderMutationVersion;
+
+    internal string ToolbarRenderKey => $"{ToolbarStateKey}|{designerRefreshState.Toolbar}";
+
+    internal ReportToolbarContext Toolbar => toolbarContext;
+
+    internal RenderFragment ToolbarContent => context.ToolbarContent;
+
+    internal RenderFragment<ReportToolbarItemContext> ToolbarButtonTemplate => context.ToolbarButtonTemplate;
+
+    internal bool ShowToolbarPanesMenu => context.ShowToolbarPanesMenu;
+
+    internal bool ShowToolbarPersistenceButtons => context.ShowToolbarPersistenceButtons;
+
+    internal bool ShowToolbarEditButtons => context.ShowToolbarEditButtons;
+
+    internal bool ShowToolbarHistoryButtons => context.ShowToolbarHistoryButtons;
+
+    internal bool ShowToolbarDataSourceButtons => context.ShowToolbarDataSourceButtons;
+
+    internal bool ShowToolbarExportButtons => context.ShowToolbarExportButtons;
+
+    internal bool ShowToolbarModeButtons => context.ShowToolbarModeButtons;
+
+    internal bool IsEditable => Editable ?? GlobalOptions.Editable;
+
+    internal IReadOnlyList<ReportRenderPage> ResolvePreviewRenderPages( ReportDefinition definition )
+        => renderService.ResolvePreviewRenderPages( definition, Data, renderMutationVersion );
+
+    private bool HasPdfProgressListeners => Progressed is not null || PdfProgressed.HasDelegate;
+
+    private ReportOptions GlobalOptions => globalOptions ??= ServiceProvider.GetService<ReportOptions>() ?? new();
+
+    private IReportDataSourceProviderRegistry DataSourceProviderRegistry
+        => dataSourceProviderRegistry ??= ServiceProvider.GetService<IReportDataSourceProviderRegistry>();
+
+    internal IReportElementPluginRegistry ElementPluginRegistry
+        => elementPluginRegistry ??= new ReportElementPluginRegistry(
+            ( ServiceProvider.GetService<IReportElementPluginRegistry>()?.Plugins ?? [] )
+                .Concat( ElementPlugins ?? [] ) );
+
+    private IReadOnlyList<IReportDataSourceProvider> DataSourceProviders
+        => DataSourceProviderRegistry?.Providers?.Count > 0
+            ? DataSourceProviderRegistry.Providers
+            : fallbackDataSourceProviders;
+
+    internal ReportMode CurrentMode => Mode ?? currentMode;
+
+    private ReportPreviewFormat AvailablePreviewFormats
+        => ReportPreviewFormatResolver.Normalize( PreviewFormats ?? context.ViewerOptions.PreviewFormats );
+
+    private ReportPreviewFormat EffectiveDefaultPreviewFormat
+        => ReportPreviewFormatResolver.Resolve( DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat, AvailablePreviewFormats );
+
+    private ReportPreviewFormat CurrentPreviewFormat
+        => ResolvePreviewFormat( PreviewFormat ?? currentPreviewFormat );
+
+    private ReportDefinitionMode CurrentDefinitionMode => DefinitionMode ?? GlobalOptions.DefinitionMode;
+
+    private bool HasClipboardElements => clipboardElements.Count > 0;
+
+    private PdfGenerationResult CurrentPdfPreviewResult => pdfPreviewMutationVersion == renderMutationVersion ? pdfPreviewResult : null;
+
+    private bool IsPdfPreviewPending => pdfPreviewTask is not null && pdfPreviewTaskMutationVersion == renderMutationVersion;
+
+    private bool CanInsertSubreportElement => string.IsNullOrWhiteSpace( activeSubreportElementKey );
+
+    private string SelectedDesignerPanelTabName => selectedDesignerPanelTab.ToString();
+
+    private string ToolbarStateKey => $"{CurrentMode}|{CurrentPreviewFormat}|{activeSubreportElementKey}|{activePageId}|{selectionManager.PrimaryElementKey}|{selectionManager.SelectedCellKey}|{selectionManager.SelectedElementKeys.Count}|{selectionManager.SelectedSectionIndex}|{clipboardElements.Count}|{commandManager.CanUndo}|{commandManager.CanRedo}";
+
+    private string DataSourceName => "Default";
+
+    /// <summary>
+    /// JavaScript runtime used to create the local Reporting module.
+    /// </summary>
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    /// <summary>
+    /// Version provider used to create the local Reporting module.
+    /// </summary>
+    [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Blazorise options used to create the local Reporting module.
+    /// </summary>
+    [Inject] private BlazoriseOptions BlazoriseOptions { get; set; }
+
+    /// <summary>
+    /// PDF generator used by the report viewer download command.
+    /// </summary>
+    [Inject] private IPdfGenerator PdfGenerator { get; set; }
+
+    /// <summary>
+    /// Message service used to confirm destructive report commands.
+    /// </summary>
+    [Inject] private IMessageService MessageService { get; set; }
+
+    /// <summary>
+    /// License checker used to resolve the maximum number of report rows.
+    /// </summary>
+    [Inject] private BlazoriseLicenseChecker LicenseChecker { get; set; }
+
+    /// <summary>
+    /// Logger used for report operation failures.
+    /// </summary>
+    [Inject] private ILogger<_ReportDesigner> Logger { get; set; }
+
+    /// <summary>
+    /// Service that notifies the report when localization changes.
+    /// </summary>
+    [Inject] private ITextLocalizerService LocalizerService { get; set; }
+
+    /// <summary>
+    /// Report text localizer.
+    /// </summary>
+    [Inject] private ITextLocalizer<Report> Localizer { get; set; }
+
+    /// <summary>
+    /// Gets or sets the report root element ID.
+    /// </summary>
+    [Parameter] public string ElementId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the report root CSS classes.
+    /// </summary>
+    [Parameter] public string Class { get; set; }
+
+    /// <summary>
+    /// Gets or sets the report root inline styles.
+    /// </summary>
+    [Parameter] public string Style { get; set; }
+
+    /// <summary>
+    /// Gets or sets additional report root attributes.
+    /// </summary>
+    [Parameter] public Dictionary<string, object> Attributes { get; set; }
+
+    /// <summary>
+    /// Custom localizers used by the report designer and viewer.
+    /// </summary>
+    [Parameter] public ReportLocalizers Localizers { get; set; }
+
+    /// <summary>
+    /// Persisted report definition copied into the designer working state.
+    /// </summary>
+    [Parameter] public ReportDefinition Definition { get; set; }
+
+    /// <summary>
+    /// Raised with a snapshot of the updated report definition.
+    /// </summary>
+    [Parameter] public EventCallback<ReportDefinition> DefinitionChanged { get; set; }
+
+    /// <summary>
+    /// Handles requests to save the current report definition.
+    /// </summary>
+    [Parameter] public Func<ReportDefinition, Task> SaveRequested { get; set; }
+
+    /// <summary>
+    /// Handles requests to load a report definition.
+    /// </summary>
+    [Parameter] public Func<Task<ReportDefinition>> LoadRequested { get; set; }
+
+    /// <summary>
+    /// Default data source object or enumerable used when no explicit <see cref="ReportDataSource"/> is declared.
+    /// </summary>
+    [Parameter] public object Data { get; set; }
+
+    /// <summary>
+    /// Defines whether the report can be edited using the interactive designer.
+    /// </summary>
+    [Parameter] public bool? Editable { get; set; }
+
+    /// <summary>
+    /// Shows the report toolbar above the designer or viewer surface.
+    /// </summary>
+    [Parameter] public bool ShowToolbar { get; set; } = true;
+
+    /// <summary>
+    /// Shows page navigation above the designer surface.
+    /// </summary>
+    [Parameter] public bool ShowPageTabs { get; set; } = true;
+
+    /// <summary>
+    /// Shows the status bar below the designer or preview surface.
+    /// </summary>
+    [Parameter] public bool ShowStatusBar { get; set; } = true;
+
+    /// <summary>
+    /// Raised when status bar visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowStatusBarChanged { get; set; }
+
+    /// <summary>
+    /// Band presentation used when constructing a report from declarative content. Persisted definitions retain their configured value.
+    /// </summary>
+    [Parameter] public ReportBandMode BandMode { get; set; } = ReportBandMode.Classic;
+
+    /// <summary>
+    /// Raised when the designer band presentation changes.
+    /// </summary>
+    [Parameter] public EventCallback<ReportBandMode> BandModeChanged { get; set; }
+
+    /// <summary>
+    /// Enables collapsing and expanding bands in the designer rail.
+    /// </summary>
+    [Parameter] public bool AllowBandCollapse { get; set; } = true;
+
+    /// <summary>
+    /// Shows data source names in band labels when available.
+    /// </summary>
+    [Parameter] public bool ShowBandDataSource { get; set; } = true;
+
+    /// <summary>
+    /// Defines collision warning visibility when constructing a report from declarative content. Persisted definitions retain their configured value.
+    /// </summary>
+    [Parameter] public bool ShowCollisionWarnings { get; set; } = true;
+
+    /// <summary>
+    /// Raised when collision warning visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowCollisionWarningsChanged { get; set; }
+
+    /// <summary>
+    /// Defines ruler visibility when constructing a report from declarative content. Persisted definitions retain their configured value.
+    /// </summary>
+    [Parameter] public bool ShowRulers { get; set; } = true;
+
+    /// <summary>
+    /// Raised when designer ruler visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowRulersChanged { get; set; }
+
+    /// <summary>
+    /// Defines fine ruler tick visibility when constructing a report from declarative content. Persisted definitions retain their configured value.
+    /// </summary>
+    [Parameter] public bool ShowFineRulerTicks { get; set; }
+
+    /// <summary>
+    /// Raised when fine-grained ruler tick visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowFineRulerTicksChanged { get; set; }
+
+    /// <summary>
+    /// Defines cursor guide visibility when constructing a report from declarative content. Persisted definitions retain their configured value.
+    /// </summary>
+    [Parameter] public bool ShowCursorGuides { get; set; }
+
+    /// <summary>
+    /// Raised when cursor guide visibility changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowCursorGuidesChanged { get; set; }
+
+    /// <summary>
+    /// Enables image upload from Image element source properties.
+    /// </summary>
+    [Parameter] public bool UploadImage { get; set; } = true;
+
+    /// <summary>
+    /// A comma-separated list of image MIME types accepted by the image upload dialog.
+    /// </summary>
+    [Parameter] public string ImageAccept { get; set; } = "image/png, image/jpeg";
+
+    /// <summary>
+    /// Maximum image size in bytes.
+    /// </summary>
+    [Parameter] public long ImageMaxSize { get; set; } = 1024 * 1024 * 5;
+
+    /// <summary>
+    /// Specifies the max chunk size when uploading the image.
+    /// </summary>
+    [Parameter] public int MaxUploadImageChunkSize { get; set; } = 20 * 1024;
+
+    /// <summary>
+    /// Specifies the segment fetch timeout when uploading the image.
+    /// </summary>
+    [Parameter] public TimeSpan ImageUploadSegmentFetchTimeout { get; set; } = TimeSpan.FromMinutes( 1 );
+
+    /// <summary>
+    /// Disables image upload progress callbacks.
+    /// </summary>
+    [Parameter] public bool DisableImageUploadProgressReport { get; set; }
+
+    /// <summary>
+    /// Raised when the selected image changes.
+    /// </summary>
+    [Parameter] public EventCallback<FileChangedEventArgs> ImageUploadChanged { get; set; }
+
+    /// <summary>
+    /// Raised when reading an image starts.
+    /// </summary>
+    [Parameter] public EventCallback<FileStartedEventArgs> ImageUploadStarted { get; set; }
+
+    /// <summary>
+    /// Raised when reading an image ends.
+    /// </summary>
+    [Parameter] public EventCallback<FileEndedEventArgs> ImageUploadEnded { get; set; }
+
+    /// <summary>
+    /// Raised when an image chunk is read.
+    /// </summary>
+    [Parameter] public EventCallback<FileWrittenEventArgs> ImageUploadWritten { get; set; }
+
+    /// <summary>
+    /// Raised when image read progress changes.
+    /// </summary>
+    [Parameter] public EventCallback<FileProgressedEventArgs> ImageUploadProgressed { get; set; }
+
+    /// <summary>
+    /// Raised when the image upload action is confirmed.
+    /// </summary>
+    [Parameter] public EventCallback<FileUploadEventArgs> ImageUpload { get; set; }
+
+    /// <summary>
+    /// Controls how declarative child content is used with persisted definitions. When not set, the value configured in <see cref="ReportOptions.DefinitionMode"/> is used.
+    /// </summary>
+    [Parameter] public ReportDefinitionMode? DefinitionMode { get; set; }
+
+    /// <summary>
+    /// Externally controlled design or preview mode.
+    /// </summary>
+    [Parameter] public ReportMode? Mode { get; set; }
+
+    /// <summary>
+    /// Raised when design or preview mode changes.
+    /// </summary>
+    [Parameter] public EventCallback<ReportMode> ModeChanged { get; set; }
+
+    /// <summary>
+    /// Externally controlled preview format.
+    /// </summary>
+    [Parameter] public ReportPreviewFormat? PreviewFormat { get; set; }
+
+    /// <summary>
+    /// Raised when the preview format changes.
+    /// </summary>
+    [Parameter] public EventCallback<ReportPreviewFormat> PreviewFormatChanged { get; set; }
+
+    /// <summary>
+    /// Preview formats available for this report.
+    /// </summary>
+    [Parameter] public ReportPreviewFormat? PreviewFormats { get; set; }
+
+    /// <summary>
+    /// Preview format selected when preview mode is first opened.
+    /// </summary>
+    [Parameter] public ReportPreviewFormat? DefaultPreviewFormat { get; set; }
+
+    /// <summary>
+    /// Raised when the overall report PDF operation progress changes.
+    /// </summary>
+    [Parameter] public EventCallback<ReportProgress> PdfProgressed { get; set; }
+
+    /// <summary>
+    /// Raised when a report operation fails.
+    /// </summary>
+    [Parameter] public EventCallback<ReportOperationFailedEventArgs> OperationFailed { get; set; }
+
+    /// <summary>
+    /// Custom report element plugins available only to this report instance. The collection is read during initialization.
+    /// </summary>
+    [Parameter] public IEnumerable<IReportElementPlugin> ElementPlugins { get; set; }
+
+    /// <summary>
+    /// Declarative report content used as the initial report definition.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
+
+    internal sealed class ReportDesignerTabItem
+    {
+        public string Key { get; set; }
+
+        public string Text { get; set; }
+
+        public bool Active { get; set; }
+    }
+}

@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Components.Web;
 namespace Blazorise;
 
 /// <summary>
-/// Base interface for <see cref="TimePicker{TValue}"/> to be updated from javascript.
+/// Defines the event surface used by <see cref="TimePicker{TValue}"/>.
 /// </summary>
 /// <remarks>
-/// This is needed to set the value from javascript because calling generic component directly is not supported by Blazor.
+/// Retained as part of the public TimePicker API.
 /// </remarks>
 public interface ITimePicker
 {

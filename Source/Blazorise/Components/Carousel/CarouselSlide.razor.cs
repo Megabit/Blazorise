@@ -25,6 +25,7 @@ public partial class CarouselSlide : BaseComponent<CarouselSlideClasses, Carouse
     private bool right;
     private bool prev;
     private bool next;
+    private readonly string selectionName = Guid.NewGuid().ToString( "N" );
 
     #endregion
 
@@ -50,7 +51,7 @@ public partial class CarouselSlide : BaseComponent<CarouselSlideClasses, Carouse
         {
             ParentCarousel.AddSlide( this );
 
-            Active = Name == ParentCarousel.SelectedSlide;
+            Active = ParentCarousel.IsSelectedSlide( this );
         }
 
         base.OnInitialized();
@@ -71,7 +72,7 @@ public partial class CarouselSlide : BaseComponent<CarouselSlideClasses, Carouse
     {
         builder.Append( ClassProvider.CarouselSlide() );
         builder.Append( ClassProvider.CarouselSlideActive( Active ) );
-        builder.Append( ClassProvider.CarouselSlideIndex( ParentCarousel.SelectedSlideIndex, ParentCarousel.SlideIndex( Name ), ParentCarousel.NumberOfSlides ) );
+        builder.Append( ClassProvider.CarouselSlideIndex( ParentCarousel.SelectedSlideIndex, ParentCarousel.SlideIndex( SelectionName ), ParentCarousel.NumberOfSlides ) );
         builder.Append( ClassProvider.CarouselSlideSlidingLeft( Left ) );
         builder.Append( ClassProvider.CarouselSlideSlidingRight( Right ) );
         builder.Append( ClassProvider.CarouselSlideSlidingPrev( Prev ) );
@@ -121,7 +122,7 @@ public partial class CarouselSlide : BaseComponent<CarouselSlideClasses, Carouse
     {
         DirtyClasses();
 
-        return ParentCarousel.Select( Name );
+        return ParentCarousel.Select( SelectionName );
     }
 
     internal void Clean()
@@ -220,6 +221,14 @@ public partial class CarouselSlide : BaseComponent<CarouselSlideClasses, Carouse
             DirtyClasses();
         }
     }
+
+    /// <summary>
+    /// Gets the name used internally to identify this slide.
+    /// </summary>
+    internal string SelectionName
+        => string.IsNullOrEmpty( Name )
+            ? selectionName
+            : Name;
 
     /// <summary>
     /// Specifies the interval (in milliseconds) after which this item will automatically slide.

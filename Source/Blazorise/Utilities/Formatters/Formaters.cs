@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Globalization;
 using System.Text;
@@ -11,6 +11,18 @@ namespace Blazorise.Utilities;
 /// </summary>
 public static class Formaters
 {
+    private const long BytesPerKilobyte = 1_024;
+
+    private const long BytesPerMegabyte = BytesPerKilobyte * 1_024;
+
+    private const long BytesPerGigabyte = BytesPerMegabyte * 1_024;
+
+    private const long BytesPerTerabyte = BytesPerGigabyte * 1_024;
+
+    private const long BytesPerPetabyte = BytesPerTerabyte * 1_024;
+
+    private const long BytesPerExabyte = BytesPerPetabyte * 1_024;
+
     /// <summary>
     /// Formats the supplied value to it's valid string representation.
     /// </summary>
@@ -46,32 +58,32 @@ public static class Formaters
 
         string suffix;
         double readable;
-        if ( absoluteValue >= 0x1000000000000000 ) // Exabyte
+        if ( absoluteValue >= BytesPerExabyte )
         {
             suffix = "EB";
             readable = ( bytes >> 50 );
         }
-        else if ( absoluteValue >= 0x4000000000000 ) // Petabyte
+        else if ( absoluteValue >= BytesPerPetabyte )
         {
             suffix = "PB";
             readable = ( bytes >> 40 );
         }
-        else if ( absoluteValue >= 0x10000000000 ) // Terabyte
+        else if ( absoluteValue >= BytesPerTerabyte )
         {
             suffix = "TB";
             readable = ( bytes >> 30 );
         }
-        else if ( absoluteValue >= 0x40000000 ) // Gigabyte
+        else if ( absoluteValue >= BytesPerGigabyte )
         {
             suffix = "GB";
             readable = ( bytes >> 20 );
         }
-        else if ( absoluteValue >= 0x100000 ) // Megabyte
+        else if ( absoluteValue >= BytesPerMegabyte )
         {
             suffix = "MB";
             readable = ( bytes >> 10 );
         }
-        else if ( absoluteValue >= 0x400 ) // Kilobyte
+        else if ( absoluteValue >= BytesPerKilobyte )
         {
             suffix = "KB";
             readable = bytes;

@@ -15,6 +15,17 @@ public static class ParameterViewExtensions
     #region Methods
 
     /// <summary>
+    /// Determines whether the parameter with the specified name was supplied and differs from its current value.
+    /// </summary>
+    /// <typeparam name="T">The type of the value.</typeparam>
+    /// <param name="parameters">Dictionary of all component parameters.</param>
+    /// <param name="currentValue">Last known parameter value.</param>
+    /// <param name="parameterName">The name of the parameter.</param>
+    /// <returns><see langword="true"/> when the parameter was supplied and its value changed; otherwise, <see langword="false"/>.</returns>
+    public static bool IsParameterChanged<T>( this ParameterView parameters, T currentValue, [CallerArgumentExpression( "currentValue" )] string parameterName = null )
+        => parameters.TryGetParameter( currentValue, out ComponentParameterInfo<T> result, parameterName ) && result.Changed;
+
+    /// <summary>
     /// Gets the value of the parameter with the specified name.
     /// </summary>
     /// <typeparam name="T">The type of the value.</typeparam>

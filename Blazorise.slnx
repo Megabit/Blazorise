@@ -21,6 +21,7 @@
     <Project Path="Demos/Shared/Blazorise.Demo.Components/Blazorise.Demo.Components.csproj" />
     <Project Path="Demos/Shared/Blazorise.Demo.DataGrid/Blazorise.Demo.DataGrid.csproj" />
     <Project Path="Demos/Shared/Blazorise.Demo.Extensions/Blazorise.Demo.Extensions.csproj" />
+    <Project Path="Demos/Shared/Blazorise.Demo.Reporting/Blazorise.Demo.Reporting.csproj" />
     <Project Path="Demos/Shared/Blazorise.Demo/Blazorise.Demo.csproj" />
   </Folder>
   <Folder Name="/Documentation/">
@@ -63,6 +64,7 @@
     <Project Path="Source/Extensions/Blazorise.Charts.Trendline/Blazorise.Charts.Trendline.csproj" />
     <Project Path="Source/Extensions/Blazorise.Charts.Zoom/Blazorise.Charts.Zoom.csproj" />
     <Project Path="Source/Extensions/Blazorise.Charts/Blazorise.Charts.csproj" />
+    <Project Path="Source/Extensions/Blazorise.CodeEditor/Blazorise.CodeEditor.csproj" />
     <Project Path="Source/Extensions/Blazorise.Components/Blazorise.Components.csproj" />
     <Project Path="Source/Extensions/Blazorise.Cropper/Blazorise.Cropper.csproj" />
     <Project Path="Source/Extensions/Blazorise.DataGrid/Blazorise.DataGrid.csproj" />
@@ -78,9 +80,14 @@
     <Project Path="Source/Extensions/Blazorise.LottieAnimation/Blazorise.LottieAnimation.csproj" />
     <Project Path="Source/Extensions/Blazorise.Markdown/Blazorise.Markdown.csproj" />
     <Project Path="Source/Extensions/Blazorise.Maps/Blazorise.Maps.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Pdf/Blazorise.Pdf.csproj" />
     <Project Path="Source/Extensions/Blazorise.PdfViewer/Blazorise.PdfViewer.csproj" />
     <Project Path="Source/Extensions/Blazorise.PivotGrid/Blazorise.PivotGrid.csproj" />
     <Project Path="Source/Extensions/Blazorise.QRCode/Blazorise.QRCode.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Reporting.DataSources.Csv/Blazorise.Reporting.DataSources.Csv.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Reporting.DataSources.Sql/Blazorise.Reporting.DataSources.Sql.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Reporting.DataSources.WebApi/Blazorise.Reporting.DataSources.WebApi.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Reporting/Blazorise.Reporting.csproj" />
     <Project Path="Source/Extensions/Blazorise.RichTextEdit/Blazorise.RichTextEdit.csproj" />
     <Project Path="Source/Extensions/Blazorise.Scheduler/Blazorise.Scheduler.csproj" />
     <Project Path="Source/Extensions/Blazorise.Sidebar/Blazorise.Sidebar.csproj" />

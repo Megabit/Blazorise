@@ -25,7 +25,7 @@ public class SortDirectionContext<TItem>
     public DataGrid<TItem> DataGrid { get; }
 
     /// <summary>
-    /// Gets the column associated with the sort.
+    /// Gets the column used by the sort.
     /// </summary>
     public DataGridColumn<TItem> Column { get; }
 

@@ -130,6 +130,18 @@ public partial class _SchedulerSlotItem<TItem>
         return itemStyling;
     }
 
+    private Background GetItemBackground( SchedulerItemStyling itemStyling )
+    {
+        return HasCustomBackgroundStyle( itemStyling.Style )
+            ? Background.Default
+            : itemStyling.Background;
+    }
+
+    private static bool HasCustomBackgroundStyle( string style )
+    {
+        return style?.Contains( "background", StringComparison.OrdinalIgnoreCase ) == true;
+    }
+
     #endregion
 
     #region Properties

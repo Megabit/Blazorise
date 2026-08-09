@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Supports chart legend behavior in chart components.
+/// </summary>
 public class ChartLegend
 {
     /// <summary>

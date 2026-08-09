@@ -4,11 +4,9 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Docs.Models;
-using Blazorise.Docs.Options;
 using Blazorise.Docs.Services;
 using Markdig;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
 
 namespace Blazorise.Docs.Pages.Home;
 
@@ -33,23 +31,19 @@ public partial class JobsPage
     private string selectedSeniority = AllFilterOption;
     private JobsSortOption selectedSort = JobsSortOption.MostRecent;
 
-    private JobsOptions jobsOptions = new JobsOptions();
     private JobPost selectedJob;
     private bool detailsVisible;
     private MarkupString descriptionMarkup;
 
     [Inject] public IJobsService JobsService { get; set; }
-    [Inject] public IOptions<JobsOptions> JobsOptions { get; set; }
 
     private IReadOnlyList<string> EmploymentTypeOptions => employmentTypeOptions;
     private IReadOnlyList<string> SeniorityOptions => seniorityOptions;
-    private string SubmitJobUrl => jobsOptions.SubmitJobUrl;
     private string DetailsTitle => selectedJob?.Title ?? "Job details";
     private MarkupString DescriptionMarkup => descriptionMarkup;
 
     protected override async Task OnInitializedAsync()
     {
-        jobsOptions = JobsOptions?.Value ?? new JobsOptions();
         await LoadJobsAsync();
     }
 

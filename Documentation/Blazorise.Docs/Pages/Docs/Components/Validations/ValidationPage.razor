@@ -105,7 +105,7 @@
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Validating using method handlers">
+    <DocsPageSectionHeader Title="Method handlers">
         <Paragraph>
             Method handlers are the easiest way to validate fields. Blazorise provides a set of predefined handlers through the <Code>ValidationRule</Code> helper class that you can assign to the <Code>Validator</Code> parameter.
         </Paragraph>
@@ -119,7 +119,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Warning and grouped feedback" New>
+    <DocsPageSectionHeader Title="Grouped feedback" New>
         <Paragraph>
             Use <Code Tag>ValidationWarning</Code> when a value is acceptable but should still show non-blocking guidance.
             To keep all feedback fragments together, use <Code Tag>ValidationFeedback</Code> with <Code Tag>None</Code>,
@@ -136,7 +136,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Validating using Data Annotations">
+    <DocsPageSectionHeader Title="Data annotations">
         To use data annotations with Blazorise, you must combine both <Code>Validation</Code> and <Code>Validations</Code>
         components. The <Code>Validations</Code> component groups the fields used inside a <Code>Validation</Code>
         component. To make this work, you must meet two requirements:
@@ -156,7 +156,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Validating using Pattern">
+    <DocsPageSectionHeader Title="Pattern validation">
         If you want to validate input using a regular expression instead of <Code>Validator</Code> handlers, use the
         <Code>Pattern</Code> parameter. Components that support the pattern attribute include <Code>TextInput</Code>,
         <Code>NumericInput</Code> and <Code>DateInput</Code>.

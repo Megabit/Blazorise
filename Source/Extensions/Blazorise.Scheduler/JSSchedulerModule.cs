@@ -9,9 +9,8 @@ using Microsoft.JSInterop;
 namespace Blazorise.Scheduler;
 
 /// <summary>
-/// Default implementation of the video JS module.
+/// Manages pointer selection behavior for a scheduler in the browser.
 /// </summary>
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public class JSSchedulerModule : BaseJSModule,
     IJSDestroyableModule
 {
@@ -46,21 +45,33 @@ public class JSSchedulerModule : BaseJSModule,
 
     #region Methods
 
+    /// <summary>
+    /// Attaches scheduler selection listeners and .NET callbacks.
+    /// </summary>
     public virtual async ValueTask Initialize<TItem>( DotNetObjectReference<Scheduler<TItem>> dotNetObjectReference )
     {
         await InvokeSafeVoidAsync( "initialize", dotNetObjectReference, ElementRef, ElementId );
     }
 
+    /// <summary>
+    /// Detaches browser behavior from a scheduler element.
+    /// </summary>
     public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
     {
         await InvokeSafeVoidAsync( "destroy", elementRef, elementId );
     }
 
+    /// <summary>
+    /// Marks the beginning of a scheduler range selection.
+    /// </summary>
     public virtual async ValueTask SelectionStarted()
     {
         await InvokeSafeVoidAsync( "selectionStarted", ElementRef, ElementId );
     }
 
+    /// <summary>
+    /// Marks completion of the active scheduler range selection.
+    /// </summary>
     public virtual async ValueTask SelectionEnded()
     {
         await InvokeSafeVoidAsync( "selectionEnded", ElementRef, ElementId );
@@ -85,4 +96,3 @@ public class JSSchedulerModule : BaseJSModule,
 
     #endregion
 }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

@@ -1,0 +1,13 @@
+PdfDocumentDefinition document = PdfDocumentBuilder.Create()
+    .Title( "Remote resources" )
+    .AddFont( "Inter", FontSource.FromUrl( "fonts/Inter-Regular.ttf" ) )
+    .Page( page =>
+    {
+        page.Image( "images/company-logo.png", 48, 48, 120, 48 );
+
+        page.Text( "This font and image were resolved from URLs.", 48, 120, 360, 24 )
+            .FontFamily( "Inter" );
+    } )
+    .Build();
+
+PdfGenerationResult result = await PdfGenerator.Generate( document );

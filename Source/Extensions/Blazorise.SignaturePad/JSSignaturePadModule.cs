@@ -30,6 +30,9 @@ namespace Blazorise.SignaturePad
 
         #region Methods
 
+        /// <summary>
+        /// Attaches the browser signature pad to its canvas and applies its initial settings.
+        /// </summary>
         public virtual async ValueTask Initialize( DotNetObjectReference<SignaturePad> dotNetObjectReference, ElementReference elementRef, string elementId, SignaturePadJSOptions options )
         {
             var moduleInstance = await Module;
@@ -37,6 +40,9 @@ namespace Blazorise.SignaturePad
             await moduleInstance.InvokeVoidAsync( "initialize", dotNetObjectReference, elementRef, elementId, options );
         }
 
+        /// <summary>
+        /// Releases browser resources associated with a signature canvas.
+        /// </summary>
         public virtual async ValueTask Destroy( ElementReference canvasRef, string elementId )
         {
             var moduleInstance = await Module;
@@ -44,6 +50,9 @@ namespace Blazorise.SignaturePad
             await moduleInstance.InvokeVoidAsync( "destroy", canvasRef, elementId );
         }
 
+        /// <summary>
+        /// Applies changed drawing and export settings without recreating the canvas.
+        /// </summary>
         public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, SignaturePadUpdateJSOptions options )
         {
             var moduleInstance = await Module;
@@ -51,6 +60,9 @@ namespace Blazorise.SignaturePad
             await moduleInstance.InvokeVoidAsync( "updateOptions", elementRef, elementId, options );
         }
 
+        /// <summary>
+        /// Removes every stroke from the selected canvas.
+        /// </summary>
         public virtual async ValueTask Clear( ElementReference canvasRef, string elementId )
         {
             var moduleInstance = await Module;
@@ -58,6 +70,9 @@ namespace Blazorise.SignaturePad
             await moduleInstance.InvokeVoidAsync( "clear", canvasRef, elementId );
         }
 
+        /// <summary>
+        /// Removes the most recent stroke and returns the updated image data URL.
+        /// </summary>
         public virtual async ValueTask<string> Undo( ElementReference canvasRef, string elementId )
         {
             var moduleInstance = await Module;
@@ -65,6 +80,9 @@ namespace Blazorise.SignaturePad
             return await moduleInstance.InvokeAsync<string>( "undo", canvasRef, elementId );
         }
 
+        /// <summary>
+        /// Reads the JavaScript signature-pad instance associated with the canvas.
+        /// </summary>
         public virtual async ValueTask<SignaturePad> GetData( ElementReference canvasRef )
         {
             var moduleInstance = await Module;
@@ -72,6 +90,9 @@ namespace Blazorise.SignaturePad
             return await moduleInstance.InvokeAsync<SignaturePad>( "getData", canvasRef );
         }
 
+        /// <summary>
+        /// Replaces the canvas contents with encoded signature data.
+        /// </summary>
         public virtual async ValueTask SetData( ElementReference canvasRef, string elementId, byte[] data )
         {
             var moduleInstance = await Module;

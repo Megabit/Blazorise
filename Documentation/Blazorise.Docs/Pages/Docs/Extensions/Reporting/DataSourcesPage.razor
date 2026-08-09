@@ -1,0 +1,216 @@
+@page "/docs/extensions/reporting/data-sources"
+
+<Seo Canonical="/docs/extensions/reporting/data-sources" Title="Blazorise Reporting data sources" Description="Bind Blazorise reports to objects, DataSets, DataTables, CSV sources, Web APIs, and server-side SQL sources." />
+
+<DocsPageTitle Path="Extensions/Reporting/Data Sources" AddedVersion="New">
+    Reporting data sources
+</DocsPageTitle>
+
+<DocsPageLead>
+    Reports can bind to object models, DataSets, DataTables, CSV sources, Web APIs, or server-side SQL sources. Object and DataSet sources are built in; CSV, Web API, and SQL are optional providers with their own registration and security requirements.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Built-in data sources
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Object data source">
+        Object data sources expose scalar properties, nested objects, and collections to the designer.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ReportingDataSourcesExample" Outlined FullWidth>
+        <ReportingDataSourcesExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Detail bands and collections">
+        Assign the detail band data source to a collection path. Fields inside the detail band are then resolved against each collection item.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ReportingDetailDataSourceExample" Outlined FullWidth>
+        <ReportingDetailDataSourceExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DataSet data source">
+        Use <Code>ReportDataSetDataSource</Code> to bind reports to enterprise data sources that expose <Code>DataSet</Code> or <Code>DataTable</Code> objects. Set <Code>TableName</Code> to bind one table directly, or omit it to expose tables as nested data sources.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ReportingDataSetDataSourceExample" Outlined FullWidth>
+        <ReportingDataSetDataSourceExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    CSV data source
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The CSV provider turns comma-separated text into a tabular report data source. Use it for exports, static reference data, or files produced by another system, supplied inline or loaded from a local file or remote URL.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install the CSV data-source extension.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingCsvDataSourceNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingCsvDataSourceImportsExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    Register the provider after the core Reporting services. Calling <Code>AddBlazoriseReportingCsvDataSource()</Code> without callbacks uses the default HTTP configuration and a 5 MB source limit.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Registration">
+        The optional callbacks configure the HTTP client and decide which remote CSV addresses the application permits.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingCsvDataSourceRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    Set <Code>ReportCsvDataSource.Source</Code> to inline CSV text, a local file path in a server application, or an absolute HTTP or HTTPS URL. The first row supplies field names by default, and the provider infers the field types from the remaining rows.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Declarative CSV">
+        Give the source a name and use that name as the data source of a detail band.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingCsvDataSourceExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Remote source security">
+        HTTP sources are downloaded by the browser in Blazor WebAssembly and therefore follow browser CORS rules. In server applications they are downloaded by the server, so use <Code>ResourceAllowed</Code> to restrict user-controlled URLs. Server registrations disable and reject redirects by default. If the primary HTTP handler is replaced, keep automatic redirects disabled so an allowed address cannot redirect to a blocked destination.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    REST / Web API data source
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The REST / Web API provider retrieves structured data with read-only HTTP GET requests and exposes a selected response collection as report rows. Use it when report data is available through a browser-accessible or server-to-server API instead of a direct database connection.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install the REST / Web API data-source extension.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingWebApiDataSourceNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingWebApiDataSourceImportsExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    The provider performs read-only HTTP GET requests and delegates response parsing to registered readers. JSON and XML readers are included, and applications can register additional formats through <Code>IReportWebApiResponseReader</Code>.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Registration">
+        The designer stores the complete absolute HTTP or HTTPS URL, including its path and query, in the report definition. Pre-registering endpoint names is not required. Use the optional <Code>ResourceAllowed</Code> callback when the application wants to restrict authors to particular hosts or paths. When it is omitted, server applications allow any public URL, while WebAssembly allows any otherwise valid URL subject to browser rules. Public or anonymously accessible server-side designers should always configure an allowlist; the Blazorise documentation site limits its live example to <Code>dummyjson.com</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingWebApiDataSourceRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    Request headers can be entered in the designer as one <Code>Name: Value</Code> pair per line, or supplied through <Code>ReportWebApiDataSource.Headers</Code>. The URL, query, and these headers are serialized with the report and are visible to anyone who can read or edit it, so do not place protected API keys, bearer tokens, or other server secrets there. Add protected credentials in <Code>ConfigureRequestAsync</Code>, where the host can obtain them from server configuration and replace or augment report-defined headers. Because that callback receives the requested URL, add credentials only after matching it to an application-owned allowlist; otherwise an author could send them to another public host.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Response data">
+        Use <Code>auto</Code> to select a reader from the response content type and content, or select a registered format explicitly. The JSON reader accepts an optional RFC 6901 JSON Pointer such as <Code>/items</Code>. The XML reader accepts an XPath element selector such as <Code>/orders/order</Code>. <Code>Connect</Code> infers the selected data schema and closes the dialog only when the request succeeds. While the request is pending, settings and modal dismissal are disabled so the exact definition being validated is committed on success. Changing a setting clears the previous connection result.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Declarative">
+        Supply the complete endpoint URL, optional request headers, a response format, and the response node that supplies report rows. This example uses the public DummyJSON API.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingWebApiDataSourceExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Security">
+        In Blazor Server and <Code>InteractiveServer</Code>, requests execute on the server. Reporting therefore rejects localhost, loopback, link-local, private, reserved, and other non-public destinations regardless of <Code>ResourceAllowed</Code>. It resolves the host again when opening the connection, connects only to a public address, disables proxies, cookies, and automatic redirects, and limits response size, collection size, nesting depth, and request duration. The optional resource policy narrows this boundary; it cannot grant access to a blocked network.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageParagraph>
+    In standalone Blazor WebAssembly and <Code>InteractiveWebAssembly</Code>, the request executes in the user's browser. Authors may enter any absolute HTTP or HTTPS URL, subject to browser CORS, mixed-content, and authentication rules. A client-side <Code>ResourceAllowed</Code> callback is useful for product behavior but is not an authorization boundary because users control the browser. The target API must authenticate and authorize each request. Browser applications may use the signed-in user's browser-accessible credentials, but must never contain server credentials or client secrets. In every hosting model, treat editable report definitions as untrusted input and expose read-only reporting endpoints.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    SQL data source
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The SQL provider connects a server-hosted Report directly to a database and exposes an authorized query result as tabular report data. Use it when the host controls database connections and report authors need governed access to reporting views or queries.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install the SQL data-source extension together with the ADO.NET provider for the target database. This example uses <Code>Microsoft.Data.SqlClient</Code> for Microsoft SQL Server; use the corresponding provider, such as <Code>Npgsql</Code>, for another database.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingSqlDataSourceNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingSqlDataSourceImportsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Hosting models">
+        The SQL extension executes in the process that renders the report and is intended for Blazor Server and <Code>InteractiveServer</Code> components.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageParagraph>
+    Do not register a database connection or place a connection string in a standalone Blazor WebAssembly or <Code>InteractiveWebAssembly</Code> client. The SQL registration throws on browser runtimes because the component and its data source providers execute inside the browser in those render modes, where secrets are visible to the user and direct database access is not a secure application boundary. Execute the database query in an authenticated server API, return only the authorized rows, and bind those rows with <Code>ReportObjectDataSource</Code>. A Blazor Web App using <Code>InteractiveServer</Code> follows the server registration shown below because the Report component continues to execute on the server. With <Code>InteractiveAuto</Code>, use the API and object data source approach unless the Report is explicitly kept in a server render mode.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Server registration">
+        Register application-owned connection factories and a query authorization policy. The designer lists only these registered connection names, and a report stores the selected logical name while the connection string remains in server configuration. Each factory must return a new connection because Reporting opens and disposes it for each schema or data operation.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingSqlDataSourceRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    Queries are denied when <Code>QueryAllowed</Code> is not configured or returns <Code>false</Code>. For ordinary report authors, use an exact allowlist of application-owned SQL. A check such as <Code>query.StartsWith("SELECT")</Code> is not a security boundary because SQL comments, common table expressions, multiple statements, provider-specific commands, and database functions can still have side effects. An application restricted to trusted SQL authors may deliberately allow every query for a registered connection by returning <Code>true</Code>; this grants those authors the database identity's full effective permissions, so combine it with a dedicated read-only identity and restricted reporting views. <Code>MaximumCommandTimeout</Code> is a server-owned upper bound; a report may request a shorter positive timeout but cannot disable or increase that limit.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Security model">
+        SQL settings are part of the report definition and editable reports must be treated as untrusted input. The policy is evaluated for both schema discovery and preview data loading before a connection is opened. SQL data sources provide a <Code>Test Connection</Code> action that runs server-side schema resolution without changing the report, while <Code>Connect</Code> or <Code>Save changes</Code> closes the dialog and commits the connection only after validation succeeds. A denied or failed designer connection remains open and is not committed, and editing an existing connection preserves its previous settings when validation fails. Settings and modal dismissal are disabled during validation so the exact tested definition is the one that can be committed. This fail-closed design prevents a modified or uploaded report definition from selecting an arbitrary connection string or executing an unapproved command. Connection names are also resolved only from the factories registered by the host application.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageParagraph>
+    The allowlist complements database security rather than replacing it. Use a dedicated read-only database identity with access only to reporting views or reporting data, keep dangerous database extensions and operating-system integration disabled, and authenticate and authorize access to the report designer. Data-source failures display a generic warning; the full exception is written to the application logger and supplied to <Code>OperationFailed</Code> for trusted server-side handling. The SQL provider does not add parameters to report queries, so never concatenate user input into the query text.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Declarative SQL">
+        The connection name and query must pass the server registration policy before Reporting opens a database connection. Use the data source name from report bands and fields.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingSqlDataSourceExample" />
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/reporting/api" Name="<Report />" />
+</DocsPageApi>

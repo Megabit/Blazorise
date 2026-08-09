@@ -97,6 +97,44 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
+    public override string DatePickerContainer( bool inline, bool open ) => $"datepicker dropdown{( inline ? " is-inline" : null )}{( open ? " is-active" : null )}";
+
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"datepicker-calendar box{( inline ? " is-inline" : null )}{( staticPicker ? " is-static" : " is-floating" )}";
+
+    public override string DatePickerCalendarBackdrop() => "datepicker-backdrop";
+
+    public override string DatePickerCalendarHeader() => "datepicker-header";
+
+    public override string DatePickerCalendarNavigation() => "datepicker-navigation button is-small is-light";
+
+    public override string DatePickerCalendarTitle() => "datepicker-title is-flex is-align-items-center";
+
+    public override string DatePickerCalendarGrid() => "datepicker-grid";
+
+    public override string DatePickerCalendarWeekdays() => "datepicker-weekdays has-text-grey";
+
+    public override string DatePickerCalendarWeekday() => "datepicker-weekday is-size-7";
+
+    public override string DatePickerCalendarWeek() => "datepicker-week";
+
+    public override string DatePickerCalendarWeekNumber() => "datepicker-week-number has-text-grey is-size-7";
+
+    public override string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused )
+        => $"datepicker-day button is-small{( outside ? " is-outside" : null )}{( today ? " is-today" : null )}{( selected ? " is-selected" : null )}{( rangeStart ? " is-range-start" : null )}{( inRange ? " is-in-range" : null )}{( rangeEnd ? " is-range-end" : null )}{( disabled ? " is-disabled" : null )}{( focused ? " is-focused" : null )}";
+
+    public override string DatePickerCalendarMonths() => "datepicker-months";
+
+    public override string DatePickerCalendarMonth( bool selected, bool disabled, bool focused )
+        => $"datepicker-month button is-small{( selected ? " is-selected" : null )}{( disabled ? " is-disabled" : null )}{( focused ? " is-focused" : null )}";
+
+    public override string DatePickerCalendarTime() => "datepicker-time field has-addons";
+
+    public override string DatePickerCalendarTimeInput() => "datepicker-time-input input is-small";
+
+    public override string DatePickerCalendarActions() => "datepicker-actions buttons is-right";
+
+    public override string DatePickerCalendarButton() => "datepicker-button button is-small is-light";
+
     #endregion
 
     #region TimePicker
@@ -108,6 +146,25 @@ public class BulmaClassProvider : ClassProvider
     public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    public override string TimePickerContainer( bool inline, bool open )
+        => $"timepicker{( inline ? " timepicker-inline" : null )}{( open ? " is-active" : null )}";
+
+    public override string TimePickerMenu( bool inline, bool staticPicker )
+        => $"timepicker-menu box{( inline ? " timepicker-menu-inline" : null )}{( staticPicker ? " timepicker-menu-static" : " timepicker-menu-floating" )}";
+
+    public override string TimePickerBackdrop() => "timepicker-backdrop";
+
+    public override string TimePickerControls() => "timepicker-controls field has-addons";
+
+    public override string TimePickerControl( bool focused ) => $"timepicker-control control{( focused ? " is-focused" : null )}";
+
+    public override string TimePickerInput() => "timepicker-input input";
+
+    public override string TimePickerSeparator() => "timepicker-separator button is-static";
+
+    public override string TimePickerMeridiem( bool postMeridiem, bool focused )
+        => $"timepicker-meridiem button{( postMeridiem ? " is-pm" : null )}{( focused ? " is-focused" : null )}";
 
     #endregion
 
@@ -235,6 +292,26 @@ public class BulmaClassProvider : ClassProvider
     public override string RangeSliderTooltip() => "range-slider-tooltip";
 
     public override string RangeSliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    #endregion
+
+    #region Resizer
+
+    public override string Resizer() => "resizer";
+
+    public override string ResizerOrientation( Orientation orientation ) => $"is-{orientation.ToString().ToLowerInvariant()}";
+
+    public override string ResizerPlacement( Placement placement ) => $"is-{placement.ToString().ToLowerInvariant()}";
+
+    public override string ResizerGutter( bool showGutter ) => showGutter ? "has-gutter" : null;
+
+    public override string ResizerDisabled( bool disabled ) => disabled ? "is-disabled" : null;
+
+    public override string ResizerFocused( bool focused ) => focused ? "is-focused" : null;
+
+    public override string ResizerResizing( bool resizing ) => resizing ? "is-resizing" : null;
+
+    public override string ResizerTargetResizing( bool resizing ) => resizing ? "is-resize-target-resizing" : null;
 
     #endregion
 
@@ -545,6 +622,90 @@ public class BulmaClassProvider : ClassProvider
         Direction.Start => "is-left",
         _ => null,
     };
+
+    public override string ContextMenu() => "dropdown context-menu";
+
+    public override string ContextMenuToggle() => "context-menu-toggle";
+
+    public override string ContextMenuBody() => $"{DropdownMenu()} context-menu-menu";
+
+    public override string ContextMenuBodyVisible( bool visible ) => DropdownMenuVisible( visible );
+
+    public override string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => DropdownMenuPositionStrategy( dropdownPositionStrategy );
+
+    public override string ContextMenuItem() => $"{DropdownItem()} context-menu-item";
+
+    public override string ContextMenuItemActive( bool active ) => DropdownItemActive( active );
+
+    public override string ContextMenuItemDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuItemContent() => "context-menu-item-content";
+
+    public override string ContextMenuItemCheck() => "context-menu-item-check";
+
+    public override string ContextMenuItemShortcut() => "context-menu-item-shortcut";
+
+    public override string ContextMenuDivider() => $"{DropdownDivider()} context-menu-divider";
+
+    public override string ContextMenuHeader() => $"{DropdownHeader()} context-menu-header";
+
+    public override string ContextMenuGroup() => "context-menu-group";
+
+    public override string ContextMenuToolbar() => "context-menu-toolbar";
+
+    public override string ContextMenuToolbarItem() => "context-menu-toolbar-item";
+
+    public override string ContextMenuToolbarItemActive( bool active ) => active ? "is-active" : null;
+
+    public override string ContextMenuToolbarItemDisabled( bool disabled ) => disabled ? "is-disabled" : null;
+
+    public override string ContextMenuToolbarItemEndAligned( bool endAligned ) => endAligned ? "context-menu-toolbar-item-end-aligned" : null;
+
+    public override string ContextMenuSubmenu() => "context-menu-submenu";
+
+    public override string ContextMenuSubmenuTrigger() => "context-menu-submenu-trigger";
+
+    public override string ContextMenuSubmenuTriggerDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuSubmenuBody() => "context-menu-submenu-menu";
+
+    #endregion
+
+    #region PropertyGrid
+
+    public override string PropertyGrid() => "property-grid";
+
+    public override string PropertyGridViewport() => "property-grid-viewport";
+
+    public override string PropertyGridToolbar() => "property-grid-toolbar";
+
+    public override string PropertyGridToolbarButton() => "property-grid-toolbar-button";
+
+    public override string PropertyGridToolbarSearch() => "property-grid-toolbar-search";
+
+    public override string PropertyGridEmpty() => "property-grid-empty";
+
+    public override string PropertyGridHelp() => "property-grid-help";
+
+    public override string PropertyGridHelpTitle() => "property-grid-help-title";
+
+    public override string PropertyGridHelpDescription() => "property-grid-help-description";
+
+    public override string PropertyGridGroup() => "property-grid-group";
+
+    public override string PropertyGridGroupHeader() => "property-grid-group-header";
+
+    public override string PropertyGridGroupToggle() => "property-grid-group-toggle";
+
+    public override string PropertyGridGroupBody() => "property-grid-group-body";
+
+    public override string PropertyGridItem() => "property-grid-item";
+
+    public override string PropertyGridItemSelected( bool selected ) => selected ? "property-grid-item-selected" : null;
+
+    public override string PropertyGridItemLabel() => "property-grid-item-label";
+
+    public override string PropertyGridItemBody() => "property-grid-item-body";
 
     #endregion
 
@@ -1763,6 +1924,140 @@ public class BulmaClassProvider : ClassProvider
     public override string DescriptionListTerm() => null;
 
     public override string DescriptionListDefinition() => null;
+
+    #endregion
+
+    #region DockLayout
+
+    public override string DockLayout() => "dock-layout";
+
+    public override string DockSplit() => "dock-split";
+
+    public override string DockSplitOrientation( Orientation orientation )
+        => orientation == Blazorise.Orientation.Vertical ? "is-vertical" : "is-horizontal";
+
+    public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "dock-pane";
+
+    public override string DockPanePosition( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Center => "is-center",
+            Blazorise.DockPanePosition.Right => "is-right",
+            Blazorise.DockPanePosition.Top => "is-top",
+            Blazorise.DockPanePosition.Bottom => "is-bottom",
+            _ => "is-left",
+        };
+
+    public override string DockPaneResizable( bool resizable ) => resizable ? "is-resizable" : null;
+
+    public override string DockPaneCollapsed( bool collapsed ) => collapsed ? "is-collapsed" : null;
+
+    public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "is-auto-hide" : null;
+
+    public override string DockPaneBordered() => "is-bordered";
+
+    public override string DockPaneAutoHideRail( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "dock-auto-hide-rail is-right",
+            Blazorise.DockPanePosition.Top => "dock-auto-hide-rail is-top",
+            Blazorise.DockPanePosition.Bottom => "dock-auto-hide-rail is-bottom",
+            _ => "dock-auto-hide-rail is-left",
+        };
+
+    public override string DockPaneAutoHideTab( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "dock-pane-auto-hide-tab is-right",
+            Blazorise.DockPanePosition.Top => "dock-pane-auto-hide-tab is-top",
+            Blazorise.DockPanePosition.Bottom => "dock-pane-auto-hide-tab is-bottom",
+            _ => "dock-pane-auto-hide-tab is-left",
+        };
+
+    public override string DockPaneAutoHideFlyout( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "dock-auto-hide-flyout is-right",
+            Blazorise.DockPanePosition.Top => "dock-auto-hide-flyout is-top",
+            Blazorise.DockPanePosition.Bottom => "dock-auto-hide-flyout is-bottom",
+            _ => "dock-auto-hide-flyout is-left",
+        };
+
+    public override string DockPaneHeader() => "dock-pane-header";
+
+    public override string DockPaneHeaderContent() => "dock-pane-header-content";
+
+    public override string DockPaneHeaderActions() => "dock-pane-header-actions";
+
+    public override string DockPaneHeaderAction() => "dock-pane-header-action";
+
+    public override string DockPaneBody() => "dock-pane-body";
+
+    public override string DockPaneFooter() => "dock-pane-footer";
+
+    public override string DockContent() => "dock-content";
+
+    public override string DockPaneTabs() => "dock-pane-tabs";
+
+    public override string DockPaneTabPosition( DockPaneTabPosition position )
+        => position == Blazorise.DockPaneTabPosition.Top ? "is-top" : null;
+
+    public override string DockPaneTabsHost() => "has-tabs";
+
+    public override string DockPaneTab( bool active ) => active ? "dock-pane-tab is-active" : "dock-pane-tab";
+
+    public override string DockPaneTabLabel() => "dock-pane-tab-label";
+
+    public override string DockPaneTabClose() => "dock-pane-tab-close";
+
+    public override string DockLayoutCompass() => "dock-compass";
+
+    public override string DockLayoutCompassZone( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Center => "dock-compass-zone is-center",
+            DockZone.Right => "dock-compass-zone is-right",
+            DockZone.Top => "dock-compass-zone is-top",
+            DockZone.Bottom => "dock-compass-zone is-bottom",
+            _ => "dock-compass-zone is-left",
+        };
+
+        return active ? $"{baseClass} is-active" : baseClass;
+    }
+
+    public override string DockLayoutCompassZonePlacement( DockCompassZone zone )
+        => zone switch
+        {
+            DockCompassZone.TopOuter => "is-top-outer",
+            DockCompassZone.TopInner => "is-top-inner",
+            DockCompassZone.LeftOuter => "is-left-outer",
+            DockCompassZone.LeftInner => "is-left-inner",
+            DockCompassZone.RightInner => "is-right-inner",
+            DockCompassZone.RightOuter => "is-right-outer",
+            DockCompassZone.BottomInner => "is-bottom-inner",
+            DockCompassZone.BottomOuter => "is-bottom-outer",
+            _ => "is-center",
+        };
+
+    public override string DockLayoutCompassZoneIcon() => "dock-compass-zone-icon";
+
+    public override string DockLayoutDragPreview() => "dock-drag-preview";
+
+    public override string DockLayoutDropPreview() => "dock-drop-preview";
+
+    public override string DockLayoutShellGuide( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Right => "dock-shell-guide is-right",
+            DockZone.Top => "dock-shell-guide is-top",
+            DockZone.Bottom => "dock-shell-guide is-bottom",
+            _ => "dock-shell-guide is-left",
+        };
+
+        return active ? $"{baseClass} is-active" : baseClass;
+    }
 
     #endregion
 

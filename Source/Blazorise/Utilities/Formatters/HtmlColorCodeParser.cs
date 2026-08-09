@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,6 +13,16 @@ namespace Blazorise.Utilities;
 public static class HtmlColorCodeParser
 {
     #region Constants
+
+    private const int RedComponentMask = 0xFF0000;
+
+    private const int GreenComponentMask = 0x00FF00;
+
+    private const int BlueComponentMask = 0x0000FF;
+
+    private const int RedComponentShift = 16;
+
+    private const int GreenComponentShift = 8;
 
     private static readonly Regex HtmlColorRegex = new( @"^#((?'R'[0-9a-f]{2})(?'G'[0-9a-f]{2})(?'B'[0-9a-f]{2}))|((?'R'[0-9a-f])(?'G'[0-9a-f])(?'B'[0-9a-f]))$", RegexOptions.Compiled | RegexOptions.IgnoreCase );
 
@@ -402,9 +412,9 @@ public static class HtmlColorCodeParser
 
         if ( Mapping.TryGetValue( code, out var hexCode ) )
         {
-            red = (byte)( ( hexCode & 0xFF0000 ) >> 16 );
-            green = (byte)( ( hexCode & 0x00FF00 ) >> 8 );
-            blue = (byte)( hexCode & 0x0000FF );
+            red = (byte)( ( hexCode & RedComponentMask ) >> RedComponentShift );
+            green = (byte)( ( hexCode & GreenComponentMask ) >> GreenComponentShift );
+            blue = (byte)( hexCode & BlueComponentMask );
 
             return true;
         }

@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.RichTextEdit;
 
+/// <summary>
+/// Arranges related rich-text controls as one toolbar group.
+/// </summary>
 public partial class RichTextEditToolbarGroup : BaseComponent
 {
     #region Methods

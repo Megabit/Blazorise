@@ -43,6 +43,22 @@
     "PM": "PM",
     "RangeSeparator": " do ",
     "Today": "Danas",
-    "Clear": "Obriši"
+    "ThisMonth": "Ovaj mjesec",
+    "ThisWeek": "Ovaj tjedan",
+    "Clear": "Obriši",
+    "Month": "Mjesec",
+    "Year": "Godina",
+    "Week": "Tjedan",
+    "Time": "Vrijeme",
+    "Hour": "Sat",
+    "Minute": "Minuta",
+    "PreviousMonth": "Prethodni mjesec",
+    "NextMonth": "Sljedeći mjesec",
+    "PreviousYear": "Prethodna godina",
+    "NextYear": "Sljedeća godina",
+    "PreviousDecade": "Prethodno desetljeće",
+    "NextDecade": "Sljedeće desetljeće",
+    "PreviousCentury": "Prethodno stoljeće",
+    "NextCentury": "Sljedeće stoljeće"
   }
 }

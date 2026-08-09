@@ -13,6 +13,9 @@ public class SvgBubbleChart<TItem> : SvgChart<TItem>
 {
     #region Constructors
 
+    /// <summary>
+    /// Creates a Cartesian chart whose marker size represents a third value.
+    /// </summary>
     public SvgBubbleChart()
     {
         Type = SvgChartType.Bubble;

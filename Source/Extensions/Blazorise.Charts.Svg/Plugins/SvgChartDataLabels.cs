@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -14,6 +16,51 @@ namespace Blazorise.Charts.Svg;
 /// </summary>
 public class SvgChartDataLabels : SvgChartPluginBase
 {
+    #region Members
+
+    private ComponentParameterInfo<bool> paramVisible;
+
+    private ComponentParameterInfo<bool> paramInteractive;
+
+    private ComponentParameterInfo<SvgChartDataLabelPosition> paramPosition;
+
+    private ComponentParameterInfo<double> paramOffset;
+
+    private ComponentParameterInfo<double> paramOpacity;
+
+    private ComponentParameterInfo<SvgChartFontOptions> paramFont;
+
+    private ComponentParameterInfo<SvgChartSpacing> paramPadding;
+
+    private ComponentParameterInfo<Color> paramBackgroundColor;
+
+    private ComponentParameterInfo<SvgChartBorderOptions> paramBorder;
+
+    private ComponentParameterInfo<Func<SvgChartDataLabelContext, string>> paramFormatter;
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Visible, out paramVisible );
+        parameters.TryGetParameter( Interactive, out paramInteractive );
+        parameters.TryGetParameter( Position, out paramPosition );
+        parameters.TryGetParameter( Offset, out paramOffset );
+        parameters.TryGetParameter( Opacity, out paramOpacity );
+        parameters.TryGetParameter( Font, out paramFont );
+        parameters.TryGetParameter( Padding, out paramPadding );
+        parameters.TryGetParameter( BackgroundColor, out paramBackgroundColor );
+        parameters.TryGetParameter( Border, out paramBorder );
+        parameters.TryGetParameter( Formatter, out paramFormatter );
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    #endregion
+
     #region Properties
 
     /// <summary>
@@ -76,6 +123,10 @@ public class SvgChartDataLabels : SvgChartPluginBase
     /// </summary>
     [Parameter] public EventCallback<SvgChartPointEventArgs> Hovered { get; set; }
 
+    #endregion
+
+    #region Methods
+
     /// <inheritdoc/>
     public override void Render( SvgChartPluginRenderContext context, RenderTreeBuilder builder, ref int sequence )
     {
@@ -115,6 +166,30 @@ public class SvgChartDataLabels : SvgChartPluginBase
             BackgroundColor = options.BackgroundColor,
             Border = SvgChartAnnotationRenderHelpers.CreateBorderOptions( options.Border ),
             Formatter = options.Formatter
+        };
+    }
+
+    internal static SvgChartDataLabels Create( SvgChartDataLabelsOptions options, SvgChartDataLabels component )
+    {
+        if ( component is null )
+            return Create( options );
+
+        options ??= new();
+
+        return new()
+        {
+            Visible = component.paramVisible.GetValueOrDefault( options.Visible ),
+            Interactive = component.paramInteractive.GetValueOrDefault( options.Interactive ),
+            Position = component.paramPosition.GetValueOrDefault( options.Position ),
+            Offset = component.paramOffset.GetValueOrDefault( options.Offset ),
+            Opacity = component.paramOpacity.GetValueOrDefault( options.Opacity ),
+            Font = SvgChartAnnotationRenderHelpers.CreateFontOptions( component.paramFont.GetValueOrDefault( options.Font ) ),
+            Padding = CreateSpacing( component.paramPadding.GetValueOrDefault( options.Padding ) ),
+            BackgroundColor = component.paramBackgroundColor.GetValueOrDefault( options.BackgroundColor ),
+            Border = SvgChartAnnotationRenderHelpers.CreateBorderOptions( component.paramBorder.GetValueOrDefault( options.Border ) ),
+            Formatter = component.paramFormatter.GetValueOrDefault( options.Formatter ),
+            Clicked = component.Clicked,
+            Hovered = component.Hovered
         };
     }
 
@@ -167,15 +242,16 @@ public class SvgChartDataLabels : SvgChartPluginBase
     private static void AddColumnDataLabelPoints( List<(SvgChartPointEventArgs Point, string Color, SvgChartType ChartType)> points, SvgChartPluginRenderContext context, SvgChartPluginSeries series )
     {
         var visibleColumnSeries = context.Series.Where( x => x.Type == SvgChartType.Column && !x.Hidden ).ToList();
-        var seriesIndex = visibleColumnSeries.IndexOf( series );
+        var stackGroups = visibleColumnSeries.Select( ResolveStackGroup ).Distinct().ToList();
+        var stackIndex = stackGroups.IndexOf( ResolveStackGroup( series ) );
 
-        if ( seriesIndex < 0 )
+        if ( stackIndex < 0 )
             return;
 
         var categoryWidth = GetCategoryWidth( context );
         var groupWidth = categoryWidth * 0.72;
-        var barWidth = Math.Max( 1, groupWidth / visibleColumnSeries.Count );
-        var baseline = context.ProjectY( 0, series.ValueAxisId );
+        var barWidth = Math.Max( 1, groupWidth / stackGroups.Count );
+        var baselineValue = Math.Clamp( 0, context.GetValueMin( series.ValueAxisId ), context.GetValueMax( series.ValueAxisId ) );
 
         for ( var pointIndex = 0; pointIndex < context.Labels.Count && pointIndex < series.Values.Count; pointIndex++ )
         {
@@ -185,10 +261,13 @@ public class SvgChartDataLabels : SvgChartPluginBase
                 continue;
 
             var categoryStart = context.ProjectCategoryBoundary( pointIndex ) + ( categoryWidth - groupWidth ) / 2;
-            var x = categoryStart + barWidth * seriesIndex + barWidth * 0.1;
-            var y = context.ProjectY( value.Value, series.ValueAxisId );
-            var height = Math.Abs( baseline - y );
-            var rectY = Math.Min( y, baseline );
+            var x = categoryStart + barWidth * stackIndex + barWidth * 0.1;
+            var startValue = ResolveStackValue( series.StackBaseValues, pointIndex, baselineValue );
+            var endValue = ResolveStackValue( series.StackEndValues, pointIndex, value.Value );
+            var startY = context.ProjectY( startValue, series.ValueAxisId );
+            var endY = context.ProjectY( endValue, series.ValueAxisId );
+            var height = Math.Abs( startY - endY );
+            var rectY = Math.Min( startY, endY );
             var rectWidth = Math.Max( 1, barWidth * 0.8 );
             var bounds = new SvgChartPointBounds { X = x, Y = rectY, Width = rectWidth, Height = height };
 
@@ -199,15 +278,16 @@ public class SvgChartDataLabels : SvgChartPluginBase
     private static void AddBarDataLabelPoints( List<(SvgChartPointEventArgs Point, string Color, SvgChartType ChartType)> points, SvgChartPluginRenderContext context, SvgChartPluginSeries series )
     {
         var visibleBarSeries = context.Series.Where( x => x.Type == SvgChartType.Bar && !x.Hidden ).ToList();
-        var seriesIndex = visibleBarSeries.IndexOf( series );
+        var stackGroups = visibleBarSeries.Select( ResolveStackGroup ).Distinct().ToList();
+        var stackIndex = stackGroups.IndexOf( ResolveStackGroup( series ) );
 
-        if ( seriesIndex < 0 || context.Labels.Count == 0 )
+        if ( stackIndex < 0 || context.Labels.Count == 0 )
             return;
 
         var categoryHeight = context.PlotArea.Height / context.Labels.Count;
         var groupHeight = categoryHeight * 0.72;
-        var barHeight = Math.Max( 1, groupHeight / visibleBarSeries.Count );
-        var baseline = context.ProjectX( 0, series.ValueAxisId );
+        var barHeight = Math.Max( 1, groupHeight / stackGroups.Count );
+        var baselineValue = Math.Clamp( 0, context.GetValueMin( series.ValueAxisId ), context.GetValueMax( series.ValueAxisId ) );
 
         for ( var pointIndex = 0; pointIndex < context.Labels.Count && pointIndex < series.Values.Count; pointIndex++ )
         {
@@ -217,10 +297,13 @@ public class SvgChartDataLabels : SvgChartPluginBase
                 continue;
 
             var categoryStart = context.PlotArea.Top + categoryHeight * pointIndex + ( categoryHeight - groupHeight ) / 2;
-            var x = context.ProjectX( value.Value, series.ValueAxisId );
-            var width = Math.Abs( x - baseline );
-            var rectX = Math.Min( x, baseline );
-            var y = categoryStart + barHeight * seriesIndex + barHeight * 0.1;
+            var startValue = ResolveStackValue( series.StackBaseValues, pointIndex, baselineValue );
+            var endValue = ResolveStackValue( series.StackEndValues, pointIndex, value.Value );
+            var startX = context.ProjectValueX( startValue, series.ValueAxisId );
+            var endX = context.ProjectValueX( endValue, series.ValueAxisId );
+            var width = Math.Abs( endX - startX );
+            var rectX = Math.Min( endX, startX );
+            var y = categoryStart + barHeight * stackIndex + barHeight * 0.1;
             var rectHeight = Math.Max( 1, barHeight * 0.8 );
             var bounds = new SvgChartPointBounds { X = rectX, Y = y, Width = width, Height = rectHeight };
 
@@ -530,6 +613,16 @@ public class SvgChartDataLabels : SvgChartPluginBase
         var range = Math.Max( context.CategorySlotCount, 1 );
 
         return context.PlotArea.Width / range;
+    }
+
+    private static string ResolveStackGroup( SvgChartPluginSeries series )
+    {
+        return series.StackEndValues.Count > 0 ? series.Stack ?? string.Empty : series.Name;
+    }
+
+    private static double ResolveStackValue( IReadOnlyList<double?> values, int index, double fallback )
+    {
+        return index >= 0 && index < values.Count && values[index].HasValue ? values[index].Value : fallback;
     }
 
     private static (double X, double Y) PolarToCartesian( double centerX, double centerY, double radius, double angle )

@@ -1,0 +1,26 @@
+@using Blazorise.Reporting.DataSources.WebApi
+@using System.Collections.Generic
+
+<Report>
+    <ReportDataSources>
+        <ReportWebApiDataSource Name="Products"
+                                Url="https://dummyjson.com/products?limit=10&amp;select=id,title,price,category"
+                                Headers="@requestHeaders"
+                                ResponseFormat="@WebApiReportDataSourceFormats.Json"
+                                DataSelector="/products" />
+    </ReportDataSources>
+    <ReportPage Name="Products">
+        <ReportDetail Name="Product row" Height="24" DataSource="Products">
+            <ReportField Field="title" X="30" Y="3" Width="240" Height="18" />
+            <ReportField Field="price" X="285" Y="3" Width="90" Height="18" />
+        </ReportDetail>
+    </ReportPage>
+</Report>
+
+@code {
+    private readonly IReadOnlyDictionary<string, string> requestHeaders =
+        new Dictionary<string, string>
+        {
+            ["Accept"] = "application/json",
+        };
+}

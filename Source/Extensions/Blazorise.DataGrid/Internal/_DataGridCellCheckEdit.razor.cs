@@ -13,6 +13,9 @@ namespace Blazorise.DataGrid.Internal;
 /// <typeparam name="TItem"></typeparam>
 public partial class _DataGridCellCheckEdit<TItem> : ComponentBase
 {
+    /// <summary>
+    /// Element Id identifying content in the data grid cell check edit.
+    /// </summary>
     protected string elementId;
 
     /// <summary>
@@ -28,9 +31,13 @@ public partial class _DataGridCellCheckEdit<TItem> : ComponentBase
         base.OnInitialized();
     }
 
+    /// <summary>
+    /// Handles cell value changed.
+    /// </summary>
     public Task OnCellValueChanged<TValue>( TValue value )
         => CellValueChanged.InvokeAsync( value );
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( ParentDataGrid.IsCellEdit && Column.CellEditing )
@@ -46,14 +53,23 @@ public partial class _DataGridCellCheckEdit<TItem> : ComponentBase
         await base.OnAfterRenderAsync( firstRender );
     }
 
+    /// <summary>
+    /// Moves keyboard focus to the cell editor.
+    /// </summary>
     public async Task Focus()
     {
         await JSUtilitiesModule.Focus( default, elementId, true );
     }
 
 
+    /// <summary>
+    /// Parent Data Grid identifying content in the data grid cell check edit.
+    /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
+    /// <summary>
+    /// Creates the DOM identifier used by the check editor.
+    /// </summary>
     [Inject] public IIdGenerator IdGenerator { get; set; }
     /// <summary>
     /// Specifies the <see cref="IJSUtilitiesModule"/> instance.

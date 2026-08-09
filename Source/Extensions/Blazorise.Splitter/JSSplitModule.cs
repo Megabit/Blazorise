@@ -44,6 +44,9 @@ public class JSSplitModule : BaseJSModule,
         return InvokeSafeVoidAsync( "initializeSplitter", elementRef, elementId, sectionElementRefs, splitterOptions, splitterGutterOptions );
     }
 
+    /// <summary>
+    /// Removes the splitter behavior and its browser-side event handlers.
+    /// </summary>
     public virtual ValueTask Destroy( ElementReference elementRef, string elementId )
     {
         return InvokeSafeVoidAsync( "destroy", elementRef, elementId );

@@ -1,0 +1,16 @@
+@namespace Blazorise
+@inherits BaseComponent
+
+<Addons ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Size="@Size" @attributes="@Attributes">
+    <Addon AddonType="AddonType.Body">
+        <TextInput Value="@SearchText"
+                   ValueChanged="@SearchTextChanged"
+                   Placeholder="@Placeholder"
+                   Immediate="true"
+                   Debounce="@Debounce"
+                   DebounceInterval="@DebounceInterval"
+                   Size="@Size"
+                   Role="TextRole.Search"
+                   aria-label="@AriaLabel" />
+    </Addon>
+</Addons>

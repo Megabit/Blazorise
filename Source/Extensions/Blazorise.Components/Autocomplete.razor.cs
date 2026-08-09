@@ -70,6 +70,8 @@ public partial class Autocomplete<TItem, TValue>
     private bool selectedValuesParamChanged;
     private bool selectedTextsParamChanged;
     private bool dataParamChanged;
+    private bool showAllItemsOnFocus;
+    private bool activeItemNavigatedByKeyboard;
 
     private TValue selectedValueParam;
     private bool selectedValueParamDefined;
@@ -287,10 +289,13 @@ public partial class Autocomplete<TItem, TValue>
             }
         }
 
-        await SynchronizeSingle( selectedValueParamChanged, selectedTextParamChanged );
+        await SynchronizeSingle( selectedValueParamChanged, selectedTextParamChanged, dataParamChanged );
         await SynchronizeMultiple( selectedValuesParamChanged, selectedTextsParamChanged, dataParamChanged );
     }
 
+    /// <summary>
+    /// Supplies the requested window of suggestions to Blazor virtualization.
+    /// </summary>
     protected async ValueTask<ItemsProviderResult<TItem>> VirtualizeItemsProviderHandler( ItemsProviderRequest request )
     {
         // Credit to Steve Sanderson's Quickgrid implementation
@@ -310,7 +315,7 @@ public partial class Autocomplete<TItem, TValue>
             return new( Data.ToList(), TotalItems ?? default );
     }
 
-    private async Task SynchronizeSingle( bool selectedValueParamChanged, bool selectedTextParamChanged )
+    private async Task SynchronizeSingle( bool selectedValueParamChanged, bool selectedTextParamChanged, bool dataParamChanged )
     {
         if ( selectedTextParamChanged && !selectedValueParamChanged )
         {
@@ -349,12 +354,26 @@ public partial class Autocomplete<TItem, TValue>
             }
         }
 
-        if ( selectedValueParamChanged )
+        if ( selectedValueParamChanged || ( dataParamChanged && !IsMultiple && !SelectedValue.IsEqual( default ) ) )
         {
             var item = GetItemByValue( SelectedValue );
             if ( item is null )
             {
-                await ResetSelectedValue();
+                if ( selectedValueParamChanged )
+                {
+                    var previousSelectedText = SelectedText;
+
+                    await ResetSelectedText();
+                    DirtyFilter();
+
+                    if ( SelectedValue.IsEqual( default ) || Search.IsEqual( previousSelectedText ) )
+                    {
+                        await Task.WhenAll(
+                            ResetSelectedValue(),
+                            ResetCurrentSearch()
+                        );
+                    }
+                }
             }
             else
             {
@@ -466,6 +485,8 @@ public partial class Autocomplete<TItem, TValue>
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextChangedHandler( string text )
     {
+        activeItemNavigatedByKeyboard = false;
+        showAllItemsOnFocus = false;
         DirtyFilter();
 
         //If input field is empty, clear current SelectedValue.
@@ -547,7 +568,7 @@ public partial class Autocomplete<TItem, TValue>
                         await ResetCurrentSearch();
                     }
                 }
-                else if ( SelectionMode != AutocompleteSelectionMode.Checkbox )
+                else if ( ShouldSelectOnConfirmKey )
                 {
                     await SelectedOrResetOnCommit();
                 }
@@ -559,8 +580,28 @@ public partial class Autocomplete<TItem, TValue>
             return;
         }
 
-        if ( eventArgs.Code == "Escape" )
+        if ( IsEscapeKey( eventArgs ) )
         {
+            if ( MinSearchLength <= 0 && HasSingleSelectionOrSearch )
+            {
+                showAllItemsOnFocus = false;
+                DirtyFilter();
+
+                await Task.WhenAll(
+                    ResetCurrentSearch(),
+                    ResetSelected()
+                );
+
+                if ( ManualReadMode )
+                    await Reload();
+
+                await OpenDropdown();
+                await SearchTextChanged.InvokeAsync( string.Empty );
+                await Revalidate();
+                await SearchKeyDown.InvokeAsync( eventArgs );
+                return;
+            }
+
             await Close();
             await SearchKeyDown.InvokeAsync( eventArgs );
             return;
@@ -587,13 +628,11 @@ public partial class Autocomplete<TItem, TValue>
                 return;
             }
 
-            if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
+            if ( ShouldSelectOnConfirmKey )
             {
-                await SearchKeyDown.InvokeAsync( eventArgs );
-                return;
+                await SelectedOrResetOnCommit();
             }
 
-            await SelectedOrResetOnCommit();
             await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }
@@ -652,6 +691,14 @@ public partial class Autocomplete<TItem, TValue>
         }
 
         TextFocused = true;
+        showAllItemsOnFocus = !IsMultiple
+            && MinSearchLength <= 0
+            && !string.IsNullOrEmpty( SelectedText )
+            && Search.IsEqual( SelectedText );
+
+        if ( showAllItemsOnFocus )
+            DirtyFilter();
+
         if ( ManualReadMode || MinSearchLength <= 0 )
             await Reload();
 
@@ -709,6 +756,8 @@ public partial class Autocomplete<TItem, TValue>
 
             await OnBlurHandler( eventArgs );
             await SearchBlur.InvokeAsync( eventArgs );
+
+            showAllItemsOnFocus = false;
         }
     }
 
@@ -834,6 +883,9 @@ public partial class Autocomplete<TItem, TValue>
         }
     }
 
+    /// <summary>
+    /// Requests suggestions for the current search text.
+    /// </summary>
     protected async Task HandleReadData( CancellationToken cancellationToken = default )
     {
         try
@@ -846,7 +898,7 @@ public partial class Autocomplete<TItem, TValue>
 
             if ( !cancellationTokenSource.Token.IsCancellationRequested && IsTextSearchable )
             {
-                await ReadData.InvokeAsync( new( Search, cancellationToken: cancellationTokenSource.Token ) );
+                await ReadData.InvokeAsync( new( FilterSearch, cancellationToken: cancellationTokenSource.Token ) );
                 await Task.Yield(); // rebind Data after ReadData
             }
         }
@@ -867,6 +919,9 @@ public partial class Autocomplete<TItem, TValue>
         }
     }
 
+    /// <summary>
+    /// Loads one externally supplied range for the virtualized suggestion list.
+    /// </summary>
     protected async Task HandleVirtualizeReadData( int startIdx, int count, CancellationToken cancellationToken )
     {
         try
@@ -878,7 +933,7 @@ public partial class Autocomplete<TItem, TValue>
 
             if ( !cancellationToken.IsCancellationRequested )
             {
-                await ReadData.InvokeAsync( new( Search, startIdx, count, cancellationToken ) );
+                await ReadData.InvokeAsync( new( FilterSearch, startIdx, count, cancellationToken ) );
                 await Task.Yield(); // rebind Data after ReadData
             }
         }
@@ -964,8 +1019,15 @@ public partial class Autocomplete<TItem, TValue>
     private Task ResetActiveItemIndex()
     {
         ActiveItemIndex = -1;
+        activeItemNavigatedByKeyboard = false;
         return Task.CompletedTask;
     }
+
+    private static bool IsEscapeKey( KeyboardEventArgs eventArgs )
+        => eventArgs?.Code == "Escape" || eventArgs?.Key == "Escape" || eventArgs?.Key == "Esc";
+
+    private bool HasSingleSelectionOrSearch
+        => !IsMultiple && ( FreeTyping || !string.IsNullOrEmpty( Search ) || !string.IsNullOrEmpty( SelectedText ) || !SelectedValue.IsEqual( default ) );
 
     private async Task AddMultipleValue( TValue value )
     {
@@ -1104,21 +1166,21 @@ public partial class Autocomplete<TItem, TValue>
             {
                 query = from q in query
                         where q != null
-                        where CustomFilter( q, Search )
+                        where CustomFilter( q, FilterSearch )
                         select q;
             }
             else if ( Filter == AutocompleteFilter.Contains )
             {
                 query = from q in query
                         let text = GetItemText( q )
-                        where text.IndexOf( Search, 0, StringComparison.OrdinalIgnoreCase ) >= 0
+                        where text.IndexOf( FilterSearch, 0, StringComparison.OrdinalIgnoreCase ) >= 0
                         select q;
             }
             else
             {
                 query = from q in query
                         let text = GetItemText( q )
-                        where text.StartsWith( Search, StringComparison.OrdinalIgnoreCase )
+                        where text.StartsWith( FilterSearch, StringComparison.OrdinalIgnoreCase )
                         select q;
             }
         }
@@ -1167,6 +1229,7 @@ public partial class Autocomplete<TItem, TValue>
         }
 
         ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count - 1, activeItemIndex ) );
+        activeItemNavigatedByKeyboard = true;
         return Task.CompletedTask;
     }
 
@@ -1271,6 +1334,11 @@ public partial class Autocomplete<TItem, TValue>
 
         return ConfirmKey.Contains( eventArgs.Code ) && !eventArgs.IsModifierKey();
     }
+
+    private bool ShouldSelectOnConfirmKey
+        => SelectionMode != AutocompleteSelectionMode.Checkbox
+            || activeItemNavigatedByKeyboard
+            || ( FreeTyping && ActiveItemIndex >= 0 && FilteredData.Count == 1 );
 
     private bool IsSuggestedActiveItem( TItem item )
     {
@@ -1593,7 +1661,15 @@ public partial class Autocomplete<TItem, TValue>
     /// True if the text complies to the search requirements
     /// </summary>
     protected bool IsTextSearchable
-        => Search?.Length >= MinSearchLength;
+        => FilterSearch?.Length >= MinSearchLength;
+
+    /// <summary>
+    /// Gets the current text used for filtering and manual data reads.
+    /// </summary>
+    protected string FilterSearch
+        => showAllItemsOnFocus
+            ? string.Empty
+            : Search;
 
     /// <summary>
     /// True if the filtered data exists

@@ -121,6 +121,18 @@
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Month</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                        <DateInput TValue="DateTime?" InputMode="DateInputMode.Month" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal>
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Week</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                        <DateInput TValue="DateTime?" InputMode="DateInputMode.Week" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Time</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                         <TimeInput TValue="TimeSpan?" ValueChanged="@(( v ) => Console.WriteLine( v ))" />

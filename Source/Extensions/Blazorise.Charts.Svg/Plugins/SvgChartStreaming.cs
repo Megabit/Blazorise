@@ -1,5 +1,7 @@
 #region Using directives
 using System;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -10,6 +12,62 @@ namespace Blazorise.Charts.Svg;
 /// </summary>
 public class SvgChartStreaming : SvgChartPluginBase
 {
+    #region Members
+
+    private ComponentParameterInfo<bool> paramEnabled;
+
+    private ComponentParameterInfo<int?> paramMaxDataPoints;
+
+    private ComponentParameterInfo<int?> paramVisibleDataPoints;
+
+    private ComponentParameterInfo<TimeSpan?> paramDuration;
+
+    private ComponentParameterInfo<SvgChartIndexAxis> paramIndexAxis;
+
+    private ComponentParameterInfo<bool> paramReverse;
+
+    private ComponentParameterInfo<SvgChartStreamingAnimationOptions> paramAnimation;
+
+    private ComponentParameterInfo<TimeSpan> paramRefreshInterval;
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Enabled, out paramEnabled );
+        parameters.TryGetParameter( MaxDataPoints, out paramMaxDataPoints );
+        parameters.TryGetParameter( VisibleDataPoints, out paramVisibleDataPoints );
+        parameters.TryGetParameter( Duration, out paramDuration );
+        parameters.TryGetParameter( IndexAxis, out paramIndexAxis );
+        parameters.TryGetParameter( Reverse, out paramReverse );
+        parameters.TryGetParameter( Animation, out paramAnimation );
+        parameters.TryGetParameter( RefreshInterval, out paramRefreshInterval );
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    internal SvgChartStreamingOptions ResolveOptions( SvgChartStreamingOptions fallback )
+    {
+        fallback ??= new();
+
+        return new()
+        {
+            Enabled = paramEnabled.GetValueOrDefault( fallback.Enabled ),
+            MaxDataPoints = paramMaxDataPoints.GetValueOrDefault( fallback.MaxDataPoints ),
+            VisibleDataPoints = paramVisibleDataPoints.GetValueOrDefault( fallback.VisibleDataPoints ),
+            Duration = paramDuration.GetValueOrDefault( fallback.Duration ),
+            IndexAxis = paramIndexAxis.GetValueOrDefault( fallback.IndexAxis ),
+            Reverse = paramReverse.GetValueOrDefault( fallback.Reverse ),
+            Animation = paramAnimation.GetValueOrDefault( fallback.Animation ),
+            RefreshInterval = paramRefreshInterval.GetValueOrDefault( fallback.RefreshInterval )
+        };
+    }
+
+    #endregion
+
     #region Properties
 
     /// <summary>

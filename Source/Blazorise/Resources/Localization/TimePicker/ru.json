@@ -2,6 +2,10 @@
   "culture": "ru",
   "translations": {
     "AM": "ДП",
-    "PM": "ПП"
+    "PM": "ПП",
+    "Time": "Время",
+    "Hour": "Час",
+    "Minute": "Минута",
+    "Second": "Секунда"
   }
 }

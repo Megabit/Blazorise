@@ -1,0 +1,20 @@
+@namespace Blazorise
+@inherits BaseComponent
+
+<aside @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="note" aria-live="polite" @attributes="@Attributes">
+    @if ( ChildContent is not null )
+    {
+        @ChildContent
+    }
+    else
+    {
+        @if ( !string.IsNullOrWhiteSpace( Title ) )
+        {
+            <div class="@TitleClassNames">@Title</div>
+        }
+        @if ( !string.IsNullOrWhiteSpace( Description ) )
+        {
+            <div class="@DescriptionClassNames">@Description</div>
+        }
+    }
+</aside>

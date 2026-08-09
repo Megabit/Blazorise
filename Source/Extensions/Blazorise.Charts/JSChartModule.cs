@@ -9,6 +9,9 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Supports js chart module behavior in chart components.
+/// </summary>
 public class JSChartModule : BaseJSModule,
     IJSDestroyableModule
 {
@@ -29,6 +32,9 @@ public class JSChartModule : BaseJSModule,
 
     #region Methods
 
+    /// <summary>
+    /// Initializes browser integration for the js chart module.
+    /// </summary>
     public virtual async ValueTask Initialize<TItem, TOptions>( DotNetObjectReference<ChartAdapter> dotNetObjectReference, object eventOptions, ElementReference canvasRef, string canvasId, ChartType type, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString, object optionsObject, IReadOnlyList<string> pluginNames )
     {
         var moduleInstance = await Module;
@@ -47,6 +53,9 @@ public class JSChartModule : BaseJSModule,
             pluginNames );
     }
 
+    /// <summary>
+    /// Changes the rendered chart to another visualization type.
+    /// </summary>
     public virtual async ValueTask ChangeType( ElementReference canvasRef, string canvasId, ChartType type )
     {
         var moduleInstance = await Module;
@@ -57,6 +66,9 @@ public class JSChartModule : BaseJSModule,
             ToChartTypeString( type ) );
     }
 
+    /// <summary>
+    /// Releases resources held by the js chart module.
+    /// </summary>
     public virtual async ValueTask Destroy( ElementReference canvasRef, string canvasId )
     {
         var moduleInstance = await Module;
@@ -64,6 +76,9 @@ public class JSChartModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "destroy", canvasRef, canvasId );
     }
 
+    /// <summary>
+    /// Updates options.
+    /// </summary>
     public virtual async ValueTask SetOptions<TOptions>( string canvasId, TOptions options, string optionsJsonString, object optionsObject )
     {
         var moduleInstance = await Module;
@@ -71,6 +86,9 @@ public class JSChartModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "setOptions", canvasId, options, optionsJsonString, optionsObject );
     }
 
+    /// <summary>
+    /// Refreshes the chart with its current data and options.
+    /// </summary>
     public virtual async ValueTask Update( string canvasId )
     {
         var moduleInstance = await Module;
@@ -78,6 +96,9 @@ public class JSChartModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "update", canvasId );
     }
 
+    /// <summary>
+    /// Clears all data from the rendered chart.
+    /// </summary>
     public virtual async ValueTask Clear( string canvasId )
     {
         var moduleInstance = await Module;
@@ -85,6 +106,9 @@ public class JSChartModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "clear", canvasId );
     }
 
+    /// <summary>
+    /// Adds label.
+    /// </summary>
     public virtual async ValueTask AddLabel( string canvasId, IReadOnlyCollection<object> newLabels )
     {
         var moduleInstance = await Module;
@@ -92,6 +116,9 @@ public class JSChartModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "addLabel", canvasId, newLabels );
     }
 
+    /// <summary>
+    /// Adds data set.
+    /// </summary>
     public virtual async ValueTask AddDataSet( string canvasId, IReadOnlyCollection<object> newDataSet )
     {
         var moduleInstance = await Module;
@@ -99,6 +126,9 @@ public class JSChartModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "addDataset", canvasId, ToChartDataSet( newDataSet ) );
     }
 
+    /// <summary>
+    /// Removes data set.
+    /// </summary>
     public virtual async ValueTask RemoveDataSet( string canvasId, int dataSetIndex )
     {
         var moduleInstance = await Module;
@@ -106,6 +136,9 @@ public class JSChartModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "removeDataset", canvasId, dataSetIndex );
     }
 
+    /// <summary>
+    /// Adds datasets and update.
+    /// </summary>
     public virtual async ValueTask AddDatasetsAndUpdate( string canvasId, IReadOnlyCollection<object> newDataSet )
     {
         var moduleInstance = await Module;
@@ -113,6 +146,9 @@ public class JSChartModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "addDatasetsAndUpdate", canvasId, ToChartDataSet( newDataSet ) );
     }
 
+    /// <summary>
+    /// Adds labels datasets and update.
+    /// </summary>
     public virtual async ValueTask AddLabelsDatasetsAndUpdate( string canvasId, IReadOnlyCollection<object> newLabels, IReadOnlyCollection<object> newDataSet )
     {
         var moduleInstance = await Module;
@@ -120,6 +156,9 @@ public class JSChartModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "addLabelsDatasetsAndUpdate", canvasId, newLabels, ToChartDataSet( newDataSet ) );
     }
 
+    /// <summary>
+    /// Updates data.
+    /// </summary>
     public virtual async ValueTask SetData<TItem>( string canvasId, int dataSetIndex, IReadOnlyCollection<TItem> newData )
     {
         var moduleInstance = await Module;
@@ -127,6 +166,9 @@ public class JSChartModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "setData", canvasId, dataSetIndex, newData );
     }
 
+    /// <summary>
+    /// Adds data.
+    /// </summary>
     public virtual async ValueTask AddData<TItem>( string canvasId, int dataSetIndex, IReadOnlyCollection<TItem> newData )
     {
         var moduleInstance = await Module;
@@ -134,6 +176,9 @@ public class JSChartModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "addData", canvasId, dataSetIndex, newData );
     }
 
+    /// <summary>
+    /// Removes the first label from the chart.
+    /// </summary>
     public virtual async ValueTask ShiftLabel( string canvasId )
     {
         var moduleInstance = await Module;
@@ -141,6 +186,9 @@ public class JSChartModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "shiftLabel", canvasId );
     }
 
+    /// <summary>
+    /// Removes the first data point from the chart.
+    /// </summary>
     public virtual async ValueTask ShiftData( string canvasId, int dataSetIndex )
     {
         var moduleInstance = await Module;
@@ -148,6 +196,9 @@ public class JSChartModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "shiftData", canvasId, dataSetIndex );
     }
 
+    /// <summary>
+    /// Removes the last label from the chart.
+    /// </summary>
     public virtual async ValueTask PopLabel( string canvasId )
     {
         var moduleInstance = await Module;
@@ -155,6 +206,9 @@ public class JSChartModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "popLabel", canvasId );
     }
 
+    /// <summary>
+    /// Removes the last data point from the chart.
+    /// </summary>
     public virtual async ValueTask PopData( string canvasId, int dataSetIndex )
     {
         var moduleInstance = await Module;
@@ -162,6 +216,9 @@ public class JSChartModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "popData", canvasId, dataSetIndex );
     }
 
+    /// <summary>
+    /// Resizes the chart to fit its container.
+    /// </summary>
     public virtual async ValueTask Resize( string canvasId )
     {
         var moduleInstance = await Module;
@@ -169,6 +226,9 @@ public class JSChartModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "resize", canvasId );
     }
 
+    /// <summary>
+    /// Returns the JavaScript identifier for a chart type.
+    /// </summary>
     public static string ToChartTypeString( ChartType type )
     {
         return type switch

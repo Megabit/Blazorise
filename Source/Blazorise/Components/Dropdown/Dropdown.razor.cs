@@ -18,6 +18,8 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
 {
     #region Members
 
+    private const int DefaultHoverCloseDelay = 300;
+
     /// <summary>
     /// State object used to holds the dropdown state.
     /// </summary>
@@ -45,6 +47,10 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// A list of all buttons placed inside of this dropdown, usually done in split mode.
     /// </summary>
     private List<Button> childrenButtonList;
+
+    private bool hoverOpened;
+
+    private int mouseLeaveCloseVersion;
 
     #endregion
 
@@ -196,18 +202,38 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// Handles the onmouseleave event.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    protected void OnMouseLeaveHandler()
+    protected async Task OnMouseLeaveHandler()
     {
-        ShouldClose = true;
+        SetShouldCloseForHierarchy( true );
+        int closeVersion = mouseLeaveCloseVersion;
+
+        if ( IsHoverTriggerEnabled && hoverOpened )
+        {
+            await Task.Delay( Math.Max( 0, HoverCloseDelay ) );
+
+            if ( !ShouldClose || closeVersion != mouseLeaveCloseVersion )
+                return;
+
+            hoverOpened = false;
+
+            await Hide();
+        }
     }
 
     /// <summary>
     /// Handles the onmouseenter event.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    protected void OnMouseEnterHandler()
+    protected async Task OnMouseEnterHandler()
     {
-        ShouldClose = false;
+        SetShouldCloseForHierarchy( false );
+
+        if ( IsHoverTriggerEnabled && !Disabled && !Visible )
+        {
+            hoverOpened = true;
+
+            await Show();
+        }
     }
 
     /// <summary>
@@ -262,6 +288,23 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
         }
 
         return false;
+    }
+
+    private bool HasTrigger( DropdownTrigger trigger )
+        => ( Trigger & trigger ) == trigger;
+
+    /// <summary>
+    /// Updates the close intent for this dropdown and its parent chain.
+    /// </summary>
+    /// <param name="shouldClose">True if the dropdown hierarchy should close.</param>
+    private void SetShouldCloseForHierarchy( bool shouldClose )
+    {
+        ShouldClose = shouldClose;
+
+        if ( !shouldClose )
+            mouseLeaveCloseVersion++;
+
+        ParentDropdown?.SetShouldCloseForHierarchy( shouldClose );
     }
 
     /// <summary>
@@ -433,9 +476,19 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     protected internal bool IsGroup => ParentButtons is not null || childrenButtonList?.Count >= 1;
 
     /// <summary>
-    /// Returns true if the dropdown is placed inside of another dropdown.
+    /// Returns true if the dropdown is placed inside of another dropdown, or explicitly configured to behave as a submenu.
     /// </summary>
-    protected internal bool IsDropdownSubmenu => ParentDropdown is not null;
+    protected internal bool IsDropdownSubmenu => Submenu || ParentDropdown is not null;
+
+    /// <summary>
+    /// Returns true if click can open or close this dropdown.
+    /// </summary>
+    protected internal bool IsClickTriggerEnabled => HasTrigger( DropdownTrigger.Click );
+
+    /// <summary>
+    /// Returns true if hover can open or close this dropdown.
+    /// </summary>
+    protected internal bool IsHoverTriggerEnabled => HasTrigger( DropdownTrigger.Hover );
 
     /// <summary>
     /// Returns true if this dropdown contains any child dropdown.
@@ -526,6 +579,21 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
             DirtyClasses();
         }
     }
+
+    /// <summary>
+    /// Forces the dropdown to use submenu classes and behavior.
+    /// </summary>
+    [Parameter] public bool Submenu { get; set; }
+
+    /// <summary>
+    /// Defines which pointer interactions can open or close this dropdown.
+    /// </summary>
+    [Parameter] public DropdownTrigger Trigger { get; set; } = DropdownTrigger.Click;
+
+    /// <summary>
+    /// Delay in milliseconds before hiding a hover-opened dropdown after the mouse leaves it.
+    /// </summary>
+    [Parameter] public int HoverCloseDelay { get; set; } = DefaultHoverCloseDelay;
 
     /// <summary>
     /// Occurs after the dropdown menu visibility has changed.

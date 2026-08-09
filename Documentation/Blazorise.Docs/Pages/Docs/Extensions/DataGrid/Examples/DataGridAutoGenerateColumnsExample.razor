@@ -35,7 +35,7 @@
 
         [Order( DisplayOrder = 5, EditOrder = 0 )]
         [Display( Name = "Gender" )]
-        [Select( GetDataFunction = "GetGenders", TextField = nameof( Blazorise.Shared.Data.Gender.Description ), ValueField = nameof( Blazorise.Shared.Data.Gender.Code ) )]
+        [Select( GetDataFunction = "GetGenders", TextField = "Description", ValueField = "Code" )]
         public string Gender { get; set; }
 
         [Order( DisplayOrder = 6, EditOrder = 6 )]

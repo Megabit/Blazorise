@@ -12,6 +12,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Update="wwwroot\appsettings.Development.json" CopyToPublishDirectory="Never" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.Charts.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Charts.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Charts.Annotation.wasm" />
@@ -21,6 +25,7 @@
 		<BlazorWebAssemblyLazyLoad Include="Lambda2Js.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.DataGrid.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.DataGrid.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.Reporting.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.Components.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.Extensions.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Animate.wasm" />

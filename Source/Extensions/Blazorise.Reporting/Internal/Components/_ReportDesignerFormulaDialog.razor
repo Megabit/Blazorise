@@ -1,0 +1,82 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<ModalHeader>
+    <ModalTitle>@Title</ModalTitle>
+    <CloseButton Clicked="@Close" />
+</ModalHeader>
+<ModalBody>
+    <Grid Columns="GridColumns.Are3" Gap="GapIs2">
+        <Div>
+            <Div TextSize="TextSizeSmall" TextWeight="TextWeightBold" Margin="MarginIs1FromBottom">@Localize( "Fields" )</Div>
+            <Div Height="HeightPx180" Overflow="OverflowAuto">
+                <_ReportTreeView Nodes="@FieldNodes" NodeClicked="@OnFieldNodeClicked" CollapseByDefault />
+            </Div>
+        </Div>
+        <Div>
+            <Div TextSize="TextSizeSmall" TextWeight="TextWeightBold" Margin="MarginIs1FromBottom">@Localize( "Functions" )</Div>
+            <Div Height="HeightPx180" Overflow="OverflowAuto">
+                <_ReportTreeView Nodes="@FunctionNodes" NodeClicked="@OnFunctionNodeClicked" CollapseByDefault />
+            </Div>
+        </Div>
+        <Div>
+            <Div TextSize="TextSizeSmall" TextWeight="TextWeightBold" Margin="MarginIs1FromBottom">@Localize( "Operators" )</Div>
+            <Div Height="HeightPx180" Overflow="OverflowAuto">
+                <_ReportTreeView Nodes="@OperatorNodes" NodeClicked="@OnOperatorNodeClicked" CollapseByDefault />
+            </Div>
+        </Div>
+    </Grid>
+
+    <Field Margin="MarginIs3FromTop">
+        <FieldLabel TextSize="TextSizeSmall">@Localize( "Formula" )</FieldLabel>
+        <FieldBody>
+            <CodeEditor @ref="@formulaEditor"
+                        Value="@formula"
+                        ValueChanged="@OnFormulaChanged"
+                        Language="@FormulaLanguageId"
+                        Languages="@FormulaLanguages"
+                        CompletionProvider="@formulaCompletionProvider"
+                        Diagnostics="@formulaDiagnostics"
+                        EditorOptions="@FormulaEditorOptions"
+                        Immediate
+                        Debounce
+                        DebounceInterval="150"
+                        Height="180.Px()" />
+        </FieldBody>
+    </Field>
+
+    @if ( HasValidationMessage )
+    {
+        <Alert Color="@ValidationAlertColor" Visible Margin="MarginIs2FromTop">
+            <AlertDescription>@validationMessage</AlertDescription>
+        </Alert>
+    }
+
+    <Div Margin="MarginIs2FromTop">
+        <Table Narrow Striped>
+            <TableBody>
+                <TableRow>
+                    <TableRowCell TextSize="TextSizeSmall" TextWeight="TextWeightBold">@Localize( "Item" )</TableRowCell>
+                    <TableRowCell TextSize="TextSizeSmall">@SelectedHelpItem</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowCell TextSize="TextSizeSmall" TextWeight="TextWeightBold">@Localize( "Description" )</TableRowCell>
+                    <TableRowCell TextSize="TextSizeSmall">@SelectedHelpDescription</TableRowCell>
+                </TableRow>
+            </TableBody>
+        </Table>
+    </Div>
+</ModalBody>
+<ModalFooter>
+    <Div Display="DisplayFlex" Flex="FlexJustifyContentBetweenAlignItemsCenter" Width="WidthIs100">
+        <Div Display="DisplayFlex" Gap="GapIs2">
+            <Button Color="Color.Info" Clicked="@Check" Size="Size.Small">@Localize( "Check" )</Button>
+            <Button Color="Color.Primary" Clicked="@Save" Size="Size.Small">@Localize( "Save" )</Button>
+            <Button Color="Color.Primary" Clicked="@SaveAndClose" Size="Size.Small">@Localize( "Save and close" )</Button>
+        </Div>
+        <Div Display="DisplayFlex" Gap="GapIs2">
+            <Button Color="Color.Light" Clicked="@Clear" Size="Size.Small">@Localize( "Clear" )</Button>
+            <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">@Localize( "Cancel" )</Button>
+        </Div>
+    </Div>
+</ModalFooter>

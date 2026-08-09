@@ -88,8 +88,8 @@ public partial class DocsPageSectionSource
 
     private async Task OnCopyCode()
     {
-        await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", Snippets.GetCode( CurrentCode ) );
-        await NotificationService.Info( $"Copied code example!" );
+        await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", Snippets.GetCode( CopyFullExample ? Code : CurrentCode ) );
+        await NotificationService.Info( CopyFullExample ? "Copied full example!" : "Copied code example!" );
     }
 
     private Task OnSelectCodeSource( string code )
@@ -187,6 +187,8 @@ public partial class DocsPageSectionSource
     [Parameter] public string CodeTitle { get; set; } = "Example.razor";
 
     [Parameter] public IReadOnlyList<DocsCodeSource> AdditionalCodes { get; set; }
+
+    [Parameter] public bool CopyFullExample { get; set; }
 
     [Parameter] public bool ShowCode { get; set; } = true;
 

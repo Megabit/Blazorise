@@ -1,0 +1,46 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using System
+
+<Div Class="b-report-panel">
+    @foreach ( ReportElementDefinition childElement in GetRenderableElements() )
+    {
+        string childElementKey = ReportDefinitionHelper.EnsureElementId( childElement );
+
+        <_ReportDesignerElement Data="@Data"
+                                Definition="@Definition"
+                                Section="@Section"
+                                SectionIndex="@SectionIndex"
+                                Item="@Item"
+                                RunningTotals="@RunningTotals"
+                                RenderMutationVersion="@RenderMutationVersion"
+                                Element="@childElement"
+                                ElementKey="@childElementKey"
+                                DesignMode="@DesignMode"
+                                Editable="@Editable"
+                                LayoutLocked="@LayoutLocked"
+                                Selected="@(IsElementSelected?.Invoke( childElementKey ) == true)"
+                                Colliding="@(IsElementColliding?.Invoke( childElementKey ) == true)"
+                                SelectionVersion="@SelectionVersion"
+                                Editing="@string.Equals( EditingElementKey, childElementKey, StringComparison.Ordinal )"
+                                TextEditingActive="@TextEditingActive"
+                                ChildEditingElementKey="@EditingElementKey"
+                                SelectedCellKey="@SelectedCellKey"
+                                Clicked="@ElementClicked"
+                                DoubleClicked="@ElementDoubleClicked"
+                                ContextMenu="@ElementContextMenu"
+                                TableCellClicked="@TableCellClicked"
+                                TableCellContextMenu="@TableCellContextMenu"
+                                IsChildElementSelected="@IsElementSelected"
+                                IsChildElementColliding="@IsElementColliding"
+                                ChildElementClicked="@ElementClicked"
+                                ChildElementDoubleClicked="@ElementDoubleClicked"
+                                ChildElementTextEditCommitted="@ElementTextEditCommitted"
+                                ChildElementTextEditCancelled="@ElementTextEditCancelled"
+                                TableResizeStarted="@TableResizeStarted"
+                                TextEditCommitted="@ElementTextEditCommitted"
+                                TextEditCancelled="@ElementTextEditCancelled"
+                                PointerDown="@ElementPointerDown"
+                                ResizeStarted="@ElementResizeStarted" />
+    }
+</Div>

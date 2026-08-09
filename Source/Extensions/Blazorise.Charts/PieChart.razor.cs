@@ -3,6 +3,9 @@
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Renders a pie chart.
+/// </summary>
 public partial class PieChart<TItem> : BaseChart<PieChartDataset<TItem>, TItem, PieChartOptions, PieChartModel>
 {
     #region Members
@@ -11,6 +14,9 @@ public partial class PieChart<TItem> : BaseChart<PieChartDataset<TItem>, TItem, 
 
     #region Constructors
 
+    /// <summary>
+    /// Creates a pie chart instance.
+    /// </summary>
     public PieChart()
     {
         Type = ChartType.Pie;

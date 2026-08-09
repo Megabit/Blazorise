@@ -1,0 +1,9 @@
+{
+  "culture": "sk",
+  "translations": {
+    "Close": "Zavrieť",
+    "Close {0}": "Zavrieť {0}",
+    "Pin": "Pripnúť",
+    "Unpin": "Odopnúť"
+  }
+}

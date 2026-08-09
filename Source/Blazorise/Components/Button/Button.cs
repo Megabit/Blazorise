@@ -143,6 +143,13 @@ public partial class Button : BaseComponent, IAsyncDisposable
     {
         if ( !Disabled )
         {
+            if ( ActiveChanged.HasDelegate )
+            {
+                Active = !Active;
+
+                await ActiveChanged.InvokeAsync( Active );
+            }
+
             await Clicked.InvokeAsync( eventArgs );
 
             // Don't need to check CanExecute again is already part of Disabled check
@@ -167,6 +174,19 @@ public partial class Button : BaseComponent, IAsyncDisposable
     public Task Focus( bool scrollToElement = true )
     {
         return JSUtilitiesModule.Focus( ElementRef, ElementId, scrollToElement ).AsTask();
+    }
+
+    /// <summary>
+    /// Configures the render tree to handle the context menu event.
+    /// </summary>
+    /// <param name="builder">The <see cref="RenderTreeBuilder"/> used to define the render tree.</param>
+    protected void BuildContextMenuEventsRenderTree( RenderTreeBuilder builder )
+    {
+        if ( ContextMenu.HasDelegate )
+            builder.OnContextMenu( this, ContextMenu );
+
+        if ( ContextMenuPreventDefault )
+            builder.OnContextMenuPreventDefault( true );
     }
 
     /// <inheritdoc/>
@@ -199,6 +219,8 @@ public partial class Button : BaseComponent, IAsyncDisposable
 
         builder.OnClick( this, EventCallback.Factory.Create<MouseEventArgs>( this, ClickHandler ) );
         builder.OnClickPreventDefault( Type == ButtonType.Link && To is not null && To.StartsWith( "#" ) );
+
+        BuildContextMenuEventsRenderTree( builder );
 
         builder.Attributes( Attributes );
         builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
@@ -360,6 +382,16 @@ public partial class Button : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
     /// <summary>
+    /// Notifies when the button context menu is requested.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> ContextMenu { get; set; }
+
+    /// <summary>
+    /// Prevents the browser's default context menu.
+    /// </summary>
+    [Parameter] public bool ContextMenuPreventDefault { get; set; }
+
+    /// <summary>
     /// Specifies the button type.
     /// </summary>
     [Parameter] public ButtonType Type { get; set; } = ButtonType.Button;
@@ -448,6 +480,11 @@ public partial class Button : BaseComponent, IAsyncDisposable
             DirtyClasses();
         }
     }
+
+    /// <summary>
+    /// Notifies when the active state changes. When assigned, clicking the button toggles its active state.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ActiveChanged { get; set; }
 
     /// <summary>
     /// Makes the button to span the full width of a parent.

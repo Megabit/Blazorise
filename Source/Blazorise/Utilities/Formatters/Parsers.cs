@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -164,6 +164,15 @@ public static class Parsers
             return false;
         }
 
+        if ( inputMode == DateInputMode.Week )
+        {
+            if ( TryParseWeekDate( value, out DateTime parsedWeek ) )
+                return TryConvertWeekDate( parsedWeek, out result );
+
+            result = default;
+            return false;
+        }
+
         var supportedParseFormats = GetSupportedParseDateFormats( inputMode );
 
         var type = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
@@ -193,6 +202,17 @@ public static class Parsers
         }
 
         result = default;
+
+        return false;
+    }
+
+    internal static bool TryParseDate<TValue>( string value, DateInputMode inputMode, TimeSpan? dateTimeOffset, out TValue result )
+    {
+        if ( TryParseDate( value, inputMode, out result ) )
+        {
+            result = (TValue)ApplyDateTimeOffset( result, dateTimeOffset );
+            return true;
+        }
 
         return false;
     }
@@ -253,6 +273,15 @@ public static class Parsers
             return false;
         }
 
+        if ( inputMode == DateInputMode.Week )
+        {
+            if ( TryParseWeekDate( value, out DateTime parsedWeek ) )
+                return TryConvertWeekDate( parsedWeek, conversionType, out result );
+
+            result = default;
+            return false;
+        }
+
         var supportedParseFormats = GetSupportedParseDateFormats( inputMode );
 
         var type = Nullable.GetUnderlyingType( conversionType ) ?? conversionType;
@@ -286,6 +315,61 @@ public static class Parsers
         return false;
     }
 
+    private static bool TryConvertWeekDate<TValue>( DateTime weekStart, out TValue result )
+    {
+        Type conversionType = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
+
+        if ( TryConvertWeekDate( weekStart, conversionType, out object converted ) )
+        {
+            result = (TValue)converted;
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    private static bool TryParseWeekDate( string value, out DateTime result )
+    {
+        if ( WeekDateFormat.TryParse( value, null, null, out result ) )
+            return true;
+
+        if ( DateTime.TryParseExact( value, SupportedParseDateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out result ) )
+        {
+            result = WeekDateFormat.GetWeekStart( result );
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    private static bool TryConvertWeekDate( DateTime weekStart, Type conversionType, out object result )
+    {
+        Type type = Nullable.GetUnderlyingType( conversionType ) ?? conversionType;
+
+        if ( type == typeof( DateTime ) )
+        {
+            result = weekStart;
+            return true;
+        }
+
+        if ( type == typeof( DateTimeOffset ) )
+        {
+            result = new DateTimeOffset( weekStart );
+            return true;
+        }
+
+        if ( type == typeof( DateOnly ) )
+        {
+            result = DateOnly.FromDateTime( weekStart );
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
     /// <summary>
     /// Parses a comma-separated string of dates into a readonly list or array of the specified type.
     /// </summary>
@@ -296,6 +380,9 @@ public static class Parsers
     /// <returns>A readonly list or array containing the parsed date values.</returns>
     /// <exception cref="ArgumentException">Thrown if the target type is not an array or IReadOnlyList.</exception>
     public static TValue ParseCsvDatesToReadOnlyList<TValue>( string csv, string delimiter, DateInputMode inputMode )
+        => ParseCsvDatesToReadOnlyList<TValue>( csv, delimiter, inputMode, null );
+
+    internal static TValue ParseCsvDatesToReadOnlyList<TValue>( string csv, string delimiter, DateInputMode inputMode, TimeSpan? dateTimeOffset )
     {
         var targetType = typeof( TValue );
 
@@ -321,7 +408,7 @@ public static class Parsers
             .Select( val =>
             {
                 if ( TryParseDate( val, elementType, inputMode, out var newValue ) )
-                    return newValue;
+                    return ApplyDateTimeOffset( newValue, dateTimeOffset );
 
                 return Activator.CreateInstance( elementType );
             } ).ToList();
@@ -354,4 +441,9 @@ public static class Parsers
             return (TValue)readOnlyList;
         }
     }
+
+    private static object ApplyDateTimeOffset( object value, TimeSpan? dateTimeOffset )
+        => dateTimeOffset.HasValue && value is DateTimeOffset parsedDateTimeOffset
+            ? new DateTimeOffset( parsedDateTimeOffset.DateTime, dateTimeOffset.Value )
+            : value;
 }

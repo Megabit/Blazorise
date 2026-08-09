@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Sidebar;
 
+/// <summary>
+/// Groups a sidebar link with its optional nested navigation items.
+/// </summary>
 public partial class SidebarItem : BaseComponent
 {
     #region Members

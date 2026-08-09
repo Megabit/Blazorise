@@ -57,6 +57,9 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
         return ValueChanged.InvokeAsync( Converters.ChangeType<TValue>( value ) );
     }
 
+    /// <summary>
+    /// Synchronizes a checked dropdown item with the selected value collection.
+    /// </summary>
     protected Task HandleDropdownItemChecked( bool isChecked, object fieldValue )
     {
         if ( !Multiple )

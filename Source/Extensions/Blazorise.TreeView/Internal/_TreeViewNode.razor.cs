@@ -13,6 +13,10 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.TreeView.Internal;
 
+/// <summary>
+/// Recursively renders one level of tree node state.
+/// </summary>
+/// <typeparam name="TNode">Application model represented by a node.</typeparam>
 public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 {
     #region Members
@@ -33,6 +37,9 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
     #region Constructors
 
+    /// <summary>
+    /// Prepares the class and style builders used for node visuals.
+    /// </summary>
     public _TreeViewNode()
     {
         nodeClassBuilder = new( BuildNodeClasses );
@@ -45,6 +52,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
     #region Methods
 
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         if ( AutoExpandAll )
@@ -65,6 +73,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         await base.OnInitializedAsync();
     }
 
+    /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         checkChildrenLoaded = true;
@@ -74,6 +83,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         await base.SetParametersAsync( parameters );
     }
 
+    /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
         if ( nodeStatesChanged )
@@ -179,6 +189,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         childCollectionSubscriptions.Clear();
     }
 
+    /// <inheritdoc />
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "b-tree-view-node" );
@@ -187,6 +198,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         base.BuildClasses( builder );
     }
 
+    /// <inheritdoc />
     protected override void BuildCustomClasses( ClassBuilder builder )
     {
         string nodesClass = ParentTreeView?.Classes?.Nodes;
@@ -196,6 +208,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         }
     }
 
+    /// <inheritdoc />
     protected override void BuildCustomStyles( StyleBuilder builder )
     {
         string nodesStyle = ParentTreeView?.Styles?.Nodes;
@@ -205,6 +218,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         }
     }
 
+    /// <inheritdoc />
     protected override void DirtyClasses()
     {
         nodeClassBuilder?.Dirty();
@@ -213,6 +227,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         base.DirtyClasses();
     }
 
+    /// <inheritdoc />
     protected override void DirtyStyles()
     {
         nodeStyleBuilder?.Dirty();
@@ -424,6 +439,9 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         base.Dispose( disposing );
     }
 
+    /// <summary>
+    /// Expands this node and every descendant that can contain children.
+    /// </summary>
     public async Task ExpandAll()
     {
         foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
@@ -446,6 +464,9 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         await InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Collapses this node and every currently loaded descendant.
+    /// </summary>
     public async Task CollapseAll()
     {
         foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
@@ -479,21 +500,33 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         return ContextMenu.InvokeAsync( new TreeViewNodeMouseEventArgs<TNode>( nodeState.Node, eventArgs ) );
     }
 
+    /// <summary>
+    /// Resolves custom classes for a particular node state.
+    /// </summary>
     protected string NodeClassNames( TreeViewNodeState<TNode> nodeState )
     {
         NodeContext = BuildNodeContext( nodeState );
         return nodeClassBuilder.Class;
     }
 
+    /// <summary>
+    /// Resolves custom inline styles for a particular node state.
+    /// </summary>
     protected string NodeStyleNames( TreeViewNodeState<TNode> nodeState )
     {
         NodeContext = BuildNodeContext( nodeState );
         return nodeStyleBuilder.Styles;
     }
 
+    /// <summary>
+    /// CSS classes applied to node expansion icons.
+    /// </summary>
     protected string NodeIconClassNames
         => nodeIconClassBuilder.Class;
 
+    /// <summary>
+    /// Inline styles applied to node expansion icons.
+    /// </summary>
     protected string NodeIconStyleNames
         => nodeIconStyleBuilder.Styles;
 
@@ -581,24 +614,54 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     /// </summary>
     protected Func<TNode, bool> DetermineIsDisabled => IsDisabled ?? ( node => false );
 
+    /// <summary>
+    /// Nodes rendered at the current hierarchy level.
+    /// </summary>
     [Parameter] public IEnumerable<TreeViewNodeState<TNode>> NodeStates { get; set; }
 
+    /// <summary>
+    /// Template used for each node's visible content.
+    /// </summary>
     [Parameter] public RenderFragment<TNode> NodeContent { get; set; }
 
+    /// <summary>
+    /// Models whose descendant lists are currently visible.
+    /// </summary>
     [Parameter] public IList<TNode> ExpandedNodes { get; set; } = new List<TNode>();
 
+    /// <summary>
+    /// Raised after the expanded-node collection changes.
+    /// </summary>
     [Parameter] public EventCallback<IList<TNode>> ExpandedNodesChanged { get; set; }
 
+    /// <summary>
+    /// Synchronous child selector for a node model.
+    /// </summary>
     [Parameter] public Func<TNode, IEnumerable<TNode>> GetChildNodes { get; set; }
 
+    /// <summary>
+    /// Synchronous check indicating whether expansion is available.
+    /// </summary>
     [Parameter] public Func<TNode, bool> HasChildNodes { get; set; }
 
+    /// <summary>
+    /// Predicate controlling whether a node rejects interaction.
+    /// </summary>
     [Parameter] public Func<TNode, bool> IsDisabled { get; set; }
 
+    /// <summary>
+    /// Asynchronous child loader for a node model.
+    /// </summary>
     [Parameter] public Func<TNode, Task<IEnumerable<TNode>>> GetChildNodesAsync { get; set; }
 
+    /// <summary>
+    /// Asynchronous check indicating whether expansion is available.
+    /// </summary>
     [Parameter] public Func<TNode, Task<bool>> HasChildNodesAsync { get; set; }
 
+    /// <summary>
+    /// Selection behavior inherited from the root tree.
+    /// </summary>
     [Parameter] public TreeViewSelectionMode SelectionMode { get; set; }
 
     /// <summary>

@@ -131,9 +131,9 @@
 
 @mixin ant-legacy-vertical-menu($active-color, $active-background, $hover-color, $hover-background) {
     &.ant-menu-inline {
-        min-width: var(--b-sidebar-width, 230px);
-        max-width: var(--b-sidebar-width, 230px);
-        width: var(--b-sidebar-width, 230px);
+        min-width: var(--b-vertical-bar-width, var(--ant-menu-inline-width));
+        max-width: var(--b-vertical-bar-width, var(--ant-menu-inline-width));
+        width: var(--b-vertical-bar-width, var(--ant-menu-inline-width));
 
         > .ant-menu-item {
             min-height: var(--ant-menu-item-height);
@@ -296,7 +296,7 @@
         }
 
         .ant-menu-toggler-inline {
-            height: var(--b-vertical-bar-brand-height, 64px);
+            height: var(--ant-menu-brand-height);
             padding: 12px;
             display: inline-flex;
             cursor: pointer;
@@ -872,8 +872,8 @@
 .ant-menu-inline > .b-ant-menu-brand-item,
 .ant-menu-vertical > .b-ant-menu-brand-item {
     width: 100% !important;
-    height: var(--b-sidebar-brand-height, 64px);
-    line-height: var(--b-sidebar-brand-height, 64px);
+    height: var(--ant-menu-brand-height);
+    line-height: var(--ant-menu-brand-height);
     margin-block: 0;
     border-radius: 0;
 }
@@ -921,12 +921,12 @@
     align-items: center;
     justify-content: center;
     width: auto;
-    min-height: var(--b-sidebar-brand-height, 64px);
-    height: var(--b-sidebar-brand-height, 64px);
+    min-height: var(--ant-menu-brand-height);
+    height: var(--ant-menu-brand-height);
     padding: 12px;
     color: inherit;
     background: transparent;
-    line-height: var(--b-sidebar-brand-height, 64px);
+    line-height: var(--ant-menu-brand-height);
     cursor: pointer;
     border-radius: 0;
     transition: color var(--ant-motion-duration-mid), background-color var(--ant-motion-duration-mid);

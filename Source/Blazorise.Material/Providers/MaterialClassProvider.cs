@@ -95,6 +95,44 @@ public class MaterialClassProvider : ClassProvider
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
+    public override string DatePickerContainer( bool inline, bool open ) => $"mui-date-picker{( inline ? " mui-date-picker-inline" : null )}{( open ? " mui-date-picker-open" : null )}";
+
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"mui-date-picker-calendar{( inline ? " mui-date-picker-calendar-inline" : null )}{( staticPicker ? " mui-date-picker-calendar-static" : " mui-date-picker-calendar-floating" )}";
+
+    public override string DatePickerCalendarBackdrop() => "mui-date-picker-backdrop";
+
+    public override string DatePickerCalendarHeader() => "mui-date-picker-header";
+
+    public override string DatePickerCalendarNavigation() => "mui-date-picker-navigation";
+
+    public override string DatePickerCalendarTitle() => "mui-date-picker-title";
+
+    public override string DatePickerCalendarGrid() => "mui-date-picker-grid";
+
+    public override string DatePickerCalendarWeekdays() => "mui-date-picker-weekdays";
+
+    public override string DatePickerCalendarWeekday() => "mui-date-picker-weekday";
+
+    public override string DatePickerCalendarWeek() => "mui-date-picker-week";
+
+    public override string DatePickerCalendarWeekNumber() => "mui-date-picker-week-number";
+
+    public override string DatePickerCalendarDay( bool outside, bool today, bool selected, bool rangeStart, bool inRange, bool rangeEnd, bool disabled, bool focused )
+        => $"mui-date-picker-day{( outside ? " mui-date-picker-day-outside" : null )}{( today ? " mui-date-picker-day-today" : null )}{( selected ? " mui-date-picker-day-selected" : null )}{( rangeStart ? " mui-date-picker-day-range-start" : null )}{( inRange ? " mui-date-picker-day-in-range" : null )}{( rangeEnd ? " mui-date-picker-day-range-end" : null )}{( disabled ? " mui-date-picker-day-disabled" : null )}{( focused ? " mui-date-picker-day-focused" : null )}";
+
+    public override string DatePickerCalendarMonths() => "mui-date-picker-months";
+
+    public override string DatePickerCalendarMonth( bool selected, bool disabled, bool focused )
+        => $"mui-date-picker-month{( selected ? " mui-date-picker-month-selected" : null )}{( disabled ? " mui-date-picker-month-disabled" : null )}{( focused ? " mui-date-picker-month-focused" : null )}";
+
+    public override string DatePickerCalendarTime() => "mui-date-picker-time";
+
+    public override string DatePickerCalendarTimeInput() => "mui-date-picker-time-input";
+
+    public override string DatePickerCalendarActions() => "mui-date-picker-actions";
+
+    public override string DatePickerCalendarButton() => "mui-date-picker-button";
+
     #endregion
 
     #region TimePicker
@@ -106,6 +144,25 @@ public class MaterialClassProvider : ClassProvider
     public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    public override string TimePickerContainer( bool inline, bool open )
+        => $"mui-time-picker{( inline ? " mui-time-picker-inline" : null )}{( open ? " mui-time-picker-open" : null )}";
+
+    public override string TimePickerMenu( bool inline, bool staticPicker )
+        => $"mui-time-picker-menu{( inline ? " mui-time-picker-menu-inline" : null )}{( staticPicker ? " mui-time-picker-menu-static" : " mui-time-picker-menu-floating" )}";
+
+    public override string TimePickerBackdrop() => "mui-time-picker-backdrop";
+
+    public override string TimePickerControls() => "mui-time-picker-controls";
+
+    public override string TimePickerControl( bool focused ) => $"mui-time-picker-control{( focused ? " mui-time-picker-control-focused" : null )}";
+
+    public override string TimePickerInput() => "mui-time-picker-input";
+
+    public override string TimePickerSeparator() => "mui-time-picker-separator";
+
+    public override string TimePickerMeridiem( bool postMeridiem, bool focused )
+        => $"mui-time-picker-meridiem{( postMeridiem ? " mui-time-picker-meridiem-pm" : null )}{( focused ? " mui-time-picker-control-focused" : null )}";
 
     #endregion
 
@@ -261,6 +318,26 @@ public class MaterialClassProvider : ClassProvider
     public override string RangeSliderTooltip() => "mui-slider-value mui-range-slider-tooltip";
 
     public override string RangeSliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    #endregion
+
+    #region Resizer
+
+    public override string Resizer() => "mui-resizer";
+
+    public override string ResizerOrientation( Orientation orientation ) => $"mui-resizer-{orientation.ToString().ToLowerInvariant()}";
+
+    public override string ResizerPlacement( Placement placement ) => $"mui-resizer-{placement.ToString().ToLowerInvariant()}";
+
+    public override string ResizerGutter( bool showGutter ) => showGutter ? "mui-resizer-gutter" : null;
+
+    public override string ResizerDisabled( bool disabled ) => disabled ? "mui-resizer-disabled" : null;
+
+    public override string ResizerFocused( bool focused ) => focused ? "mui-resizer-focused" : null;
+
+    public override string ResizerResizing( bool resizing ) => resizing ? "mui-resizer-resizing" : null;
+
+    public override string ResizerTargetResizing( bool resizing ) => resizing ? "mui-resizer-target-resizing" : null;
 
     #endregion
 
@@ -579,6 +656,90 @@ public class MaterialClassProvider : ClassProvider
             _ => null,
         };
     }
+
+    public override string ContextMenu() => "mui-context-menu";
+
+    public override string ContextMenuToggle() => "mui-context-menu-toggle";
+
+    public override string ContextMenuBody() => $"{DropdownMenu()} mui-context-menu-menu";
+
+    public override string ContextMenuBodyVisible( bool visible ) => DropdownMenuVisible( visible );
+
+    public override string ContextMenuBodyPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => DropdownMenuPositionStrategy( dropdownPositionStrategy );
+
+    public override string ContextMenuItem() => $"{DropdownItem()} mui-context-menu-item";
+
+    public override string ContextMenuItemActive( bool active ) => DropdownItemActive( active );
+
+    public override string ContextMenuItemDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuItemContent() => "mui-context-menu-item-content";
+
+    public override string ContextMenuItemCheck() => "mui-context-menu-item-check";
+
+    public override string ContextMenuItemShortcut() => "mui-context-menu-item-shortcut";
+
+    public override string ContextMenuDivider() => $"{DropdownDivider()} mui-context-menu-divider";
+
+    public override string ContextMenuHeader() => $"{DropdownHeader()} mui-context-menu-header";
+
+    public override string ContextMenuGroup() => "mui-context-menu-group";
+
+    public override string ContextMenuToolbar() => "mui-context-menu-toolbar";
+
+    public override string ContextMenuToolbarItem() => "mui-context-menu-toolbar-item";
+
+    public override string ContextMenuToolbarItemActive( bool active ) => active ? "mui-context-menu-toolbar-item-active" : null;
+
+    public override string ContextMenuToolbarItemDisabled( bool disabled ) => disabled ? "mui-context-menu-toolbar-item-disabled" : null;
+
+    public override string ContextMenuToolbarItemEndAligned( bool endAligned ) => endAligned ? "mui-context-menu-toolbar-item-end-aligned" : null;
+
+    public override string ContextMenuSubmenu() => "mui-context-menu-submenu";
+
+    public override string ContextMenuSubmenuTrigger() => "mui-context-menu-submenu-trigger";
+
+    public override string ContextMenuSubmenuTriggerDisabled( bool disabled ) => DropdownItemDisabled( disabled );
+
+    public override string ContextMenuSubmenuBody() => "mui-context-menu-submenu-menu";
+
+    #endregion
+
+    #region PropertyGrid
+
+    public override string PropertyGrid() => "mui-property-grid";
+
+    public override string PropertyGridViewport() => "mui-property-grid-viewport";
+
+    public override string PropertyGridToolbar() => "mui-property-grid-toolbar";
+
+    public override string PropertyGridToolbarButton() => "mui-property-grid-toolbar-button";
+
+    public override string PropertyGridToolbarSearch() => "mui-property-grid-toolbar-search";
+
+    public override string PropertyGridEmpty() => "mui-property-grid-empty";
+
+    public override string PropertyGridHelp() => "mui-property-grid-help";
+
+    public override string PropertyGridHelpTitle() => "mui-property-grid-help-title";
+
+    public override string PropertyGridHelpDescription() => "mui-property-grid-help-description";
+
+    public override string PropertyGridGroup() => "mui-property-grid-group";
+
+    public override string PropertyGridGroupHeader() => "mui-property-grid-group-header";
+
+    public override string PropertyGridGroupToggle() => "mui-property-grid-group-toggle";
+
+    public override string PropertyGridGroupBody() => "mui-property-grid-group-body";
+
+    public override string PropertyGridItem() => "mui-property-grid-item";
+
+    public override string PropertyGridItemSelected( bool selected ) => selected ? "mui-property-grid-item-selected" : null;
+
+    public override string PropertyGridItemLabel() => "mui-property-grid-item-label";
+
+    public override string PropertyGridItemBody() => "mui-property-grid-item-body";
 
     #endregion
 
@@ -1800,6 +1961,140 @@ public class MaterialClassProvider : ClassProvider
     public override string DescriptionListTerm() => null;
 
     public override string DescriptionListDefinition() => null;
+
+    #endregion
+
+    #region DockLayout
+
+    public override string DockLayout() => "mui-dock-layout";
+
+    public override string DockSplit() => "mui-dock-split";
+
+    public override string DockSplitOrientation( Orientation orientation )
+        => orientation == Blazorise.Orientation.Vertical ? "mui-dock-split-vertical" : "mui-dock-split-horizontal";
+
+    public override string DockPane( DockPanePosition position, bool resizable, bool collapsed ) => "mui-dock-pane";
+
+    public override string DockPanePosition( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Center => "mui-dock-pane-center",
+            Blazorise.DockPanePosition.Right => "mui-dock-pane-right",
+            Blazorise.DockPanePosition.Top => "mui-dock-pane-top",
+            Blazorise.DockPanePosition.Bottom => "mui-dock-pane-bottom",
+            _ => "mui-dock-pane-left",
+        };
+
+    public override string DockPaneResizable( bool resizable ) => resizable ? "mui-dock-pane-resizable" : null;
+
+    public override string DockPaneCollapsed( bool collapsed ) => collapsed ? "mui-dock-pane-collapsed" : null;
+
+    public override string DockPaneAutoHide( bool autoHide ) => autoHide ? "mui-dock-pane-autohide" : null;
+
+    public override string DockPaneBordered() => "mui-dock-pane-bordered";
+
+    public override string DockPaneAutoHideRail( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "mui-dock-auto-hide-rail mui-dock-auto-hide-rail-right",
+            Blazorise.DockPanePosition.Top => "mui-dock-auto-hide-rail mui-dock-auto-hide-rail-top",
+            Blazorise.DockPanePosition.Bottom => "mui-dock-auto-hide-rail mui-dock-auto-hide-rail-bottom",
+            _ => "mui-dock-auto-hide-rail mui-dock-auto-hide-rail-left",
+        };
+
+    public override string DockPaneAutoHideTab( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "mui-dock-pane-autohide-tab mui-dock-pane-autohide-tab-right",
+            Blazorise.DockPanePosition.Top => "mui-dock-pane-autohide-tab mui-dock-pane-autohide-tab-top",
+            Blazorise.DockPanePosition.Bottom => "mui-dock-pane-autohide-tab mui-dock-pane-autohide-tab-bottom",
+            _ => "mui-dock-pane-autohide-tab mui-dock-pane-autohide-tab-left",
+        };
+
+    public override string DockPaneAutoHideFlyout( DockPanePosition position )
+        => position switch
+        {
+            Blazorise.DockPanePosition.Right => "mui-dock-auto-hide-flyout mui-dock-auto-hide-flyout-right",
+            Blazorise.DockPanePosition.Top => "mui-dock-auto-hide-flyout mui-dock-auto-hide-flyout-top",
+            Blazorise.DockPanePosition.Bottom => "mui-dock-auto-hide-flyout mui-dock-auto-hide-flyout-bottom",
+            _ => "mui-dock-auto-hide-flyout mui-dock-auto-hide-flyout-left",
+        };
+
+    public override string DockPaneHeader() => "mui-dock-pane-header";
+
+    public override string DockPaneHeaderContent() => "mui-dock-pane-header-content";
+
+    public override string DockPaneHeaderActions() => "mui-dock-pane-header-actions";
+
+    public override string DockPaneHeaderAction() => "mui-dock-pane-header-action";
+
+    public override string DockPaneBody() => "mui-dock-pane-body";
+
+    public override string DockPaneFooter() => "mui-dock-pane-footer";
+
+    public override string DockContent() => "mui-dock-content";
+
+    public override string DockPaneTabs() => "mui-dock-pane-tabs";
+
+    public override string DockPaneTabPosition( DockPaneTabPosition position )
+        => position == Blazorise.DockPaneTabPosition.Top ? "mui-dock-pane-tabs-top" : null;
+
+    public override string DockPaneTabsHost() => "mui-dock-tabs-host";
+
+    public override string DockPaneTab( bool active ) => active ? "mui-dock-pane-tab mui-dock-pane-tab-active" : "mui-dock-pane-tab";
+
+    public override string DockPaneTabLabel() => "mui-dock-pane-tab-label";
+
+    public override string DockPaneTabClose() => "mui-dock-pane-tab-close";
+
+    public override string DockLayoutCompass() => "mui-dock-compass";
+
+    public override string DockLayoutCompassZone( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Center => "mui-dock-compass-zone mui-dock-compass-zone-center",
+            DockZone.Right => "mui-dock-compass-zone mui-dock-compass-zone-right",
+            DockZone.Top => "mui-dock-compass-zone mui-dock-compass-zone-top",
+            DockZone.Bottom => "mui-dock-compass-zone mui-dock-compass-zone-bottom",
+            _ => "mui-dock-compass-zone mui-dock-compass-zone-left",
+        };
+
+        return active ? $"{baseClass} mui-dock-compass-zone-active" : baseClass;
+    }
+
+    public override string DockLayoutCompassZonePlacement( DockCompassZone zone )
+        => zone switch
+        {
+            DockCompassZone.TopOuter => "mui-dock-compass-zone-top-outer",
+            DockCompassZone.TopInner => "mui-dock-compass-zone-top-inner",
+            DockCompassZone.LeftOuter => "mui-dock-compass-zone-left-outer",
+            DockCompassZone.LeftInner => "mui-dock-compass-zone-left-inner",
+            DockCompassZone.RightInner => "mui-dock-compass-zone-right-inner",
+            DockCompassZone.RightOuter => "mui-dock-compass-zone-right-outer",
+            DockCompassZone.BottomInner => "mui-dock-compass-zone-bottom-inner",
+            DockCompassZone.BottomOuter => "mui-dock-compass-zone-bottom-outer",
+            _ => "mui-dock-compass-zone-center",
+        };
+
+    public override string DockLayoutCompassZoneIcon() => "mui-dock-compass-zone-icon";
+
+    public override string DockLayoutDragPreview() => "mui-dock-drag-preview";
+
+    public override string DockLayoutDropPreview() => "mui-dock-drop-preview";
+
+    public override string DockLayoutShellGuide( DockZone zone, bool active )
+    {
+        string baseClass = zone switch
+        {
+            DockZone.Right => "mui-dock-shell-guide mui-dock-shell-guide-right",
+            DockZone.Top => "mui-dock-shell-guide mui-dock-shell-guide-top",
+            DockZone.Bottom => "mui-dock-shell-guide mui-dock-shell-guide-bottom",
+            _ => "mui-dock-shell-guide mui-dock-shell-guide-left",
+        };
+
+        return active ? $"{baseClass} mui-dock-shell-guide-active" : baseClass;
+    }
 
     #endregion
 

@@ -7,6 +7,9 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Charts.Annotation;
 
+/// <summary>
+/// Transfers annotation collections to the Chart.js annotation plugin.
+/// </summary>
 public class JSChartAnnotationModule : BaseJSModule
 {
     /// <summary>
@@ -20,6 +23,9 @@ public class JSChartAnnotationModule : BaseJSModule
     {
     }
 
+    /// <summary>
+    /// Replaces the named annotations configured for a chart canvas.
+    /// </summary>
     public virtual async ValueTask AddAnnotationOptions( string canvasId, Dictionary<string, ChartAnnotationOptions> annotationOptions )
     {
         var moduleInstance = await Module;

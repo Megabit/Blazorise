@@ -1,0 +1,75 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CodeEditor</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>editor</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>sourceCode</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Language</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>CodeEditorLanguage.JavaScript</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">EditorOptions</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>editorOptions</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Immediate</span>
+            <span class="htmlAttributeName">Debounce</span>
+            <span class="htmlAttributeName">DebounceInterval</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">250</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Ready</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnReady</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">ContentChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnContentChanged</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Focused</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnFocused</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Blurred</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnBlurred</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Height</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">220.Px()</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Display</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Display</span><span class="enumValue">.Flex</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.AlignItems.Center</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>FocusEditor</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Focus editor<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>status<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> CodeEditor editor;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> status = <span class="string">&quot;Waiting for the editor&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> sourceCode = <span class="string">&quot;&quot;</span>&quot;
+<span class="keyword">const</span> greeting = name =&gt; `Hello, ${name}!`;
+
+console.log(greeting(<span class="string">&quot;Blazorise&quot;</span>));
+<span class="string">&quot;&quot;</span>&quot;;
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> CodeEditorOptions editorOptions = <span class="keyword">new</span>()
+    {
+        Minimap = <span class="keyword">false</span>,
+        WordWrap = <span class="keyword">true</span>,
+        TabSize = <span class="number">2</span>,
+        RenderWhitespace = <span class="keyword">true</span>,
+        ScrollBeyondLastLine = <span class="keyword">false</span>,
+        FontSize = <span class="number">14</span>,
+    };
+
+    <span class="keyword">private</span> Task FocusEditor()
+        =&gt; editor?.Focus() ?? Task.CompletedTask;
+
+    <span class="keyword">private</span> Task OnReady( CodeEditorReadyEventArgs eventArgs )
+    {
+        status = $<span class="string">&quot;Ready: {eventArgs.ElementId}&quot;</span>;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> Task OnContentChanged( <span class="keyword">string</span> value )
+    {
+        status = $<span class="string">&quot;Changed: {value.Length} characters&quot;</span>;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> Task OnFocused()
+    {
+        status = <span class="string">&quot;Focused&quot;</span>;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> Task OnBlurred()
+    {
+        status = <span class="string">&quot;Blurred&quot;</span>;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+}
+</pre></div>
+</div>

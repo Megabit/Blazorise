@@ -124,5 +124,10 @@ public class BlazoriseOptions
     /// </summary>
     public BlazoriseAccessibilityOptions AccessibilityOptions { get; set; } = new();
 
+    /// <summary>
+    /// Gets or sets font registration options.
+    /// </summary>
+    public BlazoriseFontOptions Fonts { get; set; } = new();
+
     #endregion
 }

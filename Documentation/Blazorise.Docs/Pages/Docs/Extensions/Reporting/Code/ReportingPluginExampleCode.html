@@ -1,0 +1,66 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Report</span> <span class="htmlAttributeName">Definition</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>definition</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">ElementPlugins</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>plugins</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">Editable</span>
+        <span class="htmlAttributeName">PreviewFormats</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ReportPreviewFormat.Html | ReportPreviewFormat.Pdf</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IReportElementPlugin[] plugins = [<span class="keyword">new</span> ProgressBarReportElementPlugin()];
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> ReportDefinition definition = <span class="keyword">new</span>()
+    {
+        Name = <span class="string">&quot;Plugin example&quot;</span>,
+        Pages =
+        [
+            <span class="keyword">new</span>()
+            {
+                Name = <span class="string">&quot;Plugin&quot;</span>,
+                Bands =
+                [
+                    <span class="keyword">new</span>()
+                    {
+                        Name = <span class="string">&quot;Custom elements&quot;</span>,
+                        Type = ReportBandType.Detail,
+                        Default = <span class="keyword">true</span>,
+                        Height = <span class="number">150</span>,
+                        Elements =
+                        [
+                            <span class="keyword">new</span> ReportTextElementDefinition
+                            {
+                                Text = <span class="string">&quot;Custom report element&quot;</span>,
+                                X = <span class="number">30</span>,
+                                Y = <span class="number">18</span>,
+                                Width = <span class="number">240</span>,
+                                Height = <span class="number">24</span>,
+                                Font = <span class="keyword">new</span>()
+                                {
+                                    Size = <span class="number">18</span>,
+                                    Bold = <span class="keyword">true</span>,
+                                },
+                            },
+                            <span class="keyword">new</span> ReportCustomElementDefinition
+                            {
+                                TypeName = ProgressBarReportElementPlugin.TypeName,
+                                Name = <span class="string">&quot;Project completion&quot;</span>,
+                                X = <span class="number">30</span>,
+                                Y = <span class="number">60</span>,
+                                Width = <span class="number">200</span>,
+                                Height = <span class="number">38</span>,
+                                Properties = <span class="keyword">new</span>()
+                                {
+                                    [<span class="string">&quot;caption&quot;</span>] = <span class="string">&quot;Project completion&quot;</span>,
+                                    [<span class="string">&quot;value&quot;</span>] = <span class="number">72</span>,
+                                    [<span class="string">&quot;color&quot;</span>] = <span class="string">&quot;#0D6EFD&quot;</span>,
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    };
+}
+</pre></div>
+</div>

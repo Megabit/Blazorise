@@ -51,7 +51,14 @@ public sealed class BlazoriseLicenseChecker
     {
         return !( BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Licensed
             || BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Community
+            || BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.CommunityExpired
             || BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Trial );
+    }
+
+    internal bool ShowCompactBanner()
+    {
+        return BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Community
+            || BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.CommunityExpired;
     }
 
     internal string GetPrintMessage()
@@ -152,6 +159,16 @@ public sealed class BlazoriseLicenseChecker
     public int? GetGanttRowsLimit()
     {
         return blazoriseLicenseProvider.GetGanttRowsLimit();
+    }
+
+    /// <summary>
+    /// Returns the maximum number of rows that can be rendered in a report.
+    /// Null if no limit is set.
+    /// </summary>
+    /// <returns></returns>
+    public int? GetReportingRowsLimit()
+    {
+        return blazoriseLicenseProvider.GetReportingRowsLimit();
     }
 
     /// <summary>

@@ -147,7 +147,7 @@ public class ApiDocsForComponent
     /// </summary>
     public IReadOnlyList<ApiDocsForComponentMethod> OwnMethods { get; }
 
-    //chain of inherited classes from component to BaseComponent
+    // Chain of inherited component classes.
     public IReadOnlyList<Type> InheritsFromChain { get; }
 
     #endregion

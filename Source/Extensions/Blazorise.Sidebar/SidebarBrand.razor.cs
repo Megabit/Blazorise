@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Sidebar;
 
+/// <summary>
+/// Presents branding content at the top of a sidebar.
+/// </summary>
 public partial class SidebarBrand : BaseComponent
 {
     #region Members

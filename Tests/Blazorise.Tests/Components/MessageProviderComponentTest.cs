@@ -44,6 +44,26 @@ public class MessageProviderComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task InfoAppliesRequestedMessageAlignment()
+    {
+        var component = Render<MessageProvider>();
+
+        await ShowInfoMessage( component, options => options.MessageAlignment = TextAlignment.Start );
+
+        component.WaitForAssertion( () => Assert.NotNull( component.Find( ".modal-body.text-left > span.text-left" ) ) );
+    }
+
+    [Fact]
+    public async Task InfoUsesCenteredMessageAlignmentByDefault()
+    {
+        var component = Render<MessageProvider>();
+
+        await ShowInfoMessage( component );
+
+        component.WaitForAssertion( () => Assert.NotNull( component.Find( ".modal-body.text-center > span.text-center" ) ) );
+    }
+
+    [Fact]
     public async Task ConfirmCloseOnEscapeCompletesAsCanceled()
     {
         var component = Render<TestMessageProvider>();

@@ -97,6 +97,21 @@ public sealed class SvgChartPluginSeries
     public double StrokeWidth { get; init; }
 
     /// <summary>
+    /// Gets the resolved line outline color.
+    /// </summary>
+    public string OutlineColor { get; init; }
+
+    /// <summary>
+    /// Gets the resolved line outline stroke width.
+    /// </summary>
+    public double OutlineStrokeWidth { get; init; }
+
+    /// <summary>
+    /// Gets the resolved line outline opacity.
+    /// </summary>
+    public double OutlineOpacity { get; init; }
+
+    /// <summary>
     /// Gets the resolved marker radius.
     /// </summary>
     public double MarkerRadius { get; init; }

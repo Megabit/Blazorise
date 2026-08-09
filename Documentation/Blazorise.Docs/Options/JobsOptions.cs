@@ -16,12 +16,17 @@ public class JobsOptions
     public string FeedUrl { get; set; } = "https://example.com/jobs/jobs.json";
 
     /// <summary>
-    /// Gets or sets the URL for submitting a job post.
+    /// Gets or sets the GitHub organization or user that owns the jobs repository.
     /// </summary>
-    public string SubmitJobUrl { get; set; } = "https://github.com/your-org/jobs/issues/new?template=job.yml";
+    public string GitHubOwner { get; set; } = "Blazorise";
 
     /// <summary>
-    /// Gets or sets the GitHub personal access token used for authentication.
+    /// Gets or sets the GitHub jobs repository name.
+    /// </summary>
+    public string GitHubRepository { get; set; } = "Blazorise.Jobs";
+
+    /// <summary>
+    /// Gets or sets the GitHub token used to create pending job issues.
     /// </summary>
     public string GitHubToken { get; set; }
 

@@ -5,6 +5,9 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Configures polar area chart behavior.
+/// </summary>
 public class PolarAreaChartOptions : ChartOptions
 {
     /// <summary>

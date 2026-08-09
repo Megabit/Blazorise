@@ -66,15 +66,25 @@
     font-size: $custom-select-font-size-xl;
 }
 
+@mixin color-picker-size($padding, $border-radius) {
+    padding: $padding;
+
+    > .b-input-color-picker-preview {
+        border-radius: $border-radius;
+    }
+}
+
 .input-group {
     > .b-numeric:not(:last-child) > input,
-    > div.flatpickr-wrapper:not(:last-child) > input {
+    > div.datepicker:not(:last-child) > input,
+    > div.timepicker:not(:last-child) > input {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
 
     > .b-numeric:not(:first-child) > input,
-    > div.flatpickr-wrapper:not(:first-child) > input {
+    > div.datepicker:not(:first-child) > input,
+    > div.timepicker:not(:first-child) > input {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
@@ -178,7 +188,13 @@
 }
 
 .input-group {
-    > div.flatpickr-wrapper {
+    > div.datepicker,
+    > div.timepicker {
+        display: flex;
+        flex: 1 1 auto;
+        width: 1%;
+        min-width: 0;
+
         > .form-control {
             position: relative;
             flex: 1 1 auto;
@@ -423,11 +439,46 @@ input[readonly="readonly"][type=range] {
     }
 }
 
+input[type="color"].form-control-color,
 .b-input-color-picker {
-    padding: .5rem .6rem;
+    width: 100%;
+}
 
-    > .b-input-color-picker-preview {
-        height: .55rem;
+.b-input-color-picker {
+    &.form-control-color {
+        display: flex;
+        align-items: stretch;
+        @include color-picker-size($input-padding-y, $input-border-radius);
+
+        &.form-control-sm {
+            @include color-picker-size($input-padding-y-sm, $input-border-radius-sm);
+        }
+
+        &.form-control-lg {
+            @include color-picker-size($input-padding-y-lg, $input-border-radius-lg);
+        }
+
+        &.form-control-xs {
+            @include color-picker-size($input-padding-y-xs, $input-border-radius-xs);
+        }
+
+        &.form-control-md {
+            @include color-picker-size($input-padding-y-md, $input-border-radius-md);
+        }
+
+        &.form-control-xl {
+            @include color-picker-size($input-padding-y-xl, $input-border-radius-xl);
+        }
+
+        > .b-input-color-picker-preview {
+            &::before {
+                border-radius: inherit;
+            }
+
+            > .b-input-color-picker-curent-color {
+                border-radius: inherit;
+            }
+        }
     }
 }
 
@@ -481,6 +532,49 @@ input[readonly="readonly"][type=range] {
     display: none;
 }
 
+:is(.datepicker, .timepicker) {
+    &:has(> input.is-valid) {
+        & + .valid-feedback,
+        & + .form-text.text-muted + .valid-feedback {
+            display: block;
+        }
+
+        & + .none-feedback {
+            display: none;
+        }
+    }
+
+    &:has(> input.is-warning) {
+        & + .warning-feedback,
+        & + .form-text.text-muted + .warning-feedback,
+        & + .valid-feedback + .warning-feedback,
+        & + .form-text.text-muted + .valid-feedback + .warning-feedback {
+            display: block;
+        }
+
+        & + .none-feedback {
+            display: none;
+        }
+    }
+
+    &:has(> input.is-invalid) {
+        & + .invalid-feedback,
+        & + .form-text.text-muted + .invalid-feedback,
+        & + .valid-feedback + .invalid-feedback,
+        & + .form-text.text-muted + .valid-feedback + .invalid-feedback,
+        & + .warning-feedback + .invalid-feedback,
+        & + .form-text.text-muted + .warning-feedback + .invalid-feedback,
+        & + .valid-feedback + .warning-feedback + .invalid-feedback,
+        & + .form-text.text-muted + .valid-feedback + .warning-feedback + .invalid-feedback {
+            display: block;
+        }
+
+        & + .none-feedback {
+            display: none;
+        }
+    }
+}
+
 .form-file input[type=file] {
     margin-left: -2px !important;
 }
@@ -499,10 +593,10 @@ input[readonly="readonly"][type=range] {
 }
 
 .form-group {
-    // when flatpickr-wrapper is inside a form-group, make sure the calendar dropdown is positioned correctly
+    // Keep picker dropdown positioning scoped to the field when used in a horizontal form.
     &.row {
         > label {
-            + div:has( > .flatpickr-wrapper) {
+            + div:has( > .datepicker, > .timepicker) {
                 position: relative;
             }
         }

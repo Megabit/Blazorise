@@ -1,0 +1,19 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<Button Color="@ButtonColor"
+        Active="@Active"
+        Size="@Size"
+        role="tab"
+        aria-selected="@Active"
+        aria-pressed="@((bool?)null)"
+        aria-controls="@Controls"
+        Clicked="@OnClicked"
+        ContextMenu="@OnContextMenu"
+        ContextMenuPreventDefault="@ContextMenu.HasDelegate">
+    @if ( Icon is not null )
+    {
+        <Icon Name="@Icon.Value" Margin="MarginIs2FromEnd" />
+    }
+    @Text
+</Button>

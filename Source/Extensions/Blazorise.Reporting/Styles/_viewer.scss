@@ -1,0 +1,33 @@
+.b-report-page {
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+    background: var(--b-report-color-surface);
+    color: var(--b-report-color-text);
+    box-shadow: 0 var(--b-report-page-shadow-offset-y) var(--b-report-page-shadow-blur) var(--b-report-color-shadow);
+
+    &-design {
+        margin: 0;
+        background: var(--b-report-color-surface-muted);
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    &-preview {
+        flex: 0 0 auto;
+        page-break-after: always;
+        break-after: page;
+
+        &:last-child {
+            page-break-after: auto;
+            break-after: auto;
+        }
+    }
+}
+
+.b-report-viewer-pages {
+    display: flex;
+    flex-direction: column;
+    gap: var(--b-report-page-preview-gap);
+    align-items: center;
+}

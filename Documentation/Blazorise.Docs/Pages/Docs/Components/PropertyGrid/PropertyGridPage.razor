@@ -1,0 +1,138 @@
+@page "/docs/components/property-grid"
+
+<Seo Canonical="/docs/components/property-grid" Title="Blazorise PropertyGrid component" Description="Learn to use the Blazorise PropertyGrid component with manually composed editors, schema-driven rendering, actions, sorting, grouping, and custom templates." />
+
+<DocsPageTitle Path="Components/PropertyGrid">
+    Blazorise PropertyGrid component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Display and edit related values in a compact inspector with grouping, sorting, search, and contextual help.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    A property grid presents a large set of editable values without the space and visual weight of a conventional form.
+    It is well suited to designer surfaces, object inspectors, settings panels, and other interfaces where users need to review and adjust many related options.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Each property is displayed as a label and editor row, with related properties organized into collapsible groups.
+    Properties can be searched or arranged by category or name, while optional row actions and descriptions provide additional behavior and guidance without crowding the editor.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Structure
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Paragraph>
+            <Code Tag>PropertyGrid</Code> is the main container for a manually composed property grid.
+        </Paragraph>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Code Tag>PropertyGridToolbar</Code> is the container for commands and search controls.
+                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem>
+                        <Paragraph>
+                            <Code Tag>PropertyGridToolbarButton</Code> is a toolbar command, such as switching the property view mode.
+                        </Paragraph>
+                    </UnorderedListItem>
+                    <UnorderedListItem>
+                        <Paragraph>
+                            <Code Tag>PropertyGridToolbarSearch</Code> is a search input that captures property filter text.
+                        </Paragraph>
+                    </UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Code Tag>PropertyGridGroup</Code> is an expandable group of related property rows.
+                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem>
+                        <Paragraph>
+                            <Code Tag>PropertyGridItem</Code> is a property row with a label, editor content, and optional action.
+                        </Paragraph>
+                    </UnorderedListItem>
+                    <UnorderedListItem>
+                        <Paragraph>
+                            <Code Tag>PropertyGridTextItem</Code>, <Code Tag>PropertyGridBooleanItem</Code>, <Code>PropertyGridNumericItem&lt;TValue&gt;</Code>, <Code>PropertyGridSelectItem&lt;TValue&gt;</Code>, <Code Tag>PropertyGridStringSelectItem</Code>, and <Code Tag>PropertyGridColorItem</Code> are ready-to-use property rows for common value types.
+                        </Paragraph>
+                    </UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Code Tag>PropertyGridHelp</Code> is the panel that displays the selected property's name and description.
+                </Paragraph>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Code Tag>PropertyGridView</Code> is a higher-level component that builds the toolbar, groups, rows, and help panel from a <Code>PropertyGridSchema</Code>.
+        </Paragraph>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Choosing an approach
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Use <Code Tag>PropertyGrid</Code> for a fixed set of properties known in Razor markup.
+    Compose its toolbar, groups, editors, and help panel directly, and bind each editor to the corresponding value.
+    This approach gives you full control over which components are rendered and how filtering is applied.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Use <Code Tag>PropertyGridView</Code> when properties are dynamic or supplied by application metadata.
+    A <Code>PropertyGridSchema</Code> describes the groups, editor types, values, descriptions, and actions, while the view builds the complete property grid.
+    Handle <Code>PropertyValueChanged</Code> using the stable property key, update the backing model, and provide a new schema when displayed values change.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Give either component a constrained <Code>Height</Code> to keep large property sets inside an independently scrolling viewport.
+    The toolbar remains visible while properties scroll, and selecting a property shows its <Code>Description</Code> in the help panel.
+    Property groups and rows include the grid, selection, and expansion semantics needed by assistive technologies.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        Use manual composition when the available properties are known in advance. This example binds editor components directly, supplies a complete reset button through <Code>ActionContent</Code>, adds search in the toolbar, and filters the rendered rows in Razor.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PropertyGridBasicExample" Outlined FullWidth>
+        <PropertyGridBasicExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Schema">
+        Use a schema for property sets created at runtime. <Code Tag>PropertyGridView</Code> renders the appropriate editors and reports changes by property key so the backing model can be updated.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PropertyGridSchemaExample" Outlined FullWidth>
+        <PropertyGridSchemaExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Templates">
+        Keep the schema-driven behavior while replacing selected parts of the UI. Templates can customize the toolbar, groups, rows, labels, editors, and actions, and their contexts provide the current definition and update callbacks.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PropertyGridTemplatesExample" Outlined FullWidth>
+        <PropertyGridTemplatesExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof( PropertyGrid ), typeof( PropertyGridView )]" />
