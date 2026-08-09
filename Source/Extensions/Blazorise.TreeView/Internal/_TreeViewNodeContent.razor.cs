@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.TreeView.Internal;
 
+/// <summary>
+/// Renders and handles interaction for the visible content of one tree node.
+/// </summary>
+/// <typeparam name="TNode">Application model represented by the node.</typeparam>
 public partial class _TreeViewNodeContent<TNode> : BaseComponent
 {
     #region Members
@@ -31,6 +35,9 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     #region Constructors
 
+    /// <summary>
+    /// Prepares styling builders for the title and selection control.
+    /// </summary>
     public _TreeViewNodeContent()
     {
         selectedNodeStyling = new()
@@ -62,6 +69,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     #region Methods
 
+    /// <inheritdoc />
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( $"{ClassProvider.Spacing( Spacing.Padding, SpacingSize.Is1, Side.All, Breakpoint.None )} cursor-pointer" );
@@ -82,6 +90,9 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         base.BuildClasses( builder );
     }
 
+    /// <summary>
+    /// Applies the configured selection behavior when the node is activated.
+    /// </summary>
     protected Task OnClick()
     {
         //prevent onclick during multi selection mode or if node is disabled
@@ -94,6 +105,9 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Synchronizes checkbox state with multi-node selection.
+    /// </summary>
     protected Task OnCheckedChanged( bool value )
     {
         if ( ParentTreeView is null || NodeState.Disabled )
@@ -102,6 +116,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         return ParentTreeView.ToggleCheckNode( NodeState.Node );
     }
 
+    /// <inheritdoc />
     protected override Task OnParametersSetAsync()
     {
         if ( Selected )
@@ -117,6 +132,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         return base.OnParametersSetAsync();
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         await base.OnAfterRenderAsync( firstRender );
@@ -143,18 +159,33 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
             return nodeStyling.Style;
     }
 
+    /// <summary>
+    /// CSS classes decorating the node title region.
+    /// </summary>
     protected string NodeTitleClassNames
         => nodeTitleClassBuilder.Class;
 
+    /// <summary>
+    /// Inline styles decorating the node title region.
+    /// </summary>
     protected string NodeTitleStyleNames
     => nodeTitleStyleBuilder.Styles;
 
+    /// <summary>
+    /// CSS classes assigned to the node selection checkbox.
+    /// </summary>
     protected string NodeCheckClassNames
         => nodeCheckClassBuilder.Class;
 
+    /// <summary>
+    /// Inline styles assigned to the node selection checkbox.
+    /// </summary>
     protected string NodeCheckStyleNames
         => nodeCheckStyleBuilder.Styles;
 
+    /// <summary>
+    /// Custom styles supplied for the node's content wrapper.
+    /// </summary>
     protected string NodeContentStyleNames
         => nodeContentStyleBuilder.Styles;
 
@@ -228,6 +259,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         }
     }
 
+    /// <inheritdoc />
     protected override void DirtyClasses()
     {
         nodeTitleClassBuilder?.Dirty();
@@ -236,6 +268,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         base.DirtyClasses();
     }
 
+    /// <inheritdoc />
     protected override void DirtyStyles()
     {
         nodeTitleStyleBuilder?.Dirty();
@@ -245,6 +278,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         base.DirtyStyles();
     }
 
+    /// <inheritdoc />
     protected override async ValueTask DisposeAsync( bool disposing )
     {
         if ( disposing && dragDropInitialized )
@@ -262,14 +296,26 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     private bool dragDropInitialized;
 
+    /// <summary>
+    /// Whether this node is the current single-selection item.
+    /// </summary>
     protected bool Selected
         => SelectionMode == TreeViewSelectionMode.Single && ParentTreeViewState.SelectedNode != null && ParentTreeViewState.SelectedNode.Equals( NodeState.Node );
 
+    /// <summary>
+    /// Whether this node belongs to the multi-selection set.
+    /// </summary>
     protected bool Checked
         => SelectionMode == TreeViewSelectionMode.Multiple && ParentTreeViewState.SelectedNodes != null && ParentTreeViewState.SelectedNodes.Contains( NodeState.Node );
 
+    /// <summary>
+    /// Runtime expansion, loading, and model state for this node.
+    /// </summary>
     [Parameter] public TreeViewNodeState<TNode> NodeState { get; set; }
 
+    /// <summary>
+    /// Shared selection and drag state maintained by the root tree.
+    /// </summary>
     [CascadingParameter]
     protected TreeViewState<TNode> ParentTreeViewState
     {
@@ -285,8 +331,14 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         }
     }
 
+    /// <summary>
+    /// Root tree that owns this node content.
+    /// </summary>
     [CascadingParameter] public TreeView<TNode> ParentTreeView { get; set; }
 
+    /// <summary>
+    /// Effective selection mode inherited from the root tree.
+    /// </summary>
     [Parameter]
     public TreeViewSelectionMode SelectionMode
     {
@@ -308,6 +360,9 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> SelectedNodeStyling { get; set; }
 
+    /// <summary>
+    /// Styling callback applied when the node is disabled.
+    /// </summary>
     [Parameter] public Action<TNode, NodeStyling> DisabledNodeStyling { get; set; }
 
     /// <summary>

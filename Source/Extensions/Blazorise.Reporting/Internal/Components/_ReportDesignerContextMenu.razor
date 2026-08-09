@@ -1,0 +1,180 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using Microsoft.AspNetCore.Components.Web
+
+<ContextMenu @ref="contextMenuRef">
+    <ContextMenuBody Width="Width.Rem().Min( 13 )">
+        @if ( IsPageMenu )
+        {
+            <ContextMenuItem Icon="IconName.Add" Value="@ReportDesignerContextMenuCommand.AddPage" Clicked="@OnCommandClicked">@Localize( "New page" )</ContextMenuItem>
+            <ContextMenuItem Icon="IconName.Duplicate" Value="@ReportDesignerContextMenuCommand.DuplicatePage" Clicked="@OnCommandClicked">@Localize( "Duplicate" )</ContextMenuItem>
+            <ContextMenuItem Icon="IconName.Delete" TextColor="TextColor.Danger" Disabled="@(!State.CanDeletePage)" Value="@ReportDesignerContextMenuCommand.DeletePage" Clicked="@OnCommandClicked">@Localize( "Delete" )</ContextMenuItem>
+            <ContextMenuDivider />
+            <ContextMenuItem Icon="IconName.List" TextColor="TextColor.Info" Value="@ReportDesignerContextMenuCommand.ShowPageSetup" Clicked="@OnCommandClicked">@Localize( "Page setup" )</ContextMenuItem>
+        }
+        else if ( IsSectionMenu )
+        {
+            <ContextMenuToolbar>
+                <ContextMenuToolbarItem Icon="IconName.Paste" Text="@Localize( "Paste" )" Disabled="@(!State.CanPasteElement)" Value="@ReportDesignerContextMenuCommand.PasteElement" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.CheckDouble" Text="@Localize( "Select all" )" Disabled="@(!State.CanSelectAllSectionElements)" Value="@ReportDesignerContextMenuCommand.SelectAllSectionElements" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.Delete" Text="@Localize( "Delete band" )" TextColor="TextColor.Danger" Disabled="@(!State.CanDeleteSection)" Value="@ReportDesignerContextMenuCommand.DeleteSection" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.List" Text="@Localize( "Properties" )" TextColor="TextColor.Info" EndAligned Value="@ReportDesignerContextMenuCommand.ShowProperties" Clicked="@OnCommandClicked" />
+            </ContextMenuToolbar>
+            <ContextMenuDivider />
+
+            <ContextMenuSubmenu Text="@Localize( "Add band" )">
+                <ContextMenuItem Value="@ReportBandType.ReportHeader" Clicked="@OnCommandClicked">@Localize( "Report header" )</ContextMenuItem>
+                <ContextMenuItem Value="@ReportBandType.PageHeader" Clicked="@OnCommandClicked">@Localize( "Page header" )</ContextMenuItem>
+                <ContextMenuItem Value="@ReportBandType.Detail" Clicked="@OnCommandClicked">@Localize( "Detail" )</ContextMenuItem>
+                <ContextMenuItem Value="@ReportBandType.PageFooter" Clicked="@OnCommandClicked">@Localize( "Page footer" )</ContextMenuItem>
+                <ContextMenuItem Value="@ReportBandType.ReportFooter" Clicked="@OnCommandClicked">@Localize( "Report footer" )</ContextMenuItem>
+            </ContextMenuSubmenu>
+            <ContextMenuDivider />
+
+            @if ( State.SectionSuppressed )
+            {
+                <ContextMenuItem ShowCheckbox Checked Value="@ReportDesignerContextMenuCommand.ToggleSectionSuppression" Clicked="@OnCommandClicked">@Localize( "Suppress" )</ContextMenuItem>
+            }
+            else
+            {
+                @if ( State.CanInsertSection )
+                {
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertSectionBefore" Clicked="@OnCommandClicked">@Localize( "Insert {0} band before", SectionTypeDisplayName )</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertSectionAfter" Clicked="@OnCommandClicked">@Localize( "Insert {0} band after", SectionTypeDisplayName )</ContextMenuItem>
+                }
+                @if ( State.CanInsertGroup )
+                {
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertGroup" Clicked="@OnCommandClicked">@Localize( "Insert group..." )</ContextMenuItem>
+                }
+                @if ( State.CanInsertSubreport )
+                {
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertSubreport" Clicked="@OnCommandClicked">@Localize( "Insert subreport" )</ContextMenuItem>
+                }
+                @if ( State.CanInsertSection || State.CanInsertGroup || State.CanInsertSubreport )
+                {
+                    <ContextMenuDivider />
+                }
+                <ContextMenuItem ShowCheckbox Checked="@State.SectionSuppressed" Value="@ReportDesignerContextMenuCommand.ToggleSectionSuppression" Clicked="@OnCommandClicked">@Localize( "Suppress" )</ContextMenuItem>
+                <ContextMenuItem ShowCheckbox Checked="@State.SectionKeepTogether" Value="@ReportDesignerContextMenuCommand.ToggleSectionKeepTogether" Clicked="@OnCommandClicked">@Localize( "Keep together" )</ContextMenuItem>
+                <ContextMenuItem ShowCheckbox Checked="@State.SectionNewPageBefore" Value="@ReportDesignerContextMenuCommand.ToggleSectionNewPageBefore" Clicked="@OnCommandClicked">@Localize( "New page before" )</ContextMenuItem>
+                <ContextMenuItem ShowCheckbox Checked="@State.SectionNewPageAfter" Value="@ReportDesignerContextMenuCommand.ToggleSectionNewPageAfter" Clicked="@OnCommandClicked">@Localize( "New page after" )</ContextMenuItem>
+            }
+        }
+        else if ( IsElementMenu )
+        {
+            <ContextMenuToolbar>
+                <ContextMenuToolbarItem Icon="IconName.Cut" Text="@Localize( "Cut" )" Value="@ReportDesignerContextMenuCommand.CutElement" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.Copy" Text="@Localize( "Copy" )" Value="@ReportDesignerContextMenuCommand.CopyElement" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.Duplicate" Text="@Localize( "Duplicate" )" Value="@ReportDesignerContextMenuCommand.DuplicateElement" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.Paste" Text="@Localize( "Paste" )" Disabled="@(!State.CanPasteElement)" Value="@ReportDesignerContextMenuCommand.PasteElement" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.Delete" Text="@Localize( "Delete element" )" TextColor="TextColor.Danger" Value="@ReportDesignerContextMenuCommand.DeleteElement" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.List" Text="@Localize( "Properties" )" TextColor="TextColor.Info" EndAligned Value="@ReportDesignerContextMenuCommand.ShowProperties" Clicked="@OnCommandClicked" />
+            </ContextMenuToolbar>
+            <ContextMenuDivider />
+
+            @if ( State.CanOrderSelectedElements )
+            {
+                <ContextMenuSubmenu Text="@Localize( "Order" )">
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.BringToFront" Clicked="@OnCommandClicked">@Localize( "Bring to Front" )</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.SendToBack" Clicked="@OnCommandClicked">@Localize( "Send to Back" )</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.MoveForward" Clicked="@OnCommandClicked">@Localize( "Move Forward" )</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.MoveBackward" Clicked="@OnCommandClicked">@Localize( "Move Backward" )</ContextMenuItem>
+                </ContextMenuSubmenu>
+            }
+
+            @if ( State.CanAlignOrSizeSelectedElements )
+            {
+                <ContextMenuSubmenu Text="@Localize( "Align" )">
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.AlignTops" Clicked="@OnCommandClicked">@Localize( "Tops" )</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.AlignMiddles" Clicked="@OnCommandClicked">@Localize( "Middles" )</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.AlignBottoms" Clicked="@OnCommandClicked">@Localize( "Bottoms" )</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.AlignBaseline" Clicked="@OnCommandClicked">@Localize( "Baseline" )</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.AlignLefts" Clicked="@OnCommandClicked">@Localize( "Lefts" )</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.AlignCenters" Clicked="@OnCommandClicked">@Localize( "Centers" )</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.AlignRights" Clicked="@OnCommandClicked">@Localize( "Rights" )</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.AlignToGrid" Clicked="@OnCommandClicked">@Localize( "To Grid" )</ContextMenuItem>
+                </ContextMenuSubmenu>
+                <ContextMenuSubmenu Text="@Localize( "Sizes" )">
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.SizeSameWidth" Clicked="@OnCommandClicked">@Localize( "Same Width" )</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.SizeSameHeight" Clicked="@OnCommandClicked">@Localize( "Same Height" )</ContextMenuItem>
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.SizeSameSize" Clicked="@OnCommandClicked">@Localize( "Same Size" )</ContextMenuItem>
+                </ContextMenuSubmenu>
+            }
+
+            @if ( HasElementLayoutCommands && HasElementContentCommands )
+            {
+                <ContextMenuDivider />
+            }
+
+            @if ( State.CanInsertAggregate )
+            {
+                <ContextMenuItem Value="@ReportDesignerContextMenuCommand.InsertAggregate" Clicked="@OnCommandClicked">@Localize( "Insert aggregate" )</ContextMenuItem>
+            }
+
+            @if ( State.CanEditText )
+            {
+                <ContextMenuItem Value="@ReportDesignerContextMenuCommand.EditText" Clicked="@OnCommandClicked">@Localize( "Edit Text" )</ContextMenuItem>
+            }
+
+            @if ( State.CanEditFormula )
+            {
+                <ContextMenuItem Value="@ReportDesignerContextMenuCommand.EditFormula" Clicked="@OnCommandClicked">@Localize( "Edit Formula" )</ContextMenuItem>
+            }
+
+            @if ( State.CanEditRunningTotal )
+            {
+                <ContextMenuItem Value="@ReportDesignerContextMenuCommand.EditRunningTotal" Clicked="@OnCommandClicked">@Localize( "Edit Running Total" )</ContextMenuItem>
+            }
+
+            @if ( HasElementLayoutCommands || HasElementContentCommands )
+            {
+                <ContextMenuDivider />
+            }
+
+            <ContextMenuItem ShowCheckbox Checked="@State.ElementCanGrow" Value="@ReportDesignerContextMenuCommand.ToggleElementCanGrow" Clicked="@OnCommandClicked">@Localize( "Can grow" )</ContextMenuItem>
+            <ContextMenuItem ShowCheckbox Checked="@State.ElementSuppressed" Value="@ReportDesignerContextMenuCommand.ToggleElementSuppression" Clicked="@OnCommandClicked">@Localize( "Suppress" )</ContextMenuItem>
+            <ContextMenuItem ShowCheckbox Checked="@State.ElementCollisionWarnings" Value="@ReportDesignerContextMenuCommand.ToggleElementCollisionWarnings" Clicked="@OnCommandClicked">@Localize( "Collision warnings" )</ContextMenuItem>
+        }
+        else if ( IsCellMenu )
+        {
+            <ContextMenuToolbar>
+                <ContextMenuToolbarItem Icon="IconName.Paste" Text="@Localize( "Paste" )" Disabled="@(!State.CanPasteElement)" Value="@ReportDesignerContextMenuCommand.PasteElement" Clicked="@OnCommandClicked" />
+                <ContextMenuToolbarItem Icon="IconName.List" Text="@Localize( "Properties" )" TextColor="TextColor.Info" EndAligned Value="@ReportDesignerContextMenuCommand.ShowProperties" Clicked="@OnCommandClicked" />
+            </ContextMenuToolbar>
+            <ContextMenuDivider />
+
+            @if ( State.CanShowTableCellMergeOperations )
+            {
+                @if ( State.CanMergeCellRight )
+                {
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.MergeCellRight" Clicked="@OnCommandClicked">@Localize( "Merge right" )</ContextMenuItem>
+                }
+
+                @if ( State.CanMergeCellDown )
+                {
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.MergeCellDown" Clicked="@OnCommandClicked">@Localize( "Merge down" )</ContextMenuItem>
+                }
+
+                @if ( State.CanUnmergeCell )
+                {
+                    <ContextMenuItem Value="@ReportDesignerContextMenuCommand.UnmergeCell" Clicked="@OnCommandClicked">@Localize( "Unmerge" )</ContextMenuItem>
+                }
+
+                <ContextMenuDivider />
+            }
+
+            <ContextMenuSubmenu Text="@Localize( "Insert" )">
+                <ContextMenuItem Disabled="@(!State.CanInsertTableRowAbove)" Value="@ReportDesignerContextMenuCommand.InsertTableRowAbove" Clicked="@OnCommandClicked">@Localize( "Row Above" )</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableRowBelow)" Value="@ReportDesignerContextMenuCommand.InsertTableRowBelow" Clicked="@OnCommandClicked">@Localize( "Row Below" )</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableColumnLeft)" Value="@ReportDesignerContextMenuCommand.InsertTableColumnLeft" Clicked="@OnCommandClicked">@Localize( "Column to Left" )</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableColumnRight)" Value="@ReportDesignerContextMenuCommand.InsertTableColumnRight" Clicked="@OnCommandClicked">@Localize( "Column to Right" )</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanInsertTableCell)" Value="@ReportDesignerContextMenuCommand.InsertTableCell" Clicked="@OnCommandClicked">@Localize( "Cell" )</ContextMenuItem>
+            </ContextMenuSubmenu>
+            <ContextMenuSubmenu Text="@Localize( "Delete" )">
+                <ContextMenuItem Disabled="@(!State.CanDeleteTableRow)" Value="@ReportDesignerContextMenuCommand.DeleteTableRow" Clicked="@OnCommandClicked">@Localize( "Row" )</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanDeleteTableColumn)" Value="@ReportDesignerContextMenuCommand.DeleteTableColumn" Clicked="@OnCommandClicked">@Localize( "Column" )</ContextMenuItem>
+                <ContextMenuItem Disabled="@(!State.CanDeleteTableCell)" Value="@ReportDesignerContextMenuCommand.DeleteTableCell" Clicked="@OnCommandClicked">@Localize( "Cell" )</ContextMenuItem>
+            </ContextMenuSubmenu>
+        }
+    </ContextMenuBody>
+</ContextMenu>

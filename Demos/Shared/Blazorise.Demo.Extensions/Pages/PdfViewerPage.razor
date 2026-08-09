@@ -6,9 +6,16 @@
                 <CardTitle>PdfViewer</CardTitle>
             </CardHeader>
             <CardBody>
+                <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Margin="Margin.Is3.FromBottom">
+                    <Span>Mode</Span>
+                    <Select TValue="PdfViewerMode" @bind-Value="@viewerMode" Width="Width.Rem( 12 )">
+                        <SelectItem Value="PdfViewerMode.SinglePage">Single page</SelectItem>
+                        <SelectItem Value="PdfViewerMode.Continuous">Continuous</SelectItem>
+                    </Select>
+                </Div>
                 <PdfViewerContainer Height="Height.Rem( 50 )">
                     <PdfViewerToolbar />
-                    <PdfViewer Source="@source" />
+                    <PdfViewer Source="@source" Mode="@viewerMode" />
                 </PdfViewerContainer>
             </CardBody>
         </Card>
@@ -55,6 +62,7 @@
 </Row>
 @code {
     string source = "https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf";
+    PdfViewerMode viewerMode = PdfViewerMode.SinglePage;
     PdfViewer standalonePdfViewerRef;
     int pageNumber = 2;
     double scale = 1;

@@ -1,0 +1,55 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<CascadingValue @key="@Designer.ToolbarRenderKey" Value="@Designer.Toolbar" IsFixed="true">
+    <CascadingValue TValue="RenderFragment<ReportToolbarItemContext>" Value="@Designer.ToolbarButtonTemplate" Name="ReportToolbarButtonTemplate">
+        @if ( Designer.ToolbarContent is not null )
+        {
+            @Designer.ToolbarContent
+        }
+        else
+        {
+            @if ( ShowPanesMenu && Designer.ShowToolbarPanesMenu )
+            {
+                <ReportToolbarGroup>
+                    <ReportToolbarPanesMenu />
+                </ReportToolbarGroup>
+            }
+            @if ( Designer.ShowToolbarPersistenceButtons && ( Designer.CanExecuteCommand( ReportCommand.Save ) || Designer.CanExecuteCommand( ReportCommand.Load ) ) )
+            {
+                <ReportToolbarGroup>
+                    <ReportToolbarItem Command="ReportCommand.Save" Caption="@Localize( "Save" )" Color="Color.Primary" Visible="@(Designer.CanExecuteCommand( ReportCommand.Save ) && Designer.IsToolbarCommandVisible( ReportCommand.Save ))" />
+                    <ReportToolbarItem Command="ReportCommand.Load" Caption="@Localize( "Load" )" Color="Color.Info" Visible="@(Designer.CanExecuteCommand( ReportCommand.Load ) && Designer.IsToolbarCommandVisible( ReportCommand.Load ))" />
+                </ReportToolbarGroup>
+            }
+            <ReportToolbarGroup>
+                <ReportToolbarItem Command="ReportCommand.Cut" Caption="@Localize( "Cut" )" Visible="@(Designer.ShowToolbarEditButtons && Designer.IsToolbarCommandVisible( ReportCommand.Cut ))" />
+                <ReportToolbarItem Command="ReportCommand.Copy" Caption="@Localize( "Copy" )" Visible="@(Designer.ShowToolbarEditButtons && Designer.IsToolbarCommandVisible( ReportCommand.Copy ))" />
+                <ReportToolbarItem Command="ReportCommand.Duplicate" Caption="@Localize( "Duplicate" )" Visible="@(Designer.ShowToolbarEditButtons && Designer.IsToolbarCommandVisible( ReportCommand.Duplicate ))" />
+                <ReportToolbarItem Command="ReportCommand.Paste" Caption="@Localize( "Paste" )" Visible="@(Designer.ShowToolbarEditButtons && Designer.IsToolbarCommandVisible( ReportCommand.Paste ))" />
+                <ReportToolbarItem Command="ReportCommand.Delete" Caption="@Localize( "Delete" )" Color="Color.Danger" Visible="@(Designer.ShowToolbarEditButtons && Designer.IsToolbarCommandVisible( ReportCommand.Delete ))" />
+            </ReportToolbarGroup>
+            <ReportToolbarGroup>
+                <ReportToolbarItem Command="ReportCommand.Undo" Caption="@Localize( "Undo" )" Visible="@(Designer.ShowToolbarHistoryButtons && Designer.IsToolbarCommandVisible( ReportCommand.Undo ))" />
+                <ReportToolbarItem Command="ReportCommand.Redo" Caption="@Localize( "Redo" )" Visible="@(Designer.ShowToolbarHistoryButtons && Designer.IsToolbarCommandVisible( ReportCommand.Redo ))" />
+                <ReportToolbarItem Command="ReportCommand.Reset" Caption="@Localize( "Reset" )" Color="Color.Danger" Visible="@(Designer.ShowToolbarHistoryButtons && Designer.IsToolbarCommandVisible( ReportCommand.Reset ))" />
+            </ReportToolbarGroup>
+            <ReportToolbarGroup>
+                <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="@Localize( "Data sources" )" Color="Color.Info" Visible="@(Designer.ShowToolbarDataSourceButtons && Designer.IsToolbarCommandVisible( ReportCommand.ConnectDataSource ))" />
+                <ReportToolbarItem Command="ReportCommand.DownloadPdf" Caption="@Localize( "Download PDF" )" Color="Color.Success" Visible="@(Designer.ShowToolbarExportButtons && Designer.IsToolbarCommandVisible( ReportCommand.DownloadPdf ))" />
+            </ReportToolbarGroup>
+        }
+        @if ( Designer.ToolbarContent is null )
+        {
+            <Div Margin="MarginIsAutoFromStart">
+                <ReportToolbarGroup>
+                    @if ( Designer.IsEditable )
+                    {
+                        <ReportToolbarItem Command="ReportCommand.Design" Caption="@Localize( "Design" )" ShowCaption Visible="@(Designer.ShowToolbarModeButtons && Designer.IsToolbarCommandVisible( ReportCommand.Design ))" />
+                    }
+                    <ReportToolbarItem Command="ReportCommand.Preview" Caption="@Localize( "Preview" )" ShowCaption Visible="@(Designer.ShowToolbarModeButtons && Designer.IsToolbarCommandVisible( ReportCommand.Preview ))" />
+                </ReportToolbarGroup>
+            </Div>
+        }
+    </CascadingValue>
+</CascadingValue>

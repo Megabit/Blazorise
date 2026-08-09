@@ -18,7 +18,8 @@ internal sealed class SvgChartSeriesRendererContext
         IReadOnlyDictionary<string, SvgChartPointBounds> previousPointBounds,
         Dictionary<string, SvgChartPointBounds> currentPointBounds,
         IReadOnlyDictionary<string, string> previousPathValues,
-        Dictionary<string, string> currentPathValues )
+        Dictionary<string, string> currentPathValues,
+        Func<object, int, string> categoryFormatter )
     {
         Chart = chart;
         Animation = animation ?? new();
@@ -26,6 +27,7 @@ internal sealed class SvgChartSeriesRendererContext
         this.currentPointBounds = currentPointBounds ?? [];
         this.previousPathValues = previousPathValues ?? new Dictionary<string, string>();
         this.currentPathValues = currentPathValues ?? [];
+        this.categoryFormatter = categoryFormatter;
     }
 
     #endregion
@@ -39,6 +41,8 @@ internal sealed class SvgChartSeriesRendererContext
     private readonly IReadOnlyDictionary<string, string> previousPathValues;
 
     private readonly Dictionary<string, string> currentPathValues;
+
+    private readonly Func<object, int, string> categoryFormatter;
 
     #endregion
 
@@ -175,7 +179,9 @@ internal sealed class SvgChartSeriesRendererContext
 
     public string GetPointLabel( SvgChartPointEventArgs point )
     {
-        return $"{point.Category}, {point.Value}. {point.SeriesName}.";
+        var category = categoryFormatter?.Invoke( point.Category, point.PointIndex ) ?? point.Category?.ToString();
+
+        return $"{category}, {point.Value}. {point.SeriesName}.";
     }
 
     public string ResolveColor( int index )

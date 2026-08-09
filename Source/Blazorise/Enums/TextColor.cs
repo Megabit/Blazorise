@@ -14,11 +14,13 @@ public record TextColor : Enumeration<TextColor>, IUtilityTargeted, IFluentUtili
     /// <inheritdoc/>
     public TextColor( string name ) : base( name )
     {
+        IsCssValue = CssColor.IsValue( name );
     }
 
     /// <inheritdoc/>
     private TextColor( TextColor parent, string name ) : base( parent, name )
     {
+        IsCssValue = false;
     }
 
     #endregion
@@ -54,6 +56,11 @@ public record TextColor : Enumeration<TextColor>, IUtilityTargeted, IFluentUtili
     /// Gets or sets the utility target override.
     /// </summary>
     public UtilityTarget? UtilityTarget { get; set; }
+
+    /// <summary>
+    /// Gets whether this instance represents an explicit CSS color value.
+    /// </summary>
+    public bool IsCssValue { get; }
 
     /// <summary>
     /// Targets the utility output to the component element.

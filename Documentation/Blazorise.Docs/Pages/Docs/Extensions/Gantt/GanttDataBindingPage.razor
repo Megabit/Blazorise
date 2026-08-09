@@ -1,0 +1,94 @@
+@page "/docs/extensions/gantt/data-binding"
+
+<Seo Canonical="/docs/extensions/gantt/data-binding" Title="Blazorise Gantt Data Binding" Description="Learn how to bind Blazorise Gantt to flat and hierarchical task data." />
+
+<DocsPageTitle Path="Extensions/Gantt">
+    Blazorise Gantt: Data Binding
+</DocsPageTitle>
+
+<DocsPageLead>
+    Bind Gantt to your own task model through configurable field mappings.
+</DocsPageLead>
+
+<Heading Size="HeadingSize.Is3">
+    Data Model
+</Heading>
+
+<DocsPageParagraph>
+    <Code>Gantt&lt;TItem&gt;</Code> binds to your own model type through field mapping parameters such as <Code>IdField</Code>, <Code>StartField</Code>, and <Code>EndField</Code>. You can keep your existing model names and map them without creating a dedicated DTO.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Must-Have Fields
+</Heading>
+
+<DocsPageParagraph>
+    For most production scenarios, these are the fields you should map:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Code>StartField</Code> and <Code>EndField</Code>: Required to render timeline bars. If either value is missing/unassigned, the item cannot be drawn on the timeline.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>TitleField</Code>: Recommended for readable tree rows and task labels.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>IdField</Code>: Strongly recommended for stable identity, selection/state behavior, and CRUD operations.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>DurationField</Code> (optional): Used for duration column/editing. If not mapped, duration is calculated from <Code>StartField</Code> and <Code>EndField</Code>.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>ProgressField</Code> (optional): Enables progress percentage in bars, columns, and the edit dialog slider.
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Flat vs Hierarchical Data
+</Heading>
+
+<DocsPageParagraph>
+    Gantt supports both data shapes:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Strong>Flat data:</Strong> One collection with <Code>IdField</Code> and <Code>ParentIdField</Code>. This is usually best for API-driven data.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Strong>Hierarchical data:</Strong> Nested child collections mapped through <Code>ItemsField</Code>.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            If both <Code>ParentIdField</Code> and <Code>ItemsField</Code> exist, Gantt uses flat mode by default. Set <Code>HierarchicalData="true"</Code> to force hierarchical mode.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            If <Code>ItemsField</Code> exists and <Code>ParentIdField</Code> does not, hierarchical mode is used automatically.
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Flat Data Binding">
+        Use the classic <Code>Id</Code> + <Code>ParentId</Code> model when your API already returns a flat task list.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="GanttFlatDataExample" Outlined FullWidth>
+        <GanttFlatDataExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Hierarchical Data Binding">
+        Bind directly to nested task collections with <Code>ItemsField</Code> for tree-shaped data models.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="GanttHierarchicalDataExample" Outlined FullWidth>
+        <GanttHierarchicalDataExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/gantt/api" Name="<Gantt />" />
+</DocsPageApi>

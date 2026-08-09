@@ -32,6 +32,7 @@ internal static class FluentConstants
     internal static readonly IFluentColumn ColumnSizeIs12OnMobileIs6OnTablet = ColumnSize.Is12.OnMobile.Is6.OnTablet;
     internal static readonly IFluentColumn ColumnSizeIs3 = ColumnSize.Is3;
     internal static readonly IFluentColumn ColumnSizeIs9 = ColumnSize.Is9;
+    internal static readonly IFluentColumn ColumnSizeIsFull = ColumnSize.IsFull;
 
     // Spacing
     internal static readonly IFluentSpacing MarginIs0FromBottom = Margin.Is0.FromBottom;

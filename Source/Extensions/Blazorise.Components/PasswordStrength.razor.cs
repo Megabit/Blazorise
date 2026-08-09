@@ -383,10 +383,19 @@ public partial class PasswordStrength : BaseTextInput<string>
 
     #region Properties
 
+    /// <summary>
+    /// Evaluation results for the configured password rules.
+    /// </summary>
     protected IReadOnlyList<PasswordRuleState> RuleStates => ruleStates;
 
+    /// <summary>
+    /// Weighted score produced by the satisfied rules.
+    /// </summary>
     protected int StrengthScore => strengthScore;
 
+    /// <summary>
+    /// Semantic progress color corresponding to the current strength level.
+    /// </summary>
     protected Color StrengthProgressColor => strengthLevel switch
     {
         PasswordStrengthLevel.Strong => Color.Success,
@@ -396,6 +405,9 @@ public partial class PasswordStrength : BaseTextInput<string>
         _ => Color.Secondary,
     };
 
+    /// <summary>
+    /// Text color used to communicate the current strength level.
+    /// </summary>
     protected TextColor StrengthTextColor => strengthLevel switch
     {
         PasswordStrengthLevel.Strong => TextColor.Success,
@@ -405,8 +417,14 @@ public partial class PasswordStrength : BaseTextInput<string>
         _ => TextColor.Secondary,
     };
 
+    /// <summary>
+    /// Localized caption introducing the strength result.
+    /// </summary>
     protected string StrengthLabelCaption => GetLocalizedString( "Strength" );
 
+    /// <summary>
+    /// Localized description of the calculated strength level.
+    /// </summary>
     protected string StrengthLabelText => strengthLevel switch
     {
         PasswordStrengthLevel.Strong => GetLocalizedString( "Strong" ),
@@ -416,68 +434,158 @@ public partial class PasswordStrength : BaseTextInput<string>
         _ => string.Empty,
     };
 
+    /// <summary>
+    /// Explicit placeholder or the localized fallback prompt.
+    /// </summary>
     protected string InputPlaceholder => string.IsNullOrWhiteSpace( Placeholder )
         ? GetLocalizedString( "Enter password" )
         : Placeholder;
 
+    /// <summary>
+    /// Input role selected from the current password-visibility state.
+    /// </summary>
     protected TextRole InputRole => showPassword ? TextRole.Text : TextRole.Password;
 
+    /// <summary>
+    /// Icon indicating the visibility action available to the user.
+    /// </summary>
     protected IconName VisibilityIconName => showPassword ? IconName.EyeSlash : IconName.Eye;
 
+    /// <summary>
+    /// Accessible label for the password-visibility toggle.
+    /// </summary>
     protected string TogglePasswordButtonLabel => showPassword
         ? GetLocalizedString( "Hide password" )
         : GetLocalizedString( "Show password" );
 
+    /// <summary>
+    /// Provider classes assembled for the password input.
+    /// </summary>
     protected string InputClassNames => BuildInputClassNames();
 
+    /// <summary>
+    /// User styles targeting the password input.
+    /// </summary>
     protected string InputStyleNames => PasswordStrengthStyles?.Input;
 
+    /// <summary>
+    /// Classes rendered on the component container.
+    /// </summary>
     protected string ContainerClassNames => ClassNames;
 
+    /// <summary>
+    /// Styles rendered on the component container.
+    /// </summary>
     protected string ContainerStyleNames => StyleNames;
 
+    /// <summary>
+    /// Provider classes for the input addon layout.
+    /// </summary>
     protected string AddonsClassNames => BuildAddonsClassNames();
 
+    /// <summary>
+    /// Custom styling for the input addon layout.
+    /// </summary>
     protected string AddonsStyleNames => PasswordStrengthStyles?.Addons;
 
+    /// <summary>
+    /// Classes assigned to the visibility toggle button.
+    /// </summary>
     protected string ToggleButtonClassNames => PasswordStrengthClasses?.ToggleButton;
 
+    /// <summary>
+    /// Inline styling for the visibility toggle button.
+    /// </summary>
     protected string ToggleButtonStyleNames => PasswordStrengthStyles?.ToggleButton;
 
+    /// <summary>
+    /// Classes wrapping the strength caption and progress display.
+    /// </summary>
     protected string StrengthContainerClassNames => PasswordStrengthClasses?.StrengthContainer;
 
+    /// <summary>
+    /// Presentation overrides for the strength display container.
+    /// </summary>
     protected string StrengthContainerStyleNames => PasswordStrengthStyles?.StrengthContainer;
 
+    /// <summary>
+    /// Classes applied to the localized strength caption.
+    /// </summary>
     protected string StrengthCaptionClassNames => PasswordStrengthClasses?.StrengthCaption;
 
+    /// <summary>
+    /// Visual overrides for the localized strength caption.
+    /// </summary>
     protected string StrengthCaptionStyleNames => PasswordStrengthStyles?.StrengthCaption;
 
+    /// <summary>
+    /// Classes applied to the calculated strength text.
+    /// </summary>
     protected string StrengthValueClassNames => PasswordStrengthClasses?.StrengthValue;
 
+    /// <summary>
+    /// Visual overrides for the calculated strength text.
+    /// </summary>
     protected string StrengthValueStyleNames => PasswordStrengthStyles?.StrengthValue;
 
+    /// <summary>
+    /// Classes surrounding the strength progress indicator.
+    /// </summary>
     protected string ProgressContainerClassNames => PasswordStrengthClasses?.ProgressContainer;
 
+    /// <summary>
+    /// Layout styling around the strength progress indicator.
+    /// </summary>
     protected string ProgressContainerStyleNames => PasswordStrengthStyles?.ProgressContainer;
 
+    /// <summary>
+    /// Classes placed directly on the strength progress bar.
+    /// </summary>
     protected string ProgressClassNames => PasswordStrengthClasses?.Progress;
 
+    /// <summary>
+    /// Inline presentation for the strength progress bar.
+    /// </summary>
     protected string ProgressStyleNames => PasswordStrengthStyles?.Progress;
 
+    /// <summary>
+    /// Classes wrapping the password-rule checklist.
+    /// </summary>
     protected string RulesContainerClassNames => PasswordStrengthClasses?.RulesContainer;
 
+    /// <summary>
+    /// Layout overrides for the password-rule checklist.
+    /// </summary>
     protected string RulesContainerStyleNames => PasswordStrengthStyles?.RulesContainer;
 
+    /// <summary>
+    /// Classes shared by each password-rule row.
+    /// </summary>
     protected string RuleItemClassNames => PasswordStrengthClasses?.RuleItem;
 
+    /// <summary>
+    /// Styling shared by each password-rule row.
+    /// </summary>
     protected string RuleItemStyleNames => PasswordStrengthStyles?.RuleItem;
 
+    /// <summary>
+    /// Classes used by satisfied and unsatisfied rule icons.
+    /// </summary>
     protected string RuleIconClassNames => PasswordStrengthClasses?.RuleIcon;
 
+    /// <summary>
+    /// Presentation overrides for rule-state icons.
+    /// </summary>
     protected string RuleIconStyleNames => PasswordStrengthStyles?.RuleIcon;
 
+    /// <summary>
+    /// Classes applied to each localized rule description.
+    /// </summary>
     protected string RuleTextClassNames => PasswordStrengthClasses?.RuleText;
 
+    /// <summary>
+    /// Text styling for password-rule descriptions.
+    /// </summary>
     protected string RuleTextStyleNames => PasswordStrengthStyles?.RuleText;
 
     /// <summary>
@@ -662,8 +770,14 @@ public partial class PasswordStrength : BaseTextInput<string>
 
     #region Data Types
 
+    /// <summary>
+    /// Stores one localized rule result and its contribution to the score.
+    /// </summary>
     protected sealed class PasswordRuleState
     {
+        /// <summary>
+        /// Captures the resource key, result, score weight, and formatting values.
+        /// </summary>
         public PasswordRuleState( string resourceName, bool isSatisfied, int weight, params object[] arguments )
         {
             ResourceName = resourceName;
@@ -672,12 +786,16 @@ public partial class PasswordStrength : BaseTextInput<string>
             Arguments = arguments ?? [];
         }
 
+        /// <summary>Localization resource used for the rule text.</summary>
         public string ResourceName { get; }
 
+        /// <summary>Whether the current password passes this rule.</summary>
         public bool IsSatisfied { get; }
 
+        /// <summary>Points contributed when the rule is satisfied.</summary>
         public int Weight { get; }
 
+        /// <summary>Values inserted into the localized rule text.</summary>
         public object[] Arguments { get; }
     }
 

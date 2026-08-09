@@ -1,0 +1,124 @@
+@namespace Blazorise
+@typeparam TValue
+@using System
+@using Microsoft.AspNetCore.Components.Web
+@implements IDisposable
+
+@if ( Parent.MenuVisible )
+{
+    @if ( !Parent.Inline )
+    {
+        <div class="@Menu.BackdropClassNames"
+             aria-hidden="true"></div>
+    }
+
+    <div id="@Parent.MenuId"
+         class="@Menu.ClassNames"
+         role="dialog"
+         aria-modal="false"
+         aria-label="@Menu.TimeText">
+        <div id="@Parent.MenuControlsId"
+             class="@Menu.ControlsClassNames"
+             role="group"
+             aria-label="@Menu.TimeText"
+             aria-activedescendant="@Menu.FocusedPartId"
+             tabindex="-1"
+             @onkeydown="@Parent.OnMenuKeyDownAsync"
+             @onkeydown:stopPropagation>
+            <div class="@Menu.GetControlClassNames( TimePickerPart.Hour )">
+                <input type="number"
+                       id="@Menu.GetPartId( TimePickerPart.Hour )"
+                       class="@Menu.InputClassNames"
+                       min="@(Parent.TimeAs24hr ? 0 : 1)"
+                       max="@(Parent.TimeAs24hr ? 23 : 12)"
+                       step="@Menu.SafeHourIncrement"
+                       value="@Menu.DisplayHourText"
+                       aria-label="@Menu.HourText"
+                       tabindex="@Menu.ControlTabIndex"
+                       disabled="@Parent.MenuInteractionDisabled"
+                       @onfocus="@(() => Parent.FocusPart( TimePickerPart.Hour ))"
+                       @onkeydown="@((KeyboardEventArgs eventArgs) => Parent.OnControlKeyDownAsync( TimePickerPart.Hour, eventArgs ))"
+                       @onkeydown:stopPropagation
+                       @onchange="@Parent.ChangeHourAsync" />
+            </div>
+
+            <span class="@Menu.SeparatorClassNames" aria-hidden="true">:</span>
+
+            <div class="@Menu.GetControlClassNames( TimePickerPart.Minute )">
+                <input type="number"
+                       id="@Menu.GetPartId( TimePickerPart.Minute )"
+                       class="@Menu.InputClassNames"
+                       min="0"
+                       max="59"
+                       step="@Menu.SafeMinuteIncrement"
+                       value="@Menu.CurrentMinuteText"
+                       aria-label="@Menu.MinuteText"
+                       tabindex="@Menu.ControlTabIndex"
+                       disabled="@Parent.MenuInteractionDisabled"
+                       @onfocus="@(() => Parent.FocusPart( TimePickerPart.Minute ))"
+                       @onkeydown="@((KeyboardEventArgs eventArgs) => Parent.OnControlKeyDownAsync( TimePickerPart.Minute, eventArgs ))"
+                       @onkeydown:stopPropagation
+                       @onchange="@Parent.ChangeMinuteAsync" />
+            </div>
+
+            @if ( Parent.Seconds )
+            {
+                <span class="@Menu.SeparatorClassNames" aria-hidden="true">:</span>
+
+                <div class="@Menu.GetControlClassNames( TimePickerPart.Second )">
+                    <input type="number"
+                           id="@Menu.GetPartId( TimePickerPart.Second )"
+                           class="@Menu.InputClassNames"
+                           min="0"
+                           max="59"
+                           step="1"
+                           value="@Menu.CurrentSecondText"
+                           aria-label="@Menu.SecondText"
+                           tabindex="@Menu.ControlTabIndex"
+                           disabled="@Parent.MenuInteractionDisabled"
+                           @onfocus="@(() => Parent.FocusPart( TimePickerPart.Second ))"
+                           @onkeydown="@((KeyboardEventArgs eventArgs) => Parent.OnControlKeyDownAsync( TimePickerPart.Second, eventArgs ))"
+                           @onkeydown:stopPropagation
+                           @onchange="@Parent.ChangeSecondAsync" />
+                </div>
+            }
+
+            @if ( !Parent.TimeAs24hr )
+            {
+                <button type="button"
+                        id="@Menu.GetPartId( TimePickerPart.Meridiem )"
+                        class="@Menu.MeridiemClassNames"
+                        aria-label="@Menu.MeridiemLabel"
+                        aria-pressed="@Menu.IsPostMeridiem"
+                        tabindex="@Menu.ControlTabIndex"
+                        disabled="@Parent.MenuInteractionDisabled"
+                        @onmousedown:preventDefault
+                        @onfocus="@(() => Parent.FocusPart( TimePickerPart.Meridiem ))"
+                        @onkeydown="@((KeyboardEventArgs eventArgs) => Parent.OnControlKeyDownAsync( TimePickerPart.Meridiem, eventArgs ))"
+                        @onkeydown:stopPropagation
+                        @onclick="@Parent.ToggleMeridiemAsync">
+                    @Menu.MeridiemText
+                </button>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [CascadingParameter]
+    public TimePicker<TValue> Parent { get; set; }
+
+    internal TimePickerMenuContext<TValue> Menu => Parent.MenuContext;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Parent.MenuStateChanged += OnMenuStateChanged;
+    }
+
+    private void OnMenuStateChanged()
+        => _ = InvokeAsync( StateHasChanged );
+
+    public void Dispose()
+        => Parent.MenuStateChanged -= OnMenuStateChanged;
+}

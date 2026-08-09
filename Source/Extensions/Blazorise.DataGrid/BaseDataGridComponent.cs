@@ -15,6 +15,7 @@ public class BaseDataGridComponent : BaseAfterRenderComponent, IAsyncDisposable
 {
     #region Methods
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -27,6 +28,7 @@ public class BaseDataGridComponent : BaseAfterRenderComponent, IAsyncDisposable
         ElementId ??= IdGenerator.Generate;
     }
 
+    /// <inheritdoc />
     protected override async ValueTask DisposeAsync( bool disposing )
     {
         if ( disposing && Rendered )
@@ -41,6 +43,9 @@ public class BaseDataGridComponent : BaseAfterRenderComponent, IAsyncDisposable
 
     #region Properties
 
+    /// <summary>
+    /// JavaScript module shared by DataGrid components.
+    /// </summary>
     protected JSDataGridModule JSModule { get; private set; }
 
     /// <summary>

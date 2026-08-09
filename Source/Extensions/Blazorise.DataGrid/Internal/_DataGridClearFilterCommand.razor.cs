@@ -6,8 +6,12 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid.Internal;
 
+/// <summary>
+/// Supports base data grid clear filter command behavior in DataGrid components.
+/// </summary>
 public abstract class _BaseDataGridClearFilterCommand<TItem> : ComponentBase, IDisposable
 {
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         LocalizerService.LocalizationChanged += OnLocalizationChanged;
@@ -15,6 +19,9 @@ public abstract class _BaseDataGridClearFilterCommand<TItem> : ComponentBase, ID
         base.OnInitialized();
     }
 
+    /// <summary>
+    /// Releases resources held by the base data grid clear filter command.
+    /// </summary>
     public void Dispose()
     {
         LocalizerService.LocalizationChanged -= OnLocalizationChanged;
@@ -25,11 +32,20 @@ public abstract class _BaseDataGridClearFilterCommand<TItem> : ComponentBase, ID
         await InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Callback invoked for member.
+    /// </summary>
     protected EventCallback ClearFilter
         => EventCallback.Factory.Create( this, ParentDataGrid.ClearFilter );
 
+    /// <summary>
+    /// Supplies localized text for the clear-filter command.
+    /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
+    /// <summary>
+    /// Provides translated labels for the clear-filter action.
+    /// </summary>
     [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
 
     /// <summary>

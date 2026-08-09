@@ -1,0 +1,49 @@
+@namespace Blazorise
+@inherits BaseComponent
+
+<section @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="rowgroup" @attributes="@Attributes">
+    @if ( Header is not null || !string.IsNullOrWhiteSpace( Title ) )
+    {
+        <div class="@HeaderClassNames" role="row">
+            @if ( Expandable )
+            {
+                <div role="gridcell">
+                    <button class="@ToggleClassNames"
+                            type="button"
+                            aria-expanded="@Expanded"
+                            title="@(Expanded ? CollapseTitle : ExpandTitle)"
+                            @onclick="@ToggleExpanded">
+                        <Icon Name="@(Expanded ? ExpandedIcon : CollapsedIcon)" />
+                        @if ( Header is not null )
+                        {
+                            @Header
+                        }
+                        else
+                        {
+                            @Title
+                        }
+                    </button>
+                </div>
+            }
+            else
+            {
+                <div role="gridcell">
+                    @if ( Header is not null )
+                    {
+                        @Header
+                    }
+                    else
+                    {
+                        @Title
+                    }
+                </div>
+            }
+        </div>
+    }
+    @if ( !Expandable || Expanded )
+    {
+        <div class="@BodyClassNames" role="presentation">
+            @ChildContent
+        </div>
+    }
+</section>

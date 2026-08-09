@@ -197,6 +197,23 @@ public partial class _SchedulerItemOccurrenceModal<TItem> : BaseComponent, IDisp
         return Task.CompletedTask;
     }
 
+    private void SetStart( DateTime value )
+    {
+        StartDate = DateOnly.FromDateTime( value );
+        StartTime = TimeOnly.FromDateTime( value );
+
+        if ( StartDate > EndDate )
+        {
+            EndDate = StartDate;
+        }
+    }
+
+    private void SetEnd( DateTime value )
+    {
+        EndDate = DateOnly.FromDateTime( value );
+        EndTime = TimeOnly.FromDateTime( value );
+    }
+
     /// <summary>
     /// Displays the modal with item details filled from the current occurrence.
     /// </summary>
@@ -408,6 +425,14 @@ public partial class _SchedulerItemOccurrenceModal<TItem> : BaseComponent, IDisp
     protected TimeOnly StartTime { get; set; }
 
     /// <summary>
+    /// Gets the start date and time for custom native field editors.
+    /// </summary>
+    protected DateTime Start
+        => AllDay
+            ? new DateTime( StartDate.Year, StartDate.Month, StartDate.Day )
+            : new DateTime( StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hour, StartTime.Minute, 0 );
+
+    /// <summary>
     /// Gets or sets the end date of the occurrence.
     /// </summary>
     protected DateOnly EndDate { get; set; }
@@ -416,6 +441,14 @@ public partial class _SchedulerItemOccurrenceModal<TItem> : BaseComponent, IDisp
     /// Gets or sets the end time of the occurrence.
     /// </summary>
     protected TimeOnly EndTime { get; set; }
+
+    /// <summary>
+    /// Gets the end date and time for custom native field editors.
+    /// </summary>
+    protected DateTime End
+        => AllDay
+            ? new DateTime( EndDate.Year, EndDate.Month, EndDate.Day )
+            : new DateTime( EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hour, EndTime.Minute, 0 );
 
     /// <summary>
     /// Gets or sets whether the occurrence is all-day.

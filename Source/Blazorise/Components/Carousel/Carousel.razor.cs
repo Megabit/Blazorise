@@ -232,7 +232,7 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     /// Gets the slide by name. Returns -1 if the slide does not exist. 
     /// </summary>
     /// <param name="slideName"></param>
-    private int FindCarouselSlideIdxByName( string slideName ) => carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => string.Compare( x.Name, slideName ) == 0 ) );
+    private int FindCarouselSlideIdxByName( string slideName ) => carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => string.Compare( x.SelectionName, slideName ) == 0 ) );
 
     /// <summary>
     /// Gets the slide by index. Returns null if no slide has been found.
@@ -243,7 +243,7 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     /// <summary>
     /// Gets the currently selected slide by index.
     /// </summary>
-    private CarouselSlide GetSelectedCarouselSlide() => GetCarouselSlide( SelectedSlideIndex );
+    protected CarouselSlide GetSelectedCarouselSlide() => GetCarouselSlide( SelectedSlideIndex );
 
     /// <summary>
     /// Gets the slide by index.
@@ -262,7 +262,7 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
         {
             state = state with
             {
-                SelectedSlide = carouselSlides.Single().Name
+                SelectedSlide = carouselSlides.Single().SelectionName
             };
         }
 
@@ -297,7 +297,7 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
             return Task.CompletedTask;
 
         ResetTimer();
-        SelectedSlide = FindNextSlide( SelectedSlide )?.Name;
+        SelectedSlide = FindNextSlide( SelectedSlide )?.SelectionName;
 
         return RunAnimations();
     }
@@ -311,7 +311,7 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
             return Task.CompletedTask;
 
         ResetTimer();
-        SelectedSlide = FindPreviousSlide( SelectedSlide )?.Name;
+        SelectedSlide = FindPreviousSlide( SelectedSlide )?.SelectionName;
 
         return RunAnimations();
     }
@@ -407,7 +407,7 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
             return;
         }
 
-        SelectedSlide = FindNextSlide( SelectedSlide )?.Name;
+        SelectedSlide = FindNextSlide( SelectedSlide )?.SelectionName;
 
         await InvokeAsync( RunAnimations );
     }
@@ -440,7 +440,7 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
         if ( selectedSlide is null )
             return;
 
-        if ( slide.Name == selectedSlide.Name )
+        if ( slide.SelectionName == selectedSlide.SelectionName )
         {
             AnimationRunning = false;
 
@@ -562,7 +562,15 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     /// <param name="slideName">Slide name.</param>
     /// <returns>An index of slide.</returns>
     public int SlideIndex( string slideName )
-        => carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => x.Name == slideName ) );
+        => carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => x.SelectionName == slideName ) );
+
+    /// <summary>
+    /// Indicates whether the slide is currently selected.
+    /// </summary>
+    /// <param name="slide">Slide to check.</param>
+    /// <returns>True if the slide is selected; otherwise false.</returns>
+    internal bool IsSelectedSlide( CarouselSlide slide )
+        => slide?.SelectionName == state.SelectedSlide;
 
     /// <summary>
     /// Creates the render fragment for a slide content and optional caption.
@@ -760,13 +768,13 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     /// Gets the index of the current active slide.
     /// </summary>
     public int SelectedSlideIndex
-        => carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => x.Name == state.SelectedSlide ) );
+        => carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => x.SelectionName == state.SelectedSlide ) );
 
     /// <summary>
     /// Gets the index of the previously active slide.
     /// </summary>
     public int PreviouslySelectedSlideIndex
-        => carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => x.Name == state.PreviouslySelectedSlide ) );
+        => carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => x.SelectionName == state.PreviouslySelectedSlide ) );
 
     /// <summary>
     /// Indicates if slide animation is currently running.

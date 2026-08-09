@@ -1,4 +1,4 @@
-﻿@page "/docs/components/time-picker"
+@page "/docs/components/time-picker"
 
 <Seo Canonical="/docs/components/time-picker" Title="Blazorise TimePicker Component" Description="Learn to use and work with the Blazorise TimePicker component, which is a fully featured time selection component that lets users select a time." />
 
@@ -15,9 +15,9 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    <Code>TimePicker</Code> is based on a <Anchor To="https://flatpickr.js.org/">flatpickr</Anchor> time picker
-    and as such is not a native time input element. That means that unlike <Code>TimeInput</Code> which will render <Code>type="time"</Code>,
-    <Code>TimePicker</Code> will render <Code>type="text"</Code> in the DOM.
+    <Code>TimePicker</Code> is implemented with native Blazor and C# and has no third-party JavaScript dependency.
+    Unlike <Code>TimeInput</Code>, which renders <Code>type="time"</Code>, <Code>TimePicker</Code> renders a text input and a provider-styled time menu.
+    The <Code>DisplayFormat</Code> parameter retains the .NET-style picker format syntax used by earlier versions, such as <Code>HH:mm</Code> or <Code>hh:mm tt</Code>.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -61,7 +61,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Non Static Menu">
+    <DocsPageSectionHeader Title="Non-static menu">
         <Paragraph>
             By default, the time menu will position statically. This means that it will also keep its position relative to the page when you scroll.
         </Paragraph>

@@ -9,6 +9,9 @@ namespace Blazorise.DataGrid;
 /// </summary>
 public class CellEditContext
 {
+    /// <summary>
+    /// Cell Value consumed by the cell edit context.
+    /// </summary>
     protected object cellValue;
 
     /// <summary>

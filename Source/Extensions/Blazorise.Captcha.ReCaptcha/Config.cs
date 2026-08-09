@@ -10,6 +10,12 @@ namespace Blazorise.Captcha.ReCaptcha;
 /// </summary>
 public static class Config
 {
+    /// <summary>
+    /// Adds Google reCAPTCHA as the application's Blazorise captcha implementation.
+    /// </summary>
+    /// <param name="serviceCollection">Application services receiving the captcha registrations.</param>
+    /// <param name="configureOptions">Optional callback for the site key and widget preferences.</param>
+    /// <returns>The same service collection for fluent configuration.</returns>
     public static IServiceCollection AddBlazoriseGoogleReCaptcha( this IServiceCollection serviceCollection, Action<ReCaptchaOptions> configureOptions )
     {
         var options = new ReCaptchaOptions();

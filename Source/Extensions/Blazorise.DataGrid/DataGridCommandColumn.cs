@@ -4,10 +4,14 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid;
 
+/// <summary>
+/// Provides data grid command column behavior within a DataGrid.
+/// </summary>
 public partial class DataGridCommandColumn<TItem> : DataGridColumn<TItem>
 {
     #region Properties
 
+    /// <inheritdoc />
     public override DataGridColumnType ColumnType => DataGridColumnType.Command;
 
     /// <summary>

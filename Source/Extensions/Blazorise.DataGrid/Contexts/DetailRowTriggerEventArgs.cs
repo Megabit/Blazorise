@@ -6,6 +6,9 @@
 /// <typeparam name="TItem"></typeparam>
 public class DetailRowTriggerEventArgs<TItem>
 {
+    /// <summary>
+    /// Creates a detail row trigger event args instance.
+    /// </summary>
     public DetailRowTriggerEventArgs( TItem item )
     {
         Item = item;

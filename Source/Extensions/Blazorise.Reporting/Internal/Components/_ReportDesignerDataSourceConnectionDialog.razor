@@ -1,0 +1,76 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<ModalHeader>
+    <ModalTitle>@DialogTitle</ModalTitle>
+    <CloseButton Clicked="@Close" Disabled="@IsConnecting" />
+</ModalHeader>
+<ModalBody>
+    <Buttons Margin="MarginIs3FromBottom" Size="Size.Small">
+        <Button Color="Color.Primary" Outline Active="@(!IsEditingDataSource)" Clicked="@SelectNewDataSource" Disabled="@IsConnecting">@Localize( "New data source" )</Button>
+        <Button Color="Color.Primary" Outline Active="@IsEditingDataSource" Clicked="@SelectExistingDataSource" Disabled="@(dataSources.Count == 0 || IsConnecting)">@Localize( "Existing data source" )</Button>
+    </Buttons>
+
+    @if ( IsEditingDataSource )
+    {
+        <Field Horizontal>
+            <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSizeSmall">@Localize( "Existing data source" )</FieldLabel>
+            <FieldBody ColumnSize="ColumnSizeIs9">
+                <Select TValue="string" Value="@selectedDataSourceId" ValueChanged="@OnSelectedDataSourceChanged" Disabled="@IsConnecting" Size="Size.Small">
+                    @foreach ( ReportDataSourceDefinition dataSource in dataSources )
+                    {
+                        <SelectItem TValue="string" Value="@dataSource.Id">@GetDataSourceDisplayName( dataSource )</SelectItem>
+                    }
+                </Select>
+            </FieldBody>
+        </Field>
+    }
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSizeSmall">@Localize( "Provider" )</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
+            <Select TValue="string" Value="@selectedProviderType" ValueChanged="@OnSelectedProviderChanged" Disabled="@IsConnecting" Size="Size.Small">
+                @foreach ( IReportDataSourceProvider provider in providers )
+                {
+                    <SelectItem TValue="string" Value="@provider.Type">@provider.DisplayName</SelectItem>
+                }
+            </Select>
+        </FieldBody>
+    </Field>
+
+    <Field>
+        <FieldLabel TextSize="TextSizeSmall">@GetProviderSettingsLabel()</FieldLabel>
+        <FieldBody>
+            @if ( editorContext is not null )
+            {
+                <DynamicComponent Type="@SelectedProviderEditorComponentType" Parameters="@ProviderEditorParameters" />
+            }
+        </FieldBody>
+    </Field>
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSizeSmall">@Localize( "Name" )</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
+            <TextInput Value="@name" ValueChanged="@OnNameChanged" Disabled="@IsConnecting" Size="Size.Small" />
+        </FieldBody>
+    </Field>
+
+    @if ( HasConnectionResult )
+    {
+        <Alert Color="@ConnectionResultColor" Visible Margin="MarginIs2FromTop">
+            <AlertDescription>@ConnectionResultMessage</AlertDescription>
+        </Alert>
+    }
+</ModalBody>
+<ModalFooter>
+    <Div Display="DisplayFlex" Flex="FlexJustifyContentBetweenAlignItemsCenter" Width="WidthIs100">
+        @if ( SupportsTestConnection )
+        {
+            <Button Color="Color.Primary" Outline Clicked="@TestConnection" Disabled="@(!CanConfirm || IsConnecting)" Loading="@IsTestingConnection" Size="Size.Small">@Localize( "Test Connection" )</Button>
+        }
+        <Div Flex="FlexRow" Gap="GapIs2">
+            <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm || IsConnecting)" Loading="@IsCommittingConnection" Size="Size.Small">@ConfirmCaption</Button>
+            <Button Color="Color.Light" Clicked="@Close" Disabled="@IsConnecting" Size="Size.Small">@Localize( "Cancel" )</Button>
+        </Div>
+    </Div>
+</ModalFooter>

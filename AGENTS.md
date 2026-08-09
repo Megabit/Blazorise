@@ -70,11 +70,25 @@ Cleanup: `clean.bat` (removes `bin/`, `obj/`, and generated docs artifacts).
 
 - Follow `.editorconfig`: 4-space indentation, CRLF endings, braces preferred, and explicit types (avoid `var` unless it improves clarity).
 - Always preserve consistent `CRLF` line endings per file; never introduce mixed `LF`/`CRLF` endings in the same file.
-- Do not add a trailing newline at EOF; keep file endings without an extra line.
+- Do not add a trailing newline at EOF, except in `*.css` and `*.scss` files; keep all other file endings without an extra line.
 - When editing `*.scss` files, do not manually edit generated `*.css` files; CSS will be generated manually by the team.
+- When styling provider components, always use the CSS provider's native CSS variables or design tokens whenever suitable tokens exist.
+- Introduce new CSS variables only when the provider does not expose suitable native variables.
+- For providers without native CSS variables but with SCSS variables, prefer the provider's SCSS variables for compiled defaults and override the relevant selectors and values in the provider theme generator for runtime Blazorise theming.
+- Any new CSS variables must follow the CSS provider's established variable naming convention; do not invent a provider prefix or use a shared cross-provider naming convention.
 - In Razor markup, prefer Blazorise components (for example `Div`, `Span`) and Blazorise utility parameters (for example `Flex`, `Gap`, `Margin`, `Padding`) instead of raw HTML layout tags and inline styles whenever possible.
 - Naming: PascalCase for types/members; interfaces start with `I`.
 - Dependency versions are centrally managed in `Directory.Packages.props` (don’t hardcode `Version=` in `PackageReference`).
+
+## Component Development Conventions
+
+- Follow the API naming, lifecycle, state-management, and rendering patterns of the closest existing Blazorise components before introducing a new pattern.
+- When parameters synchronize derived state, prefer `SetParametersAsync` with `ParameterViewExtensions` for coordinated change detection, especially across several parameters. Use change-detecting parameter setters only for simple, independent local transitions where they are clearer, and resynchronize supplied mutable complex parameters unless value equality is guaranteed.
+- Maintain a single owner for component state. Descendants should consume parent state through cascading state rather than expose parameters that can create conflicting states.
+- Route user interaction, public methods, parameter updates, and two-way binding through the same component lifecycle and event semantics.
+- Avoid additional state fields, abstractions, and public APIs unless they are required to represent genuinely distinct state or behavior.
+- Keep static provider styling in SCSS. Use `StyleProvider` only for styles derived from runtime component state.
+- Prefer provider-native tokens and variables. Introduce new CSS variables only when necessary and name them according to the provider's established convention.
 
 ## Testing Guidelines
 

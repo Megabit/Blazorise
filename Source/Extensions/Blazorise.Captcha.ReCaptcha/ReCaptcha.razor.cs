@@ -75,12 +75,19 @@ public partial class ReCaptcha : Captcha, IAsyncDisposable
         await JSModule.Reset( ElementRef, ElementId );
     }
 
+    /// <summary>
+    /// Accepts the verification token returned after a successful browser challenge.
+    /// </summary>
+    /// <param name="response">Token produced by the reCAPTCHA widget.</param>
     [JSInvokable, EditorBrowsable( EditorBrowsableState.Never )]
     public async Task OnSuccessHandler( string response )
     {
         await SetSolved( response );
     }
 
+    /// <summary>
+    /// Clears the solved state when the browser challenge expires.
+    /// </summary>
     [JSInvokable, EditorBrowsable( EditorBrowsableState.Never )]
     public async Task OnExpiredHandler()
     {
@@ -99,6 +106,9 @@ public partial class ReCaptcha : Captcha, IAsyncDisposable
 
     [Inject] private BlazoriseOptions BlazoriseOptions { get; set; }
 
+    /// <summary>
+    /// Application-wide credentials and presentation settings for the widget.
+    /// </summary>
     [Inject] public ReCaptchaOptions Options { get; set; }
 
     #endregion

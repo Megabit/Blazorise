@@ -11,6 +11,9 @@ namespace Blazorise.DataGrid;
 /// <typeparam name="TItem"></typeparam>
 public class DataGridRowMouseEventArgs<TItem> : EventArgs
 {
+    /// <summary>
+    /// Creates a data grid row mouse event args instance.
+    /// </summary>
     public DataGridRowMouseEventArgs( TItem item, MouseEventArgs mouseEventArgs )
     {
         Item = item;

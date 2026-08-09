@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid.Internal;
 
+/// <summary>
+/// Supports data grid menu filter behavior in DataGrid components.
+/// </summary>
 public partial class _DataGridMenuFilter<TItem> : ComponentBase, IDisposable
 {
     #region Methods
@@ -60,6 +63,9 @@ public partial class _DataGridMenuFilter<TItem> : ComponentBase, IDisposable
         ( Column.Filter.SearchValue as object[] )[1] = value2;
     }
 
+    /// <summary>
+    /// Reports whether the menu currently applies a filter.
+    /// </summary>
     protected bool IsFiltering()
     {
         if ( !string.IsNullOrEmpty( Column.Filter.SearchValue?.ToString() ) )
@@ -85,10 +91,19 @@ public partial class _DataGridMenuFilter<TItem> : ComponentBase, IDisposable
     /// </summary>
     [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
 
+    /// <summary>
+    /// Notifies the filter menu when translations change.
+    /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
+    /// <summary>
+    /// Connects the filter menu to its owning grid.
+    /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
+    /// <summary>
+    /// Identifies the column whose filter is being edited.
+    /// </summary>
     [Parameter] public DataGridColumn<TItem> Column { get; set; }
 
     #endregion

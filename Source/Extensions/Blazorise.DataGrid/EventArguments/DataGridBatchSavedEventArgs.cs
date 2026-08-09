@@ -20,5 +20,8 @@ public class DataGridBatchSavedEventArgs<TItem> : EventArgs
         Items = batchEditItems;
     }
 
+    /// <summary>
+    /// Item changes committed by the completed save operation.
+    /// </summary>
     public IReadOnlyList<DataGridBatchEditItem<TItem>> Items { get; private set; }
 }

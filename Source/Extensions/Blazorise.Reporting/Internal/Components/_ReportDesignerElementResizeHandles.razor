@@ -1,0 +1,72 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using Microsoft.AspNetCore.Components.Web
+
+<span @key="@NorthWestKey"
+      class="b-report-resize-handle b-report-resize-handle-nw"
+      role="separator"
+      aria-label="@Localize( "Resize north west" )"
+      title="@Localize( "Resize north west" )"
+      @onpointerdown="@NorthWestPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>
+<span @key="@NorthKey"
+      class="b-report-resize-handle b-report-resize-handle-n"
+      role="separator"
+      aria-label="@Localize( "Resize north" )"
+      aria-orientation="horizontal"
+      title="@Localize( "Resize north" )"
+      @onpointerdown="@NorthPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>
+<span @key="@NorthEastKey"
+      class="b-report-resize-handle b-report-resize-handle-ne"
+      role="separator"
+      aria-label="@Localize( "Resize north east" )"
+      title="@Localize( "Resize north east" )"
+      @onpointerdown="@NorthEastPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>
+<span @key="@EastKey"
+      class="b-report-resize-handle b-report-resize-handle-e"
+      role="separator"
+      aria-label="@Localize( "Resize east" )"
+      aria-orientation="vertical"
+      title="@Localize( "Resize east" )"
+      @onpointerdown="@EastPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>
+<span @key="@SouthEastKey"
+      class="b-report-resize-handle b-report-resize-handle-se"
+      role="separator"
+      aria-label="@Localize( "Resize south east" )"
+      title="@Localize( "Resize south east" )"
+      @onpointerdown="@SouthEastPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>
+<span @key="@SouthKey"
+      class="b-report-resize-handle b-report-resize-handle-s"
+      role="separator"
+      aria-label="@Localize( "Resize south" )"
+      aria-orientation="horizontal"
+      title="@Localize( "Resize south" )"
+      @onpointerdown="@SouthPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>
+<span @key="@SouthWestKey"
+      class="b-report-resize-handle b-report-resize-handle-sw"
+      role="separator"
+      aria-label="@Localize( "Resize south west" )"
+      title="@Localize( "Resize south west" )"
+      @onpointerdown="@SouthWestPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>
+<span @key="@WestKey"
+      class="b-report-resize-handle b-report-resize-handle-w"
+      role="separator"
+      aria-label="@Localize( "Resize west" )"
+      aria-orientation="vertical"
+      title="@Localize( "Resize west" )"
+      @onpointerdown="@WestPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>

@@ -1,0 +1,9 @@
+{
+  "culture": "da",
+  "translations": {
+    "Close": "Luk",
+    "Close {0}": "Luk {0}",
+    "Pin": "Fastgør",
+    "Unpin": "Frigør"
+  }
+}

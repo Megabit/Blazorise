@@ -1,0 +1,72 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<Div Display="DisplayNone">
+    <_ReportDesignerDataSourceDialog @ref="dataSourceDialogRef" Definition="@Definition" Confirmed="@OnDataSourceDialogConfirmed" />
+    <_ReportDesignerFormulaDialog @ref="formulaDialogRef" Definition="@Definition" Data="@Data" Section="@FormulaSection" Confirmed="@OnFormulaDialogConfirmed" />
+    <_ReportDesignerFormatDialog @ref="formatDialogRef" Confirmed="@OnFormatDialogConfirmed" />
+    <_ReportDesignerImageUploadDialog @ref="imageUploadDialogRef"
+                                      ImageAccept="@ImageAccept"
+                                      ImageMaxSize="@ImageMaxSize"
+                                      MaxUploadImageChunkSize="@MaxUploadImageChunkSize"
+                                      SegmentFetchTimeout="@ImageUploadSegmentFetchTimeout"
+                                      DisableImageUploadProgressReport="@DisableImageUploadProgressReport"
+                                      ImageUploadChanged="@ImageUploadChanged"
+                                      ImageUploadStarted="@ImageUploadStarted"
+                                      ImageUploadEnded="@ImageUploadEnded"
+                                      ImageUploadWritten="@ImageUploadWritten"
+                                      ImageUploadProgressed="@ImageUploadProgressed"
+                                      ImageUpload="@ImageUpload"
+                                      Confirmed="@OnImageUploadConfirmed" />
+</Div>
+
+<PropertyGridView Schema="@PropertyGridSchema"
+                  Height="Height.Is100"
+                  AriaLabel="@Localize( "Report properties" )"
+                  ToolbarAriaLabel="@Localize( "Property grid controls" )"
+                  SearchPlaceholder="@Localize( "Search..." )"
+                  SearchAriaLabel="@Localize( "Search properties" )"
+                  CategorizedButtonTitle="@Localize( "Categorized" )"
+                  AlphabeticalButtonTitle="@Localize( "Alphabetical" )"
+                  NoResultsText="@Localize( "No properties found." )"
+                  PropertyValueChanged="@OnPropertyGridPropertyValueChanged"
+                  ActionInvoked="@OnPropertyGridActionInvoked">
+    <ChildContent>
+        @if ( SelectedElement is not null
+            && !SelectedElementSuppressed
+            && !AllSelectedElementsSuppressed
+            && SelectedCustomElementPlugin?.PropertiesComponentType is not null )
+        {
+            <PropertyGridGroup Title="@(SelectedCustomElementPlugin.Descriptor.PropertiesGroupName ?? SelectedCustomElementPlugin.Descriptor.DisplayName)">
+                <DynamicComponent Type="@SelectedCustomElementPlugin.PropertiesComponentType"
+                                  Parameters="@GetCustomPropertiesParameters()" />
+            </PropertyGridGroup>
+        }
+
+        @if ( SelectedSection is not null
+            && SelectedElement is null
+            && !ReportValueResolver.ResolveStaticSuppress( SelectedSection ) )
+        {
+            <Div Flex="FlexIsWrap" Gap="GapIs2" Margin="MarginIs3FromTop">
+                @if ( CanInsertSection )
+                {
+                    <Button Color="Color.Light" Clicked="@OnInsertSectionBeforeClicked" Size="Size.Small">@Localize( "Insert before" )</Button>
+                    <Button Color="Color.Light" Clicked="@OnInsertSectionAfterClicked" Size="Size.Small">@Localize( "Insert after" )</Button>
+                }
+                @if ( CanInsertGroup )
+                {
+                    <Button Color="Color.Light" Clicked="@OnInsertGroupClicked" Size="Size.Small">@Localize( "Insert group..." )</Button>
+                }
+                @if ( ReportDefinitionHelper.CanDeleteSection( SelectedSection ) )
+                {
+                    <Button Color="Color.Light" Clicked="@OnDeleteSelectedSectionClicked" Size="Size.Small">@Localize( "Delete band" )</Button>
+                }
+            </Div>
+        }
+
+        @if ( !HasSelection )
+        {
+            <Paragraph TextColor="TextColorSecondary">@Localize( "Select a band or report element to edit its properties." )</Paragraph>
+        }
+    </ChildContent>
+</PropertyGridView>

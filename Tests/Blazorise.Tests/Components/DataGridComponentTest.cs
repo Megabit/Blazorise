@@ -56,6 +56,50 @@ public class DataGridComponentTest : BunitContext
         Assert.Contains( expectedEmptyTemplate, emptyTemplateValue );
     }
 
+    [Theory]
+    [InlineData( DataGridEditMode.Form )]
+    [InlineData( DataGridEditMode.Inline )]
+    [InlineData( DataGridEditMode.Popup )]
+    public void EmptyTemplate_Should_UseVisibleColumnSpan_WhenColumnIsNotDisplayable( DataGridEditMode editMode )
+    {
+        // setup & test
+        var comp = Render<DataGrid<Employee>>( parameters =>
+        {
+            parameters.Add( x => x.Data, Array.Empty<Employee>() );
+            parameters.Add( x => x.Editable, true );
+            parameters.Add( x => x.EditMode, editMode );
+            parameters.Add( x => x.DataGridColumns, CreateColumnSpanColumns() );
+            parameters.Add( x => x.EmptyTemplate, (Microsoft.AspNetCore.Components.RenderFragment)( builder => builder.AddContent( 0, "No Records..." ) ) );
+        } );
+
+        // validate
+        var emptyTemplateCell = comp.Find( "tbody tr td" );
+
+        Assert.Equal( "2", emptyTemplateCell.GetAttribute( "colspan" ) );
+    }
+
+    [Theory]
+    [InlineData( DataGridEditMode.Form )]
+    [InlineData( DataGridEditMode.Inline )]
+    [InlineData( DataGridEditMode.Popup )]
+    public void EmptyFilterTemplate_Should_UseVisibleColumnSpan_WhenColumnIsNotDisplayable( DataGridEditMode editMode )
+    {
+        // setup & test
+        var comp = Render<DataGrid<Employee>>( parameters =>
+        {
+            parameters.Add( x => x.Data, new[] { new Employee { Name = "John", Fraction = "1/2" } } );
+            parameters.Add( x => x.Editable, true );
+            parameters.Add( x => x.EditMode, editMode );
+            parameters.Add( x => x.DataGridColumns, CreateColumnSpanColumns( "Missing" ) );
+            parameters.Add( x => x.EmptyFilterTemplate, (Microsoft.AspNetCore.Components.RenderFragment)( builder => builder.AddContent( 0, "No Filtered Records..." ) ) );
+        } );
+
+        // validate
+        var emptyFilterTemplateCell = comp.Find( "tbody tr td" );
+
+        Assert.Equal( "2", emptyFilterTemplateCell.GetAttribute( "colspan" ) );
+    }
+
     [Fact]
     public void SortByField_Should_CorrectlySortRows()
     {
@@ -858,6 +902,28 @@ public class DataGridComponentTest : BunitContext
             builder.OpenComponent<DataGridColumn<BatchEditEmployee>>( 6 );
             builder.AddAttribute( 7, nameof( DataGridColumn<BatchEditEmployee>.Field ), nameof( BatchEditEmployee.Email ) );
             builder.AddAttribute( 8, nameof( DataGridColumn<BatchEditEmployee>.Editable ), true );
+            builder.CloseComponent();
+        };
+
+    private static Microsoft.AspNetCore.Components.RenderFragment CreateColumnSpanColumns( string nameFilterValue = null )
+        => builder =>
+        {
+            builder.OpenComponent<DataGridCommandColumn<Employee>>( 0 );
+            builder.CloseComponent();
+
+            builder.OpenComponent<DataGridColumn<Employee>>( 1 );
+            builder.AddAttribute( 2, nameof( DataGridColumn<Employee>.Field ), nameof( Employee.Fraction ) );
+            builder.AddAttribute( 3, nameof( DataGridColumn<Employee>.Displayable ), false );
+            builder.CloseComponent();
+
+            builder.OpenComponent<DataGridColumn<Employee>>( 4 );
+            builder.AddAttribute( 5, nameof( DataGridColumn<Employee>.Field ), nameof( Employee.Name ) );
+
+            if ( nameFilterValue is not null )
+            {
+                builder.AddAttribute( 6, nameof( DataGridColumn<Employee>.Filter ), new FilterContext<Employee> { SearchValue = nameFilterValue } );
+            }
+
             builder.CloseComponent();
         };
 

@@ -1,11 +1,13 @@
 #region Using directives
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Utilities;
-using Blazorise.Vendors;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -19,9 +21,13 @@ namespace Blazorise;
 /// <typeparam name="TValue">Data-type to be binded by the <see cref="TimePicker{TValue}"/> property.</typeparam>
 public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasses, TimePickerStyles>, IAsyncDisposable, ITimePicker
 {
-    #region Members
+    #region Events
 
-    private DotNetObjectReference<TimePickerAdapter> dotNetObjectRef;
+    internal event Action MenuStateChanged;
+
+    #endregion
+
+    #region Members
 
     /// <summary>
     /// Captured Min parameter snapshot.
@@ -98,6 +104,26 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// </summary>
     protected ComponentParameterInfo<int> paramDefaultMinute;
 
+    private bool stateInitialized;
+
+    private bool menuOpen;
+
+    private bool focusMenuOnOpen;
+
+    private string inputText;
+
+    private TimeSpan selectedTime;
+
+    private TimePickerPart focusedPart;
+
+    private bool pointerInteraction;
+
+    private bool? mobileDevice;
+
+    private PickerObserverCoordinator observerCoordinator;
+
+    private TimePickerMenuContext<TValue> menuContext;
+
     #endregion
 
     #region Methods
@@ -125,73 +151,56 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     }
 
     /// <inheritdoc/>
-    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
+    protected override Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
-        await base.OnBeforeSetParametersAsync( parameters );
+        return base.OnBeforeSetParametersAsync( parameters );
+    }
 
-        var minChanged = paramMin.Defined && paramMin.Changed;
-        var maxChanged = paramMax.Defined && paramMax.Changed;
-        var displayFormatChanged = paramDisplayFormat.Defined && paramDisplayFormat.Changed;
-        var timeAs24hrChanged = paramTimeAs24hr.Defined && paramTimeAs24hr.Changed;
-        var disabledChanged = paramDisabled.Defined && paramDisabled.Changed;
-        var readOnlyChanged = paramReadOnly.Defined && paramReadOnly.Changed;
-        var inlineChanged = paramInline.Defined && paramInline.Changed;
-        var disableMobileChanged = paramDisableMobile.Defined && paramDisableMobile.Changed;
-        var placeholderChanged = paramPlaceholder.Defined && paramPlaceholder.Changed;
-        var staticPickerChanged = paramStaticPicker.Defined && paramStaticPicker.Changed;
-        var secondsChanged = paramSeconds.Defined && paramSeconds.Changed;
-        var hourIncrementChanged = paramHourIncrement.Defined && paramHourIncrement.Changed;
-        var minuteIncrementChanged = paramMinuteIncrement.Defined && paramMinuteIncrement.Changed;
-        var defaultHourChanged = paramDefaultHour.Defined && paramDefaultHour.Changed;
-        var defaultMinuteChanged = paramDefaultMinute.Defined && paramDefaultMinute.Changed;
+    /// <inheritdoc/>
+    protected override async Task OnAfterSetParametersAsync( ParameterView parameters )
+    {
+        await base.OnAfterSetParametersAsync( parameters );
 
-        if ( paramValue.Changed )
+        bool formatChanged = ( paramDisplayFormat.Defined && paramDisplayFormat.Changed )
+            || ( paramTimeAs24hr.Defined && paramTimeAs24hr.Changed )
+            || ( paramSeconds.Defined && paramSeconds.Changed );
+        bool defaultChanged = ( paramDefaultHour.Defined && paramDefaultHour.Changed )
+            || ( paramDefaultMinute.Defined && paramDefaultMinute.Changed );
+        bool limitsChanged = ( paramMin.Defined && paramMin.Changed )
+            || ( paramMax.Defined && paramMax.Changed );
+
+        if ( !stateInitialized || paramValue.Changed || formatChanged || ( defaultChanged && Value is null ) || limitsChanged )
         {
-            var timeString = FormatValueAsString( paramValue.Value );
-
-            await CurrentValueHandler( timeString );
-
-            if ( Rendered )
-            {
-                ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, timeString ) );
-            }
+            SynchronizeStateFromValue();
         }
 
-        if ( Rendered && ( minChanged
-                           || maxChanged
-                           || displayFormatChanged
-                           || timeAs24hrChanged
-                           || disabledChanged
-                           || readOnlyChanged
-                           || inlineChanged
-                           || disableMobileChanged
-                           || placeholderChanged
-                           || staticPickerChanged
-                           || secondsChanged
-                           || hourIncrementChanged
-                           || minuteIncrementChanged
-                           || defaultHourChanged
-                           || defaultMinuteChanged ) )
+        if ( paramInline.Defined && paramInline.Changed )
         {
-            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new TimePickerUpdateJSOptions
-            {
-                DisplayFormat = new JSOptionChange<string>( displayFormatChanged, DisplayFormatConverter.Convert( paramDisplayFormat.Value ) ),
-                TimeAs24hr = new JSOptionChange<bool>( timeAs24hrChanged, paramTimeAs24hr.Value ),
-                Min = new JSOptionChange<string>( minChanged, paramMin.Value?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) ),
-                Max = new JSOptionChange<string>( maxChanged, paramMax.Value?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) ),
-                Disabled = new JSOptionChange<bool>( disabledChanged, paramDisabled.Value ),
-                ReadOnly = new JSOptionChange<bool>( readOnlyChanged, paramReadOnly.Value ),
-                Inline = new JSOptionChange<bool>( inlineChanged, paramInline.Value ),
-                DisableMobile = new JSOptionChange<bool>( disableMobileChanged, paramDisableMobile.Value ),
-                Placeholder = new JSOptionChange<string>( placeholderChanged, paramPlaceholder.Value ),
-                StaticPicker = new JSOptionChange<bool>( staticPickerChanged, paramStaticPicker.Value ),
-                Seconds = new JSOptionChange<bool>( secondsChanged, paramSeconds.Value ),
-                HourIncrement = new JSOptionChange<int>( hourIncrementChanged, paramHourIncrement.Value ),
-                MinuteIncrement = new JSOptionChange<int>( minuteIncrementChanged, paramMinuteIncrement.Value ),
-                DefaultHour = new JSOptionChange<int>( defaultHourChanged, paramDefaultHour.Value ),
-                DefaultMinute = new JSOptionChange<int>( defaultMinuteChanged, paramDefaultMinute.Value ),
-            } ) );
+            menuOpen = Inline;
+            focusMenuOnOpen = false;
+            await SynchronizeOutsidePointerSubscriptionAsync();
         }
+
+        if ( ( !Seconds && focusedPart == TimePickerPart.Second )
+             || ( TimeAs24hr && focusedPart == TimePickerPart.Meridiem ) )
+        {
+            focusedPart = TimePickerPart.Hour;
+        }
+
+        if ( Rendered && paramDisableMobile.Defined && paramDisableMobile.Changed && !DisableMobile )
+        {
+            ExecuteAfterRender( DetectMobileDeviceAsync );
+        }
+
+        if ( Rendered && UseNativeMobilePicker )
+        {
+            menuOpen = false;
+            focusMenuOnOpen = false;
+            await DisposeOutsidePointerSubscriptionAsync();
+        }
+
+        NotifyMenuStateChanged();
+        stateInitialized = true;
     }
 
     /// <inheritdoc/>
@@ -205,43 +214,20 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()
     {
-        dotNetObjectRef ??= CreateDotNetObjectRef( new TimePickerAdapter( this ) );
-
-        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new()
-        {
-            DisplayFormat = DisplayFormatConverter.Convert( DisplayFormat ),
-            TimeAs24hr = TimeAs24hr,
-            Default = FormatValueAsString( Value ),
-            DefaultHour = DefaultHour,
-            DefaultMinute = DefaultMinute,
-            Min = Min?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
-            Max = Max?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
-            Disabled = Disabled,
-            ReadOnly = ReadOnly,
-            Localization = GetLocalizationObject(),
-            Inline = Inline,
-            DisableMobile = DisableMobile,
-            Placeholder = Placeholder,
-            StaticPicker = StaticPicker,
-            Seconds = Seconds,
-            HourIncrement = HourIncrement,
-            MinuteIncrement = MinuteIncrement,
-        } );
-
-
         await base.OnFirstAfterRenderAsync();
+        await DetectMobileDeviceAsync();
+        await InitializeInputKeyDownSubscriptionAsync();
     }
 
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
-        if ( disposing && Rendered )
+        if ( disposing )
         {
-            await JSModule.SafeDestroy( ElementRef, ElementId );
-
-            DisposeDotNetObjectRef( dotNetObjectRef );
-            dotNetObjectRef = null;
-
+            if ( observerCoordinator is not null )
+            {
+                await observerCoordinator.DisposeAsync();
+            }
             LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         }
 
@@ -260,54 +246,148 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     }
 
     /// <inheritdoc/>
-    protected override Task OnChangeHandler( ChangeEventArgs e )
+    protected override Task OnChangeHandler( ChangeEventArgs eventArgs )
     {
-        return CurrentValueHandler( e?.Value?.ToString() );
+        return ProcessInputTextAsync( eventArgs?.Value?.ToString(), formatParsedValue: true );
+    }
+
+    private async Task ProcessInputTextAsync( string value, bool formatParsedValue )
+    {
+        inputText = value;
+
+        if ( string.IsNullOrWhiteSpace( inputText ) )
+        {
+            await CurrentValueHandler( null );
+            selectedTime = GetDefaultTime();
+            NotifyMenuStateChanged();
+            return;
+        }
+
+        if ( TryNormalizeInputValue( inputText, out string normalizedValue, out TimeSpan parsedTime ) )
+        {
+            selectedTime = ClampTime( parsedTime );
+            normalizedValue = FormatInternalTime( selectedTime );
+
+            await CurrentValueHandler( normalizedValue );
+
+            if ( formatParsedValue )
+            {
+                inputText = FormatTime( selectedTime );
+            }
+        }
+        else if ( ParentValidation is not null )
+        {
+            await ParentValidation.NotifyInputChanged<TValue>( default );
+        }
+
+        NotifyMenuStateChanged();
     }
 
     /// <summary>
-    /// Handles the element onclick event.
+    /// Handles text input from the editable TimePicker field.
     /// </summary>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    protected async Task OnClickHandler( MouseEventArgs e )
+    protected Task OnInputHandler( ChangeEventArgs eventArgs )
     {
-        if ( Disabled || ReadOnly )
+        inputText = eventArgs?.Value?.ToString();
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Opens the time menu when the visible input is clicked.
+    /// </summary>
+    [JSInvokable]
+    protected async Task OnClickHandler( MouseEventArgs eventArgs )
+    {
+        if ( !OpenTrigger.HasFlag( PickerOpenTrigger.Click ) )
             return;
 
-        await JSModule.Activate( ElementRef, ElementId, Parsers.InternalTimeFormat );
+        if ( MenuInteractionDisabled )
+            return;
+
+        if ( UseNativeMobilePicker )
+            return;
+
+        await OpenAsync();
+    }
+
+    /// <summary>
+    /// Records that the input is receiving focus through a pointer interaction.
+    /// </summary>
+    /// <param name="eventArgs">Information about the pointer event.</param>
+    /// <returns>A completed task.</returns>
+    protected Task OnPointerDownHandler( PointerEventArgs eventArgs )
+    {
+        pointerInteraction = true;
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Clears the active pointer interaction when it finishes without focusing the input.
+    /// </summary>
+    /// <param name="eventArgs">Information about the pointer event.</param>
+    /// <returns>A completed task.</returns>
+    protected Task OnPointerInteractionEndedHandler( PointerEventArgs eventArgs )
+    {
+        pointerInteraction = false;
+        return Task.CompletedTask;
     }
 
     /// <inheritdoc/>
     protected override string FormatValueAsString( TValue value )
     {
-        return value switch
-        {
-            null => null,
-            TimeSpan timeSpan => timeSpan.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
-            TimeOnly timeOnly => timeOnly.ToString( Parsers.InternalTimeFormat ),
-            DateTime datetime => datetime.ToString( Parsers.InternalTimeFormat ),
-            _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
-        };
+        if ( value is null )
+            return null;
+
+        if ( TimePickerTimeUtilities.TryGetTime( value, out TimeSpan time ) )
+            return FormatInternalTime( time );
+
+        throw new InvalidOperationException( $"Unsupported type {value.GetType()}" );
     }
 
     /// <inheritdoc/>
     protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
     {
-        if ( Parsers.TryParseTime<TValue>( value, out var result ) )
+        if ( Parsers.TryParseTime<TValue>( value, out TValue result ) )
         {
+            if ( result is DateTime parsedDateTime && Value is DateTime currentDateTime && currentDateTime != default )
+            {
+                result = (TValue)(object)currentDateTime.Date.Add( parsedDateTime.TimeOfDay );
+            }
+
             return Task.FromResult( new ParseValue<TValue>( true, result, null ) );
         }
-        else
-        {
-            return Task.FromResult( new ParseValue<TValue>( false, default, null ) );
-        }
+
+        return Task.FromResult( new ParseValue<TValue>( false, default, null ) );
     }
 
     /// <inheritdoc/>
     [JSInvokable]
-    public new virtual Task OnKeyDownHandler( KeyboardEventArgs eventArgs )
+    public new virtual async Task OnKeyDownHandler( KeyboardEventArgs eventArgs )
     {
-        return KeyDown.InvokeAsync( eventArgs );
+        await KeyDown.InvokeAsync( eventArgs );
+
+        if ( MenuInteractionDisabled || eventArgs is null )
+            return;
+
+        if ( UseNativeMobilePicker )
+            return;
+
+        if ( MenuVisible )
+        {
+            if ( !focusMenuOnOpen && eventArgs.Key is "ArrowDown" or "F4" )
+            {
+                await OpenMenuAsync( focusMenu: true );
+            }
+            else if ( eventArgs.Key is "Escape" or "Tab" )
+            {
+                await CloseMenuAsync( focusInput: false );
+            }
+        }
+        else if ( OpenTrigger.HasFlag( PickerOpenTrigger.OpenKeys )
+                  && eventArgs.Key is "ArrowDown" or "F4" )
+        {
+            await OpenMenuAsync( focusMenu: true );
+        }
     }
 
     /// <inheritdoc/>
@@ -319,9 +399,19 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
     /// <inheritdoc/>
     [JSInvokable]
-    public new virtual Task OnFocusHandler( FocusEventArgs eventArgs )
+    public new virtual async Task OnFocusHandler( FocusEventArgs eventArgs )
     {
-        return OnFocus.InvokeAsync( eventArgs );
+        bool pointerInitiatedFocus = pointerInteraction;
+        pointerInteraction = false;
+
+        await OnFocus.InvokeAsync( eventArgs );
+
+        if ( !pointerInitiatedFocus
+             && OpenTrigger.HasFlag( PickerOpenTrigger.Focus )
+             && !UseNativeMobilePicker )
+        {
+            await OpenMenuAsync( focusMenu: false );
+        }
     }
 
     /// <inheritdoc/>
@@ -347,7 +437,6 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     [JSInvokable]
     public new virtual Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
     {
-        // just call eventcallback without using debouncer in BaseTextInput
         return KeyPress.InvokeAsync( eventArgs );
     }
 
@@ -359,9 +448,10 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     }
 
     /// <inheritdoc/>
-    protected override Task OnScreenKeyboardValueChanged( string value )
+    protected override async Task OnScreenKeyboardValueChanged( string value )
     {
-        return JSModule.UpdateTextValue( ElementRef, ElementId, value ).AsTask();
+        await ProcessInputTextAsync( value, formatParsedValue: false );
+        await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
@@ -370,7 +460,40 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask OpenAsync()
     {
-        return JSModule.Open( ElementRef, ElementId );
+        if ( MenuInteractionDisabled )
+            return ValueTask.CompletedTask;
+
+        if ( UseNativeMobilePicker )
+            return JSUtilitiesModule.ShowPicker( ElementRef, ElementId );
+
+        return OpenMenuAsync( focusMenu: false );
+    }
+
+    private async ValueTask OpenMenuAsync( bool focusMenu )
+    {
+        if ( MenuInteractionDisabled )
+            return;
+
+        if ( UseNativeMobilePicker )
+        {
+            await JSUtilitiesModule.ShowPicker( ElementRef, ElementId );
+            return;
+        }
+
+        SynchronizeSelectionForOpen();
+        focusedPart = TimePickerPart.Hour;
+        focusMenuOnOpen = focusMenu;
+        menuOpen = true;
+
+        NotifyMenuStateChanged();
+        await InvokeAsync( StateHasChanged );
+
+        if ( focusMenu )
+        {
+            await JSUtilitiesModule.Focus( default, MenuControlsId, scrollToElement: false );
+        }
+
+        await SynchronizeOutsidePointerSubscriptionAsync();
     }
 
     /// <summary>
@@ -379,51 +502,384 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask CloseAsync()
     {
-        return JSModule.Close( ElementRef, ElementId );
+        return CloseMenuAsync( focusInput: false );
     }
 
     /// <summary>
     /// Shows/opens the time dropdown if its closed, hides/closes it otherwise.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public ValueTask ToggleAsync()
+    public async ValueTask ToggleAsync()
     {
-        return JSModule.Toggle( ElementRef, ElementId );
+        if ( MenuVisible && !Inline )
+        {
+            await CloseMenuAsync( focusInput: false );
+        }
+        else
+        {
+            await OpenAsync();
+        }
     }
 
     /// <inheritdoc/>
-    public override async Task Focus( bool scrollToElement = true )
+    public override Task Focus( bool scrollToElement = true )
     {
-        await JSModule.Focus( ElementRef, ElementId, scrollToElement );
+        return base.Focus( scrollToElement );
     }
 
     /// <inheritdoc/>
-    public override async Task Select( bool focus = true )
+    public override Task Select( bool focus = true )
     {
-        await JSModule.Select( ElementRef, ElementId, focus );
+        return base.Select( focus );
+    }
+
+    internal async Task OnMenuKeyDownAsync( KeyboardEventArgs eventArgs )
+    {
+        if ( eventArgs is null || MenuInteractionDisabled )
+            return;
+
+        switch ( eventArgs.Key )
+        {
+            case "ArrowLeft":
+                MoveFocusedPart( -1 );
+                break;
+            case "ArrowRight":
+                MoveFocusedPart( 1 );
+                break;
+            case "ArrowUp":
+                await AdjustFocusedPartAsync( 1 );
+                break;
+            case "ArrowDown":
+                await AdjustFocusedPartAsync( -1 );
+                break;
+            case "Home":
+                await SetBoundaryAsync( useMaximum: false );
+                break;
+            case "End":
+                await SetBoundaryAsync( useMaximum: true );
+                break;
+            case "Enter":
+            case " ":
+                if ( focusedPart == TimePickerPart.Meridiem )
+                {
+                    await ToggleMeridiemAsync();
+                }
+                else if ( !Inline )
+                {
+                    await CloseMenuAsync( focusInput: true );
+                }
+                break;
+            case "Escape":
+                await CloseMenuAsync( focusInput: true );
+                break;
+        }
+    }
+
+    internal async Task OnControlKeyDownAsync( TimePickerPart part, KeyboardEventArgs eventArgs )
+    {
+        FocusPart( part );
+
+        if ( eventArgs is null )
+            return;
+
+        switch ( eventArgs.Key )
+        {
+            case "Escape":
+                await CloseMenuAsync( focusInput: true );
+                break;
+            case "Enter":
+                if ( part != TimePickerPart.Meridiem && !Inline )
+                {
+                    await CloseMenuAsync( focusInput: true );
+                }
+                break;
+        }
+    }
+
+    internal async Task ChangeHourAsync( ChangeEventArgs eventArgs )
+    {
+        if ( !int.TryParse( eventArgs?.Value?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out int hour ) )
+            return;
+
+        hour = Math.Clamp( hour, 0, 23 );
+
+        if ( !TimeAs24hr && hour is >= 1 and <= 12 )
+        {
+            hour %= 12;
+
+            if ( IsPostMeridiem )
+            {
+                hour += 12;
+            }
+        }
+
+        await CommitTimeAsync( new TimeSpan( hour, CurrentMinute, CurrentSecond ) );
+    }
+
+    internal async Task ChangeMinuteAsync( ChangeEventArgs eventArgs )
+    {
+        if ( int.TryParse( eventArgs?.Value?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out int minute ) )
+        {
+            await CommitTimeAsync( new TimeSpan( CurrentHour, Math.Clamp( minute, 0, 59 ), CurrentSecond ) );
+        }
+    }
+
+    internal async Task ChangeSecondAsync( ChangeEventArgs eventArgs )
+    {
+        if ( int.TryParse( eventArgs?.Value?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out int second ) )
+        {
+            await CommitTimeAsync( new TimeSpan( CurrentHour, CurrentMinute, Math.Clamp( second, 0, 59 ) ) );
+        }
+    }
+
+    internal Task ToggleMeridiemAsync()
+    {
+        int hour = CurrentHour >= 12 ? CurrentHour - 12 : CurrentHour + 12;
+        return CommitTimeAsync( new TimeSpan( hour, CurrentMinute, CurrentSecond ) );
+    }
+
+    internal void FocusPart( TimePickerPart part )
+    {
+        if ( focusedPart == part )
+            return;
+
+        focusedPart = part;
+        NotifyMenuStateChanged();
+    }
+
+    private async ValueTask CloseMenuAsync( bool focusInput )
+    {
+        if ( Inline )
+            return;
+
+        menuOpen = false;
+        focusMenuOnOpen = false;
+
+        NotifyMenuStateChanged();
+        await DisposeOutsidePointerSubscriptionAsync();
+
+        if ( focusInput )
+        {
+            ExecuteAfterRender( () => Focus() );
+        }
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    private Task HandleOutsidePointerAsync( DocumentEventArgs eventArgs )
+    {
+        return CloseMenuAsync( focusInput: false ).AsTask();
+    }
+
+    private ValueTask SynchronizeOutsidePointerSubscriptionAsync()
+        => ObserverCoordinator.SynchronizeOutsideSubscriptionAsync(
+            menuOpen,
+            Inline,
+            ElementId,
+            PickerContainerId,
+            MenuId,
+            HandleOutsidePointerAsync );
+
+    private ValueTask DisposeOutsidePointerSubscriptionAsync()
+        => ObserverCoordinator.DisposeOutsideSubscriptionAsync();
+
+    private ValueTask InitializeInputKeyDownSubscriptionAsync()
+        => ObserverCoordinator.InitializeInputKeyDownAsync( ElementId, ElementId );
+
+    private void SynchronizeStateFromValue()
+    {
+        if ( TimePickerTimeUtilities.TryGetTime( Value, out TimeSpan time ) )
+        {
+            selectedTime = time;
+            inputText = FormatTime( selectedTime );
+        }
+        else if ( Value is not null )
+        {
+            throw new InvalidOperationException( $"Unsupported type {Value.GetType()}" );
+        }
+        else
+        {
+            selectedTime = GetDefaultTime();
+            inputText = null;
+        }
+    }
+
+    private void SynchronizeSelectionForOpen()
+    {
+        if ( TimePickerTimeUtilities.TryGetTime( Value, out TimeSpan time ) )
+        {
+            selectedTime = time;
+        }
+        else if ( TryNormalizeInputValue( inputText, out _, out TimeSpan parsedTime ) )
+        {
+            selectedTime = ClampTime( parsedTime );
+        }
+        else
+        {
+            selectedTime = GetDefaultTime();
+        }
+    }
+
+    private async Task CommitTimeAsync( TimeSpan time )
+    {
+        selectedTime = NormalizeTime( time );
+
+        if ( !Seconds )
+        {
+            selectedTime = new TimeSpan( selectedTime.Hours, selectedTime.Minutes, 0 );
+        }
+
+        selectedTime = ClampTime( selectedTime );
+
+        string normalizedValue = FormatInternalTime( selectedTime );
+
+        await CurrentValueHandler( normalizedValue );
+
+        inputText = FormatTime( selectedTime );
+        NotifyMenuStateChanged();
+    }
+
+    private async Task AdjustFocusedPartAsync( int direction )
+    {
+        switch ( focusedPart )
+        {
+            case TimePickerPart.Hour:
+                await CommitTimeAsync( selectedTime.Add( TimeSpan.FromHours( direction * SafeHourIncrement ) ) );
+                break;
+            case TimePickerPart.Minute:
+                await CommitTimeAsync( selectedTime.Add( TimeSpan.FromMinutes( direction * SafeMinuteIncrement ) ) );
+                break;
+            case TimePickerPart.Second:
+                await CommitTimeAsync( selectedTime.Add( TimeSpan.FromSeconds( direction ) ) );
+                break;
+            case TimePickerPart.Meridiem:
+                await ToggleMeridiemAsync();
+                break;
+        }
+    }
+
+    private async Task SetBoundaryAsync( bool useMaximum )
+    {
+        TimeSpan boundary = useMaximum
+            ? Max.HasValue ? NormalizeTime( Max.Value ) : new TimeSpan( 23, 59, Seconds ? 59 : 0 )
+            : Min.HasValue ? NormalizeTime( Min.Value ) : TimeSpan.Zero;
+
+        await CommitTimeAsync( boundary );
+    }
+
+    private void MoveFocusedPart( int direction )
+    {
+        List<TimePickerPart> parts = new()
+        {
+            TimePickerPart.Hour,
+            TimePickerPart.Minute,
+        };
+
+        if ( Seconds )
+        {
+            parts.Add( TimePickerPart.Second );
+        }
+
+        if ( !TimeAs24hr )
+        {
+            parts.Add( TimePickerPart.Meridiem );
+        }
+
+        int currentIndex = parts.IndexOf( focusedPart );
+        int nextIndex = ( currentIndex + direction + parts.Count ) % parts.Count;
+
+        FocusPart( parts[nextIndex] );
+    }
+
+    private int SafeHourIncrement => Math.Max( 1, HourIncrement );
+
+    private int SafeMinuteIncrement => Math.Max( 1, MinuteIncrement );
+
+    private int CurrentHour => selectedTime.Hours;
+
+    private int CurrentMinute => selectedTime.Minutes;
+
+    private int CurrentSecond => selectedTime.Seconds;
+
+    private bool IsPostMeridiem => CurrentHour >= 12;
+
+    private bool TryNormalizeInputValue( string value, out string normalizedValue, out TimeSpan result )
+        => TimePickerInputParser.TryNormalize(
+            value,
+            DisplayFormat,
+            EffectiveDisplayFormat,
+            Seconds,
+            TimeAs24hr,
+            IsPostMeridiem,
+            Min,
+            Max,
+            out normalizedValue,
+            out result );
+
+    private TimeSpan GetDefaultTime()
+        => TimePickerTimeUtilities.GetDefault( DefaultHour, DefaultMinute, Min, Max );
+
+    private TimeSpan ClampTime( TimeSpan time )
+        => TimePickerTimeUtilities.Clamp( time, Min, Max );
+
+    private static TimeSpan NormalizeTime( TimeSpan time )
+        => TimePickerTimeUtilities.Normalize( time );
+
+    private string FormatTime( TimeSpan time )
+        => TimePickerTimeUtilities.FormatDisplay( time, EffectiveDisplayFormat );
+
+    private static string FormatInternalTime( TimeSpan time )
+        => TimePickerTimeUtilities.FormatInternal( time );
+
+    private static string FormatNativeTime( TimeSpan time, bool includeSeconds )
+        => TimePickerTimeUtilities.FormatNative( time, includeSeconds );
+
+    private async Task DetectMobileDeviceAsync()
+    {
+        if ( DisableMobile || mobileDevice.HasValue )
+            return;
+
+        bool detectedMobileDevice;
+
+        if ( JSUtilitiesModule is Blazorise.Modules.JSUtilitiesModule utilitiesModule )
+        {
+            detectedMobileDevice = await utilitiesModule.IsMobileDevice();
+        }
+        else
+        {
+            string userAgent = await JSUtilitiesModule.GetUserAgent();
+            detectedMobileDevice = MobileDeviceDetector.IsMobile( userAgent );
+        }
+
+        if ( mobileDevice != detectedMobileDevice )
+        {
+            mobileDevice = detectedMobileDevice;
+
+            if ( UseNativeMobilePicker )
+            {
+                menuOpen = false;
+                focusMenuOnOpen = false;
+                await DisposeOutsidePointerSubscriptionAsync();
+            }
+
+            NotifyMenuStateChanged();
+            await InvokeAsync( StateHasChanged );
+        }
     }
 
     /// <summary>
     /// Handles the localization changed event.
     /// </summary>
-    /// <param name="sender">Object that raised the event.</param>
-    /// <param name="eventArgs">Data about the localization event.</param>
     private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
     {
-        ExecuteAfterRender( async () => await JSModule.UpdateLocalization( ElementRef, ElementId, GetLocalizationObject() ) );
+        inputText = Value is null ? inputText : FormatTime( selectedTime );
 
+        NotifyMenuStateChanged();
         await InvokeAsync( StateHasChanged );
     }
 
-    private object GetLocalizationObject()
-    {
-        var strings = Localizer.GetStrings();
-
-        return new
-        {
-            amPM = new[] { Localizer["AM"], Localizer["PM"] }
-        };
-    }
+    private void NotifyMenuStateChanged()
+        => MenuStateChanged?.Invoke();
 
     #endregion
 
@@ -432,12 +888,149 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
+    private PickerObserverCoordinator ObserverCoordinator
+        => observerCoordinator ??= new( DocumentObserver );
+
     /// <inheritdoc/>
     protected override OnScreenKeyboardInputType OnScreenKeyboardInputType => OnScreenKeyboardInputType.Time | OnScreenKeyboardInputType.Pickers;
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSTimePickerModule"/> instance.
+    /// Gets the text presented in the visible input.
     /// </summary>
+    protected string InputText => inputText;
+
+    /// <summary>
+    /// Gets the input type rendered for the active picker mode.
+    /// </summary>
+    protected string InputType => UseNativeMobilePicker ? "time" : "text";
+
+    /// <summary>
+    /// Gets the value rendered by the visible input.
+    /// </summary>
+    protected string VisibleInputText => UseNativeMobilePicker
+        ? ( Value is null ? null : FormatNativeTime( selectedTime, Seconds ) )
+        : InputText;
+
+    /// <summary>
+    /// Gets the minimum value rendered by the input.
+    /// </summary>
+    protected string InputMin => UseNativeMobilePicker && Min.HasValue
+        ? FormatNativeTime( Min.Value, includeSeconds: true )
+        : null;
+
+    /// <summary>
+    /// Gets the maximum value rendered by the input.
+    /// </summary>
+    protected string InputMax => UseNativeMobilePicker && Max.HasValue
+        ? FormatNativeTime( Max.Value, includeSeconds: true )
+        : null;
+
+    /// <summary>
+    /// Gets the step rendered by a native mobile input.
+    /// </summary>
+    protected string InputStep => UseNativeMobilePicker ? "any" : null;
+
+    /// <summary>
+    /// Gets the ARIA role used by the custom picker input.
+    /// </summary>
+    protected string InputRole => UseNativeMobilePicker ? null : "combobox";
+
+    /// <summary>
+    /// Gets the ARIA popup type used by the custom picker input.
+    /// </summary>
+    protected string InputAriaHasPopup => UseNativeMobilePicker ? null : "dialog";
+
+    /// <summary>
+    /// Gets the ARIA expanded state used by the custom picker input.
+    /// </summary>
+    protected string InputAriaExpanded => UseNativeMobilePicker ? null : MenuVisible.ToString().ToLowerInvariant();
+
+    /// <summary>
+    /// Gets the ARIA control target used by the custom picker input.
+    /// </summary>
+    protected string InputAriaControls => UseNativeMobilePicker ? null : MenuId;
+
+    /// <summary>
+    /// Gets whether keyboard opening keys are enabled for the visible input.
+    /// </summary>
+    protected bool InputKeyboardNavigationEnabled => !UseNativeMobilePicker
+        && !IsDisabled
+        && !ReadOnly
+        && !Plaintext
+        && OpenTrigger.HasFlag( PickerOpenTrigger.OpenKeys );
+
+    /// <summary>
+    /// Gets the format presented in the visible input.
+    /// </summary>
+    protected string EffectiveDisplayFormat => PickerDateTimeFormat.Normalize( DisplayFormat ?? ( Seconds ? "HH:mm:ss" : "HH:mm" ) );
+
+    /// <summary>
+    /// Gets the wrapper classes supplied by the active provider.
+    /// </summary>
+    protected string PickerContainerClassNames
+    {
+        get
+        {
+            return string.Join(
+                " ",
+                new[] { ProviderPickerContainerClassNames, Classes?.Wrapper }
+                    .Where( value => !string.IsNullOrWhiteSpace( value ) ) );
+        }
+    }
+
+    /// <summary>
+    /// Gets the wrapper styles supplied through <see cref="TimePickerStyles"/>.
+    /// </summary>
+    protected string PickerContainerStyleNames => Styles?.Wrapper;
+
+    /// <summary>
+    /// Gets only the active provider's TimePicker container classes.
+    /// </summary>
+    protected string ProviderPickerContainerClassNames => ClassProvider.TimePickerContainer( Inline, MenuVisible );
+
+    /// <summary>
+    /// Gets whether the custom picker menu is visible.
+    /// </summary>
+    protected internal bool MenuVisible => !UseNativeMobilePicker && !Plaintext && ( Inline || menuOpen );
+
+    /// <summary>
+    /// Gets whether the browser's native mobile picker should be used.
+    /// </summary>
+    internal bool UseNativeMobilePicker => !DisableMobile
+        && mobileDevice == true
+        && !Plaintext
+        && !Inline;
+
+    internal bool FocusMenuOnOpen => focusMenuOnOpen;
+
+    internal bool MenuInteractionDisabled => IsDisabled || ReadOnly || Plaintext;
+
+    /// <summary>
+    /// Gets the identifier of the custom picker menu.
+    /// </summary>
+    protected internal string MenuId => $"{ElementId}-menu";
+
+    internal string MenuControlsId => $"{MenuId}-controls";
+
+    internal string PickerContainerId => $"{ElementId}-container";
+
+    internal TimePickerMenuContext<TValue> MenuContext
+        => menuContext ??= new( this );
+
+    internal TimeSpan PickerSelectedTime => selectedTime;
+
+    internal TimePickerPart PickerFocusedPart => focusedPart;
+
+    internal IClassProvider PickerClassProvider => ClassProvider;
+
+    internal ITextLocalizer PickerLocalizer => Localizer;
+
+    /// <summary>
+    /// Gets or sets the legacy TimePicker JavaScript module.
+    /// </summary>
+    /// <remarks>
+    /// Retained for source compatibility. The native TimePicker implementation does not use this module.
+    /// </remarks>
     [Inject] public IJSTimePickerModule JSModule { get; set; }
 
     /// <summary>
@@ -451,9 +1044,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     [Inject] protected ITextLocalizer<TimePicker<TValue>> Localizer { get; set; }
 
     /// <summary>
-    /// Converts the supplied time format into the internal time format.
+    /// Gets or sets the document observer used to detect pointer interactions outside of the picker.
     /// </summary>
-    [Inject] protected IFlatPickrDateTimeDisplayFormatConverter DisplayFormatConverter { get; set; }
+    [Inject] protected IDocumentObserver DocumentObserver { get; set; }
 
     /// <summary>
     /// The earliest time to accept.
@@ -466,7 +1059,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     [Parameter] public TimeSpan? Max { get; set; }
 
     /// <summary>
-    /// Specifies the display format of the time input.
+    /// Specifies the display format of the time input using the picker format syntax supported by earlier versions.
     /// </summary>
     [Parameter] public string DisplayFormat { get; set; }
 
@@ -481,12 +1074,17 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     [Parameter] public bool Inline { get; set; }
 
     /// <summary>
-    /// If enabled, it always uses the non-native picker. Default is true.
+    /// Defines which interactions can open the time menu.
+    /// </summary>
+    [Parameter] public PickerOpenTrigger OpenTrigger { get; set; } = PickerOpenTrigger.All;
+
+    /// <summary>
+    /// Prevents the browser's native picker from being used on mobile devices.
     /// </summary>
     [Parameter] public bool DisableMobile { get; set; } = true;
 
     /// <summary>
-    /// If enabled, the calendar menu will be positioned as static.
+    /// If enabled, the time menu will be positioned as static.
     /// </summary>
     [Parameter] public bool StaticPicker { get; set; } = true;
 
@@ -513,7 +1111,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// <summary>
     /// Specifies the initial value of the minute element.
     /// </summary>
-    [Parameter] public int DefaultMinute { get; set; } = 0;
+    [Parameter] public int DefaultMinute { get; set; }
 
     #endregion
 }

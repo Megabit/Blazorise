@@ -1,0 +1,196 @@
+@page "/docs/extensions/code-editor"
+
+<Seo Canonical="/docs/extensions/code-editor" Title="Blazorise CodeEditor component" Description="Learn how to use the Blazorise CodeEditor component for source editing, options, events, diagnostics, custom languages, completion, and formatting." />
+
+<DocsPageTitle Path="Extensions/CodeEditor">
+    Blazorise CodeEditor component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Add a full-featured source editor to a Blazorise application, starting with two-way binding and growing into custom language tooling.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    <Code>CodeEditor</Code> provides syntax highlighting, diagnostics, completion, formatting, keyboard commands, and strongly typed APIs for common editing scenarios.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The examples below are ordered from basic to advanced. Start with <Code>Value</Code> and <Code>Language</Code>; add the other APIs only when the application needs them.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Structure
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Paragraph>
+            <Code Tag>CodeEditor</Code> is the main editor component. It binds the document value and exposes options, events, diagnostics, completion, formatting, and programmatic commands.
+        </Paragraph>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Code Tag>Feedback</Code> displays validation feedback when the editor is used inside a <Code>Validation</Code> component.
+                </Paragraph>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Code Tag>CodeEditorCustomLanguage</Code> optionally declares a custom language inside the editor.
+                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem>
+                        <Paragraph>
+                            <Code Tag>CodeEditorTokenizer</Code> contains the syntax-highlighting rules for the custom language.
+                        </Paragraph>
+                        <UnorderedList>
+                            <UnorderedListItem>
+                                <Paragraph>
+                                    <Code Tag>CodeEditorToken</Code> defines a regular-expression rule and the token name applied to matching text.
+                                </Paragraph>
+                            </UnorderedListItem>
+                            <UnorderedListItem>
+                                <Paragraph>
+                                    <Code Tag>CodeEditorTokenizerState</Code> groups rules for a named tokenizer state, such as a quoted string or multiline comment.
+                                </Paragraph>
+                            </UnorderedListItem>
+                        </UnorderedList>
+                    </UnorderedListItem>
+                </UnorderedList>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install the CodeEditor extension package.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="CodeEditorNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Service registration">
+        Register CodeEditor after the main Blazorise services and UI provider. The extension serves and loads its editor assets automatically.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="CodeEditorServiceRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        Add the extension namespace to the application's main <Code>_Imports.razor</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="CodeEditorImportsExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Binding">
+        Use <Code>@@bind-Value</Code> for normal two-way binding and choose one of the identifiers from <Code>CodeEditorLanguage</Code>. <Code>Immediate</Code> sends user changes to .NET while typing.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="CodeEditorBasicExample" Outlined FullWidth>
+        <CodeEditorBasicExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Options">
+        <Code>EditorOptions</Code> contains editor-specific settings. <Code>Ready</Code>, <Code>Focused</Code>, <Code>Blurred</Code>, and <Code>ContentChanged</Code> describe the editor lifecycle and user activity. Debouncing keeps frequent server-side value updates under control.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="CodeEditorOptionsExample" Outlined FullWidth>
+        <CodeEditorOptionsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Diagnostics">
+        Built-in language support can report syntax diagnostics for supported languages. <Code>GetDiagnostics</Code> returns a snapshot of the markers currently available, including markers supplied through the <Code>Diagnostics</Code> parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="CodeEditorDiagnosticsExample" Outlined FullWidth>
+        <CodeEditorDiagnosticsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <Code>GetDiagnostics</Code> does not start or wait for asynchronous language analysis. Diagnostics describe the markers available at the time of the call; they are not a synchronous compiler or parser. Use a dedicated parser or application validator when validation must complete deterministically.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Validation">
+        Put <Code>CodeEditor</Code> inside the standard Blazorise validation components. The validator runs only when requested and uses the currently available diagnostics to reject documents that contain error markers.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="CodeEditorValidationExample" Outlined FullWidth>
+        <CodeEditorValidationExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Completion">
+        Use <Code>CompletionItems</Code> when the same suggestions are valid everywhere. <Code>InsertAsSnippet</Code> enables numbered placeholders, and <Code>CompletionTriggerCharacters</Code> can open suggestions after characters such as a dot. Press <Code>Ctrl+Space</Code> to request suggestions manually.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="CodeEditorCompletionExample" Outlined FullWidth>
+        <CodeEditorCompletionExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom language">
+        Supply <Code>Languages</Code> when editing a domain-specific language. Each <Code>CodeEditorLanguageDefinition</Code> registers an identifier, while its <Code>Tokenizer</Code> maps regular-expression rules to token names used for syntax highlighting.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="CodeEditorCustomLanguageExample" Outlined FullWidth>
+        <CodeEditorCustomLanguageExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageParagraph>
+    Custom languages can also be composed declaratively with <Code>CodeEditorCustomLanguage</Code>, <Code>CodeEditorTokenizer</Code>, <Code>CodeEditorTokenizerState</Code>, and <Code>CodeEditorToken</Code>. Named tokenizer states are useful for strings, comments, and other constructs that need enter-and-exit rules. Language registrations are page-wide, so reuse one definition for each language identifier.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Dynamic completion">
+        Use <Code>CodeEditorCompletionProvider.ItemsProvider</Code> when suggestions depend on the document or cursor. The callback receives the current value, line, position, word, and trigger character. An item's optional <Code>Range</Code> tells the editor exactly what text to replace.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="CodeEditorContextualCompletionExample" Outlined FullWidth>
+        <CodeEditorContextualCompletionExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageParagraph>
+    Completion positions and ranges use one-based line and column values. Return an empty list when the current context should not offer suggestions. Prefer <Code>CompletionItems</Code> for fixed data because static suggestions stay entirely in the browser; use <Code>ItemsProvider</Code> only when .NET needs to inspect the context.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Formatting">
+        A <Code>FormattingProvider</Code> connects the Format Document action to application code. Call <Code>FormatDocument</Code> from a button, or let users invoke the standard keyboard command.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="CodeEditorFormattingExample" Outlined FullWidth>
+        <CodeEditorFormattingExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Keyboard commands
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Common commands include <Code>Ctrl+Space</Code> for completion, <Code>Ctrl+F</Code> or <Code>Cmd+F</Code> for find, and <Code>Shift+Alt+F</Code> or <Code>Shift+Option+F</Code> for Format Document when a formatting provider is available.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Programmatic control
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Keep an <Code>@@ref</Code> when the application needs commands that are not naturally expressed through parameters. Common methods include <Code>Focus</Code>, <Code>GetValue</Code>, <Code>SetValue</Code>, <Code>GetSelection</Code>, <Code>SetSelection</Code>, <Code>RevealLine</Code>, <Code>Resize</Code>, <Code>GetDiagnostics</Code>, and <Code>FormatDocument</Code>.
+    Update language, theme, diagnostics, completion, formatting, and custom language configuration through component parameters.
+</DocsPageParagraph>
+
+<ComponentApiDocs ComponentTypes="[typeof(Blazorise.CodeEditor.CodeEditor)]" />

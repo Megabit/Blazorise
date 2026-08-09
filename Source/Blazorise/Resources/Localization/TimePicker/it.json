@@ -2,6 +2,10 @@
   "culture": "it",
   "translations": {
     "AM": "AM",
-    "PM": "PM"
+    "PM": "PM",
+    "Time": "Ora",
+    "Hour": "Ora",
+    "Minute": "Minuto",
+    "Second": "Secondo"
   }
 }

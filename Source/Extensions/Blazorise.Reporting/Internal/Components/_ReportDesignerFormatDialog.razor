@@ -1,0 +1,145 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<ModalHeader>
+    <ModalTitle>@Localize( "Format" )</ModalTitle>
+    <CloseButton Clicked="@Close" />
+</ModalHeader>
+<ModalBody>
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Category" )</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs8">
+            <Select TValue="ReportFormatCategory" Value="@CurrentCategory" ValueChanged="@OnCategoryChanged" Size="Size.Small">
+                @foreach ( (ReportFormatCategory Value, string Text) option in CategoryOptions )
+                {
+                    <SelectItem TValue="ReportFormatCategory" Value="@option.Value">@Localize( option.Text )</SelectItem>
+                }
+            </Select>
+        </FieldBody>
+    </Field>
+
+    @if ( SupportsTypedCustomFormat )
+    {
+        <Field Horizontal>
+            <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Format" )</FieldLabel>
+            <FieldBody ColumnSize="ColumnSizeIs8">
+                <Check TValue="bool" Value="@useCustomFormat" ValueChanged="@OnUseCustomFormatChanged">@Localize( "Use custom" )</Check>
+            </FieldBody>
+        </Field>
+
+        @if ( useCustomFormat )
+        {
+            <Field Horizontal>
+                <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Custom" )</FieldLabel>
+                <FieldBody ColumnSize="ColumnSizeIs8">
+                    <TextInput Value="@format.CustomFormat" ValueChanged="@OnTypedCustomFormatChanged" Placeholder="@CustomFormatPlaceholder" Size="Size.Small" />
+                </FieldBody>
+            </Field>
+        }
+    }
+
+    @if ( IsNumericCategory && !useCustomFormat )
+    {
+        <Field Horizontal>
+            <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Decimal places" )</FieldLabel>
+            <FieldBody ColumnSize="ColumnSizeIs8">
+                <NumericInput TValue="int?" Value="@NumericFormat.DecimalPlaces" ValueChanged="@OnDecimalPlacesChanged" Min="0" Max="8" Size="Size.Small" />
+            </FieldBody>
+        </Field>
+
+        @if ( NumberFormat is not null )
+        {
+            <Field Horizontal>
+                <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Thousands" )</FieldLabel>
+                <FieldBody ColumnSize="ColumnSizeIs8">
+                    <Check TValue="bool" Value="@NumberFormat.UseThousandsSeparator" ValueChanged="@OnUseThousandsSeparatorChanged">@Localize( "Use separator" )</Check>
+                </FieldBody>
+            </Field>
+        }
+
+        @if ( CurrencyFormat is not null )
+        {
+            <Field Horizontal>
+                <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Symbol" )</FieldLabel>
+                <FieldBody ColumnSize="ColumnSizeIs8">
+                    <TextInput Value="@CurrencyFormat.CurrencySymbol" ValueChanged="@OnCurrencySymbolChanged" Size="Size.Small" />
+                </FieldBody>
+            </Field>
+        }
+
+        <Field Horizontal>
+            <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Negative" )</FieldLabel>
+            <FieldBody ColumnSize="ColumnSizeIs8">
+                <Select TValue="ReportNegativeNumberFormat" Value="@NumericFormat.NegativeNumberFormat" ValueChanged="@OnNegativeNumberFormatChanged" Size="Size.Small">
+                    @foreach ( (ReportNegativeNumberFormat Value, string Text) option in NegativeNumberFormatOptions )
+                    {
+                        <SelectItem TValue="ReportNegativeNumberFormat" Value="@option.Value">@Localize( option.Text )</SelectItem>
+                    }
+                </Select>
+            </FieldBody>
+        </Field>
+    }
+
+    @if ( TemporalFormat is not null && !useCustomFormat )
+    {
+        <Field Horizontal>
+            <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Style" )</FieldLabel>
+            <FieldBody ColumnSize="ColumnSizeIs8">
+                <Select TValue="ReportDateFormat" Value="@TemporalFormat.DateFormat" ValueChanged="@OnDateFormatChanged" Size="Size.Small">
+                    @foreach ( (ReportDateFormat Value, string Text) option in DateFormatOptions )
+                    {
+                        <SelectItem TValue="ReportDateFormat" Value="@option.Value">@Localize( option.Text )</SelectItem>
+                    }
+                </Select>
+            </FieldBody>
+        </Field>
+    }
+
+    @if ( BooleanFormat is not null )
+    {
+        <Field Horizontal>
+            <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "True text" )</FieldLabel>
+            <FieldBody ColumnSize="ColumnSizeIs8">
+                <TextInput Value="@BooleanFormat.TrueText" ValueChanged="@OnTrueTextChanged" Size="Size.Small" />
+            </FieldBody>
+        </Field>
+        <Field Horizontal>
+            <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "False text" )</FieldLabel>
+            <FieldBody ColumnSize="ColumnSizeIs8">
+                <TextInput Value="@BooleanFormat.FalseText" ValueChanged="@OnFalseTextChanged" Size="Size.Small" />
+            </FieldBody>
+        </Field>
+    }
+
+    @if ( CustomFormat is not null )
+    {
+        <Field Horizontal>
+            <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Custom" )</FieldLabel>
+            <FieldBody ColumnSize="ColumnSizeIs8">
+                <TextInput Value="@CustomFormat.Format" ValueChanged="@OnCustomFormatChanged" Size="Size.Small" />
+            </FieldBody>
+        </Field>
+    }
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Culture" )</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs8">
+            <Select TValue="string" Value="@CurrentCultureName" ValueChanged="@OnCultureNameChanged" Size="Size.Small">
+                <SelectItem TValue="string" Value="@string.Empty">@Localize( "Default (application culture)" )</SelectItem>
+                @foreach ( (string Value, string Text) option in CultureOptions )
+                {
+                    <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
+                }
+            </Select>
+        </FieldBody>
+    </Field>
+
+    <Div Class="b-report-dialog-preview" Border="BorderIs1" Padding="PaddingIs2" Margin="MarginIs3FromTop">
+        <Paragraph Margin="MarginIs1FromBottom" TextSize="TextSizeSmall" TextColor="TextColorSecondary">@Localize( "Preview" )</Paragraph>
+        <Strong>@PreviewText</Strong>
+    </Div>
+</ModalBody>
+<ModalFooter>
+    <Button Color="Color.Primary" Clicked="@Confirm" Size="Size.Small">@Localize( "OK" )</Button>
+    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">@Localize( "Cancel" )</Button>
+</ModalFooter>

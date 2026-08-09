@@ -1,0 +1,118 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Gantt</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">TaskItem</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>tasks</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">Milestones</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>milestones</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">Date</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedDate</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">SelectedView</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">GanttView</span><span class="enumValue">.Week</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">DurationField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Duration</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">IncludeMilestonesInAutoExpandView</span>
+       <span class="htmlAttributeName">MilestoneStyling</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ApplyMilestoneStyling</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ChildContent</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumns</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Title</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Task</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Expandable</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px( 230 )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Start</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px( 130 )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">End</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px( 130 )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Visible</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Duration</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px( 90 )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextAlignment</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextAlignment</span><span class="enumValue">.Center</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Visible</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">GanttColumns</span><span class="htmlTagDelimiter">&gt;</span>
+
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttToolbar</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttViews</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttWeekView</span> <span class="htmlAttributeName">TimelineCellWidth</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">92</span><span class="quot">&quot;</span> <span class="htmlAttributeName">RowHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">44</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">GanttViews</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ChildContent</span><span class="htmlTagDelimiter">&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MilestoneTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Badge</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>GetMilestoneBadgeColor( context.Milestone )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Pill</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="atSign">&#64;</span>context.Title
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Badge</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">MilestoneTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Gantt</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    <span class="keyword">private</span> List&lt;TaskItem&gt; tasks = CreateTasks();
+
+    <span class="keyword">private</span> List&lt;GanttMilestone&gt; milestones = CreateMilestones();
+
+    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;TaskItem&gt; CreateTasks()
+    {
+        DateTime baseDate = GetStartOfWeek( DateTime.Today, DayOfWeek.Monday );
+
+        List&lt;TaskItem&gt; result = <span class="keyword">new</span>()
+        {
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Milestone release&quot;</span>, Start = baseDate, End = baseDate.AddDays( <span class="number">14</span> ) },
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;2&quot;</span>, ParentId = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Planning&quot;</span>, Start = baseDate, End = baseDate.AddDays( <span class="number">2</span> ) },
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;3&quot;</span>, ParentId = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Design&quot;</span>, Start = baseDate.AddDays( <span class="number">2</span> ), End = baseDate.AddDays( <span class="number">6</span> ) },
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;4&quot;</span>, ParentId = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Development&quot;</span>, Start = baseDate.AddDays( <span class="number">5</span> ), End = baseDate.AddDays( <span class="number">11</span> ) },
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;5&quot;</span>, ParentId = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Validation&quot;</span>, Start = baseDate.AddDays( <span class="number">10</span> ), End = baseDate.AddDays( <span class="number">13</span> ) },
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;6&quot;</span>, ParentId = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Rollout&quot;</span>, Start = baseDate.AddDays( <span class="number">13</span> ), End = baseDate.AddDays( <span class="number">14</span> ) },
+        };
+
+        <span class="keyword">foreach</span> ( TaskItem item <span class="keyword">in</span> result )
+        {
+            item.Duration = Math.Max( <span class="number">1</span>, (<span class="keyword">int</span>)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        <span class="keyword">return</span> result;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;GanttMilestone&gt; CreateMilestones()
+    {
+        DateTime baseDate = GetStartOfWeek( DateTime.Today, DayOfWeek.Monday );
+
+        <span class="keyword">return</span> <span class="keyword">new</span>()
+        {
+            <span class="keyword">new</span>() { Date = baseDate.AddDays( <span class="number">2</span> ), Title = <span class="string">&quot;Kickoff&quot;</span> },
+            <span class="keyword">new</span>() { Date = baseDate.AddDays( <span class="number">6</span> ), Title = <span class="string">&quot;Design approved&quot;</span> },
+            <span class="keyword">new</span>() { Date = baseDate.AddDays( <span class="number">11</span> ), Title = <span class="string">&quot;Beta&quot;</span> },
+            <span class="keyword">new</span>() { Date = baseDate.AddDays( <span class="number">14</span> ), Title = <span class="string">&quot;Launch&quot;</span>, TextColor = TextColor.Danger, LineStyle = GanttMilestoneLineStyle.Solid },
+        };
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> ApplyMilestoneStyling( GanttMilestone milestone, GanttMilestoneStyling styling )
+    {
+        <span class="keyword">if</span> ( milestone.Title == <span class="string">&quot;Beta&quot;</span> )
+        {
+            styling.TextColor = TextColor.Warning;
+            styling.LineStyle = GanttMilestoneLineStyle.Dotted;
+        }
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> Color GetMilestoneBadgeColor( GanttMilestone milestone )
+    {
+        <span class="keyword">return</span> milestone.Title <span class="keyword">switch</span>
+        {
+            <span class="string">&quot;Launch&quot;</span> =&gt; Color.Danger,
+            <span class="string">&quot;Beta&quot;</span> =&gt; Color.Warning,
+            _ =&gt; Color.Primary,
+        };
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> DateTime GetStartOfWeek( DateTime value, DayOfWeek firstDayOfWeek )
+    {
+        <span class="keyword">int</span> diff = ( <span class="number">7</span> + ( value.DayOfWeek - firstDayOfWeek ) ) % <span class="number">7</span>;
+
+        <span class="keyword">return</span> value.Date.AddDays( -diff );
+    }
+
+    <span class="keyword">public</span> <span class="keyword">class</span> TaskItem
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> Id { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> ParentId { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Title { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> DateTime Start { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> DateTime End { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">int</span> Duration { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

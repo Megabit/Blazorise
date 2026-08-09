@@ -9,13 +9,18 @@ using Lambda2Js;
 
 namespace Blazorise.Charts;
 
+/// <summary>
+/// Converts lambda values during serialization.
+/// </summary>
 public class LambdaConverter<T> : JsonConverter<Expression<T>>
 {
+    /// <inheritdoc />
     public override Expression<T> Read( ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options )
     {
         throw new NotImplementedException();
     }
 
+    /// <inheritdoc />
     public override void Write( Utf8JsonWriter writer, Expression<T> value, JsonSerializerOptions options )
     {
         var jsBody = value.CompileToJavascript( new JavascriptCompilationOptions( JsCompilationFlags.BodyOnly ) );

@@ -94,7 +94,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Line chart">
-        Use a line chart to show a trend across ordered categories.
+        Use a line chart to show a trend across ordered categories. Set <Code>Outline</Code> on a line series to render a wider, translucent stroke behind it, highlighting the line without duplicating the series.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="SvgLineChartExample" Outlined FullWidth>
         <SvgLineChartExample />
@@ -102,7 +102,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Axis label density" New>
+    <DocsPageSectionHeader Title="Label density" New>
         Use label options to limit crowded category and time axes while preserving readable labels.
     </DocsPageSectionHeader>
     <DocsPageParagraph>
@@ -133,7 +133,9 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Custom colors">
-        Use custom color values when series should follow a brand palette or CSS variable.
+        <Code>Color</Code> accepts CSS color strings directly, including hexadecimal, <Code>rgb()</Code>, and <Code>var()</Code> values.
+        When colors need to be assembled in C#, the core <Code>CssColor</Code> helpers are also available to SVG charts,
+        component <Code>TextColor</Code> and <Code>Background</Code>, and border utilities.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="SvgCustomColorsChartExample" Outlined FullWidth>
         <SvgCustomColorsChartExample />
@@ -150,7 +152,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Stacking, interaction, and time labels">
+    <DocsPageSectionHeader Title="Chart features">
         Combine stacked series, grouped tooltip interaction, axis tick callbacks, and time-formatted category labels.
     </DocsPageSectionHeader>
     <DocsPageParagraph>
@@ -162,9 +164,18 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Continuous time axis">
+    <DocsPageSectionHeader Title="Time axis">
         Use continuous time scaling when sample spacing should match the actual timestamp distance.
     </DocsPageSectionHeader>
+    <DocsPageParagraph>
+        Continuous time axes use UTC milliseconds internally and display values in the <Code>TimeZone</Code> configured on <Code>SvgChartTimeAxis</Code>. The default is <Code>TimeZoneInfo.Local</Code>.
+    </DocsPageParagraph>
+    <DocsPageParagraph>
+        A <Code>DateTime</Code> with <Code>Kind</Code> set to <Code>Utc</Code> or <Code>Local</Code> represents an instant and is converted to the configured time zone. A <Code>DateTime</Code> with <Code>Kind</Code> set to <Code>Unspecified</Code> is interpreted as a wall-clock value in the configured time zone. Axis labels and default tooltips use the same conversion and format.
+    </DocsPageParagraph>
+    <DocsPageParagraph>
+        In Blazor Server, <Code>TimeZoneInfo.Local</Code> is the server time zone and may differ from the browser user's time zone. Pass the user's <Code>TimeZoneInfo</Code> to <Code>TimeZone</Code> when user-local display is required. Blazorise does not infer the browser time zone automatically.
+    </DocsPageParagraph>
     <DocsPageSectionContent Code="SvgTimeAxisChartExample" Outlined FullWidth>
         <SvgTimeAxisChartExample />
     </DocsPageSectionContent>
@@ -189,7 +200,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Polar area chart">
+    <DocsPageSectionHeader Title="Polar area">
         Use a polar area chart to compare values by radial length.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="SvgPolarAreaChartExample" Outlined FullWidth>

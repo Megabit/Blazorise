@@ -1,0 +1,64 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( ResolvedDataSources, Definition?.FormulaFields, Definition?.RunningTotals, selectedFormulaFieldName, selectedRunningTotalName, Localize )"
+                 NodeClicked="@FieldsNodeClicked"
+                 NodeDoubleClicked="@FieldsNodeDoubleClicked"
+                 NodeContextMenu="@FieldsNodeContextMenu"
+                 NodeDragStarted="@FieldsNodeDragStarted"
+                 NodeDragEnded="@NodeDragEnded" />
+
+<ContextMenu @ref="formulaFieldContextMenuRef">
+    <ContextMenuBody Width="Width.Rem().Min( 12 )">
+        <ContextMenuItem Clicked="@OnNewFormulaFieldContextMenuClicked">@NewFormulaFieldContextMenuText</ContextMenuItem>
+
+        @if ( IsFormulaFieldContextMenuTarget )
+        {
+            <ContextMenuDivider />
+                <ContextMenuItem Clicked="@OnEditFormulaFieldContextMenuClicked">@Localize( "Edit" )</ContextMenuItem>
+                <ContextMenuItem Clicked="@OnRenameFormulaFieldContextMenuClicked">@Localize( "Rename" )</ContextMenuItem>
+            <ContextMenuDivider />
+                <ContextMenuItem Clicked="@OnDeleteFormulaFieldContextMenuClicked">@Localize( "Delete" )</ContextMenuItem>
+        }
+    </ContextMenuBody>
+</ContextMenu>
+
+<ContextMenu @ref="runningTotalContextMenuRef">
+    <ContextMenuBody Width="Width.Rem().Min( 12 )">
+        <ContextMenuItem Clicked="@OnNewRunningTotalContextMenuClicked">@NewRunningTotalContextMenuText</ContextMenuItem>
+
+        @if ( IsRunningTotalContextMenuTarget )
+        {
+            <ContextMenuDivider />
+                <ContextMenuItem Clicked="@OnEditRunningTotalContextMenuClicked">@Localize( "Edit" )</ContextMenuItem>
+                <ContextMenuItem Clicked="@OnRenameRunningTotalContextMenuClicked">@Localize( "Rename" )</ContextMenuItem>
+            <ContextMenuDivider />
+                <ContextMenuItem Clicked="@OnDeleteRunningTotalContextMenuClicked">@Localize( "Delete" )</ContextMenuItem>
+        }
+    </ContextMenuBody>
+</ContextMenu>
+
+<ContextMenu @ref="dataSourceContextMenuRef">
+    <ContextMenuBody Width="Width.Rem().Min( 12 )">
+                <ContextMenuItem Clicked="@OnRefreshDataSourceContextMenuClicked">@Localize( "Refresh" )</ContextMenuItem>
+        <ContextMenuDivider />
+                <ContextMenuItem Clicked="@OnDeleteDataSourceContextMenuClicked">@Localize( "Delete" )</ContextMenuItem>
+    </ContextMenuBody>
+</ContextMenu>
+
+<Div Display="DisplayNone">
+    <_ReportDesignerFormulaFieldNameDialog @ref="formulaFieldNameDialogRef"
+                                           Confirmed="@FormulaFieldNameConfirmed" />
+    <_ReportDesignerFormulaFieldNameDialog @ref="runningTotalNameDialogRef"
+                                           Confirmed="@RunningTotalNameConfirmed" />
+    <_ReportDesignerFormulaDialog @ref="formulaDialogRef"
+                                  Definition="@Definition"
+                                  Data="@Data"
+                                  SourceDataSources="@ResolvedDataSources"
+                                  Confirmed="@FormulaFieldFormulaConfirmed" />
+    <_ReportDesignerRunningTotalDialog @ref="runningTotalDialogRef"
+                                       Definition="@Definition"
+                                       Data="@Data"
+                                       SourceDataSources="@ResolvedDataSources"
+                                       Confirmed="@RunningTotalDialogConfirmed" />
+</Div>

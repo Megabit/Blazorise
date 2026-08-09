@@ -9,6 +9,9 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.RichTextEdit;
 
+/// <summary>
+/// Edits formatted HTML content through a Quill-powered input surface.
+/// </summary>
 public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
 {
     #region Members

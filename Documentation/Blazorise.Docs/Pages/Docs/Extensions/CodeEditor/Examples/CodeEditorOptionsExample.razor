@@ -1,0 +1,72 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<CodeEditor @ref="@editor"
+            @bind-Value="@sourceCode"
+            Language="@CodeEditorLanguage.JavaScript"
+            EditorOptions="@editorOptions"
+            Immediate
+            Debounce
+            DebounceInterval="250"
+            Ready="@OnReady"
+            ContentChanged="@OnContentChanged"
+            Focused="@OnFocused"
+            Blurred="@OnBlurred"
+            Height="220.Px()" />
+
+<Div Display="Display.Flex" Flex="Flex.AlignItems.Center" Gap="Gap.Is3" Margin="Margin.Is3.FromTop">
+    <Button Color="Color.Primary" Clicked="@FocusEditor">Focus editor</Button>
+    <Span>@status</Span>
+</Div>
+
+@code {
+    private CodeEditor editor;
+
+    private string status = "Waiting for the editor";
+
+    private string sourceCode = """
+const greeting = name => `Hello, ${name}!`;
+
+console.log(greeting("Blazorise"));
+""";
+
+    private readonly CodeEditorOptions editorOptions = new()
+    {
+        Minimap = false,
+        WordWrap = true,
+        TabSize = 2,
+        RenderWhitespace = true,
+        ScrollBeyondLastLine = false,
+        FontSize = 14,
+    };
+
+    private Task FocusEditor()
+        => editor?.Focus() ?? Task.CompletedTask;
+
+    private Task OnReady( CodeEditorReadyEventArgs eventArgs )
+    {
+        status = $"Ready: {eventArgs.ElementId}";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnContentChanged( string value )
+    {
+        status = $"Changed: {value.Length} characters";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnFocused()
+    {
+        status = "Focused";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnBlurred()
+    {
+        status = "Blurred";
+
+        return Task.CompletedTask;
+    }
+}

@@ -1,0 +1,463 @@
+.ant-picker-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    anchor-name: --ant-datepicker-anchor;
+    anchor-scope: --ant-datepicker-anchor;
+
+    &.ant-picker-container-open {
+        z-index: var(--ant-picker-z-index-popup);
+    }
+}
+
+.ant-picker-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: calc(var(--ant-picker-z-index-popup) - 1);
+    background: transparent;
+    pointer-events: none;
+}
+
+.ant-picker-dropdown.ant-picker-panel-container {
+    position: absolute;
+    inset-block-start: calc(100% + var(--ant-margin-xxs));
+    inset-inline-start: 0;
+    z-index: var(--ant-picker-z-index-popup);
+    width: max-content;
+    min-width: calc(var(--ant-picker-cell-width) * 7 + var(--ant-padding-sm) * 2);
+    max-width: calc(100vw - 1rem);
+    max-height: calc(100vh - 1rem);
+    overflow: auto;
+    padding: var(--ant-padding-xs);
+    border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border-secondary);
+    border-radius: var(--ant-border-radius-lg);
+    background: var(--ant-color-bg-elevated);
+    color: var(--ant-color-text);
+    box-shadow: var(--ant-box-shadow-secondary);
+    font-family: var(--ant-font-family);
+    font-size: var(--ant-font-size);
+    line-height: var(--ant-line-height);
+    outline: 0;
+    pointer-events: auto;
+
+    &.ant-picker-dropdown-inline {
+        position: relative;
+        inset: auto;
+        margin-block-start: var(--ant-margin-xxs);
+        z-index: auto;
+    }
+
+    @supports (position-anchor: --ant-datepicker-anchor) and (anchor-scope: --ant-datepicker-anchor) {
+        &.ant-picker-dropdown-floating {
+            position: fixed;
+            position-anchor: --ant-datepicker-anchor;
+            inset: auto;
+            top: anchor(bottom);
+            inset-inline-start: anchor(start);
+            margin-block-start: var(--ant-margin-xxs);
+            position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+        }
+    }
+
+    .ant-picker-header {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: var(--ant-margin-xxs);
+        padding-block-end: var(--ant-padding-xxs);
+        border-block-end: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border-secondary);
+    }
+
+    .ant-picker-header-view {
+        border: 0;
+        border-radius: var(--ant-border-radius-sm);
+        background: transparent;
+        color: var(--ant-color-text-heading);
+        font-weight: var(--ant-font-weight-strong);
+
+        select,
+        input {
+            border: 0;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            text-align: center;
+        }
+
+        select {
+            max-width: calc(var(--ant-control-height) * 3);
+            appearance: none;
+            cursor: pointer;
+        }
+
+        input {
+            width: calc(var(--ant-control-height) * 2);
+        }
+
+        &:hover,
+        &:focus-within {
+            background: var(--ant-picker-cell-hover-bg);
+        }
+    }
+
+    .ant-picker-header-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+
+        > button,
+        > span {
+            padding: var(--ant-padding-xxs) var(--ant-padding-xs);
+            border: 0;
+            border-radius: var(--ant-border-radius-sm);
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            font-weight: var(--ant-font-weight-strong);
+        }
+
+        > button {
+            cursor: pointer;
+
+            &:hover:not(:disabled) {
+                background: var(--ant-picker-cell-hover-bg);
+            }
+        }
+    }
+
+    .ant-picker-body {
+        box-sizing: border-box;
+        padding: var(--ant-padding-xs);
+        padding-block-start: 0;
+    }
+
+    .ant-picker-header-navigation,
+    .ant-picker-cell-in-view,
+    .ant-picker-month-cell {
+        cursor: pointer;
+
+        &:disabled {
+            cursor: not-allowed;
+        }
+    }
+
+    .ant-picker-cell {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: var(--ant-picker-cell-width);
+        min-height: var(--ant-control-height);
+        color: var(--ant-color-text-description);
+    }
+
+    .ant-picker-week-panel-row {
+        opacity: .65;
+    }
+
+    .ant-picker-cell-in-view {
+        padding: 0;
+        border: var(--ant-line-width) solid transparent;
+        background: transparent;
+        font: inherit;
+        border-radius: var(--ant-border-radius-sm);
+        color: var(--ant-color-text);
+
+        &:hover:not(:disabled) {
+            background: var(--ant-picker-cell-hover-bg);
+        }
+    }
+
+    .ant-picker-cell-outside-view {
+        color: var(--ant-color-text-disabled);
+    }
+
+    .ant-picker-cell-today {
+        border-color: var(--ant-color-primary);
+    }
+
+    .ant-picker-cell-in-range {
+        border-radius: 0;
+        background: var(--ant-picker-cell-active-with-range-bg);
+    }
+
+    .ant-picker-cell-selected,
+    .ant-picker-cell-range-start,
+    .ant-picker-cell-range-end {
+        background: var(--ant-color-primary);
+        border-color: var(--ant-color-primary);
+        color: var(--ant-color-text-light-solid);
+    }
+
+    .ant-picker-cell-range-start {
+        border-radius: 0;
+        border-start-start-radius: var(--ant-border-radius-sm);
+        border-end-start-radius: var(--ant-border-radius-sm);
+    }
+
+    .ant-picker-cell-range-end {
+        border-radius: 0;
+        border-start-end-radius: var(--ant-border-radius-sm);
+        border-end-end-radius: var(--ant-border-radius-sm);
+    }
+
+    .ant-picker-cell-range-start.ant-picker-cell-range-end {
+        border-radius: var(--ant-border-radius-sm);
+    }
+
+    &[data-week-mode="true"] .ant-picker-week-panel-row[data-week-hovered="true"],
+    &[data-week-mode="true"] .ant-picker-cell-in-view[data-week-hovered="true"] {
+        background: var(--ant-picker-cell-hover-bg);
+    }
+
+    &[data-week-mode="true"] .ant-picker-week-panel-row[data-week-hovered="true"] {
+        align-self: stretch;
+        height: auto;
+        border-radius: var(--ant-border-radius-sm);
+        opacity: 1;
+    }
+
+    &[data-week-mode="true"] .ant-picker-cell-in-view[data-week-hovered="true"] {
+        justify-self: stretch;
+        width: auto;
+        border-radius: 0;
+    }
+
+    &[data-week-mode="true"] .ant-picker-cell-in-range {
+        justify-self: stretch;
+        width: auto;
+    }
+
+    &[data-week-mode="true"] .ant-picker-cell-in-view[data-week-hover-start="true"] {
+        border-start-start-radius: var(--ant-border-radius-sm);
+        border-end-start-radius: var(--ant-border-radius-sm);
+    }
+
+    &[data-week-mode="true"] .ant-picker-cell-in-view[data-week-hover-end="true"] {
+        border-start-end-radius: var(--ant-border-radius-sm);
+        border-end-end-radius: var(--ant-border-radius-sm);
+    }
+
+    &[data-week-mode="true"] .ant-picker-week[data-week-fully-selected="true"] {
+        border-radius: var(--ant-border-radius-sm);
+        background: var(--ant-color-primary);
+    }
+
+    &[data-week-mode="true"] .ant-picker-week[data-week-selected="true"] {
+        .ant-picker-week-panel-row {
+            align-self: stretch;
+            height: auto;
+            border-radius: var(--ant-border-radius-sm);
+            opacity: 1;
+            background: var(--ant-color-primary);
+            color: var(--ant-color-text-light-solid);
+        }
+    }
+
+    .ant-picker-cell-focused {
+        outline: 2px solid var(--ant-color-primary);
+        outline-offset: var(--ant-line-width);
+    }
+
+    .ant-picker-cell-disabled {
+        color: var(--ant-color-text-disabled);
+        opacity: .25;
+        border-color: transparent;
+    }
+
+    .ant-picker-time-panel,
+    .ant-picker-footer {
+        display: flex;
+        align-items: center;
+        gap: var(--ant-margin-xxs);
+        padding-block-start: var(--ant-padding-xs);
+        border-block-start: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border-secondary);
+    }
+
+    .ant-picker-time-panel {
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        min-height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-sm) * 2);
+        padding: var(--ant-padding-xs);
+        background: var(--ant-color-bg-elevated);
+
+        > span {
+            flex: 0 0 var(--ant-padding-xs);
+            width: var(--ant-padding-xs);
+            color: var(--ant-color-text);
+            font-size: var(--ant-font-size);
+            font-weight: 400;
+            line-height: 1;
+            text-align: center;
+        }
+
+        .ant-picker-footer-button {
+            display: inline-flex;
+            flex: 0 0 var(--ant-picker-time-column-width);
+            align-items: center;
+            justify-content: center;
+            min-width: var(--ant-picker-time-column-width);
+            height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
+            margin-inline-start: var(--ant-margin-xxs);
+            padding: 0;
+            border: 0;
+            border-radius: var(--ant-border-radius-sm);
+            appearance: none;
+            background: transparent;
+            box-shadow: none;
+            color: var(--ant-color-text);
+            font-family: inherit;
+            font-size: var(--ant-font-size);
+            font-weight: 400;
+            line-height: 1;
+            cursor: pointer;
+            transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+
+            &:hover:not(:disabled),
+            &:focus-visible {
+                outline: 0;
+                background: var(--ant-picker-cell-hover-bg);
+            }
+        }
+    }
+
+    .ant-picker-footer {
+        justify-content: space-between;
+        min-height: var(--ant-picker-text-height);
+        padding: 0 var(--ant-padding-sm);
+        background: var(--ant-color-bg-elevated);
+
+        .ant-picker-footer-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: var(--ant-control-height-sm);
+            padding: 0 var(--ant-padding-sm);
+            border: 0;
+            border-radius: var(--ant-border-radius);
+            appearance: none;
+            background: transparent;
+            box-shadow: none;
+            color: var(--ant-color-primary);
+            font-family: inherit;
+            font-size: var(--ant-font-size-sm);
+            font-weight: 400;
+            line-height: 1;
+            cursor: pointer;
+            transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+
+            &:hover:not(:disabled),
+            &:focus-visible {
+                outline: 0;
+                background: var(--ant-picker-cell-hover-bg);
+            }
+        }
+    }
+
+    .ant-picker-weekdays,
+    .ant-picker-week {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        align-items: center;
+    }
+
+    .ant-picker-weekdays:has(.ant-picker-week-panel-row),
+    .ant-picker-week:has(.ant-picker-week-panel-row) {
+        grid-template-columns: var(--ant-picker-cell-width) repeat(7, minmax(0, 1fr));
+    }
+
+    .ant-picker-month-panel {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: repeat(4, calc(var(--ant-control-height-lg) + var(--ant-padding-lg) + var(--ant-line-width) * 2));
+        place-items: center;
+        gap: 0;
+        padding-inline: var(--ant-padding-xs);
+
+        &[data-calendar-view="decade"] .ant-picker-month-cell {
+            box-sizing: border-box;
+            width: calc(100% - var(--ant-padding-xs));
+            white-space: nowrap;
+        }
+    }
+
+    .ant-picker-month-cell {
+        width: calc(var(--ant-picker-cell-width) + var(--ant-padding-lg));
+        min-height: var(--ant-picker-cell-height);
+        padding: 0 var(--ant-padding-xxs);
+        border: var(--ant-line-width) solid transparent;
+        border-radius: var(--ant-border-radius-sm);
+        background: transparent;
+        color: inherit;
+        font: inherit;
+
+        &[data-outside="true"]:not(.ant-picker-cell-selected):not(.ant-picker-cell-disabled) {
+            color: var(--ant-color-text-disabled);
+        }
+
+        &:hover:not(:disabled):not(.ant-picker-cell-selected) {
+            background: var(--ant-picker-cell-hover-bg);
+        }
+
+        &.ant-picker-cell-selected {
+            border-color: var(--ant-color-primary);
+            background: var(--ant-color-primary);
+            color: var(--ant-color-text-light-solid);
+            font-weight: var(--ant-font-weight-strong);
+        }
+
+        &.ant-picker-cell-disabled {
+            border-color: transparent;
+            background: transparent;
+            color: var(--ant-color-text-disabled);
+            opacity: .25;
+        }
+    }
+
+    &:has(> .ant-picker-month-panel) {
+        padding: 0;
+
+        .ant-picker-header {
+            min-height: var(--ant-control-height-lg);
+            padding-inline: var(--ant-padding-xs);
+            padding-block-end: 0;
+        }
+
+        .ant-picker-header-navigation {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--ant-control-height-sm);
+            height: var(--ant-control-height-sm);
+            padding: 0;
+            color: var(--ant-color-text-tertiary);
+            font-size: var(--ant-font-size-sm);
+        }
+    }
+
+    .ant-picker-time-input {
+        box-sizing: border-box;
+        flex: 1 1 var(--ant-picker-time-column-width);
+        width: var(--ant-picker-time-column-width);
+        min-width: 0;
+        height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: var(--ant-border-radius-sm);
+        outline: 0;
+        background: transparent;
+        color: var(--ant-color-text);
+        font-family: inherit;
+        font-size: var(--ant-font-size);
+        font-weight: 400;
+        line-height: 1;
+        text-align: center;
+        transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+
+        &:hover,
+        &:focus {
+            background: var(--ant-picker-cell-hover-bg);
+        }
+    }
+}

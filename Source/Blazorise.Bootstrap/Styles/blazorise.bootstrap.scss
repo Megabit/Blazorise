@@ -1,4 +1,4 @@
-﻿@import "_vendors/bootstrap/functions";
+@import "_vendors/bootstrap/functions";
 @import "_vendors/bootstrap/variables";
 @import "_vendors/bootstrap/mixins";
 
@@ -9,10 +9,15 @@
 @import "components/badge";
 @import "components/bar";
 @import "components/button";
+@import "components/context-menu";
+@import "components/date-picker";
+@import "components/time-picker";
+@import "components/dock-layout";
 @import "components/dropdown";
 @import "components/figure";
 @import "components/form";
 @import "components/range-slider";
+@import "components/resizer";
 @import "components/jumbotron";
 @import "components/layout";
 @import "components/link";
@@ -21,6 +26,7 @@
 @import "components/offcanvas";
 @import "components/pagination";
 @import "components/placeholder";
+@import "components/property-grid";
 @import "components/progress";
 @import "components/rating";
 @import "components/steps";
@@ -32,6 +38,7 @@
 @import "extensions/one-time-input";
 @import "extensions/markdown";
 @import "extensions/richtextedit";
+@import "extensions/reporting";
 
 @import "utilities/animations";
 @import "utilities/background-color";
@@ -47,5 +54,3 @@
 @import "utilities/sizing";
 @import "utilities/spacing";
 @import "utilities/text";
-
-@import "_vendors/flatpickr";

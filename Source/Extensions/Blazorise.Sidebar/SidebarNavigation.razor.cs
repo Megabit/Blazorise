@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Sidebar;
 
+/// <summary>
+/// Provides the navigation list region inside a sidebar.
+/// </summary>
 public partial class SidebarNavigation : BaseComponent
 {
     #region Members

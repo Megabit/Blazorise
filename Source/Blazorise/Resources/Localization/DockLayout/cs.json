@@ -1,0 +1,9 @@
+{
+  "culture": "cs",
+  "translations": {
+    "Close": "Zavřít",
+    "Close {0}": "Zavřít {0}",
+    "Pin": "Připnout",
+    "Unpin": "Odepnout"
+  }
+}

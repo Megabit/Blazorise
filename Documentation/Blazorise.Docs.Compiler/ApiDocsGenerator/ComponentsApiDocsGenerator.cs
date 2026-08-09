@@ -200,15 +200,13 @@ public class ComponentsApiDocsGenerator
 
     private IEnumerable<ComponentInfo> GetComponentsInfo( Compilation compilation, INamespaceSymbol namespaceToSearch )
     {
-        var baseComponentSymbol = compilation.GetTypeByMetadataName( "Blazorise.BaseComponent" );
-
         IEnumerable<INamedTypeSymbol> types = namespaceToSearch.GetTypeMembers()
             .OfType<INamedTypeSymbol>()
             .OrderBy( type => type.ToDisplayString(), StringComparer.Ordinal );
 
         foreach ( INamedTypeSymbol type in types )
         {
-            TypeQualification typeQualification = QualifiesForApiDocs( type, baseComponentSymbol );
+            TypeQualification typeQualification = QualifiesForApiDocs( type );
             if ( !typeQualification.QualifiesForApiDocs )
                 continue;
 
@@ -229,6 +227,7 @@ public class ComponentsApiDocsGenerator
                     !m.IsImplicitlyDeclared &&
                     m.MethodKind == MethodKind.Ordinary &&
                     m.OverriddenMethod == null &&
+                    !IsJsInvokable( m ) &&
                     !skipMethods.Contains( m.Name )
                     )
                 .OrderBy( m => m.ToDisplayString( SymbolDisplayFormat.CSharpErrorMessageFormat ), StringComparer.Ordinal );
@@ -252,17 +251,41 @@ public class ComponentsApiDocsGenerator
         }
     }
 
+    private static bool IsJsInvokable( IMethodSymbol method )
+    {
+        if ( method.GetAttributes().Any( attribute => IsJsInvokableAttributeName( attribute.AttributeClass?.Name ) ) )
+            return true;
+
+        return method.DeclaringSyntaxReferences
+            .Select( syntaxReference => syntaxReference.GetSyntax() )
+            .OfType<Microsoft.CodeAnalysis.CSharp.Syntax.MethodDeclarationSyntax>()
+            .SelectMany( methodDeclaration => methodDeclaration.AttributeLists )
+            .SelectMany( attributeList => attributeList.Attributes )
+            .Any( attribute => IsJsInvokableAttributeName( attribute.Name.ToString() ) );
+    }
+
+    private static bool IsJsInvokableAttributeName( string attributeName )
+    {
+        if ( string.IsNullOrWhiteSpace( attributeName ) )
+            return false;
+
+        int namespaceSeparator = attributeName.LastIndexOf( '.' );
+
+        if ( namespaceSeparator >= 0 )
+            attributeName = attributeName[( namespaceSeparator + 1 )..];
+
+        return attributeName is "JSInvokable" or "JSInvokableAttribute";
+    }
+
     record TypeQualification( bool QualifiesForApiDocs, bool SkipParamCheck = false, IEnumerable<INamedTypeSymbol> NamedTypeSymbols = null, string Category = null, string Subcategory = null );
 
     /// <summary>
-    /// get the chain of inheritance to the BaseComponent or ComponentBase
-    /// Only return true if implements IComponent (that is the case for all BaseComponent and ComponentBase)
+    /// Gets the inheritance chain up to ComponentBase.
+    /// Only returns true for types that implement IComponent.
     /// </summary>
     /// <param name="type"></param>
-    /// <param name="baseType"></param>
     /// <returns></returns>
-    private TypeQualification QualifiesForApiDocs( INamedTypeSymbol type,
-        INamedTypeSymbol baseType )
+    private TypeQualification QualifiesForApiDocs( INamedTypeSymbol type )
     {
 
         var category = GetCategoryAndSubcategory( type );
@@ -285,11 +308,6 @@ public class ComponentsApiDocsGenerator
         while ( type != null )
         {
             type = type.BaseType;
-            if ( SymbolEqualityComparer.Default.Equals( type, baseType ) )
-            {
-                inheritsFromChain.Add( type );
-                return new( true, skipParamAndComponentCheck, inheritsFromChain, Category: category.category, Subcategory: category.subcategory );
-            }
 
             if ( type?.Name.Split( "." ).Last() == "ComponentBase" ) //for this to work, the inheritance (:ComponentBase) must be specified in .cs file.
                 return new( true, skipParamAndComponentCheck, inheritsFromChain, Category: category.category, Subcategory: category.subcategory );
@@ -372,6 +390,7 @@ public class ComponentsApiDocsGenerator
               using System.Collections;
               using System.Collections.Generic;
               using System.Linq.Expressions;
+              using System.Data;
               using System.Windows.Input;
               using System.Threading.Tasks;
               using Microsoft.AspNetCore.Components.Forms;
@@ -503,7 +522,7 @@ public class ComponentsApiDocsGenerator
 
         foreach ( string typeName in inheritsFromChain )
         {
-            if ( IsBaseComponentType( typeName ) )
+            if ( IsFrameworkBaseComponentType( typeName ) )
                 continue;
 
             filtered.Add( typeName );
@@ -512,7 +531,7 @@ public class ComponentsApiDocsGenerator
         return filtered;
     }
 
-    private static bool IsBaseComponentType( string typeName )
+    private static bool IsFrameworkBaseComponentType( string typeName )
     {
         if ( string.IsNullOrWhiteSpace( typeName ) )
             return false;
@@ -523,7 +542,9 @@ public class ComponentsApiDocsGenerator
             normalized = normalized.Substring( "global::".Length );
 
         return normalized == "Blazorise.BaseComponent"
-            || normalized.StartsWith( "Blazorise.BaseComponent<", StringComparison.Ordinal );
+            || normalized.StartsWith( "Blazorise.BaseComponent<", StringComparison.Ordinal )
+            || normalized == "Blazorise.BaseStyledComponent"
+            || normalized == "Blazorise.BaseAfterRenderComponent";
     }
 
     private static DocsApiComponent BuildDocsApiComponent( ApiDocsForComponent component, Dictionary<string, ApiDocsForComponent> componentsByType )

@@ -10,37 +10,151 @@ namespace Blazorise.Animate;
 /// </summary>
 public static class Animations
 {
+    /// <summary>
+    /// Smooth opacity transition without movement.
+    /// </summary>
     public static IAnimation Fade => Create( "fade" );
+
+    /// <summary>
+    /// Opacity-only entrance using the standard fade keyframes.
+    /// </summary>
     public static IAnimation FadeIn => Create( "fade" );
+
+    /// <summary>
+    /// Brings content into view from below.
+    /// </summary>
     public static IAnimation FadeUp => Create( "fade-up" );
+
+    /// <summary>
+    /// Brings content into view from above.
+    /// </summary>
     public static IAnimation FadeDown => Create( "fade-down" );
+
+    /// <summary>
+    /// Brings content into view from the right.
+    /// </summary>
     public static IAnimation FadeLeft => Create( "fade-left" );
+
+    /// <summary>
+    /// Brings content into view from the left.
+    /// </summary>
     public static IAnimation FadeRight => Create( "fade-right" );
+
+    /// <summary>
+    /// Fades content in while moving diagonally from the lower-left.
+    /// </summary>
     public static IAnimation FadeUpRight => Create( "fade-up-right" );
+
+    /// <summary>
+    /// Fades content in while moving diagonally from the lower-right.
+    /// </summary>
     public static IAnimation FadeUpLeft => Create( "fade-up-left" );
+
+    /// <summary>
+    /// Fades content in while moving diagonally from the upper-left.
+    /// </summary>
     public static IAnimation FadeDownRight => Create( "fade-down-right" );
+
+    /// <summary>
+    /// Fades content in while moving diagonally from the upper-right.
+    /// </summary>
     public static IAnimation FadeDownLeft => Create( "fade-down-left" );
+
+    /// <summary>
+    /// Rotates content upward around its horizontal axis.
+    /// </summary>
     public static IAnimation FlipUp => Create( "flip-up" );
+
+    /// <summary>
+    /// Rotates content downward around its horizontal axis.
+    /// </summary>
     public static IAnimation FlipDown => Create( "flip-down" );
+
+    /// <summary>
+    /// Turns content into view from the right edge.
+    /// </summary>
     public static IAnimation FlipLeft => Create( "flip-left" );
+
+    /// <summary>
+    /// Turns content into view from the left edge.
+    /// </summary>
     public static IAnimation FlipRight => Create( "flip-right" );
+
+    /// <summary>
+    /// Slides content upward from outside its own bounds.
+    /// </summary>
     public static IAnimation SlideUp => Create( "slide-up" );
+
+    /// <summary>
+    /// Slides content downward from outside its own bounds.
+    /// </summary>
     public static IAnimation SlideDown => Create( "slide-down" );
+
+    /// <summary>
+    /// Slides content leftward into its resting position.
+    /// </summary>
     public static IAnimation SlideLeft => Create( "slide-left" );
+
+    /// <summary>
+    /// Slides content rightward into its resting position.
+    /// </summary>
     public static IAnimation SlideRight => Create( "slide-right" );
+
+    /// <summary>
+    /// Enlarges and reveals content from a reduced scale.
+    /// </summary>
     public static IAnimation ZoomIn => Create( "zoom-in" );
+
+    /// <summary>
+    /// Enlarges content while lifting it from below.
+    /// </summary>
     public static IAnimation ZoomInUp => Create( "zoom-in-up" );
+
+    /// <summary>
+    /// Enlarges content while lowering it from above.
+    /// </summary>
     public static IAnimation ZoomInDown => Create( "zoom-in-down" );
+
+    /// <summary>
+    /// Enlarges content while drawing it in from the right.
+    /// </summary>
     public static IAnimation ZoomInLeft => Create( "zoom-in-left" );
+
+    /// <summary>
+    /// Enlarges content while drawing it in from the left.
+    /// </summary>
     public static IAnimation ZoomInRight => Create( "zoom-in-right" );
+
+    /// <summary>
+    /// Settles oversized content back to its normal scale.
+    /// </summary>
     public static IAnimation ZoomOut => Create( "zoom-out" );
+
+    /// <summary>
+    /// Shrinks oversized content while lifting it from below.
+    /// </summary>
     public static IAnimation ZoomOutUp => Create( "zoom-out-up" );
+
+    /// <summary>
+    /// Shrinks oversized content while lowering it from above.
+    /// </summary>
     public static IAnimation ZoomOutDown => Create( "zoom-out-down" );
+
+    /// <summary>
+    /// Shrinks oversized content while moving it in from the right.
+    /// </summary>
     public static IAnimation ZoomOutLeft => Create( "zoom-out-left" );
+
+    /// <summary>
+    /// Shrinks oversized content while moving it in from the left.
+    /// </summary>
     public static IAnimation ZoomOutRight => Create( "zoom-out-right" );
 
     private static IEnumerable<string> availableAnimationNames = null;
 
+    /// <summary>
+    /// Resolves a preset by its public property name.
+    /// </summary>
     public static bool TryParse( string value, out IAnimation result )
     {
         try
@@ -59,6 +173,9 @@ public static class Animations
         }
     }
 
+    /// <summary>
+    /// Lists the property names accepted by <see cref="TryParse"/>.
+    /// </summary>
     public static IEnumerable<string> GetNames()
     {
         if ( availableAnimationNames == null )

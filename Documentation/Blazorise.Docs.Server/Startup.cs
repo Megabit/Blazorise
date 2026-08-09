@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using Blazored.LocalStorage;
 using Blazorise.Bootstrap5;
 using Blazorise.Captcha.ReCaptcha;
+using Blazorise.CodeEditor;
 using Blazorise.Components;
 using Blazorise.Docs.BlogRuntime;
 using Blazorise.Docs.Core;
@@ -17,6 +18,11 @@ using Blazorise.Docs.Services.Search;
 using Blazorise.FluentValidation;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.Maps;
+using Blazorise.Pdf;
+using Blazorise.Reporting;
+using Blazorise.Reporting.DataSources.Csv;
+using Blazorise.Reporting.DataSources.Sql;
+using Blazorise.Reporting.DataSources.WebApi;
 using Blazorise.RichTextEdit;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
@@ -61,6 +67,7 @@ public class Startup
             } )
             .AddBootstrap5Providers()
             .AddFontAwesomeIcons()
+            .AddBlazoriseCodeEditor()
             .AddBlazoriseRichTextEdit( options =>
             {
                 options.UseTables = true;
@@ -69,6 +76,16 @@ public class Startup
             .AddBlazoriseFluentValidation()
             .AddBlazoriseGoogleReCaptcha( x => x.SiteKey = Configuration[key: "ReCaptchaSiteKey"] )
             .AddBlazoriseMaps()
+            .AddBlazoriseReporting()
+            .AddBlazorisePdfHttpResources()
+            .AddBlazoriseReportingCsvDataSource()
+            .AddBlazoriseReportingSqlDataSource()
+            .AddBlazoriseReportingWebApiDataSource( configureOptions: options =>
+            {
+                options.ResourceAllowed = uri => uri.Scheme == Uri.UriSchemeHttps
+                    && uri.IsDefaultPort
+                    && string.Equals( uri.Host, "dummyjson.com", StringComparison.OrdinalIgnoreCase );
+            } )
             .AddBlazoriseRouterTabs();
 
         services.Configure<BlogOptions>( Configuration.GetSection( "Blog" ) );
@@ -79,6 +96,7 @@ public class Startup
         services.Configure<JobsOptions>( Configuration.GetSection( JobsOptions.SectionName ) );
         services.AddHttpClient();
         services.AddHttpClient<IJobsService, ServerJobsService>();
+        services.AddHttpClient<IJobSubmissionService, GitHubJobSubmissionService>();
         services.AddValidatorsFromAssembly( typeof( App ).Assembly );
 
         services.Configure<BrevoApiOptions>( Configuration.GetSection( BrevoApiOptions.SectionName ) );

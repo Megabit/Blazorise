@@ -46,11 +46,15 @@ public partial class Markdown : BaseOnScreenKeyboardInputComponent<string, Markd
 
     #region Methods
 
+    /// <summary>
+    /// Prepares style builders for the editor's underlying text area.
+    /// </summary>
     public Markdown()
     {
         textAreaElementClassBuilder = new( BuildTextAreaElementClasses, builder => builder.Append( Classes?.TextArea ) );
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         JSModule ??= new JSMarkdownModule( JSRuntime, VersionProvider, BlazoriseOptions );
@@ -407,7 +411,7 @@ public partial class Markdown : BaseOnScreenKeyboardInputComponent<string, Markd
     /// <inheritdoc/>
     public Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success, FileInvalidReason fileInvalidReason )
     {
-        InvokeAsync( async () =>
+        return InvokeAsync( async () =>
         {
             if ( fileEntry.FileUploadEndedCallback is not null )
                 await fileEntry.FileUploadEndedCallback.Task;
@@ -423,8 +427,6 @@ public partial class Markdown : BaseOnScreenKeyboardInputComponent<string, Markd
 
             await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl ?? string.Empty );
         } );
-
-        return Task.CompletedTask;
     }
 
     /// <inheritdoc/>
@@ -559,11 +561,15 @@ public partial class Markdown : BaseOnScreenKeyboardInputComponent<string, Markd
         base.BuildClasses( builder );
     }
 
+    /// <summary>
+    /// Composes CSS classes for the text area enhanced by EasyMDE.
+    /// </summary>
     protected virtual void BuildTextAreaElementClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.MemoInputValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
     }
 
+    /// <inheritdoc />
     internal protected override void DirtyClasses()
     {
         textAreaElementClassBuilder.Dirty();
@@ -573,6 +579,7 @@ public partial class Markdown : BaseOnScreenKeyboardInputComponent<string, Markd
         RequestBaseInputOptionsUpdate();
     }
 
+    /// <inheritdoc />
     protected internal override void DirtyStyles()
     {
         base.DirtyStyles();
@@ -715,6 +722,9 @@ public partial class Markdown : BaseOnScreenKeyboardInputComponent<string, Markd
     /// </summary>
     protected string TextAreaElementClassNames => textAreaElementClassBuilder.Class;
 
+    /// <summary>
+    /// Custom styles targeting the editor's text area element.
+    /// </summary>
     protected string TextAreaElementStyleNames => Styles?.TextArea;
 
     /// <inheritdoc/>

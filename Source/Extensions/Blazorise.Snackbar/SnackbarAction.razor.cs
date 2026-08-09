@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Snackbar;
 
+/// <summary>
+/// Renders an interactive command within a snackbar notification.
+/// </summary>
 public partial class SnackbarAction : BaseComponent, IDisposable
 {
     #region Members
@@ -16,6 +19,7 @@ public partial class SnackbarAction : BaseComponent, IDisposable
 
     #region Methods
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         ParentSnackbar?.NotifySnackbarActionInitialized( this );
@@ -34,6 +38,7 @@ public partial class SnackbarAction : BaseComponent, IDisposable
         base.Dispose( disposing );
     }
 
+    /// <inheritdoc />
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "snackbar-action-button" );
@@ -42,6 +47,9 @@ public partial class SnackbarAction : BaseComponent, IDisposable
         base.BuildClasses( builder );
     }
 
+    /// <summary>
+    /// Forwards browser activation to the action callback.
+    /// </summary>
     protected Task ClickHandler()
     {
         return Clicked.InvokeAsync();
@@ -56,6 +64,9 @@ public partial class SnackbarAction : BaseComponent, IDisposable
     /// </summary>
     [Parameter] public EventCallback Clicked { get; set; }
 
+    /// <summary>
+    /// Notification that owns and styles this action.
+    /// </summary>
     [CascadingParameter] protected Snackbar ParentSnackbar { get; set; }
 
     /// <summary>

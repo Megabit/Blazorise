@@ -1,0 +1,69 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Layout Sider
+        Height="Height.Px( 360 )"
+        Border="Border.Is1.Rounded"
+        Overflow="Overflow.Hidden">
+    <LayoutSider>
+        <LayoutSiderContent>
+            <Bar Mode="BarMode.VerticalInline"
+                 CollapseMode="BarCollapseMode.Small"
+                 @bind-Visible="barExpanded"
+                 Style="@BarStyle"
+                 Background="Background.Light"
+                 ThemeContrast="ThemeContrast.Light">
+                <BarToggler />
+                <BarMenu>
+                    <BarStart>
+                        <BarItem>
+                            <BarLink To="#resizer-projects">
+                                <BarIcon IconName="IconName.FolderOpen" />
+                                Projects
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To="#resizer-reports">
+                                <BarIcon IconName="IconName.ChartLine" />
+                                Reports
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To="#resizer-settings">
+                                <BarIcon IconName="IconName.Settings" />
+                                Settings
+                            </BarLink>
+                        </BarItem>
+                    </BarStart>
+                </BarMenu>
+
+                <Resizer Orientation="Orientation.Vertical"
+                         Placement="Placement.End"
+                         ResizeProperty="--b-vertical-bar-width"
+                         Min="180"
+                         Max="360"
+                         @bind-Value="barWidth"
+                         Disabled="@(!barExpanded)"
+                         AriaLabel="Resize navigation sidebar" />
+            </Bar>
+        </LayoutSiderContent>
+    </LayoutSider>
+
+    <Layout>
+        <LayoutContent Padding="Padding.Is4">
+            <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">Resizable navigation</Heading>
+            <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop.Is0.FromBottom">
+                Resize the expanded Bar, then use its toggler to enter small mode. The resizer is disabled while collapsed.
+            </Paragraph>
+        </LayoutContent>
+    </Layout>
+</Layout>
+
+@code {
+    private bool barExpanded = true;
+
+    private double barWidth = 230;
+
+    private string BarStyle
+        => FormattableString.Invariant(
+            $"--b-vertical-bar-width: {barWidth}px" );
+}

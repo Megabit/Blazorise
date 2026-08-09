@@ -223,6 +223,11 @@ namespace Blazorise
         public ThemeDividerOptions DividerOptions { get; set; }
 
         /// <summary>
+        /// Theme options to override the <see cref="DockLayout"/> component styles.
+        /// </summary>
+        public ThemeDockLayoutOptions DockLayoutOptions { get; set; }
+
+        /// <summary>
         /// Theme options to override the <see cref="Tooltip"/> component styles.
         /// </summary>
         public ThemeTooltipOptions TooltipOptions { get; set; }

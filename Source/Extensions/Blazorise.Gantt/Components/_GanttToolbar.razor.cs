@@ -131,12 +131,20 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
         if ( SelectedView == GanttView.Year )
         {
             var displayEnd = rangeEnd > rangeStart
-                ? rangeEnd.AddMonths( -1 )
+                ? YearViewTimelineScale == GanttYearViewTimelineScale.Week
+                    ? rangeEnd.AddDays( -7 )
+                    : rangeEnd.AddMonths( -1 )
                 : rangeEnd;
+            var rangeStartYear = YearViewTimelineScale == GanttYearViewTimelineScale.Week
+                ? GetWeekYear( rangeStart )
+                : rangeStart.Year;
+            var displayEndYear = YearViewTimelineScale == GanttYearViewTimelineScale.Week
+                ? GetWeekYear( displayEnd )
+                : displayEnd.Year;
 
-            return rangeStart.Year == displayEnd.Year
-                ? rangeStart.ToString( "yyyy", CultureInfo.InvariantCulture )
-                : $"{rangeStart.ToString( "yyyy", CultureInfo.InvariantCulture )} - {displayEnd.ToString( "yyyy", CultureInfo.InvariantCulture )}";
+            return rangeStartYear == displayEndYear
+                ? rangeStartYear.ToString( CultureInfo.InvariantCulture )
+                : $"{rangeStartYear.ToString( CultureInfo.InvariantCulture )} - {displayEndYear.ToString( CultureInfo.InvariantCulture )}";
         }
 
         var end = rangeEnd > rangeStart
@@ -144,6 +152,30 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
             : rangeEnd;
 
         return $"{rangeStart.ToString( "MMM dd", CultureInfo.InvariantCulture )} - {end.ToString( "MMM dd, yyyy", CultureInfo.InvariantCulture )}";
+    }
+
+    private int GetWeekYear( DateTime value )
+    {
+        var date = value.Date;
+
+        if ( date >= GetFirstWeekStartOfYear( date.Year + 1 ) )
+            return date.Year + 1;
+
+        if ( date < GetFirstWeekStartOfYear( date.Year ) )
+            return date.Year - 1;
+
+        return date.Year;
+    }
+
+    private DateTime GetFirstWeekStartOfYear( int year )
+        => GetStartOfWeek( new DateTime( year, 1, 4 ), FirstDayOfWeek );
+
+    private static DateTime GetStartOfWeek( DateTime value, DayOfWeek firstDayOfWeek )
+    {
+        var dayStart = value.Date;
+        var diff = ( 7 + ( dayStart.DayOfWeek - firstDayOfWeek ) ) % 7;
+
+        return dayStart.AddDays( -diff );
     }
 
     /// <summary>
@@ -180,6 +212,11 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
     /// Specifies the visible timeline range end used for toolbar range text.
     /// </summary>
     [Parameter] public DateTime? TimelineRangeEnd { get; set; }
+
+    /// <summary>
+    /// Specifies the timeline scale used by the year view.
+    /// </summary>
+    [Parameter] public GanttYearViewTimelineScale YearViewTimelineScale { get; set; } = GanttYearViewTimelineScale.Month;
 
     /// <summary>
     /// Specifies the first day of the week used for date calculations.

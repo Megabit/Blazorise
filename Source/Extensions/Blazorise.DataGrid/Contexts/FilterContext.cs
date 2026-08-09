@@ -9,22 +9,34 @@ public class FilterContext<TItem>
 
     private event FilterChangedEventHandler SearchValueChanged;
 
+    /// <summary>
+    /// Handles notifications for filter changed event handler.
+    /// </summary>
     public delegate void FilterChangedEventHandler( object value );
 
     #endregion
 
     #region Methods
 
+    /// <summary>
+    /// Registers a listener for filter-value changes.
+    /// </summary>
     public void Subscribe( FilterChangedEventHandler listener )
     {
         SearchValueChanged += listener;
     }
 
+    /// <summary>
+    /// Removes a filter-value change listener.
+    /// </summary>
     public void Unsubscribe( FilterChangedEventHandler listener )
     {
         SearchValueChanged -= listener;
     }
 
+    /// <summary>
+    /// Notifies listeners of filter change.
+    /// </summary>
     public void TriggerFilterChange( object value )
     {
         SearchValue = value;

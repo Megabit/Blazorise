@@ -215,7 +215,7 @@ Common example:
 ### Inputs and pickers
 
 - Prefer AntD input shell structure.
-- For native controls or Flatpickr-based controls, style the visible shell to match AntD.
+- For native controls and picker menus, style the visible shell to match AntD.
 - Hidden/native helper inputs must not affect layout.
 
 ### Popups and overlays
@@ -276,20 +276,6 @@ Ask in this order:
 2. Is there already a provider token in `_variables.scss`?
 3. Can this be expressed through existing AntD variables?
 4. Only then add a provider-specific token or style hook
-
-## Flatpickr / vendor integrations
-
-When styling Flatpickr for this provider:
-
-- keep the integration in `Styles/vendors/_flatpickr.scss`
-- use AntD picker tokens for popup visuals
-- do not split popup styling across multiple files unless there is a very strong reason
-
-Remember:
-
-- behavior still comes from Flatpickr
-- appearance should feel like AntD
-- locale/order/month formatting issues are usually config problems, not SCSS problems
 
 ## Common Pitfalls
 

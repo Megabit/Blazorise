@@ -1,0 +1,55 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Report Definition="@definition"
+        DefinitionMode="ReportDefinitionMode.UseDefinitionOnly"
+        ShowToolbar="false" />
+
+@code {
+    private readonly ReportDefinition definition = new()
+    {
+        Name = "Programmatic report",
+        Pages =
+        [
+            new()
+            {
+                Name = "Summary",
+                Bands =
+                [
+                    new()
+                    {
+                        Name = "Summary header",
+                        Type = ReportBandType.ReportHeader,
+                        Height = 90,
+                        Elements =
+                        [
+                            new ReportTextElementDefinition
+                            {
+                                Name = "Title",
+                                Text = "Created from a ReportDefinition",
+                                X = 30,
+                                Y = 18,
+                                Width = 360,
+                                Height = 27,
+                                Font = new()
+                                {
+                                    Size = 20,
+                                    Bold = true,
+                                    Color = ReportColors.Blue,
+                                },
+                            },
+                            new ReportTextElementDefinition
+                            {
+                                Name = "Description",
+                                Text = "No declarative report page or band components are required.",
+                                X = 30,
+                                Y = 51,
+                                Width = 420,
+                                Height = 18,
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    };
+}

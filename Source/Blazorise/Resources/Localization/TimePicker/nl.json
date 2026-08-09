@@ -2,6 +2,10 @@
   "culture": "nl",
   "translations": {
     "AM": "AM",
-    "PM": "PM"
+    "PM": "PM",
+    "Time": "Tijd",
+    "Hour": "Uur",
+    "Minute": "Minuut",
+    "Second": "Seconde"
   }
 }

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Components.Web;
 namespace Blazorise;
 
 /// <summary>
-/// Base interface for <see cref="DatePicker{TValue}"/> to be updated from javascript.
+/// Base interface for handling <see cref="DatePicker{TValue}"/> input events.
 /// </summary>
 /// <remarks>
-/// This is needed to set the value from javascript because calling generic component directly is not supported by Blazor.
+/// Retained as part of the DatePicker public API.
 /// </remarks>
 public interface IDatePicker
 {

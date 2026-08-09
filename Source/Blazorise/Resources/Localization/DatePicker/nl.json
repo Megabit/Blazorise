@@ -43,6 +43,22 @@
     "PM": "PM",
     "RangeSeparator": " t/m ",
     "Today": "Vandaag",
-    "Clear": "Wissen"
+    "ThisMonth": "Deze maand",
+    "ThisWeek": "Deze week",
+    "Clear": "Wissen",
+    "Month": "Maand",
+    "Year": "Jaar",
+    "Week": "Wk",
+    "Time": "Tijd",
+    "Hour": "Uur",
+    "Minute": "Minuut",
+    "PreviousMonth": "Vorige maand",
+    "NextMonth": "Volgende maand",
+    "PreviousYear": "Vorig jaar",
+    "NextYear": "Volgend jaar",
+    "PreviousDecade": "Vorig decennium",
+    "NextDecade": "Volgend decennium",
+    "PreviousCentury": "Vorige eeuw",
+    "NextCentury": "Volgende eeuw"
   }
 }

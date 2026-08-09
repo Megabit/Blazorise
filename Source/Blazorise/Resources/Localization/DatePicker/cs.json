@@ -43,6 +43,22 @@
     "PM": "odpo",
     "RangeSeparator": " do ",
     "Today": "Dnes",
-    "Clear": "Vymazat"
+    "ThisMonth": "Tento měsíc",
+    "ThisWeek": "Tento týden",
+    "Clear": "Vymazat",
+    "Month": "Měsíc",
+    "Year": "Rok",
+    "Week": "Týd.",
+    "Time": "Čas",
+    "Hour": "Hodina",
+    "Minute": "Minuta",
+    "PreviousMonth": "Předchozí měsíc",
+    "NextMonth": "Následující měsíc",
+    "PreviousYear": "Předchozí rok",
+    "NextYear": "Následující rok",
+    "PreviousDecade": "Předchozí desetiletí",
+    "NextDecade": "Následující desetiletí",
+    "PreviousCentury": "Předchozí století",
+    "NextCentury": "Následující století"
   }
 }

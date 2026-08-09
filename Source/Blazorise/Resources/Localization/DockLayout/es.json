@@ -1,0 +1,9 @@
+{
+  "culture": "es",
+  "translations": {
+    "Close": "Cerrar",
+    "Close {0}": "Cerrar {0}",
+    "Pin": "Fijar",
+    "Unpin": "Desfijar"
+  }
+}

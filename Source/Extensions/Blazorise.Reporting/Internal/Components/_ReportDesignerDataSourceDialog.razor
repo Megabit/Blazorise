@@ -1,0 +1,25 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+
+<ModalHeader>
+    <ModalTitle>@Localize( "Select data source" )</ModalTitle>
+    <CloseButton Clicked="@Close" />
+</ModalHeader>
+<ModalBody>
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Data source" )</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs8">
+            <Select TValue="string" Value="@selectedDataSource" ValueChanged="@OnSelectedDataSourceChanged" Size="Size.Small">
+                <SelectItem TValue="string" Value="@NoDataSourceValue">@Localize( "None" )</SelectItem>
+                @foreach ( ReportDesignerDataSourceOption dataSource in dataSourceOptions )
+                {
+                    <SelectItem TValue="string" Value="@dataSource.Value">@dataSource.DisplayName</SelectItem>
+                }
+            </Select>
+        </FieldBody>
+    </Field>
+</ModalBody>
+<ModalFooter>
+    <Button Color="Color.Primary" Clicked="@Confirm" Size="Size.Small">@Localize( "OK" )</Button>
+    <Button Color="Color.Light" Clicked="@Close" Size="Size.Small">@Localize( "Cancel" )</Button>
+</ModalFooter>

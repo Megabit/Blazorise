@@ -23,6 +23,10 @@ public sealed class SvgChartPluginRenderContext
 
     private readonly Func<double, string, double> projectY;
 
+    private readonly Func<string, double> getValueMin;
+
+    private readonly Func<string, double> getValueMax;
+
     private readonly Func<double?, double, double> projectAnnotationX;
 
     private readonly Func<double?, string, double, double> projectAnnotationY;
@@ -56,6 +60,8 @@ public sealed class SvgChartPluginRenderContext
         bool radial,
         double valueMin,
         double valueMax,
+        Func<string, double> getValueMin,
+        Func<string, double> getValueMax,
         int categorySlotCount,
         SvgChartAxisScaleKind categoryScaleKind,
         object eventReceiver,
@@ -83,6 +89,8 @@ public sealed class SvgChartPluginRenderContext
         IsRadial = radial;
         ValueMin = valueMin;
         ValueMax = valueMax;
+        this.getValueMin = getValueMin;
+        this.getValueMax = getValueMax;
         CategorySlotCount = categorySlotCount;
         CategoryScaleKind = categoryScaleKind;
         ContinuousCategoryAxis = categoryScaleKind == SvgChartAxisScaleKind.Continuous;
@@ -184,6 +192,26 @@ public sealed class SvgChartPluginRenderContext
     public double ProjectY( double value, string valueAxisId = null )
     {
         return projectY( value, valueAxisId );
+    }
+
+    /// <summary>
+    /// Gets the resolved minimum for a value axis.
+    /// </summary>
+    /// <param name="valueAxisId">The optional value axis identifier.</param>
+    /// <returns>The resolved axis minimum.</returns>
+    public double GetValueMin( string valueAxisId = null )
+    {
+        return getValueMin( valueAxisId );
+    }
+
+    /// <summary>
+    /// Gets the resolved maximum for a value axis.
+    /// </summary>
+    /// <param name="valueAxisId">The optional value axis identifier.</param>
+    /// <returns>The resolved axis maximum.</returns>
+    public double GetValueMax( string valueAxisId = null )
+    {
+        return getValueMax( valueAxisId );
     }
 
     /// <summary>

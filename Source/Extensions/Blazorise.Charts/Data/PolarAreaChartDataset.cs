@@ -9,6 +9,9 @@ namespace Blazorise.Charts;
 /// </remarks>
 public class PolarAreaChartDataset<T> : ChartDataset<T>
 {
+    /// <summary>
+    /// Creates a polar area chart dataset.
+    /// </summary>
     public PolarAreaChartDataset() : base(
         label: string.Empty,
         backgroundColor: "rgba(0, 0, 0, 0.1)",

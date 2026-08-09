@@ -1,0 +1,58 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Report</span> <span class="htmlAttributeName">Definition</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>definition</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">DefinitionMode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ReportDefinitionMode</span><span class="enumValue">.UseDefinitionOnly</span><span class="quot">&quot;</span>
+        <span class="htmlAttributeName">ShowToolbar</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">readonly</span> ReportDefinition definition = <span class="keyword">new</span>()
+    {
+        Name = <span class="string">&quot;Programmatic report&quot;</span>,
+        Pages =
+        [
+            <span class="keyword">new</span>()
+            {
+                Name = <span class="string">&quot;Summary&quot;</span>,
+                Bands =
+                [
+                    <span class="keyword">new</span>()
+                    {
+                        Name = <span class="string">&quot;Summary header&quot;</span>,
+                        Type = ReportBandType.ReportHeader,
+                        Height = <span class="number">90</span>,
+                        Elements =
+                        [
+                            <span class="keyword">new</span> ReportTextElementDefinition
+                            {
+                                Name = <span class="string">&quot;Title&quot;</span>,
+                                Text = <span class="string">&quot;Created from a ReportDefinition&quot;</span>,
+                                X = <span class="number">30</span>,
+                                Y = <span class="number">18</span>,
+                                Width = <span class="number">360</span>,
+                                Height = <span class="number">27</span>,
+                                Font = <span class="keyword">new</span>()
+                                {
+                                    Size = <span class="number">20</span>,
+                                    Bold = <span class="keyword">true</span>,
+                                    Color = ReportColors.Blue,
+                                },
+                            },
+                            <span class="keyword">new</span> ReportTextElementDefinition
+                            {
+                                Name = <span class="string">&quot;Description&quot;</span>,
+                                Text = <span class="string">&quot;No declarative report page or band components are required.&quot;</span>,
+                                X = <span class="number">30</span>,
+                                Y = <span class="number">51</span>,
+                                Width = <span class="number">420</span>,
+                                Height = <span class="number">18</span>,
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    };
+}
+</pre></div>
+</div>

@@ -72,6 +72,18 @@
 </DocsPageParagraph>
 
 <Heading Size="HeadingSize.Is3">
+    Customizing the Editor
+</Heading>
+
+<DocsPageParagraph>
+    Use <Code>SchedulerColumns</Code> and <Code>SchedulerColumn</Code> to add custom fields to the built-in Add/Edit Appointment modal or to replace the editor for a native scheduler field.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    A column whose <Code>Field</Code> maps to an additional model property, such as <Code>Color</Code>, is rendered after the native scheduler fields. Its value is copied together with the rest of the appointment when the modal is saved. Additional fields are rendered in a <Code>Fields</Code> layout and can use <Code>ColumnSize</Code> to control their width. A column whose <Code>Field</Code> maps to a native scheduler property, such as <Code>Title</Code>, replaces the native editor in the modal but still uses the scheduler's built-in state, validation, and save flow.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
     Drag and Drop
 </Heading>
 
@@ -150,11 +162,20 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Custom Slot Styling">
+    <DocsPageSectionHeader Title="Custom Styling">
         Use the <Code>SlotStylingTemplate</Code> to inspect each rendered slot through <Code>SchedulerSlotContext</Code> and update <Code>slot.Styling</Code> based on the slot <Code>Start</Code> and <Code>End</Code> values.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="SchedulerSlotStylingExample" Outlined FullWidth>
         <SchedulerSlotStylingExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Fields">
+        Use <Code>SchedulerColumns</Code> to customize the Add/Edit Appointment modal. This example replaces the native <Code>Title</Code> editor and adds custom <Code>Color</Code> and <Code>Location</Code> fields. The additional fields use <Code>ColumnSize</Code> to share a row on desktop, and the color is applied through <Code>ItemStyling</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SchedulerColumnsExample" Outlined FullWidth>
+        <SchedulerColumnsExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
@@ -168,7 +189,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Full">
+    <DocsPageSectionHeader Title="All Enabled">
         The full example shows all available views and how to use them. It also shows how to set the <Code>StartTime</Code>, <Code>EndTime</Code>, <Code>WorkDayStart</Code>, and <Code>WorkDayEnd</Code> parameters.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="SchedulerFullExample" Outlined FullWidth>

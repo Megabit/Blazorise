@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -43,7 +43,9 @@ public partial class DateInput<TValue> : BaseTextInput<TValue, DateInputClasses,
 
     /// <inheritdoc/>
     protected override string FormatValueAsString( TValue value )
-        => Formaters.FormatDateValueAsString( value, DateFormat );
+        => InputMode == DateInputMode.Week
+            ? WeekDateFormat.FormatNativeValue( value )
+            : Formaters.FormatDateValueAsString( value, DateFormat );
 
     /// <inheritdoc/>
     protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
@@ -153,6 +155,20 @@ public partial class DateInput<TValue> : BaseTextInput<TValue, DateInputClasses,
     /// Gets the date format based on the current <see cref="InputMode"/> settings.
     /// </summary>
     protected string DateFormat => Parsers.GetInternalDateFormat( InputMode );
+
+    /// <summary>
+    /// Gets the minimum value rendered by the input.
+    /// </summary>
+    protected string InputMin => InputMode == DateInputMode.Week
+        ? WeekDateFormat.FormatNativeValue( Min )
+        : Min?.ToString( DateFormat );
+
+    /// <summary>
+    /// Gets the maximum value rendered by the input.
+    /// </summary>
+    protected string InputMax => InputMode == DateInputMode.Week
+        ? WeekDateFormat.FormatNativeValue( Max )
+        : Max?.ToString( DateFormat );
 
     /// <summary>
     /// Hints at the type of data that might be entered by the user while editing the element or its contents.

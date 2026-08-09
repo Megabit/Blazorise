@@ -1,0 +1,169 @@
+.timepicker {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    anchor-name: --bootstrap-timepicker-anchor;
+    anchor-scope: --bootstrap-timepicker-anchor;
+
+    &.show {
+        z-index: $zindex-dropdown + 1;
+    }
+
+    .timepicker-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: $zindex-dropdown;
+        background: transparent;
+        pointer-events: none;
+    }
+
+    .timepicker-menu.dropdown-menu {
+        display: block;
+        position: absolute;
+        inset-block-start: calc(100% + .25rem);
+        inset-inline-start: 0;
+        z-index: $zindex-dropdown + 2;
+        width: 13.875rem;
+        min-width: 0;
+        max-width: calc(100vw - 1rem);
+        padding: 0;
+        color: $dropdown-color;
+        background-color: $dropdown-bg;
+        border-color: $dropdown-border-color;
+        border-radius: $dropdown-border-radius;
+        box-shadow: $dropdown-box-shadow;
+        outline: 0;
+        pointer-events: auto;
+    }
+
+    .timepicker-menu-inline {
+        position: relative;
+        inset: auto;
+        margin-block-start: .25rem;
+        z-index: auto;
+    }
+
+    @supports (position-anchor: --bootstrap-timepicker-anchor) and (anchor-scope: --bootstrap-timepicker-anchor) {
+        .timepicker-menu.dropdown-menu.timepicker-menu-floating {
+            position: fixed;
+            position-anchor: --bootstrap-timepicker-anchor;
+            inset: auto;
+            top: anchor(bottom);
+            inset-inline-start: anchor(start);
+            margin-block-start: .25rem;
+            position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+        }
+    }
+
+    .timepicker-controls {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 2.5rem;
+        overflow: hidden;
+        flex-wrap: nowrap;
+    }
+
+    .timepicker-control {
+        display: flex;
+        flex: 1 1 0;
+        align-items: center;
+        justify-content: center;
+        width: 40%;
+        height: 2.5rem;
+    }
+
+    .timepicker-input {
+        box-sizing: border-box;
+        width: 100%;
+        height: 2.5rem;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        outline: 0;
+        appearance: auto;
+        color: $dropdown-color;
+        background: transparent;
+        box-shadow: none;
+        font: inherit;
+        font-size: .875rem;
+        font-weight: $font-weight-normal;
+        line-height: 2.5rem;
+        text-align: center;
+
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+            height: auto;
+            opacity: .65;
+            cursor: pointer;
+        }
+
+        &:hover:not(:disabled),
+        &:focus {
+            background: rgba($primary, .1);
+        }
+
+        &:disabled {
+            color: $text-muted;
+            cursor: not-allowed;
+        }
+    }
+
+    .timepicker-control:first-child .timepicker-input {
+        font-weight: $font-weight-bold;
+    }
+
+    .timepicker-separator {
+        flex: 0 0 2%;
+        width: 2%;
+        height: 2.5rem;
+        padding: 0;
+        border: 0;
+        color: $dropdown-color;
+        background: transparent;
+        font: inherit;
+        font-size: .875rem;
+        font-weight: $font-weight-bold;
+        line-height: 2.5rem;
+        text-align: center;
+        user-select: none;
+    }
+
+    .timepicker-meridiem {
+        display: inline-flex;
+        flex: 0 0 18%;
+        align-items: center;
+        justify-content: center;
+        width: 18%;
+        height: 2.5rem;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        appearance: none;
+        color: $dropdown-color;
+        background: transparent;
+        box-shadow: none;
+        font: inherit;
+        font-size: .875rem;
+        font-weight: $font-weight-normal;
+        line-height: 2.5rem;
+        cursor: pointer;
+
+        &:hover:not(:disabled),
+        &:focus-visible,
+        &.timepicker-control-focused {
+            outline: 0;
+            background: rgba($primary, .1);
+        }
+
+        &:disabled {
+            color: $text-muted;
+            cursor: not-allowed;
+        }
+    }
+
+    .timepicker-control-focused .timepicker-input {
+        background: rgba($primary, .1);
+    }
+}

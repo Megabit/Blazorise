@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Globalization;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
@@ -38,13 +39,7 @@ internal static class SvgChartRenderHelpers
         var name = color.Name;
         var fallback = ResolveColorFallback( name, index );
 
-        if ( name.StartsWith( "#", StringComparison.Ordinal )
-             || name.StartsWith( "rgb", StringComparison.OrdinalIgnoreCase )
-             || name.StartsWith( "hsl", StringComparison.OrdinalIgnoreCase )
-             || name.StartsWith( "var(", StringComparison.OrdinalIgnoreCase ) )
-            return name;
-
-        return $"var(--b-theme-{name}, var(--bs-{name}, {fallback}))";
+        return CssColor.ResolveColor( color, fallback );
     }
 
     public static string ResolveFontColor( SvgChartFontOptions font )
@@ -62,7 +57,7 @@ internal static class SvgChartRenderHelpers
 
     public static bool IsDefaultColor( Color color )
     {
-        return color is null || color == Color.Default || string.IsNullOrWhiteSpace( color.Name );
+        return color.IsNullOrDefault();
     }
 
     public static string FormatTick( double value )

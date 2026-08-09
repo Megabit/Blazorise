@@ -31,6 +31,9 @@ public partial class LoadingIndicator : BaseComponent<LoadingIndicatorClasses, L
 
     #region Constructors
 
+    /// <summary>
+    /// Prepares the class and style builders used by the indicator overlay.
+    /// </summary>
     public LoadingIndicator()
     {
         IndicatorClassBuilder = new( BuildIndicatorClasses, builder => builder.Append( Classes?.Indicator ) );

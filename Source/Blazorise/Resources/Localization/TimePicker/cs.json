@@ -2,6 +2,10 @@
   "culture": "cs-CZ",
   "translations": {
     "AM": "dopo",
-    "PM": "odpo"
+    "PM": "odpo",
+    "Time": "Čas",
+    "Hour": "Hodina",
+    "Minute": "Minuta",
+    "Second": "Sekunda"
   }
 }

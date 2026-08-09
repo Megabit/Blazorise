@@ -124,6 +124,13 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
     public virtual ValueTask<string> GetUserAgent()
         => InvokeSafeAsync<string>( "getUserAgent" );
 
+    /// <summary>
+    /// Determines whether the current browser should use native mobile controls.
+    /// </summary>
+    /// <returns>A task containing the mobile-device detection result.</returns>
+    internal ValueTask<bool> IsMobileDevice()
+        => InvokeSafeAsync<bool>( "isMobileDevice" );
+
     /// <inheritdoc/>
     public ValueTask CopyToClipboard( ElementReference elementRef, string elementId )
         => InvokeSafeVoidAsync( "copyToClipboard", elementRef, elementId );
@@ -131,6 +138,10 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
     /// <inheritdoc/>
     public ValueTask Log( bool showBanner, string message, params string[] args )
         => InvokeSafeVoidAsync( "log", showBanner, message, args );
+
+    /// <inheritdoc/>
+    public ValueTask Log( bool showBanner, bool showCompactBanner, string message, params string[] args )
+        => InvokeSafeVoidAsync( "log", showBanner, showCompactBanner, message, args );
 
     /// <inheritdoc/>
     public ValueTask WaitForAnimationFrame()

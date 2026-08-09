@@ -1,0 +1,41 @@
+@page "/docs/extensions/gantt/editing"
+
+<Seo Canonical="/docs/extensions/gantt/editing" Title="Blazorise Gantt Editing" Description="Learn how to use built-in and external editing workflows in Blazorise Gantt." />
+
+<DocsPageTitle Path="Extensions/Gantt">
+    Blazorise Gantt: Editing
+</DocsPageTitle>
+
+<DocsPageLead>
+    Enable built-in task editing or keep persistence and dialogs in your own page.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Set <Code>Editable</Code> to enable built-in create, add-child, edit, and delete flows. Use command switches and <Code>CommandAllowed</Code> for role-based or item-based command rules.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Set <Code>UseInternalEditing="false"</Code> when you want Gantt to keep its command affordances but let your page own the modal and persistence flow through <Code>NewItemClicked</Code>, <Code>AddChildItemClicked</Code>, <Code>EditItemClicked</Code>, and <Code>DeleteItemClicked</Code>.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Built-in Editing">
+        Enable <Code>Editable</Code> to use built-in create, add-child, update, and delete workflows. This example also demonstrates command-level control through <Code>CommandAllowed</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="GanttEditableExample" Outlined FullWidth>
+        <GanttEditableExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="External Editing">
+        By setting the <Code>UseInternalEditing=false</Code> Gantt raises command callbacks with the relevant item and context, but leaves the editing UI and persistence flow to your implementation. This is ideal for keeping Gantt as a pure view component while owning the user experience and data flow of your app.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="GanttExternalEditingExample" Outlined FullWidth>
+        <GanttExternalEditingExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/gantt/api" Name="<Gantt />" />
+</DocsPageApi>

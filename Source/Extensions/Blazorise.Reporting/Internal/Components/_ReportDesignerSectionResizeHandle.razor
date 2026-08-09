@@ -1,0 +1,13 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using Microsoft.AspNetCore.Components.Web
+
+<span @key="@Key"
+      class="b-report-section-resize-handle"
+      title="@Localize( "Resize band" )"
+      role="separator"
+      aria-label="@Localize( "Resize band" )"
+      aria-orientation="horizontal"
+      @onpointerdown="OnPointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>

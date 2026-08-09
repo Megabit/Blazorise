@@ -17,6 +17,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.TreeView;
 
+/// <summary>
+/// Displays hierarchical data with expansion, selection, and drag-and-drop behavior.
+/// </summary>
+/// <typeparam name="TNode">Application model represented by each tree node.</typeparam>
 public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, TreeViewStyles<TNode>>, IDisposable
 {
     #region Members
@@ -35,6 +39,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
 
     #region Methods
 
+    /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         bool nodesChanged = parameters.TryGetValue<IEnumerable<TNode>>( nameof( Nodes ), out var paramNodes ) && !paramNodes.AreEqual( Nodes );
@@ -345,6 +350,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
         return nodeList.IsReadOnly ? null : nodeList;
     }
 
+    /// <inheritdoc />
     protected override void Dispose( bool disposing )
     {
         if ( disposing )
@@ -358,6 +364,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
         base.Dispose( disposing );
     }
 
+    /// <inheritdoc />
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "b-tree-view" );

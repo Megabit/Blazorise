@@ -1,0 +1,365 @@
+#region Using directives
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using Blazorise.Utilities;
+#endregion
+
+namespace Blazorise;
+
+/// <summary>
+/// Builds the calendar presentation models used by a <see cref="DatePicker{TValue}"/>.
+/// </summary>
+internal static class DatePickerCalendarBuilder
+{
+    #region Methods
+
+    /// <summary>
+    /// Builds the weeks displayed for the visible calendar month.
+    /// </summary>
+    /// <param name="visibleMonth">Month currently displayed by the calendar.</param>
+    /// <param name="focusedDate">Date targeted by keyboard navigation.</param>
+    /// <param name="firstDayOfWeek">First day rendered in each week.</param>
+    /// <param name="inputMode">Input mode that determines how calendar values are presented and selected.</param>
+    /// <param name="selectionMode">Active date selection mode.</param>
+    /// <param name="selectedDates">Dates currently selected by the picker.</param>
+    /// <param name="pendingRangeStart">Pending start date of an incomplete range.</param>
+    /// <param name="hoveredRangeEnd">Date currently previewed as the end of a range.</param>
+    /// <param name="hoveredWeekStart">ISO Monday of the week currently hovered.</param>
+    /// <param name="isDateDisabled">Callback that determines whether a date is disabled.</param>
+    /// <returns>The six weeks rendered in the calendar grid.</returns>
+    public static IReadOnlyList<DatePickerCalendarWeek> BuildWeeks(
+        DateTime visibleMonth,
+        DateTime focusedDate,
+        DayOfWeek firstDayOfWeek,
+        DateInputMode inputMode,
+        DateInputSelectionMode selectionMode,
+        IReadOnlyList<DateTime> selectedDates,
+        DateTime? pendingRangeStart,
+        DateTime? hoveredRangeEnd,
+        DateTime? hoveredWeekStart,
+        Func<DateTime, bool> isDateDisabled )
+    {
+        List<DatePickerCalendarWeek> weeks = new();
+        bool weekMode = inputMode == DateInputMode.Week;
+        DateTime firstOfMonth = new( visibleMonth.Year, visibleMonth.Month, 1 );
+        int leadingDays = ( 7 + (int)firstOfMonth.DayOfWeek - (int)firstDayOfWeek ) % 7;
+        DateTime gridStart = firstOfMonth.AddDays( -leadingDays );
+        ( DateTime? rangeStart, DateTime? rangeEnd ) = GetDisplayRange(
+            selectionMode,
+            selectedDates,
+            pendingRangeStart,
+            hoveredRangeEnd,
+            focusedDate );
+
+        if ( weekMode )
+        {
+            rangeStart = rangeStart.HasValue ? WeekDateFormat.GetWeekStart( rangeStart.Value ) : null;
+            rangeEnd = rangeEnd.HasValue ? WeekDateFormat.GetWeekStart( rangeEnd.Value ) : null;
+        }
+
+        for ( int weekIndex = 0; weekIndex < 6; weekIndex++ )
+        {
+            List<DatePickerCalendarDay> days = new();
+            DateTime renderedWeekStart = gridStart.AddDays( weekIndex * 7 );
+            int mondayOffset = ( 7 + (int)DayOfWeek.Monday - (int)firstDayOfWeek ) % 7;
+            DateTime representedWeekStart = renderedWeekStart.AddDays( mondayOffset );
+            bool representedWeekSelected = weekMode && IsWeekSelected(
+                representedWeekStart,
+                selectionMode,
+                selectedDates,
+                rangeStart,
+                rangeEnd );
+
+            for ( int dayIndex = 0; dayIndex < 7; dayIndex++ )
+            {
+                DateTime date = renderedWeekStart.AddDays( dayIndex );
+                bool selected;
+                bool rangeStartDay;
+                bool inRange;
+                bool rangeEndDay;
+
+                if ( weekMode )
+                {
+                    ( selected, rangeStartDay, inRange, rangeEndDay ) = GetWeekDayState(
+                        date,
+                        selectionMode,
+                        selectedDates,
+                        rangeStart,
+                        rangeEnd );
+                }
+                else
+                {
+                    rangeStartDay = rangeStart.HasValue && date.Date == rangeStart.Value.Date;
+                    rangeEndDay = rangeEnd.HasValue && date.Date == rangeEnd.Value.Date;
+                    inRange = rangeStart.HasValue
+                        && rangeEnd.HasValue
+                        && date.Date >= rangeStart.Value.Date
+                        && date.Date <= rangeEnd.Value.Date;
+                    selected = selectionMode == DateInputSelectionMode.Multiple
+                        ? selectedDates.Any( item => item.Date == date.Date )
+                        : rangeStartDay || rangeEndDay || selectionMode == DateInputSelectionMode.Single
+                            && selectedDates.Any( item => item.Date == date.Date );
+                }
+
+                days.Add( new DatePickerCalendarDay(
+                    date,
+                    date.Month != visibleMonth.Month,
+                    date.Date == DateTime.Today,
+                    selected,
+                    rangeStartDay,
+                    inRange,
+                    rangeEndDay,
+                    weekMode
+                    && hoveredWeekStart.HasValue
+                    && WeekDateFormat.GetWeekStart( date ) == hoveredWeekStart.Value,
+                    isDateDisabled( date ),
+                    date.Date == focusedDate.Date ) );
+            }
+
+            weeks.Add( new DatePickerCalendarWeek(
+                ISOWeek.GetYear( representedWeekStart ),
+                ISOWeek.GetWeekOfYear( representedWeekStart ),
+                days,
+                representedWeekSelected,
+                weekMode && days.All( day => day.Selected ),
+                weekMode && hoveredWeekStart == representedWeekStart,
+                weekMode && IsWeekDisabled( representedWeekStart, isDateDisabled ),
+                weekMode && WeekDateFormat.GetWeekStart( focusedDate ) == representedWeekStart ) );
+        }
+
+        return weeks;
+    }
+
+    /// <summary>
+    /// Builds the months displayed by the month-selection view.
+    /// </summary>
+    /// <param name="visibleMonth">Month whose year is currently displayed.</param>
+    /// <param name="focusedDate">Month targeted by keyboard navigation.</param>
+    /// <param name="selectedDates">Dates currently selected by the picker.</param>
+    /// <param name="monthNames">Localized month names.</param>
+    /// <param name="isMonthDisabled">Callback that determines whether a month is disabled.</param>
+    /// <returns>The twelve months rendered in the month grid.</returns>
+    public static IReadOnlyList<DatePickerCalendarMonth> BuildMonths(
+        DateTime visibleMonth,
+        DateTime focusedDate,
+        IReadOnlyList<DateTime> selectedDates,
+        IReadOnlyList<string> monthNames,
+        Func<DateTime, bool> isMonthDisabled )
+    {
+        List<DatePickerCalendarMonth> months = new();
+
+        for ( int monthIndex = 1; monthIndex <= 12; monthIndex++ )
+        {
+            DateTime month = new( visibleMonth.Year, monthIndex, 1 );
+
+            months.Add( new DatePickerCalendarMonth(
+                month,
+                monthNames[monthIndex - 1],
+                selectedDates.Any( item => item.Year == month.Year && item.Month == month.Month ),
+                isMonthDisabled( month ),
+                focusedDate.Year == month.Year && focusedDate.Month == month.Month ) );
+        }
+
+        return months;
+    }
+
+    /// <summary>
+    /// Builds the years displayed by the year-selection view.
+    /// </summary>
+    /// <param name="visibleMonth">Month whose decade is currently displayed.</param>
+    /// <param name="focusedDate">Year targeted by keyboard navigation.</param>
+    /// <param name="selectedDates">Dates currently selected by the picker.</param>
+    /// <param name="isYearDisabled">Callback that determines whether a year is disabled.</param>
+    /// <returns>The active decade with one adjacent year on each side.</returns>
+    public static IReadOnlyList<DatePickerCalendarPeriod> BuildYears(
+        DateTime visibleMonth,
+        DateTime focusedDate,
+        IReadOnlyList<DateTime> selectedDates,
+        Func<int, bool> isYearDisabled )
+    {
+        List<DatePickerCalendarPeriod> years = new();
+        int decadeStart = GetDecadeStart( visibleMonth.Year );
+        int decadeEnd = Math.Min( decadeStart + 9, DateTime.MaxValue.Year );
+        int firstRenderedYear = decadeStart > DateTime.MinValue.Year
+            ? decadeStart - 1
+            : DateTime.MinValue.Year;
+
+        for ( int yearOffset = 0; yearOffset < 12; yearOffset++ )
+        {
+            int year = firstRenderedYear + yearOffset;
+            bool valid = year is >= 1 and <= 9999;
+
+            years.Add( new DatePickerCalendarPeriod(
+                year,
+                year,
+                year.ToString( CultureInfo.InvariantCulture ),
+                year < decadeStart || year > decadeEnd,
+                valid && selectedDates.Any( item => item.Year == year ),
+                !valid || isYearDisabled( year ),
+                valid && focusedDate.Year == year ) );
+        }
+
+        return years;
+    }
+
+    /// <summary>
+    /// Builds the decades displayed by the decade-selection view.
+    /// </summary>
+    /// <param name="visibleMonth">Month whose century is currently displayed.</param>
+    /// <param name="focusedDate">Decade targeted by keyboard navigation.</param>
+    /// <param name="selectedDates">Dates currently selected by the picker.</param>
+    /// <param name="isPeriodDisabled">Callback that determines whether a year range is disabled.</param>
+    /// <returns>The active century with one adjacent decade on each side.</returns>
+    public static IReadOnlyList<DatePickerCalendarPeriod> BuildDecades(
+        DateTime visibleMonth,
+        DateTime focusedDate,
+        IReadOnlyList<DateTime> selectedDates,
+        Func<int, int, bool> isPeriodDisabled )
+    {
+        List<DatePickerCalendarPeriod> decades = new();
+        int centuryStart = GetCenturyStart( visibleMonth.Year );
+        int centuryEnd = Math.Min( centuryStart + 99, DateTime.MaxValue.Year );
+        int firstRenderedDecade = centuryStart >= 11
+            ? centuryStart - 10
+            : DateTime.MinValue.Year;
+
+        for ( int decadeOffset = 0; decadeOffset < 12; decadeOffset++ )
+        {
+            int startYear = firstRenderedDecade + decadeOffset * 10;
+            int endYear = startYear + 9;
+            bool valid = startYear <= DateTime.MaxValue.Year && endYear >= DateTime.MinValue.Year;
+            int validStartYear = Math.Max( startYear, DateTime.MinValue.Year );
+            int validEndYear = Math.Min( endYear, DateTime.MaxValue.Year );
+
+            decades.Add( new DatePickerCalendarPeriod(
+                startYear,
+                endYear,
+                $"{startYear.ToString( CultureInfo.InvariantCulture )}-{endYear.ToString( CultureInfo.InvariantCulture )}",
+                endYear < centuryStart || startYear > centuryEnd,
+                valid && selectedDates.Any( item => item.Year >= validStartYear && item.Year <= validEndYear ),
+                !valid || isPeriodDisabled( validStartYear, validEndYear ),
+                valid && focusedDate.Year >= validStartYear && focusedDate.Year <= validEndYear ) );
+        }
+
+        return decades;
+    }
+
+    /// <summary>
+    /// Gets the first year of the decade containing the specified year.
+    /// </summary>
+    /// <param name="year">Year whose decade is requested.</param>
+    /// <returns>The first year of the containing decade.</returns>
+    public static int GetDecadeStart( int year )
+        => Math.Max( DateTime.MinValue.Year, year - year % 10 );
+
+    /// <summary>
+    /// Gets the first year of the century containing the specified year.
+    /// </summary>
+    /// <param name="year">Year whose century is requested.</param>
+    /// <returns>The first year of the containing century.</returns>
+    public static int GetCenturyStart( int year )
+        => Math.Max( DateTime.MinValue.Year, year - year % 100 );
+
+    private static ( DateTime? Start, DateTime? End ) GetDisplayRange(
+        DateInputSelectionMode selectionMode,
+        IReadOnlyList<DateTime> selectedDates,
+        DateTime? pendingRangeStart,
+        DateTime? hoveredRangeEnd,
+        DateTime focusedDate )
+    {
+        if ( selectionMode == DateInputSelectionMode.Range )
+        {
+            if ( pendingRangeStart.HasValue )
+            {
+                DateTime end = hoveredRangeEnd ?? focusedDate;
+                return end < pendingRangeStart.Value
+                    ? ( end, pendingRangeStart.Value )
+                    : ( pendingRangeStart.Value, end );
+            }
+
+            if ( selectedDates.Count > 0 )
+            {
+                return ( selectedDates[0], selectedDates.Count > 1 ? selectedDates[1] : selectedDates[0] );
+            }
+        }
+
+        return ( null, null );
+    }
+
+    private static bool IsWeekSelected(
+        DateTime weekStart,
+        DateInputSelectionMode selectionMode,
+        IReadOnlyList<DateTime> selectedDates,
+        DateTime? rangeStart,
+        DateTime? rangeEnd )
+    {
+        DateTime canonicalWeekStart = WeekDateFormat.GetWeekStart( weekStart );
+
+        if ( selectionMode == DateInputSelectionMode.Range && rangeStart.HasValue && rangeEnd.HasValue )
+        {
+            DateTime start = WeekDateFormat.GetWeekStart( rangeStart.Value );
+            DateTime end = WeekDateFormat.GetWeekStart( rangeEnd.Value );
+
+            if ( end < start )
+            {
+                (start, end) = (end, start);
+            }
+
+            return canonicalWeekStart >= start && canonicalWeekStart <= end;
+        }
+
+        return selectedDates.Any( date => WeekDateFormat.GetWeekStart( date ) == canonicalWeekStart );
+    }
+
+    private static ( bool Selected, bool RangeStart, bool InRange, bool RangeEnd ) GetWeekDayState(
+        DateTime date,
+        DateInputSelectionMode selectionMode,
+        IReadOnlyList<DateTime> selectedDates,
+        DateTime? rangeStart,
+        DateTime? rangeEnd )
+    {
+        DateTime weekStart = WeekDateFormat.GetWeekStart( date );
+
+        if ( selectionMode == DateInputSelectionMode.Range && rangeStart.HasValue && rangeEnd.HasValue )
+        {
+            DateTime start = WeekDateFormat.GetWeekStart( rangeStart.Value );
+            DateTime end = WeekDateFormat.GetWeekStart( rangeEnd.Value );
+
+            if ( end < start )
+            {
+                (start, end) = (end, start);
+            }
+
+            bool selected = weekStart >= start && weekStart <= end;
+
+            return (
+                selected,
+                selected && date.Date == start,
+                selected,
+                selected && date.Date == end.AddDays( 6 ) );
+        }
+
+        bool selectedWeek = selectedDates.Any( selectedDate => WeekDateFormat.GetWeekStart( selectedDate ) == weekStart );
+
+        return (
+            selectedWeek,
+            selectedWeek && date.DayOfWeek == DayOfWeek.Monday,
+            selectedWeek,
+            selectedWeek && date.DayOfWeek == DayOfWeek.Sunday );
+    }
+
+    private static bool IsWeekDisabled( DateTime weekStart, Func<DateTime, bool> isDateDisabled )
+    {
+        for ( int dayOffset = 0; dayOffset < 7; dayOffset++ )
+        {
+            if ( !isDateDisabled( weekStart.AddDays( dayOffset ) ) )
+                return false;
+        }
+
+        return true;
+    }
+
+    #endregion
+}

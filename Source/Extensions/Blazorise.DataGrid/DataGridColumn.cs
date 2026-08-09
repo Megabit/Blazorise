@@ -16,13 +16,28 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.DataGrid;
 
+/// <summary>
+/// Provides data grid column behavior within a DataGrid.
+/// </summary>
 public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 {
     #region Members
 
+    /// <summary>
+    /// Callback invoked for value type getter.
+    /// </summary>
     protected readonly Lazy<Func<TItem, Type>> valueTypeGetter;
+    /// <summary>
+    /// Callback invoked for value getter.
+    /// </summary>
     protected readonly Lazy<Func<TItem, object>> valueGetter;
+    /// <summary>
+    /// Callback invoked for value setter.
+    /// </summary>
     protected readonly Lazy<Action<TItem, object>> valueSetter;
+    /// <summary>
+    /// Callback invoked for sort field getter.
+    /// </summary>
     protected readonly Lazy<Func<TItem, object>> sortFieldGetter;
 
     private Dictionary<DataGridSortMode, SortDirection> currentSortDirection { get; set; } = new();
@@ -43,6 +58,9 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     #region Constructors
 
+    /// <summary>
+    /// Creates a data grid column instance.
+    /// </summary>
     public DataGridColumn()
     {
 
@@ -146,6 +164,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         InitializeDefaults();
     }
 
+    /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         var wasDisplayingInitialized = displayingInitialized;
@@ -185,6 +204,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         }
     }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -274,6 +294,9 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
             ? GetValue( item )
             : GetSortValue( item ) );
 
+    /// <summary>
+    /// Normalizes a cell value before sorting.
+    /// </summary>
     protected internal virtual object NormalizeValueForSort( object value )
     {
         if ( value is null || value is string || value is IComparable )
@@ -343,6 +366,9 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         await ParentDataGrid.Refresh();
     }
 
+    /// <summary>
+    /// Updates display order.
+    /// </summary>
     public async Task SetDisplayOrder( int displayOrder, bool forceParentRefresh = false )
     {
         InternalDisplayOrder = displayOrder;
@@ -742,8 +768,14 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     public virtual DataGridColumnType ColumnType { get; } = DataGridColumnType.Text;
 
+    /// <summary>
+    /// Indicates whether the data grid column is multi select column.
+    /// </summary>
     public bool IsMultiSelectColumn => ColumnType == DataGridColumnType.MultiSelect;
 
+    /// <summary>
+    /// Indicates whether the data grid column is command column.
+    /// </summary>
     public bool IsCommandColumn => ColumnType == DataGridColumnType.Command;
 
     /// <summary>

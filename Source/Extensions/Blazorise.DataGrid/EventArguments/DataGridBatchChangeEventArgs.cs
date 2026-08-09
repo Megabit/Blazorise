@@ -19,5 +19,8 @@ public class DataGridBatchChangeEventArgs<TItem> : EventArgs
         Item = batchChange;
     }
 
+    /// <summary>
+    /// Item consumed by the data grid batch change event args.
+    /// </summary>
     public DataGridBatchEditItem<TItem> Item { get; private set; }
 }

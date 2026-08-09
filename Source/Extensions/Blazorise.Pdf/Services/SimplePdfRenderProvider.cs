@@ -1,0 +1,2298 @@
+#region Using directives
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Blazorise;
+using Blazorise.Pdf.Internal;
+#endregion
+
+namespace Blazorise.Pdf;
+
+/// <summary>
+/// Built-in lightweight PDF render provider for basic document generation.
+/// </summary>
+public sealed class SimplePdfRenderProvider : IPdfRenderProvider
+{
+    #region Members
+
+    private const double LineHeightRatio = 1.2;
+
+    private const int HighestAsciiCodePoint = 127;
+
+    private const int FirstLatin1SupplementCodePoint = 160;
+
+    private const int HighestBasicMultilingualPlaneCodePoint = ushort.MaxValue;
+
+    private const int HighestUnicodeCodePoint = 1_114_111;
+
+    private const int Int16SignBit = 32_768;
+
+    private const int UInt16ValueCount = 65_536;
+
+    private readonly IFontProvider fontProvider;
+
+    private readonly IPdfResourceResolver resourceResolver;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new instance of the simple PDF render provider.
+    /// </summary>
+    /// <param name="fontProvider">Blazorise font provider.</param>
+    /// <param name="resourceResolver">PDF resource resolver.</param>
+    public SimplePdfRenderProvider( IFontProvider fontProvider = null, IPdfResourceResolver resourceResolver = null )
+    {
+        this.fontProvider = fontProvider;
+        this.resourceResolver = resourceResolver ?? new PdfResourceResolver();
+    }
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc />
+    public async Task<PdfGenerationResult> RenderAsync( PdfDocumentDefinition document, PdfGenerationOptions options, CancellationToken cancellationToken = default )
+    {
+        if ( document is null )
+            throw new ArgumentNullException( nameof( document ) );
+
+        options ??= new();
+
+        using MemoryStream stream = new();
+        IReadOnlyList<string> diagnostics = await GeneratePdf( document, stream, fontProvider, resourceResolver, options, cancellationToken );
+
+        return new PdfGenerationResult
+        {
+            Content = stream.ToArray(),
+            FileName = options.FileName,
+            Diagnostics = diagnostics,
+        };
+    }
+
+    /// <inheritdoc />
+    public async Task RenderToStreamAsync( PdfDocumentDefinition document, Stream stream, PdfGenerationOptions options, CancellationToken cancellationToken = default )
+    {
+        if ( document is null )
+            throw new ArgumentNullException( nameof( document ) );
+
+        if ( stream is null )
+            throw new ArgumentNullException( nameof( stream ) );
+
+        if ( !stream.CanWrite )
+            throw new ArgumentException( "The PDF destination stream must be writable.", nameof( stream ) );
+
+        options ??= new();
+
+        await GeneratePdf( document, stream, fontProvider, resourceResolver, options, cancellationToken );
+    }
+
+    private static async Task<IReadOnlyList<string>> GeneratePdf( PdfDocumentDefinition document, Stream stream, IFontProvider fontProvider, IPdfResourceResolver resourceResolver, PdfGenerationOptions options, CancellationToken cancellationToken )
+    {
+        document = PdfDocumentCloner.Clone( document, cancellationToken );
+        options = CloneOptions( options );
+        IReadOnlyList<string> diagnostics = PdfDocumentValidator.Validate( document, options, cancellationToken );
+
+        List<PdfPageDefinition> pages = document.Pages.Count > 0 ? document.Pages : [CreateDefaultPage( document )];
+        IFontProvider effectiveFontProvider = new PdfDocumentFontProvider( document.Fonts, fontProvider );
+        int totalWork = pages.Count + 2;
+
+        await ReportProgress( options, PdfGenerationStage.PreparingResources, 0, 0, pages.Count );
+        cancellationToken.ThrowIfCancellationRequested();
+
+        PdfResolvedResources resolvedResources = await ResolveResources( pages, effectiveFontProvider, resourceResolver, options, cancellationToken );
+        List<PdfObject> objects = [];
+        List<int> pageObjectIds = [];
+        int catalogId = ReserveObject( objects );
+        int pagesId = ReserveObject( objects );
+        PdfFontResources fontResources = AddFontResources( objects, pages, effectiveFontProvider, resolvedResources, cancellationToken );
+
+        await ReportProgress( options, PdfGenerationStage.RenderingPages, 1d / totalWork, 0, pages.Count );
+
+        for ( int pageIndex = 0; pageIndex < pages.Count; pageIndex++ )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            PdfPageDefinition page = pages[pageIndex];
+            PdfPageContent pageContent = BuildPageContent( page, objects, fontResources, effectiveFontProvider, resolvedResources, cancellationToken );
+            int contentId = AddObject( objects, CreateStreamObject( pageContent.Content, cancellationToken ) );
+            int pageId = AddObject( objects, BuildPageObject( page, pagesId, fontResources, contentId, pageContent, cancellationToken ) );
+            pageObjectIds.Add( pageId );
+
+            await ReportProgress( options, PdfGenerationStage.RenderingPages, ( pageIndex + 2d ) / totalWork, pageIndex + 1, pages.Count );
+        }
+
+        cancellationToken.ThrowIfCancellationRequested();
+
+        SetObject( objects, pagesId, BuildPagesObject( pageObjectIds, cancellationToken ) );
+        SetObject( objects, catalogId, $"<< /Type /Catalog /Pages {pagesId.ToString( CultureInfo.InvariantCulture )} 0 R >>" );
+        int informationId = string.IsNullOrEmpty( document.Title ) ? 0 : AddObject( objects, BuildDocumentInformationObject( document.Title, cancellationToken ) );
+
+        await ReportProgress( options, PdfGenerationStage.WritingDocument, ( pages.Count + 1d ) / totalWork, pages.Count, pages.Count );
+        cancellationToken.ThrowIfCancellationRequested();
+
+        await WriteDocumentAsync( stream, objects, catalogId, informationId, cancellationToken );
+
+        await ReportProgress( options, PdfGenerationStage.Completed, 1, pages.Count, pages.Count );
+
+        return diagnostics;
+    }
+
+    private static PdfGenerationOptions CloneOptions( PdfGenerationOptions options )
+        => new()
+        {
+            FileName = options.FileName,
+            Progress = options.Progress,
+            MaxPages = options.MaxPages,
+            MaxDefinitionNodes = options.MaxDefinitionNodes,
+            MaxTextLength = options.MaxTextLength,
+            MaxResourceSize = options.MaxResourceSize,
+            MaxTotalResourceSize = options.MaxTotalResourceSize,
+            MaxImagePixels = options.MaxImagePixels,
+        };
+
+    private static async Task ReportProgress( PdfGenerationOptions options, PdfGenerationStage stage, double progress, int completedPages, int totalPages )
+    {
+        if ( options.Progress is null )
+            return;
+
+        await options.Progress( new( stage, progress, completedPages, totalPages ) );
+        await Task.Yield();
+    }
+
+    private static PdfPageDefinition CreateDefaultPage( PdfDocumentDefinition document )
+    {
+        (double width, double height) = PdfPageMetrics.Resolve( document.PageSize, document.Orientation, document.PageWidth, document.PageHeight );
+
+        return new()
+        {
+            Size = document.PageSize,
+            Orientation = document.Orientation,
+            Width = width,
+            Height = height,
+        };
+    }
+
+    private static int ReserveObject( List<PdfObject> objects )
+    {
+        objects.Add( new() );
+
+        return objects.Count;
+    }
+
+    private static int AddObject( List<PdfObject> objects, string content )
+    {
+        objects.Add( new()
+        {
+            Content = content,
+        } );
+
+        return objects.Count;
+    }
+
+    private static int AddObject( List<PdfObject> objects, byte[] content )
+    {
+        objects.Add( new()
+        {
+            ContentBytes = content,
+        } );
+
+        return objects.Count;
+    }
+
+    private static void SetObject( List<PdfObject> objects, int objectId, string content )
+    {
+        objects[objectId - 1].Content = content;
+    }
+
+    private static string BuildPagesObject( IReadOnlyList<int> pageObjectIds, CancellationToken cancellationToken )
+    {
+        StringBuilder kids = new();
+
+        for ( int i = 0; i < pageObjectIds.Count; i++ )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if ( i > 0 )
+                kids.Append( ' ' );
+
+            kids.Append( pageObjectIds[i].ToString( CultureInfo.InvariantCulture ) );
+            kids.Append( " 0 R" );
+        }
+
+        return $"<< /Type /Pages /Kids [ {kids} ] /Count {pageObjectIds.Count.ToString( CultureInfo.InvariantCulture )} >>";
+    }
+
+    private static string BuildDocumentInformationObject( string title, CancellationToken cancellationToken )
+    {
+        StringBuilder builder = new( title.Length * 4 + 20 );
+        builder.Append( "<< /Title <FEFF" );
+
+        for ( int i = 0; i < title.Length; i++ )
+        {
+            if ( ( i & 4095 ) == 0 )
+                cancellationToken.ThrowIfCancellationRequested();
+
+            int character = title[i];
+            builder.Append( ( character >> 8 ).ToString( "X2", CultureInfo.InvariantCulture ) );
+            builder.Append( ( character & byte.MaxValue ).ToString( "X2", CultureInfo.InvariantCulture ) );
+        }
+
+        builder.Append( "> >>" );
+
+        return builder.ToString();
+    }
+
+    private static async Task<PdfResolvedResources> ResolveResources( IReadOnlyList<PdfPageDefinition> pages, IFontProvider fontProvider, IPdfResourceResolver resourceResolver, PdfGenerationOptions options, CancellationToken cancellationToken )
+    {
+        PdfResolvedResources resources = new();
+        long totalResourceSize = 0;
+
+        foreach ( string source in CollectImageSources( pages, cancellationToken ) )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            PdfResourceContent content = await resourceResolver.ResolveImageAsync( source, cancellationToken );
+            ValidateResolvedResource( content, $"image source {DescribeImageSource( source )}", options, ref totalResourceSize );
+
+            if ( !PdfImageDataReader.TryRead( content, options.MaxImagePixels, cancellationToken, out PdfImageData imageData ) )
+                throw new InvalidDataException( $"The PDF image source {DescribeImageSource( source )} is not a supported JPEG or 8-bit non-interlaced PNG image." );
+
+            resources.Images.Add( source, imageData );
+        }
+
+        foreach ( string family in CollectFontFamilies( pages, fontProvider, cancellationToken ) )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            FontFamily customFont = ResolveCustomFontFamily( family, fontProvider );
+
+            if ( customFont is null )
+                continue;
+
+            for ( int variantIndex = 0; variantIndex < 4; variantIndex++ )
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                FontSource source = customFont.ResolveSource( variantIndex is 1 or 3, variantIndex is 2 or 3 );
+
+                if ( source is null )
+                    throw new InvalidDataException( $"The PDF font family '{customFont.Name}' does not define an embeddable font source." );
+
+                if ( resources.Fonts.ContainsKey( source ) )
+                    continue;
+
+                PdfResourceContent content = await resourceResolver.ResolveFontAsync( source, cancellationToken );
+
+                ValidateResolvedResource( content, $"font family '{customFont.Name}'", options, ref totalResourceSize );
+
+                if ( !PdfEmbeddedFont.TryCreate( content.Data, customFont.Name, variantIndex, 1, cancellationToken, out _ ) )
+                    throw new InvalidDataException( $"The PDF font family '{customFont.Name}' contains invalid or unsupported TrueType/OpenType font data." );
+
+                resources.Fonts.Add( source, content.Data );
+            }
+        }
+
+        return resources;
+    }
+
+    private static void ValidateResolvedResource( PdfResourceContent content, string description, PdfGenerationOptions options, ref long totalResourceSize )
+    {
+        if ( content?.Data is not { Length: > 0 } data )
+            throw new InvalidDataException( $"The PDF resource resolver returned no data for {description}." );
+
+        if ( data.LongLength > options.MaxResourceSize )
+            throw new InvalidDataException( $"The PDF {description} exceeds the configured resource limit of {options.MaxResourceSize} bytes." );
+
+        if ( totalResourceSize > options.MaxTotalResourceSize - data.LongLength )
+            throw new InvalidDataException( $"The resolved PDF resources exceed the configured total limit of {options.MaxTotalResourceSize} bytes." );
+
+        totalResourceSize += data.LongLength;
+    }
+
+    private static IReadOnlyList<string> CollectImageSources( IReadOnlyList<PdfPageDefinition> pages, CancellationToken cancellationToken )
+    {
+        List<string> sources = [];
+
+        foreach ( PdfPageDefinition page in pages )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            foreach ( PdfElementDefinition element in page.Elements )
+            {
+                CollectImageSources( sources, element, cancellationToken );
+            }
+        }
+
+        return sources;
+    }
+
+    private static void CollectImageSources( List<string> sources, PdfElementDefinition element, CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if ( element is null )
+            return;
+
+        if ( element.Type == PdfElementType.Image )
+        {
+            if ( string.IsNullOrWhiteSpace( element.Source ) )
+                throw new InvalidDataException( "The PDF image element does not define a source." );
+
+            if ( !sources.Contains( element.Source, StringComparer.Ordinal ) )
+                sources.Add( element.Source );
+        }
+
+        foreach ( PdfTableRowDefinition row in element.Rows ?? [] )
+        {
+            foreach ( PdfTableCellDefinition cell in row.Cells ?? [] )
+            {
+                foreach ( PdfElementDefinition child in cell.Elements ?? [] )
+                {
+                    CollectImageSources( sources, child, cancellationToken );
+                }
+            }
+        }
+    }
+
+    private static string DescribeImageSource( string source )
+    {
+        if ( source?.StartsWith( "data:", StringComparison.OrdinalIgnoreCase ) == true )
+        {
+            int separatorIndex = source.IndexOf( ';' );
+            string mediaType = separatorIndex > 5 ? source.Substring( 5, separatorIndex - 5 ) : "unknown";
+
+            return $"data URI ({mediaType})";
+        }
+
+        return $"'{source}'";
+    }
+
+    private static PdfFontResources AddFontResources( List<PdfObject> objects, IReadOnlyList<PdfPageDefinition> pages, IFontProvider fontProvider, PdfResolvedResources resolvedResources, CancellationToken cancellationToken )
+    {
+        PdfFontResources fontResources = new();
+        bool centralEuropeanFallbackRequired = RequiresType1CentralEuropeanFallback( pages, cancellationToken );
+
+        foreach ( string family in CollectFontFamilies( pages, fontProvider, cancellationToken ) )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            FontFamily customFont = ResolveCustomFontFamily( family, fontProvider );
+            string[] baseFonts = GetBaseFontNames( customFont is null ? family : Fonts.Helvetica );
+            PdfFontResource[] resources = new PdfFontResource[baseFonts.Length];
+
+            for ( int i = 0; i < baseFonts.Length; i++ )
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                PdfEmbeddedFont embeddedFont = customFont is not null
+                    ? CreateEmbeddedFontResource( objects, customFont, resolvedResources.Fonts[customFont.ResolveSource( i is 1 or 3, i is 2 or 3 )], i, fontResources.All.Count + i + 1, cancellationToken )
+                    : null;
+
+                resources[i] = new()
+                {
+                    Name = FormattableString.Invariant( $"F{fontResources.All.Count + i + 1}" ),
+                    ObjectId = embeddedFont?.ObjectId ?? AddObject( objects, BuildType1FontObject( baseFonts[i], centralEuropeanFallbackRequired ) ),
+                    EmbeddedFont = embeddedFont,
+                    Metrics = embeddedFont is not null ? embeddedFont.Metrics : new PdfStandardFontMetrics( baseFonts[i] ),
+                };
+            }
+
+            fontResources.Add( family, resources );
+        }
+
+        return fontResources;
+    }
+
+    private static IReadOnlyList<string> CollectFontFamilies( IReadOnlyList<PdfPageDefinition> pages, IFontProvider fontProvider, CancellationToken cancellationToken )
+    {
+        List<string> families = [Fonts.Helvetica];
+
+        foreach ( PdfPageDefinition page in pages )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            foreach ( PdfElementDefinition element in page.Elements )
+            {
+                CollectFontFamilies( families, element, fontProvider, cancellationToken );
+            }
+        }
+
+        return families;
+    }
+
+    private static void CollectFontFamilies( List<string> families, PdfElementDefinition element, IFontProvider fontProvider, CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if ( element is null )
+            return;
+
+        if ( element.Type == PdfElementType.Text )
+        {
+            string family = ResolveFontFamilyKey( element.Font?.Family, fontProvider );
+
+            if ( !families.Contains( family, StringComparer.OrdinalIgnoreCase ) )
+                families.Add( family );
+        }
+
+        foreach ( PdfTableRowDefinition row in element.Rows ?? [] )
+        {
+            foreach ( PdfTableCellDefinition cell in row.Cells ?? [] )
+            {
+                foreach ( PdfElementDefinition child in cell.Elements ?? [] )
+                {
+                    CollectFontFamilies( families, child, fontProvider, cancellationToken );
+                }
+            }
+        }
+    }
+
+    private static string ResolveFontFamilyKey( string family, IFontProvider fontProvider )
+    {
+        FontFamily registeredFont = ResolveCustomFontFamily( family, fontProvider );
+
+        if ( registeredFont is not null )
+            return registeredFont.Name;
+
+        return ResolveStandardFontFamilyName( family );
+    }
+
+    private static string ResolveStandardFontFamilyName( string family )
+    {
+        if ( string.IsNullOrWhiteSpace( family ) )
+            return Fonts.Helvetica;
+
+        if ( ContainsFamilyName( family, "courier", "consolas", "mono" ) )
+            return Fonts.Courier;
+
+        if ( ContainsFamilyName( family, "sans" ) )
+            return Fonts.Helvetica;
+
+        if ( ContainsFamilyName( family, "times", "georgia", "garamond", "serif" ) )
+            return Fonts.Times;
+
+        return Fonts.Helvetica;
+    }
+
+    private static FontFamily ResolveCustomFontFamily( string family, IFontProvider fontProvider )
+    {
+        FontFamily registeredFont = fontProvider?.Resolve( family );
+
+        return registeredFont is not null && HasFontSource( registeredFont ) && !IsStandardFontFamily( registeredFont.Name )
+            ? registeredFont
+            : null;
+    }
+
+    private static bool HasFontSource( FontFamily font )
+    {
+        return font?.Regular is not null || font?.Bold is not null || font?.Italic is not null || font?.BoldItalic is not null;
+    }
+
+    private static bool IsStandardFontFamily( string family )
+    {
+        return IsFontFamily( family, Fonts.Helvetica )
+               || IsFontFamily( family, Fonts.Times )
+               || IsFontFamily( family, Fonts.Courier );
+    }
+
+    private static bool IsFontFamily( string family, string expectedFamily )
+    {
+        return string.Equals( family, expectedFamily, StringComparison.OrdinalIgnoreCase );
+    }
+
+    private static bool ContainsFamilyName( string family, params string[] names )
+    {
+        foreach ( string name in names )
+        {
+            if ( family.Contains( name, StringComparison.OrdinalIgnoreCase ) )
+                return true;
+        }
+
+        return false;
+    }
+
+    private static string[] GetBaseFontNames( string family )
+    {
+        if ( IsFontFamily( family, Fonts.Times ) )
+            return ["Times-Roman", "Times-Bold", "Times-Italic", "Times-BoldItalic"];
+
+        if ( IsFontFamily( family, Fonts.Courier ) )
+            return ["Courier", "Courier-Bold", "Courier-Oblique", "Courier-BoldOblique"];
+
+        return ["Helvetica", "Helvetica-Bold", "Helvetica-Oblique", "Helvetica-BoldOblique"];
+    }
+
+    private static string BuildType1FontObject( string baseFontName, bool centralEuropeanFallbackRequired )
+    {
+        if ( !centralEuropeanFallbackRequired )
+            return FormattableString.Invariant( $"<< /Type /Font /Subtype /Type1 /BaseFont /{baseFontName} /Encoding /WinAnsiEncoding >>" );
+
+        return FormattableString.Invariant( $"<< /Type /Font /Subtype /Type1 /BaseFont /{baseFontName} /Encoding << /Type /Encoding /BaseEncoding /WinAnsiEncoding /Differences [ 129 /ccaron 131 /Dcroat 141 /cacute 143 /dcroat 144 /Ccaron 157 /Cacute ] >> >>" );
+    }
+
+    private static bool RequiresType1CentralEuropeanFallback( IReadOnlyList<PdfPageDefinition> pages, CancellationToken cancellationToken )
+    {
+        foreach ( PdfPageDefinition page in pages )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            foreach ( PdfElementDefinition element in page.Elements )
+            {
+                if ( RequiresType1CentralEuropeanFallback( element, cancellationToken ) )
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool RequiresType1CentralEuropeanFallback( PdfElementDefinition element, CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if ( element is null )
+            return false;
+
+        if ( element.Type == PdfElementType.Text && RequiresType1CentralEuropeanFallback( element.Text, cancellationToken ) )
+            return true;
+
+        foreach ( PdfTableRowDefinition row in element.Rows ?? [] )
+        {
+            foreach ( PdfTableCellDefinition cell in row.Cells ?? [] )
+            {
+                foreach ( PdfElementDefinition child in cell.Elements ?? [] )
+                {
+                    if ( RequiresType1CentralEuropeanFallback( child, cancellationToken ) )
+                        return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static bool RequiresType1CentralEuropeanFallback( string text, CancellationToken cancellationToken )
+    {
+        if ( string.IsNullOrEmpty( text ) )
+            return false;
+
+        for ( int i = 0; i < text.Length; i++ )
+        {
+            if ( ( i & 4095 ) == 0 )
+                cancellationToken.ThrowIfCancellationRequested();
+
+            if ( IsType1CentralEuropeanFallbackCharacter( text[i] ) )
+                return true;
+        }
+
+        return false;
+    }
+
+    private static bool IsType1CentralEuropeanFallbackCharacter( char character )
+    {
+        return character is '\u010D' or '\u010C' or '\u0107' or '\u0106' or '\u0111' or '\u0110';
+    }
+
+    private static PdfEmbeddedFont CreateEmbeddedFontResource( List<PdfObject> objects, FontFamily family, byte[] fontBytes, int variantIndex, int resourceIndex, CancellationToken cancellationToken )
+    {
+        if ( !PdfEmbeddedFont.TryCreate( fontBytes, family.Name, variantIndex, resourceIndex, cancellationToken, out PdfEmbeddedFont embeddedFont ) )
+            throw new InvalidDataException( $"The PDF font family '{family.Name}' contains invalid or unsupported TrueType/OpenType font data." );
+
+        return AddEmbeddedFontResource( objects, embeddedFont, cancellationToken );
+    }
+
+    private static PdfEmbeddedFont AddEmbeddedFontResource( List<PdfObject> objects, PdfEmbeddedFont embeddedFont, CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        int fontFileId = AddObject( objects, CreateStreamObject( FormattableString.Invariant( $"<< /Length {embeddedFont.FontBytes.Length} /Length1 {embeddedFont.FontBytes.Length} >>" ), embeddedFont.FontBytes, cancellationToken ) );
+        int fontDescriptorId = AddObject( objects, BuildEmbeddedFontDescriptorObject( embeddedFont, fontFileId ) );
+        int toUnicodeId = AddObject( objects, CreateStreamObject( BuildToUnicodeMap( embeddedFont, cancellationToken ), cancellationToken ) );
+        int cidFontId = AddObject( objects, BuildEmbeddedCidFontObject( embeddedFont, fontDescriptorId, cancellationToken ) );
+        embeddedFont.ObjectId = AddObject( objects, BuildEmbeddedType0FontObject( embeddedFont, cidFontId, toUnicodeId ) );
+
+        return embeddedFont;
+    }
+
+    private static string BuildEmbeddedType0FontObject( PdfEmbeddedFont embeddedFont, int cidFontId, int toUnicodeId )
+    {
+        return FormattableString.Invariant( $"<< /Type /Font /Subtype /Type0 /BaseFont /{embeddedFont.FontName} /Encoding /Identity-H /DescendantFonts [ {cidFontId} 0 R ] /ToUnicode {toUnicodeId} 0 R >>" );
+    }
+
+    private static string BuildEmbeddedCidFontObject( PdfEmbeddedFont embeddedFont, int fontDescriptorId, CancellationToken cancellationToken )
+    {
+        return FormattableString.Invariant( $"<< /Type /Font /Subtype /CIDFontType2 /BaseFont /{embeddedFont.FontName} /CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> /FontDescriptor {fontDescriptorId} 0 R /CIDToGIDMap /Identity /DW {PdfTrueTypeFontMetrics.DefaultGlyphWidth} /W {embeddedFont.BuildWidthArray( cancellationToken )} >>" );
+    }
+
+    private static string BuildEmbeddedFontDescriptorObject( PdfEmbeddedFont embeddedFont, int fontFileId )
+    {
+        return FormattableString.Invariant( $"<< /Type /FontDescriptor /FontName /{embeddedFont.FontName} /Flags {embeddedFont.Flags} /FontBBox [ {embeddedFont.MinX} {embeddedFont.MinY} {embeddedFont.MaxX} {embeddedFont.MaxY} ] /ItalicAngle {embeddedFont.ItalicAngle} /Ascent {embeddedFont.Ascent} /Descent {embeddedFont.Descent} /CapHeight {embeddedFont.CapHeight} /StemV 80 /FontFile2 {fontFileId} 0 R >>" );
+    }
+
+    private static string BuildToUnicodeMap( PdfEmbeddedFont embeddedFont, CancellationToken cancellationToken )
+    {
+        StringBuilder builder = new();
+        builder.AppendLine( "/CIDInit /ProcSet findresource begin" );
+        builder.AppendLine( "12 dict begin" );
+        builder.AppendLine( "begincmap" );
+        builder.AppendLine( "/CIDSystemInfo << /Registry (Adobe) /Ordering (UCS) /Supplement 0 >> def" );
+        builder.AppendLine( "/CMapName /Adobe-Identity-UCS def" );
+        builder.AppendLine( "/CMapType 2 def" );
+        builder.AppendLine( "1 begincodespacerange" );
+        builder.AppendLine( "<0000> <FFFF>" );
+        builder.AppendLine( "endcodespacerange" );
+
+        List<KeyValuePair<int, int>> mappings = embeddedFont.CreateGlyphUnicodeMappings( cancellationToken );
+
+        for ( int i = 0; i < mappings.Count; i += 100 )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            int count = Math.Min( 100, mappings.Count - i );
+            builder.AppendLine( FormattableString.Invariant( $"{count} beginbfchar" ) );
+
+            for ( int j = 0; j < count; j++ )
+            {
+                KeyValuePair<int, int> mapping = mappings[i + j];
+                builder.AppendLine( FormattableString.Invariant( $"<{mapping.Key:X4}> <{ToUnicodeHex( mapping.Value )}>" ) );
+            }
+
+            builder.AppendLine( "endbfchar" );
+        }
+
+        builder.AppendLine( "endcmap" );
+        builder.AppendLine( "CMapName currentdict /CMap defineresource pop" );
+        builder.AppendLine( "end" );
+        builder.AppendLine( "end" );
+
+        return builder.ToString();
+    }
+
+    private static string ToUnicodeHex( int codePoint )
+    {
+        if ( codePoint <= HighestBasicMultilingualPlaneCodePoint )
+            return codePoint.ToString( "X4", CultureInfo.InvariantCulture );
+
+        string text = char.ConvertFromUtf32( codePoint );
+        StringBuilder builder = new();
+
+        foreach ( char character in text )
+        {
+            builder.Append( ( (int)character ).ToString( "X4", CultureInfo.InvariantCulture ) );
+        }
+
+        return builder.ToString();
+    }
+
+    private static string BuildPageObject( PdfPageDefinition page, int pagesId, PdfFontResources fontResources, int contentId, PdfPageContent pageContent, CancellationToken cancellationToken )
+    {
+        return FormattableString.Invariant( $"<< /Type /Page /Parent {pagesId} 0 R /MediaBox [ 0 0 {page.Width} {page.Height} ] /Resources {BuildPageResources( fontResources, pageContent, cancellationToken )} /Contents {contentId} 0 R >>" );
+    }
+
+    private static string BuildPageResources( PdfFontResources fontResources, PdfPageContent pageContent, CancellationToken cancellationToken )
+    {
+        StringBuilder builder = new();
+        builder.Append( "<< /Font <<" );
+
+        foreach ( PdfFontResource fontResource in fontResources.All )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            builder.Append( FormattableString.Invariant( $" /{fontResource.Name} {fontResource.ObjectId} 0 R" ) );
+        }
+
+        builder.Append( " >>" );
+
+        if ( pageContent.AlphaStates.Count > 0 )
+        {
+            builder.Append( " /ExtGState <<" );
+
+            foreach ( PdfAlphaState alphaState in pageContent.AlphaStates )
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                string alphaProperty = alphaState.Stroke ? "CA" : "ca";
+                builder.Append( FormattableString.Invariant( $" /{alphaState.Name} << /{alphaProperty} {alphaState.Alpha} >>" ) );
+            }
+
+            builder.Append( " >>" );
+        }
+
+        if ( pageContent.Images.Count > 0 )
+        {
+            builder.Append( " /XObject <<" );
+
+            foreach ( PdfImageResource image in pageContent.Images )
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                builder.Append( FormattableString.Invariant( $" /{image.Name} {image.ObjectId} 0 R" ) );
+            }
+
+            builder.Append( " >>" );
+        }
+
+        builder.Append( " >>" );
+
+        return builder.ToString();
+    }
+
+    private static byte[] CreateStreamObject( string content, CancellationToken cancellationToken )
+    {
+        string dictionary = FormattableString.Invariant( $"<< /Length {content.Length} >>" );
+        byte[] prefix = Encoding.ASCII.GetBytes( $"{dictionary}\nstream\n" );
+        byte[] suffix = Encoding.ASCII.GetBytes( "\nendstream" );
+        byte[] result = new byte[prefix.Length + content.Length + suffix.Length];
+        Buffer.BlockCopy( prefix, 0, result, 0, prefix.Length );
+
+        for ( int offset = 0; offset < content.Length; offset += 81920 )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            int count = Math.Min( 81920, content.Length - offset );
+            Encoding.ASCII.GetBytes( content, offset, count, result, prefix.Length + offset );
+        }
+
+        Buffer.BlockCopy( suffix, 0, result, prefix.Length + content.Length, suffix.Length );
+
+        return result;
+    }
+
+    private static byte[] CreateStreamObject( string dictionary, byte[] content, CancellationToken cancellationToken )
+    {
+        byte[] prefix = Encoding.ASCII.GetBytes( $"{dictionary}\nstream\n" );
+        byte[] suffix = Encoding.ASCII.GetBytes( "\nendstream" );
+        byte[] result = new byte[prefix.Length + content.Length + suffix.Length];
+        Buffer.BlockCopy( prefix, 0, result, 0, prefix.Length );
+
+        for ( int offset = 0; offset < content.Length; offset += 81920 )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            int count = Math.Min( 81920, content.Length - offset );
+            Buffer.BlockCopy( content, offset, result, prefix.Length + offset, count );
+        }
+
+        Buffer.BlockCopy( suffix, 0, result, prefix.Length + content.Length, suffix.Length );
+
+        return result;
+    }
+
+    private static PdfPageContent BuildPageContent( PdfPageDefinition page, List<PdfObject> objects, PdfFontResources fontResources, IFontProvider fontProvider, PdfResolvedResources resolvedResources, CancellationToken cancellationToken )
+    {
+        PdfPageContentContext context = new( objects, fontResources, fontProvider, resolvedResources, cancellationToken );
+
+        foreach ( PdfElementDefinition element in page.Elements )
+        {
+            AppendElement( context, page, element, 0, 0 );
+        }
+
+        return new()
+        {
+            Content = context.Builder.ToString(),
+            AlphaStates = context.AlphaStates,
+            Images = context.Images,
+        };
+    }
+
+    private static void AppendElement( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double offsetX, double offsetY )
+    {
+        context.CancellationToken.ThrowIfCancellationRequested();
+
+        if ( element is null )
+            return;
+
+        double x = offsetX + element.X;
+        double y = offsetY + element.Y;
+
+        switch ( element.Type )
+        {
+            case PdfElementType.Text:
+                AppendText( context, page, element, x, y );
+                break;
+            case PdfElementType.Line:
+                AppendLine( context, page, element, x, y );
+                break;
+            case PdfElementType.Rectangle:
+                AppendRectangle( context, page, element, x, y );
+                break;
+            case PdfElementType.Image:
+                AppendImage( context, page, element, x, y );
+                break;
+            case PdfElementType.Table:
+                AppendTable( context, page, element, x, y );
+                break;
+        }
+    }
+
+    private static void AppendText( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
+    {
+        AppendRectangle( context, page, element, x, y );
+
+        PdfFontDefinition font = element.Font ?? new();
+        double fontSize = Math.Max( 1, font.Size );
+        PdfFontResource fontResource = ResolveFontResource( context.FontResources, context.FontProvider, font );
+        IReadOnlyList<PdfTextLine> lines = element.Wrap
+            ? WrapText( element.Text, fontResource, fontSize, element.Width, context.CancellationToken )
+            : SplitTextLines( element.Text, context.CancellationToken );
+        double lineHeight = ResolveLineHeight( fontSize );
+        double textY = ResolveTextY( page, element, y, fontSize, lines.Count, lineHeight );
+
+        AppendColor( context, font.Color, stroke: false );
+        AppendClipStart( context, page, element, x, y );
+
+        for ( int i = 0; i < lines.Count; i++ )
+        {
+            context.CancellationToken.ThrowIfCancellationRequested();
+            PdfTextLine line = lines[i];
+            double lineY = textY - ( i * lineHeight );
+
+            if ( !TryAppendJustifiedTextLine( context, element, line, x, lineY, fontResource, fontSize ) )
+            {
+                double textX = ResolveTextX( element, x, line.Text, fontResource, fontSize, context.CancellationToken );
+                AppendTextRun( context, line.Text, textX, lineY, fontResource, fontSize );
+            }
+        }
+
+        AppendClipEnd( context, element );
+    }
+
+    private static bool TryAppendJustifiedTextLine( PdfPageContentContext context, PdfElementDefinition element, PdfTextLine line, double x, double y, PdfFontResource fontResource, double fontSize )
+    {
+        if ( element.Font?.Alignment != TextAlignment.Justified || !line.CanJustify || element.Width <= 0 )
+            return false;
+
+        string[] words = line.Text.Split( ' ', StringSplitOptions.RemoveEmptyEntries );
+
+        if ( words.Length <= 1 )
+            return false;
+
+        double[] wordWidths = new double[words.Length];
+        double wordsWidth = 0;
+
+        for ( int i = 0; i < words.Length; i++ )
+        {
+            context.CancellationToken.ThrowIfCancellationRequested();
+            wordWidths[i] = MeasureTextWidth( words[i], fontResource, fontSize, context.CancellationToken );
+            wordsWidth += wordWidths[i];
+        }
+
+        if ( wordsWidth > element.Width )
+            return false;
+
+        double wordGap = ( element.Width - wordsWidth ) / ( words.Length - 1 );
+        double wordX = x;
+
+        for ( int i = 0; i < words.Length; i++ )
+        {
+            context.CancellationToken.ThrowIfCancellationRequested();
+            AppendTextRun( context, words[i], wordX, y, fontResource, fontSize );
+            wordX += wordWidths[i] + wordGap;
+        }
+
+        return true;
+    }
+
+    private static void AppendTextRun( PdfPageContentContext context, string text, double x, double y, PdfFontResource fontResource, double fontSize )
+    {
+        string textOperand = fontResource.EmbeddedFont is null
+            ? $"({EscapeText( text, context.CancellationToken )})"
+            : EncodeEmbeddedText( text, fontResource.EmbeddedFont, context.CancellationToken );
+
+        context.Builder.AppendLine( FormattableString.Invariant( $"BT /{fontResource.Name} {fontSize} Tf {x} {y} Td {textOperand} Tj ET" ) );
+    }
+
+    private static PdfFontResource ResolveFontResource( PdfFontResources fontResources, IFontProvider fontProvider, PdfFontDefinition font )
+    {
+        PdfFontResource[] variants = fontResources.GetFamily( ResolveFontFamilyKey( font.Family, fontProvider ) );
+
+        if ( font.Bold && font.Italic )
+            return variants[3];
+
+        if ( font.Bold )
+            return variants[1];
+
+        if ( font.Italic )
+            return variants[2];
+
+        return variants[0];
+    }
+
+    private static double ResolveTextX( PdfElementDefinition element, double x, string text, PdfFontResource fontResource, double fontSize, CancellationToken cancellationToken )
+    {
+        PdfFontDefinition font = element.Font ?? new();
+        double textWidth = MeasureTextWidth( text, fontResource, fontSize, cancellationToken );
+
+        if ( font.Alignment == TextAlignment.Center )
+            return x + Math.Max( 0, element.Width - textWidth ) / 2;
+
+        if ( font.Alignment == TextAlignment.End )
+            return x + Math.Max( 0, element.Width - textWidth );
+
+        return x;
+    }
+
+    private static double ResolveTextY( PdfPageDefinition page, PdfElementDefinition element, double y, double fontSize, int lineCount, double lineHeight )
+    {
+        PdfFontDefinition font = element.Font ?? new();
+        double textBlockHeight = ResolveTextBlockHeight( fontSize, lineCount, lineHeight );
+        double availableHeight = Math.Max( 0, element.Height - textBlockHeight );
+        double offsetY = font.VerticalAlignment switch
+        {
+            VerticalAlignment.Middle => availableHeight / 2,
+            VerticalAlignment.Bottom or VerticalAlignment.TextBottom => availableHeight,
+            VerticalAlignment.Default or VerticalAlignment.Baseline or VerticalAlignment.Top or VerticalAlignment.TextTop => 0,
+            _ => 0,
+        };
+
+        return page.Height - y - offsetY - fontSize;
+    }
+
+    private static double ResolveLineHeight( double fontSize )
+    {
+        return Math.Max( fontSize, fontSize * LineHeightRatio );
+    }
+
+    private static double ResolveTextBlockHeight( double fontSize, int lineCount, double lineHeight )
+    {
+        return lineCount <= 0
+            ? 0
+            : fontSize + ( Math.Max( 0, lineCount - 1 ) * lineHeight );
+    }
+
+    private static double MeasureTextWidth( string text, PdfFontResource fontResource, double fontSize, CancellationToken cancellationToken )
+    {
+        return fontResource?.MeasureTextWidth( text, fontSize, cancellationToken ) ?? 0;
+    }
+
+    private static IReadOnlyList<PdfTextLine> WrapText( string text, PdfFontResource fontResource, double fontSize, double maxWidth, CancellationToken cancellationToken )
+    {
+        if ( string.IsNullOrEmpty( text ) )
+            return [new( string.Empty, false )];
+
+        if ( maxWidth <= 0 )
+            return [new( text, false )];
+
+        List<PdfTextLine> lines = [];
+        string[] paragraphs = text.Replace( "\r\n", "\n", StringComparison.Ordinal ).Replace( '\r', '\n' ).Split( '\n' );
+
+        foreach ( string paragraph in paragraphs )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            List<string> paragraphLines = [];
+            AppendWrappedParagraph( paragraphLines, paragraph, fontResource, fontSize, maxWidth, cancellationToken );
+
+            for ( int i = 0; i < paragraphLines.Count; i++ )
+            {
+                lines.Add( new( paragraphLines[i], i < paragraphLines.Count - 1 ) );
+            }
+        }
+
+        return lines;
+    }
+
+    private static IReadOnlyList<PdfTextLine> SplitTextLines( string text, CancellationToken cancellationToken )
+    {
+        if ( string.IsNullOrEmpty( text ) )
+            return [new( string.Empty, false )];
+
+        string[] lines = text.Replace( "\r\n", "\n", StringComparison.Ordinal )
+            .Replace( '\r', '\n' )
+            .Split( '\n' );
+        PdfTextLine[] result = new PdfTextLine[lines.Length];
+
+        for ( int i = 0; i < lines.Length; i++ )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            result[i] = new( lines[i], false );
+        }
+
+        return result;
+    }
+
+    private static void AppendClipStart( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
+    {
+        if ( !element.ClipContent || element.Width <= 0 || element.Height <= 0 )
+            return;
+
+        double rectangleY = page.Height - y - element.Height;
+        context.Builder.AppendLine( "q" );
+        context.Builder.AppendLine( FormattableString.Invariant( $"{x} {rectangleY} {element.Width} {element.Height} re W n" ) );
+    }
+
+    private static void AppendClipEnd( PdfPageContentContext context, PdfElementDefinition element )
+    {
+        if ( !element.ClipContent || element.Width <= 0 || element.Height <= 0 )
+            return;
+
+        context.Builder.AppendLine( "Q" );
+    }
+
+    private static void AppendWrappedParagraph( List<string> lines, string paragraph, PdfFontResource fontResource, double fontSize, double maxWidth, CancellationToken cancellationToken )
+    {
+        if ( string.IsNullOrWhiteSpace( paragraph ) )
+        {
+            lines.Add( string.Empty );
+            return;
+        }
+
+        string currentLine = null;
+
+        foreach ( string word in paragraph.Split( ' ', StringSplitOptions.RemoveEmptyEntries ) )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if ( currentLine is null )
+            {
+                AppendWordToLines( lines, ref currentLine, word, fontResource, fontSize, maxWidth, cancellationToken );
+                continue;
+            }
+
+            if ( MeasureTextWidth( $"{currentLine} {word}", fontResource, fontSize, cancellationToken ) <= maxWidth )
+            {
+                currentLine = $"{currentLine} {word}";
+                continue;
+            }
+
+            lines.Add( currentLine );
+            currentLine = null;
+            AppendWordToLines( lines, ref currentLine, word, fontResource, fontSize, maxWidth, cancellationToken );
+        }
+
+        if ( currentLine is not null )
+            lines.Add( currentLine );
+    }
+
+    private static void AppendWordToLines( List<string> lines, ref string currentLine, string word, PdfFontResource fontResource, double fontSize, double maxWidth, CancellationToken cancellationToken )
+    {
+        if ( MeasureTextWidth( word, fontResource, fontSize, cancellationToken ) <= maxWidth )
+        {
+            currentLine = word;
+            return;
+        }
+
+        foreach ( string segment in SplitWord( word, fontResource, fontSize, maxWidth, cancellationToken ) )
+        {
+            if ( currentLine is null )
+            {
+                currentLine = segment;
+                continue;
+            }
+
+            lines.Add( currentLine );
+            currentLine = segment;
+        }
+    }
+
+    private static IEnumerable<string> SplitWord( string word, PdfFontResource fontResource, double fontSize, double maxWidth, CancellationToken cancellationToken )
+    {
+        StringBuilder segment = new();
+
+        foreach ( char character in word )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if ( segment.Length > 0 && MeasureTextWidth( $"{segment}{character}", fontResource, fontSize, cancellationToken ) > maxWidth )
+            {
+                yield return segment.ToString();
+                segment.Clear();
+            }
+
+            segment.Append( character );
+        }
+
+        if ( segment.Length > 0 )
+            yield return segment.ToString();
+    }
+
+    private static void AppendLine( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
+    {
+        PdfBorderDefinition border = element.Border ?? new();
+
+        AppendStroke( context, border );
+
+        if ( element.Orientation == Orientation.Vertical )
+        {
+            double lineX = x + element.Width / 2;
+            double startY = page.Height - y;
+            context.Builder.AppendLine( FormattableString.Invariant( $"{lineX} {startY} m {lineX} {startY - element.Height} l S" ) );
+        }
+        else
+        {
+            double lineY = page.Height - y - element.Height / 2;
+            context.Builder.AppendLine( FormattableString.Invariant( $"{x} {lineY} m {x + element.Width} {lineY} l S" ) );
+        }
+    }
+
+    private static void AppendRectangle( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
+    {
+        AppendRectangleFill( context, page, element, x, y );
+        AppendRectangleStroke( context, page, element, x, y );
+    }
+
+    private static void AppendImage( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
+    {
+        if ( element.Width <= 0 || element.Height <= 0 )
+            return;
+
+        AppendRectangleFill( context, page, element, x, y );
+
+        if ( !string.IsNullOrWhiteSpace( element.Source ) )
+        {
+            if ( !TryCreateImageResource( context, element.Source, out PdfImageResource imageResource ) )
+                throw new InvalidOperationException( "The resolved PDF image resource is unavailable during page rendering." );
+
+            PdfImagePlacement placement = ResolveImagePlacement( element, imageResource.Width, imageResource.Height );
+            double elementY = page.Height - y - element.Height;
+            double imageX = x + placement.X;
+            double imageY = page.Height - y - placement.Y - placement.Height;
+            bool clipImage = element.ClipContent && ( placement.X < 0 || placement.Y < 0 || placement.X + placement.Width > element.Width || placement.Y + placement.Height > element.Height );
+            context.Builder.AppendLine( "q" );
+
+            if ( clipImage )
+                context.Builder.AppendLine( FormattableString.Invariant( $"{x} {elementY} {element.Width} {element.Height} re W n" ) );
+
+            context.Builder.AppendLine( FormattableString.Invariant( $"{placement.Width} 0 0 {placement.Height} {imageX} {imageY} cm" ) );
+            context.Builder.AppendLine( FormattableString.Invariant( $"/{imageResource.Name} Do" ) );
+            context.Builder.AppendLine( "Q" );
+        }
+
+        AppendRectangleStroke( context, page, element, x, y );
+    }
+
+    private static PdfImagePlacement ResolveImagePlacement( PdfElementDefinition element, double imageWidth, double imageHeight )
+    {
+        double elementWidth = Math.Max( 0, element.Width );
+        double elementHeight = Math.Max( 0, element.Height );
+
+        if ( elementWidth <= 0 || elementHeight <= 0 || imageWidth <= 0 || imageHeight <= 0 )
+            return new( 0, 0, elementWidth, elementHeight );
+
+        return ResolveImageFit( element.ImageFit ) switch
+        {
+            PdfImageFit.Cover => CreateScaledImagePlacement( elementWidth, elementHeight, imageWidth, imageHeight, ( first, second ) => Math.Max( first, second ) ),
+            PdfImageFit.None => CreateCenteredImagePlacement( elementWidth, elementHeight, imageWidth, imageHeight ),
+            PdfImageFit.Scale => CreateScaleDownImagePlacement( elementWidth, elementHeight, imageWidth, imageHeight ),
+            PdfImageFit.Contain => CreateScaledImagePlacement( elementWidth, elementHeight, imageWidth, imageHeight, ( first, second ) => Math.Min( first, second ) ),
+            _ => new( 0, 0, elementWidth, elementHeight ),
+        };
+    }
+
+    private static PdfImageFit ResolveImageFit( PdfImageFit fit )
+    {
+        return fit == PdfImageFit.Default
+            ? PdfImageFit.Fill
+            : fit;
+    }
+
+    private static PdfImagePlacement CreateScaleDownImagePlacement( double elementWidth, double elementHeight, double imageWidth, double imageHeight )
+    {
+        return imageWidth <= elementWidth && imageHeight <= elementHeight
+            ? CreateCenteredImagePlacement( elementWidth, elementHeight, imageWidth, imageHeight )
+            : CreateScaledImagePlacement( elementWidth, elementHeight, imageWidth, imageHeight, ( first, second ) => Math.Min( first, second ) );
+    }
+
+    private static PdfImagePlacement CreateScaledImagePlacement( double elementWidth, double elementHeight, double imageWidth, double imageHeight, Func<double, double, double> scaleSelector )
+    {
+        double scale = scaleSelector( elementWidth / imageWidth, elementHeight / imageHeight );
+        double width = imageWidth * scale;
+        double height = imageHeight * scale;
+
+        return CreateCenteredImagePlacement( elementWidth, elementHeight, width, height );
+    }
+
+    private static PdfImagePlacement CreateCenteredImagePlacement( double elementWidth, double elementHeight, double width, double height )
+    {
+        return new( ( elementWidth - width ) / 2, ( elementHeight - height ) / 2, width, height );
+    }
+
+    private static void AppendTable( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
+    {
+        if ( HasFill( element.Appearance?.BackgroundColor ) )
+            AppendRectangle( context, page, element, x, y );
+
+        AppendClipStart( context, page, element, x, y );
+
+        double currentY = y;
+
+        foreach ( PdfTableRowDefinition row in element.Rows )
+        {
+            context.CancellationToken.ThrowIfCancellationRequested();
+            double currentX = x;
+            double rowHeight = Math.Max( 1, row.Height );
+
+            foreach ( PdfTableCellDefinition cell in row.Cells )
+            {
+                context.CancellationToken.ThrowIfCancellationRequested();
+                double cellWidth = Math.Max( 1, cell.Width );
+                AppendRectangle( context, page, new()
+                {
+                    Type = PdfElementType.Rectangle,
+                    Width = cellWidth,
+                    Height = rowHeight,
+                    Border = element.Border,
+                    Appearance = new(),
+                }, currentX, currentY );
+
+                foreach ( PdfElementDefinition child in cell.Elements )
+                {
+                    AppendElement( context, page, child, currentX, currentY );
+                }
+
+                currentX += cellWidth;
+            }
+
+            currentY += rowHeight;
+        }
+
+        AppendClipEnd( context, element );
+    }
+
+    private static void AppendStroke( PdfPageContentContext context, PdfBorderDefinition border )
+    {
+        double width = Math.Max( 0, border?.Width ?? 1 );
+
+        AppendColor( context, border?.Color, stroke: true );
+        context.Builder.AppendLine( FormattableString.Invariant( $"{width} w" ) );
+        AppendStrokeStyle( context, border?.Style ?? PdfBorderStyle.Solid, width );
+    }
+
+    private static void AppendStrokeStyle( PdfPageContentContext context, PdfBorderStyle style, double width )
+    {
+        double safeWidth = Math.Max( 1, width );
+
+        switch ( style )
+        {
+            case PdfBorderStyle.Dashed:
+                context.Builder.AppendLine( FormattableString.Invariant( $"[{safeWidth * 3} {safeWidth * 2}] 0 d" ) );
+                break;
+            case PdfBorderStyle.Dotted:
+                context.Builder.AppendLine( FormattableString.Invariant( $"[{safeWidth} {safeWidth * 2}] 0 d" ) );
+                break;
+            default:
+                context.Builder.AppendLine( "[] 0 d" );
+                break;
+        }
+    }
+
+    private static void AppendRectangleFill( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
+    {
+        if ( !HasFill( element.Appearance?.BackgroundColor ) )
+            return;
+
+        double rectangleY = page.Height - y - element.Height;
+        AppendColor( context, element.Appearance.BackgroundColor, stroke: false );
+        context.Builder.AppendLine( FormattableString.Invariant( $"{x} {rectangleY} {element.Width} {element.Height} re f" ) );
+    }
+
+    private static void AppendRectangleStroke( PdfPageContentContext context, PdfPageDefinition page, PdfElementDefinition element, double x, double y )
+    {
+        PdfBorderDefinition border = element.Border ?? new();
+
+        if ( !HasStroke( border ) )
+            return;
+
+        double rectangleY = page.Height - y - element.Height;
+        AppendStroke( context, border );
+        context.Builder.AppendLine( FormattableString.Invariant( $"{x} {rectangleY} {element.Width} {element.Height} re S" ) );
+    }
+
+    private static bool HasStroke( PdfBorderDefinition border )
+    {
+        return border?.Width > 0;
+    }
+
+    private static bool HasFill( string color )
+    {
+        return !string.IsNullOrWhiteSpace( color ) && !IsTransparentColor( color );
+    }
+
+    private static void AppendColor( PdfPageContentContext context, string color, bool stroke )
+    {
+        PdfColor pdfColor = ParseColor( color );
+        context.Builder.AppendLine( FormattableString.Invariant( $"{pdfColor.Red} {pdfColor.Green} {pdfColor.Blue} {( stroke ? "RG" : "rg" )}" ) );
+        context.Builder.AppendLine( FormattableString.Invariant( $"/{context.GetAlphaStateName( pdfColor.Alpha, stroke )} gs" ) );
+    }
+
+    private static PdfColor ParseColor( string color )
+    {
+        if ( TryParseColor( color, out PdfColor pdfColor ) )
+            return pdfColor;
+
+        return new( 0, 0, 0, 1 );
+    }
+
+    internal static bool IsValidColor( string color )
+    {
+        return TryParseColor( color, out _ );
+    }
+
+    private static bool TryParseColor( string color, out PdfColor pdfColor )
+    {
+        pdfColor = new( 0, 0, 0, 1 );
+
+        if ( string.IsNullOrWhiteSpace( color ) )
+            return true;
+
+        string value = ResolveKnownColor( color.Trim() ).TrimStart( '#' );
+
+        if ( TryParseRgbFunction( value, out double redComponent, out double greenComponent, out double blueComponent, out double alphaComponent ) )
+        {
+            pdfColor = new( redComponent, greenComponent, blueComponent, alphaComponent );
+            return true;
+        }
+
+        if ( value.StartsWith( "rgb", StringComparison.OrdinalIgnoreCase ) )
+            return false;
+
+        if ( value.Length == 3 )
+            value = $"{value[0]}{value[0]}{value[1]}{value[1]}{value[2]}{value[2]}";
+        else if ( value.Length == 4 )
+            value = $"{value[0]}{value[0]}{value[1]}{value[1]}{value[2]}{value[2]}{value[3]}{value[3]}";
+
+        if ( value.Length != 6 && value.Length != 8 )
+            return false;
+
+        if ( !TryParseHexComponent( value, 0, out int red ) || !TryParseHexComponent( value, 2, out int green ) || !TryParseHexComponent( value, 4, out int blue ) )
+            return false;
+
+        double alpha = 1;
+
+        if ( value.Length == 8 )
+        {
+            if ( !TryParseHexComponent( value, 6, out int alphaValue ) )
+                return false;
+
+            alpha = alphaValue / 255d;
+        }
+
+        pdfColor = new( red / 255d, green / 255d, blue / 255d, alpha );
+
+        return true;
+    }
+
+    private static bool TryParseHexComponent( string value, int startIndex, out int component )
+    {
+        return int.TryParse( value.Substring( startIndex, 2 ), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out component );
+    }
+
+    private static bool TryParseRgbFunction( string value, out double red, out double green, out double blue, out double alpha )
+    {
+        red = 0;
+        green = 0;
+        blue = 0;
+        alpha = 1;
+
+        if ( !value.StartsWith( "rgb(", StringComparison.OrdinalIgnoreCase )
+            && !value.StartsWith( "rgba(", StringComparison.OrdinalIgnoreCase ) )
+            return false;
+
+        int startIndex = value.IndexOf( '(' );
+        int endIndex = value.LastIndexOf( ')' );
+
+        if ( startIndex < 0 || endIndex <= startIndex || endIndex != value.Length - 1 )
+            return false;
+
+        string[] components = value.Substring( startIndex + 1, endIndex - startIndex - 1 ).Split( ',', StringSplitOptions.TrimEntries );
+
+        if ( components.Length != 3 && components.Length != 4 )
+            return false;
+
+        if ( !TryParseColorComponent( components[0], 255d, out red ) || !TryParseColorComponent( components[1], 255d, out green ) || !TryParseColorComponent( components[2], 255d, out blue ) )
+            return false;
+
+        if ( components.Length > 3 && !TryParseColorComponent( components[3], 1d, out alpha ) )
+            return false;
+
+        return true;
+    }
+
+    private static bool TryParseColorComponent( string value, double divisor, out double component )
+    {
+        component = 0;
+
+        if ( string.IsNullOrWhiteSpace( value ) )
+            return false;
+
+        string trimmedValue = value.Trim();
+        bool percentage = trimmedValue.EndsWith( "%", StringComparison.Ordinal );
+
+        if ( percentage )
+            trimmedValue = trimmedValue[..^1];
+
+        if ( !double.TryParse( trimmedValue, NumberStyles.Float, CultureInfo.InvariantCulture, out double parsedValue ) || !double.IsFinite( parsedValue ) )
+            return false;
+
+        component = Math.Clamp( percentage ? parsedValue / 100d : parsedValue / divisor, 0, 1 );
+
+        return true;
+    }
+
+    private static string ResolveKnownColor( string color )
+    {
+        string value = NormalizeColorName( color );
+
+        return value switch
+        {
+            "primary" => "#0d6efd",
+            "secondary" => "#6c757d",
+            "success" => "#198754",
+            "danger" => "#dc3545",
+            "warning" => "#ffc107",
+            "info" => "#0dcaf0",
+            "light" => "#f8f9fa",
+            "dark" => "#212529",
+            "body" => "#212529",
+            "muted" => "#6c757d",
+            "white" => "#ffffff",
+            "black" => "#000000",
+            "black-50" => "rgba(0, 0, 0, .5)",
+            "white-50" => "rgba(255, 255, 255, .5)",
+            "transparent" => "#00000000",
+            _ => color,
+        };
+    }
+
+    private static string NormalizeColorName( string color )
+    {
+        string value = color.Trim().ToLowerInvariant();
+
+        if ( value.StartsWith( "text-", StringComparison.Ordinal ) )
+            return value[5..];
+
+        if ( value.StartsWith( "bg-", StringComparison.Ordinal ) )
+            return value[3..];
+
+        if ( value.StartsWith( "background-", StringComparison.Ordinal ) )
+            return value[11..];
+
+        return value;
+    }
+
+    private static bool IsTransparentColor( string color )
+    {
+        return NormalizeColorName( color ) == "transparent";
+    }
+
+    private static bool TryCreateImageResource( PdfPageContentContext context, string source, out PdfImageResource imageResource )
+    {
+        imageResource = null;
+
+        if ( !context.ResolvedResources.Images.TryGetValue( source, out PdfImageData imageData ) )
+            return false;
+
+        int alphaMaskId = imageData.AlphaData is null
+            ? 0
+            : AddObject( context.Objects, CreateStreamObject( FormattableString.Invariant( $"<< /Type /XObject /Subtype /Image /Width {imageData.Width} /Height {imageData.Height} /ColorSpace /DeviceGray /BitsPerComponent 8 /Filter /FlateDecode /Length {imageData.AlphaData.Length} >>" ), imageData.AlphaData, context.CancellationToken ) );
+        string alphaMaskReference = alphaMaskId > 0 ? FormattableString.Invariant( $" /SMask {alphaMaskId} 0 R" ) : string.Empty;
+        string dictionary = FormattableString.Invariant( $"<< /Type /XObject /Subtype /Image /Width {imageData.Width} /Height {imageData.Height} /ColorSpace {imageData.ColorSpace} /BitsPerComponent {imageData.BitsPerComponent} /Filter {imageData.Filter}{alphaMaskReference} /Length {imageData.Data.Length} >>" );
+        int objectId = AddObject( context.Objects, CreateStreamObject( dictionary, imageData.Data, context.CancellationToken ) );
+
+        imageResource = new()
+        {
+            Name = FormattableString.Invariant( $"Im{context.Images.Count + 1}" ),
+            ObjectId = objectId,
+            Width = imageData.Width,
+            Height = imageData.Height,
+        };
+
+        context.Images.Add( imageResource );
+
+        return true;
+    }
+
+    private static string EscapeText( string text, CancellationToken cancellationToken )
+    {
+        if ( string.IsNullOrEmpty( text ) )
+            return string.Empty;
+
+        StringBuilder builder = new();
+
+        foreach ( char character in text )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if ( TryGetType1TextByte( character, out byte value ) )
+            {
+                AppendPdfStringByte( builder, value );
+            }
+            else
+            {
+                builder.Append( '?' );
+            }
+        }
+
+        return builder.ToString();
+    }
+
+    private static string EncodeEmbeddedText( string text, PdfEmbeddedFont embeddedFont, CancellationToken cancellationToken )
+    {
+        if ( string.IsNullOrEmpty( text ) )
+            return "<>";
+
+        StringBuilder builder = new();
+        builder.Append( '<' );
+
+        foreach ( int codePoint in EnumerateCodePoints( text ) )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            int glyphId = embeddedFont.GetGlyphId( codePoint );
+            builder.Append( glyphId.ToString( "X4", CultureInfo.InvariantCulture ) );
+        }
+
+        builder.Append( '>' );
+
+        return builder.ToString();
+    }
+
+    private static IEnumerable<int> EnumerateCodePoints( string text )
+    {
+        for ( int i = 0; i < text.Length; i++ )
+        {
+            char character = text[i];
+
+            if ( char.IsHighSurrogate( character ) && i + 1 < text.Length && char.IsLowSurrogate( text[i + 1] ) )
+            {
+                yield return char.ConvertToUtf32( character, text[++i] );
+                continue;
+            }
+
+            yield return character;
+        }
+    }
+
+    private static void AppendPdfStringByte( StringBuilder builder, byte value )
+    {
+        switch ( value )
+        {
+            case (byte)'(':
+                builder.Append( "\\(" );
+                break;
+            case (byte)')':
+                builder.Append( "\\)" );
+                break;
+            case (byte)'\\':
+                builder.Append( "\\\\" );
+                break;
+            case >= 32 and <= 126:
+                builder.Append( (char)value );
+                break;
+            default:
+                builder.Append( '\\' );
+                builder.Append( Convert.ToString( value, 8 ).PadLeft( 3, '0' ) );
+                break;
+        }
+    }
+
+    private static bool TryGetType1TextByte( char character, out byte value )
+    {
+        if ( character <= HighestAsciiCodePoint )
+        {
+            value = (byte)character;
+            return true;
+        }
+
+        if ( character >= FirstLatin1SupplementCodePoint && character <= byte.MaxValue )
+        {
+            value = (byte)character;
+            return true;
+        }
+
+        value = character switch
+        {
+            '\u20AC' => 0x80,
+            '\u201A' => 0x82,
+            '\u0192' => 0x83,
+            '\u201E' => 0x84,
+            '\u2026' => 0x85,
+            '\u2020' => 0x86,
+            '\u2021' => 0x87,
+            '\u02C6' => 0x88,
+            '\u2030' => 0x89,
+            '\u0160' => 0x8A,
+            '\u2039' => 0x8B,
+            '\u0152' => 0x8C,
+            '\u017D' => 0x8E,
+            '\u010D' => 0x81,
+            '\u0110' => 0x83,
+            '\u0107' => 0x8D,
+            '\u0111' => 0x8F,
+            '\u010C' => 0x90,
+            '\u2018' => 0x91,
+            '\u2019' => 0x92,
+            '\u201C' => 0x93,
+            '\u201D' => 0x94,
+            '\u2022' => 0x95,
+            '\u2013' => 0x96,
+            '\u2014' => 0x97,
+            '\u02DC' => 0x98,
+            '\u2122' => 0x99,
+            '\u0161' => 0x9A,
+            '\u203A' => 0x9B,
+            '\u0153' => 0x9C,
+            '\u0106' => 0x9D,
+            '\u017E' => 0x9E,
+            '\u0178' => 0x9F,
+            _ => 0,
+        };
+
+        return value != 0;
+    }
+
+    private static async Task WriteDocumentAsync( Stream stream, IReadOnlyList<PdfObject> objects, int catalogId, int informationId, CancellationToken cancellationToken )
+    {
+        List<long> offsets = [];
+        long position = stream.CanSeek ? stream.Position : 0;
+
+        position += await WriteAsciiLineAsync( stream, "%PDF-1.4", cancellationToken );
+
+        for ( int i = 0; i < objects.Count; i++ )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            offsets.Add( position );
+            position += await WriteAsciiLineAsync( stream, FormattableString.Invariant( $"{( i + 1 )} 0 obj" ), cancellationToken );
+
+            if ( objects[i].ContentBytes is not null )
+            {
+                await WriteBytesAsync( stream, objects[i].ContentBytes, cancellationToken );
+                position += objects[i].ContentBytes.Length;
+            }
+            else
+            {
+                position += await WriteAsciiAsync( stream, objects[i].Content, cancellationToken );
+            }
+
+            position += await WriteAsciiLineAsync( stream, string.Empty, cancellationToken );
+            position += await WriteAsciiLineAsync( stream, "endobj", cancellationToken );
+        }
+
+        long xrefOffset = position;
+
+        await WriteAsciiLineAsync( stream, "xref", cancellationToken );
+        await WriteAsciiLineAsync( stream, FormattableString.Invariant( $"0 {objects.Count + 1}" ), cancellationToken );
+        await WriteAsciiLineAsync( stream, "0000000000 65535 f ", cancellationToken );
+
+        foreach ( long offset in offsets )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            await WriteAsciiLineAsync( stream, FormattableString.Invariant( $"{offset:0000000000} 00000 n " ), cancellationToken );
+        }
+
+        await WriteAsciiLineAsync( stream, "trailer", cancellationToken );
+        string informationReference = informationId > 0 ? FormattableString.Invariant( $" /Info {informationId} 0 R" ) : string.Empty;
+        await WriteAsciiLineAsync( stream, FormattableString.Invariant( $"<< /Size {objects.Count + 1} /Root {catalogId} 0 R{informationReference} >>" ), cancellationToken );
+        await WriteAsciiLineAsync( stream, "startxref", cancellationToken );
+        await WriteAsciiLineAsync( stream, xrefOffset.ToString( CultureInfo.InvariantCulture ), cancellationToken );
+        await WriteAsciiAsync( stream, "%%EOF", cancellationToken );
+    }
+
+    private static Task<int> WriteAsciiLineAsync( Stream stream, string value, CancellationToken cancellationToken )
+    {
+        return WriteAsciiAsync( stream, $"{value}\n", cancellationToken );
+    }
+
+    private static async Task<int> WriteAsciiAsync( Stream stream, string value, CancellationToken cancellationToken )
+    {
+        if ( string.IsNullOrEmpty( value ) )
+            return 0;
+
+        const int BufferSize = 81920;
+        byte[] buffer = new byte[Math.Min( BufferSize, value.Length )];
+
+        for ( int offset = 0; offset < value.Length; offset += buffer.Length )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            int characterCount = Math.Min( buffer.Length, value.Length - offset );
+            int byteCount = Encoding.ASCII.GetBytes( value, offset, characterCount, buffer, 0 );
+            await stream.WriteAsync( buffer.AsMemory( 0, byteCount ), cancellationToken );
+        }
+
+        return value.Length;
+    }
+
+    private static async Task WriteBytesAsync( Stream stream, byte[] bytes, CancellationToken cancellationToken )
+    {
+        const int BufferSize = 81920;
+
+        for ( int offset = 0; offset < bytes.Length; offset += BufferSize )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            int count = Math.Min( BufferSize, bytes.Length - offset );
+            await stream.WriteAsync( bytes.AsMemory( offset, count ), cancellationToken );
+        }
+    }
+
+    #endregion
+
+    #region Classes
+
+    private sealed class PdfResolvedResources
+    {
+        internal Dictionary<string, PdfImageData> Images { get; } = new( StringComparer.Ordinal );
+
+        internal Dictionary<FontSource, byte[]> Fonts { get; } = [];
+    }
+
+    private sealed class PdfPageContentContext
+    {
+        #region Members
+
+        private readonly Dictionary<string, string> alphaStateNames = [];
+
+        #endregion
+
+        #region Constructors
+
+        internal PdfPageContentContext( List<PdfObject> objects, PdfFontResources fontResources, IFontProvider fontProvider, PdfResolvedResources resolvedResources, CancellationToken cancellationToken )
+        {
+            Objects = objects;
+            FontResources = fontResources;
+            FontProvider = fontProvider;
+            ResolvedResources = resolvedResources;
+            CancellationToken = cancellationToken;
+        }
+
+        #endregion
+
+        #region Methods
+
+        internal string GetAlphaStateName( double alpha, bool stroke )
+        {
+            double normalizedAlpha = Math.Clamp( Math.Round( alpha, 3 ), 0, 1 );
+            string key = FormattableString.Invariant( $"{( stroke ? "S" : "F" )}:{normalizedAlpha}" );
+
+            if ( !alphaStateNames.TryGetValue( key, out string alphaStateName ) )
+            {
+                alphaStateName = FormattableString.Invariant( $"GS{AlphaStates.Count + 1}" );
+                alphaStateNames.Add( key, alphaStateName );
+                AlphaStates.Add( new()
+                {
+                    Name = alphaStateName,
+                    Alpha = normalizedAlpha,
+                    Stroke = stroke,
+                } );
+            }
+
+            return alphaStateName;
+        }
+
+        #endregion
+
+        #region Properties
+
+        internal StringBuilder Builder { get; } = new();
+
+        internal List<PdfObject> Objects { get; }
+
+        internal PdfFontResources FontResources { get; }
+
+        internal IFontProvider FontProvider { get; }
+
+        internal PdfResolvedResources ResolvedResources { get; }
+
+        internal CancellationToken CancellationToken { get; }
+
+        internal List<PdfAlphaState> AlphaStates { get; } = [];
+
+        internal List<PdfImageResource> Images { get; } = [];
+
+        #endregion
+    }
+
+    private sealed class PdfPageContent
+    {
+        internal string Content { get; set; }
+
+        internal List<PdfAlphaState> AlphaStates { get; set; } = [];
+
+        internal List<PdfImageResource> Images { get; set; } = [];
+    }
+
+    private sealed class PdfAlphaState
+    {
+        internal string Name { get; set; }
+
+        internal double Alpha { get; set; }
+
+        internal bool Stroke { get; set; }
+    }
+
+    private sealed class PdfImageResource
+    {
+        internal string Name { get; set; }
+
+        internal int ObjectId { get; set; }
+
+        internal int Width { get; set; }
+
+        internal int Height { get; set; }
+    }
+
+    private readonly record struct PdfImagePlacement( double X, double Y, double Width, double Height );
+
+    private sealed class PdfEmbeddedFont
+    {
+        private readonly Dictionary<int, int> glyphsByCodePoint;
+        private readonly Dictionary<int, int> glyphWidths;
+
+        private PdfEmbeddedFont( string fontName, byte[] fontBytes, Dictionary<int, int> glyphsByCodePoint, Dictionary<int, int> glyphWidths, int minX, int minY, int maxX, int maxY, int ascent, int descent, int flags, int italicAngle )
+        {
+            FontName = fontName;
+            FontBytes = fontBytes;
+            this.glyphsByCodePoint = glyphsByCodePoint;
+            this.glyphWidths = glyphWidths;
+            Metrics = new( glyphsByCodePoint, glyphWidths );
+            MinX = minX;
+            MinY = minY;
+            MaxX = maxX;
+            MaxY = maxY;
+            Ascent = ascent;
+            Descent = descent;
+            CapHeight = ascent;
+            Flags = flags;
+            ItalicAngle = italicAngle;
+        }
+
+        internal int ObjectId { get; set; }
+
+        internal string FontName { get; }
+
+        internal byte[] FontBytes { get; }
+
+        internal int MinX { get; }
+
+        internal int MinY { get; }
+
+        internal int MaxX { get; }
+
+        internal int MaxY { get; }
+
+        internal int Ascent { get; }
+
+        internal int Descent { get; }
+
+        internal int CapHeight { get; }
+
+        internal int Flags { get; }
+
+        internal int ItalicAngle { get; }
+
+        internal PdfTrueTypeFontMetrics Metrics { get; }
+
+        internal int GetGlyphId( int codePoint )
+        {
+            return glyphsByCodePoint.TryGetValue( codePoint, out int glyphId )
+                ? glyphId
+                : 0;
+        }
+
+        internal string BuildWidthArray( CancellationToken cancellationToken )
+        {
+            if ( glyphWidths.Count == 0 )
+                return "[]";
+
+            StringBuilder builder = new();
+            builder.Append( "[ " );
+
+            foreach ( KeyValuePair<int, int> pair in glyphWidths.OrderBy( x => x.Key ) )
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                if ( pair.Value == PdfTrueTypeFontMetrics.DefaultGlyphWidth )
+                    continue;
+
+                builder.Append( pair.Key.ToString( CultureInfo.InvariantCulture ) );
+                builder.Append( ' ' );
+                builder.Append( pair.Key.ToString( CultureInfo.InvariantCulture ) );
+                builder.Append( ' ' );
+                builder.Append( pair.Value.ToString( CultureInfo.InvariantCulture ) );
+                builder.Append( ' ' );
+            }
+
+            builder.Append( ']' );
+
+            return builder.ToString();
+        }
+
+        internal List<KeyValuePair<int, int>> CreateGlyphUnicodeMappings( CancellationToken cancellationToken )
+        {
+            Dictionary<int, int> mappings = [];
+
+            foreach ( KeyValuePair<int, int> pair in glyphsByCodePoint )
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                if ( pair.Value <= 0 )
+                    continue;
+
+                if ( !mappings.ContainsKey( pair.Value ) )
+                    mappings.Add( pair.Value, pair.Key );
+            }
+
+            return mappings
+                .OrderBy( x => x.Key )
+                .ToList();
+        }
+
+        internal static bool TryCreate( byte[] fontBytes, string family, int variantIndex, int resourceIndex, CancellationToken cancellationToken, out PdfEmbeddedFont embeddedFont )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            embeddedFont = null;
+
+            if ( fontBytes is not { Length: > 0 } )
+                return false;
+
+            return TryReadTrueTypeFont( fontBytes, family ?? Fonts.Helvetica, variantIndex, resourceIndex, cancellationToken, out embeddedFont );
+        }
+
+        private static bool TryReadTrueTypeFont( byte[] fontBytes, string family, int variantIndex, int resourceIndex, CancellationToken cancellationToken, out PdfEmbeddedFont embeddedFont )
+        {
+            embeddedFont = null;
+
+            if ( !TryReadTableDirectory( fontBytes, cancellationToken, out Dictionary<string, TrueTypeTable> tables ) )
+                return false;
+
+            if ( !TryReadCMap( fontBytes, tables, cancellationToken, out Dictionary<int, int> glyphsByCodePoint ) || glyphsByCodePoint.Count == 0 )
+                return false;
+
+            int unitsPerEm = 1000;
+            int minX = 0;
+            int minY = -250;
+            int maxX = 1000;
+            int maxY = 1000;
+            int ascent = 800;
+            int descent = -200;
+
+            if ( TryGetTable( tables, "head", out TrueTypeTable head ) && head.Offset + 54 <= fontBytes.Length )
+            {
+                unitsPerEm = Math.Max( 1, ReadUInt16( fontBytes, head.Offset + 18 ) );
+                minX = ScaleMetric( ReadInt16( fontBytes, head.Offset + 36 ), unitsPerEm );
+                minY = ScaleMetric( ReadInt16( fontBytes, head.Offset + 38 ), unitsPerEm );
+                maxX = ScaleMetric( ReadInt16( fontBytes, head.Offset + 40 ), unitsPerEm );
+                maxY = ScaleMetric( ReadInt16( fontBytes, head.Offset + 42 ), unitsPerEm );
+            }
+
+            if ( TryGetTable( tables, "hhea", out TrueTypeTable hhea ) && hhea.Offset + 8 <= fontBytes.Length )
+            {
+                ascent = ScaleMetric( ReadInt16( fontBytes, hhea.Offset + 4 ), unitsPerEm );
+                descent = ScaleMetric( ReadInt16( fontBytes, hhea.Offset + 6 ), unitsPerEm );
+            }
+
+            Dictionary<int, int> glyphWidths = TryReadGlyphWidths( fontBytes, tables, unitsPerEm, cancellationToken, out Dictionary<int, int> parsedGlyphWidths )
+                ? parsedGlyphWidths
+                : [];
+
+            bool italic = variantIndex is 2 or 3;
+            int flags = 32;
+
+            if ( IsFontFamily( family, Fonts.Courier ) )
+                flags |= 1;
+
+            if ( IsFontFamily( family, Fonts.Times ) )
+                flags |= 2;
+
+            if ( italic )
+                flags |= 64;
+
+            embeddedFont = new(
+                FormattableString.Invariant( $"BlazoriseEmbeddedFont{resourceIndex}" ),
+                fontBytes,
+                glyphsByCodePoint,
+                glyphWidths,
+                minX,
+                minY,
+                maxX,
+                maxY,
+                ascent,
+                descent,
+                flags,
+                italic ? -12 : 0 );
+
+            return true;
+        }
+
+        private static int ScaleMetric( int value, int unitsPerEm )
+        {
+            return (int)Math.Round( value * 1000d / unitsPerEm );
+        }
+
+        private static bool TryReadGlyphWidths( byte[] fontBytes, Dictionary<string, TrueTypeTable> tables, int unitsPerEm, CancellationToken cancellationToken, out Dictionary<int, int> glyphWidths )
+        {
+            glyphWidths = [];
+
+            if ( !TryGetTable( tables, "hhea", out TrueTypeTable hhea )
+                 || !TryGetTable( tables, "maxp", out TrueTypeTable maxp )
+                 || !TryGetTable( tables, "hmtx", out TrueTypeTable hmtx ) )
+                return false;
+
+            if ( hhea.Offset + 36 > fontBytes.Length || maxp.Offset + 6 > fontBytes.Length )
+                return false;
+
+            int horizontalMetricCount = ReadUInt16( fontBytes, hhea.Offset + 34 );
+            int glyphCount = ReadUInt16( fontBytes, maxp.Offset + 4 );
+
+            if ( horizontalMetricCount <= 0 || glyphCount <= 0 )
+                return false;
+
+            int readableMetricCount = Math.Min( horizontalMetricCount, glyphCount );
+            int hmtxEndOffset = Math.Min( fontBytes.Length, hmtx.Offset + hmtx.Length );
+
+            if ( hmtx.Offset + ( readableMetricCount * 4 ) > hmtxEndOffset )
+                return false;
+
+            int lastAdvanceWidth = PdfTrueTypeFontMetrics.DefaultGlyphWidth;
+
+            for ( int glyphId = 0; glyphId < glyphCount; glyphId++ )
+            {
+                if ( ( glyphId & 4095 ) == 0 )
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                int advanceWidth;
+
+                if ( glyphId < readableMetricCount )
+                {
+                    advanceWidth = ReadUInt16( fontBytes, hmtx.Offset + ( glyphId * 4 ) );
+                    lastAdvanceWidth = advanceWidth;
+                }
+                else
+                {
+                    advanceWidth = lastAdvanceWidth;
+                }
+
+                glyphWidths[glyphId] = ScaleMetric( advanceWidth, unitsPerEm );
+            }
+
+            return glyphWidths.Count > 0;
+        }
+
+        private static bool TryReadTableDirectory( byte[] fontBytes, CancellationToken cancellationToken, out Dictionary<string, TrueTypeTable> tables )
+        {
+            tables = [];
+
+            if ( fontBytes.Length < 12 )
+                return false;
+
+            int tableCount = ReadUInt16( fontBytes, 4 );
+            int tableOffset = 12;
+
+            for ( int i = 0; i < tableCount; i++ )
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                int recordOffset = tableOffset + ( i * 16 );
+
+                if ( recordOffset + 16 > fontBytes.Length )
+                    return false;
+
+                string tag = Encoding.ASCII.GetString( fontBytes, recordOffset, 4 );
+                int offset = (int)ReadUInt32( fontBytes, recordOffset + 8 );
+                int length = (int)ReadUInt32( fontBytes, recordOffset + 12 );
+
+                if ( offset < 0 || length < 0 || offset + length > fontBytes.Length )
+                    continue;
+
+                tables[tag] = new( offset, length );
+            }
+
+            return tables.Count > 0;
+        }
+
+        private static bool TryReadCMap( byte[] fontBytes, Dictionary<string, TrueTypeTable> tables, CancellationToken cancellationToken, out Dictionary<int, int> glyphsByCodePoint )
+        {
+            glyphsByCodePoint = [];
+
+            if ( !TryGetTable( tables, "cmap", out TrueTypeTable cmap ) || cmap.Offset + 4 > fontBytes.Length )
+                return false;
+
+            int recordCount = ReadUInt16( fontBytes, cmap.Offset + 2 );
+            int bestFormat12Offset = -1;
+            int bestFormat4Offset = -1;
+
+            for ( int i = 0; i < recordCount; i++ )
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                int recordOffset = cmap.Offset + 4 + ( i * 8 );
+
+                if ( recordOffset + 8 > fontBytes.Length )
+                    break;
+
+                int platformId = ReadUInt16( fontBytes, recordOffset );
+                int encodingId = ReadUInt16( fontBytes, recordOffset + 2 );
+                int subtableOffset = cmap.Offset + (int)ReadUInt32( fontBytes, recordOffset + 4 );
+
+                if ( subtableOffset + 2 > fontBytes.Length )
+                    continue;
+
+                int format = ReadUInt16( fontBytes, subtableOffset );
+
+                if ( format == 12 && ( platformId == 3 && encodingId == 10 || bestFormat12Offset < 0 ) )
+                    bestFormat12Offset = subtableOffset;
+                else if ( format == 4 && ( platformId == 3 || bestFormat4Offset < 0 ) )
+                    bestFormat4Offset = subtableOffset;
+            }
+
+            if ( bestFormat12Offset >= 0 && TryReadFormat12CMap( fontBytes, bestFormat12Offset, glyphsByCodePoint, cancellationToken ) )
+                return true;
+
+            return bestFormat4Offset >= 0 && TryReadFormat4CMap( fontBytes, bestFormat4Offset, glyphsByCodePoint, cancellationToken );
+        }
+
+        private static bool TryReadFormat12CMap( byte[] fontBytes, int offset, Dictionary<int, int> glyphsByCodePoint, CancellationToken cancellationToken )
+        {
+            if ( offset + 16 > fontBytes.Length )
+                return false;
+
+            int groupCount = (int)ReadUInt32( fontBytes, offset + 12 );
+
+            for ( int i = 0; i < groupCount; i++ )
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                int groupOffset = offset + 16 + ( i * 12 );
+
+                if ( groupOffset + 12 > fontBytes.Length )
+                    break;
+
+                int startCodePoint = (int)ReadUInt32( fontBytes, groupOffset );
+                int endCodePoint = (int)ReadUInt32( fontBytes, groupOffset + 4 );
+                int startGlyphId = (int)ReadUInt32( fontBytes, groupOffset + 8 );
+
+                for ( int codePoint = startCodePoint; codePoint <= endCodePoint && codePoint <= HighestUnicodeCodePoint; codePoint++ )
+                {
+                    if ( ( codePoint & 4095 ) == 0 )
+                        cancellationToken.ThrowIfCancellationRequested();
+
+                    glyphsByCodePoint[codePoint] = startGlyphId + codePoint - startCodePoint;
+                }
+            }
+
+            return glyphsByCodePoint.Count > 0;
+        }
+
+        private static bool TryReadFormat4CMap( byte[] fontBytes, int offset, Dictionary<int, int> glyphsByCodePoint, CancellationToken cancellationToken )
+        {
+            if ( offset + 16 > fontBytes.Length )
+                return false;
+
+            int length = ReadUInt16( fontBytes, offset + 2 );
+            int endOffset = Math.Min( fontBytes.Length, offset + length );
+            int segmentCount = ReadUInt16( fontBytes, offset + 6 ) / 2;
+            int endCodeOffset = offset + 14;
+            int startCodeOffset = endCodeOffset + ( segmentCount * 2 ) + 2;
+            int idDeltaOffset = startCodeOffset + ( segmentCount * 2 );
+            int idRangeOffsetOffset = idDeltaOffset + ( segmentCount * 2 );
+
+            if ( idRangeOffsetOffset + ( segmentCount * 2 ) > endOffset )
+                return false;
+
+            for ( int i = 0; i < segmentCount; i++ )
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                int endCode = ReadUInt16( fontBytes, endCodeOffset + ( i * 2 ) );
+                int startCode = ReadUInt16( fontBytes, startCodeOffset + ( i * 2 ) );
+                int idDelta = ReadInt16( fontBytes, idDeltaOffset + ( i * 2 ) );
+                int idRangeOffset = ReadUInt16( fontBytes, idRangeOffsetOffset + ( i * 2 ) );
+
+                if ( startCode == ushort.MaxValue && endCode == ushort.MaxValue )
+                    continue;
+
+                for ( int codePoint = startCode; codePoint <= endCode && codePoint < ushort.MaxValue; codePoint++ )
+                {
+                    if ( ( codePoint & 4095 ) == 0 )
+                        cancellationToken.ThrowIfCancellationRequested();
+
+                    int glyphId;
+
+                    if ( idRangeOffset == 0 )
+                    {
+                        glyphId = ( codePoint + idDelta ) & ushort.MaxValue;
+                    }
+                    else
+                    {
+                        int glyphIndexOffset = idRangeOffsetOffset + ( i * 2 ) + idRangeOffset + ( ( codePoint - startCode ) * 2 );
+
+                        if ( glyphIndexOffset + 2 > endOffset )
+                            continue;
+
+                        glyphId = ReadUInt16( fontBytes, glyphIndexOffset );
+
+                        if ( glyphId != 0 )
+                            glyphId = ( glyphId + idDelta ) & ushort.MaxValue;
+                    }
+
+                    if ( glyphId != 0 )
+                        glyphsByCodePoint[codePoint] = glyphId;
+                }
+            }
+
+            return glyphsByCodePoint.Count > 0;
+        }
+
+        private static bool TryGetTable( Dictionary<string, TrueTypeTable> tables, string tag, out TrueTypeTable table )
+        {
+            return tables.TryGetValue( tag, out table );
+        }
+
+        private static int ReadUInt16( byte[] data, int offset )
+        {
+            return ( data[offset] << 8 ) | data[offset + 1];
+        }
+
+        private static int ReadInt16( byte[] data, int offset )
+        {
+            int value = ReadUInt16( data, offset );
+
+            return value >= Int16SignBit ? value - UInt16ValueCount : value;
+        }
+
+        private static uint ReadUInt32( byte[] data, int offset )
+        {
+            return ( (uint)data[offset] << 24 ) | ( (uint)data[offset + 1] << 16 ) | ( (uint)data[offset + 2] << 8 ) | data[offset + 3];
+        }
+    }
+
+    private readonly record struct PdfTextLine( string Text, bool CanJustify );
+
+    private readonly record struct TrueTypeTable( int Offset, int Length );
+
+    private sealed class PdfFontResource
+    {
+        internal double MeasureTextWidth( string text, double fontSize, CancellationToken cancellationToken )
+        {
+            return Metrics?.MeasureTextWidth( text, fontSize, cancellationToken ) ?? 0;
+        }
+
+        internal string Name { get; set; }
+
+        internal int ObjectId { get; set; }
+
+        internal PdfEmbeddedFont EmbeddedFont { get; set; }
+
+        internal IPdfFontMetrics Metrics { get; set; }
+    }
+
+    private sealed class PdfFontResources
+    {
+        private readonly Dictionary<string, PdfFontResource[]> families = new( StringComparer.OrdinalIgnoreCase );
+
+        internal List<PdfFontResource> All { get; } = [];
+
+        internal void Add( string family, PdfFontResource[] resources )
+        {
+            families[family] = resources;
+            All.AddRange( resources );
+        }
+
+        internal PdfFontResource[] GetFamily( string family )
+        {
+            return families.TryGetValue( family, out PdfFontResource[] resources )
+                ? resources
+                : families[Fonts.Helvetica];
+        }
+    }
+
+    private readonly record struct PdfColor( double Red, double Green, double Blue, double Alpha );
+
+    private sealed class PdfObject
+    {
+        internal string Content { get; set; }
+
+        internal byte[] ContentBytes { get; set; }
+    }
+
+    #endregion
+}

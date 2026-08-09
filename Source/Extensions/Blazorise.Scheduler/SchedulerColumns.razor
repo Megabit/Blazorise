@@ -1,0 +1,12 @@
+@typeparam TItem
+@using Microsoft.AspNetCore.Components
+@attribute [CascadingTypeParameter( nameof( TItem ) )]
+
+@ChildContent
+
+@code {
+    /// <summary>
+    /// Gets or sets the scheduler columns content.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

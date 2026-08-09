@@ -1,0 +1,120 @@
+#region Using directives
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+#endregion
+
+namespace Blazorise;
+
+/// <summary>
+/// Defines an initial tab group inside a <see cref="DockLayout"/>.
+/// </summary>
+public partial class DockTabs : BaseComponent, IDisposable
+{
+    #region Members
+
+    private DockNodeCollector childCollector;
+
+    private DockNodeState node;
+
+    private string activePane;
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        ParentCollector?.AddNode( Node );
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        await base.OnAfterRenderAsync( firstRender );
+
+        if ( !firstRender )
+            return;
+
+        SynchronizeNode();
+
+        if ( ParentDockLayout is not null )
+            await ParentDockLayout.NotifyDefinitionChanged();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+            ParentCollector?.RemoveNode( Node );
+
+        base.Dispose( disposing );
+    }
+
+    private void SynchronizeNode()
+    {
+        DockNodeState currentNode = Node;
+        List<string> paneNames = new();
+
+        foreach ( DockNodeState childNode in ChildCollector.Nodes )
+        {
+            if ( childNode.Kind == DockNodeKind.Pane && !string.IsNullOrWhiteSpace( childNode.PaneName ) )
+                paneNames.Add( childNode.PaneName );
+        }
+
+        string activePane = ActivePane;
+
+        if ( string.IsNullOrWhiteSpace( activePane ) && paneNames.Count > 0 )
+            activePane = paneNames[0];
+
+        currentNode.Panes.Clear();
+        currentNode.Panes.AddRange( paneNames );
+        currentNode.ActivePane = activePane;
+    }
+
+    #endregion
+
+    #region Properties
+
+    internal DockNodeCollector ChildCollector => childCollector ??= new( SynchronizeNode );
+
+    internal DockNodeState Node => node ??= new()
+    {
+        Kind = DockNodeKind.Tabs,
+        ActivePane = activePane,
+    };
+
+    [CascadingParameter] internal DockNodeCollector ParentCollector { get; set; }
+
+    [CascadingParameter] internal DockLayout ParentDockLayout { get; set; }
+
+    /// <summary>
+    /// Defines the initially active pane name.
+    /// </summary>
+    [Parameter]
+    public string ActivePane
+    {
+        get => activePane;
+        set
+        {
+            if ( activePane == value )
+                return;
+
+            activePane = value;
+
+            if ( node is not null )
+                node.ActivePane = value;
+        }
+    }
+
+    /// <summary>
+    /// Specifies the tab child content.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
+}

@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.Utilities;
@@ -96,8 +95,7 @@ public partial class Carousel : Blazorise.Carousel
     {
         get
         {
-            var slideIndex = carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => x.Name == SelectedSlide ) );
-            var targetSlidePosition = slideIndex + 1;
+            var targetSlidePosition = SelectedSlideIndex + 1;
 
             if ( !suppressSlickTrackTransition && ShouldUseSlickWrapToFirstPosition )
             {

@@ -65,3 +65,9 @@
 .lucide-10x {
     font-size: 10em;
 }
+
+.lucide-fw {
+    flex: 0 0 1.25em;
+    width: 1.25em;
+    text-align: center;
+}

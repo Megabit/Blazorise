@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Snackbar;
 
+/// <summary>
+/// Presents title content at the top of a snackbar notification.
+/// </summary>
 public partial class SnackbarHeader : BaseComponent
 {
     #region Members
@@ -13,6 +16,7 @@ public partial class SnackbarHeader : BaseComponent
 
     #region Methods
 
+    /// <inheritdoc />
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "snackbar-header" );

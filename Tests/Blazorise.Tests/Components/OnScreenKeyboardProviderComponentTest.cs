@@ -286,9 +286,12 @@ public class OnScreenKeyboardProviderComponentTest : BunitContext
         var comp = Render<OnScreenKeyboardProvider>();
 
         await ShowKeyboard( keyboardService, OnScreenKeyboardLayout.Text );
+        comp.WaitForAssertion( () => JSInterop.VerifyInvoke( "scrollElementIntoViewForOnScreenKeyboard" ) );
+
         await keyboardService.Hide();
 
-        comp.WaitForAssertion( () => JSInterop.VerifyInvoke( "clearOnScreenKeyboardScrollAdjustment" ) );
+        comp.WaitForAssertion( () => Assert.DoesNotContain( "Enter", comp.Markup ) );
+        JSInterop.VerifyInvoke( "clearOnScreenKeyboardScrollAdjustment" );
     }
 
     [Fact]
@@ -361,9 +364,8 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
             options.AccessibilityOptions.OnScreenKeyboard.EnterKeyBehavior = OnScreenKeyboardEnterKeyBehavior.Submit;
         } ) );
         JSInterop.AddBlazoriseTextInput();
-        JSInterop.AddBlazoriseDatePicker();
-        JSInterop.AddBlazoriseTimePicker();
         JSInterop.AddBlazoriseNumericInput();
+        JSInterop.AddBlazoriseDocumentObserver();
     }
 
     [Fact]
@@ -948,7 +950,7 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
         await keyboardService.InsertText( "0" );
 
         Assert.Equal( "20", keyboardService.State.Context.GetValue() );
-        JSInterop.VerifyInvoke( "updateTextValue", 2 );
+        Assert.Equal( "20", comp.Find( "input" ).GetAttribute( "value" ) );
     }
 
     [Fact]
@@ -963,7 +965,7 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
         await keyboardService.InsertText( "2" );
 
         Assert.Equal( "12", keyboardService.State.Context.GetValue() );
-        JSInterop.VerifyInvoke( "updateTextValue", 2 );
+        Assert.Equal( "12", comp.Find( "input" ).GetAttribute( "value" ) );
     }
 
     [Fact]

@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -46,6 +47,23 @@ internal sealed class SvgChartLineSeriesRenderer : ISvgChartSeriesRenderer
             if ( points.Count > 1 )
             {
                 var linePath = SvgChartSeriesRenderHelpers.BuildLinePath( points, item.Interpolation, item.Tension );
+
+                if ( item.OutlineStrokeWidth > 0 && !string.IsNullOrWhiteSpace( item.OutlineColor ) )
+                {
+                    builder.OpenElement( sequence++, "path" );
+                    builder.AddAttribute( sequence++, "class", "svg-chart-line-outline" );
+                    builder.AddAttribute( sequence++, "d", linePath );
+                    builder.AddAttribute( sequence++, "fill", "none" );
+                    builder.AddAttribute( sequence++, "stroke", item.OutlineColor );
+                    builder.AddAttribute( sequence++, "stroke-width", SvgChartRenderHelpers.Format( item.OutlineStrokeWidth ) );
+                    builder.AddAttribute( sequence++, "stroke-opacity", SvgChartRenderHelpers.Format( Math.Clamp( item.OutlineOpacity, 0, 1 ) ) );
+                    builder.AddAttribute( sequence++, "stroke-linecap", "round" );
+                    builder.AddAttribute( sequence++, "stroke-linejoin", "round" );
+                    builder.AddAttribute( sequence++, "pointer-events", "none" );
+                    context.AddAnimatedStyleAttribute( builder, ref sequence );
+                    context.RenderPathFadeAnimation( builder, ref sequence, item, "outline", linePath, "1" );
+                    builder.CloseElement();
+                }
 
                 builder.OpenElement( sequence++, "path" );
                 builder.AddAttribute( sequence++, "class", "svg-chart-line" );

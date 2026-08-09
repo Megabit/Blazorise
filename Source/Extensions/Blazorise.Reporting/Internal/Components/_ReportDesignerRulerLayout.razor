@@ -1,0 +1,34 @@
+@namespace Blazorise.Reporting.Internal
+@inherits BaseReportComponent
+@using static Blazorise.Reporting.Internal.FluentConstants
+
+<Div Class="@RulerClass"
+     ElementId="@PanelId"
+     Padding="@(Visible ? PaddingIs0 : PaddingIs3)"
+     role="tabpanel"
+     aria-label="@Localize( "Report designer surface" )">
+    @if ( Visible )
+    {
+        <div class="b-report-designer-ruler-corner"
+             role="button"
+             tabindex="0"
+             aria-label="@Localize( "Select report" )"
+             title="@Localize( "Select report" )"
+             @onclick="@OnReportSelected"
+             @onkeydown="@OnReportSelectorKeyDown"></div>
+        <_ReportDesignerHorizontalRuler Unit="@Unit"
+                                        Width="@PageWidth"
+                                        WidthOffset="@WidthOffset"
+                                        GridSize="@GridSize"
+                                        ShowFineTicks="@ShowFineTicks"
+                                        Marker="@Marker" />
+        <_ReportDesignerVerticalRuler Unit="@Unit"
+                                      Height="@PageHeight"
+                                      GridSize="@GridSize"
+                                      ShowFineTicks="@ShowFineTicks"
+                                      Marker="@Marker" />
+    }
+    <div class="b-report-designer-ruler-content">
+        @ChildContent
+    </div>
+</Div>

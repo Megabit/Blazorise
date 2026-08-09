@@ -13,6 +13,9 @@ public class SvgBarChart<TItem> : SvgChart<TItem>
 {
     #region Constructors
 
+    /// <summary>
+    /// Creates a Cartesian chart with horizontal value bars.
+    /// </summary>
     public SvgBarChart()
     {
         Type = SvgChartType.Bar;

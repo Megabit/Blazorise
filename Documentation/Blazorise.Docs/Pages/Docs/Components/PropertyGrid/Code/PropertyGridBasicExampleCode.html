@@ -1,0 +1,137 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGrid</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px( 360 )</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Toolbar</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridToolbar</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridToolbarButton</span> <span class="htmlAttributeName">Icon</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Clear</span><span class="quot">&quot;</span>
+                                       <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Clear search</span><span class="quot">&quot;</span>
+                                       <span class="htmlAttributeName">Disabled</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( string.IsNullOrWhiteSpace( searchText ) )</span><span class="quot">&quot;</span>
+                                       <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ClearSearch</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridToolbarSearch</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SearchText</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>searchText</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PropertyGridToolbar</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Toolbar</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ChildContent</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridGroup</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Appearance</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="atSign">&#64;</span>if ( MatchesSearch( &quot;Title&quot; ) )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridTextItem</span> <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Title</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>title</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ActionContent</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Light</span><span class="quot">&quot;</span>
+                                <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span>
+                                <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ResetTitle</span><span class="quot">&quot;</span>
+                                <span class="htmlAttributeName">title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Reset title</span><span class="quot">&quot;</span>
+                                <span class="htmlAttributeName">aria-label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Reset title</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Undo</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ActionContent</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PropertyGridTextItem</span><span class="htmlTagDelimiter">&gt;</span>
+            }
+            <span class="atSign">&#64;</span>if ( MatchesSearch( &quot;Visible&quot; ) )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridBooleanItem</span> <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Visible</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>visible</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TrueText</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Visible</span><span class="quot">&quot;</span> <span class="htmlAttributeName">FalseText</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Hidden</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            }
+            <span class="atSign">&#64;</span>if ( MatchesSearch( &quot;Accent&quot; ) )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridColorItem</span> <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Accent</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>accent</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            }
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PropertyGridGroup</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridGroup</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Typography</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="atSign">&#64;</span>if ( MatchesSearch( &quot;Font family&quot; ) )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridStringSelectItem</span> <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Font family</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>fontFamily</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>fontFamilyOptions</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            }
+            <span class="atSign">&#64;</span>if ( MatchesSearch( &quot;Font size&quot; ) )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridNumericItem</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">int</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Font size</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>fontSize</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Min</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">8</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Max</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">72</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            }
+            <span class="atSign">&#64;</span>if ( MatchesSearch( &quot;Bold&quot; ) )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridBooleanItem</span> <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Bold</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>bold</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            }
+            <span class="atSign">&#64;</span>if ( MatchesSearch( &quot;Italic&quot; ) )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridBooleanItem</span> <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Italic</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>italic</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            }
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PropertyGridGroup</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridGroup</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Layout</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="atSign">&#64;</span>if ( MatchesSearch( &quot;Width&quot; ) )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridNumericItem</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">int</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>width</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Min</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">100</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Max</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">1200</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Step</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">10</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            }
+            <span class="atSign">&#64;</span>if ( MatchesSearch( &quot;Height&quot; ) )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridNumericItem</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">int</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Height</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>height</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Min</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">100</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Max</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">1200</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Step</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">10</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            }
+            <span class="atSign">&#64;</span>if ( MatchesSearch( &quot;Padding&quot; ) )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridNumericItem</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">int</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Padding</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>padding</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Min</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">0</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Max</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">64</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            }
+            <span class="atSign">&#64;</span>if ( MatchesSearch( &quot;Alignment&quot; ) )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridStringSelectItem</span> <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Alignment</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>alignment</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>alignmentOptions</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            }
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PropertyGridGroup</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ChildContent</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Help</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PropertyGridHelp</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Manual composition</span><span class="quot">&quot;</span>
+                          <span class="htmlAttributeName">Description</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Toolbar, editor, filtering, and help behavior can be composed directly.</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Help</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PropertyGrid</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>Current values:<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Strong</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="atSign">&#64;</span>title, <span class="atSign">&#64;</span>width x <span class="atSign">&#64;</span>height px, <span class="atSign">&#64;</span>fontFamily <span class="atSign">&#64;</span>fontSize px, <span class="atSign">&#64;</span>alignment, <span class="atSign">&#64;</span>accent, <span class="atSign">&#64;</span>(visible ? &quot;visible&quot; : &quot;hidden&quot;)
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> IReadOnlyList&lt;PropertyGridSelectOption&lt;<span class="keyword">string</span>&gt;&gt; alignmentOptions =
+    [
+        <span class="keyword">new</span>( <span class="string">&quot;Left&quot;</span>, <span class="string">&quot;Left&quot;</span> ),
+        <span class="keyword">new</span>( <span class="string">&quot;Center&quot;</span>, <span class="string">&quot;Center&quot;</span> ),
+        <span class="keyword">new</span>( <span class="string">&quot;Right&quot;</span>, <span class="string">&quot;Right&quot;</span> ),
+    ];
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> IReadOnlyList&lt;PropertyGridSelectOption&lt;<span class="keyword">string</span>&gt;&gt; fontFamilyOptions =
+    [
+        <span class="keyword">new</span>( <span class="string">&quot;Arial&quot;</span>, <span class="string">&quot;Arial&quot;</span> ),
+        <span class="keyword">new</span>( <span class="string">&quot;Georgia&quot;</span>, <span class="string">&quot;Georgia&quot;</span> ),
+        <span class="keyword">new</span>( <span class="string">&quot;Inter&quot;</span>, <span class="string">&quot;Inter&quot;</span> ),
+    ];
+
+    <span class="keyword">private</span> <span class="keyword">string</span> title = <span class="string">&quot;Quarterly summary&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">bool</span> visible = <span class="keyword">true</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> accent = <span class="string">&quot;Blue&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> fontFamily = <span class="string">&quot;Arial&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">int</span> fontSize = <span class="number">16</span>;
+
+    <span class="keyword">private</span> <span class="keyword">bool</span> bold;
+
+    <span class="keyword">private</span> <span class="keyword">bool</span> italic;
+
+    <span class="keyword">private</span> <span class="keyword">int</span> width = <span class="number">640</span>;
+
+    <span class="keyword">private</span> <span class="keyword">int</span> height = <span class="number">360</span>;
+
+    <span class="keyword">private</span> <span class="keyword">int</span> padding = <span class="number">16</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> alignment = <span class="string">&quot;Left&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> searchText;
+
+    <span class="keyword">private</span> <span class="keyword">bool</span> MatchesSearch( <span class="keyword">string</span> label )
+        =&gt; <span class="keyword">string</span>.IsNullOrWhiteSpace( searchText )
+            || label.Contains( searchText, StringComparison.CurrentCultureIgnoreCase );
+
+    <span class="keyword">private</span> <span class="keyword">void</span> ClearSearch()
+        =&gt; searchText = <span class="keyword">string</span>.Empty;
+
+    <span class="keyword">private</span> <span class="keyword">void</span> ResetTitle()
+        =&gt; title = <span class="string">&quot;Quarterly summary&quot;</span>;
+}
+</pre></div>
+</div>

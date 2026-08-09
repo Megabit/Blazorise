@@ -1,5 +1,5 @@
-import "./vendors/jsencrypt.js?v=2.2.1.0";
-import "./vendors/sha512.js?v=2.2.1.0";
+import "./vendors/jsencrypt.js?v=2.2.3.0";
+import "./vendors/sha512.js?v=2.2.3.0";
 
 // adds a classname to the specified element
 export function addClass(element, classname) {
@@ -499,6 +499,17 @@ export function getUserAgent() {
     return navigator.userAgent;
 }
 
+export function isMobileDevice() {
+    const mobileUserAgentPattern = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Opera Mobi|Mobile|Silk|Kindle|Windows Phone|PlayBook|BB10|MeeGo|Tizen|Puffin/i;
+    const maxTouchPoints = navigator.maxTouchPoints || navigator.msMaxTouchPoints || 0;
+    const isTouchCapableMac = navigator.platform === "MacIntel" && maxTouchPoints > 1;
+    const isMobileUserAgentData = navigator.userAgentData && navigator.userAgentData.mobile === true;
+
+    return isMobileUserAgentData
+        || mobileUserAgentPattern.test(navigator.userAgent)
+        || isTouchCapableMac;
+}
+
 export function copyToClipboard(element, elementId) {
     element = getRequiredElement(element, elementId);
 
@@ -615,10 +626,16 @@ export function verifyRsa(publicKey, content, signature) {
     return false;
 }
 
-export function log(showBanner, message, args) {
+export function log(showBanner, showCompactBanner, message, args) {
+    if (typeof showCompactBanner !== "boolean") {
+        args = message;
+        message = showCompactBanner;
+        showCompactBanner = false;
+    }
+
     console.log(message, args);
 
-    if (!showBanner) {
+    if (!showBanner && !showCompactBanner) {
         return;
     }
 
@@ -627,9 +644,17 @@ export function log(showBanner, message, args) {
 
     const st = (window[GLOBAL] ||= {
         dismissed: false,
+        expanded: false,
+        compactAvailable: false,
         bodyObserver: null,
         attrObserver: null
     });
+
+    st.compactAvailable = showCompactBanner;
+
+    if (st.compactAvailable) {
+        st.dismissed = false;
+    }
 
     if (st.dismissed) {
         return;
@@ -647,6 +672,12 @@ export function log(showBanner, message, args) {
     if (host && host.shadowRoot) {
         const msgEl = host.shadowRoot.querySelector(".msg");
         if (msgEl) msgEl.innerHTML = cleanMessage;
+        const wrapperEl = host.shadowRoot.querySelector(".wrapper");
+        if (wrapperEl) wrapperEl.classList.toggle("compact", showCompactBanner && !st.expanded);
+        const compactButtonEl = host.shadowRoot.querySelector(".compact-trigger");
+        if (compactButtonEl) compactButtonEl.setAttribute("aria-expanded", st.expanded ? "true" : "false");
+        const dismissButtonEl = host.shadowRoot.querySelector(".dismiss");
+        if (dismissButtonEl) dismissButtonEl.textContent = st.compactAvailable ? "Close" : "Dismiss";
         return;
     }
 
@@ -674,7 +705,20 @@ export function log(showBanner, message, args) {
   border-top-left-radius: 6px !important;
   border-top-right-radius: 6px !important;
 }
+.wrapper.compact {
+  left: auto !important;
+  right: 16px !important;
+  bottom: 16px !important;
+  padding: 0 !important;
+  background: rgba(108,99,255,0.72) !important;
+  border-radius: 999px !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.24) !important;
+  transition: background .2s ease-in-out !important;
+}
+.wrapper.compact:hover { background: #6C63FF !important; }
 .msg { flex: 1 1 auto !important; }
+.compact .msg,
+.compact .dismiss { display: none !important; }
 .btn {
   appearance: none !important;
   border: 1px solid rgba(255,255,255,0.7) !important;
@@ -687,30 +731,74 @@ export function log(showBanner, message, args) {
   transition: background .2s ease-in-out, color .2s ease-in-out !important;
 }
 .btn:hover { background: rgba(255,255,255,0.2) !important; }
+.compact-trigger {
+  display: none !important;
+  appearance: none !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: #FFFFFF !important;
+  padding: .55rem .85rem !important;
+  border-radius: 999px !important;
+  font: 600 12px/1.2 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  transition: background .2s ease-in-out !important;
+}
+.compact .compact-trigger { display: block !important; }
+.compact-trigger:hover { background: rgba(255,255,255,0.2) !important; }
+.btn:focus-visible,
+.compact-trigger:focus-visible { outline: 2px solid #FFFFFF !important; outline-offset: 2px !important; }
     `.trim();
 
     shadow.appendChild(style);
 
     const wrapperElement = document.createElement("div");
     wrapperElement.className = "wrapper";
+    wrapperElement.classList.toggle("compact", showCompactBanner && !st.expanded);
+    wrapperElement.setAttribute("role", "region");
+    wrapperElement.setAttribute("aria-label", "Blazorise license information");
 
     const messageElement = document.createElement("span");
     messageElement.className = "msg";
+    messageElement.id = "blazorise-license-banner-message";
     messageElement.innerHTML = cleanMessage;
 
+    const compactButton = document.createElement("button");
+    compactButton.className = "compact-trigger";
+    compactButton.type = "button";
+    compactButton.textContent = "Community License";
+    compactButton.setAttribute("aria-controls", messageElement.id);
+    compactButton.setAttribute("aria-expanded", "false");
+
     const button = document.createElement("button");
-    button.className = "btn";
+    button.className = "btn dismiss";
     button.type = "button";
-    button.textContent = "Dismiss";
+    button.textContent = st.compactAvailable ? "Close" : "Dismiss";
     button.addEventListener("click", () => {
+        if (st.compactAvailable) {
+            st.expanded = false;
+            wrapperElement.classList.add("compact");
+            compactButton.setAttribute("aria-expanded", "false");
+            compactButton.focus();
+            return;
+        }
+
         st.dismissed = true;
         if (st.bodyObserver) try { st.bodyObserver.disconnect(); } catch { }
         if (st.attrObserver) try { st.attrObserver.disconnect(); } catch { }
         host.remove();
     });
 
+    compactButton.addEventListener("click", () => {
+        st.expanded = true;
+        wrapperElement.classList.remove("compact");
+        compactButton.setAttribute("aria-expanded", "true");
+        button.focus();
+    });
+
     wrapperElement.appendChild(messageElement);
     wrapperElement.appendChild(button);
+    wrapperElement.appendChild(compactButton);
     shadow.appendChild(wrapperElement);
     document.body.appendChild(host);
 
@@ -754,8 +842,72 @@ export function coalesce(value, defaultValue) {
     return value === null || value === undefined ? defaultValue : value;
 }
 
+export function appendToDocumentHead(element) {
+    const head = document.head || document.getElementsByTagName("head")[0];
+
+    if (!head || !element) {
+        return null;
+    }
+
+    head.appendChild(element);
+
+    return element;
+}
+
 export function insertCSSIntoDocumentHead(url) {
-    document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<link rel=\"stylesheet\" href=\"${url}\" />`);
+    if (!url) {
+        return null;
+    }
+
+    const existingStylesheet = findStylesheet(url);
+
+    if (existingStylesheet) {
+        if (existingStylesheet.getAttribute("href") !== url) {
+            existingStylesheet.setAttribute("href", url);
+        }
+
+        return existingStylesheet;
+    }
+
+    const link = document.createElement("link");
+
+    link.rel = "stylesheet";
+    link.setAttribute("href", url);
+
+    return appendToDocumentHead(link);
+}
+
+function findStylesheet(url) {
+    const stylesheetUrl = createUrl(url);
+
+    return Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+        .find(link => isStylesheetMatch(link, url, stylesheetUrl));
+}
+
+function isStylesheetMatch(link, url, stylesheetUrl) {
+    if (!link) {
+        return false;
+    }
+
+    const href = link.getAttribute("href");
+
+    if (href === url || link.href === stylesheetUrl.href) {
+        return true;
+    }
+
+    const linkUrl = createUrl(link.href || href);
+
+    return linkUrl.origin === stylesheetUrl.origin
+        && linkUrl.pathname === stylesheetUrl.pathname;
+}
+
+function createUrl(url) {
+    try {
+        return new URL(url, document.baseURI);
+    }
+    catch {
+        return new URL("about:blank");
+    }
 }
 
 export function isSystemDarkMode() {

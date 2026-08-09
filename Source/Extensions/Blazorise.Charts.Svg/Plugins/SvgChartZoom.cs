@@ -1,4 +1,6 @@
 #region Using directives
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -9,6 +11,58 @@ namespace Blazorise.Charts.Svg;
 /// </summary>
 public class SvgChartZoom : SvgChartPluginBase
 {
+    #region Members
+
+    private ComponentParameterInfo<bool> paramEnabled;
+
+    private ComponentParameterInfo<SvgChartZoomMode> paramMode;
+
+    private ComponentParameterInfo<bool> paramWheel;
+
+    private ComponentParameterInfo<bool> paramPan;
+
+    private ComponentParameterInfo<double> paramMinZoom;
+
+    private ComponentParameterInfo<double> paramMaxZoom;
+
+    private ComponentParameterInfo<SvgChartViewport> paramViewport;
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Enabled, out paramEnabled );
+        parameters.TryGetParameter( Mode, out paramMode );
+        parameters.TryGetParameter( Wheel, out paramWheel );
+        parameters.TryGetParameter( Pan, out paramPan );
+        parameters.TryGetParameter( MinZoom, out paramMinZoom );
+        parameters.TryGetParameter( MaxZoom, out paramMaxZoom );
+        parameters.TryGetParameter( Viewport, out paramViewport );
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    internal SvgChartZoomOptions ResolveOptions( SvgChartZoomOptions fallback )
+    {
+        fallback ??= new();
+
+        return new()
+        {
+            Enabled = paramEnabled.GetValueOrDefault( fallback.Enabled ),
+            Mode = paramMode.GetValueOrDefault( fallback.Mode ),
+            Wheel = paramWheel.GetValueOrDefault( fallback.Wheel ),
+            Pan = paramPan.GetValueOrDefault( fallback.Pan ),
+            MinZoom = paramMinZoom.GetValueOrDefault( fallback.MinZoom ),
+            MaxZoom = paramMaxZoom.GetValueOrDefault( fallback.MaxZoom ),
+            Viewport = SvgChartGeometry.CloneViewport( paramViewport.GetValueOrDefault( fallback.Viewport ) )
+        };
+    }
+
+    #endregion
+
     #region Properties
 
     /// <summary>

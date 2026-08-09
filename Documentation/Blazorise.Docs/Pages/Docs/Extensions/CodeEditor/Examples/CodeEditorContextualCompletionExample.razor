@@ -1,0 +1,84 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Paragraph>
+    Type an opening brace followed by part of a field name, for example <Code>{Customer</Code>.
+</Paragraph>
+
+<CodeEditor @bind-Value="@template"
+            Language="@CodeEditorLanguage.PlainText"
+            CompletionProvider="@completionProvider"
+            Immediate
+            Height="220.Px()" />
+
+@code {
+    private string template = "Invoice for ";
+
+    private static readonly IReadOnlyList<string> fields =
+    [
+        "Customer.Name",
+        "Customer.Email",
+        "Invoice.Number",
+        "Invoice.Total",
+    ];
+
+    private static readonly CodeEditorCompletionProvider completionProvider = new()
+    {
+        Language = CodeEditorLanguage.PlainText,
+        TriggerCharacters = ["{"],
+        ItemsProvider = ProvideFields,
+    };
+
+    private static Task<IReadOnlyList<CodeEditorCompletionItem>> ProvideFields( CodeEditorCompletionContext context )
+    {
+        CodeEditorCompletionRange range = FindFieldRange( context );
+
+        if ( range is null )
+            return Task.FromResult<IReadOnlyList<CodeEditorCompletionItem>>( [] );
+
+        IReadOnlyList<CodeEditorCompletionItem> items = fields
+            .Select( field =>
+            {
+                string expression = $"{{{field}}}";
+
+                return new CodeEditorCompletionItem
+                {
+                    Label = expression,
+                    InsertText = expression,
+                    FilterText = expression,
+                    Kind = CodeEditorCompletionItemKind.Field,
+                    Detail = "Template field",
+                    Range = range,
+                };
+            } )
+            .ToArray();
+
+        return Task.FromResult( items );
+    }
+
+    private static CodeEditorCompletionRange FindFieldRange( CodeEditorCompletionContext context )
+    {
+        if ( context is null || context.LineNumber < 1 || context.Column < 1 )
+            return null;
+
+        string line = context.LineText ?? string.Empty;
+        int cursorIndex = Math.Min( context.Column - 1, line.Length );
+        string textBeforeCursor = line[..cursorIndex];
+        int openingIndex = textBeforeCursor.LastIndexOf( '{' );
+        int closingIndex = textBeforeCursor.LastIndexOf( '}' );
+
+        if ( openingIndex <= closingIndex )
+            return null;
+
+        int endColumn = cursorIndex < line.Length && line[cursorIndex] == '}'
+            ? context.Column + 1
+            : context.Column;
+
+        return new()
+        {
+            StartLineNumber = context.LineNumber,
+            StartColumn = openingIndex + 1,
+            EndLineNumber = context.LineNumber,
+            EndColumn = endColumn,
+        };
+    }
+}

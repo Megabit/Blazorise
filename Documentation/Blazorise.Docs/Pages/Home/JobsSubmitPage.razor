@@ -1,0 +1,291 @@
+@page "/jobs/submit"
+@using Blazorise.Docs.Models
+
+<Seo Canonical="/jobs/submit" Title="Submit a Blazorise Job" Description="Submit a Blazor or .NET role to the moderated Blazorise jobs board." />
+
+<PageHeader>
+    <Title>
+        Submit a job
+    </Title>
+    <Description>
+        Reach developers building with Blazor and .NET. Every submission is reviewed before it appears on the jobs board.
+    </Description>
+    <Actions>
+        <Button Color="Color.Secondary" Outline Size="Size.Large" Type="ButtonType.Link" To="/jobs">
+            Browse jobs
+        </Button>
+    </Actions>
+</PageHeader>
+
+<Container Padding="Padding.Is4.OnX.Is5.OnY">
+    <Row>
+        <Column ColumnSize="ColumnSize.Is12.Is8.OnWidescreen" Margin="Margin.IsAuto.OnX">
+            @if ( submissionResult is not null )
+            {
+                <Card Shadow="Shadow.Large" Border="Border.Is0.Rounded">
+                    <CardBody Padding="Padding.Is5">
+                        <Div TextAlignment="TextAlignment.Center">
+                            <Icon Name="IconName.CheckCircle" TextColor="TextColor.Success" TextSize="TextSize.Heading2" />
+                            <Heading Size="HeadingSize.Is3" Margin="Margin.Is3.FromTop.Is2.FromBottom">
+                                Job submitted for review
+                            </Heading>
+                            <Paragraph TextColor="TextColor.Muted">
+                                Your job is now in the Blazorise.Jobs moderation queue. Approved posts will appear on the jobs board.
+                            </Paragraph>
+                            <Paragraph>
+                                <Anchor To="@submissionResult.IssueUrl" Target="Target.Blank">
+                                    View GitHub issue #@submissionResult.IssueNumber
+                                </Anchor>
+                            </Paragraph>
+                            <Div Flex="Flex.Column.Row.OnMobile.JustifyContent.Center" Gap="Gap.Is2" Margin="Margin.Is4.FromTop">
+                                <Button Color="Color.Primary" Type="ButtonType.Link" To="/jobs">
+                                    Browse jobs
+                                </Button>
+                                <Button Color="Color.Secondary" Outline Clicked="@SubmitAnother">
+                                    Submit another job
+                                </Button>
+                            </Div>
+                        </Div>
+                    </CardBody>
+                </Card>
+            }
+            else
+            {
+                <Alert Color="Color.Info" Margin="Margin.Is3.FromBottom">
+                    Submissions are stored as public issues in the Blazorise.Jobs repository and are published only after moderator approval.
+                </Alert>
+
+                <Card Shadow="Shadow.Large" Border="Border.Is0.Rounded">
+                    <CardHeader Padding="Padding.Is4">
+                        <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom">Job details</Heading>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is1.FromTop.Is0.FromBottom">
+                            Fields marked with an asterisk are required.
+                        </Paragraph>
+                    </CardHeader>
+                    <CardBody Padding="Padding.Is4">
+                        <Form>
+                            <Validations @ref="@validationsRef" Mode="ValidationMode.Manual" ValidateOnLoad="false">
+                                <Fields>
+                                    <Validation Validator="ValidationRule.IsNotEmpty">
+                                        <Field ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
+                                            <FieldLabel RequiredIndicator>Company name</FieldLabel>
+                                            <FieldBody>
+                                                <TextInput @bind-Value="@submission.CompanyName" Placeholder="Contoso">
+                                                    <Feedback>
+                                                        <ValidationError>Company name is required.</ValidationError>
+                                                    </Feedback>
+                                                </TextInput>
+                                                <FieldHelp>Legal or common company name.</FieldHelp>
+                                            </FieldBody>
+                                        </Field>
+                                    </Validation>
+                                    <Validation Validator="ValidationRule.IsNotEmpty">
+                                        <Field ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
+                                            <FieldLabel RequiredIndicator>Role title</FieldLabel>
+                                            <FieldBody>
+                                                <TextInput @bind-Value="@submission.RoleTitle" Placeholder="Senior .NET Developer">
+                                                    <Feedback>
+                                                        <ValidationError>Role title is required.</ValidationError>
+                                                    </Feedback>
+                                                </TextInput>
+                                            </FieldBody>
+                                        </Field>
+                                    </Validation>
+                                </Fields>
+
+                                <Fields>
+                                    <Validation Validator="ValidationRule.IsNotEmpty">
+                                        <Field ColumnSize="ColumnSize.Is12.Is8.OnDesktop">
+                                            <FieldLabel RequiredIndicator>Location</FieldLabel>
+                                            <FieldBody>
+                                                <TextInput @bind-Value="@submission.Location" Placeholder="Berlin, DE">
+                                                    <Feedback>
+                                                        <ValidationError>Location is required.</ValidationError>
+                                                    </Feedback>
+                                                </TextInput>
+                                                <FieldHelp>City, region, or Worldwide.</FieldHelp>
+                                            </FieldBody>
+                                        </Field>
+                                    </Validation>
+                                    <Validation Validator="ValidationRule.IsSelected">
+                                        <Field ColumnSize="ColumnSize.Is12.Is4.OnDesktop">
+                                            <FieldLabel RequiredIndicator>Remote</FieldLabel>
+                                            <FieldBody>
+                                                <Select TValue="string" @bind-Value="@submission.Remote">
+                                                    <ChildContent>
+                                                        <SelectItem TValue="string" Value="@string.Empty">Choose...</SelectItem>
+                                                        <SelectItem TValue="string" Value="@("Yes")">Yes</SelectItem>
+                                                        <SelectItem TValue="string" Value="@("No")">No</SelectItem>
+                                                    </ChildContent>
+                                                    <Feedback>
+                                                        <ValidationError>Select whether the role is remote.</ValidationError>
+                                                    </Feedback>
+                                                </Select>
+                                            </FieldBody>
+                                        </Field>
+                                    </Validation>
+                                </Fields>
+
+                                <Fields>
+                                    <Validation Validator="ValidationRule.IsSelected">
+                                        <Field ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
+                                            <FieldLabel RequiredIndicator>Employment type</FieldLabel>
+                                            <FieldBody>
+                                                <Select TValue="string" @bind-Value="@submission.EmploymentType">
+                                                    <ChildContent>
+                                                        <SelectItem TValue="string" Value="@string.Empty">Choose...</SelectItem>
+                                                        @foreach ( string employmentType in EmploymentTypes )
+                                                        {
+                                                            <SelectItem TValue="string" Value="@employmentType">@employmentType</SelectItem>
+                                                        }
+                                                    </ChildContent>
+                                                    <Feedback>
+                                                        <ValidationError>Employment type is required.</ValidationError>
+                                                    </Feedback>
+                                                </Select>
+                                            </FieldBody>
+                                        </Field>
+                                    </Validation>
+                                    <Validation Validator="ValidationRule.IsSelected">
+                                        <Field ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
+                                            <FieldLabel RequiredIndicator>Seniority</FieldLabel>
+                                            <FieldBody>
+                                                <Select TValue="string" @bind-Value="@submission.Seniority">
+                                                    <ChildContent>
+                                                        <SelectItem TValue="string" Value="@string.Empty">Choose...</SelectItem>
+                                                        @foreach ( string seniority in SeniorityOptions )
+                                                        {
+                                                            <SelectItem TValue="string" Value="@seniority">@seniority</SelectItem>
+                                                        }
+                                                    </ChildContent>
+                                                    <Feedback>
+                                                        <ValidationError>Seniority is required.</ValidationError>
+                                                    </Feedback>
+                                                </Select>
+                                            </FieldBody>
+                                        </Field>
+                                    </Validation>
+                                </Fields>
+
+                                <Validation Validator="ValidationRule.IsNotEmpty">
+                                    <Field>
+                                        <FieldLabel RequiredIndicator>Tags/keywords</FieldLabel>
+                                        <FieldBody>
+                                            <TextInput @bind-Value="@submission.Tags" Placeholder="C#, Blazor, Azure">
+                                                <Feedback>
+                                                    <ValidationError>Add at least one tag or keyword.</ValidationError>
+                                                </Feedback>
+                                            </TextInput>
+                                            <FieldHelp>Separate tags with commas.</FieldHelp>
+                                        </FieldBody>
+                                    </Field>
+                                </Validation>
+
+                                <Validation Validator="@ValidateApplyUrl">
+                                    <Field>
+                                        <FieldLabel RequiredIndicator>Apply URL</FieldLabel>
+                                        <FieldBody>
+                                            <TextInput Role="TextRole.Url" @bind-Value="@submission.ApplyUrl" Placeholder="https://example.com/jobs/123">
+                                                <Feedback>
+                                                    <ValidationError />
+                                                </Feedback>
+                                            </TextInput>
+                                            <FieldHelp>Link directly to the application page.</FieldHelp>
+                                        </FieldBody>
+                                    </Field>
+                                </Validation>
+
+                                <Validation Validator="ValidationRule.IsNotEmpty">
+                                    <Field>
+                                        <FieldLabel RequiredIndicator>Description</FieldLabel>
+                                        <FieldBody>
+                                            <Markdown @bind-Value="@submission.Description" MinHeight="280px" UploadImage="false">
+                                                <Feedback>
+                                                    <ValidationError>Describe the role, responsibilities, and requirements.</ValidationError>
+                                                </Feedback>
+                                            </Markdown>
+                                            <FieldHelp>Markdown is supported.</FieldHelp>
+                                        </FieldBody>
+                                    </Field>
+                                </Validation>
+
+                                <Fields>
+                                    <Field ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
+                                        <FieldLabel>Salary range</FieldLabel>
+                                        <FieldBody>
+                                            <TextInput @bind-Value="@submission.SalaryRange" Placeholder="EUR 60k - 80k" />
+                                            <FieldHelp>Optional.</FieldHelp>
+                                        </FieldBody>
+                                    </Field>
+                                    <Validation Validator="@ValidateOptionalEmail">
+                                        <Field ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
+                                            <FieldLabel>Contact email</FieldLabel>
+                                            <FieldBody>
+                                                <TextInput Role="TextRole.Email" @bind-Value="@submission.ContactEmail" Placeholder="jobs@company.com">
+                                                    <Feedback>
+                                                        <ValidationError />
+                                                    </Feedback>
+                                                </TextInput>
+                                                <FieldHelp>Optional and excluded from the published jobs feed. The pending GitHub issue remains public.</FieldHelp>
+                                            </FieldBody>
+                                        </Field>
+                                    </Validation>
+                                </Fields>
+
+                                <Validation Validator="@ValidateExpiryDate">
+                                    <Field>
+                                        <FieldLabel RequiredIndicator>Expiry date</FieldLabel>
+                                        <FieldBody>
+                                            <DatePicker TValue="DateTime?" @bind-Value="@submission.ExpiryDate" InputFormat="yyyy-MM-dd" DisplayFormat="yyyy-MM-dd" Placeholder="YYYY-MM-DD">
+                                                <Feedback>
+                                                    <ValidationError />
+                                                </Feedback>
+                                            </DatePicker>
+                                            <FieldHelp>The posting will be removed after this date (UTC).</FieldHelp>
+                                        </FieldBody>
+                                    </Field>
+                                </Validation>
+
+                                <Validation Validator="ValidationRule.IsChecked">
+                                    <Field Margin="Margin.Is3.OnY">
+                                        <Check TValue="bool" @bind-Value="@submission.Confirmation">
+                                            <ChildContent>
+                                                I confirm I have rights to post this job and it is not spam.
+                                            </ChildContent>
+                                            <Feedback>
+                                                <ValidationError>You must confirm before submitting.</ValidationError>
+                                            </Feedback>
+                                        </Check>
+                                    </Field>
+                                </Validation>
+
+                                <Validation Validator="@CaptchaInput.ValidateRobot">
+                                    <Field>
+                                        <CaptchaInput @bind-Value="@notARobot">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </CaptchaInput>
+                                    </Field>
+                                </Validation>
+
+                                @if ( submissionError is not null )
+                                {
+                                    <Alert Color="Color.Danger" Margin="Margin.Is3.FromTop">
+                                        @submissionError
+                                    </Alert>
+                                }
+
+                                <Div Border="Border.Is1.OnTop" Padding="Padding.Is4.FromTop" Margin="Margin.Is4.FromTop" TextAlignment="TextAlignment.End">
+                                    <Button Color="Color.Primary" Size="Size.Large" Clicked="@SubmitAsync" Loading="@isSubmitting" Disabled="@isSubmitting">
+                                        Submit for review
+                                    </Button>
+                                </Div>
+                            </Validations>
+                        </Form>
+                    </CardBody>
+                </Card>
+            }
+        </Column>
+    </Row>
+</Container>

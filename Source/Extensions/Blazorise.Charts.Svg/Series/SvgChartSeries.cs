@@ -14,12 +14,14 @@ public abstract class SvgChartSeries<TItem> : SvgChartComponentBase
 {
     #region Methods
 
+    /// <inheritdoc />
     protected override void Register()
     {
         Parent?.RegisterSeries( this );
         SetRegisteredParent();
     }
 
+    /// <inheritdoc />
     protected override void Unregister()
     {
         RegisteredParent?.UnregisterSeries( this );

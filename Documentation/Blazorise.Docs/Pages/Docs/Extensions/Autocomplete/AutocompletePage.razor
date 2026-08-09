@@ -57,17 +57,17 @@
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Searching single value">
+    <DocsPageSectionHeader Title="Single selection">
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="AutocompleteExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" Outlined FullWidth>
+    <DocsPageSectionContent Code="AutocompleteExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" CopyFullExample Outlined FullWidth>
         <AutocompleteExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Searching multiple values">
+    <DocsPageSectionHeader Title="Multiple selection">
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="AutocompleteMultipleExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" Outlined FullWidth>
+    <DocsPageSectionContent Code="AutocompleteMultipleExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" CopyFullExample Outlined FullWidth>
         <AutocompleteMultipleExample />
     </DocsPageSectionContent>
 </DocsPageSection>
@@ -76,7 +76,7 @@
     <DocsPageSectionHeader Title="Validation (single)">
         Wrap the Autocomplete in a <Code>Validation</Code> container to integrate with the standard validation system.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="AutocompleteValidationExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" Outlined FullWidth>
+    <DocsPageSectionContent Code="AutocompleteValidationExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" CopyFullExample Outlined FullWidth>
         <AutocompleteValidationExample />
     </DocsPageSectionContent>
 </DocsPageSection>
@@ -85,13 +85,13 @@
     <DocsPageSectionHeader Title="Validation (multiple)">
         When using <Code>AutocompleteSelectionMode.Multiple</Code>, validate the <Code>SelectedValues</Code> list to enforce at least one selection.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="AutocompleteMultipleValidationExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" Outlined FullWidth>
+    <DocsPageSectionContent Code="AutocompleteMultipleValidationExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" CopyFullExample Outlined FullWidth>
         <AutocompleteMultipleValidationExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Validation (data annotations)">
+    <DocsPageSectionHeader Title="Validation">
         <Paragraph>
             Use <Code>ValidationMode.Auto</Code> with a model decorated with data annotations to validate single and multiple selections.
         </Paragraph>
@@ -104,13 +104,13 @@
             </Alert>
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="AutocompleteDataAnnotationValidationExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" Outlined FullWidth>
+    <DocsPageSectionContent Code="AutocompleteDataAnnotationValidationExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" CopyFullExample Outlined FullWidth>
         <AutocompleteDataAnnotationValidationExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Searching with data on demand (ReadData)">
+    <DocsPageSectionHeader Title="ReadData">
         Frequently, you'll want to read data on demand rather than loading everything into memory at startup. You can do it with the <Code>ReadData</Code> API.
         It will provide you with enough information for you to call an external data-source, which will return new data, which you can then reassign to the <Code>Data</Code> parameter.
         <Alert Color="Color.Info" Visible>
@@ -119,35 +119,35 @@
             </AlertDescription>
         </Alert>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="AutocompleteReadDataExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" Outlined FullWidth>
+    <DocsPageSectionContent Code="AutocompleteReadDataExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" CopyFullExample Outlined FullWidth>
         <AutocompleteReadDataExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Extending with custom item content">
+    <DocsPageSectionHeader Title="Custom content">
         Customize the way you display the Autocomplete items by providing <Code>ItemContent</Code>.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="AutocompleteItemContentExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" Outlined FullWidth>
+    <DocsPageSectionContent Code="AutocompleteItemContentExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" CopyFullExample Outlined FullWidth>
         <AutocompleteItemContentExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Suggesting already selected items and Checkbox support">
+    <DocsPageSectionHeader Title="Selected items">
         Enabling `<Code>AutocompleteSelectionMode.Checkbox</Code>` adds checkboxes to all items in the autocomplete menu, while also keeping previously selected items visible.
         <Strong>Note: </Strong> Make sure to set <Code>CloseOnSelection</Code> to false if you want to keep the dropdown open whenever an item is selected.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="AutocompleteSuggestMultipleCheckboxExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" Outlined FullWidth>
+    <DocsPageSectionContent Code="AutocompleteSuggestMultipleCheckboxExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" CopyFullExample Outlined FullWidth>
         <AutocompleteSuggestMultipleCheckboxExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Highlight search text">
+    <DocsPageSectionHeader Title="Text highlighting">
         Autocomplete <Code>HighlightSearch</Code> is a feature that allows you to highlight the search text that you have entered in a dropdown list of items. When you start typing in the search field, the dropdown list of items will automatically be filtered to show only the items that match the search text. The search text will also be highlighted in the dropdown list of items, so that you can easily see which items match your search. This can be a useful feature when you are trying to find a specific item in a long list of items, as it allows you to quickly locate the item you are looking for.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="AutocompleteHighlightExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" Outlined FullWidth>
+    <DocsPageSectionContent Code="AutocompleteHighlightExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" CopyFullExample Outlined FullWidth>
         <AutocompleteHighlightExample />
     </DocsPageSectionContent>
 </DocsPageSection>
@@ -161,13 +161,13 @@
             This feature can be easily enabled by setting the <Code>Virtualize</Code> property to <Code>"true"</Code> on the Autocomplete component.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="AutocompleteVirtualizeExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" Outlined FullWidth>
+    <DocsPageSectionContent Code="AutocompleteVirtualizeExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" CopyFullExample Outlined FullWidth>
         <AutocompleteVirtualizeExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Virtualize with ReadData">
+    <DocsPageSectionHeader Title="Virtualization">
         <Paragraph>
             Blazorise Autocomplete's <Code>Virtualize</Code> and <Code>ReadData</Code> features work together to handle large datasets efficiently.
             The <Code>ReadData</Code> event allows you to load only the data needed for the current interaction, without loading the entire dataset into memory.
@@ -182,7 +182,7 @@
             The <Code>TotalItems</Code> value represents the total count of items in your dataset and is required for proper virtualization.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="AutocompleteVirtualizeAndReadDataExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" Outlined FullWidth>
+    <DocsPageSectionContent Code="AutocompleteVirtualizeAndReadDataExample" AdditionalCodes="@DocsCodeSources.CountrySharedData" CopyFullExample Outlined FullWidth>
         <AutocompleteVirtualizeAndReadDataExample />
     </DocsPageSectionContent>
 </DocsPageSection>

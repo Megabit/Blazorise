@@ -16,10 +16,15 @@
 @import "components/carousel";
 @import "components/check";
 @import "components/collapse";
+@import "components/context-menu";
+@import "components/date-picker";
+@import "components/time-picker";
 @import "components/dropdown";
+@import "components/dock-layout";
 @import "components/form";
 @import "components/validation";
 @import "components/range-slider";
+@import "components/resizer";
 @import "components/jumbotron";
 @import "components/layout";
 @import "components/link";
@@ -27,6 +32,7 @@
 @import "components/modal";
 @import "components/offcanvas";
 @import "components/pagination";
+@import "components/property-grid";
 @import "components/progress";
 @import "components/rating";
 @import "components/skeleton";
@@ -39,6 +45,7 @@
 @import "extensions/richtextedit";
 @import "extensions/one-time-input";
 @import "extensions/markdown";
+@import "extensions/reporting";
 
 @import "utilities/align";
 @import "utilities/animations";
@@ -54,5 +61,3 @@
 @import "utilities/text";
 @import "utilities/typography";
 @import "utilities/visibility";
-
-@import "vendors/flatpickr";

@@ -1,0 +1,54 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+    Type <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span>console.<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span>, or press <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span>Ctrl+Space<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span>, and select a suggestion. Press <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span>Tab<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span> to move through snippet placeholders.
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CodeEditor</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>sourceCode</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Language</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>CodeEditorLanguage.JavaScript</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">CompletionItems</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>completionItems</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">CompletionTriggerCharacters</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>triggerCharacters</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Immediate</span>
+            <span class="htmlAttributeName">Height</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">220.Px()</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">string</span> sourceCode = <span class="string">&quot;&quot;</span>&quot;
+function greet( name ) {
+    <span class="comment">// Type console. here</span>
+}
+<span class="string">&quot;&quot;</span>&quot;;
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> IReadOnlyList&lt;<span class="keyword">string</span>&gt; triggerCharacters = [<span class="string">&quot;.&quot;</span>];
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> IReadOnlyList&lt;CodeEditorCompletionItem&gt; completionItems =
+    [
+        <span class="keyword">new</span>()
+        {
+            Label = <span class="string">&quot;log&quot;</span>,
+            InsertText = <span class="string">&quot;log(${1:value});&quot;</span>,
+            Kind = CodeEditorCompletionItemKind.Method,
+            Detail = <span class="string">&quot;Write a message to the console&quot;</span>,
+            Documentation = <span class="string">&quot;Inserts console.log with an editable value placeholder.&quot;</span>,
+            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,
+        },
+        <span class="keyword">new</span>()
+        {
+            Label = <span class="string">&quot;warn&quot;</span>,
+            InsertText = <span class="string">&quot;warn(${1:value});&quot;</span>,
+            Kind = CodeEditorCompletionItemKind.Method,
+            Detail = <span class="string">&quot;Write a warning to the console&quot;</span>,
+            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,
+        },
+        <span class="keyword">new</span>()
+        {
+            Label = <span class="string">&quot;error&quot;</span>,
+            InsertText = <span class="string">&quot;error(${1:value});&quot;</span>,
+            Kind = CodeEditorCompletionItemKind.Method,
+            Detail = <span class="string">&quot;Write an error to the console&quot;</span>,
+            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,
+        },
+    ];
+}
+</pre></div>
+</div>

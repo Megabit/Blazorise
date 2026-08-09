@@ -1,0 +1,42 @@
+@namespace Blazorise
+@inherits BaseComponent
+
+<div @ref="@ElementRef"
+     id="@ElementId"
+     class="@($"{ClassNames} {SelectedClassNames}")"
+     style="@StyleNames"
+     role="row"
+     tabindex="@TabIndexValue"
+     aria-selected="@AriaSelected"
+     aria-describedby="@AriaDescribedBy"
+     @onclick="@Select"
+     @onfocusin="@Select"
+     @attributes="@Attributes">
+    <div class="@LabelClassNames" role="gridcell" title="@Label">
+        @if ( LabelContent is not null )
+        {
+            @LabelContent
+        }
+        else
+        {
+            @Label
+        }
+    </div>
+    <div class="@BodyClassNames" role="gridcell">
+        @if ( HasAction )
+        {
+            <Addons Size="@Size">
+                <Addon AddonType="AddonType.Body">
+                    @ChildContent
+                </Addon>
+                <Addon AddonType="AddonType.End">
+                    @ActionContent
+                </Addon>
+            </Addons>
+        }
+        else
+        {
+            @ChildContent
+        }
+    </div>
+</div>

@@ -1,0 +1,452 @@
+using System;
+using System.Collections.Generic;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Blazorise;
+using Microsoft.AspNetCore.Components;
+using Xunit;
+
+namespace Blazorise.Tests.Components;
+
+public class DockLayoutSizingTest
+{
+    [Fact]
+    public void MovingSizedPaneOutOfTopTabsPreservesTargetAutoSize()
+    {
+        DockPane explorer = CreateDockPane( "explorer", DockPanePosition.Left, size: "16rem" );
+        DockPane toolbar = CreateDockPane( "toolbar", DockPanePosition.Top );
+        DockPane designer = CreateDockPane( "designer", role: DockPaneRole.Document );
+        DockLayoutRegistry registry = new();
+
+        registry.RegisterPane( explorer );
+        registry.RegisterPane( toolbar );
+        registry.RegisterPane( designer );
+
+        DockLayoutState state = new()
+        {
+            Panes =
+            [
+                new() { Name = "explorer", Position = DockPanePosition.Left, Size = "16rem" },
+                new() { Name = "toolbar", Position = DockPanePosition.Top },
+                new() { Name = "designer", Position = DockPanePosition.Center },
+            ],
+        };
+        DockLayoutStateManager stateManager = new();
+        DockLayoutTreeQuery query = new( registry, stateManager, () => state );
+        DockLayoutSizer sizer = new( registry, stateManager, query, () => state );
+        DockLayoutTreeMutator mutator = new( query, sizer );
+        DockNodeState explorerNode = new() { Id = "explorer-node", Kind = DockNodeKind.Pane, PaneName = "explorer" };
+        DockNodeState toolbarNode = new() { Id = "toolbar-node", Kind = DockNodeKind.Pane, PaneName = "toolbar" };
+        DockNodeState designerNode = new() { Id = "designer-node", Kind = DockNodeKind.Pane, PaneName = "designer" };
+        DockNodeState contentSplit = DockLayoutTreeBuilder.CreateSplitNode( explorerNode, designerNode, Orientation.Horizontal, 0.18 );
+
+        contentSplit.Id = "content-split";
+        state.Root = DockLayoutTreeBuilder.CreateSplitNode( toolbarNode, contentSplit, Orientation.Vertical, 0.12 );
+        state.Root.Id = "root-split";
+        state.Panes[0].Position = DockPanePosition.Top;
+
+        mutator.MovePaneToZone( state, "explorer", "toolbar", "toolbar-node", DockZone.Center, true );
+
+        DockNodeState topTabs = DockLayoutTreeQuery.FindTabsNode( state.Root, "explorer" );
+
+        Assert.NotNull( topTabs );
+        Assert.Equal( "auto", topTabs.Size );
+
+        mutator.MovePaneToZone( state, "explorer", "toolbar", "root-split", DockZone.Top, false );
+
+        int nextNodeId = 0;
+        stateManager.Normalize( state, registry, query, ref nextNodeId );
+
+        Assert.Equal( "auto", state.Panes[1].Size );
+    }
+
+    [Fact]
+    public void RedockingSizedPaneBesideCenterPreservesFixedTrack()
+    {
+        DockPane explorer = CreateDockPane( "explorer", DockPanePosition.Left, size: "16rem" );
+        DockPane designer = CreateDockPane( "designer", role: DockPaneRole.Document );
+        DockPane properties = CreateDockPane( "properties", DockPanePosition.Right, size: "18rem" );
+        DockLayoutRegistry registry = new();
+
+        registry.RegisterPane( explorer );
+        registry.RegisterPane( designer );
+        registry.RegisterPane( properties );
+
+        DockLayoutState state = new()
+        {
+            Panes =
+            [
+                new() { Name = "explorer", Position = DockPanePosition.Left, Size = "16rem" },
+                new() { Name = "designer", Position = DockPanePosition.Center },
+                new() { Name = "properties", Position = DockPanePosition.Right, Size = "18rem" },
+            ],
+        };
+        DockLayoutStateManager stateManager = new();
+        DockLayoutTreeQuery query = new( registry, stateManager, () => state );
+        DockLayoutSizer sizer = new( registry, stateManager, query, () => state );
+        DockLayoutTreeMutator mutator = new( query, sizer );
+        DockNodeState explorerNode = new() { Kind = DockNodeKind.Pane, PaneName = "explorer" };
+        DockNodeState designerNode = new() { Kind = DockNodeKind.Pane, PaneName = "designer" };
+        DockNodeState propertiesNode = new() { Kind = DockNodeKind.Pane, PaneName = "properties" };
+        DockNodeState centerSplit = DockLayoutTreeBuilder.CreateSplitNode( explorerNode, designerNode, Orientation.Horizontal, 0.18 );
+
+        state.Root = DockLayoutTreeBuilder.CreateSplitNode( centerSplit, propertiesNode, Orientation.Horizontal, 0.78 );
+        state.Panes[0].Position = DockPanePosition.Right;
+
+        mutator.MovePaneToZone( state, "explorer", "properties", null, DockZone.Center, true );
+
+        int nextNodeId = 0;
+        stateManager.Normalize( state, registry, query, ref nextNodeId );
+        state.Panes[0].Position = DockPanePosition.Left;
+
+        mutator.MovePaneToZone( state, "explorer", "designer", null, DockZone.Left, false );
+
+        DockNodeState redockedSplit = state.Root.First;
+        string splitStyle = sizer.GetDockSplitStyle( redockedSplit );
+
+        Assert.False( redockedSplit.UseRatio );
+        Assert.Contains( "--dock-split-start-size:16rem", splitStyle );
+        Assert.Contains( "--dock-split-end-size:minmax(0,1fr)", splitStyle );
+    }
+
+    [Fact]
+    public void PaneSizeConstraintsApplyOnlyOnDockAxis()
+    {
+        DockPane explorer = CreateDockPane( "explorer", DockPanePosition.Left );
+        DockPane properties = CreateDockPane( "properties", DockPanePosition.Left );
+        DockPane designer = CreateDockPane( "designer", role: DockPaneRole.Document );
+        DockLayoutRegistry registry = new();
+
+        explorer.MinSize = "10rem";
+        explorer.MaxSize = "24rem";
+        properties.MinSize = "12rem";
+
+        registry.RegisterPane( explorer );
+        registry.RegisterPane( properties );
+        registry.RegisterPane( designer );
+
+        DockNodeState explorerNode = new() { Kind = DockNodeKind.Pane, PaneName = "explorer" };
+        DockNodeState propertiesNode = new() { Kind = DockNodeKind.Pane, PaneName = "properties" };
+        DockNodeState leftSplit = DockLayoutTreeBuilder.CreateSplitNode( explorerNode, propertiesNode, Orientation.Vertical, 0.5 );
+        DockLayoutState state = new()
+        {
+            Root = DockLayoutTreeBuilder.CreateSplitNode(
+                leftSplit,
+                new() { Kind = DockNodeKind.Pane, PaneName = "designer" },
+                Orientation.Horizontal,
+                0.25 ),
+            Panes =
+            [
+                new() { Name = "explorer", Position = DockPanePosition.Left },
+                new() { Name = "properties", Position = DockPanePosition.Left },
+                new() { Name = "designer", Position = DockPanePosition.Center },
+            ],
+        };
+        DockLayoutStateManager stateManager = new();
+        DockLayoutTreeQuery query = new( registry, stateManager, () => state );
+        DockLayoutSizer sizer = new( registry, stateManager, query, () => state );
+
+        Assert.Equal( "10rem", sizer.GetDockNodeMinimumSize( explorerNode, Orientation.Horizontal ) );
+        Assert.Equal( "24rem", sizer.GetDockNodeMaximumSize( explorerNode, Orientation.Horizontal ) );
+        Assert.Equal( "2rem", sizer.GetDockNodeMinimumSize( explorerNode, Orientation.Vertical ) );
+        Assert.Null( sizer.GetDockNodeMaximumSize( explorerNode, Orientation.Vertical ) );
+        Assert.Equal( "calc(2rem + 2rem + var(--dock-split-gap, 0px))", sizer.GetDockNodeMinimumSize( leftSplit, Orientation.Vertical ) );
+        Assert.Null( sizer.GetDockNodeMaximumSize( leftSplit, Orientation.Horizontal ) );
+    }
+
+    [Fact]
+    public void NormalizingStateContinuesGeneratedNodeIdsAfterPersistedIds()
+    {
+        DockPane left = CreateDockPane( "left", DockPanePosition.Left );
+        DockPane right = CreateDockPane( "right", DockPanePosition.Right );
+        DockLayoutRegistry registry = new();
+
+        registry.RegisterPane( left );
+        registry.RegisterPane( right );
+
+        DockLayoutState state = new()
+        {
+            Root = DockLayoutTreeBuilder.CreateSplitNode(
+                new() { Id = "dock-node-2", Kind = DockNodeKind.Pane, PaneName = "left" },
+                new() { Id = "dock-node-7", Kind = DockNodeKind.Pane, PaneName = "right" },
+                Orientation.Horizontal,
+                0.5 ),
+            Panes =
+            [
+                new() { Name = "left", Position = DockPanePosition.Left },
+                new() { Name = "right", Position = DockPanePosition.Right },
+            ],
+        };
+        DockLayoutStateManager stateManager = new();
+        DockLayoutTreeQuery query = new( registry, stateManager, () => state );
+        int nextNodeId = 0;
+
+        stateManager.Normalize( state, registry, query, ref nextNodeId );
+
+        Assert.Equal( "dock-node-8", state.Root.Id );
+        Assert.Equal( 8, nextNodeId );
+    }
+
+    [Fact]
+    public void CreatingSnapshotsPreservesRestorationWithoutPersistingNodeIds()
+    {
+        DockLayoutState state = new()
+        {
+            Root = new()
+            {
+                Id = "dock-node-1",
+                Kind = DockNodeKind.Tabs,
+                Panes = ["first", "second"],
+                ActivePane = "second",
+            },
+            Panes =
+            [
+                new()
+                {
+                    Name = "first",
+                    Position = DockPanePosition.Left,
+                    Size = "16rem",
+                    RestorePlacement = new()
+                    {
+                        SourceGroupId = "dock-node-1",
+                        SourceTabPaneName = "second",
+                        SourceGroupTargetNodeId = "dock-node-2",
+                    },
+                },
+            ],
+            Rails =
+            [
+                new()
+                {
+                    Position = DockPanePosition.Left,
+                    Items =
+                    [
+                        new()
+                        {
+                            PaneName = "first",
+                            SourceGroupId = "dock-node-1",
+                            SourceTabPaneName = "second",
+                            SourceTargetNodeId = "dock-node-3",
+                            Order = 2,
+                        },
+                    ],
+                },
+            ],
+        };
+        DockLayoutStateManager stateManager = new();
+
+        DockLayoutState snapshot = stateManager.CreatePersistenceSnapshot( state );
+        DockLayoutState runtimeSnapshot = stateManager.CreateRuntimeSnapshot( state );
+
+        Assert.NotSame( state, snapshot );
+        Assert.NotSame( state.Root, snapshot.Root );
+        Assert.NotSame( state.Panes, snapshot.Panes );
+        Assert.Equal( DockLayoutState.CurrentSchemaVersion, snapshot.SchemaVersion );
+        Assert.Null( snapshot.Root.Id );
+        Assert.Equal( new[] { "first", "second" }, snapshot.Root.Panes );
+        Assert.Equal( "second", snapshot.Root.ActivePane );
+        Assert.Equal( "16rem", snapshot.Panes[0].Size );
+        Assert.NotSame( state.Panes[0].RestorePlacement, snapshot.Panes[0].RestorePlacement );
+        Assert.Equal( "dock-state-group-1", snapshot.Panes[0].RestorePlacement.SourceGroupId );
+        Assert.Equal( "second", snapshot.Panes[0].RestorePlacement.SourceTabPaneName );
+        Assert.Null( snapshot.Panes[0].RestorePlacement.SourceGroupTargetNodeId );
+        Assert.Single( snapshot.Rails );
+        Assert.NotSame( state.Rails[0], snapshot.Rails[0] );
+        Assert.Equal( snapshot.Panes[0].RestorePlacement.SourceGroupId, snapshot.Rails[0].Items[0].SourceGroupId );
+        Assert.Equal( 2, snapshot.Rails[0].Items[0].Order );
+        Assert.Null( snapshot.Rails[0].Items[0].SourceTargetNodeId );
+
+        Assert.Equal( "dock-node-1", runtimeSnapshot.Root.Id );
+        Assert.Equal( "dock-node-1", runtimeSnapshot.Panes[0].RestorePlacement.SourceGroupId );
+        Assert.Equal( "dock-node-2", runtimeSnapshot.Panes[0].RestorePlacement.SourceGroupTargetNodeId );
+        Assert.Equal( "dock-node-3", runtimeSnapshot.Rails[0].Items[0].SourceTargetNodeId );
+
+        string json = JsonSerializer.Serialize( snapshot );
+
+        Assert.DoesNotContain( "dock-node-", json );
+        Assert.DoesNotContain( "\"Id\"", json );
+        Assert.DoesNotContain( "\"SourceGroupTargetNodeId\"", json );
+        Assert.DoesNotContain( "\"SourceTargetNodeId\"", json );
+        Assert.Contains( "\"Rails\"", json );
+        Assert.Contains( "\"RestorePlacement\"", json );
+
+        DockLayoutState serializedState = JsonSerializer.Deserialize<DockLayoutState>( json );
+
+        Assert.Equal( "dock-state-group-1", serializedState.Panes[0].RestorePlacement.SourceGroupId );
+        Assert.Equal( "second", serializedState.Panes[0].RestorePlacement.SourceTabPaneName );
+        Assert.Equal( 2, serializedState.Rails[0].Items[0].Order );
+    }
+
+    [Fact]
+    public void BuildingInitialRootClonesDeclarativeTree()
+    {
+        DockLayoutRegistry registry = new();
+        DockNodeState definition = DockLayoutTreeBuilder.CreateSplitNode(
+            new() { Kind = DockNodeKind.Pane, PaneName = "left" },
+            new() { Kind = DockNodeKind.Tabs, Panes = ["first", "second"], ActivePane = "second" },
+            Orientation.Horizontal,
+            0.25 );
+        DockLayoutState state = new();
+        DockLayoutStateManager stateManager = new();
+        DockLayoutTreeQuery query = new( registry, stateManager, () => state );
+        DockLayoutSizer sizer = new( registry, stateManager, query, () => state );
+        DockLayoutTreeBuilder builder = new( registry, stateManager, query, sizer );
+
+        registry.RootCollector.AddNode( definition );
+
+        DockNodeState firstRoot = builder.BuildInitialRoot( state );
+
+        Assert.NotSame( definition, firstRoot );
+        Assert.NotSame( definition.First, firstRoot.First );
+        Assert.NotSame( definition.Second, firstRoot.Second );
+        Assert.NotSame( definition.Second.Panes, firstRoot.Second.Panes );
+
+        firstRoot.Ratio = 0.75;
+        firstRoot.First.PaneName = "changed";
+        firstRoot.Second.Panes.Clear();
+
+        DockNodeState secondRoot = builder.BuildInitialRoot( state );
+
+        Assert.Equal( 0.25, secondRoot.Ratio );
+        Assert.Equal( "left", secondRoot.First.PaneName );
+        Assert.Equal( new[] { "first", "second" }, secondRoot.Second.Panes );
+    }
+
+    [Fact]
+    public void ExistingPaneStateTakesPrecedenceOverDeclarativeSizeAndPosition()
+    {
+        DockPane pane = CreateDockPane( "pane", DockPanePosition.Center, size: "16rem" );
+        DockLayoutRegistry registry = new();
+
+        registry.RegisterPane( pane );
+
+        DockLayoutState state = new()
+        {
+            Root = DockLayoutTreeBuilder.CreateSplitNode(
+                new() { Kind = DockNodeKind.Content },
+                new() { Kind = DockNodeKind.Pane, PaneName = "pane" },
+                Orientation.Horizontal,
+                0.75 ),
+            Panes =
+            [
+                new() { Name = "pane", Position = DockPanePosition.Right },
+            ],
+        };
+        DockLayoutStateManager stateManager = new();
+        DockLayoutTreeQuery query = new( registry, stateManager, () => state );
+        DockLayoutSizer sizer = new( registry, stateManager, query, () => state );
+
+        Assert.Equal( DockPanePosition.Right, query.GetPanePosition( pane ) );
+        Assert.Null( sizer.GetDockPaneSize( state, pane.ResolvedName ) );
+    }
+
+    [Fact]
+    public void DockNodeCollectorTracksDynamicMembership()
+    {
+        int changes = 0;
+        DockNodeCollector collector = new( () => changes++ );
+        DockNodeState node = new();
+
+        collector.AddNode( node );
+        collector.AddNode( node );
+        collector.RemoveNode( node );
+        collector.RemoveNode( node );
+
+        Assert.Equal( 2, changes );
+        Assert.Empty( collector.Nodes );
+    }
+
+    [Fact]
+    public void UnregisteringOldComponentsDoesNotRemoveReplacements()
+    {
+        DockPane first = CreateDockPane( "pane" );
+        DockPane replacement = CreateDockPane( "pane" );
+        DockContent firstContent = new();
+        DockContent replacementContent = new();
+        DockLayoutRegistry registry = new();
+
+        Assert.True( registry.RegisterPane( first ) );
+        Assert.True( registry.RegisterPane( replacement ) );
+        Assert.False( registry.UnregisterPane( first ) );
+        Assert.True( registry.TryGetPane( "pane", out DockPane registeredPane ) );
+        Assert.Same( replacement, registeredPane );
+
+        Assert.True( registry.RegisterContent( firstContent ) );
+        Assert.True( registry.RegisterContent( replacementContent ) );
+        Assert.False( registry.UnregisterContent( firstContent ) );
+        Assert.Same( replacementContent, registry.Content );
+    }
+
+    [Fact]
+    public void RegisteringPaneAddsItToInitializedTree()
+    {
+        DockLayoutState state = new()
+        {
+            Root = new() { Kind = DockNodeKind.Content },
+        };
+        DockLayout layout = new();
+        DockPane pane = CreateDockPane( "pane", DockPanePosition.Left );
+
+        ParameterView.FromDictionary( new Dictionary<string, object>
+        {
+            [nameof( DockLayout.State )] = state,
+        } ).SetParameterProperties( layout );
+
+        layout.RegisterPane( pane );
+
+        Assert.True( DockLayoutTreeQuery.ContainsPane( state.Root, "pane" ) );
+    }
+
+    [Fact]
+    public async Task ClosingPaneCanBeCancelled()
+    {
+        DockLayoutState state = new()
+        {
+            Root = new() { Kind = DockNodeKind.Pane, PaneName = "pane" },
+        };
+        DockLayout layout = new();
+        DockPane pane = CreateDockPane( "pane" );
+
+        ParameterView.FromDictionary( new Dictionary<string, object>
+        {
+            [nameof( DockLayout.State )] = state,
+        } ).SetParameterProperties( layout );
+        ParameterView.FromDictionary( new Dictionary<string, object>
+        {
+            [nameof( DockPane.Closing )] = new Func<DockPaneClosingEventArgs, Task>( eventArgs =>
+            {
+                Assert.Equal( "pane", eventArgs.PaneName );
+                eventArgs.Cancel = true;
+
+                return Task.CompletedTask;
+            } ),
+        } ).SetParameterProperties( pane );
+
+        layout.RegisterPane( pane );
+
+        await layout.ClosePane( "pane" );
+
+        Assert.True( layout.IsPaneOpen( "pane" ) );
+        Assert.True( DockLayoutTreeQuery.ContainsPane( state.Root, "pane" ) );
+    }
+
+    private static DockPane CreateDockPane( string name, DockPanePosition? position = null, string size = null, DockPaneRole role = DockPaneRole.Tool )
+    {
+        DockPane pane = new();
+        Dictionary<string, object> parameters = new()
+        {
+            [nameof( DockPane.Name )] = name,
+            [nameof( DockPane.Role )] = role,
+        };
+
+        if ( position.HasValue )
+            parameters[nameof( DockPane.PanePosition )] = position.Value;
+
+        if ( size is not null )
+            parameters[nameof( DockPane.Size )] = size;
+
+        ParameterView.FromDictionary( parameters ).SetParameterProperties( pane );
+
+        return pane;
+    }
+}

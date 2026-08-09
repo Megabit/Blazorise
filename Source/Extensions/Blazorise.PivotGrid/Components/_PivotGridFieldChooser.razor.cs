@@ -54,6 +54,9 @@ public partial class _PivotGridFieldChooser<TItem> : IDisposable
         await InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Opens the field chooser for the current pivot grid.
+    /// </summary>
     public async Task Show()
     {
         chooserItemIndex = 0;
@@ -75,6 +78,7 @@ public partial class _PivotGridFieldChooser<TItem> : IDisposable
         await InvokeAsync( StateHasChanged );
     }
 
+    /// <inheritdoc />
     protected override Task OnAfterRenderAsync( bool firstRender )
     {
         if ( refreshDropContainerAfterRender && dropContainerRef is not null )

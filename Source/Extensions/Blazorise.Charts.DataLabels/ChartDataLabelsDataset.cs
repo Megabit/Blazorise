@@ -5,10 +5,18 @@
 /// </summary>
 public class ChartDataLabelsDataset
 {
+    /// <summary>
+    /// Creates an unassigned dataset-label configuration.
+    /// </summary>
     public ChartDataLabelsDataset()
     {
     }
 
+    /// <summary>
+    /// Associates label styling with a chart dataset.
+    /// </summary>
+    /// <param name="datasetIndex">Zero-based dataset position.</param>
+    /// <param name="options">Label presentation for that dataset.</param>
     public ChartDataLabelsDataset( int datasetIndex, ChartDataLabelsOptions options )
     {
         DatasetIndex = datasetIndex;

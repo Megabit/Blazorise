@@ -2,3 +2,9 @@
 
 <Button Color="Color.Primary" Active>Primary</Button>
 <Button Color="Color.Secondary" Active>Secondary</Button>
+<Button Color="Color.Info" @bind-Active="@isActive">Toggle me</Button>
+<Span Margin="Margin.Is2.FromStart">Active: @(isActive ? "yes" : "no")</Span>
+
+@code {
+    private bool isActive;
+}

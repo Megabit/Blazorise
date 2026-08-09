@@ -1,0 +1,13 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+using Blazorise.Pdf;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazorisePdfHttpResources( httpClient =&gt;
+        httpClient.ConfigureHttpClient( client =&gt;
+        {
+            client.BaseAddress = new Uri( builder.HostEnvironment.BaseAddress );
+        } ) );
+</pre></div>
+</div>

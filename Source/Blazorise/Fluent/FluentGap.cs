@@ -324,6 +324,55 @@ public static class Gap
     public static IFluentGapWithSideAndSize Is5 => new FluentGap().Is5;
 
     /// <summary>
+    /// Defines the gap size in pixels.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentGap"/> reference.</returns>
+    public static IFluentGap Px( double size ) => size.Px();
+
+    /// <summary>
+    /// Defines the gap size relative to the font-size of the root element.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentGap"/> reference.</returns>
+    public static IFluentGap Rem( double size ) => size.Rem();
+
+    /// <summary>
+    /// Defines the gap size relative to the font-size of the element.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentGap"/> reference.</returns>
+    public static IFluentGap Em( double size ) => size.Em();
+
+    /// <summary>
+    /// Defines the gap size relative to the advance measure of the glyph "0" in the element's font.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentGap"/> reference.</returns>
+    public static IFluentGap Ch( double size ) => size.Ch();
+
+    /// <summary>
+    /// Defines the gap size relative to the viewport's width.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentGap"/> reference.</returns>
+    public static IFluentGap Vw( double size ) => size.Vw();
+
+    /// <summary>
+    /// Defines the gap size relative to the viewport's height.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentGap"/> reference.</returns>
+    public static IFluentGap Vh( double size ) => size.Vh();
+
+    /// <summary>
+    /// Defines the gap size as a percentage.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentGap"/> reference.</returns>
+    public static IFluentGap Percent( double size ) => size.Percent();
+
+    /// <summary>
     /// Add custom margin rule.
     /// </summary>
     /// <param name="value">Custom css classname.</param>

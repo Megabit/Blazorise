@@ -29,43 +29,15 @@ internal static class SvgChartOptionsMapper
         if ( axis is null )
             return CreateValueAxisOptions( new SvgChartAxisOptions() );
 
-        return new()
-        {
-            Id = axis.Id,
-            Position = axis.Position,
-            BeginAtZero = axis.BeginAtZero,
-            Min = axis.Min,
-            Max = axis.Max,
-            TickCount = axis.TickCount,
-            Stacked = axis.Stacked,
-            TickFormatter = axis.TickFormatter,
-            GridLines = CreateGridLinesOptions( axis.GridLines ),
-            Labels = CreateLabelsOptions( new() { Offset = 24 }, axis.LabelsOptions ),
-            Title = axis.Title
-        };
+        return axis.ResolveOptions( new() );
     }
 
     public static SvgChartAxisOptions CreateCategoryAxisOptions<TItem>( SvgChartAxisOptions options, SvgChartCategoryAxis<TItem> axis )
     {
-        options ??= new();
-
         if ( axis is null )
             return CreateValueAxisOptions( options );
 
-        return new()
-        {
-            Id = axis.Id,
-            Position = axis.Position,
-            BeginAtZero = options.BeginAtZero,
-            Min = options.Min,
-            Max = options.Max,
-            TickCount = options.TickCount,
-            Stacked = options.Stacked,
-            TickFormatter = axis.TickFormatter ?? options.TickFormatter,
-            GridLines = CreateGridLinesOptions( options.GridLines, axis.GridLines ),
-            Labels = CreateLabelsOptions( options.Labels, axis.LabelsOptions ),
-            Title = axis.Title
-        };
+        return axis.ResolveOptions( options );
     }
 
     public static SvgChartAxisLabelsOptions CreateLabelsOptions( SvgChartAxisLabelsOptions labels )
@@ -75,7 +47,7 @@ internal static class SvgChartOptionsMapper
 
         return new()
         {
-            Visible = labels.Visible,
+            Visible = labels.Visible ?? true,
             Step = labels.Step,
             AutoSkip = labels.AutoSkip,
             MaxTicksLimit = labels.MaxTicksLimit,
@@ -94,7 +66,7 @@ internal static class SvgChartOptionsMapper
 
         return new()
         {
-            Visible = overrides.Visible,
+            Visible = overrides.Visible ?? options?.Visible ?? true,
             Step = overrides.Step,
             AutoSkip = overrides.AutoSkip,
             MaxTicksLimit = overrides.MaxTicksLimit,
@@ -106,6 +78,16 @@ internal static class SvgChartOptionsMapper
         };
     }
 
+    public static SvgChartAxisLabelsOptions CreateLabelsOptions( SvgChartAxisLabelsOptions options, ComponentParameterInfo<SvgChartAxisLabelsOptions> overrides )
+    {
+        if ( !overrides.Defined )
+            return CreateLabelsOptions( options );
+
+        return overrides.Value is null
+            ? null
+            : CreateLabelsOptions( options, overrides.Value );
+    }
+
     public static SvgChartGridLinesOptions CreateGridLinesOptions( SvgChartGridLinesOptions gridLines )
     {
         if ( gridLines is null )
@@ -113,7 +95,7 @@ internal static class SvgChartOptionsMapper
 
         return new()
         {
-            Visible = gridLines.Visible,
+            Visible = gridLines.Visible ?? true,
             Color = gridLines.Color,
             Width = gridLines.Width,
             Opacity = gridLines.Opacity,
@@ -128,7 +110,7 @@ internal static class SvgChartOptionsMapper
 
         return new()
         {
-            Visible = overrides.Visible,
+            Visible = overrides.Visible ?? options?.Visible ?? true,
             Color = overrides.Color ?? options?.Color,
             Width = overrides.Width,
             Opacity = overrides.Opacity,
@@ -136,17 +118,34 @@ internal static class SvgChartOptionsMapper
         };
     }
 
+    public static SvgChartGridLinesOptions CreateGridLinesOptions( SvgChartGridLinesOptions options, ComponentParameterInfo<SvgChartGridLinesOptions> overrides )
+    {
+        if ( !overrides.Defined )
+            return CreateGridLinesOptions( options );
+
+        return overrides.Value is null
+            ? null
+            : CreateGridLinesOptions( options, overrides.Value );
+    }
+
     public static SvgChartTextOptions CreateTextOptions( SvgChartTextOptions options )
     {
         if ( options is null )
-            return new() { Visible = false };
+        {
+            return new()
+            {
+                Visible = false,
+                Position = SvgChartTextPosition.Top,
+                Alignment = SvgChartTextAlignment.Center
+            };
+        }
 
         return new()
         {
-            Visible = options.Visible,
+            Visible = options.Visible ?? true,
             Text = options.Text,
-            Position = options.Position,
-            Alignment = options.Alignment,
+            Position = options.Position ?? SvgChartTextPosition.Top,
+            Alignment = options.Alignment ?? SvgChartTextAlignment.Center,
             Padding = CreateSpacing( options.Padding ),
             Font = CreateFontOptions( options.Font ),
             Opacity = options.Opacity
@@ -160,10 +159,10 @@ internal static class SvgChartOptionsMapper
 
         return new()
         {
-            Visible = overrides.Visible,
+            Visible = overrides.Visible ?? options?.Visible ?? true,
             Text = overrides.Text ?? options?.Text,
-            Position = overrides.Position,
-            Alignment = overrides.Alignment,
+            Position = overrides.Position ?? options?.Position ?? SvgChartTextPosition.Top,
+            Alignment = overrides.Alignment ?? options?.Alignment ?? SvgChartTextAlignment.Center,
             Padding = CreateSpacing( overrides.Padding ?? options?.Padding ),
             Font = CreateFontOptions( options?.Font, overrides.Font ),
             Opacity = overrides.Opacity ?? options?.Opacity

@@ -10,6 +10,9 @@ namespace Blazorise.Charts;
 /// </remarks>
 public class LineChartDataset<T> : ChartDataset<T>
 {
+    /// <summary>
+    /// Creates a line chart dataset.
+    /// </summary>
     public LineChartDataset() : base(
         label: string.Empty,
         backgroundColor: "rgba(0, 0, 0, 0.1)",
@@ -92,29 +95,53 @@ public class LineChartDataset<T> : ChartDataset<T>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public bool? Fill { get; set; }
 
+    /// <summary>
+    /// Point fill colors applied on hover.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
     public IndexableOption<object> HoverBackgroundColor { get; set; }
 
+    /// <summary>
+    /// CSS styling applied to the line chart dataset.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string HoverBorderCapStyle { get; set; }
 
+    /// <summary>
+    /// Point border colors applied on hover.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
     public IndexableOption<object> HoverBorderColor { get; set; }
 
+    /// <summary>
+    /// Dash pattern applied to the hovered line border.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public int[] HoverBorderDash { get; set; }
 
+    /// <summary>
+    /// Offset of the hovered line's dash pattern.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public int? HoverBorderDashOffset { get; set; }
 
+    /// <summary>
+    /// CSS styling applied to the line chart dataset.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string HoverBorderJoinStyle { get; set; }
 
+    /// <summary>
+    /// Hover Border Width used to size or locate content in the line chart dataset.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public int? HoverBorderWidth { get; set; }
 
+    /// <summary>
+    /// Axis used to index line data points.
+    /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string IndexAxis { get; set; }
 

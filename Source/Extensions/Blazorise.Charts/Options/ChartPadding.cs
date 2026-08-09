@@ -9,21 +9,33 @@ namespace Blazorise.Charts;
 /// </summary>
 public class ChartPadding
 {
+    /// <summary>
+    /// Creates a chart padding instance.
+    /// </summary>
     public ChartPadding()
     {
     }
 
+    /// <summary>
+    /// Creates a chart padding instance.
+    /// </summary>
     public ChartPadding( double? all )
     {
         Top = Right = Bottom = Left = all;
     }
 
+    /// <summary>
+    /// Creates a chart padding instance.
+    /// </summary>
     public ChartPadding( double? x, double? y )
     {
         Left = Right = x;
         Top = Bottom = y;
     }
 
+    /// <summary>
+    /// Creates a chart padding instance.
+    /// </summary>
     public ChartPadding( double? top, double? right, double? bottom, double? left )
     {
         Top = top;

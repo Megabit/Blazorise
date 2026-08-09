@@ -46,6 +46,9 @@ public abstract class BaseIconProvider : IIconProvider
     public abstract string IconSize( IconSize iconSize );
 
     /// <inheritdoc/>
+    public abstract string IconFixedWidth();
+
+    /// <inheritdoc/>
     public abstract string GetIconName( IconName name, IconStyle style );
 
     /// <inheritdoc/>

@@ -3,14 +3,14 @@
 <SvgLineChart TItem="MonthlyVisitors"
               Items="@visitors"
               Options="@options">
-    <SvgChartTitle Title='@("Visitor trend")' Subtitle='@("Line series with markers")' />
+    <SvgChartTitle Title='@("Visitor trend")' Subtitle='@("Highlighted with a line outline")' />
     <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
     <SvgChartTooltip Enabled />
     <SvgChartCategoryAxis Value="@( item => item.Month )" />
     <SvgChartValueAxis BeginAtZero TickCount="6" />
 
-    <SvgLineSeries Name="Current year" Value="@( item => item.Current )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="4" />
-    <SvgLineSeries Name="Previous year" Value="@( item => item.Previous )" Color="Color.Warning" StrokeWidth="3" MarkerRadius="4" />
+    <SvgLineSeries Name="Current year" Value="@( item => item.Current )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="4" Outline="@currentYearOutline" />
+    <SvgLineSeries Name="Previous year" Value="@( item => item.Previous )" Color="Color.Info" StrokeWidth="3" MarkerRadius="4" />
 </SvgLineChart>
 
 @code {
@@ -18,6 +18,13 @@
     {
         Height = 360,
         Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly SvgChartLineOutlineOptions currentYearOutline = new()
+    {
+        Color = Color.Warning,
+        StrokeWidth = 9,
+        Opacity = 0.35,
     };
 
     private readonly List<MonthlyVisitors> visitors =

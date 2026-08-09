@@ -9,6 +9,9 @@ namespace Blazorise.Charts;
 /// </remarks>
 public class PieChartDataset<T> : ChartDataset<T>
 {
+    /// <summary>
+    /// Creates a pie chart dataset.
+    /// </summary>
     public PieChartDataset() : base(
         label: string.Empty,
         backgroundColor: "rgba(0, 0, 0, 0.1)",
