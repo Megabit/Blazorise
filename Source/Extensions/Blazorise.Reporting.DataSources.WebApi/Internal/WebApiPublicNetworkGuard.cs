@@ -14,6 +14,26 @@ namespace Blazorise.Reporting.DataSources.WebApi;
 
 internal static class WebApiPublicNetworkGuard
 {
+    #region Members
+
+    private const int BitsPerByte = 8;
+
+    private const int Ipv6GlobalUnicastPrefixLength = 3;
+
+    private static readonly byte[] Ipv6GlobalUnicastNetwork = IPAddress.Parse( "2000::" ).GetAddressBytes();
+
+    private static readonly (byte[] Network, int PrefixLength)[] ExcludedIpv6Networks =
+    [
+        ( IPAddress.Parse( "2001::" ).GetAddressBytes(), 32 ),
+        ( IPAddress.Parse( "2001:2::" ).GetAddressBytes(), 48 ),
+        ( IPAddress.Parse( "2001:10::" ).GetAddressBytes(), 28 ),
+        ( IPAddress.Parse( "2001:db8::" ).GetAddressBytes(), 32 ),
+        ( IPAddress.Parse( "2002::" ).GetAddressBytes(), 16 ),
+        ( IPAddress.Parse( "3ff0::" ).GetAddressBytes(), 12 ),
+    ];
+
+    #endregion
+
     #region Methods
 
     public static async Task EnsurePublicDestinationAsync( Uri resourceUri, CancellationToken cancellationToken )
@@ -95,13 +115,25 @@ internal static class WebApiPublicNetworkGuard
 
         // Currently allocated global unicast IPv6 space is 2000::/3. Transition, documentation,
         // unique-local, link-local, multicast, and unspecified ranges are rejected.
-        return ( bytes[0] & 0xe0 ) == 0x20
-            && !( bytes[0] == 0x20 && bytes[1] == 0x01 && bytes[2] == 0x00 && bytes[3] == 0x00 )
-            && !( bytes[0] == 0x20 && bytes[1] == 0x01 && bytes[2] == 0x00 && bytes[3] == 0x02 )
-            && !( bytes[0] == 0x20 && bytes[1] == 0x01 && bytes[2] == 0x00 && ( bytes[3] & 0xf0 ) == 0x10 )
-            && !( bytes[0] == 0x20 && bytes[1] == 0x01 && bytes[2] == 0x0d && bytes[3] == 0xb8 )
-            && !( bytes[0] == 0x20 && bytes[1] == 0x02 )
-            && !( bytes[0] == 0x3f && ( bytes[1] & 0xf0 ) == 0xf0 );
+        return IsInNetworkPrefix( bytes, Ipv6GlobalUnicastNetwork, Ipv6GlobalUnicastPrefixLength )
+            && !ExcludedIpv6Networks.Any( prefix => IsInNetworkPrefix( bytes, prefix.Network, prefix.PrefixLength ) );
+    }
+
+    private static bool IsInNetworkPrefix( byte[] address, byte[] network, int prefixLength )
+    {
+        int wholeBytes = prefixLength / BitsPerByte;
+
+        if ( !address.AsSpan( 0, wholeBytes ).SequenceEqual( network.AsSpan( 0, wholeBytes ) ) )
+            return false;
+
+        int remainingBits = prefixLength % BitsPerByte;
+
+        if ( remainingBits == 0 )
+            return true;
+
+        byte mask = (byte)( byte.MaxValue << ( BitsPerByte - remainingBits ) );
+
+        return ( address[wholeBytes] & mask ) == ( network[wholeBytes] & mask );
     }
 
     private static bool IsPublicIPv4Address( byte[] bytes )

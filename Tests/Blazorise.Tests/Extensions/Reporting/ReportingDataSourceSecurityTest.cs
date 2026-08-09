@@ -169,6 +169,9 @@ public class ReportingDataSourceSecurityTest
     [InlineData( "http://localhost/data" )]
     [InlineData( "http://127.0.0.1/data" )]
     [InlineData( "http://[::ffff:127.0.0.1]/data" )]
+    [InlineData( "http://[2001:db8::1]/data" )]
+    [InlineData( "http://[2002::1]/data" )]
+    [InlineData( "http://[3fff::1]/data" )]
     public async Task WebApi_Provider_Should_Reject_NonPublic_Destinations( string url )
     {
         RecordingHttpMessageHandler handler = new( _ => new( HttpStatusCode.OK )

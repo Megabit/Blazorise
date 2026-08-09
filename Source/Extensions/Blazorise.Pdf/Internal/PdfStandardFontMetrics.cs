@@ -10,6 +10,10 @@ internal sealed class PdfStandardFontMetrics : IPdfFontMetrics
 
     private const int FallbackWidth = 500;
 
+    private const int HighestAsciiCodePoint = 127;
+
+    private const int FirstLatin1SupplementCodePoint = 160;
+
     private readonly string baseFontName;
 
     private static readonly int[] HelveticaWidths =
@@ -140,13 +144,13 @@ internal sealed class PdfStandardFontMetrics : IPdfFontMetrics
 
     private static bool TryGetType1TextByte( char character, out byte value )
     {
-        if ( character <= 0x7F )
+        if ( character <= HighestAsciiCodePoint )
         {
             value = (byte)character;
             return true;
         }
 
-        if ( character >= 0xA0 && character <= 0xFF )
+        if ( character >= FirstLatin1SupplementCodePoint && character <= byte.MaxValue )
         {
             value = (byte)character;
             return true;

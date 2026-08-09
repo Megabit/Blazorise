@@ -11,6 +11,30 @@ namespace Blazorise.Pdf;
 
 internal static class PdfImageDataReader
 {
+    #region Members
+
+    private const byte JpegMarkerPrefix = 0xFF;
+
+    private const byte JpegStartOfImageMarker = 0xD8;
+
+    private const byte JpegEndOfImageMarker = 0xD9;
+
+    private const byte JpegStartOfScanMarker = 0xDA;
+
+    private static readonly byte[] JpegSignature = [JpegMarkerPrefix, JpegStartOfImageMarker];
+
+    private static readonly byte[] JpegStartOfFrameMarkers =
+    [
+        0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF
+    ];
+
+    private static readonly byte[] PngSignature =
+    [
+        0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A
+    ];
+
+    #endregion
+
     #region Methods
 
     internal static bool TryRead( PdfResourceContent resource, long maxImagePixels, CancellationToken cancellationToken, out PdfImageData imageData )
@@ -60,7 +84,7 @@ internal static class PdfImageDataReader
 
     private static bool HasJpegSignature( byte[] data )
     {
-        return data.Length >= 2 && data[0] == 0xFF && data[1] == 0xD8;
+        return data.AsSpan().StartsWith( JpegSignature );
     }
 
     private static string ResolveImageColorSpace( int componentCount )
@@ -80,22 +104,22 @@ internal static class PdfImageDataReader
         componentCount = 3;
         bitsPerComponent = 8;
 
-        if ( data is null || data.Length < 4 || data[0] != 0xFF || data[1] != 0xD8 )
+        if ( data is null || data.Length < 4 || !HasJpegSignature( data ) )
             return false;
 
-        int index = 2;
+        int index = JpegSignature.Length;
 
         while ( index + 9 < data.Length )
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if ( data[index] != 0xFF )
+            if ( data[index] != JpegMarkerPrefix )
             {
                 index++;
                 continue;
             }
 
-            while ( index < data.Length && data[index] == 0xFF )
+            while ( index < data.Length && data[index] == JpegMarkerPrefix )
             {
                 index++;
             }
@@ -105,7 +129,7 @@ internal static class PdfImageDataReader
 
             byte marker = data[index++];
 
-            if ( marker == 0xD9 || marker == 0xDA )
+            if ( marker == JpegEndOfImageMarker || marker == JpegStartOfScanMarker )
                 return false;
 
             if ( index + 1 >= data.Length )
@@ -137,7 +161,7 @@ internal static class PdfImageDataReader
 
     private static bool IsJpegStartOfFrameMarker( byte marker )
     {
-        return marker is 0xC0 or 0xC1 or 0xC2 or 0xC3 or 0xC5 or 0xC6 or 0xC7 or 0xC9 or 0xCA or 0xCB or 0xCD or 0xCE or 0xCF;
+        return JpegStartOfFrameMarkers.Contains( marker );
     }
 
     private static bool TryCreatePngImageData( byte[] data, long maxImagePixels, CancellationToken cancellationToken, out PdfImageData imageData )
@@ -234,15 +258,7 @@ internal static class PdfImageDataReader
 
     private static bool HasPngSignature( byte[] data )
     {
-        return data.Length >= 8
-            && data[0] == 0x89
-            && data[1] == 0x50
-            && data[2] == 0x4E
-            && data[3] == 0x47
-            && data[4] == 0x0D
-            && data[5] == 0x0A
-            && data[6] == 0x1A
-            && data[7] == 0x0A;
+        return data.AsSpan().StartsWith( PngSignature );
     }
 
     private static bool TryDecodePngImageBytes( byte[] compressedData, int width, int height, int colorType, byte[] palette, byte[] transparency, CancellationToken cancellationToken, out byte[] imageBytes, out byte[] alphaBytes, out string colorSpace )

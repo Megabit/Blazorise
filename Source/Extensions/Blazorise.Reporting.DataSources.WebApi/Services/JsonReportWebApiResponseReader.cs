@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace Blazorise.Reporting.DataSources.WebApi;
 public sealed class JsonReportWebApiResponseReader : IReportWebApiResponseReader
 {
     #region Members
+
+    private static readonly byte[] Utf8Preamble = Encoding.UTF8.GetPreamble();
 
     private readonly WebApiReportDataSourceOptions options;
 
@@ -83,8 +86,8 @@ public sealed class JsonReportWebApiResponseReader : IReportWebApiResponseReader
     {
         ReadOnlySpan<byte> bytes = content.Span;
 
-        return bytes.Length >= 3 && bytes[0] == 0xef && bytes[1] == 0xbb && bytes[2] == 0xbf
-            ? content[3..]
+        return bytes.StartsWith( Utf8Preamble )
+            ? content[Utf8Preamble.Length..]
             : content;
     }
 
