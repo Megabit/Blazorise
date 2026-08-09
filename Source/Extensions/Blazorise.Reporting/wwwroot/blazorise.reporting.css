@@ -142,6 +142,9 @@
   --b-report-section-rail-page-footer-border-color: var(--b-theme-info, #20c997);
   --b-report-section-rail-report-footer-border-color: var(--b-theme-secondary, #6c757d);
 }
+.b-report:has(.b-report-modal-layer [role=dialog]) {
+  z-index: var(--b-report-zindex-modal-layer, 3000);
+}
 
 .b-report-layout {
   height: var(--b-report-designer-layout-height);
