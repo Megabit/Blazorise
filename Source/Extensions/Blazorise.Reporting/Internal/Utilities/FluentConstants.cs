@@ -47,8 +47,10 @@ internal static class FluentConstants
     internal static readonly IFluentSizing WidthIs100 = Width.Is100;
 
     // Column
+    internal static readonly IFluentColumn ColumnSizeIs3 = ColumnSize.Is3;
     internal static readonly IFluentColumn ColumnSizeIs4 = ColumnSize.Is4;
     internal static readonly IFluentColumn ColumnSizeIs8 = ColumnSize.Is8;
+    internal static readonly IFluentColumn ColumnSizeIs9 = ColumnSize.Is9;
 
     // Border
     internal static readonly IFluentBorder BorderIs1 = Border.Is1;

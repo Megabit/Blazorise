@@ -28,37 +28,82 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 
     private string name;
 
+    private bool? pendingConnectionCommit;
+
+    private bool? connectionSucceeded;
+
     #endregion
 
     #region Methods
 
     internal async Task Show( ReportDefinition definition, IEnumerable<IReportDataSourceProvider> providerOptions )
     {
+        ReportDataSourceConnectionDialogSession session = new();
+        ModalInstanceOptions options = CreateReportModalOptions( ModalSize.Large );
+        options.Closing = session.OnClosing;
+
         await ShowReportModal<_ReportDesignerDataSourceConnectionDialog>( parameters =>
         {
             parameters.Add( nameof( Definition ), definition );
             parameters.Add( nameof( ProviderOptions ), providerOptions );
-            parameters.Add( nameof( Confirmed ), Confirmed );
-        } );
+            parameters.Add( nameof( ConnectRequested ), ConnectRequested );
+            parameters.Add( nameof( ConnectingChanged ), new Action<bool>( value => session.IsConnecting = value ) );
+        }, options );
     }
 
     private Task Close()
     {
-        return CloseReportModal();
+        return IsConnecting ? Task.CompletedTask : CloseReportModal();
     }
 
     private async Task Confirm()
     {
-        if ( !CanConfirm )
-            return;
+        if ( await RequestConnection( commit: true ) )
+            await CloseReportModal();
+    }
 
+    private async Task TestConnection()
+    {
+        await RequestConnection( commit: false );
+    }
+
+    private async Task<bool> RequestConnection( bool commit )
+    {
+        if ( !CanConfirm || IsConnecting || ConnectRequested is null || ( !commit && !SupportsTestConnection ) )
+            return false;
+
+        ReportDataSourceDefinition dataSource = CreateDataSourceDefinition();
+        connectionSucceeded = null;
+        SetPendingConnection( commit );
+        StateHasChanged();
+        await Task.Yield();
+
+        try
+        {
+            connectionSucceeded = await ConnectRequested( dataSource, commit );
+            return connectionSucceeded.Value;
+        }
+        finally
+        {
+            SetPendingConnection( null );
+        }
+    }
+
+    private void SetPendingConnection( bool? commit )
+    {
+        pendingConnectionCommit = commit;
+        ConnectingChanged?.Invoke( commit.HasValue );
+    }
+
+    private ReportDataSourceDefinition CreateDataSourceDefinition()
+    {
         ReportDataSourceDefinition existingDataSource = FindSelectedDataSource();
         Dictionary<string, object> settings = editorContext?.Settings?.ToDictionary( setting => setting.Key, setting => setting.Value, StringComparer.OrdinalIgnoreCase ) ?? [];
         bool connectionChanged = existingDataSource is null
             || !string.Equals( existingDataSource.ProviderType, selectedProviderType, StringComparison.OrdinalIgnoreCase )
             || !AreSettingsEqual( existingDataSource.Settings, settings );
 
-        ReportDataSourceDefinition dataSource = new()
+        return new()
         {
             Id = existingDataSource?.Id ?? Guid.NewGuid().ToString( "N" ),
             Name = name?.Trim(),
@@ -67,16 +112,17 @@ public partial class _ReportDesignerDataSourceConnectionDialog
             Schema = connectionChanged ? null : existingDataSource?.Schema,
             Settings = settings,
         };
-
-        await Confirmed.InvokeAsync( dataSource );
-        await CloseReportModal();
     }
 
     private void SelectNewDataSource()
     {
+        if ( IsConnecting )
+            return;
+
         if ( !IsEditingDataSource && editorContext is not null )
             return;
 
+        ResetConnectionResult();
         selectedDataSourceId = null;
         selectedProviderType = providers.FirstOrDefault()?.Type;
         name = CreateUniqueDataSourceName();
@@ -85,6 +131,9 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 
     private void SelectExistingDataSource()
     {
+        if ( IsConnecting )
+            return;
+
         if ( IsEditingDataSource )
             return;
 
@@ -93,12 +142,17 @@ public partial class _ReportDesignerDataSourceConnectionDialog
         if ( dataSource is null )
             return;
 
+        ResetConnectionResult();
         selectedDataSourceId = dataSource.Id;
         ApplyDataSource( dataSource );
     }
 
     private Task OnSelectedDataSourceChanged( string value )
     {
+        if ( IsConnecting )
+            return Task.CompletedTask;
+
+        ResetConnectionResult();
         selectedDataSourceId = value;
 
         ReportDataSourceDefinition dataSource = FindSelectedDataSource();
@@ -111,6 +165,10 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 
     private Task OnSelectedProviderChanged( string value )
     {
+        if ( IsConnecting )
+            return Task.CompletedTask;
+
+        ResetConnectionResult();
         selectedProviderType = value;
         editorContext = CreateEditorContext( selectedProviderType, null );
 
@@ -119,6 +177,10 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 
     private Task OnNameChanged( string value )
     {
+        if ( IsConnecting )
+            return Task.CompletedTask;
+
+        ResetConnectionResult();
         name = value;
 
         return Task.CompletedTask;
@@ -126,7 +188,19 @@ public partial class _ReportDesignerDataSourceConnectionDialog
 
     private ReportDataSourceProviderEditorContext CreateEditorContext( string providerType, IDictionary<string, object> settings )
     {
-        return new( providerType, settings );
+        return new( providerType, settings, ResetConnectionResult )
+        {
+            ResolveDisabled = () => IsConnecting,
+        };
+    }
+
+    private void ResetConnectionResult()
+    {
+        if ( !connectionSucceeded.HasValue )
+            return;
+
+        connectionSucceeded = null;
+        _ = InvokeAsync( StateHasChanged );
     }
 
     private void ApplyDataSource( ReportDataSourceDefinition dataSource )
@@ -226,6 +300,22 @@ public partial class _ReportDesignerDataSourceConnectionDialog
         && !string.IsNullOrWhiteSpace( name )
         && ( !IsEditingDataSource || FindSelectedDataSource() is not null );
 
+    private bool IsConnecting => pendingConnectionCommit.HasValue;
+
+    private bool IsTestingConnection => pendingConnectionCommit == false;
+
+    private bool IsCommittingConnection => pendingConnectionCommit == true;
+
+    private bool SupportsTestConnection => FindSelectedProvider()?.SupportsTestConnection == true;
+
+    private bool HasConnectionResult => connectionSucceeded.HasValue;
+
+    private Color ConnectionResultColor => connectionSucceeded == true ? Color.Success : Color.Danger;
+
+    private string ConnectionResultMessage => connectionSucceeded == true
+        ? Localize( "Connection succeeded." )
+        : Localize( "Connection failed." );
+
     private bool IsEditingDataSource => !string.IsNullOrWhiteSpace( selectedDataSourceId );
 
     private string DialogTitle => IsEditingDataSource ? Localize( "Edit data source" ) : Localize( "Connect data source" );
@@ -250,10 +340,27 @@ public partial class _ReportDesignerDataSourceConnectionDialog
     [Parameter] public IEnumerable<IReportDataSourceProvider> ProviderOptions { get; set; }
 
     /// <summary>
-    /// Raised when a data source connection is confirmed.
+    /// Validates a data source connection and optionally commits it to the report definition.
     /// </summary>
-    [Parameter] public EventCallback<ReportDataSourceDefinition> Confirmed { get; set; }
+    [Parameter] public Func<ReportDataSourceDefinition, bool, Task<bool>> ConnectRequested { get; set; }
+
+    /// <summary>
+    /// Notifies the modal owner when a connection request starts or finishes.
+    /// </summary>
+    [Parameter] public Action<bool> ConnectingChanged { get; set; }
 
     #endregion
 
+}
+
+internal sealed class ReportDataSourceConnectionDialogSession
+{
+    internal Task OnClosing( ModalClosingEventArgs eventArgs )
+    {
+        eventArgs.Cancel = IsConnecting;
+
+        return Task.CompletedTask;
+    }
+
+    internal bool IsConnecting { get; set; }
 }

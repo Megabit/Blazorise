@@ -76,14 +76,17 @@ public partial class _ReportDataSourceSettingsEditor
         if ( Context is null )
             return;
 
-        Context.Settings.Clear();
+        foreach ( string key in Context.Settings.Keys.ToList() )
+        {
+            Context.SetValue( key, null );
+        }
 
         foreach ( ReportDataSourceSettingItem setting in settings )
         {
             if ( string.IsNullOrWhiteSpace( setting.Key ) )
                 continue;
 
-            Context.Settings[setting.Key.Trim()] = setting.Value;
+            Context.SetValue( setting.Key.Trim(), setting.Value );
         }
     }
 

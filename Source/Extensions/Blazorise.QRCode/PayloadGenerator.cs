@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -1925,7 +1925,7 @@ public static class PayloadGenerator
             /// <summary>
             /// Uses ars as the payment currency.
             /// </summary>
-            ARS = 0x20,
+            ARS = 32,
             /// <summary>
             /// Uses aud as the payment currency.
             /// </summary>
@@ -1989,7 +1989,7 @@ public static class PayloadGenerator
             /// <summary>
             /// Uses btn as the payment currency.
             /// </summary>
-            BTN = 0x40,
+            BTN = 64,
             /// <summary>
             /// Uses bwp as the payment currency.
             /// </summary>
@@ -2337,7 +2337,7 @@ public static class PayloadGenerator
             /// <summary>
             /// Uses omr as the payment currency.
             /// </summary>
-            OMR = 0x200,
+            OMR = 512,
             /// <summary>
             /// Uses pab as the payment currency.
             /// </summary>

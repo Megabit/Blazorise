@@ -22,6 +22,18 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private const double LineHeightRatio = 1.2;
 
+    private const int HighestAsciiCodePoint = 127;
+
+    private const int FirstLatin1SupplementCodePoint = 160;
+
+    private const int HighestBasicMultilingualPlaneCodePoint = ushort.MaxValue;
+
+    private const int HighestUnicodeCodePoint = 1_114_111;
+
+    private const int Int16SignBit = 32_768;
+
+    private const int UInt16ValueCount = 65_536;
+
     private readonly IFontProvider fontProvider;
 
     private readonly IPdfResourceResolver resourceResolver;
@@ -229,7 +241,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
             int character = title[i];
             builder.Append( ( character >> 8 ).ToString( "X2", CultureInfo.InvariantCulture ) );
-            builder.Append( ( character & 0xFF ).ToString( "X2", CultureInfo.InvariantCulture ) );
+            builder.Append( ( character & byte.MaxValue ).ToString( "X2", CultureInfo.InvariantCulture ) );
         }
 
         builder.Append( "> >>" );
@@ -659,7 +671,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private static string ToUnicodeHex( int codePoint )
     {
-        if ( codePoint <= 0xFFFF )
+        if ( codePoint <= HighestBasicMultilingualPlaneCodePoint )
             return codePoint.ToString( "X4", CultureInfo.InvariantCulture );
 
         string text = char.ConvertFromUtf32( codePoint );
@@ -1570,13 +1582,13 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private static bool TryGetType1TextByte( char character, out byte value )
     {
-        if ( character <= 0x7F )
+        if ( character <= HighestAsciiCodePoint )
         {
             value = (byte)character;
             return true;
         }
 
-        if ( character >= 0xA0 && character <= 0xFF )
+        if ( character >= FirstLatin1SupplementCodePoint && character <= byte.MaxValue )
         {
             value = (byte)character;
             return true;
@@ -2139,7 +2151,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
                 int endCodePoint = (int)ReadUInt32( fontBytes, groupOffset + 4 );
                 int startGlyphId = (int)ReadUInt32( fontBytes, groupOffset + 8 );
 
-                for ( int codePoint = startCodePoint; codePoint <= endCodePoint && codePoint <= 0x10FFFF; codePoint++ )
+                for ( int codePoint = startCodePoint; codePoint <= endCodePoint && codePoint <= HighestUnicodeCodePoint; codePoint++ )
                 {
                     if ( ( codePoint & 4095 ) == 0 )
                         cancellationToken.ThrowIfCancellationRequested();
@@ -2175,10 +2187,10 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
                 int idDelta = ReadInt16( fontBytes, idDeltaOffset + ( i * 2 ) );
                 int idRangeOffset = ReadUInt16( fontBytes, idRangeOffsetOffset + ( i * 2 ) );
 
-                if ( startCode == 0xFFFF && endCode == 0xFFFF )
+                if ( startCode == ushort.MaxValue && endCode == ushort.MaxValue )
                     continue;
 
-                for ( int codePoint = startCode; codePoint <= endCode && codePoint < 0xFFFF; codePoint++ )
+                for ( int codePoint = startCode; codePoint <= endCode && codePoint < ushort.MaxValue; codePoint++ )
                 {
                     if ( ( codePoint & 4095 ) == 0 )
                         cancellationToken.ThrowIfCancellationRequested();
@@ -2187,7 +2199,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
                     if ( idRangeOffset == 0 )
                     {
-                        glyphId = ( codePoint + idDelta ) & 0xFFFF;
+                        glyphId = ( codePoint + idDelta ) & ushort.MaxValue;
                     }
                     else
                     {
@@ -2199,7 +2211,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
                         glyphId = ReadUInt16( fontBytes, glyphIndexOffset );
 
                         if ( glyphId != 0 )
-                            glyphId = ( glyphId + idDelta ) & 0xFFFF;
+                            glyphId = ( glyphId + idDelta ) & ushort.MaxValue;
                     }
 
                     if ( glyphId != 0 )
@@ -2224,7 +2236,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         {
             int value = ReadUInt16( data, offset );
 
-            return value >= 0x8000 ? value - 0x10000 : value;
+            return value >= Int16SignBit ? value - UInt16ValueCount : value;
         }
 
         private static uint ReadUInt32( byte[] data, int offset )

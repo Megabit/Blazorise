@@ -12,6 +12,12 @@ namespace Blazorise.Reporting;
 /// </summary>
 public sealed class ReportDataSourceProviderEditorContext
 {
+    #region Members
+
+    private readonly Action settingsChanged;
+
+    #endregion
+
     #region Constructors
 
     /// <summary>
@@ -19,10 +25,12 @@ public sealed class ReportDataSourceProviderEditorContext
     /// </summary>
     /// <param name="providerType">Provider type being configured.</param>
     /// <param name="settings">Initial provider settings.</param>
-    public ReportDataSourceProviderEditorContext( string providerType, IDictionary<string, object> settings = null )
+    /// <param name="settingsChanged">Optional callback invoked when a setting changes.</param>
+    public ReportDataSourceProviderEditorContext( string providerType, IDictionary<string, object> settings = null, Action settingsChanged = null )
     {
         ProviderType = providerType;
         Settings = settings?.ToDictionary( setting => setting.Key, setting => setting.Value, StringComparer.OrdinalIgnoreCase ) ?? new( StringComparer.OrdinalIgnoreCase );
+        this.settingsChanged = settingsChanged;
     }
 
     #endregion
@@ -88,10 +96,15 @@ public sealed class ReportDataSourceProviderEditorContext
         if ( string.IsNullOrWhiteSpace( key ) )
             return;
 
-        if ( value is null )
-            Settings.Remove( key );
-        else
+        bool changed = value is null
+            ? Settings.Remove( key )
+            : !Settings.TryGetValue( key, out object currentValue ) || !Equals( currentValue, value );
+
+        if ( value is not null && changed )
             Settings[key] = value;
+
+        if ( changed )
+            settingsChanged?.Invoke();
     }
 
     #endregion
@@ -107,6 +120,13 @@ public sealed class ReportDataSourceProviderEditorContext
     /// Provider-specific settings edited by the designer.
     /// </summary>
     public Dictionary<string, object> Settings { get; }
+
+    /// <summary>
+    /// Gets whether provider editor controls should be disabled.
+    /// </summary>
+    public bool Disabled => ResolveDisabled?.Invoke() == true;
+
+    internal Func<bool> ResolveDisabled { get; set; }
 
     #endregion
 }

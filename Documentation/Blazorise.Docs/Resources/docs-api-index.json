@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-07T10:05:54.1642750Z",
+  "generatedUtc": "2026-08-08T14:07:40.8143872Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -111322,11 +111322,29 @@
           "type": "Dictionary<string, Func<object>>",
           "typeName": "Dictionary<string, Func<IServiceProvider, DbConnection>>",
           "defaultValue": "new( StringComparer.OrdinalIgnoreCase )",
-          "summary": "Named connection factories that can be referenced by report data source definitions.",
+          "summary": "Named connection factories displayed by the designer and referenced by report data source definitions.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaximumCommandTimeout",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "DefaultMaximumCommandTimeout",
+          "summary": "Maximum command timeout, in seconds, that a report definition may request. Queries without a timeout use this value.",
           "isBlazoriseEnum": false
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "name": "QueryAllowed",
+          "type": "Func<,,>",
+          "typeName": "Func<string, string, bool>",
+          "defaultValue": "null",
+          "summary": "Determines whether a report-supplied query may execute against a named connection. Queries are denied when no policy is configured.",
+          "remarks": "Prefer an exact allowlist of application-owned queries. Do not authorize queries by checking only for a leading SQL keyword.     An application restricted to trusted SQL authors may deliberately allow every query for a registered connection and rely on a dedicated read-only database identity.",
+          "isBlazoriseEnum": false
+        }
+      ],
       "methods": []
     },
     {
@@ -145446,6 +145464,80 @@
         }
       ],
       "events": [],
+      "methods": []
+    },
+    {
+      "type": "global::Blazorise.Reporting.DataSources.WebApi.WebApiReportDataSourceOptions",
+      "typeName": "WebApiReportDataSourceOptions",
+      "summary": "$\"\"\"\r\n       Configures Web API report data source request policy and resource limits.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "MaximumCollectionItems",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "DefaultMaximumCollectionItems",
+          "summary": "Maximum number of items allowed in any JSON or XML collection.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaximumJsonDepth",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "DefaultMaximumJsonDepth",
+          "summary": "Maximum JSON document depth accepted by the built-in JSON reader.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaximumResponseSize",
+          "type": "long",
+          "typeName": "long",
+          "defaultValue": "DefaultMaximumResponseSize",
+          "summary": "Maximum number of response bytes buffered by the provider.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaximumSchemaItems",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "DefaultMaximumSchemaItems",
+          "summary": "Maximum number of collection items inspected when inferring a schema.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MaximumXmlDepth",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "DefaultMaximumXmlDepth",
+          "summary": "Maximum XML element depth accepted by the built-in XML reader.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RequestTimeout",
+          "type": "TimeSpan",
+          "typeName": "TimeSpan",
+          "defaultValue": "DefaultRequestTimeout",
+          "summary": "Maximum duration of a Web API request.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [
+        {
+          "name": "ConfigureRequestAsync",
+          "type": "Func<,,,,>",
+          "typeName": "Func<IServiceProvider, Uri, HttpRequestMessage, CancellationToken, ValueTask>",
+          "defaultValue": "null",
+          "summary": "Optional host callback that adds authentication or other application-owned request headers.     The callback receives the validated request URL and cannot change the GET method or request URI.     Only add credentials after matching the URL against an application-owned allowlist.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ResourceAllowed",
+          "type": "Func<,>",
+          "typeName": "Func<Uri, bool>",
+          "defaultValue": "null",
+          "summary": "Determines whether a report-supplied absolute HTTP or HTTPS URL is allowed.     A null value allows every otherwise valid URL. Server applications always reject loopback and non-public destinations before this policy can grant access.",
+          "isBlazoriseEnum": false
+        }
+      ],
       "methods": []
     }
   ]

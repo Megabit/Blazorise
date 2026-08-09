@@ -1,0 +1,31 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="atSign">&#64;</span>using Blazorise.Reporting.DataSources.WebApi
+<span class="atSign">&#64;</span>using System.Collections.Generic
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Report</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ReportDataSources</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ReportWebApiDataSource</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Products</span><span class="quot">&quot;</span>
+                                <span class="htmlAttributeName">Url</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">https://dummyjson.com/products?limit=10&amp;amp;select=id,title,price,category</span><span class="quot">&quot;</span>
+                                <span class="htmlAttributeName">Headers</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>requestHeaders</span><span class="quot">&quot;</span>
+                                <span class="htmlAttributeName">ResponseFormat</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>WebApiReportDataSourceFormats.Json</span><span class="quot">&quot;</span>
+                                <span class="htmlAttributeName">DataSelector</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">/products</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ReportDataSources</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ReportPage</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Products</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ReportDetail</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Product row</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Height</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">24</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DataSource</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Products</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ReportField</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">title</span><span class="quot">&quot;</span> <span class="htmlAttributeName">X</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">30</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Y</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">3</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">240</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Height</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">18</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ReportField</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">price</span><span class="quot">&quot;</span> <span class="htmlAttributeName">X</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">285</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Y</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">3</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">90</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Height</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">18</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ReportDetail</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ReportPage</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Report</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IReadOnlyDictionary&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt; requestHeaders =
+        <span class="keyword">new</span> Dictionary&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt;
+        {
+            [<span class="string">&quot;Accept&quot;</span>] = <span class="string">&quot;application/json&quot;</span>,
+        };
+}
+</pre></div>
+</div>

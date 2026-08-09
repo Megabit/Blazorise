@@ -28134,6 +28134,10 @@ builder.Services
     </ReportPage>
 </Report>";
 
+        public const string ReportingCsvDataSourceImportsExample = @"@using Blazorise.Reporting.DataSources.Csv";
+
+        public const string ReportingCsvDataSourceNugetInstallExample = @"Install-Package Blazorise.Reporting.DataSources.Csv";
+
         public const string ReportingCsvDataSourceRegistrationExample = @"using Blazorise.Reporting.DataSources.Csv;
 
 builder.Services
@@ -29151,6 +29155,65 @@ builder.Services
     </ReportPage>
 </Report>";
 
+        public const string ReportingSqlDataSourceExample = @"@using Blazorise.Reporting.DataSources.Sql
+
+<Report>
+    <ReportDataSources>
+        <ReportSqlDataSource Name=""Sales""
+                             ConnectionName=""Reporting""
+                             Query=""@ReportingQueries.Sales""
+                             CommandTimeout=""15"" />
+    </ReportDataSources>
+    <ReportPage Name=""Sales"">
+        <ReportDetail Name=""Sale"" Height=""24"" DataSource=""Sales"">
+            <ReportField Field=""OrderNumber"" X=""30"" Y=""3"" Width=""240"" Height=""18"" />
+            <ReportField Field=""Total"" X=""285"" Y=""3"" Width=""90"" Height=""18"" />
+        </ReportDetail>
+    </ReportPage>
+</Report>";
+
+        public const string ReportingSqlDataSourceImportsExample = @"@using Blazorise.Reporting.DataSources.Sql";
+
+        public const string ReportingSqlDataSourceNugetInstallExample = @"Install-Package Blazorise.Reporting.DataSources.Sql
+Install-Package Microsoft.Data.SqlClient";
+
+        public const string ReportingSqlDataSourceRegistrationExample = @"using Blazorise.Reporting.DataSources.Sql;
+using Microsoft.Data.SqlClient;
+
+HashSet<string> allowedQueries = new( StringComparer.Ordinal )
+{
+    ReportingQueries.Sales,
+};
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazoriseReporting()
+    .AddBlazoriseReportingSqlDataSource( options =>
+    {
+        options.Connections[""Reporting""] = serviceProvider =>
+        {
+            IConfiguration configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            string connectionString = configuration.GetConnectionString( ""Reporting"" )
+                ?? throw new InvalidOperationException( ""The Reporting connection string is missing."" );
+
+            return new SqlConnection( connectionString );
+        };
+
+        options.QueryAllowed = ( connectionName, query ) =>
+            string.Equals( connectionName, ""Reporting"", StringComparison.OrdinalIgnoreCase )
+                && allowedQueries.Contains( query );
+        options.MaximumCommandTimeout = 30;
+    } );
+
+public static class ReportingQueries
+{
+    public const string Sales = """"""
+        SELECT OrderNumber, Total
+        FROM Reporting.Sales
+        ORDER BY OrderNumber
+        """""";
+}";
+
         public const string ReportingStateExample = @"<Report Data=""@invoice""
         @bind-Definition=""@definition""
         SaveRequested=""@SaveReport""
@@ -29216,6 +29279,53 @@ builder.Services
         public decimal Total { get; set; }
     }
 }";
+
+        public const string ReportingWebApiDataSourceExample = @"@using Blazorise.Reporting.DataSources.WebApi
+@using System.Collections.Generic
+
+<Report>
+    <ReportDataSources>
+        <ReportWebApiDataSource Name=""Products""
+                                Url=""https://dummyjson.com/products?limit=10&amp;select=id,title,price,category""
+                                Headers=""@requestHeaders""
+                                ResponseFormat=""@WebApiReportDataSourceFormats.Json""
+                                DataSelector=""/products"" />
+    </ReportDataSources>
+    <ReportPage Name=""Products"">
+        <ReportDetail Name=""Product row"" Height=""24"" DataSource=""Products"">
+            <ReportField Field=""title"" X=""30"" Y=""3"" Width=""240"" Height=""18"" />
+            <ReportField Field=""price"" X=""285"" Y=""3"" Width=""90"" Height=""18"" />
+        </ReportDetail>
+    </ReportPage>
+</Report>
+
+@code {
+    private readonly IReadOnlyDictionary<string, string> requestHeaders =
+        new Dictionary<string, string>
+        {
+            [""Accept""] = ""application/json"",
+        };
+}";
+
+        public const string ReportingWebApiDataSourceImportsExample = @"@using Blazorise.Reporting.DataSources.WebApi";
+
+        public const string ReportingWebApiDataSourceNugetInstallExample = @"Install-Package Blazorise.Reporting.DataSources.WebApi";
+
+        public const string ReportingWebApiDataSourceRegistrationExample = @"using Blazorise.Reporting.DataSources.WebApi;
+
+builder.Services
+    .AddBlazorise()
+    .AddBlazoriseReporting()
+    .AddBlazoriseReportingWebApiDataSource( configureOptions: options =>
+    {
+        // Optional: omit this callback to allow any public HTTP or HTTPS URL.
+        options.ResourceAllowed = uri =>
+            uri.Scheme == Uri.UriSchemeHttps
+                && uri.IsDefaultPort
+                && string.Equals( uri.Host, ""dummyjson.com"", StringComparison.OrdinalIgnoreCase );
+        options.MaximumResponseSize = 5 * 1024 * 1024;
+        options.RequestTimeout = TimeSpan.FromSeconds( 30 );
+    } );";
 
         public const string RichTextEditConfigurationExample = @"<RichTextEdit ConfigureQuillJsMethod=""myComponent.configureQuillJs"" />
 

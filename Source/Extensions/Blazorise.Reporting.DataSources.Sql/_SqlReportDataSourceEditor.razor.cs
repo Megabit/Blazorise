@@ -1,4 +1,7 @@
 #region Using directives
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Reporting;
 using Microsoft.AspNetCore.Components;
@@ -12,6 +15,20 @@ namespace Blazorise.Reporting.DataSources.Sql;
 public partial class _SqlReportDataSourceEditor
 {
     #region Methods
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        IReadOnlyList<string> connectionNames = ConnectionNames;
+
+        if ( connectionNames.Count > 0
+             && !connectionNames.Contains( ConnectionName, StringComparer.OrdinalIgnoreCase ) )
+        {
+            Context?.SetValue( SqlReportDataSourceSettings.ConnectionName, connectionNames[0] );
+        }
+    }
 
     private Task OnConnectionNameChanged( string value )
     {
@@ -42,6 +59,12 @@ public partial class _SqlReportDataSourceEditor
     /// Provider settings context edited by the SQL data source editor.
     /// </summary>
     [Parameter] public ReportDataSourceProviderEditorContext Context { get; set; }
+
+    [Inject] private SqlReportDataSourceOptions Options { get; set; }
+
+    private IReadOnlyList<string> ConnectionNames => Options?.Connections.Keys
+        .OrderBy( connectionName => connectionName, StringComparer.OrdinalIgnoreCase )
+        .ToList() ?? [];
 
     private string ConnectionName => Context?.GetString( SqlReportDataSourceSettings.ConnectionName );
 

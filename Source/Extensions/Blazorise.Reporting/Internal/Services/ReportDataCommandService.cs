@@ -11,13 +11,15 @@ internal sealed class ReportDataCommandService
 {
     #region Methods
 
-    internal async Task ConnectDataSource( ReportDefinition definition, object data, ReportDataSourceDefinition dataSource, Func<ReportDefinition, bool, Task> resolveDataSources )
+    internal async Task<ReportDefinition> PrepareDataSourceConnection( ReportDefinition definition, object data, ReportDataSourceDefinition dataSource, Func<ReportDefinition, bool, Task<bool>> resolveDataSources )
     {
         if ( definition is null || dataSource is null || string.IsNullOrWhiteSpace( dataSource.Name ) )
-            return;
+            return null;
 
-        if ( definition.DataSources is null )
-            definition.DataSources = [];
+        ReportDefinition candidateDefinition = ReportContext.CloneDefinition( definition );
+
+        if ( candidateDefinition.DataSources is null )
+            candidateDefinition.DataSources = [];
 
         if ( IsInMemoryProvider( dataSource.ProviderType )
             && dataSource.Data is null )
@@ -25,19 +27,32 @@ internal sealed class ReportDataCommandService
             dataSource.Data = data;
         }
 
-        int existingIndex = definition.DataSources.FindIndex( source =>
+        int existingIndex = candidateDefinition.DataSources.FindIndex( source =>
             string.Equals( source.Id, dataSource.Id, StringComparison.Ordinal )
             || string.Equals( source.Name, dataSource.Name, StringComparison.OrdinalIgnoreCase ) );
 
         if ( existingIndex >= 0 )
-            definition.DataSources[existingIndex] = dataSource;
+            candidateDefinition.DataSources[existingIndex] = dataSource;
         else
-            definition.DataSources.Add( dataSource );
+            candidateDefinition.DataSources.Add( dataSource );
 
-        ReportDefinitionHelper.EnsureDefinitionIds( definition );
+        ReportDefinitionHelper.EnsureDefinitionIds( candidateDefinition );
 
         if ( resolveDataSources is not null )
-            await resolveDataSources( definition, false );
+        {
+            // A retained schema must not turn an explicit connection test into a cache hit.
+            dataSource.Schema = null;
+
+            ReportDefinition validationDefinition = new()
+            {
+                DataSources = [dataSource],
+            };
+
+            if ( !await resolveDataSources( validationDefinition, false ) )
+                return null;
+        }
+
+        return candidateDefinition;
     }
 
     internal async Task RefreshDataSource( ReportDefinition definition, IReportDataSourceProviderRegistry providerRegistry, string dataSourceName, CancellationToken cancellationToken = default )

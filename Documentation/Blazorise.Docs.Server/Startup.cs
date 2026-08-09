@@ -22,6 +22,7 @@ using Blazorise.Pdf;
 using Blazorise.Reporting;
 using Blazorise.Reporting.DataSources.Csv;
 using Blazorise.Reporting.DataSources.Sql;
+using Blazorise.Reporting.DataSources.WebApi;
 using Blazorise.RichTextEdit;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
@@ -79,6 +80,12 @@ public class Startup
             .AddBlazorisePdfHttpResources()
             .AddBlazoriseReportingCsvDataSource()
             .AddBlazoriseReportingSqlDataSource()
+            .AddBlazoriseReportingWebApiDataSource( configureOptions: options =>
+            {
+                options.ResourceAllowed = uri => uri.Scheme == Uri.UriSchemeHttps
+                    && uri.IsDefaultPort
+                    && string.Equals( uri.Host, "dummyjson.com", StringComparison.OrdinalIgnoreCase );
+            } )
             .AddBlazoriseRouterTabs();
 
         services.Configure<BlogOptions>( Configuration.GetSection( "Blog" ) );

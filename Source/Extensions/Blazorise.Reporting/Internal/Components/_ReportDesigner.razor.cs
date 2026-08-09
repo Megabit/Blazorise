@@ -446,6 +446,12 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             ResolveDataSources( definition, loadData, mutationVersion, cancellationToken ) );
     }
 
+    private Task<bool> ResolveDataSourceConnectionOperation( ReportDefinition definition, bool loadData )
+    {
+        return ExecuteDataOperation( Localize( "Connect data source" ), ( cancellationToken, mutationVersion ) =>
+            ResolveDataSources( definition, loadData, mutationVersion, cancellationToken ) );
+    }
+
     private async Task<bool> ExecuteDataOperation( string operationName, Func<CancellationToken, int, Task<bool>> operation )
     {
         InvalidateDesignerCaches();
@@ -464,7 +470,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         }
         catch ( Exception exception )
         {
-            await NotifyOperationFailed( operationName, exception );
+            await NotifyOperationFailed( operationName, exception, includeExceptionDetails: false );
             return false;
         }
         finally
@@ -1014,7 +1020,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         await ApplyReportState( state, notifyDefinitionChanged: true, ReportDesignerRefreshTarget.All );
     }
 
-    internal async Task ExecuteDesignerCommand( ReportDesignerCommand command )
+    internal async Task<bool> ExecuteDesignerCommand( ReportDesignerCommand command )
     {
         try
         {
@@ -1036,12 +1042,15 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
             if ( command.NotifyDefinitionChanged && !command.RefreshSurface )
                 _ = NotifyDefinitionChangedLater( definition );
+
+            return true;
         }
         catch ( Exception exception )
         {
             InvalidateDesignerCaches();
             await NotifyOperationFailed( command.Name, exception );
             await InvokeAsync( StateHasChanged );
+            return false;
         }
     }
 
@@ -2247,14 +2256,24 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         await workspaceRef.ShowDataSourceConnectionDialog( EffectiveDefinition, DataSourceProviders );
     }
 
-    internal async Task OnDataSourceConnectionConfirmed( ReportDataSourceDefinition dataSource )
+    internal async Task<bool> OnDataSourceConnectionRequested( ReportDataSourceDefinition dataSource, bool commit )
     {
         if ( dataSource is null || string.IsNullOrWhiteSpace( dataSource.Name ) )
-            return;
+            return false;
 
-        await ExecuteDesignerCommand( new( "Connect data source", async () =>
+        ReportDefinition definition = EffectiveDefinition;
+        ReportDefinition connectedDefinition = await dataCommandService.PrepareDataSourceConnection( definition, Data, dataSource, ResolveDataSourceConnectionOperation );
+
+        if ( connectedDefinition is null )
+            return false;
+
+        if ( !commit )
+            return true;
+
+        return await ExecuteDesignerCommand( new( "Connect data source", () =>
         {
-            await dataCommandService.ConnectDataSource( EffectiveDefinition, Data, dataSource, ResolveDataSources );
+            definition.DataSources = connectedDefinition.DataSources;
+            return Task.CompletedTask;
         }, RefreshTargets: ReportDesignerRefreshTarget.DesignerWithFieldsExplorer ) );
     }
 
@@ -3239,13 +3258,14 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         WarningsChanged?.Invoke();
     }
 
-    private async Task NotifyOperationFailed( string operation, Exception exception )
+    private async Task NotifyOperationFailed( string operation, Exception exception, bool includeExceptionDetails = true )
     {
-        string message = Localize( "{0} failed: {1}", operation, exception.Message );
+        string message = includeExceptionDetails
+            ? Localize( "{0} failed: {1}", operation, exception.Message )
+            : Localize( "{0} failed.", operation );
 
         Logger?.LogError( exception, "Report operation {Operation} failed.", operation );
         operationWarning = new( message, [] );
-        Progressed?.Invoke( new( message ) );
         WarningsChanged?.Invoke();
 
         try

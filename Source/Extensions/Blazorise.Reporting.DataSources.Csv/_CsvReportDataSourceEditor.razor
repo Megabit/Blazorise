@@ -1,6 +1,7 @@
 @namespace Blazorise.Reporting.DataSources.Csv
 @inherits Blazorise.Reporting.Internal.BaseReportComponent
 @using Blazorise
+@using static Blazorise.Reporting.DataSources.Csv.FluentConstants
 
 <Div Flex="Flex.Column" Gap="Gap.Is2">
     <Paragraph TextColor="TextColor.Secondary" TextSize="TextSize.Small" Margin="Margin.Is0">
@@ -8,12 +9,13 @@
     </Paragraph>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">CSV file</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSize.Small">CSV file</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
             <FileInput Changed="@OnFileChanged"
                        Filter=".csv,text/csv,text/plain"
                        MaxFileSize="@MaxCsvFileSize"
                        Placeholder="Choose CSV file"
+                       Disabled="@(Context?.Disabled == true)"
                        Size="Size.Small"
                        DisableProgressReport />
         </FieldBody>
@@ -27,16 +29,16 @@
     }
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Source</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
-            <MemoInput Value="@Source" ValueChanged="@OnSourceChanged" Placeholder="CSV text, file path, or URL" Size="Size.Small" Rows="5" />
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSize.Small">Source</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
+            <MemoInput Value="@Source" ValueChanged="@OnSourceChanged" Placeholder="CSV text, file path, or URL" Disabled="@(Context?.Disabled == true)" Size="Size.Small" Rows="5" />
         </FieldBody>
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Encoding</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
-            <Select TValue="string" Value="@SelectedEncoding" ValueChanged="@OnEncodingChanged" Size="Size.Small">
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSize.Small">Encoding</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
+            <Select TValue="string" Value="@SelectedEncoding" ValueChanged="@OnEncodingChanged" Disabled="@(Context?.Disabled == true)" Size="Size.Small">
                 @foreach ( CsvReportDataSourceEditorOption option in EncodingOptions )
                 {
                     <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
@@ -46,10 +48,10 @@
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Separator</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSize.Small">Separator</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
             <Div Flex="Flex.Row" Gap="Gap.Is2">
-                <Select TValue="string" Value="@SelectedDelimiter" ValueChanged="@OnDelimiterChanged" Size="Size.Small">
+                <Select TValue="string" Value="@SelectedDelimiter" ValueChanged="@OnDelimiterChanged" Disabled="@(Context?.Disabled == true)" Size="Size.Small">
                     @foreach ( CsvReportDataSourceEditorOption option in DelimiterOptions )
                     {
                         <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
@@ -57,16 +59,16 @@
                 </Select>
                 @if ( IsCustomDelimiter )
                 {
-                    <TextInput Value="@CustomDelimiter" ValueChanged="@OnCustomDelimiterChanged" Size="Size.Small" />
+                    <TextInput Value="@CustomDelimiter" ValueChanged="@OnCustomDelimiterChanged" Disabled="@(Context?.Disabled == true)" Size="Size.Small" />
                 }
             </Div>
         </FieldBody>
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Header row</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
-            <Check TValue="bool" Value="@HasHeaderRow" ValueChanged="@OnHasHeaderRowChanged">First row contains field names</Check>
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSize.Small">Header row</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
+            <Check TValue="bool" Value="@HasHeaderRow" ValueChanged="@OnHasHeaderRowChanged" Disabled="@(Context?.Disabled == true)">First row contains field names</Check>
         </FieldBody>
     </Field>
 </Div>

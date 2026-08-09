@@ -12,7 +12,7 @@
     <_ReportDesignerGroupDialog @ref="groupDialog"
                                 Confirmed="@Designer.OnGroupDialogConfirmed" />
     <_ReportDesignerDataSourceConnectionDialog @ref="dataSourceConnectionDialog"
-                                               Confirmed="@Designer.OnDataSourceConnectionConfirmed" />
+                                               ConnectRequested="@Designer.OnDataSourceConnectionRequested" />
     <_ReportDesignerFormulaDialog @ref="formulaDialog"
                                   Definition="@Definition"
                                   Data="@Designer.Data"
