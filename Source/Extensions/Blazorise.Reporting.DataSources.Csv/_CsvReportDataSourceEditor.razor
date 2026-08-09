@@ -1,6 +1,7 @@
 @namespace Blazorise.Reporting.DataSources.Csv
 @inherits Blazorise.Reporting.Internal.BaseReportComponent
 @using Blazorise
+@using static Blazorise.Reporting.DataSources.Csv.FluentConstants
 
 <Div Flex="Flex.Column" Gap="Gap.Is2">
     <Paragraph TextColor="TextColor.Secondary" TextSize="TextSize.Small" Margin="Margin.Is0">
@@ -8,8 +9,8 @@
     </Paragraph>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">CSV file</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSize.Small">CSV file</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
             <FileInput Changed="@OnFileChanged"
                        Filter=".csv,text/csv,text/plain"
                        MaxFileSize="@MaxCsvFileSize"
@@ -28,15 +29,15 @@
     }
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Source</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSize.Small">Source</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
             <MemoInput Value="@Source" ValueChanged="@OnSourceChanged" Placeholder="CSV text, file path, or URL" Disabled="@(Context?.Disabled == true)" Size="Size.Small" Rows="5" />
         </FieldBody>
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Encoding</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSize.Small">Encoding</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
             <Select TValue="string" Value="@SelectedEncoding" ValueChanged="@OnEncodingChanged" Disabled="@(Context?.Disabled == true)" Size="Size.Small">
                 @foreach ( CsvReportDataSourceEditorOption option in EncodingOptions )
                 {
@@ -47,8 +48,8 @@
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Separator</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSize.Small">Separator</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
             <Div Flex="Flex.Row" Gap="Gap.Is2">
                 <Select TValue="string" Value="@SelectedDelimiter" ValueChanged="@OnDelimiterChanged" Disabled="@(Context?.Disabled == true)" Size="Size.Small">
                     @foreach ( CsvReportDataSourceEditorOption option in DelimiterOptions )
@@ -65,8 +66,8 @@
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Header row</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSize.Small">Header row</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
             <Check TValue="bool" Value="@HasHeaderRow" ValueChanged="@OnHasHeaderRowChanged" Disabled="@(Context?.Disabled == true)">First row contains field names</Check>
         </FieldBody>
     </Field>

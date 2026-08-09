@@ -14,8 +14,8 @@
     @if ( IsEditingDataSource )
     {
         <Field Horizontal>
-            <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Existing data source" )</FieldLabel>
-            <FieldBody ColumnSize="ColumnSizeIs8">
+            <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSizeSmall">@Localize( "Existing data source" )</FieldLabel>
+            <FieldBody ColumnSize="ColumnSizeIs9">
                 <Select TValue="string" Value="@selectedDataSourceId" ValueChanged="@OnSelectedDataSourceChanged" Disabled="@IsConnecting" Size="Size.Small">
                     @foreach ( ReportDataSourceDefinition dataSource in dataSources )
                     {
@@ -27,8 +27,8 @@
     }
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Provider" )</FieldLabel>
-        <FieldBody ColumnSize="ColumnSizeIs8">
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSizeSmall">@Localize( "Provider" )</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
             <Select TValue="string" Value="@selectedProviderType" ValueChanged="@OnSelectedProviderChanged" Disabled="@IsConnecting" Size="Size.Small">
                 @foreach ( IReportDataSourceProvider provider in providers )
                 {
@@ -49,8 +49,8 @@
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Name" )</FieldLabel>
-        <FieldBody ColumnSize="ColumnSizeIs8">
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSizeSmall">@Localize( "Name" )</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
             <TextInput Value="@name" ValueChanged="@OnNameChanged" Disabled="@IsConnecting" Size="Size.Small" />
         </FieldBody>
     </Field>

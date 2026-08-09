@@ -1,25 +1,26 @@
 @namespace Blazorise.Reporting.DataSources.WebApi
 @inherits Blazorise.Reporting.Internal.BaseReportComponent
 @using Blazorise
+@using static Blazorise.Reporting.DataSources.WebApi.FluentConstants
 
 <Div Flex="Flex.Column" Gap="Gap.Is2">
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">@Localize( "API endpoint" )</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSize.Small">@Localize( "API endpoint" )</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
             <TextInput Value="@Url" ValueChanged="@OnUrlChanged" Placeholder="https://api.example.com/orders?status=open" Disabled="@(Context?.Disabled == true)" Size="Size.Small" />
         </FieldBody>
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">@Localize( "Request headers" )</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSize.Small">@Localize( "Request headers" )</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
             <MemoInput Value="@Headers" ValueChanged="@OnHeadersChanged" Placeholder="Accept: application/json" Disabled="@(Context?.Disabled == true)" Size="Size.Small" Rows="4" />
         </FieldBody>
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">@Localize( "Response format" )</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSize.Small">@Localize( "Response format" )</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
             <Select TValue="string" Value="@ResponseFormat" ValueChanged="@OnResponseFormatChanged" Disabled="@(Context?.Disabled == true)" Size="Size.Small">
                 @foreach ( WebApiReportDataSourceEditorOption option in ResponseFormatOptions )
                 {
@@ -30,8 +31,8 @@
     </Field>
 
     <Field Horizontal>
-        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">@Localize( "Data selector" )</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
+        <FieldLabel ColumnSize="ColumnSizeIs3" TextSize="TextSize.Small">@Localize( "Data selector" )</FieldLabel>
+        <FieldBody ColumnSize="ColumnSizeIs9">
             <TextInput Value="@DataSelector" ValueChanged="@OnDataSelectorChanged" Placeholder="@DataSelectorPlaceholder" Disabled="@(Context?.Disabled == true)" Size="Size.Small" />
         </FieldBody>
     </Field>

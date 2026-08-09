@@ -39,7 +39,7 @@ public partial class _ReportDesignerDataSourceConnectionDialog
     internal async Task Show( ReportDefinition definition, IEnumerable<IReportDataSourceProvider> providerOptions )
     {
         ReportDataSourceConnectionDialogSession session = new();
-        ModalInstanceOptions options = CreateReportModalOptions();
+        ModalInstanceOptions options = CreateReportModalOptions( ModalSize.Large );
         options.Closing = session.OnClosing;
 
         await ShowReportModal<_ReportDesignerDataSourceConnectionDialog>( parameters =>
