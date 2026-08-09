@@ -25,6 +25,11 @@ public class MessageOptions
     public bool ShowMessageIcon { get; set; }
 
     /// <summary>
+    /// Defines the message text alignment. The message service defaults to <see cref="TextAlignment.Center"/>.
+    /// </summary>
+    public TextAlignment MessageAlignment { get; set; }
+
+    /// <summary>
     /// Overrides the build-in message icon.
     /// </summary>
     public object MessageIcon { get; set; }
@@ -180,6 +185,7 @@ public class MessageOptions
         ConfirmButtonText = null,
         ConfirmButtonColor = Color.Primary,
         ConfirmButtonPadding = Padding.Is2.OnX,
+        MessageAlignment = TextAlignment.Center,
         Size = ModalSize.Default,
     };
 }

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-08T14:07:40.8143872Z",
+  "generatedUtc": "2026-08-09T19:59:30.6908306Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -71897,6 +71897,14 @@
           "defaultValue": "null",
           "summary": "Creates the default message options.",
           "isBlazoriseEnum": false
+        },
+        {
+          "name": "MessageAlignment",
+          "type": "global::Blazorise.TextAlignment",
+          "typeName": "TextAlignment",
+          "defaultValue": "TextAlignment.Default",
+          "summary": "Defines the message text alignment. The message service defaults to <strong>Center</strong>.",
+          "isBlazoriseEnum": true
         },
         {
           "name": "MessageClass",
