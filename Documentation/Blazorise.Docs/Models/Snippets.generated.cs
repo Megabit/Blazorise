@@ -28134,6 +28134,10 @@ builder.Services
     </ReportPage>
 </Report>";
 
+        public const string ReportingCsvDataSourceImportsExample = @"@using Blazorise.Reporting.DataSources.Csv";
+
+        public const string ReportingCsvDataSourceNugetInstallExample = @"Install-Package Blazorise.Reporting.DataSources.Csv";
+
         public const string ReportingCsvDataSourceRegistrationExample = @"using Blazorise.Reporting.DataSources.Csv;
 
 builder.Services
@@ -29168,6 +29172,11 @@ builder.Services
     </ReportPage>
 </Report>";
 
+        public const string ReportingSqlDataSourceImportsExample = @"@using Blazorise.Reporting.DataSources.Sql";
+
+        public const string ReportingSqlDataSourceNugetInstallExample = @"Install-Package Blazorise.Reporting.DataSources.Sql
+Install-Package Microsoft.Data.SqlClient";
+
         public const string ReportingSqlDataSourceRegistrationExample = @"using Blazorise.Reporting.DataSources.Sql;
 using Microsoft.Data.SqlClient;
 
@@ -29297,6 +29306,10 @@ public static class ReportingQueries
             [""Accept""] = ""application/json"",
         };
 }";
+
+        public const string ReportingWebApiDataSourceImportsExample = @"@using Blazorise.Reporting.DataSources.WebApi";
+
+        public const string ReportingWebApiDataSourceNugetInstallExample = @"Install-Package Blazorise.Reporting.DataSources.WebApi";
 
         public const string ReportingWebApiDataSourceRegistrationExample = @"using Blazorise.Reporting.DataSources.WebApi;
 

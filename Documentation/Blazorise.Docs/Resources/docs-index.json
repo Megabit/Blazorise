@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-08T14:11:42.7769092Z",
+  "generatedUtc": "2026-08-09T05:57:47.1878255Z",
   "pages": [
     {
       "route": "/docs",
@@ -7699,6 +7699,22 @@
           "description": "Use ReportDataSetDataSource to bind reports to enterprise data sources that expose DataSet or DataTable objects. Set TableName to bind one table directly, or omit it to expose tables as nested data sources."
         },
         {
+          "code": "ReportingCsvDataSourceNugetInstallExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingCsvDataSourceNugetInstallExample.snippet",
+          "content": "Install-Package Blazorise.Reporting.DataSources.Csv",
+          "title": "NuGet",
+          "description": "Install the CSV data-source extension."
+        },
+        {
+          "code": "ReportingCsvDataSourceImportsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingCsvDataSourceImportsExample.snippet",
+          "content": "@using Blazorise.Reporting.DataSources.Csv",
+          "title": "Imports",
+          "description": "In your main _Imports.razor add:"
+        },
+        {
           "code": "ReportingCsvDataSourceRegistrationExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingCsvDataSourceRegistrationExample.snippet",
@@ -7715,6 +7731,22 @@
           "description": "Give the source a name and use that name as the data source of a detail band."
         },
         {
+          "code": "ReportingWebApiDataSourceNugetInstallExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingWebApiDataSourceNugetInstallExample.snippet",
+          "content": "Install-Package Blazorise.Reporting.DataSources.WebApi",
+          "title": "NuGet",
+          "description": "Install the REST / Web API data-source extension."
+        },
+        {
+          "code": "ReportingWebApiDataSourceImportsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingWebApiDataSourceImportsExample.snippet",
+          "content": "@using Blazorise.Reporting.DataSources.WebApi",
+          "title": "Imports",
+          "description": "In your main _Imports.razor add:"
+        },
+        {
           "code": "ReportingWebApiDataSourceRegistrationExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingWebApiDataSourceRegistrationExample.snippet",
@@ -7729,6 +7761,22 @@
           "content": "@using Blazorise.Reporting.DataSources.WebApi\r\n@using System.Collections.Generic\r\n\r\n<Report>\r\n    <ReportDataSources>\r\n        <ReportWebApiDataSource Name=\"Products\"\r\n                                Url=\"https://dummyjson.com/products?limit=10&amp;select=id,title,price,category\"\r\n                                Headers=\"@requestHeaders\"\r\n                                ResponseFormat=\"@WebApiReportDataSourceFormats.Json\"\r\n                                DataSelector=\"/products\" />\r\n    </ReportDataSources>\r\n    <ReportPage Name=\"Products\">\r\n        <ReportDetail Name=\"Product row\" Height=\"24\" DataSource=\"Products\">\r\n            <ReportField Field=\"title\" X=\"30\" Y=\"3\" Width=\"240\" Height=\"18\" />\r\n            <ReportField Field=\"price\" X=\"285\" Y=\"3\" Width=\"90\" Height=\"18\" />\r\n        </ReportDetail>\r\n    </ReportPage>\r\n</Report>\r\n\r\n@code {\r\n    private readonly IReadOnlyDictionary<string, string> requestHeaders =\r\n        new Dictionary<string, string>\r\n        {\r\n            [\"Accept\"] = \"application/json\",\r\n        };\r\n}",
           "title": "Declarative",
           "description": "Supply the complete endpoint URL, optional request headers, a response format, and the response node that supplies report rows. This example uses the public DummyJSON API."
+        },
+        {
+          "code": "ReportingSqlDataSourceNugetInstallExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingSqlDataSourceNugetInstallExample.snippet",
+          "content": "Install-Package Blazorise.Reporting.DataSources.Sql\r\nInstall-Package Microsoft.Data.SqlClient",
+          "title": "NuGet",
+          "description": "Install the SQL data-source extension together with the ADO.NET provider for the target database. This example uses Microsoft.Data.SqlClient for Microsoft SQL Server; use the corresponding provider, such as Npgsql , for another database."
+        },
+        {
+          "code": "ReportingSqlDataSourceImportsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingSqlDataSourceImportsExample.snippet",
+          "content": "@using Blazorise.Reporting.DataSources.Sql",
+          "title": "Imports",
+          "description": "In your main _Imports.razor add:"
         },
         {
           "code": "ReportingSqlDataSourceRegistrationExample",

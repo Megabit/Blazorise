@@ -46,7 +46,25 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    Install the <Code>Blazorise.Reporting.DataSources.Csv</Code> package and import the <Code>Blazorise.Reporting.DataSources.Csv</Code> namespace. Register the provider after the core Reporting services. Calling <Code>AddBlazoriseReportingCsvDataSource()</Code> without callbacks uses the default HTTP configuration and a 5 MB source limit.
+    The CSV provider turns comma-separated text into a tabular report data source. Use it for exports, static reference data, or files produced by another system, supplied inline or loaded from a local file or remote URL.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install the CSV data-source extension.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingCsvDataSourceNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingCsvDataSourceImportsExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    Register the provider after the core Reporting services. Calling <Code>AddBlazoriseReportingCsvDataSource()</Code> without callbacks uses the default HTTP configuration and a 5 MB source limit.
 </DocsPageParagraph>
 
 <DocsPageSection>
@@ -78,7 +96,25 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    Install the <Code>Blazorise.Reporting.DataSources.WebApi</Code> package and import the <Code>Blazorise.Reporting.DataSources.WebApi</Code> namespace. The provider performs read-only HTTP GET requests and delegates response parsing to registered readers. JSON and XML readers are included, and applications can register additional formats through <Code>IReportWebApiResponseReader</Code>.
+    The REST / Web API provider retrieves structured data with read-only HTTP GET requests and exposes a selected response collection as report rows. Use it when report data is available through a browser-accessible or server-to-server API instead of a direct database connection.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install the REST / Web API data-source extension.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingWebApiDataSourceNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingWebApiDataSourceImportsExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    The provider performs read-only HTTP GET requests and delegates response parsing to registered readers. JSON and XML readers are included, and applications can register additional formats through <Code>IReportWebApiResponseReader</Code>.
 </DocsPageParagraph>
 
 <DocsPageSection>
@@ -119,9 +155,27 @@
     SQL data source
 </DocsPageSubtitle>
 
+<DocsPageParagraph>
+    The SQL provider connects a server-hosted Report directly to a database and exposes an authorized query result as tabular report data. Use it when the host controls database connections and report authors need governed access to reporting views or queries.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install the SQL data-source extension together with the ADO.NET provider for the target database. This example uses <Code>Microsoft.Data.SqlClient</Code> for Microsoft SQL Server; use the corresponding provider, such as <Code>Npgsql</Code>, for another database.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingSqlDataSourceNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReportingSqlDataSourceImportsExample" />
+</DocsPageSection>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="Hosting models">
-        Install the <Code>Blazorise.Reporting.DataSources.Sql</Code> package together with the ADO.NET provider for the target database, such as <Code>Microsoft.Data.SqlClient</Code> or <Code>Npgsql</Code>. The SQL extension executes in the process that renders the report and is intended for Blazor Server and <Code>InteractiveServer</Code> components.
+        The SQL extension executes in the process that renders the report and is intended for Blazor Server and <Code>InteractiveServer</Code> components.
     </DocsPageSectionHeader>
 </DocsPageSection>
 
