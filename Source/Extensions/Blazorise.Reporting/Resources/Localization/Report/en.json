@@ -1,6 +1,7 @@
 {
   "culture": "en",
   "translations": {
+    "{0} failed.": "{0} failed.",
     "{0} failed: {1}": "{0} failed: {1}",
     "{0} report element": "{0} report element",
     "{0} settings": "{0} settings",

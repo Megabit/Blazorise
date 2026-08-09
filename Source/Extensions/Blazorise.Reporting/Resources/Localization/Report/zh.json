@@ -2,6 +2,7 @@
   "culture": "zh",
   "translations": {
     "{0} - {1} of {2} items": "{0} - {1} 条，共 {2} 条",
+    "{0} failed.": "{0} 失败。",
     "Add Child": "添加子任务",
     "Add page": "添加页面",
     "Add Task": "添加任务",

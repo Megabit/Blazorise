@@ -10,6 +10,7 @@ builder.Services
         // Optional: omit this callback to allow any public HTTP or HTTPS URL.
         options.ResourceAllowed = uri =&gt;
             uri.Scheme == Uri.UriSchemeHttps
+                &amp;&amp; uri.IsDefaultPort
                 &amp;&amp; string.Equals( uri.Host, &quot;dummyjson.com&quot;, StringComparison.OrdinalIgnoreCase );
         options.MaximumResponseSize = 5 * 1024 * 1024;
         options.RequestTimeout = TimeSpan.FromSeconds( 30 );

@@ -14,6 +14,7 @@
                        Filter=".csv,text/csv,text/plain"
                        MaxFileSize="@MaxCsvFileSize"
                        Placeholder="Choose CSV file"
+                       Disabled="@(Context?.Disabled == true)"
                        Size="Size.Small"
                        DisableProgressReport />
         </FieldBody>
@@ -29,14 +30,14 @@
     <Field Horizontal>
         <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Source</FieldLabel>
         <FieldBody ColumnSize="ColumnSize.Is8">
-            <MemoInput Value="@Source" ValueChanged="@OnSourceChanged" Placeholder="CSV text, file path, or URL" Size="Size.Small" Rows="5" />
+            <MemoInput Value="@Source" ValueChanged="@OnSourceChanged" Placeholder="CSV text, file path, or URL" Disabled="@(Context?.Disabled == true)" Size="Size.Small" Rows="5" />
         </FieldBody>
     </Field>
 
     <Field Horizontal>
         <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Encoding</FieldLabel>
         <FieldBody ColumnSize="ColumnSize.Is8">
-            <Select TValue="string" Value="@SelectedEncoding" ValueChanged="@OnEncodingChanged" Size="Size.Small">
+            <Select TValue="string" Value="@SelectedEncoding" ValueChanged="@OnEncodingChanged" Disabled="@(Context?.Disabled == true)" Size="Size.Small">
                 @foreach ( CsvReportDataSourceEditorOption option in EncodingOptions )
                 {
                     <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
@@ -49,7 +50,7 @@
         <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Separator</FieldLabel>
         <FieldBody ColumnSize="ColumnSize.Is8">
             <Div Flex="Flex.Row" Gap="Gap.Is2">
-                <Select TValue="string" Value="@SelectedDelimiter" ValueChanged="@OnDelimiterChanged" Size="Size.Small">
+                <Select TValue="string" Value="@SelectedDelimiter" ValueChanged="@OnDelimiterChanged" Disabled="@(Context?.Disabled == true)" Size="Size.Small">
                     @foreach ( CsvReportDataSourceEditorOption option in DelimiterOptions )
                     {
                         <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
@@ -57,7 +58,7 @@
                 </Select>
                 @if ( IsCustomDelimiter )
                 {
-                    <TextInput Value="@CustomDelimiter" ValueChanged="@OnCustomDelimiterChanged" Size="Size.Small" />
+                    <TextInput Value="@CustomDelimiter" ValueChanged="@OnCustomDelimiterChanged" Disabled="@(Context?.Disabled == true)" Size="Size.Small" />
                 }
             </Div>
         </FieldBody>
@@ -66,7 +67,7 @@
     <Field Horizontal>
         <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Header row</FieldLabel>
         <FieldBody ColumnSize="ColumnSize.Is8">
-            <Check TValue="bool" Value="@HasHeaderRow" ValueChanged="@OnHasHeaderRowChanged">First row contains field names</Check>
+            <Check TValue="bool" Value="@HasHeaderRow" ValueChanged="@OnHasHeaderRowChanged" Disabled="@(Context?.Disabled == true)">First row contains field names</Check>
         </FieldBody>
     </Field>
 </Div>

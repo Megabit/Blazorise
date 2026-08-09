@@ -2,6 +2,7 @@
   "culture": "hr",
   "translations": {
     "{0} - {1} of {2} items": "{0} - {1} od {2} stavki",
+    "{0} failed.": "Neuspjeh operacije {0}.",
     "{0} failed: {1}": "Neuspjeh operacije {0}: {1}",
     "{0} report element": "Element izvještaja: {0}",
     "{0} settings": "Postavke: {0}",

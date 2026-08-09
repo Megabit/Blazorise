@@ -7,8 +7,8 @@
 </ModalHeader>
 <ModalBody>
     <Buttons Margin="MarginIs3FromBottom" Size="Size.Small">
-        <Button Color="Color.Primary" Outline Active="@(!IsEditingDataSource)" Clicked="@SelectNewDataSource">@Localize( "New data source" )</Button>
-        <Button Color="Color.Primary" Outline Active="@IsEditingDataSource" Clicked="@SelectExistingDataSource" Disabled="@(dataSources.Count == 0)">@Localize( "Existing data source" )</Button>
+        <Button Color="Color.Primary" Outline Active="@(!IsEditingDataSource)" Clicked="@SelectNewDataSource" Disabled="@IsConnecting">@Localize( "New data source" )</Button>
+        <Button Color="Color.Primary" Outline Active="@IsEditingDataSource" Clicked="@SelectExistingDataSource" Disabled="@(dataSources.Count == 0 || IsConnecting)">@Localize( "Existing data source" )</Button>
     </Buttons>
 
     @if ( IsEditingDataSource )
@@ -16,7 +16,7 @@
         <Field Horizontal>
             <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Existing data source" )</FieldLabel>
             <FieldBody ColumnSize="ColumnSizeIs8">
-                <Select TValue="string" Value="@selectedDataSourceId" ValueChanged="@OnSelectedDataSourceChanged" Size="Size.Small">
+                <Select TValue="string" Value="@selectedDataSourceId" ValueChanged="@OnSelectedDataSourceChanged" Disabled="@IsConnecting" Size="Size.Small">
                     @foreach ( ReportDataSourceDefinition dataSource in dataSources )
                     {
                         <SelectItem TValue="string" Value="@dataSource.Id">@GetDataSourceDisplayName( dataSource )</SelectItem>
@@ -29,7 +29,7 @@
     <Field Horizontal>
         <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Provider" )</FieldLabel>
         <FieldBody ColumnSize="ColumnSizeIs8">
-            <Select TValue="string" Value="@selectedProviderType" ValueChanged="@OnSelectedProviderChanged" Size="Size.Small">
+            <Select TValue="string" Value="@selectedProviderType" ValueChanged="@OnSelectedProviderChanged" Disabled="@IsConnecting" Size="Size.Small">
                 @foreach ( IReportDataSourceProvider provider in providers )
                 {
                     <SelectItem TValue="string" Value="@provider.Type">@provider.DisplayName</SelectItem>
@@ -51,7 +51,7 @@
     <Field Horizontal>
         <FieldLabel ColumnSize="ColumnSizeIs4" TextSize="TextSizeSmall">@Localize( "Name" )</FieldLabel>
         <FieldBody ColumnSize="ColumnSizeIs8">
-            <TextInput Value="@name" ValueChanged="@OnNameChanged" Size="Size.Small" />
+            <TextInput Value="@name" ValueChanged="@OnNameChanged" Disabled="@IsConnecting" Size="Size.Small" />
         </FieldBody>
     </Field>
 
@@ -68,7 +68,7 @@
         {
             <Button Color="Color.Primary" Outline Clicked="@TestConnection" Disabled="@(!CanConfirm || IsConnecting)" Loading="@IsTestingConnection" Size="Size.Small">@Localize( "Test Connection" )</Button>
         }
-        <Div Display="DisplayFlex" Gap="GapIs2">
+        <Div Flex="FlexRow" Gap="GapIs2">
             <Button Color="Color.Primary" Clicked="@Confirm" Disabled="@(!CanConfirm || IsConnecting)" Loading="@IsCommittingConnection" Size="Size.Small">@ConfirmCaption</Button>
             <Button Color="Color.Light" Clicked="@Close" Disabled="@IsConnecting" Size="Size.Small">@Localize( "Cancel" )</Button>
         </Div>

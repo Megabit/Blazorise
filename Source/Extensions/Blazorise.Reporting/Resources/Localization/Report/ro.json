@@ -2,6 +2,7 @@
   "culture": "ro",
   "translations": {
     "{0} - {1} of {2} items": "{0} - {1} din {2} elemente",
+    "{0} failed.": "{0} a eșuat.",
     "Add Child": "Adaugă subsarcină",
     "Add page": "Adaugă pagină",
     "Add Task": "Adaugă sarcină",

@@ -470,7 +470,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         }
         catch ( Exception exception )
         {
-            await NotifyOperationFailed( operationName, exception );
+            await NotifyOperationFailed( operationName, exception, includeExceptionDetails: false );
             return false;
         }
         finally
@@ -3258,9 +3258,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         WarningsChanged?.Invoke();
     }
 
-    private async Task NotifyOperationFailed( string operation, Exception exception )
+    private async Task NotifyOperationFailed( string operation, Exception exception, bool includeExceptionDetails = true )
     {
-        string message = Localize( "{0} failed: {1}", operation, exception.Message );
+        string message = includeExceptionDetails
+            ? Localize( "{0} failed: {1}", operation, exception.Message )
+            : Localize( "{0} failed.", operation );
 
         Logger?.LogError( exception, "Report operation {Operation} failed.", operation );
         operationWarning = new( message, [] );

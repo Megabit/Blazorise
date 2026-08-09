@@ -2,6 +2,7 @@
   "culture": "da",
   "translations": {
     "{0} - {1} of {2} items": "{0} - {1} af {2} poster",
+    "{0} failed.": "{0} mislykkedes.",
     "Add Child": "Tilføj underopgave",
     "Add page": "Tilføj side",
     "Add Task": "Tilføj opgave",

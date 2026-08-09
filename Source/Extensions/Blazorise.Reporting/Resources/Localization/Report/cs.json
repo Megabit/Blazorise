@@ -2,6 +2,7 @@
   "culture": "cs",
   "translations": {
     "{0} - {1} of {2} items": "{0} – {1} z {2} položek",
+    "{0} failed.": "Operace {0} se nezdařila.",
     "Add Child": "Přidat podúkol",
     "Add page": "Přidat stránku",
     "Add Task": "Přidat úkol",

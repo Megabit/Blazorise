@@ -2,6 +2,7 @@
   "culture": "sk",
   "translations": {
     "{0} - {1} of {2} items": "{0} - {1} z {2} položiek",
+    "{0} failed.": "Operácia {0} zlyhala.",
     "Add Child": "Pridať podúlohu",
     "Add page": "Pridať stránku",
     "Add Task": "Pridať úlohu",

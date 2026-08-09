@@ -2,6 +2,7 @@
   "culture": "es",
   "translations": {
     "{0} - {1} of {2} items": "{0} - {1} de {2} elementos",
+    "{0} failed.": "{0} ha fallado.",
     "Add Child": "Agregar subtarea",
     "Add page": "Agregar página",
     "Add Task": "Agregar tarea",

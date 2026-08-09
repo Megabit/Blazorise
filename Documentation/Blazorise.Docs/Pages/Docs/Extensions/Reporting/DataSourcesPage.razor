@@ -119,7 +119,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Registration">
-        The designer stores the complete absolute HTTP or HTTPS URL, including its path and query, in the report definition. Pre-registering endpoint names is not required. Use the optional <Code>ResourceAllowed</Code> callback when the application wants to restrict authors to particular hosts or paths. When it is omitted, server applications allow any public URL, while WebAssembly allows any otherwise valid URL subject to browser rules.
+        The designer stores the complete absolute HTTP or HTTPS URL, including its path and query, in the report definition. Pre-registering endpoint names is not required. Use the optional <Code>ResourceAllowed</Code> callback when the application wants to restrict authors to particular hosts or paths. When it is omitted, server applications allow any public URL, while WebAssembly allows any otherwise valid URL subject to browser rules. Public or anonymously accessible server-side designers should always configure an allowlist; the Blazorise documentation site limits its live example to <Code>dummyjson.com</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ReportingWebApiDataSourceRegistrationExample" />
 </DocsPageSection>
@@ -130,7 +130,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Response data">
-        Use <Code>auto</Code> to select a reader from the response content type and content, or select a registered format explicitly. The JSON reader accepts an optional RFC 6901 JSON Pointer such as <Code>/items</Code>. The XML reader accepts an XPath element selector such as <Code>/orders/order</Code>. <Code>Connect</Code> infers the selected data schema and closes the dialog only when the request succeeds.
+        Use <Code>auto</Code> to select a reader from the response content type and content, or select a registered format explicitly. The JSON reader accepts an optional RFC 6901 JSON Pointer such as <Code>/items</Code>. The XML reader accepts an XPath element selector such as <Code>/orders/order</Code>. <Code>Connect</Code> infers the selected data schema and closes the dialog only when the request succeeds. While the request is pending, settings and modal dismissal are disabled so the exact definition being validated is committed on success. Changing a setting clears the previous connection result.
     </DocsPageSectionHeader>
 </DocsPageSection>
 
@@ -196,12 +196,12 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Security model">
-        SQL settings are part of the report definition and editable reports must be treated as untrusted input. The policy is evaluated for both schema discovery and preview data loading before a connection is opened. SQL data sources provide a <Code>Test Connection</Code> action that runs server-side schema resolution without changing the report, while <Code>Connect</Code> or <Code>Save changes</Code> closes the dialog and commits the connection only after validation succeeds. A denied or failed designer connection remains open and is not committed, and editing an existing connection preserves its previous settings when validation fails. This fail-closed design prevents a modified or uploaded report definition from selecting an arbitrary connection string or executing an unapproved command. Connection names are also resolved only from the factories registered by the host application.
+        SQL settings are part of the report definition and editable reports must be treated as untrusted input. The policy is evaluated for both schema discovery and preview data loading before a connection is opened. SQL data sources provide a <Code>Test Connection</Code> action that runs server-side schema resolution without changing the report, while <Code>Connect</Code> or <Code>Save changes</Code> closes the dialog and commits the connection only after validation succeeds. A denied or failed designer connection remains open and is not committed, and editing an existing connection preserves its previous settings when validation fails. Settings and modal dismissal are disabled during validation so the exact tested definition is the one that can be committed. This fail-closed design prevents a modified or uploaded report definition from selecting an arbitrary connection string or executing an unapproved command. Connection names are also resolved only from the factories registered by the host application.
     </DocsPageSectionHeader>
 </DocsPageSection>
 
 <DocsPageParagraph>
-    The allowlist complements database security rather than replacing it. Use a dedicated read-only database identity with access only to reporting views or reporting data, keep dangerous database extensions and operating-system integration disabled, authenticate and authorize access to the report designer, and avoid exposing detailed database errors to the browser. The SQL provider does not add parameters to report queries, so never concatenate user input into the query text.
+    The allowlist complements database security rather than replacing it. Use a dedicated read-only database identity with access only to reporting views or reporting data, keep dangerous database extensions and operating-system integration disabled, and authenticate and authorize access to the report designer. Data-source failures display a generic warning; the full exception is written to the application logger and supplied to <Code>OperationFailed</Code> for trusted server-side handling. The SQL provider does not add parameters to report queries, so never concatenate user input into the query text.
 </DocsPageParagraph>
 
 <DocsPageSection>

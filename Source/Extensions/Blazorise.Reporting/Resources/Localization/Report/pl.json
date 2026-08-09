@@ -2,6 +2,7 @@
   "culture": "pl",
   "translations": {
     "{0} - {1} of {2} items": "{0} - {1} z {2} wierszy",
+    "{0} failed.": "Operacja {0} nie powiodła się.",
     "Add Child": "Dodaj podzadanie",
     "Add page": "Dodaj stronę",
     "Add Task": "Dodaj zadanie",

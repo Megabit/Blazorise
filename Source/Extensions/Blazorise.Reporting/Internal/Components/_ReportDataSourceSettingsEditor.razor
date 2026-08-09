@@ -10,15 +10,15 @@
     @foreach ( ReportDataSourceSettingItem setting in settings )
     {
         <Div @key="setting.Id" Flex="FlexRow" Gap="GapIs2">
-            <TextInput Value="@setting.Key" ValueChanged="@(( string value ) => OnSettingKeyChanged( setting, value ))" Placeholder="@Localize( "Key" )" Size="Size.Small" />
-            <TextInput Value="@setting.Value" ValueChanged="@(( string value ) => OnSettingValueChanged( setting, value ))" Placeholder="@Localize( "Value" )" Size="Size.Small" />
-            <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => RemoveSetting( setting ))" Size="Size.Small" title="@Localize( "Remove setting" )" aria-label="@Localize( "Remove setting" )">
+            <TextInput Value="@setting.Key" ValueChanged="@(( string value ) => OnSettingKeyChanged( setting, value ))" Placeholder="@Localize( "Key" )" Disabled="@(Context?.Disabled == true)" Size="Size.Small" />
+            <TextInput Value="@setting.Value" ValueChanged="@(( string value ) => OnSettingValueChanged( setting, value ))" Placeholder="@Localize( "Value" )" Disabled="@(Context?.Disabled == true)" Size="Size.Small" />
+            <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => RemoveSetting( setting ))" Disabled="@(Context?.Disabled == true)" Size="Size.Small" title="@Localize( "Remove setting" )" aria-label="@Localize( "Remove setting" )">
                 <Icon Name="@IconName.Delete" />
             </Button>
         </Div>
     }
     <Div>
-        <Button Color="Color.Light" Clicked="@AddSetting" Size="Size.Small">
+        <Button Color="Color.Light" Clicked="@AddSetting" Disabled="@(Context?.Disabled == true)" Size="Size.Small">
             <Icon Name="@IconName.Add" Margin="MarginIs1FromEnd" />
             @Localize( "Add setting" )
         </Button>

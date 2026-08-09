@@ -2,6 +2,7 @@
   "culture": "it",
   "translations": {
     "{0} - {1} of {2} items": "{0} - {1} di {2} articoli",
+    "{0} failed.": "{0} non riuscito.",
     "Add Child": "Aggiungi sottoattività",
     "Add page": "Aggiungi pagina",
     "Add Task": "Aggiungi attività",

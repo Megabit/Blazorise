@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
@@ -20,6 +21,16 @@ namespace Blazorise.Reporting.DataSources.WebApi;
 public sealed class XmlReportWebApiResponseReader : IReportWebApiResponseReader
 {
     #region Members
+
+    private static readonly byte[] Utf8Preamble = Encoding.UTF8.GetPreamble();
+
+    private static readonly byte[] Utf16LittleEndianPreamble = Encoding.Unicode.GetPreamble();
+
+    private static readonly byte[] Utf16BigEndianPreamble = Encoding.BigEndianUnicode.GetPreamble();
+
+    private static readonly byte[] Utf32LittleEndianPreamble = Encoding.UTF32.GetPreamble();
+
+    private static readonly byte[] Utf32BigEndianPreamble = new UTF32Encoding( bigEndian: true, byteOrderMark: true ).GetPreamble();
 
     private readonly WebApiReportDataSourceOptions options;
 
@@ -48,12 +59,59 @@ public sealed class XmlReportWebApiResponseReader : IReportWebApiResponseReader
                   || mediaType.EndsWith( "+xml", StringComparison.OrdinalIgnoreCase ) ) )
             return true;
 
-        foreach ( byte value in content.Span )
+        ReadOnlySpan<byte> bytes = content.Span;
+
+        if ( bytes.StartsWith( Utf32LittleEndianPreamble ) )
+            return StartsWithUtf32XmlCharacter( bytes[Utf32LittleEndianPreamble.Length..], littleEndian: true );
+        else if ( bytes.StartsWith( Utf32BigEndianPreamble ) )
+            return StartsWithUtf32XmlCharacter( bytes[Utf32BigEndianPreamble.Length..], littleEndian: false );
+        else if ( bytes.StartsWith( Utf8Preamble ) )
+            bytes = bytes[Utf8Preamble.Length..];
+        else if ( bytes.StartsWith( Utf16LittleEndianPreamble ) )
+            return StartsWithUtf16XmlCharacter( bytes[Utf16LittleEndianPreamble.Length..], littleEndian: true );
+        else if ( bytes.StartsWith( Utf16BigEndianPreamble ) )
+            return StartsWithUtf16XmlCharacter( bytes[Utf16BigEndianPreamble.Length..], littleEndian: false );
+
+        foreach ( byte value in bytes )
         {
             if ( char.IsWhiteSpace( (char)value ) )
                 continue;
 
             return value == (byte)'<';
+        }
+
+        return false;
+    }
+
+    private static bool StartsWithUtf32XmlCharacter( ReadOnlySpan<byte> content, bool littleEndian )
+    {
+        for ( int index = 0; index + 3 < content.Length; index += 4 )
+        {
+            uint value = littleEndian
+                ? (uint)( content[index] | content[index + 1] << 8 | content[index + 2] << 16 | content[index + 3] << 24 )
+                : (uint)( content[index] << 24 | content[index + 1] << 16 | content[index + 2] << 8 | content[index + 3] );
+
+            if ( value <= char.MaxValue && char.IsWhiteSpace( (char)value ) )
+                continue;
+
+            return value == '<';
+        }
+
+        return false;
+    }
+
+    private static bool StartsWithUtf16XmlCharacter( ReadOnlySpan<byte> content, bool littleEndian )
+    {
+        for ( int index = 0; index + 1 < content.Length; index += 2 )
+        {
+            char value = littleEndian
+                ? (char)( content[index] | content[index + 1] << 8 )
+                : (char)( content[index] << 8 | content[index + 1] );
+
+            if ( char.IsWhiteSpace( value ) )
+                continue;
+
+            return value == '<';
         }
 
         return false;

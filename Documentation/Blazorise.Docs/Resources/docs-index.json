@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-09T05:57:47.1878255Z",
+  "generatedUtc": "2026-08-09T10:34:19.3572210Z",
   "pages": [
     {
       "route": "/docs",
@@ -7750,9 +7750,9 @@
           "code": "ReportingWebApiDataSourceRegistrationExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingWebApiDataSourceRegistrationExample.snippet",
-          "content": "using Blazorise.Reporting.DataSources.WebApi;\r\n\r\nbuilder.Services\r\n    .AddBlazorise()\r\n    .AddBlazoriseReporting()\r\n    .AddBlazoriseReportingWebApiDataSource( configureOptions: options =>\r\n    {\r\n        // Optional: omit this callback to allow any public HTTP or HTTPS URL.\r\n        options.ResourceAllowed = uri =>\r\n            uri.Scheme == Uri.UriSchemeHttps\r\n                && string.Equals( uri.Host, \"dummyjson.com\", StringComparison.OrdinalIgnoreCase );\r\n        options.MaximumResponseSize = 5 * 1024 * 1024;\r\n        options.RequestTimeout = TimeSpan.FromSeconds( 30 );\r\n    } );",
+          "content": "using Blazorise.Reporting.DataSources.WebApi;\r\n\r\nbuilder.Services\r\n    .AddBlazorise()\r\n    .AddBlazoriseReporting()\r\n    .AddBlazoriseReportingWebApiDataSource( configureOptions: options =>\r\n    {\r\n        // Optional: omit this callback to allow any public HTTP or HTTPS URL.\r\n        options.ResourceAllowed = uri =>\r\n            uri.Scheme == Uri.UriSchemeHttps\r\n                && uri.IsDefaultPort\r\n                && string.Equals( uri.Host, \"dummyjson.com\", StringComparison.OrdinalIgnoreCase );\r\n        options.MaximumResponseSize = 5 * 1024 * 1024;\r\n        options.RequestTimeout = TimeSpan.FromSeconds( 30 );\r\n    } );",
           "title": "Registration",
-          "description": "The designer stores the complete absolute HTTP or HTTPS URL, including its path and query, in the report definition. Pre-registering endpoint names is not required. Use the optional ResourceAllowed callback when the application wants to restrict authors to particular hosts or paths. When it is omitted, server applications allow any public URL, while WebAssembly allows any otherwise valid URL subject to browser rules."
+          "description": "The designer stores the complete absolute HTTP or HTTPS URL, including its path and query, in the report definition. Pre-registering endpoint names is not required. Use the optional ResourceAllowed callback when the application wants to restrict authors to particular hosts or paths. When it is omitted, server applications allow any public URL, while WebAssembly allows any otherwise valid URL subject to browser rules. Public or anonymously accessible server-side designers should always configure an allowlist; the Blazorise documentation site limits its live example to dummyjson.com ."
         },
         {
           "code": "ReportingWebApiDataSourceExample",

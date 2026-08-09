@@ -80,7 +80,12 @@ public class Startup
             .AddBlazorisePdfHttpResources()
             .AddBlazoriseReportingCsvDataSource()
             .AddBlazoriseReportingSqlDataSource()
-            .AddBlazoriseReportingWebApiDataSource()
+            .AddBlazoriseReportingWebApiDataSource( configureOptions: options =>
+            {
+                options.ResourceAllowed = uri => uri.Scheme == Uri.UriSchemeHttps
+                    && uri.IsDefaultPort
+                    && string.Equals( uri.Host, "dummyjson.com", StringComparison.OrdinalIgnoreCase );
+            } )
             .AddBlazoriseRouterTabs();
 
         services.Configure<BlogOptions>( Configuration.GetSection( "Blog" ) );

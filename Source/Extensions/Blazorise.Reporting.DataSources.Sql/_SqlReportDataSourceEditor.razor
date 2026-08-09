@@ -6,7 +6,7 @@
     <Field Horizontal>
         <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Connection</FieldLabel>
         <FieldBody ColumnSize="ColumnSize.Is8">
-            <Select TValue="string" Value="@ConnectionName" ValueChanged="@OnConnectionNameChanged" Disabled="@(ConnectionNames.Count == 0)" Size="Size.Small">
+            <Select TValue="string" Value="@ConnectionName" ValueChanged="@OnConnectionNameChanged" Disabled="@(ConnectionNames.Count == 0 || Context?.Disabled == true)" Size="Size.Small">
                 @foreach ( string connectionName in ConnectionNames )
                 {
                     <SelectItem TValue="string" Value="@connectionName">@connectionName</SelectItem>
@@ -18,14 +18,14 @@
     <Field Horizontal>
         <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Query</FieldLabel>
         <FieldBody ColumnSize="ColumnSize.Is8">
-            <MemoInput Value="@Query" ValueChanged="@OnQueryChanged" Size="Size.Small" Rows="6" />
+            <MemoInput Value="@Query" ValueChanged="@OnQueryChanged" Disabled="@(Context?.Disabled == true)" Size="Size.Small" Rows="6" />
         </FieldBody>
     </Field>
 
     <Field Horizontal>
         <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Timeout</FieldLabel>
         <FieldBody ColumnSize="ColumnSize.Is8">
-            <NumericInput TValue="int?" Value="@CommandTimeout" ValueChanged="@OnCommandTimeoutChanged" Size="Size.Small" />
+            <NumericInput TValue="int?" Value="@CommandTimeout" ValueChanged="@OnCommandTimeoutChanged" Disabled="@(Context?.Disabled == true)" Size="Size.Small" />
         </FieldBody>
     </Field>
 </Div>
