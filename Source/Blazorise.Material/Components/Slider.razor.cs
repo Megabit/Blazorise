@@ -10,7 +10,37 @@ namespace Blazorise.Material.Components;
 
 public partial class Slider<TValue> : Blazorise.Slider<TValue>
 {
+    #region Members
+
+    private readonly ClassBuilder sliderContainerClassBuilder;
+
+    private readonly StyleBuilder sliderContainerStyleBuilder;
+
+    #endregion
+
+    #region Constructors
+
+    public Slider()
+    {
+        sliderContainerClassBuilder = new( BuildSliderContainerClasses, builder => builder.Append( Classes?.Wrapper ) );
+        sliderContainerStyleBuilder = new( BuildSliderContainerStyles, builder => builder.Append( Styles?.Wrapper ) );
+    }
+
+    #endregion
+
     #region Methods
+
+    private void BuildSliderContainerClasses( ClassBuilder builder )
+    {
+        builder.Append( "mui-slider-container" );
+        AppendWrapperUtilities( builder );
+    }
+
+    private void BuildSliderContainerStyles( StyleBuilder builder )
+    {
+        builder.Append( $"--mui-slider-percent: {SliderPercent}" );
+        AppendWrapperUtilities( builder );
+    }
 
     protected override void BuildClasses( ClassBuilder builder )
     {
@@ -25,6 +55,20 @@ public partial class Slider<TValue> : Blazorise.Slider<TValue>
         builder.Append( $"--mui-slider-percent: {SliderPercent}" );
 
         base.BuildStyles( builder );
+    }
+
+    protected internal override void DirtyClasses()
+    {
+        sliderContainerClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    protected internal override void DirtyStyles()
+    {
+        sliderContainerStyleBuilder.Dirty();
+
+        base.DirtyStyles();
     }
 
     protected override async Task OnAfterSetParametersAsync( ParameterView parameters )
@@ -84,7 +128,9 @@ public partial class Slider<TValue> : Blazorise.Slider<TValue>
 
     #region Properties
 
-    protected string SliderContainerStyle => $"--mui-slider-percent: {SliderPercent}";
+    protected string SliderContainerClassNames => sliderContainerClassBuilder.Class;
+
+    protected string SliderContainerStyleNames => sliderContainerStyleBuilder.Styles;
 
     protected string SliderDisplayValue => CurrentValueAsString;
 
