@@ -10,9 +10,8 @@ public partial class FileInput
 
     public FileInput()
     {
-        InputClassBuilder = new ClassBuilder( BuildInputClasses, builder => builder.Append( Classes?.Wrapper ) );
+        InputClassBuilder = new ClassBuilder( BuildInputClasses );
         AddonClassBuilder = new ClassBuilder( BuildAddonClasses );
-        WrapperStyleBuilder = new StyleBuilder( BuildWrapperStyles, builder => builder.Append( Styles?.Wrapper ) );
     }
 
     #endregion
@@ -25,13 +24,6 @@ public partial class FileInput
         AddonClassBuilder.Dirty();
 
         base.DirtyClasses();
-    }
-
-    protected internal override void DirtyStyles()
-    {
-        WrapperStyleBuilder.Dirty();
-
-        base.DirtyStyles();
     }
 
     private void BuildInputClasses( ClassBuilder builder )
@@ -61,19 +53,13 @@ public partial class FileInput
             builder.Append( "disabled" );
         }
 
-        AppendWrapperUtilities( builder );
+        builder.Append( WrapperClassNames );
     }
 
     private void BuildAddonClasses( ClassBuilder builder )
     {
         builder.Append( "fui-Input__content" );
-        builder.Append( Classes?.Wrapper );
-        AppendWrapperUtilities( builder );
-    }
-
-    private void BuildWrapperStyles( StyleBuilder builder )
-    {
-        AppendWrapperUtilities( builder );
+        builder.Append( WrapperClassNames );
     }
 
     #endregion
@@ -84,13 +70,9 @@ public partial class FileInput
 
     protected ClassBuilder AddonClassBuilder { get; private set; }
 
-    protected StyleBuilder WrapperStyleBuilder { get; private set; }
-
     protected string InputClassNames => InputClassBuilder.Class;
 
     protected string AddonClassNames => AddonClassBuilder.Class;
-
-    protected string WrapperStyleNames => WrapperStyleBuilder.Styles;
 
     #endregion
 }
