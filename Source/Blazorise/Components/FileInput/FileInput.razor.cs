@@ -33,6 +33,19 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
 
     #endregion
 
+    #region Constructors
+
+    /// <summary>
+    /// Default <see cref="FileInput"/> constructor.
+    /// </summary>
+    public FileInput()
+    {
+        WrapperClassBuilder = new( BuildWrapperClasses, builder => builder.Append( Classes?.Wrapper ) );
+        WrapperStyleBuilder = new( BuildWrapperStyles, builder => builder.Append( Styles?.Wrapper ) );
+    }
+
+    #endregion
+
     #region Methods
 
     /// <summary>
@@ -41,6 +54,40 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
     /// <returns></returns>
     internal (double Progress, long ProgressProgress, long ProgressTotal) GetCurrentProgress()
         => (Progress, ProgressProgress, ProgressTotal);
+
+    /// <summary>
+    /// Builds the class names for the wrapper element.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the class names.</param>
+    protected virtual void BuildWrapperClasses( ClassBuilder builder )
+    {
+        AppendWrapperUtilities( builder );
+    }
+
+    /// <summary>
+    /// Builds the styles for the wrapper element.
+    /// </summary>
+    /// <param name="builder">Style builder used to append the styles.</param>
+    protected virtual void BuildWrapperStyles( StyleBuilder builder )
+    {
+        AppendWrapperUtilities( builder );
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        WrapperClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyStyles()
+    {
+        WrapperStyleBuilder.Dirty();
+
+        base.DirtyStyles();
+    }
 
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
@@ -277,6 +324,26 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Gets the class builder for the wrapper element.
+    /// </summary>
+    protected ClassBuilder WrapperClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Gets the style builder for the wrapper element.
+    /// </summary>
+    protected StyleBuilder WrapperStyleBuilder { get; private set; }
+
+    /// <summary>
+    /// Gets the class names for the wrapper element.
+    /// </summary>
+    protected string WrapperClassNames => WrapperClassBuilder.Class;
+
+    /// <summary>
+    /// Gets the styles for the wrapper element.
+    /// </summary>
+    protected string WrapperStyleNames => WrapperStyleBuilder.Styles;
 
     /// <summary>
     /// Number of processed bytes in current file.
