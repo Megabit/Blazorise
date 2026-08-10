@@ -850,6 +850,9 @@
 .b-report-element-design.b-report-element-design-disabled {
   cursor: default;
 }
+.b-report-element-design.b-report-element-design-pointer-focused {
+  outline: none;
+}
 .b-report-element-design * {
   pointer-events: none;
 }

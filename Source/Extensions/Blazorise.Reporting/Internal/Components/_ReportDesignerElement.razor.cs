@@ -23,6 +23,7 @@ public partial class _ReportDesignerElement
     private bool textEditCancelled;
     private bool focusTextEdit;
     private bool textExpressionTokenProtectionActive;
+    private bool pointerInteraction;
     private JSReportingModule reportingModule;
 
     #endregion
@@ -128,6 +129,7 @@ public partial class _ReportDesignerElement
         builder.Append( "b-report-element-design-active", DesignMode && Selected );
         builder.Append( "b-report-element-design-colliding", DesignMode && Colliding );
         builder.Append( "b-report-element-design-editing", IsDesignerEditing );
+        builder.Append( "b-report-element-design-pointer-focused", DesignMode && pointerInteraction );
 
         base.BuildClasses( builder );
     }
@@ -244,6 +246,12 @@ public partial class _ReportDesignerElement
         } ) );
     }
 
+    private void OnBlur( FocusEventArgs eventArgs )
+    {
+        pointerInteraction = false;
+        DirtyClasses();
+    }
+
     private Task OnDoubleClicked( MouseEventArgs eventArgs )
     {
         if ( CanReceiveDesignerInteraction && DoubleClicked is not null )
@@ -255,7 +263,11 @@ public partial class _ReportDesignerElement
     private Task OnPointerDown( PointerEventArgs eventArgs )
     {
         if ( CanHandleDesignerPointerDown && PointerDown is not null )
+        {
+            pointerInteraction = true;
+            DirtyClasses();
             return PointerDown.Invoke( ElementKey, eventArgs );
+        }
 
         return Task.CompletedTask;
     }

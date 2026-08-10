@@ -20,6 +20,10 @@
             cursor: default;
         }
 
+        &.b-report-element-design-pointer-focused {
+            outline: none;
+        }
+
         * {
             pointer-events: none;
         }

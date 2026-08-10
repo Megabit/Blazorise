@@ -26,6 +26,7 @@
      @oncontextmenu:stopPropagation="@CanReceiveDesignerInteraction"
      @onkeydown="OnKeyDown"
      @onkeydown:stopPropagation="@CanReceiveDesignerInteraction"
+     @onblur="OnBlur"
      @onpointerdown="NonRenderingPointerDown"
      @onpointerdown:preventDefault="@CanStartDesignerPointerDrag"
      @onpointerdown:stopPropagation="@ShouldStopPointerDownPropagation">
