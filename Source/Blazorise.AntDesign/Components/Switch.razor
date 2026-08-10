@@ -46,11 +46,13 @@
         builder.Append( "b-ant-switch-wrapper" );
         builder.Append( IsDisabled ? "b-ant-switch-wrapper-disabled" : null );
         builder.Append( Classes?.Wrapper );
+        AppendWrapperUtilities( builder );
     }
 
     private void BuildWrapperStyles( StyleBuilder builder )
     {
         builder.Append( Styles?.Wrapper );
+        AppendWrapperUtilities( builder );
     }
 
     async Task HandleButtonClick()
