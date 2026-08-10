@@ -260,6 +260,9 @@ public partial class _ReportDesignerElement
         return Task.CompletedTask;
     }
 
+    private Func<PointerEventArgs, Task> NonRenderingPointerDown
+        => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerDown );
+
     private Task OnResizeStarted( int handle, PointerEventArgs eventArgs )
     {
         if ( ShowResizeHandles && ResizeStarted is not null )
