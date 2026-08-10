@@ -149,9 +149,7 @@
                                     }
                                     else
                                     {
-                                        <DynamicComponent @key="@property.Key"
-                                                          Type="@property.AtomicComponentType"
-                                                          Parameters="@GetAtomicComponentParameters( property, selected, ariaDescribedBy )" />
+                                        @RenderAtomicComponent( property, selected, ariaDescribedBy )
                                     }
                                 }
                             }

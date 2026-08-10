@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
 namespace Blazorise;
@@ -28,16 +29,12 @@ public abstract class PropertyGridProperty
 
     internal abstract object CreateValueChangedCallback( PropertyGridView owner );
 
-    internal virtual void AddAtomicComponentParameters( IDictionary<string, object> parameters )
-    {
-    }
+    internal virtual void RenderAtomicComponent( RenderTreeBuilder builder, PropertyGridView owner, bool selected, string ariaDescribedBy )
+        => throw new InvalidOperationException( $"Property '{GetType().FullName}' requires an editor or item template." );
 
     #endregion
 
     #region Properties
-
-    internal virtual Type AtomicComponentType
-        => throw new InvalidOperationException( $"Property '{GetType().FullName}' requires an editor or item template." );
 
     internal virtual PropertyGridEditorType EditorType => PropertyGridEditorType.None;
 

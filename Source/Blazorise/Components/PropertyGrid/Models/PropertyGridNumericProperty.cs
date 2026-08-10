@@ -1,6 +1,5 @@
 #region Using directives
-using System;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
 namespace Blazorise;
@@ -24,19 +23,20 @@ public sealed class PropertyGridNumericProperty<TValue> : PropertyGridProperty<T
 
     #region Methods
 
-    internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
+    internal override void RenderAtomicComponent( RenderTreeBuilder builder, PropertyGridView owner, bool selected, string ariaDescribedBy )
     {
-        parameters[nameof( PropertyGridNumericItem<TValue>.Min )] = Min;
-        parameters[nameof( PropertyGridNumericItem<TValue>.Max )] = Max;
-        parameters[nameof( PropertyGridNumericItem<TValue>.Step )] = Step;
-        parameters[nameof( PropertyGridNumericItem<TValue>.Immediate )] = Immediate;
+        builder.OpenComponent<PropertyGridNumericItem<TValue>>( 0 );
+        owner.AddAtomicComponentParameters( builder, this, selected, ariaDescribedBy );
+        builder.AddAttribute( 15, nameof( PropertyGridNumericItem<TValue>.Min ), Min );
+        builder.AddAttribute( 16, nameof( PropertyGridNumericItem<TValue>.Max ), Max );
+        builder.AddAttribute( 17, nameof( PropertyGridNumericItem<TValue>.Step ), Step );
+        builder.AddAttribute( 18, nameof( PropertyGridNumericItem<TValue>.Immediate ), Immediate );
+        builder.CloseComponent();
     }
 
     #endregion
 
     #region Properties
-
-    internal override Type AtomicComponentType => typeof( PropertyGridNumericItem<TValue> );
 
     internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Numeric;
 

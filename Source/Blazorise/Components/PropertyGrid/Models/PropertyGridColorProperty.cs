@@ -1,6 +1,6 @@
 #region Using directives
-using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
 namespace Blazorise;
@@ -24,18 +24,19 @@ public sealed class PropertyGridColorProperty : PropertyGridProperty<string>
 
     #region Methods
 
-    internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
+    internal override void RenderAtomicComponent( RenderTreeBuilder builder, PropertyGridView owner, bool selected, string ariaDescribedBy )
     {
-        parameters[nameof( PropertyGridColorItem.NamedColors )] = NamedColors;
-        parameters[nameof( PropertyGridColorItem.Clearable )] = Clearable;
-        parameters[nameof( PropertyGridColorItem.ClearTitle )] = ClearTitle;
+        builder.OpenComponent<PropertyGridColorItem>( 0 );
+        owner.AddAtomicComponentParameters( builder, this, selected, ariaDescribedBy );
+        builder.AddAttribute( 15, nameof( PropertyGridColorItem.NamedColors ), NamedColors );
+        builder.AddAttribute( 16, nameof( PropertyGridColorItem.Clearable ), Clearable );
+        builder.AddAttribute( 17, nameof( PropertyGridColorItem.ClearTitle ), ClearTitle );
+        builder.CloseComponent();
     }
 
     #endregion
 
     #region Properties
-
-    internal override Type AtomicComponentType => typeof( PropertyGridColorItem );
 
     internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Color;
 
