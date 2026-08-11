@@ -1,6 +1,5 @@
 #region Using directives
-using System;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
 namespace Blazorise;
@@ -24,17 +23,18 @@ public sealed class PropertyGridBooleanProperty : PropertyGridProperty<bool>
 
     #region Methods
 
-    internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
+    internal override void RenderAtomicComponent( RenderTreeBuilder builder, PropertyGridView owner, bool selected, string ariaDescribedBy )
     {
-        parameters[nameof( PropertyGridBooleanItem.TrueText )] = TrueText;
-        parameters[nameof( PropertyGridBooleanItem.FalseText )] = FalseText;
+        builder.OpenComponent<PropertyGridBooleanItem>( 0 );
+        owner.AddAtomicComponentParameters( builder, this, selected, ariaDescribedBy );
+        builder.AddAttribute( 15, nameof( PropertyGridBooleanItem.TrueText ), TrueText );
+        builder.AddAttribute( 16, nameof( PropertyGridBooleanItem.FalseText ), FalseText );
+        builder.CloseComponent();
     }
 
     #endregion
 
     #region Properties
-
-    internal override Type AtomicComponentType => typeof( PropertyGridBooleanItem );
 
     internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Boolean;
 

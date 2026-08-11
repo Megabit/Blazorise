@@ -26,7 +26,8 @@
      @oncontextmenu:stopPropagation="@CanReceiveDesignerInteraction"
      @onkeydown="OnKeyDown"
      @onkeydown:stopPropagation="@CanReceiveDesignerInteraction"
-     @onpointerdown="OnPointerDown"
+     @onblur="OnBlur"
+     @onpointerdown="NonRenderingPointerDown"
      @onpointerdown:preventDefault="@CanStartDesignerPointerDrag"
      @onpointerdown:stopPropagation="@ShouldStopPointerDownPropagation">
     <div class="b-report-element-content">

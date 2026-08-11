@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
@@ -13,8 +14,6 @@ namespace Blazorise;
 public partial class PropertyGridView : BaseComponent
 {
     #region Members
-
-    private const int AtomicComponentParameterCapacity = 20;
 
     private PropertyGridToolbarContext toolbarContext;
 
@@ -148,29 +147,26 @@ public partial class PropertyGridView : BaseComponent
         };
     }
 
-    private IDictionary<string, object> GetAtomicComponentParameters( PropertyGridProperty property, bool selected, string ariaDescribedBy )
+    private RenderFragment RenderAtomicComponent( PropertyGridProperty property, bool selected, string ariaDescribedBy )
+        => builder => property.RenderAtomicComponent( builder, this, selected, ariaDescribedBy );
+
+    internal void AddAtomicComponentParameters<TValue>( RenderTreeBuilder builder, PropertyGridProperty<TValue> property, bool selected, string ariaDescribedBy )
     {
-        Dictionary<string, object> parameters = new( AtomicComponentParameterCapacity )
-        {
-            [nameof( PropertyGridItem.Label )] = property.Label,
-            [nameof( PropertyGridItem.Size )] = property.Size,
-            [nameof( PropertyGridItem.Class )] = property.Class,
-            [nameof( PropertyGridItem.Style )] = property.Style,
-            [nameof( BasePropertyGridEditorItem.Mixed )] = property.Mixed,
-            [nameof( BasePropertyGridEditorItem.LabelContent )] = GetLabelContent( property ),
-            [nameof( BasePropertyGridEditorItem.Selectable )] = true,
-            [nameof( BasePropertyGridEditorItem.Selected )] = selected,
-            [nameof( BasePropertyGridEditorItem.SelectedChanged )] = EventCallback.Factory.Create<bool>( this, value => value ? SelectPropertyAsync( property ) : Task.CompletedTask ),
-            [nameof( BasePropertyGridEditorItem.AriaDescribedBy )] = ariaDescribedBy,
-            [nameof( BasePropertyGridEditorItem.ActionContent )] = GetActionContent( property ),
-            [nameof( BasePropertyGridEditorItem.Attributes )] = property.Attributes,
-            ["Value"] = property.Value,
-            ["ValueChanged"] = property.CreateValueChangedCallback( this ),
-        };
-
-        property.AddAtomicComponentParameters( parameters );
-
-        return parameters;
+        builder.SetKey( property.Key );
+        builder.AddAttribute( 1, nameof( PropertyGridItem.Label ), property.Label );
+        builder.AddAttribute( 2, nameof( PropertyGridItem.Size ), property.Size );
+        builder.AddAttribute( 3, nameof( PropertyGridItem.Class ), property.Class );
+        builder.AddAttribute( 4, nameof( PropertyGridItem.Style ), property.Style );
+        builder.AddAttribute( 5, nameof( BasePropertyGridEditorItem.Mixed ), property.Mixed );
+        builder.AddAttribute( 6, nameof( BasePropertyGridEditorItem.LabelContent ), GetLabelContent( property ) );
+        builder.AddAttribute( 7, nameof( BasePropertyGridEditorItem.Selectable ), true );
+        builder.AddAttribute( 8, nameof( BasePropertyGridEditorItem.Selected ), selected );
+        builder.AddAttribute( 9, nameof( BasePropertyGridEditorItem.SelectedChanged ), EventCallback.Factory.Create<bool>( this, value => value ? SelectPropertyAsync( property ) : Task.CompletedTask ) );
+        builder.AddAttribute( 10, nameof( BasePropertyGridEditorItem.AriaDescribedBy ), ariaDescribedBy );
+        builder.AddAttribute( 11, nameof( BasePropertyGridEditorItem.ActionContent ), GetActionContent( property ) );
+        builder.AddAttribute( 12, nameof( BasePropertyGridEditorItem.Attributes ), property.Attributes );
+        builder.AddAttribute( 13, "Value", property.TypedValue );
+        builder.AddAttribute( 14, "ValueChanged", property.CreateValueChangedCallback( this ) );
     }
 
     private PropertyGridProperty GetSelectedProperty()

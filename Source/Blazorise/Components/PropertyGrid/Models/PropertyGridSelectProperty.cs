@@ -1,6 +1,6 @@
 #region Using directives
-using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
 namespace Blazorise;
@@ -26,14 +26,17 @@ public sealed class PropertyGridSelectProperty<TValue> : PropertyGridProperty<TV
 
     #region Methods
 
-    internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
-        => parameters[nameof( PropertyGridSelectItem<TValue>.Options )] = Options;
+    internal override void RenderAtomicComponent( RenderTreeBuilder builder, PropertyGridView owner, bool selected, string ariaDescribedBy )
+    {
+        builder.OpenComponent<PropertyGridSelectItem<TValue>>( 0 );
+        owner.AddAtomicComponentParameters( builder, this, selected, ariaDescribedBy );
+        builder.AddAttribute( 15, nameof( PropertyGridSelectItem<TValue>.Options ), Options );
+        builder.CloseComponent();
+    }
 
     #endregion
 
     #region Properties
-
-    internal override Type AtomicComponentType => typeof( PropertyGridSelectItem<TValue> );
 
     internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Select;
 
