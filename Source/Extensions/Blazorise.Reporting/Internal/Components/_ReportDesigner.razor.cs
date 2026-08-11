@@ -186,6 +186,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         parameters.TryGetParameter( Mode, out ComponentParameterInfo<ReportMode?> modeParameter );
         parameters.TryGetParameter( PreviewFormat, out ComponentParameterInfo<ReportPreviewFormat?> previewFormatParameter );
         parameters.TryGetParameter( BandMode, out ComponentParameterInfo<ReportBandMode> bandModeParameter );
+        parameters.TryGetParameter( ElementNavigationMode, out ComponentParameterInfo<ReportElementNavigationMode> elementNavigationModeParameter );
         parameters.TryGetParameter( ShowRulers, out ComponentParameterInfo<bool> showRulersParameter );
         parameters.TryGetParameter( ShowFineRulerTicks, out ComponentParameterInfo<bool> showFineRulerTicksParameter );
         parameters.TryGetParameter( ShowCursorGuides, out ComponentParameterInfo<bool> showCursorGuidesParameter );
@@ -231,11 +232,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                 declarativeContextVersion = context.DefinitionVersion;
 
             await ApplyDefinition( definition, notifyDefinitionChanged: false );
-            await SynchronizeDesignerParameters( bandModeParameter, showRulersParameter, showFineRulerTicksParameter, showCursorGuidesParameter, showCollisionWarningsParameter );
+            await SynchronizeDesignerParameters( bandModeParameter, elementNavigationModeParameter, showRulersParameter, showFineRulerTicksParameter, showCursorGuidesParameter, showCollisionWarningsParameter );
             return;
         }
 
-        await SynchronizeDesignerParameters( bandModeParameter, showRulersParameter, showFineRulerTicksParameter, showCursorGuidesParameter, showCollisionWarningsParameter );
+        await SynchronizeDesignerParameters( bandModeParameter, elementNavigationModeParameter, showRulersParameter, showFineRulerTicksParameter, showCursorGuidesParameter, showCollisionWarningsParameter );
 
         if ( dataChanged )
             SynchronizeDefaultDataSource( RootDefinition, previousData );
@@ -403,6 +404,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         definition.Designer = new()
         {
             BandMode = BandMode,
+            ElementNavigationMode = ElementNavigationMode,
             ShowRulers = ShowRulers,
             ShowFineRulerTicks = ShowFineRulerTicks,
             ShowCursorGuides = ShowCursorGuides,
@@ -3404,6 +3406,16 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         await BandModeChanged.InvokeAsync( value );
     }
 
+    internal async Task OnElementNavigationModeChanged( ReportElementNavigationMode value )
+    {
+        if ( CurrentElementNavigationMode == value )
+            return;
+
+        await UpdateDesignerDefinition( "Update element navigation mode", designer => designer.ElementNavigationMode = value, ReportDesignerRefreshTarget.Surface | ReportDesignerRefreshTarget.SelectedPanel );
+
+        await ElementNavigationModeChanged.InvokeAsync( value );
+    }
+
     private Task UpdateDesignerDefinition( string commandName, Action<ReportDesignerDefinition> update, ReportDesignerRefreshTarget refreshTargets )
     {
         return ExecuteDesignerCommand( new( commandName, () =>
@@ -3416,12 +3428,14 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     private Task SynchronizeDesignerParameters(
         ComponentParameterInfo<ReportBandMode> bandModeParameter,
+        ComponentParameterInfo<ReportElementNavigationMode> elementNavigationModeParameter,
         ComponentParameterInfo<bool> showRulersParameter,
         ComponentParameterInfo<bool> showFineRulerTicksParameter,
         ComponentParameterInfo<bool> showCursorGuidesParameter,
         ComponentParameterInfo<bool> showCollisionWarningsParameter )
     {
         if ( !( bandModeParameter.Changed && CurrentBandMode != bandModeParameter.Value )
+            && !( elementNavigationModeParameter.Changed && CurrentElementNavigationMode != elementNavigationModeParameter.Value )
             && !( showRulersParameter.Changed && CurrentShowRulers != showRulersParameter.Value )
             && !( showFineRulerTicksParameter.Changed && CurrentShowFineRulerTicks != showFineRulerTicksParameter.Value )
             && !( showCursorGuidesParameter.Changed && CurrentShowCursorGuides != showCursorGuidesParameter.Value )
@@ -3434,6 +3448,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         {
             if ( bandModeParameter.Changed )
                 DesignerDefinition.BandMode = bandModeParameter.Value;
+
+            if ( elementNavigationModeParameter.Changed )
+                DesignerDefinition.ElementNavigationMode = elementNavigationModeParameter.Value;
 
             if ( showRulersParameter.Changed )
                 DesignerDefinition.ShowRulers = showRulersParameter.Value;
@@ -3935,6 +3952,8 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
     internal ReportBandMode CurrentBandMode => DesignerDefinition.BandMode;
 
+    internal ReportElementNavigationMode CurrentElementNavigationMode => DesignerDefinition.ElementNavigationMode;
+
     internal ReportSelectionManager Selection => selectionManager;
 
     internal ReportDesignerRefreshState RefreshState => designerRefreshState;
@@ -4167,6 +4186,16 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// Raised when the designer band presentation changes.
     /// </summary>
     [Parameter] public EventCallback<ReportBandMode> BandModeChanged { get; set; }
+
+    /// <summary>
+    /// Defines how report elements participate in keyboard navigation when constructing a report from declarative content. Persisted definitions retain their configured value.
+    /// </summary>
+    [Parameter] public ReportElementNavigationMode ElementNavigationMode { get; set; } = ReportElementNavigationMode.ElementAndCell;
+
+    /// <summary>
+    /// Raised when the report element navigation mode changes.
+    /// </summary>
+    [Parameter] public EventCallback<ReportElementNavigationMode> ElementNavigationModeChanged { get; set; }
 
     /// <summary>
     /// Enables collapsing and expanding bands in the designer rail.

@@ -85,7 +85,9 @@
                                             DataSourceDeleted="@Designer.OnDataSourceDeleted" />
     </FieldsExplorerPanel>
     <Surface>
-        <_ReportDesignerSurface @ref="designerSurface" Designer="@Designer" Definition="@definition" />
+        <CascadingValue Value="@Designer.CurrentElementNavigationMode" Name="ReportElementNavigationMode">
+            <_ReportDesignerSurface @ref="designerSurface" Designer="@Designer" Definition="@definition" />
+        </CascadingValue>
         @if ( designerTabs.Count > 1 )
         {
             <Div Class="b-report-designer-tabs"
@@ -130,6 +132,8 @@
                                         ShowCollisionWarningsChanged="@Designer.OnShowCollisionWarningsChanged"
                                         BandMode="@Designer.CurrentBandMode"
                                         BandModeChanged="@Designer.OnBandModeChanged"
+                                        ElementNavigationMode="@Designer.CurrentElementNavigationMode"
+                                        ElementNavigationModeChanged="@Designer.OnElementNavigationModeChanged"
                                         UpdateReportPage="@Designer.UpdateReportPage"
                                         UpdateSelectedSection="@Designer.UpdateSelectedSection"
                                         UpdateSelectedSectionSuppression="@Designer.UpdateSelectedSectionSuppression"

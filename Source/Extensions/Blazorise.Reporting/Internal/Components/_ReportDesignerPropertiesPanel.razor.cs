@@ -81,6 +81,14 @@ public partial class _ReportDesignerPropertiesPanel
         new( ReportBandMode.Classic, "Classic" ),
     ];
 
+    private static readonly PropertyGridSelectOption<ReportElementNavigationMode>[] ElementNavigationModeOptions =
+    [
+        new( ReportElementNavigationMode.None, "None" ),
+        new( ReportElementNavigationMode.Element, "Elements" ),
+        new( ReportElementNavigationMode.Cell, "Table cells" ),
+        new( ReportElementNavigationMode.ElementAndCell, "Elements and table cells" ),
+    ];
+
     private static readonly PropertyGridSelectOption<VerticalAlignment>[] TextVerticalAlignmentOptions =
     [
         new( VerticalAlignment.Default, "Default" ),
@@ -874,6 +882,7 @@ public partial class _ReportDesignerPropertiesPanel
                 CreateBooleanProperty( "report.showCursorGuides", Localize( "Cursor guides" ), ShowCursorGuides ),
                 CreateBooleanProperty( "report.showCollisionWarnings", Localize( "Collision warnings" ), ShowCollisionWarnings ),
                 new PropertyGridSelectProperty<ReportBandMode>( "report.bandMode", Localize( "Band mode" ), BandMode, LocalizeOptions( BandModeOptions ) ),
+                new PropertyGridSelectProperty<ReportElementNavigationMode>( "report.elementNavigationMode", Localize( "Element navigation" ), ElementNavigationMode, LocalizeOptions( ElementNavigationModeOptions ) ),
             ] ) );
 
         groups.Add( new PropertyGridGroupDefinition(
@@ -1431,6 +1440,7 @@ public partial class _ReportDesignerPropertiesPanel
             "report.showCursorGuides" => ShowCursorGuidesChanged.InvokeAsync( eventArgs.GetValue<bool>() ),
             "report.showCollisionWarnings" => ShowCollisionWarningsChanged.InvokeAsync( eventArgs.GetValue<bool>() ),
             "report.bandMode" => BandModeChanged.InvokeAsync( eventArgs.GetValue<ReportBandMode>() ),
+            "report.elementNavigationMode" => ElementNavigationModeChanged.InvokeAsync( eventArgs.GetValue<ReportElementNavigationMode>() ),
             "page.name" => UpdateReportPage( page => page.Name = eventArgs.GetValue<string>() ),
             "page.unit" => OnPageMeasurementUnitChanged( eventArgs.GetValue<ReportMeasurementUnit>() ),
             "page.size" => OnPageSizeChanged( eventArgs.GetValue<ReportPageSize>() ),
@@ -1621,6 +1631,16 @@ public partial class _ReportDesignerPropertiesPanel
     /// Raised when the designer band presentation changes.
     /// </summary>
     [Parameter] public EventCallback<ReportBandMode> BandModeChanged { get; set; }
+
+    /// <summary>
+    /// Defines how report elements participate in keyboard navigation.
+    /// </summary>
+    [Parameter] public ReportElementNavigationMode ElementNavigationMode { get; set; }
+
+    /// <summary>
+    /// Raised when the report element navigation mode changes.
+    /// </summary>
+    [Parameter] public EventCallback<ReportElementNavigationMode> ElementNavigationModeChanged { get; set; }
 
     /// <summary>
     /// Indicates that rulers are visible around the report designer page.
