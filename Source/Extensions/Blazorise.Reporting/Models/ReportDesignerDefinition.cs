@@ -46,5 +46,10 @@ public sealed class ReportDesignerDefinition
     /// </summary>
     public ReportBandMode BandMode { get; set; } = ReportBandMode.Classic;
 
+    /// <summary>
+    /// Defines how report elements participate in keyboard navigation.
+    /// </summary>
+    public ReportElementNavigationMode ElementNavigationMode { get; set; } = ReportElementNavigationMode.ElementAndCell;
+
     #endregion
 }

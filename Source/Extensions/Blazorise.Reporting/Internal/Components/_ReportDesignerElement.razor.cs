@@ -228,7 +228,9 @@ public partial class _ReportDesignerElement
         if ( !CanReceiveDesignerInteraction )
             return;
 
-        await elementReference.FocusAsync( true );
+        if ( CanReceiveKeyboardInteraction )
+            await elementReference.FocusAsync( true );
+
         await Clicked.InvokeAsync( new( ElementKey, eventArgs ) );
     }
 
@@ -350,7 +352,10 @@ public partial class _ReportDesignerElement
 
     private bool CanReceiveDesignerInteraction => DesignMode && Editable;
 
-    private bool CanReceiveKeyboardInteraction => CanReceiveDesignerInteraction && !Editing;
+    private bool CanReceiveKeyboardInteraction
+        => CanReceiveDesignerInteraction
+            && !Editing
+            && ( ElementNavigationMode & ReportElementNavigationMode.Element ) != 0;
 
     private bool CanStartDesignerPointerDrag => CanHandleDesignerPointerDown && !TextEditingActive && !LayoutLocked;
 
@@ -394,6 +399,12 @@ public partial class _ReportDesignerElement
     /// Registered custom report elements.
     /// </summary>
     [CascadingParameter] public IReportElementPluginRegistry ElementPluginRegistry { get; set; }
+
+    /// <summary>
+    /// Defines how report elements participate in keyboard navigation.
+    /// </summary>
+    [CascadingParameter( Name = "ReportElementNavigationMode" )]
+    internal ReportElementNavigationMode ElementNavigationMode { get; set; } = ReportElementNavigationMode.ElementAndCell;
 
     [Inject] private IJSRuntime JSRuntime { get; set; }
 

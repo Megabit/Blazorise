@@ -309,6 +309,7 @@ internal sealed class ReportContext
             ShowCursorGuides = designer.ShowCursorGuides,
             ShowCollisionWarnings = designer.ShowCollisionWarnings,
             BandMode = designer.BandMode,
+            ElementNavigationMode = designer.ElementNavigationMode,
         };
     }
 
