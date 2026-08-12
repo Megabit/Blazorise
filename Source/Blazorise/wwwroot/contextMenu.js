@@ -1,5 +1,5 @@
-import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "./utilities.js?v=2.2.3.0";
-import { createFloatingUiAutoUpdate, createFloatingUiPointAutoUpdate } from './floatingUi.js?v=2.2.3.0';
+import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "./utilities.js?v=2.3.0.0";
+import { createFloatingUiAutoUpdate, createFloatingUiPointAutoUpdate } from './floatingUi.js?v=2.3.0.0';
 
 const _instances = [];
 const menuItemSelector = '[data-context-menu-item="true"]';

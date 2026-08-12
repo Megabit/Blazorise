@@ -1,4 +1,4 @@
-import { scrollModalBodyToTop } from "../Blazorise/modal.js?v=2.2.3.0";
+import { scrollModalBodyToTop } from "../Blazorise/modal.js?v=2.3.0.0";
 
 export function open(element, scrollToTop) {
     scrollModalBodyToTop(element, scrollToTop, ".ant-modal-body");
