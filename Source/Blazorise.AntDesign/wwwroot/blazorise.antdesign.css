@@ -7083,6 +7083,10 @@ template {
   overflow-y: auto;
 }
 
+.ant-layout-header:has(> .ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-submenu-open) {
+  z-index: calc(var(--ant-z-index-base) + 3);
+}
+
 .ant-layout-header.b-ant-layout-header-fixed {
   position: sticky;
   top: 0;

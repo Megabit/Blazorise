@@ -9405,6 +9405,11 @@ input::file-selector-button {
   z-index: calc(var(--zIndexFixed) + 1);
 }
 
+.b-layout-header:not(.b-layout-header-fixed) > .fui-NavigationBar-horizontal .fui-NavigationBar__dropdown-menu[data-visible=true],
+.b-layout-header-fixed:has(> .fui-NavigationBar-horizontal .fui-NavigationBar__dropdown-menu[data-visible=true]) {
+  z-index: calc(var(--zIndexFixed) + 2);
+}
+
 .b-layout > .b-layout-header .fui-NavigationBar-horizontal[data-collapse=hide][data-broken=true] {
   height: var(--b-bar-horizontal-height, auto);
 }
