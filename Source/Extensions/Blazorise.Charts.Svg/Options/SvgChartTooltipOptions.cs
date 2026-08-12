@@ -23,6 +23,12 @@ public class SvgChartTooltipOptions
     public SvgChartInteractionMode InteractionMode { get; set; } = SvgChartInteractionMode.Nearest;
 
     /// <summary>
+    /// Defines whether the pointer must intersect a rendered data point to show the tooltip.
+    /// When false, the nearest category is resolved from the plot area for cartesian charts.
+    /// </summary>
+    public bool Intersect { get; set; } = true;
+
+    /// <summary>
     /// Defines a callback used to format default tooltip text.
     /// </summary>
     public Func<SvgChartTooltipContext, string> Formatter { get; set; }

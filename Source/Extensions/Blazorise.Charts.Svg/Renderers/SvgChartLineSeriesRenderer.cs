@@ -73,6 +73,8 @@ internal sealed class SvgChartLineSeriesRenderer : ISvgChartSeriesRenderer
                 builder.AddAttribute( sequence++, "stroke-width", SvgChartRenderHelpers.Format( item.StrokeWidth ) );
                 builder.AddAttribute( sequence++, "stroke-linecap", "round" );
                 builder.AddAttribute( sequence++, "stroke-linejoin", "round" );
+                if ( context.PassThroughSeriesPaths )
+                    builder.AddAttribute( sequence++, "pointer-events", "none" );
                 context.AddAnimatedStyleAttribute( builder, ref sequence );
                 context.RenderPathFadeAnimation( builder, ref sequence, item, "line", linePath, "1" );
                 builder.CloseElement();

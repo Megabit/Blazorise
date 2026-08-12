@@ -19,6 +19,7 @@ internal sealed class SvgChartSeriesRendererContext
         Dictionary<string, SvgChartPointBounds> currentPointBounds,
         IReadOnlyDictionary<string, string> previousPathValues,
         Dictionary<string, string> currentPathValues,
+        bool passThroughSeriesPaths,
         Func<object, int, string> categoryFormatter )
     {
         Chart = chart;
@@ -27,6 +28,7 @@ internal sealed class SvgChartSeriesRendererContext
         this.currentPointBounds = currentPointBounds ?? [];
         this.previousPathValues = previousPathValues ?? new Dictionary<string, string>();
         this.currentPathValues = currentPathValues ?? [];
+        PassThroughSeriesPaths = passThroughSeriesPaths;
         this.categoryFormatter = categoryFormatter;
     }
 
@@ -243,6 +245,8 @@ internal sealed class SvgChartSeriesRendererContext
     public SvgChartPluginRenderContext Chart { get; }
 
     public SvgChartResolvedAnimation Animation { get; }
+
+    public bool PassThroughSeriesPaths { get; }
 
     #endregion
 }

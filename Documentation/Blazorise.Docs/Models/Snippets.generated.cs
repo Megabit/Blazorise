@@ -30797,9 +30797,9 @@ builder.Services
         public const string SvgLineChartExample = @"<SvgLineChart TItem=""MonthlyVisitors""
               Items=""@visitors""
               Options=""@options"">
-    <SvgChartTitle Title='@(""Visitor trend"")' Subtitle='@(""Highlighted with a line outline"")' />
+    <SvgChartTitle Title='@(""Visitor trend"")' Subtitle='@(""Shared tooltip with a highlighted current-year line"")' />
     <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
-    <SvgChartTooltip Enabled />
+    <SvgChartTooltip Enabled InteractionMode=""SvgChartInteractionMode.Index"" Intersect=""false"" Width=""220"" />
     <SvgChartCategoryAxis Value=""@( item => item.Month )"" />
     <SvgChartValueAxis BeginAtZero TickCount=""6"" />
 
@@ -30812,6 +30812,7 @@ builder.Services
     {
         Height = 360,
         Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        Tooltip = new() { InteractionMode = SvgChartInteractionMode.Index, Intersect = false, Width = 220 },
     };
 
     private readonly SvgChartLineOutlineOptions currentYearOutline = new()

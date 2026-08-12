@@ -18,6 +18,8 @@ public class SvgChartTooltip : SvgChartComponentBase
 
     private ComponentParameterInfo<SvgChartInteractionMode> paramInteractionMode;
 
+    private ComponentParameterInfo<bool> paramIntersect;
+
     private ComponentParameterInfo<Func<SvgChartTooltipContext, string>> paramFormatter;
 
     private ComponentParameterInfo<RenderFragment<SvgChartTooltipContext>> paramTemplate;
@@ -39,6 +41,7 @@ public class SvgChartTooltip : SvgChartComponentBase
     {
         parameters.TryGetParameter( Enabled, out paramEnabled );
         parameters.TryGetParameter( InteractionMode, out paramInteractionMode );
+        parameters.TryGetParameter( Intersect, out paramIntersect );
         parameters.TryGetParameter( Formatter, out paramFormatter );
         parameters.TryGetParameter( Template, out paramTemplate );
         parameters.TryGetParameter( Width, out paramWidth );
@@ -70,6 +73,7 @@ public class SvgChartTooltip : SvgChartComponentBase
         {
             Enabled = paramEnabled.GetValueOrDefault( fallback.Enabled ),
             InteractionMode = paramInteractionMode.GetValueOrDefault( fallback.InteractionMode ),
+            Intersect = paramIntersect.GetValueOrDefault( fallback.Intersect ),
             Formatter = paramFormatter.GetValueOrDefault( fallback.Formatter ),
             Template = paramTemplate.GetValueOrDefault( fallback.Template ),
             Width = paramWidth.GetValueOrDefault( fallback.Width ),
@@ -92,6 +96,12 @@ public class SvgChartTooltip : SvgChartComponentBase
     /// Defines how related points are resolved for tooltip content.
     /// </summary>
     [Parameter] public SvgChartInteractionMode InteractionMode { get; set; } = SvgChartInteractionMode.Nearest;
+
+    /// <summary>
+    /// Defines whether the pointer must intersect a rendered data point to show the tooltip.
+    /// When false, the nearest category is resolved from the plot area for cartesian charts.
+    /// </summary>
+    [Parameter] public bool Intersect { get; set; } = true;
 
     /// <summary>
     /// Defines a callback used to format default tooltip text.

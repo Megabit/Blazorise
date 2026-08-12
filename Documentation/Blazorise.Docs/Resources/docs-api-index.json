@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-09T19:59:30.6908306Z",
+  "generatedUtc": "2026-08-10T08:48:42.2397862Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -118854,6 +118854,14 @@
           "isBlazoriseEnum": true
         },
         {
+          "name": "Intersect",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Defines whether the pointer must intersect a rendered data point to show the tooltip.     When false, the nearest category is resolved from the plot area for cartesian charts.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "OffsetX",
           "type": "double",
           "typeName": "double",
@@ -118926,6 +118934,14 @@
           "defaultValue": "SvgChartInteractionMode.Nearest",
           "summary": "Defines how related points are resolved for tooltip content.",
           "isBlazoriseEnum": true
+        },
+        {
+          "name": "Intersect",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Defines whether the pointer must intersect a rendered data point to show the tooltip.     When false, the nearest category is resolved from the plot area for cartesian charts.",
+          "isBlazoriseEnum": false
         },
         {
           "name": "OffsetX",
