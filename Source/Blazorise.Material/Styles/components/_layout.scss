@@ -14,6 +14,11 @@
     z-index: calc(var(--mui-zindex-fixed) + 1);
 }
 
+.b-layout-header:not(.b-layout-header-fixed) > .mui-bar-horizontal .mui-bar-dropdown-menu[data-visible=true],
+.b-layout-header-fixed:has(> .mui-bar-horizontal .mui-bar-dropdown-menu[data-visible=true]) {
+    z-index: calc(var(--mui-zindex-fixed) + 2);
+}
+
 .b-layout.b-layout-root:not(.b-layout-has-sider),
 .b-layout.b-layout-root:not(.b-layout-has-sider) > .b-layout {
     .b-layout-header-fixed {

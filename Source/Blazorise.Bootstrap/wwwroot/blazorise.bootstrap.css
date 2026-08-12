@@ -2488,6 +2488,11 @@ input[readonly=readonly][type=range]::-ms-thumb {
   z-index: 1021;
 }
 
+.b-layout-header:not(.b-layout-header-fixed) > .navbar[data-mode=horizontal] .dropdown-menu[data-visible=true],
+.b-layout-header-fixed:has(> .navbar[data-mode=horizontal] .dropdown-menu[data-visible=true]) {
+  z-index: 1022;
+}
+
 a.link-unstyled {
   text-decoration: none;
   color: inherit;
