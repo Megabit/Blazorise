@@ -94,7 +94,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Line chart">
-        Use a line chart to show a trend across ordered categories. Set <Code>Outline</Code> on a line series to render a wider, translucent stroke behind it, highlighting the line without duplicating the series.
+        Use a line chart to show a trend across ordered categories. The example uses <Code>SvgChartInteractionMode.Index</Code> with <Code>Intersect="false"</Code> to show both series for the nearest category anywhere in the plot area. Set <Code>Outline</Code> on a line series to render a wider, translucent stroke behind it, highlighting the line without duplicating the series.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="SvgLineChartExample" Outlined FullWidth>
         <SvgLineChartExample />
@@ -155,6 +155,9 @@
     <DocsPageSectionHeader Title="Chart features">
         Combine stacked series, grouped tooltip interaction, axis tick callbacks, and time-formatted category labels.
     </DocsPageSectionHeader>
+    <DocsPageParagraph>
+        Set the tooltip <Code>InteractionMode</Code> to <Code>SvgChartInteractionMode.Index</Code> to show every visible series at the same category. Set <Code>Intersect</Code> to <Code>false</Code> to activate the nearest category anywhere inside the plot area instead of requiring the pointer to intersect a rendered point.
+    </DocsPageParagraph>
     <DocsPageParagraph>
         <Code>SvgChartTimeAxis</Code> uses ordinal spacing by default. Set <Code>Scale</Code> to <Code>SvgChartTimeScale.Continuous</Code> on line, area, scatter, and bubble charts when irregular time values should be spaced by elapsed time.
     </DocsPageParagraph>

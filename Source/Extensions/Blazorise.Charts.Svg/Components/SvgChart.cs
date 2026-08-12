@@ -177,7 +177,7 @@ public class SvgChart<TItem> : SvgChartBase
         var currentAnimationPointBounds = new Dictionary<string, SvgChartPointBounds>();
         var currentAnimationPathValues = new Dictionary<string, string>();
         var pluginContext = CreatePluginRenderContext( model, plot );
-        var seriesRendererContext = new SvgChartSeriesRendererContext( pluginContext, chartAnimation, previousAnimationPointBounds, currentAnimationPointBounds, previousAnimationPathValues, currentAnimationPathValues, ( value, index ) => FormatCategory( model, value, index ) );
+        var seriesRendererContext = new SvgChartSeriesRendererContext( pluginContext, chartAnimation, previousAnimationPointBounds, currentAnimationPointBounds, previousAnimationPathValues, currentAnimationPathValues, model.Tooltip?.Enabled == true && !model.Tooltip.Intersect, ( value, index ) => FormatCategory( model, value, index ) );
         var zoom = model.Zoom;
 
         runStreamingAnimationAfterRender = streamingAnimation.Enabled;
@@ -245,6 +245,8 @@ public class SvgChart<TItem> : SvgChartBase
 
         if ( !IsRadialChart( model ) )
             RenderPlotClipPath( builder, ref sequence, plot, options );
+
+        RenderTooltipHitRegions( builder, ref sequence, model, plot );
 
         if ( !IsBarChart( model ) && !IsRadialChart( model ) && streamingAnimation.Enabled )
             SvgChartAxesRenderer.RenderCategoryAxisLabels( builder, ref sequence, model, plot, streamingAnimation, GetCategoryAxisLabelsClipPathId() );
@@ -668,6 +670,120 @@ public class SvgChart<TItem> : SvgChartBase
         builder.CloseElement();
         builder.CloseElement();
     }
+
+    private void RenderTooltipHitRegions( RenderTreeBuilder builder, ref int sequence, SvgChartRenderModel model, SvgChartPlotArea plot )
+    {
+        var tooltip = model.Tooltip;
+
+        if ( tooltip is null || !tooltip.Enabled || tooltip.Intersect || IsRadialChart( model ) )
+            return;
+
+        var hitPoints = ResolveTooltipHitPoints( model, plot );
+
+        if ( hitPoints.Count == 0 )
+            return;
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-tooltip-hit-regions" );
+        builder.AddAttribute( sequence++, "aria-hidden", "true" );
+
+        for ( var i = 0; i < hitPoints.Count; i++ )
+        {
+            var hitPoint = hitPoints[i];
+            var start = i == 0 ? hitPoint.Start : ( hitPoints[i - 1].Position + hitPoint.Position ) / 2;
+            var end = i == hitPoints.Count - 1 ? hitPoint.End : ( hitPoint.Position + hitPoints[i + 1].Position ) / 2;
+
+            builder.OpenElement( sequence++, "rect" );
+            builder.AddAttribute( sequence++, "class", "svg-chart-tooltip-hit-region" );
+            builder.AddAttribute( sequence++, "x", Format( hitPoint.Horizontal ? start : plot.Left ) );
+            builder.AddAttribute( sequence++, "y", Format( hitPoint.Horizontal ? plot.Top : start ) );
+            builder.AddAttribute( sequence++, "width", Format( hitPoint.Horizontal ? Math.Max( 0, end - start ) : plot.Width ) );
+            builder.AddAttribute( sequence++, "height", Format( hitPoint.Horizontal ? plot.Height : Math.Max( 0, end - start ) ) );
+            builder.AddAttribute( sequence++, "fill", "transparent" );
+            builder.AddAttribute( sequence++, "onmouseenter", EventCallback.Factory.Create<MouseEventArgs>( this, () => ShowTooltip( hitPoint.Point, hitPoint.Color, false ) ) );
+            builder.AddAttribute( sequence++, "onmouseleave", EventCallback.Factory.Create<MouseEventArgs>( this, HandlePointLeft ) );
+            builder.CloseElement();
+        }
+
+        builder.CloseElement();
+    }
+
+    private static List<SvgChartTooltipHitPoint> ResolveTooltipHitPoints( SvgChartRenderModel model, SvgChartPlotArea plot )
+    {
+        var horizontal = !IsBarChart( model );
+        var categoryScale = horizontal && model.CategoryScaleKind == SvgChartAxisScaleKind.Continuous
+            ? ResolvePointXScale( model )
+            : null;
+        var result = new List<SvgChartTooltipHitPoint>();
+
+        for ( var pointIndex = 0; pointIndex < model.CategorySlotCount; pointIndex++ )
+        {
+            var series = model.Series.FirstOrDefault( x => !x.Hidden && pointIndex < ResolveTooltipValues( x ).Count && ResolveTooltipValues( x )[pointIndex].HasValue );
+
+            if ( series is null )
+                continue;
+
+            var values = ResolveTooltipValues( series );
+            var value = values[pointIndex].Value;
+            var category = ResolveTooltipCategory( model, pointIndex, null );
+            var seriesIndex = model.Series.IndexOf( series );
+            var renderedValue = pointIndex < series.StackEndValues.Count && series.StackEndValues[pointIndex].HasValue
+                ? series.StackEndValues[pointIndex].Value
+                : value;
+            double position;
+            double anchorX;
+            double anchorY;
+
+            if ( horizontal )
+            {
+                position = categoryScale is not null && pointIndex < series.XValues.Count && series.XValues[pointIndex].HasValue
+                    ? GetX( series.XValues[pointIndex].Value, plot, categoryScale.Min, categoryScale.Max )
+                    : GetCategoryX( pointIndex, plot, model );
+                anchorX = position;
+                anchorY = GetY( renderedValue, plot, model, series );
+            }
+            else
+            {
+                position = plot.Top + plot.Height * ( pointIndex + 0.5 ) / Math.Max( model.CategorySlotCount, 1 );
+                anchorX = GetX( renderedValue, plot, model, series );
+                anchorY = position;
+            }
+
+            result.Add( new(
+                position,
+                horizontal ? plot.Left : plot.Top,
+                horizontal ? plot.Right : plot.Bottom,
+                horizontal,
+                ResolvePointColor( series, pointIndex ),
+                new()
+                {
+                    SeriesName = series.Name,
+                    SeriesIndex = seriesIndex,
+                    PointIndex = pointIndex,
+                    Category = category,
+                    Value = value,
+                    Bounds = new()
+                    {
+                        X = anchorX,
+                        Y = anchorY,
+                        Width = 0,
+                        Height = 0
+                    }
+                } ) );
+        }
+
+        return result.Where( x => x.Position >= x.Start && x.Position <= x.End )
+            .OrderBy( x => x.Position )
+            .ToList();
+    }
+
+    private sealed record SvgChartTooltipHitPoint(
+        double Position,
+        double Start,
+        double End,
+        bool Horizontal,
+        string Color,
+        SvgChartPointEventArgs Point );
 
     private SvgChartRenderModel BuildModel( bool applyStreamingViewport = true, bool applyZoomViewport = true )
     {
