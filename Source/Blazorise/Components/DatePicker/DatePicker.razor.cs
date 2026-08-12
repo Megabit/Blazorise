@@ -188,9 +188,60 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     private DatePickerCalendarContext<TValue> calendarContext;
 
+    private readonly ClassBuilder pickerContainerClassBuilder;
+
+    private readonly StyleBuilder pickerContainerStyleBuilder;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// A default <see cref="DatePicker{TValue}"/> constructor.
+    /// </summary>
+    public DatePicker()
+    {
+        pickerContainerClassBuilder = new( BuildPickerContainerClasses, builder => builder.Append( Classes?.Wrapper ) );
+        pickerContainerStyleBuilder = new( BuildPickerContainerStyles, builder => builder.Append( Styles?.Wrapper ) );
+    }
+
     #endregion
 
     #region Methods
+
+    /// <summary>
+    /// Builds the class names for the picker container.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the class names.</param>
+    private void BuildPickerContainerClasses( ClassBuilder builder )
+    {
+        AppendWrapperUtilities( builder );
+    }
+
+    /// <summary>
+    /// Builds the styles for the picker container.
+    /// </summary>
+    /// <param name="builder">Style builder used to append the styles.</param>
+    private void BuildPickerContainerStyles( StyleBuilder builder )
+    {
+        AppendWrapperUtilities( builder );
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        pickerContainerClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyStyles()
+    {
+        pickerContainerStyleBuilder.Dirty();
+
+        base.DirtyStyles();
+    }
 
     /// <inheritdoc/>
     protected override void CaptureParameters( ParameterView parameters )
@@ -1893,7 +1944,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         => EventUtil.AsNonRenderingEventHandler<FocusEventArgs>( OnFocusOutHandler );
 
     /// <summary>
-    /// Gets the wrapper classes supplied by the active provider.
+    /// Gets the wrapper classes supplied by the active provider and component configuration.
     /// </summary>
     protected string PickerContainerClassNames
     {
@@ -1901,15 +1952,15 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         {
             return string.Join(
                 " ",
-                new[] { CalendarContext.ContainerClassNames, Classes?.Wrapper }
+                new[] { CalendarContext.ContainerClassNames, pickerContainerClassBuilder.Class }
                     .Where( value => !string.IsNullOrWhiteSpace( value ) ) );
         }
     }
 
     /// <summary>
-    /// Gets the wrapper styles supplied through <see cref="DatePickerStyles"/>.
+    /// Gets the wrapper styles supplied by the component configuration.
     /// </summary>
-    protected string PickerContainerStyleNames => Styles?.Wrapper;
+    protected string PickerContainerStyleNames => pickerContainerStyleBuilder.Styles;
 
     /// <summary>
     /// Gets only the active provider's DatePicker container classes.

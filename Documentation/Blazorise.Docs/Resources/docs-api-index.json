@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-10T08:48:42.2397862Z",
+  "generatedUtc": "2026-08-12T08:04:48.6573610Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -96063,6 +96063,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ElementNavigationMode",
+          "type": "global::Blazorise.Reporting.ReportElementNavigationMode",
+          "typeName": "ReportElementNavigationMode",
+          "defaultValue": "default(ReportElementNavigationMode)",
+          "summary": "Defines how report elements participate in keyboard navigation when constructing a report from declarative content. Persisted definitions retain their configured value.",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "ElementPlugins",
           "type": "IEnumerable<>",
           "typeName": "IEnumerable<IReportElementPlugin>",
@@ -96398,6 +96406,14 @@
           "typeName": "EventCallback<ReportDefinition>",
           "defaultValue": "null",
           "summary": "Raised with a snapshot of the updated report definition.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ElementNavigationModeChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<ReportElementNavigationMode>",
+          "defaultValue": "null",
+          "summary": "Raised when the report element navigation mode changes.",
           "isBlazoriseEnum": false
         },
         {

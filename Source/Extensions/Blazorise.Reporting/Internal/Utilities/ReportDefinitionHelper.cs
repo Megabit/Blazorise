@@ -645,6 +645,7 @@ internal static class ReportDefinitionHelper
 
         definition.Designer.GridSize = NormalizePositiveDimension( definition.Designer.GridSize, ReportLayoutGeometry.DefaultGridSize, $"{designerPath}.GridSize", diagnostics );
         definition.Designer.BandMode = NormalizeEnum( definition.Designer.BandMode, ReportBandMode.Classic, $"{designerPath}.BandMode", diagnostics );
+        definition.Designer.ElementNavigationMode = NormalizeEnum( definition.Designer.ElementNavigationMode, ReportElementNavigationMode.ElementAndCell, $"{designerPath}.ElementNavigationMode", diagnostics );
         definition.Pages = NormalizeCollection( definition.Pages, pagesPath, diagnostics );
         definition.DataSources = NormalizeCollection( definition.DataSources, dataSourcesPath, diagnostics );
         definition.FormulaFields = NormalizeCollection( definition.FormulaFields, formulaFieldsPath, diagnostics );

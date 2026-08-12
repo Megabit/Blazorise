@@ -1,6 +1,5 @@
 #region Using directives
-using System;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
 namespace Blazorise;
@@ -24,17 +23,18 @@ public sealed class PropertyGridTextProperty : PropertyGridProperty<string>
 
     #region Methods
 
-    internal override void AddAtomicComponentParameters( IDictionary<string, object> parameters )
+    internal override void RenderAtomicComponent( RenderTreeBuilder builder, PropertyGridView owner, bool selected, string ariaDescribedBy )
     {
-        parameters[nameof( PropertyGridTextItem.ReadOnly )] = ReadOnly;
-        parameters[nameof( PropertyGridTextItem.Immediate )] = Immediate;
+        builder.OpenComponent<PropertyGridTextItem>( 0 );
+        owner.AddAtomicComponentParameters( builder, this, selected, ariaDescribedBy );
+        builder.AddAttribute( 15, nameof( PropertyGridTextItem.ReadOnly ), ReadOnly );
+        builder.AddAttribute( 16, nameof( PropertyGridTextItem.Immediate ), Immediate );
+        builder.CloseComponent();
     }
 
     #endregion
 
     #region Properties
-
-    internal override Type AtomicComponentType => typeof( PropertyGridTextItem );
 
     internal override PropertyGridEditorType EditorType => PropertyGridEditorType.Text;
 

@@ -23,6 +23,7 @@ public partial class _ReportDesignerElement
     private bool textEditCancelled;
     private bool focusTextEdit;
     private bool textExpressionTokenProtectionActive;
+    private bool pointerInteraction;
     private JSReportingModule reportingModule;
 
     #endregion
@@ -128,6 +129,7 @@ public partial class _ReportDesignerElement
         builder.Append( "b-report-element-design-active", DesignMode && Selected );
         builder.Append( "b-report-element-design-colliding", DesignMode && Colliding );
         builder.Append( "b-report-element-design-editing", IsDesignerEditing );
+        builder.Append( "b-report-element-design-pointer-focused", DesignMode && pointerInteraction );
 
         base.BuildClasses( builder );
     }
@@ -226,7 +228,9 @@ public partial class _ReportDesignerElement
         if ( !CanReceiveDesignerInteraction )
             return;
 
-        await elementReference.FocusAsync( true );
+        if ( CanReceiveKeyboardInteraction )
+            await elementReference.FocusAsync( true );
+
         await Clicked.InvokeAsync( new( ElementKey, eventArgs ) );
     }
 
@@ -244,6 +248,12 @@ public partial class _ReportDesignerElement
         } ) );
     }
 
+    private void OnBlur( FocusEventArgs eventArgs )
+    {
+        pointerInteraction = false;
+        DirtyClasses();
+    }
+
     private Task OnDoubleClicked( MouseEventArgs eventArgs )
     {
         if ( CanReceiveDesignerInteraction && DoubleClicked is not null )
@@ -255,10 +265,17 @@ public partial class _ReportDesignerElement
     private Task OnPointerDown( PointerEventArgs eventArgs )
     {
         if ( CanHandleDesignerPointerDown && PointerDown is not null )
+        {
+            pointerInteraction = true;
+            DirtyClasses();
             return PointerDown.Invoke( ElementKey, eventArgs );
+        }
 
         return Task.CompletedTask;
     }
+
+    private Func<PointerEventArgs, Task> NonRenderingPointerDown
+        => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerDown );
 
     private Task OnResizeStarted( int handle, PointerEventArgs eventArgs )
     {
@@ -335,7 +352,10 @@ public partial class _ReportDesignerElement
 
     private bool CanReceiveDesignerInteraction => DesignMode && Editable;
 
-    private bool CanReceiveKeyboardInteraction => CanReceiveDesignerInteraction && !Editing;
+    private bool CanReceiveKeyboardInteraction
+        => CanReceiveDesignerInteraction
+            && !Editing
+            && ( ElementNavigationMode & ReportElementNavigationMode.Element ) != 0;
 
     private bool CanStartDesignerPointerDrag => CanHandleDesignerPointerDown && !TextEditingActive && !LayoutLocked;
 
@@ -379,6 +399,12 @@ public partial class _ReportDesignerElement
     /// Registered custom report elements.
     /// </summary>
     [CascadingParameter] public IReportElementPluginRegistry ElementPluginRegistry { get; set; }
+
+    /// <summary>
+    /// Defines how report elements participate in keyboard navigation.
+    /// </summary>
+    [CascadingParameter( Name = "ReportElementNavigationMode" )]
+    internal ReportElementNavigationMode ElementNavigationMode { get; set; } = ReportElementNavigationMode.ElementAndCell;
 
     [Inject] private IJSRuntime JSRuntime { get; set; }
 

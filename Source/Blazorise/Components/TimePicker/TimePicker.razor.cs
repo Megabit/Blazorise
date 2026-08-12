@@ -124,9 +124,60 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
     private TimePickerMenuContext<TValue> menuContext;
 
+    private readonly ClassBuilder pickerContainerClassBuilder;
+
+    private readonly StyleBuilder pickerContainerStyleBuilder;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// A default <see cref="TimePicker{TValue}"/> constructor.
+    /// </summary>
+    public TimePicker()
+    {
+        pickerContainerClassBuilder = new( BuildPickerContainerClasses, builder => builder.Append( Classes?.Wrapper ) );
+        pickerContainerStyleBuilder = new( BuildPickerContainerStyles, builder => builder.Append( Styles?.Wrapper ) );
+    }
+
     #endregion
 
     #region Methods
+
+    /// <summary>
+    /// Builds the class names for the picker container.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the class names.</param>
+    private void BuildPickerContainerClasses( ClassBuilder builder )
+    {
+        AppendWrapperUtilities( builder );
+    }
+
+    /// <summary>
+    /// Builds the styles for the picker container.
+    /// </summary>
+    /// <param name="builder">Style builder used to append the styles.</param>
+    private void BuildPickerContainerStyles( StyleBuilder builder )
+    {
+        AppendWrapperUtilities( builder );
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        pickerContainerClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyStyles()
+    {
+        pickerContainerStyleBuilder.Dirty();
+
+        base.DirtyStyles();
+    }
 
     /// <inheritdoc/>
     protected override void CaptureParameters( ParameterView parameters )
@@ -965,7 +1016,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     protected string EffectiveDisplayFormat => PickerDateTimeFormat.Normalize( DisplayFormat ?? ( Seconds ? "HH:mm:ss" : "HH:mm" ) );
 
     /// <summary>
-    /// Gets the wrapper classes supplied by the active provider.
+    /// Gets the wrapper classes supplied by the active provider and component configuration.
     /// </summary>
     protected string PickerContainerClassNames
     {
@@ -973,15 +1024,15 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         {
             return string.Join(
                 " ",
-                new[] { ProviderPickerContainerClassNames, Classes?.Wrapper }
+                new[] { ProviderPickerContainerClassNames, pickerContainerClassBuilder.Class }
                     .Where( value => !string.IsNullOrWhiteSpace( value ) ) );
         }
     }
 
     /// <summary>
-    /// Gets the wrapper styles supplied through <see cref="TimePickerStyles"/>.
+    /// Gets the wrapper styles supplied by the component configuration.
     /// </summary>
-    protected string PickerContainerStyleNames => Styles?.Wrapper;
+    protected string PickerContainerStyleNames => pickerContainerStyleBuilder.Styles;
 
     /// <summary>
     /// Gets only the active provider's TimePicker container classes.

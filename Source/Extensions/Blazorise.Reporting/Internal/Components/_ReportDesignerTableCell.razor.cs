@@ -24,18 +24,24 @@ public partial class _ReportDesignerTableCell
 
     private bool CanReceiveDesignerInteraction => DesignMode && Editable;
 
+    private bool CanReceiveKeyboardInteraction
+        => CanReceiveDesignerInteraction
+            && ( ElementNavigationMode & ReportElementNavigationMode.Cell ) != 0;
+
     private async Task OnCellClicked( MouseEventArgs eventArgs )
     {
         if ( !CanReceiveDesignerInteraction )
             return;
 
-        await cellElementReference.FocusAsync( true );
+        if ( CanReceiveKeyboardInteraction )
+            await cellElementReference.FocusAsync( true );
+
         await CellClicked.InvokeAsync( new( Cell.Id, eventArgs ) );
     }
 
     private Task OnCellKeyDown( KeyboardEventArgs eventArgs )
     {
-        if ( !CanReceiveDesignerInteraction || eventArgs.Key is not ( "Enter" or " " ) )
+        if ( !CanReceiveKeyboardInteraction || eventArgs.Key is not ( "Enter" or " " ) )
             return Task.CompletedTask;
 
         return CellClicked.InvokeAsync( new( Cell.Id, new()
@@ -119,6 +125,12 @@ public partial class _ReportDesignerTableCell
     #region Properties
 
     private string AccessibilityLabel => Localize( "Table cell, row {0}, column {1}", Cell.RowIndex + 1, Cell.ColumnIndex + 1 );
+
+    /// <summary>
+    /// Defines how report elements participate in keyboard navigation.
+    /// </summary>
+    [CascadingParameter( Name = "ReportElementNavigationMode" )]
+    internal ReportElementNavigationMode ElementNavigationMode { get; set; } = ReportElementNavigationMode.ElementAndCell;
 
     /// <summary>
     /// Report data used when resolving nested field values.

@@ -142,6 +142,16 @@ public partial class Report : BaseComponent, IReportCommandExecutor
     [Parameter] public EventCallback<ReportBandMode> BandModeChanged { get; set; }
 
     /// <summary>
+    /// Defines how report elements participate in keyboard navigation when constructing a report from declarative content. Persisted definitions retain their configured value.
+    /// </summary>
+    [Parameter] public ReportElementNavigationMode ElementNavigationMode { get; set; } = ReportElementNavigationMode.ElementAndCell;
+
+    /// <summary>
+    /// Raised when the report element navigation mode changes.
+    /// </summary>
+    [Parameter] public EventCallback<ReportElementNavigationMode> ElementNavigationModeChanged { get; set; }
+
+    /// <summary>
     /// Enables collapsing and expanding bands in the designer rail.
     /// </summary>
     [Parameter] public bool AllowBandCollapse { get; set; } = true;
