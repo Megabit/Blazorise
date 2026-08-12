@@ -15,6 +15,7 @@ namespace Blazorise.Docs.BlogRuntime;
 internal interface IBlogSink<TOut>
 {
     void AddPageAndSeo( string url, string title, string desc, string imageUrl, string imageTitle );
+    void AddPageVideo( string videoId );
     void AddPagePostInfo( string authorName, string authorImage, string postedOn, string readTime );
     void AddPageTitle( HeadingBlock h1 );
     void AddPageSubtitle( HeadingBlock h2 );
@@ -71,6 +72,29 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
             b.AddAttribute( 13, nameof( BlogPagePostInfo.PostedOn ), postedOn );
             b.AddAttribute( 14, nameof( BlogPagePostInfo.Read ), readTime );
             b.CloseComponent();
+        } );
+    }
+
+    public void AddPageVideo( string videoId )
+    {
+        string embedUrl = YouTubeVideoPlaceholder.GetEmbedUrl( videoId );
+
+        if ( embedUrl is null )
+            return;
+
+        ops.Add( b =>
+        {
+            b.OpenElement( 15, "div" );
+            b.AddAttribute( 16, "class", "b-blog-video" );
+            b.OpenElement( 17, "iframe" );
+            b.AddAttribute( 18, "src", embedUrl );
+            b.AddAttribute( 19, "title", "YouTube video player" );
+            b.AddAttribute( 20, "loading", "lazy" );
+            b.AddAttribute( 21, "referrerpolicy", "strict-origin-when-cross-origin" );
+            b.AddAttribute( 22, "allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" );
+            b.AddAttribute( 23, "allowfullscreen", true );
+            b.CloseElement();
+            b.CloseElement();
         } );
     }
 
