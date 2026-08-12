@@ -41,6 +41,15 @@ internal static class BlogAstWalker
                     sink.AddPageHeading( h );
                     break;
                 case ParagraphBlock p:
+                    // Markdig exposes fenced code as FencedCodeBlock, so placeholders are considered only
+                    // when they occupy an entire paragraph and are never expanded inside code fences.
+                    string paragraphText = GetParagraphText( p, info.MarkdownText );
+                    if ( YouTubeVideoPlaceholder.TryResolve( paragraphText, out string videoId ) )
+                    {
+                        sink.AddPageVideo( videoId );
+                        break;
+                    }
+
                     var hasLeadClass = p.GetAttributes()?.Classes?.Contains( "lead" ) == true;
                     if ( hasLeadClass )
                         sink.AddPageLead( p );
@@ -68,5 +77,16 @@ internal static class BlogAstWalker
         sink.AddPagePostInfo( info.AuthorName, resolvedAuthor ?? "", info.PostedOn, info.ReadTime );
 
         return sink.Build();
+    }
+
+    private static string GetParagraphText( ParagraphBlock paragraph, string markdownText )
+    {
+        int start = paragraph.Span.Start;
+        int end = paragraph.Span.End;
+
+        if ( start >= 0 && end >= start && end < markdownText.Length )
+            return markdownText[start..( end + 1 )];
+
+        return paragraph.Inline?.ToString() ?? string.Empty;
     }
 }
