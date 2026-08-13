@@ -6,10 +6,10 @@
     &:not(:last-child) {
         margin-bottom: var(--bulma-content-block-margin-bottom, 1em);
     }
-}
 
-.blockquote-footer {
-    &::before {
-        content: "\2014\00A0"; // em dash, nbsp
+    &-footer {
+        &::before {
+            content: "\2014\00A0"; // em dash, nbsp
+        }
     }
 }

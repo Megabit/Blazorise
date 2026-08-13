@@ -1,15 +1,12 @@
 ﻿.b-page-progress {
     .b-page-progress-indicator {
-        @each $name, $value in $theme-colors {
-            $color: $value;
-
+        @each $name, $color in $theme-colors {
             &.b-page-progress-indicator-#{$name} {
                 background-color: $color;
             }
         }
     }
 }
-
 
 
 @-webkit-keyframes animate-stripes {
@@ -56,38 +53,13 @@ $progress-border-radius: $radius-rounded !default;
 $progress-indeterminate-duration: 1.5s !default;
 
 @mixin progress-size() {
-    &.is-extra-small {
-        + .progress-value, .progress-value {
-            font-size: calc(#{$size-extra-small} / 1.5);
-            line-height: $size-extra-small;
-        }
-    }
-
-    &.is-small {
-        + .progress-value, .progress-value {
-            font-size: calc(#{$size-small} / 1.5);
-            line-height: $size-small;
-        }
-    }
-
-    &.is-medium {
-        + .progress-value, .progress-value {
-            font-size: calc(#{$size-medium} / 1.5);
-            line-height: $size-medium;
-        }
-    }
-
-    &.is-large {
-        + .progress-value, .progress-value {
-            font-size: calc(#{$size-large} / 1.5);
-            line-height: $size-large;
-        }
-    }
-
-    &.is-extra-large {
-        + .progress-value, .progress-value {
-            font-size: calc(#{$size-extra-large} / 1.5);
-            line-height: $size-extra-large;
+    @each $name, $size in $component-sizes {
+        &.is-#{$name} {
+            + .progress-value,
+            .progress-value {
+                font-size: calc(#{$size} / 1.5);
+                line-height: $size;
+            }
         }
     }
 }
@@ -126,9 +98,8 @@ $progress-indeterminate-duration: 1.5s !default;
                 color: findColorInvert($progress-value-background-color);
             }
 
-            @each $name, $value in $theme-colors {
-                $color: $value;
-                $color-invert: color-yiq($value);
+            @each $name, $color in $theme-colors {
+                $color-invert: color-yiq($color);
 
                 &.is-#{$name} {
                     + .progress-value {
@@ -137,10 +108,6 @@ $progress-indeterminate-duration: 1.5s !default;
                 }
             }
         }
-    }
-
-    &:not(:last-child) {
-        margin-bottom: 1.5rem;
     }
 
     -moz-appearance: none;
@@ -185,9 +152,8 @@ $progress-indeterminate-duration: 1.5s !default;
             color: findColorInvert($progress-value-background-color);
         }
 
-        @each $name, $value in $theme-colors {
-            $color: $value;
-            $color-invert: color-yiq($value);
+        @each $name, $color in $theme-colors {
+            $color-invert: color-yiq($color);
 
             &.is-#{$name} {
                 background-color: $color;

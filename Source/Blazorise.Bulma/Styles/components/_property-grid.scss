@@ -6,135 +6,137 @@
     min-height: 0;
     min-width: 0;
     overflow: hidden;
-}
 
-.property-grid-viewport {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-    gap: $spacer * .75;
-    min-height: 0;
-    min-width: 0;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-}
-
-.property-grid-toolbar {
-    display: flex;
-    flex: 0 0 auto;
-    align-items: center;
-    gap: $spacer * .5;
-    min-width: 0;
-
-    > :is(.buttons, .field) {
-        margin-block-end: 0;
-    }
-}
-
-.property-grid-toolbar-button {
-    flex: 0 0 auto;
-}
-
-.property-grid-toolbar-search {
-    flex: 1 1 ($spacer * 16);
-    min-width: $spacer * 10;
-    max-width: $spacer * 22;
-    margin-inline-start: auto;
-}
-
-.property-grid-empty {
-    padding: $spacer * .75;
-    color: $text-weak;
-    font-size: $size-small;
-}
-
-.property-grid-help {
-    flex: 0 0 auto;
-    padding: ($spacer * .625) ($spacer * .75);
-    border-top: $control-border-width solid $border;
-}
-
-.property-grid-help-title {
-    font-size: $size-small;
-    font-weight: $weight-semibold;
-}
-
-.property-grid-help-description {
-    margin-top: $spacer * .125;
-    color: $text-weak;
-    font-size: $size-small;
-}
-
-.property-grid-group,
-.property-grid-group-body {
-    display: flex;
-    flex-direction: column;
-    gap: $spacer * .25;
-    min-width: 0;
-}
-
-.property-grid-group-header {
-    font-size: $size-small;
-    font-weight: $weight-semibold;
-}
-
-.property-grid-group-toggle {
-    display: flex;
-    align-items: center;
-    gap: $spacer * .375;
-    width: 100%;
-    padding: 0;
-    border: 0;
-    color: inherit;
-    background: transparent;
-    font: inherit;
-    font-weight: inherit;
-    text-align: start;
-    cursor: pointer;
-}
-
-.property-grid-item {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    gap: $spacer * .25;
-    align-items: center;
-    min-width: 0;
-}
-
-.property-grid-item-selected {
-    background: $background;
-}
-
-.property-grid-item:focus-visible {
-    outline: $control-border-width solid $link;
-    outline-offset: $control-border-width;
-}
-
-.property-grid-item-label {
-    min-width: 0;
-    padding-inline-end: $spacer * .25;
-    overflow: hidden;
-    font-size: $size-small;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.property-grid-item-body {
-    min-width: 0;
-
-    > * {
-        width: 100%;
+    &-viewport {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        gap: $spacer * .75;
+        min-height: 0;
         min-width: 0;
-    }
-}
-
-.property-grid-item[data-property-grid-editor="color"] {
-    .field.has-addons > .control:has(> .b-input-color-picker) {
-        flex: none;
+        overflow-y: auto;
+        overscroll-behavior: contain;
     }
 
-    .b-input-color-picker {
-        width: var(--bulma-control-height);
-        padding: $spacer * .25;
+    &-toolbar {
+        display: flex;
+        flex: 0 0 auto;
+        align-items: center;
+        gap: $spacer * .5;
+        min-width: 0;
+
+        > :is(.buttons, .field) {
+            margin-block-end: 0;
+        }
+
+        &-button {
+            flex: 0 0 auto;
+        }
+
+        &-search {
+            flex: 1 1 ($spacer * 16);
+            min-width: $spacer * 10;
+            max-width: $spacer * 22;
+            margin-inline-start: auto;
+        }
+    }
+
+    &-empty {
+        padding: $spacer * .75;
+        color: $text-weak;
+        font-size: $size-small;
+    }
+
+    &-help {
+        flex: 0 0 auto;
+        padding: ($spacer * .625) ($spacer * .75);
+        border-top: $control-border-width solid $border;
+
+        &-title {
+            font-size: $size-small;
+            font-weight: $weight-semibold;
+        }
+
+        &-description {
+            margin-top: $spacer * .125;
+            color: $text-weak;
+            font-size: $size-small;
+        }
+    }
+
+    &-group {
+        &,
+        &-body {
+            display: flex;
+            flex-direction: column;
+            gap: $spacer * .25;
+            min-width: 0;
+        }
+
+        &-header {
+            font-size: $size-small;
+            font-weight: $weight-semibold;
+        }
+
+        &-toggle {
+            display: flex;
+            align-items: center;
+            gap: $spacer * .375;
+            width: 100%;
+            padding: 0;
+            border: 0;
+            color: inherit;
+            background: transparent;
+            font: inherit;
+            font-weight: inherit;
+            text-align: start;
+            cursor: pointer;
+        }
+    }
+
+    &-item {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+        gap: $spacer * .25;
+        align-items: center;
+        min-width: 0;
+
+        &-selected {
+            background: $background;
+        }
+
+        &:focus-visible {
+            outline: $control-border-width solid $link;
+            outline-offset: $control-border-width;
+        }
+
+        &-label {
+            min-width: 0;
+            padding-inline-end: $spacer * .25;
+            overflow: hidden;
+            font-size: $size-small;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        &-body {
+            min-width: 0;
+
+            > * {
+                width: 100%;
+                min-width: 0;
+            }
+        }
+
+        &[data-property-grid-editor="color"] {
+            .field.has-addons > .control:has(> .b-input-color-picker) {
+                flex: none;
+            }
+
+            .b-input-color-picker {
+                width: var(--bulma-control-height);
+                padding: $spacer * .25;
+            }
+        }
     }
 }

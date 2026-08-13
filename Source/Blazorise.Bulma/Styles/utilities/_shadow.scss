@@ -1,15 +1,7 @@
-﻿.has-shadow-small {
-    box-shadow: $box-shadow-sm !important;
-}
+﻿@each $name, $value in $box-shadow-values {
+    $suffix: if($name == default, "", "-#{$name}");
 
-.has-shadow {
-    box-shadow: $box-shadow !important;
-}
-
-.has-shadow-large {
-    box-shadow: $box-shadow-lg !important;
-}
-
-.has-shadow-none {
-    box-shadow: none !important;
+    .has-shadow#{$suffix} {
+        box-shadow: $value !important;
+    }
 }

@@ -10,7 +10,7 @@
         $infix: breakpoint-infix($breakpoint, $breakpoints);
 
         @include media-breakpoint-up($breakpoint, $breakpoints) {
-            @each $prop, $abbrev in (width: width, height: height) {
+            @each $prop, $abbrev in $sizing-properties {
                 @each $size, $length in $sizes-percentages {
                     .is-#{$abbrev}#{$infix}-#{$size} {
                         #{$prop}: $length !important;

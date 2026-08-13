@@ -7,16 +7,18 @@
 }
 
 .tabs {
-    &.is-vertical ul {
-        -webkit-flex-direction: column;
-        flex-direction: column;
-    }
+    &.is-vertical {
+        ul {
+            -webkit-flex-direction: column;
+            flex-direction: column;
+        }
 
-    &.is-vertical li {
-        width: 100%;
-    }
+        li {
+            width: 100%;
 
-    &.is-vertical li > a {
-        border: none;
+            > a {
+                border: none;
+            }
+        }
     }
 }

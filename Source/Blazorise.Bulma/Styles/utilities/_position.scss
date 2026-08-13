@@ -1,35 +1,19 @@
-@each $position in (static, relative, absolute, fixed, sticky) {
-    .is-position-#{$position} {
-        position: $position !important;
+@each $name, $value in $position-types {
+    .is-position-#{$name} {
+        position: $value !important;
     }
 }
 
-@each $name, $value in $position-values {
-    .is-top-#{$name} {
-        top: #{$value} !important;
-    }
-
-    .is-bottom-#{$name} {
-        bottom: #{$value} !important;
-    }
-
-    .is-left-#{$name} {
-        left: #{$value} !important;
-    }
-
-    .is-right-#{$name} {
-        right: #{$value} !important;
+@each $side in $position-sides {
+    @each $name, $value in $position-values {
+        .is-#{$side}-#{$name} {
+            #{$side}: $value !important;
+        }
     }
 }
 
-.is-translate-middle {
-    transform: translate(-50%, -50%) !important;
-}
-
-.is-translate-middle-x {
-    transform: translateX(-50%) !important;
-}
-
-.is-translate-middle-y {
-    transform: translateY(-50%) !important;
+@each $name, $value in $translate-values {
+    .is-translate-#{$name} {
+        transform: $value !important;
+    }
 }
