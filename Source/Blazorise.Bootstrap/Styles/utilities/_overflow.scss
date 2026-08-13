@@ -1,9 +1,11 @@
-﻿.overflow-visible {
-    overflow: visible !important;
-}
+.overflow {
+    &-visible {
+        overflow: visible !important;
+    }
 
-.overflow-scroll {
-    overflow: scroll !important;
+    &-scroll {
+        overflow: scroll !important;
+    }
 }
 
 @each $value1 in $overflows {
