@@ -12,8 +12,23 @@
     </Row>
 }
 
+<Div Flex="Flex.JustifyContent.Center.AlignItems.Center.Wrap" Gap="Gap.Is2" Margin="Margin.Is4.OnY">
+    <Button Type="ButtonType.Link" To="#expert-support" Color="Color.Light" Size="Size.Small" Clicked="@(() => ScrollToSection( "expert-support" ))">Expert Support</Button>
+    <Button Type="ButtonType.Link" To="#development" Color="Color.Light" Size="Size.Small" Clicked="@(() => ScrollToSection( "development" ))">Development</Button>
+    <Button Type="ButtonType.Link" To="#priority-options" Color="Color.Light" Size="Size.Small" Clicked="@(() => ScrollToSection( "priority-options" ))">Priority Options</Button>
+    <Button Type="ButtonType.Link" To="#pricing" Color="Color.Light" Size="Size.Small" Clicked="@(() => ScrollToSection( "pricing" ))">Pricing</Button>
+    @if ( !Compact )
+    {
+        <Button Type="ButtonType.Link" To="#faq" Color="Color.Light" Size="Size.Small" Clicked="@(() => ScrollToSection( "faq" ))">FAQ</Button>
+    }
+</Div>
+
+<Heading Size="HeadingSize.Is3" Margin="Margin.Is4.FromTop.Is2.FromBottom">
+    Choose the right kind of help
+</Heading>
+
 <Row Gutter="Gutter.Is3" Margin="Margin.Is4.FromTop.Is4.FromBottom">
-    @foreach ( var item in DeliveryPrinciples )
+    @foreach ( var item in ServicePaths )
     {
         <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
             <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
@@ -31,7 +46,7 @@
     }
 </Row>
 
-<Heading Size="HeadingSize.Is4" Margin="Margin.Is4.FromTop.Is2.FromBottom">
+<Heading ElementId="expert-support" Size="HeadingSize.Is3" Margin="Margin.Is5.FromTop.Is2.FromBottom">
     Need hands-on help?
 </Heading>
 
@@ -70,7 +85,7 @@
         </Card>
     </Column>
     <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
-        <Card Border="Border.Rounded" Background="Background.Info.Subtle" Shadow="Shadow.Small" Height="Height.Is100">
+        <Card Border="Border.Rounded" Background="Background.Info.Subtle" TextColor="TextColor.Info.Emphasis" Shadow="Shadow.Small" Height="Height.Is100">
             <CardBody Flex="Flex.Column" Gap="Gap.Is2">
                 <Badge Color="Color.Info" Pill>Priority scheduling</Badge>
                 <Heading Size="HeadingSize.Is4" Margin="Margin.Is0">
@@ -141,14 +156,18 @@
     <Strong>Enterprise Plus customers</Strong> can use their included Expert on Demand hours for eligible Live Expert Support sessions. Priority or Emergency scheduling may require an additional fee, even when included hours are available.
 </Paragraph>
 
-<Heading Size="HeadingSize.Is4" Margin="Margin.Is4.FromTop.Is2.FromBottom">
-    Larger custom work options
+<Heading ElementId="development" Size="HeadingSize.Is3" Margin="Margin.Is5.FromTop.Is2.FromBottom">
+    Development and delivery
 </Heading>
+
+<Lead TextColor="TextColor.Muted">
+    Choose Feature Sponsorship for generalizable product work intended for Blazorise, or Custom Development for larger company-specific implementation and integration work.
+</Lead>
 
 <Row Gutter="Gutter.Is3" Margin="Margin.Is4.FromBottom">
     @foreach ( var item in EngagementCards )
     {
-        <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
+        <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
             <Card Border="Border.Rounded" Height="Height.Is100">
                 <CardBody Flex="Flex.Column" Gap="Gap.Is2">
                     <Badge Color="@item.Color" Pill>@item.Model</Badge>
@@ -166,69 +185,6 @@
         </Column>
     }
 </Row>
-
-<Heading Size="HeadingSize.Is4" Margin="Margin.Is4.FromTop.Is2.FromBottom">
-    Pricing summary
-</Heading>
-
-<Table Responsive Bordered Striped>
-    <TableHeader>
-        <TableRow>
-            <TableHeaderCell Style="width: 20%;" TextAlignment="TextAlignment.Start">Offering</TableHeaderCell>
-            <TableHeaderCell Style="width: 35%;" TextAlignment="TextAlignment.Start">Best for</TableHeaderCell>
-            <TableHeaderCell Style="width: 20%;" TextAlignment="TextAlignment.Start">Commercial model</TableHeaderCell>
-            <TableHeaderCell Style="width: 25%;" TextAlignment="TextAlignment.End">Price guidance (EUR)</TableHeaderCell>
-        </TableRow>
-    </TableHeader>
-    <TableBody>
-        <TableRow>
-            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>License support</Strong></TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Start">Normal asynchronous product support</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Start">Included with applicable commercial licenses</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.End">Included</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Live Expert Support</Strong></TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Start">Short, hands-on Blazor troubleshooting and guidance</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Start">Hourly, 1-hour minimum</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.End">€150 / hour</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Priority Expert Support</Strong></TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Start">Expedited help for blocking issues or approaching deadlines</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Start">Hourly, 1-hour minimum</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.End">€200 / hour</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Emergency Expert Support</Strong></TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Start">Immediate or out-of-hours help when available</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Start">Hourly, 1-hour minimum</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.End">From €250 / hour</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Feature Sponsorship</Strong></TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Start">Generalizable features intended to go upstream</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Start">Fixed price</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.End">3.500-45.000+</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Custom Development</Strong></TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Start">Company-specific work, integrations, and bespoke needs</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Start">Time &amp; materials</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.End">95-120 / hour</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Priority Development Queue</Strong></TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Start">Faster triage, voting, and roadmap transparency (no delivery)</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Start">Annual add-on</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.End">4.900 / year</TableRowCell>
-        </TableRow>
-    </TableBody>
-</Table>
-
-<Paragraph TextAlignment="TextAlignment.Center" TextColor="TextColor.Muted">
-    Quotes are provided in EUR (typically excluding VAT unless stated). Final pricing depends on scope, acceptance criteria, and required provider support.
-</Paragraph>
 
 <Heading Size="HeadingSize.Is4" Margin="Margin.Is5.FromTop.Is2.FromBottom">
     Feature Sponsorship (fixed price)
@@ -299,7 +255,7 @@
     Ranges are guidance for procurement. Final pricing depends on acceptance criteria, dependencies, and required provider support.
 </Paragraph>
 
-<Heading Size="HeadingSize.Is4" TextAlignment="TextAlignment.Center" Margin="Margin.Is5.FromTop.Is2.FromBottom">
+<Heading Size="HeadingSize.Is4" Margin="Margin.Is5.FromTop.Is2.FromBottom">
     Custom Development (Time &amp; Materials)
 </Heading>
 
@@ -346,6 +302,14 @@
         </Paragraph>
     </UnorderedListItem>
 </UnorderedList>
+
+<Heading ElementId="priority-options" Size="HeadingSize.Is3" Margin="Margin.Is5.FromTop.Is2.FromBottom">
+    Priority access and special arrangements
+</Heading>
+
+<Lead TextColor="TextColor.Muted">
+    Use these options when you need faster request handling for larger work or temporary exclusivity for a sponsored feature.
+</Lead>
 
 <Heading Size="HeadingSize.Is4" Margin="Margin.Is5.FromTop.Is2.FromBottom">
     Priority Development Queue (Enterprise add-on, annual)
@@ -399,12 +363,75 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<Heading Size="HeadingSize.Is4" Margin="Margin.Is5.FromTop.Is2.FromBottom">
-    How delivery works
+<Heading ElementId="pricing" Size="HeadingSize.Is3" Margin="Margin.Is5.FromTop.Is2.FromBottom">
+    Pricing at a glance
+</Heading>
+
+<Table Responsive Bordered Striped>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell Style="width: 20%;" TextAlignment="TextAlignment.Start">Offering</TableHeaderCell>
+            <TableHeaderCell Style="width: 35%;" TextAlignment="TextAlignment.Start">Best for</TableHeaderCell>
+            <TableHeaderCell Style="width: 20%;" TextAlignment="TextAlignment.Start">Commercial model</TableHeaderCell>
+            <TableHeaderCell Style="width: 25%;" TextAlignment="TextAlignment.End">Price guidance (EUR)</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>License support</Strong></TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Normal asynchronous product support</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Included with applicable commercial licenses</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.End">Included</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Live Expert Support</Strong></TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Short, hands-on Blazor troubleshooting and guidance</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Hourly, 1-hour minimum</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.End">€150 / hour</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Priority Expert Support</Strong></TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Expedited help for blocking issues or approaching deadlines</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Hourly, 1-hour minimum</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.End">€200 / hour</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Emergency Expert Support</Strong></TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Immediate or out-of-hours help when available</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Hourly, 1-hour minimum</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.End">From €250 / hour</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Feature Sponsorship</Strong></TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Generalizable features intended to go upstream</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Fixed price</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.End">3.500-45.000+</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Custom Development</Strong></TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Company-specific work, integrations, and bespoke needs</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Time &amp; materials</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.End">95-120 / hour</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Priority Development Queue</Strong></TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Faster triage, voting, and roadmap transparency (no delivery)</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Start">Annual add-on</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.End">4.900 / year</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<Paragraph TextAlignment="TextAlignment.Center" TextColor="TextColor.Muted">
+    Quotes are provided in EUR (typically excluding VAT unless stated). Final pricing depends on scope, acceptance criteria, and required provider support.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3" Margin="Margin.Is5.FromTop.Is2.FromBottom">
+    How engagements work
 </Heading>
 
 <Row Gutter="Gutter.Is3">
-    @foreach ( var item in DeliverySteps )
+    @foreach ( var item in EngagementSteps )
     {
         <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
             <Card Border="Border.Rounded" Height="Height.Is100">
@@ -424,7 +451,7 @@
 
 @if ( !Compact )
 {
-    <Heading Size="HeadingSize.Is4" Margin="Margin.Is5.FromTop.Is2.FromBottom">
+    <Heading ElementId="faq" Size="HeadingSize.Is3" Margin="Margin.Is5.FromTop.Is2.FromBottom">
         FAQ &amp; proposal details
     </Heading>
 
@@ -595,27 +622,33 @@
 
     [Parameter] public bool ShowHeader { get; set; } = true;
 
-    private static readonly DeliveryPrinciple[] DeliveryPrinciples =
+    private static readonly ServicePath[] ServicePaths =
     [
         new( IconName.Headset, TextColor.Primary, "License support", "Applicable commercial licenses include normal asynchronous product support and response-time commitments." ),
         new( IconName.Video, TextColor.Info, "Expert Support", "Optional hands-on sessions start at one hour, with pricing based on scheduling urgency and availability." ),
-        new( IconName.Briefcase, TextColor.Success, "Custom Development", "Larger implementation engagements start at 16-24 hours, with scope and delivery terms defined separately." )
+        new( IconName.Briefcase, TextColor.Success, "Custom Development", "Larger company-specific implementation engagements start at 16-24 hours." ),
+        new( IconName.Lightbulb, TextColor.Warning, "Feature Sponsorship", "Generalizable product features are delivered under a separately scoped fixed-price proposal." ),
+        new( IconName.Clock, TextColor.Secondary, "Priority Development Queue", "An annual Enterprise add-on for faster request handling and roadmap visibility, without delivery." )
     ];
 
     private static readonly EngagementCard[] EngagementCards =
     [
         new( "Feature Sponsorship", "Fixed price", "Generalizable product features intended to go upstream into Blazorise.", "3.500-45.000+ EUR", Color.Primary ),
-        new( "Custom Development", "Time and materials", "Company-specific integrations, bespoke components, migration help, or private implementation work.", "95-120 EUR/hour", Color.Secondary ),
-        new( "Priority Development Queue", "Annual add-on", "Faster triage, request assessment, and roadmap visibility without a delivery guarantee.", "4.900 EUR/year", Color.Info )
+        new( "Custom Development", "Time and materials", "Company-specific integrations, bespoke components, migration help, or private implementation work.", "95-120 EUR/hour", Color.Secondary )
     ];
 
-    private static readonly DeliveryStep[] DeliverySteps =
+    private static readonly EngagementStep[] EngagementSteps =
     [
         new( "1", "Request", "Share the goal, target timeline, versions, providers, dependencies, and acceptance criteria." ),
         new( "2", "Qualify", "We confirm whether the request fits a live expert session, Feature Sponsorship, Time and Materials, or the Priority Development Queue." ),
-        new( "3", "Propose", "You receive a proposal or Statement of Work with scope, assumptions, timeline, and commercial terms." ),
-        new( "4", "Deliver", "Work proceeds against agreed milestones, with review points and change requests for scope changes." )
+        new( "3", "Confirm", "We schedule the session or provide a proposal with scope, assumptions, timeline, and commercial terms." ),
+        new( "4", "Begin", "The live session takes place or delivery proceeds against the agreed scope and milestones." )
     ];
+
+    private async Task ScrollToSection( string section )
+    {
+        await JSUtilitiesModule.ScrollAnchorIntoView( section );
+    }
 
     bool faqLicenseDeliveryVisible;
     bool faqSponsorshipVisible;
@@ -627,9 +660,11 @@
     bool requestEmailVisible;
     bool requestInfoVisible;
 
-    private sealed record DeliveryPrinciple( IconName Icon, TextColor TextColor, string Title, string Description );
+    [Inject] public Blazorise.Modules.IJSUtilitiesModule JSUtilitiesModule { get; set; }
+
+    private sealed record ServicePath( IconName Icon, TextColor TextColor, string Title, string Description );
 
     private sealed record EngagementCard( string Title, string Model, string Description, string Price, Color Color );
 
-    private sealed record DeliveryStep( string Step, string Title, string Description );
+    private sealed record EngagementStep( string Step, string Title, string Description );
 }
