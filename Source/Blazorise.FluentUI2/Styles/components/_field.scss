@@ -2,10 +2,12 @@
     margin-bottom: var(--spacingVerticalM);
 }
 
-.fui-Field.fui-FieldHorizontal {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+.fui-Field {
+    &.fui-FieldHorizontal {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
 }
 
 .fui-Label {
@@ -31,13 +33,15 @@
     }
 }
 
-.fui-Field__hint {
-    margin-top: var(--spacingVerticalXXS);
-    color: var(--colorNeutralForeground3);
-    font-family: var(--fontFamilyBase);
-    font-size: var(--fontSizeBase200);
-    font-weight: var(--fontWeightRegular);
-    line-height: var(--lineHeightBase200);
+.fui-Field {
+    &__hint {
+        margin-top: var(--spacingVerticalXXS);
+        color: var(--colorNeutralForeground3);
+        font-family: var(--fontFamilyBase);
+        font-size: var(--fontSizeBase200);
+        font-weight: var(--fontWeightRegular);
+        line-height: var(--lineHeightBase200);
+    }
 }
 
 .fui-Input,
@@ -231,18 +235,20 @@
     }
 }
 
-.fui-Fields-inline {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
+.fui-Fields {
+    &-inline {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
 
-    @include media-breakpoint-up(sm) {
-        .fui-Field {
-            display: flex;
-            flex: 0 0 auto;
-            flex-flow: row wrap;
-            align-items: center;
-            margin-bottom: var(--spacingVerticalNone);
+        @include media-breakpoint-up(sm) {
+            .fui-Field {
+                display: flex;
+                flex: 0 0 auto;
+                flex-flow: row wrap;
+                align-items: center;
+                margin-bottom: var(--spacingVerticalNone);
+            }
         }
     }
 }

@@ -967,3 +967,24 @@ $figure-dimensions: 16 24 32 48 64 96 128 256 512 !default;
 
 $positions: static, relative, absolute, fixed, sticky !default;
 $position-values: ( 0: 0, 50: 50%, 100: 100% ) !default;
+
+$breakpoint-observer-breakpoints: $grid-breakpoints !default;
+$breakpoint-observer-map: (
+    xs: mobile,
+    sm: tablet,
+    md: desktop,
+    lg: widescreen,
+    xl: fullhd,
+    xxl: quadhd
+) !default;
+$bar-initial-breakpoints: (
+    "fui-VerticalNavigation-expand-sm": sm,
+    "fui-VerticalNavigation-expand-md": md,
+    "fui-VerticalNavigation-expand-lg": lg,
+    "fui-VerticalNavigation-expand-xl": xl,
+    "fui-VerticalNavigation-expand-xxl": xxl
+) !default;
+$spacing-properties: (margin: fui-Margin, padding: fui-Padding) !default;
+$sizing-properties: (width: fui-Width, height: fui-Height) !default;
+$border-sides: (top: "top", right: "end", bottom: "bottom", left: "start") !default;
+$border-sizes: (0: var(--strokeWidthNone), 1: var(--strokeWidthThin), 2: var(--strokeWidthThick), 3: var(--strokeWidthThicker), 4: var(--strokeWidthThickest), 5: var(--strokeWidthMax)) !default;

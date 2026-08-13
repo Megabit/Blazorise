@@ -69,46 +69,48 @@
     }
 }
 
-.fui-Dropdown__button {
-    padding-left: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
-    justify-content: space-between;
-    box-sizing: border-box;
-    padding-right: var(--spacingHorizontalMNudge);
-    column-gap: var(--spacingHorizontalXXS);
-    display: grid;
-    border-bottom-width: 0px;
-    border-left-width: 0px;
-    border-right-width: 0px;
-    border-top-width: 0px;
-    cursor: pointer;
-    width: 100%;
-    align-items: center;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    background-color: var(--colorTransparentBackground);
-    line-height: var(--lineHeightBase300);
-    font-weight: var(--fontWeightRegular);
-    font-size: var(--fontSizeBase300);
-    font-family: var(--fontFamilyBase);
-    text-align: left;
-    color: var(--colorNeutralForeground1);
-
-    &:focus {
-        outline-style: none;
-    }
-
-    .fui-Dropdown__expandIcon {
-        margin-left: var(--spacingHorizontalXXS);
-        grid-column-end: end;
-        grid-column-start: icon;
-        color: var(--colorNeutralStrokeAccessible);
-        display: block;
+.fui-Dropdown {
+    &__button {
+        padding-left: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
+        justify-content: space-between;
         box-sizing: border-box;
-        font-size: 20px;
+        padding-right: var(--spacingHorizontalMNudge);
+        column-gap: var(--spacingHorizontalXXS);
+        display: grid;
+        border-bottom-width: 0px;
+        border-left-width: 0px;
+        border-right-width: 0px;
+        border-top-width: 0px;
+        cursor: pointer;
+        width: 100%;
+        align-items: center;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        background-color: var(--colorTransparentBackground);
+        line-height: var(--lineHeightBase300);
+        font-weight: var(--fontWeightRegular);
+        font-size: var(--fontSizeBase300);
+        font-family: var(--fontFamilyBase);
+        text-align: left;
+        color: var(--colorNeutralForeground1);
 
-        > svg {
+        &:focus {
+            outline-style: none;
+        }
+
+        .fui-Dropdown__expandIcon {
+            margin-left: var(--spacingHorizontalXXS);
+            grid-column-end: end;
+            grid-column-start: icon;
+            color: var(--colorNeutralStrokeAccessible);
             display: block;
-            line-height: 0;
+            box-sizing: border-box;
+            font-size: 20px;
+
+            > svg {
+                display: block;
+                line-height: 0;
+            }
         }
     }
 }

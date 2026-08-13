@@ -2,7 +2,7 @@
     @include media-breakpoint-up($breakpoint) {
         $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-        @each $prop, $abbrev in (margin: fui-Margin, padding: fui-Padding) {
+        @each $prop, $abbrev in $spacing-properties {
             @each $size, $length in $spacers {
                 .#{$abbrev}#{$infix}-#{$size} {
                     #{$prop}: $length !important;

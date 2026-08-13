@@ -160,126 +160,130 @@
     }
 }
 
-.fui-Button-primary {
-    @include button-variant(var(--colorBrandBackground), var(--colorBrandBackgroundHover), var(--colorBrandBackgroundPressed), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand));
-}
-
-.fui-Button-secondary {
-    @include button-variant(var(--colorNeutralBackground3), var(--colorNeutralBackground3Hover), var(--colorNeutralBackground3Pressed), var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Hover));
-    border-color: var(--colorNeutralStroke1);
-}
-
-.fui-Button-success {
-    @include button-variant(var(--colorStatusSuccessBackground3), var(--colorStatusSuccessForeground1), var(--colorStatusSuccessForeground2), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand));
-}
-
-.fui-Button-danger {
-    @include button-variant(var(--colorStatusDangerBackground3), var(--colorStatusDangerForeground1), var(--colorStatusDangerForeground2), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand));
-}
-
-.fui-Button-warning {
-    @include button-variant(var(--colorStatusWarningBackground3), var(--colorStatusWarningForeground1), var(--colorStatusWarningForeground2), var(--colorPaletteMarigoldBackground1), var(--colorPaletteMarigoldBackground1), var(--colorPaletteMarigoldBackground1));
-}
-
-.fui-Button-info {
-    @include button-variant(var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Pressed), var(--colorNeutralBackground3), var(--colorNeutralBackground3Hover), var(--colorNeutralBackground3Pressed));
-}
-
-.fui-Button-dark {
-    @include button-variant(var(--colorNeutralForeground1), var(--colorNeutralForeground2), var(--colorNeutralForeground3), var(--colorNeutralBackground1), var(--colorNeutralBackground1), var(--colorNeutralBackground1));
-}
-
-.fui-Button-light {
-    @include button-variant(var(--colorNeutralBackground2), var(--colorNeutralBackground2Hover), var(--colorNeutralBackground2Pressed), var(--colorNeutralForeground2), var(--colorNeutralForeground2Hover), var(--colorNeutralForeground2Pressed));
-}
-
-.fui-Button-link {
-    background-color: var(--colorSubtleBackground);
-    color: var(--colorBrandForegroundLink);
-    border: none;
-    text-decoration: none;
-
-    &.fui-Button-disabled,
-    &:disabled {
-        cursor: not-allowed;
-        border-bottom-color: var(--colorNeutralStrokeDisabled);
-        border-left-color: var(--colorNeutralStrokeDisabled);
-        border-right-color: var(--colorNeutralStrokeDisabled);
-        border-top-color: var(--colorNeutralStrokeDisabled);
-        background-color: var(--colorNeutralBackgroundDisabled);
+.fui-Button {
+    &-primary {
+        @include button-variant(var(--colorBrandBackground), var(--colorBrandBackgroundHover), var(--colorBrandBackgroundPressed), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand));
     }
 
-    &:not(:disabled):not(.fui-Button-disabled),
-    &:not(:disabled):not(.fui-Button-disabled) {
-        &:hover {
-            color: var(--colorBrandForegroundLinkHover);
-            text-decoration: underline;
-        }
-
-        &:active,
-        &.fui-Button-active {
-            color: var(--colorBrandForegroundLinkPressed);
-        }
-    }
-}
-
-.fui-ButtonOutline-primary {
-    @include button-outline-variant(var(--colorBrandBackground), var(--colorBrandBackgroundHover), var(--colorBrandBackgroundPressed));
-}
-
-.fui-ButtonOutline-secondary {
-    @include button-outline-variant(var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Pressed));
-}
-
-.fui-ButtonOutline-success {
-    @include button-outline-variant(var(--colorStatusSuccessBackground3), var(--colorStatusSuccessForeground1), var(--colorStatusSuccessForeground2));
-}
-
-.fui-ButtonOutline-danger {
-    @include button-outline-variant(var(--colorStatusDangerBackground3), var(--colorStatusDangerForeground1), var(--colorStatusDangerForeground2));
-}
-
-.fui-ButtonOutline-warning {
-    @include button-outline-variant(var(--colorStatusWarningBackground3), var(--colorStatusWarningForeground1), var(--colorStatusWarningForeground2));
-}
-
-.fui-ButtonOutline-info {
-    @include button-outline-variant(var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Pressed));
-}
-
-.fui-ButtonOutline-dark {
-    @include button-outline-variant(var(--colorNeutralForeground1), var(--colorNeutralForeground2), var(--colorNeutralForeground3));
-}
-
-.fui-ButtonOutline-light {
-    color: var(--colorNeutralBackground2);
-    border-color: var(--colorNeutralBackground2);
-
-    &.fui-Button-disabled,
-    &:disabled {
-        cursor: not-allowed;
-        border-bottom-color: var(--colorNeutralStrokeDisabled);
-        border-left-color: var(--colorNeutralStrokeDisabled);
-        border-right-color: var(--colorNeutralStrokeDisabled);
-        border-top-color: var(--colorNeutralStrokeDisabled);
-        background-color: var(--colorNeutralBackgroundDisabled);
+    &-secondary {
+        @include button-variant(var(--colorNeutralBackground3), var(--colorNeutralBackground3Hover), var(--colorNeutralBackground3Pressed), var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Hover));
+        border-color: var(--colorNeutralStroke1);
     }
 
-    &:not(:disabled):not(.fui-Button-disabled),
-    &:not(:disabled):not(.fui-Button-disabled) {
-        &:hover {
-            color: var(--colorNeutralForeground2Hover);
+    &-success {
+        @include button-variant(var(--colorStatusSuccessBackground3), var(--colorStatusSuccessForeground1), var(--colorStatusSuccessForeground2), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand));
+    }
+
+    &-danger {
+        @include button-variant(var(--colorStatusDangerBackground3), var(--colorStatusDangerForeground1), var(--colorStatusDangerForeground2), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand));
+    }
+
+    &-warning {
+        @include button-variant(var(--colorStatusWarningBackground3), var(--colorStatusWarningForeground1), var(--colorStatusWarningForeground2), var(--colorPaletteMarigoldBackground1), var(--colorPaletteMarigoldBackground1), var(--colorPaletteMarigoldBackground1));
+    }
+
+    &-info {
+        @include button-variant(var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Pressed), var(--colorNeutralBackground3), var(--colorNeutralBackground3Hover), var(--colorNeutralBackground3Pressed));
+    }
+
+    &-dark {
+        @include button-variant(var(--colorNeutralForeground1), var(--colorNeutralForeground2), var(--colorNeutralForeground3), var(--colorNeutralBackground1), var(--colorNeutralBackground1), var(--colorNeutralBackground1));
+    }
+
+    &-light {
+        @include button-variant(var(--colorNeutralBackground2), var(--colorNeutralBackground2Hover), var(--colorNeutralBackground2Pressed), var(--colorNeutralForeground2), var(--colorNeutralForeground2Hover), var(--colorNeutralForeground2Pressed));
+    }
+
+    &-link {
+        background-color: var(--colorSubtleBackground);
+        color: var(--colorBrandForegroundLink);
+        border: none;
+        text-decoration: none;
+
+        &.fui-Button-disabled,
+        &:disabled {
+            cursor: not-allowed;
+            border-bottom-color: var(--colorNeutralStrokeDisabled);
+            border-left-color: var(--colorNeutralStrokeDisabled);
+            border-right-color: var(--colorNeutralStrokeDisabled);
+            border-top-color: var(--colorNeutralStrokeDisabled);
+            background-color: var(--colorNeutralBackgroundDisabled);
         }
 
-        &:active,
-        &.fui-Button-active {
-            color: var(--colorNeutralForeground2Pressed);
+        &:not(:disabled):not(.fui-Button-disabled),
+        &:not(:disabled):not(.fui-Button-disabled) {
+            &:hover {
+                color: var(--colorBrandForegroundLinkHover);
+                text-decoration: underline;
+            }
+
+            &:active,
+            &.fui-Button-active {
+                color: var(--colorBrandForegroundLinkPressed);
+            }
         }
     }
 }
 
-.fui-ButtonOutline-link {
-    @include button-outline-variant(var(--colorBrandForegroundLink), var(--colorBrandForegroundLinkHover), var(--colorBrandForegroundLinkPressed));
+.fui-ButtonOutline {
+    &-primary {
+        @include button-outline-variant(var(--colorBrandBackground), var(--colorBrandBackgroundHover), var(--colorBrandBackgroundPressed));
+    }
+
+    &-secondary {
+        @include button-outline-variant(var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Pressed));
+    }
+
+    &-success {
+        @include button-outline-variant(var(--colorStatusSuccessBackground3), var(--colorStatusSuccessForeground1), var(--colorStatusSuccessForeground2));
+    }
+
+    &-danger {
+        @include button-outline-variant(var(--colorStatusDangerBackground3), var(--colorStatusDangerForeground1), var(--colorStatusDangerForeground2));
+    }
+
+    &-warning {
+        @include button-outline-variant(var(--colorStatusWarningBackground3), var(--colorStatusWarningForeground1), var(--colorStatusWarningForeground2));
+    }
+
+    &-info {
+        @include button-outline-variant(var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Pressed));
+    }
+
+    &-dark {
+        @include button-outline-variant(var(--colorNeutralForeground1), var(--colorNeutralForeground2), var(--colorNeutralForeground3));
+    }
+
+    &-light {
+        color: var(--colorNeutralBackground2);
+        border-color: var(--colorNeutralBackground2);
+
+        &.fui-Button-disabled,
+        &:disabled {
+            cursor: not-allowed;
+            border-bottom-color: var(--colorNeutralStrokeDisabled);
+            border-left-color: var(--colorNeutralStrokeDisabled);
+            border-right-color: var(--colorNeutralStrokeDisabled);
+            border-top-color: var(--colorNeutralStrokeDisabled);
+            background-color: var(--colorNeutralBackgroundDisabled);
+        }
+
+        &:not(:disabled):not(.fui-Button-disabled),
+        &:not(:disabled):not(.fui-Button-disabled) {
+            &:hover {
+                color: var(--colorNeutralForeground2Hover);
+            }
+
+            &:active,
+            &.fui-Button-active {
+                color: var(--colorNeutralForeground2Pressed);
+            }
+        }
+    }
+
+    &-link {
+        @include button-outline-variant(var(--colorBrandForegroundLink), var(--colorBrandForegroundLinkHover), var(--colorBrandForegroundLinkPressed));
+    }
 }
 
 .fui-CloseButton {
@@ -303,10 +307,12 @@
     }
 }
 
-.fui-ButtonGroup-toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+.fui-ButtonGroup {
+    &-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
 }
 
 .fui-ButtonGroup {
@@ -337,16 +343,18 @@
     }
 }
 
-.fui-Button__spinner {
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    margin-right: var(--spacingHorizontalXS);
-    border-width: var(--strokeWidthThick);
-    border: var(--strokeWidthThicker) solid currentColor;
-    border-right-color: transparent;
-    border-radius: var(--borderRadiusCircular);
-    animation: var(--durationUltraSlow) linear infinite spinner-border;
+.fui-Button {
+    &__spinner {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        margin-right: var(--spacingHorizontalXS);
+        border-width: var(--strokeWidthThick);
+        border: var(--strokeWidthThicker) solid currentColor;
+        border-right-color: transparent;
+        border-radius: var(--borderRadiusCircular);
+        animation: var(--durationUltraSlow) linear infinite spinner-border;
+    }
 }
 
 @keyframes spinner-border {

@@ -8,95 +8,101 @@
     overflow: hidden;
 }
 
-.fui-PropertyGrid__viewport {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-    gap: var(--spacingVerticalM);
-    min-height: 0;
-    min-width: 0;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-}
-
-.fui-PropertyGrid__toolbar {
-    display: flex;
-    flex: 0 0 auto;
-    align-items: stretch;
-    gap: var(--spacingHorizontalS);
-    min-width: 0;
-}
-
-.fui-PropertyGrid__toolbarButton {
-    flex: 0 0 auto;
-
-    > :is(i, .fluentui-icon) {
-        font-size: var(--fontSizeBase400);
+.fui-PropertyGrid {
+    &__viewport {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        gap: var(--spacingVerticalM);
+        min-height: 0;
+        min-width: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
     }
 
-    > svg,
-    > i > svg {
-        width: var(--fontSizeBase400);
-        height: var(--fontSizeBase400);
+    &__toolbar {
+        display: flex;
+        flex: 0 0 auto;
+        align-items: stretch;
+        gap: var(--spacingHorizontalS);
+        min-width: 0;
+    }
+
+    &__toolbarButton {
+        flex: 0 0 auto;
+
+        > :is(i, .fluentui-icon) {
+            font-size: var(--fontSizeBase400);
+        }
+
+        > svg,
+        > i > svg {
+            width: var(--fontSizeBase400);
+            height: var(--fontSizeBase400);
+        }
+    }
+
+    &__toolbarSearch {
+        flex: 1 1 calc(var(--spacingHorizontalXXXL) * 8);
+        min-width: calc(var(--spacingHorizontalXXXL) * 5);
+        max-width: calc(var(--spacingHorizontalXXXL) * 11);
+        margin-inline-start: auto;
+    }
+
+    &__empty {
+        padding: var(--spacingVerticalM) var(--spacingHorizontalM);
+        color: var(--colorNeutralForeground3);
+        font-size: var(--fontSizeBase300);
+    }
+
+    &__help {
+        flex: 0 0 auto;
+        padding: var(--spacingVerticalMNudge) var(--spacingHorizontalM);
+        border-top: var(--strokeWidthThin) solid var(--colorNeutralStroke2);
+    }
+
+    &__helpTitle {
+        font-size: var(--fontSizeBase300);
+        font-weight: var(--fontWeightSemibold);
+    }
+
+    &__helpDescription {
+        margin-top: var(--spacingVerticalXXS);
+        color: var(--colorNeutralForeground3);
+        font-size: var(--fontSizeBase200);
     }
 }
 
-.fui-PropertyGrid__toolbarSearch {
-    flex: 1 1 calc(var(--spacingHorizontalXXXL) * 8);
-    min-width: calc(var(--spacingHorizontalXXXL) * 5);
-    max-width: calc(var(--spacingHorizontalXXXL) * 11);
-    margin-inline-start: auto;
+.fui-PropertyGridGroup {
+    &,
+    &__body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacingVerticalXS);
+        min-width: 0;
+    }
 }
 
-.fui-PropertyGrid__empty {
-    padding: var(--spacingVerticalM) var(--spacingHorizontalM);
-    color: var(--colorNeutralForeground3);
-    font-size: var(--fontSizeBase300);
-}
+.fui-PropertyGridGroup {
+    &__header {
+        font-size: var(--fontSizeBase300);
+        font-weight: var(--fontWeightSemibold);
+    }
 
-.fui-PropertyGrid__help {
-    flex: 0 0 auto;
-    padding: var(--spacingVerticalMNudge) var(--spacingHorizontalM);
-    border-top: var(--strokeWidthThin) solid var(--colorNeutralStroke2);
-}
-
-.fui-PropertyGrid__helpTitle {
-    font-size: var(--fontSizeBase300);
-    font-weight: var(--fontWeightSemibold);
-}
-
-.fui-PropertyGrid__helpDescription {
-    margin-top: var(--spacingVerticalXXS);
-    color: var(--colorNeutralForeground3);
-    font-size: var(--fontSizeBase200);
-}
-
-.fui-PropertyGridGroup,
-.fui-PropertyGridGroup__body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacingVerticalXS);
-    min-width: 0;
-}
-
-.fui-PropertyGridGroup__header {
-    font-size: var(--fontSizeBase300);
-    font-weight: var(--fontWeightSemibold);
-}
-
-.fui-PropertyGridGroup__toggle {
-    display: flex;
-    align-items: center;
-    gap: var(--spacingHorizontalSNudge);
-    width: 100%;
-    padding: 0;
-    border: 0;
-    color: inherit;
-    background: transparent;
-    font: inherit;
-    font-weight: inherit;
-    text-align: start;
-    cursor: pointer;
+    &__toggle {
+        display: flex;
+        align-items: center;
+        gap: var(--spacingHorizontalSNudge);
+        width: 100%;
+        padding: 0;
+        border: 0;
+        color: inherit;
+        background: transparent;
+        font: inherit;
+        font-weight: inherit;
+        text-align: start;
+        cursor: pointer;
+    }
 }
 
 .fui-PropertyGridItem {
@@ -107,48 +113,50 @@
     min-width: 0;
 }
 
-.fui-PropertyGridItem-selected {
-    background: var(--colorSubtleBackgroundSelected);
-}
+.fui-PropertyGridItem {
+    &-selected {
+        background: var(--colorSubtleBackgroundSelected);
+    }
 
-.fui-PropertyGridItem:focus-visible {
-    outline: var(--strokeWidthThin) solid var(--colorStrokeFocus2);
-    outline-offset: var(--strokeWidthThin);
-}
+    &:focus-visible {
+        outline: var(--strokeWidthThin) solid var(--colorStrokeFocus2);
+        outline-offset: var(--strokeWidthThin);
+    }
 
-.fui-PropertyGridItem__label {
-    min-width: 0;
-    padding-inline-end: var(--spacingHorizontalXS);
-    overflow: hidden;
-    font-size: var(--fontSizeBase300);
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.fui-PropertyGridItem__body {
-    min-width: 0;
-
-    > * {
-        width: 100%;
+    &__label {
         min-width: 0;
+        padding-inline-end: var(--spacingHorizontalXS);
+        overflow: hidden;
+        font-size: var(--fontSizeBase300);
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
-    :is(.fui-Input__contentBefore, .fui-Input__contentAfter) > .fui-Button {
-        padding-inline: var(--spacingHorizontalXS);
-    }
-}
+    &__body {
+        min-width: 0;
 
-.fui-PropertyGridItem[data-property-grid-editor="color"] {
-    .fui-Input__colorValue {
-        display: none;
+        > * {
+            width: 100%;
+            min-width: 0;
+        }
+
+        :is(.fui-Input__contentBefore, .fui-Input__contentAfter) > .fui-Button {
+            padding-inline: var(--spacingHorizontalXS);
+        }
     }
 
-    .fui-Input__content:has(> .fui-ColorPicker) {
-        flex: none;
-    }
+    &[data-property-grid-editor="color"] {
+        .fui-Input__colorValue {
+            display: none;
+        }
 
-    .fui-ColorPicker {
-        flex: none;
-        min-width: auto;
+        .fui-Input__content:has(> .fui-ColorPicker) {
+            flex: none;
+        }
+
+        .fui-ColorPicker {
+            flex: none;
+            min-width: auto;
+        }
     }
 }

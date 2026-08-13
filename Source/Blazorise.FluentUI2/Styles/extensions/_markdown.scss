@@ -6,62 +6,68 @@
     }
 }
 
-.EasyMDEContainer.b-markdown-valid.b-markdown-valid {
-    .editor-toolbar,
-    .CodeMirror,
-    .editor-preview-side,
-    .editor-preview-full,
-    .editor-statusbar {
-        border-color: var(--colorStatusSuccessBorder2);
-    }
+.EasyMDEContainer {
+    &.b-markdown-valid.b-markdown-valid {
+        .editor-toolbar,
+        .CodeMirror,
+        .editor-preview-side,
+        .editor-preview-full,
+        .editor-statusbar {
+            border-color: var(--colorStatusSuccessBorder2);
+        }
 
-    ~ .fui-Field__validationMessage-success {
-        display: block;
+        ~ .fui-Field__validationMessage-success {
+            display: block;
 
-        .fui-Field__validationMessageIcon {
-            color: var(--colorPaletteGreenForeground1);
+            .fui-Field__validationMessageIcon {
+                color: var(--colorPaletteGreenForeground1);
+            }
         }
     }
 }
 
-.EasyMDEContainer.b-markdown-warning.b-markdown-warning {
-    .editor-toolbar,
-    .CodeMirror,
-    .editor-preview-side,
-    .editor-preview-full,
-    .editor-statusbar {
-        border-color: var(--colorStatusWarningForeground2);
-    }
+.EasyMDEContainer {
+    &.b-markdown-warning.b-markdown-warning {
+        .editor-toolbar,
+        .CodeMirror,
+        .editor-preview-side,
+        .editor-preview-full,
+        .editor-statusbar {
+            border-color: var(--colorStatusWarningForeground2);
+        }
 
-    ~ .fui-Field__hint {
-        display: none;
-    }
+        ~ .fui-Field__hint {
+            display: none;
+        }
 
-    ~ .fui-Field__validationMessage-warning {
-        display: block;
-        color: var(--colorStatusWarningForeground2);
-
-        .fui-Field__validationMessageIcon {
+        ~ .fui-Field__validationMessage-warning {
+            display: block;
             color: var(--colorStatusWarningForeground2);
+
+            .fui-Field__validationMessageIcon {
+                color: var(--colorStatusWarningForeground2);
+            }
         }
     }
 }
 
-.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid {
-    .editor-toolbar,
-    .CodeMirror,
-    .editor-preview-side,
-    .editor-preview-full,
-    .editor-statusbar {
-        border-color: var(--colorStatusDangerBorder2);
-    }
+.EasyMDEContainer {
+    &.b-markdown-invalid.b-markdown-invalid {
+        .editor-toolbar,
+        .CodeMirror,
+        .editor-preview-side,
+        .editor-preview-full,
+        .editor-statusbar {
+            border-color: var(--colorStatusDangerBorder2);
+        }
 
-    ~ .fui-Field__validationMessage-error {
-        display: block;
-        color: var(--colorPaletteRedForeground1);
-
-        .fui-Field__validationMessageIcon {
+        ~ .fui-Field__validationMessage-error {
+            display: block;
             color: var(--colorPaletteRedForeground1);
+
+            .fui-Field__validationMessageIcon {
+                color: var(--colorPaletteRedForeground1);
+            }
         }
     }
 }

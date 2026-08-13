@@ -22,29 +22,31 @@
     }
 }
 
-.fui-DialogSurface__backdrop {
-    inset: 0px;
-    background-color: rgba(0, 0, 0, 0.4);
-    position: fixed;
-    will-change: opacity;
-    z-index: var(--zIndexModalBackdrop);
-    display: none;
-
-    &-fade {
-        transition-duration: var(--modal-animation-duration, var(--durationGentle));
-        transition-timing-function: var(--curveLinear);
-        transition-property: opacity;
-    }
-
-    &-show {
-        animation: fadein var(--modal-animation-duration, var(--durationGentle)) cubic-bezier(0, 0, 0, 1) forwards;
-        display: block;
-        opacity: 1;
-    }
-
-    &-hide {
-        animation: fadeaway var(--modal-animation-duration, var(--durationGentle)) cubic-bezier(0, 0, 0, 1) forwards;
+.fui-DialogSurface {
+    &__backdrop {
+        inset: 0px;
+        background-color: rgba(0, 0, 0, 0.4);
+        position: fixed;
+        will-change: opacity;
+        z-index: var(--zIndexModalBackdrop);
         display: none;
+
+        &-fade {
+            transition-duration: var(--modal-animation-duration, var(--durationGentle));
+            transition-timing-function: var(--curveLinear);
+            transition-property: opacity;
+        }
+
+        &-show {
+            animation: fadein var(--modal-animation-duration, var(--durationGentle)) cubic-bezier(0, 0, 0, 1) forwards;
+            display: block;
+            opacity: 1;
+        }
+
+        &-hide {
+            animation: fadeaway var(--modal-animation-duration, var(--durationGentle)) cubic-bezier(0, 0, 0, 1) forwards;
+            display: none;
+        }
     }
 }
 

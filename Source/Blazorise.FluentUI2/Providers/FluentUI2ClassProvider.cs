@@ -170,7 +170,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region ColorPicker
 
-    public override string ColorPicker() => "fui-ColorPicker fui-Input__input b-input-color-picker";
+    public override string ColorPicker() => "fui-ColorPicker fui-Input__input fui-Input__input--colorPicker";
 
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
@@ -903,9 +903,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Bar
 
-    public override string Bar( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "fui-NavigationBar" : "navbar";
+    public override string Bar( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
+        ? "fui-NavigationBar"
+        : "fui-VerticalNavigation";
 
-    public override string BarInitial( BarMode mode, bool initial ) => mode != Blazorise.BarMode.Horizontal && initial ? "b-bar-initial" : null;
+    public override string BarInitial( BarMode mode, bool initial ) => mode != Blazorise.BarMode.Horizontal && initial ? "fui-VerticalNavigation-initial" : null;
 
     public override string BarAlignment( BarMode mode, Alignment alignment ) => alignment != Alignment.Default ? $"fui-JustifyContent-{ToAlignment( alignment )}" : null;
 
@@ -914,9 +916,7 @@ public class FluentUI2ClassProvider : ClassProvider
         if ( themeContrast == ThemeContrast.None )
             return null;
 
-        return mode == Blazorise.BarMode.Horizontal
-            ? $"fui-NavigationBar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}"
-            : $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
+        return $"fui-NavigationBar-{ToThemeContrast( themeContrast )}";
     }
 
     public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint )
@@ -924,20 +924,21 @@ public class FluentUI2ClassProvider : ClassProvider
         if ( breakpoint == Breakpoint.None )
             return null;
 
+        if ( breakpoint == Breakpoint.Mobile )
+            return null;
+
         return mode == Blazorise.BarMode.Horizontal
-            ? breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"fui-NavigationBar-expand-{ToBreakpoint( breakpoint )}" : null
-            : breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"fui-bar-expand-{ToBreakpoint( breakpoint )}" : null;
+            ? $"fui-NavigationBar-expand-{ToBreakpoint( breakpoint )}"
+            : $"fui-VerticalNavigation-expand-{ToBreakpoint( breakpoint )}";
     }
 
-    public override string BarMode( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? $"fui-NavigationBar-{ToBarMode( mode )}"
-        : $"b-bar-{ToBarMode( mode )}";
+    public override string BarMode( BarMode mode ) => $"fui-NavigationBar-{ToBarMode( mode )}";
 
     public override string BarItem( BarMode mode, bool hasDropdown ) => mode == Blazorise.BarMode.Horizontal
         ? hasDropdown
             ? "fui-NavigationBar__dropdown"
             : "fui-NavigationBar__item"
-        : "b-bar-item";
+        : "fui-NavigationBar__item";
 
     public override string BarItemActive( BarMode mode, bool active ) => active ? "fui-NavigationBar__item-active" : null;
 
@@ -945,9 +946,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string BarItemHasDropdown( BarMode mode, bool hasDropdown ) => null;
 
-    public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__link"
-        : "b-bar-link";
+    public override string BarLink( BarMode mode ) => "fui-NavigationBar__link";
 
     public override string BarLinkDisabled( BarMode mode, bool disabled ) => disabled
         ? mode == Blazorise.BarMode.Horizontal
@@ -955,26 +954,22 @@ public class FluentUI2ClassProvider : ClassProvider
             : Disabled()
         : null;
 
-    public override string BarIcon( BarMode mode ) => "b-bar-icon";
+    public override string BarIcon( BarMode mode ) => "fui-NavigationBar__icon";
 
-    public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__brand"
-        : "b-bar-brand";
+    public override string BarBrand( BarMode mode ) => "fui-NavigationBar__brand";
 
-    public override string BarBrandToggler( BarMode mode ) => "b-bar-mobile-toggle";
+    public override string BarBrandToggler( BarMode mode ) => "fui-NavigationBar__mobileToggle";
 
     public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal
         ? "fui-NavigationBar__toggler"
         : togglerMode == BarTogglerMode.Popout
-            ? "b-bar-toggler-popout"
-            : "b-bar-toggler-inline";
+            ? "fui-NavigationBar__toggler--popout"
+            : "fui-NavigationBar__toggler--inline";
 
     public override string BarTogglerCollapsed( BarMode mode, BarTogglerMode togglerMode, bool isShow ) =>
         isShow || mode != Blazorise.BarMode.Horizontal ? null : "collapsed";
 
-    public override string BarMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__menu"
-        : "b-bar-menu";
+    public override string BarMenu( BarMode mode ) => "fui-NavigationBar__menu";
 
     public override string BarMenuShow( BarMode mode, bool show ) => show
         ? mode == Blazorise.BarMode.Horizontal
@@ -982,17 +977,13 @@ public class FluentUI2ClassProvider : ClassProvider
             : Show()
         : null;
 
-    public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__start"
-        : "b-bar-start";
+    public override string BarStart( BarMode mode ) => "fui-NavigationBar__start";
 
-    public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__end"
-        : "b-bar-end";
+    public override string BarEnd( BarMode mode ) => "fui-NavigationBar__end";
 
     public override string BarDropdown( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
         ? isBarDropDownSubmenu ? "fui-NavigationBar__subdropdown" : "fui-NavigationBar__dropdown"
-        : "b-bar-dropdown";
+        : "fui-NavigationBar__dropdown";
 
     public override string BarDropdownShow( BarMode mode, bool show ) => show
         ? mode == Blazorise.BarMode.Horizontal
@@ -1004,7 +995,7 @@ public class FluentUI2ClassProvider : ClassProvider
         ? isBarDropDownSubmenu
             ? "fui-NavigationBar__dropdown-item"
             : "fui-NavigationBar__link fui-NavigationBar__dropdown-toggle"
-        : "b-bar-link b-bar-dropdown-toggle";
+        : "fui-NavigationBar__link fui-NavigationBar__dropdown-toggle";
 
     public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled ) => mode == Blazorise.BarMode.Horizontal && disabled
         ? "disabled"
@@ -1012,60 +1003,46 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string BarDropdownToggleIcon( bool isToggleIconVisible ) => null;
 
-    public override string BarDropdownToggleContent( BarMode mode ) => "b-bar-dropdown-toggle-content";
+    public override string BarDropdownToggleContent( BarMode mode ) => "fui-NavigationBar__dropdown-toggle-content";
 
-    public override string BarDropdownToggleContentText( BarMode mode ) => "b-bar-dropdown-toggle-content-text";
+    public override string BarDropdownToggleContentText( BarMode mode ) => "fui-NavigationBar__dropdown-toggle-content-text";
 
-    public override string BarDropdownToggleContentIcon( BarMode mode ) => "b-bar-dropdown-toggle-content-icon";
+    public override string BarDropdownToggleContentIcon( BarMode mode ) => "fui-NavigationBar__dropdown-toggle-content-icon";
 
-    public override string BarDropdownToggleIconContainer( BarMode mode ) => "b-bar-dropdown-toggle-icon-container";
+    public override string BarDropdownToggleIconContainer( BarMode mode ) => "fui-NavigationBar__dropdown-toggle-icon-container";
 
-    public override string BarDropdownToggleIconLayer( BarMode mode ) => "b-bar-dropdown-toggle-icon-layer";
+    public override string BarDropdownToggleIconLayer( BarMode mode ) => "fui-NavigationBar__dropdown-toggle-icon-layer";
 
-    public override string BarDropdownToggleIconLayerVisible( BarMode mode, bool visible ) => visible ? "b-bar-dropdown-toggle-icon-layer-visible" : null;
+    public override string BarDropdownToggleIconLayerVisible( BarMode mode, bool visible ) => visible ? "fui-NavigationBar__dropdown-toggle-icon-layer--visible" : null;
 
-    public override string BarDropdownToggleIconLayerHiddenExpand( BarMode mode, bool hiddenExpand ) => hiddenExpand ? "b-bar-dropdown-toggle-icon-layer-hidden-expand" : null;
+    public override string BarDropdownToggleIconLayerHiddenExpand( BarMode mode, bool hiddenExpand ) => hiddenExpand ? "fui-NavigationBar__dropdown-toggle-icon-layer--hiddenExpand" : null;
 
-    public override string BarDropdownToggleIconLayerHiddenCollapse( BarMode mode, bool hiddenCollapse ) => hiddenCollapse ? "b-bar-dropdown-toggle-icon-layer-hidden-collapse" : null;
+    public override string BarDropdownToggleIconLayerHiddenCollapse( BarMode mode, bool hiddenCollapse ) => hiddenCollapse ? "fui-NavigationBar__dropdown-toggle-icon-layer--hiddenCollapse" : null;
 
-    public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__dropdown-item"
-        : "b-bar-dropdown-item";
+    public override string BarDropdownItem( BarMode mode ) => "fui-NavigationBar__dropdown-item";
 
     public override string BarDropdownItemDisabled( BarMode mode, bool disabled ) => null;
 
-    public override string BarTogglerIcon( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__toggler-icon"
-        : "navbar-toggler-icon";
+    public override string BarTogglerIcon( BarMode mode ) => "fui-NavigationBar__toggler-icon";
 
-    public override string BarDropdownDivider( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__dropdown-divider"
-        : "dropdown-divider";
+    public override string BarDropdownDivider( BarMode mode ) => "fui-NavigationBar__dropdown-divider";
 
-    public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__dropdown-menu"
-        : "b-bar-dropdown-menu";
+    public override string BarDropdownMenu( BarMode mode ) => "fui-NavigationBar__dropdown-menu";
 
-    public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => mode == Blazorise.BarMode.Horizontal
-        ? visible ? "fui-NavigationBar__dropdown-menu-show" : null
-        : visible ? "dropdown-menu-show" : null;
+    public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? "fui-NavigationBar__dropdown-menu-show" : null;
 
-    public override string BarDropdownMenuRight( BarMode mode, bool rightAligned ) => rightAligned
-        ? mode == Blazorise.BarMode.Horizontal
-            ? "fui-NavigationBar__dropdown-right"
-            : "b-bar-right"
-        : null;
+    public override string BarDropdownMenuRight( BarMode mode, bool rightAligned ) => rightAligned ? "fui-NavigationBar__dropdown-right" : null;
 
     public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ?
         null :
-        "b-bar-dropdown-menu-container";
+        "fui-NavigationBar__dropdown-menu-container";
 
     public override string BarDropdownMenuPositionStrategy( BarMode mode, DropdownPositionStrategy positionStrategy )
         => ToDropdownPositionStrategy( mode == Blazorise.BarMode.Horizontal ? DropdownPositionStrategy.Absolute : positionStrategy );
 
     public override string BarCollapsed( BarMode mode, bool visible ) => null;
 
-    public override string BarLabel( BarMode mode ) => "b-bar-label";
+    public override string BarLabel( BarMode mode ) => "fui-NavigationBar__label";
 
     #endregion
 
@@ -1382,15 +1359,15 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ProgressBarWidth( int width ) => null;
 
-    public override string PageProgress() => "b-page-progress";
+    public override string PageProgress() => "fui-PageProgress";
 
-    public override string PageProgressActive( bool visible ) => visible ? "b-page-progress-active" : null;
+    public override string PageProgressActive( bool visible ) => visible ? "fui-PageProgress--active" : null;
 
-    public override string PageProgressIndicator() => "b-page-progress-indicator";
+    public override string PageProgressIndicator() => "fui-PageProgress__indicator";
 
-    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"b-page-progress-indicator-{ToColor( color )}" : null;
+    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-PageProgress__indicator--{ToColor( color )}" : null;
 
-    public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "b-page-progress-indicator-indeterminate" : null;
+    public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "fui-PageProgress__indicator--indeterminate" : null;
 
     #endregion
 
@@ -1692,6 +1669,28 @@ public class FluentUI2ClassProvider : ClassProvider
     #endregion
 
     #region Layout
+
+    public override string Layout() => "fui-Layout";
+
+    public override string LayoutHasSider( bool hasSider ) => hasSider ? "fui-Layout--hasSider" : null;
+
+    public override string LayoutContent() => "fui-Layout__content";
+
+    public override string LayoutHeader() => "fui-Layout__header";
+
+    public override string LayoutHeaderFixed( bool @fixed ) => @fixed ? "fui-Layout__header--fixed" : null;
+
+    public override string LayoutFooter() => "fui-Layout__footer";
+
+    public override string LayoutFooterFixed( bool @fixed ) => @fixed ? "fui-Layout__footer--fixed" : null;
+
+    public override string LayoutSider() => "fui-Layout__sider";
+
+    public override string LayoutSiderContent() => "fui-Layout__siderContent";
+
+    public override string LayoutLoading() => "fui-Layout--loading";
+
+    public override string LayoutRoot( bool root ) => root ? "fui-Layout--root" : null;
 
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint )
     {

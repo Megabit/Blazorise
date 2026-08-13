@@ -10,10 +10,12 @@
     }
 }
 
-.fui-Background-white {
-    background-color: var(--colorNeutralBackground1) !important;
-}
+.fui-Background {
+    &-white {
+        background-color: var(--colorNeutralBackground1) !important;
+    }
 
-.fui-Background-transparent {
-    background-color: var(--colorTransparentBackground) !important;
+    &-transparent {
+        background-color: var(--colorTransparentBackground) !important;
+    }
 }

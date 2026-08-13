@@ -1,26 +1,87 @@
-﻿.b-layout-header {
-    &-fixed {
+﻿.fui-Layout {
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+
+    &,
+    * {
+        box-sizing: border-box;
+    }
+
+    &.fui-Layout--root {
+        height: 100vh;
+    }
+
+    &.fui-Layout--hasSider {
+        flex-direction: row;
+        min-height: 0;
+
+        .fui-Layout {
+            overflow-x: hidden;
+        }
+    }
+
+    > .fui-Layout--loading {
+        z-index: 9999;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgb(0 0 0 / 30%);
+
+        &::before {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+            content: "";
+            border: 0.1875rem solid var(--colorNeutralStroke2);
+            border-bottom-color: var(--colorBrandBackground);
+            border-radius: var(--borderRadiusCircular);
+            transform: translate3d(-50%, -50%, 0);
+            animation: fui-layout-spinner 1s linear infinite;
+        }
+    }
+
+    &__header,
+    &__footer {
+        color: var(--colorNeutralForeground1);
+        flex: 0 0 auto;
+    }
+
+    &__header--fixed,
+    &__footer--fixed {
         z-index: var(--zIndexFixed);
     }
-}
 
-.b-layout-footer {
-    &-fixed {
-        z-index: var(--zIndexFixed);
+    &__footer--fixed {
+        position: sticky;
+        bottom: 0;
+        flex: 0;
     }
-}
 
-.b-layout-sider-content {
-    z-index: calc(var(--zIndexFixed) + 1);
-}
+    &__content {
+        flex: 1;
+    }
 
-.b-layout-header:not(.b-layout-header-fixed) > .fui-NavigationBar-horizontal .fui-NavigationBar__dropdown-menu[data-visible=true],
-.b-layout-header-fixed:has(> .fui-NavigationBar-horizontal .fui-NavigationBar__dropdown-menu[data-visible=true]) {
-    z-index: calc(var(--zIndexFixed) + 2);
-}
+    &__sider {
+        display: flex;
+        position: relative;
+        background: var(--colorNeutralBackground1);
+    }
 
-.b-layout {
-    > .b-layout-header {
+    &__siderContent {
+        position: sticky;
+        top: 0;
+        z-index: calc(var(--zIndexFixed) + 1);
+    }
+
+    &__header:not(.fui-Layout__header--fixed) > .fui-NavigationBar-horizontal .fui-NavigationBar__dropdown-menu[data-visible=true],
+    &__header--fixed:has(> .fui-NavigationBar-horizontal .fui-NavigationBar__dropdown-menu[data-visible=true]) {
+        z-index: calc(var(--zIndexFixed) + 2);
+    }
+
+    > .fui-Layout__header {
         .fui-NavigationBar-horizontal {
             &[data-collapse=hide] {
                 &[data-broken=true] {
@@ -33,25 +94,45 @@
             }
         }
     }
-}
 
-.b-layout.b-layout-root:not(.b-layout-has-sider),
-.b-layout.b-layout-root:not(.b-layout-has-sider) > .b-layout {
-    .b-layout-header-fixed {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        flex: 0;
+    &.fui-Layout--root.fui-Layout--hasSider,
+    &.fui-Layout--root.fui-Layout--hasSider > .fui-Layout {
+        > .fui-Layout__header--fixed {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            flex: 0;
+        }
+    }
 
-        + .b-layout-content {
+    &.fui-Layout--root:not(.fui-Layout--hasSider),
+    &.fui-Layout--root:not(.fui-Layout--hasSider) > .fui-Layout {
+        .fui-Layout__header--fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            flex: 0;
+
+            + .fui-Layout__content {
+                margin-top: var(--b-bar-horizontal-height, 60px);
+            }
+        }
+    }
+
+    &.fui-Layout--root {
+        > .fui-Layout__header.fui-Layout__header--fixed + .fui-Layout.fui-Layout--hasSider {
             margin-top: var(--b-bar-horizontal-height, 60px);
         }
     }
 }
 
-.b-layout.b-layout-root {
-    > .b-layout-header.b-layout-header-fixed + .b-layout.b-layout-has-sider {
-        margin-top: var(--b-bar-horizontal-height, 60px);
+@keyframes fui-layout-spinner {
+    from {
+        transform: translate3d(-50%, -50%, 0) rotate(0deg);
+    }
+
+    to {
+        transform: translate3d(-50%, -50%, 0) rotate(360deg);
     }
 }
