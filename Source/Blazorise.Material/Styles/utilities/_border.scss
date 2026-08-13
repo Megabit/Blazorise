@@ -1,56 +1,3 @@
-$mui-border-color: var(--mui-outline-variant) !default;
-$mui-border-radius: 0.5rem !default;
-$mui-border-pill-radius: 50rem !default;
-
-$mui-border-widths: (
-    0: 0,
-    1: 1px,
-    2: 2px,
-    3: 3px,
-    4: 4px,
-    5: 5px
-) !default;
-
-$mui-border-sides: (
-    top: (
-        physical: top,
-        logical: top
-    ),
-    end: (
-        physical: right,
-        logical: inline-end
-    ),
-    bottom: (
-        physical: bottom,
-        logical: bottom
-    ),
-    start: (
-        physical: left,
-        logical: inline-start
-    )
-) !default;
-
-$mui-border-colors: (
-    primary: var(--mui-primary),
-    secondary: var(--mui-secondary),
-    tertiary: var(--mui-tertiary),
-    success: var(--mui-success),
-    danger: var(--mui-error),
-    error: var(--mui-error),
-    warning: var(--mui-warning),
-    info: var(--mui-info),
-    light: var(--mui-light),
-    dark: var(--mui-dark),
-    white: #fff
-) !default;
-
-$mui-border-subtle-colors: map-merge(
-    (
-        white: rgb(255 255 255 / 50%)
-    ),
-    $theme-colors-border-subtle
-) !default;
-
 @mixin mui-border-side($side, $width, $color) {
     $side-definition: map-get($mui-border-sides, $side);
     $physical-side: map-get($side-definition, physical);
@@ -79,8 +26,10 @@ $mui-border-subtle-colors: map-merge(
     border: map-get($mui-border-widths, 1) solid $mui-border-color !important;
 }
 
-.mui-border-0 {
-    border: 0 !important;
+.mui-border {
+    &-0 {
+        border: 0 !important;
+    }
 }
 
 @each $side in map-keys($mui-border-sides) {
@@ -163,42 +112,44 @@ $mui-border-subtle-colors: map-merge(
     border-radius: $mui-border-radius !important;
 }
 
-.mui-rounded-top {
-    border-top-left-radius: $mui-border-radius !important;
-    border-top-right-radius: $mui-border-radius !important;
-    border-start-start-radius: $mui-border-radius !important;
-    border-start-end-radius: $mui-border-radius !important;
-}
+.mui-rounded {
+    &-top {
+        border-top-left-radius: $mui-border-radius !important;
+        border-top-right-radius: $mui-border-radius !important;
+        border-start-start-radius: $mui-border-radius !important;
+        border-start-end-radius: $mui-border-radius !important;
+    }
 
-.mui-rounded-end {
-    border-top-right-radius: $mui-border-radius !important;
-    border-bottom-right-radius: $mui-border-radius !important;
-    border-start-end-radius: $mui-border-radius !important;
-    border-end-end-radius: $mui-border-radius !important;
-}
+    &-end {
+        border-top-right-radius: $mui-border-radius !important;
+        border-bottom-right-radius: $mui-border-radius !important;
+        border-start-end-radius: $mui-border-radius !important;
+        border-end-end-radius: $mui-border-radius !important;
+    }
 
-.mui-rounded-bottom {
-    border-bottom-left-radius: $mui-border-radius !important;
-    border-bottom-right-radius: $mui-border-radius !important;
-    border-end-start-radius: $mui-border-radius !important;
-    border-end-end-radius: $mui-border-radius !important;
-}
+    &-bottom {
+        border-bottom-left-radius: $mui-border-radius !important;
+        border-bottom-right-radius: $mui-border-radius !important;
+        border-end-start-radius: $mui-border-radius !important;
+        border-end-end-radius: $mui-border-radius !important;
+    }
 
-.mui-rounded-start {
-    border-top-left-radius: $mui-border-radius !important;
-    border-bottom-left-radius: $mui-border-radius !important;
-    border-start-start-radius: $mui-border-radius !important;
-    border-end-start-radius: $mui-border-radius !important;
-}
+    &-start {
+        border-top-left-radius: $mui-border-radius !important;
+        border-bottom-left-radius: $mui-border-radius !important;
+        border-start-start-radius: $mui-border-radius !important;
+        border-end-start-radius: $mui-border-radius !important;
+    }
 
-.mui-rounded-circle {
-    border-radius: 50% !important;
-}
+    &-circle {
+        border-radius: 50% !important;
+    }
 
-.mui-rounded-pill {
-    border-radius: $mui-border-pill-radius !important;
-}
+    &-pill {
+        border-radius: $mui-border-pill-radius !important;
+    }
 
-.mui-rounded-0 {
-    border-radius: 0 !important;
+    &-0 {
+        border-radius: 0 !important;
+    }
 }

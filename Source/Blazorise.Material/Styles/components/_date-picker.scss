@@ -1,141 +1,205 @@
-.mui-date-picker {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-    anchor-name: --material-datepicker-anchor;
-    anchor-scope: --material-datepicker-anchor;
-
-    &.mui-date-picker-open {
-        z-index: var(--mui-zindex-popover);
-    }
-}
-
-.mui-date-picker-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: calc(var(--mui-zindex-popover) - 1);
-    background: transparent;
-    pointer-events: none;
-}
-
-.mui-date-picker-calendar {
-    --mui-date-picker-day-size: 2.5rem;
-    box-sizing: border-box;
-    position: absolute;
-    inset-block-start: calc(100% + .25rem);
-    inset-inline-start: 0;
-    z-index: var(--mui-zindex-popover);
-    width: 22.5rem;
-    max-width: calc(100vw - 1rem);
-    max-height: calc(100vh - 1rem);
-    overflow: auto;
-    padding: 0;
-    border: .0625rem solid var(--mui-outline-variant);
-    border-radius: .75rem;
-    background: var(--mui-surface-container-high);
-    color: var(--mui-on-surface);
-    box-shadow: var(--mui-elevate2);
-    font-family: var(--mui-font-family);
-    outline: 0;
-
-    &.mui-date-picker-calendar-inline {
+.mui-date {
+    &-picker {
         position: relative;
-        inset: auto;
-        margin-block-start: .25rem;
-        z-index: auto;
-    }
+        display: inline-block;
+        width: 100%;
+        anchor-name: --material-datepicker-anchor;
+        anchor-scope: --material-datepicker-anchor;
 
-    @supports (position-anchor: --material-datepicker-anchor) and (anchor-scope: --material-datepicker-anchor) {
-        &.mui-date-picker-calendar-floating {
-            position: fixed;
-            position-anchor: --material-datepicker-anchor;
-            inset: auto;
-            top: anchor(bottom);
-            inset-inline-start: anchor(start);
-            margin-block-start: .25rem;
-            position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+        &.mui-date-picker-open {
+            z-index: var(--mui-zindex-popover);
         }
     }
 
-    .mui-date-picker-date-pane {
-        padding: .75rem .75rem .5rem;
-    }
-
-    .mui-date-picker-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        min-height: 3rem;
-        margin-block-end: .25rem;
-    }
-
-    .mui-date-picker-title,
-    .mui-date-picker-navigation-group {
-        display: flex;
-        align-items: center;
-    }
-
-    .mui-date-picker-title {
-        min-width: 0;
-        gap: .125rem;
-    }
-
-    .mui-date-picker-view-title {
-        padding: .5rem .75rem;
-        border: 0;
-        border-radius: 999rem;
+    &-picker-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: calc(var(--mui-zindex-popover) - 1);
         background: transparent;
+        pointer-events: none;
+    }
+
+    &-picker-calendar {
+        --mui-date-picker-day-size: 2.5rem;
+        box-sizing: border-box;
+        position: absolute;
+        inset-block-start: calc(100% + .25rem);
+        inset-inline-start: 0;
+        z-index: var(--mui-zindex-popover);
+        width: 22.5rem;
+        max-width: calc(100vw - 1rem);
+        max-height: calc(100vh - 1rem);
+        overflow: auto;
+        padding: 0;
+        border: .0625rem solid var(--mui-outline-variant);
+        border-radius: .75rem;
+        background: var(--mui-surface-container-high);
         color: var(--mui-on-surface);
-        font: inherit;
-        font-weight: 500;
-    }
+        box-shadow: var(--mui-elevate2);
+        font-family: var(--mui-font-family);
+        outline: 0;
 
-    button.mui-date-picker-view-title {
-        cursor: pointer;
-
-        &:hover:not(:disabled) {
-            background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
+        &.mui-date-picker-calendar-inline {
+            position: relative;
+            inset: auto;
+            margin-block-start: .25rem;
+            z-index: auto;
         }
 
-        &:focus-visible {
-            outline: .125rem solid var(--mui-primary);
-            outline-offset: -.125rem;
-        }
-    }
-
-    .mui-date-picker-selector {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        min-width: 0;
-
-        &::after {
-            position: absolute;
-            inset-inline-end: .625rem;
-            content: "";
-            width: .4375rem;
-            height: .4375rem;
-            border-inline-end: .125rem solid currentColor;
-            border-block-end: .125rem solid currentColor;
-            transform: translateY(-.125rem) rotate(45deg);
-            pointer-events: none;
+        @supports (position-anchor: --material-datepicker-anchor) and (anchor-scope: --material-datepicker-anchor) {
+            &.mui-date-picker-calendar-floating {
+                position: fixed;
+                position-anchor: --material-datepicker-anchor;
+                inset: auto;
+                top: anchor(bottom);
+                inset-inline-start: anchor(start);
+                margin-block-start: .25rem;
+                position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+            }
         }
 
-        select,
-        input {
-            box-sizing: border-box;
-            height: 2.5rem;
-            padding-block: 0;
-            padding-inline: .75rem 1.75rem;
+        .mui-date-picker-date-pane {
+            padding: .75rem .75rem .5rem;
+        }
+
+        .mui-date-picker-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 3rem;
+            margin-block-end: .25rem;
+        }
+
+        .mui-date-picker-title,
+        .mui-date-picker-navigation-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .mui-date-picker-title {
+            min-width: 0;
+            gap: .125rem;
+        }
+
+        .mui-date-picker-view-title {
+            padding: .5rem .75rem;
             border: 0;
             border-radius: 999rem;
             background: transparent;
             color: var(--mui-on-surface);
             font: inherit;
-            font-size: .875rem;
             font-weight: 500;
-            line-height: 1.25rem;
-            text-align: center;
+        }
+
+        button.mui-date-picker-view-title {
+            cursor: pointer;
+
+            &:hover:not(:disabled) {
+                background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
+            }
+
+            &:focus-visible {
+                outline: .125rem solid var(--mui-primary);
+                outline-offset: -.125rem;
+            }
+        }
+
+        .mui-date-picker-selector {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            min-width: 0;
+
+            &::after {
+                position: absolute;
+                inset-inline-end: .625rem;
+                content: "";
+                width: .4375rem;
+                height: .4375rem;
+                border-inline-end: .125rem solid currentColor;
+                border-block-end: .125rem solid currentColor;
+                transform: translateY(-.125rem) rotate(45deg);
+                pointer-events: none;
+            }
+
+            select,
+            input {
+                box-sizing: border-box;
+                height: 2.5rem;
+                padding-block: 0;
+                padding-inline: .75rem 1.75rem;
+                border: 0;
+                border-radius: 999rem;
+                background: transparent;
+                color: var(--mui-on-surface);
+                font: inherit;
+                font-size: .875rem;
+                font-weight: 500;
+                line-height: 1.25rem;
+                text-align: center;
+                cursor: pointer;
+
+                &:hover:not(:disabled) {
+                    background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
+                }
+
+                &:focus-visible {
+                    outline: .125rem solid var(--mui-primary);
+                    outline-offset: -.125rem;
+                }
+
+                &:disabled {
+                    color: color-mix(in srgb, var(--mui-on-surface) 38%, transparent);
+                    cursor: not-allowed;
+                }
+            }
+
+            select {
+                max-width: 8.5rem;
+                appearance: none;
+            }
+        }
+
+        .mui-date-picker-year-selector {
+            &::after {
+                display: none;
+            }
+
+            input {
+                width: 4.5rem;
+                padding-inline: .5rem;
+            }
+        }
+
+        .mui-date-picker-selector-label {
+            position: absolute;
+            width: .0625rem;
+            height: .0625rem;
+            margin: -.0625rem;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+        }
+
+        .mui-date-picker-navigation-group {
+            gap: .25rem;
+            margin-inline-start: .25rem;
+        }
+
+        .mui-date-picker-navigation {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            padding: 0;
+            border: 0;
+            border-radius: 999rem;
+            background: transparent;
+            color: var(--mui-on-surface-variant);
+            font: inherit;
+            font-size: 1.5rem;
+            line-height: 1;
             cursor: pointer;
 
             &:hover:not(:disabled) {
@@ -153,460 +217,398 @@
             }
         }
 
-        select {
-            max-width: 8.5rem;
-            appearance: none;
-        }
-    }
-
-    .mui-date-picker-year-selector {
-        &::after {
-            display: none;
+        .mui-date-picker-grid {
+            width: 100%;
         }
 
-        input {
-            width: 4.5rem;
-            padding-inline: .5rem;
-        }
-    }
-
-    .mui-date-picker-selector-label {
-        position: absolute;
-        width: .0625rem;
-        height: .0625rem;
-        margin: -.0625rem;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-    }
-
-    .mui-date-picker-navigation-group {
-        gap: .25rem;
-        margin-inline-start: .25rem;
-    }
-
-    .mui-date-picker-navigation {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 2.5rem;
-        height: 2.5rem;
-        padding: 0;
-        border: 0;
-        border-radius: 999rem;
-        background: transparent;
-        color: var(--mui-on-surface-variant);
-        font: inherit;
-        font-size: 1.5rem;
-        line-height: 1;
-        cursor: pointer;
-
-        &:hover:not(:disabled) {
-            background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
-        }
-
-        &:focus-visible {
-            outline: .125rem solid var(--mui-primary);
-            outline-offset: -.125rem;
-        }
-
-        &:disabled {
-            color: color-mix(in srgb, var(--mui-on-surface) 38%, transparent);
-            cursor: not-allowed;
-        }
-    }
-
-    .mui-date-picker-grid {
-        width: 100%;
-    }
-
-    .mui-date-picker-weekday,
-    .mui-date-picker-week-number {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 0;
-        min-height: var(--mui-date-picker-day-size);
-        color: var(--mui-on-surface-variant);
-        font-size: .75rem;
-        font-weight: 500;
-        line-height: 1rem;
-    }
-
-    .mui-date-picker-week-number {
-        width: var(--mui-date-picker-day-size);
-        opacity: .65;
-    }
-
-    .mui-date-picker-weekdays,
-    .mui-date-picker-week {
-        display: grid;
-        grid-template-columns: repeat(7, minmax(0, 1fr));
-        align-items: center;
-    }
-
-    .mui-date-picker-weekdays:has(.mui-date-picker-week-number),
-    .mui-date-picker-week:has(.mui-date-picker-week-number) {
-        grid-template-columns: var(--mui-date-picker-day-size) repeat(7, minmax(0, 1fr));
-    }
-
-    .mui-date-picker-day {
-        box-sizing: border-box;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        justify-self: center;
-        width: var(--mui-date-picker-day-size);
-        height: var(--mui-date-picker-day-size);
-        padding: 0;
-        border: .0625rem solid transparent;
-        border-radius: 999rem;
-        background: transparent;
-        color: var(--mui-on-surface);
-        font-family: inherit;
-        font-size: .875rem;
-        font-weight: 500;
-        line-height: 1.25rem;
-        cursor: pointer;
-        transition: background-color var(--mui-duration-normal), border-color var(--mui-duration-normal), color var(--mui-duration-normal);
-
-        &:hover:not(:disabled) {
-            background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
-        }
-    }
-
-    .mui-date-picker-day-outside {
-        color: color-mix(in srgb, var(--mui-on-surface) 38%, transparent);
-    }
-
-    .mui-date-picker-day-today {
-        border-color: var(--mui-primary);
-        color: var(--mui-primary);
-    }
-
-    .mui-date-picker-day-in-range {
-        border-radius: 0;
-        background: var(--mui-primary-container);
-        color: var(--mui-on-primary-container);
-    }
-
-    .mui-date-picker-day-selected,
-    .mui-date-picker-day-range-start,
-    .mui-date-picker-day-range-end,
-    .mui-date-picker-month-selected {
-        border-color: var(--mui-primary);
-        background: var(--mui-primary);
-        color: var(--mui-on-primary);
-    }
-
-    .mui-date-picker-day-selected:hover:not(:disabled),
-    .mui-date-picker-day-range-start:hover:not(:disabled),
-    .mui-date-picker-day-range-end:hover:not(:disabled),
-    .mui-date-picker-month-selected:hover:not(:disabled) {
-        background: color-mix(in srgb, var(--mui-on-primary) 8%, var(--mui-primary));
-    }
-
-    .mui-date-picker-day-range-start {
-        border-radius: 0;
-        border-start-start-radius: 999rem;
-        border-end-start-radius: 999rem;
-    }
-
-    .mui-date-picker-day-range-end {
-        border-radius: 0;
-        border-start-end-radius: 999rem;
-        border-end-end-radius: 999rem;
-    }
-
-    .mui-date-picker-day-range-start.mui-date-picker-day-range-end {
-        border-radius: 999rem;
-    }
-
-    &[data-week-mode="true"] .mui-date-picker-week-number[data-week-hovered="true"],
-    &[data-week-mode="true"] .mui-date-picker-day[data-week-hovered="true"] {
-        background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
-    }
-
-    &[data-week-mode="true"] .mui-date-picker-week-number[data-week-hovered="true"] {
-        align-self: stretch;
-        height: auto;
-        border-radius: 999rem;
-        opacity: 1;
-    }
-
-    &[data-week-mode="true"] .mui-date-picker-day[data-week-hovered="true"] {
-        justify-self: stretch;
-        width: auto;
-        border-radius: 0;
-    }
-
-    &[data-week-mode="true"] .mui-date-picker-day-in-range {
-        justify-self: stretch;
-        width: auto;
-    }
-
-    &[data-week-mode="true"] .mui-date-picker-day[data-week-hover-start="true"] {
-        border-start-start-radius: 999rem;
-        border-end-start-radius: 999rem;
-    }
-
-    &[data-week-mode="true"] .mui-date-picker-day[data-week-hover-end="true"] {
-        border-start-end-radius: 999rem;
-        border-end-end-radius: 999rem;
-    }
-
-    &[data-week-mode="true"] .mui-date-picker-week[data-week-fully-selected="true"] {
-        border-radius: 999rem;
-        background: var(--mui-primary);
-    }
-
-    &[data-week-mode="true"] .mui-date-picker-week[data-week-selected="true"] {
+        .mui-date-picker-weekday,
         .mui-date-picker-week-number {
-            align-self: stretch;
-            height: auto;
-            border-radius: 999rem;
-            opacity: 1;
-            background: var(--mui-primary);
-            color: var(--mui-on-primary);
-        }
-    }
-
-    .mui-date-picker-day-focused,
-    .mui-date-picker-month-focused {
-        outline: .125rem solid var(--mui-primary);
-        outline-offset: .0625rem;
-    }
-
-    .mui-date-picker-day-disabled,
-    .mui-date-picker-month-disabled {
-        border-color: transparent;
-        color: color-mix(in srgb, var(--mui-on-surface) 20%, transparent);
-        cursor: not-allowed;
-    }
-
-    .mui-date-picker-day-selected.mui-date-picker-day-disabled,
-    .mui-date-picker-day-range-start.mui-date-picker-day-disabled,
-    .mui-date-picker-day-range-end.mui-date-picker-day-disabled,
-    .mui-date-picker-month-selected.mui-date-picker-month-disabled {
-        background: color-mix(in srgb, var(--mui-on-surface) 12%, transparent);
-        color: color-mix(in srgb, var(--mui-on-surface) 38%, transparent);
-    }
-
-    .mui-date-picker-months {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: .5rem;
-
-        &[data-calendar-view="year"],
-        &[data-calendar-view="decade"] {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-
-        padding-block: .5rem;
-    }
-
-    .mui-date-picker-month {
-        min-height: 2.5rem;
-        padding-inline: .75rem;
-        border: .0625rem solid transparent;
-        border-radius: 999rem;
-        background: transparent;
-        color: var(--mui-on-surface);
-        font: inherit;
-        font-size: .875rem;
-        font-weight: 500;
-        cursor: pointer;
-
-        &[data-outside="true"]:not(.mui-date-picker-month-selected):not(.mui-date-picker-month-disabled) {
-            color: color-mix(in srgb, var(--mui-on-surface) 38%, transparent);
-        }
-
-        &:hover:not(:disabled) {
-            background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
-        }
-    }
-
-    .mui-date-picker-time {
-        padding: 1rem 1.5rem .75rem;
-        border-block-start: .0625rem solid var(--mui-outline-variant);
-    }
-
-    .mui-date-picker-time-label {
-        display: block;
-        margin-block-end: .75rem;
-        color: var(--mui-on-surface-variant);
-        font-size: .75rem;
-        font-weight: 500;
-        line-height: 1rem;
-    }
-
-    .mui-date-picker-time-content {
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-        gap: .5rem;
-    }
-
-    .mui-date-picker-time-field {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: .375rem;
-        width: 5rem;
-
-        > span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+            min-height: var(--mui-date-picker-day-size);
             color: var(--mui-on-surface-variant);
             font-size: .75rem;
             font-weight: 500;
             line-height: 1rem;
         }
-    }
 
-    .mui-date-picker-time-input {
-        box-sizing: border-box;
-        width: 5rem;
-        height: 4rem;
-        margin: 0;
-        padding: 0 .25rem;
-        border: .125rem solid transparent;
-        border-radius: .5rem;
-        outline: 0;
-        appearance: textfield;
-        background: var(--mui-surface-container-highest);
-        color: var(--mui-on-surface);
-        font-family: inherit;
-        font-size: 2rem;
-        font-weight: 400;
-        line-height: 2.5rem;
-        text-align: center;
-        transition: background-color var(--mui-duration-normal), border-color var(--mui-duration-normal);
-
-        &::-webkit-inner-spin-button,
-        &::-webkit-outer-spin-button {
-            margin: 0;
-            appearance: none;
+        .mui-date-picker-week-number {
+            width: var(--mui-date-picker-day-size);
+            opacity: .65;
         }
 
-        &:hover:not(:disabled) {
-            background: color-mix(in srgb, var(--mui-on-surface) 8%, var(--mui-surface-container-highest));
+        .mui-date-picker-weekdays,
+        .mui-date-picker-week {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            align-items: center;
         }
 
-        &:focus {
-            border-color: var(--mui-primary);
-            background: var(--mui-primary-container);
+        .mui-date-picker-weekdays:has(.mui-date-picker-week-number),
+        .mui-date-picker-week:has(.mui-date-picker-week-number) {
+            grid-template-columns: var(--mui-date-picker-day-size) repeat(7, minmax(0, 1fr));
         }
 
-        &:disabled {
+        .mui-date-picker-day {
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            justify-self: center;
+            width: var(--mui-date-picker-day-size);
+            height: var(--mui-date-picker-day-size);
+            padding: 0;
+            border: .0625rem solid transparent;
+            border-radius: 999rem;
+            background: transparent;
+            color: var(--mui-on-surface);
+            font-family: inherit;
+            font-size: .875rem;
+            font-weight: 500;
+            line-height: 1.25rem;
+            cursor: pointer;
+            transition: background-color var(--mui-duration-normal), border-color var(--mui-duration-normal), color var(--mui-duration-normal);
+
+            &:hover:not(:disabled) {
+                background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
+            }
+        }
+
+        .mui-date-picker-day-outside {
             color: color-mix(in srgb, var(--mui-on-surface) 38%, transparent);
-            cursor: not-allowed;
-        }
-    }
-
-    .mui-date-picker-time-separator {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 1rem;
-        height: 4rem;
-        color: var(--mui-on-surface);
-        font-size: 2rem;
-        line-height: 2.5rem;
-    }
-
-    .mui-date-picker-period {
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        width: 3.25rem;
-        height: 4rem;
-        overflow: hidden;
-        border: .0625rem solid var(--mui-outline);
-        border-radius: .5rem;
-    }
-
-    .mui-date-picker-period-button {
-        display: inline-flex;
-        flex: 1 1 50%;
-        align-items: center;
-        justify-content: center;
-        min-height: 0;
-        padding: 0;
-        border: 0;
-        background: transparent;
-        color: var(--mui-on-surface-variant);
-        font: inherit;
-        font-size: .75rem;
-        font-weight: 500;
-        line-height: 1rem;
-        cursor: pointer;
-
-        + .mui-date-picker-period-button {
-            border-block-start: .0625rem solid var(--mui-outline);
         }
 
-        &:hover:not(:disabled) {
+        .mui-date-picker-day-today {
+            border-color: var(--mui-primary);
+            color: var(--mui-primary);
+        }
+
+        .mui-date-picker-day-in-range {
+            border-radius: 0;
+            background: var(--mui-primary-container);
+            color: var(--mui-on-primary-container);
+        }
+
+        .mui-date-picker-day-selected,
+        .mui-date-picker-day-range-start,
+        .mui-date-picker-day-range-end,
+        .mui-date-picker-month-selected {
+            border-color: var(--mui-primary);
+            background: var(--mui-primary);
+            color: var(--mui-on-primary);
+        }
+
+        .mui-date-picker-day-selected:hover:not(:disabled),
+        .mui-date-picker-day-range-start:hover:not(:disabled),
+        .mui-date-picker-day-range-end:hover:not(:disabled),
+        .mui-date-picker-month-selected:hover:not(:disabled) {
+            background: color-mix(in srgb, var(--mui-on-primary) 8%, var(--mui-primary));
+        }
+
+        .mui-date-picker-day-range-start {
+            border-radius: 0;
+            border-start-start-radius: 999rem;
+            border-end-start-radius: 999rem;
+        }
+
+        .mui-date-picker-day-range-end {
+            border-radius: 0;
+            border-start-end-radius: 999rem;
+            border-end-end-radius: 999rem;
+        }
+
+        .mui-date-picker-day-range-start.mui-date-picker-day-range-end {
+            border-radius: 999rem;
+        }
+
+        &[data-week-mode="true"] .mui-date-picker-week-number[data-week-hovered="true"],
+        &[data-week-mode="true"] .mui-date-picker-day[data-week-hovered="true"] {
             background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
         }
 
-        &:focus-visible {
-            outline: .125rem solid var(--mui-primary);
-            outline-offset: -.125rem;
+        &[data-week-mode="true"] .mui-date-picker-week-number[data-week-hovered="true"] {
+            align-self: stretch;
+            height: auto;
+            border-radius: 999rem;
+            opacity: 1;
         }
 
-        &:disabled {
-            color: color-mix(in srgb, var(--mui-on-surface) 38%, transparent);
+        &[data-week-mode="true"] .mui-date-picker-day[data-week-hovered="true"] {
+            justify-self: stretch;
+            width: auto;
+            border-radius: 0;
+        }
+
+        &[data-week-mode="true"] .mui-date-picker-day-in-range {
+            justify-self: stretch;
+            width: auto;
+        }
+
+        &[data-week-mode="true"] .mui-date-picker-day[data-week-hover-start="true"] {
+            border-start-start-radius: 999rem;
+            border-end-start-radius: 999rem;
+        }
+
+        &[data-week-mode="true"] .mui-date-picker-day[data-week-hover-end="true"] {
+            border-start-end-radius: 999rem;
+            border-end-end-radius: 999rem;
+        }
+
+        &[data-week-mode="true"] .mui-date-picker-week[data-week-fully-selected="true"] {
+            border-radius: 999rem;
+            background: var(--mui-primary);
+        }
+
+        &[data-week-mode="true"] .mui-date-picker-week[data-week-selected="true"] {
+            .mui-date-picker-week-number {
+                align-self: stretch;
+                height: auto;
+                border-radius: 999rem;
+                opacity: 1;
+                background: var(--mui-primary);
+                color: var(--mui-on-primary);
+            }
+        }
+
+        .mui-date-picker-day-focused,
+        .mui-date-picker-month-focused {
+            outline: .125rem solid var(--mui-primary);
+            outline-offset: .0625rem;
+        }
+
+        .mui-date-picker-day-disabled,
+        .mui-date-picker-month-disabled {
+            border-color: transparent;
+            color: color-mix(in srgb, var(--mui-on-surface) 20%, transparent);
             cursor: not-allowed;
         }
-    }
 
-    .mui-date-picker-period-button-selected {
-        background: var(--mui-tertiary-container);
-        color: var(--mui-on-tertiary-container);
-
-        &:hover:not(:disabled) {
-            background: color-mix(in srgb, var(--mui-on-tertiary-container) 8%, var(--mui-tertiary-container));
-        }
-    }
-
-    .mui-date-picker-actions {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: .5rem;
-        min-height: 3.25rem;
-        padding: .375rem .75rem;
-        border-block-start: .0625rem solid var(--mui-outline-variant);
-    }
-
-    .mui-date-picker-button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 4rem;
-        min-height: 2.5rem;
-        padding-inline: .75rem;
-        border: 0;
-        border-radius: 999rem;
-        background: transparent;
-        color: var(--mui-primary);
-        font-family: inherit;
-        font-size: .875rem;
-        font-weight: 500;
-        line-height: 1.25rem;
-        cursor: pointer;
-
-        &:hover:not(:disabled) {
-            background: color-mix(in srgb, var(--mui-primary) 8%, transparent);
-        }
-
-        &:focus-visible {
-            outline: .125rem solid var(--mui-primary);
-            outline-offset: -.125rem;
-        }
-
-        &:disabled {
+        .mui-date-picker-day-selected.mui-date-picker-day-disabled,
+        .mui-date-picker-day-range-start.mui-date-picker-day-disabled,
+        .mui-date-picker-day-range-end.mui-date-picker-day-disabled,
+        .mui-date-picker-month-selected.mui-date-picker-month-disabled {
+            background: color-mix(in srgb, var(--mui-on-surface) 12%, transparent);
             color: color-mix(in srgb, var(--mui-on-surface) 38%, transparent);
-            cursor: not-allowed;
+        }
+
+        .mui-date-picker-months {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: .5rem;
+
+            &[data-calendar-view="year"],
+            &[data-calendar-view="decade"] {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            padding-block: .5rem;
+        }
+
+        .mui-date-picker-month {
+            min-height: 2.5rem;
+            padding-inline: .75rem;
+            border: .0625rem solid transparent;
+            border-radius: 999rem;
+            background: transparent;
+            color: var(--mui-on-surface);
+            font: inherit;
+            font-size: .875rem;
+            font-weight: 500;
+            cursor: pointer;
+
+            &[data-outside="true"]:not(.mui-date-picker-month-selected):not(.mui-date-picker-month-disabled) {
+                color: color-mix(in srgb, var(--mui-on-surface) 38%, transparent);
+            }
+
+            &:hover:not(:disabled) {
+                background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
+            }
+        }
+
+        .mui-date-picker-time {
+            padding: 1rem 1.5rem .75rem;
+            border-block-start: .0625rem solid var(--mui-outline-variant);
+        }
+
+        .mui-date-picker-time-label {
+            display: block;
+            margin-block-end: .75rem;
+            color: var(--mui-on-surface-variant);
+            font-size: .75rem;
+            font-weight: 500;
+            line-height: 1rem;
+        }
+
+        .mui-date-picker-time-content {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: .5rem;
+        }
+
+        .mui-date-picker-time-field {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .375rem;
+            width: 5rem;
+
+            > span {
+                color: var(--mui-on-surface-variant);
+                font-size: .75rem;
+                font-weight: 500;
+                line-height: 1rem;
+            }
+        }
+
+        .mui-date-picker-time-input {
+            box-sizing: border-box;
+            width: 5rem;
+            height: 4rem;
+            margin: 0;
+            padding: 0 .25rem;
+            border: .125rem solid transparent;
+            border-radius: .5rem;
+            outline: 0;
+            appearance: textfield;
+            background: var(--mui-surface-container-highest);
+            color: var(--mui-on-surface);
+            font-family: inherit;
+            font-size: 2rem;
+            font-weight: 400;
+            line-height: 2.5rem;
+            text-align: center;
+            transition: background-color var(--mui-duration-normal), border-color var(--mui-duration-normal);
+
+            &::-webkit-inner-spin-button,
+            &::-webkit-outer-spin-button {
+                margin: 0;
+                appearance: none;
+            }
+
+            &:hover:not(:disabled) {
+                background: color-mix(in srgb, var(--mui-on-surface) 8%, var(--mui-surface-container-highest));
+            }
+
+            &:focus {
+                border-color: var(--mui-primary);
+                background: var(--mui-primary-container);
+            }
+
+            &:disabled {
+                color: color-mix(in srgb, var(--mui-on-surface) 38%, transparent);
+                cursor: not-allowed;
+            }
+        }
+
+        .mui-date-picker-time-separator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1rem;
+            height: 4rem;
+            color: var(--mui-on-surface);
+            font-size: 2rem;
+            line-height: 2.5rem;
+        }
+
+        .mui-date-picker-period {
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            width: 3.25rem;
+            height: 4rem;
+            overflow: hidden;
+            border: .0625rem solid var(--mui-outline);
+            border-radius: .5rem;
+        }
+
+        .mui-date-picker-period-button {
+            display: inline-flex;
+            flex: 1 1 50%;
+            align-items: center;
+            justify-content: center;
+            min-height: 0;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: var(--mui-on-surface-variant);
+            font: inherit;
+            font-size: .75rem;
+            font-weight: 500;
+            line-height: 1rem;
+            cursor: pointer;
+
+            + .mui-date-picker-period-button {
+                border-block-start: .0625rem solid var(--mui-outline);
+            }
+
+            &:hover:not(:disabled) {
+                background: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
+            }
+
+            &:focus-visible {
+                outline: .125rem solid var(--mui-primary);
+                outline-offset: -.125rem;
+            }
+
+            &:disabled {
+                color: color-mix(in srgb, var(--mui-on-surface) 38%, transparent);
+                cursor: not-allowed;
+            }
+        }
+
+        .mui-date-picker-period-button-selected {
+            background: var(--mui-tertiary-container);
+            color: var(--mui-on-tertiary-container);
+
+            &:hover:not(:disabled) {
+                background: color-mix(in srgb, var(--mui-on-tertiary-container) 8%, var(--mui-tertiary-container));
+            }
+        }
+
+        .mui-date-picker-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: .5rem;
+            min-height: 3.25rem;
+            padding: .375rem .75rem;
+            border-block-start: .0625rem solid var(--mui-outline-variant);
+        }
+
+        .mui-date-picker-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 4rem;
+            min-height: 2.5rem;
+            padding-inline: .75rem;
+            border: 0;
+            border-radius: 999rem;
+            background: transparent;
+            color: var(--mui-primary);
+            font-family: inherit;
+            font-size: .875rem;
+            font-weight: 500;
+            line-height: 1.25rem;
+            cursor: pointer;
+
+            &:hover:not(:disabled) {
+                background: color-mix(in srgb, var(--mui-primary) 8%, transparent);
+            }
+
+            &:focus-visible {
+                outline: .125rem solid var(--mui-primary);
+                outline-offset: -.125rem;
+            }
+
+            &:disabled {
+                color: color-mix(in srgb, var(--mui-on-surface) 38%, transparent);
+                cursor: not-allowed;
+            }
         }
     }
 }

@@ -41,16 +41,18 @@ a:is(.mui-link-disabled, .link-disabled)[aria-disabled="true"] {
     opacity: .65;
 }
 
-.mui-stretched-link {
-    position: static;
+.mui-stretched {
+    &-link {
+        position: static;
 
-    &::after {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 1;
-        content: "";
+        &::after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+            content: "";
+        }
     }
 }

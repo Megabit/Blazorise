@@ -1,6 +1,3 @@
-$mui-positions: (static, relative, absolute, fixed, sticky) !default;
-$mui-position-values: (0: 0, 50: 50%, 100: 100%) !default;
-
 @each $position in $mui-positions {
     .mui-position-#{$position} {
         position: #{$position} !important;
@@ -27,14 +24,16 @@ $mui-position-values: (0: 0, 50: 50%, 100: 100%) !default;
     }
 }
 
-.mui-translate-middle {
-    transform: translate(-50%, -50%) !important;
-}
+.mui-translate {
+    &-middle {
+        transform: translate(-50%, -50%) !important;
+    }
 
-.mui-translate-middle-x {
-    transform: translateX(-50%) !important;
-}
+    &-middle-x {
+        transform: translateX(-50%) !important;
+    }
 
-.mui-translate-middle-y {
-    transform: translateY(-50%) !important;
+    &-middle-y {
+        transform: translateY(-50%) !important;
+    }
 }

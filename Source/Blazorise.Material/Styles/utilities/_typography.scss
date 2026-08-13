@@ -1,7 +1,3 @@
-$mui-heading-sizes: ( 1: 3.5625rem, 2: 2.8125rem, 3: 2.25rem, 4: 2rem, 5: 1.75rem, 6: 1.5rem ) !default;
-
-$mui-display-sizes: ( 1: 5rem, 2: 4.5rem, 3: 4rem, 4: 3.5rem ) !default;
-
 @mixin mui-typography-heading-size($size) {
     font-size: $size;
     font-weight: 400;
@@ -50,33 +46,41 @@ p,
     padding-inline-start: 1.5rem;
 }
 
-.mui-unordered-list {
-    list-style-type: disc;
+.mui-unordered {
+    &-list {
+        list-style-type: disc;
+    }
 }
 
-.mui-ordered-list {
-    list-style-type: decimal;
+.mui-ordered {
+    &-list {
+        list-style-type: decimal;
+    }
 }
 
-.mui-list-unstyled {
-    list-style: none;
-    padding-inline-start: 0;
+.mui-list {
+    &-unstyled {
+        list-style: none;
+        padding-inline-start: 0;
+    }
 }
 
-.mui-ordered-list-lower-alpha {
-    list-style-type: lower-alpha;
-}
+.mui-ordered {
+    &-list-lower-alpha {
+        list-style-type: lower-alpha;
+    }
 
-.mui-ordered-list-lower-roman {
-    list-style-type: lower-roman;
-}
+    &-list-lower-roman {
+        list-style-type: lower-roman;
+    }
 
-.mui-ordered-list-upper-alpha {
-    list-style-type: upper-alpha;
-}
+    &-list-upper-alpha {
+        list-style-type: upper-alpha;
+    }
 
-.mui-ordered-list-upper-roman {
-    list-style-type: upper-roman;
+    &-list-upper-roman {
+        list-style-type: upper-roman;
+    }
 }
 
 :is(.mui-unordered-list, .mui-ordered-list):not(.mui-list-unstyled) > li::marker {
@@ -113,13 +117,13 @@ code,
     padding: 0.25rem;
 }
 
-pre > code,
-pre > .mui-code,
-blockquote > code,
-blockquote > .mui-code,
-.mui-blockquote > code,
-.mui-blockquote > .mui-code {
-    padding: 0;
+pre,
+blockquote,
+.mui-blockquote {
+    > code,
+    > .mui-code {
+        padding: 0;
+    }
 }
 
 .scroll > code,

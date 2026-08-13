@@ -189,6 +189,8 @@
     }
 }
 
-.mui-dropdown-toggle-hidden > :last-child {
-    display: none !important;
+.mui-dropdown {
+    &-toggle-hidden > :last-child {
+        display: none !important;
+    }
 }

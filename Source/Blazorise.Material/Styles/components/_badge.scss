@@ -60,7 +60,7 @@
         border-radius: var(--mui-chip-round) !important;
     }
 
-    @each $color in (primary, secondary, tertiary, error, success, warning, info, light, dark) {
+    @each $color in $mui-contextual-colors {
         @include make-badge-variant($color, $color);
     }
 
@@ -103,7 +103,7 @@
     margin-inline-start: 0;
 }
 
-@each $color in (primary, secondary, tertiary, error, success, warning, info, light, dark) {
+@each $color in $mui-contextual-colors {
     .mui-chip-#{$color} {
         .mui-chip-close-#{$color} {
             color: var(--mui-on-#{$color}-container);

@@ -1665,6 +1665,28 @@ public class MaterialClassProvider : ClassProvider
 
     #region Layout
 
+    public override string Layout() => "mui-layout";
+
+    public override string LayoutHasSider( bool hasSider ) => hasSider ? "mui-layout-has-sider" : null;
+
+    public override string LayoutContent() => "mui-layout-content";
+
+    public override string LayoutHeader() => "mui-layout-header";
+
+    public override string LayoutHeaderFixed( bool @fixed ) => @fixed ? "mui-layout-header-fixed" : null;
+
+    public override string LayoutFooter() => "mui-layout-footer";
+
+    public override string LayoutFooterFixed( bool @fixed ) => @fixed ? "mui-layout-footer-fixed" : null;
+
+    public override string LayoutSider() => "mui-layout-sider";
+
+    public override string LayoutSiderContent() => "mui-layout-sider-content";
+
+    public override string LayoutLoading() => "mui-layout-loading";
+
+    public override string LayoutRoot( bool root ) => root ? "mui-layout-root" : null;
+
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint )
     {
         var spacingString = ToSpacing( spacing );

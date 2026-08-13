@@ -24,8 +24,10 @@
     margin-block-end: var(--mui-spacing);
 }
 
-.mui-table-fullwidth {
-    inline-size: 100%;
+.mui-table {
+    &-fullwidth {
+        inline-size: 100%;
+    }
 }
 
 .mui-table :is(.mui-table-header, .mui-table-body, .mui-table-footer) {
@@ -64,9 +66,11 @@
     --mui-table-cell-bg: var(--mui-surface-container-lowest);
 }
 
-.mui-table-narrow {
-    --mui-table-cell-padding-x: 0.75rem;
-    --mui-table-cell-padding-y: 0.5rem;
+.mui-table {
+    &-narrow {
+        --mui-table-cell-padding-x: 0.75rem;
+        --mui-table-cell-padding-y: 0.5rem;
+    }
 }
 
 .mui-table-striped > :is(.mui-table-body, tbody) > :is(.mui-table-row, tr):nth-of-type(odd):not(.mui-table-group):not(.mui-table-row-selected) {
@@ -97,23 +101,25 @@
     white-space: nowrap;
 }
 
-.mui-table-row-selectable:hover {
-    cursor: pointer;
-}
+.mui-table {
+    &-row-selectable:hover {
+        cursor: pointer;
+    }
 
-.mui-table-row-selectable:focus[tabindex="0"] {
-    outline: none;
-}
+    &-row-selectable:focus[tabindex="0"] {
+        outline: none;
+    }
 
-.mui-table-header-cell.cursor-pointer {
-    cursor: pointer;
-}
+    &-header-cell.cursor-pointer {
+        cursor: pointer;
+    }
 
-.mui-table-bordered {
-    border: var(--mui-table-border-width) solid var(--mui-table-border-color);
-    border-inline-end-width: 0;
-    border-radius: 0.5rem;
-    overflow: hidden;
+    &-bordered {
+        border: var(--mui-table-border-width) solid var(--mui-table-border-color);
+        border-inline-end-width: 0;
+        border-radius: 0.5rem;
+        overflow: hidden;
+    }
 }
 
 .mui-table-bordered > :is(.mui-table-header, .mui-table-body, .mui-table-footer, thead, tbody, tfoot) > :is(.mui-table-row, tr) > :is(.mui-table-header-cell, .mui-table-row-header, .mui-table-row-cell, th, td) {
@@ -136,40 +142,42 @@
     border-block-end-color: color-mix(in srgb, var(--mui-on-dark) 24%, transparent);
 }
 
-.mui-table-caption {
-    padding: 0.5rem 0;
-    color: var(--mui-on-surface-variant);
-    font-size: 0.75rem;
-    line-height: 1rem;
-    text-align: start;
-}
+.mui-table {
+    &-caption {
+        padding: 0.5rem 0;
+        color: var(--mui-on-surface-variant);
+        font-size: 0.75rem;
+        line-height: 1rem;
+        text-align: start;
+    }
 
-.mui-table-caption-top {
-    caption-side: top;
-}
+    &-caption-top {
+        caption-side: top;
+    }
 
-.mui-table-caption-bottom {
-    caption-side: bottom;
-}
+    &-caption-bottom {
+        caption-side: bottom;
+    }
 
-.mui-table-responsive {
-    display: block;
-    inline-size: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
+    &-responsive {
+        display: block;
+        inline-size: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 
-.mui-table-responsive > .mui-table {
-    min-inline-size: 100%;
-}
+    &-responsive > .mui-table {
+        min-inline-size: 100%;
+    }
 
-.mui-table-fixed-header {
-    overflow-y: auto;
-}
+    &-fixed-header {
+        overflow-y: auto;
+    }
 
-.mui-table-fixed-header > .mui-table {
-    border-collapse: separate;
-    border-spacing: 0;
+    &-fixed-header > .mui-table {
+        border-collapse: separate;
+        border-spacing: 0;
+    }
 }
 
 .mui-table-fixed-header > .mui-table > :is(.mui-table-header, thead) > :is(.mui-table-row, tr) > :is(.mui-table-header-cell, th) {
@@ -184,24 +192,28 @@
     box-shadow: 0 calc(-1 * var(--mui-table-border-width)) 0 0 var(--mui-table-border-color);
 }
 
-.mui-table-fixed-header > .mui-table-bordered,
-.mui-table-fixed-columns > .mui-table-bordered {
-    overflow: visible;
+.mui-table {
+    &-fixed-header > .mui-table-bordered,
+    &-fixed-columns > .mui-table-bordered {
+        overflow: visible;
+    }
 }
 
-.mui-table-fixed-columns {
-    inline-size: 100%;
-    overflow-x: auto;
-    white-space: nowrap;
-    position: relative;
-}
+.mui-table {
+    &-fixed-columns {
+        inline-size: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+        position: relative;
+    }
 
-.mui-table-fixed-columns > .mui-table {
-    table-layout: fixed;
-    overflow-x: auto;
-    white-space: nowrap;
-    border-collapse: separate;
-    border-spacing: 0;
+    &-fixed-columns > .mui-table {
+        table-layout: fixed;
+        overflow-x: auto;
+        white-space: nowrap;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
 }
 
 /* Keep fixed header cells opaque in fixed-columns mode to avoid text bleed while scrolling. */
@@ -239,7 +251,7 @@
     box-shadow: none;
 }
 
-@each $color in (primary, secondary, tertiary, error, success, warning, info, light, dark) {
+@each $color in $mui-contextual-colors {
     .mui-table-row-#{$color} {
         --mui-table-cell-bg: var(--mui-#{$color}-container);
         --mui-table-cell-color: var(--mui-on-#{$color}-container);
@@ -251,34 +263,40 @@
     }
 }
 
-.mui-table-row-link {
-    --mui-table-cell-bg: var(--mui-primary-container);
-    --mui-table-cell-color: var(--mui-on-primary-container);
+.mui-table {
+    &-row-link {
+        --mui-table-cell-bg: var(--mui-primary-container);
+        --mui-table-cell-color: var(--mui-on-primary-container);
+    }
+
+    &-cell-link {
+        --mui-table-cell-bg: var(--mui-primary-container);
+        --mui-table-cell-color: var(--mui-on-primary-container);
+    }
 }
 
-.mui-table-cell-link {
-    --mui-table-cell-bg: var(--mui-primary-container);
-    --mui-table-cell-color: var(--mui-on-primary-container);
+.b-table {
+    &.mui-table {
+        position: relative;
+    }
+
+    &.mui-table .b-table-resizer {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 0.3125rem;
+        cursor: col-resize;
+        user-select: none;
+        z-index: 1;
+    }
 }
 
-.b-table.mui-table {
-    position: relative;
-}
-
-.b-table.mui-table .b-table-resizer {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 0.3125rem;
-    cursor: col-resize;
-    user-select: none;
-    z-index: 1;
-}
-
-.b-table.mui-table .b-table-resizer:hover,
-.b-table.mui-table .b-table-resizing {
-    cursor: col-resize !important;
-    border-inline-end: 0.125rem solid var(--mui-primary);
+.b-table {
+    &.mui-table .b-table-resizer:hover,
+    &.mui-table .b-table-resizing {
+        cursor: col-resize !important;
+        border-inline-end: 0.125rem solid var(--mui-primary);
+    }
 }
 
 .mui-table :is(th, td):focus {

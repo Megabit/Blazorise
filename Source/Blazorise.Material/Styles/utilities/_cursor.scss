@@ -1,3 +1,5 @@
-.mui-cursor-pointer {
-    cursor: pointer;
+.mui-cursor {
+    &-pointer {
+        cursor: pointer;
+    }
 }

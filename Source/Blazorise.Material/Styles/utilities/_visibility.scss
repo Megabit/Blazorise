@@ -21,12 +21,14 @@
     }
 }
 
-.mui-visually-hidden {
-    @include mui-visually-hidden;
-}
-
-.mui-visually-hidden-focusable {
-    &:not(:focus):not(:focus-within) {
+.mui-visually {
+    &-hidden {
         @include mui-visually-hidden;
+    }
+
+    &-hidden-focusable {
+        &:not(:focus):not(:focus-within) {
+            @include mui-visually-hidden;
+        }
     }
 }

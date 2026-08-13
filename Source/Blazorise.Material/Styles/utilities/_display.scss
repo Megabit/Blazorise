@@ -1,5 +1,3 @@
-$display-values: (none, inline, inline-block, block, flex, inline-flex, table, table-row, table-cell) !default;
-
 @mixin make-display-utilities($infix: "") {
     @each $display in $display-values {
         .mui-display#{$infix}-#{$display} {

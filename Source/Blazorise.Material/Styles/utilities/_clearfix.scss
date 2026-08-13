@@ -1,5 +1,7 @@
-.mui-clearfix::after {
-    display: block;
-    clear: both;
-    content: "";
+.mui-clearfix {
+    &::after {
+        display: block;
+        clear: both;
+        content: "";
+    }
 }
