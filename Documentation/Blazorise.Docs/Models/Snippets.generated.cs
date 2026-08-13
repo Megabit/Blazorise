@@ -29069,7 +29069,7 @@ builder.Services
     };
 }";
 
-        public const string ReportingResourcesExample = @"<link href=""_content/Blazorise.Reporting/blazorise.reporting.css?v=2.2.2.0"" rel=""stylesheet"" />";
+        public const string ReportingResourcesExample = @"<link href=""_content/Blazorise.Reporting/blazorise.reporting.css?v=2.3.0.0"" rel=""stylesheet"" />";
 
         public const string ReportingRunningTotalsExample = @"<Report Data=""@invoice""
         Editable

@@ -7615,7 +7615,7 @@
           "code": "ReportingResourcesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingResourcesExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Reporting/blazorise.reporting.css?v=2.2.2.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Reporting/blazorise.reporting.css?v=2.3.0.0\" rel=\"stylesheet\" />",
           "title": "Static files",
           "description": "Add the reporting stylesheet inside the head section of your host page."
         },
@@ -7870,7 +7870,7 @@
           "code": "ReportingResourcesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingResourcesExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Reporting/blazorise.reporting.css?v=2.2.2.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Reporting/blazorise.reporting.css?v=2.3.0.0\" rel=\"stylesheet\" />",
           "title": "Static files",
           "description": "Add the reporting stylesheet inside the head section of your host page."
         },
